@@ -1,1210 +1,1108 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD152FD1DA;
-	Wed, 21 Jan 2026 21:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C6E410D0E
+	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 22:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769031993; cv=none; b=GYv5AukfuurGXRcVBoccX9J0OznXFK1szUDOf9cVYXI/uyqrpp3YDLA3le4/FSaPYvZba3cqgjodnY3j4y059Z0bQt6TjBn53VxuxK/nf9IVW2nG87AH8B//FFawxRlWGuIZRWjMS6ovz1F3LytFDTWi53QfGtDoJEU0DuHknKE=
+	t=1769033526; cv=none; b=Ue7ueVcVqYYzNDDJSNfd8TyOmFORXhz2j4jqX8G69jbWg/xCpPUJWcFdGWcF8XWCYyu2rXo4fgdWrk1OCOq1EYQU1DjOcZ2/jJMVTDLoBZ33QFodflg6pgRXh/aJ4LqCP4YO+ZeJPDmnmKl2294jb9+2tCdpd+ZwdnGK02JnZCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769031993; c=relaxed/simple;
-	bh=bMUQ6ErW4LOyMWnPhlhxytQKZWAZbrPqcv6+wXmvreo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W79U1g/q1i0QZuVOGwrqSk6P5ejFGR2phgtyNbfVYi8s5VDbdDIclETIg00ajRWqwalRQeplUkKz1Mrn/6iIfwqbLdG22FqlIe50TcwqOqVFcHy++kD/AmN6XRRi8G+U+5y1mf0YqdhY2tUHfl506jw1reJpj7ZxcuxnqUJA5u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OlGQH+MH; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1769033526; c=relaxed/simple;
+	bh=NOVANa7MuUuapW0NNJ+ORTGj6Ln2pdd6v4RN/4HG39I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WRC+e/QXB/S5ivlU8YzlswPly526UoDNlKXpYQJzDKlUvCtRceO03s94Ms30BU6jgAjmRT2SO2LJWdPY3E+6RvM4WjFKnYPDlWPYK3wdBnRGSKHi6HSmKonfZNfVxEVY5WWQ+wNAPRF0agD12dJ4Qj2OwqGmsLYUiLxGxkh6gz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nhy3bJh3; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OlGQH+MH"
-Received: by linux.microsoft.com (Postfix, from userid 1032)
-	id 2E35620B7170; Wed, 21 Jan 2026 13:46:28 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2E35620B7170
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1769031988;
-	bh=KBX4kwJtyNLfS1S3utv19rfljBaM7TnrgHAZ8VX2LXY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OlGQH+MHRwOXqP4YQD6m2xeB/ADiNDdWKhsVlGTTAFEYHm1tv+BuYXb/k+C/xuJQZ
-	 T6DnX3abuuKAKCf+IlVxrJOxothYtbwGdLXQIEYvSbqgI90yJMv71EnaQyp1lCnSBf
-	 m+bWfDkM1XbAvmIC/+l8Uc2s6W2JgcfgEXASGSng=
-From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mhklinux@outlook.com,
-	skinsburskii@linux.microsoft.com
-Cc: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	prapal@linux.microsoft.com,
-	mrathor@linux.microsoft.com,
-	paekkaladevi@linux.microsoft.com,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	Jinank Jain <jinankjain@microsoft.com>
-Subject: [PATCH v4 7/7] mshv: Add debugfs to view hypervisor statistics
-Date: Wed, 21 Jan 2026 13:46:23 -0800
-Message-ID: <20260121214623.76374-8-nunodasneves@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260121214623.76374-1-nunodasneves@linux.microsoft.com>
-References: <20260121214623.76374-1-nunodasneves@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nhy3bJh3"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-78c66bdf675so3132117b3.2
+        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 14:12:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769033520; x=1769638320; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o9zHJCm+Zw8gZncZFoW0yZQwB+qG4vBYqHaex7PWbHM=;
+        b=Nhy3bJh3PNaZvJcapFVuA7/vgBh+4dOiGLRzjZ40tMTUg9O2Gd6DcehzEje/Wmiuyc
+         5hCDVfUZ9wJ95HSsDks5mJg/Cpy7ImGCAFeHHI1LnE08UUa4d6i8SudFWvjycrDbUFzx
+         2JXI8IaAi/8YBt1hC6t1eRbubVkXt26VEOC8tbkU1KTO+L01aCqc23uP2R/FfniDrP7e
+         Xr1x8KrR2XQ6wdluiMHhFwyeqp+DMfU7gxr2qPLgWw53KJcLf2nXv8531f1xdr39mhlR
+         AbygyR9n/XdL0zu8wz7jhy4wRw7rCmsHjTlQtdIeuAUbCahInuCrgVv0CXTCOlTyIvu/
+         b81Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769033520; x=1769638320;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=o9zHJCm+Zw8gZncZFoW0yZQwB+qG4vBYqHaex7PWbHM=;
+        b=LgtkWSEm0GykCeNaGyAoTazNOTaSXr6HsxjqpoGYn0oRBOe2WPeDF5y5IZnKu/eWpy
+         4WzzzBqWsNPIl+Ia4HhLhtSr0jG40aBUK7g9rw5LH4gVScHq6F8EKxBkhfRSuZ7DI7Mr
+         46KY5stBTodjQQF6SbtZPZaLZ+P0MqCF42TRPxN8luX+9fNg+FtkVTEreOatKqLk9AcO
+         FsBUxBZwkN/Tw8kHLT3oH9/5oT2XGORCcoCR+t+nyFl1LrI6fLpB2DRIx8UTn2qvQAP3
+         hkeCyeK4R5iR/c3uDxhFfd99BccxZF4gMWKg2OiFsf0UYoSBigIbE4JVrOy+CY08F0dl
+         fOIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBs+42SHW8Wd9mK65PKee4QAxDm2r9QOl/6gpD8QYcphjCrxt+DSJQidNx6NhXlE8na+vo+ieci48MzEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/ox3Ai2ZTdgHG0FoMefHdI6lCEqCLhR7O4/1XUC5LFz2+akOP
+	pqJDL1rVIJig2fyRTI63HyM+uEYzY2RX6aQiB14ROF3AMq7BCEviQqs9
+X-Gm-Gg: AZuq6aJpxMZ4671Fq/TOwRqJJLcL7tXKxoc8aKbOajJogBLIt6PSJfvPStLYHacbrFe
+	Yhrfa3ao5m0CrExXGqxIRNPAAEGKCQ6m2x8T14SQqmBvmFjU7N2MqIEx63eU+LVYvLbx31FzaVl
+	a1cL27r37xsCqvlKiaKReSHkNGdrlJV84GoSIF9eCHZneDXj331TVDVL7YF/5oNdvnecuDt4tXi
+	XBqLER7PwDMbE6OrvvSC0sACTbnZTwtoslpYy0N/B6ZZBA4sdoVVOnP/30iqpYje1Egizl63b3Z
+	U2A7qLCHvc4mOv6pX8NNIqa8HTW8TExsVPMMKuFedKznzn7V0Jw2oj/Ch30YvUtM3QsUpd0RC54
+	HK+voFehGaZGB8wEpLAadH6HA1S/921TKPu86H2/l8MPh7sHml2FwhCR8N+hFLL+aoNnH3kFVLQ
+	wPiKHo7VdNzg==
+X-Received: by 2002:a05:690c:6612:b0:786:91ac:e15d with SMTP id 00721157ae682-7940a15d87emr57967277b3.27.1769033520086;
+        Wed, 21 Jan 2026 14:12:00 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:46::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-794147dad97sm20616607b3.29.2026.01.21.14.11.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 14:11:59 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Date: Wed, 21 Jan 2026 14:11:41 -0800
+Subject: [PATCH net-next v16 01/12] vsock: add netns to vsock core
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260121-vsock-vmtest-v16-1-2859a7512097@meta.com>
+References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
+In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
+To: Stefano Garzarella <sgarzare@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
+ Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, berrange@redhat.com, 
+ Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
+ Bobby Eshleman <bobbyeshleman@gmail.com>, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
-Introduce a debugfs interface to expose root and child partition stats
-when running with mshv_root.
+From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Create a debugfs directory "mshv" containing 'stats' files organized by
-type and id. A stats file contains a number of counters depending on
-its type. e.g. an excerpt from a VP stats file:
+Add netns logic to vsock core. Additionally, modify transport hook
+prototypes to be used by later transport-specific patches (e.g.,
+*_seqpacket_allow()).
 
-TotalRunTime                  : 1997602722
-HypervisorRunTime             : 649671371
-RemoteNodeRunTime             : 0
-NormalizedRunTime             : 1997602721
-IdealCpu                      : 0
-HypercallsCount               : 1708169
-HypercallsTime                : 111914774
-PageInvalidationsCount        : 0
-PageInvalidationsTime         : 0
+Namespaces are supported primarily by changing socket lookup functions
+(e.g., vsock_find_connected_socket()) to take into account the socket
+namespace and the namespace mode before considering a candidate socket a
+"match".
 
-On a root partition with some active child partitions, the entire
-directory structure may look like:
+This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
+report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
+for new namespaces.
 
-mshv/
-  stats             # hypervisor stats
-  lp/               # logical processors
-    0/              # LP id
-      stats         # LP 0 stats
-    1/
-    2/
-    3/
-  partition/        # partition stats
-    1/              # root partition id
-      stats         # root partition stats
-      vp/           # root virtual processors
-        0/          # root VP id
-          stats     # root VP 0 stats
-        1/
-        2/
-        3/
-    42/             # child partition id
-      stats         # child partition stats
-      vp/           # child VPs
-        0/          # child VP id
-          stats     # child VP 0 stats
-        1/
-    43/
-    55/
+Add netns functionality (initialization, passing to transports, procfs,
+etc...) to the af_vsock socket layer. Later patches that add netns
+support to transports depend on this patch.
 
-On L1VH, some stats are not present as it does not own the hardware
-like the root partition does:
-- The hypervisor and lp stats are not present
-- L1VH's partition directory is named "self" because it can't get its
-  own id
-- Some of L1VH's partition and VP stats fields are not populated, because
-  it can't map its own HV_STATS_AREA_PARENT page.
+This patch changes the allocation of random ports for connectible vsocks
+in order to avoid leaking the random port range starting point to other
+namespaces.
 
-Co-developed-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Co-developed-by: Praveen K Paladugu <prapal@linux.microsoft.com>
-Signed-off-by: Praveen K Paladugu <prapal@linux.microsoft.com>
-Co-developed-by: Mukesh Rathor <mrathor@linux.microsoft.com>
-Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
-Co-developed-by: Purna Pavan Chandra Aekkaladevi <paekkaladevi@linux.microsoft.com>
-Signed-off-by: Purna Pavan Chandra Aekkaladevi <paekkaladevi@linux.microsoft.com>
-Co-developed-by: Jinank Jain <jinankjain@microsoft.com>
-Signed-off-by: Jinank Jain <jinankjain@microsoft.com>
-Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Reviewed-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+dgram_allow(), stream_allow(), and seqpacket_allow() callbacks are
+modified to take a vsk in order to perform logic on namespace modes. In
+future patches, the net will also be used for socket
+lookups in these functions.
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
- drivers/hv/Makefile         |   1 +
- drivers/hv/hv_counters.c    |   1 +
- drivers/hv/hv_synic.c       | 177 +++++++++
- drivers/hv/mshv_debugfs.c   | 703 ++++++++++++++++++++++++++++++++++++
- drivers/hv/mshv_root.h      |  34 ++
- drivers/hv/mshv_root_main.c |  26 +-
- 6 files changed, 940 insertions(+), 2 deletions(-)
- create mode 100644 drivers/hv/hv_synic.c
- create mode 100644 drivers/hv/mshv_debugfs.c
+Changes in v16:
+- remove vsock_init_ns_mode kernel cmdline
+- add documentation at top of af_vsock.c about init_net being global
+  and unmodifiable
+- add comments for vsock_find* and vsock_find*_net functions to clarify
+  which to choose for which transports
 
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index a49f93c2d245..2593711c3628 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -15,6 +15,7 @@ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
- hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
- mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o mshv_irq.o \
- 	       mshv_root_hv_call.o mshv_portid_table.o mshv_regions.o
-+mshv_root-$(CONFIG_DEBUG_FS) += mshv_debugfs.o
- mshv_vtl-y := mshv_vtl_main.o
+Changes in v15:
+- make static port in __vsock_bind_connectible per-netns
+- remove __net_initdata because we want the ops beyond just boot
+- add vsock_init_ns_mode kernel cmdline parameter to set init ns mode
+- use if (ret || !write) in __vsock_net_mode_string() (Stefano)
+- add vsock_net_mode_global() (Stefano)
+- hide !net == VSOCK_NET_MODE_GLOBAL inside vsock_net_mode() (Stefano)
+- clarify af_vsock.c comments on ns_mode/child_ns_mode (Stefano)
+
+Changes in v14:
+- include linux/sysctl.h in af_vsock.c
+- squash patch 'vsock: add per-net vsock NS mode state' into this patch
+  (prior version can be found here):
+  https://lore.kernel.org/all/20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com/)
+
+Changes in v13:
+- remove net_mode and replace with direct accesses to net->vsock.mode,
+  since this is now immutable.
+- update comments about mode behavior and mutability, and sysctl API
+- only pass NULL for net when wanting global, instead of net_mode ==
+  VSOCK_NET_MODE_GLOBAL. This reflects the new logic
+  of vsock_net_check_mode() that only requires net pointers (not
+  net_mode).
+- refactor sysctl string code into a re-usable function, because
+  child_ns_mode and ns_mode both handle the same strings.
+- remove redundant vsock_net_init(&init_net) call in module init because
+  pernet registration calls the callback on the init_net too
+
+Changes in v12:
+- return true in dgram_allow(), stream_allow(), and seqpacket_allow()
+  only if net_mode == VSOCK_NET_MODE_GLOBAL (Stefano)
+- document bind(VMADDR_CID_ANY) case in af_vsock.c (Stefano)
+- change order of stream_allow() call in vmci so we can pass vsk
+  to it
+
+Changes in v10:
+- add file-level comment about what happens to sockets/devices
+  when the namespace mode changes (Stefano)
+- change the 'if (write)' boolean in vsock_net_mode_string() to
+  if (!write), this simplifies a later patch which adds "goto"
+  for mutex unlocking on function exit.
+
+Changes in v9:
+- remove virtio_vsock_alloc_rx_skb() (Stefano)
+- remove vsock_global_dummy_net, not needed as net=NULL +
+  net_mode=VSOCK_NET_MODE_GLOBAL achieves identical result
+
+Changes in v7:
+- hv_sock: fix hyperv build error
+- explain why vhost does not use the dummy
+- explain usage of __vsock_global_dummy_net
+- explain why VSOCK_NET_MODE_STR_MAX is 8 characters
+- use switch-case in vsock_net_mode_string()
+- avoid changing transports as much as possible
+- add vsock_find_{bound,connected}_socket_net()
+- rename `vsock_hdr` to `sysctl_hdr`
+- add virtio_vsock_alloc_linear_skb() wrapper for setting dummy net and
+  global mode for virtio-vsock, move skb->cb zero-ing into wrapper
+- explain seqpacket_allow() change
+- move net setting to __vsock_create() instead of vsock_create() so
+  that child sockets also have their net assigned upon accept()
+
+Changes in v6:
+- unregister sysctl ops in vsock_exit()
+- af_vsock: clarify description of CID behavior
+- af_vsock: fix buf vs buffer naming, and length checking
+- af_vsock: fix length checking w/ correct ctl_table->maxlen
+
+Changes in v5:
+- vsock_global_net() -> vsock_global_dummy_net()
+- update comments for new uAPI
+- use /proc/sys/net/vsock/ns_mode instead of /proc/net/vsock_ns_mode
+- add prototype changes so patch remains compilable
+---
+ MAINTAINERS                             |   1 +
+ drivers/vhost/vsock.c                   |   6 +-
+ include/linux/virtio_vsock.h            |   4 +-
+ include/net/af_vsock.h                  |  61 +++++-
+ include/net/net_namespace.h             |   4 +
+ include/net/netns/vsock.h               |  21 ++
+ net/vmw_vsock/af_vsock.c                | 335 +++++++++++++++++++++++++++++---
+ net/vmw_vsock/hyperv_transport.c        |   7 +-
+ net/vmw_vsock/virtio_transport.c        |   9 +-
+ net/vmw_vsock/virtio_transport_common.c |   6 +-
+ net/vmw_vsock/vmci_transport.c          |  26 ++-
+ net/vmw_vsock/vsock_loopback.c          |   8 +-
+ 12 files changed, 437 insertions(+), 51 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 92768bceb929..8341a451570b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -27549,6 +27549,7 @@ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/vhost/vsock.c
+ F:	include/linux/virtio_vsock.h
++F:	include/net/netns/vsock.h
+ F:	include/uapi/linux/virtio_vsock.h
+ F:	net/vmw_vsock/virtio_transport.c
+ F:	net/vmw_vsock/virtio_transport_common.c
+diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+index 552cfb53498a..647ded6f6ea5 100644
+--- a/drivers/vhost/vsock.c
++++ b/drivers/vhost/vsock.c
+@@ -407,7 +407,8 @@ static bool vhost_transport_msgzerocopy_allow(void)
+ 	return true;
+ }
  
- # Code that must be built-in
-diff --git a/drivers/hv/hv_counters.c b/drivers/hv/hv_counters.c
-index a8e07e72cc29..45ff3d663e56 100644
---- a/drivers/hv/hv_counters.c
-+++ b/drivers/hv/hv_counters.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2026, Microsoft Corporation.
-  *
-  * Data for printing stats page counters via debugfs.
-+ * Included directly in mshv_debugfs.c.
-  *
-  * Authors: Microsoft Linux virtualization team
+-static bool vhost_transport_seqpacket_allow(u32 remote_cid);
++static bool vhost_transport_seqpacket_allow(struct vsock_sock *vsk,
++					    u32 remote_cid);
+ 
+ static struct virtio_transport vhost_transport = {
+ 	.transport = {
+@@ -463,7 +464,8 @@ static struct virtio_transport vhost_transport = {
+ 	.send_pkt = vhost_transport_send_pkt,
+ };
+ 
+-static bool vhost_transport_seqpacket_allow(u32 remote_cid)
++static bool vhost_transport_seqpacket_allow(struct vsock_sock *vsk,
++					    u32 remote_cid)
+ {
+ 	struct vhost_vsock *vsock;
+ 	bool seqpacket_allow = false;
+diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
+index 0c67543a45c8..1845e8d4f78d 100644
+--- a/include/linux/virtio_vsock.h
++++ b/include/linux/virtio_vsock.h
+@@ -256,10 +256,10 @@ void virtio_transport_notify_buffer_size(struct vsock_sock *vsk, u64 *val);
+ 
+ u64 virtio_transport_stream_rcvhiwat(struct vsock_sock *vsk);
+ bool virtio_transport_stream_is_active(struct vsock_sock *vsk);
+-bool virtio_transport_stream_allow(u32 cid, u32 port);
++bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port);
+ int virtio_transport_dgram_bind(struct vsock_sock *vsk,
+ 				struct sockaddr_vm *addr);
+-bool virtio_transport_dgram_allow(u32 cid, u32 port);
++bool virtio_transport_dgram_allow(struct vsock_sock *vsk, u32 cid, u32 port);
+ 
+ int virtio_transport_connect(struct vsock_sock *vsk);
+ 
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index d40e978126e3..d3ff48a2fbe0 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -10,6 +10,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/workqueue.h>
++#include <net/netns/vsock.h>
+ #include <net/sock.h>
+ #include <uapi/linux/vm_sockets.h>
+ 
+@@ -124,7 +125,7 @@ struct vsock_transport {
+ 			     size_t len, int flags);
+ 	int (*dgram_enqueue)(struct vsock_sock *, struct sockaddr_vm *,
+ 			     struct msghdr *, size_t len);
+-	bool (*dgram_allow)(u32 cid, u32 port);
++	bool (*dgram_allow)(struct vsock_sock *vsk, u32 cid, u32 port);
+ 
+ 	/* STREAM. */
+ 	/* TODO: stream_bind() */
+@@ -136,14 +137,14 @@ struct vsock_transport {
+ 	s64 (*stream_has_space)(struct vsock_sock *);
+ 	u64 (*stream_rcvhiwat)(struct vsock_sock *);
+ 	bool (*stream_is_active)(struct vsock_sock *);
+-	bool (*stream_allow)(u32 cid, u32 port);
++	bool (*stream_allow)(struct vsock_sock *vsk, u32 cid, u32 port);
+ 
+ 	/* SEQ_PACKET. */
+ 	ssize_t (*seqpacket_dequeue)(struct vsock_sock *vsk, struct msghdr *msg,
+ 				     int flags);
+ 	int (*seqpacket_enqueue)(struct vsock_sock *vsk, struct msghdr *msg,
+ 				 size_t len);
+-	bool (*seqpacket_allow)(u32 remote_cid);
++	bool (*seqpacket_allow)(struct vsock_sock *vsk, u32 remote_cid);
+ 	u32 (*seqpacket_has_data)(struct vsock_sock *vsk);
+ 
+ 	/* Notification. */
+@@ -216,6 +217,11 @@ void vsock_remove_connected(struct vsock_sock *vsk);
+ struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr);
+ struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+ 					 struct sockaddr_vm *dst);
++struct sock *vsock_find_bound_socket_net(struct sockaddr_vm *addr,
++					 struct net *net);
++struct sock *vsock_find_connected_socket_net(struct sockaddr_vm *src,
++					     struct sockaddr_vm *dst,
++					     struct net *net);
+ void vsock_remove_sock(struct vsock_sock *vsk);
+ void vsock_for_each_connected_socket(struct vsock_transport *transport,
+ 				     void (*fn)(struct sock *sk));
+@@ -256,4 +262,53 @@ static inline bool vsock_msgzerocopy_allow(const struct vsock_transport *t)
+ {
+ 	return t->msgzerocopy_allow && t->msgzerocopy_allow();
+ }
++
++static inline enum vsock_net_mode vsock_net_mode(struct net *net)
++{
++	if (!net)
++		return VSOCK_NET_MODE_GLOBAL;
++
++	return READ_ONCE(net->vsock.mode);
++}
++
++static inline bool vsock_net_mode_global(struct vsock_sock *vsk)
++{
++	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
++}
++
++static inline void vsock_net_set_child_mode(struct net *net,
++					    enum vsock_net_mode mode)
++{
++	WRITE_ONCE(net->vsock.child_ns_mode, mode);
++}
++
++static inline enum vsock_net_mode vsock_net_child_mode(struct net *net)
++{
++	return READ_ONCE(net->vsock.child_ns_mode);
++}
++
++/* Return true if two namespaces pass the mode rules. Otherwise, return false.
++ *
++ * A NULL namespace is treated as VSOCK_NET_MODE_GLOBAL.
++ *
++ * Read more about modes in the comment header of net/vmw_vsock/af_vsock.c.
++ */
++static inline bool vsock_net_check_mode(struct net *ns0, struct net *ns1)
++{
++	enum vsock_net_mode mode0, mode1;
++
++	/* Any vsocks within the same network namespace are always reachable,
++	 * regardless of the mode.
++	 */
++	if (net_eq(ns0, ns1))
++		return true;
++
++	mode0 = vsock_net_mode(ns0);
++	mode1 = vsock_net_mode(ns1);
++
++	/* Different namespaces are only reachable if they are both
++	 * global mode.
++	 */
++	return mode0 == VSOCK_NET_MODE_GLOBAL && mode0 == mode1;
++}
+ #endif /* __AF_VSOCK_H__ */
+diff --git a/include/net/net_namespace.h b/include/net/net_namespace.h
+index cb664f6e3558..66d3de1d935f 100644
+--- a/include/net/net_namespace.h
++++ b/include/net/net_namespace.h
+@@ -37,6 +37,7 @@
+ #include <net/netns/smc.h>
+ #include <net/netns/bpf.h>
+ #include <net/netns/mctp.h>
++#include <net/netns/vsock.h>
+ #include <net/net_trackers.h>
+ #include <linux/ns_common.h>
+ #include <linux/idr.h>
+@@ -196,6 +197,9 @@ struct net {
+ 	/* Move to a better place when the config guard is removed. */
+ 	struct mutex		rtnl_mutex;
+ #endif
++#if IS_ENABLED(CONFIG_VSOCKETS)
++	struct netns_vsock	vsock;
++#endif
+ } __randomize_layout;
+ 
+ #include <linux/seq_file_net.h>
+diff --git a/include/net/netns/vsock.h b/include/net/netns/vsock.h
+new file mode 100644
+index 000000000000..b34d69a22fa8
+--- /dev/null
++++ b/include/net/netns/vsock.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __NET_NET_NAMESPACE_VSOCK_H
++#define __NET_NET_NAMESPACE_VSOCK_H
++
++#include <linux/types.h>
++
++enum vsock_net_mode {
++	VSOCK_NET_MODE_GLOBAL,
++	VSOCK_NET_MODE_LOCAL,
++};
++
++struct netns_vsock {
++	struct ctl_table_header *sysctl_hdr;
++
++	/* protected by the vsock_table_lock in af_vsock.c */
++	u32 port;
++
++	enum vsock_net_mode mode;
++	enum vsock_net_mode child_ns_mode;
++};
++#endif /* __NET_NET_NAMESPACE_VSOCK_H */
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index a3505a4dcee0..20ad2b2dc17b 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -83,6 +83,50 @@
+  *   TCP_ESTABLISHED - connected
+  *   TCP_CLOSING - disconnecting
+  *   TCP_LISTEN - listening
++ *
++ * - Namespaces in vsock support two different modes: "local" and "global".
++ *   Each mode defines how the namespace interacts with CIDs.
++ *   Each namespace exposes two sysctl files:
++ *
++ *   - /proc/sys/net/vsock/ns_mode (read-only) reports the current namespace's
++ *     mode, which is set at namespace creation and immutable thereafter.
++ *   - /proc/sys/net/vsock/child_ns_mode (writable) controls what mode future
++ *     child namespaces will inherit when created. The default is "global".
++ *
++ *   Changing child_ns_mode only affects newly created namespaces, not the
++ *   current namespace or existing children. At namespace creation, ns_mode
++ *   is inherited from the parent's child_ns_mode.
++ *
++ *   The init_net mode is "global" and cannot be modified.
++ *
++ *   The modes affect the allocation and accessibility of CIDs as follows:
++ *
++ *   - global - access and allocation are all system-wide
++ *      - all CID allocation from global namespaces draw from the same
++ *        system-wide pool.
++ *      - if one global namespace has already allocated some CID, another
++ *        global namespace will not be able to allocate the same CID.
++ *      - global mode AF_VSOCK sockets can reach any VM or socket in any global
++ *        namespace, they are not contained to only their own namespace.
++ *      - AF_VSOCK sockets in a global mode namespace cannot reach VMs or
++ *        sockets in any local mode namespace.
++ *   - local - access and allocation are contained within the namespace
++ *     - CID allocation draws only from a private pool local only to the
++ *       namespace, and does not affect the CIDs available for allocation in any
++ *       other namespace (global or local).
++ *     - VMs in a local namespace do not collide with CIDs in any other local
++ *       namespace or any global namespace. For example, if a VM in a local mode
++ *       namespace is given CID 10, then CID 10 is still available for
++ *       allocation in any other namespace, but not in the same namespace.
++ *     - AF_VSOCK sockets in a local mode namespace can connect only to VMs or
++ *       other sockets within their own namespace.
++ *     - sockets bound to VMADDR_CID_ANY in local namespaces will never resolve
++ *       to any transport that is not compatible with local mode. There is no
++ *       error that propagates to the user (as there is for connection attempts)
++ *       because it is possible for some packet to reach this socket from
++ *       a different transport that *does* support local mode. For
++ *       example, virtio-vsock may not support local mode, but the socket
++ *       may still accept a connection from vhost-vsock which does.
   */
-diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
-new file mode 100644
-index 000000000000..cc81d78887f2
---- /dev/null
-+++ b/drivers/hv/hv_synic.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2025, Microsoft Corporation.
-+ *
-+ * Authors: Microsoft Linux virtualization team
+ 
+ #include <linux/compat.h>
+@@ -100,20 +144,31 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/net.h>
++#include <linux/proc_fs.h>
+ #include <linux/poll.h>
+ #include <linux/random.h>
+ #include <linux/skbuff.h>
+ #include <linux/smp.h>
+ #include <linux/socket.h>
+ #include <linux/stddef.h>
++#include <linux/sysctl.h>
+ #include <linux/unistd.h>
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
+ #include <net/sock.h>
+ #include <net/af_vsock.h>
++#include <net/netns/vsock.h>
+ #include <uapi/linux/vm_sockets.h>
+ #include <uapi/asm-generic/ioctls.h>
+ 
++#define VSOCK_NET_MODE_STR_GLOBAL "global"
++#define VSOCK_NET_MODE_STR_LOCAL "local"
++
++/* 6 chars for "global", 1 for null-terminator, and 1 more for '\n'.
++ * The newline is added by proc_dostring() for read operations.
 + */
++#define VSOCK_NET_MODE_STR_MAX 8
 +
-+/*
-+	root	l1vh	vtl
-+vmbus
+ static int __vsock_bind(struct sock *sk, struct sockaddr_vm *addr);
+ static void vsock_sk_destruct(struct sock *sk);
+ static int vsock_queue_rcv_skb(struct sock *sk, struct sk_buff *skb);
+@@ -235,33 +290,42 @@ static void __vsock_remove_connected(struct vsock_sock *vsk)
+ 	sock_put(&vsk->sk);
+ }
+ 
+-static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
++static struct sock *__vsock_find_bound_socket_net(struct sockaddr_vm *addr,
++						  struct net *net)
+ {
+ 	struct vsock_sock *vsk;
+ 
+ 	list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
+-		if (vsock_addr_equals_addr(addr, &vsk->local_addr))
+-			return sk_vsock(vsk);
++		struct sock *sk = sk_vsock(vsk);
 +
-+guest
-+vmbus, nothing else
++		if (vsock_addr_equals_addr(addr, &vsk->local_addr) &&
++		    vsock_net_check_mode(sock_net(sk), net))
++			return sk;
+ 
+ 		if (addr->svm_port == vsk->local_addr.svm_port &&
+ 		    (vsk->local_addr.svm_cid == VMADDR_CID_ANY ||
+-		     addr->svm_cid == VMADDR_CID_ANY))
+-			return sk_vsock(vsk);
++		     addr->svm_cid == VMADDR_CID_ANY) &&
++		     vsock_net_check_mode(sock_net(sk), net))
++			return sk;
+ 	}
+ 
+ 	return NULL;
+ }
+ 
+-static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
+-						  struct sockaddr_vm *dst)
++static struct sock *
++__vsock_find_connected_socket_net(struct sockaddr_vm *src,
++				  struct sockaddr_vm *dst, struct net *net)
+ {
+ 	struct vsock_sock *vsk;
+ 
+ 	list_for_each_entry(vsk, vsock_connected_sockets(src, dst),
+ 			    connected_table) {
++		struct sock *sk = sk_vsock(vsk);
 +
-+vtl
-+mshv_vtl uses intercept SINT, VTL2_VMBUS_SINT_INDEX (7, not in hvgdk_mini lol)
-+vmbus
-+
-+bm root
-+mshv_root, no vmbus
-+
-+nested root
-+mshv_root uses L1
-+vmbus uses L0 (NESTED regs)
-+
-+l1vh
-+mshv_root and vmbus use same regs
-+
-+*/
-+
-+struct hv_synic_page {
-+	u64 msr;
-+	void *ptr;
-+	struct kref refcount;
-+};
-+
-+void *hv_get_synic_page(u32 msr) {
-+	struct hv_synic_page *page_obj;
-+	page_obj = kmalloc
-+}
-+
-+
-+#define HV_SYNIC_PAGE_STRUCT(type, name) \
-+struct 
-+
-+/* UGH */
-+struct hv_percpu_synic_cxt {
-+	struct {
-+		struct hv_message_page *ptr;
-+		refcount_t pt_ref_count;
-+	} hv_simp;
-+	struct hv_message_page *hv_simp;
-+	struct hv_synic_event_flags_page *hv_siefp;
-+	struct hv_synic_event_ring_page *hv_sierp;
-+};
-+
-+int hv_setup_sint(u32 sint_msr)
-+{
-+	union hv_synic_sint sint;
-+
-+	// TODO validate sint_msr
-+
-+	sint.as_uint64 = hv_get_msr(sint_msr);
-+	sint.vector = vmbus_interrupt;
-+	sint.masked = false;
-+	sint.auto_eoi = hv_recommend_using_aeoi();
-+
-+	hv_set_msr(sint_msr, sint.as_uint64);
-+
-+	return 0;
-+}
-+
-+void *hv_setup_synic_page(u32 msr)
-+{
-+	void *addr;
-+	struct hv_synic_page synic_page;
-+
-+	// TODO validate msr
-+
-+	synic_page.as_uint64 = hv_get_msr(msr);
-+	synic_page.enabled = 1;
-+
-+	if (ms_hyperv.paravisor_present || hv_root_partition()) {
-+		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+		u64 base = (synic_page.gpa << HV_HYP_PAGE_SHIFT) &
-+			    ~ms_hyperv.shared_gpa_boundary;
-+		addr = (void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
-+		if (!addr) {
-+			pr_err("%s: Fail to map synic page from %#x.\n",
-+			       __func__, msr);
-+			return NULL;
-+		}
-+	} else {
-+		addr = (void *)__get_free_page(GFP_KERNEL);
-+		if (!page)
-+			return NULL;
-+
-+		memset(page, 0, PAGE_SIZE);
-+		synic_page.gpa = virt_to_phys(addr) >> HV_HYP_PAGE_SHIFT;
-+	}
-+	hv_set_msr(msr, synic_page.as_uint64);
-+
-+	return addr;
-+}
-+
-+/*
-+ * hv_hyp_synic_enable_regs - Initialize the Synthetic Interrupt Controller
-+ * with the hypervisor.
-+ */
-+void hv_hyp_synic_enable_regs(unsigned int cpu)
-+{
-+	struct hv_per_cpu_context *hv_cpu =
-+		per_cpu_ptr(hv_context.cpu_context, cpu);
-+	union hv_synic_simp simp;
-+	union hv_synic_siefp siefp;
-+	union hv_synic_sint shared_sint;
-+
-+	/* Setup the Synic's message page with the hypervisor. */
-+	simp.as_uint64 = hv_get_msr(HV_MSR_SIMP);
-+	simp.simp_enabled = 1;
-+
-+	if (ms_hyperv.paravisor_present || hv_root_partition()) {
-+		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+		u64 base = (simp.base_simp_gpa << HV_HYP_PAGE_SHIFT) &
-+				~ms_hyperv.shared_gpa_boundary;
-+		hv_cpu->hyp_synic_message_page =
-+			(void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
-+		if (!hv_cpu->hyp_synic_message_page)
-+			pr_err("Fail to map synic message page.\n");
-+	} else {
-+		simp.base_simp_gpa = virt_to_phys(hv_cpu->hyp_synic_message_page)
-+			>> HV_HYP_PAGE_SHIFT;
-+	}
-+
-+	hv_set_msr(HV_MSR_SIMP, simp.as_uint64);
-+
-+	/* Setup the Synic's event page with the hypervisor. */
-+	siefp.as_uint64 = hv_get_msr(HV_MSR_SIEFP);
-+	siefp.siefp_enabled = 1;
-+
-+	if (ms_hyperv.paravisor_present || hv_root_partition()) {
-+		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-+		u64 base = (siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT) &
-+				~ms_hyperv.shared_gpa_boundary;
-+		hv_cpu->hyp_synic_event_page =
-+			(void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
-+		if (!hv_cpu->hyp_synic_event_page)
-+			pr_err("Fail to map synic event page.\n");
-+	} else {
-+		siefp.base_siefp_gpa = virt_to_phys(hv_cpu->hyp_synic_event_page)
-+			>> HV_HYP_PAGE_SHIFT;
-+	}
-+
-+	hv_set_msr(HV_MSR_SIEFP, siefp.as_uint64);
-+	hv_enable_coco_interrupt(cpu, vmbus_interrupt, true);
-+
-+	/* Setup the shared SINT. */
-+	if (vmbus_irq != -1)
-+		enable_percpu_irq(vmbus_irq, 0);
-+	shared_sint.as_uint64 = hv_get_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT);
-+
-+	shared_sint.vector = vmbus_interrupt;
-+	shared_sint.masked = false;
-+	shared_sint.auto_eoi = hv_recommend_using_aeoi();
-+	hv_set_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT, shared_sint.as_uint64);
-+}
-+
-+static void hv_hyp_synic_enable_interrupts(void)
-+{
-+	union hv_synic_scontrol sctrl;
-+
-+	/* Enable the global synic bit */
-+	sctrl.as_uint64 = hv_get_msr(HV_MSR_SCONTROL);
-+	sctrl.enable = 1;
-+
-+	hv_set_msr(HV_MSR_SCONTROL, sctrl.as_uint64);
-+}
-diff --git a/drivers/hv/mshv_debugfs.c b/drivers/hv/mshv_debugfs.c
-new file mode 100644
-index 000000000000..72eb0ae44e4b
---- /dev/null
-+++ b/drivers/hv/mshv_debugfs.c
-@@ -0,0 +1,703 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2026, Microsoft Corporation.
+ 		if (vsock_addr_equals_addr(src, &vsk->remote_addr) &&
+-		    dst->svm_port == vsk->local_addr.svm_port) {
+-			return sk_vsock(vsk);
++		    dst->svm_port == vsk->local_addr.svm_port &&
++		    vsock_net_check_mode(sock_net(sk), net)) {
++			return sk;
+ 		}
+ 	}
+ 
+@@ -304,12 +368,18 @@ void vsock_remove_connected(struct vsock_sock *vsk)
+ }
+ EXPORT_SYMBOL_GPL(vsock_remove_connected);
+ 
+-struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
++/* Find a bound socket, filtering by namespace and namespace mode.
 + *
-+ * The /sys/kernel/debug/mshv directory contents.
-+ * Contains various statistics data, provided by the hypervisor.
-+ *
-+ * Authors: Microsoft Linux virtualization team
++ * Use this in transports that are namespace-aware and can provide the
++ * network namespace context.
 + */
-+
-+#include <linux/debugfs.h>
-+#include <linux/stringify.h>
-+#include <asm/mshyperv.h>
-+#include <linux/slab.h>
-+
-+#include "mshv.h"
-+#include "mshv_root.h"
-+
-+#include "hv_counters.c"
-+
-+#define U32_BUF_SZ 11
-+#define U64_BUF_SZ 21
-+#define NUM_STATS_AREAS (HV_STATS_AREA_PARENT + 1)
-+
-+static struct dentry *mshv_debugfs;
-+static struct dentry *mshv_debugfs_partition;
-+static struct dentry *mshv_debugfs_lp;
-+static struct dentry **parent_vp_stats;
-+static struct dentry *parent_partition_stats;
-+
-+static u64 mshv_lps_count;
-+static struct hv_stats_page **mshv_lps_stats;
-+
-+static int lp_stats_show(struct seq_file *m, void *v)
-+{
-+	const struct hv_stats_page *stats = m->private;
-+	struct hv_counter_entry *entry = hv_lp_counters;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hv_lp_counters); i++, entry++)
-+		seq_printf(m, "%-29s: %llu\n", entry->name,
-+			   stats->data[entry->idx]);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(lp_stats);
-+
-+static void mshv_lp_stats_unmap(u32 lp_index)
-+{
-+	union hv_stats_object_identity identity = {
-+		.lp.lp_index = lp_index,
-+		.lp.stats_area_type = HV_STATS_AREA_SELF,
-+	};
-+	int err;
-+
-+	err = hv_unmap_stats_page(HV_STATS_OBJECT_LOGICAL_PROCESSOR,
-+				  mshv_lps_stats[lp_index], &identity);
-+	if (err)
-+		pr_err("%s: failed to unmap logical processor %u stats, err: %d\n",
-+		       __func__, lp_index, err);
-+}
-+
-+static struct hv_stats_page * __init mshv_lp_stats_map(u32 lp_index)
-+{
-+	union hv_stats_object_identity identity = {
-+		.lp.lp_index = lp_index,
-+		.lp.stats_area_type = HV_STATS_AREA_SELF,
-+	};
-+	struct hv_stats_page *stats;
-+	int err;
-+
-+	err = hv_map_stats_page(HV_STATS_OBJECT_LOGICAL_PROCESSOR, &identity,
-+				&stats);
-+	if (err) {
-+		pr_err("%s: failed to map logical processor %u stats, err: %d\n",
-+		       __func__, lp_index, err);
-+		return ERR_PTR(err);
-+	}
-+	mshv_lps_stats[lp_index] = stats;
-+
-+	return stats;
-+}
-+
-+static struct hv_stats_page * __init lp_debugfs_stats_create(u32 lp_index,
-+							     struct dentry *parent)
-+{
-+	struct dentry *dentry;
-+	struct hv_stats_page *stats;
-+
-+	stats = mshv_lp_stats_map(lp_index);
-+	if (IS_ERR(stats))
-+		return stats;
-+
-+	dentry = debugfs_create_file("stats", 0400, parent,
-+				     stats, &lp_stats_fops);
-+	if (IS_ERR(dentry)) {
-+		mshv_lp_stats_unmap(lp_index);
-+		return ERR_CAST(dentry);
-+	}
-+	return stats;
-+}
-+
-+static int __init lp_debugfs_create(u32 lp_index, struct dentry *parent)
-+{
-+	struct dentry *idx;
-+	char lp_idx_str[U32_BUF_SZ];
-+	struct hv_stats_page *stats;
-+	int err;
-+
-+	sprintf(lp_idx_str, "%u", lp_index);
-+
-+	idx = debugfs_create_dir(lp_idx_str, parent);
-+	if (IS_ERR(idx))
-+		return PTR_ERR(idx);
-+
-+	stats = lp_debugfs_stats_create(lp_index, idx);
-+	if (IS_ERR(stats)) {
-+		err = PTR_ERR(stats);
-+		goto remove_debugfs_lp_idx;
-+	}
-+
-+	return 0;
-+
-+remove_debugfs_lp_idx:
-+	debugfs_remove_recursive(idx);
-+	return err;
-+}
-+
-+static void mshv_debugfs_lp_remove(void)
-+{
-+	int lp_index;
-+
-+	debugfs_remove_recursive(mshv_debugfs_lp);
-+
-+	for (lp_index = 0; lp_index < mshv_lps_count; lp_index++)
-+		mshv_lp_stats_unmap(lp_index);
-+
-+	kfree(mshv_lps_stats);
-+	mshv_lps_stats = NULL;
-+}
-+
-+static int __init mshv_debugfs_lp_create(struct dentry *parent)
-+{
-+	struct dentry *lp_dir;
-+	int err, lp_index;
-+
-+	mshv_lps_stats = kcalloc(mshv_lps_count,
-+				 sizeof(*mshv_lps_stats),
-+				 GFP_KERNEL_ACCOUNT);
-+
-+	if (!mshv_lps_stats)
-+		return -ENOMEM;
-+
-+	lp_dir = debugfs_create_dir("lp", parent);
-+	if (IS_ERR(lp_dir)) {
-+		err = PTR_ERR(lp_dir);
-+		goto free_lp_stats;
-+	}
-+
-+	for (lp_index = 0; lp_index < mshv_lps_count; lp_index++) {
-+		err = lp_debugfs_create(lp_index, lp_dir);
-+		if (err)
-+			goto remove_debugfs_lps;
-+	}
-+
-+	mshv_debugfs_lp = lp_dir;
-+
-+	return 0;
-+
-+remove_debugfs_lps:
-+	for (lp_index -= 1; lp_index >= 0; lp_index--)
-+		mshv_lp_stats_unmap(lp_index);
-+	debugfs_remove_recursive(lp_dir);
-+free_lp_stats:
-+	kfree(mshv_lps_stats);
-+
-+	return err;
-+}
-+
-+static int vp_stats_show(struct seq_file *m, void *v)
-+{
-+	const struct hv_stats_page **pstats = m->private;
-+	struct hv_counter_entry *entry = hv_vp_counters;
-+	int i;
-+
-+	/*
-+	 * For VP and partition stats, there may be two stats areas mapped,
-+	 * SELF and PARENT. These refer to the privilege level of the data in
-+	 * each page. Some fields may be 0 in SELF and nonzero in PARENT, or
-+	 * vice versa.
-+	 *
-+	 * Hence, prioritize printing from the PARENT page (more privileged
-+	 * data), but use the value from the SELF page if the PARENT value is
-+	 * 0.
-+	 */
-+
-+	for (i = 0; i < ARRAY_SIZE(hv_vp_counters); i++, entry++) {
-+		u64 parent_val = pstats[HV_STATS_AREA_PARENT]->data[entry->idx];
-+		u64 self_val = pstats[HV_STATS_AREA_SELF]->data[entry->idx];
-+
-+		seq_printf(m, "%-43s: %llu\n", entry->name,
-+			   parent_val ? parent_val : self_val);
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(vp_stats);
-+
-+static void vp_debugfs_remove(struct dentry *vp_stats)
-+{
-+	debugfs_remove_recursive(vp_stats->d_parent);
-+}
-+
-+static int vp_debugfs_create(u64 partition_id, u32 vp_index,
-+			     struct hv_stats_page **pstats,
-+			     struct dentry **vp_stats_ptr,
-+			     struct dentry *parent)
-+{
-+	struct dentry *vp_idx_dir, *d;
-+	char vp_idx_str[U32_BUF_SZ];
-+	int err;
-+
-+	sprintf(vp_idx_str, "%u", vp_index);
-+
-+	vp_idx_dir = debugfs_create_dir(vp_idx_str, parent);
-+	if (IS_ERR(vp_idx_dir))
-+		return PTR_ERR(vp_idx_dir);
-+
-+	d = debugfs_create_file("stats", 0400, vp_idx_dir,
-+				     pstats, &vp_stats_fops);
-+	if (IS_ERR(d)) {
-+		err = PTR_ERR(d);
-+		goto remove_debugfs_vp_idx;
-+	}
-+
-+	*vp_stats_ptr = d;
-+
-+	return 0;
-+
-+remove_debugfs_vp_idx:
-+	debugfs_remove_recursive(vp_idx_dir);
-+	return err;
-+}
-+
-+static int partition_stats_show(struct seq_file *m, void *v)
-+{
-+	const struct hv_stats_page **pstats = m->private;
-+	struct hv_counter_entry *entry = hv_partition_counters;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hv_partition_counters); i++, entry++) {
-+		u64 parent_val = pstats[HV_STATS_AREA_PARENT]->data[entry->idx];
-+		u64 self_val = pstats[HV_STATS_AREA_SELF]->data[entry->idx];
-+
-+		seq_printf(m, "%-32s: %llu\n", entry->name,
-+			   parent_val ? parent_val : self_val);
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(partition_stats);
-+
-+static void mshv_partition_stats_unmap(u64 partition_id,
-+				       struct hv_stats_page *stats_page,
-+				       enum hv_stats_area_type stats_area_type)
-+{
-+	union hv_stats_object_identity identity = {
-+		.partition.partition_id = partition_id,
-+		.partition.stats_area_type = stats_area_type,
-+	};
-+	int err;
-+
-+	err = hv_unmap_stats_page(HV_STATS_OBJECT_PARTITION, stats_page,
-+				  &identity);
-+	if (err)
-+		pr_err("%s: failed to unmap partition %lld %s stats, err: %d\n",
-+		       __func__, partition_id,
-+		       (stats_area_type == HV_STATS_AREA_SELF) ? "self" : "parent",
-+		       err);
-+}
-+
-+static struct hv_stats_page *mshv_partition_stats_map(u64 partition_id,
-+						      enum hv_stats_area_type stats_area_type)
-+{
-+	union hv_stats_object_identity identity = {
-+		.partition.partition_id = partition_id,
-+		.partition.stats_area_type = stats_area_type,
-+	};
-+	struct hv_stats_page *stats;
-+	int err;
-+
-+	err = hv_map_stats_page(HV_STATS_OBJECT_PARTITION, &identity, &stats);
-+	if (err) {
-+		pr_err("%s: failed to map partition %lld %s stats, err: %d\n",
-+		       __func__, partition_id,
-+		       (stats_area_type == HV_STATS_AREA_SELF) ? "self" : "parent",
-+		       err);
-+		return ERR_PTR(err);
-+	}
-+	return stats;
-+}
-+
-+static int mshv_debugfs_partition_stats_create(u64 partition_id,
-+					    struct dentry **partition_stats_ptr,
-+					    struct dentry *parent)
-+{
-+	struct dentry *dentry;
-+	struct hv_stats_page **pstats;
-+	int err;
-+
-+	pstats = kcalloc(NUM_STATS_AREAS, sizeof(struct hv_stats_page *),
-+			 GFP_KERNEL_ACCOUNT);
-+	if (!pstats)
-+		return -ENOMEM;
-+
-+	pstats[HV_STATS_AREA_SELF] = mshv_partition_stats_map(partition_id,
-+							      HV_STATS_AREA_SELF);
-+	if (IS_ERR(pstats[HV_STATS_AREA_SELF])) {
-+		err = PTR_ERR(pstats[HV_STATS_AREA_SELF]);
-+		goto cleanup;
-+	}
-+
-+	/*
-+	 * L1VH partition cannot access its partition stats in parent area.
-+	 */
-+	if (is_l1vh_parent(partition_id)) {
-+		pstats[HV_STATS_AREA_PARENT] = pstats[HV_STATS_AREA_SELF];
-+	} else {
-+		pstats[HV_STATS_AREA_PARENT] = mshv_partition_stats_map(partition_id,
-+									HV_STATS_AREA_PARENT);
-+		if (IS_ERR(pstats[HV_STATS_AREA_PARENT])) {
-+			err = PTR_ERR(pstats[HV_STATS_AREA_PARENT]);
-+			goto unmap_self;
-+		}
-+		if (!pstats[HV_STATS_AREA_PARENT])
-+			pstats[HV_STATS_AREA_PARENT] = pstats[HV_STATS_AREA_SELF];
-+	}
-+
-+	dentry = debugfs_create_file("stats", 0400, parent,
-+				     pstats, &partition_stats_fops);
-+	if (IS_ERR(dentry)) {
-+		err = PTR_ERR(dentry);
-+		goto unmap_partition_stats;
-+	}
-+
-+	*partition_stats_ptr = dentry;
-+	return 0;
-+
-+unmap_partition_stats:
-+	if (pstats[HV_STATS_AREA_PARENT] != pstats[HV_STATS_AREA_SELF])
-+		mshv_partition_stats_unmap(partition_id, pstats[HV_STATS_AREA_PARENT],
-+					   HV_STATS_AREA_PARENT);
-+unmap_self:
-+	mshv_partition_stats_unmap(partition_id, pstats[HV_STATS_AREA_SELF],
-+				   HV_STATS_AREA_SELF);
-+cleanup:
-+	kfree(pstats);
-+	return err;
-+}
-+
-+static void partition_debugfs_remove(u64 partition_id, struct dentry *dentry)
-+{
-+	struct hv_stats_page **pstats = NULL;
-+
-+	pstats = dentry->d_inode->i_private;
-+
-+	debugfs_remove_recursive(dentry->d_parent);
-+
-+	if (pstats[HV_STATS_AREA_PARENT] != pstats[HV_STATS_AREA_SELF]) {
-+		mshv_partition_stats_unmap(partition_id,
-+					   pstats[HV_STATS_AREA_PARENT],
-+					   HV_STATS_AREA_PARENT);
-+	}
-+
-+	mshv_partition_stats_unmap(partition_id,
-+				   pstats[HV_STATS_AREA_SELF],
-+				   HV_STATS_AREA_SELF);
-+
-+	kfree(pstats);
-+}
-+
-+static int partition_debugfs_create(u64 partition_id,
-+				    struct dentry **vp_dir_ptr,
-+				    struct dentry **partition_stats_ptr,
-+				    struct dentry *parent)
-+{
-+	char part_id_str[U64_BUF_SZ];
-+	struct dentry *part_id_dir, *vp_dir;
-+	int err;
-+
-+	if (is_l1vh_parent(partition_id))
-+		sprintf(part_id_str, "self");
-+	else
-+		sprintf(part_id_str, "%llu", partition_id);
-+
-+	part_id_dir = debugfs_create_dir(part_id_str, parent);
-+	if (IS_ERR(part_id_dir))
-+		return PTR_ERR(part_id_dir);
-+
-+	vp_dir = debugfs_create_dir("vp", part_id_dir);
-+	if (IS_ERR(vp_dir)) {
-+		err = PTR_ERR(vp_dir);
-+		goto remove_debugfs_partition_id;
-+	}
-+
-+	err = mshv_debugfs_partition_stats_create(partition_id,
-+						  partition_stats_ptr,
-+						  part_id_dir);
-+	if (err)
-+		goto remove_debugfs_partition_id;
-+
-+	*vp_dir_ptr = vp_dir;
-+
-+	return 0;
-+
-+remove_debugfs_partition_id:
-+	debugfs_remove_recursive(part_id_dir);
-+	return err;
-+}
-+
-+static void parent_vp_debugfs_remove(u32 vp_index,
-+				     struct dentry *vp_stats_ptr)
-+{
-+	struct hv_stats_page **pstats;
-+
-+	pstats = vp_stats_ptr->d_inode->i_private;
-+	vp_debugfs_remove(vp_stats_ptr);
-+	mshv_vp_stats_unmap(hv_current_partition_id, vp_index, pstats);
-+	kfree(pstats);
-+}
-+
-+static void mshv_debugfs_parent_partition_remove(void)
-+{
-+	int idx;
-+
-+	for_each_online_cpu(idx)
-+		parent_vp_debugfs_remove(idx,
-+					 parent_vp_stats[idx]);
-+
-+	partition_debugfs_remove(hv_current_partition_id,
-+				 parent_partition_stats);
-+	kfree(parent_vp_stats);
-+	parent_vp_stats = NULL;
-+	parent_partition_stats = NULL;
-+
-+}
-+
-+static int __init parent_vp_debugfs_create(u32 vp_index,
-+					   struct dentry **vp_stats_ptr,
-+					   struct dentry *parent)
-+{
-+	struct hv_stats_page **pstats;
-+	int err;
-+
-+	pstats = kcalloc(2, sizeof(struct hv_stats_page *), GFP_KERNEL_ACCOUNT);
-+	if (!pstats)
-+		return -ENOMEM;
-+
-+	err = mshv_vp_stats_map(hv_current_partition_id, vp_index, pstats);
-+	if (err)
-+		goto cleanup;
-+
-+	err = vp_debugfs_create(hv_current_partition_id, vp_index, pstats,
-+				vp_stats_ptr, parent);
-+	if (err)
-+		goto unmap_vp_stats;
-+
-+	return 0;
-+
-+unmap_vp_stats:
-+	mshv_vp_stats_unmap(hv_current_partition_id, vp_index, pstats);
-+cleanup:
-+	kfree(pstats);
-+	return err;
-+}
-+
-+static int __init mshv_debugfs_parent_partition_create(void)
-+{
-+	struct dentry *vp_dir;
-+	int err, idx, i;
-+
-+	mshv_debugfs_partition = debugfs_create_dir("partition",
-+						     mshv_debugfs);
-+	if (IS_ERR(mshv_debugfs_partition))
-+		return PTR_ERR(mshv_debugfs_partition);
-+
-+	err = partition_debugfs_create(hv_current_partition_id,
-+				       &vp_dir,
-+				       &parent_partition_stats,
-+				       mshv_debugfs_partition);
-+	if (err)
-+		goto remove_debugfs_partition;
-+
-+	parent_vp_stats = kcalloc(num_possible_cpus(),
-+				  sizeof(*parent_vp_stats),
-+				  GFP_KERNEL);
-+	if (!parent_vp_stats) {
-+		err = -ENOMEM;
-+		goto remove_debugfs_partition;
-+	}
-+
-+	for_each_online_cpu(idx) {
-+		err = parent_vp_debugfs_create(hv_vp_index[idx],
-+					       &parent_vp_stats[idx],
-+					       vp_dir);
-+		if (err)
-+			goto remove_debugfs_partition_vp;
-+	}
-+
-+	return 0;
-+
-+remove_debugfs_partition_vp:
-+	for_each_online_cpu(i) {
-+		if (i >= idx)
-+			break;
-+		parent_vp_debugfs_remove(i, parent_vp_stats[i]);
-+	}
-+	partition_debugfs_remove(hv_current_partition_id,
-+				 parent_partition_stats);
-+
-+	kfree(parent_vp_stats);
-+	parent_vp_stats = NULL;
-+	parent_partition_stats = NULL;
-+
-+remove_debugfs_partition:
-+	debugfs_remove_recursive(mshv_debugfs_partition);
-+	mshv_debugfs_partition = NULL;
-+	return err;
-+}
-+
-+static int hv_stats_show(struct seq_file *m, void *v)
-+{
-+	const struct hv_stats_page *stats = m->private;
-+	struct hv_counter_entry *entry = hv_hypervisor_counters;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hv_hypervisor_counters); i++, entry++)
-+		seq_printf(m, "%-25s: %llu\n", entry->name,
-+			   stats->data[entry->idx]);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(hv_stats);
-+
-+static void mshv_hv_stats_unmap(void)
-+{
-+	union hv_stats_object_identity identity = {
-+		.hv.stats_area_type = HV_STATS_AREA_SELF,
-+	};
-+	int err;
-+
-+	err = hv_unmap_stats_page(HV_STATS_OBJECT_HYPERVISOR, NULL, &identity);
-+	if (err)
-+		pr_err("%s: failed to unmap hypervisor stats: %d\n",
-+		       __func__, err);
-+}
-+
-+static void * __init mshv_hv_stats_map(void)
-+{
-+	union hv_stats_object_identity identity = {
-+		.hv.stats_area_type = HV_STATS_AREA_SELF,
-+	};
-+	struct hv_stats_page *stats;
-+	int err;
-+
-+	err = hv_map_stats_page(HV_STATS_OBJECT_HYPERVISOR, &identity, &stats);
-+	if (err) {
-+		pr_err("%s: failed to map hypervisor stats: %d\n",
-+		       __func__, err);
-+		return ERR_PTR(err);
-+	}
-+	return stats;
-+}
-+
-+static int __init mshv_debugfs_hv_stats_create(struct dentry *parent)
-+{
-+	struct dentry *dentry;
-+	u64 *stats;
-+	int err;
-+
-+	stats = mshv_hv_stats_map();
-+	if (IS_ERR(stats))
-+		return PTR_ERR(stats);
-+
-+	dentry = debugfs_create_file("stats", 0400, parent,
-+				     stats, &hv_stats_fops);
-+	if (IS_ERR(dentry)) {
-+		err = PTR_ERR(dentry);
-+		pr_err("%s: failed to create hypervisor stats dentry: %d\n",
-+		       __func__, err);
-+		goto unmap_hv_stats;
-+	}
-+
-+	mshv_lps_count = num_present_cpus();
-+
-+	return 0;
-+
-+unmap_hv_stats:
-+	mshv_hv_stats_unmap();
-+	return err;
-+}
-+
-+int mshv_debugfs_vp_create(struct mshv_vp *vp)
-+{
-+	struct mshv_partition *p = vp->vp_partition;
-+
-+	if (!mshv_debugfs)
-+		return 0;
-+
-+	return vp_debugfs_create(p->pt_id, vp->vp_index,
-+				 vp->vp_stats_pages,
-+				 &vp->vp_stats_dentry,
-+				 p->pt_vp_dentry);
-+}
-+
-+void mshv_debugfs_vp_remove(struct mshv_vp *vp)
-+{
-+	if (!mshv_debugfs)
-+		return;
-+
-+	vp_debugfs_remove(vp->vp_stats_dentry);
-+}
-+
-+int mshv_debugfs_partition_create(struct mshv_partition *partition)
-+{
-+	int err;
-+
-+	if (!mshv_debugfs)
-+		return 0;
-+
-+	err = partition_debugfs_create(partition->pt_id,
-+				       &partition->pt_vp_dentry,
-+				       &partition->pt_stats_dentry,
-+				       mshv_debugfs_partition);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+void mshv_debugfs_partition_remove(struct mshv_partition *partition)
-+{
-+	if (!mshv_debugfs)
-+		return;
-+
-+	partition_debugfs_remove(partition->pt_id,
-+				 partition->pt_stats_dentry);
-+}
-+
-+int __init mshv_debugfs_init(void)
-+{
-+	int err;
-+
-+	mshv_debugfs = debugfs_create_dir("mshv", NULL);
-+	if (IS_ERR(mshv_debugfs)) {
-+		pr_err("%s: failed to create debugfs directory\n", __func__);
-+		return PTR_ERR(mshv_debugfs);
-+	}
-+
-+	if (hv_root_partition()) {
-+		err = mshv_debugfs_hv_stats_create(mshv_debugfs);
-+		if (err)
-+			goto remove_mshv_dir;
-+
-+		err = mshv_debugfs_lp_create(mshv_debugfs);
-+		if (err)
-+			goto unmap_hv_stats;
-+	}
-+
-+	err = mshv_debugfs_parent_partition_create();
-+	if (err)
-+		goto unmap_lp_stats;
-+
-+	return 0;
-+
-+unmap_lp_stats:
-+	if (hv_root_partition()) {
-+		mshv_debugfs_lp_remove();
-+		mshv_debugfs_lp = NULL;
-+	}
-+unmap_hv_stats:
-+	if (hv_root_partition())
-+		mshv_hv_stats_unmap();
-+remove_mshv_dir:
-+	debugfs_remove_recursive(mshv_debugfs);
-+	mshv_debugfs = NULL;
-+	return err;
-+}
-+
-+void mshv_debugfs_exit(void)
-+{
-+	mshv_debugfs_parent_partition_remove();
-+
-+	if (hv_root_partition()) {
-+		mshv_debugfs_lp_remove();
-+		mshv_debugfs_lp = NULL;
-+		mshv_hv_stats_unmap();
-+	}
-+
-+	debugfs_remove_recursive(mshv_debugfs);
-+	mshv_debugfs = NULL;
-+	mshv_debugfs_partition = NULL;
-+}
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index e4912b0618fa..7332d9af8373 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -52,6 +52,9 @@ struct mshv_vp {
- 		unsigned int kicked_by_hv;
- 		wait_queue_head_t vp_suspend_queue;
- 	} run;
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	struct dentry *vp_stats_dentry;
-+#endif
- };
++struct sock *vsock_find_bound_socket_net(struct sockaddr_vm *addr,
++					 struct net *net)
+ {
+ 	struct sock *sk;
  
- #define vp_fmt(fmt) "p%lluvp%u: " fmt
-@@ -136,6 +139,10 @@ struct mshv_partition {
- 	u64 isolation_type;
- 	bool import_completed;
- 	bool pt_initialized;
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	struct dentry *pt_stats_dentry;
-+	struct dentry *pt_vp_dentry;
-+#endif
- };
+ 	spin_lock_bh(&vsock_table_lock);
+-	sk = __vsock_find_bound_socket(addr);
++	sk = __vsock_find_bound_socket_net(addr, net);
+ 	if (sk)
+ 		sock_hold(sk);
  
- #define pt_fmt(fmt) "p%llu: " fmt
-@@ -327,6 +334,33 @@ int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
- int hv_call_get_partition_property_ex(u64 partition_id, u64 property_code, u64 arg,
- 				      void *property_value, size_t property_value_sz);
+@@ -317,15 +387,32 @@ struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
  
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+int __init mshv_debugfs_init(void);
-+void mshv_debugfs_exit(void);
+ 	return sk;
+ }
++EXPORT_SYMBOL_GPL(vsock_find_bound_socket_net);
 +
-+int mshv_debugfs_partition_create(struct mshv_partition *partition);
-+void mshv_debugfs_partition_remove(struct mshv_partition *partition);
-+int mshv_debugfs_vp_create(struct mshv_vp *vp);
-+void mshv_debugfs_vp_remove(struct mshv_vp *vp);
-+#else
-+static inline int __init mshv_debugfs_init(void)
++/* Find a bound socket without namespace filtering.
++ *
++ * Use this in transports that lack namespace context. All sockets are
++ * treated as if in global mode.
++ */
++struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
 +{
-+	return 0;
++	return vsock_find_bound_socket_net(addr, NULL);
 +}
-+static inline void mshv_debugfs_exit(void) { }
+ EXPORT_SYMBOL_GPL(vsock_find_bound_socket);
+ 
+-struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+-					 struct sockaddr_vm *dst)
++/* Find a connected socket, filtering by namespace and namespace mode.
++ *
++ * Use this in transports that are namespace-aware and can provide the
++ * network namespace context.
++ */
++struct sock *vsock_find_connected_socket_net(struct sockaddr_vm *src,
++					     struct sockaddr_vm *dst,
++					     struct net *net)
+ {
+ 	struct sock *sk;
+ 
+ 	spin_lock_bh(&vsock_table_lock);
+-	sk = __vsock_find_connected_socket(src, dst);
++	sk = __vsock_find_connected_socket_net(src, dst, net);
+ 	if (sk)
+ 		sock_hold(sk);
+ 
+@@ -333,6 +420,18 @@ struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+ 
+ 	return sk;
+ }
++EXPORT_SYMBOL_GPL(vsock_find_connected_socket_net);
 +
-+static inline int mshv_debugfs_partition_create(struct mshv_partition *partition)
++/* Find a connected socket without namespace filtering.
++ *
++ * Use this in transports that lack namespace context. All sockets are
++ * treated as if in global mode.
++ */
++struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
++					 struct sockaddr_vm *dst)
 +{
-+	return 0;
++	return vsock_find_connected_socket_net(src, dst, NULL);
 +}
-+static inline void mshv_debugfs_partition_remove(struct mshv_partition *partition) { }
-+static inline int mshv_debugfs_vp_create(struct mshv_vp *vp)
-+{
-+	return 0;
-+}
-+static inline void mshv_debugfs_vp_remove(struct mshv_vp *vp) { }
-+#endif
-+
- extern struct mshv_root mshv_root;
- extern enum hv_scheduler_type hv_scheduler_type;
- extern u8 * __percpu *hv_synic_eventring_tail;
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index 12825666e21b..f4654fb8cd23 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -1096,6 +1096,10 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+ EXPORT_SYMBOL_GPL(vsock_find_connected_socket);
  
- 	memcpy(vp->vp_stats_pages, stats_pages, sizeof(stats_pages));
+ void vsock_remove_sock(struct vsock_sock *vsk)
+@@ -528,7 +627,7 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
  
-+	ret = mshv_debugfs_vp_create(vp);
-+	if (ret)
-+		goto put_partition;
-+
- 	/*
- 	 * Keep anon_inode_getfd last: it installs fd in the file struct and
- 	 * thus makes the state accessible in user space.
-@@ -1103,7 +1107,7 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
- 	ret = anon_inode_getfd("mshv_vp", &mshv_vp_fops, vp,
- 			       O_RDWR | O_CLOEXEC);
- 	if (ret < 0)
--		goto put_partition;
-+		goto remove_debugfs_vp;
+ 	if (sk->sk_type == SOCK_SEQPACKET) {
+ 		if (!new_transport->seqpacket_allow ||
+-		    !new_transport->seqpacket_allow(remote_cid)) {
++		    !new_transport->seqpacket_allow(vsk, remote_cid)) {
+ 			module_put(new_transport->module);
+ 			return -ESOCKTNOSUPPORT;
+ 		}
+@@ -676,11 +775,11 @@ static void vsock_pending_work(struct work_struct *work)
+ static int __vsock_bind_connectible(struct vsock_sock *vsk,
+ 				    struct sockaddr_vm *addr)
+ {
+-	static u32 port;
++	struct net *net = sock_net(sk_vsock(vsk));
+ 	struct sockaddr_vm new_addr;
  
- 	/* already exclusive with the partition mutex for all ioctls */
- 	partition->pt_vp_count++;
-@@ -1111,6 +1115,8 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+-	if (!port)
+-		port = get_random_u32_above(LAST_RESERVED_PORT);
++	if (!net->vsock.port)
++		net->vsock.port = get_random_u32_above(LAST_RESERVED_PORT);
  
- 	return ret;
+ 	vsock_addr_init(&new_addr, addr->svm_cid, addr->svm_port);
  
-+remove_debugfs_vp:
-+	mshv_debugfs_vp_remove(vp);
- put_partition:
- 	mshv_partition_put(partition);
- free_vp:
-@@ -1553,10 +1559,16 @@ mshv_partition_ioctl_initialize(struct mshv_partition *partition)
- 	if (ret)
- 		goto withdraw_mem;
+@@ -689,13 +788,13 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
+ 		unsigned int i;
  
-+	ret = mshv_debugfs_partition_create(partition);
-+	if (ret)
-+		goto finalize_partition;
-+
- 	partition->pt_initialized = true;
+ 		for (i = 0; i < MAX_PORT_RETRIES; i++) {
+-			if (port == VMADDR_PORT_ANY ||
+-			    port <= LAST_RESERVED_PORT)
+-				port = LAST_RESERVED_PORT + 1;
++			if (net->vsock.port == VMADDR_PORT_ANY ||
++			    net->vsock.port <= LAST_RESERVED_PORT)
++				net->vsock.port = LAST_RESERVED_PORT + 1;
  
- 	return 0;
+-			new_addr.svm_port = port++;
++			new_addr.svm_port = net->vsock.port++;
  
-+finalize_partition:
-+	hv_call_finalize_partition(partition->pt_id);
- withdraw_mem:
- 	hv_call_withdraw_memory(U64_MAX, NUMA_NO_NODE, partition->pt_id);
- 
-@@ -1736,6 +1748,7 @@ static void destroy_partition(struct mshv_partition *partition)
- 			if (!vp)
- 				continue;
- 
-+			mshv_debugfs_vp_remove(vp);
- 			mshv_vp_stats_unmap(partition->pt_id, vp->vp_index,
- 					    vp->vp_stats_pages);
- 
-@@ -1769,6 +1782,8 @@ static void destroy_partition(struct mshv_partition *partition)
- 			partition->pt_vp_array[i] = NULL;
+-			if (!__vsock_find_bound_socket(&new_addr)) {
++			if (!__vsock_find_bound_socket_net(&new_addr, net)) {
+ 				found = true;
+ 				break;
+ 			}
+@@ -712,7 +811,7 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
+ 			return -EACCES;
  		}
  
-+		mshv_debugfs_partition_remove(partition);
+-		if (__vsock_find_bound_socket(&new_addr))
++		if (__vsock_find_bound_socket_net(&new_addr, net))
+ 			return -EADDRINUSE;
+ 	}
+ 
+@@ -1314,7 +1413,7 @@ static int vsock_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
+ 		goto out;
+ 	}
+ 
+-	if (!transport->dgram_allow(remote_addr->svm_cid,
++	if (!transport->dgram_allow(vsk, remote_addr->svm_cid,
+ 				    remote_addr->svm_port)) {
+ 		err = -EINVAL;
+ 		goto out;
+@@ -1355,7 +1454,7 @@ static int vsock_dgram_connect(struct socket *sock,
+ 	if (err)
+ 		goto out;
+ 
+-	if (!vsk->transport->dgram_allow(remote_addr->svm_cid,
++	if (!vsk->transport->dgram_allow(vsk, remote_addr->svm_cid,
+ 					 remote_addr->svm_port)) {
+ 		err = -EINVAL;
+ 		goto out;
+@@ -1585,7 +1684,7 @@ static int vsock_connect(struct socket *sock, struct sockaddr_unsized *addr,
+ 		 * endpoints.
+ 		 */
+ 		if (!transport ||
+-		    !transport->stream_allow(remote_addr->svm_cid,
++		    !transport->stream_allow(vsk, remote_addr->svm_cid,
+ 					     remote_addr->svm_port)) {
+ 			err = -ENETUNREACH;
+ 			goto out;
+@@ -2662,6 +2761,180 @@ static struct miscdevice vsock_device = {
+ 	.fops		= &vsock_device_ops,
+ };
+ 
++static int __vsock_net_mode_string(const struct ctl_table *table, int write,
++				   void *buffer, size_t *lenp, loff_t *ppos,
++				   enum vsock_net_mode mode,
++				   enum vsock_net_mode *new_mode)
++{
++	char data[VSOCK_NET_MODE_STR_MAX] = {0};
++	struct ctl_table tmp;
++	int ret;
 +
- 		/* Deallocates and unmaps everything including vcpus, GPA mappings etc */
- 		hv_call_finalize_partition(partition->pt_id);
- 
-@@ -2314,10 +2329,14 @@ static int __init mshv_parent_partition_init(void)
- 
- 	mshv_init_vmm_caps(dev);
- 
--	ret = mshv_irqfd_wq_init();
-+	ret = mshv_debugfs_init();
- 	if (ret)
- 		goto exit_partition;
- 
-+	ret = mshv_irqfd_wq_init();
++	if (!table->data || !table->maxlen || !*lenp) {
++		*lenp = 0;
++		return 0;
++	}
++
++	tmp = *table;
++	tmp.data = data;
++
++	if (!write) {
++		const char *p;
++
++		switch (mode) {
++		case VSOCK_NET_MODE_GLOBAL:
++			p = VSOCK_NET_MODE_STR_GLOBAL;
++			break;
++		case VSOCK_NET_MODE_LOCAL:
++			p = VSOCK_NET_MODE_STR_LOCAL;
++			break;
++		default:
++			WARN_ONCE(true, "netns has invalid vsock mode");
++			*lenp = 0;
++			return 0;
++		}
++
++		strscpy(data, p, sizeof(data));
++		tmp.maxlen = strlen(p);
++	}
++
++	ret = proc_dostring(&tmp, write, buffer, lenp, ppos);
++	if (ret || !write)
++		return ret;
++
++	if (*lenp >= sizeof(data))
++		return -EINVAL;
++
++	if (!strncmp(data, VSOCK_NET_MODE_STR_GLOBAL, sizeof(data)))
++		*new_mode = VSOCK_NET_MODE_GLOBAL;
++	else if (!strncmp(data, VSOCK_NET_MODE_STR_LOCAL, sizeof(data)))
++		*new_mode = VSOCK_NET_MODE_LOCAL;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static int vsock_net_mode_string(const struct ctl_table *table, int write,
++				 void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct net *net;
++
++	if (write)
++		return -EPERM;
++
++	net = current->nsproxy->net_ns;
++
++	return __vsock_net_mode_string(table, write, buffer, lenp, ppos,
++				       vsock_net_mode(net), NULL);
++}
++
++static int vsock_net_child_mode_string(const struct ctl_table *table, int write,
++				       void *buffer, size_t *lenp, loff_t *ppos)
++{
++	enum vsock_net_mode new_mode;
++	struct net *net;
++	int ret;
++
++	net = current->nsproxy->net_ns;
++
++	ret = __vsock_net_mode_string(table, write, buffer, lenp, ppos,
++				      vsock_net_child_mode(net), &new_mode);
 +	if (ret)
-+		goto exit_debugfs;
++		return ret;
 +
- 	spin_lock_init(&mshv_root.pt_ht_lock);
- 	hash_init(mshv_root.pt_htable);
++	if (write)
++		vsock_net_set_child_mode(net, new_mode);
++
++	return 0;
++}
++
++static struct ctl_table vsock_table[] = {
++	{
++		.procname	= "ns_mode",
++		.data		= &init_net.vsock.mode,
++		.maxlen		= VSOCK_NET_MODE_STR_MAX,
++		.mode		= 0444,
++		.proc_handler	= vsock_net_mode_string
++	},
++	{
++		.procname	= "child_ns_mode",
++		.data		= &init_net.vsock.child_ns_mode,
++		.maxlen		= VSOCK_NET_MODE_STR_MAX,
++		.mode		= 0644,
++		.proc_handler	= vsock_net_child_mode_string
++	},
++};
++
++static int __net_init vsock_sysctl_register(struct net *net)
++{
++	struct ctl_table *table;
++
++	if (net_eq(net, &init_net)) {
++		table = vsock_table;
++	} else {
++		table = kmemdup(vsock_table, sizeof(vsock_table), GFP_KERNEL);
++		if (!table)
++			goto err_alloc;
++
++		table[0].data = &net->vsock.mode;
++		table[1].data = &net->vsock.child_ns_mode;
++	}
++
++	net->vsock.sysctl_hdr = register_net_sysctl_sz(net, "net/vsock", table,
++						       ARRAY_SIZE(vsock_table));
++	if (!net->vsock.sysctl_hdr)
++		goto err_reg;
++
++	return 0;
++
++err_reg:
++	if (!net_eq(net, &init_net))
++		kfree(table);
++err_alloc:
++	return -ENOMEM;
++}
++
++static void vsock_sysctl_unregister(struct net *net)
++{
++	const struct ctl_table *table;
++
++	table = net->vsock.sysctl_hdr->ctl_table_arg;
++	unregister_net_sysctl_table(net->vsock.sysctl_hdr);
++	if (!net_eq(net, &init_net))
++		kfree(table);
++}
++
++static void vsock_net_init(struct net *net)
++{
++	if (net_eq(net, &init_net))
++		net->vsock.mode = VSOCK_NET_MODE_GLOBAL;
++	else
++		net->vsock.mode = vsock_net_child_mode(current->nsproxy->net_ns);
++
++	net->vsock.child_ns_mode = VSOCK_NET_MODE_GLOBAL;
++}
++
++static __net_init int vsock_sysctl_init_net(struct net *net)
++{
++	vsock_net_init(net);
++
++	if (vsock_sysctl_register(net))
++		return -ENOMEM;
++
++	return 0;
++}
++
++static __net_exit void vsock_sysctl_exit_net(struct net *net)
++{
++	vsock_sysctl_unregister(net);
++}
++
++static struct pernet_operations vsock_sysctl_ops = {
++	.init = vsock_sysctl_init_net,
++	.exit = vsock_sysctl_exit_net,
++};
++
+ static int __init vsock_init(void)
+ {
+ 	int err = 0;
+@@ -2689,10 +2962,17 @@ static int __init vsock_init(void)
+ 		goto err_unregister_proto;
+ 	}
  
-@@ -2325,6 +2344,8 @@ static int __init mshv_parent_partition_init(void)
++	if (register_pernet_subsys(&vsock_sysctl_ops)) {
++		err = -ENOMEM;
++		goto err_unregister_sock;
++	}
++
+ 	vsock_bpf_build_proto();
  
  	return 0;
  
-+exit_debugfs:
-+	mshv_debugfs_exit();
- exit_partition:
- 	if (hv_root_partition())
- 		mshv_root_partition_exit();
-@@ -2341,6 +2362,7 @@ static void __exit mshv_parent_partition_exit(void)
++err_unregister_sock:
++	sock_unregister(AF_VSOCK);
+ err_unregister_proto:
+ 	proto_unregister(&vsock_proto);
+ err_deregister_misc:
+@@ -2706,6 +2986,7 @@ static void __exit vsock_exit(void)
+ 	misc_deregister(&vsock_device);
+ 	sock_unregister(AF_VSOCK);
+ 	proto_unregister(&vsock_proto);
++	unregister_pernet_subsys(&vsock_sysctl_ops);
+ }
+ 
+ const struct vsock_transport *vsock_core_get_transport(struct vsock_sock *vsk)
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+index 432fcbbd14d4..c3010c874308 100644
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -570,7 +570,7 @@ static int hvs_dgram_enqueue(struct vsock_sock *vsk,
+ 	return -EOPNOTSUPP;
+ }
+ 
+-static bool hvs_dgram_allow(u32 cid, u32 port)
++static bool hvs_dgram_allow(struct vsock_sock *vsk, u32 cid, u32 port)
  {
- 	hv_setup_mshv_handler(NULL);
- 	mshv_port_table_fini();
-+	mshv_debugfs_exit();
- 	misc_deregister(&mshv_dev);
- 	mshv_irqfd_wq_cleanup();
- 	if (hv_root_partition())
+ 	return false;
+ }
+@@ -745,8 +745,11 @@ static bool hvs_stream_is_active(struct vsock_sock *vsk)
+ 	return hvs->chan != NULL;
+ }
+ 
+-static bool hvs_stream_allow(u32 cid, u32 port)
++static bool hvs_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
+ {
++	if (!vsock_net_mode_global(vsk))
++		return false;
++
+ 	if (cid == VMADDR_CID_HOST)
+ 		return true;
+ 
+diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
+index 8c867023a2e5..f0a9e51118f3 100644
+--- a/net/vmw_vsock/virtio_transport.c
++++ b/net/vmw_vsock/virtio_transport.c
+@@ -536,7 +536,8 @@ static bool virtio_transport_msgzerocopy_allow(void)
+ 	return true;
+ }
+ 
+-static bool virtio_transport_seqpacket_allow(u32 remote_cid);
++static bool virtio_transport_seqpacket_allow(struct vsock_sock *vsk,
++					     u32 remote_cid);
+ 
+ static struct virtio_transport virtio_transport = {
+ 	.transport = {
+@@ -593,11 +594,15 @@ static struct virtio_transport virtio_transport = {
+ 	.can_msgzerocopy = virtio_transport_can_msgzerocopy,
+ };
+ 
+-static bool virtio_transport_seqpacket_allow(u32 remote_cid)
++static bool
++virtio_transport_seqpacket_allow(struct vsock_sock *vsk, u32 remote_cid)
+ {
+ 	struct virtio_vsock *vsock;
+ 	bool seqpacket_allow;
+ 
++	if (!vsock_net_mode_global(vsk))
++		return false;
++
+ 	seqpacket_allow = false;
+ 	rcu_read_lock();
+ 	vsock = rcu_dereference(the_virtio_vsock);
+diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
+index dcc8a1d5851e..fdb8f5b3fa60 100644
+--- a/net/vmw_vsock/virtio_transport_common.c
++++ b/net/vmw_vsock/virtio_transport_common.c
+@@ -1043,9 +1043,9 @@ bool virtio_transport_stream_is_active(struct vsock_sock *vsk)
+ }
+ EXPORT_SYMBOL_GPL(virtio_transport_stream_is_active);
+ 
+-bool virtio_transport_stream_allow(u32 cid, u32 port)
++bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
+ {
+-	return true;
++	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
+ }
+ EXPORT_SYMBOL_GPL(virtio_transport_stream_allow);
+ 
+@@ -1056,7 +1056,7 @@ int virtio_transport_dgram_bind(struct vsock_sock *vsk,
+ }
+ EXPORT_SYMBOL_GPL(virtio_transport_dgram_bind);
+ 
+-bool virtio_transport_dgram_allow(u32 cid, u32 port)
++bool virtio_transport_dgram_allow(struct vsock_sock *vsk, u32 cid, u32 port)
+ {
+ 	return false;
+ }
+diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.c
+index 7eccd6708d66..00f6bbdb035a 100644
+--- a/net/vmw_vsock/vmci_transport.c
++++ b/net/vmw_vsock/vmci_transport.c
+@@ -646,13 +646,17 @@ static int vmci_transport_recv_dgram_cb(void *data, struct vmci_datagram *dg)
+ 	return VMCI_SUCCESS;
+ }
+ 
+-static bool vmci_transport_stream_allow(u32 cid, u32 port)
++static bool vmci_transport_stream_allow(struct vsock_sock *vsk, u32 cid,
++					u32 port)
+ {
+ 	static const u32 non_socket_contexts[] = {
+ 		VMADDR_CID_LOCAL,
+ 	};
+ 	int i;
+ 
++	if (!vsock_net_mode_global(vsk))
++		return false;
++
+ 	BUILD_BUG_ON(sizeof(cid) != sizeof(*non_socket_contexts));
+ 
+ 	for (i = 0; i < ARRAY_SIZE(non_socket_contexts); i++) {
+@@ -682,12 +686,10 @@ static int vmci_transport_recv_stream_cb(void *data, struct vmci_datagram *dg)
+ 	err = VMCI_SUCCESS;
+ 	bh_process_pkt = false;
+ 
+-	/* Ignore incoming packets from contexts without sockets, or resources
+-	 * that aren't vsock implementations.
++	/* Ignore incoming packets from resources that aren't vsock
++	 * implementations.
+ 	 */
+-
+-	if (!vmci_transport_stream_allow(dg->src.context, -1)
+-	    || vmci_transport_peer_rid(dg->src.context) != dg->src.resource)
++	if (vmci_transport_peer_rid(dg->src.context) != dg->src.resource)
+ 		return VMCI_ERROR_NO_ACCESS;
+ 
+ 	if (VMCI_DG_SIZE(dg) < sizeof(*pkt))
+@@ -749,6 +751,12 @@ static int vmci_transport_recv_stream_cb(void *data, struct vmci_datagram *dg)
+ 		goto out;
+ 	}
+ 
++	/* Ignore incoming packets from contexts without sockets. */
++	if (!vmci_transport_stream_allow(vsk, dg->src.context, -1)) {
++		err = VMCI_ERROR_NO_ACCESS;
++		goto out;
++	}
++
+ 	/* We do most everything in a work queue, but let's fast path the
+ 	 * notification of reads and writes to help data transfer performance.
+ 	 * We can only do this if there is no process context code executing
+@@ -1784,8 +1792,12 @@ static int vmci_transport_dgram_dequeue(struct vsock_sock *vsk,
+ 	return err;
+ }
+ 
+-static bool vmci_transport_dgram_allow(u32 cid, u32 port)
++static bool vmci_transport_dgram_allow(struct vsock_sock *vsk, u32 cid,
++				       u32 port)
+ {
++	if (!vsock_net_mode_global(vsk))
++		return false;
++
+ 	if (cid == VMADDR_CID_HYPERVISOR) {
+ 		/* Registrations of PBRPC Servers do not modify VMX/Hypervisor
+ 		 * state and are allowed.
+diff --git a/net/vmw_vsock/vsock_loopback.c b/net/vmw_vsock/vsock_loopback.c
+index bc2ff918b315..deff68c64a09 100644
+--- a/net/vmw_vsock/vsock_loopback.c
++++ b/net/vmw_vsock/vsock_loopback.c
+@@ -46,7 +46,8 @@ static int vsock_loopback_cancel_pkt(struct vsock_sock *vsk)
+ 	return 0;
+ }
+ 
+-static bool vsock_loopback_seqpacket_allow(u32 remote_cid);
++static bool vsock_loopback_seqpacket_allow(struct vsock_sock *vsk,
++					   u32 remote_cid);
+ static bool vsock_loopback_msgzerocopy_allow(void)
+ {
+ 	return true;
+@@ -106,9 +107,10 @@ static struct virtio_transport loopback_transport = {
+ 	.send_pkt = vsock_loopback_send_pkt,
+ };
+ 
+-static bool vsock_loopback_seqpacket_allow(u32 remote_cid)
++static bool
++vsock_loopback_seqpacket_allow(struct vsock_sock *vsk, u32 remote_cid)
+ {
+-	return true;
++	return vsock_net_mode_global(vsk);
+ }
+ 
+ static void vsock_loopback_work(struct work_struct *work)
+
 -- 
-2.34.1
+2.47.3
 
