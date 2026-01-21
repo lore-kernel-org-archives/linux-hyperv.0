@@ -1,43 +1,66 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9A8425CC7;
-	Wed, 21 Jan 2026 22:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD7B4218A8
+	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 23:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769034962; cv=none; b=QwUAhRZc6Yvu1yBecCmHUrkAbxM5MQXii+s14c+kC5m1b5ogrHRiivRBoplZ2yEV9IaqxcI40znQcXpoagJrxspjBOZd0Y9AmT/mW9Wd8DR81uTlPpvd7OKoJ225XCxzXJkV6nz1u7aQVA0B/7W1YL/lWan3vhCL/46BcHkRGGQ=
+	t=1769038991; cv=none; b=Yrfp79R1HHNabRScEmTXiJ6ylKmnguL1mgFYHdj9/p+501sDNwT+zkSTwhnv6Ps3mPCpjWqcCBERfFTDqwqqi7TS/HCP3j6j+XgpNGEpahJGQxWzt7uTyxMMQDlo3auIQ0RmCX/FvapY4DPGdYnrbk2Fj2w+SP06giAXn0fJkWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769034962; c=relaxed/simple;
-	bh=UKhe/QqQJfw+xZryhcCvtf4xQCv+rNEBFhctc6Jlto8=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hNwI02osC43KPxyqTKYLgbKwjL2DQi8Oc3uxU72uUOXyUHIvsWhZmhhVW1R3a6U3P+ysyHhlZfUu3Ss3a5zvlaTeY/82dVoAGhdf3LnuT6phEyOo8tCi2sqXNb+7zSBuCvC5C7kKk/QbTSFaHkxoRi9OwCzewwygelbpdme4tXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EIImNe+3; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1769038991; c=relaxed/simple;
+	bh=etwwWKr9Y14dXlHdkKjstCZfaDIPKSpATnqO6LamcNw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HEmqn/7oHEYmEnPfi93tM4wSMGCrcgzooW0AxTBp3vRZwBVJ21c9MCh6LkxTQNn3aer80FzJBISwmNTMgBwuUMex5XSz8kNDWucVnJ7+a8Z6AaPxjoRhLzO7zzeGQhmeVeCxZPO/ulzI5SwSeVPjq7c+cmZE+fAOoKsR4Ua2U6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRBQkuTQ; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EIImNe+3"
-Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C96C820B716F;
-	Wed, 21 Jan 2026 14:35:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C96C820B716F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1769034959;
-	bh=f5mu1hGAzQ3IXvctHZbv9iQJl30R2IN56PnohRPYPcU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=EIImNe+3mPX/M86bUtaBdFW5oOw+gVVSWusx4PfAKs2QtXvSxSrMo3tWAH1zuYY9M
-	 8E3nEGcnbJYToBMXMqghe3kXgpDMoqx+PKka+w0O/QOZ95yZqS/5cUjIKWzo0uPD13
-	 J83U8uWDmfxWaf4vzaXd1Z19PfPalko5kNi4BiBk=
-Subject: [PATCH 2/2] mshv: Add support for integrated scheduler
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 21 Jan 2026 22:35:59 +0000
-Message-ID: 
- <176903495970.166619.12888807009225201668.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-In-Reply-To: 
- <176903475057.166619.9437539561789960983.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-References: 
- <176903475057.166619.9437539561789960983.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRBQkuTQ"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8c6a0702b86so39546885a.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 15:43:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769038986; x=1769643786; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lg4FY/CZvQhWjrS9kUd/hUaO0JJyEisDgMtnXczdMcQ=;
+        b=DRBQkuTQ8UODEcPyQQhL3NPFPGhai3OWEiRDTlYU1WLhvplpEV9CSIrUtGsVmA4ke8
+         YQkkVTV/YcwKILU7EDxN677T3dc1ZqLjKSBv0b7ZNfM20o7vGkJDElSOOx76OMf7sczu
+         Xlo2clEG2cxdNeNDGlBAwnbnksUMFi2TKYduWL4r2b2TaVMdu1zxIQmIlsBIeP9yS9FT
+         PPWxp96+WfpdL5F9LFdhec3iOqm+HLFpHjqeVPslohJk45k3wxb3LJP5eIilEWB2UNct
+         MpU/UNLd89sjfctFwnBjaG7yoIBErxX5NyHhU1t2F4UA2vDjFhzk6msXvxsyWUbLl2Jk
+         dcEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769038986; x=1769643786;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lg4FY/CZvQhWjrS9kUd/hUaO0JJyEisDgMtnXczdMcQ=;
+        b=d2gOu7iEDz8//IaIoMnki5mkui2n79UUKSkuNtysYSDLJgeimO2iK+OaJPhduag2sc
+         rM3yfYjnXDnIRrdP+/FrdslD163Z6VGZR3MJI+/oNBeVACeKOgytRfFSHfHXMvEDoXvT
+         dzM/GF2LxTzfXdMH0vGsyzHd525x2dUL1h+OGODmNJLvOFq9nn0zHFOcQzM6pJSxFqKP
+         Wl7/gkLSV6RcKQrxC0WrzO/tE5qc9eRbGKTOf3n7lg+cjzO79zCid7RdmMLH7aXVm4Pd
+         iN7pSBGRzGbfkDcYvsCb0hnugynmbB/8ZrgmQqTI1r8AD2FPIZDANJiKJsN3/ALu7sO7
+         otTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKDJ6l9E0HHSaXx35z3j64wslGpqjde1f7PcHbYWHLlmNKHtODNPcI5XU+hAcguc6u9UTbo+J0Zb1bgB0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4wKqccjdB7ERGLkQDKTPz+MOjWEQB9tYkmKX1AZv9CY/XzmFg
+	1O10EH9rks/QIKx9j9duucrMklt8/aQq2wcso8R+088e5FfHFjV/u6P9o3Ol1g==
+X-Gm-Gg: AZuq6aKGLT1AlEgbrTQwA1oFEbvl0iNB+/CVjoIM17NVO5Uqfn/E/yavGHP20OcbhsH
+	JK6qvc+lTFQXKBU5AU/y/0RAx5mnIAY0xDBV5NjoQ1tQhtzCcWAOzc0PI6G6h7vcTID7+ZsDsnt
+	5SRD+2m8EinA4CM37KOHC86jkRsa+n+JQuAvJSj+Izg5w6xcYHdI1bz3lmK2Bj5kRvy0EsOlfz7
+	BYU7GLINwDWnhxwQ4othwfTxdp32HVc1tDKtf92gOVQgFlmFazs/Xaa80Zr3ZrzLV8Me7b6PZ9g
+	46uHImHe2KcxPnv1oeZJErGGhamLIloNWhp2bgyc8u1rNeEoZhGp8MBRut1qcn9mcIWoRlihqjg
+	27bb3xUJZzOuH9e1qtkGlKZmxyHAOB89gmmMAGz95AeQn1kByTN7+CQ17DLBbpS+F9WuAfTyKOW
+	bqMIK1+cG9KE+5RtojxdDQ
+X-Received: by 2002:a05:690c:6d82:b0:794:267c:725f with SMTP id 00721157ae682-794267c8291mr18582147b3.52.1769033519293;
+        Wed, 21 Jan 2026 14:11:59 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:58::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7941ad16ff4sm14445287b3.20.2026.01.21.14.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 14:11:58 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: [PATCH net-next v16 00/12] vsock: add namespace support to
+ vhost-vsock and loopback
+Date: Wed, 21 Jan 2026 14:11:40 -0800
+Message-Id: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -45,233 +68,283 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB1PcWkC/5XUzW7bMAzA8VcxdA4HkjJlOae+x9CDPujW2JJ0t
+ md0KPLuQ9yi0eRedjZ+/BsEoTcz6zTqbI7Nm5l0HefxcjbHhtyhMek5nJ8UxmyOjWFkQcsC63x
+ JP2A9LTovEG1gykzIic2hMS+TDuPrNu+7OesCZ31dzOOhMc/jvFymP1tope37NrIl/HfkSkAwW
+ Amecoi9Tw9PpzD+/JYup23QyiXuKsxAYHukwJ21pL7GtsDsK2yBgDyFwZGzg9Uat3csWJdbIHD
+ Koe/YccquwIeP9XmUHUJA6TUJhUhEDyddwj0oRZBsZQUIWu0ktaGVpPGrIHc7hIAxiMeoWSVWQ
+ VcG6591QNCHgVJCtj3iF8Ge3A4hoGsza8Tk+1wFu88gIVNlu806il10A/piOx+9/zJbz5e9eqM
+ eELKG3rcZOUasLOEd0+7yCG96QD+Qk3i7nkpToXl39AQIIikmj9z2oas1l7peMjEgsHSqTClL3
+ rU/L9chEdf6doVBkrWco1Wuj4Kk1Lv27aRiHDIF57y0vtDX9ydh0l+/x3lc3t+Fx+v1L1NJZ+t
+ 3BAAA
+X-Change-ID: 20250325-vsock-vmtest-b3a21d2102c2
+To: Stefano Garzarella <sgarzare@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
+ Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, berrange@redhat.com, 
+ Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
+ Bobby Eshleman <bobbyeshleman@gmail.com>, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
-From: Andreea Pintilie <anpintil@microsoft.com>
+This series adds namespace support to vhost-vsock and loopback. It does
+not add namespaces to any of the other guest transports (virtio-vsock,
+hyperv, or vmci).
 
-Query the hypervisor for integrated scheduler support and use it if
-configured.
+The current revision supports two modes: local and global. Local
+mode is complete isolation of namespaces, while global mode is complete
+sharing between namespaces of CIDs (the original behavior).
 
-Microsoft Hypervisor originally provided two schedulers: root and core. The
-root scheduler allows the root partition to schedule guest vCPUs across
-physical cores, supporting both time slicing and CPU affinity (e.g., via
-cgroups). In contrast, the core scheduler delegates vCPU-to-physical-core
-scheduling entirely to the hypervisor.
+The mode is set using the parent namespace's
+/proc/sys/net/vsock/child_ns_mode and inherited when a new namespace is
+created. The mode of the current namespace can be queried by reading
+/proc/sys/net/vsock/ns_mode. The mode can not change after the namespace
+has been created.
 
-Direct virtualization introduces a new privileged guest partition type - L1
-Virtual Host (L1VH) — which can create child partitions from its own
-resources. These child partitions are effectively siblings, scheduled by
-the hypervisor's core scheduler. This prevents the L1VH parent from setting
-affinity or time slicing for its own processes or guest VPs. While cgroups,
-CFS, and cpuset controllers can still be used, their effectiveness is
-unpredictable, as the core scheduler swaps vCPUs according to its own logic
-(typically round-robin across all allocated physical CPUs). As a result,
-the system may appear to "steal" time from the L1VH and its children.
+Modes are per-netns. This allows a system to configure namespaces
+independently (some may share CIDs, others are completely isolated).
+This also supports future possible mixed use cases, where there may be
+namespaces in global mode spinning up VMs while there are mixed mode
+namespaces that provide services to the VMs, but are not allowed to
+allocate from the global CID pool (this mode is not implemented in this
+series).
 
-To address this, Microsoft Hypervisor introduces the integrated scheduler.
-This allows an L1VH partition to schedule its own vCPUs and those of its
-guests across its "physical" cores, effectively emulating root scheduler
-behavior within the L1VH, while retaining core scheduler behavior for the
-rest of the system.
+Additionally, added tests for the new namespace features:
 
-The integrated scheduler is controlled by the root partition and gated by
-the vmm_enable_integrated_scheduler capability bit. If set, the hypervisor
-supports the integrated scheduler. The L1VH partition must then check if it
-is enabled by querying the corresponding extended partition property. If
-this property is true, the L1VH partition must use the root scheduler
-logic; otherwise, it must use the core scheduler.
+tools/testing/selftests/vsock/vmtest.sh
+1..25
+ok 1 vm_server_host_client
+ok 2 vm_client_host_server
+ok 3 vm_loopback
+ok 4 ns_host_vsock_ns_mode_ok
+ok 5 ns_host_vsock_child_ns_mode_ok
+ok 6 ns_global_same_cid_fails
+ok 7 ns_local_same_cid_ok
+ok 8 ns_global_local_same_cid_ok
+ok 9 ns_local_global_same_cid_ok
+ok 10 ns_diff_global_host_connect_to_global_vm_ok
+ok 11 ns_diff_global_host_connect_to_local_vm_fails
+ok 12 ns_diff_global_vm_connect_to_global_host_ok
+ok 13 ns_diff_global_vm_connect_to_local_host_fails
+ok 14 ns_diff_local_host_connect_to_local_vm_fails
+ok 15 ns_diff_local_vm_connect_to_local_host_fails
+ok 16 ns_diff_global_to_local_loopback_local_fails
+ok 17 ns_diff_local_to_global_loopback_fails
+ok 18 ns_diff_local_to_local_loopback_fails
+ok 19 ns_diff_global_to_global_loopback_ok
+ok 20 ns_same_local_loopback_ok
+ok 21 ns_same_local_host_connect_to_local_vm_ok
+ok 22 ns_same_local_vm_connect_to_local_host_ok
+ok 23 ns_delete_vm_ok
+ok 24 ns_delete_host_ok
+ok 25 ns_delete_both_ok
+SUMMARY: PASS=25 SKIP=0 FAIL=0
 
-Signed-off-by: Andreea Pintilie <anpintil@microsoft.com>
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Thanks again for everyone's help and reviews!
+
+Suggested-by: Sargun Dhillon <sargun@sargun.me>
+Signed-off-by: Bobby Eshleman <bobbyeshleman@gmail.com>
+
+Changes in v16:
+- updated comments/docs/commit msg (vsock_find_* funcs, init net
+  mode, why change random port alloc)
+- removed init ns mode cmdline
+- fixed the missing ${ns} arg for vm_ssh in vmtest.sh
+- Link to v15: https://lore.kernel.org/r/20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com
+
+Changes in v15:
+- see per-patch change notes in 'vsock: add netns to vsock core'
+- Link to v14: https://lore.kernel.org/r/20260112-vsock-vmtest-v14-0-a5c332db3e2b@meta.com
+
+Changes in v14:
+- squashed 'vsock: add per-net vsock NS mode state' into 'vsock: add
+  netns to vsock core' (MST)
+- remove RFC tag
+- fixed base-commit (still had b4 configured to depend on old vmtest.sh
+  series)
+- Link to v13: https://lore.kernel.org/all/20251223-vsock-vmtest-v13-0-9d6db8e7c80b@meta.com/
+
+Changes in v13:
+- add support for immutable sysfs ns_mode and inheritance from sysfs child_ns_mode
+- remove passing around of net_mode, can be accessed now via
+  vsock_net_mode(net) since it is immutable
+- update tests for new uAPI
+- add one patch to extend the kselftest timeout (it was starting to
+  fail with the new tests added)
+- Link to v12: https://lore.kernel.org/r/20251126-vsock-vmtest-v12-0-257ee21cd5de@meta.com
+
+Changes in v12:
+- add ns mode checking to _allow() callbacks to reject local mode for
+  incompatible transports (Stefano)
+- flip vhost/loopback to return true for stream_allow() and
+  seqpacket_allow() in "vsock: add netns support to virtio transports"
+  (Stefano)
+- add VMADDR_CID_ANY + local mode documentation in af_vsock.c (Stefano)
+- change "selftests/vsock: add tests for host <-> vm connectivity with
+  namespaces" to skip test 29 in vsock_test for namespace local
+  vsock_test calls in a host local-mode namespace. There is a
+  false-positive edge case for that test encountered with the
+  ->stream_allow() approach. More details in that patch.
+- updated cover letter with new test output
+- Link to v11: https://lore.kernel.org/r/20251120-vsock-vmtest-v11-0-55cbc80249a7@meta.com
+
+Changes in v11:
+- vmtest: add a patch to use ss in wait_for_listener functions and
+  support vsock, tcp, and unix. Change all patches to use the new
+  functions.
+- vmtest: add a patch to re-use vm dmesg / warn counting functions
+- Link to v10: https://lore.kernel.org/r/20251117-vsock-vmtest-v10-0-df08f165bf3e@meta.com
+
+Changes in v10:
+- Combine virtio common patches into one (Stefano)
+- Resolve vsock_loopback virtio_transport_reset_no_sock() issue
+  with info->vsk setting. This eliminates the need for skb->cb,
+  so remove skb->cb patches.
+- many line width 80 fixes
+- Link to v9: https://lore.kernel.org/all/20251111-vsock-vmtest-v9-0-852787a37bed@meta.com
+
+Changes in v9:
+- reorder loopback patch after patch for virtio transport common code
+- remove module ordering tests patch because loopback no longer depends
+  on pernet ops
+- major simplifications in vsock_loopback
+- added a new patch for blocking local mode for guests, added test case
+  to check
+- add net ref tracking to vsock_loopback patch
+- Link to v8: https://lore.kernel.org/r/20251023-vsock-vmtest-v8-0-dea984d02bb0@meta.com
+
+Changes in v8:
+- Break generic cleanup/refactoring patches into standalone series,
+  remove those from this series
+- Link to dependency: https://lore.kernel.org/all/20251022-vsock-selftests-fixes-and-improvements-v1-0-edeb179d6463@meta.com/
+- Link to v7: https://lore.kernel.org/r/20251021-vsock-vmtest-v7-0-0661b7b6f081@meta.com
+
+Changes in v7:
+- fix hv_sock build
+- break out vmtest patches into distinct, more well-scoped patches
+- change `orig_net_mode` to `net_mode`
+- many fixes and style changes in per-patch change sets (see individual
+  patches for specific changes)
+- optimize `virtio_vsock_skb_cb` layout
+- update commit messages with more useful descriptions
+- vsock_loopback: use orig_net_mode instead of current net mode
+- add tests for edge cases (ns deletion, mode changing, loopback module
+  load ordering)
+- Link to v6: https://lore.kernel.org/r/20250916-vsock-vmtest-v6-0-064d2eb0c89d@meta.com
+
+Changes in v6:
+- define behavior when mode changes to local while socket/VM is alive
+- af_vsock: clarify description of CID behavior
+- af_vsock: use stronger langauge around CID rules (dont use "may")
+- af_vsock: improve naming of buf/buffer
+- af_vsock: improve string length checking on proc writes
+- vsock_loopback: add space in struct to clarify lock protection
+- vsock_loopback: do proper cleanup/unregister on vsock_loopback_exit()
+- vsock_loopback: use virtio_vsock_skb_net() instead of sock_net()
+- vsock_loopback: set loopback to NULL after kfree()
+- vsock_loopback: use pernet_operations and remove callback mechanism
+- vsock_loopback: add macros for "global" and "local"
+- vsock_loopback: fix length checking
+- vmtest.sh: check for namespace support in vmtest.sh
+- Link to v5: https://lore.kernel.org/r/20250827-vsock-vmtest-v5-0-0ba580bede5b@meta.com
+
+Changes in v5:
+- /proc/net/vsock_ns_mode -> /proc/sys/net/vsock/ns_mode
+- vsock_global_net -> vsock_global_dummy_net
+- fix netns lookup in vhost_vsock to respect pid namespaces
+- add callbacks for vsock_loopback to avoid circular dependency
+- vmtest.sh loads vsock_loopback module
+- remove vsock_net_mode_can_set()
+- change vsock_net_write_mode() to return true/false based on success
+- make vsock_net_mode enum instead of u8
+- Link to v4: https://lore.kernel.org/r/20250805-vsock-vmtest-v4-0-059ec51ab111@meta.com
+
+Changes in v4:
+- removed RFC tag
+- implemented loopback support
+- renamed new tests to better reflect behavior
+- completed suite of tests with permutations of ns modes and vsock_test
+  as guest/host
+- simplified socat bridging with unix socket instead of tcp + veth
+- only use vsock_test for success case, socat for failure case (context
+  in commit message)
+- lots of cleanup
+
+Changes in v3:
+- add notion of "modes"
+- add procfs /proc/net/vsock_ns_mode
+- local and global modes only
+- no /dev/vhost-vsock-netns
+- vmtest.sh already merged, so new patch just adds new tests for NS
+- Link to v2:
+  https://lore.kernel.org/kvm/20250312-vsock-netns-v2-0-84bffa1aa97a@gmail.com
+
+Changes in v2:
+- only support vhost-vsock namespaces
+- all g2h namespaces retain old behavior, only common API changes
+  impacted by vhost-vsock changes
+- add /dev/vhost-vsock-netns for "opt-in"
+- leave /dev/vhost-vsock to old behavior
+- removed netns module param
+- Link to v1:
+  https://lore.kernel.org/r/20200116172428.311437-1-sgarzare@redhat.com
+
+Changes in v1:
+- added 'netns' module param to vsock.ko to enable the
+  network namespace support (disabled by default)
+- added 'vsock_net_eq()' to check the "net" assigned to a socket
+  only when 'netns' support is enabled
+- Link to RFC: https://patchwork.ozlabs.org/cover/1202235/
+
 ---
- drivers/hv/mshv_root_main.c |   79 +++++++++++++++++++++++++++++--------------
- include/hyperv/hvhdk_mini.h |    6 +++
- 2 files changed, 58 insertions(+), 27 deletions(-)
+Bobby Eshleman (12):
+      vsock: add netns to vsock core
+      virtio: set skb owner of virtio_transport_reset_no_sock() reply
+      vsock: add netns support to virtio transports
+      selftests/vsock: increase timeout to 1200
+      selftests/vsock: add namespace helpers to vmtest.sh
+      selftests/vsock: prepare vm management helpers for namespaces
+      selftests/vsock: add vm_dmesg_{warn,oops}_count() helpers
+      selftests/vsock: use ss to wait for listeners instead of /proc/net
+      selftests/vsock: add tests for proc sys vsock ns_mode
+      selftests/vsock: add namespace tests for CID collisions
+      selftests/vsock: add tests for host <-> vm connectivity with namespaces
+      selftests/vsock: add tests for namespace deletion
 
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index 1134a82c7881..7a36297feea7 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -2053,6 +2053,32 @@ static const char *scheduler_type_to_string(enum hv_scheduler_type type)
- 	};
- }
- 
-+static int __init l1vh_retrive_scheduler_type(enum hv_scheduler_type *out)
-+{
-+	size_t root_sched_enabled;
-+	int ret;
-+
-+	*out = HV_SCHEDULER_TYPE_CORE_SMT;
-+
-+	if (!mshv_root.vmm_caps.vmm_enable_integrated_scheduler)
-+		return 0;
-+
-+	ret = hv_call_get_partition_property_ex(HV_PARTITION_ID_SELF,
-+						HV_PARTITION_PROPERTY_INTEGRATED_SCHEDULER_ENABLED,
-+						0, &root_sched_enabled,
-+						sizeof(root_sched_enabled));
-+	if (ret)
-+		return ret;
-+
-+	if (root_sched_enabled)
-+		*out = HV_SCHEDULER_TYPE_ROOT;
-+
-+	pr_debug("%s: integrated scheduler property read: ret=%d value=%lu\n",
-+		 __func__, ret, root_sched_enabled);
-+
-+	return 0;
-+}
-+
- /* TODO move this to hv_common.c when needed outside */
- static int __init hv_retrieve_scheduler_type(enum hv_scheduler_type *out)
- {
-@@ -2085,13 +2111,12 @@ static int __init hv_retrieve_scheduler_type(enum hv_scheduler_type *out)
- /* Retrieve and stash the supported scheduler type */
- static int __init mshv_retrieve_scheduler_type(struct device *dev)
- {
--	int ret = 0;
-+	int ret;
- 
- 	if (hv_l1vh_partition())
--		hv_scheduler_type = HV_SCHEDULER_TYPE_CORE_SMT;
-+		ret = l1vh_retrive_scheduler_type(&hv_scheduler_type);
- 	else
- 		ret = hv_retrieve_scheduler_type(&hv_scheduler_type);
--
- 	if (ret)
- 		return ret;
- 
-@@ -2211,42 +2236,35 @@ struct notifier_block mshv_reboot_nb = {
- static void mshv_root_partition_exit(void)
- {
- 	unregister_reboot_notifier(&mshv_reboot_nb);
--	root_scheduler_deinit();
- }
- 
- static int __init mshv_root_partition_init(struct device *dev)
- {
- 	int err;
- 
--	err = root_scheduler_init(dev);
--	if (err)
--		return err;
--
- 	err = register_reboot_notifier(&mshv_reboot_nb);
- 	if (err)
--		goto root_sched_deinit;
-+		return err;
- 
- 	return 0;
--
--root_sched_deinit:
--	root_scheduler_deinit();
--	return err;
- }
- 
--static void mshv_init_vmm_caps(struct device *dev)
-+static int mshv_init_vmm_caps(struct device *dev)
- {
--	/*
--	 * This can only fail here if HVCALL_GET_PARTITION_PROPERTY_EX or
--	 * HV_PARTITION_PROPERTY_VMM_CAPABILITIES are not supported. In that
--	 * case it's valid to proceed as if all vmm_caps are disabled (zero).
--	 */
--	if (hv_call_get_partition_property_ex(HV_PARTITION_ID_SELF,
--					      HV_PARTITION_PROPERTY_VMM_CAPABILITIES,
--					      0, &mshv_root.vmm_caps,
--					      sizeof(mshv_root.vmm_caps)))
--		dev_warn(dev, "Unable to get VMM capabilities\n");
-+	int ret;
-+
-+	ret = hv_call_get_partition_property_ex(HV_PARTITION_ID_SELF,
-+						HV_PARTITION_PROPERTY_VMM_CAPABILITIES,
-+						0, &mshv_root.vmm_caps,
-+						sizeof(mshv_root.vmm_caps));
-+	if (ret) {
-+		dev_err(dev, "Failed to get VMM capabilities: %d\n", ret);
-+		return ret;
-+	}
- 
- 	dev_dbg(dev, "vmm_caps = %#llx\n", mshv_root.vmm_caps.as_uint64[0]);
-+
-+	return 0;
- }
- 
- static int __init mshv_parent_partition_init(void)
-@@ -2292,6 +2310,10 @@ static int __init mshv_parent_partition_init(void)
- 
- 	mshv_cpuhp_online = ret;
- 
-+	ret = mshv_init_vmm_caps(dev);
-+	if (ret)
-+		goto remove_cpu_state;
-+
- 	ret = mshv_retrieve_scheduler_type(dev);
- 	if (ret)
- 		goto remove_cpu_state;
-@@ -2301,11 +2323,13 @@ static int __init mshv_parent_partition_init(void)
- 	if (ret)
- 		goto remove_cpu_state;
- 
--	mshv_init_vmm_caps(dev);
-+	ret = root_scheduler_init(dev);
-+	if (ret)
-+		goto exit_partition;
- 
- 	ret = mshv_irqfd_wq_init();
- 	if (ret)
--		goto exit_partition;
-+		goto deinit_root_scheduler;
- 
- 	spin_lock_init(&mshv_root.pt_ht_lock);
- 	hash_init(mshv_root.pt_htable);
-@@ -2314,6 +2338,8 @@ static int __init mshv_parent_partition_init(void)
- 
- 	return 0;
- 
-+deinit_root_scheduler:
-+	root_scheduler_deinit();
- exit_partition:
- 	if (hv_root_partition())
- 		mshv_root_partition_exit();
-@@ -2332,6 +2358,7 @@ static void __exit mshv_parent_partition_exit(void)
- 	mshv_port_table_fini();
- 	misc_deregister(&mshv_dev);
- 	mshv_irqfd_wq_cleanup();
-+	root_scheduler_deinit();
- 	if (hv_root_partition())
- 		mshv_root_partition_exit();
- 	cpuhp_remove_state(mshv_cpuhp_online);
-diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-index aa03616f965b..0f7178fa88a8 100644
---- a/include/hyperv/hvhdk_mini.h
-+++ b/include/hyperv/hvhdk_mini.h
-@@ -87,6 +87,9 @@ enum hv_partition_property_code {
- 	HV_PARTITION_PROPERTY_PRIVILEGE_FLAGS			= 0x00010000,
- 	HV_PARTITION_PROPERTY_SYNTHETIC_PROC_FEATURES		= 0x00010001,
- 
-+	/* Integrated scheduling properties */
-+	HV_PARTITION_PROPERTY_INTEGRATED_SCHEDULER_ENABLED	= 0x00020005,
-+
- 	/* Resource properties */
- 	HV_PARTITION_PROPERTY_GPA_PAGE_ACCESS_TRACKING		= 0x00050005,
- 	HV_PARTITION_PROPERTY_UNIMPLEMENTED_MSR_ACTION		= 0x00050017,
-@@ -102,7 +105,7 @@ enum hv_partition_property_code {
- };
- 
- #define HV_PARTITION_VMM_CAPABILITIES_BANK_COUNT		1
--#define HV_PARTITION_VMM_CAPABILITIES_RESERVED_BITFIELD_COUNT	58
-+#define HV_PARTITION_VMM_CAPABILITIES_RESERVED_BITFIELD_COUNT	57
- 
- struct hv_partition_property_vmm_capabilities {
- 	u16 bank_count;
-@@ -120,6 +123,7 @@ struct hv_partition_property_vmm_capabilities {
- #endif
- 			u64 assignable_synthetic_proc_features: 1;
- 			u64 tag_hv_message_from_child: 1;
-+			u64 vmm_enable_integrated_scheduler : 1;
- 			u64 reserved0: HV_PARTITION_VMM_CAPABILITIES_RESERVED_BITFIELD_COUNT;
- 		} __packed;
- 	};
+ MAINTAINERS                             |    1 +
+ drivers/vhost/vsock.c                   |   44 +-
+ include/linux/virtio_vsock.h            |    9 +-
+ include/net/af_vsock.h                  |   61 +-
+ include/net/net_namespace.h             |    4 +
+ include/net/netns/vsock.h               |   21 +
+ net/vmw_vsock/af_vsock.c                |  335 +++++++++-
+ net/vmw_vsock/hyperv_transport.c        |    7 +-
+ net/vmw_vsock/virtio_transport.c        |   22 +-
+ net/vmw_vsock/virtio_transport_common.c |   62 +-
+ net/vmw_vsock/vmci_transport.c          |   26 +-
+ net/vmw_vsock/vsock_loopback.c          |   22 +-
+ tools/testing/selftests/vsock/settings  |    2 +-
+ tools/testing/selftests/vsock/vmtest.sh | 1055 +++++++++++++++++++++++++++++--
+ 14 files changed, 1531 insertions(+), 140 deletions(-)
+---
+base-commit: d8f87aa5fa0a4276491fa8ef436cd22605a3f9ba
+change-id: 20250325-vsock-vmtest-b3a21d2102c2
 
+Best regards,
+-- 
+Bobby Eshleman <bobbyeshleman@meta.com>
 
