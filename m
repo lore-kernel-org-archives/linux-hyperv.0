@@ -1,67 +1,38 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D842244103F
-	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 22:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B376410D3E;
+	Wed, 21 Jan 2026 22:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769033549; cv=none; b=cdcGy4kiiPF1sJedoTBRrgfzWRdho00R6KUq/mUIBlG+OhNI8AkeRdxNmwkiToU8h4djHt3zhUmjff3xTtm8rrFNGlDL9X8zAcb5R9duAMpImibYuO5W73qzoy7FEf2BtG6QE1n/EeadkoY52l71JL3/cKMrTetDuXbdIYnkOxU=
+	t=1769034950; cv=none; b=t12LUFsL3v/Fn+OQ8pSqT6zkybQcc9+wrM+Bzpv9du9n/PaMiNye/DIcw532TV8wT3sclIF6x19u10xPuTA/Osiztfe2jBAhg4yFXn0QS2doi0tw7R0QzVMYdZ/VGxIPE9oplSTOASUTaXBosCiO/KM1qu0ASDO0gws5iOh2S7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769033549; c=relaxed/simple;
-	bh=43YZlXDQmW65hszyjr5m3UtpfpB8+72+oSXEtxR8B+c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=irXMfuex6gL3YBYDKnL8lPtI4UQYWoZi18076CSN3b9v4YW3hudG2jRG7r3SnQIzyzYW9h9uA5Q9QNX1Re8XarAqvMirAxnIlDqMU5tPB056fNXZOt/Or0nSybcEZ5VwaE17+6GhpdAo2kp7PKk3bXRs6Uo7YZ7RaUrYXrgmfgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc9Oa/dK; arc=none smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769034950; c=relaxed/simple;
+	bh=NsISPSisMUvM3sAGZu14B8bxaXk+BuJSNHWxK2/zB2w=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=FjEzrJeL2fLiG3xVwNvX26VSIfai+erzebncJGVTLdcDx8PjmJ5tRZujDBYW9O4l/lVHXiKlBM9AMySDrNs2OcQmRiVVfMDToTS25cHM+y1k40sZjms963s94c1Dl2uEfCLz3mRVacYXOJf79DZufb+g7zLI5YlF9Br02N+JO+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=eSxzS4qJ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc9Oa/dK"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64938fce805so447951d50.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 14:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769033528; x=1769638328; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y3I8QcIsIeOrh9cIrz38ZjjL+G5z3ujRC9KA0ugGud8=;
-        b=Dc9Oa/dK474AK/J1sokviXcv8eJSFE4pPf5/G+DevjWBG93ky/wb3ViOV1OQ14dV4J
-         ieioWkyh7NgUeINzpDNPMoGlTdpDGXJMTpzvC3Wzr+IK37FiULLAxXhAmq5wfOqMB7Ri
-         o4ibr4Kgbip0rGfdEjuypC9e7cv6838XEFn9Z21KFaZJXj8krfF8vufTthSdUgh/UsMz
-         rsZu1TOirsQqhe8EJGOOkaCXM9ApDKAa10F9eM2Rb17Zp25He0YuwWUI+Onkb+6ineji
-         0IvH4vkvO4HBFjWamSEmZIi/YI7QFSMQ9CifTEBGpjOZK1Hlv/NdzdPoSsxwYmnTexKS
-         u8xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769033528; x=1769638328;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y3I8QcIsIeOrh9cIrz38ZjjL+G5z3ujRC9KA0ugGud8=;
-        b=oZFibUxJO5GHIhwViCKKLLdSUGrBmeNRneN3sPDrhpMTHe5F0n36gSn3yPMAv+dV/T
-         76q0QsU5HUWLkB7t+Rlfmj7AAMSY5ag9ZDs1Sm/dH6tCCoy2Z7BW2pXHFZsVgDnvGTzX
-         +Hy9uQVKvMHltG79hArKYhlS4OYup9/tsGWkiRes0V+kESw82/p4MWtcu3cEQcz/CNn1
-         6BjKIky5OS9UvgctsLvsHJTVkxRF3SC5+LmUzyajBy5if2fk+uZr8SBzaXVbwBbIjUiK
-         qfz+p+2RMiSayRQF6Q+YOzMI8XOuxBe2v+s07zqd11o/kt0B1U56lU8JMx7WhaucR6jv
-         XTtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWP6jzrS5/wmtPnBM/i4glpUm2JjZLVyjtYBcjUXca6ZJPFkprE4QN1+Qk5+cVipwHuXyhu+gAD5vqjUmw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ4vkBEJW8uP9ulRZcin5zsLSEjWQJ4QsqtiRbKQPuXJOetD4+
-	BxVDv6NG3Sd6/aAWHIFbqdWeFDsWr1oc4iLHEOQrDUPKbeYMBOqltD9O
-X-Gm-Gg: AZuq6aLgloael8M4agxQjuWF+9tIpw/uJhrCn9kVJnnTtplxrzy3Sa3HozYqZQQ61lh
-	5MqMz9AuynuTrJFBXAJCi8KWWoNzBLSVZ/kCxCGIIcZnbH1/vwoNE8sxS0MJT1xQ5oAG3cxAhHa
-	daH9wmFnkPJj1SMsDBxDlkaTmtjhHWz8NzmblKPWzgbWhivOKd2BijaIN22zm5c20TuQk0TbWOG
-	qXuIycAtDCRseLadyWfvMkvUPuQobIpKDProVCEbiOy5f90oi2cQev/wIu4WDBhY8FT7yBpIA2N
-	OvpNSgpkIM9sYa7IcDjWWN2TtKvQqnAz5NxQjufkFiRxwFF6KZNokubL9E9rIeDXW4zpjg69EBn
-	Y4QUKHHOt0fSe2UDRGNmrXOIGiqJZuUWkKOmVfPFYwLyq+VZlCMqlVZO6Po13B2zzM+uAd/RKVV
-	0c8kGsVvRglA==
-X-Received: by 2002:a05:690e:134c:b0:649:328b:66c1 with SMTP id 956f58d0204a3-6493c85636fmr4655728d50.71.1769033527964;
-        Wed, 21 Jan 2026 14:12:07 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:42::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6494686dd20sm1661755d50.22.2026.01.21.14.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 14:12:07 -0800 (PST)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Wed, 21 Jan 2026 14:11:50 -0800
-Subject: [PATCH net-next v16 10/12] selftests/vsock: add namespace tests
- for CID collisions
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eSxzS4qJ"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C86A720B7167;
+	Wed, 21 Jan 2026 14:35:48 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C86A720B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1769034948;
+	bh=PmjoVkUqKpw128I4MnFQMcOf59dbMnertfkZXkwfEbY=;
+	h=Subject:From:To:Cc:Date:From;
+	b=eSxzS4qJwtYbT7/K7DvL13HP567Fxu/AFhMF8T0fJpDNQm6Y/+HFrM/UAJkKERH2Q
+	 J3jkpghzbkG1WWndPP6XRZfgS4Xwk6vVfTMSvUw8yWALbYa/YbWxvO88h0GdVN3fnW
+	 CONYrlnA7wsCLKys1WSpjvgjEnFjccO2AXGg26Jk=
+Subject: [PATCH 0/2] Introduce Hyper-V integrated scheduler support
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 21 Jan 2026 22:35:48 +0000
+Message-ID: 
+ <176903475057.166619.9437539561789960983.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -69,168 +40,38 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-vsock-vmtest-v16-10-2859a7512097@meta.com>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-To: Stefano Garzarella <sgarzare@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
- Vishnu Dasa <vishnu.dasa@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, berrange@redhat.com, 
- Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@gmail.com>, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+Microsoft Hypervisor originally provided two schedulers: root and core. The
+root scheduler allows the root partition to schedule guest vCPUs across
+physical cores, supporting both time slicing and CPU affinity (e.g., via
+cgroups). In contrast, the core scheduler delegates vCPU-to-physical-core
+scheduling entirely to the hypervisor.
 
-Add tests to verify CID collision rules across different vsock namespace
-modes.
+Direct virtualization introduces a new privileged guest partition type - L1
+Virtual Host (L1VH) — which can create child partitions from its own
+resources. These child partitions are effectively siblings, scheduled by
+the hypervisor's core scheduler. This prevents the L1VH parent from setting
+affinity or time slicing for its own processes or guest VPs. While cgroups,
+CFS, and cpuset controllers can still be used, their effectiveness is
+unpredictable, as the core scheduler swaps vCPUs according to its own logic
+(typically round-robin across all allocated physical CPUs). As a result,
+the system may appear to "steal" time from the L1VH and its children.
 
-1. Two VMs with the same CID cannot start in different global namespaces
-   (ns_global_same_cid_fails)
-2. Two VMs with the same CID can start in different local namespaces
-   (ns_local_same_cid_ok)
-3. VMs with the same CID can coexist when one is in a global namespace
-   and another is in a local namespace (ns_global_local_same_cid_ok and
-   ns_local_global_same_cid_ok)
+To address this, Microsoft Hypervisor introduces the integrated scheduler.
+This allows an L1VH partition to schedule its own vCPUs and those of its
+guests across its "physical" cores, effectively emulating root scheduler
+behavior within the L1VH, while retaining core scheduler behavior for the
+rest of the system.
 
-The tests ns_global_local_same_cid_ok and ns_local_global_same_cid_ok
-make sure that ordering does not matter.
-
-The tests use a shared helper function namespaces_can_boot_same_cid()
-that attempts to start two VMs with identical CIDs in the specified
-namespaces and verifies whether VM initialization failed or succeeded.
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-Changes in v11:
-- check vm_start() rc in namespaces_can_boot_same_cid() (Stefano)
-- fix ns_local_same_cid_ok() to use local0 and local1 instead of reusing
-  local0 twice. This check should pass, ensuring local namespaces do not
-  collide (Stefano)
----
- tools/testing/selftests/vsock/vmtest.sh | 78 +++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
 
-diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
-index 38785a102236..1bf537410ea6 100755
---- a/tools/testing/selftests/vsock/vmtest.sh
-+++ b/tools/testing/selftests/vsock/vmtest.sh
-@@ -50,6 +50,10 @@ readonly TEST_NAMES=(
- 	vm_loopback
- 	ns_host_vsock_ns_mode_ok
- 	ns_host_vsock_child_ns_mode_ok
-+	ns_global_same_cid_fails
-+	ns_local_same_cid_ok
-+	ns_global_local_same_cid_ok
-+	ns_local_global_same_cid_ok
- )
- readonly TEST_DESCS=(
- 	# vm_server_host_client
-@@ -66,6 +70,18 @@ readonly TEST_DESCS=(
- 
- 	# ns_host_vsock_child_ns_mode_ok
- 	"Check /proc/sys/net/vsock/ns_mode is read-only and child_ns_mode is writable."
-+
-+	# ns_global_same_cid_fails
-+	"Check QEMU fails to start two VMs with same CID in two different global namespaces."
-+
-+	# ns_local_same_cid_ok
-+	"Check QEMU successfully starts two VMs with same CID in two different local namespaces."
-+
-+	# ns_global_local_same_cid_ok
-+	"Check QEMU successfully starts one VM in a global ns and then another VM in a local ns with the same CID."
-+
-+	# ns_local_global_same_cid_ok
-+	"Check QEMU successfully starts one VM in a local ns and then another VM in a global ns with the same CID."
- )
- 
- readonly USE_SHARED_VM=(
-@@ -577,6 +593,68 @@ test_ns_host_vsock_ns_mode_ok() {
- 	return "${KSFT_PASS}"
- }
- 
-+namespaces_can_boot_same_cid() {
-+	local ns0=$1
-+	local ns1=$2
-+	local pidfile1 pidfile2
-+	local rc
-+
-+	pidfile1="$(create_pidfile)"
-+
-+	# The first VM should be able to start. If it can't then we have
-+	# problems and need to return non-zero.
-+	if ! vm_start "${pidfile1}" "${ns0}"; then
-+		return 1
-+	fi
-+
-+	pidfile2="$(create_pidfile)"
-+	vm_start "${pidfile2}" "${ns1}"
-+	rc=$?
-+	terminate_pidfiles "${pidfile1}" "${pidfile2}"
-+
-+	return "${rc}"
-+}
-+
-+test_ns_global_same_cid_fails() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "global0" "global1"; then
-+		return "${KSFT_FAIL}"
-+	fi
-+
-+	return "${KSFT_PASS}"
-+}
-+
-+test_ns_local_global_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "local0" "global0"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
-+test_ns_global_local_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "global0" "local0"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
-+test_ns_local_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "local0" "local1"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
- test_ns_host_vsock_child_ns_mode_ok() {
- 	local orig_mode
- 	local rc
+Andreea Pintilie (2):
+      hyperv: Sync guest VMM capabilities structure with Microsoft Hypervisor ABI
+      mshv: Add support for integrated scheduler
 
--- 
-2.47.3
+
+ drivers/hv/mshv_root_main.c |   79 +++++++++++++++++++++++++++++--------------
+ include/hyperv/hvhdk_mini.h |    7 +++-
+ 2 files changed, 59 insertions(+), 27 deletions(-)
 
