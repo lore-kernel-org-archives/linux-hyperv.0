@@ -1,52 +1,53 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975B548C3F0
-	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 15:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A695E492199
+	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 15:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769010991; cv=none; b=ZczMV63+au1nZqwquFtPP0zVdLi4fs7Nd2o4V67WJsbSSRoP77J1XV5UZMlFbmgcw0xyvK2E3dzRN3HAlOjo5tq6wQufgGYBA3QzweK6wlVTWQtpxZSQbi8vMIUzKt9d1ktXzg05wXEkKS5evHRYQPEUx1bMxODzTwRkL/BkGEw=
+	t=1769010992; cv=none; b=KLZh7it6uyxUoBpcDGFlrX6fjEYBjq092FSjn6uk4eW0BLoBTNljQuFGY+3OLjzpC3fVpzq00J85pzf3gamr0UBidHIpoyxSofkDcY6ITXI/E4m+fu/z3qm4LOih34cGNJI4ezk2NBo2rgQkigRpWXxHssvX7lS9jSp3+7JyNNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769010991; c=relaxed/simple;
-	bh=pkEoGJuqg0YDIqMIGUKdaE1F45xTi6l/4mTUar5JB5Y=;
+	s=arc-20240116; t=1769010992; c=relaxed/simple;
+	bh=xjfGrJ9ogmU02tXh4UwJsiacW3KcvGXHd/h59cpJCJU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XCOGPczFb6hqkFm9Vp+NU+rijZ5B8Bzr5U3m6Xi0RRiaoPtleVGaTpvoJpBTu/fucFgeNiVXKNg5Hr73QzUXfzFqfGqrJQaT8o7XjuZU3tX+jm7YqiNQS4cq7vI0Y01cBIdZCARvOAcS01EJAXBiyuIN4YcOxkRBNPHYW9PSu+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.49
+	 In-Reply-To:To:Cc; b=JMxuX7XkAlTjPYpt100DFkPEDtzEhNceZ/JdlpI6aqXed3go5Gsdqv6MEMl3zpwH0Ik//FRPbKUbrCyr2jVM4QUkQs3627M5GQ2zW5PdCXG+h3fMosKSG3zKdXISgbnQ3ZiD3wiuX8FqQZI9eGq+WN1gXjIGJVvf3BS9OkHpAxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7cfd9b4e3f8so2284946a34.3
-        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 07:56:27 -0800 (PST)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-45c86087949so7230b6e.2
+        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 07:56:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769010986; x=1769615786;
+        d=1e100.net; s=20230601; t=1769010988; x=1769615788;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=FwHTliNXI2EqMwiHbVh6QlzrgN72rnVMTKEWdOsyi80=;
-        b=NmTxthxOMQCZV+wiCEMhqy6bSRuJgShb6ccWvVWstrg6sjqaEhRIqAmiYIQA6J17qL
-         CLt/jHrHDIsZ+GTB9K8docIjLwnxKI/DPnSCbXob2ZvHx+ADTdY53RURCnVTBYLR/wsb
-         MjFnasb5HartS1/SSHKl0PzZkTo88jxVBZdgloaMfW6J8aJ/A5rnla6EHTkgLmeDepGR
-         axvJp4TZzBjwRE3noB6bEhI1wIXdAvsjvWvMpyS3lDlAAmS/sdp5wTW3DQjP4JHo9CTJ
-         ujem7cSOkvZ9Ogp8zP1fFZBj7oIsFs6mCpHRm1aKfY3Wa186dRMmho/Oa62wLK2aTnWF
-         PTHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVM8M4GqAZW3QIARraYxZ1Ng3HSAcEibHoVHjU9GlsKAttsnOyeVy4wrG9B0683+OL/KTQx9OwmSdTg1Jo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCRfCggr9vi6DNDD4EpaB0IEL6l6141vTXHs24MJfJEn97TL6k
-	IRgPZoYSxqeJ/OmHHdiCXp731QY+fUTz4C+HTtRQWobEepux5qxFMVdQ
-X-Gm-Gg: AZuq6aKDJWvdn4EzRA7gGxTIStTAzAjcRcz3/sJRNYnzZwkdPPNdeM8Blux0U+94OEa
-	xOWySpjl40XzL20NfDsTWZWfoMJvUPA9d5Qc0LuX7CesH1tksHEB/gp2quPFaViguU+HVcR0oaI
-	CeabPHU8sbNj1k8iKRfqmg+A+yPJgL70dIUf0fv4VkDxdw4OTH4fWJKyi3BG/3LmOl0vAJFjuH8
-	/n3p/85ktlR+7KUsjtBTvTdkQFm+Ufi1vC/S5Z8WEtht+Th0HpkaRmvUSuFNUfaJ31kgWBJRpiY
-	JsQAhQhWU3dR/FmbJ+vTW051cRcmQ4DpZz81rn08KxSI8b0I16OOrUpdY235olkLyhy9w+F8FFd
-	Gql7dR6Vk+Px66S0wQBnxWRpqu30/mE8Sq3KkjvpXUlm9zZn0UErEGt3V9bH9Ztt7xV8yDWnWjr
-	S0Tg==
-X-Received: by 2002:a05:6830:6f8c:b0:7c7:65f4:1120 with SMTP id 46e09a7af769-7cfdee2b207mr9697792a34.23.1769010986084;
-        Wed, 21 Jan 2026 07:56:26 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:4e::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf101198sm10999966a34.13.2026.01.21.07.56.25
+        bh=+Ieldrz0yCTZzK/huBW1mkitT5A3IA5rZUXCCnhdv+8=;
+        b=p1gsk1xx06uqWU6FP79O82aWZ+O3bOgfPN0zPQKSHAa/9O1fmUCQO8X5dCAJY2AYV9
+         A31ttG0kgK84LXSc+wylrfl5yxd2edzv1pd6SsrctuJonLjMNGLI8RXb4or0N+Xo9uZC
+         e8cP+lUvc08tHdyR3mG4OyMir45TJBpF7hBAnQetsbqiNsEj4ft4rZiVy40qn+9bG4ej
+         E6qScUQiXCxJ7d/jUYMqg+sFsaDl1ILGDttKNVULRF+gagi3ktZeyQRMOG0xdlUiaA/J
+         PRtxLMQaJU1nOkcxCsxpTlBGCx4ZyQGoBIFqllaqgKeXkBOAjK6ihjiaj/uleTYDhbQD
+         62og==
+X-Forwarded-Encrypted: i=1; AJvYcCXLwIhKLdLcUCsEqt/Q6ZIw8H3B8y2RUGYeqAN7jFu8eTI+JCW1WdHW04X165OpDk01qvy/eho/fAZDoCc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx45c/BAkzJsrL4UwCiabuuP8lgLJhKsxW5M/e+I/P2ZcvVszWc
+	AkXnHYC+h8b6E7fCC6Nw4nZukFE+zKRP7ExRA3fb9AnGnUr36f5AJ8zg
+X-Gm-Gg: AZuq6aIA8IF50dLF03nLIQEb8+16AUEVFGinU+e3WEHEqfizK7nmhl4q+tIlCEAW9X2
+	f+erKDxsmU9noCzSxV9KIzNC1G2sgGp6flWk/u9q7jrpz7sM0dUVQ1oYjo3xAFBD+Zd3LK8CVpa
+	qwvyTR3UnbUTHoVgXttP4hAwD8tHakv/vDRW8p49nsXmWjJYWP8N6FsXo0FshxDQJr7gQcBMDyb
+	D4oNKk7aEJ44TmnOXEsWdtiUhPePL0SPUVKEXxYOezelsZ8tXNfWbHes7kAQ3AJr3xQ4WgR6KVR
+	kfH0dZDVALPKrcPzBghWXx0FC27rxwmozR/iv8W7LbCbF+MQBlzGCj0PzVUkeQkbj+etCSLYwaK
+	xf5cc8Ipn3TGLvTmKnLccCcUPyU47gUCJIuampSZPQVpadd1wplQBC28n9gB2R3FUTk3rEyyhkb
+	yF6g==
+X-Received: by 2002:a05:6808:4f60:b0:450:b43b:3142 with SMTP id 5614622812f47-45c9d929969mr7203814b6e.67.1769010988269;
+        Wed, 21 Jan 2026 07:56:28 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:49::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4044bb545b9sm11333368fac.9.2026.01.21.07.56.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 07:56:25 -0800 (PST)
+        Wed, 21 Jan 2026 07:56:27 -0800 (PST)
 From: Breno Leitao <leitao@debian.org>
-Date: Wed, 21 Jan 2026 07:54:43 -0800
-Subject: [PATCH net-next 6/9] net: ionic: convert to use .get_rx_ring_count
+Date: Wed, 21 Jan 2026 07:54:45 -0800
+Subject: [PATCH net-next 8/9] net: sfc: siena: convert to use
+ .get_rx_ring_count
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-grxring_big_v4-v1-6-07655be56bcf@debian.org>
+Message-Id: <20260121-grxring_big_v4-v1-8-07655be56bcf@debian.org>
 References: <20260121-grxring_big_v4-v1-0-07655be56bcf@debian.org>
 In-Reply-To: <20260121-grxring_big_v4-v1-0-07655be56bcf@debian.org>
 To: Ajit Khaparde <ajit.khaparde@broadcom.com>, 
@@ -74,73 +75,86 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  oss-drivers@corigine.com, linux-hyperv@vger.kernel.org, 
  linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1806; i=leitao@debian.org;
- h=from:subject:message-id; bh=pkEoGJuqg0YDIqMIGUKdaE1F45xTi6l/4mTUar5JB5Y=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcPciYhTeDmt3w42UdoGNb2eei7e+myHymvVTE
- hkXk7LP2KSJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXD3IgAKCRA1o5Of/Hh3
- balqD/kB8AVVJD8dSqtL+vQ04BXPOWjX5hZlbGqjpp9sRadkhKckdk3ClKhX+XszkZgZ0GkNl5h
- IV8pC9OY+2++QdFCtmItJmuJNtRaTzVZMPM8U8T6JYsWq5R3ERBuMBZhlrPkSO4kZiK1I4aLdda
- jRkDa1DHMI3p2/pbK16NuabhOv3MhKoMoLqUMXu23UedkscxH0BKNSW4OaGOm8t1nUIrj0QLOyC
- LSrrrkGZ112KWIji+faPFspMduraDfLPoiQV2F/8oynQ6UaBvO5ZTClxrLxhiWkpD7TPbioKHrS
- BzSL3sxIHNH/0Xi/FAJVt9fzK4FZM2tJgMNcVL/cp5HJ3quw0LujzdjDhYNyAKq8WTeJ8ck8FQM
- X/u6MGhitcDbh7I9XzDbGyNo07FW6IVyVnVAYq3qTEpq6hZ7mTc9RpAnkYuuk5T4q7iYvK3hJB2
- gkDk8FzsGQNmkY+ycIT1iAeZ9uy17aO2u7dXczuKXa2X3KFaIdJF8S6TafhyQ0dYwiP+S/YhXMf
- vNbUXybcdvK1aJgWxYAnItqgsnXbM8ZZtAjkbNHvtbb4/t/liQEGQKRM+0W5QlK2o1Tfmeh6+yD
- eYHN090qersJOJZUUfBQITn0A7y8bF6lVJQ33tRTFhWHA+nxlS02dB7NE4uGTzLjopILZM/mjwK
- gYeq5ptLK3ai+Qg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2810; i=leitao@debian.org;
+ h=from:subject:message-id; bh=xjfGrJ9ogmU02tXh4UwJsiacW3KcvGXHd/h59cpJCJU=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcPciGOYn92BaHKmt39fyKEVo/6aqUOA9Owk6p
+ ALiwAeiGYiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXD3IgAKCRA1o5Of/Hh3
+ bc4MD/9ApFcQWd4wCB0+XaKw9CUrjtiZ1/9w1xeC9mclcB8VU1LWhvZi6l93u+gdbsGC3CVvxOb
+ KWMuwCUfv2vCmHtCO1tgnOfoBbhNo810fO2p/s9+d9UXFzFzYqac2Vlq4jxziJt1zmdReIEqq5A
+ XGvZhBUFypdT+SSuRv49IHaqa2V/uhij6GsqG9yQ3z8qfFdmBfVpROwLpegk7fN8Jq3CE+DGrJW
+ 0z+/AB3dmcPipLHEYC0ackpMW5obztm4RaYWfa+OTpUF/xMKuZncQbyIbMOJIrjT4lBtp4f+kZi
+ JUAwSf3S+JGca00Zg6tSWAwCDYZLEHZiT4HLyZh2i0buOK+VaheoCG0XINc9R72iPUKfaHvSt/l
+ m/74NmveJRxiC9JY8Hq3ifpjSYO2FgKxkJyUBk1Df2ZMG3mgos3mDJALwsb7hwLwDER4bSEc3ef
+ 3s6t0LOuhtHWySesMhP/KNzpMjsXIT/IX2gN6rQJvfNin3tTf2TwhUJPMpEAhOJo0QRDW/ZRiZG
+ nUScCW8hoG4+3Fg8EryXKxCyeOjKjlAinPwFSybRFrwK+dbG7TLD7fQ9rThlgct2c9AFhIP4Z3q
+ C5RdMmMgaJZ9S6ojA0iQpxdEYKif6POwplsweLpL46MyBow2BGMDbxOiWysh5Ztj0H9r/aAFEar
+ 3sJgShl9z7rgdvQ==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
 Use the newly introduced .get_rx_ring_count ethtool ops callback instead
 of handling ETHTOOL_GRXRINGS directly in .get_rxnfc().
 
-Since ETHTOOL_GRXRINGS was the only command handled by ionic_get_rxnfc(),
-remove the function entirely.
-
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/net/ethernet/pensando/ionic/ionic_ethtool.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/net/ethernet/sfc/siena/ethtool.c        |  1 +
+ drivers/net/ethernet/sfc/siena/ethtool_common.c | 11 +++++++----
+ drivers/net/ethernet/sfc/siena/ethtool_common.h |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c b/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-index 2d9efadb5d2ae..b0a459eeaa640 100644
---- a/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-@@ -843,23 +843,11 @@ static int ionic_set_channels(struct net_device *netdev,
- 	return err;
+diff --git a/drivers/net/ethernet/sfc/siena/ethtool.c b/drivers/net/ethernet/sfc/siena/ethtool.c
+index 8c3ebd0617fb1..36feedffe4444 100644
+--- a/drivers/net/ethernet/sfc/siena/ethtool.c
++++ b/drivers/net/ethernet/sfc/siena/ethtool.c
+@@ -261,6 +261,7 @@ const struct ethtool_ops efx_siena_ethtool_ops = {
+ 	.reset			= efx_siena_ethtool_reset,
+ 	.get_rxnfc		= efx_siena_ethtool_get_rxnfc,
+ 	.set_rxnfc		= efx_siena_ethtool_set_rxnfc,
++	.get_rx_ring_count	= efx_siena_ethtool_get_rx_ring_count,
+ 	.get_rxfh_indir_size	= efx_siena_ethtool_get_rxfh_indir_size,
+ 	.get_rxfh_key_size	= efx_siena_ethtool_get_rxfh_key_size,
+ 	.get_rxfh		= efx_siena_ethtool_get_rxfh,
+diff --git a/drivers/net/ethernet/sfc/siena/ethtool_common.c b/drivers/net/ethernet/sfc/siena/ethtool_common.c
+index 47cd16a113cf1..c56e0b54d8541 100644
+--- a/drivers/net/ethernet/sfc/siena/ethtool_common.c
++++ b/drivers/net/ethernet/sfc/siena/ethtool_common.c
+@@ -841,6 +841,13 @@ int efx_siena_ethtool_get_rxfh_fields(struct net_device *net_dev,
+ 	return 0;
  }
  
--static int ionic_get_rxnfc(struct net_device *netdev,
--			   struct ethtool_rxnfc *info, u32 *rules)
-+static u32 ionic_get_rx_ring_count(struct net_device *netdev)
++u32 efx_siena_ethtool_get_rx_ring_count(struct net_device *net_dev)
++{
++	struct efx_nic *efx = netdev_priv(net_dev);
++
++	return efx->n_rx_channels;
++}
++
+ int efx_siena_ethtool_get_rxnfc(struct net_device *net_dev,
+ 				struct ethtool_rxnfc *info, u32 *rule_locs)
  {
- 	struct ionic_lif *lif = netdev_priv(netdev);
--	int err = 0;
--
--	switch (info->cmd) {
+@@ -849,10 +856,6 @@ int efx_siena_ethtool_get_rxnfc(struct net_device *net_dev,
+ 	s32 rc = 0;
+ 
+ 	switch (info->cmd) {
 -	case ETHTOOL_GRXRINGS:
--		info->data = lif->nxqs;
--		break;
--	default:
--		netdev_dbg(netdev, "Command parameter %d is not supported\n",
--			   info->cmd);
--		err = -EOPNOTSUPP;
--	}
- 
--	return err;
-+	return lif->nxqs;
- }
- 
- static u32 ionic_get_rxfh_indir_size(struct net_device *netdev)
-@@ -1152,7 +1140,7 @@ static const struct ethtool_ops ionic_ethtool_ops = {
- 	.get_strings		= ionic_get_strings,
- 	.get_ethtool_stats	= ionic_get_stats,
- 	.get_sset_count		= ionic_get_sset_count,
--	.get_rxnfc		= ionic_get_rxnfc,
-+	.get_rx_ring_count	= ionic_get_rx_ring_count,
- 	.get_rxfh_indir_size	= ionic_get_rxfh_indir_size,
- 	.get_rxfh_key_size	= ionic_get_rxfh_key_size,
- 	.get_rxfh		= ionic_get_rxfh,
+-		info->data = efx->n_rx_channels;
+-		return 0;
+-
+ 	case ETHTOOL_GRXCLSRLCNT:
+ 		info->data = efx_filter_get_rx_id_limit(efx);
+ 		if (info->data == 0)
+diff --git a/drivers/net/ethernet/sfc/siena/ethtool_common.h b/drivers/net/ethernet/sfc/siena/ethtool_common.h
+index 278d69e920d9f..7b445b0ba38aa 100644
+--- a/drivers/net/ethernet/sfc/siena/ethtool_common.h
++++ b/drivers/net/ethernet/sfc/siena/ethtool_common.h
+@@ -37,6 +37,7 @@ int efx_siena_ethtool_set_fecparam(struct net_device *net_dev,
+ 				   struct ethtool_fecparam *fecparam);
+ int efx_siena_ethtool_get_rxnfc(struct net_device *net_dev,
+ 				struct ethtool_rxnfc *info, u32 *rule_locs);
++u32 efx_siena_ethtool_get_rx_ring_count(struct net_device *net_dev);
+ int efx_siena_ethtool_set_rxnfc(struct net_device *net_dev,
+ 				struct ethtool_rxnfc *info);
+ u32 efx_siena_ethtool_get_rxfh_indir_size(struct net_device *net_dev);
 
 -- 
 2.47.3
