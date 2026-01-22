@@ -1,625 +1,595 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FEE33A9C4
-	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 23:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6E92FA0EF;
+	Thu, 22 Jan 2026 01:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769039702; cv=none; b=mgSMq9ezBF78ENYdgTrTMaHM5ImYo96cnrK9gerWVmsycRZ9cL9bYPIMG0evdHBweDAOHmpusWJ0M6VB2JQZTXuoH6JxZjCuZzIzQFopbMXqviryV5N6w1VGC8cnxtY5UBOtjLO84DCZhrlNbDJRSAgdRYirDOQKfFsZRNiZKUk=
+	t=1769044701; cv=none; b=dVih8C21fl1+jg0f5dMind4WSya375aQk49EmyFmXA2z2rpBTWiwCIHC5eHId8toAaBTDrWja9Nm2HYrAjyDgAZeAZBBxvheMuURsvRAy30Yc6jLP5PyoBjZYIMRrI8SAPWwoclGvgazk3NKXCXQP5+uF6Jkw/RKm/ZgwC4rOTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769039702; c=relaxed/simple;
-	bh=lNb9Eg57ytObaScZAe62mQOXXzXVW5c4yKUiSDBUQi4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZnkVpfEZH580s2LiJiUf5EeV85nB6Nfgvx4VQhDMRE8gbBeUFL+xarvfpmDgprEWBoMp4S4PpzfBRVmUxg6564ggTwemHAns0xvKZznTMlQq4HNxjMT/utdnRE0xjOLp5KM79Oi1KhUtf0DkpXtuOrCg0s7Fy3rrcu58pLNf6g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aSJdiDeZ; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769044701; c=relaxed/simple;
+	bh=OKbdByPfVHeJColqZi3O9ltDIOWh+qd3QmbtwGdo1tw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kHyQgr2Lc24+rGmnaFkCb1HvPmrXEjlWMxY77l83IKM6rZw0qaIQjKzrC5CELu8SP1SDLz2V1AROORUNdrVeYGV2A5dCfrc33OJD6MO5SQL4lnLhN0Y4+Q5vdwerhZ+/9OC8DwSx3vLCi2dlGn+jWCuGxezoreq4v5R8zqdgGD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=n/ukOu2J; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aSJdiDeZ"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-93f69720a7cso191540241.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 15:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769039695; x=1769644495; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uONM9R1vWVCK1JuGiTjfe4v8F/dT89vztLBtuJnLKqI=;
-        b=aSJdiDeZxXJn17aXb8Xcmz4pG+6RQiRU/fTPWnNoN/jhRlcwsp1OlpXR3yzxcTwcqJ
-         V45gS0ylklpMslcUQ5bjdES0CtseWPcq+zuJhaBK2qsyL8HbI9V2kT+5+LNPBQgXwTbC
-         MPWSp9P61T1ZZc89VV/c7JTKQVCKtOZSHvpcCS/t0GsaYdd6Yzh4iWYDz29Dur9XSjWD
-         68Xcu+mespM56MRpI3UlINH1K6KPrZyUg0dyT7gSvxiWLZIcfLkGimPNBTTAOioJNHH5
-         MfouarAFXL6HJUTGAXuRbSHCF1RXIh0qyyvtqlDKRqxPSNBgaRH5e0v7fN0RqLmcYRIT
-         lepA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769039695; x=1769644495;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uONM9R1vWVCK1JuGiTjfe4v8F/dT89vztLBtuJnLKqI=;
-        b=YlrlCVi7w4g4PzHM7bZLxz5NGw4YmgY2d6GFw2f7pn4n/f8dLBnJpC8ZRRXaxQ5nVR
-         1YULKYVeeRwHvM7BKjpP93alC5MKjk1pw3rqZiqfJic5otPbawAKh64JqYlQZGhc2YYy
-         uoEheHfQD3XG2rCrUrZVHjWkXU3ppGyr5UFFs5Nz6CznmMw/Sz4P2CXXQuh8QgLubLRP
-         IMm6Y/+Lbs8SN8hFMFYQBozUHzn0i1twwpJb9INUz58oKSvgAAR0XVO5Sn5NZrJ0Jtax
-         AWp8MUWxBuFPoVowNWLR9yhwbFBtpy2BhC5BF4C1KtnwNXJMIT59Zf5FX96UR4ZLZtsX
-         wguA==
-X-Forwarded-Encrypted: i=1; AJvYcCUF7NbTPZn0AFtWTUKKGn44Kf2VGlFAqsPrUSiPzMr3IGZEUKKQtB9qF7gmlYqO986nLSlYYYn8BPeiaXM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzgm5zz9uK8cz10hWB0HUbGA7jglcDSbEwBV2Ymg1CU1P+KT/Vo
-	Kdi0qgnElC8S6nGPW/vX+YHZ9qsb/wiGENrHKapenyUD8XA16siDBr1extAOug==
-X-Gm-Gg: AZuq6aIGLLlDVsCnMoxcF+j+CjRVl6Bmoda14xrriQrH0ve+WtoMvcS5gNPdxwLd9ge
-	kEPJ9gA5wWmsQbUy47R1AUaKOWBNGTvCy8gTeAh3fq8Jb8Z3ZT4t3sOSQ0ZwjzJdJuUqmeYDuTL
-	VxSCJ/JuwTLXL7wLzdU+AC45wHkn8uuqVNh5jM3O4Z8+azjgj+F8SXuruFyAGhRCve1+/G4lPt/
-	BjTI1hGfTTqqOZ+rl+gdfEHNdEWOzuZeLf7O/u/DyYbGnhBZXaPM3RdaMMsyvxYb2TB5eeCP79H
-	+2Cv8EdU8qSniDuZrr4lD1f+9JxUO2U1EVwX+SbXeG9ei6O0HoxPwaGA94uXl/GSakKEyjqGkkt
-	9CRdlc+bsM3JTMrcxUo0b0je2yub9ER001NVx6Ys86yn9xuJebqKjFbfXIYGanuFfhw94vi0Jw4
-	bc6Vy59Xq/gQ==
-X-Received: by 2002:a53:d98a:0:b0:644:6c4e:d06a with SMTP id 956f58d0204a3-649164a0079mr12529655d50.36.1769033521739;
-        Wed, 21 Jan 2026 14:12:01 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:4d::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64916ffae51sm8580459d50.1.2026.01.21.14.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 14:12:01 -0800 (PST)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Wed, 21 Jan 2026 14:11:43 -0800
-Subject: [PATCH net-next v16 03/12] vsock: add netns support to virtio
- transports
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="n/ukOu2J"
+Received: from skinsburskii.localdomain (unknown [20.236.11.185])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 709FF20B7167;
+	Wed, 21 Jan 2026 17:18:15 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 709FF20B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1769044695;
+	bh=L74YWwdQnTlHv4J98i4XF7g8UDofPEPO+842dL6U28w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n/ukOu2Jn3E1KjPvhznu7D9QzBomsR/cfl93kKgZcBn4WybCdLetbPwsY2zuodH48
+	 SuvHkd4AtLG/IU97ER7Uw7ZMLCvNXGOE+Pv4WBc+2/etuIBCMds2ugrvR0PLXCtIbS
+	 j26V3+RY1BNpjwMFcPIuE4m++CXPOAUA4r3i2DVc=
+Date: Wed, 21 Jan 2026 17:18:13 -0800
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
+	wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+	prapal@linux.microsoft.com, mrathor@linux.microsoft.com,
+	paekkaladevi@linux.microsoft.com
+Subject: Re: [PATCH v4 6/7] mshv: Add data for printing stats page counters
+Message-ID: <aXF61f8meLJr9T0z@skinsburskii.localdomain>
+References: <20260121214623.76374-1-nunodasneves@linux.microsoft.com>
+ <20260121214623.76374-7-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-vsock-vmtest-v16-3-2859a7512097@meta.com>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-To: Stefano Garzarella <sgarzare@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
- Vishnu Dasa <vishnu.dasa@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, berrange@redhat.com, 
- Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@gmail.com>, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121214623.76374-7-nunodasneves@linux.microsoft.com>
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+On Wed, Jan 21, 2026 at 01:46:22PM -0800, Nuno Das Neves wrote:
+> Introduce hv_counters.c, containing static data corresponding to
+> HV_*_COUNTER enums in the hypervisor source. Defining the enum
+> members as an array instead makes more sense, since it will be
+> iterated over to print counter information to debugfs.
+> 
+> Include hypervisor, logical processor, partition, and virtual
+> processor counters.
+> 
+> Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+> ---
+>  drivers/hv/hv_counters.c | 488 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 488 insertions(+)
+>  create mode 100644 drivers/hv/hv_counters.c
+> 
+> diff --git a/drivers/hv/hv_counters.c b/drivers/hv/hv_counters.c
+> new file mode 100644
+> index 000000000000..a8e07e72cc29
+> --- /dev/null
+> +++ b/drivers/hv/hv_counters.c
+> @@ -0,0 +1,488 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2026, Microsoft Corporation.
+> + *
+> + * Data for printing stats page counters via debugfs.
+> + *
+> + * Authors: Microsoft Linux virtualization team
+> + */
+> +
+> +struct hv_counter_entry {
+> +	char *name;
+> +	int idx;
+> +};
 
-Add netns support to loopback and vhost. Keep netns disabled for
-virtio-vsock, but add necessary changes to comply with common API
-updates.
+This structure looks redundant to me mostly because of the "idx".
+It looks what you need here is an arry of pointers to strings, like
+below:
 
-This is the patch in the series when vhost-vsock namespaces actually
-come online.
+static const char *hv_hypervisor_counters[] = {
+        NULL, /* 0 is unused */
+	"HvLogicalProcessors",
+	"HvPartitions",
+	"HvTotalPages",
+	"HvVirtualProcessors",
+	"HvMonitoredNotifications",
+	"HvModernStandbyEntries",
+	"HvPlatformIdleTransitions",
+	"HvHypervisorStartupCost",
+	NULL, /* 9 is unused */
+	"HvIOSpacePages",
+	...
+};
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
-Changes in v15:
-- add vsock_net_mode_global() (Stefano)
+which can be iterated like this:
 
-Changes in v14:
-- fixed merge conflicts in drivers/vhost/vsock.c
+for (idx = 0; idx < ARRAY_SIZE(hv_hypervisor_counters); idx++) {
+    const char *name = hv_hypervisor_counters[idx];
+    if (!name)
+	continue;
+    /* print */
+    ...
+}
 
-Changes in v13:
-- do not store or pass the mode around now that net->vsock.mode is
-  immutable
-- move virtio_transport_stream_allow() into virtio_transport.c
-  because virtio is the only caller now
+What do you think?
 
-Changes in v12:
-- change seqpacket_allow() and stream_allow() to return true for
-  loopback and vhost (Stefano)
+Thanks,
+Stanislav
 
-Changes in v11:
-- reorder with the skb ownership patch for loopback (Stefano)
-- toggle vhost_transport_supports_local_mode() to true
-
-Changes in v10:
-- Splitting patches complicates the series with meaningless placeholder
-  values that eventually get replaced anyway, so to avoid that this
-  patch combines into one. Links to previous patches here:
-  - Link: https://lore.kernel.org/all/20251111-vsock-vmtest-v9-3-852787a37bed@meta.com/
-  - Link: https://lore.kernel.org/all/20251111-vsock-vmtest-v9-6-852787a37bed@meta.com/
-  - Link: https://lore.kernel.org/all/20251111-vsock-vmtest-v9-7-852787a37bed@meta.com/
-- remove placeholder values (Stefano)
-- update comment describe net/net_mode for
-  virtio_transport_reset_no_sock()
----
- drivers/vhost/vsock.c                   | 38 ++++++++++++++++-------
- include/linux/virtio_vsock.h            |  5 +--
- net/vmw_vsock/virtio_transport.c        | 13 ++++++--
- net/vmw_vsock/virtio_transport_common.c | 54 +++++++++++++++++++--------------
- net/vmw_vsock/vsock_loopback.c          | 14 +++++++--
- 5 files changed, 84 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
-index 647ded6f6ea5..488d7fa6e4ec 100644
---- a/drivers/vhost/vsock.c
-+++ b/drivers/vhost/vsock.c
-@@ -48,6 +48,8 @@ static DEFINE_READ_MOSTLY_HASHTABLE(vhost_vsock_hash, 8);
- struct vhost_vsock {
- 	struct vhost_dev dev;
- 	struct vhost_virtqueue vqs[2];
-+	struct net *net;
-+	netns_tracker ns_tracker;
- 
- 	/* Link to global vhost_vsock_hash, writes use vhost_vsock_mutex */
- 	struct hlist_node hash;
-@@ -69,7 +71,7 @@ static u32 vhost_transport_get_local_cid(void)
- /* Callers must be in an RCU read section or hold the vhost_vsock_mutex.
-  * The return value can only be dereferenced while within the section.
-  */
--static struct vhost_vsock *vhost_vsock_get(u32 guest_cid)
-+static struct vhost_vsock *vhost_vsock_get(u32 guest_cid, struct net *net)
- {
- 	struct vhost_vsock *vsock;
- 
-@@ -81,9 +83,9 @@ static struct vhost_vsock *vhost_vsock_get(u32 guest_cid)
- 		if (other_cid == 0)
- 			continue;
- 
--		if (other_cid == guest_cid)
-+		if (other_cid == guest_cid &&
-+		    vsock_net_check_mode(net, vsock->net))
- 			return vsock;
--
- 	}
- 
- 	return NULL;
-@@ -272,7 +274,7 @@ static void vhost_transport_send_pkt_work(struct vhost_work *work)
- }
- 
- static int
--vhost_transport_send_pkt(struct sk_buff *skb)
-+vhost_transport_send_pkt(struct sk_buff *skb, struct net *net)
- {
- 	struct virtio_vsock_hdr *hdr = virtio_vsock_hdr(skb);
- 	struct vhost_vsock *vsock;
-@@ -281,7 +283,7 @@ vhost_transport_send_pkt(struct sk_buff *skb)
- 	rcu_read_lock();
- 
- 	/* Find the vhost_vsock according to guest context id  */
--	vsock = vhost_vsock_get(le64_to_cpu(hdr->dst_cid));
-+	vsock = vhost_vsock_get(le64_to_cpu(hdr->dst_cid), net);
- 	if (!vsock) {
- 		rcu_read_unlock();
- 		kfree_skb(skb);
-@@ -308,7 +310,8 @@ vhost_transport_cancel_pkt(struct vsock_sock *vsk)
- 	rcu_read_lock();
- 
- 	/* Find the vhost_vsock according to guest context id  */
--	vsock = vhost_vsock_get(vsk->remote_addr.svm_cid);
-+	vsock = vhost_vsock_get(vsk->remote_addr.svm_cid,
-+				sock_net(sk_vsock(vsk)));
- 	if (!vsock)
- 		goto out;
- 
-@@ -410,6 +413,12 @@ static bool vhost_transport_msgzerocopy_allow(void)
- static bool vhost_transport_seqpacket_allow(struct vsock_sock *vsk,
- 					    u32 remote_cid);
- 
-+static bool
-+vhost_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
-+{
-+	return true;
-+}
-+
- static struct virtio_transport vhost_transport = {
- 	.transport = {
- 		.module                   = THIS_MODULE,
-@@ -434,7 +443,7 @@ static struct virtio_transport vhost_transport = {
- 		.stream_has_space         = virtio_transport_stream_has_space,
- 		.stream_rcvhiwat          = virtio_transport_stream_rcvhiwat,
- 		.stream_is_active         = virtio_transport_stream_is_active,
--		.stream_allow             = virtio_transport_stream_allow,
-+		.stream_allow             = vhost_transport_stream_allow,
- 
- 		.seqpacket_dequeue        = virtio_transport_seqpacket_dequeue,
- 		.seqpacket_enqueue        = virtio_transport_seqpacket_enqueue,
-@@ -467,11 +476,12 @@ static struct virtio_transport vhost_transport = {
- static bool vhost_transport_seqpacket_allow(struct vsock_sock *vsk,
- 					    u32 remote_cid)
- {
-+	struct net *net = sock_net(sk_vsock(vsk));
- 	struct vhost_vsock *vsock;
- 	bool seqpacket_allow = false;
- 
- 	rcu_read_lock();
--	vsock = vhost_vsock_get(remote_cid);
-+	vsock = vhost_vsock_get(remote_cid, net);
- 
- 	if (vsock)
- 		seqpacket_allow = vsock->seqpacket_allow;
-@@ -542,7 +552,8 @@ static void vhost_vsock_handle_tx_kick(struct vhost_work *work)
- 		if (le64_to_cpu(hdr->src_cid) == vsock->guest_cid &&
- 		    le64_to_cpu(hdr->dst_cid) ==
- 		    vhost_transport_get_local_cid())
--			virtio_transport_recv_pkt(&vhost_transport, skb);
-+			virtio_transport_recv_pkt(&vhost_transport, skb,
-+						  vsock->net);
- 		else
- 			kfree_skb(skb);
- 
-@@ -659,6 +670,7 @@ static int vhost_vsock_dev_open(struct inode *inode, struct file *file)
- {
- 	struct vhost_virtqueue **vqs;
- 	struct vhost_vsock *vsock;
-+	struct net *net;
- 	int ret;
- 
- 	/* This struct is large and allocation could fail, fall back to vmalloc
-@@ -674,6 +686,9 @@ static int vhost_vsock_dev_open(struct inode *inode, struct file *file)
- 		goto out;
- 	}
- 
-+	net = current->nsproxy->net_ns;
-+	vsock->net = get_net_track(net, &vsock->ns_tracker, GFP_KERNEL);
-+
- 	vsock->guest_cid = 0; /* no CID assigned yet */
- 	vsock->seqpacket_allow = false;
- 
-@@ -715,7 +730,7 @@ static void vhost_vsock_reset_orphans(struct sock *sk)
- 	rcu_read_lock();
- 
- 	/* If the peer is still valid, no need to reset connection */
--	if (vhost_vsock_get(vsk->remote_addr.svm_cid)) {
-+	if (vhost_vsock_get(vsk->remote_addr.svm_cid, sock_net(sk))) {
- 		rcu_read_unlock();
- 		return;
- 	}
-@@ -764,6 +779,7 @@ static int vhost_vsock_dev_release(struct inode *inode, struct file *file)
- 	virtio_vsock_skb_queue_purge(&vsock->send_pkt_queue);
- 
- 	vhost_dev_cleanup(&vsock->dev);
-+	put_net_track(vsock->net, &vsock->ns_tracker);
- 	kfree(vsock->dev.vqs);
- 	vhost_vsock_free(vsock);
- 	return 0;
-@@ -790,7 +806,7 @@ static int vhost_vsock_set_cid(struct vhost_vsock *vsock, u64 guest_cid)
- 
- 	/* Refuse if CID is already in use */
- 	mutex_lock(&vhost_vsock_mutex);
--	other = vhost_vsock_get(guest_cid);
-+	other = vhost_vsock_get(guest_cid, vsock->net);
- 	if (other && other != vsock) {
- 		mutex_unlock(&vhost_vsock_mutex);
- 		return -EADDRINUSE;
-diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
-index 1845e8d4f78d..f91704731057 100644
---- a/include/linux/virtio_vsock.h
-+++ b/include/linux/virtio_vsock.h
-@@ -173,6 +173,7 @@ struct virtio_vsock_pkt_info {
- 	u32 remote_cid, remote_port;
- 	struct vsock_sock *vsk;
- 	struct msghdr *msg;
-+	struct net *net;
- 	u32 pkt_len;
- 	u16 type;
- 	u16 op;
-@@ -185,7 +186,7 @@ struct virtio_transport {
- 	struct vsock_transport transport;
- 
- 	/* Takes ownership of the packet */
--	int (*send_pkt)(struct sk_buff *skb);
-+	int (*send_pkt)(struct sk_buff *skb, struct net *net);
- 
- 	/* Used in MSG_ZEROCOPY mode. Checks, that provided data
- 	 * (number of buffers) could be transmitted with zerocopy
-@@ -280,7 +281,7 @@ virtio_transport_dgram_enqueue(struct vsock_sock *vsk,
- void virtio_transport_destruct(struct vsock_sock *vsk);
- 
- void virtio_transport_recv_pkt(struct virtio_transport *t,
--			       struct sk_buff *skb);
-+			       struct sk_buff *skb, struct net *net);
- void virtio_transport_inc_tx_pkt(struct virtio_vsock_sock *vvs, struct sk_buff *skb);
- u32 virtio_transport_get_credit(struct virtio_vsock_sock *vvs, u32 wanted);
- void virtio_transport_put_credit(struct virtio_vsock_sock *vvs, u32 credit);
-diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-index f0a9e51118f3..3f7ea2db9bd7 100644
---- a/net/vmw_vsock/virtio_transport.c
-+++ b/net/vmw_vsock/virtio_transport.c
-@@ -231,7 +231,7 @@ static int virtio_transport_send_skb_fast_path(struct virtio_vsock *vsock, struc
- }
- 
- static int
--virtio_transport_send_pkt(struct sk_buff *skb)
-+virtio_transport_send_pkt(struct sk_buff *skb, struct net *net)
- {
- 	struct virtio_vsock_hdr *hdr;
- 	struct virtio_vsock *vsock;
-@@ -536,6 +536,11 @@ static bool virtio_transport_msgzerocopy_allow(void)
- 	return true;
- }
- 
-+bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
-+{
-+	return vsock_net_mode_global(vsk);
-+}
-+
- static bool virtio_transport_seqpacket_allow(struct vsock_sock *vsk,
- 					     u32 remote_cid);
- 
-@@ -665,7 +670,11 @@ static void virtio_transport_rx_work(struct work_struct *work)
- 				virtio_vsock_skb_put(skb, payload_len);
- 
- 			virtio_transport_deliver_tap_pkt(skb);
--			virtio_transport_recv_pkt(&virtio_transport, skb);
-+
-+			/* Force virtio-transport into global mode since it
-+			 * does not yet support local-mode namespacing.
-+			 */
-+			virtio_transport_recv_pkt(&virtio_transport, skb, NULL);
- 		}
- 	} while (!virtqueue_enable_cb(vq));
- 
-diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
-index 718be9f33274..c126aa235091 100644
---- a/net/vmw_vsock/virtio_transport_common.c
-+++ b/net/vmw_vsock/virtio_transport_common.c
-@@ -413,7 +413,7 @@ static int virtio_transport_send_pkt_info(struct vsock_sock *vsk,
- 
- 		virtio_transport_inc_tx_pkt(vvs, skb);
- 
--		ret = t_ops->send_pkt(skb);
-+		ret = t_ops->send_pkt(skb, info->net);
- 		if (ret < 0)
- 			break;
- 
-@@ -527,6 +527,7 @@ static int virtio_transport_send_credit_update(struct vsock_sock *vsk)
- 	struct virtio_vsock_pkt_info info = {
- 		.op = VIRTIO_VSOCK_OP_CREDIT_UPDATE,
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	return virtio_transport_send_pkt_info(vsk, &info);
-@@ -1043,12 +1044,6 @@ bool virtio_transport_stream_is_active(struct vsock_sock *vsk)
- }
- EXPORT_SYMBOL_GPL(virtio_transport_stream_is_active);
- 
--bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
--{
--	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
--}
--EXPORT_SYMBOL_GPL(virtio_transport_stream_allow);
--
- int virtio_transport_dgram_bind(struct vsock_sock *vsk,
- 				struct sockaddr_vm *addr)
- {
-@@ -1067,6 +1062,7 @@ int virtio_transport_connect(struct vsock_sock *vsk)
- 	struct virtio_vsock_pkt_info info = {
- 		.op = VIRTIO_VSOCK_OP_REQUEST,
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	return virtio_transport_send_pkt_info(vsk, &info);
-@@ -1082,6 +1078,7 @@ int virtio_transport_shutdown(struct vsock_sock *vsk, int mode)
- 			 (mode & SEND_SHUTDOWN ?
- 			  VIRTIO_VSOCK_SHUTDOWN_SEND : 0),
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	return virtio_transport_send_pkt_info(vsk, &info);
-@@ -1108,6 +1105,7 @@ virtio_transport_stream_enqueue(struct vsock_sock *vsk,
- 		.msg = msg,
- 		.pkt_len = len,
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	return virtio_transport_send_pkt_info(vsk, &info);
-@@ -1145,6 +1143,7 @@ static int virtio_transport_reset(struct vsock_sock *vsk,
- 		.op = VIRTIO_VSOCK_OP_RST,
- 		.reply = !!skb,
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	/* Send RST only if the original pkt is not a RST pkt */
-@@ -1156,9 +1155,13 @@ static int virtio_transport_reset(struct vsock_sock *vsk,
- 
- /* Normally packets are associated with a socket.  There may be no socket if an
-  * attempt was made to connect to a socket that does not exist.
-+ *
-+ * net refers to the namespace of whoever sent the invalid message. For
-+ * loopback, this is the namespace of the socket. For vhost, this is the
-+ * namespace of the VM (i.e., vhost_vsock).
-  */
- static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
--					  struct sk_buff *skb)
-+					  struct sk_buff *skb, struct net *net)
- {
- 	struct virtio_vsock_hdr *hdr = virtio_vsock_hdr(skb);
- 	struct virtio_vsock_pkt_info info = {
-@@ -1171,6 +1174,12 @@ static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
- 		 * sock_net(sk) until the reply skb is freed.
- 		 */
- 		.vsk = vsock_sk(skb->sk),
-+
-+		/* net is not defined here because we pass it directly to
-+		 * t->send_pkt(), instead of relying on
-+		 * virtio_transport_send_pkt_info() to pass it. It is not needed
-+		 * by virtio_transport_alloc_skb().
-+		 */
- 	};
- 	struct sk_buff *reply;
- 
-@@ -1189,7 +1198,7 @@ static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
- 	if (!reply)
- 		return -ENOMEM;
- 
--	return t->send_pkt(reply);
-+	return t->send_pkt(reply, net);
- }
- 
- /* This function should be called with sk_lock held and SOCK_DONE set */
-@@ -1471,6 +1480,7 @@ virtio_transport_send_response(struct vsock_sock *vsk,
- 		.remote_port = le32_to_cpu(hdr->src_port),
- 		.reply = true,
- 		.vsk = vsk,
-+		.net = sock_net(sk_vsock(vsk)),
- 	};
- 
- 	return virtio_transport_send_pkt_info(vsk, &info);
-@@ -1513,12 +1523,12 @@ virtio_transport_recv_listen(struct sock *sk, struct sk_buff *skb,
- 	int ret;
- 
- 	if (le16_to_cpu(hdr->op) != VIRTIO_VSOCK_OP_REQUEST) {
--		virtio_transport_reset_no_sock(t, skb);
-+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
- 		return -EINVAL;
- 	}
- 
- 	if (sk_acceptq_is_full(sk)) {
--		virtio_transport_reset_no_sock(t, skb);
-+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
- 		return -ENOMEM;
- 	}
- 
-@@ -1526,13 +1536,13 @@ virtio_transport_recv_listen(struct sock *sk, struct sk_buff *skb,
- 	 * Subsequent enqueues would lead to a memory leak.
- 	 */
- 	if (sk->sk_shutdown == SHUTDOWN_MASK) {
--		virtio_transport_reset_no_sock(t, skb);
-+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
- 		return -ESHUTDOWN;
- 	}
- 
- 	child = vsock_create_connected(sk);
- 	if (!child) {
--		virtio_transport_reset_no_sock(t, skb);
-+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
- 		return -ENOMEM;
- 	}
- 
-@@ -1554,7 +1564,7 @@ virtio_transport_recv_listen(struct sock *sk, struct sk_buff *skb,
- 	 */
- 	if (ret || vchild->transport != &t->transport) {
- 		release_sock(child);
--		virtio_transport_reset_no_sock(t, skb);
-+		virtio_transport_reset_no_sock(t, skb, sock_net(sk));
- 		sock_put(child);
- 		return ret;
- 	}
-@@ -1582,7 +1592,7 @@ static bool virtio_transport_valid_type(u16 type)
-  * lock.
-  */
- void virtio_transport_recv_pkt(struct virtio_transport *t,
--			       struct sk_buff *skb)
-+			       struct sk_buff *skb, struct net *net)
- {
- 	struct virtio_vsock_hdr *hdr = virtio_vsock_hdr(skb);
- 	struct sockaddr_vm src, dst;
-@@ -1605,24 +1615,24 @@ void virtio_transport_recv_pkt(struct virtio_transport *t,
- 					le32_to_cpu(hdr->fwd_cnt));
- 
- 	if (!virtio_transport_valid_type(le16_to_cpu(hdr->type))) {
--		(void)virtio_transport_reset_no_sock(t, skb);
-+		(void)virtio_transport_reset_no_sock(t, skb, net);
- 		goto free_pkt;
- 	}
- 
- 	/* The socket must be in connected or bound table
- 	 * otherwise send reset back
- 	 */
--	sk = vsock_find_connected_socket(&src, &dst);
-+	sk = vsock_find_connected_socket_net(&src, &dst, net);
- 	if (!sk) {
--		sk = vsock_find_bound_socket(&dst);
-+		sk = vsock_find_bound_socket_net(&dst, net);
- 		if (!sk) {
--			(void)virtio_transport_reset_no_sock(t, skb);
-+			(void)virtio_transport_reset_no_sock(t, skb, net);
- 			goto free_pkt;
- 		}
- 	}
- 
- 	if (virtio_transport_get_type(sk) != le16_to_cpu(hdr->type)) {
--		(void)virtio_transport_reset_no_sock(t, skb);
-+		(void)virtio_transport_reset_no_sock(t, skb, net);
- 		sock_put(sk);
- 		goto free_pkt;
- 	}
-@@ -1641,7 +1651,7 @@ void virtio_transport_recv_pkt(struct virtio_transport *t,
- 	 */
- 	if (sock_flag(sk, SOCK_DONE) ||
- 	    (sk->sk_state != TCP_LISTEN && vsk->transport != &t->transport)) {
--		(void)virtio_transport_reset_no_sock(t, skb);
-+		(void)virtio_transport_reset_no_sock(t, skb, net);
- 		release_sock(sk);
- 		sock_put(sk);
- 		goto free_pkt;
-@@ -1673,7 +1683,7 @@ void virtio_transport_recv_pkt(struct virtio_transport *t,
- 		kfree_skb(skb);
- 		break;
- 	default:
--		(void)virtio_transport_reset_no_sock(t, skb);
-+		(void)virtio_transport_reset_no_sock(t, skb, net);
- 		kfree_skb(skb);
- 		break;
- 	}
-diff --git a/net/vmw_vsock/vsock_loopback.c b/net/vmw_vsock/vsock_loopback.c
-index deff68c64a09..8068d1b6e851 100644
---- a/net/vmw_vsock/vsock_loopback.c
-+++ b/net/vmw_vsock/vsock_loopback.c
-@@ -26,7 +26,7 @@ static u32 vsock_loopback_get_local_cid(void)
- 	return VMADDR_CID_LOCAL;
- }
- 
--static int vsock_loopback_send_pkt(struct sk_buff *skb)
-+static int vsock_loopback_send_pkt(struct sk_buff *skb, struct net *net)
- {
- 	struct vsock_loopback *vsock = &the_vsock_loopback;
- 	int len = skb->len;
-@@ -48,6 +48,13 @@ static int vsock_loopback_cancel_pkt(struct vsock_sock *vsk)
- 
- static bool vsock_loopback_seqpacket_allow(struct vsock_sock *vsk,
- 					   u32 remote_cid);
-+
-+static bool vsock_loopback_stream_allow(struct vsock_sock *vsk, u32 cid,
-+					u32 port)
-+{
-+	return true;
-+}
-+
- static bool vsock_loopback_msgzerocopy_allow(void)
- {
- 	return true;
-@@ -77,7 +84,7 @@ static struct virtio_transport loopback_transport = {
- 		.stream_has_space         = virtio_transport_stream_has_space,
- 		.stream_rcvhiwat          = virtio_transport_stream_rcvhiwat,
- 		.stream_is_active         = virtio_transport_stream_is_active,
--		.stream_allow             = virtio_transport_stream_allow,
-+		.stream_allow             = vsock_loopback_stream_allow,
- 
- 		.seqpacket_dequeue        = virtio_transport_seqpacket_dequeue,
- 		.seqpacket_enqueue        = virtio_transport_seqpacket_enqueue,
-@@ -132,7 +139,8 @@ static void vsock_loopback_work(struct work_struct *work)
- 		 */
- 		virtio_transport_consume_skb_sent(skb, false);
- 		virtio_transport_deliver_tap_pkt(skb);
--		virtio_transport_recv_pkt(&loopback_transport, skb);
-+		virtio_transport_recv_pkt(&loopback_transport, skb,
-+					  sock_net(skb->sk));
- 	}
- }
- 
-
--- 
-2.47.3
-
+> +
+> +/* HV_HYPERVISOR_COUNTER */
+> +static struct hv_counter_entry hv_hypervisor_counters[] = {
+> +	{ "HvLogicalProcessors", 1 },
+> +	{ "HvPartitions", 2 },
+> +	{ "HvTotalPages", 3 },
+> +	{ "HvVirtualProcessors", 4 },
+> +	{ "HvMonitoredNotifications", 5 },
+> +	{ "HvModernStandbyEntries", 6 },
+> +	{ "HvPlatformIdleTransitions", 7 },
+> +	{ "HvHypervisorStartupCost", 8 },
+> +
+> +	{ "HvIOSpacePages", 10 },
+> +	{ "HvNonEssentialPagesForDump", 11 },
+> +	{ "HvSubsumedPages", 12 },
+> +};
+> +
+> +/* HV_CPU_COUNTER */
+> +static struct hv_counter_entry hv_lp_counters[] = {
+> +	{ "LpGlobalTime", 1 },
+> +	{ "LpTotalRunTime", 2 },
+> +	{ "LpHypervisorRunTime", 3 },
+> +	{ "LpHardwareInterrupts", 4 },
+> +	{ "LpContextSwitches", 5 },
+> +	{ "LpInterProcessorInterrupts", 6 },
+> +	{ "LpSchedulerInterrupts", 7 },
+> +	{ "LpTimerInterrupts", 8 },
+> +	{ "LpInterProcessorInterruptsSent", 9 },
+> +	{ "LpProcessorHalts", 10 },
+> +	{ "LpMonitorTransitionCost", 11 },
+> +	{ "LpContextSwitchTime", 12 },
+> +	{ "LpC1TransitionsCount", 13 },
+> +	{ "LpC1RunTime", 14 },
+> +	{ "LpC2TransitionsCount", 15 },
+> +	{ "LpC2RunTime", 16 },
+> +	{ "LpC3TransitionsCount", 17 },
+> +	{ "LpC3RunTime", 18 },
+> +	{ "LpRootVpIndex", 19 },
+> +	{ "LpIdleSequenceNumber", 20 },
+> +	{ "LpGlobalTscCount", 21 },
+> +	{ "LpActiveTscCount", 22 },
+> +	{ "LpIdleAccumulation", 23 },
+> +	{ "LpReferenceCycleCount0", 24 },
+> +	{ "LpActualCycleCount0", 25 },
+> +	{ "LpReferenceCycleCount1", 26 },
+> +	{ "LpActualCycleCount1", 27 },
+> +	{ "LpProximityDomainId", 28 },
+> +	{ "LpPostedInterruptNotifications", 29 },
+> +	{ "LpBranchPredictorFlushes", 30 },
+> +#if IS_ENABLED(CONFIG_X86_64)
+> +	{ "LpL1DataCacheFlushes", 31 },
+> +	{ "LpImmediateL1DataCacheFlushes", 32 },
+> +	{ "LpMbFlushes", 33 },
+> +	{ "LpCounterRefreshSequenceNumber", 34 },
+> +	{ "LpCounterRefreshReferenceTime", 35 },
+> +	{ "LpIdleAccumulationSnapshot", 36 },
+> +	{ "LpActiveTscCountSnapshot", 37 },
+> +	{ "LpHwpRequestContextSwitches", 38 },
+> +	{ "LpPlaceholder1", 39 },
+> +	{ "LpPlaceholder2", 40 },
+> +	{ "LpPlaceholder3", 41 },
+> +	{ "LpPlaceholder4", 42 },
+> +	{ "LpPlaceholder5", 43 },
+> +	{ "LpPlaceholder6", 44 },
+> +	{ "LpPlaceholder7", 45 },
+> +	{ "LpPlaceholder8", 46 },
+> +	{ "LpPlaceholder9", 47 },
+> +	{ "LpSchLocalRunListSize", 48 },
+> +	{ "LpReserveGroupId", 49 },
+> +	{ "LpRunningPriority", 50 },
+> +	{ "LpPerfmonInterruptCount", 51 },
+> +#elif IS_ENABLED(CONFIG_ARM64)
+> +	{ "LpCounterRefreshSequenceNumber", 31 },
+> +	{ "LpCounterRefreshReferenceTime", 32 },
+> +	{ "LpIdleAccumulationSnapshot", 33 },
+> +	{ "LpActiveTscCountSnapshot", 34 },
+> +	{ "LpHwpRequestContextSwitches", 35 },
+> +	{ "LpPlaceholder2", 36 },
+> +	{ "LpPlaceholder3", 37 },
+> +	{ "LpPlaceholder4", 38 },
+> +	{ "LpPlaceholder5", 39 },
+> +	{ "LpPlaceholder6", 40 },
+> +	{ "LpPlaceholder7", 41 },
+> +	{ "LpPlaceholder8", 42 },
+> +	{ "LpPlaceholder9", 43 },
+> +	{ "LpSchLocalRunListSize", 44 },
+> +	{ "LpReserveGroupId", 45 },
+> +	{ "LpRunningPriority", 46 },
+> +#endif
+> +};
+> +
+> +/* HV_PROCESS_COUNTER */
+> +static struct hv_counter_entry hv_partition_counters[] = {
+> +	{ "PtVirtualProcessors", 1 },
+> +
+> +	{ "PtTlbSize", 3 },
+> +	{ "PtAddressSpaces", 4 },
+> +	{ "PtDepositedPages", 5 },
+> +	{ "PtGpaPages", 6 },
+> +	{ "PtGpaSpaceModifications", 7 },
+> +	{ "PtVirtualTlbFlushEntires", 8 },
+> +	{ "PtRecommendedTlbSize", 9 },
+> +	{ "PtGpaPages4K", 10 },
+> +	{ "PtGpaPages2M", 11 },
+> +	{ "PtGpaPages1G", 12 },
+> +	{ "PtGpaPages512G", 13 },
+> +	{ "PtDevicePages4K", 14 },
+> +	{ "PtDevicePages2M", 15 },
+> +	{ "PtDevicePages1G", 16 },
+> +	{ "PtDevicePages512G", 17 },
+> +	{ "PtAttachedDevices", 18 },
+> +	{ "PtDeviceInterruptMappings", 19 },
+> +	{ "PtIoTlbFlushes", 20 },
+> +	{ "PtIoTlbFlushCost", 21 },
+> +	{ "PtDeviceInterruptErrors", 22 },
+> +	{ "PtDeviceDmaErrors", 23 },
+> +	{ "PtDeviceInterruptThrottleEvents", 24 },
+> +	{ "PtSkippedTimerTicks", 25 },
+> +	{ "PtPartitionId", 26 },
+> +#if IS_ENABLED(CONFIG_X86_64)
+> +	{ "PtNestedTlbSize", 27 },
+> +	{ "PtRecommendedNestedTlbSize", 28 },
+> +	{ "PtNestedTlbFreeListSize", 29 },
+> +	{ "PtNestedTlbTrimmedPages", 30 },
+> +	{ "PtPagesShattered", 31 },
+> +	{ "PtPagesRecombined", 32 },
+> +	{ "PtHwpRequestValue", 33 },
+> +	{ "PtAutoSuspendEnableTime", 34 },
+> +	{ "PtAutoSuspendTriggerTime", 35 },
+> +	{ "PtAutoSuspendDisableTime", 36 },
+> +	{ "PtPlaceholder1", 37 },
+> +	{ "PtPlaceholder2", 38 },
+> +	{ "PtPlaceholder3", 39 },
+> +	{ "PtPlaceholder4", 40 },
+> +	{ "PtPlaceholder5", 41 },
+> +	{ "PtPlaceholder6", 42 },
+> +	{ "PtPlaceholder7", 43 },
+> +	{ "PtPlaceholder8", 44 },
+> +	{ "PtHypervisorStateTransferGeneration", 45 },
+> +	{ "PtNumberofActiveChildPartitions", 46 },
+> +#elif IS_ENABLED(CONFIG_ARM64)
+> +	{ "PtHwpRequestValue", 27 },
+> +	{ "PtAutoSuspendEnableTime", 28 },
+> +	{ "PtAutoSuspendTriggerTime", 29 },
+> +	{ "PtAutoSuspendDisableTime", 30 },
+> +	{ "PtPlaceholder1", 31 },
+> +	{ "PtPlaceholder2", 32 },
+> +	{ "PtPlaceholder3", 33 },
+> +	{ "PtPlaceholder4", 34 },
+> +	{ "PtPlaceholder5", 35 },
+> +	{ "PtPlaceholder6", 36 },
+> +	{ "PtPlaceholder7", 37 },
+> +	{ "PtPlaceholder8", 38 },
+> +	{ "PtHypervisorStateTransferGeneration", 39 },
+> +	{ "PtNumberofActiveChildPartitions", 40 },
+> +#endif
+> +};
+> +
+> +/* HV_THREAD_COUNTER */
+> +static struct hv_counter_entry hv_vp_counters[] = {
+> +	{ "VpTotalRunTime", 1 },
+> +	{ "VpHypervisorRunTime", 2 },
+> +	{ "VpRemoteNodeRunTime", 3 },
+> +	{ "VpNormalizedRunTime", 4 },
+> +	{ "VpIdealCpu", 5 },
+> +
+> +	{ "VpHypercallsCount", 7 },
+> +	{ "VpHypercallsTime", 8 },
+> +#if IS_ENABLED(CONFIG_X86_64)
+> +	{ "VpPageInvalidationsCount", 9 },
+> +	{ "VpPageInvalidationsTime", 10 },
+> +	{ "VpControlRegisterAccessesCount", 11 },
+> +	{ "VpControlRegisterAccessesTime", 12 },
+> +	{ "VpIoInstructionsCount", 13 },
+> +	{ "VpIoInstructionsTime", 14 },
+> +	{ "VpHltInstructionsCount", 15 },
+> +	{ "VpHltInstructionsTime", 16 },
+> +	{ "VpMwaitInstructionsCount", 17 },
+> +	{ "VpMwaitInstructionsTime", 18 },
+> +	{ "VpCpuidInstructionsCount", 19 },
+> +	{ "VpCpuidInstructionsTime", 20 },
+> +	{ "VpMsrAccessesCount", 21 },
+> +	{ "VpMsrAccessesTime", 22 },
+> +	{ "VpOtherInterceptsCount", 23 },
+> +	{ "VpOtherInterceptsTime", 24 },
+> +	{ "VpExternalInterruptsCount", 25 },
+> +	{ "VpExternalInterruptsTime", 26 },
+> +	{ "VpPendingInterruptsCount", 27 },
+> +	{ "VpPendingInterruptsTime", 28 },
+> +	{ "VpEmulatedInstructionsCount", 29 },
+> +	{ "VpEmulatedInstructionsTime", 30 },
+> +	{ "VpDebugRegisterAccessesCount", 31 },
+> +	{ "VpDebugRegisterAccessesTime", 32 },
+> +	{ "VpPageFaultInterceptsCount", 33 },
+> +	{ "VpPageFaultInterceptsTime", 34 },
+> +	{ "VpGuestPageTableMaps", 35 },
+> +	{ "VpLargePageTlbFills", 36 },
+> +	{ "VpSmallPageTlbFills", 37 },
+> +	{ "VpReflectedGuestPageFaults", 38 },
+> +	{ "VpApicMmioAccesses", 39 },
+> +	{ "VpIoInterceptMessages", 40 },
+> +	{ "VpMemoryInterceptMessages", 41 },
+> +	{ "VpApicEoiAccesses", 42 },
+> +	{ "VpOtherMessages", 43 },
+> +	{ "VpPageTableAllocations", 44 },
+> +	{ "VpLogicalProcessorMigrations", 45 },
+> +	{ "VpAddressSpaceEvictions", 46 },
+> +	{ "VpAddressSpaceSwitches", 47 },
+> +	{ "VpAddressDomainFlushes", 48 },
+> +	{ "VpAddressSpaceFlushes", 49 },
+> +	{ "VpGlobalGvaRangeFlushes", 50 },
+> +	{ "VpLocalGvaRangeFlushes", 51 },
+> +	{ "VpPageTableEvictions", 52 },
+> +	{ "VpPageTableReclamations", 53 },
+> +	{ "VpPageTableResets", 54 },
+> +	{ "VpPageTableValidations", 55 },
+> +	{ "VpApicTprAccesses", 56 },
+> +	{ "VpPageTableWriteIntercepts", 57 },
+> +	{ "VpSyntheticInterrupts", 58 },
+> +	{ "VpVirtualInterrupts", 59 },
+> +	{ "VpApicIpisSent", 60 },
+> +	{ "VpApicSelfIpisSent", 61 },
+> +	{ "VpGpaSpaceHypercalls", 62 },
+> +	{ "VpLogicalProcessorHypercalls", 63 },
+> +	{ "VpLongSpinWaitHypercalls", 64 },
+> +	{ "VpOtherHypercalls", 65 },
+> +	{ "VpSyntheticInterruptHypercalls", 66 },
+> +	{ "VpVirtualInterruptHypercalls", 67 },
+> +	{ "VpVirtualMmuHypercalls", 68 },
+> +	{ "VpVirtualProcessorHypercalls", 69 },
+> +	{ "VpHardwareInterrupts", 70 },
+> +	{ "VpNestedPageFaultInterceptsCount", 71 },
+> +	{ "VpNestedPageFaultInterceptsTime", 72 },
+> +	{ "VpPageScans", 73 },
+> +	{ "VpLogicalProcessorDispatches", 74 },
+> +	{ "VpWaitingForCpuTime", 75 },
+> +	{ "VpExtendedHypercalls", 76 },
+> +	{ "VpExtendedHypercallInterceptMessages", 77 },
+> +	{ "VpMbecNestedPageTableSwitches", 78 },
+> +	{ "VpOtherReflectedGuestExceptions", 79 },
+> +	{ "VpGlobalIoTlbFlushes", 80 },
+> +	{ "VpGlobalIoTlbFlushCost", 81 },
+> +	{ "VpLocalIoTlbFlushes", 82 },
+> +	{ "VpLocalIoTlbFlushCost", 83 },
+> +	{ "VpHypercallsForwardedCount", 84 },
+> +	{ "VpHypercallsForwardingTime", 85 },
+> +	{ "VpPageInvalidationsForwardedCount", 86 },
+> +	{ "VpPageInvalidationsForwardingTime", 87 },
+> +	{ "VpControlRegisterAccessesForwardedCount", 88 },
+> +	{ "VpControlRegisterAccessesForwardingTime", 89 },
+> +	{ "VpIoInstructionsForwardedCount", 90 },
+> +	{ "VpIoInstructionsForwardingTime", 91 },
+> +	{ "VpHltInstructionsForwardedCount", 92 },
+> +	{ "VpHltInstructionsForwardingTime", 93 },
+> +	{ "VpMwaitInstructionsForwardedCount", 94 },
+> +	{ "VpMwaitInstructionsForwardingTime", 95 },
+> +	{ "VpCpuidInstructionsForwardedCount", 96 },
+> +	{ "VpCpuidInstructionsForwardingTime", 97 },
+> +	{ "VpMsrAccessesForwardedCount", 98 },
+> +	{ "VpMsrAccessesForwardingTime", 99 },
+> +	{ "VpOtherInterceptsForwardedCount", 100 },
+> +	{ "VpOtherInterceptsForwardingTime", 101 },
+> +	{ "VpExternalInterruptsForwardedCount", 102 },
+> +	{ "VpExternalInterruptsForwardingTime", 103 },
+> +	{ "VpPendingInterruptsForwardedCount", 104 },
+> +	{ "VpPendingInterruptsForwardingTime", 105 },
+> +	{ "VpEmulatedInstructionsForwardedCount", 106 },
+> +	{ "VpEmulatedInstructionsForwardingTime", 107 },
+> +	{ "VpDebugRegisterAccessesForwardedCount", 108 },
+> +	{ "VpDebugRegisterAccessesForwardingTime", 109 },
+> +	{ "VpPageFaultInterceptsForwardedCount", 110 },
+> +	{ "VpPageFaultInterceptsForwardingTime", 111 },
+> +	{ "VpVmclearEmulationCount", 112 },
+> +	{ "VpVmclearEmulationTime", 113 },
+> +	{ "VpVmptrldEmulationCount", 114 },
+> +	{ "VpVmptrldEmulationTime", 115 },
+> +	{ "VpVmptrstEmulationCount", 116 },
+> +	{ "VpVmptrstEmulationTime", 117 },
+> +	{ "VpVmreadEmulationCount", 118 },
+> +	{ "VpVmreadEmulationTime", 119 },
+> +	{ "VpVmwriteEmulationCount", 120 },
+> +	{ "VpVmwriteEmulationTime", 121 },
+> +	{ "VpVmxoffEmulationCount", 122 },
+> +	{ "VpVmxoffEmulationTime", 123 },
+> +	{ "VpVmxonEmulationCount", 124 },
+> +	{ "VpVmxonEmulationTime", 125 },
+> +	{ "VpNestedVMEntriesCount", 126 },
+> +	{ "VpNestedVMEntriesTime", 127 },
+> +	{ "VpNestedSLATSoftPageFaultsCount", 128 },
+> +	{ "VpNestedSLATSoftPageFaultsTime", 129 },
+> +	{ "VpNestedSLATHardPageFaultsCount", 130 },
+> +	{ "VpNestedSLATHardPageFaultsTime", 131 },
+> +	{ "VpInvEptAllContextEmulationCount", 132 },
+> +	{ "VpInvEptAllContextEmulationTime", 133 },
+> +	{ "VpInvEptSingleContextEmulationCount", 134 },
+> +	{ "VpInvEptSingleContextEmulationTime", 135 },
+> +	{ "VpInvVpidAllContextEmulationCount", 136 },
+> +	{ "VpInvVpidAllContextEmulationTime", 137 },
+> +	{ "VpInvVpidSingleContextEmulationCount", 138 },
+> +	{ "VpInvVpidSingleContextEmulationTime", 139 },
+> +	{ "VpInvVpidSingleAddressEmulationCount", 140 },
+> +	{ "VpInvVpidSingleAddressEmulationTime", 141 },
+> +	{ "VpNestedTlbPageTableReclamations", 142 },
+> +	{ "VpNestedTlbPageTableEvictions", 143 },
+> +	{ "VpFlushGuestPhysicalAddressSpaceHypercalls", 144 },
+> +	{ "VpFlushGuestPhysicalAddressListHypercalls", 145 },
+> +	{ "VpPostedInterruptNotifications", 146 },
+> +	{ "VpPostedInterruptScans", 147 },
+> +	{ "VpTotalCoreRunTime", 148 },
+> +	{ "VpMaximumRunTime", 149 },
+> +	{ "VpHwpRequestContextSwitches", 150 },
+> +	{ "VpWaitingForCpuTimeBucket0", 151 },
+> +	{ "VpWaitingForCpuTimeBucket1", 152 },
+> +	{ "VpWaitingForCpuTimeBucket2", 153 },
+> +	{ "VpWaitingForCpuTimeBucket3", 154 },
+> +	{ "VpWaitingForCpuTimeBucket4", 155 },
+> +	{ "VpWaitingForCpuTimeBucket5", 156 },
+> +	{ "VpWaitingForCpuTimeBucket6", 157 },
+> +	{ "VpVmloadEmulationCount", 158 },
+> +	{ "VpVmloadEmulationTime", 159 },
+> +	{ "VpVmsaveEmulationCount", 160 },
+> +	{ "VpVmsaveEmulationTime", 161 },
+> +	{ "VpGifInstructionEmulationCount", 162 },
+> +	{ "VpGifInstructionEmulationTime", 163 },
+> +	{ "VpEmulatedErrataSvmInstructions", 164 },
+> +	{ "VpPlaceholder1", 165 },
+> +	{ "VpPlaceholder2", 166 },
+> +	{ "VpPlaceholder3", 167 },
+> +	{ "VpPlaceholder4", 168 },
+> +	{ "VpPlaceholder5", 169 },
+> +	{ "VpPlaceholder6", 170 },
+> +	{ "VpPlaceholder7", 171 },
+> +	{ "VpPlaceholder8", 172 },
+> +	{ "VpContentionTime", 173 },
+> +	{ "VpWakeUpTime", 174 },
+> +	{ "VpSchedulingPriority", 175 },
+> +	{ "VpRdpmcInstructionsCount", 176 },
+> +	{ "VpRdpmcInstructionsTime", 177 },
+> +	{ "VpPerfmonPmuMsrAccessesCount", 178 },
+> +	{ "VpPerfmonLbrMsrAccessesCount", 179 },
+> +	{ "VpPerfmonIptMsrAccessesCount", 180 },
+> +	{ "VpPerfmonInterruptCount", 181 },
+> +	{ "VpVtl1DispatchCount", 182 },
+> +	{ "VpVtl2DispatchCount", 183 },
+> +	{ "VpVtl2DispatchBucket0", 184 },
+> +	{ "VpVtl2DispatchBucket1", 185 },
+> +	{ "VpVtl2DispatchBucket2", 186 },
+> +	{ "VpVtl2DispatchBucket3", 187 },
+> +	{ "VpVtl2DispatchBucket4", 188 },
+> +	{ "VpVtl2DispatchBucket5", 189 },
+> +	{ "VpVtl2DispatchBucket6", 190 },
+> +	{ "VpVtl1RunTime", 191 },
+> +	{ "VpVtl2RunTime", 192 },
+> +	{ "VpIommuHypercalls", 193 },
+> +	{ "VpCpuGroupHypercalls", 194 },
+> +	{ "VpVsmHypercalls", 195 },
+> +	{ "VpEventLogHypercalls", 196 },
+> +	{ "VpDeviceDomainHypercalls", 197 },
+> +	{ "VpDepositHypercalls", 198 },
+> +	{ "VpSvmHypercalls", 199 },
+> +	{ "VpBusLockAcquisitionCount", 200 },
+> +	{ "VpLoadAvg", 201 },
+> +	{ "VpRootDispatchThreadBlocked", 202 },
+> +	{ "VpIdleCpuTime", 203 },
+> +	{ "VpWaitingForCpuTimeBucket7", 204 },
+> +	{ "VpWaitingForCpuTimeBucket8", 205 },
+> +	{ "VpWaitingForCpuTimeBucket9", 206 },
+> +	{ "VpWaitingForCpuTimeBucket10", 207 },
+> +	{ "VpWaitingForCpuTimeBucket11", 208 },
+> +	{ "VpWaitingForCpuTimeBucket12", 209 },
+> +	{ "VpHierarchicalSuspendTime", 210 },
+> +	{ "VpExpressSchedulingAttempts", 211 },
+> +	{ "VpExpressSchedulingCount", 212 },
+> +	{ "VpBusLockAcquisitionTime", 213 },
+> +#elif IS_ENABLED(CONFIG_ARM64)
+> +	{ "VpSysRegAccessesCount", 9 },
+> +	{ "VpSysRegAccessesTime", 10 },
+> +	{ "VpSmcInstructionsCount", 11 },
+> +	{ "VpSmcInstructionsTime", 12 },
+> +	{ "VpOtherInterceptsCount", 13 },
+> +	{ "VpOtherInterceptsTime", 14 },
+> +	{ "VpExternalInterruptsCount", 15 },
+> +	{ "VpExternalInterruptsTime", 16 },
+> +	{ "VpPendingInterruptsCount", 17 },
+> +	{ "VpPendingInterruptsTime", 18 },
+> +	{ "VpGuestPageTableMaps", 19 },
+> +	{ "VpLargePageTlbFills", 20 },
+> +	{ "VpSmallPageTlbFills", 21 },
+> +	{ "VpReflectedGuestPageFaults", 22 },
+> +	{ "VpMemoryInterceptMessages", 23 },
+> +	{ "VpOtherMessages", 24 },
+> +	{ "VpLogicalProcessorMigrations", 25 },
+> +	{ "VpAddressDomainFlushes", 26 },
+> +	{ "VpAddressSpaceFlushes", 27 },
+> +	{ "VpSyntheticInterrupts", 28 },
+> +	{ "VpVirtualInterrupts", 29 },
+> +	{ "VpApicSelfIpisSent", 30 },
+> +	{ "VpGpaSpaceHypercalls", 31 },
+> +	{ "VpLogicalProcessorHypercalls", 32 },
+> +	{ "VpLongSpinWaitHypercalls", 33 },
+> +	{ "VpOtherHypercalls", 34 },
+> +	{ "VpSyntheticInterruptHypercalls", 35 },
+> +	{ "VpVirtualInterruptHypercalls", 36 },
+> +	{ "VpVirtualMmuHypercalls", 37 },
+> +	{ "VpVirtualProcessorHypercalls", 38 },
+> +	{ "VpHardwareInterrupts", 39 },
+> +	{ "VpNestedPageFaultInterceptsCount", 40 },
+> +	{ "VpNestedPageFaultInterceptsTime", 41 },
+> +	{ "VpLogicalProcessorDispatches", 42 },
+> +	{ "VpWaitingForCpuTime", 43 },
+> +	{ "VpExtendedHypercalls", 44 },
+> +	{ "VpExtendedHypercallInterceptMessages", 45 },
+> +	{ "VpMbecNestedPageTableSwitches", 46 },
+> +	{ "VpOtherReflectedGuestExceptions", 47 },
+> +	{ "VpGlobalIoTlbFlushes", 48 },
+> +	{ "VpGlobalIoTlbFlushCost", 49 },
+> +	{ "VpLocalIoTlbFlushes", 50 },
+> +	{ "VpLocalIoTlbFlushCost", 51 },
+> +	{ "VpFlushGuestPhysicalAddressSpaceHypercalls", 52 },
+> +	{ "VpFlushGuestPhysicalAddressListHypercalls", 53 },
+> +	{ "VpPostedInterruptNotifications", 54 },
+> +	{ "VpPostedInterruptScans", 55 },
+> +	{ "VpTotalCoreRunTime", 56 },
+> +	{ "VpMaximumRunTime", 57 },
+> +	{ "VpWaitingForCpuTimeBucket0", 58 },
+> +	{ "VpWaitingForCpuTimeBucket1", 59 },
+> +	{ "VpWaitingForCpuTimeBucket2", 60 },
+> +	{ "VpWaitingForCpuTimeBucket3", 61 },
+> +	{ "VpWaitingForCpuTimeBucket4", 62 },
+> +	{ "VpWaitingForCpuTimeBucket5", 63 },
+> +	{ "VpWaitingForCpuTimeBucket6", 64 },
+> +	{ "VpHwpRequestContextSwitches", 65 },
+> +	{ "VpPlaceholder2", 66 },
+> +	{ "VpPlaceholder3", 67 },
+> +	{ "VpPlaceholder4", 68 },
+> +	{ "VpPlaceholder5", 69 },
+> +	{ "VpPlaceholder6", 70 },
+> +	{ "VpPlaceholder7", 71 },
+> +	{ "VpPlaceholder8", 72 },
+> +	{ "VpContentionTime", 73 },
+> +	{ "VpWakeUpTime", 74 },
+> +	{ "VpSchedulingPriority", 75 },
+> +	{ "VpVtl1DispatchCount", 76 },
+> +	{ "VpVtl2DispatchCount", 77 },
+> +	{ "VpVtl2DispatchBucket0", 78 },
+> +	{ "VpVtl2DispatchBucket1", 79 },
+> +	{ "VpVtl2DispatchBucket2", 80 },
+> +	{ "VpVtl2DispatchBucket3", 81 },
+> +	{ "VpVtl2DispatchBucket4", 82 },
+> +	{ "VpVtl2DispatchBucket5", 83 },
+> +	{ "VpVtl2DispatchBucket6", 84 },
+> +	{ "VpVtl1RunTime", 85 },
+> +	{ "VpVtl2RunTime", 86 },
+> +	{ "VpIommuHypercalls", 87 },
+> +	{ "VpCpuGroupHypercalls", 88 },
+> +	{ "VpVsmHypercalls", 89 },
+> +	{ "VpEventLogHypercalls", 90 },
+> +	{ "VpDeviceDomainHypercalls", 91 },
+> +	{ "VpDepositHypercalls", 92 },
+> +	{ "VpSvmHypercalls", 93 },
+> +	{ "VpLoadAvg", 94 },
+> +	{ "VpRootDispatchThreadBlocked", 95 },
+> +	{ "VpIdleCpuTime", 96 },
+> +	{ "VpWaitingForCpuTimeBucket7", 97 },
+> +	{ "VpWaitingForCpuTimeBucket8", 98 },
+> +	{ "VpWaitingForCpuTimeBucket9", 99 },
+> +	{ "VpWaitingForCpuTimeBucket10", 100 },
+> +	{ "VpWaitingForCpuTimeBucket11", 101 },
+> +	{ "VpWaitingForCpuTimeBucket12", 102 },
+> +	{ "VpHierarchicalSuspendTime", 103 },
+> +	{ "VpExpressSchedulingAttempts", 104 },
+> +	{ "VpExpressSchedulingCount", 105 },
+> +#endif
+> +};
+> +
+> -- 
+> 2.34.1
