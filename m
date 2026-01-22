@@ -1,63 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679874657C9;
-	Thu, 22 Jan 2026 05:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D09D352C2D;
+	Thu, 22 Jan 2026 07:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769061576; cv=none; b=TWwYgg39BEwyZ6lXOgHSrsJnE+v7o3MFv39ycWxxYy+BeNKwffqoh3dZxT6JYIAK4gTp7UCH8Ukbm7gFnKofePd27V2qHAQ3oieWzCVkfM7Z6PRcWfArADIvRNiejFnhxKFJAT4C/sBFNyHZVDRb9xIi/x3oHq2O//uDXVBYY1I=
+	t=1769065498; cv=none; b=AKGTZcCMwjnTxG58gZP5UWBocARpSP1tfCPRZAtv07PLJxAbPucDerPgf8k9I+EljpTLjIQaB5G7EnUl1m81LfDI1Iy5uHJGiqSHKSJvEcdVOB7ScV7d8zaxlyj91CzB2FU2Qd7ZucCPdnIcsSR/UVqMtz+5rqvrikPkGuQcUeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769061576; c=relaxed/simple;
-	bh=Sj2qcQe62QNNaf8jtUZGFM/lIN46yvYlOrJY6LyF6x8=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=TMQAGq1RG8SOFCeBP000n0/zJV3UD/S4e6gb0fwVGjENBMt+iQiyl3+RwllIM9BG3tQS6v7ccO7n3x4bOLBxrneEBM3yoIUfJOhP58U1BHXvqwHKSD9g+A7VuX19usRTULuqRLDZfeIwDn60mFJ31JttFjhL9r2EWsnVUheDebg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cBJ8TE/+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769065498; c=relaxed/simple;
+	bh=mxWYjMvpv/wLkUPpeVzRTXdp3zZyx554hqJjM61m+aI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=syeL0FMAfn+lzfXosBtoeO/VJ/C1KCOFJaFxnMhiAOUgrWOkCpH7mQGG6Dgx5qyre0yOC3DiwZnCAedInL1xA3FyEt7RUyifb5wiaQuXb78jRPOleD5om1Tyee+nFT6m+8h/fZ8N2iuot4AW32QOwb3JaLvrlLq5mSrqlPKNIhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=NID9OANI; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cBJ8TE/+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96F58C116C6;
-	Thu, 22 Jan 2026 05:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769061575;
-	bh=Sj2qcQe62QNNaf8jtUZGFM/lIN46yvYlOrJY6LyF6x8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=cBJ8TE/+/X/fDxGoQMpC3rc1tjfBPDSBBgiz+Hk7tlnRUFC8fEnj4AYLynW6UbOQk
-	 SB4Y4ba1f9jAvX6dTqlKvfYKWz6CdPWAWMTBSXT/yCZlks0OCxKA1gcGFOOmbMjuF5
-	 CZ5ZOX7+118q9wInBDX3Iq6XZ3eQBGWq2JZyPnVQHwzUvzvXG2j57qWkXttpOxs599
-	 gAhdlE9mYiC4o1nT8lVrh2HciR91ev/YTPOE07gTKJLhsTK63eTQNgTqT0Svr/cGXC
-	 2YUauvYb5lTuAeJPYTSA7mu2ImWTyvcNkklScugp9/LF/KV/htjyqG2leX7h34iBLB
-	 ip44EpF1A9jgQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 8BCFC3808200;
-	Thu, 22 Jan 2026 05:59:33 +0000 (UTC)
-Subject: Re: [GIT PULL] Hyper-V fixes for v6.19-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260122050548.GA909211@liuwe-devbox-debian-v2.local>
-References: <20260122050548.GA909211@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260122050548.GA909211@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20260121
-X-PR-Tracked-Commit-Id: 12ffd561d2de28825f39e15e8d22346d26b09688
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a66191c590b3b58eaff05d2277971f854772bd5b
-Message-Id: <176906157215.1573610.3051222599221291230.pr-tracker-bot@kernel.org>
-Date: Thu, 22 Jan 2026 05:59:32 +0000
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="NID9OANI"
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60M6cHpI2555708;
+	Wed, 21 Jan 2026 23:04:12 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pfpt0220; bh=G2G5UQOOMy2sNF5++HpTO/hw0
+	Waajb+7TIE8btadPvg=; b=NID9OANII6WvjemNSTEcXm3OGmhmS0KKZ6JithNmm
+	jnGvykbOOO3s9gcP4i0H98k1qu3WCgrwmrafY+CvT8r6W5MqJ4w0JXbeIEh+TbZT
+	IzlaDLRbNqR4lOibA9qlnuvrt6D4JXJzsD2Ug/JdfMbLaEGHC5lkkBU0xpw5uWB9
+	K69q5ZStR/8kNkGiHdNIwZbpkzo11cFG9iHG1xFLrqbN/E6yRaqAzUS16FtMV+J6
+	SJMLO3cLfK7t55Ld04RggO+L1/xGP84WFTgp6q5ERBh+rvs3V3MYVx75craD7T08
+	NpNWPTWHDDEUojaXMSRDdIwefgHO2XDNDLaA/1uyUsWoQ==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 4btm3kkkf7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Jan 2026 23:04:11 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 21 Jan 2026 23:04:11 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.25 via Frontend
+ Transport; Wed, 21 Jan 2026 23:04:10 -0800
+Received: from kernel-ep2 (unknown [10.29.36.53])
+	by maili.marvell.com (Postfix) with SMTP id 9B2333F70A9;
+	Wed, 21 Jan 2026 23:04:04 -0800 (PST)
+Date: Thu, 22 Jan 2026 12:33:58 +0530
+From: Subbaraya Sundeep <sbhatta@marvell.com>
+To: Breno Leitao <leitao@debian.org>
+CC: Ajit Khaparde <ajit.khaparde@broadcom.com>,
+        Sriharsha Basavapatna
+	<sriharsha.basavapatna@broadcom.com>,
+        Somnath Kotur
+	<somnath.kotur@broadcom.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S.
+ Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        Igor Russkikh
+	<irusskikh@marvell.com>,
+        Simon Horman <horms@kernel.org>,
+        "K. Y. Srinivasan"
+	<kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+	<wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>, Long Li
+	<longli@microsoft.com>,
+        Alexander Duyck <alexanderduyck@fb.com>, <kernel-team@meta.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Brett Creeley
+	<brett.creeley@amd.com>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <oss-drivers@corigine.com>,
+        <linux-hyperv@vger.kernel.org>, <linux-net-drivers@amd.com>
+Subject: Re: [PATCH net-next 3/9] net: nfp: convert to use .get_rx_ring_count
+Message-ID: <20260122070358.GA1544290@kernel-ep2>
+References: <20260121-grxring_big_v4-v1-0-07655be56bcf@debian.org>
+ <20260121-grxring_big_v4-v1-3-07655be56bcf@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260121-grxring_big_v4-v1-3-07655be56bcf@debian.org>
+X-Proofpoint-ORIG-GUID: bA8yem6tnK4udOtG5se1FIZju3_EMhBu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA0NCBTYWx0ZWRfX2N95TYxkuBVc
+ j5DrkIpzr6ImwuctufBJxLcn5PfANGHIvf2SM9Wevk3eJoKASrGoOnWN9Mm0ziAqJdG8VNjQLIR
+ +Lla4wmNBOWSN/USuBZDEO7qeDK8ynNP77ivyI1Jotq8OqYksDFV4r/bpwupkDr3Kq2B5FBBCka
+ RRqUd3SdwJ1zmtom0JbcK+ZW3RXsdTdbQDR0lWzVf7JGlR5Y2uGd+wAOqIyitt1jgYNdzoAjv7u
+ HqCQiiqmqPyer+6LGJphMkXP1DI5eG1iVaoUSSIVg+49mY/x3llzmpMdC//RJu+teFj3tvuhofj
+ FInWeorYOaiBqmWcRJ3UqVMCBxtYU2GS4KP0rsNFqfalDOOacIoEvg9Ko87yuAhg51neEG+L1Th
+ QnSVyEY/OjKnIbhHxgVet9v3bQzecHvRartjTE+hW0GFSHbrTIVwQDtmpX8UOx28PrQ8LbjWlB7
+ zAXsEhEQ7raLUBZ5vgQ==
+X-Authority-Analysis: v=2.4 cv=Mu1fKmae c=1 sm=1 tr=0 ts=6971cbeb cx=c_pps
+ a=gIfcoYsirJbf48DBMSPrZA==:117 a=gIfcoYsirJbf48DBMSPrZA==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=xNf9USuDAAAA:8 a=M5GUcnROAAAA:8 a=Ch7P9ck2AVfqCBIX_IQA:9 a=CjuIK1q_8ugA:10
+ a=OBjm3rFKGHvpk9ecZwUJ:22
+X-Proofpoint-GUID: bA8yem6tnK4udOtG5se1FIZju3_EMhBu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-21_04,2026-01-20_01,2025-10-01_01
 
-The pull request you sent on Thu, 22 Jan 2026 05:05:48 +0000:
+On 2026-01-21 at 21:24:40, Breno Leitao (leitao@debian.org) wrote:
+> Use the newly introduced .get_rx_ring_count ethtool ops callback instead
+> of handling ETHTOOL_GRXRINGS directly in .get_rxnfc().
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20260121
+Reviewed-by: Subbaraya Sundeep <sbhatta@marvell.com>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a66191c590b3b58eaff05d2277971f854772bd5b
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+Sundeep
+> ---
+>  drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c b/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
+> index 16c828dd5c1a3..e88b1c4732a57 100644
+> --- a/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
+> +++ b/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
+> @@ -1435,15 +1435,19 @@ static int nfp_net_get_fs_loc(struct nfp_net *nn, u32 *rule_locs)
+>  	return 0;
+>  }
+>  
+> +static u32 nfp_net_get_rx_ring_count(struct net_device *netdev)
+> +{
+> +	struct nfp_net *nn = netdev_priv(netdev);
+> +
+> +	return nn->dp.num_rx_rings;
+> +}
+> +
+>  static int nfp_net_get_rxnfc(struct net_device *netdev,
+>  			     struct ethtool_rxnfc *cmd, u32 *rule_locs)
+>  {
+>  	struct nfp_net *nn = netdev_priv(netdev);
+>  
+>  	switch (cmd->cmd) {
+> -	case ETHTOOL_GRXRINGS:
+> -		cmd->data = nn->dp.num_rx_rings;
+> -		return 0;
+>  	case ETHTOOL_GRXCLSRLCNT:
+>  		cmd->rule_cnt = nn->fs.count;
+>  		return 0;
+> @@ -2501,6 +2505,7 @@ static const struct ethtool_ops nfp_net_ethtool_ops = {
+>  	.get_sset_count		= nfp_net_get_sset_count,
+>  	.get_rxnfc		= nfp_net_get_rxnfc,
+>  	.set_rxnfc		= nfp_net_set_rxnfc,
+> +	.get_rx_ring_count	= nfp_net_get_rx_ring_count,
+>  	.get_rxfh_indir_size	= nfp_net_get_rxfh_indir_size,
+>  	.get_rxfh_key_size	= nfp_net_get_rxfh_key_size,
+>  	.get_rxfh		= nfp_net_get_rxfh,
+> 
+> -- 
+> 2.47.3
+> 
