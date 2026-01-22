@@ -1,39 +1,39 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299E38170B;
-	Thu, 22 Jan 2026 18:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA08381713;
+	Thu, 22 Jan 2026 18:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769107259; cv=none; b=PMml0A+tv6HT9vfLuXShEFjMZ4jNyaSrCOWCT5t0Yfn5BOMYJRm1W1Egse3FPcbBXBS6TqfVIhYgggRkC8CkZi2+H24KEv7UaztWzsjGh/fnV35BG512SG3JWsG1LGJ0JiJ+ohKd69jI0uA2tWbIQshRDWlbfk9tjle3XfKm2IA=
+	t=1769107270; cv=none; b=ffOzYZxscC6zRfxQHPFr3Y9LdRuckXAlhp4OMLjMUc6+1l2Sk55nZjzQLSWkpQWn3XPYXJapvaZ98m83kdgpwb6FI5BYAI3LrtKwK2kRD1Uj0FL4NBcWfWQ6vf7ONm716u9pb/YrwKIaiR299RLC/ZNkk2K+1FMPKeNqBH7oIvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769107259; c=relaxed/simple;
-	bh=bJbfYoi9ePT6GJvQe190QXenIvJlnJbG5gCYyHOYLyw=;
+	s=arc-20240116; t=1769107270; c=relaxed/simple;
+	bh=OKbGb+qTrd7mgSuZ+uguuxpL+ep+/TBEvmLlF+53LxA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uW5qMuRdPp1VuqNrdG4wzbmHyoCvKPRK6LUWdegHLbPTEWiETwhrondFMin3Z01Gl0K+eaeIMeDhQcBCSrZjUGzD/HcQLEjQKM6TBUN2Hka/2nK7DJ3q74qXH+yK2IiscubKdCP3zRON1WcwR/M4FIQG1prqebgJFYV/PCg054M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WodppWPD; arc=none smtp.client-ip=82.195.75.108
+	 In-Reply-To:To:Cc; b=lY10lmw86UvbGy6d0OqWTKkCXlv3xOcH86aGaLSNLqdT7lC5TP56HjPEj9TbdT3H1sQTdLX9h16nqmTJAV8ICIqH4+w8K+KTq0rxk1ub+CxcI54sV8r0AsKbyVIjulfrP/KtzWreCaEf/pxS2so0rTzct3aAqM9IEmsk4p4ar+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=fkJE1Adb; arc=none smtp.client-ip=82.195.75.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WodppWPD"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="fkJE1Adb"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
 	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
 	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description;
-	bh=0dc9BpwHRAb/FF2L8Jh14J11cIizVUqlWjJq5crcpt8=; b=WodppWPDGvQoSvmTSV/LYo/1x1
-	oPYD2IuzgCuw4P69kDavqHdfvpctFPByvZtA234oczQckfVfcKJI3d+2gN+yUVXerCG/Z6UHOyxai
-	Fw6jnDFEkyR64oosT3ZgUXdw9FYeBKbzmXATf6pXTb67luUmUdj4fBMJBvhrB+8T7V+ECI4Wya0mR
-	/9lzHsXI69rzbQSFVESY9f3w3r+4qqFyLaZUuXcN9Mym0zXSLlTOjb8DvvmvQlIk+YQdVvMMfKvwy
-	PMr3vw7QjIewDdxrXqkOO+Sz5kDyBsUw47APZHrJbYcIXcwHV69gzIYaBdFHT3x+JwGhaGx4mlnE8
-	fd9cPYkg==;
+	bh=XD2UTz5oPmh8TXyMBvF/w2pVWzLX0Zi6SpoC7dDXlfY=; b=fkJE1AdbtL0hrCieGHVW4Dqi+f
+	7YTSSfELrVl9gxm2CMWzrToiXHdOjphia9ZzP6QCOpdUUy5o4nAVkAPGSP06lJ1PpDfYDPXEJb1Zo
+	I2Y/lc42kAk/3/vmSNhmIASr51C0uwdd/IjmSjtqhuBchDpr/KH/XTxpSGplB97/l70W+1pppuJZb
+	bxjPvZ7r/qCTygd9bDwbxWYSW5xjQSs9YPdM1WG0HkDG8sg8/Cx1PW8Wy2QZzMW3m7yF/hOQcvkk0
+	3ditwGsYst+1XKxila13YWGZM1wyEpA6++Zq8iySUQa1ndy+LfNDnoM/IsjpzIuMBQMfihjcExIWC
+	9bu2lNIQ==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.94.2)
 	(envelope-from <leitao@debian.org>)
-	id 1vizbt-00DE0H-1f; Thu, 22 Jan 2026 18:40:49 +0000
+	id 1vizc4-00DE0l-FJ; Thu, 22 Jan 2026 18:41:00 +0000
 From: Breno Leitao <leitao@debian.org>
-Date: Thu, 22 Jan 2026 10:40:13 -0800
-Subject: [PATCH net-next v2 1/9] net: benet: convert to use
+Date: Thu, 22 Jan 2026 10:40:15 -0800
+Subject: [PATCH net-next v2 3/9] net: nfp: convert to use
  .get_rx_ring_count
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-grxring_big_v4-v2-1-94dbe4dcaa10@debian.org>
+Message-Id: <20260122-grxring_big_v4-v2-3-94dbe4dcaa10@debian.org>
 References: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
 In-Reply-To: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
 To: Ajit Khaparde <ajit.khaparde@broadcom.com>, 
@@ -60,22 +60,23 @@ To: Ajit Khaparde <ajit.khaparde@broadcom.com>,
  Edward Cree <ecree.xilinx@gmail.com>, Brett Creeley <brett.creeley@amd.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  oss-drivers@corigine.com, linux-hyperv@vger.kernel.org, 
- linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>
+ linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>, 
+ Subbaraya Sundeep <sbhatta@marvell.com>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2883; i=leitao@debian.org;
- h=from:subject:message-id; bh=bJbfYoi9ePT6GJvQe190QXenIvJlnJbG5gCYyHOYLyw=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcm8k2+B4mcM/copQUAEtONk0z4PoFFju/fIp1
- /wqToeN7ZaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXJvJAAKCRA1o5Of/Hh3
- bd/kEACG4XJSOpexSFU2ks+thmqBCYwrNy4E+RWz1hvm9+j1KaUGS4KMNmPZMa0l2IpFbRWzzSU
- EYZYQjLapSLNta3vKOlDK4BtOVDe6UFxJ5Qh1DgyMRquZ9RwPm4R9Pzkahl/xBywg3J2dLSNJy6
- xchXSZqo7P5MlcA88oNElxEOGA7sp8YlOXYgxYFCjd8NlXXg8uO0Zk3n5VElkW5NNSfVUFpFl9g
- 2UYcV37k58ah+igyBLyuU06caavBJOjyhp9nCLj0vpmAuYZtgQBplvobd52hgM6uj/a/0XOEFd4
- 09wEzImFn79Rg/sC6Uc47LLsdjc64ynJzg3mYin9sRdwzHSkgW2oSjHCkYSuZFb3bfUb8eDnTrr
- KSUz5/S9q1EVS2Vt+hG1sm3AI3zmRBkTPT0RIw6sfi1BICUWun7cs51BlwwhcW1leaX8dtTHrDI
- dWHAo4lYAKx7iPMH/QxtHOzZOk/eV8If+RdfpHXYKfkDoarHnAkgJXmr7fhAF8CN9+3FY7z+6iN
- HIfqsWjbKl11/xKZArJO2CP2O1V5gQ1ZNXaRUNu+3zBL4O2W+Md4Pvm6GMu8+pgHifx5wy87Diq
- oX68R37KzFmytpFG1jyp3Kzkre8NjvWKsGbKh9hL/o4frmCkSN3f7jmNooYShtCFpm33hDR8tNl
- GJgX1GRHvteCskA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=leitao@debian.org;
+ h=from:subject:message-id; bh=OKbGb+qTrd7mgSuZ+uguuxpL+ep+/TBEvmLlF+53LxA=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcm8kGSg4mxjaQVxW5sCIoyLw+Ucz/Rvvk9zsD
+ xchsU7W8X6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXJvJAAKCRA1o5Of/Hh3
+ bQg5D/9xkqgE2hwe2CRiSoJId83kWO5WFcX3mwMiJAh6J9+bEMF8G9lacbkU2LCpoNDqM7PF3u8
+ SRGIX92RNGXa/n0z+MLdAxGy0BITb5+1Tru8e0JwDWIJi4IG+emgijgt1A6PwSH3IbizM6bYJQW
+ 0yUQEbMfXnNc14rrPxAGrGS2VjZ7AcLj411/PGP6QNVjBJnVDnHfQW6Yiv55aW+OQOEhezB8GZ+
+ 7uJq9W+TBr6dphKHiue2OFycFJ9KaaM6TiGYJX/FM28WWs2rPEbaRANDAwxjz0evHdywMucSQfc
+ DUYQW/NRaguuO36EqQ+MHHnPQF1ri1hleyTjJB8L28jjD7rBhGdwxHKGhVI39isLB4+1er6/GCL
+ DJ/qNcakdiQR1twtgR6+xGChCJs0XJTjhu5mX8WunnG/YShj+9E5tgUpbivdosGbKLLejb1fF8F
+ 072zUmgjmYGL4OKdcB3HajIbLOPGTsvzoIPzX2ps+960r32vzjtajfckP0quo+iwMRYcUykQF6R
+ Xv2jVQhL5jeaevg25o/M2dNSiYPUt7TzcHXXVkDpDdMzp0/NbuKfgxc2ScsqxIZKjLQPPbdeQXX
+ ikrFfieoos0zrD1MMBUD14VmYefBf8F6p7Lms7BrKtSEmoq8R99qcteh3nuuATQ6C9atGo2HKq7
+ 8E8QAYeX+8lIMSA==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
@@ -83,88 +84,47 @@ X-Debian-User: leitao
 Use the newly introduced .get_rx_ring_count ethtool ops callback instead
 of handling ETHTOOL_GRXRINGS directly in .get_rxnfc().
 
-Since ETHTOOL_GRXRINGS was the only command handled by be_get_rxnfc(),
-remove the function entirely.
-
-Since the be_multi_rxq() check in be_get_rxnfc() previously blocked RSS
-configuration on single-queue setups (via ethtool core validation), add
-an equivalent check to be_set_rxfh() to preserve this behavior, as
-suggested by Jakub.
-
+Reviewed-by: Subbaraya Sundeep <sbhatta@marvell.com>
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/net/ethernet/emulex/benet/be_ethtool.c | 37 ++++++++++----------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/emulex/benet/be_ethtool.c b/drivers/net/ethernet/emulex/benet/be_ethtool.c
-index f55f1fd5d90fd..87dbbd5b7f4e6 100644
---- a/drivers/net/ethernet/emulex/benet/be_ethtool.c
-+++ b/drivers/net/ethernet/emulex/benet/be_ethtool.c
-@@ -1073,6 +1073,13 @@ static void be_set_msg_level(struct net_device *netdev, u32 level)
- 	adapter->msg_enable = level;
- }
- 
-+static u32 be_get_rx_ring_count(struct net_device *netdev)
-+{
-+	struct be_adapter *adapter = netdev_priv(netdev);
-+
-+	return adapter->num_rx_qs;
-+}
-+
- static int be_get_rxfh_fields(struct net_device *netdev,
- 			      struct ethtool_rxfh_fields *cmd)
- {
-@@ -1117,28 +1124,6 @@ static int be_get_rxfh_fields(struct net_device *netdev,
+diff --git a/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c b/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
+index 16c828dd5c1a3..e88b1c4732a57 100644
+--- a/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
++++ b/drivers/net/ethernet/netronome/nfp/nfp_net_ethtool.c
+@@ -1435,15 +1435,19 @@ static int nfp_net_get_fs_loc(struct nfp_net *nn, u32 *rule_locs)
  	return 0;
  }
  
--static int be_get_rxnfc(struct net_device *netdev, struct ethtool_rxnfc *cmd,
--			u32 *rule_locs)
--{
--	struct be_adapter *adapter = netdev_priv(netdev);
--
--	if (!be_multi_rxq(adapter)) {
--		dev_info(&adapter->pdev->dev,
--			 "ethtool::get_rxnfc: RX flow hashing is disabled\n");
--		return -EINVAL;
--	}
--
--	switch (cmd->cmd) {
--	case ETHTOOL_GRXRINGS:
--		cmd->data = adapter->num_rx_qs;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
- static int be_set_rxfh_fields(struct net_device *netdev,
- 			      const struct ethtool_rxfh_fields *cmd,
- 			      struct netlink_ext_ack *extack)
-@@ -1293,6 +1278,12 @@ static int be_set_rxfh(struct net_device *netdev,
- 	u8 *hkey = rxfh->key;
- 	u8 rsstable[RSS_INDIR_TABLE_LEN];
- 
-+	if (!be_multi_rxq(adapter)) {
-+		dev_info(&adapter->pdev->dev,
-+			 "ethtool::set_rxfh: RX flow hashing is disabled\n");
-+		return -EINVAL;
-+	}
++static u32 nfp_net_get_rx_ring_count(struct net_device *netdev)
++{
++	struct nfp_net *nn = netdev_priv(netdev);
 +
- 	/* We do not allow change in unsupported parameters */
- 	if (rxfh->hfunc != ETH_RSS_HASH_NO_CHANGE &&
- 	    rxfh->hfunc != ETH_RSS_HASH_TOP)
-@@ -1441,7 +1432,7 @@ const struct ethtool_ops be_ethtool_ops = {
- 	.get_ethtool_stats = be_get_ethtool_stats,
- 	.flash_device = be_do_flash,
- 	.self_test = be_self_test,
--	.get_rxnfc = be_get_rxnfc,
-+	.get_rx_ring_count = be_get_rx_ring_count,
- 	.get_rxfh_fields = be_get_rxfh_fields,
- 	.set_rxfh_fields = be_set_rxfh_fields,
- 	.get_rxfh_indir_size = be_get_rxfh_indir_size,
++	return nn->dp.num_rx_rings;
++}
++
+ static int nfp_net_get_rxnfc(struct net_device *netdev,
+ 			     struct ethtool_rxnfc *cmd, u32 *rule_locs)
+ {
+ 	struct nfp_net *nn = netdev_priv(netdev);
+ 
+ 	switch (cmd->cmd) {
+-	case ETHTOOL_GRXRINGS:
+-		cmd->data = nn->dp.num_rx_rings;
+-		return 0;
+ 	case ETHTOOL_GRXCLSRLCNT:
+ 		cmd->rule_cnt = nn->fs.count;
+ 		return 0;
+@@ -2501,6 +2505,7 @@ static const struct ethtool_ops nfp_net_ethtool_ops = {
+ 	.get_sset_count		= nfp_net_get_sset_count,
+ 	.get_rxnfc		= nfp_net_get_rxnfc,
+ 	.set_rxnfc		= nfp_net_set_rxnfc,
++	.get_rx_ring_count	= nfp_net_get_rx_ring_count,
+ 	.get_rxfh_indir_size	= nfp_net_get_rxfh_indir_size,
+ 	.get_rxfh_key_size	= nfp_net_get_rxfh_key_size,
+ 	.get_rxfh		= nfp_net_get_rxfh,
 
 -- 
 2.47.3
