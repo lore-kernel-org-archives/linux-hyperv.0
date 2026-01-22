@@ -1,39 +1,39 @@
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B27385523;
-	Thu, 22 Jan 2026 18:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5906837FF61;
+	Thu, 22 Jan 2026 18:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769107289; cv=none; b=Y4DpRm6hU6yvieb+a1UMvVIhNYihL4DVn4sP+TBPL4cDaH3n2lPBB1YO3A+oIMQw14uKQyyuhuciMNvfA/hbzilYdFeFGuZqeTBiaTJwAeCKMHVHc3TRTPQf0/rC21oWzmeLem/5+uyo2L/xFJv0uL4VMEyRXPjkmntDl0RupFA=
+	t=1769107292; cv=none; b=rRVY/8fo+rzYfD3UK7eSdy15/B16UPOlvBAMJgSDPDO5ZJvQfB6YfY/4CdQw/E/vO3XH6szADpZORt/mfEpJx/J7WMgL5HLlturrEFg2QQvHliyEN1DkDxTWKQIMO+x8LfFF8V3w/BdH81MQ7RR3/HjMDZlh7CgUlOuNX04gfDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769107289; c=relaxed/simple;
-	bh=hcqyM75IhDs1llDj+Jc/tRBAmN6d3Y2GPI2HR0+kOEk=;
+	s=arc-20240116; t=1769107292; c=relaxed/simple;
+	bh=mMx0aIPpyYJ0H01ZGMQAA+ncQnIVJMLNwVGdNwLKfmc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=t/FHtmflpOS0YCh9Jp1VLY6bfWiwEgp4ttEn3RIOXv6u5uQf8hGWwjSGuwFjAypmeLQb5QZ284pphiRcUE5wd00cPMtANFFEEI4a9Pk196aAjhpw/kYGIDzU3DnEltmBESDWdNL/EtSVDsDKSSFzOe4pwrjC7v5egHIPeJ5aYUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=B87wqEox; arc=none smtp.client-ip=82.195.75.108
+	 In-Reply-To:To:Cc; b=TPSMifWCWMFmI8k6fqQ9rKdm/9fyjmyxbxU5TzpjLmrro/+nHaCFF5r5wYH38iwM0PsYiArjJ/t1j5cb8uIDd2dYWZyLuTMCblCoxJXYuHyLhVSg1qdfbD+CpDO6e5SkJI+mstvdTHvVowAkz4XG5AxVi/3kNG/37BO+kraCc1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=D5eBdvVm; arc=none smtp.client-ip=82.195.75.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="B87wqEox"
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="D5eBdvVm"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
 	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
 	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description;
-	bh=BLDbgw2RbJKl24Wt0v/fHeCv4g6QFtZXh1UHirohJQY=; b=B87wqEoxoqNxrfJlqatHqFodEi
-	YC7kb0os1bPtlRdxo8z5QhItiHs9G+L5ot7Q+Nfp56LQ3tq/EEVuk9WN1ZMxAfqaUOQXztpGYEMqL
-	8dDN0NttE4Gv5qDq3wv+dYRgg46XcBbrU7FhpbtYBSWGxWakoqk6qfbUaK0590WU93J+it3fLj6ZV
-	zonRGw8go9YDWLZdWnAWPPZdRVHi+s51sQDEeudU12qL+GWb5RKxAJ6FAlmp2OgXq1rKezgAZZBxn
-	2ScepCB3WxVlREbvLm7IX+Q6QJ5TnDWeoAS2l2VpNhWlycM6SceJuVgb98gCHni+jcQjb9HRAET1N
-	PZ38nMVA==;
+	bh=K5z6kZHNlZ4qDFaNpaW1u+BLQ1VLld41mAaOnnhvfhg=; b=D5eBdvVmdSSe7qBg2iVil6Exai
+	ex/rdNB5OyuFEh/xkFCMa9vC9cUr26UJ6IBaCn974eLSaidOzsqDJCnRa6Otf57XSQBsPOOWN/Zr5
+	6ayZBUJ8cCNVJ3SWJC4nYqd6NdnYBmho/+pi2pxgBjZDg0bnmaiz/D9lnl7+dT3ZXzHsFEh36ASmC
+	9TsAHJR/RjYcR4DI4pMKqrNDWR2J5zwFcg7EPCfkVJdVYtKLqVxnNNSFDepxEqtHzW9E3ez2yo0Fd
+	z/zesaTltBJf59ybsNXPJHGvKLShkaZGl2tws5nsAJ5FJwBtVLg/9GC4GEciel7s6zA4FBTBMpLZY
+	S0331+ZQ==;
 Received: from authenticated user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.94.2)
 	(envelope-from <leitao@debian.org>)
-	id 1vizcL-00DE1q-GU; Thu, 22 Jan 2026 18:41:17 +0000
+	id 1vizcA-00DE17-5a; Thu, 22 Jan 2026 18:41:06 +0000
 From: Breno Leitao <leitao@debian.org>
-Date: Thu, 22 Jan 2026 10:40:18 -0800
-Subject: [PATCH net-next v2 6/9] net: ionic: convert to use
+Date: Thu, 22 Jan 2026 10:40:16 -0800
+Subject: [PATCH net-next v2 4/9] net: mana: convert to use
  .get_rx_ring_count
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-grxring_big_v4-v2-6-94dbe4dcaa10@debian.org>
+Message-Id: <20260122-grxring_big_v4-v2-4-94dbe4dcaa10@debian.org>
 References: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
 In-Reply-To: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
 To: Ajit Khaparde <ajit.khaparde@broadcom.com>, 
@@ -60,22 +60,23 @@ To: Ajit Khaparde <ajit.khaparde@broadcom.com>,
  Edward Cree <ecree.xilinx@gmail.com>, Brett Creeley <brett.creeley@amd.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  oss-drivers@corigine.com, linux-hyperv@vger.kernel.org, 
- linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>
+ linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>, 
+ Subbaraya Sundeep <sbhatta@marvell.com>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1858; i=leitao@debian.org;
- h=from:subject:message-id; bh=hcqyM75IhDs1llDj+Jc/tRBAmN6d3Y2GPI2HR0+kOEk=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcm8k0kk3ABjJYbC9BPOONFr6Q4C+8FeRjPtbo
- j4zk+VDdPGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXJvJAAKCRA1o5Of/Hh3
- bW7uD/96h8iVT+YSeMRE7CQILrkHvBXsdVsDCO+yv3k2OS4MBLR793NHDm7ymgcdctxCG0U3oe+
- XTQRKqfD56wMqL/ZaPMg51DoCZJzF9VGxUp2uzGlUazfIMRCiUSFFU0SMoExOe1epSXXjTgKWYl
- PvogDldi7XZ/wIAm6V9y1CpsSl5oGylLQsbWDNWXCyYy+nMifNMFfp++VeyP0zmLknO+f+ffMIM
- eqzblXmj21luh0fixVwrsXYgKEkKlfAdRm9iiiY5+JW+GMoptCFj1Rj/nm28X8Q1B4In/YnSX6X
- 5ECJDIEYUVRzSaR4lXxVIW3729HsAVqVyPxlM5XD3CI51ANkbPO1sw/VQcutlpoak9CtMxlh9fG
- jPEGreeLi+Un35UCS4Nx/G7z/w2xuPDgo7pDRXtxxfxS3pNdAV9OxB//n3toFWzeGcfagiyGOLn
- BAyn6r5iJaCwfNSVm6eRU5+PpdfoEAtw/OpOMJVDk3I11Wk/vxn5vqvoqAxHAAPMV5Fe35aH7Yx
- jb1Ke00Rnr+lKZBGGLZH29tsEU6KHXYnfchzO7txDjGVjN6UOzcuJmdit71X3bE7QqAhV3J5P1V
- 8jDV1S9A96dKpJgrxL0642gA9x90CVlVq8acZDTtUXD00IkpTWkxxQ08J0xX8QltXBphuFtwd/9
- E4H0aFNh/bO9jdg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1704; i=leitao@debian.org;
+ h=from:subject:message-id; bh=mMx0aIPpyYJ0H01ZGMQAA+ncQnIVJMLNwVGdNwLKfmc=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcm8k7ZhZGf3/4AH5Gg6x772N/1BkpYBTWimTH
+ 2xvENpY9PCJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXJvJAAKCRA1o5Of/Hh3
+ bd1bEACSRqL2pxbGTSGnFk82oEgpfRBnFsFkkBQkID0vM0ntGMtIba4SGj+ghDsKOeLW56L/ZOP
+ RKTpfPQtFeHOdO4y6U9+HsCk1DO3sj6ugmtELYvjg7GQwKO7dsJ+gidXzNAyjEviy7ZFC5lwjuw
+ 9oX1QJJHPsRhgwe55yfxJ9/Mr97OLTi6y7Mn9ScFWcjPHG1M2gVlrotpVbagC3SBHOskSGRzWgp
+ dDBNlLFBJKVMXV9EzTQGlPXobxfMFQDUtp/MA2Tlh3xaKGrAd2fbXHajpnS2736VjIvZ+oj6p75
+ 0H1i7bY03+S0FTQ6c2QzLAuH2shFAWSSjNBjtb1PbT7vLOhMuXkeaji4QQdETqpKlKsqLdn/LJb
+ PKY0YjZ4xR9yCdFxyNuoypBboza0Dkh8UCA8+lYWomCGZ0jwsvUbLl47EzLzhf7WDlr6UdaBzL7
+ nXCR3WhXZW2/UUxRXiKQT9fDsUnpQdOLxeqEMwabblO2Hln3ievFNRzRXg1v9xazIZkRG5FtBGd
+ /jGUm5YopuuFCfRQO7QGBI3kV05byxVYehc740OvA49uAPFvH7nO/fHYZJDLhWZRFdezBiLpGXG
+ 6nUYSL6i19l9e3B9cXVybka5o2oXSHLR5+ziC/42P973vPg9V93ewHYFEKXvNDqyV2VJ9nVlSTT
+ UYrHqLCZoTBPWLg==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
@@ -83,54 +84,49 @@ X-Debian-User: leitao
 Use the newly introduced .get_rx_ring_count ethtool ops callback instead
 of handling ETHTOOL_GRXRINGS directly in .get_rxnfc().
 
-Since ETHTOOL_GRXRINGS was the only command handled by ionic_get_rxnfc(),
+Since ETHTOOL_GRXRINGS was the only command handled by mana_get_rxnfc(),
 remove the function entirely.
 
-Reviewed-by: Brett Creeley <brett.creeley@amd.com>
+Reviewed-by: Subbaraya Sundeep <sbhatta@marvell.com>
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/net/ethernet/pensando/ionic/ionic_ethtool.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/net/ethernet/microsoft/mana/mana_ethtool.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c b/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-index 2d9efadb5d2ae..b0a459eeaa640 100644
---- a/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_ethtool.c
-@@ -843,23 +843,11 @@ static int ionic_set_channels(struct net_device *netdev,
- 	return err;
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+index 0e2f4343ac67f..f2d220b371b5d 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+@@ -282,18 +282,11 @@ static void mana_get_ethtool_stats(struct net_device *ndev,
+ 	}
  }
  
--static int ionic_get_rxnfc(struct net_device *netdev,
--			   struct ethtool_rxnfc *info, u32 *rules)
-+static u32 ionic_get_rx_ring_count(struct net_device *netdev)
+-static int mana_get_rxnfc(struct net_device *ndev, struct ethtool_rxnfc *cmd,
+-			  u32 *rules)
++static u32 mana_get_rx_ring_count(struct net_device *ndev)
  {
- 	struct ionic_lif *lif = netdev_priv(netdev);
--	int err = 0;
--
--	switch (info->cmd) {
--	case ETHTOOL_GRXRINGS:
--		info->data = lif->nxqs;
--		break;
--	default:
--		netdev_dbg(netdev, "Command parameter %d is not supported\n",
--			   info->cmd);
--		err = -EOPNOTSUPP;
--	}
+ 	struct mana_port_context *apc = netdev_priv(ndev);
  
--	return err;
-+	return lif->nxqs;
+-	switch (cmd->cmd) {
+-	case ETHTOOL_GRXRINGS:
+-		cmd->data = apc->num_queues;
+-		return 0;
+-	}
+-
+-	return -EOPNOTSUPP;
++	return apc->num_queues;
  }
  
- static u32 ionic_get_rxfh_indir_size(struct net_device *netdev)
-@@ -1152,7 +1140,7 @@ static const struct ethtool_ops ionic_ethtool_ops = {
- 	.get_strings		= ionic_get_strings,
- 	.get_ethtool_stats	= ionic_get_stats,
- 	.get_sset_count		= ionic_get_sset_count,
--	.get_rxnfc		= ionic_get_rxnfc,
-+	.get_rx_ring_count	= ionic_get_rx_ring_count,
- 	.get_rxfh_indir_size	= ionic_get_rxfh_indir_size,
- 	.get_rxfh_key_size	= ionic_get_rxfh_key_size,
- 	.get_rxfh		= ionic_get_rxfh,
+ static u32 mana_get_rxfh_key_size(struct net_device *ndev)
+@@ -520,7 +513,7 @@ const struct ethtool_ops mana_ethtool_ops = {
+ 	.get_ethtool_stats	= mana_get_ethtool_stats,
+ 	.get_sset_count		= mana_get_sset_count,
+ 	.get_strings		= mana_get_strings,
+-	.get_rxnfc		= mana_get_rxnfc,
++	.get_rx_ring_count	= mana_get_rx_ring_count,
+ 	.get_rxfh_key_size	= mana_get_rxfh_key_size,
+ 	.get_rxfh_indir_size	= mana_rss_indir_size,
+ 	.get_rxfh		= mana_get_rxfh,
 
 -- 
 2.47.3
