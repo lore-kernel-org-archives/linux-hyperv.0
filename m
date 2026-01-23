@@ -1,126 +1,100 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F661F419F;
-	Fri, 23 Jan 2026 18:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDA721B9C1;
+	Fri, 23 Jan 2026 19:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769193298; cv=none; b=s2vPDENpU+eTjTju3ViuXxJwml3iAF5G8tl/If7LmVdPEuJ4FRkdEGI+vVMXSbACRMB6efqRgrpVCTw+QE0VN7LaZYeDlMdSV1KXgyrISYJIhDxX5OZlf4BWQy1m/WeK7XznZBnfUzBNK4kkLMi6ZLaw0zzsiafliFUoCdU0RD4=
+	t=1769194826; cv=none; b=IFKkqXM4pbTTsyjcBIT4NXkK7+/hhGhkcQ04m3nZPsotS+yz+Nvka8tBkv9zWtvtYyq7Spyy+MMNr0W9oowzYUqEjilVudEWS0xlefjfp9bMG1P5ZhxP8Ie79/yX4PaDvwzU5OPkzqMm1o321G99ua+mVqkD8RZceymK1qZ3Yog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769193298; c=relaxed/simple;
-	bh=1vf6ApjnXFWphP8qs0RYETw8WhE8iEAzB2IHUE9oLyc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N+ugpk1oLgNcbsBrjvCJ07r5iBCS0ncBew4VyMutGAxYDR2FHZMdeknYX+9wVxaG9jyuDcwGTxN+9x0HUq0YF5lbLGtJ+LUkZiQ4g2PZsjgdrmdikoVIwFx8hY67BoNkmMgc34i1yd7ppkjL7B3bXpNxyEQ0wp3YOdg0DtZtat8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RYxGafD+; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1769194826; c=relaxed/simple;
+	bh=dNbnoajf/gBZc+p+PfQpAb1rVqmmyiRUsr7Dz6cjJuk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Xr+Pb0X3nY+5MLMy/f7g2++pfo1H7341KyTGOH9n5ZmisCtVjlfPPs+yIdLJm69Yxd5wutlN/G/o45uoS2HKepA5A42CpffLZMoL7rj/ioNKFU3bmRnZ9yBjEegwMg0wJG2f6NwZY8Rv9IH5NoDj92wykcXGIxLEokI2R8LhQVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTfapnVG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RYxGafD+"
-Received: from [100.65.200.94] (unknown [20.236.11.185])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CE85A20B7167;
-	Fri, 23 Jan 2026 10:34:55 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CE85A20B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1769193296;
-	bh=3hdmIxYEvy393OJEhZpeyS8R9/tUvwKfAIsrTGZ+fgI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RYxGafD+N//x9h+RbgJDVqNNgqIqtnyCbyICtTmFNHcQeLe79Cu1b48eA40Us2V7s
-	 Qg8vYoJ1Qv3JTQDAAfQcmrtEM4Zr+ZkAoijQ+bZbg7wY2aMOOXI7UqbaxUoZskzWTf
-	 60KKQHCfCWbH8a+7s6iHbcsfuFcbvAPVCZ5rBdsI=
-Message-ID: <152d9393-4af3-4c2f-a808-367ee7249d36@linux.microsoft.com>
-Date: Fri, 23 Jan 2026 10:34:55 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTfapnVG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49AFC4CEF1;
+	Fri, 23 Jan 2026 19:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769194825;
+	bh=dNbnoajf/gBZc+p+PfQpAb1rVqmmyiRUsr7Dz6cjJuk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=bTfapnVGJE0VCwydGcsW3hercYSBaXDW4DBhryt+CBBRVBOEygSXx+p5s4vz1o5jE
+	 xiKFDMaJ0SLzR0o7JYJtpn3jV7i1MvWsQYwM3/CUxy21uiGL+moka+CKRT8lgRxqK2
+	 gLezm06FbGCZCAonyx4vnPBsXbSHZ5zEiEWpWDPxVjRsQvkJWSw6x+14O7I+vwUbvs
+	 wOW22mCYG76IZC4BeQf7GzwTKs+iQaNr06nyTFhyUsEdAWwcsjGLGF1/d2CE6rSCh+
+	 qxeGOQ5nDIZKzwRw0bWh1Nhk0/TPuDjoV3qXDw7jQnz+//9FUziGgIfYcRzuVz/K6B
+	 wqHMngQWzQ9qg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id C8E7E3808200;
+	Fri, 23 Jan 2026 19:00:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 14/15] mshv: Remove mapping of mmio space during map
- user ioctl
-To: Mukesh R <mrathor@linux.microsoft.com>, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com, catalin.marinas@arm.com,
- will@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, hpa@zytor.com, joro@8bytes.org,
- lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
- robh@kernel.org, bhelgaas@google.com, arnd@arndb.de, mhklinux@outlook.com,
- romank@linux.microsoft.com
-References: <20260120064230.3602565-1-mrathor@linux.microsoft.com>
- <20260120064230.3602565-15-mrathor@linux.microsoft.com>
-Content-Language: en-US
-From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-In-Reply-To: <20260120064230.3602565-15-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/9] net: convert drivers to
+ .get_rx_ring_count
+ (last part)
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176919482134.2680587.4373098453600260761.git-patchwork-notify@kernel.org>
+Date: Fri, 23 Jan 2026 19:00:21 +0000
+References: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
+In-Reply-To: <20260122-grxring_big_v4-v2-0-94dbe4dcaa10@debian.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
+ somnath.kotur@broadcom.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ irusskikh@marvell.com, horms@kernel.org, kys@microsoft.com,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ longli@microsoft.com, alexanderduyck@fb.com, kernel-team@meta.com,
+ ecree.xilinx@gmail.com, brett.creeley@amd.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, oss-drivers@corigine.com,
+ linux-hyperv@vger.kernel.org, linux-net-drivers@amd.com, sbhatta@marvell.com
 
-On 1/19/2026 10:42 PM, Mukesh R wrote:
-> From: Mukesh Rathor <mrathor@linux.microsoft.com>
-> 
-> VFIO no longer puts the mmio pfn in vma->vm_pgoff. So, remove code
-> that is using it to map mmio space. It is broken and will cause
-> panic.
+Hello:
 
-What is the reason for having this as a separate commit from patch 15?
-It seems like removing this code and adding the mmio intercept
-handling could be done in one patch.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
+On Thu, 22 Jan 2026 10:40:12 -0800 you wrote:
+> Commit 84eaf4359c36 ("net: ethtool: add get_rx_ring_count callback to
+> optimize RX ring queries") added specific support for GRXRINGS callback,
+> simplifying .get_rxnfc.
 > 
-> Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
-> ---
->  drivers/hv/mshv_root_main.c | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
+> Remove the handling of GRXRINGS in .get_rxnfc() by moving it to the new
+> .get_rx_ring_count().
 > 
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index 27313419828d..03f3aa9f5541 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-> @@ -1258,16 +1258,8 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
->  }
->  
->  /*
-> - * This maps two things: guest RAM and for pci passthru mmio space.
-> - *
-> - * mmio:
-> - *  - vfio overloads vm_pgoff to store the mmio start pfn/spa.
-> - *  - Two things need to happen for mapping mmio range:
-> - *	1. mapped in the uaddr so VMM can access it.
-> - *	2. mapped in the hwpt (gfn <-> mmio phys addr) so guest can access it.
-> - *
-> - *   This function takes care of the second. The first one is managed by vfio,
-> - *   and hence is taken care of via vfio_pci_mmap_fault().
-> + * This is called for both user ram and mmio space. The mmio space is not
-> + * mapped here, but later during intercept.
->   */
->  static long
->  mshv_map_user_memory(struct mshv_partition *partition,
-> @@ -1276,7 +1268,6 @@ mshv_map_user_memory(struct mshv_partition *partition,
->  	struct mshv_mem_region *region;
->  	struct vm_area_struct *vma;
->  	bool is_mmio;
-> -	ulong mmio_pfn;
->  	long ret;
->  
->  	if (mem.flags & BIT(MSHV_SET_MEM_BIT_UNMAP) ||
-> @@ -1286,7 +1277,6 @@ mshv_map_user_memory(struct mshv_partition *partition,
->  	mmap_read_lock(current->mm);
->  	vma = vma_lookup(current->mm, mem.userspace_addr);
->  	is_mmio = vma ? !!(vma->vm_flags & (VM_IO | VM_PFNMAP)) : 0;
-> -	mmio_pfn = is_mmio ? vma->vm_pgoff : 0;
->  	mmap_read_unlock(current->mm);
->  
->  	if (!vma)
-> @@ -1313,10 +1303,8 @@ mshv_map_user_memory(struct mshv_partition *partition,
->  					    HV_MAP_GPA_NO_ACCESS, NULL);
->  		break;
->  	case MSHV_REGION_TYPE_MMIO:
-> -		ret = hv_call_map_mmio_pages(partition->pt_id,
-> -					     region->start_gfn,
-> -					     mmio_pfn,
-> -					     region->nr_pages);
-> +		/* mmio mappings are handled later during intercepts */
-> +		ret = 0;
->  		break;
->  	}
->  
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2,1/9] net: benet: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/8f2a880d652e
+  - [net-next,v2,2/9] net: atlantic: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/489a5b81abbc
+  - [net-next,v2,3/9] net: nfp: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/46f4ad55605e
+  - [net-next,v2,4/9] net: mana: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/3eb722571835
+  - [net-next,v2,5/9] net: fbnic: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/ea28b02da84c
+  - [net-next,v2,6/9] net: ionic: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/8bd5cee9891a
+  - [net-next,v2,7/9] net: sfc: efx: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/67f16fba554f
+  - [net-next,v2,8/9] net: sfc: siena: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/c9e4688b2ee2
+  - [net-next,v2,9/9] net: sfc: falcon: convert to use .get_rx_ring_count
+    https://git.kernel.org/netdev/net-next/c/f584347c1a2b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
