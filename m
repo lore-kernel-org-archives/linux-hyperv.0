@@ -1,36 +1,41 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC642D94AF;
-	Fri, 23 Jan 2026 01:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A202837C0F5;
+	Fri, 23 Jan 2026 01:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769132119; cv=none; b=KJOJLu2iGpT8lbwsM+zqwDzo1pSmrWEnKsRSBvasWb+x7EEgiQZH9Hpj+RQPsMGgnxIek/CvETGr4krYpaxTbc1WpBSPPLesyyPbEkPNah6k2GwcdLFd70+ly59H/ZDXOdIHUTj56wnHrlkOa4/eiBvO9K4W7sSmNBgfFH+O1H4=
+	t=1769132144; cv=none; b=Cu0EEw62tx+KHiOicauTtWD+3IiicjmvB/xPzu8+rMpBeKx7bUvgJ8LdQYYPPc0vD0I9ENvIisBJjWq71EuhevDxb5zYTFePx/RqV5UUeXaKaNmigmR8OhMTRhUX9SX22QB772tdqXWnb4nSRnr/u3gxZexbPl+sPq5erveOclo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769132119; c=relaxed/simple;
-	bh=1mCV0bcstSRbwW7FKNx5coT9sMQjY9V8Lpvwt7BX+pA=;
-	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=hjU6zMWDsFjnSeeY2y6VfRUhsnOBO+Kk6kjX1BdiatQiL4NjGgfJiBPSAMj9n9xDG30QmCLUK3BkB/UfD5iKkrIGjT3YDugjtiIJSpsmja0vH9PebL7YdnNnXkj4GwbW889tDyuKRV38u6YOR9+TjHRwP+axzklvTqN7d5QF4iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WDJqcGeK; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1769132144; c=relaxed/simple;
+	bh=SPyYKW3LT1sgk2lefJfL2qKPTfQSSDsr3dEBZfgtcmA=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Zg6zzsT/vsvn9D1jCA4f03AvDPPJqvDR8m1gArQEPsXCS3qtqL2/s4AoIhXxpmZPDQyvKHszJZD4UGhGfqtaNLLIVqVLTFtrJcwoFnvNrl/44NzWP0OvEgdE1tuL84eki8sxBbnstw8LGlHJtuJopkfGhNBmGgFXYZ7kLlXa3Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VB7XWOWZ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WDJqcGeK"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VB7XWOWZ"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4052A20B716B;
-	Thu, 22 Jan 2026 17:35:08 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4052A20B716B
+	by linux.microsoft.com (Postfix) with ESMTPSA id 56B6B20B716C;
+	Thu, 22 Jan 2026 17:35:23 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 56B6B20B716C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1769132108;
-	bh=YZ0ni/2on9/jYhWvf4RupDBE6xdWYt4t11T3WMLuJhA=;
-	h=Subject:From:To:Cc:Date:From;
-	b=WDJqcGeKQuxHxt45ZLrj0paWlEEW7XW4o5aJfUa854VBxlzzo+iCVGT/M6USFedCQ
-	 QGt+TkIMRwOgpokzELJ5SKK1vMOWGQOCWLs6CJN9qGXFKua9Vs9EPoM32yg9PsAB44
-	 XANnSUyG9fn3MNAZQzRmvVAGjgPhNI9Net37lEVc=
-Subject: [PATCH 0/4] Improve Hyper-V memory deposit error handling
+	s=default; t=1769132123;
+	bh=DNteAVD9gcRDbDbXeAIqGMON6OS7bmuwgttDS2qy1jc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=VB7XWOWZ9l0WFE8OSlXY0Ugh7A1agCmdfYZ8UBHUohYwnWtDrHeQAku267Y3FvmZy
+	 HOG5rQffT6gumtRzzHvf3Ei1VUUasWMnaPYLI1GSgIp06ZGDQqYtNDmuXcSyP0Y5sU
+	 qKhiHpRw2CRkHEFjsFbAawKIBo+qCVoK5AkWg63w=
+Subject: [PATCH 2/4] mshv: Introduce hv_deposit_memory helper functions
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 23 Jan 2026 01:35:08 +0000
+Date: Fri, 23 Jan 2026 01:35:23 +0000
 Message-ID: 
+ <176913212322.89165.12915292926444353627.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+In-Reply-To: 
+ <176913164914.89165.5792608454600292463.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+References: 
  <176913164914.89165.5792608454600292463.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 User-Agent: StGit/0.19
 Precedence: bulk
@@ -42,41 +47,212 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-This series extends the MSHV driver to properly handle additional
-memory-related error codes from the Microsofot Hypervisor by depositing
-memory pages when needed.
+Introduce hv_deposit_memory_node() and hv_deposit_memory() helper
+functions to handle memory deposition with proper error handling.
 
-Currently, when the hypervisor returns HV_STATUS_INSUFFICIENT_MEMORY
-during partition creation, the driver calls hv_call_deposit_pages() to
-provide the necessary memory. However, there are other memory-related
-error codes that indicate the hypervisor needs additional memory
-resources, but the driver does not attempt to deposit pages for these
-cases.
+The new hv_deposit_memory_node() function takes the hypervisor status
+as a parameter and validates it before depositing pages. It checks for
+HV_STATUS_INSUFFICIENT_MEMORY specifically and returns an error for
+unexpected status codes.
 
-This series introduces the hv_result_oom() helper function macro to
-identify all memory-related error codes (HV_STATUS_INSUFFICIENT_MEMORY,
-HV_STATUS_INSUFFICIENT_BUFFERS, HV_STATUS_INSUFFICIENT_DEVICE_DOMAINS, and
-HV_STATUS_INSUFFICIENT_ROOT_MEMORY) and ensures the driver attempts to
-deposit pages for all of them via new hv_deposit_memory() helper.
+This is a precursor patch to new out-of-memory error codes support.
+No functional changes intended.
 
-With these changes, partition creation becomes more robust by handling
-all scenarios where the hypervisor requires additional memory deposits.
-
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
+ drivers/hv/hv_proc.c           |   22 ++++++++++++++++++++--
+ drivers/hv/mshv_root_hv_call.c |   25 +++++++++----------------
+ drivers/hv/mshv_root_main.c    |    3 +--
+ include/asm-generic/mshyperv.h |   10 ++++++++++
+ 4 files changed, 40 insertions(+), 20 deletions(-)
 
-Stanislav Kinsburskii (4):
-      mshv: Introduce hv_result_oom() helper function
-      mshv: Introduce hv_deposit_memory helper functions
-      mshv: Handle insufficient contiguous memory hypervisor status
-      mshv: Handle insufficient root memory hypervisor status
+diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+index 80c66d1c74d5..c0c2bfc80d77 100644
+--- a/drivers/hv/hv_proc.c
++++ b/drivers/hv/hv_proc.c
+@@ -110,6 +110,23 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ }
+ EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
+ 
++int hv_deposit_memory_node(int node, u64 partition_id,
++			   u64 hv_status)
++{
++	u32 num_pages;
++
++	switch (hv_result(hv_status)) {
++	case HV_STATUS_INSUFFICIENT_MEMORY:
++		num_pages = 1;
++		break;
++	default:
++		hv_status_err(hv_status, "Unexpected!\n");
++		return -ENOMEM;
++	}
++	return hv_call_deposit_pages(node, partition_id, num_pages);
++}
++EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
++
+ bool hv_result_oom(u64 status)
+ {
+ 	switch (hv_result(status)) {
+@@ -155,7 +172,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 			}
+ 			break;
+ 		}
+-		ret = hv_call_deposit_pages(node, hv_current_partition_id, 1);
++		ret = hv_deposit_memory_node(node, hv_current_partition_id,
++					     status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -197,7 +215,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+ 			}
+ 			break;
+ 		}
+-		ret = hv_call_deposit_pages(node, partition_id, 1);
++		ret = hv_deposit_memory_node(node, partition_id, status);
+ 
+ 	} while (!ret);
+ 
+diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
+index 58c5cbf2e567..06f2bac8039d 100644
+--- a/drivers/hv/mshv_root_hv_call.c
++++ b/drivers/hv/mshv_root_hv_call.c
+@@ -123,8 +123,7 @@ int hv_call_create_partition(u64 flags,
+ 			break;
+ 		}
+ 		local_irq_restore(irq_flags);
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    hv_current_partition_id, 1);
++		ret = hv_deposit_memory(hv_current_partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -151,7 +150,7 @@ int hv_call_initialize_partition(u64 partition_id)
+ 			ret = hv_result_to_errno(status);
+ 			break;
+ 		}
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
++		ret = hv_deposit_memory(partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -465,8 +464,7 @@ int hv_call_get_vp_state(u32 vp_index, u64 partition_id,
+ 		}
+ 		local_irq_restore(flags);
+ 
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    partition_id, 1);
++		ret = hv_deposit_memory(partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -525,8 +523,7 @@ int hv_call_set_vp_state(u32 vp_index, u64 partition_id,
+ 		}
+ 		local_irq_restore(flags);
+ 
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    partition_id, 1);
++		ret = hv_deposit_memory(partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -573,7 +570,7 @@ static int hv_call_map_vp_state_page(u64 partition_id, u32 vp_index, u32 type,
+ 
+ 		local_irq_restore(flags);
+ 
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
++		ret = hv_deposit_memory(partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -722,8 +719,7 @@ hv_call_create_port(u64 port_partition_id, union hv_port_id port_id,
+ 			ret = hv_result_to_errno(status);
+ 			break;
+ 		}
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE, port_partition_id, 1);
+-
++		ret = hv_deposit_memory(port_partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -776,8 +772,7 @@ hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
+ 			ret = hv_result_to_errno(status);
+ 			break;
+ 		}
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    connection_partition_id, 1);
++		ret = hv_deposit_memory(connection_partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -848,8 +843,7 @@ static int hv_call_map_stats_page2(enum hv_stats_object_type type,
+ 			break;
+ 		}
+ 
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    hv_current_partition_id, 1);
++		ret = hv_deposit_memory(hv_current_partition_id, status);
+ 	} while (!ret);
+ 
+ 	return ret;
+@@ -885,8 +879,7 @@ static int hv_call_map_stats_page(enum hv_stats_object_type type,
+ 			return ret;
+ 		}
+ 
+-		ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-					    hv_current_partition_id, 1);
++		ret = hv_deposit_memory(hv_current_partition_id, status);
+ 		if (ret)
+ 			return ret;
+ 	} while (!ret);
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index f4697497f83e..5fc572e31cd7 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -264,8 +264,7 @@ static int mshv_ioctl_passthru_hvcall(struct mshv_partition *partition,
+ 		if (!hv_result_oom(status))
+ 			ret = hv_result_to_errno(status);
+ 		else
+-			ret = hv_call_deposit_pages(NUMA_NO_NODE,
+-						    pt_id, 1);
++			ret = hv_deposit_memory(pt_id, status);
+ 	} while (!ret);
+ 
+ 	args.status = hv_result(status);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index b73352a7fc9e..c8e8976839f8 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -344,6 +344,7 @@ static inline bool hv_parent_partition(void)
+ }
+ 
+ bool hv_result_oom(u64 status);
++int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
+ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
+ int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
+ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
+@@ -353,6 +354,10 @@ static inline bool hv_root_partition(void) { return false; }
+ static inline bool hv_l1vh_partition(void) { return false; }
+ static inline bool hv_parent_partition(void) { return false; }
+ static inline bool hv_result_oom(u64 status) { return false; }
++static inline int hv_deposit_memory_node(int node, u64 partition_id, u64 status)
++{
++	return -EOPNOTSUPP;
++}
+ static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ {
+ 	return -EOPNOTSUPP;
+@@ -367,6 +372,11 @@ static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u3
+ }
+ #endif /* CONFIG_MSHV_ROOT */
+ 
++static inline int hv_deposit_memory(u64 partition_id, u64 status)
++{
++	return hv_deposit_memory_node(NUMA_NO_NODE, partition_id, status);
++}
++
+ #if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
+ u8 __init get_vtl(void);
+ #else
 
-
- drivers/hv/hv_common.c         |    3 ++
- drivers/hv/hv_proc.c           |   54 +++++++++++++++++++++++++++++++++++---
- drivers/hv/mshv_root_hv_call.c |   45 +++++++++++++-------------------
- drivers/hv/mshv_root_main.c    |    5 +---
- include/asm-generic/mshyperv.h |   13 +++++++++
- include/hyperv/hvgdk_mini.h    |   57 +++++++++++++++++++++-------------------
- include/hyperv/hvhdk_mini.h    |    2 +
- 7 files changed, 119 insertions(+), 60 deletions(-)
 
