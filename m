@@ -1,38 +1,38 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A202837C0F5;
-	Fri, 23 Jan 2026 01:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B32320CBC;
+	Fri, 23 Jan 2026 01:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769132144; cv=none; b=Cu0EEw62tx+KHiOicauTtWD+3IiicjmvB/xPzu8+rMpBeKx7bUvgJ8LdQYYPPc0vD0I9ENvIisBJjWq71EuhevDxb5zYTFePx/RqV5UUeXaKaNmigmR8OhMTRhUX9SX22QB772tdqXWnb4nSRnr/u3gxZexbPl+sPq5erveOclo=
+	t=1769132147; cv=none; b=HCFYTnzPk0306HpblfOI3VaEWBPP+vY9KpA7WmLJU7CKhlGnyCy9VYCrMsK0PVZVVCE94TU/SzITiawzlB8VZef0EBEDLoNqfO2OI6+9653GeEcsoiX5PNZJzvXVvuBfLma7xSc9n9EGOmimGi0UQNusEExvg6+krKtgPdkXV7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769132144; c=relaxed/simple;
-	bh=SPyYKW3LT1sgk2lefJfL2qKPTfQSSDsr3dEBZfgtcmA=;
+	s=arc-20240116; t=1769132147; c=relaxed/simple;
+	bh=atBjEafVu0EcKn+vzfgJ/N/En3cm9GKhdz10mbOOegs=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zg6zzsT/vsvn9D1jCA4f03AvDPPJqvDR8m1gArQEPsXCS3qtqL2/s4AoIhXxpmZPDQyvKHszJZD4UGhGfqtaNLLIVqVLTFtrJcwoFnvNrl/44NzWP0OvEgdE1tuL84eki8sxBbnstw8LGlHJtuJopkfGhNBmGgFXYZ7kLlXa3Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VB7XWOWZ; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=OyeKg+v1ltpeQVi+feM7FDannbfjL39i9YyG3vFLokB0kw5r1MavnZbqqOjMzH5v+UQQJBa2g4reqAjiAmqnHKlQoDB/qgBTzxJBYrxxULSsZ47yidxVkwvCJzzFurX6QlvT9QgqCNezyvLNtMk/6o+eXnw9fVPIA4WzPwRAPZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=eY/sgWC4; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VB7XWOWZ"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eY/sgWC4"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 56B6B20B716C;
-	Thu, 22 Jan 2026 17:35:23 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 56B6B20B716C
+	by linux.microsoft.com (Postfix) with ESMTPSA id AE3C120B718C;
+	Thu, 22 Jan 2026 17:35:13 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AE3C120B718C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1769132123;
-	bh=DNteAVD9gcRDbDbXeAIqGMON6OS7bmuwgttDS2qy1jc=;
+	s=default; t=1769132113;
+	bh=Go1GaBM3iT2H/Pb6lUGjPqO/X95RUKiSyRQ3yTS82jY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VB7XWOWZ9l0WFE8OSlXY0Ugh7A1agCmdfYZ8UBHUohYwnWtDrHeQAku267Y3FvmZy
-	 HOG5rQffT6gumtRzzHvf3Ei1VUUasWMnaPYLI1GSgIp06ZGDQqYtNDmuXcSyP0Y5sU
-	 qKhiHpRw2CRkHEFjsFbAawKIBo+qCVoK5AkWg63w=
-Subject: [PATCH 2/4] mshv: Introduce hv_deposit_memory helper functions
+	b=eY/sgWC4Hp+tZwjYfoP5lmPuO8ryvAaQxIeLdQJUhP7d1ArTIluUXZooi7ha1FR5t
+	 6Bi54UMeZhaIJ7CcEZegM+nEXAL/KbhP92Ba2/RknVOs38QfYPCh2VwA+6Wg4YrWeQ
+	 +giUMIq/6BrThVElfQeTf1odSICk4VpEHctZu+CY=
+Subject: [PATCH 1/4] mshv: Introduce hv_result_oom() helper function
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 23 Jan 2026 01:35:23 +0000
+Date: Fri, 23 Jan 2026 01:35:13 +0000
 Message-ID: 
- <176913212322.89165.12915292926444353627.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <176913211358.89165.15502151782362191256.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <176913164914.89165.5792608454600292463.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -47,212 +47,187 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Introduce hv_deposit_memory_node() and hv_deposit_memory() helper
-functions to handle memory deposition with proper error handling.
+Replace direct comparisons of hv_result(status) against
+HV_STATUS_INSUFFICIENT_MEMORY with a new hv_result_oom() helper function.
+This improves code readability and provides a consistent and extendable
+interface for checking out-of-memory conditions in hypercall results.
 
-The new hv_deposit_memory_node() function takes the hypervisor status
-as a parameter and validates it before depositing pages. It checks for
-HV_STATUS_INSUFFICIENT_MEMORY specifically and returns an error for
-unexpected status codes.
-
-This is a precursor patch to new out-of-memory error codes support.
 No functional changes intended.
 
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/hv_proc.c           |   22 ++++++++++++++++++++--
- drivers/hv/mshv_root_hv_call.c |   25 +++++++++----------------
- drivers/hv/mshv_root_main.c    |    3 +--
- include/asm-generic/mshyperv.h |   10 ++++++++++
- 4 files changed, 40 insertions(+), 20 deletions(-)
+ drivers/hv/hv_proc.c           |   14 ++++++++++++--
+ drivers/hv/mshv_root_hv_call.c |   20 ++++++++++----------
+ drivers/hv/mshv_root_main.c    |    2 +-
+ include/asm-generic/mshyperv.h |    3 +++
+ 4 files changed, 26 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 80c66d1c74d5..c0c2bfc80d77 100644
+index fbb4eb3901bb..80c66d1c74d5 100644
 --- a/drivers/hv/hv_proc.c
 +++ b/drivers/hv/hv_proc.c
-@@ -110,6 +110,23 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+@@ -110,6 +110,16 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
  }
  EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
  
-+int hv_deposit_memory_node(int node, u64 partition_id,
-+			   u64 hv_status)
++bool hv_result_oom(u64 status)
 +{
-+	u32 num_pages;
-+
-+	switch (hv_result(hv_status)) {
++	switch (hv_result(status)) {
 +	case HV_STATUS_INSUFFICIENT_MEMORY:
-+		num_pages = 1;
-+		break;
-+	default:
-+		hv_status_err(hv_status, "Unexpected!\n");
-+		return -ENOMEM;
++		return true;
 +	}
-+	return hv_call_deposit_pages(node, partition_id, num_pages);
++	return false;
 +}
-+EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
++EXPORT_SYMBOL_GPL(hv_result_oom);
 +
- bool hv_result_oom(u64 status)
+ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
  {
- 	switch (hv_result(status)) {
-@@ -155,7 +172,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 			}
- 			break;
- 		}
--		ret = hv_call_deposit_pages(node, hv_current_partition_id, 1);
-+		ret = hv_deposit_memory_node(node, hv_current_partition_id,
-+					     status);
- 	} while (!ret);
+ 	struct hv_input_add_logical_processor *input;
+@@ -137,7 +147,7 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 					 input, output);
+ 		local_irq_restore(flags);
  
- 	return ret;
-@@ -197,7 +215,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 			}
- 			break;
- 		}
--		ret = hv_call_deposit_pages(node, partition_id, 1);
-+		ret = hv_deposit_memory_node(node, partition_id, status);
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			if (!hv_result_success(status)) {
+ 				hv_status_err(status, "cpu %u apic ID: %u\n",
+ 					      lp_index, apic_id);
+@@ -179,7 +189,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+ 		status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
+ 		local_irq_restore(irq_flags);
  
- 	} while (!ret);
- 
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			if (!hv_result_success(status)) {
+ 				hv_status_err(status, "vcpu: %u, lp: %u\n",
+ 					      vp_index, flags);
 diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index 58c5cbf2e567..06f2bac8039d 100644
+index 598eaff4ff29..58c5cbf2e567 100644
 --- a/drivers/hv/mshv_root_hv_call.c
 +++ b/drivers/hv/mshv_root_hv_call.c
-@@ -123,8 +123,7 @@ int hv_call_create_partition(u64 flags,
- 			break;
- 		}
- 		local_irq_restore(irq_flags);
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    hv_current_partition_id, 1);
-+		ret = hv_deposit_memory(hv_current_partition_id, status);
- 	} while (!ret);
+@@ -115,7 +115,7 @@ int hv_call_create_partition(u64 flags,
+ 		status = hv_do_hypercall(HVCALL_CREATE_PARTITION,
+ 					 input, output);
  
- 	return ret;
-@@ -151,7 +150,7 @@ int hv_call_initialize_partition(u64 partition_id)
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			if (hv_result_success(status))
+ 				*partition_id = output->partition_id;
+ 			local_irq_restore(irq_flags);
+@@ -147,7 +147,7 @@ int hv_call_initialize_partition(u64 partition_id)
+ 		status = hv_do_fast_hypercall8(HVCALL_INITIALIZE_PARTITION,
+ 					       *(u64 *)&input);
+ 
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
  			ret = hv_result_to_errno(status);
  			break;
  		}
--		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
-+		ret = hv_deposit_memory(partition_id, status);
- 	} while (!ret);
+@@ -239,7 +239,7 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
  
- 	return ret;
-@@ -465,8 +464,7 @@ int hv_call_get_vp_state(u32 vp_index, u64 partition_id,
- 		}
- 		local_irq_restore(flags);
+ 		completed = hv_repcomp(status);
  
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    partition_id, 1);
-+		ret = hv_deposit_memory(partition_id, status);
- 	} while (!ret);
+-		if (hv_result(status) == HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (hv_result_oom(status)) {
+ 			ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
+ 						    HV_MAP_GPA_DEPOSIT_PAGES);
+ 			if (ret)
+@@ -455,7 +455,7 @@ int hv_call_get_vp_state(u32 vp_index, u64 partition_id,
  
- 	return ret;
-@@ -525,8 +523,7 @@ int hv_call_set_vp_state(u32 vp_index, u64 partition_id,
- 		}
- 		local_irq_restore(flags);
+ 		status = hv_do_hypercall(control, input, output);
  
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    partition_id, 1);
-+		ret = hv_deposit_memory(partition_id, status);
- 	} while (!ret);
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			if (hv_result_success(status) && ret_output)
+ 				memcpy(ret_output, output, sizeof(*output));
  
- 	return ret;
-@@ -573,7 +570,7 @@ static int hv_call_map_vp_state_page(u64 partition_id, u32 vp_index, u32 type,
+@@ -518,7 +518,7 @@ int hv_call_set_vp_state(u32 vp_index, u64 partition_id,
  
- 		local_irq_restore(flags);
+ 		status = hv_do_hypercall(control, input, NULL);
  
--		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
-+		ret = hv_deposit_memory(partition_id, status);
- 	} while (!ret);
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			local_irq_restore(flags);
+ 			ret = hv_result_to_errno(status);
+ 			break;
+@@ -563,7 +563,7 @@ static int hv_call_map_vp_state_page(u64 partition_id, u32 vp_index, u32 type,
+ 		status = hv_do_hypercall(HVCALL_MAP_VP_STATE_PAGE, input,
+ 					 output);
  
- 	return ret;
-@@ -722,8 +719,7 @@ hv_call_create_port(u64 port_partition_id, union hv_port_id port_id,
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			if (hv_result_success(status))
+ 				*state_page = pfn_to_page(output->map_location);
+ 			local_irq_restore(flags);
+@@ -718,7 +718,7 @@ hv_call_create_port(u64 port_partition_id, union hv_port_id port_id,
+ 		if (hv_result_success(status))
+ 			break;
+ 
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
  			ret = hv_result_to_errno(status);
  			break;
  		}
--		ret = hv_call_deposit_pages(NUMA_NO_NODE, port_partition_id, 1);
--
-+		ret = hv_deposit_memory(port_partition_id, status);
- 	} while (!ret);
+@@ -772,7 +772,7 @@ hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
+ 		if (hv_result_success(status))
+ 			break;
  
- 	return ret;
-@@ -776,8 +772,7 @@ hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
  			ret = hv_result_to_errno(status);
  			break;
  		}
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    connection_partition_id, 1);
-+		ret = hv_deposit_memory(connection_partition_id, status);
- 	} while (!ret);
+@@ -843,7 +843,7 @@ static int hv_call_map_stats_page2(enum hv_stats_object_type type,
+ 		if (!ret)
+ 			break;
  
- 	return ret;
-@@ -848,8 +843,7 @@ static int hv_call_map_stats_page2(enum hv_stats_object_type type,
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			hv_status_debug(status, "\n");
  			break;
  		}
+@@ -878,7 +878,7 @@ static int hv_call_map_stats_page(enum hv_stats_object_type type,
+ 		pfn = output->map_location;
  
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    hv_current_partition_id, 1);
-+		ret = hv_deposit_memory(hv_current_partition_id, status);
- 	} while (!ret);
- 
- 	return ret;
-@@ -885,8 +879,7 @@ static int hv_call_map_stats_page(enum hv_stats_object_type type,
- 			return ret;
- 		}
- 
--		ret = hv_call_deposit_pages(NUMA_NO_NODE,
--					    hv_current_partition_id, 1);
-+		ret = hv_deposit_memory(hv_current_partition_id, status);
- 		if (ret)
- 			return ret;
- 	} while (!ret);
+ 		local_irq_restore(flags);
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++		if (!hv_result_oom(status)) {
+ 			ret = hv_result_to_errno(status);
+ 			if (hv_result_success(status))
+ 				break;
 diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index f4697497f83e..5fc572e31cd7 100644
+index 7a36297feea7..f4697497f83e 100644
 --- a/drivers/hv/mshv_root_main.c
 +++ b/drivers/hv/mshv_root_main.c
-@@ -264,8 +264,7 @@ static int mshv_ioctl_passthru_hvcall(struct mshv_partition *partition,
- 		if (!hv_result_oom(status))
+@@ -261,7 +261,7 @@ static int mshv_ioctl_passthru_hvcall(struct mshv_partition *partition,
+ 		if (hv_result_success(status))
+ 			break;
+ 
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY)
++		if (!hv_result_oom(status))
  			ret = hv_result_to_errno(status);
  		else
--			ret = hv_call_deposit_pages(NUMA_NO_NODE,
--						    pt_id, 1);
-+			ret = hv_deposit_memory(pt_id, status);
- 	} while (!ret);
- 
- 	args.status = hv_result(status);
+ 			ret = hv_call_deposit_pages(NUMA_NO_NODE,
 diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index b73352a7fc9e..c8e8976839f8 100644
+index ecedab554c80..b73352a7fc9e 100644
 --- a/include/asm-generic/mshyperv.h
 +++ b/include/asm-generic/mshyperv.h
-@@ -344,6 +344,7 @@ static inline bool hv_parent_partition(void)
+@@ -342,6 +342,8 @@ static inline bool hv_parent_partition(void)
+ {
+ 	return hv_root_partition() || hv_l1vh_partition();
  }
- 
- bool hv_result_oom(u64 status);
-+int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
++
++bool hv_result_oom(u64 status);
  int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
  int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
  int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
-@@ -353,6 +354,10 @@ static inline bool hv_root_partition(void) { return false; }
+@@ -350,6 +352,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
+ static inline bool hv_root_partition(void) { return false; }
  static inline bool hv_l1vh_partition(void) { return false; }
  static inline bool hv_parent_partition(void) { return false; }
- static inline bool hv_result_oom(u64 status) { return false; }
-+static inline int hv_deposit_memory_node(int node, u64 partition_id, u64 status)
-+{
-+	return -EOPNOTSUPP;
-+}
++static inline bool hv_result_oom(u64 status) { return false; }
  static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
  {
  	return -EOPNOTSUPP;
-@@ -367,6 +372,11 @@ static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u3
- }
- #endif /* CONFIG_MSHV_ROOT */
- 
-+static inline int hv_deposit_memory(u64 partition_id, u64 status)
-+{
-+	return hv_deposit_memory_node(NUMA_NO_NODE, partition_id, status);
-+}
-+
- #if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
- u8 __init get_vtl(void);
- #else
 
 
