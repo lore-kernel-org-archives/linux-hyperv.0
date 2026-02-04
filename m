@@ -1,72 +1,79 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F582274FDF;
-	Wed,  4 Feb 2026 01:35:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C66274B58;
+	Wed,  4 Feb 2026 01:58:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770168942; cv=none; b=HUQlJcIqCO+hNk1wwClNJ1FArm8cViMnCpOkS9WJDYIKqNIl2CMPGrZWi+KWzGciReN2PDF2wFWcRl2fRKOfBJ6n3qf7JOtUXNUUua7h4HkuYsmfpaIcyZGfFmr48GKrEaz9wLDI0JHVcgVnldBl7/nLs4Vhj350UiK8PH5dmQs=
+	t=1770170282; cv=none; b=ulh3ZQ8R+nIhNM/5dY8ERasRA3yjrAFae8HH1GTMaXSxUWSbfSy3DCrLtewgyEZ2INlCCf8y8m1dg/A4OmLBIAUySlKjRVJeQeFgRloyTU+KmiDJI4MzeaM4DMeDQ2mWskmGr3et1mdxiZ/h9axPVgKe1LVwTWi4aygaSxvO4QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770168942; c=relaxed/simple;
-	bh=/rQhPV/v276KahwnQo4Vq3jBxiqD5+w6OPOfwGtw4rs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iRR2mqiIk2asxui2csV9dX5AbpN2Th4h8foEX6n7E61+f9o4QuqdzYKsdtZKPQsHlu6cEh3VgrJLji7kRq1o6A8EvR+Bw7V/6V+XibrXuHQy5bnInfBdwTv9OnqX91eI2xDvNPv9REYuiEiFwI81nYX6fG97gunszJXq0PUJ/kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lYaIfl1N; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1770170282; c=relaxed/simple;
+	bh=Zu2OAyoi725Jwsr0j4/q3SOoFfeJyDXgdfC1uCBvups=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NuZHZKQjixhhtAXzBY4gpfLSFwA7hdvRHo5k3/vKUzYYVZvnECG9q0CrT1avwLCD2qWmwzt3c9Q3aXulcyD9+L5APDVsZpqw6a+wjFyQxiZwEQrUpWoggQ84Kecz4p8u67ElK8Af34sGIxaoVJcHDfltHKZRPk0dYJVcvOP/r8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Y+ho9QSX; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lYaIfl1N"
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E2E7920B7168;
-	Tue,  3 Feb 2026 17:35:40 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E2E7920B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Y+ho9QSX"
+Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3DF5120B7168;
+	Tue,  3 Feb 2026 17:58:01 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3DF5120B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1770168941;
-	bh=cM00EVjRHqFZFDl8PsjAvnC7pPmVoJVnGLcJEur/+xY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lYaIfl1NI/KFpAwRDi8++0/5tTipvWjsr0QiNnOni0rWBH8ZIBfUHgMcgC8SLOMGe
-	 w7LGigFCQFqCKtifQdx2bxDwrrfChap1j45gAsKhz9nXy4fZC0aVDWB+wia4S9f8IB
-	 wiSRIKAqwn8aYgAOolwP7IkWYftAxS1akLM0ERSc=
-Message-ID: <9904b018-7a14-4648-073f-8a7599097ddf@linux.microsoft.com>
-Date: Tue, 3 Feb 2026 17:35:40 -0800
+	s=default; t=1770170281;
+	bh=VY/RjybiXaRuR8fIfVJgYb0n1H4o8OLnPleGq+IMT9k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y+ho9QSXe9JgeNVaKVbDEhAKBJqTXl10l8ibryJ0ufZFGNZ41GRxLv/n93WZr+9s+
+	 Kw7gSIQqkN6tzzYS4NIzBkf18V2/ztCiUXKfUPkfHktzHg2Q+H/oBZZZLXyc32lcNv
+	 x0dzSU0WlxCwUuRU1kTJ7Cf1fwpBeSPQOVOu2ayM=
+From: Mukesh R <mrathor@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: wei.liu@kernel.org
+Subject: [PATCH v1] x86/hyperv: Move hv crash init after hypercall pg setup
+Date: Tue,  3 Feb 2026 17:58:00 -0800
+Message-ID: <20260204015800.40843-1-mrathor@linux.microsoft.com>
+X-Mailer: git-send-email 2.51.2.vfs.0.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v0] x86/hyperv: Move hv crash init after hypercall pg
- setup
-Content-Language: en-US
-To: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- wei.liu@kernel.org
-References: <20260203224121.26711-1-mrathor@linux.microsoft.com>
- <ae52e158-d138-4344-ab0c-74b2fae56ddb@linux.microsoft.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <ae52e158-d138-4344-ab0c-74b2fae56ddb@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/3/26 16:25, Easwar Hariharan wrote:
-> On 2/3/2026 2:41 PM, Mukesh R wrote:
->> Fix a regression where hv_root_crash_init() fails a hypercall because
->> the hypercall page is not fully setup. The regression is caused by
->> following commit:
->>
->> commit c8ed0812646e ("x86/hyperv: Use direct call to hypercall-page")
->>
-> 
-> Is that the right commit? The named commit was merged in v6.18-rc1 and
-> hv_root_crash_init() was only merged in v6.19-rc1...
-> 
-> Thanks,
-> Easwar (he/him)
+hv_root_crash_init() is not setting up the hypervisor crash collection
+for baremetal cases because when it's called, hypervisor page is not
+setup. This got missed due to internal mirror falling behind.
 
-Ah, you are right. I guess that commit was not in our internal
-hyper-next mirror, so testing did not reveal the issue and I did not
-notice it. Because of few missing things, we've to use internal mirror
-to test. Anyways, will fix the commit and resend.
+Fix is simple, just move the crash init call after the hypercall
+page setup.
 
-Thanks,
--Mukesh
+Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 14de43f4bc6c..7f3301bd081e 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -558,7 +558,6 @@ void __init hyperv_init(void)
+ 		memunmap(src);
+ 
+ 		hv_remap_tsc_clocksource();
+-		hv_root_crash_init();
+ 		hv_sleep_notifiers_register();
+ 	} else {
+ 		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+@@ -567,6 +566,9 @@ void __init hyperv_init(void)
+ 
+ 	hv_set_hypercall_pg(hv_hypercall_pg);
+ 
++	if (hv_root_partition())        /* after set hypercall pg */
++		hv_root_crash_init();
++
+ skip_hypercall_pg_init:
+ 	/*
+ 	 * hyperv_init() is called before LAPIC is initialized: see
+-- 
+2.51.2.vfs.0.1
+
