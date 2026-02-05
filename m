@@ -1,40 +1,49 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28D8243CEDA;
-	Thu,  5 Feb 2026 17:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770311680; cv=none; b=MyIx4DNvQaOTdbD9sd2dak51bF50iuUwwPod4MwnSMX/ISGokebKtgSd85UEqgaZasRfTt5l6MakYLRM+8ObcLX7eVJHQAEPSstYpq2YXnC+gysnmouHOgZPPzNEnNyRCLbcHZOEzSCy2ZwfGpkAFayoJWBUAPoZ2ZUV6Powyf4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770311680; c=relaxed/simple;
-	bh=//PquAWO58fi24r/fZbJVRtOM6XZ0Pl4qtd5wHhXnjI=;
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB5D2F99BD;
+	Thu,  5 Feb 2026 17:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770314056; cv=pass; b=bPj6QiexyQbKXXtskU0PPISF/ynXuw7akWy4g6/4KSvxytvQBkcAM5zmSdBo0Jr+Ugsr50Qp3dGC2YQzecWCf3wC2ZTc8Cfsio/xLdlKiqgs4H5VTrim3Mqf+FuG0EuthLJ6aCL7L23FbUztD+K0XiI5jVEb4xsFEvRiVXiD0y0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770314056; c=relaxed/simple;
+	bh=UuY/TJ9/k+aHwCtbwTT1//QThhg4FmJb7RyHdm7WnLE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oyNtoqJqGjGL0c+Bt/+sVG5XSAm1SCDGYwsbwibMxTMq/W/POkGs3OE1cdJ5ReESZSTd6Q1sC4sgGTp1UdrDPALhnPh8mqX88/S+Nialj/MgFjAyhWWmQRdtDdfUIDWBvGVsqwuFjIGs9Q4CSqAiLLPaVFtZ1at/CVznxaUDrnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ath5KqjZ; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUyby3aVMJWCliy1Mo/fAboTzhaluPagBknpQvgkmMh1miHG+pN5XNmcPEWS9DsrCYNkI6nTt0Jo5DtGRyaF1XJh3vGirUvCqYl+o0GcMQVKsE2WxhtIhiWCvPgOSkWRsIHCF9+rxN3mM+qeoknlAbYrvz2Knl/2DqO09NeAgr4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com; spf=pass smtp.mailfrom=anirudhrb.com; dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b=t3JYQ6wo; arc=pass smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anirudhrb.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ath5KqjZ"
-Received: from skinsburskii.localdomain (unknown [52.148.138.235])
-	by linux.microsoft.com (Postfix) with ESMTPSA id AEF8D20B7168;
-	Thu,  5 Feb 2026 09:14:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AEF8D20B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1770311679;
-	bh=2i4ZSeIA7hu8g/5wqWmRxrmAdVWjpmG3ZIHPcGdGHo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ath5KqjZV22ClIdHKVRUAsKsdBx/De6mQsBcDBhOfgheGbZ0vujdl22grmNEg+h0G
-	 PfaYeFcRFxDNmsNZgq5KYb6ESm5Prp3RaY7xokHQGd757IFtc/mvh1htLu0kWe9BpL
-	 SALnBOJfSKluewz2CnpLUZ1k7j3CH8uY6bcmqdoo=
-Date: Thu, 5 Feb 2026 09:14:38 -0800
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b="t3JYQ6wo"
+ARC-Seal: i=1; a=rsa-sha256; t=1770314046; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MGjLuptchQ+dc4PnAnckvhfuvirPlgPJUFHvRgnJ1uTTqIdjOZd9rbtDU26s70U3u9/8y+CQvViijjqRDXxUTZKeIiNYFn33CRDkM5DnNbfcH8KdnhMS49uXcQ5cWw+P54Zb27ilR7oBuhjdbSGlj8vnhj8Bp2oeXQ9bGwJ5eF0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770314046; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=a1cCBSLCxzsDLYHEus9AOY/on8OIUfKi78kSXYkA7pY=; 
+	b=YuerCgeH8rIJmUu/vMTCY/Gnqss0nBRh9sYxH/+ibRMnnISm45KURaIhgTz+XXjK6Ufks1mhZaAxEV2D1jGBNaL9pplpS3S2LD9VTIcBCKpzJQVMu4nDm/RotSbEM/XN6Wg645waeb4/3K6zi2QPA7KdNM81DZND2AC+1+hI+pM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=anirudhrb.com;
+	spf=pass  smtp.mailfrom=anirudh@anirudhrb.com;
+	dmarc=pass header.from=<anirudh@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770314046;
+	s=zoho; d=anirudhrb.com; i=anirudh@anirudhrb.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=a1cCBSLCxzsDLYHEus9AOY/on8OIUfKi78kSXYkA7pY=;
+	b=t3JYQ6wo6VCYpx/uiS7X44Y0ejF+oatQ83coyyKadPUcAIott4WX+WL3b5GjhWTf
+	tagSHWx/y42OEerNuX8mQPOk9ANd73SiIhMfPpVoFpo6lifQBwozLpEdehSwG47xKmC
+	+EjYUDuuJt5u/Psh95EXiD+JW7rQR3oZdz2RlpXI=
+Received: by mx.zohomail.com with SMTPS id 1770314041791588.7281258431333;
+	Thu, 5 Feb 2026 09:54:01 -0800 (PST)
+Date: Thu, 5 Feb 2026 23:23:55 +0530
+From: Anirudh Rayabharam <anirudh@anirudhrb.com>
 To: lirongqing <lirongqing@baidu.com>
-Cc: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+Cc: "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] mshv: fix SRCU protection in irqfd resampler ack handler
-Message-ID: <aYTP_sgl5fqQoaO8@skinsburskii.localdomain>
+Message-ID: <jahsvo33gzqyngvkjnh6vdnb75ljydbyzrifoda5b7wrq5gcig@td5rmmnjyyg3>
 References: <20260205094010.4301-1-lirongqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -45,6 +54,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260205094010.4301-1-lirongqing@baidu.com>
+X-ZohoMailClient: External
 
 On Thu, Feb 05, 2026 at 04:40:10AM -0500, lirongqing wrote:
 > From: Li RongQing <lirongqing@baidu.com>
@@ -62,12 +72,10 @@ On Thu, Feb 05, 2026 at 04:40:10AM -0500, lirongqing wrote:
 > hlist_for_each_entry_srcu() to ensure we're in the proper
 > read-side critical section.
 > 
-
-Thank you.
-
-Acked-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-
 > Signed-off-by: Li RongQing <lirongqing@baidu.com>
+
+Reviewed-by: Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
+
 > ---
 >  drivers/hv/mshv_eventfd.c | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
