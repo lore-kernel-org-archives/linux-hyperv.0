@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932E5321F5F;
-	Fri, 20 Feb 2026 04:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C0932692F;
+	Fri, 20 Feb 2026 04:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771560647; cv=none; b=DLipQIA1RIqaQuUx9pdk9WyXWmxU88v5sSzUEPgc8r+IqVcffoF5s3umcBV39axMqk63Bt3xOXO0pECJeBgJlGaFfN0MmHXmSVhoiU63NWClhlhz/jwT5TSK0jSIFXfpZC76DNVixQcAWoeHYu7XhOyHPJ+X7YwFkWu4KS8r/yA=
+	t=1771560648; cv=none; b=FQv9kY5E4Ey7WN2GTRPzYCk0SyqflnvZy51Ex5oCdgEbuIGxyw+zIbErb/X9j9g8C5NpJ360F1rfg3+PzP0wUKrwTrriG4V3BB1gMyQhJGtz3i0JdxpD5PRdGwtKC0qACI8Vyfnoxcq//MoTK5e8m+z0MyynhgBY/SChWLpX6QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771560647; c=relaxed/simple;
-	bh=DjnngyKQ6dmi0gCTo1xCIRCHL1ludrKw3TKGvuwo0Ug=;
+	s=arc-20240116; t=1771560648; c=relaxed/simple;
+	bh=PDGCDysOegPLK/FytUAeu19yfLdHed/5Qq2CJVsDdvs=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ijMXuoWZmpIXiMdgYw9diCF91Wvp3Q+dSAzyZhE/bTLV+Zq1HIDWMw2Sf2gQaAGHP/cVz8E/Wl0D+3nsduEfjsWcoqgjWVJjPMxmCSaJBFCOdtV2nu/k0ge7bc0HIrcLYGgFOuoPFdn+d1RXPFyJyk25mUorCSH6Up9gbmzKEpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDXlT4Na; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OGjFCHGN7xyeIWKHFQWWvey1E1BQlYkIi7cI41DXCdClKWlX2HDkQRKHmVYsAMr5yDX2bDNcAmu2DeevWGCjbbNpcE+jY87+14rKTgqGDVP0txXIHaeGqjMbPwout0iZjCDTkSLwR6ImHE2tWvictWGz2jltrp4UojKtDVPwhKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQ0aOCCb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDXlT4Na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219E5C2BC86;
-	Fri, 20 Feb 2026 04:10:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQ0aOCCb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9414BC19421;
+	Fri, 20 Feb 2026 04:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771560647;
-	bh=DjnngyKQ6dmi0gCTo1xCIRCHL1ludrKw3TKGvuwo0Ug=;
+	s=k20201202; t=1771560648;
+	bh=PDGCDysOegPLK/FytUAeu19yfLdHed/5Qq2CJVsDdvs=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=UDXlT4NaQgzahQOt/dvMDQ39sYRD52/c4qNbvdVS19EyX+doX2VR1jGpM6fKTK5hg
-	 rCFmqTKrXa0b5vcg1CKJuJbKtS2lu3bnOvOY1ZcjS8kyszRsQ2ihER7WY0j0/TjBVf
-	 ESR58G8Wv5UXiZfVQgBBL/VOfCL/cCWmW3eJdCd7YiiZjvIc5PshOYVmUb7FMpdqCZ
-	 VR22LNGw4/8tgtnLSks4YTRJWofn1TLmsJ8G9rz+7byiQ7KQhujWiVq++1aXqr5MNK
-	 QsNQ2UwnhyOvc9Xw93nbkQEhuN5Pu9Vx+F7bxbEBDe/gC+mfrfvQgRuyWi/5t61Vpf
-	 lawUTNXKdiYlA==
+	b=YQ0aOCCbuBRr/Aj8Xu6A2nQTmM3iuzSUGERzFgZbv6JdPxvdz+pC4pQ7N+j3/AeDI
+	 ZR1+txPjQ18ja/OqZDa5/Nv4iP8tYkbr0J5tyqjvHLDgH87Rd2ShE1YzmIdowzD/RD
+	 CsPYoHLNtIYdNoA3PjI4oImf1wHzn1ACCU1aY4WmuUFHjoSbr1VEqO81cRnWBfE1Fl
+	 DtF5oGuWhKxoo/nfAA+KyC/Cal3t7yAW3TFJKawNjmzwjn3ZBgsbHgfplzpD3KNJeR
+	 8FbCY63LhQSnD4N4iCdVyw9b+7gQBNb4B3wZrehtaZVPNIMqMLJEjzFqPXwYkXzjTS
+	 NlPxhLiM8yB3A==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA1363809A88;
-	Fri, 20 Feb 2026 04:10:56 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FD393809A88;
+	Fri, 20 Feb 2026 04:10:58 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -37,13 +37,13 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 00/21] paravirt: cleanup and reorg
+Subject: Re: [PATCH v4 00/21] paravirt: cleanup and reorg
 From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <177156065529.189817.17016822219300820690.git-patchwork-notify@kernel.org>
-Date: Fri, 20 Feb 2026 04:10:55 +0000
-References: <20251006074606.1266-1-jgross@suse.com>
-In-Reply-To: <20251006074606.1266-1-jgross@suse.com>
+ <177156065679.189817.6221298327341838079.git-patchwork-notify@kernel.org>
+Date: Fri, 20 Feb 2026 04:10:56 +0000
+References: <20251127070844.21919-1-jgross@suse.com>
+In-Reply-To: <20251127070844.21919-1-jgross@suse.com>
 To: =?utf-8?b?SsO8cmdlbiBHcm/DnyA8amdyb3NzQHN1c2UuY29tPg==?=@aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  x86@kernel.org, linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
@@ -71,7 +71,7 @@ Hello:
 This series was applied to riscv/linux.git (fixes)
 by Borislav Petkov (AMD) <bp@alien8.de>:
 
-On Mon,  6 Oct 2025 09:45:45 +0200 you wrote:
+On Thu, 27 Nov 2025 08:08:23 +0100 you wrote:
 > Some cleanups and reorg of paravirt code and headers:
 > 
 > - The first 2 patches should be not controversial at all, as they
@@ -86,11 +86,11 @@ On Mon,  6 Oct 2025 09:45:45 +0200 you wrote:
 > [...]
 
 Here is the summary with links:
-  - [v3,05/21] paravirt: Remove asm/paravirt_api_clock.h
+  - [v4,05/21] paravirt: Remove asm/paravirt_api_clock.h
     https://git.kernel.org/riscv/c/68b10fd40d49
-  - [v3,06/21] sched: Move clock related paravirt code to kernel/sched
+  - [v4,06/21] sched: Move clock related paravirt code to kernel/sched
     (no matching commit)
-  - [v3,10/21] riscv/paravirt: Use common code for paravirt_steal_clock()
+  - [v4,10/21] riscv/paravirt: Use common code for paravirt_steal_clock()
     https://git.kernel.org/riscv/c/ee9ffcf99f07
 
 You are awesome, thank you!
