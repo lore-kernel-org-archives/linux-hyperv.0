@@ -1,158 +1,185 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0238E11C
-	for <linux-hyperv@vger.kernel.org>; Thu, 26 Feb 2026 07:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A759C3921C9;
+	Thu, 26 Feb 2026 07:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772089301; cv=none; b=u9WYUfwhjQLPcMvSIZN7QNVHrWlyRa2KvNSFY2UIGRKbJ1s/UIhm7oqN6ngo9yvSNAd0OorwN4SSxvFnh56Tq8pCuI5mtXXg5sedtZaBVMhnrOk9elmRoFrgmqmHJjcQx6Gtg4N5clduDRzLSAD1jycyEGKQlN+026lRzLCzYzk=
+	t=1772091972; cv=none; b=IE9v9GjRdVPVPej3vqe2BTrD14ow/BiYZ5fita+fzK+Tw+6PRgG1CaetfA03OS2tbJPtTMXP6mUhy8yrGcGWMq+PAYN4jj02sq2JaqCihE99tlfVm5kdOrFH6ebbjW9Gc8wnArMBnz/DSWQvcPR4zFmj9n9fnQUGeqsocVP7CEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772089301; c=relaxed/simple;
-	bh=fJVeQnZOXsqmKakYSspmc2Cd684q3NJFEKQQw2rrZCg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uFvier6dfXg85tk1PmiRVAp809KjDBrZNVekQbyhpe6tRdnsBrdTXWcQeWW3tzeH3hNXObyit1VXQjX0dLn6O9uM8SpVjU9MzPctLe5ZRIMNhg8tD0waCrqaN6XyP3DLYrU8TyDyG4ta00Ji2V+61gPrfkJEJzo/fqaaFInm8O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T9ooljO9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AfbAUxdj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1772091972; c=relaxed/simple;
+	bh=8rF5K/Ao47rfUmEx+Ps1mmhI+24bcrG8/kevhQmsoCQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Z+H96GjTJzgumegt2gkjmr20CYQBUB75tWrpoL3yEb++jSv2VyGI4WYsUtLQMAJlkfYwT6dB92z3fcn0JdcPQWFMIrghsisBDFB1n6EbDMLJP2THeVO23BHj+VU32rOb0tQM+/oIYezEIt7hHf061+BB0KNJWQpluGXXUmRPtrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGL7b/7k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T9ooljO9";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AfbAUxdj"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4VAoC350383
-	for <linux-hyperv@vger.kernel.org>; Thu, 26 Feb 2026 07:01:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=6H0aClJ1xZt
-	NoAwOJV81SP1JJ5tvKzYZ+QjZdAOzHLY=; b=T9ooljO9Kk1qnZracN1UJbAAvMq
-	VxO74DKciFOW6Sg/H/ULiE5D2SQ0Y3bDZANp42lDFtUq9pYWcIBz8fgDcSidCyuT
-	Rgq2k3zjKiPD+4bxX6U+UbuSlfJxXfXbIy7pjhJaMIf9+XW0PJ5+pyAQdch2Dxth
-	rZXJkLHOT8cSMXQjD5EaRVm+gpsWv6hshSkdudyuju7DQQntNHNU7FISHbSv8IMX
-	T3c1qI9rqzPfNbolx4GtJ47AGeayRFXFhQQPXEjtHYpn8ZFT+GQY0bd+NU4B4vY4
-	oEA6l8CO1gwZ/VL4gg5FftQ58yikFq0hCKHqUvKUNAUKVmMiUETTBdaWFTg==
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj54pa5wa-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-hyperv@vger.kernel.org>; Thu, 26 Feb 2026 07:01:39 +0000 (GMT)
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-67999892f00so13652958eaf.3
-        for <linux-hyperv@vger.kernel.org>; Wed, 25 Feb 2026 23:01:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772089298; x=1772694098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6H0aClJ1xZtNoAwOJV81SP1JJ5tvKzYZ+QjZdAOzHLY=;
-        b=AfbAUxdjEDqtOGFLvvRwVzuHdfObfEbLcfnbCwM78TMXKKw50bvlmkJE1Yoq8X63qi
-         FwK+u1Hd+8gTd331rXCk8j3PO5/RbMLOCkty0L1EtR2YrQG2eQmC/ZBaVcL2I6HOncbj
-         mQ00AJVxXHcH5D6darqEejfLSVhzyOVIM7j9k8gaP5WZrlC2SEaSYfb2dLrLEPo2IoFs
-         FMoLuaOQnjHG9usUQij6ZC6JkV8xD7/XHeWqDuqtDP9ug/n8jB0f2f2mTSDg2GIVotRB
-         7JbWs6JigBhz2ciN3oXvk8j22hTlJzvnNFhsIoCTNUyJE8jMho70wykD1aQA7dfkKOph
-         qtQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772089298; x=1772694098;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6H0aClJ1xZtNoAwOJV81SP1JJ5tvKzYZ+QjZdAOzHLY=;
-        b=ntVRwlRTrirTBvy6FsEEp8ol95q2x8bXe8kcvy4AdesJFMJEKtvbZVPbAxHwcGGBl9
-         FCPyq1Gk0WRUB8A/ARlKV9dp8GTHCtpJs9UyxAyYF/SjQrjYaFbxF1A4MEcK05wJHlt8
-         ReKgVp1ITWXaYwtnSnN3Em5Fh62otaFxWK1BJilkCVUTriDz17cQAq8WI78bx35QnKpL
-         ex5YhylSTHRwlGjca1DWjl8RpWXRXi+iVe7D8/yhXzv7TZnHtN47rLerqplspdSMmZcz
-         iznO7hefbOfe1yMkvZOzHn4BjXV9LZIdRL6ZzVD+RB7IseMCNnE6wmUGSMR7qSKxuf/q
-         lXAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWDCb2yZg9stCgTydxxq0lHSy+q5FSkgu232I/OLtppJ1XbL9FE+etzlBkHAiSreIFxU7uyacHXgl2egZU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBDHn0pSuuCtVsEqEUYN1c8OpliACDJxc4iA7hOHCY37tmysJZ
-	jRhQz1LVIYMcuvmqCUSTmPjjXRVARIcfN5QyZjQ2jPWv7pAG2UBxKnD7ZG9/vhXrakRXoWmIym8
-	HjKHeObUXf9fz1Ko5fPXYlYD4Ru59Krw/EBRrnMI/5HomfQ+MMUahpqwbysZcIKTIfAI=
-X-Gm-Gg: ATEYQzxZ4mFQ6dSJug8HdzzHtKxNEcoLg7/VBR4du1PKJFKieuQaq8pB+7Isq23FedO
-	C/yPKRa62BFkg2g+zvQ+c/wPuSvF88ldsBYql0pVyhhyVg3Nawy34SpubabAqxTLoVgGbHZqpvr
-	dWAyksN5CrWP8vTssSJ5k2XYWdG7J5SRw+bo+cQYyN2zYL/9Bo/+NUjZwfih018yx0yvDQFGlDs
-	xG2z36YPNpgCj8qepFMsPn7O1eIVd8yWiYzw6VwRgG/eD2obutwWZkXDUN85DYMdVtztbLV34hi
-	TErrIiwBqmi2XorIDIiXe2IBkfJnDmGAiGbFsey5720b6K3DWO6lIhCLGtCSKtCcXCSGre0zD1O
-	5tbTLgH7cdY8NLiO3GFO3Dk8Cy5Ri8tfQ4EYM98Vm3yYVunTpdbbO512BHUbwPm5FuTIkrYpyBJ
-	suz1Ln
-X-Received: by 2002:a4a:e842:0:b0:679:7d2b:4362 with SMTP id 006d021491bc7-679ef9653d4mr1803394eaf.48.1772089298472;
-        Wed, 25 Feb 2026 23:01:38 -0800 (PST)
-X-Received: by 2002:a4a:e842:0:b0:679:7d2b:4362 with SMTP id 006d021491bc7-679ef9653d4mr1803232eaf.48.1772089291548;
-        Wed, 25 Feb 2026 23:01:31 -0800 (PST)
-Received: from hu-ysakshit-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-679f2bfee3csm1013246eaf.7.2026.02.25.23.01.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 23:01:31 -0800 (PST)
-From: Yuvraj Sakshith <yuvraj.sakshith@oss.qualcomm.com>
-To: akpm@linux-foundation.org, mst@redhat.com, david@kernel.org
-Cc: vbabka@suse.cz, surenb@google.com, mhocko@suse.com, jackmanb@google.com,
-        hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
-        jasowang@redhat.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com,
-        virtualization@lists.linux.dev, kys@microsoft.com,
-        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-        longli@microsoft.com, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] hv_balloon: Change default page reporting order
-Date: Wed, 25 Feb 2026 23:01:24 -0800
-Message-Id: <20260226070125.3732265-3-yuvraj.sakshith@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260226070125.3732265-1-yuvraj.sakshith@oss.qualcomm.com>
-References: <20260226070125.3732265-1-yuvraj.sakshith@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGL7b/7k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A28CFC2BCB4;
+	Thu, 26 Feb 2026 07:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772091972;
+	bh=8rF5K/Ao47rfUmEx+Ps1mmhI+24bcrG8/kevhQmsoCQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=AGL7b/7kINL5ceVMZ24rdnFoEWEZgN1vnLo5XexSO9uhdKH1gawSIJ/tUd2pCpXxe
+	 x0LTdxTuZoaWAHzNt9/uvxSFNV7HkyKuGKTppjSjS6T12/gRbq8cjzmDzBbPoWTUti
+	 /1favtqMRKOg1CZHIQ9TuTIXn93Nbb/DA8n0fhltpC5k8zGj0ldZLgnhJVKxFrncvr
+	 8rJLg9+j8n1yCulVNb+osym+9M12nWf6Pi7+yqyX3sRbvX+1ura6RDtwJlL+fjpBIJ
+	 yz5HzhrGr+JhvKGWuGAcILlQz4ZSeO4OA80/GI5+rMkZUBgzxZFaXMHeNzW0qkR8iC
+	 BglmHDzCZXS+g==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A70B1F40068;
+	Thu, 26 Feb 2026 02:46:10 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Thu, 26 Feb 2026 02:46:10 -0500
+X-ME-Sender: <xms:QvqfaS45-LhO2YbNoD7td_Nn691d95J7SBwiMbbciR9wuG6AqWEviw>
+    <xme:QvqfaWuABjsraTQBU_wyKrBtiA88f4lYMiDvwkJ5GYwyCavNS37TKEGSJ-Xmc7SMu
+    flosps_UZrYS2eWaJO8wLxao5w6yINGVk5klXLQwlvjNpLWueYzZec>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeehgeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrugcu
+    uehivghshhgvuhhvvghlfdcuoegrrhgusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvueehiedtvedtleekuddutefgffdtleetfeetveejveejieehfefhjeei
+    jeefudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtddtjeel
+    qdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhhofhgrrh
+    gurdgtohhmpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrd
+    guvgdprhgtphhtthhopeifvghirdhlihhusehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    peigkeeisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieslhhinhhuthhroh
+    hnihigrdguvgdprhgtphhtthhopegurghvvgdrhhgrnhhsvghnsehlihhnuhigrdhinhht
+    vghlrdgtohhmpdhrtghpthhtohepmhhrrghthhhorheslhhinhhugidrmhhitghrohhsoh
+    hfthdrtghomhdprhgtphhtthhopeguvggtuhhisehmihgtrhhoshhofhhtrdgtohhmpdhr
+    tghpthhtohephhgrihihrghnghiisehmihgtrhhoshhofhhtrdgtohhm
+X-ME-Proxy: <xmx:QvqfaV-Z0iBB23v2e2fCaiJc3ZT-wbl4ttw4hx3MD2EB9a160UKQmw>
+    <xmx:QvqfafQGvqh2MZ-rxCiWZnOF9ZEl2G6aaaeHFMInEB3x-q_Vz88MCw>
+    <xmx:Qvqfacm1aagKmmFjlPabdKL8Tycqf-nyfJIYFcv3q5syNu-bdC4aug>
+    <xmx:QvqfaaU6J3G5DONCluueCLczj4YwlaHzdMPKSmMhmdxVnC2goHj3Eg>
+    <xmx:QvqfaRdSfAgHuPZx5LtO0DSBBnqylFkLT-AI2O1gUTR1EfKtKvTu2mrj>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 76112700065; Thu, 26 Feb 2026 02:46:10 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA2MSBTYWx0ZWRfXy6RrVhKTCwhy
- aE1CvzFWGdKn8I9jv0HSrTK8duiZhX5Ec+1xhR3sAn59u+TxhZKHyf63BpjHTpo3lqmt98WgQpq
- sFnf0UabcmS7B9tTqICHru5ppHiSMjtvm2fqbZxX7VPX0BH+kNe2H3yRmUi8UTrfNWx5LR2has4
- N/RlGHJ8+GI6PmBGn5wmLv6BN9NINM3EXxp04XARkz2OP1N9+obxR6r+lQYNmbJNU2DYwyMomyr
- +4yUD1fghqdkeUyZP3KWYl/fw6gvxW/MoWqQPjxcbknCQz2TbPsdualbMXoKLvKVwzKd4SM3Q3H
- 57c6W3clxFrt43nkJjIhlRbWbKF0eDbEDJzf/qo69GNMVDLq1wZKrlPWSvJ23qztg8U8moas5NV
- DNZOtF14qdKyhqlSQo2k/eGA/ctbcgIOLXywwzLKdQokUDXuWtaH2cJejsu7/0WVyErES6PNiJ/
- RvF5CoixnEdQk6OqWWw==
-X-Proofpoint-GUID: GI7yFWSqMclvAnUd6SUyoiRBEb4BOSMR
-X-Authority-Analysis: v=2.4 cv=I5Bohdgg c=1 sm=1 tr=0 ts=699fefd3 cx=c_pps
- a=V4L7fE8DliODT/OoDI2WOg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=IMYoWy77fT7TwZj6-SAA:9 a=WZGXeFmKUf7gPmL3hEjn:22
-X-Proofpoint-ORIG-GUID: GI7yFWSqMclvAnUd6SUyoiRBEb4BOSMR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 adultscore=0 malwarescore=0 impostorscore=0 phishscore=0
- spamscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260061
+Date: Thu, 26 Feb 2026 08:44:39 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Mukesh Rathor" <mrathor@linux.microsoft.com>,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, "Thomas Gleixner" <tglx@linutronix.de>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ dave.hansen@linux.intel.com, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, "Arnd Bergmann" <arnd@arndb.de>
+Message-Id: <eb1c44d7-2664-4269-8824-e90e5a8494b2@app.fastmail.com>
+In-Reply-To: <f8199494-0c42-5eb0-f99e-cc6f6e304d40@linux.microsoft.com>
+References: <20250910001009.2651481-1-mrathor@linux.microsoft.com>
+ <20250910001009.2651481-6-mrathor@linux.microsoft.com>
+ <38cdec03-889e-43dd-9dad-e621aba9dc8d@app.fastmail.com>
+ <f8199494-0c42-5eb0-f99e-cc6f6e304d40@linux.microsoft.com>
+Subject: Re: [PATCH v1 5/6] x86/hyperv: Implement hypervisor ram collection into vmcore
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-page_reporting_order used to fall back to default
-value (passed as parameter or MAX_PAGE_ORDER) if
-the driver wishes to not provide it.
 
-The way the driver used to do this was by passing
-the order as zero.
+On Wed, 25 Feb 2026, at 23:27, Mukesh R wrote:
+> On 2/21/26 08:43, Ard Biesheuvel wrote:
+>> Just spotted this code in v7.0-rc
+>> 
+>> On Wed, 10 Sep 2025, at 02:10, Mukesh Rathor wrote:
+>> ...
+>> 
+>>> +static asmlinkage void __noreturn hv_crash_c_entry(void)
+>> 
+>> 'asmlinkage' means that the function may be called from another compilation unit written in assembler, but it doesn't actually evaluate to anything in most cases. Combining it with 'static' makes no sense whatsoever.
+>
+> 'static' means scope is limited to the file. Common in cases where function
+> pointers are used, like here in this file way below.
+>
+> Like the comment says:
+>      "This is the C entry point from the asm glue code after...."
+>
+> IOW, called from assembly function (asm == assembly).
+>
 
-Now that zero is a valid order that can be passed by
-a driver to page reporting, we use -1 to signal
-default value to be used.
+I wasn't asking you to explain what 'static' means. I was explaining to you that asmlinkage means 'external linkage' whereas 'static' means the opposite, and so combining them makes no sense.
 
-Signed-off-by: Yuvraj Sakshith <yuvraj.sakshith@oss.qualcomm.com>
----
- drivers/hv/hv_balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-index 2b4080e51..e33d6e3b2 100644
---- a/drivers/hv/hv_balloon.c
-+++ b/drivers/hv/hv_balloon.c
-@@ -1663,7 +1663,7 @@ static void enable_page_reporting(void)
- 	 * We let the page_reporting_order parameter decide the order
- 	 * in the page_reporting code
- 	 */
--	dm_device.pr_dev_info.order = 0;
-+	dm_device.pr_dev_info.order = -1;
- 	ret = page_reporting_register(&dm_device.pr_dev_info);
- 	if (ret < 0) {
- 		dm_device.pr_dev_info.report = NULL;
--- 
-2.34.1
+>> 
+>>> +{
+>>> +	struct hv_crash_ctxt *ctxt = &hv_crash_ctxt;
+>>> +
+>>> +	/* first thing, restore kernel gdt */
+>>> +	native_load_gdt(&ctxt->gdtr);
+>>> +
+>>> +	asm volatile("movw %%ax, %%ss" : : "a"(ctxt->ss));
+>>> +	asm volatile("movq %0, %%rsp" : : "m"(ctxt->rsp));
+>>> +
+>> 
+>> This code is truly very broken. You cannot enter a C function without a stack, and assign RSP half way down the function. Especially after allocating local variables and/or calling other functions - it may happen to work in most cases, but it is very fragile. (Other architectures have the concept of 'naked' functions for this purpose but x86 does not)
+>
+> Local variable refers to static bss struct. IOW,
+>
+>        asm volatile("movq %0, %%rsp" : : "m"(ctxt->rsp));
+>
+> same as:
+>        asm volatile("movq %0, %%rsp" : : "m"(&hv_crash_ctxt.rsp));
+>
+>
+
+No, it is *not* the same. In practice, the compiler might perform this substitution, but there is no guarantee that this happens.
+
+
+>> IOW, this whole function should be written in asm.
+>>> +	asm volatile("movw %%ax, %%ds" : : "a"(ctxt->ds));
+>>> +	asm volatile("movw %%ax, %%es" : : "a"(ctxt->es));
+>>> +	asm volatile("movw %%ax, %%fs" : : "a"(ctxt->fs));
+>>> +	asm volatile("movw %%ax, %%gs" : : "a"(ctxt->gs));
+>>> +
+>>> +	native_wrmsrq(MSR_IA32_CR_PAT, ctxt->pat);
+>>> +	asm volatile("movq %0, %%cr0" : : "r"(ctxt->cr0));
+>>> +
+>>> +	asm volatile("movq %0, %%cr8" : : "r"(ctxt->cr8));
+>>> +	asm volatile("movq %0, %%cr4" : : "r"(ctxt->cr4));
+>>> +	asm volatile("movq %0, %%cr2" : : "r"(ctxt->cr4));
+>>> +
+>>> +	native_load_idt(&ctxt->idtr);
+>>> +	native_wrmsrq(MSR_GS_BASE, ctxt->gsbase);
+>>> +	native_wrmsrq(MSR_EFER, ctxt->efer);
+>>> +
+>>> +	/* restore the original kernel CS now via far return */
+>>> +	asm volatile("movzwq %0, %%rax\n\t"
+>>> +		     "pushq %%rax\n\t"
+>>> +		     "pushq $1f\n\t"
+>>> +		     "lretq\n\t"
+>>> +		     "1:nop\n\t" : : "m"(ctxt->cs) : "rax");
+>>> +
+>>> +	/* We are in asmlinkage without stack frame,
+>> 
+>> You just switched to __KERNEL_CS via the stack.
+>
+> compiler doesn't know that.
+>
+
+So? But does it means to 'be in asmlinkage' in your interpretation? Did you check what 'asmlinkage' actually evaluates to?
+
+I am not asking you to justify why this broken code works in practice, I am asking you to fix it.
+
+>>> hence make a C function
+>>> +	 * call which will buy stack frame to restore the tss or clear PT
+>>> entry.
+>>> +	 */
+>> 
+>> Where does one buy a stack frame?
+>
+> A stack market :).  Callee will create stack frame now that rsp is
+> setup.
+>
+
+This code is beyond broken. Please propose fixes rather than try to argue why carrying broken code like this is acceptable.
 
