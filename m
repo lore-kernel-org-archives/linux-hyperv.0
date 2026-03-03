@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966973CF66C;
-	Tue,  3 Mar 2026 14:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C655235E948;
+	Tue,  3 Mar 2026 14:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772549843; cv=none; b=WeUUpPsXhheOBcodhGLf2uzbBiz6yHHUqgYc+w9Wf4rYcsC6MYSyG4XQpxiJOMf22VE7HejdLXTgSlKarM4kM1ryGXvppDq4m0bs9auLq0bJi+JvSif4ER4hBJ1sklYGOdwJS4IcTt58Fc2cmlFka4Bcb54x99+RwPD5ZpcXVaw=
+	t=1772549958; cv=none; b=F8jjJcC7vd+2czbny1pwTbqfeYaiGcTR0Fy0f7Y0Leh9C5sLdaoOIr3/7OkBz4OADq/XD8kKQC6pHuCJMc1q25MoX9bPNonuU0siV2nnjJlhaqLvtvjvlNbX17zpz61jAYAmwqbSl/06eSzaPfwDC/06GB8BVh+39Ab4kWJJOqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772549843; c=relaxed/simple;
-	bh=ZZ+qmiecneAZ4xQmAmygqxuLBiEj4PedcYMuL50QNXA=;
+	s=arc-20240116; t=1772549958; c=relaxed/simple;
+	bh=xrDoBLkBEaX21ErvzFBZLUETCPovsLfcVA0ts8/6Izc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TaRh+qw8loo8nm2kON7wrZVofUztnU8WcW35drJpAcAi2NCGfVtYVEFal0Qi2ybNEPFlPyUI36t8aocDfaEoOn+5jRwQ93uM9l327Mm0VqxkHGvPFX9xMzZ262Y2rn5MudDHtNhOdCLk+AVDggUX2s61iNT/8/o6VaOW2T6KRTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aj8aPiYm; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Rv7Yr8GYFU74vUf+NY6DifIoOiUdlMcPwBAhIH49oX2Xs6wHl1IH0VRcaDcXjQrapOeCB9ZAtG2TwVNqFTuHVcFOklw2NZjHSKYZF3blNq7HOV8agi+NdndiAyYpgBqvuCtp021BZ4KrbmKfFFZDbNYEUNF1HnpCCi1DsEh40xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5DORz8N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aj8aPiYm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D16C7C116C6;
-	Tue,  3 Mar 2026 14:57:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5DORz8N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83C1C19422;
+	Tue,  3 Mar 2026 14:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772549843;
-	bh=ZZ+qmiecneAZ4xQmAmygqxuLBiEj4PedcYMuL50QNXA=;
+	s=k20201202; t=1772549958;
+	bh=xrDoBLkBEaX21ErvzFBZLUETCPovsLfcVA0ts8/6Izc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aj8aPiYmKukdRQi6O7Ps1KrQTuP9LNpCm0E+O1TzYfd/9YDeJBJH3G7GRSQVG5ewX
-	 vkRKhZgyakeaiEN9r/eN78cI/Souq4jGJ+Ui7URFynaSn4ycqasn4AxKMc4t1m8/cd
-	 kuNXW6vyuvyGwTVORsjgBDjHIE4A/+FxPKeliCuyGyjcWpXzJjUu8sK8obBw0Pod85
-	 wOyDHBrMnRgzHCGSI3vaJqSFEBHDv9NxjdXDx5LA7YHiuZZPaKRr7MpHGWX3vR/9x9
-	 fl7jkcGygkreaZlZo81cr7GCVlwZt33I7heip/fTmjlvqgk7pp1rIb6PuK0SA/MUzE
-	 EpRu1xyur2sEQ==
-Message-ID: <bd7214a6-fd17-4d8c-9849-5f1a55caa2bd@kernel.org>
-Date: Tue, 3 Mar 2026 15:57:14 +0100
+	b=V5DORz8NEJZmIQUTGn+8RxHixCNUsali4vBslV0zsDrQAQtO7SZzO68QIAN7AvoVK
+	 miQeIRzzTc+Yn/S/NEdq6EdKxyZ/HgaRgKmja/waUOv9VowIKIhVZbQHXG4TATdCXu
+	 fflKX/Mm6F+QjU39KBg2Od8YLcG2CHwnUD13gH9ANe0nJykimyC+hz9GTbjk51PcDv
+	 jshOAEpvEyks3jNyej47eMgr6kA0czyzlNTGhrKdFFYYk3FiWjbni8W1VEq+EiTsc7
+	 NWMADvhdVSP+WzfFGxeBPla1TH6BCDAhBXCKOxAA5NhKuy09QAIRlaM9OmcBsIXWrM
+	 TwUsBTtaTVw8Q==
+Message-ID: <849233d2-9d40-4d67-965d-262153d15d07@kernel.org>
+Date: Tue, 3 Mar 2026 15:59:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/5] mm/page_reporting: add
+Subject: Re: [PATCH v4 5/5] mm/page_reporting: change page_reporting_order to
  PAGE_REPORTING_ORDER_UNSPECIFIED
 To: Yuvraj Sakshith <yuvraj.sakshith@oss.qualcomm.com>, mst@redhat.com
 Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
@@ -47,7 +47,7 @@ Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  linux-mm@kvack.org
 References: <20260303113032.3008371-1-yuvraj.sakshith@oss.qualcomm.com>
- <20260303113032.3008371-2-yuvraj.sakshith@oss.qualcomm.com>
+ <20260303113032.3008371-6-yuvraj.sakshith@oss.qualcomm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -94,55 +94,24 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260303113032.3008371-2-yuvraj.sakshith@oss.qualcomm.com>
+In-Reply-To: <20260303113032.3008371-6-yuvraj.sakshith@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 3/3/26 12:30, Yuvraj Sakshith wrote:
-> Drivers can pass order of pages to be reported while
-> registering itself. Today, this is a magic number, 0.
+> page_reporting_order when uninitialised, holds a magic number -1.
 > 
-> Label this with PAGE_REPORTING_ORDER_UNSPECIFIED and
-> check for it when the driver is being registered.
-> 
-> This macro will be used in relevant drivers next.
+> Since we now maintain PAGE_REPORTING_ORDER_UNSPECIFIED as -1, which
+> is also a flag, set page_reporting_order to this flag.
+
+It's not really a flag. It's a handle for a magic value :)
+
 > 
 > Signed-off-by: Yuvraj Sakshith <yuvraj.sakshith@oss.qualcomm.com>
 > ---
->  include/linux/page_reporting.h | 1 +
->  mm/page_reporting.c            | 3 ++-
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/page_reporting.h b/include/linux/page_reporting.h
-> index fe648dfa3..d1886c657 100644
-> --- a/include/linux/page_reporting.h
-> +++ b/include/linux/page_reporting.h
-> @@ -7,6 +7,7 @@
->  
->  /* This value should always be a power of 2, see page_reporting_cycle() */
->  #define PAGE_REPORTING_CAPACITY		32
-> +#define PAGE_REPORTING_ORDER_UNSPECIFIED	0
->  
->  struct page_reporting_dev_info {
->  	/* function that alters pages to make them "reported" */
-> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-> index e4c428e61..a97ee07cb 100644
-> --- a/mm/page_reporting.c
-> +++ b/mm/page_reporting.c
-> @@ -370,7 +370,8 @@ int page_reporting_register(struct page_reporting_dev_info *prdev)
->  	 */
->  
->  	if (page_reporting_order == -1) {
-> -		if (prdev->order > 0 && prdev->order <= MAX_PAGE_ORDER)
-> +		if (prdev->order != PAGE_REPORTING_ORDER_UNSPECIFIED &&
-> +			prdev->order <= MAX_PAGE_ORDER)
+>  mm/page_reporting.c | 4 ++--
 
-Nit:
-
-	if (prdev->order != PAGE_REPORTING_ORDER_UNSPECIFIED &&
-	    prdev->order <= MAX_PAGE_ORDER)
-
-	    ^ aligned here
+Thanks!
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
