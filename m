@@ -1,52 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FDF382289;
-	Wed,  4 Mar 2026 23:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0A83914EB;
+	Wed,  4 Mar 2026 23:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772667752; cv=none; b=KVCI0HaaPOjNhM5bhNMImWQubYEm4GH2VqDopc9B+pttjZKFvNX6exlSDQxCmFs8KYtjMlhX7VHQq/Buh08SZO9UKeuMo8s7fNKjjn8RGxidsdJ0bfUCUX6zfug0yhwxZFAE7R/1TMQqYDzQjtHn29y/qi2A+445zzuIjVQMEJ8=
+	t=1772667754; cv=none; b=ESJ+uS7t4KbPOLjODknqT3/ZCog1S5A+Eu7Zb15+TKP+aQxlHvMT9fvl5p/2KEQWO/RJo6+2BZMI35rLukJgxTyP2h0xypco7Ik+/5qogQhqVsUiLkatwELt3AgJTKg2vIxPNr7OsFURgONWI50uIl40+/ctRyuhBU6mPoUdDjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772667752; c=relaxed/simple;
-	bh=ciTx6jFLRX+cYPzbQO5DkDfWrCNsSfpCsP/sfCfc7Zk=;
+	s=arc-20240116; t=1772667754; c=relaxed/simple;
+	bh=JDBcIU3oLzy6nR7gCTw/cB7hCWrF8Ykxag6iBFuscOw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qHL50y/PMUsuOha3OMy7DpR13+HUaOfBYwu7mLxFkn2fd8CzaffSc0vEkKDeqMmYt3x7kP1B5ZXVHCis4os3eg08GWu1RohwrAOFpXcGgSc4/Jlsd68Lsv4/itjWuP+HsQyb5O2DbovlvHr/qaQA2Gv5KrvqMaaC89g3pSnvPso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmkaU/Kh; arc=none smtp.client-ip=198.175.65.9
+	 In-Reply-To:To:Cc; b=PbrfJwYK2rZBhKF4mdMysCyyWSCpVVznvHVp1CDvLTY/cfOcVF0HOnGX5dt76cgMQdBW4s96S4qEnaAp3AGJ0r3/zuTdkN1roW8DJNPvpDG9Sk+Xeea0zXtD7qrtv9TbJb0KRdyLOIIgiAe3e3wM8FeYJ4tuquSdvV0/4RHKdF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CT82jUBl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmkaU/Kh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CT82jUBl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772667752; x=1804203752;
+  t=1772667753; x=1804203753;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=ciTx6jFLRX+cYPzbQO5DkDfWrCNsSfpCsP/sfCfc7Zk=;
-  b=TmkaU/KhbE6U4Ri6EnjGIZGFMRk7FBbPCojkGISsX+lx4+plo/cKukiW
-   GINHpwdtQUtjePsdMLU/70d5mSXozowAVx3q4W70d3JCAvIjTTSN+kp0M
-   AISGj5T4nOuAEc/RJ2uwKaPzJY27qr090nF+iSL+DxAybaBBjjdiDdeyy
-   xXz/CugUPE2hh/ZRbNdQDjScPzkzarrR/B10g0RuO/MRxIgH1BHw7FW4y
-   T4SkApHRSUXPtvH7qPgYoAcqs1jCCINlV9sJi3dY2wSavoUoPkXbLAeQe
-   2z+Wpy8ZRVArcX7n+c8L+zddisgXCspEOLb8JyVuSQu1jg7ifFbXLWeO7
+  bh=JDBcIU3oLzy6nR7gCTw/cB7hCWrF8Ykxag6iBFuscOw=;
+  b=CT82jUBlZ+oCza2cm/hxPB1Qg8tAxqobgw8JdgNvZs1HpHZ2HnOE0Mbq
+   g1lclwszTvBeVAY+bq5pyyCj5NRYi0gx+uDgqrWQAmM4oPdHMGhuiyMK7
+   FDUmsPDlav8uwCVij3D3g4yHvsbpw2jPywsc7zhG2KH8guoH7ZsF/468w
+   lKA/jddXR+GVqB6jBPXYfTfclR8e4x9V+tokIkHISPpoNJxDizM1gBi/z
+   F0JdFbu9KNCJ8f/+TISkqpCCmwqjFLiANtkWtbxVtGHcuY7eocvvgT8A6
+   7LhySxHREnRImJUfJY5eiPYRmRLvPFFor/lWHLL3L2y6z+1zkfalgY7ja
    g==;
-X-CSE-ConnectionGUID: 6JeTAXVHSqWI1TPSdo9DPw==
-X-CSE-MsgGUID: dadBYRQuQfehXh3nBLnvyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="96359377"
+X-CSE-ConnectionGUID: jnxZ87f5SYaVQHkkxbRCsA==
+X-CSE-MsgGUID: 6ap271UcTYSnuINyW51EaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="96359389"
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="96359377"
+   d="scan'208";a="96359389"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:42:30 -0800
-X-CSE-ConnectionGUID: FzfG3nLdRsyG1ScA4+MSFg==
-X-CSE-MsgGUID: OKXuyCwnRzuw4bEYCc0wqg==
+X-CSE-ConnectionGUID: bQI2OXMkRji1/NWcKKnL/Q==
+X-CSE-MsgGUID: l6aAjajfSzWu5KxBdIVl+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
-   d="scan'208";a="215376899"
+   d="scan'208";a="215376906"
 Received: from unknown (HELO [172.25.112.21]) ([172.25.112.21])
   by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 15:42:28 -0800
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Date: Wed, 04 Mar 2026 15:41:14 -0800
-Subject: [PATCH v9 03/10] dt-bindings: reserved-memory: Wakeup Mailbox for
- Intel processors
+Date: Wed, 04 Mar 2026 15:41:16 -0800
+Subject: [PATCH v9 05/10] x86/hyperv/vtl: Set real_mode_header in
+ hv_vtl_init_platform()
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260304-rneri-wakeup-mailbox-v9-3-a5c6845e6251@linux.intel.com>
+Message-Id: <20260304-rneri-wakeup-mailbox-v9-5-a5c6845e6251@linux.intel.com>
 References: <20260304-rneri-wakeup-mailbox-v9-0-a5c6845e6251@linux.intel.com>
 In-Reply-To: <20260304-rneri-wakeup-mailbox-v9-0-a5c6845e6251@linux.intel.com>
 To: x86@kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -69,151 +69,88 @@ Cc: Saurabh Sengar <ssengar@linux.microsoft.com>,
  linux-hyperv@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Ricardo Neri <ricardo.neri@intel.com>, 
- "Rafael J. Wysocki (Intel)" <rafael.j.wysocki@intel.com>, 
  Yunhong Jiang <yunhong.jiang@linux.intel.com>, 
- Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Ricardo Neri <ricardo.neri-calderon@linux.intel.com>, 
+ Thomas Gleixner <tglx@kernel.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772667694; l=5252;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772667694; l=2364;
  i=ricardo.neri-calderon@linux.intel.com; s=20250602;
- h=from:subject:message-id; bh=ciTx6jFLRX+cYPzbQO5DkDfWrCNsSfpCsP/sfCfc7Zk=;
- b=XkvYdYE34j1ulN0kd9woS3K+p89IhdGXqj/v3Z6brWdhNW0ROExOuBToSnyI6qtEWrfwjpQMo
- GrRtrhIKil5CuCo8um3ZIGFfolVbWvyDWos7a1Q7/c8WjUaJedKefSO
+ h=from:subject:message-id; bh=3I3YmnN/1McteB5oTgTUDd+p5JYa7dqLPq6/RX+ToAU=;
+ b=decoK6P5d5qSAFB2QaKNVFhE4bD6HhEyCOofVP3dBzQuDa2BSA9cP8meaZPCD7m1O48LrvItr
+ KEYRolCT//LBd8Z2Rr2e1EOibvhz6MvsEurHUwK2tv1DIhc/Qs+LrJA
 X-Developer-Key: i=ricardo.neri-calderon@linux.intel.com; a=ed25519;
  pk=NfZw5SyQ2lxVfmNMaMR6KUj3+0OhcwDPyRzFDH9gY2w=
 
-Add DeviceTree bindings to enumerate the wakeup mailbox used in platform
-firmware for Intel processors.
+From: Yunhong Jiang <yunhong.jiang@linux.intel.com>
 
-x86 platforms commonly boot secondary CPUs using an INIT assert, de-assert
-followed by Start-Up IPI messages. The wakeup mailbox can be used when this
-mechanism is unavailable.
+Hyper-V VTL clears x86_platform.realmode_{init(), reserve()} in
+hv_vtl_init_platform() whereas it sets real_mode_header later in
+hv_vtl_early_init(). There is no need to deal with the settings of real
+mode memory in two places. Also, both functions are called much earlier
+than x86_platform.realmode_init() (via an early_initcall), where the
+real_mode_header is needed.
 
-The wakeup mailbox offers more control to the operating system to boot
-secondary CPUs than a spin-table. It allows the reuse of the same wakeup
-vector for all CPUs while maintaining control over which CPUs to boot and
-when. While it is possible to achieve the same level of control using a
-spin-table, it would require specifying a separate `cpu-release-addr` for
-each secondary CPU.
-
-The operation and structure of the mailbox are described in the
-Multiprocessor Wakeup Structure defined in the ACPI specification. Note
-that this structure does not specify how to publish the mailbox to the
-operating system (ACPI-based platform firmware uses a separate table). No
-ACPI table is needed in DeviceTree-based firmware to enumerate the mailbox.
-
-Nodes that want to refer to the reserved memory usually define
-a `memory-region` property. /cpus/cpu* nodes would want to refer to the
-mailbox, but they do not have such property defined in the DeviceTree
-specification. Moreover, it would imply that there is a memory region per
-CPU. Instead, add a `compatible` property that the operating system can use
-to discover the mailbox.
+Set real_mode_header in hv_vtl_init_platform() to keep all code dealing
+with memory for the real mode trampoline in one place. Besides making the
+code more readable, it prepares it for a subsequent changeset in which the
+behavior needs to change to support Hyper-V VTL guests in TDX a
+environment.
 
 Reviewed-by: Dexuan Cui <decui@microsoft.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Acked-by: Rafael J. Wysocki (Intel) <rafael.j.wysocki@intel.com>
-Co-developed-by: Yunhong Jiang <yunhong.jiang@linux.intel.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Yunhong Jiang <yunhong.jiang@linux.intel.com>
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
 Changes in v9:
- - Removed a spurious empty line. (Rob's bot)
+ - None
 
 Changes in v8:
  - None
 
 Changes in v7:
- - Fixed Acked-by tag from Rafael to include the "(Intel)" suffix.
+ - None
 
 Changes in v6:
- - Reworded the changelog for clarity.
- - Added Acked-by tag from Rafael. Thanks!
- - Added Reviewed-by tag from Rob. Thanks!
+ - Corrected reference to hv_vtl_init_platform() in the changelog.
+   (Dexuan)
  - Added Reviewed-by tag from Dexuan. Thanks!
 
 Changes in v5:
- - Specified the version and section of the ACPI spec in which the
-   wakeup mailbox is defined. (Rafael)
- - Fixed a warning from yamllint about line lengths of URLs.
+ - None
 
 Changes in v4:
- - Removed redefinitions of the mailbox and instead referred to ACPI
-   specification as per discussion on LKML.
- - Clarified that DeviceTree-based firmware do not require the use of
-   ACPI tables to enumerate the mailbox. (Rob)
- - Described the need of using a `compatible` property.
- - Dropped the `alignment` property. (Krzysztof, Rafael)
- - Used a real address for the mailbox node. (Krzysztof)
+ - Added Reviewed-by tag from Michael. Thanks!
 
 Changes in v3:
- - Implemented the mailbox as a reserved-memory node. Add to it a
-   `compatible` property. (Krzysztof)
- - Explained the relationship between the mailbox and the `enable-mehod`
-   property of the CPU nodes.
- - Expanded the documentation of the binding.
+ - Edited the commit message for clarity.
 
 Changes in v2:
- - Added more details to the description of the binding.
- - Added requirement a new requirement for cpu@N nodes to add an
-   `enable-method`.
+ - Introduced this patch.
 ---
- .../reserved-memory/intel,wakeup-mailbox.yaml      | 49 ++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ arch/x86/hyperv/hv_vtl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml b/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
-new file mode 100644
-index 000000000000..4362bc058df4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/reserved-memory/intel,wakeup-mailbox.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Wakeup Mailbox for Intel processors
-+
-+description: |
-+  The Wakeup Mailbox provides a mechanism for the operating system to wake up
-+  secondary CPUs on Intel processors. It is an alternative to the INIT-!INIT-
-+  SIPI sequence used on most x86 systems.
-+
-+  The structure and operation of the mailbox is described in the Multiprocessor
-+  Wakeup Structure of the ACPI specification version 6.6 section 5.2.12.19 [1].
-+
-+  The implementation of the mailbox in platform firmware is described in the
-+  Intel TDX Virtual Firmware Design Guide section 4.3.5 [2].
-+
-+  1: https://uefi.org/specs/ACPI/6.6/05_ACPI_Software_Programming_Model.html#multiprocessor-wakeup-structure
-+  2: https://www.intel.com/content/www/us/en/content-details/733585/intel-tdx-virtual-firmware-design-guide.html
-+
-+maintainers:
-+  - Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-+
-+allOf:
-+  - $ref: reserved-memory.yaml
-+
-+properties:
-+  compatible:
-+    const: intel,wakeup-mailbox
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    reserved-memory {
-+        #address-cells = <2>;
-+        #size-cells = <1>;
-+
-+        wakeup-mailbox@ffff0000 {
-+            compatible = "intel,wakeup-mailbox";
-+            reg = <0x0 0xffff0000 0x1000>;
-+        };
-+    };
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 9b6a9bc4ab76..e045bf3a2c59 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -70,6 +70,7 @@ void __init hv_vtl_init_platform(void)
+ 
+ 	x86_platform.realmode_reserve = x86_init_noop;
+ 	x86_platform.realmode_init = x86_init_noop;
++	real_mode_header = &hv_vtl_real_mode_header;
+ 	x86_init.irqs.pre_vector_init = x86_init_noop;
+ 	x86_init.timers.timer_init = x86_init_noop;
+ 	x86_init.resources.probe_roms = x86_init_noop;
+@@ -251,7 +252,6 @@ int __init hv_vtl_early_init(void)
+ 		panic("XSAVE has to be disabled as it is not supported by this module.\n"
+ 			  "Please add 'noxsave' to the kernel command line.\n");
+ 
+-	real_mode_header = &hv_vtl_real_mode_header;
+ 	apic_update_callback(wakeup_secondary_cpu_64, hv_vtl_wakeup_secondary_cpu);
+ 
+ 	return 0;
 
 -- 
 2.43.0
