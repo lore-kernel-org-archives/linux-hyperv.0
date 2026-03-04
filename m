@@ -1,39 +1,38 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBC029C339;
-	Wed,  4 Mar 2026 00:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7B15219301;
+	Wed,  4 Mar 2026 00:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772583827; cv=none; b=VwOZFRFA0TQQIiTZiKG/auEAqIQxC6lqo0nx//iqWPKr7xCmn8WTMugLNSQodN4nktgBQlt/Or8RxBowFyS7YY7bMod8gNTEERSjP9s+1NyDh6DneIyLR9bc5zlsEiVAwVA+AS17M2zCIt/XOy3VpQ/boUVervdOiTuJUJSuwPI=
+	t=1772583832; cv=none; b=Hwo6hxx/4Rs+gvkB6oePaDjwHSCMK21PVlT40kOhCZhVxUKYyLLhmtYccqdtCgqcUYuC00/gxX3jddvVxUQdgMC7OR1FYLrIZkBceWwSTIhsp8TCkuExA5yQM9Jb992jGSBlyjdLg7zuHIrFJm4iE55qMgw76xWcUrunBjKyVE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772583827; c=relaxed/simple;
-	bh=4AoK1Lybd1RfF6579t5liUN85jBAiT+L9duRLtnX1Ls=;
+	s=arc-20240116; t=1772583832; c=relaxed/simple;
+	bh=1i0GRX2SYAfii4KzTUfR+MBSt5jyahQCaYE1d30BWIk=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B0DZRok31jm4Axe558xFgJGWSDNzYf+8ORAU1BXo691qNjsUqUWXHYnYgddH1XwCx8W6M/Q/X12KrwYo7f3O3SYAOgQ6+NjPosFaM5k5HNHFVngTw5hW1dlgniefctWgNtSRXAPgxyJYx79haDyw4yY8rxisZnjHSAh+B+9lpgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=h3emWyJj; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=SNrKksczfUAKGnIL6hBByhS72KWU3/HSA/S77/HLuTZYz1yWK46HI243Os7iAmcTmWxaervlcDBBM4MSrGJ90gmdE48H5HIpAkJ/DG1zPG3H/IKng4tl44ZSfIL81Ns9MeWO32lqswPJBzyR2WaytKzEpnqgmMYm9r5TyZK5ZGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ouWrxPbJ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="h3emWyJj"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ouWrxPbJ"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BFB6F20B6F02;
-	Tue,  3 Mar 2026 16:23:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BFB6F20B6F02
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3DDE520B6F02;
+	Tue,  3 Mar 2026 16:23:51 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3DDE520B6F02
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1772583825;
-	bh=HIXZPD3P577bOQ5SyK+eoIL/V4AV3PNuzzuN6n1FeKo=;
+	s=default; t=1772583831;
+	bh=Sa1jJV2khjDPmNMbQ2QysiqWJkab4qWCgNGdBWMlbEg=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=h3emWyJjb3IO0mA/38Ma7x19p37Kz0Le3vTekG1gdEptueB+bDtpTXn8Cgn8uYioL
-	 RVZdb2lIDDsADh3mvdr30+cSe2tkNVl02CEAA++PYLBUDYuBM5IPNUo5MlnAxy1r2q
-	 P1WaZwGgopCjp/4iYm4/CgiBsKGlCmq0Lo6nvC1A=
-Subject: [PATCH 3/4] mshv: Fix pre-depositing of pages for virtual processor
- initialization
+	b=ouWrxPbJVBh+hKlKJ0mN+7f2AjHHXGxeJI7suP7oK1D6RjPYHJHSAIZ5Azow+pmbC
+	 3kg68FUmAmb8eY8y8e6u1bj73V1oSEI96H7daVGjzwfn88GNvloBBs1u21V0H8rtOI
+	 nOXBq47WKPVjNyi2ScL1HZVvXgiNJnTbAD9AisK0=
+Subject: [PATCH 4/4] mshv: Pre-deposit pages for SLAT creation
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 04 Mar 2026 00:23:45 +0000
+Date: Wed, 04 Mar 2026 00:23:51 +0000
 Message-ID: 
- <177258382549.229866.5072213647599344057.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177258383107.229866.16867493994305727391.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177258296744.229866.4926075663598294228.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -48,82 +47,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Deposit enough pages up front to avoid virtual processor creation failures
-due to low memory. This also speeds up guest creation. A VP uses 25% more
-pages in a partition with nested virtualization enabled, but the exact
-number doesn't vary much, so deposit a fixed number of pages per VP that
-works for nested virtualization.
+Deposit enough pages up front to avoid guest address space region creation
+failures due to low memory. This also speeds up guest creation.
 
-Move page depositing from the hypercall wrapper to the virtual processor
-creation code. The required number of pages is based on empirical data.
-This logic fits better in the virtual processor creation code than in the
-hypercall wrapper.
+Calculate the required number of pages based on the guest's physical
+address space size, rounded up to 1 GB chunks. Even the smallest guests are
+assumed to need at least 1 GB worth of deposits. This is because every
+guest requires tens of megabytes of deposited pages for hypervisor
+overhead, making smaller deposits impractical.
 
-Also withdraw the deposited memory if virtual processor creation fails.
+Estimating in 1 GB chunks prevents over-depositing for larger guests while
+accepting some over-deposit for smaller ones. This trade-off keeps the
+estimate close to actual needs for larger guests.
+
+Also withdraw the deposited pages if address space region creation fails.
 
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/hv_proc.c        |    8 --------
- drivers/hv/mshv_root_main.c |   11 ++++++++++-
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ drivers/hv/mshv_root_main.c |   25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 0f84a70def30..3d41f52efd9a 100644
---- a/drivers/hv/hv_proc.c
-+++ b/drivers/hv/hv_proc.c
-@@ -251,14 +251,6 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 	unsigned long irq_flags;
- 	int ret = 0;
- 
--	/* Root VPs don't seem to need pages deposited */
--	if (partition_id != hv_current_partition_id) {
--		/* The value 90 is empirically determined. It may change. */
--		ret = hv_call_deposit_pages(node, partition_id, 90);
--		if (ret)
--			return ret;
--	}
--
- 	do {
- 		local_irq_save(irq_flags);
- 
 diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index fbfc50de332c..48c842b6938d 100644
+index 48c842b6938d..cb5b4505f8eb 100644
 --- a/drivers/hv/mshv_root_main.c
 +++ b/drivers/hv/mshv_root_main.c
-@@ -38,6 +38,7 @@
- /* The deposit values below are empirical and may need to be adjusted. */
+@@ -39,6 +39,7 @@
  #define MSHV_PARTITION_DEPOSIT_PAGES		(SZ_512K >> PAGE_SHIFT)
  #define MSHV_PARTITION_DEPOSIT_PAGES_NESTED	(20 * SZ_1M >> PAGE_SHIFT)
-+#define MSHV_VP_DEPOSIT_PAGES			(1 * SZ_1M >> PAGE_SHIFT)
+ #define MSHV_VP_DEPOSIT_PAGES			(1 * SZ_1M >> PAGE_SHIFT)
++#define MSHV_1G_DEPOSIT_PAGES			(6 * SZ_1M >> PAGE_SHIFT)
  
  MODULE_AUTHOR("Microsoft");
  MODULE_LICENSE("GPL");
-@@ -1077,10 +1078,15 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
- 	if (partition->pt_vp_array[args.vp_index])
- 		return -EEXIST;
+@@ -1324,6 +1325,18 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
+ 	return ret;
+ }
+ 
++static u64
++mshv_region_deposit_slat_pages(struct mshv_mem_region *region)
++{
++	u64 region_in_gbs, slat_pages;
++
++	/* SLAT needs 6 MB per 1 GB of address space. */
++	region_in_gbs = DIV_ROUND_UP(region->nr_pages << HV_HYP_PAGE_SHIFT, SZ_1G);
++	slat_pages = region_in_gbs * MSHV_1G_DEPOSIT_PAGES;
++
++	return slat_pages;
++}
++
+ /*
+  * This maps two things: guest RAM and for pci passthru mmio space.
+  *
+@@ -1364,6 +1377,11 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 	if (ret)
+ 		return ret;
  
 +	ret = hv_call_deposit_pages(NUMA_NO_NODE, partition->pt_id,
-+				    MSHV_VP_DEPOSIT_PAGES);
++				    mshv_region_deposit_slat_pages(region));
 +	if (ret)
-+		return ret;
++		goto free_region;
 +
- 	ret = hv_call_create_vp(NUMA_NO_NODE, partition->pt_id, args.vp_index,
- 				0 /* Only valid for root partition VPs */);
- 	if (ret)
--		return ret;
-+		goto withdraw_mem;
+ 	switch (region->mreg_type) {
+ 	case MSHV_REGION_TYPE_MEM_PINNED:
+ 		ret = mshv_prepare_pinned_region(region);
+@@ -1392,7 +1410,7 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 				   region->hv_map_flags, ret);
  
- 	ret = hv_map_vp_state_page(partition->pt_id, args.vp_index,
- 				   HV_VP_STATE_PAGE_INTERCEPT_MESSAGE,
-@@ -1177,6 +1183,9 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
- 			       intercept_msg_page, input_vtl_zero);
- destroy_vp:
- 	hv_call_delete_vp(partition->pt_id, args.vp_index);
-+withdraw_mem:
-+	hv_call_withdraw_memory(MSHV_VP_DEPOSIT_PAGES, NUMA_NO_NODE,
-+				partition->pt_id);
- out:
- 	trace_mshv_create_vp(partition->pt_id, args.vp_index, ret);
+ 	if (ret)
+-		goto errout;
++		goto withdraw_memory;
+ 
+ 	spin_lock(&partition->pt_mem_regions_lock);
+ 	hlist_add_head(&region->hnode, &partition->pt_mem_regions);
+@@ -1400,7 +1418,10 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 
+ 	return 0;
+ 
+-errout:
++withdraw_memory:
++	hv_call_withdraw_memory(mshv_region_deposit_slat_pages(region),
++				NUMA_NO_NODE, partition->pt_id);
++free_region:
+ 	vfree(region);
  	return ret;
+ }
 
 
