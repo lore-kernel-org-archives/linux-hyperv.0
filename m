@@ -1,45 +1,37 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B10A5481FA0;
-	Fri,  6 Mar 2026 21:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76DB23469F5;
+	Fri,  6 Mar 2026 23:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772832811; cv=none; b=cqawdU2bo1nrJfVXAKBE8Jy3pYuy+dz2TGx7dmdHjskdv0TbFUKYOx+OdlLBDU/ubfRSfsi9BRSmNLnHQRMI3OX3xZx3hLvVeeWhVw/5Ekpf0ksuPnQx6t5qARVi7wyH98QovRj9YKjl6+M0jJ62wlB5+U2ObRLPZOJ9pFoK7oI=
+	t=1772839263; cv=none; b=k3ln2h+5mPcpmn9w1oj95Y1KVSEPx8bzxoX2+U0x+emlnQs5U7/64JLXwCFc1sm17nGUj2qrtx+X7EvEpGhtu3/7/FGJMDRLklEThZGaR8nhqykOlzlxvt2EdMskzD3r1G3idgRiYCCXEguyvNENbp4hpINFgEp4aWgCTroPS4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772832811; c=relaxed/simple;
-	bh=NHuaQiTzSmO3g4EAar1A6/M/PbC/7TvQgP1OBcPdmcE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gddwgaS6Ubv7ti4U1UYL8AypMFbycw9b2BKxR91Rmrg5sIaTI2zVjfBPdzxhc2HCFQZG0NNyX/zr/gl97/kTKXfktykT8hXudhgi8Qpyge7FezIoJW9EBc8E4JJ8O/GcICX+dJajvE5sN/3ZmkHRAFJV5uuUO1xngEYxtH2ciVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+	s=arc-20240116; t=1772839263; c=relaxed/simple;
+	bh=6z8lnvVU9Ntjtg/bd8UHmXtKkAIM8UMzmoCHITggbjU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d4qTNT70qpuR9YoAjC1WlwLGbnZNPzzpJGDJqHLST5axxdfakvRHaOe/XR2lIdLImsS7a8V0SBAt1CSrRGv1bUMMaX89Jlm9vf3f4vIB98YCl8ABu/qwrobnCl9lZoSzOpt9Rz3nivAnba6ECaUfCuPep64GHw+fWBN6ZQR07DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=B3FUA/Oq; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id 3489220B6F04; Fri,  6 Mar 2026 13:33:26 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3489220B6F04
-From: Long Li <longli@microsoft.com>
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Simon Horman <horms@kernel.org>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>,
-	Erick Archer <erick.archer@outlook.com>,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: Long Li <longli@microsoft.com>
-Subject: [PATCH net-next v3 6/6] RDMA/mana_ib: Allocate interrupt contexts on EQs
-Date: Fri,  6 Mar 2026 13:33:02 -0800
-Message-ID: <20260306213302.544681-7-longli@microsoft.com>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="B3FUA/Oq"
+Received: by linux.microsoft.com (Postfix, from userid 1006)
+	id 28DB920B6F02; Fri,  6 Mar 2026 15:21:02 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 28DB920B6F02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1772839262;
+	bh=1GoZH3sTHa0sjw0ojjAxqJi8o3hB7KTLUlldXpmSIFc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=B3FUA/Oqu5Iv9lqSCQ0S9rc2aUdb/kHSS/0vP6Fl7fyS3E7JouPdoECBt4uI3E+Ws
+	 4WEmYSY3GVe8HgMKS9lEv34gO4q8VH3H1dY/kzkhqI2UTbo2a8nEYY+vw6aO2yRsEZ
+	 dR7xGDH4ucwwEtR31IJnMjV+KULP256GmUxCyE3o=
+From: Haiyang Zhang <haiyangz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: haiyangz@microsoft.com,
+	paulros@microsoft.com
+Subject: [PATCH net-next,V3, 0/3] add ethtool COALESCE_RX_CQE_FRAMES/NSECS and use it in MANA driver
+Date: Fri,  6 Mar 2026 15:19:12 -0800
+Message-ID: <20260306231936.549499-1-haiyangz@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260306213302.544681-1-longli@microsoft.com>
-References: <20260306213302.544681-1-longli@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -48,132 +40,35 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the GIC functions to allocate interrupt contexts for RDMA EQs. These
-interrupt contexts may be shared with Ethernet EQs when MSI-X vectors
-are limited.
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
-The driver now supports allocating dedicated MSI-X for each EQ. Indicate
-this capability through driver capability bits.
+Add two parameters for drivers supporting Rx CQE Coalescing.
 
-Signed-off-by: Long Li <longli@microsoft.com>
----
- drivers/infiniband/hw/mana/main.c | 33 ++++++++++++++++++++++++++-----
- include/net/mana/gdma.h           |  7 +++++--
- 2 files changed, 33 insertions(+), 7 deletions(-)
+ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
+Maximum number of frames that can be coalesced into a CQE.
 
-diff --git a/drivers/infiniband/hw/mana/main.c b/drivers/infiniband/hw/mana/main.c
-index d51dd0ee85f4..0b74dd093b41 100644
---- a/drivers/infiniband/hw/mana/main.c
-+++ b/drivers/infiniband/hw/mana/main.c
-@@ -787,6 +787,7 @@ int mana_ib_create_eqs(struct mana_ib_dev *mdev)
- {
- 	struct gdma_context *gc = mdev_to_gc(mdev);
- 	struct gdma_queue_spec spec = {};
-+	struct gdma_irq_context *gic;
- 	int err, i;
- 
- 	spec.type = GDMA_EQ;
-@@ -797,9 +798,15 @@ int mana_ib_create_eqs(struct mana_ib_dev *mdev)
- 	spec.eq.log2_throttle_limit = LOG2_EQ_THROTTLE;
- 	spec.eq.msix_index = 0;
- 
-+	gic = mana_gd_get_gic(gc, false, &spec.eq.msix_index);
-+	if (!gic)
-+		return -ENOMEM;
-+
- 	err = mana_gd_create_mana_eq(mdev->gdma_dev, &spec, &mdev->fatal_err_eq);
--	if (err)
-+	if (err) {
-+		mana_gd_put_gic(gc, false, 0);
- 		return err;
-+	}
- 
- 	mdev->eqs = kzalloc_objs(struct gdma_queue *,
- 				 mdev->ib_dev.num_comp_vectors);
-@@ -810,31 +817,47 @@ int mana_ib_create_eqs(struct mana_ib_dev *mdev)
- 	spec.eq.callback = NULL;
- 	for (i = 0; i < mdev->ib_dev.num_comp_vectors; i++) {
- 		spec.eq.msix_index = (i + 1) % gc->num_msix_usable;
-+
-+		gic = mana_gd_get_gic(gc, false, &spec.eq.msix_index);
-+		if (!gic) {
-+			err = -ENOMEM;
-+			goto destroy_eqs;
-+		}
-+
- 		err = mana_gd_create_mana_eq(mdev->gdma_dev, &spec, &mdev->eqs[i]);
--		if (err)
-+		if (err) {
-+			mana_gd_put_gic(gc, false, spec.eq.msix_index);
- 			goto destroy_eqs;
-+		}
- 	}
- 
- 	return 0;
- 
- destroy_eqs:
--	while (i-- > 0)
-+	while (i-- > 0) {
- 		mana_gd_destroy_queue(gc, mdev->eqs[i]);
-+		mana_gd_put_gic(gc, false, (i + 1) % gc->num_msix_usable);
-+	}
- 	kfree(mdev->eqs);
- destroy_fatal_eq:
- 	mana_gd_destroy_queue(gc, mdev->fatal_err_eq);
-+	mana_gd_put_gic(gc, false, 0);
- 	return err;
- }
- 
- void mana_ib_destroy_eqs(struct mana_ib_dev *mdev)
- {
- 	struct gdma_context *gc = mdev_to_gc(mdev);
--	int i;
-+	int i, msi;
- 
- 	mana_gd_destroy_queue(gc, mdev->fatal_err_eq);
-+	mana_gd_put_gic(gc, false, 0);
- 
--	for (i = 0; i < mdev->ib_dev.num_comp_vectors; i++)
-+	for (i = 0; i < mdev->ib_dev.num_comp_vectors; i++) {
- 		mana_gd_destroy_queue(gc, mdev->eqs[i]);
-+		msi = (i + 1) % gc->num_msix_usable;
-+		mana_gd_put_gic(gc, false, msi);
-+	}
- 
- 	kfree(mdev->eqs);
- }
-diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-index 4e0278b00bbb..662e58f51e87 100644
---- a/include/net/mana/gdma.h
-+++ b/include/net/mana/gdma.h
-@@ -612,6 +612,7 @@ enum {
- #define GDMA_DRV_CAP_FLAG_1_HWC_TIMEOUT_RECONFIG BIT(3)
- #define GDMA_DRV_CAP_FLAG_1_GDMA_PAGES_4MB_1GB_2GB BIT(4)
- #define GDMA_DRV_CAP_FLAG_1_VARIABLE_INDIRECTION_TABLE_SUPPORT BIT(5)
-+#define GDMA_DRV_CAP_FLAG_1_HW_VPORT_LINK_AWARE BIT(6)
- 
- /* Driver can handle holes (zeros) in the device list */
- #define GDMA_DRV_CAP_FLAG_1_DEV_LIST_HOLES_SUP BIT(11)
-@@ -628,7 +629,8 @@ enum {
- /* Driver detects stalled send queues and recovers them */
- #define GDMA_DRV_CAP_FLAG_1_HANDLE_STALL_SQ_RECOVERY BIT(18)
- 
--#define GDMA_DRV_CAP_FLAG_1_HW_VPORT_LINK_AWARE BIT(6)
-+/* Driver supports separate EQ/MSIs for each vPort */
-+#define GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT BIT(19)
- 
- /* Driver supports linearizing the skb when num_sge exceeds hardware limit */
- #define GDMA_DRV_CAP_FLAG_1_SKB_LINEARIZE BIT(20)
-@@ -656,7 +658,8 @@ enum {
- 	 GDMA_DRV_CAP_FLAG_1_SKB_LINEARIZE | \
- 	 GDMA_DRV_CAP_FLAG_1_PROBE_RECOVERY | \
- 	 GDMA_DRV_CAP_FLAG_1_HANDLE_STALL_SQ_RECOVERY | \
--	 GDMA_DRV_CAP_FLAG_1_HWC_TIMEOUT_RECOVERY)
-+	 GDMA_DRV_CAP_FLAG_1_HWC_TIMEOUT_RECOVERY | \
-+	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT)
- 
- #define GDMA_DRV_CAP_FLAGS2 0
- 
+ETHTOOL_A_COALESCE_RX_CQE_NSECS:
+Time out value in nanoseconds after the first packet arrival in a
+coalesced CQE to be sent.
+
+Also implement in MANA driver with the new parameter and
+counters.
+
+Haiyang Zhang (3):
+  net: ethtool: add ethtool COALESCE_RX_CQE_FRAMES/NSECS
+  net: mana: Add support for RX CQE Coalescing
+  net: mana: Add ethtool counters for RX CQEs in coalesced type
+
+ Documentation/netlink/specs/ethtool.yaml      |  8 ++
+ Documentation/networking/ethtool-netlink.rst  | 10 ++
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 91 +++++++++++++------
+ .../ethernet/microsoft/mana/mana_ethtool.c    | 75 ++++++++++++++-
+ include/linux/ethtool.h                       |  6 +-
+ include/net/mana/mana.h                       | 17 +++-
+ .../uapi/linux/ethtool_netlink_generated.h    |  2 +
+ net/ethtool/coalesce.c                        | 14 ++-
+ 8 files changed, 187 insertions(+), 36 deletions(-)
+
 -- 
-2.43.0
+2.34.1
 
