@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6903331AAA8;
-	Fri,  6 Mar 2026 03:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1F08248873;
+	Fri,  6 Mar 2026 03:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772768041; cv=none; b=c935/FTqHYYfdEExl4k3XnTsrSAW3Vu970M1mLuyEo4s5zPdKX24SDKbx7zth+HH7WKxvI8Gi19MxXLgGRZIx+Kyj0LpCmbt4mm9yTdTdqYQX88ySg7mHAQ3IrJP+RS6StabmvDrG/8LW3Vowf9lH7vTs9jbpedDyHne0ucLW8s=
+	t=1772768485; cv=none; b=HEaUF7pnO7GJ8Cc/VHkhN2wqwwzrhFjrBC5izE+t9ybESyWH/tYDhUORbK2yfUoRi2PkWicOBvPuJwUG1srJuhCnjonw81YYPO+q37d73iMHnOgBo+9mGKGaCq5Mzi4Z69Usd95UguFcJNLGmNK7PiH63+DRQ+XEaludecmB3H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772768041; c=relaxed/simple;
-	bh=w4vLLjXTHr0FobW1nLcGqXP3tT3PgPO3SteIT9vC3dY=;
+	s=arc-20240116; t=1772768485; c=relaxed/simple;
+	bh=SagAAyhFCSFGyYcmVQF7FWOkOAUBqAkRHEVJ+rHEeqg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dAV3aLeGlhhWGQ8z4dRzmyL6hGNyZrSE+IGHQRwQikeYG0O1iocIPgcOddCDnMFtombPWWkb3NDi6tHXDmFarI0auIOvf9ItCTVxRrstwNRWV5DqmLwuqgAjCBW67Q8EU/X7GGqMzZOg+j+lQcywIu1GJu0Ss8tGcMfYFiL3MKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XiieWHop; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=Q9GLAlF1ItTOR+p97M04vZwANsQXW6r+YS6mngEzCLuAz2dXZ/tNAwBpwm4ScUCVtvUBcm0sjii+pi3MflqMSXp5e9sL9gdxdZWGfKugLIrAW167LrXBCVtwfYLU6d8O4a74iIa+srOS2QPLJvvOiXVxh2gnPcEn9gsuNJgi5yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=osGe+3L9; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XiieWHop"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="osGe+3L9"
 Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9E66420B6F02;
-	Thu,  5 Mar 2026 19:33:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9E66420B6F02
+	by linux.microsoft.com (Postfix) with ESMTPSA id DA6C820B6F02;
+	Thu,  5 Mar 2026 19:41:23 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DA6C820B6F02
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1772768039;
-	bh=UdFJxS169GpS95twGN8P9VGOVrkEo9bUVAIjn6KCQ+s=;
+	s=default; t=1772768484;
+	bh=KHOwLExV6T2Yft716koXb6mfhvwl93XgxzzuZkWLfM4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XiieWHop6qEq2E4/La98TdODUvcTRe6EbBDrw6hqE0k1S9TL2o0xC4X2K6rUdGR48
-	 LtHfSU950/7uiSryHUCaL5Jqhf4sAqAqnBciak5JRkZu7AiAkQurUIAxXEYu/sOBaL
-	 XMD9eXkl5dpAsp20Xolv3Gp3tqB8yf4BL0npH+4U=
-Message-ID: <cd12c316-1014-2900-f47c-e092d1484c0a@linux.microsoft.com>
-Date: Thu, 5 Mar 2026 19:33:58 -0800
+	b=osGe+3L92rhAj+8WwMORAr0nNjjXRS26YVau0z+oCtUFYG61ZYdMc3SiG3bNR+1zT
+	 cYbvHApkaYQ6uUxsYWZfiVQ7RpGDWWRedCnyw+GKZqSAhBk7CRkkbtATkIxAuJKSRY
+	 dzYrfncArMLbd6sBi7YBn19sYaqyx9ljWgT59R4E=
+Message-ID: <40435d99-56fa-350e-1147-8e45acf5494e@linux.microsoft.com>
+Date: Thu, 5 Mar 2026 19:41:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -35,104 +35,116 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
-Subject: Re: [PATCH 3/4] mshv: Fix pre-depositing of pages for virtual
- processor initialization
+Subject: Re: [PATCH 4/4] mshv: Pre-deposit pages for SLAT creation
 Content-Language: en-US
 To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
  kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <177258296744.229866.4926075663598294228.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <177258382549.229866.5072213647599344057.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177258383107.229866.16867493994305727391.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <177258382549.229866.5072213647599344057.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+In-Reply-To: <177258383107.229866.16867493994305727391.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 3/3/26 16:23, Stanislav Kinsburskii wrote:
-> Deposit enough pages up front to avoid virtual processor creation failures
-> due to low memory. This also speeds up guest creation. A VP uses 25% more
-> pages in a partition with nested virtualization enabled, but the exact
-> number doesn't vary much, so deposit a fixed number of pages per VP that
-> works for nested virtualization.
+> Deposit enough pages up front to avoid guest address space region creation
+> failures due to low memory. This also speeds up guest creation.
+
+Does this imply that some hypercall fails and has no return of
+insufficient memory?
+
+> Calculate the required number of pages based on the guest's physical
+> address space size, rounded up to 1 GB chunks. Even the smallest guests are
+> assumed to need at least 1 GB worth of deposits. This is because every
+> guest requires tens of megabytes of deposited pages for hypervisor
+> overhead, making smaller deposits impractical.
 > 
-> Move page depositing from the hypercall wrapper to the virtual processor
-> creation code. The required number of pages is based on empirical data.
-> This logic fits better in the virtual processor creation code than in the
-> hypercall wrapper.
+> Estimating in 1 GB chunks prevents over-depositing for larger guests while
+> accepting some over-deposit for smaller ones. This trade-off keeps the
+> estimate close to actual needs for larger guests.
 > 
-> Also withdraw the deposited memory if virtual processor creation fails.
+> Also withdraw the deposited pages if address space region creation fails.
 > 
 > Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 > ---
->   drivers/hv/hv_proc.c        |    8 --------
->   drivers/hv/mshv_root_main.c |   11 ++++++++++-
->   2 files changed, 10 insertions(+), 9 deletions(-)
+>   drivers/hv/mshv_root_main.c |   25 +++++++++++++++++++++++--
+>   1 file changed, 23 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> index 0f84a70def30..3d41f52efd9a 100644
-> --- a/drivers/hv/hv_proc.c
-> +++ b/drivers/hv/hv_proc.c
-> @@ -251,14 +251,6 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
->   	unsigned long irq_flags;
->   	int ret = 0;
->   
-> -	/* Root VPs don't seem to need pages deposited */
-> -	if (partition_id != hv_current_partition_id) {
-> -		/* The value 90 is empirically determined. It may change. */
-> -		ret = hv_call_deposit_pages(node, partition_id, 90);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
->   	do {
->   		local_irq_save(irq_flags);
->   
 > diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index fbfc50de332c..48c842b6938d 100644
+> index 48c842b6938d..cb5b4505f8eb 100644
 > --- a/drivers/hv/mshv_root_main.c
 > +++ b/drivers/hv/mshv_root_main.c
-> @@ -38,6 +38,7 @@
->   /* The deposit values below are empirical and may need to be adjusted. */
+> @@ -39,6 +39,7 @@
 >   #define MSHV_PARTITION_DEPOSIT_PAGES		(SZ_512K >> PAGE_SHIFT)
 >   #define MSHV_PARTITION_DEPOSIT_PAGES_NESTED	(20 * SZ_1M >> PAGE_SHIFT)
-> +#define MSHV_VP_DEPOSIT_PAGES			(1 * SZ_1M >> PAGE_SHIFT)
-
-
-This seems to assume that each vp will use up total of 1M, and I don't
-think that is the case. My understanding, hyp will reuse remaining chunks.
-IOW, 6M maybe enought for 8 vcpus.
-
-
+>   #define MSHV_VP_DEPOSIT_PAGES			(1 * SZ_1M >> PAGE_SHIFT)
+> +#define MSHV_1G_DEPOSIT_PAGES			(6 * SZ_1M >> PAGE_SHIFT)
+>   
 >   MODULE_AUTHOR("Microsoft");
 >   MODULE_LICENSE("GPL");
-> @@ -1077,10 +1078,15 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
->   	if (partition->pt_vp_array[args.vp_index])
->   		return -EEXIST;
+> @@ -1324,6 +1325,18 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
+>   	return ret;
+>   }
+>   
+> +static u64
+> +mshv_region_deposit_slat_pages(struct mshv_mem_region *region)
+
+I don't think it is accurate to say slat pages, because in case of
+overdeposit, they may be used for non-slat purposes according to my
+understanding.
+
+> +{
+> +	u64 region_in_gbs, slat_pages;
+> +
+> +	/* SLAT needs 6 MB per 1 GB of address space. */
+> +	region_in_gbs = DIV_ROUND_UP(region->nr_pages << HV_HYP_PAGE_SHIFT, SZ_1G);
+> +	slat_pages = region_in_gbs * MSHV_1G_DEPOSIT_PAGES;
+> +
+> +	return slat_pages;
+> +}
+> +
+
+Again, unconditionally depositing for each region is not good because
+that is empirical, and hyp will reuse the leftover ram.
+
+/*
+>    * This maps two things: guest RAM and for pci passthru mmio space.
+>    *
+> @@ -1364,6 +1377,11 @@ mshv_map_user_memory(struct mshv_partition *partition,
+>   	if (ret)
+>   		return ret;
 >   
 > +	ret = hv_call_deposit_pages(NUMA_NO_NODE, partition->pt_id,
-> +				    MSHV_VP_DEPOSIT_PAGES);
+> +				    mshv_region_deposit_slat_pages(region));
 > +	if (ret)
-> +		return ret;
+> +		goto free_region;
 > +
->   	ret = hv_call_create_vp(NUMA_NO_NODE, partition->pt_id, args.vp_index,
->   				0 /* Only valid for root partition VPs */);
->   	if (ret)
-> -		return ret;
-> +		goto withdraw_mem;
+>   	switch (region->mreg_type) {
+>   	case MSHV_REGION_TYPE_MEM_PINNED:
+>   		ret = mshv_prepare_pinned_region(region);
+> @@ -1392,7 +1410,7 @@ mshv_map_user_memory(struct mshv_partition *partition,
+>   				   region->hv_map_flags, ret);
 >   
->   	ret = hv_map_vp_state_page(partition->pt_id, args.vp_index,
->   				   HV_VP_STATE_PAGE_INTERCEPT_MESSAGE,
-> @@ -1177,6 +1183,9 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
->   			       intercept_msg_page, input_vtl_zero);
->   destroy_vp:
->   	hv_call_delete_vp(partition->pt_id, args.vp_index);
-> +withdraw_mem:
-> +	hv_call_withdraw_memory(MSHV_VP_DEPOSIT_PAGES, NUMA_NO_NODE,
-> +				partition->pt_id);
->   out:
->   	trace_mshv_create_vp(partition->pt_id, args.vp_index, ret);
+>   	if (ret)
+> -		goto errout;
+> +		goto withdraw_memory;
+>   
+>   	spin_lock(&partition->pt_mem_regions_lock);
+>   	hlist_add_head(&region->hnode, &partition->pt_mem_regions);
+> @@ -1400,7 +1418,10 @@ mshv_map_user_memory(struct mshv_partition *partition,
+>   
+>   	return 0;
+>   
+> -errout:
+> +withdraw_memory:
+> +	hv_call_withdraw_memory(mshv_region_deposit_slat_pages(region),
+> +				NUMA_NO_NODE, partition->pt_id);
+> +free_region:
+>   	vfree(region);
 >   	return ret;
+>   }
 > 
 > 
 
