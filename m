@@ -1,41 +1,41 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF59270EC1;
-	Sat,  7 Mar 2026 01:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78258175A95;
+	Sat,  7 Mar 2026 01:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772847868; cv=none; b=WFhc4MabDOmEVybRkR66qqAXQ/WxL4rzBz65+jZGTLLJ758bl5rk7caPGhPlzglc9eyS2H5wolKGsgHwso/wqswOlDU1AfZ6g/irntDvRzs36KpyZVgdNFHYcqGyOp7VgrgI87AvHpGPkTZpFWolPd6Mrzx/N8Cg8t7tdsg/gs0=
+	t=1772848052; cv=none; b=Dj9eOj7XDP0PzejiDBsOO77rFe+f3VMbSaYIQAczQZgE8q5BDE+YkIoAlPWoNUVBN3ruS420iC+8Jr7a9//9f2VxMuWPLjuMAhvH7+I+g6adJl8JuucaeonCj9SiCowECO5RqmeG6pbz6SwhWkIKR1tXsQpR3+CF0A8PeeAo0yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772847868; c=relaxed/simple;
+	s=arc-20240116; t=1772848052; c=relaxed/simple;
 	bh=QF81WmpxRrWYRBaun7KIn1uyg/V2x5q4tPvGnG722MQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EL9z3vo8F89b/1lgaUrH5Dkhlkvowv/390GujfcmQo1T4LmOgazB6NQZuJj9L966wA+5I4h4HcblgpYnYppK37LO5KAaMN11z3oipNl0VY5Y1DQLkckmqMY/R7hGbf+bLMSDHXqOi6K3lBuqT1C8EDV4R0wWiSnbST8BXepqplk=
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mJ027xag+6RtZ3ge0t86P7Rm+DByer/9TRiU6VQ5YtJFGSkSX2s0ExhuuCoIFvy8TIDqMxpfif/ko9a44hk/exeHGOGMF48VdYNY/JD62zejp7G5KbfELRY4/+NTI40L8rlFGJZpwx70s/HYG5I+qnoaU/5WXXLBP7VS9fs44ZY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id 8061A20B6F02; Fri,  6 Mar 2026 17:44:27 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8061A20B6F02
+	id 4415E20B6F02; Fri,  6 Mar 2026 17:47:31 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4415E20B6F02
 From: Long Li <longli@microsoft.com>
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Simon Horman <horms@kernel.org>,
+To: Long Li <longli@microsoft.com>,
 	Konstantin Taranov <kotaranov@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>,
-	Erick Archer <erick.archer@outlook.com>,
-	linux-hyperv@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>
+Cc: Simon Horman <horms@kernel.org>,
 	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: Long Li <longli@microsoft.com>
-Subject: [PATCH 0/8] RDMA/mana_ib: Handle service reset for RDMA resources
-Date: Fri,  6 Mar 2026 17:44:04 -0800
-Message-ID: <20260307014414.556256-1-longli@microsoft.com>
+	linux-rdma@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH rdma-next 0/8] RDMA/mana_ib: Handle service reset for RDMA resources
+Date: Fri,  6 Mar 2026 17:47:14 -0800
+Message-ID: <20260307014723.556523-1-longli@microsoft.com>
 X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
