@@ -1,206 +1,227 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013044.outbound.protection.outlook.com [40.107.201.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1A175A7C;
-	Thu, 12 Mar 2026 23:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773357446; cv=fail; b=QOHeZkOdcTfMMUNjtWTPM08GGlYP1LrtzhtOWfZvteXoZjs53JMOWSAApP6hJ5k65SX8REJTBwmhV6XuRmDPofQQCnNuhiKuLQaDI3AF42732scboJgQQ8r3wncfja3sRBYPRHiI7/FlDhXwk5iWHLIkKDBtWCDkjo3ow4BNAZE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773357446; c=relaxed/simple;
-	bh=x8fM8Byr79pBSOMAYW9KfhlRRARXE9dbCQ3t2WJEwyg=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=q1ewjvcotJHSfKbo93brqYfCt0Ubzs2ktnKlSs5ODhiuGPKdvmU2WlrK1hAXYDkl43Uw0wCERsV06zklAmH/FI9ZvbggorPLJTJV6//N2kISs2t2zgj2/Ak6TZbL/DVVsn/H+UNefGXf7F2Ve2Inc2vZ48tiLMceimU4CFiKng0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ON5f1mCS; arc=fail smtp.client-ip=40.107.201.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411BB40825B
+	for <linux-hyperv@vger.kernel.org>; Thu, 12 Mar 2026 23:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773359681; cv=none; b=GpxzyuzCpQ6RMt4dFMUwXdCpdIvYqMdsYjhg0U7WGAdS7quFwYhOiAGhgOQuWGU9qmbFZIpthsl/1E7+tK9q+qlsofpi184hf/pmjGJ8E/pUd8yjrviK75PGiBZS1aEMABwNVWDBMwmOaJIhd3ONnIdGmEamT0Fb2XKPKE5Q9AA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773359681; c=relaxed/simple;
+	bh=DlEs47g+0P4QzsWSD4V/FyGf/EgdMLa8LqEPSZOP0wI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUWCQZNOvs/iP9jHd+RLALSubhZPz5NSgvH6/nLMeqJeBK6ew5sxy83xwfjXfSx2w+ff7boMzh6jcmVGncwNi0/6e7HT2pZORWthSnhbkOEQS3KmAV0QcrfCXoiP9fpKcqMZ09si6rk1ECdOHHLUA9S8hLTP5LqqMWZ5nFttcpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fk+HrQFz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GjeLT5PO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nK3FApym; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6EDt9gxw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ON5f1mCS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J+N/PPVw9ovkVLrHTw05akAKhYs060WtV/dwfeW/844TnHB5mpiJK5TTkyz0NTBxoyDidkb6LwpvohcYgqqLA5IvZY49uUZ/myxYC32jA7t9QYuZ/JcoqaEuFWX/WPxduUiQ8FMHjsNFN4ZrsO6nPvzQ/B2XnaxSuDHBl70dQiWpPEZULIvf0T1/ej6zZwR0GWi63evV5OmUg5KRuVb6GHN5I757hivZYWKB3vAB1wR4YKFc7qF0RIpdWT60lG83wU1VLpB4ohJhqQLM+/YuYdBSr93lvMCq7n+CG9fMZ7yR0RlQ9gRxDQkqcaloDnT2eeZ3sbpE5bfVCyBmEY2Jqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z1vPG6JafKZbJXr8M3YgsCzayv4FHyW6an8+dF+wIJk=;
- b=ZKDJfR5SvtZ7UhiUwiz6VJO1rtdgsv8MX4YbsZzfih2d4cTuZJCiRRIbzN6uiuGFV9rpWLbNE7lAvK7CVJJHqoZCzjBmQLsMo9IrfbthSjpJEVMhuuN/Ub8e0fPuGo3WnLVS2ZsyuGqE7bRO2TfHyy0o1tgqmrVFh9/Glq6QqQUk/Y6QW+349S2BEdhBPzAIMcUlX9JTn1TmUlMXqI0tyR17Ujh2ziJ982fCeJB1AVeu2utBX7lT0yQND25b1WKka4qPpYAp4mXPG4RbRah842pNpSYPlKQBJbfQM/xyX45gVnV1H3nLDVZYSBpxJKM7MckYWdiktby679iIUOtL+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z1vPG6JafKZbJXr8M3YgsCzayv4FHyW6an8+dF+wIJk=;
- b=ON5f1mCSzPQqdWRjNZDgLmuVD0AEwQL1FktpSumjZrY+56Be9EjdOkjcNuu/zB+eDZv1DAMpRfnNeJOEC7+yKGlL9rwXLrFw9Y6YITkFQmizIw57hPAA9eALixhY8xBLiow6nISUO+kBTmpiHQ3owhzMZ0nq+he/98IuBtb1fuYllj2HBIF6/DEThl70nPsN1nrIwdQWF9QfST4KNzSYnXGkPT73BE/YwwJbDyQlJnWscayk4vwmbBCgGjDuJ9VUXTLYnq0id+W85fwJGXbS7W7CLk/tXtd7B+mV59JfCa4MKRGJskyQFnU7PPO+tsbHEBBjGd5Gjrsx7g0+6JG00A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB8786.namprd12.prod.outlook.com (2603:10b6:8:149::17)
- by SA1PR12MB8143.namprd12.prod.outlook.com (2603:10b6:806:333::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.3; Thu, 12 Mar
- 2026 23:17:21 +0000
-Received: from DS0PR12MB8786.namprd12.prod.outlook.com
- ([fe80::cd1a:bacf:6ab9:6f91]) by DS0PR12MB8786.namprd12.prod.outlook.com
- ([fe80::cd1a:bacf:6ab9:6f91%2]) with mapi id 15.20.9723.004; Thu, 12 Mar 2026
- 23:17:20 +0000
-From: Yury Norov <ynorov@nvidia.com>
-To: Yury Norov <yury.norov@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: Yury Norov <ynorov@nvidia.com>,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Steve French <sfrench@samba.org>,
-	Alexander Graf <graf@amazon.com>,
-	Mike Rapoport <rppt@kernel.org>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fk+HrQFz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GjeLT5PO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nK3FApym";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6EDt9gxw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DBF7F4DE48;
+	Thu, 12 Mar 2026 23:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773359673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bwmhrK1mTh+MLga869G8X7ffK5a55BOcYDLNgMLau3w=;
+	b=fk+HrQFzF538OaZee5zKteZcA0YzllQN4x1inGCAbXjNlo6QUNFUqNbGrCH5EeTJbbl1jk
+	FTvU17qIJfkQDV+ln6qt+1UPpVopM6PIvAMUtTOjZZJ3/a+RYpvPc0tmmUajk0tARslnmX
+	EHrtJDNB0KVkLkU4HiHWqk3laOWGWpA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773359673;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bwmhrK1mTh+MLga869G8X7ffK5a55BOcYDLNgMLau3w=;
+	b=GjeLT5POJ2ppQv2V8UcAch81RQWi73SsE94ZqWuISHtXbtVGKO30Qb71oigY1fJWtdCROD
+	hJQD5w9T4bPhNBAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nK3FApym;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6EDt9gxw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773359672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bwmhrK1mTh+MLga869G8X7ffK5a55BOcYDLNgMLau3w=;
+	b=nK3FApym7tfNn1DYJAjxANwZrZkOi+7diHoNWII3ULI7GL59N/yI/X6ge92tRZaTNO+iDP
+	rbkiSLfVzTovlXnwx+sm2XdjW+milZHXwHV3OFqONrs/aDXtvH33MrKfrw0c8b1brwsruE
+	f+oOYH59XwjN26di3wGpoeV3fGBkJnk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773359672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bwmhrK1mTh+MLga869G8X7ffK5a55BOcYDLNgMLau3w=;
+	b=6EDt9gxwjTnn8WVNa/iDDOJbUxG4c6IPQDPESQ58T74caGcpdtTs0tWldMb3C2Klzv+2cX
+	aUwaMbUSyMcQ9xBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A3794022C;
+	Thu, 12 Mar 2026 23:54:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QCh3CDhSs2lNPAAAD6G6ig
+	(envelope-from <ematsumiya@suse.de>); Thu, 12 Mar 2026 23:54:32 +0000
+Date: Thu, 12 Mar 2026 20:54:29 -0300
+From: Enzo Matsumiya <ematsumiya@suse.de>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Yury Norov <yury.norov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Eric Biggers <ebiggers@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, linux-kernel@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-cifs@vger.kernel.org, linux-spi@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Steve French <sfrench@samba.org>, 
+	Alexander Graf <graf@amazon.com>, Mike Rapoport <rppt@kernel.org>, 
 	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH] lib: count_zeros: fix 32/64-bit inconsistency in count_trailing_zeros()
-Date: Thu, 12 Mar 2026 19:08:16 -0400
-Message-ID: <20260312230817.372878-1-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0427.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::12) To DS0PR12MB8786.namprd12.prod.outlook.com
- (2603:10b6:8:149::17)
+Subject: Re: [PATCH] lib: count_zeros: fix 32/64-bit inconsistency in
+ count_trailing_zeros()
+Message-ID: <atnytehtvt6h6kp2ndxsa3x257usezp3bk5hp4ch7gf5w2zake@omihp5zbio3l>
+References: <20260312230817.372878-1-ynorov@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB8786:EE_|SA1PR12MB8143:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9502d587-1921-4eec-d653-08de808d82c7
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	bmIgEK6QpC6sNWu53l9LnjHkTE7bJgM6HrZrdw29cDWNrtJ7D6v/aqwaZn9xl1l31bfWbPPSn4IsC04NldASLyTG2U92F5RJURBzaZRK32hKWPOz4U6kWPnI6UCINgdSmdxV+5Fjx02JidmdN97OJxC7DtiEWblM8EkUt7A1j6dxWyK9Kc/1xR4iYJZBIQ9GJITrIYD0RxcRn3gBBKXL3AR8Pe6CMDbv3B12WMPuLxauvmnmbUVjs0HlW3RRC4QPd3/vmHtj1LdfZLNUbp5uDIjGkS6df1BdGwnkBYBXFxVMI+0H1nPXRB6F5MBThHOhGIdGBEwNrV7FUQk7zB7xK/RYRDLwFKPMuLiwjO555RLUDP13txwlM5bCKxuKWxUfm7ykwTmgwQHWQgrxEPZx+nBuT2vx6iAJqyfj32rUX7tZ0+PnJFCbgtnVqqPrluF4EHm5faKaxpCXHsJk+QlyyzSMfl2GJi50mgKWS0+I/A93/J7UG2jQblhrBE6Tc3NFfYhPlTeiI3Zm4bHbMn9hu12YJ0A4A+yrKSlez/OCbivpQzlsA/sw/zz0Pa8LcQ7x4NxXznpvwIlv3AaoMMe/8jFR5f6rgLxgb9U6Pg4e7SgHGl9/dyeGQVNXNEioUJUZcr8PzTqL4NrPNDTEh8bCbusz8uLdUwQFemNG3nO9u7R1jPjH2TK7fWT6HX/EdwpzQ+uQmuycZ7avSWNIKYvVXGf1RtA5hu9XDwP52R35Vik=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8786.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SxpYQIEJWjBDznn/77ns1x9muGJirF3jpktD9WkybCbZT1+q+K5i2R031QYk?=
- =?us-ascii?Q?59YafLFA+/CCPT4mAd2XLuA0WHlIg9Vq8b35adbRYkiwiMAovRVzQNNuacR6?=
- =?us-ascii?Q?u7PORcbOQtB6/Jl2vfkxlGA84wurA3251aT/T95bpjFrqbfkFxZwJGLrw1RH?=
- =?us-ascii?Q?padBfyWbl+I1XiEqM4oXjDV7qbIXGJvZVxzO1oc4QgvAF/FgaRWcnrMNAi1i?=
- =?us-ascii?Q?fbVwZG0cZumz/vF8WgAm5dJaSj5TUc+/LrJe+82M8bNrK0rFfUSINUk2cUsP?=
- =?us-ascii?Q?D5xzdylK0qMtsIQs2BZKHjxljVvn7g4V2KLw+C6OFGFvXYKacx5Mzw94rtU1?=
- =?us-ascii?Q?j5vTBrnUh4g8QV+G/1Q8kpWOtP1AFR7yo2p27mAKw87xsRnR9P4wHiFtpaag?=
- =?us-ascii?Q?6wewhAVhEJ3ENh2B9FRuufWSjoGSPA3ieZYLS+XolgDeO+CZHEfQZqFKHAC3?=
- =?us-ascii?Q?yJFQBRIofi5CadDpIqN++8isMCfkTfIi/2B+4pE7U7u45Swt/od/EWniIXl2?=
- =?us-ascii?Q?E7avGU/gOtVqf/+BRNRjBOvIcKONZwilASF7Qq2fPM7XKKuZMwSsRY+Sjh11?=
- =?us-ascii?Q?1LdEKlRDIHBsgZ/ciZyNPUpLP1YacKDTSn5BL0cr07mb9iGvfFgFu7J8rGzD?=
- =?us-ascii?Q?ske9s6MvEAOwcB1kfg++2O13LvhkUDqUbx0dNmCh3I0ZmDYV2+Vl1DLy0h3z?=
- =?us-ascii?Q?frwVpbOq/6VyDwqgMyrj0c3eURDOaOMSpT5PFlSweCXokBWqZLnHpyn3zt6s?=
- =?us-ascii?Q?3FV7Xq0pvjfdi5JRoKKCeQzbEy3NvlZPqYyhI0AxQM+6wNW+p7b75YolZSfr?=
- =?us-ascii?Q?Zt2FKIHpefN46N7Cswg+DhElTS3FEL/zBoYCoFDB3bffBwVllFb1meSVIhrJ?=
- =?us-ascii?Q?E4cUp7JBl1h+I41GQSEIJe3U894YI7xrGCr29bNCDCQ5wX0ZXS5jRJrlU8uz?=
- =?us-ascii?Q?0pSSe3JibPMZPdpt8oBBpZteoZlik4vaDjF9xfSAH7r+uJgIPdpAQpknxY3L?=
- =?us-ascii?Q?5VgzJ16FxerWTIaaMdSUMJDxRRY6rFw+910NSyFBRrD+FNBZX0SOexFf6OhU?=
- =?us-ascii?Q?NXyUbwnSb46o//nllokKsAOkbfaT/6c3NG+1qevxBQihYtwsCgRU4u1PE885?=
- =?us-ascii?Q?xk9wdYPzNRMlr4FonRpefvRI1cvPXSKJ9fpy2JHsV4Uj7ZilU8VPj5LruJAo?=
- =?us-ascii?Q?90/97kteiEwA+hFx8Y6tXGg/AVnYkn4KtCbwbQnqIw/8/nM9VQajy2ZCefma?=
- =?us-ascii?Q?PY9nNOdj5gujncuJGea1uBw/TTnsw5pO3He+femo3WgST4gCWU0T4dBxxJV8?=
- =?us-ascii?Q?M/26P/m73w95TGHYxI20gPBMGQeCrTITDz9eB7vOnK7N/7LQg+N1tE8+vl5a?=
- =?us-ascii?Q?AXU7dPeMh5lEvNWfY+Z6xFKz7E4WMNWbkz3Ww/os4NSFmfXOsOUz0A6eR0SJ?=
- =?us-ascii?Q?ZiLVF8/5o2IGFlZtbemdvLX29WlxyKLrnf53IIbcTFlzGuL9L310kZWv8az8?=
- =?us-ascii?Q?zVSiOVCqJoHK3p2D8w0W3uophAM4EFi0lISLYkv+zKheCaPVq3VvMOu0adfW?=
- =?us-ascii?Q?9TQf4yq2dUh2Ew31BZTfWKYdv8s4SMpQvqTExZDqm4CTQkK/OylwBslYKV9X?=
- =?us-ascii?Q?YeFX/eupQitcqa7Gt8bi6yndVJjlMYd9yne/sLU2LuequTeT7fZVaK/hhOSu?=
- =?us-ascii?Q?qY+K3m8ok8q+UqPHofx853seXWuBmMMHuTY+71JqrtJGCA/hUBE+FOlTKMjt?=
- =?us-ascii?Q?VIABc6fuGg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9502d587-1921-4eec-d653-08de808d82c7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8786.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 23:17:20.7802
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EaWLlEYUVNeJsrN79NtYBAANRP9m0Ae2qWsUXQz9qWVhdvyfH3T5M3HiZAsE5lqhCzPUfORYLfS/0WhK/9m9zQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8143
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260312230817.372878-1-ynorov@nvidia.com>
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,rasmusvillemoes.dk,kernel.org,zx2c4.com,vger.kernel.org,lists.infradead.org,microsoft.com,ziepe.ca,samba.org,amazon.com,soleen.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: DBF7F4DE48
 
-Based on 'sizeof(x) == 4' condition, in 32-bit case the function is wired
-to ffs(), while in 64-bit case to __ffs(). The difference is substantial:
-ffs(x) == __ffs(x) + 1. Also, ffs(0) == 0, while __ffs(0) is undefined.
+Hi Yury,
 
-The 32-bit behaviour is inconsistent with the function description, so it
-needs to get fixed.
+On 03/12, Yury Norov wrote:
+>Based on 'sizeof(x) == 4' condition, in 32-bit case the function is wired
+>to ffs(), while in 64-bit case to __ffs(). The difference is substantial:
+>ffs(x) == __ffs(x) + 1. Also, ffs(0) == 0, while __ffs(0) is undefined.
+>
+>The 32-bit behaviour is inconsistent with the function description, so it
+>needs to get fixed.
+>
+>There are 9 individual users for the function in 6 different subsystems.
+>Some arches and drivers are 64-bit only:
+> - arch/loongarch/kvm/intc/eiointc.c;
+> - drivers/hv/mshv_vtl_main.c;
+> - kernel/liveupdate/kexec_handover.c;
+>
+>The others are:
+> - ib_umem_find_best_pgsz(): as per comment, __ffs() should be correct;
+> - rzv2m_csi_reg_write_bit(): ARCH_RENESAS only, unclear;
+> - lz77_match_len(): CIFS_COMPRESSION only, unclear, experimental;
+>
+>None of them explicitly tweak their code for a word length, or x == 0.
 
-There are 9 individual users for the function in 6 different subsystems.
-Some arches and drivers are 64-bit only:
- - arch/loongarch/kvm/intc/eiointc.c;
- - drivers/hv/mshv_vtl_main.c;
- - kernel/liveupdate/kexec_handover.c;
+Context for lz77_match_len() case:
 
-The others are:
- - ib_umem_find_best_pgsz(): as per comment, __ffs() should be correct;
- - rzv2m_csi_reg_write_bit(): ARCH_RENESAS only, unclear;
- - lz77_match_len(): CIFS_COMPRESSION only, unclear, experimental;
+	const u64 diff = lz77_read64(cur) ^ lz77_read64(wnd);
 
-None of them explicitly tweak their code for a word length, or x == 0.
+	if (!diff) {
+	...
+	}
 
-Requesting comments from the corresponding maintainers on how to proceed
-with this.
+	cur += count_trailing_zeros(diff) >> 3;
 
-The attached patch gets rid of 32-bit explicit support, so that both
-32- and 64-bit versions rely on __ffs().
+So x == 0 is checked, however it does assume that
+sizeof(unsigned long) == sizeof(u64).  I'll have to fix it for when
+that's not the case (even with your patch in, as __ffs() casts x to
+unsigned long down the line).  Thanks for the heads up.
 
-CC: "K. Y. Srinivasan" <kys@microsoft.com> (hyperv)
-CC: Haiyang Zhang <haiyangz@microsoft.com> (hyperv)
-CC: Jason Gunthorpe <jgg@ziepe.ca> (infiniband)
-CC: Leon Romanovsky <leon@kernel.org> (infiniband)
-CC: Mark Brown <broonie@kernel.org> (spi)
-CC: Steve French <sfrench@samba.org> (smb)
-CC: Alexander Graf <graf@amazon.com> (kexec)
-CC: Mike Rapoport <rppt@kernel.org> (kexec)
-CC: Pasha Tatashin <pasha.tatashin@soleen.com> (kexec)
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- include/linux/count_zeros.h | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/count_zeros.h b/include/linux/count_zeros.h
-index 4e5680327ece..5034a30b5c7c 100644
---- a/include/linux/count_zeros.h
-+++ b/include/linux/count_zeros.h
-@@ -10,6 +10,8 @@
- 
- #include <asm/bitops.h>
- 
-+#define COUNT_TRAILING_ZEROS_0 (-1)
-+
- /**
-  * count_leading_zeros - Count the number of zeros from the MSB back
-  * @x: The value
-@@ -40,12 +42,7 @@ static inline int count_leading_zeros(unsigned long x)
-  */
- static inline int count_trailing_zeros(unsigned long x)
- {
--#define COUNT_TRAILING_ZEROS_0 (-1)
--
--	if (sizeof(x) == 4)
--		return ffs(x);
--	else
--		return (x != 0) ? __ffs(x) : COUNT_TRAILING_ZEROS_0;
-+	return (x != 0) ? __ffs(x) : COUNT_TRAILING_ZEROS_0;
- }
- 
- #endif /* _LINUX_BITOPS_COUNT_ZEROS_H_ */
--- 
-2.43.0
+Cheers,
 
+Enzo
+
+>Requesting comments from the corresponding maintainers on how to proceed
+>with this.
+>
+>The attached patch gets rid of 32-bit explicit support, so that both
+>32- and 64-bit versions rely on __ffs().
+>
+>CC: "K. Y. Srinivasan" <kys@microsoft.com> (hyperv)
+>CC: Haiyang Zhang <haiyangz@microsoft.com> (hyperv)
+>CC: Jason Gunthorpe <jgg@ziepe.ca> (infiniband)
+>CC: Leon Romanovsky <leon@kernel.org> (infiniband)
+>CC: Mark Brown <broonie@kernel.org> (spi)
+>CC: Steve French <sfrench@samba.org> (smb)
+>CC: Alexander Graf <graf@amazon.com> (kexec)
+>CC: Mike Rapoport <rppt@kernel.org> (kexec)
+>CC: Pasha Tatashin <pasha.tatashin@soleen.com> (kexec)
+>Signed-off-by: Yury Norov <ynorov@nvidia.com>
+>---
+> include/linux/count_zeros.h | 9 +++------
+> 1 file changed, 3 insertions(+), 6 deletions(-)
+>
+>diff --git a/include/linux/count_zeros.h b/include/linux/count_zeros.h
+>index 4e5680327ece..5034a30b5c7c 100644
+>--- a/include/linux/count_zeros.h
+>+++ b/include/linux/count_zeros.h
+>@@ -10,6 +10,8 @@
+>
+> #include <asm/bitops.h>
+>
+>+#define COUNT_TRAILING_ZEROS_0 (-1)
+>+
+> /**
+>  * count_leading_zeros - Count the number of zeros from the MSB back
+>  * @x: The value
+>@@ -40,12 +42,7 @@ static inline int count_leading_zeros(unsigned long x)
+>  */
+> static inline int count_trailing_zeros(unsigned long x)
+> {
+>-#define COUNT_TRAILING_ZEROS_0 (-1)
+>-
+>-	if (sizeof(x) == 4)
+>-		return ffs(x);
+>-	else
+>-		return (x != 0) ? __ffs(x) : COUNT_TRAILING_ZEROS_0;
+>+	return (x != 0) ? __ffs(x) : COUNT_TRAILING_ZEROS_0;
+> }
+>
+> #endif /* _LINUX_BITOPS_COUNT_ZEROS_H_ */
+>-- 
+>2.43.0
+>
+>
