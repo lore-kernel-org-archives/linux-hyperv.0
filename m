@@ -1,99 +1,162 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C37A21D00A
-	for <linux-hyperv@vger.kernel.org>; Thu, 12 Mar 2026 22:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEA240DFDC;
+	Thu, 12 Mar 2026 23:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773355700; cv=none; b=foVt2lkix0HUsKvecwQu/LxoBV62aXFXNtOMeULuJoLltBwNOnfJ9BvNyY00zOxUNFRA/6VooAIcWCBSk348iGKoY6s095/x3GmFiG3ckHTstkoa0X3xV+A6bdxlhpZ1upLEpE9F8FHNqQwAzNUfWfKf5Tl9fmYcFxCDBav3WNc=
+	t=1773357350; cv=none; b=d9hQ9OXqYSX9MXRU+oU9Z+bAf2AcLJxxk1EGoHi9y3ISLcf75/l+PCiBBSte4G74aoGFkzszzxbHAYEsU2RXsOxuJOqjPTorocG0F8leyWFEJJOKg4bqK3i7AkIB+WSd/cYlpZVQognkNA3NchEkg9Z7TlcQyazHtBUpEefm2fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773355700; c=relaxed/simple;
-	bh=z28IegkFi2/sHsgKnojVtJ4sbkMmOSoNwWw72Tc3qc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DD/lXW2Op7CgGJXpe4rQEhb4dVBixztROl5TPQdkVoRC1nrsKLPnpELfPdEMhWUB7ZWXTRuBd4VJGmerm74AKWmjElUtCUfyA2/SNNwq9njFLohhvphT2Tu6OZORndgnYIR612u8jJHmIETxPw2Al9Tre5c0NrjtnZr1eZ0NbRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=htKkcFPc; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1773357350; c=relaxed/simple;
+	bh=p2SRKGVFSyP2Xu+amBX53g78Qjd+fd3UcCdqNkYLdeI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fw2dR7PYvFHvjEGSKwZjItyUgjWN+bOXeTumoQ2t/SIS+jBpIL/hZZy8rWEz8JKp8N1jglg5JiQ9o0XXOKW3i9cwvkgu9dTdliGTUORlH7Ttem592mCb10lE/t9LeED7fwKWyHN5MMCA3l8h2jkXswD4r+RyFHvvMOH9EWKMZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W/09uimW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="htKkcFPc"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-506a747448dso13481611cf.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 12 Mar 2026 15:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773355698; x=1773960498; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z28IegkFi2/sHsgKnojVtJ4sbkMmOSoNwWw72Tc3qc8=;
-        b=htKkcFPcyba9ssMuutCn68GPFyd6UPFChGttIli8uNyYV1wbsU88fWstPZH/aTBdnQ
-         6F6e3pPlW4mt4mD7JnzWugIBpgVbdMFeEJcKUBS843ZnR63x0KwEFN/kQOTQBEThczwM
-         sJmREO46/FIf+mLfxjs5mv+AnJFcbpJfJw3zsTTRdrWZ4UaA06XY5KNJI5d1QXKmf3DJ
-         yuUKUemvswQRrmLCKNZbqcwrypZxgvuXiVjFza4F8Tr5YqVbLGCceXySYpsjPVzdFmof
-         mx03XKTcHQatKbG6BZAhEN6WuSzv8I/l8EL2GRikqOZcmzO3lfJbny6i7DX6ecxz5wZx
-         c0mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773355698; x=1773960498;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z28IegkFi2/sHsgKnojVtJ4sbkMmOSoNwWw72Tc3qc8=;
-        b=WQgonHLksbtde8mFv3vXWQ2cU4SX/h7cdc4k64oO5ET12FZNler1K2i5jGwX6b75Ct
-         tpboNCowbPuhLAxVTB0XccgnbyCcZGLEXSudJZrW+EAWT/PeXH8RDPXjM8PRThx1Yl+D
-         cl94uXV4hgqh6ku2XElbrgCoHOTTF7PlnlKgn3WAx6N/S9DHpw6WiiBteg9dy6bgm6eQ
-         dT76MCdIaxvxTKBfSLFQZfi40GxQvUdqCDAO8S3tecd3HpYdPsU/HOvAIaPRoHuHVr2h
-         qCCBlVwUl7EApKuon4s/9FYpDLT4HOpygGoSC8yMb+nkRaBfgsbB80VefctQDkOzsgtE
-         SOPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCTZuaxjm3N+ucZQmrAHkw9jsL+L/mtrt1VTcUgEOtaaZ42rrxfy10z74X9S+1uQjImqEG/vaY7/vro3U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTmqiMJZjOOTrfnTxSD1xJKn38YaZh/O/epfaYC8kILifOxFsa
-	Lg71FrRKqpiKmu1UVf78gP99oAuChdQVthR5o3xyW7dUa2eZg79Z36APWsH11ZNKsaA=
-X-Gm-Gg: ATEYQzyCSRx8w3dcNihn7/DgcJ0ouw8IzjE9EBn7klhgP5zX8UP9TsQdqItXaTFQ0zZ
-	5saSJMb0qmdORhZRGG71dOM+6pYScu1qw4OWHPR1t3eZDU0+y2PXdGA2muHuDckJOCxTmZbqCQF
-	rWGgkB6riVfor7CByiqIGW5C8fJk/5nvlPAt7K14RvaxjzYpAWFWpNYPzVeFyJQEsDFglPLU0z2
-	qcnVLyhd0BQ59d1Eo1BrtCHFeiLZk1mcWLdUkYrn3s5bOkbffEMO7YBxwYR6mshKMJP+wgXwiwL
-	DK7mbZFCFBuCFMs+B3DfWX4ZZGOYtPC9IqYZ45h+7f2vyYWPvl+OMTLcvN2RRtvHVhFnf1YbfN1
-	dtD4B4dq4V4XPF1kAMVxMVrpQq+dp08XitH0ePZ32Fe+0ahgKxvW3g7Q/mY+GlGpIMFwmIL+oCL
-	nQDKB6yNoLB5w5UpbLMmTP8+kuSKYL+caAS7hjxTME7fmH5n1z8u4nWaENzVbur3LU2fFQu4OnL
-	pIvdxql
-X-Received: by 2002:ac8:590d:0:b0:506:a56d:3f2d with SMTP id d75a77b69052e-50957e41b49mr16122411cf.75.1773355698330;
-        Thu, 12 Mar 2026 15:48:18 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50939e8e14esm40241411cf.6.2026.03.12.15.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 15:48:17 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w0opE-000000070dH-1Z0r;
-	Thu, 12 Mar 2026 19:48:16 -0300
-Date: Thu, 12 Mar 2026 19:48:16 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Cc: longli@microsoft.com, kotaranov@microsoft.com,
-	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH rdma-next v2] RDMA/mana_ib: hardening: Clamp adapter
- capability values from MANA_IB_GET_ADAPTER_CAP
-Message-ID: <20260312224816.GO1469476@ziepe.ca>
-References: <20260312181642.989735-1-ernis@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W/09uimW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=LjcR94bmvH2oOH8ZUWLFU9TNRvfPfrpZ+1MwNkcZH5I=; b=W/09uimWlmT/Ysq3jgNMt1gI7H
+	GOweGLT/9vNXsJOPg9hm2zWvmdX3q1Mku+Gp0H9Iy01Esb6LQV5ATBVsFtN7xIiUoagCrBlANpDjy
+	LFKllY8nRMXqP5YIQU35yhpjR6xLflNsnx64mvIpAEWYWRWDPhCqNZYr0PnzOZoWDQK+FM4dlVpqj
+	nTXMWJe8aCw5gHcb65NFh+tuJVdjDY9IaRhmpRA+PnQPWNf8cS/Xo1D5AhzPt2W5l4FH91HqP8G0U
+	kPRc+Y45RDEk4AoFzuVcdgRIIbo7k6atO+7RsPG8yCEeiefwSsO6mHknQo7wHDNJwM391bMo/EMJe
+	bffBLL6A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w0pFY-0000000FkNf-3iHP;
+	Thu, 12 Mar 2026 23:15:28 +0000
+Message-ID: <4fd15134-ae1e-4233-8d5a-9d1e0b9f94dc@infradead.org>
+Date: Thu, 12 Mar 2026 16:15:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312181642.989735-1-ernis@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 15/15] mm: add mmap_action_map_kernel_pages[_full]()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1773346620.git.ljs@kernel.org>
+ <21d8899bb1f4db61203072fb3a56a6c98a61e23d.1773346620.git.ljs@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <21d8899bb1f4db61203072fb3a56a6c98a61e23d.1773346620.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 12, 2026 at 11:16:41AM -0700, Erni Sri Satya Vennela wrote:
-> The response fields (max_qp_count, max_cq_count, max_mr_count,
-> max_pd_count, max_inbound_read_limit, max_outbound_read_limit,
-> max_qp_wr, max_send_sge_count, max_recv_sge_count) are u32 but are
-> assigned to signed int members in struct ib_device_attr.
 
-There is no reason they should be signed, you should just fix the
-type.
+On 3/12/26 1:27 PM, Lorenzo Stoakes (Oracle) wrote:
 
-I'm also not convinced clamping to such a high value has any value
-whatsoever, as it probably still triggers maths overflows elsewhere. I
-think you should clamp to reasonable limits for your device if you
-want to do this.
+> Finally, we update the VMA tests accordingly to reflect the changes.
 
-Jason
+IMO we could omit the word "we" 5 times above.
+(but no change is required)
+
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 88f42faeb377..88ad5649c02d 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+
+> +/**
+> + * range_is_subset - Is the specified inner range a subset of the outer range?
+> + * @outer_start: The start of the outer range.
+> + * @outer_end: The exclusive end of the outer range.
+> + * @inner_start: The start of the inner range.
+> + * @inner_end: The exclusive end of the inner range.
+> + *
+> + * Returns %true if [inner_start, inner_end) is a subset of [outer_start,
+
+    * Returns:
+(for kernel-doc)
+
+> + * outer_end), otherwise %false.
+> + */
+> +static inline bool range_is_subset(unsigned long outer_start,
+> +				   unsigned long outer_end,
+> +				   unsigned long inner_start,
+> +				   unsigned long inner_end)
+> +{
+> +	return outer_start <= inner_start && inner_end <= outer_end;
+> +}
+> +
+> +/**
+> + * range_in_vma - is the specified [@start, @end) range a subset of the VMA?
+> + * @vma: The VMA against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns %true if [@start, @end) is a subset of [@vma->vm_start,
+
+    * Returns:
+
+> + * @vma->vm_end), %false otherwise.
+> + */
+>  static inline bool range_in_vma(const struct vm_area_struct *vma,
+>  				unsigned long start, unsigned long end)
+>  {
+> -	return (vma && vma->vm_start <= start && end <= vma->vm_end);
+> +	if (!vma)
+> +		return false;
+> +
+> +	return range_is_subset(vma->vm_start, vma->vm_end, start, end);
+> +}
+> +
+> +/**
+> + * range_in_vma_desc - is the specified [@start, @end) range a subset of the VMA
+> + * described by @desc, a VMA descriptor?
+> + * @desc: The VMA descriptor against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns %true if [@start, @end) is a subset of [@desc->start, @desc->end),
+
+    * Returns:
+
+> + * %false otherwise.
+> + */
+> +static inline bool range_in_vma_desc(const struct vm_area_desc *desc,
+> +				     unsigned long start, unsigned long end)
+> +{
+> +	if (!desc)
+> +		return false;
+> +
+> +	return range_is_subset(desc->start, desc->end, start, end);
+>  }
+
+-- 
+~Randy
+
