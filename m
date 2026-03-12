@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316F63624C4;
-	Thu, 12 Mar 2026 04:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287333128D7;
+	Thu, 12 Mar 2026 04:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773290643; cv=none; b=AJJGaI2rDV3X+xhT+ETGSS8zkfRI6cZvsOf/MPtvkD3NEas3dXhdcHBmQwhzncz/oQIbbMgp4cpgF8eMVCTwqp/512jH9C2ly8edufjFVKfKF6lBzcJKmjuRgjFJSwbaZglZ/J6RPEX3wZgp8/JrmBwJMJZM5epBq0d5iPnfhiU=
+	t=1773290704; cv=none; b=qd/GfybZTO/mp3QmfHGp/9/ZJ/Yxbv7xws4x/EUmRHu3rlQmv9V1BNhkYcRbW+GixnSAvglxxNRIa9ohVJKVkiNEe8AMo/zl/FuHxcZ5kKwQBEAdYIv4Dg1loMtiN3/H02px+3qiwqcs56otNHmUY/LVeMHPhYdFdUEd7BqHOjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773290643; c=relaxed/simple;
-	bh=pNQtAGuNoSMQbftL7oQbjLogUhi6yxjmPX2y+E2kUPc=;
+	s=arc-20240116; t=1773290704; c=relaxed/simple;
+	bh=uo4SSl8fAgSbLnKxoM8NkTc5BpnLftMtAAjRH39TfzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltyAzywsFawfFLM/FekWcYimNrj3E/bPv7Iz/R8AZgXTnxiEpWXmsWhbOXbWtWysSu9HQOzy2nmPNwFOrQyUorcR2Wp8iyKaY5nAgugNgSMXbAjni9brMhisSni3wZ+PTfqSO5dg2MB5XmOnSw1h11AFePewkoFYBpo3wXokXPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/h4rC0Q; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iA1fbyvp/ViLHhyPc7Z6OeC/Qy3f3ZFNGpRBOosGT9rIBV1jqEwPRYJP84GUhSm+Phx0CuzU1xrF1sIJgwXlYmcjHd7WsqGbsTH33akJJl47mHyArU82HcK/sfkfcz0KiW6cXiEdUqmCHcah3/syBVFvTjnzSFT35URfZXEKqkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzcPKQYU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/h4rC0Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDEDBC4CEF7;
-	Thu, 12 Mar 2026 04:44:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzcPKQYU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9823AC4CEF7;
+	Thu, 12 Mar 2026 04:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773290643;
-	bh=pNQtAGuNoSMQbftL7oQbjLogUhi6yxjmPX2y+E2kUPc=;
+	s=k20201202; t=1773290703;
+	bh=uo4SSl8fAgSbLnKxoM8NkTc5BpnLftMtAAjRH39TfzE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n/h4rC0QEEgmD8rbnUvuFApIKpo0P7xhOrebw7W+v+imzOv5rg396HrcMree+L1bc
-	 imqSpkGv2K7O66mvgOzOgRXVDE/Sm4bR/9XhNjYbNb+ENt6ocFmc6IYNMqHDdZM9gG
-	 UcpmQ6UKfl9m+OOYu0dklhLs2kid+N1cIXO8HsCKPLOe4qEJ1eAMB9r/rdSNiROtc7
-	 G7j96MUCQxqeexnKNZhOKLekMOpOpXikIM+s2ULq5Y13vtg7/iEeUmPBRfN6nKWWe2
-	 rp/KJunkgkAkB8dGUbTU6XRbUWQuiIGCeUmJ876dGBVKry0BSKLldP4YU8uFW0PByk
-	 /o9dJtwz0XuHg==
-Date: Thu, 12 Mar 2026 04:44:01 +0000
+	b=hzcPKQYUgP9E659xiVXIxYlYZkJNwUfbGPurGs4iSjTFtyKUTfhxD2Zbjk47hWhIE
+	 mXbav4xqdv/O7tqOKyOluoXC7akYV+XVYRjQCA2Y6L+bg/4rRK3sP95HC/lGNk6OWc
+	 HTwOFLoR/Jx6UMt8CrcSpCDbjMZp9Hn9wp6qbbW4pxEOIyLkai/fPZ+59SmjaarpDp
+	 WMS38KJuFZsb/VJ0SqjPb3/4FUIAqgeQE4UuNzxSG9/5DxwPiRS7spmDlZPD136uxB
+	 rEobjQS9Q1y07ii4zrq7xuc5f6RV/W+CaC3DsNCQTrqF1cLbj4w0NyhqFOpCO+C+Cw
+	 rt8TxMIpyidog==
+Date: Thu, 12 Mar 2026 04:45:02 +0000
 From: Wei Liu <wei.liu@kernel.org>
-To: mhklinux@outlook.com
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
 	decui@microsoft.com, longli@microsoft.com,
 	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] Drivers: hv: vmbus: Limit channel interrupt scan to
- relid high water mark
-Message-ID: <20260312044401.GA3771304@liuwe-devbox-debian-v2.local>
-References: <20260220164045.1670-1-mhklkml@zohomail.com>
+Subject: Re: [PATCH v2] mshv: Introduce tracing support
+Message-ID: <20260312044502.GB3771304@liuwe-devbox-debian-v2.local>
+References: <177238674748.34040.4319844213401541666.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -44,30 +43,12 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260220164045.1670-1-mhklkml@zohomail.com>
+In-Reply-To: <177238674748.34040.4319844213401541666.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-On Fri, Feb 20, 2026 at 08:40:45AM -0800, Michael Kelley wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
+On Sun, Mar 01, 2026 at 05:39:10PM +0000, Stanislav Kinsburskii wrote:
+> Introduces various trace events and use them in the corresponding places
+> in the driver.
 > 
-> When checking for VMBus channel interrutps, current code always scans the
-> full SynIC receive interrupt bit array to get the relid of the
-> interrupting channels. The array has HV_EVENT_FLAGS_COUNT (2048) bits.
-> But VMs rarely have more than 100 channels, and the relid is typically
-> a small integer that is densely assigned by the Hyper-V host. It's
-> wasteful to scan 2048 bits when it is highly unlikely that anything will
-> be found past bit 100. The waste is double with Confidential VMBus because
-> there are two receive interrupt arrays that must be scanned: one for the
-> hypervisor SynIC and one for the paravisor SynIC.
-> 
-> Improve the scanning by tracking the largest relid that has been offered
-> by the Hyper-V host. Then when checking for VMBus channel interrupts, only
-> scan up to this high water mark.
-> 
-> When channels are rescinded, it's not worth the complexity to recalculate
-> the high water mark. Hyper-V tends to reuse the rescinded relids for any
-> new channels that are subsequently added, and the performance benefit of
-> exactly tracking the high water mark would be minimal.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 
-Applied to hyperv-next. Thanks.
+Applied to hyperv-next.
