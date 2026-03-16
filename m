@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8387B1DFF0;
-	Mon, 16 Mar 2026 12:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8D8F3939DD;
+	Mon, 16 Mar 2026 12:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773663173; cv=none; b=TUwQpPWlmIpA6MT44B7TVjqFRxn6uKWJR6ZTsXcoBfKGQyb0GV5qJ5S0FeWJPTlLuIgVqbRVONpjA5eoGvT0RrfasNVDInSTYpj3pW6nEllr3sfe4ZtP3rN1ukbQwAtF5A7IvxAtINJfC/MYzIgo5ntKoYY9GIJi5CQjbss5kv0=
+	t=1773663181; cv=none; b=UIgYJyvT8+W1VDI06K0kCbkfkbver7JQKpgYKvVQP0+UQ/gPpJkeQPytUVOuyAyrRIxFnIK1Lvd9/JFCYBRODn5f+e5zL1Gm2rbUAdaH9SXPCf6fxkTb25vlx4+qrlyMCtnZ5HawtTeIEoV6vLIU+xYwDAA9VByKIeppsw3r6Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773663173; c=relaxed/simple;
-	bh=7ttwWgKOyWUOOcxX5hFVjj6/N1JzTZZH4T3vIM815XI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QBiyrofO+83/ashBaOXSEbZxKURbP1kB0KxtomEDxe2h6HC1Uu+3fSHhLFVN1qmJjaTDh6wzYIcl4gpQU4GrO7bf0qX/YsY+quk68WvB2ivhFd4MbUD2Nveuv3cxXKgCoPy6fA4vTeqyO1DvX6teLNN6QCdfzeqKdWfEkXsJybs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KmMzN+L7; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1773663181; c=relaxed/simple;
+	bh=MVIADVbueLx3yQEJ2iYnj2s1XkLRnQtQerVrnAstgKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NlAS7HCwM9edbVDK9LRaDR+ajUmHiS+6AxALu2zTrR81GUp0K9L3rxPO3RMyiqYO65qy4Bgtf6LgSVPQeAJGpX7x3VWI8DDpIw2F62inpnF7pPGjUUP1XB7e/3Xg+ENaSU/euaV/hqyqDbn2/g6rHxOXi9RmP4iT6PkRYlD/Kp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JnrfaQ1q; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KmMzN+L7"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JnrfaQ1q"
 Received: from CPC-namja-026ON.redmond.corp.microsoft.com (unknown [4.213.232.19])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3BAAB20B710C;
-	Mon, 16 Mar 2026 05:12:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3BAAB20B710C
+	by linux.microsoft.com (Postfix) with ESMTPSA id C980B20B7129;
+	Mon, 16 Mar 2026 05:12:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C980B20B7129
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1773663171;
-	bh=6E+dKhZEiGUG0B2R4F9V5NwBD3IvG5yQHAXHWZtspsE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KmMzN+L72LBHYNUzHaLuEqLmYUZbFE86Ghb9lbKG5LUyRumq1Pfq+2svrA0+xYFZO
-	 icrvijbYw47VQDkU6veDLhVKqlnse8g07r2eqLanFYIkoRzULa0MthPoLVSiv4VasW
-	 5uFwpbJrFIVM1RNuHNLwoLRVAHOnsvo3dZAS4584=
+	s=default; t=1773663179;
+	bh=6df6NmlHbYEwsjePCZxMwR+//HiqFND2iuF0yusrO7A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JnrfaQ1qzJtMxSWlOSqo+uWUtX+v3P2ZCsXLOhdyHnOiD5Mf/g2gbHMdnHNx1+B0e
+	 HG2BK6FeWTAuENeXTbTg7QebepK3AW7xpc2WLe6mfQa3LB3dskvBj/x9U7s0qec5Nj
+	 uex5YeK0kEHqZinvkTyE9P6h/eVsH96Ez3dITCIY=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: "K . Y . Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -55,10 +56,12 @@ Cc: Marc Zyngier <maz@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 00/11] Drivers: hv: Add ARM64 support in mshv_vtl
-Date: Mon, 16 Mar 2026 12:12:30 +0000
-Message-ID: <20260316121241.910764-1-namjain@linux.microsoft.com>
+Subject: [PATCH 01/11] arch: arm64: Export arch_smp_send_reschedule for mshv_vtl module
+Date: Mon, 16 Mar 2026 12:12:31 +0000
+Message-ID: <20260316121241.910764-2-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260316121241.910764-1-namjain@linux.microsoft.com>
+References: <20260316121241.910764-1-namjain@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -67,59 +70,39 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The series intends to add support for ARM64 to mshv_vtl driver.
-For this, common Hyper-V code is refactored, necessary support is added,
-mshv_vtl_main.c is refactored and then finally support is added in
-Kconfig.
+mshv_vtl_main.c calls smp_send_reschedule() which expands to
+arch_smp_send_reschedule(). When CONFIG_MSHV_VTL=m, the module cannot
+access this symbol since it is not exported on arm64.
 
-Based on commit 1f318b96cc84 ("Linux 7.0-rc3")
+smp_send_reschedule() is used in mshv_vtl_cancel() to interrupt a vCPU
+thread running on another CPU. When a vCPU is looping in
+mshv_vtl_ioctl_return_to_lower_vtl(), it checks a per-CPU cancel flag
+before each VTL0 entry. Setting cancel=1 alone is not enough if the
+target CPU thread is sleeping - the IPI from smp_send_reschedule() kicks
+the remote CPU out of idle/sleep so it re-checks the cancel flag and
+exits the loop promptly.
 
-Naman Jain (11):
-  arch: arm64: Export arch_smp_send_reschedule for mshv_vtl module
-  Drivers: hv: Move hv_vp_assist_page to common files
-  Drivers: hv: Add support to setup percpu vmbus handler
-  Drivers: hv: Refactor mshv_vtl for ARM64 support to be added
-  drivers: hv: Export vmbus_interrupt for mshv_vtl module
-  Drivers: hv: Make sint vector architecture neutral in MSHV_VTL
-  arch: arm64: Add support for mshv_vtl_return_call
-  Drivers: hv: mshv_vtl: Move register page config to arch-specific
-    files
-  Drivers: hv: mshv_vtl: Let userspace do VSM configuration
-  Drivers: hv: Add support for arm64 in MSHV_VTL
-  Drivers: hv: Kconfig: Add ARM64 support for MSHV_VTL
+Other architectures (riscv, loongarch, powerpc) already export this
+symbol. Add the same EXPORT_SYMBOL_GPL for arm64. This is required
+for adding arm64 support in MSHV_VTL.
 
- arch/arm64/hyperv/Makefile        |   1 +
- arch/arm64/hyperv/hv_vtl.c        | 152 ++++++++++++++++++++++
- arch/arm64/hyperv/mshyperv.c      |  13 ++
- arch/arm64/include/asm/mshyperv.h |  28 ++++
- arch/arm64/kernel/smp.c           |   1 +
- arch/x86/hyperv/hv_init.c         |  88 +------------
- arch/x86/hyperv/hv_vtl.c          | 130 +++++++++++++++++++
- arch/x86/include/asm/mshyperv.h   |   8 +-
- drivers/hv/Kconfig                |   2 +-
- drivers/hv/hv_common.c            |  99 +++++++++++++++
- drivers/hv/mshv.h                 |   8 --
- drivers/hv/mshv_vtl_main.c        | 205 ++++--------------------------
- drivers/hv/vmbus_drv.c            |   8 +-
- include/asm-generic/mshyperv.h    |  49 +++++++
- include/hyperv/hvgdk_mini.h       |   2 +
- 15 files changed, 505 insertions(+), 289 deletions(-)
- create mode 100644 arch/arm64/hyperv/hv_vtl.c
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+---
+ arch/arm64/kernel/smp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-base-commit: 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-prerequisite-patch-id: 24022ec1fb63bc20de8114eedf03c81bb1086e0e
-prerequisite-patch-id: 801f2588d5c6db4ceb9a6705a09e4649fab411b1
-prerequisite-patch-id: 581c834aa268f0c54120c6efbc1393fbd9893f49
-prerequisite-patch-id: b0b153807bab40860502c52e4a59297258ade0db
-prerequisite-patch-id: 2bff6accea80e7976c58d80d847cd33f260a3cb9
-prerequisite-patch-id: 296ffbc4f119a5b249bc9c840f84129f5c151139
-prerequisite-patch-id: 3b54d121145e743ac5184518df33a1812280ec96
-prerequisite-patch-id: 06fc5b37b23ee3f91a2c8c9b9c126fde290834f2
-prerequisite-patch-id: 6e8afed988309b03485f5538815ea29c8fa5b0a9
-prerequisite-patch-id: 4f1fb1b7e9cfa8a3b1c02fafecdbb432b74ee367
-prerequisite-patch-id: 49944347e0b2d93e72911a153979c567ebb7e66b
-prerequisite-patch-id: 6dec75498eeae6365d15ac12b5d0a3bd32e9f91c
+diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
+index 1aa324104afb..26b1a4456ceb 100644
+--- a/arch/arm64/kernel/smp.c
++++ b/arch/arm64/kernel/smp.c
+@@ -1152,6 +1152,7 @@ void arch_smp_send_reschedule(int cpu)
+ {
+ 	smp_cross_call(cpumask_of(cpu), IPI_RESCHEDULE);
+ }
++EXPORT_SYMBOL_GPL(arch_smp_send_reschedule);
+ 
+ #ifdef CONFIG_ARM64_ACPI_PARKING_PROTOCOL
+ void arch_send_wakeup_ipi(unsigned int cpu)
 -- 
 2.43.0
 
