@@ -1,97 +1,118 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 503EA3932C3;
-	Mon, 16 Mar 2026 12:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B44B3988EE;
+	Mon, 16 Mar 2026 13:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773663257; cv=none; b=Q6hr5/LWFlQvwkCvsRlMfEbLQ/ZiXGliLAq5C2nvmFyqK6TujU7P9hSyRqpXyyogEUn9Y8pmXXsb87aWysdj0vJiieh8mskeazkSM8j330wvp3CVWJr5gvTnHl50EffZ4oFv/9B2f8VdHGjX1lj0qymvcoly9RHXGIUO1805qF4=
+	t=1773667835; cv=none; b=dMmWbQcH9JXXE3dVUgMNW4DFLAhgCEZhhlhpCenx9HwWxkTmE1uTzwVMrvrtGunNs1VrPWP5rZM4lkGQSP7FsIOJODAJxpbrEmTA5eCCzSOxYC5y/ou/ovFowog2PpdEUnuaZZ3pNPDtvj+wqVD6PA4W2aQFgtQyVmbqVOi490o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773663257; c=relaxed/simple;
-	bh=jJb8h58hnlLUQmUrWN13yqVVn3m8nj+SGowpCoZTXMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FnbU1zyA/OFwgDNfy+HAW433p0f/lSW2nheIvD+M7LSmyRsOvtdfMQyH+priyGmmx06tSItUhUoreOmnYg4yJhAtj+WstX135ECJF/mTv+iQ6b1wS98pqWIa82KVYqIY0ZnC5hFJN8YVEy9o8v9FIktjm5T0qZs7suLWpm0npJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=s9CD2tDn; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s9CD2tDn"
-Received: from CPC-namja-026ON.redmond.corp.microsoft.com (unknown [4.213.232.19])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EDB4720B6F1B;
-	Mon, 16 Mar 2026 05:14:08 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EDB4720B6F1B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1773663255;
-	bh=RkE3+qElIZaIEZKSD/Ld3HbKTw73INK8ayuUxF+uJxQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s9CD2tDnG6tFpkuyB5dr6TborVEmEhSrR6Y8mXyzKLjUKHktvqTTPJaIKQrjL/zc6
-	 oOb2+6CxUKPPPUNQgjiq9fmMtREq1URhAKprDqXBrnsic6rUfo53g99NrAGB5rPrRg
-	 mP6kAUCgdZEQxBnaQJvRb7+6G0m2SBMscKd9jixc=
-From: Naman Jain <namjain@linux.microsoft.com>
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: Marc Zyngier <maz@kernel.org>,
-	Timothy Hayes <timothy.hayes@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	mrigendrachaubey <mrigendra.chaubey@gmail.com>,
-	Naman Jain <namjain@linux.microsoft.com>,
-	ssengar@linux.microsoft.com,
-	Michael Kelley <mhklinux@outlook.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH 11/11] Drivers: hv: Kconfig: Add ARM64 support for MSHV_VTL
-Date: Mon, 16 Mar 2026 12:12:41 +0000
-Message-ID: <20260316121241.910764-12-namjain@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260316121241.910764-1-namjain@linux.microsoft.com>
-References: <20260316121241.910764-1-namjain@linux.microsoft.com>
+	s=arc-20240116; t=1773667835; c=relaxed/simple;
+	bh=12QmHVFW6kvGAsAEHlRgc6k9FaOX+eCOvB+1XSjB85g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bbj9i3OmX6tLHsLG9LsVUer8BMIseUV+cewr4p5b4W0GLlnwPuU7seL8aE/at0nXm72aSd8dJNxLetLzuHHuYyH1LmmKQGBoR67oCN6y9fm4gvzOaf7ZCgi6tFdE7Nt15YoWXaTLjQ3vkM5D8UeKzGqO7h9DPbsmd2QLdRgsNKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 357291477;
+	Mon, 16 Mar 2026 06:30:25 -0700 (PDT)
+Received: from [10.57.61.116] (unknown [10.57.61.116])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D4953F778;
+	Mon, 16 Mar 2026 06:30:22 -0700 (PDT)
+Message-ID: <2c7466f5-d952-4356-9b55-9d2ebb3471f2@arm.com>
+Date: Mon, 16 Mar 2026 13:30:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 50/61] iommu: Prefer IS_ERR_OR_NULL over manual NULL check
+To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
+ apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
+ cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+ kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+ sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Enable ARM64 support in MSHV_VTL Kconfig now that all the necessary
-support is present.
+On 2026-03-10 11:49 am, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
 
-Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
----
- drivers/hv/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AFAICS it doesn't look possible for the argument to be anything other 
+than valid at both callsites, so *both* conditions here seem in fact to 
+be entirely redundant.
 
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index 7937ac0cbd0f..393cef272590 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -87,7 +87,7 @@ config MSHV_ROOT
- 
- config MSHV_VTL
- 	tristate "Microsoft Hyper-V VTL driver"
--	depends on X86_64 && HYPERV_VTL_MODE
-+	depends on (X86_64 || ARM64) && HYPERV_VTL_MODE
- 	depends on HYPERV_VMBUS
- 	# Mapping VTL0 memory to a userspace process in VTL2 is supported in OpenHCL.
- 	# VTL2 for OpenHCL makes use of Huge Pages to improve performance on VMs,
--- 
-2.43.0
+> Change generated with coccinelle.
+
+Please use coccinelle responsibly. Mechanical changes are great for 
+scripted API updates, but for cleanup, whilst it's ideal for *finding* 
+areas of code that are worth looking at, the code then wants actually 
+looking at, in its whole context, because meaningful cleanup often goes 
+deeper than trivial replacement.
+
+In particular, anywhere IS_ERR_OR_NULL() is genuinely relevant is 
+usually a sign of bad interface design, so if you're looking at this 
+then you really should be looking first and foremost to remove any 
+checks that are already unnecessary, and for the remainder, to see if 
+the thing being checked can be improved to not mix the two different 
+styles. That would be constructive and (usually) welcome cleanup. Simply 
+churning a bunch of code with this ugly macro that's arguably less 
+readable than what it replaces, not so much.
+
+Thanks,
+Robin.
+
+> To: Joerg Roedel <joro@8bytes.org>
+> To: Will Deacon <will@kernel.org>
+> To: Robin Murphy <robin.murphy@arm.com>
+> Cc: iommu@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+> ---
+>   drivers/iommu/omap-iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
+> index 8231d7d6bb6a9202025643639a6b28e6faa84659..500a42b57a997696ff37c76f028a717ab71d01f9 100644
+> --- a/drivers/iommu/omap-iommu.c
+> +++ b/drivers/iommu/omap-iommu.c
+> @@ -881,7 +881,7 @@ static int omap_iommu_attach(struct omap_iommu *obj, u32 *iopgd)
+>    **/
+>   static void omap_iommu_detach(struct omap_iommu *obj)
+>   {
+> -	if (!obj || IS_ERR(obj))
+> +	if (IS_ERR_OR_NULL(obj))
+>   		return;
+>   
+>   	spin_lock(&obj->iommu_lock);
+> 
 
