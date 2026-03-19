@@ -1,62 +1,62 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A714035DB
-	for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 20:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4D2405AD1
+	for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 20:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773951975; cv=none; b=FJ42AOL6K4nVaAUTO9n6tFmpTDifUGmIsBGOaljmT/aYlJWmxAPg61rvc/LoZ83+joP7SqjmZ01U/Ny+j/DABtqSncuSLyWwEmpanHc4uRQhQkbnPxrZUyhYMozIX6KgHJHgrD5OSLgfz1rDbo8huYfJbpZzE8ugzRG0tkQy3QA=
+	t=1773951976; cv=none; b=tdw/elVk5jaq4XKazbqrBK0lp03tB3/5gtGU4my5JKH2sC9tuT7g7IE3AWzZkdrWeKzTH5QS8SiXSeSah4BHD0OTLTw94wuZYnHNVwM9WqLUsKii4qjJVBNYiotVFdnNWZQ5/uag1wMGB8b/tPW/yuRhKzOx0uuKvK8mOHfDy6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773951975; c=relaxed/simple;
-	bh=AOusT6p9367uyjTqPMakWydFQ1xoyk/26t5GlU5mVyc=;
+	s=arc-20240116; t=1773951976; c=relaxed/simple;
+	bh=RXAKopPqswssMamyZTu+CjsystEpYm23+bEkJx/MHsI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aBv9Byt/Tv6H6StXKGQuMlC03+giiLPKImEe2yaMTMD1bpxptt/BAxWFtHb0Bsq+B+PYc6+dL/pLFMQRWGw0iNZ/9ZGMGv/zOq9KOZbhGpbHgDPWems2p1ZNKqJHRsmQqEcb7ztHXxwQgoiOektvLgX46Rm0fIMqORpO3NvnuS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4ryd15C; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=YB1YBEDfGPkDbHcMLEFxtQe4iRp6g4USCym1Mj+KSXkAKtgeLmr3lR++RMrb0/FE2Cy8MzojDB7MExyiIfiLXW+jUbbInhvaL/HYU20m45KzsMBM/EaNVuagGrwOpOPyo+wA/cliQfD30ImwJqA+owsJ2KsH/4XCsZ38vuy1q/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLmUfEl5; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4ryd15C"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43b40003d13so878771f8f.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 13:26:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLmUfEl5"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b4d734678so1373514f8f.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 13:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773951972; x=1774556772; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773951973; x=1774556773; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5nBvPxHuGTYxL2H7tm9LrajSUYE8m0XRxOYwCtqlQeY=;
-        b=a4ryd15CxIsWb50OPCdRTFv+Doj0P+umdHRv+qN3FVSK+7o5OqA05ob6fACtCRinl9
-         uyqc08p8fCb2lHX7IWQXnpu+KvCRWq0krMsV/y7O/5D+3hk5gSm1z+sSe6KmbH2RHPJF
-         V7Ypoicpftnt1JW7iwoaD3CaoFVxH5bSa6toSw/CZBBQ3nlyC2g9+Qi6eybEO4Mv4JEy
-         hYjUE0XcW2omT5raCk1cANJSZRz5RU4CTT+n4uljBp9FdQGd3DBeFR4psxSYqLKnJClp
-         Nv3LxTisGO2APLrhGjhZPnVlHv1taSasu7uoWF1ONz8q6IxdPgiB8UqLVEPzXlxzKGUu
-         +W/g==
+        bh=M4Vjw28unlG5YFFVDdPo2EpwlOdhnBXqMUOBR/+aRX8=;
+        b=GLmUfEl5ZOQ5OmLilT5g++YYTXVwY+1G1fWh1b+3/oQrJ/NfII4uWETBFgbR73+uUq
+         3kRegHl1f4G552JQxOM7S3eDSOjc753b8oPSgoWwIxt4cCN6xjjOP/A9JMQGG/5a0uGP
+         EhCyiHNOPx3xO9zTwFcWLJU2jycLUcAiqMprIgwRqujsmJKPLt9C9idxWsrZz9gkOFDh
+         EX2KWHoHeOwccx4xeeaLnNYoOClfyPtVo9pfMj91JzlVBT1o0GAx80pBS2k0MXUp3lKr
+         UGY3SH+z/ex8JHtIYuZa5cybxI0Y2fJsNdLV+YBatU5tF8WLgf3ovp4cBg11FDnj3VgJ
+         IhfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773951972; x=1774556772;
+        d=1e100.net; s=20251104; t=1773951973; x=1774556773;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5nBvPxHuGTYxL2H7tm9LrajSUYE8m0XRxOYwCtqlQeY=;
-        b=Mv0yaj1Qh9ZsT60ualTJxP51DrzZ3H8mnySulFmhdTCef/bjL3Q+5IEum4PJj76LgR
-         v1qmbUJ8h1m0jTKg2J9rFNJxKBgTl3EvahEWw6QN0oAIm9bVhACD+Lnp301SupYhPNpc
-         eC7/T7DirWwihjkzlZun1H5E8DTHoQkdfToI3jfFCuqHYP42v2YiH5ggdVhDeKJrYMqJ
-         XDN8yHS7Cq02PucO6lQOGHLVpoL5j7XEfvCmtjG3Em2a4FukXifJMka4yWOvqwgNTYGl
-         cG0QVaWUDaoeBUILAZXzmEnI3b0v7+bx9hBoxLAQxAOrQ4sGf5gGUWQezJxxtzUDy0uO
-         uEng==
-X-Gm-Message-State: AOJu0Ywv+jkzt3N+MhJ1yyXgla2q7d3VEbmuhko9Rot1GNuMmJBgBR0z
-	LB4QyJmH3vyekrXnbwhyDaG/nhi/lSJNUfeO5C8uQpAIJAmk8nrhWdqm/61cys4TLIo=
-X-Gm-Gg: ATEYQzyuHUHr2tU9V7RJfu57jZCAE2n8X7JMtDyrFBHe5nhZpeG3ILzNDIBNkwOtxzF
-	Hfjwatd00EzHbJymb6FCU36nXun1Kq21AMschKEbndds0/38A4kQlgW1g5r6JCFyddwBqRqLD1K
-	tDIppFFYmcyMX4jyblu/ZnkCF+q4AmY0QjwXZgGcM2Zxgt1BX1lHDf+GoBgdCPJH8tsZVlUWAS7
-	5E3Q2l8FFC1NdPUIiHpXDZIZDQmjo6QWPklXTKliThyUxDGdPQG0wjXyugXTapFXXtLsQbO49jA
-	JvduQDlCGbYY7NkWfEAyUNX7EQuFT48fTyIqL+lVvB6f2G9O6M8K7KY8VF1joZ3STgDMc+C/7vt
-	HfxL2+bLsHoYxPUJvaOEqlVRVRs+xz14vHA2blgkoNPd+dbuvDI9yLPboDdYWTg5hlFibTn9E8u
-	v2Wu5L4RLk3CdEzJM1V0MrN/22z51qXZCql8lxQFct8NG2tvX0
-X-Received: by 2002:a05:6000:2f84:b0:43b:40ef:5d1a with SMTP id ffacd0b85a97d-43b64240089mr1066767f8f.5.1773951971528;
-        Thu, 19 Mar 2026 13:26:11 -0700 (PDT)
+        bh=M4Vjw28unlG5YFFVDdPo2EpwlOdhnBXqMUOBR/+aRX8=;
+        b=TpRqUDh76WpBsxE/H1S1BOBl/t/mu40sQchjoHbqRJ1gva5KYZYFj2mLikfpDYUa+K
+         B8/66XnDDGnyMf9mZiJtOi0JgpZl0zY52VQy/k8HNgu4WEjEswIAy7x0ag2rlANmpZUQ
+         VWypcfEFPFS386fHgiCnAFAa+FN+XqN0pmjR/IhIzmalvDr1/igOAVIsIvv4rP7PkoQG
+         VwRCZ90B0aiWQa59gxkwNwyapg0142ZhaOnaGdIRRRB1MFno5DtwKInEer2GQz0344MK
+         WpXc8Vq9i87u5U5amthIMYCZrJA6SLy3mmJPM1yk2NeUUJOyxPNR6vGVf+q/sdcyO3g7
+         dhvQ==
+X-Gm-Message-State: AOJu0YwJ1VfWvH5VUuu1p2PwBu+Srhbj/nbv/fyI1drimk/LOhFI0Fwe
+	3DwoobiR40/0NDPRGy1jkV4kzbfXv8FjBpuV7QuxqkwO5ob/b1JfUCaCpnqeWyswmu8=
+X-Gm-Gg: ATEYQzzL7HATS8eNWSa791DbOexoSVEDzaWlPNS/E3Yi6xijeCSN4LRfniqf2bEWrVk
+	W7jIWc1rmO59cRtSmJOXf4rWlZk5gJ/RnsnYy5BCPeA2b7ybqBqSQ9bliDKvDQn+shShxRt5tzt
+	Oz5MmpOTAK91q802DwoR99SQvODqeXTvjc6gFf1C3JxoQiR4Nv8npo30P/s4xXFRj+gs1TRIeC5
+	XKQl1RzK0wB98JjFek05AsJMSPGibHeGSoXBCuV8qYwm7wAFRn/LFon9Y42MSGeFBwMAv6hD2dy
+	wf7FkOeNYpnpa4QLmBbV1iYN8AawyVsUxKLN1NWmeHrxlbar2Nw4X6J1u5jAFs1CN5Cq1PHOpv+
+	0zQ7c3lqKsiVgo7eGePoHxOra0uIfMXgvjq+2W/w2013ergWCFWIWJKDJW4xY2iCUUdfwnoqjr7
+	fZJSg0+Ec3H8qly8Uan/3y5hn0M97tBdXxgTSaAEZf1HJZeaFn
+X-Received: by 2002:a05:6000:26c3:b0:43b:45d1:f438 with SMTP id ffacd0b85a97d-43b64234722mr1195366f8f.3.1773951972545;
+        Thu, 19 Mar 2026 13:26:12 -0700 (PDT)
 Received: from LQ5W56KC4T ([2001:8a0:672f:7800:e0e1:55cd:f0b:b1e5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae16fsm1347544f8f.8.2026.03.19.13.26.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae16fsm1347544f8f.8.2026.03.19.13.26.11
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 19 Mar 2026 13:26:11 -0700 (PDT)
+        Thu, 19 Mar 2026 13:26:12 -0700 (PDT)
 From: Eric Curtin <ericcurtin17@gmail.com>
 X-Google-Original-From: Eric Curtin <eric.curtin@docker.com>
 To: linux-hyperv@vger.kernel.org
@@ -65,9 +65,9 @@ Cc: linux-kernel@vger.kernel.org,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
 	haiyangz@microsoft.com
-Subject: [PATCH 52/55] drivers: hv: dxgkrnl: Use pin_user_pages instead of get_user_pages for DMA accessible memory
-Date: Thu, 19 Mar 2026 20:25:06 +0000
-Message-ID: <20260319202509.63802-53-eric.curtin@docker.com>
+Subject: [PATCH 53/55] drivers: hv: dxgkrnl: Do not print error messages when virtual GPU is not present
+Date: Thu, 19 Mar 2026 20:25:07 +0000
+Message-ID: <20260319202509.63802-54-eric.curtin@docker.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260319202509.63802-1-eric.curtin@docker.com>
 References: <20260319202509.63802-1-eric.curtin@docker.com>
@@ -81,57 +81,49 @@ Content-Transfer-Encoding: 8bit
 
 From: Iouri Tarassov <iourit@linux.microsoft.com>
 
-Pages, which are obtained by calling get_user_pages(), can be evicted from memory.
-pin_user_pages() should be used for memory, which is accessed by DMA.
+Dxgkrnl prints the error message "Failed to acquire global channel lock"
+when a process tries to open the /dev/dxg device and there is no
+virtual GPU. This message should not be printed in this scenario.
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 ---
- drivers/hv/dxgkrnl/dxgadapter.c |  2 +-
- drivers/hv/dxgkrnl/dxgvmbus.c   | 12 ++++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ drivers/hv/dxgkrnl/dxgadapter.c | 2 +-
+ drivers/hv/dxgkrnl/dxgmodule.c  | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hv/dxgkrnl/dxgadapter.c b/drivers/hv/dxgkrnl/dxgadapter.c
-index cf946e476411..c94283b09fa1 100644
+index c94283b09fa1..6d3cabb24e6f 100644
 --- a/drivers/hv/dxgkrnl/dxgadapter.c
 +++ b/drivers/hv/dxgkrnl/dxgadapter.c
-@@ -882,7 +882,7 @@ struct dxgallocation *dxgallocation_create(struct dxgprocess *process)
- void dxgallocation_stop(struct dxgallocation *alloc)
- {
- 	if (alloc->pages) {
--		release_pages(alloc->pages, alloc->num_pages);
-+		unpin_user_pages(alloc->pages, alloc->num_pages);
- 		vfree(alloc->pages);
- 		alloc->pages = NULL;
+@@ -78,12 +78,12 @@ void dxgadapter_start(struct dxgadapter *adapter)
+ 
+ 	/* The global channel is initialized when the first adapter starts */
+ 	if (!dxgglobal->global_channel_initialized) {
++		dxgglobal->global_channel_initialized = true;
+ 		ret = dxgglobal_init_global_channel();
+ 		if (ret) {
+ 			dxgglobal_destroy_global_channel();
+ 			return;
+ 		}
+-		dxgglobal->global_channel_initialized = true;
  	}
-diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 467e7707c8c7..abb6d2af89ac 100644
---- a/drivers/hv/dxgkrnl/dxgvmbus.c
-+++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -1457,6 +1457,7 @@ int create_existing_sysmem(struct dxgdevice *device,
- 	u64 *pfn;
- 	u32 pages_to_send;
- 	u32 i;
-+	u32 gup_flags = FOLL_LONGTERM;
+ 
+ 	/* Initialize vGPU vm bus channel */
+diff --git a/drivers/hv/dxgkrnl/dxgmodule.c b/drivers/hv/dxgkrnl/dxgmodule.c
+index 8f5d6db256a3..c2a4a2a2136f 100644
+--- a/drivers/hv/dxgkrnl/dxgmodule.c
++++ b/drivers/hv/dxgkrnl/dxgmodule.c
+@@ -46,9 +46,13 @@ int dxgglobal_acquire_channel_lock(void)
+ {
  	struct dxgglobal *dxgglobal = dxggbl();
  
- 	/*
-@@ -1475,12 +1476,15 @@ int create_existing_sysmem(struct dxgdevice *device,
- 		ret = -ENOMEM;
- 		goto cleanup;
- 	}
--	ret1 = get_user_pages_fast((unsigned long)sysmem, npages, !read_only,
--				  dxgalloc->pages);
-+	if (!read_only)
-+		gup_flags |= FOLL_WRITE;
-+	ret1 = pin_user_pages_fast((unsigned long)sysmem, npages, gup_flags,
-+				   dxgalloc->pages);
- 	if (ret1 != npages) {
- 		DXG_ERR("get_user_pages_fast failed: %d", ret1);
--		if (ret1 > 0 && ret1 < npages)
--			release_pages(dxgalloc->pages, ret1);
-+		if (ret1 > 0 && ret1 < npages) {
-+			unpin_user_pages(dxgalloc->pages, ret1);
-+		}
- 		vfree(dxgalloc->pages);
- 		dxgalloc->pages = NULL;
- 		ret = -ENOMEM;
++	if (!dxgglobal->global_channel_initialized)
++		return -ENODEV;
++
+ 	down_read(&dxgglobal->channel_lock);
+ 	if (dxgglobal->channel.channel == NULL) {
+ 		DXG_ERR("Failed to acquire global channel lock");
++		up_read(&dxgglobal->channel_lock);
+ 		return -ENODEV;
+ 	} else {
+ 		return 0;
