@@ -1,62 +1,62 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9A63F7E9F
-	for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 20:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4DA3F7E93
+	for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 20:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773951927; cv=none; b=gWRV5NklyY5Iev8r/ebngo2Bem2qnj9B5Fueb3+Q+RQKOwI4aNtxzkYkgeYk3yAy7ZPVe4/2UAQQj3Z9zgyIrPjf/gZvFIonWAbkMAIAJJP4RX7+QHP+eUPd0VjP1Z7wB3jwOuRJ/0H+Ps7gwrsueHc/gDyHDXdile22JKyB6gs=
+	t=1773951930; cv=none; b=helzMAz43G1cx5RotEpCvDk/QAk1xpCHekLlUFadD/lShGkEg+4eriSLQVRKT4LU2Oc3n6APPGMbGe/rFeABDq3wNP7JHK9RtR2WfyaJb0L53ER/mAVVKvL3D3zZOBOrASVgd6vhdpxB7MDDKOclbF3KSzrUvdkrO9oRy/LnmPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773951927; c=relaxed/simple;
-	bh=6m9Fl64FQgYRCmM/OBqroPX57hoWtFkTtimspki1Gv0=;
+	s=arc-20240116; t=1773951930; c=relaxed/simple;
+	bh=IqcUGpB2PtgVu6arzPygtpGtWVPPQZJgUoQW8arIol0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P66zwuteGL+KhLJUGj8E/GNMgtOrlDXepgT7kmJAIdwKfkNZ3yXfuJVy+PCKQm3Ja5G0qF+nRNgcxvWorraWTrCo2G+tmrqz0BZ+tod1dlWIlmXxD1tUuu8e3or2U15j2/8ZRJ0Kp9Z/bjsenUrTD7eTUXiRPXLSrtuYYIuQD5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jgPDMX4H; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=WUt6bu0O80fcP5tq5eFnBoWrX40oLAoKyQyFbBNt78+ZxhLyR65roEjQxAOapLnm5as+dVo4Z2eF9aObMggHnK57I8VYX1EcsqEv2vD7TXiByz6PLjaUmYvkGZCgCElIwowsakPZE6gLvis79dlckztw7K/rnbD/SG5AeiY2j4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ABAIKlnz; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jgPDMX4H"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso11780775e9.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 13:25:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ABAIKlnz"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so10974645e9.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2026 13:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773951921; x=1774556721; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773951924; x=1774556724; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ows384rFvcW/0zTyYeLYh2R71jyN2NXXSfsnbCfkYBk=;
-        b=jgPDMX4H12WC8AkpwT3EfwMmj9cbcVVv2WoLqI/60vBXsxHPTR+soE37O/jg5te23C
-         AX2Dble5gWPrYzb9eCjRybdkhKG9TfhtwycvsCXkf6wyDNkRCt0/xrSPXDo8l2c5JfPO
-         1MH4aBIC5ztso5DixCBpDjlQdLrOC8U85pGTh/9TtIemXE/DM6D9yzIe+NY364Syq/RW
-         z+3j2LSGStiMsnQOT5pzzLWQq8myJtxpMjFwsjNS1XOBEG1ZSETNlHqjiBcWqId1vYFc
-         /hLxaOKurFwt7BdqM4txDD2DXCSqV3KzorNJX0xjBFUZ5P9jM5qGKX91Um5zN44HSULL
-         dwqw==
+        bh=ye1TIkHhwdICDOIgZUhwxe648xXV4IEZCAKFuIhIotg=;
+        b=ABAIKlnzISTT15ZHqqMzqIO7bfibaVTb3lWpEh52OjZ6mG+caurZOFC7EYxYbsnega
+         U5mf0UeLnQuGvKw7vhv6+Dt052+NSkUj5udTbWssxKG5Izd/A5uEbhbn6E/cP9o+ROqd
+         l1aJsxOXbgGEMXWxdYoWoTp4xmjIREr7KeMdpD/iMouIHyioWbcApOIOjAVxG388ogSa
+         f0P9FZQi+NGVHmISzgd/AUSNuAXqvvGmVLwVbiTTFDCcpo2/ZtuI8X1VgG783rdp/CU+
+         yaLVPtD0vo7nqv/8+lg5+e4i1zh4Efly5i7tOF0oATEinJQ2C6pe60YQMJDsZNvpbbze
+         P7ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773951921; x=1774556721;
+        d=1e100.net; s=20251104; t=1773951924; x=1774556724;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ows384rFvcW/0zTyYeLYh2R71jyN2NXXSfsnbCfkYBk=;
-        b=h8PX2CgIHGz7Z5zCW+cZC9QrIgvzojPaKRn8ZTL4SUsSltmR0+YqLWimmaDRqkJzYk
-         dMXbxlNms1zP5k2YIsUp9+Bx6wQCE06HZR9YcnY0hCjEaWBXM0E9ouPcvDzmJtffutmG
-         6YeebMGkwkFSHxW+Ipr0Pcg1Q7Xb5EqRbzjTgxQ+81HrKRknw5tEtwGe94LAs5C+1coc
-         EkCGnNLswaBmaUclDnuylKPX/k3gov/lxPxHI6iN9X1xusJzlGzMU+xj3rtObHgwEOiu
-         YWTNfLQmbDMzgjWuK3qBlEwOhT+CCvqe4QsxTnqWvLD9Mkv/Uh1UjmTaCpauEIRNTQEm
-         gWKg==
-X-Gm-Message-State: AOJu0YyfjR0apgYU032otYfL8ZqoQxMGymyoNovsXph054ghAxLjUb7c
-	Sou/Ebpd5n5hxi6vg+DT/m+fpDG46m8/7r7uY+w2klpK+AP06HKPT22yQsDn/1JT/Z4=
-X-Gm-Gg: ATEYQzy4oO7QvTPgtWUlLwmUoZYYUdxvW1RhcZ1vluJMYmfitY7MFavyzBtcC6rcCgW
-	yogwM4IhGVOEBrArNTc6hrNbxCReLqwdJ1PF2UC4kZxqscZTzxr/xSmN47J+rooeLR4kc7Wj4Vf
-	eLLqkWLyT4jY5FA109waZrrBZvXAswN5tvdkZ5EnqAZPXQGR9aiwZ83PL4aImGmpwlXli4kX7nw
-	GkGRdlTcC/pwhhnFZxBM6RRN05VRkCEB6lzxetummVnTloXwuUARDhIjlD7QzyZFhqml9jbd+3v
-	2pEACE4rXMu8a/0PgIbz4gSBRS/AvoDHIQR5enAD+OaPlUy2cVCbzBVlYLxnyP5d22pwlmrv4qY
-	yNV0tbfMvzrrMRr+fh3dl1bJ2AGLbeHLpjvWE2aLMzDOiyiTzQUk0kwbVvnAmBIue79NUnva8AQ
-	5hP2/uuc7/lu84p2NmaRijyHLIOxg1iHpYDIqtRrCozllaJGRV
-X-Received: by 2002:a05:600c:19d4:b0:485:4278:24f0 with SMTP id 5b1f17b1804b1-486ff03d9d4mr6356905e9.30.1773951921361;
-        Thu, 19 Mar 2026 13:25:21 -0700 (PDT)
+        bh=ye1TIkHhwdICDOIgZUhwxe648xXV4IEZCAKFuIhIotg=;
+        b=gHoH57IT4rVZE2u+DEghF19pyhWSDjUuMurmB2zM+EwfoLurKP7VwwYlEFhakfC5uH
+         nAW3lLi8a08XWs7pdV5qD1XLv3MBosir73pP0ISoSrhVObPdxUEQ5RsMN11FeiocmQ/0
+         +2GoZwOtfh3NWGeq6XTh4lv9ZxCdQoYvt+oGcZlDLCs12sgfXPvRfr+1BElxtYUlidO/
+         49BKvBxvWpGWzZ/ib5dKSuG177MJJlA2IPcnwDL79NFVDfvcCeoTzril3JYkatl9LB0Y
+         IH3Gf18RHWYYv3o3zFojr8621MVJ84H1JwaaApsyOxJ7JFkBn1ZcSEctgvbk+7ybvv5y
+         Eeig==
+X-Gm-Message-State: AOJu0YwgwC2x/c2YUKXbMUD9rscLyxN0rna/7ZXoz1eGaM6JbAI/c6jI
+	MgTHU2ZgodJJ8cGkuwFceSRS4dhFBvvKBuUYA6NDQcmfMFwlwgG5+ZA+oKxYhtTMK4w=
+X-Gm-Gg: ATEYQzyZFSIFaRdFgkA6gPdVIv51IHYNsFOY3jGM5efuyam/+uOZQWFOquX/OiIQWE0
+	jKxvAN34fE0qNBKr+yjEdR/qxA8UoWc24+xNhK/UdAxsneqCKdh52u9UQn9Gy952CTvW0FSg/kS
+	ZTq8JHMUyXbt+HFYXo/+b0gPAZDC5C3xPjrlaHtCDFEq3gwWpW7NNhX/EOL0+U4Oezalqo0DoMO
+	Qlex4wJXXTSqF0yfLgu66z5DWxawHTGyNgX1T7/AB7wJVjf3zAQwPvwrIXoRoPjSH4UMv1eRBuQ
+	joVsNJX/JHrIH0EVPO3a4Dz0j/h2cHdgx1AXaUJbCDIG7lVrMFa8kO7zy7/UXiH9551fLZIqlTH
+	zB9uafTdxDlrNq10A/Bm5++P5yLOE0TI5gs8pqfvIOTvt0IqTFCZeostBREDVnU5Ti1NNEoCPY6
+	7FMiziSe1XMXBZavcs5Uoh6iPbcY6ZuKlNMr6qUU1lgDHfVEvQ
+X-Received: by 2002:a05:600c:1d0c:b0:483:6d4a:7e6d with SMTP id 5b1f17b1804b1-486fee2ff25mr6878185e9.30.1773951923676;
+        Thu, 19 Mar 2026 13:25:23 -0700 (PDT)
 Received: from LQ5W56KC4T ([2001:8a0:672f:7800:e0e1:55cd:f0b:b1e5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae16fsm1347544f8f.8.2026.03.19.13.25.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae16fsm1347544f8f.8.2026.03.19.13.25.22
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 19 Mar 2026 13:25:20 -0700 (PDT)
+        Thu, 19 Mar 2026 13:25:23 -0700 (PDT)
 From: Eric Curtin <ericcurtin17@gmail.com>
 X-Google-Original-From: Eric Curtin <eric.curtin@docker.com>
 To: linux-hyperv@vger.kernel.org
@@ -65,9 +65,9 @@ Cc: linux-kernel@vger.kernel.org,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
 	haiyangz@microsoft.com
-Subject: [PATCH 07/55] drivers: hv: dxgkrnl: Creation of dxgcontext objects
-Date: Thu, 19 Mar 2026 20:24:21 +0000
-Message-ID: <20260319202509.63802-8-eric.curtin@docker.com>
+Subject: [PATCH 09/55] drivers: hv: dxgkrnl: Creation of compute device sync objects
+Date: Thu, 19 Mar 2026 20:24:23 +0000
+Message-ID: <20260319202509.63802-10-eric.curtin@docker.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260319202509.63802-1-eric.curtin@docker.com>
 References: <20260319202509.63802-1-eric.curtin@docker.com>
@@ -81,277 +81,594 @@ Content-Transfer-Encoding: 8bit
 
 From: Iouri Tarassov <iourit@linux.microsoft.com>
 
-Implement ioctls for creation/destruction of dxgcontext
-objects:
-  - the LX_DXCREATECONTEXTVIRTUAL ioctl
-  - the LX_DXDESTROYCONTEXT ioctl.
+Implement ioctls to create and destroy compute devicesync objects:
+ - the LX_DXCREATESYNCHRONIZATIONOBJECT ioctl,
+ - the LX_DXDESTROYSYNCHRONIZATIONOBJECT ioctl.
 
-A dxgcontext object represents a compute device execution thread.
-Ccompute device DMA buffers and synchronization operations are
-submitted for execution to a dxgcontext. dxgcontexts objects
-belong to a dxgdevice object.
+Compute device synchronization objects are used to synchronize
+execution of compute device commands, which are queued to
+different execution contexts (dxgcontext objects).
+
+There are several types of sync objects (mutex, monitored
+fence, CPU event, fence). A "signal" or a "wait" operation
+could be queued to an execution context.
+
+Monitored fence sync objects are particular important.
+A monitored fence object has a fence value, which could be
+monitored by the compute device or by CPU. Therefore, a CPU
+virtual address is allocated during object creation to allow
+an application to read the fence value. dxg_map_iospace and
+dxg_unmap_iospace implement creation of the CPU virtual address.
+This is done as follow:
+- The host allocates a portion of the guest IO space, which is mapped
+  to the actual fence value memory on the host
+- The host returns the guest IO space address to the guest
+- The guest allocates a CPU virtual address and updates page tables
+  to point to the IO space address
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 [kms: forward port to 6.6 from 6.1. No code changes made.]
 Signed-off-by: Kelsey Steele <kelseysteele@microsoft.com>
 ---
- drivers/hv/dxgkrnl/dxgadapter.c | 103 ++++++++++++++++++++
- drivers/hv/dxgkrnl/dxgkrnl.h    |  38 ++++++++
- drivers/hv/dxgkrnl/dxgprocess.c |   4 +
- drivers/hv/dxgkrnl/dxgvmbus.c   | 101 ++++++++++++++++++-
- drivers/hv/dxgkrnl/dxgvmbus.h   |  18 ++++
- drivers/hv/dxgkrnl/ioctl.c      | 168 +++++++++++++++++++++++++++++++-
- drivers/hv/dxgkrnl/misc.h       |   1 +
- include/uapi/misc/d3dkmthk.h    |  47 +++++++++
- 8 files changed, 477 insertions(+), 3 deletions(-)
+ drivers/hv/dxgkrnl/dxgadapter.c | 184 ++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgkrnl.h    |  80 +++++++++++++
+ drivers/hv/dxgkrnl/dxgmodule.c  |   1 +
+ drivers/hv/dxgkrnl/dxgprocess.c |  16 +++
+ drivers/hv/dxgkrnl/dxgvmbus.c   | 205 ++++++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgvmbus.h   |  20 ++++
+ drivers/hv/dxgkrnl/ioctl.c      | 130 +++++++++++++++++++-
+ include/uapi/misc/d3dkmthk.h    |  95 +++++++++++++++
+ 8 files changed, 729 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hv/dxgkrnl/dxgadapter.c b/drivers/hv/dxgkrnl/dxgadapter.c
-index a9a341716eba..cd103e092ac2 100644
+index 402caa81a5db..d2f2b96527e6 100644
 --- a/drivers/hv/dxgkrnl/dxgadapter.c
 +++ b/drivers/hv/dxgkrnl/dxgadapter.c
-@@ -206,7 +206,9 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
- 		device->adapter = adapter;
- 		device->process = process;
- 		kref_get(&adapter->adapter_kref);
-+		INIT_LIST_HEAD(&device->context_list_head);
- 		init_rwsem(&device->device_lock);
-+		init_rwsem(&device->context_list_lock);
- 		INIT_LIST_HEAD(&device->pqueue_list_head);
- 		device->object_state = DXGOBJECTSTATE_CREATED;
- 		device->execution_state = _D3DKMT_DEVICEEXECUTION_ACTIVE;
-@@ -248,6 +250,20 @@ void dxgdevice_destroy(struct dxgdevice *device)
- 
- 	dxgdevice_stop(device);
- 
-+	{
-+		struct dxgcontext *context;
-+		struct dxgcontext *tmp;
-+
-+		DXG_TRACE("destroying contexts");
-+		dxgdevice_acquire_context_list_lock(device);
-+		list_for_each_entry_safe(context, tmp,
-+					 &device->context_list_head,
-+					 context_list_entry) {
-+			dxgcontext_destroy(process, context);
-+		}
-+		dxgdevice_release_context_list_lock(device);
-+	}
-+
- 	/* Guest handles need to be released before the host handles */
- 	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
- 	if (device->handle_valid) {
-@@ -302,6 +318,32 @@ bool dxgdevice_is_active(struct dxgdevice *device)
- 	return device->object_state == DXGOBJECTSTATE_ACTIVE;
+@@ -160,6 +160,24 @@ void dxgadapter_remove_process(struct dxgprocess_adapter *process_info)
+ 	list_del(&process_info->adapter_process_list_entry);
  }
  
-+void dxgdevice_acquire_context_list_lock(struct dxgdevice *device)
++void dxgadapter_add_syncobj(struct dxgadapter *adapter,
++			    struct dxgsyncobject *object)
 +{
-+	down_write(&device->context_list_lock);
++	down_write(&adapter->shared_resource_list_lock);
++	list_add_tail(&object->syncobj_list_entry, &adapter->syncobj_list_head);
++	up_write(&adapter->shared_resource_list_lock);
 +}
 +
-+void dxgdevice_release_context_list_lock(struct dxgdevice *device)
++void dxgadapter_remove_syncobj(struct dxgsyncobject *object)
 +{
-+	up_write(&device->context_list_lock);
-+}
-+
-+void dxgdevice_add_context(struct dxgdevice *device, struct dxgcontext *context)
-+{
-+	down_write(&device->context_list_lock);
-+	list_add_tail(&context->context_list_entry, &device->context_list_head);
-+	up_write(&device->context_list_lock);
-+}
-+
-+void dxgdevice_remove_context(struct dxgdevice *device,
-+			      struct dxgcontext *context)
-+{
-+	if (context->context_list_entry.next) {
-+		list_del(&context->context_list_entry);
-+		context->context_list_entry.next = NULL;
++	down_write(&object->adapter->shared_resource_list_lock);
++	if (object->syncobj_list_entry.next) {
++		list_del(&object->syncobj_list_entry);
++		object->syncobj_list_entry.next = NULL;
 +	}
++	up_write(&object->adapter->shared_resource_list_lock);
 +}
 +
- void dxgdevice_release(struct kref *refcount)
+ int dxgadapter_acquire_lock_exclusive(struct dxgadapter *adapter)
  {
- 	struct dxgdevice *device;
-@@ -310,6 +352,67 @@ void dxgdevice_release(struct kref *refcount)
+ 	down_write(&adapter->core_lock);
+@@ -213,6 +231,7 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
+ 		init_rwsem(&device->context_list_lock);
+ 		init_rwsem(&device->alloc_list_lock);
+ 		INIT_LIST_HEAD(&device->pqueue_list_head);
++		INIT_LIST_HEAD(&device->syncobj_list_head);
+ 		device->object_state = DXGOBJECTSTATE_CREATED;
+ 		device->execution_state = _D3DKMT_DEVICEEXECUTION_ACTIVE;
+ 
+@@ -228,6 +247,7 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
+ void dxgdevice_stop(struct dxgdevice *device)
+ {
+ 	struct dxgallocation *alloc;
++	struct dxgsyncobject *syncobj;
+ 
+ 	DXG_TRACE("Destroying device: %p", device);
+ 	dxgdevice_acquire_alloc_list_lock(device);
+@@ -235,6 +255,14 @@ void dxgdevice_stop(struct dxgdevice *device)
+ 		dxgallocation_stop(alloc);
+ 	}
+ 	dxgdevice_release_alloc_list_lock(device);
++
++	hmgrtable_lock(&device->process->handle_table, DXGLOCK_EXCL);
++	list_for_each_entry(syncobj, &device->syncobj_list_head,
++			    syncobj_list_entry) {
++		dxgsyncobject_stop(syncobj);
++	}
++	hmgrtable_unlock(&device->process->handle_table, DXGLOCK_EXCL);
++	DXG_TRACE("Device stopped: %p", device);
+ }
+ 
+ void dxgdevice_mark_destroyed(struct dxgdevice *device)
+@@ -263,6 +291,20 @@ void dxgdevice_destroy(struct dxgdevice *device)
+ 
+ 	dxgdevice_acquire_alloc_list_lock(device);
+ 
++	while (!list_empty(&device->syncobj_list_head)) {
++		struct dxgsyncobject *syncobj =
++		    list_first_entry(&device->syncobj_list_head,
++				     struct dxgsyncobject,
++				     syncobj_list_entry);
++		list_del(&syncobj->syncobj_list_entry);
++		syncobj->syncobj_list_entry.next = NULL;
++		dxgdevice_release_alloc_list_lock(device);
++
++		dxgsyncobject_destroy(process, syncobj);
++
++		dxgdevice_acquire_alloc_list_lock(device);
++	}
++
+ 	{
+ 		struct dxgallocation *alloc;
+ 		struct dxgallocation *tmp;
+@@ -565,6 +607,30 @@ void dxgdevice_release(struct kref *refcount)
  	kfree(device);
  }
  
-+struct dxgcontext *dxgcontext_create(struct dxgdevice *device)
++void dxgdevice_add_syncobj(struct dxgdevice *device,
++			   struct dxgsyncobject *syncobj)
 +{
-+	struct dxgcontext *context;
++	dxgdevice_acquire_alloc_list_lock(device);
++	list_add_tail(&syncobj->syncobj_list_entry, &device->syncobj_list_head);
++	kref_get(&syncobj->syncobj_kref);
++	dxgdevice_release_alloc_list_lock(device);
++}
 +
-+	context = kzalloc(sizeof(struct dxgcontext), GFP_KERNEL);
-+	if (context) {
-+		kref_init(&context->context_kref);
-+		context->device = device;
-+		context->process = device->process;
-+		context->device_handle = device->handle;
-+		kref_get(&device->device_kref);
-+		INIT_LIST_HEAD(&context->hwqueue_list_head);
-+		init_rwsem(&context->hwqueue_list_lock);
-+		dxgdevice_add_context(device, context);
-+		context->object_state = DXGOBJECTSTATE_ACTIVE;
++void dxgdevice_remove_syncobj(struct dxgsyncobject *entry)
++{
++	struct dxgdevice *device = entry->device;
++
++	dxgdevice_acquire_alloc_list_lock(device);
++	if (entry->syncobj_list_entry.next) {
++		list_del(&entry->syncobj_list_entry);
++		entry->syncobj_list_entry.next = NULL;
++		kref_put(&entry->syncobj_kref, dxgsyncobject_release);
 +	}
-+	return context;
++	dxgdevice_release_alloc_list_lock(device);
++	kref_put(&device->device_kref, dxgdevice_release);
++	entry->device = NULL;
 +}
 +
-+/*
-+ * Called when the device context list lock is held
-+ */
-+void dxgcontext_destroy(struct dxgprocess *process, struct dxgcontext *context)
-+{
-+	DXG_TRACE("Destroying context %p", context);
-+	context->object_state = DXGOBJECTSTATE_DESTROYED;
-+	if (context->device) {
-+		if (context->handle.v) {
-+			hmgrtable_free_handle_safe(&process->handle_table,
-+						   HMGRENTRY_TYPE_DXGCONTEXT,
-+						   context->handle);
-+		}
-+		dxgdevice_remove_context(context->device, context);
-+		kref_put(&context->device->device_kref, dxgdevice_release);
-+	}
-+	kref_put(&context->context_kref, dxgcontext_release);
-+}
-+
-+void dxgcontext_destroy_safe(struct dxgprocess *process,
-+			     struct dxgcontext *context)
-+{
-+	struct dxgdevice *device = context->device;
-+
-+	dxgdevice_acquire_context_list_lock(device);
-+	dxgcontext_destroy(process, context);
-+	dxgdevice_release_context_list_lock(device);
-+}
-+
-+bool dxgcontext_is_active(struct dxgcontext *context)
-+{
-+	return context->object_state == DXGOBJECTSTATE_ACTIVE;
-+}
-+
-+void dxgcontext_release(struct kref *refcount)
-+{
-+	struct dxgcontext *context;
-+
-+	context = container_of(refcount, struct dxgcontext, context_kref);
-+	kfree(context);
-+}
-+
- struct dxgprocess_adapter *dxgprocess_adapter_create(struct dxgprocess *process,
- 						     struct dxgadapter *adapter)
+ struct dxgcontext *dxgcontext_create(struct dxgdevice *device)
  {
+ 	struct dxgcontext *context;
+@@ -812,3 +878,121 @@ void dxgprocess_adapter_remove_device(struct dxgdevice *device)
+ 	}
+ 	mutex_unlock(&device->adapter_info->device_list_mutex);
+ }
++
++struct dxgsyncobject *dxgsyncobject_create(struct dxgprocess *process,
++					   struct dxgdevice *device,
++					   struct dxgadapter *adapter,
++					   enum
++					   d3dddi_synchronizationobject_type
++					   type,
++					   struct
++					   d3dddi_synchronizationobject_flags
++					   flags)
++{
++	struct dxgsyncobject *syncobj;
++
++	syncobj = kzalloc(sizeof(*syncobj), GFP_KERNEL);
++	if (syncobj == NULL)
++		goto cleanup;
++	syncobj->type = type;
++	syncobj->process = process;
++	switch (type) {
++	case _D3DDDI_MONITORED_FENCE:
++	case _D3DDDI_PERIODIC_MONITORED_FENCE:
++		syncobj->monitored_fence = 1;
++		break;
++	default:
++		break;
++	}
++	if (flags.shared) {
++		syncobj->shared = 1;
++		if (!flags.nt_security_sharing) {
++			DXG_ERR("nt_security_sharing must be set");
++			goto cleanup;
++		}
++	}
++
++	kref_init(&syncobj->syncobj_kref);
++
++	if (syncobj->monitored_fence) {
++		syncobj->device = device;
++		syncobj->device_handle = device->handle;
++		kref_get(&device->device_kref);
++		dxgdevice_add_syncobj(device, syncobj);
++	} else {
++		dxgadapter_add_syncobj(adapter, syncobj);
++	}
++	syncobj->adapter = adapter;
++	kref_get(&adapter->adapter_kref);
++
++	DXG_TRACE("Syncobj created: %p", syncobj);
++	return syncobj;
++cleanup:
++	if (syncobj)
++		kfree(syncobj);
++	return NULL;
++}
++
++void dxgsyncobject_destroy(struct dxgprocess *process,
++			   struct dxgsyncobject *syncobj)
++{
++	int destroyed;
++
++	DXG_TRACE("Destroying syncobj: %p", syncobj);
++
++	dxgsyncobject_stop(syncobj);
++
++	destroyed = test_and_set_bit(0, &syncobj->flags);
++	if (!destroyed) {
++		DXG_TRACE("Deleting handle: %x", syncobj->handle.v);
++		hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
++		if (syncobj->handle.v) {
++			hmgrtable_free_handle(&process->handle_table,
++					      HMGRENTRY_TYPE_DXGSYNCOBJECT,
++					      syncobj->handle);
++			syncobj->handle.v = 0;
++			kref_put(&syncobj->syncobj_kref, dxgsyncobject_release);
++		}
++		hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
++
++		if (syncobj->monitored_fence)
++			dxgdevice_remove_syncobj(syncobj);
++		else
++			dxgadapter_remove_syncobj(syncobj);
++		if (syncobj->adapter) {
++			kref_put(&syncobj->adapter->adapter_kref,
++				 dxgadapter_release);
++			syncobj->adapter = NULL;
++		}
++	}
++	kref_put(&syncobj->syncobj_kref, dxgsyncobject_release);
++}
++
++void dxgsyncobject_stop(struct dxgsyncobject *syncobj)
++{
++	int stopped = test_and_set_bit(1, &syncobj->flags);
++
++	if (!stopped) {
++		DXG_TRACE("Stopping syncobj");
++		if (syncobj->monitored_fence) {
++			if (syncobj->mapped_address) {
++				int ret =
++				    dxg_unmap_iospace(syncobj->mapped_address,
++						      PAGE_SIZE);
++
++				(void)ret;
++				DXG_TRACE("unmap fence %d %p",
++					ret, syncobj->mapped_address);
++				syncobj->mapped_address = NULL;
++			}
++		}
++	}
++}
++
++void dxgsyncobject_release(struct kref *refcount)
++{
++	struct dxgsyncobject *syncobj;
++
++	syncobj = container_of(refcount, struct dxgsyncobject, syncobj_kref);
++	kfree(syncobj);
++}
 diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
-index 45ac1f25cc5e..a3d8d3c9f37d 100644
+index fa053fb6ac9c..1b9410c9152b 100644
 --- a/drivers/hv/dxgkrnl/dxgkrnl.h
 +++ b/drivers/hv/dxgkrnl/dxgkrnl.h
-@@ -35,6 +35,7 @@
- struct dxgprocess;
- struct dxgadapter;
- struct dxgdevice;
-+struct dxgcontext;
+@@ -38,6 +38,7 @@ struct dxgdevice;
+ struct dxgcontext;
+ struct dxgallocation;
+ struct dxgresource;
++struct dxgsyncobject;
  
  /*
   * Driver private data.
-@@ -298,6 +299,7 @@ void dxgadapter_remove_process(struct dxgprocess_adapter *process_info);
- /*
-  * The object represent the device object.
-  * The following objects take reference on the device
-+ * - dxgcontext
-  * - device handle (struct d3dkmthandle)
-  */
- struct dxgdevice {
-@@ -311,6 +313,8 @@ struct dxgdevice {
- 	struct kref		device_kref;
- 	/* Protects destcruction of the device object */
- 	struct rw_semaphore	device_lock;
-+	struct rw_semaphore	context_list_lock;
-+	struct list_head	context_list_head;
- 	/* List of paging queues. Protected by process handle table lock. */
- 	struct list_head	pqueue_list_head;
- 	struct d3dkmthandle	handle;
-@@ -325,7 +329,33 @@ void dxgdevice_mark_destroyed(struct dxgdevice *device);
- int dxgdevice_acquire_lock_shared(struct dxgdevice *dev);
- void dxgdevice_release_lock_shared(struct dxgdevice *dev);
- void dxgdevice_release(struct kref *refcount);
-+void dxgdevice_add_context(struct dxgdevice *dev, struct dxgcontext *ctx);
-+void dxgdevice_remove_context(struct dxgdevice *dev, struct dxgcontext *ctx);
- bool dxgdevice_is_active(struct dxgdevice *dev);
-+void dxgdevice_acquire_context_list_lock(struct dxgdevice *dev);
-+void dxgdevice_release_context_list_lock(struct dxgdevice *dev);
-+
+@@ -100,6 +101,56 @@ int dxgvmbuschannel_init(struct dxgvmbuschannel *ch, struct hv_device *hdev);
+ void dxgvmbuschannel_destroy(struct dxgvmbuschannel *ch);
+ void dxgvmbuschannel_receive(void *ctx);
+ 
 +/*
-+ * The object represent the execution context of a device.
++ * This is GPU synchronization object, which is used to synchronize execution
++ * between GPU contextx/hardware queues or for tracking GPU execution progress.
++ * A dxgsyncobject is created when somebody creates a syncobject or opens a
++ * shared syncobject.
++ * A syncobject belongs to an adapter, unless it is a cross-adapter object.
++ * Cross adapter syncobjects are currently not implemented.
++ *
++ * D3DDDI_MONITORED_FENCE and D3DDDI_PERIODIC_MONITORED_FENCE are called
++ * "device" syncobject, because the belong to a device (dxgdevice).
++ * Device syncobjects are inserted to a list in dxgdevice.
++ *
 + */
-+struct dxgcontext {
-+	enum dxgobjectstate	object_state;
-+	struct dxgdevice	*device;
-+	struct dxgprocess	*process;
-+	/* entry in the device context list */
-+	struct list_head	context_list_entry;
-+	struct list_head	hwqueue_list_head;
-+	struct rw_semaphore	hwqueue_list_lock;
-+	struct kref		context_kref;
-+	struct d3dkmthandle	handle;
-+	struct d3dkmthandle	device_handle;
++struct dxgsyncobject {
++	struct kref			syncobj_kref;
++	enum d3dddi_synchronizationobject_type	type;
++	/*
++	 * List entry in dxgdevice for device sync objects.
++	 * List entry in dxgadapter for other objects
++	 */
++	struct list_head		syncobj_list_entry;
++	/* Adapter, the syncobject belongs to. NULL for stopped sync obejcts. */
++	struct dxgadapter		*adapter;
++	/*
++	 * Pointer to the device, which was used to create the object.
++	 * This is NULL for non-device syncbjects
++	 */
++	struct dxgdevice		*device;
++	struct dxgprocess		*process;
++	/* CPU virtual address of the fence value for "device" syncobjects */
++	void				*mapped_address;
++	/* Handle in the process handle table */
++	struct d3dkmthandle		handle;
++	/* Cached handle of the device. Used to avoid device dereference. */
++	struct d3dkmthandle		device_handle;
++	union {
++		struct {
++			/* Must be the first bit */
++			u32		destroyed:1;
++			/* Must be the second bit */
++			u32		stopped:1;
++			/* device syncobject */
++			u32		monitored_fence:1;
++			u32		shared:1;
++			u32		reserved:27;
++		};
++		long			flags;
++	};
 +};
 +
-+struct dxgcontext *dxgcontext_create(struct dxgdevice *dev);
-+void dxgcontext_destroy(struct dxgprocess *pr, struct dxgcontext *ctx);
-+void dxgcontext_destroy_safe(struct dxgprocess *pr, struct dxgcontext *ctx);
-+void dxgcontext_release(struct kref *refcount);
-+bool dxgcontext_is_active(struct dxgcontext *ctx);
+ /*
+  * The structure defines an offered vGPU vm bus channel.
+  */
+@@ -109,6 +160,20 @@ struct dxgvgpuchannel {
+ 	struct hv_device	*hdev;
+ };
  
++struct dxgsyncobject *dxgsyncobject_create(struct dxgprocess *process,
++					   struct dxgdevice *device,
++					   struct dxgadapter *adapter,
++					   enum
++					   d3dddi_synchronizationobject_type
++					   type,
++					   struct
++					   d3dddi_synchronizationobject_flags
++					   flags);
++void dxgsyncobject_destroy(struct dxgprocess *process,
++			   struct dxgsyncobject *syncobj);
++void dxgsyncobject_stop(struct dxgsyncobject *syncobj);
++void dxgsyncobject_release(struct kref *refcount);
++
+ struct dxgglobal {
+ 	struct dxgdriver	*drvdata;
+ 	struct dxgvmbuschannel	channel;
+@@ -271,6 +336,8 @@ struct dxgadapter {
+ 	struct list_head	adapter_list_entry;
+ 	/* The list of dxgprocess_adapter entries */
+ 	struct list_head	adapter_process_list_head;
++	/* List of all non-device dxgsyncobject objects */
++	struct list_head	syncobj_list_head;
+ 	/* This lock protects shared resource and syncobject lists */
+ 	struct rw_semaphore	shared_resource_list_lock;
+ 	struct pci_dev		*pci_dev;
+@@ -296,6 +363,9 @@ void dxgadapter_release_lock_shared(struct dxgadapter *adapter);
+ int dxgadapter_acquire_lock_exclusive(struct dxgadapter *adapter);
+ void dxgadapter_acquire_lock_forced(struct dxgadapter *adapter);
+ void dxgadapter_release_lock_exclusive(struct dxgadapter *adapter);
++void dxgadapter_add_syncobj(struct dxgadapter *adapter,
++			    struct dxgsyncobject *so);
++void dxgadapter_remove_syncobj(struct dxgsyncobject *so);
+ void dxgadapter_add_process(struct dxgadapter *adapter,
+ 			    struct dxgprocess_adapter *process_info);
+ void dxgadapter_remove_process(struct dxgprocess_adapter *process_info);
+@@ -325,6 +395,7 @@ struct dxgdevice {
+ 	struct list_head	resource_list_head;
+ 	/* List of paging queues. Protected by process handle table lock. */
+ 	struct list_head	pqueue_list_head;
++	struct list_head	syncobj_list_head;
+ 	struct d3dkmthandle	handle;
+ 	enum d3dkmt_deviceexecution_state execution_state;
+ 	u32			handle_valid;
+@@ -345,6 +416,8 @@ void dxgdevice_remove_alloc_safe(struct dxgdevice *dev,
+ 				 struct dxgallocation *a);
+ void dxgdevice_add_resource(struct dxgdevice *dev, struct dxgresource *res);
+ void dxgdevice_remove_resource(struct dxgdevice *dev, struct dxgresource *res);
++void dxgdevice_add_syncobj(struct dxgdevice *dev, struct dxgsyncobject *so);
++void dxgdevice_remove_syncobj(struct dxgsyncobject *so);
+ bool dxgdevice_is_active(struct dxgdevice *dev);
+ void dxgdevice_acquire_context_list_lock(struct dxgdevice *dev);
+ void dxgdevice_release_context_list_lock(struct dxgdevice *dev);
+@@ -455,6 +528,7 @@ void dxgallocation_free_handle(struct dxgallocation *a);
  long dxgk_compat_ioctl(struct file *f, unsigned int p1, unsigned long p2);
  long dxgk_unlocked_ioctl(struct file *f, unsigned int p1, unsigned long p2);
-@@ -371,6 +401,14 @@ int dxgvmb_send_destroy_device(struct dxgadapter *adapter,
- 			       struct d3dkmthandle h);
- int dxgvmb_send_flush_device(struct dxgdevice *device,
- 			     enum dxgdevice_flushschedulerreason reason);
-+struct d3dkmthandle
-+dxgvmb_send_create_context(struct dxgadapter *adapter,
-+			   struct dxgprocess *process,
-+			   struct d3dkmt_createcontextvirtual
-+			   *args);
-+int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
-+				struct dxgprocess *process,
-+				struct d3dkmthandle h);
+ 
++int dxg_unmap_iospace(void *va, u32 size);
+ /*
+  * The convention is that VNBus instance id is a GUID, but the host sets
+  * the lower part of the value to the host adapter LUID. The function
+@@ -514,6 +588,12 @@ int dxgvmb_send_create_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
+ int dxgvmb_send_destroy_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
+ 				   struct d3dkmt_destroyallocation2 *args,
+ 				   struct d3dkmthandle *alloc_handles);
++int dxgvmb_send_create_sync_object(struct dxgprocess *pr,
++				   struct dxgadapter *adapter,
++				   struct d3dkmt_createsynchronizationobject2
++				   *args, struct dxgsyncobject *so);
++int dxgvmb_send_destroy_sync_object(struct dxgprocess *pr,
++				    struct d3dkmthandle h);
  int dxgvmb_send_query_adapter_info(struct dxgprocess *process,
  				   struct dxgadapter *adapter,
  				   struct d3dkmt_queryadapterinfo *args);
+diff --git a/drivers/hv/dxgkrnl/dxgmodule.c b/drivers/hv/dxgkrnl/dxgmodule.c
+index 053ce6f3e083..9bc8931c5043 100644
+--- a/drivers/hv/dxgkrnl/dxgmodule.c
++++ b/drivers/hv/dxgkrnl/dxgmodule.c
+@@ -162,6 +162,7 @@ int dxgglobal_create_adapter(struct pci_dev *dev, guid_t *guid,
+ 	init_rwsem(&adapter->core_lock);
+ 
+ 	INIT_LIST_HEAD(&adapter->adapter_process_list_head);
++	INIT_LIST_HEAD(&adapter->syncobj_list_head);
+ 	init_rwsem(&adapter->shared_resource_list_lock);
+ 	adapter->pci_dev = dev;
+ 	guid_to_luid(guid, &adapter->luid);
 diff --git a/drivers/hv/dxgkrnl/dxgprocess.c b/drivers/hv/dxgkrnl/dxgprocess.c
-index 8373f681e822..ca307beb9a9a 100644
+index ca307beb9a9a..a41985ef438d 100644
 --- a/drivers/hv/dxgkrnl/dxgprocess.c
 +++ b/drivers/hv/dxgkrnl/dxgprocess.c
-@@ -257,6 +257,10 @@ struct dxgdevice *dxgprocess_device_by_object_handle(struct dxgprocess *process,
- 		case HMGRENTRY_TYPE_DXGDEVICE:
- 			device = obj;
- 			break;
-+		case HMGRENTRY_TYPE_DXGCONTEXT:
-+			device_handle =
-+			    ((struct dxgcontext *)obj)->device_handle;
+@@ -59,6 +59,7 @@ void dxgprocess_destroy(struct dxgprocess *process)
+ 	enum hmgrentry_type t;
+ 	struct d3dkmthandle h;
+ 	void *o;
++	struct dxgsyncobject *syncobj;
+ 	struct dxgprocess_adapter *entry;
+ 	struct dxgprocess_adapter *tmp;
+ 
+@@ -84,6 +85,21 @@ void dxgprocess_destroy(struct dxgprocess *process)
+ 		}
+ 	}
+ 
++	i = 0;
++	while (hmgrtable_next_entry(&process->handle_table, &i, &t, &h, &o)) {
++		switch (t) {
++		case HMGRENTRY_TYPE_DXGSYNCOBJECT:
++			DXG_TRACE("Destroy syncobj: %p %d", o, i);
++			syncobj = o;
++			syncobj->handle.v = 0;
++			dxgsyncobject_destroy(process, syncobj);
 +			break;
- 		default:
- 			DXG_ERR("invalid handle type: %d", t);
- 			break;
++		default:
++			DXG_ERR("invalid entry in handle table %d", t);
++			break;
++		}
++	}
++
+ 	hmgrtable_destroy(&process->handle_table);
+ 	hmgrtable_destroy(&process->local_handle_table);
+ }
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 73804d11ec49..e66aac7c13cb 100644
+index 14b51a3c6afc..d323afc85249 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.c
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -731,7 +731,7 @@ int dxgvmb_send_flush_device(struct dxgdevice *device,
- 			     enum dxgdevice_flushschedulerreason reason)
- {
- 	int ret;
--	struct dxgkvmb_command_flushdevice *command;
-+	struct dxgkvmb_command_flushdevice *command = NULL;
- 	struct dxgvmbusmsg msg = {.hdr = NULL};
- 	struct dxgprocess *process = device->process;
+@@ -495,6 +495,88 @@ dxgvmb_send_sync_msg_ntstatus(struct dxgvmbuschannel *channel,
+ 	return ret;
+ }
  
-@@ -745,6 +745,105 @@ int dxgvmb_send_flush_device(struct dxgdevice *device,
- 	command->device = device->handle;
- 	command->reason = reason;
++static int check_iospace_address(unsigned long address, u32 size)
++{
++	struct dxgglobal *dxgglobal = dxggbl();
++
++	if (address < dxgglobal->mmiospace_base ||
++	    size > dxgglobal->mmiospace_size ||
++	    address >= (dxgglobal->mmiospace_base +
++			dxgglobal->mmiospace_size - size)) {
++		DXG_ERR("invalid iospace address %lx", address);
++		return -EINVAL;
++	}
++	return 0;
++}
++
++int dxg_unmap_iospace(void *va, u32 size)
++{
++	int ret = 0;
++
++	DXG_TRACE("Unmapping io space: %p %x", va, size);
++
++	/*
++	 * When an app calls exit(), dxgkrnl is called to close the device
++	 * with current->mm equal to NULL.
++	 */
++	if (current->mm) {
++		ret = vm_munmap((unsigned long)va, size);
++		if (ret) {
++			DXG_ERR("vm_munmap failed %d", ret);
++			return -ENOTRECOVERABLE;
++		}
++	}
++	return 0;
++}
++
++static u8 *dxg_map_iospace(u64 iospace_address, u32 size,
++			   unsigned long protection, bool cached)
++{
++	struct vm_area_struct *vma;
++	unsigned long va;
++	int ret = 0;
++
++	DXG_TRACE("Mapping io space: %llx %x %lx",
++		iospace_address, size, protection);
++	if (check_iospace_address(iospace_address, size) < 0) {
++		DXG_ERR("invalid address to map");
++		return NULL;
++	}
++
++	va = vm_mmap(NULL, 0, size, protection, MAP_SHARED | MAP_ANONYMOUS, 0);
++	if ((long)va <= 0) {
++		DXG_ERR("vm_mmap failed %lx %d", va, size);
++		return NULL;
++	}
++
++	mmap_read_lock(current->mm);
++	vma = find_vma(current->mm, (unsigned long)va);
++	if (vma) {
++		pgprot_t prot = vma->vm_page_prot;
++
++		if (!cached)
++			prot = pgprot_writecombine(prot);
++		DXG_TRACE("vma: %lx %lx %lx",
++			vma->vm_start, vma->vm_end, va);
++		vma->vm_pgoff = iospace_address >> PAGE_SHIFT;
++		ret = io_remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
++					 size, prot);
++		if (ret)
++			DXG_ERR("io_remap_pfn_range failed: %d", ret);
++	} else {
++		DXG_ERR("failed to find vma: %p %lx", vma, va);
++		ret = -ENOMEM;
++	}
++	mmap_read_unlock(current->mm);
++
++	if (ret) {
++		dxg_unmap_iospace((void *)va, size);
++		return NULL;
++	}
++	DXG_TRACE("Mapped VA: %lx", va);
++	return (u8 *) va;
++}
++
+ /*
+  * Global messages to the host
+  */
+@@ -613,6 +695,39 @@ int dxgvmb_send_destroy_process(struct d3dkmthandle process)
+ 	return ret;
+ }
  
-+	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
++int dxgvmb_send_destroy_sync_object(struct dxgprocess *process,
++				    struct d3dkmthandle sync_object)
++{
++	struct dxgkvmb_command_destroysyncobject *command;
++	int ret;
++	struct dxgvmbusmsg msg = {.hdr = NULL};
++
++	ret = init_message(&msg, NULL, process, sizeof(*command));
++	if (ret)
++		return ret;
++	command = (void *)msg.msg;
++
++	ret = dxgglobal_acquire_channel_lock();
++	if (ret < 0)
++		goto cleanup;
++
++	command_vm_to_host_init2(&command->hdr,
++				 DXGK_VMBCOMMAND_DESTROYSYNCOBJECT,
++				 process->host_handle);
++	command->sync_object = sync_object;
++
++	ret = dxgvmb_send_sync_msg_ntstatus(dxgglobal_get_dxgvmbuschannel(),
++					    msg.hdr, msg.size);
++
++	dxgglobal_release_channel_lock();
 +
 +cleanup:
 +	free_message(&msg, process);
@@ -360,84 +677,43 @@ index 73804d11ec49..e66aac7c13cb 100644
 +	return ret;
 +}
 +
-+struct d3dkmthandle
-+dxgvmb_send_create_context(struct dxgadapter *adapter,
-+			   struct dxgprocess *process,
-+			   struct d3dkmt_createcontextvirtual *args)
+ /*
+  * Virtual GPU messages to the host
+  */
+@@ -1023,7 +1138,11 @@ int create_existing_sysmem(struct dxgdevice *device,
+ 		ret = -ENOMEM;
+ 		goto cleanup;
+ 	}
++#ifdef _MAIN_KERNEL_
+ 	DXG_TRACE("New gpadl %d", dxgalloc->gpadl.gpadl_handle);
++#else
++	DXG_TRACE("New gpadl %d", dxgalloc->gpadl);
++#endif
+ 
+ 	command_vgpu_to_host_init2(&set_store_command->hdr,
+ 				   DXGK_VMBCOMMAND_SETEXISTINGSYSMEMSTORE,
+@@ -1501,6 +1620,92 @@ int dxgvmb_send_get_stdalloc_data(struct dxgdevice *device,
+ 	return ret;
+ }
+ 
++static void set_result(struct d3dkmt_createsynchronizationobject2 *args,
++		       u64 fence_gpu_va, u8 *va)
 +{
-+	struct dxgkvmb_command_createcontextvirtual *command = NULL;
-+	u32 cmd_size;
-+	int ret;
-+	struct d3dkmthandle context = {};
-+	struct dxgvmbusmsg msg = {.hdr = NULL};
-+
-+	if (args->priv_drv_data_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
-+		DXG_ERR("PrivateDriverDataSize is invalid");
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	cmd_size = sizeof(struct dxgkvmb_command_createcontextvirtual) +
-+	    args->priv_drv_data_size - 1;
-+
-+	ret = init_message(&msg, adapter, process, cmd_size);
-+	if (ret)
-+		goto cleanup;
-+	command = (void *)msg.msg;
-+
-+	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_CREATECONTEXTVIRTUAL,
-+				   process->host_handle);
-+	command->device = args->device;
-+	command->node_ordinal = args->node_ordinal;
-+	command->engine_affinity = args->engine_affinity;
-+	command->flags = args->flags;
-+	command->client_hint = args->client_hint;
-+	command->priv_drv_data_size = args->priv_drv_data_size;
-+	if (args->priv_drv_data_size) {
-+		ret = copy_from_user(command->priv_drv_data,
-+				     args->priv_drv_data,
-+				     args->priv_drv_data_size);
-+		if (ret) {
-+			DXG_ERR("Faled to copy private data");
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+	}
-+	/* Input command is returned back as output */
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   command, cmd_size);
-+	if (ret < 0) {
-+		goto cleanup;
-+	} else {
-+		context = command->context;
-+		if (args->priv_drv_data_size) {
-+			ret = copy_to_user(args->priv_drv_data,
-+					   command->priv_drv_data,
-+					   args->priv_drv_data_size);
-+			if (ret) {
-+				dev_err(DXGDEV,
-+					"Faled to copy private data to user");
-+				ret = -EINVAL;
-+				dxgvmb_send_destroy_context(adapter, process,
-+							    context);
-+				context.v = 0;
-+			}
-+		}
-+	}
-+
-+cleanup:
-+	free_message(&msg, process);
-+	if (ret)
-+		DXG_TRACE("err: %d", ret);
-+	return context;
++	args->info.periodic_monitored_fence.fence_gpu_virtual_address =
++	    fence_gpu_va;
++	args->info.periodic_monitored_fence.fence_cpu_virtual_address = va;
 +}
 +
-+int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
-+				struct dxgprocess *process,
-+				struct d3dkmthandle h)
++int
++dxgvmb_send_create_sync_object(struct dxgprocess *process,
++			       struct dxgadapter *adapter,
++			       struct d3dkmt_createsynchronizationobject2 *args,
++			       struct dxgsyncobject *syncobj)
 +{
++	struct dxgkvmb_command_createsyncobject_return result = { };
++	struct dxgkvmb_command_createsyncobject *command;
 +	int ret;
-+	struct dxgkvmb_command_destroycontext *command;
++	u8 *va = 0;
 +	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
 +	ret = init_message(&msg, adapter, process, sizeof(*command));
@@ -446,57 +722,114 @@ index 73804d11ec49..e66aac7c13cb 100644
 +	command = (void *)msg.msg;
 +
 +	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_DESTROYCONTEXT,
++				   DXGK_VMBCOMMAND_CREATESYNCOBJECT,
 +				   process->host_handle);
-+	command->context = h;
++	command->args = *args;
++	command->client_hint = 1;	/* CLIENTHINT_UMD */
 +
- 	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
- cleanup:
- 	free_message(&msg, process);
++	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size, &result,
++				   sizeof(result));
++	if (ret < 0) {
++		DXG_ERR("failed %d", ret);
++		goto cleanup;
++	}
++	args->sync_object = result.sync_object;
++	if (syncobj->shared) {
++		if (result.global_sync_object.v == 0) {
++			DXG_ERR("shared handle is 0");
++			ret = -EINVAL;
++			goto cleanup;
++		}
++		args->info.shared_handle = result.global_sync_object;
++	}
++
++	if (syncobj->monitored_fence) {
++		va = dxg_map_iospace(result.fence_storage_address, PAGE_SIZE,
++				     PROT_READ | PROT_WRITE, true);
++		if (va == NULL) {
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++		if (args->info.type == _D3DDDI_MONITORED_FENCE) {
++			args->info.monitored_fence.fence_gpu_virtual_address =
++			    result.fence_gpu_va;
++			args->info.monitored_fence.fence_cpu_virtual_address =
++			    va;
++			{
++				unsigned long value;
++
++				DXG_TRACE("fence cpu va: %p", va);
++				ret = copy_from_user(&value, va,
++						     sizeof(u64));
++				if (ret) {
++					DXG_ERR("failed to read fence");
++					ret = -EINVAL;
++				} else {
++					DXG_TRACE("fence value:%lx",
++						value);
++				}
++			}
++		} else {
++			set_result(args, result.fence_gpu_va, va);
++		}
++		syncobj->mapped_address = va;
++	}
++
++cleanup:
++	free_message(&msg, process);
++	if (ret)
++		DXG_TRACE("err: %d", ret);
++	return ret;
++}
++
+ int dxgvmb_send_query_adapter_info(struct dxgprocess *process,
+ 				   struct dxgadapter *adapter,
+ 				   struct d3dkmt_queryadapterinfo *args)
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
-index 4ccf45765954..ebcb7b0f62c1 100644
+index 4b7466d1b9f2..bbf5f31cdf81 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.h
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.h
-@@ -269,4 +269,22 @@ struct dxgkvmb_command_flushdevice {
- 	enum dxgdevice_flushschedulerreason	reason;
+@@ -410,4 +410,24 @@ struct dxgkvmb_command_destroycontext {
+ 	struct d3dkmthandle	context;
  };
  
-+struct dxgkvmb_command_createcontextvirtual {
++struct dxgkvmb_command_createsyncobject {
 +	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		context;
-+	struct d3dkmthandle		device;
-+	u32				node_ordinal;
-+	u32				engine_affinity;
-+	struct d3dddi_createcontextflags flags;
-+	enum d3dkmt_clienthint		client_hint;
-+	u32				priv_drv_data_size;
-+	u8				priv_drv_data[1];
++	struct d3dkmt_createsynchronizationobject2 args;
++	u32				client_hint;
++};
++
++struct dxgkvmb_command_createsyncobject_return {
++	struct d3dkmthandle	sync_object;
++	struct d3dkmthandle	global_sync_object;
++	u64			fence_gpu_va;
++	u64			fence_storage_address;
++	u32			fence_storage_offset;
 +};
 +
 +/* The command returns ntstatus */
-+struct dxgkvmb_command_destroycontext {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle	context;
++struct dxgkvmb_command_destroysyncobject {
++	struct dxgkvmb_command_vm_to_host hdr;
++	struct d3dkmthandle	sync_object;
 +};
 +
  #endif /* _DXGVMBUS_H */
 diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
-index 405e8b92913e..5d10ebd2ce6a 100644
+index 0eaa577d7ed4..4bba1e209f33 100644
 --- a/drivers/hv/dxgkrnl/ioctl.c
 +++ b/drivers/hv/dxgkrnl/ioctl.c
-@@ -550,13 +550,177 @@ dxgkio_destroy_device(struct dxgprocess *process, void *__user inargs)
+@@ -1341,6 +1341,132 @@ dxgkio_destroy_allocation(struct dxgprocess *process, void *__user inargs)
  	return ret;
  }
  
 +static int
-+dxgkio_create_context_virtual(struct dxgprocess *process, void *__user inargs)
++dxgkio_create_sync_object(struct dxgprocess *process, void *__user inargs)
 +{
-+	struct d3dkmt_createcontextvirtual args;
 +	int ret;
-+	struct dxgadapter *adapter = NULL;
++	struct d3dkmt_createsynchronizationobject2 args;
 +	struct dxgdevice *device = NULL;
-+	struct dxgcontext *context = NULL;
-+	struct d3dkmthandle host_context_handle = {};
++	struct dxgadapter *adapter = NULL;
++	struct dxgsyncobject *syncobj = NULL;
 +	bool device_lock_acquired = false;
 +
 +	ret = copy_from_user(&args, inargs, sizeof(args));
@@ -506,10 +839,6 @@ index 405e8b92913e..5d10ebd2ce6a 100644
 +		goto cleanup;
 +	}
 +
-+	/*
-+	 * The call acquires reference on the device. It is safe to access the
-+	 * adapter, because the device holds reference on it.
-+	 */
 +	device = dxgprocess_device_by_handle(process, args.device);
 +	if (device == NULL) {
 +		ret = -EINVAL;
@@ -529,69 +858,59 @@ index 405e8b92913e..5d10ebd2ce6a 100644
 +		goto cleanup;
 +	}
 +
-+	context = dxgcontext_create(device);
-+	if (context == NULL) {
-+		ret = -ENOMEM;
++	syncobj = dxgsyncobject_create(process, device, adapter, args.info.type,
++				       args.info.flags);
++	if (syncobj == NULL) {
++		ret = -EINVAL;
 +		goto cleanup;
 +	}
 +
-+	host_context_handle = dxgvmb_send_create_context(adapter,
-+							 process, &args);
-+	if (host_context_handle.v) {
-+		hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
-+		ret = hmgrtable_assign_handle(&process->handle_table, context,
-+					      HMGRENTRY_TYPE_DXGCONTEXT,
-+					      host_context_handle);
-+		if (ret >= 0)
-+			context->handle = host_context_handle;
-+		hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
-+		if (ret < 0)
-+			goto cleanup;
-+		ret = copy_to_user(&((struct d3dkmt_createcontextvirtual *)
-+				   inargs)->context, &host_context_handle,
-+				   sizeof(struct d3dkmthandle));
-+		if (ret) {
-+			DXG_ERR("failed to copy context handle");
-+			ret = -EINVAL;
-+		}
-+	} else {
-+		DXG_ERR("invalid host handle");
++	ret = dxgvmb_send_create_sync_object(process, adapter, &args, syncobj);
++	if (ret < 0)
++		goto cleanup;
++
++	ret = copy_to_user(inargs, &args, sizeof(args));
++	if (ret) {
++		DXG_ERR("failed to copy output args");
 +		ret = -EINVAL;
++		goto cleanup;
 +	}
++
++	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
++	ret = hmgrtable_assign_handle(&process->handle_table, syncobj,
++				      HMGRENTRY_TYPE_DXGSYNCOBJECT,
++				      args.sync_object);
++	if (ret >= 0)
++		syncobj->handle = args.sync_object;
++	hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
 +
 +cleanup:
 +
 +	if (ret < 0) {
-+		if (host_context_handle.v) {
-+			dxgvmb_send_destroy_context(adapter, process,
-+						    host_context_handle);
++		if (syncobj) {
++			dxgsyncobject_destroy(process, syncobj);
++			if (args.sync_object.v)
++				dxgvmb_send_destroy_sync_object(process,
++							args.sync_object);
 +		}
-+		if (context)
-+			dxgcontext_destroy_safe(process, context);
 +	}
-+
 +	if (adapter)
 +		dxgadapter_release_lock_shared(adapter);
-+
-+	if (device) {
-+		if (device_lock_acquired)
-+			dxgdevice_release_lock_shared(device);
++	if (device_lock_acquired)
++		dxgdevice_release_lock_shared(device);
++	if (device)
 +		kref_put(&device->device_kref, dxgdevice_release);
-+	}
 +
 +	DXG_TRACE("ioctl:%s %d", errorstr(ret), ret);
 +	return ret;
 +}
 +
 +static int
-+dxgkio_destroy_context(struct dxgprocess *process, void *__user inargs)
++dxgkio_destroy_sync_object(struct dxgprocess *process, void *__user inargs)
 +{
-+	struct d3dkmt_destroycontext args;
++	struct d3dkmt_destroysynchronizationobject args;
++	struct dxgsyncobject *syncobj = NULL;
 +	int ret;
-+	struct dxgadapter *adapter = NULL;
-+	struct dxgcontext *context = NULL;
-+	struct dxgdevice *device = NULL;
-+	struct d3dkmthandle device_handle = {};
 +
 +	ret = copy_from_user(&args, inargs, sizeof(args));
 +	if (ret) {
@@ -600,144 +919,173 @@ index 405e8b92913e..5d10ebd2ce6a 100644
 +		goto cleanup;
 +	}
 +
++	DXG_TRACE("handle 0x%x", args.sync_object.v);
 +	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
-+	context = hmgrtable_get_object_by_type(&process->handle_table,
-+					       HMGRENTRY_TYPE_DXGCONTEXT,
-+					       args.context);
-+	if (context) {
++	syncobj = hmgrtable_get_object_by_type(&process->handle_table,
++					       HMGRENTRY_TYPE_DXGSYNCOBJECT,
++					       args.sync_object);
++	if (syncobj) {
++		DXG_TRACE("syncobj 0x%p", syncobj);
++		syncobj->handle.v = 0;
 +		hmgrtable_free_handle(&process->handle_table,
-+				      HMGRENTRY_TYPE_DXGCONTEXT, args.context);
-+		context->handle.v = 0;
-+		device_handle = context->device_handle;
-+		context->object_state = DXGOBJECTSTATE_DESTROYED;
++				      HMGRENTRY_TYPE_DXGSYNCOBJECT,
++				      args.sync_object);
 +	}
 +	hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
 +
-+	if (context == NULL) {
-+		DXG_ERR("invalid context handle: %x", args.context.v);
++	if (syncobj == NULL) {
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
 +
-+	/*
-+	 * The call acquires reference on the device. It is safe to access the
-+	 * adapter, because the device holds reference on it.
-+	 */
-+	device = dxgprocess_device_by_handle(process, device_handle);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
++	dxgsyncobject_destroy(process, syncobj);
 +
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_destroy_context(adapter, process, args.context);
-+
-+	dxgcontext_destroy_safe(process, context);
++	ret = dxgvmb_send_destroy_sync_object(process, args.sync_object);
 +
 +cleanup:
 +
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	DXG_TRACE("ioctl:%s %s %d", errorstr(ret), __func__, ret);
++	DXG_TRACE("ioctl:%s %d", errorstr(ret), ret);
 +	return ret;
 +}
 +
  static struct ioctl_desc ioctls[] = {
  /* 0x00 */	{},
  /* 0x01 */	{dxgkio_open_adapter_from_luid, LX_DXOPENADAPTERFROMLUID},
- /* 0x02 */	{dxgkio_create_device, LX_DXCREATEDEVICE},
- /* 0x03 */	{},
--/* 0x04 */	{},
--/* 0x05 */	{},
-+/* 0x04 */	{dxgkio_create_context_virtual, LX_DXCREATECONTEXTVIRTUAL},
-+/* 0x05 */	{dxgkio_destroy_context, LX_DXDESTROYCONTEXT},
- /* 0x06 */	{},
- /* 0x07 */	{},
- /* 0x08 */	{},
-diff --git a/drivers/hv/dxgkrnl/misc.h b/drivers/hv/dxgkrnl/misc.h
-index e0bd33b365b0..3a9637f0b5e2 100644
---- a/drivers/hv/dxgkrnl/misc.h
-+++ b/drivers/hv/dxgkrnl/misc.h
-@@ -29,6 +29,7 @@ extern const struct d3dkmthandle zerohandle;
-  * fd_mutex
-  * plistmutex (process list mutex)
-  * table_lock (handle table lock)
-+ * context_list_lock
-  * core_lock (dxgadapter lock)
-  * device_lock (dxgdevice lock)
-  * process_adapter_mutex
+@@ -1358,7 +1484,7 @@ static struct ioctl_desc ioctls[] = {
+ /* 0x0d */	{},
+ /* 0x0e */	{},
+ /* 0x0f */	{},
+-/* 0x10 */	{},
++/* 0x10 */	{dxgkio_create_sync_object, LX_DXCREATESYNCHRONIZATIONOBJECT},
+ /* 0x11 */	{},
+ /* 0x12 */	{},
+ /* 0x13 */	{dxgkio_destroy_allocation, LX_DXDESTROYALLOCATION2},
+@@ -1371,7 +1497,7 @@ static struct ioctl_desc ioctls[] = {
+ /* 0x1a */	{},
+ /* 0x1b */	{},
+ /* 0x1c */	{},
+-/* 0x1d */	{},
++/* 0x1d */	{dxgkio_destroy_sync_object, LX_DXDESTROYSYNCHRONIZATIONOBJECT},
+ /* 0x1e */	{},
+ /* 0x1f */	{},
+ /* 0x20 */	{},
 diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
-index 7414f0f5ce8e..4ba0070b061f 100644
+index cf670b9c4dc2..4e1069f41d76 100644
 --- a/include/uapi/misc/d3dkmthk.h
 +++ b/include/uapi/misc/d3dkmthk.h
-@@ -154,6 +154,49 @@ struct d3dkmt_destroydevice {
- 	struct d3dkmthandle		device;
+@@ -256,6 +256,97 @@ enum d3dkmdt_standardallocationtype {
+ 	_D3DKMDT_STANDARDALLOCATION_GDISURFACE			= 4,
  };
  
-+enum d3dkmt_clienthint {
-+	_D3DKMT_CLIENTHNT_UNKNOWN	= 0,
-+	_D3DKMT_CLIENTHINT_OPENGL	= 1,
-+	_D3DKMT_CLIENTHINT_CDD		= 2,
-+	_D3DKMT_CLIENTHINT_DX7		= 7,
-+	_D3DKMT_CLIENTHINT_DX8		= 8,
-+	_D3DKMT_CLIENTHINT_DX9		= 9,
-+	_D3DKMT_CLIENTHINT_DX10		= 10,
-+};
-+
-+struct d3dddi_createcontextflags {
++struct d3dddi_synchronizationobject_flags {
 +	union {
 +		struct {
-+			__u32		null_rendering:1;
-+			__u32		initial_data:1;
-+			__u32		disable_gpu_timeout:1;
-+			__u32		synchronization_only:1;
-+			__u32		hw_queue_supported:1;
-+			__u32		reserved:27;
++			__u32	shared:1;
++			__u32	nt_security_sharing:1;
++			__u32	cross_adapter:1;
++			__u32	top_of_pipeline:1;
++			__u32	no_signal:1;
++			__u32	no_wait:1;
++			__u32	no_signal_max_value_on_tdr:1;
++			__u32	no_gpu_access:1;
++			__u32	reserved:23;
 +		};
-+		__u32			value;
++		__u32		value;
 +	};
 +};
 +
-+struct d3dkmt_destroycontext {
-+	struct d3dkmthandle		context;
++enum d3dddi_synchronizationobject_type {
++	_D3DDDI_SYNCHRONIZATION_MUTEX		= 1,
++	_D3DDDI_SEMAPHORE			= 2,
++	_D3DDDI_FENCE				= 3,
++	_D3DDDI_CPU_NOTIFICATION		= 4,
++	_D3DDDI_MONITORED_FENCE			= 5,
++	_D3DDDI_PERIODIC_MONITORED_FENCE	= 6,
++	_D3DDDI_SYNCHRONIZATION_TYPE_LIMIT
 +};
 +
-+struct d3dkmt_createcontextvirtual {
-+	struct d3dkmthandle		device;
-+	__u32				node_ordinal;
-+	__u32				engine_affinity;
-+	struct d3dddi_createcontextflags flags;
++struct d3dddi_synchronizationobjectinfo2 {
++	enum d3dddi_synchronizationobject_type	type;
++	struct d3dddi_synchronizationobject_flags flags;
++	union {
++		struct {
++			__u32	initial_state;
++		} synchronization_mutex;
++
++		struct {
++			__u32			max_count;
++			__u32			initial_count;
++		} semaphore;
++
++		struct {
++			__u64		fence_value;
++		} fence;
++
++		struct {
++			__u64		event;
++		} cpu_notification;
++
++		struct {
++			__u64	initial_fence_value;
 +#ifdef __KERNEL__
-+	void				*priv_drv_data;
++			void	*fence_cpu_virtual_address;
 +#else
-+	__u64				priv_drv_data;
++			__u64	*fence_cpu_virtual_address;
 +#endif
-+	__u32				priv_drv_data_size;
-+	enum d3dkmt_clienthint		client_hint;
-+	struct d3dkmthandle		context;
++			__u64	fence_gpu_virtual_address;
++			__u32	engine_affinity;
++		} monitored_fence;
++
++		struct {
++			struct d3dkmthandle	adapter;
++			__u32			vidpn_target_id;
++			__u64			time;
++#ifdef __KERNEL__
++			void			*fence_cpu_virtual_address;
++#else
++			__u64			fence_cpu_virtual_address;
++#endif
++			__u64			fence_gpu_virtual_address;
++			__u32			engine_affinity;
++		} periodic_monitored_fence;
++
++		struct {
++			__u64	reserved[8];
++		} reserved;
++	};
++	struct d3dkmthandle			shared_handle;
 +};
 +
- struct d3dkmt_adaptertype {
- 	union {
- 		struct {
-@@ -232,6 +275,10 @@ struct d3dkmt_enumadapters3 {
- 	_IOWR(0x47, 0x01, struct d3dkmt_openadapterfromluid)
- #define LX_DXCREATEDEVICE		\
- 	_IOWR(0x47, 0x02, struct d3dkmt_createdevice)
-+#define LX_DXCREATECONTEXTVIRTUAL	\
-+	_IOWR(0x47, 0x04, struct d3dkmt_createcontextvirtual)
-+#define LX_DXDESTROYCONTEXT		\
-+	_IOWR(0x47, 0x05, struct d3dkmt_destroycontext)
++struct d3dkmt_createsynchronizationobject2 {
++	struct d3dkmthandle				device;
++	__u32						reserved;
++	struct d3dddi_synchronizationobjectinfo2	info;
++	struct d3dkmthandle				sync_object;
++	__u32						reserved1;
++};
++
++struct d3dkmt_destroysynchronizationobject {
++	struct d3dkmthandle	sync_object;
++};
++
+ enum d3dkmt_standardallocationtype {
+ 	_D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP	= 1,
+ 	_D3DKMT_STANDARDALLOCATIONTYPE_CROSSADAPTER	= 2,
+@@ -483,6 +574,8 @@ struct d3dkmt_enumadapters3 {
+ 	_IOWR(0x47, 0x06, struct d3dkmt_createallocation)
  #define LX_DXQUERYADAPTERINFO		\
  	_IOWR(0x47, 0x09, struct d3dkmt_queryadapterinfo)
++#define LX_DXCREATESYNCHRONIZATIONOBJECT \
++	_IOWR(0x47, 0x10, struct d3dkmt_createsynchronizationobject2)
+ #define LX_DXDESTROYALLOCATION2		\
+ 	_IOWR(0x47, 0x13, struct d3dkmt_destroyallocation2)
  #define LX_DXENUMADAPTERS2		\
+@@ -491,6 +584,8 @@ struct d3dkmt_enumadapters3 {
+ 	_IOWR(0x47, 0x15, struct d3dkmt_closeadapter)
+ #define LX_DXDESTROYDEVICE		\
+ 	_IOWR(0x47, 0x19, struct d3dkmt_destroydevice)
++#define LX_DXDESTROYSYNCHRONIZATIONOBJECT \
++	_IOWR(0x47, 0x1d, struct d3dkmt_destroysynchronizationobject)
+ #define LX_DXENUMADAPTERS3		\
+ 	_IOWR(0x47, 0x3e, struct d3dkmt_enumadapters3)
+ 
