@@ -1,48 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2B2F9E8;
-	Fri, 20 Mar 2026 05:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741991B3925;
+	Fri, 20 Mar 2026 09:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773983863; cv=none; b=gjqUSplp9FtO0WDZIWkh9X+znFEOyDpDZkbdhipyxIRJEFdPsGEVp4UKVSFukt8F7fY9ZEyw/24oxCHeap3FbeDXP4jNlu5dAxk4GS6CO8OFEm9+AgeszsPft2x2D5yleBTa3ZA09xC0khD4EZ5X4YvlCTsQ3vEJwUiH2wu6CJk=
+	t=1774000560; cv=none; b=TPMqb5W3QOZ5oVe4Bq/ive9GgzxBSz80vgHGYgmJAO6fC7fXyRgc05Y17y/oHrI5/qdncU6+vBMUPKEsMGmnI0OQ2epFOsk2PalfPpzxTiCcR5moR8AoChBFHbKiwXjliSCPwyYhmmwZqIAT4Fsoy673TOW6aykBwirXZAl4oNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773983863; c=relaxed/simple;
-	bh=U0+Jv7w3arSeAENRnGjozUWCzU9b9ga4gHpw/eDLYNg=;
+	s=arc-20240116; t=1774000560; c=relaxed/simple;
+	bh=623iNHEo9Lx3CTyFj1XQ3Tb8dZwfqVZ4nDlwLICOGOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=htNHEJRLDLgqBMzWzeRehLodl/YilmTb8nxorEMzTCImp0bONA7jkzkQFlKMcnsn/nkTpS41x2VBsvt/f8UFGTpR6pb/j4gWE/ZUCjSMEW8BUL6EOlxQ+VnHNUtczCeOJfPvIWIajlkGtejyuVUnY6QPcIhAcO1Ew+kOJPHipVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JYo2F9KU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNH0ddx1JDIE0ZFW9M83uXSS5PFuT+eHr4tviSE5gEjbPSu+/f9//aBJNbdjY0KgxMzn9gkwJQE+IB2B1zLTMd+y1FjcNoc2yLPDKiZDo42RtCe1KiMK6HgXHWs3qZpqZZ5fMKV2CTB6MeYPuvJ+RmS2pABkAvAAdrPtfi3c5Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUbg/8NX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JYo2F9KU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0D99C4CEF7;
-	Fri, 20 Mar 2026 05:17:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUbg/8NX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1273C4CEF7;
+	Fri, 20 Mar 2026 09:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773983863;
-	bh=U0+Jv7w3arSeAENRnGjozUWCzU9b9ga4gHpw/eDLYNg=;
+	s=k20201202; t=1774000559;
+	bh=623iNHEo9Lx3CTyFj1XQ3Tb8dZwfqVZ4nDlwLICOGOQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JYo2F9KUhRdP4tg6O6F+/mKn8bYiYGOZLtZowMQhvreq1IyyHX28OHlMmmpnIEWgh
-	 E/I63Qy94pU4WSRIg+2K+lmHhzkYTOqhqAzBkguBxQ0SEzvfs/HH0B10TwpNEWlJkR
-	 sm+oxc/omtyuH4o9Elgg3+mXXoKVy7kzMTNjBcNe38MeCe/2GY6uYPcqf1swv2xosJ
-	 G2yBk5PNrO6NLpX7R0kPM8fL+aiUj8MxKNJglEyEGxNVmrG677Wa3viNGEtpo4y+bT
-	 Zkd1x2xIaAvntSHZ76eRv//44lq8yOmR4ow6kb8k5VYUoLOl7HaVi3OXtcIPSjnWBX
-	 VJjkfjuictXtw==
-Date: Fri, 20 Mar 2026 05:17:41 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Long Li <longli@microsoft.com>
-Cc: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Rob Herring <robh@kernel.org>,
-	Michael Kelley <mikelley@microsoft.com>,
-	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] PCI: hv: Set default NUMA node to 0 for devices
- without affinity info
-Message-ID: <20260320051741.GA761114@liuwe-devbox-debian-v2.local>
-References: <20260316210742.1240128-1-longli@microsoft.com>
+	b=cUbg/8NXG3OZ3aqDbbu0ZF7Xlgg/mMa1uVvBe0VVF9qJu14G6q5weqLBn/KJ0hXZl
+	 fyhOqLwQvgE4h2q2K8SO9VdZCUZ2X6BOHS19VnEPmMPPJH8AgnOiN/qVJPwXODDOeA
+	 J5n8etfF55U+uF7YWjon2CNadkoKWL/EGsGhL3swqeUyDXWwpvPiD+55O7EKsOFrAj
+	 bxlOJlgB/wt6E6ICwceWIE/DykLmAhywBNAlxqePAA4F64y0VoJFvYqTZM4kaLrHva
+	 H63o6SYyJdAELw7SVHMcAa1EVm8hVeMw0DNDTBHtnyjtQqwkpv4hC/owWgJcT2wsG/
+	 L66DckitYpcKw==
+Date: Fri, 20 Mar 2026 09:55:53 +0000
+From: Simon Horman <horms@kernel.org>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, kotaranov@microsoft.com,
+	shradhagupta@linux.microsoft.com, shirazsaleem@microsoft.com,
+	dipayanroy@linux.microsoft.com, yury.norov@gmail.com,
+	kees@kernel.org, ssengar@linux.microsoft.com,
+	gargaditya@linux.microsoft.com, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next v4] net: mana: Expose hardware diagnostic info
+ via debugfs
+Message-ID: <20260320095553.GD1753385@horms.kernel.org>
+References: <20260319070926.1459515-1-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -51,62 +51,45 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260316210742.1240128-1-longli@microsoft.com>
+In-Reply-To: <20260319070926.1459515-1-ernis@linux.microsoft.com>
 
-On Mon, Mar 16, 2026 at 02:07:42PM -0700, Long Li wrote:
-> When hv_pci_assign_numa_node() processes a device that does not have
-> HV_PCI_DEVICE_FLAG_NUMA_AFFINITY set or has an out-of-range
-> virtual_numa_node, the device NUMA node is left unset. On x86_64,
-> the uninitialized default happens to be 0, but on ARM64 it is
-> NUMA_NO_NODE (-1).
+On Thu, Mar 19, 2026 at 12:09:13AM -0700, Erni Sri Satya Vennela wrote:
+> Add debugfs entries to expose hardware configuration and diagnostic
+> information that aids in debugging driver initialization and runtime
+> operations without adding noise to dmesg.
 > 
-> Tests show that when no NUMA information is available from the Hyper-V
-> host, devices perform best when assigned to node 0. With NUMA_NO_NODE
-> the kernel may spread work across NUMA nodes, which degrades
-> performance on Hyper-V, particularly for high-throughput devices like
-> MANA.
+> The debugfs directory creation and removal for each PCI device is
+> integrated into mana_gd_setup() and mana_gd_cleanup_device()
+> respectively, so that all callers (probe, remove, suspend, resume,
+> shutdown) share a single code path.
 > 
-> Always set the device NUMA node to 0 before the conditional NUMA
-> affinity check, so that devices get a performant default when the host
-> provides no NUMA information, and behavior is consistent on both
-> x86_64 and ARM64.
+> Device-level entries (under /sys/kernel/debug/mana/<slot>/):
+>   - num_msix_usable, max_num_queues: Max resources from hardware
+>   - gdma_protocol_ver, pf_cap_flags1: VF version negotiation results
+>   - num_vports, bm_hostmode: Device configuration
 > 
-> Fixes: 999dd956d838 ("PCI: hv: Add support for protocol 1.3 and support PCI_BUS_RELATIONS2")
-> Signed-off-by: Long Li <longli@microsoft.com>
-
-I can pick this up next week. PCI maintainers, if you want this to go
-through your tree instead, please let me know.
-
-Wei
-
+> Per-vPort entries (under /sys/kernel/debug/mana/<slot>/vportN/):
+>   - port_handle: Hardware vPort handle
+>   - max_sq, max_rq: Max queues from vPort config
+>   - indir_table_sz: Indirection table size
+>   - steer_rx, steer_rss, steer_update_tab, steer_cqe_coalescing:
+>     Last applied steering configuration parameters
+> 
+> Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 > ---
-> Changes in v2:
-> - Rewrite commit message to focus on performance as the primary
->   motivation: NUMA_NO_NODE causes the kernel to spread work across
->   NUMA nodes, degrading performance on Hyper-V
-> 
->  drivers/pci/controller/pci-hyperv.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-> index 2c7a406b4ba8..38a790f642a1 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -2485,6 +2485,14 @@ static void hv_pci_assign_numa_node(struct hv_pcibus_device *hbus)
->  		if (!hv_dev)
->  			continue;
->  
-> +		/*
-> +		 * If the Hyper-V host doesn't provide a NUMA node for the
-> +		 * device, default to node 0. With NUMA_NO_NODE the kernel
-> +		 * may spread work across NUMA nodes, which degrades
-> +		 * performance on Hyper-V.
-> +		 */
-> +		set_dev_node(&dev->dev, 0);
-> +
->  		if (hv_dev->desc.flags & HV_PCI_DEVICE_FLAG_NUMA_AFFINITY &&
->  		    hv_dev->desc.virtual_numa_node < num_possible_nodes())
->  			/*
-> -- 
-> 2.43.0
-> 
+> Changes in v4:
+> * Rebase and fix conflicts.
+> Changes in v3:
+> * Rename mana_gd_cleanup to mana_gd_cleanup_device.
+> * Add creation of debugfs entries in mana_gd_setup.
+> * Add removal of debugfs entries in mana_gd_cleanup_device.
+> * Remove bm_hostmode and num_vports from debugfs in mana_remove itself,
+>   because "ac" gets freed before debugfs_remove_recursive, to avoid
+>   Use-After-Free error.
+> * Add "goto out:" in mana_cfg_vport_steering to avoid populating apc
+>   values when resp.hdr.status is not NULL.
+
+Thanks for the updates.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
