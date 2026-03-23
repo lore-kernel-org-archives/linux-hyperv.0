@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB6C3ACA7E;
-	Mon, 23 Mar 2026 13:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F8D3AEF44;
+	Mon, 23 Mar 2026 13:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774273422; cv=none; b=TU8Qf4R1A364Ff+yrqT4S80IamYxpTh3Gq0jzHYhzpw4QKG0f1Jf+DdY9UuLWfnsKPyb498uxdeGO9i7oHjyn9Z6DM9bgHj+brAAJP8CT1kAuqqwN+3Mq6KYKD1+2GKXLaqfjuf13SXby1YaoCWlfGIffwUZS+cO9gWrgkT2SnI=
+	t=1774274334; cv=none; b=bHliIB+Jm2f+9VgIZMBpBGFWCoDcJf/3NDH1rgcqqv4YkO2BloFigwzF9O1cAjUg/gsn/ncPZf4Se+3piQ7UEp7VcaeSgopCJnSQjb/zMIlePncJU0jTedcUjClC2CisK4F1KNmbm5ZWno0tv3bwoycEwp2Zj/GcyQMHwKFspQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774273422; c=relaxed/simple;
-	bh=2gAh46bnXzvKN6q6mWP0+u0mLvNWEaJFhp7X4eThwhI=;
+	s=arc-20240116; t=1774274334; c=relaxed/simple;
+	bh=AKIGrahRS6MqycY/IVQEkczZoNB5oHx2vuV+286zxtU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWBQO3R2PxcyE7yukIG86z1ECltk68PATvCnTRNO6tbO+K7AuDYow0qTomBDRBLzIv/63WoXOJ3uzfpQzWLj8SC1KMviaMAqM6JhiUTIU3H3FKcK2f68ipbm8Ue6M9m4gyBDZMKIRHG86VspRRiCgiSI2F1Fy9QBCDhXzo4Ij+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lT932sFZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=goxWkrklG8VppiXTUNbZ8Prutby6AZ945qhn4Ng8qIabJE4ZEhpDr4WucxOajB8E6KjqvHyVEZmsGJXTud59GnRxPyaA+HUk1Mtz6vHnzz6kQknFj0UOMxjhNiC/wWol0JlhtGieOdKT+G/KcvBxZxfoZThTf9uW7kRhfiqjwmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rv0Nbj3R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lT932sFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D686C2BC9E;
-	Mon, 23 Mar 2026 13:43:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rv0Nbj3R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7643C4CEF7;
+	Mon, 23 Mar 2026 13:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774273422;
-	bh=2gAh46bnXzvKN6q6mWP0+u0mLvNWEaJFhp7X4eThwhI=;
+	s=k20201202; t=1774274333;
+	bh=AKIGrahRS6MqycY/IVQEkczZoNB5oHx2vuV+286zxtU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lT932sFZ6P+WjvzQJxtSB3mBmV7Bi0HTTmUnDI2cZAJctN37xBFvuohOAZsmzEDy5
-	 dwAOtsDBkoG2L6WlKVj0gq3czZ0LjqA99WGdgEKbNL9Q7Hji3ZzX2Zl1vnY+HIAtgd
-	 y5mlBuYotGtfMC5tZT5LRXaSPkRcksoazSQdZHFZfhPE8JtKhbbT8UK6BSH0QiOiKH
-	 UNxlL3IqmU2ez0ksrndemuTWrtt9QDgj4VCTGzpV6sGYs5sNxpjFyFPmwTEQsHtwdl
-	 tr+lB/MlROz0SoJ/I3DyIyud7FBgi+gfGkPmgmKbEMTfqOAFww0tASflfkg8E1WsQ2
-	 E87QO3G4R8EpQ==
-Date: Mon, 23 Mar 2026 13:43:37 +0000
+	b=rv0Nbj3RvQ3r6yIk7CDQKc+CBtzkVG91FT7R8KseLJwfwkKYLmF6/3lZvpE3laLDU
+	 vKAlbmlepiou3Ef91Z8QXs5+1se6ZteTaYke/SkqVULJLzUCxg8vvX/9rpe4SWYm9W
+	 Svof0b01MEnsCvUn5VVggSgIsDLGOrcxghOiG+dQZawXRNa7qRUeiDYGZJMYSFyQDS
+	 P3ICritRi51nAR93v0pfCbpTdzblITK6BcOYN0fljR1WYgkFAcKehNbuQhsjjQ96J/
+	 tYAt/xQLytiwhGJ/VEqJy5S2dgxRfQmGK6h+0o6zxpFPUzx+DlLgXbQxWudKEIyn8X
+	 frcv6Cd3F/2PQ==
+Date: Mon, 23 Mar 2026 13:58:48 +0000
 From: Simon Horman <horms@kernel.org>
 To: Long Li <longli@microsoft.com>
 Cc: Konstantin Taranov <kotaranov@microsoft.com>,
@@ -40,10 +40,9 @@ Cc: Konstantin Taranov <kotaranov@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
 	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
 	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 0/6] net: mana: Per-vPort EQ and MSI-X
- interrupt management
-Message-ID: <20260323134337.GA69756@horms.kernel.org>
-References: <cover.1774049761.git.longli@microsoft.com>
+Subject: Re: [PATCH net-next] net: mana: Set default number of queues to 16
+Message-ID: <20260323135848.GA81558@horms.kernel.org>
+References: <20260320233027.1603495-1-longli@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -52,24 +51,41 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1774049761.git.longli@microsoft.com>
+In-Reply-To: <20260320233027.1603495-1-longli@microsoft.com>
 
-On Fri, Mar 20, 2026 at 04:54:13PM -0700, Long Li wrote:
-> This series adds per-vPort Event Queue (EQ) allocation and MSI-X interrupt
-> management for the MANA driver. Previously, all vPorts shared a single set
-> of EQs. This change enables dedicated EQs per vPort with support for both
-> dedicated and shared MSI-X vector allocation modes.
-
-...
+On Fri, Mar 20, 2026 at 04:30:27PM -0700, Long Li wrote:
+> Set the default number of queues per vPort to MANA_DEF_NUM_QUEUES (16),
+> as 16 queues can achieve optimal throughput for typical workloads. Users
+> can increase the number of queues up to max_queues via ethtool if needed.
+> 
+> Signed-off-by: Long Li <longli@microsoft.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/mana_en.c | 2 +-
+>  include/net/mana/mana.h                       | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 49c65cc1697c..7cae8a7b9f31 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> @@ -3357,7 +3357,7 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
+>  	apc->ac = ac;
+>  	apc->ndev = ndev;
+>  	apc->max_queues = gc->max_num_queues;
+> -	apc->num_queues = gc->max_num_queues;
+> +	apc->num_queues = min(gc->max_num_queues, MANA_DEF_NUM_QUEUES);
 
 Hi Long Li,
 
-Unfortunately this series did not apply to net-next cleanly.
-Which breaks our CI.
+Maybe I am misunderstanding things.  But it seems to me that this patch
+sets a ceiling on the default number of queues. Which is subtly different
+to setting the default. Even if not in practice if max_num_queues is never
+less than MANA_DEF_NUM_QUEUES.
 
-Please rebase and repost.
+If so I'm wondering if you could tweak the commit message accordingly.
 
-Thanks!
+>  	apc->tx_queue_size = DEF_TX_BUFFERS_PER_QUEUE;
+>  	apc->rx_queue_size = DEF_RX_BUFFERS_PER_QUEUE;
+>  	apc->port_handle = INVALID_MANA_HANDLE;
 
--- 
-pw-bot: changes-requested
+...
