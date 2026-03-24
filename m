@@ -1,72 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F8830FC0F;
-	Tue, 24 Mar 2026 19:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24AF035C185;
+	Tue, 24 Mar 2026 23:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774381491; cv=none; b=mtXEhXnWVSMZX2PGYgfHIdmbFOgRvn86vPDkldoUYeV1fwLZ/VvcPxqyimSYSdC9j/Uev8GqoO+huslebf6SWhYYXxSn7P8nZEizcYG/xApApkogRfrJZdgYZRj2h5s1IuhqgqmC+cSEbppaXgubDOEagcCXAhEsyREM5yls2nk=
+	t=1774396662; cv=none; b=ORFr3RPvsF5ZXUAi5D2L6QFGvRN4o1panRVcDcFvzQDwkO+tZXItsjV1EC93Fm1in6xlOAtuduVBaEi8OjWUK0I1C1aUCRevSLJZ8YzAs5m2ghP1Hn1IgVZStEmG1vBlO5m5uB+/OmCkHn49WYQo/iZL93HsqA+VgMGTuyeMVJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774381491; c=relaxed/simple;
-	bh=WRF/0A79XI/IfrPujL8sWiRG4jtPsIHG8/HKlYhxfwg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NGqVbPo8WKAGLL+OqD+s4OvjyUPaAE/OAUYZQ7T+tRf1S/uSvIuIjKCNBcFQcVSz6V08EFN6FakTUSo4VHhdiUPQXFVRFcK3zsuDRumc5D7eU1JpCkGI4G08/E73XLuWdIMeoLP1JrHw0htY8AsFlg7v5fCje9ISWg2Z9T730Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI/PyKSY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774396662; c=relaxed/simple;
+	bh=jOrLde8b0Czp0L/YYN/cw7bzLCYVj1D2z/bd+yhcemo=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=NqBT7eIoG4LsGz/SQlNHHRswyoXYla/tqkcbJRX6pMUBrwO5AoPaXqNN5CpwoxyGiiQ/QaWvQw1rxR9RoBTpgfKcfw1bR6agqvzUjTY8hCs5PkYQTet2hcTINIWak3wqKZnX53j9xrro+tpO/7D6kt5sfI7N2hxbnJT4/sgOQGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gubIJuDc; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI/PyKSY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF553C19424;
-	Tue, 24 Mar 2026 19:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774381490;
-	bh=WRF/0A79XI/IfrPujL8sWiRG4jtPsIHG8/HKlYhxfwg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BI/PyKSYvjLJXWbEpQrc+czH+55hhTQfVKT55Uu1wKsITHQaRklHZhshTVjzHQFZN
-	 XI99w4CrCK+yRfm2877TM5yV4pPdvKaG1DWbUoq9X2UMljaiVAeNppp3zNtFe6VQcR
-	 Nbxio4BzKuKvbSdbHpiqyp9b0V4Wi4iBFmRLBu0AraFrnoul9PN3a4ntDRFnw+1WBV
-	 6VOLh/84HoNWnxFvJA4p13awciT/KZz8A8WdIkArI2aCUbV0ZkSk5h4r/JYUTPRIIT
-	 T8Jt8zQSnSc69wMDv4JXXRT2onYDSQlxz5UqGBDTvOp1c1OxGFbD7+EZxoeS8MPSTJ
-	 8n38/skizDzlQ==
-From: Mark Brown <broonie@kernel.org>
-To: Russell King <linux@armlinux.org.uk>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Ioana Ciornei <ioana.ciornei@nxp.com>, Nipun Gupta <nipun.gupta@amd.com>, 
- Nikhil Agarwal <nikhil.agarwal@amd.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Vineeth Vijayan <vneethv@linux.ibm.com>, 
- Peter Oberparleiter <oberpar@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Harald Freudenberger <freude@linux.ibm.com>, 
- Holger Dengler <dengler@linux.ibm.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
- linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-spi@vger.kernel.org, 
- virtualization@lists.linux.dev, kvm@vger.kernel.org, 
- xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20260324005919.2408620-1-dakr@kernel.org>
-References: <20260324005919.2408620-1-dakr@kernel.org>
-Subject: Re: (subset) [PATCH 00/12] treewide: Convert buses to use generic
- driver_override
-Message-Id: <177436441990.98682.12977271865531185229.b4-ty@b4>
-Date: Tue, 24 Mar 2026 15:00:19 +0000
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gubIJuDc"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A4D4220B7128;
+	Tue, 24 Mar 2026 16:57:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A4D4220B7128
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774396660;
+	bh=k66/n62C5Es92M99w/eV7fWOt5/mRQMgm24aeLulam8=;
+	h=Subject:From:To:Cc:Date:From;
+	b=gubIJuDcn29Wxqg541I66Xf0Zc8Cn5aCNa0P9igcOmjqEdvhLtydDOur5DEtBE462
+	 ZB4klLdyVLt97p3vRNxgLPXzpXJI5Keb1V69sm73H7dCQ1zwBnYdFnj1j74iV4vY8i
+	 nsRt4UFh9maf59iFftjVVWZmpt83abB7Q0PspyRk=
+Subject: [PATCH] mshv: Fix infinite fault loop on permission-denied GPA
+ intercepts
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 24 Mar 2026 23:57:40 +0000
+Message-ID: 
+ <177439665824.171668.3582744847973205980.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -75,57 +42,110 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-6cc06
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1523; i=broonie@kernel.org;
- h=from:subject:message-id; bh=WRF/0A79XI/IfrPujL8sWiRG4jtPsIHG8/HKlYhxfwg=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGnC6amgudhaUXvPlk+pDm3GoyUp8H0DzJj7P23jodGH3vgaM
- YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJpwumpAAoJECTWi3JdVIfQ7W4H/0HK
- bnLD6QxQOBC+fzyIxZ6G6kEKZPO4GVW3Pfn4yfAzX5qrdKQRkDgps7IYWut/u33hS3f+Z04EmOJ
- lYrLIJIM422nR6nge6hF8EhqNBiTq/w9q7cGC48hH540F15d0sLd2//XCIGupIA1RXpBqVdzq5x
- OT6qjdHSfs8FyZ+oeQmp08Rcg1XfVc+MneH1PzidJufZ+tJUtayZw29OlGfNk6vGZ389vkRi+Ec
- XFn5qSzIYh78B0Z0zXzPv2/IjG8frEcheWdi3dJbD2bUS4h2S1US62r3HG8U3Au0lRz8ggXRMML
- 03vuVW3IP0egShhpeZHJhBzFqhYb6LFlY+k9hXc=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 24 Mar 2026 01:59:04 +0100, Danilo Krummrich wrote:
-> treewide: Convert buses to use generic driver_override
-> 
-> This is the follow-up of the driver_override generalization in [1], converting
-> the remaining 11 busses and removing the now-unused driver_set_override()
-> helper.
-> 
-> All of them (except AP, which has a different race condition) are prone to the
-> potential UAF described in [2], caused by accessing the driver_override field
-> from their corresponding match() callback.
-> 
-> [...]
+Prevent infinite fault loops when guests access memory regions without
+proper permissions. Currently, mshv_handle_gpa_intercept() attempts to
+remap pages for all faults on movable memory regions, regardless of
+whether the access type is permitted. When a guest writes to a read-only
+region, the remap succeeds but the region remains read-only, causing
+immediate re-fault and spinning the vCPU indefinitely.
 
-Applied to
+Validate intercept access type against region permissions before
+attempting remaps. Reject writes to non-writable regions and executes to
+non-executable regions early, returning false to let the VMM handle the
+intercept appropriately.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.0
+This also closes a potential DoS vector where malicious guests could
+intentionally trigger these fault loops to consume host resources.
 
-Thanks!
+Fixes: b9a66cd5ccbb ("mshv: Add support for movable memory regions")
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+---
+ drivers/hv/mshv_root_main.c |   15 ++++++++++++---
+ include/hyperv/hvgdk_mini.h |    6 ++++++
+ include/hyperv/hvhdk.h      |    4 ++--
+ 3 files changed, 20 insertions(+), 5 deletions(-)
 
-[11/12] spi: use generic driver_override infrastructure
-        https://git.kernel.org/broonie/spi/c/cc34d77dd487
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 9b0acd49c129..bb9fe4985e95 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -657,7 +657,7 @@ static bool mshv_handle_gpa_intercept(struct mshv_vp *vp)
+ {
+ 	struct mshv_partition *p = vp->vp_partition;
+ 	struct mshv_mem_region *region;
+-	bool ret;
++	bool ret = false;
+ 	u64 gfn;
+ #if defined(CONFIG_X86_64)
+ 	struct hv_x64_memory_intercept_message *msg =
+@@ -668,6 +668,8 @@ static bool mshv_handle_gpa_intercept(struct mshv_vp *vp)
+ 		(struct hv_arm64_memory_intercept_message *)
+ 		vp->vp_intercept_msg_page->u.payload;
+ #endif
++	enum hv_intercept_access_type access_type =
++		msg->header.intercept_access_type;
+ 
+ 	gfn = HVPFN_DOWN(msg->guest_physical_address);
+ 
+@@ -675,12 +677,19 @@ static bool mshv_handle_gpa_intercept(struct mshv_vp *vp)
+ 	if (!region)
+ 		return false;
+ 
++	if (access_type == HV_INTERCEPT_ACCESS_WRITE &&
++	    !(region->hv_map_flags & HV_MAP_GPA_WRITABLE))
++		goto put_region;
++
++	if (access_type == HV_INTERCEPT_ACCESS_EXECUTE &&
++	    !(region->hv_map_flags & HV_MAP_GPA_EXECUTABLE))
++		goto put_region;
++
+ 	/* Only movable memory ranges are supported for GPA intercepts */
+ 	if (region->mreg_type == MSHV_REGION_TYPE_MEM_MOVABLE)
+ 		ret = mshv_region_handle_gfn_fault(region, gfn);
+-	else
+-		ret = false;
+ 
++put_region:
+ 	mshv_region_put(region);
+ 
+ 	return ret;
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 056ef7b6b360..98b15539e467 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -1532,4 +1532,10 @@ struct hv_mmio_write_input {
+ 	u8 data[HV_HYPERCALL_MMIO_MAX_DATA_LENGTH];
+ } __packed;
+ 
++enum hv_intercept_access_type {
++	HV_INTERCEPT_ACCESS_READ	= 0,
++	HV_INTERCEPT_ACCESS_WRITE	= 1,
++	HV_INTERCEPT_ACCESS_EXECUTE	= 2
++};
++
+ #endif /* _HV_HVGDK_MINI_H */
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 245f3db53bf1..5e83d3714966 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -779,7 +779,7 @@ struct hv_x64_intercept_message_header {
+ 	u32 vp_index;
+ 	u8 instruction_length:4;
+ 	u8 cr8:4; /* Only set for exo partitions */
+-	u8 intercept_access_type;
++	u8 intercept_access_type; /* enum hv_intercept_access_type */
+ 	union hv_x64_vp_execution_state execution_state;
+ 	struct hv_x64_segment_register cs_segment;
+ 	u64 rip;
+@@ -825,7 +825,7 @@ union hv_arm64_vp_execution_state {
+ struct hv_arm64_intercept_message_header {
+ 	u32 vp_index;
+ 	u8 instruction_length;
+-	u8 intercept_access_type;
++	u8 intercept_access_type; /* enum hv_intercept_access_type */
+ 	union hv_arm64_vp_execution_state execution_state;
+ 	u64 pc;
+ 	u64 cpsr;
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
