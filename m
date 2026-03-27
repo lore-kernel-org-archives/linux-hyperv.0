@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A93395256;
-	Fri, 27 Mar 2026 20:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70558396D07;
+	Fri, 27 Mar 2026 20:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774642782; cv=none; b=Qwn6/54MQCYeTLnIbyx1SxiKoW+zYmVm6AM7aJCNFGXhHK0HoZQdC38SjJd3i/JI1ojss40Z3bfI/cibNOKePnuWf3qJNNPIu7dZPMSqKqwexE5ZKWOrLziOBfu56Ggffxj6iiL247M5Zd0LZgASp8+M7qRyrHTN9B22foQbvmE=
+	t=1774642783; cv=none; b=EiOE0ZjMI02Up1mwGjqOw9tl8guwAx47LNQE0SBRH/xyZQp6VdS8HTHzFiQB0F5lOpvDuygE1Z7gVOVudjxzo3xmg9pQBBsT24OOL3bttkeOsR+Clvo1Z/jY3esE/+tjeljAfbk1XqVUKC6ltaOWCvSXrXriklG9ClUPLuL7GTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774642782; c=relaxed/simple;
-	bh=kQx2w6tjXS70FM6QN8ZD2XsXn3DcBvyYIGxSEVKnzeg=;
+	s=arc-20240116; t=1774642783; c=relaxed/simple;
+	bh=TGgnAFzlIDIivrxTgxPOdYRWjFMaQLSOV3k1ZpfrgAc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pXO1+Hu0v4Rjmd/5IP21NRoYzzzlBeqTppOtOf1x3mLWRVXXS4NmUJbRXMDgjQtYYaIsfIWEyiHUxcM0tsuXL+vdxObptciir/ehmyObA9G2CKSGqS77Yt1l64fO+wTzZ1fYgYMpWl/JxGKfVII8dMq4T7S6hRHL4trgXWRlthI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FvnHWjED; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=JVvtsZvgGiDKC8Qj8yrLutB3yDkm0OgaLi2KOc4eqBF1WXPfs3SbhA4bvdeaAWc+UAmutOwWoerkvWc6nq4WWndyj0Fa5qO05XZgCpu7Nn8QOv5dGLmszSNU2ee275XVfCKqx9FvrDSZhKsxJPqZG7FvysTb8SRrtE8gfzxZqIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TZNhmALc; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FvnHWjED"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TZNhmALc"
 Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id 3022420B7128; Fri, 27 Mar 2026 13:19:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3022420B7128
+	id 8BD3F20B7129; Fri, 27 Mar 2026 13:19:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8BD3F20B7129
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1774642781;
-	bh=/2DAmCjc8SwftdIXiNdKNR+rhLn04r/3WgiKSyZp/C8=;
+	s=default; t=1774642782;
+	bh=oe8/Pqe4w3M//1TBoCPONOMHSy0PBbB0t+C6t5dQLKM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FvnHWjEDYeUYexVg0FBfNcUDc5s1A9Mr9Gg36gSwY2NRXit+iOOoCT0B1rdjkqBfi
-	 CkKDLy4s+0SMQsJp58sBjIeEVLAh4OmX7y2btJd0AjQv+a9Irsy7P9z/u7fOQDiDbF
-	 /RvT/UYgYPEYpZpNxEh6xN53/xC+oGrvvA4FhmcY=
+	b=TZNhmALcDyG4DqfdeyDMw8r4bn7xnDgMtmXe3aYBnnHoeoZp/dQnmEiSpP/HoJ2UG
+	 DXVHSDNuZlT2STu+babv6CQE4v8vAcViOkd9emMh4I/tCzIf/fJ5hrJMk3INE9JVih
+	 9z8xzZUYm57M8BKw0ScGToR7EFbtQ0sjhwQwmIbg=
 From: Jork Loeser <jloeser@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: x86@kernel.org,
@@ -42,10 +42,11 @@ Cc: x86@kernel.org,
 	Michael Kelley <mhklinux@outlook.com>,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org,
-	Jork Loeser <jloeser@linux.microsoft.com>
-Subject: [PATCH 1/6] Drivers: hv: vmbus: fix hyperv_cpuhp_online variable shadowing
-Date: Fri, 27 Mar 2026 13:19:12 -0700
-Message-ID: <20260327201920.2100427-2-jloeser@linux.microsoft.com>
+	Jork Loeser <jloeser@linux.microsoft.com>,
+	Anirudh Rayabharam <anrayabh@linux.microsoft.com>
+Subject: [PATCH 2/6] x86/hyperv: move stimer cleanup to hv_machine_shutdown()
+Date: Fri, 27 Mar 2026 13:19:13 -0700
+Message-ID: <20260327201920.2100427-3-jloeser@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260327201920.2100427-1-jloeser@linux.microsoft.com>
 References: <20260327201920.2100427-1-jloeser@linux.microsoft.com>
@@ -57,36 +58,50 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vmbus_alloc_synic_and_connect() declares a local 'int
-hyperv_cpuhp_online' that shadows the file-scope global of the same
-name. The cpuhp state returned by cpuhp_setup_state() is stored in
-the local, leaving the global at 0 (CPUHP_OFFLINE). When
-hv_kexec_handler() or hv_machine_shutdown() later call
-cpuhp_remove_state(hyperv_cpuhp_online) they pass 0, which hits the
-BUG_ON in __cpuhp_remove_state_cpuslocked().
+Move hv_stimer_global_cleanup() from vmbus's hv_kexec_handler() to
+hv_machine_shutdown() in the platform code. This ensures stimer cleanup
+happens before the vmbus unload, which is required for root partition
+kexec to work correctly.
 
-Remove the local declaration so the cpuhp state is stored in the
-file-scope global where hv_kexec_handler() and hv_machine_shutdown()
-expect it.
-
-Fixes: 2647c96649ba ("Drivers: hv: Support establishing the confidential VMBus connection")
+Co-developed-by: Anirudh Rayabharam <anrayabh@linux.microsoft.com>
+Signed-off-by: Anirudh Rayabharam <anrayabh@linux.microsoft.com>
 Signed-off-by: Jork Loeser <jloeser@linux.microsoft.com>
 ---
- drivers/hv/vmbus_drv.c | 1 -
- 1 file changed, 1 deletion(-)
+ arch/x86/kernel/cpu/mshyperv.c | 8 ++++++--
+ drivers/hv/vmbus_drv.c         | 1 -
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 89a2eb8a0722..235087456bdf 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -235,8 +235,12 @@ void hv_remove_crash_handler(void)
+ #ifdef CONFIG_KEXEC_CORE
+ static void hv_machine_shutdown(void)
+ {
+-	if (kexec_in_progress && hv_kexec_handler)
+-		hv_kexec_handler();
++	if (kexec_in_progress) {
++		hv_stimer_global_cleanup();
++
++		if (hv_kexec_handler)
++			hv_kexec_handler();
++	}
+ 
+ 	/*
+ 	 * Call hv_cpu_die() on all the CPUs, otherwise later the hypervisor
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 3e7a52918ce0..301273d61892 100644
+index 301273d61892..5d1449f8c6ea 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -1430,7 +1430,6 @@ static int vmbus_alloc_synic_and_connect(void)
- {
- 	int ret, cpu;
- 	struct work_struct __percpu *works;
--	int hyperv_cpuhp_online;
+@@ -2892,7 +2892,6 @@ static struct platform_driver vmbus_platform_driver = {
  
- 	ret = hv_synic_alloc();
- 	if (ret < 0)
+ static void hv_kexec_handler(void)
+ {
+-	hv_stimer_global_cleanup();
+ 	vmbus_initiate_unload(false);
+ 	/* Make sure conn_state is set as hv_synic_cleanup checks for it */
+ 	mb();
 -- 
 2.43.0
 
