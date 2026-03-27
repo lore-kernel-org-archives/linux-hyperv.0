@@ -1,119 +1,82 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2DA392C5A;
-	Fri, 27 Mar 2026 21:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEB234216C;
+	Fri, 27 Mar 2026 23:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774646846; cv=none; b=eK3EgWxbXQwHiWMyera1AjW139Sn6m3QNOs2szvG1la0eSqsWBOE2LWqua80dqvRFh9jKCAbVRe7Kg4iqzBqXujuXv+T+YYJC9xFgJGgr997Nt2mY6rsHNB7V2+rVvZ0B8TT2kZb6io7ctf+oMVyDTEuiD182m6altpSV+gVW0c=
+	t=1774655718; cv=none; b=UN99kkfa6stEs4eDHwltOAWvkzzKjr2+eKuSQ8DLdF8MVqoGHp7J7a+dNhDOGbNOZj56I9iFw5bG/WDkvDIQrjFo0LzBUfJ7+CnCHmUlai9wWvQCUP5mTcaGuhu/YX+7pLzhx+ycYvcDOISFcBuUSKAWslV5BiHUwc5H3hFh0xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774646846; c=relaxed/simple;
-	bh=5KA0kZt4s0Pa0hT1hYmZ5xCmj7e+CT/d+UoZc79RQ2E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bRWhfg6KUU3zo5NoUg7B35bcJ9vyYy4ffNGkpKVxyEl8vp5kB78mSBImBXzyPmj2j4Fnm5H7oUKFi0Bb3L6JLmI1M3W9oKfE34XBkk1d2q+nJ1xA20Wc8OQrOhstUSPiYDD7eGGMoqYL3JDR7GjKI4KZpPGvSkUexrTMMzUfHy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ms6teX8r; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1774655718; c=relaxed/simple;
+	bh=RnVNM/WM/sXq1Qxj0l9dY0/aSg/+qWWVxkrRCD9kPLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qKJjmDNz+jGMR6CQdVW4FOYkEoGUzh6fXLUL0JkmY0/lcUaxt+0+ckOu3iPsB3+hmsPEgufN7kAIl7wSwwJ7gPKt3eZGjs207mHepb139J+u3F0zM+VCCC6PwRY88UJj4OjRdnmc+eqLI17ToVz0KTHSwzE2U6W79hX+ATyXxTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qU9Yuwlc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ms6teX8r"
-Received: from [10.17.149.12] (unknown [131.107.8.12])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A8F6D20B6F01;
-	Fri, 27 Mar 2026 14:27:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A8F6D20B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1774646844;
-	bh=rOEiR+xqNwP7mi5DMkwFjv/YmDpf5sOAdwYcP1lPfCU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ms6teX8rQ/QhSM0TRb/L+6L0QiQ1pSwDvM/YDAqecVmDuw3BOFfkuov2LsbZyBpRa
-	 zdY4g72PXsKja/NAwe9pX3kENSZzlghkhg7pUync6wAEli9VU0uR1IdD0HVPCo8DXY
-	 S5PSilxlirLRpo6x/eJ+IuZJpRbHUTOxtjtZjiKk=
-Message-ID: <eb567b6f-2822-4802-97d2-d78fe63a7342@linux.microsoft.com>
-Date: Fri, 27 Mar 2026 14:27:23 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qU9Yuwlc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC64C19423;
+	Fri, 27 Mar 2026 23:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774655718;
+	bh=RnVNM/WM/sXq1Qxj0l9dY0/aSg/+qWWVxkrRCD9kPLs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qU9YuwlcGd76wQVMeMuEYfELfWK+jFLsKwkSYtic4A8rDO3NKlImWzEFsTGZvPzvJ
+	 6MfsmVgLW5lySjPdhsBmHeTY3oIc0jM7m5bHS5V1VrN6fUHgUvvK5mbuidkH3O7HPs
+	 HUCDiqN7QldIZ3zyZBNAPF+h87YETggU4s9QmqFTygL+CPUxf+SjIKbqEMAZb8Fd0a
+	 grHFPSMJxoQQqu/h1wLaNAsjYdubmCMAE29ULc4wtNGVY89UISlmCHbiGTTmAk/av3
+	 IDTnlCpG4T7I8tRAkAe+2GUF6n/hz6/vOQWXIjfqfDHEhS0WtDBAP4nRaESBV1WiIm
+	 UuX2wBSZ6Frqg==
+Date: Fri, 27 Mar 2026 16:55:12 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Long Li <longli@microsoft.com>
+Cc: Konstantin Taranov <kotaranov@microsoft.com>, "David S . Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Haiyang Zhang
+ <haiyangz@microsoft.com>, KY Srinivasan <kys@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <DECUI@microsoft.com>, Simon Horman
+ <horms@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Set default
+ number of queues to 16
+Message-ID: <20260327165512.08f7b6f9@kernel.org>
+In-Reply-To: <SA1PR21MB668314B1AF002E40B379F1C0CE57A@SA1PR21MB6683.namprd21.prod.outlook.com>
+References: <20260323194925.1766385-1-longli@microsoft.com>
+	<20260326201841.3b7e5b78@kernel.org>
+	<SA1PR21MB668314B1AF002E40B379F1C0CE57A@SA1PR21MB6683.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: mana: fix use-after-free in add_adev() error path
-To: Guangshuo Li <lgs201920130244@gmail.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>,
- Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
- Shradha Gupta <shradhagupta@linux.microsoft.com>,
- Dipayaan Roy <dipayanroy@linux.microsoft.com>,
- Aditya Garg <gargaditya@linux.microsoft.com>,
- Shiraz Saleem <shirazsaleem@microsoft.com>, Leon Romanovsky
- <leon@kernel.org>, linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-References: <20260318154041.638747-1-lgs201920130244@gmail.com>
-Content-Language: en-US
-From: Hardik Garg <hargar@linux.microsoft.com>
-In-Reply-To: <20260318154041.638747-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-
-
-On 3/18/2026 8:40 AM, Guangshuo Li wrote:
-> If auxiliary_device_add() fails, add_adev() calls
-> auxiliary_device_uninit(adev), whose release callback adev_release()
-> frees the containing struct mana_adev.
+On Fri, 27 Mar 2026 04:00:31 +0000 Long Li wrote:
+>   We considered netif_get_num_default_rss_queues() but chose a fixed default based on our performance testing. On Azure VMs, typical
+>   workloads plateau at around 16 queues - adding more queues beyond that doesn't improve throughput but increases memory usage and
+>   interrupt overhead.
 > 
-> The current error path then falls through to init_fail and accesses
-> adev->id. Since adev is embedded in struct mana_adev, this may lead
-> to a use-after-free.
+>   netif_get_num_default_rss_queues() would return 32-64 on large VMs (64-128 vCPUs), which wastes resources without benefit.
 > 
-> Fix it by storing the allocated auxiliary device id in a local
-> variable and using that saved id in the cleanup path after
-> auxiliary_device_uninit().
+>   That said, I agree that completely ignoring the core-based heuristic isn't ideal for consistency. One option is to use
+>   netif_get_num_default_rss_queues() but clamp it to a maximum of MANA_DEF_NUM_QUEUES (16), so small VMs still get enough queues and
+>   large VMs don't over-allocate. Something like:
 > 
-> Fixes: a69839d4327d ("net: mana: Add support for auxiliary device")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> ---
->  drivers/net/ethernet/microsoft/mana/mana_en.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>    apc->num_queues = min(netif_get_num_default_rss_queues(), MANA_DEF_NUM_QUEUES);
+>    apc->num_queues = min(apc->num_queues, gc->max_num_queues);
 > 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 1ad154f9db1a..70d71594c599 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> @@ -3362,6 +3362,7 @@ static int add_adev(struct gdma_dev *gd, const char *name)
->  {
->  	struct auxiliary_device *adev;
->  	struct mana_adev *madev;
-> +	int id;
->  	int ret;
->  
->  	madev = kzalloc(sizeof(*madev), GFP_KERNEL);
-> @@ -3372,7 +3373,8 @@ static int add_adev(struct gdma_dev *gd, const char *name)
->  	ret = mana_adev_idx_alloc();
->  	if (ret < 0)
->  		goto idx_fail;
-> -	adev->id = ret;
-> +	id = ret;
-> +	adev->id = id;
->  
->  	adev->name = name;
->  	adev->dev.parent = gd->gdma_context->dev;
-> @@ -3398,7 +3400,7 @@ static int add_adev(struct gdma_dev *gd, const char *name)
->  	auxiliary_device_uninit(adev);
->  
->  init_fail:
-> -	mana_adev_idx_free(adev->id);
-> +	mana_adev_idx_free(id);
->  
->  idx_fail:
->  	kfree(madev);
+>   For reference, it seems mlx4 does something similar - it caps at DEF_RX_RINGS (16) regardless of core count.
 
-Reviewed-by: Hardik Garg <hargar@linux.microsoft.com>
+mlx4 is a bit ancient. And mlx5 does the wrong thing, which is why 
+I'm so sensitive to this issue :(
 
+>   Do you want me to send a v2?
 
-Thanks,
-Hardik
+Please send a follow up, let's leave this patch be and make an
+incremental change. 
+
+Thanks!
