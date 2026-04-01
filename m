@@ -1,71 +1,86 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D132A2FD1AA;
-	Wed,  1 Apr 2026 17:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07868341AB6;
+	Wed,  1 Apr 2026 22:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775065637; cv=none; b=j1N52cJRcjTUen+NYKSIonC88OQMwJnh9PEjHtGYaFtssSI2Grz8JZDfnAJXhwFKJAxUS9N6S4RxikXfpFDNXIt1HN/LTVw+iMArpLThwpZgR2q5zzWvTBaJkaxQASqH7zFtFLK5ntnhfzcYHCxsxxIaF+GlAYDlhdXGVEoQxmA=
+	t=1775081546; cv=none; b=Er0f/BYgQKTnRyp9ZpQ5b8KQZdmMP3wFWuxl3nkT2GLzqGIqxZSwWeqnBa2E2EKEZ95+Jtpwf4N++rkhxgjaxHTiEpjHgM6ZuzL5a2NiWHH1RZ6j3NxCAnZYSvgdXrKisVxllGPi8AbOj/IE+rItHqOHD7AmvagXXpj6bmg6Iqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775065637; c=relaxed/simple;
-	bh=2HWNGN087gz7GE251OyfR94/6I847zuQQ59q4IfndXY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=TOFHfR3w1wYcmThkjjMtRggIUhy6RIVt4OVeGgodO3mWfhYPhKcvgBVpEo/HJifAzBtUVtPb5Z+MFUwa2H3GpFccBMpNwo3FLaIJaFr8Xs3iaVdl/Dbau1t4j2YUFrPI+8e+ukGgT/eQbCjs5qGcaJ5p3+1ARGQWvub70t4D2mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WRjtVjXu; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1775081546; c=relaxed/simple;
+	bh=9rhEWIBppKetDx6S1v3ujdCVZyqqf3/CIPVX9qLGTkQ=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=Y2A051f7RwjDprSUzaKi/4gRweDhzfN/QSSJhwrh/JaJKPRTRZCyDnm8DwYsFZY6PTrvQBzqB1HaY54J+5uz22Brf2MjqTLoZctkIkgDA/3Qhz4VKbieIVulnzFGwC75K/p1QHcq40yyty3y89kZY4uQJWyAqVxJ9uxXK2YEGdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pGG77EMo; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WRjtVjXu"
-Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id 044CD20B710C; Wed,  1 Apr 2026 10:47:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 044CD20B710C
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pGG77EMo"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9F77A20B710C;
+	Wed,  1 Apr 2026 15:12:24 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9F77A20B710C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775065637;
-	bh=GVZ6AfYHfFQdP8AbVauKGzQ4QHfyPw/mi+D6kmLBC1k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=WRjtVjXuq5Y5pDEIrJcVF3AAunv0f72pPS/qmrhKlkMTyARW1vrpPV2eqUNKIkmWQ
-	 iL8kXJgcvL2GnycIfPtvJZea6Gd5FdZst+70y/OEGUdCC+V5acoLP++MJXR7Di8HmC
-	 TLk/j2PYIWutxk6fZNj7hmn+vO+ryq3u0QubKlDs=
-Received: from localhost (localhost [127.0.0.1])
-	by linux.microsoft.com (Postfix) with ESMTP id 029E4307050E;
-	Wed,  1 Apr 2026 10:47:17 -0700 (PDT)
-Date: Wed, 1 Apr 2026 10:47:16 -0700 (PDT)
-From: Jork Loeser <jloeser@linux.microsoft.com>
-To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-cc: linux-hyperv@vger.kernel.org, x86@kernel.org, 
-    "K . Y . Srinivasan" <kys@microsoft.com>, 
-    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-    Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, 
-    Roman Kisel <romank@linux.microsoft.com>, 
-    Michael Kelley <mhklinux@outlook.com>, linux-kernel@vger.kernel.org, 
-    linux-arch@vger.kernel.org
-Subject: Re: [PATCH 6/6] mshv: unmap debugfs stats pages on kexec
-In-Reply-To: <acrxBOLaHdku6kdZ@skinsburskii.localdomain>
-Message-ID: <47e5a81-a2d6-b59d-f087-26b148fdb43@linux.microsoft.com>
-References: <20260327201920.2100427-1-jloeser@linux.microsoft.com> <20260327201920.2100427-7-jloeser@linux.microsoft.com> <acrxBOLaHdku6kdZ@skinsburskii.localdomain>
+	s=default; t=1775081544;
+	bh=yKpH4TWgNxsnf5YAZYk+0M02uH92VNTeJyIkpjNohmI=;
+	h=Subject:From:To:Cc:Date:From;
+	b=pGG77EMogVvsR0zlAIyHycmQ5YqDQt5r5dyWOh3OS9M3m25oEW36EazmHifH9Piwi
+	 +EYmHMZdl8/e/UUmWs7xuQWsiAAazprQGjFQfgBB5dB17J5Dt4+dtPLsUBwiFDR1Aq
+	 bJGNQI8/KoVGG9tf/DhSSgRReX6E4Y3mjha/Bgw8=
+Subject: [PATCH 0/7] mshv: Reduce memory consumption for unpinned regions
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Wed, 01 Apr 2026 22:12:24 +0000
+Message-ID: 
+ <177508151446.215674.7844504277869257435.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 30 Mar 2026, Stanislav Kinsburskii wrote:
+This series reduces memory consumption for unpinned regions by avoiding
+PFN array allocation. A 1GB unpinned region currently wastes 2MB for an
+unused PFN array that HMM-managed regions don't need.
 
->> diff --git a/drivers/hv/mshv_debugfs.c b/drivers/hv/mshv_debugfs.c
-[...]
->> +++ b/drivers/hv/mshv_debugfs.c
->> @@ -676,8 +676,10 @@ int __init mshv_debugfs_init(void)
-> nit: this should allow to avoid setting mshv_debugfs to NULL in the
-> error path of mshv_debugfs_init():
->
-> if (!IS_ERR_OR_NULL(mshv_debugfs))
+The first three patches are preparatory refactoring. Patch 1 consolidates
+region creation and mapping logic, reducing API surface by 4 functions.
+Patch 2 introduces a typedef for PFN handler callbacks to simplify
+function signatures. Patch 3 renames mshv_mem_region to mshv_region to
+align with existing function naming conventions.
 
-Yes, of course one could. Though a permanent ERR_PTR in a global variable 
-to indicate init-problems feels off to me. NULL for "not there" seems more 
-canonical, no?
+Patch 4 optimizes unmap and no-access remap operations by eliminating
+redundant PFN iteration when all frames are guaranteed to be mapped.
+This uses large page flags for aligned chunks and removes unnecessary
+helper functions.
 
-Best,
-Jork
+Patches 5-6 decouple PFN processing from the region->pfns storage.
+Patch 5 threads the pfns pointer explicitly through the processing
+chain. Patch 6 removes offset-based indexing by having callers pass
+pre-offset pointers.
+
+Patch 7 converts the pfns array from a flexible array member to a
+conditional pointer, allocated only for pinned regions that need it
+for share/unshare/evict operations. This eliminates the memory waste
+for unpinned regions and allows using kzalloc instead of vzalloc.
+
+---
+
+Stanislav Kinsburskii (7):
+      mshv: Consolidate region creation and mapping
+      mshv: Improve code readability with handler function typedef
+      mshv: Rename mshv_mem_region to mshv_region
+      mshv: Optimize memory region mapping operations
+      mshv: Pass pfns array explicitly through processing chain
+      mshv: Simplify pfn array handling in region processing
+      mshv: Allocate pfns array only for pinned regions
+
+
+ drivers/hv/mshv_regions.c   |  345 +++++++++++++++++++++++++------------------
+ drivers/hv/mshv_root.h      |   26 ++-
+ drivers/hv/mshv_root_main.c |   79 ++++------
+ 3 files changed, 248 insertions(+), 202 deletions(-)
+
