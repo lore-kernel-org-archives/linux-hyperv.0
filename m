@@ -1,82 +1,66 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBD1373C07;
-	Thu,  2 Apr 2026 21:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F8D3019BA;
+	Thu,  2 Apr 2026 21:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775164042; cv=none; b=cdbKZ2DG6+9TSeV3cJ+xGBuLzLI9KNQ2UJ++BsMGBIvG8RDZZV8oLG2t3BSSdvNNtRoZ3LPXa4XLdwdubVf85Eha61I5a8/3qnh+xhdehZtHpd7xYewmTCNhZ238cNdmLs2zYijuVZqA3qG7AdT0ATCMdhgycgpq0UR1ZZjKxbg=
+	t=1775164904; cv=none; b=KzZz4Cy764T69s8Sds0ErBqOFxjz6vMVPSz7FtjFeGcf07Sq3Z2VoBsGHpT110qfMEmTkyW2OpLCuMQ3YBmn83ustFqhXZGMeZkienoWotsP3Tzvg0p7ShRU4RThBtM0iH2ILmvhGvVYqKSEKaFxVr7DCzD0a1Cw5odTvUiMWd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775164042; c=relaxed/simple;
-	bh=/sqnQ4JcG0mNdU9T5PJoM4FkqIL4/9RzmaHOd+M5Wwo=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=amIfWAs20kLix85DPJcMUHnOjFVl4JUuDyw513NkjUFjj5dHV2+aR7vlV+OXzOdoXcNACTAFQ38CjMidPll0YQAWqY8seb8vBC72cvJCntD8hjtjmsLhoYu+AQqIdXxcBOha0SwX7bwTs4s2fkXkwaiRgcUENoJgAh7YKmIkU8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ne3YsAzL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YTqkYPL0; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1775164904; c=relaxed/simple;
+	bh=/0QlZ1KJ8KtpkaHezOpz0mL7NZKgFv0+qUIs4suo3fc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=bn18REzk4RsbZAx8EcQ/bPEn/rxxADBTiR+zd99wpM8wSs0hqbidK8FKFqxQ6RPiftQldu1pDrwjtukMq76N5136s+fq1S3RYB1pJQ9VuoHYvFYSKsLyHcAF0l5hlTV4xhfF3jthUDzQ8etlJ0fcUpch4XjDRdyh0bMYlBJQQeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MJm7ZWF2; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ne3YsAzL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YTqkYPL0"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1775164039;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/sqnQ4JcG0mNdU9T5PJoM4FkqIL4/9RzmaHOd+M5Wwo=;
-	b=Ne3YsAzLcmTLpGeKRKKo1CoTrkuJ/igVN9EMBWiAEoyk+uToOXnCdYgLq0RR3+8zfgsmy9
-	vT2NDhRpLC6jhKnjudqqus66mySQu8TTfLvguHjbZT8lxOYM8YB6AtB8tcKooI1HhJvKl8
-	nwZ4Oa0e3+HITWYvRHMenuz2VajkFvoowPaQ1hJg5as/wCZ1YQYgr4ZUrouGAG4bm6KZME
-	lGm3jzywofDK08pdZJupEbO4P6n9GA1nc7TcSzatI5DlwLcOHML/LQSAzd5kG+UpVCLVuc
-	XAbDesAgEF8L+KozLqByTDVu9hUlMWFtSHeV9D2LAd5d1qj7ZgJXok6k3FHbZw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1775164039;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/sqnQ4JcG0mNdU9T5PJoM4FkqIL4/9RzmaHOd+M5Wwo=;
-	b=YTqkYPL0WPU88MvEG4zEvXBpSFwenjz9OO9aXJv1D/Rs7Hqc7aJ+65FisdpbtSGMPuEcsd
-	xXlRJ0Gh7FSStKBQ==
-To: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- hpa@zytor.com, maz@kernel.org, bigeasy@linutronix.de, x86@kernel.org,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH 2/2] Drivers: hv: Move add_interrupt_randomness() to
- hypervisor callback sysvec
-In-Reply-To: <20260402202400.1707-3-mhklkml@zohomail.com>
-References: <20260402202400.1707-1-mhklkml@zohomail.com>
- <20260402202400.1707-3-mhklkml@zohomail.com>
-Date: Thu, 02 Apr 2026 23:07:18 +0200
-Message-ID: <87eckx6ph5.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MJm7ZWF2"
+Received: by linux.microsoft.com (Postfix, from userid 1241)
+	id 3AEB220B710C; Thu,  2 Apr 2026 14:21:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3AEB220B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1775164903;
+	bh=DCte7zD15GsIRiLEzfiNxmJRz0MxjBwdUaxhRx6/YLE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=MJm7ZWF2jVVehi4Jtk2Mf2dGMhWQAxeqBG1hwtztOKzewQSK1gbBvnUJYtBhTLQ5q
+	 QRMAbypTAd/85cpmi4TqfbQNdzX+MH0H0bXo4jYUWAIZ4K/h1la2nlUO7zr5DBDmrV
+	 Cu47FpGIujhO9S8lsUYZ4ct2jtAoD/4cPvp+2dFU=
+Received: from localhost (localhost [127.0.0.1])
+	by linux.microsoft.com (Postfix) with ESMTP id 38B0530705A4;
+	Thu,  2 Apr 2026 14:21:43 -0700 (PDT)
+Date: Thu, 2 Apr 2026 14:21:43 -0700 (PDT)
+From: Jork Loeser <jloeser@linux.microsoft.com>
+To: Anirudh Rayabharam <anirudh@anirudhrb.com>
+cc: linux-hyperv@vger.kernel.org, x86@kernel.org, 
+    "K . Y . Srinivasan" <kys@microsoft.com>, 
+    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+    Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+    "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, 
+    Roman Kisel <romank@linux.microsoft.com>, 
+    Michael Kelley <mhklinux@outlook.com>, linux-kernel@vger.kernel.org, 
+    linux-arch@vger.kernel.org
+Subject: Re: [PATCH 4/6] mshv: limit SynIC management to MSHV-owned
+ resources
+In-Reply-To: <20260402-sturdy-chirpy-cat-78baeb@anirudhrb>
+Message-ID: <b9681d7-6166-e7cf-feb-b924c583cdf@linux.microsoft.com>
+References: <20260327201920.2100427-1-jloeser@linux.microsoft.com> <20260327201920.2100427-5-jloeser@linux.microsoft.com> <20260402-sturdy-chirpy-cat-78baeb@anirudhrb>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 
-On Thu, Apr 02 2026 at 13:24, Michael Kelley wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
->
-> The Hyper-V ISRs, for normal guests and when running in the
-> hypervisor root patition, are calling add_interrupt_randomness() as a
-> primary source of entropy. The call is currently in the ISRs as a common
-> place to handle both x86/x64 and arm64. On x86/x64, hypervisor interrupts
-> come through a custom sysvec entry, and do not go through a generic
-> interrupt handler. On arm64, hypervisor interrupts come through an
-> emulated GICv3. GICv3 uses the generic handler handle_percpu_devid_irq(),
-> which does not do add_interrupt_randomness() -- unlike its counterpart
-> handle_percpu_irq(). But handle_percpu_devid_irq() is now updated to do
-> the add_interrupt_randomness(). So add_interrupt_randomness() is now
-> needed only in Hyper-V's x86/x64 custom sysvec path.
->
-> Move add_interrupt_randomness() from the Hyper-V ISRs into the Hyper-V
-> x86/x64 custom sysvec path, matching the existing STIMER0 sysvec path.
-> With this change, add_interrupt_randomness() is no longer called from any
-> device drivers, which is appropriate.
->
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+On Thu, 2 Apr 2026, Anirudh Rayabharam wrote:
 
-Acked-by: Thomas Gleixner <tglx@kernel.org>
+> Maybe it's time to extract all the synic management stuff to a separate
+> file to act like synic "driver" which facilitates synic access to
+> mutiple users i.e. mshv & vmbus.
+
+Yes, such a refactor maybe warranted. This series is about getting 
+kexec to work on L1VH, and so such refactor would be ill-placed here.
+
+Best,
+Jork
