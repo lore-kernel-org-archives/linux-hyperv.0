@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B913093D3;
-	Thu,  2 Apr 2026 15:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609C0327C08;
+	Thu,  2 Apr 2026 15:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775143099; cv=none; b=TRi1UbE/+mc6YyURreuvhG2M9srulpU05Zzd/VQwITkWNEAdnDJ+mLspMEDST7jEiAafshX/XB1AazXHdNZjCLtsdWGTa9Aj61ZlenpNThhzc08dz9Oc7X36Zf7HEwxbdMuclmA321F8Vs1OOOXjP2d5J8b3cFWkTnQZufFef64=
+	t=1775143099; cv=none; b=bpz6CobOKsbCgj8PArFNMxbXZ4O/VooEjFbN0o7ITzi8n1Xaxy62OZKgT+EXRbPHnIr8zhWxkHVUAk9ggIc63qeqiLHy9/2EsRn62KncQ5FP+TvRVLL7tQaaqCkeopkszPoH0cCAMsuRSglZ8d2yXkUNes678en/MVz3xVCYb+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775143099; c=relaxed/simple;
-	bh=PNSJM+IYGvYkiPR25/CMkQQ6YHnlCq27nInaF50pD78=;
+	bh=8ImfWPmr7gw4XNtq5keCwB+AkftKlSmuDqX9bFHAJgY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=goVW6APnLN/7eYQ5pcw82LtWb5DLAqOKAbsSUuRtES8ZUCAQ88wPJL6eaMx6DBU5xq/0IMUWp9tne++hLP8wPj8R6GdevHivS7h8nskjD7kQVm2SpaeIPzolel8F9q/jI++zCwxG09jq6VSt4OQF6RzWHbGAFEuF/+h6kzKnMb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=muqBMea7; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=mI16XA9/HZJ8d/l1XuShSPlndzdgO7rkakh3jz9iE9UX+8AFYuHJ3gVVj7CI4pEV9760YdkQzzoGVO2vau//6/4nyN9nS2jhNFgESSnqXGOkx/lK7fiD/rdIc3pG4D2uEnuesBA8IZ7FJio1l9hcejBtU++AdPIOhVWoZIejAu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eQ/xLJcY; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="muqBMea7"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eQ/xLJcY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1775143095;
-	bh=PNSJM+IYGvYkiPR25/CMkQQ6YHnlCq27nInaF50pD78=;
+	bh=8ImfWPmr7gw4XNtq5keCwB+AkftKlSmuDqX9bFHAJgY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=muqBMea7RPDDyz1E4fbzauOaX8ZCPvMvfONw0nKLXZhKgcykBaBEPnITxX4Ds9qQB
-	 LREagKwkCNsWwzQCmBlTP6IM9gaJQtTveVv/u/PoKiRW5SbqkZoRll2iDcjXGl4N0l
-	 7BZqsnCVP5h89hRSTeBrab8TECAalkC+PKYv9ndI=
+	b=eQ/xLJcYtF4Aj6WyatAyscivM5LD3wU54TLJhxBO2ZA3PRpY6koIRWlbw0xvnFgT3
+	 IELxp0mV6rR+gaHgV7Cc7OlZ5yqJkRX+Z3y9UkobBaLAdcGANpQMyJj+6Y3Vt7sN2C
+	 TpzMhn4iX3InywaU4dPbOImBCwOmRnzJIPzU7eJ8=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Thu, 02 Apr 2026 17:18:15 +0200
-Subject: [PATCH 4/4] drivers: hv: mark channel attributes as const
+Date: Thu, 02 Apr 2026 17:18:12 +0200
+Subject: [PATCH 1/4] drivers: hv: mark chan_attr_ring_buffer as const
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260402-sysfs-const-hv-v1-4-a467d6f7726e@weissschuh.net>
+Message-Id: <20260402-sysfs-const-hv-v1-1-a467d6f7726e@weissschuh.net>
 References: <20260402-sysfs-const-hv-v1-0-a467d6f7726e@weissschuh.net>
 In-Reply-To: <20260402-sysfs-const-hv-v1-0-a467d6f7726e@weissschuh.net>
 To: "K. Y. Srinivasan" <kys@microsoft.com>, 
@@ -43,148 +43,42 @@ To: "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775143095; l=5958;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775143095; l=971;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=PNSJM+IYGvYkiPR25/CMkQQ6YHnlCq27nInaF50pD78=;
- b=eyaKpqlNVHNqtq345hqPfSWl55MnaXsFvg4P9tWBuxo0l3dyafXOogaQdRDr43AiLwaqiI+pr
- W76eOvZU8uACuIJRL1uK03nV4yV3RfQd+30NqX0fdcew7l8+UayF5Kz
+ bh=8ImfWPmr7gw4XNtq5keCwB+AkftKlSmuDqX9bFHAJgY=;
+ b=PLmQ0EHMNkKvfwemdkWzS5cKBskqbpn7Z3BJjw4qACfshfxjQJneiF7pk81wHv1VOG55FlfQD
+ 0VT8BkOta4XAQu3yfcmGRJN3+wjw9jXWjLoIVFoPiNVdt1b3Z6jjQv4
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-These attributes are never modified, mark them as const.
+The structure is never modified, mark it as const.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hv/vmbus_drv.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/hv/vmbus_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index ecce6b72a2a2..7ca038c1e5aa 100644
+index bc4fc1951ae1..5f9b7cc9080c 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -1864,7 +1864,7 @@ static ssize_t target_cpu_store(struct vmbus_channel *channel,
- 
- 	return ret ?: count;
+@@ -1959,7 +1959,7 @@ static int hv_mmap_ring_buffer_wrapper(struct file *filp, struct kobject *kobj,
+ 	return channel->mmap_ring_buffer(channel, vma);
  }
--static VMBUS_CHAN_ATTR(cpu, 0644, target_cpu_show, target_cpu_store);
-+static const VMBUS_CHAN_ATTR(cpu, 0644, target_cpu_show, target_cpu_store);
  
- static ssize_t channel_pending_show(struct vmbus_channel *channel,
- 				    char *buf)
-@@ -1873,7 +1873,7 @@ static ssize_t channel_pending_show(struct vmbus_channel *channel,
- 		       channel_pending(channel,
- 				       vmbus_connection.monitor_pages[1]));
- }
--static VMBUS_CHAN_ATTR(pending, 0444, channel_pending_show, NULL);
-+static const VMBUS_CHAN_ATTR(pending, 0444, channel_pending_show, NULL);
- 
- static ssize_t channel_latency_show(struct vmbus_channel *channel,
- 				    char *buf)
-@@ -1882,19 +1882,19 @@ static ssize_t channel_latency_show(struct vmbus_channel *channel,
- 		       channel_latency(channel,
- 				       vmbus_connection.monitor_pages[1]));
- }
--static VMBUS_CHAN_ATTR(latency, 0444, channel_latency_show, NULL);
-+static const VMBUS_CHAN_ATTR(latency, 0444, channel_latency_show, NULL);
- 
- static ssize_t channel_interrupts_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%llu\n", channel->interrupts);
- }
--static VMBUS_CHAN_ATTR(interrupts, 0444, channel_interrupts_show, NULL);
-+static const VMBUS_CHAN_ATTR(interrupts, 0444, channel_interrupts_show, NULL);
- 
- static ssize_t channel_events_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%llu\n", channel->sig_events);
- }
--static VMBUS_CHAN_ATTR(events, 0444, channel_events_show, NULL);
-+static const VMBUS_CHAN_ATTR(events, 0444, channel_events_show, NULL);
- 
- static ssize_t channel_intr_in_full_show(struct vmbus_channel *channel,
- 					 char *buf)
-@@ -1902,7 +1902,7 @@ static ssize_t channel_intr_in_full_show(struct vmbus_channel *channel,
- 	return sprintf(buf, "%llu\n",
- 		       (unsigned long long)channel->intr_in_full);
- }
--static VMBUS_CHAN_ATTR(intr_in_full, 0444, channel_intr_in_full_show, NULL);
-+static const VMBUS_CHAN_ATTR(intr_in_full, 0444, channel_intr_in_full_show, NULL);
- 
- static ssize_t channel_intr_out_empty_show(struct vmbus_channel *channel,
- 					   char *buf)
-@@ -1910,7 +1910,7 @@ static ssize_t channel_intr_out_empty_show(struct vmbus_channel *channel,
- 	return sprintf(buf, "%llu\n",
- 		       (unsigned long long)channel->intr_out_empty);
- }
--static VMBUS_CHAN_ATTR(intr_out_empty, 0444, channel_intr_out_empty_show, NULL);
-+static const VMBUS_CHAN_ATTR(intr_out_empty, 0444, channel_intr_out_empty_show, NULL);
- 
- static ssize_t channel_out_full_first_show(struct vmbus_channel *channel,
- 					   char *buf)
-@@ -1918,7 +1918,7 @@ static ssize_t channel_out_full_first_show(struct vmbus_channel *channel,
- 	return sprintf(buf, "%llu\n",
- 		       (unsigned long long)channel->out_full_first);
- }
--static VMBUS_CHAN_ATTR(out_full_first, 0444, channel_out_full_first_show, NULL);
-+static const VMBUS_CHAN_ATTR(out_full_first, 0444, channel_out_full_first_show, NULL);
- 
- static ssize_t channel_out_full_total_show(struct vmbus_channel *channel,
- 					   char *buf)
-@@ -1926,14 +1926,14 @@ static ssize_t channel_out_full_total_show(struct vmbus_channel *channel,
- 	return sprintf(buf, "%llu\n",
- 		       (unsigned long long)channel->out_full_total);
- }
--static VMBUS_CHAN_ATTR(out_full_total, 0444, channel_out_full_total_show, NULL);
-+static const VMBUS_CHAN_ATTR(out_full_total, 0444, channel_out_full_total_show, NULL);
- 
- static ssize_t subchannel_monitor_id_show(struct vmbus_channel *channel,
- 					  char *buf)
- {
- 	return sprintf(buf, "%u\n", channel->offermsg.monitorid);
- }
--static VMBUS_CHAN_ATTR(monitor_id, 0444, subchannel_monitor_id_show, NULL);
-+static const VMBUS_CHAN_ATTR(monitor_id, 0444, subchannel_monitor_id_show, NULL);
- 
- static ssize_t subchannel_id_show(struct vmbus_channel *channel,
- 				  char *buf)
-@@ -1941,7 +1941,7 @@ static ssize_t subchannel_id_show(struct vmbus_channel *channel,
- 	return sprintf(buf, "%u\n",
- 		       channel->offermsg.offer.sub_channel_index);
- }
--static VMBUS_CHAN_ATTR_RO(subchannel_id);
-+static const VMBUS_CHAN_ATTR_RO(subchannel_id);
- 
- static int hv_mmap_ring_buffer_wrapper(struct file *filp, struct kobject *kobj,
- 				       const struct bin_attribute *attr,
-@@ -1963,7 +1963,7 @@ static const struct bin_attribute chan_attr_ring_buffer = {
- 	},
- 	.mmap = hv_mmap_ring_buffer_wrapper,
+-static struct bin_attribute chan_attr_ring_buffer = {
++static const struct bin_attribute chan_attr_ring_buffer = {
+ 	.attr = {
+ 		.name = "ring",
+ 		.mode = 0600,
+@@ -1985,7 +1985,7 @@ static struct attribute *vmbus_chan_attrs[] = {
+ 	NULL
  };
--static struct attribute *vmbus_chan_attrs[] = {
-+static const struct attribute *const vmbus_chan_attrs[] = {
- 	&chan_attr_out_mask.attr,
- 	&chan_attr_in_mask.attr,
- 	&chan_attr_read_avail.attr,
-@@ -1992,7 +1992,7 @@ static const struct bin_attribute *const vmbus_chan_bin_attrs[] = {
-  * each attribute, and returns 0 if an attribute is not visible.
-  */
- static umode_t vmbus_chan_attr_is_visible(struct kobject *kobj,
--					  struct attribute *attr, int idx)
-+					  const struct attribute *attr, int idx)
- {
- 	const struct vmbus_channel *channel =
- 		container_of(kobj, struct vmbus_channel, kobj);
-@@ -2030,9 +2030,9 @@ static size_t vmbus_chan_bin_size(struct kobject *kobj,
- }
  
- static const struct attribute_group vmbus_chan_group = {
--	.attrs = vmbus_chan_attrs,
-+	.attrs_const = vmbus_chan_attrs,
- 	.bin_attrs = vmbus_chan_bin_attrs,
--	.is_visible = vmbus_chan_attr_is_visible,
-+	.is_visible_const = vmbus_chan_attr_is_visible,
- 	.is_bin_visible = vmbus_chan_bin_attr_is_visible,
- 	.bin_size = vmbus_chan_bin_size,
+-static const struct bin_attribute *vmbus_chan_bin_attrs[] = {
++static const struct bin_attribute *const vmbus_chan_bin_attrs[] = {
+ 	&chan_attr_ring_buffer,
+ 	NULL
  };
 
 -- 
