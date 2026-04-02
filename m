@@ -1,77 +1,94 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 398133C9429;
-	Thu,  2 Apr 2026 17:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1984F3128D7;
+	Thu,  2 Apr 2026 18:04:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775152633; cv=none; b=aLkL3kMi03CV5HFQ7DDZIHoSV0xnGGEUieHzSqjDartQT9dwLuCYkbWeof4k9zaNrm9/EyT3j1ISiqhWVQMP4ZqiSQKyeFu1xL3lZbRd1A7DI1p8kndMO6vobhSoeyNhqoK0FdtAZBqgdlKpvz2bVmiXkBL6edY9JmAhkWAkTYA=
+	t=1775153050; cv=none; b=YFQFylXBmsA78q7YmwFZnQTkWjtSWAonAv+gvhG7Dmd46HDWJDfJU7MZYepOaxUK+J1kNhCICiKPegKillIdT4LsIZaRNbahl8HURcpyROexuniyMNBGWEeg0T96OvX2sqd5JPpPS7lVNBvEhVAvQPmnrorElOg2GeOU3HonMuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775152633; c=relaxed/simple;
-	bh=CLYm4aP2ClMxsj3IfT1vok6re+4DGSxJmLWmbXJQBfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQHDZ4VwoPbx0OaYoA52MuqlZMenkc2zpOKh30sbN3v0HjVZAVxrMZhd5IBEnFIf4WaCUexBL9WjRlUL8d3gXAGnsK/kzckITuqt+90U4t7J/QaKG7yFvhIUnWTWjDlcEpZlI2YzpdyENsQCZSnrA9oZlbKEDBBz3YsQy84VfoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KcY8aOXH; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1775153050; c=relaxed/simple;
+	bh=LY8NkeVPAXBVOjpY3sLvL09nCimbJDOezTIjvmBoKdY=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=QtwBd0iu2KO43R0sKy+s8ksu0+v0hxtcW1G3oFxeQYmPI3o1fuyKYAJozOtpVQiCCvrQs9/tOf9fi+T4infONw0eVcdDxJjBQpq8Csy1gDxQzD7bK1zr0bmBXLxBJjDg6QVaHqWkSrOWXyM/kxMTbgBZtfbVTILOn5fSjFarXC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LGFJJ3Nk; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KcY8aOXH"
-Received: from skinsburskii.localdomain (unknown [20.236.11.29])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B74D320B712B;
-	Thu,  2 Apr 2026 10:57:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B74D320B712B
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LGFJJ3Nk"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E084120B710C;
+	Thu,  2 Apr 2026 11:04:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E084120B710C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775152632;
-	bh=1o5UsYphC63IxqO4PYP93hmGRUndCMD0kxbG9B8uhAs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KcY8aOXHrhFoBn8mZbVfdq0k6sYoYAhqg/WGspuidNHrDxJtAUrp2iD3Ndy4FRt2l
-	 bJKKX+dIq9VC9Y7UHrrZ3uEZxTWEdJLAjNq62eoQkd+wGJd1xZfhj3PuQht11xLz96
-	 vxva0+kRY9Jl3MPkalt+RL1DXMk+PqX68SEO5nWw=
-Date: Thu, 2 Apr 2026 10:57:09 -0700
+	s=default; t=1775153048;
+	bh=dAr9wMyNyMyOd8EEYSGvvQvgCoVd1hOFJrKPRWE9d1o=;
+	h=Subject:From:To:Cc:Date:From;
+	b=LGFJJ3Nkok2Q7bZVtqZR/BLaUG3w/NzGKHhB35p0uKAPWb8+PexYAMB/stTtzorkB
+	 aykGGCXBWEuf/papyvr3Dx8Xi1nv/EBtEMRuceG6aW/XaGybv3RuCEPIr2aE3/ROPY
+	 2DcLM7uv19C60/zgqdYvwRb/yCojnxLtosyuhin0=
+Subject: [PATCH v2 0/7] mshv: Reduce memory consumption for unpinned regions
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: Anirudh Rayabharam <anirudh@anirudhrb.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] mshv: Rename mshv_mem_region to mshv_region
-Message-ID: <ac6t9d2CIvL469_t@skinsburskii.localdomain>
-References: <177508151446.215674.7844504277869257435.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <177508156067.215674.12361225930217655159.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <20260402-fervent-thick-boobook-45dba9@anirudhrb>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 02 Apr 2026 18:04:08 +0000
+Message-ID: 
+ <177515251087.119822.1940529498624181326.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402-fervent-thick-boobook-45dba9@anirudhrb>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 02, 2026 at 04:33:24PM +0000, Anirudh Rayabharam wrote:
-> On Wed, Apr 01, 2026 at 10:12:40PM +0000, Stanislav Kinsburskii wrote:
-> > The mshv_mem_region structure represents guest address space regions,
-> > which can be either RAM-backed memory or memory-mapped IO regions
-> > without physical backing. The "mem_" prefix incorrectly suggests the
-> > structure only handles memory regions, creating confusion about its
-> > actual purpose.
-> > 
-> > Remove the "mem_" prefix to align with existing function naming
-> > (mshv_region_map, mshv_region_pin, etc.) and accurately reflect that
-> > this structure manages arbitrary guest address space mappings
-> > regardless of their backing type.
-> 
-> I don't think the "mem_" prefix automatically suggested the backing
-> type.
-> 
+This series reduces memory consumption for unpinned regions by avoiding
+PFN array allocation. A 1GB unpinned region currently wastes 2MB for an
+unused PFN array that HMM-managed regions don't need.
 
-What else can it suggest?
+The first three patches are preparatory refactoring. Patch 1 consolidates
+region creation and mapping logic, reducing API surface by 4 functions.
+Patch 2 introduces a typedef for PFN handler callbacks to simplify
+function signatures. Patch 3 renames mshv_mem_region to mshv_region to
+align with existing function naming conventions.
 
-> Isn't mshv_region too vague now? Region of what?
-> 
+Patch 4 optimizes unmap and no-access remap operations by eliminating
+redundant PFN iteration when all frames are guaranteed to be mapped.
+This uses large page flags for aligned chunks and removes unnecessary
+helper functions.
 
-The region of address space, which can or can not be backed by memory.
+Patches 5-6 decouple PFN processing from the region->pfns storage.
+Patch 5 threads the pfns pointer explicitly through the processing
+chain. Patch 6 removes offset-based indexing by having callers pass
+pre-offset pointers.
 
-Thanks,
-Stanislav
+Patch 7 converts the pfns array from a flexible array member to a
+conditional pointer, allocated only for pinned regions that need it
+for share/unshare/evict operations. This eliminates the memory waste
+for unpinned regions and allows using kzalloc instead of vzalloc.
 
-> Thanks,
-> Anirudh.
+v2: 
+- Improved commit message
+- Fixed invalid vfree(region->mreg_pfns) call for MMIO-backed regions
+- Fixed unpinning of already-released pages in the error path during
+  pinned region creation
+- Removed redundant mshv_map_region helper in favor of the new
+  optimized mapping logic
+
+---
+
+Stanislav Kinsburskii (7):
+      mshv: Consolidate region creation and mapping
+      mshv: Improve code readability with handler function typedef
+      mshv: Rename mshv_mem_region to mshv_region
+      mshv: Optimize memory region mapping operations
+      mshv: Pass pfns array explicitly through processing chain
+      mshv: Simplify pfn array handling in region processing
+      mshv: Allocate pfns array only for pinned regions
+
+
+ drivers/hv/mshv_regions.c   |  350 +++++++++++++++++++++++++------------------
+ drivers/hv/mshv_root.h      |   26 ++-
+ drivers/hv/mshv_root_main.c |   79 ++++------
+ 3 files changed, 249 insertions(+), 206 deletions(-)
+
