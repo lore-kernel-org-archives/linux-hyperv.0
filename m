@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD265315D49;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B062620DE;
 	Thu,  2 Apr 2026 15:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775143098; cv=none; b=mXzpmoVdRolGAXP6QaN800h3jL3NWzo2qo8+eJIj9x+qsBdKiucPIVwNbJWALdjuhvQbKCMDkyumvYLqjdSlIM78iUaDKdbfwx706WiMrsv8ZX8Bf+czn8/Z7dncKRtFZLZDYBJ8hFw3ZanYy2fNZl1Ca3Hx1knGgI9rAFjEhY0=
+	t=1775143099; cv=none; b=WRwlilPmWr+RtWJg0CnIKI4/Nk1+GFPD2ihLgrD1503ZBNQXok5iiGXPufrvOTi0/JWKE/lck1Ko81X7WT6LUNCu7BZCCQKyMeAwi9Zwiqy+erh6Jy8/wgJJZ1czzWlgfk8uMwPIMsQ2pnxavpyX2aT2vQcVIKVig69hK8zU4vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775143098; c=relaxed/simple;
-	bh=krFqt0H/TD1jR7FnVLhssGI1mPzdQgEscZoIPgw+wgo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KERo1XQU7ICdyWGbpZStWc2dKQ6ajY0IFRtrUxW8XUhAf7HwDTNyaP/voQvNWlqWmhzLVZb8z1sgvGcCZUcenuiVoNHf5XDYKbSZYt2VQJL2raFhKQv/bjdBwE8qkd/MvKHp4Ymjt5h0+o7vfjQZ77cURlnTH70SqXvkveVSXo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=MxmWh30W; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1775143099; c=relaxed/simple;
+	bh=DVYpLqWWZCzR7awppWJPTPL2ZbyIonfbbFVFU/UNqG8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b292UVeDxikCWitBUMxjDDhPPqHwToW+b7oxDP9pPp/BDWVIaTH/EjXHHgqVQrJu87zx3d3+htIEjiEZm8FcSnu+qWZGu8PBGBA+QhJqXGrH/AqFU96W2HtbODDnO7ecYTRlhsBxRPLgYncyq7XOMPTUfhcgQbxho5Hk/iq/5xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=n+dl22LG; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="MxmWh30W"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="n+dl22LG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1775143095;
-	bh=krFqt0H/TD1jR7FnVLhssGI1mPzdQgEscZoIPgw+wgo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MxmWh30Wr5r9EgEl3qAT6YUz5fSf5oBDX0m8Cbwm0PNlf8IxsWb7Fj7uxJuuQu9K2
-	 4wv1aJrPFqwwZ5Zw/MgoIPTR6+fSW7qF0fpNBsb7HL/tQqdd3IB9YIjMJZOHzN6UXK
-	 Sf7WCotJa2NkP0eiszwwtugAPx8A1mOV/lC/aTS4=
+	bh=DVYpLqWWZCzR7awppWJPTPL2ZbyIonfbbFVFU/UNqG8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=n+dl22LGQfJZSyZnrcmPwZ+CxiMiLDJeEIDMcazrV5BHw9xFblYANxr3QQRCSOVj2
+	 29TAjq37HdJFkJbe14hBcoKVb7Bz9p/2qvknD/UWaAoJ+As7JR3W1/j6qHkfiBWONQ
+	 LdY3Q9lXY2Hf+Ktuxyj9/JLLcPHNWqiR7EAaRFus=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Thu, 02 Apr 2026 17:18:14 +0200
-Subject: [PATCH 3/4] drivers: hv: mark bus attributes as const
+Subject: [PATCH 0/4] drivers: hv: mark some sysfs attribute as const
+Date: Thu, 02 Apr 2026 17:18:11 +0200
+Message-Id: <20260402-sysfs-const-hv-v1-0-a467d6f7726e@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,47 +34,45 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260402-sysfs-const-hv-v1-3-a467d6f7726e@weissschuh.net>
-References: <20260402-sysfs-const-hv-v1-0-a467d6f7726e@weissschuh.net>
-In-Reply-To: <20260402-sysfs-const-hv-v1-0-a467d6f7726e@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ6DMAxA0asgz1hKQA2Iq1QMqTHEDKGKAbVC3
+ L2hjG/4/wDlJKzQFQck3kVliRm2LICCjxOjDNlQmcqZuraoXx0VaYm6YtiR/GAejW3JtR5y9E4
+ 8yuc/fPa3dXvNTOt1gfP8AVEuYVpyAAAA
+X-Change-ID: 20260331-sysfs-const-hv-cad05718c68a
 To: "K. Y. Srinivasan" <kys@microsoft.com>, 
  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
  Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775143095; l=779;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775143095; l=773;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=krFqt0H/TD1jR7FnVLhssGI1mPzdQgEscZoIPgw+wgo=;
- b=rrxPO+UjvzIVp2m5pRjxTdtQu77xrEnz0Q+xaH2Yw7c/ggwsMcGXmbNY32AVEaEglNIFP6vji
- 2GrL/YQ/qF2DnEYA9V1pE5OMb+zcTExpxY2GdXvm73wEWKRL6BGap3H
+ bh=DVYpLqWWZCzR7awppWJPTPL2ZbyIonfbbFVFU/UNqG8=;
+ b=W/Q27mnED9mCK68YC/Xt3qRuhQjzE8LMHJstxzqllGpWq7Dj5MfKwupxb+eci6B23pDvlFVuo
+ O0OjhSYnO0FClTz96Nx1tqQM0e0yZkiDGxcNyROZmPywsiKiyn4ty9C
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-This attribute is never modified, mark it as const.
+The sysfs attribute structures are never modified.
+Mark them as const where possible.
+
+This excludes the device attributes for now, as these will have their
+own migration.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hv/vmbus_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thomas Weißschuh (4):
+      drivers: hv: mark chan_attr_ring_buffer as const
+      drivers: hv: use ATTRIBUTE_GROUPS helper
+      drivers: hv: mark bus attributes as const
+      drivers: hv: mark channel attributes as const
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index d41b39ab628d..ecce6b72a2a2 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -639,9 +639,9 @@ static ssize_t hibernation_show(const struct bus_type *bus, char *buf)
- 	return sprintf(buf, "%d\n", !!hv_is_hibernation_supported());
- }
- 
--static BUS_ATTR_RO(hibernation);
-+static const BUS_ATTR_RO(hibernation);
- 
--static struct attribute *vmbus_bus_attrs[] = {
-+static const struct attribute *const vmbus_bus_attrs[] = {
- 	&bus_attr_hibernation.attr,
- 	NULL,
- };
+ drivers/hv/vmbus_drv.c | 43 ++++++++++++++++++++-----------------------
+ 1 file changed, 20 insertions(+), 23 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260331-sysfs-const-hv-cad05718c68a
 
--- 
-2.53.0
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
 
