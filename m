@@ -1,118 +1,89 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CFFA35E959;
-	Wed,  8 Apr 2026 01:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725DA1E1C11;
+	Wed,  8 Apr 2026 01:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775612230; cv=none; b=DUqGSF7IlhB7ISB0z2jfJjRWvrqeDmqEOpgBCIF7Ew6Z724qbYFqvk6feUEqtmVatl7O/YND/NH8NOfpFHrcml0harr6U4M6DlmJzoXpm/wv1NAqqwMg9ABTlNxYneYl8XXFQa1aywr3gS8gNCARMxm1VdZcn5orUBMNZXXzro8=
+	t=1775613091; cv=none; b=UyfRUDMqQzZl5KmMHOsGE3LUHo5jP6bFPNXNTBpOtfRVF9X20fTwcV7bx8X51LARziOODYLnFrooDzIjLHzuGed1d6ArcDr2EZAy+pL8uDDN3i3MmzoYmtlZCz0ja9YZ9jTA6gJh5T8C5HhpWWDU7XL889sTTKa1le3zUxmrbnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775612230; c=relaxed/simple;
-	bh=Qa47xpsTwc0NoOrDL+Xc0AOo5MDDI34B1r1aXQhRz5A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eX5H9S0Bxm+LqJNYwUwXAxoTYkelvE0HTyKUVp+AL2qucIae/GCzLZwwy3vxeYiUDpgOBiFQ2wdmqojlgVGkeuoBT1s80GUXE4Jw1tlhzBoV6X/1v950jpSoHn8E05s19egAL/qsv375GwmIjli0LOIctZAMU0+w35Z6HxYMPCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=o+f6ibhx; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1775613091; c=relaxed/simple;
+	bh=fCBSQGqMzevTkcT7LslCcxFsnnfWHpPEEY4JITLJoI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BBk3Iq2oywvYi3LztNLnOnVIUpCv+vqrlPOkURyA8ZO/NnWpKdAj/s+t+OXd6N+R2TFXpoQDLjJTNrnALvF5vyoQBSWYXUL8O+2ScoLX1qivXbE+geFqI2GKZuVj2GUZMpPGXBcVLiJbvv0NHBDvRq9k6sryjJFyNVU8k/7wsF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rmFT+Cq7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="o+f6ibhx"
-Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id 7F6AF20B6F1B; Tue,  7 Apr 2026 18:37:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7F6AF20B6F1B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775612229;
-	bh=tB4BZhw0Vkrh5XhzS7hac2vx15vGtVKUShHe3x1I80o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o+f6ibhxPrqSK7TKU1UTbef35g+K06I2J0M95ZzyLkWs6viSCQqUb6VN9cFgiBpVs
-	 uo3xwL/HOwGDgCLuXHDhEF/wd+OkqCNlChF5QCznoTIwpOyR/K/QQn7zsXTBESW+te
-	 1CLtgZO9QE49kdf2VXEzhbn5evZrGYhbFyF9VAEU=
-From: Jork Loeser <jloeser@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: x86@kernel.org,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Michael Kelley <mhklinux@outlook.com>,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	Jork Loeser <jloeser@linux.microsoft.com>
-Subject: [PATCH v3 6/6] mshv: unmap debugfs stats pages on kexec
-Date: Tue,  7 Apr 2026 18:36:43 -0700
-Message-ID: <20260408013645.286723-7-jloeser@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260408013645.286723-1-jloeser@linux.microsoft.com>
-References: <20260408013645.286723-1-jloeser@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rmFT+Cq7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC6EC116C6;
+	Wed,  8 Apr 2026 01:51:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775613091;
+	bh=fCBSQGqMzevTkcT7LslCcxFsnnfWHpPEEY4JITLJoI8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rmFT+Cq7dOHDzaGRk/uVDX5HCxAuPad+QD64QI+cQin3Ltrp4p9HFTqU3yloYEgLF
+	 p7FdoxIQwaY89/hwlM5EpDqSv98tk5ojAezjn0cxqMoAQFvRIzaeDz5VXmnBmdxHxi
+	 JsEX0uOoJ2oevc4aHYzF6eBWaPbu4JoT8XmZ3QEw1rA0PKKH0xpWlWsq4c8YmNC0Is
+	 87qj9fr3YYji1yDHn/FMmAs+u/QbnuolbArIEW3yLl7nDd3CgQMTbbJIzjUQtSVv7d
+	 uoQlqRYjU9o+V3yMg44SCYEhvGhsNJjVBDKR8TfrHXMclAT4KgUorGpGuVE52bLBdv
+	 hetGX8PaMDIqA==
+Date: Tue, 7 Apr 2026 18:51:28 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Dipayaan Roy <dipayanroy@linux.microsoft.com>, <kys@microsoft.com>,
+ <haiyangz@microsoft.com>, <wei.liu@kernel.org>, <decui@microsoft.com>,
+ <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+ <pabeni@redhat.com>, <leon@kernel.org>, <longli@microsoft.com>,
+ <kotaranov@microsoft.com>, <horms@kernel.org>,
+ <shradhagupta@linux.microsoft.com>, <ssengar@linux.microsoft.com>,
+ <ernis@linux.microsoft.com>, <shirazsaleem@microsoft.com>,
+ <linux-hyperv@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <stephen@networkplumber.org>, <jacob.e.keller@intel.com>,
+ <dipayanroy@microsoft.com>, <leitao@debian.org>, <kees@kernel.org>
+Subject: Re: [PATCH net-next v5 0/2] net: mana: add ethtool private flag for
+ full-page RX buffers
+Message-ID: <20260407185128.605dcacf@kernel.org>
+In-Reply-To: <e80b603d-8be0-4aee-8a31-c9cbb4a8ab00@intel.com>
+References: <adHaF6DloRthctRb@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	<e80b603d-8be0-4aee-8a31-c9cbb4a8ab00@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On L1VH, debugfs stats pages are overlay pages: the kernel allocates
-them and registers the GPAs with the hypervisor via
-HVCALL_MAP_STATS_PAGE2. These overlay mappings persist in the
-hypervisor across kexec. If the kexec'd kernel reuses those physical
-pages, the hypervisor's overlay semantics cause a machine check
-exception.
+On Tue, 7 Apr 2026 15:10:45 +0200 Alexander Lobakin wrote:
+> > On some ARM64 platforms with 4K PAGE_SIZE, utilizing page_pool 
+> > fragments for allocation in the RX refill path (~2kB buffer per fragment)
+> > causes 15-20% throughput regression under high connection counts  
+> > (>16 TCP streams at 180+ Gbps). Using full-page buffers on these  
+> > platforms shows no regression and restores line-rate performance.
+> > 
+> > This behavior is observed on a single platform; other platforms
+> > perform better with page_pool fragments, indicating this is not a
+> > page_pool issue but platform-specific.
+> > 
+> > This series adds an ethtool private flag "full-page-rx" to let the
+> > user opt in to one RX buffer per page:
+> > 
+> >   ethtool --set-priv-flags eth0 full-page-rx on  
+> 
+> Sorry I may've missed the previous threads.
+> 
+> Has this approach been discussed here? Private flags are generally
+> discouraged.
+> 
+> Alternatively, you can provide Ethtool ops to change the Rx buffer size,
+> so that you'd be able to set it to PAGE_SIZE on affected platforms and
+> the result would be the same.
 
-Fix this by calling mshv_debugfs_exit() from the reboot notifier,
-which issues HVCALL_UNMAP_STATS_PAGE for each mapped stats page before
-kexec. This releases the overlay bindings so the physical pages can be
-safely reused. Guard mshv_debugfs_exit() against being called when
-init failed.
+Actually, hm. Now that you spoke up I wonder how much this is
+an inherent ARM problem vs problem in whatever ARM Microsoft's
+management empire-built themselves into.
 
-Signed-off-by: Jork Loeser <jloeser@linux.microsoft.com>
----
- drivers/hv/mshv_debugfs.c | 7 ++++++-
- drivers/hv/mshv_synic.c   | 1 +
- 2 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hv/mshv_debugfs.c b/drivers/hv/mshv_debugfs.c
-index 418b6dc8f3c2..3c3e02237ae9 100644
---- a/drivers/hv/mshv_debugfs.c
-+++ b/drivers/hv/mshv_debugfs.c
-@@ -674,8 +674,10 @@ int __init mshv_debugfs_init(void)
- 
- 	mshv_debugfs = debugfs_create_dir("mshv", NULL);
- 	if (IS_ERR(mshv_debugfs)) {
-+		err = PTR_ERR(mshv_debugfs);
-+		mshv_debugfs = NULL;
- 		pr_err("%s: failed to create debugfs directory\n", __func__);
--		return PTR_ERR(mshv_debugfs);
-+		return err;
- 	}
- 
- 	if (hv_root_partition()) {
-@@ -710,6 +712,9 @@ int __init mshv_debugfs_init(void)
- 
- void mshv_debugfs_exit(void)
- {
-+	if (!mshv_debugfs)
-+		return;
-+
- 	mshv_debugfs_parent_partition_remove();
- 
- 	if (hv_root_partition()) {
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index 8fe673c876fd..ed025f90003f 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -719,6 +719,7 @@ mshv_unregister_doorbell(u64 partition_id, int doorbell_portid)
- static int mshv_synic_reboot_notify(struct notifier_block *nb,
- 			      unsigned long code, void *unused)
- {
-+	mshv_debugfs_exit();
- 	cpuhp_remove_state(synic_cpuhp_online);
- 	return 0;
- }
--- 
-2.43.0
-
+Do you have access to any ARM servers? Google says GCP offers ARM
+instances with idpf NICs. So if idpf benefits from the same
+"tuning" we should totally push for a proper API not priv flags.
