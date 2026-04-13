@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10BD344D95;
-	Mon, 13 Apr 2026 05:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1A7381AE3;
+	Mon, 13 Apr 2026 05:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776056932; cv=none; b=b6+61jbydL8r80nHlr2m5zcuDLtQ4uW6TKIyruWZyIB27kKRMlP0dgQlFPb539h2PiI8LRXsQv9ROiwCuA6InsMC/z9RR2t0MFyz/zty7pWRiKcSTD/C8D/yTomq5xjTxgoyqq/tZhf+oKsRzCcbg70JmHmfbwZ270Og/PycEz4=
+	t=1776056933; cv=none; b=seIl5bFRU5RVMOL/hRjsXmghdBnOfHynUPY+vqjH/KsYBh/CtAyDA1ZFWgSY5n2a5s3ejFtbZUtvdrESgPD6KmWfqH0xTN441iqkaMB+2Ba0tfpIceedlpSEyJOL1a78GGOnFFIVakxpj2IyDMYsNWnyvUr9IQ1Ua15KCtfEb54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776056932; c=relaxed/simple;
-	bh=tp8KOjmdQ4MjJ1498n7/CnNxfNveyZ6rinU8BbhvPK0=;
+	s=arc-20240116; t=1776056933; c=relaxed/simple;
+	bh=2/Sgiuf0i4Z6yaO92crvH0qtHa25YLDB6KSbbFFkCnA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RQKNhbT8qHCi4WZlCZNgSWxVpQK5hpAf8IhWSd4ZsPYZI6X9bJ26Q1pjKQlhiirgfsKRZaGECjknIOdb7rc60n9fBag/eFpJ//Zk13Isjp2Vl5a/YZX3f8nGkE1fMLJEWB83ySUh+OdrAV8BtuaAtUaS45l6QFfGyjeBqU2ig4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CJvP7zxf; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=YAMPnoVTKSJLAq1u/7dSaMmNvA4csh6UQEMfupOR1ZYHC0KhuiobjnYLB+8sYTUUe2AqtJ4+hGVyD3kTRchNSVqq860sewKv3gEzUwCiWTmN48k7I3hfXHlP/cs3Ir7p/1D8j9E2WLL6li7YWYnxpUcUbzcjjcoYK0SjHbZEy+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=f9uNMtf8; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CJvP7zxf"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="f9uNMtf8"
 Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id 7144E20B712D; Sun, 12 Apr 2026 22:08:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7144E20B712D
+	id 1931B20B7129; Sun, 12 Apr 2026 22:08:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1931B20B7129
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776056925;
-	bh=UpKbiM/WzXu5/Bqg2FujmXCbJGJIFbSiryBEH0k7wug=;
+	s=default; t=1776056926;
+	bh=sb3m66RzCJPfglqdY/359rz5n0K9rwFOKlus0zCVaOk=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CJvP7zxf0Rd1SjSFzgs3b+YUDnjwjie5mWsLUt2md5FNetlIWRrB7j9dHcu+E4RUK
-	 40EOWajej6IOzUspW1TUNnNjC1Y/iJJ2uzJSngCyWI8gsgem8KneHgfTmslfO25ALL
-	 HVC9N4FL6lN8WEeb6zWeYnAJLlDPPhgmFi/kX7pc=
+	b=f9uNMtf8U3KeTSHwVdn4+WPHCIn/cqN0IBGAqyOJqxMVbju10236Y1f3BpwlGVNas
+	 FQK/aLD2wRpE9/aYe/6MCsxWawlp/34y3QqIVWqlLPSKwTE7kGC3RgU+YCvgr2z+AG
+	 3cA5VHLtK1EXCQ8+MP1T6FCVttAMp0YHe1jtA3/E=
 From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -48,9 +48,9 @@ To: kys@microsoft.com,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net v2 1/4] net: mana: Init link_change_work before potential error paths in probe
-Date: Sun, 12 Apr 2026 22:08:37 -0700
-Message-ID: <20260413050843.605789-2-ernis@linux.microsoft.com>
+Subject: [PATCH net v2 2/4] net: mana: Init gf_stats_work before potential error paths in probe
+Date: Sun, 12 Apr 2026 22:08:38 -0700
+Message-ID: <20260413050843.605789-3-ernis@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260413050843.605789-1-ernis@linux.microsoft.com>
 References: <20260413050843.605789-1-ernis@linux.microsoft.com>
@@ -62,46 +62,45 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move INIT_WORK(link_change_work) to right after the mana_context
-allocation, before any error path that could reach mana_remove().
+Move INIT_DELAYED_WORK(gf_stats_work) to before mana_create_eq(),
+while keeping schedule_delayed_work() at its original location.
 
-Previously, if mana_create_eq() or mana_query_device_cfg() failed,
-mana_probe() would jump to the error path which calls mana_remove().
-mana_remove() unconditionally calls disable_work_sync(link_change_work),
-but the work struct had not been initialized yet. This can trigger
+Previously, if any function between mana_create_eq() and the
+INIT_DELAYED_WORK call failed, mana_probe() would call mana_remove()
+which unconditionally calls cancel_delayed_work_sync(gf_stats_work)
+in __flush_work() or debug object warnings with
 CONFIG_DEBUG_OBJECTS_WORK enabled.
 
-Fixes: 54133f9b4b53 ("net: mana: Support HW link state events")
+Fixes: be4f1d67ec56 ("net: mana: Add standard counter rx_missed_errors")
 Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 ---
 Changes in v2:
 * Apply the patch in net instead of net-next.
 ---
- drivers/net/ethernet/microsoft/mana/mana_en.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 07630322545f..57f146ea6f66 100644
+index 57f146ea6f66..f6ad46736418 100644
 --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -3631,6 +3631,8 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
- 
- 		ac->gdma_dev = gd;
- 		gd->driver_data = ac;
-+
-+		INIT_WORK(&ac->link_change_work, mana_link_state_handle);
+@@ -3635,6 +3635,8 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
+ 		INIT_WORK(&ac->link_change_work, mana_link_state_handle);
  	}
  
++	INIT_DELAYED_WORK(&ac->gf_stats_work, mana_gf_stats_work_handler);
++
  	err = mana_create_eq(ac);
-@@ -3648,8 +3650,6 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
+ 	if (err) {
+ 		dev_err(dev, "Failed to create EQs: %d\n", err);
+@@ -3709,7 +3711,6 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
  
- 	if (!resuming) {
- 		ac->num_ports = num_ports;
--
--		INIT_WORK(&ac->link_change_work, mana_link_state_handle);
- 	} else {
- 		if (ac->num_ports != num_ports) {
- 			dev_err(dev, "The number of vPorts changed: %d->%d\n",
+ 	err = add_adev(gd, "eth");
+ 
+-	INIT_DELAYED_WORK(&ac->gf_stats_work, mana_gf_stats_work_handler);
+ 	schedule_delayed_work(&ac->gf_stats_work, MANA_GF_STATS_PERIOD);
+ 
+ out:
 -- 
 2.34.1
 
