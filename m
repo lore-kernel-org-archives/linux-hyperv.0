@@ -1,57 +1,56 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E3E33B5850;
-	Fri, 17 Apr 2026 18:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32142DC77F
+	for <linux-hyperv@vger.kernel.org>; Fri, 17 Apr 2026 20:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776449996; cv=none; b=SOK79N4i8zvk84SWF52JAUCavQS/l7Rzg2Vt1JgTk91PZMyywNBNLdRVGazZal9XBWUP+RWZfG1AcQ7acES0owgRY95JQvQ4Ned1viD5LPM6epQ7ExWMu+OWbOOTK2rVh/BzkSw2FOEhR0kBL7ql1JkEY/vaTaQS9YVkDbln2LQ=
+	t=1776457455; cv=none; b=c++78ByE1duhS2K73+wVX/esjeue5NGPyjsolLuzP9tG/+8yqcAFpdCPOPCwbNNEhSPkNC2YEIC5RdLtYv4v6G7ALaY+TrfsKTvhjqAwr2C0xyfqsUA7RiDp6+pxOGUekxCw2CmnsBjLpmR0iHukCLu/8ZORylugdmghdxUPyww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776449996; c=relaxed/simple;
-	bh=R12IDCIXkdZNXxjNCe8brPVjwHzFherskLs8R4dflXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pr++Ox5QXSwbpB7Zlxjm0rdbpoY35iMnVovlL+jUZ83gO50uYpRDB34m5kcjqWTnzK1thswjIUqAXSG6fFcOM5nvx0YXw8VIeMcpGCtpASXbYf2ekYdrAhgqRz5cJPEr1ME4e0dtEk3mPPYmG+p0DPZ57IT3RC7+sU2wJekIbeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XiUW6PfN; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1776457455; c=relaxed/simple;
+	bh=r+dgAylW4MBqoMdsspuP2/8KF3Es0vUNdRyadGUudIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XIUaw3stH6VDnBCuoHjExlpC8qz0LxbdDUg00TJDPdrX9IxvjzMwIkrkp8+0cO9mI6zAr/8VJ2FbaOR4b4BR+SLgXPZurKHribsx3jHuPXNS67GX9PQOOZZes/xe+UJvKl7LIVIg5vhghapTpi4ncYw7L2miGfeudBfyg/XqJFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=templeofstupid.com; spf=pass smtp.mailfrom=templeofstupid.com; dkim=pass (2048-bit key) header.d=templeofstupid.com header.i=@templeofstupid.com header.b=E9oCxsqk; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=templeofstupid.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=templeofstupid.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XiUW6PfN"
-Received: from [100.64.217.73] (unknown [40.65.108.177])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B43C520B7128;
-	Fri, 17 Apr 2026 11:19:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B43C520B7128
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776449989;
-	bh=ZoMFv+0gVyZ0RDus1DOUZjij1UXc723wF7Hg48l76WY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XiUW6PfNclY3pUdKUMgy2O1e32rHEv47F4idLSAzn771ccErMtdYPnx2xQb7+eyg+
-	 ZzwtSV7KiTCMnc5BiIxaGka6u0xdDI8wgq3ADzCmCjuLUzH3JJIhpaDcemCHsw8S5/
-	 AGGzVI5JsOe5czDkN7mOepoos+1BBOBeZiGQvP0k=
-Message-ID: <075ca01b-cd3e-45bf-b6f3-e6d3d6865021@linux.microsoft.com>
-Date: Fri, 17 Apr 2026 11:19:48 -0700
+	dkim=pass (2048-bit key) header.d=templeofstupid.com header.i=@templeofstupid.com header.b="E9oCxsqk"
+Date: Fri, 17 Apr 2026 13:24:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=templeofstupid.com;
+	s=key1; t=1776457450;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jSZ0x56idMTe5CHt/WVa/3C6qz89U2/0YVG7mwJSoeE=;
+	b=E9oCxsqkYWleeFWyQpnHXOOXavAM1aj4uTIyDuoE+8Xe5iIFQBR2vL6s/By/2FD8HEqgW1
+	hAIFtCr7rKRlqvwoM002198vvgoDIp5EM3tMV+qPFrxG65Vnbaz8qDibca84wNmLGcd0PD
+	1rTHolmyzHi351AB2r2+CE94GKQM7BGM7N83csjs8Y5QAaVbseWdm+/gkDfRokHB6en9BA
+	AtrSXQsKyGEWkp1jt215FkXO1LDg2SwufRgYwL28vgj0XMzD7L9J4nG6kBOFnmAj9LLiz0
+	O3WhQ23fvZw6Z8QhzyVeM0jVaR4IsN3MH4a4FjcvRHkOi8yEW/fMzZE/ADFp/Q==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Krister Johansen <kjlx@templeofstupid.com>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	longli@microsoft.com, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mhklinux@outlook.com,
+	matthew.ruffell@canonical.com, stable@vger.kernel.org
+Subject: Re: [PATCH] Drivers: hv: vmbus: Improve the logc of reserving
+ fb_mmio on Gen2 VMs
+Message-ID: <aeKW4ESwsoK5La-t@templeofstupid.com>
+References: <20260416183529.838321-1-decui@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Drivers: hv: vmbus: Improve the logc of reserving fb_mmio
- on Gen2 VMs
-To: Dexuan Cui <decui@microsoft.com>, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, longli@microsoft.com,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- mhklinux@outlook.com, matthew.ruffell@canonical.com,
- johansen@templeofstupid.com
-Cc: stable@vger.kernel.org
-References: <20260416183529.838321-1-decui@microsoft.com>
-Content-Language: en-US
-From: Hardik Garg <hargar@linux.microsoft.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20260416183529.838321-1-decui@microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 4/16/2026 11:35 AM, Dexuan Cui wrote:
+On Thu, Apr 16, 2026 at 11:35:29AM -0700, Dexuan Cui wrote:
 > If vmbus_reserve_fb() in the kdump kernel fails to properly reserve the
 > framebuffer MMIO range due to a Gen2 VM's screen.lfb_base being zero [1],
 > there is an MMIO conflict between the drivers hyperv_drm and pci-hyperv.
@@ -86,10 +85,12 @@ On 4/16/2026 11:35 AM, Dexuan Cui wrote:
 > ---
 >  drivers/hv/vmbus_drv.c | 30 ++++++++++++++++++++++++++++--
 >  1 file changed, 28 insertions(+), 2 deletions(-)
-Reviewed-by: Hardik Garg <hargar@linux.microsoft.com>
+ 
+Thanks for the updated patch.  I tested this on the arm64 instances that
+had been failing and was able to confirm that without it present the
+failure still occurred, but with the new patch networking was able to
+attach correctly in the dump environment and kdumps were successful.
 
+Tested-by: Krister Johansen <kjlx@templeofstupid.com>
 
-
-
-Thanks,
-Hardik
+-K
