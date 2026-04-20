@@ -1,45 +1,41 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE383537CE;
-	Mon, 20 Apr 2026 16:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429AF379EE5;
+	Mon, 20 Apr 2026 16:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776703257; cv=none; b=slz3T9nWIXI8HT2xbO4+cQUT0qC6XzNxtryw1xJgQ6jLD/vmYFCRzlO0n6A1+qfyNh2xmTvmDY/IB4xpiG+R5wE9m9TUrD5sp/xeAuNUmLg5cXCnmxATu7jn+qDzEbi4JGdaKkG8C0mQqfT1zb17HgCzxW8PaaUMuIkNeCANfhc=
+	t=1776704094; cv=none; b=XxHgOiijmk6mgny4mchBhVhRxroJF35T5hjOJrbZod8bj6Bpqek3NaAcD14A9eNcAG+UWT/bR0E29xZRazcJQXUWJ+7sFQgfJpOEEW6WoWdhWqh41xb0JfjD2J1aHkE1yoA/W/KqkTFvZYy8jiksALlHbsk7+Uicb4rsZ3gpg9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776703257; c=relaxed/simple;
-	bh=mjc4+R4pcg1DQgMyfhnWd9sCh9WHudzbWU8nkzySyPM=;
+	s=arc-20240116; t=1776704094; c=relaxed/simple;
+	bh=ORCL07x/Xnari8BPQ4huM5RLtSnOzNJBU0mgbyPpFmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UH7lSSUwH3Yz3VLbVVui71xUgpU+A10wmgfaChm8AdnquFjqn0F9NoacRrHfTcSTO8Gcq/NVFTjC8IhVP5zjf/1wvAfepeHKw4uU790pqiLGAa/uAMW7PRWMkZ0YnhBtsWL+9nfh8RyxRzzKZKeJGdbEfNfd7y70xaLD9rLJqCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QC8hwokv; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgoyAcrNpB9D515/jsvSvaRsbhqEHAFyrqaqztVefA8ILi5nph5jj573U/02nEJ8wUtAKSDXPqg46txRoSLPdTK9wudpTravnymrrQ0fP9FO9W/jwZv081hh0ax/OrQPsy5Abxf35z5cp/AOneSw/TkL8HpzZ2E/82kye9CyuIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=M3gZQCLA; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QC8hwokv"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="M3gZQCLA"
 Received: from skinsburskii.localdomain (unknown [20.236.10.129])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E2A2720B6F01;
-	Mon, 20 Apr 2026 09:40:55 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E2A2720B6F01
+	by linux.microsoft.com (Postfix) with ESMTPSA id B1BFE20B6F01;
+	Mon, 20 Apr 2026 09:54:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B1BFE20B6F01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776703256;
-	bh=o+SK4Qe/0n2sSmj2I1fzlY8TCVwBwXdS72EWcYwse8I=;
+	s=default; t=1776704093;
+	bh=2LI/Zt5ETHkxP8KH80YsPKpfmviO7OAGQ/qdIZQ96pM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QC8hwokv81PA1ssszB9tZsj/eEc4eaORNeAhPK0A5+tZSblJ6GTc1mGm6ud+WYl3w
-	 7prd6LY1N+ZhkkDHvAVz+Mkqts2fX+M9eQinXr7+jHOA58JOXkIriOr93Wzm/c735r
-	 4xH0G1fbuGEEEKm8GSVLL31Gc7JcVEGnYs/4JMHI=
-Date: Mon, 20 Apr 2026 09:40:52 -0700
+	b=M3gZQCLAIwTxV/rKWkwautIHOpx1CKteuGXoIsn+ry460HGua3XeLGsrHzdpeundk
+	 dYcA04lANoRx5bcZPBWXUCmKqMnRdIgBZ+hP1iEk17ZGxk6LxAEj8BqcGCadaJn909
+	 kbhfMIszccRoFgkwJWZGdYoAHs0VFJIlZUl6xCbs=
+Date: Mon, 20 Apr 2026 09:54:49 -0700
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "kys@microsoft.com" <kys@microsoft.com>,
-	"haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>,
-	"decui@microsoft.com" <decui@microsoft.com>,
-	"longli@microsoft.com" <longli@microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/7] mshv: Refactor memory region management and map
- pages at creation
-Message-ID: <aeZXFL6aj_JudR8l@skinsburskii.localdomain>
-References: <177490099488.81669.3758562641675983608.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <SN6PR02MB4157920DE623A9B2C613D282D4242@SN6PR02MB4157.namprd02.prod.outlook.com>
+To: Anirudh Rayabharam <anirudh@anirudhrb.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] mshv: Reduce memory consumption for unpinned
+ regions
+Message-ID: <aeZaWVa0S4qtUOsE@skinsburskii.localdomain>
+References: <177574802240.19719.4873018419452139691.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <20260414-broad-abstract-anaconda-1c4ab1@anirudhrb>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -48,40 +44,22 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157920DE623A9B2C613D282D4242@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <20260414-broad-abstract-anaconda-1c4ab1@anirudhrb>
 
-On Mon, Apr 13, 2026 at 09:07:59PM +0000, Michael Kelley wrote:
-> From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com> Sent: Monday, March 30, 2026 1:04 PM
-> > 
-> > This series refactors the mshv memory region subsystem in preparation
-> > for mapping populated pages into the hypervisor at movable region
-> > creation time, rather than relying solely on demand faulting.
-> > 
-> > The primary motivation is to ensure that when userspace passes a
-> > pre-populated mapping for a movable memory region, those pages are
-> > immediately visible to the hypervisor. Previously, all movable regions
-> > were created with HV_MAP_GPA_NO_ACCESS on every page regardless of
-> > whether the backing pages were already present, deferring all mapping
-> > to the fault handler. This added unnecessary fault overhead and
-> > complicated the initial setup of child partitions with pre-populated
-> > memory.
-> > 
+On Tue, Apr 14, 2026 at 04:11:22PM +0000, Anirudh Rayabharam wrote:
+> On Thu, Apr 09, 2026 at 03:23:59PM +0000, Stanislav Kinsburskii wrote:
+> > This series reduces memory consumption for unpinned regions by avoiding
+> > PFN array allocation. A 1GB unpinned region currently wastes 2MB for an
+> > unused PFN array that HMM-managed regions don't need.
 > 
-> This is a nice set of changes. Independent of the new functionality
-> for pre-populating, it improves the code organization and makes
-> it more regular.
-> 
-> See a few comments on individual patches. I noticed that Sashiko
-> wasn't able to review the series because it wouldn't apply. Hopefully
-> your v2 will apply. From what I've seen so far of Sashiko, it finds some
-> good issues. I did run the patch set through Co-Pilot, but that didn't
-> have the benefit of the AI prompts that Sashiko provides.
+> This series has a dependency on "mshv: Refactor memory region management
+> and map pages at creation" right?
 > 
 
-Thank you for your time.
-Indeed, hopefully sashiko will be able to review the v2.
+Yes, it does.
 
 Thanks,
 Stanislav
 
-> Michael
+> Anirudh.
+> 
