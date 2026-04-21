@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FB432D7FA;
-	Tue, 21 Apr 2026 08:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3E933F8C2;
+	Tue, 21 Apr 2026 08:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776760344; cv=none; b=g6ew15eNpWA4kL8Ojz9YjIR+fclu6no+w1rCsVkPZAhgzDY2FGxGpqxnUQBhrLf7dZLaJKVzF9Zat45ydaGZgGodgUu3wG3R/DDVLmiDZkdjS3pztkmBGjHdNe0RASdrtP88LFd5IQT4nV3vgzTH9/f4xbcDDlwHYt9WecXAgqc=
+	t=1776761405; cv=none; b=lOIGx6YXscpfqI0bLAOdsUshkLoHN1byaSH9z3pjDsR7p+jR1nZT7ZtPM8kLej4RadszpYD9vUwFVFDckxJlRp7tQAYkrsRk8mskvzxJsDa+ewGnqig3/6noJX949bsnLigGsUydoTNxoeR1DlazZJtsGYnSKScchMBVu4B/Coo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776760344; c=relaxed/simple;
-	bh=3AcEuu4rBoAM4PHRXKIwJtTm21PzPN71Sn/og8FiSjs=;
+	s=arc-20240116; t=1776761405; c=relaxed/simple;
+	bh=HaTQPXvOEJyusO788jGddOJOEFqrCuHs2/f3+g1Am18=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=I2buC8+P5Um3fBM3H1QmBw/WNzCWHO5zcR2K9OesTE39O0NspQ1w039vOT4TGplansGnshhzRi4wemmseO5e8tIpO+CJVP6Mny4u2jr8Ha9oZg4O7mB7ie9lrnfs44+93kAwDofJV1Q55Z+7ga+vEGPlgW27N7csmCwkb7DQ1rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfS7qPKo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=T2cuOIyS0I6Iac9j8mdgjq7OuJsnpFJaXsWPHLMIACAEkKMsDHbmuPJ3rNSEjRkXRsRtGjfZOvDtP0dBGJH1TdcmWW4GULNUSw1/qwaEWA/SfsIPVgWPA29H50DY7ISjnhdmdO5x7IaND3HFuhtNI4igdfDGoIQ5c3kNwdu3AZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pR8Z523t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PfS7qPKo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2555DC2BCB6;
-	Tue, 21 Apr 2026 08:32:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pR8Z523t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8BB7C2BCB5;
+	Tue, 21 Apr 2026 08:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776760344;
-	bh=3AcEuu4rBoAM4PHRXKIwJtTm21PzPN71Sn/og8FiSjs=;
+	s=k20201202; t=1776761405;
+	bh=HaTQPXvOEJyusO788jGddOJOEFqrCuHs2/f3+g1Am18=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PfS7qPKozeqAUB5Zl+iQ1lO9PY0zsrU6jMDx05jt62pS21tKlPO+joZxotJ/8wwMy
-	 klgJ3OKt3Zxt2/su+CMy+xAXgJySWhzXsLNJ+rreFdIFmdH2TiB+U6m0ckRtew7qeY
-	 iu+DBPVxYXmx7t+eFXiJCy19r9mWhbfRIZPdgaMVKJGlvNLFdRJGHJ93A5dIp8Nry1
-	 TkiFkUBMfjzQVt2uV6h/itwg2w8YlRvOe2XhljJzkrArkr5UFh3ZPUP/XFiZxGY8J5
-	 ohfT37dU3CgucSqG2Fb5q3IxMgIjOZD3sUpAWZC6Qe0RhpRH861xqLXTyBPYJz7Dap
-	 Uy3MffWfNb8hQ==
+	b=pR8Z523tl/pYJTgna0TzpDJ97VzUhuDGpfMXUMlZSvJUP88/Uf6wwLL6TZpPWR05u
+	 fD93UYvGK1Z22WuxegmEtlR4ePNUVX6G2eE2ADwU3KwsnRkrgv6KuslEMDj4RRqwRM
+	 14skmyaN7pOCw5z4aXywKO7WdmtNgjWIjQBE7KBokI+Z8nr8LT+UnHedRP0w1FkO7/
+	 PdygA/+aEmRmgNTyEpaQ4QOWy0df653T3ZV/1poX6L5HiEPSJxYDfp5OljRX0SkdFT
+	 tqfeD8TETWZix6tWtCS922YGEo3mzAzhVFRtMGSFWkbCfLN9whd61bgc0fioeZwxZd
+	 WIVg9roArtZ/w==
 From: Thomas Gleixner <tglx@kernel.org>
 To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes
  Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?=
@@ -56,12 +56,13 @@ Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
  rcu@vger.kernel.org, netdev@vger.kernel.org,
  linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
  Qiliang Yuan <realwujing@gmail.com>, Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 03/23] tick/nohz: Make nohz_full parameter optional
-In-Reply-To: <20260421030351.281436-4-longman@redhat.com>
+Subject: Re: [PATCH 04/23] tick/nohz: Allow runtime changes in full dynticks
+ CPUs
+In-Reply-To: <20260421030351.281436-5-longman@redhat.com>
 References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-4-longman@redhat.com>
-Date: Tue, 21 Apr 2026 10:32:18 +0200
-Message-ID: <875x5kd88d.ffs@tglx>
+ <20260421030351.281436-5-longman@redhat.com>
+Date: Tue, 21 Apr 2026 10:50:00 +0200
+Message-ID: <87340od7ev.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -71,39 +72,122 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
-> To provide nohz_full tick support, there is a set of tick dependency
-> masks that need to be evaluated on every IRQ and context switch.
+> Full dynticks can only be enabled if "nohz_full" boot option has been
+> been specified with or without parameter. Any change in the list of
+> nohz_full CPUs have to be reflected in tick_nohz_full_mask. Introduce
+> a new tick_nohz_full_update_cpus() helper that can be called to update
+> the tick_nohz_full_mask at run time. The housekeeping_update() function
+> is modified to call the new helper when the HK_TYPE_KERNEL_NOSIE cpumask
+> is going to be changed.
+>
+> We also need to enable CPU context tracking for those CPUs that
 
-s/IRQ/interrupt/
+We need nothing. Use passive voice for change logs as requested in
+documentation.
 
-This is a changelog and not a SMS service.
+> are in tick_nohz_full_mask. So remove __init from tick_nohz_init()
+> and ct_cpu_track_user() so that they be called later when an isolated
+> cpuset partition is being created. The __ro_after_init attribute is
+> taken away from context_tracking_key as well.
+>
+> Also add a new ct_cpu_untrack_user() function to reverse the action of
+> ct_cpu_track_user() in case we need to disable the nohz_full mode of
+> a CPU.
+>
+> With nohz_full enabled, the boot CPU (typically CPU 0) will be the
+> tick CPU which cannot be shut down easily. So the boot CPU should not
+> be used in an isolated cpuset partition.
+>
+> With runtime modification of nohz_full CPUs, tick_do_timer_cpu can become
+> TICK_DO_TIMER_NONE. So remove the two TICK_DO_TIMER_NONE WARN_ON_ONCE()
+> checks in tick-sched.c to avoid unnecessary warnings.
 
-> Switching on nohz_full tick support at runtime will be problematic
-> as some of the tick dependency masks may not be properly set causing
-> problem down the road.
+in tick-sched.c? Describe the functions which contain that.
 
-That's useless blurb with zero content.
+>  static inline void tick_nohz_task_switch(void)
+> diff --git a/kernel/context_tracking.c b/kernel/context_tracking.c
+> index 925999de1a28..394e432630a3 100644
+> --- a/kernel/context_tracking.c
+> +++ b/kernel/context_tracking.c
+> @@ -411,7 +411,7 @@ static __always_inline void ct_kernel_enter(bool user, int offset) { }
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/context_tracking.h>
+>  
+> -DEFINE_STATIC_KEY_FALSE_RO(context_tracking_key);
+> +DEFINE_STATIC_KEY_FALSE(context_tracking_key);
+>  EXPORT_SYMBOL_GPL(context_tracking_key);
+>  
+>  static noinstr bool context_tracking_recursion_enter(void)
+> @@ -674,9 +674,9 @@ void user_exit_callable(void)
+>  }
+>  NOKPROBE_SYMBOL(user_exit_callable);
+>  
+> -void __init ct_cpu_track_user(int cpu)
+> +void ct_cpu_track_user(int cpu)
+>  {
+> -	static __initdata bool initialized = false;
+> +	static bool initialized;
+>  
+>  	if (cpu == CONTEXT_TRACKING_FORCE_ENABLE) {
+>  		static_branch_inc(&context_tracking_key);
+> @@ -700,6 +700,15 @@ void __init ct_cpu_track_user(int cpu)
+>  	initialized = true;
+>  }
+>  
+> +void ct_cpu_untrack_user(int cpu)
+> +{
+> +	if (!per_cpu(context_tracking.active, cpu))
+> +		return;
+> +
+> +	per_cpu(context_tracking.active, cpu) = false;
+> +	static_branch_dec(&context_tracking_key);
+> +}
+> +
 
-> Allow nohz_full boot option to be specified without any
-> parameter to force enable nohz_full tick support without any
-> CPU in the tick_nohz_full_mask yet. The context_tracking_key and
-> tick_nohz_full_running flag will be enabled in this case to make
-> tick_nohz_full_enabled() return true.
+Why is this in a patch which makes tick/nohz related changes? This is a
+preparatory change, so make it that way and do not bury it inside
+something else.
 
-I kinda can crystal-ball what you are trying to say here, but that does
-not make it qualified as a proper change log.
+> +/* Get the new set of run-time nohz CPU list & update accordingly */
+> +void tick_nohz_full_update_cpus(struct cpumask *cpumask)
+> +{
+> +	int cpu;
+> +
+> +	if (!tick_nohz_full_running) {
+> +		pr_warn_once("Full dynticks cannot be enabled without the nohz_full kernel boot parameter!\n");
 
-> There is still a small performance overhead by force enable nohz_full
-> this way. So it should only be used if there is a chance that some
-> CPUs may become isolated later via the cpuset isolated partition
-> functionality and better CPU isolation closed to nohz_full is desired.
+That's the result of this enforced enable hackery. Make this work
+properly.
 
-Why has this key to be enabled on boot if there are no CPUs in the
-isolated mask?
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * To properly enable/disable nohz_full dynticks for the affected CPUs,
+> +	 * the new nohz_full CPUs have to be copied to tick_nohz_full_mask and
+> +	 * ct_cpu_track_user/ct_cpu_untrack_user() will have to be called
+> +	 * for those CPUs that have their states changed. Those CPUs should be
+> +	 * in an offline state.
+> +	 */
+> +	for_each_cpu_andnot(cpu, cpumask, tick_nohz_full_mask) {
+> +		WARN_ON_ONCE(cpu_online(cpu));
+> +		ct_cpu_track_user(cpu);
+> +		cpumask_set_cpu(cpu, tick_nohz_full_mask);
+> +	}
+> +
+> +	for_each_cpu_andnot(cpu, tick_nohz_full_mask, cpumask) {
+> +		WARN_ON_ONCE(cpu_online(cpu));
+> +		ct_cpu_untrack_user(cpu);
+> +		cpumask_clear_cpu(cpu, tick_nohz_full_mask);
+> +	}
+> +}
 
-If you want to manage this dynamically at runtime then enable the key
-once CPUs are isolated. Yes, it's more work, but that avoids the "should
-only be used" nonsense and makes this more robust down the road.
+So this writes to tick_nohz_full_mask while other CPUs can access
+it. That's just wrong and I'm not at all interested in the resulting
+KCSAN warnings.
+
+tick_nohz_full_mask needs to become a RCU protected pointer, which is
+updated once the new mask is established in a separately allocated one.
 
 Thanks,
 
