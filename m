@@ -1,98 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F309C35DA5B;
-	Tue, 21 Apr 2026 18:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A19028643A;
+	Tue, 21 Apr 2026 22:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776797031; cv=none; b=RmlUIEqpTy3KlzM6lnsQnH1ELZvyXzKSH3VdOAFLenWugglmrrKitEmYgr7z40wSesXX8pFzsEMd6JLJHSQFgH/LAV6/tWFk1gOe1Gy3GZEZP3lfpotxDVzLNN8wVBoD3wImYYswiHszVZE2ghbMNxr0AToeljJ/o3KSc2Kkm2E=
+	t=1776811003; cv=none; b=OEsPxbWGt4ZwLhNpLPmbkISDbLrdqOvRBPNIuUYriCm1qsV8ctMO8xe/jrbC+UsUdUdIPjh/7JmMzSuz8tlabckzwX0Z6eBbOJ5NWsg6FRUpx4qF7fC4NNnpfmnqBLneH/np6cS97uWTCaQ4VPxJjwJo2fok7A9OEQCAJOiJoxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776797031; c=relaxed/simple;
-	bh=D9bO5NnHt3R2eni60hYUUr/AeT3qN1GRnjRSK4y+ECo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NlEHqPaeA0yfzoWEwTYovb++l4+f2bHaqGK3A3fuCJkHn2KorX0GntUdD0gZ7OQB+BG87rM5otYU248RyHL8LY8Lq/KVyftpLzUT7NALAClSYU1VxJkBu/7TQQmmr0IjkyxiO6XFfrnygtopJp//NVfwjW7Ksq6xwI923I4OCn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RpF/xhOX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776811003; c=relaxed/simple;
+	bh=h7NgLtfH14YGrs6CfH9ffrIEWNZLwNfmS7G29rdSwp4=;
+	h=Subject:From:Cc:Date:Message-ID:MIME-Version:Content-Type; b=jGlEhcH+b+d7TUQdbulzAnvTp/JTVaIxrGnL4VvXQrJcS1J7QKNLn9D5lDx6mQjFaMd/nIPrPX/l2nPZXT5V70+UJIUaKRL2rqEYwrJFI8RLjtKAiHnf46X9FSIpd4c73yGcRg6AaNGojDrpEVhTy4EZDy5KficVcc+lVMcZAhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cvnNL3kg; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RpF/xhOX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9561AC2BCB0;
-	Tue, 21 Apr 2026 18:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776797030;
-	bh=D9bO5NnHt3R2eni60hYUUr/AeT3qN1GRnjRSK4y+ECo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RpF/xhOXQwrMYmPF95ZzDOkYwTBWNJp3iUkcjfRBYB0LpyWrCCiuRDfKlFhymW1UQ
-	 6TOuSdalH39Zxv7ZQj0G0IyHHEgaA/YF+XUbmu7gfNazbz8YnPHY3GE4rs8+AUGipz
-	 aZirw4DaFoD6FMOWa06+XaDAkxRD9fx2FVaQ6XHO9mmSsiBXmsXBk9QH8hJPm+qaiP
-	 rcq+F6yumdX2DEEQaNL6n35fcf+nS7eRqb69WDhQlRGqa/I7egYe3Ll2In972DbiZJ
-	 eK2SF/BUcL85XKXUV9XBduFzTZV0k2a6OoYEIAJtmijoekrx9p1hnQP9Pxv9D1wIeb
-	 yIxK0DMJuV7aA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes
- Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Catalin
- Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>, Frederic
- Weisbecker <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Chen Ridong <chenridong@huaweicloud.com>, Peter
- Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
- Nayak <kprateek.nayak@amd.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>
-Subject: Re: [PATCH 18/23] cpu/hotplug: Add a new cpuhp_offline_cb() API
-In-Reply-To: <4a0ede3e-6e87-414f-a3a3-dd15c32f25ef@redhat.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-19-longman@redhat.com> <87o6jcb84w.ffs@tglx>
- <4a0ede3e-6e87-414f-a3a3-dd15c32f25ef@redhat.com>
-Date: Tue, 21 Apr 2026 20:43:46 +0200
-Message-ID: <87340ob1ct.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cvnNL3kg"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 20C8D20B6F01;
+	Tue, 21 Apr 2026 15:36:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 20C8D20B6F01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1776811002;
+	bh=tcV2MMTLsPOUHSOYf5S2EqyAmNNuSM1djX5xBbkafKU=;
+	h=Subject:From:Cc:Date:From;
+	b=cvnNL3kg/3jeakf9IkhyeXg5YlIWKlA6D3KPEsDq5H7b7YczFblICywycSW3lLGjT
+	 gE2C+82OVbnQM+IEk9AVsxnpdVXmOqE1k6TRrJhDelMeSwCuzb3bSNKpNQW5DY3I+e
+	 5HDoej1UzCra556L+h9uT0dEBI+iJWY1UaFByyCI=
+Subject: [PATCH
+ --to=kys@microsoft.com,haiyangz@microsoft.com,wei.liu@kernel.org,decui@microsoft.com,longli@microsoft.com]
+ mshv: Fix interrupt state corruption in hv_do_map_pfns error path
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 21 Apr 2026 22:36:41 +0000
+Message-ID: 
+ <177681100155.270589.16151793616470732178.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 21 2026 at 13:29, Waiman Long wrote:
-> On 4/21/26 12:17 PM, Thomas Gleixner wrote:
-> Thanks for the great suggestions. I will certainly look into that.
->
-> We actually have a cpu_active_mask that will be cleared early in 
-> sched_cpu_deactivate(). In the CPUHP_AP_SCHED_WAIT_EMPTY state, the CPU 
-> will still have online bit set but the active bit will be cleared. Or we 
-> could add another cpumask that can be used to indicate CPUs that have 
-> reached CPUHP_AP_SCHED_WAIT_EMPTY or below if necessary.
+Restore interrupt state before breaking out of the loop on error.
 
-Right. Active mask is immediately cleared when a CPU goes down so that
-the scheduler does not enqueue new tasks on it. But you can't use it for
-interrupts because on CPU up the mask must be up to date when
-irq_affinity_online_cpu() is invoked. The tick has the same constraints.
+The irq_flags are saved before entering the loop, but the early exit
+path on error fails to restore them. This leaves interrupts in an
+inconsistent state and can lead to lockdep warnings or other
+interrupt-related issues.
 
-So for interrupts this should be handled in CPUHP_AP_IRQ_AFFINITY_ONLINE
-both in the existing up and the new down callback. That can be a
-interrupt core local CPU mask which is updated on the callbacks with the
-sparse_irq_lock held.
+Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+---
+ drivers/hv/mshv_root_hv_call.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Same for the tick handover magic.
+diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
+index 7ed623668c8e..6381f949d9d9 100644
+--- a/drivers/hv/mshv_root_hv_call.c
++++ b/drivers/hv/mshv_root_hv_call.c
+@@ -237,8 +237,10 @@ static int hv_do_map_pfns(u64 partition_id, u64 gfn, u64 pfns_count,
+ 			} else {
+ 				pfnlist[i] = mmio_spa + done + i;
+ 			}
+-		if (ret)
++		if (ret) {
++			local_irq_restore(irq_flags);
+ 			break;
++		}
+ 
+ 		status = hv_do_rep_hypercall(HVCALL_MAP_GPA_PAGES, rep_count, 0,
+ 					     input_page, NULL);
 
-Thanks,
 
-        tglx
