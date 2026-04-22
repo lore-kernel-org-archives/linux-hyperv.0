@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBC7383C78;
-	Wed, 22 Apr 2026 02:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0019F383C85;
+	Wed, 22 Apr 2026 02:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776825253; cv=none; b=oIlZFYsFIShaO5roZr5r6mhp16S+/hWb/fCRYXmZgYk8iuxRrtPFfQ5ZxvyExBmCBJoSo24YNcy4d3i3j4rWGnQAoYxrhstSoZVTZUS2TrZsMA/+qt6j9GVnkffUolVA5zI2JXkgaqtqPYDJSibSxlesuRtLg+UfxbvXwT2pA6c=
+	t=1776825253; cv=none; b=YrkOHnj9FOwwj7nw1CZp1Ld1uOFV79TLwKrKvxw2yMS4snepUxemD0bTTZQCVm3s/Ek+NAITKlqKCi2+T6bokfCqTMN9NBuUwh1bzdvT1ib5Z9HAcVmS1Uif1aqHSF6TAtL5APR0+DZkBgCtau6qaRFdi1Y6j7ZmJVcdwPWwv/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776825253; c=relaxed/simple;
-	bh=/Lw+KcSgHoHzffRnhyMXmnV0XRzyqvf5vEVQCn2n6FQ=;
+	bh=DeXjz0SRhQLAqrfm4RH5YKzrqZmSYmsxnp314WPB2yE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WVC760ZKSE0i22YCsCDqrjzT8ZJpmQyPe0XFxWmVlsstHs9mLq2iZBvSIM3I2xkB0wi4ECROGJ5MvoLTtgWxXLpm9Nt/B9T7Kv9dCxGjyJi9niDEIyzj3WJonxIU8ohTft/D3fkMrtNi4G6MfEV3CN8wwWT94YlhAOV7E+KbEYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ic1yo5q3; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=W+DIVA2CQe5ZfBkp8UuPf8fgbsAgd4l4lbi7+JpF88xYeogFXluiaDBPRbSjqjRG4/yMZM0plvQ5Ec6/tGGhmKDJklqYOAD9elCNsqByhNe+YrY4mIseMQlTgbPOhl5i8N8riH2m5ohzOLP9LQvDDAMjmWG0aIEno7aZfWtG6B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=IZXylSwM; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ic1yo5q3"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="IZXylSwM"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4179320B6F22;
-	Tue, 21 Apr 2026 19:33:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4179320B6F22
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3A9B320B6F0C;
+	Tue, 21 Apr 2026 19:33:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3A9B320B6F0C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776825231;
-	bh=gW30GO/QQW7nzaJ7Yfwf+7LrHlL5wIbU4fBiOZJvGkU=;
+	s=default; t=1776825240;
+	bh=y1jx/hTTfAyQ3CCJQjV0+0ow1B+C2JnMqOep7R/bNGA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ic1yo5q3LYqOj6CnC5HptX8+MMhLYozrXi4UCdgjcq6buP3vSBaLinIDDMLVshfP6
-	 CvEOskA5omxJw3fPoBPqwFFgnaHHNWpdi/V0GU4w8DMm9dy88Dzw+z1L5QFx4h7vfS
-	 AKa7sd938DsJ/ipTBUDb9aIMj1Sr1zH2tafiVPNk=
+	b=IZXylSwMUWnVpnK/zPOW1AocwdVaoMN1VvQgjP8RPfybnucqhnKEM2kR91gSL6erO
+	 GLdPDi6Ja3KA6eP6YyMcrj0hGsvermCipK5rA4kVfM37cx1oLOZby0eON+S6iBFfNM
+	 oML8I9tJJp7BjXpoDnF2iMxzXoEqvXYFsiVMOzGs=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -56,9 +56,9 @@ Cc: kys@microsoft.com,
 	kwilczynski@kernel.org,
 	bhelgaas@google.com,
 	arnd@arndb.de
-Subject: [PATCH V1 10/13] PCI: hv: Build device id for a VMBus device, export PCI devid function
-Date: Tue, 21 Apr 2026 19:32:36 -0700
-Message-ID: <20260422023239.1171963-11-mrathor@linux.microsoft.com>
+Subject: [PATCH V1 13/13] mshv: pin all ram mem regions if partition has device passthru
+Date: Tue, 21 Apr 2026 19:32:39 -0700
+Message-ID: <20260422023239.1171963-14-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
 References: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
@@ -70,153 +70,64 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Hyper-V, most hypercalls related to PCI passthru to map/unmap regions,
-interrupts, etc need a device id as a parameter. This device id refers
-to that specific device during the lifetime of passthru.
-
-An L1VH VM only contains VMBus based devices. A device id for a VMBus
-device is slightly different in that it uses the hv_pcibus_device info
-for building it to make sure it matches exactly what the hypervisor
-expects. This VMBus based device id is needed when attaching devices in
-an L1VH based guest VM. Before building it, a check is done to make sure
-the device is a valid VMBus device.
-
-In remaining cases, PCI device id is used. So, also make pci device
-id build function public.
+Given the sporadic errors, mostly from high end devices, when regions are
+not pinned and a PCI device is passthru'd to a VM, for now, force all
+regions for the VM to be pinned. Even tho VFIO may pin them, the regions
+would still be marked movable, so do it upfront in mshv.
 
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 ---
- arch/x86/hyperv/irqdomain.c         |  9 +++++----
- arch/x86/include/asm/mshyperv.h     |  4 ++++
- drivers/pci/controller/pci-hyperv.c | 25 +++++++++++++++++++++++++
- include/asm-generic/mshyperv.h      |  7 +++++++
- 4 files changed, 41 insertions(+), 4 deletions(-)
+ drivers/hv/mshv_root.h      | 6 ++++++
+ drivers/hv/mshv_root_main.c | 5 ++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-index 229f986e08ea..527835b99a70 100644
---- a/arch/x86/hyperv/irqdomain.c
-+++ b/arch/x86/hyperv/irqdomain.c
-@@ -137,7 +137,7 @@ static int get_rid_cb(struct pci_dev *pdev, u16 alias, void *data)
- 	return 0;
+diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
+index b9880d0bdc4d..32260df84f86 100644
+--- a/drivers/hv/mshv_root.h
++++ b/drivers/hv/mshv_root.h
+@@ -141,6 +141,7 @@ struct mshv_partition {
+ 	pid_t pt_vmm_tgid;
+ 	bool import_completed;
+ 	bool pt_initialized;
++	bool pt_regions_pinned;
+ #if IS_ENABLED(CONFIG_DEBUG_FS)
+ 	struct dentry *pt_stats_dentry;
+ 	struct dentry *pt_vp_dentry;
+@@ -277,6 +278,11 @@ static inline bool mshv_partition_encrypted(struct mshv_partition *partition)
+ 	return partition->isolation_type == HV_PARTITION_ISOLATION_TYPE_SNP;
  }
  
--static union hv_device_id hv_build_devid_type_pci(struct pci_dev *pdev)
-+u64 hv_build_devid_type_pci(struct pci_dev *pdev)
- {
- 	int pos;
- 	union hv_device_id hv_devid;
-@@ -197,8 +197,9 @@ static union hv_device_id hv_build_devid_type_pci(struct pci_dev *pdev)
++static inline bool mshv_pt_regions_pinned(struct mshv_partition *pt)
++{
++	return pt->pt_regions_pinned || mshv_partition_encrypted(pt);
++}
++
+ struct mshv_partition *mshv_partition_get(struct mshv_partition *partition);
+ void mshv_partition_put(struct mshv_partition *partition);
+ struct mshv_partition *mshv_partition_find(u64 partition_id) __must_hold(RCU);
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index a7864463961b..251cf88a2b0b 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -1333,7 +1333,7 @@ static int mshv_partition_create_region(struct mshv_partition *partition,
+ 
+ 	if (is_mmio)
+ 		rg->mreg_type = MSHV_REGION_TYPE_MMIO;
+-	else if (mshv_partition_encrypted(partition) ||
++	else if (mshv_pt_regions_pinned(partition) ||
+ 		 !mshv_region_movable_init(rg))
+ 		rg->mreg_type = MSHV_REGION_TYPE_MEM_PINNED;
+ 	else
+@@ -1406,6 +1406,9 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
+ 		goto err_out;
  	}
  
- out:
--	return hv_devid;
-+	return hv_devid.as_uint64;
- }
-+EXPORT_SYMBOL_GPL(hv_build_devid_type_pci);
- 
- /*
-  * hv_map_msi_interrupt() - Map the MSI IRQ in the hypervisor.
-@@ -221,7 +222,7 @@ int hv_map_msi_interrupt(struct irq_data *data,
- 
- 	msidesc = irq_data_get_msi_desc(data);
- 	pdev = msi_desc_to_pci_dev(msidesc);
--	hv_devid = hv_build_devid_type_pci(pdev);
-+	hv_devid.as_uint64 = hv_build_devid_type_pci(pdev);
- 	cpu = cpumask_first(irq_data_get_effective_affinity_mask(data));
- 
- 	return hv_map_interrupt(hv_current_partition_id, hv_devid, false, cpu,
-@@ -296,7 +297,7 @@ static int hv_unmap_msi_interrupt(struct pci_dev *pdev,
- {
- 	union hv_device_id hv_devid;
- 
--	hv_devid = hv_build_devid_type_pci(pdev);
-+	hv_devid.as_uint64 = hv_build_devid_type_pci(pdev);
- 	return hv_unmap_interrupt(hv_devid.as_uint64, irq_entry);
- }
- 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index f64393e853ee..039e8a986be3 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -271,6 +271,10 @@ static inline u64 hv_get_non_nested_msr(unsigned int reg) { return 0; }
- static inline int hv_apicid_to_vp_index(u32 apic_id) { return -EINVAL; }
- #endif /* CONFIG_HYPERV */
- 
-+#if IS_ENABLED(CONFIG_HYPERV_IOMMU)
-+u64 hv_build_devid_type_pci(struct pci_dev *pdev);
-+#endif /* IS_ENABLED(CONFIG_HYPERV_IOMMU) */
++	/* For now, all regions must be pinned if there is device passthru. */
++	partition->pt_regions_pinned = true;
 +
- struct mshv_vtl_cpu_context {
- 	union {
- 		struct {
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index ed6b399afc80..8f6b818ee09b 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -578,6 +578,8 @@ static void hv_pci_onchannelcallback(void *context);
- #define DELIVERY_MODE		APIC_DELIVERY_MODE_FIXED
- #define HV_MSI_CHIP_FLAGS	MSI_CHIP_FLAG_SET_ACK
- 
-+static bool hv_vmbus_pci_device(struct pci_bus *pbus);
-+
- static int hv_pci_irqchip_init(void)
- {
  	return 0;
-@@ -1005,6 +1007,24 @@ static struct irq_domain *hv_pci_get_root_domain(void)
- static void hv_arch_irq_unmask(struct irq_data *data) { }
- #endif /* CONFIG_ARM64 */
  
-+u64 hv_pci_vmbus_device_id(struct pci_dev *pdev)
-+{
-+	struct hv_pcibus_device *hbus;
-+	struct pci_bus *pbus = pdev->bus;
-+
-+	if (!hv_vmbus_pci_device(pbus))
-+		return 0;
-+
-+	hbus = container_of(pbus->sysdata, struct hv_pcibus_device, sysdata);
-+
-+	return	(hbus->hdev->dev_instance.b[5] << 24) |
-+		(hbus->hdev->dev_instance.b[4] << 16) |
-+		(hbus->hdev->dev_instance.b[7] << 8) |
-+		(hbus->hdev->dev_instance.b[6] & 0xf8) |
-+		PCI_FUNC(pdev->devfn);
-+}
-+EXPORT_SYMBOL_GPL(hv_pci_vmbus_device_id);
-+
- /**
-  * hv_pci_generic_compl() - Invoked for a completion packet
-  * @context:		Set up by the sender of the packet.
-@@ -1403,6 +1423,11 @@ static struct pci_ops hv_pcifront_ops = {
- 	.write = hv_pcifront_write_config,
- };
- 
-+static bool hv_vmbus_pci_device(struct pci_bus *pbus)
-+{
-+	return pbus->ops == &hv_pcifront_ops;
-+}
-+
- /*
-  * Paravirtual backchannel
-  *
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index e8cbc4e3f7ad..fe5ddd1c43ff 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -329,6 +329,13 @@ static inline enum hv_isolation_type hv_get_isolation_type(void)
- }
- #endif /* CONFIG_HYPERV */
- 
-+#if IS_ENABLED(CONFIG_PCI_HYPERV)
-+u64 hv_pci_vmbus_device_id(struct pci_dev *pdev);
-+#else   /* IS_ENABLED(CONFIG_PCI_HYPERV) */
-+static inline u64 hv_pci_vmbus_device_id(struct pci_dev *pdev)
-+{ return 0; }
-+#endif /* IS_ENABLED(CONFIG_PCI_HYPERV) */
-+
- #if IS_ENABLED(CONFIG_MSHV_ROOT)
- static inline bool hv_root_partition(void)
- {
+ invalidate_region:
 -- 
 2.51.2.vfs.0.1
 
