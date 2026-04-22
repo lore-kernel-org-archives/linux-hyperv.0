@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594993815C5;
-	Wed, 22 Apr 2026 02:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59BA7382F28;
+	Wed, 22 Apr 2026 02:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776825236; cv=none; b=oO6SYhTO+9nm8Ht2ip/7znJV0sAZfBc1xiYNTXARa6N9rVsIKuw3oCCUVMXAFXr7aSjutVYFbLdpwnOhGCwx0vvcx+l2at/eFp/tgzVq2spz/zH3/L83LAqhO4RoCB/1JiS8hhj1+M7mBDat61QOsL/EoXiXVSsa3jO42H6/Fws=
+	t=1776825238; cv=none; b=CH3KS8gmXPPRB9m6XYJksBcEuggtP1YZ2G6ffjjyuPZPcPKCw3OFMUaGKK8EGJ5j2cFkjvRY/emPqGB21NOu+NQwXJ9o6osJJd0zNALps4m0t5in4isyKl2MSakb6OaddNQQFae0a9i9aDn2X0L8sLNvQTJ4C1+7zX3Y5Y8pqcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776825236; c=relaxed/simple;
-	bh=yqHoN0/B7kB4uVVOu+NW/uh2AcmRAs1ftzDdzQp4n00=;
+	s=arc-20240116; t=1776825238; c=relaxed/simple;
+	bh=jYrebEGyLACqbZL/w3y9a7O0xWgw6FHchfvbYBMKEM0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jlj2j5Gk8H00aEuQMINC/AwZzLTXLZ9mKtuh9DRexe7aCyr4dk0d3eSTDU7TVhMj4z8+JHkNZGUe+xR+nvZuWnBjXCS8+wRORDpjEgwDRmn+rxD6n74ANhM0r9sk8FiQfizueph4wRtaiyr2+VfUa41/VI3BX5xcR1OBuzSkdSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=s+NK51tP; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=eRc/AUM1OY/zrRDaaTIkMHvLUV8piHXbpsJdlLiYBguWKJqxuG3TGFqsq1wxmq6GXDVY6FYCux3a7FXPS0fIrqo1YEfP/j/2Gj7QlIELF8mcooRiI3IzjVnhuPpUEyGzAtv5NEvfvoN7kJyJtUqFpGvaAoIkypaeJcVkVmQ90MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GgLzpdJZ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s+NK51tP"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GgLzpdJZ"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BD44420B6F15;
-	Tue, 21 Apr 2026 19:33:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BD44420B6F15
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4F8A320B6F1F;
+	Tue, 21 Apr 2026 19:33:44 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4F8A320B6F1F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776825222;
-	bh=F42zVdEs44T8GRjrW0mPW72by/e2QFwD5VC6Q2hyg6E=;
+	s=default; t=1776825225;
+	bh=YnF+uI+QwqeYTK6oQpqBg7HAiFmqfGlkyQt6D84StzY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s+NK51tPdoLfcxZ6OffDm6U7IvvtWOvDL0BH4ln5pINhW0LUgQc8ibHZoufX7y6gY
-	 voDlcKrXSxemicI9qs5qJ3LSpm7jfovEK6myrTsLivNmMDyziKAsh6BhQj/wGyFFa1
-	 2DrPOCAnCFSz15t0IL1xYXUKqU0PDWO3dcKCaw6Q=
+	b=GgLzpdJZ9nmTE/p4NZSlFoqA8wfROdvtb29VmC5gy4u/g+sAFKx15pHMNK0ZG8yfE
+	 ZZXvc8Tcv/AFHSLs7vfDcTEqxfvehzsr5Ba8763F99tj78RMpsTTOAbzlpVQ1i8sAI
+	 YdWhJVQ0mYd+YLMldvIq5xIVa5h4ubRqYaMgZAfk=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -56,9 +56,9 @@ Cc: kys@microsoft.com,
 	kwilczynski@kernel.org,
 	bhelgaas@google.com,
 	arnd@arndb.de
-Subject: [PATCH V1 04/13] mshv: Provide a way to get partition id if running in a VMM process
-Date: Tue, 21 Apr 2026 19:32:30 -0700
-Message-ID: <20260422023239.1171963-5-mrathor@linux.microsoft.com>
+Subject: [PATCH V1 06/13] mshv: Implement mshv bridge device for VFIO
+Date: Tue, 21 Apr 2026 19:32:32 -0700
+Message-ID: <20260422023239.1171963-7-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
 References: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
@@ -70,95 +70,263 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Many PCI passthru related hypercalls require partition id of the target
-guest. Guests are actually managed by MSHV driver and the partition id
-is only maintained there. Add a field in the partition struct in MSHV
-driver to save the tgid of the VMM process creating the partition,
-and add a function there to retrieve partition id if current process
-is a VMM process.
+Add a new file to implement VFIO-MSHV bridge pseudo device. These
+functions are called in the VFIO framework, and credits to kvm/vfio.c
+as this file was adapted from it.
 
+Co-developed-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 ---
- drivers/hv/mshv_root.h         |  1 +
- drivers/hv/mshv_root_main.c    | 22 ++++++++++++++++++++++
- include/asm-generic/mshyperv.h |  5 +++++
- 3 files changed, 28 insertions(+)
+ drivers/hv/Makefile       |   3 +-
+ drivers/hv/mshv_vfio.c    | 211 ++++++++++++++++++++++++++++++++++++++
+ include/uapi/linux/mshv.h |   1 +
+ 3 files changed, 214 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/hv/mshv_vfio.c
 
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 1f086dcb7aa1..a85c24dcc701 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -138,6 +138,7 @@ struct mshv_partition {
- 
- 	struct mshv_girq_routing_table __rcu *pt_girq_tbl;
- 	u64 isolation_type;
-+	pid_t pt_vmm_tgid;
- 	bool import_completed;
- 	bool pt_initialized;
- #if IS_ENABLED(CONFIG_DEBUG_FS)
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index bd1359eb58dd..02c107458be9 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -1908,6 +1908,27 @@ mshv_partition_release(struct inode *inode, struct file *filp)
- 	return 0;
- }
- 
-+/* Given a process tgid, return partition id if it is a VMM process */
-+u64 mshv_current_partid(void)
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 888a748cc7cb..9ab6fc254c38 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -14,7 +14,8 @@ hv_vmbus-y := vmbus_drv.o \
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
+ mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o mshv_irq.o \
+-	       mshv_root_hv_call.o mshv_portid_table.o mshv_regions.o
++	       mshv_root_hv_call.o mshv_portid_table.o mshv_regions.o  \
++               mshv_vfio.o
+ mshv_root-$(CONFIG_DEBUG_FS) += mshv_debugfs.o
+ mshv_root-$(CONFIG_TRACEPOINTS) += mshv_trace.o
+ mshv_vtl-y := mshv_vtl_main.o
+diff --git a/drivers/hv/mshv_vfio.c b/drivers/hv/mshv_vfio.c
+new file mode 100644
+index 000000000000..00a97920e25b
+--- /dev/null
++++ b/drivers/hv/mshv_vfio.c
+@@ -0,0 +1,211 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * VFIO-MSHV bridge pseudo device
++ *
++ * Heavily inspired by the VFIO-KVM bridge pseudo device.
++ */
++#include <linux/errno.h>
++#include <linux/file.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/vfio.h>
++#include <asm/mshyperv.h>
++
++#include "mshv.h"
++#include "mshv_root.h"
++
++struct mshv_vfio_file {
++	struct list_head node;
++	struct file *file;	/* list of struct mshv_vfio_file */
++};
++
++struct mshv_vfio {
++	struct list_head file_list;
++	struct mutex lock;
++};
++
++static bool mshv_vfio_file_is_valid(struct file *file)
 +{
-+	struct mshv_partition *pt;
-+	int i;
-+	u64 ret_ptid = HV_PARTITION_ID_INVALID;
++	bool (*fn)(struct file *file);
++	bool ret;
 +
-+	rcu_read_lock();
++	fn = symbol_get(vfio_file_is_valid);
++	if (!fn)
++		return false;
 +
-+	hash_for_each_rcu(mshv_root.pt_htable, i, pt, pt_hnode) {
-+		if (pt->pt_vmm_tgid == current->tgid) {
-+			ret_ptid = pt->pt_id;
-+			break;
++	ret = fn(file);
++
++	symbol_put(vfio_file_is_valid);
++
++	return ret;
++}
++
++static long mshv_vfio_file_add(struct mshv_device *mshvdev, unsigned int fd)
++{
++	struct mshv_vfio *mshv_vfio = mshvdev->device_private;
++	struct mshv_vfio_file *mvf;
++	struct file *filp;
++	long ret = 0;
++
++	filp = fget(fd);
++	if (!filp)
++		return -EBADF;
++
++	/* Ensure the FD is a vfio FD. */
++	if (!mshv_vfio_file_is_valid(filp)) {
++		ret = -EINVAL;
++		goto out_fput;
++	}
++
++	mutex_lock(&mshv_vfio->lock);
++
++	list_for_each_entry(mvf, &mshv_vfio->file_list, node) {
++		if (mvf->file == filp) {
++			ret = -EEXIST;
++			goto out_unlock;
 +		}
 +	}
 +
-+	rcu_read_unlock();
-+	return ret_ptid;
-+}
-+EXPORT_SYMBOL_GPL(mshv_current_partid);
++	mvf = kzalloc(sizeof(*mvf), GFP_KERNEL_ACCOUNT);
++	if (!mvf) {
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
 +
- static int
- add_partition(struct mshv_partition *partition)
- {
-@@ -2073,6 +2094,7 @@ mshv_ioctl_create_partition(void __user *user_arg, struct device *module_dev)
- 		goto cleanup_irq_srcu;
- 
- 	partition->pt_id = pt_id;
-+	partition->pt_vmm_tgid = current->tgid;
- 
- 	ret = add_partition(partition);
- 	if (ret)
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index bf601d67cecb..e8cbc4e3f7ad 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -350,6 +350,7 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
- int hv_call_notify_all_processors_started(void);
- bool hv_lp_exists(u32 lp_index);
- int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
-+u64 mshv_current_partid(void);
- 
- #else /* CONFIG_MSHV_ROOT */
- static inline bool hv_root_partition(void) { return false; }
-@@ -380,6 +381,10 @@ static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u3
- {
- 	return -EOPNOTSUPP;
- }
-+static inline u64 mshv_current_partid(void)
-+{
-+	return HV_PARTITION_ID_INVALID;
++	mvf->file = get_file(filp);
++	list_add_tail(&mvf->node, &mshv_vfio->file_list);
++
++out_unlock:
++	mutex_unlock(&mshv_vfio->lock);
++out_fput:
++	fput(filp);
++	return ret;
 +}
- #endif /* CONFIG_MSHV_ROOT */
++
++static long mshv_vfio_file_del(struct mshv_device *mshvdev, unsigned int fd)
++{
++	struct mshv_vfio *mshv_vfio = mshvdev->device_private;
++	struct mshv_vfio_file *mvf;
++	long ret;
++
++	CLASS(fd, f)(fd);
++
++	if (fd_empty(f))
++		return -EBADF;
++
++	ret = -ENOENT;
++	mutex_lock(&mshv_vfio->lock);
++
++	list_for_each_entry(mvf, &mshv_vfio->file_list, node) {
++		if (mvf->file != fd_file(f))
++			continue;
++
++		list_del(&mvf->node);
++		fput(mvf->file);
++		kfree(mvf);
++		ret = 0;
++		break;
++	}
++
++	mutex_unlock(&mshv_vfio->lock);
++	return ret;
++}
++
++static long mshv_vfio_set_file(struct mshv_device *mshvdev, long attr,
++			      void __user *arg)
++{
++	int32_t __user *argp = arg;
++	int32_t fd;
++
++	switch (attr) {
++	case MSHV_DEV_VFIO_FILE_ADD:
++		if (get_user(fd, argp))
++			return -EFAULT;
++		return mshv_vfio_file_add(mshvdev, fd);
++
++	case MSHV_DEV_VFIO_FILE_DEL:
++		if (get_user(fd, argp))
++			return -EFAULT;
++		return mshv_vfio_file_del(mshvdev, fd);
++	}
++
++	return -ENXIO;
++}
++
++static long mshv_vfio_set_attr(struct mshv_device *mshvdev,
++			      struct mshv_device_attr *attr)
++{
++	switch (attr->group) {
++	case MSHV_DEV_VFIO_FILE:
++		return mshv_vfio_set_file(mshvdev, attr->attr,
++					  u64_to_user_ptr(attr->addr));
++	}
++
++	return -ENXIO;
++}
++
++static long mshv_vfio_has_attr(struct mshv_device *mshvdev,
++			      struct mshv_device_attr *attr)
++{
++	switch (attr->group) {
++	case MSHV_DEV_VFIO_FILE:
++		switch (attr->attr) {
++		case MSHV_DEV_VFIO_FILE_ADD:
++		case MSHV_DEV_VFIO_FILE_DEL:
++			return 0;
++		}
++
++		break;
++	}
++
++	return -ENXIO;
++}
++
++static long mshv_vfio_create_device(struct mshv_device *mshvdev)
++{
++	struct mshv_device *tmp;
++	struct mshv_vfio *mshv_vfio;
++
++	/* Only one VFIO "device" per VM */
++	hlist_for_each_entry(tmp, &mshvdev->device_pt->pt_devices,
++			     device_ptnode)
++		if (tmp->device_ops == &mshv_vfio_device_ops)
++			return -EBUSY;
++
++	mshv_vfio = kzalloc(sizeof(*mshv_vfio), GFP_KERNEL_ACCOUNT);
++	if (mshv_vfio == NULL)
++		return -ENOMEM;
++
++	INIT_LIST_HEAD(&mshv_vfio->file_list);
++	mutex_init(&mshv_vfio->lock);
++
++	mshvdev->device_private = mshv_vfio;
++
++	return 0;
++}
++
++/* This is called from mshv_device_fop_release() */
++static void mshv_vfio_release_device(struct mshv_device *mshvdev)
++{
++	struct mshv_vfio *mv = mshvdev->device_private;
++	struct mshv_vfio_file *mvf, *tmp;
++
++	list_for_each_entry_safe(mvf, tmp, &mv->file_list, node) {
++		fput(mvf->file);
++		list_del(&mvf->node);
++		kfree(mvf);
++	}
++
++	kfree(mv);
++	kfree(mshvdev);
++}
++
++struct mshv_device_ops mshv_vfio_device_ops = {
++	.device_name = "mshv-vfio",
++	.device_create = mshv_vfio_create_device,
++	.device_release = mshv_vfio_release_device,
++	.device_set_attr = mshv_vfio_set_attr,
++	.device_has_attr = mshv_vfio_has_attr,
++};
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 4373a8243951..6404e8a98237 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -254,6 +254,7 @@ struct mshv_root_hvcall {
+ #define MSHV_GET_GPAP_ACCESS_BITMAP	_IOWR(MSHV_IOCTL, 0x06, struct mshv_gpap_access_bitmap)
+ /* Generic hypercall */
+ #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07, struct mshv_root_hvcall)
++#define MSHV_CREATE_DEVICE             _IOWR(MSHV_IOCTL, 0x08, struct mshv_create_device)
  
- static inline int hv_deposit_memory(u64 partition_id, u64 status)
+ /*
+  ********************************
 -- 
 2.51.2.vfs.0.1
 
