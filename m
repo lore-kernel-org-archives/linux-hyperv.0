@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6F438737F;
-	Wed, 22 Apr 2026 02:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769D338AC7E;
+	Wed, 22 Apr 2026 02:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776825244; cv=none; b=bdlkaatiBgs1X0SuKsjs6nJO4S3d5Ke7ky8iWs/PCR7y/im9AktI7ATXgKEPdgniGvgC07v0uXupIbzmdBSiR59TuPS0tFphwmcoM7x+xUpriw9QlW2z+MYbYl7dTcOaHHLdFvN3+p6EuZhBCXSuOFbIGw0toucFi3pJUDHsfEM=
+	t=1776825253; cv=none; b=N5SacK5SaWWHaAs+E4J2UK0Mwd8ZWiiYiNAUpCbUwZJJH17ske5Dcx/2Hwh18Xc1HQ6jRRwFiyWYBzWhY3skyvkXmxjDVGWNgaC/hiXiluu1imbJc34eQPTsoaGUKB3kpqxTwwZRtNiEXT6ZXaCFayhuk8beAme2N0Rwsm6p1Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776825244; c=relaxed/simple;
-	bh=3p+UYzYAVK6Oc1T3Ui1NuwCE4yM8MDdRlrXl61kkDDE=;
+	s=arc-20240116; t=1776825253; c=relaxed/simple;
+	bh=3TNU4EMnv17LluIqrnkhvD8xOvL+YdsPt3gnwRHpmUc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OrNBcvrSWcmI5ejHh0qN+42OOBIdPjWI1BVOT5HvQR+5VS8I7dofSSW+5x9sdKB+UuLefOqeoGOOgIbxJxWZQGAu5GpAGIkElfBoMXaUME3AIRqAoMJ71eEBQjeRH2AvFDffjaMcacbdSR/RbcWsXEisVfxl3DMXANGR7SPqnT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Pc0TBr6d; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=kTUqVjg/NXv0brKByuOWEFH/ohnfMAiBuTbIZFUCxUgxde3JelU8C4wNXvH9geMOR0mxGTQWEswvHy2BfGI+VW+4jercaq5050ZFq+M1rNe/X/smlfImoxsKADf1LIz6QJp81hkMh3QFkfZEuVGHY1ONk2zl3tIL6kEqpn94Mgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YViEiMXm; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Pc0TBr6d"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YViEiMXm"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7D62C20B6F01;
-	Tue, 21 Apr 2026 19:33:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7D62C20B6F01
+	by linux.microsoft.com (Postfix) with ESMTPSA id CB81720B6F08;
+	Tue, 21 Apr 2026 19:33:57 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CB81720B6F08
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776825228;
-	bh=o6ztznKN0i+oDxkVKgM3YRDnCNaOjwDWRVoXxAfAsww=;
+	s=default; t=1776825238;
+	bh=84awl3Z2Kbawc6FZaMJAbg5OX/GvsOXiTuFqfIzdbWs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Pc0TBr6dRCkXuecEpzOQW9DZK1BlT8DoPhItNDPwLPiilJpMdJ46A+h4qz0zVtPMs
-	 m7eaU3/0fYsOx5Fo+aJzdGgMUH4F5VTXRLhFPExrpYpbyDUWJi3Wxr8+M1gkoHtj6O
-	 /TaNasCwXiWRoz8aGA8N8ODVTgf6l41putV/KTAA=
+	b=YViEiMXm980dK9+OXkB0Jxegh6wk9Bxkhn8VP0IxBr0DaR7ZjYCu90PMX7OVW6hbF
+	 ixwXK4YlP+caCujsCD3EdpL2Lqb+QNfYsnV1w1SZtBZIbILsTmhuU1Mrh2APSmKAcL
+	 J0vXWvQm+zFvJ+7eTv+aJ0j+7Zb4sAp9lzfAKkKA=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -56,9 +56,9 @@ Cc: kys@microsoft.com,
 	kwilczynski@kernel.org,
 	bhelgaas@google.com,
 	arnd@arndb.de
-Subject: [PATCH V1 08/13] PCI: hv: rename hv_compose_msi_msg to hv_vmbus_compose_msi_msg
-Date: Tue, 21 Apr 2026 19:32:34 -0700
-Message-ID: <20260422023239.1171963-9-mrathor@linux.microsoft.com>
+Subject: [PATCH V1 12/13] mshv: Populate mmio mappings for PCI passthru
+Date: Tue, 21 Apr 2026 19:32:38 -0700
+Message-ID: <20260422023239.1171963-13-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
 References: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
@@ -70,231 +70,187 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Main change here is to rename hv_compose_msi_msg to
-hv_vmbus_compose_msi_msg as we introduce hv_compose_msi_msg in upcoming
-patches that builds MSI messages for both VMBus and non-VMBus cases. VMBus
-is not used on baremetal root partition for example. While at it, replace
-spaces with tabs and fix some formatting involving excessive line wraps.
+Upon guest access, in case of missing mmio mapping, the hypervisor
+generates an unmapped gpa intercept. In this path, lookup the PCI
+resource pfn for the guest gpa, and ask the hypervisor to map it
+via hypercall. The PCI resource pfn is maintained by the VFIO driver,
+and obtained via fixup_user_fault call (similar to KVM).
 
-There is no functional change.
+Also, VFIO no longer puts the mmio pfn in vma->vm_pgoff. So, remove
+code that is using it to map mmio space. It is broken and will cause
+panic.
 
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 ---
- drivers/pci/controller/pci-hyperv.c | 95 +++++++++++++++--------------
- 1 file changed, 48 insertions(+), 47 deletions(-)
+ drivers/hv/mshv_root_main.c | 113 ++++++++++++++++++++++++++++++------
+ 1 file changed, 96 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index cfc8fa403dad..ed6b399afc80 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -30,7 +30,7 @@
-  * function's configuration space is zero.
-  *
-  * The rest of this driver mostly maps PCI concepts onto underlying Hyper-V
-- * facilities.  For instance, the configuration space of a function exposed
-+ * facilities.	For instance, the configuration space of a function exposed
-  * by Hyper-V is mapped into a single page of memory space, and the
-  * read and write handlers for config space must be aware of this mechanism.
-  * Similarly, device setup and teardown involves messages sent to and from
-@@ -109,33 +109,33 @@ enum pci_message_type {
- 	/*
- 	 * Version 1.1
- 	 */
--	PCI_MESSAGE_BASE                = 0x42490000,
--	PCI_BUS_RELATIONS               = PCI_MESSAGE_BASE + 0,
--	PCI_QUERY_BUS_RELATIONS         = PCI_MESSAGE_BASE + 1,
--	PCI_POWER_STATE_CHANGE          = PCI_MESSAGE_BASE + 4,
-+	PCI_MESSAGE_BASE		= 0x42490000,
-+	PCI_BUS_RELATIONS		= PCI_MESSAGE_BASE + 0,
-+	PCI_QUERY_BUS_RELATIONS		= PCI_MESSAGE_BASE + 1,
-+	PCI_POWER_STATE_CHANGE		= PCI_MESSAGE_BASE + 4,
- 	PCI_QUERY_RESOURCE_REQUIREMENTS = PCI_MESSAGE_BASE + 5,
--	PCI_QUERY_RESOURCE_RESOURCES    = PCI_MESSAGE_BASE + 6,
--	PCI_BUS_D0ENTRY                 = PCI_MESSAGE_BASE + 7,
--	PCI_BUS_D0EXIT                  = PCI_MESSAGE_BASE + 8,
--	PCI_READ_BLOCK                  = PCI_MESSAGE_BASE + 9,
--	PCI_WRITE_BLOCK                 = PCI_MESSAGE_BASE + 0xA,
--	PCI_EJECT                       = PCI_MESSAGE_BASE + 0xB,
--	PCI_QUERY_STOP                  = PCI_MESSAGE_BASE + 0xC,
--	PCI_REENABLE                    = PCI_MESSAGE_BASE + 0xD,
--	PCI_QUERY_STOP_FAILED           = PCI_MESSAGE_BASE + 0xE,
--	PCI_EJECTION_COMPLETE           = PCI_MESSAGE_BASE + 0xF,
--	PCI_RESOURCES_ASSIGNED          = PCI_MESSAGE_BASE + 0x10,
--	PCI_RESOURCES_RELEASED          = PCI_MESSAGE_BASE + 0x11,
--	PCI_INVALIDATE_BLOCK            = PCI_MESSAGE_BASE + 0x12,
--	PCI_QUERY_PROTOCOL_VERSION      = PCI_MESSAGE_BASE + 0x13,
--	PCI_CREATE_INTERRUPT_MESSAGE    = PCI_MESSAGE_BASE + 0x14,
--	PCI_DELETE_INTERRUPT_MESSAGE    = PCI_MESSAGE_BASE + 0x15,
-+	PCI_QUERY_RESOURCE_RESOURCES	= PCI_MESSAGE_BASE + 6,
-+	PCI_BUS_D0ENTRY			= PCI_MESSAGE_BASE + 7,
-+	PCI_BUS_D0EXIT			= PCI_MESSAGE_BASE + 8,
-+	PCI_READ_BLOCK			= PCI_MESSAGE_BASE + 9,
-+	PCI_WRITE_BLOCK			= PCI_MESSAGE_BASE + 0xA,
-+	PCI_EJECT			= PCI_MESSAGE_BASE + 0xB,
-+	PCI_QUERY_STOP			= PCI_MESSAGE_BASE + 0xC,
-+	PCI_REENABLE			= PCI_MESSAGE_BASE + 0xD,
-+	PCI_QUERY_STOP_FAILED		= PCI_MESSAGE_BASE + 0xE,
-+	PCI_EJECTION_COMPLETE		= PCI_MESSAGE_BASE + 0xF,
-+	PCI_RESOURCES_ASSIGNED		= PCI_MESSAGE_BASE + 0x10,
-+	PCI_RESOURCES_RELEASED		= PCI_MESSAGE_BASE + 0x11,
-+	PCI_INVALIDATE_BLOCK		= PCI_MESSAGE_BASE + 0x12,
-+	PCI_QUERY_PROTOCOL_VERSION	= PCI_MESSAGE_BASE + 0x13,
-+	PCI_CREATE_INTERRUPT_MESSAGE	= PCI_MESSAGE_BASE + 0x14,
-+	PCI_DELETE_INTERRUPT_MESSAGE	= PCI_MESSAGE_BASE + 0x15,
- 	PCI_RESOURCES_ASSIGNED2		= PCI_MESSAGE_BASE + 0x16,
- 	PCI_CREATE_INTERRUPT_MESSAGE2	= PCI_MESSAGE_BASE + 0x17,
- 	PCI_DELETE_INTERRUPT_MESSAGE2	= PCI_MESSAGE_BASE + 0x18, /* unused */
- 	PCI_BUS_RELATIONS2		= PCI_MESSAGE_BASE + 0x19,
--	PCI_RESOURCES_ASSIGNED3         = PCI_MESSAGE_BASE + 0x1A,
--	PCI_CREATE_INTERRUPT_MESSAGE3   = PCI_MESSAGE_BASE + 0x1B,
-+	PCI_RESOURCES_ASSIGNED3		= PCI_MESSAGE_BASE + 0x1A,
-+	PCI_CREATE_INTERRUPT_MESSAGE3	= PCI_MESSAGE_BASE + 0x1B,
- 	PCI_MESSAGE_MAXIMUM
- };
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 6ceb5f608589..a7864463961b 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -46,6 +46,9 @@ MODULE_DESCRIPTION("Microsoft Hyper-V root partition VMM interface /dev/mshv");
+ #define HV_VP_COUNTER_ROOT_DISPATCH_THREAD_BLOCKED 95
+ #endif
  
-@@ -1774,20 +1774,21 @@ static u32 hv_compose_msi_req_v1(
-  * via the HVCALL_RETARGET_INTERRUPT hypercall. But the choice of dummy vCPU is
-  * not irrelevant because Hyper-V chooses the physical CPU to handle the
-  * interrupts based on the vCPU specified in message sent to the vPCI VSP in
-- * hv_compose_msi_msg(). Hyper-V's choice of pCPU is not visible to the guest,
-- * but assigning too many vPCI device interrupts to the same pCPU can cause a
-- * performance bottleneck. So we spread out the dummy vCPUs to influence Hyper-V
-- * to spread out the pCPUs that it selects.
-+ * hv_vmbus_compose_msi_msg(). Hyper-V's choice of pCPU is not visible to the
-+ * guest, but assigning too many vPCI device interrupts to the same pCPU can
-+ * cause a performance bottleneck. So we spread out the dummy vCPUs to influence
-+ * Hyper-V to spread out the pCPUs that it selects.
-  *
-  * For the single-MSI and MSI-X cases, it's OK for hv_compose_msi_req_get_cpu()
-  * to always return the same dummy vCPU, because a second call to
-- * hv_compose_msi_msg() contains the "real" vCPU, causing Hyper-V to choose a
-- * new pCPU for the interrupt. But for the multi-MSI case, the second call to
-- * hv_compose_msi_msg() exits without sending a message to the vPCI VSP, so the
-- * original dummy vCPU is used. This dummy vCPU must be round-robin'ed so that
-- * the pCPUs are spread out. All interrupts for a multi-MSI device end up using
-- * the same pCPU, even though the vCPUs will be spread out by later calls
-- * to hv_irq_unmask(), but that is the best we can do now.
-+ * hv_vmbus_compose_msi_msg() contains the "real" vCPU, causing Hyper-V to
-+ * choose a new pCPU for the interrupt. But for the multi-MSI case, the second
-+ * call to hv_vmbus_compose_msi_msg() exits without sending a message to the
-+ * vPCI VSP, so the original dummy vCPU is used. This dummy vCPU must be
-+ * round-robin'ed so that the pCPUs are spread out. All interrupts for a
-+ * multi-MSI device end up using the same pCPU, even though the vCPUs will be
-+ * spread out by later calls to hv_irq_unmask(), but that is the best we can do
-+ * now.
-  *
-  * With Hyper-V in Nov 2022, the HVCALL_RETARGET_INTERRUPT hypercall does *not*
-  * cause Hyper-V to reselect the pCPU based on the specified vCPU. Such an
-@@ -1862,7 +1863,7 @@ static u32 hv_compose_msi_req_v3(
++static bool hv_nofull_mmio;	/* don't map entire mmio region upon fault */
++module_param(hv_nofull_mmio, bool, 0644);
++
+ struct mshv_root mshv_root;
+ 
+ enum hv_scheduler_type hv_scheduler_type;
+@@ -641,6 +644,94 @@ mshv_partition_region_by_gfn_get(struct mshv_partition *p, u64 gfn)
+ 	return region;
  }
  
++/*
++ * Check if uaddr is for mmio range. If yes, return 0 with mmio_pfn filled in
++ * else just return -errno.
++ */
++static int mshv_chk_get_mmio_start_pfn(u64 uaddr, u64 *mmio_pfnp)
++{
++	struct vm_area_struct *vma;
++	bool is_mmio;
++	struct follow_pfnmap_args pfnmap_args;
++	int rc = -EINVAL;
++
++	mmap_read_lock(current->mm);
++	vma = vma_lookup(current->mm, uaddr);
++	is_mmio = vma ? !!(vma->vm_flags & (VM_IO | VM_PFNMAP)) : 0;
++	if (!is_mmio)
++		goto unlock_mmap_out;
++
++	pfnmap_args.vma = vma;
++	pfnmap_args.address = uaddr;
++
++	rc = follow_pfnmap_start(&pfnmap_args);
++	if (rc) {
++		rc = fixup_user_fault(current->mm, uaddr, FAULT_FLAG_WRITE,
++				      NULL);
++		if (rc)
++			goto unlock_mmap_out;
++
++		rc = follow_pfnmap_start(&pfnmap_args);
++		if (rc)
++			goto unlock_mmap_out;
++	}
++
++	*mmio_pfnp = pfnmap_args.pfn;
++	follow_pfnmap_end(&pfnmap_args);
++
++unlock_mmap_out:
++	mmap_read_unlock(current->mm);
++	return rc;
++}
++
++/*
++ * Check if the unmapped gpa belongs to mmio space. If yes, resolve it.
++ *
++ * Returns: True if valid mmio intercept and handled, else false.
++ */
++static bool mshv_handle_unmapped_gpa(struct mshv_vp *vp)
++{
++	struct hv_message *hvmsg = vp->vp_intercept_msg_page;
++	u64 gfn, uaddr, mmio_spa, numpgs;
++	struct mshv_mem_region *rg;
++	int rc = -EINVAL;
++	struct mshv_partition *pt = vp->vp_partition;
++#if defined(CONFIG_X86_64)
++	struct hv_x64_memory_intercept_message *msg =
++		(struct hv_x64_memory_intercept_message *)hvmsg->u.payload;
++#elif defined(CONFIG_ARM64)
++	struct hv_arm64_memory_intercept_message *msg =
++		(struct hv_arm64_memory_intercept_message *)hvmsg->u.payload;
++#endif
++
++	gfn = msg->guest_physical_address >> HV_HYP_PAGE_SHIFT;
++
++	rg = mshv_partition_region_by_gfn_get(pt, gfn);
++	if (rg == NULL)
++		return false;
++	if (rg->mreg_type != MSHV_REGION_TYPE_MMIO)
++		goto put_rg_out;
++
++	uaddr = rg->start_uaddr + ((gfn - rg->start_gfn) << HV_HYP_PAGE_SHIFT);
++
++	rc = mshv_chk_get_mmio_start_pfn(uaddr, &mmio_spa);
++	if (rc)
++		goto put_rg_out;
++
++	if (!hv_nofull_mmio) {		/* default case */
++		mmio_spa = mmio_spa - (gfn - rg->start_gfn);
++		gfn = rg->start_gfn;
++		numpgs = rg->nr_pages;
++	} else
++		numpgs = 1;
++
++	rc = hv_call_map_mmio_pages(pt->pt_id, gfn, mmio_spa, numpgs);
++
++put_rg_out:
++	mshv_region_put(rg);
++	return rc == 0;
++}
++
  /**
-- * hv_compose_msi_msg() - Supplies a valid MSI address/data
-+ * hv_vmbus_compose_msi_msg() - Supplies a valid MSI address/data
-  * @data:	Everything about this MSI
-  * @msg:	Buffer that is filled in by this function
-  *
-@@ -1872,7 +1873,7 @@ static u32 hv_compose_msi_req_v3(
-  * response supplies a data value and address to which that data
-  * should be written to trigger that interrupt.
-  */
--static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
-+static void hv_vmbus_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+  * mshv_handle_gpa_intercept - Handle GPA (Guest Physical Address) intercepts.
+  * @vp: Pointer to the virtual processor structure.
+@@ -699,6 +790,8 @@ static bool mshv_handle_gpa_intercept(struct mshv_vp *vp)
+ static bool mshv_vp_handle_intercept(struct mshv_vp *vp)
  {
- 	struct hv_pcibus_device *hbus;
- 	struct vmbus_channel *channel;
-@@ -1954,7 +1955,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 			return;
- 		}
- 		/*
--		 * The vector we select here is a dummy value.  The correct
-+		 * The vector we select here is a dummy value.	The correct
- 		 * value gets sent to the hypervisor in unmask().  This needs
- 		 * to be aligned with the count, and also not zero.  Multi-msi
- 		 * is powers of 2 up to 32, so 32 will always work here.
-@@ -2046,7 +2047,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 
- 		/*
- 		 * Make sure that the ring buffer data structure doesn't get
--		 * freed while we dereference the ring buffer pointer.  Test
-+		 * freed while we dereference the ring buffer pointer.	Test
- 		 * for the channel's onchannel_callback being NULL within a
- 		 * sched_lock critical section.  See also the inline comments
- 		 * in vmbus_reset_channel_cb().
-@@ -2146,7 +2147,7 @@ static const struct msi_parent_ops hv_pcie_msi_parent_ops = {
- /* HW Interrupt Chip Descriptor */
- static struct irq_chip hv_msi_irq_chip = {
- 	.name			= "Hyper-V PCIe MSI",
--	.irq_compose_msi_msg	= hv_compose_msi_msg,
-+	.irq_compose_msi_msg	= hv_vmbus_compose_msi_msg,
- 	.irq_set_affinity	= irq_chip_set_affinity_parent,
- 	.irq_ack		= irq_chip_ack_parent,
- 	.irq_eoi		= irq_chip_eoi_parent,
-@@ -2158,8 +2159,8 @@ static int hv_pcie_domain_alloc(struct irq_domain *d, unsigned int virq, unsigne
- 			       void *arg)
- {
- 	/*
--	 * TODO: Allocating and populating struct tran_int_desc in hv_compose_msi_msg()
--	 * should be moved here.
-+	 * TODO: Allocating and populating struct tran_int_desc in
-+	 *	 hv_vmbus_compose_msi_msg() should be moved here.
- 	 */
- 	int ret;
- 
-@@ -2226,7 +2227,7 @@ static int hv_pcie_init_irq_domain(struct hv_pcibus_device *hbus)
- /**
-  * get_bar_size() - Get the address space consumed by a BAR
-  * @bar_val:	Value that a BAR returned after -1 was written
-- *              to it.
-+ *		to it.
-  *
-  * This function returns the size of the BAR, rounded up to 1
-  * page.  It has to be rounded up because the hypervisor's page
-@@ -2580,7 +2581,7 @@ static void q_resource_requirements(void *context, struct pci_response *resp,
-  * new_pcichild_device() - Create a new child device
-  * @hbus:	The internal struct tracking this root PCI bus.
-  * @desc:	The information supplied so far from the host
-- *              about the device.
-+ *		about the device.
-  *
-  * This function creates the tracking structure for a new child
-  * device and kicks off the process of figuring out what it is.
-@@ -3105,7 +3106,7 @@ static void hv_pci_onchannelcallback(void *context)
- 			 * sure that the packet pointer is still valid during the call:
- 			 * here 'valid' means that there's a task still waiting for the
- 			 * completion, and that the packet data is still on the waiting
--			 * task's stack.  Cf. hv_compose_msi_msg().
-+			 * task's stack.  Cf. hv_vmbus_compose_msi_msg().
- 			 */
- 			comp_packet->completion_func(comp_packet->compl_ctxt,
- 						     response,
-@@ -3422,7 +3423,7 @@ static int hv_allocate_config_window(struct hv_pcibus_device *hbus)
- 	 * vmbus_allocate_mmio() gets used for allocating both device endpoint
- 	 * resource claims (those which cannot be overlapped) and the ranges
- 	 * which are valid for the children of this bus, which are intended
--	 * to be overlapped by those children.  Set the flag on this claim
-+	 * to be overlapped by those children.	Set the flag on this claim
- 	 * meaning that this region can't be overlapped.
- 	 */
- 
-@@ -4069,7 +4070,7 @@ static int hv_pci_restore_msi_msg(struct pci_dev *pdev, void *arg)
- 		irq_data = irq_get_irq_data(entry->irq);
- 		if (WARN_ON_ONCE(!irq_data))
- 			return -EINVAL;
--		hv_compose_msi_msg(irq_data, &entry->msg);
-+		hv_vmbus_compose_msi_msg(irq_data, &entry->msg);
+ 	switch (vp->vp_intercept_msg_page->header.message_type) {
++	case HVMSG_UNMAPPED_GPA:
++		return mshv_handle_unmapped_gpa(vp);
+ 	case HVMSG_GPA_INTERCEPT:
+ 		return mshv_handle_gpa_intercept(vp);
  	}
- 	return 0;
+@@ -1322,16 +1415,8 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
  }
-@@ -4077,7 +4078,7 @@ static int hv_pci_restore_msi_msg(struct pci_dev *pdev, void *arg)
+ 
  /*
-  * Upon resume, pci_restore_msi_state() -> ... ->  __pci_write_msi_msg()
-  * directly writes the MSI/MSI-X registers via MMIO, but since Hyper-V
-- * doesn't trap and emulate the MMIO accesses, here hv_compose_msi_msg()
-+ * doesn't trap and emulate the MMIO accesses, here hv_vmbus_compose_msi_msg()
-  * must be used to ask Hyper-V to re-create the IOMMU Interrupt Remapping
-  * Table entries.
+- * This maps two things: guest RAM and for pci passthru mmio space.
+- *
+- * mmio:
+- *  - vfio overloads vm_pgoff to store the mmio start pfn/spa.
+- *  - Two things need to happen for mapping mmio range:
+- *	1. mapped in the uaddr so VMM can access it.
+- *	2. mapped in the hwpt (gfn <-> mmio phys addr) so guest can access it.
+- *
+- *   This function takes care of the second. The first one is managed by vfio,
+- *   and hence is taken care of via vfio_pci_mmap_fault().
++ * This is called for both user ram and mmio space. The mmio space is not
++ * mapped here, but later during intercept on demand.
   */
+ static long
+ mshv_map_user_memory(struct mshv_partition *partition,
+@@ -1340,7 +1425,6 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 	struct mshv_mem_region *region;
+ 	struct vm_area_struct *vma;
+ 	bool is_mmio;
+-	ulong mmio_pfn;
+ 	long ret;
+ 
+ 	if (mem->flags & BIT(MSHV_SET_MEM_BIT_UNMAP) ||
+@@ -1350,7 +1434,6 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 	mmap_read_lock(current->mm);
+ 	vma = vma_lookup(current->mm, mem->userspace_addr);
+ 	is_mmio = vma ? !!(vma->vm_flags & (VM_IO | VM_PFNMAP)) : 0;
+-	mmio_pfn = is_mmio ? vma->vm_pgoff : 0;
+ 	mmap_read_unlock(current->mm);
+ 
+ 	if (!vma)
+@@ -1376,11 +1459,7 @@ mshv_map_user_memory(struct mshv_partition *partition,
+ 					    region->nr_pages,
+ 					    HV_MAP_GPA_NO_ACCESS, NULL);
+ 		break;
+-	case MSHV_REGION_TYPE_MMIO:
+-		ret = hv_call_map_mmio_pages(partition->pt_id,
+-					     region->start_gfn,
+-					     mmio_pfn,
+-					     region->nr_pages);
++	default:
+ 		break;
+ 	}
+ 
 -- 
 2.51.2.vfs.0.1
 
