@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1611E3806D9;
-	Wed, 22 Apr 2026 02:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D578D37CD54;
+	Wed, 22 Apr 2026 02:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776825220; cv=none; b=DGZkrvtIaGmjlszn2lj7/2Lu1Tdy9YqvUSynddtmQG+OeAABssPDya2OrSizXRnAupLBoY1kv/T5bBSZ2CwciEfENk0sP/Jjp7GkMOb4OUtRc9SQKw/2oVO7CISDnFUFuqXHdK8O8u/YmaTQs90wV20tcV05AbVUoP/q3Q50p8w=
+	t=1776825230; cv=none; b=c0NV1G5mhRAiXPuDG66LV/JjfQ2/Z1D2SjmK9yZ+aUbCNoJT97YlsFwgjpYy2NNEzp36g4kDwLjwk6xIJLf4AfXtoRfyG90nb6WF7nfP1H2HM1ibxKk/RwkCh7dSfhEWhEOpXm2zzUUhNlJvvb0EMBGVjjRirQQQZgN6jC0gNA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776825220; c=relaxed/simple;
-	bh=GmhkLwfa6h6rSszM+OfJhO9L6pKs23/XT/lrbTGZNX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=suHVzafvR38GbiJzykcBt+vLW/QJifciO2fdeAFN+Jg/D6mKPKeQncb8vRZqV2/hRkpfsarvbE1Rwa5PqPMk2eXSA+N9lt8gpxK+qzgzKBxbPqPW+HbBNuSLYFcf5rYoumBiHA61rq4S+8a5KAiG9bwKGkGJxqXRrhUwFt8+Uaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lUQ+NBFU; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1776825230; c=relaxed/simple;
+	bh=Z3Tt+i4ryjnf6ysGYVY1XRQ8YBFCce5JBQ1Bz2twCCw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NKKAy9n35dTs2v+NqsyquEkpoMWQa00CJTcvRBycrcL+XzTZ3rmZLGSQD0tw8eOUnx1DT9HGoZr1UH4hRhDVgIV772LW0p9Vz+R3FJ69WWW8yqEJqo4y51RqXaRsbcevrYxERueJyb77n/9rNPvCPldK2UhuC8CloEXaTyxYY2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UtQVZhp7; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lUQ+NBFU"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UtQVZhp7"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id AB52020B6F01;
-	Tue, 21 Apr 2026 19:33:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AB52020B6F01
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8A90C20B6F12;
+	Tue, 21 Apr 2026 19:33:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8A90C20B6F12
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776825209;
-	bh=O+mpjpLBLfXxNngTSPHR4JXlp5P2eN9Wrs/JOmLiTYs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=lUQ+NBFUMYhMiCKp5hJ4csDmWh7uDXFoFxm83NvWZ/IwJ9a5RxenB0Yd0zUaoi1pw
-	 3yv9M2bPsfObV813+Lm1OuK3i4jcBXSJHx2cUn1pSWMy43jtuQH42gb29McJePj3lT
-	 Ej8Q0Cx2NZEoOqbrcfAhwc/jLbsHBVnf65GmjuN0=
+	s=default; t=1776825221;
+	bh=ONiMZWsb8/8IhaBjkgi5kkshWDnWtbTkSXDdbFle5ZE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UtQVZhp7fv0i6HpN1CrtxqNecqOwBHsibTl5ydNBUd1KFghrBaPB7lDZCCY55sv9D
+	 oNNyybQ/srUjUncnRi/0WZ0w8/XwbirBCbC+9DwEvhFb8zKCNNLrnZAmAZxGSUJVWV
+	 WQLsQ0zLRlycUT/HH1rx3r4W0SE6E7e4zex1aM5Q=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -55,10 +56,12 @@ Cc: kys@microsoft.com,
 	kwilczynski@kernel.org,
 	bhelgaas@google.com,
 	arnd@arndb.de
-Subject: [PATCH V1 00/13] PCI passthru on Hyper-V (Part I)
-Date: Tue, 21 Apr 2026 19:32:26 -0700
-Message-ID: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
+Subject: [PATCH V1 03/13] x86/hyperv: add insufficient memory support in irqdomain.c
+Date: Tue, 21 Apr 2026 19:32:29 -0700
+Message-ID: <20260422023239.1171963-4-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
+In-Reply-To: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
+References: <20260422023239.1171963-1-mrathor@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -67,104 +70,94 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement passthru of PCI devices to unprivileged virtual machines
-(VMs) when Linux is running as a privileged VM on Microsoft Hyper-V
-hypervisor. This support is made to fit within the workings of VFIO
-framework, and any VMM needing to use it must use the VFIO subsystem.
-This supports both full device passthru and SR-IOV based VFs.
+Intermittent insufficient memory hypercall failure have been observed in
+the current map device interrupt hypercall. In case of such a failure,
+we must deposit more memory and redo the hypercall. Add support for
+that. Deposit memory needs partition id, make that a parameter to the
+map interrupt function.
 
-At a high level, the hypervisor supports traditional mapped iommu domains
-that use explicit map and unmap hypercalls for mapping and unmapping guest
-RAM into the iommu subsystem. Hyper-V also has a concept of direct attach
-devices whereby the iommu subsystem simply uses the guest HW page table
-(ept/npt/..). This series adds support for both, and both are made to
-work with the VFIO subsystem.
+Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+---
+ arch/x86/hyperv/irqdomain.c | 38 +++++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
 
-While this Part I focuses on memory mappings, upcoming Part II
-will focus on irq bypass along with some minor irq remapping 
-updates.
-
-Based on: cd9f2e7d6e5b (origin/hyperv-next)
-
-Testing:
- o Most testing done on hyperv-next:e733a9e28180 using Cloud Hypervisor (51).
- o Limited testing on : cd9f2e7d6e5b
- o Tested with impending Part II irq patches.
- o All tests involved PF passthru of devices using MSIx.
- o Following combinations were tested:
-    - L1VH(1): test 1: Mellanox ConnectX-6 Lx passthru
-               test 2: NVIDIA Tesla Tesla T4 GPU.
-               test 3: Both of above simultaneous passthru
-    - Baremetal dom0/root: All of above.
-
-(1) L1VH: this is a semi privileged VM that runs on Windows root on
-          Hyper-V, and allows users to create more child VMs.
-
-Pending: This to establish a baseline for further enhancements.
- o arm64 : some delta to make this work on arm64 (in progress).
- o device sleep/wakeup.
- o More stress testing 
- o CH reports it could not unbind vfio group upon guest shutdown. Need 
-   to reboot for now.
- o Qemu support (in progress).
-
-Changes in V1:
- o patch 1: Don't tie hyperv-irq.c to CONFIG_HYPERV_IOMMU.
- o patch 4: Redesigned to address security vulnerability found by copilot 
-            with passing tgid as a parameter.  Also, do tgid setting right 
-            after setting pt_id.
- o patch 5: Remove unused type parameter from mshv_device_ops.device_create
- o patch 7: mshv_partition_ioctl_create_device cleanup on copy_to_user.
- o patch 10: Add export of hv_build_devid_type_pci here to get rid of 
-             patch 11.
- o patch 12: Move functions to build device ids from patch 11 here for
-             the benefit of arm64. Rename file to: hyperv-iommu-root.c.
- o patch 13: removed to be made part of interrupt part II of this support.
- o patch 14: get rid of fast path to reduce review noise.
- o New (last) patch to pin ram regions if device passthru to a VM.
-
-Thanks,
--Mukesh
-
-Mukesh R (13):
-  iommu/hyperv: rename hyperv-iommu.c to hyperv-irq.c
-  x86/hyperv: cosmetic changes in irqdomain.c for readability
-  x86/hyperv: add insufficient memory support in irqdomain.c
-  mshv: Provide a way to get partition id if running in a VMM process
-  mshv: Declarations and definitions for VFIO-MSHV bridge device
-  mshv: Implement mshv bridge device for VFIO
-  mshv: Add ioctl support for MSHV-VFIO bridge device
-  PCI: hv: rename hv_compose_msi_msg to hv_vmbus_compose_msi_msg
-  mshv: Import data structs around device passthru from hyperv headers
-  PCI: hv: Build device id for a VMBus device, export PCI devid function
-  x86/hyperv: Implement hyperv virtual iommu
-  mshv: Populate mmio mappings for PCI passthru
-  mshv: pin all ram mem regions if partition has device passthru
-
- MAINTAINERS                                   |   3 +-
- arch/x86/hyperv/irqdomain.c                   | 229 +++--
- arch/x86/include/asm/mshyperv.h               |   4 +
- arch/x86/kernel/pci-dma.c                     |   2 +
- drivers/hv/Makefile                           |   3 +-
- drivers/hv/mshv_root.h                        |  26 +
- drivers/hv/mshv_root_main.c                   | 256 ++++-
- drivers/hv/mshv_vfio.c                        | 211 ++++
- drivers/iommu/Kconfig                         |   5 +-
- drivers/iommu/Makefile                        |   3 +-
- drivers/iommu/hyperv-iommu-root.c             | 899 ++++++++++++++++++
- .../iommu/{hyperv-iommu.c => hyperv-irq.c}    |   2 +-
- drivers/iommu/irq_remapping.c                 |   2 +-
- drivers/pci/controller/pci-hyperv.c           | 120 ++-
- include/asm-generic/mshyperv.h                |  34 +
- include/hyperv/hvgdk_mini.h                   |  11 +
- include/hyperv/hvhdk_mini.h                   | 112 +++
- include/linux/hyperv.h                        |   6 +
- include/uapi/linux/mshv.h                     |  31 +
- 19 files changed, 1790 insertions(+), 169 deletions(-)
- create mode 100644 drivers/hv/mshv_vfio.c
- create mode 100644 drivers/iommu/hyperv-iommu-root.c
- rename drivers/iommu/{hyperv-iommu.c => hyperv-irq.c} (99%)
-
+diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
+index b3ad50a874dc..229f986e08ea 100644
+--- a/arch/x86/hyperv/irqdomain.c
++++ b/arch/x86/hyperv/irqdomain.c
+@@ -13,8 +13,9 @@
+ #include <linux/irqchip/irq-msi-lib.h>
+ #include <asm/mshyperv.h>
+ 
+-static int hv_map_interrupt(union hv_device_id hv_devid, bool level,
+-		int cpu, int vector, struct hv_interrupt_entry *ret_entry)
++static u64 hv_map_interrupt_hcall(u64 ptid, union hv_device_id hv_devid,
++				  bool level, int cpu, int vector,
++				  struct hv_interrupt_entry *ret_entry)
+ {
+ 	struct hv_input_map_device_interrupt *input;
+ 	struct hv_output_map_device_interrupt *output;
+@@ -30,8 +31,10 @@ static int hv_map_interrupt(union hv_device_id hv_devid, bool level,
+ 
+ 	intr_desc = &input->interrupt_descriptor;
+ 	memset(input, 0, sizeof(*input));
+-	input->partition_id = hv_current_partition_id;
++
++	input->partition_id = ptid;
+ 	input->device_id = hv_devid.as_uint64;
++
+ 	intr_desc->interrupt_type = HV_X64_INTERRUPT_TYPE_FIXED;
+ 	intr_desc->vector_count = 1;
+ 	intr_desc->target.vector = vector;
+@@ -64,6 +67,28 @@ static int hv_map_interrupt(union hv_device_id hv_devid, bool level,
+ 
+ 	local_irq_restore(flags);
+ 
++	return status;
++}
++
++static int hv_map_interrupt(u64 ptid, union hv_device_id device_id, bool level,
++			    int cpu, int vector,
++			    struct hv_interrupt_entry *ret_entry)
++{
++	u64 status;
++	int rc, deposit_pgs = 16;		/* don't loop forever */
++
++	while (deposit_pgs--) {
++		status = hv_map_interrupt_hcall(ptid, device_id, level, cpu,
++						vector, ret_entry);
++
++		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY)
++			break;
++
++		rc = hv_call_deposit_pages(NUMA_NO_NODE, ptid, 1);
++		if (rc)
++			break;
++	}
++
+ 	if (!hv_result_success(status))
+ 		hv_status_err(status, "\n");
+ 
+@@ -199,8 +224,8 @@ int hv_map_msi_interrupt(struct irq_data *data,
+ 	hv_devid = hv_build_devid_type_pci(pdev);
+ 	cpu = cpumask_first(irq_data_get_effective_affinity_mask(data));
+ 
+-	return hv_map_interrupt(hv_devid, false, cpu, cfg->vector,
+-				out_entry ? out_entry : &dummy);
++	return hv_map_interrupt(hv_current_partition_id, hv_devid, false, cpu,
++				cfg->vector, out_entry ? out_entry : &dummy);
+ }
+ EXPORT_SYMBOL_GPL(hv_map_msi_interrupt);
+ 
+@@ -423,6 +448,7 @@ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int cpu, int vector,
+ 	hv_devid.device_type = HV_DEVICE_TYPE_IOAPIC;
+ 	hv_devid.ioapic.ioapic_id = (u8)ioapic_id;
+ 
+-	return hv_map_interrupt(hv_devid, level, cpu, vector, entry);
++	return hv_map_interrupt(hv_current_partition_id, hv_devid, level, cpu,
++				vector, entry);
+ }
+ EXPORT_SYMBOL_GPL(hv_map_ioapic_interrupt);
 -- 
 2.51.2.vfs.0.1
 
