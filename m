@@ -1,87 +1,98 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60C833932D3;
-	Wed, 22 Apr 2026 03:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083C2C0307;
+	Wed, 22 Apr 2026 06:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776826824; cv=none; b=WI4DQ1ck0W4zgrRSMZyZHIDkOyzv25QVTXRwakJV5FR9pWnatN5fLK46XUtORlbWJ+wlBvCuKDee4yj6tjXtdF/vxY4MRwHEChsEJtEXR+Ctm4LaEHrad0nLo9l9ZPYniHlD8c8pl/y5Mwvy1cQHLT/rKWjIFGrO2OW/E3MOW0Y=
+	t=1776839160; cv=none; b=qU2gcIxKzWQFgg6HDSxbBox843XsdvbrgZU/GLO6Oxct+6zwc7Y40kayx19U1htXZQB0tZFWrt5jest3wcRKd/DzXtnCPjy/l2wJrGTAnLz2QwPYt7S2z7kjAGqPFnadIwo4MkYnG1WakoKgkn19EcbE3olKZ0hlkLFrsKeN9Xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776826824; c=relaxed/simple;
-	bh=GFz62nBjLaicvQQSfyAdY8zYd/Jv+9UooA487pEqJXk=;
-	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=YpRynuHXBNLoE3mgVlToTF42kkVwC8fU3ZfnEByH8SzN0bNOzjSg/Y03tr5bGtfdoVb75ZlMShVs/qjf9epxJgbVveJonV8nuVT7fTmBh4hJj6taEp7oZvbjhfwdk7dIM77n8NqNpbe3Y8R+ESwIql8WlbEa997trbfpw+RPvFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VAgrf1ph; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1776839160; c=relaxed/simple;
+	bh=UIsS48hwkwg+vaA44Sv+PQoDF9ZlSMsJ/DpD9VqJkls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOfRqewLbPtQvRCD0Dr7i70TZoY+nCkTlsJcijeDmwPFYkHVwv7RYneuNyYp+cQJ87QkuDjx3GOcSnojCx0UtnEGaLSXNJM/O13BXSDHcbMz3YcIs366xD44siAF78iWoowD0R17wu8cBkKlU6GuJRgzQ+isH5Xez+qj3x0gcBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cr65nNMJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VAgrf1ph"
-Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D143E20B6F01;
-	Tue, 21 Apr 2026 20:00:13 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D143E20B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1776826813;
-	bh=bISGXlr227VNgK/TB9w7QB9Fo8TRwIAzfmgYVuFAYJ0=;
-	h=Subject:From:To:Cc:Date:From;
-	b=VAgrf1phh6XHhZ+Z6VP+rQRtZcA7/0yj3qm3293ZMzlWcR+KU7I2BtzTW9dkzgZns
-	 i2oN7+ymTN3ZzIyNTlMd5Kgn82ccuAOuudF9LFPZKdkmt2lj8EjW+BPzflVkV69cOu
-	 QGXhLKTvPFZgZqX3Csb0WXhL1lYXvDoDuONz7YBQ=
-Subject: [PATCH] mshv: Fix incorrect access type usage in GPA intercept trace
- event
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 22 Apr 2026 03:00:13 +0000
-Message-ID: 
- <177682681331.1683870.15540242284121796900.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cr65nNMJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337B6C19425;
+	Wed, 22 Apr 2026 06:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776839160;
+	bh=UIsS48hwkwg+vaA44Sv+PQoDF9ZlSMsJ/DpD9VqJkls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cr65nNMJp+WO44DD8fCyb6bZDLb50nC8eX6SskEAGCfWwnByhYd/P5RZNSxIWzwdD
+	 xSIgSrx/t+riZjgWh2X9bUS3Y5b3D/yiYxMLKQkX3N6j30F44dJLRuTnh6Bik6c/R2
+	 i2akW4NnC/ZuTFbFsV2wu2xczIGqLGZKbULmOFxIwnyvoEA71brXvq56ATyb/p3+kA
+	 9cpiB57BDW26s6byTlfuQgvA8pZkLcj4FSYOt4WpntuE+4zcH776ILLGPaH/azYBSu
+	 UOF8QgsiwCBkqQnkLGV1Qd1HDGxQa5d18B/ZC8iUs3Ua8DaXlAb09Fe+SACq0tpEfw
+	 JTA5m9771a6IQ==
+Date: Wed, 22 Apr 2026 06:25:58 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mshv: Fix incorrect access type usage in GPA intercept
+ trace event
+Message-ID: <20260422062558.GA805420@liuwe-devbox-debian-v2.local>
+References: <177682681331.1683870.15540242284121796900.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177682681331.1683870.15540242284121796900.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-The trace event was checking for HV_INTERCEPT_ACCESS_READ twice in the
-ternary operator chain instead of checking for EXECUTE, which would
-cause execute accesses to be incorrectly displayed as '?' in traces.
+On Wed, Apr 22, 2026 at 03:00:13AM +0000, Stanislav Kinsburskii wrote:
+> The trace event was checking for HV_INTERCEPT_ACCESS_READ twice in the
+> ternary operator chain instead of checking for EXECUTE, which would
+> cause execute accesses to be incorrectly displayed as '?' in traces.
+> 
+> Move the access type conversion to the TP_fast_assign section where
+> the raw value is available, rather than performing the conversion
+> during formatting. This eliminates the redundant checks and ensures
+> all access types are correctly identified and displayed.
+> 
+> Fixes: 03f7d01f699010 ("mshv: Add tracepoint for GPA intercept handling")
 
-Move the access type conversion to the TP_fast_assign section where
-the raw value is available, rather than performing the conversion
-during formatting. This eliminates the redundant checks and ensures
-all access types are correctly identified and displayed.
+This is not yet in Linus' tree.
 
-Fixes: 03f7d01f699010 ("mshv: Add tracepoint for GPA intercept handling")
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
----
- drivers/hv/mshv_trace.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I folded this into the original patch.
 
-diff --git a/drivers/hv/mshv_trace.h b/drivers/hv/mshv_trace.h
-index 6b8fa477fa3bf..e7280c47e579a 100644
---- a/drivers/hv/mshv_trace.h
-+++ b/drivers/hv/mshv_trace.h
-@@ -524,16 +524,16 @@ TRACE_EVENT(mshv_handle_gpa_intercept,
- 		    __entry->partition_id = partition_id;
- 		    __entry->vp_index = vp_index;
- 		    __entry->gfn = gfn;
--		    __entry->access_type = access_type;
-+		    __entry->access_type = access_type == HV_INTERCEPT_ACCESS_READ ? 'R' :
-+					   (access_type == HV_INTERCEPT_ACCESS_WRITE ? 'W' :
-+					    (access_type == HV_INTERCEPT_ACCESS_EXECUTE ? 'X' : '?'));
- 		    __entry->handled = handled;
- 	    ),
- 	    TP_printk("partition_id=%llu vp_index=%u gfn=0x%llx access_type=%c handled=%d",
- 		    __entry->partition_id,
- 		    __entry->vp_index,
- 		    __entry->gfn,
--		    __entry->access_type == HV_INTERCEPT_ACCESS_READ ? 'R' :
--				    (__entry->access_type == HV_INTERCEPT_ACCESS_WRITE ? 'W' :
--				    (__entry->access_type == HV_INTERCEPT_ACCESS_READ ? 'X' : '?')),
-+		    __entry->access_type,
- 		    __entry->handled
- 	    )
- );
+Wei
 
-
+> Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+> ---
+>  drivers/hv/mshv_trace.h |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hv/mshv_trace.h b/drivers/hv/mshv_trace.h
+> index 6b8fa477fa3bf..e7280c47e579a 100644
+> --- a/drivers/hv/mshv_trace.h
+> +++ b/drivers/hv/mshv_trace.h
+> @@ -524,16 +524,16 @@ TRACE_EVENT(mshv_handle_gpa_intercept,
+>  		    __entry->partition_id = partition_id;
+>  		    __entry->vp_index = vp_index;
+>  		    __entry->gfn = gfn;
+> -		    __entry->access_type = access_type;
+> +		    __entry->access_type = access_type == HV_INTERCEPT_ACCESS_READ ? 'R' :
+> +					   (access_type == HV_INTERCEPT_ACCESS_WRITE ? 'W' :
+> +					    (access_type == HV_INTERCEPT_ACCESS_EXECUTE ? 'X' : '?'));
+>  		    __entry->handled = handled;
+>  	    ),
+>  	    TP_printk("partition_id=%llu vp_index=%u gfn=0x%llx access_type=%c handled=%d",
+>  		    __entry->partition_id,
+>  		    __entry->vp_index,
+>  		    __entry->gfn,
+> -		    __entry->access_type == HV_INTERCEPT_ACCESS_READ ? 'R' :
+> -				    (__entry->access_type == HV_INTERCEPT_ACCESS_WRITE ? 'W' :
+> -				    (__entry->access_type == HV_INTERCEPT_ACCESS_READ ? 'X' : '?')),
+> +		    __entry->access_type,
+>  		    __entry->handled
+>  	    )
+>  );
+> 
+> 
