@@ -1,77 +1,83 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2898337D137;
-	Thu, 23 Apr 2026 16:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D411D3A75A2;
+	Thu, 23 Apr 2026 17:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776962251; cv=none; b=O3L75rAApkcx36MovBENvcEM6rWs/+DV2C2EBzKC0/4BW9uoHFqa3kxgH0y3jhP//qq/QONixNh/9AdkYOG1EYAFxlk2QyF+tC3zBYN+TWfk2Mqke3jpt/5wy38ZD6Nru0jBxTmGIHjMl7OWF87W/A2kb3nIAzQ9OFHwLbysqEk=
+	t=1776965218; cv=none; b=jA2ut32fVzr6jDIq8zDNHbCdkj43r37lCgL9erJx0BDdGwofIXoURaxZS2TA3lXBMNpc2Yg1mVIdCg0187DTeqP3usvm8z24/2saQJWMqiefPQbUArYpd7nw0GvouNTwEQKjlPBWXIA5vyXN7S3dXdsm7p59tamepoQlP0w7g0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776962251; c=relaxed/simple;
-	bh=tvZ308WD3VglOQ4pZ/aOKmGXAoRvJXyRkk4hEefUg4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I63AayPzDMZjFpX9YvSPcjxesX+p7TgUdybJ5E7J22iuZX6tic7PUx6AU0lsMM6N3/Hg+UOf5V68YHGqLVeYFkMui9CPa3AmqhX51AHu1UL94ppzIDnFF+Erwn3hRDWtLN/uojmFSgdtthbRgrmqN/H/4c9U6kgbOkgGLjkr4Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=FD44ZvXi; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1776965218; c=relaxed/simple;
+	bh=4+ZpLISoNIRbHqDjv0MBVGx4X0awsHsYwas0EO6i6VM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OhnsbgZtjJDS1j8G5MyKyejVHMNyRHYCefm7ctoBbUvrySQbxKHBzAsky+oGWMxM8Y9+8cufFm08QdLl0ByKTl+t/W5UxuyG55JdZSOYFX0vV1Kkp/NlFHEUdXwPHkEf+X36XPYZavSQRIcKTFcfpCIC24Nh7SXuZqOm8Qr84wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5mEC6gB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="FD44ZvXi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=LkCXysjBxUfLMfJbaiV8vjoVUfydT3ARl3itfoUFp4Q=; b=FD44ZvXicW/rgxPLhXFwtborg8
-	/DrbMf4pt1scblPA+hI/VnepbMyiSR/+AGVCBzLQ7WmWVzv5kw/U5X/p9hDlbKYKbykshRiwd00SA
-	kwTlCK1y8S0yhWDTAp84wG8oTHDmQkSZRfcCgQ5wTb3KpMuIQMzxv3Nxth2joIpYeSA0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wFx32-00HGkD-IN; Thu, 23 Apr 2026 18:37:04 +0200
-Date: Thu, 23 Apr 2026 18:37:04 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	leon@kernel.org, longli@microsoft.com, kotaranov@microsoft.com,
-	horms@kernel.org, shradhagupta@linux.microsoft.com,
-	ssengar@linux.microsoft.com, ernis@linux.microsoft.com,
-	shirazsaleem@microsoft.com, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, stephen@networkplumber.org,
-	jacob.e.keller@intel.com, dipayanroy@microsoft.com,
-	leitao@debian.org, kees@kernel.org, john.fastabend@gmail.com,
-	hawk@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
-	ast@kernel.org, sdf@fomichev.me, yury.norov@gmail.com
-Subject: Re: [PATCH net] net: mana: hardening: Validate SHM offset from BAR0
- register to prevent crash due to alignment fault
-Message-ID: <edccaafd-73f3-421d-a48e-a6cb704d39e6@lunn.ch>
-References: <aepF3NwyANeklkfD@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5mEC6gB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E1E5C2BCAF;
+	Thu, 23 Apr 2026 17:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776965218;
+	bh=4+ZpLISoNIRbHqDjv0MBVGx4X0awsHsYwas0EO6i6VM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q5mEC6gBa70Isfvqtz1qcTZOvq6kqHsLgruTkEsJDH9NIzgVuotgTyq09m5a62bYt
+	 ExCI9GA5IMg1FJTOt1GS16k7FADizKpecoicfbdHJ50ix7rB5xf6WaxP4iHjTJNKgn
+	 qxwdGKZTm+ryVmcDxRaRCY9294F0VJDwF5IBnibBYunVFteyDmTewb8bhMPSBU5Mgy
+	 38HSLNnBZyA+1AkkmYvL56Iue2PJSEvebD83MBKKSrgXt8BMAkxjy9N4y9mrR+GiNi
+	 jKN8qvs4722IpQJeU/GpSVCNfupMcVPVSxGv86O+UGH4YIwLWWzn/Nq+0NXTLqFSQM
+	 +0iT2UxKB4sow==
+From: wei.liu@kernel.org
+To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc: Wei Liu <wei.liu@kernel.org>,
+	=?UTF-8?q?Doru=20Bl=C3=A2nzeanu?= <dblanzeanu@linux.microsoft.com>,
+	Magnus Kulke <magnuskulke@linux.microsoft.com>,
+	stable@kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Roman Kisel <romank@linux.microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] mshv: add a missing padding field
+Date: Thu, 23 Apr 2026 17:26:26 +0000
+Message-ID: <20260423172625.1189669-2-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aepF3NwyANeklkfD@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> The root cause is in mana_gd_init_vf_regs(), which computes:
-> 
->   gc->shm_base = gc->bar0_va + mana_gd_r64(gc, GDMA_REG_SHM_OFFSET);
-> 
-> without validating the offset read from hardware. If the register
-> returns a garbage value that is neither within bar 0 bounds nor aligned
-> to the 4-byte granularity, thus causing the alignment fault.
+From: Wei Liu <wei.liu@kernel.org>
 
-Is GDMA_REG_SHM_OFFSET special?
+That was missed when importing the header.
 
-What if GDMA_REG_DB_PAGE_SIZE or GDMA_REG_DB_PAGE_OFFSET have returned
-garbage? Are you going to die a horrible death as well?
+Reported-by: Doru Blânzeanu <dblanzeanu@linux.microsoft.com>
+Reported-by: Magnus Kulke <magnuskulke@linux.microsoft.com>
+Fixes: e68bda71a2384 ("hyperv: Add new Hyper-V headers in include/hyperv")
+Cc: stable@kernel.org
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+ include/hyperv/hvhdk.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Isn't there a way you can poll the firmware to ask it if it is ready?
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 5e83d3714966..ff7ca9ee1bd4 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -79,6 +79,7 @@ struct hv_vp_register_page {
+ 
+ 		u64 registers[18];
+ 	};
++	__u8 reserved[8];
+ 	/* Volatile XMM registers (HV_X64_REGISTER_CLASS_XMM) */
+ 	union {
+ 		struct {
+-- 
+2.43.0
 
-And what about the PF case. Can GDMA_PF_REG_SHM_OFF also be garbage?
-
-      Andrew
