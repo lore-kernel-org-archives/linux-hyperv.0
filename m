@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DE9E40DFCF;
-	Sat, 25 Apr 2026 06:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11DA81E5714;
+	Sat, 25 Apr 2026 06:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777097749; cv=none; b=QPNpwUzFCevqrfg0TE0Il4euHtQl2G+3gYcbzLEf9AdwarsaF80KUA+EIEA4oB8/ij0//vYtNDPPe4I4/T2x+qkEqD/DwyvdRGDwfpK05VlA+BiyGnMeoBIQEUxWiJoAV3awGOnJ/HemH9QC3aarwgZ90XSl5e9nzeaorzEWAI0=
+	t=1777099339; cv=none; b=UcBhZ2IIJHQTkIaVjpfBbcU4F2eyFWrkyxjEq//7V0imxWSeC65VMHb2W7gBDPEwBsmRDjiMzeHprp66weB6pnFMdpEY/XrkYDp/zqxXbuYdIahSdxPrpEeetWt/TCNKfsGmsQT1oBzMNkrH+9EnHy1XyjQbXQulfjwrnJZnQC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777097749; c=relaxed/simple;
-	bh=t8AVmWhazPRwKRYBJnFLQ5l+BR+Emjnqa7ltlcaQdeY=;
+	s=arc-20240116; t=1777099339; c=relaxed/simple;
+	bh=P9ABtZEK2zRknPKO2eUm6AkuiDkVBXD8N0/YqF3cSRI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n08KMH+OsbQ59MsxZDUu6hjiVbSa4j8CwzKRBuW9LtNpADL31zmy5NgeNZhTdhlKJK8WvnrI/uGNFmLDuYvKA1J0e0DKPGNky45jBzcum1AxmNmwGrgr4Mkg4uvlrzqsY29tO0juHq2rs7yuRfZY7dDE6CzUNnxXFgzGqL80EXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LOyYK/DD; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=extdGI2Jvx/cfQA0N61Y/+ipXC7c1aheB2Yes9ViEIKINYo+PfRSbXINU++4ubImT9Xt8kcF97tviRl2Pceje98TMXWXDA0ieLfJcfbyAtVRPAKfQ9NaZGyTyY+6n0UkXdzV7rd4fJHUgtrD/MPZ3hzJYtbhB78p6U/nxjYeMXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KPM26vpK; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LOyYK/DD"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KPM26vpK"
 Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id A850520B7165; Fri, 24 Apr 2026 23:15:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A850520B7165
+	id 3060B20B7165; Fri, 24 Apr 2026 23:42:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3060B20B7165
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777097742;
-	bh=wQ46fqky+LLKk3MSG2clbFaEZu89bVx3tE7TB8o/Q7g=;
+	s=default; t=1777099338;
+	bh=JACy4zho5+LcJ4MYRD+nPRw42+DhJCPLKvqrrwdpRYM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LOyYK/DDXqFkeigh+Ee1eFdaA97IT4bDA9WYi9nyVWXQPya8uxlGDtbzZwE5tCgpV
-	 FEcl1XrIvXcvShyWNcp/dumJrqPJMtJtWxLleH+SY2UvvXAJR+ddRQ2zquE7kpOJq7
-	 emI0v6hPjFUnRzAy/praLLSgU1uh8qdXDqMEQwU8=
-Date: Fri, 24 Apr 2026 23:15:42 -0700
+	b=KPM26vpKU7MHILgV8/zEeAMWRZgk7iCkGOuh+J1wctv5PSGgclSG/Lif8KdnZdGAA
+	 Zl/uP6aK22wy3HNvFk8PLH/VZm4baxdzQaU1m939vs1bt5DFz6u6pKQEvdOvoQSNjP
+	 jFu9FE/hxALSYNwcpkc/TpadVAW57JrezbR6WYK0=
+Date: Fri, 24 Apr 2026 23:42:18 -0700
 From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+To: Yury Norov <ynorov@nvidia.com>
 Cc: Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	"K. Y. Srinivasan" <kys@microsoft.com>,
@@ -37,6 +37,7 @@ Cc: Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
 	Konstantin Taranov <kotaranov@microsoft.com>,
 	Simon Horman <horms@kernel.org>,
 	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
 	Shiraz Saleem <shirazsaleem@microsoft.com>,
 	Michael Kelley <mhklinux@outlook.com>,
 	Long Li <longli@microsoft.com>, Yury Norov <yury.norov@gmail.com>,
@@ -46,9 +47,9 @@ Cc: Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
 	Saurabh Singh Sengar <ssengar@microsoft.com>,
 	stable@vger.kernel.org
 Subject: Re: [PATCH net] net: mana: Optimize irq affinity for low vcpu configs
-Message-ID: <aexcDgNJw4Nr/uMU@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Message-ID: <aexiSlyxidg3Ekdl@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 References: <20260424061702.1442618-1-shradhagupta@linux.microsoft.com>
- <aetgQ1gCYlGJjiKk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <aevf2bPLBiAzX7UC@yury>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -57,9 +58,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aetgQ1gCYlGJjiKk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <aevf2bPLBiAzX7UC@yury>
 
-On Fri, Apr 24, 2026 at 05:21:23AM -0700, Dipayaan Roy wrote:
+On Fri, Apr 24, 2026 at 05:25:45PM -0400, Yury Norov wrote:
 > On Thu, Apr 23, 2026 at 11:17:00PM -0700, Shradha Gupta wrote:
 > > In mana driver, the number of IRQs allocated are capped by the
 > > min(num_cpu + 1, queue count). In cases, where the IRQ count is greater
@@ -154,22 +155,8 @@ On Fri, Apr 24, 2026 at 05:21:23AM -0700, Dipayaan Roy wrote:
 > > +	int cpu;
 > > +
 > > +	rcu_read_lock();
-> We do not need to call rcu_read_lock here, as the caller of this
-> function has already acquired cpus_read_lock.
-
-Thanks for your comments Dipayaan, I think this is still needed for the
-irq_set_affinity_and_hint(), to protect the pointer returned by
-irq_to_desc(). You can also see the same in the original function
-irq_setup() for the same reason.
-
 > > +	for_each_online_cpu(cpu) {
 > > +		if (len <= 0)
-> len is unsigned here so <= doesnot makes sense. PLease change it to int
-> or better use if(!len)
-
-sure, I think I will change it to explicitly exit when len == 0
-Thanks.
-
 > > +			break;
 > > +
 > > +		irq_set_affinity_and_hint(*irqs++, cpumask_of(cpu));
@@ -191,6 +178,12 @@ Thanks.
 > > +	if (gc->num_msix_usable <= num_online_cpus()) {
 > >  		skip_first_cpu = true;
 > > +		err = irq_setup(irqs, nvec, gc->numa_node, skip_first_cpu);
+> 
+> Then you don't need the 'skip_first_cpu' variable.
+
+That's right, let me change that.
+
+> 
 > > +	} else {
 > > +		/*
 > > +		 * In case our IRQs are more than num_online_cpus, we try to
@@ -201,12 +194,39 @@ Thanks.
 > > +		 * in HWC setup calls
 > > +		 * So, the nvec value in this path should always be equal to
 > > +		 * num_online_cpu
-> nit: typo: should be num_online_cpus
-
-noted
-
 > > +		 */
 > > +		WARN_ON(nvec > num_online_cpus());
+> 
+> That sounds weird. If you don't support IRQs more than CPUs , and want to
+> warn about it, you'd do that earlier in the function, and align the other
+> logic accordingly. For example:
+> 
+>         if (WARN_ON(nvec > num_online_cpus()))
+>                 nvec = num_online_cpus();
+> 
+>         irqs = kmalloc_objs(int, nvec);
+>         if (!irqs)
+>                 return -ENOMEM;
+> 
+>         ...
+> 
+> So you'll decrease pressure on allocator.
+> 
+> What would happen with those IRQs beyond num_online_cpus()? Can you explain
+> it in the comment? I'm not an expert in your driver, but usually if you pass
+> a vector to function, and the function is able to handle only a part of it,
+> it returns the number of processed elements.
+> 
+> Thanks,
+> Yury
+> 
+
+so, by design the nvec should never exceed num_online_cpus(). I only
+added the WARN_ON as a defensive safegaurd. But I agree with your
+suggestion to move this earlier before the allocations.
+
+Thanks Yury!
+
 > > +		err = irq_setup_linear(irqs, nvec);
 > > +	}
 > >  
@@ -218,6 +238,3 @@ noted
 > > base-commit: e728258debd553c95d2e70f9cd97c9fde27c7130
 > > -- 
 > > 2.34.1
-> > 
-> Regards
-> Dipayaan Roy
