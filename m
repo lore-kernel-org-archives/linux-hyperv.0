@@ -1,262 +1,137 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE3CB3C945B;
-	Mon, 27 Apr 2026 13:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 568D73BA241;
+	Mon, 27 Apr 2026 13:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296927; cv=none; b=lvOkuLRT2DjOf4OzsHKvmV+tR9s01/ddkOtspCj+Wj4fjNtsHRddAB/T3wThD6oEI+PyGQOH/yAqV7fri1nC9S28X4ms5+0ZMJuZs4eT7cTWdIfCCek2xwwo4+oEhcC113RE80skhHk4CCaOJj3xHxofLykr/hy8ZJLQBhLqJcg=
+	t=1777297863; cv=none; b=poTGdep3JDeYiHpm8LEAP9pxhyLVp2SMezosenH68LDg+s8vhPiPfsc7wW6ugFmggTfb+NU/aZGVLwvdZS87PfxCR5/fgjycrxYFhWbLFTUR5Wn69WnIcAb4yOLHaCdM7KrD3bFjWDceGOCydlTDHjTnrTslJ2RagZrlpIudUe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296927; c=relaxed/simple;
-	bh=HouUOri904NMOp6S620izooVjSzSuTHhNCYD29MbSGY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YpTOWR98YPTAqJveynlc1GAcjBbpxwB8HFbwJeLlx23MU++EeZDg9oxybRtsaW18VMBgMm0lPZLqCrZwRHUKfscs0rgCj2T1bOtTO4O2VOmkq+Whf46LpqoR55mPCRR+3YQdaxysA+cFCUQDa0Ip0acSB2x+UAGsfB9t7tjQ34U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ctkeeax3; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1777297863; c=relaxed/simple;
+	bh=+b/XARtL8TTdO5avBV72s4wEqPqZTYtiOCXUOIpscXQ=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JBbCZYANgPtSguXMwZDSu5OQfx83kTOGtixBQZWI4E1xffcIDzYLi0ncSzBobmSzJMgWESU1/6ecznXOf5NDejb32thoh733ZkN9KabaUCQ6T7rGk17+bSnVXXMqI/8V2VuIxAC4nm5JA0o1aFrFhnDRDGzVm5LxSXPekg8Fsd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZXFFxoIA; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ctkeeax3"
-Received: by linux.microsoft.com (Postfix, from userid 1231)
-	id 3862A20B716B; Mon, 27 Apr 2026 06:35:26 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3862A20B716B
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZXFFxoIA"
+Received: by linux.microsoft.com (Postfix, from userid 1204)
+	id 83B4C20B716A; Mon, 27 Apr 2026 06:51:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 83B4C20B716A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777296926;
-	bh=IPauBJl23XVTTPHaHpwNSZN2cNKdTVqw7x6BxTnQO4Q=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=ctkeeax3vKtmqtgXr/zJESmIkK6ID5xfdp8+IQptA0TvlARoTji6esIreySxCjO4R
-	 yyisnmiqDj7skdAogWB+Nxdk4Va5x6yLhkdzUKuoLszrxAi9I7QpN2SQz4x9+clTF8
-	 2iKQm9N++4Dhg2rbYyfCYQiJw6Wnd6QDuuISDbGM=
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kotaranov@microsoft.com,
-	horms@kernel.org,
-	ssengar@linux.microsoft.com,
-	jacob.e.keller@intel.com,
-	dipayanroy@linux.microsoft.com,
-	ernis@linux.microsoft.com,
-	shirazsaleem@microsoft.com,
-	kees@kernel.org,
-	sbhatta@marvell.com,
-	leitao@debian.org,
-	netdev@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org,
-	gargaditya@microsoft.com,
-	gargaditya@linux.microsoft.com
-Subject: [PATCH net-next v2 1/2] net: mana: Use per-queue allocation for tx_qp to reduce allocation size
-Date: Mon, 27 Apr 2026 06:23:34 -0700
-Message-ID: <20260427132807.1642290-2-gargaditya@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260427132807.1642290-1-gargaditya@linux.microsoft.com>
-References: <20260427132807.1642290-1-gargaditya@linux.microsoft.com>
+	s=default; t=1777297862;
+	bh=JjVpccUnXnnI/i5ox4+KGA4Y9noeTr3ND10yN1jOoHY=;
+	h=Date:From:To:Subject:From;
+	b=ZXFFxoIAeUD8B7w1wMbldnxsJscValauGXIjdFCs+DaZDXhrsE3Ax5RnuuNodFPmg
+	 9tBYiB2KqkG5snNSJCaLs0//HqRqbwg0CoSNUBBDxv9N5a4hBPrgQbhHsIqPTdTX0A
+	 prAL8T6PMpP8Q9fba0txT8f1BtdkyYulV2QBxzkE=
+Date: Mon, 27 Apr 2026 06:51:02 -0700
+From: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	leon@kernel.org, longli@microsoft.com, kotaranov@microsoft.com,
+	horms@kernel.org, shradhagupta@linux.microsoft.com,
+	ssengar@linux.microsoft.com, ernis@linux.microsoft.com,
+	shirazsaleem@microsoft.com, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, stephen@networkplumber.org,
+	jacob.e.keller@intel.com, dipayanroy@microsoft.com,
+	leitao@debian.org, kees@kernel.org, john.fastabend@gmail.com,
+	hawk@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
+	ast@kernel.org, sdf@fomichev.me, yury.norov@gmail.com
+Subject: [PATCH net-next] net: mana: Force single RX buffer per page for
+ CVM/encrypted guest memory
+Message-ID: <ae9pxvJfkAZYfKMf@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Convert tx_qp from a single contiguous array allocation to per-queue
-individual allocations. Each mana_tx_qp struct is approximately 35KB.
-With many queues (e.g., 32/64), the flat array requires a single
-contiguous allocation that can fail under memory fragmentation.
+On Confidential VMs (CVMs) such as AMD SEV-SNP or Intel TDX, the guest
+operating system's memory is encrypted. And current hardwares lacks the
+support for TDISP (TEE Device Interface Security Protocol), meaning the
+NIC cannot directly access this encrypted VM memory. Consequently, all
+DMA operations must utilize SWIOTLB bounce buffers.
 
-Change mana_tx_qp *tx_qp to mana_tx_qp **tx_qp (array of pointers),
-allocating each queue's mana_tx_qp individually via kvzalloc. This
-reduces each allocation to ~35KB and provides vmalloc fallback,
-avoiding allocation failure due to fragmentation.
+In the MANA driver currently, there are two distinct paths for DMA
+mapping:
 
-Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
+1. Without PP_FLAG_DMA_MAP: The driver manually maps full pages for each
+packet. This creates standalone, page-aligned mappings where the offset
+is always zero.
+
+2. With PP_FLAG_DMA_MAP: Optimizes memory by using page_pool with
+sub-page fragments (e.g., multiple RX buffers sharing a single page).
+When PP_FLAG_DMA_MAP is enabled, page_pool maps the entire page once.
+Subsequent RX buffer allocations use offsets into this pre-mapped area.
+
+When page_pool allocates sub-page RX buffer fragments, the bounce buffer
+granularity may not align with these smaller fragment sizes, leading to
+failure in mana driver rx path.
+
+Refactor the RX buffer decision into mana_use_single_rxbuf_per_page().
+When cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) is true, the driver is
+forced to use a single RX buffer per page. This ensures:
+- Each RX buffer is exactly one PAGE_SIZE.
+- The DMA offset is always 0.
+- SWIOTLB maps full, page-aligned blocks.
+
 Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 ---
- .../net/ethernet/microsoft/mana/mana_bpf.c    |  2 +-
- drivers/net/ethernet/microsoft/mana/mana_en.c | 49 ++++++++++++-------
- .../ethernet/microsoft/mana/mana_ethtool.c    |  2 +-
- include/net/mana/mana.h                       |  2 +-
- 4 files changed, 33 insertions(+), 22 deletions(-)
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 21 +++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-index 7697c9b52ed3..b5e9bb184a1d 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-@@ -68,7 +68,7 @@ int mana_xdp_xmit(struct net_device *ndev, int n, struct xdp_frame **frames,
- 		count++;
- 	}
- 
--	tx_stats = &apc->tx_qp[q_idx].txq.stats;
-+	tx_stats = &apc->tx_qp[q_idx]->txq.stats;
- 
- 	u64_stats_update_begin(&tx_stats->syncp);
- 	tx_stats->xdp_xmit += count;
 diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index a654b3699c4c..8adf72b96145 100644
+index a654b3699c4c..2d44eaf932a8 100644
 --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -355,9 +355,9 @@ netdev_tx_t mana_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 	if (skb_cow_head(skb, MANA_HEADROOM))
- 		goto tx_drop_count;
+@@ -12,6 +12,7 @@
+ #include <linux/pci.h>
+ #include <linux/export.h>
+ #include <linux/skbuff.h>
++#include <linux/cc_platform.h>
  
--	txq = &apc->tx_qp[txq_idx].txq;
-+	txq = &apc->tx_qp[txq_idx]->txq;
- 	gdma_sq = txq->gdma_sq;
--	cq = &apc->tx_qp[txq_idx].tx_cq;
-+	cq = &apc->tx_qp[txq_idx]->tx_cq;
- 	tx_stats = &txq->stats;
+ #include <net/checksum.h>
+ #include <net/ip6_checksum.h>
+@@ -744,6 +745,23 @@ static void *mana_get_rxbuf_pre(struct mana_rxq *rxq, dma_addr_t *da)
+ 	return va;
+ }
  
- 	BUILD_BUG_ON(MAX_TX_WQE_SGL_ENTRIES != MANA_MAX_TX_WQE_SGL_ENTRIES);
-@@ -614,7 +614,7 @@ static void mana_get_stats64(struct net_device *ndev,
- 	}
- 
- 	for (q = 0; q < num_queues; q++) {
--		tx_stats = &apc->tx_qp[q].txq.stats;
-+		tx_stats = &apc->tx_qp[q]->txq.stats;
- 
- 		do {
- 			start = u64_stats_fetch_begin(&tx_stats->syncp);
-@@ -2321,21 +2321,26 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 		return;
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		debugfs_remove_recursive(apc->tx_qp[i].mana_tx_debugfs);
--		apc->tx_qp[i].mana_tx_debugfs = NULL;
-+		if (!apc->tx_qp[i])
-+			continue;
++static bool
++mana_use_single_rxbuf_per_page(struct mana_port_context *apc, u32 mtu)
++{
++	/* On confidential VMs with guest memory encryption, all DMA goes
++	 * through SWIOTLB bounce buffers. Sub-page RX fragments may not
++	 * be properly bounce-buffered, so use fullpage buffers.
++	 */
++	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
++		return true;
 +
-+		debugfs_remove_recursive(apc->tx_qp[i]->mana_tx_debugfs);
-+		apc->tx_qp[i]->mana_tx_debugfs = NULL;
- 
--		napi = &apc->tx_qp[i].tx_cq.napi;
--		if (apc->tx_qp[i].txq.napi_initialized) {
-+		napi = &apc->tx_qp[i]->tx_cq.napi;
-+		if (apc->tx_qp[i]->txq.napi_initialized) {
- 			napi_synchronize(napi);
- 			napi_disable_locked(napi);
- 			netif_napi_del_locked(napi);
--			apc->tx_qp[i].txq.napi_initialized = false;
-+			apc->tx_qp[i]->txq.napi_initialized = false;
- 		}
--		mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i].tx_object);
-+		mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i]->tx_object);
- 
--		mana_deinit_cq(apc, &apc->tx_qp[i].tx_cq);
-+		mana_deinit_cq(apc, &apc->tx_qp[i]->tx_cq);
- 
--		mana_deinit_txq(apc, &apc->tx_qp[i].txq);
-+		mana_deinit_txq(apc, &apc->tx_qp[i]->txq);
++	/* For xdp and jumbo frames make sure only one packet fits per page. */
++	if (mtu + MANA_RXBUF_PAD > PAGE_SIZE / 2 || mana_xdp_get(apc))
++		return true;
 +
-+		kvfree(apc->tx_qp[i]);
- 	}
- 
- 	kfree(apc->tx_qp);
-@@ -2344,7 +2349,7 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 
- static void mana_create_txq_debugfs(struct mana_port_context *apc, int idx)
- {
--	struct mana_tx_qp *tx_qp = &apc->tx_qp[idx];
-+	struct mana_tx_qp *tx_qp = apc->tx_qp[idx];
- 	char qnum[32];
- 
- 	sprintf(qnum, "TX-%d", idx);
-@@ -2383,7 +2388,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 	int err;
- 	int i;
- 
--	apc->tx_qp = kzalloc_objs(struct mana_tx_qp, apc->num_queues);
-+	apc->tx_qp = kzalloc_objs(struct mana_tx_qp *, apc->num_queues);
- 	if (!apc->tx_qp)
- 		return -ENOMEM;
- 
-@@ -2403,10 +2408,16 @@ static int mana_create_txq(struct mana_port_context *apc,
- 	gc = gd->gdma_context;
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		apc->tx_qp[i].tx_object = INVALID_MANA_HANDLE;
-+		apc->tx_qp[i] = kvzalloc_obj(*apc->tx_qp[i]);
-+		if (!apc->tx_qp[i]) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
++	return false;
++}
 +
-+		apc->tx_qp[i]->tx_object = INVALID_MANA_HANDLE;
+ /* Get RX buffer's data size, alloc size, XDP headroom based on MTU */
+ static void mana_get_rxbuf_cfg(struct mana_port_context *apc,
+ 			       int mtu, u32 *datasize, u32 *alloc_size,
+@@ -754,8 +772,7 @@ static void mana_get_rxbuf_cfg(struct mana_port_context *apc,
+ 	/* Calculate datasize first (consistent across all cases) */
+ 	*datasize = mtu + ETH_HLEN;
  
- 		/* Create SQ */
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 
- 		u64_stats_init(&txq->stats.syncp);
- 		txq->ndev = net;
-@@ -2424,7 +2435,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 			goto out;
- 
- 		/* Create SQ's CQ */
--		cq = &apc->tx_qp[i].tx_cq;
-+		cq = &apc->tx_qp[i]->tx_cq;
- 		cq->type = MANA_CQ_TYPE_TX;
- 
- 		cq->txq = txq;
-@@ -2453,7 +2464,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 
- 		err = mana_create_wq_obj(apc, apc->port_handle, GDMA_SQ,
- 					 &wq_spec, &cq_spec,
--					 &apc->tx_qp[i].tx_object);
-+					 &apc->tx_qp[i]->tx_object);
- 
- 		if (err)
- 			goto out;
-@@ -3288,7 +3299,7 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	 */
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 		tsleep = 1000;
- 		while (atomic_read(&txq->pending_sends) > 0 &&
- 		       time_before(jiffies, timeout)) {
-@@ -3307,7 +3318,7 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	}
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 		while ((skb = skb_dequeue(&txq->pending_skbs))) {
- 			mana_unmap_skb(skb, apc);
- 			dev_kfree_skb_any(skb);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index 6a4b42fe0944..04350973e19e 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -260,7 +260,7 @@ static void mana_get_ethtool_stats(struct net_device *ndev,
- 	}
- 
- 	for (q = 0; q < num_queues; q++) {
--		tx_stats = &apc->tx_qp[q].txq.stats;
-+		tx_stats = &apc->tx_qp[q]->txq.stats;
- 
- 		do {
- 			start = u64_stats_fetch_begin(&tx_stats->syncp);
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 8f721cd4e4a7..aa90a858c8e3 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -507,7 +507,7 @@ struct mana_port_context {
- 	bool tx_shortform_allowed;
- 	u16 tx_vp_offset;
- 
--	struct mana_tx_qp *tx_qp;
-+	struct mana_tx_qp **tx_qp;
- 
- 	/* Indirection Table for RX & TX. The values are queue indexes */
- 	u32 *indir_table;
+-	/* For xdp and jumbo frames make sure only one packet fits per page */
+-	if (mtu + MANA_RXBUF_PAD > PAGE_SIZE / 2 || mana_xdp_get(apc)) {
++	if (mana_use_single_rxbuf_per_page(apc, mtu)) {
+ 		if (mana_xdp_get(apc)) {
+ 			*headroom = XDP_PACKET_HEADROOM;
+ 			*alloc_size = PAGE_SIZE;
 -- 
 2.43.0
 
