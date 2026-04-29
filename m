@@ -1,38 +1,38 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA0333ADAE;
-	Wed, 29 Apr 2026 18:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403563FFAD3;
+	Wed, 29 Apr 2026 18:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777486687; cv=none; b=Za3vi0EppDpAMBF7Nzhj+ih3KQ3svlbSJFwd0uzDNGs+HeRtyz7J/96NxzM5tW5HNdvKYferd86xMRnDb5u7i7Kl+k8X2XnbVgPqCe98sDtivTPn/cw8FcWLKwsCdtr0s7+xKOP1xQ335ihqvZhD5506b/bP6Ud5z/vU0ofAM64=
+	t=1777486691; cv=none; b=nixGBIhaTA4wvlNdxnqhXW/t4BC6IzmwEF1sGcR+vxZtGbV9ceVLyF1fAR3aQ4EiVLyXImzQfUhp+vLEX6UMq9Fwa9o9ElzbBRO0UvqNPqkn/KK2GWNmpdHu7ZwyocHEWaxqjiHM2A1XqpCPudeBt0/NavMb6ZyW6irzk7Lo9Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777486687; c=relaxed/simple;
-	bh=jqtLbFNt35ZWDMpDoc6iNv1M/CaZ6ptIHMJXzwFx1ZU=;
+	s=arc-20240116; t=1777486691; c=relaxed/simple;
+	bh=UhbPtpOtF8adVWEcrhJCGaZfOpHmg4mma6YChpfSNsA=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YCwv4HaL3QD1+jNM4KJp38++GTPAScUvPNgfbvo6/str8w8TTVLLyrDW+7marU0vFmFBBLsTxulC4SYKkqHfI+OVQCXDqJ2AUUP5awmZbEtkSjSjjxCEVur/1xbr54sKnhsSGegdv7TrX85oXnC+XmXXpJdzs8sgf9D7c5VfAfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XwUY2Muq; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=ZuGErYofvg5KY04D3UgvMsPRbE7hTxS101pEF47JDRXhY4zSamuxap/THL+fUxX5teoPAe9EJx/Q6jTWSAQUCayq3DnnaPSOFVx6wX7gcMcsXnEKOmOKo/qMLGEQUER8ma6pICxbiKJx6z0TtLJGcpZzw4r/Pr89pND5RW2rrZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oKvzSHhz; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XwUY2Muq"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oKvzSHhz"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E08EC20B716C;
-	Wed, 29 Apr 2026 11:18:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E08EC20B716C
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4BB8220B716C;
+	Wed, 29 Apr 2026 11:18:10 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4BB8220B716C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777486684;
-	bh=MBPzwZnwBvEFUR7adLX293VgQYR+7yXHsWo6RkHOOek=;
+	s=default; t=1777486690;
+	bh=41vMCnBFQ+h/hWyrAhm+rDmCa9KdDYvWtC741ydUrIQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=XwUY2MuqMjwg5n5zRlkKooTj/iOG85To7fKxOHwTyCUejvuO74kqkU8oxhcIBLDSA
-	 1q6wyloZa3tU2D3C+I1c7yg6sFG7TRfkwv13MHAqTbROxm7VSO3sAtmaftZFWOT9nX
-	 QulsPGjy5IPXJO04ujpnkPQApXpvWasnfEwSLnCY=
-Subject: [PATCH 05/10] mshv: Fix level-triggered check on uninitialized data
+	b=oKvzSHhzG6+a4d43IJxEH3UhTFLWTyT1vZRsMdL1yeSf01dUrDVl21FYKD6lVxyVI
+	 zmmTTPb7fERrQl9n1OBKVk8aUGE/TDkVHB3jAbquWYkOYELflgdm6/Dr/VDg1clkxN
+	 tCeMbOXF6r2Pd7SDhEe1lwHWgKAiig+FqWy+oiCU=
+Subject: [PATCH 06/10] mshv: Fix duplicate GSI detection for GSI 0
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 29 Apr 2026 18:18:04 +0000
+Date: Wed, 29 Apr 2026 18:18:09 +0000
 Message-ID: 
- <177748668420.144491.11896912928710581562.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177748668960.144491.4143074945343004379.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177748522635.144491.1565666089881726479.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -47,71 +47,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-In mshv_irqfd_assign(), the level-triggered validation for resample
-irqfds checks irqfd_lapic_irq.lapic_control.level_triggered before
-mshv_irqfd_update() has populated the field. Since the irqfd struct is
-zero-allocated, level_triggered is always 0 at that point, causing the
-check to always reject resample irqfds with -EINVAL. This makes
-level-triggered interrupt resampling — used to avoid interrupt storms
-with assigned devices — completely non-functional.
+The duplicate routing entry check in mshv_update_routing_table() uses
+guest_irq_num != 0 to detect whether a GSI slot is already occupied.
+This fails for GSI 0 because its guest_irq_num is 0 both when the slot
+is unused (zero-initialized) and when legitimately assigned. As a
+result, duplicate entries for GSI 0 are silently accepted, with the
+second entry overwriting the first — corrupting the routing table
+without any error reported to userspace.
 
-Move the check after the mshv_irqfd_update() call, which resolves the
-IRQ routing entry and populates irqfd_lapic_irq with the actual trigger
-mode.
+While GSI 0 (legacy timer) is unlikely to appear in MSI-based routing
+in practice, the check is semantically wrong — it conflates
+"uninitialized" with "GSI number 0." Use girq_entry_valid instead,
+which is explicitly set to true when an entry is populated and remains
+zero for unused slots regardless of the GSI number.
 
 Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_eventfd.c |   25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ drivers/hv/mshv_irq.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
-index d9491a14f30f1..fd594acce3235 100644
---- a/drivers/hv/mshv_eventfd.c
-+++ b/drivers/hv/mshv_eventfd.c
-@@ -478,6 +478,19 @@ static int mshv_irqfd_assign(struct mshv_partition *pt,
- 	init_poll_funcptr(&irqfd->irqfd_polltbl, mshv_irqfd_queue_proc);
- 
- 	spin_lock_irq(&pt->pt_irqfds_lock);
-+	ret = 0;
-+	hlist_for_each_entry(tmp, &pt->pt_irqfds_list, irqfd_hnode) {
-+		if (irqfd->irqfd_eventfd_ctx != tmp->irqfd_eventfd_ctx)
-+			continue;
-+		/* This fd is used for another irq already. */
-+		ret = -EBUSY;
-+		spin_unlock_irq(&pt->pt_irqfds_lock);
-+		goto fail;
-+	}
-+
-+	idx = srcu_read_lock(&pt->pt_irq_srcu);
-+	mshv_irqfd_update(pt, irqfd);
-+
- #if IS_ENABLED(CONFIG_X86)
- 	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE) &&
- 	    !irqfd->irqfd_lapic_irq.lapic_control.level_triggered) {
-@@ -486,22 +499,12 @@ static int mshv_irqfd_assign(struct mshv_partition *pt,
- 		 * Otherwise return with failure
+diff --git a/drivers/hv/mshv_irq.c b/drivers/hv/mshv_irq.c
+index b3142c84dcbc2..65a4ffc82d566 100644
+--- a/drivers/hv/mshv_irq.c
++++ b/drivers/hv/mshv_irq.c
+@@ -51,7 +51,7 @@ int mshv_update_routing_table(struct mshv_partition *partition,
+ 		/*
+ 		 * Allow only one to one mapping between GSI and MSI routing.
  		 */
- 		spin_unlock_irq(&pt->pt_irqfds_lock);
-+		srcu_read_unlock(&pt->pt_irq_srcu, idx);
- 		ret = -EINVAL;
- 		goto fail;
- 	}
- #endif
--	ret = 0;
--	hlist_for_each_entry(tmp, &pt->pt_irqfds_list, irqfd_hnode) {
--		if (irqfd->irqfd_eventfd_ctx != tmp->irqfd_eventfd_ctx)
--			continue;
--		/* This fd is used for another irq already. */
--		ret = -EBUSY;
--		spin_unlock_irq(&pt->pt_irqfds_lock);
--		goto fail;
--	}
- 
--	idx = srcu_read_lock(&pt->pt_irq_srcu);
--	mshv_irqfd_update(pt, irqfd);
- 	hlist_add_head(&irqfd->irqfd_hnode, &pt->pt_irqfds_list);
- 	spin_unlock_irq(&pt->pt_irqfds_lock);
- 
+-		if (girq->guest_irq_num != 0) {
++		if (girq->girq_entry_valid) {
+ 			r = -EINVAL;
+ 			goto out;
+ 		}
 
 
