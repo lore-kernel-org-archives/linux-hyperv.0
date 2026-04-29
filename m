@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070BD39B962;
-	Wed, 29 Apr 2026 09:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ACE83C555B;
+	Wed, 29 Apr 2026 09:58:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777456653; cv=none; b=St87I+Xu/qamZtHUno9r1yt+Si9pWm66d3n7j6j+kTSg/2x5DuyAbK1oD3GSZCqxGnbSpQGfCWRd1WHt+2g+KhHZxH7rwO6e+Jm9hISMQG+VDNmDcnPMkCX9ZMVY2B0WCXGoqhpB4nR+5gPQczAdJdg5Hxz4zXy7cY9UN8VZpnI=
+	t=1777456681; cv=none; b=oa88kzd9db1xN2Nm6ZsK18Cv4UdCJg/rLMSo0zfzstVQW3+BWEVuNK1Xt2E2mZKOwz3/hYXWIwYcMfz11B8uLrWTKZ6tAviA3sQBY/wzF+5RlYIqLhIzU2IUC2wD4j00s8rYBbNNNPxDNqz6mJheczaxPFDrGjRpZ6yPKXBePq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777456653; c=relaxed/simple;
-	bh=DgWvSVm0t3Tm58/J3QHKKBz4VeXvse0bJERoO+L+XOA=;
+	s=arc-20240116; t=1777456681; c=relaxed/simple;
+	bh=SGFpjDx3Fh1/hVA49l0HXV517Okej9pbdw/Axq6b/Ss=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QQRBxaQr6phThinVG9gwPqcKm6nxDyQKtp1cBQGc2/Pp7UnNolbfN5bKotadg8/G4+eEL3fR30ewSe3RgI1SO0tD48y1TGCC4fAaTX3Tk99LdHE1aplaeOlm4GJinsF+C1s/yk4PknjO+nYWFT5xmGDuD97O9P3FAe/AKL3glk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q31XCORO; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=lZZxLQD4h5t2uSzL1Tibfzc7VW45+b5Ts9hEbJiftxFAhQ0hVq/uMniZJ9Nyulcoq/OuFP7Moh33vdD8kcJ3n/rs67V469+4mm69U2VV/OTVCr9Ld6v9syeaTKgqxyBNyPULUbKktiPJTmWa421/YGZ+sGLGqKyqlhIzNm8lTjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DwwTmFw8; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q31XCORO"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DwwTmFw8"
 Received: from [10.95.65.160] (unknown [167.220.238.0])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5250A20B716C;
-	Wed, 29 Apr 2026 02:57:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5250A20B716C
+	by linux.microsoft.com (Postfix) with ESMTPSA id AAA8120B716C;
+	Wed, 29 Apr 2026 02:57:53 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AAA8120B716C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777456652;
-	bh=Umh2GNLzS0ZLJ1ouGA7sN5L/Audjee+GTfXIQgbar64=;
+	s=default; t=1777456680;
+	bh=glqfSPnZSBsC5GJM5wPOsyYjmETqsJsgYXJ3trO0o1Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q31XCOROwAjmtXRERBx2iF+/+sJsH2ybABfnJCzFn77NWB9EVyO4d6UDaaSUN2seb
-	 YQ7d0/CyN4ooJv9sS8ZRGDqMJBY896FQHOvEKQgI5tVaj4mJi2D6hDXN+gA0IZ5wgq
-	 80ZbIizjLbl6bTb0czS/dH3jkSHeHVV2s6z/Ha8s=
-Message-ID: <80efa86b-de96-438c-ac04-fda22c655500@linux.microsoft.com>
-Date: Wed, 29 Apr 2026 15:27:20 +0530
+	b=DwwTmFw8lT7PO8/kvWlFCX434M1go88YAYUFiOB7xJ1F+kocEhvrlQaUtuLbFgsgs
+	 qpczmKHfDoN6xdxyX2dSLL7A3qYuWuJopov32H33TocopnxktApYAXXhDjaAJcsMV+
+	 D/AJqX3CMxDfu3j87LG09egBB30+fv785wOjDaK0=
+Message-ID: <567cf73b-6a48-4fc3-b312-9be6d71e2f22@linux.microsoft.com>
+Date: Wed, 29 Apr 2026 15:27:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,8 +34,8 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/15] Drivers: hv: Move
- hv_call_(get|set)_vp_registers() declarations
+Subject: Re: [PATCH v2 09/15] Drivers: hv: mshv_vtl: Move
+ hv_vtl_configure_reg_page() to x86
 To: Michael Kelley <mhklinux@outlook.com>,
  "K . Y . Srinivasan" <kys@microsoft.com>,
  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
@@ -60,47 +60,107 @@ Cc: Marc Zyngier <maz@kernel.org>, Timothy Hayes <timothy.hayes@arm.com>,
  "vdso@mailbox.org" <vdso@mailbox.org>,
  "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>
 References: <20260423124206.2410879-1-namjain@linux.microsoft.com>
- <20260423124206.2410879-9-namjain@linux.microsoft.com>
- <SN6PR02MB4157852404B5258EF13A5450D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20260423124206.2410879-10-namjain@linux.microsoft.com>
+ <SN6PR02MB4157467FDBC0203C67A67042D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Language: en-US
 From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB4157852404B5258EF13A5450D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157467FDBC0203C67A67042D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 4/27/2026 11:09 AM, Michael Kelley wrote:
+On 4/27/2026 11:10 AM, Michael Kelley wrote:
 > From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, April 23, 2026 5:42 AM
 >>
->> Move hv_call_get_vp_registers() and hv_call_set_vp_registers()
->> declarations from drivers/hv/mshv.h to include/asm-generic/mshyperv.h.
+>> Move hv_vtl_configure_reg_page() from drivers/hv/mshv_vtl_main.c to
+>> arch/x86/hyperv/hv_vtl.c. The register page overlay is an x86-specific
+>> feature that uses HV_X64_REGISTER_REG_PAGE, so its configuration belongs
+>> in architecture-specific code.
 >>
->> These functions are defined in mshv_common.c and are going to be called
->> from both drivers/hv/ and arch/x86/hyperv/hv_vtl.c. The latter never
->> included mshv.h, relying on implicit declaration visibility. Moving the
->> declarations to the arch-generic Hyper-V header makes them properly
->> visible to all architecture-specific callers.
+>> Move struct mshv_vtl_per_cpu and union hv_synic_overlay_page_msr to
+>> include/asm-generic/mshyperv.h so they are visible to both arch and
+>> driver code.
 >>
->> Provide static inline stubs returning -EOPNOTSUPP when neither
->> CONFIG_MSHV_ROOT nor CONFIG_MSHV_VTL is enabled.
+>> Change the return type from void to bool so the caller can determine
+>> whether the register page was successfully configured and set
+>> mshv_has_reg_page accordingly.
+>>
+>> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+>> ---
+>>   arch/x86/hyperv/hv_vtl.c       | 32 ++++++++++++++++++++++
+>>   drivers/hv/mshv_vtl_main.c     | 49 +++-------------------------------
+>>   include/asm-generic/mshyperv.h | 17 ++++++++++++
+>>   3 files changed, 53 insertions(+), 45 deletions(-)
+>>
+
+<snip>
+
+>>   #if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
+>> +/* SYNIC_OVERLAY_PAGE_MSR - internal, identical to hv_synic_simp */
 > 
-> Looking at the drivers/hv/Kconfig, it's possible to build with
-> CONFIG_HYPERV_VTL_MODE=y, but not CONFIG_MSHV_VTL. In such a
-> case, mshv_common.o doesn't get built, which is why the stubs are
-> needed. Is such a configuration desirable for some scenarios?
+> This comment pre-dates your patch, but I don't understand the point
+> it is trying to make. The comment is factually true, but I don't know
+> why calling that out is relevant. The REG_PAGE MSR seems to be
+> conceptually separate and distinct from the SIMP MSR, so the fact
+> that the layouts are the same is just a coincidence. Or is there some
+> relationship between the two MSRs that I'm not aware of, and the
+> comment is trying (and failing?) to point out?
+
+This was added as per suggestion from Nuno in my initial series for 
+MSHV_VTL. If the reference in "identical to" is misleading, I should 
+remove it.
+
+https://lore.kernel.org/all/68143eb0-e6a7-4579-bedb-4c2ec5aaef6b@linux.microsoft.com/
+
+Quoting:
+"""
+it is a generic structure that
+appears to be used for several overlay page MSRs (SIMP, SIEF, etc).
+
+But, the type doesn't appear in the hv*dk headers explicitly; it's just
+used internally by the hypervisor.
+
+I think it should be renamed with a hv_ prefix to indicate it's part of
+the hypervisor ABI, and a brief comment with the provenance:
+
+/* SYNIC_OVERLAY_PAGE_MSR - internal, identical to hv_synic_simp */
+union hv_synic_overlay_page_msr {
+	/* <snip> */
+};
+"""
+
 > 
-> I wonder if having CONFIG_HYPERV_VTL_MODE force the building of
-> mshv_common.o would be a better approach. Then the stubs wouldn't
-> be needed. The "ifneq" statement in drivers/hv/Makefile could use
-> CONFIG_HYPERV_VTL_MODE instead of CONFIG_MSHV_VTL, and
-> everything would be good since CONFIG_MSHV_VTL depends on
-> CONFIG_HYPERV_VTL_MODE.
+>> +union hv_synic_overlay_page_msr {
+>> +	u64 as_uint64;
+>> +	struct {
+>> +		u64 enabled: 1;
+>> +		u64 reserved: 11;
+>> +		u64 pfn: 52;
+>> +	} __packed;
+>> +};
+>> +
+>>   u8 __init get_vtl(void);
+>>   void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
+>> +bool hv_vtl_configure_reg_page(struct mshv_vtl_per_cpu *per_cpu);
+>>   #else
+>>   static inline u8 get_vtl(void) { return 0; }
+>>   static inline void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
+>> +static inline bool hv_vtl_configure_reg_page(struct mshv_vtl_per_cpu *per_cpu) { return false; }
+> 
+> As with Patch 8, if CONFIG_HYPERV_VTL_MODE caused mshv_common.o
+> to be built, this stub wouldn't be needed.
 > 
 
-This looks good. I'll try this and make the changes. In case there are 
-some challenges with that, I'll revert back.
+Acked.
 
+
+>>   #endif
+>>
+>>   #endif
+>> --
+>> 2.43.0
+>>
 
 Regards,
 Naman
