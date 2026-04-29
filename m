@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 485931AC44D;
-	Wed, 29 Apr 2026 09:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070BD39B962;
+	Wed, 29 Apr 2026 09:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777456619; cv=none; b=VCL9Su0kKEsFP1PocCGXua0P4BkDzjvTjH+ypqQwwRt4AwUkKLMheB3ZxKc1gMJQ74l0NQE1MiZ21I7OkXuVD7fqxbgsdeh7SoBNBJhas9265L30L4ndYqklaO3UdwKlvguDLVoyBEk4F66SC3wvEIfF2NJYf+mLQFtjQ7JOXss=
+	t=1777456653; cv=none; b=St87I+Xu/qamZtHUno9r1yt+Si9pWm66d3n7j6j+kTSg/2x5DuyAbK1oD3GSZCqxGnbSpQGfCWRd1WHt+2g+KhHZxH7rwO6e+Jm9hISMQG+VDNmDcnPMkCX9ZMVY2B0WCXGoqhpB4nR+5gPQczAdJdg5Hxz4zXy7cY9UN8VZpnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777456619; c=relaxed/simple;
-	bh=S4Ys+ZR/A3fxX+pYyXStcLU1VTVHaP0MC1rIdwbZbGw=;
+	s=arc-20240116; t=1777456653; c=relaxed/simple;
+	bh=DgWvSVm0t3Tm58/J3QHKKBz4VeXvse0bJERoO+L+XOA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iMsFCLmbyL3jGgJc23dKtNf2GQ0ylJ5HBTnJEPgJ9o0s5aVkS2wtC66PU0FMTvGCZC6ZBHATIxQVaNsWS1lK573KZJj9lKLY7/G7qJUE/04oWpK23kNH+EOUA5wfU92oA4uZz5xPLy7kQwyXZtZxQZnHI+FSu9daiKuNaHxvzZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=j3t1KqCo; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=QQRBxaQr6phThinVG9gwPqcKm6nxDyQKtp1cBQGc2/Pp7UnNolbfN5bKotadg8/G4+eEL3fR30ewSe3RgI1SO0tD48y1TGCC4fAaTX3Tk99LdHE1aplaeOlm4GJinsF+C1s/yk4PknjO+nYWFT5xmGDuD97O9P3FAe/AKL3glk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q31XCORO; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="j3t1KqCo"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q31XCORO"
 Received: from [10.95.65.160] (unknown [167.220.238.0])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 022BB20B716D;
-	Wed, 29 Apr 2026 02:56:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 022BB20B716D
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5250A20B716C;
+	Wed, 29 Apr 2026 02:57:25 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5250A20B716C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777456615;
-	bh=QgIpyU8QZGJkXf492lXwNUttCaD3J45IhKenqaCb8JU=;
+	s=default; t=1777456652;
+	bh=Umh2GNLzS0ZLJ1ouGA7sN5L/Audjee+GTfXIQgbar64=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j3t1KqCo0xfeLFi9dtOHcVl1enYVvkTTCWZf/S6+1njDs+5WLIKxyCr+MaZT+dX6s
-	 1GtfPpoCrizCdwBgAuRmIgUqS6cRpZ84PZrt9W+C1tH19AeqXBBCOSZB5ScCq91arB
-	 2ycNK80H4Ji9sx2/5Zebo999PZQBXpkGPAZqdQ58=
-Message-ID: <516a4e65-3a4d-4e09-b445-28cb740b5653@linux.microsoft.com>
-Date: Wed, 29 Apr 2026 15:26:43 +0530
+	b=Q31XCOROwAjmtXRERBx2iF+/+sJsH2ybABfnJCzFn77NWB9EVyO4d6UDaaSUN2seb
+	 YQ7d0/CyN4ooJv9sS8ZRGDqMJBY896FQHOvEKQgI5tVaj4mJi2D6hDXN+gA0IZ5wgq
+	 80ZbIizjLbl6bTb0czS/dH3jkSHeHVV2s6z/Ha8s=
+Message-ID: <80efa86b-de96-438c-ac04-fda22c655500@linux.microsoft.com>
+Date: Wed, 29 Apr 2026 15:27:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,8 +34,8 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/15] arm64: hyperv: Add support for
- mshv_vtl_return_call
+Subject: Re: [PATCH v2 08/15] Drivers: hv: Move
+ hv_call_(get|set)_vp_registers() declarations
 To: Michael Kelley <mhklinux@outlook.com>,
  "K . Y . Srinivasan" <kys@microsoft.com>,
  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
@@ -60,135 +60,47 @@ Cc: Marc Zyngier <maz@kernel.org>, Timothy Hayes <timothy.hayes@arm.com>,
  "vdso@mailbox.org" <vdso@mailbox.org>,
  "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>
 References: <20260423124206.2410879-1-namjain@linux.microsoft.com>
- <20260423124206.2410879-8-namjain@linux.microsoft.com>
- <SN6PR02MB4157C147A1B915F9B45D3B74D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20260423124206.2410879-9-namjain@linux.microsoft.com>
+ <SN6PR02MB4157852404B5258EF13A5450D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Language: en-US
 From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB4157C147A1B915F9B45D3B74D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157852404B5258EF13A5450D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 4/27/2026 11:08 AM, Michael Kelley wrote:
+On 4/27/2026 11:09 AM, Michael Kelley wrote:
 > From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, April 23, 2026 5:42 AM
 >>
->> Add the arm64 variant of mshv_vtl_return_call() to support the MSHV_VTL
->> driver on arm64. This function enables the transition between Virtual
->> Trust Levels (VTLs) in MSHV_VTL when the kernel acts as a paravisor.
+>> Move hv_call_get_vp_registers() and hv_call_set_vp_registers()
+>> declarations from drivers/hv/mshv.h to include/asm-generic/mshyperv.h.
 >>
->> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
->> Reviewed-by: Roman Kisel <vdso@mailbox.org>
->> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
->> ---
->>   arch/arm64/hyperv/Makefile        |   1 +
->>   arch/arm64/hyperv/hv_vtl.c        | 158 ++++++++++++++++++++++++++++++
->>   arch/arm64/include/asm/mshyperv.h |  13 +++
->>   arch/x86/include/asm/mshyperv.h   |   2 -
->>   drivers/hv/mshv_vtl.h             |   3 +
->>   include/asm-generic/mshyperv.h    |   2 +
->>   6 files changed, 177 insertions(+), 2 deletions(-)
->>   create mode 100644 arch/arm64/hyperv/hv_vtl.c
+>> These functions are defined in mshv_common.c and are going to be called
+>> from both drivers/hv/ and arch/x86/hyperv/hv_vtl.c. The latter never
+>> included mshv.h, relying on implicit declaration visibility. Moving the
+>> declarations to the arch-generic Hyper-V header makes them properly
+>> visible to all architecture-specific callers.
 >>
+>> Provide static inline stubs returning -EOPNOTSUPP when neither
+>> CONFIG_MSHV_ROOT nor CONFIG_MSHV_VTL is enabled.
 > 
-> [snip]
+> Looking at the drivers/hv/Kconfig, it's possible to build with
+> CONFIG_HYPERV_VTL_MODE=y, but not CONFIG_MSHV_VTL. In such a
+> case, mshv_common.o doesn't get built, which is why the stubs are
+> needed. Is such a configuration desirable for some scenarios?
 > 
->> diff --git a/arch/arm64/include/asm/mshyperv.h b/arch/arm64/include/asm/mshyperv.h
->> index 585b23a26f1b..9eb0e5999f29 100644
->> --- a/arch/arm64/include/asm/mshyperv.h
->> +++ b/arch/arm64/include/asm/mshyperv.h
->> @@ -60,6 +60,18 @@ static inline u64 hv_get_non_nested_msr(unsigned int reg)
->>   				ARM_SMCCC_SMC_64,		\
->>   				ARM_SMCCC_OWNER_VENDOR_HYP,	\
->>   				HV_SMCCC_FUNC_NUMBER)
->> +
->> +struct mshv_vtl_cpu_context {
->> +/*
->> + * x18 is managed by the hypervisor. It won't be reloaded from this array.
->> + * It is included here for convenience in array indexing.
->> + * 'rsvd' field serves as alignment padding so q[] starts at offset 32*8=256.
->> + */
->> +	__u64 x[31];
->> +	__u64 rsvd;
->> +	__uint128_t q[32];
->> +};
->> +
->>   #ifdef CONFIG_HYPERV_VTL_MODE
->>   /*
->>    * Get/Set the register. If the function returns `1`, that must be done via
->> @@ -69,6 +81,7 @@ static inline int hv_vtl_get_set_reg(struct hv_register_assoc *regs,
->> bool set, b
->>   {
->>   	return 1;
->>   }
->> +
-> 
-> This appears to be a spurious blank line being added since there
-> are no other changes in the vicinity.
-
-Acked.
-
-> 
->>   #endif
->>
->>   #include <asm-generic/mshyperv.h>
->> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
->> index 08278547b84c..b4d80c9a673a 100644
->> --- a/arch/x86/include/asm/mshyperv.h
->> +++ b/arch/x86/include/asm/mshyperv.h
->> @@ -286,7 +286,6 @@ struct mshv_vtl_cpu_context {
->>   #ifdef CONFIG_HYPERV_VTL_MODE
->>   void __init hv_vtl_init_platform(void);
->>   int __init hv_vtl_early_init(void);
->> -void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
->>   void mshv_vtl_return_call_init(u64 vtl_return_offset);
->>   void mshv_vtl_return_hypercall(void);
->>   void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
->> @@ -294,7 +293,6 @@ int hv_vtl_get_set_reg(struct hv_register_assoc *regs, bool set,
->> bool shared);
->>   #else
->>   static inline void __init hv_vtl_init_platform(void) {}
->>   static inline int __init hv_vtl_early_init(void) { return 0; }
->> -static inline void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
->>   static inline void mshv_vtl_return_call_init(u64 vtl_return_offset) {}
->>   static inline void mshv_vtl_return_hypercall(void) {}
->>   static inline void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
->> diff --git a/drivers/hv/mshv_vtl.h b/drivers/hv/mshv_vtl.h
->> index a6eea52f7aa2..103f07371f3f 100644
->> --- a/drivers/hv/mshv_vtl.h
->> +++ b/drivers/hv/mshv_vtl.h
->> @@ -22,4 +22,7 @@ struct mshv_vtl_run {
->>   	char vtl_ret_actions[MSHV_MAX_RUN_MSG_SIZE];
->>   };
->>
->> +static_assert(sizeof(struct mshv_vtl_cpu_context) <= 1024,
->> +	      "struct mshv_vtl_cpu_context exceeds reserved space in struct
->> mshv_vtl_run");
->> +
->>   #endif /* _MSHV_VTL_H */
->> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
->> index db183c8cfb95..8cdf2a9fbdfb 100644
->> --- a/include/asm-generic/mshyperv.h
->> +++ b/include/asm-generic/mshyperv.h
->> @@ -396,8 +396,10 @@ static inline int hv_deposit_memory(u64 partition_id, u64 status)
->>
->>   #if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
->>   u8 __init get_vtl(void);
->> +void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
->>   #else
->>   static inline u8 get_vtl(void) { return 0; }
->> +static inline void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
-> 
-> Is this stub needed? Maybe I missed something, but it looks to me like none
-> of the code that calls this gets built unless CONFIG_HYPERV_VTL_MODE is set.
-> See further comments about stubs in Patch 8 of this series.
+> I wonder if having CONFIG_HYPERV_VTL_MODE force the building of
+> mshv_common.o would be a better approach. Then the stubs wouldn't
+> be needed. The "ifneq" statement in drivers/hv/Makefile could use
+> CONFIG_HYPERV_VTL_MODE instead of CONFIG_MSHV_VTL, and
+> everything would be good since CONFIG_MSHV_VTL depends on
+> CONFIG_HYPERV_VTL_MODE.
 > 
 
-Config dependencies would handle such cases, and this is not required. I 
-saw similar stubs added in the code, so I thought this is a norm that 
-should be followed, and not rely on config dependencies.
-I can remove it.
+This looks good. I'll try this and make the changes. In case there are 
+some challenges with that, I'll revert back.
+
 
 Regards,
 Naman
-
