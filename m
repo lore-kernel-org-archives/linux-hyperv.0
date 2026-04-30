@@ -1,99 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DAC3939C9;
-	Thu, 30 Apr 2026 03:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85054A35;
+	Thu, 30 Apr 2026 04:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777519598; cv=none; b=sAq3dsw2ONxWvsR/vsb+Fq16CVhmrcbRlaJJTht4oevy/91xXQP+jSq7HOPOY/NAglTfe37VYOAifC3Q3H279XeCpHVUJR2GXFrXLX0xALuDghLzKKLvEjZDrgZtL3pWVHzz+AfWkgXKLfrgvQbD2fRUOjfg9iCln9lNkCQWHQ8=
+	t=1777521685; cv=none; b=hlOvBnzelqpRqulmFsasvKEmX9BQK0MGgAkLv8KnCa90b47JajSfqTymzmaap0JQlcrrn1AqB04XVJMvJynvwv/Fn77JQqh9auYQ9x9Lo/W2kewVvBmXyDa5VaGvpNYRLpG5JEJBgywvoeu5fq30JjLaeh6esjsrfFiRWans9ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777519598; c=relaxed/simple;
-	bh=l9exXaykMZZr58ApvA3wgjdBqbjJXmcg2LD51E1L2d8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=fHRh6fOO7W95GgKPTjcVjtirDJIml6iMBeUMVNOGZj5zvcj07ltbJpuXMmQrHHUYOpU5+oVHS1EdvrrCDrrhR9I4tPgRVo48z3oYhJj+9TrZEVJ5NVXJGYeljLkjw4YqrdRquQsSOc9Z7wixpouDQGRwmJO2gbnrMqLtI1PlIfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQ5fUnGV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777521685; c=relaxed/simple;
+	bh=8oxP5EqKXJYQuAtM9mvq5dYKEkKBVCKuUMutgRZC1mM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jg75/PtL9Qx4KIu+nIgESFm3mf6ip/Y67xLpnUKfWT4/J2MlW3EkyX6RCk/obIpSqwIzenSWUUIsXfwc+p3830KYOw6PjBGF/uooDDCZC/3bfv9laeRA2lrwQ+S607R/kVCA9O7CvCeM6WDoJUc5y4LW+C6wY2CIZljNX4p81yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lcKZKe1r; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQ5fUnGV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A3B0C2BCC6;
-	Thu, 30 Apr 2026 03:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777519598;
-	bh=l9exXaykMZZr58ApvA3wgjdBqbjJXmcg2LD51E1L2d8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=VQ5fUnGVnOy9olGba/PpFhmIOWwrvE63bg7wf8QD1oVMBU1BxMtz5Q5sq/JwQ9xtx
-	 FBCndWX7NJpcwHQS2uh8ZRD+UwKJS8Nf/xOjB7kKUPQy858zCbkge2oAV6lxAQf625
-	 gG1qodBE+N3L2UtwgzEs5J0HoMAeFALuJQm6hAGuvkiAJgkXb28kjlalsRs3n3a2TF
-	 29IamRcKDsnYhlWjglq3Ko8zPoEuXsWpPSgFQW5Uw0WEZ3PhmG1Et2p+yJY2KivWmR
-	 Vv+BDgeCmlfDBpvBGUWuK6vk0BLhwJE3vHWgs2Tf1Bq4zcCUvorNfflKfJA4kV/UO2
-	 SQxIDV5JK1LdQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B9F3C3809A07;
-	Thu, 30 Apr 2026 03:25:54 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lcKZKe1r"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 99BFF20B716C;
+	Wed, 29 Apr 2026 21:01:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99BFF20B716C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777521683;
+	bh=KRsW0ZE1gsdLQcEsyxF+0Whp9BSulyxr8i92HJWzBww=;
+	h=From:To:Subject:Date:From;
+	b=lcKZKe1r7ErSAkUflJjK5oHZi6OGOoIvW/jqQzamDGsZ6c99zUHQ7xQEkFJNQ6mic
+	 bywkglQWfbbVyV5Y7BsHoyEr2TS0jqG5z+ILeRbDNUGunxjGQBKozRXfgR8KfuCIlQ
+	 +7nmxGgIdkn7TaPE3ld/5HrcVzl6Y18Z7QTwYGjk=
+From: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	leon@kernel.org,
+	longli@microsoft.com,
+	kotaranov@microsoft.com,
+	horms@kernel.org,
+	shradhagupta@linux.microsoft.com,
+	ssengar@linux.microsoft.com,
+	ernis@linux.microsoft.com,
+	shirazsaleem@microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	stephen@networkplumber.org,
+	jacob.e.keller@intel.com,
+	dipayanroy@microsoft.com,
+	leitao@debian.org,
+	kees@kernel.org,
+	john.fastabend@gmail.com,
+	hawk@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	ast@kernel.org,
+	sdf@fomichev.me,
+	yury.norov@gmail.com
+Subject: [PATCH 0/3] net: mana: Fix mana_destroy_rxq() cleanup for partial RXQ init
+Date: Wed, 29 Apr 2026 20:57:51 -0700
+Message-ID: <20260430035935.1859220-1-dipayanroy@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/8] firmware: sysfb: Consolidate config/code wrt.
- sysfb_primary_screen
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <177751955329.2274119.12779807302343885295.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Apr 2026 03:25:53 +0000
-References: <20260402092305.208728-1-tzimmermann@suse.de>
-In-Reply-To: <20260402092305.208728-1-tzimmermann@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-riscv@lists.infradead.org, javierm@redhat.com, arnd@arndb.de,
- ardb@kernel.org, ilias.apalodimas@linaro.org, chenhuacai@kernel.org,
- kernel@xen0n.name, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- longli@microsoft.com, deller@gmx.de, linux-arm-kernel@lists.infradead.org,
- loongarch@lists.linux.dev, linux-efi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-fbdev@vger.kernel.org
 
-Hello:
+When mana_create_rxq() fails partway through initialization (e.g. the
+hardware rejects the WQ object creation), the error path calls
+mana_destroy_rxq() to tear down a partially-initialized RXQ.
+This exposed multiple issues in mana_destroy_rxq() path, as it assumed
+the RXQ was always fully initialized, leading to multiple issues:
 
-This series was applied to riscv/linux.git (fixes)
-by Ard Biesheuvel <ardb@kernel.org>:
+1. xdp_rxq_info_unreg() was called on an unregistered xdp_rxq,
+   triggering a WARN_ON ("Driver BUG") in net/core/xdp.c.
 
-On Thu,  2 Apr 2026 11:09:14 +0200 you wrote:
-> The global state sysfb_primary_screen holds information about the
-> framebuffer provided by EFI/BIOS systems. It is part of the sysfb
-> module, but used in several places without direct connection to
-> sysfb. Fix this by making users of sysfb_primary_screen depend on
-> CONFIG_SYSFB. Fix a few issues in the process.
-> 
-> Patches 1 and 2 fix general errors in the Kconfig rules. In any case,
-> these patches should be considered even without the rest of the series.
-> 
-> [...]
+2. mana_destroy_wq_obj() was called with INVALID_MANA_HANDLE,
+   sending a bogus destroy command to the hardware.
 
-Here is the summary with links:
-  - [1/8] hv: Select CONFIG_SYSFB only for CONFIG_HYPERV_VMBUS
-    https://git.kernel.org/riscv/c/d33db956c961
-  - [2/8] firmware: efi: Never declare sysfb_primary_display on x86
-    https://git.kernel.org/riscv/c/5241c2ca33bb
-  - [3/8] firmware: sysfb: Make CONFIG_SYSFB a user-selectable option
-    (no matching commit)
-  - [4/8] firmware: sysfb: Split sysfb.c into sysfb_primary.c and sysfb_pci.c
-    (no matching commit)
-  - [5/8] firmware: sysfb: Implement screen_info relocation for primary display
-    (no matching commit)
-  - [6/8] firmware: sysfb: Avoid forward-declaring sysfb_parent_dev()
-    (no matching commit)
-  - [7/8] firmware: efi: Make CONFIG_EFI_EARLYCON depend on CONFIG_SYSFB; clean up
-    (no matching commit)
-  - [8/8] firmware: sysfb: Move CONFIG_FIRMWARE_EDID to firmware options
-    (no matching commit)
+3. mana_deinit_cq() was called twice — once inside mana_destroy_rxq()
+   and again in mana_create_rxq()'s error path — causing a
+   use-after-free since mana_destroy_rxq() frees the rxq first.
 
-You are awesome, thank you!
+This was observed during ethtool ring parameter changes when the
+hardware returned an error creating the RXQ. This series makes
+mana_destroy_rxq() safe to call at any stage of RXQ initialization
+by guarding each teardown step, and removes the redundant cleanup
+in mana_create_rxq().
+
+Dipayaan Roy (3):
+  net: mana: check xdp_rxq registration before unreg in
+    mana_destroy_rxq()
+  net: mana: Skip WQ object destruction for uninitialized RXQ
+  net: mana: remove double CQ cleanup in mana_create_rxq error path
+
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.43.0
 
