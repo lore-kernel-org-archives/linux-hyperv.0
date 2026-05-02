@@ -1,38 +1,39 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3402028DB49;
-	Sat,  2 May 2026 04:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7405E21ADA4;
+	Sat,  2 May 2026 04:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777696099; cv=none; b=fQfDrliwKOjnzN3AOCvopTUOu+pY5MOQzXb5K6p7/vl8XdqHDfxNV/99TTJPrRJEC4uG+xhCtat0msDRKFvPkdOrD3wBbpv7wwBY6eFoI+eCMwFOaEPoN0ld6dqbeAQtzThzDe/xhdJRaaSFzHiymTehl79Cey6mT7EiQjjq5RU=
+	t=1777696104; cv=none; b=EktSzI/bwK5OogYjllkxcs07wCTRSQDVLq3ceu3HmLQ0cUgNYCqcl6tKyypM+NzTHNZYO5F9aKTV9XeZYke8Ikj2Be2qDfs0aRgzDr89CBF+JTPv2Iw/ihW3Nvn6MVOAiAjID5IO5xcmZVIN9XlrqAAy6KGOGWqKgXCD2U/PNE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777696099; c=relaxed/simple;
-	bh=B5BcviSkWxMJxsB/yXxPztpPzSuD5TeqcGUMVbQdrGY=;
+	s=arc-20240116; t=1777696104; c=relaxed/simple;
+	bh=c8LHzBNzI7BHchDKfgh/e9MvO0h6wDrfGJbjn7vIn5A=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t9MQWmtJFgGmjzbrmAxn0eMwivY4YRvFnbOTvvR6h3NwX1MvMEKL50ht8zU6P9nXiUGyEzniPq675e7UR09jIBQLL1F8p0g8zo9YdcJ+7FuXdXJpsjQFyjh+CJmt6Rg/1i96SO24mRuSgd1yIb7pUFEmMIZwAqY1liRZNiLuAYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Tgp0mheq; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=Lw83fy14AYRO4o/Dic/aog/T8OjkZTqYscQM+K8EgwkCHx0PGKYQy+Qngs0+818l/jc2YygRYkTEvVpX33V9hW5YG6arOQQE8b3LD3FoZW/JX09all62tWFQpdDtYkGhKE2z0ylq0mWIylt70oBA39jIWEKeFgIgcc6gj+kJBvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FBWPsCOA; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Tgp0mheq"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FBWPsCOA"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B4C1420B7168;
-	Fri,  1 May 2026 21:28:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B4C1420B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 13C3D20B7168;
+	Fri,  1 May 2026 21:28:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 13C3D20B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777696097;
-	bh=sb9hrF+S0d+gt2J++FOGx9P56GAr3cUi3MdkyEEHB8Q=;
+	s=default; t=1777696103;
+	bh=ey70lcx+BVallWG8rfFgGzN9FQMMI/df+OXYEPTzdZs=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Tgp0mheqrxzl3IQgfVzFeuO3nuq6mNsl/Fqek/mLhiw+QIasC4DFAA3xFp/l434S5
-	 P0iDTLhvVSJScebiTFc7v2k3BTxMVstF9zaPTxEOtf6+Fg4c0mT5JSIamM+fgrC9mE
-	 EHSZYHD+NfJpLSMut9memPk9cBX+UIUe3J090J9I=
-Subject: [PATCH v2 12/18] mshv: Fix use-after-RCU in mshv_portid_lookup
+	b=FBWPsCOAaSAYjjhWztuxz+0aVfah7nn7Rg/hjjkd3L2FCQ1SK3tfpa/DB6zg7mvV/
+	 yunjr/hiX1pQ5BQUyWfKEFPmpcP6A2elXTomKaHFg3er1E/vtbhEMAPcoFz3FwgosH
+	 89Ohfgvh+WnCxdCVGUMghPtQqOIerZebHKLsIhGY=
+Subject: [PATCH v2 13/18] mshv: Fix sleeping under spinlock in
+ mshv_portid_alloc
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Sat, 02 May 2026 04:28:17 +0000
+Date: Sat, 02 May 2026 04:28:23 +0000
 Message-ID: 
- <177769609771.222166.4928884649239916644.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177769610309.222166.1126215041483776679.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177769588777.222166.3414280094142944420.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -45,38 +46,40 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-mshv_portid_lookup() drops the RCU read lock before copying the
-port_table_info struct found by idr_find(). If mshv_portid_free() runs
-concurrently on another CPU, it can remove the entry and free it (via
-synchronize_rcu + kfree) before the copy at line *info = *_info
-completes — resulting in a use-after-free.
+idr_alloc() is called with GFP_KERNEL inside idr_lock(), which holds a
+spinlock. GFP_KERNEL allows the allocator to sleep, triggering a
+sleeping-while-atomic bug.
 
-Move rcu_read_unlock() after the struct copy so the object remains
-protected for the entire duration of the read-side access.
+Fix by using idr_preload(GFP_KERNEL) before taking the lock to
+pre-allocate memory in a sleepable context, then idr_alloc() with
+GFP_NOWAIT inside the spinlock-protected section.
 
-Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
+Fixes: 621191d709b1 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_portid_table.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/hv/mshv_portid_table.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hv/mshv_portid_table.c b/drivers/hv/mshv_portid_table.c
-index c349af1f0aaac..f1aaef69eb9b7 100644
+index f1aaef69eb9b7..d6884c601b298 100644
 --- a/drivers/hv/mshv_portid_table.c
 +++ b/drivers/hv/mshv_portid_table.c
-@@ -72,12 +72,11 @@ mshv_portid_lookup(int port_id, struct port_table_info *info)
+@@ -40,12 +40,14 @@ mshv_port_table_fini(void)
+ int
+ mshv_portid_alloc(struct port_table_info *info)
+ {
+-	int ret = 0;
++	int ret;
  
- 	rcu_read_lock();
- 	_info = idr_find(&port_table_idr, port_id);
--	rcu_read_unlock();
--
- 	if (_info) {
- 		*info = *_info;
- 		ret = 0;
- 	}
-+	rcu_read_unlock();
++	idr_preload(GFP_KERNEL);
+ 	idr_lock(&port_table_idr);
+ 	ret = idr_alloc(&port_table_idr, info, PORTID_MIN,
+-			PORTID_MAX, GFP_KERNEL);
++			PORTID_MAX, GFP_NOWAIT);
+ 	idr_unlock(&port_table_idr);
++	idr_preload_end();
  
  	return ret;
  }
