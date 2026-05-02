@@ -1,262 +1,161 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BED81FE47B;
-	Sat,  2 May 2026 07:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2C12C11EE;
+	Sat,  2 May 2026 13:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777707962; cv=none; b=AXRgqpWZIwPsLMbdrrZ0EqvUsLT+IyvfO/OOrlcvmmX9cw/CXnHUcAfcym3qHqcUimkpqIrx8bC9HJJdPtqMilN5BmhxScLLjTOwOQUcfnOGIuaM46Q0Ro3mu+6vraUrPeBUYkZJb8VQVwYBjgQz9VWcXT8PBJTB3W1OhBvYNeU=
+	t=1777727591; cv=none; b=NgluTXeOnDJGTsJouKLOdgH4UV3WQc1fl08NsAq7I8VJ2Nv1xK2sleDDq1+qppqFv4pd4az2da4KwyCRTxECK1DF9GPhLcb5OA9156qqiJTa6XdsnhvqecXr7CKtBgw0/87h2cvsOBIMgdPCve/8CswBIrTCJSnNybNvR+oj474=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777707962; c=relaxed/simple;
-	bh=HouUOri904NMOp6S620izooVjSzSuTHhNCYD29MbSGY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QdnlFHq/tZ3BGhE83gjVMUl1//9LjPIXTfH6QrmO24wYPDHsmOsaxR2DTpFzzfR8C9KN2FxOvaoIGJUK/06jiuG6gCgzCwhvWCesjuhMw9ELAhHVNpz0S+WA3ui7NOk85GwQL1YA9J0pxovAxgsMvo9yt4vXD3fryHkgRbx7DpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bb0tQgTR; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1777727591; c=relaxed/simple;
+	bh=OEYzZwVgmxjww23jVhcXnWxvryJn1l+RP9EXg/6jilI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HTHjERAfeLLIpIx5tuxzHTCzvHeaWPWXgXKCSVZ5H9GJaXMpe+Hg7Eg4G1m+w44v5pe2PcQq7Or/f5k273r11up4sJzxMPtHHJD5kYtTMZMVa8Y6+2euploS00SL+JlQ9mVR+SxmvrYSLAOro1uaWhk6WK8nVIiM2zjAkGVX9Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqA5ECgm; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bb0tQgTR"
-Received: by linux.microsoft.com (Postfix, from userid 1231)
-	id C8E9E20B716C; Sat,  2 May 2026 00:46:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C8E9E20B716C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777707960;
-	bh=IPauBJl23XVTTPHaHpwNSZN2cNKdTVqw7x6BxTnQO4Q=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=bb0tQgTROYid9FHYdW7Ezg4xIh22mzAgfvYJoyyjJr5JXvzQbIRnsywu5Uz8mbey6
-	 lQAaKQ1JipeR2Q7r90STk3hZL238fc46a+cBZqSORGq2ZWUtIH2/sHccP0KVeRJBqL
-	 z5g6FU7tS5RQ1yy3csrCHmiRKCJXMaQf2kZSs+H8=
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kotaranov@microsoft.com,
-	horms@kernel.org,
-	ssengar@linux.microsoft.com,
-	jacob.e.keller@intel.com,
-	dipayanroy@linux.microsoft.com,
-	ernis@linux.microsoft.com,
-	shirazsaleem@microsoft.com,
-	kees@kernel.org,
-	sbhatta@marvell.com,
-	leitao@debian.org,
-	netdev@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org,
-	gargaditya@microsoft.com,
-	gargaditya@linux.microsoft.com
-Subject: [PATCH net-next v3 1/2] net: mana: Use per-queue allocation for tx_qp to reduce allocation size
-Date: Sat,  2 May 2026 00:45:33 -0700
-Message-ID: <20260502074552.23857-2-gargaditya@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260502074552.23857-1-gargaditya@linux.microsoft.com>
-References: <20260502074552.23857-1-gargaditya@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqA5ECgm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777727590; x=1809263590;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OEYzZwVgmxjww23jVhcXnWxvryJn1l+RP9EXg/6jilI=;
+  b=nqA5ECgm6KZUzZdF35zBa0Dva6pPpQNJiSPGIhnFWL6cm1RehxxuT07n
+   MEI6luukt/kuCV214c/IkWpr8hx/lBFSADMxlAyLjcnDvZfIZe4mUsL6M
+   2ooMyj2LIs5SkXPQpT05O+XZFmW0MOr8jprmXjE5BZgDX27ypP7zayD7H
+   vNKEx96Ev1mtpUxsXkJSVU3RKIjmN4FARzeoJd8pYO+4vqxMOxgjRXkep
+   WjJyNXx13zII2AozzE1OZNWrbakJKoQNUw9yVl2Yy1SsgrzxSs7lk+kbT
+   zMCNazM29SyZCTtZIwhkfCb/zSw9pJ8cIllpG9lzTi7piuIN+Snx08YPA
+   Q==;
+X-CSE-ConnectionGUID: NA5HI9S0RLi7W08whneLWQ==
+X-CSE-MsgGUID: zXKoOVwiR2+DSoKvvNhHAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78690505"
+X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
+   d="scan'208";a="78690505"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 06:13:09 -0700
+X-CSE-ConnectionGUID: 7fsP/q4VRWqc2gUNP50meA==
+X-CSE-MsgGUID: YbZWX4F2Q9aIApSsvKH2tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
+   d="scan'208";a="236876449"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 02 May 2026 06:13:07 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJA9Z-000000001Pf-0W9u;
+	Sat, 02 May 2026 13:13:05 +0000
+Date: Sat, 2 May 2026 21:12:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+Message-ID: <202605022145.mMqA1AEU-lkp@intel.com>
+References: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177741648871.626779.11067281081219290277.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 
-Convert tx_qp from a single contiguous array allocation to per-queue
-individual allocations. Each mana_tx_qp struct is approximately 35KB.
-With many queues (e.g., 32/64), the flat array requires a single
-contiguous allocation that can fail under memory fragmentation.
+Hi Stanislav,
 
-Change mana_tx_qp *tx_qp to mana_tx_qp **tx_qp (array of pointers),
-allocating each queue's mana_tx_qp individually via kvzalloc. This
-reduces each allocation to ~35KB and provides vmalloc fallback,
-avoiding allocation failure due to fragmentation.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
----
- .../net/ethernet/microsoft/mana/mana_bpf.c    |  2 +-
- drivers/net/ethernet/microsoft/mana/mana_en.c | 49 ++++++++++++-------
- .../ethernet/microsoft/mana/mana_ethtool.c    |  2 +-
- include/net/mana/mana.h                       |  2 +-
- 4 files changed, 33 insertions(+), 22 deletions(-)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.1-rc1 next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-index 7697c9b52ed3..b5e9bb184a1d 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-@@ -68,7 +68,7 @@ int mana_xdp_xmit(struct net_device *ndev, int n, struct xdp_frame **frames,
- 		count++;
- 	}
- 
--	tx_stats = &apc->tx_qp[q_idx].txq.stats;
-+	tx_stats = &apc->tx_qp[q_idx]->txq.stats;
- 
- 	u64_stats_update_begin(&tx_stats->syncp);
- 	tx_stats->xdp_xmit += count;
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index a654b3699c4c..8adf72b96145 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -355,9 +355,9 @@ netdev_tx_t mana_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 	if (skb_cow_head(skb, MANA_HEADROOM))
- 		goto tx_drop_count;
- 
--	txq = &apc->tx_qp[txq_idx].txq;
-+	txq = &apc->tx_qp[txq_idx]->txq;
- 	gdma_sq = txq->gdma_sq;
--	cq = &apc->tx_qp[txq_idx].tx_cq;
-+	cq = &apc->tx_qp[txq_idx]->tx_cq;
- 	tx_stats = &txq->stats;
- 
- 	BUILD_BUG_ON(MAX_TX_WQE_SGL_ENTRIES != MANA_MAX_TX_WQE_SGL_ENTRIES);
-@@ -614,7 +614,7 @@ static void mana_get_stats64(struct net_device *ndev,
- 	}
- 
- 	for (q = 0; q < num_queues; q++) {
--		tx_stats = &apc->tx_qp[q].txq.stats;
-+		tx_stats = &apc->tx_qp[q]->txq.stats;
- 
- 		do {
- 			start = u64_stats_fetch_begin(&tx_stats->syncp);
-@@ -2321,21 +2321,26 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 		return;
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		debugfs_remove_recursive(apc->tx_qp[i].mana_tx_debugfs);
--		apc->tx_qp[i].mana_tx_debugfs = NULL;
-+		if (!apc->tx_qp[i])
-+			continue;
-+
-+		debugfs_remove_recursive(apc->tx_qp[i]->mana_tx_debugfs);
-+		apc->tx_qp[i]->mana_tx_debugfs = NULL;
- 
--		napi = &apc->tx_qp[i].tx_cq.napi;
--		if (apc->tx_qp[i].txq.napi_initialized) {
-+		napi = &apc->tx_qp[i]->tx_cq.napi;
-+		if (apc->tx_qp[i]->txq.napi_initialized) {
- 			napi_synchronize(napi);
- 			napi_disable_locked(napi);
- 			netif_napi_del_locked(napi);
--			apc->tx_qp[i].txq.napi_initialized = false;
-+			apc->tx_qp[i]->txq.napi_initialized = false;
- 		}
--		mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i].tx_object);
-+		mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i]->tx_object);
- 
--		mana_deinit_cq(apc, &apc->tx_qp[i].tx_cq);
-+		mana_deinit_cq(apc, &apc->tx_qp[i]->tx_cq);
- 
--		mana_deinit_txq(apc, &apc->tx_qp[i].txq);
-+		mana_deinit_txq(apc, &apc->tx_qp[i]->txq);
-+
-+		kvfree(apc->tx_qp[i]);
- 	}
- 
- 	kfree(apc->tx_qp);
-@@ -2344,7 +2349,7 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 
- static void mana_create_txq_debugfs(struct mana_port_context *apc, int idx)
- {
--	struct mana_tx_qp *tx_qp = &apc->tx_qp[idx];
-+	struct mana_tx_qp *tx_qp = apc->tx_qp[idx];
- 	char qnum[32];
- 
- 	sprintf(qnum, "TX-%d", idx);
-@@ -2383,7 +2388,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 	int err;
- 	int i;
- 
--	apc->tx_qp = kzalloc_objs(struct mana_tx_qp, apc->num_queues);
-+	apc->tx_qp = kzalloc_objs(struct mana_tx_qp *, apc->num_queues);
- 	if (!apc->tx_qp)
- 		return -ENOMEM;
- 
-@@ -2403,10 +2408,16 @@ static int mana_create_txq(struct mana_port_context *apc,
- 	gc = gd->gdma_context;
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		apc->tx_qp[i].tx_object = INVALID_MANA_HANDLE;
-+		apc->tx_qp[i] = kvzalloc_obj(*apc->tx_qp[i]);
-+		if (!apc->tx_qp[i]) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
-+
-+		apc->tx_qp[i]->tx_object = INVALID_MANA_HANDLE;
- 
- 		/* Create SQ */
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 
- 		u64_stats_init(&txq->stats.syncp);
- 		txq->ndev = net;
-@@ -2424,7 +2435,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 			goto out;
- 
- 		/* Create SQ's CQ */
--		cq = &apc->tx_qp[i].tx_cq;
-+		cq = &apc->tx_qp[i]->tx_cq;
- 		cq->type = MANA_CQ_TYPE_TX;
- 
- 		cq->txq = txq;
-@@ -2453,7 +2464,7 @@ static int mana_create_txq(struct mana_port_context *apc,
- 
- 		err = mana_create_wq_obj(apc, apc->port_handle, GDMA_SQ,
- 					 &wq_spec, &cq_spec,
--					 &apc->tx_qp[i].tx_object);
-+					 &apc->tx_qp[i]->tx_object);
- 
- 		if (err)
- 			goto out;
-@@ -3288,7 +3299,7 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	 */
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 		tsleep = 1000;
- 		while (atomic_read(&txq->pending_sends) > 0 &&
- 		       time_before(jiffies, timeout)) {
-@@ -3307,7 +3318,7 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	}
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		txq = &apc->tx_qp[i].txq;
-+		txq = &apc->tx_qp[i]->txq;
- 		while ((skb = skb_dequeue(&txq->pending_skbs))) {
- 			mana_unmap_skb(skb, apc);
- 			dev_kfree_skb_any(skb);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index 6a4b42fe0944..04350973e19e 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -260,7 +260,7 @@ static void mana_get_ethtool_stats(struct net_device *ndev,
- 	}
- 
- 	for (q = 0; q < num_queues; q++) {
--		tx_stats = &apc->tx_qp[q].txq.stats;
-+		tx_stats = &apc->tx_qp[q]->txq.stats;
- 
- 		do {
- 			start = u64_stats_fetch_begin(&tx_stats->syncp);
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 8f721cd4e4a7..aa90a858c8e3 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -507,7 +507,7 @@ struct mana_port_context {
- 	bool tx_shortform_allowed;
- 	u16 tx_vp_offset;
- 
--	struct mana_tx_qp *tx_qp;
-+	struct mana_tx_qp **tx_qp;
- 
- 	/* Indirection Table for RX & TX. The values are queue indexes */
- 	u32 *indir_table;
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/mshv-Add-dedicated-ioctl-for-GVA-to-GPA-translation/20260429-094326
+base:   linus/master
+patch link:    https://lore.kernel.org/r/177741648871.626779.11067281081219290277.stgit%40skinsburskii-cloud-desktop.internal.cloudapp.net
+patch subject: [PATCH] mshv: Add dedicated ioctl for GVA to GPA translation
+config: x86_64-randconfig-123-20260430 (https://download.01.org/0day-ci/archive/20260502/202605022145.mMqA1AEU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260502/202605022145.mMqA1AEU-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605022145.mMqA1AEU-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hv/mshv_root_main.c:958:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int enum hv_translate_gva_result_code *[addressable] result @@
+   drivers/hv/mshv_root_main.c:958:30: sparse:     expected void [noderef] __user *to
+   drivers/hv/mshv_root_main.c:958:30: sparse:     got unsigned int enum hv_translate_gva_result_code *[addressable] result
+>> drivers/hv/mshv_root_main.c:961:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] *[addressable] gpa @@
+   drivers/hv/mshv_root_main.c:961:30: sparse:     expected void [noderef] __user *to
+   drivers/hv/mshv_root_main.c:961:30: sparse:     got unsigned long long [usertype] *[addressable] gpa
+
+vim +958 drivers/hv/mshv_root_main.c
+
+   913	
+   914	static long
+   915	mshv_vp_ioctl_translate_gva(struct mshv_vp *vp, void __user *user_args)
+   916	{
+   917		struct mshv_partition *partition = vp->vp_partition;
+   918		struct mshv_translate_gva args;
+   919		struct hv_translate_gva_result_ex result;
+   920		u64 gfn, gpa;
+   921		int ret;
+   922	
+   923		if (copy_from_user(&args, user_args, sizeof(args)))
+   924			return -EFAULT;
+   925	
+   926		do {
+   927			ret = hv_call_translate_virtual_address_ex(vp->vp_index,
+   928								   partition->pt_id,
+   929								   args.flags, args.gva,
+   930								   &gfn, &result);
+   931			if (ret)
+   932				return ret;
+   933	
+   934			if (mshv_gpa_fault_retryable(result.result_code)) {
+   935				struct mshv_mem_region *region;
+   936				bool faulted;
+   937	
+   938				region = mshv_partition_region_by_gfn_get(partition,
+   939									  gfn);
+   940				if (!region)
+   941					return -EFAULT;
+   942	
+   943				faulted = false;
+   944				if (region->mreg_type == MSHV_REGION_TYPE_MEM_MOVABLE)
+   945					faulted = mshv_region_handle_gfn_fault(region,
+   946									       gfn);
+   947				mshv_region_put(region);
+   948	
+   949				if (!faulted)
+   950					return -EFAULT;
+   951	
+   952				cond_resched();
+   953			}
+   954		} while (mshv_gpa_fault_retryable(result.result_code));
+   955	
+   956		gpa = (gfn << PAGE_SHIFT) | (args.gva & ~PAGE_MASK);
+   957	
+ > 958	        if (copy_to_user(args.result, &result, sizeof(*args.result)))
+   959	                return -EFAULT;
+   960	
+ > 961		if (copy_to_user(args.gpa, &gpa, sizeof(*args.gpa)))
+   962			return -EFAULT;
+   963	
+   964		return 0;
+   965	}
+   966	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
