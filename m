@@ -1,39 +1,39 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D69A3EFD14;
-	Mon,  4 May 2026 19:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C463F0A8E;
+	Mon,  4 May 2026 19:09:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921750; cv=none; b=NyrAtU14LR0ycpjRdiV087diy80Gy3ZphDy1xktgYnvzsNTkK26Dc1u04iutRXfFrHWe3eihVUpkWizmcZHJzCQ4mkwN+rbgmZLW+IVmNPf6dgypDoIMADOhLKXuK911oPuN8PgCsvcp9D+alg1C771/eoIkEjqaBgrRFMI2PR0=
+	t=1777921752; cv=none; b=Opglkt2mFPmgXjnHo6BoF5pPz9iEoz8/+2Avy31YWMngELcFrUUilWY0OIkpoe8/1Q6dAcrmZQdLKPGPAXLEfPXRwePysiMTDj4ga8ZCcPG1wZliOQkmBeXJtLhVIXroX95IlQ8kwaLcYaZj1yXYh2iU3FkHfGuxbefOfqjIF7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921750; c=relaxed/simple;
-	bh=pTT6Hswg7L3inYnv97QRqYWAPiZYEb3wMOjLKxxbICI=;
+	s=arc-20240116; t=1777921752; c=relaxed/simple;
+	bh=LKg6XQ9kOCE5ahDArI5b8L75v0fF2CWuwK8AM5CIeFQ=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIeKBEk2VCCHmamDn6YlSOkS/3Mfp5Lu8nKDyE5cnOq3zQW2Y2FEq1Z/zpknsE1DvEQL9jxv/JFwrtGg1FW8Vg62hu4mvQcBn9K8LBwc2XnA+HArd/IjTRC79Tbkkjq3lqe/5ZOEsJ9T9WVJ62xBxh3h9e8EnunRdHux58d328o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cwcncfss; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=lZIOPEHlfWiwt1Fiu4SisSeMxJJzTE7A9zhY0BFXeXakJ1VbS6aITheAdHxT88nv0aC+alVimyBRNPmiuw4g5m0hYGUDntQART9IjFF0+zixGYY0rFoe8Adr3jlaGvMvt4I09ZQfdDG4ywriyjbD0RiOinoERvpm0sIjHkZIV7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CnY31QkK; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cwcncfss"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CnY31QkK"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 43A0320B716A;
-	Mon,  4 May 2026 12:09:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 43A0320B716A
+	by linux.microsoft.com (Postfix) with ESMTPSA id B8E0B20B7168;
+	Mon,  4 May 2026 12:09:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B8E0B20B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777921743;
-	bh=Uk8wk6XlWEHWPtWm07hcZvv/blXW1ZRa96uVpenLlnQ=;
+	s=default; t=1777921748;
+	bh=qv/zUzZcJzd6kXDrJZiNYMHMZp1e9YT/bSHUEU6NMVo=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=cwcncfssveAPAn+OHR4546INMYv378atmeZ+X2MC335tKAPFhKrMPVYFN2RQvEGdQ
-	 0qwt4jNo3NXcQrvWaiaWTviu4PuW7zYSnqT9DFyUIwNTVb721x9fMLflhIJNfawmdD
-	 /NlvfrRDgf3j80pJ6oDpqTJvNwiI7hnXY6ch9xqY=
-Subject: [PATCH v3 02/18] mshv: Fix potential integer overflow in
- mshv_region_create
+	b=CnY31QkKZNL0+yMLmpjCxjs01x6PbpXYCr/aUAKiajhi/z9RSPlLzbtCHjZRdzooE
+	 P+cP0t5f2YmlPNCaBEGzKp8+rVklNfbROOUKOeadZzVTF3dglME+BME/xfe95jmHBB
+	 e1G+QvQIYxZQRxKy1NW6rSjVDDbSbU+EwUWRH7xM=
+Subject: [PATCH v3 03/18] mshv: Fix mshv_prepare_pinned_region error path for
+ unencrypted partitions
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 04 May 2026 19:09:04 +0000
+Date: Mon, 04 May 2026 19:09:10 +0000
 Message-ID: 
- <177792174469.90827.1223001767715615291.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177792175020.90827.15921027473686056141.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177792164525.90827.16672331609214066870.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -48,35 +48,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The allocation size is computed as:
+mshv_prepare_pinned_region() returns 0 (success) when mshv_region_map()
+fails on an unencrypted partition. The condition on the error path:
 
-  sizeof(*region) + sizeof(struct page *) * nr_pages
+    if (ret && mshv_partition_encrypted(partition))
 
-where nr_pages is a u64 originating from userspace. A sufficiently
-large nr_pages can overflow the multiplication, resulting in a small
-allocation followed by out-of-bounds writes when populating mreg_pages.
+only handles map failures for encrypted partitions — if the partition is
+not encrypted and the map fails, execution falls through to 'return 0',
+silently ignoring the error.
 
-Use struct_size() which returns SIZE_MAX on overflow, causing vzalloc
-to safely return NULL — caught by the existing error check.
+Additionally, calling mshv_region_invalidate() inline on map failure
+zeroes the mreg_pages array before the caller's cleanup path
+(mshv_region_destroy) can call mshv_region_unmap(). Since unmap skips
+pages where mreg_pages[offset] is NULL, this can leave stale SLAT
+mappings for partially-mapped pages.
+
+Fix by returning immediately on success and falling through to error
+return on failure. For unencrypted partitions, the caller's
+mshv_region_destroy() handles unmap followed by invalidate in the
+correct order. For encrypted partitions where re-sharing fails, zero
+the page array without unpinning — the pages are inaccessible to the
+host and must not be unpinned, but zeroing prevents
+mshv_region_destroy() from attempting to unpin them.
 
 Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_regions.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hv/mshv_root_main.c |   26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-index fdffd4f002f6f..1d04a97980b8b 100644
---- a/drivers/hv/mshv_regions.c
-+++ b/drivers/hv/mshv_regions.c
-@@ -177,7 +177,7 @@ struct mshv_mem_region *mshv_region_create(u64 guest_pfn, u64 nr_pages,
- {
- 	struct mshv_mem_region *region;
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 665d565899c15..7e4252b6bc65c 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -1360,32 +1360,38 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
+ 			pt_err(partition,
+ 			       "Failed to unshare memory region (guest_pfn: %llu): %d\n",
+ 			       region->start_gfn, ret);
+-			goto invalidate_region;
++			goto err_out;
+ 		}
+ 	}
  
--	region = vzalloc(sizeof(*region) + sizeof(struct page *) * nr_pages);
-+	region = vzalloc(struct_size(region, mreg_pages, nr_pages));
- 	if (!region)
- 		return ERR_PTR(-ENOMEM);
+ 	ret = mshv_region_map(region);
+-	if (ret && mshv_partition_encrypted(partition)) {
++	if (ret)
++		goto share_region;
++
++	return 0;
++
++share_region:
++	if (mshv_partition_encrypted(partition)) {
+ 		int shrc;
  
+ 		shrc = mshv_region_share(region);
+ 		if (!shrc)
+-			goto invalidate_region;
++			goto err_out;
+ 
+ 		pt_err(partition,
+ 		       "Failed to share memory region (guest_pfn: %llu): %d\n",
+ 		       region->start_gfn, shrc);
+ 		/*
+-		 * Don't unpin if marking shared failed because pages are no
+-		 * longer mapped in the host, ie root, anymore.
++		 * Re-sharing failed — the pages remain inaccessible to the
++		 * host.  Zero the page array so that mshv_region_destroy()
++		 * won't attempt to unpin them (leaking the page references
++		 * is intentional; unpinning host-inaccessible pages would be
++		 * unsafe).
+ 		 */
++		memset(region->mreg_pages, 0,
++		       region->nr_pages * sizeof(region->mreg_pages[0]));
+ 		goto err_out;
+ 	}
+-
+-	return 0;
+-
+-invalidate_region:
+-	mshv_region_invalidate(region);
+ err_out:
+ 	return ret;
+ }
 
 
