@@ -1,38 +1,39 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96AEC3EF649;
-	Mon,  4 May 2026 19:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF573F0771;
+	Mon,  4 May 2026 19:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921763; cv=none; b=IUXV1uRYTM0Szce0XjM6hiMEinYfQgRG99ajZIPXIw3eF+4JJ9eXVPyZeg+Z97H1pbf37ncFt08ujmjNyXKlaHEfp3U7HuxPa0vL1zheow8Mg6gyh3iMW6j/Z1fJdrC+su9J1MPcpQA0AVm/l7xEVWW2mqo+nyfUceL4xnqVAaY=
+	t=1777921768; cv=none; b=ayqQiI+xEojH1y1xDKYd5bBR8zkE+i+yqY7a7KbtWfgxdmm6H6VwjX46M3vAT9L1Sht5E0iHrc1HLwfybbDOkyqkqSbviQclcAb38TBB7PDp7AWnA8LEPuS8sf3xhC/jwANE7WYitQvveGP5AAYy6MY2GcnUSX2k7TY9d3m4liU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921763; c=relaxed/simple;
-	bh=GCszAkUZ6N6PEeO5JRUc3/8x0N+lseW9YMRCRB1R8t4=;
+	s=arc-20240116; t=1777921768; c=relaxed/simple;
+	bh=kF88lu0+Ocw5C9Jq3CXNMGXixgKn4qw5/2Ep8kOgnRQ=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NV89lcy+Avc4S6v2XAHNSbYddy7Nh/0IAoCwojQ2xHjYjXkQ/OKdKkgfuoEFepr8hnItHsh2QL9hPLiSfxs+KJYaqPWXs+1QykW4Mhfja+a823JegHRfNhAGf/et9kSJBU+5aEY/nZAGb/gtAkW4uDj+f6Wo11w+t88loD16VtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VXbzlsTI; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=rU9eP/bLd+86jIGdhcO9iSCxxLU0mrvTcorIqGRioW0gVSmkvtm0VbfBkHM4HmxZus8aJVrduQHtP/l8bzoKfiV775JvN9w/+PqdpgSGr3lVxoVe88h65WzGceVOw3/S+kgO0O618r9Ao5JPMlcx0dqPBN6Upu7j4tJLk34Tf0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Gyw3ZU11; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VXbzlsTI"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Gyw3ZU11"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A135820B7168;
-	Mon,  4 May 2026 12:09:19 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A135820B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0D19220B7168;
+	Mon,  4 May 2026 12:09:25 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D19220B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777921759;
-	bh=lHdBDtdX+i2Bvo0Y7puGK3HjcBr6MONWxySGf+EzWrk=;
+	s=default; t=1777921765;
+	bh=hEp07iJkKFnOnKhzkqaNpdLZthXI/i1ZLlt/y4LgudY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VXbzlsTIEmP/SRfkUy8SpjQdWazDX/22fdzu1/Idr54UAK4AfhR27HexPrT5qdYgg
-	 cD5oraqM6ic7BcoI53ckdj5BpjcFWkWgS+WNifMjTk3NR8LBSLxHWPKCG/4gBlgnEc
-	 cINsKAIyxjwo7VyCbn1qQ5+CCb7Qqg6qnok/g9Yo=
-Subject: [PATCH v3 05/18] mshv: Fix race in mshv_irqfd_deassign
+	b=Gyw3ZU11GBMnN3RnK2WP9hOByIWMKyIwJoxbFqfoH0L8GrhGYKi0WSpnpZG7Uc0Nv
+	 pcEbYVlbqqzUE2ESCYdwjY2H53KCVzES61UmxDUDsLINwWmJEESO6GWl65uFrvXmQI
+	 PABnGeL7lTC2waCzSemnJBZXaxC2XA7hcnc5zKBg=
+Subject: [PATCH v3 06/18] mshv: Add defensive synchronize_srcu in irqfd
+ shutdown
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 04 May 2026 19:09:21 +0000
+Date: Mon, 04 May 2026 19:09:26 +0000
 Message-ID: 
- <177792176109.90827.9618841734608771680.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177792176646.90827.1714236627708622678.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177792164525.90827.16672331609214066870.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -47,58 +48,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-mshv_irqfd_deactivate() and the hlist traversal of pt_irqfds_list
-require pt->pt_irqfds_lock to be held, but mshv_irqfd_deassign()
-omits it. This races with the EPOLLHUP path in mshv_irqfd_wakeup(),
-which does take the lock before calling mshv_irqfd_deactivate().
+mshv_irqfd_assign() adds the irqfd to the partition's hlist and then
+registers the wait entry on the eventfd waitqueue via vfs_poll(). A
+narrow window exists between these two operations where the irqfd is
+visible to deactivation paths but the wait entry is not yet initialized
+on the waitqueue.
 
-Additionally, mshv_irqfd_deactivate() uses hlist_del() which poisons
-the node pointers rather than resetting them. Since
-mshv_irqfd_is_active() relies on hlist_unhashed() (checks pprev ==
-NULL), a poisoned node still appears active. If a concurrent path calls
-mshv_irqfd_deactivate() again on the same irqfd, the guard fails to
-prevent a double hlist_del() on poisoned pointers.
+Currently this is not reachable because mshv_irqfd_assign() and
+mshv_irqfd_deassign() are serialized by the partition mutex, and the
+EPOLLHUP wakeup path can only fire after vfs_poll() has registered the
+wait entry. However, if future refactoring removes or relaxes that
+serialization, mshv_irqfd_shutdown() could call
+eventfd_ctx_remove_wait_queue() before the wait entry is on the queue,
+causing a NULL pointer dereference (the list_head is zeroed by kzalloc
+and not initialized by init_waitqueue_func_entry()).
 
-Fix both issues:
-- Add the missing spin_lock_irq/spin_unlock_irq around the list
-  traversal in mshv_irqfd_deassign(), matching mshv_irqfd_release().
-- Use hlist_del_init() instead of hlist_del() so the node is properly
-  marked as unhashed after removal, making the is_active guard reliable.
+Add synchronize_srcu_expedited() at the start of mshv_irqfd_shutdown()
+as a defensive measure, ensuring the assignment path's SRCU read-side
+section (which covers vfs_poll() registration) has completed. This
+follows the pattern established by KVM in irqfd_shutdown().
 
-Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_eventfd.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/hv/mshv_eventfd.c |    4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
-index 90959f639dc32..5995a62aff8d8 100644
+index 5995a62aff8d8..3ab6338064237 100644
 --- a/drivers/hv/mshv_eventfd.c
 +++ b/drivers/hv/mshv_eventfd.c
-@@ -284,7 +284,7 @@ static void mshv_irqfd_deactivate(struct mshv_irqfd *irqfd)
- 	if (!mshv_irqfd_is_active(irqfd))
- 		return;
+@@ -248,8 +248,12 @@ static void mshv_irqfd_shutdown(struct work_struct *work)
+ {
+ 	struct mshv_irqfd *irqfd =
+ 			container_of(work, struct mshv_irqfd, irqfd_shutdown);
++	struct mshv_partition *pt = irqfd->irqfd_partn;
+ 	u64 cnt;
  
--	hlist_del(&irqfd->irqfd_hnode);
-+	hlist_del_init(&irqfd->irqfd_hnode);
- 
- 	queue_work(irqfd_cleanup_wq, &irqfd->irqfd_shutdown);
- }
-@@ -541,13 +541,14 @@ static int mshv_irqfd_deassign(struct mshv_partition *pt,
- 	if (IS_ERR(eventfd))
- 		return PTR_ERR(eventfd);
- 
-+	spin_lock_irq(&pt->pt_irqfds_lock);
- 	hlist_for_each_entry_safe(irqfd, n, &pt->pt_irqfds_list,
- 				  irqfd_hnode) {
- 		if (irqfd->irqfd_eventfd_ctx == eventfd &&
- 		    irqfd->irqfd_irqnum == args->gsi)
--
- 			mshv_irqfd_deactivate(irqfd);
- 	}
-+	spin_unlock_irq(&pt->pt_irqfds_lock);
- 
- 	eventfd_ctx_put(eventfd);
- 
++	/* Make sure irqfd has been initialized in assign path. */
++	synchronize_srcu_expedited(&pt->pt_irq_srcu);
++
+ 	/*
+ 	 * Synchronize with the wait-queue and unhook ourselves to prevent
+ 	 * further events.
 
 
