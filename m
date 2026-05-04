@@ -1,39 +1,39 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF573F0771;
-	Mon,  4 May 2026 19:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC2D3F23AE;
+	Mon,  4 May 2026 19:09:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777921768; cv=none; b=ayqQiI+xEojH1y1xDKYd5bBR8zkE+i+yqY7a7KbtWfgxdmm6H6VwjX46M3vAT9L1Sht5E0iHrc1HLwfybbDOkyqkqSbviQclcAb38TBB7PDp7AWnA8LEPuS8sf3xhC/jwANE7WYitQvveGP5AAYy6MY2GcnUSX2k7TY9d3m4liU=
+	t=1777921773; cv=none; b=ghnPerYAeSVbW2oISQHWHo8MAMZ8h0zqQf7jUNVIX0eHzql7G6N6j8rX+4rVYmg93l5xBOr9t36f+S9ZnYSehJBywzZfeAiyhlQvGoi3sUSFFFObByuB5zQxSx83mgyDKoxZ4mUnRb8o/4nJ4hAMnppZRK4dn9gW6/wpP3bpCQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777921768; c=relaxed/simple;
-	bh=kF88lu0+Ocw5C9Jq3CXNMGXixgKn4qw5/2Ep8kOgnRQ=;
+	s=arc-20240116; t=1777921773; c=relaxed/simple;
+	bh=MbZ5KVCawFViFafLCX6qRWN5V0jr8hdY5lIeo8hn8T4=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rU9eP/bLd+86jIGdhcO9iSCxxLU0mrvTcorIqGRioW0gVSmkvtm0VbfBkHM4HmxZus8aJVrduQHtP/l8bzoKfiV775JvN9w/+PqdpgSGr3lVxoVe88h65WzGceVOw3/S+kgO0O618r9Ao5JPMlcx0dqPBN6Upu7j4tJLk34Tf0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Gyw3ZU11; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=AqZzFBxgmNscf9csPsA+fzbeJiVJYnHrfocIkXrbelts45kg9UyrKK6B9ZepEJIuOxLmPB4vRqw5Qn+KO6++p5vlenDU3R/jwu1ryVZFYvao9Nm1xBLmY+lDGu2JT6IxPcjVqE7FSLy/GDQVKCAsVTSspzTeKkwAaGfbqWe3huo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MbsWB7Tu; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Gyw3ZU11"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MbsWB7Tu"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0D19220B7168;
-	Mon,  4 May 2026 12:09:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D19220B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 63DDF20B7168;
+	Mon,  4 May 2026 12:09:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 63DDF20B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777921765;
-	bh=hEp07iJkKFnOnKhzkqaNpdLZthXI/i1ZLlt/y4LgudY=;
+	s=default; t=1777921770;
+	bh=xSRikRlsBO0iFMCFnKhc/aitU2zdUFWg73GdutlvGhY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Gyw3ZU11GBMnN3RnK2WP9hOByIWMKyIwJoxbFqfoH0L8GrhGYKi0WSpnpZG7Uc0Nv
-	 pcEbYVlbqqzUE2ESCYdwjY2H53KCVzES61UmxDUDsLINwWmJEESO6GWl65uFrvXmQI
-	 PABnGeL7lTC2waCzSemnJBZXaxC2XA7hcnc5zKBg=
-Subject: [PATCH v3 06/18] mshv: Add defensive synchronize_srcu in irqfd
- shutdown
+	b=MbsWB7Tu50wXjBa1puda4RG9woFIvMDuE5tbroh222Bg5MuUx0fP4+wSCrNDw7GEp
+	 1fqFq7zrKlEjg2eOlKg6acbBhms/LLcBRCp1UQB0aH5CCDCK0Kiie8PErsOh9uRli7
+	 b0AHqQWHidgZU0J6HNkzRggqg04n+/bTekvriDF4=
+Subject: [PATCH v3 07/18] mshv: Add NULL check for vp in
+ mshv_try_assert_irq_fast
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 04 May 2026 19:09:26 +0000
+Date: Mon, 04 May 2026 19:09:31 +0000
 Message-ID: 
- <177792176646.90827.1714236627708622678.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177792177183.90827.14993047337701610344.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177792164525.90827.16672331609214066870.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -48,47 +48,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-mshv_irqfd_assign() adds the irqfd to the partition's hlist and then
-registers the wait entry on the eventfd waitqueue via vfs_poll(). A
-narrow window exists between these two operations where the irqfd is
-visible to deactivation paths but the wait entry is not yet initialized
-on the waitqueue.
+mshv_try_assert_irq_fast() dereferences the vp pointer obtained from
+pt_vp_array[lapic_apic_id] without checking for NULL or validating that
+lapic_apic_id is within bounds. A spurious interrupt from the hypervisor
+targeting a non-existent VP (or one not yet created) causes a NULL
+pointer dereference and crashes the host.
 
-Currently this is not reachable because mshv_irqfd_assign() and
-mshv_irqfd_deassign() are serialized by the partition mutex, and the
-EPOLLHUP wakeup path can only fire after vfs_poll() has registered the
-wait entry. However, if future refactoring removes or relaxes that
-serialization, mshv_irqfd_shutdown() could call
-eventfd_ctx_remove_wait_queue() before the wait entry is on the queue,
-causing a NULL pointer dereference (the list_head is zeroed by kzalloc
-and not initialized by init_waitqueue_func_entry()).
+Add a bounds check on lapic_apic_id against MSHV_MAX_VPS and a NULL
+check on the vp pointer before dereferencing.
 
-Add synchronize_srcu_expedited() at the start of mshv_irqfd_shutdown()
-as a defensive measure, ensuring the assignment path's SRCU read-side
-section (which covers vfs_poll() registration) has completed. This
-follows the pattern established by KVM in irqfd_shutdown().
-
+Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_eventfd.c |    4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hv/mshv_eventfd.c |    5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
-index 5995a62aff8d8..3ab6338064237 100644
+index 3ab6338064237..509911ffcbeee 100644
 --- a/drivers/hv/mshv_eventfd.c
 +++ b/drivers/hv/mshv_eventfd.c
-@@ -248,8 +248,12 @@ static void mshv_irqfd_shutdown(struct work_struct *work)
- {
- 	struct mshv_irqfd *irqfd =
- 			container_of(work, struct mshv_irqfd, irqfd_shutdown);
-+	struct mshv_partition *pt = irqfd->irqfd_partn;
- 	u64 cnt;
+@@ -169,7 +169,12 @@ static int mshv_try_assert_irq_fast(struct mshv_irqfd *irqfd)
+ 		return -EOPNOTSUPP;
+ #endif
  
-+	/* Make sure irqfd has been initialized in assign path. */
-+	synchronize_srcu_expedited(&pt->pt_irq_srcu);
++	if (irq->lapic_apic_id >= MSHV_MAX_VPS)
++		return -EINVAL;
 +
- 	/*
- 	 * Synchronize with the wait-queue and unhook ourselves to prevent
- 	 * further events.
+ 	vp = partition->pt_vp_array[irq->lapic_apic_id];
++	if (!vp)
++		return -EINVAL;
+ 
+ 	if (!vp->vp_register_page)
+ 		return -EOPNOTSUPP;
 
 
