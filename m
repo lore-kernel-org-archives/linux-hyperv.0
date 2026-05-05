@@ -1,80 +1,111 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73DE387364;
-	Tue,  5 May 2026 11:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106293EF0D2;
+	Tue,  5 May 2026 13:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777980950; cv=none; b=gtxiHV3cl+ND5yeXuGEfDbdxfjFWE6XyTXxQRs937l91XVgAY9kDSLuQLE7iSyioriZY8Ao6RRwkHS+NPmD7W6KV7cwmxI/BSfztQy8ZmJKbuk1l9cIb3wejRZJNKyVECbQtnIL4iP4Gtu7yonZta+5WNO9p08cBqMiqE6cuIpQ=
+	t=1777988389; cv=none; b=Nc4537Q8QMvoe2lntRbPXsVRzMzseVoF4bc2rynMcqrFZut7TA4b9sN3Xbs1QAN2pUu51/dT81KQ205dLU1+T5Fdd6cGL/GaSnZyK6s9Pu1MoUHXZf+keNGwNAHiIFQ4qgbJRgASiqb7Erx2VA/efC8oT4Tc9JeHIaI0xVEiUWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777980950; c=relaxed/simple;
-	bh=at19uvxNcHMfcG+vd2NFqn/Rp/ZQnuYgva4Zq0bYUg4=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=njdTLr//DcqIldHfpfp2dIVfC2lY0+JC7lXeJa+cEEwbGzZ08bbDUUHO8N6aETUZoofd51jejTIUx1kgpPm43Zl51O9QId5ltynhV+S+aJ1Y5XeZu8yzHxVF1rehVPBI5smxesswrrfXr1kwPyuHmSJTSphGNzCSjcLL9fLdgE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OYTAspS4; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1777988389; c=relaxed/simple;
+	bh=lDmxIrb2TXzASfiuCLeb0bitGj5KO4NOFTyIIw2rOK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHNcGx7CG7Xu0nd1/GObr+W2GnirYeWt7PDcQ5Qvf6ybvMZgt2bqO65C4IWhpiFkH4xNQXtHzIsWE/OivPbtMNP+dackZueVbR0RIfbo+qVDQo4WMyJWpJbeUWW4rdXqr3Urde9XEtCXY/O2YxeMMRlHR1J6DEzyhVf5LX31KhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L2m8SQPR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OYTAspS4"
-Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id 2C94820B7168; Tue,  5 May 2026 04:35:46 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2C94820B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777980946;
-	bh=I4klsKzTXH34c/6RkK2WQi9jxixheunHFgfWXjXIHIk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=OYTAspS4xGyg/MRyaMAAWFEcDxi2hRjko1QnVvfe/d7s6tdxoWlXkL9rBrBmk4XlA
-	 64i7Cnk2/Jo+G2c/nseUdPntKzM5IUpcU7NcYaSqjbPdaK8Fh+C+c2sHp8KhlxBFsf
-	 SP0OdePFhHmpi8kDIA59gm7AmoFoxmyxQIpmD3HQ=
-Received: from localhost (localhost [127.0.0.1])
-	by linux.microsoft.com (Postfix) with ESMTP id 2A8ED30705A3;
-	Tue,  5 May 2026 04:35:46 -0700 (PDT)
-Date: Tue, 5 May 2026 04:35:46 -0700 (PDT)
-From: Jork Loeser <jloeser@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-    "x86@kernel.org" <x86@kernel.org>, 
-    "K . Y . Srinivasan" <kys@microsoft.com>, 
-    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-    Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, 
-    Anirudh Rayabharam <anirudh@anirudhrb.com>, 
-    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-    "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH v4 1/3] mshv: limit SynIC management to MSHV-owned
- resources
-In-Reply-To: <SN6PR02MB4157280E305E11C5840B444DD4312@SN6PR02MB4157.namprd02.prod.outlook.com>
-Message-ID: <91faacb-d16-8540-4713-dad25bacf695@linux.microsoft.com>
-References: <20260427213855.1675044-1-jloeser@linux.microsoft.com> <20260427213855.1675044-2-jloeser@linux.microsoft.com> <SN6PR02MB4157280E305E11C5840B444DD4312@SN6PR02MB4157.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L2m8SQPR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 362D9C2BCB4;
+	Tue,  5 May 2026 13:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777988388;
+	bh=lDmxIrb2TXzASfiuCLeb0bitGj5KO4NOFTyIIw2rOK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L2m8SQPRJ3APZQXbtipIvBXYMXRv6nK126TQs+FDyLprMbkAEfZzwid2Nr4bW2/gH
+	 Vm/n9UtyqcIHPQJZj1G27ywzVIT4NQI82fqvm9XqinNGi4aWgsKuM6tAYU6D00YHl6
+	 RYZ75swH44LjpA9OTUB1SEtOWaIRXI9L9WSYR+BSeq0a40LZ06KGwrN1PDtTDao0hT
+	 PG8FgQFTDCLg586NU3YF1wIUI+C42tvMmorH2WPWhUBEyO+ArGyl9wegHDN6LDssr/
+	 NLs5GaL8U+ybDCF6S2ehfV3EDwOmBnTgBsj2wq3y2ucUzn8BI75M9wj6QrSqs+IW7/
+	 fuSCZB5AEQ5Qg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	linux@armlinux.org.uk,
+	nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andersson@kernel.org,
+	mathieu.poirier@linaro.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
+Date: Tue,  5 May 2026 15:37:20 +0200
+Message-ID: <20260505133935.3772495-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 4 May 2026, Michael Kelley wrote:
+This is the follow-up of the driver_override generalization in [1], converting
+the remaining 4 busses and removing the now-unused driver_set_override() helper.
 
-> From: Jork Loeser <jloeser@linux.microsoft.com> Sent: Monday, April 27, 2026 2:39 PM
->>
->> While here, fix the SIEFP and SIRBP memremap() and virt_to_phys()
->> calls to use HV_HYP_PAGE_SHIFT/HV_HYP_PAGE_SIZE instead of
->> PAGE_SHIFT/PAGE_SIZE. The hypervisor always uses 4K pages for SynIC
->> register GPAs regardless of the kernel page size, so using PAGE_SHIFT
->> produces wrong addresses on ARM64 with 64K pages.
->
-> I agree that this is a good change. But any kernel image built with
-> CONFIG_MSHV_ROOT set must use only 4KiB pages, as enforced
-> by the dependency in drivers/hv/Kconfig. The change makes the
-> code explicitly match the SynIC register layout, which is good,
-> but it doesn't actually fix a problem since root MSHV code can't
-> run on ARM64 with 64KiB pages. My only concern is that this
-> commit message should not imply that an ARM64/64KiB
-> configuration is possible for the root.
+All of them are prone to the potential UAF described in [2], caused by accessing
+the driver_override field from their corresponding match() callback.
 
-Agree for root. For L1VH, I think it theoretically could (likely with 
-other changes needing to happen elsewhere).
+In order to address this, the generalized driver_override field in struct device
+is protected with a spinlock. The driver-core provides accessors, such as
+device_match_driver_override(), device_has_driver_override() and
+device_set_driver_override(), which all ensure proper locking internally.
 
-Best,
-Jork
+Additionally, the driver-core provides a driver_override flag in struct
+bus_type, which, once enabled, automatically registers generic sysfs callbacks,
+allowing userspace to modify the driver_override field.
+
+This series is based on v7.1-rc1 with no additional dependencies, hence those
+patches can be picked up by subsystems individually.
+
+[1] https://lore.kernel.org/driver-core/20260303115720.48783-1-dakr@kernel.org/
+[2] https://bugzilla.kernel.org/show_bug.cgi?id=220789
+[3] https://gitlab.com/driverctl/driverctl/-/blob/0.121/driverctl?ref_type=tags#L99
+
+Changes in v2:
+  - Rebase on v7.1-rc1
+  - Drop already merged patches
+  - vmbus documentation changes as requested by Michael
+
+Danilo Krummrich (5):
+  amba: use generic driver_override infrastructure
+  cdx: use generic driver_override infrastructure
+  Drivers: hv: vmbus: use generic driver_override infrastructure
+  rpmsg: use generic driver_override infrastructure
+  driver core: remove driver_set_override()
+
+ drivers/amba/bus.c                | 37 +++------------
+ drivers/base/driver.c             | 75 -------------------------------
+ drivers/cdx/cdx.c                 | 40 +++--------------
+ drivers/hv/vmbus_drv.c            | 43 +++++-------------
+ drivers/rpmsg/qcom_glink_native.c |  2 -
+ drivers/rpmsg/rpmsg_core.c        | 43 +++---------------
+ drivers/rpmsg/virtio_rpmsg_bus.c  |  1 -
+ include/linux/amba/bus.h          |  5 ---
+ include/linux/cdx/cdx_bus.h       |  4 --
+ include/linux/device/driver.h     |  2 -
+ include/linux/hyperv.h            |  5 ---
+ include/linux/rpmsg.h             |  4 --
+ 12 files changed, 28 insertions(+), 233 deletions(-)
+
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.54.0
+
