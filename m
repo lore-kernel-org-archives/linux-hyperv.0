@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795B247DD78;
-	Tue,  5 May 2026 13:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5752047DFBF;
+	Tue,  5 May 2026 13:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777988405; cv=none; b=K4tVHYxhNUoj1HUhi8fR+KlqDrHSjfb68JlAUGsTjzUO3vUcpyet8R79vRu/HJhVVv80ggG62uNfh8P3CBvfO4RrGVBFK853UNZ6ClMq1ZMepxPx1ZrreRBN0lzn7I19AB3Ud47vNGYeDneBGpMB+rtzH1m64ifn+DPRykUGO9s=
+	t=1777988409; cv=none; b=BI/vJ7pFEyqmrqfsw3GdM/NuAweIRQL1SHOT3li7Scuj4dXyEJ7XjyscF4KRQLOXxmXj/lPKRA+diYoG7COe65rfcZnOxXypG1tXyt5hQVoijUx9d7D7IPjLlb+bQsokE/jaoMefZeYBrWzkPaY4kwkzB+8/obkuLhIzAmNbuPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777988405; c=relaxed/simple;
-	bh=LK8IkkFTgLbdStn+mktChL466NCohdt3Re2nhTssJgA=;
+	s=arc-20240116; t=1777988409; c=relaxed/simple;
+	bh=enQ/kAE46gHWFkx72vT1p5afv0nIyc37eTTmR0xPPp0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gofMVOcIvnGwnlNqrNsWwBmOQH9iIZp1MBWwz9ptqHHmOM4ifpVN5/W+yWIqPrS7N6AAnaRK+T3wTcoEhGOiepDFg2SWbn6ngjdO6zdi44NX7EQGEyaUGvv8JOIK0SCnYy5AB3Sa9sSZ/qon2n+94EWm5E/kIKSAxNnRYORTkfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6NuB8Aq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NHTuAHFqrBEK6LQEf4EusjOV3q/hx1eml7TPtMTNiOt9uMUE9Xpav1oTwDi1jRTOR45J/AkWsXcyTF6wMzFiGLAoWdfvhVeNM9wE8uD65i8NxZ7itfT3IF1cX+nchdeLdh56QGKg6Q6mWUy2kcM1sNhoavlhxdm80avCm6dqw1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgTWVgBn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6NuB8Aq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724B6C2BCB9;
-	Tue,  5 May 2026 13:40:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgTWVgBn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E726C2BCB4;
+	Tue,  5 May 2026 13:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777988405;
-	bh=LK8IkkFTgLbdStn+mktChL466NCohdt3Re2nhTssJgA=;
+	s=k20201202; t=1777988408;
+	bh=enQ/kAE46gHWFkx72vT1p5afv0nIyc37eTTmR0xPPp0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q6NuB8AqXkJshNwcvRpB1BLObhW0Lj7jVeTW3slo3BSDzoa8cTMYjELe0iVcsjSEw
-	 tGr0NTl/PurgEPmfXKrktXZb8A0bUw6IblxAVNO+ovPVmNtH/rZTqARqg4yUwQVYbO
-	 RPQ1ofQ06xMqnsTd7UkjSyG0gveQioTNT6nyASSkAJpCsPzG16ytU5DJPXQEKvwAqY
-	 PlE41SEXTVG+z3uVdr6chCJRRLg88t+6VGofcAgMmjb7qq9LVtnSbHZbB/XpkAK0cx
-	 GCaIi/+a+K8BOOpuLS1dnTSCQDlMY13kWM7G57kmv0GCRNAD4gF24dXcLW9n4Cxe0s
-	 CWTZI2XUQpzAA==
+	b=hgTWVgBn2k2vD++6osj/Kv2LEBVXP4pPJ00tFXFMWSXzbfrkgludFr/5/BH6DB7ci
+	 9f7IkJPx12KmXwtpbVwftKqmXqMPjC6Selkp+WVf7O72fm9lrCVEUhpqqMToEywMZx
+	 whznVCgNNsmRenBLfdzUEXWBN3DcqVyrKxsjZ/I8nqfnmUPwnI4x2V88PqNFS2sNXA
+	 dl8a5obHr8hzsiaQikP/gD+wMuC5mPjl3Ag1pTSNaJezCguayYitHTn55riXn9GG22
+	 wHjBuF9gvFDs0pmR75xr9GMB20lcSFS3oK5uBRhGlPKQRjOvjMn9duO26CMuvNcSfe
+	 fgdroxm2KJXYQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -44,11 +44,10 @@ Cc: driver-core@lists.linux.dev,
 	linux-hyperv@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-remoteproc@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH v2 4/5] rpmsg: use generic driver_override infrastructure
-Date: Tue,  5 May 2026 15:37:24 +0200
-Message-ID: <20260505133935.3772495-5-dakr@kernel.org>
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 5/5] driver core: remove driver_set_override()
+Date: Tue,  5 May 2026 15:37:25 +0200
+Message-ID: <20260505133935.3772495-6-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260505133935.3772495-1-dakr@kernel.org>
 References: <20260505133935.3772495-1-dakr@kernel.org>
@@ -60,174 +59,123 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a driver is probed through __driver_attach(), the bus' match()
-callback is called without the device lock held, thus accessing the
-driver_override field without a lock, which can cause a UAF.
+All buses have been converted from driver_set_override() to the generic
+driver_override infrastructure introduced in commit cb3d1049f4ea
+("driver core: generalize driver_override in struct device").
 
-Fix this by using the driver-core driver_override infrastructure taking
-care of proper locking internally.
+Buses now either opt into the generic sysfs callbacks via the
+bus_type::driver_override flag, or use device_set_driver_override() /
+__device_set_driver_override() directly.
 
-Note that calling match() from __driver_attach() without the device lock
-held is intentional. [1]
+Thus, remove the now-unused driver_set_override() helper.
 
-Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
-Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220789
-Fixes: e95060478244 ("rpmsg: Introduce a driver override mechanism")
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220789
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/rpmsg/qcom_glink_native.c |  2 --
- drivers/rpmsg/rpmsg_core.c        | 43 +++++--------------------------
- drivers/rpmsg/virtio_rpmsg_bus.c  |  1 -
- include/linux/rpmsg.h             |  4 ---
- 4 files changed, 7 insertions(+), 43 deletions(-)
+ drivers/base/driver.c         | 75 -----------------------------------
+ include/linux/device/driver.h |  2 -
+ 2 files changed, 77 deletions(-)
 
-diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
-index 401a4ece0c97..d9d4468e4cbd 100644
---- a/drivers/rpmsg/qcom_glink_native.c
-+++ b/drivers/rpmsg/qcom_glink_native.c
-@@ -1626,7 +1626,6 @@ static void qcom_glink_rpdev_release(struct device *dev)
- {
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
- 
--	kfree(rpdev->driver_override);
- 	kfree(rpdev);
+diff --git a/drivers/base/driver.c b/drivers/base/driver.c
+index 8ab010ddf709..7ed834f7199c 100644
+--- a/drivers/base/driver.c
++++ b/drivers/base/driver.c
+@@ -30,81 +30,6 @@ static struct device *next_device(struct klist_iter *i)
+ 	return dev;
  }
  
-@@ -1862,7 +1861,6 @@ static void qcom_glink_device_release(struct device *dev)
- 
- 	/* Release qcom_glink_alloc_channel() reference */
- 	kref_put(&channel->refcount, qcom_glink_channel_release);
--	kfree(rpdev->driver_override);
- 	kfree(rpdev);
- }
- 
-diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-index e7f7831d37f8..c56f69c22e42 100644
---- a/drivers/rpmsg/rpmsg_core.c
-+++ b/drivers/rpmsg/rpmsg_core.c
-@@ -358,33 +358,6 @@ rpmsg_show_attr(src, src, "0x%x\n");
- rpmsg_show_attr(dst, dst, "0x%x\n");
- rpmsg_show_attr(announce, announce ? "true" : "false", "%s\n");
- 
--static ssize_t driver_override_store(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t count)
+-/**
+- * driver_set_override() - Helper to set or clear driver override.
+- * @dev: Device to change
+- * @override: Address of string to change (e.g. &device->driver_override);
+- *            The contents will be freed and hold newly allocated override.
+- * @s: NUL-terminated string, new driver name to force a match, pass empty
+- *     string to clear it ("" or "\n", where the latter is only for sysfs
+- *     interface).
+- * @len: length of @s
+- *
+- * Helper to set or clear driver override in a device, intended for the cases
+- * when the driver_override field is allocated by driver/bus code.
+- *
+- * Returns: 0 on success or a negative error code on failure.
+- */
+-int driver_set_override(struct device *dev, const char **override,
+-			const char *s, size_t len)
 -{
--	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
--	int ret;
+-	const char *new, *old;
+-	char *cp;
 -
--	ret = driver_set_override(dev, &rpdev->driver_override, buf, count);
--	if (ret)
--		return ret;
+-	if (!override || !s)
+-		return -EINVAL;
 -
--	return count;
--}
+-	/*
+-	 * The stored value will be used in sysfs show callback (sysfs_emit()),
+-	 * which has a length limit of PAGE_SIZE and adds a trailing newline.
+-	 * Thus we can store one character less to avoid truncation during sysfs
+-	 * show.
+-	 */
+-	if (len >= (PAGE_SIZE - 1))
+-		return -EINVAL;
 -
--static ssize_t driver_override_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
--{
--	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
--	ssize_t len;
+-	/*
+-	 * Compute the real length of the string in case userspace sends us a
+-	 * bunch of \0 characters like python likes to do.
+-	 */
+-	len = strlen(s);
+-
+-	if (!len) {
+-		/* Empty string passed - clear override */
+-		device_lock(dev);
+-		old = *override;
+-		*override = NULL;
+-		device_unlock(dev);
+-		kfree(old);
+-
+-		return 0;
+-	}
+-
+-	cp = strnchr(s, len, '\n');
+-	if (cp)
+-		len = cp - s;
+-
+-	new = kstrndup(s, len, GFP_KERNEL);
+-	if (!new)
+-		return -ENOMEM;
 -
 -	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", rpdev->driver_override);
+-	old = *override;
+-	if (cp != s) {
+-		*override = new;
+-	} else {
+-		/* "\n" passed - clear override */
+-		kfree(new);
+-		*override = NULL;
+-	}
 -	device_unlock(dev);
--	return len;
--}
--static DEVICE_ATTR_RW(driver_override);
 -
- static ssize_t modalias_show(struct device *dev,
- 			     struct device_attribute *attr, char *buf)
- {
-@@ -405,7 +378,6 @@ static struct attribute *rpmsg_dev_attrs[] = {
- 	&dev_attr_dst.attr,
- 	&dev_attr_src.attr,
- 	&dev_attr_announce.attr,
--	&dev_attr_driver_override.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(rpmsg_dev);
-@@ -424,9 +396,11 @@ static int rpmsg_dev_match(struct device *dev, const struct device_driver *drv)
- 	const struct rpmsg_driver *rpdrv = to_rpmsg_driver(drv);
- 	const struct rpmsg_device_id *ids = rpdrv->id_table;
- 	unsigned int i;
-+	int ret;
+-	kfree(old);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(driver_set_override);
+-
+ /**
+  * driver_for_each_device - Iterator for devices bound to a driver.
+  * @drv: Driver we're iterating.
+diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+index bbc67ec513ed..aa3465a369f0 100644
+--- a/include/linux/device/driver.h
++++ b/include/linux/device/driver.h
+@@ -160,8 +160,6 @@ int __must_check driver_create_file(const struct device_driver *driver,
+ void driver_remove_file(const struct device_driver *driver,
+ 			const struct driver_attribute *attr);
  
--	if (rpdev->driver_override)
--		return !strcmp(rpdev->driver_override, drv->name);
-+	ret = device_match_driver_override(dev, drv);
-+	if (ret >= 0)
-+		return ret;
- 
- 	if (ids)
- 		for (i = 0; ids[i].name[0]; i++)
-@@ -535,6 +509,7 @@ static const struct bus_type rpmsg_bus = {
- 	.name		= "rpmsg",
- 	.match		= rpmsg_dev_match,
- 	.dev_groups	= rpmsg_dev_groups,
-+	.driver_override = true,
- 	.uevent		= rpmsg_uevent,
- 	.probe		= rpmsg_dev_probe,
- 	.remove		= rpmsg_dev_remove,
-@@ -560,11 +535,9 @@ int rpmsg_register_device_override(struct rpmsg_device *rpdev,
- 
- 	device_initialize(dev);
- 	if (driver_override) {
--		ret = driver_set_override(dev, &rpdev->driver_override,
--					  driver_override,
--					  strlen(driver_override));
-+		ret = device_set_driver_override(dev, driver_override);
- 		if (ret) {
--			dev_err(dev, "device_set_override failed: %d\n", ret);
-+			dev_err(dev, "device_set_driver_override() failed: %d\n", ret);
- 			put_device(dev);
- 			return ret;
- 		}
-@@ -573,8 +546,6 @@ int rpmsg_register_device_override(struct rpmsg_device *rpdev,
- 	ret = device_add(dev);
- 	if (ret) {
- 		dev_err(dev, "device_add failed: %d\n", ret);
--		kfree(rpdev->driver_override);
--		rpdev->driver_override = NULL;
- 		put_device(dev);
- 	}
- 
-diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
-index 5ae15111fb4f..1b8bb05924af 100644
---- a/drivers/rpmsg/virtio_rpmsg_bus.c
-+++ b/drivers/rpmsg/virtio_rpmsg_bus.c
-@@ -374,7 +374,6 @@ static void virtio_rpmsg_release_device(struct device *dev)
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
- 	struct virtio_rpmsg_channel *vch = to_virtio_rpmsg_channel(rpdev);
- 
--	kfree(rpdev->driver_override);
- 	kfree(vch);
- }
- 
-diff --git a/include/linux/rpmsg.h b/include/linux/rpmsg.h
-index 83266ce14642..2e40eb54155e 100644
---- a/include/linux/rpmsg.h
-+++ b/include/linux/rpmsg.h
-@@ -41,9 +41,6 @@ struct rpmsg_channel_info {
-  * rpmsg_device - device that belong to the rpmsg bus
-  * @dev: the device struct
-  * @id: device id (used to match between rpmsg drivers and devices)
-- * @driver_override: driver name to force a match; do not set directly,
-- *                   because core frees it; use driver_set_override() to
-- *                   set or clear it.
-  * @src: local address
-  * @dst: destination address
-  * @ept: the rpmsg endpoint of this channel
-@@ -53,7 +50,6 @@ struct rpmsg_channel_info {
- struct rpmsg_device {
- 	struct device dev;
- 	struct rpmsg_device_id id;
--	const char *driver_override;
- 	u32 src;
- 	u32 dst;
- 	struct rpmsg_endpoint *ept;
+-int driver_set_override(struct device *dev, const char **override,
+-			const char *s, size_t len);
+ int __must_check driver_for_each_device(struct device_driver *drv, struct device *start,
+ 					void *data, device_iter_t fn);
+ struct device *driver_find_device(const struct device_driver *drv,
 -- 
 2.54.0
 
