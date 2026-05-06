@@ -1,85 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5FF2C11FD;
-	Wed,  6 May 2026 02:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D27025776;
+	Wed,  6 May 2026 05:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778034683; cv=none; b=D5sDq89GJ4O26Bhkr/ouXNWYOCMjA99AAPh2O22p05FYc6ZohnzyJHKn+7Lr3KJfw+GPK9RvCD5a8PXjZX5ryX85SjVd37XNXLLZvGMm2+HbC5L/mUffvbTfjIltGAnXzTY2Tn6aF4pQRxrGfRA9UrNXHzZt0/2G7zyFpcmKZRU=
+	t=1778044873; cv=none; b=LiP/9eywvH822QshXwkffkz2RnMpqeKCQ6eIpaIlMSejLnrYB/JOeIeO326mXtb+xG3bLjA8em0opTVsAbdJ0qXNlJt6ggogt1uNbBNEWMI/N8tNIaOdxR9rEr0C0JEe7eQAZIM/aM3kCsARZDNXllWYBQzKPkS3KLvxMvvdl6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778034683; c=relaxed/simple;
-	bh=kL7gjYEt+3pamSHe4Z8BP9Yb1oQFZ0WCVB+SU02m5p4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=R/smYd0OMvSsSmL6/7xkQVJHR9NY9BWT4Vv4oVVPKuhJdnbwL+oPFL+aKBulZVzRBs0UJKc8ovZRvnSsGM3qw/ElCmszxwALilOB91YXKUbwwS9wi/1M42YAtCE04ln+7TQjsagSQAUACRqLwIOV2buJcGB3Re4yoQa6iq54ugY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qhg85Uzs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778044873; c=relaxed/simple;
+	bh=eykMm8pcCaTLQ+ynnklZt4X79BSx27jFoN30TaE97BU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lRc93z0Wot57fCED15UxzLl7k0l59EJEnBV1X+j5YgeZ5TQYHSfpRoank9GdtAlQrK0RcHDk4tZmBL2xKdLArtv7YuKFMg5ilTV8y0BpSFamf7nZhmPFA9L8VSDLOgX3wSrPeezG4Jvjq50bJ1RMpN/xW0ZaJ0nzSRILzMLzrlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=U3sNDtsK; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qhg85Uzs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285B5C2BCB4;
-	Wed,  6 May 2026 02:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778034683;
-	bh=kL7gjYEt+3pamSHe4Z8BP9Yb1oQFZ0WCVB+SU02m5p4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Qhg85UzsjUnFYVUa5dH5iPIC+mXntIm0WUlsqPHBjM8Vn9xvbILWXS7C5aZPt+o5i
-	 D1tvVEVtPLUTE15Q1MVE5UfFKFc3EgtEktk8i7y3vaVVeDdPwYqJM+r3bF5SKStFIq
-	 SPHT8xmqJuJ88aJTOk20DOiiuOi+AYtg18wj89PwXIerDXrF+3dLdDR0xzcFD3b1Lm
-	 KjPqhGmWB29H17+iVx/4aWBvSlLTmtFpOds3yUsY7q7jXLVbjWXcjaDjLN3yBaJlpe
-	 c7ovrRyhX+kEuSzdf0O9nHXPkIc0eBT7yo7e3XE45a2jAJqFzsVMxOR7Dxd185f+ho
-	 a77yqCUxvJbGg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CF703930780;
-	Wed,  6 May 2026 02:30:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="U3sNDtsK"
+Received: from [10.95.65.64] (unknown [167.220.238.64])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6F18920B7168;
+	Tue,  5 May 2026 22:11:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6F18920B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778044272;
+	bh=g826hBG5sdvtVoUdo7WR5/F7nLFfVhBDlSe4q/ANC2k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=U3sNDtsK/up9rwRUYjKE71paEXx7G/JFAVmIVF6V2Nv4CAPsofHIjZwC6aP/EYO0s
+	 UAYeJhR8zLMUktpca2eDmFAvxr/MMokVL5s4fG8oEfRRsB/j2DV01NlxYriEMaMmvN
+	 np2+tbmhsnd8n3DXx9Tl2L4uHKUiU4vBu3yQbhNs=
+Message-ID: <beb61bb4-ab7c-4939-a1e6-525d0f5ea119@linux.microsoft.com>
+Date: Wed, 6 May 2026 10:41:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v3 0/2] net: mana: Avoid queue struct allocation
- failure under memory fragmentation
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177803463304.2357425.6242248508065592109.git-patchwork-notify@kernel.org>
-Date: Wed, 06 May 2026 02:30:33 +0000
-References: <20260502074552.23857-1-gargaditya@linux.microsoft.com>
-In-Reply-To: <20260502074552.23857-1-gargaditya@linux.microsoft.com>
-To: Aditya Garg <gargaditya@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- kotaranov@microsoft.com, horms@kernel.org, ssengar@linux.microsoft.com,
- jacob.e.keller@intel.com, dipayanroy@linux.microsoft.com,
- ernis@linux.microsoft.com, shirazsaleem@microsoft.com, kees@kernel.org,
- sbhatta@marvell.com, leitao@debian.org, netdev@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, bpf@vger.kernel.org, gargaditya@microsoft.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/15] arm64: hyperv: Add support for
+ mshv_vtl_return_call
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Marc Zyngier <maz@kernel.org>, Timothy Hayes <timothy.hayes@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Sascha Bischoff <sascha.bischoff@arm.com>,
+ mrigendrachaubey <mrigendra.chaubey@gmail.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "vdso@mailbox.org" <vdso@mailbox.org>,
+ "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+ Arnd Bergmann <arnd@arndb.de>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>
+References: <20260423124206.2410879-1-namjain@linux.microsoft.com>
+ <20260423124206.2410879-8-namjain@linux.microsoft.com>
+ <SN6PR02MB4157C147A1B915F9B45D3B74D4362@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <516a4e65-3a4d-4e09-b445-28cb740b5653@linux.microsoft.com>
+ <SN6PR02MB4157B99838CE7498933B2382D4312@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157B99838CE7498933B2382D4312@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
 
-On Sat,  2 May 2026 00:45:32 -0700 you wrote:
-> The MANA driver can fail to load on systems with high memory
-> utilization because several allocations in the queue setup paths
-> require large physically contiguous blocks via kmalloc. Under memory
-> fragmentation these high-order allocations may fail, preventing the
-> driver from creating queues when opening the interface or when
-> reconfiguring channels, ring parameters or MTU at runtime.
+On 5/4/2026 9:36 PM, Michael Kelley wrote:
+> From: Naman Jain <namjain@linux.microsoft.com> Sent: Wednesday, April 29, 2026 2:57 AM
+>>
+>> On 4/27/2026 11:08 AM, Michael Kelley wrote:
+>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, April 23, 2026 5:42 AM
+>>>>
 > 
-> [...]
+> [snip]
+> 
+>>>> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+>>>> index 08278547b84c..b4d80c9a673a 100644
+>>>> --- a/arch/x86/include/asm/mshyperv.h
+>>>> +++ b/arch/x86/include/asm/mshyperv.h
+>>>> @@ -286,7 +286,6 @@ struct mshv_vtl_cpu_context {
+>>>>    #ifdef CONFIG_HYPERV_VTL_MODE
+>>>>    void __init hv_vtl_init_platform(void);
+>>>>    int __init hv_vtl_early_init(void);
+>>>> -void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
+>>>>    void mshv_vtl_return_call_init(u64 vtl_return_offset);
+>>>>    void mshv_vtl_return_hypercall(void);
+>>>>    void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
+>>>> @@ -294,7 +293,6 @@ int hv_vtl_get_set_reg(struct hv_register_assoc *regs, bool set, bool shared);
+>>>>    #else
+>>>>    static inline void __init hv_vtl_init_platform(void) {}
+>>>>    static inline int __init hv_vtl_early_init(void) { return 0; }
+>>>> -static inline void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
+>>>>    static inline void mshv_vtl_return_call_init(u64 vtl_return_offset) {}
+>>>>    static inline void mshv_vtl_return_hypercall(void) {}
+>>>>    static inline void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
+>>>> diff --git a/drivers/hv/mshv_vtl.h b/drivers/hv/mshv_vtl.h
+>>>> index a6eea52f7aa2..103f07371f3f 100644
+>>>> --- a/drivers/hv/mshv_vtl.h
+>>>> +++ b/drivers/hv/mshv_vtl.h
+>>>> @@ -22,4 +22,7 @@ struct mshv_vtl_run {
+>>>>    	char vtl_ret_actions[MSHV_MAX_RUN_MSG_SIZE];
+>>>>    };
+>>>>
+>>>> +static_assert(sizeof(struct mshv_vtl_cpu_context) <= 1024,
+>>>> +	      "struct mshv_vtl_cpu_context exceeds reserved space in struct mshv_vtl_run");
+>>>> +
+>>>>    #endif /* _MSHV_VTL_H */
+>>>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+>>>> index db183c8cfb95..8cdf2a9fbdfb 100644
+>>>> --- a/include/asm-generic/mshyperv.h
+>>>> +++ b/include/asm-generic/mshyperv.h
+>>>> @@ -396,8 +396,10 @@ static inline int hv_deposit_memory(u64 partition_id, u64 status)
+>>>>
+>>>>    #if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
+>>>>    u8 __init get_vtl(void);
+>>>> +void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0);
+>>>>    #else
+>>>>    static inline u8 get_vtl(void) { return 0; }
+>>>> +static inline void mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
+>>>
+>>> Is this stub needed? Maybe I missed something, but it looks to me like none
+>>> of the code that calls this gets built unless CONFIG_HYPERV_VTL_MODE is set.
+>>> See further comments about stubs in Patch 8 of this series.
+>>>
+>>
+>> Config dependencies would handle such cases, and this is not required. I
+>> saw similar stubs added in the code, so I thought this is a norm that
+>> should be followed, and not rely on config dependencies.
+>> I can remove it.
+>>
+> 
+> Others might disagree with me, but I don't think it's the norm to add
+> stubs when they aren't truly needed. As you can see from some of my
+> other comments, I look for ways to eliminate stubs. Stubs are indicative
+> of a boundary between separately built components, and I generally
+> try to minimize the surface area of such boundaries. A large surface area
+> often means that the overall design could be improved by re-thinking
+> which code goes with which component.
+> 
+> Michael
 
-Here is the summary with links:
-  - [net-next,v3,1/2] net: mana: Use per-queue allocation for tx_qp to reduce allocation size
-    https://git.kernel.org/netdev/net-next/c/d07efe5a6e64
-  - [net-next,v3,2/2] net: mana: Use kvmalloc for large RX queue and buffer allocations
-    https://git.kernel.org/netdev/net-next/c/3af0820c878e
+I agree. I'll remove these in next version.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Naman
