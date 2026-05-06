@@ -1,42 +1,57 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7373EF0B7;
-	Wed,  6 May 2026 16:26:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912FA274B28;
+	Wed,  6 May 2026 16:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778084795; cv=none; b=NVkcfa/1yxX2XtjiP9gC5gOgJyTE3poGhKUiJGVq472KFQ/sGdM4Un5DF9zX9SXWggBVtKk5+gA2wfBvt5eH1ItlvQkwDERAN9ns5hlENhymnVWu6PYjdKgpgincXX3m7vnZFVuTuwQ2azPvw7M0hTICEu8ybbRfh8P3+6C6Mck=
+	t=1778086364; cv=none; b=f6ibGUOavbinFotsZDDJzZfRAtX2ZtDi5YUkltocgz+HJSmJxIUr3v0eKhfa45qlr5JP85symt32xeQoar0E/s/815Exs00ZC9UlCUc6yle2oT4ioPJmXoyTW+/BjUt3Diw/NARwZJvo8Kf5c7mgpmHreFNZfb/2g1tGSiOTP8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778084795; c=relaxed/simple;
-	bh=zhRflRn79KF66/5eIsQCA2AmZ9VFHLALXQkxie961oU=;
+	s=arc-20240116; t=1778086364; c=relaxed/simple;
+	bh=zLgo2hlPL3BFc2poeW/lY/orC7GUuzmLfWWK1cnK3Yw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOvItjovwmZbS7LHrkt1ZHu/sBc8yg/HAG64LCdrnLJDfWGoMfPEzxJGMIvhTT0NjHwCBop7TnPziMRok5T9m4Zs3t8I4QLgJAwHfvVyPZjmWajAe29s36O394N0rB/r30p2c9D75G3kRSBd3c3es+6m8h2124u9MtbxLPSTI7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qEYfZeof; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/e1/RZYRA4ABGMm4AtJ0faH2Ymh2kPI9+oRz3TeuV+eAOTshpR/OEwdbhJadYGINK4i+RGyx3Ni0JRC+vVmYTv6QiFYUxyfvIkhXrHdEWUy4syewVI9j8G7M7hGkhA25boYr8ULxJKNktb27VMgRr7cSl2n2+dfcxSfoGJYMUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UdmvDoKt; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qEYfZeof"
-Received: from skinsburskii.localdomain (c-98-225-44-182.hsd1.wa.comcast.net [98.225.44.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DC61120B7165;
-	Wed,  6 May 2026 09:26:29 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DC61120B7165
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UdmvDoKt"
+Received: by linux.microsoft.com (Postfix, from userid 1204)
+	id 9531D20B7165; Wed,  6 May 2026 09:52:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9531D20B7165
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778084790;
-	bh=4luj/qid6j+QUgzAmkeKmrX41N2R/ImmmcjpyIIcuJM=;
+	s=default; t=1778086360;
+	bh=PCz+S4dgNQoTGyML6uFElTl2NXVVtXB+dmI/tbDc9rc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qEYfZeof+zX7doFUsgIHNmgwnFiU77pLFC9WfUdQuKpEjzdEvu2eRM/KOhJcHsSUs
-	 4ruqTTGc2YbGxMVPZISChalHEPgxYLjsUz5Op9e8kdUlIpVV0mCIZ82MggD931UuUE
-	 f4Jr24nD5B3j333NkF+Xmp5S0HxeVQObp3Wy4TDQ=
-Date: Wed, 6 May 2026 09:26:31 -0700
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-To: "Anirudh Rayabharam (Microsoft)" <anirudh@anirudhrb.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] mshv: support 1G hugepages by passing them as
- 2M-aligned chunks
-Message-ID: <aftrt1Gq3YeNIQbB@skinsburskii.localdomain>
-References: <20260506-huge_1g-v3-1-26e1e4c439e4@anirudhrb.com>
+	b=UdmvDoKtA0Li2wRZEF0U8Ea6XMbMrIBKbO44mzbwqc017t05dcSwx+bEHku+eR+XP
+	 +c4Xc9wmHW3DH57K81YhDHQDTSamHwEr6ZsyW9Kw0nUxErCDf0/ZghiwhZunkS9Dv6
+	 TTtQjboUhEueYjX/iyXl2Yn7HzOYtvMOmDUceSZw=
+Date: Wed, 6 May 2026 09:52:40 -0700
+From: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: David Wei <dw@davidwei.uk>, kys@microsoft.com, haiyangz@microsoft.com,
+	wei.liu@kernel.org, decui@microsoft.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	leon@kernel.org, longli@microsoft.com, kotaranov@microsoft.com,
+	horms@kernel.org, shradhagupta@linux.microsoft.com,
+	ssengar@linux.microsoft.com, ernis@linux.microsoft.com,
+	shirazsaleem@microsoft.com, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, stephen@networkplumber.org,
+	jacob.e.keller@intel.com, leitao@debian.org, kees@kernel.org,
+	john.fastabend@gmail.com, hawk@kernel.org, bpf@vger.kernel.org,
+	daniel@iogearbox.net, ast@kernel.org, sdf@fomichev.me,
+	dipayanroy@microsoft.com
+Subject: Re: [PATCH net-next v6 0/2] net: mana: add ethtool private flag for
+ full-page RX buffers
+Message-ID: <aftx2E1ZARV55DrR@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260407200216.272659-1-dipayanroy@linux.microsoft.com>
+ <20260409183509.0b24dea6@kernel.org>
+ <20260412125917.4fa8fc8d@kernel.org>
+ <ad5kuCZz+gR1TlSh@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <20260416083146.0bb94d2b@kernel.org>
+ <aeoVC27mIzoKytqA@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <685d7bf9-062d-4bd2-8448-f7714bb05302@davidwei.uk>
+ <aex119OtL8CEGXkb@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <20260427131745.2eac52ef@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -45,123 +60,23 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260506-huge_1g-v3-1-26e1e4c439e4@anirudhrb.com>
+In-Reply-To: <20260427131745.2eac52ef@kernel.org>
 
-On Wed, May 06, 2026 at 01:44:53PM +0000, Anirudh Rayabharam (Microsoft) wrote:
-> The hypervisor's map GPA hypercall coalesces contiguous 2M-aligned
-> chunks into 1G mappings when alignment permits, so the driver can
-> support 1G hugepages by feeding them in as 2M chunks. Note that this
-> is the only way to make 1G mappings; there is no way to directly map
-> a 1G hugepage using the hypercall.
+On Mon, Apr 27, 2026 at 01:17:45PM -0700, Jakub Kicinski wrote:
+> On Sat, 25 Apr 2026 01:05:43 -0700 Dipayaan Roy wrote:
+> > Hi Jakub,
+> > with this new data from David, is it convincing enough for a mana driver
+> > specific private flag, which can be set from user space by a udev rule
+> > by detecting the underlying platform? If not then I will send the next
+> > version with the other rxbuflen approach. 
 > 
-> Update mshv_chunk_stride() to:
-> 
->   - Accept 2M-aligned tail pages of a larger folio. The previous
->     PageHead() check rejected every page after the head of a 1G
->     hugepage and fell back to 4K mappings for the remaining 1022 MB.
->     Replace it with a PFN alignment check so any 2M-aligned page of a
->     sufficiently large folio is acceptable.
-> 
->   - Always emit a 2M (PMD_ORDER) stride for the huge-page case. The
->     hypercall has no 1G stride, so 1G folios are processed as a
->     sequence of 2M chunks. Folios whose order is neither PMD_ORDER nor
->     PUD_ORDER (e.g. mTHP) fall back to single-page stride; mapping
->     them as 2M would fail in the hypervisor anyway.
-> 
-> Assisted-by: Copilot-CLI:claude-opus-4.7
-> Signed-off-by: Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
-> ---
-> Changes in v3:
-> - Fixed various corner cases reported by Sashiko.
-> - Link to v2: https://lore.kernel.org/r/20260505-huge_1g-v2-1-b6a91327a88d@anirudhrb.com
-> 
-> Changes in v2:
+> I think so, thank you both for the testing.
+> Please look out for the net-next opening up and repost the patches.
+> (The reopening is delayed, it was supposed to happen already but I
+> can't get a clean run out of our CI, sigh)
 
-LGTM, thanks.
+Hi Jakub,
+I have reposted the patches now.
 
-Acked-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-
-
-> - Handled the case where we can have 2M aligned pages in the middle of a
->   1G page
-> - Brought back the page order check but expanded it to include 1G
-> - Clamp stride to requested page count in mshv_region_process_chunk
-> - Link to v1: https://lore.kernel.org/r/20260416-huge_1g-v1-1-e066738cddfb@anirudhrb.com
-> ---
->  drivers/hv/mshv_regions.c | 32 +++++++++++++++-----------------
->  1 file changed, 15 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-> index fdffd4f002f6..1756b733968c 100644
-> --- a/drivers/hv/mshv_regions.c
-> +++ b/drivers/hv/mshv_regions.c
-> @@ -29,29 +29,28 @@
->   * Uses huge page stride if the backing page is huge and the guest mapping
->   * is properly aligned; otherwise falls back to single page stride.
->   *
-> - * Return: Stride in pages, or -EINVAL if page order is unsupported.
-> + * Return: Stride in pages.
->   */
-> -static int mshv_chunk_stride(struct page *page,
-> -			     u64 gfn, u64 page_count)
-> +static unsigned int mshv_chunk_stride(struct page *page, u64 gfn,
-> +				      u64 page_count)
->  {
-> -	unsigned int page_order;
-> +	unsigned int page_order = folio_order(page_folio(page));
->  
->  	/*
->  	 * Use single page stride by default. For huge page stride, the
-> -	 * page must be compound and point to the head of the compound
-> -	 * page, and both gfn and page_count must be huge-page aligned.
-> +	 * page must be compound, the page's PFN must itself be 2M-aligned
-> +	 * (so that a 2M-aligned tail page of a larger folio is acceptable),
-> +	 * and both gfn and page_count must be huge-page aligned.
->  	 */
-> -	if (!PageCompound(page) || !PageHead(page) ||
-> +	if (!PageCompound(page) ||
-> +	    !IS_ALIGNED(page_to_pfn(page), PTRS_PER_PMD) ||
->  	    !IS_ALIGNED(gfn, PTRS_PER_PMD) ||
-> -	    !IS_ALIGNED(page_count, PTRS_PER_PMD))
-> +	    !IS_ALIGNED(page_count, PTRS_PER_PMD) ||
-> +	    (page_order != PMD_ORDER && page_order != PUD_ORDER))
->  		return 1;
->  
-> -	page_order = folio_order(page_folio(page));
-> -	/* The hypervisor only supports 2M huge page */
-> -	if (page_order != PMD_ORDER)
-> -		return -EINVAL;
-> -
-> -	return 1 << page_order;
-> +	/* Use 2M stride always i.e. process 1G folios as 2M chunks */
-> +	return 1 << PMD_ORDER;
->  }
->  
->  /**
-> @@ -86,15 +85,14 @@ static long mshv_region_process_chunk(struct mshv_mem_region *region,
->  	u64 gfn = region->start_gfn + page_offset;
->  	u64 count;
->  	struct page *page;
-> -	int stride, ret;
-> +	unsigned int stride;
-> +	int ret;
->  
->  	page = region->mreg_pages[page_offset];
->  	if (!page)
->  		return -EINVAL;
->  
->  	stride = mshv_chunk_stride(page, gfn, page_count);
-> -	if (stride < 0)
-> -		return stride;
->  
->  	/* Start at stride since the first stride is validated */
->  	for (count = stride; count < page_count; count += stride) {
-> 
-> ---
-> base-commit: cd9f2e7d6e5b1837ef40b96e300fa28b73ab5a77
-> change-id: 20260416-huge_1g-e44461393c8f
-> 
-> Best regards,
-> -- 
-> Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
-> 
+Regards
+Dipayaan Roy
