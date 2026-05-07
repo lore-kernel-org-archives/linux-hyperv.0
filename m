@@ -1,69 +1,37 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9463793DF
-	for <linux-hyperv@vger.kernel.org>; Thu,  7 May 2026 07:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFC9379ECF
+	for <linux-hyperv@vger.kernel.org>; Thu,  7 May 2026 07:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778140654; cv=none; b=X4CpX8ws26phw1JfY6pV90GygKH0ST/tI2opNcs6WmWhtgiNYaP0587FHNJrxsQ3uwSEMoiWVJkDhMrYdKSQ/ub2TBRw+b2LkCdcemGlR3EZYdcWi7vzAurgoE589fBlkQGQmJVy0nDJmXW6trWJRhJl/8fW8kgQwARGktykPnI=
+	t=1778140659; cv=none; b=fqTcgptvmr9Ig2+VezR+ffdDCegTx4HxOMteebnTqeuvhqBOMaFLa7fI6YHBhu9kzog2q8pI+WnfV/OfhDHtVqeaekI5WISAQdPvlcWBffgcKYviBfgLDhlQiR8zzi9/6QTuvV6Bf0noMXlz3Z7xj48fqZ9VKoq2NGWewL0IRvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778140654; c=relaxed/simple;
-	bh=yujdvPSM9ch00gHnpM1s0RYymXhXXKJCbf3YomfLLOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xts6CdH5aXCupAoaUMsgazBFKaAACcEsldqDICtwi0IQIUCfOhVr+vTg0yDphVD+AE+iuZbiFc9yM5lrMVfM2HqdffXfAApS23GGuSmmOOyjbRI9L+5IN+IrO3PftYFyb6R6ik7cK3gMga4dO8DllzQ8mYvUy0ClziOI3wUsEfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2OkjnZeq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5KgvGOkr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2OkjnZeq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5KgvGOkr; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1778140659; c=relaxed/simple;
+	bh=FsFEtNv7znq8Z6W+o6V+51UDGMxDas7FWiCDa34SW9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YjVSPJ9BRd0x3xto0ojHPla16oIpZnSPp1styiKLG+O5hFRyq/wNxYfygrgpmXF64cw1zGrFoezOFUj2HWzUUyuO9EeOpGX+nyP50SvRNCOuHxffgRhVKkvc+SSGiDmWpYhw4cFVs12FVfEhr2c8YvyElvylg2mIL4/OIT3MdVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2OkjnZeq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5KgvGOkr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2OkjnZeq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5KgvGOkr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 347DB6C1C3;
-	Thu,  7 May 2026 07:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778140650; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7jF9J+Wg7SinKJYid/BjcHCj3FnLa9dFlCRWThIMBJM=;
-	b=2OkjnZeqJ0kBEFk7Qymm4/k/Zp891wkoAg2xbc7nNbLIEnzz+ZmfTUFTu5EhZBQVMU2Bke
-	yO5/D9+eos5p4rQtjfjqLroyyl1Q8JelwC557YyehUTxjZguHTe/+G1eP99cFm8DvFHF10
-	mRDe/jXHpCpq93LpE+eCtHNx2yIgzGo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778140650;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7jF9J+Wg7SinKJYid/BjcHCj3FnLa9dFlCRWThIMBJM=;
-	b=5KgvGOkrd//70d7JmxMFvds/ySAryapij+MQVX9J8KfcYZeXMcYTtCHv27MYx7GcWETgjw
-	YMPX4NjFOvxYBeAw==
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BD8DC6C1C1;
+	Thu,  7 May 2026 07:57:31 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778140650; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7jF9J+Wg7SinKJYid/BjcHCj3FnLa9dFlCRWThIMBJM=;
-	b=2OkjnZeqJ0kBEFk7Qymm4/k/Zp891wkoAg2xbc7nNbLIEnzz+ZmfTUFTu5EhZBQVMU2Bke
-	yO5/D9+eos5p4rQtjfjqLroyyl1Q8JelwC557YyehUTxjZguHTe/+G1eP99cFm8DvFHF10
-	mRDe/jXHpCpq93LpE+eCtHNx2yIgzGo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778140650;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7jF9J+Wg7SinKJYid/BjcHCj3FnLa9dFlCRWThIMBJM=;
-	b=5KgvGOkrd//70d7JmxMFvds/ySAryapij+MQVX9J8KfcYZeXMcYTtCHv27MYx7GcWETgjw
-	YMPX4NjFOvxYBeAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5110593A7;
-	Thu,  7 May 2026 07:57:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C7D0593A7;
+	Thu,  7 May 2026 07:57:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EFrCKulF/GnZJAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 07 May 2026 07:57:29 +0000
+	id ULtOD+tF/GnZJAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 07 May 2026 07:57:31 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: mripard@kernel.org,
 	maarten.lankhorst@linux.intel.com,
@@ -82,10 +50,12 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-mips@vger.kernel.org,
 	virtualization@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 00/10] drm: Improve logic behind damage handling
-Date: Thu,  7 May 2026 09:12:19 +0200
-Message-ID: <20260507075725.29738-1-tzimmermann@suse.de>
+Subject: [PATCH 03/10] drm/ingenic: Remove calls to drm_atomic_helper_check_plane_damage()
+Date: Thu,  7 May 2026 09:12:22 +0200
+Message-ID: <20260507075725.29738-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260507075725.29738-1-tzimmermann@suse.de>
+References: <20260507075725.29738-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -93,131 +63,78 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: BD8DC6C1C1
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,redhat.com,gmail.com,ffwll.ch,kodeit.net,proton.me,crapouillou.net,broadcom.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Level: 
 
-DRM clients can supply information on framebuffer areas to update as
-part of each page flip, called damage clipping rectangles. But DRM's
-processing of this information is inconsistent and prone to errors.
+Atomic helpers call drm_atomic_helper_check_plane_damage() after the
+atomic_check anyway. See atomic_helper_check_planes(). Remove the calls
+from the planes' atomic_check.
 
-- There are multiple fields and tests that decide if damage clips
-should be taken or ignored.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 ---
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     | 8 ++------
+ 2 files changed, 2 insertions(+), 9 deletions(-)
 
-- Sometimes, damage clips are removed behind the back of the DRM client.
-
-- Atomic helpers evaluate damage clipping in the middle of the atomic
-check: after connectors and encoders, but before planes and CRTCs. Hence
-pipeline stages have an inconsistent view.
-
-- Which leads to drivers (ingenic) doing a re-evaluation if necessary.
-
-- Tests of plane source coordinates only happen during commits. At this
-point, the driver should already know if damage clips are to be taken or
-not. Because of this, some drivers (appletbdrm) might operate on incorrect
-damage information for their internal workings. This also leads to excessive
-use of the old plane state.
-
-Got through DRM helpers and drivers to fix up the logic.
-
-- Run all of the atomic checks with the damage information supplied by
-DRM clients. Afterwards evaluate plane and CRTC states on whether to
-take or ignore damage clips. Do all related tests in a single atomic
-helper.
-
-- Do not discard damage clips. Set ignore_damage_clips in struct
-drm_plane_state instead. This includes changes to plane source-coordinates.
-The damage iterator now only has to look at this flag to detect if it
-should use the damage clips. 
-
-- Go over drivers and fix up the damage handling in the plane's
-atomic_update helpers. Most drivers no longer need the old plane state
-in their update.
-
-- The appletbdrm driver require a fix in how it uses damage information.
-Ingenic and vmwgfx can be simplified. These changes make the drivers better
-structured.
-
-- Kunit tests require some changes. Drop some obsolete tests and add a new
-one for ignore_damage_flags.
-
-Tested with bochs, mgag200, Kunit tests.
-
-Thomas Zimmermann (10):
-  drm/damage-helper: Do not alter damage clips on modeset, but ignore
-    them
-  drm/atomic-helpers: Evaluate plane damage after atomic_check
-  drm/ingenic: Remove calls to drm_atomic_helper_check_plane_damage()
-  drm/damage-helper: Test src coord in
-    drm_atomic_helper_check_plane_damage()
-  drm/appletbdrm: Allocate request/response buffers in begin_fb_access
-  drm/damage-helper: Remove old state from
-    drm_atomic_helper_damage_iter_init()
-  drm/damage-helper: Remove old state from
-    drm_atomic_helper_damage_merged()
-  drm/atomic_helper: Do not evaluate plane damage before atomic_check
-  drm/damage-helper: Rename state parameters in damage helpers
-  drm/vmwgfx: Remove unused field struct
-    vmwgfx_du_update_plane.old_state
-
- drivers/gpu/drm/ast/ast_cursor.c              |   3 +-
- drivers/gpu/drm/ast/ast_mode.c                |   2 +-
- drivers/gpu/drm/drm_atomic_helper.c           |   6 +-
- drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
- drivers/gpu/drm/drm_damage_helper.c           |  44 ++--
- drivers/gpu/drm/drm_fb_dma_helper.c           |   2 +-
- drivers/gpu/drm/drm_mipi_dbi.c                |   3 +-
- drivers/gpu/drm/gud/gud_pipe.c                |   3 +-
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   3 +-
- drivers/gpu/drm/i915/display/intel_plane.c    |  11 +-
- drivers/gpu/drm/i915/display/intel_psr.c      |   3 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   3 -
- drivers/gpu/drm/ingenic/ingenic-ipu.c         |   8 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c        |   3 +-
- drivers/gpu/drm/sitronix/st7571.c             |   3 +-
- drivers/gpu/drm/sitronix/st7586.c             |   3 +-
- drivers/gpu/drm/sitronix/st7920.c             |   3 +-
- drivers/gpu/drm/solomon/ssd130x.c             |   9 +-
- drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     |   3 +-
- .../gpu/drm/tests/drm_damage_helper_test.c    | 200 +++---------------
- drivers/gpu/drm/tiny/appletbdrm.c             |  56 +++--
- drivers/gpu/drm/tiny/bochs.c                  |   3 +-
- drivers/gpu/drm/tiny/cirrus-qemu.c            |   2 +-
- drivers/gpu/drm/tiny/gm12u320.c               |   2 +-
- drivers/gpu/drm/tiny/ili9225.c                |   3 +-
- drivers/gpu/drm/tiny/repaper.c                |   2 +-
- drivers/gpu/drm/tiny/sharp-memory.c           |   3 +-
- drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c        |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   5 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |   2 -
- drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  12 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |  15 +-
- include/drm/drm_damage_helper.h               |   9 +-
- 34 files changed, 124 insertions(+), 311 deletions(-)
-
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index 70088db34f69..0a42aff79d0e 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -519,9 +519,6 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+ 	     old_plane_state->fb->format->format != new_plane_state->fb->format->format))
+ 		crtc_state->mode_changed = true;
+ 
+-	if (priv->soc_info->map_noncoherent)
+-		drm_atomic_helper_check_plane_damage(state, new_plane_state);
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 34545b9c8c33..81b0fc0fa11f 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -594,7 +594,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+ 
+ 	if (!new_plane_state->crtc ||
+ 	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
+-		goto out_check_damage;
++		return 0;
+ 
+ 	/* Plane must be fully visible */
+ 	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0 ||
+@@ -611,7 +611,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 
+ 	if (!osd_changed(new_plane_state, old_plane_state))
+-		goto out_check_damage;
++		return 0;
+ 
+ 	crtc_state->mode_changed = true;
+ 
+@@ -645,10 +645,6 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+ 	ipu_state->denom_w = denom_w;
+ 	ipu_state->denom_h = denom_h;
+ 
+-out_check_damage:
+-	if (ingenic_drm_map_noncoherent(ipu->master))
+-		drm_atomic_helper_check_plane_damage(state, new_plane_state);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.54.0
 
