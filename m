@@ -1,31 +1,31 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 713F52F8E9E;
-	Thu,  7 May 2026 20:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34D32F8E83;
+	Thu,  7 May 2026 20:42:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778186475; cv=none; b=cTYUjYBDqDch6zYdP2imH2LkgqpO3/m/4uobDYRUidTC4QgXyuhYjvaZwi8e6hivrKd8XBeS+qdkScFcWLqlKoAM4O+HGoNCDzjUEmm7irqHVz+cu3zD82LN/QCzSBXoTv0Y8V7KH3S+YfRUmsRPm5OwIUt9FD1tiEC5YL5ZVgk=
+	t=1778186568; cv=none; b=kS+nvGEyjemw4m2mCr2rhfHjYWHrco/Jf88xttA7uQOw0PlhCGAC58JeXk4x+fZlp9G/9MMidX/gQ3p/gNrcm1XvQZYBiTpWTnWDRTlkBblyw9FFLrOwPdgW2TRIS38b/wYDR3/LJYjyj701kqnFROMZoYx36iHP0+MGDhpIl9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778186475; c=relaxed/simple;
-	bh=3KFc1XWWN8qL7fLgxRCj0XJeC8OhF4C2PcTeO93x/qI=;
+	s=arc-20240116; t=1778186568; c=relaxed/simple;
+	bh=TO7SFBooMW/ssPvigjMdboOgkHTYyxpZ/swZ0vBSP10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqCX60yjqCzaWvz7WJzJvgLveBCmQIhZyOszJWKr+827UcVIJKH619o/yaMHd+naKREsZVMqgPeHLDppr7A1lz2j+NYIZ0y/ZXL0UJM2vSoYAZ8WfRAAVRzSrucN+s2eyC4MP1gUEaSpU+u+VVHsy0XHJsBgRXGG3bo4tb88ues=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=J7UGI8vM; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dj8sz5jLIEhUhbVt1z5VGJrcBbCukOubbeBIFXUQBYOE0ja7oJ+iOZLkvqohTRhN9/NEwiIszFRTS8477fj9hmH7mJnLAfFQkJnXJX+WCVnmpc6UBMRXA2gawFCqUp7sbmwOaHLP1JUU6XF/0mpPKFWetrzhmwsvIT/kzbM2iVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oKEiF13L; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="J7UGI8vM"
-Received: from skinsburskii.localdomain (unknown [20.191.74.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7CC8120B7165;
-	Thu,  7 May 2026 13:41:10 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7CC8120B7165
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oKEiF13L"
+Received: from skinsburskii.localdomain (unknown [52.148.140.42])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8C34D20B7165;
+	Thu,  7 May 2026 13:42:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8C34D20B7165
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778186470;
-	bh=3W4u7woe4uItUUu3AjHOBmJCaYRdrXToJQ6W9aRS5bw=;
+	s=default; t=1778186563;
+	bh=pt3kYaySbvd/lhn8Q432LKAHrWXdeOYudeOAaAuyIqg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J7UGI8vMexf7wqe7raIi7CXAy6obI2i1yRd6kp5JcQ4PirwxWirMEqGUQ7qDhwf3N
-	 7XzuR7pB/+Q3dt2XsdyZnq+d5tBNTKGZvw3comowAPc++XScayra3y/fkeAU4kEaZv
-	 kO0Rpda6kDW2ptekIph7MLm/lQGkMxSTtJ2efEZc=
-Date: Thu, 7 May 2026 13:41:12 -0700
+	b=oKEiF13LiMJRb3R5TNNw3XqQ4b7NK3XaMOexYjzehJ545OwVgUbMvUL9Yl/mgWQ8G
+	 lkCVIcjVvnwDcDpCRIWT1lqIdRuoW90o165/Qov14oewWjtxJvW23FcCLSfl/J0yuc
+	 XLK63aDsxX2EPI11OyM2sZOm5EkPbjfTEW8eibjc=
+Date: Thu, 7 May 2026 13:42:45 -0700
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: Michael Kelley <mhklinux@outlook.com>
 Cc: "kys@microsoft.com" <kys@microsoft.com>,
@@ -36,9 +36,9 @@ Cc: "kys@microsoft.com" <kys@microsoft.com>,
 	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v3] mshv: Simplify GPA map/unmap hypercall helpers
-Message-ID: <afz46J5S_RwUQBBF@skinsburskii.localdomain>
+Message-ID: <afz5RYJfM_22VZhe@skinsburskii.localdomain>
 References: <177756065245.17889.140699174692055235.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
- <SN6PR02MB4157E1222F3E3C85EF7B1F59D43C2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <SN6PR02MB4157F8C28F454788714CFEF2D43C2@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,10 +47,10 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157E1222F3E3C85EF7B1F59D43C2@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157F8C28F454788714CFEF2D43C2@SN6PR02MB4157.namprd02.prod.outlook.com>
 
-On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
-> From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com> Sent: Thursday, April 30, 2026 7:52 AM
+On Thu, May 07, 2026 at 07:09:13PM +0000, Michael Kelley wrote:
+> From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 > > 
 > > Clean up hv_do_map_gpa_hcall() and hv_call_unmap_gpa_pages() after the
 > > preceding bug-fix patches:
@@ -71,9 +71,29 @@ On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
 > > v3: aligned changes by 80 colons
 > > v2: replaced min with min_t
 > > 
-> > Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to
-> > VMMs")
+> > Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 > > Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+> 
+> Question about "packaging" of this patch. To apply cleanly, it
+> needs the previous two fixes applied.  As such, shouldn't it be
+> the 3rd patch in patch set that includes the other two?
+> 
+> Also, there are changes in the previous two fixes that get undone
+> or changed by this patch (such as applying large_shift in the error
+> path of hv_do_map_gpa_hcall(). With a little more coordination
+> between the three patches, there could be less code churn and
+> the patches would overall be smaller.
+> 
+
+Indeed. I should have done it as a series, but I didn't.
+So, to avoid any additonal churn we the reset of the patches coming on
+top (a series of fixes), I'd rather keep this one individual.
+
+Thanks,
+Stanislav
+
+> Michael
+> 
 > > ---
 > >  drivers/hv/mshv_root_hv_call.c |   56 +++++++++++++++-------------------------
 > >  1 file changed, 21 insertions(+), 35 deletions(-)
@@ -82,7 +102,8 @@ On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
 > > index e5992c324904a..e1f9e28d5a19b 100644
 > > --- a/drivers/hv/mshv_root_hv_call.c
 > > +++ b/drivers/hv/mshv_root_hv_call.c
-> > @@ -195,8 +195,8 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+> > @@ -195,8 +195,8 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64
+> > page_struct_count,
 > >  	struct hv_input_map_gpa_pages *input_page;
 > >  	u64 status, *pfnlist;
 > >  	unsigned long irq_flags, large_shift = 0;
@@ -93,7 +114,8 @@ On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
 > > 
 > >  	if (page_count == 0 || (pages && mmio_spa))
 > >  		return -EINVAL;
-> > @@ -213,8 +213,8 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+> > @@ -213,8 +213,8 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64
+> > page_struct_count,
 > >  	}
 > > 
 > >  	while (done < page_count) {
@@ -104,7 +126,8 @@ On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
 > > 
 > >  		local_irq_save(irq_flags);
 > >  		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> > @@ -224,23 +224,14 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+> > @@ -224,23 +224,14 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64
+> > page_struct_count,
 > >  		input_page->map_flags = flags;
 > >  		pfnlist = input_page->source_gpa_page_list;
 > > 
@@ -134,20 +157,12 @@ On Thu, May 07, 2026 at 06:21:20PM +0000, Michael Kelley wrote:
 > >  		}
 > > 
 > >  		status = hv_do_rep_hypercall(HVCALL_MAP_GPA_PAGES, rep_count, 0,
-> > @@ -248,29 +239,26 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+> > @@ -248,29 +239,26 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64
+> > page_struct_count,
 > >  		local_irq_restore(irq_flags);
 > > 
 > >  		completed = hv_repcomp(status);
 > > +		done += completed;
-> 
-> A further cleanup: local variable "completed" is only used in these
-> two statements.  Drop the local variable and just do:
-> 
-
-Done
-
-> 		done += hv_repcomp(status); 
-> 
 > > 
 > >  		if (hv_result_needs_memory(status)) {
 > >  			ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
@@ -177,7 +192,8 @@ Done
 > >  	}
 > > 
 > >  	return ret;
-> > @@ -305,7 +293,7 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
+> > @@ -305,7 +293,7 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64
+> > page_count_4k,
 > >  	struct hv_input_unmap_gpa_pages *input_page;
 > >  	u64 status, page_count = page_count_4k;
 > >  	unsigned long irq_flags, large_shift = 0;
@@ -186,7 +202,8 @@ Done
 > > 
 > >  	if (page_count == 0)
 > >  		return -EINVAL;
-> > @@ -319,8 +307,8 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
+> > @@ -319,8 +307,8 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64
+> > page_count_4k,
 > >  	}
 > > 
 > >  	while (done < page_count) {
@@ -197,7 +214,8 @@ Done
 > > 
 > >  		local_irq_save(irq_flags);
 > >  		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> > @@ -333,15 +321,13 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
+> > @@ -333,15 +321,13 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64
+> > page_count_4k,
 > >  		local_irq_restore(irq_flags);
 > > 
 > >  		completed = hv_repcomp(status);
@@ -207,19 +225,6 @@ Done
 > > -		}
 > > -
 > >  		done += completed;
-> 
-> Same here. Drop "completed" and just do:
-> 
-> 		done += hv_repcomp(status);
-> 
-> 
-
-
-Done in v4. 
-
-Thanks,
-Stanislav
-
 > > +
 > > +		if (!hv_result_success(status))
 > > +			return hv_result_to_errno(status);
@@ -233,4 +238,3 @@ Stanislav
 > > 
 > > 
 > 
-> Michael
