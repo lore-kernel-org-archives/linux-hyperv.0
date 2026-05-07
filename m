@@ -1,37 +1,37 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A61237AA7E
-	for <linux-hyperv@vger.kernel.org>; Thu,  7 May 2026 07:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B35031D75E
+	for <linux-hyperv@vger.kernel.org>; Thu,  7 May 2026 07:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778140668; cv=none; b=OsxhVaLaAfsTFe1PltJnyYriibG7DmuEsgt0yvMkBnQbwRZqatWD2HNXSdjEm99TZoCQgKAugfP1Yn+9xHn5LBAz8nOjjBwAsd1tD45lQHKuAveLdBz7g78bO+NE4opll7epjDGueyhQAA0Cd2TYIbT6iDRt9i15UQepNv9PAFw=
+	t=1778140672; cv=none; b=qWyOSaMFi4AKlI1JXAra/omPFQetVN+c4uX/OHgPzKo9smTsT3lhuf78LBR/+bOenHdh9vVuhvZaE6Oe5Y1TpYDw39JFtcYRIk2UbvgsPNkqhbYd+xcT8bjZW5yeYyW7iy8DNReCXrcs7WXf6zJkJd8ByHQbHhsg8/0tnOzTCsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778140668; c=relaxed/simple;
-	bh=mISXIAaBnyJ3El/UgMCYNej7vBc/QVjw6hOt00hHft4=;
+	s=arc-20240116; t=1778140672; c=relaxed/simple;
+	bh=3eazCE0p93fNFU1RUTdSd7QFet86bKGD4YnRMvhHKCY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XHdM6DJ3t4CG+SgJH/ZUkLT4xakgR2ybOvWT1W7xerw0gKLjvXc5Wjfj3csobyOFGWlUzbCK9aI0yUrTW11PLiBN081RJ/9QeyRqFeA1ApveX8uAvJCxoe9HTvyMXA+IPLOaADN6bq/yZH+u8knu6IoznF+eflIryeP/jEeMZ7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=GOpvGjaURuZRd/bgyJHgPG4QDJfQt3ihdnZugaUHN9Fcb5BXvgsKG9DKM+uuoYz0UACw/iwlr0D2vfQqILfZENPCii8hKlJdmnDWxNABTxezyIgLE85ZYYmmQ8Ne2cSkAWFphcAe7tJ+y40ynpGuPjaVWmPLRybheOwwFBqB9hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 431E45D5F7;
-	Thu,  7 May 2026 07:57:32 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 105AE6C1C8;
+	Thu,  7 May 2026 07:57:34 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4A46593A8;
-	Thu,  7 May 2026 07:57:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FF0B593A8;
+	Thu,  7 May 2026 07:57:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oI3LLutF/GnZJAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 07 May 2026 07:57:31 +0000
+	id uLYzEu1F/GnZJAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 07 May 2026 07:57:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: mripard@kernel.org,
 	maarten.lankhorst@linux.intel.com,
@@ -50,9 +50,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-mips@vger.kernel.org,
 	virtualization@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 04/10] drm/damage-helper: Test src coord in drm_atomic_helper_check_plane_damage()
-Date: Thu,  7 May 2026 09:12:23 +0200
-Message-ID: <20260507075725.29738-5-tzimmermann@suse.de>
+Subject: [PATCH 07/10] drm/damage-helper: Remove old state from drm_atomic_helper_damage_merged()
+Date: Thu,  7 May 2026 09:12:26 +0200
+Message-ID: <20260507075725.29738-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260507075725.29738-1-tzimmermann@suse.de>
 References: <20260507075725.29738-1-tzimmermann@suse.de>
@@ -68,7 +68,7 @@ X-Rspamd-Pre-Result: action=no action;
 	Message is reply to one we originated
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 431E45D5F7
+X-Rspamd-Queue-Id: 105AE6C1C8
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
@@ -78,317 +78,294 @@ X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Rspamd-Action: no action
 
-Planes require a full update if the source coordinates change across
-atomic commits. Evaluate this during the atomic-check and set the flag
-ignore_damage_clips in the plane state, if so. Remove the check from
-drm_atomic_helper_damage_iter_init().
+Nothing in drm_atomic_helper_damage_merged() requires the old
+plane state. Remove the parameter and mass-convert callers.
 
-This will help with removing the old state from the atomic-commit phase
-and simplify atomic_update helpers a bit.
-
-Several unit tests check against the change of the src coordinate. Drop
-them as they do no longer make sense. If the src coordinate changes across
-commits, atomic helpers will set the plane state's ignore_damage_clips
-flag, for which a separate unit test exists.
+Most callers now no longer require the old plane state in their plane's
+atomic_update helper. Remove it as well.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_atomic_helper.c           |   4 +-
- drivers/gpu/drm/drm_damage_helper.c           |  20 ++-
- .../gpu/drm/tests/drm_damage_helper_test.c    | 151 ------------------
- include/drm/drm_damage_helper.h               |   3 +-
- 4 files changed, 16 insertions(+), 162 deletions(-)
+ drivers/gpu/drm/ast/ast_cursor.c           |  3 +--
+ drivers/gpu/drm/drm_damage_helper.c        |  4 +---
+ drivers/gpu/drm/drm_mipi_dbi.c             |  3 +--
+ drivers/gpu/drm/i915/display/intel_plane.c | 11 ++---------
+ drivers/gpu/drm/i915/display/intel_psr.c   |  3 +--
+ drivers/gpu/drm/sitronix/st7586.c          |  3 +--
+ drivers/gpu/drm/tiny/gm12u320.c            |  2 +-
+ drivers/gpu/drm/tiny/ili9225.c             |  3 +--
+ drivers/gpu/drm/tiny/repaper.c             |  2 +-
+ drivers/gpu/drm/tiny/sharp-memory.c        |  3 +--
+ drivers/gpu/drm/virtio/virtgpu_plane.c     |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  4 +---
+ include/drm/drm_damage_helper.h            |  3 +--
+ 13 files changed, 14 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 58edd122b922..3b432e07f5bc 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1034,7 +1034,7 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+index 3fa8e75db9c0..b8dcb2697daf 100644
+--- a/drivers/gpu/drm/ast/ast_cursor.c
++++ b/drivers/gpu/drm/ast/ast_cursor.c
+@@ -251,7 +251,6 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct ast_device *ast = to_ast_device(plane->dev);
+ 	struct drm_rect damage;
+ 	u64 dst_off = ast_plane->offset;
+@@ -266,7 +265,7 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 	 * engine to the offset.
+ 	 */
  
- 		drm_atomic_helper_plane_changed(state, old_plane_state, new_plane_state, plane);
- 
--		drm_atomic_helper_check_plane_damage(state, new_plane_state);
-+		drm_atomic_helper_check_plane_damage(state, old_plane_state, new_plane_state);
- 
- 		if (!funcs || !funcs->atomic_check)
- 			continue;
-@@ -1066,7 +1066,7 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
- 	}
- 
- 	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
--		drm_atomic_helper_check_plane_damage(state, new_plane_state);
-+		drm_atomic_helper_check_plane_damage(state, old_plane_state, new_plane_state);
- 	}
- 
- 	return ret;
+-	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage)) {
++	if (drm_atomic_helper_damage_merged(plane_state, &damage)) {
+ 		const u8 *argb4444 = ast_cursor_plane_get_argb4444(ast_cursor_plane,
+ 								   shadow_plane_state,
+ 								   &damage);
 diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-index 85e20f83f757..ba169d48c25f 100644
+index 42a6e645afaf..69b08febfe2b 100644
 --- a/drivers/gpu/drm/drm_damage_helper.c
 +++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -55,7 +55,8 @@ static void convert_clip_rect_to_rect(const struct drm_clip_rect *src,
+@@ -296,7 +296,6 @@ EXPORT_SYMBOL(drm_atomic_helper_damage_iter_next);
+ 
  /**
-  * drm_atomic_helper_check_plane_damage - Verify plane damage on atomic_check.
-  * @state: The driver state object.
-- * @plane_state: Plane state for which to verify damage.
-+ * @old_plane_state: Old plane state to verify against.
-+ * @new_plane_state: Plane state for which to verify damage.
-  *
-  * This helper function makes sure that damage from plane state is discarded
-  * for full modeset. If there are more reasons a driver would want to do a full
-@@ -67,19 +68,23 @@ static void convert_clip_rect_to_rect(const struct drm_clip_rect *src,
-  * &drm_plane_state.src as damage.
-  */
- void drm_atomic_helper_check_plane_damage(struct drm_atomic_state *state,
--					  struct drm_plane_state *plane_state)
-+					  const struct drm_plane_state *old_plane_state,
-+					  struct drm_plane_state *new_plane_state)
- {
- 	struct drm_crtc_state *crtc_state;
- 
--	if (plane_state->crtc) {
-+	if (!drm_rect_equals(&new_plane_state->src, &old_plane_state->src))
-+		new_plane_state->ignore_damage_clips = true;
-+
-+	if (new_plane_state->crtc) {
- 		crtc_state = drm_atomic_get_new_crtc_state(state,
--							   plane_state->crtc);
-+							   new_plane_state->crtc);
- 
- 		if (WARN_ON(!crtc_state))
- 			return;
- 
- 		if (drm_atomic_crtc_needs_modeset(crtc_state))
--			plane_state->ignore_damage_clips = true;
-+			new_plane_state->ignore_damage_clips = true;
- 	}
- }
- EXPORT_SYMBOL(drm_atomic_helper_check_plane_damage);
-@@ -204,7 +209,7 @@ EXPORT_SYMBOL(drm_atomic_helper_dirtyfb);
- /**
-  * drm_atomic_helper_damage_iter_init - Initialize the damage iterator.
-  * @iter: The iterator to initialize.
+  * drm_atomic_helper_damage_merged - Merged plane damage
 - * @old_state: Old plane state for validation.
-+ * @old_state: Unused, pass NULL.
   * @state: Plane state from which to iterate the damage clips.
+  * @rect: Returns the merged damage rectangle
   *
-  * Initialize an iterator, which clips plane damage
-@@ -241,8 +246,7 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
- 	iter->plane_src.x2 = (src.x2 >> 16) + !!(src.x2 & 0xFFFF);
- 	iter->plane_src.y2 = (src.y2 >> 16) + !!(src.y2 & 0xFFFF);
+@@ -309,8 +308,7 @@ EXPORT_SYMBOL(drm_atomic_helper_damage_iter_next);
+  * Returns:
+  * True if there is valid plane damage otherwise false.
+  */
+-bool drm_atomic_helper_damage_merged(const struct drm_plane_state *old_state,
+-				     const struct drm_plane_state *state,
++bool drm_atomic_helper_damage_merged(const struct drm_plane_state *state,
+ 				     struct drm_rect *rect)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 9ab6113d74a2..d308b34adc70 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -380,7 +380,6 @@ void drm_mipi_dbi_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *plane_state = plane->state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_rect rect;
+ 	int idx;
  
--	if (!iter->clips || state->ignore_damage_clips ||
--	    !drm_rect_equals(&state->src, &old_state->src)) {
-+	if (!iter->clips || state->ignore_damage_clips) {
- 		iter->clips = NULL;
- 		iter->num_clips = 0;
- 		iter->full_update = true;
-diff --git a/drivers/gpu/drm/tests/drm_damage_helper_test.c b/drivers/gpu/drm/tests/drm_damage_helper_test.c
-index 64f038a62ffe..ef931497baf9 100644
---- a/drivers/gpu/drm/tests/drm_damage_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_damage_helper_test.c
-@@ -155,45 +155,6 @@ static void drm_test_damage_iter_no_damage_fractional_src(struct kunit *test)
- 	check_damage_clip(test, &clip, 3, 3, 1028, 772);
+@@ -388,7 +387,7 @@ void drm_mipi_dbi_plane_helper_atomic_update(struct drm_plane *plane,
+ 		return;
+ 
+ 	if (drm_dev_enter(plane->dev, &idx)) {
+-		if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
++		if (drm_atomic_helper_damage_merged(plane_state, &rect))
+ 			mipi_dbi_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
+ 					  &shadow_plane_state->fmtcnv_state);
+ 		drm_dev_exit(idx);
+diff --git a/drivers/gpu/drm/i915/display/intel_plane.c b/drivers/gpu/drm/i915/display/intel_plane.c
+index c2b58d3b9c23..8fa1b3ab3d7b 100644
+--- a/drivers/gpu/drm/i915/display/intel_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_plane.c
+@@ -346,7 +346,6 @@ static void intel_plane_clear_hw_state(struct intel_plane_state *plane_state)
+ 
+ static void
+ intel_plane_copy_uapi_plane_damage(struct intel_plane_state *new_plane_state,
+-				   const struct intel_plane_state *old_uapi_plane_state,
+ 				   const struct intel_plane_state *new_uapi_plane_state)
+ {
+ 	struct intel_display *display = to_intel_display(new_plane_state);
+@@ -356,10 +355,9 @@ intel_plane_copy_uapi_plane_damage(struct intel_plane_state *new_plane_state,
+ 	if (DISPLAY_VER(display) < 12)
+ 		return;
+ 
+-	if (!drm_atomic_helper_damage_merged(&old_uapi_plane_state->uapi,
+-					     &new_uapi_plane_state->uapi,
++	if (!drm_atomic_helper_damage_merged(&new_uapi_plane_state->uapi,
+ 					     damage))
+-		/* Incase helper fails, mark whole plane region as damage */
++		/* In case the helper fails, mark whole plane region as damage */
+ 		*damage = drm_plane_state_src(&new_uapi_plane_state->uapi);
  }
  
--static void drm_test_damage_iter_no_damage_src_moved(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	/* Plane src moved since old plane state. */
--	set_plane_src(&mock->old_state, 0, 0, 1024 << 16, 768 << 16);
--	set_plane_src(&mock->state, 10 << 16, 10 << 16,
--		      (10 + 1024) << 16, (10 + 768) << 16);
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 1, "Should return plane src as damage.");
--	check_damage_clip(test, &clip, 10, 10, 1034, 778);
--}
--
--static void drm_test_damage_iter_no_damage_fractional_src_moved(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	/* Plane src has fractional part and it moved since old plane state. */
--	set_plane_src(&mock->old_state, 0x3fffe, 0x3fffe,
--		      0x3fffe + (1024 << 16), 0x3fffe + (768 << 16));
--	set_plane_src(&mock->state, 0x40002, 0x40002,
--		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 1, "Should return plane src as damage.");
--	check_damage_clip(test, &clip, 4, 4, 1029, 773);
--}
--
- static void drm_test_damage_iter_no_damage_not_visible(struct kunit *test)
- {
- 	struct drm_damage_mock *mock = test->priv;
-@@ -415,58 +376,6 @@ static void drm_test_damage_iter_single_damage_outside_fractional_src(struct kun
- 	KUNIT_EXPECT_EQ_MSG(test, num_hits, 0, "Should have no damage.");
+@@ -815,7 +813,6 @@ static int plane_atomic_check(struct intel_atomic_state *state,
+ 	const struct intel_plane_state *old_plane_state =
+ 		intel_atomic_get_old_plane_state(state, plane);
+ 	const struct intel_plane_state *new_primary_crtc_plane_state;
+-	const struct intel_plane_state *old_primary_crtc_plane_state;
+ 	struct intel_crtc *crtc = intel_crtc_for_pipe(display, plane->pipe);
+ 	const struct intel_crtc_state *old_crtc_state =
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+@@ -830,15 +827,11 @@ static int plane_atomic_check(struct intel_atomic_state *state,
+ 
+ 		new_primary_crtc_plane_state =
+ 			intel_atomic_get_new_plane_state(state, primary_crtc_plane);
+-		old_primary_crtc_plane_state =
+-			intel_atomic_get_old_plane_state(state, primary_crtc_plane);
+ 	} else {
+ 		new_primary_crtc_plane_state = new_plane_state;
+-		old_primary_crtc_plane_state = old_plane_state;
+ 	}
+ 
+ 	intel_plane_copy_uapi_plane_damage(new_plane_state,
+-					   old_primary_crtc_plane_state,
+ 					   new_primary_crtc_plane_state);
+ 
+ 	intel_plane_copy_uapi_to_hw_state(new_plane_state,
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index d1bae7d32617..41d2d5bc833b 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -2970,8 +2970,7 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
+ 		src = drm_plane_state_src(&new_plane_state->uapi);
+ 		drm_rect_fp_to_int(&src, &src);
+ 
+-		if (!drm_atomic_helper_damage_merged(&old_plane_state->uapi,
+-						     &new_plane_state->uapi, &damaged_area))
++		if (!drm_atomic_helper_damage_merged(&new_plane_state->uapi, &damaged_area))
+ 			continue;
+ 
+ 		damaged_area.y1 += new_plane_state->uapi.dst.y1 - src.y1;
+diff --git a/drivers/gpu/drm/sitronix/st7586.c b/drivers/gpu/drm/sitronix/st7586.c
+index fa58b3d83564..008241a98b88 100644
+--- a/drivers/gpu/drm/sitronix/st7586.c
++++ b/drivers/gpu/drm/sitronix/st7586.c
+@@ -176,7 +176,6 @@ static void st7586_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *plane_state = plane->state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_rect rect;
+ 	int idx;
+ 
+@@ -186,7 +185,7 @@ static void st7586_plane_helper_atomic_update(struct drm_plane *plane,
+ 	if (!drm_dev_enter(plane->dev, &idx))
+ 		return;
+ 
+-	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
++	if (drm_atomic_helper_damage_merged(plane_state, &rect))
+ 		st7586_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
+ 				&shadow_plane_state->fmtcnv_state);
+ 
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index d73dfebb4353..880b965e283a 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -582,7 +582,7 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+ 	struct drm_rect rect;
+ 
+-	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
++	if (drm_atomic_helper_damage_merged(state, &rect))
+ 		gm12u320_fb_mark_dirty(state->fb, &shadow_plane_state->data[0], &rect);
  }
  
--static void drm_test_damage_iter_single_damage_src_moved(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_property_blob damage_blob;
--	struct drm_mode_rect damage;
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	/* Plane src moved since old plane state. */
--	set_plane_src(&mock->old_state, 0, 0, 1024 << 16, 768 << 16);
--	set_plane_src(&mock->state, 10 << 16, 10 << 16,
--		      (10 + 1024) << 16, (10 + 768) << 16);
--	set_damage_clip(&damage, 20, 30, 256, 256);
--	set_damage_blob(&damage_blob, &damage, sizeof(damage));
--	set_plane_damage(&mock->state, &damage_blob);
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 1,
--			    "Should return plane src as damage.");
--	check_damage_clip(test, &clip, 10, 10, 1034, 778);
--}
--
--static void drm_test_damage_iter_single_damage_fractional_src_moved(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_property_blob damage_blob;
--	struct drm_mode_rect damage;
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	/* Plane src with fractional part moved since old plane state. */
--	set_plane_src(&mock->old_state, 0x3fffe, 0x3fffe,
--		      0x3fffe + (1024 << 16), 0x3fffe + (768 << 16));
--	set_plane_src(&mock->state, 0x40002, 0x40002,
--		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
--	/* Damage intersect with plane src. */
--	set_damage_clip(&damage, 20, 30, 1360, 256);
--	set_damage_blob(&damage_blob, &damage, sizeof(damage));
--	set_plane_damage(&mock->state, &damage_blob);
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 1,
--			    "Should return rounded off plane as damage.");
--	check_damage_clip(test, &clip, 4, 4, 1029, 773);
--}
--
- static void drm_test_damage_iter_damage(struct kunit *test)
- {
- 	struct drm_damage_mock *mock = test->priv;
-@@ -549,60 +458,6 @@ static void drm_test_damage_iter_damage_one_outside(struct kunit *test)
- 	check_damage_clip(test, &clip, 240, 200, 280, 250);
- }
+diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
+index 0371527002f9..e2e6544c8da5 100644
+--- a/drivers/gpu/drm/tiny/ili9225.c
++++ b/drivers/gpu/drm/tiny/ili9225.c
+@@ -185,7 +185,6 @@ static void ili9225_plane_helper_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *plane_state = plane->state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_rect rect;
+ 	int idx;
  
--static void drm_test_damage_iter_damage_src_moved(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_property_blob damage_blob;
--	struct drm_mode_rect damage[2];
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	set_plane_src(&mock->old_state, 0x40002, 0x40002,
--		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
--	set_plane_src(&mock->state, 0x3fffe, 0x3fffe,
--		      0x3fffe + (1024 << 16), 0x3fffe + (768 << 16));
--	/* 2 damage clips, one outside plane src. */
--	set_damage_clip(&damage[0], 1360, 1360, 1380, 1380);
--	set_damage_clip(&damage[1], 240, 200, 280, 250);
--	set_damage_blob(&damage_blob, &damage[0], sizeof(damage));
--	set_plane_damage(&mock->state, &damage_blob);
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 1,
--			    "Should return round off plane src as damage.");
--	check_damage_clip(test, &clip, 3, 3, 1028, 772);
--}
--
--static void drm_test_damage_iter_damage_not_visible(struct kunit *test)
--{
--	struct drm_damage_mock *mock = test->priv;
--	struct drm_atomic_helper_damage_iter iter;
--	struct drm_property_blob damage_blob;
--	struct drm_mode_rect damage[2];
--	struct drm_rect clip;
--	u32 num_hits = 0;
--
--	mock->state.visible = false;
--
--	set_plane_src(&mock->old_state, 0x40002, 0x40002,
--		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
--	set_plane_src(&mock->state, 0x3fffe, 0x3fffe,
--		      0x3fffe + (1024 << 16), 0x3fffe + (768 << 16));
--	/* 2 damage clips, one outside plane src. */
--	set_damage_clip(&damage[0], 1360, 1360, 1380, 1380);
--	set_damage_clip(&damage[1], 240, 200, 280, 250);
--	set_damage_blob(&damage_blob, &damage[0], sizeof(damage));
--	set_plane_damage(&mock->state, &damage_blob);
--	drm_atomic_helper_damage_iter_init(&iter, &mock->old_state, &mock->state);
--	drm_atomic_for_each_plane_damage(&iter, &clip)
--		num_hits++;
--
--	KUNIT_EXPECT_EQ_MSG(test, num_hits, 0, "Should not return any damage.");
--}
--
- static void drm_test_damage_iter_damage_ignore(struct kunit *test)
+@@ -195,7 +194,7 @@ static void ili9225_plane_helper_atomic_update(struct drm_plane *plane,
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
+-	if (drm_atomic_helper_damage_merged(old_plane_state, plane_state, &rect))
++	if (drm_atomic_helper_damage_merged(plane_state, &rect))
+ 		ili9225_fb_dirty(&shadow_plane_state->data[0], fb, &rect,
+ 				 &shadow_plane_state->fmtcnv_state);
+ 
+diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+index c8270591afc7..531831d2b73f 100644
+--- a/drivers/gpu/drm/tiny/repaper.c
++++ b/drivers/gpu/drm/tiny/repaper.c
+@@ -837,7 +837,7 @@ static void repaper_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	if (!pipe->crtc.state->active)
+ 		return;
+ 
+-	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
++	if (drm_atomic_helper_damage_merged(state, &rect))
+ 		repaper_fb_dirty(state->fb, shadow_plane_state->data,
+ 				 &shadow_plane_state->fmtcnv_state);
+ }
+diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
+index cbf69460ebf3..3b6b09f8c8a7 100644
+--- a/drivers/gpu/drm/tiny/sharp-memory.c
++++ b/drivers/gpu/drm/tiny/sharp-memory.c
+@@ -241,7 +241,6 @@ static int sharp_memory_plane_atomic_check(struct drm_plane *plane,
+ static void sharp_memory_plane_atomic_update(struct drm_plane *plane,
+ 					     struct drm_atomic_state *state)
  {
- 	struct drm_damage_mock *mock = test->priv;
-@@ -633,8 +488,6 @@ static void drm_test_damage_iter_damage_ignore(struct kunit *test)
- static struct kunit_case drm_damage_helper_tests[] = {
- 	KUNIT_CASE(drm_test_damage_iter_no_damage),
- 	KUNIT_CASE(drm_test_damage_iter_no_damage_fractional_src),
--	KUNIT_CASE(drm_test_damage_iter_no_damage_src_moved),
--	KUNIT_CASE(drm_test_damage_iter_no_damage_fractional_src_moved),
- 	KUNIT_CASE(drm_test_damage_iter_no_damage_not_visible),
- 	KUNIT_CASE(drm_test_damage_iter_no_damage_no_crtc),
- 	KUNIT_CASE(drm_test_damage_iter_no_damage_no_fb),
-@@ -645,13 +498,9 @@ static struct kunit_case drm_damage_helper_tests[] = {
- 	KUNIT_CASE(drm_test_damage_iter_single_damage_fractional_src),
- 	KUNIT_CASE(drm_test_damage_iter_single_damage_intersect_fractional_src),
- 	KUNIT_CASE(drm_test_damage_iter_single_damage_outside_fractional_src),
--	KUNIT_CASE(drm_test_damage_iter_single_damage_src_moved),
--	KUNIT_CASE(drm_test_damage_iter_single_damage_fractional_src_moved),
- 	KUNIT_CASE(drm_test_damage_iter_damage),
- 	KUNIT_CASE(drm_test_damage_iter_damage_one_intersect),
- 	KUNIT_CASE(drm_test_damage_iter_damage_one_outside),
--	KUNIT_CASE(drm_test_damage_iter_damage_src_moved),
--	KUNIT_CASE(drm_test_damage_iter_damage_not_visible),
- 	KUNIT_CASE(drm_test_damage_iter_damage_ignore),
- 	{ }
- };
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_plane_state *plane_state = plane->state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct sharp_memory_device *smd;
+@@ -251,7 +250,7 @@ static void sharp_memory_plane_atomic_update(struct drm_plane *plane,
+ 	if (!smd->crtc.state->active)
+ 		return;
+ 
+-	if (drm_atomic_helper_damage_merged(old_state, plane_state, &rect))
++	if (drm_atomic_helper_damage_merged(plane_state, &rect))
+ 		sharp_memory_fb_dirty(plane_state->fb, shadow_plane_state->data,
+ 				      &rect, &shadow_plane_state->fmtcnv_state);
+ }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a126d1b25f46..d438049b2255 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -257,7 +257,7 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 		return;
+ 	}
+ 
+-	if (!drm_atomic_helper_damage_merged(old_state, plane->state, &rect))
++	if (!drm_atomic_helper_damage_merged(plane->state, &rect))
+ 		return;
+ 
+ 	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 1f5497e2638a..54a82f1b8198 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -977,7 +977,6 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	enum stdu_content_type new_content_type;
+ 	struct vmw_framebuffer_surface *new_vfbs;
+ 	uint32_t hdisplay = new_state->crtc_w, vdisplay = new_state->crtc_h;
+-	struct drm_plane_state *old_state = plane->state;
+ 	struct drm_rect rect;
+ 	int ret;
+ 
+@@ -1101,8 +1100,7 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 		struct vmw_surface *surf = vmw_user_object_surface(&vps->uo);
+ 		struct vmw_resource *res = &surf->res;
+ 
+-		if (!res->res_dirty && drm_atomic_helper_damage_merged(old_state,
+-								       new_state,
++		if (!res->res_dirty && drm_atomic_helper_damage_merged(new_state,
+ 								       &rect)) {
+ 			/*
+ 			 * At some point it might be useful to actually translate
 diff --git a/include/drm/drm_damage_helper.h b/include/drm/drm_damage_helper.h
-index a58cbcd11276..3b18634ebd1c 100644
+index e092995c3646..b765f57c8ccf 100644
 --- a/include/drm/drm_damage_helper.h
 +++ b/include/drm/drm_damage_helper.h
-@@ -65,7 +65,8 @@ struct drm_atomic_helper_damage_iter {
- };
+@@ -77,8 +77,7 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
+ bool
+ drm_atomic_helper_damage_iter_next(struct drm_atomic_helper_damage_iter *iter,
+ 				   struct drm_rect *rect);
+-bool drm_atomic_helper_damage_merged(const struct drm_plane_state *old_state,
+-				     const struct drm_plane_state *state,
++bool drm_atomic_helper_damage_merged(const struct drm_plane_state *state,
+ 				     struct drm_rect *rect);
  
- void drm_atomic_helper_check_plane_damage(struct drm_atomic_state *state,
--					  struct drm_plane_state *plane_state);
-+					  const struct drm_plane_state *old_plane_state,
-+					  struct drm_plane_state *new_plane_state);
- int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
- 			      struct drm_file *file_priv, unsigned int flags,
- 			      unsigned int color, struct drm_clip_rect *clips,
+ #endif
 -- 
 2.54.0
 
