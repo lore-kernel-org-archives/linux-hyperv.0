@@ -1,39 +1,38 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F59744CF54;
-	Thu,  7 May 2026 15:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAE43402B8B;
+	Thu,  7 May 2026 15:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778168641; cv=none; b=MT0y/d0OkmYXkya28rQOAPJjWiJWqV9NDif9s3inE2WWZd6igTjZ0PC7XZAcVzcr6ICiM606GiRPUFz3QM4CBwcn0FSXrd8tUsz4ugAHvNK+gkSOWd3tN6VT/bNzo51rkhj6jxfL9pTebcxYJ28sFM0+Zz2dl7kPxd6jFJ8voB4=
+	t=1778168646; cv=none; b=ViKhBT/D7BQp8gPoazole7Nzm/mfVA990RqJLCmLWqykH7XfnIn9/X55M+2y3k95rzuv4PpITECiq/rZorKpu2eiPvj6J52Z7oAYtTdcHmQxtZLkaUUoG3tDGzCvsTA464EL8ERglN45t/6bsH/TvxTcWBDT9/Ow+taqarWwy7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778168641; c=relaxed/simple;
-	bh=4xtBJTR2Z3cs8HfTbN/yhCqheIJKVAyoWdfFKMxD7lI=;
+	s=arc-20240116; t=1778168646; c=relaxed/simple;
+	bh=RCR9IKxxOXYK2yJM2g9xnfr0z4EcMC5nhtWAa+D5qZs=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aS4rJh7wel05pSwJrRZLknBBSRAwmY9/mhuy1t9TC9EbpDsFPrgjDh0SkTumiQ9g9XIl67PyqQwirrqNvT0STFs+LpC1tO/vuoXziJrhxEFWDe+QXXbR7Sl+flerG3f8YPBdjfJQrjF5z94TqzC0HnAUmew9KvURyrINBq7HHMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=j8Rd3kYp; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=lnEMQMLjHeKt2zl4wHli5T5pS5WxOlYK7sYIl1PxwyCnKiNvFRdWiOAAAlq3I5S7N3AtPpzWN+VP1e5OBEobi2M4ZLSRuZRMYP/+J+7nOBaUoyGHXJziRC2B1VCIxQZdbWjXWwm7/6w0ORvdHjkHlO26c5WSxCjWJK7RWoz6ofg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=W23SOg2M; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="j8Rd3kYp"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="W23SOg2M"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id F40EB20B7165;
-	Thu,  7 May 2026 08:43:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F40EB20B7165
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5AC6020B7165;
+	Thu,  7 May 2026 08:44:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5AC6020B7165
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778168637;
-	bh=BpkI+Xl0JSY4UffzyoLS9l1eeiVb8FtSrY2DdTQXwCA=;
+	s=default; t=1778168642;
+	bh=VsFD7CS0vcU/q1DHP+/zJaQsZooW1lzrwi7Uhgzv3RI=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=j8Rd3kYps6eB3rYRVXHlTzHvZO1rw+kaPsxE+dBF0uT3av2NCuM6vso9ob2IN11x4
-	 dkz3iGX0PWfJh83JLaSS+b/AeEQylXsUu2JpPfLPX/ZJGZKP4V7Yd1nYTl62YHwGB7
-	 SMxb9H5n6OTqd4GdR2QB6LqxK5DAlmmsNTeso8gc=
-Subject: [PATCH v4 11/18] mshv: Fix sleeping under spinlock in
- mshv_portid_alloc
+	b=W23SOg2Mwqp6B8R6kz3HtMy7xH+onCLLBx41Qy4paWaPAsbkw0bwvEb1BFGYWKw4t
+	 ggSrZzg2/sQLfH5t3O/5xeChBzki9+B2bUTIy9JHAnRRvBuRuuxhIE/wSKoPYvDVBZ
+	 GfFuZp0f+JKyxE1no0Q6dNRp6sS7U8Q8VBrP9XWw=
+Subject: [PATCH v4 12/18] mshv: Use kfree_rcu in mshv_portid_free
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 07 May 2026 15:43:59 +0000
+Date: Thu, 07 May 2026 15:44:05 +0000
 Message-ID: 
- <177816863995.21765.3588432375739789368.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177816864533.21765.15114003791446487007.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177816592843.21765.4364464279247150355.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -48,40 +47,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-idr_alloc() is called with GFP_KERNEL inside idr_lock(), which holds a
-spinlock. GFP_KERNEL allows the allocator to sleep, triggering a
-sleeping-while-atomic bug.
+mshv_portid_free() uses synchronize_rcu() followed by kfree() to
+reclaim port table entries. This blocks the caller until a full RCU
+grace period elapses, which is unnecessary since the same module already
+uses the non-blocking kfree_rcu() pattern in mshv_port_table_fini().
 
-Fix by using idr_preload(GFP_KERNEL) before taking the lock to
-pre-allocate memory in a sleepable context, then idr_alloc() with
-GFP_NOWAIT inside the spinlock-protected section.
+Replace with kfree_rcu() to avoid the blocking wait and keep the
+reclamation strategy consistent across the file.
 
-Fixes: 621191d709b1 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_portid_table.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/hv/mshv_portid_table.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/hv/mshv_portid_table.c b/drivers/hv/mshv_portid_table.c
-index 4cdf8e9575390..d87a82e399e96 100644
+index d87a82e399e96..42d21b92b88fd 100644
 --- a/drivers/hv/mshv_portid_table.c
 +++ b/drivers/hv/mshv_portid_table.c
-@@ -40,12 +40,14 @@ mshv_port_table_fini(void)
- int
- mshv_portid_alloc(struct port_table_info *info)
- {
--	int ret = 0;
-+	int ret;
- 
-+	idr_preload(GFP_KERNEL);
- 	idr_lock(&port_table_idr);
- 	ret = idr_alloc(&port_table_idr, info, PORTID_MIN,
--			PORTID_MAX, GFP_KERNEL);
-+			PORTID_MAX, GFP_NOWAIT);
+@@ -62,8 +62,7 @@ mshv_portid_free(int port_id)
+ 	WARN_ON(!info);
  	idr_unlock(&port_table_idr);
-+	idr_preload_end();
  
- 	return ret;
+-	synchronize_rcu();
+-	kfree(info);
++	kfree_rcu(info, portbl_rcu);
  }
+ 
+ /*
 
 
