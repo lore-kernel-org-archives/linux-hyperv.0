@@ -1,39 +1,38 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F36402B8B;
-	Thu,  7 May 2026 15:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D25C428833;
+	Thu,  7 May 2026 15:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778168591; cv=none; b=bPsc3PU3oL7mJb03p/TULDEw6EbZc2Sjsq9OHkl2VEBykM5gGN/Y2R/VFHWvW75I9UB585/qawvG3U5A8bxRSPcQvK2Jo+DjF7mmzZZRXyY2hZuiTIQ5JTQNRV8MMbnOL+2jjXGQ+VGAI+KBCdbBmn6I2hNajRI+YX5XLaXzykM=
+	t=1778168597; cv=none; b=Vzzuo7lT0COBzb/VmAKKUoLDpHn4/xsliHP8ZBrkCYS+tZGCisXok6azgTkBpWqA5ZX3NY110UBCGHntcMbYrItj2KGWfNQ83qQVP3+sMiLq4yqNBSib4voTULn8ic5vYyojM1keGKmKSKlsCtWG+bJWbwoI8o2xtzfoOMTp6lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778168591; c=relaxed/simple;
-	bh=LKg6XQ9kOCE5ahDArI5b8L75v0fF2CWuwK8AM5CIeFQ=;
+	s=arc-20240116; t=1778168597; c=relaxed/simple;
+	bh=GCszAkUZ6N6PEeO5JRUc3/8x0N+lseW9YMRCRB1R8t4=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k50+G/sj0VMIRUZLxM7dxLGgHYRbLfa9+Ly8lmlYoVPX3VjOANmDBOb6uA1eM2iG584QqI6kYiXUem67gyax2jNeNw6eOAi6PmSEbmIF9+At9YavSI0JJDfJPWm9LxsR3MeYSyJu3SjCCaDihb1Os0Ne5Vh+IiI97KMRFlM24MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KRep6Dyl; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=VC5HC9sGs+jOTh1RkNpTFdoFwWaH0ckciyBXHKKyeJSLajyJR3wTs6s4pqdWJrgpY0LmT4TBFCnBM7zhdtlcI+0NPZ2J3vr3gSpFV/cg4jcnjmlQE828s9dHeF9Dr7Uv3yGHeG5iMTY2nuC5iaRuZRqHrsuH8PNp23AhqT+ZtmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VBEyLeEB; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KRep6Dyl"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VBEyLeEB"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E856320B716C;
-	Thu,  7 May 2026 08:43:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E856320B716C
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9731B20B7167;
+	Thu,  7 May 2026 08:43:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9731B20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778168587;
-	bh=qv/zUzZcJzd6kXDrJZiNYMHMZp1e9YT/bSHUEU6NMVo=;
+	s=default; t=1778168592;
+	bh=lHdBDtdX+i2Bvo0Y7puGK3HjcBr6MONWxySGf+EzWrk=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=KRep6Dyl1n09YzLFGKDcGcK91J+6TEywUEypBpd/dxp5AJRRZX1DBoj5vv3mm2UDo
-	 jlKkZWpiMqU0IoEY/f+dHgbygKfA4+zfKa8aTzJMbdQ/3JfoaGSnK27IAySxWrBqbc
-	 gBmWRTeTkRGhAmxv90KTSD5R9dr1l4v3FVauTQbg=
-Subject: [PATCH v4 02/18] mshv: Fix mshv_prepare_pinned_region error path for
- unencrypted partitions
+	b=VBEyLeEBwu4EJSXMqp/4L/B7ZX0m1Bu3YvUVj3A3xgcGOaMUVkXWLdsGqscQ9mzX6
+	 /hhMWxbsm8tBo4/e4wbLtT2XG+xgEyWz6xbSaujz+NfYbkStrfQ6RjsS6GV0OqYEfN
+	 G8eLDpvttRICupiQ1A2fNQ5qhVp3ewjGjPlnanpw=
+Subject: [PATCH v4 03/18] mshv: Fix race in mshv_irqfd_deassign
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 07 May 2026 15:43:09 +0000
+Date: Thu, 07 May 2026 15:43:15 +0000
 Message-ID: 
- <177816858991.21765.2088226987194959542.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177816859556.21765.6200058614819106223.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 In-Reply-To: 
  <177816592843.21765.4364464279247150355.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 References: 
@@ -46,89 +45,60 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-mshv_prepare_pinned_region() returns 0 (success) when mshv_region_map()
-fails on an unencrypted partition. The condition on the error path:
+mshv_irqfd_deactivate() and the hlist traversal of pt_irqfds_list
+require pt->pt_irqfds_lock to be held, but mshv_irqfd_deassign()
+omits it. This races with the EPOLLHUP path in mshv_irqfd_wakeup(),
+which does take the lock before calling mshv_irqfd_deactivate().
 
-    if (ret && mshv_partition_encrypted(partition))
+Additionally, mshv_irqfd_deactivate() uses hlist_del() which poisons
+the node pointers rather than resetting them. Since
+mshv_irqfd_is_active() relies on hlist_unhashed() (checks pprev ==
+NULL), a poisoned node still appears active. If a concurrent path calls
+mshv_irqfd_deactivate() again on the same irqfd, the guard fails to
+prevent a double hlist_del() on poisoned pointers.
 
-only handles map failures for encrypted partitions — if the partition is
-not encrypted and the map fails, execution falls through to 'return 0',
-silently ignoring the error.
-
-Additionally, calling mshv_region_invalidate() inline on map failure
-zeroes the mreg_pages array before the caller's cleanup path
-(mshv_region_destroy) can call mshv_region_unmap(). Since unmap skips
-pages where mreg_pages[offset] is NULL, this can leave stale SLAT
-mappings for partially-mapped pages.
-
-Fix by returning immediately on success and falling through to error
-return on failure. For unencrypted partitions, the caller's
-mshv_region_destroy() handles unmap followed by invalidate in the
-correct order. For encrypted partitions where re-sharing fails, zero
-the page array without unpinning — the pages are inaccessible to the
-host and must not be unpinned, but zeroing prevents
-mshv_region_destroy() from attempting to unpin them.
+Fix both issues:
+- Add the missing spin_lock_irq/spin_unlock_irq around the list
+  traversal in mshv_irqfd_deassign(), matching mshv_irqfd_release().
+- Use hlist_del_init() instead of hlist_del() so the node is properly
+  marked as unhashed after removal, making the is_active guard reliable.
 
 Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
 Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
- drivers/hv/mshv_root_main.c |   26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ drivers/hv/mshv_eventfd.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index 665d565899c15..7e4252b6bc65c 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -1360,32 +1360,38 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
- 			pt_err(partition,
- 			       "Failed to unshare memory region (guest_pfn: %llu): %d\n",
- 			       region->start_gfn, ret);
--			goto invalidate_region;
-+			goto err_out;
- 		}
- 	}
+diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
+index 90959f639dc32..5995a62aff8d8 100644
+--- a/drivers/hv/mshv_eventfd.c
++++ b/drivers/hv/mshv_eventfd.c
+@@ -284,7 +284,7 @@ static void mshv_irqfd_deactivate(struct mshv_irqfd *irqfd)
+ 	if (!mshv_irqfd_is_active(irqfd))
+ 		return;
  
- 	ret = mshv_region_map(region);
--	if (ret && mshv_partition_encrypted(partition)) {
-+	if (ret)
-+		goto share_region;
-+
-+	return 0;
-+
-+share_region:
-+	if (mshv_partition_encrypted(partition)) {
- 		int shrc;
+-	hlist_del(&irqfd->irqfd_hnode);
++	hlist_del_init(&irqfd->irqfd_hnode);
  
- 		shrc = mshv_region_share(region);
- 		if (!shrc)
--			goto invalidate_region;
-+			goto err_out;
- 
- 		pt_err(partition,
- 		       "Failed to share memory region (guest_pfn: %llu): %d\n",
- 		       region->start_gfn, shrc);
- 		/*
--		 * Don't unpin if marking shared failed because pages are no
--		 * longer mapped in the host, ie root, anymore.
-+		 * Re-sharing failed — the pages remain inaccessible to the
-+		 * host.  Zero the page array so that mshv_region_destroy()
-+		 * won't attempt to unpin them (leaking the page references
-+		 * is intentional; unpinning host-inaccessible pages would be
-+		 * unsafe).
- 		 */
-+		memset(region->mreg_pages, 0,
-+		       region->nr_pages * sizeof(region->mreg_pages[0]));
- 		goto err_out;
- 	}
--
--	return 0;
--
--invalidate_region:
--	mshv_region_invalidate(region);
- err_out:
- 	return ret;
+ 	queue_work(irqfd_cleanup_wq, &irqfd->irqfd_shutdown);
  }
+@@ -541,13 +541,14 @@ static int mshv_irqfd_deassign(struct mshv_partition *pt,
+ 	if (IS_ERR(eventfd))
+ 		return PTR_ERR(eventfd);
+ 
++	spin_lock_irq(&pt->pt_irqfds_lock);
+ 	hlist_for_each_entry_safe(irqfd, n, &pt->pt_irqfds_list,
+ 				  irqfd_hnode) {
+ 		if (irqfd->irqfd_eventfd_ctx == eventfd &&
+ 		    irqfd->irqfd_irqnum == args->gsi)
+-
+ 			mshv_irqfd_deactivate(irqfd);
+ 	}
++	spin_unlock_irq(&pt->pt_irqfds_lock);
+ 
+ 	eventfd_ctx_put(eventfd);
+ 
 
 
