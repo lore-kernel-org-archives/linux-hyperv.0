@@ -1,37 +1,42 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0260D3F4112;
-	Wed, 13 May 2026 18:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 675C23F4112;
+	Wed, 13 May 2026 18:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778698220; cv=none; b=RWSR96pYi+mSHsHpVljgClc3/vlPWf8F/tCVgH0s+6hVnZL2imfgSbJLH61BPUOg+5LKFZZb8SIahM9gxRWqD6TdN2qY8Tid6Nqz8ixsGjeusm/qMog5C5CSuGESEtO49wG0L5aF8+FlqIGgzfgoedXHIkH7PzDvCzHsIaLNWbc=
+	t=1778698224; cv=none; b=K6XMPaH/xNLHmjR4cUe+0D/cs8JGw1K65YCW5jGPYREuDhALbv1IzuI+oFyPJowrQYJrZCWkfY80AJmifKkB88IBxHs7xscqwma7k8oxNomEJtYalYx/+QYRANwbONfPdhChr8V3ByTk/VAT0Uu2uSZsLDdohlxCjQUA2zuX7JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778698220; c=relaxed/simple;
-	bh=0Yq/yb08LElBMqhBLbYTcCcWBg/YcIjiDzcgC0i4X7U=;
-	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=Q2dNV3HQmuNJ7kOc0K8djIQXV+pfGT8FH/DM0/wxHciTrHNYL41FQb4yNf5apCTrOElWgHKpAVlD2eV/H4RiGuMu3bvsj7Zt68fMSF97DNmsBqt+Qx7tdufq6cTagU3LkMNoT5Zw1llwfnmbSfFGIKSqrCcyy2T1ulXWHENZ4Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Wqe7jJ5g; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1778698224; c=relaxed/simple;
+	bh=JlZdvz5nA1wqiJQgKxXJY8D/ls/OstX57GkHRY4qSUU=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=co34nuxf7ecrI5OLxbkaCKC8b1tD3bdywfxGTgtlLTKtGdumoWSgxTL7Y9ZyGAIDQDBPrDdt/EJT33O9qxzv7t+RZbNpuQ+NfSKpz9qS5n7uaPb9PTPfKQR7yIJGkxV+pS2bwuu/drDtY1K5IiDdLO+9VqX2NfFcQwGo8Ushnq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HU+on9Z9; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Wqe7jJ5g"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HU+on9Z9"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B2FFF20B7166;
-	Wed, 13 May 2026 11:50:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B2FFF20B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2060720B7166;
+	Wed, 13 May 2026 11:50:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2060720B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778698214;
-	bh=+nWEY3JfFMwElo2cOytM/EOCWHb6+J89FxUMn8nfLbg=;
-	h=Subject:From:To:Cc:Date:From;
-	b=Wqe7jJ5gwtJ30fHbhSnV4pK0AqA9IHi0LSN7wl2mnOQnTUQimbvAjXbR25t+8hrPu
-	 X+eIbkF5NwDg9Tci2dLwxujLaNmZLDh4MiTcqC0j+Ic/eA/eJX+N35z1KfKqreM/Lw
-	 gpqV75kAJPfRSrNwrLRcpXsgtIdvWmVD1orMSraE=
-Subject: [PATCH v3 00/11] mshv: Refactor memory region management and map
- pages at creation
+	s=default; t=1778698220;
+	bh=ppmjFGl0E3kqOJvlQdNh+2LO9EPGvXf/FCpEdli3M64=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=HU+on9Z9bWjlfToAIe+nAmdIdoGEGlGMgAUTzVCSd3yV6IIq6RZWxnEvJUmO/gCmq
+	 K26pcQljJHPIHTGxLDr4PESUqwVutBsT0afE0unraH5aTiOlB3OmTB6sY1HjJ2dxRU
+	 0l2R2LsqAsNogIOMtf6LHz1RcHNnSQ8ffHXwqUis=
+Subject: [PATCH v3 01/11] mshv: Don't reject huge-page stride on unaligned
+ region length
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
  decui@microsoft.com, longli@microsoft.com, skinsburskii@gmail.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 13 May 2026 18:50:17 +0000
+Date: Wed, 13 May 2026 18:50:22 +0000
 Message-ID: 
+ <177869822277.18773.14108741062244642035.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+In-Reply-To: 
+ <177869813422.18773.515308662914055136.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+References: 
  <177869813422.18773.515308662914055136.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 User-Agent: StGit/0.19
 Precedence: bulk
@@ -43,47 +48,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-This series refactors the mshv memory region subsystem in preparation
-for mapping populated pages into the hypervisor at movable region
-creation time, rather than relying solely on demand faulting.
+mshv_chunk_stride() rejected huge-page stride whenever pfn_count was
+not a multiple of PTRS_PER_PMD, even though the same-stride scan in
+mshv_region_process_pfns() already handles the transition between
+huge-page and 4K stride for the tail of a run. As a result, a region
+backed by a 2 MiB folio with a length that wasn't a multiple of 512
+PFNs was processed entirely at 4K stride, issuing one hypercall per
+PFN instead of one per 2 MiB.
 
-The primary motivation is to ensure that when userspace passes a
-pre-populated mapping for a movable memory region, those pages are
-immediately visible to the hypervisor. Previously, all movable regions
-were created with HV_MAP_GPA_NO_ACCESS on every page regardless of
-whether the backing pages were already present, deferring all mapping
-to the fault handler. This added unnecessary fault overhead and
-complicated the initial setup of child partitions with pre-populated
-memory.
+Reject huge-page stride only when fewer than PTRS_PER_PMD PFNs are
+available from this point.  The starting GFN alignment requirement is
+unchanged.  The same-stride scan continues to handle the tail
+correctly.
 
-v3:
- - Fixed a few issues.
- - Reworked the code flow to simplify the logic.
-
-v2:
- - Rebased on top of latest mainline, simplified the check for valid PFNs,
-   added other minor cleanups and improvements.
-
+Fixes: 259add0d982cb ("mshv: Align huge page stride with guest mapping")
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 ---
+ drivers/hv/mshv_regions.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Stanislav Kinsburskii (11):
-      mshv: Don't reject huge-page stride on unaligned region length
-      mshv: Don't request HMM write fault for read-only regions
-      mshv: Convert region storage from page pointers to PFNs
-      mshv: Refactor region segmentation into a dedicated helper
-      mshv: Support address range holes in remapping
-      mshv: Iterate VMAs when faulting in region pages
-      mshv: Scale fault granularity for non-4 KiB host pages
-      mshv: Move pinned region setup to mshv_regions.c
-      mshv: Map populated pages on movable region creation
-      mshv: Extract MMIO region mapping into separate function
-      mshv: Add tracepoint for map GPA hypercall
+diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
+index fdffd4f002f6f..81e57f727be35 100644
+--- a/drivers/hv/mshv_regions.c
++++ b/drivers/hv/mshv_regions.c
+@@ -43,7 +43,7 @@ static int mshv_chunk_stride(struct page *page,
+ 	 */
+ 	if (!PageCompound(page) || !PageHead(page) ||
+ 	    !IS_ALIGNED(gfn, PTRS_PER_PMD) ||
+-	    !IS_ALIGNED(page_count, PTRS_PER_PMD))
++	    page_count < PTRS_PER_PMD)
+ 		return 1;
+ 
+ 	page_order = folio_order(page_folio(page));
 
-
- drivers/hv/mshv_regions.c      |  636 ++++++++++++++++++++++++++++------------
- drivers/hv/mshv_root.h         |   30 +-
- drivers/hv/mshv_root_hv_call.c |   52 ++-
- drivers/hv/mshv_root_main.c    |  105 +------
- drivers/hv/mshv_trace.h        |   36 ++
- 5 files changed, 530 insertions(+), 329 deletions(-)
 
