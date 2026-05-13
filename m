@@ -1,174 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAD4494A19;
-	Wed, 13 May 2026 16:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B21A3FFAB7;
+	Wed, 13 May 2026 17:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778689187; cv=none; b=lv6H2BZtgCEIgxlv1eQQ4JwtJSKOO9jtmVj6saHUtoLZ4lFY0mAkS6m/A+DWHvDYS2u7Xnqq+CfCO8Ad1i2qBXcpGGK3zP6rHTRZv+02DFTcHKdS1DS+/sUDougcbt9g6XvCuExp6YJWFUGYYkmn4qyTX7I1Y8BpQXxJyhKuHyE=
+	t=1778693474; cv=none; b=krpsUrRMVOR4UET2zq4/zJAqantujUn4c4rd8Ef4oDtsYbVbXdZ/FmSKdvxvdR2lA0IVsQr32+RjlpGoemH4Uej4IIrLPHB+e/OJJ8jRigTjScj0buZ6VsojtQyGLEZ0n8D4l77CrTZxxgyo4Wovs+olNFOgXwhTJqrcw1BtmRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778689187; c=relaxed/simple;
-	bh=nf/EGUFlU1Lh8RetUOEO9Cf1rjcOBc9mFE8STXI1blM=;
+	s=arc-20240116; t=1778693474; c=relaxed/simple;
+	bh=A50HMsMrnG4DcUOfynaWIyvdz3wHEfB0I+FoMgZPn+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G74Qq0TlRAuLC6+a7QxRUOtQ4ifx9tTp5i2SyNU9MYj+MuHl69Mef1Az9AoIF0bemSl46TfZ5N1W/8tuuIJQkmIZLMmUXj2gD9rGytIZOr9YPYsD8brfHcq2CJAXVgqnaHBkyN6CiFwTC17CBXo6kMNM3/edSPdcZN9VNpjyvT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jg2dKFzv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PcccXEPnWCBtmmKWJnRkcM3UKvOnsRu3NgwYkKvAC+PPVJ0xSXtRcQTCDtXZSQXYMI+UIVwEmE1//h8WFfkjPprxBjyuNzEhiEBZawhkOemHs97E5/zOBJcAQRKP/agymVNB7Hp4bq8OvkxrJnIRzGtOswPzFvmYH2Zx3aXUSMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=k61zLgCM; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jg2dKFzv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F64BC19425;
-	Wed, 13 May 2026 16:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778689186;
-	bh=nf/EGUFlU1Lh8RetUOEO9Cf1rjcOBc9mFE8STXI1blM=;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="k61zLgCM"
+Received: from skinsburskii.localdomain (c-98-225-44-182.hsd1.wa.comcast.net [98.225.44.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id AD85D20B7166;
+	Wed, 13 May 2026 10:31:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AD85D20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778693463;
+	bh=O8ux//YiC7MTScOD2UOXPB3Sg9ERbCisqlpguW6QM60=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jg2dKFzv6okX1KYFBRwCHm2sFYiTPHsJQ5YnZWeVNvP3Zj5cWasmXNArcBkCV4FtZ
-	 Cs1BE9Q0wZLhsOlBOHrsd2IopjTPWv7NKKb7t3BoTTz8JojO679pnlUVmPg4MeiGbQ
-	 6zLYjR4CDfYOUbsDGYpd1zSuzlauUB1NRNQRe01/tTMDwm8WH7XUhi1TfmpciK5Xsf
-	 0etPp1MQrSRS+wCfMxTZ7prR6YdLs4VaDtxPfv1lXObBTEuOwElYfZR/LUXvkzIUVc
-	 BxSEVAgFShBCjO6UrdwYJmioH2S+IXaukrL/d8KUwrmrSwv0XxF4LcRi90IVGiVlC/
-	 lhGeNl4KNuwVw==
-Date: Wed, 13 May 2026 18:19:43 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Chen Ridong <chenridong@huaweicloud.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, rcu@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Costa Shulyupin <cshulyup@redhat.com>,
-	Qiliang Yuan <realwujing@gmail.com>
-Subject: Re: [PATCH 08/23] arm64: topology: Use RCU to protect access to
- HK_TYPE_TICK cpumask
-Message-ID: <agSkn9H_Xsz3MZa6@localhost.localdomain>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-9-longman@redhat.com>
+	b=k61zLgCM6/CNimEvIpDsBPOdDB4SsB3OPzKfoy5rcR4oy7CYY1+PQtJN5Wuw01y1P
+	 mx3ESkx2TonaQyegLHhad7QxUQfIKuBOcDv5L75rPCQHsH3H1KySAvwNxzDJKIXp2d
+	 0oLv+TJI8w6swi9A+3uOgEDtHet5QzJvb4Dtl97Y=
+Date: Wed, 13 May 2026 10:31:04 -0700
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: Anirudh Rayabharam <anirudh@anirudhrb.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 02/18] mshv: Fix mshv_prepare_pinned_region error path
+ for unencrypted partitions
+Message-ID: <agS1WOIXIkyHxW4E@skinsburskii.localdomain>
+References: <177816592843.21765.4364464279247150355.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <177816858991.21765.2088226987194959542.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <20260511-ancient-naughty-bat-f58c2c@anirudhrb>
+ <agHwhJrqEL3IewHz@skinsburskii.localdomain>
+ <20260513-roaring-gentle-kiwi-21bccd@anirudhrb>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260421030351.281436-9-longman@redhat.com>
+In-Reply-To: <20260513-roaring-gentle-kiwi-21bccd@anirudhrb>
 
-Le Mon, Apr 20, 2026 at 11:03:36PM -0400, Waiman Long a �crit :
-> As the HK_TYPE_TICK cpumask is going to be changeable at run time, we
-> need to use RCU to protect access to the cpumask to prevent it from
-> going away in the middle of the operation.
+On Wed, May 13, 2026 at 11:15:37AM +0000, Anirudh Rayabharam wrote:
+> On Mon, May 11, 2026 at 08:06:44AM -0700, Stanislav Kinsburskii wrote:
+> > On Mon, May 11, 2026 at 01:48:56PM +0000, Anirudh Rayabharam wrote:
+> > > On Thu, May 07, 2026 at 03:43:09PM +0000, Stanislav Kinsburskii wrote:
+> > > > mshv_prepare_pinned_region() returns 0 (success) when mshv_region_map()
+> > > > fails on an unencrypted partition. The condition on the error path:
+> > > > 
+> > > >     if (ret && mshv_partition_encrypted(partition))
+> > > > 
+> > > > only handles map failures for encrypted partitions — if the partition is
+> > > > not encrypted and the map fails, execution falls through to 'return 0',
+> > > > silently ignoring the error.
+> > > > 
+> > > > Additionally, calling mshv_region_invalidate() inline on map failure
+> > > > zeroes the mreg_pages array before the caller's cleanup path
+> > > > (mshv_region_destroy) can call mshv_region_unmap(). Since unmap skips
+> > > > pages where mreg_pages[offset] is NULL, this can leave stale SLAT
+> > > > mappings for partially-mapped pages.
+> > > > 
+> > > > Fix by returning immediately on success and falling through to error
+> > > > return on failure. For unencrypted partitions, the caller's
+> > > > mshv_region_destroy() handles unmap followed by invalidate in the
+> > > > correct order. For encrypted partitions where re-sharing fails, zero
+> > > > the page array without unpinning — the pages are inaccessible to the
+> > > > host and must not be unpinned, but zeroing prevents
+> > > > mshv_region_destroy() from attempting to unpin them.
+> > > 
+> > > mshv_region_destroy() calls mshv_region_invalidate() which calls
+> > > mshv_region_invalidate_pages() which just does:
+> > > 
+> > > 	static void mshv_region_invalidate_pages(struct mshv_mem_region *region,
+> > > 						 u64 page_offset, u64 page_count)
+> > > 	{
+> > > 		if (region->mreg_type == MSHV_REGION_TYPE_MEM_PINNED)
+> > > 			unpin_user_pages(region->mreg_pages + page_offset, page_count);
+> > > 
+> > > 		memset(region->mreg_pages + page_offset, 0,
+> > > 		       page_count * sizeof(struct page *));
+> > > 	}
+> > > 
+> > > It doesn't checked for zeroed pages before unpinning.
+> > > 
+> > > > 
+> > > > Fixes: 621191d709b14 ("Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs")
+> > > > Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+> > > > ---
+> > > >  drivers/hv/mshv_root_main.c |   26 ++++++++++++++++----------
+> > > >  1 file changed, 16 insertions(+), 10 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> > > > index 665d565899c15..7e4252b6bc65c 100644
+> > > > --- a/drivers/hv/mshv_root_main.c
+> > > > +++ b/drivers/hv/mshv_root_main.c
+> > > > @@ -1360,32 +1360,38 @@ static int mshv_prepare_pinned_region(struct mshv_mem_region *region)
+> > > >  			pt_err(partition,
+> > > >  			       "Failed to unshare memory region (guest_pfn: %llu): %d\n",
+> > > >  			       region->start_gfn, ret);
+> > > > -			goto invalidate_region;
+> > > > +			goto err_out;
+> > > >  		}
+> > > >  	}
+> > > >  
+> > > >  	ret = mshv_region_map(region);
+> > > > -	if (ret && mshv_partition_encrypted(partition)) {
+> > > > +	if (ret)
+> > > > +		goto share_region;
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +share_region:
+> > > > +	if (mshv_partition_encrypted(partition)) {
+> > > >  		int shrc;
+> > > >  
+> > > >  		shrc = mshv_region_share(region);
+> > > >  		if (!shrc)
+> > > > -			goto invalidate_region;
+> > > > +			goto err_out;
+> > > >  
+> > > >  		pt_err(partition,
+> > > >  		       "Failed to share memory region (guest_pfn: %llu): %d\n",
+> > > >  		       region->start_gfn, shrc);
+> > > >  		/*
+> > > > -		 * Don't unpin if marking shared failed because pages are no
+> > > > -		 * longer mapped in the host, ie root, anymore.
+> > > > +		 * Re-sharing failed — the pages remain inaccessible to the
+> > > > +		 * host.  Zero the page array so that mshv_region_destroy()
+> > > > +		 * won't attempt to unpin them (leaking the page references
+> > > > +		 * is intentional; unpinning host-inaccessible pages would be
+> > > > +		 * unsafe).
+> > > >  		 */
+> > > 
+> > > Actually, mshv_region_destroy() also does mshv_region_share(). Maybe we
+> > > can remove it from here altogether. Either way, should this zeroing
+> > > logic be added there too so as not to crash the host by unpinning pages
+> > > that weren't marked shared?
+> > > 
+> > 
+> > Indeed.
+> > The issue with all this code is that we are leaking state in
+> > mshv_region_pin if we wimply return from it: we don't know if the pages
+> > are pinned or unshared (or mapped) in the destruction callback.
+> > We should either introduce a state variable to track this or just don't
+> > call the generic mshv_region_put on case of region creation error.
+> > The latter approch make mshv_map_user_memory idempotent and thus looks
+> > like a better way forward.
+> > What do you think?
 > 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  arch/arm64/kernel/topology.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
+
+I tried to say, that there can be two apporaches to solving this issue:
+  1. Either make sure mshv_region_pus() can destroy a partially created
+     region (tha'ts what this patch is doing) or
+  2. Make mshv_map_user_region be idempotent by not calling mshv_region_put() if the region was not
+     fully created and destroy the partioally created parts of it on
+     error paths. This would require preserving some state in the region
+     struct to know if the region was pinned or shared or mapped.
+     This looks like a leaner apporach, but it requires additional state
+     tracking and more code changes.
+
+Thanks,
+Stanislav
+
+
+> I'm not sure I follow the latter approach. Omitting mshv_region_put()
+> would cause a dangling reference to the mshv_region right?
 > 
-> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-> index b32f13358fbb..48f150801689 100644
-> --- a/arch/arm64/kernel/topology.c
-> +++ b/arch/arm64/kernel/topology.c
-> @@ -173,6 +173,7 @@ void arch_cpu_idle_enter(void)
->  	if (!amu_fie_cpu_supported(cpu))
->  		return;
->  
-> +	guard(rcu)();
->  	/* Kick in AMU update but only if one has not happened already */
->  	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
->  	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update,
->  	cpu)))
-
-This is called with IRQs disabled in the current CPU that is online so it's
-already guaranteed to be stable.
-
-
-> @@ -187,11 +188,16 @@ int arch_freq_get_on_cpu(int cpu)
->  	unsigned int start_cpu = cpu;
->  	unsigned long last_update;
->  	unsigned int freq = 0;
-> +	bool hk_cpu;
->  	u64 scale;
->  
->  	if (!amu_fie_cpu_supported(cpu) || !arch_scale_freq_ref(cpu))
->  		return -EOPNOTSUPP;
->  
-> +	scoped_guard(rcu) {
-> +		hk_cpu = housekeeping_cpu(cpu, HK_TYPE_TICK);
-> +	}
-> +
->  	while (1) {
->  
->  		amu_sample = per_cpu_ptr(&cpu_amu_samples, cpu);
-> @@ -204,16 +210,21 @@ int arch_freq_get_on_cpu(int cpu)
->  		 * (and thus freq scale), if available, for given policy: this boils
->  		 * down to identifying an active cpu within the same freq domain, if any.
->  		 */
-> -		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
-> +		if (!hk_cpu ||
->  		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_EXP_MS))) {
->  			struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> +			bool hk_intersects;
->  			int ref_cpu;
->  
->  			if (!policy)
->  				return -EINVAL;
->  
-> -			if (!cpumask_intersects(policy->related_cpus,
-> -						housekeeping_cpumask(HK_TYPE_TICK))) {
-> +			scoped_guard(rcu) {
-> +				hk_intersects = cpumask_intersects(policy->related_cpus,
-> +							housekeeping_cpumask(HK_TYPE_TICK));
-> +			}
-> +
-> +			if (!hk_intersects) {
->  				cpufreq_cpu_put(policy);
->  				return -EOPNOTSUPP;
->  			}
-
-Ok so this is racy but it's fine because:
-
-This function is only used by cpufreq with either cpufreq_policy_write or
-cpufreq_policy_read held (that is, struct cpufreq_policy::rwsem).
-
-And that rwsem is write held on cpufreq_online() -> cpufreq_policy_online() and
-also offline to guarantee the policy->cpus and policy->cpu stability.
-
-Therefore housekeeping_cpumask() should only deal with stable online CPUs here. So
-even if the housekeeping mask can be changed concurrently, those CPUs can't
-appear or disappear from it.
-
-Would be worth adding a comment about that.
-
--- 
-Frederic Weisbecker
-SUSE Labs
+> Thanks,
+> Anirudh.
