@@ -1,105 +1,98 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DFF3803CD
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 22:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F43D37BE8E
+	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 22:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778883563; cv=none; b=Ps1LupuUUmRomNW2BE93IchIQOeYpJeNqR5BUm4fxykLFHHUhw+uybFcUoqDhPo6aGO2YTWRMOtt9gJlDLF4wA/0SaQTHqifivkQV1oCO4b64YMK//EtMNp0FeYHS9NJFtSJVSlpIHTfOXCjXCR79SVyjAm0BUFKK6p8qG5Ha6o=
+	t=1778884158; cv=none; b=QRQZ6KGt9sHhbpXRWZyV0ohunJlFS5w3UI40wYkmjaSEBw+v4tFPP6YcRffnBfTNw+LO45R7FDXj3hlTAGyoNVME8xh2yPDtsIX3M1CBJFj2H4FPxsd41JPmeNOGGbA/Yrzfzuvle7DQsHXr0mTH1uBXszNU2kJu6oNUU96q6QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778883563; c=relaxed/simple;
-	bh=8SzpbZgJBvBRL/hzxIjQ/9GeIwvuw2el3nJZdpXd+WQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEMYbpKLW7YPN51P8zB0hu+8ZC4HGloinT46q7moU9OuNZn68rIVHiQiYFgAVL3Obbs46a/iTKVuOt11r/WAjKA/ZU7OCZWkTqyYXnmX/FwPck8/sJtHeryFeEA82mbQtRIZ1wxzhEXp1oLl2sVmiERAwph5KoLJY71odUuz/Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Oi067Wi+; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1778884158; c=relaxed/simple;
+	bh=3kBs+LoK/41x7KTyqa5sAHIy4wlL0hqntfKNUvehlXc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Yr7va6FEAPmxz3p+PHF0lG/7jObBIF8cm90IWTS4JOkB3RUloKBVUsD5RejqIPy24pHwweWEi3GYUxQwWfBKUsXPdTjlZfi/U7GZvCYmg161nKboifkpKVD488vmlbey3Q00ha1b2wvmqzY8pHD6oIPvdNXN9uisVD8mTNx4wx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bTKv+1wG; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Oi067Wi+"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-50fbd79350dso5374611cf.3
-        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 15:19:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bTKv+1wG"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c829366cf25so379101a12.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 15:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1778883560; x=1779488360; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lz77QHSF30CmLvYON6sVw/Gk6vw94UV9wtrxbUX8y+M=;
-        b=Oi067Wi+P4Yx6RvbsIpM+7igYMAEy3+eLQdCmDQLjimAaOAccY2Sjla9OJTvYqZFMC
-         QIGOPvYnE8V66UXsT8jkxGePlTpcpvUgxfCNxJ+qES+j2eM9z7u0UR9F6uGF3qbG/Vn+
-         jPiNT32XjhaZjR7qzaCltoSdK9jnaVhJnlbuSV7MfgeffHHJdlgVAIPkeDE4oBIIFTua
-         bNI1d1/TkqhsqbeoO1FrhRyH8eYYpqLn3xshhpXXFxxmkwW83Em/1RDTcwrsVMMBwGHl
-         SJNT6uMMb/09pS6NZMOD6WEG+59G15EcD08Vk9oVfPAXdf89Ck71Gk1KvG3G7hafcWSf
-         it9w==
+        d=google.com; s=20251104; t=1778884156; x=1779488956; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MJEFaPkKBrp+ZhLTHzWdmAHs7LO5UggosySgozYIFoU=;
+        b=bTKv+1wGONPYNf5K9rQAOCM6BWyw4TVLJGDtWZ0hDL+ukwxCJV5brNH9rYpWAzvzWH
+         AkPFqtyQdvAnt0NCLN0Sqgro0hLN8Qr+Uw1zaY/Ox3/stKbretrBlwlGMwJRJbX/iC50
+         +oXHQ7VxEaAUjPygesOigNcbOgBYlw4My+NaLpCguqxi/5LRVa5mfH7uXmXyjmjQcGtq
+         RcheIfJksIyGBKDd9kEsmyyXoMoWI5vae+TL6aS9AXOuJvoVr0LSPD2Y3JS246E7nJNe
+         usmn4MUyEgIqs2hlvZYudnpBjRUwM/RUDYI7yYccU5AUCYAg22AIwjRpvcBe9+yYqyMj
+         7BSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778883560; x=1779488360;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lz77QHSF30CmLvYON6sVw/Gk6vw94UV9wtrxbUX8y+M=;
-        b=DAXItUWJVrE6M3Wi6/+ZWBtq7kOTePhD510w18Z15S/rOG+px3TnODG4wVJmYHXb2V
-         fMaPDuPkm01JiCoVyqQjhUTOoCVzxubJpXRg0CxxPho+Kx/hZNS3fVDr/Inap8BuKpQf
-         WRZCspEwVuYhiYlMyy4St6S5x3CQccDoIn+9gLrVmzuggZs7IoFTzHANAx4JU7KW0fot
-         K5lJfz7B+oOecslLyR8Z9nCIBYnmV7zGYyymNPX8ojGJMawonq/lJM8Q4p/vuTr0BAp8
-         oSEX/r4GMHb/oZypy0pLcDybAbbUzooghmTLysgVuNyd6i3yuETeS646QHlJPraGqEmk
-         nKSg==
-X-Forwarded-Encrypted: i=1; AFNElJ8adeYMY1OYbdvDSGA5Kezi+LUQTOPOWKzVW4AHiLYMYcWTdmiETrEcvMkPykdIFoRhdnXyhpOMITQ6zJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIGNfMLIsRKQuLLtCfJtyitOgi5U4NkuudEMUtPA8MtQ8Xuq40
-	iMF0ByP+LmiFHvZSmO2DDTOwewTgphHDXeLuj0iGhA+4UpN40ea2JiueunNpaHcsR4I=
-X-Gm-Gg: Acq92OGNE/OwpK9LymKowDJafOKvKHpZFksORWc7UzejXiWrrmoKT7aIJl90K3keRUq
-	pr0af4Jm1hg8hSizAQ6lm4v0G26IJvtavFPSw2dUNr2Z7Gli7vdL1ju1V8FApnTOS6i4+cbogDM
-	Bo1cLmnHD0BTaMvgy8nXsL4YMyFeHR4Xn9f+VrCb+dE+60E0YOAcK4NsIMUWJSPVUXMRiPByzpF
-	KE9FTmR/gEw8jUT4zOoPwPscvLSwr4AXBXZACkr933h/Bb1aB8+su5Wi1W00e483mgzQa4sKg7/
-	OXWjayczTm5QmIHpq9MzwL6ZWbGx1u0DCb0QFfYbKxHINoHSSncG2cl72In+nVyt5P1OUYizB+n
-	VNRAVRoo02XD1uyVY1jH4q4RgXcTgL94turVOQWj19W6JkN7zwB+BLpDBg3ijWH9k4JNwtU+Obj
-	5g0efbcip+b8DOk3DwO084V3IDCb6EDPn+NCxGQTBQLoQtkTcQ+8mSlsaWiSWaBqj9JcZTcOPwJ
-	IuUGSmouE1nDqWx
-X-Received: by 2002:ac8:5742:0:b0:509:2858:3c63 with SMTP id d75a77b69052e-5165a0703c1mr85536381cf.23.1778883559652;
-        Fri, 15 May 2026 15:19:19 -0700 (PDT)
-Received: from ziepe.ca (crbknf0213w-47-54-130-67.pppoe-dynamic.high-speed.nl.bellaliant.net. [47.54.130.67])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516460cda02sm58162851cf.18.2026.05.15.15.19.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 15:19:19 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wO0sI-00000008D1f-2Swb;
-	Fri, 15 May 2026 19:19:18 -0300
-Date: Fri, 15 May 2026 19:19:18 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arch@vger.kernel.org, wei.liu@kernel.org, kys@microsoft.com,
-	haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-	bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org,
-	mani@kernel.org, robh@kernel.org, arnd@arndb.de,
-	mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
-	tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com
-Subject: Re: [PATCH v1 1/4] iommu: Move Hyper-V IOMMU driver to its own
- subdirectory
-Message-ID: <20260515221918.GJ7702@ziepe.ca>
-References: <20260511162408.1180069-1-zhangyu1@linux.microsoft.com>
- <20260511162408.1180069-2-zhangyu1@linux.microsoft.com>
+        d=1e100.net; s=20251104; t=1778884156; x=1779488956;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MJEFaPkKBrp+ZhLTHzWdmAHs7LO5UggosySgozYIFoU=;
+        b=P5TQuRyQ76nok2frHYKamW1skWisJdUvQ5PjQZ3PQTlVxqQ7GZU9O28g2Seg01rSQn
+         wg3dFRG4PPWDWH0EtBFA1oesW9aSqELlhXQDzEWlSfse/CnP4dLsKGTiYrsPQP+UvaWn
+         3owVn4H4Ga2S2B/IQi7lXvCaK9dlEj/yx+thxcylcrmXkc3jsaP9VZm8fxFubug3Inr+
+         QUQxnBlTTihmiCYg+N7jEfvUdQDEpr93WvbHfCILKQOax5InNAIns8TmI/TdvAZfc4rj
+         6s4ED0QSqD8EAE+vNPLC7/nX4Y/IHcNRqGzz6dM1WMGeH7iiy0DvbkYHSw3WubGQMs59
+         wazw==
+X-Gm-Message-State: AOJu0YwI7SqkWGLpAU4Sp1CU1vs4vXF36Z369v06Nwl3Ejek8HUI2ICG
+	WnqAlcroZCNrLFaxvmf8twLYyOGS2uFmNEaj5EzhD0OCPh9ZfjAnnTMewPgdc3jeuJJUpy3H4G9
+	NsrH4lg==
+X-Received: from pfoo19.prod.google.com ([2002:a05:6a00:1a13:b0:82f:20ed:8059])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3028:b0:82f:2243:e445
+ with SMTP id d2e1a72fcca58-83f33d9dc40mr6348229b3a.32.1778884156219; Fri, 15
+ May 2026 15:29:16 -0700 (PDT)
+Date: Fri, 15 May 2026 15:29:15 -0700
+In-Reply-To: <20260515203447.ED0E7C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511162408.1180069-2-zhangyu1@linux.microsoft.com>
+Mime-Version: 1.0
+References: <20260515191942.1892718-12-seanjc@google.com> <20260515203447.ED0E7C2BCB0@smtp.kernel.org>
+Message-ID: <ageeO3P0Nc3Fji48@google.com>
+Subject: Re: [PATCH v3 11/41] x86/kvm: Don't disable kvmclock on BSP in syscore_suspend()
+From: Sean Christopherson <seanjc@google.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-hyperv@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, May 12, 2026 at 12:24:05AM +0800, Yu Zhang wrote:
-> From: Easwar Hariharan <eahariha@linux.microsoft.com>
+On Fri, May 15, 2026, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
+> > index df95516a9d899..006e3a13500b4 100644
+> > --- a/arch/x86/kernel/kvmclock.c
+> > +++ b/arch/x86/kernel/kvmclock.c
+> [ ... ]
+> > @@ -178,8 +178,22 @@ static void kvm_register_clock(char *txt)
+> >  	pr_debug("kvm-clock: cpu %d, msr %llx, %s", smp_processor_id(), pa, txt);
+> >  }
+> >  
+> > +static void kvmclock_disable(void)
+> > +{
+> > +	if (msr_kvm_system_time)
+> > +		native_write_msr(msr_kvm_system_time, 0);
+> > +}
+> > +
+> >  static void kvm_save_sched_clock_state(void)
+> >  {
+> > +	/*
+> > +	 * Stop host writes to kvmclock immediately prior to suspend/hibernate.
+> > +	 * If the system is hibernating, then kvmclock will likely reside at a
+> > +	 * different physical address when the system awakens, and host writes
+> > +	 * to the old address prior to reconfiguring kvmclock would clobber
+> > +	 * random memory.
+> > +	 */
+> > +	kvmclock_disable();
+> >  }
 > 
-> The Hyper-V IOMMU driver currently only supports IRQ remapping.
-> As it will be adding DMA remapping support, prepare a directory
-> to contain all the different feature files.
+> Can this lead to memory corruption if another clocksource overwrites the
+> x86_platform.save_sched_clock_state callback?
 
-Any possibility we could put the irq remapping thing under the irq
-directory?
-
-The other drivers have it here because they are co-mingled with their
-iommu HW, will hyperv have the same issue?
-
-Jason
+Yes, that's why the kernel only allows one "main" hypervisor.
