@@ -1,102 +1,196 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D12B3A5445
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A60038F95A;
+	Fri, 15 May 2026 12:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778846991; cv=none; b=HDu/ZvkM490ag8hA96AomtKUKughR2M69dCXOQpam2sRTC0uYH7sbwoVskfwtGKksxsdsXlsACbnCoyGmDRCoN2vlHIoQuLQFOx8oPGlfqy6j0KXxlxjwLfudku/zKRZakxIg3FwcT8AS09ZrYVfxoPhhIlHIztEAO3yxq2NlvE=
+	t=1778848713; cv=none; b=CqYKsJ+kr954R9yCe7tD2wNW4y8M30Uq+NVOQ+Rh3he5HxGUKwqhdb0vw63htS8A3x2cUhEBxt8sbD2eckfzmdc9m54ItUm8FhMVrjIVOrnxIGsijaZCiNjY6q7+iyf0Q4A+2dhO8RkP+JzTrmlVSYw7ksp0dxfjsiKVsVwrXOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778846991; c=relaxed/simple;
-	bh=VkeK6zTL5qBV+G7fVN8P2rhf4B0YsKLP3wTA1x+gg4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JTcLh3w6kGB2tEaol/Cmiaqo47alfSfV24IOs2bwxCV3Q91sHvecMd2mqMabCibyfqWsMngG3PLeZG953l8gguwBYsS7dxvmR3/Tt0ileDTffV49VVuf6QQ8HaxjzeiEfI8aa1tjEERxqTjrp3GIoOXpIg5IQ3t5lQz4vJbX3XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F6485EDB3;
-	Fri, 15 May 2026 12:09:23 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35BCA593A9;
-	Fri, 15 May 2026 12:09:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CA7tC/MMB2rQFwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 15 May 2026 12:09:23 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: simona@ffwll.ch,
-	airlied@gmail.com,
-	mdaenzer@redhat.com,
-	pekka.paalanen@collabora.com,
-	jadahl@gmail.com,
-	contact@emersion.fr,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	spice-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 8/9] drm/virtgpu: Set DRM_VBLANK_FLAG_SIMULATED
-Date: Fri, 15 May 2026 13:55:13 +0200
-Message-ID: <20260515120916.333614-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260515120916.333614-1-tzimmermann@suse.de>
-References: <20260515120916.333614-1-tzimmermann@suse.de>
+	s=arc-20240116; t=1778848713; c=relaxed/simple;
+	bh=QkyGtymRwTBhyCo+ftYaceSh3xAwbb+WqGHKEO0jwkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZxjpuSDs27GTEpvKau1D773GslNvqWCGgPI1aYTZMl06zl8KvJdDk3cb46xFfOwAZmPFafdiUrpEnss89300CvmEejNsatSzz2/mo9MyvvYCCF2nNtraxUbYva+yxLGtIw0bdPxzCfA9NxuKjztWC5lWeRfxcjU/WpGVS7eeFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WS/Zdg8A; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WS/Zdg8A"
+Received: from localhost (unknown [167.220.233.27])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5F50920B7166;
+	Fri, 15 May 2026 05:38:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5F50920B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778848707;
+	bh=1OXr0xlN0CYrNFpGl0atHJ7aaaV0aDo3N3oIZvGVagY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WS/Zdg8AIi53513pxUnOp+s9InaN9MqXm8Ct+gGszuzww7WhyOeKAYEzmZFH5C4LC
+	 N4WtvrNmTKru+L4Wvy3/mrpRLUIzp7SXf695evqMQzpXzI0vKmUPA9CTnkBUTlDJm0
+	 b1d2IH7XXgyxFJYnqOG7QsvllXFywc14HtOV6AzY=
+Date: Fri, 15 May 2026 20:38:29 +0800
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, 
+	wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
+	longli@microsoft.com, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org, mani@kernel.org, 
+	robh@kernel.org, arnd@arndb.de, jgg@ziepe.ca, mhklinux@outlook.com, 
+	tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com
+Subject: Re: [PATCH v1 3/4] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <af2mt3eqnadczs2u2psmsdevjhshsl3v6vamtnde2c44mjealc@3yon3hsi7idi>
+References: <20260511162408.1180069-1-zhangyu1@linux.microsoft.com>
+ <20260511162408.1180069-4-zhangyu1@linux.microsoft.com>
+ <20260513113952.00005b20@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 8F6485EDB3
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
+In-Reply-To: <20260513113952.00005b20@linux.microsoft.com>
 
-Mark the vblank event on virtgpu as simulated, so that the WAIT_VBLANK
-ioctl fails with an error. The ioctl should not be supported because
-the output is not synchronized to a display refresh.
+[...]
+> > diff --git a/drivers/iommu/hyperv/Kconfig
+> > b/drivers/iommu/hyperv/Kconfig index 30f40d867036..9e658d5c9a77 100644
+> > --- a/drivers/iommu/hyperv/Kconfig
+> > +++ b/drivers/iommu/hyperv/Kconfig
+> > @@ -8,3 +8,20 @@ config HYPERV_IOMMU
+> >  	help
+> >  	  Stub IOMMU driver to handle IRQs to support Hyper-V Linux
+> >  	  guest and root partitions.
+> > +
+> > +if HYPERV_IOMMU
+> > +config HYPERV_PVIOMMU
+> > +	bool "Microsoft Hypervisor para-virtualized IOMMU support"
+> > +	depends on X86 && HYPERV
+> > +	select IOMMU_API
+> > +	select GENERIC_PT
+> > +	select IOMMU_PT
+> > +	select IOMMU_PT_X86_64
+> nit:
+> If HYPERV_PVIOMMU is enabled on a (hypothetical) platform with
+> GENERIC_ATOMIC64=y, the select would force-enable IOMMU_PT_X86_64 even
+> though its depends on is unsatisfied — leading to a build failure.
+> 
+> In practice this can't happen today because HYPERV_PVIOMMU already
+> depends on X86 && HYPERV, and x86 never sets GENERIC_ATOMIC64. But
+> adding the explicit guard is more defensive.
+> i.e.
+>        depends on !GENERIC_ATOMIC64    # for cmpxchg64 in IOMMU_PT
+> 
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/virtio/virtgpu_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Good point. Will add "depends on !GENERIC_ATOMIC64".
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 44ffffec550f..558d8001c54f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -381,7 +381,7 @@ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
- 	for (i = 0 ; i < vgdev->num_scanouts; ++i)
- 		vgdev_output_init(vgdev, i);
- 
--	ret = drm_vblank_init(vgdev->ddev, vgdev->num_scanouts);
-+	ret = drmm_vblank_init(vgdev->ddev, vgdev->num_scanouts, DRM_VBLANK_FLAG_SIMULATED);
- 	if (ret)
- 		return ret;
- 
--- 
-2.54.0
+[...]
+
+> > +
+> > +/*
+> > + * Look up the logical device ID for a vPCI device. Returns 0 on
+> > success
+> > + * with *logical_id filled in; -ENODEV if no entry registered for
+> > this
+> > + * device's vPCI bus.
+> > + */
+> > +static int hv_iommu_lookup_logical_dev_id(struct pci_dev *pdev, u64
+> > *logical_id) +{
+> > +	struct hv_pci_busdata *bus;
+> > +	int domain = pci_domain_nr(pdev->bus);
+> > +	int ret = -ENODEV;
+> > +
+> > +	spin_lock(&hv_iommu_pci_bus_lock);
+> this is called under local_irq_save, should use  raw_spinlock_t for RT
+> kernel?
+> 
+
+Yes, this is problematic on PREEMPT_RT. Michael also suggested hoisting
+the lookup before the local_irq_save() section instead of using a raw
+spinlock, which I think is a great idea - all 3 call sites (detach_dev,
+attach_dev, get_logical_device_property) will be changed.
+
+> > +	list_for_each_entry(bus, &hv_iommu_pci_bus_list, list) {
+> > +		if (bus->pci_domain_nr == domain) {
+> > +			*logical_id =
+> > (u64)bus->logical_dev_id_prefix |
+> > +				      PCI_FUNC(pdev->devfn);
+> > +			ret = 0;
+> > +			break;
+> > +		}
+> > +	}
+> > +	spin_unlock(&hv_iommu_pci_bus_lock);
+> > +	return ret;
+> > +}
+> > +
+
+[...]
+
+> > +static void hv_iommu_release_device(struct device *dev)
+> > +{
+> > +	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
+> > +	struct pci_dev *pdev = to_pci_dev(dev);
+> > +
+> > +	if (pdev->ats_enabled)
+> > +		pci_disable_ats(pdev);
+> > +
+> > +	dev_iommu_priv_set(dev, NULL);
+> > +	set_dma_ops(dev, NULL);
+> I don't think this is necessary.
+> 
+
+Oh, yes. Thanks!
+
+> > +
+> > +	kfree(vdev);
+> > +}
+> > +
+> > +static struct iommu_group *hv_iommu_device_group(struct device *dev)
+> > +{
+> > +	if (dev_is_pci(dev))
+> > +		return pci_device_group(dev);
+> > +	else
+> > +		return generic_device_group(dev);
+> non pci device already rejected during attach, maybe we should warn
+> here?
+>         WARN_ON_ONCE(1);
+>         return generic_device_group(dev);
+> 
+
+Good idea. Will add WARN_ON_ONCE(1).
+
+> > +}
+> > +
+> > +static int hv_configure_device_domain(struct hv_iommu_domain
+> > *hv_domain, u32 domain_type) +{
+> > +	u64 status;
+> > +	unsigned long flags;
+> > +	struct pt_iommu_x86_64_hw_info pt_info;
+> > +	struct hv_input_configure_device_domain *input;
+> > +
+> > +	local_irq_save(flags);
+> > +
+> > +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> > +	memset(input, 0, sizeof(*input));
+> > +	input->device_domain = hv_domain->device_domain;
+> > +	input->settings.flags.blocked = (domain_type ==
+> > IOMMU_DOMAIN_BLOCKED);
+> > +	input->settings.flags.translation_enabled = (domain_type !=
+> > IOMMU_DOMAIN_IDENTITY); +
+> Should this be:
+> input->settings.flags.translation_enabled =
+>      (domain_type & __IOMMU_DOMAIN_PAGING);
+> Otherwise, blocked domain will have translation enabled. Maybe add some
+> explanation of what HV expects.
+> 
+I do agree this is not intuitive, but current hypervisor implementation
+requires "blocked == 1" to be paired with "translation_enabled = 1",
+otherwise it returns HV_STATUS_INVALID_PARAMETER. But I can add some
+comment at least.
+
+Thanks for the thorough review, Jacob!
+
+B.R.
+Yu
+
 
