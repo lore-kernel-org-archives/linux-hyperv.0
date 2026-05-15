@@ -1,138 +1,247 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865EB30C168
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 18:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0152437F75B
+	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 19:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778869406; cv=none; b=glhIYoPDFGZGGT5aSC0duFzp/vD7VaM7kEdgAP21EnLQMmpAd1ZB/bprkvwgYZUD6KSXoXM4nUrKmS4/TnQc2Yy8gs6LGxDGAYUuouC/MEK3Ypve5H/bh+Hz5zgKgLchcE2GU7SARVH8otZJVNEkDhZo7nsHZ7bM6N5zypi0VNY=
+	t=1778872811; cv=none; b=jUowWJfs5u1yXw7kM4ip4EYEn7DOTd9JZj1ZZAfEdwOgcmskijys2TmFuJ7oJ5CDW6mk3nhcSUxWdD3xCEj2VwRUpNEQBPNFEWw47PGCq9TA0QxdV81gmkhPPh+Mv3YIv6acJ9wu0PIf3HkpoC8aWG/9wdQJeCGc86rJDaDUz10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778869406; c=relaxed/simple;
-	bh=gMaEvicj1lkTTKjknQzylRPd7tw3CbzIlWyBBZkqlhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uLvhb847Z7VWF22ZA8KBDo8/mWiP0gfJvxDEdfCqdsitXMDurLNtGcceslgAjlSGbC1FCNyU+/DNlDoFbpAToJU//HRWcu/NWguhXAOdW97Si/zeWzCxqlp2tvp3VK09ukwNWoDRDsSaFNh6fY2VvZpi3gs5R82b4RDfg3VbAjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=k9ar4Jio; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1778872811; c=relaxed/simple;
+	bh=0ICEAogrRng9j6ucJ2Nqpe68+xsxzYI5Dnfjq30YBzY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=PfTLmczGMf/ALFxvzJnFyts+IT1ZrV6XkXNEkgpg6Os0iazmZZqLOmeKc6xffsDcDMTxj1laqDh2d8ghRd16f/9qVTOuHYA6mPWKM/mIs7qpXL+NFr5z/FbcWJYc7CJgCr9W1Q9G7UE7w+6ouljCZqb74JHaDgshjDILTM3tGAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZTIhCUsl; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="k9ar4Jio"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5148cbdea08so1579651cf.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 11:23:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZTIhCUsl"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82f9f49e4beso88990b3a.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1778869403; x=1779474203; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OQNJjeOCe7S+U51t5FVhB76I4sx7yhCYVtg8gepAxec=;
-        b=k9ar4JioCr7PMwm3IFL/V1gS4qbnNYXjESygqFknkEVOcMtvBp/ZLENxK/R++emVRS
-         Ezlr+J3zGCYZXg50ek9wta6Z6s/ldjH3ggZVY7lqfdXIrjCmccOJgblHHMKaVLVgVgCO
-         +pX6bFf2RIXeTU5g51Ph/PYUyTKt3Uq24hiX0kSTM2eZ6lwCTTv/GpRe+iJgEqNXqEhc
-         QPdVrO0M5CW162/CFbdXxDuzMAekPO2u6Yy1n27LXZLRm7NQxIRv8sfhQCmsg/xlRmW2
-         r05yl1IH8n17wu+9EyyqOEzId4pnPcvi9IXVSzivi9ikr+mLdfhVYupevfbB1XoGYyH6
-         Rzzg==
+        d=google.com; s=20251104; t=1778872809; x=1779477609; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
+        bh=jST9oUAeGChZmjVu7tMLxKyDKtrkhYcd1woip2cswJk=;
+        b=ZTIhCUsl5+euV2CFmLiWUYh72POhw6x4DYPcl529comsJ3xjXQbHiky4mzRhaASqqt
+         JwYyFyn6hzlRxu0oM2Tf+ziYAhfdXIA3K9mOoB7RN1TODekbz18Qr6x/ANX00bK0U4Vf
+         3PDKT4aTwRRwPPnM3uGubU8s+5oDuZg+0bNExnQMBbLhfXgurcqhJre99v0JQtjz+0+q
+         5lXr6jQwn8bpRBcBON+OfqI4bIrvoa/kdORR9OSQThL7e4HGVGU7wSyH/vj3Q4coXtSs
+         VJOBR+C+t9gFYd+JLV2+m3qmApBxoWl89y9xRstbbFCIYhL0BerYht4P/a9KUzCWn8Nj
+         HP4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778869403; x=1779474203;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OQNJjeOCe7S+U51t5FVhB76I4sx7yhCYVtg8gepAxec=;
-        b=R1c0nVJUC6It7aGH9spU9bA5EeJZecNA/MzMjRg5THq2EIwTJLJtLHEUZoJFR2z7XI
-         cbHT5x3dLTalFDq8w11J1C+QVQmE5YUakGDx065lwaZ+Pg0XhTHmDyYayM85nNzI5pHY
-         Qm4QWzA8fi+kv+Grq5nilJngfD58QQImMIqzG11DUwujmU33KV5KdflKWhILWXZYOKLb
-         Be1kYicULVV2lghec+AwxUsDkfE0cK/TR6Yp2mpB2gz/Q+tPHpxLBZPpp/0ca+fIWfU6
-         uLLEHOIeofR8EP9VugayZFPYrJCqVvkUrS3mUiRTEy7UkjTZ3gdALXhHkoIAVdfyccAz
-         3/Sg==
-X-Forwarded-Encrypted: i=1; AFNElJ92j9Y5g0RZ7dHu7lX4HGsdcB4ZoeSdY8bbW6k5Mp79WHQIEyD93ziftTFN+tXTWovpS+QiaOG8M8mIivU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfozIeEqA4gStArBsPGI9uoW+IawKB60RXK7Es3+dLPSE0wgdE
-	iM0cv0shMkKYSegetkdB4OyPxb+W8yoX+b0yTBc/gbsT6nMDwt+iDKszwgrI3M5rcF4=
-X-Gm-Gg: Acq92OGwhRT32TpVDxr1cJ5pTBv+PeNG0ayp9jLf8E6qPeFvWkytCtCXBIU0FJcj6Rw
-	iRqgny38StBKesm9kUAlB14m7/37KWZHmXIeIXSZ4vdqF3KFGwGYRAcTrSLUWMBy+fT5Z0zldMe
-	0hf9z9HpXT/vZg3ALnNYSal6FYf59SDUpYGLLb5pzpuZLylgKZ5BD4UYQXHsRSWM9gVQNpkck7y
-	tViRx7CYk+hxkXyWLAfYTzgsqZH8dyZ25w7QwEKkTzacvw3n8WaUV05cxUQ0Elz3HlCg08O01xC
-	QugWbUS9lBqTr1yUG5speLBIaADOdpGZesOe9S8XVFcfG+LBRtN/mn81Qox7L6RzfZbzxY5s7ws
-	devdE90vEPZo+pv2shMC+H2C5axq7MKx1sMNcjNANVc6zyOeznwpGI5HwpeaLv1JQ/aiqco+kIU
-	3nRSGrITxsLG1mJcBB2iksv4SoNozRqBqo4EqVACi/azZOS5TPf1/gj5s/h2vfRlvOXYSl7cyl8
-	cMw4Q==
-X-Received: by 2002:ac8:5742:0:b0:509:2858:3c63 with SMTP id d75a77b69052e-5165a0703c1mr72758491cf.23.1778869403362;
-        Fri, 15 May 2026 11:23:23 -0700 (PDT)
-Received: from ziepe.ca (crbknf0213w-47-54-130-67.pppoe-dynamic.high-speed.nl.bellaliant.net. [47.54.130.67])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51645801211sm50772901cf.20.2026.05.15.11.23.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 11:23:22 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wNxBy-00000007tTG-1fso;
-	Fri, 15 May 2026 15:23:22 -0300
-Date: Fri, 15 May 2026 15:23:22 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: hpa@zytor.com, robin.murphy@arm.com, robh@kernel.org,
-	wei.liu@kernel.org, mhklinux@outlook.com, muislam@microsoft.com,
-	namjain@linux.microsoft.com, magnuskulke@linux.microsoft.com,
-	anbelski@linux.microsoft.com, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
-	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
-	longli@microsoft.com, tglx@kernel.org, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	joro@8bytes.org, will@kernel.org, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, bhelgaas@google.com, arnd@arndb.de,
-	jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH V3 09/11] x86/hyperv: Implement Hyper-V virtual IOMMU
-Message-ID: <20260515182322.GI7702@ziepe.ca>
-References: <20260512020259.1678627-1-mrathor@linux.microsoft.com>
- <20260512020259.1678627-10-mrathor@linux.microsoft.com>
+        d=1e100.net; s=20251104; t=1778872809; x=1779477609;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jST9oUAeGChZmjVu7tMLxKyDKtrkhYcd1woip2cswJk=;
+        b=h5kVkUKzusMVhAs6ydWawPJGjUy4jL44iVvarUcnIHtzi5d+PJ7/RlwRnaHAHpWuXm
+         c639nuc89RCy0y4tU40FMKMtzki89t/xS38N0UuVnLvSDKUUKW3Ecu25BhsVX5svAVP3
+         lBfI+5SueadRt7VfTLyORM29ToLLRVC9rE3mkp4hKR01mkwbcl0betsk9irjgq7fFIQg
+         ljJTRdlsS5vRXHNY+CwO2yvdQDfUN45/JtcCxmh0VTYksX6WB//zL5pISjkvTzQg4lRS
+         yKa0eJ9v16YHhbOi3kAVFXV3IiNPB+toiaYYFsUeKXNxUW1HqEPAe9nU91VgEpb0BGDb
+         g9QQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/UB3uOaz8yWJ2tBqiEo8FMmZI+KKYTxekZoJMhyagk0uCyn8Y7CU+1+BjV2MzgQsXTWFM8SkguvnlXoII=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtdg+apq/frVi4TjBdGVed60VDEtWv+WHhenij9oRiy64ypKpb
+	tdanFOA8COEsfg2YaR3tIfTYf/tgIuUusgF6l598wpo+vjmzXsb54gnNLMUvsBZRJXug/VhOw3I
+	8LCPFkQ==
+X-Received: from pfbfc32.prod.google.com ([2002:a05:6a00:2e20:b0:82f:96ee:b9ab])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3004:b0:838:a932:de26
+ with SMTP id d2e1a72fcca58-83f33bca63emr5607513b3a.1.1778872808989; Fri, 15
+ May 2026 12:20:08 -0700 (PDT)
+Reply-To: Sean Christopherson <seanjc@google.com>
+Date: Fri, 15 May 2026 12:19:02 -0700
+In-Reply-To: <20260515191942.1892718-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512020259.1678627-10-mrathor@linux.microsoft.com>
+Mime-Version: 1.0
+References: <20260515191942.1892718-1-seanjc@google.com>
+X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
+Message-ID: <20260515191942.1892718-2-seanjc@google.com>
+Subject: [PATCH v3 01/41] x86/tsc: Add a standalone helpers for getting TSC
+ info from CPUID.0x15
+From: Sean Christopherson <seanjc@google.com>
+To: Kiryl Shutsemau <kas@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	John Stultz <jstultz@google.com>
+Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, x86@kernel.org, 
+	linux-coco@lists.linux.dev, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, Michael Kelley <mhklinux@outlook.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, David Woodhouse <dwmw@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 11, 2026 at 07:02:57PM -0700, Mukesh R wrote:
-> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
-> +{
-> +	struct hv_domain *hvdom;
-> +	int rc;
-> +
-> +	if (hv_l1vh_partition() && !hv_curr_thread_is_vmm()) {
-> +		pr_err("Hyper-V: l1vh iommu does not support host devices\n");
-> +		return NULL;
-> +	}
-> +
-> +	hvdom = kzalloc(sizeof(struct hv_domain), GFP_KERNEL);
-> +	if (hvdom == NULL)
-> +		return NULL;
-> +
-> +	spin_lock_init(&hvdom->mappings_lock);
-> +	hvdom->mappings_tree = RB_ROOT_CACHED;
-> +
-> +	/* Called under iommu group mutex, so single threaded */
-> +	if (++unique_id == HV_DEVICE_DOMAIN_ID_S2_NULL)   /* ie, UINTMAX */
-> +		goto out_err;
-> +
-> +	hvdom->domid_num = unique_id;
-> +	hvdom->partid = hv_get_current_partid();
-> +	hvdom->iommu_dom.geometry = default_geometry;
-> +	hvdom->iommu_dom.pgsize_bitmap = HV_IOMMU_PGSIZES;
-> +
-> +	/* For guests, by default we do direct attaches, so no domain in hyp */
-> +	if (hv_dom_owner_is_vmm(hvdom) && !hv_no_attdev)
-> +		hvdom->attached_dom = true;
+Extract retrieval of TSC frequency information from CPUID into standalone
+helpers so that TDX guest support can reuse the logic.  Provide a version
+that includes the multiplier math as TDX does NOT want to use
+native_calibrate_tsc()'s fallback logic that derives the TSC frequency
+based on CPUID.0x16, when the core crystal frequency isn't known.
 
-What are you thinking sending something like this?!?!?
+Opportunsitically drop native_calibrate_tsc()'s "== 0" and "!= 0" checks
+in favor of the kernel's preferred style.
 
-The function is called *alloc domain PAGING*, it does not, and can not
-allocate weird "special" domains that are not PAGING domains. I just
-spent a long time removing all this kind of crazyness from drivers.
+No functional change intended.
 
-There is alot of other things I don't like in this patch, but this is
-too much.
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/include/asm/tsc.h |  9 +++++
+ arch/x86/kernel/tsc.c      | 67 +++++++++++++++++++++++++-------------
+ 2 files changed, 53 insertions(+), 23 deletions(-)
 
-You have to drop this "direct attach" idea from the first iteration,
-Linux can't do it without alot more work, you should start with the
-basic paging domain mode.
+diff --git a/arch/x86/include/asm/tsc.h b/arch/x86/include/asm/tsc.h
+index 4f7f09f50552..0c57fadc4a39 100644
+--- a/arch/x86/include/asm/tsc.h
++++ b/arch/x86/include/asm/tsc.h
+@@ -83,6 +83,15 @@ static inline cycles_t get_cycles(void)
+ }
+ #define get_cycles get_cycles
+ 
++struct cpuid_tsc_info {
++	unsigned int denominator;
++	unsigned int numerator;
++	unsigned int crystal_khz;
++	unsigned int tsc_khz;
++};
++extern int cpuid_get_tsc_info(struct cpuid_tsc_info *info);
++extern int cpuid_get_tsc_freq(struct cpuid_tsc_info *info);
++
+ extern void tsc_early_init(void);
+ extern void tsc_init(void);
+ extern void mark_tsc_unstable(char *reason);
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index c5110eb554bc..f92236f40cbc 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -658,46 +658,67 @@ static unsigned long quick_pit_calibrate(void)
+ 	return delta;
+ }
+ 
++int cpuid_get_tsc_info(struct cpuid_tsc_info *info)
++{
++	unsigned int ecx_hz, edx;
++
++	memset(info, 0, sizeof(*info));
++
++	if (boot_cpu_data.cpuid_level < CPUID_LEAF_TSC)
++		return -ENOENT;
++
++	/* CPUID 15H TSC/Crystal ratio, plus optionally Crystal Hz */
++	cpuid(CPUID_LEAF_TSC, &info->denominator, &info->numerator, &ecx_hz, &edx);
++
++	if (!info->denominator || !info->numerator)
++		return -ENOENT;
++
++	/*
++	 * Note, some CPUs provide the multiplier information, but not the core
++	 * crystal frequency.  The multiplier information is still useful for
++	 * such CPUs, as the crystal frequency can be gleaned from CPUID.0x16.
++	 */
++	info->crystal_khz = ecx_hz / 1000;
++	return 0;
++}
++
++int cpuid_get_tsc_freq(struct cpuid_tsc_info *info)
++{
++	if (cpuid_get_tsc_info(info) || !info->crystal_khz)
++		return -ENOENT;
++
++	info->tsc_khz = info->crystal_khz * info->numerator / info->denominator;
++	return 0;
++}
++
+ /**
+  * native_calibrate_tsc - determine TSC frequency
+  * Determine TSC frequency via CPUID, else return 0.
+  */
+ unsigned long native_calibrate_tsc(void)
+ {
+-	unsigned int eax_denominator, ebx_numerator, ecx_hz, edx;
+-	unsigned int crystal_khz;
++	struct cpuid_tsc_info info;
+ 
+ 	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
+ 		return 0;
+ 
+-	if (boot_cpu_data.cpuid_level < CPUID_LEAF_TSC)
++	if (cpuid_get_tsc_info(&info))
+ 		return 0;
+ 
+-	eax_denominator = ebx_numerator = ecx_hz = edx = 0;
+-
+-	/* CPUID 15H TSC/Crystal ratio, plus optionally Crystal Hz */
+-	cpuid(CPUID_LEAF_TSC, &eax_denominator, &ebx_numerator, &ecx_hz, &edx);
+-
+-	if (ebx_numerator == 0 || eax_denominator == 0)
+-		return 0;
+-
+-	crystal_khz = ecx_hz / 1000;
+-
+ 	/*
+ 	 * Denverton SoCs don't report crystal clock, and also don't support
+ 	 * CPUID_LEAF_FREQ for the calculation below, so hardcode the 25MHz
+ 	 * crystal clock.
+ 	 */
+-	if (crystal_khz == 0 &&
+-			boot_cpu_data.x86_vfm == INTEL_ATOM_GOLDMONT_D)
+-		crystal_khz = 25000;
++	if (!info.crystal_khz && boot_cpu_data.x86_vfm == INTEL_ATOM_GOLDMONT_D)
++		info.crystal_khz = 25000;
+ 
+ 	/*
+ 	 * TSC frequency reported directly by CPUID is a "hardware reported"
+ 	 * frequency and is the most accurate one so far we have. This
+ 	 * is considered a known frequency.
+ 	 */
+-	if (crystal_khz != 0)
++	if (info.crystal_khz)
+ 		setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
+ 
+ 	/*
+@@ -705,15 +726,15 @@ unsigned long native_calibrate_tsc(void)
+ 	 * clock, but we can easily calculate it to a high degree of accuracy
+ 	 * by considering the crystal ratio and the CPU speed.
+ 	 */
+-	if (crystal_khz == 0 && boot_cpu_data.cpuid_level >= CPUID_LEAF_FREQ) {
++	if (!info.crystal_khz && boot_cpu_data.cpuid_level >= CPUID_LEAF_FREQ) {
+ 		unsigned int eax_base_mhz, ebx, ecx, edx;
+ 
+ 		cpuid(CPUID_LEAF_FREQ, &eax_base_mhz, &ebx, &ecx, &edx);
+-		crystal_khz = eax_base_mhz * 1000 *
+-			eax_denominator / ebx_numerator;
++		info.crystal_khz = eax_base_mhz * 1000 *
++			info.denominator / info.numerator;
+ 	}
+ 
+-	if (crystal_khz == 0)
++	if (!info.crystal_khz)
+ 		return 0;
+ 
+ 	/*
+@@ -730,10 +751,10 @@ unsigned long native_calibrate_tsc(void)
+ 	 * lapic_timer_period here to avoid having to calibrate the APIC
+ 	 * timer later.
+ 	 */
+-	lapic_timer_period = crystal_khz * 1000 / HZ;
++	lapic_timer_period = info.crystal_khz * 1000 / HZ;
+ #endif
+ 
+-	return crystal_khz * ebx_numerator / eax_denominator;
++	return info.crystal_khz * info.numerator / info.denominator;
+ }
+ 
+ static unsigned long cpu_khz_from_cpuid(void)
+-- 
+2.54.0.563.g4f69b47b94-goog
 
-Jason
