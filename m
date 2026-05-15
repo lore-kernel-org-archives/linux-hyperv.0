@@ -1,37 +1,37 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D74477998
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33524477998
+	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778846980; cv=none; b=aaJ/4DkSmGSTH7XfZIyqU9j8VUAjONEI+UZYFvddRpv3yKParw0yA53bHKK7FyxGN7UAfcDQIjS3YYu4y78H/1Oa4LFVXRY/CbOhGbIuTCyM4VD9vsUSObc1WEqfDyZmhsKtNK5dmLh3UbYPu5jNDg1m4vG7dDMKRdFIlslitog=
+	t=1778846982; cv=none; b=WMj/MePjsFMGS8AER7fcW9iiGtCQe0zU9jZNn7fjlPgxW2YXTUT1vE9rZAQRKBSiFcOhUjrxQb+qs9FrvTadODCboL5HJtzihF5R1bVmN7wi4IVcN+TkWVciM2vhKIp5I/HcnWZmNfaquIMOiZvirpkhl2cH+6wsw7Cj+J8wqMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778846980; c=relaxed/simple;
-	bh=5muZx7ZKtWKfT2xMi4uc54n5CV7CfYnmx22neV2+9+s=;
+	s=arc-20240116; t=1778846982; c=relaxed/simple;
+	bh=kJ9KSuZ2jDdAiuT+D6uahLzHbzwO1HHxXQrB0F8zBDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QcQ99bVaPVzrzqN8UBqmr3RFVwv081j/+rEMDGYAWTGpiiEWQAO7PcXyPWVp1NJbJ5lBZjyNLhk6QgXACFtmC6I3vu8uFBIzLlYn6+EkEY3Tah8yWHyQcTrOdMDa9Onn7tK2cJl5SqQn8cYJ3n7tjUNz1VJNviKCUjWSBgeq/0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=kDqJczmB7qlupbzIk4kYznAuuFpeGOYJPaeWdcj9hf0ukKCT+qGVByBuJivTznp8Qp5dwipvYBmlA+89JGhGivL1VejOZYSlVKW8lerCsBcU8qE/tjU/FzGSJ9IklvD2UUMarMEI0iq5tClLRHOT5XOm9w8GJ9UVT8VA0feGr30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 66BC85EC3C;
-	Fri, 15 May 2026 12:09:22 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EE2B067094;
+	Fri, 15 May 2026 12:09:23 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06DA7593AA;
-	Fri, 15 May 2026 12:09:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94970593A9;
+	Fri, 15 May 2026 12:09:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sMt5APIMB2rQFwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 15 May 2026 12:09:22 +0000
+	id EOEJI/MMB2rQFwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 15 May 2026 12:09:23 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch,
 	airlied@gmail.com,
@@ -47,9 +47,9 @@ Cc: amd-gfx@lists.freedesktop.org,
 	virtualization@lists.linux.dev,
 	spice-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 5/9] drm/cirrus: Set DRM_VBLANK_FLAG_SIMULATED
-Date: Fri, 15 May 2026 13:55:10 +0200
-Message-ID: <20260515120916.333614-6-tzimmermann@suse.de>
+Subject: [PATCH 9/9] drm/vkms: Set DRM_VBLANK_FLAG_SIMULATED
+Date: Fri, 15 May 2026 13:55:14 +0200
+Message-ID: <20260515120916.333614-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260515120916.333614-1-tzimmermann@suse.de>
 References: <20260515120916.333614-1-tzimmermann@suse.de>
@@ -65,7 +65,7 @@ X-Rspamd-Pre-Result: action=no action;
 	Message is reply to one we originated
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 66BC85EC3C
+X-Rspamd-Queue-Id: EE2B067094
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
@@ -75,28 +75,30 @@ X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Rspamd-Action: no action
 
-Mark the vblank event on cirrus as simulated, so that the WAIT_VBLANK
+Mark the vblank event on vkms as simulated, so that the WAIT_VBLANK
 ioctl fails with an error. The ioctl should not be supported because
 the output is not synchronized to a display refresh.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/cirrus-qemu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/cirrus-qemu.c b/drivers/gpu/drm/tiny/cirrus-qemu.c
-index 075221b431d3..01522d1158b2 100644
---- a/drivers/gpu/drm/tiny/cirrus-qemu.c
-+++ b/drivers/gpu/drm/tiny/cirrus-qemu.c
-@@ -501,7 +501,7 @@ static int cirrus_pipe_init(struct cirrus_device *cirrus)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 5a640b531d88..c4cfa1e5ab01 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -192,8 +192,8 @@ int vkms_create(struct vkms_config *config)
+ 		goto out_devres;
+ 	}
  
--	ret = drm_vblank_init(dev, 1);
-+	ret = drmm_vblank_init(dev, 1, DRM_VBLANK_FLAG_SIMULATED);
- 	if (ret)
- 		return ret;
- 
+-	ret = drm_vblank_init(&vkms_device->drm,
+-			      vkms_config_get_num_crtcs(config));
++	ret = drmm_vblank_init(&vkms_device->drm, vkms_config_get_num_crtcs(config),
++			       DRM_VBLANK_FLAG_SIMULATED);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to vblank\n");
+ 		goto out_devres;
 -- 
 2.54.0
 
