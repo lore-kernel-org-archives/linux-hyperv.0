@@ -1,56 +1,56 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882463E0241
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 19:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077333E0C7C
+	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 19:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778872847; cv=none; b=ZWwtgDJ1nB28hxYLwAYRZ6oMYGJzTTJWfkhQVomiQ7u/Jvi1M1iApE4zjP3Jt45cyhmjY0MrguXznApHwT4B1w3i+qAtmg3r7pUzICxH64y5/eisIrlkl2zd+Ur5bX2UXzwO4AvOYY7Dym4erWwpU/MW4lNlJ3A5pWi7M7CRscU=
+	t=1778872849; cv=none; b=n8pTPwh+iaFlIRdcPq+ToMzulBpiyAchZsZcQrhd3/cxrJ7zGvy2XIb4dOyG3IMznFEjkKNkyV87E5edPiDn2bGHu7cz26085NSu9mDb9/zVIT0HOR1RMJ5XGSubnATXljLYAt05TJ3xfF1F+tWrE2rihMiaYAFW4Sf5F8151Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778872847; c=relaxed/simple;
-	bh=lEMsR3dKvKq215PZd6emceDFTwLDtk70c4kzuFxS2LU=;
+	s=arc-20240116; t=1778872849; c=relaxed/simple;
+	bh=bIvGpEwSZtu1dFGmRrUgP1xhupYQhI4tOk7weRcJRgU=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qcSfiBsUwnXHJelDJfev09okPCbwBDBQoZUMesz/CF1yJ0GTvznxCFHalM6IlVccfaa48kRtcu1OAADsbxwAe+tYBruvd3pAvf46AAYOLXxZxCWAh/wesGiZjX2P6cbcdrG1NIGSlYLyIkk0967/VTDqJE27VpYqIn1VvILRI68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DBczljoL; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=GeQBX5sLR9/avZU4jj8rwIRn+jv/RVfaJYRmvsHO+6IA+LxCewwuq+eoSzOHLMU47pYWMzJ0FxQCatyXph6/EEYrBpi8JtG6y/m4GF3TxJ/DCQ5Q8dF5lOOXnybmhUxSfDWmzuDLWeaH0j2XV1x4wfw2xc8Ydw/YST5GNEcJkYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tQMfOm8L; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DBczljoL"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8230d6d54a5so1056983b3a.1
-        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:20:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tQMfOm8L"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82f9429f49cso281928b3a.3
+        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778872845; x=1779477645; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1778872847; x=1779477647; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=/y8QjMIN78jXY0C38vMz/eIP3YtBj5/Xygk6fhPK+NQ=;
-        b=DBczljoLqDv0LbZhlQBZdzdEFQwDvDuQ81LuTIL7GVKIYx1FAk//ngUGWCmJM0c876
-         L3+Mdt2glacWhIDY3ZaGnnX7uwGh6TsSV1IEUVTeprruG2bAZSQwX3Mo4/C8B31pJ0b/
-         1QgWCMfzwGmN5+R0XU9PPqvjfXmxusKUb0c4EdhQO6FbS6d2ALr2diOs1Cj0gNG8fKgN
-         OK2KvlqHH7HkQv/5N5wjp2U97e8Ophz5AF9BjHsKHZ2MSlkd/WXw3/QFiv1WX23Ew75F
-         iEOAWfDV3nQ7uD6WS2AxuXCYkbptM/BHDDiw9B/90QeVyFnDQHheF3lQJCzcUKnJwB3X
-         xnFA==
+        bh=eVzC+1NNlxe1k/R0gBkxcy+TPbGnZzPB3ftmmd4+5ik=;
+        b=tQMfOm8LUOPoHNGBjDvA0nt2CkSzXhx9m1zO+XHx3KeB/YBqu4clwgUwjB4OUsbpwq
+         kF8Gt1gSAhVDlG1S6IBx+9b8QB04SqRZK1dskYZFXyGhZY6ZqN1F8RaiQgQ0KuSDqs20
+         7F+Af8csGSwtxvL0UIEzMOMJjuc/i2nRkvtlE2wWzlwQixm0O/enJrXs3SXZ+fl7qkFm
+         2oOgPrsQwICoFJna7OkaV4XRUX1DTwI8K6tAITICgYkjI+DJsEqqoPz8r9rQJloPWs1Y
+         Rk6n8UsRT9J18hmvoCIOqcjxq0AbyApvkJ30CXGs/obIbUaqLso4VfH43tHBjEaQVNN6
+         laCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778872845; x=1779477645;
+        d=1e100.net; s=20251104; t=1778872847; x=1779477647;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/y8QjMIN78jXY0C38vMz/eIP3YtBj5/Xygk6fhPK+NQ=;
-        b=gZYk7O9+yWBc0zA49oFhQQgINxwtl88KD23trrZIDEhmz3dQxordwcj2M2X8mUDBYs
-         oEa63K+bLAbLP6vS+y1GREdFd5PPe2oXaBQe2ImQF1k1KkTffMwkW4IlSzeR5B4qH6JY
-         BId8wz4bWhuX75u1CixKvENZt/cZdUP/1ZK6Myr0LtHref8HaHqkwstQAd4EQ9t6l3Uf
-         skc3DJb3LLtQK+0aWfN2L3npRilL1LqW+oQull4S2J5FA3Ubo+OXwDH0XD55Verb4JFa
-         qYeyDLvrV9nNruH3WpQPf188EBP5Igsr0q9Z2ebgiijct0n2T7M+q3F29RZoiA0H6P4O
-         OWHQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/V6abj8PEFxjZYG6AsBzokozJvjeQNgufIILUurG80N/8wNIT3gjv6fnPUlFk7pY561ic45k1BP+yaqmg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaXOnRivXZOfXfzhJgIjMq+qZE6/nqj+KLmgG7zDYMSINEupJh
-	rnmmQM8SVsweOwoACwbV7P+EAGHWZKI2OFrvoCcwP8CxlYSlbew7+PW0pbd7vY/Eq6JaQFZXI+p
-	6KnS6iQ==
-X-Received: from pgbda3.prod.google.com ([2002:a05:6a02:2383:b0:c73:bc95:cca8])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4328:b0:3a2:cf6d:aa04
- with SMTP id adf61e73a8af0-3b0bdd00bfbmr9342014637.8.1778872844563; Fri, 15
- May 2026 12:20:44 -0700 (PDT)
+        bh=eVzC+1NNlxe1k/R0gBkxcy+TPbGnZzPB3ftmmd4+5ik=;
+        b=QABLq3Xgq63aMtccXNzWqxRum4Fe6b/2EDPw4ZS9Q64oSZqwDAMrVoaDrQROVfgGkO
+         +GXHr3xMfji7/fWBTRSflKOz+x7gxJShZ110kw8bxl2zVz7bf2JKLfGFIHH6IqknnyX3
+         L3SBTMPtNr6tQO1/lxz65Ame6o7WpaLvU9ER1obNWI011ltgkHQSpKgI69jrIO/M4LKz
+         B4fCVMcFOiXqG0/LCSPwRv6wvmtNXyaGFSfxOR6mP/mE/VC6SblKxN4sW8H9Ogg76nQy
+         bzKR2K/R/H4kaC9LuF4J+9JECxlXgV9+iDp0uHTo3fTUWfKqYOGKkzGzqfjNCwOJ36e9
+         gIkw==
+X-Forwarded-Encrypted: i=1; AFNElJ/x53oPuKwGJhaMJ1Jic8qrEbd706HHYqNsIfhYNF+LJRYB8wUzoYa62UYcc2F5gPN2bvClx02JYVJ8z0s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/xj2c3JdfMW5b7xE0WzTkdfYhFq2e8muQDpSf/Hk4/qDbjrRZ
+	uz0xVf0FUJcUCuA96r1lr5sesfnxemUPGKnFH8ZKpqy0/Bk+/G6EAgLu5Ip1DkreiDlDOxFfs10
+	0XpsuUw==
+X-Received: from pfblu4.prod.google.com ([2002:a05:6a00:7484:b0:83a:58c1:f5e2])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1404:b0:829:9a7b:db84
+ with SMTP id d2e1a72fcca58-83f33f30bf8mr5787888b3a.49.1778872846903; Fri, 15
+ May 2026 12:20:46 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Fri, 15 May 2026 12:19:14 -0700
+Date: Fri, 15 May 2026 12:19:16 -0700
 In-Reply-To: <20260515191942.1892718-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -60,9 +60,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260515191942.1892718-1-seanjc@google.com>
 X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
-Message-ID: <20260515191942.1892718-14-seanjc@google.com>
-Subject: [PATCH v3 13/41] x86/paravirt: Move handling of unstable PV clocks
- into paravirt_set_sched_clock()
+Message-ID: <20260515191942.1892718-16-seanjc@google.com>
+Subject: [PATCH v3 15/41] x86/xen/time: Nullify x86_platform's sched_clock
+ save/restore hooks
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Sean Christopherson <seanjc@google.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
@@ -83,80 +83,32 @@ Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov <vkuznets@redh
 	Thomas Gleixner <tglx@linutronix.de>, David Woodhouse <dwmw@amazon.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 
-Move the handling of unstable PV clocks, of which kvmclock is the only
-example, into paravirt_set_sched_clock().  This will allow modifying
-paravirt_set_sched_clock() to keep using the TSC for sched_clock in
-certain scenarios without unintentionally marking the TSC-based clock as
-unstable.
-
-No functional change intended.
+Nullify the x86_platform sched_clock save/restore hooks when setting up
+Xen's PV clock to make it somewhat obvious the hooks aren't used when
+running as a Xen guest (Xen uses a paravirtualized suspend/resume flow).
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/include/asm/timer.h | 7 ++++++-
- arch/x86/kernel/kvmclock.c   | 5 +----
- arch/x86/kernel/tsc.c        | 5 ++++-
- 3 files changed, 11 insertions(+), 6 deletions(-)
+ arch/x86/xen/time.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/x86/include/asm/timer.h b/arch/x86/include/asm/timer.h
-index c71b466d6ace..fe41d40a9ae6 100644
---- a/arch/x86/include/asm/timer.h
-+++ b/arch/x86/include/asm/timer.h
-@@ -14,7 +14,12 @@ extern int no_timer_check;
- extern bool using_native_sched_clock(void);
+diff --git a/arch/x86/xen/time.c b/arch/x86/xen/time.c
+index 3d3165eef821..21d366d01985 100644
+--- a/arch/x86/xen/time.c
++++ b/arch/x86/xen/time.c
+@@ -568,6 +568,12 @@ static void __init xen_init_time_common(void)
+ 	xen_sched_clock_offset = xen_clocksource_read();
+ 	static_call_update(pv_steal_clock, xen_steal_clock);
+ 	paravirt_set_sched_clock(xen_sched_clock);
++	/*
++	 * Xen has paravirtualized suspend/resume and so doesn't use the common
++	 * x86 sched_clock save/restore hooks.
++	 */
++	x86_platform.save_sched_clock_state = NULL;
++	x86_platform.restore_sched_clock_state = NULL;
  
- #ifdef CONFIG_PARAVIRT
--void paravirt_set_sched_clock(u64 (*func)(void));
-+void __paravirt_set_sched_clock(u64 (*func)(void), bool stable);
-+
-+static inline void paravirt_set_sched_clock(u64 (*func)(void))
-+{
-+	__paravirt_set_sched_clock(func, true);
-+}
- #endif
- 
- /*
-diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
-index 006e3a13500b..1cbdb48e5503 100644
---- a/arch/x86/kernel/kvmclock.c
-+++ b/arch/x86/kernel/kvmclock.c
-@@ -12,7 +12,6 @@
- #include <linux/hardirq.h>
- #include <linux/cpuhotplug.h>
- #include <linux/sched.h>
--#include <linux/sched/clock.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
- #include <linux/set_memory.h>
-@@ -94,10 +93,8 @@ static noinstr u64 kvm_sched_clock_read(void)
- 
- static inline void kvm_sched_clock_init(bool stable)
- {
--	if (!stable)
--		clear_sched_clock_stable();
- 	kvm_sched_clock_offset = kvm_clock_read();
--	paravirt_set_sched_clock(kvm_sched_clock_read);
-+	__paravirt_set_sched_clock(kvm_sched_clock_read, stable);
- 
- 	pr_info("kvm-clock: using sched offset of %llu cycles",
- 		kvm_sched_clock_offset);
-diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index 021612c22b84..567d30b30a5a 100644
---- a/arch/x86/kernel/tsc.c
-+++ b/arch/x86/kernel/tsc.c
-@@ -280,8 +280,11 @@ bool using_native_sched_clock(void)
- 	return static_call_query(pv_sched_clock) == native_sched_clock;
- }
- 
--void paravirt_set_sched_clock(u64 (*func)(void))
-+void __paravirt_set_sched_clock(u64 (*func)(void), bool stable)
- {
-+	if (!stable)
-+		clear_sched_clock_stable();
-+
- 	static_call_update(pv_sched_clock, func);
- }
- #else
+ 	tsc_register_calibration_routines(xen_tsc_khz, NULL);
+ 	x86_platform.get_wallclock = xen_get_wallclock;
 -- 
 2.54.0.563.g4f69b47b94-goog
 
