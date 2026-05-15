@@ -1,56 +1,56 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FB037B3F4
-	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 19:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11135392821
+	for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 19:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778872833; cv=none; b=Id/+Z+HPOumE09dOYO8oJO/Ka4fH0hbcU2+3S3FIYPScomSE7kqeHajqfZK6JQ1aztPvymHsM47AVVD/d8SwgfigcgckrCzi5T2l5pfb51FzmzhjvJZ7g9fJzqLn0ByChOPDoyna6vrZSi/6dfFbhO9NhRYZJ3ipyu7btKG689s=
+	t=1778872835; cv=none; b=nc3O5UB0XdnA1suxVPzdbIsxoIFZXjQKtQanzZdwxL1Oj52Dgdacr3p4sho3BX8VMK3IIFZOJcqm/5BebmrBbe5q69RL8icSwOsnkKTnGElGQrWIFj4P9UxnhE9277VPnKk7Q6milFVBmwypUofMy/FzbTYLeY9R9uvpcpBlmjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778872833; c=relaxed/simple;
-	bh=IfVwAYhwhIxzw01+s7FehLy05itlzurZzA6D640hoDk=;
+	s=arc-20240116; t=1778872835; c=relaxed/simple;
+	bh=JiniyiHqLkNeMouNxSmIKJrAhaDkGLDvcienLMupPPk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rhB1K64C/Xw6RLWgWarf2mMuEdoUhSbdxja9EvhqZ9HMEICq9010Bb9evRzojpKh6Tii663uN2ErwPTuTrzd0w/ckbr6hoAsxIYEyJzyD19nrhKH89OMydYvrIbUPZ37xaCO+kmzwLpzbaXpFtKpZYFFpDf/mt8PXSKdRgE8V6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U8YlEJ6H; arc=none smtp.client-ip=209.85.216.73
+	 To:Cc:Content-Type; b=E5hIV3qq4lJ1cSLTRxN2bZXAnj1gCpmijPGVGLfuCtOIk75HNnm6Un8LLZGiEGjEHlfqfzUxbcAI0VwEgliPXAqyzAH0ruyxWz8gf9VNMb0eYQJZxi/PPupgZvKskD5mxehnU5BAaAMb+Pd8/5KCNFmiP0oXabnUDCQvTn3CtCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WclADAn3; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U8YlEJ6H"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3662e7756f0so82344a91.1
-        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:20:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WclADAn3"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-8353df9bc7eso222976b3a.2
+        for <linux-hyperv@vger.kernel.org>; Fri, 15 May 2026 12:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778872831; x=1779477631; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1778872832; x=1779477632; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQlmIR1hnrcjkd+R45vwU7fSi2OSjNiqFudElplFZs0=;
-        b=U8YlEJ6HoUh6A3rfbMaIEGAWKIKPo9Cqf3U9VjLgbA9gTesU0m1V6n0Z0/EFksMpwG
-         50q39fdTt/uOr8EWix+h3ZZEc+7UuNI5r2hfGqAiDP9UVZENlziy+RGmNvAOxWztKcEU
-         uIONtnG8sodHjaEBrG8ZGIRtkOnmzbimc9BAb41bnLD8soUc1zoU+Ir8eBLN+aZLq3FO
-         6914PtcUZRRkK2SD++Ddsfyf/FLq0wPk/2pC0C5o14L2vCV7Dw4qfk5EXEswwJhzk2gD
-         VPl/9JQNjc/+dtjtSvJ3WjkdqtjyXY0pv7boLFHHKQGBIcmiuSYzi3Iwmydrp1V4GyIV
-         y15g==
+        bh=a7rFpf+FBNzzfzzETx/AclsYanbj3gnBq18rs01MCT0=;
+        b=WclADAn3klIiCYaM6+khF62UeH3TgVMoF1INvu5iEFrZf1wIjcbZqO01i1d2QTP0kQ
+         x2maQnJYOjHdywOMsniYw4wRwpaGX01p5T/ow2/nPVCfNlBclc3M4Z2aqw4tbWcY6+k6
+         isWAQpzoTXZkXPHKw+QfSfOowJJAfA1QVuC5yg/mvASBBvvAb4YlttV1IebF61HUDgi3
+         IcRl49FujiK6RX0G8/ZIwrFNtkbYu9ieUP2WGNaYnmn9vJRIuhsk1b47OnLDVfAnVYpC
+         iOM/pN1PoYkGZdxj3JWkwQymK6C1bnzhATFGe3nrWSY6ELj5dEJz1687iojusMtMhN6Y
+         a2ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778872831; x=1779477631;
+        d=1e100.net; s=20251104; t=1778872832; x=1779477632;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SQlmIR1hnrcjkd+R45vwU7fSi2OSjNiqFudElplFZs0=;
-        b=MGFnZTOOjMchuhK6B+YYLJenWaZI97pokgpPKJGm/NLf6APKNEesFFizeHoErTyojN
-         Bf2OKRAsIMD6QyJR3DCYS1fTNWndMzLa+Wzoq0m2xiQlCaxs43fxPZ+UGKEWEHEkUgeY
-         ElukrJpczusNcUFGQ1uLyZs6qhdO4IDI1e8tpbYNij3LH1bAJjKdAt4q4vyMA1H2QGZf
-         cEN0r+Egcf3mC9Y45OCrSUHlXapMb9xqP4GfwDq2ekNRneIgKYBlKewHT3I2bW+QWOay
-         R34yAN3agVE9c86h2nL4fFp7FTFEMA3oUzbdMd9tC54bO5zvhAHs2pmhdVE/SHQc5lvv
-         ihmg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Jh+s2SoZeSjcEaDjMb1AOBICEfsNt1FW3QAeM50tCSsZLpa8oqPSEZ9AA7LS73zKdcvzna2/kY2BYCCM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkrbGH9GUaxTlFGZJEzrURElagLsZLqfyohaDAaSt8Gt5qcaH9
-	o2bo0BTx8jcKIuxiM1OKdPz6Mpw65awmkdmmurDTn4iDxcu8yZtX01GpohqNJuyQx6WSS7do5OK
-	QgqKcPA==
-X-Received: from pgmt14.prod.google.com ([2002:a63:224e:0:b0:c80:2399:151])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2fc4:b0:368:85fb:7b8b
- with SMTP id 98e67ed59e1d1-36951cb936amr5644652a91.22.1778872830766; Fri, 15
- May 2026 12:20:30 -0700 (PDT)
+        bh=a7rFpf+FBNzzfzzETx/AclsYanbj3gnBq18rs01MCT0=;
+        b=seuGhXKhq9eT0eybe+Vy1JQL6yy1gpcAqdqB27M2+rP5nmcXn7REkprzbl2xFTKjfq
+         vjNNLVjhTeTe20pVqnwrOT+6FRjw9Z2z+yEKppU2U/E+GgKjnWCuLdkaSARcT2YWBnxL
+         paeOa6n/GhoFPKtW+gzzQ6O3p0A5tcp8j7J2ZCPL1FczCigToRHD/fI0PlUboqfxBM6O
+         OkIhU/Q2lsblq4r1vi/OD+XFmjjJkt20gjXu6ibCeNDpiBpEgPnPSA0sTKbNSzcROSlE
+         jmwBqFslcd3ZBrDghCclnKd2cBAFHtezFFJtIzho9/UOV0O67rSdRCUXB3nGVRZ67HRF
+         mOpg==
+X-Forwarded-Encrypted: i=1; AFNElJ8I/QrjZd3pqGFeEIKZbgyNBxfyatHjiSdknoi3ezAa1zT7luAOnZgREOoyTQILf+KTRogZGAhOcetpqlc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+Q5/i8m/YXgtQPETudYRMg9xf1m7/Lu/5qAs6Nmelp6rVU5nV
+	N26PNrStuE2yrZa+TzuX4iqqXwuOXCavFBuyNOe/pgm2qJCS2ED6d4fzFNNWMmVUOMxj+J3YvVb
+	fnVgmKQ==
+X-Received: from pfbfk26.prod.google.com ([2002:a05:6a00:3a9a:b0:83e:fb05:9740])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3689:b0:837:7e7d:3c8
+ with SMTP id d2e1a72fcca58-83f33df5086mr5912339b3a.39.1778872831848; Fri, 15
+ May 2026 12:20:31 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Fri, 15 May 2026 12:19:07 -0700
+Date: Fri, 15 May 2026 12:19:08 -0700
 In-Reply-To: <20260515191942.1892718-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -60,9 +60,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260515191942.1892718-1-seanjc@google.com>
 X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
-Message-ID: <20260515191942.1892718-7-seanjc@google.com>
-Subject: [PATCH v3 06/41] x86/acrn: Mark TSC frequency as known when using
- ACRN for calibration
+Message-ID: <20260515191942.1892718-8-seanjc@google.com>
+Subject: [PATCH v3 07/41] clocksource: hyper-v: Register sched_clock
+ save/restore iff it's necessary
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Sean Christopherson <seanjc@google.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
@@ -83,27 +83,174 @@ Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov <vkuznets@redh
 	Thomas Gleixner <tglx@linutronix.de>, David Woodhouse <dwmw@amazon.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 
-Mark the TSC frequency as known when using ACRN's PV CPUID information.
-Per commit 81a71f51b89e ("x86/acrn: Set up timekeeping") and common sense,
-the TSC freq is explicitly provided by the hypervisor.
+Register the Hyper-V reference counter (refcounter) callbacks for saving
+and restoring its PV sched_clock, if and only if the refcounter is
+actually being used for sched_clock.  Currently, Hyper-V overrides the
+save/restore hooks if the reference TSC available, whereas the Hyper-V
+refcounter code only overrides sched_clock if the reference TSC is
+available *and* it's not invariant.  The flaw is effectively papered over
+by invoking the "old" save/restore callbacks as part of save/restore, but
+that's unnecessary and fragile.
 
+To avoid introducing more complexity, and to allow for additional cleanups
+of the PV sched_clock code, move the save/restore hooks and logic into
+hyperv_timer.c and simply wire up the hooks when overriding sched_clock
+itself.
+
+Note, while the Hyper-V refcounter code is intended to be architecture
+neutral, CONFIG_PARAVIRT is firmly x86-only, i.e. adding a small amount of
+x86 specific code (which will be reduced in future cleanups) doesn't
+meaningfully pollute generic code.
+
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Tested-by: Michael Kelley <mhklinux@outlook.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kernel/cpu/acrn.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/kernel/cpu/mshyperv.c     | 58 ------------------------------
+ drivers/clocksource/hyperv_timer.c | 50 ++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+), 58 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/acrn.c b/arch/x86/kernel/cpu/acrn.c
-index c1506cb87d8c..2da3de4d470e 100644
---- a/arch/x86/kernel/cpu/acrn.c
-+++ b/arch/x86/kernel/cpu/acrn.c
-@@ -29,6 +29,7 @@ static void __init acrn_init_platform(void)
- 	/* Install system interrupt handler for ACRN hypervisor callback */
- 	sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_acrn_hv_callback);
- 
-+	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	tsc_register_calibration_routines(acrn_get_tsc_khz,
- 					  acrn_get_tsc_khz);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 8d2401be420c..5ca139ae50b4 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -275,63 +275,6 @@ static void hv_guest_crash_shutdown(struct pt_regs *regs)
  }
+ #endif /* CONFIG_CRASH_DUMP */
+ 
+-static u64 hv_ref_counter_at_suspend;
+-static void (*old_save_sched_clock_state)(void);
+-static void (*old_restore_sched_clock_state)(void);
+-
+-/*
+- * Hyper-V clock counter resets during hibernation. Save and restore clock
+- * offset during suspend/resume, while also considering the time passed
+- * before suspend. This is to make sure that sched_clock using hv tsc page
+- * based clocksource, proceeds from where it left off during suspend and
+- * it shows correct time for the timestamps of kernel messages after resume.
+- */
+-static void save_hv_clock_tsc_state(void)
+-{
+-	hv_ref_counter_at_suspend = hv_read_reference_counter();
+-}
+-
+-static void restore_hv_clock_tsc_state(void)
+-{
+-	/*
+-	 * Adjust the offsets used by hv tsc clocksource to
+-	 * account for the time spent before hibernation.
+-	 * adjusted value = reference counter (time) at suspend
+-	 *                - reference counter (time) now.
+-	 */
+-	hv_adj_sched_clock_offset(hv_ref_counter_at_suspend - hv_read_reference_counter());
+-}
+-
+-/*
+- * Functions to override save_sched_clock_state and restore_sched_clock_state
+- * functions of x86_platform. The Hyper-V clock counter is reset during
+- * suspend-resume and the offset used to measure time needs to be
+- * corrected, post resume.
+- */
+-static void hv_save_sched_clock_state(void)
+-{
+-	old_save_sched_clock_state();
+-	save_hv_clock_tsc_state();
+-}
+-
+-static void hv_restore_sched_clock_state(void)
+-{
+-	restore_hv_clock_tsc_state();
+-	old_restore_sched_clock_state();
+-}
+-
+-static void __init x86_setup_ops_for_tsc_pg_clock(void)
+-{
+-	if (!(ms_hyperv.features & HV_MSR_REFERENCE_TSC_AVAILABLE))
+-		return;
+-
+-	old_save_sched_clock_state = x86_platform.save_sched_clock_state;
+-	x86_platform.save_sched_clock_state = hv_save_sched_clock_state;
+-
+-	old_restore_sched_clock_state = x86_platform.restore_sched_clock_state;
+-	x86_platform.restore_sched_clock_state = hv_restore_sched_clock_state;
+-}
+-
+ #ifdef CONFIG_X86_64
+ DEFINE_STATIC_CALL(hv_hypercall, hv_std_hypercall);
+ EXPORT_STATIC_CALL_TRAMP_GPL(hv_hypercall);
+@@ -739,7 +682,6 @@ static void __init ms_hyperv_init_platform(void)
+ 
+ 	/* Register Hyper-V specific clocksource */
+ 	hv_init_clocksource();
+-	x86_setup_ops_for_tsc_pg_clock();
+ 	hv_vtl_init_platform();
+ #endif
+ 	/*
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index e9f5034a1bc8..72b966340a46 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -537,10 +537,60 @@ static __always_inline void hv_setup_sched_clock(void *sched_clock)
+ #elif defined CONFIG_PARAVIRT
+ #include <asm/timer.h>
+ 
++static u64 hv_ref_counter_at_suspend;
++static void (*old_save_sched_clock_state)(void);
++static void (*old_restore_sched_clock_state)(void);
++
++/*
++ * Hyper-V clock counter resets during hibernation. Save and restore clock
++ * offset during suspend/resume, while also considering the time passed
++ * before suspend. This is to make sure that sched_clock using hv tsc page
++ * based clocksource, proceeds from where it left off during suspend and
++ * it shows correct time for the timestamps of kernel messages after resume.
++ */
++static void save_hv_clock_tsc_state(void)
++{
++	hv_ref_counter_at_suspend = hv_read_reference_counter();
++}
++
++static void restore_hv_clock_tsc_state(void)
++{
++	/*
++	 * Adjust the offsets used by hv tsc clocksource to
++	 * account for the time spent before hibernation.
++	 * adjusted value = reference counter (time) at suspend
++	 *                - reference counter (time) now.
++	 */
++	hv_adj_sched_clock_offset(hv_ref_counter_at_suspend - hv_read_reference_counter());
++}
++/*
++ * Functions to override save_sched_clock_state and restore_sched_clock_state
++ * functions of x86_platform. The Hyper-V clock counter is reset during
++ * suspend-resume and the offset used to measure time needs to be
++ * corrected, post resume.
++ */
++static void hv_save_sched_clock_state(void)
++{
++	old_save_sched_clock_state();
++	save_hv_clock_tsc_state();
++}
++
++static void hv_restore_sched_clock_state(void)
++{
++	restore_hv_clock_tsc_state();
++	old_restore_sched_clock_state();
++}
++
+ static __always_inline void hv_setup_sched_clock(void *sched_clock)
+ {
+ 	/* We're on x86/x64 *and* using PV ops */
+ 	paravirt_set_sched_clock(sched_clock);
++
++	old_save_sched_clock_state = x86_platform.save_sched_clock_state;
++	x86_platform.save_sched_clock_state = hv_save_sched_clock_state;
++
++	old_restore_sched_clock_state = x86_platform.restore_sched_clock_state;
++	x86_platform.restore_sched_clock_state = hv_restore_sched_clock_state;
+ }
+ #else /* !CONFIG_GENERIC_SCHED_CLOCK && !CONFIG_PARAVIRT */
+ static __always_inline void hv_setup_sched_clock(void *sched_clock) {}
 -- 
 2.54.0.563.g4f69b47b94-goog
 
