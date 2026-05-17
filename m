@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568623B8D48
-	for <linux-hyperv@vger.kernel.org>; Sun, 17 May 2026 14:17:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1AD2AEE1
+	for <linux-hyperv@vger.kernel.org>; Sun, 17 May 2026 14:47:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779027462; cv=none; b=sG7JUz6TN352Iu73yCe9oy29lr1iOSTsYUVr65RS30eYbOfaIKN7rZ0hUcSOntw72NnRqjiQQKJprWvAeqbs3jF5lXmqJqGHnvNNiWMTr0C8ACBMs9YGEUAjttQHxNQ/oIUtdGsG92IN0qoWZLr3Tkv9JufqbIQtCE6uZ7LIXJc=
+	t=1779029265; cv=none; b=DZCuiXv5Zcl1ITp8Nu0eTPcpahwjCR6n2t6BhjP+LE4R3Avxow9CZiBzA5KCOMqiOOW1xvE785MkOTpNQXzZS0x/FNwz39y3h6S8aAsa4akcT9FvyVxBscSaFQC/3U95XlpfWDCrgnLGvwVNmKI+IPYzz/MqO0byDqwIojMEeLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779027462; c=relaxed/simple;
-	bh=lj4mgVq0N89LVQOuDJLmN3hu0aSBHuOK/aEwhXaU/Ow=;
+	s=arc-20240116; t=1779029265; c=relaxed/simple;
+	bh=WuuKsRUc1xeNE/F9Tliu5ra1mI813UrbQsGtWShmNYk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=B2SkulcAvk/dIeGSSEMHoE+Exu7hMSVMjVcO/iSYD//ARQFsoVgnz/7X26rcEkRVoVWA1HwKDUUlkX+5URBh+2T0eOml/6JutIq5zjc10fOBckg7iI+YHyuaRw8UTgA1Y3qx61CauaqtCF4VlnPYUn+LbvBXR58WcnqqokwTPDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeD5phGL; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id; b=f0tekbChSrf/GK5Bnck+rb81QqycfRmEfvAKg7i6xoPIWm15X/HJB8Cq2Ux4uPqHtroguZeB6vW6zW8bETvLAt8wX3MKeapnY99Tx1ZBoA5xbLBgfybqMRRqiARTVJ55RZoomf2+SeYenU7gD7NUZB00gPKx2POIH+JeKDFXlRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZjIhQiQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeD5phGL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4A9C2BCB0;
-	Sun, 17 May 2026 14:17:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZjIhQiQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCAFBC2BCB0;
+	Sun, 17 May 2026 14:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779027461;
-	bh=lj4mgVq0N89LVQOuDJLmN3hu0aSBHuOK/aEwhXaU/Ow=;
+	s=k20201202; t=1779029264;
+	bh=WuuKsRUc1xeNE/F9Tliu5ra1mI813UrbQsGtWShmNYk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date:From;
-	b=AeD5phGLFA+043HvtLOWKg7YI0F0G5oyANunYMqU3EJzWT1zdN0t5xmgBUhXNd7u4
-	 bv27XlSQOLcdBnblc6zpFpK20KgMqFWRUNgvuRgtQh8UgfD5OwFGEtBoPUMgIiSB0u
-	 LYrrNkIAfXNmoxtqLUyC76Nj31akuH/k+KKGBZjZUPn73A+C0tay1MA57r5kKdkApS
-	 M9yV1FccDVg0qI3S+4OxuqFBHDACp29s/sj3j/ZQwjC9LxC8vvnMQpA2KQqs1gCsEh
-	 7gq32iUHACLRIB8S/4PBgElek3INpfbGi9nDYC+dPWXYXNG77cDkdYsmIvqwmSh74R
-	 ORAhy9UjRmh3A==
+	b=iZjIhQiQbxWKMll+NWzWv+AfeP1IceyRxQezbKXweSOQ65RasFtuJp5rDdHj0XDix
+	 Dbt0/PD27s7AQuakiawptC3xnDm1ihJVpbZ4EPNWbETJYSPNPyTbN64dRB6ANO2dAz
+	 RuD1Qkcb4BIrJ4luRjzkxyvB1IN1nph29EwzTXZWdZTz5KEUO31u3fdE0B/rJUtYNu
+	 QzkRf90yuELNcbk1cqyt4a8uXau2mvkeFn3KsvAYBG0ehaL36Bhyg/UDxhiAbqQdHr
+	 g0x8R1CW9XZ0inZ11mE0BIjET2FnIZ93vApcru9VzOuatZjeeRv6B0a/dQd7GLnbea
+	 616tYMLqkmjig==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] drm/hyperv: validate VMBus packet size in receive
- callback
+Subject: Re: [PATCH v2 1/2] drm/hyperv: validate resolution_count and harden
+ VSP request paths
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Berkant Koc" <me@berkoc.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260517-drm-hyperv-patch2@berkoc.com>
-References: <20260517-drm-hyperv-patch2@berkoc.com>
+In-Reply-To: <20260517-drm-hyperv-patch1-v2@berkoc.com>
+References: <20260517-drm-hyperv-patch1-v2@berkoc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 17 May 2026 14:17:40 +0000
-Message-Id: <20260517141741.4D4A9C2BCB0@smtp.kernel.org>
+Date: Sun, 17 May 2026 14:47:44 +0000
+Message-Id: <20260517144744.BCAFBC2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,100 +46,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] Incomplete payload size validation causes wait-completion handlers=
- to read stale request data, allowing response spoofing and invalid state.
+- [Critical] The fix for delayed VSP responses is incomplete, leaving a cri=
+tical data race on the shared `hv->init_buf` that allows type confusion and=
+ out-of-bounds memory reads.
 --
 
-commit ffe1d9057aa46275f644c2e152d0e7a9e8837c3b
+commit 3d049f39a946f7898e25e92a422ae95b066e9989
 Author: Berkant Koc <me@berkoc.com>
 
-drm/hyperv: validate VMBus packet size in receive callback
+drm/hyperv: validate resolution_count and harden VSP request paths
 
-This commit introduces bytes_recvd into hyperv_receive_sub() to validate
-packet sizes. It restricts the memcpy length to bytes_recvd and checks
-payload size for feature change messages.
-
-Cc: stable@vger.kernel.org # 5.14+
+This commit adds bounds checking for resolution_count when parsing
+SYNTHVID_RESOLUTION_RESPONSE. It degrades gracefully to default
+resolutions on failure, and adds reinit_completion() before VSP requests
+to prevent consuming stale completions.
 
 > diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/=
 hyperv/hyperv_drm_proto.c
 > --- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
 > +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-
 [ ... ]
+> @@ -383,6 +385,7 @@ static int hyperv_get_supported_resolution(struct hv_=
+device *hdev)
+>  		sizeof(struct synthvid_supported_resolution_req);
+>  	msg->resolution_req.maximum_resolution_count =3D
+>  		SYNTHVID_MAX_RESOLUTION_COUNT;
+> +	reinit_completion(&hv->wait);
+>  	hyperv_sendpacket(hdev, msg);
 
-> @@ -420,26 +420,35 @@ static int hyperv_get_supported_resolution(struct h=
-v_device *hdev)
->  static void hyperv_receive_sub(struct hv_device *hdev, u32 bytes_recvd)
->  {
->  	struct hyperv_drm_device *hv =3D hv_get_drvdata(hdev);
->  	struct synthvid_msg *msg;
-> +	size_t hdr_size;
-> =20
->  	if (!hv)
->  		return;
-> =20
-> +	hdr_size =3D sizeof(struct pipe_msg_hdr) +
-> +		   sizeof(struct synthvid_msg_hdr);
-> +	if (bytes_recvd < hdr_size || bytes_recvd > VMBUS_MAX_PACKET_SIZE)
-> +		return;
-> +
->  	msg =3D (struct synthvid_msg *)hv->recv_buf;
-> =20
->  	/* Complete the wait event */
->  	if (msg->vid_hdr.type =3D=3D SYNTHVID_VERSION_RESPONSE ||
->  	    msg->vid_hdr.type =3D=3D SYNTHVID_RESOLUTION_RESPONSE ||
->  	    msg->vid_hdr.type =3D=3D SYNTHVID_VRAM_LOCATION_ACK) {
-> -		memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE);
-> +		memcpy(hv->init_buf, msg, bytes_recvd);
+Does this reinit_completion() prevent a data race on the shared hv->init_bu=
+f?
 
-Could this change introduce a regression where a short packet leaves stale
-request data in hv->init_buf?
+If a timed-out request's delayed response arrives while a new request is
+being constructed, could hyperv_receive_sub() concurrently overwrite
+hv->init_buf without holding any locks?
 
-The patch bounds the memcpy to bytes_recvd, but it doesn't appear to valida=
-te
-that bytes_recvd is large enough to contain the expected response payloads
-before calling complete(&hv->wait).
+Since the buffer is used for both sending and receiving, if a delayed
+response arrives exactly between the memset(msg, 0) and
+hyperv_sendpacket(hdev, msg), could msg->vid_hdr.size be overwritten by
+the host's response?
 
-Because hv->init_buf is used for both sending requests and receiving respon=
-ses,
-a short response might only partially overwrite hv->init_buf. The payload
-portion would retain the outgoing request's data or zeroes from the pre-send
-initialization.
+If a host provides a crafted size, could this cause an integer overflow in
+totalbytes_towrite within hv_ringbuffer_write(), bypassing ring buffer
+free-space checks and causing an out-of-bounds read of guest memory into
+the VMBus ring buffer?
 
-For example, when sending a VRAM location update, the driver sets
-msg->vram.user_ctx =3D vram_pp. If a short response arrives, the payload is=
- not
-overwritten. The waiter checks if (msg->vram_ack.user_ctx !=3D vram_pp). Si=
-nce
-vram and vram_ack share a union in struct synthvid_msg, this check might pa=
-ss
-against the driver's own request data, allowing a truncated packet to spoof=
- a
-successful ACK.
-
-Similarly, in hyperv_get_supported_resolution(), if a truncated response
-includes the resolution_count but omits the supported_resolution array, the
-uncopied array memory remains zero. The driver could parse zeroed dimension=
-s,
-setting hv->preferred_width and height to 0, which could propagate to the D=
-RM
-core.
-
-Would it be safer to have the receive handler validate the specific payload
-sizes for these wait-completion response types, similar to how it validates
-SYNTHVID_FEATURE_CHANGE below?
-
->  		complete(&hv->wait);
->  		return;
->  	}
-> =20
->  	if (msg->vid_hdr.type =3D=3D SYNTHVID_FEATURE_CHANGE) {
-> +		if (bytes_recvd < hdr_size +
-> +		    sizeof(struct synthvid_feature_change))
-> +			return;
->  		hv->dirt_needed =3D msg->feature_chg.is_dirt_needed;
+Additionally, if the delayed response triggers complete(&hv->wait), is
+there a chance the driver parses a mismatched response because it does not
+validate that msg->vid_hdr.type matches the expected response?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260517-drm-hyperv=
--cover@berkoc.com?part=3D2
+-cover-v2@berkoc.com?part=3D1
