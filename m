@@ -1,53 +1,56 @@
 Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88256343898;
-	Thu, 21 May 2026 20:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528A43A7822;
+	Thu, 21 May 2026 20:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779396961; cv=none; b=tfiOteWyxBHsmC2NUeb5prZF+LTy3edXS6HwHS76dzQiW2gIJa6ZDr7653GKFFltYUkX5hkcYiQ8+C6WMyVv6J0K+SISBgJr0L9DG7urIlgqZQbvNc8NUiDJj6VNXWLqjXZ0CRF29xtONvsdohA7OL+ifnpbEK9xVCXsHpOuKl0=
+	t=1779396977; cv=none; b=DSspuYIxIXI50X6TvEVm82B2fMKOS5pZN8/n6tGT4C+b9nDXjUkIPhTfA+6YdUaYUvKwk8OFq5m0qYelCIARq7O51frHprdwVLv2EMYYT5azwdoH7pIAibMavXAKo842V3Gm0OdXntEEw161x+wgNH5D4qHrm0cwjULvm7YUCek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779396961; c=relaxed/simple;
-	bh=UbtkUziU9MrEBAh6wfoFRZEbuggto4T8tPHJyZQiNpI=;
-	h=Message-ID:From:To:Cc:Date:Subject; b=bJ2MKFZHDNabH85PcoLpv4vGhttc2eqSfrseKTZwtffBLRhoYYD+asJ5GDAphiDw8ORtHrevGfI+ahZCijw9D7pnzNQ88hI4cwuKBaUtuJdoVB/yXYg7XRPua3B+abpvNloWZ+QwL32t0weL4h0O81D/OAq6dcZYWwWLyM1rwws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=I/d1xpaN; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=j0Bb4uDn; arc=none smtp.client-ip=185.112.145.69
+	s=arc-20240116; t=1779396977; c=relaxed/simple;
+	bh=ILuFrIOgTO8y5W1rv5THOEIkmcdLmOdqUeFLjCyS2Xs=;
+	h=Message-ID:In-Reply-To:References:From:To:Cc:Date:Subject; b=ODmYeD3efzLNHlDTweg8Eo/i4H2Gej6tkKsJl8EQv88TtCCaWmuZpduRliit7SzbeXaXGXWzfZCMMwOom4IeR0en8efjaB0qOBVupiQdxGqxq+VLN2flakRhKOmc0sdfJmMfskwghWwXl7blcpSaoH6gOr76AyuVGbFya9frUSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=Q2hQrtm/; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=i4ycK9WD; arc=none smtp.client-ip=185.112.145.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="I/d1xpaN";
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="j0Bb4uDn"
+	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="Q2hQrtm/";
+	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="i4ycK9WD"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=Subject:Date:Cc:To:From:Message-ID:Sender:Reply-To:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=1984; h=Subject:Date:Cc:To:From:References:In-Reply-To:Message-ID:Sender:
+	Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=6gyF0HZWcO8v8WBQPrpU9hBMFdJgjkwXswAwpoH1LRo=; b=I/d1xpaN7Ul+dre+WI2o9hsBhL
-	cLwU2D6isXRfZyRhCh9qVV/q5f1LN+NKX4HyyKjRAwQh/V0DDop2xuRVkgxI2m9Zoy/GtkhZbng2s
-	gUXHy7Oue2KDtb7McJ6coDuaFdYXmThRdbeGMvSdpgzbvoH37ZQx6c6g0UNPVMJZAPqpuZtz9aleY
-	QjnQpPu/xtP/H017TuxP9bH781wy0Nfy+pB+IsS2I2nGOAILoekS8qOUeG4/KQ1KqSOJhl60PgwGA
-	zqqJ/7RHipAEzrD1k7k3bJILemw1gXyyk+2PoaJQjo0wKZ3mPUIidLRjmm2IbRA2mV4rCdRXIuPw/
-	eGd9cKTQ==;
+	bh=yEgrKS1yuvRt1SapJoA7ktrpyTmlvnKNqxmZJDoUF6o=; b=Q2hQrtm/Yd/XPUQk8cStEXveZK
+	kmNwLA64ysvTfH/wbylPTAJ8GVEi7VM56N48DYUfRVjBklZKCNLi4g+fzUtsX7nShaX22itc1dPcT
+	uir4jzkrhyUIy5jxAdOD7RPicn/hUqIOxCNaPKgqMwA0ZsWYF301y71US1MQL1ra6O5XJCkBeIxbM
+	CAH7NZzMiAjH/TVQtfD0Nh4GttVGJGbocQTshKGWf3nmLoQqdJUx3VvUtpwpB5iZ/kkwmbCCvXEWR
+	e2JDPBL/YHXZM1az5Xvt5MH/J6IgmVJlI1kCtKMqGU4jgNkC7/560FUDnIgAvdpR/qX6CopVlx7s5
+	wOe7NnlA==;
 Received: from localhost
 	by mail-01.1984.is with utf8esmtp (Exim 4.96)
 	(envelope-from <me@berkoc.com>)
-	id 1wQAQi-00DeZ4-3C;
-	Thu, 21 May 2026 20:55:45 +0000
+	id 1wQAR5-00DeeU-0C;
+	Thu, 21 May 2026 20:56:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1779396933; h=message-id : date :
+ i=@berkoc.com; q=dns/txt; s=me; t=1779396954; h=message-id : date :
  subject : cc : to : from : sender : reply-to;
- bh=6gyF0HZWcO8v8WBQPrpU9hBMFdJgjkwXswAwpoH1LRo=;
- b=j0Bb4uDns7zMYvdhVWX768q9/2zAbVC1+B81gj5q9WP8E1K+mB7hKs6wakh6euhee9RAw
- RsFEmvqS0bsQXL4EM5QOhx9EI9CRxIoy1wLm3Yivyu9r75TphX5hDmYGP93tGgGV+ez5mAI
- bPaKcrL9wN9A9KRJqbWmyUMRyvyImY/WwqHg64vkDdhvW4BEqnl4JhbKZiYFiZlAdySKWx6
- T0s0hCnmHTv4UypKRXzZ7jcc1BODq8XrfRFBuNc/yCwWwjPbdQUIAh5583+m0S9YvmQU7KV
- E0Zu8Q4KNoI4dv8gyKIQgNIK8bTd7IKm8o29TP+jHeBuLDm8juxZAfalvyYg==
-Message-ID: <cover.1779396074.git.me@berkoc.com>
+ bh=yEgrKS1yuvRt1SapJoA7ktrpyTmlvnKNqxmZJDoUF6o=;
+ b=i4ycK9WD+KWb16+raZso9u4MMcCvs/jsdjN1qG4kxsglffqRfD03u5Cz4RpFBWBOWOAhg
+ epPcqmHwxwV6FpeMJEGE4reBDj/pjew8Mlqk/jTLjSEEOIeP3rnw055FJY1eKdFMVOk39XJ
+ nOIhyZjyxr6yrrORELMfnAPB+jKEReWOrMv6hCJRHXKrGkbilmH/pGjJFmLFiMSnE6RIbq3
+ yWaN/vASXa8T+Vh2aYSpwnwgmQmoiYkEFG1NiAcxKRK0sSsdWDmC5GR4Dwy7jzlgbtq8HRS
+ wxuM7l5xVeAnNWePXIK/a3nBwzAs137ML+uLI0kvUj8691Wm79VmmodnMsYA==
+Message-ID: <6945b22419c7d404b4954a113de2ac9c900dba93.1779396074.git.me@berkoc.com>
+In-Reply-To: <cover.1779396074.git.me@berkoc.com>
+References: <cover.1779396074.git.me@berkoc.com>
 From: Berkant Koc <me@berkoc.com>
 To: Saurabh Sengar <ssengar@linux.microsoft.com>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, K. Y. Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>, Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Deepak Rawat <drawat.floss@gmail.com>
-Date: Thu, 21 May 2026 22:41:14 +0200
-Subject: [PATCH v4 0/2] drm/hyperv: harden host message parsing
+Date: Tue, 19 May 2026 22:08:17 +0200
+Subject: [PATCH v4 1/2] drm/hyperv: validate resolution_count and fix WIN8
+ fallback
 X-Spam-Score: -0.2 (/)
 X-Authenticated-User: me@berkoc.com
 X-Sender-Address: me@berkoc.com
@@ -57,95 +60,62 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Two independent issues in the synthetic video driver that both stem
-from trusting unvalidated host data.
+A SYNTHVID_RESOLUTION_RESPONSE with resolution_count > 64 walks past
+the supported_resolution[SYNTHVID_MAX_RESOLUTION_COUNT] array in the
+parse loop. Bound resolution_count against the array size, folded
+into the existing zero-check.
 
-1/2 bounds resolution_count from SYNTHVID_RESOLUTION_RESPONSE against
-the supported_resolution[] array, and populates WIN8 defaults for
-hv->screen_*_max / hv->preferred_* in both the WIN10-probe-failure
-path and the pre-WIN10 path, so a failed or pre-WIN10 probe yields a
-usable display instead of having drm_internal_framebuffer_create()
-reject every userspace framebuffer with -EINVAL.
+When the WIN10 resolution probe fails, the caller in
+hyperv_connect_vsp() left hv->screen_*_max / preferred_* unpopulated,
+which sets mode_config.max_width / max_height to 0 and makes
+drm_internal_framebuffer_create() reject every userspace framebuffer
+with -EINVAL. The pre-WIN10 branch had the same gap for
+preferred_width / preferred_height. Use a single post-probe fallback
+guarded by screen_width_max == 0 so both paths converge on the WIN8
+defaults.
 
-2/2 forwards bytes_recvd from vmbus_recvpacket() into the sub-handler,
-rejects packets that do not cover the synthvid header, and requires
-the type-specific payload size before memcpy/complete or before
-reading the feature-change byte. Rejected packets are logged via
-drm_err_ratelimited() instead of being silently dropped, matching the
-CoCo-hardened pattern in hv_kvp_onchannelcallback().
+Signed-off-by: Berkant Koc <me@berkoc.com>
+Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
+Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
+Cc: stable@vger.kernel.org # 5.14+
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-1/2 is unchanged from v3 and carries Michael Kelley's Reviewed-by.
-
-Changes since v3 (per review by Michael Kelley):
-
-  2/2: validate SYNTHVID_RESOLUTION_RESPONSE against its actual
-       variable length. The response carries resolution_count entries,
-       not the full SYNTHVID_MAX_RESOLUTION_COUNT array, so requiring
-       sizeof(struct synthvid_supported_resolution_resp) rejected the
-       shorter responses the host legitimately sends and broke
-       resolution probing. Require the fixed prefix, read and bound
-       resolution_count, then require only the count-sized array.
-
-  2/2: only run hyperv_receive_sub() when vmbus_recvpacket() returned
-       success. v3 dropped the bytes_recvd upper bound as redundant,
-       which holds only on a successful receive: on -ENOBUFS
-       vmbus_recvpacket() reports the required length in bytes_recvd,
-       which can exceed the 16 KiB hv->recv_buf, and the subsequent
-       memcpy(hv->init_buf, msg, bytes_recvd) would read and write
-       past both buffers. Gating on the success return restores the
-       invariant that made the bound redundant, so an oversized host
-       packet is dropped rather than copied.
-
-Changes since v2 (per review by Michael Kelley):
-
-  1/2: dropped the reinit_completion() change; the stale completion can
-       only outlive its request in hyperv_vmbus_resume() after a
-       get_supported_resolution() timeout, which is a narrower fix that
-       belongs in a separate patch against the resume path. Pre-WIN10
-       branch now also populates hv->preferred_*. The else branch is
-       gone; a single screen_width_max == 0 check covers both the
-       pre-WIN10 case and a failed WIN10 probe.
-
-  2/2: added a per-type switch for the three completion-driving message
-       types so the wait-completion path validates payload size before
-       memcpy/complete. Every reject path emits drm_err_ratelimited()
-       rather than returning silently.
-
-Changes since v1:
-
-  1/2: bound resolution_count check folded into the existing zero check;
-       populate WIN8 defaults when hyperv_get_supported_resolution()
-       fails.
-  2/2: forward bytes_recvd into hyperv_receive_sub(); enforce the pipe +
-       synthvid header minimum; check synthvid_feature_change payload
-       size before reading is_dirt_needed.
-
-The shared init_buf reuse (a duplicate or late host response can
-overwrite init_buf between successive request/response cycles) and the
-related completion reinit are real but orthogonal to this size
-validation. As discussed on v2, they are queued as a separate follow-up
-against the resume/expected-type path once this series lands.
-
-This series is verified by static analysis and code inspection against
-the synthvid protocol structures and the vmbus_recvpacket() contract. I
-do not currently have a Hyper-V test environment to exercise the receive
-and resolution-probe paths at runtime, so confirmation from someone who
-can run it in a Hyper-V VM would be welcome.
-
-Both patches carry an Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
-trailer per the kernel coding-assistants policy. Code, analysis and
-review responses are mine; the model is used as a structured reviewer
-under human verification.
-
-Berkant Koc (2):
-  drm/hyperv: validate resolution_count and fix WIN8 fallback
-  drm/hyperv: validate VMBus packet size in receive callback
-
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 76 ++++++++++++++++++++---
- 1 file changed, 69 insertions(+), 7 deletions(-)
-
-
-base-commit: 4bf5d3da79c48e1df4bab82c9680c53adeff7820
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+index 051ecc526..c3d0ff229 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+@@ -391,8 +391,11 @@ static int hyperv_get_supported_resolution(struct hv_device *hdev)
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-	if (msg->resolution_resp.resolution_count == 0) {
+-		drm_err(dev, "No supported resolutions\n");
++	if (msg->resolution_resp.resolution_count == 0 ||
++	    msg->resolution_resp.resolution_count >
++	    SYNTHVID_MAX_RESOLUTION_COUNT) {
++		drm_err(dev, "Invalid resolution count: %d\n",
++			msg->resolution_resp.resolution_count);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -508,9 +511,13 @@ int hyperv_connect_vsp(struct hv_device *hdev)
+ 		ret = hyperv_get_supported_resolution(hdev);
+ 		if (ret)
+ 			drm_err(dev, "Failed to get supported resolution from host, use default\n");
+-	} else {
++	}
++
++	if (!hv->screen_width_max) {
+ 		hv->screen_width_max = SYNTHVID_WIDTH_WIN8;
+ 		hv->screen_height_max = SYNTHVID_HEIGHT_WIN8;
++		hv->preferred_width = SYNTHVID_WIDTH_WIN8;
++		hv->preferred_height = SYNTHVID_HEIGHT_WIN8;
+ 	}
+ 
+ 	hv->mmio_megabytes = hdev->channel->offermsg.offer.mmio_megabytes;
 -- 
 2.47.3
 
