@@ -1,54 +1,54 @@
-Received: from mail-03.1984.is (mail-03.1984.is [93.95.224.70])
+Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4443B6BF5;
-	Tue, 19 May 2026 20:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.95.224.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1497A2E7F2C;
+	Tue, 19 May 2026 20:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779222235; cv=none; b=Vrvsibo1cm0uM1veuhpL3oy9PL+MEW5jUJeW0QgPOh2vDXVBOPPyPWR3g7rgJPdOlGEGhZMJL/RiuJEWusvdYl+D4NRvnct5Gn5BXIcuIilsov9sgxiDvMromrhlk/k7iikBIAHZyFXrrV0UJU0La2F31FB5ZN8u4kSsnWCD2IM=
+	t=1779222253; cv=none; b=CFB76ZaCYoGnwFXLJfqDEHO6imVHZF1cgUwxebqQ/NpFuUPQDqZCsTGAza2KIZaht/IvZXwGRYK4pBy8xnnFkdmWcioor+LvyayVpSjfAWz6A52BIRDJHrcbJVKvo/y7Me4psm+THr3SKZB3hg6QJGLT63wIF1IqP9wlp0KG/yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779222235; c=relaxed/simple;
-	bh=FhL8/9QhaCpl6RZwd/vNTwDqcEXu78rRJWuRUZnxKbY=;
-	h=Message-ID:In-Reply-To:References:From:Date:Subject:To:Cc; b=W49/lWoxDe2O5UbGJs95N5naB4eC6ktRkSQVb2ZyIAe2kLVJxKWhO1qXbnyQXY2+LRIHX382B5ntvGxJ7prOi+CSHcxhlRR1nLekp9q662ctNIWGwi0pG1w21B/5u1IeaDhwCWx0HkhZtZfm6XMTVKULqHQsqlsGFDpM08smyQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=pt/i+7jB; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=NtyDyKZ2; arc=none smtp.client-ip=93.95.224.70
+	s=arc-20240116; t=1779222253; c=relaxed/simple;
+	bh=T9/i5a+Am6C5zsEo2Bj8LxzG0hOR3/1NQsLhxjipoGs=;
+	h=Message-ID:In-Reply-To:References:From:Date:Subject:To:Cc; b=KUQKkjgY3PYcsFq8tsNEPum2zX9dCrRvHCmjqn1R7Eoqh/l+Z7CPFMehfh68E3pT9QffhmxOJrC6jy/UCR2jCJam18Ssylf2axRowD4oaNYyBVZ8VfSn5eTaLDzAn/pvZIJ83W3uf1sA9H32FczrwOEc7l8hdORbuH7PyjTl2QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=lQU5s627; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=JNdw+/PN; arc=none smtp.client-ip=185.112.145.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="pt/i+7jB";
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="NtyDyKZ2"
+	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="lQU5s627";
+	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="JNdw+/PN"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
 	s=1984; h=Cc:To:Subject:Date:From:References:In-Reply-To:Message-ID:Sender:
 	Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=Q+vEsl1LzqgZ9PXOM4pI7809um9+xqvACDkfc8DXhAs=; b=pt/i+7jB4o4acCY+GOX62c5oFO
-	Olj3Wq65lCWKBvLt5SiwlfTbi+gcNf2g935qFdnvBL6mgW31y4EqZxLYDGy5muSNx/AGr+B0Etlns
-	Xhs/zpxgF79USKMJIetXMdDv8xooyeNx6bFnW2VBC2iN4Hq8u5fEdBugopXWaS/vrXRwjC7QvMvSb
-	l5dYFJSJ/6o3G/awid7vWs38W12N+tQug7ek4EXmh5A+Qo0LqFF9tLvR9T77EZL689JQTwK6QiZWC
-	jfbhJkNlgeuedF8U93tKyFC85jyH5loeJTwkZQJtuQL1Zi1Dl8PF7hKx3h+3ZK+dADT2KLuUj3ogz
-	Zfzsdw8w==;
+	bh=n0hpJfmBe+H1vhGzZwAnLsdgzvMg34OBTLVh3I+WBVU=; b=lQU5s627l2jAAMyXO3W5Yvco2b
+	tAZljt+EuNm8zeVkV15tQjkWGoauFs7bByYaw1PmYJeRl21FWcZ9WOR4MhbxCJVzB60/CtKWHPgdQ
+	q2A4WgsaUpAav2EUOFACFlPkAhqX0RRpXLqhiX601iewe51uoCsPd/C5YG1adBBZvn5beRFk3s6wB
+	bYAtXoytEBq4YW8SFnNv7GuYUqgOza7fB22E1wQE5yB1FXQ/8kpBTrY4XjMqOF70HSqUXnHol4cGa
+	zfybHyGl6jtHdW21i2kz3him9q8oQucIQR0zP0t1aFL0oBftd3RrcDcf0lFEF/ttNqfwZ7I2AOcmi
+	luKn/uew==;
 Received: from localhost
-	by mail-03.1984.is with utf8esmtp (Exim 4.96)
+	by mail-01.1984.is with utf8esmtp (Exim 4.96)
 	(envelope-from <me@berkoc.com>)
-	id 1wPQyj-007hQI-1k;
-	Tue, 19 May 2026 20:23:50 +0000
+	id 1wPQz2-006CJx-0X;
+	Tue, 19 May 2026 20:24:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1779222219; h=message-id : date :
+ i=@berkoc.com; q=dns/txt; s=me; t=1779222239; h=message-id : date :
  subject : cc : to : from : sender : reply-to;
- bh=Q+vEsl1LzqgZ9PXOM4pI7809um9+xqvACDkfc8DXhAs=;
- b=NtyDyKZ2kLyQW22Raj9sviRBlW1//LR1ZvsiDciW7rfm0O0fb9tWJbFGgWq+jGDeXOjdh
- /hJCXSCl7EaEcEma+cXiJT1v7jdojexcVCX7K6XwacOW14ZdlpbyoxAYxnodB4HfozrmuJe
- osN7rf9ilwSflKZKFqdKaHSEaSIJ1VQlBHdx0aP5xSUkBzlFYSztA2JibpkebMa4zOIIvJg
- XfuT3zyazBL00qouvZdWLYkXLw193SSOvMeAEbrBdEETYVsohMUKykPJHvG7gf5mOyAu3PU
- Fl2m5jXH5pRUIyssrDDHnY08F9RmhmKSEktWY+o6oqQ+E27WPVou7Y+PYzmA==
-Message-ID: <1b88bc7edeb2f0153475225b67f19aaca629eca8.1779221799.git.me@berkoc.com>
+ bh=n0hpJfmBe+H1vhGzZwAnLsdgzvMg34OBTLVh3I+WBVU=;
+ b=JNdw+/PNzJ60beL8UK21YlQ5IBCyDM2h/8sXeCtJ/UDJBS781DJZ9uELgIyHny83bTNL6
+ ytln+pTuStkL5d3T/Up80F8mQa+WpcG+NCzDH1yXdf9AtfXXh5mDwEmC6wgbgSMs8eGUZLp
+ PDulYk/N0wqA4XQPboG19SPyE6Fxv9YTZAsyvp4a1pdCbJNscDcVn3HR28Rm7qw27thb8+R
+ 1Q29wiHhsDruFMBHIsXydn4qQOR/E0vR+tIIMXGW9t0oA2ix31sUYZD14U7pL8TMC+jX5mG
+ WAsYecRJhWdZ2m0zbKiJgWRvz8tOKAdeLHrsKfxG8rj/e0o1PSz5FSKWTZ3A==
+Message-ID: <e6e63276cca2901641ab39029e4fd3d621b1ee92.1779221799.git.me@berkoc.com>
 In-Reply-To: <cover.1779221339.git.me@berkoc.com>
 References: <cover.1779221339.git.me@berkoc.com>
 From: Berkant Koc <me@berkoc.com>
-Date: Tue, 19 May 2026 22:08:17 +0200
-Subject: [PATCH v3 1/2] drm/hyperv: validate resolution_count and fix WIN8
- fallback
+Date: Tue, 19 May 2026 22:08:53 +0200
+Subject: [PATCH v3 2/2] drm/hyperv: validate VMBus packet size in receive
+ callback
 To: Saurabh Sengar <ssengar@linux.microsoft.com>,
     Dexuan Cui <decui@microsoft.com>,
     Long Li <longli@microsoft.com>
@@ -72,61 +72,112 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-A SYNTHVID_RESOLUTION_RESPONSE with resolution_count > 64 walks past
-the supported_resolution[SYNTHVID_MAX_RESOLUTION_COUNT] array in the
-parse loop. Bound resolution_count against the array size, folded
-into the existing zero-check.
+hyperv_receive_sub() reads msg->vid_hdr.type and dispatches into one
+of four message-type branches without knowing how many bytes the host
+wrote into hv->recv_buf. The completion path then runs
+memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE), so the consumer
+that wakes on wait_for_completion_timeout() can read up to 16 KiB of
+residue from a prior message as if it were the response payload.
 
-When the WIN10 resolution probe fails, the caller in
-hyperv_connect_vsp() left hv->screen_*_max / preferred_* unpopulated,
-which sets mode_config.max_width / max_height to 0 and makes
-drm_internal_framebuffer_create() reject every userspace framebuffer
-with -EINVAL. The pre-WIN10 branch had the same gap for
-preferred_width / preferred_height. Use a single post-probe fallback
-guarded by screen_width_max == 0 so both paths converge on the WIN8
-defaults.
+Pass bytes_recvd into hyperv_receive_sub() and reject any packet that
+does not cover the pipe + synthvid header. For each of the three
+completion-driving types (SYNTHVID_VERSION_RESPONSE,
+SYNTHVID_RESOLUTION_RESPONSE, SYNTHVID_VRAM_LOCATION_ACK) also
+require the type-specific payload before memcpy/complete, and apply
+the same rule to SYNTHVID_FEATURE_CHANGE before reading is_dirt_needed.
+The memcpy then uses bytes_recvd, which is bounded by
+VMBUS_MAX_PACKET_SIZE through the call to vmbus_recvpacket().
 
-Signed-off-by: Berkant Koc <me@berkoc.com>
-Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
+Rejected packets are reported via drm_err_ratelimited() rather than
+silently dropped, matching the CoCo-hardened pattern in
+hv_kvp_onchannelcallback().
+
 Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
 Cc: stable@vger.kernel.org # 5.14+
+Signed-off-by: Berkant Koc <me@berkoc.com>
+Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
 ---
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 42 +++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index 051ecc526..c3d0ff229 100644
+index c3d0ff229..12d3feb4f 100644
 --- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
 +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -391,8 +391,11 @@ static int hyperv_get_supported_resolution(struct hv_device *hdev)
- 		return -ETIMEDOUT;
- 	}
+@@ -420,26 +420,62 @@ static int hyperv_get_supported_resolution(struct hv_device *hdev)
+ 	return 0;
+ }
  
--	if (msg->resolution_resp.resolution_count == 0) {
--		drm_err(dev, "No supported resolutions\n");
-+	if (msg->resolution_resp.resolution_count == 0 ||
-+	    msg->resolution_resp.resolution_count >
-+	    SYNTHVID_MAX_RESOLUTION_COUNT) {
-+		drm_err(dev, "Invalid resolution count: %d\n",
-+			msg->resolution_resp.resolution_count);
- 		return -ENODEV;
- 	}
+-static void hyperv_receive_sub(struct hv_device *hdev)
++static void hyperv_receive_sub(struct hv_device *hdev, u32 bytes_recvd)
+ {
+ 	struct hyperv_drm_device *hv = hv_get_drvdata(hdev);
+ 	struct synthvid_msg *msg;
++	size_t hdr_size;
  
-@@ -508,9 +511,13 @@ int hyperv_connect_vsp(struct hv_device *hdev)
- 		ret = hyperv_get_supported_resolution(hdev);
- 		if (ret)
- 			drm_err(dev, "Failed to get supported resolution from host, use default\n");
--	} else {
+ 	if (!hv)
+ 		return;
+ 
++	hdr_size = sizeof(struct pipe_msg_hdr) +
++		   sizeof(struct synthvid_msg_hdr);
++	if (bytes_recvd < hdr_size) {
++		drm_err_ratelimited(&hv->dev,
++				    "synthvid packet too small for header: %u\n",
++				    bytes_recvd);
++		return;
 +	}
 +
-+	if (!hv->screen_width_max) {
- 		hv->screen_width_max = SYNTHVID_WIDTH_WIN8;
- 		hv->screen_height_max = SYNTHVID_HEIGHT_WIN8;
-+		hv->preferred_width = SYNTHVID_WIDTH_WIN8;
-+		hv->preferred_height = SYNTHVID_HEIGHT_WIN8;
+ 	msg = (struct synthvid_msg *)hv->recv_buf;
+ 
+ 	/* Complete the wait event */
+ 	if (msg->vid_hdr.type == SYNTHVID_VERSION_RESPONSE ||
+ 	    msg->vid_hdr.type == SYNTHVID_RESOLUTION_RESPONSE ||
+ 	    msg->vid_hdr.type == SYNTHVID_VRAM_LOCATION_ACK) {
+-		memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE);
++		size_t need = hdr_size;
++
++		switch (msg->vid_hdr.type) {
++		case SYNTHVID_VERSION_RESPONSE:
++			need += sizeof(struct synthvid_version_resp);
++			break;
++		case SYNTHVID_RESOLUTION_RESPONSE:
++			need += sizeof(struct synthvid_supported_resolution_resp);
++			break;
++		case SYNTHVID_VRAM_LOCATION_ACK:
++			need += sizeof(struct synthvid_vram_location_ack);
++			break;
++		}
++		if (bytes_recvd < need) {
++			drm_err_ratelimited(&hv->dev,
++					    "synthvid packet too small for type %u: %u < %zu\n",
++					    msg->vid_hdr.type, bytes_recvd, need);
++			return;
++		}
++		memcpy(hv->init_buf, msg, bytes_recvd);
+ 		complete(&hv->wait);
+ 		return;
  	}
  
- 	hv->mmio_megabytes = hdev->channel->offermsg.offer.mmio_megabytes;
+ 	if (msg->vid_hdr.type == SYNTHVID_FEATURE_CHANGE) {
++		if (bytes_recvd < hdr_size +
++		    sizeof(struct synthvid_feature_change)) {
++			drm_err_ratelimited(&hv->dev,
++					    "synthvid feature change packet too small: %u\n",
++					    bytes_recvd);
++			return;
++		}
+ 		hv->dirt_needed = msg->feature_chg.is_dirt_needed;
+ 		if (hv->dirt_needed)
+ 			hyperv_hide_hw_ptr(hv->hdev);
+@@ -466,7 +502,7 @@ static void hyperv_receive(void *ctx)
+ 				       &bytes_recvd, &req_id);
+ 		if (bytes_recvd > 0 &&
+ 		    recv_buf->pipe_hdr.type == PIPE_MSG_DATA)
+-			hyperv_receive_sub(hdev);
++			hyperv_receive_sub(hdev, bytes_recvd);
+ 	} while (bytes_recvd > 0 && ret == 0);
+ }
+ 
 -- 
 2.47.3
 
