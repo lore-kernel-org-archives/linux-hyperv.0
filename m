@@ -1,51 +1,52 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF5A270545;
-	Wed, 20 May 2026 18:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1164508EB;
+	Wed, 20 May 2026 18:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779301872; cv=none; b=j+rFIER1JGzqB4cUJOo1NytxoVZ9F5iRbsJYxKIwbNXnkIhElInyLFZS+0rYCtwNh5N9O7GQAmeRHJHb7/wvD5L4A7HkjSzFNFae7ZdvfFfeKhEB275j7boUTT9z2aq1caIMYn02XU4Db0qzfGfn0eM00zn7b7CYu4cTo4Hazy4=
+	t=1779303023; cv=none; b=VEbTy4jehUWMzaPATPbOW5X+NWr3BPlRFAjK+62/ZB3tvly0mzD3lPVDTzW9F1WzCrcOPPkmJHJYtpp+bkoQEfZmKrgWPAHp8hPwJs6wX+rTA90jwyPD0lBSbDd02ZtW7iMw7IDPY81WN1pQ7gAJLr7g+zogQ4o2tRLURXm3TkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779301872; c=relaxed/simple;
-	bh=38VjBVseDEfelALR1MiRTEA2WPwIZueCOuQcJA11DHw=;
+	s=arc-20240116; t=1779303023; c=relaxed/simple;
+	bh=vfqQqe3/Q5FohBSCxOE8qHtO0nxO4XvM5LjLHZKXyao=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dMR99nRlEQQo45mFdQDGCevxVrIyqXm7S6Imtm7HvHjpZiitdQhKN4f9xS5ZYmzGmM2h3ujMKp0RIR+uZLbzswqjvxdQi6qU3qFya4Jsw0dGynyRtM//99JZCHCUdV7n1VTFte3uSEOdDzHs7eeVz2qS3anPYKkT8Zs9Djtgi2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=okyxUeyj; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:MIME-Version; b=PfxHmsxBuEC7XqvvzaBN2oHq7FBJA1t5EVmDyuzLNAIZ4ky6Tg6wXcz211cZXE4vYloY4CAEO3wqiNjk3/AiS9C+FOMLY9s10WwxzkG9Il9MMeB5Xflcx/7PpC68Cqars7imoopmVLro5HwLIqHRsrUvpeOdysngrYdC7qNphb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LMM/1bfq; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="okyxUeyj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LMM/1bfq"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
 	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=38VjBVseDEfelALR1MiRTEA2WPwIZueCOuQcJA11DHw=; b=okyxUeyjtEfb4IL9N+H2s3fQ4l
-	+FXGCOPfRMtSwfjsiCCErR/hqYIp5E43h19nlrt4LOcqkVnHdTnI4R4ixw9GM3byo64IZ/CfBk9zN
-	QlG9oyCXRDp/W4Nv8hFGJ6REc4kp1SYAJvrFHC3S5281hyRFw/yATFCORBqbsYQ8DJcq4CyQo8OIn
-	9twCl0C6vXyDdlGu5IPu/RSlBANVuoNJZbRft5N+r2T/6avcFTE3Cm0V5uIZHyxK9DkX4PBh0jkkL
-	ySMglljmFU2brGpAwqD/FpsMhr94TdQ3qTAs7ut6Ck8Y1oxrtBwReeEv+UYTIVdX7di2RShBiv2WW
-	lkFhaaWQ==;
+	bh=vfqQqe3/Q5FohBSCxOE8qHtO0nxO4XvM5LjLHZKXyao=; b=LMM/1bfq7BKcsb1h5JmlVGAaqW
+	vi8jmiUaEoy+tahKu2tgUaSO9O0xNvl+zkTWYReTeSdPjeJucgVK5iiSoGE8XdlPjbEflxMAovy0J
+	9Q4N+u9Y/VZ6oK8vkDXNkLffswvQhkZ01Bazh+3DdTFIGV670OJV4FhZ9CYmgnzNWEDZfbIoSKcRG
+	S1wnSn16JqIf9a8tBjsyYQZjy69Nj6zCvX5x2jroKuilGJOO/IjPGMmqVI4LzsRgCOBYYVLj3cZG8
+	SahANau1nYZOtWoYoQ+CykqDx66r4FqVPVBvoTcSECdEbqdw4oMj+3eQBlwVw4PMkiBPwJlrcxmOZ
+	V3TQPMqg==;
 Received: from 54-240-197-227.amazon.com ([54.240.197.227] helo=freeip.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPlh5-00000007THG-3qKd;
-	Wed, 20 May 2026 18:31:00 +0000
-Message-ID: <6e80893d022b10110f520acf152f70ff6acf2e00.camel@infradead.org>
-Subject: Re: [PATCH v3 00/41] x86: Try to wrangle PV clocks vs. TSC
+	id 1wPlzZ-00000007UI1-3OGD;
+	Wed, 20 May 2026 18:50:06 +0000
+Message-ID: <e892099dd6f459e5fe60ae7b9cb2183c2da2e1e6.camel@infradead.org>
+Subject: Re: [PATCH v3 40/41] x86/tsc: Add standalone helper for getting CPU
+ frequency from CPUID
 From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, Long Li <longli@microsoft.com>, Ajay Kaher
- <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen
- <dave.hansen@linux.intel.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, Daniel
- Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- John Stultz <jstultz@google.com>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Broadcom internal kernel review list
+To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>,  Kiryl Shutsemau <kas@kernel.org>, "K. Y. Srinivasan"
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
+ <longli@microsoft.com>, Ajay Kaher <ajay.kaher@broadcom.com>, Alexey
+ Makhalov <alexey.makhalov@broadcom.com>,  Jan Kiszka
+ <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, Andy
+ Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Juergen Gross <jgross@suse.com>, Daniel Lezcano
+ <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, John Stultz
+ <jstultz@google.com>
+Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>, Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, Boris Ostrovsky
  <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>,
  x86@kernel.org,  linux-coco@lists.linux.dev, kvm@vger.kernel.org,
@@ -53,13 +54,13 @@ Cc: Kiryl Shutsemau <kas@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
  linux-kernel@vger.kernel.org,  xen-devel@lists.xenproject.org, Michael
  Kelley <mhklinux@outlook.com>, Tom Lendacky <thomas.lendacky@amd.com>,
  Nikunj A Dadhania <nikunj@amd.com>, Thomas Gleixner <tglx@linutronix.de>
-Date: Wed, 20 May 2026 19:30:58 +0100
-In-Reply-To: <ag32mwLvHpWn2vCt@google.com>
+Date: Wed, 20 May 2026 19:50:04 +0100
+In-Reply-To: <3cb683b4-973a-4b3e-a5d5-a8baa8a70eb0@redhat.com>
 References: <20260515191942.1892718-1-seanjc@google.com>
-	 <7260682b21c28d1299e58400b9a2f4b8d23bd434.camel@infradead.org>
-	 <ag32mwLvHpWn2vCt@google.com>
+	 <20260515191942.1892718-41-seanjc@google.com>
+	 <3cb683b4-973a-4b3e-a5d5-a8baa8a70eb0@redhat.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-nkQFBHechIC9A3sNo6/e"
+	boundary="=-JOgeb2pU8FOLtFZNxJ2T"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -70,28 +71,35 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-nkQFBHechIC9A3sNo6/e
+--=-JOgeb2pU8FOLtFZNxJ2T
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-05-20 at 10:59 -0700, Sean Christopherson wrote:
+On Sat, 2026-05-16 at 09:42 +0200, Paolo Bonzini wrote:
+> On 5/15/26 21:19, Sean Christopherson wrote:
+> > Extract the guts of cpu_khz_from_cpuid() to a standalone helper that
+> > doesn't restrict the usage to Intel CPUs.=C2=A0 This will allow sharing=
+ the
+> > core logic with kvmclock, as (a) CPUID.0x16 may be enumerated alongside
+> > kvmclock, and (b) KVM generally doesn't restrict CPUID based on vendor.
 >=20
-> > And then it even spent some time at boot actually using the kvmclock as
-> > clocksource... when ideally I don't think it would even have *enabled*
-> > it at all?
+> Even for native there's no real reason to restrict to Intel, I think.
+> native_calibrate_tsc() only limits itself because historically (prior to=
+=20
+> commit 604dc9170f24, "x86/tsc: Use CPUID.0x16 to calculate missing=20
+> crystal frequency", 2019-05-09) it used a hardcoded table of crystal=20
+> frequencies.
 >=20
-> Yeah, that's definitely the ideal state.=C2=A0 And I had all the same exp=
-ectations and
-> observations as you when digging in and testing this.=C2=A0 But unless th=
-is series
-> makes things worse, I want punt on achieving the ideal state for the mome=
-nt, as
-> it's proving to be a big lift just to get to a not-awful state.
+> Of course paranoia applies, but for virtualization, if the leaf exists=
+=20
+> there is no reason not to trust it.
 
-Ack. Just checking my understanding was correct. Baby steps... 40 patches a=
-t a time :)
+Agreed.
 
---=-nkQFBHechIC9A3sNo6/e
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+
+
+--=-JOgeb2pU8FOLtFZNxJ2T
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -170,21 +178,21 @@ QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
 nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
 MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
 VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
-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
+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
-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
+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
 
 
---=-nkQFBHechIC9A3sNo6/e--
+--=-JOgeb2pU8FOLtFZNxJ2T--
