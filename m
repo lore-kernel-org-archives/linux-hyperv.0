@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C9A3A453F;
-	Wed, 20 May 2026 23:43:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C01A3CD8A7;
+	Wed, 20 May 2026 23:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779320587; cv=none; b=V5cUuLTh7VKRdYugvrEVtNIhme4yNBNHAm3pN8O9IAlUUq0GpEOX3DA9qOCdDYvS2nisGp+ICuAn0SiaGgOb8RDCjmnIJkrUMa1DhnX84VqKGNYptLIH1O9Xr9n/0tnt8Y4bHcD2oeDbmqJf/xDyuEFBqWMdut9mnYFgIeJj2cQ=
+	t=1779320670; cv=none; b=Wfe397w0t83QTPo6syFr3C3ru2MJfotwVQpn+1BPIzStlVFR29a03CLKpP8kj2YqCM8AfZydO2hh7Qe9xEJxLoKFEXhI9HETKK94TSOslNguew9ra9HGNmrNuiB89TjZYrizoQT06zagSgTbjmXNEIBb61RkjcoP/Duah7juXNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779320587; c=relaxed/simple;
-	bh=2aXfXH+xlKwlpiYz6wi553vns4JvXlac96+D4Y0thXo=;
+	s=arc-20240116; t=1779320670; c=relaxed/simple;
+	bh=X0zCw9VggqDwYjpyrxBUVYwfytHsLKivEOlU4sByJ9Y=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z3Jky165Isn7DrVSUw2tvTyRQv0WD/lPV4qMwxDhsYJrVYJpXt0oOfoad5wZlEAUTXh6kdsWq5pkBKIv3+Ro+kWNAxNlxR9x6UgAjaBAH0Dmge3XrgDiR6nQ0lEmXgqSMqXp0xSxV5W4X4QzmU/prYOZerKQWpkY1KAGe6t9R94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Oi/AanrV; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:MIME-Version; b=V2BafkFZkD2/nP/vV7vUlfztLXmki7iuv8ykj+a/dN6+wZF0aDX4Spi9yxAiRgAN8kFM73MxEfxZsB3y7jyFVRyPeIKHoaxzJZkrSNXAgo9p66XL6agA5cvgiGtKhawF0fOKS3yKNnpX0TNpL2p1y+qJQEGx28UqDWCOEuz2Feo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h+XaFM8L; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Oi/AanrV"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h+XaFM8L"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
 	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2aXfXH+xlKwlpiYz6wi553vns4JvXlac96+D4Y0thXo=; b=Oi/AanrVwEcuU6g8apCe7XCOh5
-	nA2ayqrirCvIQe6C/yCRxAQBw0R8K2uTTOliPv4ljhvi2s02d7iNYVeyXuANWvyZmq90TToks+8Lv
-	+9ko8KUBaD3C97AcoLO/8F+NV74ok/0cww1UL26pVehj/SULxI3NCj+M/+UqjChmyW7jg6vJuUA8H
-	IaYXrgWFddYQKFnwa/XazdegbrnrMSoEUhD2DQ5kwlNUt+gMnM539VzW5Pn92b+hv2EuTs094njl5
-	OSIFuvzX6p4GZPiwgl60PbcWTj5Zqck7QLhM/3agEtCOuKpZn47Ip8PnsYtEP1Eup5X4Aw3v3JJX/
-	mxR97CLQ==;
-Received: from 54-240-197-227.amazon.com ([54.240.197.227] helo=freeip.amazon.com)
+	bh=X0zCw9VggqDwYjpyrxBUVYwfytHsLKivEOlU4sByJ9Y=; b=h+XaFM8LtWyTBwkkm146kzpDiU
+	1WqJWfaHfkn9U0mCSnCi2lUtr2wv3X+MNS5sFKYGHvH3nVkPO9OJJESVl+aTCFDebY6bnnJ8mEzq8
+	MvfRx9Qa2QDidPBjSWpqG8QUNwFF3Zh8W5xVTIdqpDivSWZk/PaPjCLf4kC+EK1D8qSGwfETNF++E
+	VkPsHBFXoaD0uraLCxA/UKvVxnAt74nYLgcR25Q1IM3i6hE4rihu3olRuEniFiM92XFFGFp7PQ4UY
+	5/YaP8JuMk3fZDfHZcAdAtZcIyEOLb1PGv3JV9f8k4JC7fW97sAiiTzjl+aCFdFNbdgQfkzNRwbPb
+	YmWXFTlw==;
+Received: from 54-240-197-235.amazon.com ([54.240.197.235] helo=freeip.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPqYy-00000007kzW-39mi;
-	Wed, 20 May 2026 23:42:56 +0000
-Message-ID: <6a07dae92cefa8e284ee316acd1134732c3259fe.camel@infradead.org>
-Subject: Re: [PATCH v3 28/41] x86/paravirt: Mark
- __paravirt_set_sched_clock() as __init
+	id 1wPqaK-00000007l48-0Tuf;
+	Wed, 20 May 2026 23:44:20 +0000
+Message-ID: <13d79ba1e0450068c9573ccd8deb3ec007aea8d6.camel@infradead.org>
+Subject: Re: [PATCH v3 29/41] x86/paravirt: Plumb a return code into
+ __paravirt_set_sched_clock()
 From: David Woodhouse <dwmw2@infradead.org>
 To: Sean Christopherson <seanjc@google.com>, Kiryl Shutsemau
  <kas@kernel.org>,  Paolo Bonzini <pbonzini@redhat.com>, "K. Y. Srinivasan"
@@ -54,12 +54,12 @@ Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>, Vitaly Kuznetsov
  linux-kernel@vger.kernel.org,  xen-devel@lists.xenproject.org, Michael
  Kelley <mhklinux@outlook.com>, Tom Lendacky <thomas.lendacky@amd.com>,
  Nikunj A Dadhania <nikunj@amd.com>, Thomas Gleixner <tglx@linutronix.de>
-Date: Thu, 21 May 2026 00:42:55 +0100
-In-Reply-To: <20260515191942.1892718-29-seanjc@google.com>
+Date: Thu, 21 May 2026 00:44:18 +0100
+In-Reply-To: <20260515191942.1892718-30-seanjc@google.com>
 References: <20260515191942.1892718-1-seanjc@google.com>
-	 <20260515191942.1892718-29-seanjc@google.com>
+	 <20260515191942.1892718-30-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-YzWEput9aBYtUvw2DqpS"
+	boundary="=-tHXnnzm+pwpZbACXpNw8"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -70,24 +70,30 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-YzWEput9aBYtUvw2DqpS
+--=-tHXnnzm+pwpZbACXpNw8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, 2026-05-15 at 12:19 -0700, Sean Christopherson wrote:
-> Annotate __paravirt_set_sched_clock() as __init, and make its wrapper
-> __always_inline to ensure sanitizers don't result in a non-inline version
-> hanging around.=C2=A0 All callers run during __init, and changing sched_c=
-lock
-> after boot would be all kinds of crazy.
+> Add a return code to __paravirt_set_sched_clock() so that the kernel can
+> reject attempts to use a PV sched_clock without breaking the caller.=C2=
+=A0 E.g.
+> when running as a CoCo VM with a secure TSC, using a PV clock is generall=
+y
+> undesirable.
 >=20
-> No functional change intended.
+> Note, kvmclock is the only PV clock that does anything "extra" beyond
+> simply registering itself as sched_clock, i.e. is the only caller that
+> needs to check the new return value.
 >=20
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
 
+Oooh... can we use this to reject the kvmclock when we have a stable
+and reliable TSC even for non-CoCo guests?
+
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-YzWEput9aBYtUvw2DqpS
+--=-tHXnnzm+pwpZbACXpNw8
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -166,21 +172,21 @@ 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
-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
+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
-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
+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
 
 
---=-YzWEput9aBYtUvw2DqpS--
+--=-tHXnnzm+pwpZbACXpNw8--
