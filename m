@@ -1,204 +1,115 @@
-Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC7636CDE0;
-	Thu, 21 May 2026 20:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB3927FD4B
+	for <linux-hyperv@vger.kernel.org>; Thu, 21 May 2026 21:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779396997; cv=none; b=L7+ra3jy7G+xL1zsm9dXcg3DOGc6As8ioSDewCMv09JxigTpxRai6ciSDCRwFYp8sZD+4j8s+F8LhLXqRCVOcmFmOp7/y/NiKiFuIq2gPaW1G/1HRS2CxAowpvvRNnWKKFzTlCfIwnAHPFTBD/J/3ZcO0/yCxxI/pwn295GNjUs=
+	t=1779397299; cv=none; b=O6eI+BskG0dCWEQqqFSuYYnK1Pb6PwaVR+J7kKhYk3l6w3fpc+wlwcWOJrHG7QiZTFYUYoKMeuGvcKDHV8ev3RJU8haAmPaec2ot+1euA6dclCibJDHW43hxQeINHo5tzesrhhRhdaZ4Qc3QRqUxZ7wnT7CN8pkS1K5XKanv0dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779396997; c=relaxed/simple;
-	bh=P6NHnSBS7A5nCK7EBrwNsszRWgG5h0L9aT882bgvnGI=;
-	h=Message-ID:In-Reply-To:References:From:To:Cc:Date:Subject; b=PzStq6m3L50GHIknmywAV/cqP6Xwzo4SWHEkQMJbskk/9dFhpqT1X8rgYhLjeIkHxQgtzWdjm+eaDCisMHTCNK+KFuUU9yxDQeXEK/mQw9rr4orUd9ldo/cwwxKz8pKSnaDO7z77UiO/aeAXh4CBeo9vkudESpH+xeZcih1YLlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=B1OLPmwh; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=d1hyWEgK; arc=none smtp.client-ip=185.112.145.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
+	s=arc-20240116; t=1779397299; c=relaxed/simple;
+	bh=UTNkbHY7Wjr/dyzbQ6GvUNv1NaEz32luLYEXfy53m6g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=lCtrfSV2MfEI5inZbwmpDRcqlSQtBSKDUDAXyo5jijwgsf9qPJqsXQdj2tR2W/TEn7CGD3giWDQTzJaB2rjSL//7LBA1m9j3GBKXHSzONybU6fPahPCBOlxfjOF+Z866mUtDzgXEsP+JCf+hKClLzTxC98LxBbP/C+ehBrgmx00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wfVAlRkM; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="B1OLPmwh";
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="d1hyWEgK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=Subject:Date:Cc:To:From:References:In-Reply-To:Message-ID:Sender:
-	Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=IwxizOZe2KuLhYlTxGDJy2jH2w3o7dBZIW4lsDZsoTg=; b=B1OLPmwhXKjq85FtxUHJcdH6Vf
-	EW9dQqZkqhW1+QbS3DF5HdUEeNSKr6kyp+xTMRhD8/D125gA8SOy36A9x2i7Anfhi40dF7G9/x8gV
-	8pXITHzjRyb8kO3iY4xzV1SNykVYk4oO732p2B9EJNRc8sPxgXSY7Kr78NrdGD2577fFzmYl47FeH
-	LJ9nXOgTkdoaKu/lpatf4j8J3hI4+uoLBHrSkPKg2HEzUdnEXYjDKxgaX2q+xJABdBdswmtz4IQah
-	7mK877oq+N196m6Mu1hUgGb3ZY+dBaHFR5cD24KgrD0nd9qnOSfri2EzymWeDlKlOFGM01YCxCNiI
-	Ei3IBcvg==;
-Received: from localhost
-	by mail-01.1984.is with utf8esmtp (Exim 4.96)
-	(envelope-from <me@berkoc.com>)
-	id 1wQART-00DejJ-0h;
-	Thu, 21 May 2026 20:56:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1779396980; h=message-id : date :
- subject : cc : to : from : sender : reply-to;
- bh=IwxizOZe2KuLhYlTxGDJy2jH2w3o7dBZIW4lsDZsoTg=;
- b=d1hyWEgKkxROdKjkzMI4lbAsEGVG4crHSbzmk/coBsotlt5JWglMQ6viwp/71/S3IN/t0
- H1Cv7l1jJPVVLxArwN0/Yi4Ov7oiTeralv8jYOf99I9H9XnivsycSabFq3Nd03lzaLk+AJ2
- Z2HOwWu027Cj/yF/gRx8TxFkrtzEcwEDyx5ibAlYeQWkx4A0nfKHlcfbZVH0WHQnfKZ32Pl
- 5I+PLnlWia7soGG2KnQuu19X+JlB/dYxxda4mZWSBFpkocPLWi21s3DzSrk/Y7TRuaaJDAH
- gNOzraUKUK0c0+6qtEZ7p7k6W2BjJhP0OhsKaJePBg/HfY9Ew2FFJyhg+knA==
-Message-ID: <6e5d1d57a3afc4c5ea0d2a3d62be58c90741a869.1779396074.git.me@berkoc.com>
-In-Reply-To: <cover.1779396074.git.me@berkoc.com>
-References: <cover.1779396074.git.me@berkoc.com>
-From: Berkant Koc <me@berkoc.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, K. Y. Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>, Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Deepak Rawat <drawat.floss@gmail.com>
-Date: Tue, 19 May 2026 22:08:53 +0200
-Subject: [PATCH v4 2/2] drm/hyperv: validate VMBus packet size in receive
- callback
-X-Spam-Score: -0.2 (/)
-X-Authenticated-User: me@berkoc.com
-X-Sender-Address: me@berkoc.com
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wfVAlRkM"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2bd04e4fe3dso117368145ad.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 21 May 2026 14:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779397297; x=1780002097; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iN4mR6FXbVUwqAWLl+PlqYFyvLBNkg9d4d7Akdf1bJQ=;
+        b=wfVAlRkMMi++w6FbMd9oQljMwwaCBGt5owpEcCpEAV12tm/S4r2s2ncFxE458a//lw
+         DRQNaNbiUAQNoPxk4gjcsj016JT+E+YH+PSye3fkZiwXwnrPoThhO9qym2JJ/C/5i46q
+         xWWgSB1APUG6v0nZC/n09TLf87WbTDNxdPw+icitr6KyD1NXRTaNVdeE3BjTBl4vMmDo
+         OW+khRn9a6iSxok1m6hbqBiU1WcDxtv73H1ma4qMpcYJ5OQSajIbGIGXWTbYjs3EXl8E
+         Ql3SIKQTnTe4mZS7aemLCXkUK6klGNz8bn0f2vq+FpMmuwC5Ly2n4ipfAc8KCaIr5E2G
+         to4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779397297; x=1780002097;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iN4mR6FXbVUwqAWLl+PlqYFyvLBNkg9d4d7Akdf1bJQ=;
+        b=P/ktS0Ejqrg4RHrg82vb0mcNjX47R1hfscdpDRB05yHHnSG2TFpPpnYuY4hLEUmVdV
+         022gEh49zpgRqQvQrxzd6bJBc+DItkVa6XhR0g6jNlpSGlkng6/wSCvbdpgEiIv52N/e
+         EagQycvvHMeGiQPXpOCO519w8aMDcgX3Y6NbvCRRsI9FepQmz3dF2CdTzZclkLZgTWIh
+         uwsnyK+1245HkEF9CRVMOKo5uJfbohAFNPcQmGH0m3pWxTu+5DkXNXM3DKjLP8CQ1MnC
+         sUzeXs5+dpagmhX+U0zkTJuYHAAVgsFgGt0/b5YCYV6/C4H2pmjwo0z0jJz1IHBBTjsW
+         +sOA==
+X-Forwarded-Encrypted: i=1; AFNElJ8ASLoZkO0rPl4ppXsjCOS9r7ant+INhp07CQQx2/f6qi41G3bPDF/7WhCPPrMNb7KV0mGoLrmzYzscKQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcrhDBcoKipphAv7uTTZOz55P03ENfjn4EB0TnhubniSK7l21T
+	Ok/hJZkiehrMFvDLaU81ZRdHDMyx4BYPk6wcubMBjtXtCW6WMxwQfZ5XkpF5kDhEFpeiPsTafyE
+	pPjv55A==
+X-Received: from plge10.prod.google.com ([2002:a17:902:cf4a:b0:2bd:40d4:e407])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e84c:b0:2ba:4ad9:70f6
+ with SMTP id d9443c01a7336-2beb06aa272mr6036375ad.31.1779397296608; Thu, 21
+ May 2026 14:01:36 -0700 (PDT)
+Date: Thu, 21 May 2026 14:01:35 -0700
+In-Reply-To: <c54fd01b-fe22-4c9c-8d5f-5b317de07a40@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+References: <20260515191942.1892718-1-seanjc@google.com> <20260515191942.1892718-38-seanjc@google.com>
+ <c54fd01b-fe22-4c9c-8d5f-5b317de07a40@oracle.com>
+Message-ID: <ag9yryEe0A7_AZCT@google.com>
+Subject: Re: [PATCH v3 37/41] x86/kvmclock: Use TSC for sched_clock if it's
+ constant and non-stop
+From: Sean Christopherson <seanjc@google.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Cc: kvm@vger.kernel.org, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, x86@kernel.org, 
+	linux-coco@lists.linux.dev, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, Kiryl Shutsemau <kas@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	John Stultz <jstultz@google.com>, Michael Kelley <mhklinux@outlook.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, David Woodhouse <dwmw@amazon.co.uk>
+Content-Type: text/plain; charset="us-ascii"
 
-hyperv_receive_sub() reads msg->vid_hdr.type and dispatches into one
-of four message-type branches without knowing how many bytes the host
-wrote into hv->recv_buf. The completion path then runs
-memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE), so the consumer that
-wakes on wait_for_completion_timeout() can read up to 16 KiB of
-residue from a prior message as if it were the response payload.
+On Thu, May 21, 2026, Dongli Zhang wrote:
+> On 2026-05-15 12:19 PM, Sean Christopherson wrote:
+> > Prefer the TSC over kvmclock for sched_clock if the TSC is constant,
+> > nonstop, and not marked unstable via command line.  I.e. use the same
+> > criteria as tweaking the clocksource rating so that TSC is preferred over
+> > kvmclock.  Per the below comment from native_sched_clock(), sched_clock
+> > is more tolerant of slop than clocksource; using TSC for clocksource but
+> > not sched_clock makes little to no sense, especially now that KVM CoCo
+> > guests with a trusted TSC use TSC, not kvmclock.
+> > 
+> >         /*
+> >          * Fall back to jiffies if there's no TSC available:
+> >          * ( But note that we still use it if the TSC is marked
+> >          *   unstable. We do this because unlike Time Of Day,
+> >          *   the scheduler clock tolerates small errors and it's
+> >          *   very important for it to be as fast as the platform
+> >          *   can achieve it. )
+> >          */
+> > 
+> > The only advantage of using kvmclock is that doing so allows for early
+> > and common detection of PVCLOCK_GUEST_STOPPED, but that code has been
+> > broken for over two years with nary a complaint, i.e. it can't be
+> > _that_ valuable.  And as above, certain types of KVM guests are losing
+> > the functionality regardless, i.e. acknowledging PVCLOCK_GUEST_STOPPED
+> > needs to be decoupled from sched_clock() no matter what.
+> 
+> Has it been broken for two years because of pvclock_clocksource_read_nowd()?
 
-Pass bytes_recvd into hyperv_receive_sub() and reject any packet that
-does not cover the pipe + synthvid header. For the three
-completion-driving types (SYNTHVID_VERSION_RESPONSE,
-SYNTHVID_RESOLUTION_RESPONSE, SYNTHVID_VRAM_LOCATION_ACK) require the
-type-specific payload before memcpy/complete, and apply the same rule
-to SYNTHVID_FEATURE_CHANGE before reading is_dirt_needed.
-
-SYNTHVID_RESOLUTION_RESPONSE is variable length: the host fills
-resolution_count entries, not the full SYNTHVID_MAX_RESOLUTION_COUNT
-array. Validate the fixed prefix first so resolution_count can be
-read, bound it against the array, then require only the count-sized
-array, so the shorter responses the host actually sends are accepted.
-
-Only run the sub-handler when vmbus_recvpacket() returned success. The
-memcpy length is bytes_recvd, which is bounded by VMBUS_MAX_PACKET_SIZE
-only on a successful receive; on -ENOBUFS vmbus_recvpacket() instead
-reports the required length, which can exceed hv->recv_buf, so copying
-bytes_recvd would read and write past the 16 KiB buffers. Gating on the
-success return keeps the copy bounded.
-
-Rejected packets are reported via drm_err_ratelimited() rather than
-silently dropped, matching the CoCo-hardened pattern in
-hv_kvp_onchannelcallback().
-
-Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
-Cc: stable@vger.kernel.org # 5.14+
-Signed-off-by: Berkant Koc <me@berkoc.com>
-Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
----
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 63 +++++++++++++++++++++--
- 1 file changed, 59 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index c3d0ff229..48054b607 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -420,26 +420,81 @@ static int hyperv_get_supported_resolution(struct hv_device *hdev)
- 	return 0;
- }
- 
--static void hyperv_receive_sub(struct hv_device *hdev)
-+static void hyperv_receive_sub(struct hv_device *hdev, u32 bytes_recvd)
- {
- 	struct hyperv_drm_device *hv = hv_get_drvdata(hdev);
- 	struct synthvid_msg *msg;
-+	size_t hdr_size;
- 
- 	if (!hv)
- 		return;
- 
-+	hdr_size = sizeof(struct pipe_msg_hdr) +
-+		   sizeof(struct synthvid_msg_hdr);
-+	if (bytes_recvd < hdr_size) {
-+		drm_err_ratelimited(&hv->dev,
-+				    "synthvid packet too small for header: %u\n",
-+				    bytes_recvd);
-+		return;
-+	}
-+
- 	msg = (struct synthvid_msg *)hv->recv_buf;
- 
- 	/* Complete the wait event */
- 	if (msg->vid_hdr.type == SYNTHVID_VERSION_RESPONSE ||
- 	    msg->vid_hdr.type == SYNTHVID_RESOLUTION_RESPONSE ||
- 	    msg->vid_hdr.type == SYNTHVID_VRAM_LOCATION_ACK) {
--		memcpy(hv->init_buf, msg, VMBUS_MAX_PACKET_SIZE);
-+		size_t need = hdr_size;
-+
-+		switch (msg->vid_hdr.type) {
-+		case SYNTHVID_VERSION_RESPONSE:
-+			need += sizeof(struct synthvid_version_resp);
-+			break;
-+		case SYNTHVID_RESOLUTION_RESPONSE:
-+			/*
-+			 * The resolution response is variable length: the host
-+			 * fills resolution_count entries, not the full
-+			 * SYNTHVID_MAX_RESOLUTION_COUNT array. Require the fixed
-+			 * prefix first so resolution_count can be read, then
-+			 * demand exactly the count-sized array.
-+			 */
-+			need += offsetof(struct synthvid_supported_resolution_resp,
-+					 supported_resolution);
-+			if (bytes_recvd < need)
-+				break;
-+			if (msg->resolution_resp.resolution_count >
-+			    SYNTHVID_MAX_RESOLUTION_COUNT) {
-+				drm_err_ratelimited(&hv->dev,
-+						    "synthvid resolution count too large: %u\n",
-+						    msg->resolution_resp.resolution_count);
-+				return;
-+			}
-+			need += msg->resolution_resp.resolution_count *
-+				sizeof(struct hvd_screen_info);
-+			break;
-+		case SYNTHVID_VRAM_LOCATION_ACK:
-+			need += sizeof(struct synthvid_vram_location_ack);
-+			break;
-+		}
-+		if (bytes_recvd < need) {
-+			drm_err_ratelimited(&hv->dev,
-+					    "synthvid packet too small for type %u: %u < %zu\n",
-+					    msg->vid_hdr.type, bytes_recvd, need);
-+			return;
-+		}
-+		memcpy(hv->init_buf, msg, bytes_recvd);
- 		complete(&hv->wait);
- 		return;
- 	}
- 
- 	if (msg->vid_hdr.type == SYNTHVID_FEATURE_CHANGE) {
-+		if (bytes_recvd < hdr_size +
-+		    sizeof(struct synthvid_feature_change)) {
-+			drm_err_ratelimited(&hv->dev,
-+					    "synthvid feature change packet too small: %u\n",
-+					    bytes_recvd);
-+			return;
-+		}
- 		hv->dirt_needed = msg->feature_chg.is_dirt_needed;
- 		if (hv->dirt_needed)
- 			hyperv_hide_hw_ptr(hv->hdev);
-@@ -464,9 +519,9 @@ static void hyperv_receive(void *ctx)
- 		ret = vmbus_recvpacket(hdev->channel, recv_buf,
- 				       VMBUS_MAX_PACKET_SIZE,
- 				       &bytes_recvd, &req_id);
--		if (bytes_recvd > 0 &&
-+		if (!ret && bytes_recvd > 0 &&
- 		    recv_buf->pipe_hdr.type == PIPE_MSG_DATA)
--			hyperv_receive_sub(hdev);
-+			hyperv_receive_sub(hdev, bytes_recvd);
- 	} while (bytes_recvd > 0 && ret == 0);
- }
- 
--- 
-2.47.3
-
+Yep.  Because pvclock_clocksource_read_nowd() ignores PVCLOCK_GUEST_STOPPED, the
+flag only ever gets recognized when the kernel reads WALL_CLOCK, which AFAICT
+only happens at initial boot, and during suspend and resume.
