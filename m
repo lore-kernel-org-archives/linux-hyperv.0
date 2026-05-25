@@ -1,129 +1,106 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF6D81FDE31;
-	Mon, 25 May 2026 19:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A162857EA
+	for <linux-hyperv@vger.kernel.org>; Mon, 25 May 2026 23:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779735674; cv=none; b=kAoazKQALrpLPXWHZWoeMlH9cyWibBHHg2On5iAG8NqnJXywJEMIt8dWESJXjPseCwxhuyuTERYThX1Ttj5oFHYqdSjg8Rfv/+zewyhYyTkxi64+1EGOBBk1ewsY4ZTPebUDxeB9nkrxu1Y9e3xesn4N8gziiI707ndlZXs03M4=
+	t=1779750127; cv=none; b=g9E47l/73TVJPBhMaFZMjzstiETDQDdPfvEThXX07Nh8DlpvnKHweDcrqU3/YNlq5q/F3I2GNHSyjeMkLveiVhZc+1El2VWsdUFvBNP+Huw/L8UoW2xMeaGNg+JTu1FUj6y5HLhm0VEpyokjph7URirtLNAk8yeim7V2WMwJPSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779735674; c=relaxed/simple;
-	bh=CKyRKxtHLl0lHstjvPd68gVhZNBfc9IHMW1Nj3o87B4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rNRrOli3BgzUehzDIVGNbFnGXfbBF05CvxPwtLJPww7Ca1EXrBBJPoeMT8TK97vjSzNvXRXRl8KUXm6MSSd21hsfdodTiVWy6bB/kp1XvvLfyhvQVx1yg7fNf4ivAK8v3ePmWKTc2MB+1iyv4oCobW7MYBS8UE9rtoOPROH41rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=q/fN6tcq; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1779750127; c=relaxed/simple;
+	bh=eu7oHNR9mcfU4ioBLEp3xWRPG5uK3jDdylzyfDDX5aY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzJsAG2OoTcpvZ64C/gpRDaSbzMlXxxgJiwEBW7udpR3Vb/cChpqWlGuA1xokFiN/VsVFYs4FtGxL04QBm3umot2a39Ko7jAHdb7tl4v982jpaeNaFlXQD+oD9VdcfwWTL8oRjVXp/b+APfJ+ztkHco7kSYvgWIptAe9DKeeKNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WpsgWDEb; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="q/fN6tcq"
-Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id 5A1AF20B7166; Mon, 25 May 2026 12:01:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5A1AF20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1779735663;
-	bh=Un6NUoOXoAS8Gs2lq6egSVJZ5269tBQWMy722ZhF/YE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=q/fN6tcqrHnRMG6Udu4k3q9BBtFPifmAXHpDbj0ygXG+N7U0nl1hajG90VcJLHkkt
-	 oKK8SZlJBs7paRcvKeecqkDCM+oofEfDQkGaLohmqXTwPPffU04L8FZ6zejlCN1rdr
-	 /lPfcfVtyLAIymF5ua3dTaG2UJQR74XABNvY6q5Q=
-From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-To: longli@microsoft.com,
-	kotaranov@microsoft.com,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Subject: [PATCH rdma-next v3] RDMA/mana_ib: Clamp adapter capabilities at the ib_device_attr boundary
-Date: Mon, 25 May 2026 12:01:01 -0700
-Message-ID: <20260525190101.1264185-1-ernis@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WpsgWDEb"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-95f6b47b309so1926786241.0
+        for <linux-hyperv@vger.kernel.org>; Mon, 25 May 2026 16:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1779750125; x=1780354925; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QHgkHa6ZlvV1jsZqbopBOds1Pj5+WDOoiFTPjaNINSw=;
+        b=WpsgWDEbcl/mfC97gfvBOT7Hw6/l9/kWQL/Ma8C0H7ac3HKyq+bIWmkMbAgdSFbtyo
+         q23WeK1liMif77t34U/hWxZhXdaYHG2bojD96WSGMEZAIMgpYsxkmyuaFpEKmvgNvEos
+         zTRDNUfE1iFQkXwpbAclkptHsrgAahLFdRFxY0PgCeIeDuWKibTWORIIDIQJz56xAZHR
+         9EhV7Zwai8voxIq7sgc1wwQJZM8N9nsH6CWeCQd+WPRBcwoWZjMFjznNdEd3jn5JxjLT
+         rBSvNgSCvoHLaX3SSP1UD58EME6mgKSrCZai71msRye3T5wjGd7ZMZcbQFt8OPGBK5O+
+         3a2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779750125; x=1780354925;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QHgkHa6ZlvV1jsZqbopBOds1Pj5+WDOoiFTPjaNINSw=;
+        b=nFUo0u9+pkBtmIsNTwSl841TNfu1MuvCcd6AJkrMCxXLCFFyEr/G0pwDOacO7wym3O
+         3EJsjRN2+uaO7IURZyatd44rI/dGU60rOAeg6yh8hz3EgYeSGEhKAcBpInEGmmdX12xF
+         xV1ErnV2P0BT9bJTNXLK6k1DN1p5j/HQdkY4P87FPyAnaBI3BqvILRIXq7AWKtyQyL1y
+         TxRuIAhzvp9RRgAs+BUo3IRlyrNYsikimHS4pi0pnrE0AJlmLq1ekeS5il6+99jLkzYp
+         SwKRXoJqAzxoWOCGt3rzEhtdCdceqkFwDmeVVvUy0alKP+eKGsxFpU585rGS3uFEExMh
+         aS1A==
+X-Forwarded-Encrypted: i=1; AFNElJ/dsWkCsDWbPDKshiQXsXSIW41/8vV40JCvg+OobulslRaQCc7lJnIzSMqqXZHUkq+w4kkunbWwViZIpMs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yznti19XrqjnN/E2YVJO5Y8wYVZMhh8ZmAkCKEO5656FVYa5dIc
+	ueAAMya+4bmEzJebzo2zuqQxx2F8YCrN1LGTWj94N0MdZZ6XuG90QnKYiF/OLUbyOeY=
+X-Gm-Gg: Acq92OGzdDLek+aOrI/x9KS7ByPwfPCF7IU7G1G4YJGZJtPSqU6LUUbYvkhdUHgbvaa
+	GKVaLA0OeAnzGA9Pwkm23kW6djNbDFkR6Dg2IVMKcCOjve5O8XO+6ByN/L4lsD9a4uKs8Lh9lL8
+	6WU24lJTdatFq80xdXycKM4id+2zapxYVo/hwZbDI7DmYlGdBftUIbgtVSwnLpvA0aB5PFd7rOf
+	7m0Mo2cKBWNbmGnH2ggqAJ8w9DdJfzMudbqVzRI367uGGD8TvyEvBr0xQV/DhI/AAdrYSgrRQQJ
+	5AxPG1/moIypO4sK6PZu0+Q8RV1qw8Rp8A0I9UEePhEQ4nL5ccMaz5YSSDfbhcjuo7Ui6wehFJa
+	/9AQ1rURmAp2Gi5yotzVzUGOvAQ2yv3S0FWOce3Ifqmceew/gDX+TmKh05sZ4Wg0+GMmQwlqmtc
+	uIV55K8MbmPMtohyaSOsfGwc0Hi2FIuleBUY7y8sbkL5Q1KDyC4UHGYSyxigGtber4f2WxBBQ5R
+	Y+1Cw==
+X-Received: by 2002:a05:6102:32ca:b0:633:2389:3a84 with SMTP id ada2fe7eead31-67c84613d08mr6201357137.24.1779750116975;
+        Mon, 25 May 2026 16:01:56 -0700 (PDT)
+Received: from ziepe.ca (crbknf0213w-47-54-130-67.pppoe-dynamic.high-speed.nl.bellaliant.net. [47.54.130.67])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80dcf4a9sm121808066d6.2.2026.05.25.16.01.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 16:01:56 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wReJ1-0000000BVd6-1lfG;
+	Mon, 25 May 2026 20:01:55 -0300
+Date: Mon, 25 May 2026 20:01:55 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: Long Li <longli@microsoft.com>, Leon Romanovsky <leon@kernel.org>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [EXTERNAL] Re: [PATCH rdma-next v2] RDMA/mana_ib: hardening:
+ Clamp adapter capability values from MANA_IB_GET_ADAPTER_CAP
+Message-ID: <20260525230155.GB2487554@ziepe.ca>
+References: <20260312181642.989735-1-ernis@linux.microsoft.com>
+ <20260316194929.GI61385@unreal>
+ <SA1PR21MB66832D25A93394735624F454CE40A@SA1PR21MB6683.namprd21.prod.outlook.com>
+ <20260317094408.GR61385@unreal>
+ <SA1PR21MB66833EBAF447BA0B102862FCCE4DA@SA1PR21MB6683.namprd21.prod.outlook.com>
+ <20260410154327.GA2551565@ziepe.ca>
+ <LV0PR21MB66700DC2FB827B93ED6A5714CE592@LV0PR21MB6670.namprd21.prod.outlook.com>
+ <20260413134602.GL3694781@ziepe.ca>
+ <ahSbyYcq0sgfJnmZ@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ahSbyYcq0sgfJnmZ@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 
-mana_ib stores its adapter capabilities internally as u32 in
-struct mana_ib_adapter_caps. The IB core, however, exposes the
-corresponding device attributes through struct ib_device_attr, where
-fields such as max_qp, max_qp_wr, max_send_sge, max_recv_sge,
-max_sge_rd, max_cq, max_cqe, max_mr, max_pd, max_qp_rd_atom,
-max_res_rd_atom and max_qp_init_rd_atom are signed int.
+On Mon, May 25, 2026 at 11:58:17AM -0700, Erni Sri Satya Vennela wrote:
+> > “There is no reason they should be signed, you should just fix the
+> > type.”
+> 
+> It is not allowed to change sign in props, so clamping is the best bet.
 
-mana_ib_query_device() is the only place that copies the cached u32
-caps into these int fields. If a cap exceeds INT_MAX, the implicit
-u32-to-int narrowing yields a negative value. Clamp each cap to
-INT_MAX at this boundary so the values handed to the IB core are always
-non-negative.
+Why not? Fix the core code, it is just old junk they are signed, they
+should't never have been.
 
-While here, fix a related overflow in the computation of
-max_res_rd_atom. It is derived as max_qp_rd_atom * max_qp, both of
-which are int after the assignment above; the multiplication can
-overflow an int even with the new clamps in place. Widen to s64
-before multiplying and clamp the result to INT_MAX.
-
-Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
----
-Changes in v3:
-* Drop clamping from mana_ib_gd_query_adapter_caps(). The internal u32
-  caps cache does not need to be clamped.
-* Move all clamping exclusively to mana_ib_query_device(), which is the
-  only place the cached u32 values are narrowed into the signed int
-  fields of struct ib_device_attr.
-* Reframe commit message: this is a u32-to-int type boundary fix, not a
-  CVM/untrusted-hardware hardening patch.
-Changes in v2:
-* Update patch title.
----
- drivers/infiniband/hw/mana/main.c | 33 ++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/infiniband/hw/mana/main.c b/drivers/infiniband/hw/mana/main.c
-index ac5e75dd3494..ca843083140f 100644
---- a/drivers/infiniband/hw/mana/main.c
-+++ b/drivers/infiniband/hw/mana/main.c
-@@ -555,19 +555,28 @@ int mana_ib_query_device(struct ib_device *ibdev, struct ib_device_attr *props,
- 	props->vendor_part_id = dev->gdma_dev->dev_id.type;
- 	props->max_mr_size = MANA_IB_MAX_MR_SIZE;
- 	props->page_size_cap = dev->adapter_caps.page_size_cap;
--	props->max_qp = dev->adapter_caps.max_qp_count;
--	props->max_qp_wr = dev->adapter_caps.max_qp_wr;
-+	/*
-+	 * mana_ib stores adapter capabilities internally as u32, but the
-+	 * corresponding ib_device_attr fields are signed int. Clamp each
-+	 * value at this boundary so a cap larger than INT_MAX is never
-+	 * narrowed into a negative value visible to the IB core or
-+	 * userspace.
-+	 */
-+	props->max_qp = min_t(u32, dev->adapter_caps.max_qp_count, INT_MAX);
-+	props->max_qp_wr = min_t(u32, dev->adapter_caps.max_qp_wr, INT_MAX);
- 	props->device_cap_flags = IB_DEVICE_RC_RNR_NAK_GEN;
--	props->max_send_sge = dev->adapter_caps.max_send_sge_count;
--	props->max_recv_sge = dev->adapter_caps.max_recv_sge_count;
--	props->max_sge_rd = dev->adapter_caps.max_recv_sge_count;
--	props->max_cq = dev->adapter_caps.max_cq_count;
--	props->max_cqe = dev->adapter_caps.max_qp_wr;
--	props->max_mr = dev->adapter_caps.max_mr_count;
--	props->max_pd = dev->adapter_caps.max_pd_count;
--	props->max_qp_rd_atom = dev->adapter_caps.max_inbound_read_limit;
--	props->max_res_rd_atom = props->max_qp_rd_atom * props->max_qp;
--	props->max_qp_init_rd_atom = dev->adapter_caps.max_outbound_read_limit;
-+	props->max_send_sge = min_t(u32, dev->adapter_caps.max_send_sge_count, INT_MAX);
-+	props->max_recv_sge = min_t(u32, dev->adapter_caps.max_recv_sge_count, INT_MAX);
-+	props->max_sge_rd = min_t(u32, dev->adapter_caps.max_recv_sge_count, INT_MAX);
-+	props->max_cq = min_t(u32, dev->adapter_caps.max_cq_count, INT_MAX);
-+	props->max_cqe = min_t(u32, dev->adapter_caps.max_qp_wr, INT_MAX);
-+	props->max_mr = min_t(u32, dev->adapter_caps.max_mr_count, INT_MAX);
-+	props->max_pd = min_t(u32, dev->adapter_caps.max_pd_count, INT_MAX);
-+	props->max_qp_rd_atom = min_t(u32, dev->adapter_caps.max_inbound_read_limit, INT_MAX);
-+	props->max_res_rd_atom = min_t(s64,
-+				       (s64)props->max_qp_rd_atom * props->max_qp,
-+				       INT_MAX);
-+	props->max_qp_init_rd_atom = min_t(u32, dev->adapter_caps.max_outbound_read_limit, INT_MAX);
- 	props->atomic_cap = IB_ATOMIC_NONE;
- 	props->masked_atomic_cap = IB_ATOMIC_NONE;
- 	props->max_ah = INT_MAX;
--- 
-2.34.1
-
+Jason
