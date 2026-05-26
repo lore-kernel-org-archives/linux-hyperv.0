@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E116F3B1EC7;
-	Tue, 26 May 2026 23:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4003BD646;
+	Tue, 26 May 2026 23:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779836807; cv=none; b=RYqa2sbr7xH/iYVyIbp5JahwSpCaJugu9ioZXI91SsY9e1RiSqs8CBs/Dg9MH+wSrkuX9iGYxmixFKzVL5BAZAFsq3rVaNoVdukWcDPak/FFIf0LmsfpGLhLiZE8xTGVBd1HLs9bq5NM2vt4VrARtlksSXwQd2gO1HG1LfxiDC0=
+	t=1779836807; cv=none; b=Qd/1T8LztkBu4kPbjejJpM0C7C7Lm7rybEDXjWdqqLePj8C471o2wbcUJ/3LU6UwwFMJrsI8a3fOO8T2TdyZ+2DYulBlP6/pmndPbPhz6GOfqMIQF2c40VYUpLBQRYZxAAqxRukjjjB5OBkEyZLGfb2GdeUSjhdCGHFtGzOPqd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779836807; c=relaxed/simple;
-	bh=0wsGsKtUtkB3eNIgwGTNmFhIzp+vxzNyD0oG4bChOes=;
+	bh=soE6cVRQyJkN63U+Z1xOALGVVrJ1cP16N3HGNbYQ1kY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tGy0wNoS3bEJHBP+sEedMe6cE9lT/5RXIM4pIkxnOxl4TPYRjDHxvX7EwCclSSd5bqoQIrTw4r5yMeABbzB0Y7FgW96Av8jD2eoAmfhZp11Zwwmb+oUV3y6wQyOIMMQ/wPN2jqcKduoq08MunYRuKn7dmQdrrACY/6lMXeIbuqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dB8upeZw; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=sTZUbwcpyZGx3frAdiLKB4Gj9K5X8+bmHHKG1Tv2W/qFb/udC7xmq0zxefATpzbAF8wszjsxyQPiBxy8L3hstpYzfMiQ3pIlabSFL1I/NP56FR8uFdYTJgWGwc7vmuO3LUrg1s9+AzIW8jPpH11Px3l/XVAv0hZu+zg/FNvq40k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=N+39pNv1; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dB8upeZw"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N+39pNv1"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=fdyEa2zrsSgIB0Fcu7oQ5eLJ8ehXxnjFlWD1Yj9Xvl8=; b=dB8upeZwZGExYGXC5APc03fEAl
-	fdTh1Wlh8U67MUPAtT6aDlAmDWOt6SVA+S36OXTRbwKFohQ+Oi1hSz7nHsdWWCkcXCC79wSFM54fU
-	MsO1N6eFbieb8h6Sfr3TMn3jfdFhBSYt3bvmSTh6lQI+yCHs9yX2k6g6FXab5V+sD13LeyRT/cUcE
-	3Fm4PzlICFQfyaZTV3oMk7ke452+/w8v5kULJnRmkBQKp5Kk2my3Cb2z8m9Qbp70zp2p0l/e6MjUm
-	9wlnp0PK+GQURzNA9K15T1NiGkbSOdpa9qoUwJEyYpKsk9A4qAtRYWiq34Pe7X2ctF4q2g40SlkcC
-	JyS8U4vg==;
+	bh=E42Uh0+gEvXg8vez/7aUnKYjsrahQd2IXhr+qaCf8AE=; b=N+39pNv1h2gbiTxlIta42KbTpi
+	/AWefhuKiaebkCjIuJLFozpn9T8603cgXqnUyVMTp3vfxUv8bPyVKHasJ9VqzstN32uMpU/VyiSEB
+	bzEFTzvAs+ZHkvStXr2pefJlM8TvviENgKDxF96j966shsjc37lT9YcxuX7xIMh3wSKGtgxukLDf4
+	eyLhtDxeVxRv5zmEpkdcuP33W1LMPNAWio6R6sQd3KAuaDbQYHZnXe1rVxRd9PXsbh1qi5UcbgIRd
+	hz2R7Kg947SoVOSsF0jBNhJAbeYrGDkY2TVYE35LKMbyu2mKTkcOztopa6B4tgeI2gzJMkxNIe5sO
+	8DOQVJow==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS0r6-00000001dUq-1rP4;
+	id 1wS0r6-00000001dUo-1tDA;
 	Tue, 26 May 2026 23:06:36 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wS0r5-00000000Zcc-2d61;
+	id 1wS0r5-00000000Zcr-4513;
 	Wed, 27 May 2026 00:06:35 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Sean Christopherson <seanjc@google.com>,
@@ -57,9 +57,9 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/8] clocksource/hyperv: Implement read_raw() for TSC page clocksource
-Date: Wed, 27 May 2026 00:06:29 +0100
-Message-ID: <20260526230635.136914-2-dwmw2@infradead.org>
+Subject: [RFC PATCH 7/8] KVM: x86: Remove pvclock_gtod_data and private timekeeping code
+Date: Wed, 27 May 2026 00:06:34 +0100
+Message-ID: <20260526230635.136914-7-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260526230635.136914-1-dwmw2@infradead.org>
 References: <to=b6d2173312b8d0469774846eb18b9799832d9cfc.camel@infradead.org>
@@ -76,57 +76,220 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Implement the read_raw() callback for the Hyper-V TSC page
-clocksource. This returns the derived 10MHz reference time (for
-timekeeping) while also providing the raw TSC value that was used
-to compute it.
+Remove the now-unused KVM-private timekeeping infrastructure:
 
-When the TSC page is valid, hv_read_tsc_page_tsc() atomically
-captures both values from a single RDTSC inside the sequence-counter
-protected read. When the TSC page is invalid (sequence == 0), raw is
-set to zero indicating no value is available.
-
-This enables ktime_get_snapshot_id() to provide the raw TSC to
-consumers like KVM's master clock when running nested on Hyper-V.
+ - struct pvclock_clock and struct pvclock_gtod_data
+ - update_pvclock_gtod() and its seqcount-protected state copy
+ - read_tsc() (KVM's private TSC reader with cycle_last clamping)
+ - vgettsc() (KVM's private clocksource interpolation)
+ - do_kvmclock_base(), do_monotonic(), do_realtime()
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: Kiro:claude-opus-4.6-1m
 ---
- drivers/clocksource/hyperv_timer.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ arch/x86/kvm/x86.c | 175 ---------------------------------------------
+ 1 file changed, 175 deletions(-)
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index e9f5034a1bc8..c5ae01fdbd8e 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -444,6 +444,18 @@ static u64 notrace read_hv_clock_tsc_cs(struct clocksource *arg)
- 	return read_hv_clock_tsc();
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index c31b19860c13..2c34b973fce0 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2347,58 +2347,6 @@ static int do_set_msr(struct kvm_vcpu *vcpu, unsigned index, u64 *data)
+ 	return kvm_set_msr_ignored_check(vcpu, index, *data, true);
  }
  
-+static u64 notrace read_hv_clock_tsc_cs_raw(struct clocksource *arg, u64 *raw)
-+{
-+	u64 time;
-+
-+	if (!hv_read_tsc_page_tsc(tsc_page, raw, &time)) {
-+		time = read_hv_clock_msr();
-+		*raw = 0;
-+	}
-+
-+	return time;
-+}
-+
- static u64 noinstr read_hv_sched_clock_tsc(void)
+-struct pvclock_clock {
+-	int vclock_mode;
+-	u64 cycle_last;
+-	u64 mask;
+-	u32 mult;
+-	u32 shift;
+-	u64 base_cycles;
+-	u64 offset;
+-};
+-
+-struct pvclock_gtod_data {
+-	seqcount_t	seq;
+-
+-	struct pvclock_clock clock; /* extract of a clocksource struct */
+-	struct pvclock_clock raw_clock; /* extract of a clocksource struct */
+-
+-	ktime_t		offs_boot;
+-	u64		wall_time_sec;
+-};
+-
+-static struct pvclock_gtod_data pvclock_gtod_data;
+-
+-static void update_pvclock_gtod(struct timekeeper *tk)
+-{
+-	struct pvclock_gtod_data *vdata = &pvclock_gtod_data;
+-
+-	write_seqcount_begin(&vdata->seq);
+-
+-	/* copy pvclock gtod data */
+-	vdata->clock.vclock_mode	= tk->tkr_mono.clock->vdso_clock_mode;
+-	vdata->clock.cycle_last		= tk->tkr_mono.cycle_last;
+-	vdata->clock.mask		= tk->tkr_mono.mask;
+-	vdata->clock.mult		= tk->tkr_mono.mult;
+-	vdata->clock.shift		= tk->tkr_mono.shift;
+-	vdata->clock.base_cycles	= tk->tkr_mono.xtime_nsec;
+-	vdata->clock.offset		= tk->tkr_mono.base;
+-
+-	vdata->raw_clock.vclock_mode	= tk->tkr_raw.clock->vdso_clock_mode;
+-	vdata->raw_clock.cycle_last	= tk->tkr_raw.cycle_last;
+-	vdata->raw_clock.mask		= tk->tkr_raw.mask;
+-	vdata->raw_clock.mult		= tk->tkr_raw.mult;
+-	vdata->raw_clock.shift		= tk->tkr_raw.shift;
+-	vdata->raw_clock.base_cycles	= tk->tkr_raw.xtime_nsec;
+-	vdata->raw_clock.offset		= tk->tkr_raw.base;
+-
+-	vdata->wall_time_sec            = tk->xtime_sec;
+-
+-	vdata->offs_boot		= tk->offs_boot;
+-
+-	write_seqcount_end(&vdata->seq);
+-}
+-
+ static s64 get_kvmclock_base_ns(void)
  {
- 	return (read_hv_clock_tsc() - hv_sched_clock_offset) *
-@@ -495,6 +507,8 @@ static struct clocksource hyperv_cs_tsc = {
- 	.name	= "hyperv_clocksource_tsc_page",
- 	.rating	= 500,
- 	.read	= read_hv_clock_tsc_cs,
-+	.read_raw = read_hv_clock_tsc_cs_raw,
-+	.raw_csid = CSID_X86_TSC,
- 	.mask	= CLOCKSOURCE_MASK(64),
- 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
- 	.suspend= suspend_hv_clock_tsc,
+ 	/* Count up from boot time, but with the frequency of the raw clock.  */
+@@ -3012,128 +2960,6 @@ static inline void adjust_tsc_offset_host(struct kvm_vcpu *vcpu, s64 adjustment)
+ 
+ #ifdef CONFIG_X86_64
+ 
+-static u64 read_tsc(void)
+-{
+-	u64 ret = (u64)rdtsc_ordered();
+-	u64 last = pvclock_gtod_data.clock.cycle_last;
+-
+-	if (likely(ret >= last))
+-		return ret;
+-
+-	/*
+-	 * GCC likes to generate cmov here, but this branch is extremely
+-	 * predictable (it's just a function of time and the likely is
+-	 * very likely) and there's a data dependence, so force GCC
+-	 * to generate a branch instead.  I don't barrier() because
+-	 * we don't actually need a barrier, and if this function
+-	 * ever gets inlined it will generate worse code.
+-	 */
+-	asm volatile ("");
+-	return last;
+-}
+-
+-static inline u64 vgettsc(struct pvclock_clock *clock, u64 *tsc_timestamp,
+-			  int *mode)
+-{
+-	u64 tsc_pg_val;
+-	long v;
+-
+-	switch (clock->vclock_mode) {
+-	case VDSO_CLOCKMODE_HVCLOCK:
+-		if (hv_read_tsc_page_tsc(hv_get_tsc_page(),
+-					 tsc_timestamp, &tsc_pg_val)) {
+-			/* TSC page valid */
+-			*mode = VDSO_CLOCKMODE_HVCLOCK;
+-			v = (tsc_pg_val - clock->cycle_last) &
+-				clock->mask;
+-		} else {
+-			/* TSC page invalid */
+-			*mode = VDSO_CLOCKMODE_NONE;
+-		}
+-		break;
+-	case VDSO_CLOCKMODE_TSC:
+-		*mode = VDSO_CLOCKMODE_TSC;
+-		*tsc_timestamp = read_tsc();
+-		v = (*tsc_timestamp - clock->cycle_last) &
+-			clock->mask;
+-		break;
+-	default:
+-		*mode = VDSO_CLOCKMODE_NONE;
+-	}
+-
+-	if (*mode == VDSO_CLOCKMODE_NONE)
+-		*tsc_timestamp = v = 0;
+-
+-	return v * clock->mult;
+-}
+-
+-/*
+- * As with get_kvmclock_base_ns(), this counts from boot time, at the
+- * frequency of CLOCK_MONOTONIC_RAW (hence adding gtos->offs_boot).
+- */
+-static int do_kvmclock_base(s64 *t, u64 *tsc_timestamp)
+-{
+-	struct pvclock_gtod_data *gtod = &pvclock_gtod_data;
+-	unsigned long seq;
+-	int mode;
+-	u64 ns;
+-
+-	do {
+-		seq = read_seqcount_begin(&gtod->seq);
+-		ns = gtod->raw_clock.base_cycles;
+-		ns += vgettsc(&gtod->raw_clock, tsc_timestamp, &mode);
+-		ns >>= gtod->raw_clock.shift;
+-		ns += ktime_to_ns(ktime_add(gtod->raw_clock.offset, gtod->offs_boot));
+-	} while (unlikely(read_seqcount_retry(&gtod->seq, seq)));
+-	*t = ns;
+-
+-	return mode;
+-}
+-
+-/*
+- * This calculates CLOCK_MONOTONIC at the time of the TSC snapshot, with
+- * no boot time offset.
+- */
+-static int do_monotonic(s64 *t, u64 *tsc_timestamp)
+-{
+-	struct pvclock_gtod_data *gtod = &pvclock_gtod_data;
+-	unsigned long seq;
+-	int mode;
+-	u64 ns;
+-
+-	do {
+-		seq = read_seqcount_begin(&gtod->seq);
+-		ns = gtod->clock.base_cycles;
+-		ns += vgettsc(&gtod->clock, tsc_timestamp, &mode);
+-		ns >>= gtod->clock.shift;
+-		ns += ktime_to_ns(gtod->clock.offset);
+-	} while (unlikely(read_seqcount_retry(&gtod->seq, seq)));
+-	*t = ns;
+-
+-	return mode;
+-}
+-
+-static int do_realtime(struct timespec64 *ts, u64 *tsc_timestamp)
+-{
+-	struct pvclock_gtod_data *gtod = &pvclock_gtod_data;
+-	unsigned long seq;
+-	int mode;
+-	u64 ns;
+-
+-	do {
+-		seq = read_seqcount_begin(&gtod->seq);
+-		ts->tv_sec = gtod->wall_time_sec;
+-		ns = gtod->clock.base_cycles;
+-		ns += vgettsc(&gtod->clock, tsc_timestamp, &mode);
+-		ns >>= gtod->clock.shift;
+-	} while (unlikely(read_seqcount_retry(&gtod->seq, seq)));
+-
+-	ts->tv_sec += __iter_div_u64_rem(ns, NSEC_PER_SEC, &ns);
+-	ts->tv_nsec = ns;
+-
+-	return mode;
+-}
+-
+ /*
+  * Calculates the kvmclock_base_ns (CLOCK_MONOTONIC_RAW + boot time) and
+  * reports the TSC value from which it do so. Returns true if host is
+@@ -10362,7 +10188,6 @@ static int pvclock_gtod_notify(struct notifier_block *nb, unsigned long unused,
+ {
+ 	struct timekeeper *tk = priv;
+ 
+-	update_pvclock_gtod(tk);
+ 
+ #ifdef CONFIG_X86_64
+ 	kvm_host_has_tsc_clocksource =
 -- 
 2.54.0
 
