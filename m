@@ -1,38 +1,38 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023383CE0A4;
-	Tue, 26 May 2026 23:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64B3C4540;
+	Tue, 26 May 2026 23:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779836865; cv=none; b=fRevjlIi0h7yqEbWdoKk010kM70ppc/kaZg6+VUuaTwDquGiRxvdnM92TDKyUbKEE1Kb7RQtraGuQkJsSW6mZjgvyB5ConHiVtC9b1KtR/pGMTnNLOzZ11c9tICBBPEYEQhEOUN5ryNfKq9q2p7UUbzedkLXQtYlF4Z/UBAicfc=
+	t=1779836871; cv=none; b=S5pJkwlw7u01aIEdaDE/34YSjqlbMhfdTDi676OKppb2w7CegafOOkKv8d3pRngFkXhjCHu72tm5kzeXV/H9VqSHT9QU0erraeXr4305uNqbmkvn4m4rRxUifKkXicdrmpGCb6kSUBHV2lRCz8OfDYNj7akumSvm8VYt4vswDrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779836865; c=relaxed/simple;
-	bh=g/+11vI5whb/zPcFbqqSAwr7qMkKVJSd0nYkxQkfT8U=;
+	s=arc-20240116; t=1779836871; c=relaxed/simple;
+	bh=3M3vpbloOOVC839ZDxXIKYEDj/kk2E+45gGP4zu7kwA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YlP2RI/5jT52lk00nw4qTVVEjNfbUNxRt+9FMN7/vmjxTLxqGaPEZbb1PBwVpneO64nZVOmtnANJWBU36WqHy7TkyKFZA4bkfN5nKuv944OrPyCL2+R2nThRkWMuRVtNqS5m3b4vYqUA7P0yzQZ2PLC2X0v2zUneGiETGoD9hh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MB3xJ188; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version; b=oQQbFoy62m55+rvo7eg9pmsxNP7XR01IlkOg8o+EKBmE9khmxlb2gi9nfXtBEN3r2B/RlY45JpCgaK3qzfBRvcpdH0Gy1F3YK4V+DRWc0DZgmf3RdKYx9SV2kqk3TLD1n/KM56/MFUKuTkrfsMhDEQhCeMa0jNgKBCWSj8ANetE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p4foA0f4; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MB3xJ188"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p4foA0f4"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=kjELQUn/TdspDb/kupTCJRsohsXwqZDF5f0hKtXNw7I=; b=MB3xJ188nfA7RycwXxFmlHmU6V
-	N7RRPxHaJ3UeTXC7w6ryE5okx9cwwWs297ndIqDF7PU2AuIZj70yyyiax4D1wQ5dwRDwAcHull7pE
-	iVWSzsB9wPUHtyz5O+VzqPVNugXGDE2mtBYhpYX+AoFzRpghaenS/VqPy2iJmJsFuSfyS/zIjRlsG
-	LyT73AXlcnj6JLvQ2fmEsK6TGuJIbGmPWtRAp4Y0Y3ovei0cwaUW+Xj8rksdgPfwiksP2cGqGv4lk
-	Fqr+qXeO1UVqBat6vNXjr3hWUUk2GZj+gBwpVBdRnIWMzIzO7jqgTbflTVsRpTt3gCsf7Pl08LLQQ
-	FmX2C83g==;
+	bh=Ft2CuWM/pX+CS9qqjbjFmQ9L6oOR54rt5Q0j3SYiTlQ=; b=p4foA0f4EFxkAFHSykaFButWtu
+	wLsZkHzYYuDt2kakJx2SOrhI5z+O4gxgIFXz2x4BhjaVqD4VBKm/mhfwkIrg5u+hyWeJ5VCaRF7eA
+	cW2HIW2RmkEGZcq/Ey5rZ8kkbCztnl6C1x6MzYoO71v5G8+SHDsNiAEHmMUWKKzZx0foA5N8d3DnX
+	mcywRlsuO4VK3+CxHnPW/yWVZas/BjLfzS0Exg4MHPuUdXQAjh1J9NzvlV8nxKnrDFZGd+BVMPVCw
+	eGSQdNKheQOmSgZH0bdxlObLGOyqz7hrxxB7Z99iLwq213LTcYvcW6e1yh3FRS1NMV0ljH/cJxT7G
+	HWOeRN9g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
 	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS0r6-0000000CV9G-0cOj;
-	Tue, 26 May 2026 23:06:53 +0000
+	id 1wS0r6-0000000CV9F-0csl;
+	Tue, 26 May 2026 23:06:46 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wS0r5-00000000ZcZ-2IIp;
-	Wed, 27 May 2026 00:06:35 +0100
+	id 1wS0r6-00000000Zcu-03H9;
+	Wed, 27 May 2026 00:06:36 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -57,12 +57,13 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/8] timekeeping: Add clocksource read_raw() method and raw_cycles to snapshot
-Date: Wed, 27 May 2026 00:06:28 +0100
-Message-ID: <20260526230635.136914-1-dwmw2@infradead.org>
+Subject: [RFC PATCH 8/8] ptp: vmclock: Use raw_cycles from snapshot for precise TSC pairing
+Date: Wed, 27 May 2026 00:06:35 +0100
+Message-ID: <20260526230635.136914-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <to=b6d2173312b8d0469774846eb18b9799832d9cfc.camel@infradead.org>
+In-Reply-To: <20260526230635.136914-1-dwmw2@infradead.org>
 References: <to=b6d2173312b8d0469774846eb18b9799832d9cfc.camel@infradead.org>
+ <20260526230635.136914-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -75,150 +76,41 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Add a read_raw() callback to struct clocksource which returns the
-derived clocksource value while also providing the underlying hardware
-counter reading. This allows ktime_get_snapshot_id() to populate a new
-raw_cycles field in struct system_time_snapshot.
+When the system clocksource is kvmclock or Hyper-V (not the TSC
+directly), vmclock_get_crosststamp() previously fell through to a
+separate get_cycles() call, losing the atomic pairing between the
+system time snapshot and the TSC reading.
 
-For clocksources that are derived from an underlying counter (e.g.,
-Hyper-V TSC page scales TSC to 10MHz, kvmclock scales TSC to 1GHz), this
-provides atomic access to both the derived value needed for timekeeping
-calculations, and the raw hardware counter needed by consumers like
-KVM's master clock and the vmclock PTP driver.
+Now that ktime_get_snapshot_id() populates raw_cycles with the
+underlying TSC value for derived clocksources, use it when available.
+This gives a perfect (system_time, tsc) pairing for the device time
+calculation.
+
+The SUPPORT_KVMCLOCK wrapper is still needed to convert the TSC into
+kvmclock nanoseconds for system_counter->cycles, because otherwise
+get_device_system_crosststamp() can't interpret the result.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: Kiro:claude-opus-4.6-1m
 ---
- include/linux/clocksource.h |  8 ++++++++
- include/linux/timekeeping.h |  6 ++++++
- kernel/time/timekeeping.c   | 30 +++++++++++++++++++++++++++++-
- 3 files changed, 43 insertions(+), 1 deletion(-)
+ drivers/ptp/ptp_vmclock.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/linux/clocksource.h b/include/linux/clocksource.h
-index 7c38190b10bf..674299e32f0c 100644
---- a/include/linux/clocksource.h
-+++ b/include/linux/clocksource.h
-@@ -37,6 +37,10 @@ struct module;
-  *	This is the structure used for system time.
-  *
-  * @read:		Returns a cycle value, passes clocksource as argument
-+ * @read_raw:		Where a clocksource such as kvmclock or the Hyper-V
-+ *			scaled TSC is calculated from an underlying hardware
-+ *			counter, return both a cycle value and the raw value
-+ *			of the underlying counter from which it was calculated
-  * @mask:		Bitmask for two's complement
-  *			subtraction of non 64 bit counters
-  * @mult:		Cycle to nanosecond multiplier
-@@ -69,6 +73,8 @@ struct module;
-  *			in certain snapshot functions to allow callers to
-  *			validate the clocksource from which the snapshot was
-  *			taken.
-+ * @raw_csid:		If a @read_raw method exists, the clocksource_id of the
-+ *			raw underlying counter
-  * @flags:		Flags describing special properties
-  * @base:		Hardware abstraction for clock on which a clocksource
-  *			is based
-@@ -97,6 +103,7 @@ struct module;
-  */
- struct clocksource {
- 	u64			(*read)(struct clocksource *cs);
-+	u64			(*read_raw)(struct clocksource *cs, u64 *raw);
- 	u64			mask;
- 	u32			mult;
- 	u32			shift;
-@@ -109,6 +116,7 @@ struct clocksource {
- 	u32			freq_khz;
- 	int			rating;
- 	enum clocksource_ids	id;
-+	enum clocksource_ids	raw_csid;
- 	enum vdso_clock_mode	vdso_clock_mode;
- 	unsigned long		flags;
- 	struct clocksource_base *base;
-diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
-index f7945f1048fc..54799a9ebeb0 100644
---- a/include/linux/timekeeping.h
-+++ b/include/linux/timekeeping.h
-@@ -279,18 +279,24 @@ static inline bool ktime_get_aux_ts64(clockid_t id, struct timespec64 *kt) { ret
-  * struct system_time_snapshot - Simultaneous time capture of CLOCK_MONOTONIC_RAW,
-  *				 a selected CLOCK_* and the clocksource counter value
-  * @cycles:		Clocksource counter value to produce the system times
-+ * @raw_cycles:		For derived clocksources, the raw hardware counter value from
-+ *			which @cycles was derived
-  * @sys:		The system time of the selected CLOCK ID
-  * @raw:		Monotonic raw system time
-  * @cs_id:		Clocksource ID
-+ * @raw_csid:		Clocksource ID of underlying raw hardware counter, set if
-+ *			@raw_cycles is non-zero
-  * @clock_was_set_seq:	The sequence number of clock-was-set events
-  * @cs_was_changed_seq:	The sequence number of clocksource change events
-  * @valid:		True if the snapshot is valid
-  */
- struct system_time_snapshot {
- 	u64			cycles;
-+	u64			raw_cycles;
- 	ktime_t			sys;
- 	ktime_t			raw;
- 	enum clocksource_ids	cs_id;
-+	enum clocksource_ids	raw_csid;
- 	unsigned int		clock_was_set_seq;
- 	u8			cs_was_changed_seq;
- 	u8			valid;
-diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-index c4fd7229b7da..6c75a677fd2a 100644
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -304,6 +304,21 @@ static __always_inline u64 tk_clock_read(const struct tk_read_base *tkr)
- 	return clock->read(clock);
- }
- 
-+static __always_inline u64 tk_clock_read_raw(const struct tk_read_base *tkr, u64 *raw)
-+{
-+	struct clocksource *clock = READ_ONCE(tkr->clock);
-+
-+	*raw = 0;
-+
-+	if (static_branch_likely(&clocksource_read_inlined))
-+		return arch_inlined_clocksource_read(clock);
-+
-+	if (clock->read_raw)
-+		return clock->read_raw(clock, raw);
-+	else
-+		return clock->read(clock);
-+}
-+
- static inline void clocksource_disable_inline_read(void)
- {
- 	static_branch_disable(&clocksource_read_inlined);
-@@ -320,6 +335,18 @@ static __always_inline u64 tk_clock_read(const struct tk_read_base *tkr)
- 
- 	return clock->read(clock);
- }
-+
-+static __always_inline u64 tk_clock_read_raw(const struct tk_read_base *tkr, u64 *raw)
-+{
-+	struct clocksource *clock = READ_ONCE(tkr->clock);
-+
-+	*raw = 0;
-+
-+	if (clock->read_raw)
-+		return clock->read_raw(clock, raw);
-+	else
-+		return clock->read(clock);
-+}
- static inline void clocksource_disable_inline_read(void) { }
- static inline void clocksource_enable_inline_read(void) { }
- #endif
-@@ -1243,8 +1270,9 @@ bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clocki
- 		if (!tk->clock_valid)
- 			return false;
- 
--		now = tk_clock_read(&tk->tkr_mono);
-+		now = tk_clock_read_raw(&tk->tkr_mono, &systime_snapshot->raw_cycles);
- 		systime_snapshot->cs_id = tk->tkr_mono.clock->id;
-+		systime_snapshot->raw_csid = tk->tkr_mono.clock->raw_csid;
- 		systime_snapshot->cs_was_changed_seq = tk->cs_was_changed_seq;
- 		systime_snapshot->clock_was_set_seq = tk->clock_was_set_seq;
- 
+diff --git a/drivers/ptp/ptp_vmclock.c b/drivers/ptp/ptp_vmclock.c
+index cb18c15a4697..aacbf8f48f13 100644
+--- a/drivers/ptp/ptp_vmclock.c
++++ b/drivers/ptp/ptp_vmclock.c
+@@ -140,6 +140,10 @@ static int vmclock_get_crosststamp(struct vmclock_state *st,
+ 			if (sts->pre_sts.cs_id == st->cs_id) {
+ 				cycle = sts->pre_sts.cycles;
+ 				sts->post_sts = sts->pre_sts;
++			} else if (sts->pre_sts.raw_csid == st->cs_id &&
++				   sts->pre_sts.raw_cycles) {
++				cycle = sts->pre_sts.raw_cycles;
++				sts->post_sts = sts->pre_sts;
+ 			} else {
+ 				cycle = get_cycles();
+ 				ptp_read_system_postts(sts);
 -- 
 2.54.0
 
