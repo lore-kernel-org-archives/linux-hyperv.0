@@ -1,38 +1,38 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64B3C4540;
-	Tue, 26 May 2026 23:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A83CCFA6;
+	Tue, 26 May 2026 23:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779836871; cv=none; b=S5pJkwlw7u01aIEdaDE/34YSjqlbMhfdTDi676OKppb2w7CegafOOkKv8d3pRngFkXhjCHu72tm5kzeXV/H9VqSHT9QU0erraeXr4305uNqbmkvn4m4rRxUifKkXicdrmpGCb6kSUBHV2lRCz8OfDYNj7akumSvm8VYt4vswDrU=
+	t=1779836872; cv=none; b=M5nC0teu219RxGEUzgdPkcPzhyebZXqjayADOqC5vI4Gp5kgid5YL8JRueQGVgJop0TUNW6X3F2KtycjeeSThCDWEO8gUkb/u7rq0F+MhZMlQAdPiVsYZ3lQccX7s1Ym4LVuuuLbAbxJ1alxlhuJb5UKewm2+2nfgOylqXuzsy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779836871; c=relaxed/simple;
-	bh=3M3vpbloOOVC839ZDxXIKYEDj/kk2E+45gGP4zu7kwA=;
+	s=arc-20240116; t=1779836872; c=relaxed/simple;
+	bh=eCTu5YcbUbETkSz3dp/VHofDn1X74WyGgSjGQq6Ar4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oQQbFoy62m55+rvo7eg9pmsxNP7XR01IlkOg8o+EKBmE9khmxlb2gi9nfXtBEN3r2B/RlY45JpCgaK3qzfBRvcpdH0Gy1F3YK4V+DRWc0DZgmf3RdKYx9SV2kqk3TLD1n/KM56/MFUKuTkrfsMhDEQhCeMa0jNgKBCWSj8ANetE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p4foA0f4; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version; b=mBapxrULqwSpcrCxJNe/bJPUkYOOcZjZHREzKGmA46HWgountEbpArXQLDfXuPBhpWoPQ+lDAwLqucOxCjTvDAWK0u0VjWyZpTAxEzj3PJ1Vo/3QrCxKkCmYt88vtZPRDsqujM73rWgLehbaTqdHSphTlsZTJyW16g+A8ZhkBQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=d+qaG6jH; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p4foA0f4"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d+qaG6jH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Ft2CuWM/pX+CS9qqjbjFmQ9L6oOR54rt5Q0j3SYiTlQ=; b=p4foA0f4EFxkAFHSykaFButWtu
-	wLsZkHzYYuDt2kakJx2SOrhI5z+O4gxgIFXz2x4BhjaVqD4VBKm/mhfwkIrg5u+hyWeJ5VCaRF7eA
-	cW2HIW2RmkEGZcq/Ey5rZ8kkbCztnl6C1x6MzYoO71v5G8+SHDsNiAEHmMUWKKzZx0foA5N8d3DnX
-	mcywRlsuO4VK3+CxHnPW/yWVZas/BjLfzS0Exg4MHPuUdXQAjh1J9NzvlV8nxKnrDFZGd+BVMPVCw
-	eGSQdNKheQOmSgZH0bdxlObLGOyqz7hrxxB7Z99iLwq213LTcYvcW6e1yh3FRS1NMV0ljH/cJxT7G
-	HWOeRN9g==;
+	bh=1v/58WjcgAQaixeVqP20tmhjKGpwtAf1/dVp6v1u3SE=; b=d+qaG6jH6PoMAzXphjmbflGM9y
+	VznbDiRsV8u2/ThPcOWzHWIEvCNWIlw+WRk2wpysGRBRP5K7oJu2s2mde02C5RuNaWLAdPyZ/QZWo
+	KeW6XDaVSz6OHzd8oQvaP3v60DhGnxm4grOw48wIqNyODPN+e0rPrEJG0TbTJ33Q6SjJvoO4wfNcH
+	jLXEg5qrXKNertir2qnR54CMzkRK8w1CPT1c94/zPKsYxKr9/cMDdP5wGuBrAYg55JhrcdLuXJfQA
+	KayRaoO/+PRc3RdXdgN9TX2kRcQvhAIKXLXtqYYp8TQs3AfWcssP0z8RG6sbv0QxZ9vuRL30ZGe+x
+	JM7FBFKw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
 	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS0r6-0000000CV9F-0csl;
-	Tue, 26 May 2026 23:06:46 +0000
+	id 1wS0r6-0000000CV9E-0cxJ;
+	Tue, 26 May 2026 23:06:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wS0r6-00000000Zcu-03H9;
-	Wed, 27 May 2026 00:06:36 +0100
+	id 1wS0r5-00000000Zci-3JJf;
+	Wed, 27 May 2026 00:06:35 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -57,9 +57,9 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 8/8] ptp: vmclock: Use raw_cycles from snapshot for precise TSC pairing
-Date: Wed, 27 May 2026 00:06:35 +0100
-Message-ID: <20260526230635.136914-8-dwmw2@infradead.org>
+Subject: [RFC PATCH 4/8] KVM: x86: Use ktime_get_snapshot_id() for master clock
+Date: Wed, 27 May 2026 00:06:31 +0100
+Message-ID: <20260526230635.136914-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260526230635.136914-1-dwmw2@infradead.org>
 References: <to=b6d2173312b8d0469774846eb18b9799832d9cfc.camel@infradead.org>
@@ -76,41 +76,119 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-When the system clocksource is kvmclock or Hyper-V (not the TSC
-directly), vmclock_get_crosststamp() previously fell through to a
-separate get_cycles() call, losing the atomic pairing between the
-system time snapshot and the TSC reading.
+Replace the KVM-private vgettsc()/do_kvmclock_base()/do_monotonic()/
+do_realtime() timekeeping reimplementation with calls to the generic
+ktime_get_snapshot_id() interface.
 
-Now that ktime_get_snapshot_id() populates raw_cycles with the
-underlying TSC value for derived clocksources, use it when available.
-This gives a perfect (system_time, tsc) pairing for the device time
-calculation.
+The snapshot provides both the system time and the raw_cycles (TSC)
+atomically paired. When raw_cycles is zero, the clocksource could not
+provide a raw hardware counter value, which is equivalent to the
+previous vgettsc() returning VDSO_CLOCKMODE_NONE.
 
-The SUPPORT_KVMCLOCK wrapper is still needed to convert the TSC into
-kvmclock nanoseconds for system_counter->cycles, because otherwise
-get_device_system_crosststamp() can't interpret the result.
+For kvm_get_time_and_clockread(), the kvmclock base time is
+CLOCK_MONOTONIC_RAW + offs_boot. The snapshot provides the raw time
+atomically paired with the TSC; offs_boot is added separately as it
+only changes at suspend/resume boundaries.
+
+This is a step towards eliminating the pvclock_gtod_data private copy
+of timekeeping state and the associated notifier callback.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: Kiro:claude-opus-4.6-1m
 ---
- drivers/ptp/ptp_vmclock.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/x86/kvm/x86.c | 50 ++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 39 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/ptp/ptp_vmclock.c b/drivers/ptp/ptp_vmclock.c
-index cb18c15a4697..aacbf8f48f13 100644
---- a/drivers/ptp/ptp_vmclock.c
-+++ b/drivers/ptp/ptp_vmclock.c
-@@ -140,6 +140,10 @@ static int vmclock_get_crosststamp(struct vmclock_state *st,
- 			if (sts->pre_sts.cs_id == st->cs_id) {
- 				cycle = sts->pre_sts.cycles;
- 				sts->post_sts = sts->pre_sts;
-+			} else if (sts->pre_sts.raw_csid == st->cs_id &&
-+				   sts->pre_sts.raw_cycles) {
-+				cycle = sts->pre_sts.raw_cycles;
-+				sts->post_sts = sts->pre_sts;
- 			} else {
- 				cycle = get_cycles();
- 				ptp_read_system_postts(sts);
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index c9e17e01f82d..e6f740f95ff9 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -35,6 +35,7 @@
+ #include "smm.h"
+ 
+ #include <linux/clocksource.h>
++#include <linux/timekeeping.h>
+ #include <linux/interrupt.h>
+ #include <linux/kvm.h>
+ #include <linux/fs.h>
+@@ -3137,14 +3138,34 @@ static int do_realtime(struct timespec64 *ts, u64 *tsc_timestamp)
+  * reports the TSC value from which it do so. Returns true if host is
+  * using TSC based clocksource.
+  */
++static bool kvm_snapshot_has_tsc(struct system_time_snapshot *snap,
++				u64 *tsc_timestamp)
++{
++	if (snap->cs_id == CSID_X86_TSC) {
++		*tsc_timestamp = snap->cycles;
++		return true;
++	}
++
++	if (snap->raw_csid == CSID_X86_TSC && snap->raw_cycles) {
++		*tsc_timestamp = snap->raw_cycles;
++		return true;
++	}
++
++	return false;
++}
++
+ static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
+ {
+-	/* checked again under seqlock below */
+-	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
++	struct system_time_snapshot snap;
++
++	if (!ktime_get_snapshot_id(&snap, CLOCK_MONOTONIC_RAW))
++		return false;
++	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
+ 		return false;
+ 
+-	return gtod_is_based_on_tsc(do_kvmclock_base(kernel_ns,
+-						     tsc_timestamp));
++	*kernel_ns = ktime_to_ns(snap.sys) +
++		     ktime_to_ns(ktime_mono_to_any(0, TK_OFFS_BOOT));
++	return true;
+ }
+ 
+ /*
+@@ -3153,12 +3174,15 @@ static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
+  */
+ bool kvm_get_monotonic_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
+ {
+-	/* checked again under seqlock below */
+-	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
++	struct system_time_snapshot snap;
++
++	if (!ktime_get_snapshot_id(&snap, CLOCK_MONOTONIC))
++		return false;
++	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
+ 		return false;
+ 
+-	return gtod_is_based_on_tsc(do_monotonic(kernel_ns,
+-						 tsc_timestamp));
++	*kernel_ns = ktime_to_ns(snap.sys);
++	return true;
+ }
+ 
+ /*
+@@ -3171,11 +3195,15 @@ bool kvm_get_monotonic_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
+ static bool kvm_get_walltime_and_clockread(struct timespec64 *ts,
+ 					   u64 *tsc_timestamp)
+ {
+-	/* checked again under seqlock below */
+-	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
++	struct system_time_snapshot snap;
++
++	if (!ktime_get_snapshot_id(&snap, CLOCK_REALTIME))
++		return false;
++	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
+ 		return false;
+ 
+-	return gtod_is_based_on_tsc(do_realtime(ts, tsc_timestamp));
++	*ts = ktime_to_timespec64(snap.sys);
++	return true;
+ }
+ #endif
+ 
 -- 
 2.54.0
 
