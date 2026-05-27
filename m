@@ -1,194 +1,193 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A83CCFA6;
-	Tue, 26 May 2026 23:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CF73D1702
+	for <linux-hyperv@vger.kernel.org>; Wed, 27 May 2026 08:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779836872; cv=none; b=M5nC0teu219RxGEUzgdPkcPzhyebZXqjayADOqC5vI4Gp5kgid5YL8JRueQGVgJop0TUNW6X3F2KtycjeeSThCDWEO8gUkb/u7rq0F+MhZMlQAdPiVsYZ3lQccX7s1Ym4LVuuuLbAbxJ1alxlhuJb5UKewm2+2nfgOylqXuzsy0=
+	t=1779870629; cv=none; b=n9iJLJeidpswhhcg50Yy2SsiObChvwn1OeUi5HlfClsT2fnmyr0AbO3eKf2d8z6rRf5BhMxVLt7eN5cJoON3s7cq1z7QVPab8sctPHyDYEkTU9iTiZSswkvb/XyuoAiTqdEOyQhGVaf/v7dkZwVHVtIqmRA1UKEDpQASWTbQ45I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779836872; c=relaxed/simple;
-	bh=eCTu5YcbUbETkSz3dp/VHofDn1X74WyGgSjGQq6Ar4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mBapxrULqwSpcrCxJNe/bJPUkYOOcZjZHREzKGmA46HWgountEbpArXQLDfXuPBhpWoPQ+lDAwLqucOxCjTvDAWK0u0VjWyZpTAxEzj3PJ1Vo/3QrCxKkCmYt88vtZPRDsqujM73rWgLehbaTqdHSphTlsZTJyW16g+A8ZhkBQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=d+qaG6jH; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1779870629; c=relaxed/simple;
+	bh=kb0kwkVN2uMNWgaZMcdmA3g/oFDrgoG1+NS2Kk3BKEU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=c62nrw6gNxqsTRQ1ldmTpDMj25dsZ84/o0XF2w9CqSlXUGUQF46AjJkrKxvVNFPHMaBDjHiZkLz674x1NDf4GdiE/VkfGUZMJPGE0NaivHyttatO+M6E7k8iggXWHLubU+Qt3YHmuQ0ns64T+InZvBi9a6tRQ9CLVTqvm6OaLJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ByyduOCB; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HAg1kkvK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d+qaG6jH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=1v/58WjcgAQaixeVqP20tmhjKGpwtAf1/dVp6v1u3SE=; b=d+qaG6jH6PoMAzXphjmbflGM9y
-	VznbDiRsV8u2/ThPcOWzHWIEvCNWIlw+WRk2wpysGRBRP5K7oJu2s2mde02C5RuNaWLAdPyZ/QZWo
-	KeW6XDaVSz6OHzd8oQvaP3v60DhGnxm4grOw48wIqNyODPN+e0rPrEJG0TbTJ33Q6SjJvoO4wfNcH
-	jLXEg5qrXKNertir2qnR54CMzkRK8w1CPT1c94/zPKsYxKr9/cMDdP5wGuBrAYg55JhrcdLuXJfQA
-	KayRaoO/+PRc3RdXdgN9TX2kRcQvhAIKXLXtqYYp8TQs3AfWcssP0z8RG6sbv0QxZ9vuRL30ZGe+x
-	JM7FBFKw==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS0r6-0000000CV9E-0cxJ;
-	Tue, 26 May 2026 23:06:50 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wS0r5-00000000Zci-3JJf;
-	Wed, 27 May 2026 00:06:35 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	John Stultz <jstultz@google.com>,
-	Michael Kelley <mhklinux@outlook.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	"Christopher S . Hall" <christopher.s.hall@intel.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Miroslav Lichvar <mlichvar@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	kvm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 4/8] KVM: x86: Use ktime_get_snapshot_id() for master clock
-Date: Wed, 27 May 2026 00:06:31 +0100
-Message-ID: <20260526230635.136914-4-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260526230635.136914-1-dwmw2@infradead.org>
-References: <to=b6d2173312b8d0469774846eb18b9799832d9cfc.camel@infradead.org>
- <20260526230635.136914-1-dwmw2@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ByyduOCB";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HAg1kkvK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779870627;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kb0kwkVN2uMNWgaZMcdmA3g/oFDrgoG1+NS2Kk3BKEU=;
+	b=ByyduOCBIr00CMPT9Sd6j7zq4IS05pzMaXxEM2OfIqbNEzszQhjUVqlVdaHdhb0DDQt/1X
+	P4CCGBVeNCHxX/wcJgqLnZkGwnczFCKrabZNC+7uYrsTYDoMNOguNHOVJomciQLqMclNid
+	vmAHkTsKax8k2W085yoTUhOKGe0wAg8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-496-foIiYhsKOraoFTGvCJEigQ-1; Wed, 27 May 2026 04:30:25 -0400
+X-MC-Unique: foIiYhsKOraoFTGvCJEigQ-1
+X-Mimecast-MFC-AGG-ID: foIiYhsKOraoFTGvCJEigQ_1779870624
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48fd396daedso63117895e9.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 27 May 2026 01:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779870624; x=1780475424; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kb0kwkVN2uMNWgaZMcdmA3g/oFDrgoG1+NS2Kk3BKEU=;
+        b=HAg1kkvKsWuSUCwPOEiR6veHzbkgEBW48Uzjl2faeT2S01GfsgZtKDKsiI+GKNZVhC
+         lXFBx35af+SY1k+zNbv0dG495NTPulDNW0n3h2k227SfLB3LPJ/PiSA31s+gqSPnE1Kj
+         dYYhwcXzQNtXOb2FmC63GeKwlffuwBTCElN/55WIRU6Kj6jVhUKnBV5JHZxqBjNFt8zv
+         ZKVvw4GvckRK61hpppS2Fwl0Ww8tH9K3LhMr6p8NYh/zDW8U0kPaT/Ts2x6Aya/N5cLD
+         DfDbzFJce9Srg8B+pa2SeWOxgzUC9eR4G9QRVloQfcHnsEGgG4fXJwRsIyZtKtEa+Nnn
+         xViw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779870624; x=1780475424;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kb0kwkVN2uMNWgaZMcdmA3g/oFDrgoG1+NS2Kk3BKEU=;
+        b=QoEH2eh1Y5acgfEKXfBF6nq3MLHqZGE9KU9v48/wYAnoI7pgjtIkOWR0G3OGqF5abe
+         I1Dh/Zbo7qOx/7mCrIkter6oWj42j8L+2RkgLXXBJiBeG2uSPFZbcw+VsRF51/aTG4nc
+         dxS/eIl6dNHiIpMQA85aQ+ar0/9dEzcBmsZUs8eb4bN2TDMKZXCcM+ItDnbIdVIMY9vx
+         JyaLv7yV3SR1iA47mv7yYk0Jj0LpYIQedpruQCA3tmauJ4c01gk4zz5nnsFAXaC56BQ2
+         xO3IeV9ODFVqS87h3FSRdnF3oPIb3X+i7gEcXz8aVgqP6KQCk+x/Mxgf6moo+mQLEx9A
+         RW/g==
+X-Forwarded-Encrypted: i=1; AFNElJ92TwjoNVZaQczGijKZHFU3EzOGtuKiA9KXfNEwDkaseqdJDK8UrhI2JmKz4gfFRGXsTo/dzny28OkapZs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN7cfGfxkGCkCitzEQj0pKaOwf3onI7wA3mFE7d04N/Hstk5br
+	YWUoeXv8QerkdjLADYoNd7RCoVGYv0byh/y78Y5d1XjSW+H3IKPqNA2thWx0RW60SsmQnu2hiXF
+	+RbP8L0FrvBgzX63PgGsflOwjCqVFzakhZcrz+manHrF6a9FCu5q1obN26su0rrs36w==
+X-Gm-Gg: Acq92OEGxwO3z2ESmHQLmsnkTSeW0Ju0mQ0jdBBQIncy7dcicQhZuhue1a0u5KIq37X
+	6woSWdHlYfFHoDbSkE1H+wJ5v5GAHBDwmh2szDmYUEJV+KD1ApeYK2/EUePKqMCEC2/vZPgwhwa
+	CkIRKaY3+/kGkGALVL+OZycbqapbmLhf6dgikDHHeGLTz8JUUgIlhzfqYjjdPhF5hD+X/yp4hWC
+	VlNjlEYG7tVEUFNGvV0tmJ98eD3/glcKB9jFjlq1ehnOwihkPi+NPixpXsZv08ZOOczx+0JN10t
+	JNfEzvLbPb784xdfIvd0CA+KOVhL1swhoNMayza+w9Lwwn7go9JglcraaiqJNKlmw1ARh0LRfLy
+	+1ex5zZp8zEZdY5sx+Re/0rSM3qAiAguqbA==
+X-Received: by 2002:a05:600d:8499:20b0:48a:5970:1fe1 with SMTP id 5b1f17b1804b1-4904248ad4cmr277017185e9.4.1779870624320;
+        Wed, 27 May 2026 01:30:24 -0700 (PDT)
+X-Received: by 2002:a05:600d:8499:20b0:48a:5970:1fe1 with SMTP id 5b1f17b1804b1-4904248ad4cmr277016485e9.4.1779870623765;
+        Wed, 27 May 2026 01:30:23 -0700 (PDT)
+Received: from fedora (nat-20.ign.cz. [91.219.240.20])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908098f782sm11525835e9.17.2026.05.27.01.30.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 01:30:23 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>, Sean Christopherson
+ <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner
+ <tglx@kernel.org>, John Stultz <jstultz@google.com>, Michael Kelley
+ <mhklinux@outlook.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, "Christopher S. Hall"
+ <christopher.s.hall@intel.com>, Stephen Boyd <sboyd@kernel.org>, Miroslav
+ Lichvar <mlichvar@redhat.com>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H.
+ Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Daniel Lezcano
+ <daniel.lezcano@kernel.org>, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC] KVM/x86: Killing kvm_get_time_and_clockread() in favour
+ of ktime_get_snapshot()
+In-Reply-To: <b4895a532344ba6a879d922be8536f9000cd398c.camel@infradead.org>
+References: <b4895a532344ba6a879d922be8536f9000cd398c.camel@infradead.org>
+Date: Wed, 27 May 2026 10:30:21 +0200
+Message-ID: <87zf1ljluq.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+David Woodhouse <dwmw2@infradead.org> writes:
 
-Replace the KVM-private vgettsc()/do_kvmclock_base()/do_monotonic()/
-do_realtime() timekeeping reimplementation with calls to the generic
-ktime_get_snapshot_id() interface.
+...
 
-The snapshot provides both the system time and the raw_cycles (TSC)
-atomically paired. When raw_cycles is zero, the clocksource could not
-provide a raw hardware counter value, which is equivalent to the
-previous vgettsc() returning VDSO_CLOCKMODE_NONE.
+>
+> Then in 2018, Vitaly Kuznetsov added Hyper-V TSC page support in
+> commit b0c39dc68e3b ("x86/kvm: Pass stable clocksource to guests when
+> running nested on Hyper-V"), which extended vgettsc() to handle the
+> HVCLOCK case.
+>
+> I'd quite like to kill it all with fire and make KVM use
+> ktime_get_snapshot() instead.
 
-For kvm_get_time_and_clockread(), the kvmclock base time is
-CLOCK_MONOTONIC_RAW + offs_boot. The snapshot provides the raw time
-atomically paired with the TSC; offs_boot is added separately as it
-only changes at suspend/resume boundaries.
+The main motivation is reducing the complexity of KVM's timekeeping code
+I guess?
 
-This is a step towards eliminating the pvclock_gtod_data private copy
-of timekeeping state and the associated notifier callback.
+>
+> However, to correlate with the TSC provided to guests, KVM needs the
+> underlying host TSC counter value, *not* the cycles count from the
+> hyperv_clocksource_tsc_page clocksource which is scaled to 10MHz.
+>
+> If we wanted to support master clock mode while nesting under KVM and
+> bizarrely using the kvmclock for system timing, we'd have the same
+> problem with the kvmclock clocksource, which similarly scales to 1GHz.
+>
+> One option is to say "Don't Do That Then=E2=84=A2": if you want to provid=
+e a
+> masterclock kvmclock to guests then *don't* use the silly pvclocks for
+> your own kernel's timekeeping, use the damn TSC. Because if the TSC
+> *isn't* reliable then you can't do masterclock mode for your guests
+> anyway.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Assisted-by: Kiro:claude-opus-4.6-1m
----
- arch/x86/kvm/x86.c | 50 ++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 39 insertions(+), 11 deletions(-)
+The statement "TSC isn't reliable" deserves a book of its own :-)
+Historically, we've seen all sorts of issues with it, but by the time of
+b0c39dc68e3b, they were mostly gone. The real problem the Hyper-V/Azure
+folks were solving back then was that while the TSC *was* reliable
+(synchronized across CPUs, not jumping backwards, stable frequency,
+...), tons of hardware out there (Azure is quite big) did not support
+TSC scaling. VMs on Azure don't migrate very often, but they do migrate
+when hardware maintenance is needed. Migrating to a host with a
+different TSC frequency would've been a problem, so the Hyper-V TSC page
+was introduced. Note: it is a *single* page for all CPUs, so the
+clocksource was never intended to be used in a situation where TSCs are
+unsynchronized across CPUs.
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index c9e17e01f82d..e6f740f95ff9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -35,6 +35,7 @@
- #include "smm.h"
- 
- #include <linux/clocksource.h>
-+#include <linux/timekeeping.h>
- #include <linux/interrupt.h>
- #include <linux/kvm.h>
- #include <linux/fs.h>
-@@ -3137,14 +3138,34 @@ static int do_realtime(struct timespec64 *ts, u64 *tsc_timestamp)
-  * reports the TSC value from which it do so. Returns true if host is
-  * using TSC based clocksource.
-  */
-+static bool kvm_snapshot_has_tsc(struct system_time_snapshot *snap,
-+				u64 *tsc_timestamp)
-+{
-+	if (snap->cs_id == CSID_X86_TSC) {
-+		*tsc_timestamp = snap->cycles;
-+		return true;
-+	}
-+
-+	if (snap->raw_csid == CSID_X86_TSC && snap->raw_cycles) {
-+		*tsc_timestamp = snap->raw_cycles;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
- {
--	/* checked again under seqlock below */
--	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
-+	struct system_time_snapshot snap;
-+
-+	if (!ktime_get_snapshot_id(&snap, CLOCK_MONOTONIC_RAW))
-+		return false;
-+	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
- 		return false;
- 
--	return gtod_is_based_on_tsc(do_kvmclock_base(kernel_ns,
--						     tsc_timestamp));
-+	*kernel_ns = ktime_to_ns(snap.sys) +
-+		     ktime_to_ns(ktime_mono_to_any(0, TK_OFFS_BOOT));
-+	return true;
- }
- 
- /*
-@@ -3153,12 +3174,15 @@ static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
-  */
- bool kvm_get_monotonic_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
- {
--	/* checked again under seqlock below */
--	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
-+	struct system_time_snapshot snap;
-+
-+	if (!ktime_get_snapshot_id(&snap, CLOCK_MONOTONIC))
-+		return false;
-+	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
- 		return false;
- 
--	return gtod_is_based_on_tsc(do_monotonic(kernel_ns,
--						 tsc_timestamp));
-+	*kernel_ns = ktime_to_ns(snap.sys);
-+	return true;
- }
- 
- /*
-@@ -3171,11 +3195,15 @@ bool kvm_get_monotonic_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp)
- static bool kvm_get_walltime_and_clockread(struct timespec64 *ts,
- 					   u64 *tsc_timestamp)
- {
--	/* checked again under seqlock below */
--	if (!gtod_is_based_on_tsc(pvclock_gtod_data.clock.vclock_mode))
-+	struct system_time_snapshot snap;
-+
-+	if (!ktime_get_snapshot_id(&snap, CLOCK_REALTIME))
-+		return false;
-+	if (!kvm_snapshot_has_tsc(&snap, tsc_timestamp))
- 		return false;
- 
--	return gtod_is_based_on_tsc(do_realtime(ts, tsc_timestamp));
-+	*ts = ktime_to_timespec64(snap.sys);
-+	return true;
- }
- #endif
- 
--- 
-2.54.0
+To deal with migrations, the Hyper-V folks came up with a mechanism
+called 'reenlightenment notifications', and we support it in KVM. It's
+not really great, as we need to stop all the nested VMs, but it does the
+job: we can re-compute guest PV clocksources (kvmclock, TSC page,
+... Xen?) and live happily ever after.
+
+>
+> Perhaps that should have been the response when commit b0c39dc68e3b was
+> submitted, but I guess we're stuck supporting that mode now.
+
+Times are changing, and it is becoming increasingly difficult to find
+x86 hardware without TSC scaling support. Linux guests on Hyper-V now
+prefer TSC if possible (HV_ACCESS_TSC_INVARIANT; see, e.g., commit
+4c78738ead4e), so I expect that in a few years, there will be no need
+for the Hyper-V TSC page clocksource or the reenlightenment logic
+anyway.
+
+> But I really do want to kill the KVM hacks and use ktime_get_snapshot().
+>
+> Reverse-engineering the original TSC reading from the clocksource
+> counter value doesn't look sane, without a loss of precision and/or
+> 128-bit division.
+>
+> One simple option that occurs to me would be to add a 'cycles_raw'
+> value to the system_time_snapshot, for PV clocksources like hyperv and
+> kvmclock to populate with the original TSC reading.
+
+Personally, I don't see this as such an ugly hack.
+
+>
+> That might actually let us clean up some of the PTP code that currently
+> has to deal with TSC vs. kvmclock in counter snapshots too. I think I
+> could kill the use of get_cycles() in vmclock for the kvmclock case,
+> which might make Thomas happy...
+>
+> Any better ideas?
+
+--=20
+Vitaly
 
