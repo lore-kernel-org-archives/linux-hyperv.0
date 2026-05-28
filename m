@@ -1,80 +1,80 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDBD31F993
-	for <linux-hyperv@vger.kernel.org>; Thu, 28 May 2026 06:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4130A30C170
+	for <linux-hyperv@vger.kernel.org>; Thu, 28 May 2026 06:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779949263; cv=none; b=tw0A2nkf/5qiFvCEumfe/nN4hxtGS3IyfPORADT1imfvcfXSYvhxia8v4SoY2O5ZvNfygF9WTphbNCEEgZW6ahZGMHXNbHe4gNll377MiJklGAp5t9zej22K5zvqt+mj1TvBdMNslnmplBJvaRwG6qFgC8wJ/w/dQONEzBs4IXg=
+	t=1779949309; cv=none; b=ZuV3KhwvMb7bU31EjF5gRV9lDWSzTnX8YT7vwrFkwPtE1urg4op+t69mfMNTg77h9dyarWmJr6d5Aj5fIHo7c92bjqgy1rtC9dQOBrqfQIQE/a2I88Z0Hu+MDIQllsyuu2p8BuA/dEjffvzg8kIH4nLerMKy1Qkax8eT2lhVPCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779949263; c=relaxed/simple;
-	bh=BUHkbn2J4r4KGXEgZlSRo6FuS2qZaril07chINl0pFo=;
+	s=arc-20240116; t=1779949309; c=relaxed/simple;
+	bh=M4zu65y+c6y4P0PzPlhFWue1AXUkxw/VTXuJpKjE4vY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=holuho9YID4GHbMrGe1BPfcUccvlloH1EtuqGvXvqsjG+BBKzhMt/LAZnSgkHgICHIYTKjq1C8F//QzIcwRyNWhkeoiH6KpQdPamCd50BO4OHMqKryCHnOXHstpiQUWroZRkvXHOxQUS1E16XeHV8Amf6bF7GwWm/sfjgewrrYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pkKT41ah; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2sIuA+aL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pkKT41ah; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2sIuA+aL; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=RLvd6ve3lF+9/er1yhmNeXbJk4pbvR5rSlkmvrheqvBfQUsEoal9+mwCwLeV9sFGiFM5L7VM2yJM5NRjCDeNCApNv0TeC611YCE07uXPwet+kZYSXgEEisPrpemN+6uTLhYpn8Xa6QI86loJPmiiC9fCMMw5URQRGM9g5bE0jzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1hVfXW36; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lRGkNV6j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1hVfXW36; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lRGkNV6j; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pkKT41ah";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2sIuA+aL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pkKT41ah";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2sIuA+aL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1hVfXW36";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lRGkNV6j";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1hVfXW36";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lRGkNV6j"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1EDB06AED9;
-	Thu, 28 May 2026 06:21:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 825EE6A8F1;
+	Thu, 28 May 2026 06:21:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779949260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779949306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pMrZfHA0Lmy+Y0m+L++ljOdA9SyMNg2I8/Me8AMxrw4=;
-	b=pkKT41ahLDJfDYkDG4H/mo7VJvapeb72VJWt+Chg9vBlWQSa5bw9tUfDQSuKzCfOTpPfvE
-	h+bMFf6h1wZSTdWPt3ddfT1wli1PrJx4KmU0/ry8hixUrbW+hdS4N/6s+NM0smk24Tkaee
-	MfynaLKyyfuMGoOglkHvMFp95V20e1Y=
+	bh=9TnLwmYEvlWD3/o/kpjtyUlqcl/n9Vz14xvKtU/ybhw=;
+	b=1hVfXW365mJ2zbrRs+PhoxPOlZWt25nYD0xvWRHt307KJgn4wKVWejoKFHG4l4vTK7tS4n
+	QeiY2KZE16kdhk6wl8mRHdDaSBeTcLymKDL6NJXgnLvhJG9emBVIaOzsoENaaPFHtWXnvl
+	eTBg/ni0cnzOAgbopI8/zmGbHIMBaok=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779949260;
+	s=susede2_ed25519; t=1779949306;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pMrZfHA0Lmy+Y0m+L++ljOdA9SyMNg2I8/Me8AMxrw4=;
-	b=2sIuA+aL8wb99LUx6KUmeZuJuJqSV7h34WCSgIihWvHtTymb0va0nfwM/7aMUOWn1IeYSD
-	Zf8BmOhKWc5euIAQ==
+	bh=9TnLwmYEvlWD3/o/kpjtyUlqcl/n9Vz14xvKtU/ybhw=;
+	b=lRGkNV6jyYon7nlyaWHOF37zYrF8tZjKecZmaaqZIgbtQysKJjZkdhTPOsdrTOwTfPh0sO
+	g+RDUkqyrnddFOAQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779949260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779949306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pMrZfHA0Lmy+Y0m+L++ljOdA9SyMNg2I8/Me8AMxrw4=;
-	b=pkKT41ahLDJfDYkDG4H/mo7VJvapeb72VJWt+Chg9vBlWQSa5bw9tUfDQSuKzCfOTpPfvE
-	h+bMFf6h1wZSTdWPt3ddfT1wli1PrJx4KmU0/ry8hixUrbW+hdS4N/6s+NM0smk24Tkaee
-	MfynaLKyyfuMGoOglkHvMFp95V20e1Y=
+	bh=9TnLwmYEvlWD3/o/kpjtyUlqcl/n9Vz14xvKtU/ybhw=;
+	b=1hVfXW365mJ2zbrRs+PhoxPOlZWt25nYD0xvWRHt307KJgn4wKVWejoKFHG4l4vTK7tS4n
+	QeiY2KZE16kdhk6wl8mRHdDaSBeTcLymKDL6NJXgnLvhJG9emBVIaOzsoENaaPFHtWXnvl
+	eTBg/ni0cnzOAgbopI8/zmGbHIMBaok=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779949260;
+	s=susede2_ed25519; t=1779949306;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pMrZfHA0Lmy+Y0m+L++ljOdA9SyMNg2I8/Me8AMxrw4=;
-	b=2sIuA+aL8wb99LUx6KUmeZuJuJqSV7h34WCSgIihWvHtTymb0va0nfwM/7aMUOWn1IeYSD
-	Zf8BmOhKWc5euIAQ==
+	bh=9TnLwmYEvlWD3/o/kpjtyUlqcl/n9Vz14xvKtU/ybhw=;
+	b=lRGkNV6jyYon7nlyaWHOF37zYrF8tZjKecZmaaqZIgbtQysKJjZkdhTPOsdrTOwTfPh0sO
+	g+RDUkqyrnddFOAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01AA75AC3C;
-	Thu, 28 May 2026 06:20:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43E425AC3D;
+	Thu, 28 May 2026 06:21:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Mtg2OsveF2roCQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 28 May 2026 06:20:59 +0000
-Message-ID: <56ae6c6c-be94-49eb-a1be-85183402dbfc@suse.de>
-Date: Thu, 28 May 2026 08:20:59 +0200
+	id D/YrD/reF2rDCwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 28 May 2026 06:21:46 +0000
+Message-ID: <0401c8d5-e7f6-48bf-a90d-f6c748e4cc6a@suse.de>
+Date: Thu, 28 May 2026 08:21:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -82,12 +82,12 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] drm/damage-helper: Remove old state from
- drm_atomic_helper_damage_merged()
+Subject: Re: [PATCH v3 10/10] drm/vmwgfx: Remove unused field struct
+ vmwgfx_du_update_plane.old_state
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-hyperv@vger.kernel.org
-References: <20260527145113.241595-8-tzimmermann@suse.de>
- <20260527151003.4F25D1F000E9@smtp.kernel.org>
+References: <20260527145113.241595-11-tzimmermann@suse.de>
+ <20260527152200.9F49F1F000E9@smtp.kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -114,7 +114,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260527151003.4F25D1F000E9@smtp.kernel.org>
+In-Reply-To: <20260527152200.9F49F1F000E9@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
@@ -142,92 +142,71 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 
 
 
-Am 27.05.26 um 17:10 schrieb sashiko-bot@kernel.org:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+Am 27.05.26 um 17:22 schrieb sashiko-bot@kernel.org:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
 >
 > Pre-existing issues:
-> - [High] This problem wasn't introduced by this patch, but the plane atomic update callback `gm12u320_pipe_update` executes a path that acquires a mutex. Plane atomic update callbacks run in atomic context during non-blocking commits, making the use of sleeping locks unsafe.
-> - [High] This problem wasn't introduced by this patch, but the plane atomic update callback `repaper_pipe_update` executes a path that performs a memory allocation with `GFP_KERNEL`. Plane atomic update callbacks run in atomic context, where allocations that may sleep are strictly prohibited.
-
-Unrelated issues should be fixed separately.
-
+> - [High] Plane atomic_update callbacks indirectly call sleeping functions (mutex_lock/mutex_lock_interruptible) from an atomic context.
 > --
+
+Preexisting issues should be fixed separately.
+
 >
-> commit da86f07c371224a54756c1f750c01c663a2a7a86
+> commit deccb03fba43ed6006d88ae9933240eb52b52fee
 > Author: Thomas Zimmermann <tzimmermann@suse.de>
 >
-> drm/damage-helper: Remove old state from drm_atomic_helper_damage_merged()
+> drm/vmwgfx: Remove unused field struct vmwgfx_du_update_plane.old_state
 >
-> This patch removes the unused old_state parameter from
-> drm_atomic_helper_damage_merged() and updates all callers. It also cleans up
-> the old_plane_state variable in caller functions where it is no longer
-> needed.
+> This commit removes the unused old_state field from the
+> vmw_du_update_plane structure and updates all caller functions to
+> accommodate this change.
+>
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+> [ ... ]
+>> @@ -721,7 +717,6 @@ static void
+>>   vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+>>   				    struct drm_atomic_commit *state)
+>>   {
+>> -	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
+>>   	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
+>>   	struct drm_crtc *crtc = new_state->crtc;
+>>   	struct vmw_fence_obj *fence = NULL;
+>> @@ -734,12 +729,9 @@ vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+>>   			vmw_framebuffer_to_vfb(new_state->fb);
+>>   
+>>   		if (vfb->bo)
+>> -			ret = vmw_sou_plane_update_bo(dev_priv, plane,
+>> -						      old_state, vfb, &fence);
+>> +			ret = vmw_sou_plane_update_bo(dev_priv, plane, vfb, &fence);
+>>   		else
+>> -			ret = vmw_sou_plane_update_surface(dev_priv, plane,
+>> -							   old_state, vfb,
+>> -							   &fence);
+>> +			ret = vmw_sou_plane_update_surface(dev_priv, plane, vfb, &fence);
+> [Severity: High]
+> This is a pre-existing issue, but does this code path end up calling sleeping
+> functions from an atomic context?
+>
+> Looking at the call chain, vmw_sou_primary_plane_atomic_update() is a plane
+> atomic update callback, which runs in atomic context where sleeping is
+> forbidden. However, it calls vmw_sou_plane_update_surface(), which assigns a
+> mutex pointer to the update structure:
+>
+> vmw_sou_plane_update_surface()
+>    srf_update.base.mutex = &dev_priv->cmdbuf_mutex;
+>    vmw_du_helper_plane_update(&srf_update.base);
+>
+> This closure is then passed down to vmw_du_helper_plane_update(), which calls
+> vmw_validation_prepare(). That function then takes the lock using
+> mutex_lock() or mutex_lock_interruptible().
+>
+> Could this lead to system instability or deadlocks if the atomic commit runs
+> in a non-blocking path where sleeping is not allowed?
 >
 > [ ... ]
 >
->> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
->> --- a/drivers/gpu/drm/tiny/gm12u320.c
->> +++ b/drivers/gpu/drm/tiny/gm12u320.c
->> @@ -582,7 +582,7 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
->>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
->>   	struct drm_rect rect;
->>   
->> -	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
->> +	if (drm_atomic_helper_damage_merged(state, &rect))
-> [Severity: High]
-> This is a pre-existing issue, but does gm12u320_pipe_update() safely execute
-> in an atomic context?
->
-> This function acts as the simple display pipe's plane atomic update callback,
-> which runs in atomic context during non-blocking commits. However, it calls
-> gm12u320_fb_mark_dirty(), which acquires a mutex:
->
-> drivers/gpu/drm/tiny/gm12u320.c:gm12u320_fb_mark_dirty() {
->      ...
->      mutex_lock(&gm12u320->fb_update.lock);
->      ...
-> }
->
-> Since mutex_lock() is a sleeping function, could this lead to deadlocks or
-> kernel warnings when called from an atomic context?
->
->>   		gm12u320_fb_mark_dirty(state->fb, &shadow_plane_state->data[0], &rect);
->>   }
-> [ ... ]
->
->> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
->> --- a/drivers/gpu/drm/tiny/repaper.c
->> +++ b/drivers/gpu/drm/tiny/repaper.c
->> @@ -837,7 +837,7 @@ static void repaper_pipe_update(struct drm_simple_display_pipe *pipe,
->>   	if (!pipe->crtc.state->active)
->>   		return;
->>   
->> -	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
->> +	if (drm_atomic_helper_damage_merged(state, &rect))
-> [Severity: High]
-> This isn't a bug introduced by this patch, but is it safe for
-> repaper_pipe_update() to trigger allocations with GFP_KERNEL?
->
-> Like the issue above, this acts as the plane atomic update callback. It calls
-> repaper_fb_dirty(), which performs a memory allocation that may sleep:
->
-> drivers/gpu/drm/tiny/repaper.c:repaper_fb_dirty() {
->      ...
->      buf = kmalloc(fb->width * fb->height / 8, GFP_KERNEL);
->      ...
->      ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->      ...
-> }
->
-> Because plane atomic update callbacks run in atomic context, allocations that
-> may sleep (like GFP_KERNEL) and sleeping functions like
-> drm_gem_fb_begin_cpu_access() are strictly prohibited. Is there a plan to
-> shift these sleeping operations to a workqueue or use non-sleeping
-> allocations?
->
->>   		repaper_fb_dirty(state->fb, shadow_plane_state->data,
->>   				 &shadow_plane_state->fmtcnv_state);
->>   }
 
 -- 
 --
