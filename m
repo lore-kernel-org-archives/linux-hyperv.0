@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 626981E520A;
-	Thu, 28 May 2026 00:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91EF821C16A;
+	Thu, 28 May 2026 00:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779928961; cv=none; b=Zyr+iGABElW+UbyitFSLRTXQnyzF4h56zu2Wr6o5x8VPQ61WzbijvaaNcv1oTOlPqTWxJ58A+H+iS8rKP4oDBaB2yvTZGV05l/6Y4G0T3MToTZWtDGhr3r6fY4P3M/D1QPq2o3FrXG3Qk8Ttis5cYfKhtPDUGLCSbcwh/lb27I0=
+	t=1779928962; cv=none; b=bi+RCWBzc/b8r6Eps9NYN5UrgrMiqRA1ra9Whc2mH3MaEInYgUF43rY78aMp/0cklpk34FzttJkSE8mA7DyDXtuEFrrflhAsF3IFhJSntf+BvC8PM0aN+aGMT3xLsXymTevachVlUOpTSSy305S+k52keL02grW8VJL2fgCyTfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779928961; c=relaxed/simple;
-	bh=Mpa2aIOvk2CntAM7UYhmKylxYj2hR3vge1hDDTwYyTI=;
+	s=arc-20240116; t=1779928962; c=relaxed/simple;
+	bh=6Antn2h2FO/sUWKHjowtOEK63kZei/zzdOk8ZY5rq/k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GHKQ8vUee0+4GevesW1ZKUzkdsj8qPU4N8cFUkDKY+ZMKBA/Rux/vTST0TxschSJwCVPSc1zd/MJakyn7QoKV4LnrD5UgHOgokLksVaGaD840DFwlIkaSI1YbYQQJOeSyKIaiQT7sLRf5FRGk7JiKloe3+mwsq7AyHTFdKkPdXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=PIEHqNEC; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=Sf1O6mbRkwfoEQtwNFsBlOYPiwqgnorNbF72dHrwcGZx5akrTYU5DOhgSumq/HNjoXp3aJKM43pKeCHK3Gfy0nIBANhVt6KPAeKqBFz/lJ2avXV06E0jflnoVBqsVzmXWk4EjqxS8kt626tASENR7hnqcenI8LMXvW9NBkYTSKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=W9kAPBs8; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PIEHqNEC"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="W9kAPBs8"
 Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id D7DDE20B7187; Wed, 27 May 2026 17:42:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7DDE20B7187
+	id F1B1220B716D; Wed, 27 May 2026 17:42:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1B1220B716D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1779928944;
-	bh=Cpp3h87G8qknuAl35zSdpszjamPTiyZ/dw7XF2/OzTk=;
+	s=default; t=1779928947;
+	bh=8XqGfPBcF9bFjDUhWCxrpIIXmVyxEM9VuCw6U3fAvno=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PIEHqNECP5CTqhXoOkn4rDFNUhRk3G8ySSEWPLqOtUqj80vbwQHXMFlUQhyAXL6nk
-	 Lkhsmhg721K+zYQEUnUOCDla7QLptnzUdto/HtBqJ3+Y+YsgwYNi4ynRenpctewPNA
-	 Xaw+l3dqh3iNA2xMzdvnzv7XVsaBKTonUE6FHXyI=
+	b=W9kAPBs8LwEWBV0ebKB/ahPWQuFzeLJ6xNmCYxKujyhsamuhvAAWjEe9z72dZsEtP
+	 kUds189D7aKJHbd3LE6QYUtwgD6foSF58eDpH1+s1/eKnLq5WuYzt8Hoz7lXKZV2Ts
+	 rilWfX9z+RcPy4AxdmmGO1/QNhU4PO6QOAMxD7Qo=
 From: Jork Loeser <jloeser@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-mm@kvack.org,
@@ -62,9 +62,9 @@ Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
 	linux-kernel@vger.kernel.org,
 	Michael Kelley <mhklinux@outlook.com>,
 	Jork Loeser <jloeser@linux.microsoft.com>
-Subject: [RFC PATCH 17/20] hyperv: Reserve crash MSR P2 for page preservation root PA
-Date: Wed, 27 May 2026 17:41:59 -0700
-Message-ID: <20260528004204.1484584-18-jloeser@linux.microsoft.com>
+Subject: [RFC PATCH 19/20] kexec: export kexec_in_progress for modules
+Date: Wed, 27 May 2026 17:42:01 -0700
+Message-ID: <20260528004204.1484584-20-jloeser@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260528004204.1484584-1-jloeser@linux.microsoft.com>
 References: <20260528004204.1484584-1-jloeser@linux.microsoft.com>
@@ -76,67 +76,26 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The crash MSRs have no formal semantics and nothing depends on their
-contents, so the register assignment can be reshuffled freely.
-
-Reserve crash MSR P2 for passing the KHO radix tree root physical
-address to the crash kernel for MSHV page exclusion during dump
-collection. Stop overwriting it in the panic reporting paths.
-
-Move IP/PC to P3 and SP to P4 in hyperv_report_panic() on both x86
-and ARM64. Remove the P2 write from hv_kmsg_dump().
+Modules that register reboot notifiers may need to distinguish a
+kexec from a regular reboot.  Export kexec_in_progress so they can
+check without requiring a built-in wrapper.
 
 Signed-off-by: Jork Loeser <jloeser@linux.microsoft.com>
 ---
- arch/arm64/hyperv/hv_core.c | 6 +++---
- arch/x86/hyperv/hv_init.c   | 4 ++--
- drivers/hv/hv_common.c      | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ kernel/kexec_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
-index e33a9e3c366a..b75337c4892d 100644
---- a/arch/arm64/hyperv/hv_core.c
-+++ b/arch/arm64/hyperv/hv_core.c
-@@ -185,9 +185,9 @@ void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die)
- 	 */
- 	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P0, err);
- 	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P1, guest_id);
--	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P2, regs->pc);
--	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P3, regs->sp);
--	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P4, 0);
-+	/* P2 is reserved for the KHO preserved-pages tree root PA */
-+	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P3, regs->pc);
-+	hv_set_vpreg(HV_REGISTER_GUEST_CRASH_P4, regs->sp);
+diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
+index a43d2da0fe3e..68efbba52fbd 100644
+--- a/kernel/kexec_core.c
++++ b/kernel/kexec_core.c
+@@ -53,6 +53,7 @@ atomic_t __kexec_lock = ATOMIC_INIT(0);
  
- 	/*
- 	 * Let Hyper-V know there is crash data available
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 55a8b6de2865..cd75e2be19b2 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -675,8 +675,8 @@ void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die)
+ /* Flag to indicate we are going to kexec a new kernel */
+ bool kexec_in_progress = false;
++EXPORT_SYMBOL_GPL(kexec_in_progress);
  
- 	wrmsrq(HV_X64_MSR_CRASH_P0, err);
- 	wrmsrq(HV_X64_MSR_CRASH_P1, guest_id);
--	wrmsrq(HV_X64_MSR_CRASH_P2, regs->ip);
--	wrmsrq(HV_X64_MSR_CRASH_P3, regs->ax);
-+	/* P2 is reserved for the KHO preserved-pages tree root PA */
-+	wrmsrq(HV_X64_MSR_CRASH_P3, regs->ip);
- 	wrmsrq(HV_X64_MSR_CRASH_P4, regs->sp);
- 
- 	/*
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 8a593117e9b8..ae6415f42f25 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -212,7 +212,7 @@ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
- 	 */
- 	hv_set_msr(HV_MSR_CRASH_P0, 0);
- 	hv_set_msr(HV_MSR_CRASH_P1, 0);
--	hv_set_msr(HV_MSR_CRASH_P2, 0);
-+	/* P2 is reserved for the KHO preserved-pages tree root PA */
- 	hv_set_msr(HV_MSR_CRASH_P3, bytes_written ? virt_to_phys(hv_panic_page) : 0);
- 	hv_set_msr(HV_MSR_CRASH_P4, bytes_written);
+ bool kexec_file_dbg_print;
  
 -- 
 2.43.0
