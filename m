@@ -1,64 +1,64 @@
 Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428F53ADB91
-	for <linux-hyperv@vger.kernel.org>; Fri, 29 May 2026 18:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76196373BF2
+	for <linux-hyperv@vger.kernel.org>; Fri, 29 May 2026 18:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780079093; cv=none; b=es+nk8w1aujj7voqtUvjeJpCSggp/KGRqmUCEqoVy0rYT7Dm0D617qayDx2u7FYVcWvfPM/mpETpojI8LgmCzy/azHnpRjY2AMHBXLvTKxgYX/bffMDbSQ/FNsG/gDFRhQTArY4byIj7QW13jeBrGIAj8TxVOO0ABTA39GxgnDg=
+	t=1780081057; cv=none; b=APmrL63Kt4DXFX7btmQgAsX/OzwTfL88mx8l+jiV6SdgNSLIqzAtA8SakbcJbYff0PgnjWEJhFJNpqPAz682B3Ziee1IROacvBaxF2xOAkyuRNTdz9geih2HH6GhKy7s48q4cewcKaaDsydKwlgg0dBY2/k7fiaGimilBt4O2V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780079093; c=relaxed/simple;
-	bh=UeHE8FngsFzOqtRt38sTx5XiaHaRF+B7JZgy2Sp2ZT8=;
+	s=arc-20240116; t=1780081057; c=relaxed/simple;
+	bh=0Ac6Y0XbIulsI8e3BoESoWqp4Ms/oUKG/jhOEdJSmhA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=HkoXE+jLVchdxDqxGHL32UsE44xPh+V2dkBB+V6TyTWFIr57d6IaB/vqY3lgKAGvPvX/EL2gleWHYJhFgvCO/xFbubyEps3vJVL3vtOzIjFAXVYTf7WFE9sik3i5WTL/Icdu5fH8CM31R62IciHFMvhCNq5wCsj8Rl2eUSG2nUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v5KfO4tR; arc=none smtp.client-ip=209.85.215.202
+	 To:Cc:Content-Type; b=eqhxkz7+H5nS9qp1FFUwoB0iWdW5q92+sh/cHo2uGzJpeiXlT/j6HYYn3c4+D6dE0atmNtn/MjQeK7p0QyajEjnYZwLxhDkUHYKTS1fIdMQ8qgy6Wf1XELYxI7J7zTa9QRzd0yXG+2kLz9n5zNuzZYuv9fBzgBq4c71Vn5o1XuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SauZxRkt; arc=none smtp.client-ip=209.85.215.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v5KfO4tR"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c82c477290bso8147279a12.3
-        for <linux-hyperv@vger.kernel.org>; Fri, 29 May 2026 11:24:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SauZxRkt"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c82c477290bso8165270a12.3
+        for <linux-hyperv@vger.kernel.org>; Fri, 29 May 2026 11:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780079091; x=1780683891; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1780081056; x=1780685856; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KC7JwfT5evfbnVHlmq0f2yFu9P+G1LslL1SBdd7A1I=;
-        b=v5KfO4tRWWgX+5juf+yF6I+RRd0W6GeOAlLS5sZciCbpVWxlQEOho0r1iBU906bBxe
-         Ej60RkHpjNwBJz15nHFvtYN6ehK5vuM2ePlOV1Ka1VtXxB21QfkG+MkBdkfiaPTfLqM7
-         TZRQFAYlVt0C61osKiTuD202AguBbBF9P0zrqMRLuA7bQn2jjhk/6pudNmCOWhopbcum
-         y1+NajxnPvAUHJpKTPdpVS2UHYPs+ZnP4YBAfbIXDnJMc8NmkaokgWenSeytyn3J4C5h
-         +TfYQK1mhQqBrv6xp8tPDnzoVhHA7+DIwX2V9ZtMRuBgSd7h25/hjpAgQwfY/1Ekj0zu
-         ZJEQ==
+        bh=trcaqpaPheQ9pegSLrZ7Icm7wT70eldJiw4H2do/7sU=;
+        b=SauZxRktoPsuynO4ZMeyfuGk0OLrdzEAD6RfSDjb4T3pyfX83zbYQVqWjigLD579EG
+         rqoTvY6RCixCUUiLEj1+tAXAa7ZXA1RfC3VC4OgY0yuDDWTi0FLrtDfzffSSjKM2/tYi
+         6CZqT6VBsDvgYwMYom8Wy2RkWf4WMNVdS+M6PRUF5vn55ndJ64M7hkFbNDB7I4ofL/Vg
+         U+v7aX1NZRJ9ZWVyPFoan+Ufjt9o7qIeHrM8AlpcUjFgyDoSgmD1iaB3icCNEhe/s1SZ
+         zJNZhOJU+BEyZOOVK5Vq1y7jxwOIUxtHk8rS3x7mpuQXfgPro4VTBk3s5/t1orZyzMj0
+         qXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780079091; x=1780683891;
+        d=1e100.net; s=20251104; t=1780081056; x=1780685856;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KC7JwfT5evfbnVHlmq0f2yFu9P+G1LslL1SBdd7A1I=;
-        b=YD5F5HygV+WomG20qNuUyH0HgBQeDqT32S54e1TSJ8zfcMF7zmlKows4hj36cZPPJN
-         6mPHlf6JToc6fJHx/TQNJpHLo5bXgvzoau0hJncPMR+QcPPkPv1u+5H5IKYEbVBvgWQ4
-         GwFWG8vy0ui/qWMGlXGv+5uS+HV8edtKAT5NyEJDJ6DLJjGl0prIxYjqyqm+BKD+vrmJ
-         viFoDMxGUlGWUmpqfYXSCCRCaNseyOVvBdp1hzCU546H4eOUKmudjH9wZDNskhM5Qe1b
-         ICS1fNKQJ3sgxLhtIIj4DcYPNfL2Agi4YpTli9WHkKyFdDfF1sYxLGZXgH6LiDsIbX1O
-         5Cbg==
-X-Gm-Message-State: AOJu0Yw3BLmFMNbfqWN1oMU/5ZufGPMHUUuIMuO7w5yPoDhNCjKhde8q
-	+MG1ihS9e4TWaIFhW+hR+DcMRjqdlq5nB9hVvKUTaQvKoFd9xNMGt5ygbFTHNF5T1kRleG7OxFx
-	XqCdzxA==
-X-Received: from pgnb26.prod.google.com ([2002:a63:715a:0:b0:c85:71af:a857])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6300:189:b0:3a2:c683:fa84
- with SMTP id adf61e73a8af0-3b427f6d141mr406494637.27.1780079091312; Fri, 29
- May 2026 11:24:51 -0700 (PDT)
-Date: Fri, 29 May 2026 11:24:50 -0700
-In-Reply-To: <20260529181207.5E7D81F00898@smtp.kernel.org>
+        bh=trcaqpaPheQ9pegSLrZ7Icm7wT70eldJiw4H2do/7sU=;
+        b=Ql065oedDIwjFQJXksTPUeT2+vm3bQbTZ1b/Hh+G2m0c8o+LFBriOzz01YWIRFZpsd
+         wGQSfh11Ba0+xa+SBernIQEGValmTphgiIuhaq0CMGDt6c6B4tqIRipMo7PfCWwe79u5
+         z6dIuh5rKYNNJt2G4PuJ1gx+TFMpjOLd6WQur4DiFYqh+v8mem6mTJF5+PuJy7GWcXUJ
+         KD6VraLCKZ3fnZVvpnzr1aFg9BtFyQ3blWbRuOapOWEemnX2AVUciJ8FgWdAbmxWY8XI
+         UB1jQoWFqOLXNvGtcCBnj146WwgKlxJM3MQdjgEIuO/jlzHEfnGGPJpoJcrHRF+Bx/G8
+         7H+w==
+X-Gm-Message-State: AOJu0Yx+a3AYO5NhllUL4OYrU/i7a5dfKsuDwtta5H9JrH5qpbIoZfAl
+	hqWPXgVfWYjo3k9h8hd8gPR02Lxt8YoETXqrYtlcX3WeDj52a2rvmJgSJNacv8EcnW+holW95g1
+	FTFYCnw==
+X-Received: from pgc24.prod.google.com ([2002:a05:6a02:2f98:b0:c80:192c:51ff])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce85:b0:2bd:4d4b:9143
+ with SMTP id d9443c01a7336-2bf36795110mr12953405ad.8.1780081055498; Fri, 29
+ May 2026 11:57:35 -0700 (PDT)
+Date: Fri, 29 May 2026 11:57:34 -0700
+In-Reply-To: <20260529181213.0B27A1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260529144435.704127-19-seanjc@google.com> <20260529181207.5E7D81F00898@smtp.kernel.org>
-Message-ID: <ahnZ8tuHFVFTeofW@google.com>
-Subject: Re: [PATCH v4 18/47] x86/kvm: Get local APIC bus frequency from PV
- CPUID Timing Info
+References: <20260529144435.704127-18-seanjc@google.com> <20260529181213.0B27A1F00893@smtp.kernel.org>
+Message-ID: <ahnhnjvfIblFxTFX@google.com>
+Subject: Re: [PATCH v4 17/47] x86/kvm: Mark TSC as reliable when it's constant
+ and nonstop
 From: Sean Christopherson <seanjc@google.com>
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
@@ -66,36 +66,40 @@ Content-Type: text/plain; charset="us-ascii"
 
 On Fri, May 29, 2026, sashiko-bot@kernel.org wrote:
 > > diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-> > index 4fe9c69bf40b3..c1139182121d5 100644
+> > index 909d3e5e5bcd5..4fe9c69bf40b3 100644
 > > --- a/arch/x86/kernel/kvm.c
 > > +++ b/arch/x86/kernel/kvm.c
-> 
 > [ ... ]
-> 
-> > @@ -1039,6 +1040,13 @@ static void __init kvm_init_platform(void)
-> >  			x86_init.hyper.get_tsc_khz = kvm_get_tsc_khz;
-> >  			x86_init.hyper.get_cpu_khz = kvm_get_tsc_khz;
-> >  		}
-> > +
-> > +#ifdef CONFIG_X86_LOCAL_APIC
-> > +		/* The leaf also includes the local APIC bus/timer frequency.*/
-> > +		apic_khz = cpuid_ebx(timing_info_leaf);
-> > +		if (apic_khz)
-> > +	               lapic_timer_period = apic_khz * 1000 / HZ;
+> > @@ -1040,7 +1041,20 @@ static void __init kvm_init_platform(void)
+> [ ... ]
+> > -	kvmclock_init();
+> > +        /*
+> > +         * If the TSC counts at a constant frequency across P/T states, counts
+> > +         * in deep C-states, and the TSC hasn't been marked unstable, treat the
+> > +         * TSC reliable, as guaranteed by KVM.  Note, the TSC unstable check
+> > +         * exists purely to honor the TSC being marked unstable via command
+> > +         * line, any runtime detection of an unstable will happen after this.
+> > +         */
+> > +	tsc_is_reliable = boot_cpu_has(X86_FEATURE_CONSTANT_TSC) &&
+> > +			  boot_cpu_has(X86_FEATURE_NONSTOP_TSC) &&
+> > +			  !check_tsc_unstable();
 > 
 > [Severity: High]
-> Could the intermediate multiplication of apic_khz * 1000 overflow here?
+> Does this evaluate check_tsc_unstable() too early to catch the command line
+> parameter?
+
+Huh, it does indeed.
+
+> It looks like kvm_init_platform() is called from setup_arch(), but the
+> tsc=unstable kernel parameter is parsed via __setup() later during
+> parse_args() in start_kernel().
 > 
-> Since apic_khz is a u32, the multiplication is evaluated in 32-bit unsigned
-> arithmetic. If the hypervisor reports an APIC timer frequency greater than
-> ~4.29 GHz (apic_khz > 4294967), this calculation will silently overflow.
+> If check_tsc_unstable() evaluates to 0 here because the parameter hasn't
+> been parsed yet, wouldn't it incorrectly force X86_FEATURE_TSC_RELIABLE
+> and set prefer_tsc to true?
 
-Hmm, easy enough to use mul_u64_u32_div() (I think that's the write helper for
-this?).
+Yep, but this is a pre-existing problem that goes all the way back to the original
+commit 7539b174aef4 ("x86: kvmguest: use TSC clocksource if invariant TSC is exposed").
 
-But this problem pre-exits in almost every other path that sets lapic_timer_period.
-So while I tried to avoid doing yet more tangentially related cleanup, it seems
-like adding a helper to set lapic_timer_period is the way to go.  That would also
-allow making lapic_timer_period local to arch/x86/kernel/apic/apic.c.
-
-*sigh*
+We could try to fix that, but I'm _very_ strongly inclined to add (yet another)
+patch to simply drop the check_tsc_unstable() since it has always been dead code.
