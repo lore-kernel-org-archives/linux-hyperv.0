@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450C3274B5C
-	for <linux-hyperv@vger.kernel.org>; Sat, 30 May 2026 19:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745CE1427A
+	for <linux-hyperv@vger.kernel.org>; Sat, 30 May 2026 19:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780167946; cv=none; b=V81qTU/fTmW/IiYBwvcdXly6Sg0A4utLZdA+kknW2oLLV2C2gmg8+7BQ0DpyLXqKZZLJFUBc1C0AXiTeIiNBRV3oz0m/PDCQCiZ8iDYz0G4+TjGj9or7zc6aOHBLJ3vFnqXEgxLXHUHNoyqxDPoPN+O/wbWhVAHzrAjweK5fLps=
+	t=1780168138; cv=none; b=s0VQhkL5L+qBrWmXtSrPrS3y/7SOBD6BxhxjMG35O1Pu4qj/YCiW906hhwfG/T/wqqP62mgfl9pYfFzq/1X5oiuAb9LIE214YUqu1SOsTa0UM5BTANJloguudAtdsubcEdJ9pNDyZvFJGRIyHhhBcOHQiyyze/FFilt699R3ASs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780167946; c=relaxed/simple;
-	bh=j3fpBnzUPjMWGCViG3mZkFdlc4CAqYdDUtf+Htf0IE4=;
+	s=arc-20240116; t=1780168138; c=relaxed/simple;
+	bh=q92Rf+4z/JCUuiQTzfallK5m7UQWMePeuncLL0zVXoo=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=cEbdfTDr6wCkoEtv5qnERjxoNsKxgnUgeBIWeKStJDD86NnRW+3Tcs2FMGX38ZIGPp052E5vPAaJ0LAS7UMFlCAE0noRdnl15FlLZFAuVY+FBM332quI+/rPz++MVHr7Xw3jb+/udSCsezGbFuj9wooHtM0WcwqiH8/OLXHv8s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bhLaYZ93; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=ClTR9LJCG37WuODgtrmA+DDGVqieJPz3Im/yEl2e7ikqwROweAdfbgOAWuhbwFFDy+w0jhGe9TPi/0ABMeSrscLLgUOyFzRIw7lqSC/EaJzQxUhZuk5Db0kg6INzWJRa71ahI4IA+7FueCjRh+NFwueN9TDUiJyeCJhSnAbM4f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAawvYJA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bhLaYZ93"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DCE1F00893;
-	Sat, 30 May 2026 19:05:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAawvYJA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E587F1F00893;
+	Sat, 30 May 2026 19:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780167944;
-	bh=A5mYNdZeWkBpNH+GHgyjj1mj2sx7b5PkfSVHkRbvpNk=;
+	s=k20260515; t=1780168137;
+	bh=ou5WvqDdB0wq1rpvwtmR21k/rYjQ1pfrVw9NTxTrQ/I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bhLaYZ93F8cotLKOkdgrVQijSx1LrHjXrc8yNlZ6n+9z9/Cvbn6IFp+crKO2SNYTD
-	 CLyJuneVj5cgZCJvpE/594HM+xTrsRjxB429hXcqEUbaMePBNI13GxN7S7XFTk+cCt
-	 q/4QSib9Y0MacS6XaFRHiOYEv9BSxVejh7hnG/9+TQDlS5KiLThWj47Kc1CiBVK2pu
-	 Gdq0w1nsBkO5LKa7sLxnafL9lkC+T1MSd3bFzhOKMyeS/ccr8Y228tYZ5DtdAEyEnJ
-	 SrLF0f0pJiBq2cG3RF6o4AP11l932WLTxvsgX8TmofjIANZdGu4IZFv2ILhljFMz09
-	 z/bJDPf7er5+w==
+	b=QAawvYJAe5kzLJjR49SIeRB4G/qFXhG6yPOc06NvBe1PgKaCzwjvF2+fZFLf0SKyZ
+	 fcm0zmCtshmCWlLbfn9uS9DcAXdH502fPMo5NEpyrPz/Jckgxg6e7VyKRX6VczFn8w
+	 DnJ+xua62V2nMpNr+W7paNr6uwJdNwdv+saZRuud1XQvU1Q6AjXTx8v3K8HlOpgWjJ
+	 zjPqnP5Ai7zK0MlDjoojUXg7NcWl7JOKljwys3OaSU0de+ZbeV5HScY2c+qPL+V61l
+	 7owKvgeBz5vLM2Av0lXu/4dY7e2Ouh8z9vu/1BQwUjAtEggFeGszQyecZWLZ9aUiOk
+	 2joSgiJ7A185w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 03/10] drm/ingenic: Remove calls to
- drm_atomic_helper_check_plane_damage()
+Subject: Re: [PATCH v4 02/10] drm/atomic-helpers: Evaluate plane damage
+ after atomic_check
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thomas Zimmermann" <tzimmermann@suse.de>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260530185716.65688-4-tzimmermann@suse.de>
-References: <20260530185716.65688-4-tzimmermann@suse.de>
+In-Reply-To: <20260530185716.65688-3-tzimmermann@suse.de>
+References: <20260530185716.65688-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 19:05:44 +0000
-Message-Id: <20260530190544.C7DCE1F00893@smtp.kernel.org>
+Date: Sat, 30 May 2026 19:08:56 +0000
+Message-Id: <20260530190856.E587F1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,78 +46,72 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] Setting `crtc_state->mode_changed =3D true` inside `plane_atomic_c=
-heck` without re-calling `drm_atomic_helper_check_modeset()` bypasses neces=
-sary modeset validations and state updates, leading to incomplete modesets.
+- [High] Modifying `ignore_damage_clips` after `plane->atomic_check` runs i=
+nvalidates resource allocations based on partial damage clips, leading to h=
+eap buffer overflows.
 --
 
-commit 0b5b8aa5c5b9f98bc80329fb6bac6de5430060f3
+commit 395f91f063087b27412023cba7e5d824633a9392
 Author: Thomas Zimmermann <tzimmermann@suse.de>
 
-drm/ingenic: Remove calls to drm_atomic_helper_check_plane_damage()
+drm/atomic-helpers: Evaluate plane damage after atomic_check
 
-Atomic helpers call drm_atomic_helper_check_plane_damage() after the
-atomic_check anyway. Remove the calls from the planes' atomic_check.
+This commit evaluates damage clips after running the atomic_check helpers.
+It adds a loop calling drm_atomic_helper_check_plane_damage() after the
+driver's plane and CRTC atomic_check hooks have executed. This allows the
+damage handling to account for full modesets triggered by the check hooks.
 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/=
-ingenic/ingenic-drm-drv.c
-> index 42c86f195c66b..e99b44e3ac923 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index 51f39edc31edc..4c37299e8ccb7 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
 [ ... ]
-> @@ -519,9 +519,6 @@ static int ingenic_drm_plane_atomic_check(struct drm_=
-plane *plane,
->  	     old_plane_state->fb->format->format !=3D new_plane_state->fb->form=
-at->format))
->  		crtc_state->mode_changed =3D true;
+> @@ -1065,6 +1065,10 @@ drm_atomic_helper_check_planes(struct drm_device *=
+dev,
+>  		}
+>  	}
 > =20
+> +	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane=
+_state, i) {
+> +		drm_atomic_helper_check_plane_damage(state, new_plane_state);
+> +	}
+> +
 
 [Severity: High]
-This is a pre-existing issue, but does setting crtc_state->mode_changed to
-true here in ingenic_drm_plane_atomic_check() bypass necessary validations?
+Does modifying ignore_damage_clips after plane->atomic_check has already
+run invalidate resource allocations in drivers that use partial damage clip=
+s?
 
-The DRM core documentation notes that if drivers set mode_changed =3D true
-during the plane check, they must re-call drm_atomic_helper_check_modeset().
-Since the ingenic driver assigns drm_atomic_helper_check() directly to its
-global .atomic_check hook, check_modeset() runs before check_planes().
+For example, in drivers/gpu/drm/tiny/appletbdrm.c:appletbdrm_primary_plane_=
+helper_atomic_check(),
+the driver sizes a buffer precisely to the damage clips evaluated during
+atomic_check:
 
-If a modeset check is not re-evaluated after planes alter the modeset
-requirement, affected connectors and bridges might never be added to the
-atomic state via drm_atomic_add_affected_connectors().
+	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, new_plane_state=
+);
+	drm_atomic_for_each_plane_damage(&iter, &damage) {
+		frames_size +=3D struct_size((struct appletbdrm_frame *)0, buf, rect_size=
+(&damage));
+	}
+	...
+	appletbdrm_state->request =3D kvzalloc(request_size, GFP_KERNEL);
 
-Will this cause the display pipeline to skip bridge and encoder modesets
-during the commit phase, potentially desynchronizing the output?
+If a modeset is triggered during the check hooks and this second loop sets
+ignore_damage_clips to true, won't drm_atomic_helper_damage_iter_init() lat=
+er
+return a full-screen damage clip during atomic_update? Could this cause the
+driver to copy full-screen damage into the buffer allocated only for partial
+damage, resulting in a heap buffer overflow?
 
-> -	if (priv->soc_info->map_noncoherent)
-> -		drm_atomic_helper_check_plane_damage(state, new_plane_state);
-> -
->  	return 0;
+I understand this is explicitly acknowledged and fixed later in the patch
+series by commit 72afced3e1b6baa294269874c7c4d9d05230889c ('drm/appletbdrm:
+Allocate request/response buffers in begin_fb_access').
+
+>  	return ret;
 >  }
-
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/inge=
-nic/ingenic-ipu.c
-> index 56143a191f361..fd17c642c7ac5 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-[ ... ]
-> @@ -611,7 +611,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_=
-plane *plane,
->  		return -EINVAL;
-> =20
->  	if (!osd_changed(new_plane_state, old_plane_state))
-> -		goto out_check_damage;
-> +		return 0;
-> =20
->  	crtc_state->mode_changed =3D true;
-> =20
-
-[Severity: High]
-This is also a pre-existing issue, but similar to the above, does setting
-crtc_state->mode_changed to true here in ingenic_ipu_plane_atomic_check()
-result in the same missing validation?
+>  EXPORT_SYMBOL(drm_atomic_helper_check_planes);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530185716.6568=
-8-1-tzimmermann@suse.de?part=3D3
+8-1-tzimmermann@suse.de?part=3D2
