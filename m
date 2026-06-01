@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886E6282F10;
-	Mon,  1 Jun 2026 21:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E487D282F10;
+	Mon,  1 Jun 2026 21:53:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780350777; cv=none; b=Kg2Q18aC3coXWQ4wFSnKsSbslshbbK3i5vkpclNWsv8Nhm0QeMGWITRCdrPp3VlcuoQxm6HM9/4zRwuvDn4sZfAUD4Vhtr2brirSTYWtjbkw2lcU+3+CbL9XvpQmFhsOheYqPse+p4YzCSM2d8gRtxlTsN8LEBuk6aIgRiGGKPA=
+	t=1780350825; cv=none; b=Plou4EKARgualUhmCGZwKdk0w8d2/2nJwyVNYL00SX+PkmGJWEGmoV35CixakrEwC6M9FfVmv9E4TPOZ5clvz3X++da99lWyRDJbRl5dS6D4dl1d7KEp0ON8MNL7/89Ef+qL2678bBVTp3HGhKQ4erW9Vzajw8DkI5WIe/+AnjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780350777; c=relaxed/simple;
-	bh=6Fm3/kKIutjYCp/GHWX8bbs6lxI2f2V3d3GUmiswKdY=;
+	s=arc-20240116; t=1780350825; c=relaxed/simple;
+	bh=GoanKxmvTohkZisXqmeG1dBKj46gfnWDhnG4X856XEo=;
 	h=Message-ID:Subject:From:To:Cc:Date:in-reply-to:Content-Type:
-	 MIME-Version; b=VItAi1mWs74OT3I/v8QXMXo4sJt2jdTijq5Qf93+yT0u8QI0l3m0OKhhFSQqpmpg+/aHXeGwuIXTKQdayP7d6VksqmljcsnhqXA3ZDJXa7bxbcTR02l4/jwEO9jlwXZBUkVvota0xOA0eXiXBlIu/uGbVupbsEAxdmOpE42as0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mDopZKk2; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=JYlLBElPPBRyihwxqyHITp5ROJxlhf0+t1CTrETtMIWF+kA4/MZzqBRsAZBCZZ9IjlhUCEwQjX9UtGcSj7gcEMskl35vdxjiGGda9xUZ1S6T8+oVF2I9alDJBUO7BcSS3SPHD88UdEr+tgQjNrGLtd9P+lLRE9IXOfK5ix0ny/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C2JoFp8p; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mDopZKk2"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C2JoFp8p"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:in-reply-to:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=6Fm3/kKIutjYCp/GHWX8bbs6lxI2f2V3d3GUmiswKdY=; b=mDopZKk2zoOba2k9mB3kfx9OLA
-	d6ttBFY88R5yjsjPDHZ9MOCB5sD/spwq1cx+G/bbeElfERX1XqkIKGFWAPbpMrlj36r2L/P2fOuJN
-	U0urGJPMGZaoXVfk6rdgSAtMVsb/XA2q4KVeh2ukJi4uoS1Ruab3yhTZUJfEF9+Dshf+Nw+PDo2QW
-	Jg/FyV/5Z0+2NdoGmsrLB2MW64yh9Nn/rG74Z9gLVJuzpgKb+wIyi0kwY9AuWFQLkDy479t8fLCFh
-	esbVas2ULclc024H1EaReCouj4Haadvpq8R4RuI1G/ZIlGCyYZfmrsqJdauAwyEPi4MxdYmAoTQBl
-	NygQJqZQ==;
+	bh=GoanKxmvTohkZisXqmeG1dBKj46gfnWDhnG4X856XEo=; b=C2JoFp8poaNsTCrcpFtLNwLCKG
+	wlJ53Hs31wEF4MLSrgTHLegESScCH3j2KSzQID+DxfDFMc7g3OT38Sjg23UekiP+kvJwH9C8DRHLL
+	XqW3eMcbKncMohB8HMonDlksq+o9yElY9eFTeKO6DuSITsi+vn9dlYKFS72YgjcpIEemQ+EnIRoOb
+	bESIyqt5G0WE2eIV7I3jk0/pk91ilPeErY4i9kGFkfiBnDaC+EDlRN9ELTA3wLQ/bRbL5zFX4FJTQ
+	7c7UJi/9rAKzyBhdRzxxHw9Tabr8jMoe4X429xo5C8f2ci+3fMMW3HQeZB3SamjWf9g+qHvZOaBZG
+	615G1OhQ==;
 Received: from [2001:8b0:10b:5:5b40:b57d:669c:36f4] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUAYw-00000000pN2-1EGX;
-	Mon, 01 Jun 2026 21:52:46 +0000
-Message-ID: <429f149dac50e96c175669e13faa258dd05efcd3.camel@infradead.org>
-Subject: Re: [PATCH v4 12/47] x86/tsc: Rename
- pit_hpet_ptimer_calibrate_cpu() => native_calibrate_cpu_late()
+	id 1wUAZh-00000000pPV-10Il;
+	Mon, 01 Jun 2026 21:53:33 +0000
+Message-ID: <0f9966f6992be461e5ba0e6378a5ce86b17ee66e.camel@infradead.org>
+Subject: Re: [PATCH v4 14/47] x86/kvmclock: Rename kvm_get_tsc_khz() to
+ kvmclock_get_tsc_khz()
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: pbonzini@redhat.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
@@ -49,10 +49,10 @@ Cc: pbonzini@redhat.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
  xen-devel@lists.xenproject.org,  dwmw@amazon.co.uk,
  thomas.lendacky@amd.com, nikunj@amd.com, dwmw2@infradead.org, 
  mhklinux@outlook.com, tglx@linutronix.de
-Date: Mon, 01 Jun 2026 22:52:45 +0100
-in-reply-to: <20260529144435.704127-13-seanjc@google.com>
+Date: Mon, 01 Jun 2026 22:53:32 +0100
+in-reply-to: <20260529144435.704127-15-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-9sUrUKJ02DeFXxxg/2FR"
+	boundary="=-9faS21P7Idptdc1OVeaT"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -63,13 +63,14 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-9sUrUKJ02DeFXxxg/2FR
+--=-9faS21P7Idptdc1OVeaT
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 May 2026 07:43:59 -0700, Sean Christopherson wrote:
-> Rename the late CPU calibration routine so that its relationship to the
-> early routine is more obvious and intuitive.
+On Fri, 29 May 2026 07:44:01 -0700, Sean Christopherson wrote:
+> Rename kvm_get_tsc_khz() to kvmclock_get_tsc_khz() in anticipation of
+> adding support for getting TSC info from PV CPUID, i.e. in a KVM specific
+> way, but without non-kvmclock.
 >
 > No functional change intended.
 >
@@ -78,7 +79,7 @@ On Fri, 29 May 2026 07:43:59 -0700, Sean Christopherson wrote:
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
 
---=-9sUrUKJ02DeFXxxg/2FR
+--=-9faS21P7Idptdc1OVeaT
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -157,21 +158,21 @@ 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
-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
+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
-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
+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
 
 
---=-9sUrUKJ02DeFXxxg/2FR--
+--=-9faS21P7Idptdc1OVeaT--
