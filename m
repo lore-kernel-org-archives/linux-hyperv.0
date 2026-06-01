@@ -1,40 +1,40 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247C22594B9;
-	Mon,  1 Jun 2026 20:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 623C73EF640;
+	Mon,  1 Jun 2026 20:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780344596; cv=none; b=Wf4AFg3n4F4U35CB5UFQyGOTxtRvZJzX/CIGGw//7/jBxynq2BmiWOzNttii9E2PDb82R7IevZXXRE1xx3IP6Jq84doV8Pv0CJb0zOP3fNG4CJxioFa0iYPoVr5O/+zTN0/zumInyiq67G9VKBEmt2cFUa76u0eppYHMwPi5BrA=
+	t=1780344926; cv=none; b=cysfHEFTXSX5Cx6d3YIh0izoJpVYA4UdJLgeOaQlngIpGJVYB8B1uEQ1ujR0jcAF7pbpDZWRS+EyKfYTVv+O43XfpekuP4SoG+z1pp0zF1evSRrYX3h08K1arVeJgLTmdztleDi3HyzXVyQpduoANkMvrUfHiqFHFZz7o6RSFKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780344596; c=relaxed/simple;
-	bh=7l4BvlJpVf3NkvTVDw8qXMvHqwBVNaAlWk6ZdVwqwEM=;
+	s=arc-20240116; t=1780344926; c=relaxed/simple;
+	bh=sV59Ed4w+Eof++O+qs9Z6pjJYEeTLqX3Gwl9c7OaT1U=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Kac9PGeOcYc7PpagcEbsuEMWgvelGZ5zp9UpeCgYXFK+geLZlzBBYqZtzJOntpUninIz/QMK8Uo2lj5ed85waBRhf2Jb+PwHIvYAkH06LHG/foXf7fulKtFtL1V8ZHJI8ncerqVrnDwa4JNek7HJshSiuZxGs00DUbhd1ixJJoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HJp+sRV7; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version:Content-Type; b=pYz3Py4+PtdwQ8bM0x95kZYTALKcWbgn/Z5lxbm9npOcGdWpUO6yaxTYoVpQAWG6pjmm+TChutfhTRE9gEccAK5PHtdsX5W+Z3cXkPWSHHoYi9Tr2badXVPegder7Z90A5BfNCMT0If3I0u6/VO6xEFckSURRaQ06GCoJACwZaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=N4fFVqdp; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HJp+sRV7"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="N4fFVqdp"
 Received: by linux.microsoft.com (Postfix, from userid 1241)
-	id 7E93A20B7166; Mon,  1 Jun 2026 13:09:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7E93A20B7166
+	id C8C6B20B7167; Mon,  1 Jun 2026 13:15:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C8C6B20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1780344581;
-	bh=eDXJ86FB/Xnvqi9RF8rrZVf1GrIi8kltJ1EOvKoDwfg=;
+	s=default; t=1780344911;
+	bh=i8NBTcO9HEOzTK8eQah5j9/dFbH36DIcHsxmT2YF1Qc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=HJp+sRV7Z+MPOGir5B+cVGDJgSKPlmbFixBaKBsui3oAaZjlZBs+SpoXYgUhogRkt
-	 2V69j+/mhNBX90+hxId+3srtlmItfZ4xvOVH6zQix9CSW4B3cF4dMKO1vETTdCKdTk
-	 t0hko/RYjtgxX/S0C1zWqVZwqNlBNpYmi1ctKyps=
+	b=N4fFVqdpnNKdfAbjqncbFZwC2cL0SqneHkeBwmGFomr8pp0NRNUByLEUbqgl8CJ8N
+	 vY6qbZwhRR9MwgL5+zUBwQimuhzzrZM/WE/HOOB8z/Dme678HYaDRiKwCDmVLKYqQV
+	 OjG4scG03Yvz67ic0ko8L1MxjUf3zZKekJ1EavqM=
 Received: from localhost (localhost [127.0.0.1])
-	by linux.microsoft.com (Postfix) with ESMTP id 7B665307029C;
-	Mon,  1 Jun 2026 13:09:41 -0700 (PDT)
-Date: Mon, 1 Jun 2026 13:09:41 -0700 (PDT)
+	by linux.microsoft.com (Postfix) with ESMTP id C62FA307029C;
+	Mon,  1 Jun 2026 13:15:11 -0700 (PDT)
+Date: Mon, 1 Jun 2026 13:15:11 -0700 (PDT)
 From: Jork Loeser <jloeser@linux.microsoft.com>
-To: Mike Rapoport <rppt@kernel.org>
-cc: linux-hyperv@vger.kernel.org, linux-mm@kvack.org, 
-    kexec@lists.infradead.org, "K. Y. Srinivasan" <kys@microsoft.com>, 
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: Mike Rapoport <rppt@kernel.org>, linux-hyperv@vger.kernel.org, 
+    linux-mm@kvack.org, kexec@lists.infradead.org, 
+    "K. Y. Srinivasan" <kys@microsoft.com>, 
     Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
     Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-    Pasha Tatashin <pasha.tatashin@soleen.com>, 
     Pratyush Yadav <pratyush@kernel.org>, Alexander Graf <graf@amazon.com>, 
     Jason Miu <jasonmiu@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
     David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
@@ -52,9 +52,9 @@ cc: linux-hyperv@vger.kernel.org, linux-mm@kvack.org,
     linux-kernel@vger.kernel.org, Michael Kelley <mhklinux@outlook.com>
 Subject: Re: [RFC PATCH 00/20] mshv: enable kexec with Hyper-V donated pages
  and partitions
-In-Reply-To: <ahxrc4pTvVU20RTX@kernel.org>
-Message-ID: <f9d95fb1-ef3-d4a-19e4-afe7cdde5d1f@linux.microsoft.com>
-References: <20260528004204.1484584-1-jloeser@linux.microsoft.com> <ahxrc4pTvVU20RTX@kernel.org>
+In-Reply-To: <ah2eBxaBnVs_1j5n@google.com>
+Message-ID: <4172d271-21b4-346-924e-406baef179a1@linux.microsoft.com>
+References: <20260528004204.1484584-1-jloeser@linux.microsoft.com> <ahxrc4pTvVU20RTX@kernel.org> <ah2eBxaBnVs_1j5n@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -65,43 +65,34 @@ Content-Type: text/plain; charset=US-ASCII; format=flowed
 
 
 
-On Sun, 31 May 2026, Mike Rapoport wrote:
+On Mon, 1 Jun 2026, Pasha Tatashin wrote:
 
-> Hi Jork,
+> On 05-31 20:10, Mike Rapoport wrote:
 
->>  - A freeze mechanism to lock the tree before serializing for kexec
->>    (patch 13).
+>>>  - A freeze mechanism to lock the tree before serializing for kexec
+>>>    (patch 13).
+>>
+>> There were a lot of effort to make KHO stateless and drop the requirement
+>> for finalization/freeze.
 >
-> There were a lot of effort to make KHO stateless and drop the requirement
-> for finalization/freeze.
->
-> Why is this necessary to add a freeze mechanism to kho_radix_tree?
-> If it's a hard requirement of mshv maybe the freeze part should be handled
-> there?
+> Yes, using KHO directly here is incorrect. The state machine is provided
+> by LUO, so we should use LUO here. MSHV should provide a file that
+> userspace adds to LUO, and all state machine management would be the
+> same as for all other clients participating in LU.
 
-Good feedback. It's a safety-net so we do not accidentally donate pages 
-without being able to track them. Thought it might be a good generic 
-feature. Let me keep it in the MSHV driver.
+The thing is, there is no file handle to rely on. Even once partitions are 
+all removed, Hyper-V might hang onto pages (and won't return them even if 
+asked). However, these pages very much must be excluded from Linux 
+post-kexec, or the system will crash. We cannot rely on UM to ensure 
+integrity of memory management.
 
->> Patch 13:      Radix tree freeze and del_key() error reporting
->
-> del_key() error reporting sounds like something we'd want to avoid.
-> del_key() is called on "freeing" path and during error handling, it would
-> be hard if at all possible to deal with errors from del_key().
+Contrast that to standard LUO use: If you drop individual file handles, or 
+even skip the LUO phase entirely, the worst that will happen is that the 
+objects will be gone post-kexec. The MM itself will still be consistent. 
+For MSHV & page donation, this is different.
 
-I hear you. Stating "yeah, it can only really fail if the key isn't there, 
-or it's frozen, but not due to other things, so don't bother to check the 
-return code if you are sure" is an odd contract. With the freeze-logic 
-moving into MSHV, will revert to no-error.
-
->> Patch 19:      Export kexec_in_progress for modules
->
-> Isn't there another way to differentiate kexec reboot?
-
-I could not find one, unfortunately.
-
-> Sincerely yours,
-> Mike.
+(And yes, partition preservation will very much tie into LUO)
 
 Best,
 Jork
+
