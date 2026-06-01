@@ -1,188 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120B121ADC7
-	for <linux-hyperv@vger.kernel.org>; Sun, 31 May 2026 19:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54855EEBB;
+	Mon,  1 Jun 2026 00:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780257086; cv=none; b=nVi6eIA+51VBFunmfV3GML8YLES2/kT64Uz/v8tDUroiIYQWT/VRPlhfAmewph+LFc2mRNbkhwKzRZcZZfpX3FiicQGH+wfBBdYEG2Q1W9Age0a2/Y8QXVW8tznlg39H93p8f5br5RtRQh/DUJotE7miXz0teIjmWCD60wWON7s=
+	t=1780272476; cv=none; b=lHIZrWcN5LSDYFcmtwln/euyXT6Eoz7WY8IgxkDMQm8e9VDiofHEgky27sBKXdhMYeqpXy/5OrQCnvLfqK9O5Dm1lHI80I2+S2IB0TISY2eEj8urJYVNevdc+QMLN7dK6poMVtX91kSmQGNOrzQcmCmvr7zaNSCLwyzEaM2bwok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780257086; c=relaxed/simple;
-	bh=Sd5HPj8rIdm8/0zq33UmmS0ovKWIyIvX+BKk/ZXA9Zc=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Yap5T5hOOelFBvU0g4Gm949yj7392fGvjFF1rXOzV+HwsKjUULGIJzXE+cWcbkoNRJsmWuN7qpk8oWb9VktBspXyu66DodJ0v4n5mLmQPxWskWqLb1Y76LijSam68EvmflfBiWuFx2J6WbOEAHDo/MS4qAU7puP/T72goHrMaMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GuwATMbl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780272476; c=relaxed/simple;
+	bh=YR2NbJMIIz9ABTXExh7IMYnpn76Xt/QGbURG3Atx7KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HLuxJvY1hmxA5Z9Gk/3ZDlj8/rd4fy7NWJ2/Zu65jgXGZSVmKbJ+aPv5dykglFsCVsnpUUcyujLWEppbbJ/oVH7WDmLf/Qwx7MXBKfsKN5tPP++sdFuu57QDUBtQmDEV+wsHbaCZoUgyAP/QcBCLaFrFnFWsYFZHkLuhPcKyjkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Odmyxu5S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GuwATMbl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1641F00893;
-	Sun, 31 May 2026 19:51:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Odmyxu5S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8657C1F00893;
+	Mon,  1 Jun 2026 00:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780257084;
-	bh=Xyej+ZojtR5z/Pq1pFKou/3kmTn7/FHvEplhZExRoU8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GuwATMbl3h3WTafbu9wZNGLTB/cWqhHyRHssHYkxkwQQq2ADusVkbU+kHaCT9lHRA
-	 JmHnvWq4+5SFaYvYMmH4YLqxHGM3RXL87R6aiV3gXsgWEpbDGUoz938bhbRzWKRAPc
-	 VlXA2bDuz/rGHzfag99EzkgJXI1w4GMKVwxkq2lxvorknTLLgwkRTuiLhLiu2vdvlO
-	 gUnkA86Fz3WpU5ZNA+lwc0mpI+NtHAOc7HAnFtsehT7l4yV12CdkbAcYC1LiNnIiTe
-	 A9jqqRtoIDmvGC+4t6pkyDPzeFlOn7KrDqFlf1fJF3iJqHtetqUXNGRCNs4sO1Nq+t
-	 H9wEGwstpEoUw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next] net: mana: Add Interrupt Moderation support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Haiyang Zhang" <haiyangz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260530194957.1690459-1-haiyangz@linux.microsoft.com>
-References: <20260530194957.1690459-1-haiyangz@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 May 2026 19:51:24 +0000
-Message-Id: <20260531195124.8B1641F00893@smtp.kernel.org>
+	s=k20260515; t=1780272475;
+	bh=zbE3AhoewCNMJevfzweFic4aS/GpdB9LV6AJyQVXvCQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Odmyxu5S/Ug7HWNIyy+uuH2Q6va157Q3X07wOddcuUX4UbXTAg59AbQDDLhXDyHzA
+	 qLAndnCoLF2S7zRmhNRaOvCy6jUddvG3rVsNhp4PO/zS6RuQr+NJBvBcaBQ0JyQ0sy
+	 ZK7uAZaO5VU+/YKW70PF8a1UiCI/Y2TyxePuMVsMZoL/3jYBbPC1cTF8vkpuLZ4pqb
+	 c+l7JOaVaSXeer7Pna9+n3IBOxPK4lsQk795xJsOEMclb356eA3mbkuSTOsBwAy0Fu
+	 5tgiZ6opwwsvldSaDk8rNs20AnZWYW6i9/zSQR8wjHiF0oZ/JvMzDRbJzZqmqqi8cE
+	 JpvD/D9+COspw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	linux@armlinux.org.uk,
+	nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andersson@kernel.org,
+	mathieu.poirier@linaro.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
+Date: Mon,  1 Jun 2026 02:07:47 +0200
+Message-ID: <20260601000747.554103-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260505133935.3772495-1-dakr@kernel.org>
+References: <20260505133935.3772495-1-dakr@kernel.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+On Tue,  5 May 2026 15:37:20 +0200, Danilo Krummrich wrote:
+> [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
 
-New issues:
-- [High] Static CQ moderation is silently disabled if only one parameter is=
- configured.
-- [High] Unconditional use of `GDMA_MESSAGE_V3` may break queue creation on=
- older firmware.
-- [High] Data race in DIM updates due to calling net_dim() after napi_compl=
-ete_done().
+Applied, thanks!
 
-Pre-existing issues:
-- [High] ethtool coalesce change can leave the interface permanently detach=
-ed/down on failure.
---
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-commit ed18c14aae7553debe324941814e80fe58d99fe0
-Author: Haiyang Zhang <haiyangz@microsoft.com>
+[1/5] amba: use generic driver_override infrastructure
+      commit: 1947229f5f2a
+[2/5] cdx: use generic driver_override infrastructure
+      commit: d541aa1897f6
+[3/5] Drivers: hv: vmbus: use generic driver_override infrastructure
+      commit: 331d8900121a
+[4/5] rpmsg: use generic driver_override infrastructure
+      commit: 55ced13c4292
+[5/5] driver core: remove driver_set_override()
+      commit: 46def663dd34
 
-net: mana: Add Interrupt Moderation support
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-Add Static and Dynamic Interrupt Moderation (DIM) support for Rx and Tx.
-Update queue creation procedure with new data struct with the related
-settings. Update ethtool handler to get/set the moderation settings.
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> @@ -1551,6 +1551,9 @@ int mana_create_wq_obj(struct mana_port_context *ap=
-c,
-> =20
->  	mana_gd_init_req_hdr(&req.hdr, MANA_CREATE_WQ_OBJ,
->  			     sizeof(req), sizeof(resp));
-> +
-> +	req.hdr.req.msg_version =3D GDMA_MESSAGE_V3;
-> +	req.hdr.resp.msg_version =3D GDMA_MESSAGE_V2;
-
-[Severity: High]
-Could this unconditional upgrade to GDMA_MESSAGE_V3 break queue creation on
-older firmware?
-
-If the driver is loaded on an older host where the hardware firmware does
-not support V3 messages (for example, lacking DIM capabilities), it seems
-the hardware might reject the MANA_CREATE_WQ_OBJ request. Would it be
-safer to conditionally apply this message version upgrade based on hardware
-capabilities?
-
-[ ... ]
-
-> @@ -2271,7 +2337,13 @@ static int mana_cq_handler(void *context, struct g=
-dma_queue *gdma_queue)
->  	if (w < cq->budget) {
->  		mana_gd_ring_cq(gdma_queue, SET_ARM_BIT);
->  		cq->work_done_since_doorbell =3D 0;
-> -		napi_complete_done(&cq->napi, w);
-> +
-> +		if (napi_complete_done(&cq->napi, w)) {
-> +			if (cq->type =3D=3D MANA_CQ_TYPE_RX)
-> +				mana_update_rx_dim(cq);
-> +			else
-> +				mana_update_tx_dim(cq);
-> +		}
-
-[Severity: High]
-Does calling net_dim() after napi_complete_done() introduce a data race?
-
-Since napi_complete_done() clears the NAPI_STATE_SCHED bit and
-relinquishes the NAPI polling context, and the hardware interrupt
-was already armed via mana_gd_ring_cq() just above, a new interrupt
-could fire immediately.
-
-If another CPU schedules NAPI and executes mana_cq_handler() concurrently,
-it seems internal state in net_dim() could be corrupted. Additionally,
-could this lead to torn reads of 64-bit queue statistics on 32-bit systems
-since they are read outside NAPI protection?
-
-[ ... ]
-
-> @@ -2780,6 +2862,10 @@ static struct mana_rxq *mana_create_rxq(struct man=
-a_port_context *apc,
->  	cq_spec.queue_size =3D cq->gdma_cq->queue_size;
->  	cq_spec.modr_ctx_id =3D 0;
->  	cq_spec.attached_eq =3D cq->gdma_cq->cq.parent->id;
-> +	cq_spec.req_cq_moderation =3D apc->rx_dim_enabled ||
-> +		(apc->intr_modr_rx_usec && apc->intr_modr_rx_comp);
-> +	cq_spec.cq_moderation_usec =3D apc->intr_modr_rx_usec;
-> +	cq_spec.cq_moderation_comp =3D apc->intr_modr_rx_comp;
-
-[Severity: High]
-Does this logic silently disable static moderation if only one parameter is
-configured?
-
-If a user disables adaptive moderation and requests timer-based moderation
-without a frame limit (e.g. adaptive-rx off rx-usecs 50 rx-frames 0), the
-logical AND evaluates to false. This appears to cause the driver to silently
-disable hardware moderation completely instead of applying the requested
-rx-usecs.
-
-(Note: The same pattern appears in mana_create_txq() for TX).
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
-/net/ethernet/microsoft/mana/mana_ethtool.c
-> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-[ ... ]
-> @@ -447,10 +517,46 @@ static int mana_set_coalesce(struct net_device *nde=
-v,
-[ ... ]
-> +	if (modr_changed || dim_changed) {
-> +		err =3D mana_detach(ndev, false);
-> +		if (err) {
-> +			netdev_err(ndev, "mana_detach failed: %d\n", err);
-> +			goto restore_modr;
-> +		}
-> +
-> +		err =3D mana_attach(ndev);
-> +		if (err) {
-> +			netdev_err(ndev, "mana_attach failed: %d\n", err);
-> +			goto restore_modr;
-> +		}
-> +	}
-> +
->  	return err;
-> =20
-> +restore_modr:
-> +	apc->cqe_coalescing_enable =3D saved_cqe_coalescing_enable;
-
-[Severity: High]
-This is a pre-existing issue, but does this error path leave the interface
-permanently detached?
-
-If mana_detach() succeeds but mana_attach() fails (for example, due to an
-allocation failure), the function jumps to restore_modr. This restores the
-software tracking variables but does not appear to revert the hardware stat=
-e.
-
-This could leave the network interface completely broken and detached from
-the system until it is manually brought down and up again.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530194957.1690=
-459-1-haiyangz@linux.microsoft.com?part=3D1
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
