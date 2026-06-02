@@ -1,125 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B41F199949
-	for <linux-hyperv@vger.kernel.org>; Mon,  1 Jun 2026 22:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB521A01BE;
+	Tue,  2 Jun 2026 03:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780354794; cv=none; b=SB4euaQCOt3tGlF3RC1Z41tfNFH0PrTJJoDWlOoEy+5+egvhAsXwbnOlFNtycXZhyzOsA4QXuFAX1LHihKtpnZT2vBK/wI24H95Gwv3gySBrKHCOqPEYGfTN+/t9pd/VcDPy2s80Tb+peZE3nfvlWed7v5Madcd7VH/sZeDPE80=
+	t=1780372221; cv=none; b=myNaeHUEyHtWVivkAIPWH5jSapnNAkWha7plulu/IbJgdcVTUQctf3ycQlCKuaZYSqAc0A8+3WoiBGOspU7T2z0WmNZd/NbsurU7008bli0inGzxjUKLLSklDPp9CLfNQ8argUZ22CiuBIrwIeWeVUsXnQhPKlfAidB//L0fNh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780354794; c=relaxed/simple;
-	bh=vDxO/oN+LmIS6KJzwXnLwjf4J+KB0ni4e8rB8lC8wBU=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=oPCgmgWwJSoosPcbr42EIARxICLgBAgJzydXu8AQpFW4Ob7Fu3GqTlC+l/Yp3OjDX7LOi9ZPb0vukW8kSHF6svVN0I0xLwPAmNC5oz4UT1h2mFApg2J0DvrlvLsnbOQmZh9rig85VbkFkiSFFkEQVWlUiXKZfB0catcp/AZC3JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dmk0rX/Z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780372221; c=relaxed/simple;
+	bh=9sr2irVxdUl8CzOcLwp+rJ3CtWHA2j/elSxxJH5GLqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hgRvSgrzDeqTF0sPAXQI8RsxYt5RG6ZTREYDDs3wTOxKDjigdGazqAazoHd15hwPnp6uScTPCG4uDQ6fu5WX89YQ8+ONUbfB7e+WY8k4Mqs4KUqoWNNDj33cxtfPiMkAn0z3OOWWvVRr2SrX41HhZvR6EWDdsmHgg1Q+hOY73+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=BRMb1T+l; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dmk0rX/Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B4D1F00893;
-	Mon,  1 Jun 2026 22:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780354793;
-	bh=j/fjeu5jhpYd+TyEyrQ3iAl6XuVTDxZ8MFnqUsDcxMM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Dmk0rX/ZiA0S0aUuhL7Vy7f9todFd3HEGrDw2mD7dUVsUa0LcrE2iBiNjF1HNnGf/
-	 94lVei7ynbJxZ0AAmL9GojkknR4glYbNVXQw0qUXatRHgtiSWD42PDXj35dG0ZKCzD
-	 FqOPcQRMvv4TK7QeByM2IQ52UYobyjaFOVSgF92yj1V2wNJqtEmcnURaU5Nc4wCR31
-	 CqwgUxS2PIuxb4o4OrT/oXshblAAyPuxdkab+RaA0OFsVW+ZnhgUhjbFM1k0SrLZbR
-	 xAgOVjmVh+2lH32rxMdS4J8Ank/0t6HD9ZzNB/Io5c2+y262dzMOrLspcScKoDH+19
-	 Kk4y/pQNpbj/w==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] x86/hyperv: Cosmetic changes in irqdomain.c for
- readability
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh R" <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260601225116.956392-1-mrathor@linux.microsoft.com>
-References: <20260601225116.956392-1-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2026 22:59:52 +0000
-Message-Id: <20260601225953.42B4D1F00893@smtp.kernel.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="BRMb1T+l"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BDD1140E0140;
+	Tue,  2 Jun 2026 03:50:16 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id rZ_Ke2IbpmQx; Tue,  2 Jun 2026 03:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1780372206; bh=HH13uV+Z55mhxzoi6FErPEsztGrj9z0uUROqU3Stz7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BRMb1T+l+1IEZY4TOjMQ4w9ReoLidSSyCALG5lXh6uQPdtJJQdXO/YpIwNlbAph4G
+	 l/Dh+tFMKmPgVvKipIF2u99KtO2EN4cAREtpsqdKPkOqerozWTYAFwi46Wybtw/fbe
+	 +vmegLk87Rbq8vbD1H6DVOK2BrOKVAvWoMdxIbDT51x5lCY8z551GuWp9FhHp5+car
+	 VfJLFeyoLUyJO6c15FDGEfyv+Rbc53q3q5OSovUcXOREzvcqEjbwoVe0Y7wIViYOYy
+	 dK617hXkXVl9eYOJXWLlMawnI/pzDgQLxVC0VmuhZxwuyaJg1r6HaVHRONeWchNvGu
+	 vuUBlnvH9mmhMammOcSRyPnYSNm/ouhxvpjBC/kkh+mImmroEj5FFwKdESFRHD587M
+	 WZc+lXnb/l4BjyEVAAGNP2cLctZRPQKFYevllLAVNJtLle0Ashf1Pb13YdcdHN1spM
+	 rkF/jhg93VsSnzNK3JT36gNuh51JJh4mRth91IoSXBMOPYx6eLMZftQjrevQIQewk4
+	 r73TYm4D6cnm0I9ePqYDRkUs1jK14EW1+rpqzoVUj1phZqDDalP0khp5WsBql7Ff4D
+	 DlzFTsjW4cZGQdPzsWOWFWXdC25leop27h508hIBBoyX6ymrK7PIpoEE1rrc0t6G1Y
+	 cqjQSDM1OdJJ7XcJilcWD9FQ=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ADDBA40E01B5;
+	Tue,  2 Jun 2026 03:49:27 +0000 (UTC)
+Date: Mon, 1 Jun 2026 20:49:16 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Kiryl Shutsemau <kas@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juergen Gross <jgross@suse.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	John Stultz <jstultz@google.com>, "H. Peter Anvin" <hpa@zytor.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Stephen Boyd <sboyd@kernel.org>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
+	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+	xen-devel@lists.xenproject.org, David Woodhouse <dwmw@amazon.co.uk>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Nikunj A Dadhania <nikunj@amd.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v4 02/47] x86/tsc: Add a standalone helpers for getting
+ TSC info from CPUID.0x15
+Message-ID: <20260602034916.GGah5SvARd77mkvxe3@fat_crate.local>
+References: <20260529144435.704127-1-seanjc@google.com>
+ <20260529144435.704127-3-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260529144435.704127-3-seanjc@google.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Fri, May 29, 2026 at 07:43:49AM -0700, Sean Christopherson wrote:
+> +static int cpuid_get_tsc_info(struct cpuid_tsc_info *info)
+> +{
+> +	unsigned int ecx_hz, edx;
+> +
+> +	memset(info, 0, sizeof(*info));
 
-Pre-existing issues:
-- [Critical] Allocation or mapping failure in `hv_irq_compose_msi_msg()` ca=
-uses the function to return without initializing the caller-provided `msg` =
-structure, potentially leading to uncontrolled MSI writes by the device.
-- [High] The `hv_msi_domain_free` function fails to iterate through allocat=
-ed IRQs for multi-vector MSI, leading to leaked memory and stale hypervisor=
- mappings.
---
+Let's not clear this unnecessarily...
 
-commit 042e553a37dead023377268bdb9c0d43c5394d75
-Author: Mukesh R <mrathor@linux.microsoft.com>
+> +
+> +	if (boot_cpu_data.cpuid_level < CPUID_LEAF_TSC)
+> +		return -ENOENT;
 
-x86/hyperv: Cosmetic changes in irqdomain.c for readability
+... just to return here...
 
-This commit makes various cosmetic changes to irqdomain.c, such as renaming
-variables, fixing indentation, replacing spaces with tabs, and resolving
-checkpatch warnings, with no functional changes intended.
+> +
+> +	/* CPUID 15H TSC/Crystal ratio, plus optionally Crystal Hz */
+> +	cpuid(CPUID_LEAF_TSC, &info->denominator, &info->numerator, &ecx_hz, &edx);
+> +
+> +	if (!info->denominator || !info->numerator)
+> +		return -ENOENT;
 
-> diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-> index 365e364268d9a..b3ad50a874dca 100644
-> --- a/arch/x86/hyperv/irqdomain.c
-> +++ b/arch/x86/hyperv/irqdomain.c
+... or here.
 
-[ ... ]
+We wanna clear it here, when we'll return success.
 
-> @@ -249,10 +253,8 @@ static void hv_irq_compose_msi_msg(struct irq_data *=
-data, struct msi_msg *msg)
->  	}
-> =20
->  	stored_entry =3D kzalloc_obj(*stored_entry, GFP_ATOMIC);
-> -	if (!stored_entry) {
-> -		pr_debug("%s: failed to allocate chip data\n", __func__);
-> +	if (!stored_entry)
->  		return;
-> -	}
-> =20
->  	ret =3D hv_map_msi_interrupt(data, stored_entry);
->  	if (ret) {
->  		kfree(stored_entry);
->  		return;
->  	}
+> +
+> +	/*
+> +	 * Note, some CPUs provide the multiplier information, but not the core
 
-[Severity: High]
-This is a pre-existing issue, but does returning early here leave the
-caller-provided msg structure uninitialized?
+	Note: some CPUs...
 
-If kzalloc_obj() or hv_map_msi_interrupt() fails in hv_irq_compose_msi_msg(=
-),
-the function returns without populating msg. Because the callback returns
-void, the error is swallowed and the caller might write the uninitialized
-contents of msg to the device's MSI address/data registers, potentially
-causing the device to perform DMA writes to arbitrary or null physical
-addresses when an interrupt fires.
+> +	 * crystal frequency.  The multiplier information is still useful for
+> +	 * such CPUs, as the crystal frequency can be gleaned from CPUID.0x16.
+> +	 */
+> +	info->crystal_khz = ecx_hz / 1000;
+> +	return 0;
+> +}
+> +
+> +int __init cpuid_get_tsc_freq(struct cpuid_tsc_info *info)
+> +{
+> +	if (cpuid_get_tsc_info(info) || !info->crystal_khz)
+> +		return -ENOENT;
+> +
+> +	info->tsc_khz = info->crystal_khz * info->numerator / info->denominator;
+> +	return 0;
+> +}
 
-[ ... ]
+Unused here. Add it with its first user pls.
 
-> -static void hv_msi_domain_free(struct irq_domain *d, unsigned int virq, =
-unsigned int nr_irqs)
-> +static void hv_msi_domain_free(struct irq_domain *d, unsigned int virq,
-> +			       unsigned int nr_irqs)
->  {
->  	for (int i =3D 0; i < nr_irqs; ++i) {
->  		struct irq_data *irqd =3D irq_domain_get_irq_data(d, virq);
+-- 
+Regards/Gruss,
+    Boris.
 
-[Severity: High]
-This is a pre-existing issue, but does this loop process the same base IRQ
-on every iteration?
-
-By calling irq_domain_get_irq_data() with virq rather than virq + i inside
-hv_msi_domain_free(), subsequent iterations will skip the remaining
-interrupts in a multi-vector MSI scenario. This could leave them unfreed
-and potentially lead to leaked kernel memory and stale hypervisor mappings.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260601225116.9563=
-92-1-mrathor@linux.microsoft.com?part=3D1
+https://people.kernel.org/tglx/notes-about-netiquette
