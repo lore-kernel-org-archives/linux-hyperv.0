@@ -1,59 +1,71 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19632F691D;
-	Thu,  4 Jun 2026 08:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAAC3AF64E;
+	Thu,  4 Jun 2026 09:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780560120; cv=none; b=Fp4pLgJIGLut5TL7duQNVyrrYCGLymgu7dkuu7RcO9dPC3T5Uc8q0SsBtgkO68WWV6DL9veItqmI8wA7NvN8b/0jgED2TYD4IAGN5AJ5C41OMjTdb1hSBS5gYyE7rnfXLQfuj9yCdzdb7qcvGqNNcQmWxGD0tpL4nxU/SpvxDN8=
+	t=1780567097; cv=none; b=sb/3VWK1SCU2Az4ydA2KvH1RT1TvHwLSop5lTTctvvarNB40HIbsZPqBlZoo6UbJVyzsWBKESiHg9qhJV5MqGB0l+0UBncLsL9hvGk4IPUolz4H/PGT4BxqSGhoBJkNeHyXnMFPYsx/kD/7SW2QeqlmT/QvFuiE9m2k3pd1ZnYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780560120; c=relaxed/simple;
-	bh=n8VVP+9Ut/pPJaDMpjrG9YrjXTEQjfc1uE8wALIaiGQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Glv4OjxIh2NEgj9mjNcnNXatFVpCH6SjvpTD9wHK5e7mEnY9zyvii+E401dr+daOTNdKdvP13iIM3zPm4xixoBAM+bDvgpc+MMjkXv0woyfLa1htlPRUQyEfV3weL3dYgAmLrbXaiWmXTsxOwFNkUyiHT9m81kmG1Do2o8Gt3l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=V6rVA8hh; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1780567097; c=relaxed/simple;
+	bh=HOpVztT8DOAo7KVM/MAVNPDfMWFbaLZEj1Jd1WUkhMo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O4ICbtJ7RAfvp/LG8MMrNx1oiOrZFX+yZvgJxa2aidXLco90R5cmS6C7eUZPtthMHq5Kikt5WiOriYWBfXgHwWao6Z92cjMIXn3Evyl6zofcMFUzus4JayNJyzR1dJ3ayNFGASpNZfrRljs1jZgtLdD1s9U7QhFaYXoORvLvAYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=c3PNVjQt; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="V6rVA8hh"
-Received: by linux.microsoft.com (Postfix, from userid 1231)
-	id 32A8620B716A; Thu,  4 Jun 2026 01:01:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 32A8620B716A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1780560103;
-	bh=uIJJBlUJY3hU5mdhZK3p66/7yKcCChdf152P0tJa958=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=V6rVA8hhoqNT2pfHcsOcAMTLWQDR1iEwKLrnnvt8JVw6/k8BNNFEHpl7HE1QBQffv
-	 Oe7LWzEo9FKGpZDpa9ZQFXBPxHLHWd5lzZ5X2bo8NF8Kmx3drsWrfUEnqyB9aciS2e
-	 NBoNIngUG35roiDUYGnTXvkwodjJlg0U3aA26+LA=
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	shradhagupta@linux.microsoft.com,
-	dipayanroy@linux.microsoft.com,
-	ernis@linux.microsoft.com,
-	kees@kernel.org,
-	shacharr@microsoft.com,
-	stephen@networkplumber.org,
-	gargaditya@microsoft.com,
-	gargaditya@linux.microsoft.com,
-	ssengar@linux.microsoft.com,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c3PNVjQt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=HAwxsEb++hynAZSBM/ZWsQB/kPejZeakWzLcrT4MuRE=; b=c3PNVjQt2UzKlsR7+/YYu1G/zu
+	tifba7YBIOWV2G70UsP9TIMKEwFYCzaOHtKrKQDFWnam17TKSzmfuaM0YbpXFVa/sH0CFYMTPCaI/
+	5Q3XHI+ogRdglNA1WlcQ3WQjAYDz7XwoFTmYoIXOs3kWFE+IoZxJzaTsTBXAyOxwt8+rznp75okRN
+	Y1iyr/f0ib6kePQ4i58xPshOjln+zJ4/eU71q0cJ/EooKaf/ES9qR7l5Ie9YUeR9FA6JNKTo8F3g2
+	x/F86PuxYc/5G38XWoahPBE/G0Q/GJdEUeDeeztAfDHBDc5AbPKfHgKsyKXg1+HQeFOopfM/Q3nha
+	3aeQZtJQ==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wV4pr-0000000EAMb-0wS1;
+	Thu, 04 Jun 2026 09:57:59 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wV4pq-00000000H0r-32Aw;
+	Thu, 04 Jun 2026 10:57:58 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net 1/2] net: mana: initialize gdma queue id to INVALID_QUEUE_ID
-Date: Thu,  4 Jun 2026 01:01:25 -0700
-Message-ID: <20260604080137.1995269-2-gargaditya@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260604080137.1995269-1-gargaditya@linux.microsoft.com>
-References: <20260604080137.1995269-1-gargaditya@linux.microsoft.com>
+	netdev@vger.kernel.org
+Subject: [PATCH v2 2/3] x86/kvmclock: Implement read_snapshot() for kvmclock clocksource
+Date: Thu,  4 Jun 2026 10:35:17 +0100
+Message-ID: <20260604095755.64849-3-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260604095755.64849-1-dwmw2@infradead.org>
+References: <20260604095755.64849-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -61,37 +73,83 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-mana_gd_create_mana_wq_cq() leaves queue->id as 0 (from kzalloc_obj())
-until mana_create_wq_obj() assigns the firmware-returned id. If creation
-fails before that, cleanup calls mana_gd_destroy_cq() with id 0, NULLing
-gc->cq_table[0] and silently breaking whichever real CQ owns that slot.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Initialize queue->id to INVALID_QUEUE_ID right after allocation, matching
-mana_gd_create_eq(). The existing (id >= max_num_cqs) guard then
-short-circuits cleanly.
+Implement the read_snapshot() callback for the kvmclock clocksource.
+This returns the kvmclock nanosecond value (for timekeeping) while
+also providing the raw TSC value that was used to compute it.
 
-Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
-Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
-Reviewed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+The TSC is read inside the pvclock seqlock-protected region, ensuring
+the raw TSC and derived kvmclock value are atomically paired.
+
+This enables ktime_get_snapshot_id() to provide the raw TSC to consumers
+like the vmclock PTP driver, which currently has to do a separate call
+to get_cycles() to obtain a value at *approximately* the same time, to
+feed through the vmclock calculation.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Assisted-by: Kiro:claude-opus-4.6-1m
 ---
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/kernel/kvmclock.c | 36 +++++++++++++++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 712a0881d720..9d145517c6dc 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -1200,6 +1200,8 @@ int mana_gd_create_mana_wq_cq(struct gdma_dev *gd,
- 	if (!queue)
- 		return -ENOMEM;
+diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
+index b5991d53fc0e..cb3d0ca1fa22 100644
+--- a/arch/x86/kernel/kvmclock.c
++++ b/arch/x86/kernel/kvmclock.c
+@@ -87,6 +87,27 @@ static u64 kvm_clock_get_cycles(struct clocksource *cs)
+ 	return kvm_clock_read();
+ }
  
-+	queue->id = INVALID_QUEUE_ID;
++static u64 kvm_clock_get_cycles_snapshot(struct clocksource *cs,
++					 struct clocksource_hw_snapshot *chs)
++{
++	struct pvclock_vcpu_time_info *src;
++	unsigned version;
++	u64 ret, tsc;
 +
- 	gmi = &queue->mem_info;
- 	err = mana_gd_alloc_memory(gc, spec->queue_size, gmi);
- 	if (err) {
++	preempt_disable_notrace();
++	src = this_cpu_pvti();
++	do {
++		version = pvclock_read_begin(src);
++		tsc = rdtsc_ordered();
++		ret = __pvclock_read_cycles(src, tsc);
++	} while (pvclock_read_retry(src, version));
++	preempt_enable_notrace();
++
++	chs->hw_cycles = tsc;
++	chs->hw_csid = CSID_X86_TSC;
++	return ret;
++}
++
+ static noinstr u64 kvm_sched_clock_read(void)
+ {
+ 	return pvclock_clocksource_read_nowd(this_cpu_pvti()) - kvm_sched_clock_offset;
+@@ -156,13 +177,14 @@ static int kvm_cs_enable(struct clocksource *cs)
+ }
+ 
+ static struct clocksource kvm_clock = {
+-	.name	= "kvm-clock",
+-	.read	= kvm_clock_get_cycles,
+-	.rating	= 400,
+-	.mask	= CLOCKSOURCE_MASK(64),
+-	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
+-	.id     = CSID_X86_KVM_CLK,
+-	.enable	= kvm_cs_enable,
++	.name		= "kvm-clock",
++	.read		= kvm_clock_get_cycles,
++	.read_snapshot	= kvm_clock_get_cycles_snapshot,
++	.rating		= 400,
++	.mask		= CLOCKSOURCE_MASK(64),
++	.flags		= CLOCK_SOURCE_IS_CONTINUOUS,
++	.id		= CSID_X86_KVM_CLK,
++	.enable		= kvm_cs_enable,
+ };
+ 
+ static void kvm_register_clock(char *txt)
 -- 
-2.43.0
+2.54.0
 
