@@ -1,37 +1,37 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAAC3AF64E;
-	Thu,  4 Jun 2026 09:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FEF2D1907;
+	Thu,  4 Jun 2026 09:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780567097; cv=none; b=sb/3VWK1SCU2Az4ydA2KvH1RT1TvHwLSop5lTTctvvarNB40HIbsZPqBlZoo6UbJVyzsWBKESiHg9qhJV5MqGB0l+0UBncLsL9hvGk4IPUolz4H/PGT4BxqSGhoBJkNeHyXnMFPYsx/kD/7SW2QeqlmT/QvFuiE9m2k3pd1ZnYk=
+	t=1780567097; cv=none; b=HDOk1Nl7zu5R4Kq3GQFgdYBX4Cm4+o7JctY2YmToBldb9DWueRNRvlPFXwFs+HnYABN+n+FukhNQSz6KXntFjIpTADD5tWkXIu2BAPlB/yq6P/cccUOVtd2U9fEZJs7cLID9yffUT9atDAXQmEiiOW6v471nPBJkIQR4fV4V9KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780567097; c=relaxed/simple;
-	bh=HOpVztT8DOAo7KVM/MAVNPDfMWFbaLZEj1Jd1WUkhMo=;
+	bh=J3L9DEWX4rkamfUBp48RjipQB97rKBJ18gA5N9C86Gg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O4ICbtJ7RAfvp/LG8MMrNx1oiOrZFX+yZvgJxa2aidXLco90R5cmS6C7eUZPtthMHq5Kikt5WiOriYWBfXgHwWao6Z92cjMIXn3Evyl6zofcMFUzus4JayNJyzR1dJ3ayNFGASpNZfrRljs1jZgtLdD1s9U7QhFaYXoORvLvAYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=c3PNVjQt; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version; b=t4osQhlakyecPz6mtbNoWHYj3wMx1To6nc6y1B+MF0d86SNk07DarUVUAswoRFxc3lzNc+gg1im07bQvgS2kDIIDDSKPxsnKK8SnuIQxo2pUw5cHHNlflYKqOghA2epKN9xXRWCmWHeVsrgNIWIVG3p+Tgxcpfu95F7EKSir/xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=X1DXTNJK; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="c3PNVjQt"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="X1DXTNJK"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=HAwxsEb++hynAZSBM/ZWsQB/kPejZeakWzLcrT4MuRE=; b=c3PNVjQt2UzKlsR7+/YYu1G/zu
-	tifba7YBIOWV2G70UsP9TIMKEwFYCzaOHtKrKQDFWnam17TKSzmfuaM0YbpXFVa/sH0CFYMTPCaI/
-	5Q3XHI+ogRdglNA1WlcQ3WQjAYDz7XwoFTmYoIXOs3kWFE+IoZxJzaTsTBXAyOxwt8+rznp75okRN
-	Y1iyr/f0ib6kePQ4i58xPshOjln+zJ4/eU71q0cJ/EooKaf/ES9qR7l5Ie9YUeR9FA6JNKTo8F3g2
-	x/F86PuxYc/5G38XWoahPBE/G0Q/GJdEUeDeeztAfDHBDc5AbPKfHgKsyKXg1+HQeFOopfM/Q3nha
-	3aeQZtJQ==;
+	bh=Et8eOtHzrcYDSA2taulDH16mYcf076lGo5l3V2QRT+c=; b=X1DXTNJKHtjwUazcqTcLiLTHv6
+	nCV+awGALkFsFFKW9DdIxHEUzw/V/X8Kiag88WG52tZCrxF+FKriW51cm8MYulWjTQPF1uI3eTMPd
+	0xpRdI3lJbefxhEf7nyb9u6Hn5cN4hGT+hWXWSxapaCqUFrDwApeur6UTs/xmCGCobCY99GGFH8Mq
+	nIGsEyALEsqEiBE+otwPtVdzZJbgFUxUHJ2QTOLoW9o6rjJIvUVaYLMcs4gicFZYTL/s1jMPiI+oN
+	DxxGNQbAREHG3TdTYX3ZIx8t427jn96VnksURqNNEwMUFTrpRSI8kY9VCSa4ereCO1YFoCE07t0f2
+	wh4M8zwA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wV4pr-0000000EAMb-0wS1;
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wV4pq-00000005aXV-3krp;
 	Thu, 04 Jun 2026 09:57:59 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wV4pq-00000000H0r-32Aw;
+	id 1wV4pq-00000000H0u-3EHb;
 	Thu, 04 Jun 2026 10:57:58 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Thomas Gleixner <tglx@kernel.org>
@@ -60,9 +60,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v2 2/3] x86/kvmclock: Implement read_snapshot() for kvmclock clocksource
-Date: Thu,  4 Jun 2026 10:35:17 +0100
-Message-ID: <20260604095755.64849-3-dwmw2@infradead.org>
+Subject: [PATCH v2 3/3] ptp: vmclock: Use hw_cycles from snapshot for precise TSC pairing
+Date: Thu,  4 Jun 2026 10:35:18 +0100
+Message-ID: <20260604095755.64849-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260604095755.64849-1-dwmw2@infradead.org>
 References: <20260604095755.64849-1-dwmw2@infradead.org>
@@ -74,82 +74,46 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Implement the read_snapshot() callback for the kvmclock clocksource.
-This returns the kvmclock nanosecond value (for timekeeping) while
-also providing the raw TSC value that was used to compute it.
+When the system clocksource is kvmclock or Hyper-V (not the TSC
+directly), vmclock_get_crosststamp() previously fell through to a
+separate get_cycles() call, losing the atomic pairing between the
+system time snapshot and the TSC reading.
 
-The TSC is read inside the pvclock seqlock-protected region, ensuring
-the raw TSC and derived kvmclock value are atomically paired.
+Now that ktime_get_snapshot_id() populates hw_cycles with the
+underlying TSC value for derived clocksources, use it when available.
+This gives a perfect (system_time, tsc) pairing for the device time
+calculation.
 
-This enables ktime_get_snapshot_id() to provide the raw TSC to consumers
-like the vmclock PTP driver, which currently has to do a separate call
-to get_cycles() to obtain a value at *approximately* the same time, to
-feed through the vmclock calculation.
+The SUPPORT_KVMCLOCK wrapper is still needed to convert the TSC into
+kvmclock nanoseconds for system_counter->cycles, because otherwise
+get_device_system_crosststamp() can't interpret the result against
+the system clock.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: Kiro:claude-opus-4.6-1m
 ---
- arch/x86/kernel/kvmclock.c | 36 +++++++++++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 7 deletions(-)
+ drivers/ptp/ptp_vmclock.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
-index b5991d53fc0e..cb3d0ca1fa22 100644
---- a/arch/x86/kernel/kvmclock.c
-+++ b/arch/x86/kernel/kvmclock.c
-@@ -87,6 +87,27 @@ static u64 kvm_clock_get_cycles(struct clocksource *cs)
- 	return kvm_clock_read();
- }
- 
-+static u64 kvm_clock_get_cycles_snapshot(struct clocksource *cs,
-+					 struct clocksource_hw_snapshot *chs)
-+{
-+	struct pvclock_vcpu_time_info *src;
-+	unsigned version;
-+	u64 ret, tsc;
-+
-+	preempt_disable_notrace();
-+	src = this_cpu_pvti();
-+	do {
-+		version = pvclock_read_begin(src);
-+		tsc = rdtsc_ordered();
-+		ret = __pvclock_read_cycles(src, tsc);
-+	} while (pvclock_read_retry(src, version));
-+	preempt_enable_notrace();
-+
-+	chs->hw_cycles = tsc;
-+	chs->hw_csid = CSID_X86_TSC;
-+	return ret;
-+}
-+
- static noinstr u64 kvm_sched_clock_read(void)
- {
- 	return pvclock_clocksource_read_nowd(this_cpu_pvti()) - kvm_sched_clock_offset;
-@@ -156,13 +177,14 @@ static int kvm_cs_enable(struct clocksource *cs)
- }
- 
- static struct clocksource kvm_clock = {
--	.name	= "kvm-clock",
--	.read	= kvm_clock_get_cycles,
--	.rating	= 400,
--	.mask	= CLOCKSOURCE_MASK(64),
--	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
--	.id     = CSID_X86_KVM_CLK,
--	.enable	= kvm_cs_enable,
-+	.name		= "kvm-clock",
-+	.read		= kvm_clock_get_cycles,
-+	.read_snapshot	= kvm_clock_get_cycles_snapshot,
-+	.rating		= 400,
-+	.mask		= CLOCKSOURCE_MASK(64),
-+	.flags		= CLOCK_SOURCE_IS_CONTINUOUS,
-+	.id		= CSID_X86_KVM_CLK,
-+	.enable		= kvm_cs_enable,
- };
- 
- static void kvm_register_clock(char *txt)
+diff --git a/drivers/ptp/ptp_vmclock.c b/drivers/ptp/ptp_vmclock.c
+index d6a5a533164a..eebdcd5ebc08 100644
+--- a/drivers/ptp/ptp_vmclock.c
++++ b/drivers/ptp/ptp_vmclock.c
+@@ -140,6 +140,10 @@ static int vmclock_get_crosststamp(struct vmclock_state *st,
+ 			if (sts->pre_sts.cs_id == st->cs_id) {
+ 				cycle = sts->pre_sts.cycles;
+ 				sts->post_sts = sts->pre_sts;
++			} else if (sts->pre_sts.hw_csid == st->cs_id &&
++				   sts->pre_sts.hw_cycles) {
++				cycle = sts->pre_sts.hw_cycles;
++				sts->post_sts = sts->pre_sts;
+ 			} else {
+ 				cycle = get_cycles();
+ 				ptp_read_system_postts(sts);
 -- 
 2.54.0
 
