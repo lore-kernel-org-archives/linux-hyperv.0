@@ -1,192 +1,96 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336A03AFB01;
-	Thu,  4 Jun 2026 03:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEAB22F388
+	for <linux-hyperv@vger.kernel.org>; Thu,  4 Jun 2026 04:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780545502; cv=none; b=okK4/0BXi0AEGuBmwkIFNpKIFCVh4ftimJPjEWlXzWwMDMdrZs1RluD3gD6GpRPLiy5xDjiR7Bs+zXxQdV29FnNwf6fuJtXhWOspURDlk/Nc6yc0DJe+dmuKLng2NQhl3LViB57OjckVRCg2ltIAfHLbWMI+/C589cyTLBVOCr4=
+	t=1780546128; cv=none; b=DA8I7Hxkyb/mJI6cT8dBGeDbu0P7LHIUNe1cA8GRMtjvhUNvQuNnMsZra4Xu/DxuJ14cUOYDm95DKXKcHa2MP3PQRJ5r2WG1ORmQ8NRxn4eq3359DB5yd5NrWcZXv42gCq7zeM2/SvDJKTeipCvs1Yx44hb+UNVcEtoSPQYj5BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780545502; c=relaxed/simple;
-	bh=m2r3NnCy/KZ84xotuXv71W3230SYAAJzBbEbXOOXLXA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LPnzivW9BnNkyyG2AxmVwcJjvCgosfgrLBz79TE2ubz8jz5Sh7eL5qj+UyCSiDhZlfYTXqyNcfHPpSVB6Gd+yE3G9plqT+qqU57qKjzxFSkElgfjktnbvDxHbGAJ/lFX4wH/nyZiOaAaul+wm/ZrFmzzVAE7B06ElbxgCM7FX+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=LSLVJ0ra; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1780546128; c=relaxed/simple;
+	bh=aayq66RQR6J4gmKuinU7AJoqHbGx1E31wEpWAz+hPHM=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=FUH7Ln2Jg+pZR7W73z45IHOsUwOGCmkgztvuyhF+6fLfIGYYSDLlwQq5diYz4nOCT56lgQfjYl/J+nM9Cyn2SU31YlkLgUmXFgovdNmzIf4Xz/3Lmg9BqIjb0RBkGXD0Wy50GT5taKlsQcceXhziun9eh6l7Bs0hiaatT3mFNro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7WTGYxD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="LSLVJ0ra"
-Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca56;
-	Thu, 4 Jun 2026 11:52:53 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org
-Cc: dakr@kernel.org,
-	driver-core@lists.linux.dev,
-	linux@armlinux.org.uk,
-	andersson@kernel.org,
-	mathieu.poirier@linaro.org,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	nipun.gupta@amd.com,
-	nikhil.agarwal@amd.com,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH v2 3/4] vmbus: use generic driver_override infrastructure
-Date: Thu,  4 Jun 2026 11:52:38 +0800
-Message-Id: <20260604035239.1711889-4-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
-References: <20260602160829.560904-1-runyu.xiao@seu.edu.cn>
- <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7WTGYxD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 529DD1F00893;
+	Thu,  4 Jun 2026 04:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780546127;
+	bh=VYjuVaIujWcRzgPdRuD0FUdPFJmHvdgYcYHlyxQbCp8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=c7WTGYxDqyufY30CW/yozm5JXiXYgK9AxEGOby3O6tu6e+HRKQpPOh1+f9/oPO8JN
+	 rDRHi9yQeKOz3xec1jKBALngvyHdyklBAJ7NrcPQvZgmg3c6kIOcQM+32KRpJwtXjJ
+	 08vL31vAMzLjV4fNLrzkbC/ehbKbx0NPEl07pNE3NtEuV7R73IYAN3NXfDbZ/NsOfp
+	 2RohBKWdz+3HlH0Bhq3FDp8qBW5+sK3YA59l53WB6GonQEWMYBrtiX/KDDjYLmc9P4
+	 4a+5QD2Atj9nO8j+s3ZPVkialFY9AUQzjH1R8ZsehPjlVEFmZwPSd7CG1ZS/+LQNuD
+	 PEUoun+x5dqug==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/4] cdx: use generic driver_override infrastructure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Runyu Xiao" <runyu.xiao@seu.edu.cn>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260604035239.1711889-5-runyu.xiao@seu.edu.cn>
+References: <20260604035239.1711889-5-runyu.xiao@seu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2026 04:08:46 +0000
+Message-Id: <20260604040847.529DD1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e90c337db03a1kunm0f81216d28d16
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ0xJVk5NH05JSk0YH08ZH1YeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=LSLVJ0raer3sjupnvQRNaKHY/z4PoUoLkIehpjSWd0fRNN+6OkVsCv3khotgx6wZa7J6GZKBfvF17jJhZess5RurpNSUWU2llTJFBo1D6kTW7Bl7XBRg6y2cvxNGw4FUPkq5jzCwNJXGHpIVkOIs0/CzHHIWetOpMUQODPuZ5rE=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=1saAZ4M5FGw32ryywngoGqoPoT+AUfoWbT4m71a/aNs=;
-	h=date:mime-version:subject:message-id:from;
 
-VMBUS devices still keep driver_override in bus-private storage.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] Stale kernel-doc entry for removed `@driver_override` member in `st=
+ruct cdx_device`.
+--
 
-The sysfs write side updates that string through driver_set_override(),
-which replaces the pointer and frees the old value. However,
-driver_match_device() can call into hv_vmbus_get_id() from
-__driver_attach() without holding the device lock, and hv_vmbus_get_id()
-still dereferences that private pointer directly.
+commit c9a2a632f33a0544d4ef0145d2020070218d6838
+Author: Runyu Xiao <runyu.xiao@seu.edu.cn>
 
-That means a bind/reprobe path can race with a concurrent
-driver_override update and make the match logic inspect freed memory.
+cdx: use generic driver_override infrastructure
 
-Switch vmbus to the driver-core driver_override infrastructure. This
-removes the private driver_override storage and uses
-device_match_driver_override() for the locked read in the match path.
+This commit switches the CDX subsystem to use the generic driver-core
+driver_override infrastructure. It removes the private driver_override
+storage and uses device_match_driver_override() to prevent races during
+bus matching.
 
-Keep the existing vmbus semantics intact: if driver_override matches but
-no dynamic or static device ID matches, continue to return the dummy
-vmbus_device_null ID so override-only binding still works as before.
+Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel=
+.org/
 
-Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
-Fixes: d765edbb301c ("vmbus: add driver_override support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
-drivers/hv/vmbus_drv.c | 36 +++++-------------------------------
-include/linux/hyperv.h |  6 ------
- 2 files changed, 5 insertions(+), 37 deletions(-)
+[ ... ]
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index d28ff45d4cfd..a81e2b097636 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -538,34 +538,6 @@ static ssize_t device_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(device);
- 
--static ssize_t driver_override_store(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t count)
--{
--	struct hv_device *hv_dev = device_to_hv_device(dev);
--	int ret;
--
--	ret = driver_set_override(dev, &hv_dev->driver_override, buf, count);
--	if (ret)
--		return ret;
--
--	return count;
--}
--
--static ssize_t driver_override_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
--{
--	struct hv_device *hv_dev = device_to_hv_device(dev);
--	ssize_t len;
--
--	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", hv_dev->driver_override);
--	device_unlock(dev);
--
--	return len;
--}
--static DEVICE_ATTR_RW(driver_override);
--
- /* Set up per device attributes in /sys/bus/vmbus/devices/<bus device> */
- static struct attribute *vmbus_dev_attrs[] = {
- 	&dev_attr_id.attr,
-@@ -596,7 +568,6 @@ static struct attribute *vmbus_dev_attrs[] = {
- 	&dev_attr_channel_vp_mapping.attr,
- 	&dev_attr_vendor.attr,
- 	&dev_attr_device.attr,
--	&dev_attr_driver_override.attr,
- 	NULL,
- };
- 
-@@ -708,9 +679,11 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
- {
- 	const guid_t *guid = &dev->dev_type;
- 	const struct hv_vmbus_device_id *id;
-+	int ret;
- 
- 	/* When driver_override is set, only bind to the matching driver */
--	if (dev->driver_override && strcmp(dev->driver_override, drv->name))
-+	ret = device_match_driver_override(&dev->device, &drv->driver);
-+	if (ret == 0)
- 		return NULL;
- 
- 	/* Look at the dynamic ids first, before the static ones */
-@@ -719,7 +692,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
- 		id = hv_vmbus_dev_match(drv->id_table, guid);
- 
- 	/* driver_override will always match, send a dummy id */
--	if (!id && dev->driver_override)
-+	if (!id && ret > 0)
- 		id = &vmbus_device_null;
- 
- 	return id;
-@@ -1021,6 +994,7 @@ static const struct dev_pm_ops vmbus_pm = {
- /* The one and only one */
- static const struct bus_type  hv_bus = {
- 	.name =		"vmbus",
-+	.driver_override = true,
- 	.match =		vmbus_match,
- 	.shutdown =		vmbus_shutdown,
- 	.remove =		vmbus_remove,
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 964f1be8150c..f9ede569602d 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1272,12 +1272,6 @@ struct hv_device {
- 	u16 device_id;
- 
- 	struct device device;
--	/*
--	 * Driver name to force a match.  Do not set directly, because core
--	 * frees it.  Use driver_set_override() to set or clear it.
--	 */
--	const char *driver_override;
--
- 	struct vmbus_channel *channel;
- 	struct kset	     *channels_kset;
- 	struct device_dma_parameters dma_parms;
--- 
-2.34.1
+> diff --git a/include/linux/cdx/cdx_bus.h b/include/linux/cdx/cdx_bus.h
+> index b1ba97f6c9ad6..f1a107b232daa 100644
+> --- a/include/linux/cdx/cdx_bus.h
+> +++ b/include/linux/cdx/cdx_bus.h
+> @@ -165,7 +165,6 @@ struct cdx_device {
+>  	bool enabled;
+>  	u32 msi_dev_id;
+>  	u32 num_msi;
+> -	const char *driver_override;
+
+[Severity: Low]
+Does this leave a stale kernel-doc entry for @driver_override in the
+struct cdx_device documentation block?
+
+The struct documentation still references the removed field:
+
+ * @driver_override: driver name to force a match; do not set directly,
+ *                   because core frees it; use driver_set_override() to
+ *                   set or clear it.
+
+This might trigger an excess kerneldoc parameter warning during the kernel
+build (with W=3D1).
+
+>  	struct mutex irqchip_lock;
+>  	bool msi_write_pending;
+>  };
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604035239.1711=
+889-1-runyu.xiao@seu.edu.cn?part=3D4
