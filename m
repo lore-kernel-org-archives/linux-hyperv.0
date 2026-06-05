@@ -1,118 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5B444A724;
-	Fri,  5 Jun 2026 19:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C6B3C5838;
+	Fri,  5 Jun 2026 21:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780689102; cv=none; b=qHbyfQWCkWnqYaU3oaDdvJOU6DvTFtOJY4yIZQtR3pq0gGB2arott2i0YEmBcLC+t+aUK3uCiQXhKgkpB+Ck0tLqPETnLSIVMzdPO6h3arv9itjzz1f2L83311965OFRLV5M2al1mDQ4qoeF4MTdmEpMz2ON0jQbsIH7jofZ4RE=
+	t=1780694607; cv=none; b=J+uoKjFNHC1H2zm3XHF1X8Q4xyPjNKkyzeGpkf4ZrlC+N9PU2iI41Fg6UBERTvJItHBumkbgThrhBXBIjki/TMQv61wMD6yrGMn94QT6WluxDv4NNJjYABWzQ/lV8zXBAeMf/Mye1gPzhOu22Tv145ug2HUq1AB1RRvnT5kPX+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780689102; c=relaxed/simple;
-	bh=nyCCfHlezDTGlkFVHqBKpPLP7Re1FMEtAy1uM5EiH7k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=I2G+bcaXJ4rkbXeayboviW8k3fmMkgICnTJ80ZJDvmT7DPCnc8moo6tembz0Wo6kNDMj5+zzTMz634vxAAqul/Y6VaFNV/fjPMWGhkbyn/0q8mwTNr9bK4ZynR+p9rcYMiwDW2OEdLTQaKHkvT1Pq0Hm0Qi4ohYJhQxkMkREPc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJKk9HX+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780694607; c=relaxed/simple;
+	bh=rJnPQetP7T7nGkkK2knbXybBktnLIc9BHgC/6RTNyNg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CZGUETr/zGZFCgGTSj3FdNgqiU/2pyR7dF4EwiTN00k72WAwHf/RSYbZavXm7M+Fo8eL/TIPoDfWWUXIEDi8o7avJi6XfEO7GDlUCHyW2s9O7uvywjC5PYYmZiEo8HE6EcAgb1QthdOIQJvheMUs7Rwfle5x3fhlAyAh9S7PG6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GsLPiIEj; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJKk9HX+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96AE31F00893;
-	Fri,  5 Jun 2026 19:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780689101;
-	bh=/4/R21/fqtDVS3dMxk8YUcZsiYIZNFflJGsvUsdqCpw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=HJKk9HX+g5UPbatALcVIkf0hR4ph+0Wx8iYP9GEhI83XdOxXt7ZFz/GyAcdNSqC3b
-	 59tx5s2p8e97ACe09fjCrUGDsFH0mUGYy6hjREF82KGE5tE3NRoM2KruI4GtHlI4zf
-	 9JzxtgHFG+ngZyRIRnCNTlILcrBvBhmuDuMhpklDDYDJvC7XRvgVA6xfP46bUmOz7Q
-	 DvD8utVSK+xnYsPP5vFZO758kEbbdtewrTCb2MLyAHXLoJqapxPvfVQRwAWSsiuX7l
-	 5hn4/v5jowzGbNQzjCTmK+bZEv5FiaP+Dh9Aalw1jf8a8vDBqU3s5PlzLhytckiQry
-	 oZh4Oqjmh3P1Q==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Kiryl Shutsemau <kas@kernel.org>, "K. Y. Srinivasan"
- <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, Ajay Kaher <ajay.kaher@broadcom.com>, Alexey
- Makhalov <alexey.makhalov@broadcom.com>, Jan Kiszka
- <jan.kiszka@siemens.com>, Andy Lutomirski <luto@kernel.org>, Peter
- Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, Daniel
- Lezcano <daniel.lezcano@kernel.org>, John Stultz <jstultz@google.com>, "H.
- Peter Anvin" <hpa@zytor.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>, Boris Ostrovsky
- <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-coco@lists.linux.dev, linux-hyperv@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org, David
- Woodhouse <dwmw@amazon.co.uk>, Tom Lendacky <thomas.lendacky@amd.com>,
- Nikunj A Dadhania <nikunj@amd.com>, David Woodhouse <dwmw2@infradead.org>,
- Michael Kelley <mhklinux@outlook.com>
-Subject: Re: [PATCH v4 01/47] x86/tsc: Never re-calibrate TSC frequency if
- its exact timing is known
-In-Reply-To: <aiMPxl5vkvJDldi9@google.com>
-References: <20260529144435.704127-1-seanjc@google.com>
- <20260529144435.704127-2-seanjc@google.com> <87fr315fq9.ffs@fw13>
- <aiMPxl5vkvJDldi9@google.com>
-Date: Fri, 05 Jun 2026 21:51:38 +0200
-Message-ID: <87a4t86a0l.ffs@fw13>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GsLPiIEj"
+Received: by linux.microsoft.com (Postfix, from userid 1006)
+	id 2E1F920B716B; Fri,  5 Jun 2026 14:23:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2E1F920B716B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1780694591;
+	bh=HzuEttwZnXVRg1rw6WDnQpWFuwP7rDvB1ZeQDCHMViM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GsLPiIEjQnl8agBAcS+Bt9hqQGZNNBZXFCESbtFUovQ9a4sNoq2bm2Cl7YsCh9AYp
+	 Ub9cn8/vYF4eyLfBrgZNQLz30vomGelmaGzHdZFOnfP7tFJm+z5180SV3CqEuEuK1j
+	 w4mGutnwhEFrTNlOWp9FeTm2n57CIXRdaHoOf9hI=
+From: Haiyang Zhang <haiyangz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	Simon Horman <horms@kernel.org>,
+	Shradha Gupta <shradhagupta@linux.microsoft.com>,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Cc: paulros@microsoft.com
+Subject: [PATCH net-next] net: mana: Add support for PF device 0x00C1
+Date: Fri,  5 Jun 2026 14:22:56 -0700
+Message-ID: <20260605212302.2135499-1-haiyangz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 05 2026 at 11:04, Sean Christopherson wrote:
-> On Fri, Jun 05, 2026, Thomas Gleixner wrote:
->> On Fri, May 29 2026 at 07:43, Sean Christopherson wrote:
->> > Don't re-calibrate the TSC frequency if the TSC is known to run at a fixed
->> > frequency.
->> 
->> That's misleading because fixed frequency means that the frequency does
->> not change, i.e. X86_FEATURE_CONSTANT_TSC is set. But
->> X86_FEATURE_CONSTANT_TSC does not imply that the frequency can be read
->> from CPUID/MSRs.
->
-> Sorry, "if the TSC runs at a known, fixed frequency" would be a better way to
-> phrase this.
->
->> > In practice, this is likely one big nop, as re-calibration is
->> > used only for SMP=n kernels, and only for hardware that is 20+ years old,
->> > i.e. is extremely unlikely to collide with TSC_KNOWN_FREQ.
->> 
->> recalibrate_cpu_khz() is only invoked from Intel P4 and AMD K7 CPU
->> frequency drivers, which means that's absolutely not interesting and
->> neither X86_FEATURE_CONSTANT_TSC nor X86_FEATURE_TSC_KNOWN_FREQ can be
->> set on those systems.
->
-> It _shouldn't_ be set on those systems, but in the world of virtualization it's
-> not completely impossible.
->
->> IOW, this patch is pointless voodoo ware.
->
-> Would y'all be opposed to adding a WARN?  I don't actually care about P4 or K7
-> CPUs, but without any reference to X86_FEATURE_TSC_KNOWN_FREQ in
-> recalibrate_cpu_khz(), the code _looks_ wrong, and so is very confusing for
-> readers that don't already know that in practice, it's limited to ancient CPUs.
->
-> In other words, the point is to document expectations and mutual exclusion, not
-> to "fix" anything.
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
-Fair enough.
+Update the device id table to include the new device id 0x00C1.
+This device's BAR layout is similar to VF's, update the function,
+mana_gd_init_registers(), accordingly.
 
-So yes, having a check there for actually X86_FEATURE_CONSTANT_TSC
-(X86_FEATURE_CONSTANT_TSC is not interesting) and emitting a warning and
-returning early is the right thing to do there.
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 7 +++++--
+ include/net/mana/gdma.h                         | 2 ++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-But we also should have a check in the TSC init code somewhere which
-validates that X86_FEATURE_CONSTANT_TSC is set when
-X86_FEATURE_TSC_KNOWN_FREQ is set. X86_FEATURE_TSC_KNOWN_FREQ is useless
-w/o X86_FEATURE_CONSTANT_TSC.
-
-Thanks,
-
-        tglx
-
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index 712a0881d720..5bc91ee8a543 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -150,7 +150,7 @@ static int mana_gd_init_registers(struct pci_dev *pdev)
+ {
+ 	struct gdma_context *gc = pci_get_drvdata(pdev);
+ 
+-	if (gc->is_pf)
++	if (gc->is_pf && !gc->is_pf2)
+ 		return mana_gd_init_pf_regs(pdev);
+ 	else
+ 		return mana_gd_init_vf_regs(pdev);
+@@ -2070,7 +2070,7 @@ static void mana_gd_cleanup_device(struct pci_dev *pdev)
+ 
+ static bool mana_is_pf(unsigned short dev_id)
+ {
+-	return dev_id == MANA_PF_DEVICE_ID;
++	return dev_id == MANA_PF_DEVICE_ID || dev_id == MANA_PF2_DEVICE_ID;
+ }
+ 
+ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -2118,6 +2118,8 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	gc->numa_node = dev_to_node(&pdev->dev);
+ 	gc->is_pf = mana_is_pf(pdev->device);
++	gc->is_pf2 = (pdev->device == MANA_PF2_DEVICE_ID);
++
+ 	gc->bar0_va = bar0_va;
+ 	gc->dev = &pdev->dev;
+ 	xa_init(&gc->irq_contexts);
+@@ -2269,6 +2271,7 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id mana_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF_DEVICE_ID) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_PF2_DEVICE_ID) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_MICROSOFT, MANA_VF_DEVICE_ID) },
+ 	{ }
+ };
+diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
+index 70d62bc32837..7361e98d94ce 100644
+--- a/include/net/mana/gdma.h
++++ b/include/net/mana/gdma.h
+@@ -418,6 +418,7 @@ struct gdma_context {
+ 	u32			test_event_eq_id;
+ 
+ 	bool			is_pf;
++	bool			is_pf2;
+ 
+ 	phys_addr_t		bar0_pa;
+ 	void __iomem		*bar0_va;
+@@ -571,6 +572,7 @@ struct gdma_eqe {
+ #define GDMA_SRIOV_REG_CFG_BASE_OFF	0x108
+ 
+ #define MANA_PF_DEVICE_ID 0x00B9
++#define MANA_PF2_DEVICE_ID 0x00C1
+ #define MANA_VF_DEVICE_ID 0x00BA
+ 
+ struct gdma_posted_wqe_info {
+-- 
+2.34.1
 
