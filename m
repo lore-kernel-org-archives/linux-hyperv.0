@@ -1,102 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866B01C2AA
-	for <linux-hyperv@vger.kernel.org>; Sat,  6 Jun 2026 00:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DB54071C4;
+	Sat,  6 Jun 2026 01:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780707469; cv=none; b=cGLZQlOnX9faflUdsDyTERJgPSV6VHnHC6A1ZD6yMyyuZxSHiHLgjLkfIxdvuMSLWOERDi5jHzqCLRG1jjc2FUgFxeaqRfifhXB44gFSMqA4jXKm5wrlqD9pLvxChpQw0qIPq6ysISDrbrC5/pvv0io5VyBShaeGSs0nJPmCYCw=
+	t=1780709271; cv=none; b=u+4H/5thOqZO1jY6SWs/oF2a5KZN9rLdYu+slRGS8cLW8n0vHU610UDfSkgvZINf9aBl80mJ8q+cKqhhsDwWse0SSZRwG2SOkHerbUSSzzmbKqSXsjUtNs3ZAZ6Y/xCZp52Y/ZTdT2dXdCNLQfMSm2Fp6btinw7uMgksqVyx8Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780707469; c=relaxed/simple;
-	bh=84yIb7Yc2jK8e8Py5Qr8BTk2XgWMqzPEBSZj0UyCv9Y=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kzotrRqw1l08KcXL9vyYSziXp4dfMvBSXwzD+G6REwYaeUTvue+2Gzr4YSdoMh03eR+hqHyv4P5KRFGsnWFGfS//cE6v+oH+cbP8E+f4arPcJWS555EqoFvzZpxeDRZFPfygyQ7SbHDz1t2Q2pLAbyFSou1IQbpm/TslcM20a2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g6hW9KvJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780709271; c=relaxed/simple;
+	bh=1OJtF7vY9H8KdCtv0DLdAod04oMqb1yTg4e1NStshKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SdcsOCBsp6p6dQd2shY4Ngr9mpwuF6aVvG3wi5Fa7op8xdN/c2DvmT4nKSpYPqDFOBx34yzj67+9dZ3XpOif+JvX782MhPQhbJ63y14agipr3S6PCOUw6KMkVOFxBH9Dl5owK6pQj6hPfXrP/WaozIuH2AdyYB5WgdeBIdfoIdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WozLIiq0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g6hW9KvJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139881F00893;
-	Sat,  6 Jun 2026 00:57:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WozLIiq0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEA51F00893;
+	Sat,  6 Jun 2026 01:27:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780707468;
-	bh=01WNRnhrWk3YSQuy4Coa25FiHPrjLDTxnabBGs8+x0g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=g6hW9KvJVOavgspO4KN6ZyRCIraR5AQik6khjYPKmbpc30ZbUICT4KeBGFxpGCbjx
-	 Ua6ZOuFBASUnEdyhHCHFF4mxXeO1SU981cvI3CDbNcZBQWbi2KwDm84F2M+9ZprooB
-	 G/U0COoqTSsSfJW+UzzVdUUb14vm74hcL9L3Bl7Mevt6Iq4FgNAKDTtds7QKOVI5Kv
-	 V5XF6wY0m4dWpSoZT0bjdz/YulhNMNPdJ5ZjgqenWghcbAnt+r5V0Cd+yYrzSmYKph
-	 apLUsT6eMnVaS+wCjjLOXO9ccIx/11E0p2yvWKv9zgIW8o1IqgDXeJ7Dihgb3oL87x
-	 R7JMOSKD9mIRw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v12 2/6] net: mana: Query device capabilities
- and configure MSI-X sharing for EQs
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Long Li" <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260605005717.2059954-3-longli@microsoft.com>
-References: <20260605005717.2059954-3-longli@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 06 Jun 2026 00:57:47 +0000
-Message-Id: <20260606005748.139881F00893@smtp.kernel.org>
+	s=k20260515; t=1780709270;
+	bh=jXywdkzqZJYiigfuu3nQzbSjqzHWAoQ1g0NVJCMwSZI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=WozLIiq0kZcEHuHGfIXwaSSSF/vTYHL7CJz0GCOvQ+Rt34qwjo7qySAzCtrd3C95w
+	 x08DDn2plKEEseJkl6qSGjy54FbHqYk8wAHdAR0OPPy5RVjfy8zIuElXznL6+owGr3
+	 nL/wo+xqscL0m1VM8HNOM7GQm+kEHH+M7NAvyUNTrIttxUVm0SjfQ/uRjprQHnhkGz
+	 FJeyPzY4YkqyPfNbwAnM79tgVf3n0prC1AwwHCorwO/hlzNG8l8ugO802FWs9bynNb
+	 C8lJwxyqLKNi2iwALi4MVcDVtQD1igaNBlf46ofsSNFGFf0o9FCqT+VWKObVf2j9VS
+	 PgJtDaH5Gph+g==
+Date: Fri, 5 Jun 2026 18:27:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aditya Garg <gargaditya@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, shradhagupta@linux.microsoft.com,
+ dipayanroy@linux.microsoft.com, ernis@linux.microsoft.com, kees@kernel.org,
+ shacharr@microsoft.com, stephen@networkplumber.org,
+ gargaditya@microsoft.com, ssengar@linux.microsoft.com,
+ linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 0/2] net: mana: fix error-path issues in queue setup
+Message-ID: <20260605182748.5f106575@kernel.org>
+In-Reply-To: <20260604080137.1995269-1-gargaditya@linux.microsoft.com>
+References: <20260604080137.1995269-1-gargaditya@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] Permanent downward clamping of maximum queues (`apc->max_queues`=
-) across suspend/resume cycles.
---
+On Thu,  4 Jun 2026 01:01:24 -0700 Aditya Garg wrote:
+> Two error-path fixes in MANA queue setup, both surfaced during Sashiko
+> AI review of a recently upstreamed patch series.
+> 
+> Patch 1 initializes queue->id to INVALID_QUEUE_ID in
+> mana_gd_create_mana_wq_cq() so that a CQ creation failure before the
+> firmware id is assigned does not NULL gc->cq_table[0] and silently
+> break whichever real CQ owns that slot. This mirrors the existing
+> pattern in mana_gd_create_eq().
+> 
+> Patch 2 guards mana_destroy_txq()'s call to mana_destroy_wq_obj() with
+> an INVALID_MANA_HANDLE check, mirroring mana_destroy_rxq(). Without
+> it, TX setup failures lead to a firmware-rejected destroy of (u64)-1
+> and a spurious error in dmesg.
 
-commit ae1648776d10be5e3fd6640d34f239a82e77a213
-Author: Long Li <longli@microsoft.com>
-Subject: net: mana: Query device capabilities and configure MSI-X sharing f=
-or EQs
+Looks like these patches were generated against net-next, please rebase:
 
-This commit adjusts the max number of queues to allow dedicated MSI-X
-vectors for each vPort and configures MSI-X sharing when resources are
-scarce. It also updates port initialization to clamp the queue counts
-to the recomputed per-vPort maximums.
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> index ed60cc15fe78d..3ec8e94e7c17e 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-[ ... ]
-> @@ -3208,6 +3213,8 @@ static int mana_init_port(struct net_device *ndev)
->  	max_queues =3D min_t(u32, max_txq, max_rxq);
->  	if (apc->max_queues > max_queues)
->  		apc->max_queues =3D max_queues;
-> +	if (apc->max_queues > gc->max_num_queues_vport)
-> +		apc->max_queues =3D gc->max_num_queues_vport;
-
-[Severity: Medium]
-Will this result in a permanent downward clamping of the maximum queues acr=
-oss
-suspend and resume cycles?
-
-Because gc->max_num_queues_vport is dynamically recalculated on every
-suspend/resume cycle based on current hardware state (such as the number of
-online CPUs and available MSI-X vectors), it might temporarily shrink.
-
-If a system resumes with fewer vectors, this logic reduces apc->max_queues.
-
-However, if the system subsequently resumes again with the original number =
-of
-vectors restored, apc->max_queues cannot recover because this clamping only
-ever reduces the value and the original allocation limit is permanently
-overwritten.=20
-
-Should we be clamping a temporary runtime variable instead of permanently
-modifying the device's capability maximums here?
-
-> =20
->  	if (apc->num_queues > apc->max_queues)
->  		apc->num_queues =3D apc->max_queues;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260605005717.2059=
-954-1-longli@microsoft.com?part=3D2
+Applying: net: mana: initialize gdma queue id to INVALID_QUEUE_ID
+Applying: net: mana: guard TX wq object destroy with INVALID_MANA_HANDLE check
+error: patch failed: drivers/net/ethernet/microsoft/mana/mana_en.c:2351
+error: drivers/net/ethernet/microsoft/mana/mana_en.c: patch does not apply
+Patch failed at 0002 net: mana: guard TX wq object destroy with INVALID_MANA_HANDLE check
