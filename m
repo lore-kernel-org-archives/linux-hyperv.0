@@ -1,28 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C71082E7F0A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C708C1CAA68;
 	Mon,  8 Jun 2026 10:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780913645; cv=none; b=AHDNxDXmcTzaqahXcjBOSAVlaiSqeWEDglFeduktchET6CZmhU1f3wm1JSVyBB9WwJnE1ZgTW2P4Ffq/xLJ9FYvqi7GS0Z9YUfgmEL78ViSvRrDqgHFJEGR7ZMfcUAxNLkMsx3YyrN6e67sgCE8TfVe244DgVkrnz7E+nOwQyQI=
+	t=1780913645; cv=none; b=oRXBUi4f7EJolXtJsnhXFyjAvUp/+offht0e16d0ZuzRf9jTKABPhteu0Cv+1J8LFPgcovVVFLvXyqrhtNNXphMAMcFKlen2zP60VRgXCaf/AvQ8x7Bjgla96XE6sbooGXTzbsavT29DQSVJJ5EbVCHqlXuRvMSO/ZJhglWr3mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780913645; c=relaxed/simple;
-	bh=14PKb+pOpqvay+ly6H71FW6oy9lPH/lGH1WLwWO4SAw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Vs7jJISirWxMSy433+d2gg/kA541RO7miz8rAKEzZg4ED864hD96SE1Qeur4r+2F/YBCNpweRuZILhD2d/Cr+ppbV+oUF38VwY+YJtxneAEBjjE8IEg45GL1mWMYaLrVmxTb6FJHc78vS9GOaeWvgam/RhS23EzbtWs9pIuHKSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=c6i2/Eb9; arc=none smtp.client-ip=13.77.154.182
+	bh=7sqsPSlC62BXb8yb/9Brgirj38bkv4Q15+uoFfoYe/w=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=S4I1qFPR3zfcda/DxAT/QpzSBIHsShQ97khT8UELDliuKfNJy1/CGMtGJKeIaQi7aBXge8JGv9Q0EErnTLC66SbKlqjH/pp43r7taZxAbsiF8WZHRPK94V+flATwVhCNLHsfHQ5n5VEIhM107TBFlDjY2LRYBWSZuB7eYcOSz+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lWIvpzpu; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="c6i2/Eb9"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lWIvpzpu"
 Received: by linux.microsoft.com (Postfix, from userid 1231)
-	id C646520B7166; Mon,  8 Jun 2026 03:13:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C646520B7166
+	id D39DC20B7167; Mon,  8 Jun 2026 03:13:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D39DC20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1780913627;
-	bh=siiZgZU3VC/xhvfvYivTsPp+vnhZSEEwa81CmEUhSyM=;
-	h=From:To:Subject:Date:From;
-	b=c6i2/Eb9TTdyx3xnYdUkhzxMXW5IVpgL5xRWLwBqMtEcHv6UG6FmVDlh93fRaSgs7
-	 wCrN5FjSC93akX0IDNNNsUjR1q8AXJUi/Ss7H0K8RoJq1YiyZMaSl8RgEfzR05FHfV
-	 4on5iMvp0huwCu51z4bnZuofwXDokC4rff0O1yGE=
+	bh=o8krHEL94k3Devk000JfdtoizGMtQGBbfvLaItOxdKg=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=lWIvpzpuVOT1ewGCrw4W5sc3d9aL3MNkyD24aS8k/MG9FlA3/EbwQumpd+i7Ezt5F
+	 kWpNwB/kQu98SPUSlBalvBtYrMghx3qPevHS8+zmjU8zN3vkc6SKCymkfW6A69hEO5
+	 g7wONGSWYhHzd/bxjBmumwmuufARKtgP3MvLm7iI=
 From: Aditya Garg <gargaditya@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -47,10 +48,12 @@ To: kys@microsoft.com,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net v2 0/2] net: mana: fix error-path issues in queue setup
-Date: Mon,  8 Jun 2026 03:13:39 -0700
-Message-ID: <20260608101345.2267320-1-gargaditya@linux.microsoft.com>
+Subject: [PATCH net v2 1/2] net: mana: initialize gdma queue id to INVALID_QUEUE_ID
+Date: Mon,  8 Jun 2026 03:13:40 -0700
+Message-ID: <20260608101345.2267320-2-gargaditya@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260608101345.2267320-1-gargaditya@linux.microsoft.com>
+References: <20260608101345.2267320-1-gargaditya@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -59,31 +62,36 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two error-path fixes in MANA queue setup, both surfaced during Sashiko
-AI review of a recently upstreamed patch series.
+mana_gd_create_mana_wq_cq() leaves queue->id as 0 (from kzalloc_obj())
+until mana_create_wq_obj() assigns the firmware-returned id. If creation
+fails before that, cleanup calls mana_gd_destroy_cq() with id 0, NULLing
+gc->cq_table[0] and silently breaking whichever real CQ owns that slot.
 
-Patch 1 initializes queue->id to INVALID_QUEUE_ID in
-mana_gd_create_mana_wq_cq() so that a CQ creation failure before the
-firmware id is assigned does not NULL gc->cq_table[0] and silently
-break whichever real CQ owns that slot. This mirrors the existing
-pattern in mana_gd_create_eq().
+Initialize queue->id to INVALID_QUEUE_ID right after allocation, matching
+mana_gd_create_eq(). The existing (id >= max_num_cqs) guard then
+short-circuits cleanly.
 
-Patch 2 guards mana_destroy_txq()'s call to mana_destroy_wq_obj() with
-an INVALID_MANA_HANDLE check, mirroring mana_destroy_rxq(). Without
-it, TX setup failures lead to a firmware-rejected destroy of (u64)-1
-and a spurious error in dmesg.
-
-Changes in v2:
-  - Rebased onto net.
-
-Aditya Garg (2):
-  net: mana: initialize gdma queue id to INVALID_QUEUE_ID
-  net: mana: guard TX wq object destroy with INVALID_MANA_HANDLE check
-
+Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
+Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
+Reviewed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
  drivers/net/ethernet/microsoft/mana/gdma_main.c | 2 ++
- drivers/net/ethernet/microsoft/mana/mana_en.c   | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index d8e816882f02..ac71ca8450bf 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -1192,6 +1192,8 @@ int mana_gd_create_mana_wq_cq(struct gdma_dev *gd,
+ 	if (!queue)
+ 		return -ENOMEM;
+ 
++	queue->id = INVALID_QUEUE_ID;
++
+ 	gmi = &queue->mem_info;
+ 	err = mana_gd_alloc_memory(gc, spec->queue_size, gmi);
+ 	if (err) {
 -- 
 2.43.0
 
