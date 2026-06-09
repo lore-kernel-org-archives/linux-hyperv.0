@@ -1,187 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207263AEF30
-	for <linux-hyperv@vger.kernel.org>; Tue,  9 Jun 2026 18:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A28E40D563;
+	Tue,  9 Jun 2026 19:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781031067; cv=none; b=G3E8Fbhxk/8uVPbaJ7ctLnIIEK88IACWVz1+PQN675/kPHYBdtDyXurIjCSprDd3v0A6RwPbpvzahnKNeQBjuAYN+60Fgmc1dh81ULPtvRogo485KHhaHu/OEUmvdotEPhBVQvYxkGWddhW3t4M0D0nBj7CHI0j5qYRSfOWNBhE=
+	t=1781033241; cv=none; b=ZvJesJiFIUXFlLDampdEzu+7GP/D17kTBcL1fsK2IMMTvKLIxJsO3ovVRKOiIrWJwk3kcT8pRVrPWTRl2eaYkoytpjpQ4O3p56bzQcT7VK91i9vcXGI+ORUy2BB7sLpRkR67TBbkIb8R7+GB4UPZlpqweG3o3X0lNgHDFYWkwcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781031067; c=relaxed/simple;
-	bh=9z9uCZSaa7UjJose2P6N/UOYqEk59NZYbgxq8R2gPZ4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=HYzsLlciGMhg0joNGBkJbw9FsXMLz/tVrmrviEyFd4NVKeGJijwCqI5AlbM0YgyAJt6Qre0mxfz8ALFo0UsKUareWLAW4nh0r1yunm1zimfWg58p7ejUjw8kvRR81+c4PSjr0DiCm1sEWxKDysjQn+mub4xJQXKPOsHLJMa0kmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+zC7B0R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781033241; c=relaxed/simple;
+	bh=t+WvsS2QinBoSI2OXuMQMgk8edo+7KuSw0OLqOxN6Rg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IVgU5P6rmoZciOVsOTN3IRAWS55dc6O39hgR80XPKrGSni9c4h4+dRonQasdjLJXZB9rWtC8EjQt8XAc3HphLtbfjAKw5fDioc5TrRgHk/tRD16oBtsuwyrR/CpWmTKyE4CfDElbAbEnA4WUbXyP5WYsXFiYVQSwZzWpxprIbGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oStFu7N1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+zC7B0R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A39E1F00893;
-	Tue,  9 Jun 2026 18:51:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oStFu7N1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D2361F0089A;
+	Tue,  9 Jun 2026 19:27:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781031065;
-	bh=b+ujqpsxSxZmIHiLTseL14tk3sskgKtw9D9Hnq0tL8M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=i+zC7B0Rxxu1i/OfeTuvrMSQuZ7KT3xkSO/LmEJ4xlvi2tNfsQR2ElFFz+UcPtfY5
-	 nXNPld89KntJvvNerGbNgonRLt/A3468ndjqTqBiuuVcpBc4VQDAt+mw7H9jjGEQIS
-	 w2y4Km83+3LoPF/RU2axiz3/6NhHM42iTDm8RfnuIK5Yd4izFGeNRN0QZVojLbcPuS
-	 G6zPhl3nk1V40ekzOTlchmi7f2sZrMSlAGTGzJbG+F3cwS1J2+Ag5oLiDPJMyJbjP7
-	 AGAqr6yX03UUgzz3m2JhoX+yRScM4OY9FzxFaGYmhJkobGuOnLksa6wlmxBIM+LPSO
-	 8B/3gs83T1HuQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH 3/6] arm64: hyperv: Add per-CPU RSI host call
- infrastructure for CCA Realms
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Kameron Carr" <kameroncarr@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260609181030.2378391-4-kameroncarr@linux.microsoft.com>
-References: <20260609181030.2378391-4-kameroncarr@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jun 2026 18:51:05 +0000
-Message-Id: <20260609185105.8A39E1F00893@smtp.kernel.org>
+	s=k20260515; t=1781033239;
+	bh=NlG5HlDElQCbuP6bN10xR/q116+/zHdLSEjJOyQFwVw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=oStFu7N1msk7hGRxaIGxcPhSkCbArM8aV/psZO+WarZaxilvwF2cpbMRAt4n7Fpb8
+	 jdoLMC/Us2am6UlMm/XjVRtHxd9CKSOXzbAPqtoDlCiOpZbpOFQ+SdLvuk0GQ7AACZ
+	 3CmrygZjXjo8BSZ2RdYoEHPzauVhH2OoyWisV2Oubk42MoerR11HkIf28Ex0JbwmFs
+	 FQo5z4rMOOXRCRjhYFFjZN0UvGaCt0DcbGJcLs9foFY3WZlZjLxuhnEKgDEnd+uRNU
+	 itpIBzoF6ZpH4lsa9xtkX9k8gZsXaOt9VgUNb/27eAHzLLvBE62W766RQhGapY7M0m
+	 b9tzm1j9ME+sA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Kiryl Shutsemau <kas@kernel.org>, "K. Y. Srinivasan"
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
+ <longli@microsoft.com>, Ajay Kaher <ajay.kaher@broadcom.com>, Alexey
+ Makhalov <alexey.makhalov@broadcom.com>, Jan Kiszka
+ <jan.kiszka@siemens.com>, Andy Lutomirski <luto@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, Daniel
+ Lezcano <daniel.lezcano@kernel.org>, John Stultz <jstultz@google.com>, "H.
+ Peter Anvin" <hpa@zytor.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>, Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, linux-hyperv@vger.kernel.org,
+ virtualization@lists.linux.dev, xen-devel@lists.xenproject.org, David
+ Woodhouse <dwmw@amazon.co.uk>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Nikunj A Dadhania <nikunj@amd.com>, David Woodhouse <dwmw2@infradead.org>,
+ Michael Kelley <mhklinux@outlook.com>
+Subject: Re: [PATCH v4 01/47] x86/tsc: Never re-calibrate TSC frequency if
+ its exact timing is known
+In-Reply-To: <aihKj-0nP7bUbNHH@google.com>
+References: <20260529144435.704127-1-seanjc@google.com>
+ <20260529144435.704127-2-seanjc@google.com> <87fr315fq9.ffs@fw13>
+ <aiMPxl5vkvJDldi9@google.com> <87a4t86a0l.ffs@fw13>
+ <aihKj-0nP7bUbNHH@google.com>
+Date: Tue, 09 Jun 2026 21:27:17 +0200
+Message-ID: <87pl1z346i.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] The generic hypercall wrappers (`hv_do_hypercall`, `hv_do_fast_hyp=
-ercall8`, `hv_do_fast_hypercall16`) were not updated to use the RSI_HOST_CA=
-LL interface, breaking hypercalls for CCA Realms.
-- [High] Missing NULL pointer check for the dynamically allocated per-CPU `=
-hostcall` buffer in `hv_set_vpreg()` and `hv_get_vpreg_128()` can cause a r=
-ecursive crash during a panic.
-- [Low] Complex error handling and cleanup logic for early boot memory allo=
-cation failures violates subsystem guidelines.
---
+On Tue, Jun 09 2026 at 10:17, Sean Christopherson wrote:
 
-commit 286a7465cb0cf6433c1d0e69d74a2bf4a0c1a935
-Author: Kameron Carr <kameroncarr@linux.microsoft.com>
+> On Fri, Jun 05, 2026, Thomas Gleixner wrote:
+>> On Fri, Jun 05 2026 at 11:04, Sean Christopherson wrote:
+>> But we also should have a check in the TSC init code somewhere which
+>> validates that X86_FEATURE_CONSTANT_TSC is set when
+>> X86_FEATURE_TSC_KNOWN_FREQ is set. X86_FEATURE_TSC_KNOWN_FREQ is useless
+>> w/o X86_FEATURE_CONSTANT_TSC.
+>
+> Ugh, any objection to punting on this for now?  KVM and Xen guests will trigger
+> TSC_KNOWN_FREQ without CONSTANT_TSC, thanks to commits:
+>
+>   e10f78050323 ("kvmclock: fix TSC calibration for nested guests")
+>   898ec52d2ba0 ("x86/xen/time: Set the X86_FEATURE_TSC_KNOWN_FREQ flag in xen_tsc_khz()")
+>
+> Hyper-V guests might as well?  Hyper-V's handling of TSC is weird, even for a
+> hypervisor.
 
-arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
+Hypervisors are ranked by weirdness? I ranked them by insanity so far.
 
-This patch introduces the hyperv_pcpu_hostcall_struct to support Arm CCA
-Realms, which must route hypercalls through the RSI_HOST_CALL interface.
-It allocates this per-CPU structure for the boot CPU and secondary CPUs.
+> Even when the frequency is provided in CPUID by the hypervisor, QEMU at least
+> requires a fairly explicit opt-in to advertise CONSTANT_TSC, presumably to try
+> to prevent users from shooting themselves in the foot.
 
-> Arm CCA Realms cannot issue Hyper-V hypercalls via HVC; the guest must
-> route them through the RSI_HOST_CALL interface, which takes the IPA of a
-> per-CPU rsi_host_call structure as its argument.
+Bah. We really should have enforced the dependency when we introduced
+KNOWN_FREQ. But that ship has sailed.
 
-[Severity: High]
-Does this patch miss updating the generic hypercall wrappers?
+Though for correctness sake this should be fixed at some point in the
+foreseeable future.
 
-Looking at hv_do_hypercall() in arch/arm64/hyperv/hv_core.c, it still issues
-an HVC instruction unconditionally via arm_smccc_1_1_hvc().
+Thanks,
 
-Since these generic functions are heavily used throughout the Hyper-V stack
-(including early initialization like hv_get_partition_id()), could a CCA
-Realm guest crash when it inadvertently executes the trapped HVC instructio=
-n?
-
-> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-> index 4fdc26ade1d74..08fec82691683 100644
-> --- a/arch/arm64/hyperv/mshyperv.c
-> +++ b/arch/arm64/hyperv/mshyperv.c
-
-[ ... ]
-
-> @@ -60,6 +66,46 @@ static bool __init hyperv_detect_via_acpi(void)
-> =20
->  #endif
-> =20
-> +static void hv_hostcall_free(void)
-> +{
-> +	int cpu;
-> +
-> +	if (!hyperv_pcpu_hostcall_struct)
-> +		return;
-> +
-> +	for_each_possible_cpu(cpu)
-> +		kfree(*per_cpu_ptr(hyperv_pcpu_hostcall_struct, cpu));
-> +	free_percpu(hyperv_pcpu_hostcall_struct);
-> +	hyperv_pcpu_hostcall_struct =3D NULL;
-> +}
-> +
-> +static int hv_cpu_init(unsigned int cpu)
-> +{
-> +	void **hostcall_struct;
-> +	gfp_t flags;
-> +	void *mem;
-> +
-> +	if (hyperv_pcpu_hostcall_struct) {
-> +		/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
-> +		flags =3D irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL;
-> +
-> +		hostcall_struct =3D (void **)this_cpu_ptr(hyperv_pcpu_hostcall_struct);
-> +		/*
-> +		 * The hostcall_struct memory is not freed when the CPU
-> +		 * goes offline. If a previously offlined CPU is brought
-> +		 * back online, the memory is reused here.
-> +		 */
-> +		if (!*hostcall_struct) {
-> +			mem =3D kzalloc_obj(struct rsi_host_call, flags);
-> +			if (!mem)
-> +				return -ENOMEM;
-> +			*hostcall_struct =3D mem;
-> +		}
-
-[Severity: High]
-Is it safe to assume this pointer is always initialized during a panic?
-
-If a secondary CPU panics before or during its bringup phase, its per-CPU
-hostcall_struct pointer remains NULL.
-
-The globally registered Hyper-V panic notifier runs on the panicking CPU and
-calls hv_set_vpreg() and hv_get_vpreg_128(). These functions unconditionally
-fetch the local pointer and perform an unprotected memset(hostcall, 0,
-sizeof(*hostcall)).
-
-Additionally, if cpuhp_setup_state() fails later during initialization,
-hv_hostcall_free() clears hyperv_pcpu_hostcall_struct to NULL. Since
-hv_common_free() does not unregister the panic notifiers, a subsequent
-panic would cause this_cpu_ptr(NULL) to evaluate to __my_cpu_offset.
-
-Could doing a memset() on these uninitialized pointers trigger a double
-fault in the panic handler or memory corruption, losing the crash report
-entirely?
-
-> +	}
-> +
-> +	return hv_common_cpu_init(cpu);
-> +}
-
-[ ... ]
-
-> @@ -85,6 +133,27 @@ static int __init hyperv_init(void)
->  	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
->  		return 0;
-> =20
-> +	/*
-> +	 * The RSI host-call buffer is only ever used when
-> +	 * is_realm_world() is true. Skip the per-CPU allocation on
-> +	 * non-Realm guests.
-> +	 */
-> +	if (is_realm_world()) {
-> +		hyperv_pcpu_hostcall_struct =3D alloc_percpu(void *);
-> +		if (!hyperv_pcpu_hostcall_struct)
-> +			return -ENOMEM;
-> +
-> +		hostcall_struct =3D (void **)this_cpu_ptr(hyperv_pcpu_hostcall_struct);
-> +		if (!*hostcall_struct) {
-> +			mem =3D kzalloc_obj(struct rsi_host_call);
-> +			if (!mem) {
-> +				ret =3D -ENOMEM;
-> +				goto free_hostcall_mem;
-
-[Severity: Low]
-Is this complex error handling and cleanup logic necessary here?
-
-Since hyperv_init() is an early_initcall, physical memory should be
-available. A failure at this stage typically implies the system cannot
-boot anyway, making this teardown logic unnecessary dead code.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260609181030.2378=
-391-1-kameroncarr@linux.microsoft.com?part=3D3
+        tglx
