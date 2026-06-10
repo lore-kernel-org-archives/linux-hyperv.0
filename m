@@ -1,83 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2662E3BADA3;
-	Thu, 11 Jun 2026 11:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D213F4DD5
+	for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 12:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781176672; cv=none; b=o5FPco1k7A/q8aEEmI8V/YL7n/P7Ahbyuk83hAXQWG50HWs8CN1V5QdAh6g7Dz/4fU3NRk74wD96G4fAWPmdlnLNL4G59BvsEubVz43Y2uq1ZHJgPiDWSkZO4WhysyEza/Vx6DEt66/ANLdNiQZvKsuwg0TkNW2q8fLLXx0N39s=
+	t=1781182678; cv=none; b=XqqESpvIVE4bp7TdEmXobuEI1yu1MQBVCsNmkQZt2CnqEIy4f4QFv4m35dyIj+LQ+P0S/2wcqWhU+KuAbc5+ff9IVrWeBQhdfAU1qGvsfJIlGaRa9f8ED4MQ1eTmyJVsbhwEyP7u68BMAlFRTUApM4dEXQFvhrez9gcVqIsWlhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781176672; c=relaxed/simple;
-	bh=LEK1uQ6gepWyXxIbWGCa9TpOLfVAzh+4u1xi7dpJ3Ec=;
+	s=arc-20240116; t=1781182678; c=relaxed/simple;
+	bh=pMz0XopnIHTyXSKV4o5NA6+8Cj6CQUbxxVzNeeDGF4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ALBOoQ+wRu0Nr+1Lhoa/keMMpvXQrtZDhyUSi0UuautZbgXgduw+KBr7lJ/HjHRJpCWw7cOg7emAFMvfUoSjX3ty7rUkCVRH1uaqwWx2CT6POGGgW7SfzQuK6O8EwvhM2vp5dEGxWo+zv3rZ+N6+FuhRlUwovW8rgVa3S73CzEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlteVp30; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=sOWhI3rjrsRlMwCtouBcQGjitvGLjltoO6X/sAus34wkFMCHyW40j6vD0huxgNpdNQcQwuGzPq2Mjf7FGSVM7EXrVFI9kfEMVI5lTkX21CWkCSrH3IRCOM+F/TPFKPpISLOges1S0Vuil0JTVSYaQdPZRLgrLKOLoKGdf98M1+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a9IzmbfQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlteVp30"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15031F00898;
-	Thu, 11 Jun 2026 11:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781176670;
-	bh=gY5+0gSQ05qfi/VBH8DsJ32bBdDvXncnKhTCvsRDcpM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YlteVp30zb+OYldlUwOIb2NTEdk6j/HzjFx/XMl7znJRXCdq35Us43/MvnI48nmdv
-	 nFu+J/qDYZ/UMdqjuRJANzmdfSDAaLoTIMWqHKjT6ngsnEbGI9jKSE7veLklSJe4ox
-	 ZSmtJAJVVOP8RfY9zqrulJRPakyJdLxmUGWBSJoW64pF+E732b53xEp1h3WSD6jST0
-	 y0J5O2XNJRC3dSVClXq0DTMkvqmWgsHBC350fkRvQk8kRMooKBbW3CvNzZl1IZp4bq
-	 RbTFc38gD8ZIVdOetfifudL8FEeUbruhdkBdrS0z7KQak3gj32Ua2W9HFhUHzyewUa
-	 qLDSiXgoGcJ8A==
-Date: Thu, 11 Jun 2026 14:17:45 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Cc: longli@microsoft.com, kotaranov@microsoft.com,
-	Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH rdma-next v3] RDMA/mana_ib: Clamp adapter capabilities at
- the ib_device_attr boundary
-Message-ID: <20260611111745.GM327369@unreal>
-References: <20260525190101.1264185-1-ernis@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a9IzmbfQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781182676;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wutI1NEOrxe0Ga9sQ5pG620uXi0d0C5Aj7NTI3FNepo=;
+	b=a9IzmbfQ8ZF1BXRf+V0sTTiuzM65oExHwPn0QjcU4SgDyyYXLEKX4fimURw1h1oRjHVirj
+	1aXLnFOsW8kDX0aBW8YrmTrYpWacVFtXuLjT5Vhbn/XJvD6u/GkIsTfXZW8tfBSQORZQTw
+	Dawa5otW4J3Kd/oyVRAegvKoRdl4L1k=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-49-_h9LaK_xPp-Cw2A3pjQP9w-1; Thu,
+ 11 Jun 2026 08:57:51 -0400
+X-MC-Unique: _h9LaK_xPp-Cw2A3pjQP9w-1
+X-Mimecast-MFC-AGG-ID: _h9LaK_xPp-Cw2A3pjQP9w_1781182668
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1984519775EB;
+	Thu, 11 Jun 2026 12:57:48 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.137])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 179B1180057F;
+	Thu, 11 Jun 2026 12:57:43 +0000 (UTC)
+Date: Wed, 10 Jun 2026 11:37:47 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sumit Saxena <sumit.saxena@broadcom.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+	Adam Radford <aradford@gmail.com>,
+	Khalid Aziz <khalid@gonehiking.org>,
+	Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Hannes Reinecke <hare@suse.com>,
+	"Juergen E . Fischer" <fischer@norbit.de>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Finn Thain <fthain@linux-m68k.org>,
+	Michael Schmitz <schmitzmic@gmail.com>,
+	Anil Gurumurthy <anil.gurumurthy@qlogic.com>,
+	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>,
+	Oliver Neukum <oliver@neukum.org>, Ali Akcaagac <aliakc@web.de>,
+	Jamie Lenehan <lenehan@twibble.org>,
+	Ram Vegesna <ram.vegesna@broadcom.com>,
+	target-devel@vger.kernel.org,
+	Bradley Grove <linuxdrivers@attotech.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Yihang Li <liyihang9@h-partners.com>,
+	Don Brace <don.brace@microchip.com>, storagedev@microchip.com,
+	HighPoint Linux Team <linux@highpoint-tech.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org, Brian King <brking@us.ibm.com>,
+	Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	open-iscsi@googlegroups.com, Justin Tee <justin.tee@broadcom.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth Patil <chandrakanth.patil@broadcom.com>,
+	megaraidlinux.pdl@broadcom.com,
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Ranjan Kumar <ranjan.kumar@broadcom.com>,
+	MPT-FusionLinux.pdl@broadcom.com, Daniel Palmer <daniel@thingy.jp>,
+	GOTO Masanori <gotom@debian.or.jp>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Geoff Levand <geoff@infradead.org>, Michael Reed <mdr@sgi.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Narsimhulu Musini <nmusini@cisco.com>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Eugenio Perez <eperezma@redhat.com>, virtualization@lists.linux.dev,
+	Vishal Bhakta <vishal.bhakta@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	xen-devel@lists.xenproject.org,
+	John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH v3 2/4] scsi: host: allocate struct Scsi_Host on the NUMA
+ node of the host adapter
+Message-ID: <20260610153747.GA121666@fedora>
+References: <20260609121806.2121755-1-sumit.saxena@broadcom.com>
+ <20260609121806.2121755-3-sumit.saxena@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="57Se20/pMUpk+P8R"
+Content-Disposition: inline
+In-Reply-To: <20260609121806.2121755-3-sumit.saxena@broadcom.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+
+
+--57Se20/pMUpk+P8R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260525190101.1264185-1-ernis@linux.microsoft.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 25, 2026 at 12:01:01PM -0700, Erni Sri Satya Vennela wrote:
-> mana_ib stores its adapter capabilities internally as u32 in
-> struct mana_ib_adapter_caps. The IB core, however, exposes the
-> corresponding device attributes through struct ib_device_attr, where
-> fields such as max_qp, max_qp_wr, max_send_sge, max_recv_sge,
-> max_sge_rd, max_cq, max_cqe, max_mr, max_pd, max_qp_rd_atom,
-> max_res_rd_atom and max_qp_init_rd_atom are signed int.
-> 
-> mana_ib_query_device() is the only place that copies the cached u32
-> caps into these int fields. If a cap exceeds INT_MAX, the implicit
-> u32-to-int narrowing yields a negative value. Clamp each cap to
-> INT_MAX at this boundary so the values handed to the IB core are always
-> non-negative.
-> 
-> While here, fix a related overflow in the computation of
-> max_res_rd_atom. It is derived as max_qp_rd_atom * max_qp, both of
-> which are int after the assignment above; the multiplication can
-> overflow an int even with the new clamps in place. Widen to s64
-> before multiplying and clamp the result to INT_MAX.
-> 
-> Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-> ---
-> Changes in v3:
-> * Drop clamping from mana_ib_gd_query_adapter_caps(). The internal u32
->   caps cache does not need to be clamped.
-> * Move all clamping exclusively to mana_ib_query_device(), which is the
->   only place the cached u32 values are narrowed into the signed int
->   fields of struct ib_device_attr.
-> * Reframe commit message: this is a u32-to-int type boundary fix, not a
->   CVM/untrusted-hardware hardening patch.
+On Tue, Jun 09, 2026 at 05:48:01PM +0530, Sumit Saxena wrote:
+> diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+> index 5fdaa71f0652..88375574cb18 100644
+> --- a/drivers/scsi/virtio_scsi.c
+> +++ b/drivers/scsi/virtio_scsi.c
+> @@ -929,7 +929,7 @@ static int virtscsi_probe(struct virtio_device *vdev)
+>  	num_targets =3D virtscsi_config_get(vdev, max_target) + 1;
+> =20
+>  	shost =3D scsi_host_alloc(&virtscsi_host_template,
+> -				struct_size(vscsi, req_vqs, num_queues));
+> +				struct_size(vscsi, req_vqs, num_queues), NULL);
 
-You should align all types to u32 and avoid hiding the issue behind  
-min_t().
+A virtio_device has a parent (this is the virtio transport, like
+virtio_pci) and that may have NUMA node.
 
-Thanks
+drivers/virtio/virtio.c:register_virtio_device() could call
+set_dev_node(dev, dev_to_node(dev->parent)) to propagate the NUMA node
+to the virtio_device if it is not already automatically propagated.
+
+Stefan
+
+--57Se20/pMUpk+P8R
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmophMsACgkQnKSrs4Gr
+c8h+7Af/Yl5xc4DOlpzwRNKEPqqogmtmADQbRI91eNljCoArG1qdxcTTSKksIgWC
+5g0jjNOCwbOatljS+FxPkDgpPYoZbsIv+K4p/D6UyHLP+Dff2FQhwPaAKkOvJi6k
+9BoNOORgp8ZKrf0RrCTr2M5clKgG0GT+5WxgezSZtTh6wSoN0ksL5kwqx+8B4sWw
+irnTFz4hZhKlUsYHWWYvNhiq0ChdmzYMdxw6GFwIWrRpNcElfSmOAMBE12bJeqIi
+u2/3ah3cSSanhmuITCC+dXImHUlYtxtFRBowqsxCEtdiRFs5srPStR/WW8yyZoXe
+mhXbMPjGmQXNdAT61yT9lw+ZVx2y1w==
+=kfg0
+-----END PGP SIGNATURE-----
+
+--57Se20/pMUpk+P8R--
+
