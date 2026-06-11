@@ -1,81 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF76D3CAA31
-	for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 10:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DA13375CB
+	for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 10:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172692; cv=none; b=OjvaRZ+e2AQOeyhmUEgLi2913AostNNwriZrQANs/xtBmujhNLzmNZd0gNoXuXfwkzyRetzlMEcIN9NRGn9Eiezqm7xljE8XwIr/bMegOQbNOuDf50iEpsNHSJ/L5DEyE6XrFy4T9ApteQ/wlj45fpBGfaTIEKjfb0i908c/jPc=
+	t=1781172732; cv=none; b=ltzxzNAcJ46D+MTn6S7qqZ39DmxGtjz815ZsqShjQfDHsBIvffRlxs9OxymDbyr6cS/OtivxNneA/34WBIJDXe7/9T/I+BjMwmE3dypZrycqC8ABCzURmJEknEAh/SDTnIPJgLzk3FfIxi/w8QPl2OtLsLN9d7amCrEk+hPaI2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172692; c=relaxed/simple;
-	bh=jYECQqhOuGSVvKdTwPWyVL5AujdqMA5a0nxgPXJ1KXA=;
+	s=arc-20240116; t=1781172732; c=relaxed/simple;
+	bh=0DTkubvoxHBUMHmj/JTP8y1M7mVG+8twCULO8Aq9NZw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=igRU15aIErmdtPa5xVr3ddkSnQ6dcw1Gd4sTEO0gCZZGv0xCfjBeBlx+XS8uDPvZwPH7JbdZnXt3au3/K6k5cDRJwkFf+lf56nNfHi3A9NtNTDN926AiNfgY7gCPQuSPrIwLK+hNCEWKPpRqadU/c+srp7el0XUgE4cGh8RkLy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V4wDati0; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=aUSRzXU9; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=ZsJMF1T3RQ/pcxgenJwmKiXiEuheUAQGxa5Jt/+4rKD7j0MNEtMTIAq9Aqvn/DwuNgTgVP44tQHbkdJ+lZChtTGdZroOYbo4fTeIpJhSri9eMT7yUeSSiGkV3ErY0N7aGN4DkT7+b/PTgr8OJeWXW+BlE3SMFuG2/oVfiV83f3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jQH+Awhi; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QR3XvazO; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V4wDati0";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="aUSRzXU9"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jQH+Awhi";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QR3XvazO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781172689;
+	s=mimecast20190719; t=1781172730;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8J03CxoywVvGkdqDT93IzLl+xZxTV2J8FpCDOD6Xyq8=;
-	b=V4wDati0cTd3kX5sMPsw3op3tmBPD0gd4A6IfmxwLfYgxXcXdJx89HZu5LWLlBs0Ps1Tr0
-	5uExXAQbYeULw1ta3bFLyJDqOlAareV/IpqtUu1IhNRgb/I4NVnINKIhDKLEiF4o7fYn1+
-	vlySgvoppTd5TWK78f9zWAqwIYx3iiA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=q0r9Bb05wU768Bts6kNipr0zjojivSJzgQogOHI5wH0=;
+	b=jQH+AwhiNYfDNE+fpr4EyyfDzX+dLcde4fPwRfQtPkFv4U4Ir1NylXa63M2xY7sHY9Lsh0
+	2QjNaTT2VebPP1X4WLmCuDf8Q08O5dzGXjc8KU7LN722trj0LbRBVADxg9kRbg8AOdBkGb
+	FynE6i7WfrFwElLyvj9LvMXWaXI+0/g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-g9dfAIIaOw6FkGoWECmTlA-1; Thu, 11 Jun 2026 06:11:28 -0400
-X-MC-Unique: g9dfAIIaOw6FkGoWECmTlA-1
-X-Mimecast-MFC-AGG-ID: g9dfAIIaOw6FkGoWECmTlA_1781172687
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-45ef55779d1so4930069f8f.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 03:11:28 -0700 (PDT)
+ us-mta-681-5-3LXCjNNLyOdTGGZ6h1zg-1; Thu, 11 Jun 2026 06:12:09 -0400
+X-MC-Unique: 5-3LXCjNNLyOdTGGZ6h1zg-1
+X-Mimecast-MFC-AGG-ID: 5-3LXCjNNLyOdTGGZ6h1zg_1781172728
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490c4f61a34so41269755e9.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 03:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1781172687; x=1781777487; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1781172728; x=1781777528; darn=vger.kernel.org;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8J03CxoywVvGkdqDT93IzLl+xZxTV2J8FpCDOD6Xyq8=;
-        b=aUSRzXU9QGaPji1/m7+ubGAHyjvOG+cgcCuYdukcDW3oA/SA0WNQNZOwPoZbL+qVUh
-         6pYQi7GBoOXMx1VbafPxYNybbDG1qfs+8envw+5udPKDaNq/DhwV/fXqa8lMRgkCKh2k
-         f7oL9yGzd9Aafzg+wP5TGSDL+AbTmgaQP+MMEakWYHBkPyzhqwKvsUPOkWSTgHU66XhA
-         rurCOFr6ZtC7i+/POAS795ZYG2t8Rz9ASJXkk5b/r9//qynvC4lIYUNM2wy3YixFQq8q
-         ZVvV6ny4Wp19+8Htbmd0+LN2xrOfUN01SZpjfX8u/dqLOnY0gXaFG9MmqdKXOVyqHtIk
-         FELw==
+        bh=q0r9Bb05wU768Bts6kNipr0zjojivSJzgQogOHI5wH0=;
+        b=QR3XvazOsjMUZk1ZXGzPlbIZJ65yiI1gk/o8VU5XSCgCZnJU8bl/twjoPQcdWbAdZX
+         KdJ1vgB3WkGOxvyKlFmJzbxZtpUueoWp3eAMZRtTpz+PPmZoA9RbiKe5RdzGtJiUqnvS
+         WVMqE+L/7wg+2Y3lczY7UNyXATbYk/0Zn/nfBSN/MwdTyAgfkHBq9bPh7QeAHhniaUQ/
+         2NLUM/XdKhD+zdEqQlCdebSKp6IH3YdUT0fuLpL5IiNbG+dmC5429KH3FOX/v1951u1G
+         8lP3yXir0mDlJOPir73L2UAUEoXWBLzqYyWcCyK0OvdEsrIa5MgaGkE8GANZORZtzRWY
+         U15Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781172687; x=1781777487;
+        d=1e100.net; s=20251104; t=1781172728; x=1781777528;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8J03CxoywVvGkdqDT93IzLl+xZxTV2J8FpCDOD6Xyq8=;
-        b=dlJGK5EI9Rb8IlwGQ6US0g7unNXssLJORMMzp/yLs0Jl08bb8cnTTMNFidWizrnbbZ
-         oVpt+ofXn/s9WgPI1a8j5uKP5EvQ1IrH/eNy0DibSyyZR3bjTIaxy+8g/i4QqEekbQMe
-         l/nJteBpLZQ4c9Dc+rXcFKOaexAZ9+z+BzMTP2rZzyNOT+ATFd6B6Qv2l3N8A/aopqod
-         5XkL03sXqfZY/h+/HwWjTc3BU56NuUHD2iW41vydqs98PBdosVb39LHwPB2oHx6i3JeL
-         K0UYrkcqF9fn+LxHoFv5WCUspiywwmZ7O82veME5WyzQZM44AqlRjmkNfxeyH7hw/txg
-         dTcQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/1dDLTfRgzEoi7trL5WgOgV3753K91hkaFU45rBNo6CSxF55ip04d+MUZ0Tpddswhlv8/9jy3VIFwu1QE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMInWU6fSLbI5AEqP9XkdqIIJr9qEcwJfQxoD13lKvJtBK/z1j
-	otYN/doRcG2sW6lduZ8otIbvK2jJLu8OWIR22UAeeJfW3gRc3T1mE6ETf7B6/9/++eLHft6ZifR
-	Qzfc0lhWna2xPwv7MV+cxxyVPZDjkCXdyhw0CfuND0bgykHmWMLMFIapSlCxaDUtUag==
-X-Gm-Gg: Acq92OGgYdxSJiiHQkmh3Tyip/a2LD2GR3npQw5scY3tUal50Nv3DNQOSPNEvfwydgQ
-	PYrUlqQ8Ax8eBXAuFB/L2BSOm4NB8zJUPHqZ/NiVmUSpPD8KkPvNQM9BbMEUerpdf7WgF/PsbSw
-	0AcuPv9mUetmIdS9BhdhEmz1vvgeyXYWiQnTpZrxQ2SbrZIQRPnmph0xto8MIfB9b95Je0xtXU6
-	XPkxc0ZQFikPXeVe3zFPsGjKIHRJz7VJYy4mX2Uve8gruMseGLiOOCbqzlsGW3XHNJJnBUrOoZn
-	dqhP23K5W63zvZJJxP3C3YYMxjLKlE8OHXNewNAnWRHRJJ24FxFuLfUUSEvn3s8glPbOA1mLqNM
-	GM/EvVg7wnw2LkaiT1ik7Rgx7h2hFUUkuLG0yTmjP9Kq0zWfVxfawYsasYHkDqtrMazzck8BBM3
-	E0z8u2CgTifD5PqJI=
-X-Received: by 2002:a5d:524f:0:b0:460:3233:bee8 with SMTP id ffacd0b85a97d-460677b28camr2150196f8f.40.1781172687246;
-        Thu, 11 Jun 2026 03:11:27 -0700 (PDT)
-X-Received: by 2002:a5d:524f:0:b0:460:3233:bee8 with SMTP id ffacd0b85a97d-460677b28camr2150129f8f.40.1781172686816;
-        Thu, 11 Jun 2026 03:11:26 -0700 (PDT)
+        bh=q0r9Bb05wU768Bts6kNipr0zjojivSJzgQogOHI5wH0=;
+        b=QjU/NYtdTINkY+MPI3BP/hOocec9h3H39huEBsPZZ0HfGfTSXKoxNwEHTmj6N5o9fh
+         91mTirLhihl4HNfSC26lizi7CBe+AqaXZmGSJ9m02IDnpAzUug86EUD6wb8CJ233KQKH
+         k1fQQhX2/ZVcxLKeW8+Si2kPFZJ36zK2FidlsWjxhiGiuvxd5oS0A4PmFEyBOouF7lfB
+         DZm14bvr9d5dJsSJjMhSPoNmRCfGxkD6lc5EQ6wBTMI2fg2uoSxPu9R3sLTGtek4F6wd
+         ppOZR6lxFTXUrHK0KPtyJymr896AjsSdGN8vlddtsuFE+WIGu9k3VWOKoS8TrntP+ayL
+         Mqjg==
+X-Forwarded-Encrypted: i=1; AFNElJ+CqHfDC1btZ57BZ+CatsmlJsqrnZyJYmpdK9K2FjP1FdCxpcSpmlP51kmOsXTe+0IFRfeNG2Fa8sAAvRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxqu7gCIRYzmWv2NP9RqbHIFM+TemskCzh48T0iT2TWayKkf4b1
+	1HSd+mIjkDg2uvLvChVDPxY+mbYHKs4YQ3X84fRMx8pRiO+4oh0O9u6fPeazLK8YxgD7zM6PKP6
+	Yz75ErArVBWFVWFmUc9oyFbvqYrolcbhHcx43UiNHKNUz4OJXk+YjMWBktxWDy5MJNw==
+X-Gm-Gg: Acq92OEC0ZpCxTVVctYKzlIfBl5GXk2b5pvZWeBSjEM8oqKA+XSqBhmkABG/H3QxZiR
+	zRN2eg9vWFXR66jl1inkfjXmZE/A3fvIG30BE/b0vHhA0vTGAsZWEKRk3RSyFFck8Yie31uwTOf
+	OofTF3yxnHA/66D7Y3EFCFUnV6/Gpmb5NXr73csytnCizJtJ9jN3O3+Vh8q7py0J5pFj980udmY
+	aF14nhdtjXz8wnbBBZYLfyAKPWNPD2qvCZW8puv/NGuH/7SnTII8DCj0ug87oXfXUgobbnM6kj7
+	PUgL3RMn+rYXZWcSLjls1+gVpuqZgX4QC3wrfn4UvjOErML9TsiHLOZw7euLKj/MnSR27XVUAcN
+	ZUnnFfaNj7XCR9XedDl8CevST2mC6C1Tq8zU+Q8F0dEopfjbkOHY8ujE9Mf2n1nbmdlhWgEalIq
+	j95I8GVD2fZsGuahA=
+X-Received: by 2002:a05:600c:a39b:b0:490:c08b:b24b with SMTP id 5b1f17b1804b1-490e5607e3cmr15876015e9.26.1781172728108;
+        Thu, 11 Jun 2026 03:12:08 -0700 (PDT)
+X-Received: by 2002:a05:600c:a39b:b0:490:c08b:b24b with SMTP id 5b1f17b1804b1-490e5607e3cmr15875655e9.26.1781172727683;
+        Thu, 11 Jun 2026 03:12:07 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm63288157f8f.10.2026.06.11.03.11.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e2d09a85sm51975965e9.14.2026.06.11.03.12.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 03:11:26 -0700 (PDT)
+        Thu, 11 Jun 2026 03:12:07 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, airlied@redhat.com, airlied@gmail.com,
@@ -91,14 +91,14 @@ Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-mips@vger.kernel.org, virtualization@lists.linux.dev,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org, Zack Rusin <zackr@vmware.com>
-Subject: Re: [PATCH v5 02/15] drm/i915/display: Handle struct
+ Zack Rusin <zackr@vmware.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v5 03/15] drm/vboxvideo: Handle struct
  drm_plane_state.ignore_damage_clips
-In-Reply-To: <20260610152505.260172-3-tzimmermann@suse.de>
+In-Reply-To: <20260610152505.260172-4-tzimmermann@suse.de>
 References: <20260610152505.260172-1-tzimmermann@suse.de>
- <20260610152505.260172-3-tzimmermann@suse.de>
-Date: Thu, 11 Jun 2026 12:11:25 +0200
-Message-ID: <87v7bp5quq.fsf@ocarina.mail-host-address-is-not-set>
+ <20260610152505.260172-4-tzimmermann@suse.de>
+Date: Thu, 11 Jun 2026 12:12:06 +0200
+Message-ID: <87se6t5qtl.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -111,21 +111,23 @@ Thomas Zimmermann <tzimmermann@suse.de> writes:
 
 > The mode-setting pipeline can disabled damage clippings for a commit
 > by setting ignore_damage_clips in struct drm_plane_state. The commit
-> will then do a full display update. Commit 35ed38d58257 ("drm: Allow
-> drivers to indicate the damage helpers to ignore damage clips") introduced
-> ignore_damage_clips to selectively ignore damage clipping in certain
-> framebuffer changes.
+> will then do a full display update.
 >
-> The i915 driver does not modify the flag, but DRM's damage iterator
-> will soon rely on it. Calling drm_atomic_helper_check_plane_damage()
-> right before drm_atomic_helper_damage_merged() guarantees that it
-> has the correct state. The i915 driver does not do this elsewhere
-> so far.
+> Test the flag in the primary plane's atomic_update and do a full update
+> if it has been set.
+>
+> Commit 35ed38d58257 ("drm: Allow drivers to indicate the damage helpers
+> to ignore damage clips") introduced ignore_damage_clips to selectively
+> ignore damage clipping in certain framebuffer changes. Vboxvideo does not
+> do that, but DRM's damage iterator will soon rely on the flag. Therefore
+> supporting it here as well make sense for consistency.
+>
+> While at it, also replace uint32_t with the preferred u32.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Fixes: 35ed38d58257 ("drm: Allow drivers to indicate the damage helpers to ignore damage clips")
 
-Same comment here than for patch #1. I don't think this is a fix.
+And for this one as well.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
