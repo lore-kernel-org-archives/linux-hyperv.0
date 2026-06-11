@@ -1,176 +1,311 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023111.outbound.protection.outlook.com [40.107.201.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D213F4DD5
-	for <linux-hyperv@vger.kernel.org>; Thu, 11 Jun 2026 12:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781182678; cv=none; b=XqqESpvIVE4bp7TdEmXobuEI1yu1MQBVCsNmkQZt2CnqEIy4f4QFv4m35dyIj+LQ+P0S/2wcqWhU+KuAbc5+ff9IVrWeBQhdfAU1qGvsfJIlGaRa9f8ED4MQ1eTmyJVsbhwEyP7u68BMAlFRTUApM4dEXQFvhrez9gcVqIsWlhE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781182678; c=relaxed/simple;
-	bh=pMz0XopnIHTyXSKV4o5NA6+8Cj6CQUbxxVzNeeDGF4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sOWhI3rjrsRlMwCtouBcQGjitvGLjltoO6X/sAus34wkFMCHyW40j6vD0huxgNpdNQcQwuGzPq2Mjf7FGSVM7EXrVFI9kfEMVI5lTkX21CWkCSrH3IRCOM+F/TPFKPpISLOges1S0Vuil0JTVSYaQdPZRLgrLKOLoKGdf98M1+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a9IzmbfQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BB5409E01;
+	Thu, 11 Jun 2026 18:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.111
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781203130; cv=fail; b=c6l6PYZJKWDeWYFIRUnLRgoCqAN1phC6Jx1ktrZ0VV/5nlqNqAHq24b8PgnnIUKAK5eIn3SN2AUcrcl9ckl0ElbqcuLrrls11u5PpSa+JtKEghcnE5y7G0bbXHY44b8FryymI6GvOXIWUYj47Uu6vEdpah89121O6PvYXzvrob4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781203130; c=relaxed/simple;
+	bh=neUF6C40ltTP2z8l8sjRXlENiVbaWR5WmyE9OaVCoBo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CdGIC+yxa4RJCBkF6GqN8Y4LEntjHdFhsJoBgm505pYOEYhhTKNMFfsw9XQhufkjPi2aKOTJnki2SHmB/WNFa/Bkt0D+o+4xx/ikVB76ZiT1gfjV9zam5bQ4dS2O2/1W8u2aeZaHAAUTN3uoODxcgKcY6ylPHQwfOg1xyDyWyS0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=KJvdhnMz; arc=fail smtp.client-ip=40.107.201.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a9IzmbfQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781182676;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wutI1NEOrxe0Ga9sQ5pG620uXi0d0C5Aj7NTI3FNepo=;
-	b=a9IzmbfQ8ZF1BXRf+V0sTTiuzM65oExHwPn0QjcU4SgDyyYXLEKX4fimURw1h1oRjHVirj
-	1aXLnFOsW8kDX0aBW8YrmTrYpWacVFtXuLjT5Vhbn/XJvD6u/GkIsTfXZW8tfBSQORZQTw
-	Dawa5otW4J3Kd/oyVRAegvKoRdl4L1k=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-49-_h9LaK_xPp-Cw2A3pjQP9w-1; Thu,
- 11 Jun 2026 08:57:51 -0400
-X-MC-Unique: _h9LaK_xPp-Cw2A3pjQP9w-1
-X-Mimecast-MFC-AGG-ID: _h9LaK_xPp-Cw2A3pjQP9w_1781182668
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1984519775EB;
-	Thu, 11 Jun 2026 12:57:48 +0000 (UTC)
-Received: from localhost (unknown [10.2.16.137])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 179B1180057F;
-	Thu, 11 Jun 2026 12:57:43 +0000 (UTC)
-Date: Wed, 10 Jun 2026 11:37:47 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sumit Saxena <sumit.saxena@broadcom.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Adam Radford <aradford@gmail.com>,
-	Khalid Aziz <khalid@gonehiking.org>,
-	Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Hannes Reinecke <hare@suse.com>,
-	"Juergen E . Fischer" <fischer@norbit.de>,
-	Russell King <linux@armlinux.org.uk>,
-	linux-arm-kernel@lists.infradead.org,
-	Finn Thain <fthain@linux-m68k.org>,
-	Michael Schmitz <schmitzmic@gmail.com>,
-	Anil Gurumurthy <anil.gurumurthy@qlogic.com>,
-	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>,
-	Oliver Neukum <oliver@neukum.org>, Ali Akcaagac <aliakc@web.de>,
-	Jamie Lenehan <lenehan@twibble.org>,
-	Ram Vegesna <ram.vegesna@broadcom.com>,
-	target-devel@vger.kernel.org,
-	Bradley Grove <linuxdrivers@attotech.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Yihang Li <liyihang9@h-partners.com>,
-	Don Brace <don.brace@microchip.com>, storagedev@microchip.com,
-	HighPoint Linux Team <linux@highpoint-tech.com>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	linuxppc-dev@lists.ozlabs.org, Brian King <brking@us.ibm.com>,
-	Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	open-iscsi@googlegroups.com, Justin Tee <justin.tee@broadcom.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth Patil <chandrakanth.patil@broadcom.com>,
-	megaraidlinux.pdl@broadcom.com,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-	mpi3mr-linuxdrv.pdl@broadcom.com,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Ranjan Kumar <ranjan.kumar@broadcom.com>,
-	MPT-FusionLinux.pdl@broadcom.com, Daniel Palmer <daniel@thingy.jp>,
-	GOTO Masanori <gotom@debian.or.jp>,
-	Jack Wang <jinpu.wang@cloud.ionos.com>,
-	Geoff Levand <geoff@infradead.org>, Michael Reed <mdr@sgi.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Narsimhulu Musini <nmusini@cisco.com>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Eugenio Perez <eperezma@redhat.com>, virtualization@lists.linux.dev,
-	Vishal Bhakta <vishal.bhakta@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	xen-devel@lists.xenproject.org,
-	John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH v3 2/4] scsi: host: allocate struct Scsi_Host on the NUMA
- node of the host adapter
-Message-ID: <20260610153747.GA121666@fedora>
-References: <20260609121806.2121755-1-sumit.saxena@broadcom.com>
- <20260609121806.2121755-3-sumit.saxena@broadcom.com>
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="KJvdhnMz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ogOTXJI03pTq+Kpqr5eiqOqGLWiCirkTIHMzU5aGSxA0ruWT67irEUmy8wR5ZK94O4wBJTy5Hg48kRlduunaLMKlM6nFiluoJWUOoxWMiWD9zcDr6Zbee9KG44DTBd+hTtBCxfOH73dpoDh11yNNL+7L0FgHCo2t1/HcyQj1Smk22vXoD14FL6N2FwpajhuLTggytiBvnAw7+6QQlSEJa5ZI0qb3UGhtFUbQtJveI09Wcn4Y4+sIT8RETzuKxFdXWEQmjegPgJrpucLsvc4SNp07Lex2qnk1o3wJATL+PJGdqbG4GtMCvhFtVm6+3GX0wnaVY/GiuBmgntiLj3rlOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NWGVqU4j4kKwh5yMfFFdoP3PH/zYZiyb2C/W0H8bAYE=;
+ b=yoeNrRPgecRIrY8BTH45SY8Szv9RoijcvXnZo7+IT+di47P9UTPitAUD/QOn4/3ScbB/YoAVRZgJk5Sxsj+kvZGsYCcJ0vVMyWZZiIf+AIYVMLVjBenbbsaU7D8APFSIkLRx8OSBYg31cjLD73k42PfZXSOfPiYS4516j8jXt5j9tCh67eObLAhhZQMlpXn3ChH0hUWFYTnYSJff6+XMsB8nRnzbUKUDD323yBJSoIRXhFJFG0uscNif7igVQrQ0NJ3HJatzrqplyHPzc1hWjQq8/g/M/a9KV3Xm20jl9BXmZwkeTOGbi4mlSF3T0eMrwlplj6cGRDBh/zyb0pjMtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NWGVqU4j4kKwh5yMfFFdoP3PH/zYZiyb2C/W0H8bAYE=;
+ b=KJvdhnMzHpYRFPC3URPYPdL85PkrfkCxGTb/uWwZwObT/jHOOzXNiOBZHd3tGtYnXdimSXvoaZkKFvvoxdPP2taUgj/9TJ/1Bk7E79MJshGXJHGtGTwxDh7QJBw9beCtgnfo9deqBzL+BjvNktHjGDaU8HOCOlse76RvIq8szJU=
+Received: from SA3PR21MB3867.namprd21.prod.outlook.com (2603:10b6:806:2fc::15)
+ by SA1PR21MB6224.namprd21.prod.outlook.com (2603:10b6:806:4a8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Thu, 11 Jun
+ 2026 18:38:45 +0000
+Received: from SA3PR21MB3867.namprd21.prod.outlook.com
+ ([fe80::d8ab:5f37:de73:8e6]) by SA3PR21MB3867.namprd21.prod.outlook.com
+ ([fe80::d8ab:5f37:de73:8e6%5]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
+ 18:38:44 +0000
+From: Haiyang Zhang <haiyangz@microsoft.com>
+To: Paolo Abeni <pabeni@redhat.com>, Haiyang Zhang
+	<haiyangz@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, KY Srinivasan <kys@microsoft.com>, Wei Liu
+	<wei.liu@kernel.org>, Dexuan Cui <DECUI@microsoft.com>, Long Li
+	<longli@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Konstantin Taranov <kotaranov@microsoft.com>,
+	Simon Horman <horms@kernel.org>, Shradha Gupta
+	<shradhagupta@linux.microsoft.com>, Erni Sri Satya Vennela
+	<ernis@linux.microsoft.com>, Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	Aditya Garg <gargaditya@linux.microsoft.com>, Kees Cook <kees@kernel.org>,
+	Breno Leitao <leitao@debian.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>
+CC: Paul Rosswurm <paulros@microsoft.com>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Add Interrupt
+ Moderation support
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Add Interrupt
+ Moderation support
+Thread-Index: AQHc9Hvnc8R+OuuuVUezkHZXdfhMurY2RJmAgANw+dA=
+Date: Thu, 11 Jun 2026 18:38:44 +0000
+Message-ID:
+ <SA3PR21MB3867834B58ABCAA272CA72A5CA1B2@SA3PR21MB3867.namprd21.prod.outlook.com>
+References: <20260604234211.2056341-1-haiyangz@linux.microsoft.com>
+ <dcd35c42-3aae-4ba2-bd84-4af08467b2fc@redhat.com>
+In-Reply-To: <dcd35c42-3aae-4ba2-bd84-4af08467b2fc@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=42efeff9-93c6-41b7-a132-5e4072e2b716;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-06-11T18:22:32Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR21MB3867:EE_|SA1PR21MB6224:EE_
+x-ms-office365-filtering-correlation-id: 4059f281-46d4-4a49-db04-08dec7e8ab02
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|38070700021|18002099003|22082099003|921020|4133799003|56012099006|11063799006|4143699003;
+x-microsoft-antispam-message-info:
+ fofhhVbaedyoHUOXSQSe2TlOLXsYj1XZNuhBZJGVCQIXMK0Oir3fnqrFQSdafRtuUCc293sCtIMW2gfkI++2ggA/NJbHs/zJGdT8cnqg3ZedzwQtv+UqenLI33Sqc/j235GrWNSivYpGPZ07jgZGd4sYRlyfUiTZ2hpGhDf8QNdG8C/KGh9jxCT5Zy6OmFkIurvNdQNMxOifPI+LwMRm9JqCC8CQrSu8mM2Rmbt4zxhMOrQL40C4G1G5Eu00BjCfvYPPpog7x/uH7OQuNEptEw7WZQ26PT6DgXv2jdfnBXR53bcEjrO5bfv4zXxqPSkCcr6wMlJFW/KTKXYeoTQb60Wu84DQVuBtewiS0EpbI0STCc+QnsVpMHFXEMFmvzjqkjkOSjJrrffcE/dSWYJ2VQoYQlHOyDSy4pr8yRZv5YrCPVOsPr+rCaZfWgOuPrNBc8v4es3IfgVG8+6h0V92bXAG6lZm1jkRqMcU34ke/iF8Y/lBT2BP4nwXCnzbhyQ9RZM4f6RN0tiftvGxRdnypGqdnlyRXWEj9qWA6us2omzspMNEyai3CqE5X9fOycuRQMmOIwAH/dgTYhJN4/YdiEWWjj4hn+tWYlu4pQiZRorp1RyvB4IadbFuUOSuFODtVyVAT0SQoe9Jpt2fwu0Wg69cZU+2OrraOOJ7zvjACZfqXN1/a/m35FjbzphH79kNi4HdKDblESJcpXGMMASscNMAv73KcQTmLvneGVf5170tk4KRKweyGtJ0gS34KdmGTvaGY8hQzfkAogfLZd5hIg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR21MB3867.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(38070700021)(18002099003)(22082099003)(921020)(4133799003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?JiIyJElwFNbtwEL+Kfada0mW9LbwCf9sO9zKduCVAVc0QtSB9R6+dPYN0guo?=
+ =?us-ascii?Q?mLdyIpRy11vZY7+QygnrRkg38iGlNcqbsayON/Zbb7OhFzUYk0eZZTeJR/lQ?=
+ =?us-ascii?Q?4PodNCaF1DjQGQRdF5JOXnodEBwi8165Q7dtPyDKAcfEiAKjFKTKK2AMVJLa?=
+ =?us-ascii?Q?vR4WU9XeqNX3wNMSa7Exd3xYKiVad1tsPp0/D/hA6jotQXJ6lxgSsU76YMI5?=
+ =?us-ascii?Q?66SBfQFyS6DA+dxNspzCQhL5/7z4iz/jXkcRYEOxkzGPqwT4oqh8z0C6TkuF?=
+ =?us-ascii?Q?eLLHb9eHIHhJcb7s0Ycvhlmn9nkBzFSXzTcVxPo4Dcb21u4XfNcRr7zJOH3H?=
+ =?us-ascii?Q?s4hTZWiOY2Rg7OHsU7Bz8BH8ZjRej6YLymAI2e3GehBEDekyoC6JASlYd9mw?=
+ =?us-ascii?Q?Ng+V9AqHtNFEPcnM146sPQJUpEQK/pYLRUXnk+Xtb6+jw6Mu1n7ZIRJvhvUy?=
+ =?us-ascii?Q?tYS07SkvQrbCFzeSu3TjnzvTNGiRRvHF+AE8y9kV09gqNjG/MSgWul9enJhr?=
+ =?us-ascii?Q?kIJyJdWaFQypsxoBuGnIctPNDrYkzft3UZ6eQJ2THHGCdM4pFULOzdbSuln6?=
+ =?us-ascii?Q?BjSlqf3Xapjum8O/VTzf1JBcqCznaLZRfTrTF1omxNsC9zxD155vzcGK+OaW?=
+ =?us-ascii?Q?SJyX0nNmkVu5EajLW0KpQaTTrk6HZ/aovlCPX7X+mspVkDoMs9fbDYfGLZZu?=
+ =?us-ascii?Q?FiuDKPR1ZzIg+mjpt9yz3C3syPR9RrdEnXkW9GU5fcSJwOucmp+rKaSiX0mW?=
+ =?us-ascii?Q?hCDTffvoR0BUSvco+gC+vHHV/YOTl1vXqZJjSrDfFamALX8ZZ5GqO9a385oi?=
+ =?us-ascii?Q?6ICTUeatoWAqNN844rHr/GwWjTmeOqAAPtYiL8zzFzmloandkwayP/lkk33v?=
+ =?us-ascii?Q?mVu4fCkNBuZLyndMjpA/AclXnBKxW6V8INNfH1t3zrll9ZFrqY32O5dtBIny?=
+ =?us-ascii?Q?61sCRmv2jJbCbo0dHaKuQv3gQPubKq3W4qSjb8b1l9WvHT13TOb6V1IYsFUK?=
+ =?us-ascii?Q?rZmhwYlms+yLWdDWXhOLPoeTuj9P6aiHGUAA6tCUSQawtUJR4n/Iq1U39Naz?=
+ =?us-ascii?Q?d6F2h62jLqCQuYzvnGi2tvYMYBAlaXYpV1bg0BrWLaU35eJGpy+wOUysaAHK?=
+ =?us-ascii?Q?d40vXAxTduqQOyZAEDgmE1QYQPHpdNrTHDNDl1+C9Lb2lQe8iihHRhMmNVln?=
+ =?us-ascii?Q?mLsCGhQevuGhucB7tmIdM4o3ODTFzaoZmDjtN3rL4rsxA2sIbxIVGiOEGu66?=
+ =?us-ascii?Q?ZLF+TjjRkc9WNWHRpNTsNopwYr2Fs/940xCLmg4ARJG+4TMFik5WY6OPcEta?=
+ =?us-ascii?Q?ljE1xmLTBCIvmeUcMS8rq6m+Zmu+6Pw+n46NKgy0GrQAsOAGyoaAqh+cgz52?=
+ =?us-ascii?Q?+ONX7Zth0F4SLvcYURfJAyqQhFRAMYSI7aauGpJXoTUMf1d/w9bwd/Wkvaga?=
+ =?us-ascii?Q?mt74y2pkpMxu3U3dfyVlOC2Adt0jkn11ZBfdKXDuCu/AsoDt+Ggjho6Z67co?=
+ =?us-ascii?Q?hQM+B2NHWJP2uaQVLjbUJqI/0izTjzvUCSdLuuHIc0oR20udqX/Mf9eXso4a?=
+ =?us-ascii?Q?YPRvD7YST36CAGtQo5k46W4XaKbAGV3zeJQGioj2wJS6gAhSkBs39ogNnlFq?=
+ =?us-ascii?Q?NWYN1VQH1UeNLru7mwzGe/HpRAG2VB5VGA+4yM5NfYv4753k6A9wKkD3mJ3m?=
+ =?us-ascii?Q?eLioiE69rC91hxAbWGH3LsW1pu1iZdEpKs9x7OvatUnvgzoKx0+VLJdo1AaH?=
+ =?us-ascii?Q?gkq3HyLgdw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="57Se20/pMUpk+P8R"
-Content-Disposition: inline
-In-Reply-To: <20260609121806.2121755-3-sumit.saxena@broadcom.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR21MB3867.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4059f281-46d4-4a49-db04-08dec7e8ab02
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2026 18:38:44.8080
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zdr0qx0xZNlht66jO4Z+eGrrrSP2I6Sp8yAkQfZv79AqqrJL1cQ4poknwz9VQ4bV3tbCwx9wLDWMLi/HZX/aWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR21MB6224
 
 
---57Se20/pMUpk+P8R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 09, 2026 at 05:48:01PM +0530, Sumit Saxena wrote:
-> diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-> index 5fdaa71f0652..88375574cb18 100644
-> --- a/drivers/scsi/virtio_scsi.c
-> +++ b/drivers/scsi/virtio_scsi.c
-> @@ -929,7 +929,7 @@ static int virtscsi_probe(struct virtio_device *vdev)
->  	num_targets =3D virtscsi_config_get(vdev, max_target) + 1;
-> =20
->  	shost =3D scsi_host_alloc(&virtscsi_host_template,
-> -				struct_size(vscsi, req_vqs, num_queues));
-> +				struct_size(vscsi, req_vqs, num_queues), NULL);
+> -----Original Message-----
+> From: Paolo Abeni <pabeni@redhat.com>
+> Sent: Tuesday, June 9, 2026 9:49 AM
+> To: Haiyang Zhang <haiyangz@linux.microsoft.com>; linux-
+> hyperv@vger.kernel.org; netdev@vger.kernel.org; KY Srinivasan
+> <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>; Wei Liu
+> <wei.liu@kernel.org>; Dexuan Cui <DECUI@microsoft.com>; Long Li
+> <longli@microsoft.com>; Andrew Lunn <andrew+netdev@lunn.ch>; David S.
+> Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub
+> Kicinski <kuba@kernel.org>; Konstantin Taranov <kotaranov@microsoft.com>;
+> Simon Horman <horms@kernel.org>; Shradha Gupta
+> <shradhagupta@linux.microsoft.com>; Erni Sri Satya Vennela
+> <ernis@linux.microsoft.com>; Dipayaan Roy
+> <dipayanroy@linux.microsoft.com>; Aditya Garg
+> <gargaditya@linux.microsoft.com>; Kees Cook <kees@kernel.org>; Breno
+> Leitao <leitao@debian.org>; linux-kernel@vger.kernel.org; linux-
+> rdma@vger.kernel.org
+> Cc: Paul Rosswurm <paulros@microsoft.com>
+> Subject: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Add Interrupt
+> Moderation support
+>=20
+> On 6/5/26 1:41 AM, Haiyang Zhang wrote:
+> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > index db14357d3732..b1e0c444f414 100644
+> > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > @@ -1551,6 +1551,9 @@ int mana_create_wq_obj(struct mana_port_context
+> *apc,
+> >
+> >  	mana_gd_init_req_hdr(&req.hdr, MANA_CREATE_WQ_OBJ,
+> >  			     sizeof(req), sizeof(resp));
+> > +
+> > +	req.hdr.req.msg_version =3D GDMA_MESSAGE_V3;
+> > +	req.hdr.resp.msg_version =3D GDMA_MESSAGE_V2;
+>=20
+> Sashiko noted the above cold break initialization on older firmware:
 
-A virtio_device has a parent (this is the virtio transport, like
-virtio_pci) and that may have NUMA node.
+Our firmware is forward compatible with newer message versions, so the=20
+old firmware still properly handles this message, just the new feature=20
+fields are ignored, and queue creation will be successful.
+And if the DIM capability bit is zero from FW, driver will keep the DIM
+feature to be off and unchangeable.
 
-drivers/virtio/virtio.c:register_virtio_device() could call
-set_dev_node(dev, dev_to_node(dev->parent)) to propagate the NUMA node
-to the virtio_device if it is not already automatically propagated.
 
-Stefan
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fsashi=
+ko.
+> dev%2F%23%2Fpatchset%2F20260604234211.2056341-1-
+> haiyangz%2540linux.microsoft.com&data=3D05%7C02%7Chaiyangz%40microsoft.co=
+m%7
+> C9cc8d2c7aa7f472ff8e308dec62def04%7C72f988bf86f141af91ab2d7cd011db47%7C1%=
+7
+> C0%7C639166097783522606%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsI=
+l
+> YiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C=
+%
+> 7C%7C&sdata=3DTB7q6EhtR6HJ02Q4f767sXUCmYZyGr3wH1Sz3vLPWfA%3D&reserved=3D0
+>=20
+> [...]
+> > +static void mana_update_rx_dim(struct mana_cq *cq)
+> > +{
+> > +	struct mana_port_context *apc =3D netdev_priv(cq->rxq->ndev);
+> > +	struct mana_rxq *rxq =3D cq->rxq;
+> > +	struct dim_sample dim_sample =3D {};
+>=20
+> Minor nit: please fix the variable declaration order above. Other
+> occurrences below.
 
---57Se20/pMUpk+P8R
-Content-Type: application/pgp-signature; name=signature.asc
+Done in the new version.
 
------BEGIN PGP SIGNATURE-----
+>=20
+> [...]
+> > @@ -440,17 +474,94 @@ static int mana_set_coalesce(struct net_device
+> *ndev,
+> >  		return -EINVAL;
+> >  	}
+> >
+> > -	saved_cqe_coalescing_enable =3D apc->cqe_coalescing_enable;
+> > +	if (ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
+> > +	    ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX) {
+> > +		NL_SET_ERR_MSG_FMT(extack,
+> > +				   "coalesce usecs must be <=3D %lu",
+> > +				   MANA_INTR_MODR_USEC_MAX);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
+> > +	    ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX) {
+> > +		NL_SET_ERR_MSG_FMT(extack,
+> > +				   "coalesce frames must be <=3D %lu",
+> > +				   MANA_INTR_MODR_COMP_MAX);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (ec->rx_coalesce_usecs !=3D apc->intr_modr_rx_usec ||
+> > +	    ec->rx_max_coalesced_frames !=3D apc->intr_modr_rx_comp ||
+> > +	    ec->tx_coalesce_usecs !=3D apc->intr_modr_tx_usec ||
+> > +	    ec->tx_max_coalesced_frames !=3D apc->intr_modr_tx_comp)
+> > +		modr_changed =3D true;
+> > +
+> > +	saved.intr_modr_rx_usec =3D apc->intr_modr_rx_usec;
+> > +	saved.intr_modr_rx_comp =3D apc->intr_modr_rx_comp;
+> > +	saved.intr_modr_tx_usec =3D apc->intr_modr_tx_usec;
+> > +	saved.intr_modr_tx_comp =3D apc->intr_modr_tx_comp;
+> > +
+> > +	apc->intr_modr_rx_usec =3D ec->rx_coalesce_usecs;
+> > +	apc->intr_modr_rx_comp =3D ec->rx_max_coalesced_frames;
+> > +	apc->intr_modr_tx_usec =3D ec->tx_coalesce_usecs;
+> > +	apc->intr_modr_tx_comp =3D ec->tx_max_coalesced_frames;
+> > +
+> > +	if (!!ec->use_adaptive_rx_coalesce !=3D apc->rx_dim_enabled ||
+> > +	    !!ec->use_adaptive_tx_coalesce !=3D apc->tx_dim_enabled)
+> > +		dim_changed =3D true;
+> > +
+> > +	saved.rx_dim_enabled =3D apc->rx_dim_enabled;
+> > +	saved.tx_dim_enabled =3D apc->tx_dim_enabled;
+> > +	apc->rx_dim_enabled =3D !!ec->use_adaptive_rx_coalesce;
+> > +	apc->tx_dim_enabled =3D !!ec->use_adaptive_tx_coalesce;
+> > +
+> > +	saved.cqe_coalescing_enable =3D apc->cqe_coalescing_enable;
+> >  	apc->cqe_coalescing_enable =3D
+> >  		kernel_coal->rx_cqe_frames =3D=3D MANA_RXCOMP_OOB_NUM_PPI;
+> >
+> >  	if (!apc->port_is_up)
+> >  		return 0;
+> >
+> > -	err =3D mana_config_rss(apc, TRI_STATE_TRUE, false, false);
+> > -	if (err)
+> > -		apc->cqe_coalescing_enable =3D saved_cqe_coalescing_enable;
+> > +	if (apc->cqe_coalescing_enable !=3D saved.cqe_coalescing_enable &&
+> > +	    !modr_changed && !dim_changed) {
+> > +		/* If only CQE coalescing setting is changed, we can just
+> update
+> > +		 * RSS configuration.
+> > +		 */
+> > +		err =3D mana_config_rss(apc, TRI_STATE_TRUE, false, false);
+> > +		if (err) {
+> > +			netdev_err(ndev, "Change CQE coalescing failed: %d\n",
+> > +				   err);
+> > +			apc->cqe_coalescing_enable =3D
+> > +				saved.cqe_coalescing_enable;
+> > +			return err;
+> > +		}
+> > +		return 0;
+> > +	}
+> > +
+> > +	if (modr_changed || dim_changed) {
+> > +		err =3D mana_detach(ndev, false);
+> > +		if (err) {
+> > +			netdev_err(ndev, "mana_detach failed: %d\n", err);
+> > +			goto restore_modr;
+> > +		}
+> > +
+> > +		err =3D mana_attach(ndev);
+> > +		if (err) {
+> > +			netdev_err(ndev, "mana_attach failed: %d\n", err);
+> > +			goto restore_modr;
+> > +		}
+>=20
+> You should try hard to avoid this sequence: if mana_attach fails,
+> mana_set_coalesce() will leave the NIC unexpectedly down.
 
-iQEzBAEBCgAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmophMsACgkQnKSrs4Gr
-c8h+7Af/Yl5xc4DOlpzwRNKEPqqogmtmADQbRI91eNljCoArG1qdxcTTSKksIgWC
-5g0jjNOCwbOatljS+FxPkDgpPYoZbsIv+K4p/D6UyHLP+Dff2FQhwPaAKkOvJi6k
-9BoNOORgp8ZKrf0RrCTr2M5clKgG0GT+5WxgezSZtTh6wSoN0ksL5kwqx+8B4sWw
-irnTFz4hZhKlUsYHWWYvNhiq0ChdmzYMdxw6GFwIWrRpNcElfSmOAMBE12bJeqIi
-u2/3ah3cSSanhmuITCC+dXImHUlYtxtFRBowqsxCEtdiRFs5srPStR/WW8yyZoXe
-mhXbMPjGmQXNdAT61yT9lw+ZVx2y1w==
-=kfg0
------END PGP SIGNATURE-----
+I have updated the patch to use doorbell for this setting change without
+re-attach, and will submit the new version soon.
 
---57Se20/pMUpk+P8R--
-
+Thanks,
+- Haiyang
