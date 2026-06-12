@@ -1,102 +1,131 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE9339901C;
-	Fri, 12 Jun 2026 17:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BFF364E84;
+	Fri, 12 Jun 2026 17:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781286038; cv=none; b=tgZNM77qsF8767Tu1QF+E5YsJivByOlRMphaIz5GBWaDerqcfMMug197ULUtIgPuhutdeOBb2UCRmVVLcti8eFflQD6DrneHILJqP1dk4iIsj4xsh8JfrJS/e2R3l1M3DBUdLU4/gGudk815iiZbZpmFN37UDqFCYFcA78MQ/e0=
+	t=1781286740; cv=none; b=iXwBjKGLT7Oq8JJFApR810ed/7tv1+GlxyC8wLKLsVQwc5J9GWAMNbQFL5+bCwfbtEuoA++8T6/Xwdyrgkt+tnVy47yA4DNftCOhGtUXZN7VJQc8Ss0jYPxJBZSwORMljzntWaywqaZZN1EzWjIOETssoudbf3HE5ukREB4bvgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781286038; c=relaxed/simple;
-	bh=rxYD3iGHnqWVu5XQl3U9EwVXyhVxQt9pX+gvx+rskU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OtxTv9gQMdnQHaCIH1gPR7Y4bEae1rICS4QpM3F8do58ZmfN0QAo8sxdelQ3fO0vXdLMTXaUg3zv/3SbM9M7QCnpJ0mgFYQ6RkPCcaTpq3iJQJf9QRvAJuNhTd042Gk92jX/tW8idpp0EF8KUU33C+0yOj84zZFNLaLAx5Nk6cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LtOvuQx7; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1781286740; c=relaxed/simple;
+	bh=khARBzKR0x4jVs8JJ93rZ3aFudCIGQZoGEUfVDz0k54=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=gqNIom1pf+SqYIymN6V6G3tbDs1DSAAEXpSXXBMpEmcP03UcebUptLn0KikUV5YurLl37n3HhCwh1z+IFI5luDYroaXUoEcIhREqlVHmYbOu94MJdqY6664hxFiiLqwXqum5nx2KKRuefkKRBppaPbVXYZd7eYYi1d3Y/02MF80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iwUjn2iL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LtOvuQx7"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 68AA620B716A; Fri, 12 Jun 2026 10:40:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 68AA620B716A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1781286018;
-	bh=vr0Gms8K+x62jEtAJpSeA2K2xp0MKc2fsrScko8ouYA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=LtOvuQx7ZoFBUtZsD+GWZ9prPtIJOd55WTQuIbsqZi5iKhZPp7/GG1l6Fd2p0xlE6
-	 RFr7xvrQDfxWzEKh3c3lNk9gYdis5v1p17BW1AM39MPAJm4+acDI13t+UI5wD8/1B7
-	 IInEUH8CWIZaWhxwUeVpc02YV974N5cU62XNb4ZQ=
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	linux-pci@vger.kernel.org,
-	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] PCI: hv: add hard timeout to wait_for_response()
-Date: Fri, 12 Jun 2026 13:40:10 -0400
-Message-ID: <20260612174010.2598695-1-hamzamahfooz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iwUjn2iL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220581F000E9;
+	Fri, 12 Jun 2026 17:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781286739;
+	bh=RXskqk7OEdvfX4mAewnKiV5FOuBa18OnbFk1lWRp/IA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iwUjn2iLxoqJupjhglRFJ639kevfhS1MREHiper4qodT2V6ONhdRybsxaETmndLib
+	 dXieT8v9sFqeG5KkweJIntXE6BpgIm+bcmWenkCF8INaLSu/RRkISfTAZDUd9owY2N
+	 vX//GltfZmgw4d+t8R1k23uQ7FdT3Y6iLkbQjTr2vhIUFJgRK1gkWfkujjg9/1Abqf
+	 BRMhHTyNdrKcD/b+pQP9V8FXn8vCYP9NfqpimLjJDuHiwAr6Z8wKfReYx439090A9X
+	 JmDf9SzQBLJPUkfuhtfxXXW73bt9BkcsBXFqDL64UjZOHRau5JDdhCB5ecihUfQ4WL
+	 ppVog7/bpcBTg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] PCI: hv: add hard timeout to wait_for_response()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Hamza Mahfooz" <hamzamahfooz@linux.microsoft.com>
+Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260612174010.2598695-1-hamzamahfooz@linux.microsoft.com>
+References: <20260612174010.2598695-1-hamzamahfooz@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 12 Jun 2026 17:52:18 +0000
+Message-Id: <20260612175219.220581F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-It is possible that we never receive a rescind event, in which case we
-will wait indefinitely for a device that will never show up. So, assume
-a device is gone if have been polling for more than 5 seconds.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Critical] Use-After-Free and Stack Corruption due to abandoned VMBus req=
+uests on timeout.
+- [Medium] Race condition in wait_for_response() polling loop can falsely t=
+rigger timeout.
+--
 
-Cc: stable@vger.kernel.org
-Fixes: c3635da2a336 ("PCI: hv: Do not wait forever on a device that has disappeared")
-Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
----
- drivers/pci/controller/pci-hyperv.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+commit 18b7ab3e09172b3f0651ad176d0ab6367f1e43bb
+Author: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index cfc8fa403dad..bd63efc4a210 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -52,6 +52,7 @@
- #include <linux/acpi.h>
- #include <linux/sizes.h>
- #include <linux/of_irq.h>
-+#include <linux/jiffies.h>
- #include <asm/mshyperv.h>
- 
- /*
-@@ -1038,6 +1039,8 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
- 		kfree(hpdev);
- }
- 
-+#define TIMEOUT_MS 5000
-+
- /*
-  * There is no good way to get notified from vmbus_onoffer_rescind(),
-  * so let's use polling here, since this is not a hot path.
-@@ -1045,8 +1048,13 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
- static int wait_for_response(struct hv_device *hdev,
- 			     struct completion *comp)
- {
-+	unsigned long timeout = get_jiffies_64() + msecs_to_jiffies(TIMEOUT_MS);
-+	unsigned long now;
-+
- 	while (true) {
--		if (hdev->channel->rescind) {
-+		now = get_jiffies_64();
-+		if (hdev->channel->rescind ||
-+		    time_after(now, timeout)) {
- 			dev_warn_once(&hdev->device, "The device is gone.\n");
- 			return -ENODEV;
- 		}
--- 
-2.54.0
+PCI: hv: add hard timeout to wait_for_response()
 
+This commit adds a hard 5-second timeout to wait_for_response() in the
+hyper-V PCI controller driver. It addresses an issue where the driver could
+wait indefinitely for a device to appear if a rescind event is never
+received.
+
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
+/pci-hyperv.c
+> index cfc8fa403dad6..bd63efc4a2103 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+
+[ ... ]
+
+> @@ -1045,8 +1048,13 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
+>  static int wait_for_response(struct hv_device *hdev,
+>  			     struct completion *comp)
+>  {
+> +	unsigned long timeout =3D get_jiffies_64() + msecs_to_jiffies(TIMEOUT_M=
+S);
+> +	unsigned long now;
+> +
+>  	while (true) {
+> -		if (hdev->channel->rescind) {
+> +		now =3D get_jiffies_64();
+> +		if (hdev->channel->rescind ||
+> +		    time_after(now, timeout)) {
+
+[Severity: Medium]
+Is there a race condition if the thread is preempted right before updating
+the time?
+
+If the thread is preempted just before calling get_jiffies_64() and the
+delay crosses the 5-second boundary, this will evaluate to true and
+immediately return -ENODEV.
+
+Since there is no final check of the completion status after the timeout
+check, could this falsely assume a timeout even if the Hyper-V host
+successfully replied during the preemption window?
+
+>  			dev_warn_once(&hdev->device, "The device is gone.\n");
+>  			return -ENODEV;
+
+[Severity: Critical]
+By adding this timeout, do we risk a use-after-free and stack corruption if
+the VMBus request is never explicitly cancelled?
+
+When we return -ENODEV early here, callers like hv_send_resources_allocated=
+()
+will free their heap-allocated request packets and return, which pops the
+local completion structure off the stack.
+
+However, since the VMBus channel remains active and the pending request is
+not removed from the requestor array, what happens if the Hyper-V host
+eventually replies?
+
+Wouldn't hv_pci_onchannelcallback() fetch the dangling packet pointer and
+invoke comp_packet->completion_func(...) on freed memory?
+
+It seems this could also corrupt the stack when writing to the destroyed
+completion structure. Additionally, in hv_pci_query_relations(), returning
+on timeout leaves hbus->survey_event pointing to a local stack variable
+that will later be completed by survey_child_resources().
+
+Does this also leak a slot in the VMBus requestor array for each timed-out
+request?
+
+>  		}
+>=20
+>  		if (wait_for_completion_timeout(comp, HZ / 10))
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260612174010.2598=
+695-1-hamzamahfooz@linux.microsoft.com?part=3D1
