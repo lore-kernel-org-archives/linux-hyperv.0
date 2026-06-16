@@ -1,55 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F3B246BD5;
-	Tue, 16 Jun 2026 00:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C00248886;
+	Tue, 16 Jun 2026 01:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781569998; cv=none; b=Vo4knd5/XLyUw9NkQ3UwKlEpABxcC1BwR313RkQaFUziIbGB8Cn9PSJf338RXzNN8suZdiDeEJRu+CObxZIb34uERpEGF5mjzn3d2pjwdAFsEXT2/2Epn8HmCq+Rc7QZ5eLRpr8cO/vMVdKCFGsmx0bZYhE9iVdMns8eVJMNYCY=
+	t=1781574891; cv=none; b=H8HAOotJ215HqjQDUWgW5DgQnckjS1oEfapbDC/Wf3CgpDnpjE6DlgNxkKQ/FXuE+9QSbRVj+pM8AUAvZ+/tnCfL4mE3d7GVWuUWdf/NF1XtYsFnKbbdxVQbEJFi2siWEdSMSkg4RBMh1JPlCBUnbV3DY7aEhmk94oJaN9wt/m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781569998; c=relaxed/simple;
-	bh=QFvD9jCjp9gdZIph8m4xgZh7pDD+9ZFFbGUYFuhiEWs=;
+	s=arc-20240116; t=1781574891; c=relaxed/simple;
+	bh=1OTtdrVdMwcsqHxVYAtrpUX2n8+40J5vZPyZtkd8uOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yy5mS0AOcPTlchnYdxoBypQkh+7B+rir8V7dSXjj2FxGVAxMKJELbZAxg8/JW0TSxif/MSlgGs0rIA88URE71Ah/4hTUhSQfacJxxUlwB78QnCQZ4Od3sGrPM519A5hyPO7N0uee/8p0hIz1USIqoPUkVqM0ffiGy1D43rlHa0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klHL2vIw; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=LFGoTaQ8WCCSR2efiMhLTP6n8geu6xk1b0o7zbl9/sb0ophxyvbB9FAujOpXBeit4Vbm3JE1ONijgteI4wCKQVMTcIktuV6rHxHwm0wCdOIm1dI9KqSc3F26Cf3UYQdw8R/3fieK1Td3NGANGAU2EX0Zm4AIvvRYS4NsbF3hQ1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDp2M/pS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klHL2vIw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 669E81F00ADE;
-	Tue, 16 Jun 2026 00:33:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDp2M/pS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDBA31F000E9;
+	Tue, 16 Jun 2026 01:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781569996;
-	bh=+K/IMa8F/ssrDKZahEBsAtE1o+3QX5n+1ZUkmyJ5JfM=;
+	s=k20260515; t=1781574890;
+	bh=xVB2C8Izg4g9sd9i5QQCFPWuDiomXx2/37KEb+1MF2Y=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=klHL2vIwvcs/MnUgaLhac22PWlRE86KB4RGM1bRHf97EKGcUFeSH7/rorig1QKRN3
-	 DegjygYckV7WGqY5I/qVXxUtLGJDzaPDMpT6Io/RxMZ/xIQhR1c+9LERlm1Nj5E2y0
-	 5ihUWyx4lA1h/siPOvbEpSkqABqjx7AerYQI+jWfsHfFC1bbErp8JwN2WU6z1uYicS
-	 emBjXBGzBTXfg6qRflO/L83hTdmpIxGWuqCSpffd2R8ogAz2d3O/FXerYGQ+OcRLZy
-	 epq/PtKr1lD7mC6/xmMU3QjTIiiKq2Wj/j8Rk09O2M0+PeXGE6sGGWHuRCBMyl56Yr
-	 iAxNAB6rdI4Sg==
-Date: Mon, 15 Jun 2026 17:33:14 -0700
+	b=kDp2M/pSrkAbqIOUJCckm8SnZND80Tl9OlXlq5UKaB3MEUxj6hAS0RM47jhzKYzJ4
+	 CbHDdw4/I7ztuOw8dbS0tXGQpa5iB7IZ8a5wbcQ9L4SBguQTB+j+zt5WrnlinjWNYj
+	 p49Fo2OyQaOU/Iokc9fHBlX1j5voNwNwh44Nw3CTNVXEAIMCUaZ/Darvv5cGwFL13s
+	 DxxSJIvcxvIIbbOlD1lIyrzw8a1XnI2IQC4qybWsShHPIKD03eIOXFaMKTSVAmwF9H
+	 Jzxw2vcdn1uiAoGj2iDnCp08Phvhby3VLU59ssxcEY7CJrVFh+X8Ooy828oU3+ME5U
+	 Oou/iBzhiF07Q==
+Date: Mon, 15 Jun 2026 18:54:49 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, leon@kernel.org,
- longli@microsoft.com, kotaranov@microsoft.com, horms@kernel.org,
- shradhagupta@linux.microsoft.com, ssengar@linux.microsoft.com,
- ernis@linux.microsoft.com, shirazsaleem@microsoft.com,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- stephen@networkplumber.org, jacob.e.keller@intel.com,
- dipayanroy@microsoft.com, leitao@debian.org, kees@kernel.org,
- john.fastabend@gmail.com, hawk@kernel.org, bpf@vger.kernel.org,
- daniel@iogearbox.net, ast@kernel.org, sdf@fomichev.me,
- yury.norov@gmail.com, pavan.chebbi@broadcom.com
-Subject: Re: [PATCH net-next v10 0/2] net: mana: add ethtool private flag
- for full-page RX buffers
-Message-ID: <20260615173314.677c33a8@kernel.org>
-In-Reply-To: <ajCXIpDVaVcUcQwd@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20260602202801.1873742-1-dipayanroy@linux.microsoft.com>
-	<ajBRwYftEol8IE49@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-	<20260615134247.0bd7e16e@kernel.org>
-	<ajCXIpDVaVcUcQwd@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+To: Haiyang Zhang <haiyangz@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, "K. Y. Srinivasan"
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
+ <longli@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Konstantin Taranov <kotaranov@microsoft.com>,
+ Simon Horman <horms@kernel.org>, Shradha Gupta
+ <shradhagupta@linux.microsoft.com>, Erni Sri Satya Vennela
+ <ernis@linux.microsoft.com>, Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+ Aditya Garg <gargaditya@linux.microsoft.com>, Breno Leitao
+ <leitao@debian.org>, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, paulros@microsoft.com
+Subject: Re: [PATCH net-next v4] net: mana: Add Interrupt Moderation support
+Message-ID: <20260615185449.6a496c1f@kernel.org>
+In-Reply-To: <20260613205812.2659945-1-haiyangz@linux.microsoft.com>
+References: <20260613205812.2659945-1-haiyangz@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -59,25 +54,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 15 Jun 2026 17:21:54 -0700 Dipayaan Roy wrote:
-> On Mon, Jun 15, 2026 at 01:42:47PM -0700, Jakub Kicinski wrote:
-> > On Mon, 15 Jun 2026 12:25:53 -0700 Dipayaan Roy wrote:  
-> > > Just a gentle ping on this series. The approach was agreed upon, and it
-> > > has picked up a few Reviewed-by tags as well.
-> > > 
-> > > Please let me know if you need anything else from me, or if I should
-> > > resend it to collect the tags.  
-> > 
-> > Don't recall now what the exact sequence was but pretty sure this 
-> > no longer applied after some other mana series was merged.  
-> 
-> I see, the net-next is closed now, I will rebase and resend this
-> once it opens on June 29th.
+On Sat, 13 Jun 2026 13:57:54 -0700 Haiyang Zhang wrote:
+> Add Static and Dynamic Interrupt Moderation (DIM) support for
+> Rx and Tx.
+> Update queue creation procedure with new data struct with the related
+> settings.
+> Add functions to collect stat for DIM, and workers to update DIM data
+> and settings.
+> Update ethtool handler to get/set the moderation settings from a user.
+> To avoid detach/re-attach ops, ring DIM doorbell to change settings
+> at run time.
+> By default, adaptive-rx/tx (DIM) are enabled if supported by HW.
 
-Sorry for not flagging this sooner, IDK how it escaped the reply.
-Maybe some mix of Jake's comments plus it not being applicable 
-later.
-
-Not to deflect blame but y'all should coordinate better, the "no longer
-applies" situation happens in mana a lot more often than with other
-drivers :(
+The merge window has started and we need to start working on our PRs.
+This will need to be reposted after 7.2-rc1 is tagged, sorry
+-- 
+pw-bot: defer
