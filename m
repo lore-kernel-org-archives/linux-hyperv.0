@@ -1,111 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A46A2AD00;
-	Sat, 20 Jun 2026 05:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47E935F5E0;
+	Mon, 22 Jun 2026 06:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781934848; cv=none; b=PZFptIQk92XdZYT1KYdZgS8rH1zOwYf6ov/K59AH/b09azbVNvax8H2FL8GnDMYxYc56vknSBStYR/ecie2J3TWdkmC5MvVYvowdavTie4kmeJfS/OdklbVwfghbSJ3bBm9B58c1Y20r9jgLLiJEVdRtoobxbpSoZ+XqC172hRo=
+	t=1782110751; cv=none; b=g8Eu/5Kdx88jhOYx7hva/Bocq4y2EaDcZZn+eVdRdNq+8UbiVYfuWv6vArLsn/wz/T/G0R/o1P4ZLPNsDw9aHJqEv9upwZfrZAgJSgE6Hs1HyYNnlxVQqVFR6g1PygX3o7/19HgsQnP+YEFPwAPPAdffKBMR/a45gzbmg+weFTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781934848; c=relaxed/simple;
-	bh=r3HUleWjSLSWjHs+Po/2UHPAB1IL0ZB3XemC7YIONHw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=mx0Osv9jXLuH9ljAz8rPrCVFgYErrj1EXI/qhYSmh3WGcCjFFtNuO7iKQ6JhoecBlYsOLJT+hysdqgaxGOUfEbaCgOkXQaGbYJesEJfPmy2G7HaZ4+8owTy2hYWaeeqOO15oD/aBJi7oft8v4RCi3hF7KGE/4G6jZ5sgNjLtsjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zp1KzPVA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782110751; c=relaxed/simple;
+	bh=y1I3u/afEn9O94REbH/FpWkDVbTSTPIQxNWBaWOWFYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=onSNiSAQz7YesPeLH/w8Xi3XkOEKDCjnK6CbZ4cM2IQI8o60u6aC0pbdy2XOHU4MZsFr4z8P6niEWizFzBWJS9Sl/Kx3+VZeR76m9DpuK1Oc8T/UQeGtnqBwISvHF717KzBAcl6lUi4+k5W6HOd16ijku3c9z4JJwisX0Qgt7nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSZ9q/2V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zp1KzPVA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C564C1F000E9;
-	Sat, 20 Jun 2026 05:54:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSZ9q/2V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 975AB1F000E9;
+	Mon, 22 Jun 2026 06:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781934847;
-	bh=sByWLIJaTIALxs6GR8Fv7ykcvn/to37QCJAb0wX8OnI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Zp1KzPVAhogWZ5zy8m2LVTRQm6jxWpYxbsqhhZov7bwqSuIjuWixgNoTdhGJEHomw
-	 DhByoWf+MJdz7+bgAMmVkprrEgsAxL2QeTd/Uir9pzREnd06r/3Y+0edM4i91P7K/U
-	 npQCHROeEi2toorh87jGEzsd1q+Bifo0bN1vCdLmfYibdvzdoLXvwoE/QMQwlxZR14
-	 x++51MNzA4upI9x5/OXxX5aufvPYJF3MLcaEX3edrzfnGFm+zcxEU9VOnFrUTIIGBS
-	 bfL1WmE0nFmK5x31sg9vpY5faW/djJSBFH0IjGmuH31LZDGrOZKlXvBsnPmcpWgNaj
-	 BhnpUKyLpv9Jw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net] net: mana: Fall back to standard MTU when PF
- reports adapter_mtu of 0
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Erni Sri Satya Vennela" <ernis@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-In-Reply-To: <20260619055348.467224-1-ernis@linux.microsoft.com>
-References: <20260619055348.467224-1-ernis@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Jun 2026 05:54:06 +0000
-Message-Id: <20260620055406.C564C1F000E9@smtp.kernel.org>
+	s=k20260515; t=1782110750;
+	bh=yHDiJFwQGFxBDfaT1cAwGauqjmXicWvmurNlYMz6EsA=;
+	h=Date:From:To:Cc:Subject;
+	b=kSZ9q/2VElCe1rEuFNlsEodRRKcMDDmUDOxYws678pVGTu8ZfWOB125tAL8jfyuVf
+	 0dTH0Fgpk2JRptEhDpE5xhDrX9FUXpsQsJv7DKOoEHaVp27YkhyTiEPSZUW6QtP9uy
+	 zhMhqJkJg7F3Ju5H+lSRZXQ8hz7p2RscYbSh5FNhLpd1z4p2aN9pnZ9okPz9a2GUBK
+	 7ku0AfawT1IgimbRawVbGZSrEOxiEIVKqSqgr9PWdVQBdMTE02+ynOIvHSEJs6aty4
+	 HBsZzINzHG3xvsSO60FxBOIOR8GLhNPr3SuISanrFsRvEvSsHYEiYouCM4ujpkX96G
+	 gTWVMU9xGjd+Q==
+Date: Sun, 21 Jun 2026 23:45:49 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Wei Liu <wei.liu@kernel.org>,
+	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+	Linux Kernel List <linux-kernel@vger.kernel.org>, kys@microsoft.com,
+	haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com
+Subject: [GIT PULL] Hyper-V patches for v7.2
+Message-ID: <20260622064549.GA2852659@liuwe-devbox-debian-v2.local>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Hi Linus,
 
-Pre-existing issues:
-- [High] Preexisting error handling bug in XDP set path leaves apc->bpf_pro=
-g pointing to a freed BPF program, leading to a Use-After-Free/Double Free.
---
+The following changes since commit e7ae89a0c97ce2b68b0983cd01eda67cf373517d:
 
-commit 425f6bf5274f2172e13cdc649ea2288d8dc1ad72
-Author: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+  Linux 7.1-rc5 (2026-05-24 13:48:06 -0700)
 
-net: mana: Fall back to standard MTU when PF reports adapter_mtu of 0
+are available in the Git repository at:
 
-This commit fixes a regression for older PF firmware versions by allowing
-an adapter_mtu of 0 to fall back to the standard ETH_FRAME_LEN. It also
-updates MTU bounds checks for XDP limits.
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20260621
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net=
-/ethernet/microsoft/mana/mana_bpf.c
-> index b5e9bb184a1dd..53308e139cbe9 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> @@ -237,7 +237,8 @@ static int mana_xdp_set(struct net_device *ndev, stru=
-ct bpf_prog *prog,
->  		bpf_prog_put(old_prog);
-> =20
->  	if (prog)
-> -		ndev->max_mtu =3D MANA_XDP_MTU_MAX;
-> +		ndev->max_mtu =3D min_t(unsigned int, MANA_XDP_MTU_MAX,
-> +				      gc->adapter_mtu - ETH_HLEN);
+for you to fetch changes up to a4ffc59238be84dd1c26bf1c001543e832674fc6:
 
-[Severity: High]
-This isn't a bug introduced by this patch, but while reviewing the changes
-to mana_xdp_set(), I noticed a pre-existing issue on an error path earlier
-in this function.
+  mshv: add bounds check on vp_index in mshv_intercept_isr() (2026-06-07 23:22:46 -0700)
 
-Earlier in mana_xdp_set(), the program is assigned:
+----------------------------------------------------------------
+hyperv-next for v7.2-rc1
+ - Use wakeup mailbox to boot APs in Hyper-V VTL2 TDX guests (Yunhong Jiang,
+   Ricardo Neri)
+ - Move the Hyper-V IOMMU to its own subdirectory (Mukesh Rathor)
+ - Cosmetic changes to mshv and balloon driver (Junrui Luo, Markus
+   Elfring)
+----------------------------------------------------------------
+Junrui Luo (1):
+      mshv: add bounds check on vp_index in mshv_intercept_isr()
 
-    apc->bpf_prog =3D prog;
+Markus Elfring (1):
+      hv_balloon: Simplify data output in hv_balloon_debug_show()
 
-If the port is up, it then allocates rx buffers:
+Mukesh R (2):
+      iommu/hyperv: Create hyperv subdirectory under drivers/iommu
+      x86/hyperv: Cosmetic changes in irqdomain.c for readability
 
-    err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
-    if (err) {
-        ...
-        return err;
-    }
+Ricardo Neri (6):
+      x86/topology: Add missing struct declaration and attribute dependency
+      x86/acpi: Add functions to setup and access the wakeup mailbox
+      dt-bindings: reserved-memory: Wakeup Mailbox for Intel processors
+      x86/dt: Parse the Wakeup Mailbox for Intel processors
+      x86/acpi: Add a helper to get the address of the wakeup mailbox
+      x86/hyperv/vtl: Use the wakeup mailbox to boot secondary CPUs
 
-If mana_pre_alloc_rxbufs() fails, it returns directly rather than jumping
-to the err_dealloc_rxbuffs label. This bypasses the cleanup step that
-restores apc->bpf_prog =3D old_prog.
+Yunhong Jiang (4):
+      x86/hyperv/vtl: Set real_mode_header in hv_vtl_init_platform()
+      x86/realmode: Make the location of the trampoline configurable
+      x86/hyperv/vtl: Setup the 64-bit trampoline for TDX guests
+      x86/hyperv/vtl: Mark the wakeup mailbox page as private
 
-Since the networking core frees the bpf program on error, does this leave
-apc->bpf_prog pointing to a freed program?
-
-If mana_xdp_set() is called again later, could fetching old_prog lead to a
-use-after-free or double-free when calling bpf_prog_put(old_prog)?
-
->  	else
->  		ndev->max_mtu =3D gc->adapter_mtu - ETH_HLEN;
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260619055348.4672=
-24-1-ernis@linux.microsoft.com?part=3D1
+ .../reserved-memory/intel,wakeup-mailbox.yaml      |  49 +++++
+ MAINTAINERS                                        |   2 +-
+ arch/x86/hyperv/hv_vtl.c                           |  38 +++-
+ arch/x86/hyperv/irqdomain.c                        | 198 +++++++++++----------
+ arch/x86/include/asm/acpi.h                        |  16 ++
+ arch/x86/include/asm/topology.h                    |   3 +
+ arch/x86/include/asm/x86_init.h                    |   3 +
+ arch/x86/kernel/acpi/madt_wakeup.c                 |  16 ++
+ arch/x86/kernel/devicetree.c                       |  47 +++++
+ arch/x86/kernel/x86_init.c                         |   3 +
+ arch/x86/realmode/init.c                           |   7 +-
+ drivers/hv/hv_balloon.c                            |   4 +-
+ drivers/hv/mshv_synic.c                            |   5 +
+ drivers/iommu/Kconfig                              |   9 -
+ drivers/iommu/Makefile                             |   2 +-
+ drivers/iommu/hyperv/Makefile                      |   2 +
+ .../{hyperv-iommu.c => hyperv/hv-irq-remap-x86.c}  |   6 +-
+ drivers/iommu/irq_remapping.c                      |   2 +-
+ 18 files changed, 290 insertions(+), 122 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
+ create mode 100644 drivers/iommu/hyperv/Makefile
+ rename drivers/iommu/{hyperv-iommu.c => hyperv/hv-irq-remap-x86.c} (99%)
