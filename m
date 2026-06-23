@@ -1,63 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2998933A9CF;
-	Mon, 22 Jun 2026 16:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E313845D8;
+	Tue, 23 Jun 2026 01:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782146203; cv=none; b=UsBW5fxrKSh8WgiF2Y4eNmx/jEQzPUFQcXC/KcqgypeVMGRzKs/dWvbEkMGkTJ6SCDEh/PABDfCUHSPXF1GZkmpJfsDXCDc23+UNZMDtvjfJhPebcWZ1X9OjdUJp1aShwUJbQTOjJnh8zIfhXUK9a2yEPmAgK5ABCTu6uSi7pUg=
+	t=1782177771; cv=none; b=bQSoiS11pQAxjvYvEX8/+P4MqzmFLGc3t7KuLiXPl5Vz9TTSQZ6DtuCjAPRpvtD7tBV0RjYifB0W9bTI4GdAFzbXP4toJkoNpqNbEYV5r3++KVyFjTUrOGfX03VFOX71ESougEvfnqwOPCwD+murEQdYRRyHgAOPdHaPUCVxHbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782146203; c=relaxed/simple;
-	bh=NWyY1R7RKyzQvPmtlMxYv6ZUPEFgvPpc5B1Ze5RtF0o=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=fdKTbsl7KxighfQdnfGEVT0EINCONMI/phBWSEUjA1UaWCaY6rtskRGOr8+zQ/OlcXwe3Txnb/C82rBV/zNMpzM4EcD1vW2VslJkE9AB56dJ3pbFDkxLy/O/0R5tKxKu60stuONYgeGRURB1YlWFTAYWayTnRtvzj7eYjTRTzFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqGBmWD9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782177771; c=relaxed/simple;
+	bh=2gMFkMAQrW/BA7+IwQktlX2qUqcrPQKdzGus9HDyqWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N+UN/fS030SGUULf41Q8CplfofB+zHD+bv97Wwj0vCPUQbxxRUa3FOuONpRakpB2xwYncRSFtKNk+1BErRNegGHM0JFYOHSw7bwRyB2vUCc1E2yUHyhqlKEXk+MvOoC54hiXxs5buXd3/KKPwzYd7/QFDGvoMI8quDHWzbO3GJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGfbgCFz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqGBmWD9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085151F000E9;
-	Mon, 22 Jun 2026 16:36:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGfbgCFz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12171F00A3A;
+	Tue, 23 Jun 2026 01:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782146202;
-	bh=wqStrO37Yvo01QvBb9ZJsm0H8Qof2xASnIQrlNFRE+c=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=kqGBmWD90FYSVQKiuUlxByJ+qaTAb6uuMT6TeMGVdilQ9zIK1GWE1dLbxkMARBTl5
-	 qqJver7lleXA6XSZivRF0c7UVWTwfk9kLOTh4yAE5+MWPRWCqBxpVz6jiGsLI2mLS0
-	 WM5LeuutG9i7NrZtXyTYk0KvobnDab8jJ99lSj08J52YY6bHB4R5gVtcunQFOxF7Zy
-	 zlfuDXrqt1lT2PpNOYMGV+qSnQmlCqPJcm/YYXO6D+bLQzdIdYozpADsP7/y+5O56w
-	 mFc90kAajA8lc0HB0WSFxQz4SZB43FPvgyh/Amsg9zVicwi3Ep6eZTb+W5ak6M6KEo
-	 iPO3LTDtjMTsg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0C733930907;
-	Mon, 22 Jun 2026 16:36:33 +0000 (UTC)
-Subject: Re: [GIT PULL] Hyper-V patches for v7.2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260622064549.GA2852659@liuwe-devbox-debian-v2.local>
-References: <20260622064549.GA2852659@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260622064549.GA2852659@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20260621
-X-PR-Tracked-Commit-Id: a4ffc59238be84dd1c26bf1c001543e832674fc6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6e869de3a1b9ef9f096223e0e7f30c727de4f6bc
-Message-Id: <178214619241.1310507.16461535384209779931.pr-tracker-bot@kernel.org>
-Date: Mon, 22 Jun 2026 16:36:32 +0000
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com
+	s=k20260515; t=1782177769;
+	bh=wiKhmTj/5RgoNGcYgTQIYqio1KFyNm5e6m1cvBDw4eQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=MGfbgCFzZKk4plutnehTRFn0PHmkUOWb3N/O6uMWHJVQK4yGunLCWvO9MSNiJuPlf
+	 fBub8iueFHDtghORpRJx/x78iQbGP3eAhSrLsKCJO/bf/DvIRmwEQ8oxmk9EY8Cude
+	 JAjZa47yXa1Xvv0IDXPoDJbvWNYVlvvam8AQQWd8ys0BT+sO6WGsQC9oFI+HJTrINY
+	 z+ar4D+ef6qOUHvGun8Yv7wQmoryMKstJvaudrEQsB2NpZE6NPDq4+33QslYdWIzsk
+	 f5OmV8gMIh8CCIv/p1L0bMgl2wJFDLzWsS/+TMlFvjkjmMJQNQQPcU4yhPdo847m4s
+	 S1e7mL8f+nihQ==
+Date: Mon, 22 Jun 2026 18:22:48 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Cc: Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Haiyang
+ Zhang <haiyangz@microsoft.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Konstantin Taranov <kotaranov@microsoft.com>, Simon
+ Horman <horms@kernel.org>, Erni Sri Satya Vennela
+ <ernis@linux.microsoft.com>, Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+ Shiraz Saleem <shirazsaleem@microsoft.com>, Michael Kelley
+ <mhklinux@outlook.com>, Long Li <longli@microsoft.com>, Yury Norov
+ <yury.norov@gmail.com>, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Paul Rosswurm
+ <paulros@microsoft.com>, Shradha Gupta <shradhagupta@microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v4 net] net: mana: Optimize irq affinity for low vcpu
+ configs
+Message-ID: <20260622182248.5bfc49ce@kernel.org>
+In-Reply-To: <20260619073338.481035-1-shradhagupta@linux.microsoft.com>
+References: <20260619073338.481035-1-shradhagupta@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Sun, 21 Jun 2026 23:45:49 -0700:
+On Fri, 19 Jun 2026 00:33:35 -0700 Shradha Gupta wrote:
+> Fixes: 755391121038 ("net: mana: Allocate MSI-X vectors dynamically")
+> Cc: stable@vger.kernel.org
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20260621
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6e869de3a1b9ef9f096223e0e7f30c727de4f6bc
-
-Thank you!
-
+If you want this to be a fix -- could you please rewrite the commit
+message? What matters most is the comparison before the bad commit,
+the bad commit, and then with this fix applied. Perhaps the three
+cases you list is that but it's not immediately obvious..
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+pw-bot: cr
