@@ -1,87 +1,99 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AC33EE1F8;
-	Thu, 25 Jun 2026 17:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EBF25785C;
+	Thu, 25 Jun 2026 17:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782408910; cv=none; b=r/byyIy3W7G/7mzRR75xFJhUSqtDmnLAsl47Kexs9tBcI2/9RMwjTJGN5EOD32gvGm9LWvDfzr6gn7KQgPtM8rQrdz6fM92dq/qBuSB9oWd7cMA1D1Dw4lPClZjR302x9TWyRO2QhjU96thagz7ocBrmT7Fcwj/QDHzyH+kUPig=
+	t=1782409376; cv=none; b=LwW8n8BOpSxebGb6rR/YKq5exhrxi0yj2AxfECRHal7dVjFD7c0eECs9BkAPZH0swGoAkecT+6ofWEBq804Xk/CbA1H2thXOeDg9P0AgNfUwRKVJLjvOZDURX7+sINAZmf/VTbGd/3Jt42oqftA0p8lH73e2U6kvtqf0qr6wilU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782408910; c=relaxed/simple;
-	bh=zEk5sFNW6pqe6e2eBsawwoFQuYsd70ozm+V7GXOXLmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SOBlNHruzR9Y9d08a5V8bau4j+LmtG7oZoDSvDNfadTddkNS7838zDtdd2ph0MdexLjXaetlocFuBodFTlmFRom+Zm2GaJP48yIyFkVO3KaRTB9+t08xS/m0wmVNJ26BV/BqBUmQKiSYKncpfD7KFpxbuUYF5T8gq+NIDFPrx1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XiBBDjmo; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1782409376; c=relaxed/simple;
+	bh=ex0ixU8nrolSMbX0zWTpjeHiIaN3XTiwbYCu6pteU5k=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZBGltmiuNkrjXkR336xbjkmUxLIMbZTn5lLXPUGbvRtYicYUlrynakryZrtiqBIzcZS61Ko2yrXNfnkF46BuqNLdEwdcG26ZPWGsDYWNFrB9MryfzQmr1O72u2jCru1rNdx5LhGYK47b+Wtnr0QwwqkCsuivcn59firwTDxuLes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=M7geG8xy; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XiBBDjmo"
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 468DB20B716E;
-	Thu, 25 Jun 2026 10:35:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 468DB20B716E
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="M7geG8xy"
+Received: from DairyQueen (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CCE1C20B7167;
+	Thu, 25 Jun 2026 10:42:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CCE1C20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1782408903;
-	bh=5qXijFv0wIQN76+QfzfXNNBj5pz3HvHQr8PE2OKbhL0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XiBBDjmosB83q+Narr6sdJYR2vnJFfZCtpMKocf8XbUho8BA5YgiU+sUacn68FcQU
-	 d4mbt7HaTPWLRE3jVwIX4ZWVKVPv2JJrMZY8DMxODFhCqfAVhMmaWrI8xOQOdUinSl
-	 KmDmpDIYPxUX/8CdROgLc5fmhicako9w2gHuo+1g=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com
-Cc: catalin.marinas@arm.com,
-	will@kernel.org,
-	mark.rutland@arm.com,
-	lpieralisi@kernel.org,
-	sudeep.holla@kernel.org,
-	arnd@arndb.de,
-	thuth@redhat.com,
-	linux-hyperv@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	mhklinux@outlook.com
-Subject: [PATCH v2 6/6] arm64: hyperv: Implement hv_is_isolation_supported() for CCA Realms
-Date: Thu, 25 Jun 2026 10:35:00 -0700
-Message-ID: <20260625173500.1995481-7-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260625173500.1995481-1-kameroncarr@linux.microsoft.com>
-References: <20260625173500.1995481-1-kameroncarr@linux.microsoft.com>
+	s=default; t=1782409368;
+	bh=pnOfNp9/ctehv6PmReGlUMeN9R8JuaY0IwGr+iGJTlQ=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
+	b=M7geG8xyuW3jaKBpp3FmBW4kbWpHezIBq47o5MufG7sOysIPZXBqCTpdgclvpB1ZI
+	 nk0OqJdgyEKrm4mi2pBsz8xsgWsMUSIAG5uCeKblrU1kMdilPADNuyR+gtBWX/Xj0h
+	 t0oswmRWmaHFk8EWTH72SKsvFnajnmtyUCTik4RQ=
+From: "Kameron Carr" <kameroncarr@linux.microsoft.com>
+To: "'Michael Kelley'" <mhklinux@outlook.com>
+Cc: <catalin.marinas@arm.com>,
+	<will@kernel.org>,
+	<mark.rutland@arm.com>,
+	<lpieralisi@kernel.org>,
+	<sudeep.holla@kernel.org>,
+	<arnd@arndb.de>,
+	<thuth@redhat.com>,
+	<linux-hyperv@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>,
+	<kys@microsoft.com>,
+	<haiyangz@microsoft.com>,
+	<wei.liu@kernel.org>,
+	<decui@microsoft.com>,
+	<longli@microsoft.com>
+References: <20260609181030.2378391-1-kameroncarr@linux.microsoft.com> <20260609181030.2378391-3-kameroncarr@linux.microsoft.com> <SN6PR02MB4157F6A66DEDE650298E120ED4E32@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157F6A66DEDE650298E120ED4E32@SN6PR02MB4157.namprd02.prod.outlook.com>
+Subject: RE: [RFC PATCH 2/6] firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
+Date: Thu, 25 Jun 2026 10:42:41 -0700
+Message-ID: <001701dd04ca$0cfd88b0$26f89a10$@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQIqsf51yBS/Or0EhgWD9giRtIuOSwIF3n0XAZ3FyRa1lxLTUA==
 
-Provide an arm64 implementation of hv_is_isolation_supported() that
-overrides the __weak default in drivers/hv/hv_common.c.
+On Thursday, June 18, 2026 10:46 AM, Michael Kelley wrote:
+> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Tuesday, June
+> 9, 2026 11:10 AM
+> > diff --git a/drivers/firmware/smccc/smccc.c
+> b/drivers/firmware/smccc/smccc.c
+> > index bdee057db2fd3..6b465e65472b0 100644
+> > --- a/drivers/firmware/smccc/smccc.c
+> > +++ b/drivers/firmware/smccc/smccc.c
+> > @@ -12,6 +12,12 @@
+> >  #include <linux/platform_device.h>
+> >  #include <asm/archrandom.h>
+> >
+> > +#ifdef CONFIG_ARM64
+> > +#include <linux/cleanup.h>
+> > +#include <linux/spinlock.h>
+> > +#include <asm/rsi.h>
+> > +#endif
+> > +
+> >  static u32 smccc_version = ARM_SMCCC_VERSION_1_0;
+> >  static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+> >
+> > @@ -67,12 +73,45 @@ s32 arm_smccc_get_soc_id_revision(void)
+> >  }
+> >  EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+> >
+> > +#ifdef CONFIG_ARM64
+> > +static struct rsi_host_call uuid_hc;
+> > +static DEFINE_SPINLOCK(uuid_hc_lock);
+> 
+> So evidently Sashiko is wrong in saying that struct rsi_host_call must be
+> in decrypted memory?
 
-The implementation deliberately does not depend on
-hv_is_hyperv_initialized() because hv_common_init() consults
-hv_is_isolation_supported() before hyperv_initialized is set.
-
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- arch/arm64/hyperv/mshyperv.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-index 8e8148b723d9c..62995b6133f6f 100644
---- a/arch/arm64/hyperv/mshyperv.c
-+++ b/arch/arm64/hyperv/mshyperv.c
-@@ -169,3 +169,8 @@ bool hv_isolation_type_cca(void)
- {
- 	return is_realm_world();
- }
-+
-+bool hv_is_isolation_supported(void)
-+{
-+	return is_realm_world();
-+}
--- 
-2.45.4
+Yes, Sashiko is wrong. The RMM spec clearly states that the rsi_host_call
+struct must be encrypted / "protected". The other two requirements are
+256 aligned and not RIPAS_EMPTY.
 
