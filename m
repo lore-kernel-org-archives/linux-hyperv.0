@@ -1,56 +1,56 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02A04229CC
-	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 19:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E7A423F7F
+	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 19:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782934392; cv=none; b=XVDURUT/IjtOS6MkM7TB74toMabfKnRRh4BVr7PMaP560o6MqCNvOBqnKRxQCV6NOz6uEqrLgkbyRsgD1KMXftrP6wMUWMylPaBRbkNC1fVk6zQ+j/XUjwxpg/JcEHDvWgZIuIKOD/x7nrN7rLTxsApHCYO1BCoCcW+/hfsaF10=
+	t=1782934393; cv=none; b=TFUENQKyUorE0EZLFqn0ijWLhuVQejMzRTP15CH+BBS78Ch9BXAEyBLYef0arC49I588CFfmH5/0qUECwvJJ3MBzb3Z0SAaTKf9SqXXXFMz7UDuh//8wWgY1pzgnQYLfYnHmiZucwHNf6WPSvoE2qoqVeBphDrKiVqSsCT8iEiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782934392; c=relaxed/simple;
-	bh=odtTAw4qAyKVMoQOFS9NQKiMBl8SSPflZ8sexqq+tVc=;
+	s=arc-20240116; t=1782934393; c=relaxed/simple;
+	bh=CMkMn9gDHGDnd3gtJyIeM0lkE5As7w47pJpKewsK9/4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=alVCwtE4ANKeeTk9+8BC44TVSCw56f0+Kd0/gjZ9fWZEG/YIqOp5brP0zzQh5jJmg+2r02NoJuErJC7kE4fr0S+jXcyNNbvvGdCJ8Qg7dmvki4oB9DbBW4Y4OZyfcyw9c8m90jk0Hc6r/itGQDQgvBqau6LjubY3P5mySCQD1Dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z9pbLP8R; arc=none smtp.client-ip=209.85.210.202
+	 To:Cc:Content-Type; b=Qc4DGe2h+atTVvaG0qboHdHArCFIOpOuRtcqWFsZvLsEKw7C/jSyZTvfa35956VYAwcToz+rHavngFcuew9sk8NiNh1DCSe0AnX+Q3hyVnIhQd65zRtyRbcUXy39gLXMPnpvfkW+DKCNos1Av5jSg+CogTQo5Ofy0+cOSMeIm4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TNLNEavc; arc=none smtp.client-ip=209.85.215.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z9pbLP8R"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-847a225cd91so899198b3a.2
-        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 12:33:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TNLNEavc"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c85798977dcso830458a12.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 12:33:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782934388; x=1783539188; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782934390; x=1783539190; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=qFfbhUmYyCU6tRW/uev50JnnPJRuq59CtmTnO4qaTps=;
-        b=Z9pbLP8RzwzuKuLzlfrm5Prb7daDS39w3We9CUaV2F7dzjc6vupfNsHYXJ/uNF7kwk
-         1/CQ7RZDZAMKJdACXon7ImfdCh18M3GAaYVJ5JUuOI2qob2Dsuvg2RDEYnbMsP1qHk1r
-         V4r3aOAeOAmlVLsq3rExkfbeX/iZg7F1Jm7MNss9hgyXbbzPLh2YglTzpzAqm70HHsXr
-         +r4oesTjqHEgu94n6ZOkXp5DK/LfSKpT5llxFjm0Grku+sZiy5fLD+XKQ5KE8xTenb//
-         ibgdBS3M/qzvqtJO3yFXP8N2WZfIVjx5edXZeg/w3UvEpsLMZu3rC7y0CG4TbeTmQQzC
-         3bEg==
+        bh=bEdSCU5mjiDv3GADlP0fC3hWLpC5/Jr71iPsXhxCK9Y=;
+        b=TNLNEavciSrrUvZpoTM3W3Xb0RDLWyv/8ewNn8byAPOaEHHw2WaU70Q0z9xyY5PmaW
+         27umSlY43bDyC8x8lW3ygoS/ZCzl0L83R3lC2fpAyfL0xn2ahN+8a+p/Pq9aSd124IK8
+         SNZv0DxqUsIyQ3Roai1h8TL18DaxghXeMXXkjDDzis+N3Xj3yCpcptfRdAGcl9le0gPx
+         pXC3iO2/JNZs7L4UAU4/5dx0qP+Ipo8nQn7pPEwpGH4MBgwBc4OHzz0Zmg/MQPuK8zrL
+         HwacizZEMo2YOq49VtLywnYMThkj71U+QXSGYlCNNuO31CaXiMVw0PICwR/lThbEgRQ/
+         fpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782934388; x=1783539188;
+        d=1e100.net; s=20251104; t=1782934390; x=1783539190;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qFfbhUmYyCU6tRW/uev50JnnPJRuq59CtmTnO4qaTps=;
-        b=ecU1zHhrcztWiiwIBH4k4gpCfl/9x5bIQb0FVVLveLEF8zg5sBCMlilj0yfhXT7CYG
-         zTZHWecY5yXkHT/CyKTSw3vp1NfB2GHzgCNge1f/2PPZfZqTNxdmmwd4FfGtds/izq8u
-         Qabhsr3iXypiWWxIozxWA51O+g1C2fulVNbGlWde1qw4eNXq4f82H44Lf/pl6yzEqyvd
-         hCj4AY8q9czB/L/KzvjqVzIPWkMi3pZts3jEQykIV2G1zMiBvJ8EJgVJyKcAZ3YYCV3c
-         Vrht1pt6VNkd7Lxl8DsIBOwHpFn6Zgt+UEc4tMD+TDaYZNu5rN+2yG04hivnU2yP30X6
-         C6Vg==
-X-Forwarded-Encrypted: i=1; AFNElJ+bR5Hn9lPZPYaVfRqlyKxQEUx1IgLoh947lpzCDqcXMfhme4QsE0UnIYNSlz7bfby1fCz1TkKgORfVpdE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYZHyPTqGnAm/zY/jZeyrFXX69sD5W5XOUxHwgBynIMgmHa6U3
-	pdMaGp4IMlzs3/neZBP9CUhFWapJCIO+BE9kDnlcFsUbzlwUF0SZzUsv4Binr5HZC/5Neh22iTj
-	ZZ1MXBA==
-X-Received: from pfvx7.prod.google.com ([2002:a05:6a00:2707:b0:847:8f34:1b76])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:8f0a:b0:847:86d8:5937
- with SMTP id d2e1a72fcca58-847c51e4a35mr1955201b3a.50.1782934387701; Wed, 01
- Jul 2026 12:33:07 -0700 (PDT)
+        bh=bEdSCU5mjiDv3GADlP0fC3hWLpC5/Jr71iPsXhxCK9Y=;
+        b=l2ENRmFNx1NOhdbgDhvqNrGaTcE9C9PlBabzAOSyV+pZHfvYebQnuT+7MrxQOrD3b0
+         RLQUcHPM6Y10wFdkW+mC//KMqe2ldA6ix5BKMl6rb1pBD/66vBvbVKdxXGyplQVflY96
+         yOkTN1+JJ4Pf6IUo5zr4/Ut15784HGlQnpUoFhao/wBxlmUQKv50/QGmGUlONlYkVn+H
+         rM99YeMjPoW6H1sYW9cG9G7y50VkhTsz29RFyiDhJrxzCL2fYhoIA3p96idr4t+MeBi7
+         Uc7SDHwTd3iHy5GIqObvVRGlxbMQsw0gXgrv3PW8Qa5AZMeZGa8amWyS0okNlDR5S9ac
+         rkuw==
+X-Forwarded-Encrypted: i=1; AFNElJ/V4nADG3PtUYgNMJ/Lqm6OBgWElVZt6M2Nd462hIResbCTlz/7iGfve2XwNKmfRpuOruZQB//dlYtvAkY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYc6B9CYbrT1ZcIOOmWvCUKppooY6emrNCUBkduoOdEfjey+So
+	Y82+zysWZ6SxKFEYjHSUk/qHEI2aHlRqB4Ylb81rqw7YX5I6HGKIORLKXGxZuCp2LuBXvw5ZyOB
+	Khqgp0w==
+X-Received: from pgh6.prod.google.com ([2002:a05:6a02:4e06:b0:c8b:19f4:6228])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4320:b0:3bf:6c08:fb88
+ with SMTP id adf61e73a8af0-3bfed4b9441mr3531733637.56.1782934389876; Wed, 01
+ Jul 2026 12:33:09 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Wed,  1 Jul 2026 12:31:54 -0700
+Date: Wed,  1 Jul 2026 12:31:56 -0700
 In-Reply-To: <20260701193212.749551-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -60,9 +60,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260701193212.749551-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-Message-ID: <20260701193212.749551-34-seanjc@google.com>
-Subject: [PATCH v5 33/51] x86/xen/time: NOP-ify x86_platform's sched_clock
- save/restore hooks
+Message-ID: <20260701193212.749551-36-seanjc@google.com>
+Subject: [PATCH v5 35/51] x86/tsc: WARN if TSC sched_clock save/restore used
+ with PV sched_clock
 From: Sean Christopherson <seanjc@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
@@ -87,33 +87,48 @@ Cc: Shuah Khan <skhan@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-NOP-ify the x86_platform sched_clock save/restore hooks when setting up
-Xen's PV clock to make it somewhat obvious the hooks aren't used when
-running as a Xen guest (Xen uses a paravirtualized suspend/resume flow).
+Now that all PV clocksources override the sched_clock save/restore hooks
+when overriding sched_clock, WARN if the "default" TSC hooks are invoked
+when using a PV sched_clock, e.g. to guard against regressions.
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/xen/time.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/x86/kernel/tsc.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/xen/time.c b/arch/x86/xen/time.c
-index 487ad838c441..477441752f40 100644
---- a/arch/x86/xen/time.c
-+++ b/arch/x86/xen/time.c
-@@ -567,6 +567,12 @@ static void __init xen_init_time_common(void)
- 	xen_sched_clock_offset = xen_clocksource_read();
- 	static_call_update(pv_steal_clock, xen_steal_clock);
- 	paravirt_set_sched_clock(xen_sched_clock);
-+	/*
-+	 * Xen has paravirtualized suspend/resume and so doesn't use the common
-+	 * x86 sched_clock save/restore hooks.
-+	 */
-+	x86_platform.save_sched_clock_state = x86_init_noop;
-+	x86_platform.restore_sched_clock_state = x86_init_noop;
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index a762cb5cec0f..7473dcab4775 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -947,9 +947,17 @@ EXPORT_SYMBOL_FOR_MODULES(recalibrate_cpu_khz, "p4-clockmod,powernow-k7");
  
- 	x86_init.hyper.get_tsc_khz = xen_tsc_khz;
- 	x86_platform.get_wallclock = xen_get_wallclock;
+ static unsigned long long cyc2ns_suspend;
+ 
++static __always_inline bool tsc_is_save_restore_needed(void)
++{
++	if (WARN_ON_ONCE(!using_native_sched_clock()))
++		return false;
++
++	return static_branch_likely(&__use_tsc) || sched_clock_stable();
++}
++
+ void tsc_save_sched_clock_state(void)
+ {
+-	if (!static_branch_likely(&__use_tsc) && !sched_clock_stable())
++	if (!tsc_is_save_restore_needed())
+ 		return;
+ 
+ 	cyc2ns_suspend = sched_clock();
+@@ -969,7 +977,7 @@ void tsc_restore_sched_clock_state(void)
+ 	unsigned long flags;
+ 	int cpu;
+ 
+-	if (!static_branch_likely(&__use_tsc) && !sched_clock_stable())
++	if (!tsc_is_save_restore_needed())
+ 		return;
+ 
+ 	local_irq_save(flags);
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
