@@ -1,110 +1,118 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAEF3B6348
-	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 20:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6B338332E
+	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 20:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782936793; cv=none; b=YNWHRlMumiONmuR0WrXSRpgyk5wo3B98xCuCfdxthxF50dBcaaeruvyz0ZPo53MVpVg4pwMiWsgt/M+bynS0/KgJyfP8Rs9Rs5bNEYc6/adcxIiQplUTwvT+bJ+FDGk3R0d9yMAWUWtxZ3veRFQ95OeHkAI692sZDmE31eknwaQ=
+	t=1782938587; cv=none; b=WhuQ2+EXdIr9eqRMbP8K7mtrUhFDOufu0MtMQoaXRIpFhLeDowr1iu21X9OBErJzdj9Cu7mE56zRlKxMiWRQBgfSMRStT4SMGRwt43ZeiVhz/0dUUMi34gQraUODh+n03qOzzcxOLKAqcT0D22THZC8VaMJ4V/v9rS4zACCkm9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782936793; c=relaxed/simple;
-	bh=cF/jjZEyvGUvgS6uTcZoamdwydDhtZu3BqFwF+APe0M=;
+	s=arc-20240116; t=1782938587; c=relaxed/simple;
+	bh=MJHAY/0lOZtESReKmEZbrT/tBa8Uv8X4qGxYXF2Xvm4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=n2tSAQgnFSk5QLx1TFTlX2OstAOc7DRDnrj23LD01ZRu16yGJ/CBexHwmzp5jceRtSj9e3o0tJpkSslqcvi59VUTIIqiIiWBTDOql9oA9cjwx2CCpDkxQiBlF9tp02F+xRPUkhTspL66AWq7Y9NcGMsOdVKFyWRrBt+1HxZJEPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZSrHxd7g; arc=none smtp.client-ip=209.85.215.202
+	 To:Cc:Content-Type; b=L+GO8RJCbOxoljm8Mp++2NAxqd0VHBBj05PGG5tz5vR1Ptglm6WPR57AnrDwHRmeSzggs7AlmQaO1+6E7w4ygCqoEoLX3yIA7OK/YqQfUjX3hfRkjEk6/+94ptuLGau+OnLlJBbDXqL5rb8h+EtxtBINhDltaAF2aqGC/DrW1Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VwfB1yqm; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZSrHxd7g"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c96b4f58ddcso800148a12.3
-        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 13:13:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VwfB1yqm"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2c9b71388fbso22127385ad.1
+        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 13:43:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782936791; x=1783541591; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782938586; x=1783543386; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gd2T2yrKrdjkGkPBFuv19B1+1Czc0J5Qs+z0vXV9YM8=;
-        b=ZSrHxd7gpGFYvcMF8vIkZgw8gbToxaYXQ5Ff9P9lfqWRbySSYlLpJW/PGDWkjCHAJW
-         ogthRIVIu6zZj7SuRpWRlITSrgm13ZqOxuonKtFH4z0J9jfw6fSm/eJVNA6R8LrjN8Lb
-         uwVQhpwmL65wkRwdgaO/nQD5cAZNllYo7zq0t8AHTEwlrNAnwVYmHc5TICqpDQU4kbSU
-         zVaIW9q+whT51m6JOGl+MvG/DHBLMSb2XcPGyMgclC+I3QX2tufMEWwY1tXWubcPnGvq
-         h6Z0a8F7QdrsOf58T5cbqDM+Ng2teK3JXU7JBoI+Ur5oPUkRFy5OZ7GuIIqciGmcaMlZ
-         oj+g==
+        bh=Ul4KfkOuOrRVfcOqe8UUYQTjm8np2xMi7aWFEy9eSTw=;
+        b=VwfB1yqm00QIqg/S42/9JTfGZe9/EKbHe+FtDGHxY23fc62s9CUL/emsZghT9XB2jY
+         KKl/htZiejIevLAfnxG7JydFsJThnhvaGgQIJhpgnvfQ8U9qLIh8jG5r610gMiwL07GY
+         iKJyMMgxZsPog4eKe+0ZcCH2lVw+kuR29/gFpCQpqFz6V59mkYoMnIIbC7gVQHC1427j
+         pfc3z1nMgrXK0Fy6ryR6V2KhFU/t4upNUlUIilBEuJnHd7v8MB6kbD0Akka0tfj1HBsv
+         LO8qCSxt1gr+p6YLcxmsrKJQ8BZk/m3E6aWM6j+HECBmqY5BYmGZFNGnGBwWuWyBoqJ8
+         9OuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782936791; x=1783541591;
+        d=1e100.net; s=20251104; t=1782938586; x=1783543386;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gd2T2yrKrdjkGkPBFuv19B1+1Czc0J5Qs+z0vXV9YM8=;
-        b=lnXMBDxpj5vEACqojHsFzEg6tOIrKVrjZbxSEprpopj7Gj109huWT/v/cfg8CDyOnv
-         os1unCqjbdo17SSIl+2feVovRmrmfZHdvk52PI///WR0u9FTm3Bq2LXQiH4enDZ5Kmzg
-         MePPj2umoPzvM3au3gyIuj4IyCUpPYr2g5tEc7Dto6SCQ7wJchQAgzg3Ue8wVhIpoggk
-         SgmGUQLyaqgBNLpROtdWv1eiH9+Q9n8btW6tK4li1X024KPWGS/02iDNXI5/SAwd/DD3
-         KYUCPTy3iXswv31J78oWrJRdLf/+psjO99yiiP2ICXgzbO7Roctff40A3elL1EPAfJKM
-         82zQ==
-X-Gm-Message-State: AOJu0YywDs4XK+XCk1h9Lz23Bu398yuQYjDtEBGWqWk70kAUtlUMmTkW
-	R1/I7T9RJxu7yCbTRgmuNF1XMRTqduaUbk+n4aqNa6Ewjbcy24rGmrIFgN5G1u2eDNhbe6LEdD9
-	IjjccoA==
-X-Received: from pfbil2.prod.google.com ([2002:a05:6a00:8d42:b0:847:aa6c:47fc])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2d06:b0:845:44ec:a648
- with SMTP id d2e1a72fcca58-847c506fffdmr2026726b3a.21.1782936791019; Wed, 01
- Jul 2026 13:13:11 -0700 (PDT)
-Date: Wed, 1 Jul 2026 13:13:10 -0700
-In-Reply-To: <20260701200321.256EF1F000E9@smtp.kernel.org>
+        bh=Ul4KfkOuOrRVfcOqe8UUYQTjm8np2xMi7aWFEy9eSTw=;
+        b=g6mMmpdD9pYySbpZ54pFC7pCuXhhDyoFIpN7WL89x7siKBDIXBv6ta78QBw7156pLq
+         N8QiBnw+oCGP7gv48oFb+R+hy4DIdwkgr4Gq/NRJH+oe/TrWy9iYpFh7I/582ubKa+Gu
+         mfYYvRPadaERcKCXkuD9U33zeMOIMfszCvH5SMwupSHPXrMjbwDfcH3X+NFBZJp1pOHa
+         Kl++Vo3NKgGmVkye3l5zunw9OnZSE2wUd7aXNJPKw3iQ2jMyT0VUzdMflziy6I26C134
+         VaIx+X/NLitsygWa8xidE9sMH5e0nPJT5N1+AbT1xb/IQNWHv3GeNL6V1CLln8c86tWp
+         LVJg==
+X-Forwarded-Encrypted: i=1; AHgh+RqL+KzKFkFk78DZ1U4RroXA5jggIUNzFZUM+r2fmlNFkBKSWDfveSX6sWZ8aKLKtxtvzo4nr2VIhsX1cac=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw53FySLqjBJyrhXqfYzd2WGiXcD/DsajgMo4e2Yj+xaGaxd3oO
+	Z2NcLhVFuGc2xoozS084TgbFocCJ5M+WLS0+8bemDqF6NVdVPDlXpK7oefX1KQ27DD8RjIfqe3W
+	O0tTa5A==
+X-Received: from plbla16.prod.google.com ([2002:a17:902:fa10:b0:2bd:4b8c:fd31])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e785:b0:2c9:c16f:eda6
+ with SMTP id d9443c01a7336-2ca7e8a899dmr38410135ad.39.1782938585487; Wed, 01
+ Jul 2026 13:43:05 -0700 (PDT)
+Date: Wed, 1 Jul 2026 13:43:04 -0700
+In-Reply-To: <20260701200318.B83061F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260701193212.749551-1-seanjc@google.com> <20260701193212.749551-23-seanjc@google.com>
- <20260701200321.256EF1F000E9@smtp.kernel.org>
-Message-ID: <akV01rY3MJkrbene@google.com>
-Subject: Re: [PATCH v5 22/51] x86/kvm: Mark TSC as reliable when it's constant
- and nonstop
+References: <20260701193212.749551-1-seanjc@google.com> <20260701193212.749551-30-seanjc@google.com>
+ <20260701200318.B83061F000E9@smtp.kernel.org>
+Message-ID: <akV72B0ORjG1rOch@google.com>
+Subject: Re: [PATCH v5 29/51] x86/kvm: Don't disable kvmclock on BSP in syscore_suspend()
 From: Sean Christopherson <seanjc@google.com>
 To: sashiko-reviews@lists.linux.dev
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
+Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 
 On Wed, Jul 01, 2026, sashiko-bot@kernel.org wrote:
-> > diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-> > index 909d3e5e5bcd5..1cef54e1e7d9e 100644
-> > --- a/arch/x86/kernel/kvm.c
-> > +++ b/arch/x86/kernel/kvm.c
-> [ ... ]
-> > @@ -1040,7 +1041,16 @@ static void __init kvm_init_platform(void)
-> >  		}
-> >  	}
-> >  
-> > -	kvmclock_init();
-> > +        /*
-> > +         * If the TSC counts at a constant frequency across P/T states and in
-> > +         * deep C-states, treat the TSC reliable, as guaranteed by KVM.
-> > +         */
-> > +	tsc_is_reliable = boot_cpu_has(X86_FEATURE_CONSTANT_TSC) &&
-> > +			  boot_cpu_has(X86_FEATURE_NONSTOP_TSC);
-> > +	if (tsc_is_reliable)
-> > +		setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
-> 
 > [Severity: High]
-> Does setting X86_FEATURE_TSC_RELIABLE here bypass SMP cross-CPU TSC
-> synchronization checks?
+> Does this change inadvertently leave the BSP's kvmclock enabled when
+> powering off the machine for ACPI S4 hibernation?
+> 
+> Looking at the final S4 power-off path in hibernation_platform_enter() in
+> kernel/power/hibernate.c, it calls syscore_suspend() but does not call
+> save_processor_state(). Because this patch removes the unconditional BSP
+> kvmclock_disable() from syscore_suspend() and relies on
+> kvm_save_sched_clock_state() (which only fires during image creation),
+> kvmclock appears to remain fully enabled during the S4 power-off.
 
-No, KVM_FEATURE_CLOCKSOURCE_STABLE_BIT is for kvmclock, not for TSC.  The
-CONSTANT+NONSTOP combination is KVM's way of guaranteeing cross-CPU synchronization.
+No?
 
-> Forcing X86_FEATURE_TSC_RELIABLE based only on CONSTANT_TSC and NONSTOP_TSC,
-> without verifying if the hypervisor actually guarantees cross-CPU
-> synchronization (e.g., via KVM_FEATURE_CLOCKSOURCE_STABLE_BIT), sets
-> tsc_clocksource_reliable = 1.
+  hibernate()
+  |
+  -> hibernation_snapshot()
+  |  |
+  |  -> create_image()
+  |     |
+  |     -> save_processor_state()
+  |
+  -> power_down()
+     |
+     -> hibernation_platform_enter()
+
+I'm not familiar with the /dev/snapshot interface, but I gotta imagine userspace
+needs to do SNAPSHOT_CREATE_IMAGE before SNAPSHOT_POWER_OFF if it actually wants
+to restore state after S4.
+
+> [Severity: Critical]
+> This isn't a bug introduced by this patch, but is there a use-after-free
+> risk with the stack-allocated waitqueue head in the async page fault
+> handling in arch/x86/kernel/kvm.c?
+
+And I thought I had a problem with scope creep during review...
+
+> When a guest task waits for an async page fault in
+> kvm_async_pf_task_wait_schedule(), it waits on a stack-allocated struct
+> kvm_task_sleep_node. Concurrently, when a waker CPU executes
+> apf_task_wake_one(), it unhashes the node via hlist_del_init().
 > 
-> This bypasses the synchronization check in check_tsc_sync_source():
+> The waiter checks hlist_unhashed() locklessly. If it observes the unhashed
+> state before the waker is finished, the waiter can break its loop, return,
+> and destroy the stack frame. The waker might then dereference the
+> deallocated waitqueue head to call swake_up_one(), potentially corrupting
+> stack memory.
 > 
-> arch/x86/kernel/tsc_sync.c:check_tsc_sync_source() {
->     ...
->     if (tsc_store_and_check_tsc_adjust(false) || tsc_clocksource_reliable)
->         return;
->     ...
-> }
-> 
-> Could this cause time to go backwards for guests running on hosts with
-> unsynchronized TSCs when threads migrate between vCPUs?
+> Can this sequence occur during concurrent page fault completions?
+
+No idea, definitely something to sort out at a different time.
