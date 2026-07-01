@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360D7257845;
-	Wed,  1 Jul 2026 19:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC95F431E7B;
+	Wed,  1 Jul 2026 19:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782935307; cv=none; b=dG7ZtizNyY4yu8JVRtWatvV4E/l9i0+oq00TwG/x2k6qUO7qVER1XXwSK4qC2O3Y8nvT+9znmrD7/dljx5LkKnqmAsXYr/gAmvTo83/Ek2FNTOQQzFoBfwXLwn9PAmaMR4RKoeMaVmLEbO2yjd3UhClRaMH4VYvWdWHyurrKVEo=
+	t=1782935456; cv=none; b=qoC/f1365qfU9jaqjumHDoWjmJQTzPenTd0X05eBucpF6fyyI/IDrnDtFmBmNHrCSGtyjfn+8GV26iY6k91VbfUjKtRbbxLzmR1GSEA8HbPbpuYT5NjiCHuL8INiTMaJjBLQ5Y1RW8yiAh2PhwuzSr6Hm3VlT2ZdZTmc2tv5inU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782935307; c=relaxed/simple;
-	bh=bZygkXx/enHAM2OO8uay25hEIL6a2T/ymcv3VTBnAyg=;
+	s=arc-20240116; t=1782935456; c=relaxed/simple;
+	bh=eYhtb0XvQpUtbcf+rnITUGR35rrPRLvD8ReVC509tCQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Y3iTr4HHg7I09sLFwvE8LaiS7q+bExL+jcjhRZwHi5VtBHonuh/HwSw6CTBqFicYnQ6vEf3UkVjQJEBl78z83wZpkB9jUfsxmbiMiwKqe4qsCYhFxHHdVuNl9UuGcVxZsfAq9FJvtmkJahGpwJbpUvhDMvZYlf502L8FEJrHHQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkV4koeA; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=YWHsGp0Dm2p6D2vWl5WHi7nkO7fr8bgeJK9hf+lE4gc7CXVOMjyOZmYfGzBsHYRNfY7NM3w74wJXKqMV/BaYiRHJdmV5WxsfnSjKMG3wk5uYlbPBnvBDcFbSL2djnGnA5beWkAVB0ZRh1mhOKQGBmfmnJz4Nm25rAIK5GmRrkWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5RGdOUs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkV4koeA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6636D1F000E9;
-	Wed,  1 Jul 2026 19:48:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5RGdOUs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6364E1F00A3A;
+	Wed,  1 Jul 2026 19:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782935305;
-	bh=37vRUDKDn2dYl5kXitCbWrzqY9TQMCSdz77GSqvEu6E=;
+	s=k20260515; t=1782935455;
+	bh=z9VpTnB5zyF3sgGJjhDR32sq8ZvFq7NBFrWPyRwEOCc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nkV4koeA4dvd0MT2dcZ4exrTRS+MfIWcM2LruC/ULPidairln71bkeUVTFIIBgMQs
-	 iAxq9znXYgIqxf+P0bcdayMJbWqeGr6OiCZyHP2uZsGRbH4v2MDIpppv1Dfih6Uzrv
-	 LhIwg4MGN1L4/SCPmSZKjdFT9/4aossMcXdTWDByASNJv+ly2ICx3yxi4apenJ+pgJ
-	 pZZAC8mCXQFwcqDta1/B19FAytoMma/0XQwr8E15lX+0rwAMSxnYOqSX4XekQFIWMg
-	 ZdgTmBGXLUzonv6bnATu/DS8wz62TgdG6ODAe3G+4D8+25Fhwj3I/zEwM4fsQ9ExvZ
-	 Qj9LwT7wc5XVQ==
+	b=U5RGdOUstLXJNXlVFBLbg/jk7UX+xqbhAcNek75N1nX8SCY5V0DqzSDbDB2KU5kQT
+	 UvY7nxW90uluEELz/p1rdaKUzC/E9LK5Oc4Yp6xjoPgjs6QeHTmmAIyfZbGZ/FDLcW
+	 dvc3dXlK77LWQnYongGF1vxc4SalZyMp7npfe2MCIuCSnGOGv7Xj2PCRuAlRQYlDxu
+	 Ph6/QeLFZJsNMp2JiZxZVugsWMJd1DE37MfgnuPUv2uNstt2z2xYdDuCqWpG3JydlC
+	 mfdXTOIxMGBufObFn0SKNefWIxCR3EDpbjjO8rmN22aIcDHlLYrf+P7vaFm2+9MxBL
+	 3xuNrtrq5GGLQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 02/51] x86/apic: Add CONFIG_X86_LOCAL_APIC=n stubs
- for apic_set_timer_period_{,k}hz()
+Subject: Re: [PATCH v5 17/51] x86/tsc: Fold native_calibrate_cpu() into
+ recalibrate_cpu_khz()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sean Christopherson" <seanjc@google.com>
 Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
-In-Reply-To: <20260701193212.749551-3-seanjc@google.com>
+In-Reply-To: <20260701193212.749551-18-seanjc@google.com>
 References: <20260701193212.749551-1-seanjc@google.com>
- <20260701193212.749551-3-seanjc@google.com>
+ <20260701193212.749551-18-seanjc@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2026 19:48:24 +0000
-Message-Id: <20260701194825.6636D1F000E9@smtp.kernel.org>
+Date: Wed, 01 Jul 2026 19:50:54 +0000
+Message-Id: <20260701195055.6364E1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,61 +47,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] The `source` argument in `apic_set_timer_period_hz()` and `apic_=
-set_timer_period_khz()` is completely unused, leading to dead code and lost=
- debug logging.
+- [Medium] The refactoring in `recalibrate_cpu_khz()` introduces a race con=
+dition where the global variable `cpu_khz` is temporarily set to 0 for up t=
+o 150ms during runtime CPU frequency recalibration. This exposes the system=
+ to invalid state reads.
 --
 
-commit a7b2ed4060ee2d44136d35fad056804351b581ca
+commit 34cf1b98d726e6c329bdefbd5c9712901d8b4bc8
 Author: Sean Christopherson <seanjc@google.com>
 
-x86/apic: Add CONFIG_X86_LOCAL_APIC=3Dn stubs for apic_set_timer_period_{,k=
-}hz()
-   =20
-This commit adds stubs for apic_set_timer_period_hz() and
-apic_set_timer_period_khz() when the kernel is built without local APIC
-support. It also removes the corresponding #ifdef guards from the calling
-code in various x86 subsystems.
+x86/tsc: Fold native_calibrate_cpu() into recalibrate_cpu_khz()
 
-> diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-> index cd84a94688a2f..035998555e992 100644
-> --- a/arch/x86/include/asm/apic.h
-> +++ b/arch/x86/include/asm/apic.h
-> @@ -189,6 +189,8 @@ static inline void disable_local_APIC(void) { }
->  # define setup_boot_APIC_clock x86_init_noop
->  # define setup_secondary_APIC_clock x86_init_noop
->  static inline void lapic_update_tsc_freq(void) { }
-> +static inline void apic_set_timer_period_hz(u64 period_hz, const char *s=
-ource) { }
-> +static inline void apic_set_timer_period_khz(u64 period_khz, const char =
-*source) { }
+This commit folds the implementation of native_calibrate_cpu() directly into
+recalibrate_cpu_khz() to remove an extra CONFIG_SMP=3Dn ifdef block. This c=
+hange
+aims to clarify the intentional use of early versus late calibration routin=
+es.
+
+> diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+> index 9764ac758081f..6ed6f8f012ebf 100644
+> --- a/arch/x86/kernel/tsc.c
+> +++ b/arch/x86/kernel/tsc.c
+[ ... ]
+> @@ -944,7 +929,9 @@ void recalibrate_cpu_khz(void)
+>  	if (WARN_ON_ONCE(cpu_feature_enabled(X86_FEATURE_TSC_KNOWN_FREQ)))
+>  		return;
+> =20
+> -	cpu_khz =3D native_calibrate_cpu();
+> +	cpu_khz =3D native_calibrate_cpu_early();
+> +	if (!cpu_khz)
+> +		cpu_khz =3D native_calibrate_cpu_late();
 
 [Severity: Medium]
-Is it intentional that the source argument is completely unused here in the
-stubs?
+Does this expose a race condition by temporarily assigning 0 to the global
+cpu_khz variable?
 
-Looking at the main implementation in arch/x86/kernel/apic/apic.c:
+On a UP kernel during cpufreq transitions, if early calibration fails, the
+global cpu_khz is directly assigned 0. It remains 0 while
+native_calibrate_cpu_late() executes, which can take ~150ms and enables
+interrupts.
 
-void apic_set_timer_period_khz(u64 period_khz, const char *source)
-{
-        lapic_timer_period =3D mul_u64_u32_div(period_khz, 1000, HZ);
-}
+Could this lead to sysfs readers via arch_freq_get_on_cpu() observing a 0
+frequency, or the NMI watchdog being misconfigured with a 0 sample period if
+toggled during this window?=20
 
-The source parameter is discarded without being used for debug logging. Sin=
-ce
-any code calling apic_set_timer_period_hz() or apic_set_timer_period_khz()
-passes a string literal describing the source (such as "VMware hypervisor"
-or "CPUID 0x15/0x16"), this results in dropped debug information.
+The previous implementation used a local variable inside native_calibrate_c=
+pu()
+to hold the intermediate state, preventing concurrent readers from seeing an
+invalid 0 value before the slow fallback calibration completes.
 
-Could the source parameter be removed from the API entirely to clean up the
-dead code, or should the boot-time logging be restored?
-
->  static inline void init_bsp_APIC(void) { }
->  static inline void apic_intr_mode_select(void) { }
->  static inline void apic_intr_mode_init(void) { }
-
-[ ... ]
+>  	tsc_khz =3D native_calibrate_tsc();
+>  	if (tsc_khz =3D=3D 0)
+>  		tsc_khz =3D cpu_khz;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260701193212.7495=
-51-1-seanjc@google.com?part=3D2
+51-1-seanjc@google.com?part=3D17
