@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C27431E7B;
-	Wed,  1 Jul 2026 19:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C273033E1;
+	Wed,  1 Jul 2026 19:53:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782935567; cv=none; b=riz29Pg1OKEpIEo3c+k+Bi0QSyNs5ejr4af6Xqlsjdv5RelDFCe/oy+iXc19GAghZhXgFRVuAiA5p2QgE9JzWuyj6ewpkXOFC6ToNP4Jz0Rfof/JjdeHnfyyNI1xm1OvLqWJeJMCqf+oCQRFRpaFnR5gzBN5B/BaJzk6jEn1NXo=
+	t=1782935618; cv=none; b=rWogwGZuhFaXcQxcfV+0OyDKiHmv51BZgiBs412ddZoCWC12jCscDw7KFs2VY/bXPO6x+8G+2yLZVAfFC7uD0yU1WB57tjYEiIKRv1GCTiE1+nSdcGLIkC7FkNmy6fqKfP19vJeP0uQgGLwhqI+sXIQzM4rXFRrKR3P+Gdfv/00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782935567; c=relaxed/simple;
-	bh=v9ypOhuLzby2y5I0BqI3IKmlE9ia3q9uAf89NQfGrGs=;
+	s=arc-20240116; t=1782935618; c=relaxed/simple;
+	bh=uSG9EkbuDXwL/9QMcgvILPgIJLFeIzOoOi9nPuVP9PQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=e3dPYaG44L25l79hRkf0K8MMwoz0o3oznmvSJS/csMdJrlOoumgI2Z+Zul/Wn6zjE+QkZLhhAWqvwKhXk4oI8cWAVz5p7bSgv2g1pH8DXaWyq+MJDlPvC9X91SYV7e8egb42w6QUyLMow+iBm8j1Z4+ukCsmiCmB5Eg6zfUKp3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HYcW8ifl; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=BSZfh6pY+/MnN1flMzjcqw1g/zqjBDH62CgAkjvd+ZvRfhjyk43J735NS43TUDMKFd+U6S5Fw0gl928g6hBJIjen2Y/CCPk1Ot1f7FBVoZnT9ZOaY/4nT0SBJJtjrw2wKA2cqiAItUZVtMtv/wXC0erG+Cmk+3E2RYxglQ/g3T0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MU68xS68; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HYcW8ifl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467DB1F00A3A;
-	Wed,  1 Jul 2026 19:52:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MU68xS68"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1F01F000E9;
+	Wed,  1 Jul 2026 19:53:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782935565;
-	bh=UoISlQwd1D3V7COTvqZiyb1RMc2Wrne/ds568cT5vG0=;
+	s=k20260515; t=1782935617;
+	bh=9Jci8C7rM9CuydyCtib8kjeGpRNVeZBNYfRI1R9/TlE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HYcW8ifl5zw6J+fHJkqAkpjiSmOwhL1cUcHUwK4d4pRxEHAM+3ONCpC9wEDKLEB18
-	 a1JYjhvfHmsDGfT3uK0oQp+oOHeDWnQGkIPNWSLwfSmK4oT0+HuYvy71zi8lCZ2NtM
-	 jB2Hz7StIDFrkRbx+dxJWrAFmGjjJCX+X4dQjaK3qYNkzeDXdfrtFKAC/IdgzSjOIU
-	 rkwA+W/4+Za6/Hh6MDU8+yl/sI0BiJkfleRYf+Vmr3JG32vMLvmsqM+K3CUE8MT5Aa
-	 a4HBQMdVMJU5jhH/UHN5/F3OdR6vay60EGzg9N+68VWqwlfVXRvKTApJ8fH3+59Rpo
-	 1QuziSjkgn30g==
+	b=MU68xS68e1cZR9lGRG+eAiNPSTU1+BoeFZj2d2Jf67L8iYuXWMjcLHEx3j3+8UN2k
+	 LeADLgpNfVQQy1vD2mCi/yLGhndTKZwVNICErlnYXSnehOCyjsUKSSgehy9qGPXqRn
+	 +3Uo3zxXb/ot3XCZXdR8XqA42wHL+X6cu4/MmHMIkwNoFaY/MD8/r/k34KRc+GpPYS
+	 OAb2N1PsQsPo4c8EnN/vx5teGG88TLVXJn/fJWf2oiNbHbXUZcXJmuOl7HE4S6qA/S
+	 pflTeVufdxih8hW0btGZhZIqvI/uHNGgPB2O+QkaeAVdwfj79lEPqLW5AC6TfQd7NQ
+	 R1mn2rxS4WUlw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 12/51] x86/acrn: Register TSC/CPU frequency callbacks
- iff frequency is actually in CPUID
+Subject: Re: [PATCH v5 06/51] x86/sev: Don't override CPU frequency
+ calibration for SNP's Secure TSC
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sean Christopherson" <seanjc@google.com>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
-In-Reply-To: <20260701193212.749551-13-seanjc@google.com>
+Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260701193212.749551-7-seanjc@google.com>
 References: <20260701193212.749551-1-seanjc@google.com>
- <20260701193212.749551-13-seanjc@google.com>
+ <20260701193212.749551-7-seanjc@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2026 19:52:44 +0000
-Message-Id: <20260701195245.467DB1F00A3A@smtp.kernel.org>
+Date: Wed, 01 Jul 2026 19:53:36 +0000
+Message-Id: <20260701195337.2E1F01F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,72 +47,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] ACRN hypervisor integration statically hardcodes its CPUID leaf to=
- 0x40000010 without applying the dynamic base offset, breaking nested setup=
-s and potentially causing severe timekeeping corruption.
+- [Medium] The patch removes the `calibrate_cpu` override to allow the CPU =
+base frequency to differ from the TSC frequency, but fails to account for `=
+determine_cpu_tsc_frequencies()` which will forcefully clobber `cpu_khz` if=
+ it diverges by more than 10%.
 --
 
-commit 8beac699ed1da5364ebdf7f1cc4475bed5521d60
+commit 6d3b9e81661ead5f25434666266aec6514dadaa8
 Author: Sean Christopherson <seanjc@google.com>
 
-x86/acrn: Register TSC/CPU frequency callbacks iff frequency is actually in=
- CPUID
+x86/sev: Don't override CPU frequency calibration for SNP's Secure TSC
 
-This commit modifies ACRN initialization to only register the TSC and CPU
-frequency override callbacks if the hypervisor actually provides a non-zero
-frequency in its CPUID leaf. It achieves this by reading the frequency
-during platform initialization and caching the result.
+This commit removes the override of the kernel's CPU frequency calibration
+routine when registering SNP's Secure TSC. It aims to decouple the CPU base
+frequency from the TSC frequency, as exposing APERF/MPERF requires an
+accurate CPU frequency.
 
-> diff --git a/arch/x86/kernel/cpu/acrn.c b/arch/x86/kernel/cpu/acrn.c
-> index ad8f2da8003b3..dc71a6fdd4613 100644
-> --- a/arch/x86/kernel/cpu/acrn.c
-> +++ b/arch/x86/kernel/cpu/acrn.c
-[ ... ]
-> @@ -26,13 +28,19 @@ static u32 __init acrn_detect(void)
+> diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
+> --- a/arch/x86/coco/sev/core.c
+> +++ b/arch/x86/coco/sev/core.c
+> @@ -2046,7 +2046,6 @@ void __init snp_secure_tsc_init(void)
 > =20
->  static unsigned int __init acrn_get_tsc_khz(void)
->  {
-> -	return cpuid_eax(ACRN_CPUID_TIMING_INFO);
-> +	return acrn_tsc_khz_cpuid;
->  }
+>  	snp_tsc_freq_khz =3D SNP_SCALE_TSC_FREQ(tsc_freq_mhz * 1000, secrets->t=
+sc_factor);
 > =20
->  static void __init acrn_init_platform(void)
->  {
->  	/* Install system interrupt handler for ACRN hypervisor callback */
->  	sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_acrn_hv_callback);
-> +
-> +	acrn_tsc_khz_cpuid =3D cpuid_eax(ACRN_CPUID_TIMING_INFO);
+> -	x86_platform.calibrate_cpu =3D securetsc_get_tsc_khz;
 
-[Severity: High]
-This is a pre-existing issue, but does hardcoding ACRN_CPUID_TIMING_INFO to
-0x40000010 without dynamically applying the base offset break nested setups?
+[Severity: Medium]
+Will this removal be sufficient to decouple cpu_khz from tsc_khz if they
+diverge significantly?
 
-If Linux is booted as an L2 guest with an L0 hypervisor like KVM occupying
-the base 0x40000000 leaf, and L1 ACRN resides at 0x40000100, acrn_detect()
-correctly finds ACRN using cpuid_base_hypervisor() at the 0x40000100 base.
+Looking at determine_cpu_tsc_frequencies() in arch/x86/kernel/tsc.c, there
+is a generic sanity check that enforces a 10% limit on the difference
+between the two frequencies:
 
-However, acrn_init_platform() hardcodes the fetch:
+arch/x86/kernel/tsc.c:determine_cpu_tsc_frequencies() {
+    ...
+    else if (abs(cpu_khz - tsc_khz) * 10 > tsc_khz)
+        cpu_khz =3D tsc_khz;
+    ...
+}
 
-arch/x86/include/asm/acrn.h:
-#define ACRN_CPUID_TIMING_INFO        0x40000010
+If the true host CPU frequency diverges from the guest TSC frequency by more
+than 10%, won't this logic forcefully overwrite the correct cpu_khz back to
+tsc_khz, unintentionally undoing the fix for the APERF/MPERF calculation?
 
-Will this bypass the dynamic base detected earlier and read the timing info
-from the wrong hypervisor's CPUID space (e.g., KVM's L0 frequency)?
-
-If nested under a hypervisor that returns garbage for 0x40000010, could
-acrn_tsc_khz_cpuid be populated with a non-zero bogus value and corrupt
-guest timekeeping?
-
-> +	if (acrn_tsc_khz_cpuid) {
-> +		x86_init.hyper.get_tsc_khz =3D acrn_get_tsc_khz;
-> +		x86_init.hyper.get_cpu_khz =3D acrn_get_tsc_khz;
-> +	}
->  }
+>  	x86_platform.calibrate_tsc =3D securetsc_get_tsc_khz;
 > =20
->  static bool acrn_x2apic_available(void)
+>  	early_memunmap(mem, PAGE_SIZE);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260701193212.7495=
-51-1-seanjc@google.com?part=3D12
+51-1-seanjc@google.com?part=3D6
