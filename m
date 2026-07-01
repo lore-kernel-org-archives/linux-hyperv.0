@@ -1,95 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B7049253F;
-	Wed,  1 Jul 2026 16:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0A7385D67
+	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 17:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782922306; cv=none; b=nIu13RyIXeqtD+siOOjDQedHxhN21er5DP3hzkSqkbT+XlOzBhFUPT1E9RcWbmAkFouDky4vffdT7mDsIoyb4+zEZhWWEdiEqX7RGO0aIWhoqrxeRgfAVZEI+7XO+1gjNqLQCTDvjMPyzXD1HEekA7Vmz1bDWZ0TwpDhFb9+HXw=
+	t=1782925541; cv=none; b=nJgT3RbaShb/FhNM9kmXmxSurtdHtfyGdH3qOUitsW07xWKBnUKQC7albsjGbJVAIyXI/kZwkKNwmhJgjfcAGiNXidvKoBfWrmHmMC+PX7GFA5IXvCHOvG0T+7t2jvMQy2dUiyDJrNPMn7fF5d7pCTJnGGPaABXJftQDzh8oiRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782922306; c=relaxed/simple;
-	bh=ncGd+Uia4lKlhwhfW9nV026tLmncxGBny7bzdz7OzrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+6BHgP22Dyi4d3psjbRGrdPU+Eytwokv1CMzmKzwtBblNK1WiQa07PBNIvilkfIiZegq6tkVQdPVt0heKY+xVONdTL2wSMHrjUPYBr4fobSOdmJt4OOPMxeILXn3unIv1XfaU3UfpvaXuIyCSrI2r6s4j0XzTzIxkV4FZrUB9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kESdWjN8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782925541; c=relaxed/simple;
+	bh=rwvGk64/KqGl/3VwHg3DfEAfs9Xz+w5wS4bol/ORnhA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A59tvifR4/TeaPv1Ufa+EChnsRnSvL1xEmf5yfCiDuXKwKaE1EQjd+4l7FcQuL9Xj9+0Auplezgn4zeeByhqzUsBn3ATGdVlgMKwJYJACHDFoqmQKH1DFFGCI957bpjcDPTCQMVOH2Q9rFFzfpwzUNR2/4FORzpDgf6cIxPvCcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=kElTGzGz; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kESdWjN8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD0D91F000E9;
-	Wed,  1 Jul 2026 16:11:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782922305;
-	bh=DnlZv/MpX+OVj13OgCdjbs/+8RI6gQY6u8lZA89nDWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kESdWjN8F0SiK3UeDe/pOomSYoIGu6PmGf1QjiDI6mKabcv/RzJkLxfADwtlxry7a
-	 Z6j+HOb8q82gknLtTWAWyYmdw73bUWx9ZVW9h774X/6lSC1qOl8WC6/HRGyiBnGjkq
-	 h1dM2x9ElyROcODLs+ySCeAjf2Elcv4zrTbdqZBTysdKIXiHYtKnwGUUc/OOrDJ9Ex
-	 tt6044C6OzRBRK3ykEqnBoOPiCjV7lcdlCLYZNM6c5r/cbj8WoPAi1D2ZFZL3ORJ8Q
-	 jTXXq2EUgwxpkxAD7ATgSJYCdJGk7cLHlDMIxU3GKj3RLkm8CPtqhfQg+J4Tox6RHE
-	 l1M3OKU8tsLjQ==
-Date: Wed, 1 Jul 2026 09:11:43 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: wei.liu@kernel.org,
-	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-	stable@kernel.org, "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] mshv: fix hv_input_get_system_property struct
-Message-ID: <20260701161143.GA201446@liuwe-devbox-debian-v2.local>
-References: <20260630215754.200779-1-wei.liu@kernel.org>
- <akRIKl4wTuZVw/t0@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="kElTGzGz"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-470174001a0so766282f8f.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 10:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1782925537; x=1783530337; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HrG3PRlY2nI3ihDFK93hWp4oS9XsKzt4hSWU1Z2kul8=;
+        b=kElTGzGzefxrrxxsey3nSWRwEeTPCX2cpXlMIZKaLXQS7VSFIDvi7tEtdSOMnAZwIn
+         NXLBlA+nmJCmbLeiWNWFnRzltxMP6hFVS9cWJ2GakKjnJOvFT4fGCQjuX8SWlqrH8MHK
+         MWJhod3daoOLLENyHO6Mcgj62u3+pKorVhcVNjEEQtsgErNhtrdPWZ/CWzNgd/HsJTrD
+         Nc2bvLEAZJjBC+X3x8mDJPdr5jIVzGNB4FzmxR7nq4Ymf0CLcnAFSyfrZ86wIVWSqUh8
+         LXtT+CEni7kU8ruM4Yb5OWFYTr9lNI+WpEqYoBZhA1g0mt3u2PsoQJxdp9gEN7sn3nUy
+         Z/Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782925537; x=1783530337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HrG3PRlY2nI3ihDFK93hWp4oS9XsKzt4hSWU1Z2kul8=;
+        b=SwqOSyX4osMK36qoYNC9xVHU0TXAMn5V1CvJU1aZAzOgUnppWWhQmYdRzAEZ4IHuwn
+         r2C3zqy9etRzxV0mIAzRhqq4EttDjFGCRE00EC0HUuSS4rnMrloePhHn6371rNrJmTO3
+         S/cBcsvqQC9hEVmI613uHN8cy0rpuiz3cUBoYa4Rknog5WEw38psP+4d9RFQf0EkGCmz
+         F5Zylw4Y+GF8WccgvPQdlnN4riD4ATPfKYX3IORTn6y+qkCLh2CaGv9XVLtht2CsSKs7
+         uMqWTSpLGyCx11bXhR71eS/ZCwDUUjJxKvChtfCSbDHsLHC00FatItj5K+R8NArJ2t9J
+         0Iwg==
+X-Gm-Message-State: AOJu0YzljItvETQQMqamIqDRq3s8T/p0EoKucnUI8Db7VXrFQw1JQ4Vr
+	Lflw5NkNfKTkunRSHSbAc1nWde4YNqod9+akElYB+AGSe/xJqbZ7a11BqjnuwbKNMOA=
+X-Gm-Gg: AfdE7ck464ttayrZ08aV/ujBd7LIsA04wIcfUowK+/ZmtyvXUwR5rQ+e8IC2AHqen79
+	aShxSXlFMYj5kj4OyH2VnoRcqBA1NerecV4cAmVCJXFg5K1uQtzQ9AAgXRj9Ao0/eO1PEJKOL7F
+	vB4ibts/QxMKNdEra3ba8OScZFzleprJC6G27u/HNDl2rCqFimtQCVPPu7CiNggVRr7eBSlEHCK
+	EMIwQWsojIM/E7ga63slggbxhQU8gf/j/6kliZP1N+LyFQXoqjiNhogBUOVLiJFU6ZtIE0hjcIf
+	5slIEWs0hj8c2J7CDr+UP4D8FqRjX5iQLZQgnuJpxZdvM5qYFaDcaD2jvvSyBoZcRUXdAgYqvVe
+	9xLMPEpH5KU+V3vUUnq+ELkQk3yh4dwzScLC6FO22EBv1K7ocTUQY10Wb4/JB3v4VbJ8h5F+qyA
+	mBk6DZzJvR0U//FSChxNwcc3P0/qfLvOhrXg5trNqI2y3ID9//cR0yorwbgMpKEts4IfI3VnMtQ
+	Qlp
+X-Received: by 2002:a05:6000:178d:b0:46f:7127:9f70 with SMTP id ffacd0b85a97d-477b3889564mr2285598f8f.18.1782925536585;
+        Wed, 01 Jul 2026 10:05:36 -0700 (PDT)
+Received: from localhost (p200300f65f47db044d4849b7c2d3c964.dip0.t-ipconnect.de. [2003:f6:5f47:db04:4d48:49b7:c2d3:c964])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-477db3dba0esm1205869f8f.7.2026.07.01.10.05.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 10:05:36 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Deepak Rawat <drawat.floss@gmail.com>
+Cc: linux-hyperv@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/4] drm/hyperv: A fix and a few cleanups
+Date: Wed,  1 Jul 2026 19:05:18 +0200
+Message-ID: <cover.1782925276.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akRIKl4wTuZVw/t0@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=830; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=rwvGk64/KqGl/3VwHg3DfEAfs9Xz+w5wS4bol/ORnhA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqRUjORN26Upk1BzKM8GBO2F3OHSluAPF8+Oom2 Ia+fLtfEJGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakVIzgAKCRCPgPtYfRL+ TmZJB/9MIsOpFCpH2Rs80TZubgLNnhh/OdPfNkjQEQ54y8TfXuR6VUxMRhZzPjOQiuXPs49rQm+ z1ivVlCY/u6Is6tVLa3+Carp56kKNfUwFVsbHUiBrn+s2k4zcwED+S1Z/S3njUeulnGjoZ1dubU 6FwB/Qd+ttLWD/n4yolloc3o+EQUW5krvjPnJLZHaTQiN7Ncj8oULnqRf+6e+725pHwNtxNXCaE qlGu3muHkBBH8cXpua7Csfpoiv1xNfNfE3gPtLjjXyAyAwYpNsZe4jqjVH8ME6rseUD5YOtI6VY bslewLxFNQYDzbrqHi+0Dn6wZ+/u+jri4Az/aJxLA8I5ZxDH
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 30, 2026 at 06:50:18PM -0400, Hamza Mahfooz wrote:
-> On Tue, Jun 30, 2026 at 02:57:54PM -0700, wei.liu@kernel.org wrote:
-> > From: Wei Liu <wei.liu@kernel.org>
-> > 
-> > Keep it in sync with the correct definition.
-> > 
-> > The old code worked by chance.
-> > 
-> > Cc: stable@kernel.org
-> 
-> Any idea how far back this goes? Also, does it require a check on the
-> hypervisor version, or was it always wrong?
+Hello,
 
-This should go as far as possible. The upstream version has always been
-wrong.
+while working on a tree-wide cleanup I found a few issues in the
+drm/hyperv driver that are addressed here.
 
-We cannot check versions. Version numbers are not reliable indicators.
+While the first patch is a fix, the issue is so old (from 2021, included
+in v5.14-rc1) that applying the series during the next merge window is
+probably the right choice.
 
-Wei
+Best regards
+Uwe
 
-> 
-> > Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> > ---
-> >  include/hyperv/hvhdk_mini.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-> > index b4cb2fa26e9b..035ba20870f7 100644
-> > --- a/include/hyperv/hvhdk_mini.h
-> > +++ b/include/hyperv/hvhdk_mini.h
-> > @@ -184,8 +184,9 @@ enum hv_dynamic_processor_feature_property {
-> >  
-> >  struct hv_input_get_system_property {
-> >  	u32 property_id; /* enum hv_system_property */
-> > +	u32 reserved;
-> >  	union {
-> > -		u32 as_uint32;
-> > +		u64 as_uint64;
-> >  #if IS_ENABLED(CONFIG_X86)
-> >  		/* enum hv_dynamic_processor_feature_property */
-> >  		u32 hv_processor_feature;
-> > -- 
-> > 2.53.0
-> > 
+Uwe Kleine-König (The Capable Hub) (4):
+  drm/hyperv: Unregister pci driver in error path before module unload
+  drm/hyperv: Explicitly set subvendor and subdevice for pci match array
+  drm/hyperv: Drop useless empty remove callback
+  drm/hyperv: Move MODULE_DEVICE_TABLE to the device_id arrays
+
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+
+base-commit: be5c93fa674f0fc3c8f359c2143abce6bbb422e6
+-- 
+2.55.0.11.g153666a7d9bb
+
