@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2948363C51
-	for <linux-hyperv@vger.kernel.org>; Thu,  2 Jul 2026 06:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDAB387566
+	for <linux-hyperv@vger.kernel.org>; Thu,  2 Jul 2026 06:43:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782974537; cv=none; b=CWOL+kl/lkekXFvN63IdfgRGKkquLBcwSjbulogIfUtjytEFamKKUu4rLtVqOZ08Kg/fz815/BrqkE2fQiq34AiXHtGDh6aiS6qybZJjgXpLU5LB3U1LQTvwf/bwe2F0nwnCB0eMOcY7n+qpZdw+k+NebucWLcXPtgViAKhMirI=
+	t=1782974621; cv=none; b=PAj02r++tvceQCal0CYSaByVMg4rGxMrcB1Bvm0e/9zkKzZsjiUCV9IMEeXd8U3tRoNkf0CFQuwEAZJk848X5czwJBSsfpY9gmbVG9v+4y8HAJeA4EhYrdaayB6s8gap2hGR4+jPH6GrsSfC0n2GNOod3YZ+hw0DYs7MI+Zm4Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782974537; c=relaxed/simple;
-	bh=5oBaqA+ibcCv8EvWrgCW8nfSDQLWZeMwJs85XmVKpcE=;
+	s=arc-20240116; t=1782974621; c=relaxed/simple;
+	bh=/4PG7bgMp+H32j2Z1nuZnWWYKxZKfM7nwB60yF0RB/o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PC7v4/HUSPk9QyJMmbRJ3xXIDtBkEDoH9XeNPqks/5gRaMgu66XlHF8x+VtEv5slgZvz7Nwxq4NQmky9dtrilwhkx9klGYNSDCG6c8E2SDBMZEmTVTcLSPYh9InCmoSwoIQdXKru+tCynndUqFQAguDd5u8V/3X6JVIpqQMmRjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hZ0aaBtf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mOUj/u6D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mJe620LZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mYIPIBTQ; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=N3FjyRKxIdg8vn0zrAQkHiML1F4WZNhJTOQF8rZLcDSzWLOOpR3HQ3woBx/HWzE395GgPna9+xmbzhpvu9qRdcocfcdkOAgLbmVBE4bfX/lwef7ENx/CwDik7Cn9saMyyA9yMdSnosTZTbGnGsRm/3U+Cp1MysrXGCPNTgUYpVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tV3iZynR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+kJvw+lR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CFUmJYz3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zwz8GTPH; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hZ0aaBtf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mOUj/u6D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mJe620LZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mYIPIBTQ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tV3iZynR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+kJvw+lR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CFUmJYz3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zwz8GTPH"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BB7FA717C3;
-	Thu,  2 Jul 2026 06:42:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 81AE772F85;
+	Thu,  2 Jul 2026 06:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782974527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782974615; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=i415UOMdn9zFr1Lb204eiA41Q55BLCpT+Zq/WYhNYac=;
-	b=hZ0aaBtfou0vUBy497p4dB/lX/F6vb2GyqDvrub5jQo26dMlr2XnFukyeo0Oz1j7QPSNEB
-	XfzV8ucIN9ZT27Mxm6zqmd0cSIh018GXlQSBl6ttrii3rM8LOO0QqrTmQ9PrrF1a6PfML4
-	YWjSy0clRBFhVoHM9CO4PSmm4sLAQII=
+	bh=67twOSo+8KdMydRcrG+r9dkmKHV20ls5DgipuVKlKRI=;
+	b=tV3iZynRa8lGev5hRIXopWnV9BqeCgu8bp3oFL9LzjoT/uf4h8AXtUn8c4Wu0IE/RMstxv
+	Y1mrbtWCBxkThkWWmS26oq4kTJtsge4oGjxnEGKEGufk+wKJIA3/Qampi0iKnlJKu4cxRM
+	Qv+4G43jV17auoflUnEwZXIIy/lvds4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782974527;
+	s=susede2_ed25519; t=1782974615;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=i415UOMdn9zFr1Lb204eiA41Q55BLCpT+Zq/WYhNYac=;
-	b=mOUj/u6DCPtBAWRO6AeDjCo9ZO9Bfn1YYhSFEHb/IvGReHs2/24UlDM+CiYxrt/x/ukPam
-	vPjCpR2sBMQry5Bw==
+	bh=67twOSo+8KdMydRcrG+r9dkmKHV20ls5DgipuVKlKRI=;
+	b=+kJvw+lR46EPlo355Edkg8VMp4iEzdORKbTmhKEzFuD6lG2EcrVRfncAc+perfCRWaUq62
+	LAWI2gMQNO60H8CA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mJe620LZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mYIPIBTQ
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CFUmJYz3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zwz8GTPH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782974526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782974613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=i415UOMdn9zFr1Lb204eiA41Q55BLCpT+Zq/WYhNYac=;
-	b=mJe620LZNLAk39lphKXYRJxh5W2dm7HzZEEuET9SAbv4l+pKTmR3H4USTAgfCwrPbnPcyb
-	HFWamMgfHjtqhzspLltHdM+xyFHnE5Jyg1kIWO9yICQKoJehCUanQY9+Q0l3W+xuroBSqq
-	V1udQTawULJTP2SAN10wFeZA2ZU7zWI=
+	bh=67twOSo+8KdMydRcrG+r9dkmKHV20ls5DgipuVKlKRI=;
+	b=CFUmJYz3kt6SKPE21EVVaARZPHaWcC+C3R3OOQ7abzBte+249ALBXFKpm4zmsofZuZtgd/
+	C9+egL2YRmUT+8Vj+xzlUUYbbeSgs823eGYwCPMZ3KhrQX/hdmmupgMnWzldoHrGfDHsdd
+	mN8hx21v1ccNZDLvcEgc/GkMhtEDxKo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782974526;
+	s=susede2_ed25519; t=1782974613;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=i415UOMdn9zFr1Lb204eiA41Q55BLCpT+Zq/WYhNYac=;
-	b=mYIPIBTQF99nqghNS0mPkOQJ2O5pSaGRt4XpIJtQ64gRA9j5AVUHceThoM3ydPXNdSkN9j
-	OmDF2gcZMzf0+SCA==
+	bh=67twOSo+8KdMydRcrG+r9dkmKHV20ls5DgipuVKlKRI=;
+	b=zwz8GTPHEknuaQMOSGsnYrQlPSgCFoD50+hCKrMuD00NgeJjps3mogZcfx+rwjadTThSRf
+	gQGRKv0/IzvnsDAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64AE5779AA;
-	Thu,  2 Jul 2026 06:42:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F796779AA;
+	Thu,  2 Jul 2026 06:43:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id C9pQFz4IRmqAUgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 02 Jul 2026 06:42:06 +0000
-Message-ID: <3d79eb9a-e50f-44d6-aedd-8767d9a0430b@suse.de>
-Date: Thu, 2 Jul 2026 08:42:06 +0200
+	id G2plCpUIRmrxUwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 02 Jul 2026 06:43:33 +0000
+Message-ID: <7a747d47-d275-48ad-a4ea-1e4897df1d28@suse.de>
+Date: Thu, 2 Jul 2026 08:43:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -83,19 +83,19 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] drm/hyperv: Unregister pci driver in error path
- before module unload
+Subject: Re: [PATCH v1 2/4] drm/hyperv: Explicitly set subvendor and subdevice
+ for pci match array
 To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
  <u.kleine-koenig@baylibre.com>, Dexuan Cui <decui@microsoft.com>,
  Long Li <longli@microsoft.com>, Saurabh Sengar
  <ssengar@linux.microsoft.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Deepak Rawat <drawat.floss@gmail.com>
+ Simona Vetter <simona@ffwll.ch>
 Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <cover.1782925276.git.u.kleine-koenig@baylibre.com>
- <4b7dbf00ce4ff664b7d5dd74b2f39d8d87c1ade9.1782925276.git.u.kleine-koenig@baylibre.com>
+ <019450ffb519d02821364afca32b9f48bcd8d2b6.1782925276.git.u.kleine-koenig@baylibre.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -122,78 +122,80 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <4b7dbf00ce4ff664b7d5dd74b2f39d8d87c1ade9.1782925276.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <019450ffb519d02821364afca32b9f48bcd8d2b6.1782925276.git.u.kleine-koenig@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 81AE772F85
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[baylibre.com,microsoft.com,linux.microsoft.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[baylibre.com,microsoft.com,linux.microsoft.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,baylibre.com:email,suse.de:email,suse.de:dkim,suse.de:mid,suse.com:url]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: BB7FA717C3
-X-Spam-Score: -3.01
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,baylibre.com:email,suse.com:url]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-
+Hi
 
 Am 01.07.26 um 19:05 schrieb Uwe Kleine-König (The Capable Hub):
-> The pci driver must not kept registered if the module is unloaded after
-> vmbus_driver_register() fails. So check the return value of
-> vmbus_driver_register() and unregister the pci driver on failure.
+> .subvendor and .subdevice were set to 0 implicitly, so only devices with
+> these two values set to 0 in hardware can probe automatically. Make this
+> requirement explicit.
 >
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
+> While touching this array item, also make use of the pci macro designed
+> for that case.
+>
 > Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 20f35c48c0b8..2e75fb793495 100644
+> index 2e75fb793495..e766d87b7a9d 100644
 > --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
 > +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -249,7 +249,11 @@ static int __init hv_drm_init(void)
->   	if (ret != 0)
->   		return ret;
+> @@ -51,8 +51,8 @@ static void hv_drm_pci_remove(struct pci_dev *pdev)
 >   
-> -	return vmbus_driver_register(&hv_drm_hv_driver);
-> +	ret = vmbus_driver_register(&hv_drm_hv_driver);
-> +	if (ret)
-> +		pci_unregister_driver(&hv_drm_pci_driver);
-> +
-> +	return ret;
->   }
->   
->   static void __exit hv_drm_exit(void)
+>   static const struct pci_device_id hv_drm_pci_tbl[] = {
+>   	{
+> -		.vendor = PCI_VENDOR_ID_MICROSOFT,
+> -		.device = PCI_DEVICE_ID_HYPERV_VIDEO,
+> +		PCI_VDEVICE_SUB(MICROSOFT, PCI_DEVICE_ID_HYPERV_VIDEO,
+> +				0, 0),
+
+IDK, but it looks like an oversight to me.  Setting the sub-fields to 
+ANY seems like the better fix.
+
+Best regards
+Thomas
+
+>   	},
+>   	{ /* end of list */ }
+>   };
 
 -- 
 --
