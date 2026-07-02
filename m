@@ -1,118 +1,90 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6B338332E
-	for <linux-hyperv@vger.kernel.org>; Wed,  1 Jul 2026 20:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042C22E0901;
+	Thu,  2 Jul 2026 04:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782938587; cv=none; b=WhuQ2+EXdIr9eqRMbP8K7mtrUhFDOufu0MtMQoaXRIpFhLeDowr1iu21X9OBErJzdj9Cu7mE56zRlKxMiWRQBgfSMRStT4SMGRwt43ZeiVhz/0dUUMi34gQraUODh+n03qOzzcxOLKAqcT0D22THZC8VaMJ4V/v9rS4zACCkm9s=
+	t=1782965595; cv=none; b=SJv4yN0Fw8xIIJ66uHxA1zjkzwpLbpr11Ejz3EeT9uZBO+qrt/5Ql7FbRwTezXCRfIaTgmexRK0gXjb6qJk9RnllN1IIUoAEzrKvB8JDV8lJtzKYn4uhtcZ7+zDLEmUYHH9gg/kv5Ya7CjwHUiwbMWUTXMw9R/bpIKWRaIIxZfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782938587; c=relaxed/simple;
-	bh=MJHAY/0lOZtESReKmEZbrT/tBa8Uv8X4qGxYXF2Xvm4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=L+GO8RJCbOxoljm8Mp++2NAxqd0VHBBj05PGG5tz5vR1Ptglm6WPR57AnrDwHRmeSzggs7AlmQaO1+6E7w4ygCqoEoLX3yIA7OK/YqQfUjX3hfRkjEk6/+94ptuLGau+OnLlJBbDXqL5rb8h+EtxtBINhDltaAF2aqGC/DrW1Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VwfB1yqm; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VwfB1yqm"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2c9b71388fbso22127385ad.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 01 Jul 2026 13:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782938586; x=1783543386; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ul4KfkOuOrRVfcOqe8UUYQTjm8np2xMi7aWFEy9eSTw=;
-        b=VwfB1yqm00QIqg/S42/9JTfGZe9/EKbHe+FtDGHxY23fc62s9CUL/emsZghT9XB2jY
-         KKl/htZiejIevLAfnxG7JydFsJThnhvaGgQIJhpgnvfQ8U9qLIh8jG5r610gMiwL07GY
-         iKJyMMgxZsPog4eKe+0ZcCH2lVw+kuR29/gFpCQpqFz6V59mkYoMnIIbC7gVQHC1427j
-         pfc3z1nMgrXK0Fy6ryR6V2KhFU/t4upNUlUIilBEuJnHd7v8MB6kbD0Akka0tfj1HBsv
-         LO8qCSxt1gr+p6YLcxmsrKJQ8BZk/m3E6aWM6j+HECBmqY5BYmGZFNGnGBwWuWyBoqJ8
-         9OuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782938586; x=1783543386;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ul4KfkOuOrRVfcOqe8UUYQTjm8np2xMi7aWFEy9eSTw=;
-        b=g6mMmpdD9pYySbpZ54pFC7pCuXhhDyoFIpN7WL89x7siKBDIXBv6ta78QBw7156pLq
-         N8QiBnw+oCGP7gv48oFb+R+hy4DIdwkgr4Gq/NRJH+oe/TrWy9iYpFh7I/582ubKa+Gu
-         mfYYvRPadaERcKCXkuD9U33zeMOIMfszCvH5SMwupSHPXrMjbwDfcH3X+NFBZJp1pOHa
-         Kl++Vo3NKgGmVkye3l5zunw9OnZSE2wUd7aXNJPKw3iQ2jMyT0VUzdMflziy6I26C134
-         VaIx+X/NLitsygWa8xidE9sMH5e0nPJT5N1+AbT1xb/IQNWHv3GeNL6V1CLln8c86tWp
-         LVJg==
-X-Forwarded-Encrypted: i=1; AHgh+RqL+KzKFkFk78DZ1U4RroXA5jggIUNzFZUM+r2fmlNFkBKSWDfveSX6sWZ8aKLKtxtvzo4nr2VIhsX1cac=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw53FySLqjBJyrhXqfYzd2WGiXcD/DsajgMo4e2Yj+xaGaxd3oO
-	Z2NcLhVFuGc2xoozS084TgbFocCJ5M+WLS0+8bemDqF6NVdVPDlXpK7oefX1KQ27DD8RjIfqe3W
-	O0tTa5A==
-X-Received: from plbla16.prod.google.com ([2002:a17:902:fa10:b0:2bd:4b8c:fd31])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e785:b0:2c9:c16f:eda6
- with SMTP id d9443c01a7336-2ca7e8a899dmr38410135ad.39.1782938585487; Wed, 01
- Jul 2026 13:43:05 -0700 (PDT)
-Date: Wed, 1 Jul 2026 13:43:04 -0700
-In-Reply-To: <20260701200318.B83061F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1782965595; c=relaxed/simple;
+	bh=gZPjvKr3IxnQ6hiSUc3ilImgoP+GuC2xkdc+CgjbSWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iFnk5cW6ouFj6lBWVq4CSffzb2BaLnpLxa2XS5/aOCJDmQ5NVV4RV52I/bh+Fb3czZncd0SM+1svtUAkZShzoLir9dMPuhMIwVlzvAYw6+RGbE9oIvAuYqyjcO60vrKcqGVi6Rs7MV5vbhZz6c9KRbJtvP7rDVoigxXg8jgFCQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1009)
+	id ED9F320B7169; Wed,  1 Jul 2026 21:13:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED9F320B7169
+From: Dexuan Cui <decui@microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	kotaranov@microsoft.com,
+	horms@kernel.org,
+	ernis@linux.microsoft.com,
+	dipayanroy@linux.microsoft.com,
+	kees@kernel.org,
+	jacob.e.keller@intel.com,
+	ssengar@linux.microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH net v3 0/2] Fix MANA RX with bounce buffering
+Date: Wed,  1 Jul 2026 21:12:35 -0700
+Message-ID: <20260702041237.617719-1-decui@microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260701193212.749551-1-seanjc@google.com> <20260701193212.749551-30-seanjc@google.com>
- <20260701200318.B83061F000E9@smtp.kernel.org>
-Message-ID: <akV72B0ORjG1rOch@google.com>
-Subject: Re: [PATCH v5 29/51] x86/kvm: Don't disable kvmclock on BSP in syscore_suspend()
-From: Sean Christopherson <seanjc@google.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 01, 2026, sashiko-bot@kernel.org wrote:
-> [Severity: High]
-> Does this change inadvertently leave the BSP's kvmclock enabled when
-> powering off the machine for ACPI S4 hibernation?
-> 
-> Looking at the final S4 power-off path in hibernation_platform_enter() in
-> kernel/power/hibernate.c, it calls syscore_suspend() but does not call
-> save_processor_state(). Because this patch removes the unconditional BSP
-> kvmclock_disable() from syscore_suspend() and relies on
-> kvm_save_sched_clock_state() (which only fires during image creation),
-> kvmclock appears to remain fully enabled during the S4 power-off.
+With swiotlb=force, the MANA NIC fails to work properly due to commit
+730ff06d3f5c ("net: mana: Use page pool fragments for RX buffers instead
+of full pages to improve memory efficiency.").
 
-No?
+This happens because, with the standard MTU=1500, the aforementioned
+commit uses page pool frags with PP_FLAG_DMA_MAP, but fails to call
+page_pool_dma_sync_for_cpu() to sync the received packet for CPU acces
+before handing the RX buffer to the stack.
 
-  hibernate()
-  |
-  -> hibernation_snapshot()
-  |  |
-  |  -> create_image()
-  |     |
-  |     -> save_processor_state()
-  |
-  -> power_down()
-     |
-     -> hibernation_platform_enter()
+Here patch #2 adds the required page_pool_dma_sync_for_cpu().
 
-I'm not familiar with the /dev/snapshot interface, but I gotta imagine userspace
-needs to do SNAPSHOT_CREATE_IMAGE before SNAPSHOT_POWER_OFF if it actually wants
-to restore state after S4.
+Patch #1 validates the packet length reported by the NIC. With patch #2,
+page_pool_dma_sync_for_cpu() uses the packet length, so we don't want
+to blindly trust the packet length, just in case.
 
-> [Severity: Critical]
-> This isn't a bug introduced by this patch, but is there a use-after-free
-> risk with the stack-allocated waitqueue head in the async page fault
-> handling in arch/x86/kernel/kvm.c?
+There is no change between v2 and v3.
+v3 just swaps the order of the 2 patches in v2, as suggested by Simon [3].
 
-And I thought I had a problem with scope creep during review...
+Please review.
 
-> When a guest task waits for an async page fault in
-> kvm_async_pf_task_wait_schedule(), it waits on a stack-allocated struct
-> kvm_task_sleep_node. Concurrently, when a waker CPU executes
-> apf_task_wake_one(), it unhashes the node via hlist_del_init().
-> 
-> The waiter checks hlist_unhashed() locklessly. If it observes the unhashed
-> state before the waker is finished, the waiter can break its loop, return,
-> and destroy the stack frame. The waker might then dereference the
-> deallocated waitqueue head to call swake_up_one(), potentially corrupting
-> stack memory.
-> 
-> Can this sequence occur during concurrent page fault completions?
+Thanks,
+Dexuan
 
-No idea, definitely something to sort out at a different time.
+References:
+[1] v1: https://lore.kernel.org/netdev/20260618035029.249361-1-decui@microsoft.com/
+[2] v2: https://lore.kernel.org/netdev/20260624222605.1794719-1-decui@microsoft.com/
+[3] https://lore.kernel.org/netdev/20260626145048.GB1310988@horms.kernel.org/
+
+Dexuan Cui (2):
+  net: mana: Validate the packet length reported by the NIC
+  net: mana: Sync page pool RX frags for CPU
+
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 61 +++++++++++++++----
+ include/net/mana/mana.h                       |  8 +++
+ 2 files changed, 58 insertions(+), 11 deletions(-)
+
+-- 
+2.34.1
+
