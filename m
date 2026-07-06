@@ -1,119 +1,104 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4DA42377E
-	for <linux-hyperv@vger.kernel.org>; Mon,  6 Jul 2026 18:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD90441DED8
+	for <linux-hyperv@vger.kernel.org>; Mon,  6 Jul 2026 18:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783360826; cv=none; b=Uf8plO5Ysfdxrbw3AZ/oQbL3LQ7tdexLAuTgk5TbxfhoEfI1c3PP3bW8YLF+ObVbvh6Om3OEY/XNsuTJSkPjryEAZRc/abET8d0A7dgvv60ucloF61+vplyXhRhdS0yIXsj2cnMkoALtCAJjYBvbqyY+9pkJXNQH8FI2wJiKvPQ=
+	t=1783360933; cv=none; b=VFFgpiR+oZAZRXshW2JIo8Wxy1o8DCr/d/wJFoflfkjAsiw2P9JsBRQb5oFrPhVePzjoNfjks3M/MuMd+4UfUvTWTAWC/xtFkYA0uZChOiWXYEgCyyEtpaibGtBft7z2Lqdzo1he6BDqfU0RUPdz15aQfryxj5LwxZZpaRYwGlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783360826; c=relaxed/simple;
-	bh=6HvxXL/hPWnIS2ERxITvaZCHswmXyfcfLFJrYY619nA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gNhVT7yNOWaf8f6HyyvmNOIJdwUlak+vfV7a+MX27zrcY6rCC4V51x8Ig2GHVy1VY8oQC/p5+tzzp2ma5N5DzCZmVOfLfJzbaqHWJU+qV0m+t4jwjknWLhPaAvrTa6a6qQrY2K6GIOqDbA2RlrvZYzaNTQJZDSKK7sIlUYrHO/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aXRGKFRY; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1783360933; c=relaxed/simple;
+	bh=kXDlM4ALMMZ+goUgzxjE8iSzN63pj5SPv611+8XFIGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gsIe8NoMhFY2uTvYtQhI2w5cFm/ds2Ewvovhx96BPPXhBKP5rZ95+UzGoavMFZA9q17racv0s5US2Ia1/NCDK4enwRllfTS7XX9c0uTtyW+9vJwyV3+3sEM1bymY10RhocAO5gQ/q7nRmvqyQRAHv60SUbXkwspkmYIK4gYwWYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=SazfPKw5; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aXRGKFRY"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-846f50381a6so2645878b3a.0
-        for <linux-hyperv@vger.kernel.org>; Mon, 06 Jul 2026 11:00:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="SazfPKw5"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f18d92172aso46474356d6.2
+        for <linux-hyperv@vger.kernel.org>; Mon, 06 Jul 2026 11:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783360825; x=1783965625; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eYcfhMi5NCPMduPSvGqKtbO87FaKSq3RfhmI47bcB1U=;
-        b=aXRGKFRYenZRjZGIwSdAJNreLpqh7yKNczUlKghcYwHUg7DkLUY88aYFDcEWam3BTV
-         D0PqKMLZPWjM13nu6q4Ei0eHobHbiyrfJK+iSQWD8Mi8j2AU/T5a2owkWVdIeRZdkjSH
-         NkH9OWVFZrQotIy0W6Vn1juvFI1jWaGVRePRwcH94yRXPLnERxdwpUy93lnN4cBzY3jp
-         vy0ho9+fFAMUv61eu1jqYN7O7N5Y2qZDgZO0GP2eW9sp33Xv8f+9J+8ijifOwwLIy0vW
-         JOM8w0NuKqtUhnOdqszYTSaFuN1y/okEPe9i19RloDZLELXWfdozCSP5nX6RBWdiadfI
-         LhIg==
+        d=ziepe.ca; s=google; t=1783360931; x=1783965731; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kXDlM4ALMMZ+goUgzxjE8iSzN63pj5SPv611+8XFIGI=;
+        b=SazfPKw5hQYTg9bVJDJxEiMKZV1JBN2c83Jh9Wiidbl6iqOJJBFCWRI4jWimKnfY13
+         teafepspQADfGRWblUzKOGf1QNE2Yr0WLmGhqe2+KZ8o11DQYPO0jlAi7rIAxPXLOnUa
+         zXDWcmnZntZTSPGBfmPj3FMwjfni8AXvVq00h10UItFUMdq0Xs1T2BTV8aChiUJDZIFC
+         utzw9jNpTbhQcDxVzKSlC/yT8fgoxTzZrHd/vypd2YdWBhYRtgjnSO/qOkqMUqRKkB/4
+         7/Alf79DViSMccTpXF7ynnJf8FKlNXnrOfx/f+Mu2KkUpK7CiKSTkvfHrxPV4AwkgKmr
+         PBng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783360825; x=1783965625;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eYcfhMi5NCPMduPSvGqKtbO87FaKSq3RfhmI47bcB1U=;
-        b=bXD0AHA7adugOWk3lGWPTftf2ALZnLuhlVL8wTo2w3tl/EpEfQ7UYqfOtYZyzcM/k7
-         o6/OJOOo9/bnUrYcrwZ7F8V3g/wUwBWIOmHMDe7bdZhrvOFGwU8c7yNprNJCDdIQySv6
-         kYWS0PvrzE7JSppaTOXXpS8pFxVZXmdvIIOc2yFCXr7WkR4rtBSvdj2D3AoWnPdwYScn
-         tBvj2yjCBX93U1TuzyKUTZQzdKvCxds2fmP6Qyk7HEKUPtzXk5XxIfYDSXyB2hxgxfE0
-         Eix88BXGBq/wO9mgspxj5EWo/W5TEAenwBzV+urc+nQslbeQUNL/RYKAX+tDWfdeoqXQ
-         0VMA==
-X-Forwarded-Encrypted: i=1; AHgh+RrOTdYY8vaTMiiSUjYTLQINR5mOVWsple++Qy4SZj+Hfl15qcgLg8nfm4PdhsQenAVCUCclw+11Oz376Co=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5TutLM/YWeMMAgtdUvs7C4U+nuCJdzIFQu2QPapftN/dSJ1Ko
-	6uZux5jIU+9OG9z1tUXjDZLt+4e2yrkw/sm8srZiAEJEo3f9O00GkU9MQXOZCRZUgz39CL0BV/Q
-	3CY729w==
-X-Received: from pgam14.prod.google.com ([2002:a05:6a02:2b4e:b0:c92:460e:4f73])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4307:b0:847:8c6d:2f24
- with SMTP id d2e1a72fcca58-84826ec2591mr1691676b3a.56.1783360823962; Mon, 06
- Jul 2026 11:00:23 -0700 (PDT)
-Date: Mon, 6 Jul 2026 11:00:23 -0700
-In-Reply-To: <SN6PR02MB41578D3C34AB283B892C27A4D4F52@SN6PR02MB4157.namprd02.prod.outlook.com>
+        d=1e100.net; s=20251104; t=1783360931; x=1783965731;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kXDlM4ALMMZ+goUgzxjE8iSzN63pj5SPv611+8XFIGI=;
+        b=dcBqkFisivsUWU1NEC+eNhNipLKKy0VWrcJP/EyR/95deoQTGApoD92OQ8wY4TvKHb
+         fw9oJpoARQ4jr2hP0k1Hwh3Jlj2o/OnUXtd/+/bJbqAksXuZIGb66U5SPIELwHviUA4W
+         hRF9ekcLT1NxNuYgBvWiVFtbhrYZGDiwHyTeTTpCY+p+ootlzsKmZ5I42F33Rii/fv03
+         8FYUJq1thO8zc105C65Koi5gQcVirRtTp+bU10OJffCkHm2b+uu9TFUYUhRRfagihSeB
+         jJMlhHc6i/ZPLn6pngwT0FLVLIps3OuC+9Xao/756L/pE21Jb18ayJ32l+rvFM2eJX/k
+         6fkA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7ojyA4ySQNJuMHXlDoEeHGoUhhHg47W/2jjSE8bLeyfOvNYnkuN/Y/3QVM/LrvsGE4gS+MbEbNlldMrc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxq/yyOt1u4XlyGklQC8OWdlkirqnJYpSJjAGmUR48mzWsm0r/F
+	LYYt5kHne8lpFO+1txfrXziFuWSDWJYdbd0k+TK/fVoG7EhfnydFkcR19Pcqw6r/iIM=
+X-Gm-Gg: AfdE7cnTWA1PhV+1NJx5cLZ9qUliuiRXspaaJBMclEB30JaIMUOTuNwHwzfxY2KCX9R
+	yoU24h3YgyUZ7SXumlAAYInaep4VN1b7SeBNmIZEcelbnoCTcyqxt/3xSRdY+aGr62sh1Nn5PPb
+	RIj7GURFMPU6fiC/sQ0W6ahdkPYusP5tctN+mIadx/DLSjuGUIdF5PT2NwCd2I5p861hD/qq/+q
+	z4rVwP6aibmI2UnJaulDhSI/ME+LjGvXZ/YPKf0hotOvylBgTRxkbPISD7syP41friYTvD+E045
+	MQeZyGXZomL/VZ1oZjMGZ1azsqzWb/j1Qyjq4KZ4KUMW9DGIsj4CHvCLKeNODIo5RDr6XiCr4hI
+	8lFw+UOJZQl9UJ5X1ofGIPNT8/4Az+jEykWpJYTlZ2YiFCHIChKIJrXpLMUBZizS2Pv1rvtw=
+X-Received: by 2002:a05:6214:590c:b0:8ce:ca7d:b099 with SMTP id 6a1803df08f44-8fcb2990a80mr21004896d6.18.1783360929999;
+        Mon, 06 Jul 2026 11:02:09 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e371f44sm150118746d6.2.2026.07.06.11.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 11:02:09 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wgndw-00000000dS8-35OA;
+	Mon, 06 Jul 2026 15:02:08 -0300
+Date: Mon, 6 Jul 2026 15:02:08 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, david@kernel.org,
+	corbet@lwn.net, leon@kernel.org, ljs@kernel.org, mhocko@suse.com,
+	rppt@kernel.org, shuah@kernel.org, skhan@linuxfoundation.org,
+	surenb@google.com, vbabka@kernel.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] mm/hmm: add hmm_range_fault_unlocked() for mmap
+ lock-drop support
+Message-ID: <20260706180208.GB118978@ziepe.ca>
+References: <178336023903.504354.7500950448226027718.stgit@skinsburskii>
+ <178336050736.504354.6052508493877924780.stgit@skinsburskii>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260701193212.749551-1-seanjc@google.com> <20260701193212.749551-2-seanjc@google.com>
- <SN6PR02MB41578D3C34AB283B892C27A4D4F52@SN6PR02MB4157.namprd02.prod.outlook.com>
-Message-ID: <akvtN7aIjZ7gOq4o@google.com>
-Subject: Re: [PATCH v5 01/51] x86/apic: Provide helpers to set local APIC
- timer period in hz and khz
-From: Sean Christopherson <seanjc@google.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Andy Lutomirski <luto@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, John Stultz <jstultz@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, 
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>, 
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	Nikunj A Dadhania <nikunj@amd.com>, David Woodhouse <dwmw@amazon.co.uk>, 
-	David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178336050736.504354.6052508493877924780.stgit@skinsburskii>
 
-On Thu, Jul 02, 2026, Michael Kelley wrote:
-> > @@ -796,6 +796,16 @@ bool __init apic_needs_pit(void)
-> >  	return lapic_timer_period == 0;
-> >  }
-> > 
-> > +void apic_set_timer_period_khz(u64 period_khz, const char *source)
-> > +{
-> > +	lapic_timer_period = mul_u64_u32_div(period_khz, 1000, HZ);
-> > +}
-> > +
-> > +void apic_set_timer_period_hz(u64 period_hz, const char *source)
-> > +{
-> > +	lapic_timer_period = div_u64(period_hz, HZ);
-> > +}
-> 
-> A string "source" argument is passed in, but not used. Is there an
-> envisioned future use? Also, this function doesn't output a pr_info()
-> message like the existing Hyper-V and VMware code does. 
+On Mon, Jul 06, 2026 at 10:55:07AM -0700, Stanislav Kinsburskii wrote:
 
-It was a complete goof on my part (Sashiko also pointed out the oddity[*]).  I
-fully intended to log a message and provide equivalent Hyper-V/VMware behavior,
-and totally spaced it.
+> +The caller must not hold ``mmap_read_lock`` before the call.
+> +``hmm_range_fault_unlocked()`` takes the mmap read lock internally and allows
+> +``handle_mm_fault()`` to drop it during fault handling. If the mmap lock is
+> +dropped, the function returns ``-EBUSY``. The caller must then restart the
+> +walk from ``range->start`` with a fresh notifier sequence. ``-EINTR`` is
+> +returned if a fatal signal is pending during retry handling.
 
-[*] https://lore.kernel.org/all/20260701194621.4BD691F000E9@smtp.kernel.org
+It doesn't make sense to me to expose this to the caller, the caller
+isn't holding the lock and there is no reason to redo the mmu_interval
+at this point, so why not just loop inside hmm_range_fault_unlocked ?
 
-> I don't know that the message is all that useful, though I do remember one
-> case where I was debugging some clock/timer issue when I looked at it. 
-
+Jason
