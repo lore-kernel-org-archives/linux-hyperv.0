@@ -1,80 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E5E43C05B;
-	Mon, 13 Jul 2026 14:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA2325B0AA;
+	Mon, 13 Jul 2026 16:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783954578; cv=none; b=cyeiV8YUQIiq/9W506nATZqsuEktxFbrgzJ4HuweLa9toPvRS6WuMpyj2k+4V67FKTDQPKVqwhJjh+JZiNE++5TSn/Dt0eGNIiLR93rE22FqL7x7IrXSzSTlzGx89s8HX6Q0+pCSX2/C4qdCzkwil+tAoedgX0i0Jyz3VJy81IU=
+	t=1783959209; cv=none; b=ApyZ1Zuz6Aj07gAnHKfXBV1T7eyRbDPRAGjpPO5ya7VeUJ0BJ8+S83dWtzUv0gUoeOQpFrYLZk1x79/2KnLrsnVQ2oVLzqYBku/1fKhgYA0laYuT9NnWSP0dmu5Upla+ogf65Q5L43IBRffyRD2zYx5C8pVCoTqyLzq+9ewJ6C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783954578; c=relaxed/simple;
-	bh=qGoZMaIn5OxdmMzcf1HdJsWkQXyTpqf8ZMZPNeSMGBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h2w343n7ai4DJzvwb1/S7MCg3jNAhx5W80Zy696CY06iIwku1YWyHC9Jh+duJ3jFJI5K4ce6KmGw5Ij78V7Q3W5U5mg6dIiKtoXbaluXKrNnxHmiUaZ3SDvs9Vyqa0vSyu2Rgv7ulpb70uDwkSPxPT+JsZVjufiKepYXlw/90tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/enGef0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783959209; c=relaxed/simple;
+	bh=87+DyGXvAKm5IXJiKbRVm11dCASshYHur0HdtyBZK18=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UoGrscXX/fTdHG+F1G+arMORYtBuvBoBHuNOGXYjJiqQ15ye7RGf4PUnxT9xiT/21nphXYm1FwXm+zujMdz1C2jQ3B1fC5MaAPZmmsLH3hEUR8dbZYVX8jp51MGhairHiFJzb7sUzt7Azq1DkI83zAKXTyp3C3nRotrStAvwkqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XZeBtsqO; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/enGef0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583F61F000E9;
-	Mon, 13 Jul 2026 14:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783954575;
-	bh=4s99NOE2S8uWxsvjl5LeV+x8csV47mPIYwADaHJ87xY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=h/enGef0gqnHFA1vYJZybfhU6VQmvSVMq+px75XXIKcpjJNYb4vxrPpVkAXzVVHs3
-	 mtsLq4o3rn1mM0719I4CIzULGgcGznCka5ab4TiuIaOavhwaITye3rYhJmxTBhPoMd
-	 VQC2BmfRwObXtxcnl1DuyFTpwPqxhej/Vw+/J/KZFUN7wyxqBBFTjYVFzdRQj8LiiK
-	 qGkKQmVhxWEXG6lIU4HFLwCCGxkxukRjmGWCppAGgYblsILAvIOgUCIeYPEu1K/aXO
-	 IAf+K7UJCXNYBYMNIc8MTvy7zqgyslopP6tA9GdF2ybTMRWve7UK4ruDmyl4u30K7S
-	 hZe2ixb7aTs6g==
-Date: Mon, 13 Jul 2026 17:56:08 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jacob Moroni <jmoroni@google.com>
-Cc: Selvin Xavier <selvin.xavier@broadcom.com>,
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Michael Margolin <mrgolin@amazon.com>,
-	Gal Pressman <gal.pressman@linux.dev>,
-	Yossi Leybovich <sleybo@amazon.com>,
-	Cheng Xu <chengyou@linux.alibaba.com>,
-	Kai Shen <kaishen@linux.alibaba.com>,
-	Chengchang Tang <tangchengchang@huawei.com>,
-	Junxian Huang <huangjunxian6@hisilicon.com>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Long Li <longli@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Michal Kalderon <mkalderon@marvell.com>,
-	Nelson Escobar <neescoba@cisco.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Bernard Metzler <bernard.metzler@linux.dev>,
-	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH rdma-next 1/2] RDMA/bnxt_re: Validate udata before
- destroying resources
-Message-ID: <20260713145608.GO33197@unreal>
-References: <20260713-fix-destroy-no-udata-v1-0-fcca2e34fd57@nvidia.com>
- <20260713-fix-destroy-no-udata-v1-1-fcca2e34fd57@nvidia.com>
- <CAHYDg1S5jpZY=CRmbcH8MYHzyV4ro4MdzJ2gAj2fhaFfQo-yXA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XZeBtsqO"
+Received: from localhost (unknown [20.236.11.42])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DEA4520B716F;
+	Mon, 13 Jul 2026 09:13:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DEA4520B716F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1783959199;
+	bh=eeKOrgOt+xXm+V5IRef1lDOmRNhHqtuxeaF/QYex0Kk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XZeBtsqOdJFY4BYYsLd+wm1yi+LZ8NbE8VsdAstHLGM5iSE3p7geCt0pHWkLfZOXI
+	 DMBuxTymJLCT1F5m8zAUPQOJ5YsfC1h79HtjvhjMM7+Kf0Lwx9KCdlWDfKJW/W8voN
+	 HSbtdm71FNrpf0fRvLi11OcwBg0H17iZziutadVw=
+Date: Mon, 13 Jul 2026 09:13:28 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Yu Zhang <zhangyu1@linux.microsoft.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+ <linux-hyperv@vger.kernel.org>, "iommu@lists.linux.dev"
+ <iommu@lists.linux.dev>, "linux-pci@vger.kernel.org"
+ <linux-pci@vger.kernel.org>, "linux-arch@vger.kernel.org"
+ <linux-arch@vger.kernel.org>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "kys@microsoft.com" <kys@microsoft.com>, "haiyangz@microsoft.com"
+ <haiyangz@microsoft.com>, "decui@microsoft.com" <decui@microsoft.com>,
+ "longli@microsoft.com" <longli@microsoft.com>, "joro@8bytes.org"
+ <joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>, "bhelgaas@google.com"
+ <bhelgaas@google.com>, "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>, "mani@kernel.org"
+ <mani@kernel.org>, "robh@kernel.org" <robh@kernel.org>, "arnd@arndb.de"
+ <arnd@arndb.de>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+ "tgopinath@linux.microsoft.com" <tgopinath@linux.microsoft.com>,
+ "easwar.hariharan@linux.microsoft.com"
+ <easwar.hariharan@linux.microsoft.com>, "mrathor@linux.microsoft.com"
+ <mrathor@linux.microsoft.com>, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v2 3/4] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <20260713091328.00004fc9@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157805F23ACA85A668FA065D4FC2@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260702160518.311234-1-zhangyu1@linux.microsoft.com>
+	<20260702160518.311234-4-zhangyu1@linux.microsoft.com>
+	<SN6PR02MB4157253E030D477FD91B7E26D4FE2@SN6PR02MB4157.namprd02.prod.outlook.com>
+	<enpkphavwmqrkded73c43vprczslvei4755lkxuedof4z2k3kk@y2jtklbk4efz>
+	<SN6PR02MB4157805F23ACA85A668FA065D4FC2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHYDg1S5jpZY=CRmbcH8MYHzyV4ro4MdzJ2gAj2fhaFfQo-yXA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 13, 2026 at 10:21:49AM -0400, Jacob Moroni wrote:
-> These changes look good but there is also a call to ib_respond_empty_udata
-> in bnxt_re_resize_cq (but that method does take input data).
-> 
-> Is that one a problem? I guess the resize could complete but the upper
-> layers would think it failed if the ib_respond_empty_udata call fails?
+Hi Michael,
 
-I think that modify verbs should be fixed too.
+On Sat, 11 Jul 2026 18:31:15 +0000
+Michael Kelley <mhklinux@outlook.com> wrote:
 
-> 
-> Reviewed-by: Jacob Moroni <jmoroni@google.com>
+> One new thought:  Have you considered the hibernate/resume
+> cycle? Does anything need to be done with the pvIOMMU to
+> make it functional again after resume? I see that the Intel and
+> AMD IOMMU drivers have suspend and resume functions. I
+> don't know enough about the Hyper-V pvIOMMU to know if it
+> might also need suspend and resume functions.
 
-Thanks
+I don't think the Hyper-V pvIOMMU guest driver needs the same kind of
+suspend/resume handling as a hardware IOMMU driver. Unlike VT-d or AMD
+IOMMU, the guest driver does not own physical IOMMU registers, root
+tables, command queues, or translation enable state that must be saved
+and reprogrammed on resume.
+
+For nested translation, the guest does own the stage-1 I/O page tables,
+but those are normal guest memory. They survive S3 as system RAM. The
+guest driver still needs to issue the normal pvIOMMU invalidations when
+it changes S1 mappings, but suspend/resume by itself does not modify
+the S1 page tables and should not require a special flush.
+
+The important contract is on the Hyper-V side: Hyper-V owns translation
+enable/disable and must prevent device DMA while translation state is
+not valid.
+
+Thanks,
+
+Jacob
