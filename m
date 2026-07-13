@@ -1,211 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891CC3AD524
-	for <linux-hyperv@vger.kernel.org>; Mon, 13 Jul 2026 08:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783931289; cv=none; b=emKKncL13B7xOyvgMYHcqs0et4aAML0TyNU4Mls+0uGtB/MMRmhHvgguXOIrD9LaGdSw8c3lMRFoq/fI/XXEQfdP/EOweek4bAksb4nLSTspksWkzdltoP1E+rFJS3I1t0GkgEYdI+2yv13+waepuaya1A1AOLeP1Sa/wGt0l2c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783931289; c=relaxed/simple;
-	bh=8ejGgmOWsmqXJeITu1HJ+eeluCBGi8lk56ED3Uemu4I=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=r2+kB3QRMIQWGvCmZ/6ZnSyzdNcQdgXtaICnjz3nbBt5TT0wMl04aKX+yXXJxJRZDtVp5K50+72f+gSlsWOy2jiFlHAmIAQ0rQ8S50Pg4KD7RIvYIvYLTvtrZ02Qnqxl6ZnW3Ye2c6VXnR+3NNFvqMrc3RmB5jwjup/ufva8pG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WFQb8AGb; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0CA3EBF1A
+	for <linux-hyperv@vger.kernel.org>; Mon, 13 Jul 2026 14:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783952524; cv=pass; b=PWIWhxtbZZkGi68ZnZinUSN9c28lwySvrLWBeMmDscaO05NQW3BG3t0Aa0jzar0hgtFNNvhYf5Yqnnps5iVt2uR14bJunFSFT/EPQfxAKc+1FFVdBcfTVndKBLAuoGF/VEtoB/xm96Bgj86W19oxkb8a+XyRMnHly0ml3PCjRok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783952524; c=relaxed/simple;
+	bh=+8aCNjO6idn1FztFD/o7UxjwPCou6GcYvMWm2B5he7U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qoeZCQlLtntbOpZWqfHw6UB2DJ8h24dyTlszJuAdsNRpPvmixTaXcTsRSAKn5FnLUT76HpT/yrbQWoPVBAYOHRD2vu/bkn9UCqSSJKgfcON2hOM8ZkcS/oSO5EOwAIqinyK9yEFVMsE41RV/xTdnPbupRNebwBkLwbyEkfxrfOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mbMcYpft; arc=pass smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WFQb8AGb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB6D11F000E9;
-	Mon, 13 Jul 2026 08:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783931288;
-	bh=bGh6oU5iQiLxSNyUTmm3P/CHbg3XnDzufnxxnumTZks=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WFQb8AGb/ybtkEvz6UPZjEkriUQPNCVwvrXpGm4rXL3gGRztOZFcQsXX7/ozxxVTB
-	 W4d1tiUqpd93AWc2HOgOfeaCqSDdMu+na6J0c2sNy9WrhK5szTujWh0cMELZQjP+oH
-	 jn67ppVJo8wYoew5VMRU0304jbQ+4raqeSAt5hhWOyOam8A401/wJciedogYosi+8/
-	 Tf7WjufuttOTQ5fyWGn9rH7d4rsNDUWUlgJyNL+t4RK/qSVzYDyW7uGHKzNNCjoci/
-	 e2QgJLhR/5f5eBYVYDyBv0zq4r1RzldI28OmUoBot3wXWxvzpPW3+6z6/OmOPpknV3
-	 w7KdddEPgDXFQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH rdma-next 1/2] RDMA/bnxt_re: Validate udata before
- destroying resources
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260713-fix-destroy-no-udata-v1-1-fcca2e34fd57@nvidia.com>
-References: <20260713-fix-destroy-no-udata-v1-0-fcca2e34fd57@nvidia.com>
- <20260713-fix-destroy-no-udata-v1-1-fcca2e34fd57@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jul 2026 08:28:07 +0000
-Message-Id: <20260713082807.EB6D11F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mbMcYpft"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7eb68bdf53aso1274540a34.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jul 2026 07:22:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783952522; cv=none;
+        d=google.com; s=arc-20260327;
+        b=L/0gyIBOOVvKEEEXWNPRJNF+D433A1Dxm5rFnWM6XGQ+8AcghMq6ZOeMdTMtEhryRk
+         fiwxPwU0Or2eo0ESvmdEJRkboVE/MXTaXNO6o3ieyBXh0DG24nzb6hHiSAzAfD+z9xuz
+         jTRrsFcgyIf+ToE+/RixooIu9Q8QV4AmOOkHdAdeWryXAG6zACWRDcg3/kFSqDSvBCNH
+         mLiYS68WR76uTTmrrB62h0oebOo232LrCM0L2oubaU9tQ6+gIyAgnu9aTFEGRMPrgVLe
+         CCxwc2BaTfBRWB4e0VA6FSi2FtgqDeIhNqUTiivkJ0SBCeHJUA8/E3mmf4X7hebtTieQ
+         fa+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+8aCNjO6idn1FztFD/o7UxjwPCou6GcYvMWm2B5he7U=;
+        fh=wD69K7wY18rg83B6Q5UX4S3E9umZse9MnlXK//5ib+w=;
+        b=QUjsPmCTyjwd4BxFKfNtXF6O4QMQMcmF66CLGpSY6u68oLhWon8Li9ZrY6/H4dqrFV
+         b0UVFw2Xih+6xZyDFaCtW3eOUPVBa9PBpUgogtKUEOXHHjR0o+BUlKti8TeqXdIcwcQv
+         Sc96AGBaK5TsFaVdsV1slY9wgNUpWlFwSwWXEBwT80lby6F5JqtxtBqMJUFLkZRH1ixY
+         OVKeEinNv46fICVaZx6qSP5ADk79nrXrKmRMblJegP6r7BTu3vx2n0rd73BczVQuc8xp
+         csSb4nKdBCC2P5kqINaE4BAMmvUq6OHbqDzOLzgjcllv+i+oVEEHcuneBANVNO3zVw5n
+         vaAQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783952522; x=1784557322; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+8aCNjO6idn1FztFD/o7UxjwPCou6GcYvMWm2B5he7U=;
+        b=mbMcYpftkDZ2ZtLZh4m0AogZrclCBh2dI5bsx34XXCKC89vh/6RvkLRc7r9AQTt6WG
+         aJHic08kjKADhXf3TDme7J2Kry1G5J8sqoiZmeSCt/BY9gLrYNcXcZHqZWbeospx0k40
+         rbLv22rd0CnrxjY7KssB1n5e110n8KzfVjKep1iO/pKmvTQ0M3U4gv1szdw7EfwhsjY0
+         JUN45n2CEZlsvF8QUhfPaMKWi0IosrjZ/KU6t9a77G2JXPI/KgSG5rGW7Q0q4yQL+3gY
+         OFLWJF/WOIuCbBAwLd7HIFSB6WDfQ7ylba+ALeE9VPfv+Ml5tkUuCkk1ENSt6EsZtrPH
+         dP1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783952522; x=1784557322;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+8aCNjO6idn1FztFD/o7UxjwPCou6GcYvMWm2B5he7U=;
+        b=SRmbnkYKcqvfr2Ozjm+YlGhLHzperPZ7QeK4mzrXgxFNg5116srwiHtT6abnXgApZq
+         gQZpLje9AVlpAq039KmHLeMJydUm3P5oFflWWcwADMWFSzT7dWDw2tqLovd+G7NQqmQk
+         8/gNP0eeLyCIoQpFWMS4gCkM6QKTgi7HRosq5+EPR8V/rWUL+W0wsdRrIoNm8JcHkLjD
+         XgJvChiBlZxeqmCumZhLp1V0xGiRXRxxRNBLjwV9mg9Q6yfglH5QApgmtw+DNIUTGiq2
+         BZhuJPYCLsFJlmcIN25YvNHAyWM5m6SLkajtgWhCIVbdhlviIHLufHT5DRZe/7LM9ZLq
+         qZ5w==
+X-Forwarded-Encrypted: i=1; AFNElJ+vvNooFuwEZAhlpBUScCh+Ea2u6HqzDt2LpgBGUftLX2w4u6h7QiDN6Bo255V2Aip6UtuSc3vNVwQV8aI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDOWh2JN5n3xqXJ/IndCTJhi+1Alk0olwG3VfAX/ov+pEPmVCy
+	+CIqOCSGQNIx0nrXzGwMouArJ8poMb2oQqeWJhAr2FhYnQnUntwSb0ej4lqSfKvYSgjBbTzNJnc
+	0YxLXsdF5tcHvGn0Plu8On0cCzjUQyxm9S/7XC+cO
+X-Gm-Gg: AfdE7ckjf6ZkkmsN8FpC+MXo0g38dNm7Eec40LK0lRfl1OyFHszFzZlMPWKEOTkL7JW
+	99OPJv/Ik6j1BQlyq+VMQpG5y98wcemkevs+oReitTSSDMMAanmLeGvP7wo7oFHo8/kMLhDbquM
+	RMKVq2s6Svvt/WGy9deJTPnde1R9OyoEfpombY2XDq6d/bpPB3aK4a8IyEf6txseDq9PRQwdqsW
+	L9vuyvHhbggTCpz04hX63ZpbtrHBCJMNW86cJRdWwNClc+j/IW0X9UayOSPzG3kEGrXpSWNpA==
+X-Received: by 2002:a05:6808:1b0a:b0:497:e619:56a with SMTP id
+ 5614622812f47-4a42ae75c67mr6356591b6e.25.1783952520941; Mon, 13 Jul 2026
+ 07:22:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260713-fix-destroy-no-udata-v1-0-fcca2e34fd57@nvidia.com> <20260713-fix-destroy-no-udata-v1-1-fcca2e34fd57@nvidia.com>
+In-Reply-To: <20260713-fix-destroy-no-udata-v1-1-fcca2e34fd57@nvidia.com>
+From: Jacob Moroni <jmoroni@google.com>
+Date: Mon, 13 Jul 2026 10:21:49 -0400
+X-Gm-Features: AVVi8Ceov_xTc7vx5G47OmxMYew4NiGS4svgZ9NnqFn3IOne2mO01SvVqYQIyGE
+Message-ID: <CAHYDg1S5jpZY=CRmbcH8MYHzyV4ro4MdzJ2gAj2fhaFfQo-yXA@mail.gmail.com>
+Subject: Re: [PATCH rdma-next 1/2] RDMA/bnxt_re: Validate udata before
+ destroying resources
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Selvin Xavier <selvin.xavier@broadcom.com>, 
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Michael Margolin <mrgolin@amazon.com>, Gal Pressman <gal.pressman@linux.dev>, 
+	Yossi Leybovich <sleybo@amazon.com>, Cheng Xu <chengyou@linux.alibaba.com>, 
+	Kai Shen <kaishen@linux.alibaba.com>, Chengchang Tang <tangchengchang@huawei.com>, 
+	Junxian Huang <huangjunxian6@hisilicon.com>, 
+	Tatyana Nikolova <tatyana.e.nikolova@intel.com>, Long Li <longli@microsoft.com>, 
+	Konstantin Taranov <kotaranov@microsoft.com>, Yishai Hadas <yishaih@nvidia.com>, 
+	Michal Kalderon <mkalderon@marvell.com>, Nelson Escobar <neescoba@cisco.com>, 
+	Satish Kharat <satishkh@cisco.com>, Bernard Metzler <bernard.metzler@linux.dev>, 
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+These changes look good but there is also a call to ib_respond_empty_udata
+in bnxt_re_resize_cq (but that method does take input data).
 
-Pre-existing issues:
-- [Critical] Missing hash_del on error paths in CQ and SRQ creation leads t=
-o hash table corruption and use-after-free.
-- [Critical] Lockless modifications and iterations over device-global hash =
-tables (cq_hash and srq_hash) risk linked-list corruption.
-- [High] Hardware Address Handle (AH) resource leak in bnxt_re_create_ah on=
- udata response failure.
-- [High] Hardware and driver state modification applied before udata valida=
-tion in modify/resize callbacks.
-- [High] Memory leak of rdma_user_mmap_entry in bnxt_re_alloc_ucontext if u=
-data validation or response fails.
---
+Is that one a problem? I guess the resize could complete but the upper
+layers would think it failed if the ib_respond_empty_udata call fails?
 
---- Patch [1]: [PATCH rdma-next 1/2] RDMA/bnxt_re: Validate udata before de=
-stroying resources ---
-commit 1661d6c7bf0fdc123a46584fd78311e626482940
-Author: Leon Romanovsky <leon@kernel.org>
-
-RDMA/bnxt_re: Validate udata before destroying resources
-
-This commit modifies the destroy callbacks to validate user data earlier
-using ib_no_udata_io() before resources are torn down. This prevents
-userspace access failures from leaving the driver and hardware in an
-inconsistent state.
-
-> diff --git a/drivers/infiniband/hw/bnxt_re/ib_verbs.c b/drivers/infiniban=
-d/hw/bnxt_re/ib_verbs.c
-> index 5657625290076..ef9943be18861 100644
-> --- a/drivers/infiniband/hw/bnxt_re/ib_verbs.c
-> +++ b/drivers/infiniband/hw/bnxt_re/ib_verbs.c
-
-[ ... ]
-
-> @@ -3471,7 +3471,7 @@ int bnxt_re_destroy_cq(struct ib_cq *ib_cq, struct =
-ib_udata *udata)
->  	nq =3D cq->qplib_cq.nq;
->  	cctx =3D rdev->chip_ctx;
-> =20
-> -	ret =3D ib_is_udata_in_empty(udata);
-> +	ret =3D ib_no_udata_io(udata);
->  	if (ret)
->  		return ret;
-
-[Severity: Critical]
-This is a pre-existing issue, but does removing the CQ from the global hash
-table here require locking?
-
-In bnxt_re_destroy_cq(), just after this udata validation, the CQ is deleted
-from rdev->cq_hash via hash_del() without any locks:
-
-    if (cctx->modes.toggle_bits & BNXT_QPLIB_CQ_TOGGLE_BIT)
-        hash_del(&cq->hash_entry);
-
-However, concurrent additions occur in bnxt_re_create_user_cq() via
-hash_add() and lockless iterations happen in bnxt_re_search_for_cq(). Can
-this cause list corruption or use-after-free if multiple threads create,
-destroy, or query CQs concurrently?
-
-[Severity: Critical]
-This isn't a bug introduced by this patch, but can this leak a dangling
-pointer into the hash table on error?
-
-In bnxt_re_create_user_cq(), if memory allocation for the page fails or
-ib_respond_udata() fails, we jump to the error path and free the CQ without
-removing it from the hash table:
-
-bnxt_re_create_user_cq() {
-    ...
-    if (cctx->modes.toggle_bits & BNXT_QPLIB_CQ_TOGGLE_BIT) {
-        hash_add(rdev->cq_hash, &cq->hash_entry, cq->qplib_cq.id);
-        /* Allocate a page */
-        cq->uctx_cq_page =3D (void *)get_zeroed_page(GFP_KERNEL);
-        if (!cq->uctx_cq_page) {
-            rc =3D -ENOMEM;
-            goto destroy_cq;
-        }
-    ...
-    rc =3D ib_respond_udata(udata, resp);
-    if (rc)
-        goto free_mem;
-    ...
-free_mem:
-    free_page((unsigned long)cq->uctx_cq_page);
-destroy_cq:
-    bnxt_qplib_destroy_cq(&rdev->qplib_res, &cq->qplib_cq);
-free_umem:
-    ib_umem_release(cq->umem);
-    return rc;
-}
-
-Since hash_del() isn't called here, could subsequent lookups hit a
-use-after-free? This same pattern also appears in bnxt_re_create_srq()
-where srq_hash is modified.
-
-[Severity: High]
-This isn't a bug introduced by this patch, but since this patch fixes udata
-validation in destroy callbacks, should similar fixes be applied to the
-modify and resize callbacks?
-
-In functions like bnxt_re_modify_srq(), bnxt_re_modify_qp(), and
-bnxt_re_resize_cq(), the hardware and driver state is modified before the
-final copy-to-user response:
-
-drivers/infiniband/hw/bnxt_re/ib_verbs.c:bnxt_re_modify_qp() {
-    ...
-    /* hardware QP state is modified here */
-    ...
-    return ib_respond_empty_udata(udata);
-}
-
-If the udata response buffer is invalid, the function fails, but the hardwa=
-re
-and driver states are already updated. Can this desynchronize kernel state
-from userspace state?
-
-[Severity: High]
-This is a pre-existing issue, but does this error path permanently leak the
-hardware Address Handle?
-
-If ib_respond_empty_udata() fails in bnxt_re_create_ah(), the function
-returns the error directly without cleaning up the hardware AH or
-decrementing ah_count:
-
-drivers/infiniband/hw/bnxt_re/ib_verbs.c:bnxt_re_create_ah() {
-    ...
-    return ib_respond_empty_udata(udata);
-}
-
-Can an unprivileged application repeatedly trigger this by passing an inval=
-id
-udata response buffer to exhaust hardware resources and kernel memory?
-
-[Severity: High]
-This is a pre-existing issue, but does the cfail error path leak the mmap
-entry?
-
-In bnxt_re_alloc_ucontext(), if validation or the udata response fails, we
-jump to cfail:
-
-drivers/infiniband/hw/bnxt_re/ib_verbs.c:bnxt_re_alloc_ucontext() {
-    ...
-    rc =3D ib_respond_udata(udata, resp);
-    if (rc) {
-        rc =3D -EFAULT;
-        goto cfail;
-    }
-    ...
-cfail:
-    free_page((unsigned long)uctx->shpg);
-    uctx->shpg =3D NULL;
-fail:
-    return rc;
-}
-
-This path skips calling rdma_user_mmap_entry_remove(uctx->shpage_mmap).
-Does this permanently leak the kzalloc'd mmap entry, allowing memory
-exhaustion if triggered repeatedly by userspace?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260713-fix-destro=
-y-no-udata-v1-0-fcca2e34fd57@nvidia.com?part=3D1
+Reviewed-by: Jacob Moroni <jmoroni@google.com>
