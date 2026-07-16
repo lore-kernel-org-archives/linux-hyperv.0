@@ -1,118 +1,115 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013093.outbound.protection.outlook.com [52.103.20.93])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010021.outbound.protection.outlook.com [52.103.23.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0434643F4D5
-	for <linux-hyperv@vger.kernel.org>; Thu, 16 Jul 2026 17:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAB23191C8;
+	Thu, 16 Jul 2026 17:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.23.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784223465; cv=fail; b=Z5+mcdJehsBsaUxTQziDBcjcleQN3ZFbb0lQhVXlwkXt/WkPmmXVQzr8XkoDQUvGqU80HnpgEqJbrhCbtwHUmvE9Cq2MSdYxwZOpCqCSKz3wDJzUO8BBVHUMPZlTMmGRXHV+8GTYsVKpiCxAVfoBl9AEx3aH8UtmN2ApSq5sGbw=
+	t=1784224673; cv=fail; b=rbZwEhLIWlkslJRWJd7zhz4nWdnuzHay34FMRl0dBZQFsPB3PdDxyog9V5Zs2vZpm9ov8++qbEEEbv2Fe+Dga7Yn/8YdBSeh2Li5dswTtshHvsAf/jXaTaFK4bw8ljM+w11OqNMh2sOOaBlHZP+rd2SS7CL9moDEAhxX4jCIsLI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784223465; c=relaxed/simple;
-	bh=w43gh9/q1Od2N+WLjlqOCn7ZAtOtD5qIZ8ScvQFTOzk=;
+	s=arc-20240116; t=1784224673; c=relaxed/simple;
+	bh=aDdU5ruM+Z90LtF+mru+f42fBERBQaHvxu6Ugy36ML4=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XFDoVxb/aHsWsxeEzGRAK2nzUtjJGESVOYlYYUpsHz4U/2zMgdOF8o9rGfaZ3gzH55IR78kQMLadISK2Od+wofv5yW8I83b7lCsex9xTrUbb6doNI5i0iHekkJQPwcOG1TxBOz9Sp5zWz8BUy4kDJrX/qnRGi58oKVsSjISJxfE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=c8XOfDsF; arc=fail smtp.client-ip=52.103.20.93
+	 Content-Type:MIME-Version; b=jGEhnnDi+aPwlmbA8b4/FC5IU2qEzyxyCm7s1fuVNN1KT9vS3GAea0asl0hWCMuLnuZFieZL93ELPvsZbxbOk3TDo1fJJKZbPwby5OGJzwKICgYZkJHtI/DkW1g60BIHpSX3Lf48Cpd00FazISz384yY2x2H2L6R/9omnClHoPc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=sQK9vE/Y; arc=fail smtp.client-ip=52.103.23.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="c8XOfDsF"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="sQK9vE/Y"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IdP/bQVD8Aw0Aewq0ZAP0DJVsAJg2Zp/53XGtpm+MTK48d1EIQs1lEgFd4UVjdoFOP4kC6mZq1R2HGKAW1pQqtI9TQwgSLVRJ2eNNMPAUlxU/ZL3kjR2vAQkg2OhnMiQoBoG8MwlThjpQcRSFg95KiTGxHLmJu81+CCujz8TR1AaJXqQ13/A6IWFXBEzbnG+WwiCNaemdWznFh3pH26OP0EDxgynMVNtWJAAUu8qZhShj8IQ03d0Ux4iubTRhYa9CsoYPqZgw4fOkSdhyT/bQU9XqlbaoiS3vHH+Q6HIXeC1Crld/ACyK3pB9Hdhay61FF/enOtDC5nX2LQo29RsZA==
+ b=M7YIMLNHpRGpqrDpC5mBXWOfdZtscoqmILgF+sMNnrNr7LgPnhFqHvGzL5vbhRQUAjmiMm9ZfE5U2C9B4OYlF+/Qon0UB6d6kiS1a7xMlpMRmEK0aFq0jyToSLOWOuCWSzSZDMVJ5febhQZvY9tPIh2AyiE/5/puHUPiRWCx6GnE4B7ZSop64CFPyzoIPupjEFTHdISHM5p81l5kgnqfGKNnD3YrAxFdPrtuLfZrorD0sybrbzeygT2o43n3C8JVCShvhKbz1FIAQXo++9TAi8IGDB7aixig3xzXbaniTNNcEAVX6qc8z5ilsAi/yXMiZl8gONz1CSW6kQvfwLaDgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UCuyDMXBj6TIjAh90NAswz5noPsnEaNgj6GJwexmhM8=;
- b=KbRi09137HoIWKQFDqb3jqfhLgNQDIoNmBlR5QT+L2hnLhc1BKfvp5XhDZTRBosLTyi3qdboQLZJ74i+mfvd2R0gFi1JhEsOBZQ52RhG2dCLON3j6LaOihyD/rv8DayxKcfVxgq3n5lW2GiP3kjfMVc2GUKCcFvLzIUQdeYd/aPhdbnpaADbU4jWQLPpAEnQSkzbSisis1YWjEH10qd+T9L0UtnLCzMluzWq3zUri1n5+o2X9kFlpzSCMkj8XyM/T8eXwBxDZ7Il6A0dQeHFTj26Pcm+xgYGDO7QH7+NaMz5NHydbaO8Y99gaAfDnjwzsb0S/neClZNI5drLshqLoA==
+ bh=olkCSdYynFoa/OeYlrYMQFCeiC+Vk+Hh6qHEBaoer/I=;
+ b=SM1BoQ8hFlIfOvC5oDvSdJCCEPP5IxSq90IvcmS9r1Gd4+/prx/ZLbUlLqj0WkrUiD12hsK82LzZtgCTNga6Bn1N+WZUZQhT22Ijb8ZroiS5M4Mc8/8cN97Ot7SxV1kYf+hY99uQIjzBkPirjNEn/G3Qy6kmEXRnPWbt7cRTiI7sp0YUoD61WrG2g2mH1aD9/mk+/s85EXybXWqvktSHtuFpuaZEdUa7dzyB8vS10rS2jm4Sbsx6D6b54szicyZPH1wg0/QrjVM4PaYFOtTTzWf1mlp39+MJujWwZpoTma2mviL75BkLzysiXtMR4+EYzyXqWwvdwT4TAlPrcIrRSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UCuyDMXBj6TIjAh90NAswz5noPsnEaNgj6GJwexmhM8=;
- b=c8XOfDsFyPtQiikzeHkcW0/Lve1ooSiYs/V0JKiTdyyy/za6ojLLv7j2uz8+pAM26q/euvvo2XO1F4EhuIS1VESaH3zbfInAXlU4+QZx0mTiLxqFMqps0YzdvFGy5IdUJfMovTMTHU26NUcraJtbaErNVhiJzKE9hBpRbKrploUJMVPI0GDk9qtKiK5+u+GmC0Ai+0jTcmq9r7vnncMnLCxLaK03EzgKAxSK/ZmxsYE1ufjVBnAwxv5iqoJhfBiiyy9hbubE6Y42K5BHfu9MgMLk0SnEJhAempRkHig0FGyapGMlKSm/8YVGtMPyCmhMUg0vP9QXlUHdyzz251htVg==
+ bh=olkCSdYynFoa/OeYlrYMQFCeiC+Vk+Hh6qHEBaoer/I=;
+ b=sQK9vE/Y17Zf+zD8fsJdZcFLeUK47kxjJvU/jp1LX2dbHNKKOmCmkXES+AV9zxfhb/MLKR0JvRzkf1aWGHeCZ/uljXxZprxJXY+Y7tGvhKJvG2tRF9X4p7kgYlEFxdi1wcmhm5kr6qsUm2YNZS68/z7IVvAeew+rdKAOPMeSLAynsbPnMLhn1Dq7EI9GbbB0Oc5zKGWi5ITHSDNvlmJo2R2neqMKq87076ARkPnqaF7qkBnSrAFUxj7EiDY00Cv5Uif1Blb6vu3TfG6kcO6frCYedEXVAdSUnbw/0jKEzQJRm2BwlYYHjEbZeC48V3cIL3lNLoK/VQ841biPQopGNw==
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by LV3PR02MB10055.namprd02.prod.outlook.com (2603:10b6:408:196::14) with
+ by BY5PR02MB6820.namprd02.prod.outlook.com (2603:10b6:a03:213::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Thu, 16 Jul
- 2026 17:37:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
+ 2026 17:57:50 +0000
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 17:37:34 +0000
+ 17:57:49 +0000
 From: Michael Kelley <mhklinux@outlook.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Haiyang
- Zhang <haiyangz@microsoft.com>, Jan Kiszka <jan.kiszka@siemens.com>, Long Li
-	<longli@microsoft.com>, Wei Liu <wei.liu@kernel.org>
-Subject: RE: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
- with lockdep annotation
-Thread-Topic: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
- with lockdep annotation
-Thread-Index: AQHcwepdrKBOXzId6USmM56dY1Icq7XN/EkggKFNhACAAcAfkA==
-Date: Thu, 16 Jul 2026 17:37:34 +0000
+To: "kys@microsoft.com" <kys@microsoft.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "longli@microsoft.com"
+	<longli@microsoft.com>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 1/1] Drivers: hv: vmbus: Set DMA coherent mask for VMBus
+ devices
+Thread-Topic: [PATCH 1/1] Drivers: hv: vmbus: Set DMA coherent mask for VMBus
+ devices
+Thread-Index: AQDXjBRrCKtGZX/zjU8VCx4m/kJzG7h7gBlw
+Date: Thu, 16 Jul 2026 17:57:49 +0000
 Message-ID:
- <SN6PR02MB415782B5C4F6E954EFF4E58FD4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260401151517.1743555-1-bigeasy@linutronix.de>
- <20260401151517.1743555-2-bigeasy@linutronix.de>
- <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <20260715143252.gWEZfb5B@linutronix.de>
-In-Reply-To: <20260715143252.gWEZfb5B@linutronix.de>
+ <SN6PR02MB415756E14DDAFCD7ECED3971D4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260608020616.52852-1-mhklkml@zohomail.com>
+In-Reply-To: <20260608020616.52852-1-mhklkml@zohomail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV3PR02MB10055:EE_
-x-ms-office365-filtering-correlation-id: b43dc7a5-4132-4764-f83e-08dee360eb9d
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|BY5PR02MB6820:EE_
+x-ms-office365-filtering-correlation-id: b77f3b0a-c3c1-492e-c564-08dee363c02b
 x-microsoft-antispam:
- BCL:0;ARA:14566002|25010399006|15080799012|37011999003|51005399006|13091999003|8062599012|31061999003|24021099003|19110799012|8060799015|440099028|3412199025|102099032|40105399003;
+ BCL:0;ARA:14566002|15080799012|37011999003|51005399006|25010399006|31061999003|8060799015|24021099003|13091999003|19110799012|8062599012|12121999013|440099028|3412199025|102099032|40105399003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?DX2L7Y3cr4007qNYWqGSuQsL1G+EiHk+kGV40H3vVvgJdHMra9EwEtC5Ticf?=
- =?us-ascii?Q?YsrWaGvJB3rIWqCDRhiXh1qMDtxQNOXrO5u3ViUai0mXhmpjhvGhdGFjmZk3?=
- =?us-ascii?Q?KgKLZHByWH3fpaEsEgSMvWGIYoeMCn7R8SLNhbp3vbZinvPZp7wtXaHFM5Z3?=
- =?us-ascii?Q?PB7xGV1YmkHo/cHS+R+NTJGbbbFyktVfhvXhH3TEA829x6vBCf48FptYkZk+?=
- =?us-ascii?Q?liRm1g7fvHqbB+pe2GVd5BNSsLhOeRXcN20k3QMmfZgjnDsJrqXXB9iEO0Lh?=
- =?us-ascii?Q?DF17XHm6DkDpOsK3mqTqo9v+BhqM+u/aN9MzNbjXVglvtyzIUpTfliGzv7fh?=
- =?us-ascii?Q?lJo0v9tFxPOrDep+HqD5tXU75P1Oxw4bh38zK04NRX+jdS1ALYZ9PujLQRnn?=
- =?us-ascii?Q?1SFZcmylfZ9E/QoK1bf0TmunXmUHeiTSuASadNr9oTa+oQaypDRWs2aHPxFH?=
- =?us-ascii?Q?wj16Bzbf9CTfgD2U2tvi8+x7prvwaEvAdG08vuFCoe9DZyDuERRU+zDxXkTl?=
- =?us-ascii?Q?1laCbWw2i06h2LWpEBEJnuog3+d4BqB9Pau8UuiBPJ0Z683zp6XXGMLOmqqb?=
- =?us-ascii?Q?QVQJueWot4NdDXp+NqyqskCAwgj3tC3Erm1ah754U7jJmI9fUfyLWaFqP8eg?=
- =?us-ascii?Q?xAOKrnGOxm+N5FcGCdLURT7AfobsRu+v83RAC3QvqY18SWrue98wAh8roaLq?=
- =?us-ascii?Q?T9Ds4rwtQVhYQxvk8dgW+6hlCjmeuYCo73W/YNJ4brNvBIo9WoBN7RustA86?=
- =?us-ascii?Q?u8c6uSdYyf3Qb30CHA/vt1jtBczqbi2TOPSVkZHCBJA5TkVJaKH6DLOWQwQA?=
- =?us-ascii?Q?4eBBYUDpzqJDgc310rVk8+3hGiWq9c4uuWB+wLf5tF4SikwGWlTDRRapJ4n1?=
- =?us-ascii?Q?0SbTc82ULGdHs4KLFpMHBwiKsOqwWL+X6GCTxHoww04JXnPgeWbK21XhlHK7?=
- =?us-ascii?Q?j/oAF7SgYsrz33QSptJE4mKG4NiVQrM7cWXMPjmqrM6GfSze+Oqq11Rk7Gxy?=
- =?us-ascii?Q?/8GQ?=
+ =?us-ascii?Q?kCZ7uv3yGuev07xlbxRqlcpMTZ6fX/zs2elgb6ia6s1X1Nr0Oc/3AlYeyi12?=
+ =?us-ascii?Q?ue/ZhrkXPmQC2uWejkxejCE7ZaynQHtBeZDo0u/RyxcAFpqbBFowq295CEWg?=
+ =?us-ascii?Q?lUV1ltOnQtnGh9Q5O0vJ3+8dcI/nteCH11mtdW6ZWRMmP5OoItlJqG9oyEbL?=
+ =?us-ascii?Q?b+BG+hp/SCiEFCfRxtRDCIAqg7NPA+UoAXtfb9N8GqIhNejEYQoUvTs19ZZT?=
+ =?us-ascii?Q?wwSy7XNBAEq0+hx5AT4zq9PuR1BGvDeE8hRhOxpF2B6WT0VbVTl0F1qrPmH8?=
+ =?us-ascii?Q?rN4e8egld+euKny3tVKlApbcf5WUK2BfXMcMzmDB3Q4Ke07ZjBSD1/JMYdly?=
+ =?us-ascii?Q?vOmpyuWX/qlL1pdt9PKOfZ8dthyrZe1TyhGEiM8bnRLaisThPMqoJxveXmni?=
+ =?us-ascii?Q?SYD1ESLmph+qjmUdEVJ/DVnrKss/ZLhOcMsSfR4eYsmr9D6FxwDRnvdrB6N/?=
+ =?us-ascii?Q?lltEWp31AoTqtbohD0R1/HYbIu5QkgGfkOdWFfmfis2hV5fk2Yn7IBQp5UL+?=
+ =?us-ascii?Q?glTpQfvsfIlnfaiuFoDIX7CNT4RaFnGsHxItdYLmElDDqffq89ublOlLVHbM?=
+ =?us-ascii?Q?GUhIyH7pKUpWZSjkI3CQIg/JPSbQ0OO9FOzzIXV9qHn9qocq9NH4mOSmtvd6?=
+ =?us-ascii?Q?PRFXYiifaVm8aM/bZCi4IPRbu75jdmOsdoBT5KOH6BzClSOf4AnysTNXXhAL?=
+ =?us-ascii?Q?scpUw3BScYII5DggNkrSQhiVsa9Pw2oT3aFO/MPBykxWCr4k7xoOLcTH2xIL?=
+ =?us-ascii?Q?7SE9tjOZ+91besziVQw1+dkSLdsL2r5PqmDuA2VVyTUeYdZUdTryTeSrsudy?=
+ =?us-ascii?Q?QLJaERfDzF4E1AmpJOq3qJhrry9Ty5vKX5SE1uCNLt6GL3JNOOB+LK3T/j61?=
+ =?us-ascii?Q?lu+yxycEI+/sj0utCoUbqP/fYHW2Us6AinFq23mRWDu0FGdg9NkPJD1zrpY4?=
+ =?us-ascii?Q?BqvQaZ6teoa6Jr9uu50hi1DpMjeG4XrErfsgYmUmUfvhmdjvm8v1fkGv+StX?=
+ =?us-ascii?Q?7Wmg6x4BBZNPRqhaLXiUfki/ZUjsTQUHvPgKe9AGRo3NBkg=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?StGg20maVwOywlgdulWKPMXuXrYhjP5VnK/GXZ9swjpXJ74sFUV3XbAQHN0B?=
- =?us-ascii?Q?jVcn/DhFrNEzY7m1/gbLLNw8J+b6/3L8b6Gn+H3mqJb3/oVQG7a/hm8xvkV8?=
- =?us-ascii?Q?BK2dIVlbVIHrI9Ms8tCVROfUdIoj84cnqfQM6RWcz6Th9gMb0U9RGTthAbX7?=
- =?us-ascii?Q?BRtuXh27hC81bUUJqzsoO5u8pSPXtkWbIpoEVm1iKwJ5JQRf+gQ0rwLsdPco?=
- =?us-ascii?Q?GmIoErKpB2Rw8/l4HV5JnuMdMHFOy4jlPoSPmY/MEnI4/8+z1N73f/eAEMMO?=
- =?us-ascii?Q?M1c3wREcBIA7FMnHtOele8kbM7yhZ9KMfyNGVDTDLPSS8psl8yxHT0NMW+JR?=
- =?us-ascii?Q?6JgxSaWvQu7Zo91TEUC1oLqBlGReAUTbqhzqdhOl04jfUH3OisNRncJ739Wr?=
- =?us-ascii?Q?z97W7LhqZtRpaQ5G83z9+v744+/N868PeeBiQE3a6vvxDwU/C9GNwOTd9P1P?=
- =?us-ascii?Q?P/R6qy8z1OhDZgGRugwo0rXKR+9so26M4fXmh5qV/3wD8KuGnfr+cO59zcxE?=
- =?us-ascii?Q?uhnKdP/Gry7o2X8lDWG+Jk0unLuRFahy1VdiA82x2acXMGlTOXQbniuDhgSs?=
- =?us-ascii?Q?MKpjYK8Im8x84DRsfQwy8/xw4c9Q4YcAXgWCxufF12HyGPavmepJvUUWZ9pD?=
- =?us-ascii?Q?HO8N/Ls667pCieoEVtX1fqwD5o1QW1K8G8KcD2vAbZdnLuHfuxVxZxND7rmX?=
- =?us-ascii?Q?CChQDxAiFkv3y8Ve2xPglVITDKPTdv3jguDCnUB4/m7EONbJz5wxIxSEwqyg?=
- =?us-ascii?Q?JqvLR0vDMFwdwG5VmODOYnxqXIM4Hv1gXkcXrmr+yM7mMu+eRumK2ACQx6YZ?=
- =?us-ascii?Q?4zVlYgNvdzx3Ft7OUjdeiMIeHgqaXVatU+aMNbOhkp59abJ3fKLzD+c44TIi?=
- =?us-ascii?Q?5NnTzkDJw1v7uJahFNUWG1RR2ksTxXjz5eJrhdkZtum+yOg54eTXQX4eSrkc?=
- =?us-ascii?Q?xSOIBYh8mcJ4U5GhxLde2MYRCYHI6R7p5uCah/tHKfSO7RgK7GhgAXw3braY?=
- =?us-ascii?Q?r0YXrAlcMTvFgEsR5iliH/6dSRMSBLIZRw5Vbrn9Z+x0jb4i08O4EZ5Rz8HL?=
- =?us-ascii?Q?FVC5n0Z/e9f/ZNqAUc8BFd/VerZlF4jpvvCQwvuilmqgOy3XMlXfQk5DIvyV?=
- =?us-ascii?Q?8UjYJVOjTT2pXK1ytAmOKb51di5j1nH/Ei8OlbIFJgjuKMQpwlYxQKV8AfUH?=
- =?us-ascii?Q?Kq7r7Z5SAuiD8lU4V16Hv1MaBm+7vEOKbiCqbXYwiw/piC4DHYNPhTVBlysY?=
- =?us-ascii?Q?G4wWnL/yEKkrzofY/KYkG5++EsiDB4sbViJrOaiclcFj16iZGrDAxeSIPA9a?=
- =?us-ascii?Q?WXtDLHnby5QSOn4OwIFf5b7VKFhNtcF1k6awOv/PYsn7Tm6rU+lw3b6QCFju?=
- =?us-ascii?Q?96Rxl3A=3D?=
+ =?us-ascii?Q?GHGM9Gt1WJ+6MTzbEDXx1gy3wJLEk1/uajFEZU12iZCzn1GJiaMf1WUnf+P8?=
+ =?us-ascii?Q?9oFXggdaNrL3AZ6BCQoQ/oAeOmBOyeDfr2rdi4CCjN0c9ArjICIF+jCISQo1?=
+ =?us-ascii?Q?I/8oRahKnUI6Nz3WArV37CgzrRZt3hOdHLcQC3XALDvWxKhTKmdYTaEmEhcH?=
+ =?us-ascii?Q?tokgAuFIiVvURfyRlQT31fW/tCY2CB2Vh1VnZUZKebiYlI/F2hbAaP4/9k5J?=
+ =?us-ascii?Q?6bq2CiEpLHB69zOa8On2KNoznSVw3XdcZ3foDPfw3FLFncVBBgRElK/4WQmV?=
+ =?us-ascii?Q?G6Fp5EuXqjEkplw4N2hItCAUSOgdad9JNBjGxBwPTG+LnVZ+TIuO7SU+uH4m?=
+ =?us-ascii?Q?p9cuq7OhxXWDZeYwgofcA5f6hx0aFWVIWD7WhZ46U3bCiW0fJ9GzRNmqd9KW?=
+ =?us-ascii?Q?NBKT6ChqKqKM/nzZOQ0Gphu9xRvK6wUieqLyrGdK5PpqBAxamWO/gh9rPO0j?=
+ =?us-ascii?Q?YfYRljzMQOeR/oPblc9iLpQURT+PtruY/bCBgbTzcOyMg9OWxvBpO88RotI7?=
+ =?us-ascii?Q?if8fV2wz0ADyarDcdpO71N36a9SENTeXw/e5cccWzhslwnssZLx1/rZGgAgg?=
+ =?us-ascii?Q?m1QTlge9nHHIQlrO/CBGNd0BkEpBEkjokm4xs6XoGjB4gsdVMpzrIRjZgFwp?=
+ =?us-ascii?Q?acTw50Y78ZoTSu8JX0pYaAh5EdmCNXZ3pNV6aN4HsF3xtMQbqkudp0vg9fEn?=
+ =?us-ascii?Q?ZcCgXPXNMIDt6Toao0icGJKDCirvP4NuZVS5hKuP4nOxJeqi3avdOeHJQlXo?=
+ =?us-ascii?Q?qzoDVtsOZj6tpYOGwYykG4w6zaueA+Q1gY2Ydrj6I440X3GDkv2b/3tgr57o?=
+ =?us-ascii?Q?evzrHGoTfL29VvKbiILSh035luYczOUCPwCHUCC/HCn7zBChYt+z505Zd28D?=
+ =?us-ascii?Q?Ju4hXZL/DFy/kBHl4xCvvuuAp1EeMha6X+Cw6Y0PsZjMH6VbBg2D/P7dridy?=
+ =?us-ascii?Q?wVg9PUO2PTpawOWM0DKoTjTpM2HJ7HAiNkyFmAWwdAFMEQpRGLWxvAQLi2wJ?=
+ =?us-ascii?Q?JZMyWZuMOk9ft7p0IrBadK+sRnxVd2zqGQj6bpm17OgLUUhhB9uXXBw/rCa3?=
+ =?us-ascii?Q?/Qnz5bD//MjsDUtYZi7ue6ljmevt3zLeweF62V/rdilwsbntJm51oh6BJ3Gn?=
+ =?us-ascii?Q?Mkcj7aDep1gOjM7WnsI3sHGuEhEI7cE9NUCDkOoHMtmajqSbWSFykL2DJlLV?=
+ =?us-ascii?Q?0VA5F29XOdHN/ToxkGjbBsGkcKryfIY2QUeCUWaIRaTYMa7MWuE5RvBgAoUa?=
+ =?us-ascii?Q?2YvZALTKl3ZFao0NLmYPbmkej4Tzv4qQXJynuSiLHCuDHa8OAYD+Z/GgjkWL?=
+ =?us-ascii?Q?btknzZdlzA+AiGW+YfCCm7FtIf6eO1QyC7HGmmZcvnbnMtCa/RxGLiM+uV8X?=
+ =?us-ascii?Q?g/DktfA=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -125,158 +122,75 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b43dc7a5-4132-4764-f83e-08dee360eb9d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 17:37:34.2510
+X-MS-Exchange-CrossTenant-Network-Message-Id: b77f3b0a-c3c1-492e-c564-08dee363c02b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 17:57:49.8481
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR02MB10055
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6820
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de> Sent: Wednesday, Ju=
-ly 15, 2026 7:33 AM
+From: Michael Kelley <mhklkml@zohomail.com> Sent: Sunday, June 7, 2026 7:06=
+ PM
 >=20
-> On 2026-04-04 01:22:08 [+0000], Michael Kelley wrote:
-> > Nit: For historical consistency, use "Drivers: hv: vmbus:" as the prefi=
-x for the
-> > patch "Subject:" line.  Same in Patch 2 of this series.
+> In current code, the coherent_dma_mask for VMBus devices is not set, so
+> it has the default value of 0, which essentially means "invalid". Because
+> drivers for VMBus devices do not use dma_alloc_*() functions, the usual
+> use of the coherent mask does not occur, and no errors result.
 >=20
-> okay.
+> However, a valid coherent_dma_mask may be needed even though the drivers
+> don't use dma_alloc_*() functions. In a CoCo VM, the VMBus storvsc and
+> netvsc drivers must bounce buffer DMA operations through the swiotlb
+> because the Hyper-V host can't DMA into encrypted guest memory. If the
+> kernel is built with CONFIG_SWIOTLB_DYNAMIC and the initial swiotlb size
+> is small, swiotlb code may need to grow the swiotlb in response to a DMA
+> mapping request. That growth first allocates a transient pool while the
+> swiotlb is expanded in the background. The transient pool memory is
+> allocated from the DMA atomic pools, and the allocation code checks for
+> a valid coherent_dma_mask. With current code, this check fails, then the
+> DMA mapping request from the storvsc or netvsc driver fails, and finally
+> an I/O error occurs.
 >=20
-> > Also, any reason not to have copied linux-kernel@vger.kernel.org? I kno=
-w this
-> > is pretty much just a Hyper-V thing, but I would have liked to see what=
- the
-> > Sashiko AI did with these two patches. :-)
+> Fix this problem by setting coherent_dma_mask for VMBus devices at the
+> same time that dma_mask is set. Being a synthetic bus, VMBus does not
+> have any restrictions on coherent DMA, so the coherent mask is set to
+> the full 64 bits for all VMBus devices, just like with dma_mask.
 >=20
-> Can do.
->=20
-> > > lockdep_hardirq_threaded() is supposed to be used within IRQ core cod=
-e
-> > > and not within drivers. It is not obvious from within the driver, tha=
-t
-> > > this is the only interrupt service routing and that it is not shared
-> > > handler.
-> >
-> > I presume you meant "routine". And what do you mean by "the only interr=
-upt
-> > service routine"? And why is the lack of obviousness relevant here? I d=
-on't have
-> > deep expertise in lockdep, but evidently there's some conclusion to rea=
-ch and it
-> > would have helped me to have it spelled out.
->=20
-> You use lockdep_hardirq_threaded() which marks the hardirq as a thread
-> for lockdep purposes. The reason is that the IRQ core will force-thread
-> the handler and the whole routine will be threaded. It does invoke the
-> function and the very begin and nothing else will be done.
->=20
-> vmbus_isr() is using it before __vmbus_isr() is invoked and there can be
-> other functions/ ISRs that are invoked afterwards which would be wrongly
-> recognized.
-> To make it more concrete: sysvec_hyperv_callback() invokes mshv_handler
-> and vmbus_handler. Would vmbus_handler() be invoked first then it will
-> "spill" this lockdep attribute into mshv_handler(). Nested locks in
-> mshv_handler() would not be visible then.
-> This override limits it only to __vmbus_isr() while the RT case above is
-> using vmbus_irqd_wake().
->=20
-> > >
-> > > Replace lockdep_hardirq_threaded() with a lockdep annotation limiting
-> > > threaded context on PREEMPT_RT to __vmbus_isr().
-> >
-> > Again, I'm not clear what "limiting threaded context" means. But see my
-> > additional comment further down.
->=20
-> Does the explanation above make it clear?
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 
-Yes, this makes sense. Thanks for the help.
-
->=20
-> > >
-> > > Fixes: f8e6343b7a89c ("Drivers: hv: vmbus: Use kthread for vmbus inte=
-rrupts on PREEMPT_RT")
-> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > ---
-> > >  drivers/hv/vmbus_drv.c | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> > > index bc4fc1951ae1c..e44275370ac2a 100644
-> > > --- a/drivers/hv/vmbus_drv.c
-> > > +++ b/drivers/hv/vmbus_drv.c
-> > > @@ -1407,8 +1407,11 @@ void vmbus_isr(void)
-> > >  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
-> > >  		vmbus_irqd_wake();
-> > >  	} else {
-> > > -		lockdep_hardirq_threaded();
-> >
-> > I see two similar occurrences of LD_WAIT_CONFIG in the kernel:
-> > __kfree_rcu_sheaf() and adjacent to printk_legacy_allow_spinlock_enter(=
-).
-> > Both occurrences have a multi-line comment explaining the "why". I'd li=
-ke
-> > to see a similar comment here so that drive-by readers of the code have
-> > some idea of what's going on. My suggestion is something like this:
-> >
-> >    vmbus_isr() always runs at hard IRQ level -- the interrupt is not th=
-readed. It
-> >    calls __vmbus_isr() here, which may obtain the spinlock_t sched_lock=
- for
-> >    a VMBus channel in vmbus_chan_sched(). If CONFIG_PROVE_LOCKING=3Dy,
-> >    lockdep complains because obtaining spinlock_t's is not permitted at=
- hard
-> >    IRQ level in PREEMPT_RT configurations. However, the PREEMPT_RT path
-> >    is handled separately above, so there's actually not a problem. Tell
-> >    lockdep that acquiring the spinlock_t is valid by temporarily raisin=
-g
-> >    the wait-type to LD_WAIT_CONFIG using the "fake" lock vmbus_map.
-> >    If lockdep is not enabled, the acquire & release of the fake lock ar=
-e no-ops,
-> >    so performance is not impacted.
-> >
-> > Please review my suggested text and revise as appropriate, as I'm far
-> > from an expert on any of this. The above is based on what I've learned
-> > just now from a bit of research.
->=20
-> What about?
->   vmbus_isr is never force-threaded and always invoked at hard IRQ level.
->   __vmbus_isr() below can acquire a spinlock_t which becomes a sleeping
->   lock and must not be acquired in this context. Therefore on PREEMPT_RT
->   this will be threaded via vmbus_irqd_wake(). On non-PREEMPT the
->   annotation lets lockdep know that acquiring a spinlock_t is not an
->   issue.
-
-Yes, I'm good with this.
-
->=20
-> > And thanks for jumping in and making all this better ....
->=20
-> so I've been looking at __vmbus_isr() and vmbus_chan_sched() seems fine.
-> vmbus_message_sched() on the handler invokes hv_stimer0_isr() which
-> should not be done in the thread but in the hardirq. Is this the only
-> timer in the system or some legacy thingy that is no longer used?
-
-The stimer0 is not legacy, but having the stimer0 interrupt delivered as
-a VMBus message *is* legacy. The legacy mechanism is used when running
-on really old versions of Hyper-V. Modern versions of Hyper-V deliver stime=
-r0
-interrupts via a separate stimer0-specific hardirq. This linkage between st=
-imer0
-and VMBus creates separation problems in that it should conceptually be
-possible to run on Hyper-V with stimer0 without using VMBus or vmbus_isr().
-
-I will do some research on the history and supported versions of Hyper-V.
-It might be possible to drop Linux support for running on these old version=
-s
-of Hyper-V, and remove this legacy mechanism for delivering stimer0
-interrupts. That would be a nice cleanup of some historical baggage.
-
->=20
-> And there is a lot of tasklet involved which mandates a
-> local_bh_disable()/enable() in run_vmbus_irqd() around the function or
-> everything gets pushed into ksoftirqd.
-
-OK.
+Gentle ping:  Anyone able to review this patch? There's a
+Sashiko comment, but it's for an issue in an unrelated error path,
+so I'm not planning to respin this patch for that comment.
 
 Michael
+
+> ---
+> I have not provided a Fixes: tag because the scenario under which
+> the error occurs is an artificial test case that I came across
+> while stressing a unrelated patch set. The fix is valid for general
+> goodness, but the likelihood of the problem occurring in the real
+> world is extremely small. So I see little value in adding this
+> patch to the stable kernel maintainers' workload. If someone wants
+> to argue otherwise, I have no fundamental objection to adding the
+> Fixes: tag.
+>=20
+>  drivers/hv/vmbus_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index c9eeb2ec365d..26e8273bbddd 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -2192,6 +2192,7 @@ int vmbus_device_register(struct hv_device *child_d=
+evice_obj)
+>  	child_device_obj->device.dma_parms =3D &child_device_obj->dma_parms;
+>  	child_device_obj->device.dma_mask =3D &child_device_obj->dma_mask;
+>  	dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
+> +	dma_set_coherent_mask(&child_device_obj->device, DMA_BIT_MASK(64));
+>=20
+>  	/*
+>  	 * Register with the LDM. This will kick off the driver/device
+> --
+> 2.25.1
+>=20
+
