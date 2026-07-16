@@ -1,112 +1,118 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azolkn19012017.outbound.protection.outlook.com [52.103.10.17])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013093.outbound.protection.outlook.com [52.103.20.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8413AA4ED;
-	Thu, 16 Jul 2026 17:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.10.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0434643F4D5
+	for <linux-hyperv@vger.kernel.org>; Thu, 16 Jul 2026 17:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.93
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784221410; cv=fail; b=n2kShvKcaTnfh504LRdSxFDn3n2B+6nm2o7nIXXOupr08aEg5hKgIroF98VwctJs9xeYGKSOdz2z0Loc6ka8b0RJQTPSoMHBIUOeBOQXdhhge0ulqIb7riZu6+GoU02EDH9oI84NPpV+cTHnf1AHBmNGAtI8h3WZLEFfli64Xgo=
+	t=1784223465; cv=fail; b=Z5+mcdJehsBsaUxTQziDBcjcleQN3ZFbb0lQhVXlwkXt/WkPmmXVQzr8XkoDQUvGqU80HnpgEqJbrhCbtwHUmvE9Cq2MSdYxwZOpCqCSKz3wDJzUO8BBVHUMPZlTMmGRXHV+8GTYsVKpiCxAVfoBl9AEx3aH8UtmN2ApSq5sGbw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784221410; c=relaxed/simple;
-	bh=sQHHIAqIAY+r0FzBbgBAHWnAlGsssyakeJi0CJiHf0o=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DfnpMKCD6Sn4fc516Guey690tpoLXccPSaoE+DZOhi+Jt8PcS2cb2udeE8PPdNfTz6e4ukPAz6X4INdTb2uZKn6sdW57tPrOVKYfFxbvz/Dad73Q3X5iS15SMj8n7FsELoMreKYNybokcflKe6q6Ux8ypi1N0MNuSZJSz5Iweu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=ZD41jBZL; arc=fail smtp.client-ip=52.103.10.17
+	s=arc-20240116; t=1784223465; c=relaxed/simple;
+	bh=w43gh9/q1Od2N+WLjlqOCn7ZAtOtD5qIZ8ScvQFTOzk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XFDoVxb/aHsWsxeEzGRAK2nzUtjJGESVOYlYYUpsHz4U/2zMgdOF8o9rGfaZ3gzH55IR78kQMLadISK2Od+wofv5yW8I83b7lCsex9xTrUbb6doNI5i0iHekkJQPwcOG1TxBOz9Sp5zWz8BUy4kDJrX/qnRGi58oKVsSjISJxfE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=c8XOfDsF; arc=fail smtp.client-ip=52.103.20.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="ZD41jBZL"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="c8XOfDsF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yO7gJ+oMS6rAbFlzZdq16EBumSMETJoDiNwfav7pQU509RQZDq9CSAL8kzLgYAvEuYNaa67DtUi/oBImVcUNTOb3XJldAqfq7URMAvm/3nCmM7VIzgJdcQEEfF1NGrMZ1jUX9nIdGmQgy4w1umOZaEPavcPXXLWKuYcbK2csVqSIT9tpAaQ9cEihjpbKP6zn+8qq6Y9svXcqBqQWI3/jNC9lHZ0iWVUYz2zaN91zNpK0tWYTQFdqzuiLJbCbQwr2jIhYV/Ldi8pnxSu5RA6l5xOV5zb4oey6gkWDPk9+SNyYkvef61hjP84/cxSUIWu1AqkRqiWbKH8QjVG/qvHo9A==
+ b=IdP/bQVD8Aw0Aewq0ZAP0DJVsAJg2Zp/53XGtpm+MTK48d1EIQs1lEgFd4UVjdoFOP4kC6mZq1R2HGKAW1pQqtI9TQwgSLVRJ2eNNMPAUlxU/ZL3kjR2vAQkg2OhnMiQoBoG8MwlThjpQcRSFg95KiTGxHLmJu81+CCujz8TR1AaJXqQ13/A6IWFXBEzbnG+WwiCNaemdWznFh3pH26OP0EDxgynMVNtWJAAUu8qZhShj8IQ03d0Ux4iubTRhYa9CsoYPqZgw4fOkSdhyT/bQU9XqlbaoiS3vHH+Q6HIXeC1Crld/ACyK3pB9Hdhay61FF/enOtDC5nX2LQo29RsZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fuPWWnUZfHfQ/LBhu+VhZinn8O+v5da4a+T5fRYZBQA=;
- b=tmXiCb9wcE5JtfIVDhKKRFmkrmR2GdVRN0j7TyzLhkJq8xTKuurRSr6MxTmxpAsAzoJ1icC1NdubVHLLQN0oVd4m4pi/P3yo/x9d44simha0847DE7p0DYBhBe3vodlzGemlwhZmB6Pwmlq5sYMI0ohBgoX/DyN1AxrycIzDu+h5cK4SNc2fZOyjpZ7SqQd/1jtqIEN++zz52ZzRsuQvJOcp10lxlYL+TgS919anY0I9r5qZGXWqyHuouteTGRBe/HbsCu8rdn2G9JuB4P2UbRwj/CEwdDT3dgSpSraLcMIqG1SORvWm9wnVYqfpnE5R9I/rxDYSUO+zP+A3ojMNTA==
+ bh=UCuyDMXBj6TIjAh90NAswz5noPsnEaNgj6GJwexmhM8=;
+ b=KbRi09137HoIWKQFDqb3jqfhLgNQDIoNmBlR5QT+L2hnLhc1BKfvp5XhDZTRBosLTyi3qdboQLZJ74i+mfvd2R0gFi1JhEsOBZQ52RhG2dCLON3j6LaOihyD/rv8DayxKcfVxgq3n5lW2GiP3kjfMVc2GUKCcFvLzIUQdeYd/aPhdbnpaADbU4jWQLPpAEnQSkzbSisis1YWjEH10qd+T9L0UtnLCzMluzWq3zUri1n5+o2X9kFlpzSCMkj8XyM/T8eXwBxDZ7Il6A0dQeHFTj26Pcm+xgYGDO7QH7+NaMz5NHydbaO8Y99gaAfDnjwzsb0S/neClZNI5drLshqLoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fuPWWnUZfHfQ/LBhu+VhZinn8O+v5da4a+T5fRYZBQA=;
- b=ZD41jBZLEdAvwZLzSlp74sB8AGHbh8sVWNZO9SAWDxAuhxlHmimr5hxGVb0kGU5uVNzrL73x46RzSa3LnOD5v8CMNz9G1CKF1pdkRMIPh6l5JQ4yHKxD2zeXNDtMjmeCpNtLvZ6fAEbwcQuw6fZM70ovjFBGS70H2TrCSk12mxN7SNJhp3aaGF2qdayrhZQD342zkZ871sNuiGnzjVvlDURqUPV2LyJe/3eqWqbXIJMnutec/vNiFRNBLrxdHm4KInLeNro+mtQE7aNu62ioIPbix7Ki9v7hHe1DR1nRMKGS29daCRhqYkWX5mgWC+aKOSyBonR0mecV4E95VP5GrQ==
+ bh=UCuyDMXBj6TIjAh90NAswz5noPsnEaNgj6GJwexmhM8=;
+ b=c8XOfDsFyPtQiikzeHkcW0/Lve1ooSiYs/V0JKiTdyyy/za6ojLLv7j2uz8+pAM26q/euvvo2XO1F4EhuIS1VESaH3zbfInAXlU4+QZx0mTiLxqFMqps0YzdvFGy5IdUJfMovTMTHU26NUcraJtbaErNVhiJzKE9hBpRbKrploUJMVPI0GDk9qtKiK5+u+GmC0Ai+0jTcmq9r7vnncMnLCxLaK03EzgKAxSK/ZmxsYE1ufjVBnAwxv5iqoJhfBiiyy9hbubE6Y42K5BHfu9MgMLk0SnEJhAempRkHig0FGyapGMlKSm/8YVGtMPyCmhMUg0vP9QXlUHdyzz251htVg==
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by LV4PR02MB11002.namprd02.prod.outlook.com (2603:10b6:408:2de::23) with
+ by LV3PR02MB10055.namprd02.prod.outlook.com (2603:10b6:408:196::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Thu, 16 Jul
- 2026 17:03:24 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Thu, 16 Jul
+ 2026 17:37:34 +0000
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 17:03:23 +0000
+ 17:37:34 +0000
 From: Michael Kelley <mhklinux@outlook.com>
-To: Hardik Garg <hargar@linux.microsoft.com>, "K. Y. Srinivasan"
-	<kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
-	<wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] Drivers: hv: vmbus: add VTL2 redirect connection ID
-Thread-Topic: [PATCH] Drivers: hv: vmbus: add VTL2 redirect connection ID
-Thread-Index: AQKcg2BY/mm1TXQy8iVBNP0RmAL3mbTxeC6Q
-Date: Thu, 16 Jul 2026 17:03:23 +0000
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>, "K. Y.
+ Srinivasan" <kys@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Haiyang
+ Zhang <haiyangz@microsoft.com>, Jan Kiszka <jan.kiszka@siemens.com>, Long Li
+	<longli@microsoft.com>, Wei Liu <wei.liu@kernel.org>
+Subject: RE: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
+ with lockdep annotation
+Thread-Topic: RE: [PATCH 1/2] hv: vmbus: Replace lockdep_hardirq_threaded()
+ with lockdep annotation
+Thread-Index: AQHcwepdrKBOXzId6USmM56dY1Icq7XN/EkggKFNhACAAcAfkA==
+Date: Thu, 16 Jul 2026 17:37:34 +0000
 Message-ID:
- <SN6PR02MB415769F6F2645260C8D5778CD4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260714213838.3367103-1-hargar@linux.microsoft.com>
-In-Reply-To: <20260714213838.3367103-1-hargar@linux.microsoft.com>
+ <SN6PR02MB415782B5C4F6E954EFF4E58FD4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260401151517.1743555-1-bigeasy@linutronix.de>
+ <20260401151517.1743555-2-bigeasy@linutronix.de>
+ <SN6PR02MB4157524E39FC4ABD058A4A52D45FA@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20260715143252.gWEZfb5B@linutronix.de>
+In-Reply-To: <20260715143252.gWEZfb5B@linutronix.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV4PR02MB11002:EE_
-x-ms-office365-filtering-correlation-id: eeb430a0-509d-49dd-ce35-08dee35c257a
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV3PR02MB10055:EE_
+x-ms-office365-filtering-correlation-id: b43dc7a5-4132-4764-f83e-08dee360eb9d
 x-microsoft-antispam:
- BCL:0;ARA:14566002|41001999006|8060799015|13091999003|51005399006|19110799012|25010399006|8062599012|31061999003|15080799012|24021099003|37011999003|3412199025|440099028|102099032|40105399003;
+ BCL:0;ARA:14566002|25010399006|15080799012|37011999003|51005399006|13091999003|8062599012|31061999003|24021099003|19110799012|8060799015|440099028|3412199025|102099032|40105399003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?KnBSpa5BTDvXt35qx6v8yP3SKuWoulq5mJc3YbYWEoNYpJthIzJoCRu4CsJX?=
- =?us-ascii?Q?D3VYm+QZIsZ67DSBHGPpHln6DWBYdypnmvLPfnGSBnkxqgEeVhnDi8BqsGT2?=
- =?us-ascii?Q?O4fmMC9+CSQ2EO4z+AknwU5DmzXXcylLnTK/S1qF+DF+c9FF56qlNEuqUReh?=
- =?us-ascii?Q?fTI11TSiqK4LxDSRLzbiTqXg1Glzukl+P0vclf+JXilyStpZn+GQOOThxlQP?=
- =?us-ascii?Q?n2zy9+n1MSMj0mC3HwVB2QMFTdbJx6fRWq90bQCjZ4ETddTcm8Wt2mKUMDXb?=
- =?us-ascii?Q?3FHH0DI91GJyzlPZRQ6FBoZxjW3zL2p6C0J88BGnvAG8JzOaIdcXmyn5Rg5/?=
- =?us-ascii?Q?Gtev1t06e6JinfYlWNn/efSSNRwiu2ZuualWaUF8GQNq7IoeosqrrpYt63nx?=
- =?us-ascii?Q?7mEsdXhXk5Vc/5KTRQdBdcOdjsxcW5d0hMoGjEAi/OC05HqZxHmvhK7h4kTj?=
- =?us-ascii?Q?xf6G0KkUWOhAy8CzQHfzt+z0VjhEe7SUBfCR9BIr2u8bFb1qD8fExo/icA6t?=
- =?us-ascii?Q?8NkUINnX/3SnuNB6Du1xxA4OcBzVYyvGhjcjekW1Mz86IY1oeONqRIfHgl+x?=
- =?us-ascii?Q?akKPxjICXjWKhDD95rgB3/zwz6ndcVW8rEv3j4KMrne2+hplC1COKfRykPhc?=
- =?us-ascii?Q?KxEC9Q/oRt3s186s8DG3vHUCvIAalxqOLKP0p/glJZu9NMZQNw9QN2g+jNwd?=
- =?us-ascii?Q?dCmw5/7+Yl6nITFCFEjhIs3yybstjxqppp8Z+wFAefAnwbpE1lxBQ+LJU4A1?=
- =?us-ascii?Q?cYu/4zIPsF7KxaXjYM/rVr/9nLcjDAVYLdv5NmcAOZvn0asYeMPIb1Edf64P?=
- =?us-ascii?Q?su4AR5i1RFZfhqVDhGQHmrg5ZcxKY+0rRV2jYBRyb4uec3DyVLqIG15fFvkZ?=
- =?us-ascii?Q?Y+HXc0d8RWc8REO6hcNdqjZff89eZHnJwkWA8wundPSDaGJK4CNmZmSb1FHD?=
- =?us-ascii?Q?8TfSIBvDjdwUZfesNLxPuwgOSv+A8ReKyNhDgfqF5Z+ADrBti3Y0PQl7GRwW?=
- =?us-ascii?Q?HBFChGDJd85zcM0IGohcBYDDuWlaOKcYtT+nvKZIWuuyz9Q=3D?=
+ =?us-ascii?Q?DX2L7Y3cr4007qNYWqGSuQsL1G+EiHk+kGV40H3vVvgJdHMra9EwEtC5Ticf?=
+ =?us-ascii?Q?YsrWaGvJB3rIWqCDRhiXh1qMDtxQNOXrO5u3ViUai0mXhmpjhvGhdGFjmZk3?=
+ =?us-ascii?Q?KgKLZHByWH3fpaEsEgSMvWGIYoeMCn7R8SLNhbp3vbZinvPZp7wtXaHFM5Z3?=
+ =?us-ascii?Q?PB7xGV1YmkHo/cHS+R+NTJGbbbFyktVfhvXhH3TEA829x6vBCf48FptYkZk+?=
+ =?us-ascii?Q?liRm1g7fvHqbB+pe2GVd5BNSsLhOeRXcN20k3QMmfZgjnDsJrqXXB9iEO0Lh?=
+ =?us-ascii?Q?DF17XHm6DkDpOsK3mqTqo9v+BhqM+u/aN9MzNbjXVglvtyzIUpTfliGzv7fh?=
+ =?us-ascii?Q?lJo0v9tFxPOrDep+HqD5tXU75P1Oxw4bh38zK04NRX+jdS1ALYZ9PujLQRnn?=
+ =?us-ascii?Q?1SFZcmylfZ9E/QoK1bf0TmunXmUHeiTSuASadNr9oTa+oQaypDRWs2aHPxFH?=
+ =?us-ascii?Q?wj16Bzbf9CTfgD2U2tvi8+x7prvwaEvAdG08vuFCoe9DZyDuERRU+zDxXkTl?=
+ =?us-ascii?Q?1laCbWw2i06h2LWpEBEJnuog3+d4BqB9Pau8UuiBPJ0Z683zp6XXGMLOmqqb?=
+ =?us-ascii?Q?QVQJueWot4NdDXp+NqyqskCAwgj3tC3Erm1ah754U7jJmI9fUfyLWaFqP8eg?=
+ =?us-ascii?Q?xAOKrnGOxm+N5FcGCdLURT7AfobsRu+v83RAC3QvqY18SWrue98wAh8roaLq?=
+ =?us-ascii?Q?T9Ds4rwtQVhYQxvk8dgW+6hlCjmeuYCo73W/YNJ4brNvBIo9WoBN7RustA86?=
+ =?us-ascii?Q?u8c6uSdYyf3Qb30CHA/vt1jtBczqbi2TOPSVkZHCBJA5TkVJaKH6DLOWQwQA?=
+ =?us-ascii?Q?4eBBYUDpzqJDgc310rVk8+3hGiWq9c4uuWB+wLf5tF4SikwGWlTDRRapJ4n1?=
+ =?us-ascii?Q?0SbTc82ULGdHs4KLFpMHBwiKsOqwWL+X6GCTxHoww04JXnPgeWbK21XhlHK7?=
+ =?us-ascii?Q?j/oAF7SgYsrz33QSptJE4mKG4NiVQrM7cWXMPjmqrM6GfSze+Oqq11Rk7Gxy?=
+ =?us-ascii?Q?/8GQ?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?5WdaEMGQ1WhzJSTDaTBdH9ewZTm4Vc1KiCQrZ5vYgnOegUBbmxSqodxPr/FL?=
- =?us-ascii?Q?73gaIiWCeBRiOjjqL7FseqQ3I/9vJiX9V3J9fE98SOZV8h1WoA1gYmG6Y+Ux?=
- =?us-ascii?Q?DYnVwHVoqdelbVc2Tp0NpNQAA8XjbPpso7gT8piaf0oR71s4XLWJjV+tAEnk?=
- =?us-ascii?Q?K5DtLOQlELbMjJ0w3p3yVgSJ5HPoRhhUcg8nLPVJEFAn49PUwPxOaSx/pRgC?=
- =?us-ascii?Q?U3hUTPp6QhXGInmTY/WuAOZPYVc81CtD0e0Lol4VDU8X2BA/zITDBqtyia4D?=
- =?us-ascii?Q?NyLoj+QmldFE2KcF6QzSEVbhg5+vX5qrA6LsDbqutRL1S6E/XZJeWjSgYW3q?=
- =?us-ascii?Q?SxPhGsWpyafmbsyK/MovJnM+FXPtLrBmKvj4pYSah1JFJ89fqUB7zXLDuhTv?=
- =?us-ascii?Q?XqXfnDE6PkeSJ+k2oiyj5V4fMDIyP/pBdAzFgFxYrS7ndQ0Ap1dDKWPr4rwn?=
- =?us-ascii?Q?euQjxbEhQ9Mm9FNEFA/lXrb2hXNIprDFKNVk87zO5DS5N5jg51ZbMkKPZvzi?=
- =?us-ascii?Q?saX960uhH/qVYwA0lySj9FJzGYn8CA4Kwfol4VjevaVTSHiMwCseVi+Lc0xD?=
- =?us-ascii?Q?yRJET9oJvdWHTUJpnmLRJGHgSeyAIjvkvQEEyAhRMO+Tr//MbRb2YSnIVyRO?=
- =?us-ascii?Q?a07G61PD4KH6mmcbOWqOLqDPXz6BGVjqxPTHmjNhVz/5lrmzJA+LqPYDUR8t?=
- =?us-ascii?Q?YLoxcig2zppqcHWJdD2Qy/u+8PQ2TxL07hDbItnyAKTrCQw31M61W/HBXwzV?=
- =?us-ascii?Q?n7tZynZOcH9BhrN9iSUFOgqovytYCKLpXprRfOLBgoDopB6qMjC3vel+b1a+?=
- =?us-ascii?Q?pYm4k5JASoRnV6HSecbKVYONqU+TUZuWwfr5I2sL/0DJYf7f+uJPWUt49NW4?=
- =?us-ascii?Q?6cpfPRMpgkPATBtJJ/3CjWj23KbyDgmCVfQue2eoPjXIycC76R3zZi2hbJcU?=
- =?us-ascii?Q?o35I1ILAATdg0KXMd1F7Xuwb4a2f8YUddpebYSEuFnY5yn6xY3OHTsCedIaq?=
- =?us-ascii?Q?ffS2+91cdE9s6ZoTNRAve4UKa5Ap8tp/FFOUjmHCoXeb3i+F+FkZ0j7gzlDg?=
- =?us-ascii?Q?XULOChcYkozskVvn3/hhm8ZDNiya0r0iA8a8TBmiQNlJOSpBUVsXHyMQozfy?=
- =?us-ascii?Q?6tnU3AV7HQQEHQug3p3en6mbYEb9a7D8FtaxjZUScKJevYJa5FzTB3eRn4OV?=
- =?us-ascii?Q?xsMzJWViRcj/CX5B7Nq7xDAIZbNJ14rnaSAcXR1G54DLyaGWxNSIKc+Cspdy?=
- =?us-ascii?Q?8EgxiJ/zt9Wigg4oWdSL5cR+MfKpjzHVTAniq4uXcVWHZWqivCDv0FC7LVge?=
- =?us-ascii?Q?LvRcFKYiKjVTSbGybbSiRI04xVRu8VyCHZgeT3vP8YTtB+fAD2C6VdCbenhH?=
- =?us-ascii?Q?Wt/I8hg=3D?=
+ =?us-ascii?Q?StGg20maVwOywlgdulWKPMXuXrYhjP5VnK/GXZ9swjpXJ74sFUV3XbAQHN0B?=
+ =?us-ascii?Q?jVcn/DhFrNEzY7m1/gbLLNw8J+b6/3L8b6Gn+H3mqJb3/oVQG7a/hm8xvkV8?=
+ =?us-ascii?Q?BK2dIVlbVIHrI9Ms8tCVROfUdIoj84cnqfQM6RWcz6Th9gMb0U9RGTthAbX7?=
+ =?us-ascii?Q?BRtuXh27hC81bUUJqzsoO5u8pSPXtkWbIpoEVm1iKwJ5JQRf+gQ0rwLsdPco?=
+ =?us-ascii?Q?GmIoErKpB2Rw8/l4HV5JnuMdMHFOy4jlPoSPmY/MEnI4/8+z1N73f/eAEMMO?=
+ =?us-ascii?Q?M1c3wREcBIA7FMnHtOele8kbM7yhZ9KMfyNGVDTDLPSS8psl8yxHT0NMW+JR?=
+ =?us-ascii?Q?6JgxSaWvQu7Zo91TEUC1oLqBlGReAUTbqhzqdhOl04jfUH3OisNRncJ739Wr?=
+ =?us-ascii?Q?z97W7LhqZtRpaQ5G83z9+v744+/N868PeeBiQE3a6vvxDwU/C9GNwOTd9P1P?=
+ =?us-ascii?Q?P/R6qy8z1OhDZgGRugwo0rXKR+9so26M4fXmh5qV/3wD8KuGnfr+cO59zcxE?=
+ =?us-ascii?Q?uhnKdP/Gry7o2X8lDWG+Jk0unLuRFahy1VdiA82x2acXMGlTOXQbniuDhgSs?=
+ =?us-ascii?Q?MKpjYK8Im8x84DRsfQwy8/xw4c9Q4YcAXgWCxufF12HyGPavmepJvUUWZ9pD?=
+ =?us-ascii?Q?HO8N/Ls667pCieoEVtX1fqwD5o1QW1K8G8KcD2vAbZdnLuHfuxVxZxND7rmX?=
+ =?us-ascii?Q?CChQDxAiFkv3y8Ve2xPglVITDKPTdv3jguDCnUB4/m7EONbJz5wxIxSEwqyg?=
+ =?us-ascii?Q?JqvLR0vDMFwdwG5VmODOYnxqXIM4Hv1gXkcXrmr+yM7mMu+eRumK2ACQx6YZ?=
+ =?us-ascii?Q?4zVlYgNvdzx3Ft7OUjdeiMIeHgqaXVatU+aMNbOhkp59abJ3fKLzD+c44TIi?=
+ =?us-ascii?Q?5NnTzkDJw1v7uJahFNUWG1RR2ksTxXjz5eJrhdkZtum+yOg54eTXQX4eSrkc?=
+ =?us-ascii?Q?xSOIBYh8mcJ4U5GhxLde2MYRCYHI6R7p5uCah/tHKfSO7RgK7GhgAXw3braY?=
+ =?us-ascii?Q?r0YXrAlcMTvFgEsR5iliH/6dSRMSBLIZRw5Vbrn9Z+x0jb4i08O4EZ5Rz8HL?=
+ =?us-ascii?Q?FVC5n0Z/e9f/ZNqAUc8BFd/VerZlF4jpvvCQwvuilmqgOy3XMlXfQk5DIvyV?=
+ =?us-ascii?Q?8UjYJVOjTT2pXK1ytAmOKb51di5j1nH/Ei8OlbIFJgjuKMQpwlYxQKV8AfUH?=
+ =?us-ascii?Q?Kq7r7Z5SAuiD8lU4V16Hv1MaBm+7vEOKbiCqbXYwiw/piC4DHYNPhTVBlysY?=
+ =?us-ascii?Q?G4wWnL/yEKkrzofY/KYkG5++EsiDB4sbViJrOaiclcFj16iZGrDAxeSIPA9a?=
+ =?us-ascii?Q?WXtDLHnby5QSOn4OwIFf5b7VKFhNtcF1k6awOv/PYsn7Tm6rU+lw3b6QCFju?=
+ =?us-ascii?Q?96Rxl3A=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -119,254 +125,158 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: eeb430a0-509d-49dd-ce35-08dee35c257a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 17:03:23.8336
+X-MS-Exchange-CrossTenant-Network-Message-Id: b43dc7a5-4132-4764-f83e-08dee360eb9d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 17:37:34.2510
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV4PR02MB11002
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR02MB10055
 
-From: Hardik Garg <hargar@linux.microsoft.com> Sent: Tuesday, July 14, 2026=
- 2:39 PM
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de> Sent: Wednesday, Ju=
+ly 15, 2026 7:33 AM
 >=20
-> VMBus sends CHANNELMSG_INITIATE_CONTACT through a Hyper-V message
-> connection ID. Older protocol versions use VMBUS_MESSAGE_CONNECTION_ID,
-> while protocol version 5.0 and newer normally use
-> VMBUS_MESSAGE_CONNECTION_ID_4.
+> On 2026-04-04 01:22:08 [+0000], Michael Kelley wrote:
+> > Nit: For historical consistency, use "Drivers: hv: vmbus:" as the prefi=
+x for the
+> > patch "Subject:" line.  Same in Patch 2 of this series.
 >=20
-> When the Linux VMBus driver runs at VTL2, the VMBus control plane may
-> be reached through a VMBus relay instead of the standard host endpoint.
-> In that setup the relay listens on the redirect message connection ID,
-> and an Initiate Contact message sent to the standard ID is not delivered
-> to the control plane.
+> okay.
 >=20
-> The connection ID selects the Hyper-V message port used to reach the
-> VMBus control plane. If Linux uses the wrong port, the host does not
-> receive the Initiate Contact message.
-
-This is a judgment call, but to me the previous two paragraphs are
-explaining VTL2 implementation details that aren't necessary for
-understanding this patch. Yes, in earlier discussions I asked questions
-about "why" all this funky behavior with connection IDs, but that's
-just me as a former Microsoft insider. :-)  Details about VMBus relays and
-message ports are fairly obscure for people in the general Linux community.
-It would be sufficient for the commit message to simply state that VTL2
-may respond on either of two connection IDs. There's no separate indication
-of which one will respond in a given VM, so it is necessary to try at runti=
-me
-to see which one works.
-
->=20
-> For Linux running at VTL2 with VMBus protocol 5.0 or newer, try the
-> redirect connection ID first. In VTL2, the redirect connection ID is the
-> VMBus relay endpoint. If the relay is present, it accepts Initiate
-> Contact and completes the normal version-response handshake. Systems
-> without the relay reject the redirect ID synchronously with
-> HV_STATUS_INVALID_CONNECTION_ID, allowing fallback to
-> VMBUS_MESSAGE_CONNECTION_ID_4.
-
-Is there a reason for trying the REDIRECT connection ID first? Or
-is the ordering of trying arbitrary? If the REDIRECT connection
-ID must be tried first, state that as a VTL2 requirement.
-
->=20
-> Return a distinct error for an invalid Initiate Contact connection ID so
-> this fallback does not mask other post-message failures or
-> protocol-version rejections. For older protocol versions, and for Linux
-> below VTL2, keep the existing connection ID selection.
->=20
-> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
-> ---
->  drivers/hv/connection.c   | 76 ++++++++++++++++++++++++++++++++++++++++-=
-------
->  drivers/hv/hyperv_vmbus.h |  2 ++
->  2 files changed, 67 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-> index 1fe3573ae52a4..eb871f87a819d 100644
-> --- a/drivers/hv/connection.c
-> +++ b/drivers/hv/connection.c
-> @@ -71,7 +71,19 @@ module_param(max_version, uint, S_IRUGO);
->  MODULE_PARM_DESC(max_version,
->  		 "Maximal VMBus protocol version which can be negotiated");
->=20
-> -int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 v=
-ersion)
-> +/* Connection IDs to try for VTL2 VMBus protocol 5.0 and newer. */
-> +static const u32 connection_ids[] =3D {
-> +	VMBUS_MESSAGE_CONNECTION_ID_REDIRECT,
-> +	VMBUS_MESSAGE_CONNECTION_ID_4,
-> +};
-
-Using an array of connection IDs to iterate through matches the
-design of how multiple VMBus protocols versions are tried. But with
-only two entries in the array, this feels a bit over-engineered unless
-there is reason to expect that more connection ID values are coming
-in the reasonably near future. Absent an array, the code in the
-vmbus_negotiate_version() could just hard code to test the redirect
-connection ID first if running at VTL2, and if that fails with -ENXIO,
-fall through to the normal case.=20
-
-> +
-> +/*
-> + * Send one CHANNELMSG_INITIATE_CONTACT attempt.
-> + * The caller supplies the message connection ID and owns retry/fallback
-> + * policy.
-> + */
-> +static int vmbus_try_connection_id(struct vmbus_channel_msginfo *msginfo=
-,
-> +				   u32 version, u32 connection_id)
->  {
->  	int ret =3D 0;
->  	struct vmbus_channel_initiate_contact *msg;
-> @@ -87,7 +99,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginf=
-o *msginfo, u32 version)
->=20
->  	/*
->  	 * VMBus protocol 5.0 (VERSION_WIN10_V5) and higher require that we mus=
-t
-> -	 * use VMBUS_MESSAGE_CONNECTION_ID_4 for the Initiate Contact Message,
-> +	 * use connection_id for the Initiate Contact Message,
-
-This wording of this comment now feels a bit awkward. How about:
-
-"For VMBus protocol 5.0 (VERSION_WIN10_V5) and higher, use the caller suppl=
-ied
- connection_id for the Initiate Contact Message so the caller can implement=
+> > Also, any reason not to have copied linux-kernel@vger.kernel.org? I kno=
+w this
+> > is pretty much just a Hyper-V thing, but I would have liked to see what=
  the
-necessary retry scheme. For subsequent messages, use the Message Connection=
- ID
-field in the host-returned Version Response Message."
-
-followed by the rest of the existing text.
-
-
->  	 * and for subsequent messages, we must use the Message Connection ID
->  	 * field in the host-returned Version Response Message. And, with
->  	 * VERSION_WIN10_V5 and higher, we don't use msg->interrupt_page, but w=
-e
-> @@ -99,7 +111,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msgin=
-fo *msginfo, u32 version)
->  	if (version >=3D VERSION_WIN10_V5) {
->  		msg->msg_sint =3D VMBUS_MESSAGE_SINT;
->  		msg->msg_vtl =3D ms_hyperv.vtl;
-> -		vmbus_connection.msg_conn_id =3D VMBUS_MESSAGE_CONNECTION_ID_4;
-> +		vmbus_connection.msg_conn_id =3D connection_id;
->  	} else {
->  		msg->interrupt_page =3D virt_to_phys(vmbus_connection.int_page);
->  		vmbus_connection.msg_conn_id =3D VMBUS_MESSAGE_CONNECTION_ID;
-> @@ -161,6 +173,51 @@ int vmbus_negotiate_version(struct vmbus_channel_msg=
-info *msginfo, u32 version)
->  	return ret;
->  }
+> > Sashiko AI did with these two patches. :-)
 >=20
-> +/*
-> + * Negotiate the given VMBus protocol version with the host.
-> + * Protocol-specific connection ID policy is handled here so the single-=
-try
-> + * helper stays simple.
-> + */
-> +int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 v=
-ersion)
-> +{
-> +	int ret;
-> +	size_t j;
-> +
-> +	/*
-> +	 * The redirect ID is not a speculative endpoint. If the VMBus relay is
+> Can do.
+>=20
+> > > lockdep_hardirq_threaded() is supposed to be used within IRQ core cod=
+e
+> > > and not within drivers. It is not obvious from within the driver, tha=
+t
+> > > this is the only interrupt service routing and that it is not shared
+> > > handler.
+> >
+> > I presume you meant "routine". And what do you mean by "the only interr=
+upt
+> > service routine"? And why is the lack of obviousness relevant here? I d=
+on't have
+> > deep expertise in lockdep, but evidently there's some conclusion to rea=
+ch and it
+> > would have helped me to have it spelled out.
+>=20
+> You use lockdep_hardirq_threaded() which marks the hardirq as a thread
+> for lockdep purposes. The reason is that the IRQ core will force-thread
+> the handler and the whole routine will be threaded. It does invoke the
+> function and the very begin and nothing else will be done.
+>=20
+> vmbus_isr() is using it before __vmbus_isr() is invoked and there can be
+> other functions/ ISRs that are invoked afterwards which would be wrongly
+> recognized.
+> To make it more concrete: sysvec_hyperv_callback() invokes mshv_handler
+> and vmbus_handler. Would vmbus_handler() be invoked first then it will
+> "spill" this lockdep attribute into mshv_handler(). Nested locks in
+> mshv_handler() would not be visible then.
+> This override limits it only to __vmbus_isr() while the RT case above is
+> using vmbus_irqd_wake().
+>=20
+> > >
+> > > Replace lockdep_hardirq_threaded() with a lockdep annotation limiting
+> > > threaded context on PREEMPT_RT to __vmbus_isr().
+> >
+> > Again, I'm not clear what "limiting threaded context" means. But see my
+> > additional comment further down.
+>=20
+> Does the explanation above make it clear?
 
-What is a "speculative endpoint"?  And per my comment above, I'd drop
-discussion of VMBus relay, and just phrase things in terms of trying the
-REDIRECT connection ID, and if that doesn't work, then try the normal one. =
-=20
+Yes, this makes sense. Thanks for the help.
 
-> +	 * present, it accepts INITIATE_CONTACT and completes the normal versio=
-n
-> +	 * response. Systems without the relay reject the ID synchronously, so
-> +	 * negotiation falls back to VMBUS_MESSAGE_CONNECTION_ID_4.
-> +	 */
-> +	if (version >=3D VERSION_WIN10_V5 && ms_hyperv.vtl >=3D 2) {
-> +		for (j =3D 0; j < ARRAY_SIZE(connection_ids); j++) {
-> +			ret =3D vmbus_try_connection_id(msginfo, version,
-> +						      connection_ids[j]);
-> +			if (vmbus_connection.conn_state =3D=3D CONNECTED)
-> +				return 0;
-> +
-> +			if (ret =3D=3D -ETIMEDOUT)
-> +				return ret;
-> +
-> +			if (connection_ids[j] =3D=3D
-> +			    VMBUS_MESSAGE_CONNECTION_ID_REDIRECT &&
-> +			    ret =3D=3D -ENXIO)
-> +				continue;
-> +
-> +			return ret;
-> +		}
-> +		return ret;
-> +	}
+>=20
+> > >
+> > > Fixes: f8e6343b7a89c ("Drivers: hv: vmbus: Use kthread for vmbus inte=
+rrupts on PREEMPT_RT")
+> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > ---
+> > >  drivers/hv/vmbus_drv.c | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> > > index bc4fc1951ae1c..e44275370ac2a 100644
+> > > --- a/drivers/hv/vmbus_drv.c
+> > > +++ b/drivers/hv/vmbus_drv.c
+> > > @@ -1407,8 +1407,11 @@ void vmbus_isr(void)
+> > >  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> > >  		vmbus_irqd_wake();
+> > >  	} else {
+> > > -		lockdep_hardirq_threaded();
+> >
+> > I see two similar occurrences of LD_WAIT_CONFIG in the kernel:
+> > __kfree_rcu_sheaf() and adjacent to printk_legacy_allow_spinlock_enter(=
+).
+> > Both occurrences have a multi-line comment explaining the "why". I'd li=
+ke
+> > to see a similar comment here so that drive-by readers of the code have
+> > some idea of what's going on. My suggestion is something like this:
+> >
+> >    vmbus_isr() always runs at hard IRQ level -- the interrupt is not th=
+readed. It
+> >    calls __vmbus_isr() here, which may obtain the spinlock_t sched_lock=
+ for
+> >    a VMBus channel in vmbus_chan_sched(). If CONFIG_PROVE_LOCKING=3Dy,
+> >    lockdep complains because obtaining spinlock_t's is not permitted at=
+ hard
+> >    IRQ level in PREEMPT_RT configurations. However, the PREEMPT_RT path
+> >    is handled separately above, so there's actually not a problem. Tell
+> >    lockdep that acquiring the spinlock_t is valid by temporarily raisin=
+g
+> >    the wait-type to LD_WAIT_CONFIG using the "fake" lock vmbus_map.
+> >    If lockdep is not enabled, the acquire & release of the fake lock ar=
+e no-ops,
+> >    so performance is not impacted.
+> >
+> > Please review my suggested text and revise as appropriate, as I'm far
+> > from an expert on any of this. The above is based on what I've learned
+> > just now from a bit of research.
+>=20
+> What about?
+>   vmbus_isr is never force-threaded and always invoked at hard IRQ level.
+>   __vmbus_isr() below can acquire a spinlock_t which becomes a sleeping
+>   lock and must not be acquired in this context. Therefore on PREEMPT_RT
+>   this will be threaded via vmbus_irqd_wake(). On non-PREEMPT the
+>   annotation lets lockdep know that acquiring a spinlock_t is not an
+>   issue.
 
-Per my earlier comment about not having an array of connection IDs, this
-code could be as simple as:
+Yes, I'm good with this.
 
-if (version >=3D VERSION_WIN10_V5 && ms_hyperv.vtl >=3D2) {
-	ret =3D vmbus_try_connection_id(msginfo, version,
-				VMBUS_MESSAGE_CONNECTION_ID_REDIRECT);
-	if (ret !=3D -ENXIO)
-		return ret;
-}
+>=20
+> > And thanks for jumping in and making all this better ....
+>=20
+> so I've been looking at __vmbus_isr() and vmbus_chan_sched() seems fine.
+> vmbus_message_sched() on the handler invokes hv_stimer0_isr() which
+> should not be done in the thread but in the hardirq. Is this the only
+> timer in the system or some legacy thingy that is no longer used?
 
-> +
-> +	/*
-> +	 * Non-redirect path. Protocol 5.0+ below VTL2 uses the standard
-> +	 * v5 connection ID; pre-v5 ignores the supplied ID and uses the
-> +	 * legacy connection ID.
-> +	 */
-> +	return vmbus_try_connection_id(msginfo, version,
-> +				       VMBUS_MESSAGE_CONNECTION_ID_4);
-> +}
-> +
->  /*
->   * vmbus_connect - Sends a connect request on the partition service conn=
-ection
->   */
-> @@ -455,17 +507,14 @@ int vmbus_post_msg(void *buffer, size_t buflen, boo=
-l can_sleep)
->  		switch (ret) {
->  		case HV_STATUS_INVALID_CONNECTION_ID:
->  			/*
-> -			 * See vmbus_negotiate_version(): VMBus protocol 5.0
-> -			 * and higher require that we must use
-> -			 * VMBUS_MESSAGE_CONNECTION_ID_4 for the Initiate
-> -			 * Contact message, but on old hosts that only
-> -			 * support VMBus protocol 4.0 or lower, here we get
-> -			 * HV_STATUS_INVALID_CONNECTION_ID and we should
-> -			 * return an error immediately without retrying.
-> +			 * Let negotiation distinguish an unusable
-> +			 * endpoint from other failures.
-> +			 *
-> +			 * Other messages keep retry behavior.
->  			 */
->  			hdr =3D buffer;
->  			if (hdr->msgtype =3D=3D CHANNELMSG_INITIATE_CONTACT)
-> -				return -EINVAL;
-> +				return -ENXIO;
->  			/*
->  			 * We could get this if we send messages too
->  			 * frequently.
-> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-> index 49a72a4f3f6a7..951bdebdc0526 100644
-> --- a/drivers/hv/hyperv_vmbus.h
-> +++ b/drivers/hv/hyperv_vmbus.h
-> @@ -109,6 +109,8 @@ struct hv_input_post_message {
->  enum {
->  	VMBUS_MESSAGE_CONNECTION_ID	=3D 1,
->  	VMBUS_MESSAGE_CONNECTION_ID_4	=3D 4,
-> +	/* VMBus relay port used for INITIATE_CONTACT probing. */
-> +	VMBUS_MESSAGE_CONNECTION_ID_REDIRECT =3D 0x800074,
->  	VMBUS_MESSAGE_PORT_ID		=3D 1,
->  	VMBUS_EVENT_CONNECTION_ID	=3D 2,
->  	VMBUS_EVENT_PORT_ID		=3D 2,
-> --
-> 2.34.1
+The stimer0 is not legacy, but having the stimer0 interrupt delivered as
+a VMBus message *is* legacy. The legacy mechanism is used when running
+on really old versions of Hyper-V. Modern versions of Hyper-V deliver stime=
+r0
+interrupts via a separate stimer0-specific hardirq. This linkage between st=
+imer0
+and VMBus creates separation problems in that it should conceptually be
+possible to run on Hyper-V with stimer0 without using VMBus or vmbus_isr().
 
+I will do some research on the history and supported versions of Hyper-V.
+It might be possible to drop Linux support for running on these old version=
+s
+of Hyper-V, and remove this legacy mechanism for delivering stimer0
+interrupts. That would be a nice cleanup of some historical baggage.
+
+>=20
+> And there is a lot of tasklet involved which mandates a
+> local_bh_disable()/enable() in run_vmbus_irqd() around the function or
+> everything gets pushed into ksoftirqd.
+
+OK.
+
+Michael
