@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58419342C98;
-	Thu, 16 Jul 2026 20:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A090F3C98BA;
+	Thu, 16 Jul 2026 22:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784235226; cv=none; b=aQLSfDFXUFEOfUmb/+KDYV7IzccVkxdXbYei9xLrd7JqkxbC8pCHzE+FgtM/sZ1SxhVwc/wKgz6eGRuuqbRS/W6LK9oOyHA30C+qqj4VHhEyqgMjEsydiJQpsOnBMYb0e9V3baFHCXJhLG+mxNHlQG7nnMmTbF//Fx9fjkW/nhA=
+	t=1784239476; cv=none; b=QSCNLBm13/jxsLccWmYU4dxnMUnYiuX/NRZpImGs7T49GWKZPAHFuSx2BnP6B3lExPWZHZ6k5LJEYEYOVywBZETYO+ap9UUg2xp90DQtIzV2jxlKPwtGtrt5rpXx55uLmaV0Jb3lhqlyrpb5jqCVQyuRKGP1FkntkNHAQZ+NiSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784235226; c=relaxed/simple;
-	bh=LRYcoQ9+5CeeI07ti4vx6vm9sX4zwBObIvEvQZySz5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ska7zqu5jd4a/zzVVnPAKk9f5c17f/A0vqnuH+Ww2uFbaXYzA0NLgCGvjCzP0uqxB8VY5EcBGimGnKgo1sSfhP9ZqTUiBVXM0gg7bv0GjzKCQc40JciHzEpomU7kMZ4t6VyWQt4LKaOI98xlWkaExZU61/drVoWI/PAGFaivprg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RdNBgbs4; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1784239476; c=relaxed/simple;
+	bh=J91xahOtVKl1Os8Ah5Qq78fzoVHyNkibW4R+eRFzgFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=pIBd6ZjSrS+IzGqRlDvhsMitM8rEnsCQuS4/SScVLkgvU7JgBHdxSxE2xaEPCfWEE5RTjkqPlEGt3sw8HMU9NYvJeu5NU4ovoD9eDYZbkd5tpLZohdW3xoZh7bMJhsyGSlH0FzkNONc3m57WTiNJBpf16yW+iR7/0Kv5wo/F3Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HjLgEGYl; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RdNBgbs4"
-Received: from [100.65.200.70] (unknown [20.236.11.42])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 1410A20B7169;
-	Thu, 16 Jul 2026 13:53:35 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1410A20B7169
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HjLgEGYl"
+Received: from [100.65.200.70] (unknown [20.236.10.206])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A7CC720B7169;
+	Thu, 16 Jul 2026 15:04:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7CC720B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784235215;
-	bh=iaj0GRcm/qZv1Emn/rkFCv4Z19dii9zptOJmxkW3xtk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RdNBgbs4UNxVzvLHnmDoU1o90Pwe1nfu4wMz64TsdnGsuaTmuozvxJXH221sCQvyg
-	 hf3FabcC+xw8zznMlvdJoHPRiOCZtEDEEQ15ibNYtN6/H37rslNCw5kZwe7ahNiSXC
-	 QDZ2traNRPQgec7oEitWZ9mAsc/eHyusdfkbOypc=
-Message-ID: <1003293a-bf89-476b-9673-9e3b927f31cd@linux.microsoft.com>
-Date: Thu, 16 Jul 2026 13:53:42 -0700
+	s=default; t=1784239463;
+	bh=fptDKyCCJju2uLhpO5xe7JWrHgFTq1Wj409NjkpcHs4=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=HjLgEGYlBTFVQIlAHz52VSaDK5PbU9c4ou9Iy9f9XtRCLbpQVGyI1bKXjx+rpzAEJ
+	 QSh07uG6EPQmMrck9Kr5e12O2wabTPXyMxpc5ZMyZrWI/WdOZHbiAKgTKv71pKAl1E
+	 224XsiIYs349M5nIEscTGdS2JA4KCXD1sgBZO7QM=
+Message-ID: <b5f8567e-3ce8-4d62-ae91-7479ba00ce07@linux.microsoft.com>
+Date: Thu, 16 Jul 2026 15:04:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -35,22 +35,23 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Drivers: hv: vmbus: add VTL2 redirect connection ID
-To: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+To: Michael Kelley <mhklinux@outlook.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
  Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ Dexuan Cui <decui@microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20260714213838.3367103-1-hargar@linux.microsoft.com>
- <alj3AOAXk47fQx4m@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <SN6PR02MB415769F6F2645260C8D5778CD4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Language: en-US
 From: Hardik Garg <hargar@linux.microsoft.com>
-In-Reply-To: <alj3AOAXk47fQx4m@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <SN6PR02MB415769F6F2645260C8D5778CD4C72@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
-On 7/16/2026 8:21 AM, Saurabh Singh Sengar wrote:
-> On Tue, Jul 14, 2026 at 09:38:38PM +0000, Hardik Garg wrote:
+On 7/16/2026 10:03 AM, Michael Kelley wrote:
+> From: Hardik Garg <hargar@linux.microsoft.com> Sent: Tuesday, July 14, 2026 2:39 PM
 >> VMBus sends CHANNELMSG_INITIATE_CONTACT through a Hyper-V message
 >> connection ID. Older protocol versions use VMBUS_MESSAGE_CONNECTION_ID,
 >> while protocol version 5.0 and newer normally use
@@ -65,7 +66,20 @@ On 7/16/2026 8:21 AM, Saurabh Singh Sengar wrote:
 >> The connection ID selects the Hyper-V message port used to reach the
 >> VMBus control plane. If Linux uses the wrong port, the host does not
 >> receive the Initiate Contact message.
->>
+> This is a judgment call, but to me the previous two paragraphs are
+> explaining VTL2 implementation details that aren't necessary for
+> understanding this patch. Yes, in earlier discussions I asked questions
+> about "why" all this funky behavior with connection IDs, but that's
+> just me as a former Microsoft insider. :-)  Details about VMBus relays and
+> message ports are fairly obscure for people in the general Linux community.
+> It would be sufficient for the commit message to simply state that VTL2
+> may respond on either of two connection IDs. There's no separate indication
+> of which one will respond in a given VM, so it is necessary to try at runtime
+> to see which one works.
+
+Good point, I will remove the extra details in v2.
+
+>
 >> For Linux running at VTL2 with VMBus protocol 5.0 or newer, try the
 >> redirect connection ID first. In VTL2, the redirect connection ID is the
 >> VMBus relay endpoint. If the relay is present, it accepts Initiate
@@ -73,7 +87,15 @@ On 7/16/2026 8:21 AM, Saurabh Singh Sengar wrote:
 >> without the relay reject the redirect ID synchronously with
 >> HV_STATUS_INVALID_CONNECTION_ID, allowing fallback to
 >> VMBUS_MESSAGE_CONNECTION_ID_4.
->>
+> Is there a reason for trying the REDIRECT connection ID first? Or
+> is the ordering of trying arbitrary? If the REDIRECT connection
+> ID must be tried first, state that as a VTL2 requirement.
+
+I will add it as a VTL2 requirement. Redirect Id is used first as it
+is the configured VMBus control-plane endpoint when VTL2 redirection
+is enabled. 
+
+>
 >> Return a distinct error for an invalid Initiate Contact connection ID so
 >> this fallback does not mask other post-message failures or
 >> protocol-version rejections. For older protocol versions, and for Linux
@@ -92,15 +114,26 @@ On 7/16/2026 8:21 AM, Saurabh Singh Sengar wrote:
 >> @@ -71,7 +71,19 @@ module_param(max_version, uint, S_IRUGO);
 >>  MODULE_PARM_DESC(max_version,
 >>  		 "Maximal VMBus protocol version which can be negotiated");
->>  
+>>
 >> -int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
 >> +/* Connection IDs to try for VTL2 VMBus protocol 5.0 and newer. */
 >> +static const u32 connection_ids[] = {
-> Do we want to name it vtl2_connection_ids ?
-I will simplify this part in V2 and remove the array.
 >> +	VMBUS_MESSAGE_CONNECTION_ID_REDIRECT,
 >> +	VMBUS_MESSAGE_CONNECTION_ID_4,
 >> +};
+> Using an array of connection IDs to iterate through matches the
+> design of how multiple VMBus protocols versions are tried. But with
+> only two entries in the array, this feels a bit over-engineered unless
+> there is reason to expect that more connection ID values are coming
+> in the reasonably near future. Absent an array, the code in the
+> vmbus_negotiate_version() could just hard code to test the redirect
+> connection ID first if running at VTL2, and if that fails with -ENXIO,
+> fall through to the normal case. 
+
+
+I used the array to accommodate new connection-ids in the future but I agree
+that we don't need it currently. I will simplify it in v2.
+
 >> +
 >> +/*
 >> + * Send one CHANNELMSG_INITIATE_CONTACT attempt.
@@ -113,11 +146,24 @@ I will simplify this part in V2 and remove the array.
 >>  	int ret = 0;
 >>  	struct vmbus_channel_initiate_contact *msg;
 >> @@ -87,7 +99,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
->>  
+>>
 >>  	/*
 >>  	 * VMBus protocol 5.0 (VERSION_WIN10_V5) and higher require that we must
 >> -	 * use VMBUS_MESSAGE_CONNECTION_ID_4 for the Initiate Contact Message,
 >> +	 * use connection_id for the Initiate Contact Message,
+> This wording of this comment now feels a bit awkward. How about:
+>
+> "For VMBus protocol 5.0 (VERSION_WIN10_V5) and higher, use the caller supplied
+>  connection_id for the Initiate Contact Message so the caller can implement the
+> necessary retry scheme. For subsequent messages, use the Message Connection ID
+> field in the host-returned Version Response Message."
+>
+> followed by the rest of the existing text.
+
+Will update the comment in V2
+
+>
+>
 >>  	 * and for subsequent messages, we must use the Message Connection ID
 >>  	 * field in the host-returned Version Response Message. And, with
 >>  	 * VERSION_WIN10_V5 and higher, we don't use msg->interrupt_page, but we
@@ -133,7 +179,7 @@ I will simplify this part in V2 and remove the array.
 >> @@ -161,6 +173,51 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
 >>  	return ret;
 >>  }
->>  
+>>
 >> +/*
 >> + * Negotiate the given VMBus protocol version with the host.
 >> + * Protocol-specific connection ID policy is handled here so the single-try
@@ -146,6 +192,12 @@ I will simplify this part in V2 and remove the array.
 >> +
 >> +	/*
 >> +	 * The redirect ID is not a speculative endpoint. If the VMBus relay is
+> What is a "speculative endpoint"?  And per my comment above, I'd drop
+> discussion of VMBus relay, and just phrase things in terms of trying the
+> REDIRECT connection ID, and if that doesn't work, then try the normal one. 
+I will simplify the comment in V2
+>  
+>
 >> +	 * present, it accepts INITIATE_CONTACT and completes the normal version
 >> +	 * response. Systems without the relay reject the ID synchronously, so
 >> +	 * negotiation falls back to VMBUS_MESSAGE_CONNECTION_ID_4.
@@ -156,11 +208,6 @@ I will simplify this part in V2 and remove the array.
 >> +						      connection_ids[j]);
 >> +			if (vmbus_connection.conn_state == CONNECTED)
 >> +				return 0;
-> Do we need this ? ret is anyway 0 on success which we can return at the end ?
-
-I will remove the redundant part.
-
->
 >> +
 >> +			if (ret == -ETIMEDOUT)
 >> +				return ret;
@@ -173,12 +220,17 @@ I will remove the redundant part.
 >> +			return ret;
 >> +		}
 >> +		return ret;
-> Dead code
-
-Will fix it in V2.
-
->
 >> +	}
+> Per my earlier comment about not having an array of connection IDs, this
+> code could be as simple as:
+>
+> if (version >= VERSION_WIN10_V5 && ms_hyperv.vtl >=2) {
+> 	ret = vmbus_try_connection_id(msginfo, version,
+> 				VMBUS_MESSAGE_CONNECTION_ID_REDIRECT);
+> 	if (ret != -ENXIO)
+> 		return ret;
+> }
+I will update this part as per the earlier feedback.
 >> +
 >> +	/*
 >> +	 * Non-redirect path. Protocol 5.0+ below VTL2 uses the standard
@@ -224,17 +276,14 @@ Will fix it in V2.
 >>  	VMBUS_MESSAGE_CONNECTION_ID	= 1,
 >>  	VMBUS_MESSAGE_CONNECTION_ID_4	= 4,
 >> +	/* VMBus relay port used for INITIATE_CONTACT probing. */
-> Do we want to mention specific for VTL2 in comment ?
-Yes, that would be helpful. I will add it.
->
 >> +	VMBUS_MESSAGE_CONNECTION_ID_REDIRECT = 0x800074,
 >>  	VMBUS_MESSAGE_PORT_ID		= 1,
 >>  	VMBUS_EVENT_CONNECTION_ID	= 2,
 >>  	VMBUS_EVENT_PORT_ID		= 2,
->> -- 
+>> --
 >> 2.34.1
 
-Thank you, Saurabh for the review.
+Thank you for the review, Michael.
 
 
 Thanks,
