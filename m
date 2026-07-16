@@ -1,75 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F312C3B19B7;
-	Thu, 16 Jul 2026 08:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D777B432BD3;
+	Thu, 16 Jul 2026 14:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784190082; cv=none; b=XKM6Ic9BSHU7D1PHbsM3kYAd445FF18oxmJkt6Tun01SHniQB9RHA4JiQ9DI0C2EsGd0SwVLSXFIsiA5zh1fLln17agKsHtmB4iVsenBNOr123Y/Ss9VkN4A5J0/o6SWyoPfliL98bz/B0i4X4820MrMdd7upMvuLK4NOWPocrQ=
+	t=1784212061; cv=none; b=bn4i4zbGiGSn1dGmfu+S3NEpk5wfmRfRN3XX+f64VELpRWKRG8v4THmoExTbQ/B/N5uh4wAEtTfa9IGJsUFxAvMIEl96F4zPjdx2QNlZa4j+QBKco7KW3YwSQ0cW/84miI6reiTLSYUD8sN6nRXgUM8u0WzZTp7pEulx6gWPDnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784190082; c=relaxed/simple;
-	bh=PDfri8wa717gTXI3Hdd3xp/ZmvF6HLJ8rN2mfoj6idc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rGCCUiBdryPvxYrqy9XfsVuEHyQJzkRej0/Z5it9Bibj/VrYMRd26NX0/2Y4v3+A6v+WuW6H8o+l169mKPNhIW+TfoQl8gSmM1SCsB1PsDZs5whJ9lnmSnU+QDqloa9E3qlG0QFjePixSLmXmiScQ5VAHI3tTPHWy57opPDw9f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1795F1F000E9;
-	Thu, 16 Jul 2026 08:21:21 +0000 (UTC)
-From: Leon Romanovsky <leonro@nvidia.com>
-To: Potnuri Bharat Teja <bharat@chelsio.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Cheng Xu <chengyou@linux.alibaba.com>, 
- Kai Shen <kaishen@linux.alibaba.com>, 
- Chengchang Tang <tangchengchang@huawei.com>, 
- Junxian Huang <huangjunxian6@hisilicon.com>, 
- Abhijit Gangurde <abhijit.gangurde@amd.com>, 
- Allen Hubbe <allen.hubbe@amd.com>, 
- Tatyana Nikolova <tatyana.e.nikolova@intel.com>, 
- Long Li <longli@microsoft.com>, 
- Konstantin Taranov <kotaranov@microsoft.com>, 
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Michal Kalderon <mkalderon@marvell.com>, 
- Nelson Escobar <neescoba@cisco.com>, Satish Kharat <satishkh@cisco.com>, 
- Bryan Tan <bryan-bt.tan@broadcom.com>, 
- Vishnu Dasa <vishnu.dasa@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Zhu Yanjun <zyjzyj2000@gmail.com>, 
- Bernard Metzler <bernard.metzler@linux.dev>, 
- Leon Romanovsky <leon@kernel.org>
-Cc: linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hyperv@vger.kernel.org
-In-Reply-To: <20260714-convert-to-noio-udata-v1-1-f1f6b6c7c988@nvidia.com>
-References: <20260714-convert-to-noio-udata-v1-1-f1f6b6c7c988@nvidia.com>
-Subject: Re: [PATCH rdma-next] RDMA: Use ib_no_udata_io() in query_device
- callbacks
-Message-Id: <178419007897.294005.10803717095218159202.b4-ty@nvidia.com>
-Date: Thu, 16 Jul 2026 04:21:18 -0400
+	s=arc-20240116; t=1784212061; c=relaxed/simple;
+	bh=0gJBTczmpmWFR+0rYkNAd0Rz9dzhAWX0o/hIpULzmCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=antbjD7xC8Demj3EXK1Wgqh4adivI5l2KRyEzadgIyhynL+3EqDxpuIVLjvcI8g0pxRoh8Orvh+34vOyc2Lvrgm8+1xrhbmvQzKqdRE/cPXW9PgFyH+HlY8cNw1nH5oT15PtJYno5zN5z0W7QV3IfgynWnW3KagNvGlpBGwj5lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lglD5EKo; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lglD5EKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D206E1F000E9;
+	Thu, 16 Jul 2026 14:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784212060;
+	bh=ZFIDYm55M3Veb0MUxUqI8ilXNjUSkEp3G2f9uAGfdsw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lglD5EKop3xI1KvqwKHAEKUvmGfpO73DbkPY157lY2Fbb5mAwujxYu00t+Znr+Usa
+	 UzfK2fwJWXPcVQW/xKqnpNIypYuqVyocp3y0hgH/ra90WUrwvqax+XuBClwiBH2ghv
+	 bZoqhtk/OnR2knsLP/v0hX9nV/qzfSULHHQu6W8sEY0qD8WRUp15tg0SWCefacfEKc
+	 ee34Egwi+OZaOrtClpxQO+eTPyXTdOEhxwU36Ek1B13Mkt4a+e1TNH1Sd4f+enFo+3
+	 x8n4nIX8YxqDYYShHW11e2ORjVCIWlqLmvw4gN5A21KRFZDh9FsHrjBiXTmJf9RAAi
+	 nYlFMvKsRk7yw==
+Date: Thu, 16 Jul 2026 15:27:34 +0100
+From: Simon Horman <horms@kernel.org>
+To: Aditya Garg <gargaditya@linux.microsoft.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, kotaranov@microsoft.com,
+	ernis@linux.microsoft.com, dipayanroy@linux.microsoft.com,
+	ssengar@linux.microsoft.com, gargaditya@microsoft.com,
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next] net: mana: Add debug knob to skip TX timeout
+ recovery reset
+Message-ID: <20260716142734.GL95246@horms.kernel.org>
+References: <20260710132229.2851441-1-gargaditya@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-18f8f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710132229.2851441-1-gargaditya@linux.microsoft.com>
 
-
-On Tue, 14 Jul 2026 14:46:58 +0300, Leon Romanovsky wrote:
-> The query_device callbacks that neither accept driver-specific input nor
-> return a driver-specific response open-code the empty udata handling as
-> ib_is_udata_in_empty() on entry and ib_respond_empty_udata() on exit.
+On Fri, Jul 10, 2026 at 06:22:29AM -0700, Aditya Garg wrote:
+> Add a per-port debugfs boolean "tx_timeout_skip_reset" that, when
+> enabled, makes mana_tx_timeout() log the TX timeout and return without
+> queueing the per-port detach/attach recovery work.
 > 
-> ib_no_udata_io() already combines both steps, so replace the entry check
-> with it and simply return 0 on success.
+> This is a debug-only aid for bringup and qualification: skipping the
+> recovery reset keeps the device and queue state intact so a TX timeout
+> can be correlated with hardware telemetry. The knob defaults to false,
+> so production recovery behaviour is unchanged.
 > 
-> [...]
+> Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
+> Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+> Reviewed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 
-Applied, thanks!
-
-[1/1] RDMA: Use ib_no_udata_io() in query_device callbacks
-      https://git.kernel.org/rdma/rdma/c/b12985a0473a2f
-
-Best regards,
--- 
-Leon Romanovsky <leonro@nvidia.com>
+Reviewed-by: Simon Horman <horms@kernel.org>
 
