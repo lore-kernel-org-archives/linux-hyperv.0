@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E30924887E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1DD23393D;
 	Sat, 18 Jul 2026 02:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784341217; cv=none; b=tlBjXerT9LDy7G4Xf9qviBoU8fbdUheJcLzHIx1MR5ECaxb2aHmLlewNcNxUbwx/99ld9/kbySHmrO/PAmcVoJeD4LuhIQFKBSUELDDSWuHyt9msmRfgDZMJ/WSuwQv2gozdajQemoVURdiJVXwwcQUZQ1xUncyHHaRqMsIQ36w=
+	t=1784341217; cv=none; b=XPC65Nmy/f2VHIUFpdrGfOJmbiQeW7Coaj7N2Zhv2zj2+c6gEailk01HtvPPiRYHJffQVgp+FtQnPbLwRm9WqsCxeT4QoQ3/qIG3f/Gj4CrCi+R/aD2bUERul6Uy9ERDlQkB8tnBegm7nA6R0GUoCbY0WUorpld39JKFrte3JhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784341217; c=relaxed/simple;
-	bh=QinLjdrHG7tpTexgN5LTAi8FMgIWi0QZadkzwgkc6qw=;
+	bh=zJ3pn3bxME5JwSB5aK1OrtBWQvH5JhVENL3qlc66ejE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=keqF1i+ZVC7XjSiegTxCu43ysRVtvXrFb2EZ9+G9cmcRh3EDZQ30Huj0veME/mMqevXI+XAs9nhjCMSpkNkLilrQSiEeHCASXxFjejrGWoZql97tcISGmQaqY8AW48lzW7n4eumTs+QuEYCS/h1pj16Jjfw2jx9s268dn03mpik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ew4dV2gq; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=IlND+YW8AFOVgcwjqFL21kfb8uJbF7HPaGdVq1MbnF5fnc7zJKojwrCPOnzKJqXECMx7G4RYj0Gmd3Prit6FnIgD+G4izpehaGMihbCHbrTq88ufnnwe1icGWlvrJDaBDz2n5XQku1FySjd8yAINhIwMFkElmdk1HXwKYFtGNmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=e7OO4xiF; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ew4dV2gq"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="e7OO4xiF"
 Received: from mrdev.corp.microsoft.com (unknown [40.86.181.13])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E293120B716F;
-	Fri, 17 Jul 2026 19:20:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E293120B716F
+	by linux.microsoft.com (Postfix) with ESMTPSA id 96FA020B716D;
+	Fri, 17 Jul 2026 19:20:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 96FA020B716D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784341203;
-	bh=1I2WdTUqOuf9JU5Q89Ev0MAW1iXFtnGBGr5MppYA0aU=;
+	s=default; t=1784341201;
+	bh=O5TgxXPIGID/9HT6Lm1wyXVi3Vi9JkEyO50J+jeuGzI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ew4dV2gq8hvgx09OU8SpHqKOlzsF0GSPl7liKgcxPqb2JF1VnUo8ebewPHAjJMiVn
-	 jIRkdT73a/CS5AUAbf/MR0zkRsuCFKKUy18yE15BDIe5AoQTQ8MR5i31XM+NnnZFIn
-	 FBAgK12OgjdZGurc/LCpY93nnp/GVW6jCsp9oNJA=
+	b=e7OO4xiFSi66/p/LIxGbMhjR3iRBU2tHCRC1MgSKiMRAzzjfc3RnBOKvpo9DcnW/c
+	 UdBz0xMz4/FcS5BUMF9VVyYYPYFStQr3DtEhVdZFIfcdZnJ60RbQzunuN0oSE5Fcjt
+	 zr/Rz2+B5HbgV3p2zNSibpnyLHEuBUQzbxXQeTkw=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -57,9 +57,9 @@ Cc: kys@microsoft.com,
 	bhelgaas@google.com,
 	arnd@arndb.de,
 	jacob.pan@linux.microsoft.com
-Subject: [PATCH V4 5/9] mshv: Import data structs around device passthru from hyperv headers
-Date: Fri, 17 Jul 2026 19:19:45 -0700
-Message-ID: <20260718021949.926306-6-mrathor@linux.microsoft.com>
+Subject: [PATCH V4 4/9] mshv: Add ioctl support for MSHV-VFIO bridge device
+Date: Fri, 17 Jul 2026 19:19:44 -0700
+Message-ID: <20260718021949.926306-5-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260718021949.926306-1-mrathor@linux.microsoft.com>
 References: <20260718021949.926306-1-mrathor@linux.microsoft.com>
@@ -71,121 +71,155 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Copy/import from Hyper-V public headers, definitions and declarations that
-are related to creating domains in the hypervisor, attaching devices to
-them, etc.
+Add ioctl support for MSHV devices for a partition. At present only VFIO
+device types are supported, but more could be added. At a high level, a
+partition ioctl to create device verifies it is of type VFIO and does some
+setup for bridge code in mshv_vfio.c.  Adapted from KVM device ioctls.
 
+Co-developed-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 ---
- include/hyperv/hvgdk_mini.h |  8 +++++
- include/hyperv/hvhdk_mini.h | 67 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
+ drivers/hv/mshv_root_main.c | 119 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
 
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index 6a4e8b9d570f..e62f8d708e8e 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -326,6 +326,8 @@ union hv_hypervisor_version_info {
- /* stimer Direct Mode is available */
- #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 02c107458be9..a36e54bfa064 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -1625,6 +1625,122 @@ mshv_partition_ioctl_initialize(struct mshv_partition *partition)
+ 	return ret;
+ }
  
-+#define HV_DEVICE_DOMAIN_AVAILABLE			BIT(24)
++static long mshv_device_attr_ioctl(struct mshv_device *mshv_dev, int cmd,
++				   ulong uarg)
++{
++	struct mshv_device_attr attr;
++	const struct mshv_device_ops *devops = mshv_dev->device_ops;
 +
- /*
-  * Implementation recommendations. Indicates which behaviors the hypervisor
-  * recommends the OS implement for optimal performance.
-@@ -486,9 +488,15 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
- #define HVCALL_GET_VP_INDEX_FROM_APIC_ID		0x009a
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE	0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
-+#define HVCALL_CREATE_DEVICE_DOMAIN                     0x00b1
-+#define HVCALL_ATTACH_DEVICE_DOMAIN                     0x00b2
-+#define HVCALL_MAP_DEVICE_GPA_PAGES                     0x00b3
-+#define HVCALL_UNMAP_DEVICE_GPA_PAGES                   0x00b4
- #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
- #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
- #define HVCALL_DISPATCH_VP				0x00c2
-+#define HVCALL_DETACH_DEVICE_DOMAIN                     0x00c4
-+#define HVCALL_DELETE_DEVICE_DOMAIN                     0x00c5
- #define HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9
- #define HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7
- #define HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8
-diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-index b4cb2fa26e9b..90497635c3cb 100644
---- a/include/hyperv/hvhdk_mini.h
-+++ b/include/hyperv/hvhdk_mini.h
-@@ -547,4 +547,71 @@ union hv_device_id {		/* HV_DEVICE_ID */
- 	} acpi;
- } __packed;
- 
-+/* 3 domain types: stage 1, stage 2, and SOC */
-+#define HV_DEVICE_DOMAIN_TYPE_S2  0 /* HV_DEVICE_DOMAIN_ID_TYPE_S2 */
-+#define HV_DEVICE_DOMAIN_TYPE_S1  1 /* HV_DEVICE_DOMAIN_ID_TYPE_S1 */
-+#define HV_DEVICE_DOMAIN_TYPE_SOC 2 /* HV_DEVICE_DOMAIN_ID_TYPE_SOC */
++	if (copy_from_user(&attr, (void __user *)uarg, sizeof(attr)))
++		return -EFAULT;
 +
-+/* ID for stage 2 default domain and NULL domain */
-+#define HV_DEVICE_DOMAIN_ID_S2_DEFAULT 0
-+#define HV_DEVICE_DOMAIN_ID_S2_NULL    0xFFFFFFFFULL
++	switch (cmd) {
++	case MSHV_SET_DEVICE_ATTR:
++		if (devops->device_set_attr)
++			return devops->device_set_attr(mshv_dev, &attr);
++		break;
++	case MSHV_HAS_DEVICE_ATTR:
++		if (devops->device_has_attr)
++			return devops->device_has_attr(mshv_dev, &attr);
++		break;
++	}
 +
-+union hv_device_domain_id {
-+	u64 as_uint64;
-+	struct {
-+		u32 type : 4;
-+		u32 reserved : 28;
-+		u32 id;
-+	};
-+} __packed;
++	return -EPERM;
++}
 +
-+struct hv_input_device_domain { /* HV_INPUT_DEVICE_DOMAIN */
-+	u64 partition_id;
-+	union hv_input_vtl owner_vtl;
-+	u8 padding[7];
-+	union hv_device_domain_id domain_id;
-+} __packed;
++static long mshv_device_fop_ioctl(struct file *filp, unsigned int cmd,
++				  ulong uarg)
++{
++	struct mshv_device *mshv_dev = filp->private_data;
 +
-+union hv_create_device_domain_flags {	/* HV_CREATE_DEVICE_DOMAIN_FLAGS */
-+	u32 as_uint32;
-+	struct {
-+		u32 forward_progress_required : 1;
-+		u32 inherit_owning_vtl : 1;
-+		u32 reserved : 30;
-+	} __packed;
-+} __packed;
++	switch (cmd) {
++	case MSHV_SET_DEVICE_ATTR:
++	case MSHV_HAS_DEVICE_ATTR:
++		return mshv_device_attr_ioctl(mshv_dev, cmd, uarg);
++	}
 +
-+struct hv_input_create_device_domain {	/* HV_INPUT_CREATE_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+	union hv_create_device_domain_flags create_device_domain_flags;
-+} __packed;
++	return -ENOTTY;
++}
 +
-+struct hv_input_delete_device_domain {	/* HV_INPUT_DELETE_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+} __packed;
++static int mshv_device_fop_release(struct inode *inode, struct file *filp)
++{
++	struct mshv_device *mshv_dev = filp->private_data;
++	struct mshv_partition *partition = mshv_dev->device_pt;
 +
-+struct hv_input_attach_device_domain {	/* HV_INPUT_ATTACH_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+	union hv_device_id device_id;
-+} __packed;
++	if (mshv_dev->device_ops->device_release) {
++		mutex_lock(&partition->pt_mutex);
++		hlist_del(&mshv_dev->device_ptnode);
++		mshv_dev->device_ops->device_release(mshv_dev);
++		mutex_unlock(&partition->pt_mutex);
++	}
 +
-+struct hv_input_detach_device_domain {	/* HV_INPUT_DETACH_DEVICE_DOMAIN */
-+	u64 partition_id;
-+	union hv_device_id device_id;
-+} __packed;
++	mshv_partition_put(partition);
++	return 0;
++}
 +
-+struct hv_input_map_device_gpa_pages {	/* HV_INPUT_MAP_DEVICE_GPA_PAGES */
-+	struct hv_input_device_domain device_domain;
-+	union hv_input_vtl target_vtl;
-+	u8 padding[3];
-+	u32 map_flags;
-+	u64 target_device_va_base;
-+	u64 gpa_page_list[];
-+} __packed;
++static const struct file_operations mshv_device_fops = {
++	.owner = THIS_MODULE,
++	.unlocked_ioctl = mshv_device_fop_ioctl,
++	.release = mshv_device_fop_release,
++};
 +
-+struct hv_input_unmap_device_gpa_pages {  /* HV_INPUT_UNMAP_DEVICE_GPA_PAGES */
-+	struct hv_input_device_domain device_domain;
-+	u64 target_device_va_base;
-+} __packed;
++static long mshv_partition_ioctl_create_device(struct mshv_partition *partition,
++					       void __user *uarg)
++{
++	long rc;
++	struct mshv_create_device devargk;
++	struct mshv_device *mshv_dev;
++	const struct mshv_device_ops *vfio_ops;
 +
- #endif /* _HV_HVHDK_MINI_H */
++	if (copy_from_user(&devargk, uarg, sizeof(devargk)))
++		return -EFAULT;
++
++	/* At present, only VFIO is supported */
++	if (devargk.type != MSHV_DEV_TYPE_VFIO)
++		return -ENODEV;
++
++	if (devargk.flags & MSHV_CREATE_DEVICE_TEST)
++		return 0;
++
++	if (devargk.flags)	/* currently, only MSHV_CREATE_DEVICE_TEST */
++		return -EINVAL;
++
++	/* This is freed later by mshv_vfio_release_device() */
++	mshv_dev = kzalloc_obj(*mshv_dev);
++	if (mshv_dev == NULL)
++		return -ENOMEM;
++
++	vfio_ops = &mshv_vfio_device_ops;
++	mshv_dev->device_ops = vfio_ops;
++	mshv_dev->device_pt = partition;
++
++	rc = vfio_ops->device_create(mshv_dev);
++	if (rc < 0) {
++		kfree(mshv_dev);
++		return rc;
++	}
++
++	hlist_add_head(&mshv_dev->device_ptnode, &partition->pt_devices);
++
++	mshv_partition_get(partition);
++	rc = anon_inode_getfd(vfio_ops->device_name, &mshv_device_fops,
++			      mshv_dev, O_RDWR | O_CLOEXEC);
++	if (rc < 0)
++		goto undo_out;
++
++	devargk.fd = rc;
++	if (copy_to_user(uarg, &devargk, sizeof(devargk)))
++		return -EFAULT;    /* cleanup in mshv_device_fop_release() */
++
++	return 0;
++
++undo_out:
++	hlist_del(&mshv_dev->device_ptnode);
++	vfio_ops->device_release(mshv_dev);    /* will kfree(mshv_dev) */
++	mshv_partition_put(partition);
++	return rc;
++}
++
+ static long
+ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -1661,6 +1777,9 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_ROOT_HVCALL:
+ 		ret = mshv_ioctl_passthru_hvcall(partition, true, uarg);
+ 		break;
++	case MSHV_CREATE_DEVICE:
++		ret = mshv_partition_ioctl_create_device(partition, uarg);
++		break;
+ 	default:
+ 		ret = -ENOTTY;
+ 	}
 -- 
 2.51.2.vfs.0.1
 
