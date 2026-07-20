@@ -1,79 +1,129 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32D238655D;
-	Mon, 20 Jul 2026 15:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF34E2641CA;
+	Mon, 20 Jul 2026 20:07:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784561706; cv=none; b=IYDlU+gPEukRrdcx5O4Ga9o9+AS3sMSQeEZ6ArC2XjAWSMj/QO1ib8jkkZN7BKA9js+GWO9eN+XlEIhCRbi0A5OYhFVbdXPKfAzsTyot58AeTxC7HFHgusMHDW4SmA3wUFJvsaFXHiw+el5F/EcRmiGtVSB6s9Ouixakx/WeLuQ=
+	t=1784578066; cv=none; b=vAqfeGdfcAHnxzpvv3eh7gEsKK/eYp5GBJQ7gYpQo97bMy4LzDWVnyLhkzKn3/BNhhKNpQCE3stGd/7mGXMR3mYM0WOA2kSiWLmEyaMjsiOPYyKv/iMp4GM2+5nmYtEERsFxSXWMe0e/YAuOLWealgtQ31HyOFIXLx4Vtntx5Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784561706; c=relaxed/simple;
-	bh=+T2sEFPE7rajc5fFUOqc2Dj30tK0NkXWP8OCzB+8pDA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=lVdSOiZ6UJ9mPtY8LLkIqsZmcRxPqTN9J7hw77r7mEXswjKe7UxOPs71F+Mr+WpzJvrZBo13H+X6wxWqK2ZQfjd5r+Cin1TShg6BXovHn9QO7QQ3vpydDFDcyk2skZ4dwBegP4k5/6az9IhDw4a4ZMwbVrTJ/4V4jC1qDWIet+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oMVGNHfh; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1784578066; c=relaxed/simple;
+	bh=Jy1+Wm9Vy6BteYPlPzfj8ZNVn+e4W/J3qes0hb9vnhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WnGTaCwMeqXwldlG7Jj/fOFCXaspMhtSwIhoIBoK8SH8G1J0vWlG1kghx7ZnZYQRG3PfDLK6sKhbt4tyRZ2F8dIt91lDgTPFFdUrX+Z5XcKNDTLlGbHbEeOR4KTtrhN7UFwO2CCphEozPyrm7jJCFwBvMsuzT1U8JQ3PPmwR0EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CwVmJZ/x; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oMVGNHfh"
-Received: from [192.168.0.105] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 13C0020B7169;
-	Mon, 20 Jul 2026 08:34:46 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 13C0020B7169
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CwVmJZ/x"
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id CF38A20B7169; Mon, 20 Jul 2026 13:07:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CF38A20B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784561689;
-	bh=pZ+9ojnYusCUcERhkOrfi+2aUjIQwCqu+PtVtnijj10=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=oMVGNHfhCj1t1t4VbyPuEAuvI7Hnm+fxI0Q0hNNV2UbSt+AK2KVhBtgpfSMzEyIXg
-	 FC8MpiDK6XS1HbxFpHUJU5QNl2F+WMr+VRqDERvtrvxA16sKd+ablQ6+jzrTUZcH+z
-	 gQP+HyT48QMzSODz/aQizQ+cIGyHqjc6cQXgO5Do=
-Message-ID: <b7971bb1-f168-44b0-b314-0ab407cbbd9f@linux.microsoft.com>
-Date: Mon, 20 Jul 2026 21:04:56 +0530
+	s=default; t=1784578052;
+	bh=JY4lTYxbNAjs31iCIWh2OWIe8kSCIzV3Kr9v5xirdFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CwVmJZ/xNjzx8AmFJoh/Pbxr1d1EOEeSEY3AWsCJIFfUJ6lTfNULIIEObSlpXy765
+	 rwGBUKiFM+cds/ezbJarTqY7AFQqXoepuF0U8erzprqG+g75M9rgQdsL3K9XAOpket
+	 HVxflh2qpUiZx68a0A08ov3iaSZt3PoUHjX9huPU=
+Date: Mon, 20 Jul 2026 13:07:32 -0700
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] net: mana: cap HWC init max message size to
+ HW_CHANNEL_MAX_REQUEST_SIZE
+Message-ID: <al6ABAMHeE76yldL@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260711150628.2914205-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Drivers: hv: vmbus: add VTL2 redirect connection ID
-To: Hardik Garg <hargar@linux.microsoft.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260717001837.635756-1-hargar@linux.microsoft.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260717001837.635756-1-hargar@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260711150628.2914205-1-michael.bommarito@gmail.com>
 
+On Sat, Jul 11, 2026 at 11:06:28AM -0400, Michael Bommarito wrote:
+> mana_hwc_init_event_handler() in hw_channel.c stores device-advertised
+> HWC_INIT_DATA_MAX_REQUEST and HWC_INIT_DATA_MAX_RESPONSE values
+> without bounds checking. mana_hwc_alloc_dma_buf() later computes the
+> DMA buffer size as MANA_PAGE_ALIGN(q_depth * max_msg_size) in 32-bit
+> arithmetic. A malicious device returning a large max_msg_size causes
+> the product to wrap, allocating a small buffer while laying out
+> q_depth request slots at the unwrapped stride, placing slots outside
+> the allocation.
 
-
-On 7/17/2026 5:48 AM, Hardik Garg wrote:
-> VMBus sends CHANNELMSG_INITIATE_CONTACT through a Hyper-V message
-> connection ID. Older protocol versions use VMBUS_MESSAGE_CONNECTION_ID,
-> while protocol version 5.0 and newer normally use
-> VMBUS_MESSAGE_CONNECTION_ID_4.
+I don't think the described data flow actually
+exists in the current tree, so the security framing looks inaccurate.
+Please check the comment below.
 > 
-> For a VTL2 kernel using VMBus protocol 5.0 or newer, the host
-> may expect INITIATE_CONTACT on either the redirect connection ID or
-> VMBUS_MESSAGE_CONNECTION_ID_4. There is no capability indication that
-> identifies which ID is active, so the driver must determine it at runtime.
+> Impact: a compromised hypervisor device model or malicious MANA PCI
+> device can cause out-of-bounds DMA buffer writes during HWC channel
+> initialization. A reproducer is available on request.
 > 
-> During VMBus negotiation, the redirect ID is tried first because it is
-> used by VTL2 configurations with VMBus redirection enabled. If the
-> redirect ID is unavailable, the host rejects it synchronously with
-> HV_STATUS_INVALID_CONNECTION_ID, allowing fallback to the standard ID.
+> Clamp both values to HW_CHANNEL_MAX_REQUEST_SIZE (4096), consistent
+> with the cap already applied at the channel-create callsite.
 > 
-> Return a distinct error for an invalid Initiate Contact connection ID so
-> this fallback does not mask other post-message failures or
-> protocol-version rejections. Preserve the existing connection ID
-> selection for older protocol versions or when running below VTL2.
-> 
-> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
+> Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-7
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 > ---
+>  drivers/net/ethernet/microsoft/mana/hw_channel.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> index 48a9acea4ab6c..a0916b50cffce 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -152,10 +152,14 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
+>  			break;
+>  
+>  		case HWC_INIT_DATA_MAX_REQUEST:
+> +			if (val == 0 || val > HW_CHANNEL_MAX_REQUEST_SIZE)
+> +				val = HW_CHANNEL_MAX_REQUEST_SIZE;
+>  			hwc->hwc_init_max_req_msg_size = val;
+>  			break;
+>  
+>  		case HWC_INIT_DATA_MAX_RESPONSE:
+> +			if (val == 0 || val > HW_CHANNEL_MAX_REQUEST_SIZE)
+> +				val = HW_CHANNEL_MAX_REQUEST_SIZE;
+>  			hwc->hwc_init_max_resp_msg_size = val;
+>  			break;
+>  
+
+The clamp is applied to hwc->hwc_init_max_req_msg_size and
+hwc->hwc_init_max_resp_msg_size. Tracing where those two fields are
+consumed:
+
+  mana_hwc_init_event_handler()
+	|
+  mana_hwc_establish_channel() // copies them out to *max_req_msg_size
+        |                          and *max_resp_msg_size
+  mana_hwc_create_channel()    // passes those locals only to
+        |                          mana_hwc_test_channel()
+  mana_hwc_test_channel()      // passed as parameters but never
+                                   used them
+
+The DMA buffers that alloc_dma_buf() sizes are created from
+mana_hwc_init_queues(), which is called with the compile-time constants:
+
+    err = mana_hwc_init_queues(hwc, HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH,
+                   HW_CHANNEL_MAX_REQUEST_SIZE,
+                   HW_CHANNEL_MAX_RESPONSE_SIZE);
+
+Therefore, q_depth * max_msg_size cannot wrap from a device-controlled
+value here.
+
+Thanks,
+Vennela
+> -- 
+> 2.53.0
 > 
 
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+> 
