@@ -1,54 +1,52 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69CA1A6836;
-	Sat, 18 Jul 2026 02:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B4B39DBFF;
+	Mon, 20 Jul 2026 10:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784342955; cv=none; b=umImNAc5uwaQId+dr48vwcUZH7wZEUTDTOvw+/g1HleQNj0RO0Vvuw3rVezcJVxVGw8B/MDkgyQW/RWnqYkP7o2iHrWFBhREOUlzvRYytwajju0BGpeWhzUn5Jluw4nkil7ShJFky5ktaBzFzKdAk4MGESe/Q6bg/iskZOBKO0k=
+	t=1784544213; cv=none; b=sZ3RuPmlkZeBYZ+nPSvTwq/HcqmIppz/1q6yD5ch8tBGIg5zX+Z5qSv6TO1euTxzA8zTpjeSK26Hw620pEbkq4Jdh19Bi8CktiMpuJEIBCWnr4y3wD4Y+m45UzKETob9mzKsU5jggRH/vFmQnvi8K6UipJWheUIkgemlvPhwZnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784342955; c=relaxed/simple;
-	bh=E7EHmtqBMSlHXf6HF5pZv+p38Ks3/6GL+TMs+N4l/G4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=iDLLBeXU9WgyNOWQsNlGoGI3kLWf5wKdKN2pfosN7eJ2PMG0Iq3K/NdO/JPZjHYD6aOjOTp+93HrsZQczJGeQ+ecXZcLVVAsR9RK0mcLkpmTe40hoiaa2T41kFuk/HosCLtvVNE6TWNEnHrgJCnksPHKP7nHruXj15l2+H4bzJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OwBKI3C4; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1784544213; c=relaxed/simple;
+	bh=JOcq7YdmE8pqxYCXCoOmg3kyDP0SwghFQZ3mMEmpZd0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RiVwa2F66wvnZ4p4NUGnenqT8D70yS10fN0ve9sXsfna37aod/ITQqm8GnvfP4g9xcG9iuBkUTvqo+agRCNww0o9nBaxVgh/cE5ANb1OUEe2OxqApym8z18anR92DTdZCGKiTUOficzrLsosQawHLqnQV54Dehd9eBc6lrD+sO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGlKo/x4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OwBKI3C4"
-Received: by linux.microsoft.com (Postfix, from userid 1231)
-	id 45F6920B7169; Fri, 17 Jul 2026 19:49:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 45F6920B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784342944;
-	bh=SOnWjLNM5/oT91+v9QIK90ipsn1qlyZ8XKKBA2dE2UM=;
-	h=From:To:Subject:Date:From;
-	b=OwBKI3C4Agv2Gl9g8yuMf/ozecoYtvyYEAhrudWwy5voDqhOb/eiwvLtTPTNnYLg3
-	 vdC3hH/whLV+hrxVxTQtLzMFXmPM1GCk3SUINH246TqtlpZf3p0ypntu/rIRcigdcJ
-	 8MqXuldvCE9BJdPrfYhvVwVDtiS95aIstcygpIB4=
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-To: kys@microsoft.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGlKo/x4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DA61F000E9;
+	Mon, 20 Jul 2026 10:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784544208;
+	bh=OSjqkmld1DCh7sm1IDi6p3kqnOBZ5HqEziqUJWOhbWc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=AGlKo/x4XQ3vxklby5zZFphibrxtMMcdLCLH7lGxkQ54ymR1F9WWKWMsVOmtuE4AS
+	 se2bywTExEuGNwhHi5xwWsrGFAZfC351R4hXN7j9lMUnuaR2S+5IDpyH/fMdvQmwD7
+	 MjopMGNS5L/yypBKGw70gNKm7cjbEPfuLvwFfpXyq/yLp/H69RzEe5K1YQWsQhhJ6h
+	 OugYDVO0YIDlWk43u7XtZu67QNadurOwafeKKRkWF+55oJ2TOkE6wGhT/bdnm7qwpt
+	 zQ63rjzWDLLoqTNzAGx3+u8g9QAH2t0hJ8Ce8Pu3OmXl+LpLaFxkEnU1uaXnzy39T6
+	 yel7c46U6xOlg==
+From: Simon Horman <horms@kernel.org>
+To: michael.bommarito@gmail.com
+Cc: Simon Horman <horms@kernel.org>,
 	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
 	decui@microsoft.com,
 	longli@microsoft.com,
+	kys@microsoft.com,
+	wei.liu@kernel.org,
 	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
 	kuba@kernel.org,
 	pabeni@redhat.com,
-	ernis@linux.microsoft.com,
-	horms@kernel.org,
-	dipayanroy@linux.microsoft.com,
-	gargaditya@linux.microsoft.com,
-	shacharr@microsoft.com,
-	stephen@networkplumber.org,
-	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	ssengar@linux.microsoft.com,
-	gargaditya@microsoft.com
-Subject: [PATCH net] net: mana: Return error code from mana_create_rxq()
-Date: Fri, 17 Jul 2026 19:48:18 -0700
-Message-ID: <20260718024818.560552-1-gargaditya@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	stable@vger.kernel.org
+Subject: Re: [PATCH] net: mana: cap HWC init max message size to HW_CHANNEL_MAX_REQUEST_SIZE
+Date: Mon, 20 Jul 2026 11:40:44 +0100
+Message-ID: <20260720104043.61416-2-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260711150628.2914205-1-michael.bommarito@gmail.com>
+References: <20260711150628.2914205-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -57,82 +55,107 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mana_create_rxq() returns a struct mana_rxq pointer and returns NULL on
-any failure. The caller, mana_add_rx_queues(), cannot tell what went
-wrong and hardcodes the error as -ENOMEM. As a result the actual failure
-reported by the lower layers (for example -EPROTO from a failed HW
-request) is masked and every RX queue creation failure looks like an
-out-of-memory error.
-
-Change mana_create_rxq() to return an int and pass the created rxq back
-to the caller through an output parameter. The caller now propagates the
-returned error code directly instead of substituting -ENOMEM.
-
-Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
-Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+https://sashiko.dev/#/patchset/20260711150628.2914205-1-michael.bommarito@gmail.com?part=1
 ---
- drivers/net/ethernet/microsoft/mana/mana_en.c | 21 ++++++++++---------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+--- Patch [1]: [PATCH] net: mana: cap HWC init max message size to HW_CHANNEL_MAX_REQUEST_SIZE ---
+commit ea80048daa839e9f12f06618139e15fddebc0ac5
+Author: Michael Bommarito <michael.bommarito@gmail.com>
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 9d9bfd116dab..9162e356e0c1 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -2811,9 +2811,9 @@ static int mana_create_page_pool(struct mana_rxq *rxq, struct gdma_context *gc)
- 	return 0;
- }
- 
--static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
--					u32 rxq_idx, struct mana_eq *eq,
--					struct net_device *ndev)
-+static int mana_create_rxq(struct mana_port_context *apc, u32 rxq_idx,
-+			   struct mana_eq *eq, struct net_device *ndev,
-+			   struct mana_rxq **rxq_out)
- {
- 	struct gdma_dev *gd = apc->ac->gdma_dev;
- 	struct mana_obj_spec wq_spec;
-@@ -2829,7 +2829,7 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
- 
- 	rxq = kvzalloc_flex(*rxq, rx_oobs, apc->rx_queue_size);
- 	if (!rxq)
--		return NULL;
-+		return -ENOMEM;
- 
- 	rxq->ndev = ndev;
- 	rxq->num_rx_buf = apc->rx_queue_size;
-@@ -2923,14 +2923,16 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
- 
- 	mana_gd_ring_cq(cq->gdma_cq, SET_ARM_BIT);
- out:
--	if (!err)
--		return rxq;
-+	if (!err) {
-+		*rxq_out = rxq;
-+		return 0;
-+	}
- 
- 	netdev_err(ndev, "Failed to create RXQ: err = %d\n", err);
- 
- 	mana_destroy_rxq(apc, rxq, false);
- 
--	return NULL;
-+	return err;
- }
- 
- static void mana_create_rxq_debugfs(struct mana_port_context *apc, int idx)
-@@ -2963,9 +2965,8 @@ static int mana_add_rx_queues(struct mana_port_context *apc,
- 	int i;
- 
- 	for (i = 0; i < apc->num_queues; i++) {
--		rxq = mana_create_rxq(apc, i, &apc->eqs[i], ndev);
--		if (!rxq) {
--			err = -ENOMEM;
-+		err = mana_create_rxq(apc, i, &apc->eqs[i], ndev, &rxq);
-+		if (err) {
- 			netdev_err(ndev, "Failed to create rxq %d : %d\n", i, err);
- 			goto out;
- 		}
--- 
-2.43.0
+net: mana: cap HWC init max message size to HW_CHANNEL_MAX_REQUEST_SIZE
 
+The commit adds bounds checking for max message size during HWC initialization.
+It claims this prevents an out-of-bounds DMA buffer write in
+mana_hwc_alloc_dma_buf().
+
+>    mana_hwc_init_event_handler() in hw_channel.c stores device-advertised
+>    HWC_INIT_DATA_MAX_REQUEST and HWC_INIT_DATA_MAX_RESPONSE values
+>    without bounds checking. mana_hwc_alloc_dma_buf() later computes the
+>    DMA buffer size as MANA_PAGE_ALIGN(q_depth * max_msg_size) in 32-bit
+>    arithmetic. A malicious device returning a large max_msg_size causes
+>    the product to wrap, allocating a small buffer while laying out
+>    q_depth request slots at the unwrapped stride, placing slots outside
+>    the allocation.
+
+[Severity: Medium]
+Is this description accurate?
+
+The modified variables (hwc->hwc_init_max_req_msg_size and
+hwc->hwc_init_max_resp_msg_size) appear to be dead code that do not affect
+memory allocation. mana_hwc_alloc_dma_buf() is invoked before the event
+handler runs (via mana_hwc_init_queues()) using hardcoded sizes (4096),
+not the hardware-provided ones.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> index e3c24d50dad07..94594fba112f9 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -150,10 +150,14 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
+>  			break;
+>  
+>  		case HWC_INIT_DATA_MAX_REQUEST:
+> +			if (val == 0 || val > HW_CHANNEL_MAX_REQUEST_SIZE)
+> +				val = HW_CHANNEL_MAX_REQUEST_SIZE;
+>  			hwc->hwc_init_max_req_msg_size = val;
+>  			break;
+>  
+>  		case HWC_INIT_DATA_MAX_RESPONSE:
+> +			if (val == 0 || val > HW_CHANNEL_MAX_REQUEST_SIZE)
+> +				val = HW_CHANNEL_MAX_REQUEST_SIZE;
+
+[Severity: Low]
+Does this incorrectly clamp HWC_INIT_DATA_MAX_RESPONSE using
+HW_CHANNEL_MAX_REQUEST_SIZE instead of HW_CHANNEL_MAX_RESPONSE_SIZE?
+
+>  			hwc->hwc_init_max_resp_msg_size = val;
+>  			break;
+>  
+
+[Severity: High]
+This is a pre-existing issue, but is it possible for a malicious device
+to trigger an out-of-bounds MMIO write via an unchecked doorbell index?
+
+Earlier in mana_hwc_init_event_handler():
+
+	case GDMA_EQE_HWC_INIT_EQ_ID_DB:
+		eq_db.as_uint32 = event->details[0];
+		hwc->cq->gdma_eq->id = eq_db.eq_id;
+		gd->doorbell = eq_db.doorbell;
+
+When the driver posts WQEs and rings the doorbell via mana_gd_ring_doorbell():
+
+drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_ring_doorbell() {
+    ...
+    void __iomem *addr = gc->db_page_base + gc->db_page_size * db_index;
+    ...
+    writeq(e.as_uint64, addr);
+    ...
+}
+
+If eq_db.doorbell is excessively large, could it calculate a memory-mapped
+address that exceeds gc->bar0_size, resulting in an out-of-bounds writeq()
+that corrupts adjacent mappings?
+
+
+[Severity: High]
+This is a pre-existing issue, but does the unchecked max_num_cqs value
+allow a malicious device to exhaust system memory?
+
+Later in mana_hwc_init_event_handler():
+
+		case HWC_INIT_DATA_MAX_NUM_CQS:
+			gd->gdma_context->max_num_cqs = val;
+			break;
+
+This unbounded max_num_cqs value is later used for memory allocation:
+
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_establish_channel() {
+    ...
+	gc->cq_table = vcalloc(gc->max_num_cqs, sizeof(struct gdma_queue *));
+    ...
+}
+
+If max_num_cqs is an exceptionally large 32-bit value (e.g., 0x1FFFFFFF),
+could vcalloc() attempt to allocate multiple gigabytes of memory and cause a
+host-level denial of service?
