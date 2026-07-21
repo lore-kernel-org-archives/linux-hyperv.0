@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E0B471414;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF923471268;
 	Tue, 21 Jul 2026 20:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784664722; cv=none; b=NZaXsRAig22M697+gEsHX4nk7Gx0KmeVCN5ThgnFlkKqgV9r70SUOVII2kUA8DgBZdWaPUcmbQlaOe6wViTTC0rrpk8Zcdhd9iX8F/PvlqmZfeJuCTRPuJhYIhtnZp2+u4/BGJMLUpJbsWPDyD8MqOluZMeoKlLDdP4ecQBLBx8=
+	t=1784664723; cv=none; b=jRDk3/ge0QYFbNomoipSvkjBHD2DvZb0hqHMOjzfDLRlBGguiUf24zU42KCzVvjot+Zrp1AQXXZaVf/MZvesUbKccnrjkBj4XOmXmexJzJFcdiGJev/BLe7Vo4QzGd4tIyF0HQPISSJOAguRQ69fJD33GeUXMPkPLqX81MXwpkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784664722; c=relaxed/simple;
-	bh=fUUKFmrbIiUef74AOCNqccPziLzJSdWvp3e05UVA26M=;
+	s=arc-20240116; t=1784664723; c=relaxed/simple;
+	bh=kTuJntn4d9d0VGuQeorErJTBpqNewh53BBll6mgZMLU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZJq0+J2wUACcQhHI9UCiyLBmsQEPdHmuoatfAEFm+OI3Vn4MhdRJkn+dsD0Hrdzvc5oHDufB8pKkMqn7u/P0REZjJmWNT4CWrBU9PdU2rGPjhHp6dX+3SsCyhKr8kUPEW2bD1xSXRjbI6tlnJhion+oSXOQhM6aVWf15PPj5i1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UfS1Atu3; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=SDVi7FbJkA43SRpfqc1dOU+vXGlXmEVWqv5x4chWtujDYhFv+h1AHVMishYAZ2F1nj/FJJ07APdfXhPS4m1aTN1FvO1gF1RlivbB0RadyvGDyEc0M+Mg6Yuj1QGRdE0mL4Y83wufXUbHorLkUr0kwY798yVCz16tbYr6e9zdZtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hnpKnP6Z; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UfS1Atu3"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hnpKnP6Z"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B733920B7169;
-	Tue, 21 Jul 2026 13:11:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B733920B7169
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1B9F820B716A;
+	Tue, 21 Jul 2026 13:11:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1B9F820B716A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784664708;
-	bh=NzRxQvPwzEBTlATkVCaj62V6KcKKHvmr0KtL0Tzs39U=;
+	s=default; t=1784664709;
+	bh=pCGLDie0xV9RJpzuDsm4ooq0RYqsnGfSauPh4xAqSiU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UfS1Atu3Wowgk10zeXgEIgTu37K9NoSb2lkAiXA2hScmc7MkfNud5qkK4vQjfvtPy
-	 WLdQIrtHXwNX30i++mrUegeXIpIbuJk4Bx/cbCpzUZgfeep1jGy/iTekgr+zLu/ONc
-	 zt8EUnUg7PyXvRDx/HkPWQLnHEyK1Y203XgfnECk=
+	b=hnpKnP6Z4zrW2K8tIRM/j8EXiwFFtaqRbEJ5pOheySz+xbkbBIul05cTGVe5go2XA
+	 7xdZYAPC9iwhbq3aKXB9sWNeYId3epPSM+bg2ht7daHWf7z3LiYprPFf14finkHt+S
+	 iTOr/00eNxCYcZpfmagALucxS6gxwulldG1OPKyQ=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -43,9 +43,9 @@ Cc: catalin.marinas@arm.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: [PATCH v3 1/6] arm64: rsi: Add RSI host call structure and helper function
-Date: Tue, 21 Jul 2026 13:11:43 -0700
-Message-ID: <20260721201148.1441143-2-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v3 2/6] firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
+Date: Tue, 21 Jul 2026 13:11:44 -0700
+Message-ID: <20260721201148.1441143-3-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260721201148.1441143-1-kameroncarr@linux.microsoft.com>
 References: <20260721201148.1441143-1-kameroncarr@linux.microsoft.com>
@@ -57,74 +57,87 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add struct rsi_host_call to rsi_smc.h, which represents the host call
-data structure used by the Realm Management Monitor (RMM) for the
-RSI_HOST_CALL interface. The structure contains a 16-bit immediate field
-and 31 general-purpose register values, aligned to 256 bytes as required
-by the CCA RMM specification.
+Modify arm_smccc_hypervisor_has_uuid() to check is_realm_world() and
+use rsi_host_call() to query the hypervisor vendor UUID when inside a
+Realm. The realm path is factored into a helper,
+arm_smccc_realm_get_hypervisor_uuid(), that owns a file-static
+rsi_host_call buffer (uuid_hc) serialized by a spinlock.
 
-Add rsi_host_call() static inline wrapper in rsi_cmds.h that invokes
-SMC_RSI_HOST_CALL with the physical address of the host call structure.
-This will be used by Hyper-V guest code to route hypercalls through the
-RSI interface when running inside an Arm CCA Realm.
+The RSI-specific includes, file-static state and helper are guarded
+with CONFIG_ARM64 because <asm/rsi.h> does not exist on 32-bit ARM.
+
+For non-Realm environments, the existing arm_smccc_1_1_invoke() path
+is unchanged.
 
 Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
- arch/arm64/include/asm/rsi_cmds.h | 22 ++++++++++++++++++++++
- arch/arm64/include/asm/rsi_smc.h  |  7 +++++++
- 2 files changed, 29 insertions(+)
+ drivers/firmware/smccc/smccc.c | 41 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/rsi_cmds.h b/arch/arm64/include/asm/rsi_cmds.h
-index 2c8763876dfb7..9daf8008e5da2 100644
---- a/arch/arm64/include/asm/rsi_cmds.h
-+++ b/arch/arm64/include/asm/rsi_cmds.h
-@@ -88,6 +88,28 @@ static inline long rsi_set_addr_range_state(phys_addr_t start,
- 	return res.a0;
+diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
+index bdee057db2fd3..a876b7aa2dc99 100644
+--- a/drivers/firmware/smccc/smccc.c
++++ b/drivers/firmware/smccc/smccc.c
+@@ -12,6 +12,12 @@
+ #include <linux/platform_device.h>
+ #include <asm/archrandom.h>
+ 
++#ifdef CONFIG_ARM64
++#include <linux/cleanup.h>
++#include <linux/spinlock.h>
++#include <asm/rsi.h>
++#endif
++
+ static u32 smccc_version = ARM_SMCCC_VERSION_1_0;
+ static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+ 
+@@ -67,12 +73,45 @@ s32 arm_smccc_get_soc_id_revision(void)
  }
+ EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
  
-+/**
-+ * rsi_host_call - Make a Host call.
-+ * @host_call_struct: IPA of host call structure
-+ *
-+ * This call will fail if the IPA of the host call structure:
-+ * * is not aligned to 256 bytes,
-+ * * is not protected / encrypted,
-+ * * is RIPAS_EMPTY
-+ *
-+ * Returns:
-+ *  On success, returns RSI_SUCCESS.
-+ *  Otherwise, returns an error code.
++#ifdef CONFIG_ARM64
++static struct rsi_host_call uuid_hc;
++static DEFINE_SPINLOCK(uuid_hc_lock);
++
++/*
++ * Helper function to get the hypervisor UUID via an RsiHostCall.
 + */
-+static inline unsigned long rsi_host_call(phys_addr_t host_call_struct)
++static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res *res)
 +{
-+	struct arm_smccc_res res;
++	guard(spinlock_irqsave)(&uuid_hc_lock);
 +
-+	arm_smccc_smc(SMC_RSI_HOST_CALL, host_call_struct, 0, 0, 0, 0, 0, 0,
-+		      &res);
-+	return res.a0;
++	memset(&uuid_hc, 0, sizeof(uuid_hc));
++	uuid_hc.gprs[0] = ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
++
++	if (rsi_host_call(__pa_symbol(&uuid_hc)) != RSI_SUCCESS) {
++		res->a0 = SMCCC_RET_NOT_SUPPORTED;
++		return;
++	}
++
++	res->a0 = uuid_hc.gprs[0];
++	res->a1 = uuid_hc.gprs[1];
++	res->a2 = uuid_hc.gprs[2];
++	res->a3 = uuid_hc.gprs[3];
 +}
++#endif
 +
- /**
-  * rsi_attestation_token_init - Initialise the operation to retrieve an
-  * attestation token.
-diff --git a/arch/arm64/include/asm/rsi_smc.h b/arch/arm64/include/asm/rsi_smc.h
-index e19253f96c940..9cc57b5be0c02 100644
---- a/arch/arm64/include/asm/rsi_smc.h
-+++ b/arch/arm64/include/asm/rsi_smc.h
-@@ -142,6 +142,13 @@ struct realm_config {
- 	 */
- } __aligned(0x1000);
+ bool arm_smccc_hypervisor_has_uuid(const uuid_t *hyp_uuid)
+ {
+ 	struct arm_smccc_res res = {};
+ 	uuid_t uuid;
  
-+struct rsi_host_call {
-+	u16 immediate;
-+	u8 _padding[6];
-+	u64 gprs[31];
-+} __aligned(256);
-+static_assert(sizeof(struct rsi_host_call) == 256);
+-	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID, &res);
++#ifdef CONFIG_ARM64
++	if (is_realm_world())
++		arm_smccc_realm_get_hypervisor_uuid(&res);
++	else
++#endif
++		arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
++				     &res);
 +
- #endif /* __ASSEMBLER__ */
+ 	if (res.a0 == SMCCC_RET_NOT_SUPPORTED)
+ 		return false;
  
- /*
 -- 
 2.45.4
 
