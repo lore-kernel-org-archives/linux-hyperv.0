@@ -1,120 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4173C472F79
-	for <linux-hyperv@vger.kernel.org>; Tue, 21 Jul 2026 20:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA24472554
+	for <linux-hyperv@vger.kernel.org>; Tue, 21 Jul 2026 20:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784665498; cv=none; b=NeGEvsRKcXwbvTiXWFxq2l8/YgAOEiHvP6huounzd51wMe+5GcY5gXuNaUT1ccpcFtGeSlLsBCZEhOMXt454OQOd3hk3abs6HdDjCQ7o7D6W3HSgphg/SXC4XrAh8L5QYZdN3HyNBBrfsej/EnT9mrU0qtRvyXlII4F+il5ffnQ=
+	t=1784665524; cv=none; b=HeQZ3/1X8uGBDBcqW2u+bHTkK0Hyg7dFCmXeexIq3W3F278uRAr/7kn9LoPZ6tu2z1dpPIDF4IWyUVPBHoxf1cFLFRAqsve+A5gVYKIHRg3KbT0kwNg2hHtHxaWuC+pq2lPx8hwztd5yKm6khahpv4wpcmwJm8NuddoYlsMvLaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784665498; c=relaxed/simple;
-	bh=NIeq7geSak9H5TEgUpb1EMyzcPV5Y57ota2JRza3srQ=;
+	s=arc-20240116; t=1784665524; c=relaxed/simple;
+	bh=WQaqORI60j+f9BmqLpXO9AoWVxebfjPj81x0xNZDCLw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KkMhVEQme3HBdjN/9Q+VZ5J9yfpl+R7QJpDgIHVmY/mxHu8w3WEU2miFiZZDUtTOCUKvQtH3KHJh3k7m/kVNxV/E7vIxa5YqJAo2d0/ua87nT3sAB4IGIuHSP6okQ4yR3M4dcuJKGT+w+87N4mlKm8omMrJAbp+4GsdeA4blgTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSMGC5Cz; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=eITC9qc02d8nW5IlFh+VS1ZBhP0+F6pcbmY0U1qTSIEzRy0Ml6tCsGNv0t8FZMCaTedGb3+ERKBIPG98mVOyklB/HkO0WCtnFvE98VAoMfuE48U5vtOwtEvaEN9ZXC+BtkRirtNxMteV4LGSwym8+P+WZEfVek5W+XG3IV3vAfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpEytw+1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSMGC5Cz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05F91F000E9;
-	Tue, 21 Jul 2026 20:24:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpEytw+1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A601F00A3A;
+	Tue, 21 Jul 2026 20:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784665497;
-	bh=L+mDiI0TF1facxpNWsX0UGv7ACQgAgwC0YOlYdOmVZY=;
+	s=k20260515; t=1784665522;
+	bh=6yK2T40EKMneOvOSOkNtbquqj0/m6wjOn3PTBJtJ80s=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TSMGC5CzSlnbjjYpKm0q019BeuubcezY4uJe3/DJfYn7DQ79digO5Oq46EouTkl3m
-	 CKhO0G7QcKY9HNEMSAKO/DwfGgjjenMfZVYErxv2zwg87U8QzWUDulESCwnyzQAXhs
-	 z6nl6h0448uMPusJ6eo6Hj7I7E9Knj8i0FeJZbFeTecqnRGKLYGYFoR0vxL6OY4OPg
-	 Mg6/pmq4YcaF7/I7MBf2pB1WEsehi+dgtRkpig65zTv0LiWcwOjU3wWJBG+VelTwH9
-	 VbWVavc+Ywdjfzi7yAKlLOCi6LnRtpxRZEmpP6/qZaBHztisrwgpmFLnbR7/R+Et0M
-	 OgZ/ZSv50vbPw==
+	b=bpEytw+1p44sgQTY0JORux/nqXroOOkCOl2738jIGZC2M+2TwvFDkAbg0P0sfJFkq
+	 v7/UWxNGVhKhn7AB3rijYBlmFdw8xtRqh75f7UhJl5tKK7p/b35qKuQy+jcW0/KVgC
+	 5klyoXqphIntnpktUv9Nz8S1xdLrvvXY7Cw36oZZBajVr6UWrWs2PmiGDR9NoLFrIn
+	 iVqtnfiPyeTCn9Q1TAp8ZHOAwZeSo/t3qjqKqNb7KuKEtIPHj3fOua1vhh+o4uCspw
+	 whoKTlFSiTXo5uXbHSjRkNHR7bro3ja6Pr3wBJQod0cQ24z9euRtJgoPpkvsrgNyIY
+	 55YYDcwPWJtZw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/6] firmware: smccc: Detect hypervisor via RSI host
- call in CCA Realms
+Subject: Re: [PATCH v3 3/6] arm64: hyperv: Add per-CPU RSI host call
+ infrastructure for CCA Realms
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Kameron Carr" <kameroncarr@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260721201148.1441143-3-kameroncarr@linux.microsoft.com>
+In-Reply-To: <20260721201148.1441143-4-kameroncarr@linux.microsoft.com>
 References: <20260721201148.1441143-1-kameroncarr@linux.microsoft.com>
- <20260721201148.1441143-3-kameroncarr@linux.microsoft.com>
+ <20260721201148.1441143-4-kameroncarr@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jul 2026 20:24:56 +0000
-Message-Id: <20260721202456.E05F91F000E9@smtp.kernel.org>
+Date: Tue, 21 Jul 2026 20:25:22 +0000
+Message-Id: <20260721202522.A1A601F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] Missing compiler memory barrier causes dead-store elimination and =
-constant-folding of the RSI host call buffer.
+- [Critical] kcalloc does not guarantee the 256-byte alignment required by =
+the RSI host call structure, leading to RSI hypercall failures and boot cra=
+shes.
+- [Low] Unnecessary complex error handling and cleanup logic for an early b=
+oot memory allocation failure.
 --
 
---- Patch [2]: [PATCH v3 2/6] firmware: smccc: Detect hypervisor via RSI ho=
-st call in CCA Realms ---
-commit 5f8398cb1bc3327a58d70463ef37d994ffacca02
+--- Patch [3]: [PATCH v3 3/6] arm64: hyperv: Add per-CPU RSI host call infr=
+astructure for CCA Realms ---
+commit d6de874ec14c2f54fe70b4639d2b20bb51fd11c9
 Author: Kameron Carr <kameroncarr@linux.microsoft.com>
 
-firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
+arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
 
-This commit modifies arm_smccc_hypervisor_has_uuid() to use rsi_host_call()
-when operating in a Realm. It introduces arm_smccc_realm_get_hypervisor_uui=
-d()
-which uses a spinlock-protected file-static buffer to make the call.
+This patch introduces a per-CPU array of rsi_host_call structures to
+support Hyper-V hypercalls in Arm CCA Realm guests. The array is
+allocated dynamically during hyperv_init() so that non-Realm guests pay
+no memory overhead.
 
-> diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smcc=
-c.c
-> index bdee057db2fd3..a876b7aa2dc99 100644
-> --- a/drivers/firmware/smccc/smccc.c
-> +++ b/drivers/firmware/smccc/smccc.c
+> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+> index 4fdc26ade1d74..d9010e64ddd7c 100644
+> --- a/arch/arm64/hyperv/mshyperv.c
+> +++ b/arch/arm64/hyperv/mshyperv.c
 [ ... ]
-> @@ -67,12 +73,45 @@ s32 arm_smccc_get_soc_id_revision(void)
->  }
->  EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+> @@ -85,6 +90,20 @@ static int __init hyperv_init(void)
+>  	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
+>  		return 0;
 > =20
-> +#ifdef CONFIG_ARM64
-> +static struct rsi_host_call uuid_hc;
-> +static DEFINE_SPINLOCK(uuid_hc_lock);
-> +
-> +/*
-> + * Helper function to get the hypervisor UUID via an RsiHostCall.
-> + */
-> +static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res *re=
-s)
-> +{
-> +	guard(spinlock_irqsave)(&uuid_hc_lock);
-> +
-> +	memset(&uuid_hc, 0, sizeof(uuid_hc));
-> +	uuid_hc.gprs[0] =3D ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
-> +
-> +	if (rsi_host_call(__pa_symbol(&uuid_hc)) !=3D RSI_SUCCESS) {
-> +		res->a0 =3D SMCCC_RET_NOT_SUPPORTED;
-> +		return;
+> +	/*
+> +	 * The RSI host-call buffers are only ever used when
+> +	 * is_realm_world() is true. Skip the allocation on non-Realm
+> +	 * guests. A single contiguous array of nr_cpu_ids entries is
+> +	 * allocated; each CPU indexes into it by its processor ID.
+> +	 */
+> +	if (is_realm_world()) {
+> +		hv_hostcall_array =3D kcalloc(nr_cpu_ids,
+> +					    sizeof(struct rsi_host_call),
+> +					    GFP_KERNEL);
+
+[Severity: Critical]
+Does using kcalloc() violate the __aligned(256) constraint on struct
+rsi_host_call?
+
+If slab debugging (e.g., redzoning) or KASAN is enabled, the allocator
+offsets the returned pointer, breaking natural power-of-two alignment.
+
+When the unaligned IPA is passed to the RMM via SMC, it gets rejected,
+causing the guest to trigger a BUG_ON() inside hv_set_vpreg() during early
+boot.
+
+Would it be safer to use alloc_percpu() here to guarantee the required
+alignment natively?
+
+> +		if (!hv_hostcall_array)
+> +			return -ENOMEM;
+
+[Severity: Low]
+This isn't a bug, but since hyperv_init() runs early in the boot process, is
+it necessary to handle this memory allocation failure gracefully?
+
+At this stage, physical memory should be available, and an allocation failu=
+re
+typically means the system cannot boot anyway. It seems the explicit error
+handling and cleanup logic add unnecessary complexity.
+
 > +	}
 > +
-> +	res->a0 =3D uuid_hc.gprs[0];
+>  	/* Setup the guest ID */
+>  	guest_id =3D hv_generate_guest_id(LINUX_VERSION_CODE);
+>  	hv_set_vpreg(HV_REGISTER_GUEST_OS_ID, guest_id);
+[ ... ]
+> @@ -106,13 +125,13 @@ static int __init hyperv_init(void)
+> =20
+>  	ret =3D hv_common_init();
+>  	if (ret)
+> -		return ret;
+> +		goto free_hostcall_mem;
+> =20
+>  	ret =3D cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE, "arm64/hyperv_init:on=
+line",
+>  				hv_common_cpu_init, hv_common_cpu_die);
+>  	if (ret < 0) {
+>  		hv_common_free();
+> -		return ret;
+> +		goto free_hostcall_mem;
+>  	}
+> =20
+>  	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
+> @@ -125,6 +144,11 @@ static int __init hyperv_init(void)
+> =20
+>  	hyperv_initialized =3D true;
+>  	return 0;
+> +
+> +free_hostcall_mem:
+> +	kfree(hv_hostcall_array);
+> +	hv_hostcall_array =3D NULL;
+> +	return ret;
 
-[Severity: High]
-Does this code need a compiler memory barrier before reading back the resul=
-ts?
+[Severity: Low]
+This isn't a bug, but following up on the previous question, could we avoid
+adding this entire cleanup block since this is early boot code?
 
-Because __pa_symbol() uses RELOC_HIDE() to explicitly hide the pointer's
-provenance from the compiler's alias analysis, the compiler may not realize
-that rsi_host_call() modifies uuid_hc.
-
-Without a barrier(), could the compiler constant-fold the reads to their
-statically-known previous values? If so, this could result in res->a0 being
-optimized to ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID instead of the value
-returned by the hypervisor, and potentially allow the stores during
-initialization to be dead-store eliminated.
-
-> +	res->a1 =3D uuid_hc.gprs[1];
-> +	res->a2 =3D uuid_hc.gprs[2];
-> +	res->a3 =3D uuid_hc.gprs[3];
-> +}
-> +#endif
+>  }
+> =20
+>  early_initcall(hyperv_init);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721201148.1441=
-143-1-kameroncarr@linux.microsoft.com?part=3D2
+143-1-kameroncarr@linux.microsoft.com?part=3D3
