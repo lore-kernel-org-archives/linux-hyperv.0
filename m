@@ -1,136 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E14640B117;
-	Tue, 21 Jul 2026 15:43:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D75046C4AD;
+	Tue, 21 Jul 2026 15:47:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784648587; cv=none; b=on7ShpgS1WCZZGiA2IJF7F927KrWWtWUiLT3iK0i3cUZZDQKP4WgS42LLjt2Lh51rd3vsssBQT3juyjp6NWtlgf41KOGbJ9wiUaQL4NXMy52wIYtUJQ84suzN7B1/SK0HK314igKNFsVhbR1+DXX6wvumTTCbWCCddrudWVAf+s=
+	t=1784648878; cv=none; b=l5fqrjoB4dlhLQp1WYX9yJ21zYdXh7LxMWSKzObsE/xTQSNlYqj87HVKHfWrC4lCpAwqOQFtJJCUQJc7Fo0vUVTdqsDMCGi5wlvzJIYI1raxnCbOFSgEGt/txxrB72L6MKwb+3llFjMXC+85j0zUTn/EN7gg5ycMrfkx/WCGuJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784648587; c=relaxed/simple;
-	bh=TLiA58NKlXqcehB8I6NPh0DLuo8w7rymsSX/br9w1Ao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bQgIZu9wEXZ2VsundNpCyEsB+er5BKv/ZSKe27WD9R5cLrZcDu+mdbYsHPf5eWB7cpBk/N3bmS5vrut+mnLlinw0GSbRfc7LjYAI6PbStFiOoIcOIrsrsjNz7JzIXQ3mNSnc9dtskvKUJCU3srL2jwlNdrQKrVb8fQtJAaYh+tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i46hQ7WB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784648878; c=relaxed/simple;
+	bh=M8MPzZvQT2RyQ18aDCvrd4nr6hgXjCpwjihYz7nllns=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=YMY1v54nLpWoZhngkhSH8s5V2QZzqtpeH2jQLdwe4Utrm3/Uust81bPZFubiO9wcP2KiKxJuOGCheGNNICQ49evsLKk1bcxg3iZuzn2C8Y9mrPbXsiH+JvHanpu057UCGj17zI/6VzGLIl9dQOB3F8q43Ia6LMK2hHqykT3IvAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8Fa7X93; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i46hQ7WB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47751F000E9;
-	Tue, 21 Jul 2026 15:42:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8Fa7X93"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A961F000E9;
+	Tue, 21 Jul 2026 15:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784648586;
-	bh=K8km+ZQgkLUVNh5jQNamAtWyAYxH8WzuI6GZYyhCw5A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=i46hQ7WBWTSjsJoo0+aveeWDcCrbR28cpcdsOhYe47u8VnVADMzUCzgKDgO1zrrFL
-	 RvX8M8IyZbwW6+2/ZFYKqtdyCdD7Bu7yegasMnOCMW6PitAN9yJ5HbJKOCXUKS/Jo8
-	 L6csKx3I2nudveiiZxOEhTUX4Y72B+kVDuKRxQiwFJVlPNIgxTlo2pnnik+08H/vAB
-	 wOZJ3QkGLxPrbYexz4Z2lPFM52xsYgt5WeZbuKkkIur+qqoEMW+gxo5TgYo20cxjeF
-	 8dDfaslPMlAeyIafDK2s4i66yRQGvgmYRh1ZHlvhjlF4y8buBZXjFVNi7m2f+SrPSV
-	 Ve0R4XiL7aGhw==
-Message-ID: <3ed2043b-88e7-4a86-9efb-fe788191e8e8@kernel.org>
-Date: Tue, 21 Jul 2026 17:42:53 +0200
+	s=k20260515; t=1784648876;
+	bh=4pTB0MGXR4Vibqr5zUud9f3dqcCrmtj7Vhv9dny9GgU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=N8Fa7X93zQXemX3JSwp2Wm6m89EWzc7WgXxR4uOzwd3Axr6xZR2bU6vXQ6QELowBd
+	 RM3N5AFR4Fw6Y7fMV90XArD6oN5kIy37cVq0LqeynxR2JJfGGfRdqhP3GQ4r/6DEus
+	 SWxaskURo3HOzXb2eSf3rFvHQGKKjDI83vVCLs367SQgOAKUV5MJ4Lwi+rmkwY2pY8
+	 gOl98ru6J153w5yDTIyg36KlGwSDnbgyiSrYItVEN6mi7MNTq88dpJsSn0WxcCXxQN
+	 DG8siPGeP6UzRX/Xt4WRHF51EmxPb+LQw3bfZvI9zNj4tYioFe9TLEljjCcbGYMuAS
+	 BC0jC+nLxoBuQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/2] Drivers: hv: vmbus: Replace
+ lockdep_hardirq_threaded() with lockdep annotation
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260721153216.382536-2-bigeasy@linutronix.de>
+References: <20260721153216.382536-1-bigeasy@linutronix.de>
+ <20260721153216.382536-2-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Jul 2026 15:47:56 +0000
+Message-Id: <20260721154756.A2A961F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/8] mm/hmm: add hmm_range_fault_unlocked_timeout() for
- mmap lock-drop support
-To: Stanislav Kinsburskii <skinsburskii@gmail.com>, airlied@gmail.com,
- akhilesh@ee.iitb.ac.in, akpm@linux-foundation.org, corbet@lwn.net,
- dakr@kernel.org, decui@microsoft.com, haiyangz@microsoft.com, jgg@ziepe.ca,
- kees@kernel.org, kys@microsoft.com, leon@kernel.org, liam@infradead.org,
- lizhi.hou@amd.com, ljs@kernel.org, longli@microsoft.com, lyude@redhat.com,
- maarten.lankhorst@linux.intel.com, mamin506@gmail.com, mhocko@suse.com,
- mripard@kernel.org, nouveau@lists.freedesktop.org, ogabbay@kernel.org,
- oleg@redhat.com, rppt@kernel.org, shuah@kernel.org, simona@ffwll.ch,
- skhan@linuxfoundation.org, surenb@google.com, tzimmermann@suse.de,
- vbabka@kernel.org, wei.liu@kernel.org
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rdma@vger.kernel.org
-References: <178413903133.1155966.3904063656020521607.stgit@skinsburskii>
- <178413936536.1155966.8918127042760531802.stgit@skinsburskii>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <178413936536.1155966.8918127042760531802.stgit@skinsburskii>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 7/15/26 20:16, Stanislav Kinsburskii wrote:
-> hmm_range_fault() requires the caller to hold the mmap read lock for the
-> duration of the call. This is incompatible with mappings whose fault
-> handler may release the mmap lock, notably userfaultfd-managed regions,
-> where handle_mm_fault() can return VM_FAULT_RETRY or VM_FAULT_COMPLETED
-> after dropping the lock. Drivers that need to populate device page tables
-> for such mappings have no way to do so today.
-> 
-> Add hmm_range_fault_unlocked_timeout() for callers that do not need to hold
-> mmap_lock across any work outside the HMM fault itself. The helper takes
-> mmap_read_lock_killable() internally, calls the common HMM fault
-> implementation, and releases the lock before returning if it is still held.
-> The timeout is specified in jiffies; passing 0 retries indefinitely, while
-> a non-zero timeout makes the helper return -EBUSY when the retry budget
-> expires.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-The timeout does not / cannot affect how long we might be stuck without the mmap
-lock in e.g., the userfaultfd handler. And also not how long it would take to
-actually grab the mmap lock.
+Pre-existing issues:
+- [Critical] The clock event timer interrupt (HVMSG_TIMER_EXPIRED) is incor=
+rectly processed in a kthread on PREEMPT_RT, violating the architectural re=
+quirement that the system tick must run in hardirq context.
+--
 
-That's expected with the timeout, right?
+--- Patch [1]: [PATCH v2 1/2] Drivers: hv: vmbus: Replace lockdep_hardirq_t=
+hreaded() with lockdep annotation ---
+commit f939a4b9727e456e689d5d7488e6095b1358e5b5
+Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-[...]
+Drivers: hv: vmbus: Replace lockdep_hardirq_threaded() with lockdep annotat=
+ion
 
+This commit replaces the use of lockdep_hardirq_threaded() with a lockdep
+annotation. This limits the threaded context on PREEMPT_RT to __vmbus_isr()
+and clarifies that the ISR is not a shared handler.
 
-Nothing else jumped at me.
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 23206640c6139..44877664d9d08 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -1384,8 +1384,19 @@ void vmbus_isr(void)
+>  	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+>  		vmbus_irqd_wake();
 
--- 
-Cheers,
+[Severity: Critical]
+This isn't a bug introduced by this patch, but is it safe to defer all
+VMbus interrupt processing to the vmbus_irqd kthread on PREEMPT_RT?
 
-David
+When booting a PREEMPT_RT kernel on a Hyper-V host using legacy timer mode,
+the kthread handles the hypervisor timer message and invokes the timer ISR:
+
+vmbus_message_sched()
+    if (msg->header.message_type =3D=3D HVMSG_TIMER_EXPIRED) {
+        hv_stimer0_isr();
+
+This executes the clock event handler in thread context, which breaks the
+requirement that the system tick must run in hardirq context:
+
+hv_stimer0_isr()
+    ce =3D this_cpu_ptr(hv_clock_event);
+    ce->event_handler(ce);
+
+Because get_irq_regs() returns NULL when called from a kthread, calling
+tick_handle_periodic() and then
+update_process_times(user_mode(get_irq_regs())) will dereference a NULL
+pointer and panic the kernel.
+
+Alternatively, if high-resolution timers are used, tick_nohz_handler() sees
+a NULL regs pointer and skips tick_sched_handle(), completely stalling the
+scheduler tick and RCU updates, freezing the system.
+
+>  	} else {
+> -		lockdep_hardirq_threaded();
+> +		static DEFINE_WAIT_OVERRIDE_MAP(vmbus_map, LD_WAIT_CONFIG);
+> +
+> +		/*
+> +		 * vmbus_isr is never force-threaded and always invoked at hard
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721153216.3825=
+36-1-bigeasy@linutronix.de?part=3D1
