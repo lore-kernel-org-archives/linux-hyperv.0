@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880AA43634C
-	for <linux-hyperv@vger.kernel.org>; Tue, 21 Jul 2026 20:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4173C472F79
+	for <linux-hyperv@vger.kernel.org>; Tue, 21 Jul 2026 20:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784665472; cv=none; b=C8TAshlgGd/91lStJbqL1QKPjwK2POXZG2XkpyIyTHrP6nzIauLzhjmIpIA/2vpqxtFuWmDqPZzlkQp/AwCUc45iKIxQnQPXkVx+M22KePtSI+HnGerlKndlVZNfg7IAORuljz1SRMj6a0Y8zXPWR07GpQe22PV1jg+PR0NjbDQ=
+	t=1784665498; cv=none; b=NeGEvsRKcXwbvTiXWFxq2l8/YgAOEiHvP6huounzd51wMe+5GcY5gXuNaUT1ccpcFtGeSlLsBCZEhOMXt454OQOd3hk3abs6HdDjCQ7o7D6W3HSgphg/SXC4XrAh8L5QYZdN3HyNBBrfsej/EnT9mrU0qtRvyXlII4F+il5ffnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784665472; c=relaxed/simple;
-	bh=3T9+Uu/1j5E+VWZUVamomoS8Sm2zIgYRnBJTY3rHkDM=;
+	s=arc-20240116; t=1784665498; c=relaxed/simple;
+	bh=NIeq7geSak9H5TEgUpb1EMyzcPV5Y57ota2JRza3srQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=lWICtJcpC6JVRbJ/BikAY9/w1FUu+B2T51K14NaE9Y3FaANoesSrB1T9gtEJampMoHHDE1kL5fZtW3j+POP118Qqx1RZzi5KF+TzsX2LdmizAFPY8CfWckMSL+kYYdnZ504uS3Zk6ADaPnqRkU6tYvWOfhYRVXZGOzPAHDMva28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NIqJehYy; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=KkMhVEQme3HBdjN/9Q+VZ5J9yfpl+R7QJpDgIHVmY/mxHu8w3WEU2miFiZZDUtTOCUKvQtH3KHJh3k7m/kVNxV/E7vIxa5YqJAo2d0/ua87nT3sAB4IGIuHSP6okQ4yR3M4dcuJKGT+w+87N4mlKm8omMrJAbp+4GsdeA4blgTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSMGC5Cz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NIqJehYy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35E0E1F000E9;
-	Tue, 21 Jul 2026 20:24:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSMGC5Cz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05F91F000E9;
+	Tue, 21 Jul 2026 20:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784665471;
-	bh=v6Qnyens/vVjjKkcPHTO7amXxx/4fB3svWNpPjtgx3E=;
+	s=k20260515; t=1784665497;
+	bh=L+mDiI0TF1facxpNWsX0UGv7ACQgAgwC0YOlYdOmVZY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NIqJehYyeX/XjUtmI7LqSXwUwSFAQI/9OA7COndj0OdRPvtTMfKE8Uato54f+nluQ
-	 0Emd14j0seiG67TzbK9uzoYZOquKRkwEM7CHtwnZF8URiOMtiBk6IuVeOAyHG/IpFL
-	 k79vnHrvY+xgFiN043p6cdX9ggzn9IF2tlr5ayFGHi8rDQLCn1681cHSVYdggzeMWd
-	 WR4K0z3+Lzu2L5HK+AB4kn3lfo+s8NPe41PwkxXXNXCGidRofeAkw5Xz1kF1OfvdDH
-	 /ODvIQJ6ECxQOGnUYRwOklnOR450JLArRaMg6uy9XoPg57RBVhp1Sn5x+H55twKgR4
-	 WlenQPi8aHglg==
+	b=TSMGC5CzSlnbjjYpKm0q019BeuubcezY4uJe3/DJfYn7DQ79digO5Oq46EouTkl3m
+	 CKhO0G7QcKY9HNEMSAKO/DwfGgjjenMfZVYErxv2zwg87U8QzWUDulESCwnyzQAXhs
+	 z6nl6h0448uMPusJ6eo6Hj7I7E9Knj8i0FeJZbFeTecqnRGKLYGYFoR0vxL6OY4OPg
+	 Mg6/pmq4YcaF7/I7MBf2pB1WEsehi+dgtRkpig65zTv0LiWcwOjU3wWJBG+VelTwH9
+	 VbWVavc+Ywdjfzi7yAKlLOCi6LnRtpxRZEmpP6/qZaBHztisrwgpmFLnbR7/R+Et0M
+	 OgZ/ZSv50vbPw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/6] Drivers: hv: Mark shared memory as decrypted for
- CCA Realms
+Subject: Re: [PATCH v3 2/6] firmware: smccc: Detect hypervisor via RSI host
+ call in CCA Realms
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Kameron Carr" <kameroncarr@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260721201148.1441143-5-kameroncarr@linux.microsoft.com>
+In-Reply-To: <20260721201148.1441143-3-kameroncarr@linux.microsoft.com>
 References: <20260721201148.1441143-1-kameroncarr@linux.microsoft.com>
- <20260721201148.1441143-5-kameroncarr@linux.microsoft.com>
+ <20260721201148.1441143-3-kameroncarr@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jul 2026 20:24:30 +0000
-Message-Id: <20260721202431.35E0E1F000E9@smtp.kernel.org>
+Date: Tue, 21 Jul 2026 20:24:56 +0000
+Message-Id: <20260721202456.E05F91F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,81 +47,74 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] Using `kmalloc()` for memory passed to `set_memory_decrypted()` ca=
-uses silent memory corruption on x86 and initialization failures on ARM64 d=
-ue to a lack of strict page alignment and KASAN/MTE pointer tagging.
+- [High] Missing compiler memory barrier causes dead-store elimination and =
+constant-folding of the RSI host call buffer.
 --
 
---- Patch [4]: [PATCH v3 4/6] Drivers: hv: Mark shared memory as decrypted =
-for CCA Realms ---
-commit 21b5c4cec77eb56971c17ededee7133820fad287
+--- Patch [2]: [PATCH v3 2/6] firmware: smccc: Detect hypervisor via RSI ho=
+st call in CCA Realms ---
+commit 5f8398cb1bc3327a58d70463ef37d994ffacca02
 Author: Kameron Carr <kameroncarr@linux.microsoft.com>
 
-Drivers: hv: Mark shared memory as decrypted for CCA Realms
+firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
 
-This patch extends confidential VM isolation memory decryption to Arm CCA R=
-ealm
-guests during hypercall memory initialization. It introduces a helper for C=
-CA
-isolation and updates the hypercall buffer allocation path to use it.
+This commit modifies arm_smccc_hypervisor_has_uuid() to use rsi_host_call()
+when operating in a Realm. It introduces arm_smccc_realm_get_hypervisor_uui=
+d()
+which uses a spinlock-protected file-static buffer to make the call.
 
-> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-> index 6b67ac6167891..0f9412fcb9571 100644
-> --- a/drivers/hv/hv_common.c
-> +++ b/drivers/hv/hv_common.c
+> diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smcc=
+c.c
+> index bdee057db2fd3..a876b7aa2dc99 100644
+> --- a/drivers/firmware/smccc/smccc.c
+> +++ b/drivers/firmware/smccc/smccc.c
 [ ... ]
-> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
->  	 * online and then taken offline
->  	 */
->  	if (!*inputarg) {
-> -		mem =3D kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
-> +		mem =3D kmalloc(alloc_size, flags);
->  		if (!mem)
->  			return -ENOMEM;
+> @@ -67,12 +73,45 @@ s32 arm_smccc_get_soc_id_revision(void)
+>  }
+>  EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
 > =20
-> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
->  		}
-> =20
->  		if (!ms_hyperv.paravisor_present &&
-> -		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
-> -			ret =3D set_memory_decrypted((unsigned long)mem, pgcount);
-> +		    (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
-> +		     hv_isolation_type_cca())) {
-> +			ret =3D set_memory_decrypted((unsigned long)mem,
-> +						   alloc_size >> PAGE_SHIFT);
+> +#ifdef CONFIG_ARM64
+> +static struct rsi_host_call uuid_hc;
+> +static DEFINE_SPINLOCK(uuid_hc_lock);
+> +
+> +/*
+> + * Helper function to get the hypervisor UUID via an RsiHostCall.
+> + */
+> +static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res *re=
+s)
+> +{
+> +	guard(spinlock_irqsave)(&uuid_hc_lock);
+> +
+> +	memset(&uuid_hc, 0, sizeof(uuid_hc));
+> +	uuid_hc.gprs[0] =3D ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
+> +
+> +	if (rsi_host_call(__pa_symbol(&uuid_hc)) !=3D RSI_SUCCESS) {
+> +		res->a0 =3D SMCCC_RET_NOT_SUPPORTED;
+> +		return;
+> +	}
+> +
+> +	res->a0 =3D uuid_hc.gprs[0];
 
 [Severity: High]
-This isn't a bug introduced by this patch, but is it safe to pass memory=20
-allocated by kmalloc to set_memory_decrypted() in hv_common_cpu_init()?
+Does this code need a compiler memory barrier before reading back the resul=
+ts?
 
-When kmalloc is used with SLUB_DEBUG, the returned pointer is not strictly=
-=20
-page-aligned. Because set_memory_decrypted() operates on page frames and
-rounds down to the page boundary, this could silently decrypt adjacent slab
-objects or metadata on x86 architectures.
+Because __pa_symbol() uses RELOC_HIDE() to explicitly hide the pointer's
+provenance from the compiler's alias analysis, the compiler may not realize
+that rsi_host_call() modifies uuid_hc.
 
-Additionally, on arm64 systems with MTE enabled, kmalloc returns a tagged=20
-pointer. Passing a tagged pointer to set_memory_decrypted() causes its
-internal __is_lm_address() check to fail, leading to initialization failures
-during boot or CPU hotplug for CCA guests.
+Without a barrier(), could the compiler constant-fold the reads to their
+statically-known previous values? If so, this could result in res->a0 being
+optimized to ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID instead of the value
+returned by the hypervisor, and potentially allow the stores during
+initialization to be dead-store eliminated.
 
-Would it be better to allocate this memory using the page allocator, such a=
-s=20
-with __get_free_pages(), to ensure the address is strictly page-aligned and=
-=20
-untagged?
-
->  			if (ret) {
->  				/* It may be unsafe to free 'mem' */
->  				return ret;
->  			}
-> =20
-> -			memset(mem, 0x00, pgcount * HV_HYP_PAGE_SIZE);
-> +			memset(mem, 0x00, alloc_size);
->  		}
+> +	res->a1 =3D uuid_hc.gprs[1];
+> +	res->a2 =3D uuid_hc.gprs[2];
+> +	res->a3 =3D uuid_hc.gprs[3];
+> +}
+> +#endif
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721201148.1441=
-143-1-kameroncarr@linux.microsoft.com?part=3D4
+143-1-kameroncarr@linux.microsoft.com?part=3D2
