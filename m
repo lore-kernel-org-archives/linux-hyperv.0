@@ -1,123 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2960F400DE8;
-	Tue, 21 Jul 2026 15:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCDB4CA297;
+	Tue, 21 Jul 2026 15:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784646011; cv=none; b=lcF36BFwMxxtL7s73OP5qZ0y3ja5R3Ouftaom8QmVl3j9yn0ZMLe1QTuQvjoKBQKNudtFSsHc4rbe+vY8sfahrDFwS4WMlxZWBP8Kz1iue0obtbYYHPp7b/YhoQlVhqEghlAnjlI08XFa+NfRCULY5JmeqdvtapSFZ1sN7BL8ug=
+	t=1784646693; cv=none; b=f5LbS4JSAeyuvUpSv8yNU6urAgutVwMsQUNNAKG10MftHssxRJUtjRxU3QiNHc6NQN/7bmYzrakf9FCsBdS7ZC0dU0crVk/v37ZbtIDOBE00Ap8q4zgqEfcLwdPX0wELdEIYZ0JUNKPZ2kj9EPrx3/SBwuPJz20tNGqkspAOmTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784646011; c=relaxed/simple;
-	bh=r9UYPatv6skLLRFDeo7SoqTiK3GppharIlTNsuhGi5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MO3mEPchxJ8Y+rNvBSEfq0Pp311rRfrsirh0hmBnCTmkKkagPdg0x2YAxWzG7gKBYx55brfA7X/daoTMXX6F9/VXR6X893f10JSid04pw/HjykDh5284is5CNZNzk6NKre2HPLEVrF68icRQ10ckE5nXn/9rdjS22Iq4/SlRtT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1RWUFKf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784646693; c=relaxed/simple;
+	bh=1KBMtwbhoxNlkuFvW4iG9rKziqVRdJEEINSGikeLCMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ft9I17FWi6PtzsnuGlnJqsmjvFfSSrGCBZYfUJ/NEkyBQZX/ByCPQ8ZhDiWmmG++HXxK9ee9W00HUnNz5Jc+l0/S+eL1T9hLa81ZakB8RPuMmjqQ4UvH4vuigxOv9JTN4Rdwhl2kRALmAKWXn/0/VpHNw/0g14OWK0hsrEf2f44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=p+DHDIBy; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1RWUFKf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2701F000E9;
-	Tue, 21 Jul 2026 15:00:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784646009;
-	bh=QhjO4MUBUxBh+gBOxm277NyOJD7wDouDLOhda8YuBM4=;
-	h=From:To:Cc:Subject:Date;
-	b=I1RWUFKf9XW4I/EWAvkkhWQ5UtBDUqpUNvArXnVtZUGkOsrIBBR2BJAtMk3ohst7a
-	 trPcC/fIq2G84xCjkzj0N4SaM+aXcv4ldg3DaZNzJDbgpu5KevPpxlNmfc80H5l0RM
-	 Ba80BCpe8rtvo2syiv/wfW+UvLl3WwcIaPDZO/rHGJTIVEZmd6xTyRermZzM5lXnUO
-	 ZZS4tTNHsaXEic6mKCVMrCnWljrIXjVToKWxJFd04r9KN4gTIy8AZvw0LkP6ZwfBEV
-	 FrLyaQOZCfsMWWm3FpvfqEu2pbGDzITepxcsU4lPdTANluyWaPfVATH0N0vItv14Aj
-	 NFX7nojix7IgA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Long Li <longli@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Shiraz Saleem <shirazsaleem@microsoft.com>
-Cc: linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="p+DHDIBy"
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+	id B9BE720B7169; Tue, 21 Jul 2026 08:11:13 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B9BE720B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1784646673;
+	bh=9pxGf+OkgeopOuZ5BtX5WHOIppBAms1TAFL1DRdZThk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p+DHDIByx6HKlavr08TluccSWWlPXFXL3g74+NeApWXRqR4u/qWYO8btnkDM68DYJ
+	 a9aK/cX/gaJCFBe1m2prsY2BXs/ozOikdmh0Qj5/Xb0I1Zekncj6JYGkFg6/5JNN/P
+	 HI0kPKZotMM+ctmKfnhGRJXAigj94K7727QbVAqI=
+Date: Tue, 21 Jul 2026 08:11:13 -0700
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Hardik Garg <hargar@linux.microsoft.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH rdma-next] RDMA/mana_ib: drain QP references after partial table insertion
-Date: Tue, 21 Jul 2026 18:00:01 +0300
-Message-ID: <20260721-if-mana-table-store-qp-qids-partiall-v1-1-8fb3d2d2b559@nvidia.com>
-X-Mailer: git-send-email 2.55.0
+Subject: Re: [PATCH v2] Drivers: hv: vmbus: add VTL2 redirect connection ID
+Message-ID: <al+MEexKix4eMlB2@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260717001837.635756-1-hargar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260721-if-mana-table-store-qp-qids-partiall-afa14f023261
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717001837.635756-1-hargar@linux.microsoft.com>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Fri, Jul 17, 2026 at 12:18:37AM +0000, Hardik Garg wrote:
+> VMBus sends CHANNELMSG_INITIATE_CONTACT through a Hyper-V message
+> connection ID. Older protocol versions use VMBUS_MESSAGE_CONNECTION_ID,
+> while protocol version 5.0 and newer normally use
+> VMBUS_MESSAGE_CONNECTION_ID_4.
+> 
+> For a VTL2 kernel using VMBus protocol 5.0 or newer, the host
+> may expect INITIATE_CONTACT on either the redirect connection ID or
+> VMBUS_MESSAGE_CONNECTION_ID_4. There is no capability indication that
+> identifies which ID is active, so the driver must determine it at runtime.
+> 
+> During VMBus negotiation, the redirect ID is tried first because it is
+> used by VTL2 configurations with VMBus redirection enabled. If the
+> redirect ID is unavailable, the host rejects it synchronously with
+> HV_STATUS_INVALID_CONNECTION_ID, allowing fallback to the standard ID.
+> 
+> Return a distinct error for an invalid Initiate Contact connection ID so
+> this fallback does not mask other post-message failures or
+> protocol-version rejections. Preserve the existing connection ID
+> selection for older protocol versions or when running below VTL2.
+> 
+> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
+> ---
+> 
+> Notes (v2-changelog):
+>     Changes in v2:
+>     - Replace the connection ID array and loop with a single redirect
+>       attempt, falling back to VMBUS_MESSAGE_CONNECTION_ID_4 only on
+>       -ENXIO.
+>     - Remove redundant connection-state and timeout checks and the
+>       unreachable return after the loop.
+>     - Simplify the commit message to describe runtime connection ID
+>       selection without relay and message-port implementation details.
+>     - Clarify the protocol 5.0 helper and VTL2 redirect comments, remove
+>       redundant comments, and use an exact VTL2 check.
+>     
+>     Link to v1: https://lore.kernel.org/r/20260714213838.3367103-1-hargar@linux.microsoft.com
+> 
+>  drivers/hv/connection.c   | 47 +++++++++++++++++++++++----------------
+>  drivers/hv/hyperv_vmbus.h |  2 ++
+>  2 files changed, 30 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+> index b5b322ce16df4..0fd50d4cb5739 100644
+> --- a/drivers/hv/connection.c
+> +++ b/drivers/hv/connection.c
+> @@ -72,7 +72,8 @@ module_param(max_version, uint, S_IRUGO);
+>  MODULE_PARM_DESC(max_version,
+>  		 "Maximal VMBus protocol version which can be negotiated");
+>  
+> -int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+> +static int vmbus_try_connection_id(struct vmbus_channel_msginfo *msginfo,
+> +				   u32 version, u32 connection_id)
+>  {
+>  	int ret = 0;
+>  	struct vmbus_channel_initiate_contact *msg;
+> @@ -87,20 +88,20 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+>  	msg->vmbus_version_requested = version;
+>  
+>  	/*
+> -	 * VMBus protocol 5.0 (VERSION_WIN10_V5) and higher require that we must
+> -	 * use VMBUS_MESSAGE_CONNECTION_ID_4 for the Initiate Contact Message,
+> -	 * and for subsequent messages, we must use the Message Connection ID
+> -	 * field in the host-returned Version Response Message. And, with
+> -	 * VERSION_WIN10_V5 and higher, we don't use msg->interrupt_page, but we
+> -	 * tell the host explicitly that we still use VMBUS_MESSAGE_SINT(2) for
+> -	 * compatibility.
+> +	 * For VMBus protocol 5.0 (VERSION_WIN10_V5) and higher, use the
+> +	 * caller-supplied connection_id for the Initiate Contact message so
+> +	 * the caller can implement the required retry scheme. For subsequent
+> +	 * messages, use the Message Connection ID field in the host-returned
+> +	 * Version Response message. With VERSION_WIN10_V5 and higher, we don't
+> +	 * use msg->interrupt_page, but tell the host explicitly that we still
+> +	 * use VMBUS_MESSAGE_SINT(2) for compatibility.
+>  	 *
+>  	 * On old hosts, we should always use VMBUS_MESSAGE_CONNECTION_ID (1).
+>  	 */
+>  	if (version >= VERSION_WIN10_V5) {
+>  		msg->msg_sint = VMBUS_MESSAGE_SINT;
+>  		msg->msg_vtl = ms_hyperv.vtl;
+> -		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID_4;
+> +		vmbus_connection.msg_conn_id = connection_id;
+>  	} else {
+>  		msg->interrupt_page = virt_to_phys(vmbus_connection.int_page);
+>  		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID;
+> @@ -165,6 +166,22 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+>  	return ret;
+>  }
+>  
+> +int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+> +{
+> +	int ret;
+> +
+> +	/* Try the redirect ID first for VTL2 with VMBus protocol 5.0+. */
+> +	if (version >= VERSION_WIN10_V5 && ms_hyperv.vtl == 2) {
+> +		ret = vmbus_try_connection_id(msginfo, version,
+> +					      VMBUS_MESSAGE_CONNECTION_ID_REDIRECT);
+> +		if (ret != -ENXIO)
+> +			return ret;
+> +	}
+> +
+> +	return vmbus_try_connection_id(msginfo, version,
+> +				       VMBUS_MESSAGE_CONNECTION_ID_4);
+> +}
+> +
+>  /*
+>   * vmbus_connect - Sends a connect request on the partition service connection
+>   */
+> @@ -457,18 +474,10 @@ int vmbus_post_msg(void *buffer, size_t buflen, bool can_sleep)
+>  
+>  		switch (ret) {
+>  		case HV_STATUS_INVALID_CONNECTION_ID:
+> -			/*
+> -			 * See vmbus_negotiate_version(): VMBus protocol 5.0
+> -			 * and higher require that we must use
+> -			 * VMBUS_MESSAGE_CONNECTION_ID_4 for the Initiate
+> -			 * Contact message, but on old hosts that only
+> -			 * support VMBus protocol 4.0 or lower, here we get
+> -			 * HV_STATUS_INVALID_CONNECTION_ID and we should
+> -			 * return an error immediately without retrying.
+> -			 */
+> +			/* Allow INITIATE_CONTACT to try another connection ID. */
+>  			hdr = buffer;
+>  			if (hdr->msgtype == CHANNELMSG_INITIATE_CONTACT)
+> -				return -EINVAL;
+> +				return -ENXIO;
+>  			/*
+>  			 * We could get this if we send messages too
+>  			 * frequently.
+> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+> index 05a36854389af..87f8aca1a9fb5 100644
+> --- a/drivers/hv/hyperv_vmbus.h
+> +++ b/drivers/hv/hyperv_vmbus.h
+> @@ -110,6 +110,8 @@ struct hv_input_post_message {
+>  enum {
+>  	VMBUS_MESSAGE_CONNECTION_ID	= 1,
+>  	VMBUS_MESSAGE_CONNECTION_ID_4	= 4,
+> +	/* VTL2 redirect connection ID for INITIATE_CONTACT. */
+> +	VMBUS_MESSAGE_CONNECTION_ID_REDIRECT = 0x800074,
+>  	VMBUS_MESSAGE_PORT_ID		= 1,
+>  	VMBUS_EVENT_CONNECTION_ID	= 2,
+>  	VMBUS_EVENT_PORT_ID		= 2,
+> -- 
+> 2.34.1
 
-mana_table_store_ud_qp() publishes a QP at its send-queue id before
-inserting the receive-queue id, dropping the XArray lock between the two
-xa_insert_irq() calls. A concurrent completion handler can look up the QP
-and take a transient reference. When the second insertion fails, the
-rollback erased only the send-queue entry and returned, leaving both the
-initial table reference and the transient reference outstanding while RDMA
-core frees the QP, causing a use-after-free.
-
-Drain the reference as normal destruction does: drop the initial reference
-and wait for qp->free, releasing the QP only after every concurrent lookup
-returns its reference.
-
-Fixes: 8001e9257eca ("RDMA/mana_ib: extend mana QP table")
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
-Konstantin,
-
-I saw this in one of the Sashiko runs, and I believe the AI is
-correct. The reference can be acquired through the
-GDMA_EQE_RNIC_QP_FATAL event.
-
-Thanks
----
- drivers/infiniband/hw/mana/qp.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/infiniband/hw/mana/qp.c b/drivers/infiniband/hw/mana/qp.c
-index b5ff07e34eb7..c52f3ec14032 100644
---- a/drivers/infiniband/hw/mana/qp.c
-+++ b/drivers/infiniband/hw/mana/qp.c
-@@ -472,6 +472,12 @@ static void mana_table_remove_rc_qp(struct mana_ib_dev *mdev, struct mana_ib_qp
- 	xa_erase_irq(&mdev->qp_table_wq, qp->ibqp.qp_num);
- }
- 
-+static void mana_table_drain_qp_ref(struct mana_ib_qp *qp)
-+{
-+	mana_put_qp_ref(qp);
-+	wait_for_completion(&qp->free);
-+}
-+
- static int mana_table_store_ud_qp(struct mana_ib_dev *mdev, struct mana_ib_qp *qp)
- {
- 	u32 qids = qp->ud_qp.queues[MANA_UD_SEND_QUEUE].id | MANA_SENDQ_MASK;
-@@ -490,6 +496,7 @@ static int mana_table_store_ud_qp(struct mana_ib_dev *mdev, struct mana_ib_qp *q
- 
- remove_sq:
- 	xa_erase_irq(&mdev->qp_table_wq, qids);
-+	mana_table_drain_qp_ref(qp);
- 	return err;
- }
- 
-@@ -537,8 +544,7 @@ static void mana_table_remove_qp(struct mana_ib_dev *mdev,
- 			  qp->ibqp.qp_type);
- 		return;
- 	}
--	mana_put_qp_ref(qp);
--	wait_for_completion(&qp->free);
-+	mana_table_drain_qp_ref(qp);
- }
- 
- static int mana_ib_create_rc_qp(struct ib_qp *ibqp, struct ib_pd *ibpd,
-
----
-base-commit: 74f49255492a62658f36bf2578d7916f1c6ffad1
-change-id: 20260721-if-mana-table-store-qp-qids-partiall-afa14f023261
-
-Best regards,
---  
-Leon Romanovsky <leonro@nvidia.com>
-
+Reviewed-by: Saurabh Sengar <ssengar@linux.microsoft.com>
