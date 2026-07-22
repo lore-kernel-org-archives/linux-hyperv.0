@@ -1,196 +1,339 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023100.outbound.protection.outlook.com [40.107.159.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DFE46D08E;
-	Wed, 22 Jul 2026 09:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.100
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784711900; cv=fail; b=EhYT0+KQslNMDNpY1A9qN/gXHDaaQfvPQhJGNBSlsSivTolC1cRHzfbD2jz2cO2B98rANSCqho9EoBOQ5qi5ysNIpjZdDf7Rd3OyWC9WCEpbgy5/IV9r4GOOeLQwQGry4IXGYKZHmoX0KrRiidyUYAbzzPfqIo+lNQ3rccrRHPA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784711900; c=relaxed/simple;
-	bh=lB0w2pWB57LvAS3sG8fU9cxsy7n9GzJBAj5ikWtsbDQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XZsUlW+6vR2dJLaV53+ptMcWYxOT8opVc3ngH5FuKQF1TrR7tuB42V2/TLR1wUNgVdph9w7g0RWrZDF+M0Yd4vfHdqCGeRVjbxqClmHrsJOCsd2XUgrmjlb1QUecRCJTbT1pyZweFAwLoVSuiNZmh5TVVgVcgjSBm9j+elhQ/3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=UYGOqTm9; arc=fail smtp.client-ip=40.107.159.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA6234E766;
+	Wed, 22 Jul 2026 09:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784712547; cv=none; b=KG6OPSCb7l2MMUsdgERh0zqjhYn4/DGNyXwW+ZMBZu/VG12Xlq794W8/1qHXwpQID2mf6mox9RlR4NiHCPqHvEf+oGIDqoTrbYHDNkxRzy4J79Ds17nxfvZf3PwPJHZwJ/K5vzYPHqRlIcXnnDD4j/cD+nTXmLcuzmweZE4fgNE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784712547; c=relaxed/simple;
+	bh=cIfdE/AIMmsnUsEN8YUDk7AFJS8rIzLtpcUPT137xdM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D6QjaQY4mbiEu7huVd3RNdqsNcVsivjRqqz0rBT0n7NK8LVn/fpAAwKSvuuZeQLw3GQMAuAkxN1+IQfHMyZ6RRDEiGdD/Gwdfx4z2m72PCSyp8UCkBSNL3fU4nFlxK+Wa9bSRfAMM5MUqigtqu2Hbwngw5H9XBitPL2izlS+Vvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=scH0UDg9; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="UYGOqTm9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hZbQKa6g1DT3RsySc/2vCM8dFSO8IozIjbCztKPmmL3dW8cK8VvEDAn+pxV9pBTXoAPp6dori3nWTpchIcZuB7urHcn6k2jEXzzruNgbq87QUe5xRvojcVWob75aKa2Oc6IghsKpEYQV0iuMqDUf9mk31b4OvajXuGkO+WiaUOlf+ZKEbFdh26RwW59kx3P8M2GO3JyFQyPu4TarDrv+ri+oPc2TQT9X/j8Y44LnkfmojPDEOgBvHb16xwk7xgLxGUaVl9eFAjDDiiuvImlhK7ybtdkaq59lzwULOBori6h/Erk4PINA1hqvhZeB5T21HmoxzHYb/1r6r/A8pQAW0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lB0w2pWB57LvAS3sG8fU9cxsy7n9GzJBAj5ikWtsbDQ=;
- b=qnfdbR1u8xmu7SMMRo77feIb6t9sa6Wr0i4j3Z8fqJ501EjC11/zYWBrY+lKZCBSIf21kdRXBsZkj0lDDY7s5k2ihwP5vgqJCjNsFjHaclEdw5EwVh7M6yhKb9BV6STpD00AV5hyG6i7Uad3dk7nfXhrG2X6RPJiZtWZfEvXtpzHZrm1novyb7zX8ITPWHBTJU8tl54n9CwNdm2OtbVxZSSOLohMYM4rqP3Opr3j1oUUzpY8yfEmpkBqadQvqlPwso+7HZXc2zeJCPztwXbqZGKcOFWeKuGCOAEPNNNdq3+5Gi4D2xXRNiknx/o4UrPGvsgzwXloR1VkWTPYvMDN/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lB0w2pWB57LvAS3sG8fU9cxsy7n9GzJBAj5ikWtsbDQ=;
- b=UYGOqTm96R91+0vTwqmjPP0yzTB6TVHjmFzvejwCOWmMlhQMAz6cq94IDmfoLGSvcqU5myUb5j+cnLV2bW2rIixeQGByRUf08sCK2ahNqxAQUeMqBBnGqeU1IyA7Ql+0WXdJuL1rizxuijFf1eBD+22v+aogfd8vzwiXFHJQyhw=
-Received: from DU8PR83MB0975.EURPRD83.prod.outlook.com (2603:10a6:10:5cb::5)
- by VI2PR83MB0815.EURPRD83.prod.outlook.com (2603:10a6:800:271::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.4; Wed, 22 Jul
- 2026 09:18:12 +0000
-Received: from DU8PR83MB0975.EURPRD83.prod.outlook.com
- ([fe80::b11f:dc15:ff12:53e]) by DU8PR83MB0975.EURPRD83.prod.outlook.com
- ([fe80::b11f:dc15:ff12:53e%6]) with mapi id 15.21.0270.004; Wed, 22 Jul 2026
- 09:18:12 +0000
-From: Konstantin Taranov <kotaranov@microsoft.com>
-To: Leon Romanovsky <leon@kernel.org>, Long Li <longli@microsoft.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Shiraz Saleem <shirazsaleem@microsoft.com>
-CC: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH rdma-next] RDMA/mana_ib: drain QP references after partial
- table insertion
-Thread-Topic: [PATCH rdma-next] RDMA/mana_ib: drain QP references after
- partial table insertion
-Thread-Index: AQHdGbsFpQpIy7oHwUC/Tu1RSVb6VQ==
-Date: Wed, 22 Jul 2026 09:18:12 +0000
-Message-ID:
- <DU8PR83MB0975C74A6A47AB8EAE06AB29B4C12@DU8PR83MB0975.EURPRD83.prod.outlook.com>
-References:
- <20260721-if-mana-table-store-qp-qids-partiall-v1-1-8fb3d2d2b559@nvidia.com>
-In-Reply-To:
- <20260721-if-mana-table-store-qp-qids-partiall-v1-1-8fb3d2d2b559@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=021b9190-8a1b-47ee-8e81-1046ecd49fdf;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-07-22T09:07:30Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU8PR83MB0975:EE_|VI2PR83MB0815:EE_
-x-ms-office365-filtering-correlation-id: 8074fadd-73e4-483a-6238-08dee7d22798
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|22082099003|18002099003|38070700021|3023799007|56012099006|11063799006|10067099003;
-x-microsoft-antispam-message-info:
- ZeoxsQy509UyB2mhYzwvE/FEj2VJMVV7YNT2C7HSN9G1TLfZHx8j1ETVxFaoHAxRHSWwjv71q9J38D8lSgUSHS0CNfth3QPjMHYX2HkL+7MIiegOj4HZA/1S/hbAe9jJaMtLyYPr0SScOhteki0JElXY/7CnIEMQ5yTwW4TJMT6/IKHUqbCWAGeYW03QFlSuczdCoJc+Q9nzr2ZCQLcsWp+Tzj3UEIZv8jwu4aGZj9M/t4AOKCgIcafWlIS0Hp/oQjfoaA4+FaMDMcSR7LTRU2nvQ0ZFhF5EgAjVVeJ7hY3QGb/tfm/9aAUjeLkA/1o5V/94JNYs0h3NWtmy4lpcT5XQJGYnQseZ4FR7PcSLIOG69dY94Hpoh0Mae53uL0s/ZIxLgUN8kO2fCSoN4WX5PE1rko7rwHIlUSjFTbSacOBrlJ2ZpDWflKlv3dYmeOsTTg0H4/QSxu5KRMowRHx8zMb6YAa7hecPpcayUydBFrInqmYTOJ1Cc0KpY61yBEo7XnRX4CusUvf/BlANhlOvjKmQS5eY9Q4sjxhx/y47xKhPSm4No8FyOaQoEqfRgszC4ou+oe/K+zKNVA3nGLRQKOOuzzRBiPwdZZjYrnQcp96eiNPFQpNbHjjzD++jwCYc2CqPG1rwltjhOHbp3KltW7/T48IWz3D7Tl7k10r/7FCbJuqKpevg/jRevnUUjHCp0BI2WizQNuu0WYrMQtLJPgTCGz7CqVF+Xp49jLuPchA=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU8PR83MB0975.EURPRD83.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(22082099003)(18002099003)(38070700021)(3023799007)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NnF2VUowR3dLa2RQb0cyMC83aEhRS0JxZU1udlE4RHRiWG9CL1JiTno5QTZ6?=
- =?utf-8?B?UDRjQ2hwNGNJUVdjbVAxVFhRNm9XTHhuT3p4SitERmtJcWRRbkErMm9MVjB4?=
- =?utf-8?B?Nmh6MzdWZ2xqZTFKUm1jZE5FOTlvNzhZMnU3NU14ck1HNjNMWmFOVFB3NnBX?=
- =?utf-8?B?VVF3aGNMdlMzNE1GWTEwTFBBMDBUUC8wMGorQzFTU2dlOEdKRFptcVZYSFN0?=
- =?utf-8?B?YVcwUVZRZUNxQi9BVzhyZlZsQk5vS1pFOG9PbzFSam5KclVzSkNDcFRiV0ps?=
- =?utf-8?B?RWhWUm5zYnBacU15eDIxSVJQTjlseGlXTWM4YTY0dXBGcTd6Vmp3R2pEM1JR?=
- =?utf-8?B?YzZPSjZjZ1M1cHdueTk4eGlpTVo3UVNkQzJnb1NGT0REUC82bmR2bE5RT3Q5?=
- =?utf-8?B?YW5RTjl5Tm9XMmhQanl4WWR2anVpbkloTVAxbVpoY08vU21HUTlSeDNISDZu?=
- =?utf-8?B?UENmekVlV3hHUmtIazJlS2FzWUNIa1pteWgwaUVKZXUzREdodTFSUElWTFEx?=
- =?utf-8?B?M2JvTVZLYjRXMjFWVHFUMFFvMDRRY1hZVW9FQytxd05sTFJTMWlyOG1PUjNL?=
- =?utf-8?B?eCtCcEFaSERtZjVNY3VjelZ4RlNETlBBT1VJRXJ5cGVibkltbVR1MkdWUUZK?=
- =?utf-8?B?UGhzUGpYcUw1bTdDYUxadldpT3dwd3RYRElTSVcrV2piUDNHYWpka0lJcU9i?=
- =?utf-8?B?N1piWDRMbGZFcEpCSFpZTkw3OEVIU2Y3ZGVpQ0pDMjIyTWxSNUJyTkZIQ081?=
- =?utf-8?B?dW01MVlSQldUSzhNSFJsRDJuK1lnYTNuOWlTS2tTclFMWFkzMHQrVXRzODRK?=
- =?utf-8?B?MVMzWDRJYkwzL0tSZC9NL0g5b2ZtMVU1ekoxMkt1UXJhWStFanZQVTBFbUtS?=
- =?utf-8?B?RndhWldlenR4OXM5OXI3WW9mQ2xMUzVaT2hYNGt1SGJDWGNpTEhZMUZhaTYx?=
- =?utf-8?B?VTJYOWNmT3hySzZvVThsN1R3LzdkOStYVHlwVWFjTHVGTGJTbTE5dldlQ0Fz?=
- =?utf-8?B?dk5qeVBFcDE1NW1saFJLS1pERGNRZGh0enNOY3BIblAxRWp3T1c5anJINW5R?=
- =?utf-8?B?bGFHTytzQ01DNUJzM0doLzZta2QrNkp3N3g3QjBsQzhOQVIwS1hsM2gveXNG?=
- =?utf-8?B?dDAzS1NzdS9yMVI2Qlg4aVFqU0RvbHVNYlp1Y2NyMWVlNW9CRng3djhUWnpj?=
- =?utf-8?B?QkFMOHJycWhpaitVNk9VNFoyd0orZTJPQkdBaWl3WkU5WGpGQ1VRY2JldDMy?=
- =?utf-8?B?cHJnamF5U01abWZuVlQzOFRUUzJ5UlA5NEp3UWZCNWxrbWt1V2dTbkJva0NT?=
- =?utf-8?B?Y1ExWFhCMG5RbG5nZzNLUjNlRkFibDU1S0ZvMS82TkFIM3pibFNFVVBvWTF4?=
- =?utf-8?B?a2RaVERQQzZJcHUxNFBIMkFlYW5HM2NScWFEeE1CcjM4VlhWQ0hjTVN2ZW5t?=
- =?utf-8?B?Z2VGSTl2YlBrNUl6UnJJZU81SkFxWDk1K0c2SzVzc3NwNm5YVWdWQ2lYMGRi?=
- =?utf-8?B?MnQ2VzZxUnBja1R0bysxODNnZVZBSVlaV003Nk4wL2NHT3d2VUpCd2IwQlF3?=
- =?utf-8?B?UTFOWEtsSFlPSXhWdkpNS1dHZWE4Umw1eVcvUGpaUm5weTFEazM5bEpSaVlJ?=
- =?utf-8?B?NDlpSS9USVAzbWJ3cUVYSWhtVWx1MytmR2szcFpBcngwT1VtUWVzMENiemhh?=
- =?utf-8?B?bUlmanliNnY0Q013ZlNlV3laL3NjTFczTGNNMWNKNk9yS1B0ZkYyOTBnQ2JN?=
- =?utf-8?B?bTNHd3lFKzJmTWVUSXREUmpvditFSVpmZU9kSEo0VWdZaFFUbjl6bVNWd29a?=
- =?utf-8?B?SzZJNS84c2M5WWtxV1FTa082SnB0bVlCYXJjZE1uYU9DbHByZ2pSQXd4bzBk?=
- =?utf-8?B?WThEZU9vVlYwczdEajl2OGhaeC9SMmo3NGhXWk9Gb3J2aWF6YWRiWVBzVG1I?=
- =?utf-8?B?Ui9PZzB5cDlhZlExa1hIM1IvdzNNTFZsVERnZEZYbUpTd2FucHFYRTRjSGl1?=
- =?utf-8?B?R3g4MWtZS0JaVCt5WXQ2Sy83a21ucFRHTWNqc0YwUFFHU0lHdGN5UWZpWGJz?=
- =?utf-8?B?Y2o2S0VhWENiRkRJdFdBYk9zdkxyT1lCWUpvd2t4SGZFVEdFUUNZdDlGRHdE?=
- =?utf-8?B?dzlqSzFnUG11bG9KRCthZzR2ZVpqbmxLcHd2ZHF4Qk1laEhyc0hoQWJrMW9p?=
- =?utf-8?B?dUtOT3kxSi80NXNKY2duSFNURWIvTW5QOS9tdUhaekpSVHQ4S3FnNnA0ekpB?=
- =?utf-8?B?Yjh2bSsxSlJKREJKS2JkWnljZDNRPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="scH0UDg9"
+Received: from [10.7.58.6] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CABD420B7167;
+	Wed, 22 Jul 2026 02:28:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CABD420B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1784712532;
+	bh=iqAPRhcc1h5MShLEAXRNpHsK0JmIybRW26xH8S34QTs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=scH0UDg9JoMA+bK71N2e/DCQG4afBAx5dCr831VeJslldFRZMghfjnwi7PxZVLY0g
+	 Xh+Qxilb0cvZeQZr+5MrjcY/1CpVCrqMIi/8NL/Uw6Yte+JKlYztvUbZwUawBDYQfB
+	 sb+iYOw0IMdJfiond660K7kNVSKA9I617Zk6kOPE=
+Message-ID: <12557e3a-5feb-4601-ad53-cf4846052edd@linux.microsoft.com>
+Date: Wed, 22 Jul 2026 14:59:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU8PR83MB0975.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8074fadd-73e4-483a-6238-08dee7d22798
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 09:18:12.6191
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n/xdbKlwsJtEOv9MZNWAksGhBRplfToZaHub0OXUR0oshfy3Y8Plzq4DSKDra3ShDfymRrMnxOQ7ScrE7GBypQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR83MB0815
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] x86/apic: Fix lost IRQ during forced vector migration
+ on Hyper-V
+To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>
+Cc: Neeraj Upadhyay <Neeraj.Upadhyay@amd.com>, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, Michael Kelley <mhklinux@outlook.com>
+References: <20260710054007.288807-1-namjain@linux.microsoft.com>
+ <874ihskq1h.ffs@fw13>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <874ihskq1h.ffs@fw13>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PiBGcm9tOiBMZW9uIFJvbWFub3Zza3kgPGxlb25yb0BudmlkaWEuY29tPg0KPiANCj4gbWFuYV90
-YWJsZV9zdG9yZV91ZF9xcCgpIHB1Ymxpc2hlcyBhIFFQIGF0IGl0cyBzZW5kLXF1ZXVlIGlkIGJl
-Zm9yZQ0KPiBpbnNlcnRpbmcgdGhlIHJlY2VpdmUtcXVldWUgaWQsIGRyb3BwaW5nIHRoZSBYQXJy
-YXkgbG9jayBiZXR3ZWVuIHRoZSB0d28NCj4geGFfaW5zZXJ0X2lycSgpIGNhbGxzLiBBIGNvbmN1
-cnJlbnQgY29tcGxldGlvbiBoYW5kbGVyIGNhbiBsb29rIHVwIHRoZSBRUCBhbmQNCj4gdGFrZSBh
-IHRyYW5zaWVudCByZWZlcmVuY2UuIFdoZW4gdGhlIHNlY29uZCBpbnNlcnRpb24gZmFpbHMsIHRo
-ZSByb2xsYmFjaw0KPiBlcmFzZWQgb25seSB0aGUgc2VuZC1xdWV1ZSBlbnRyeSBhbmQgcmV0dXJu
-ZWQsIGxlYXZpbmcgYm90aCB0aGUgaW5pdGlhbCB0YWJsZQ0KPiByZWZlcmVuY2UgYW5kIHRoZSB0
-cmFuc2llbnQgcmVmZXJlbmNlIG91dHN0YW5kaW5nIHdoaWxlIFJETUEgY29yZSBmcmVlcyB0aGUN
-Cj4gUVAsIGNhdXNpbmcgYSB1c2UtYWZ0ZXItZnJlZS4NCj4gDQo+IERyYWluIHRoZSByZWZlcmVu
-Y2UgYXMgbm9ybWFsIGRlc3RydWN0aW9uIGRvZXM6IGRyb3AgdGhlIGluaXRpYWwgcmVmZXJlbmNl
-IGFuZA0KPiB3YWl0IGZvciBxcC0+ZnJlZSwgcmVsZWFzaW5nIHRoZSBRUCBvbmx5IGFmdGVyIGV2
-ZXJ5IGNvbmN1cnJlbnQgbG9va3VwIHJldHVybnMNCj4gaXRzIHJlZmVyZW5jZS4NCj4gDQo+IEZp
-eGVzOiA4MDAxZTkyNTdlY2EgKCJSRE1BL21hbmFfaWI6IGV4dGVuZCBtYW5hIFFQIHRhYmxlIikN
-Cj4gU2lnbmVkLW9mZi1ieTogTGVvbiBSb21hbm92c2t5IDxsZW9ucm9AbnZpZGlhLmNvbT4NCg0K
-UmV2aWV3ZWQtYnk6IEtvbnN0YW50aW4gVGFyYW5vdiA8a290YXJhbm92QG1pY3Jvc29mdC5jb20+
-IA0KDQo+IC0tLQ0KPiBLb25zdGFudGluLA0KPiANCj4gSSBzYXcgdGhpcyBpbiBvbmUgb2YgdGhl
-IFNhc2hpa28gcnVucywgYW5kIEkgYmVsaWV2ZSB0aGUgQUkgaXMgY29ycmVjdC4gVGhlDQo+IHJl
-ZmVyZW5jZSBjYW4gYmUgYWNxdWlyZWQgdGhyb3VnaCB0aGUgR0RNQV9FUUVfUk5JQ19RUF9GQVRB
-TCBldmVudC4NCj4gDQoNCkkgZG91YnQgdGhhdCBpdCBpcyBwb3NzaWJsZSBmb3IgRVFFcy4gVGhl
-IGVxZSBvbmx5IGNhbiBtZW50aW9uIGFuIFJRIGFuZCB3ZSBmaXJzdCB0cnkgdG8gaW5zZXJ0IGFu
-IFNRLg0KQXMgd2VsbCBhcyB3aGVuIHdlIGRyYWluIEdTSSBRUCwgd2UgYWxzbyBsb29rIHVwIHdp
-dGggYW4gUlEuDQpJIGFtIGFsc28gdHJ5aW5nIHRvIHRoaW5rIHdoZXRoZXIgQ1FFIHdpdGggU1Eg
-UUlEIGNhbiBjYXVzZSBpdCwgd2hpY2ggd291bGQgcmV2ZWFsIGEgSFcgYnVnL3JhY2UuDQpCdXQg
-SSBkbyBhZ3JlZSB0aGF0IHRoZSBwYXRjaCBtYWtlcyBzZW5zZSBhbmQgd2Ugc2hvdWxkIGhhdmUg
-aXQsIHJlZ2FyZGxlc3Mgb2Ygd2hldGhlciBpdCBpcyBwb3NzaWJsZS4NClRoYW5rcyBhIGxvdCBm
-b3IgdGhlIHBhdGNoLiBJIGhhdmUgc2VudCByZWNlbnRseSBhIFVDLXJlbGF0ZWQgcGF0Y2ggdGhh
-dCBjaGFuZ2VzIHRoZSBzYW1lIGxpbmVzLg0KSSB3aWxsIHJlYmFzZSBpdCBvbiB0b3Agb2YgeW91
-ciBjaGFuZ2UuDQoNCj4gVGhhbmtzDQo+IC0tLQ0KPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L21h
-bmEvcXAuYyB8IDEwICsrKysrKysrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMo
-KyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbmZpbmliYW5k
-L2h3L21hbmEvcXAuYw0KPiBiL2RyaXZlcnMvaW5maW5pYmFuZC9ody9tYW5hL3FwLmMgaW5kZXgg
-YjVmZjA3ZTM0ZWI3Li5jNTJmM2VjMTQwMzINCj4gMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5m
-aW5pYmFuZC9ody9tYW5hL3FwLmMNCj4gKysrIGIvZHJpdmVycy9pbmZpbmliYW5kL2h3L21hbmEv
-cXAuYw0KPiBAQCAtNDcyLDYgKzQ3MiwxMiBAQCBzdGF0aWMgdm9pZCBtYW5hX3RhYmxlX3JlbW92
-ZV9yY19xcChzdHJ1Y3QNCj4gbWFuYV9pYl9kZXYgKm1kZXYsIHN0cnVjdCBtYW5hX2liX3FwDQo+
-ICAJeGFfZXJhc2VfaXJxKCZtZGV2LT5xcF90YWJsZV93cSwgcXAtPmlicXAucXBfbnVtKTsgIH0N
-Cj4gDQo+ICtzdGF0aWMgdm9pZCBtYW5hX3RhYmxlX2RyYWluX3FwX3JlZihzdHJ1Y3QgbWFuYV9p
-Yl9xcCAqcXApIHsNCj4gKwltYW5hX3B1dF9xcF9yZWYocXApOw0KPiArCXdhaXRfZm9yX2NvbXBs
-ZXRpb24oJnFwLT5mcmVlKTsNCj4gK30NCj4gKw0KPiAgc3RhdGljIGludCBtYW5hX3RhYmxlX3N0
-b3JlX3VkX3FwKHN0cnVjdCBtYW5hX2liX2RldiAqbWRldiwgc3RydWN0DQo+IG1hbmFfaWJfcXAg
-KnFwKSAgew0KPiAgCXUzMiBxaWRzID0gcXAtPnVkX3FwLnF1ZXVlc1tNQU5BX1VEX1NFTkRfUVVF
-VUVdLmlkIHwNCj4gTUFOQV9TRU5EUV9NQVNLOyBAQCAtNDkwLDYgKzQ5Niw3IEBAIHN0YXRpYyBp
-bnQNCj4gbWFuYV90YWJsZV9zdG9yZV91ZF9xcChzdHJ1Y3QgbWFuYV9pYl9kZXYgKm1kZXYsIHN0
-cnVjdCBtYW5hX2liX3FwICpxDQo+IA0KPiAgcmVtb3ZlX3NxOg0KPiAgCXhhX2VyYXNlX2lycSgm
-bWRldi0+cXBfdGFibGVfd3EsIHFpZHMpOw0KPiArCW1hbmFfdGFibGVfZHJhaW5fcXBfcmVmKHFw
-KTsNCj4gIAlyZXR1cm4gZXJyOw0KPiAgfQ0KPiANCj4gQEAgLTUzNyw4ICs1NDQsNyBAQCBzdGF0
-aWMgdm9pZCBtYW5hX3RhYmxlX3JlbW92ZV9xcChzdHJ1Y3QNCj4gbWFuYV9pYl9kZXYgKm1kZXYs
-DQo+ICAJCQkgIHFwLT5pYnFwLnFwX3R5cGUpOw0KPiAgCQlyZXR1cm47DQo+ICAJfQ0KPiAtCW1h
-bmFfcHV0X3FwX3JlZihxcCk7DQo+IC0Jd2FpdF9mb3JfY29tcGxldGlvbigmcXAtPmZyZWUpOw0K
-PiArCW1hbmFfdGFibGVfZHJhaW5fcXBfcmVmKHFwKTsNCj4gIH0NCj4gDQo+ICBzdGF0aWMgaW50
-IG1hbmFfaWJfY3JlYXRlX3JjX3FwKHN0cnVjdCBpYl9xcCAqaWJxcCwgc3RydWN0IGliX3BkICpp
-YnBkLA0KPiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiA3NGY0OTI1NTQ5MmE2MjY1OGYzNmJmMjU3
-OGQ3OTE2ZjFjNmZmYWQxDQo+IGNoYW5nZS1pZDogMjAyNjA3MjEtaWYtbWFuYS10YWJsZS1zdG9y
-ZS1xcC1xaWRzLXBhcnRpYWxsLWFmYTE0ZjAyMzI2MQ0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiAt
-LQ0KPiBMZW9uIFJvbWFub3Zza3kgPGxlb25yb0BudmlkaWEuY29tPg0KDQo=
+
+
+On 7/22/2026 2:40 AM, Thomas Gleixner wrote:
+> On Fri, Jul 10 2026 at 05:40, Naman Jain wrote:
+>>
+>> Fixes: e84cf6aa501c5 ("x86/apic/vector: Handle vector release on CPU unplug correctly")
+> 
+> Errm. This does not fix anything in the common code. It fixes a hyperv
+> PCI/MSI problem.
+> >>   	} else {
+>> +		/*
+>> +		 * The outgoing CPU cannot use the deferred cleanup-vector
+>> +		 * mechanism, so its vector is freed inline below. On Hyper-V the
+>> +		 * MSI retarget hypercall is asynchronous, so an interrupt raised
+>> +		 * inside the stop_machine window can be posted to the outgoing
+>> +		 * CPU's old vIRR after the free. Two complementary steps handle
+>> +		 * that (see also the retrigger at the end of the function):
+>> +		 *
+>> +		 *  - Retrigger on the new target so a raced completion is drained
+>> +		 *    there rather than lost. The retarget is asynchronous, so the
+>> +		 *    outgoing IRR is not authoritative and the IPI is issued
+>> +		 *    unconditionally; a spurious ISR is harmless to
+>> +		 *    completion-draining handlers (they find an empty queue).
+>> +		 *  - Mark the freed slot VECTOR_RETRIGGERED so a late stray is
+>> +		 *    absorbed by reevaluate_vector() instead of logging "No irq
+>> +		 *    handler" while the CPU still takes interrupts during
+>> +		 *    teardown; __setup_vector_irq() resets it on re-online.
+>> +		 *
+>> +		 * This mirrors msi_set_affinity()'s protection, which the Hyper-V
+>> +		 * MSI chip bypasses via IRQCHIP_MOVE_DEFERRED.
+> 
+> What has msi_set_affinity() and IRQCHIP_MOVE_DEFERRED to do with this?
+> 
+>    - msi_set_affinity() solves a completely different problem. It handles
+>      the case when the PCI/MSI device does not provide masking of the MSI
+>      interrupt across the message change.
+> 
+>      Q: What exactly is mirrored here?
+>      A: Nothing
+> 
+>    - In the context of CPU hot-unplug IRQCHIP_MOVE_DEFERRED is not
+>      deferring anything simply because there is no way to do the deferred
+>      (in interrupt context) move on the original target CPU.
+> 
+>      fixup_irqs()
+>         irq_migrate_all_off_this_cpu()
+>            migrate_one_irq()
+>              irq_do_set_affinity()
+> 
+>      The only check there which is related to IRQCHIP_MOVE_DEFERRED is
+>      the masking decision in migrate_one_irq(), but that has nothing to
+>      do with the semantics of IRQCHIP_MOVE_DEFERRED.
+> 
+>      That flag tells the interrupt core that regular affinity changes
+>      have to be delayed into the context of the next device interrupt,
+>      which is obviously not possible for interrupt startup and forced
+>      migration on CPU hot-unplug, which both ignore that restriction. The
+>      only effect in CPU hot-unplug migrations is that the interrupt is
+>      masked at the outermost domain level across the affinity change
+>      operation because that's an requirement for msi_set_affinity() and
+>      similar workarounds (loongarch) to avoid the multi vector dance.
+> 
+>      The fact that hyper-V invokes the retarget hypercall in context of
+>      the unmask() callback has nothing to with that flag and due to the
+>      lack of explanation why the flag is needed in the first place.
+> 
+> I'm all for commenting complex issues, but comments have to be
+> technically correct, which excludes both LLM and human hallucinations.
+> The same applies to the change log which carries the same fairy tale.
+> 
+> Aside of that, doing the re-targeting in the unmask() callback
+> unconditionally is pointless overhead. Why?
+> 
+>      disable_irq($IRQ);             // Sets the disabled flag, but does not mask
+> 
+>      --> $IRQ is raised
+>      handle_edge_irq($IRQ)
+>      if (disabled($IRQ))
+>        mask_irq($IRQ);              // Masks at the PCI/MSI level
+> 
+>      enable_irq($IRQ)
+>      if (masked($IRQ))
+>        unmask_irq($IRQ)
+>          issue_hypercall(RETARGET)  // Pointless exercise when affinity
+>                                     // has not changed
+>          unmask_pci_msi();          // Unmasks at the PCI/MSI level
+> 
+> Not that I care at all, but I have no idea why pci-hyperv has to do the
+> affinity change in the unmask() callback and why it needs to take the
+> overhead which comes with the deferred affinity changes in general.
+> 
+>> +		 * restricted to edge MSI vectors on Hyper-V (msi_desc present):
+>> +		 * only the MSI retarget hypercall is asynchronous, so edge IOAPIC
+>> +		 * lines (retargeted synchronously via the RTE) and level-triggered
+>> +		 * lines never see this race and must not be force-injected.
+>> +		 */
+>> +		if (hypervisor_is_type(X86_HYPER_MS_HYPERV) &&
+>> +		    apicd->vector >= FIRST_EXTERNAL_VECTOR &&
+>> +		    !irqd_is_level_type(irqd) && irq_data_get_msi_desc(irqd))
+> 
+> TBH. This is a tasteless layering violation. We are not cluttering
+> common code with hypervisor specific MSI workarounds. The non-remapped
+> MSI workaround is not implemented here either.
+> 
+>> +			hv_retrigger = true;
+>>   		apic_free_vector(apicd->cpu, apicd->vector, managed);
+>> +		/*
+>> +		 * apic_free_vector() releases the matrix bit but leaves the
+>> +		 * outgoing CPU's vector_irq[] slot pointing at the stale desc, so
+>> +		 * the marker is written unconditionally here.
+> 
+> What's exactly unconditional about
+> 
+>         if (cond)
+>            write()
+> 
+> ?
+> 
+>> +              						(Unlike
+>> +		 * msi_set_affinity(), which marks a genuinely unused slot and
+>> +		 * therefore guards with IS_ERR_OR_NULL, the slot here still holds
+>> +		 * this irq's old desc.)
+> 
+> What has msi_set_affinity() to do with this? It sets RETRIGGER for a
+> very different reason. These references are confusing at best. Simply
+> explain WHY you need to do this and explain it correctly.
+> 
+>> +		 */
+>> +		if (hv_retrigger)
+>> +			per_cpu(vector_irq, apicd->cpu)[apicd->vector] = VECTOR_RETRIGGERED;
+>>   	}
+>>   
+>>   setnew:
+>> @@ -190,6 +231,13 @@ static void chip_data_update(struct irq_data *irqd, unsigned int newvec, unsigne
+>>   	BUG_ON(!IS_ERR_OR_NULL(per_cpu(vector_irq, newcpu)[newvec]));
+>>   	per_cpu(vector_irq, newcpu)[newvec] = desc;
+>>   	apic_update_irq_cfg(irqd, newvec, newcpu);
+>> +	/*
+>> +	 * Drain any completion that raced onto the freed vIRR by retriggering
+> 
+> What's a freed vIRR and which completion? This code deals with vector
+> management and not with hyperV MSI implementation specific completions
+> and it does not care whether it operates on a physical or a virtual
+> APIC.
+> 
+>> +	 * on the new target (see the else-branch above). Issued after the new
+> 
+> 'See the else-branch above' is as useful as 'See some random explanation
+> elsewhere'. It's obvious where to look for that information as the
+> hv_retrigger condition must be set by something to make the condition true.
+> 
+>> +	 * mapping is installed so the handler is present when it is serviced.
+>> +	 */
+>> +	if (hv_retrigger)
+>> +		__apic_send_IPI(newcpu, newvec);
+> 
+> You are claiming above that the MSI retarget hypercall is asynchronous,
+> but you fail to specify in which way.
+> 
+>    - If you refer to the retarget invocation in the unmask() callback,
+>      then that happens still before the new target can handle it.
+> 
+>    - If it is truly asynchronous, i.e. the hypervisor handles it at some
+>      arbitrary point in time, then the retriggered vector on the new
+>      target CPU can be handled _before_ the retarget is in effect. In
+>      that case a subsequent interrupt might still end up on the dead CPU,
+>      no?
+> 
+> IOW, your or your LLM's elaborate comment is useless word salad as it
+> does not explain the problem in a coherent and comprehensible way. Quite
+> to the contrary it is more confusing than helpful.
+> 
+> But as I told you already, this is not a problem of incoherent comments,
+> this is simply the wrong place to address that.
+> 
+> Looking at the pci-hyperv implementation made me immediately notice a
+> bug, which exists since the driver was merged:
+> 
+>    The driver does not set the irq_retrigger() callback for the
+>    interrupt chip.
+> 
+> That means that fixup_irqs() can't do anything even when it observes the
+> IRR bit set. And that matches the incoherent problem description as far
+> as I can tell from trying to oracle something out of the word salad.
+> 
+> Great that your AI ass-istant did not figure that out and you blindly
+> trusted the nonsense it hallucinated.
+> 
+> The uncompiled and therefore untested below should exactly do what you
+> want to achieve without having hyperV specific hackery in the common
+> code.
+> 
+> If it does not, then you need to provide a coherent technical
+> explanation why it is not sufficient.
+> 
+> Thanks,
+> 
+>          tglx
+> 
+> ---
+
+
+Thanks a lot for reviewing the code. I was actually debugging hangs and 
+timeouts when we test stress-FIO with hotplug. Occasionally I saw "No 
+irq handler" logs in those hangs, and started debugging in that 
+direction. I had tried adding the hyper-V irq_retrigger() callback, but 
+the hang still reproduced. This kept me under the impression that this 
+change did not fix the issue and led me to over-engineer this fix in the 
+wrong place. Recently, I was able to root cause the hang to some other 
+reason (using different NVME scheduler).
+
+I completely agree with your comments, and now that I know how to fix 
+this, do you suggest me to -
+
+1. add irq_retrigger callback in pci-hyperv.c
+or
+2. go with your fixup-irq() change to no longer need drivers to add the 
+above? And then see what all stale irq_retrigger inits can be removed
+
+Going with 1) would be easier for me to fix this bug, and back port it 
+to older kernels, with proper Fixes tag (pointing to some pci-hyperv.c 
+change).
+Then later, we can go with 2) separately as a general enhancement (not a 
+Fix).
+
+Regards,
+Naman
+
+> Subject: TBD
+> 
+>    Instead of adding the missing callback to the hyperv driver, which
+>    would be the trivial "fix", it changes the x86 fixup_irqs()
+>    implementation. Why?
+> 
+>    That makes the code more resilient and allows to remove quite a bit of
+>    initializations of interrupt chips all over the place.
+> 
+> Not-Signed-off-yet-by: Thomas Gleixner <tglx@kernel.org>
+> Assisted-by: Human Intelligence
+> ---
+>   arch/x86/kernel/irq.c |   23 +++++++----------------
+>   1 file changed, 7 insertions(+), 16 deletions(-)
+> 
+> --- a/arch/x86/kernel/irq.c
+> +++ b/arch/x86/kernel/irq.c
+> @@ -466,11 +466,6 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_posted_msi
+>   /* A cpu has been removed from cpu_online_mask.  Reset irq affinities. */
+>   void fixup_irqs(void)
+>   {
+> -	unsigned int vector;
+> -	struct irq_desc *desc;
+> -	struct irq_data *data;
+> -	struct irq_chip *chip;
+> -
+>   	irq_migrate_all_off_this_cpu();
+>   
+>   	/*
+> @@ -489,22 +484,18 @@ void fixup_irqs(void)
+>   	 * vector_lock because the cpu is already marked !online, so
+>   	 * nothing else will touch it.
+>   	 */
+> -	for (vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
+> -		if (IS_ERR_OR_NULL(__this_cpu_read(vector_irq[vector])))
+> +	for (unsigned int vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
+> +		struct irq_desc *desc = __this_cpu_read(vector_irq[vector]);
+> +
+> +		if (IS_ERR_OR_NULL(desc))
+>   			continue;
+>   
+>   		if (is_vector_pending(vector)) {
+> -			desc = __this_cpu_read(vector_irq[vector]);
+> -
+> -			raw_spin_lock(&desc->lock);
+> -			data = irq_desc_get_irq_data(desc);
+> -			chip = irq_data_get_irq_chip(data);
+> -			if (chip->irq_retrigger) {
+> -				chip->irq_retrigger(data);
+> +			guard(raw_spinlock)(&desc->lock);
+> +			if (irq_chip_retrigger_hierarchy(&desc->irq_data))
+>   				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
+> -			}
+> -			raw_spin_unlock(&desc->lock);
+>   		}
+> +
+>   		if (__this_cpu_read(vector_irq[vector]) != VECTOR_RETRIGGERED)
+>   			__this_cpu_write(vector_irq[vector], VECTOR_UNUSED);
+>   	}
+
