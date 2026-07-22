@@ -1,74 +1,170 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211AC3E16B9;
-	Wed, 22 Jul 2026 22:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48146215075;
+	Wed, 22 Jul 2026 22:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784758965; cv=none; b=rdzyZ61BH9CuDMRgPV+caCZNBtJrCY3PyfLVQEkkFyBy7MUQfvHvvYQBafO3VmbDkDOiQptpRYB5y9xVDKXHrl2plPMeqv9cGMwNf8H+T/UNM9sYvd8JiFxiTL7xbXNQCmmVGHW1OPaDYJO8qqTOIVjXxpjDYmGwxtu1yXM8GBI=
+	t=1784760500; cv=none; b=InVAIXU26Syjp7HEWeY6ukNjS+oduHEfYxfmYz9eNEOQcDxEAu4pxFmwIxP1+Dc8i8KiBcIpgSFkuPJDMRAR6B85kceTovDxpm40VYe5TkPo3c5EH7xQFd78ddWwPnE2AXPGzB8TxR4Iz+5rph+KGmqivKC1i8yPTRr6MrLvlio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784758965; c=relaxed/simple;
-	bh=uMM0K6h13mRT4qd3LJFybaloSN042umavFZF8qQs0zE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s1F/YYE3sZjY6ELWKgU1ADJZKb6B6NCN+AGuvWd0g2VmBCOMMj2/R60qH0RbnsIRB6/mmtAT7SjD/2+pcm47Y7i2poNrH8XK5aUy4isddtk321RPY8g0qZVAC3r/E3elwEiQq95+O/DqWMatUR+ajfwBgi9NID+j8EKR/RfjWIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2UgxxU+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784760500; c=relaxed/simple;
+	bh=3KozxUktFFuphNeoA5oY3DRrjqfB3qtuLGq2VnUnylE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=osnb2+DYBjkqhXxXYCCws/ueKN3W1BxFCw5ghEsgO3Y7uMjk92HeFt4a3RS5DBwfudn7V+9ZK5/FdOM5pmKovI6GTW3OyAemq/6i1ENTPxOlIiaKaDIESiBWCP08Q6WE2lIuKGVhWDxQ/fDa88YC2kIIWzRMZWZNRX5m3F1sfFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ey11rnFQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2UgxxU+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D521F000E9;
-	Wed, 22 Jul 2026 22:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784758963;
-	bh=j8gaegb2ADazUievQZINPp/IpA+QVcS+ZZIOnHBDajY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R2UgxxU+RZSaXBEAnixwp5KiatVzsOYN0fmO/ILHLnVJt2WXSLURaO1Rfp9fbhPYd
-	 04vEddE2AlR+cPaBgU+/yTBfaTeaY9myA2YbLF5cxWsXZ62Ap0wQMVmgaIMoli021t
-	 wXMSEkVT25I7hwv733wajE2KfQEQvpC1u+GpI6EZEXKkfiYyZeean+pXkC62RO+xc+
-	 yi/Q+r1pE6/emrbeFG/6eUiSpVcuRPtWn5D7AYhA1zrZtSVwSL0lmHRXFd7olSwE00
-	 Zsd1lNCPS4+k1YqNBKvRJmmmdFKpk8uEaL9ZbnostdkX100hriJby0Zo9N2HGtf4s8
-	 e8wZrR2Q7MAiw==
-Date: Wed, 22 Jul 2026 15:22:42 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: Yi Xie <xieyi@kylinos.cn>, ssengar@microsoft.com,
-	namjain@linux.microsoft.com
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mshv: bounds-check cpu index in vtl mmap fault handler
-Message-ID: <20260722222242.GF2020652@liuwe-devbox-debian-v2.local>
-References: <20260709021947.49436-1-xieyi@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ey11rnFQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A931F000E9;
+	Wed, 22 Jul 2026 22:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1784760498;
+	bh=PNgL8SYp9VI1NhjQT8Ovt6BfZV4gAJBoTR6QXW/SnYQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ey11rnFQSaKacaNArWVfr0eeKP+Coih9IwasoSNFGEWkgFxEAp6Gj30weTETOSTMu
+	 Kb3glBybuhz+H4qunDZQxS9olJTmLRVgjyXlAi+i+JjF52ZA7V5vh6IJduz1xNJhqy
+	 6T2KvTOpUyORKJL9JJtXt564uLU4rprlu8gbdCNE=
+Date: Wed, 22 Jul 2026 15:48:17 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, David
+ Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan
+ <shuah@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
+ <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+ <decui@microsoft.com>, Long Li <longli@microsoft.com>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Min Ma <mamin506@gmail.com>, Lizhi Hou
+ <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v10 0/8] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-Id: <20260722154817.8c036f2d007edccbd7ab84c7@linux-foundation.org>
+In-Reply-To: <20260722-hmm-v10-v1-0-606464dd601a@gmail.com>
+References: <20260722-hmm-v10-v1-0-606464dd601a@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709021947.49436-1-xieyi@kylinos.cn>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Naman, Saurabh, please review this.
+On Wed, 22 Jul 2026 14:44:22 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 
-On Thu, Jul 09, 2026 at 10:19:47AM +0800, Yi Xie wrote:
-> cpu is taken from pgoff & 0xffff.  cpu_online() does not reject cpu >=
-> nr_cpu_ids, and per_cpu_ptr() can then walk off __per_cpu_offset.
-> 
-> Signed-off-by: Yi Xie <xieyi@kylinos.cn>
-> ---
->  drivers/hv/mshv_vtl_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-> index 0d3d4161974f..fc50c44ac1bd 100644
-> --- a/drivers/hv/mshv_vtl_main.c
-> +++ b/drivers/hv/mshv_vtl_main.c
-> @@ -801,7 +801,7 @@ static vm_fault_t mshv_vtl_fault(struct vm_fault *vmf)
->  	int cpu = vmf->pgoff & MSHV_PG_OFF_CPU_MASK;
->  	int real_off = vmf->pgoff >> MSHV_REAL_OFF_SHIFT;
->  
-> -	if (!cpu_online(cpu))
-> +	if (cpu >= nr_cpu_ids || !cpu_online(cpu))
->  		return VM_FAULT_SIGBUS;
->  	/*
->  	 * CPU Hotplug is not supported in VTL2 in OpenHCL, where this kernel driver exists.
-> -- 
-> 2.34.1
+> This series extends the HMM framework to support userfaultfd-backed memory
+> by allowing the mmap read lock to be dropped during hmm_range_fault().
+
+Thanks, I've updated mm.git's mm-unstable branch to this version.
+
+Sashiko pointed at a few things, some pre-existing.  The jiffies race
+in [8/8] looks legit.
+
+	https://sashiko.dev/#/patchset/20260722-hmm-v10-v1-0-606464dd601a@gmail.com
+
+> Changes in v10:
+>   - Included contended mmap_lock acquisition in the
+>     hmm_range_fault_unlocked_timeout() retry budget.
+>   - Dropped the redundant top-level fatal_signal_pending() check in the HMM
+>     unlocked retry loop; mmap_read_lock_killable() now covers that path.
+>   - Restored the absolute outer timeout in drm_gpusvm_get_pages(), since it can
+>     run from GPU page-fault workers and must not rely on the worker task’s fatal
+>     signal state to stop invalidation retries.
+
+Here's how v10 altered mm.git:
+
+
+ drivers/gpu/drm/drm_gpusvm.c |   11 +++++++++--
+ mm/hmm.c                     |   29 +++++++++++++----------------
+ 2 files changed, 22 insertions(+), 18 deletions(-)
+
+--- a/drivers/gpu/drm/drm_gpusvm.c~b
++++ a/drivers/gpu/drm/drm_gpusvm.c
+@@ -1405,7 +1405,9 @@ int drm_gpusvm_get_pages(struct drm_gpus
+ 		.dev_private_owner = ctx->device_private_page_owner,
+ 	};
+ 	void *zdd;
+-	unsigned long timeout = msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
++	unsigned long timeout =
++		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
++	unsigned long remaining;
+ 	unsigned long i, j;
+ 	unsigned long npages = npages_in_range(pages_start, pages_end);
+ 	unsigned long num_dma_mapped;
+@@ -1420,6 +1422,11 @@ int drm_gpusvm_get_pages(struct drm_gpus
+ 	struct dma_iova_state *state = &svm_pages->state;
+ 
+ retry:
++	if (time_after_eq(jiffies, timeout))
++		return -EBUSY;
++
++	remaining = timeout - jiffies;
++
+ 	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+ 	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+ 		goto set_seqno;
+@@ -1434,7 +1441,7 @@ retry:
+ 	}
+ 
+ 	hmm_range.hmm_pfns = pfns;
+-	err = hmm_range_fault_unlocked_timeout(&hmm_range, timeout);
++	err = hmm_range_fault_unlocked_timeout(&hmm_range, remaining);
+ 	mmput(mm);
+ 	if (err)
+ 		goto err_free;
+--- a/mm/hmm.c~b
++++ a/mm/hmm.c
+@@ -790,22 +790,14 @@ int hmm_range_fault_unlocked_timeout(str
+ 	int ret;
+ 
+ 	do {
+-		if (fatal_signal_pending(current))
+-			return -EINTR;
+-
+-		if (timeout) {
+-			/*
+-			 * If the previous fault dropped mmap_lock, then the fault
+-			 * handler made progress. Restart the retry timeout in that
+-			 * case, but keep the existing deadline for ordinary -EBUSY
+-			 * retries.
+-			 */
+-			if (!locked)
+-				deadline = jiffies + timeout;
+-
+-			if (time_after(jiffies, deadline))
+-				return -EBUSY;
+-		}
++		/*
++		 * If the previous fault dropped mmap_lock, then the fault
++		 * handler made progress. Restart the retry timeout in that
++		 * case, but keep the existing deadline for ordinary -EBUSY
++		 * retries.
++		 */
++		if (timeout && !locked)
++			deadline = jiffies + timeout;
+ 
+ 		range->notifier_seq =
+ 			mmu_interval_read_begin(range->notifier);
+@@ -814,6 +806,11 @@ int hmm_range_fault_unlocked_timeout(str
+ 		if (ret)
+ 			return ret;
+ 
++		if (timeout && time_after(jiffies, deadline)) {
++			mmap_read_unlock(mm);
++			return -EBUSY;
++		}
++
+ 		locked = true;
+ 		ret = hmm_range_fault_locked(range, &locked);
+ 		if (locked)
+_
+
