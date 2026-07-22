@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ADD470E9C;
-	Wed, 22 Jul 2026 22:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211AC3E16B9;
+	Wed, 22 Jul 2026 22:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784758862; cv=none; b=jmYJatJodHyAgPz1N55nuMVpjOed3nvi4OBXqjt8f7UxqmjjlefVuYcc1NJUNiLh7a8/oOlIP+vk8B5YidLfLPrSix7oQuqJxPKZcwODJlvPfNEKAUgX62akxChNB4CY1hL8W4f01uxGlHxYd9rnBRhsEcPb3MM14P6jPYZt5G0=
+	t=1784758965; cv=none; b=rdzyZ61BH9CuDMRgPV+caCZNBtJrCY3PyfLVQEkkFyBy7MUQfvHvvYQBafO3VmbDkDOiQptpRYB5y9xVDKXHrl2plPMeqv9cGMwNf8H+T/UNM9sYvd8JiFxiTL7xbXNQCmmVGHW1OPaDYJO8qqTOIVjXxpjDYmGwxtu1yXM8GBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784758862; c=relaxed/simple;
-	bh=rDyuS5IF255Ua/X7kIB4lrFPMPzGFyoIL+Pj6fTWqSY=;
+	s=arc-20240116; t=1784758965; c=relaxed/simple;
+	bh=uMM0K6h13mRT4qd3LJFybaloSN042umavFZF8qQs0zE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XfjLqE3M+8rCn8KCjXxA2XdI9FKWozmLVrP4/LDe2+x6D7dX8unuru+8mEdjTN+oY+PRDV1Fp12zddwAL0AMMQE04TuKicimVi4zY4ZgQL9tCyuG9Hco13oRJuFAbcBfZnP733v/3iFUyQFa1ASUG0U+wP8eeMH5X8kfPVg41VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PkU8nfNK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1F/YYE3sZjY6ELWKgU1ADJZKb6B6NCN+AGuvWd0g2VmBCOMMj2/R60qH0RbnsIRB6/mmtAT7SjD/2+pcm47Y7i2poNrH8XK5aUy4isddtk321RPY8g0qZVAC3r/E3elwEiQq95+O/DqWMatUR+ajfwBgi9NID+j8EKR/RfjWIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2UgxxU+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PkU8nfNK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ABE61F000E9;
-	Wed, 22 Jul 2026 22:21:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2UgxxU+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D521F000E9;
+	Wed, 22 Jul 2026 22:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784758860;
-	bh=SoVnGTSH+5oxqEqjvKU/P7WkBMP64YA7GsAORNce/bE=;
+	s=k20260515; t=1784758963;
+	bh=j8gaegb2ADazUievQZINPp/IpA+QVcS+ZZIOnHBDajY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PkU8nfNK4eEel4KXpdDN2Gp7TZsHMpkha+fuOzImSWTlpA6pdR+ly679gPMCGT2W8
-	 aN+WFpC6WYTjfW8UV6nB4+SLDm3zU7yQEAL/34k1qxEV3csSCtA2j4iNPGJVgdWABH
-	 oFljqsB+H9js1hyKvBOaM8sH72kyweEWePACWlByhNc65aCx22eUC/Rl+Nx/2rMx6v
-	 4nwrHI9jyGcVSlZ1YAtoCgZVpUMziVpBBcmokNZeP9qccbVZlkP+pq0Ib66s4ZvJu0
-	 fsavSTnYO2F4Sm4UNNiwkDXlQ+B1mejrIwrIIKZGQlymd0l0NIgLSKN6DivgUMsR2+
-	 iG26CFM9V00kg==
-Date: Wed, 22 Jul 2026 15:20:59 -0700
+	b=R2UgxxU+RZSaXBEAnixwp5KiatVzsOYN0fmO/ILHLnVJt2WXSLURaO1Rfp9fbhPYd
+	 04vEddE2AlR+cPaBgU+/yTBfaTeaY9myA2YbLF5cxWsXZ62Ap0wQMVmgaIMoli021t
+	 wXMSEkVT25I7hwv733wajE2KfQEQvpC1u+GpI6EZEXKkfiYyZeean+pXkC62RO+xc+
+	 yi/Q+r1pE6/emrbeFG/6eUiSpVcuRPtWn5D7AYhA1zrZtSVwSL0lmHRXFd7olSwE00
+	 Zsd1lNCPS4+k1YqNBKvRJmmmdFKpk8uEaL9ZbnostdkX100hriJby0Zo9N2HGtf4s8
+	 e8wZrR2Q7MAiw==
+Date: Wed, 22 Jul 2026 15:22:42 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: Yi Xie <xieyi@kylinos.cn>, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mshv: fix fd leak in mshv_ioctl_create_vtl()
-Message-ID: <20260722222059.GE2020652@liuwe-devbox-debian-v2.local>
-References: <20260708012852.36824-1-xieyi@kylinos.cn>
- <ak5LDBRXOVYTrZ9r@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+To: Yi Xie <xieyi@kylinos.cn>, ssengar@microsoft.com,
+	namjain@linux.microsoft.com
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mshv: bounds-check cpu index in vtl mmap fault handler
+Message-ID: <20260722222242.GF2020652@liuwe-devbox-debian-v2.local>
+References: <20260709021947.49436-1-xieyi@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -44,14 +44,31 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ak5LDBRXOVYTrZ9r@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20260709021947.49436-1-xieyi@kylinos.cn>
 
-On Wed, Jul 08, 2026 at 09:05:16AM -0400, Hamza Mahfooz wrote:
-> On Wed, Jul 08, 2026 at 09:28:52AM +0800, Yi Xie wrote:
-> > put_unused_fd() if anon_inode_getfile() fails.
-> > 
-> > Signed-off-by: Yi Xie <xieyi@kylinos.cn>
+Naman, Saurabh, please review this.
+
+On Thu, Jul 09, 2026 at 10:19:47AM +0800, Yi Xie wrote:
+> cpu is taken from pgoff & 0xffff.  cpu_online() does not reject cpu >=
+> nr_cpu_ids, and per_cpu_ptr() can then walk off __per_cpu_offset.
 > 
-> Reviewed-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-
-Applied to hyperv-fixes. Thanks.
+> Signed-off-by: Yi Xie <xieyi@kylinos.cn>
+> ---
+>  drivers/hv/mshv_vtl_main.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+> index 0d3d4161974f..fc50c44ac1bd 100644
+> --- a/drivers/hv/mshv_vtl_main.c
+> +++ b/drivers/hv/mshv_vtl_main.c
+> @@ -801,7 +801,7 @@ static vm_fault_t mshv_vtl_fault(struct vm_fault *vmf)
+>  	int cpu = vmf->pgoff & MSHV_PG_OFF_CPU_MASK;
+>  	int real_off = vmf->pgoff >> MSHV_REAL_OFF_SHIFT;
+>  
+> -	if (!cpu_online(cpu))
+> +	if (cpu >= nr_cpu_ids || !cpu_online(cpu))
+>  		return VM_FAULT_SIGBUS;
+>  	/*
+>  	 * CPU Hotplug is not supported in VTL2 in OpenHCL, where this kernel driver exists.
+> -- 
+> 2.34.1
