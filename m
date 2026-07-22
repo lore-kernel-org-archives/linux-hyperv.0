@@ -1,217 +1,191 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB853368AE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E39E403AEC
 	for <linux-hyperv@vger.kernel.org>; Wed, 22 Jul 2026 23:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763978; cv=none; b=EBLzfYwEwhPZdfeISjFABL3dLsZTMYh0+V4lF57paqOo8gG66n5b8hOgcWPQAzHcKlY7jj6jFLNTJur0otpUFm/GFVcgTJNuF+Wjyb0GOaX/bf4JJTauAq6d8b7B8u/WSbcbzyB4S3Sfe6xGfBUTHneBso/Tq6PS0Hdx5xfSV0A=
+	t=1784763979; cv=none; b=RFznefTLskBCm36u4Fsh6juwzX3SaAVCZXPgOfOS8xXIx8Y9cQ0BNwMZyArW3yvpWXyIUAPLYOGyPGpA9P3hyE5/MEo0HW9iibNIR4I0fodjgyqYRytg8H2uDHdT+/yzOpQqXwiz9mKZSuNwZkw3pYOio4bXVk3tNfggLN4Kx0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784763978; c=relaxed/simple;
-	bh=5wy3SxNL9anHVn2P9Nw/46SyhZI/5wn2CpN5khxGcQA=;
+	s=arc-20240116; t=1784763979; c=relaxed/simple;
+	bh=u/aUFfSibyixEVAF16QBaw1wKa36EXBxVzK2EKayY2c=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=TMLHW7qx0Dg/4y/Y5lNW0xlK60TRweU6zzZ5vR3zDc/ZZ4TKqjSeLLdJNyJfpA6NiHPI7yvnfHp6gmU0VGP58r4Av2lykksixXn1nmqNVFWaAinMwV2h5ojfh9gKvLSdJkjPAno7SKsVTapRxgbpcY3XG1zt7axVYVGdgpftVuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxFwfjY4; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=AYV1wUb2hTRBCOvFmuppKkNo1B+yzM1CX3dL/5b4wCqTwFNY6SUDxd5xdrcbbf/ch3KXw4vVT+jt18q6sKdX/6J69+0nRyTNIoq9XI1cSRAp5oFfeRVQh8aPWO824vrHlFlw5dwgJC4Q24okCZdS2SJGlLguRhLAdBgCv6FhbII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJ7bO9aK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxFwfjY4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088971F00A3A;
-	Wed, 22 Jul 2026 23:46:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJ7bO9aK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69E61F00A3D;
+	Wed, 22 Jul 2026 23:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1784763977;
-	bh=VdxC+Z8I2Px3IFCGlne4sxN1unPP2CZafVOJY0+31K4=;
+	bh=5oNRF5awI4qGpEG8wBpc4z8tSkPzYk1qEo5zPyk73Yk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RxFwfjY44srbhNSg5946PDExb2yAVTnGwNrnRkCqrNDHlcBxCAykgQowY0P1TrX4W
-	 RRY1xRp14nS3T8n2doOemEfUqZJ7xGOEqKE63+yg+r63HGH8XkHK8VET+xrWYT14hs
-	 X1FBUoUy5EfOnEIt1XmAxvaONaoBudHGHwrDg++lrCVagCgM08OKR+zuYoRoUnBfLj
-	 vhB0HVP47s18nXvEaxiCLVElbZn9Kv17LCr6a3D7Lg92MAeNTebNMgKnB0d9z18H8W
-	 eZp9cY8aGvuhLiyx/10zBsEsBK7+YG6OIbvnaRD5c/natdh1ZNSScKK6PxUol+pKFx
-	 2E7Q3Iv8F/s5g==
+	b=mJ7bO9aK37CWlJP1qM/7cAolzp2X0i1MXvEw7MpY732Md0G9Uw8+jPH/l08G30a3x
+	 67hUgLminDkjV43fDPijoh0K6sBqEg/QtnhgGRfc/nFw4tXVjHS0WQwSBMfJwF8qOb
+	 pLgqi+h5BTzpi07R8lO0lGNSgZFSUy/3/pJy72o386qjgEWFdWauL4qQK5swd2zyVq
+	 BcInlNe2W3t9A6uRsQ91wDYBJeNlfWr0qWw+EQPl7GZKyPVFxIXZkGG+gzCxWI64jo
+	 trt8/i38fCQYyaEHt6V4jBmYLiMSaSTehEOaFafYch6Uhh+j8gw/56SkZ5Ro8FHhDf
+	 se23nGgsfzQsQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 1/7] net: mana: RCU-protect gc->cq_table
- lookups against concurrent CQ destroy
+Subject: Re: [PATCH net-next v2 5/7] net: mana: fix HWC teardown safety with
+ setup_active flag and destroy ordering
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260721234339.1476932-2-longli@microsoft.com>
+In-Reply-To: <20260721234339.1476932-6-longli@microsoft.com>
 References: <20260721234339.1476932-1-longli@microsoft.com>
- <20260721234339.1476932-2-longli@microsoft.com>
+ <20260721234339.1476932-6-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jul 2026 23:46:16 +0000
-Message-Id: <20260722234617.088971F00A3A@smtp.kernel.org>
+Date: Wed, 22 Jul 2026 23:46:17 +0000
+Message-Id: <20260722234617.B69E61F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
 
+New issues:
+- [High] Improper PCI device reset via `pcie_flr()` leaves PCI core state o=
+ut of sync.
+
 Pre-existing issues:
-- [Critical] Concurrent QP creations sharing the same CQ cause a data race =
-on `send_cq->queue.id`, leaking CQ table entries and triggering a double fr=
-ee of `gdma_cq` in the error path.
-- [High] The EQ event handler `mana_gd_process_eqe()` triggers a false posi=
-tive `WARN_ON_ONCE(!cq)` when encountering stale EQEs for a recently destro=
-yed CQ during normal teardown.
-- [High] `mana_gd_destroy_queue()` frees EQ queues immediately after `list_=
-del_rcu()` without waiting for an RCU grace period, causing a use-after-fre=
-e if an interrupt handler is concurrently traversing the EQ list.
+- [Critical] Use-After-Free in EQ interrupt handler because the CQ is destr=
+oyed before the EQ is deregistered.
+- [Critical] Tag reuse causing logical corruption when HWC commands time ou=
+t.
+- [High] Race condition leading to Use-After-Free on module unbind due to u=
+n-cancelled `mana_serv_work`.
 --
 
---- Patch [1]: [PATCH net-next v2 1/7] net: mana: RCU-protect gc->cq_table =
-lookups against concurrent CQ destroy ---
-commit 4df31c26faa213971de40d92e7d0a48ab9e5d300
+--- Patch [5]: [PATCH net-next v2 5/7] net: mana: fix HWC teardown safety w=
+ith setup_active flag and destroy ordering ---
+commit 7a0e58ab3c693baa720b6e21219cbe04fb7e9fcf
 Author: Long Li <longli@microsoft.com>
 
-net: mana: RCU-protect gc->cq_table lookups against concurrent CQ destroy
+net: mana: fix HWC teardown safety with setup_active flag and destroy order=
+ing
 
-This commit fixes a use-after-free race between the EQ interrupt handler and
-CQ teardown by placing the cq_table under RCU protection. It annotates the
-table, updates readers to use rcu_dereference, and ensures removers clear
-the slot and call synchronize_rcu() before freeing the CQ.
+This patch adds a setup_active flag to ensure safe hardware channel teardown
+on initialization failures. It also reorders queue destruction to prevent
+DMA-after-free races during teardown.
 
-> diff --git a/drivers/infiniband/hw/mana/cq.c b/drivers/infiniband/hw/mana=
-/cq.c
-> --- a/drivers/infiniband/hw/mana/cq.c
-> +++ b/drivers/infiniband/hw/mana/cq.c
-
-[ ... ]
-
-> @@ -149,23 +157,49 @@ int mana_ib_install_cq_cb(struct mana_ib_dev *mdev,=
- struct mana_ib_cq *cq)
->  void mana_ib_remove_cq_cb(struct mana_ib_dev *mdev, struct mana_ib_cq *c=
-q)
->  {
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
+et/ethernet/microsoft/mana/hw_channel.c
+> index 515c45c4a890f..5bc873d548d58 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
 
 [ ... ]
 
-> +	/* Removers for a given CQ are serialized by the IB core, so the slot
-> +	 * is read and cleared without rcu_read_lock() or atomicity: a CQ is
-> +	 * never torn down while a live QP references it (cq->usecnt), nor
-> +	 * while the QP-create that installed the entry is still running (that
-> +	 * create holds a reference on the CQ uobject across its error path,
-> +	 * before usecnt is taken).  Any double-remove is therefore sequential
-> +	 * -- the later caller sees the NULL stored below and returns.
+> @@ -902,11 +926,58 @@ void mana_hwc_destroy_channel(struct gdma_context *=
+gc)
+
+[ ... ]
+
+> +			/* On systems without IOMMU, freeing DMA memory with
+> +			 * active hardware MST mappings risks memory corruption.
+> +			 * Issue FLR to force-reset the device and invalidate
+> +			 * all hardware state including MST entries.
+> +			 */
+> +			td_err =3D pcie_flr(to_pci_dev(gc->dev));
+
+[Severity: High]
+Does using pcie_flr() here instead of pci_reset_function() leave the
+Linux PCI core completely unaware of the reset?
+
+Since pcie_flr() does not save and restore the PCI configuration space,
+such as BARs, MSI-X vectors, and Bus Master enable, could this leave the
+hardware's PCI configuration wiped and out of sync with the kernel's
+cached state, resulting in a wedged device?
+
+> +			if (td_err) {
+
+[ ... ]
+
+> +	/* Tear down the HWC CQ object first =E2=80=94 mana_hwc_destroy_cq()
+> +	 * both unpublishes the CQ from cq_table (+synchronize_rcu) and
+> +	 * deregisters the HWC EQ from the interrupt handler list (via
+> +	 * mana_gd_deregister_irq + synchronize_rcu), guaranteeing no
+> +	 * interrupt handler can access RQ/TXQ buffers after this point.
 > +	 */
-> +	gdma_cq =3D rcu_dereference_protected(cq_table[cq->queue.id], true);
-> +	if (!gdma_cq)
-> +		return;  /* already removed by a prior teardown path */
-> +
-> +	rcu_assign_pointer(cq_table[cq->queue.id], NULL);
-> +
-> +	/* Wait for in-flight EQ handlers that may have loaded the old
-> +	 * pointer via rcu_dereference() to finish before freeing.
-> +	 */
-> +	synchronize_rcu();
-> +	kfree(gdma_cq);
->  }
+> +	if (hwc->cq)
+> +		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
 
 [Severity: Critical]
-This is a pre-existing issue, but does this actually prevent double frees
-during concurrent QP creation failures?
+This is a pre-existing issue, but does destroying the CQ before the EQ
+inside mana_hwc_destroy_cq() create a use-after-free window?
 
-If multiple concurrent ib_create_qp() calls share the same send_cq, the IB
-core takes a read lock. In mana_ib_create_qp_raw(), the shared
-send_cq->queue.id is locklessly overwritten:
+In mana_hwc_destroy_cq(), the CQ structure is freed first:
 
-drivers/infiniband/hw/mana/qp.c:mana_ib_create_qp_raw() {
-    ...
-    qp->raw_sq.id =3D wq_spec.queue_index;
-    send_cq->queue.id =3D cq_spec.queue_index;
+mana_hwc_destroy_cq() {
+    if (hwc_cq->gdma_cq)
+        mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
     ...
 }
 
-If both threads fail after this point (e.g., due to an invalid user pointer=
-),
-they both jump to the error path and call mana_ib_remove_cq_cb().
+If the hardware posts an initialization event before the EQ is
+subsequently destroyed, could the interrupt handler execute:
 
-Since the removers are not serialized in this error path, couldn't they both
-read the same gdma_cq pointer, both clear it, wait for synchronize_rcu(),
-and then both call kfree(gdma_cq)?
+mana_hwc_init_event_handler() {
+    ...
+    case HWC_INIT_DATA_CQID:
+        hwc->cq->gdma_cq->id =3D val;
+        break;
+}
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/ne=
-t/ethernet/microsoft/mana/gdma_main.c
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+and write directly into the newly freed gdma_cq structure memory?
 
 [ ... ]
-
-> @@ -772,10 +773,11 @@ static void mana_gd_process_eqe(struct gdma_queue *=
-eq)
->  	switch (type) {
->  	case GDMA_EQE_COMPLETION:
->  		cq_id =3D eqe->details[0] & 0xFFFFFF;
-> -		if (WARN_ON_ONCE(cq_id >=3D gc->max_num_cqs))
-> +		cq_table =3D rcu_dereference(gc->cq_table);
-> +		if (WARN_ON_ONCE(cq_id >=3D gc->max_num_cqs || !cq_table))
->  			break;
-> =20
-> -		cq =3D gc->cq_table[cq_id];
-> +		cq =3D rcu_dereference(cq_table[cq_id]);
->  		if (WARN_ON_ONCE(!cq || cq->type !=3D GDMA_CQ || cq->id !=3D cq_id))
->  			break;
 
 [Severity: High]
-This isn't a bug introduced by this patch, but could this WARN_ON_ONCE
-trigger as a false positive during normal teardown?
+This isn't a bug introduced by this patch, but is there a race condition
+leading to a use-after-free on module unbind due to un-cancelled service
+work?
 
-During interface teardown, mana_deinit_cq() clears cq_table[id] and waits
-for an RCU grace period, but the associated EQ remains active until
-mana_destroy_eq() is called later.
+If a hardware reset event triggers mana_schedule_serv_work(), it queues
+work on the global system_wq. If the driver is unbound via sysfs,
+mana_gd_remove() frees the gdma_context via vfree(gc) without cancelling
+this pending work.
 
-If the EQ already contains a completion event for the destroyed CQ, the
-interrupt handler will process the stale EQE, read a NULL pointer for cq,
-and hit this warning.
+Could the work then execute concurrently, calling mana_serv_reset() which
+fetches the freed context:
 
-Since panic_on_warn is common in cloud environments, could this crash the
-system during a standard interface teardown?
-
-[ ... ]
-
-> @@ -1082,15 +1084,28 @@ static void mana_gd_create_cq(const struct gdma_q=
-ueue_spec *spec,
->  static void mana_gd_destroy_cq(struct gdma_context *gc,
->  			       struct gdma_queue *queue)
->  {
-
-[ ... ]
-
-> +	/* Wait for in-flight EQ handlers that may have loaded the old
-> +	 * pointer via rcu_dereference() to finish before the caller
-> +	 * frees the CQ memory.
-> +	 */
-> +	synchronize_rcu();
->  }
-
-[Severity: High]
-This is a pre-existing issue, but does mana_gd_destroy_queue() need a simil=
-ar
-synchronize_rcu() to prevent a use-after-free?
-
-While mana_gd_intr() traverses the EQ list under RCU:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_intr() {
-    rcu_read_lock();
-    list_for_each_entry_rcu(eq, &gic->eq_list, entry)
-        mana_gd_process_eqe(eq);
-    rcu_read_unlock();
-}
-
-The teardown path removes the queue via list_del_rcu() but then immediately
-frees the memory without waiting for a grace period:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_destroy_queue() {
+mana_serv_reset() {
+    struct gdma_context *gc =3D pci_get_drvdata(pdev);
+    struct hw_channel_context *hwc =3D gc->hwc.driver_data;
     ...
-    mana_gd_destroy_dma_region(gc, gmi->dma_region_handle);
-    mana_gd_free_memory(gmi);
-    kfree(queue);
 }
 
-Could a concurrent reader in mana_gd_intr() dereference the freed EQ if
-the memory is released before the RCU grace period ends?
+and dereference the freed memory?
+
+[Severity: Critical]
+This is a pre-existing issue, but can tag reuse cause logical data
+corruption when hardware channel commands time out?
+
+When wait_for_completion_timeout() times out in mana_hwc_send_request(),
+the function calls mana_hwc_put_msg_index() to free the msg_id for
+immediate reuse.
+
+Since the hardware is not reset, the timed-out command is still pending.
+If another thread sends a new command and allocates the same msg_id,
+what happens when the hardware eventually responds to the original
+command?
+
+Could mana_hwc_handle_resp() match this late response to the new command:
+
+mana_hwc_handle_resp() {
+    ctx =3D hwc->caller_ctx + msg_id;
+    ...
+    memcpy(ctx->output_buf, resp_msg, resp_len);
+    complete(&ctx->comp_event);
+}
+
+and complete it with stale data?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260721234339.1476=
-932-1-longli@microsoft.com?part=3D1
+932-1-longli@microsoft.com?part=3D5
