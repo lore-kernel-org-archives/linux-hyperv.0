@@ -1,154 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302036B912
-	for <linux-hyperv@vger.kernel.org>; Thu, 23 Jul 2026 16:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1471538B7A6;
+	Thu, 23 Jul 2026 16:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784824678; cv=none; b=nZlLlVMNiOPYmt+JPVoKoeRkPQQPUPLtconoaDXMf2wqEID00ALrlW0AXlayCHkqIfhkUCufSqZiNP7xhl8zfNyuf2h55snDM4z5ApA3tFI+CKfMa10fFb5ll3XICgcrZp09aRwlPoRgHPmbMaTvrJtphPPejZ07yz0FdyFaNe4=
+	t=1784825496; cv=none; b=MSXQGbHP3dlMJ/hUCkqDOpyLm/zOAN+pPrOmXIsHBy5O1+kPblKm5SmJnVxRj6R7Xgo9MSeT+E+e47/A6jwU2O0+ObdNAaXATa8FXCP5lDhiXt02aa41LOpm2j5dIz7gtA0cf/bZvqjzU5hVBUHHZzztPFTaW7yjLPaxmTgdKxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784824678; c=relaxed/simple;
-	bh=DFd9dt5y9JGMgEV69pl90+yVQfFmUipOmqgcExQa2Sc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MyZHze8uk1k30YFNP2yjaIsEY0DzBjrdZxOR4eaHj6/WU5xwCkWVExohReoPc8rNzIh7bg/2/veBMkFCi615j9whvKV7FNH92nNhId3Ye/uDyAs4N8qROqXy8mL6fBpFb1Xr8xpETNms2+QBNAe/7F8zJJvevBfBGXcjl7H50ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GVikHgqb; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784825496; c=relaxed/simple;
+	bh=gPercOy1rtSIO4cVNhw/nM2dhSOXfCao72HG0EBWubs=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=uKafUh63WxWhaolNjJarKrJq3mnTf03yt930RsJdLs4olwAhXfKAWAG7yvH3tBp73EJJKnIEWYTJ+FidqPO6qWgndJk+v0FNP5xQfR8aj5PumODzRh2SzhmJ7Jpee1v0yickMWNZmM/wRtYThDrs3vqrUtlI9zbeDpByo71gqb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eONXwt67; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GVikHgqb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784824675;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PqJJwyPcyrJA489wBly1PHlAUlC9pJG9hGeVBDyySeo=;
-	b=GVikHgqbtcL8rS8O9QW7+/RILMgUMhkmJrkC65ZcYvKc5o9G2Ikm5a8+Mf9wA/HP+d2Hrm
-	Hu7Jz+sHhhpjG3iopl2fEQh3NDRaFqnGlM1/pR6sDiRKhgWkaJXdhVOHxzi6RbYU3SU4F+
-	+z27MF9AqMJMMR5O4nJV9LncGceG3sQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-280-4jqHKfLsMpiKJQfr8iMTOA-1; Thu,
- 23 Jul 2026 12:37:52 -0400
-X-MC-Unique: 4jqHKfLsMpiKJQfr8iMTOA-1
-X-Mimecast-MFC-AGG-ID: 4jqHKfLsMpiKJQfr8iMTOA_1784824671
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA024180AA7D;
-	Thu, 23 Jul 2026 16:37:50 +0000 (UTC)
-Received: from loberman-thinkpadp16gen3.rmtusma.csb (unknown [10.22.65.166])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE3CB18002AE;
-	Thu, 23 Jul 2026 16:37:48 +0000 (UTC)
-From: Laurence Oberman <loberman@redhat.com>
-To: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] scsi: storvsc: Support manual scans for all Hyper-V targets
-Date: Thu, 23 Jul 2026 12:37:43 -0400
-Message-ID: <20260723163743.1274830-1-loberman@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eONXwt67"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618071F000E9;
+	Thu, 23 Jul 2026 16:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784825494;
+	bh=1cQvAKTizrQ2S9tYlwyVmpdE9Cmym2Z2sjJarm5pfmU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eONXwt67K8xjTYCd/DgpY/aDR4HdU3vc8YTYf4zzcLbKTFaSDkpL8+qw/FbyWeg+2
+	 UtoLiu97w6KNQSNIl/zhh2mUbnUlZPjpKg0+aqQfO2HhFr+/9H+NRdUqLFqxuG9ccY
+	 Y0jokQSIBuZf8/CEe1+zBzyllGbna8SuIi6yP3Rv4c3TAnHKm3FcvWMH2QsPFTiurF
+	 jq9rHJev3jJjqxh+6lwMbeOh+ACdBsBREHL0C2907gNXSOB1Pgbg98BqJYqU+bVGlo
+	 OLoqgMJDlEzsyFuHkKKQMNpq6HzhbMZhCVWTRGe5RtBdbpjVVXNePAJyGxTVAlr9z7
+	 pjR1Pasf8q9/Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] scsi: storvsc: Support manual scans for all Hyper-V
+ targets
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Laurence Oberman" <loberman@redhat.com>
+Cc: linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org
+In-Reply-To: <20260723163743.1274830-1-loberman@redhat.com>
+References: <20260723163743.1274830-1-loberman@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jul 2026 16:51:33 +0000
+Message-Id: <20260723165134.618071F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-The Fibre Channel transport topology created by storvsc exposes only one
-dummy remote port per SCSI host. Its scsi_target_id is always zero.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-As a result, the FC transport user-scan path looks up the remote port using
-target ID 0. It cannot initiate a scan for Target 1 or higher. No SCSI
-command is therefore sent to Hyper-V when userspace explicitly requests a
-scan of one of these targets.
+Pre-existing issues:
+- [High] Kernel panic in fc_eh_timed_out() due to missing NULL check for fc=
+_rport, contradicting the v2 changelog claim.
+- [High] Use-After-Free race condition in fc_user_scan_tgt due to unpinned =
+rport pointer.
+--
 
-storvsc itself supports up to STORVSC_FC_MAX_TARGETS and already passes
-scmnd->device->id to Hyper-V as vm_srb->target_id. Devices on Target 1 and
-higher work when initially discovered. They can also be rediscovered by a
-full host scan, such as the scan triggered after an FC port bounce.
+--- Patch [1]: [PATCH v2] scsi: storvsc: Support manual scans for all Hyper=
+-V targets ---
+commit 7a84d34942989f4df1a7195141939c24f221c9ea
+Author: Laurence Oberman <loberman@redhat.com>
 
-Provide a storvsc-specific user_scan callback that uses the exported
-scsi_scan_target() interface. Iterate over the requested channel and target
-ranges so that wildcard and explicitly addressed scans retain the expected
-SCSI sysfs scan semantics.
+scsi: storvsc: Support manual scans for all Hyper-V targets
 
-This bypasses the single-rport lookup in fc_user_scan() and allows
-userspace to explicitly scan any target supported by storvsc without
-requiring one synthetic fc_rport for every Hyper-V target.
+This patch provides a storvsc-specific user_scan callback that uses the
+exported scsi_scan_target() interface to allow explicit scanning of targets
+without requiring synthetic fc_rports for each target.
 
-Signed-off-by: Laurence Oberman <loberman@redhat.com>
----
+> ---
+> Changes in v2:
+> - Replace the private, unexported scsi_scan_host_selected() helper with
+>   the exported scsi_scan_target() interface.
+> - Preserve wildcard channel and target scan behavior.
+> - Verify that storvsc_eh_timed_out() does not use the FC error-handler
+>   helpers; the reported missing-rport dereference is not present.
 
-Changes in v2:
-- Replace the private, unexported scsi_scan_host_selected() helper with
-  the exported scsi_scan_target() interface.
-- Preserve wildcard channel and target scan behavior.
-- Verify that storvsc_eh_timed_out() does not use the FC error-handler
-  helpers; the reported missing-rport dereference is not present.
+[Severity: High]
+This isn't a bug introduced by this patch, but is the v2 changelog accurate
+regarding storvsc_eh_timed_out()?
 
- drivers/scsi/storvsc_drv.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Looking at storvsc_eh_timed_out() in drivers/scsi/storvsc_drv.c, it appears
+to explicitly route I/O timeouts to the FC transport error handler:
 
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 571ea549152b..58b6ae96d03f 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -520,6 +520,36 @@ static void storvsc_host_scan(struct work_struct *work)
- 	scsi_scan_host(host);
- }
- 
-+#if IS_ENABLED(CONFIG_SCSI_FC_ATTRS)
-+static int storvsc_user_scan(struct Scsi_Host *host,
-+			     unsigned int channel,
-+			     unsigned int id,
-+			     u64 lun)
-+{
-+	unsigned int first_channel, last_channel;
-+	unsigned int first_id, end_id;
-+	unsigned int ch, target;
-+
-+	if ((channel != SCAN_WILD_CARD && channel > host->max_channel) ||
-+	    (id != SCAN_WILD_CARD && id >= host->max_id) ||
-+	    (lun != SCAN_WILD_CARD && lun >= host->max_lun))
-+		return -EINVAL;
-+
-+	first_channel = channel == SCAN_WILD_CARD ? 0 : channel;
-+	last_channel = channel == SCAN_WILD_CARD ? host->max_channel : channel;
-+	first_id = id == SCAN_WILD_CARD ? 0 : id;
-+	end_id = id == SCAN_WILD_CARD ? host->max_id : id + 1;
-+
-+	for (ch = first_channel; ch <= last_channel; ch++) {
-+		for (target = first_id; target < end_id; target++)
-+			scsi_scan_target(&host->shost_gendev, ch, target, lun,
-+					 SCSI_SCAN_MANUAL);
-+	}
-+
-+	return 0;
-+}
-+#endif
-+
- static void storvsc_remove_lun(struct work_struct *work)
- {
- 	struct storvsc_scan_work *wrk;
-@@ -2232,6 +2262,8 @@ static int __init storvsc_drv_init(void)
- 	fc_transport_template = fc_attach_transport(&fc_transport_functions);
- 	if (!fc_transport_template)
- 		return -ENODEV;
-+
-+	fc_transport_template->user_scan = storvsc_user_scan;
- #endif
- 
- 	ret = vmbus_driver_register(&storvsc_drv);
--- 
-2.55.0
+if (scmnd->device->host->transportt =3D=3D fc_transport_template)
+        return fc_eh_timed_out(scmnd);
 
+When fc_eh_timed_out() handles this, it extracts the fc_rport pointer:
+
+struct fc_rport *rport =3D starget_to_rport(scsi_target(scmd->device));
+if (rport->port_state =3D=3D FC_PORTSTATE_BLOCKED)
+
+Because storvsc targets are created without an intermediate fc_rport parent,
+starget_to_rport() returns NULL. Does this mean fc_eh_timed_out() will
+immediately dereference a NULL pointer during an I/O timeout?
+
+
+As a related observation on the FC transport layer scan paths:
+
+[Severity: High]
+This is a pre-existing issue, but does fc_user_scan_tgt() have a race
+condition that could lead to a use-after-free?
+
+In drivers/scsi/scsi_transport_fc.c:fc_user_scan_tgt(), the host lock is
+dropped before scanning the target:
+
+spin_unlock_irqrestore(shost->host_lock, flags);
+scsi_scan_target(&rport->dev, channel, id, lun,
+                 SCSI_SCAN_MANUAL);
+
+If a concurrent FC link down event or port removal triggers
+fc_rport_final_delete(), can the rport device be removed and freed before
+or during the scsi_scan_target() execution? If so, should a reference be
+acquired on rport->dev prior to dropping the lock?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260723163743.1274=
+830-1-loberman@redhat.com?part=3D1
