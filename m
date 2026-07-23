@@ -1,166 +1,203 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 278842248B3;
-	Thu, 23 Jul 2026 22:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D480B353A6E
+	for <linux-hyperv@vger.kernel.org>; Thu, 23 Jul 2026 22:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784845301; cv=none; b=nqLrNoGeg+Jgi39Szqsow0krNRm1CogtIfqMTp24xDgaMqbdCoAb9Iv51h01mLiFXxvUNtW4Qwhmd3iztdtCrZUjkWHhDHU/UnaI69j/FeIZBSDCPKwlT/cGF68ic5APtGuaMWSPAkcPiP0gwk/pg0J8bbIzYOrNmdtJ37faRhE=
+	t=1784845356; cv=none; b=BQK6UMvchBeVLPCpU5RZwtZeTcPGkW+UsJUjDxA9xVoiQSnQZ8wir+L9vRNmqeGwrnL02yiNm+mOImQiqvpvWRl2pyvgl2baI94gr91IoOZk4Y6baKpL9F5WK/9UsNbXk1lS4JJPxfHSZFt0TBNxL79ORQiUrG84jeW4jqFWcaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784845301; c=relaxed/simple;
-	bh=jRjNU63euG8u6Q0ohvAKCusnzjz1gtBjg+sRRcaZvYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RQ4YbjcnyegFq0tdcuwMsqrlw7Teb+KRLDNr0pxJy8uJOSCAftYHmFwgNcTgovQHoFsJQ5qijyr5i8cojot+qUEWraannsR77eoxrn9G//KurLWT9ETxQm5vqmbwDXVCh+YEhZLD7ZQ3Fp9jPfaCreDKxgcAnJDSc97vU5p6VQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Wwzh2zQj; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1784845356; c=relaxed/simple;
+	bh=Wvd75UyM3t5SH/M552skzv7ZTvYbtFThnmEOgAthFuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYQW5T03PgE8wcagAPd2u48nPOPYigee4GjrVtd+fUOkPymWhFYDqb16Tkd7PPKcaImCYtx5JYOWYemhFcYTSHHerqSjM8Pb3ty+Xmvzy2+N1z+PvhtNW7vlrH3/InRmvKbMVKdVrl59dPvXwB65VNvaZDXt05VWOw4D4qXiJcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnhdiESF; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Wwzh2zQj"
-Received: from localhost (unknown [52.148.171.5])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 2CEDE20B7167;
-	Thu, 23 Jul 2026 15:21:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2CEDE20B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784845280;
-	bh=0xpxcb1kD++/7ds8cxGz7zRhCeEmlS8zeWkpqy5r6UI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Wwzh2zQjr3xmAuvDfe18XRboCe+xANsOpQ6QRgj3mc6pTfti+ngXxEeiG36Kmj5fL
-	 A+W+vzxRZI6EorRnX3zMDp8qF43D6dKmF7MXXzsbIzz+9RagiaYXERdVOhZwIpARyx
-	 tCezr3yT+4iMq7vVOR7GNIU+KftKHTnC7VcDFICM=
-Date: Thu, 23 Jul 2026 15:21:32 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: hpa@zytor.com, robin.murphy@arm.com, robh@kernel.org,
- wei.liu@kernel.org, mhklinux@outlook.com, muislam@microsoft.com,
- namjain@linux.microsoft.com, magnuskulke@linux.microsoft.com,
- anbelski@linux.microsoft.com, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
- linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, kys@microsoft.com,
- haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
- tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, joro@8bytes.org,
- will@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
- bhelgaas@google.com, arnd@arndb.de, jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH V4 1/9] mshv: Provide a way to get partition ID if
- running in a VMM process
-Message-ID: <20260723152132.000033d0@linux.microsoft.com>
-In-Reply-To: <20260718021949.926306-2-mrathor@linux.microsoft.com>
-References: <20260718021949.926306-1-mrathor@linux.microsoft.com>
-	<20260718021949.926306-2-mrathor@linux.microsoft.com>
-Organization: LSG
-X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnhdiESF"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cacb8416a1so11757335ad.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 23 Jul 2026 15:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784845349; x=1785450149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vzwHTZR2iosFUiZOe0Oy97LjUFogfrOTmiFLxNsdVTA=;
+        b=TnhdiESFNVee+/U2SlhG1d5C8d33gpY2U5q9rvR+za+5edsgbVRJ2KygeDUSPGNmwE
+         nNL5VWLWBSRrOd+WiAL35Mv94IrHxwhp+nbkF9f50UTB+30QNNu/203dDPg5UvK6gzPb
+         +J4XuIJctudBv4vgO6hYlMVEi4zlGu7LV7dVEEj/M7+3sTAQz9gaCB5EHcPzJra4PYXJ
+         8eblodvrNtVlOQ21kGfIBcqrv2x/dAZVzb1Tkxq8SPE3zCzMZf7+1W4FBDAY0XDPt83Y
+         fJWq+R8rIP5tXQIxBJ81mSegmXIggPxBUFr/tVwAYyLONUnJyv/QkO7K7KoMoQK50MU7
+         eUbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784845349; x=1785450149;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vzwHTZR2iosFUiZOe0Oy97LjUFogfrOTmiFLxNsdVTA=;
+        b=qOSf2jv4GmYba3znI9JJfo5rv+0NHviXjTlys2O96C959nzcGpKzK7pXSsHeT1fExg
+         s98+gjiYuwNARX7J6NvXEKC29mYvjTcOaBFNPUeR2fX0CqiH1LhS+Es08PComidtqtYU
+         cqX/0TGlJqgEkc+JwhOLkO+TsTSR7J6NPKEvtOKrX58PUcIOyVJkLBeD11ILuo9IJJv9
+         1k/tl990I5cq+XCtrwDIpzR3bK1L1Wy+C0sry7NTpw1Os9BhdznBCkzfep/9rBK9+a1s
+         ckVDtukRoavGUbeqkpqWv33K83bXzvPbToxPaT402jnzXRf3ypJBokkrjeHi/3TuN9+t
+         ibbQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrWgd8bw0ehsp4cF+NUWSlE473royGMAQ6cHEiLhAyCR6/vfA+mCNja/EIXcZIrj2XJn09jYW361bLQjL0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKIpPmLhsRWWu2FaK6lUjQeJf8L/oS4B6xW6txiZBZI2sVw5VM
+	buelIR5TS79Ui1RvIWff5MQuuXI2PKIj92o7WJHwdIunchxSD94+4e5a
+X-Gm-Gg: AR+sD12RsKb/hzZWxmA2bRAQ3XJsk7Q7OD99PN8QHYZZ6rFo/yf7KBQGaZKEXG3TqeN
+	taILkJAw50yn5pHxnbjG2I82tDnCJikwurTEgzyXXZNlCrxI9vQXxmmHvYX90cnokTsPXPN9+qc
+	JYmyOo0J9yUsYqmgIdOA8T0YcqK9vNuPUyK9O6dMCmq6PQXKPh1FMUWlR1o9KXYJI2Ghisl+cF2
+	W30I0sXnFC/gJjX0aXfhyHsQLKLwSjztZuoxHK+TjZJ/TRrU87qwDA6yqDyK1tasF05QstWHZd7
+	jmfcsISj/m+WcaAErG/PZt+5AhJ0zPrIVb51+NVoRBidQ8qGSVnPnfDOIS4kfVe5CEYX7a8APbk
+	HjgbmOUUW2g89BHCbHmYt7k7N0p5eJ7LXKm0rJZq0UB5Psh/3Jc5ANQ1JsEdrNwrmIc7On4zJvI
+	z6cvt/AOZBS/K9hlt4PE2St53TVrAMjUpddEhICL4DRUW5
+X-Received: by 2002:a17:903:90f:b0:2cb:2b53:559f with SMTP id d9443c01a7336-2cfa6c793d3mr60755125ad.35.1784845349134;
+        Thu, 23 Jul 2026 15:22:29 -0700 (PDT)
+Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f38757esm40198575ad.75.2026.07.23.15.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 15:22:28 -0700 (PDT)
+Date: Thu, 23 Jul 2026 15:22:25 -0700
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+	Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v11 0/8] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-ID: <amKUIWpMfVS6OFkQ@skinsburskii>
+References: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
+ <20260723142242.5d3f87208d47819d873ae458@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723142242.5d3f87208d47819d873ae458@linux-foundation.org>
 
-Hi Mukesh,
-
-On Fri, 17 Jul 2026 19:19:41 -0700
-Mukesh R <mrathor@linux.microsoft.com> wrote:
-
-> Many PCI passthru related hypercalls require partition ID of the
-> target guest. Guests are actually managed by MSHV driver and the
-> partition ID is only maintained there. Add a field in the partition
-> struct in MSHV driver to save the tgid of the VMM process creating
-> the partition, and add a function there to retrieve partition ID if
-> the current process is a VMM process.
+On Thu, Jul 23, 2026 at 02:22:42PM -0700, Andrew Morton wrote:
+> On Thu, 23 Jul 2026 10:36:32 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 > 
-> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
-> Reviewed-by: Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
-> ---
->  drivers/hv/mshv_root.h         |  1 +
->  drivers/hv/mshv_root_main.c    | 22 ++++++++++++++++++++++
->  include/asm-generic/mshyperv.h |  5 +++++
->  3 files changed, 28 insertions(+)
+> > This series extends the HMM framework to support userfaultfd-backed memory
+> > by allowing the mmap read lock to be dropped during hmm_range_fault().
+> > 
 > 
-> diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-> index 1f086dcb7aa1..a85c24dcc701 100644
-> --- a/drivers/hv/mshv_root.h
-> +++ b/drivers/hv/mshv_root.h
-> @@ -138,6 +138,7 @@ struct mshv_partition {
+> Thanks, I've updated mm.git to this version.
+> 
+> AI review suggests there may be some problems.  Sorry, I don't recall if
+> these were considered in previous versions of the patchset:
+> 
+> 	https://sashiko.dev/#/patchset/20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com
+> 
+
+These look like new findings, perhaps from a newer model or review prompt.
+
+I do not think they apply here.
+
+The unlockable path sets FAULT_FLAG_ALLOW_RETRY only when HMM provides a
+non-NULL lock state pointer. The legacy hmm_range_fault() path passes NULL
+and therefore does not opt in to lock-dropping faults. Fault handlers are not
+supposed to return VM_FAULT_RETRY/VM_FAULT_COMPLETED with the mmap lock
+dropped unless FAULT_FLAG_ALLOW_RETRY allows that, so the NULL locked state is
+not expected to be dereferenced on the legacy path.
+
+For the FAULT_FLAG_TRIED concern, HMM is not trying to emulate GUP's exact
+single-address retry loop. If a fault drops mmap_lock, HMM has to restart the
+range walk because the VMA/page table state may have changed. Resetting the
+timeout on that path is intentional: a lock-dropping fault made progress, and
+the timeout is meant to bound mmu-notifier retry churn rather than the time
+spent servicing faults.
+
+Also, the newly converted HMM users are not using this path for ordinary
+file-backed page-cache population, and process-context callers can still be
+interrupted by fatal signals. All the existent kernel thread callers are
+capped by a timeout.
+
+So I do not think this requires a code change.
+
+Thanks,
+Stanislav
+
+
+> > 
+> > Changes in v11:
+> >   - Reject unstable address spaces in hmm_range_fault_unlocked_timeout()
+> >     after taking mmap_lock and before walking page tables.
+> >   - Compute the remaining HMM timeout budget before the time_after_eq()
+> >     check in drm_gpusvm_get_pages() to make sure it can't result in zero
+> >     and lead to infinite HMM range faulting loop.
+> 
+> Here's how v11 altered mm.git:
+> 
+> 
+>  drivers/gpu/drm/drm_gpusvm.c |    4 ++--
+>  mm/hmm.c                     |    6 ++++++
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> --- a/drivers/gpu/drm/drm_gpusvm.c~b
+> +++ a/drivers/gpu/drm/drm_gpusvm.c
+> @@ -1422,11 +1422,11 @@ int drm_gpusvm_get_pages(struct drm_gpus
+>  	struct dma_iova_state *state = &svm_pages->state;
 >  
->  	struct mshv_girq_routing_table __rcu *pt_girq_tbl;
->  	u64 isolation_type;
-> +	pid_t pt_vmm_tgid;
->  	bool import_completed;
->  	bool pt_initialized;
->  #if IS_ENABLED(CONFIG_DEBUG_FS)
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index bd1359eb58dd..02c107458be9 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-> @@ -1908,6 +1908,27 @@ mshv_partition_release(struct inode *inode,
-> struct file *filp) return 0;
->  }
+>  retry:
+> +	remaining = timeout - jiffies;
+> +
+>  	if (time_after_eq(jiffies, timeout))
+>  		return -EBUSY;
 >  
-> +/* Given a process tgid, return partition id if it is a VMM process
-> */ +u64 mshv_current_partid(void)
-> +{
-> +	struct mshv_partition *pt;
-> +	int i;
-> +	u64 ret_ptid = HV_PARTITION_ID_INVALID;
-> +
-> +	rcu_read_lock();
-> +
-> +	hash_for_each_rcu(mshv_root.pt_htable, i, pt, pt_hnode) {
-> +		if (pt->pt_vmm_tgid == current->tgid) {
-> +			ret_ptid = pt->pt_id;
-> +			break;
+> -	remaining = timeout - jiffies;
+> -
+>  	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+>  	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+>  		goto set_seqno;
+> --- a/mm/hmm.c~b
+> +++ a/mm/hmm.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/sched.h>
+>  #include <linux/mmzone.h>
+> +#include <linux/oom.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/leafops.h>
+>  #include <linux/hugetlb.h>
+> @@ -806,6 +807,11 @@ int hmm_range_fault_unlocked_timeout(str
+>  		if (ret)
+>  			return ret;
+>  
+> +		if (check_stable_address_space(mm)) {
+> +			mmap_read_unlock(mm);
+> +			return -EFAULT;
 > +		}
-> +	}
 > +
-> +	rcu_read_unlock();
-> +	return ret_ptid;
-> +}
-> +EXPORT_SYMBOL_GPL(mshv_current_partid);
-> +
->  static int
->  add_partition(struct mshv_partition *partition)
->  {
-> @@ -2073,6 +2094,7 @@ mshv_ioctl_create_partition(void __user
-> *user_arg, struct device *module_dev) goto cleanup_irq_srcu;
->  
->  	partition->pt_id = pt_id;
-> +	partition->pt_vmm_tgid = current->tgid;
-I wonder how robust this mechanism is to identify target partition via
-tgid.
-1) what prevents a VMM process create more than one partition? in that
-case each partition would have the same tgid.
-2) IIUC, the lifetime of the partition is tied to FD, which is
-different than the lifetime of a PID. The partition FD can be
-inherited or passed to another process. The VMM tg can exit while
-the FDs can be alive. Then the tgid can be reused by another unrelated
-process, right?
-
-Would it be more robust to based this on the partition FD instead of
-tgid?
-
->  	ret = add_partition(partition);
->  	if (ret)
-> diff --git a/include/asm-generic/mshyperv.h
-> b/include/asm-generic/mshyperv.h index bf601d67cecb..e8cbc4e3f7ad
-> 100644 --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -350,6 +350,7 @@ int hv_call_add_logical_proc(int node, u32
-> lp_index, u32 acpi_id); int
-> hv_call_notify_all_processors_started(void); bool hv_lp_exists(u32
-> lp_index); int hv_call_create_vp(int node, u64 partition_id, u32
-> vp_index, u32 flags); +u64 mshv_current_partid(void);
->  
->  #else /* CONFIG_MSHV_ROOT */
->  static inline bool hv_root_partition(void) { return false; }
-> @@ -380,6 +381,10 @@ static inline int hv_call_create_vp(int node,
-> u64 partition_id, u32 vp_index, u3 {
->  	return -EOPNOTSUPP;
->  }
-> +static inline u64 mshv_current_partid(void)
-> +{
-> +	return HV_PARTITION_ID_INVALID;
-> +}
->  #endif /* CONFIG_MSHV_ROOT */
->  
->  static inline int hv_deposit_memory(u64 partition_id, u64 status)
-
+>  		if (timeout && time_after(jiffies, deadline)) {
+>  			mmap_read_unlock(mm);
+>  			return -EBUSY;
+> _
+> 
