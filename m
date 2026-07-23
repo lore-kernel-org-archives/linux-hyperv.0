@@ -1,113 +1,129 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B6E3F0ABB;
-	Thu, 23 Jul 2026 21:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34463E3163;
+	Thu, 23 Jul 2026 21:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784841268; cv=none; b=u/Xo5UChBGFfuwNrv0b8A6mRvTFQPjXqgn4gIlvprOJkq2XiwM6/6+5IIUUWUzHcoybv3+ww6hy5+gL4Pxy7IQ+mamucrHN1HQdSuYYKSfU870hv9Zdjf/H4OoEupkgPCEVcyiCAUOMme1pWAx6ooPAnA9TMc9b7Pt51YjabaZk=
+	t=1784841766; cv=none; b=Ev/xMUO6Oj6d+SMDY3PUn/RtlTTR2GDadoQVFdDvCdpSqUJaO76oug22zR/ObXA9cm05fSd5q+edIYWv0/PLyFMHoztX1lwvLePdj2t39XD2FTXKdeuSxxF6t++onMkcM389r3b0bC8iwVBNFzbtlwCNdxLAeZCCc3jnrzj7DE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784841268; c=relaxed/simple;
-	bh=eU8jN1QjKxFsINWQ26Sz2lgUmEmvoTd5KJPqDGFraxI=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=frkzCkN8gIl0LX8Jeb2OcMKynhX3l01wjSSeY9hZp6iMQWXs28riYZlURrrVVRclqD34Jl+CRGtLDkEB6njmeqS142K2TVDn3DUPSGnP+7SZYcLP7yzMihALmeHNV9q5uOPYUcYpvyHoPPqHSeNn9jlM7Hvmyu+D4XE4uSG4Tjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=A7Fsn879; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1784841766; c=relaxed/simple;
+	bh=lBYihD8VUd3/ijOxM1HG7tlwRXQ5GtSXGskH/OAen8c=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ZZkgd3Pb9lmvd6Xqfhs7pIIv/GZ/rp1hLQjcfL7bFFcWZ2RKzDiPnsOp3ohY1hP9vPR4gNt5FZWdqxrH3lY0nHs7Ful7ysZP7XfWAMMJcCp7rZ1mc9oRpx3cZV20OjtrgxLZC8O8kN7x0MPvJ02z991sRsGKw+dz7nBU3Hv6Jeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PqDGtK1y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="A7Fsn879"
-Received: from DairyQueen (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6A8C120B7167;
-	Thu, 23 Jul 2026 14:14:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6A8C120B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784841246;
-	bh=aFeAwYgDEo+YCweQhSGjFe/9SMRHHTgoY4QgPAaf/Kw=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
-	b=A7Fsn879h59K+hEvP+tyDpYW/cMGpDm81QvSiS9dPwEZ6T6TP+jRYb7FvQHdjEkvX
-	 lfX1wunxkCxp4eMUdx/PgH2csedRfWdiEI9uZS5sNPjX+2DOWy1WS5QJ905dyfOcG1
-	 hNOeE/wRRnvRK7pfmvtclSVnY0E4OT4haJy7Df/k=
-From: "Kameron Carr" <kameroncarr@linux.microsoft.com>
-To: "'Michael Kelley'" <mhklinux@outlook.com>,
-	<decui@microsoft.com>,
-	<haiyangz@microsoft.com>,
-	<kys@microsoft.com>,
-	<longli@microsoft.com>,
-	<wei.liu@kernel.org>
-Cc: <andrew+netdev@lunn.ch>,
-	<davem@davemloft.net>,
-	<edumazet@google.com>,
-	<kuba@kernel.org>,
-	<pabeni@redhat.com>,
-	<linux-hyperv@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>
-References: <20260721195633.1438361-1-kameroncarr@linux.microsoft.com> <20260721195633.1438361-2-kameroncarr@linux.microsoft.com> <BN7PR02MB414815ABD36AD06CA3319306D4C02@BN7PR02MB4148.namprd02.prod.outlook.com>
-In-Reply-To: <BN7PR02MB414815ABD36AD06CA3319306D4C02@BN7PR02MB4148.namprd02.prod.outlook.com>
-Subject: RE: [RFC PATCH 1/2] Drivers: hv: vmbus: add vmbus_establish_gpadl_caller_decrypted()
-Date: Thu, 23 Jul 2026 14:14:10 -0700
-Message-ID: <001601dd1ae8$39cf88a0$ad6e99e0$@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PqDGtK1y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E381F000E9;
+	Thu, 23 Jul 2026 21:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1784841764;
+	bh=8LsF46xxakxlsARFJxGTWxEVy+kM0PIVoXm+jBklc8Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=PqDGtK1ymZc6iwXzb09CtmFYmLViI3ZUzwC4EZJzeq9zwSf91u2vNh/4wCIJIHPWO
+	 e15iO8gkDRLbbRBA2tojf2jKWmot7imPS0HbTnDJI9D1VtypOpQwHATciE7rioefeK
+	 s0fKBNhwMPvzspt/Hs40GfWyqW0dMZJpQhg7C0tk=
+Date: Thu, 23 Jul 2026 14:22:42 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, David
+ Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan
+ <shuah@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
+ <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+ <decui@microsoft.com>, Long Li <longli@microsoft.com>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Min Ma <mamin506@gmail.com>, Lizhi Hou
+ <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v11 0/8] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-Id: <20260723142242.5d3f87208d47819d873ae458@linux-foundation.org>
+In-Reply-To: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
+References: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQNRsRip/0GPmGqK2zS6hqfVzZeToQICPuNBATrcRzizeINSsA==
 
-On Thursday, July 23, 2026 10:53 AM, Michael Kelley wrote:
-> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Tuesday, July
-21, 2026 12:57 PM
-> >
-> > Refactor vmbus_establish_gpadl() to separate the encryption lifecycle
-> > from the rest of the GPADL establishment logic.
-> >
-> > Add a new vmbus_establish_gpadl_caller_decrypted() for callers that want
-> > to decrypt their own buffers.
-> >
-> > No functional change for existing callers.
-> 
-> I have a suggestion for a different way to accomplish this. I haven't
-coded
-> it, but I think it will result in less code churn and be simpler overall.
-> 
-> 1) In enum hv_gpadl_type, add value HV_GPADL_BUFFER_DECRYPTED
-> 
-> 2) Update hv_gpadl_size() and hv_gpadl_hvpfn() to treat the new enum
-> value just like HV_GPADL_BUFFER
-> 
-> 3) In __vmbus_establish_gpadl(), change this code
-> 
->         gpadl->decrypted = !((channel->co_external_memory && type ==
-HV_GPADL_BUFFER) ||
->                 (channel->co_ring_buffer && type == HV_GPADL_RING));
-> 
-> to
-> 
->         gpadl->decrypted = !((channel->co_external_memory && type ==
-HV_GPADL_BUFFER) ||
->                 (channel->co_ring_buffer && type == HV_GPADL_RING) ||
-> 	  (type == HV_GPADL_BUFFER_DECRYPTED));
-> 
-> 4) Add the function vmbus_establish_gpadl_caller_decrypted() like you
-> have in this patch. It just calls __vmbus_establish_gpadl(), passing
-> HV_GPADL_BUFFER_DECRYPTED.
+On Thu, 23 Jul 2026 10:36:32 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
 
-Ack. Thank you for the feedback. I will use this approach in v2.
-
-Regards,
-Kameron
-
-> I think that's all that is needed, though I haven't gone through
-> everything rigorously and might be missing something.
+> This series extends the HMM framework to support userfaultfd-backed memory
+> by allowing the mmap read lock to be dropped during hmm_range_fault().
 > 
-> FWIW, the meaning of the "decrypted" field in struct vmbus_gpadl is
-> a bit abused, but it was already that way. In current code, it initially
-> means "decryption needed". Then after the gpadl is created, it
-> means "was decrypted" so that gpadl teardown will re-encrypt.
-> But my suggested approach doesn't really make the abuse any worse.
-[...]
+
+Thanks, I've updated mm.git to this version.
+
+AI review suggests there may be some problems.  Sorry, I don't recall if
+these were considered in previous versions of the patchset:
+
+	https://sashiko.dev/#/patchset/20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com
+
+> 
+> Changes in v11:
+>   - Reject unstable address spaces in hmm_range_fault_unlocked_timeout()
+>     after taking mmap_lock and before walking page tables.
+>   - Compute the remaining HMM timeout budget before the time_after_eq()
+>     check in drm_gpusvm_get_pages() to make sure it can't result in zero
+>     and lead to infinite HMM range faulting loop.
+
+Here's how v11 altered mm.git:
+
+
+ drivers/gpu/drm/drm_gpusvm.c |    4 ++--
+ mm/hmm.c                     |    6 ++++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+--- a/drivers/gpu/drm/drm_gpusvm.c~b
++++ a/drivers/gpu/drm/drm_gpusvm.c
+@@ -1422,11 +1422,11 @@ int drm_gpusvm_get_pages(struct drm_gpus
+ 	struct dma_iova_state *state = &svm_pages->state;
+ 
+ retry:
++	remaining = timeout - jiffies;
++
+ 	if (time_after_eq(jiffies, timeout))
+ 		return -EBUSY;
+ 
+-	remaining = timeout - jiffies;
+-
+ 	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+ 	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+ 		goto set_seqno;
+--- a/mm/hmm.c~b
++++ a/mm/hmm.c
+@@ -17,6 +17,7 @@
+ #include <linux/slab.h>
+ #include <linux/sched.h>
+ #include <linux/mmzone.h>
++#include <linux/oom.h>
+ #include <linux/pagemap.h>
+ #include <linux/leafops.h>
+ #include <linux/hugetlb.h>
+@@ -806,6 +807,11 @@ int hmm_range_fault_unlocked_timeout(str
+ 		if (ret)
+ 			return ret;
+ 
++		if (check_stable_address_space(mm)) {
++			mmap_read_unlock(mm);
++			return -EFAULT;
++		}
++
+ 		if (timeout && time_after(jiffies, deadline)) {
+ 			mmap_read_unlock(mm);
+ 			return -EBUSY;
+_
 
