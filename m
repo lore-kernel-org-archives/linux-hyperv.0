@@ -1,32 +1,86 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 580E5353A7A;
-	Thu, 23 Jul 2026 09:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60373F8252
+	for <linux-hyperv@vger.kernel.org>; Thu, 23 Jul 2026 10:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784797678; cv=none; b=uaBTK8jKH4yg5zi17Ig4hJQsUo9GsY+WdSX/fIP+Te5Z6RFEAG2/2hmo25OqfzVWhz9xIx0SoCUItOqJ56gDyNgrEhjq1aFTfMWfhgCpVyF3e9Ie7AyNW7UZhMl2uc96dOGBU5ia1q45MPd5yhvy9JqfcAJm7kZVE/WWQMdZzBY=
+	t=1784801913; cv=none; b=g4Ti1IlOMUfPOIJr5edOTaLeRLjWs+7mGiGTUQCH0hd7uxgaaYPwEY4HSY2RTEXyM/A4DXVM4fDbrS/KiwHatHmAJdd2IxJ8YzyfdloeszRt/pPRccl7rSd1NKVN3EH6xZoctFEmogKLmrZG9Q4oWkROexTlWG22g+gyEDSWQAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784797678; c=relaxed/simple;
-	bh=vEUGtbZ+up8SZL5Bx7NXQHiNt+tPI+HsPM0cNheUXIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kG+7u4uB1WZReDPNMVvISiSpH6IIT1B1PS9qtM+ZblMM5Gv1tX4b0eC96hZLBxPv6RcMgFMaQ3aX37NGZpm6cfPuo9EN2uwGl3Ri69K5hxm/u+26mvLPF+rx+SVezDTMEeZ3U0vaLTTbhEupuT5l6Ud258PSA2b2zKX7QqUTM2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LGJ9NYZq; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1784801913; c=relaxed/simple;
+	bh=zkE1CxynhhuX45SZ6JJT+YmMZiFe1viNbE9YBLAS9Uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=E8KcJTNV9SDeOtg2npBF8GrfFpd7AQI7kvWBjdznB02QpPuzpO3D8fJeyGt4t1AwZWjdt7iT459j+tej8dofCUgnOj4eVJWORhN5PYg/WUWWVgLGreKGnCVC2hZvNmmeav8fkZ8orzJlHzRI3rxnlsSJQfzOIxf+4x/OxWPIka0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=By/GacvL; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nyv8cTFq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LGJ9NYZq"
-Received: from [10.7.58.6] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6495A20B7167;
-	Thu, 23 Jul 2026 02:07:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6495A20B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1784797663;
-	bh=sPFinmVR/A+ZeU4t6Ey93Fz10iwEfV8ZV3Y0Jwimarw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LGJ9NYZqHP/6Fh/TMIWDlcEhmrG08g2p6PhlPuI8WNWhntUC2vH+DkyyqW6WFipWo
-	 4xu0Cv4GQwQ2223uRHNZkhPpEF9cCHS38L+KE3+AkQ9iMk66cNF2EI4Loz6jAxH4Qb
-	 zbWOPONr7XHylbdJU7glJAFBaim8DMp/v3HY16fA=
-Message-ID: <eb6113fc-4fc8-4f28-8dfc-121cf6de5abd@linux.microsoft.com>
-Date: Thu, 23 Jul 2026 14:37:51 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="By/GacvL";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nyv8cTFq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784801910;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c9dgMMoQ1YTrpRt1/B5y0R7DlFAMJKah05nee02sPkU=;
+	b=By/GacvLSsvBat7gXEbrU4TErEaK6cK4Iz2JfTRlvINrC0FWMD54eWfuf+34gZEbXivfmk
+	cIeK4tibE+x/eE9tca+QBypgE8428xheGSssa4jF2HgMyg0ytMRGWW5VRpTBHNaxsxErTA
+	ZuzSr9jC8KaFuiiIYH29wLZDI9F/60A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-641-xjfxtNX3OdCWJtKlFAliGw-1; Thu, 23 Jul 2026 06:18:28 -0400
+X-MC-Unique: xjfxtNX3OdCWJtKlFAliGw-1
+X-Mimecast-MFC-AGG-ID: xjfxtNX3OdCWJtKlFAliGw_1784801907
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49544a639e9so2304615e9.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 23 Jul 2026 03:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1784801907; x=1785406707; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c9dgMMoQ1YTrpRt1/B5y0R7DlFAMJKah05nee02sPkU=;
+        b=Nyv8cTFq6wSkw9CFQGc+//PSIWnzoPn5H/e48wHEr3Pee2m2t8sfuEdKXoNR1f2HOG
+         OYUzltGeNuGWsGLWewvuSYuRcH5RAkOvCn7Q4Ea/g/H8/Ge0SB1O+I31RfgT4KaYb3qb
+         7A6cFWMJTiPiFF1vQDKuJ6kI7rVfIAB/kvfrou+vhW5OjQy3O8U9rr4BDr2bKvJjSwKr
+         E238Co3rmqPohu54YH4nnW2gzQR5lDY3ysz5wmPFTVQPjhYIYgRZbN8gPJaJe27WzTKC
+         I3N/TiNtHxa4yVzvhpHCoobLTVxNFkv1v56C671Ki/IxWFQWnHspCBM0hh9zY/mX78gH
+         ficA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784801907; x=1785406707;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=c9dgMMoQ1YTrpRt1/B5y0R7DlFAMJKah05nee02sPkU=;
+        b=H+LqLggVA54CO2ZznjAGtcAO7UqDZYvUV6qPypqXMMgjiZoQHnRXNEX4kEnX14UnEJ
+         ziAcY5HY9abAWicMmerV18EZzHJf8htmc+UbRUf8gjdUyATYsXoAS77+qUvkXUxvOx3i
+         QhnHelIzYP+aPF4sAYlzife/rmkzvaiREITXOb+D/gV0myFzg0MP8LBjwgr6dpvYNC89
+         D9ZydLJlRaiuwi22bSb34ib5usB6c4XM83yz1bTtPSAHrZ1nZVyfC4b6YYsvBRZmyEVj
+         zbgYnnRrO49pUyyxvgrNHd7MagqermBFNgvry9ZlkGBQRZnG4+QvcFJvH1yGMsajlDef
+         +h4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpP94LmULY25wb3K8JzEF5vhQx04+V4kmmJXQFD3b+w6vrXbJ5mP33iTdpqi1LxSxG30DPoPHMuFqWWE+s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzf1XnTGEa2qcfhSPCfiwENHEmGlZiRNMaLhS8NNbJ655Lo2baw
+	4u6IkXoDp++mIuQecZLVJP985XbiKHej16KfNcG6SFhG47VnbLzYGOmu+lPs9awpJr3OoBoXKXa
+	t6VXfESyS9zwR/ZxugIk5jgvTh+6Q311NiVPpI09P+eovilyJrp7YXn+7rkBPgC6H3Q==
+X-Gm-Gg: AR+sD13YXJ05ORYFI6caCQzn1WlX+obbFM1ZosI93OktZa2ut10QExskeNZ08TlQFR2
+	2tidu3oSiWB6F7BCksxVIzNn3W5DpHrbE585GszMVP57BMZeUIbGvkUbw61eSFi8qKR/vl/V8BR
+	ahBWJbyz3rMOP3hIWnfn8gFfOFscrFUPCUqXUStumPk4n/mlN6VWqiBEwNwl9wJg6haBDGmhpq0
+	ZpWC49iF3M0bxNzhG0JdmFSzugVhryE2aIRxoCxeynndQay7Unht7XUWzNet7CcEH7qiJHHqD+9
+	G/6zzzZeeNyboC7CALYitax049y+ccO9Lkdn+qUTopXBostfR5dfp2dwncDBNVW0mq2iekNnd3W
+	Nx/+Rdt3XH1cSj22Uasa2Q4MwuxFwde5yrchTPRoiMJVvsOJlU/wPHFP3WFOR+0pnitycZWvH+g
+	Z4VQ==
+X-Received: by 2002:a05:600c:4ecd:b0:493:c77c:108a with SMTP id 5b1f17b1804b1-49573d218camr25163905e9.36.1784801907444;
+        Thu, 23 Jul 2026 03:18:27 -0700 (PDT)
+X-Received: by 2002:a05:600c:4ecd:b0:493:c77c:108a with SMTP id 5b1f17b1804b1-49573d218camr25163275e9.36.1784801906974;
+        Thu, 23 Jul 2026 03:18:26 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a6354a3sm218761215e9.10.2026.07.23.03.18.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jul 2026 03:18:26 -0700 (PDT)
+Message-ID: <d2014044-d410-466a-ae66-2a173dbdba82@redhat.com>
+Date: Thu, 23 Jul 2026 12:18:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,47 +88,67 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mshv: bounds-check cpu index in vtl mmap fault handler
-To: Yi Xie <xieyi@kylinos.cn>, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260709021947.49436-1-xieyi@kylinos.cn>
+Subject: Re: [PATCH net-next v12 4/4] net: mana: recover port on attach
+ failure in ethtool operations
+To: Dipayaan Roy <dipayanroy@linux.microsoft.com>, kys@microsoft.com,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, leon@kernel.org, longli@microsoft.com,
+ kotaranov@microsoft.com, horms@kernel.org, shradhagupta@linux.microsoft.com,
+ ssengar@linux.microsoft.com, ernis@linux.microsoft.com,
+ shirazsaleem@microsoft.com, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, stephen@networkplumber.org,
+ jacob.e.keller@intel.com, dipayanroy@microsoft.com, leitao@debian.org,
+ kees@kernel.org, john.fastabend@gmail.com, hawk@kernel.org,
+ bpf@vger.kernel.org, daniel@iogearbox.net, ast@kernel.org, sdf@fomichev.me,
+ yury.norov@gmail.com, pavan.chebbi@broadcom.com,
+ schakrabarti@linux.microsoft.com, gargaditya@linux.microsoft.com
+References: <20260711041415.3008868-1-dipayanroy@linux.microsoft.com>
+ <20260711041415.3008868-5-dipayanroy@linux.microsoft.com>
+From: Paolo Abeni <pabeni@redhat.com>
 Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260709021947.49436-1-xieyi@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20260711041415.3008868-5-dipayanroy@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 7/9/2026 7:49 AM, Yi Xie wrote:
-> cpu is taken from pgoff & 0xffff.  cpu_online() does not reject cpu >=
-> nr_cpu_ids, and per_cpu_ptr() can then walk off __per_cpu_offset.
+On 7/11/26 6:10 AM, Dipayaan Roy wrote:
+> When mana_attach() fails during ethtool ring size or channel count
+> changes, the port is left in a broken state with no recovery
+> mechanism, requiring manual intervention to bring the port back up.
 > 
-> Signed-off-by: Yi Xie <xieyi@kylinos.cn>
-> ---
->   drivers/hv/mshv_vtl_main.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> On VM SKUs without a netvsc fallback interface, this results in
+> complete loss of network connectivity to the VM.
 > 
-> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-> index 0d3d4161974f..fc50c44ac1bd 100644
-> --- a/drivers/hv/mshv_vtl_main.c
-> +++ b/drivers/hv/mshv_vtl_main.c
-> @@ -801,7 +801,7 @@ static vm_fault_t mshv_vtl_fault(struct vm_fault *vmf)
->   	int cpu = vmf->pgoff & MSHV_PG_OFF_CPU_MASK;
->   	int real_off = vmf->pgoff >> MSHV_REAL_OFF_SHIFT;
->   
-> -	if (!cpu_online(cpu))
-> +	if (cpu >= nr_cpu_ids || !cpu_online(cpu))
->   		return VM_FAULT_SIGBUS;
->   	/*
->   	 * CPU Hotplug is not supported in VTL2 in OpenHCL, where this kernel driver exists.
+> Fix by scheduling queue_reset_work when mana_attach() fails. The
+> preceding patch ensures mana_detach() always completes its full
+> teardown (netif_device_detach + cleanup), so the reset handler's
+> mana_detach() takes the "already detached" early return, preserving
+> port_st_save for a successful mana_attach() recovery.
+> 
+> When mana_attach() fails, choose retry values that maximize recovery
+> chances: if the operation was an increase, fall back to the previous
+> working values; if it was a decrease but still above default, fall
+> back to defaults; otherwise use the minimum supported values.
+> 
+> Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+> Tested-by: Aditya Garg <gargaditya@linux.microsoft.com>
+> Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+sashiko gemini sees quite a bit of problem with the above approach:
 
-The problem fixed by this patch generally does not happen in practice as 
-the user space is trusted user space (OpenVMM). Nevertheless, it's good 
-to have this check.
+https://sashiko.dev/#/patchset/20260711041415.3008868-1-dipayanroy%40linux.microsoft.com
 
-Nit: subject - s/"mshv:"/"mshv_vtl:"
-as this was the agreed upon prefix for changes to mshv_vtl_main driver.
+Also, changing user-setting in case of fallback is quite a bad thing to
+be avoided.
 
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+Skimming over the code, it looks like than pre-allocate all the
+resources and to a replace instead of detach/attach() looks feasible. I
+suggest investigating such path. I also think that this last patch (and
+possibly 2/4) could/should be in separate series.
+
+Finally and most relevant thing; AI review comments should be explicitly
+acknowledged by either debating them or addressing them. In both cases a
+reply on the ML is expected.
+
+/P
+
