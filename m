@@ -1,68 +1,118 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 415B23F4DF8;
-	Mon, 27 Jul 2026 11:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80E692AE78;
+	Mon, 27 Jul 2026 11:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785151490; cv=none; b=he63GWOkCM3LHKmODGUXyisRo/6PKBjC9bZV9/TNix7zygsULuUssDcBFS6fy89V4SGjOoga/U6c6M7kJ8n+h1EsamSdtM25/AW8oSgXLixOC+Tp9BC+AOEnBZs+nTMtaf3UiUBe1Kq84xs0dDg+SXPX2/+tnLFy654uURCOYiA=
+	t=1785152299; cv=none; b=J9m0G5gKC3eDFC7LdwCzV7NpPeCXDaMI0/3NATEv+WishOla1VGwOeZqzgVi6c9mCOK8dy8bMeRiWDI6vVKP/QfVmHoLn9/btFYveRwxePu5sT2SuiPbNSdjbEEXViKEadc6fi2+XHU2AlRCKB5U+0vkluhHpEA+XKuIeQZFWqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785151490; c=relaxed/simple;
-	bh=IDo68A6luGgxre2Ydpce/neMMx8WmDs9e61Nn2/z0Oc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SiC9msxADbX69dv6dIPTR9vD6MaZAOXA3HTDCGlNk0nNn0IfE/9yokemMktNG+ZfiOTMVx2iUzhULEZMtXM8sW2g0kD/zE3okdUAg81+pHU+8iQcI/7S2FeL5FtRyiPN2dgHmWxHYieY9L1Iz+xswx/CjX8INHWusk2KpowkqyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=IlHB6spb; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1785152299; c=relaxed/simple;
+	bh=5xtxNIrKzcSGukgAp9eyDFCt4DjtswkPM5vkzSI6YXM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=peCyBLFwQF7iWDodf6VG7TO6t0AIxGQOGywxC5aP1u8THvaW0BnjpRjXwxglwh4tpTjvOyhRa/FITmRdsSvk6cX+WkXp/Fbls8OnEXrKmuAXoLKzG9OMxsa6B57J/Dy7xjMByyF7FbPQ2C8xk0WcGPfEan+rBiYRtnv4L8QFeSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=T/OBGPF/; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="IlHB6spb"
-Received: from [100.67.193.28] (unknown [52.163.71.154])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B865220B7166;
-	Mon, 27 Jul 2026 04:24:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B865220B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="T/OBGPF/"
+Received: by linux.microsoft.com (Postfix, from userid 1231)
+	id C823820B7166; Mon, 27 Jul 2026 04:38:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C823820B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785151473;
-	bh=yWcKcF9CSBilJ8GH5TNkgtogAM3W1405I1HBlBT2isA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IlHB6spbBWSo4EF2L6o55hdt5CAN1vmdFDKFfwXAUds6aHPSbHxbPoBklJEQwavXK
-	 HUVssWAHsOaJ+IYLym/0jw7uzzYkhQXDyAlfTk1KQuPTSn39k4+1ACT4jRY/9FNR4u
-	 rxrvY0Yc9BgOFb5hEG2IuvMAOuBQlymVFsBe55mQ=
-Message-ID: <5b7bd70d-8fbf-44c5-b5ce-0ce729db9cc1@linux.microsoft.com>
-Date: Mon, 27 Jul 2026 16:54:41 +0530
+	s=default; t=1785152282;
+	bh=PjRrfK4a6EKRQonD/jTqwJazNKDKPgT6jjz0ItyaIKo=;
+	h=From:To:Subject:Date:From;
+	b=T/OBGPF/3HV3dVvWtq+xuXz5fcnXSaljYselICGRwdkfItorwRtPV/DpWwCcMCHD4
+	 fXF4Y03vvfMhufX7MKaI/nySOTkM4CHQNEP4Wnr3U+Xn26WF1Hc4FJkfc3KWr3+O5T
+	 KuLrejWHs00vmnqWWIg3T6p0sxr/9M9cNefXNypg=
+From: Aditya Garg <gargaditya@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	ernis@linux.microsoft.com,
+	horms@kernel.org,
+	dipayanroy@linux.microsoft.com,
+	gargaditya@linux.microsoft.com,
+	shacharr@microsoft.com,
+	stephen@networkplumber.org,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ssengar@linux.microsoft.com,
+	gargaditya@microsoft.com
+Subject: [PATCH net v2] net: mana: Return error code from mana_create_rxq()
+Date: Mon, 27 Jul 2026 04:37:59 -0700
+Message-ID: <20260727113759.2881500-1-gargaditya@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net] net: mana: Return error code from mana_create_rxq()
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- ernis@linux.microsoft.com, horms@kernel.org, dipayanroy@linux.microsoft.com,
- shacharr@microsoft.com, stephen@networkplumber.org,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, ssengar@linux.microsoft.com,
- gargaditya@microsoft.com
-References: <20260718024818.560552-1-gargaditya@linux.microsoft.com>
- <20260723090621.6261a3e8@kernel.org>
-Content-Language: en-US
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-In-Reply-To: <20260723090621.6261a3e8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23-07-2026 21:36, Jakub Kicinski wrote:
-> On Fri, 17 Jul 2026 19:48:18 -0700 Aditya Garg wrote:
->> Change mana_create_rxq() to return an int and pass the created rxq back
->> to the caller through an output parameter. The caller now propagates the
->> returned error code directly instead of substituting -ENOMEM.
-> 
-> We generally prefer the use of ERR_PTR to output arguments in
-> the kernel. Looks like it'd work here nicely.
+mana_create_rxq() returns a struct mana_rxq pointer and returns NULL on
+any failure. The caller, mana_add_rx_queues(), cannot tell what went
+wrong and hardcodes the error as -ENOMEM. As a result the actual failure
+reported by the lower layers (for example -EPROTO from a failed HW
+request) is masked and every RX queue creation failure looks like an
+out-of-memory error.
 
-Thanks for the review Jakub,
-I'll post a v2 using ERR_PTR/PTR_ERR
+Return an ERR_PTR() encoded error code from mana_create_rxq() on failure
+instead of NULL. The caller now propagates the returned error code
+directly instead of substituting -ENOMEM.
 
-Regards,
-Aditya
+Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
+Signed-off-by: Aditya Garg <gargaditya@linux.microsoft.com>
+---
+Changes in v2:
+ - Use ERR_PTR() to return the error from mana_create_rxq() instead of
+   adding an output parameter, keeping the pointer return type.
+
+v1: https://lore.kernel.org/all/20260718024818.560552-1-gargaditya@linux.microsoft.com/
+
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index 9d9bfd116dab..92bb55935c1c 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -2829,7 +2829,7 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 
+ 	rxq = kvzalloc_flex(*rxq, rx_oobs, apc->rx_queue_size);
+ 	if (!rxq)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	rxq->ndev = ndev;
+ 	rxq->num_rx_buf = apc->rx_queue_size;
+@@ -2930,7 +2930,7 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 
+ 	mana_destroy_rxq(apc, rxq, false);
+ 
+-	return NULL;
++	return ERR_PTR(err);
+ }
+ 
+ static void mana_create_rxq_debugfs(struct mana_port_context *apc, int idx)
+@@ -2964,8 +2964,8 @@ static int mana_add_rx_queues(struct mana_port_context *apc,
+ 
+ 	for (i = 0; i < apc->num_queues; i++) {
+ 		rxq = mana_create_rxq(apc, i, &apc->eqs[i], ndev);
+-		if (!rxq) {
+-			err = -ENOMEM;
++		if (IS_ERR(rxq)) {
++			err = PTR_ERR(rxq);
+ 			netdev_err(ndev, "Failed to create rxq %d : %d\n", i, err);
+ 			goto out;
+ 		}
+-- 
+2.43.0
+
