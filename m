@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A37F43CE5C;
-	Tue, 28 Jul 2026 13:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28A044781A;
+	Tue, 28 Jul 2026 13:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246695; cv=none; b=QE48/v3DxZFT2JDAMxaaLdYO3pVrQPgZrNQaWxjktpy1kvYG2/gcy8Js4vMUXC2Y5RZYLoKWyTqzN03ANm5++lz0T/UFaEUQV4R9yaPwMdpr1W3770kt1wVR9DZOCYQUzHTh/uwAtsClvhSii5ug0SYkypqV8g4554ma+Z/lIwo=
+	t=1785246702; cv=none; b=amHFaKpSVT0ShN/nEcHlKTN+T58Vv6ka636RSnP2HXQ7eWF49HgaOJtdUAesJAgpncvp+xuI6FH6S1ayF8P1rPdfa2sZ1wiSyZR+dJ+Ht+4LqwzDg2PPlJWsvXtLCIl2J6rzNiAC1jjKX8aW86iWkwFIp4MMv77KRHdTEaaTS4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246695; c=relaxed/simple;
-	bh=5XfQmj805/XmiwOZ8dqmwgSoMzSq/PTJ7qFVAPkLUYk=;
+	s=arc-20240116; t=1785246702; c=relaxed/simple;
+	bh=QvgcEDzH7vdbYHIOWwG0QplV+8kubx/trXs+/73Q3mU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KCcH+GIk94hYzsQE0x/PAJ52oXItkSgR7wiM/sqcmcRxRrSiPkwwf1aZTLLmxDYG2SJ+RVwnQ0DsBP+6rSvlB6x9I7+U6BS7jcfhK7k7X/0f/JutnzYAjZP2J+bkdmrQMZ9Pk6YgzFc8B8L04tgxUYLtTI609R90QiTv8hLkfwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=eQcWfq3x; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=OjGzoLXZMLmsTGVmKICrhuCoaZY1AZ+JtXY3d4atYhjwlcNyzw3KWlJtGMH04nWm+A5zmKOhd129zgt0v5tBczNtYvlisqV8cDnNSQ88ajKXCgRq8EM5l2gAP0FWoaA1x5tQYDGfwz1Ch90AqRON8IQIkO/TD5k7GGN64nlt2Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=srd+kvd2; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eQcWfq3x"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="srd+kvd2"
 Received: from CPC-namja-026ON.redmond.corp.microsoft.com (unknown [4.213.232.16])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BF14220B7168;
-	Tue, 28 Jul 2026 06:51:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BF14220B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 62BD620B7167;
+	Tue, 28 Jul 2026 06:51:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 62BD620B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785246677;
-	bh=x+f3kT6JGkrjwjmkavcLs41l6RxRSv37aRvm486yieA=;
+	s=default; t=1785246684;
+	bh=zlvUxyl807mpaJz79O/o1LIPTPKyau6tqsEXJXhXpSc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eQcWfq3xcHHAfAgO0vzNOBIGMS1bwdXHHnmRtUKeigkPvyaxDZdh+SUODqx9pzufI
-	 m3DAynjmqGEEHgHk0KQKbKNZN5OMgVmkIyEPGM38bHDTRdLwga0BXYTD8pG1v8Ch61
-	 gHlNWziInYFbMxi9WMTTHQXcKYHc27c2hV/87Umc=
+	b=srd+kvd2qPgCOwRxTIfJCXfzw7SZdBl3ZhezAfstWuZuSWCyuQZDTIxS+yxZ3C1Kb
+	 KzBCdfmJBG2mYfoGXias8ActLNUvtMkLjRjwKgyKGn0DDgqK5REJTIZe7YsS37J17z
+	 oWgIxvfGu1ou7s1O7W+Q1R1eGeTj5Il5bXVcHI7k=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -52,9 +52,9 @@ Cc: x86@kernel.org,
 	linux-pci@vger.kernel.org,
 	iommu@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
-Date: Tue, 28 Jul 2026 13:51:15 +0000
-Message-ID: <20260728135117.2888175-2-namjain@linux.microsoft.com>
+Subject: [PATCH 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
+Date: Tue, 28 Jul 2026 13:51:16 +0000
+Message-ID: <20260728135117.2888175-3-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260728135117.2888175-1-namjain@linux.microsoft.com>
 References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
@@ -66,41 +66,73 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
+fixup_irqs() re-injects a pending interrupt on its new target CPU by
+looking at the outermost domain chip and invoking its irq_retrigger()
+callback directly. That only works when the outermost chip happens to
+install an irq_retrigger() callback, which is not guaranteed for every
+irqchip and could lead to lost interrupts on CPU hot-unplug.
 
-On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
-the outgoing CPU to a new target. If an interrupt still has its pending bit
-set in the outgoing CPU's IRR at that point, fixup_irqs() resends it on the
-new target through the irqchip's irq_retrigger() callback. As the Hyper-V
-PCI/MSI chip does not provide that callback, the pending interrupt is
-silently dropped, which can result in lost interrupts, stalls and "No irq
-handler for vector" messages during CPU hotplug.
+Use irq_chip_retrigger_hierarchy() instead, which walks up the interrupt
+hierarchy until it finds a chip that implements irq_retrigger().
 
-Install irq_chip_retrigger_hierarchy() as the irq_retrigger() callback for
-the Hyper-V PCI/MSI irqchip, so that a pending interrupt is resent on its
-new target CPU via the parent x86 vector domain.
+While at it, move the loop-local variables into the loop scope and use a
+scoped guard for desc->lock.
 
-Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
-Cc: stable@vger.kernel.org
-Suggested-by: Long Li <longli@microsoft.com>
+No functional change intended for chips which already provide an
+irq_retrigger() callback on the outermost domain.
+
 Suggested-by: Thomas Gleixner <tglx@kernel.org>
 Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 ---
- drivers/pci/controller/pci-hyperv.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/kernel/irq.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index cfc8fa403dad6..89816a2bd7cd3 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
- 	info->ops->msi_prepare = hv_msi_prepare;
+diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
+index 30122f0b3af96..ef1bdd3c4659a 100644
+--- a/arch/x86/kernel/irq.c
++++ b/arch/x86/kernel/irq.c
+@@ -466,11 +466,6 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_posted_msi_notification)
+ /* A cpu has been removed from cpu_online_mask.  Reset irq affinities. */
+ void fixup_irqs(void)
+ {
+-	unsigned int vector;
+-	struct irq_desc *desc;
+-	struct irq_data *data;
+-	struct irq_chip *chip;
+-
+ 	irq_migrate_all_off_this_cpu();
  
- 	chip->irq_set_affinity = irq_chip_set_affinity_parent;
-+	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+ 	/*
+@@ -489,22 +484,18 @@ void fixup_irqs(void)
+ 	 * vector_lock because the cpu is already marked !online, so
+ 	 * nothing else will touch it.
+ 	 */
+-	for (vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
+-		if (IS_ERR_OR_NULL(__this_cpu_read(vector_irq[vector])))
++	for (unsigned int vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
++		struct irq_desc *desc = __this_cpu_read(vector_irq[vector]);
++
++		if (IS_ERR_OR_NULL(desc))
+ 			continue;
  
- 	if (IS_ENABLED(CONFIG_X86))
- 		chip->flags |= IRQCHIP_MOVE_DEFERRED;
+ 		if (is_vector_pending(vector)) {
+-			desc = __this_cpu_read(vector_irq[vector]);
+-
+-			raw_spin_lock(&desc->lock);
+-			data = irq_desc_get_irq_data(desc);
+-			chip = irq_data_get_irq_chip(data);
+-			if (chip->irq_retrigger) {
+-				chip->irq_retrigger(data);
++			guard(raw_spinlock)(&desc->lock);
++			if (irq_chip_retrigger_hierarchy(&desc->irq_data))
+ 				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
+-			}
+-			raw_spin_unlock(&desc->lock);
+ 		}
++
+ 		if (__this_cpu_read(vector_irq[vector]) != VECTOR_RETRIGGERED)
+ 			__this_cpu_write(vector_irq[vector], VECTOR_UNUSED);
+ 	}
 -- 
 2.43.0
 
