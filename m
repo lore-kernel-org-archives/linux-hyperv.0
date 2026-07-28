@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AE543786A;
-	Tue, 28 Jul 2026 14:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22927435AB3;
+	Tue, 28 Jul 2026 14:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785247406; cv=none; b=aRjcFKiShdtqoCxOAeU7xshlid6/GKWVRNE9k3p7mji0WlKuUsK4fax89TNTCTZYMGHAWAgxGMJsF9vJnx1sOVK6UdBhnYNzrjs0N8U7LzsB83yA1GK46WTHDXRfINjQDXasL+yx4GX/ybjme+oEJSYPwNKlTnWV1iN759+bXhs=
+	t=1785247469; cv=none; b=vCHE1ez698tlFXhAqUg5HkPJ4FyDj2UmiOtOC6xAduRzi3/D1FBaKF7Lod//x3kfCfND1MWPa2zCaPiwSaRK6ZRc5VGu4ImhAKaZ1slDyL3Is3SzLhp0jSfAPZNmGlMod23XKQF2VP2AOF5oXcmXXOME+HnVn8i69VM8Gzje9oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785247406; c=relaxed/simple;
-	bh=T2NU3pmpi+OjQ7/FNVkJg9qIlm9hOemh0FAHOev63IU=;
+	s=arc-20240116; t=1785247469; c=relaxed/simple;
+	bh=eu6VoR90zzm+rfpqRdKp2PLuYrlRS8U2cJKQaBRU/2s=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=IhwdbPz2E6KZefCt3+9vkTw5Quba5LESRfwPVoLwbuohAciq/LglmXHyPQvdsoKkoiJOn4NTU+XRhOvZIO+DYtRrewV6/3MAm0aFE/NzyAFduLiiwVx35jG2lyclaLOrXHdoUA/F9YvSxMto3aMBzN8FEToDWihm6dxAo/fXvsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJuQGIPL; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=CceSVx7hf5Bb3AB78N4w7rlXf68Yoj9z1CaiPYjpjeE4YVnN3cHAa4pKztOFesMGcCqDdn/5KLY2py/3NMS1udpsB/rKvUNaaascFlDfTbDftXXDVu6gHzUG9pR7I/Z0PODak2AD3YDpC596RKDGoxNbJwI44zb70YazoLJDa2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enDXxXMr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJuQGIPL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690D11F000E9;
-	Tue, 28 Jul 2026 14:03:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enDXxXMr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714311F000E9;
+	Tue, 28 Jul 2026 14:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785247404;
-	bh=M6AwQ7+MgGHjdLywKtET4of1Hk2KG/OkpgRG/h1rjvE=;
+	s=k20260515; t=1785247467;
+	bh=7bDgTzWW37Ji9lo8k4jClll2ORwVjCpxFFzgpwR4ErU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oJuQGIPLRDO68Qfoh7WUaYzK5cMyKQOKYH8FfFmdYIU5i56Sbz7E42+joleFmuOXE
-	 gmPStc7xAgKObVUSRrX9C6XqUBENjQwuVt54uWTlk6bNT80TbQDsq1RfHv758WFcKB
-	 zs9ZN641HOerhbABaZeKpP0FQaNlK7YcSbGYUdpXYaOtE2CFRhdZZw28o+DpmpVUuu
-	 P8ojTZvyso+QKVAA56S5fw/+fKh8sQ7pXDK2d4ai4qxvQ2kPVXN4ymIf4wut4dBgDq
-	 CmyjZAR/EmpWMOGyI05iGVh+7Y2OOns6X6qGYbBx52oiPS/YDB5LIgqsjnNmYxBpce
-	 7qGSMbjJMp0AA==
+	b=enDXxXMrIIAbVHG2acGwNzReeX1n1ZtpGtu89bRaVHRkGxxqc54v1qrFS/WjOG6fz
+	 perxMvSLS0nlbXHlmlULF+CqamFiDx4x25o2tojrvgAMhYKXmv2mXPfjDEJBqd8PGu
+	 lo2Yiu+vHdTnpVx3BZRPIWm5r+txFnzodwq1DFD5oMkEJWUxnrSyFflGG1d0Y5Sn7a
+	 cjvKRcxbSFDSffK8XEbzZ0c1vAcpT1JzYjISyEuesdmJmQdhhO0sU5LYCB9EuRS9FL
+	 yQPPV/SgfZzKUo7koPqR/FoM5vKpBwdq+qtsM/jMn/eQCL1HUXX0pbnpreWS+OghQe
+	 ZWJog/Lux0A4Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in
- fixup_irqs()
+Subject: Re: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V
+ PCI MSI irqchip
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Naman Jain" <namjain@linux.microsoft.com>
 Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260728135117.2888175-3-namjain@linux.microsoft.com>
+In-Reply-To: <20260728135117.2888175-2-namjain@linux.microsoft.com>
 References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
- <20260728135117.2888175-3-namjain@linux.microsoft.com>
+ <20260728135117.2888175-2-namjain@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2026 14:03:23 +0000
-Message-Id: <20260728140324.690D11F000E9@smtp.kernel.org>
+Date: Tue, 28 Jul 2026 14:04:27 +0000
+Message-Id: <20260728140427.714311F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,78 +47,77 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] The patch replaces the direct invocation of the outermost chip's i=
-rq_retrigger() callback with irq_chip_retrigger_hierarchy(). However, irq_c=
-hip_retrigger_hierarchy() initializes its loop with `data =3D data->parent_=
-data`, completely skipping the outermost chip. This breaks interrupt retrig=
-gering for flat domains (like native lapic_controller) and any hierarchical=
- domain where the outermost chip directly implements the retrigger callback.
+
+Pre-existing issues:
+- [High] The fix for dropped pending interrupts during CPU hot-unplug was m=
+issed in the sister Hyper-V root partition MSI domain.
 --
 
---- Patch [2]: [PATCH 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in f=
-ixup_irqs() ---
-commit f97e883de2f6626561de48c426194caa41c3e062
+--- Patch [1]: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hype=
+r-V PCI MSI irqchip ---
+commit b8b1c843c457dd145f0d360b44f4b1bf34bd8cf5
 Author: Naman Jain <namjain@linux.microsoft.com>
-x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
 
-This commit modifies fixup_irqs() to use irq_chip_retrigger_hierarchy()
-instead of invoking the outermost domain chip's irq_retrigger() callback
-directly. It also refactors the loop to use scoped guards for the irq
-descriptor lock.
+PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
 
-> diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
-> index 30122f0b3af96..ef1bdd3c4659a 100644
-> --- a/arch/x86/kernel/irq.c
-> +++ b/arch/x86/kernel/irq.c
-[ ... ]
-> @@ -489,22 +484,18 @@ void fixup_irqs(void)
-[ ... ]
-> -	for (vector =3D FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
-> -		if (IS_ERR_OR_NULL(__this_cpu_read(vector_irq[vector])))
-> +	for (unsigned int vector =3D FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS=
-; vector++) {
-> +		struct irq_desc *desc =3D __this_cpu_read(vector_irq[vector]);
-> +
-> +		if (IS_ERR_OR_NULL(desc))
->  			continue;
+The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
+On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
+the outgoing CPU to a new target. As the Hyper-V PCI/MSI chip does not
+provide that callback, the pending interrupt is silently dropped, which
+can result in lost interrupts, stalls and "No irq handler for vector"
+messages.
+
+Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft=
+ Hyper-V VMs")
+Cc: stable@vger.kernel.org
+Suggested-by: Long Li <longli@microsoft.com>
+Suggested-by: Thomas Gleixner <tglx@kernel.org>
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
+/pci-hyperv.c
+> index cfc8fa403dad6..89816a2bd7cd3 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device=
+ *dev, struct irq_domain *dom
+>  	info->ops->msi_prepare =3D hv_msi_prepare;
 > =20
->  		if (is_vector_pending(vector)) {
-> -			desc =3D __this_cpu_read(vector_irq[vector]);
-> -
-> -			raw_spin_lock(&desc->lock);
-> -			data =3D irq_desc_get_irq_data(desc);
-> -			chip =3D irq_data_get_irq_chip(data);
-> -			if (chip->irq_retrigger) {
-> -				chip->irq_retrigger(data);
-> +			guard(raw_spinlock)(&desc->lock);
-> +			if (irq_chip_retrigger_hierarchy(&desc->irq_data))
+>  	chip->irq_set_affinity =3D irq_chip_set_affinity_parent;
+> +	chip->irq_retrigger =3D irq_chip_retrigger_hierarchy;
+
 [Severity: High]
-Will this skip the outermost chip and cause a regression for flat domains?
+This isn't a bug introduced by this patch, but does the sister Hyper-V root
+partition MSI domain in arch/x86/hyperv/irqdomain.c also need this fix?
 
-Looking at kernel/irq/chip.c:irq_chip_retrigger_hierarchy(), the loop
-initializes by immediately moving to the parent_data:
+Looking at hv_init_dev_msi_info(), it appears to be missing the exact same
+callback initialization for the root partition's top-level irq_chip:
 
-    int irq_chip_retrigger_hierarchy(struct irq_data *data)
-    {
-        for (data =3D data->parent_data; data; data =3D data->parent_data)
-            if (data->chip && data->chip->irq_retrigger)
-                return data->chip->irq_retrigger(data);
+arch/x86/hyperv/irqdomain.c:hv_init_dev_msi_info() {
+	...
+	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
+		return false;
 
-        return 0;
-    }
+	chip->flags |=3D IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
 
-By passing &desc->irq_data directly to this function, it seems any retrigger
-callback on the outermost chip itself will be bypassed.
+	info->ops->msi_prepare =3D pci_msi_prepare;
 
-Could this lead to dropped hardware interrupts during CPU hot-unplug for
-flat domains (like native lapic_controller) or any hierarchical domain where
-the outermost chip implements the retrigger callback?
+	return true;
+}
 
->  				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
-> -			}
-> -			raw_spin_unlock(&desc->lock);
->  		}
+If a CPU is hot-unplugged while a device MSI interrupt is pending in its
+local APIC IRR, could fixup_irqs() fail to resend the pending interrupt
+to the new target CPU because this callback is NULL?
+
+This could potentially lead to the same lost interrupts and I/O stalls=20
+described in this commit message, just in the root partition MSI domain
+instead of the guest paravirtual MSI domain.
+
+> =20
+>  	if (IS_ENABLED(CONFIG_X86))
+>  		chip->flags |=3D IRQCHIP_MOVE_DEFERRED;
+>
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260728135117.2888=
-175-1-namjain@linux.microsoft.com?part=3D2
+175-1-namjain@linux.microsoft.com?part=3D1
