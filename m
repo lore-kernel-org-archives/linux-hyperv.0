@@ -1,145 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222CA3B14D8
-	for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 11:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D81025A2DD;
+	Tue, 28 Jul 2026 13:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785238701; cv=none; b=N58z1ujrO7kFGLEKtfLfMyrGafjw4PEbxlEDY5LhFPLRhDC1p4NfcR/GKJwaqXSTYVL9guy7nqs9Y3j9zq8fsMi0b1IEe7ebTAvrEsDIOuWsn0ecq+XXV8Qe9V74zMxAWOgUaZRfk52baDg+wsljLdOyakAWv172aZxF/AKp4FI=
+	t=1785246694; cv=none; b=Wbaw1njpvE0U37QA2nZTaUBDPIy5cbMAlQtC+f12R/WM7tzTK2qD5smkex1D48z/pBtNiriGVwjplJUsB8VfW5D28Mx/n0a+MIPlfhXAyGECqdkqvowrijwcVr5FhMCVCPuQPVUtT+C/nqOjgoTFuYITjBNenn4rrrSGImGvKrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785238701; c=relaxed/simple;
-	bh=ZWp0kSoqwrFvgJX2VRizf5mre8nA3Glv5ovtI8phPpk=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=EzP1hMgPvkyn5WEhSSRZLpe6XyoifEZQIYkBFKol5CrWhEgfnf6LTxvnjYOgtYG3dfMhaEgFLRW6LWtUBs5PMD4mpA+sT23DAfjejNelOJ8goYNCY6tgv34Q+rZMve76O05FKbRKp+1KqIdWq2KM8X9zE0QA9PkhElKJoldW+k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYErtfUd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785246694; c=relaxed/simple;
+	bh=hRvBtimUkN5HTwmrRjs1Te44eljEyxGDej4qebzkedw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pXJU9Eazjj6w0G3D/Xk4IZFZkLyZcy36ibLjRwSY01gOnKc4UQR0VlY/3nIs7WX+ew6OfS1GwaSJxyMY+HBtRnZyUjwWT3qKW4AJu3qwh6j2hzLNuGlPFTE0zZMNzRjTmz492zwEIn2NXb9z3/K4tSjI6APWe8hy+8UmPllLh/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=l4YGstsG; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYErtfUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AABF41F000E9;
-	Tue, 28 Jul 2026 11:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785238699;
-	bh=chc/1VAtCUGXhhVJsMaAXbEhadu2eZb4lEmkWPWDl3o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iYErtfUdJll1Bv0esZVFDh16x2cKMkPgnBNNn6mCHBvPCGcrvFD8VHGtanKUxKTX+
-	 M/s3L0GYcTBIKl0aKV+Ko3wJX9s3A5kM8cxkXY4BNZ9gnhjd3ykpg4rbJq3gDaKIku
-	 Mq+5SR+tZpZZPp+ypn6SCmIwc9Dc1gmhxeQ7h2m/CULvhqXAEVA0r4JKVVots5NvPY
-	 4gDsKVZr5F5KLBcHoC5ZgsgP7PaSZKcaykVN7ULSRCw4VNSaHCkjGZsDr3RWfRWru1
-	 sy3fyzkC8guWqcFZC++KFT6VXTpMGyxW4epKcBGKHmpyqhPVVhTp5KcqSJElR0r8Fn
-	 dtQydOhcOlWSA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v2] net: mana: Return error code from
- mana_create_rxq()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Aditya Garg" <gargaditya@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260727113759.2881500-1-gargaditya@linux.microsoft.com>
-References: <20260727113759.2881500-1-gargaditya@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2026 11:38:19 +0000
-Message-Id: <20260728113819.AABF41F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="l4YGstsG"
+Received: from CPC-namja-026ON.redmond.corp.microsoft.com (unknown [4.213.232.16])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 265D920B7166;
+	Tue, 28 Jul 2026 06:51:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 265D920B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1785246671;
+	bh=/s0NBGO5Nwu0FBhXzB5m3wygkVQ4fkuc2i5s5t6+ff8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=l4YGstsGT9GrJUEivZR6SFeqwFcVYMDy4+eExl4Z2eLoduQlU5K0LedDFa9IOEGFv
+	 dsPEQjC/cLtgve4mikobwwFImpSnuR4vr2hmcETQcZoziVISfInzbR+kT5Ox30yPYv
+	 u1RmwnnetKzXldrOkptQy5HhbUbmgOprGkIbwmeY=
+From: Naman Jain <namjain@linux.microsoft.com>
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: x86@kernel.org,
+	Jake Oshins <jakeo@microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] x86/irq: Fix lost interrupts on CPU hot-unplug for Hyper-V PCI/MSI
+Date: Tue, 28 Jul 2026 13:51:14 +0000
+Message-ID: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On CPU hot-unplug, fixup_irqs() re-injects interrupts that are still
+pending in the outgoing CPU's IRR via the irqchip's irq_retrigger()
+callback. The Hyper-V vPCI MSI irqchip never installs one, so such a
+pending interrupt is silently dropped, leading to lost interrupts, stalls
+and "No irq handler for vector" messages.
 
-Pre-existing issues:
-- [High] TOCTOU race and Use-After-Free in mana_get_stats64() and mana_xdp_=
-xmit() due to lockless access of queues.
---
+Patch 1 is the minimal, backportable fix (Fixes:/Cc: stable) that installs
+irq_chip_retrigger_hierarchy() on the Hyper-V PCI/MSI chip. Patch 2 then
+switches fixup_irqs() to call irq_chip_retrigger_hierarchy() directly, so
+the retrigger works for any stacked irqchip without a per-chip callback.
+Patch 3 drops the now-redundant irq_retrigger() initializations.
+This way, patch 2 and 3 do not need to be backported.
 
---- Patch [1]: [PATCH net v2] net: mana: Return error code from mana_create=
-_rxq() ---
-commit 61de155c59ba6f86af33fcadf7943152726f385f
-Author: Aditya Garg <gargaditya@linux.microsoft.com>
+The series follows the original RFC:
+Link: https://lore.kernel.org/all/87y0f3jhd6.ffs@fw13/
 
-net: mana: Return error code from mana_create_rxq()
-   =20
-mana_create_rxq() returns a struct mana_rxq pointer and returns NULL on
-any failure. The caller, mana_add_rx_queues(), cannot tell what went
-wrong and hardcodes the error as -ENOMEM. As a result the actual failure
-reported by the lower layers is masked.
+Naman Jain (3):
+  PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
+  x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
+  x86/irq, iommu/amd, PCI: Drop redundant irq_retrigger inits
 
-Link: https://lore.kernel.org/all/20260718024818.560552-1-gargaditya@linux.=
-microsoft.com/
+ arch/x86/kernel/apic/io_apic.c |  2 --
+ arch/x86/kernel/apic/msi.c     |  4 +---
+ arch/x86/kernel/hpet.c         |  1 -
+ arch/x86/kernel/irq.c          | 23 +++++++----------------
+ drivers/iommu/amd/init.c       |  1 -
+ 5 files changed, 8 insertions(+), 23 deletions(-)
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> index 9d9bfd116dabc..92bb55935c1c4 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
 
-[ ... ]
+base-commit: 0d33d21e47d9dc66f91e44da3fc9220c74d93df7
+-- 
+2.43.0
 
-> @@ -2964,8 +2964,8 @@ static int mana_add_rx_queues(struct mana_port_cont=
-ext *apc,
-> =20
->  	for (i =3D 0; i < apc->num_queues; i++) {
->  		rxq =3D mana_create_rxq(apc, i, &apc->eqs[i], ndev);
-> -		if (!rxq) {
-> -			err =3D -ENOMEM;
-> +		if (IS_ERR(rxq)) {
-> +			err =3D PTR_ERR(rxq);
->  			netdev_err(ndev, "Failed to create rxq %d : %d\n", i, err);
->  			goto out;
->  		}
-
-[Severity: High]
-This is a pre-existing issue, but is there a TOCTOU race and Use-After-Free
-in mana_get_stats64() and mana_xdp_xmit() due to lockless access of queues?
-
-If an administrator changes the MTU or closes the interface, mana_detach()
-is triggered. It locklessly clears apc->port_is_up, disables TX, and then
-frees the RX and TX queues using kvfree() directly via mana_dealloc_queues(=
-),
-without an RCU grace period:
-
-mana_detach()
-	apc->port_is_up =3D false;
-
-	/* Ensure port state updated before txq state */
-	smp_wmb();
-
-	netif_tx_disable(ndev);
-
-	if (apc->port_st_save) {
-		err =3D mana_dealloc_queues(ndev);
-
-Concurrently, can unprivileged userspace reading /proc/net/dev (triggering
-mana_get_stats64()) check apc->port_is_up, evaluate it as true, and then
-access the freed queues?
-
-mana_get_stats64()
-	if (!apc->port_is_up)
-		return;
-...
-	for (q =3D 0; q < num_queues; q++) {
-		rx_stats =3D &apc->rxqs[q]->stats;
-
-Similarly, in mana_xdp_xmit(), the TX lock is temporarily acquired and
-dropped for each packet in the loop, allowing mana_detach() to complete
-netif_tx_disable() and proceed with freeing the queue before
-mana_xdp_xmit() updates the stats:
-
-mana_xdp_xmit()
-	for (i =3D 0; i < n; i++) {
-		if (mana_xdp_xmit_fm(ndev, frames[i], q_idx))
-			break;
-
-		count++;
-	}
-
-	tx_stats =3D &apc->tx_qp[q_idx]->txq.stats;
-
-	u64_stats_update_begin(&tx_stats->syncp);
-
-Can this lead to a Use-After-Free where memory corruption or a kernel
-panic occurs?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260727113759.2881=
-500-1-gargaditya@linux.microsoft.com?part=3D1
