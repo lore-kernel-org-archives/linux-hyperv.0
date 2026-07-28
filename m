@@ -1,149 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AD63B1EC6
-	for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 10:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222CA3B14D8
+	for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 11:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785236023; cv=none; b=mhdNbVDd09RzTO1BgvD7WTGkT648XWPkH7ziIP3ZfkHpsUU96fb3VX1CcchySenDzSzRRbmm/ioAAx5MhAojm0BYjKssAT7beQYCpZw9ukp/m/iGoUx3XwHfOeXHCH/fKAyV0F4I9fsReSyn6mub5vKQi4Gs8zB6GdBL/MBD82Y=
+	t=1785238701; cv=none; b=N58z1ujrO7kFGLEKtfLfMyrGafjw4PEbxlEDY5LhFPLRhDC1p4NfcR/GKJwaqXSTYVL9guy7nqs9Y3j9zq8fsMi0b1IEe7ebTAvrEsDIOuWsn0ecq+XXV8Qe9V74zMxAWOgUaZRfk52baDg+wsljLdOyakAWv172aZxF/AKp4FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785236023; c=relaxed/simple;
-	bh=GuqMBdPv/dcGRcpyFr3E9rAhM1G7tEFvC/D9g2VY98k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gMCsuAWReFIIs7948JnnFi6oqs7QR9dTAKBQO2Io6cHge1UDLtHQ5iNaS4iM/+CAwu+kQsawc3qeWm1Pr7VyQnX0Gl8o3gNSrFz+Fnwl/TZyj3TxAtkaFujp1Q+xa3fYC7NXKCUmAgUZiR5e2SCUqeYMYoV+nmgQzQX56tG+l0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hpYFS9Xt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PWFGXvL4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1785238701; c=relaxed/simple;
+	bh=ZWp0kSoqwrFvgJX2VRizf5mre8nA3Glv5ovtI8phPpk=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=EzP1hMgPvkyn5WEhSSRZLpe6XyoifEZQIYkBFKol5CrWhEgfnf6LTxvnjYOgtYG3dfMhaEgFLRW6LWtUBs5PMD4mpA+sT23DAfjejNelOJ8goYNCY6tgv34Q+rZMve76O05FKbRKp+1KqIdWq2KM8X9zE0QA9PkhElKJoldW+k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYErtfUd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hpYFS9Xt";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PWFGXvL4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785236012;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
-	b=hpYFS9Xtv+P0NycpJsKkqWEDbGYYPki+Y1BfThy8KfU/r0IBSEk534K3nK+xQ/2ykZJM2B
-	aiDSKItDU2kUS6Ju7RoYnpUJo1KKM06ZzX/8T9NmEYsdOQGnRbiJqiPyRru3p7dyr8W2z1
-	UKRdtyfx1RNTK/VMQelt4bI17EDkaLI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-523-z7qtQyOFNxulXq4mu7EaQA-1; Tue, 28 Jul 2026 06:53:31 -0400
-X-MC-Unique: z7qtQyOFNxulXq4mu7EaQA-1
-X-Mimecast-MFC-AGG-ID: z7qtQyOFNxulXq4mu7EaQA_1785236010
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-495689bfcc8so28388455e9.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 03:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785236010; x=1785840810; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
-        b=PWFGXvL4tEuQ0ZAIGjh9mJqjRuPZHDrpjHWZB+ivzbHCpsmBrsrzjxdUb+0s4BJ3Hp
-         pk49f15t1gPgRZJ4Yl1Mne6Rl/e9k2LzQoLcd/EFbcdEgWqSkURdMaSZ4NcEO9qybIOv
-         7S78Fo0RazykWfi1a1tGUolX+alpjoi+t2mdXYLpTVjQ+eEI5CBt8TOeKb6ElYRWcqIL
-         as/FJylwPCI62zl3W2V7Unnnth/81BoC0cYHJI4WZQlqQPJrxgMjJQFbf5p6Livtkjr9
-         GLv538KU0syN8B4VLE+O+IZAx9a6sT/D5EKH20aygKrmuH7GYTOpii26CZuMinuQ+8Nc
-         1pdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785236010; x=1785840810;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
-        b=I+CfFawdG8cgVZ60k+cslHkEiHdsjIzBYVxQlh5W5YfOJiiaNzTLOL79NNhi6ZzH53
-         NlK7GqQYm+gW+ogKddO//YNF5vZqSLoKfB53S/X+70k5p8MENBlmiJVpiYvqie0Z3euM
-         il/XZdcKsz3U6O8oLM9tKLO07BFR6KyAeKNzJydwtWhXfN9dzyYEpMfpu8uzDRfXnpMy
-         qMHh1wUtKcCZQ6lVCKnlaa6TrL5qYuGvygcYdGeO3jSTSJ0lGqUrTpQQi4VXBFwGYdLr
-         UFcOa/NAla2TDXzbOsenU/EWB7ZhNl2nChF9YktjptVwI1Z9NwNo2KSHBJEt3RbFmTOA
-         U5/A==
-X-Forwarded-Encrypted: i=1; AHgh+RphejrQZPgTPenwCa8AULncQX79HcH7+JQkIHZTJh7ExFiJLHygRb/JCmboakW737sd9RQ83aSrfFUn4d8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOa5fSwgyvPX4fzRb62RuP/NP8yYP4ifGeCe8as/+IY5iEL0UI
-	Ohv+QMY4l0oR+BgC+APS7FP5tlEsSkiwFQ1AWvd99Vt82I3l9ZdSI9ezFCk1ZlTZ/qMGZfJs2s4
-	DInVFbaEDLxDp7uU3YoQTiyDQ2M0HykuXdU448TgAz70U9DFujTo2lOnN0lqKD6wB6w==
-X-Gm-Gg: AR+sD12nc7YQb3SgM39ngygxKPn7z/yZNmR9DXwBViogSGm8oC6Gl3NmwWOpaFXRqvI
-	A0+AXDg/g/lS+MzAOsKCmcLDy0v/MpOueQz3+dmRv2xtmSKT64QXKR5TRKpJ/xw1eyjms0hGlLd
-	2vw1GlObTkKQ8BRszbhc3JG+O7G0TQSBqSjYazrRwyAxGInN6kWKXl+rtrIJCJ4RZm+sfr3OoqG
-	0XEzf5G03Ip9a7S6fYqqPNEC7ZUg2Ix3h7jgmRjRw9CsLccNleWRcgJn78GmxmJepN7wREv6xMH
-	YWYkh1nt0XscPHXcyLZLA+6BqfEad/TGsT9xNFh53Z4a8k5g1p3Zvs987FsUyQUwlsOYip76mH+
-	Dvpd8/I9OuesR3OCWjsGZ1ts8YmEs/EsWj8SAjSfrcI+nB6Si/MLsx4yWMcr8mZSwNG7fy4WaAD
-	iCEQ==
-X-Received: by 2002:a05:600c:81c8:b0:495:401d:9f4f with SMTP id 5b1f17b1804b1-496c65764e0mr19520415e9.25.1785236009990;
-        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
-X-Received: by 2002:a05:600c:81c8:b0:495:401d:9f4f with SMTP id 5b1f17b1804b1-496c65764e0mr19520135e9.25.1785236009517;
-        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957bffc501sm244172845e9.4.2026.07.28.03.53.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
-Message-ID: <7108c005-6b8d-4dda-82cc-e665cbe3b6a4@redhat.com>
-Date: Tue, 28 Jul 2026 12:53:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYErtfUd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AABF41F000E9;
+	Tue, 28 Jul 2026 11:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785238699;
+	bh=chc/1VAtCUGXhhVJsMaAXbEhadu2eZb4lEmkWPWDl3o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iYErtfUdJll1Bv0esZVFDh16x2cKMkPgnBNNn6mCHBvPCGcrvFD8VHGtanKUxKTX+
+	 M/s3L0GYcTBIKl0aKV+Ko3wJX9s3A5kM8cxkXY4BNZ9gnhjd3ykpg4rbJq3gDaKIku
+	 Mq+5SR+tZpZZPp+ypn6SCmIwc9Dc1gmhxeQ7h2m/CULvhqXAEVA0r4JKVVots5NvPY
+	 4gDsKVZr5F5KLBcHoC5ZgsgP7PaSZKcaykVN7ULSRCw4VNSaHCkjGZsDr3RWfRWru1
+	 sy3fyzkC8guWqcFZC++KFT6VXTpMGyxW4epKcBGKHmpyqhPVVhTp5KcqSJElR0r8Fn
+	 dtQydOhcOlWSA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v2] net: mana: Return error code from
+ mana_create_rxq()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Aditya Garg" <gargaditya@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260727113759.2881500-1-gargaditya@linux.microsoft.com>
+References: <20260727113759.2881500-1-gargaditya@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Jul 2026 11:38:19 +0000
+Message-Id: <20260728113819.AABF41F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 0/7] net: mana: harden the HWC and add dynamic
- queue depth
-To: Long Li <longli@microsoft.com>,
- Konstantin Taranov <kotaranov@microsoft.com>,
- Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- "K . Y . Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, shradhagupta@linux.microsoft.com,
- Simon Horman <horms@kernel.org>, ernis@linux.microsoft.com,
- stephen@networkplumber.org
-Cc: netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260721234339.1476932-1-longli@microsoft.com>
-From: Paolo Abeni <pabeni@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20260721234339.1476932-1-longli@microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 7/22/26 1:43 AM, Long Li wrote:
-> This series hardens the MANA Hardware Channel (HWC) control-plane path
-> and then builds on that to support a dynamic HWC queue depth.
-> 
-> The HWC is the command channel the driver uses to talk to the device.
-> Today it is created at a fixed depth of one outstanding request, and
-> several of its lookup and teardown paths predate the RCU and DMA-lifetime
-> rules they now need to follow.  Raising the queue depth and allowing
-> concurrent commands makes those latent races reachable, so the fixes come
-> first and the feature builds on them.
-> 
-> Patches 1-5 are fixes for pre-existing HWC bugs, each with a Fixes: tag:
-> 
->   1: cq_table was a plain pointer array freed with no grace period while
->      the EQ interrupt handler dereferenced it; put it under RCU.
->   2: the HWC RQ and SQ were sized with each other's message size, so a
->      response could overflow the RQ buffer and the RX slot stride was
->      computed with the wrong size.
->   3: comp_buf was freed before the EQ was destroyed, so a late completion
->      handler could touch freed memory.
->   4: the RX path consumed device-supplied lengths and indices without
->      validation; validate them before use (this matters for confidential
->      VMs, where the DMA buffer is shared with the host).
->   5: a failed mana_hwc_establish_channel() could leave live MST entries
->      while the driver freed the queue buffers, and destroy_channel() freed
->      the TXQ/RXQ before the EQ was quiesced; add a setup_active teardown
->      gate and destroy the CQ first.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Fixes should go via the net tree. Targeting net-next to avoid waiting
-the merge to post the dependant features is not a valid reason.
+Pre-existing issues:
+- [High] TOCTOU race and Use-After-Free in mana_get_stats64() and mana_xdp_=
+xmit() due to lockless access of queues.
+--
 
-Also both sashikos agrees pcie_fpr() in patch 5 is not the correct
-function to be used there.
+--- Patch [1]: [PATCH net v2] net: mana: Return error code from mana_create=
+_rxq() ---
+commit 61de155c59ba6f86af33fcadf7943152726f385f
+Author: Aditya Garg <gargaditya@linux.microsoft.com>
 
-Also please note the expectations WRT LLMs feedback, commit c82ff94592fb.
+net: mana: Return error code from mana_create_rxq()
+   =20
+mana_create_rxq() returns a struct mana_rxq pointer and returns NULL on
+any failure. The caller, mana_add_rx_queues(), cannot tell what went
+wrong and hardcodes the error as -ENOMEM. As a result the actual failure
+reported by the lower layers is masked.
 
-/P
+Link: https://lore.kernel.org/all/20260718024818.560552-1-gargaditya@linux.=
+microsoft.com/
 
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 9d9bfd116dabc..92bb55935c1c4 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -2964,8 +2964,8 @@ static int mana_add_rx_queues(struct mana_port_cont=
+ext *apc,
+> =20
+>  	for (i =3D 0; i < apc->num_queues; i++) {
+>  		rxq =3D mana_create_rxq(apc, i, &apc->eqs[i], ndev);
+> -		if (!rxq) {
+> -			err =3D -ENOMEM;
+> +		if (IS_ERR(rxq)) {
+> +			err =3D PTR_ERR(rxq);
+>  			netdev_err(ndev, "Failed to create rxq %d : %d\n", i, err);
+>  			goto out;
+>  		}
+
+[Severity: High]
+This is a pre-existing issue, but is there a TOCTOU race and Use-After-Free
+in mana_get_stats64() and mana_xdp_xmit() due to lockless access of queues?
+
+If an administrator changes the MTU or closes the interface, mana_detach()
+is triggered. It locklessly clears apc->port_is_up, disables TX, and then
+frees the RX and TX queues using kvfree() directly via mana_dealloc_queues(=
+),
+without an RCU grace period:
+
+mana_detach()
+	apc->port_is_up =3D false;
+
+	/* Ensure port state updated before txq state */
+	smp_wmb();
+
+	netif_tx_disable(ndev);
+
+	if (apc->port_st_save) {
+		err =3D mana_dealloc_queues(ndev);
+
+Concurrently, can unprivileged userspace reading /proc/net/dev (triggering
+mana_get_stats64()) check apc->port_is_up, evaluate it as true, and then
+access the freed queues?
+
+mana_get_stats64()
+	if (!apc->port_is_up)
+		return;
+...
+	for (q =3D 0; q < num_queues; q++) {
+		rx_stats =3D &apc->rxqs[q]->stats;
+
+Similarly, in mana_xdp_xmit(), the TX lock is temporarily acquired and
+dropped for each packet in the loop, allowing mana_detach() to complete
+netif_tx_disable() and proceed with freeing the queue before
+mana_xdp_xmit() updates the stats:
+
+mana_xdp_xmit()
+	for (i =3D 0; i < n; i++) {
+		if (mana_xdp_xmit_fm(ndev, frames[i], q_idx))
+			break;
+
+		count++;
+	}
+
+	tx_stats =3D &apc->tx_qp[q_idx]->txq.stats;
+
+	u64_stats_update_begin(&tx_stats->syncp);
+
+Can this lead to a Use-After-Free where memory corruption or a kernel
+panic occurs?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260727113759.2881=
+500-1-gargaditya@linux.microsoft.com?part=3D1
