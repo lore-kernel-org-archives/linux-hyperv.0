@@ -1,114 +1,149 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE6510F0;
-	Tue, 28 Jul 2026 00:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AD63B1EC6
+	for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 10:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785197288; cv=none; b=sQ2kksxX21mT0Q7/NZSU2K1tuPoIJRmIxC91GAqnxS/DgiPWOIR1JtzLMpnI39KWnhWyTbyW+lguGUDQ8+fHxcVZxLd53mvrVMaoD3BaVWrmeGbl2IkKBT2SqKPDORnUboHGop0O7A91VLM3a5YNnjZKJCpPbAIj433h8RwNmTw=
+	t=1785236023; cv=none; b=mhdNbVDd09RzTO1BgvD7WTGkT648XWPkH7ziIP3ZfkHpsUU96fb3VX1CcchySenDzSzRRbmm/ioAAx5MhAojm0BYjKssAT7beQYCpZw9ukp/m/iGoUx3XwHfOeXHCH/fKAyV0F4I9fsReSyn6mub5vKQi4Gs8zB6GdBL/MBD82Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785197288; c=relaxed/simple;
-	bh=nDDyFVMwgmSswFEWYhHOA4bnKI5cR1vOFgKBgpucE08=;
+	s=arc-20240116; t=1785236023; c=relaxed/simple;
+	bh=GuqMBdPv/dcGRcpyFr3E9rAhM1G7tEFvC/D9g2VY98k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BlBqUDqZLUwiRZ+oKsDhVtiOmZ5ckgaRcaJJyGK6IYfOxb7IqyuikV+51E7eGsO0r9jGuTKBBZY/ixEwe9UrUik7AEjfnx35QRM7XJ8u+3UujkQi5mr3AEL1WZHYuOvrWJNCvzJL+HcXWpWQTHQtpXLwWplHhg0NX1+9Iqb60C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Dg61kxOK; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 In-Reply-To:Content-Type; b=gMCsuAWReFIIs7948JnnFi6oqs7QR9dTAKBQO2Io6cHge1UDLtHQ5iNaS4iM/+CAwu+kQsawc3qeWm1Pr7VyQnX0Gl8o3gNSrFz+Fnwl/TZyj3TxAtkaFujp1Q+xa3fYC7NXKCUmAgUZiR5e2SCUqeYMYoV+nmgQzQX56tG+l0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hpYFS9Xt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PWFGXvL4; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Dg61kxOK"
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C78A520B7166;
-	Mon, 27 Jul 2026 17:07:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C78A520B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785197270;
-	bh=vzvfcpVxDsuVawwit4pR/t2LHBXcGZwsJw8S4ksNCBs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Dg61kxOKdsAHTBmUVS3VuUpz/c+oMZgDos0sQdoOVeyv5pn0Ft6/0iSzes9cCm3zN
-	 GuHbgFF3icfQd/b1Hv2BZO76EXZIkHNvx6v+Fz+YlHYuG78WdkoJAs62qxLKZKh8RF
-	 3lLqKnBCXPbY540SvbEyQeqxFhjV1UU6LM8TTQEU=
-Message-ID: <7dc1af73-f1e4-9bb9-2a2e-57cc3945dfe1@linux.microsoft.com>
-Date: Mon, 27 Jul 2026 17:08:05 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hpYFS9Xt";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PWFGXvL4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785236012;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
+	b=hpYFS9Xtv+P0NycpJsKkqWEDbGYYPki+Y1BfThy8KfU/r0IBSEk534K3nK+xQ/2ykZJM2B
+	aiDSKItDU2kUS6Ju7RoYnpUJo1KKM06ZzX/8T9NmEYsdOQGnRbiJqiPyRru3p7dyr8W2z1
+	UKRdtyfx1RNTK/VMQelt4bI17EDkaLI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-523-z7qtQyOFNxulXq4mu7EaQA-1; Tue, 28 Jul 2026 06:53:31 -0400
+X-MC-Unique: z7qtQyOFNxulXq4mu7EaQA-1
+X-Mimecast-MFC-AGG-ID: z7qtQyOFNxulXq4mu7EaQA_1785236010
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-495689bfcc8so28388455e9.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 28 Jul 2026 03:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1785236010; x=1785840810; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
+        b=PWFGXvL4tEuQ0ZAIGjh9mJqjRuPZHDrpjHWZB+ivzbHCpsmBrsrzjxdUb+0s4BJ3Hp
+         pk49f15t1gPgRZJ4Yl1Mne6Rl/e9k2LzQoLcd/EFbcdEgWqSkURdMaSZ4NcEO9qybIOv
+         7S78Fo0RazykWfi1a1tGUolX+alpjoi+t2mdXYLpTVjQ+eEI5CBt8TOeKb6ElYRWcqIL
+         as/FJylwPCI62zl3W2V7Unnnth/81BoC0cYHJI4WZQlqQPJrxgMjJQFbf5p6Livtkjr9
+         GLv538KU0syN8B4VLE+O+IZAx9a6sT/D5EKH20aygKrmuH7GYTOpii26CZuMinuQ+8Nc
+         1pdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785236010; x=1785840810;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rqNWKW0/xNBqkwbPCbxUHyYvyyfc0iM4zqIDc7x2VYk=;
+        b=I+CfFawdG8cgVZ60k+cslHkEiHdsjIzBYVxQlh5W5YfOJiiaNzTLOL79NNhi6ZzH53
+         NlK7GqQYm+gW+ogKddO//YNF5vZqSLoKfB53S/X+70k5p8MENBlmiJVpiYvqie0Z3euM
+         il/XZdcKsz3U6O8oLM9tKLO07BFR6KyAeKNzJydwtWhXfN9dzyYEpMfpu8uzDRfXnpMy
+         qMHh1wUtKcCZQ6lVCKnlaa6TrL5qYuGvygcYdGeO3jSTSJ0lGqUrTpQQi4VXBFwGYdLr
+         UFcOa/NAla2TDXzbOsenU/EWB7ZhNl2nChF9YktjptVwI1Z9NwNo2KSHBJEt3RbFmTOA
+         U5/A==
+X-Forwarded-Encrypted: i=1; AHgh+RphejrQZPgTPenwCa8AULncQX79HcH7+JQkIHZTJh7ExFiJLHygRb/JCmboakW737sd9RQ83aSrfFUn4d8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOa5fSwgyvPX4fzRb62RuP/NP8yYP4ifGeCe8as/+IY5iEL0UI
+	Ohv+QMY4l0oR+BgC+APS7FP5tlEsSkiwFQ1AWvd99Vt82I3l9ZdSI9ezFCk1ZlTZ/qMGZfJs2s4
+	DInVFbaEDLxDp7uU3YoQTiyDQ2M0HykuXdU448TgAz70U9DFujTo2lOnN0lqKD6wB6w==
+X-Gm-Gg: AR+sD12nc7YQb3SgM39ngygxKPn7z/yZNmR9DXwBViogSGm8oC6Gl3NmwWOpaFXRqvI
+	A0+AXDg/g/lS+MzAOsKCmcLDy0v/MpOueQz3+dmRv2xtmSKT64QXKR5TRKpJ/xw1eyjms0hGlLd
+	2vw1GlObTkKQ8BRszbhc3JG+O7G0TQSBqSjYazrRwyAxGInN6kWKXl+rtrIJCJ4RZm+sfr3OoqG
+	0XEzf5G03Ip9a7S6fYqqPNEC7ZUg2Ix3h7jgmRjRw9CsLccNleWRcgJn78GmxmJepN7wREv6xMH
+	YWYkh1nt0XscPHXcyLZLA+6BqfEad/TGsT9xNFh53Z4a8k5g1p3Zvs987FsUyQUwlsOYip76mH+
+	Dvpd8/I9OuesR3OCWjsGZ1ts8YmEs/EsWj8SAjSfrcI+nB6Si/MLsx4yWMcr8mZSwNG7fy4WaAD
+	iCEQ==
+X-Received: by 2002:a05:600c:81c8:b0:495:401d:9f4f with SMTP id 5b1f17b1804b1-496c65764e0mr19520415e9.25.1785236009990;
+        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
+X-Received: by 2002:a05:600c:81c8:b0:495:401d:9f4f with SMTP id 5b1f17b1804b1-496c65764e0mr19520135e9.25.1785236009517;
+        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957bffc501sm244172845e9.4.2026.07.28.03.53.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jul 2026 03:53:29 -0700 (PDT)
+Message-ID: <7108c005-6b8d-4dda-82cc-e665cbe3b6a4@redhat.com>
+Date: Tue, 28 Jul 2026 12:53:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH V4 5/9] mshv: Import data structs around device passthru
- from hyperv headers
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 0/7] net: mana: harden the HWC and add dynamic
+ queue depth
+To: Long Li <longli@microsoft.com>,
+ Konstantin Taranov <kotaranov@microsoft.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ "K . Y . Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, shradhagupta@linux.microsoft.com,
+ Simon Horman <horms@kernel.org>, ernis@linux.microsoft.com,
+ stephen@networkplumber.org
+Cc: netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260721234339.1476932-1-longli@microsoft.com>
+From: Paolo Abeni <pabeni@redhat.com>
 Content-Language: en-US
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20260718021949.926306-1-mrathor@linux.microsoft.com>
- <20260718021949.926306-6-mrathor@linux.microsoft.com>
- <20260718023047.E8EC51F000E9@smtp.kernel.org>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <20260718023047.E8EC51F000E9@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20260721234339.1476932-1-longli@microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/17/26 19:30, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] The memory layout of `union hv_device_domain_id` is inverted compared to the expected Hyper-V ABI, resulting in corrupted device domain IDs being passed to the hypervisor.
-> --
+On 7/22/26 1:43 AM, Long Li wrote:
+> This series hardens the MANA Hardware Channel (HWC) control-plane path
+> and then builds on that to support a dynamic HWC queue depth.
 > 
-> --- Patch [5]: [PATCH V4 5/9] mshv: Import data structs around device passthru from hyperv headers ---
-> commit 02ed2cd292e85f0b6e754b6a29df473f95394315
-> Author: Mukesh R <mrathor@linux.microsoft.com>
+> The HWC is the command channel the driver uses to talk to the device.
+> Today it is created at a fixed depth of one outstanding request, and
+> several of its lookup and teardown paths predate the RCU and DMA-lifetime
+> rules they now need to follow.  Raising the queue depth and allowing
+> concurrent commands makes those latent races reachable, so the fixes come
+> first and the feature builds on them.
 > 
-> mshv: Import data structs around device passthru from hyperv headers
+> Patches 1-5 are fixes for pre-existing HWC bugs, each with a Fixes: tag:
 > 
-> This commit copies and imports definitions and declarations from Hyper-V
-> public headers. These additions are related to creating domains in the
-> hypervisor and attaching devices to them.
-> 
->> diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
->> index b4cb2fa26e9bc..90497635c3cbd 100644
->> --- a/include/hyperv/hvhdk_mini.h
->> +++ b/include/hyperv/hvhdk_mini.h
-> 
-> [ ... ]
-> 
->> +/* 3 domain types: stage 1, stage 2, and SOC */
->> +#define HV_DEVICE_DOMAIN_TYPE_S2  0 /* HV_DEVICE_DOMAIN_ID_TYPE_S2 */
->> +#define HV_DEVICE_DOMAIN_TYPE_S1  1 /* HV_DEVICE_DOMAIN_ID_TYPE_S1 */
->> +#define HV_DEVICE_DOMAIN_TYPE_SOC 2 /* HV_DEVICE_DOMAIN_ID_TYPE_SOC */
->> +
->> +/* ID for stage 2 default domain and NULL domain */
->> +#define HV_DEVICE_DOMAIN_ID_S2_DEFAULT 0
->> +#define HV_DEVICE_DOMAIN_ID_S2_NULL    0xFFFFFFFFULL
->> +
->> +union hv_device_domain_id {
->> +	u64 as_uint64;
->> +	struct {
->> +		u32 type : 4;
->> +		u32 reserved : 28;
->> +		u32 id;
->> +	};
->> +} __packed;
-> 
-> [Severity: High]
-> Is the memory layout of union hv_device_domain_id inverted compared to the
-> expected Hyper-V ABI?
+>   1: cq_table was a plain pointer array freed with no grace period while
+>      the EQ interrupt handler dereferenced it; put it under RCU.
+>   2: the HWC RQ and SQ were sized with each other's message size, so a
+>      response could overflow the RQ buffer and the RX slot stride was
+>      computed with the wrong size.
+>   3: comp_buf was freed before the EQ was destroyed, so a late completion
+>      handler could touch freed memory.
+>   4: the RX path consumed device-supplied lengths and indices without
+>      validation; validate them before use (this matters for confidential
+>      VMs, where the DMA buffer is shared with the host).
+>   5: a failed mana_hwc_establish_channel() could leave live MST entries
+>      while the driver freed the queue buffers, and destroy_channel() freed
+>      the TXQ/RXQ before the EQ was quiesced; add a setup_active teardown
+>      gate and destroy the CQ first.
 
-No.
+Fixes should go via the net tree. Targeting net-next to avoid waiting
+the merge to post the dependant features is not a valid reason.
 
-> The macro HV_DEVICE_DOMAIN_ID_S2_NULL is defined as 0xFFFFFFFFULL, which
-> places 0xFFFFFFFF in the lower 32 bits and 0 in the upper 32 bits. Given
-> that Stage 2 (S2) domains have a type of 0, this macro implies that the id
-> should be in the lower 32 bits and the type should be in the upper 32 bits.
+Also both sashikos agrees pcie_fpr() in patch 5 is not the correct
+function to be used there.
 
-HV_DEVICE_DOMAIN_ID_S2_NULL is never assigned to any data struct of
-type "union hv_device_domain_id".
+Also please note the expectations WRT LLMs feedback, commit c82ff94592fb.
 
-
-> However, union hv_device_domain_id defines type as the first bitfield
-> (occupying the lower 32 bits) and id as the second (occupying the upper 32
-> bits).
-> 
-> Under this layout, casting 0xFFFFFFFFULL evaluates to type = 15 and id = 0,
-> instead of the expected type = 0 and id = 0xFFFFFFFF. Could this cause
-> malformed domain IDs to be sent to the hypervisor?
-> 
+/P
 
