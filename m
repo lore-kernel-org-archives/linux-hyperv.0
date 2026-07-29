@@ -1,97 +1,120 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C74E931326F;
-	Wed, 29 Jul 2026 05:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E46A2F1FDF;
+	Wed, 29 Jul 2026 06:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785302343; cv=none; b=Qyz/YRi3F5QJu+bnha+FiEXWHEFR+0G1OMicK2VAd7B6O+RwX/IuoDN8zcgyaBzVG3inP/3Ca4k0v0yxnY5pkZkKTarEMW2q6tjhI/lVEZgtsUvYww+0IdZK81ptPBbmN91PrWZkRQpLFKEEEz4eBurwsXEmscJhc5H2oKBh+2s=
+	t=1785305708; cv=none; b=I0rU9qxq1dC8MJRRsvkYKgxwvJnnmHgvEfu0fw57dF981rzn+OywZ3w5fC40M1e6/pLJZggfu3eNqw3wfPWl/5rc0K+sfp8fDLDTCOAHi8GQTCFUBQ6M8A0zki11Lsu3iBFf6vrlije1T81AcBgIIyDL5wIKxSTfK5BYVSG3kd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785302343; c=relaxed/simple;
-	bh=6NgqUNDyY3gfEySJnc0bUGr1Y0dhIYdDenGxSEz5jeQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=REGUZuFJPNstDdfSdjK7ef7vfQ1gW8YfY9AdMj4qY3QfufSGMFtG9cJX9CYTJ2T36MNHM56Rh4uc3yN+2mamtJZf3qhV4/6ft82LfBLD9WPPXee/f81HlRkbgFrkG6P2w0e12IhKe6f33hJwj/NtCL8cANrRdWRHX+KiicypzCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ir11ZTlu; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1785305708; c=relaxed/simple;
+	bh=Dyz6tGY6B3aaF93zhwMg2q7MWVE9jLXxpLiL3NiMJ4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KKHJ9YjH5Vk7giE0lSA29r3PYZd2szlF6n/Nq9bRzqUdI7IJcyaLdzn++hLR7AyjKNjb1ZPdm3R0ESEfinAvptlt4SXRSpavnKQjwEMhP5kES+zNYYmtlC50kOmRB5S5pvbYPJ4Ql2Tm5MCT3NctrABzu8+DYRJqRbwWJmVfyHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VQVGSqgV; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ir11ZTlu"
-Received: from [192.168.0.105] (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 2BCB320B7166;
-	Tue, 28 Jul 2026 22:18:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2BCB320B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VQVGSqgV"
+Received: by linux.microsoft.com (Postfix, from userid 1204)
+	id 99B5C20B7166; Tue, 28 Jul 2026 23:14:45 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99B5C20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785302324;
-	bh=Gx7S+xiggbvjnZUiqX+0qEuJb6B3YIvh3F6wPERICwg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ir11ZTluafeXX5Yhh4TshZcSa9tYd24z5hFm2DxLjmn4fw5Vdk0OkJXOeV1uhS8Yk
-	 eZ4izaeffxZTyNPfLbxIJqnzWsNpgMg/EwlcgtqmBoeOcMvedObl1ghjZL3IIosnqa
-	 WRuGbGq6NVzOJogWVG5tohiQB8NybSt5RfCdEGSk=
-Message-ID: <63882f44-4c22-43d1-a909-8586b2123afd@linux.microsoft.com>
-Date: Wed, 29 Jul 2026 10:48:55 +0530
+	s=default; t=1785305685;
+	bh=sY/yKp5MJMHtbiEF0TrBRS5ReV7Q7c3RY1ClyW70uQA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VQVGSqgVDvQDpHktoSYuyCgimSHuB5mCg2xyqINx5tjs9hDwXyXCa6hO9GtXKgbDc
+	 Fa6jaWCSnHZ2+jNg5Wwsau42RGAT7sWvj5bTjSW81kxKKuTj8/PzLNckSx5OQO00gW
+	 4MdtUTXVawxuhpVUrGZYXv54Oeu/kFRNuKQSHRlw=
+Date: Tue, 28 Jul 2026 23:14:45 -0700
+From: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, leon@kernel.org,
+	longli@microsoft.com, kotaranov@microsoft.com, horms@kernel.org,
+	shradhagupta@linux.microsoft.com, ssengar@linux.microsoft.com,
+	ernis@linux.microsoft.com, shirazsaleem@microsoft.com,
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+	stephen@networkplumber.org, jacob.e.keller@intel.com,
+	dipayanroy@microsoft.com, leitao@debian.org, kees@kernel.org,
+	john.fastabend@gmail.com, hawk@kernel.org, bpf@vger.kernel.org,
+	daniel@iogearbox.net, ast@kernel.org, sdf@fomichev.me,
+	yury.norov@gmail.com, pavan.chebbi@broadcom.com,
+	schakrabarti@linux.microsoft.com, gargaditya@linux.microsoft.com
+Subject: Re: [PATCH net-next v12 4/4] net: mana: recover port on attach
+ failure in ethtool operations
+Message-ID: <ammaVReMMz+W22Gy@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260711041415.3008868-1-dipayanroy@linux.microsoft.com>
+ <20260711041415.3008868-5-dipayanroy@linux.microsoft.com>
+ <d2014044-d410-466a-ae66-2a173dbdba82@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Drivers: hv: Use meaningful errnos for hypercall status
- codes
-To: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
- Hardik Garg <hargar@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, ssengar@linux.microsoft.com
-References: <20260727211101.2199630-1-hargar@linux.microsoft.com>
- <bc819b23-49c5-43d1-9a69-d34dba8f4762@linux.microsoft.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <bc819b23-49c5-43d1-9a69-d34dba8f4762@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2014044-d410-466a-ae66-2a173dbdba82@redhat.com>
 
-
-
-On 7/28/2026 2:53 AM, Easwar Hariharan wrote:
-> Hi Hardik,
+On Thu, Jul 23, 2026 at 12:18:22PM +0200, Paolo Abeni wrote:
+> On 7/11/26 6:10 AM, Dipayaan Roy wrote:
+> > When mana_attach() fails during ethtool ring size or channel count
+> > changes, the port is left in a broken state with no recovery
+> > mechanism, requiring manual intervention to bring the port back up.
+> > 
+> > On VM SKUs without a netvsc fallback interface, this results in
+> > complete loss of network connectivity to the VM.
+> > 
+> > Fix by scheduling queue_reset_work when mana_attach() fails. The
+> > preceding patch ensures mana_detach() always completes its full
+> > teardown (netif_device_detach + cleanup), so the reset handler's
+> > mana_detach() takes the "already detached" early return, preserving
+> > port_st_save for a successful mana_attach() recovery.
+> > 
+> > When mana_attach() fails, choose retry values that maximize recovery
+> > chances: if the operation was an increase, fall back to the previous
+> > working values; if it was a decrease but still above default, fall
+> > back to defaults; otherwise use the minimum supported values.
+> > 
+> > Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+> > Tested-by: Aditya Garg <gargaditya@linux.microsoft.com>
+> > Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+> sashiko gemini sees quite a bit of problem with the above approach:
 > 
-> On 7/27/2026 14:11, Hardik Garg wrote:
->> Commit 3817854ba892 ("hyperv: Log hypercall status codes as strings")
->> converted hv_result_to_errno() from a switch to a table and added status
->> codes used for string logging. Statuses without an existing specific
->> mapping were assigned the generic -EIO fallback even when a more specific
->> errno was available.
->>
->> Map HV_STATUS_ACCESS_DENIED and HV_STATUS_OPERATION_DENIED to -EACCES,
->> HV_STATUS_UNKNOWN_PROPERTY and HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE to
->> -EINVAL, and HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED to -EOPNOTSUPP.
->> This lets callers distinguish permission, argument, and capability
->> failures from generic I/O errors.
->>
->> The table conversion also added duplicate HV_STATUS_INVALID_LP_INDEX and
->> HV_STATUS_INVALID_REGISTER_VALUE entries. Remove the later -EIO entries,
->> which are unreachable because find_hv_status_info() returns the first
->> match.
->>
->> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
->> ---
->>   drivers/hv/hv_common.c | 12 +++++-------
->>   1 file changed, 5 insertions(+), 7 deletions(-)
->>
-> Glad to see that this was something that bothered you as well. If you like, you
-> can pick up feedback from Nuno on my attempt to solve this [1] and do a de-facto v3.
+> https://sashiko.dev/#/patchset/20260711041415.3008868-1-dipayanroy%40linux.microsoft.com
 > 
-> [1] https://lore.kernel.org/all/479242d4-ae08-442c-b61b-c9408ba2e9b0@linux.microsoft.com/
+> Also, changing user-setting in case of fallback is quite a bad thing to
+> be avoided.
 > 
-> Thanks,
-> Easwar (he/him)
+> Skimming over the code, it looks like than pre-allocate all the
+> resources and to a replace instead of detach/attach() looks feasible. I
+> suggest investigating such path. I also think that this last patch (and
+> possibly 2/4) could/should be in separate series.
+> 
+> Finally and most relevant thing; AI review comments should be explicitly
+> acknowledged by either debating them or addressing them. In both cases a
+> reply on the ML is expected.
+> 
+> /P
 
-I see no harm but only benefits in returning meaningful error code 
-corresponding to HV_STATUS_*, where we can, specially when such an error 
-code exists. So I agree with the motivation of this exercise.
+Hi Paolo,
 
-On this patch or a new v3 of previous patch, feel free to pick my review:
+Thank you for the review.
 
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+Accepting the feedback on 4/4 and working on the
+pre-allocate-and-replace approach you suggested. We are discussing with
+the HW/NIC team and investigating pre-allocating the queue resources from HW
+while a set already exists, as with this patch we are trying to handle
+and recover from failures caused due to HW/NIC resource exhaustion for
+queues.
 
-Regards,
-Naman
+I will drop 4/4 from this series in v13 and stick to only the ethtool
+private flag changes. Will send out a separate series for the problem
+currently discussed in 4/4 once all the above points are concluded.
+
+For 2/4 I will send it as a fixes patch to net as it will be common for
+all functions calling mana_detach.
+
+Regards
+Dipayaan Roy
