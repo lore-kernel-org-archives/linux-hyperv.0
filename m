@@ -1,42 +1,65 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9ABE45FFA0;
-	Thu, 30 Jul 2026 18:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785437638; cv=pass; b=KngpW2ee0IMx1ZpMhXdcpnPfLLVUcgpqgagpju+c1QyZ28dObFcsCaASxu/oACDV02NtDV+BQOpwSrxnkQFLjNWWZUJ/NvuorByIxiC9cPeC+rCWcDjMFE5u5rLZK92Ael5HvSMOgaOJEBwiLUgk5yxzn5yWN2rBoUhdO7nYjyw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785437638; c=relaxed/simple;
-	bh=aaAF3Z5SpdenQumU2g2LMGzy7IlVOprEy6ZYOX1B/4w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FQ62P6sTMfWBwJbAlnVAtBxMhXu1HeUEdBmofnq2nCDZcP5sV8cpydfAiZjMBhd7b2jUtykvUcBzg5wam+SosVRbsST1OF+iENZcqUQ4x5AD/jUZOzdDDIPVTq76JgfJQw2ijLA4hQZx9sk5JbfEW+RQzyISKZZ3+miigubBIwI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=mhklkml@zohomail.com header.b=BDdWcHuc; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E5C396B8C
+	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 20:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785442304; cv=none; b=ifVpZTpiIBA2E4Vsa9Ymk0wPdZLEq7jSv1vUm1zx0kD5ZJTuvmUZjWghP/SuL9molviTZLzKtdJ9Bbimlrd+X6J0+m8DGD7OX/nTPBbBT7kDLCgkDm4bEwYRg36yFNhlE/5QzDsbQOuPgjRZAnyQ/Mxu0pS5qtZiyU2RkTnU4OI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785442304; c=relaxed/simple;
+	bh=kG0V+A0XD3vYLFfqsb3MVX9KgiOaGk9ZgE+CUb0lYYI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Qnzbhz8BCZ2O6hG8YKl9Qi0G7Kua5z1IYd8RRZpZ+k2qjQVeaLh3mYjc7h12bfPlaoNIfePdnIX+Hjdmh991CARowtvz3P59hMXC4TbGfGqh8yr0DEz0c+DMih9REbokTpG/eWdcy3LeSxy/mHvPnOvtm3CIsim/TShPPgxYZDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XuOVa+dM; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=mhklkml@zohomail.com header.b="BDdWcHuc"
-ARC-Seal: i=1; a=rsa-sha256; t=1785437368; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PauwZrfp4Fil0RcXBDX92fKJ9ST2X9YJCUdF8KqaTpxHHeQXQakW0b6pIagZPgLAmpAeHTngmf/c6oZaXO4yjq6Onah4wDrWlXHRMNTLmmNqJ3nMti9v+kUGyRCqiRaac2kGOp71uWfHk0n5d8QficeLgTrbZ0Ul3oXkJZKzgNA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785437368; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Reply-To:Subject:Subject:To:To:Message-Id; 
-	bh=h94cUXFP+VE1XnJ0NZVxD6Bn7TTvsQmMmuJRaJW8KQo=; 
-	b=eAWEiX4zy0ZDftxXa7NW9k7a6AIUyMMM8BIW/M2CCt0+wPmgnI3/Wi6mAZ89nhNTq6GHGKMLTzUTdGYLf0JsUEGAV8hd9n+Yg7YjElqMKox7RhQs8xokgW63dQ2Ho55QMTZfcufPuHbzf1slI5WOWSSCSYTeor+DP03ZOuGtD5s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=mhklkml@zohomail.com;
-	dmarc=pass header.from=<mhklkml@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785437367;
-	s=zm2022; d=zohomail.com; i=mhklkml@zohomail.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:Reply-To:Reply-To:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-	bh=h94cUXFP+VE1XnJ0NZVxD6Bn7TTvsQmMmuJRaJW8KQo=;
-	b=BDdWcHuc0dXWFM5FFx4rcjoT3vMMLCs7Qr6CGw1gTpAfVaKjOCTxBCHULUFxlORn
-	0PfmN5SDVmUWkgja5VCruStZ+Kl72Fiw4T0oRXfQ3GNMGJ+iwZNvJuhSAUSNEeEmUtU
-	j1nVVMPgFyXKYCrvE24e14iciNJXO7trdQuDQt+U=
-Received: by mx.zohomail.com with SMTPS id 1785437365413837.8134952111768;
-	Thu, 30 Jul 2026 11:49:25 -0700 (PDT)
-From: Michael Kelley <mhklkml@zohomail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XuOVa+dM"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8487214ad2bso436846b3a.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 13:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785442293; x=1786047093; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yHhFvDLdT6/nmSmrERMl9Q942exbwnTVnKlPTxRQFfM=;
+        b=XuOVa+dMzlyDnn1BPSEEkX8oQBMdZwJU3JHkj7ujkeimyVzNW4XtIL0ta4GZOCF5WQ
+         TqoPWfhu3/KDNjOZuh6sgU45OT2fh6REyZTbi9wdDzAm9GPFSdN63bpGnNu68Q5ekCsG
+         VXXAmaXJncYUeWavSekd2+APgLcqTC21lnBfWVigp3euL/NYsJeU8+5+dV41bWusPaUQ
+         qfp0hlMBpS72XQd9F4YNNdLna/zgBC5qAlUEXq8EAPy9OYQtlrtJOG7k/Erv/PcdZvL8
+         F0Z8s+vUf1qeQvqOvenlNMgXdVph70GggaKYJY16laaBcroDHt+CDCx+dVaubKYGXfRK
+         k5dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785442293; x=1786047093;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yHhFvDLdT6/nmSmrERMl9Q942exbwnTVnKlPTxRQFfM=;
+        b=Q2YamFlo1xGSf9e6JaQthNDDNIQaWKs3tdrTOxnDPflBnFueFqlpPAVfrIbDc4Kb4g
+         LLmcfJW+hRbuhoxh3Y6dnvWy0nojd/wnyLFdOu+F37g520bpFW54nsaJbpZz5MDsedgD
+         MKW8oM/lkSWOAkVdb2NEXwkZzV8wx3FD5lLYwV8OoaNDkf571bf0y8KWMyeEyqiv09DF
+         4+i94PIMWy1KOudWKGt/DmkEtuFRDF+49+VI0MBkOFDAiuX3Gkq2r58ZCg4erM/o3xGG
+         VGR+fgnL2TBUcgE5P5SzL1uoyoIs0IdU4DBy/SXkDnV/pvlU0huk7jhckZSSerUFKxLT
+         NaiQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqcoYH0ixwpwHXcL5SZYo42IOqSX4JwL8BNTL7uBO3QpE8SK2Kz/UW9jX9D9XjBFW/0oXolIralbyqMwwA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3DNC6S6dwjKJ/M6ArPa1Uh+nv85q5/8CfqFrfAQgqWSZgH8Tl
+	eYxICPldjEfkpbewENJKy202/OdzSg7XAvVZOc4P9b8XMemNw/rwOist
+X-Gm-Gg: AR+sD1386FXMFr87aG5JFVXxGnFW4NvVZRqohGDP8PdlC4yGjXE6Pg1MHkTUMB9oaHB
+	E1rXJBk5Zs5KJzNSh1sSPt3R+ut3WXhGPhyQD9VcfxlWxCCKX3rKNr9n9IV/LaD4/ucZMG4W16U
+	6XxDVyHgO3HAj8RNfmtkSJR97RbptNwc01HNFbtF1aWFV4AYdn31KDOwNDEeI6x3w6s2hjE8jIg
+	84ZDlovQsaJGopXy2etVCrf+U0hmThjIWUTtMCEhb5BZhmGvmfQuhSU6KOhIhExUlCJHgTuijRM
+	F+5Iik5KEVAvvzvVu31UVgENiYCrtF6hBNq1OJtiPO7bpjbsXD0BgdvTxkGGe+wRwqOtUjfVliP
+	jWqoY3in8w3wKH8Fi0zz+4xPK1nP0SYspUi6SiqSmvB4Bk1ZKbe1ix/Ja6huwRs7BiWMHfnp3IX
+	5lCMUY0WrT6DNGBPM58f/+B87zxGSw6Idcf27HFDtBWhbE+/fQN+rx3W+GZNKnC3mCLmwos/23i
+	j3u6831/C6VH7+ENV0Rw/TPRL0Bz+TtZ9Oi8OmqB0Y=
+X-Received: by 2002:a05:6a00:1150:b0:845:d284:9e0a with SMTP id d2e1a72fcca58-84ebc425164mr3944086b3a.49.1785442293425;
+        Thu, 30 Jul 2026 13:11:33 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0055325sm3689108b3a.15.2026.07.30.13.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 13:11:32 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
 	wei.liu@kernel.org,
@@ -70,12 +93,10 @@ Cc: x86@kernel.org,
 	netdev@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	virtualization@lists.linux.dev
-Subject: [PATCH 5/6] scsi: storvsc: Remove support for storvsc protocol of old Hyper-V hosts
-Date: Thu, 30 Jul 2026 11:48:45 -0700
-Message-Id: <20260730184846.3165-6-mhklkml@zohomail.com>
+Subject: [RESEND PATCH 0/6] Remove support for Windows Server 2012/2012R2 & Win8/Win8.1 versions of Hyper-V
+Date: Thu, 30 Jul 2026 13:11:17 -0700
+Message-Id: <20260730201123.1767-1-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260730184846.3165-1-mhklkml@zohomail.com>
-References: <20260730184846.3165-1-mhklkml@zohomail.com>
 Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -84,121 +105,82 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Feedback-ID: zu080112274dd1eb380f35ccb59f6b55ae000069ec151d39bcc2f2a9829b10a2df78c9c3cb6e62fb6b9ddc59:ZohoMail
-X-Zoho-CM-AccountID: 0c88436b239415d28725328898ceccb9ce2ba3b61598c1c37bcb2109e0248174
-X-ZohoMailClient: External
 
-From: Michael Kelley <mhklinux@outlook.com>
+Linux code for running as a Hyper-V guest includes special cases for
+running on Hyper-V in WS2012/2012R2 and Windows 8/8.1. These versions
+were initially released 14 years ago, and official support ended in 2023
+(unless a customer has contracted for extended security updates). Given
+the release of subsequent versions with improved functionality, there's
+no need to continue to support the latest Linux kernels on these versions
+of Hyper-V. If someone is running Linux on one of these older Hyper-V
+versions and doesn't want to upgrade, they can continue to do so as
+presumably they don't want upgrade the Linux version either.
 
-With the overall removal of Linux support for running on Hyper-V
-hosts earlier than WS2016 and Windows 10, it's no longer necessary
-to support older storvsc protocols. Remove the support and associated
-special case code. However, support for the protocol for Windows
-Server 2012R2 and Win8.1 (protocol version 6.0) is *not* removed
-because it is activiely used by HvLite in the paravisor for Azure VMs.
+Simplify Linux code by removing special cases for running on these
+old versions of Hyper-V. This includes removing the negotiation of the
+VMBus protocol versions for WS2012/Win8, and the special case code based
+on those VMBus protocol versions. Changes are in the core VMBus code and
+several drivers for synthetic VMBus devices.
 
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/scsi/storvsc_drv.c | 53 +++++++-------------------------------
- 1 file changed, 10 insertions(+), 43 deletions(-)
+Some VMBus drivers have device-specific protocols with the Hyper-V host.
+Further simplify the code by removing the use of protocol versions that
+are specific to WS2012/Win8 and earlier.
 
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 571ea549152b..095fce47c5f1 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -47,9 +47,15 @@
-  * V1 RC < 2008/1/31: 1.0
-  * V1 RC > 2008/1/31:  2.0
-  * Win7: 4.2
-- * Win8: 5.1
-- * Win8.1: 6.0
-- * Win10: 6.2
-+ * Win8/WS2012: 5.1
-+ * Win8.1/WS2012R2: 6.0 (also for HvLite paravisor in Azure)
-+ * Win10/WS2016: 6.2
-+ *
-+ * Protocol versions earlier than Win8.1 are no longer supported since
-+ * Win8.1/WS2012R2 and earlier hosts are no longer supported by Linux.
-+ * But protocol version 6.0 is retained since it is used by the HvLite
-+ * paravisor in Azure. The #define's for the earlier versions remain
-+ * for the historical record.
-  */
- 
- #define VMSTOR_PROTO_VERSION(MAJOR_, MINOR_)	((((MAJOR_) & 0xff) << 8) | \
-@@ -218,7 +224,6 @@ struct vmscsi_request {
- static const int protocol_version[] = {
- 		VMSTOR_PROTO_VERSION_WIN10,
- 		VMSTOR_PROTO_VERSION_WIN8_1,
--		VMSTOR_PROTO_VERSION_WIN8,
- };
- 
- 
-@@ -1601,13 +1606,12 @@ static int storvsc_sdev_configure(struct scsi_device *sdevice,
- 	sdevice->no_write_same = 1;
- 
- 	/*
--	 * If the host is WIN8 or WIN8 R2, claim conformance to SPC-3
-+	 * If the host is WIN8 R2, claim conformance to SPC-3
- 	 * if the device is a MSFT virtual device.  If the host is
- 	 * WIN10 or newer, allow write_same.
- 	 */
- 	if (!strncmp(sdevice->vendor, "Msft", 4)) {
- 		switch (vmstor_proto_version) {
--		case VMSTOR_PROTO_VERSION_WIN8:
- 		case VMSTOR_PROTO_VERSION_WIN8_1:
- 			sdevice->scsi_level = SCSI_SPC_3;
- 			break;
-@@ -1703,28 +1707,6 @@ static enum scsi_timeout_action storvsc_eh_timed_out(struct scsi_cmnd *scmnd)
- 	return SCSI_EH_RESET_TIMER;
- }
- 
--static bool storvsc_scsi_cmd_ok(struct scsi_cmnd *scmnd)
--{
--	bool allowed = true;
--	u8 scsi_op = scmnd->cmnd[0];
--
--	switch (scsi_op) {
--	/* the host does not handle WRITE_SAME, log accident usage */
--	case WRITE_SAME:
--	/*
--	 * smartd sends this command and the host does not handle
--	 * this. So, don't send it.
--	 */
--	case SET_WINDOW:
--		set_host_byte(scmnd, DID_ERROR);
--		allowed = false;
--		break;
--	default:
--		break;
--	}
--	return allowed;
--}
--
- static enum scsi_qc_status storvsc_queuecommand(struct Scsi_Host *host,
- 						struct scsi_cmnd *scmnd)
- {
-@@ -1738,21 +1720,6 @@ static enum scsi_qc_status storvsc_queuecommand(struct Scsi_Host *host,
- 	u32 payload_sz;
- 	u32 length;
- 
--	if (vmstor_proto_version <= VMSTOR_PROTO_VERSION_WIN8) {
--		/*
--		 * On legacy hosts filter unimplemented commands.
--		 * Future hosts are expected to correctly handle
--		 * unsupported commands. Furthermore, it is
--		 * possible that some of the currently
--		 * unsupported commands maybe supported in
--		 * future versions of the host.
--		 */
--		if (!storvsc_scsi_cmd_ok(scmnd)) {
--			scsi_done(scmnd);
--			return 0;
--		}
--	}
--
- 	/* Setup the cmd request */
- 	cmd_request->cmd = scmnd;
- 
+Finally, the WS2012/Win8 versions of Hyper-V were the last to use
+messages to deliver synthetic timer interrupts. Starting in WS2016/Win10,
+stimer interrupts are delivered to their own assigned interrupt vector
+(called "Direct Mode"). So remove the code for handling timer interrupts
+delivered as messages. This removal has a broader benefit in removing
+a key blocker to disentangling VMBus code (which handles the messages)
+and stimer code, as they should be independent of each other. The
+final disentangling will come as a follow-on patch set.
+
+Testing:
+* VM on local Hyper-V on up-to-date Windows 11
+* Added temp debug code to suppress Direct Mode enumeration. Fallback
+  to LAPIC timer worked as expected (x86/x64 only)
+* Azure VM DC16eds v6: TDX CoCo VM with HvLite paravisor
+* Azure VM DC16ads v6: SEV-SNP VM with an older paravisor
+* Azure VM D16alds_v7: normal AMD x86 VM with HvLite paravisor
+* Azure VM D16plds v6: normal ARM64 VM with MSFT Cobalt processor
+* Not tested running in VTL2
+
+There's no specific urgency to removing the special case code for
+WS2012/Win8, so if the broader Linux kernel community surfaces
+a reason why this clean-up should not be done now, we can wait.
+But I think we want to eventually stop carrying around this extra
+baggage, and based on discussions with the Hyper-V team within
+Microsoft, we're past the point that it has any value.
+
+Michael Kelley (6):
+  Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version of
+    Hyper-V
+  hv_sock: Remove check for old Hyper-V hosts
+  hv_netvsc: Remove GPADL teardown special case for old Hyper-V hosts
+  drm_hyperv: Remove support for synth video protocol of old Hyper-V
+    hosts
+  scsi: storvsc: Remove support for storvsc protocol of old Hyper-V
+    hosts
+  clocksource: hyper-v: Remove support for stimer interrupts in message
+    mode
+
+ arch/x86/hyperv/hv_init.c                 |  17 +--
+ arch/x86/kernel/cpu/mshyperv.c            |   4 +-
+ drivers/clocksource/hyperv_timer.c        | 150 +++-------------------
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c |  33 ++---
+ drivers/hv/channel_mgmt.c                 |   4 -
+ drivers/hv/connection.c                   |   8 +-
+ drivers/hv/hv.c                           |   4 -
+ drivers/hv/hv_balloon.c                   |  36 +++---
+ drivers/hv/hv_snapshot.c                  |   5 -
+ drivers/hv/vmbus_drv.c                    |  10 +-
+ drivers/net/hyperv/netvsc.c               |  20 +--
+ drivers/scsi/storvsc_drv.c                |  53 ++------
+ include/clocksource/hyperv_timer.h        |   6 -
+ include/linux/hyperv.h                    |   5 +-
+ net/vmw_vsock/hyperv_transport.c          |   3 -
+ 15 files changed, 76 insertions(+), 282 deletions(-)
+
 -- 
 2.25.1
 
