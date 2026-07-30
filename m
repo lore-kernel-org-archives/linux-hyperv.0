@@ -1,142 +1,132 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BAE03911AF;
-	Thu, 30 Jul 2026 22:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3632DF6E9;
+	Thu, 30 Jul 2026 22:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785450286; cv=none; b=A+62wYvhY67Wj/4E6Mo083+CFHAoYsnaIs7la9lzELwuk3Lqkh8pl/9HkJFeuFlJsEyr74+KswqeqFSfX0aF0PJrr8SO3SKDimFYj4n8qrxiGa9ae9nZiEw2n28DG0HrpQ+NImEQZV91SQIv5mFJpC3AJ78mUhhwccA7Dwj+QsY=
+	t=1785451543; cv=none; b=i/P18efRf7a/zzNokheIeHEl4NSNY4sj0WzoCP2kSZORH+7xmNvH8KJCr5mlkLy5k7wFJwfHDdAC8uyVD8AufL5D4nos6srSp44Z44KezQDtuD4S+OLNLcJ1kzm09Bo6qNjrPfpbaj9UbeWaB9CM3ijlwKQ7vuzsmy7UjYTQbjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785450286; c=relaxed/simple;
-	bh=BnYeYCvIYpGQ3W9fmruMxznkg+lLVKqa7Ow2sXgmc+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEmYn+4Woxo34H+FM3UqqiAi5asR0e5UmHKpMi0eSWUyf5t2uzkQLR88Xq9QkwlBCkBGWOfhw+S9hYX0eKVk/NDkxDW2bx6QI0LGZzF4rH9nDehZu1TVsdAUzp/3pUsQI2yexqexGp3u6Lr5noxbnKoFx4440qveBdpLm4IDlnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mzGXwP2/; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1785451543; c=relaxed/simple;
+	bh=D4AlkxJewADXDQkoFsN0ypjhgZWNzgGqiEz28LzWLgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PzjId/IRtj083LR+5Iy/IXrA566+EqUmOeb/vJKj12LJ4JjBZks2pO6stKrQOZrye3IIauGu6uUdHKTVXrhugy/h4VDWjWPN7OpjJpDymUtlKIAAktyOoC/bpCN06ZpwVRtp080QturjVnZW/T2PWWlovUftT0Y+yAN+T8w+qpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5ocR2mV; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mzGXwP2/"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id B2AD920B7166; Thu, 30 Jul 2026 15:24:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B2AD920B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785450265;
-	bh=pqRfRnByDDrmG9mYWVTH89ngmj87IUFru7WB45pYJ1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mzGXwP2/EJNYI5Ns1Yn4bfz1dd3LMSi6jLBf7Ri3GjUlwhBYmOchzbs7DYJ8ENh+C
-	 xS2vqJJZwCJGVWwaESGDAbPn2tpt8gE9T7Mc3AWT3/axxnicmibv35KVO0AP0fx672
-	 TdaPLOQsvytqTSam/TnsmcH0+QcsBodB7ib2Rg98=
-Date: Thu, 30 Jul 2026 18:24:25 -0400
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: mhklinux@outlook.com
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	hpa@zytor.com, daniel.lezcano@kernel.org,
-	ssengar@linux.microsoft.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	sgarzare@redhat.com, horms@kernel.org, x86@kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [RESEND PATCH 0/6] Remove support for Windows Server 2012/2012R2
- & Win8/Win8.1 versions of Hyper-V
-Message-ID: <amvPGQcEqgzWe+yn@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20260730201123.1767-1-mhklinux@outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5ocR2mV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785451542; x=1816987542;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=D4AlkxJewADXDQkoFsN0ypjhgZWNzgGqiEz28LzWLgE=;
+  b=k5ocR2mV5RV5zUyWovZQgNDLlT0TTw5M8PaEp6BdV50ztL7J5Qn9TDrx
+   fdG0/DdvLO2KI+1MAU/DbXvepl9Fvx0Urmjj5unE0kAVS1C8VWwvhEgXH
+   wx89mweB6iiyANSM1+lbQKmbQuTvf6vR0lulvj75TH9hR5Qv8dsqMXXjG
+   BR/7BqQBN6BJ24g7WPabDHUKWfXQ2XqSoDAx0FS0o0GCW9WmhfLv8r964
+   qiPPW9PPWdv4KPOBWjqwce3HTvTP8ndxrg25by0jd2RnZkYqqNXYTTS1O
+   qrWPYST+2mmImtbKkxBuOUBlB3l8CZtUl4C51ZUivpKl+Q0ywLOjtTHeE
+   A==;
+X-CSE-ConnectionGUID: bty1LfafSZ2QdZ4inFCT8w==
+X-CSE-MsgGUID: TcRsp0Y8TMuxJQMEV87oXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="97595072"
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="97595072"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 15:45:41 -0700
+X-CSE-ConnectionGUID: 6ZTjABJzSHq0KANKjrAkXA==
+X-CSE-MsgGUID: 86YRcKkZQKSSqCijGiWMPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,195,1779174000"; 
+   d="scan'208";a="261034198"
+Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.111.236]) ([10.125.111.236])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 15:45:39 -0700
+Message-ID: <a5c7150f-44bc-4ed9-80de-631ddb37794a@intel.com>
+Date: Thu, 30 Jul 2026 15:45:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH 0/6] Remove support for Windows Server 2012/2012R2
+ & Win8/Win8.1 versions of Hyper-V
+To: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, hpa@zytor.com, daniel.lezcano@kernel.org,
+ ssengar@linux.microsoft.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, sgarzare@redhat.com, horms@kernel.org
+Cc: x86@kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
+ virtualization@lists.linux.dev
+References: <20260730201123.1767-1-mhklinux@outlook.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
 In-Reply-To: <20260730201123.1767-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 30, 2026 at 01:11:17PM -0700, Michael Kelley wrote:
+On 7/30/26 13:11, Michael Kelley wrote:
 > Linux code for running as a Hyper-V guest includes special cases for
 > running on Hyper-V in WS2012/2012R2 and Windows 8/8.1. These versions
 > were initially released 14 years ago, and official support ended in 2023
-> (unless a customer has contracted for extended security updates). Given
-> the release of subsequent versions with improved functionality, there's
-> no need to continue to support the latest Linux kernels on these versions
-> of Hyper-V. If someone is running Linux on one of these older Hyper-V
-> versions and doesn't want to upgrade, they can continue to do so as
-> presumably they don't want upgrade the Linux version either.
-> 
-> Simplify Linux code by removing special cases for running on these
-> old versions of Hyper-V. This includes removing the negotiation of the
-> VMBus protocol versions for WS2012/Win8, and the special case code based
-> on those VMBus protocol versions. Changes are in the core VMBus code and
-> several drivers for synthetic VMBus devices.
-> 
-> Some VMBus drivers have device-specific protocols with the Hyper-V host.
-> Further simplify the code by removing the use of protocol versions that
-> are specific to WS2012/Win8 and earlier.
-> 
-> Finally, the WS2012/Win8 versions of Hyper-V were the last to use
-> messages to deliver synthetic timer interrupts. Starting in WS2016/Win10,
-> stimer interrupts are delivered to their own assigned interrupt vector
-> (called "Direct Mode"). So remove the code for handling timer interrupts
-> delivered as messages. This removal has a broader benefit in removing
-> a key blocker to disentangling VMBus code (which handles the messages)
-> and stimer code, as they should be independent of each other. The
-> final disentangling will come as a follow-on patch set.
-> 
-> Testing:
-> * VM on local Hyper-V on up-to-date Windows 11
-> * Added temp debug code to suppress Direct Mode enumeration. Fallback
->   to LAPIC timer worked as expected (x86/x64 only)
-> * Azure VM DC16eds v6: TDX CoCo VM with HvLite paravisor
-> * Azure VM DC16ads v6: SEV-SNP VM with an older paravisor
-> * Azure VM D16alds_v7: normal AMD x86 VM with HvLite paravisor
-> * Azure VM D16plds v6: normal ARM64 VM with MSFT Cobalt processor
-> * Not tested running in VTL2
-> 
-> There's no specific urgency to removing the special case code for
-> WS2012/Win8, so if the broader Linux kernel community surfaces
-> a reason why this clean-up should not be done now, we can wait.
-> But I think we want to eventually stop carrying around this extra
-> baggage, and based on discussions with the Hyper-V team within
-> Microsoft, we're past the point that it has any value.
+> (unless a customer has contracted for extended security updates).
 
-I do feel that this is a nice cleanup overall, however do we really want
-things to break silently if someone does attempt running the latest
-kernel on older hosts? or do we want to include (at the very least) a
-warning message that indicates that things might be broken (and or
-that we don't make any guarantees of future support)?
+If we had a time machine, it would be nice to go back to 2023, stick
+some warnings in about this, and see if anyone screams. Could we add
+some warnings the next time a Hyper-V host ends support, please?
 
-> 
-> Michael Kelley (6):
->   Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version of
->     Hyper-V
->   hv_sock: Remove check for old Hyper-V hosts
->   hv_netvsc: Remove GPADL teardown special case for old Hyper-V hosts
->   drm_hyperv: Remove support for synth video protocol of old Hyper-V
->     hosts
->   scsi: storvsc: Remove support for storvsc protocol of old Hyper-V
->     hosts
->   clocksource: hyper-v: Remove support for stimer interrupts in message
->     mode
-> 
->  arch/x86/hyperv/hv_init.c                 |  17 +--
->  arch/x86/kernel/cpu/mshyperv.c            |   4 +-
->  drivers/clocksource/hyperv_timer.c        | 150 +++-------------------
->  drivers/gpu/drm/hyperv/hyperv_drm_proto.c |  33 ++---
->  drivers/hv/channel_mgmt.c                 |   4 -
->  drivers/hv/connection.c                   |   8 +-
->  drivers/hv/hv.c                           |   4 -
->  drivers/hv/hv_balloon.c                   |  36 +++---
->  drivers/hv/hv_snapshot.c                  |   5 -
->  drivers/hv/vmbus_drv.c                    |  10 +-
->  drivers/net/hyperv/netvsc.c               |  20 +--
->  drivers/scsi/storvsc_drv.c                |  53 ++------
->  include/clocksource/hyperv_timer.h        |   6 -
->  include/linux/hyperv.h                    |   5 +-
->  net/vmw_vsock/hyperv_transport.c          |   3 -
->  15 files changed, 76 insertions(+), 282 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+Also, what will an end user actually see if they boot a kernel with this
+series applied on one of those hypervisors? Will it just not boot? Will
+it run slowly?
