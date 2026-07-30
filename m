@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C64C331EA5
-	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 01:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF649620;
+	Thu, 30 Jul 2026 06:34:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785374757; cv=none; b=b5NG7wZoWWjxUr/4fh21iPCdoFAQf0Iw7jM+qtlfBUlraJ2F3Bwor+0rsRqTw/UIs+trDBSWGbRWcdiEkBeipgA2+Zqz4ZSPiNCCJIFq9S1tyPPE+YSFCzLE0/ie291I+KKw5MmvUC2Qez6uOui+BVgxHJd0whP0l8zHG/DPjt8=
+	t=1785393279; cv=none; b=VLRk8ExP/lzPRJo/utF4i0HoRTbWHIOJOZ7C2zPpLT0LaLYV+AltfPok1UpUrxC9WcJV4HGERJejyxuNhQq/PSRo9GkZG1vnJNgddp+hFBzsU4mvc2hlEBRApzSilQZNPsOg7Bv8YDdm36lKPpkectap9ZwSRs28p0rv7cJQX7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785374757; c=relaxed/simple;
-	bh=+HbaaUIMUahJwXlQkCzH8RuEd5vg0Rw+WrfY9eNHfGs=;
+	s=arc-20240116; t=1785393279; c=relaxed/simple;
+	bh=uUrJGfaBIb7mDA4YBbtbfsAXDxZqOs8qYQYrmWapWeM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=jKaf7Au7U2Mmc2aTm7WuJuhCXs2nDwrTwK/fCo0raZy/3QdhbWMC2HKTsl+t1E3ALv/+yjSiUzfFgYuq5zyt9x8Qy7+6js5tGUjIfvptNDURUO/X/GmI4/OaTyLpJaGx6EaPaxuooY4imkzVS+7VBkJEs1hy7SdaTYHuJC22VZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+dHMWAe; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=BF3TV6fJ26G0oB4v/5mxyQxyG6sLffgc9gYEexjkmefiYVbsAxWUrnkCmDnf+jnSL1rmEVA5IL22loUYWlX7CW5+Yukp4xL2obFZ16jOZKII0cpq+eSprzfpRVnN0yaZ3ibzU/iopBV0TiCF6S9Z6IO0eLlk8AnXjMUpTC4VElg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3LhnaM3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+dHMWAe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E1D1F000E9;
-	Thu, 30 Jul 2026 01:25:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3LhnaM3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6391F000E9;
+	Thu, 30 Jul 2026 06:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785374756;
-	bh=Sb3W0rcCMyorjJctvYemuATtFDoTz6Foi3UDfM2uEfg=;
+	s=k20260515; t=1785393278;
+	bh=7TW3V65Ed9QROSvOoOYcEkM/qCbnhSzbOuwkLOL4aPQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n+dHMWAeTTLChO8djwUdD+w1bCER/MmuDzFvJN0cMMk6ct3vyCit+N1gHuIJ89r/v
-	 PRROjj6eqaXtbBsKmBLnzjyX1vSw/WpztDKWIAVXBVUloxqqZXYKpCeaqMpv687hLf
-	 QH1eX472SdH+FnDmEBBzEIiG7YgTt6cY9DMkE4+Bbu3guGu7Ba7JmimHn2rAmFrBfT
-	 2U/bn7ZSWeMXMTgYEaOIbkkQE6vrH+LjsZ8Dn03P66fHTYvEs2jsp5cAlTdEIOzEBW
-	 zaug5qntt9nZ+PLaAXlmAk8J27/tAzoi5anwEYZkPiOgQZfTJV2oltv/fy51bufpgc
-	 llKX6UYGh7Nkw==
+	b=U3LhnaM3LleXLXiVai+NylyKynb6c6mGY1S+5Ggv0xMro+AAD1GmJ/XDul7KscPHE
+	 HTSpQouH7r+qV86PV4sLBzOKNJEICwPZorDcuJ1wKadqKBVSCE/tlT+4cOyU9AoQ9H
+	 Z/vei2FPemFXnHjNh1K8M92rUfkYYk/BHxWQB9FRsM3scvWXI/G6wkO6PqfdnGdDTk
+	 s2X1gQBEluqigaPA4kNLmDbh89OkeTlTUk88avlbnTv9AUnfMC/XzdItf3GYMzY4jp
+	 2/pfzhQnhovTPHnzdzOrak2/kS+5otrzIl1dNL4GTo6fHA3vVCgsPcIVcGpHuLeBLQ
+	 i3aWx0hkUF9qA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] x86/hyperv: reserve more vectors
+Subject: Re: [PATCH net-next v13 2/2] net: mana: force full-page RX buffers
+ via ethtool private flag
 Reply-To: sashiko-reviews@lists.linux.dev
-To: wei.liu@kernel.org
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260730005020.2181875-1-wei.liu@kernel.org>
-References: <20260730005020.2181875-1-wei.liu@kernel.org>
+To: "Dipayaan Roy" <dipayanroy@linux.microsoft.com>
+Cc: bpf@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260729063347.3388035-3-dipayanroy@linux.microsoft.com>
+References: <20260729063347.3388035-1-dipayanroy@linux.microsoft.com>
+ <20260729063347.3388035-3-dipayanroy@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2026 01:25:55 +0000
-Message-Id: <20260730012556.03E1D1F000E9@smtp.kernel.org>
+Date: Thu, 30 Jul 2026 06:34:37 +0000
+Message-Id: <20260730063437.EF6391F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,60 +49,68 @@ Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] The patch fails to resolve the interrupt mapping failure on system=
-s with X86_FEATURE_FRED enabled because an early return bypasses the newly =
-added vector reservations.
+- [High] Use-after-free of BPF program when mana_pre_alloc_rxbufs fails dur=
+ing XDP setup
 --
 
---- Patch [1]: [PATCH] x86/hyperv: reserve more vectors ---
-commit b0d2bc1fc2c7327b5574f796990f799e59f429b9
-Author: Wei Liu <wei.liu@kernel.org>
+--- Patch [2]: [PATCH net-next v13 2/2] net: mana: force full-page RX buffe=
+rs via ethtool private flag ---
+commit 2ea505589c71d255969461add82f06436f8f8e80
+Author: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 
-x86/hyperv: reserve more vectors
+net: mana: force full-page RX buffers via ethtool private flag
 
-This commit reserves three additional vectors used by the Microsoft
-Hypervisor to prevent the kernel vector allocator from mapping device
-interrupts to them when interrupt remapping is unavailable.
+This commit adds an ethtool private flag to force one RX buffer per page,
+bypassing the page_pool fragment path. This is intended to restore
+line-rate throughput on certain ARM64 platforms with 4K PAGE_SIZE.
 
-> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyper=
-v.c
-> --- a/arch/x86/kernel/cpu/mshyperv.c
-> +++ b/arch/x86/kernel/cpu/mshyperv.c
-> @@ -502,17 +502,32 @@ static void hv_reserve_irq_vectors(void)
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
+/net/ethernet/microsoft/mana/mana_ethtool.c
+> index 482cd16009abb..7e441d6ae5dce 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
 [ ... ]
->  	if (cpu_feature_enabled(X86_FEATURE_FRED))
->  		return;
-> =20
->  	if (test_and_set_bit(HYPERV_DBG_ASSERT_VECTOR, system_vectors) ||
->  	    test_and_set_bit(HYPERV_DBG_SERVICE_VECTOR, system_vectors) ||
-> -	    test_and_set_bit(HYPERV_DBG_FASTFAIL_VECTOR, system_vectors))
-> +	    test_and_set_bit(HYPERV_DBG_FASTFAIL_VECTOR, system_vectors) ||
-> +	    test_and_set_bit(HAL_NT_APC_VECTOR, system_vectors) ||
-> +	    test_and_set_bit(HAL_NT_DPC_VECTOR, system_vectors) ||
-> +	    test_and_set_bit(HAL_NT_CLOCK_IPI_VECTOR, system_vectors))
->  		BUG();
+> @@ -756,6 +775,78 @@ static int mana_get_link_ksettings(struct net_device=
+ *ndev,
+[ ... ]
+> +static int mana_set_priv_flags(struct net_device *ndev, u32 priv_flags)
+> +{
+[ ... ]
+> +	if (changed & BIT(MANA_PRIV_FLAG_USE_FULL_PAGE_RXBUF)) {
+[ ... ]
+> +		err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
+> +		if (err) {
+> +			netdev_err(ndev,
+> +				   "Insufficient memory for new allocations\n");
+> +			apc->priv_flags =3D old_priv_flags;
+> +			goto clear_flag;
+> +		}
 
 [Severity: High]
-This is a pre-existing issue, but does placing these new vector reservations
-after the FRED early return cause them to be bypassed on FRED-enabled
-hardware?
+This isn't a bug introduced by this patch, but while reviewing the callers
+of mana_pre_alloc_rxbufs(), does a failure during XDP setup leave a dangling
+pointer?
 
-Since the early return skips updating the system_vectors bitmap, vectors
-0x2F and 0xD2 won't be reserved when X86_FEATURE_FRED is enabled.
+In drivers/net/ethernet/microsoft/mana/mana_bpf.c:mana_xdp_set(),
+apc->bpf_prog is updated before the allocation:
 
-Because the kernel's dynamic vector allocator still relies on the
-system_vectors bitmap to avoid assigning device interrupts, won't the
-allocator still hand these vectors out to drivers on FRED-enabled systems
-and reproduce the mapping failure?
+        apc->bpf_prog =3D prog;
 
-> -	pr_info("Hyper-V: reserve vectors: 0x%x 0x%x 0x%x\n",
-> +	pr_info("Hyper-V: reserve vectors: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\n",
->  		HYPERV_DBG_ASSERT_VECTOR, HYPERV_DBG_SERVICE_VECTOR,
-> -		HYPERV_DBG_FASTFAIL_VECTOR);
-> +		HYPERV_DBG_FASTFAIL_VECTOR, HAL_NT_APC_VECTOR,
-> +		HAL_NT_DPC_VECTOR, HAL_NT_CLOCK_IPI_VECTOR);
->  }
+If the allocation fails, the function returns early without cleaning up:
+
+        err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
+        if (err) {
+                NL_SET_ERR_MSG_MOD(extack,
+                                   "XDP: Insufficient memory ...");
+                return err;
+        }
+
+The core network stack handles the error by releasing its reference to the
+new BPF program, which may then be freed. Because the early return skips
+the err_dealloc_rxbuffs label, apc->bpf_prog is never reverted to old_prog.
+Could a subsequent interface flap execute mana_attach() and assign this
+freed BPF program to the hardware RX queues, causing a use-after-free?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260730005020.2181=
-875-1-wei.liu@kernel.org?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260729063347.3388=
+035-1-dipayanroy@linux.microsoft.com?part=3D2
