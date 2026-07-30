@@ -1,65 +1,65 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715CE374A02
-	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 20:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23933CA4A9
+	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 20:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785442317; cv=none; b=GlJeiTCujt3epF4cYU7V6WqCGaRJ5z37jFpcmLoKrJYNLHtlUCoF5TCQ8+cRc41OaecwrscD3pFyOnguKgtw+oho7l0Myx2o+QSZIwpCu33mQlLIigif9xC0VZLVbgThs0gz35M+MZuWjY86R1W3m2I7u6tC7CmghmlIll+tyKw=
+	t=1785442318; cv=none; b=tlUM7rC/tY1C5TQjaF1QT+QI1jJImOtjYxAXVKl57SNDN5Dk4L6jt9O9nbN0UxK+O9AcBUwc4Fhkkr8oo/ADnTVDl6DtNlBu4lrV4NKF1u9k/Um4oan6ioEnfpdDGo6sox2sHeMqy5S8AOURV2KBCiE4FapaF9xeQ2woKakV4Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785442317; c=relaxed/simple;
-	bh=bgehGYxVvOhqrzJ9g+V/DTye3Nic7PErqY7Gl161rk4=;
+	s=arc-20240116; t=1785442318; c=relaxed/simple;
+	bh=ZdvgeoWh2TerW5rE/vqKIpMlNmv0bCF+vIbf9z8+9Y8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oqicIRpt3KeOGtUMPTevl15AfJpGkLFdNY8UJcqv9TlLOTir2P3o55x/PQX+9TTs4QlyVY/dZlVTH2TCox7miHpUNSUk++ZB28/DSmR895c+e9gzANpYP1Ibcs07w2XCSz8kMS5ckC5wMUhx2LECS4A6eDZGt+zHkaJJNPy17p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVVO0A9A; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=DSZb3Tk8SyYom/f2wkHE50Ztin99NxuSOnB37vNXrIzcnY76AfH+pk3AU0ENfCvHd2gBwR31RJACGnPSlE79LfA7X9GvPgfjpQtlaluorckNLPmS9kXarGTFBnVYGMaX/HkKE/FhBxVfZXMRIzBJCplcOlMiL/98y4GqiHB5Hps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLvLbPlT; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVVO0A9A"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84e27035206so363875b3a.3
-        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 13:11:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLvLbPlT"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84861fc51f5so259948b3a.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 13:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785442304; x=1786047104; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785442306; x=1786047106; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QRL/mQO23aZLDOYAwAiZdksOJj7+W5EBU224dpv2hko=;
-        b=SVVO0A9AitLveUl+OUT7/8qpSi1jp0u6t2irF12YEd3TKItCnvbsGEuvV0TW7Wr4YF
-         l1plK9a2rxxOU2kuLG1iWWczXAmqnGtUTSTvPgKOPXg+8Kqupdke7+5C/JRgXRvynKXu
-         JtRLvCmVg1oV03+DU42qTZKFYW/CNYigEOL8p6WAZavale2umWQ2QZA2/EYwdOIghPrK
-         emR/ZoVt+IvBMMTxBpUFpzApaRBYJwaGr34x4nkWv5zsVmOoA22Gxz7etij0yZsMV2hP
-         DCEZw4gbZQ43q7v3vAjMHTtCW9ix5nnnkKVl7o0KB9bPm3SBRXui9yQ/3NvPL1+VgHk8
-         dMUA==
+        bh=W7nssRnI5PbZKyunLFrMTG5kzkBNYctSVirvyP8FTcY=;
+        b=FLvLbPlTZGHeA6IkbXCPJhDPieVDpLmcH2m7gQubPq6BMmoTK/RqhrPaZB7QzafEnf
+         3EPIYSnCXuxvlgtjh813EyHxw8dos2Q/2+nzLBnt5T0oiJ8aMcSaovp2xyl/ZvySGsKX
+         BFmGPbCgh/tZf7uFYmBpR8SFFQ2st78hX/T63X2d23JzVAxTyT/DK0Jpgjhuj+riyDTu
+         9Pdyv3n9iGsPaxKyis0NVhHMuS6ccShpWeu/EGqlKILAsWycedraVQBPikHc7zno+V9m
+         wxiHDRu2rb+feGZI3mSX2icOMVa3yAXfTHgyL3ZjiEwifhOYOCkDuzWLe/Y9h/nJZLaT
+         4c/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785442304; x=1786047104;
+        d=1e100.net; s=20251104; t=1785442306; x=1786047106;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QRL/mQO23aZLDOYAwAiZdksOJj7+W5EBU224dpv2hko=;
-        b=AU7z9Ta3X6KgjsSnDxMd8zN5bEnzGbZezqsLk+K635+D6aaOkxwVq2W9/ypCnEPLWf
-         tWDrA96er/kw/+0okwUN88JByugtzrh0EsQXuNyYAbT+P731HsUtGsI1P8gN8VBiqCJO
-         H2kXGemcFPFjRUccr8O3g8bTOMXcAAEPyYrykImw164lt6nVMetcFWWzKTdyAMC9xPH2
-         dSDMmlQO27bZOlEb7pc9ME7ayRo04Hdxjy+lo76a6326Zh9WGDi1DB8mXmsV48hghvZz
-         YvoXXnOsRYP/jmfurP15sqtANIgZ95mzJZmLvxxtg1c0Jf5HxWQD7ct72UdotWFMQtMC
-         lYYQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpVmNs3a/XOgFTUJmRlgjT7dBFhDKC/49oMbQ4rpYURMuaHAI/gtU1qqNtEDemuNpS8NuqdH8NY7N329Ds=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywy1UjHYXzqR4dIbN9u7oBq9w+ahNkg5N2Owofa50ZU47T58ifv
-	U/6gNHVYmqBChvaRiQpEIqvJ8HIT/xvKESZRiprhoyUisXMccrgvZf6r
-X-Gm-Gg: AR+sD128UetLcWXW2Z+vU5ftFXdeTmo/dywVMHmeXslZ9gPRLe237xSXOSD4eHzPJgE
-	ZIdwiRJimNmazUxPKXr9qmoIwQ4X6TnFDbDUwEa/k+4fYpUbLM4eIt5kTSBjAU0OuL3/q6uMx50
-	Jl90jkLZ1LUZWBUeqQXOBOFplybcSbyPzEyLiyKnpiSB5NnpT8JwbYNlygd1qDEfDsQCB+GAmDf
-	Pm7Y0VKD88xcbkqJtjWvh/54rljqmClt2DkVIABcmg0QAKwXTEQVhGHn/nwZqypUQe9rqJgwSJU
-	hgZPY6VqyRfh3RDckYF8V0QyJ3CTZp+ZQNht1ImNYG05htMy5ucBPdWCz1TXDrpm95yt3Po5cuR
-	wQJL/6l8eQt8RJoHenuZuPzDrcTvuyOlMVhhgf8N9xBn9+/Bs+yQ1I+tM+q5mbYOMnOpL/cXOre
-	Goj73WveX14XnqsJwzbK3163NY35JGdhxkeWYh7SeO1h0XqUTQLQxkXtYYsKRx4RDZP+Yz882Ji
-	EDOF3+KlrlxeC+am2feAD/C1/xJzbRO9rZRyqim8zU=
-X-Received: by 2002:a05:6a00:c82:b0:845:3fea:96c with SMTP id d2e1a72fcca58-84ebc22e874mr3531492b3a.21.1785442303585;
-        Thu, 30 Jul 2026 13:11:43 -0700 (PDT)
+        bh=W7nssRnI5PbZKyunLFrMTG5kzkBNYctSVirvyP8FTcY=;
+        b=OfVEkQayO0uWa3gMwZ1jj53Oxlh8f3RlHSPxfSeN8xBERqYLKQtwYA8NqY6GE+60Zz
+         UUOxXpDztl5PCwOvQAGxkUxm7pIsbi2yCmhXjAovwCtJETI+k1i/CO4yKs60hIz9Yyar
+         t65ketXYDlUkL/UIqoFgcYq38h6Gvc56i8FneCs8F2OD2D0YyRiaFxP4Y/V8eJwbc6uF
+         OBsy1eyZJzKSgsp7v3SM6LDEM2ZhzW4IaSesznvZDfExzq0YA82RkWIPAG3EeTxu0i3Z
+         Bq7W0O6hGvIlstOQl158IPYefSJ42zMaRzym1WFS80fvl7Iq5bvin2hddKC9Ns+SRjIm
+         4iPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpXcIbjn3OFC5F4I0rWZBmgnLHvN62MOPvjAbc+XX9BnqZSwNgKxFtuBM9OQjjrYMe+lCWmt2HEIarThZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpEzIXzoQBbMXLg5CBbNuSSRLD9xTV/XIAwNFnVKwvBXQ5ZDH9
+	3ixsJq8Vd0DIiuotJ40fhZ1hRCP6XbYOeNhhw95+jaWEyxQj0KE0vv6d
+X-Gm-Gg: AR+sD13OWlIs1jaxmM03hzUQQy1/goDWm+ZqN53H/TJhoZZYYIBCzvkTZdlAWaRITPq
+	Iarxil52BfXtUia+xJ1HWWXubGt9SGn9BYsYBb3eeCpV1BtHLDYFWXu16LQAUdpwIluz+Ri6naQ
+	OsJVNvwhY80xjShrhwxEhtXQ0kfcmy46MLYKfDCMQe8t9WwMcvWunC34RR+rCamklUTLMXoWT1b
+	EX9skQQNSXrq2i49y8SwpKwvjJmxqRbhn5ZFehdUVYUSIY6Mmc6TPBZGfQ6/htbiNOSQARKJr+4
+	T06pAOC7iDMYdTIBIYytNAcGLIsnH+hNSz/AG79eE5gaecXGk0RCdtoKvydoT7Ddav/5TYF+YAo
+	f++znQfD8R0luERJyFaW0wVOBQcqx6mawtMlQ+i33zdL6G0lqt39hafwp8POfnnJDVmiS+vGEPM
+	3NcfPIaFgUgGcHtuWlzhhkG5QJfy/mFvlqWW3VO+MIc2Inkmvpdlp8Ha/js3AyY4fyMWbKBlBE7
+	moCFu2IxswJSgJJWpoWW1DtdKqJW+bgdQ7fImeGbNg=
+X-Received: by 2002:a05:6a00:1741:b0:848:5b1e:aec2 with SMTP id d2e1a72fcca58-84ebc3e39b5mr3714867b3a.54.1785442305476;
+        Thu, 30 Jul 2026 13:11:45 -0700 (PDT)
 Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0055325sm3689108b3a.15.2026.07.30.13.11.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0055325sm3689108b3a.15.2026.07.30.13.11.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 13:11:42 -0700 (PDT)
+        Thu, 30 Jul 2026 13:11:44 -0700 (PDT)
 From: Michael Kelley <mhkelley58@gmail.com>
 X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: kys@microsoft.com,
@@ -95,9 +95,9 @@ Cc: x86@kernel.org,
 	netdev@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	virtualization@lists.linux.dev
-Subject: [RESEND PATCH 4/6] drm_hyperv: Remove support for synth video protocol of old Hyper-V hosts
-Date: Thu, 30 Jul 2026 13:11:21 -0700
-Message-Id: <20260730201123.1767-5-mhklinux@outlook.com>
+Subject: [RESEND PATCH 5/6] scsi: storvsc: Remove support for storvsc protocol of old Hyper-V hosts
+Date: Thu, 30 Jul 2026 13:11:22 -0700
+Message-Id: <20260730201123.1767-6-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260730201123.1767-1-mhklinux@outlook.com>
 References: <20260730201123.1767-1-mhklinux@outlook.com>
@@ -112,71 +112,113 @@ Content-Transfer-Encoding: 8bit
 
 With the overall removal of Linux support for running on Hyper-V
 hosts earlier than WS2016 and Windows 10, it's no longer necessary
-to support older synthetic video protocols. Remove the support.
+to support older storvsc protocols. Remove the support and associated
+special case code. However, support for the protocol for Windows
+Server 2012R2 and Win8.1 (protocol version 6.0) is *not* removed
+because it is activiely used by HvLite in the paravisor for Azure VMs.
 
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 33 +++++++----------------
- 1 file changed, 10 insertions(+), 23 deletions(-)
+ drivers/scsi/storvsc_drv.c | 53 +++++++-------------------------------
+ 1 file changed, 10 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index f0ef627b4898..cea1ea2595cd 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -17,7 +17,7 @@
- #define SYNTHVID_VER_GET_MAJOR(ver) (ver & 0x0000ffff)
- #define SYNTHVID_VER_GET_MINOR(ver) ((ver & 0xffff0000) >> 16)
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index 571ea549152b..095fce47c5f1 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -47,9 +47,15 @@
+  * V1 RC < 2008/1/31: 1.0
+  * V1 RC > 2008/1/31:  2.0
+  * Win7: 4.2
+- * Win8: 5.1
+- * Win8.1: 6.0
+- * Win10: 6.2
++ * Win8/WS2012: 5.1
++ * Win8.1/WS2012R2: 6.0 (also for HvLite paravisor in Azure)
++ * Win10/WS2016: 6.2
++ *
++ * Protocol versions earlier than Win8.1 are no longer supported since
++ * Win8.1/WS2012R2 and earlier hosts are no longer supported by Linux.
++ * But protocol version 6.0 is retained since it is used by the HvLite
++ * paravisor in Azure. The #define's for the earlier versions remain
++ * for the historical record.
+  */
  
--/* Support for VERSION_WIN7 is removed. #define is retained for reference. */
-+/* Support for WIN7 and WIN8 is removed. #define's retained for reference. */
- #define SYNTHVID_VERSION_WIN7 SYNTHVID_VERSION(3, 0)
- #define SYNTHVID_VERSION_WIN8 SYNTHVID_VERSION(3, 2)
- #define SYNTHVID_VERSION_WIN10 SYNTHVID_VERSION(3, 5)
-@@ -557,23 +557,12 @@ int hv_drm_connect_vsp(struct hv_device *hdev)
- 		return ret;
- 	}
+ #define VMSTOR_PROTO_VERSION(MAJOR_, MINOR_)	((((MAJOR_) & 0xff) << 8) | \
+@@ -218,7 +224,6 @@ struct vmscsi_request {
+ static const int protocol_version[] = {
+ 		VMSTOR_PROTO_VERSION_WIN10,
+ 		VMSTOR_PROTO_VERSION_WIN8_1,
+-		VMSTOR_PROTO_VERSION_WIN8,
+ };
  
--	/* Negotiate the protocol version with host */
--	switch (vmbus_proto_version) {
--	case VERSION_WIN10:
--	case VERSION_WIN10_V5:
--		ret = hv_drm_negotiate_version(hdev, SYNTHVID_VERSION_WIN10);
--		if (!ret)
--			break;
--		fallthrough;
--	case VERSION_WIN8:
--	case VERSION_WIN8_1:
--		ret = hv_drm_negotiate_version(hdev, SYNTHVID_VERSION_WIN8);
+ 
+@@ -1601,13 +1606,12 @@ static int storvsc_sdev_configure(struct scsi_device *sdevice,
+ 	sdevice->no_write_same = 1;
+ 
+ 	/*
+-	 * If the host is WIN8 or WIN8 R2, claim conformance to SPC-3
++	 * If the host is WIN8 R2, claim conformance to SPC-3
+ 	 * if the device is a MSFT virtual device.  If the host is
+ 	 * WIN10 or newer, allow write_same.
+ 	 */
+ 	if (!strncmp(sdevice->vendor, "Msft", 4)) {
+ 		switch (vmstor_proto_version) {
+-		case VMSTOR_PROTO_VERSION_WIN8:
+ 		case VMSTOR_PROTO_VERSION_WIN8_1:
+ 			sdevice->scsi_level = SCSI_SPC_3;
+ 			break;
+@@ -1703,28 +1707,6 @@ static enum scsi_timeout_action storvsc_eh_timed_out(struct scsi_cmnd *scmnd)
+ 	return SCSI_EH_RESET_TIMER;
+ }
+ 
+-static bool storvsc_scsi_cmd_ok(struct scsi_cmnd *scmnd)
+-{
+-	bool allowed = true;
+-	u8 scsi_op = scmnd->cmnd[0];
+-
+-	switch (scsi_op) {
+-	/* the host does not handle WRITE_SAME, log accident usage */
+-	case WRITE_SAME:
+-	/*
+-	 * smartd sends this command and the host does not handle
+-	 * this. So, don't send it.
+-	 */
+-	case SET_WINDOW:
+-		set_host_byte(scmnd, DID_ERROR);
+-		allowed = false;
 -		break;
 -	default:
--		ret = hv_drm_negotiate_version(hdev, SYNTHVID_VERSION_WIN10);
 -		break;
 -	}
+-	return allowed;
+-}
 -
-+	/*
-+	 * Negotiate the protocol version with host. Since support for hosts
-+	 * older than WIN10 has been removed from Linux, only negotiate the
-+	 * WIN10 version.
-+	 */
-+	ret = hv_drm_negotiate_version(hdev, SYNTHVID_VERSION_WIN10);
- 	if (ret) {
- 		drm_err(dev, "Synthetic video device version not accepted %d\n", ret);
- 		goto error;
-@@ -581,11 +570,9 @@ int hv_drm_connect_vsp(struct hv_device *hdev)
+ static enum scsi_qc_status storvsc_queuecommand(struct Scsi_Host *host,
+ 						struct scsi_cmnd *scmnd)
+ {
+@@ -1738,21 +1720,6 @@ static enum scsi_qc_status storvsc_queuecommand(struct Scsi_Host *host,
+ 	u32 payload_sz;
+ 	u32 length;
  
- 	hv->screen_depth = SYNTHVID_DEPTH_WIN8;
- 
--	if (hv_drm_version_ge(hv->synthvid_version, SYNTHVID_VERSION_WIN10)) {
--		ret = hv_drm_get_supported_resolution(hdev);
--		if (ret)
--			drm_err(dev, "Failed to get supported resolution from host, use default\n");
+-	if (vmstor_proto_version <= VMSTOR_PROTO_VERSION_WIN8) {
+-		/*
+-		 * On legacy hosts filter unimplemented commands.
+-		 * Future hosts are expected to correctly handle
+-		 * unsupported commands. Furthermore, it is
+-		 * possible that some of the currently
+-		 * unsupported commands maybe supported in
+-		 * future versions of the host.
+-		 */
+-		if (!storvsc_scsi_cmd_ok(scmnd)) {
+-			scsi_done(scmnd);
+-			return 0;
+-		}
 -	}
-+	ret = hv_drm_get_supported_resolution(hdev);
-+	if (ret)
-+		drm_err(dev, "Failed to get supported resolution from host, use default\n");
+-
+ 	/* Setup the cmd request */
+ 	cmd_request->cmd = scmnd;
  
- 	if (!hv->screen_width_max) {
- 		hv->screen_width_max = SYNTHVID_WIDTH_WIN8;
 -- 
 2.25.1
 
