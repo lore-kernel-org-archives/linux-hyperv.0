@@ -1,65 +1,65 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219383A16B8
-	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 20:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F6B3B994F
+	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 20:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785442311; cv=none; b=iyfzdKHzxTF5zujnBsl2RbPgDxSdO1rZ6a7igyh4LTEuBAvCQOoFv/exxNmZYgrhJSecbIuqIl1s8QpSTdJ9SpSVpYH8k5N6TAW5iaL2k+gtAklhjb36E1ODNXI3U6Jh9HFm4YAVfOWP+wfgRdftObvnrE9e8u/pHAkfE0Mr5mI=
+	t=1785442315; cv=none; b=hJVcHUIjdwhrNFySOTAeRoVHgX428xx/KOsmNomOmYbDNmn2y2jSLU/yAkamijvNXOuXiIPqeFmoYOcUSNh5VHyvUqaO/jw3GFEClxhRfEPqIgxabQPPAPr2OWuXS1uGhSXX7sZ1Y9vq8jywl+VMSmi5ep6htUrsaLd3PuS5KuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785442311; c=relaxed/simple;
-	bh=cM4XkvF7y2BcRDcPI9DO0f3mTOQg4RfEJTwnq/GPqwE=;
+	s=arc-20240116; t=1785442315; c=relaxed/simple;
+	bh=ywoJVudyQly2BSU4Suu/ELob67veyV2IT2JljVMnXPQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kQh3WlXOaFIrCgcqYP6IK7hqbPy5XCByvHvMdIN/8tqvrdvRMuWwILUPVbcbmXkaajaV4wV5KpJqhrC5lZXnuffrxQ29263pcLeSmn6vDKRo9GTqlOd5fxDp1yf2emDxbM8YRng3krseWb3jF2N2nUYF/kejpBhVELilEVKnQW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftGi+Kh3; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=AqLhtcueoc8xaFNMiznc/cz6NVJdMX89kjz5N7PysT9OJAVR22FGF+vJ/bC4oqS62Ka0FMP2x6e4gYLBml4BO1BOefUweiQRK9JJLQ2jO/sIFFObUnzCZvfTZND0i27bPgdxxO+cZFlJH8HiURVDZwGBMU+ICbU2nC2ybyRylMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZE+rgqp; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftGi+Kh3"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8486672f03cso379705b3a.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 13:11:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZE+rgqp"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84e3007a2b7so275404b3a.0
+        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 13:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785442296; x=1786047096; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785442301; x=1786047101; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=pHOPI0ut4H55mAZaYylYOWy1NMuvGn1YFD0lfQuRbRc=;
-        b=ftGi+Kh3A1bdxNpxyKrhPmCDEdThdnpxKLwrERZjZiYFYjNxpcrTnNrHIUivc2kHck
-         fMVmJGkNEDl5TjDIPX7NafzhowByopJWjpnTiwmp5lDBWlxdg9+umrljG5sqvdSwnYTR
-         4PaNm5Iy74TSpXNmelTaR4iteVw71a+Vc7OsHsXK1e1BCDj8sPZ5DfK3Gp8UOtnubk9C
-         fXKj/ayXf9GikLQ7BXzDalp6X1FmLgiiHHeLz8EEhXtbvixBd2mckIp0S4HHyO04HR92
-         +xT4K61Khy3p7KxT2FpVaDHGwRkX6w6/KfRTid/ptMjE7wHz3oY15jzcQS7PaU2e01+m
-         WNmQ==
+        bh=SiwSGXnRH3TAjHZf8TYJ+bLPyzkydxq8UaVMUOfakl0=;
+        b=ZZE+rgqpWGO8ojZDXUbip2ounkYY1eNg1d/0oFePsUOEIaLoBEWK68sJkW7Do71l+c
+         mv2c21/bWO0tG92lgpzz8W59tzWOgzs5Dyb+TSZ63ocakvnEwITXuv2zLJHhH5YoFoUf
+         h32nb2ymWScCbUNtfx1Wh9iEYigiS3fehlP6otLLhF/HFqkH3dC9bLl/rlouFDNV1lNp
+         57RGYHcbxYHG6TKhdjIMrOTJSX6ljivYWRSYXrsjc9RyVX3bqWyG84P2MnMo2XJKI8jQ
+         DgjQ+LjftpwVskuSqBOBR/leyinBmGfR93VbzVs5jHN5dy6CqqY8jpajaPK5QyvgGU9L
+         qCGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785442296; x=1786047096;
+        d=1e100.net; s=20251104; t=1785442301; x=1786047101;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pHOPI0ut4H55mAZaYylYOWy1NMuvGn1YFD0lfQuRbRc=;
-        b=FS9Tc/78FRFHpHXrIacrMxyjCnUJawRkci5kYq+hbXnM0GIkuz+hBT+xwecqsWMg51
-         MXxyZe3Q2ETrCUqWT8lLIia3YTzsFg9D5EUOGrBXj83Gmm13wbWyqBjEoUAzSMe9fyFg
-         lvgAOz01o3Myk1+YfMPtDnlNCJnrewKdR6AecFhCfkeBbTxFVERgVjMpGj/JtGFAh+Ch
-         HGY/wNu4kry7h955qvx4PlfDds6Zaxow9iDb2UcXBaQ+fRS9/12rEMJAHF+GterusWQD
-         7vcLmAO+Io42K0rZb0vJybURl2De/PF7VcgSJoGsAFEF1b6zn2zgPTvj7sJrkYzhhbQy
-         0MCg==
-X-Forwarded-Encrypted: i=1; AHgh+RpMTo/uB7wgHXnPntfNsV+x97NZ6oDstGjV6geaDZrioQWNtf9xL4evsPAD9B8UNZxWkhz/ETJ/gW2TlCk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiVUxcnE7C6X8jvzY+jJwynaN7ijWfMaQn/pjqYUhpcoKVsAUB
-	sQ3ss+DTFxGw9FF+iRbhrpSd2yjdFAxzhjoTmsxPzuTm8LAK6CcXB6ON
-X-Gm-Gg: AR+sD100eie6j+wW8b570ltN4pyD5SIKecvcGi0+IAKsorziuxM+pPua/JcAGL3P4+C
-	TncFoS9D+29x2Hj1N64UKp/W7zQQcHGIUDHTVokM3bTwB4W8mM8sXYkuQwZO9kAgPSEdCI0JIED
-	39++m6ucR/FiXGAIhRvxt+NjJfLCZJZNEPrZtjsjFkA3hZq0tqkTJJhWCxwzRWRsvYUylVu8Is9
-	/ICl4C4ic1uiFtqrZ9ZwklmnuxX7Zb07D/ciFs5V0DidQ1OrIhd5T3Kt9yDBGDJntUZHgnH4xaz
-	93+arYTbRD0zu8oZr6iKn93nAtKRcKvT3ukkL2FIc1S+Xv/g8oSXd7At4OCJ7JMKYnLunpce4qK
-	ej8ctE98LfI+OpD29C7CGqsS535K4HfCyX0BF0HfuPVvcSmdwU0x4Nc+k75iDK9tRWezhSzYe1a
-	eHotHbyJGsoWhztWyi1AqrDxrniv474fVBThgt6tbvfZip01YXBQ7wsWXadrWsvF1YJ1fW8P47k
-	XXUiPumphXh3oi2iu8SuDIjh/t9yishdmurl1vgf9H3Uqg61i7lkg==
-X-Received: by 2002:a05:6a00:e13:b0:84a:64ea:e767 with SMTP id d2e1a72fcca58-84ebc3db9bdmr3490632b3a.49.1785442295721;
-        Thu, 30 Jul 2026 13:11:35 -0700 (PDT)
+        bh=SiwSGXnRH3TAjHZf8TYJ+bLPyzkydxq8UaVMUOfakl0=;
+        b=ml68GfYJNzJpPl5oQhPIzX7uN/wQbAIvAHFkWfs3noRkVUASP0A7qDJR/0U/iV0tKb
+         X5fzhoDExuMdunvlQczlpcWur7CY9fUOk8RSDrfVRrJ1TnAehJY7Zgs+4J89rPt5tOXc
+         p5Gg1TyBUf7+v1Fct97zZZAo8XQpsrkjVghHCoEIakbIGJhRQijWdT1uP5agl7v8oe75
+         YZ2iKYJknUg8G/a5C8woB4EVwFe2APxyc0OA3zGFOHmPvINhwJb8cCu5fnBXvK+YeSAZ
+         vgAONePpGljhqgL7hUCG/isNz+DJj79pETB/muE71VluLWGuckgjCDV24stxA4Dc4mN4
+         Ur2w==
+X-Forwarded-Encrypted: i=1; AHgh+RoodbhqKwXRf6QLLILjC7jrE8PzOpdQISryVAZ2Df5fTlTPOw8kBhfbM06by6hQf8jlhFa1p9NsisD/KuQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yythbwdt6+Xbl0yRTBgK5lA+2ZPx7CocQ8nhpecQreVbGtnNkkG
+	Y/5U0A3T4qC+qSLsrrGLHL71im7bT1hlpiTsuHie825BFtxQ9efs7IId
+X-Gm-Gg: AR+sD103X3FfyTSW/q2KyJQ97KnVRhVqL//4r8/KdYvo4X8UMFO/EpBgtNhd5pdX3Eb
+	7Y3q60GV5xUM8HbHGZTVe9dibDRQzS3yfHZMoLPm8v1odLxlbGzRK9WrqYnYu+P8/Qjd5ed71s5
+	VZCesugMBlwNYORqRZ8RPDkUeMcM8jSaJul/3hmInabn1xWCTDTwXh++whH8aiR6uR4aukk2lxE
+	Hpckw3HyUiJ/+TJPzT4MRvRjFGI1kZcO4Zq6EtDd+THnnH6fCYQGLa3rjYZ+mrsKrMYe/yVZho9
+	IcTFhMX0suNyxRTi9hCT6u1cLe0t4/wk498u+aXRboUukqkOZgtNW7nfrxc8rrJEvXIjo4flv4C
+	ROCTefzq6KRpYTm9/pz259OXf89K4faIj825JmVykyuEKDd8ypI3q9M5vikWyoag8UZtQ4Lp/vu
+	Q3V5hYyjijf805mNG3I0ICxk0PPRv80N1UXb2TzOp1lZuAF4aIf4cEL450QHVGhFJDfpLmyNxA3
+	KrLqmuXSIQAvyAihqsdPvoY6uhZhaspMJvVkmLs3at3LgtiYDIhUA==
+X-Received: by 2002:a05:6a00:1391:b0:848:56ff:6ced with SMTP id d2e1a72fcca58-84ebc1f5844mr3898044b3a.8.1785442301426;
+        Thu, 30 Jul 2026 13:11:41 -0700 (PDT)
 Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0055325sm3689108b3a.15.2026.07.30.13.11.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0055325sm3689108b3a.15.2026.07.30.13.11.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 13:11:34 -0700 (PDT)
+        Thu, 30 Jul 2026 13:11:40 -0700 (PDT)
 From: Michael Kelley <mhkelley58@gmail.com>
 X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: kys@microsoft.com,
@@ -95,9 +95,9 @@ Cc: x86@kernel.org,
 	netdev@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	virtualization@lists.linux.dev
-Subject: [RESEND PATCH 1/6] Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version of Hyper-V
-Date: Thu, 30 Jul 2026 13:11:18 -0700
-Message-Id: <20260730201123.1767-2-mhklinux@outlook.com>
+Subject: [RESEND PATCH net-next 3/6] hv_netvsc: Remove GPADL teardown special case for old Hyper-V hosts
+Date: Thu, 30 Jul 2026 13:11:20 -0700
+Message-Id: <20260730201123.1767-4-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260730201123.1767-1-mhklinux@outlook.com>
 References: <20260730201123.1767-1-mhklinux@outlook.com>
@@ -110,186 +110,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Linux code for running as a Hyper-V guest includes special cases for
-running on Hyper-V in WS2012/2012R2 and Windows 8/8.1. These versions
-were initially released 14 years ago, and official support ended in 2023
-(unless a customer has contracted for extended security updates). Given
-the release of subsequent versions with improved functionality, there's
-no need to continue to support the latest Linux kernels on these versions
-of Hyper-V. If someone is running Linux on one of these older Hyper-V
-versions and doesn't want to upgrade, they can continue to do so as
-presumably they don't want upgrade the Linux version either.
-
-Simplify Linux code by removing special cases for running on these
-old versions of Hyper-V. Remove the negotiation of the VMBus protocol
-versions for WS2012/Win8, and remove special case code based on those
-VMBus protocol versions. Also update the balloon and snapshot drivers
-to no longer negotiate driver-specific protocol versions for these
-older Hyper-V versions, and remove any related special cases.
+With the overall removal of Linux support for running on Hyper-V
+hosts earlier than WS2016 and Windows 10, the special case handling of
+GPADL teardown is no longer necessary. Remove it.
 
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/channel_mgmt.c |  4 ----
- drivers/hv/connection.c   |  8 ++++----
- drivers/hv/hv_balloon.c   | 36 +++++++++++++++---------------------
- drivers/hv/hv_snapshot.c  |  5 -----
- include/linux/hyperv.h    |  5 ++---
- 5 files changed, 21 insertions(+), 37 deletions(-)
+ drivers/net/hyperv/netvsc.c | 20 +++-----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 89d214dda360..84dc56a06c78 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -933,10 +933,6 @@ void vmbus_initiate_unload(bool crash)
- 	if (xchg(&vmbus_connection.conn_state, DISCONNECTED) == DISCONNECTED)
- 		return;
- 
--	/* Pre-Win2012R2 hosts don't support reconnect */
--	if (vmbus_proto_version < VERSION_WIN8_1)
--		return;
--
- 	reinit_completion(&vmbus_connection.unload_event);
- 	memset(&hdr, 0, sizeof(struct vmbus_channel_message_header));
- 	hdr.msgtype = CHANNELMSG_UNLOAD;
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 0fd50d4cb573..a9e87cf3f51c 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -47,7 +47,9 @@ EXPORT_SYMBOL_GPL(vmbus_proto_version);
- 
- /*
-  * Table of VMBus versions listed from newest to oldest.
-- * VERSION_WIN7 and VERSION_WS2008 are no longer supported in
-+ * VERSION_WIN7,VERSION_WS2008, VERSION_WIN8 (which is
-+ * Windows Server 2012) and VERSION_WIN8_1 (which is
-+ * Windows Server 2012 R2) are no longer supported in
-  * Linux guests and are not listed.
-  */
- static __u32 vmbus_versions[] = {
-@@ -57,9 +59,7 @@ static __u32 vmbus_versions[] = {
- 	VERSION_WIN10_V5_1,
- 	VERSION_WIN10_V5,
- 	VERSION_WIN10_V4_1,
--	VERSION_WIN10,
--	VERSION_WIN8_1,
--	VERSION_WIN8
-+	VERSION_WIN10
- };
- 
- /*
-diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-index 42ce27be344d..9cba97e81111 100644
---- a/drivers/hv/hv_balloon.c
-+++ b/drivers/hv/hv_balloon.c
-@@ -58,6 +58,10 @@
- #define DYNMEM_MAJOR_VERSION(Version) ((__u32)(Version) >> 16)
- #define DYNMEM_MINOR_VERSION(Version) ((__u32)(Version) & 0xff)
- 
-+/*
-+ * VERSION_1 and VERSION_2 are retained for the historical record,
-+ * but are no longer supported in Linux guests.
-+ */
- enum {
- 	DYNMEM_PROTOCOL_VERSION_1 = DYNMEM_MAKE_VERSION(0, 3),
- 	DYNMEM_PROTOCOL_VERSION_2 = DYNMEM_MAKE_VERSION(1, 0),
-@@ -65,9 +69,7 @@ enum {
- 
- 	DYNMEM_PROTOCOL_VERSION_WIN7 = DYNMEM_PROTOCOL_VERSION_1,
- 	DYNMEM_PROTOCOL_VERSION_WIN8 = DYNMEM_PROTOCOL_VERSION_2,
--	DYNMEM_PROTOCOL_VERSION_WIN10 = DYNMEM_PROTOCOL_VERSION_3,
--
--	DYNMEM_PROTOCOL_VERSION_CURRENT = DYNMEM_PROTOCOL_VERSION_WIN10
-+	DYNMEM_PROTOCOL_VERSION_WIN10 = DYNMEM_PROTOCOL_VERSION_3
- };
- 
- /*
-@@ -1434,19 +1436,9 @@ static void version_resp(struct hv_dynmem_device *dm,
- 	version_req.version.version = dm->next_version;
- 	dm->version = version_req.version.version;
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 4d319c50955e..4295b96b4312 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -695,17 +695,8 @@ void netvsc_device_remove(struct hv_device *device)
+ 		= rtnl_dereference(net_device_ctx->nvdev);
+ 	int i;
  
 -	/*
--	 * Set the next version to try in case current version fails.
--	 * Win7 protocol ought to be the last one to try.
+-	 * Revoke receive buffer. If host is pre-Win2016 then tear down
+-	 * receive buffer GPADL. Do the same for send buffer.
 -	 */
--	switch (version_req.version.version) {
--	case DYNMEM_PROTOCOL_VERSION_WIN8:
--		dm->next_version = DYNMEM_PROTOCOL_VERSION_WIN7;
--		version_req.is_last_attempt = 0;
--		break;
--	default:
--		dm->next_version = 0;
--		version_req.is_last_attempt = 1;
+ 	netvsc_revoke_recv_buf(device, net_device, ndev);
+-	if (vmbus_proto_version < VERSION_WIN10)
+-		netvsc_teardown_recv_gpadl(device, net_device, ndev);
+-
+ 	netvsc_revoke_send_buf(device, net_device, ndev);
+-	if (vmbus_proto_version < VERSION_WIN10)
+-		netvsc_teardown_send_gpadl(device, net_device, ndev);
+ 
+ 	RCU_INIT_POINTER(net_device_ctx->nvdev, NULL);
+ 
+@@ -733,14 +724,9 @@ void netvsc_device_remove(struct hv_device *device)
+ 	/* Now, we can close the channel safely */
+ 	vmbus_close(device->channel);
+ 
+-	/*
+-	 * If host is Win2016 or higher then we do the GPADL tear down
+-	 * here after VMBus is closed.
+-	*/
+-	if (vmbus_proto_version >= VERSION_WIN10) {
+-		netvsc_teardown_recv_gpadl(device, net_device, ndev);
+-		netvsc_teardown_send_gpadl(device, net_device, ndev);
 -	}
-+	/* Set the next version to try in case current version fails. */
-+	dm->next_version = 0;
-+	version_req.is_last_attempt = 1;
++	/* Must do the GPADL teardown after channel is closed */
++	netvsc_teardown_recv_gpadl(device, net_device, ndev);
++	netvsc_teardown_send_gpadl(device, net_device, ndev);
  
- 	ret = vmbus_sendpacket(dm->dev->channel, &version_req,
- 				sizeof(struct dm_version_request),
-@@ -1735,16 +1727,18 @@ static int balloon_connect_vsp(struct hv_device *dev)
- 
- 	/*
- 	 * Initiate the hand shake with the host and negotiate
--	 * a version that the host can support. We start with the
--	 * highest version number and go down if the host cannot
--	 * support it.
-+	 * a version that the host can support. The mechanism is in place
-+	 * to start with the highest version number and go down if the host
-+	 * cannot support it. But currently we only try the WIN10 version
-+	 * since support for older Hyper-V versions has been removed from
-+	 * Linux.
- 	 */
- 	memset(&version_req, 0, sizeof(struct dm_version_request));
- 	version_req.hdr.type = DM_VERSION_REQUEST;
- 	version_req.hdr.size = sizeof(struct dm_version_request);
- 	version_req.hdr.trans_id = atomic_inc_return(&trans_id);
- 	version_req.version.version = DYNMEM_PROTOCOL_VERSION_WIN10;
--	version_req.is_last_attempt = 0;
-+	version_req.is_last_attempt = 1;
- 	dm_device.version = version_req.version.version;
- 
- 	ret = vmbus_sendpacket(dev->channel, &version_req,
-@@ -1964,7 +1958,7 @@ static int balloon_probe(struct hv_device *dev,
- #endif
- 	dm_device.dev = dev;
- 	dm_device.state = DM_INITIALIZING;
--	dm_device.next_version = DYNMEM_PROTOCOL_VERSION_WIN8;
-+	dm_device.next_version = 0;
- 	init_completion(&dm_device.host_event);
- 	init_completion(&dm_device.config_event);
- 	INIT_LIST_HEAD(&dm_device.ha_region_list);
-diff --git a/drivers/hv/hv_snapshot.c b/drivers/hv/hv_snapshot.c
-index 506871aeacf0..847dc69e8250 100644
---- a/drivers/hv/hv_snapshot.c
-+++ b/drivers/hv/hv_snapshot.c
-@@ -372,11 +372,6 @@ static void vss_on_reset(void)
- int
- hv_vss_init(struct hv_util_service *srv)
- {
--	if (vmbus_proto_version < VERSION_WIN8_1) {
--		pr_warn("Integration service 'Backup (volume snapshot)'"
--			" not supported on this host version.\n");
--		return -ENOTSUPP;
--	}
- 	recv_buffer = srv->recv_buffer;
- 	vss_transaction.recv_channel = srv->channel;
- 	vss_transaction.recv_channel->max_pkt_size = VSS_MAX_PKT_SIZE;
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index a2b484679eb4..9652083b6798 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -260,9 +260,8 @@ static inline u32 hv_get_avail_to_write_percent(
-  * 5 . 2  (Windows Server 2019, RS5)
-  * 5 . 3  (Windows Server 2022)
-  *
-- * The WS2008 and WIN7 versions are listed here for
-- * completeness but are no longer supported in the
-- * Linux kernel.
-+ * The WS2008, WIN7, WIN8, and WIN8_1 versions are listed here for
-+ * completeness but are no longer supported in the Linux kernel.
-  */
- 
- #define VMBUS_MAKE_VERSION(MAJ, MIN)	((((u32)MAJ) << 16) | (MIN))
+ 	/* Release all resources */
+ 	free_netvsc_device_rcu(net_device);
 -- 
 2.25.1
 
