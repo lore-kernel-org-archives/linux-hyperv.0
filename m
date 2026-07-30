@@ -1,127 +1,163 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 684C7400967;
-	Thu, 30 Jul 2026 11:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA7E409114
+	for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 15:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785410795; cv=none; b=A86YSN5l4C1Srzq7KKrMwGPfOKsnVVjEgr3JC5EPRKIScShBBQ3RNlrcPaCWdddThIK5TrNfNDs0GHS1W88y/c1YCN1RLkig0GhWAFdpVrisgv1tYnXvI/Wpi9R9mDvM3xoDZ4lridJOEUBShrm/8fn+jPfAFFegbwpMl2h9l54=
+	t=1785426892; cv=none; b=UISV6VRKF1BY/8nqmfb71ODXE7oZPl2ho14Fx8wEFsZMLYJRSuwJzSkiDSTmRvNU8ZuC9O6wZmtR6Jo17kyaEjP9t148i/RR+I9X3PmuaENygbHaC4mSsLTuLwquWAZIp9QrzFM6x2xlgt1paulZglDGQdQsihgwSBzRU+OuV54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785410795; c=relaxed/simple;
-	bh=jAQYUEH9rp6tkN0ocp40/35LZbc1Iu7rIRMXZgAVKVM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BmS2uNFynhnWMlUXEoWE0e9qsCVsr1W38881ysdRiD+MOGhtAeQO84FWbcPISFYnW67iS1P3ewTceZ++J2TMqc8uCdVlaWE4eR0iYGNJZX8rzggJ7RH4E9DXYvc0WQSaF6Vd/HG3pjkXRvlAynAsbvTtw8On4OWVclo5Lbypknc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=sXdICoph; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1785426892; c=relaxed/simple;
+	bh=6RUJbJCJmcOgmBVoIfacETmzluT4jCS47ZikeWc4G18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qF89F37PRPstds1E/W7yrl+TaEqFOVFAU1OwG3ru4wfATluK0nJvQ6SvXxk3iRFEo9uGDB0h7p3QNNTiaisHD/EV6L7bU95ojJ3Ry7cLp3Ql+EuLgEgr74A0R3LdiN94SMmeRTTsD5J3k+UDL3rHkx1f5ATNadUW5W7QhBpGkc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=S1qxlM8b; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="sXdICoph"
-Received: from [192.168.0.105] (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4EFA220B7167;
-	Thu, 30 Jul 2026 04:26:15 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4EFA220B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785410776;
-	bh=Vds4LkW3KdTdjeaQxu1TTLzrv4vuQbQinRX0D3ockIk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sXdICoph3qcu+kkj01nFVh6dKy1RxyJLbEXCjshWt530ki4FvNkXiQC3qeFUif2jT
-	 xjtHBJPzKWLMDwlEdxuqsN4l7fwkPl+klFMu5Yr43/x26e0dFH6d7eK2R/gn+bnBsF
-	 01lAj4uPLMoxznpLit7YlUTUX0Az6/Vxr7EPrqBY=
-Message-ID: <a9d44162-3c90-44c8-aae7-4813678234a9@linux.microsoft.com>
-Date: Thu, 30 Jul 2026 16:56:27 +0530
+	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="S1qxlM8b"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e58034d05so21429a91.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 30 Jul 2026 08:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1785426890; x=1786031690; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ffWa1sUD0fV7EQhpv7D4SRQ+QnX1CHB/1+CmFyAsMhI=;
+        b=S1qxlM8badubcVu+2zpnNR9vP5APe33QEemGuVqcmIIVsTyOWeXQNIrkFVGB1OUPgw
+         8AwGXhCPXL1jxOY7i5dwV77y7TJMWn9XBuHUMPpSg/oHMqJCaBc5tPSbAbBR1fKoTc9p
+         nAqIn+NL5WfZ1rUxYRn0WtLR4j2m+jgQrTYsSUL04xxxihMe5PWSjvWnSpfoovhtfxpx
+         9bw/mL2y6DsR33MiffSsQtcywRCdlu7LpbuC0hQ739TFTpg/LespTWQiLtrJugHSlHqY
+         T/ogjw72GZvhT3rKpRet8SQp4zgh5ZC1eYkH3Y70S0ruCTy8/qysIDYRNxp7MGRvLQfd
+         17PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785426890; x=1786031690;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ffWa1sUD0fV7EQhpv7D4SRQ+QnX1CHB/1+CmFyAsMhI=;
+        b=iDGCwFbvr1SEpMKkCiDSXa3UZZPOMyOdrZngau2AhLjyQiEUvIfwMOXMJ8a2qBBk1n
+         SJZyRuWn1n/fl80hqECRqhdAdCjcR4p/lj3KpB6C5KHQJwkDcvD75xxI4GdfogqD+nbm
+         OwpDeeCBFlMn+uKs4+kGSQj+JEigfbVHXfMBNSOzwItIK8/PejpCw26XdlwRSpZHjU37
+         NxtevbhvW7t5Xe+hOWjxHuz+Kx02VCwKIWW/eOPayCEPTySnmUX0P4Qh9KhRck590sle
+         REbYH+lN7d9rHNB58y3ZmJElfV4josjXxCba6C1Y7gcAtcKsifcd7XGvHGi9YtM9Di2N
+         Yg9A==
+X-Gm-Message-State: AOJu0YynzY9XddJMofcdvsgL2BG0Hkht/q9OcYrf9uN2zaZV3WTzrbhO
+	fo2QEB9wunnTssuYp04GOzaZ3uMuZx3cNwHPmG3N8cKTO40X1iGJ6Ilcm2cVTvsA9ABffywKWUB
+	JoncEpcRqqqRM
+X-Gm-Gg: AR+sD10VKB5LN8LsaArhoYCUVxTIo6+GbbqkYkBGhPUyWIKIN9tRM/XeIvsrTbcvgCv
+	jmFpZ+35+5OiJCIhQdwAklc6veZUDb7+7N2y9LcQ9DKItvy1Id+Fge1eB9ol+fqR/9J1cjr9p5o
+	TQP4yh0E6HviDgTGubyxN2M1QWdLyQO4uBK1WGU8wF7yaQ2pFx6fdJLuYctj8igmt/3RQhuWeRu
+	8OtBikCGaqiLuySHBb6m04l8eWpvwQbBcT3QX8MSv5xz4RvS/7xPsuiotBpBarKPrAxj9Y28Een
+	BgGfKI6rJc8aGEwXrFRl/dHp1a5vxrk5gqc/HCGeond9b1+sdY/DDLIgdukntklFQjfcmJPIpNq
+	f4v1OMoeZX8ah0SrtzyTVERPPmhton2VWdJ9flW+cp1cVIfKi5izZglPyYvTxjGxhNYQ0zpBXvz
+	L73yJXogYYq1zuRok+HucR3SbMX/VuLqbXng53SCiKDA==
+X-Received: by 2002:a17:90b:3b86:b0:381:bc4c:da56 with SMTP id 98e67ed59e1d1-38f9bde74d1mr2714794a91.19.1785426889854;
+        Thu, 30 Jul 2026 08:54:49 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:43::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f9b99bda7sm1282895a91.12.2026.07.30.08.54.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 08:54:49 -0700 (PDT)
+Date: Thu, 30 Jul 2026 08:54:48 -0700
+From: Joe Damato <joe@dama.to>
+To: Haiyang Zhang <haiyangz@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	Simon Horman <horms@kernel.org>,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	Aditya Garg <gargaditya@linux.microsoft.com>,
+	Breno Leitao <leitao@debian.org>, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, paulros@microsoft.com
+Subject: Re: [PATCH net-next] net: mana: Extend RX CQE coalescing up to 8
+ packets
+Message-ID: <amtzyNmcIIYy6/bK@devvm20253.cco0.facebook.com>
+Mail-Followup-To: Joe Damato <joe@dama.to>,
+	Haiyang Zhang <haiyangz@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	Simon Horman <horms@kernel.org>,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	Aditya Garg <gargaditya@linux.microsoft.com>,
+	Breno Leitao <leitao@debian.org>, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, paulros@microsoft.com
+References: <20260729225235.3573786-1-haiyangz@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V
- PCI MSI irqchip
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
- <20260728135117.2888175-2-namjain@linux.microsoft.com>
- <20260728140427.714311F000E9@smtp.kernel.org>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260728140427.714311F000E9@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260729225235.3573786-1-haiyangz@linux.microsoft.com>
 
+On Wed, Jul 29, 2026 at 03:52:22PM -0700, Haiyang Zhang wrote:
+> From: Haiyang Zhang <haiyangz@microsoft.com>
+> 
+> To support up to 8 packets per CQE, put two packet lengths and
+> hash values into one PPI entry by using the reserved fields.
+> Update ethtool handlers to set this feature.
+> Update per queue stat to show the coalesced CQE counters.
+> This feature is supported on NIC hardware showing the relevant
+> PF flag.
+> 
+> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/mana_en.c | 137 ++++++++++++------
+>  .../ethernet/microsoft/mana/mana_ethtool.c    |  30 +++-
+>  include/net/mana/gdma.h                       |   4 +
+>  include/net/mana/mana.h                       |  43 ++++--
+>  4 files changed, 150 insertions(+), 64 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index a8c329bdbacf..720d22e6aea9 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> @@ -1241,6 +1241,9 @@ int mana_gd_query_device_cfg(struct gdma_context *gc, u32 proto_major_ver,
 
+[...]
 
-On 7/28/2026 7:34 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> 
-> Pre-existing issues:
-> - [High] The fix for dropped pending interrupts during CPU hot-unplug was missed in the sister Hyper-V root partition MSI domain.
-> --
-> 
-> --- Patch [1]: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip ---
-> commit b8b1c843c457dd145f0d360b44f4b1bf34bd8cf5
-> Author: Naman Jain <namjain@linux.microsoft.com>
-> 
-> PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
-> 
-> The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
-> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
-> the outgoing CPU to a new target. As the Hyper-V PCI/MSI chip does not
-> provide that callback, the pending interrupt is silently dropped, which
-> can result in lost interrupts, stalls and "No irq handler for vector"
-> messages.
-> 
-> Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Long Li <longli@microsoft.com>
-> Suggested-by: Thomas Gleixner <tglx@kernel.org>
-> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
-> 
->> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
->> index cfc8fa403dad6..89816a2bd7cd3 100644
->> --- a/drivers/pci/controller/pci-hyperv.c
->> +++ b/drivers/pci/controller/pci-hyperv.c
->> @@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
->>   	info->ops->msi_prepare = hv_msi_prepare;
->>   
->>   	chip->irq_set_affinity = irq_chip_set_affinity_parent;
->> +	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
-> 
-> [Severity: High]
-> This isn't a bug introduced by this patch, but does the sister Hyper-V root
-> partition MSI domain in arch/x86/hyperv/irqdomain.c also need this fix?
-> 
-> Looking at hv_init_dev_msi_info(), it appears to be missing the exact same
-> callback initialization for the root partition's top-level irq_chip:
-> 
-> arch/x86/hyperv/irqdomain.c:hv_init_dev_msi_info() {
-> 	...
-> 	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
-> 		return false;
-> 
-> 	chip->flags |= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
-> 
-> 	info->ops->msi_prepare = pci_msi_prepare;
-> 
-> 	return true;
-> }
-> 
-> If a CPU is hot-unplugged while a device MSI interrupt is pending in its
-> local APIC IRR, could fixup_irqs() fail to resend the pending interrupt
-> to the new target CPU because this callback is NULL?
-> 
-> This could potentially lead to the same lost interrupts and I/O stalls
-> described in this commit message, just in the root partition MSI domain
-> instead of the guest paravirtual MSI domain.
-> 
->>   
->>   	if (IS_ENABLED(CONFIG_X86))
->>   		chip->flags |= IRQCHIP_MOVE_DEFERRED;
->>
-> 
+>  
+> +static void mana_process_one_rx_pkt(struct device *dev, struct mana_rxq *rxq,
+> +				    struct mana_rxcomp_oob *oob,
+> +				    u32 pktlen, u32 pkt_hash)
+> +{
+> +	struct mana_recv_buf_oob *rxbuf_oob;
+> +	struct net_device *ndev = rxq->ndev;
+> +	void *old_buf = NULL;
+> +	bool old_fp;
+> +
+> +	rxbuf_oob = &rxq->rx_oobs[rxq->buf_index];
+> +	WARN_ON_ONCE(rxbuf_oob->wqe_inf.wqe_size_in_bu != 1);
+> +
+> +	if (unlikely(pktlen > rxq->datasize)) {
+> +		/* Increase it even if mana_rx_skb() isn't called. */
+> +		rxq->rx_cq.work_done++;
+> +
+> +		++ndev->stats.rx_dropped;
 
-I am not planning to include this in this series, since this issue is 
-not seen in root partition yet and I am not sure if it is applicable 
-here. Second patch would anyways fix it going forward, but I am OK 
-adding the change for this, if we need.
+It looks like this code was moved from mana_process_rx_cqe, so this is prob
+out of scope, but I saw this and was wondering if maybe rx_length_errors is more
+appropriate?
 
-Regards,
-Naman
+from if_link.h:
+
+ * @rx_length_errors: Number of packets dropped due to invalid length.
+ *   Part of aggregate "frame" errors in `/proc/net/dev`.
