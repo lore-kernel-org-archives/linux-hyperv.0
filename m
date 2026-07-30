@@ -1,116 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF649620;
-	Thu, 30 Jul 2026 06:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 138B740DFDE;
+	Thu, 30 Jul 2026 11:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785393279; cv=none; b=VLRk8ExP/lzPRJo/utF4i0HoRTbWHIOJOZ7C2zPpLT0LaLYV+AltfPok1UpUrxC9WcJV4HGERJejyxuNhQq/PSRo9GkZG1vnJNgddp+hFBzsU4mvc2hlEBRApzSilQZNPsOg7Bv8YDdm36lKPpkectap9ZwSRs28p0rv7cJQX7I=
+	t=1785410793; cv=none; b=JfuAVwcECly9ljD/iq6znYd+R1H+fagdiRXuoh+/IzuaYXCXtE/xpKRzvNjtJiDtTAlPVa4lXlMmNbZyAzjkSSB2nQTT1kZNkMFSRmwKkF6XzY77Wp6UIehae7r2aeAnABomn7cHpm73KmlsDQ5eR1DfvzqgSsISR9V742vXNvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785393279; c=relaxed/simple;
-	bh=uUrJGfaBIb7mDA4YBbtbfsAXDxZqOs8qYQYrmWapWeM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=BF3TV6fJ26G0oB4v/5mxyQxyG6sLffgc9gYEexjkmefiYVbsAxWUrnkCmDnf+jnSL1rmEVA5IL22loUYWlX7CW5+Yukp4xL2obFZ16jOZKII0cpq+eSprzfpRVnN0yaZ3ibzU/iopBV0TiCF6S9Z6IO0eLlk8AnXjMUpTC4VElg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3LhnaM3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785410793; c=relaxed/simple;
+	bh=YBS5CAPrY6XCRXGO24rFetMnYeFYoU1tOAvyI4TL2CU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HwDNVd4JLVpOcO1elvTGpjj+97jte/buPXfdT3lrE9kPK/oDYYf0KZheheRVbtPqnWDe973TuWpnW4cDfQn1BHJofqrbn9hYiY+gvtIab8A3RE58XFAhPaR4+cTUgnz3rd6wy5d1kqCRRoIQ2ucDHiDJxLHD3Mpt0lOYaGyTO6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=iDxCbLF3; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3LhnaM3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6391F000E9;
-	Thu, 30 Jul 2026 06:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785393278;
-	bh=7TW3V65Ed9QROSvOoOYcEkM/qCbnhSzbOuwkLOL4aPQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=U3LhnaM3LleXLXiVai+NylyKynb6c6mGY1S+5Ggv0xMro+AAD1GmJ/XDul7KscPHE
-	 HTSpQouH7r+qV86PV4sLBzOKNJEICwPZorDcuJ1wKadqKBVSCE/tlT+4cOyU9AoQ9H
-	 Z/vei2FPemFXnHjNh1K8M92rUfkYYk/BHxWQB9FRsM3scvWXI/G6wkO6PqfdnGdDTk
-	 s2X1gQBEluqigaPA4kNLmDbh89OkeTlTUk88avlbnTv9AUnfMC/XzdItf3GYMzY4jp
-	 2/pfzhQnhovTPHnzdzOrak2/kS+5otrzIl1dNL4GTo6fHA3vVCgsPcIVcGpHuLeBLQ
-	 i3aWx0hkUF9qA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v13 2/2] net: mana: force full-page RX buffers
- via ethtool private flag
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dipayaan Roy" <dipayanroy@linux.microsoft.com>
-Cc: bpf@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260729063347.3388035-3-dipayanroy@linux.microsoft.com>
-References: <20260729063347.3388035-1-dipayanroy@linux.microsoft.com>
- <20260729063347.3388035-3-dipayanroy@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jul 2026 06:34:37 +0000
-Message-Id: <20260730063437.EF6391F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="iDxCbLF3"
+Received: from [192.168.0.105] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CD33220B7166;
+	Thu, 30 Jul 2026 04:26:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CD33220B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1785410774;
+	bh=nEtBSGQcZxkgP2yOsZrtiYPwJcVN3ZOuyTNRUYzYGkM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iDxCbLF3u9BwvqAxSZ0/CBKQOyLeiA99SkiHnfqSfc/hL/kRp3yE+gLcbBrTLuKna
+	 2zj23nDi2EsUrw/1MPi1sa+SktvJsaCopuNeMAENLOzkSdR9BH+CJQTzFd2W5n+vN2
+	 dhRHdS7ZnSo+OzzcRO384FGNWKqpFdfelnvICAn4=
+Message-ID: <2e798fad-fa8a-46b4-b874-7a178fd123dd@linux.microsoft.com>
+Date: Thu, 30 Jul 2026 16:56:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in
+ fixup_irqs()
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+ <20260728135117.2888175-3-namjain@linux.microsoft.com>
+ <20260728140324.690D11F000E9@smtp.kernel.org>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20260728140324.690D11F000E9@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
 
-Pre-existing issues:
-- [High] Use-after-free of BPF program when mana_pre_alloc_rxbufs fails dur=
-ing XDP setup
---
 
---- Patch [2]: [PATCH net-next v13 2/2] net: mana: force full-page RX buffe=
-rs via ethtool private flag ---
-commit 2ea505589c71d255969461add82f06436f8f8e80
-Author: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+On 7/28/2026 7:33 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] The patch replaces the direct invocation of the outermost chip's irq_retrigger() callback with irq_chip_retrigger_hierarchy(). However, irq_chip_retrigger_hierarchy() initializes its loop with `data = data->parent_data`, completely skipping the outermost chip. This breaks interrupt retriggering for flat domains (like native lapic_controller) and any hierarchical domain where the outermost chip directly implements the retrigger callback.
+> --
+> 
+> --- Patch [2]: [PATCH 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs() ---
+> commit f97e883de2f6626561de48c426194caa41c3e062
+> Author: Naman Jain <namjain@linux.microsoft.com>
+> x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
+> 
+> This commit modifies fixup_irqs() to use irq_chip_retrigger_hierarchy()
+> instead of invoking the outermost domain chip's irq_retrigger() callback
+> directly. It also refactors the loop to use scoped guards for the irq
+> descriptor lock.
+> 
+>> diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
+>> index 30122f0b3af96..ef1bdd3c4659a 100644
+>> --- a/arch/x86/kernel/irq.c
+>> +++ b/arch/x86/kernel/irq.c
+> [ ... ]
+>> @@ -489,22 +484,18 @@ void fixup_irqs(void)
+> [ ... ]
+>> -	for (vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
+>> -		if (IS_ERR_OR_NULL(__this_cpu_read(vector_irq[vector])))
+>> +	for (unsigned int vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
+>> +		struct irq_desc *desc = __this_cpu_read(vector_irq[vector]);
+>> +
+>> +		if (IS_ERR_OR_NULL(desc))
+>>   			continue;
+>>   
+>>   		if (is_vector_pending(vector)) {
+>> -			desc = __this_cpu_read(vector_irq[vector]);
+>> -
+>> -			raw_spin_lock(&desc->lock);
+>> -			data = irq_desc_get_irq_data(desc);
+>> -			chip = irq_data_get_irq_chip(data);
+>> -			if (chip->irq_retrigger) {
+>> -				chip->irq_retrigger(data);
+>> +			guard(raw_spinlock)(&desc->lock);
+>> +			if (irq_chip_retrigger_hierarchy(&desc->irq_data))
+> [Severity: High]
+> Will this skip the outermost chip and cause a regression for flat domains?
+> 
+> Looking at kernel/irq/chip.c:irq_chip_retrigger_hierarchy(), the loop
+> initializes by immediately moving to the parent_data:
+> 
+>      int irq_chip_retrigger_hierarchy(struct irq_data *data)
+>      {
+>          for (data = data->parent_data; data; data = data->parent_data)
+>              if (data->chip && data->chip->irq_retrigger)
+>                  return data->chip->irq_retrigger(data);
+> 
+>          return 0;
+>      }
+> 
+> By passing &desc->irq_data directly to this function, it seems any retrigger
+> callback on the outermost chip itself will be bypassed.
+> 
+> Could this lead to dropped hardware interrupts during CPU hot-unplug for
+> flat domains (like native lapic_controller) or any hierarchical domain where
+> the outermost chip implements the retrigger callback?
+> 
+>>   				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
+>> -			}
+>> -			raw_spin_unlock(&desc->lock);
+>>   		}
+> 
 
-net: mana: force full-page RX buffers via ethtool private flag
+I think this is a false positive, considering we are not changing the 
+behavior for any of the existing chip->irq_retrigger(data) which come in 
+this path (irq_chip_retrigger_hierarchy()).
 
-This commit adds an ethtool private flag to force one RX buffer per page,
-bypassing the page_pool fragment path. This is intended to restore
-line-rate throughput on certain ARM64 platforms with 4K PAGE_SIZE.
+Regards,
+Naman
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
-/net/ethernet/microsoft/mana/mana_ethtool.c
-> index 482cd16009abb..7e441d6ae5dce 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-[ ... ]
-> @@ -756,6 +775,78 @@ static int mana_get_link_ksettings(struct net_device=
- *ndev,
-[ ... ]
-> +static int mana_set_priv_flags(struct net_device *ndev, u32 priv_flags)
-> +{
-[ ... ]
-> +	if (changed & BIT(MANA_PRIV_FLAG_USE_FULL_PAGE_RXBUF)) {
-[ ... ]
-> +		err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
-> +		if (err) {
-> +			netdev_err(ndev,
-> +				   "Insufficient memory for new allocations\n");
-> +			apc->priv_flags =3D old_priv_flags;
-> +			goto clear_flag;
-> +		}
-
-[Severity: High]
-This isn't a bug introduced by this patch, but while reviewing the callers
-of mana_pre_alloc_rxbufs(), does a failure during XDP setup leave a dangling
-pointer?
-
-In drivers/net/ethernet/microsoft/mana/mana_bpf.c:mana_xdp_set(),
-apc->bpf_prog is updated before the allocation:
-
-        apc->bpf_prog =3D prog;
-
-If the allocation fails, the function returns early without cleaning up:
-
-        err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
-        if (err) {
-                NL_SET_ERR_MSG_MOD(extack,
-                                   "XDP: Insufficient memory ...");
-                return err;
-        }
-
-The core network stack handles the error by releasing its reference to the
-new BPF program, which may then be freed. Because the early return skips
-the err_dealloc_rxbuffs label, apc->bpf_prog is never reverted to old_prog.
-Could a subsequent interface flap execute mana_attach() and assign this
-freed BPF program to the hardware RX queues, causing a use-after-free?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260729063347.3388=
-035-1-dipayanroy@linux.microsoft.com?part=3D2
