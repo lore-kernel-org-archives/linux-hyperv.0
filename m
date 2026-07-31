@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F7B383C83;
-	Fri, 31 Jul 2026 22:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAC0E37DE87;
+	Fri, 31 Jul 2026 22:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785537289; cv=none; b=tOFY3aqm1GZjBbEpZ+i/7ezSmSYpgyHBt00S0TMHaAVXmbriqpoYY/6nDxdNW+XQRVrET+QeJ9PblSUJb2fLxoy9aZWWPsR7YM7kwSObSqQwU0z4z4CzMirKFuU0KHeN4m7pLTlrDIfKnPsI9gErdrdmYPN2FnNuBmljvRGpiCg=
+	t=1785537291; cv=none; b=J4YyPZ2MwQpJjy9ttVYz7dMXKCOxzOkVrolOJgqqDRalJnbYnRSSjairyLx+PEqQkfBu8sAbqt5EWlc+AuRgEZ6L+UKepQ7B/FFEcxqDFLV1isBkN1Yg2VMlyeXNtZy4VcI71sJwpcECUsf9Z9Z3cCKOARpJvyuwDwwHfM6F1OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785537289; c=relaxed/simple;
-	bh=QinLjdrHG7tpTexgN5LTAi8FMgIWi0QZadkzwgkc6qw=;
+	s=arc-20240116; t=1785537291; c=relaxed/simple;
+	bh=HteEkaSp4wVOVK9nw0E0kiL5yJI37zhJ2LZk6JsNuX8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i1f9/xOiMC/8Sv6L8JiRgJn8nCL58PQtzatjFWuSYnUVSoTcMkN31UGz95C47OrR7ZLPn8qTBMwWKvplM9SzCW0FRj0rvyf61VQWYTQC9p5vNah9/iSkCZxnOyzuaSBnnEE2pIqsA9ZfvcvuZQI8o/zcB56YcfPmacEmN79zQQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mAzb+qe1; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=RkFTPn5pg1rCKMykNpoX+HuG58Ds8mBjjZmfQ6opV+w6vX9zCe7i+KQbxItktTYcHdecGslPM6KBoQwhIQ9l30C2DABtOM8wXJLRTnhy2HhGHbNiYo/5qCt3/zGZyrnx4/OmXzwt6ho3xcqjTq5IeCERTMbRCVUnzVSM1Q9i08k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=M0k/89Wf; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mAzb+qe1"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="M0k/89Wf"
 Received: from mrdev.corp.microsoft.com (unknown [40.78.13.173])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 70A7720B716B;
-	Fri, 31 Jul 2026 15:34:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 70A7720B716B
+	by linux.microsoft.com (Postfix) with ESMTPSA id EEBD120B716F;
+	Fri, 31 Jul 2026 15:34:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EEBD120B716F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785537269;
-	bh=1I2WdTUqOuf9JU5Q89Ev0MAW1iXFtnGBGr5MppYA0aU=;
+	s=default; t=1785537271;
+	bh=hSQHhkvihXETyUD20dRGf5jzacsSTIZgqTCFlZVNEAI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mAzb+qe1xaIbXVla5J98rQ6Nu4Bq25hSjDm8pd36n+WCyb+soAkrL0cUzPvl9xf4U
-	 yV1ydyy850s6ILWyg5ZrfHhcJVvXjxkpwVLgigN5KOXEQxoYxicQJDXY2tK+5WTIf3
-	 IIGZNQ6pdP9QJyuGt9A9L+kOaWiR8pXV7j5JC1Qo=
+	b=M0k/89Wfd/e/y2yYxLzNRDrNRh9vMvaUfp/ji7XAWfQm2V383GPfDnAOHYctrX7ZF
+	 vs39xkM5BmdreSdQOEHZ7oDoV6KTbnfrjNUDrO2b42nAAFv755p1PbLKch+CrIerhh
+	 TNPV3JHgXOyMR2MEE2VRp36tKubf8ug+sJ6Z9RCc=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: hpa@zytor.com,
 	robin.murphy@arm.com,
@@ -58,9 +58,9 @@ Cc: jgg@nvidia.com,
 	bhelgaas@google.com,
 	arnd@arndb.de,
 	jacob.pan@linux.microsoft.com
-Subject: [PATCH v5 5/9] mshv: Import data structs around device passthru from hyperv headers
-Date: Fri, 31 Jul 2026 15:34:23 -0700
-Message-ID: <20260731223427.2554388-6-mrathor@linux.microsoft.com>
+Subject: [PATCH v5 6/9] PCI: hv: Export hv_build_devid_type_pci() and change return type
+Date: Fri, 31 Jul 2026 15:34:24 -0700
+Message-ID: <20260731223427.2554388-7-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
 References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
@@ -72,121 +72,78 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Copy/import from Hyper-V public headers, definitions and declarations that
-are related to creating domains in the hypervisor, attaching devices to
-them, etc.
+On Hyper-V, most hypercalls related to PCI passthru to map/unmap regions,
+interrupts, etc need a device ID as a parameter. This device ID refers
+to that specific device during the lifetime of passthru. So,
+make hv_build_devid_type_pci() public and change return type to u64 to
+enforce it's size.
 
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+Reviewed-by: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>
 ---
- include/hyperv/hvgdk_mini.h |  8 +++++
- include/hyperv/hvhdk_mini.h | 67 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
+ arch/x86/hyperv/irqdomain.c     | 9 +++++----
+ arch/x86/include/asm/mshyperv.h | 6 ++++++
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index 6a4e8b9d570f..e62f8d708e8e 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -326,6 +326,8 @@ union hv_hypervisor_version_info {
- /* stimer Direct Mode is available */
- #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
+index b3ad50a874dc..8780573a4332 100644
+--- a/arch/x86/hyperv/irqdomain.c
++++ b/arch/x86/hyperv/irqdomain.c
+@@ -112,7 +112,7 @@ static int get_rid_cb(struct pci_dev *pdev, u16 alias, void *data)
+ 	return 0;
+ }
  
-+#define HV_DEVICE_DOMAIN_AVAILABLE			BIT(24)
-+
+-static union hv_device_id hv_build_devid_type_pci(struct pci_dev *pdev)
++u64 hv_build_devid_type_pci(struct pci_dev *pdev)
+ {
+ 	int pos;
+ 	union hv_device_id hv_devid;
+@@ -172,8 +172,9 @@ static union hv_device_id hv_build_devid_type_pci(struct pci_dev *pdev)
+ 	}
+ 
+ out:
+-	return hv_devid;
++	return hv_devid.as_uint64;
+ }
++EXPORT_SYMBOL_GPL(hv_build_devid_type_pci);
+ 
  /*
-  * Implementation recommendations. Indicates which behaviors the hypervisor
-  * recommends the OS implement for optimal performance.
-@@ -486,9 +488,15 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
- #define HVCALL_GET_VP_INDEX_FROM_APIC_ID		0x009a
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE	0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
-+#define HVCALL_CREATE_DEVICE_DOMAIN                     0x00b1
-+#define HVCALL_ATTACH_DEVICE_DOMAIN                     0x00b2
-+#define HVCALL_MAP_DEVICE_GPA_PAGES                     0x00b3
-+#define HVCALL_UNMAP_DEVICE_GPA_PAGES                   0x00b4
- #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
- #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
- #define HVCALL_DISPATCH_VP				0x00c2
-+#define HVCALL_DETACH_DEVICE_DOMAIN                     0x00c4
-+#define HVCALL_DELETE_DEVICE_DOMAIN                     0x00c5
- #define HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9
- #define HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7
- #define HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8
-diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-index b4cb2fa26e9b..90497635c3cb 100644
---- a/include/hyperv/hvhdk_mini.h
-+++ b/include/hyperv/hvhdk_mini.h
-@@ -547,4 +547,71 @@ union hv_device_id {		/* HV_DEVICE_ID */
- 	} acpi;
- } __packed;
+  * hv_map_msi_interrupt() - Map the MSI IRQ in the hypervisor.
+@@ -196,7 +197,7 @@ int hv_map_msi_interrupt(struct irq_data *data,
  
-+/* 3 domain types: stage 1, stage 2, and SOC */
-+#define HV_DEVICE_DOMAIN_TYPE_S2  0 /* HV_DEVICE_DOMAIN_ID_TYPE_S2 */
-+#define HV_DEVICE_DOMAIN_TYPE_S1  1 /* HV_DEVICE_DOMAIN_ID_TYPE_S1 */
-+#define HV_DEVICE_DOMAIN_TYPE_SOC 2 /* HV_DEVICE_DOMAIN_ID_TYPE_SOC */
+ 	msidesc = irq_data_get_msi_desc(data);
+ 	pdev = msi_desc_to_pci_dev(msidesc);
+-	hv_devid = hv_build_devid_type_pci(pdev);
++	hv_devid.as_uint64 = hv_build_devid_type_pci(pdev);
+ 	cpu = cpumask_first(irq_data_get_effective_affinity_mask(data));
+ 
+ 	return hv_map_interrupt(hv_devid, false, cpu, cfg->vector,
+@@ -271,7 +272,7 @@ static int hv_unmap_msi_interrupt(struct pci_dev *pdev,
+ {
+ 	union hv_device_id hv_devid;
+ 
+-	hv_devid = hv_build_devid_type_pci(pdev);
++	hv_devid.as_uint64 = hv_build_devid_type_pci(pdev);
+ 	return hv_unmap_interrupt(hv_devid.as_uint64, irq_entry);
+ }
+ 
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index f64393e853ee..8ebbd1cb7c8c 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -248,6 +248,12 @@ void hv_crash_asm_end(void);
+ static inline void hv_root_crash_init(void) {}
+ #endif  /* CONFIG_MSHV_ROOT && CONFIG_CRASH_DUMP */
+ 
++#ifdef CONFIG_PCI_MSI
++u64 hv_build_devid_type_pci(struct pci_dev *pdev);
++#else
++static inline u64 hv_build_devid_type_pci(struct pci_dev *pdev) { return 0; }
++#endif
 +
-+/* ID for stage 2 default domain and NULL domain */
-+#define HV_DEVICE_DOMAIN_ID_S2_DEFAULT 0
-+#define HV_DEVICE_DOMAIN_ID_S2_NULL    0xFFFFFFFFULL
-+
-+union hv_device_domain_id {
-+	u64 as_uint64;
-+	struct {
-+		u32 type : 4;
-+		u32 reserved : 28;
-+		u32 id;
-+	};
-+} __packed;
-+
-+struct hv_input_device_domain { /* HV_INPUT_DEVICE_DOMAIN */
-+	u64 partition_id;
-+	union hv_input_vtl owner_vtl;
-+	u8 padding[7];
-+	union hv_device_domain_id domain_id;
-+} __packed;
-+
-+union hv_create_device_domain_flags {	/* HV_CREATE_DEVICE_DOMAIN_FLAGS */
-+	u32 as_uint32;
-+	struct {
-+		u32 forward_progress_required : 1;
-+		u32 inherit_owning_vtl : 1;
-+		u32 reserved : 30;
-+	} __packed;
-+} __packed;
-+
-+struct hv_input_create_device_domain {	/* HV_INPUT_CREATE_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+	union hv_create_device_domain_flags create_device_domain_flags;
-+} __packed;
-+
-+struct hv_input_delete_device_domain {	/* HV_INPUT_DELETE_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+} __packed;
-+
-+struct hv_input_attach_device_domain {	/* HV_INPUT_ATTACH_DEVICE_DOMAIN */
-+	struct hv_input_device_domain device_domain;
-+	union hv_device_id device_id;
-+} __packed;
-+
-+struct hv_input_detach_device_domain {	/* HV_INPUT_DETACH_DEVICE_DOMAIN */
-+	u64 partition_id;
-+	union hv_device_id device_id;
-+} __packed;
-+
-+struct hv_input_map_device_gpa_pages {	/* HV_INPUT_MAP_DEVICE_GPA_PAGES */
-+	struct hv_input_device_domain device_domain;
-+	union hv_input_vtl target_vtl;
-+	u8 padding[3];
-+	u32 map_flags;
-+	u64 target_device_va_base;
-+	u64 gpa_page_list[];
-+} __packed;
-+
-+struct hv_input_unmap_device_gpa_pages {  /* HV_INPUT_UNMAP_DEVICE_GPA_PAGES */
-+	struct hv_input_device_domain device_domain;
-+	u64 target_device_va_base;
-+} __packed;
-+
- #endif /* _HV_HVHDK_MINI_H */
+ #else /* CONFIG_HYPERV */
+ static inline void hyperv_init(void) {}
+ static inline void hyperv_setup_mmu_ops(void) {}
 -- 
 2.51.2.vfs.0.1
 
