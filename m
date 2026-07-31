@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7D0248F72;
-	Fri, 31 Jul 2026 22:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A00B48987C;
+	Fri, 31 Jul 2026 22:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785538055; cv=none; b=YclcFUhjUAUFDkNbeQNMin2AfJBtbdg/1MhFjZbCTU0OmZJvn02i7UqadKf/pZOCJyTlBBNiHXoBsj3A1LEJ6tz6TFaqwQ9A58ljOhyDAtHxaD18ezVclfaZJcMmHmLnkWFRaN9zRCBP3196FkFoozQiqccDHV5lS1BadpGDkvs=
+	t=1785538062; cv=none; b=SkMGW8+uaMAHoteLaDyB/EhjGuaxnvH9ATkiInvZ1AnksUm02irqVhEV1fMm5i/DBJ/mSSgkp5rjtESwE/4PdPJTn9dOEWJ7kDf7+xJWhrghCxBCOcbIfP13M3/P7QV9eRB3G7KWl2n7Qv3618LHjVzQar+pDRoYQTiUXwuo1aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785538055; c=relaxed/simple;
-	bh=0a6s+116G+osAVkvRy2r+diLeG0040ozpI6N6GsHTkk=;
+	s=arc-20240116; t=1785538062; c=relaxed/simple;
+	bh=OqX/F+f1DvUd68lBiRnYuajzcGkQOmr8/9IxNT4DEns=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=nPsJjNzjjN3LbzfLk1uYO2EBVD8PpQR56StWI9CzoKMLTvCCTBdiJ5YCVKkQ/6TYjymzuRc0QkJNn83kyJSraWnfQ06fetkvY4Z5nH61qd9fr6Ytqz4b9EB7Iuqoyl74F4PJswQABewC7tmcNl0i2kNRHgNTYN3r+0UXh/Mbh5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JRDgDOOD; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=On/WJ5Dmo3RW0hPzCgWkqli1wSdnXTSAJSxD9TnGAOcRYpA+A5QV3vcZsgzQyS5BxrF9TeAY+tBYSZua1I826fbgqITIwTj1YsJ8Lq9aeuIaUb6pOE77vumo+bXdiqD9ZSdkRSTJZavTkymk2NZu9Xemk7eRT06ROhe8V9AMaxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUyeEXKo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JRDgDOOD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19931F00AC4;
-	Fri, 31 Jul 2026 22:47:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUyeEXKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A5ED1F00AC4;
+	Fri, 31 Jul 2026 22:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785538054;
-	bh=H5AzO/8A4Ze/0djuCSwlvu6eajkMkgGvorO+JayFrLQ=;
+	s=k20260515; t=1785538060;
+	bh=pliBbd5r1RNo+WUukjv2yWkkfqqNiQ18DdugxKPYbxs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JRDgDOODrnIQVb6nVpQIVqsbnOgy4VqWRDK4YOP0hSE94hGp4tStMe+XlFtRmvgit
-	 7hVgscqQ5DV6fpkFNplyxMGwjMIHz4GscsibgAGrAckamhDz6rD48rBarCgOhQAO/p
-	 9ooFH4dB2LnAEdTD2lnD8Em6mvF6Htnle/MzH234I7HEVQGtgHfndat8H3VCzVI4RK
-	 CNqR+dmz1bSJrJlIznvKFQ8TisAe/y42GzXXgADUPHO1aHUXTdUlpEqxxVfticzQRr
-	 F1ldrDbCPYcX+uhWxUIYK6Mes7FhyeMqRwTW2apxrI4L3USPlgCHmL5Swt6DoSD/qk
-	 XtIVj3BGA9PYw==
+	b=LUyeEXKoDwd6d0N+BeGxuUB7jwOnLPGTD7hHy9PAEevrToLJoTk8JZL66h8gmHonC
+	 CUtD8/UVM0G097lf2JPb26aB5Enhj5FAoOeiC44ZjVE7ANnUx4qYC6VLWe2k5OxSGD
+	 FBJ2zpQv/s/cQiva6XpUDIDJviGXDU7bUqC0mvUofIwf8b/xumtuN/k7nPMWVKyzD6
+	 k8S5/b7KNAHfvgjX17TnOcK3VnzJ2vry7tPL7g48pNpX7tNjzX37t25oAba3PtJZAf
+	 9encnYRF9LRpvZ2ImgIDl8xRl+qDD4EhuaNHVsXMInLOZy3FX6BhMtSabByTQcZOTS
+	 wonRLxPdbnQRg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 6/9] PCI: hv: Export hv_build_devid_type_pci() and
- change return type
+Subject: Re: [PATCH v5 1/9] mshv: Provide a way to get partition ID if
+ running in a VMM process
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mukesh R" <mrathor@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20260731223427.2554388-7-mrathor@linux.microsoft.com>
+In-Reply-To: <20260731223427.2554388-2-mrathor@linux.microsoft.com>
 References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
- <20260731223427.2554388-7-mrathor@linux.microsoft.com>
+ <20260731223427.2554388-2-mrathor@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 22:47:33 +0000
-Message-Id: <20260731224733.E19931F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 22:47:39 +0000
+Message-Id: <20260731224740.5A5ED1F00AC4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -49,93 +49,98 @@ Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
 New issues:
-- [Medium] Incomplete API export for cross-architecture code
+- [High] Using `current->tgid` for implicit VM partition binding restricts =
+multi-process architectures, introduces PID reuse vulnerabilities (Privileg=
+e Escalation and DoS), and causes spurious creation failures.
 
 Pre-existing issues:
-- [High] Resource leak of multi-vector MSI IRQs during teardown
+- [Critical] Unchecked virtual processor (VP) access in `mshv_try_assert_ir=
+q_fast` can lead to a kernel panic.
 --
 
---- Patch [6]: [PATCH v5 6/9] PCI: hv: Export hv_build_devid_type_pci() and=
- change return type ---
-commit 2b1777d94c87d493032cb98e1c21a4774a30a00a
+--- Patch [1]: [PATCH v5 1/9] mshv: Provide a way to get partition ID if ru=
+nning in a VMM process ---
+commit c09a2034eaac3e66996c48aebdd226e834f0611e
 Author: Mukesh R <mrathor@linux.microsoft.com>
 
-PCI: hv: Export hv_build_devid_type_pci() and change return type
+mshv: Provide a way to get partition ID if running in a VMM process
 
-On Hyper-V, most hypercalls related to PCI passthru to map/unmap regions,
-interrupts, etc need a device ID as a parameter. This device ID refers
-to that specific device during the lifetime of passthru. So,
-make hv_build_devid_type_pci() public and change return type to u64 to
-enforce it's size.
+This commit adds a field to the MSHV partition structure to save the
+tgid of the VMM process that created it. It also introduces a helper to
+retrieve the partition ID by matching the current tgid and restricts
+creation to one partition per VMM instance.
 
-> diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-> index b3ad50a874dca..8780573a43326 100644
-> --- a/arch/x86/hyperv/irqdomain.c
-> +++ b/arch/x86/hyperv/irqdomain.c
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
 [ ... ]
-> @@ -172,8 +172,9 @@ static union hv_device_id hv_build_devid_type_pci(str=
-uct pci_dev *pdev)
->  	}
-> =20
->  out:
-> -	return hv_devid;
-> +	return hv_devid.as_uint64;
->  }
-> +EXPORT_SYMBOL_GPL(hv_build_devid_type_pci);
-
-[Severity: Medium]
-Will exporting and implementing this API solely in an x86-specific file cau=
-se
-build failures for ARM64?
-
-The commit message mentions making this public for PCI passthrough hypercal=
-ls,
-but the mshv driver supports both x86 and ARM64. It appears cross-architect=
-ure
-builds will lack this implementation when they try to utilize the newly
-exported API.
-
-[ ... ]
-> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyp=
-erv.h
-> index f64393e853ee3..8ebbd1cb7c8ce 100644
-> --- a/arch/x86/include/asm/mshyperv.h
-> +++ b/arch/x86/include/asm/mshyperv.h
-> @@ -248,6 +248,12 @@ void hv_crash_asm_end(void);
->  static inline void hv_root_crash_init(void) {}
->  #endif  /* CONFIG_MSHV_ROOT && CONFIG_CRASH_DUMP */
-> =20
-> +#ifdef CONFIG_PCI_MSI
-> +u64 hv_build_devid_type_pci(struct pci_dev *pdev);
-> +#else
-> +static inline u64 hv_build_devid_type_pci(struct pci_dev *pdev) { return=
- 0; }
-> +#endif
+> +u64 mshv_current_partid(void)
+> +{
+> +	struct mshv_partition *pt;
+> +	int i;
+> +	u64 ret_ptid =3D HV_PARTITION_ID_INVALID;
 > +
-
-[Severity: Medium]
-Similarly, should this declaration be placed in a shared or cross-architect=
-ure
-header so that ARM64 drivers can safely include it without breaking?
-
-While reviewing this file, I also noticed an issue in hv_msi_domain_free().
+> +	rcu_read_lock();
+> +
+> +	hash_for_each_rcu(mshv_root.pt_htable, i, pt, pt_hnode) {
+> +		if (pt->pt_vmm_tgid =3D=3D current->tgid) {
+> +			ret_ptid =3D pt->pt_id;
+> +			break;
+> +		}
+> +	}
+> +
+> +	rcu_read_unlock();
+> +	return ret_ptid;
+> +}
+> +EXPORT_SYMBOL_GPL(mshv_current_partid);
+> +
+> +/* At present, we only allow one partition per VMM instance */
+>  static int
+>  add_partition(struct mshv_partition *partition)
+>  {
+> +	int rc =3D 0;
+> +
+>  	spin_lock(&mshv_root.pt_ht_lock);
+> =20
+> +	if (mshv_current_partid() !=3D HV_PARTITION_ID_INVALID) {
+> +		rc =3D -EEXIST;
+> +		goto out;
+> +	}
+> +
+> +	partition->pt_vmm_tgid =3D current->tgid;
 
 [Severity: High]
-This is a pre-existing issue, but does this loop fail to tear down the
-remaining vectors for multi-vector MSI IRQs?
+Does using current->tgid for implicit VM partition binding introduce risks
+with process lifecycle and PID reuse?
 
-arch/x86/hyperv/irqdomain.c:hv_msi_domain_free() {
-    ...
-	for (int i =3D 0; i < nr_irqs; ++i) {
-		struct irq_data *irqd =3D irq_domain_get_irq_data(d, virq);
-    ...
-}
+If a VMM process creates a partition, passes the file descriptor to another
+process (e.g., via a UNIX socket) and exits, the original tgid could be
+recycled for a new, unrelated process.
 
-Because it looks up the base virq on every iteration instead of virq + i,
-does this continuously leak hypervisor-level interrupt resources and chip_d=
-ata
-memory allocations during a device unbind?
+If that new process performs operations that invoke mshv_current_partid(),
+could it incorrectly inherit the partition context of the previous process?
+
+Alternatively, if the new process attempts to create its own partition in
+add_partition(), would it incorrectly fail with -EEXIST?
+
+[Severity: Critical]
+This is a pre-existing issue, but I noticed a potential unchecked access
+during the review of this subsystem.
+
+In drivers/hv/mshv_eventfd.c:mshv_try_assert_irq_fast():
+
+    vp =3D partition->pt_vp_array[irq->lapic_apic_id];
+
+    if (!vp->vp_register_page) {
+        ...
+
+If userspace sets up an irqfd routing entry with an APIC ID that has no
+corresponding virtual processor created yet, will vp be NULL when fetched
+from pt_vp_array?
+
+If so, would the immediate dereference of vp->vp_register_page result in a
+host kernel panic when the eventfd is signaled?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731223427.2554=
-388-1-mrathor@linux.microsoft.com?part=3D6
+388-1-mrathor@linux.microsoft.com?part=3D1
