@@ -1,536 +1,176 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E3B478E23;
-	Thu, 30 Jul 2026 23:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785454490; cv=none; b=qXT0gZrUPYnK/pDN4VdvT4F130gvXilZ6U7Jul+eXQVUbj6bg+nqkQvMxjhnVEufPERoSOdMfErd1PaMnC3tNep8PWHITXbg/dYz4B9/s4rIEcjGeQ48hVrBUME8MQby9/cXvV9hVzWCJQu7B6BGZPGgzKN6nBqSlJdQ3kM6LPY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785454490; c=relaxed/simple;
-	bh=27rWbP9e2j7bG28Hao/Q+zCOeWKVnGEFACUQsZJzzE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=taL576ITOV1zjYw+0OSojh45lkB3M+7d5d9ToKKygQ014dfVH/pVYL57RLm0xlzOKb8HjKcEf4s6aQQaBoTmpb6nDg4jXu+7j8SUa/aUrCcbbln6K7UNpzLxDayTXK/y3FmxePggk7rXZc1fHVR/ALDoVXRSx+B4Xf/Mw+WouvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=b4097XTJ; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010030.outbound.protection.outlook.com [52.103.23.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04374207A32;
+	Fri, 31 Jul 2026 03:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.23.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785467211; cv=fail; b=Un7TPwIenjVGLbVV5GW5BYN2tcKwIDRESc6trFeC0RmkrLmX1KeGm9jPOyuShl/btczlNzN06sDxSKg5GynttbeJP/A1BZPAcng5Wn81QPnIdCdEc5O8CanjLf/tda5ptLGoIZVWfpLTSs0p2lSoKe4eHB4buUHdMIMEvmgZTMY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785467211; c=relaxed/simple;
+	bh=MD4/XQ9NOINeQsLGpA7qXpBgv26eYNy7xH+tJrcmfzo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=K8ov065Tptxk/aLBeGimoVjELWTy/HyhBohejVBoRNyOb9UwntLCYSeTanGy0yIv6JPv9dVIuJ4rB5bAUtE6FthR21JOQPyDYCTyATwzuYAy15uz42p6wT05LwbM5Kv51KSm/FxZaJVAB48P/rBX7Eg2nJNAd7JJ0Hk3PjgI7qM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=g6O2kNW5; arc=fail smtp.client-ip=52.103.23.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="b4097XTJ"
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B9A2420B7169;
-	Thu, 30 Jul 2026 16:34:23 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B9A2420B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785454463;
-	bh=eqLIVxYOPXrtR5WMlLL9i6w1jMcZ5UYJmMe6dqKGIPg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b4097XTJeU8rw907jpZsHjoHwl9eAUuMCafIsta1sxR32qTK4z9k1RtZWj4WQyF2d
-	 LJ+SdQTD4rHWVfaunZksHh7fE7YEFkFDXve7XFE5oV2TyHiMWQ9wsf1T078EoSEs7F
-	 XjUgGY2wtS46hZtx+kld83Rn1EOVqk4aHmZ28Q5U=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: decui@microsoft.com,
-	haiyangz@microsoft.com,
-	kys@microsoft.com,
-	longli@microsoft.com,
-	wei.liu@kernel.org,
-	mhklinux@outlook.com
-Cc: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH v2 2/2] hv_netvsc: Allocate host-visible GPADL buffers as decrypted contiguous chunks
-Date: Thu, 30 Jul 2026 16:33:59 -0700
-Message-ID: <20260730233359.3850612-3-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260730233359.3850612-1-kameroncarr@linux.microsoft.com>
-References: <20260730233359.3850612-1-kameroncarr@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="g6O2kNW5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kEAStBwV+8sc9sPWmjvgAO0mpkD8eqlLv1XutzcwB6+fD5KID32/w8LhFipeH163X6kBmxOite8zRyWj6fPv4LeHcVMGaRXDDDQ+7KSiKsXzBlAF3uwCh9ae3LrU1r5y29d+I9DlwvhpMGgk/esNEduodkEzQ/ehHp9sCbL/W74H4E6XJfPEGEm9y5XZofaauIbsin++uk46b1IVeYkk3CSK/VtrffsH305SlwBajP4u2exkMXDRZUczfox8lvKU+e+j4MfkYSWSDvnvInHvkOUmaq+87iAxj+Hn3lABQYTz/yxBh+ihkyMMQZfYRbkkW4OEvm3uxsoC9I3cDc194g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MD4/XQ9NOINeQsLGpA7qXpBgv26eYNy7xH+tJrcmfzo=;
+ b=UoqgVWNr8Sw0qWtBWhcy/JnD6Wy4n/Tn5pBe7bzlE4uGVfn+FVBcTfFo1pw0zUCJwPjaq5MG52UU8gyseCvR+jyjBzHRoIwBpM0E5xa3ms4BMdtyN9CRZMOeLNhCs7EzZ4dizr72E/6yjDHR5rfXIDyEj82PF8Er0vYFaZvNF+b2N/gu5qz8AIOt9MhanIhTteAUn0ylTFMndSte+AOhhYe91ZwgYeqYS8mcAR0mITWcsjSGFz1WvPIqp7laoXd2Aq3hut8aHqweLQzmWVxI5o7bBgTyeOOMEsk/8U/mSNq98vdDI0Qr8CcFlBTgnC6lTg8/NekDB2jj0swZf55Y7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MD4/XQ9NOINeQsLGpA7qXpBgv26eYNy7xH+tJrcmfzo=;
+ b=g6O2kNW5hFUfU3nFf3Ndw7c02VuzxZeNPWlyi9nKdfFEBE5TExsZOCFbDti6guqR5k2+J7yAAGyZXebTd0NTJtAJjm5SshqSS0gRnmMizbe+4Zep/NLsZ96JYV08yNf4lI+ny1tVmA8/hllKqXdzaLk+S+tFuUOnUr80Q3LQrL/ZNfFBqSzYVQ+C1gz4neL5No6g88XThbRLQhzCkIalcMUpTrVb5yQ0Viam/L7pRDVI+uZqHHp9vN/n5qBSezyOvx9RWtHeAxc9yMt2SoIzB6sw2cHOJFc1SuvgGJ6H3uaMkRmZMsJlnfrq0DQVJdFayj4UzmSt0KVlEP340kOufg==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by CYYPR02MB9685.namprd02.prod.outlook.com (2603:10b6:930:c5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
+ 2026 03:06:46 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0270.012; Fri, 31 Jul 2026
+ 03:06:46 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "kys@microsoft.com" <kys@microsoft.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "longli@microsoft.com"
+	<longli@microsoft.com>, "tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com"
+	<hpa@zytor.com>, "daniel.lezcano@kernel.org" <daniel.lezcano@kernel.org>,
+	"ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+	<tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"James.Bottomley@hansenpartnership.com"
+	<James.Bottomley@hansenpartnership.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "sgarzare@redhat.com" <sgarzare@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>, "x86@kernel.org" <x86@kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+Subject: RE: [RESEND PATCH net-next 2/6] hv_sock: Remove check for old Hyper-V
+ hosts
+Thread-Topic: [RESEND PATCH net-next 2/6] hv_sock: Remove check for old
+ Hyper-V hosts
+Thread-Index: AQHykTBh5c+ZTCJ8JdYW7ttKg4YPnAIuoQHQtkoxtoCAAGoZwA==
+Date: Fri, 31 Jul 2026 03:06:45 +0000
+Message-ID:
+ <SN6PR02MB4157870F1FB0D16332CDFF3ED4C82@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260730201123.1767-1-mhklinux@outlook.com>
+ <20260730201123.1767-3-mhklinux@outlook.com>
+ <04e5274c-b44c-4b59-998c-1af2f58883c1@lunn.ch>
+In-Reply-To: <04e5274c-b44c-4b59-998c-1af2f58883c1@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|CYYPR02MB9685:EE_
+x-ms-office365-filtering-correlation-id: 029a53bc-cc29-4ac0-aba0-08deeeb0c17d
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|51005399006|12121999013|31061999003|13091999003|8060799015|19110799012|8062599012|37011999003|24021099003|55001999006|15080799012|25010399006|10035399007|40105399003|1602099012|2607281247196008|102099032|3412199025|440099028|4302099013;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?Nqg3HQohJbFI2lMmAZwhEi3e/AVkSNJrvF98wpizP8s8Sr6Umgt0PBW/IkVi?=
+ =?us-ascii?Q?S+3RZkvjzviOd9EWynx6xTQcOT3wEQhrnhCmk4HylUFw9t2V/oBW6MeOsyNF?=
+ =?us-ascii?Q?CvpCPXX7qdqj2keRvLGmVaOVGxFuW4SlESG6cpTDCffSpRgVYY4edCaRjIwp?=
+ =?us-ascii?Q?8Ie99aSXdOjJLIZdRwCjghWvWtzyDC0IbQZP8nDK5vd2ZRzgsE8KLxuHKy92?=
+ =?us-ascii?Q?j/tlcHyu69Do6JtgMnkpKmLy/AdoSqow7T4nxBnVm72miU2KjrqNeuTDI0l2?=
+ =?us-ascii?Q?irBCZnQ5+yh83a9Ikd3FwawXR7AqSZUZiMBs8sdixvE5gc2i+7kZJCZqPtg7?=
+ =?us-ascii?Q?MQl3YHMzbUj60RDxeMVEme2FMQRjWFE+IJNraAaJoxCzufDODW80MppWRbg4?=
+ =?us-ascii?Q?pA49r2CiOxZWf0qS7tjQ79AcqD+Vn0Vq6gl7mj/5PsE8fBrUM4cB/ojqW0nt?=
+ =?us-ascii?Q?MA/jndzyIRFuY/E3BRMeTD7MEz92m+jljpNLM32qF6L3jFXFyF5cu6w/cI+T?=
+ =?us-ascii?Q?Xqo7RI/MeSEXQ5finMxFm4pS6N9PhcsyxAgjQr7uPLByDY6rObJc/7iLrzXs?=
+ =?us-ascii?Q?d5V371jURoPfYDS+hq2zvHUDaMsP1N/E1pIWiyeLy/hj5TAFsicJQDiYrVRT?=
+ =?us-ascii?Q?o5aQ8seN3136TfMDA6P8k6v7FrQ3Il7KGqjYKbxSGzM4BUJoqskNySBabhKs?=
+ =?us-ascii?Q?F7dVq2fwIvy71smgjheM2zqdomiv6bkvkoxGciH9Pv3FoX8RVqINddMyg8ok?=
+ =?us-ascii?Q?Tio6Z0QsHbM5RA8J+oQ/AKHsVqK8Roni1fV/8Q/dVi6VAAHjWpmPwNmc3KYw?=
+ =?us-ascii?Q?WQ+KljLgnclUf89BNHWBLLQuIKEfqYt+oGnOIjS4mxAJZSQLawGPbrloN7KY?=
+ =?us-ascii?Q?bTZcnYZbJAchiFWiSMAzWjZGePyw7gbvs1wS4RjF9sIMfVOyDbLNusM9GFCn?=
+ =?us-ascii?Q?z7jyJw6f0JzHYTTOoNVjAtEkleDun1YdWziOWO6+tQ3Cs9n82TsJdZ5AuN2q?=
+ =?us-ascii?Q?4aMg5nUR94sJcrKbVIh4iWe+rM3XpV2mAm5wdIVdhLsy8qJULA7t33olyoO5?=
+ =?us-ascii?Q?XFnenhsQOHB8EiXEf4sNxxe0bzLtQCusrDEftYF1Hzr4pamJGMTzdXqbPCUK?=
+ =?us-ascii?Q?MZ9V+d7xWQLQ8+GyCoYCoW0mI/+nfDxtKg=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?KhtSQNmyMZr1VJn7rzRdfv49m5dPcT0Nf7XWzcPXu7YxlelRE5C0i6ivvTKI?=
+ =?us-ascii?Q?NtRyejhor6aj/bAatxsCHic4aTFqkM5wWhgTrb3clmui8RN3nSvUpHUKuUEe?=
+ =?us-ascii?Q?Z6GT4tGFHnfFWqvjLlRVab0Sjawlp3+LITaxtZlfaeBp1ilt9erbF37bciN4?=
+ =?us-ascii?Q?npkAHnYOGGU9mBDfQfwD2G1h3ZYwRqsUAGOK436Orodg3O6I5HYYcEZP+Nyr?=
+ =?us-ascii?Q?SugnYNkOXMn1bck5LWzGXzVxSg6WcUc1IbX1TD1mFF1OQZM+YoT/Vv8dOWlS?=
+ =?us-ascii?Q?473viDrSMr+XSEb46AkaVJTuMbsyM8HEINs6R6nQd6320P1eT6ATxzspDAkl?=
+ =?us-ascii?Q?6But6pqswH+mcZxvcas2Vm0ile5kWyDAh3P9drpZc9BxF0WIAGacfMbRTTz2?=
+ =?us-ascii?Q?mpHk/X+yZckcNt/NpO6jZGHhgnzR37KYuBTzS+9aNzpcFQgSU6JJvBH7Ko2z?=
+ =?us-ascii?Q?rJa8V+zGp6VEr3x4sKItu8Cc//+usagqSRvN1bxRTZCQjnMGPq741ulUc7Lq?=
+ =?us-ascii?Q?YVYsVBiZ1c5j+hJ0d9ZPhMSlfMlDcE94COXxnYPOejtdEeFWGeA/Bh7+o16d?=
+ =?us-ascii?Q?LODqMuyFXEXRbiZ4/qxMu1YBEK7Yqlu08DZao1gFiPkw1MJ3HpD1SdBRcvWH?=
+ =?us-ascii?Q?YwiQVyurxRct7Y20mXj9h3nbV7cvEiSNMcvKwBooJDRlOXn1THyHjIEpwzKB?=
+ =?us-ascii?Q?0ORSTYOJeOyVJ0BkmNtua0SRY9251wanSBV3/dMKFkxYxJXeUKY7bdtce/z5?=
+ =?us-ascii?Q?KA5nhEJgyIpg2EpvvymXXLPPCclb/w/sgo2Pd03NTSDhbJ/wu810bNkpoEaS?=
+ =?us-ascii?Q?WbOA5E6+5z7LqCyWwil2ByIOPo/Lb3qgmB33gIh9qwU5z92I0W3SIgG5pgzf?=
+ =?us-ascii?Q?+nK3aV+bQD0XKeYmt2J15BpfmtXp/3gJCsEozjSOiT+0g48LCPTy20fK+Hlf?=
+ =?us-ascii?Q?ON/+CEwTNNcmo43LVa6PwWIizZfgFL/ZDisxzK953CD7zG8HYaR+yBrO5+Mt?=
+ =?us-ascii?Q?CLC3RundMLKMVK9n6bo87z8bVFRbkS/NWx5ymtNjA+k0li6ZZhOg1Fzumqyc?=
+ =?us-ascii?Q?wEq3e/udOSXnq3ueVYcEOnSfJ13r7Ex4t3xn4yB/M8dS7XMzUDMWZU5hk2fJ?=
+ =?us-ascii?Q?QOAJNWmqrwdN4X0Duo0cmGuyWQXpogG8HVAbbYsjvlhfmNxEveRUaF71/759?=
+ =?us-ascii?Q?dvCAEKdDYzUJFNFDW5Ear9tCq3FtYhPFn4xSvALI3NWyemAWgn39u7hxfm8O?=
+ =?us-ascii?Q?vRJpK7Nf2Nw7GyOhgxsXI9/GpZZSeEQLx9ULhfANhV1ad3yb15R4UkarLt18?=
+ =?us-ascii?Q?7XT9gH5N3gtWvx9FFQ0Fnm95yn6Wf9serUFsxmUXhrRzF+p2nbndpFHUWccg?=
+ =?us-ascii?Q?ULB/BFU=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 029a53bc-cc29-4ac0-aba0-08deeeb0c17d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 03:06:46.0351
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR02MB9685
 
-On CoCo VMs without confidential VMBus, the netvsc send and receive buffers
-must be made host-visible by decrypting them. These buffers are vmalloc'ed,
-but set_memory_decrypted()/encrypted() do not work on vmalloc'ed memory.
-This use case is (so far) unique to netvsc, so solve it locally rather than
-changing the set_memory() or allocation APIs.
+From: Andrew Lunn <andrew@lunn.ch> Sent: Thursday, July 30, 2026 1:47 PM
+>=20
+> On Thu, Jul 30, 2026 at 01:11:19PM -0700, Michael Kelley wrote:
+> > With the overall removal of Linux support for running on Hyper-V
+> > hosts earlier than WS2016 and Windows 10, the check for such versions
+> > during hv_sock initialization is no longer necessary. Remove the
+> > check.
+>=20
+> https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+>=20
+> Please don't send new versions of a patchset within 24 hours. You need
+> to give reviewers time to review your patches. And if there is
+> discussion, please wait for it to reach a conclusion.
+>=20
 
-Add vmbus_alloc_buffer()/vmbus_free_buffer() to the VMBus core. When the
-guest's isolation model requires it, allocate the buffer as a list of
-physically-contiguous chunks via alloc_pages_node(), starting at
-MAX_PAGE_ORDER and falling back to smaller orders so the allocation still
-succeeds under memory fragmentation. Each chunk is decrypted in place via
-set_memory_decrypted() on its direct-map address, and the chunks are then
-stitched into a single virtually-contiguous range with vmap(). Buffers that
-do not need decryption keep using vzalloc().
+Acknowledged. This was a resend of the initial version because an
+email server problem caused the full patch series to not be sent
+out, and what was sent out didn't reach all the intended recipients.
 
-This approach minimizes scattering of decrypted 4 KiB pages through the
-kernel direct map and the resulting shattering of large page mappings.
-
-Use vmbus_establish_gpadl_caller_decrypted() so there is no attempt
-to decrypt the virtual address. At teardown, vunmap() the range and
-re-encrypt and free each chunk individually; any chunk that fails
-re-encryption is leaked to prevent accidentally freeing decrypted memory.
-
-Because vunmap() and set_memory_encrypted() must run in process context,
-replace the rcu_head/call_rcu() pair used to defer free_netvsc_device()
-with rcu_work/queue_rcu_work(). This also fixes a small race condition
-where the buffers may be accessed while being re-encrypted by moving the
-re-encryption after the RCU grace period.
-
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- drivers/hv/channel.c            | 158 ++++++++++++++++++++++++++++++++
- drivers/net/hyperv/hyperv_net.h |   8 +-
- drivers/net/hyperv/netvsc.c     | 104 ++++++++++++++-------
- drivers/net/hyperv/netvsc_drv.c |   6 ++
- include/linux/hyperv.h          |   7 ++
- 5 files changed, 249 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 4782f5070bba9..9fe7b1163b408 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -13,11 +13,13 @@
- #include <linux/wait.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
-+#include <linux/log2.h>
- #include <linux/module.h>
- #include <linux/hyperv.h>
- #include <linux/uio.h>
- #include <linux/interrupt.h>
- #include <linux/set_memory.h>
-+#include <linux/vmalloc.h>
- #include <linux/export.h>
- #include <asm/page.h>
- #include <asm/mshyperv.h>
-@@ -608,6 +610,162 @@ int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
- }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
- 
-+/*
-+ * vmbus_free_buffer - release a buffer allocated by vmbus_alloc_buffer().
-+ *
-+ * @addr: buffer address, or NULL if none was allocated (e.g. cleanup from a
-+ *        failed allocation)
-+ * @chunks: chunks array from vmbus_alloc_buffer(), or NULL
-+ * @chunk_cnt: number of entries in @chunks
-+ *
-+ * When @chunks is NULL the buffer is a plain vzalloc() allocation.
-+ *
-+ * Otherwise tear down the vmap, and for each chunk re-encrypt and free
-+ * the underlying pages. Any chunk that cannot be re-encrypted is leaked.
-+ */
-+void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
-+{
-+	u32 i;
-+
-+	if (!chunks) {
-+		vfree(addr);
-+		return;
-+	}
-+
-+	vunmap(addr);
-+
-+	for (i = 0; i < chunk_cnt; i++) {
-+		unsigned long vaddr =
-+			(unsigned long)page_address(chunks[i]);
-+		unsigned int order = folio_order(page_folio(chunks[i]));
-+
-+		if (set_memory_encrypted(vaddr, 1U << order))
-+			continue;
-+		__free_pages(chunks[i], order);
-+	}
-+
-+	kvfree(chunks);
-+}
-+EXPORT_SYMBOL_GPL(vmbus_free_buffer);
-+
-+/*
-+ * vmbus_alloc_buffer - allocate a virtually-contiguous buffer suitable for
-+ * a GPADL, making it host-visible when required by the guest's isolation model.
-+ *
-+ * @channel: the channel the buffer will be attached to
-+ * @size: requested buffer size in bytes (will be rounded up to PAGE_SIZE)
-+ * @chunks_out: on success, set to the array of underlying chunks, or NULL when
-+ *              the buffer was allocated with vzalloc()
-+ * @chunk_cnt_out: on success, set to the number of chunks
-+ *
-+ * Buffers not requiring decryption are allocated with vzalloc().
-+ *
-+ * Buffers requiring decryption are allocated as a series of
-+ * physically-contiguous chunks, starting at MAX_PAGE_ORDER and falling back to
-+ * smaller orders on allocation failure. Each chunk is transitioned to
-+ * host-visible via set_memory_decrypted() on its direct-map address, then all
-+ * chunks are combined into a virtually-contiguous range via vmap().
-+ *
-+ * Return: the buffer's virtual address, or NULL on failure.
-+ */
-+void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-+			 u32 size,
-+			 struct page ***chunks_out,
-+			 u32 *chunk_cnt_out)
-+{
-+	u32 nr_pages = PFN_UP(size);
-+	struct page **chunks = NULL;
-+	struct page **pages = NULL;
-+	unsigned int order;
-+	u32 chunk_cnt = 0;
-+	u32 page_idx = 0;
-+	u32 remaining = nr_pages;
-+	void *addr;
-+	u32 i;
-+	int ret;
-+
-+	*chunks_out = NULL;
-+	*chunk_cnt_out = 0;
-+
-+	if (!nr_pages)
-+		return NULL;
-+
-+	/* If the buffer does not need to be decrypted, just use vzalloc() */
-+	if (!hv_is_isolation_supported() || channel->co_external_memory)
-+		return vzalloc((unsigned long)nr_pages << PAGE_SHIFT);
-+
-+	/* Worst case: every chunk is a single page. */
-+	chunks = kvmalloc_array(nr_pages, sizeof(*chunks),
-+				GFP_KERNEL | __GFP_ZERO);
-+	if (!chunks)
-+		goto err;
-+
-+	pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-+	if (!pages)
-+		goto err;
-+
-+	/*
-+	 * @order monotonically decreases across iterations
-+	 *
-+	 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing, but try
-+	 * harder at order 0 since that is the final fallback.
-+	 */
-+	order = min(MAX_PAGE_ORDER, ilog2(nr_pages));
-+	while (remaining) {
-+		struct page *page;
-+		gfp_t gfp;
-+
-+		order = min(order, ilog2(remaining));
-+
-+		for (;;) {
-+			gfp = GFP_KERNEL | __GFP_ZERO;
-+			if (order)
-+				gfp |= __GFP_COMP | __GFP_NORETRY | __GFP_NOWARN;
-+			page = alloc_pages_node(cpu_to_node(channel->target_cpu),
-+						gfp, order);
-+			if (page)
-+				break;
-+			if (!order)
-+				goto err;
-+			order--;
-+		}
-+
-+		ret = set_memory_decrypted((unsigned long)page_address(page),
-+					   1U << order);
-+		if (ret) {
-+			/*
-+			 * set_memory_decrypted() failed; the page state is
-+			 * unknown so it must be leaked rather than freed.
-+			 */
-+			goto err;
-+		}
-+
-+		chunks[chunk_cnt++] = page;
-+
-+		for (i = 0; i < (1U << order); i++)
-+			pages[page_idx++] = page + i;
-+
-+		remaining -= 1U << order;
-+	}
-+
-+	addr = vmap(pages, nr_pages, VM_MAP, pgprot_decrypted(PAGE_KERNEL));
-+	if (!addr)
-+		goto err;
-+
-+	memset(addr, 0, (unsigned long)nr_pages << PAGE_SHIFT);
-+
-+	kvfree(pages);
-+	*chunks_out = chunks;
-+	*chunk_cnt_out = chunk_cnt;
-+	return addr;
-+
-+err:
-+	kvfree(pages);
-+	vmbus_free_buffer(NULL, chunks, chunk_cnt);
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
-+
- /**
-  * request_arr_init - Allocates memory for the requestor array. Each slot
-  * keeps track of the next available slot in the array. Initially, each
-diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index 7397c693f984a..4841367fdab2f 100644
---- a/drivers/net/hyperv/hyperv_net.h
-+++ b/drivers/net/hyperv/hyperv_net.h
-@@ -220,6 +220,8 @@ struct net_device_context;
- 
- extern u32 netvsc_ring_bytes;
- 
-+int netvsc_workqueue_init(void);
-+void netvsc_workqueue_destroy(void);
- struct netvsc_device *netvsc_device_add(struct hv_device *device,
- 					const struct netvsc_device_info *info);
- int netvsc_alloc_recv_comp_ring(struct netvsc_device *net_device, u32 q_idx);
-@@ -1158,6 +1160,8 @@ struct netvsc_device {
- 	/* Receive buffer allocated by us but manages by NetVSP */
- 	void *recv_buf;
- 	u32 recv_buf_size; /* allocated bytes */
-+	struct page **recv_buf_chunks;
-+	u32 recv_buf_chunk_cnt;
- 	struct vmbus_gpadl recv_buf_gpadl_handle;
- 	u32 recv_section_cnt;
- 	u32 recv_section_size;
-@@ -1166,6 +1170,8 @@ struct netvsc_device {
- 	/* Send buffer allocated by us */
- 	void *send_buf;
- 	u32 send_buf_size;
-+	struct page **send_buf_chunks;
-+	u32 send_buf_chunk_cnt;
- 	struct vmbus_gpadl send_buf_gpadl_handle;
- 	u32 send_section_cnt;
- 	u32 send_section_size;
-@@ -1193,7 +1199,7 @@ struct netvsc_device {
- 
- 	struct netvsc_channel chan_table[VRSS_CHANNEL_MAX];
- 
--	struct rcu_head rcu;
-+	struct rcu_work rwork;
- };
- 
- /* NdisInitialize message */
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 59e95341f9b1e..1192929d93a86 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -28,6 +28,8 @@
- #include "hyperv_net.h"
- #include "netvsc_trace.h"
- 
-+static struct workqueue_struct *netvsc_wq;
-+
- /*
-  * Switch the data path from the synthetic interface to the VF
-  * interface.
-@@ -125,6 +127,47 @@ static void netvsc_subchan_work(struct work_struct *w)
- 	rtnl_unlock();
- }
- 
-+static void __free_netvsc_device(struct netvsc_device *nvdev)
-+{
-+	int i;
-+
-+	kfree(nvdev->extension);
-+
-+	vmbus_free_buffer(nvdev->recv_buf, nvdev->recv_buf_chunks,
-+			  nvdev->recv_buf_chunk_cnt);
-+	vmbus_free_buffer(nvdev->send_buf, nvdev->send_buf_chunks,
-+			  nvdev->send_buf_chunk_cnt);
-+	bitmap_free(nvdev->send_section_map);
-+
-+	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-+		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
-+		kfree(nvdev->chan_table[i].recv_buf);
-+		vfree(nvdev->chan_table[i].mrc.slots);
-+	}
-+
-+	kfree(nvdev);
-+}
-+
-+static void free_netvsc_device(struct work_struct *w)
-+{
-+	struct rcu_work *rwork = to_rcu_work(w);
-+
-+	__free_netvsc_device(container_of(rwork, struct netvsc_device, rwork));
-+}
-+
-+int netvsc_workqueue_init(void)
-+{
-+	netvsc_wq = alloc_workqueue("hv_netvsc", WQ_UNBOUND, 0);
-+
-+	return netvsc_wq ? 0 : -ENOMEM;
-+}
-+
-+void netvsc_workqueue_destroy(void)
-+{
-+	rcu_barrier();
-+	destroy_workqueue(netvsc_wq);
-+}
-+
- static struct netvsc_device *alloc_net_device(void)
- {
- 	struct netvsc_device *net_device;
-@@ -143,36 +186,18 @@ static struct netvsc_device *alloc_net_device(void)
- 	init_completion(&net_device->channel_init_wait);
- 	init_waitqueue_head(&net_device->subchan_open);
- 	INIT_WORK(&net_device->subchan_work, netvsc_subchan_work);
-+	INIT_RCU_WORK(&net_device->rwork, free_netvsc_device);
- 
- 	return net_device;
- }
- 
--static void free_netvsc_device(struct rcu_head *head)
--{
--	struct netvsc_device *nvdev
--		= container_of(head, struct netvsc_device, rcu);
--	int i;
--
--	kfree(nvdev->extension);
--
--	if (!nvdev->recv_buf_gpadl_handle.decrypted)
--		vfree(nvdev->recv_buf);
--	if (!nvdev->send_buf_gpadl_handle.decrypted)
--		vfree(nvdev->send_buf);
--	bitmap_free(nvdev->send_section_map);
--
--	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
--		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
--		kfree(nvdev->chan_table[i].recv_buf);
--		vfree(nvdev->chan_table[i].mrc.slots);
--	}
--
--	kfree(nvdev);
--}
--
- static void free_netvsc_device_rcu(struct netvsc_device *nvdev)
- {
--	call_rcu(&nvdev->rcu, free_netvsc_device);
-+	/*
-+	 * Defer the actual free to process context: vunmap() and
-+	 * set_memory_encrypted() cannot run from RCU softirq context.
-+	 */
-+	queue_rcu_work(netvsc_wq, &nvdev->rwork);
- }
- 
- static void netvsc_revoke_recv_buf(struct hv_device *device,
-@@ -351,7 +376,11 @@ static int netvsc_init_buf(struct hv_device *device,
- 		buf_size = min_t(unsigned int, buf_size,
- 				 NETVSC_RECEIVE_BUFFER_SIZE_LEGACY);
- 
--	net_device->recv_buf = vzalloc(buf_size);
-+	net_device->recv_buf =
-+		vmbus_alloc_buffer(device->channel, buf_size,
-+				   &net_device->recv_buf_chunks,
-+				   &net_device->recv_buf_chunk_cnt);
-+
- 	if (!net_device->recv_buf) {
- 		netdev_err(ndev,
- 			   "unable to allocate receive buffer of size %u\n",
-@@ -367,9 +396,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * channel.  Note: This call uses the vmbus connection rather
- 	 * than the channel to establish the gpadl handle.
- 	 */
--	ret = vmbus_establish_gpadl(device->channel, net_device->recv_buf,
--				    buf_size,
--				    &net_device->recv_buf_gpadl_handle);
-+	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-+						     net_device->recv_buf,
-+						     buf_size,
-+						     &net_device->recv_buf_gpadl_handle);
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			"unable to establish receive buffer's gpadl\n");
-@@ -457,7 +487,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	buf_size = device_info->send_sections * device_info->send_section_size;
- 	buf_size = round_up(buf_size, PAGE_SIZE);
- 
--	net_device->send_buf = vzalloc(buf_size);
-+	net_device->send_buf =
-+		vmbus_alloc_buffer(device->channel, buf_size,
-+				   &net_device->send_buf_chunks,
-+				   &net_device->send_buf_chunk_cnt);
- 	if (!net_device->send_buf) {
- 		netdev_err(ndev, "unable to allocate send buffer of size %u\n",
- 			   buf_size);
-@@ -470,9 +503,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * channel.  Note: This call uses the vmbus connection rather
- 	 * than the channel to establish the gpadl handle.
- 	 */
--	ret = vmbus_establish_gpadl(device->channel, net_device->send_buf,
--				    buf_size,
--				    &net_device->send_buf_gpadl_handle);
-+	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-+						     net_device->send_buf,
-+						     buf_size,
-+						     &net_device->send_buf_gpadl_handle);
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			   "unable to establish send buffer's gpadl\n");
-@@ -1863,7 +1897,11 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
- 	netif_napi_del(&net_device->chan_table[0].napi);
- 
- cleanup2:
--	free_netvsc_device(&net_device->rcu);
-+	/*
-+	 * net_device was never published, so we don't need to wait for an
-+	 * RCU grace period -- call the free routine synchronously.
-+	 */
-+	__free_netvsc_device(net_device);
- 
- 	return ERR_PTR(ret);
- }
-diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index ee5ab5ceb2be2..1d43c73fd73f1 100644
---- a/drivers/net/hyperv/netvsc_drv.c
-+++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2867,12 +2867,17 @@ static void __exit netvsc_drv_exit(void)
- {
- 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
- 	vmbus_driver_unregister(&netvsc_drv);
-+	netvsc_workqueue_destroy();
- }
- 
- static int __init netvsc_drv_init(void)
- {
- 	int ret;
- 
-+	ret = netvsc_workqueue_init();
-+	if (ret)
-+		return ret;
-+
- 	if (ring_size < RING_SIZE_MIN) {
- 		ring_size = RING_SIZE_MIN;
- 		pr_info("Increased ring_size to %u (min allowed)\n",
-@@ -2890,6 +2895,7 @@ static int __init netvsc_drv_init(void)
- 
- err_vmbus_reg:
- 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
-+	netvsc_workqueue_destroy();
- 	return ret;
- }
- 
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1146addbb42c4..f843ee0efa22f 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1214,6 +1214,13 @@ extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
- extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
- 				     struct vmbus_gpadl *gpadl);
- 
-+extern void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-+				u32 size,
-+				struct page ***chunks_out,
-+				u32 *chunk_cnt_out);
-+
-+extern void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt);
-+
- void vmbus_reset_channel_cb(struct vmbus_channel *channel);
- 
- extern int vmbus_recvpacket(struct vmbus_channel *channel,
--- 
-2.45.4
-
+Michael
