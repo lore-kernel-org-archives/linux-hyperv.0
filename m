@@ -1,222 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458C848987C;
-	Fri, 31 Jul 2026 22:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FD13557F3;
+	Fri, 31 Jul 2026 22:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785538128; cv=none; b=bD7lurBnOiNIMH9GBdwTbmz8KIrqmJoy1mbEXTjg1d7BrfRbvRd8TNnJjUX6XJ8C853mhpsGVMqDw9NFXToZRb83KI01sPEP9XxW+SHX4/gx7VMUiZfgIsVjupfhVM7pyeYte1tKYiiJPWuk2tEsoKi8M9wU1kQpgUcdRhX7F7w=
+	t=1785538164; cv=none; b=m7GOSW7RcMC91p5h6Co+Y7K08aeZZql0NbAa829McdEFVCU2o0dCVFQrdYUSYjYLqFtGfWrANPZclOjPvNhaUBBBpUlETl1js5+g0CkZA0BfDpLdFYLWJOvnlI8/XUPMRufbVudJp8oSHF5fR4tsaObv1fKizaA/s0OTQmjE4Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785538128; c=relaxed/simple;
-	bh=6KqkmZ8KDgIo3XVtM358Q8mtSyxfOr/zcZH6p1IP70U=;
+	s=arc-20240116; t=1785538164; c=relaxed/simple;
+	bh=ggR+uNQaC+AiG0y5j/Vs2Svrd6R0GFfG9Y3B3j8mCeM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=MyF9Q6OzNjarrklZfhS/HB8eVNBh/S23DlxZ2hOhsKN12Ct4ZsyWfv4z01CQaawaf5AsI2XDd6JilbJpowb2P4TQ+mNZohX4wnc4kPzVQucMZvAes2h+UqW1PTun7d7JJ9AFWelmQNagndwmhTK8FX2QDqh4ccmRiAWQza4Qjk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBd7nPXA; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=b7pgX6lI1tG1j0RLUdOxoTA4Qcs2yQAJWB+HKUCY1JBatPTuUE+/5AWKcsjdPJiftlOaOGhhz01gD3GVtBh8vk+K5ta7AF+CfYhAPECIPCWmSPLdhZsCy/3BcNmag8GauXw5efiBhb8NvVI9uXiE3QtQrdNgpzWFKnQnow2opF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxFoWGwb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBd7nPXA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5571F00AC4;
-	Fri, 31 Jul 2026 22:48:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxFoWGwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E7931F00AC4;
+	Fri, 31 Jul 2026 22:49:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785538127;
-	bh=/sLLwvWfy5LFQK9R2lMuUgqRvPv0GwVzztb6UNH80i4=;
+	s=k20260515; t=1785538162;
+	bh=O37TKiPccRD9ElPAY0oeiKwu+JFrqC3y1TCWVxUyKRE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dBd7nPXAOVcbLk2Zr1C6qkKNBCKxrW/6uUgT5DmXKZ3OMQF0oFcRgONY74kuft1gu
-	 7f3kTyrnnZXeCWRy+IESBua5TBqbOdU25cJwQKAvEkXOvMGbnNHIYp98/gyLfmahgb
-	 VeEcei2bw5p2OtIeeQzqhGmVZUzIqkpxYJnvqe28EScv0d7f68Y6FhJ6Bq/h9c8ZCo
-	 eZPr0YHg6mqkzOHvLKE36yharkvBe3SfpU8zD/FhQRphMPmqdc09eXB3EwRApv3jwZ
-	 FKCyIUVVDVtd6+lOP5NZaTST3kgjLE+e2m8aA8oJP3DEwbEN+xgKN65tNXFNDDE2dF
-	 JcqY7nrCSl8Ww==
+	b=bxFoWGwb/5lLPA961gzvsf+xVklo6Aq8cjBWlxjSwoI1SaAWJaML7H0ImuxIYO17p
+	 KpdqpPFG1FwCXa5aWN/9uYzqEz0z7Kk8NVh2DTbVE6Jw79o7fDhJHBo8dOgnTwfISK
+	 6+s3u7AMwDcDPVrB+oa0MCk30GcCUfB7hAN6Hzl8//MYlS61UPC4O6mQRJ533EiYi7
+	 yG65wZ8DYI8d5e9oKusupn7iS0WA5Uwj/Q8yZPcVgpAY/R93UEiqoNc9Y8Qtn9zdeP
+	 WZDRP5TcSWu1QEleVDKgGwXlnVVbaGOlVvMUhqIPLRS6pJhwTHQx2GpE6KUu40dldH
+	 wCwtuTCLHlmrA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 7/9] x86/hyperv: Implement Hyper-V virtual IOMMU
+Subject: Re: [PATCH v5 4/9] mshv: Add ioctl support for MSHV-VFIO bridge
+ device
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mukesh R" <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
-In-Reply-To: <20260731223427.2554388-8-mrathor@linux.microsoft.com>
+Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260731223427.2554388-5-mrathor@linux.microsoft.com>
 References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
- <20260731223427.2554388-8-mrathor@linux.microsoft.com>
+ <20260731223427.2554388-5-mrathor@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jul 2026 22:48:46 +0000
-Message-Id: <20260731224846.BD5571F00AC4@smtp.kernel.org>
+Date: Fri, 31 Jul 2026 22:49:22 +0000
+Message-Id: <20260731224922.8E7931F00AC4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] Broken partial unmapping logic incorrectly removes entire mapping =
-ranges, leaks mappings, and causes catastrophic error rollback failures.
-- [High] Calling dev_iommu_priv_set() in attach_dev callback without holdin=
-g iommu_probe_device_lock causes a lockdep violation.
-- [High] hv_iommu_map_pages ignores the caller's gfp_t argument and calls a=
- potentially sleeping function.
-- [Medium] Atomic counter wrap-around in domain ID allocation risks collidi=
-ng with reserved hypervisor domain IDs.
-- [Low] The __setup callback hv_iommu_setup_skip incorrectly returns 0, cau=
-sing the kernel to treat the command-line argument as an unknown parameter.
+- [High] Failing copy_to_user after anon_inode_getfd causes a file descript=
+or leak and leaves partition state inconsistent.
+- [Medium] The MSHV_CREATE_DEVICE_TEST flag ignores all other flags, render=
+ing capability checks broken.
 --
 
---- Patch [7]: [PATCH v5 7/9] x86/hyperv: Implement Hyper-V virtual IOMMU -=
---
-commit cdb89379b7cc5351b8dae8a1be7ede22f440c196
+--- Patch [4]: [PATCH v5 4/9] mshv: Add ioctl support for MSHV-VFIO bridge =
+device ---
+commit a96aa99c275e6a51436ce19dce86ac7d1a20b10d
 Author: Mukesh R <mrathor@linux.microsoft.com>
 
-x86/hyperv: Implement Hyper-V virtual IOMMU
+mshv: Add ioctl support for MSHV-VFIO bridge device
 
-Add a new file to implement a virtual IOMMU that works with Microsoft Hyper=
--V
-hypervisor. The driver communicates with the hypervisor for creating and=20
-deleting paging domains and mapping pages. The default domain type is=20
-IDENTITY.
+This commit adds ioctl support for creating MSHV VFIO bridge devices in a
+partition. It introduces a partition ioctl to verify the VFIO type and sets
+up the bridge code.
 
-> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/=
-hv-iommu-root.c
-> new file mode 100644
-> index 0000000000000..97ddd69560318
-> --- /dev/null
-> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
-> @@ -0,0 +1,706 @@
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index 39e9ef3674f29..fc08e994ecdf5 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
 [ ... ]
-> +static char *pci_devs_to_skip;
-> +static int __init hv_iommu_setup_skip(char *str)
-> +{
-> +	pci_devs_to_skip =3D str;
-> +
-> +	return 0;
-> +}
-
-[Severity: Low]
-Should this __setup callback return 1? Returning 0 causes the kernel to
-treat the command-line argument as an unknown parameter and pass it to
-the init process as an environment variable.
-
+> @@ -1625,6 +1625,122 @@ mshv_partition_ioctl_initialize(struct mshv_parti=
+tion *partition)
 [ ... ]
-> +static size_t hv_iommu_del_tree_mappings(struct hv_domain *hvdom,
-> +					 unsigned long iova, size_t size)
+> +static long mshv_partition_ioctl_create_device(struct mshv_partition *pa=
+rtition,
+> +					       void __user *uarg)
 > +{
-> +	unsigned long flags;
-> +	size_t unmapped =3D 0;
-> +	unsigned long last =3D iova + size - 1;
-> +	struct hv_iommu_mapping *mapping =3D NULL;
-> +	struct interval_tree_node *node, *next;
+> +	long rc;
+> +	struct mshv_create_device devargk;
+> +	struct mshv_device *mshv_dev;
+> +	const struct mshv_device_ops *vfio_ops;
 > +
-> +	spin_lock_irqsave(&hvdom->mappings_lock, flags);
-> +	next =3D interval_tree_iter_first(&hvdom->mappings_tree, iova, last);
-> +	while (next) {
-> +		node =3D next;
-> +		mapping =3D container_of(node, struct hv_iommu_mapping, iova);
-> +		next =3D interval_tree_iter_next(node, iova, last);
+> +	if (copy_from_user(&devargk, uarg, sizeof(devargk)))
+> +		return -EFAULT;
 > +
-> +		/* Splitting of a mapping is not supported at present */
-> +		if (mapping->iova.start < iova)
-> +			break;
-
-[Severity: High]
-How does this code handle partial unmaps? If an unmap request starts in the
-middle of a mapping, doesn't the break statement here leave the memory
-mapped? Furthermore, if the request starts at the beginning but is smaller
-than the full mapping, this removes the entire node and returns its full si=
-ze,
-prompting the caller to erroneously unmap the full region from hardware.
-
-[ ... ]
-> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *=
-dev)
-> +{
-> +	struct hv_domain *hvdom;
-> +	int rc;
-> +	u32 unique_id;
-> +	u64 ptid =3D hv_get_current_partid();
+> +	/* At present, only VFIO is supported */
+> +	if (devargk.type !=3D MSHV_DEV_TYPE_VFIO)
+> +		return -ENODEV;
 > +
-> +	if (ptid =3D=3D HV_PARTITION_ID_INVALID)
-> +		return NULL;
+> +	if (devargk.flags & MSHV_CREATE_DEVICE_TEST)
+> +		return 0;
 > +
-> +	hvdom =3D kzalloc_obj(struct hv_domain);
-> +	if (hvdom =3D=3D NULL)
-> +		return NULL;
-> +
-> +	spin_lock_init(&hvdom->mappings_lock);
-> +	hvdom->mappings_tree =3D RB_ROOT_CACHED;
-> +
-> +	unique_id =3D (u32)atomic_inc_return(&hv_unique_id);
-> +	if (unique_id =3D=3D HV_DEVICE_DOMAIN_ID_S2_NULL)	/* ie, UINTMAX */
-> +		goto out_err;
+> +	if (devargk.flags)	/* currently, only MSHV_CREATE_DEVICE_TEST */
+> +		return -EINVAL;
 
 [Severity: Medium]
-What happens when this 32-bit atomic counter wraps around? Since it will wr=
-ap
-to 0 (which is HV_DEVICE_DOMAIN_ID_S2_DEFAULT), could this new domain
-improperly map to the hypervisor's default domain and cause hypercall
-failures? Should an IDA allocator be used instead?
+If userspace calls this with MSHV_CREATE_DEVICE_TEST combined with an
+unknown flag, won't this unconditionally return 0 and bypass the check for
+unsupported flags?
+
+Could this mislead userspace into thinking a new flag is supported when
+probing capabilities on older kernels?
 
 [ ... ]
-> +static int hv_iommu_attach_dev(struct iommu_domain *immdom, struct devic=
-e *dev,
-> +			       struct iommu_domain *old)
-> +{
-> +	struct pci_dev *pdev;
-> +	int rc;
-> +	struct hv_domain *hvdom_new =3D to_hv_domain(immdom);
-> +	struct hv_domain *hvdom_prev =3D to_hv_domain(old);
-[ ... ]
-> +	rc =3D hv_iommu_att_dev2dom(hvdom_new, pdev);
+> +	mshv_partition_get(partition);
+> +	rc =3D anon_inode_getfd(vfio_ops->device_name, &mshv_device_fops,
+> +			      mshv_dev, O_RDWR | O_CLOEXEC);
+> +	if (rc < 0)
+> +		goto undo_out;
 > +
-> +	if (rc =3D=3D 0)
-> +		dev_iommu_priv_set(dev, hvdom_new);  /* sets "private" field */
+> +	devargk.fd =3D rc;
+> +	if (copy_to_user(uarg, &devargk, sizeof(devargk)))
+> +		return -EFAULT;    /* cleanup in mshv_device_fop_release() */
 
 [Severity: High]
-Can this trigger a lockdep splat? The core function dev_iommu_priv_set()
-requires iommu_probe_device_lock to be held, but this attach_dev callback
-executes with group->mutex held. Is it safe to use this private field for
-dynamic domain state?
+Does this leak the file descriptor and the associated mshv_dev kernel
+structures if copy_to_user() fails?
 
-> +	else {
-> +		if (hvdom_prev && !hv_special_domain(hvdom_prev))
-> +			WARN(1, "Failed to attach dev:%s\n", pci_name(pdev));
-> +		dev_iommu_priv_set(dev, NULL);
-> +	}
-> +
-> +	return rc;
-> +}
-[ ... ]
-> +static int hv_iommu_map_pages(struct iommu_domain *immdom, ulong iova,
-> +			      phys_addr_t paddr, size_t pgsize, size_t pgcount,
-> +			      int prot, gfp_t gfp, size_t *mapped)
-> +{
-[ ... ]
-> +		if (hv_result(status) =3D=3D HV_STATUS_INSUFFICIENT_MEMORY) {
-> +			ret =3D hv_call_deposit_pages(NUMA_NO_NODE,
-> +						    hv_current_partition_id,
-> +						    256);
+Since anon_inode_getfd() immediately installs the new file descriptor into
+the task's fdtable, returning -EFAULT here leaves the fd permanently open
+until the process exits.
 
-[Severity: High]
-Does this sequence sleep in atomic context? The IOMMU map_pages callback can
-be invoked in atomic contexts (such as inside interrupt handlers) and is
-passed a gfp_t argument. However, this ignores the gfp argument and calls
-hv_call_deposit_pages(), which allocates pages using GFP_KERNEL.
-
-[ ... ]
-> +	if (!hv_result_success(status)) {
-> +		size_t done_size =3D done << HV_HYP_PAGE_SHIFT;
-> +
-> +		hv_status_err(status, "pgs:%lx/%lx iova:%lx\n",
-> +			      done, npages, iova);
-> +		/*
-> +		 * lookup tree has all mappings [0 - size-1]. Below unmap will
-> +		 * only remove from [0 - done], we need to remove second chunk
-> +		 * [done+1 - size-1].
-> +		 */
-> +		hv_iommu_del_tree_mappings(hvdom, iova, size - done_size);
-
-[Severity: High]
-Is the error cleanup path unmapping memory that was never mapped? If a
-multi-page map fails halfway, it tries to unmap the unmapped portion, which
-hits the break condition in hv_iommu_del_tree_mappings() discussed earlier.
-This fails to remove the node and then erroneously issues a hypercall to
-unmap the entire size.
+Also, because the fd is installed before copy_to_user() is called, could
+another thread guess the fd and start using it while the calling thread
+receives -EFAULT and assumes device creation failed?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260731223427.2554=
-388-1-mrathor@linux.microsoft.com?part=3D7
+388-1-mrathor@linux.microsoft.com?part=3D4
