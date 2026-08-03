@@ -1,180 +1,339 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010020.outbound.protection.outlook.com [52.103.23.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54B92820AC;
-	Sun,  2 Aug 2026 04:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.23.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785644230; cv=fail; b=CJuyiPwQUJS5gZoKHLTbXPvni4FBuIwUUKwvbNUrNp4iTWBmeUmAthG9CusT8H8Oh/4JE52kK1fzg1jpbPRBWPDluOB/UIGcZcfSfS33zRKT77WwakGHZw0yCoHW0oCoczjAUTywBdTlp+6qwSzTiJHNjVOV7FP17ihIG+lphWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785644230; c=relaxed/simple;
-	bh=B/ApujEI1O/9GucdaoIoWeByAgAkWsPH0ahvfN0Uhzs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=l4hQB4x+ocUhbFoabGvrj50mi/3dzK4JhZc0j55wVgKPRe67cWX3ucyOuzgd6Jv6hFbbVFL48t1IMGUXtpB6ZBO482pg2sY4oP57vbOYLQSyEvHvIPRRW5k1rC55G8siZRw020wkBx5KfTJdEiV9S75kToIAGfRlCLnnJNxPfpU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=MK2xp+6m; arc=fail smtp.client-ip=52.103.23.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D97E2E8B64
+	for <linux-hyperv@vger.kernel.org>; Mon,  3 Aug 2026 03:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785728134; cv=none; b=dBSC1B9g9M8TX9aBqfwooqx4vY/8uuV9RHYBwIvT+6oIn6bGQEVXzi+wzcwzxRg2fncmXpQuCWvQC0r8TDtV8f/9bfzfyBhNFYgIdkRTu2W+GnIzhTp6ZTphAKx00yWjy6cwiFoM9/4Z4beOjw83AURumhRwLjKqd9WtZNJVasI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785728134; c=relaxed/simple;
+	bh=vf0PL3BKC5aOnGyR/Cak6UfckyToLr8slKTkVzxIoPE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=exvJs7vtwF9jXyTr272u+1CMtHzWYoJJ+0j+BhBis8+VCCiTQKE4x0LHTm4w+rVreDhDce19Q6YtVZGTCSH+xi5R+t3Cv858RuVqX15jiwfcQ9KSPHLFGLUMSU0dzaLbub/w3GdPmHgkCpWIYj0AAdeOrfDJudcJeBwIN3mpOvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OkCkmUu3; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="MK2xp+6m"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wcQLB1Iq8SZh1JIRRCqjqH/jax0d9ooG+oseD5io7+FWgdt8J5d58Ag+wD4wAUcWG2coF5pCPpiiB8clDFyjosdowMUmOnU8VAO497yHwvFpQrpnphgnmrRjFM7TxdziRq3yaiCVBRL+r/rgT1/FWtgxvk67x8e5d2acsWfEtlAmSQWyJm+JGVIIy069BnScwnZAwg1NtbMtx8+4iADejIsT907+g8KG/KwftEM3j260Eb24ucyR0Ehn/jaVo5lpjFwt69Eef2APy7IQn9ZLja8EfnHMPxclTMubJ1JRMXjacytwlNILFhlH61b602VyeaGa9sGOyq+BEEJCQmqkqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l/s88zEQT49wu53Fq5SDcDUFpAbGqSBDu346PbY/pJk=;
- b=LDjaRRZLFaG+RZBOlUSN7lt4RcarzUxaRnFTuEUZ54oYmXRfyjuehxc9rE4jdqSKzEJIXv7phhzyctt3wrJ6cvLbfgcr8KDhABT6JVPvWebP1Op2h6o8u2Pp2Chf0PZPNuTBb8GPJjHYRB68Z0kqoP0IKVWOFOI3iA1qguOrPZsVpZnklnNlwjnTsH/TCug5rs90cfOoC1Ky+FniLNz3c4oJ/4aB86D6FOlialKvDWS8HV3jC6FpJVwhmFyTa94nhGmZ60PiE4BfDD97qQTj2cUcqKEXrZ2cl1O977RnRO0/N84QdsxtG1sEn9AzIHlNWLKtQDNRQF6uedmAqwhbfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l/s88zEQT49wu53Fq5SDcDUFpAbGqSBDu346PbY/pJk=;
- b=MK2xp+6mhSR0iRkqnHlk7biatiaigpPwGg0qphYe5pzi6gF5VsN9k/igf1EV8bQxHbbw61qWQA5dmItBBAsZTzzmeXk/4LMLuK7osfSiTM2p0UpnRQPSQfA2fvueyPR9VmhhXM2qTv2sFZ+YXtqbzb8Vfp8kscE3IoCxYFsEpQXwiZcEcs3Jgqwev2UMti+SBgChXu0oQ8yrknzdSuUX9ZnoloXasKbnXU2y4VQnqZHI1l2ooLjdcSwvNvCwHWe5SDsID3Wa5m5U/xaJ7uTKdxk1BEe9Za/Gy7U2M65ktx89GAN6/3uwt2xL4q8mYIyrVR4hysFivb5JtPCcaQAv9Q==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by LV3PR02MB10234.namprd02.prod.outlook.com (2603:10b6:408:20f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Sun, 2 Aug
- 2026 04:17:06 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0270.016; Sun, 2 Aug 2026
- 04:17:05 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>, Michael Kelley
-	<mhklinux@outlook.com>, "decui@microsoft.com" <decui@microsoft.com>,
-	"haiyangz@microsoft.com" <haiyangz@microsoft.com>, "kys@microsoft.com"
-	<kys@microsoft.com>, "longli@microsoft.com" <longli@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>
-CC: "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: RE: [RFC PATCH 2/2] hv_netvsc: back GPADL buffers with kmalloc +
- decrypt + vmap
-Thread-Topic: [RFC PATCH 2/2] hv_netvsc: back GPADL buffers with kmalloc +
- decrypt + vmap
-Thread-Index: AQHdGUstWmkWeQ5MbUqxHXCQQLfsQ7Z9FO5wgAr30ACAAiw0cA==
-Date: Sun, 2 Aug 2026 04:17:05 +0000
-Message-ID:
- <SN6PR02MB4157514D8AFB06FB6F2ED9BED4D62@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260721195633.1438361-1-kameroncarr@linux.microsoft.com>
- <20260721195633.1438361-3-kameroncarr@linux.microsoft.com>
- <SN6PR02MB41576F1E9A4F0AC3D6AB8C18D4CF2@SN6PR02MB4157.namprd02.prod.outlook.com>
- <000901dd211f$b119be20$134d3a60$@linux.microsoft.com>
-In-Reply-To: <000901dd211f$b119be20$134d3a60$@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV3PR02MB10234:EE_
-x-ms-office365-filtering-correlation-id: 00710450-b2f4-4f5b-fea5-08def04ce942
-x-microsoft-antispam:
- BCL:0;ARA:14566002|51005399006|31061999003|13091999003|8062599012|8060799015|19110799012|37011999003|15080799012|55001999006|24021099003|25010399006|40105399003|2607281247196008|102099032|3412199025|440099028|1710799026;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?CWQiPTz+SIz58H7JqvGVo4QjOadzcGs8YRjvqDq1ZoyzPGg0Y8XLuNtcPK4V?=
- =?us-ascii?Q?IyTvb7iiAuqmJVd72vgg3INtdJ6/nwJhqHCbibrHl1bVbE/A2uzI1aKcm/HL?=
- =?us-ascii?Q?/vdp8t5GtTX8n0sM1gFWCaYsl11K9D/VzpMBQGy2Qh8IqkILQUf7pKB1j1d4?=
- =?us-ascii?Q?Br96tfUJinvMauSFj+rj9VxSX9Onf1lFpEEp+ZhBycAqGf3/ragD6xucak7q?=
- =?us-ascii?Q?PvxrmCyb/jONdfPY0FXkA6+hvGMuVUy1c6JVXHAtPiCBH0VzRz4ecdyr6g56?=
- =?us-ascii?Q?VgjFCjBw3EjtE6YOO/7Zk9eo4pOCif6PR5eE27av1kbgfi7RItEN5YMJqh6r?=
- =?us-ascii?Q?p4w4WXzOo/XyXUS15dnngjc9vWb5Ri+8m053uREHPnEPIJpf400O6Pe+TGHG?=
- =?us-ascii?Q?SF4X1WaJRmPUbuMyF/coU6XFjXIz+stzZgeAy7Lgji6s2Ec9J7sDNs7Qa95r?=
- =?us-ascii?Q?YV5gtCPzbmB2ceZzTCAzYLvGhpwQz5MzptjsPE2mGkDVHW2uaImpiLEzd/1F?=
- =?us-ascii?Q?XjLO8lwwLV5p9tL9obpOTDfHSQTDL4GuV7lMUgFESeuA/EygQmH7qYhWWhg4?=
- =?us-ascii?Q?RNGKwOU8CJDYAif7HahGVCrT0u4CI7MuSUcH/Z6VxD6iOX2GR0bOLyyR0UFR?=
- =?us-ascii?Q?vyL+JwrKscJSWBW0YURzq2qy4RtccYXCHFf4d1fmlYobS6b68OSfObYsQd27?=
- =?us-ascii?Q?9eA8bDH7p+JtKkJXq+pmEA9BbMbqLGbg+TaGrZtx6DSAeSy3ICrCoUPFoDHr?=
- =?us-ascii?Q?sOibFGQVOl7YFaxcdPvLo9B6aqyBSdXxDIjQVPNTb96xeZb6Fyd+HYzwqr9v?=
- =?us-ascii?Q?yXh+vV48FKSzNJmpkvZn3OXkkF1jc7f4m6W+CbRkR1CrpqeLcY+LRerrp+j/?=
- =?us-ascii?Q?RlIRg/0vniUhbVy5IwbP4ufgh3uadjaJySh7A6E1EnPdpLMvRP2qOUs7FTrd?=
- =?us-ascii?Q?EvhP/3o051jXHohERkDkEtlmCVzjOOu3RPvvgCY/ZgCWFrjhU1wXJyu2hmJR?=
- =?us-ascii?Q?P0vnebIu3NTX3DmCDqFMT7EBlLmqwqtjHzbSBBCjF1QEfejV6BOUi2TjV8jU?=
- =?us-ascii?Q?UXI7kwEZ?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?YwAW8uCtutlcV4i5e6SIveZlF1RrW8aEHMJjx+yTT/UFsXndB0/sw0sQaSQD?=
- =?us-ascii?Q?wT/13bmhfmI+rjWKv6yfYTbdCi0PzIyORqOmXb4u5Y2HsB3WFH0ziqnie1Zi?=
- =?us-ascii?Q?Pk2xw1jwQNFH1OuuyJ/1f+oVVZ33iSEm4YgtWrgNM/dtvHW8Kc5VeqVwWlh/?=
- =?us-ascii?Q?FEHmXgnCOZbIdGygY5P9McDiW4ltEJwwtNoV8q9samZ5u/4fbPMchwR4SNzq?=
- =?us-ascii?Q?pS1Wp+LGqbaief+dXb5cH3P7uuwQkdGLSdI7TAESZ63IUgwv4T5C5WkJ2R26?=
- =?us-ascii?Q?q7t0eiKyoNYUIX+URgxnU/0KnLkL8deOB3Qm8HgnoVBLsco5TiMw6hVna+2d?=
- =?us-ascii?Q?JsQMWLdeWqejgxnw4TiZAYbpVFK9vaBv8ADGseQZCyv+R281BUvd6tJE+pDS?=
- =?us-ascii?Q?BGmCylcOb1Ri2zpOad4Rvm0xhZKZ+R1Hu8nTonQ+nBhcBVDpvPQbtCiWgWIY?=
- =?us-ascii?Q?fVsGOaa+gXTyEzeD7N4QlQfnlUNVShMcyCC56fj6BXND2/8+isy1mcltW/Xp?=
- =?us-ascii?Q?ABl0+5dIuiJV3euIMEi5o5ubJITyVkgEpIIoQdh2jnyJP16LhIFw7cBMoKRM?=
- =?us-ascii?Q?HJh5dlmCnw099ti7XoCgN0PftRsKa3e08O4HQmafh7yfI4SsxQi8yPRGeo+V?=
- =?us-ascii?Q?IxabguUXRPkKL9YyTOs+LS9pMJ1+S6a8SWQ34lVRKb6KkGKHICYyFtt9cWwz?=
- =?us-ascii?Q?2wiEbWpVTgepHb5OZYTaPD2cehGEE7uHAal9x2cka9hpQ7n3PLE2WGoSDkdu?=
- =?us-ascii?Q?4SgI+cHXh0ngapNtmHwkCN/LKeE62Lfowit9fmZ0E8EE5nlmvPduhxOzIdXD?=
- =?us-ascii?Q?hq8q9qfJxFxWqAKxKm8I236bx/XH7GxYYF5t3Msgxjxz7ER1V/+pHFwHTFKT?=
- =?us-ascii?Q?mURSejtdBK+HvTZPokeqdbTJyfH/szFFctuD6hmqEr8PXahAFxEBnJF9vJoY?=
- =?us-ascii?Q?hapWG9xglD9L/882si7ZzxJAVLnQUbuzLBCfO43FIud9w1grn2MiHr5SLSqx?=
- =?us-ascii?Q?H2sRtWK9p+a6yPVtF5Oud9SOD7qwk5CvDuTHMuW0n5UFCXtQQMruNsnSVozx?=
- =?us-ascii?Q?eEdMzKoVgVpestxKZSlU2v55OxwBZRZpUl2W0NPTU3r4Zc7Q0dJ5mjVBdDCw?=
- =?us-ascii?Q?8TNhRQVf6p1tFTs0OwlBOqI7k1gHsujKQi7yCBjCISA9QrKwRKbzyEvHKx4U?=
- =?us-ascii?Q?3RurALP9xepz0NrUe/Qf8GYQT8skVqgwHug6jfAXtVLKKj3FoMJP30XPBWNT?=
- =?us-ascii?Q?n5MlKyEMpNecBHzFNOjdTbfwLy5r92OxT6vACBpkaMnXXoPWgOoMIqnxKlhB?=
- =?us-ascii?Q?uI0dfTHwHB4ocNxQCKjadrG+Vt26zpTTi74SBGkD0DeGWIW8ABkgZfplNqv2?=
- =?us-ascii?Q?LptBU1A=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OkCkmUu3"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so2021080a91.2
+        for <linux-hyperv@vger.kernel.org>; Sun, 02 Aug 2026 20:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785728133; x=1786332933; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0CzR7FuJcZM3BKpU9H46pvPFe7lq9Af4jXZ47uMFuKk=;
+        b=OkCkmUu3JStvxr08DX13P6yUHpcO+bP3PACV0Cdkf2sE98A1eSV0mLeMua6DQ6Qr8/
+         QNAca57BdMB2qdFtZbj0ulrliWNNDLaSwrF6sWkNbhtZEgZMdUu5R2FQrB9dEjwAyfC8
+         QUKylRT9SsvGKOPhmmxcHYGaGfcG03GdR+lYBgIFvG9fKWf+IPvbbf0HYlk25rE9YLZR
+         bejhKLijNk1GyI4EkvWWca19tQs/QAB3H72flGrlJ5q1MRCxUxy4BBiLwbzXh5o4kQl+
+         ZgLTkiQBXU20QFvYo44indZg9Yn8aCQcMsAMif8LONbaYgqKedMtW+tP263RNFnjWJX6
+         O3Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785728133; x=1786332933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0CzR7FuJcZM3BKpU9H46pvPFe7lq9Af4jXZ47uMFuKk=;
+        b=PlNk2cfOTQ2GwaAoxjLyPb2QochFPfew3KIW85s1W1mbN34v8Eo4vzh0YGnBnvUSP4
+         nGxccpIuoRvPbJ3l5xw4pYBWWGGpKgzzIJeuoM6A1EPMg5z6JrOJdLOVCHlCKRWatGhh
+         Bsbs6lqez80qXRNfQwcrACmlrAwMoJ3hl23CL1D/Re0lO4Sz5HvP2jZ/PRjlaeg/m11C
+         eJFZeL2wBgQS8789V4X8INA71M2Pmw7woa4pARZIYSyK//UTuAOwipJSjiTpF+TRU+Kx
+         KI48/Pi990hKKS2eUO6rW6dOKIHdbcBJCj00+K+99ycSJYyWbAkbUhA3Kfwm250YUgv8
+         qZBw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4lUS7u44W6XrZ9/gGZkBYN1Bxib/Usyl3S9doidnaqo9IilRg/eRew5jotxA7ATL8XQA/XOXbbC+TsCY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhutsho4gXhnV+WO3OhMU3DOMq3LMbPYLT3NMTLJpd6vENhRRv
+	ydCgDTx4ITI5PwUjD8zUowFuNEkFIOe5oFp6Wogi65L1IzEfQTJmjewn
+X-Gm-Gg: AR+sD10M18NFcUtI671A4oEzbK0rHyorDTCsylQwhcKc3wq+/vT70OczZbaV2fN62Uj
+	bXQV6cPGHsKouig2tMNjf1GQyKPPWXiSX3Pz8P5o9/WtaJ9uTMUWCc3a+kVplYYnV5kJCvKOx+R
+	7/TIhDjg8l9vSwTK8QcskufYPXwr4NEnW9O5mW0MplQkl6v+jon1jdTjHqADs8+Tuq/fOA/YS+n
+	1oJBT3Y5YWGgdywLeHSibh48huNrewaeMvxEfPkmlgiaFoD3qLF1yIr94+ZAp+QAS8XeAawu7/T
+	Okq3f3Ty1zEy3T90fAfEZ1vEyd4BtYOOEdkey8b452xVrhLvZ0RKSiv6tTpEEDkaspZ1mR+Ojkx
+	S8+9ifi2dwZnisVRO+0k69Pg1mG0o+Kv9DOL1yM8Klqp0EOUcQXoXvLMAiU7PbTrzmEshQaquFu
+	WwoqTA+yAyRG8dFGw26kSfFB27JHGA1UbIGyOEEKhTpb5JNYZ7YOi+SZORyJQOxlwv5aMEtOM2T
+	1U2lLaHrnc2EWbYNSN5DA==
+X-Received: by 2002:a17:90b:1808:b0:381:28e0:6259 with SMTP id 98e67ed59e1d1-38fbc3f7effmr7377092a91.9.1785728132073;
+        Sun, 02 Aug 2026 20:35:32 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.mshome.net ([104.43.2.12])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab4e44bcsm36733485c88.12.2026.08.02.20.35.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 20:35:31 -0700 (PDT)
+From: Tianyu Lan <ltykernel@gmail.com>
+X-Google-Original-From: Tianyu Lan <tiala@microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com
+Cc: Tianyu Lan <tiala@microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	aik@amd.com,
+	hch@infradead.org,
+	robin.murphy@arm.com,
+	vdso@hexbites.dev,
+	aneesh.kumar@kernel.org,
+	mhklinux@outlook.com
+Subject: [RFC PATCH 1/1] x86/VMBus: DMA transfer with encrypted memory in Coco VM
+Date: Sun,  2 Aug 2026 23:35:20 -0400
+Message-Id: <20260803033520.12930-1-tiala@microsoft.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00710450-b2f4-4f5b-fea5-08def04ce942
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2026 04:17:05.4441
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR02MB10234
+Content-Transfer-Encoding: 8bit
 
-From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, July 31,=
- 2026 12:06 PM
->=20
-> On Friday, July 24, 2026 12:37 PM, Michael Kelley wrote:
-> > From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Tuesday, Jul=
-y 21, 2026 12:57 PM
-> [...]
-> > > +	/*
-> > > +	 * @order monotonically decreases across iterations
-> > > +	 *
-> > > +	 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing, but try
-> > > +	 * harder at order 0 since that is the final fallback.
-> > > +	 */
-> > > +	order =3D min_t(unsigned int, MAX_PAGE_ORDER, ilog2(nr_pages));
-> >
-> > Prefer using min() instead of min_t(). For normal integer values,
-> > min() should work correctly.
->=20
-> Using min() compiled fine on ARM, but x86 is throwing a compile error.
->=20
->     drivers/hv/channel.c: In function 'vmbus_alloc_buffer':
->     ././include/linux/compiler_types.h:699:45: error: call to
->     '__compiletime_assert_518' declared with attribute error: min(order, =
-(
->     __builtin_constant_p(remaining) ? ((remaining) < 2 ? 0 : 63 -
->     __builtin_clzll(remaining)) : (sizeof(remaining) <=3D 4) ?
->     __ilog2_u32(remaining) : __ilog2_u64(remaining) )) signedness error
->=20
-> In my v3 I may go back to using min_t. Please let me know if a cast (or
-> some other method) is preferred.
+In CoCo VMs, system memory is encrypted by default.
+Device drivers typically rely on the DMA core's
+SWIOTLB as a bounce buffer for DMA operations, providing
+decrypted memory that can be shared between the guest and
+host.
 
-Hmmm. I don't get the same compile error on x86/x64. Maybe it is
-related to compiler and version, or the kernel code base against which
-the patch is being built. Probably you didn't see a problem on arm64
-because of some such difference. FWIW, I built with gcc 11.4.0 against
-linux-next20260726.  What is the compiler and base kernel info where
-you saw the error and on arm64 where you didn't?
+For PCI devices with T-Disp support and Confidential
+VMBus devices (https://lkml.org/lkml/2026/7/27/1733) can
+perform DMA transfers directly with private/encrypted
+memory in a CoCo VM.
 
- Michael
+To support DMA transfer with encrypted memory, Hyper-V
+DMA ops are introduced and bypass some API which may
+use swiotlb as bounce buffer.
+
+The DMA ops used is global data structure(see get_arch_
+dma_ops() and get_dma_ops() for details). There is no
+need to set up for each device individually.
+
+Signed-off-by: Tianyu Lan <tiala@microsoft.com>
+---
+ drivers/hv/Kconfig      |   5 ++
+ drivers/hv/Makefile     |   1 +
+ drivers/hv/hv_dma_ops.c | 140 ++++++++++++++++++++++++++++++++++++++++
+ drivers/hv/vmbus_drv.c  |  14 +++-
+ 4 files changed, 159 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/hv/hv_dma_ops.c
+
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 2d0b3fcb0ff8..4b50a631fd57 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -7,6 +7,7 @@ config HYPERV
+ 	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
+ 		|| (ARM64 && !CPU_BIG_ENDIAN)
+ 	select PARAVIRT
++	select HYPERV_DMA_OPS
+ 	select X86_HV_CALLBACK_VECTOR if X86
+ 	select OF_EARLY_FLATTREE if OF
+ 	select IRQ_MSI_LIB if X86
+@@ -14,6 +15,10 @@ config HYPERV
+ 	  Select this option to run Linux as a Hyper-V client operating
+ 	  system.
+ 
++config HYPERV_DMA_OPS
++	bool "Enable Microsoft Hyper-V DMA ops support"
++	depends on ARCH_HAS_DMA_OPS
++
+ config HYPERV_VTL_MODE
+ 	bool "Enable Linux to boot in VTL context"
+ 	depends on (X86_64 && HAVE_STATIC_CALL) || ARM64
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 888a748cc7cb..b4d23c88b9eb 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_HYPERV_VMBUS)	+= hv_vmbus.o
+ obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
+ obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
++obj-$(CONFIG_HYPERV_DMA_OPS)	+= hv_dma_ops.o
+ obj-$(CONFIG_MSHV_ROOT)		+= mshv_root.o
+ obj-$(CONFIG_MSHV_VTL)          += mshv_vtl.o
+ 
+diff --git a/drivers/hv/hv_dma_ops.c b/drivers/hv/hv_dma_ops.c
+new file mode 100644
+index 000000000000..ef53a42c0450
+--- /dev/null
++++ b/drivers/hv/hv_dma_ops.c
+@@ -0,0 +1,140 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2026, Microsoft Corporation.
++ *
++ */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/hyperv.h>
++#include <linux/smpboot.h>
++
++#include <linux/kernel.h>
++#include <linux/dma-map-ops.h>
++#include <linux/export.h>
++#include <asm/mshyperv.h>
++#include "hyperv_vmbus.h"
++#include "../../kernel/dma/direct.h"
++
++extern const struct dma_map_ops *dma_ops;
++
++extern bool is_vmbus_dev(struct device *dev);
++
++static bool hyperv_private_memory_dma(struct device *dev)
++{
++	struct hv_device *hv_dev = device_to_hv_device(dev);
++
++	if (is_vmbus_dev(dev) && hv_dev && hv_dev->channel
++	    && hv_dev->channel->co_external_memory)
++		return true;
++
++	/* Todo: Check T-Disp capability of PCI device here */
++
++	return false;
++}
++
++static int hyperv_dma_map_sg(struct device *dev, struct scatterlist *sgl,
++		int nelems, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	struct scatterlist *sg;
++	dma_addr_t dma_addr;
++	int i;
++
++	if (hyperv_private_memory_dma(dev)) {
++		for_each_sg(sgl, sg, nelems, i) {
++			dma_addr = __phys_to_dma(dev, sg_phys(sg));
++			sg_dma_address(sg) = dma_addr;
++			sg_dma_len(sg) = sg->length;
++		}
++
++		return nelems;
++	} else {
++		return dma_direct_map_sg(dev, sgl, nelems, dir, attrs);
++	}
++}
++
++static void hyperv_dma_unmap_sg(struct device *dev, struct scatterlist *sgl,
++		int nelems, enum dma_data_direction dir, unsigned long attrs)
++{
++	if (!hyperv_private_memory_dma(dev))
++		dma_direct_unmap_sg(dev, sgl, nelems, dir, attrs);
++}
++
++static int hyperv_dma_supported(struct device *dev, u64 mask)
++{
++	dev->coherent_dma_mask = mask;
++	return 1;
++}
++
++static size_t hyperv_dma_max_mapping_size(struct device *dev)
++{
++	if (hyperv_private_memory_dma(dev))
++		return SIZE_MAX;
++	else
++		return swiotlb_max_mapping_size(dev);
++}
++
++/* allocate and map a coherent mapping */
++static void *
++hyperv_dma_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
++		    gfp_t flag, unsigned long attrs)
++{
++	phys_addr_t phys;
++	void *ret;
++
++	if (!hyperv_private_memory_dma(dev))
++		return dma_alloc_coherent(dev, size, dma_handle, flag);
++
++	size = ALIGN(size, PAGE_SIZE);
++	ret = (void *)__get_free_pages(flag, get_order(size));
++	if (!ret)
++		return ret;
++	phys = virt_to_phys(ret);
++
++	if (hyperv_private_memory_dma(dev))
++		*dma_handle = dma_addr_encrypted(__phys_to_dma(dev, phys));
++	else
++		*dma_handle = phys_to_dma_unencrypted(dev, phys);
++
++	memset(ret, 0, size);
++	return ret;
++}
++
++/* free a coherent mapping */
++static void
++hyperv_dma_free_coherent(struct device *dev, size_t size, void *vaddr,
++		   dma_addr_t dma_addr, unsigned long attrs)
++{
++	if (hyperv_private_memory_dma(dev))
++		dmam_free_coherent(dev, size, vaddr, dma_addr);
++	else
++		free_pages((unsigned long)vaddr, get_order(size));
++}
++
++static dma_addr_t hyperv_dma_map_phys(struct device *dev, phys_addr_t phys,
++		size_t size, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	if (hyperv_private_memory_dma(dev))
++		return __phys_to_dma(dev, phys);
++	else
++		return dma_direct_map_phys(dev, phys, size, dir, attrs, true);
++}
++
++static void hyperv_dma_unmap_phys(struct device *dev, dma_addr_t dma_handle,
++		size_t size, enum dma_data_direction dir, unsigned long attrs)
++{
++	if (!hyperv_private_memory_dma(dev))
++		dma_direct_unmap_phys(dev, dma_handle, size, dir, attrs, true);
++}
++
++const struct dma_map_ops hyperv_dma_ops = {
++	.alloc			= hyperv_dma_alloc_coherent,
++	.free			= hyperv_dma_free_coherent,
++	.map_phys               = hyperv_dma_map_phys,
++	.unmap_phys             = hyperv_dma_unmap_phys,
++	.map_sg                 = hyperv_dma_map_sg,
++	.unmap_sg               = hyperv_dma_unmap_sg,
++	.dma_supported          = hyperv_dma_supported,
++	.max_mapping_size	= hyperv_dma_max_mapping_size,
++};
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index d28ff45d4cfd..d1ce5c107993 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -40,6 +40,10 @@
+ #include <clocksource/hyperv_timer.h>
+ #include <asm/mshyperv.h>
+ #include "hyperv_vmbus.h"
++#include "../../kernel/dma/direct.h"
++
++extern const struct dma_map_ops *dma_ops;
++extern const struct dma_map_ops hyperv_dma_ops;
+ 
+ struct vmbus_dynid {
+ 	struct list_head node;
+@@ -1468,6 +1472,11 @@ static int vmbus_alloc_synic_and_connect(void)
+ 	return -ENOMEM;
+ }
+ 
++bool is_vmbus_dev(struct device *dev)
++{
++	return dev->bus == &hv_bus;
++}
++
+ /*
+  * vmbus_bus_init -Main vmbus driver initialization routine.
+  *
+@@ -1523,8 +1532,11 @@ static int vmbus_bus_init(void)
+ 	 * doing that on each VP while initializing SynIC's wastes time.
+ 	 */
+ 	is_confidential = ms_hyperv.confidential_vmbus_available;
+-	if (is_confidential)
++	if (is_confidential) {
++		dma_ops = &hyperv_dma_ops;
+ 		pr_info("Establishing connection to the confidential VMBus\n");
++	}
++
+ 	hv_para_set_sint_proxy(!is_confidential);
+ 	ret = vmbus_alloc_synic_and_connect();
+ 	if (ret)
+-- 
+2.53.0
+
