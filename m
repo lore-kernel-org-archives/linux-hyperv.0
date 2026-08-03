@@ -1,131 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFCB2F90C9;
-	Mon,  3 Aug 2026 13:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABA7424D47;
+	Mon,  3 Aug 2026 17:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785763734; cv=none; b=jlq0BwKelq3BK85ANDNrJ0ahgzs6N6Ppy2e5UC0xZNLUTr2p+0ahjM3nbr2Hl/coXwV0ZxOQcs28ENEd/iU9CulZqZsWlQEUtvCnVq6WFTWmYzSaB/fO5J5TKd9NC5hl5bddd1Zwj9GYA2NGFaf/8+K5fzGpa/n4JQBcRAkiego=
+	t=1785778832; cv=none; b=rWbZg+hsAfPfnsg2ACqvDHHTLhiO04skqHAvHtswWTzrp+/M4f9B4TKfqiTir08YZI/5m2HSeRv8tCci4+sFYH/VLFE5su5mBHwrRUNvqIb9pvlDxaW/M5EoQYz5/At6DrtM+3KwoYtprR8NUplhO2Froc/uuTWOEzeei7bdIKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785763734; c=relaxed/simple;
-	bh=NmsbuP4sxYPLIuHtMaVJW1mUSURb4adPASbdHW32UdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YT5g6rcWWxJibeDItiQTmrDKa52DRUbkD3Qh/n1du/QTXJTFrysfEJvxcC18T+9SFloTkEbV9+OHHcjC9M4pRgD63x7BkgV0bPte9KhalJxtFirPYB7MUUvPAJKF8l/LJdxJ0VoRqlgxTFw/fIpVNJT0fuf3DhjqOwoMRnKhlwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkq+xdd5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785778832; c=relaxed/simple;
+	bh=fe59GmNACVKikdBjgmFthWGSMAHunRLdqLS/2aKylYw=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NHTWJZK3yeDtk9pKgPgh1yTn7aPsCUuR9MNI65ACrW1TvTiHBWaippJLu/TjHS7xRio60MY7+qjK2Xu/NTD+CO00v8dtKeC7Mst3ZMadElL9PB+5YVs7AEtyCeIpcFE7k4J6CZAwu045ZDK3X1t4pWACNChsbompGkgFfXB4cUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=G2Iz0Kn6; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkq+xdd5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81AD71F00A3A;
-	Mon,  3 Aug 2026 13:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785763730;
-	bh=ceV4pa/7DQBIYiXQtOkDImv4vmXRhkjRfa6y8CVaaSQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nkq+xdd5nBFVe4jQqFZyqUu7sOkbzp+BcXgRymlQ5YjNKWOyHLuuezHxrF2+Y3j/3
-	 xEEI0RvczvVA4unkjyhdQNOQ1fPpPYCroDPLWxKK1saa2ce9JK5DvxJVeUheHSHA9a
-	 IbP+VpzPXGdUHotSwYYlE7rpx/oiCcYQwS9kBeaUXRycNqKxc0X7hafr7hmm/wW1ko
-	 rxEwyvO0HQhPt8u4nPntoHNurooLHOo8C02JnxoKV0a9TYV9ExYYEXBTHEmIj72Afd
-	 9LcCa9jRlWcRQX1kDvIneVx0A+htP1wPtE7ls2guJdHI2SuMdANcPNGH7ndlDwH1Ki
-	 OIUs/H780xCyw==
-Date: Mon, 3 Aug 2026 16:28:44 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Konstantin Taranov <kotaranov@microsoft.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, Long Li <longli@microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH rdma-next] RDMA/mana_ib: Retain create CQ flags field name
-Message-ID: <20260803132844.GA326170@unreal>
-References: <20260731091041.2250897-1-jiri@resnulli.us>
- <DU8PR83MB0975547820CBB956D4EFFE57B4C82@DU8PR83MB0975.EURPRD83.prod.outlook.com>
- <anCBtLSxn8TtFcSz@FV6GYCPJ69>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="G2Iz0Kn6"
+Received: from DairyQueen (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0AC4720B7168;
+	Mon,  3 Aug 2026 10:39:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0AC4720B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1785778805;
+	bh=AOV9zgbKbOdSHEACWlIc1MgQl9ltnlZ/5pkEXRffwDQ=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
+	b=G2Iz0Kn6dLsSl7xkWDCNsV0gNQQcRlfE/2a9iEkzDai8V+I0bI5pkz84M5q2FFSY/
+	 yuOTvmanLgxTXOXY69YieKIj+hHuIU3H7CM8eEi214O7JcZEGxMyQvTx4Ye79kFNiq
+	 RV78d5R4/8dozbgdfHoUr9mWSkImYn75C3YZn07s=
+From: "Kameron Carr" <kameroncarr@linux.microsoft.com>
+To: "'Michael Kelley'" <mhklinux@outlook.com>,
+	<decui@microsoft.com>,
+	<haiyangz@microsoft.com>,
+	<kys@microsoft.com>,
+	<longli@microsoft.com>,
+	<wei.liu@kernel.org>
+Cc: <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>,
+	<edumazet@google.com>,
+	<kuba@kernel.org>,
+	<pabeni@redhat.com>,
+	<linux-hyperv@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<netdev@vger.kernel.org>
+References: <20260721195633.1438361-1-kameroncarr@linux.microsoft.com> <20260721195633.1438361-3-kameroncarr@linux.microsoft.com> <SN6PR02MB41576F1E9A4F0AC3D6AB8C18D4CF2@SN6PR02MB4157.namprd02.prod.outlook.com> <000901dd211f$b119be20$134d3a60$@linux.microsoft.com> <SN6PR02MB4157514D8AFB06FB6F2ED9BED4D62@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157514D8AFB06FB6F2ED9BED4D62@SN6PR02MB4157.namprd02.prod.outlook.com>
+Subject: RE: [RFC PATCH 2/2] hv_netvsc: back GPADL buffers with kmalloc + decrypt + vmap
+Date: Mon, 3 Aug 2026 10:40:15 -0700
+Message-ID: <000a01dd236f$2a24f4f0$7e6eded0$@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anCBtLSxn8TtFcSz@FV6GYCPJ69>
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQNRsRip/0GPmGqK2zS6hqfVzZeToQIbF+Y6AtauNasB7oqiJQJivrRjs1lPuRA=
+Content-Language: en-us
 
-On Mon, Aug 03, 2026 at 01:59:07PM +0200, Jiri Pirko wrote:
-> Fri, Jul 31, 2026 at 02:54:31PM +0200, kotaranov@microsoft.com wrote:
-> >> From: Jiri Pirko <jiri@nvidia.com>
-> >> 
-> >> Commit eb70d83a8645 ("RDMA/mana_ib: Adopt robust udata") renamed the
-> >> "flags" field of struct mana_ib_create_cq to "comp_mask", as
-> >> ib_copy_validate_udata_in_cm() only validates a member with that name.
-> >> 
-> >> The layout did not change, but the field has been a part of the UAPI since
-> >> commit 44b607ad4cdf ("RDMA/mana_ib: implement uapi for creation of rnic
-> >> cq"), so the rename breaks userspace referring to it, for example the mana
-> >> provider of rdma-core assigning cmd_drv->flags.
-> >> 
-> >> Convert the field to a union providing both names, so that
-> >> ib_copy_validate_udata_in_cm() still finds "comp_mask" and userspace keeps
-> >> "flags", without having to add a helper for this single case.
-> >> 
+On Saturday, August 1, 2026 9:17 PM, Michael Kelley wrote:
+> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, July
+31, 2026 12:06 PM
 > >
-> >Thanks for the patch, but my understanding that it is a common practice to rename the fields,
-> >and kernels headers should not accumulate historical names. 
-> 
-> That is not doable in UAPI.
-
-There are multiple levels of UAPI contracts. In RDMA, we guarantee
-binary compatibility because userspace (rdma-core) is effectively the
-second half of the RDMA driver stack. These drivers do not exist
-without rdma-core.
-
-As such, this is exactly how the RDMA UAPI is intended to work.
-
-
-> Some userspace app, like rdma-core in this case, might use it and rename breaks the compilation. Some other
-> app you don't know about may use it.
-
-rdma-core does not use these headers directly. Instead, it vendors
-them in the kernel-headers directories specifically for this purpose.
-
-> 
-> 
-> >I also faced a similar problem from renames in other providers, when I needed a new kernel header in rdma-core.
-> >If this breaks your rdma-core in a PR, just remove the field rename in kernel update commit as that header update commit is not getting merged anyway from your PR.
-> >My understanding that maintainers of RDMA-core will merge the kernel header update, and will bring this change from my PR:
-> >https://github.com/linux-rdma/rdma-core/pull/1765/commits/0dcadd9316f1b98e21973e3a6e0f96186d49bd5a
-> 
-> this is not how UAPI can be changed :/ It simply can't be changed.
-
-It can, at least in RDMA and elsewhere in the kernel, where user
-access is provided through properly designed libraries.
-
-Thanks
-
-> 
-> 
+> > On Friday, July 24, 2026 12:37 PM, Michael Kelley wrote:
+> > > From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Tuesday,
+July 21, 2026 12:57 PM
+> > [...]
+> > > > +	/*
+> > > > +	 * @order monotonically decreases across iterations
+> > > > +	 *
+> > > > +	 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing,
+but try
+> > > > +	 * harder at order 0 since that is the final fallback.
+> > > > +	 */
+> > > > +	order = min_t(unsigned int, MAX_PAGE_ORDER,
+ilog2(nr_pages));
+> > >
+> > > Prefer using min() instead of min_t(). For normal integer values,
+> > > min() should work correctly.
 > >
-> >- Konstantin
+> > Using min() compiled fine on ARM, but x86 is throwing a compile error.
 > >
-> >> Fixes: eb70d83a8645 ("RDMA/mana_ib: Adopt robust udata")
-> >> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-> >> ---
-> >>  include/uapi/rdma/mana-abi.h | 5 ++++-
-> >>  1 file changed, 4 insertions(+), 1 deletion(-)
-> >> 
-> >> diff --git a/include/uapi/rdma/mana-abi.h b/include/uapi/rdma/mana-abi.h
-> >> index 410f0ddc8c89..431c7076f20a 100644
-> >> --- a/include/uapi/rdma/mana-abi.h
-> >> +++ b/include/uapi/rdma/mana-abi.h
-> >> @@ -25,7 +25,10 @@ enum mana_ib_create_cq_flags {
-> >> 
-> >>  struct mana_ib_create_cq {
-> >>  	__aligned_u64 buf_addr;
-> >> -	__u16	comp_mask;
-> >> +	union {
-> >> +		__u16	comp_mask;
-> >> +		__u16	flags; /* the original name of the field */
-> >> +	};
-> >>  	__u16	reserved0;
-> >>  	__u32	reserved1;
-> >>  };
-> >> --
-> >> 2.54.0
+> >     drivers/hv/channel.c: In function 'vmbus_alloc_buffer':
+> >     ././include/linux/compiler_types.h:699:45: error: call to
+> >     '__compiletime_assert_518' declared with attribute error: min(order,
+(
+> >     __builtin_constant_p(remaining) ? ((remaining) < 2 ? 0 : 63 -
+> >     __builtin_clzll(remaining)) : (sizeof(remaining) <= 4) ?
+> >     __ilog2_u32(remaining) : __ilog2_u64(remaining) )) signedness error
 > >
+> > In my v3 I may go back to using min_t. Please let me know if a cast (or
+> > some other method) is preferred.
+> 
+> Hmmm. I don't get the same compile error on x86/x64. Maybe it is
+> related to compiler and version, or the kernel code base against which
+> the patch is being built. Probably you didn't see a problem on arm64
+> because of some such difference. FWIW, I built with gcc 11.4.0 against
+> linux-next20260726.  What is the compiler and base kernel info where
+> you saw the error and on arm64 where you didn't?
+
+In both cases, I built against hyperv-next (a4ffc59).
+On ARM64 I used gcc 13.2.0; on x86 I used 13.3.0.
+
+To do a fair comparison, I
+ * downgraded my x86 environment to gcc 13.2.0
+ * started with `make defconfig`
+ * enabled Hyper-V and NetVSC in the config (=y)
+
+I saw the same behavior where there was no error on ARM and compile failure
+on x86.
+
+Regards,
+Kameron
+
