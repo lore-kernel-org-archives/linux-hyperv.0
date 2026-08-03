@@ -1,74 +1,69 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E456737702C
-	for <linux-hyperv@vger.kernel.org>; Mon,  3 Aug 2026 11:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B9A19F137;
+	Mon,  3 Aug 2026 12:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785758359; cv=none; b=gF7u6087D/hDyAkv286T2ktSA1EdDgZdMdqayd5FeNWbrtUE7HbI3SFg9n7O/rCiiUYEfb3vtwH15QSKhjV9Uki8Sd4xIYZOpcwgnIbQrW08xsXlQfA9//Mr3eOxo3jtpxwJPkTDEEsVMUXPs+MiifGpy5C01W6IyNkzBEn/Yoo=
+	t=1785761162; cv=none; b=LdCN5zCutnbF5P7IBuJfxn93RhULiFmuYrAYvY9LowDM6Jq6KWzNJWwi/9wpIdSWFzRVRIiRwe+HUnLya76C29Z8e/rBqJ8xGrnmC7GmHBA/kag/EXP0m2OS8KTyBeXh9uAbC744Q3pVp+2Suq35N5blBxKw9XeOGRRDlDOndQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785758359; c=relaxed/simple;
-	bh=LGr2JBudFXtQ4Ni+TyjMLiHTOBXGdKgbtU1pxmP0shw=;
+	s=arc-20240116; t=1785761162; c=relaxed/simple;
+	bh=T5QKHnwn/S2vdmSJhquNthsYdNLeVOD3Buj2H3yn5jg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gwApzc4XyFfUKvLgqfz7aXe8f/+2GbK/DFog/m+tBngwXYFT6G2Q5nS4BaTaLZcYaMKx2QBuLiAccUQCjczR1Pv1U6qPLnsOFfGLf/HWRKvteiE5KQwdEo2U1x8oSwr1nVa9jER2km80vEFyvtgTp/pZIbWBYNyA94OzTA9qB5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=SYwqDgyd; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=AfA/1e+hiRfe7IFjMJWgsteqUX5WKXJCHNiY5R2uscM8dHP2FS1o+zaaEQnjMTJt1ZwLoEwmcE64VchLzPBX/WOs4njVW8Jmv4x/1dot+Jqrc4kd4J3y70mU7Il9Gd9rEtKfpbs621Hp2Ftkcore2s61DNUgqBBhrOq+ykoXrC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuqdvxUC; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="SYwqDgyd"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b2a3166398so2709867e87.3
-        for <linux-hyperv@vger.kernel.org>; Mon, 03 Aug 2026 04:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1785758353; x=1786363153; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s5nX246tmJ2aEHx092HUDukd7vHZ9i1KeOZr9TmAuuA=;
-        b=SYwqDgydHQW2lqhDHNU1neiMwX6fT2+e/kKHGQ7SErLpmHyy5iR3BPxeEfdTFBLsqo
-         zo37nd2X/QJsVlmPeymLxkBz9phGqhlaE93gaiRBxe55e4xcNl5eoDHvAMC+SWOsRsbH
-         Rnu3OOk8y/6JQH8Dcc79sNTM+jCiFSzYIkIApefu+3pMT0aPCCKAdOThQxtvd0QCVhbz
-         i/p3ihe3GagGnJAwFpOyJB3hVSOpZu79/VFpkEDf45s26e7/jyMO6HP2bH0QMkqWexO0
-         V0S29Gs4OLf4OMGmzATi56lQuvsrXHcYiZGMNjUyMpqMg7xlCEuKCdG5VP2zS77ck44N
-         Wwiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785758353; x=1786363153;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s5nX246tmJ2aEHx092HUDukd7vHZ9i1KeOZr9TmAuuA=;
-        b=cA4TzKK3Iz3wdxbx6pmINQen0qXjRyJai2nBso6yvROGxoKRXPOqo+IQMqgIqK/peB
-         womViwjSvcwdEM0y1tIEoLRN1Hq0Q7kGn3befAYxbZDuy9fjfjsn/H070N7zY/TdrazO
-         14YusxT7AQ9vL3IQsLP/xHG5QFQfO4O7EW8PMDch17WeBPUqKeboMLFSAWoVgEiANuIu
-         nSRPEyay2yglplP7p1FeSqjBSwk4T5Djx+W0KM96WWvijWMcLBHlUF5+v4yY5m3SwN9I
-         epGujkk/KKkaULoBXQs/TpNu3Z47knff+vxoG/ym990Na3O+BQDOUt2vFY0begcOKfE5
-         aOkg==
-X-Forwarded-Encrypted: i=1; AHgh+Rry/6QvdmKSqlv7GvJFBJxX9Rq/D/B5nCZfepnCjufSC0xv3r11iTlZT9tcz7ky5tpo9WR0LkPs9rqfRRs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxt2gYjAaWa73kWyaXD1DMABLfRQTM/YNzXM4kNWJa+nVjqKEQ
-	D7gjQkr4URO43Uj7Wa+FfpmSdM/URypq/kDNZrjxEEf8o3a57DnpkB5QtfFb+IaZWcA=
-X-Gm-Gg: AR+sD13AunjcKoTKCgnz4mnSsG0ydGD6zSpTfQssWM9HeEyHKd/0DuJZW0kHUjBSO3R
-	CaCZGyGXWnmKlW8FyrPMb+pek710zJfhR6W+nbapYLUjr1JNteFx8+v6EXj9lF8irRX3KhjhraV
-	WVnqQVOHlAO6U+EXpS0NrEePFYbuMCUKXkpEsxBziwIb4GbDs+UBWg/JWFqPB1tXui1AGZ7P/E1
-	uQnq5ZexkpgN29DznFawPVwQMMh/0b38dt2uMRQn+RjNwCVKtfLD497eRYCheamTQ9v+Qx5pIly
-	BzH+7RluWr271lbrl61ZQpDUyY0+DprMtkVJFKf/yzXsSg7wvvhs1Cj+udaHcLJzohIel0Zvwo9
-	QAco2WCxKEXvQhYvMUmwEKIYjMa0lMbu/hzPjNgcxwvPJTsD3Q9RdMKTuLkuVeF6U+3+MSQMC+q
-	ggcToZEiBv6fiWtV/i3IVNYFyVBPkZH4JXqs8q8oALhs3maGBzqZFw59NCoGzD0o87oocqqow=
-X-Received: by 2002:a05:6512:3da4:b0:5ad:5c4a:8221 with SMTP id 2adb3069b0e04-5b2e4cdcb49mr2598346e87.0.1785758352621;
-        Mon, 03 Aug 2026 04:59:12 -0700 (PDT)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2e23cbf5asm2007557e87.32.2026.08.03.04.59.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 04:59:12 -0700 (PDT)
-Date: Mon, 3 Aug 2026 13:59:07 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Konstantin Taranov <kotaranov@microsoft.com>
-Cc: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, 
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "leon@kernel.org" <leon@kernel.org>, 
-	Long Li <longli@microsoft.com>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH rdma-next] RDMA/mana_ib: Retain create CQ flags field name
-Message-ID: <anCBtLSxn8TtFcSz@FV6GYCPJ69>
-References: <20260731091041.2250897-1-jiri@resnulli.us>
- <DU8PR83MB0975547820CBB956D4EFFE57B4C82@DU8PR83MB0975.EURPRD83.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuqdvxUC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785761161; x=1817297161;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T5QKHnwn/S2vdmSJhquNthsYdNLeVOD3Buj2H3yn5jg=;
+  b=kuqdvxUCC3s0DiCHhv1psrlZDrHgavdXMzC1VqjRxUBR8uEkeIons8Av
+   i9mgdRLarJdeC8dU7Rw9X1JxuAfwWjgQyGqO/u1Zvf8GrET3sDAkPAEMu
+   kDhLCO9Mkck49XEt5IX8qj/boD1Wauk8mp+wZQTon2yOOGLj0ZL847+R3
+   orjzllXIoKudU8fJnsqkC/+ZxjLpUMtS6pmCzTey7fKYDk73o7oIMV502
+   P0hbomR0rJAaOsgogpQKkAlsouqQxPMFhWe+K8uQYIRgSDKGZuJ9mYN88
+   xw2S5Sa9IO2+7ajor6Qpdi1qXl4YepNqEJqlKsFSYtVZ1v/XU5/k4iLB9
+   g==;
+X-CSE-ConnectionGUID: w1BoMroLTWejiSX3XiAt1Q==
+X-CSE-MsgGUID: 24RCyaiTSzKojORDhcX6BA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="90179353"
+X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
+   d="scan'208";a="90179353"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 05:45:59 -0700
+X-CSE-ConnectionGUID: nXb4+WhSR0O0XAZ3iUezEA==
+X-CSE-MsgGUID: 7P0f2UefRrWBtoPSdtH3kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
+   d="scan'208";a="257311977"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 03 Aug 2026 05:45:35 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wqs2u-000000006w1-2OOU;
+	Mon, 03 Aug 2026 12:45:32 +0000
+Date: Mon, 3 Aug 2026 20:45:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurence Oberman <loberman@redhat.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scsi: storvsc: Support manual scans for all Hyper-V
+ targets
+Message-ID: <202608032058.OkCwuEDu-lkp@intel.com>
+References: <20260723151458.872265-1-loberman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -77,66 +72,35 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DU8PR83MB0975547820CBB956D4EFFE57B4C82@DU8PR83MB0975.EURPRD83.prod.outlook.com>
+In-Reply-To: <20260723151458.872265-1-loberman@redhat.com>
 
-Fri, Jul 31, 2026 at 02:54:31PM +0200, kotaranov@microsoft.com wrote:
->> From: Jiri Pirko <jiri@nvidia.com>
->> 
->> Commit eb70d83a8645 ("RDMA/mana_ib: Adopt robust udata") renamed the
->> "flags" field of struct mana_ib_create_cq to "comp_mask", as
->> ib_copy_validate_udata_in_cm() only validates a member with that name.
->> 
->> The layout did not change, but the field has been a part of the UAPI since
->> commit 44b607ad4cdf ("RDMA/mana_ib: implement uapi for creation of rnic
->> cq"), so the rename breaks userspace referring to it, for example the mana
->> provider of rdma-core assigning cmd_drv->flags.
->> 
->> Convert the field to a union providing both names, so that
->> ib_copy_validate_udata_in_cm() still finds "comp_mask" and userspace keeps
->> "flags", without having to add a helper for this single case.
->> 
->
->Thanks for the patch, but my understanding that it is a common practice to rename the fields,
->and kernels headers should not accumulate historical names. 
+Hi Laurence,
 
-That is not doable in UAPI. Some userspace app, like rdma-core in
-this case, might use it and rename breaks the compilation. Some other
-app you don't know about may use it.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v7.2-rc6 next-20260731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->I also faced a similar problem from renames in other providers, when I needed a new kernel header in rdma-core.
->If this breaks your rdma-core in a PR, just remove the field rename in kernel update commit as that header update commit is not getting merged anyway from your PR.
->My understanding that maintainers of RDMA-core will merge the kernel header update, and will bring this change from my PR:
->https://github.com/linux-rdma/rdma-core/pull/1765/commits/0dcadd9316f1b98e21973e3a6e0f96186d49bd5a
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurence-Oberman/scsi-storvsc-Support-manual-scans-for-all-Hyper-V-targets/20260803-141419
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20260723151458.872265-1-loberman%40redhat.com
+patch subject: [PATCH] scsi: storvsc: Support manual scans for all Hyper-V targets
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuEDu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608032058.OkCwuEDu-lkp@intel.com/reproduce)
 
-this is not how UAPI can be changed :/ It simply can't be changed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608032058.OkCwuEDu-lkp@intel.com/
 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->
->- Konstantin
->
->> Fixes: eb70d83a8645 ("RDMA/mana_ib: Adopt robust udata")
->> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
->> ---
->>  include/uapi/rdma/mana-abi.h | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->> 
->> diff --git a/include/uapi/rdma/mana-abi.h b/include/uapi/rdma/mana-abi.h
->> index 410f0ddc8c89..431c7076f20a 100644
->> --- a/include/uapi/rdma/mana-abi.h
->> +++ b/include/uapi/rdma/mana-abi.h
->> @@ -25,7 +25,10 @@ enum mana_ib_create_cq_flags {
->> 
->>  struct mana_ib_create_cq {
->>  	__aligned_u64 buf_addr;
->> -	__u16	comp_mask;
->> +	union {
->> +		__u16	comp_mask;
->> +		__u16	flags; /* the original name of the field */
->> +	};
->>  	__u16	reserved0;
->>  	__u32	reserved1;
->>  };
->> --
->> 2.54.0
->
+>> ERROR: modpost: "scsi_scan_host_selected" [drivers/scsi/hv_storvsc.ko] undefined!
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
