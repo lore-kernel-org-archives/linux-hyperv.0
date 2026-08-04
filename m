@@ -1,157 +1,188 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazolkn19010018.outbound.protection.outlook.com [52.103.20.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5939F40FDB9;
-	Tue,  4 Aug 2026 19:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785873274; cv=none; b=OtoU/VgOtPyWoW0K64zWqev6vh1dGkh5S/OCZp9r2XYDfQSRB460ofZTOCGo49OgcC5gHTYpvANCm3aAA417LeAv9FJionag5bnsQEt+LY40bhLEKdzmFn57r5g5LV8NEOKN9fgKTTGguxXeersXW4JfH6z5H7lH+b8qaLE4Oc4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785873274; c=relaxed/simple;
-	bh=rhMwPmtYKuwEVpK+0x3TQhxjvW94aYrV7QgAj5I4QPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZhJeomJkWqLADayw/q+R6sTQGVZ+TaVHEQb95j7GBRAftPJFumu8UfwUkiGqej/lfMVMr07m1iuyH51ygX2LLyXN80ic7pX09Akaaw6O83RQUVtHtuGcUGrOSFFDEK6dAnGMlXUQHv0D7HvwZnnQDa3md0Hm/04uQgI1a2uJyc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cgc/4q5X; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879B5308F32;
+	Tue,  4 Aug 2026 22:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785881867; cv=fail; b=f8Ejb+PHa50ZbpVlwQ+SXss9hyq9AHz/0QPQZo+OinrKwMJt/mxNjkKcqvgW1bag0F0U86t0CHCqRod1lazpMv4nPS47+KKlCPqhfnvRuuitVrrgV3/KjptGIksuuFZUSFKA3Jlqgls6+pZ8BUnKKjR/DS0xAnolmXCrQn0eLgc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785881867; c=relaxed/simple;
+	bh=DAxPxFiu7egSO3cEn/y4hTUDg32mAS9CNRYDqLzi+jw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=dAXW7tPvXjUhLHjJfkBWBNXcjX7uIo+4zIJxR3B1cDs1Q1F7XAx1M2aTupCm6BvAajoDq/h9OD3Q+G3+od/1fbpoB1UIziyFgA7dsdufinvOsgvtrK1xz81KtyXTPjlPYf3PTx8zvkKnEzN3POaTR5IErqurdP8cCnG+uatiumY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=hOwdJoSB; arc=fail smtp.client-ip=52.103.20.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cgc/4q5X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+IzxgHirXh8bANHLHHneykwXTiWqinCHzwnsN/D+w1g=; b=cgc/4q5XWxb+9KHledOTiCkjCj
-	qq0/2fvaHG7Qp83Vg+3/fUN0X2kukF2LFGusGOYQrH0obYRDUEtgSeWR3tr+4dGHM1+rpu/rLQ1Tk
-	0IRno6TRcPM9AAut3SiFQbVeIH55/1SLk/L57s2QIePicpmXv8BSEr/7MiSgs+DW6OKfkUVq4xyWW
-	f/Bg3OJHFn/zCKQb5ODfDBLhY5WYJ9QRUlrhLWFVC+XuxtxkMtKKJouvX0pcB5x+VcFKNyhAxS7MJ
-	mm2BbOwBUTRRIZYT5+BtfzMIOia+PY04wvaF7AiNa2bNuOBjcNm1RZO5LghLrrQ4rMN1nlxylF5zK
-	0KLtQp6A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrLDN-00000004dyG-3Yfn;
-	Tue, 04 Aug 2026 19:54:17 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0A184300B40; Tue, 04 Aug 2026 21:54:17 +0200 (CEST)
-Date: Tue, 4 Aug 2026 21:54:16 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Dmitry Ilvokhin <d@ilvokhin.com>, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, Thomas Gleixner <tglx@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Alice Ryhl <aliceryhl@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
-	linux-arch@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH 1/5] x86/paravirt: Use static_call() for the paravirt
- spinlock ops
-Message-ID: <20260804195416.GJ776954@noisy.programming.kicks-ass.net>
-References: <cover.1785778551.git.d@ilvokhin.com>
- <9a32ae399eb804a02a31af04dcabe7e7ee4f3fdf.1785778551.git.d@ilvokhin.com>
- <20260804190048.GCanI24Hb5P8qAyVZs@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="hOwdJoSB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RWRv4eW83jV3Nr61Jd5jDuo8GHsj1BraxR8Wr1hVMvaG1wyYz/E3VHU8bvU/2PkCiTDUXn2vXkobpIRkBrKtxVHAa0j0NowY7UP/NLwYYgztdLfXsLM5XYWN9+0kTmtRamNR0TgLPCFAoWMoDfei0nemW2mHeZeOVX3zUqZ/dKOOHtt+n8+z4e3WawsIOiFP0nF5FhVKvciDVGoG1H9AnfzaLvK1XthUeVpMOk1BI2wwkaQMiC2tiGrQNpKlYlTX9cC7c6wzZQ8oQ7el1fiVyM+qTzrK203Pj0wTjcuwl5Ckmz27IBg5B56y6mW8S1PCHygrdFYVG4HmXPbae3tOjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DAxPxFiu7egSO3cEn/y4hTUDg32mAS9CNRYDqLzi+jw=;
+ b=Og4o7A8b4JFOh7EcngqqsnaHGmQ2CKKOcuAYfIimY3TZrQNhgNmVSvjXyIL5OdfJvM0jJQ8kSsHB2GtOLf0Ekvj2jtnvO5qmlPBz6EcdYwghJCplmvGQ7e4vghfTW9A/aALjcMon69d/zdyZ++jpiNODOb1FFKQ/z6o9SOUy8eBRbj/oL1I8r8TTGFuxK0t7P9BhPzHy93p4j1DVa9ogtRoB/uN0UNj6zHvCTiEwFgmPSoEkrGSbOSbjdNugRHIK1yWoVgWPqdDu5+Ks5Vrckp3BgQy+LbGZkas267nTuXyTPqQdV7BkRrtBblS33rUn6PMWlg1VIgSREshRwPoj6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DAxPxFiu7egSO3cEn/y4hTUDg32mAS9CNRYDqLzi+jw=;
+ b=hOwdJoSBwkR3QYNoJ4gHy9NLEs4F3PTPqxf/3fkNoKMg/RWwfMWPuCegtZLYoTxgwohsN4V7BpONEB3tSckxsBnF9sHImLb773U2k6ApowzWT78byt6n3bM4dYZ+RahLcZbq5HgBTBGam8qZSuJ1FRaZ9q3JXrSZjrDGnDurxqwxdkmXLt9WKjpDnOzqCuvuVeNg+7ZTRVPvpis5rTtpNOYAMIwAsNtN89dKsQX35RHBp35xhmcn4pu2dIv2rictFfZFHSioEYbe2ky+NFHEjEDylo+KFEmNVAOBDS3MDNNg56A3PVfd005534e1pOHc+T9shOPKP013NdPXPiYTEg==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by PH8PR02MB11473.namprd02.prod.outlook.com (2603:10b6:510:3a2::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
+ 2026 22:17:42 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0292.013; Tue, 4 Aug 2026
+ 22:17:42 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>, Michael Kelley
+	<mhklinux@outlook.com>
+CC: "kys@microsoft.com" <kys@microsoft.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "longli@microsoft.com"
+	<longli@microsoft.com>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for
+ non-nested root partition
+Thread-Topic: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for
+ non-nested root partition
+Thread-Index: AQIocF+/o929maeNmNdFaBWtVJKlPrX3sUUAgAAsGvA=
+Date: Tue, 4 Aug 2026 22:17:42 +0000
+Message-ID:
+ <SN6PR02MB415758E1637A763B06911B8AD4D42@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260804190517.101981-1-mhklinux@outlook.com>
+ <ea0d31c0-5559-462c-b6d3-1ed6c01a9074@linux.microsoft.com>
+In-Reply-To: <ea0d31c0-5559-462c-b6d3-1ed6c01a9074@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|PH8PR02MB11473:EE_
+x-ms-office365-filtering-correlation-id: e1494092-5f66-4c44-8770-08def2763407
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|24021099003|31061999003|41001999006|13091999003|25010399006|55001999006|15080799012|37011999003|51005399006|8062599012|8060799015|19110799012|440099028|3412199025|4302099013|102099032|40105399003|10035399007|2607281247196008|1602099012|1710799026;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?Y2pmd0RIcVo3TFdLaWhYTFQ2emRjR3FoWTBoWWFWKy9Fb2J0ODRUSnFjMnAy?=
+ =?utf-8?B?eXBzVitBaU03Mll4Z0JLT2Y5bWZJTHVmYnM5cE1GNGtid2tnYXVIR0VjcEVU?=
+ =?utf-8?B?QmJlUW5Id3N4SGQ5SHY0T1pOUVNEc05jWklQSW5NN1pubjl6VjM2T1BZUjVI?=
+ =?utf-8?B?M3hCSXVJK0JiQzE2VHQ2M3dVZ01sRmE5di8zWE5pck1JbzR0V2h0MElIcGRK?=
+ =?utf-8?B?Z3ViOE80RXpEM3RDZVpCVElsbWZzZ1c1VTZ6NXpsdXNrZkpHaXY5WlNaWDBS?=
+ =?utf-8?B?VGw3SFlXSk1yTzVFNFJ6NmhYM0JocGxVM2NXVjlpbEpydzVENFFZMk9SbTdr?=
+ =?utf-8?B?VXFpQkxOT2JMRUJQVTl0K3IyTjc5UFhiZWNZTWw1T3F1Q3F2dG9ObG02TkVE?=
+ =?utf-8?B?NUUwb05HSUFRTVFkbCtCOWpVZ05xWkMrMXM3aWtmUldFc0I5UW1hRndiWk56?=
+ =?utf-8?B?SnB2ZFVuYXJWZFFtbW9NcFVHWk41N3p2bzlhYk9DcW00VFZONDYwSzcxREtD?=
+ =?utf-8?B?WXc1QlYzNkRIdk01RTZob3BzK1BidXI5aUVtNEV1Q3VVSHBrZVFyQU5meWRU?=
+ =?utf-8?B?QXZxM3FKb1NrUkVvR0VJeFN0QU5XMk1rT2c1RGkyUjBRSmJGMlZOK3UxYnAx?=
+ =?utf-8?B?ZEtNdGdMajA3NzM5ZXV3QmRrTmZkT0JzdHd2ejJ0ODMzNUtvZGlmM3VtRy9r?=
+ =?utf-8?B?c0FTNlZnV21YZkhKemg3ZStRQmJrcDYzWXBqUkdXL3hlYlBLaWRJOXZvdlRr?=
+ =?utf-8?B?Y0ozcW81NGV3VG5wV2pITkZKam55ZGY2SXhXQkY4cG8yTUNPZytSZ3F2MDJ1?=
+ =?utf-8?B?Nnd3SUpTcFEvRGFNUU5vS1ZZREFGNk1wL0wyMjAvanFhVEpnVW1najNkc1Mw?=
+ =?utf-8?B?MXlGREd0Y1NBTlQxeURzSkRFNjRSWnVMTmFlL2JZR05YTVhPQ2VQOWRETkUw?=
+ =?utf-8?B?MW41bWtuaUtRMmdlalBJN1hJOWdZWThkbjdra2c5c3ZCb0xvajRzMnp0bHdX?=
+ =?utf-8?B?YUM4dldXWHVWNkpYdlhmSk9taWpBUVdDZVkvM1VtajA4WUpya3V4OEZVZi8z?=
+ =?utf-8?B?c2EzeFVlRWNNcTY4ckRwU2RlK0d0elR0dXd0UXRLMjdkMHk3Z1hkMHBYUFJq?=
+ =?utf-8?B?TkJZWEYwTVVxWnpRTjYzR1JVaTlXTE1JODNPeGlRQkpHTThJMjByQTJia2hD?=
+ =?utf-8?B?MWd0aFA2TkxOTk84ZUhhaUwyLy9halRkU05ML3I3R09leGxJbzdRaWdVaVRX?=
+ =?utf-8?B?bjBOM3I0QU5ma3JnZzNTQm84WGl0c0pKWmNJZFNxMFFrd2FlR1pUazUyS0Rw?=
+ =?utf-8?B?ZEhoMUc0Vyt1bEdVYnRsS0Z2QmNwSTRTRk1TNGtqaTdWNCttRXRhdjBsRkl2?=
+ =?utf-8?B?RjJ6bmVvd0U0TGREUlpLSnBlOEZDS3NIbFJiZVZoL1BhN1QwNEViWjRBVUlu?=
+ =?utf-8?B?WEZGZjNrUTNIeTNzR0JZL1ZKcHd5U3FNVklKVVVnbXhqdkQ5NlRrOGJSa29j?=
+ =?utf-8?B?eVA0ZEwzMEV5TnU1ek4wUW95cmxTWm85dkxIdUtVQWgyUS9HajY2TXlRNnZk?=
+ =?utf-8?Q?yZxqwpfniZn0tgQV+7xb2hyLdhfoq1FG4uySkYgwzx2N/T?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?MTdzcnpSZ3BTRW1BZ2ZRS3RMbnUycjJNWVF0anpyRkpNNlhBQnRKY3FGQmVn?=
+ =?utf-8?B?SnJWZU40TzhPNW4xazRjK1oyNUgvampUbWhMMjFaTUdpOGZXd0xNWkhxVFhj?=
+ =?utf-8?B?Y29SZ3N0eHk2UGVKNDJLMSt5alZVSlRVcHIvUlJ4SHdwQ3g1a3dRU3k4anZP?=
+ =?utf-8?B?YnpqdHBhWVNvQUEwM2VXV081UkxuVzRGdmdZamFzaFVRYnIxaFZSczVrTkxv?=
+ =?utf-8?B?TGt1Z3ZtQkEvNUFIcyt3T3RCYWFUME9paTVGYjh1Qk9EaVVudVdLOTJBMncv?=
+ =?utf-8?B?emgvcjhhUTk0eXpRclhQbWFSbWJ1K0NQVDZIejZzbktNQWZDMVN3ZzltUVpC?=
+ =?utf-8?B?TlpaV1Z2ZkU4VzlmcHVwVVhuMHZOdWo1eEZmcEJQTEs5OE1iUGxBcDF3SHE5?=
+ =?utf-8?B?SWtaYk9RMHNOYWMxYUVnVGhJOEpkdVJCWE1XVk1EOHljNTBwTmIvVVEvL2Fz?=
+ =?utf-8?B?azAzNXVTWklPTXFmd1ZocFErREpGOUZucy9XOFRUL0RPUmhUVFNQU05UQzNl?=
+ =?utf-8?B?aGVjNEMyQ210WjZyV1BPT292d3BzOExGMWo2TEJUNHErMmYvYzVaSDBXU3Fh?=
+ =?utf-8?B?czd4VVNWektpOTZUM2VTeU0reTdsTzhTTkoydlZ4RjhmU3hoL3k2U0Y1TDJk?=
+ =?utf-8?B?Qm9DVWRJbVIzajhWZlBIRVhxNnVITThjR2FwRjRCWE1tY1BqL20xVkxJd0VF?=
+ =?utf-8?B?VnE5bStCRlBRaEdjdzNCaVpOL1BMUHJkMjlwSWpoejArQmNMbk9va0I5QnlX?=
+ =?utf-8?B?aXczTGh0djBtQlRrYUFLWlMxRUs1UzkrdFI5cGhacW1aMHhrZmwrQnE2WXRi?=
+ =?utf-8?B?L2tsRU9lSWRsb0JYbDRVdG1wLzd4TkU0cFptK2tQenhEaWk4bC9pV1Z1NVhv?=
+ =?utf-8?B?TjNHNDlvaE15dnFDc0dJUkw4aFVic2ptWmtaQnBncXdXN3ZraEF1STkzTHdh?=
+ =?utf-8?B?N2ZEbjFRcDB1WVNJL1VFL0N4RXdOZGFya0l6RFdZMkJ5S0tBOGJLUEhhRXJH?=
+ =?utf-8?B?Z0IvMWwwNWtDa2YwcEJ3OW5RdTBjaTdzYk0vN3llYmNsMGVHNmpCelVTQUtU?=
+ =?utf-8?B?Yi8vcDVRSE5YYTlqQlNQOWthaGRWRXJJTEdFMTI0bFcxRGZyUERuVDNJRkJ3?=
+ =?utf-8?B?bkZ0SDB2cWp6QldlVlZoZGgyR0V6R0N3eWZtdjdVaSs3c1dQL2tFK1VacGQy?=
+ =?utf-8?B?a0VoamhITFBsZHZjNlRMaWhFVzNGL0hZbGtCYnB4cWZSb2RBNG1KN0NnN1pP?=
+ =?utf-8?B?TVdoQ3l3M0I4WkZqWStTb3ZkQmRmQnJhODU3NmtPcVRNdWFpcEJycXB0eEJa?=
+ =?utf-8?B?dXlQaFlWOGY2Z3dSb0ZDaGVVMnBxZGptYlpqdUpNZ0o0d1IybmVqVjIrbEtE?=
+ =?utf-8?B?ZWUzZERmQ1RET0UxckhhdDc0VUE4cTVEYzE0TElJanIvSmxuSGt2eVdrRGNG?=
+ =?utf-8?B?YmtwUytwTnROL0pqNy8vWTNhWWtxU0hZQjErc1Y1ME5EV3pvOE5YK0NVSW5j?=
+ =?utf-8?B?eTN0NThBRU13dmZIUGpMb2hKbE1yTytKWEFhcTB2QXlNbnZ1a3d0WjJrZEhz?=
+ =?utf-8?B?V1BPRytNbXRBSnVjMFFaQlVBcEhvbTd1RlZMaUxFQWM5RzY5bE5vRWVMaUhJ?=
+ =?utf-8?B?R3JRcDQrU1VyTCtWNW05WmJpaTVHMnZMUzk2SEx4aFlrUU80WUxLTVY4bUtm?=
+ =?utf-8?B?bDcvUUU0QzBpWm1MU05SNnlTR0xtNm84TGc4YzFOQWhON1FLSFEzQ1M0R1hR?=
+ =?utf-8?B?dzNNczlDSmpmK3U3YWRUYWYwTzN3a0xmaG0ySDFlNU5mQTQ2VmtrQkNaMjVF?=
+ =?utf-8?Q?mHNjlM/1+PUNd0nzb4XWiUi7+jn1e/y0xCOic=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804190048.GCanI24Hb5P8qAyVZs@fat_crate.local>
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1494092-5f66-4c44-8770-08def2763407
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2026 22:17:42.5737
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR02MB11473
 
-On Tue, Aug 04, 2026 at 12:00:48PM -0700, Borislav Petkov wrote:
-> On Tue, Aug 04, 2026 at 07:15:41AM +0000, Dmitry Ilvokhin wrote:
-> > From: Peter Zijlstra <peterz@infradead.org>
-> > 
-> > queued_spin_lock_slowpath() and queued_spin_unlock() are dispatched
-> > through pv_ops_lock via the paravirt-ops ALTERNATIVE machinery, which
-> > picks the target (native inline store / hypervisor call) once at boot
-> > and cannot change at runtime.
-> > 
-> > Convert both to static_call(). The site becomes a direct call patched in
-> > place (one byte smaller), and on native the unlock still collapses to
-> > the inline "movb $0, (%rdi)" store, so the fast path is unchanged.
-> > 
-> > Unlike the ALTERNATIVE mechanism, a static_call() target can also be
-> > updated at runtime via static_call_update(). This is a prerequisite for
-> > the contended_release tracepoint, which has to swap in a traced unlock
-> > while the system is running.
-> > 
-> > [ ilvokhin: commit message; fix PARAVIRT_SPINLOCKS=n build; teach
-> >   __static_call_validate() about the inline unlock insn; make the
-> >   slowpath site module-safe: static_call_mod() +
-> >   EXPORT_STATIC_CALL_TRAMP(); pass @lock to the callee-save unlock,
-> >   fixing a boot hang under CALL_DEPTH_TRACKING. Boot tested native + KVM
-> >   PV guest. ]
-> > 
-> > Link: https://lore.kernel.org/all/20260603120811.GW3493090@noisy.programming.kicks-ass.net/
-> > Co-developed-by: Dmitry Ilvokhin <d@ilvokhin.com>
-> > Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
-> 
-> This needs Peter's SOB.
-
-Yeah, that got fixed when I applied it ;-)
-
-> > ---
-> >  arch/x86/hyperv/hv_spinlock.c            |  4 ++--
-> >  arch/x86/include/asm/cpufeatures.h       |  1 -
-> >  arch/x86/include/asm/paravirt-spinlock.h | 19 +++++++++++------
-> >  arch/x86/kernel/kvm.c                    |  5 ++---
-> >  arch/x86/kernel/paravirt-spinlocks.c     | 12 +++++------
-> >  arch/x86/kernel/static_call.c            | 27 ++++++++++++++++++++++++
-> >  arch/x86/xen/spinlock.c                  |  5 ++---
-> >  tools/arch/x86/include/asm/cpufeatures.h |  1 -
-> >  8 files changed, 51 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
-> > index 210b494e4de0..6b4bdea18218 100644
-> > --- a/arch/x86/hyperv/hv_spinlock.c
-> > +++ b/arch/x86/hyperv/hv_spinlock.c
-> > @@ -78,8 +78,8 @@ void __init hv_init_spinlocks(void)
-> >  	pr_info("PV spinlocks enabled\n");
-> >  
-> >  	__pv_init_lock_hash();
-> > -	pv_ops_lock.queued_spin_lock_slowpath = __pv_queued_spin_lock_slowpath;
-> > -	pv_ops_lock.queued_spin_unlock = PV_CALLEE_SAVE(__pv_queued_spin_unlock);
-> > +	static_call_update(queued_spin_lock_slowpath, __pv_queued_spin_lock_slowpath);
-> > +	static_call_update(queued_spin_unlock, __raw_callee_save___pv_queued_spin_unlock);
-> >  	pv_ops_lock.wait = hv_qlock_wait;
-> >  	pv_ops_lock.kick = hv_qlock_kick;
-> >  	pv_ops_lock.vcpu_is_preempted = PV_CALLEE_SAVE(hv_vcpu_is_preempted);
-> > diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> > index 1b4a48bff18f..e41fe5c24841 100644
-> > --- a/arch/x86/include/asm/cpufeatures.h
-> > +++ b/arch/x86/include/asm/cpufeatures.h
-> > @@ -225,7 +225,6 @@
-> >  #define X86_FEATURE_EPT_AD		( 8*32+17) /* "ept_ad" Intel Extended Page Table access-dirty bit */
-> >  #define X86_FEATURE_VMCALL		( 8*32+18) /* Hypervisor supports the VMCALL instruction */
-> >  #define X86_FEATURE_VMW_VMMCALL		( 8*32+19) /* VMware prefers VMMCALL hypercall instruction */
-> > -#define X86_FEATURE_PVUNLOCK		( 8*32+20) /* PV unlock function */
-> 
-> No, do:
-> 
-> /* free: was #define X86_FEATURE_PVUNLOCK		( 8*32+20) /* PV unlock function */
-> 
-> so that we can reuse it by finding it easier.
-
-Sure, I can do that.
+RnJvbTogRWFzd2FyIEhhcmloYXJhbiA8ZWFzd2FyLmhhcmloYXJhbkBsaW51eC5taWNyb3NvZnQu
+Y29tPiBTZW50OiBUdWVzZGF5LCBBdWd1c3QgNCwgMjAyNiAxMjo0MCBQTQ0KPiANCj4gT24gOC80
+LzIwMjYgMTI6MDUsIE1pY2hhZWwgS2VsbGV5IHdyb3RlOg0KPiA+IFRoZSBWTUJ1cyBtb2R1bGUg
+c2hvdWxkIG5vdCBiZSBsb2FkZWQgd2hlbiBMaW51eCBpcyBydW5uaW5nIGRpcmVjdGx5DQo+ID4g
+aW4gdGhlIHJvb3QgcGFydGl0aW9uIGFuZCByb290IGlzIG5vdCBuZXN0ZWQgaW4gYW5vdGhlciBW
+TS4gQ3VycmVudA0KPiA+IGNvZGUgY2hlY2tzIHRoaXMgY29uZGl0aW9uIGFuZCBza2lwcyBWTUJ1
+cyBtb2R1bGUgaW5pdGlhbGl6YXRpb24sIHdoaWNoDQo+ID4gd29ya3MuIEJ1dCBpdCByZXR1cm5z
+IDAgYXMgdGhlIHJlc3VsdCwgc28gTGludXggdGhpbmtzIHRoZSBtb2R1bGUgaGFzDQo+ID4gc3Vj
+Y2Vzc2Z1bGx5IGxvYWRlZC4gTGF0ZXIsIGlmIHRoZSBtb2R1bGUgd2VyZSB0byBiZSB1bmxvYWRl
+ZCwgdGhlDQo+ID4gVk1CdXMgbW9kdWxlIHVubG9hZCBjb2RlIHRyaWVzIHRvIGNsZWFuIHVwIHRo
+aW5ncyB0aGF0IHdlcmUgbmV2ZXINCj4gPiBpbml0aWFsaXplZCwgcmVzdWx0aW5nIGluIG1lbW9y
+eSBmYXVsdHMgYW5kIGEgcGFuaWMuDQo+ID4NCj4gPiBGaXggdGhpcyBieSBoYXZpbmcgVk1CdXMg
+bW9kdWxlIGluaXRpYWxpemF0aW9uIHJldHVybiAtRU5PREVWIGZvciB0aGlzDQo+ID4gY2FzZS4g
+VGhlIG1vZHVsZSBpcyB0aGVuIG5vdCBsb2FkZWQsIGFuZCB0aGUgdW5sb2FkIHBhdGggY2FuIG5l
+dmVyIHJ1bi4NCj4gPg0KPiA+IFJlcG9ydGVkLWJ5OiBTYXNoaWtvIDxzYXNoaWtvLWJvdEBrZXJu
+ZWwub3JnPg0KPiA+IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtDQo+IGh5
+cGVydi8yMDI2MDcyMTE1NDk0My5BMDlCRDFGMDBBM0RAc210cC5rZXJuZWwub3JnLw0KPiA+IEZp
+eGVzOiA3ZTI3OWQ3ODY2NGFhICgiRHJpdmVyczogaHY6IHZtYnVzOiBza2lwIFZNQnVzIGluaXRp
+YWxpemF0aW9uIGlmIExpbnV4IGlzIHJvb3QiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwg
+S2VsbGV5IDxtaGtsaW51eEBvdXRsb29rLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9odi92
+bWJ1c19kcnYuYyB8IDIgKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9odi92bWJ1c19kcnYu
+YyBiL2RyaXZlcnMvaHYvdm1idXNfZHJ2LmMNCj4gPiBpbmRleCBlMTllYzczYjAxODcuLjg0OWQ3
+ZTFhNzMyMCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2h2L3ZtYnVzX2Rydi5jDQo+ID4gKysr
+IGIvZHJpdmVycy9odi92bWJ1c19kcnYuYw0KPiA+IEBAIC0yOTc2LDcgKzI5NzYsNyBAQCBzdGF0
+aWMgaW50IF9faW5pdCBodl9hY3BpX2luaXQodm9pZCkNCj4gPiAgCQlyZXR1cm4gLUVOT0RFVjsN
+Cj4gPg0KPiA+ICAJaWYgKGh2X3Jvb3RfcGFydGl0aW9uKCkgJiYgIWh2X25lc3RlZCkNCj4gPiAt
+CQlyZXR1cm4gMDsNCj4gPiArCQlyZXR1cm4gLUVOT0RFVjsNCj4gPg0KPiA+ICAJLyoNCj4gPiAg
+CSAqIEdldCBBQ1BJIHJlc291cmNlcyBmaXJzdC4NCj4gDQo+IFRoaXMgc2VlbXMgc3RyYWlnaHRm
+b3J3YXJkOg0KDQpBbGFzLCBpdCdzIG5vdCBzbyBzdHJhaWdodGZvcndhcmQsIGFzIFNhc2hpa28g
+cG9pbnRlZCBvdXQuICBJIGtuZXcgdGhhdA0KdGhlIG1zaHYgbW9kdWxlIGhhcyBhIGRlcGVuZGVu
+Y3kgb24gdGhlIHZtYnVzIG1vZHVsZSwgYnV0IGhhZA0KZm9yZ290dGVuLiBUaGVyZSdzIGEgcmVh
+c29uIGZvciB0aGUgZGVwZW5kZW5jeSBhcyBkZXNjcmliZWQgaW4gdGhlDQpjb21taXQgbWVzc2Fn
+ZSBmb3IgODQwYjc0MGEzNWJmLg0KDQpUaGVyZSdzIGFub3RoZXIgZWFzeSB3YXkgdG8gZml4IHRo
+ZSBWTUJ1cyBtb2R1bGUgdW5sb2FkIHByb2JsZW0uDQpJJ2xsIHNlbmQgYSB2Mi4gOi0pDQoNCk1p
+Y2hhZWwNCg0KPiANCj4gDQo+IFJldmlld2VkLWJ5OiBFYXN3YXIgSGFyaWhhcmFuIDxlYXN3YXIu
+aGFyaWhhcmFuQGxpbnV4Lm1pY3Jvc29mdC5jb20+DQoNCg==
