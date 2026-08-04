@@ -1,202 +1,176 @@
-Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B1E42AFB6;
-	Tue,  4 Aug 2026 07:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.62.254.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698213C9EDD;
+	Tue,  4 Aug 2026 07:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785827781; cv=none; b=pHic0dWImEerwFFImvggAIFH/NfDvvW6fUwT9hNQ6nZ5ZiH4Kq6cIMf1NdBYRk5tVOd/7esuD1Q6ut392e1GKYSZn1mB6VzUdDOxNdBy1wlB7FOr/yWuc2C8CmJDMy/paSj7dfI0opTZcHIvn44VB5iNBN7NrPC8VGAqwjTqH1o=
+	t=1785828964; cv=none; b=IB92Cyvzy3UawlwvaxR2BoDU/v/E3HSlKfFjLv1di3MLjY5h8kw0Oo2UZ9rtUwbnjRrNIaKSfx0rTfoJx9NK3PJ0LoNCV3Hhp1HYJw52uMeSPPy70VvGU4LJt4lz7bhKqeXZKPJ/Q7kEXra9x/Zv5SPEb+PdDbkWkok55WvASQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785827781; c=relaxed/simple;
-	bh=JESu/AclIL3+BmuW3VoymqC5DgpEXPwYsbzIHy7VIuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n1Z0xmP17e4oShp+UkHpthf6QeTrRgbwe4rY5Om2hOZpSVDiGX/nmF7CcSmGeNLI9rZ/g/Z6t1KEdK9igmTJFS/W4N0dgGRV4+f6uYdLRJjMY8CiMBYq+2IczIDcQkpCx6VBj3rrL980QzddPA2VxDPe6+1aVJ5Kivbzt42NFXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com; spf=pass smtp.mailfrom=ilvokhin.com; dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b=YCa2mhDC; arc=none smtp.client-ip=178.62.254.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
+	s=arc-20240116; t=1785828964; c=relaxed/simple;
+	bh=EJJ193UySnwbWymTAPQfISlUSrqUut1CwCXNbxDNPMI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=OQlTJolFWAW9+zko77oiYIDYgrLxs7Ltt3/dTqNPKqw+33RQYNS2S5k7xhMFa9CJNkRpKSmW5xMwgaJTD2FqdmQSEy8HVUdZThcOIh98d/u0jjqS1F18ANboKQivvt1H2mKbzD6/OlrvaBBE8SNzR8/WHabH+NV6n5MEHW3KESQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyqgoA41; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ilvokhin.com header.i=@ilvokhin.com header.b="YCa2mhDC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1785827770;
-	bh=MJXFdixHataYYt87xEtn0QdfMJOi3nH/EXHHrFBbQBU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YCa2mhDCHjFFX0O6d3S1tYEYBR/Jb4ai4lQlH0qCvYfntcHb1/+MEaIyrBX3QT0u1
-	 jViT9cjtE41ag6sP28YwsfmBHSjMYS3PwUlLcqd8dqfNVR1ReEl98E/Q9nIoYF3BTz
-	 G+fzkT2LOVauhNUbkR9kOT4y87KoehBEuITFVAbI=
-Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
-	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 77194E16E0;
-	Tue, 04 Aug 2026 07:16:10 +0000 (UTC)
-From: Dmitry Ilvokhin <d@ilvokhin.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Juergen Gross <jgross@suse.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-arch@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [PATCH 5/5] x86/paravirt: Trace contended_release on unlock
-Date: Tue,  4 Aug 2026 07:15:45 +0000
-Message-ID: <17fa67f9fa4cf93f1150725e89f5f916e41a9b6f.1785778551.git.d@ilvokhin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1785778551.git.d@ilvokhin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyqgoA41"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C33681F00A3A;
+	Tue,  4 Aug 2026 07:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785828963;
+	bh=j7Qmntk2tBJFBDcj/36C0Dw/HVIoGjptr9Cb3gTmcJg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=HyqgoA419F8tZr7WFw81sy0EPxzRwvUWCFIfdnhWzy7BapofKF9o1udh0d77ymLLx
+	 a5IlNPglI5KCIoG2RBPjXJXjPZHV+p1CtErT73ggFc65ETD050IBMJOQLHqcpnZN26
+	 msrP1SWkuIQLfbeiZ/6WX/9rgv+J8vIR9f6rXP3PztxiT8jPWbCysI2JvGNJiMGxWL
+	 EX4Llsh06VNa9XAHNS+h+Ni501FYUF6hqtTVTPM9R8jUpQ8HGT2XOMzhxapOKSIOqI
+	 hrKGFdjObi/Hi3NmGyKjY/5B/6cIDy6C3dKp5vv0op9ke7h0lV5OEafjdJOF4MKlIK
+	 08p2l6X6MGR6w==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/5] locking/qspinlock: Add contended_release tracepoint
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dmitry Ilvokhin" <d@ilvokhin.com>
+Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <0d998e22a0c595f670cfc6725bb683323aced5cb.1785778551.git.d@ilvokhin.com>
 References: <cover.1785778551.git.d@ilvokhin.com>
+ <0d998e22a0c595f670cfc6725bb683323aced5cb.1785778551.git.d@ilvokhin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 Aug 2026 07:36:02 +0000
+Message-Id: <20260804073602.C33681F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On PARAVIRT_SPINLOCKS=y kernels queued_spin_unlock() is dispatched
-through a static_call(). Those PARAVIRT_SPINLOCKS=y kernels are quite
-popular. Gating contended_release behind a static branch would leave a
-NOP on the unlock hot path even, when the tracepoint is disabled.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] The inline function `queued_spin_unlock()` references a GPL-only t=
+racepoint symbol, inadvertently turning `spin_unlock()` into a GPL-only API=
+ and breaking non-GPL out-of-tree modules.
+- [High] The lock release tracepoint bypasses the RCU watching check, allow=
+ing trace probes to execute unsafely in idle/offline contexts.
+--
 
-Since the static_call() is already present, swap its target to a traced
-unlock, when the tracepoint is enabled instead. When contended_release
-tracepoint is disabled the target is the plain unlock (an inline store
-on native x86_64), so the unlock path is unchanged and the tracepoint is
-truly zero-cost.
+--- Patch [3]: [PATCH 3/5] locking/qspinlock: Add contended_release tracepo=
+int ---
+commit afc21b7e9fbc296817ffabe3684c2756069801e5
+Author: Dmitry Ilvokhin <d@ilvokhin.com>
 
-Provide two traced variants, native_queued_spin_unlock_traced() and
-pv_queued_spin_unlock_traced(), so each tail-calls its own base unlock
-directly rather than recursing through the now-traced static_call().
+locking/qspinlock: Add contended_release tracepoint
 
-Teach pv_is_native_spin_unlock() that the traced native variant still
-counts as native.
+This commit adds a contended_release tracepoint to qspinlock to allow
+attributing a contended spinlock to its holder. It combines the contention
+check and trace call in an out-of-line function to minimize overhead on
+the hot path. The feature is gated behind a new configuration option.
 
-Only PARAVIRT_SPINLOCKS=y is affected. PARAVIRT_SPINLOCKS=n keeps the
-generic static-branch path.
+Link: https://lore.kernel.org/all/aiphFXe_TPNPxZ_n@shell.ilvokhin.com/
 
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
----
- arch/x86/include/asm/paravirt-spinlock.h |  2 +
- arch/x86/kernel/paravirt-spinlocks.c     | 53 +++++++++++++++++++++++-
- 2 files changed, 53 insertions(+), 2 deletions(-)
+> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinl=
+ock.h
+> index ae45289e8ec7f..2ca94e41823b9 100644
+> --- a/include/asm-generic/qspinlock.h
+> +++ b/include/asm-generic/qspinlock.h
+[ ... ]
+> @@ -130,12 +131,32 @@ static __always_inline void queued_spin_release(str=
+uct qspinlock *lock)
+>  #endif
+> =20
+>  #ifndef queued_spin_unlock
+> +
+> +DECLARE_TRACEPOINT(contended_release);
+> +
+> +extern void queued_spin_release_traced(struct qspinlock *lock);
+> +
+>  /**
+>   * queued_spin_unlock - unlock a queued spinlock
+>   * @lock : Pointer to queued spinlock structure
+> + *
+> + * Generic tracing wrapper around the arch-overridable
+> + * queued_spin_release().
+>   */
+>  static __always_inline void queued_spin_unlock(struct qspinlock *lock)
+>  {
+> +	/*
+> +	 * Trace and release are combined in queued_spin_release_traced() so
+> +	 * the compiler does not need to preserve the lock pointer across the
+> +	 * function call, avoiding callee-saved register save/restore on the
+> +	 * hot path. queued_spin_release() is therefore called both here and in
+> +	 * queued_spin_release_traced(). Keep the two in sync.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_QUEUED_SPINLOCKS_TRACE_CONTENDED_RELEASE) &&
+> +	    tracepoint_enabled(contended_release)) {
 
-diff --git a/arch/x86/include/asm/paravirt-spinlock.h b/arch/x86/include/asm/paravirt-spinlock.h
-index ff735830de4a..302bc2ba3a75 100644
---- a/arch/x86/include/asm/paravirt-spinlock.h
-+++ b/arch/x86/include/asm/paravirt-spinlock.h
-@@ -99,6 +99,8 @@ bool __raw_callee_save___native_vcpu_is_preempted(long cpu);
- 
- void __init native_pv_lock_init(void);
- __visible void __native_queued_spin_unlock(struct qspinlock *lock);
-+__visible void native_queued_spin_unlock_traced(struct qspinlock *lock);
-+__visible void pv_queued_spin_unlock_traced(struct qspinlock *lock);
- bool pv_is_native_spin_unlock(void);
- __visible bool __native_vcpu_is_preempted(long cpu);
- bool pv_is_native_vcpu_is_preempted(void);
-diff --git a/arch/x86/kernel/paravirt-spinlocks.c b/arch/x86/kernel/paravirt-spinlocks.c
-index ddc19dc28ba1..ca12b3655307 100644
---- a/arch/x86/kernel/paravirt-spinlocks.c
-+++ b/arch/x86/kernel/paravirt-spinlocks.c
-@@ -7,6 +7,7 @@
- #include <linux/spinlock.h>
- #include <linux/export.h>
- #include <linux/jump_label.h>
-+#include <trace/events/lock.h>
- 
- DEFINE_STATIC_KEY_FALSE(virt_spin_lock_key);
- 
-@@ -30,10 +31,58 @@ EXPORT_STATIC_CALL_TRAMP(queued_spin_lock_slowpath);
- DEFINE_STATIC_CALL(queued_spin_unlock, __raw_callee_save___native_queued_spin_unlock);
- EXPORT_STATIC_CALL_TRAMP(queued_spin_unlock);
- 
-+/*
-+ * Traced unlock variants, swapped in via static_call while the
-+ * contended_release tracepoint is enabled. Two of them, so each tail calls its
-+ * own base directly.
-+ */
-+__visible void native_queued_spin_unlock_traced(struct qspinlock *lock)
-+{
-+	if (queued_spin_is_contended(lock))
-+		trace_call__contended_release(lock);
-+	native_queued_spin_unlock(lock);
-+}
-+PV_CALLEE_SAVE_REGS_THUNK(native_queued_spin_unlock_traced);
-+
-+__visible void pv_queued_spin_unlock_traced(struct qspinlock *lock)
-+{
-+	if (queued_spin_is_contended(lock))
-+		trace_call__contended_release(lock);
-+	__raw_callee_save___pv_queued_spin_unlock(lock);
-+}
-+PV_CALLEE_SAVE_REGS_THUNK(pv_queued_spin_unlock_traced);
-+
- bool pv_is_native_spin_unlock(void)
- {
--	return static_call_query(queued_spin_unlock) ==
--		__raw_callee_save___native_queued_spin_unlock;
-+	void *unlock = static_call_query(queued_spin_unlock);
-+
-+	return unlock == __raw_callee_save___native_queued_spin_unlock ||
-+	       unlock == __raw_callee_save_native_queued_spin_unlock_traced;
-+}
-+
-+int arch_contended_release_trace_reg(void)
-+{
-+	void *cur = static_call_query(queued_spin_unlock);
-+
-+	if (cur == __raw_callee_save___native_queued_spin_unlock)
-+		static_call_update(queued_spin_unlock,
-+				   __raw_callee_save_native_queued_spin_unlock_traced);
-+	else if (cur == __raw_callee_save___pv_queued_spin_unlock)
-+		static_call_update(queued_spin_unlock,
-+				   __raw_callee_save_pv_queued_spin_unlock_traced);
-+	return 0;
-+}
-+
-+void arch_contended_release_trace_unreg(void)
-+{
-+	void *cur = static_call_query(queued_spin_unlock);
-+
-+	if (cur == __raw_callee_save_native_queued_spin_unlock_traced)
-+		static_call_update(queued_spin_unlock,
-+				   __raw_callee_save___native_queued_spin_unlock);
-+	else if (cur == __raw_callee_save_pv_queued_spin_unlock_traced)
-+		static_call_update(queued_spin_unlock,
-+				   __raw_callee_save___pv_queued_spin_unlock);
- }
- 
- __visible bool __native_vcpu_is_preempted(long cpu)
--- 
-2.53.0-Meta
+[Severity: High]
+Does this inadvertently make spin_unlock() a GPL-only API?
 
+The contended_release tracepoint is exported via EXPORT_TRACEPOINT_SYMBOL_G=
+PL
+in mutex.c.
+
+When spin_unlock() is inlined, this injects the GPL-only symbol into every
+module calling spin_unlock().
+
+Would this break the compilation or loading of non-GPL out-of-tree modules
+due to referencing a GPL-only symbol?
+
+> +		queued_spin_release_traced(lock);
+> +		return;
+> +	}
+>  	queued_spin_release(lock);
+>  }
+>  #endif
+> diff --git a/kernel/locking/qspinlock.c b/kernel/locking/qspinlock.c
+> index af8d122bb649e..33fe6d437c8f6 100644
+> --- a/kernel/locking/qspinlock.c
+> +++ b/kernel/locking/qspinlock.c
+[ ... ]
+> @@ -104,6 +104,28 @@ static __always_inline u32  __pv_wait_head_or_lock(s=
+truct qspinlock *lock,
+>  #define queued_spin_lock_slowpath	native_queued_spin_lock_slowpath
+>  #endif
+> =20
+> +#if !defined(queued_spin_unlock) && \
+> +	IS_ENABLED(CONFIG_QUEUED_SPINLOCKS_TRACE_CONTENDED_RELEASE)
+> +/*
+> + * Out-of-line trace-and-release path for queued_spin_unlock(), used when
+> + * the contended_release tracepoint is enabled.
+> + *
+> + * queued_spin_release() is duplicated here on purpose: doing the release
+> + * in this function (rather than tracing here and releasing in the calle=
+r)
+> + * lets queued_spin_unlock() return right after the call, so the
+> + * tracepoint-disabled hot path never has to keep lock live across a call
+> + * in a callee-saved register. Keep this release in sync with the one in
+> + * queued_spin_unlock().
+> + */
+> +void __lockfunc queued_spin_release_traced(struct qspinlock *lock)
+> +{
+> +	if (queued_spin_is_contended(lock))
+> +		trace_call__contended_release(lock);
+
+[Severity: High]
+Does calling trace_call__contended_release() directly bypass the RCU
+watching checks?
+
+Raw spinlocks are often used in the scheduler idle loop or CPU hotplug
+paths where RCU is explicitly not watching (for example, after
+rcu_idle_enter() is called).
+
+The standard trace_contended_release() wrapper includes a lockdep safety
+check to warn if RCU is not watching.
+
+Could this direct call allow trace probes to execute unsafely in idle or
+offline contexts, potentially causing RCU splats or use-after-free bugs if
+attached BPF programs or ftrace plugins dereference RCU-protected data?
+
+> +	queued_spin_release(lock);
+> +}
+> +EXPORT_SYMBOL(queued_spin_release_traced);
+> +#endif
+> +
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1785778551.gi=
+t.d@ilvokhin.com?part=3D3
