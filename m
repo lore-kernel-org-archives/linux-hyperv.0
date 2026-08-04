@@ -1,101 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E363921C8
-	for <linux-hyperv@vger.kernel.org>; Tue,  4 Aug 2026 19:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2295A38399C;
+	Tue,  4 Aug 2026 19:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785871288; cv=none; b=fkLuIu1yNkBRmHyyPYw8vb/ZNizCHQb3SbWj3tQDkjciClovhtipk69CNvcbKnZAUutV9X1A6vTE2FUqusXRyjth9r7F8lpBFJpt/xxdOZW/dClBKAl1vqGkiszHCUNBUWp9E3u6l9s37pxx0+y4y1CLwXZLVu6expl+vDY4Rv0=
+	t=1785872762; cv=none; b=kIKYnZUcsG1yVKCCMfkp6vDyR321UxCy5y6iRYi+mf0vGqQD8hbt77AmJgZRbGVW6YtNn04/6YUlucFlbDaE0gZRqM7cQxB/7ZlGNV/fXodkht4ILM16Y0X7uacuO1j5pfB/P+bUHigwMm+HmSA3x1kuPv7VVuFPkw6v6vrb3c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785871288; c=relaxed/simple;
-	bh=CpHs2dscLVTAvHsliwt4qh3ANfN+sYlFgmLmLJ9jtls=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=YuzRtsrrhY1lPhLNlillLcdwm5iBlrxE+in9uOWmn9208JLSt3v1eToRBh+oaZ1tCvwMaZlwQHtPUbWhbk98egzDW3dyjjhR3O0x7lfwO3HZWBTFamIJ32QzIfIpxChRz8VaVQLIDSmS8w9VXM6iBmVKjXNXTPTNnQ8B3RIrq/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+TC9Yzs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785872762; c=relaxed/simple;
+	bh=1V8gouu3kMMUDN4lM+ccq6wspVoJ3edHPbLouduNNnM=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=fW8MHmnznE2KNdSuzS9e4OU3EPsrYBMbg5cJfmjTKIfQZKw5pRlKwaLIcyJ4011emSQuynW8r8uqbd3TvibykNsthrDeBFS1q5eu/XbD81x4ooBeFuAt+ZGkIA4jbXx065edKj5GN6VcAZCsONo1wvy3waynMAm2WsTZfI5QIWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MqJBON4a; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+TC9Yzs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6851F000E9;
-	Tue,  4 Aug 2026 19:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785871286;
-	bh=zUVSoBztXiPCebt2p43vr8NBpUw/rvLBqPXcCATukgA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=J+TC9YzsAUAnf0mGc4Ok+nFN+o5v06omfNz+8uBozKLm/vL07KwISCo0KwT0Nvg4b
-	 kR7yXA8GoCBl6jIpjEJ6BZQkAIfiNLw9slANe3MfcldQ4izCt05vWvnj8JuPBMXjwA
-	 EbT2JNnQ3aULlNotRLqTyx1GKEgKVqVWIeV7BEYQ7m3qo475Bp1Dr7rJ03iyRSOXVl
-	 cRtV0cgHFSvcy9hysEs9PJCFFoDU/vLqE+6NiQWfWxzigdZ8UvSNs0WlMj7hWD/FGZ
-	 ANh6lltwgi6FevA1YJQw5ShJUvAAWh27Khddwsrdf5KIsCAGPRSdf8hlzVZ82murO6
-	 XAEzHm08x7n0g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for
- non-nested root partition
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michael Kelley" <mhkelley58@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260804190517.101981-1-mhklinux@outlook.com>
-References: <20260804190517.101981-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Aug 2026 19:21:26 +0000
-Message-Id: <20260804192126.9B6851F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MqJBON4a"
+Received: from [100.64.160.72] (unknown [52.148.171.5])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5FB9420B7169;
+	Tue,  4 Aug 2026 12:39:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5FB9420B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1785872369;
+	bh=AfmE6ydRnH/9XGZDFiN6AXwfJD/eQ2/hMzPtRMmhSss=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=MqJBON4aaP0EUm1+w+WrV8giQoy3CTZhCP4hLVOWqmejnrY9ALMIwuWD0uxHo3xfx
+	 QO4r+Izn1TWNIVImaV7QEvqv1ovSaFdCXDQVT5AzRPc3/CNNpZnuZq6CrCBJf+xEPl
+	 ov3YB/UoTeUA2G7RksHMziIVAOn4mVSwX1hphfCk=
+Message-ID: <ea0d31c0-5559-462c-b6d3-1ed6c01a9074@linux.microsoft.com>
+Date: Tue, 4 Aug 2026 12:39:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, longli@microsoft.com, linux-hyperv@vger.kernel.org,
+ easwar.hariharan@linux.microsoft.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for
+ non-nested root partition
+To: mhklinux@outlook.com
+References: <20260804190517.101981-1-mhklinux@outlook.com>
+From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20260804190517.101981-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Returning -ENODEV in the root partition prevents the hv_vmbus modu=
-le from loading, which breaks the loading of the mshv_root module when both=
- are configured as loadable modules.
---
-
---- Patch [1]: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for n=
-on-nested root partition ---
-commit 49405a084beb024e2ba8a360ff4836611b21617d
-Author: Michael Kelley <mhkelley58@gmail.com>
-
-Drivers: hv: vmbus: Fail VMBus module init for non-nested root partition
-
-This commit changes the VMBus module initialization to return -ENODEV inste=
-ad
-of 0 when running directly in the root partition and not nested. This is
-intended to prevent the module from successfully loading and later causing
-memory faults or a panic during unload when resources were never initialize=
-d.
-
-Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@sm=
-tp.kernel.org/
-
+On 8/4/2026 12:05, Michael Kelley wrote:
+> The VMBus module should not be loaded when Linux is running directly
+> in the root partition and root is not nested in another VM. Current
+> code checks this condition and skips VMBus module initialization, which
+> works. But it returns 0 as the result, so Linux thinks the module has
+> successfully loaded. Later, if the module were to be unloaded, the
+> VMBus module unload code tries to clean up things that were never
+> initialized, resulting in memory faults and a panic.
+> 
+> Fix this by having VMBus module initialization return -ENODEV for this
+> case. The module is then not loaded, and the unload path can never run.
+> 
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@smtp.kernel.org/
+> Fixes: 7e279d78664aa ("Drivers: hv: vmbus: skip VMBus initialization if Linux is root")
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> ---
+>  drivers/hv/vmbus_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 6824bd7cb3c4f..7d5021ceea84f 100644
+> index e19ec73b0187..849d7e1a7320 100644
 > --- a/drivers/hv/vmbus_drv.c
 > +++ b/drivers/hv/vmbus_drv.c
-> @@ -2982,7 +2982,7 @@ static int __init hv_acpi_init(void)
+> @@ -2976,7 +2976,7 @@ static int __init hv_acpi_init(void)
 >  		return -ENODEV;
-> =20
+>  
 >  	if (hv_root_partition() && !hv_nested)
 > -		return 0;
 > +		return -ENODEV;
-
-[Severity: High]
-Does returning -ENODEV here break dependent modules when both are built as
-loadable modules?
-
-If the VMBus initialization returns an error on a non-nested root partition,
-the hv_vmbus module will fail to load and its symbols (like hv_vmbus_exists=
-())
-will not be exported.
-
-This would prevent the mshv_root module from loading on the root partition
-since it depends on those exported symbols, completely breaking mshv_root
-functionality in its only intended environment.
-
-> =20
+>  
 >  	/*
 >  	 * Get ACPI resources first.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260804190517.1019=
-81-1-mhklinux@outlook.com?part=3D1
+This seems straightforward:
+
+
+Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
