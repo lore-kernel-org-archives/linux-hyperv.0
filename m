@@ -1,55 +1,46 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1768340A6B;
-	Tue,  4 Aug 2026 12:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C1C45DF6B;
+	Tue,  4 Aug 2026 13:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785845818; cv=none; b=Pki3PhKSiAx0em1pwo1PZZc1UX0AI6e390BEqyAVE8gRMnLOZtziwEx3rcSDtMsK/TNVDQUQvreq3rYO2Is7bOkMoCse4OEMYV7MJy5EONaAXkmGfTnc59ez0XipgmO6MSXOBWsx3QYIfJd0xSLRJUYM7HLsTiSGlltWXPojdlw=
+	t=1785849952; cv=none; b=hPTh6HnRMtM/vV9Pi2Wb79VZuYnLdjpTYdx2SA/r4Qv7vxHBkPBUiD50EmLDwCYijXrjMFJpfAuVHWc/iY/OBamNr9fhBaforSCfKM5PVC8WHkHcp+ujOabTDN0cOISfTNJ+re5ld+k/XZzAmbJTFzzd2zk0L3CUz2CZaGBJZSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785845818; c=relaxed/simple;
-	bh=B6/WRddiaYtxSye2QXK20TGfRHU0iPsemPBwQ0yTEdw=;
+	s=arc-20240116; t=1785849952; c=relaxed/simple;
+	bh=ksNSGzquOkJGQB0zL8v2rsj/K3g8ppWK1umePFku/MI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fzenQeRczw5AIlT+8byg7kUm+1arXmwPP4HwKnwo4LB+iZxTtDO8J3hBdnQysYD9jIkwbvzHkIL4aF6xd8/3d3KhWnxtukTuUkr2HRHpwoxcaidkz4JJYi6gKpU9baH2MmZ3CPpIQssfxYH36uCEHntZasUPgKvwk4VbNvhKDHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=j3Zdtqsj; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z41tQtRCVXu+KilzAb50cAbRfPsa3z2nq07SOn5EFA9cdIScMqcYPdiyok3QeUGShdbrs3NZfSId2dq9G7zo7SjlgFyFFU3aax8dlGJHeVpYcUNgXtkd+v6w3QfRnqcyENch8H3fZMeVJncEceH2+gbfdHKcjXiIMlfqwfoSdic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmqZl9Fo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="j3Zdtqsj"
-Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id 8155120B7168; Tue,  4 Aug 2026 05:16:36 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8155120B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785845796;
-	bh=aTqXnV7ZBoFAQTtt7IICjqfQNaAMMc/7wWeZF7s6F8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j3ZdtqsjxFxsinSa0gq66Hbv5nOsVFaN/IkBlbFVrNI7CmSYLoxsWWW4VtbEU7vtj
-	 2to0kxeiA1Sy25zsRX2edmwbxGxuuHSM/AWyEohK6DPUp9A/WUU2Lwxka/DQFNyY/6
-	 dCzACpgmVEp9U7CpC1qPcp/3ZrojV3+ou9fE3lhE=
-Date: Tue, 4 Aug 2026 05:16:36 -0700
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, x86@kernel.org,
-	Jake Oshins <jakeo@microsoft.com>, linux-hyperv@vger.kernel.org,
-	linux-pci@vger.kernel.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] x86/irq: Fix lost interrupts on CPU hot-unplug for
- Hyper-V PCI/MSI
-Message-ID: <anHYJEeHlszuj/38@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmqZl9Fo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 294781F000E9;
+	Tue,  4 Aug 2026 13:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785849949;
+	bh=4wyjvMKvhAcJreTXfeaRljIo44c1fS4JMWl0lopeTOU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FmqZl9Fol+ZLScWCrNFkjh56XTMy2ufbmJSsdKBe8HXMYmw4W/XP4gDcaraS3Fv7G
+	 usGqat3c/TjgPagCirQz4DeFr87nERBj4itU7pslemBxvRqyrpMPe6TmGZJI2ryYbo
+	 u9+s/rJV1wTDhj3ItK1GHaor0geHno0bouLKxgwOhZeCVdiDeTeN98Vu6zlXIoMyr3
+	 qElG0HcmBzxIsQyLDOwW5wt3XvrIzlRvGCyOoOL77+tffknud+j+i+bq7CYGOVO3ps
+	 jJMFKb209Vxipz+keGOXjrcbotLhHmdWO4NnSfyraIqWfruwDNaLxgCVpcD43KOg34
+	 8Hp4hCRzTe0fQ==
+Date: Tue, 4 Aug 2026 14:25:42 +0100
+From: Will Deacon <will@kernel.org>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>, aneesh.kumar@kernel.org
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com, mhklinux@outlook.com,
+	catalin.marinas@arm.com, mark.rutland@arm.com,
+	lpieralisi@kernel.org, sudeep.holla@kernel.org, arnd@arndb.de,
+	thuth@redhat.com, linux-hyperv@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] arm64: rsi: Add RSI host call structure and
+ helper function
+Message-ID: <anHoVr_PRkBHRGu3@willie-the-truck>
+References: <20260721201148.1441143-1-kameroncarr@linux.microsoft.com>
+ <20260721201148.1441143-2-kameroncarr@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -58,55 +49,62 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+In-Reply-To: <20260721201148.1441143-2-kameroncarr@linux.microsoft.com>
 
-On Tue, Jul 28, 2026 at 01:51:14PM +0000, Naman Jain wrote:
-> On CPU hot-unplug, fixup_irqs() re-injects interrupts that are still
-> pending in the outgoing CPU's IRR via the irqchip's irq_retrigger()
-> callback. The Hyper-V vPCI MSI irqchip never installs one, so such a
-> pending interrupt is silently dropped, leading to lost interrupts, stalls
-> and "No irq handler for vector" messages.
+On Tue, Jul 21, 2026 at 01:11:43PM -0700, Kameron Carr wrote:
+> Add struct rsi_host_call to rsi_smc.h, which represents the host call
+> data structure used by the Realm Management Monitor (RMM) for the
+> RSI_HOST_CALL interface. The structure contains a 16-bit immediate field
+> and 31 general-purpose register values, aligned to 256 bytes as required
+> by the CCA RMM specification.
 > 
-> Patch 1 is the minimal, backportable fix (Fixes:/Cc: stable) that installs
-> irq_chip_retrigger_hierarchy() on the Hyper-V PCI/MSI chip. Patch 2 then
-> switches fixup_irqs() to call irq_chip_retrigger_hierarchy() directly, so
-> the retrigger works for any stacked irqchip without a per-chip callback.
-> Patch 3 drops the now-redundant irq_retrigger() initializations.
-> This way, patch 2 and 3 do not need to be backported.
+> Add rsi_host_call() static inline wrapper in rsi_cmds.h that invokes
+> SMC_RSI_HOST_CALL with the physical address of the host call structure.
+> This will be used by Hyper-V guest code to route hypercalls through the
+> RSI interface when running inside an Arm CCA Realm.
+> 
+> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+> ---
+>  arch/arm64/include/asm/rsi_cmds.h | 22 ++++++++++++++++++++++
+>  arch/arm64/include/asm/rsi_smc.h  |  7 +++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/rsi_cmds.h b/arch/arm64/include/asm/rsi_cmds.h
+> index 2c8763876dfb7..9daf8008e5da2 100644
+> --- a/arch/arm64/include/asm/rsi_cmds.h
+> +++ b/arch/arm64/include/asm/rsi_cmds.h
+> @@ -88,6 +88,28 @@ static inline long rsi_set_addr_range_state(phys_addr_t start,
+>  	return res.a0;
+>  }
+>  
+> +/**
+> + * rsi_host_call - Make a Host call.
+> + * @host_call_struct: IPA of host call structure
+> + *
+> + * This call will fail if the IPA of the host call structure:
+> + * * is not aligned to 256 bytes,
+> + * * is not protected / encrypted,
+> + * * is RIPAS_EMPTY
+> + *
+> + * Returns:
+> + *  On success, returns RSI_SUCCESS.
+> + *  Otherwise, returns an error code.
+> + */
+> +static inline unsigned long rsi_host_call(phys_addr_t host_call_struct)
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	arm_smccc_smc(SMC_RSI_HOST_CALL, host_call_struct, 0, 0, 0, 0, 0, 0,
+> +		      &res);
+> +	return res.a0;
+> +}
 
-Thanks Naman, the series looks good to me.
+As I've mentioned to Aneesh on two occasions already [1][2], this code
+should be moved out of arch/arm64 before we add anything else to it.
 
-I just have a small nit. In the old code, VECTOR_RETRIGGERED is set
-unconditionally after calling chip->irq_retrigger(), regardless of its
-return value. In the new code, VECTOR_RETRIGGERED is only set when
-irq_chip_retrigger_hierarchy() returns non-zero. So retrigger failures
-would now result in VECTOR_UNUSED instead of VECTOR_RETRIGGERED.
+Thanks,
 
-In practice this doesn't matter since apic_retrigger_irq() always returns
-1, but it is technically a behavior change and I think it is a correct
-one. Just that it might be worth noting this in the commit message to
-avoid confusion.
+Will
 
-Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
-
-> 
-> The series follows the original RFC:
-> Link: https://lore.kernel.org/all/87y0f3jhd6.ffs@fw13/
-> 
-> Naman Jain (3):
->   PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
->   x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
->   x86/irq, iommu/amd, PCI: Drop redundant irq_retrigger inits
-> 
->  arch/x86/kernel/apic/io_apic.c |  2 --
->  arch/x86/kernel/apic/msi.c     |  4 +---
->  arch/x86/kernel/hpet.c         |  1 -
->  arch/x86/kernel/irq.c          | 23 +++++++----------------
->  drivers/iommu/amd/init.c       |  1 -
->  5 files changed, 8 insertions(+), 23 deletions(-)
-> 
-> 
-> base-commit: 0d33d21e47d9dc66f91e44da3fc9220c74d93df7
-> -- 
-> 2.43.0
-> 
+[1] https://lore.kernel.org/r/agsNO9cc7H-b0H8L@willie-the-truck
+[2] https://lore.kernel.org/r/al_svOwkb5SleTWg@willie-the-truck
