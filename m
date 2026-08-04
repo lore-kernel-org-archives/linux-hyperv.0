@@ -1,142 +1,174 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0505C3E5EF3
-	for <linux-hyperv@vger.kernel.org>; Tue,  4 Aug 2026 23:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885463DA7CA
+	for <linux-hyperv@vger.kernel.org>; Tue,  4 Aug 2026 23:44:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785887079; cv=none; b=QnVP5eSlLZqSSBwE6BeyXNrjJQ7/TVr5XduVZ+DmQfyQnxXm1+p1Li/hs0dG8mtzUcGv+5sciu2HHGHkkTy61zb44yGiMC1h1oeDkWeVebvi/SgKxHhM+t5YjqvwbkV4aQvQcdgSTUkvdFhdRf/Y9xZxPcvbRUWRbBhDXZ3x3oo=
+	t=1785887080; cv=none; b=DppZVwwlc44t1HcHs9dohb+kxo2NglPdF9CQBUtx85O4C7ezn/QdH9p4rqjtNqKMXVlCO3+lUx/kZDYuFeN5lYcNYzAXzzqWd6UUA1kzPQ1uA+rthmCVKpqVtHw6UqAfZKBrFHCzZEK/dv6/HDDAv0joEEOHch/dBFFyBQtcIM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785887079; c=relaxed/simple;
-	bh=yFVqgMtyEJeG07W/WwB7DPhIUT2V5mng9efeNFASuZ8=;
+	s=arc-20240116; t=1785887080; c=relaxed/simple;
+	bh=HKzDbfefbRqhE7uECb43JsllqeTFqUkl8A5Acvzo8Fs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kHl9EemIBfBFbQvvWardHCLuzSk7FuuupAsnr+Ph1iBtTBaVnWMPZPqQwMj10auVkRkH+xI5pZYdcFK7JvJecJ9aHJk38lo3TCwz7x8jd4uvBQgO6JVnn/5ou19F9CNewTqYQNX8suPxtITkKL+QNyi/koQOF+soXBoTvcWMXpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qqg+3KqD; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=mwSiWFp67OltSho3qGgVLpjqrHqC+babLTZsrmLQg5CZZOXBmGWAoAvb0tX9vrmaj2NICuANKVACabrxQqhnSHTR8IJAk7asXMLmR4iXY6WwfOrfrTCwhVwnKaf2nuQaTxievGj5MRKCyqdfBH+mUpgyKZZEQprlB/S85zJejYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDW07V+N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qqg+3KqD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304FE1F00A3A;
-	Tue,  4 Aug 2026 23:44:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDW07V+N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8211F000E9;
+	Tue,  4 Aug 2026 23:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785887077;
-	bh=JNshL5oddC4FAlb1OlJPZPrYATCjD/0AgrDREmMTtfk=;
+	s=k20260515; t=1785887079;
+	bh=DTYXWZjUYgOFZ0/5qOkB0bt1eN+Ll7KidaMTpva5XSM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Qqg+3KqDvcpQ/KKMD1edf3u64C+dAPjtZISkWaW/XydlnmxQHXYRjK9f6P7riBzCp
-	 hw6UEieMZHsOEPIP6zdlD1XWImXRlpS1bbdflabnos4PzW8zvEBkiJs2pnx8jWqx5v
-	 2cHJGxqGiSOolzfMXO3tCinK4BWSvdRJJJsOEremMsxEihVB5H6/IuzOXbhnXFNZhz
-	 y0oftTLx2b6WrN2Ey6q0VaR1DHBc1D0NEjkAL7XEgDvQWnVCMxZsyiBso64viRn7p/
-	 WL+KH9JBzUVtG9iE7RR1u9VMFf3nXgGT0YBgCO+9vmjboNoPtAt3w7CmA9S4FVuSKO
-	 68vh4Wj+g03UA==
+	b=IDW07V+NciylEayKb/7+sP0YALEvP0PGdv/FAcL6/PFQhSG7j+JD1MA2VX34eQcb1
+	 uugx2/PDaC8gKj8u97KPwsdr9HoUQjQV3EVI1VWThA7c/d0PwN7Rk+mFb5EHwbMpWr
+	 1bvmtBHdj+2/plhAAHk6PCywIxUcW/Hell4mPIrJHjriAHjyKqbZzPE7BA6zVTDkAh
+	 gO+bGcebTq6R1nXfrN+Xm1T2bd5YrvFh5FSkb69ErIyXuFpbgwxPb8Z/KNx4WkMMX9
+	 yIAv3Rj1ITu+Y8oMKu3X6qAMrmuimNUa2dO+DMZU3MaFQ/nxZubHb/OgiglG1Y7Ap+
+	 xZMUh874W/Peg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3 3/6] net: mana: free HWC comp_buf after
- destroying the EQ
+Subject: Re: [PATCH net v3 2/6] net: mana: fix HWC RQ/SQ buffer size swap
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260803234355.636038-4-longli@microsoft.com>
+In-Reply-To: <20260803234355.636038-3-longli@microsoft.com>
 References: <20260803234355.636038-1-longli@microsoft.com>
- <20260803234355.636038-4-longli@microsoft.com>
+ <20260803234355.636038-3-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Aug 2026 23:44:36 +0000
-Message-Id: <20260804234437.304FE1F00A3A@smtp.kernel.org>
+Date: Tue, 04 Aug 2026 23:44:39 +0000
+Message-Id: <20260804234439.4C8211F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] Destroying the TX and RX queues before the CQ and EQ in mana_hwc_d=
-estroy_channel() causes a use-after-free if a late completion interrupt is =
-processed.
+- [High] Out-of-Bounds Memory Read due to unvalidated `inline_oob_size_div4=
+` from untrusted DMA memory.
+- [High] Use-After-Free during hardware channel teardown due to incorrect d=
+estruction order and premature freeing of buffers.
+- [High] Race condition / UAF in `mana_hwc_send_request` due to uncoordinat=
+ed timeout handling.
 --
 
---- Patch [3]: [PATCH net v3 3/6] net: mana: free HWC comp_buf after destro=
-ying the EQ ---
-commit 7a0285e343813287658afb74760a65202a46b1ba
+--- Patch [2]: [PATCH net v3 2/6] net: mana: fix HWC RQ/SQ buffer size swap=
+ ---
+commit 2b43add14b8efbca0def0e3777e0b101884e1da7
 Author: Long Li <longli@microsoft.com>
 
-net: mana: free HWC comp_buf after destroying the EQ
+net: mana: fix HWC RQ/SQ buffer size swap
 
-This commit fixes a use-after-free by destroying the CQ and EQ before
-freeing the hwc_cq->comp_buf buffer. The EQ teardown deregisters the IRQ
-and fences in-flight handlers, preventing late handlers from touching
-freed memory.
+This commit fixes an issue where the HWC RQ and SQ buffer sizes were
+swapped during initialization. It ensures the RQ is sized with
+max_resp_msg_size and the SQ with max_req_msg_size. The commit also
+reorders the assignment of these queue dimensions before creating the CQ,
+as the RX completion handler depends on them being set.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
 et/ethernet/microsoft/mana/hw_channel.c
-> index cbb56c7647876..d701c427fe47b 100644
+> index 409e20caeccdc..cbb56c7647876 100644
 > --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
 > +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-[ ... ]
-> @@ -384,14 +384,20 @@ static void mana_hwc_comp_event(void *ctx, struct g=
-dma_queue *q_self)
+> @@ -263,7 +263,7 @@ static void mana_hwc_rx_event_handler(void *ctx, u32 =
+gdma_rxq_id,
 > =20
->  static void mana_hwc_destroy_cq(struct gdma_context *gc, struct hwc_cq *=
-hwc_cq)
->  {
-> -	kfree(hwc_cq->comp_buf);
-> -
->  	if (hwc_cq->gdma_cq)
->  		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
-> =20
-> +	/* comp_buf is reached only by mana_hwc_comp_event(), which the
-> +	 * EQ handler invokes via cq_table[id].  The CQ destroy above
-> +	 * already cleared that slot and ran synchronize_rcu(), so no
-> +	 * handler can reach comp_buf once it returns.  Destroying the EQ
-> +	 * here additionally tears down the IRQ (defense in depth) before
-> +	 * comp_buf and hwc_cq are freed below.
-> +	 */
->  	if (hwc_cq->gdma_eq)
->  		mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
-> =20
-> +	kfree(hwc_cq->comp_buf);
->  	kfree(hwc_cq);
->  }
+>  	/* Select the RX work request for virtual address and for reposting. */
+>  	rq_base_addr =3D hwc_rxq->msg_buf->mem_info.dma_handle;
+> -	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_req_msg_size;
+> +	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_resp_msg_size;
 
 [Severity: High]
-This is a pre-existing issue, but does the same use-after-free race still
-exist for the TX and RX queues during channel teardown?
+This is a pre-existing issue, but does this function have an out-of-bounds
+memory read when parsing the WQE?
 
-While this commit fixes the free order for comp_buf,
-mana_hwc_destroy_channel() still frees the WQs before the CQ and EQ:
+Looking at the code just before this modification in
+mana_hwc_rx_event_handler():
 
-mana_hwc_destroy_channel()
-{
-        if (hwc->txq)
-                mana_hwc_destroy_wq(hwc, hwc->txq);
+	dma_oob =3D (struct gdma_wqe *)wqe;
+	sge =3D (struct gdma_sge *)(wqe + 8 + dma_oob->inline_oob_size_div4 * 4);
+	...
+	rq_base_addr =3D hwc_rxq->msg_buf->mem_info.dma_handle;
+	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_resp_msg_size;
 
-        if (hwc->rxq)
-                mana_hwc_destroy_wq(hwc, hwc->rxq);
+Because inline_oob_size_div4 is read directly from the untrusted DMA buffer
+without validation, could a compromised hypervisor provide a large value
+that causes the sge pointer to point past the end of the mapped buffer,
+resulting in a kernel panic when sge->address is dereferenced?
 
-        if (hwc->cq)
-                mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
-}
+> =20
+>  	if (rx_req_idx >=3D hwc_rxq->msg_buf->num_reqs) {
+>  		dev_err(hwc->dev, "HWC RX: wrong rx_req_idx=3D%llu, num_reqs=3D%u\n",
 
-If a late EQ interrupt arrives or is already running in the window between
-WQ destruction and CQ destruction, won't mana_gd_process_eqe() still find
-the CQ in cq_table and invoke mana_hwc_comp_event()?
+[ ... ]
 
-This would then call into mana_hwc_rx_event_handler() or
-mana_hwc_tx_event_handler() and dereference the already-freed hwc->rxq
-or hwc->txq memory:
+[Severity: High]
+This is a pre-existing issue, but is there a use-after-free risk during
+hardware channel teardown?
 
-mana_hwc_rx_event_handler()
-{
-        struct hwc_wq *hwc_rxq =3D hwc->rxq;
-        ...
-        if (WARN_ON_ONCE(hwc_rxq->gdma_wq->id !=3D gdma_rxq_id))
-                return;
-        ...
-}
+In mana_hwc_destroy_channel():
 
-Could the WQ destruction in mana_hwc_destroy_channel() be moved after the
-CQ and EQ are destroyed to ensure all in-flight handlers are fenced before
-the WQ memory is freed?
+	if (hwc->txq)
+		mana_hwc_destroy_wq(hwc, hwc->txq);
+
+	if (hwc->rxq)
+		mana_hwc_destroy_wq(hwc, hwc->rxq);
+
+	if (hwc->cq)
+		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
+
+The queues (txq and rxq) are destroyed and their memory is freed before the
+CQ's RCU synchronization barrier is reached.
+
+Inside mana_hwc_destroy_cq():
+
+	kfree(hwc_cq->comp_buf);
+
+	if (hwc_cq->gdma_cq)
+		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
+
+The comp_buf array is freed immediately, but the synchronize_rcu() barrier
+sits inside mana_gd_destroy_queue(). Does this allow in-flight IRQ handlers
+to access freed memory (txq, rxq, and comp_buf) before the RCU barrier
+completes?
+
+[Severity: High]
+This is a pre-existing issue, but is there a race condition between the
+timeout path and the response handler that could cause stack corruption?
+
+In mana_hwc_send_request():
+
+	if (!wait_for_completion_timeout(&ctx->comp_event,
+					 (msecs_to_jiffies(hwc->hwc_timeout)))) {
+		...
+		err =3D -ETIMEDOUT;
+		goto out;
+	}
+	...
+out:
+	mana_hwc_put_msg_index(hwc, msg_id);
+	return err;
+
+The timeout path exits and frees the message ID without synchronizing with
+the receiver thread or clearing ctx->output_buf.
+
+Meanwhile, in mana_hwc_handle_resp():
+
+	if (!test_bit(msg_id, hwc->inflight_msg_res.map)) {
+		...
+	ctx =3D hwc->caller_ctx + msg_id;
+	...
+	memcpy(ctx->output_buf, resp_msg, resp_len);
+
+The test_bit() check is done locklessly. If a timeout occurs right after
+test_bit() succeeds, mana_hwc_send_request() will return and pop the
+caller's stack frame. Will the response handler then memcpy() into a
+dangling stack pointer (ctx->output_buf), corrupting the stack?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803234355.6360=
-38-1-longli@microsoft.com?part=3D3
+38-1-longli@microsoft.com?part=3D2
