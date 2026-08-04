@@ -1,198 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7C63D349A
-	for <linux-hyperv@vger.kernel.org>; Tue,  4 Aug 2026 23:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0165223BD05
+	for <linux-hyperv@vger.kernel.org>; Tue,  4 Aug 2026 23:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785887082; cv=none; b=FDgdMTsUPvBaHO/nfcQvLo7UXUrrGuRGxI9nte1YKaUdfng2/Luq5iSMHEs4sN4UDjJ45Pt8c5d9tVWds1H/5HViLMO3VTrF/+gKG3h4DlYEhUva/543Fu3Xs0McspIZVLubHXov7+sPINckRnoz+a93Na8djhUGEnLteyVEqWc=
+	t=1785887084; cv=none; b=C0AfxLvNvSylH4rNq1Mv2Nulx3aCqKojHaPaa7a+6wbHmYGGLoetxYYwrKfUo1aGh9DPwRXjNuPSswfrJxIelneHCH616uLnBjn9P0eestHYG0nUtY4RDv437qFuhb8wAWswBDC80NjtCfjMhE3XGKifjSy6YXB+LUeJpmVNgGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785887082; c=relaxed/simple;
-	bh=UeeC+baFepmUkc3Eab15Xaw9gK+5awfMQ+tcSGrc9OA=;
+	s=arc-20240116; t=1785887084; c=relaxed/simple;
+	bh=qJuY8io3dNEFpvwRFN2QxrACH/na7ZPeg7yXg4N/rI4=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Hru8gDPUa9IJziXxojbUiJlZXSi7DcuFeUlnFS53TPtswR7HKmkCqQM8zucNww8WPZV6UHqQtt7QJQmWa/zOGAOwd/pi+XHP/tstqKxZkCUvh7mlpdAgPfNbTVQbE7QU83HI65OAH3cjNAvMvixpHEwF3vKhe29Ya3jwHSVvX5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3VYA9IJ; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=ZEky1vWJeuv5F0v/tJ1chh2yiwk5tZRNDKuAA8w3GORbigGTnJolHtZNabzgLPMt3CpgdCjWQhRvYKaZArjowNFf2LyFx5157Kmgix9BDKnDQe3xBg9+28c52R1JWWaAZUWOn6zDDdoehM8eoT8xWPfLwIf3frvWeP/qUJc/LvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpJeMTbc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3VYA9IJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CBA21F00A3A;
-	Tue,  4 Aug 2026 23:44:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpJeMTbc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E0B1F00A3A;
+	Tue,  4 Aug 2026 23:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785887080;
-	bh=cvFBL/dqrlPHBuNH216GiHx8RGMaQUX0AiX6hrtAubA=;
+	s=k20260515; t=1785887082;
+	bh=eAJ6FBhXaSVQBRl+ydnPAyKQECCZwqxZjIOY8V7nM0Y=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=L3VYA9IJqLpt83fy6xqWflcw1M0aqr0xjdCaGcLiWzzmIp+fTq9Youfj0K15+2rHW
-	 JZAnjcXBYT028ESkFtESOCpUuuH8GUKNKbZioHNwWyd5hjE2+8XA4PlCMVBZNUcNTC
-	 0Mh2Bzc53Eo9cxrTKa5BAKZBbAOnc7LmVd/JiAc2FJeEfnRhHyQM3zTz8DNRvEm4ey
-	 /tCqC2ssb22WjwAHgJyFHW9aHOEitPy2JwSNyB3wB/FP+YmywiShpfjcSTPJDN15w9
-	 xR/45Jz3l2IyYaqYBRxGZlzs/BOhaKjJO265tIyBUr9FDJFmfyT1yKQX2hhCEUGL08
-	 Ghjx7fAAMtPgw==
+	b=fpJeMTbcB7nviP7P26sxnw2Mys84rBliURxfcSZUgNJlr2XxsiIUEyH7j8jrWflar
+	 ke9xH40tFPL4BnWGlZ3jUFZExbzwkta9WfsI+mKkkTM6EmJJJF45yolFcqck2cC3tG
+	 L3GbYKRg2rY20/aQIL3/hpKm+o7a6rAZcK2vyVo70n0POjDHDA47ManonMOwIkkB1N
+	 4qSmg+gLJrtDlQJJeiov5oCuMAtiTZafdkSLsfO5rWqaDjvCV7pmrfHJ9Ec9hV/vXa
+	 nHH8WRLf6sAgYskW8ZM8CwZSmr3FebyNvsJMHsrhCkaX4UBsWQfDrddDPVGYrcqPuT
+	 xL0f8KMSy6YfA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3 5/6] net: mana: fix HWC teardown safety with
- setup_active flag and destroy ordering
+Subject: Re: [PATCH net v3 4/6] net: mana: validate hardware-supplied values
+ in the HWC RX path
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260803234355.636038-6-longli@microsoft.com>
+In-Reply-To: <20260803234355.636038-5-longli@microsoft.com>
 References: <20260803234355.636038-1-longli@microsoft.com>
- <20260803234355.636038-6-longli@microsoft.com>
+ <20260803234355.636038-5-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Aug 2026 23:44:39 +0000
-Message-Id: <20260804234440.6CBA21F00A3A@smtp.kernel.org>
+Date: Tue, 04 Aug 2026 23:44:42 +0000
+Message-Id: <20260804234442.86E0B1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [High] An early return on HWC teardown failure leaves a stale pointer in =
-`gc->cq_table`, which a malicious host can exploit to cause an out-of-bound=
-s read.
-- [Medium] Redundant HWC teardown in `mana_hwc_establish_channel()` causes =
-a double hardware timeout (up to 120s stall) and masks the original initial=
-ization error code.
-
 Pre-existing issues:
-- [High] During HWC teardown, the CQ is destroyed and its memory freed befo=
-re the EQ is deregistered, leading to Use-After-Free and WARN splats if an =
-interrupt occurs.
+- [Critical] A timeout in mana_hwc_send_request() can lead to stack corrupt=
+ion and use-after-free if the hardware response arrives concurrently or is =
+delayed.
 --
 
---- Patch [5]: [PATCH net v3 5/6] net: mana: fix HWC teardown safety with s=
-etup_active flag and destroy ordering ---
-commit cb8bd3f89f96cf2e7fd5d41275858b076d281d38
+--- Patch [4]: [PATCH net v3 4/6] net: mana: validate hardware-supplied val=
+ues in the HWC RX path ---
+commit c5cc55c1f3f3c4968b8391ae19f32c3ab101adc9
 Author: Long Li <longli@microsoft.com>
 
-net: mana: fix HWC teardown safety with setup_active flag and destroy order=
-ing
+net: mana: validate hardware-supplied values in the HWC RX path
 
-Three teardown hazards let the hardware touch memory the driver freed.
-
-[ ... ]
+This commit validates lengths and indices from the device DMA in the HWC RX
+path. It adds bounds checks and address matching to prevent out-of-bounds
+accesses or reading stale responses. A reposting mechanism is added for
+rejected responses to maintain posted RQ depth.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
 et/ethernet/microsoft/mana/hw_channel.c
+> index d701c427fe47b..e378b8ec97c9a 100644
 > --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
 > +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> @@ -768,20 +769,33 @@ static int mana_hwc_establish_channel(struct gdma_c=
-ontext *gc, u16 *q_depth,
+
 [ ... ]
-> +teardown:
-> +	{
-> +		int td_err =3D mana_smc_teardown_hwc(&gc->shm_channel, false);
+
+> @@ -83,6 +83,17 @@ static void mana_hwc_handle_resp(struct hw_channel_con=
+text *hwc, u32 resp_len,
+>  	struct hwc_caller_ctx *ctx;
+>  	int err;
+> =20
+[ ... ]
+>  	ctx =3D hwc->caller_ctx + msg_id;
 > +
-> +		if (!td_err)
-> +			hwc->setup_active =3D false;
-> +
-> +		return td_err ? td_err : err;
+> +	/* Reject responses larger than the RX DMA buffer =E2=80=94 the SGE
+> +	 * limits what hardware can DMA, so an oversized resp_len
+> +	 * indicates a firmware bug.  Fail rather than silently
+> +	 * truncating.
+> +	 */
+> +	if (resp_len > rx_req->buf_len) {
+> +		dev_err(hwc->dev, "HWC RX: resp_len %u > buf_len %u\n",
+> +			resp_len, rx_req->buf_len);
+> +		resp_len =3D 0;
 > +	}
->  }
+> +
+>  	err =3D mana_hwc_verify_resp_msg(ctx, resp_msg, resp_len);
+>  	if (err)
+>  		goto out;
 
-[Severity: Medium]
-Does this teardown logic mask the original error code and cause a redundant
-teardown attempt?
+[Severity: Critical]
+This is a pre-existing issue, but I have a question about how timeouts are
+handled when processing these contexts.
 
-If mana_smc_teardown_hwc() fails, it returns td_err and leaves
-hwc->setup_active =3D true. The caller mana_hwc_create_channel() handles the
-returned error like this:
+If a thread times out in mana_hwc_send_request() while waiting for
+ctx->comp_event, does it return and free the stack frame where the
+response buffer (ctx->output_buf) might be allocated?
 
-mana_hwc_create_channel() {
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_send_request() {
     ...
-    err =3D mana_hwc_establish_channel(...);
-    if (err) {
-        dev_err(hwc->dev, "Failed to establish HWC: %d\n", err);
-        goto out;
-    }
+	if (!wait_for_completion_timeout(&ctx->comp_event,
+					 (msecs_to_jiffies(hwc->hwc_timeout)))) {
+    ...
+		err =3D -ETIMEDOUT;
+		goto out;
+	}
     ...
 out:
-    mana_hwc_destroy_channel(gc);
-    return err;
+	mana_hwc_put_msg_index(hwc, msg_id);
+	return err;
 }
 
-Since hwc->setup_active is still true, mana_hwc_destroy_channel() will
-attempt to tear down the hardware a second time. This can cause the driver
-to stall for twice the duration of a hardware timeout, while the original
-initialization error code is lost.
+Because the sender doesn't clear ctx->output_buf or synchronize with the RX
+handler when returning on a timeout, could a delayed hardware response arri=
+ving
+later lead to stack corruption when mana_hwc_handle_resp() executes the
+memcpy() into the now-dangling ctx->output_buf pointer?
 
-> @@ -907,11 +931,38 @@ void mana_hwc_destroy_channel(struct gdma_context *=
-gc)
-[ ... ]
-> +	if (hwc->setup_active) {
-> +		int td_err =3D mana_smc_teardown_hwc(&gc->shm_channel, false);
-> +
-> +		if (td_err) {
-> +			dev_err(gc->dev,
-> +				"HWC teardown failed: %d, leaking resources\n",
-> +				td_err);
-> +			return;
-> +		}
-
-[Severity: High]
-Could this early return leave a stale pointer in gc->cq_table?
-
-If mana_smc_teardown_hwc() fails, this returns early without clearing
-gc->cq_table. On resume or re-initialization, mana_hwc_create_channel()
-creates a new hwc but reuses the same gc.
-
-During mana_hwc_establish_channel(), while waiting for the initialization
-event, the hardware could send an EQE updating gc->max_num_cqs to a large
-value. Because the new cq_table is not assigned until after the wait
-completes, gc->cq_table still points to the old, leaked table.
-
-A malicious host could then inject a completion EQE with an out-of-bounds
-cq_id. This would pass validation against the newly inflated gc->max_num_cqs
-but read out of bounds from the smaller, old cq_table.
-
-> +
-> +		hwc->setup_active =3D false;
-> +	}
-> +
-> +	/* Tear down the HWC CQ object first =E2=80=94 mana_hwc_destroy_cq()
-> +	 * both unpublishes the CQ from cq_table (+synchronize_rcu) and
-> +	 * deregisters the HWC EQ from the interrupt handler list (via
-> +	 * mana_gd_deregister_irq + synchronize_rcu), guaranteeing no
-> +	 * interrupt handler can access RQ/TXQ buffers after this point.
-> +	 */
-> +	if (hwc->cq)
-> +		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
-
-[Severity: High]
-This is a pre-existing issue, but is there a use-after-free risk during CQ
-destruction?
-
-Looking at mana_hwc_destroy_cq(), the CQ is destroyed and its memory freed
-before the EQ:
-
-mana_hwc_destroy_cq() {
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_handle_resp() {
     ...
-    if (hwc_cq->gdma_cq)
-        mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
-    ...
-    if (hwc_cq->gdma_eq)
-        mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
-}
-
-Although mana_gd_destroy_queue() on the CQ clears the cq_table entry and
-calls synchronize_rcu(), the EQ is still fully registered and on the
-interrupt dispatch list. A pending interrupt could fire immediately after
-the CQ is freed.
-
-The interrupt handler (mana_gd_process_eqe) might then trigger a
-WARN_ON_ONCE(!cq) for completions, or call mana_hwc_init_event_handler()
-which accesses the freed memory:
-
-mana_hwc_init_event_handler() {
-    ...
-    case HWC_INIT_DATA_CQID:
-        hwc->cq->gdma_cq->id =3D val;
-        break;
+	if (!err && ctx->output_buf) {
+		ctx->status_code =3D resp_msg->status;
+		memcpy(ctx->output_buf, resp_msg, resp_len);
+		ctx->error =3D 0;
+	}
     ...
 }
+
+Additionally, since there is no reinit_completion() call when allocating a
+message slot, could a newly reused slot immediately consume a stale complet=
+ion
+token from a delayed response and return prematurely?
+
+Could a malicious host or firmware in a Confidential VM environment exploit
+this by intentionally delaying responses to overwrite the guest kernel stac=
+k?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803234355.6360=
-38-1-longli@microsoft.com?part=3D5
+38-1-longli@microsoft.com?part=3D4
