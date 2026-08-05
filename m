@@ -1,151 +1,171 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770293CEB90;
-	Wed,  5 Aug 2026 17:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4E33C8717;
+	Wed,  5 Aug 2026 17:24:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785950195; cv=none; b=TnB4uqIh1EwD62+O/J9f8JBhpxK8J7H/V4PCiZ3lC3u6mjU83c9tyvOM65hxNGC+8uEeZdiNoFFabzMLItIj54nV1jLYn6i0JEY5t6i/3AaAYiPW0DmkSJj/0tjqNHlfpyBiXpz21jnaXs9hd4LkeWu9GS+zqwuAQURBFrgxXH0=
+	t=1785950652; cv=none; b=ksoODg1j7nt2OJgw7jXEpAgZHqKKHLAemJ8Bev5JXOmPk7cPETstFUPmS+ujlYn8iK80qcNP7KI/Wkv8G1LfRKeauRZwQXyJOEWKdHFaNr3R61s//Rr25Bmj+ppPt9HK+E5eRZZJJYzKLHkOB8A/L4yae+Q5VJTCmDITol5+V3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785950195; c=relaxed/simple;
-	bh=5/x+yBltEA6/p9vGJ58LBjPT+vWF9PL/NCY3VCiR0+w=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IWA2VkeIZ0D/fCv6cevJd4iuDAOTfdrSIAbyLmBildtQmNC/5Ssz6yq+S4Cpiu+ZgcXSpSKErQQaGmAkFbAcEVQNqxBCstIACBPDBpSeZUQaNmbAxqY5R2fnwjAJjEQE1b/og7szUXSRhh02aG4+XJjUDhrml0mgPoyp1rqnfUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CU3U5kUe; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1785950652; c=relaxed/simple;
+	bh=7Hra8MiiFA1bpttIEjZrJR+4edB5KH25Bj97EZLmDjo=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=bpbMPgmfnVYYHO4Di+GGvNkVcoKD5iZjEn3sSjMzXo7rSxPw4u9H3fhVKKf4VS4nWlOPvQEkVUdp6G6GDOw0S8BhSUidV+9RqdmFDkKCWIZsKplJ1ySxrTR9pn2tBMmxJT+jIjevFgtkmVdxCrVZHWRPO+teqrDQ45aZl6IbH0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Dap7uAwL; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CU3U5kUe"
-Received: from DairyQueen (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C246B20B716A;
-	Wed,  5 Aug 2026 10:16:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C246B20B716A
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Dap7uAwL"
+Received: from [10.21.58.224] (unknown [52.172.102.253])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 06A4320B7169;
+	Wed,  5 Aug 2026 10:23:45 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 06A4320B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1785950168;
-	bh=zUd4Z56F750e/zfpxHZ+hCkFTeSEgJPpK53kX7O/SjY=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
-	b=CU3U5kUebiu0kMijyW+lERomndJV0oqEH5XEDV2hg3YGXjNXpwXA/lDMoQ2HOJ1dw
-	 EVfTTEcmeB6KSa01YlzKBjwQmqCpqefUSYg3cP8QGeANEOmSk2Fi07ayEADFYzN5Fe
-	 VHk5MJ5vl+zGkbuzs7A2yYtzuUqasRf9mPTXbcrA=
-From: "Kameron Carr" <kameroncarr@linux.microsoft.com>
-To: "'Michael Kelley'" <mhklinux@outlook.com>,
-	<decui@microsoft.com>,
-	<haiyangz@microsoft.com>,
-	<kys@microsoft.com>,
-	<longli@microsoft.com>,
-	<wei.liu@kernel.org>
-Cc: <andrew+netdev@lunn.ch>,
-	<davem@davemloft.net>,
-	<edumazet@google.com>,
-	<kuba@kernel.org>,
-	<pabeni@redhat.com>,
-	<linux-hyperv@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>
-References: <20260721195633.1438361-1-kameroncarr@linux.microsoft.com> <20260721195633.1438361-3-kameroncarr@linux.microsoft.com> <SN6PR02MB41576F1E9A4F0AC3D6AB8C18D4CF2@SN6PR02MB4157.namprd02.prod.outlook.com> <000901dd211f$b119be20$134d3a60$@linux.microsoft.com> <SN6PR02MB4157514D8AFB06FB6F2ED9BED4D62@SN6PR02MB4157.namprd02.prod.outlook.com> <000a01dd236f$2a24f4f0$7e6eded0$@linux.microsoft.com> <SN6PR02MB415720DFAAC7EF9106D5B684D4D42@SN6PR02MB4157.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB415720DFAAC7EF9106D5B684D4D42@SN6PR02MB4157.namprd02.prod.outlook.com>
-Subject: RE: [RFC PATCH 2/2] hv_netvsc: back GPADL buffers with kmalloc + decrypt + vmap
-Date: Wed, 5 Aug 2026 10:16:19 -0700
-Message-ID: <000a01dd24fe$26f311a0$74d934e0$@linux.microsoft.com>
+	s=default; t=1785950630;
+	bh=XPvRWFUhHMnNObZ6Hnjr7BBy003ESek6ZolrR6Wr9ek=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=Dap7uAwLIkg5aq1LJM38ldefrZkiYD9vaeCQHVIZh/yrU3ridtabIoDU3wSDGE+is
+	 8mEGSgXsEqlf1P6Zo32jG5T3rrJ0Xfi3w4J34uWOKFRJ6be7ML+WjUQ0g1/XGY4z2s
+	 a5OKmV6MSnG8VTcs7RnhkD01wE0dmfGrJM1WijEs=
+Message-ID: <cd0437fc-4cf9-44d4-a212-6672dff64533@linux.microsoft.com>
+Date: Wed, 5 Aug 2026 10:24:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Cc: easwar.hariharan@linux.microsoft.com,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "longli@microsoft.com" <longli@microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] Drivers: hv: vmbus: Fail VMBus module init for
+ non-nested root partition
+To: Michael Kelley <mhklinux@outlook.com>
+References: <20260804190517.101981-1-mhklinux@outlook.com>
+ <ea0d31c0-5559-462c-b6d3-1ed6c01a9074@linux.microsoft.com>
+ <SN6PR02MB415758E1637A763B06911B8AD4D42@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ce1a513c-2eb6-449d-bfff-ce7a581d14f2@linux.microsoft.com>
+ <afa0863f-92da-4f9e-81c6-f1676ea76870@linux.microsoft.com>
+ <SN6PR02MB4157566CE78CCD02C925E3CDD4D32@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <SN6PR02MB4157566CE78CCD02C925E3CDD4D32@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQNRsRip/0GPmGqK2zS6hqfVzZeToQIbF+Y6AtauNasB7oqiJQJivrRjAkfGIjMCEyDc4bM5qEaA
 
-On Monday, August 3, 2026 5:23 PM, Michael Kelley wrote:
-> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Monday, August
-3, 2026 10:40 AM
-> >
-> > On Saturday, August 1, 2026 9:17 PM, Michael Kelley wrote:
-> > > From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday,
-July 31, 2026 12:06 PM
-> > > >
-> > > > On Friday, July 24, 2026 12:37 PM, Michael Kelley wrote:
-> > > > > From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent:
-Tuesday, July 21, 2026 12:57 PM
-> > > > [...]
-> > > > > > +	/*
-> > > > > > +	 * @order monotonically decreases across iterations
-> > > > > > +	 *
-> > > > > > +	 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing,
-but try
-> > > > > > +	 * harder at order 0 since that is the final fallback.
-> > > > > > +	 */
-> > > > > > +	order = min_t(unsigned int, MAX_PAGE_ORDER,
-ilog2(nr_pages));
-> > > > >
-> > > > > Prefer using min() instead of min_t(). For normal integer values,
-> > > > > min() should work correctly.
-> > > >
-> > > > Using min() compiled fine on ARM, but x86 is throwing a compile
-error.
-> > > >
-> > > >     drivers/hv/channel.c: In function 'vmbus_alloc_buffer':
-> > > >     ././include/linux/compiler_types.h:699:45: error: call to
-> > > >     '__compiletime_assert_518' declared with attribute error:
-min(order,
-> > (
-> > > >     __builtin_constant_p(remaining) ? ((remaining) < 2 ? 0 : 63 -
-> > > >     __builtin_clzll(remaining)) : (sizeof(remaining) <= 4) ?
-> > > >     __ilog2_u32(remaining) : __ilog2_u64(remaining) )) signedness
-error
-> > > >
-> > > > In my v3 I may go back to using min_t. Please let me know if a cast
-(or
-> > > > some other method) is preferred.
-> > >
-> > > Hmmm. I don't get the same compile error on x86/x64. Maybe it is
-> > > related to compiler and version, or the kernel code base against which
-> > > the patch is being built. Probably you didn't see a problem on arm64
-> > > because of some such difference. FWIW, I built with gcc 11.4.0 against
-> > > linux-next20260726.  What is the compiler and base kernel info where
-> > > you saw the error and on arm64 where you didn't?
-> >
-> > In both cases, I built against hyperv-next (a4ffc59).
-> > On ARM64 I used gcc 13.2.0; on x86 I used 13.3.0.
-> >
-> > To do a fair comparison, I
-> >  * downgraded my x86 environment to gcc 13.2.0
-> >  * started with `make defconfig`
-> >  * enabled Hyper-V and NetVSC in the config (=y)
-> >
-> > I saw the same behavior where there was no error on ARM and compile
-failure
-> > on x86.
-> >
+On 8/4/2026 21:13, Michael Kelley wrote:
+> From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com> Sent: Tuesday, August 4, 2026 3:49 PM
+>>
+>> On 8/4/2026 15:47, Easwar Hariharan wrote:
+>>> On 8/4/2026 15:17, Michael Kelley wrote:
+>>>> From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com> Sent: Tuesday, August 4, 2026 12:40 PM
+>>>>>
+>>>>> On 8/4/2026 12:05, Michael Kelley wrote:
+>>>>>> The VMBus module should not be loaded when Linux is running directly
+>>>>>> in the root partition and root is not nested in another VM. Current
+>>>>>> code checks this condition and skips VMBus module initialization, which
+>>>>>> works. But it returns 0 as the result, so Linux thinks the module has
+>>>>>> successfully loaded. Later, if the module were to be unloaded, the
+>>>>>> VMBus module unload code tries to clean up things that were never
+>>>>>> initialized, resulting in memory faults and a panic.
+>>>>>>
+>>>>>> Fix this by having VMBus module initialization return -ENODEV for this
+>>>>>> case. The module is then not loaded, and the unload path can never run.
+>>>>>>
+>>>>>> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>>>>>> Closes: https://lore.kernel.org/linux-
+>>>>> hyperv/20260721154943.A09BD1F00A3D@smtp.kernel.org/
+>>>>>> Fixes: 7e279d78664aa ("Drivers: hv: vmbus: skip VMBus initialization if Linux is root")
+>>>>>> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+>>>>>> ---
+>>>>>>  drivers/hv/vmbus_drv.c | 2 +-
+>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+>>>>>> index e19ec73b0187..849d7e1a7320 100644
+>>>>>> --- a/drivers/hv/vmbus_drv.c
+>>>>>> +++ b/drivers/hv/vmbus_drv.c
+>>>>>> @@ -2976,7 +2976,7 @@ static int __init hv_acpi_init(void)
+>>>>>>  		return -ENODEV;
+>>>>>>
+>>>>>>  	if (hv_root_partition() && !hv_nested)
+>>>>>> -		return 0;
+>>>>>> +		return -ENODEV;
+>>>>>>
+>>>>>>  	/*
+>>>>>>  	 * Get ACPI resources first.
+>>>>>
+>>>>> This seems straightforward:
+>>>>
+>>>> Alas, it's not so straightforward, as Sashiko pointed out.  I knew that
+>>>> the mshv module has a dependency on the vmbus module, but had
+>>>> forgotten. There's a reason for the dependency as described in the
+>>>> commit message for 840b740a35bf.
+>>>>
+>>>> There's another easy way to fix the VMBus module unload problem.
+>>>> I'll send a v2. :-)
+>>>>
+>>>> Michael
+>>>>
+>>> I may be missing something, but mshv_root is used in 3 cases:
+>>>
+>>> 1) Baremetal root partition, which requires no VMBus
+>>>
+>>> 2) L1VH aka Direct Virtualization, which is conditioned on hv_l1vh_partition(), which is
+>> not the check here in the vmbus driver
+>>>
+>>> 3) For the OpenHCL paravisor, where I honestly don't know what the dependency
+>> chain looks like, but based on a quick glance
+>>> at https://github.com/microsoft/OHCL-Linux-Kernel/ and a cursory grep, doesn't
+>> seem to rely on hv_root_partition() but does rely
+>>> on VMbus.
+>>>
+>>> I feel like Sashiko's review falls into item 1, but then again, there may just be a
+>> mismatch
+>>> between reality and my mental model, or my mental model may becorrect, but the
+>> code doesn't match it.
+>>>
+>>> Thanks,
+>>> Easwar (he/him)
+>>
+>>
+>> Well, number 4 is as a parent on a nested hypervisor, but !hv_nested takes care of that.
+>>
 > 
-> Really weird. I compiled on x86/x64 with gcc 13.3.0, and saw no
-> problem. This was against the official 7.1.0 release source code.
-> Then I grabbed hyperv-next (the tag "hyperv-next-signed-20260621"
-> specifically), added your patches, and again using gcc 13.3.0 I
-> built with no problem. Are you using the same local copy of the
-> source code for arm64 and x86/x64 builds? If not, I wonder if
-> your local x86/x64 source code tree is somehow corrupt or not
-> what you think it is.
+> For your #1, indeed the root partition does not require actual VMBus
+> functionality. But it *does* require that the VMBus module be loaded
+> if CONFIG_HYPERV_VMBUS=y. In that case, the only function the root
+> requires for #1 is the function hv_vmbus_exists(), and it requires that
+> to distinguish between your #1 and your #4 when it sets up the SynIC.
 > 
-> My .config file is different from yours. I did not try starting fresh
-> with make defconfig and then enable Hyper-V and netvsc.
+> If you want to build an image that only works for #1, then build with
+> CONFIG_HYPERV_VMBUS=n and there's no issue. But if you want an
+> image that works for #1 or #4, build with CONFIG_HYPERV_VMBUS=y
+> or =m, and the VMBus module must loaded so that hv_vmbus_exists()
+> gives the right answer (false for #1, true for #4). Furthermore, the
+> mshv_root dependency on the VMBus module ensures that the
+> VMBus module is always loaded before the mshv_root module so
+> that hv_vmbus_exists() will give an up-to-date answer when
+> mshv_root asks.
+> 
+> The way the SynIC is managed should be refactored to better
+> handle #4, as Jork Loeser has proposed. Hopefully such a refactoring
+> would make the mshv_root->vmbus dependency go away. But until
+> such a refactoring is done, the dependency is what we have.
+> 
+> I agree that your #2 and #3 are not relevant here.
+> 
+> Michael
 
-Automated testing is picking up the same compiler error
-https://lore.kernel.org/all/6a6dc0b6.1aa927e4.17d4bf.000d.GAE@google.com/
+Makes sense, I did not think of the distro user that'd probably like 1 image that serves all use
+cases. I'll look at your v2.
 
-    tree:      net-next
-    arch:      amd64
-    compiler:  Debian clang version 22.1.8
+Thanks,
+Easwar (he/him)
 
-This points to a real issue, not a corruption issue.
-
-I believe the right course is to explicitly do an unsigned comparison
-instead of relying on the compiler to allow a comparison between a
-signed and unsigned value.
-
-Regards,
-Kameron
 
 
