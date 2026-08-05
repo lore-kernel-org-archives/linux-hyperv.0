@@ -1,129 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11020136.outbound.protection.outlook.com [52.101.201.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D393E3158
-	for <linux-hyperv@vger.kernel.org>; Wed,  5 Aug 2026 15:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785942762; cv=none; b=lE0pdLEpsH7eTZiOhH30I3HA9Ac85xW4GAhyTj7FCi50Zm3U/mDMrbMIP8bA46SKjN3YZLObOYzrzuaTNwRz9BQdWTi2HqE35PplNBZxbLBKPOZ5y5/4Fabds4zQ+SOI8gtaQS2KyUzFDt3kiQQoOQwi6wW2SvDjlZjHiraOnjo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785942762; c=relaxed/simple;
-	bh=x+3FjV1V8nTR4+UiTANBZrJzaoaHSLJ+k9/1nIFmr2A=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=axvnZQI1ZU/LJFP0rfC+71kCNBbLbOBhTwTgEYpIGeriugoXAIm6gUXOazOoDCEEuh2kP8chcskmdOQTUp5Pe5vYmQnddxcTo/Q4hVj2JBGwsAtYRikOuxZsElRwtZCSbRgbrVKzfq22E9ISHPQpi7BqkRN87k1QW7KpF+WTDAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mk4tA9UP; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCBE47AF6F;
+	Wed,  5 Aug 2026 15:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.136
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785943536; cv=fail; b=NeVkXIgnn8QJik+XLU38wZyHVhdbtWpl+WiUjUQA3QV8bRH1MrQPLRL4k+FNEhnaHUQYJdl1c/qotlKCU8J97nLSlw06frMA1CSOT+PnyzsXYNT4pxv4Apof0vZxkVNWXyAFxSC/7BlvcWtw6rUCsqH79hclP315kQgXsfT1Ruo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785943536; c=relaxed/simple;
+	bh=5DioBRVaJVF1CaYektuFxYBLKaJqTH8saJnsR8Uqcmk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=p4x6QLyePYbf0UEVU+u3b02uXuEmULVSSvnq02M3DNb/j2szy2BOyLxPqBJ+MoRPQTTO6FJ3ikZ3KPbyev2/nTLArajb9XnYhuyAcDYTjTpyojAmcaOLXw5MIYTstI4cSn95GgZvfksh5XpzRsotnn1EGVNuM8cD0L/J6D3ZbxU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=XPZcNDAu; arc=fail smtp.client-ip=52.101.201.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mk4tA9UP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4651F000E9;
-	Wed,  5 Aug 2026 15:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785942760;
-	bh=xEItjSProfOPfZIr0mmvaAYwTPFhTtZdZtH/k+msRjc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Mk4tA9UPU2zdnn+JDejWtxhp2TELQvCpLTbrlcQd8aBOsxrVW9pHDkuACF/nQsrvE
-	 FmkcT3lVBSUzC2WshawDB3c9NcSKwObF6OQUQTdYTYLTqIj9bwkQXw5o2cfCrynrc/
-	 5b8lre4fjeM9WSz9RdFHyo2f1MDJFBWikdiFZocpl1KNcAsmjwZr49SaxTn7TOlnIz
-	 nuRSvKzVOxqD2ibnP4didO8r+tPs8aFyfJ0pB7H8f1aQ5L27hE12WaNDq5YpUq5s3N
-	 Q3wApvpnm5JXapwNkKT/Af0IJbmn4koUqHd3RZ5y6ZW5M6IBfARNWk6dg9gXzpjEVD
-	 Vndl8ow1y11UQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup
- for non-nested root partition
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michael Kelley" <mhkelley58@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260805142421.104797-1-mhklinux@outlook.com>
-References: <20260805142421.104797-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="XPZcNDAu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OycDuvnvoFCCDQQB4QNGdMFnR52zwJ+IpI1Fc3SrsEeuoinsN/mMBNL9/rahO35WufKtWqR5fzd8HINIjB8vcGSYi1vRupUskn8VjycD2RohUGJ2qeL8oWNHmoFc5Zuq/IogHsR9T6g2yGWUib1LiHU+n5IRiXZTdJz/Pf26m55pJg0mWuBE/A6YyDY8ZAO3OmCVPjvq5z6PUbXMO+XV9FcKr6NO9CXty02ccXUEZ3sWz427SafUyGr+qZxXLXn3fEKI2o3c0jGiP48k8QgALBvOLorCXEevejiFrrhxDxIgNOs4vwuxQ5k2kGC/ScBjcUdaD+j8g4euS4c7u60mxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LRF8jspBYq1iLuY2eqD8se0ygmr9+Y4yRYdqTc+z0/c=;
+ b=CgQ3UYZe3CFdxECvoZWtY8F7XuSqDqwxSbEQR9S+olTkFM7ZmCIP3Xi10GkYXZNbJvvyu1Ctd85O6f88y2K8kyvLyCn9kS9N9Uxkm3ffrHDLtof9SB+OwsTCzfXARVMpgCYS/kT52vvGBnFhgrgrTwuETiP4tA8yM93HIZewA55v8t5dHHA4EXFWy5/jcZnophfWVGl8klFIn9YcvMCpo9ooGV2I8sDLzOnFhf2rXv6VMKp52VX7uSvx6qfDEkvmwYPYHR/6GJPwGEsdHxfkW305s12qmtLjgympgVvhuh4v7il5uBd6WleLXJ98NP651Q3DP5wOdvealxYoc1CjKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LRF8jspBYq1iLuY2eqD8se0ygmr9+Y4yRYdqTc+z0/c=;
+ b=XPZcNDAupBU7HXm9jKDeyFoMcM1cwz2x4VQ5Bm/Gvo6UUafhLgiNw7ch5f3vKOwPZC4cFxuwpv8u9krMC+X4ryWMNQ7/xnr5wBeIeVHnrPitDZyoZZDd+xAcXrbaI2Bi8IjdA8KuFIOdUX4ntRxE4/fdr462nB6wjs233zS21Xs=
+Received: from LV5PR21MB4704.namprd21.prod.outlook.com (2603:10b6:408:307::7)
+ by LV4PR21MB6293.namprd21.prod.outlook.com (2603:10b6:408:356::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.6; Wed, 5 Aug 2026
+ 15:25:18 +0000
+Received: from LV5PR21MB4704.namprd21.prod.outlook.com
+ ([fe80::144b:98da:1262:2ebb]) by LV5PR21MB4704.namprd21.prod.outlook.com
+ ([fe80::144b:98da:1262:2ebb%6]) with mapi id 15.21.0315.001; Wed, 5 Aug 2026
+ 15:25:18 +0000
+From: Haiyang Zhang <haiyangz@microsoft.com>
+To: Breno Leitao <leitao@debian.org>, Haiyang Zhang
+	<haiyangz@linux.microsoft.com>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, KY Srinivasan
+	<kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+	<DECUI@microsoft.com>, Long Li <longli@microsoft.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Konstantin Taranov <kotaranov@microsoft.com>, Simon
+ Horman <horms@kernel.org>, Erni Sri Satya Vennela
+	<ernis@linux.microsoft.com>, Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	Aditya Garg <gargaditya@linux.microsoft.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, Paul Rosswurm <paulros@microsoft.com>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Extend RX CQE
+ coalescing up to 8 packets
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Extend RX CQE
+ coalescing up to 8 packets
+Thread-Index: AQHdITLarjnyHDTDWEaw7yPPrfhHaraPXiYAgAA54HA=
+Date: Wed, 5 Aug 2026 15:25:18 +0000
+Message-ID:
+ <LV5PR21MB47047F0C806C38AE8551AFF9CAD32@LV5PR21MB4704.namprd21.prod.outlook.com>
+References: <20260731212306.4098773-1-haiyangz@linux.microsoft.com>
+ <anMikirGHvq7ne_q@gmail.com>
+In-Reply-To: <anMikirGHvq7ne_q@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0e4f7082-9c46-4fdc-96ad-3c4bb3208000;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-08-05T15:15:12Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV5PR21MB4704:EE_|LV4PR21MB6293:EE_
+x-ms-office365-filtering-correlation-id: db3c33c5-71e9-4f66-7d1d-08def305c19c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|22082099003|18002099003|11063799006|4143699003|56012099006|38070700021|7146999003|10067099003;
+x-microsoft-antispam-message-info:
+ Mr+XAO0eqiMUhZ2vLENayTXxLbN4pM4qvEIOhC3ekbpZR3GE5sLnh+9PCsgXl7qzrmIj3Q0N6nM6duLWJrCTTsq2KAf+cETtMbxscWv0OzruqssMG9fS73d5GePd/SPHl2bvNppza7gRVyqBzTvBN7gMEXu1/W+bxRqQakWNAUF3MjVyVXAqk6JyPtZMYiML+7c9dBB9TtnUrkslnkjJ2ty1ymaHXHN8U4Ski9nP5/DfS7Gv27N6Dix7ptYKxuekZubWhaPXxRLWKushcmYihJgtGJV0P0gmtZyTTNkOnHPw6zVx4ntXUT+z9DcUIXf4rSqemFaTanPNphi1hiw7aPvNgTmGLUEuPjSR89B6hxGnGjLjSiStlCEk+eb8n0JrjsK99EFPQuyu7JdFSP0bA3KPyd15/AlL/X01Oa68dn/SNumSGEE//w4EQBjmAu1HWM6kHP39zZbfc8jewSz+JiO75VZw8D80jymTj7pSvuT51M6AylowSmtIKG7vgd2i2fM1b7jgejmbeWp8Ovg4z4tU/BwdnSKx1++x2QU6RxC/XPDU/3Mhp7VF6sXVydBIB0p+tJLf2gZPrg20Q/QSkZbj6EvX4p1J7bkJ4cczIw1TkPMKgeG8MCjNwkYzjBM0qvxsR23QQoYtWELI/zfZPQhcC4wS18y4IFrT32vFKuA5bnz09lRnuMGsDnzUMcUEtEsJ0pXw7URsHOFEr6iPi22GA7k7ukVX4gj3qqOq2qY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR21MB4704.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006)(38070700021)(7146999003)(10067099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?D7FNSeAjL7Eu/g763NKOBuRyI8ZRfQMTWvT0W2kn3t9SWHiUYPsiVmvxHIN9?=
+ =?us-ascii?Q?USqKdSCktkkkY0iRO/cZorlArQw5Fz1uUgiPmwhK2Wx5ugX3BfdVCoyg+wX8?=
+ =?us-ascii?Q?snTI1srYkMHFOEAh0weeAGYR5SofNTWYlBs4IV2xlYoZV5czHX6GHLsz9+zA?=
+ =?us-ascii?Q?BptNTFHDxcvYJAwKWrA1p5hA3nYSR6UxnNtAwYuSje8amnR718LuwFQgp4Kx?=
+ =?us-ascii?Q?4gSdE1BocrqUd9btN5B6glGZpyPhOY4MJiIeub9alQCFQDmMtgn1oGaLCEzD?=
+ =?us-ascii?Q?rQHO+FcHgzEFU/H/2SLYT5p1m6kfefgLuFLi2mFgRdxUgKTnMSQlNSDlsQ6q?=
+ =?us-ascii?Q?oFL1OVpFGDqUUoimb8SYIurIo03Rg13k4kv1iDVqAY0voVMCTrdipa2FrxFA?=
+ =?us-ascii?Q?xYtSB4oWe1cr9b6uSbWuNiMbXIksGIVFI3RDP7TUBm/tpa1FIIUlPXLXIzpr?=
+ =?us-ascii?Q?81PK2CKq4HIr8Y3D/4BugnGhfQwY8sXN04G8VfFAo0z2bLECg4n2AXqE7zEH?=
+ =?us-ascii?Q?FPejsuOrVyMowosWK8yM6C8SaLJ+NHPydMMG3mBjYjwf6CGdHmGZ3pIvJl5Q?=
+ =?us-ascii?Q?JFkroj5Y8t6Yvp4Ndxayk6zJM8mXevKWAmnbUZRbDipMUpnHGmSUDyWjJd05?=
+ =?us-ascii?Q?cShsuorrhleSInRWGI16AshfSewukSEX3kN5cODdXGgeLHZNLEco40+T/1qZ?=
+ =?us-ascii?Q?4gHCrnp7+aUuIXxZXSZmm9oh6tqw6w/UQkXthyRRO/QQiL/9G9kqIxwOor4k?=
+ =?us-ascii?Q?lzwHnm6HAVqjKY4wdWn5KMthO0jxZh3Fujuu9DzZ3NznLnHP08zHyG7zbvni?=
+ =?us-ascii?Q?HzEEVGJnPPe1ZVAcPu5qpdb82NZBqaOOz+maem4qdRz6kYT85uz5srFf/Fx/?=
+ =?us-ascii?Q?z41nc732TAHYZq1zMM48lpY8KlAGSG/Gda2+dABY0qUQXtqGPXFwRBqTSDhA?=
+ =?us-ascii?Q?ePbkfue3b8YcvMgR0+ZvMLL9ADeEmnQYq5pZyQaMtBMc3hCSyMTy5YTynKs3?=
+ =?us-ascii?Q?z1kXxK7f1bNG9V0S7x7UYYcsyXNifFOYwQN8uXxgVKJlw9PM2UrQSJiXZC7G?=
+ =?us-ascii?Q?yK/hx7QKJUxpmMawAYmin6lhjypKhKYVRNAxWgUS9s1vtrzWXJ3GGi5odyKl?=
+ =?us-ascii?Q?9Fwd/okL917QcvtI4XEGLlZQX+N8WA6G+on3HWZL3VexTg4iWsttZUB9aT14?=
+ =?us-ascii?Q?PqMsU11VH+Xc3cC2uRhUr4GtIdlbZ9O7c3ZC1yhpjoUQugoJx+31ajaaX7E8?=
+ =?us-ascii?Q?VctQZxkAZQ9XNx8CnydFecTVnq10ocsI03Qgb+LLmQjuoAhttfJttqfKioLj?=
+ =?us-ascii?Q?THlDGyGwbdREx92tv0q3lzC/W/SW/1yoDQufA+/5DDApYvXUqL++rphQ6v0m?=
+ =?us-ascii?Q?UAV5IeVE6BT1mmVJ3tAroP4jRlnAgo+GOeNtwgG/xMzgswsx26hE+llLWAbK?=
+ =?us-ascii?Q?iEERNaRjOOx7r4naCMDzjbQ9dOPFu58zkC76QPwfrEOo8cu+zx8x3w0BeqWn?=
+ =?us-ascii?Q?+Mkv43XGnNR47hMjV4/Q3ONH/i0d2ZlmosUjEnyA2enlxNx1VZdxVU7mUkxw?=
+ =?us-ascii?Q?yWHhbE5P5nY7evcpu1HB0HcpXPfy/e5VuanTKs6TVhe7Tj0dVxR2wM486kVy?=
+ =?us-ascii?Q?PUwuofTwAE5aYm9me9WWXqStE1mETYv4aqqXtkMxbjcpzbd97i24na3q3VdM?=
+ =?us-ascii?Q?S/SUoPS4I3tw/twHH5Duwq5gLG6JP1zUtRCzirhI5pl6v4NeR3ZbDF2EM5B3?=
+ =?us-ascii?Q?sjChHBIwsg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Aug 2026 15:12:39 +0000
-Message-Id: <20260805151240.BA4651F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV5PR21MB4704.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db3c33c5-71e9-4f66-7d1d-08def305c19c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2026 15:25:18.1547
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J31QPzRRTW+pQYRxVMOYoyy0qvVnQqqzToo95wShrZVltt+hr4CrmhfByCUaJb/+/Y1OciKYATuAaTZLpSEcJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV4PR21MB6293
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
 
-Pre-existing issues:
-- [High] Backwards teardown in `vmbus_exit()` causes failure to free IRQ ac=
-tion, leading to reload failure and potential Use-After-Free of unmapped IR=
-Q handler.
---
 
---- Patch [1]: [PATCH v2 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup=
- for non-nested root partition ---
-commit d186708fbf26f95dce2f00a8fed8b7ac79496439
-Author: Michael Kelley <mhkelley58@gmail.com>
+> -----Original Message-----
+> From: Breno Leitao <leitao@debian.org>
+> Sent: Wednesday, August 5, 2026 7:48 AM
+> To: Haiyang Zhang <haiyangz@linux.microsoft.com>
+> Cc: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; KY Srinivasan
+> <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>; Wei Liu
+> <wei.liu@kernel.org>; Dexuan Cui <DECUI@microsoft.com>; Long Li
+> <longli@microsoft.com>; Andrew Lunn <andrew+netdev@lunn.ch>; David S.
+> Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub
+> Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Konstantin
+> Taranov <kotaranov@microsoft.com>; Simon Horman <horms@kernel.org>; Erni
+> Sri Satya Vennela <ernis@linux.microsoft.com>; Dipayaan Roy
+> <dipayanroy@linux.microsoft.com>; Aditya Garg
+> <gargaditya@linux.microsoft.com>; linux-kernel@vger.kernel.org; linux-
+> rdma@vger.kernel.org; Paul Rosswurm <paulros@microsoft.com>
+> Subject: [EXTERNAL] Re: [PATCH net-next v2] net: mana: Extend RX CQE
+> coalescing up to 8 packets
+>=20
+> On Fri, Jul 31, 2026 at 02:22:53PM -0700, Haiyang Zhang wrote:
+> > From: Haiyang Zhang <haiyangz@microsoft.com>
+> >
+> > To support up to 8 packets per CQE, update related CQE processing
+> > code and structures.
+> > Update ethtool handlers to set this feature.
+> > Update per queue stat to show the coalesced CQE counters.
+> > This feature is supported on NIC hardware showing the relevant
+> > PF flag.
+> >
+> > Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+>=20
+> Reviewed-by: Breno Leitao <leitao@debian.org>
+>=20
+>=20
+> > +/* 8-pkt mode packs up to 2 packets per PPI entry */
+> > +#define MANA_CQE_COAL_PKTS_8 8
+>=20
+> nit: The name encodes the value, so a future 16-packet mode would need
+> a second macro with the same role.  Wouldn't something like
+> MANA_RXCOMP_MAX_COAL_PKTS age better?
 
-Drivers: hv: vmbus: Skip VMBus module cleanup for non-nested root partition
+The FW API uses mana_cqe_type like CQE_RX_COALESCED_8 for the CQE coalescin=
+g
+x8, so I followed the same convention for the naming here.
+When it supports 16pkt mode, we will decide if we rename this one or add a
+new name based on the future API.
 
-This commit updates the VMBus module exit function to skip cleanup when
-running in a non-nested root partition, matching the behavior of the
-initialization function. This prevents memory faults and kernel panics
-caused by attempting to clean up uninitialized resources during module
-unload.
+Thanks,
+- Haiyang
 
-Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@sm=
-tp.kernel.org/
-
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 6824bd7cb3c4f..88fc6add26860 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -3030,6 +3030,9 @@ static void __exit vmbus_exit(void)
->  {
->  	int cpu;
-> =20
-> +	if (hv_root_partition() && !hv_nested)
-> +		return;
-> +
->  	unregister_syscore(&hv_synic_syscore);
-> =20
->  	hv_remove_kexec_handler();
-
-[ ... ]
-
->  	vmbus_disconnect();
->  	if (vmbus_irq =3D=3D -1)
->  		hv_remove_vmbus_handler();
->  	else
->  		free_percpu_irq(vmbus_irq, &vmbus_evt);
-
-[Severity: High]
-This is a pre-existing issue, but does calling free_percpu_irq() here abort=
-=20
-and leak the irqaction?
-
-It appears the CPUs have not yet disabled the interrupt, as=20
-cpuhp_remove_state() is called much later in this function. Because=20
-cpuhp_remove_state() is what triggers hv_synic_cleanup() to disable the=20
-percpu IRQ on each CPU, the IRQ is still locally enabled here.
-
-This sequence typically trips the structural safety check in=20
-__free_percpu_irq() causing the free operation to abort and return NULL.=20
-If the IRQ line fires after the module is unloaded, could the kernel execut=
-e=20
-an unmapped function pointer?
-
-[ ... ]
-
->  	bus_unregister(&hv_bus);
-> =20
->  	cpuhp_remove_state(hyperv_cpuhp_online);
-
-[Severity: High]
-This is related to the pre-existing issue above. Is this execution of=20
-cpuhp_remove_state() too late in the teardown sequence?
-
-This step triggers the offline callback hv_synic_cleanup() which calls=20
-disable_percpu_irq(vmbus_irq). Because it runs after free_percpu_irq(),=20
-the IRQ action is permanently leaked and subsequent attempts to reload the=
-=20
-module might fail.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260805142421.1047=
-97-1-mhklinux@outlook.com?part=3D1
