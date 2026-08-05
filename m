@@ -1,117 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4223DAAC8
-	for <linux-hyperv@vger.kernel.org>; Wed,  5 Aug 2026 20:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D483D6472
+	for <linux-hyperv@vger.kernel.org>; Wed,  5 Aug 2026 20:58:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785962914; cv=none; b=kOXdzRjQsXYUBiZTQQW9wxLNnmzB5gL+YTFyatIM2erd+jRm3YOsJhIb9STjbEz4Qy2LjaMnkflSdsJ6UokitwHq+ppIrTRnef2y4CDKblkiktYqTJX3qPzrR0wOW2kOA9VzJaeunaYnq8P6PKCLM9f1RGL3+oEJTbwgsVBdHwM=
+	t=1785963488; cv=none; b=QUeRuGvR8XJXD9gM182VlBfFt6qH9jpABH42FnCgHEii+Bgw99EESJlMuAI6XwpzSa/4Mlmk0nlHx/HSuGgZmGYehu+18Ogm+qv6n6JZNkw8rzgtIYO59xCsjLiCsZeAeXhHrIRWzt1DCZzrHUieEeSaOsWOZu1o+SOOkeRK3Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785962914; c=relaxed/simple;
-	bh=/wth0lEXcjh/n+pY2EtvxaPN/tZ78bXVTaMJJ/im5+U=;
+	s=arc-20240116; t=1785963488; c=relaxed/simple;
+	bh=3nhthdifwM+vBQcXvGR8ACMzzd9En9LO13ApRVHBjbs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=u5CufeJ8b0Ch6Wd76hwfyfJus4vIb7kIzFuFNFhXs7XJO3ZeTGL75uzD7MPkA+yHmSs0v/EZQYJTTMjv22se2dO2+O4QpnVwDjBvdqT/Q2lc5UpxySGIGI7ZICq7hzwZwkyGIy/J/nnyqnJMoQt76uHK/X6UCvC8CUKcOglaQFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zl02Je1m; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=hAh6rubisCu+6LC6v3OvFMAOZDrarODr+gPODzyjB6J1i+UBxM3RfJiraM7lIYeAH5cttxx+61hX/htJwuBtef39L10O1q+UTLvSicapuaroLYQWe/91F7yTr4ZWSAqOTa7hv6v4Qlw4ViuUvfDFUvApWAux1mcIpoWEwoJJl7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmPTVxXS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zl02Je1m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430C81F000E9;
-	Wed,  5 Aug 2026 20:48:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmPTVxXS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5AC31F000E9;
+	Wed,  5 Aug 2026 20:58:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785962912;
-	bh=Fs34yIg409v9DVmjWJ9T0JBYve6xlEu9ath/SF8rrIo=;
+	s=k20260515; t=1785963486;
+	bh=3nhthdifwM+vBQcXvGR8ACMzzd9En9LO13ApRVHBjbs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Zl02Je1m/PZCezFQFrWY3fYoqqu/J91o7X9L3WhRy4nx0nd660gkHp4Nrhjs+F6SS
-	 0PcqAXAKz/m9aVgcs3ZXnAFaFCcBV3TEpOkaWM47R7iWiGFXEqrStw+ZdEV9orcMpe
-	 C9fHVlrGNsk0L6hYGWF+84JT2M56K2K/AqpLefnaTac20d8rNjqxEK9Dk4uNG42iPx
-	 ANfUVyYgtolibvqISGlMdVoCIqj4segyAiqyjlQYtRFB0GRYc9vJ+ZEXimpXFqbAxV
-	 xo7r9OlHlDpzW3XAQ8gRXRqpysaN8pDYkZFa4j+rlMw+1Se0d1d8lpgS1J5Z+/VTtO
-	 85K6X1iuLurTQ==
+	b=bmPTVxXSYaOuLXTkD5VyhsJ+W6obbF6vO7VJ4FTa7b4lWYOFAnXx9TnuIFahfDjiJ
+	 cB6e33FKGcXSMF1LPcBLiZPPLDYm56Ujgxd8qD3F8q2E1MMd20Az9ydZWeMg/uNour
+	 sSHTYJu45m/F42OGM1Yuh+BVMpgzoUoPW8kuIzMpJNekpFVMPq8vOwq7uVn/sUpRjy
+	 NuPTzwtPGrZwBNnPPtBQoyJUxIn6zTZxPs2Gr97zqUKS8RB7DhAWR9Cezinz07i1LY
+	 c/C+6W/Ad8rkIkr6smqQ5XkeQcl7DCDVHtStE4p8FRGUbkWOVrPEujy9mLWSpJzU9I
+	 3eRf8w0TrPNKw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/6] drm_hyperv: Remove support for synth video
- protocol of old Hyper-V hosts
+Subject: Re: [PATCH v2 1/6] Drivers: hv: Remove support for WS2012/2012R2 &
+ Win8/8.1 version of Hyper-V
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Michael Kelley" <mhkelley58@gmail.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260805203751.2678-5-mhklinux@outlook.com>
+In-Reply-To: <20260805203751.2678-2-mhklinux@outlook.com>
 References: <20260805203751.2678-1-mhklinux@outlook.com>
- <20260805203751.2678-5-mhklinux@outlook.com>
+ <20260805203751.2678-2-mhklinux@outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Aug 2026 20:48:31 +0000
-Message-Id: <20260805204832.430C81F000E9@smtp.kernel.org>
+Date: Wed, 05 Aug 2026 20:58:06 +0000
+Message-Id: <20260805205806.B5AC31F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
 
+New issues:
+- [Low] Unreachable version negotiation fallback logic left in hv_balloon.c.
+- [Low] Embedded newline and multi-line string literal continuation breaks =
+kernel log formatting.
+- [Low] The patch series missed removing legacy VMBus version checks for VE=
+RSION_WIN8 and VERSION_WIN8_1 in other Hyper-V subsystem drivers.
+
 Pre-existing issues:
-- [High] Missing `reinit_completion()` and lack of transaction ID or messag=
-e type verification causes data races and state machine corruption when VMB=
-us requests time out and receive late responses.
+- [High] The error path in vmbus_connect() and vmbus_exit() bypasses sendin=
+g the VMBus disconnect message, risking guest memory corruption.
+- [High] The error paths in balloon_probe() and balloon_resume() fail to ca=
+ncel scheduled work items, leading to use-after-free.
 --
 
---- Patch [4]: [PATCH v2 4/6] drm_hyperv: Remove support for synth video pr=
-otocol of old Hyper-V hosts ---
-commit d7a97b3cab0a3a58ec215d4c2c173f39a5e2648a
+--- Patch [1]: [PATCH v2 1/6] Drivers: hv: Remove support for WS2012/2012R2=
+ & Win8/8.1 version of Hyper-V ---
+commit 764adf4bdf08e43be943c35b8558657a532f1362
 Author: Michael Kelley <mhkelley58@gmail.com>
+Subject: Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version o=
+f Hyper-V
 
-drm_hyperv: Remove support for synth video protocol of old Hyper-V hosts
+This commit simplifies Linux code by removing special cases and VMBus
+protocol version negotiations for running on older versions of Hyper-V
+(WS2012/2012R2 and Windows 8/8.1), as their official support ended.
 
-This commit removes support for synthetic video protocols from Hyper-V
-hosts older than Windows 10. It replaces the version negotiation loop
-with a single negotiation for the WIN10 version.
+Note: The format of this report is altered due to recitation restrictions.
+The original patch code is not quoted directly, but rather a free-form summ=
+ary
+of the issues is provided without inline quoting.
 
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/=
-hyperv/hyperv_drm_proto.c
-> index f0ef627b4898a..1d09bba1efdd8 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-[ ... ]
-> @@ -581,11 +559,9 @@ int hv_drm_connect_vsp(struct hv_device *hdev)
-> =20
->  	hv->screen_depth =3D SYNTHVID_DEPTH_WIN8;
-> =20
-> -	if (hv_drm_version_ge(hv->synthvid_version, SYNTHVID_VERSION_WIN10)) {
-> -		ret =3D hv_drm_get_supported_resolution(hdev);
-> -		if (ret)
-> -			drm_err(dev, "Failed to get supported resolution from host, use defau=
-lt\n");
-> -	}
-> +	ret =3D hv_drm_get_supported_resolution(hdev);
-> +	if (ret)
-> +		drm_err(dev, "Failed to get supported resolution from host, use defaul=
-t\n");
+[Severity: Low]
+In drivers/hv/hv_balloon.c, within the version_resp() function, the patch
+hardcodes dm->next_version to 0. Is it necessary to leave the check "if
+(dm->next_version =3D=3D 0) goto version_error;" and the subsequent version
+request packet sending logic intact? Since the downgrade path is removed, t=
+his
+makes the remainder of the function mathematically unreachable dead code.
+
+[Severity: Low]
+In drivers/hv/connection.c, within the vmbus_connect() function, the patch
+adds a pr_err() call for unsupported VMBus versions. Does the embedded
+newline and multi-line string literal continuation break kernel log
+formatting? This can cause the second line to lack a severity prefix and
+interleave with other logs.
 
 [Severity: High]
-This is a pre-existing issue, but if hv_drm_get_supported_resolution() times
-out here, is it safe to proceed and ignore the error?
+This is a pre-existing issue, but in drivers/hv/connection.c during the
+vmbus_connect() error path (cleanup label), the vmbus_connection.conn_state
+is explicitly set to DISCONNECTED before calling vmbus_disconnect().=20
 
-hv_drm_get_supported_resolution() issues a request via hv->init_buf and wai=
-ts
-using wait_for_completion_timeout(&hv->wait, ...). If a timeout occurs, the
-error is logged but the driver initialization continues.
+In drivers/hv/channel_mgmt.c:vmbus_initiate_unload(), the code returns early
+if the old state is DISCONNECTED or CONNECTING, thereby skipping the vital
+UNLOAD message.
 
-Later, if another VMBus request is made using the same shared hv->init_buf
-(such as in hv_drm_update_vram_location()), a concurrently arriving late
-response to the original resolution query could cause a data race:
+Can this bypass of the VMBus disconnect message cause guest memory corrupti=
+on?
+Since vmbus_disconnect() frees int_page and monitor_pages without the host
+being notified of the teardown, the host might continue to DMA incoming
+messages to these freed guest physical pages.
 
-hv_drm_receive_sub() would overwrite hv->init_buf via memcpy() while the new
-request is being built, corrupting the outgoing message. It also signals
-complete(&hv->wait), which could prematurely wake up the new request's wait
-loop, falsely accepting the old response since transaction IDs aren't verif=
-ied.
+[Severity: High]
+This is a pre-existing issue, but in drivers/hv/hv_balloon.c:balloon_probe(=
+),
+if the kthread_run() fails, the probe function jumps to the probe_error lab=
+el.
+This cleans up the VMBus channel but fails to call cancel_work_sync().=20
 
-Does the driver need to reinitialize completions or discard late responses
-after a timeout to prevent this state machine corruption?
+Since the host can send a DM_BALLOON_REQUEST which queues balloon_wrk right
+after balloon_connect_vsp() finishes, can these orphaned background work
+items execute later and dereference the freed device, leading to a
+use-after-free?
 
-> =20
->  	if (!hv->screen_width_max) {
->  		hv->screen_width_max =3D SYNTHVID_WIDTH_WIN8;
+[Severity: Low]
+The patch series removed legacy VMBus version checks in the core, but did it
+miss removing them in other Hyper-V subsystem drivers?=20
+
+Drivers like drivers/gpu/drm/hyperv/hyperv_drm_proto.c (in
+hv_drm_connect_vsp()) and drivers/scsi/storvsc_drv.c (in
+storvsc_sdev_configure()) still contain switch cases for VERSION_WIN8 and
+VERSION_WIN8_1 (or VMSTOR_PROTO_VERSION_WIN8). Since vmbus_connect() now
+rejects hosts not supporting at least VERSION_WIN10, isn't this leftover
+dead code?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260805203751.2678=
--1-mhklinux@outlook.com?part=3D4
+-1-mhklinux@outlook.com?part=3D1
