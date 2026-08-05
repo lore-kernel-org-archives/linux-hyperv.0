@@ -1,185 +1,164 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11022105.outbound.protection.outlook.com [40.107.200.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2ED4324716;
-	Wed,  5 Aug 2026 18:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.105
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785956249; cv=fail; b=n+0vWFzUvmTb+vpR6suE12+QljX7EfIHJRYgG/dS+ebaDYiKCibCiGeQfu94E60jk3fRc/JndHbErAL2c3gVGUvhBUh//3dyIhrvU9C9zPuECPXuP/FZg33+zqk9iE0Yf3kTma1kyIETxhCRy1vQG++6FKx+14nvpvmqN2/PipU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785956249; c=relaxed/simple;
-	bh=zb/qqzOH4UER+8itVurxDycpoYHV0K0caGuxDS0T8cc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=C78b4g/igTCxVADZ/bLWffjTpkzKR5vmXwu/eeKis7t1jXrUgWkoYyEPCw7ZOv4e3K+LhX8dzdeGvUTPGeE1mS+GthPnVvRJpx4lbAySWaEhiPAIO4b3jFJpSx2UiIT0zNqPzctga4quUBZY4q3UfB4wkRUrZxuIMgHosR+sYv8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=RbJT0yMo; arc=fail smtp.client-ip=40.107.200.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C193D7D6A
+	for <linux-hyperv@vger.kernel.org>; Wed,  5 Aug 2026 20:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785962285; cv=none; b=t5unlNFy4vxvkDRDBxMjoD/MVTZN+c38RhAaAO3w+ResU66Qb6jfOTliTFDTigIChW8WpDV5fnhw5MMouRKvV72CeofpvavHTCTbdIHW4Vthsyyx3XTa/tzrxa0Fl6YsIDRfliFpOj8s0cHf+V4gUyKDnhDK4O6x/lnNnJuhX5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785962285; c=relaxed/simple;
+	bh=GtZBxsNY2EVbCMppOi5bGS4/lroKa+sClEkbYM3t26w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gnhg8WzGjljlNPX6fOBBjwJF2yTI1+z37/tiVjReMJC/Hgo/GC4BVTVp/6OzIo3ypfhgrXt8GL2P9O4fCtYQUi/SgKQAVEREgyqxAS3ZMbbntLr9dTFx6sdrpc8hU657lOxv6KxP+f+QAirv9GI9gcmrIW3UIzva2LYgjF7I7cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c9d72vjq; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="RbJT0yMo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ajBr05a51CkpMKRBlvnRQW5NBHzCl9uY80ZM5YD5if0HG7PRdHAta5MZsVFTyyQ13liAEzgSQOnMzCxzo/6QkkvtqiXJo6Wt6kCKi6I55aEjoC4XqyAbF++f2bZeHmU5XufvJYRqtkxVLzN7ltqBDyx7j7L+GEkFrfdwcDj8NUIdoI32Ox/kQpGBNK0YbVxL/cJT4I4L8db5WdAqRjiNWo2Ft8yIh/q40XljZ1W5idumlrvGstfmFOKckob5EL4GYivOzgDkC5E5aSuZVoaupo9K5WhIBHta6ROPN869BspOj4GphWERR3y/SoiH6RE5WypySKs6o7IiwUGN9DBhew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=akQlkY5tAVwmFECRX/GSGWgGZE7Bka5rrgSKcQTRWJA=;
- b=G9hrDjxaPVy3bGF5FUnA68AWaAzZvyjzmHiPTqHI58apGoUFn1ArXLXpwHum2khty7Ue0sV6Zj53Ui5A/Tr1iPYOcIKIk9fHad0s7HeCuoWj84rQr3Rtl8eeN4vQuOG+YLGKz7fcrZ4gp84V4SjiqjtUIKawf2sewzDXcS/h20VBbxrTlubzamZir2aXYLQehZLaeWIEQrw83Dor4DkkNqR7/+k2XaY3UH9CnQlliDy+yioOXzZQ50fiCHf40USaKbKeiZbw9OxII3mgosE8d9dx2rk0QhFSreJoiHEvKgKUK/jOM0fvoXyQ0b4jMyfPtBO/NfHkIRo4x5PP8FuqnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=akQlkY5tAVwmFECRX/GSGWgGZE7Bka5rrgSKcQTRWJA=;
- b=RbJT0yMo/WJAGEVzX90ZARtG7MJo6jjLEQMCm+ROi7pH//WuBasHpwQF0ihP/D/LfFrAKdh+sO624vPND14Vnb/1IbK+CrhlVj3atem2JM1V4ze0n85AIFwKryY20Goz6J9aCEHfVQiGYjX2bro4H5D7MPgwKfPvKNCgLhBhiGk=
-Received: from LV5PR21MB4704.namprd21.prod.outlook.com (2603:10b6:408:307::7)
- by LV9PR21MB4997.namprd21.prod.outlook.com (2603:10b6:408:2f0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.5; Wed, 5 Aug 2026
- 18:57:21 +0000
-Received: from LV5PR21MB4704.namprd21.prod.outlook.com
- ([fe80::144b:98da:1262:2ebb]) by LV5PR21MB4704.namprd21.prod.outlook.com
- ([fe80::144b:98da:1262:2ebb%6]) with mapi id 15.21.0315.001; Wed, 5 Aug 2026
- 18:57:21 +0000
-From: Haiyang Zhang <haiyangz@microsoft.com>
-To: Haiyang Zhang <haiyangz@linux.microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, KY Srinivasan
-	<kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
-	<DECUI@microsoft.com>, Long Li <longli@microsoft.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Konstantin Taranov <kotaranov@microsoft.com>, Simon
- Horman <horms@kernel.org>, Erni Sri Satya Vennela
-	<ernis@linux.microsoft.com>, Dipayaan Roy <dipayanroy@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>, Breno Leitao
-	<leitao@debian.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>
-CC: Paul Rosswurm <paulros@microsoft.com>
-Subject: RE: [PATCH net-next v2] net: mana: Extend RX CQE coalescing up to 8
- packets
-Thread-Topic: [PATCH net-next v2] net: mana: Extend RX CQE coalescing up to 8
- packets
-Thread-Index: AQHdITLarjnyHDTDWEaw7yPPrfhHaraP1c/g
-Date: Wed, 5 Aug 2026 18:57:21 +0000
-Message-ID:
- <LV5PR21MB4704A42FB91A2F30C4AADE3CCAD32@LV5PR21MB4704.namprd21.prod.outlook.com>
-References: <20260731212306.4098773-1-haiyangz@linux.microsoft.com>
-In-Reply-To: <20260731212306.4098773-1-haiyangz@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=e0ed9e35-8d66-4a63-9f9a-232c14bb00ad;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-08-05T18:56:21Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV5PR21MB4704:EE_|LV9PR21MB4997:EE_
-x-ms-office365-filtering-correlation-id: 90564ad0-9e38-4e83-e0dd-08def3236155
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|7416014|22082099003|18002099003|7053199004|56012099006|11063799006|38070700021|10067099003|7146999003|921020;
-x-microsoft-antispam-message-info:
- CmpcJ4C9YqZo6tgoYJNn04ZtYB5fKfDVXdKC+/+/bNHO0IiOBc9fctFBtdk27htSCbAFz2S7+/bC1jHteddeRUy6BtA6lZjYopn0tTEzybinM1Lyf3PrG1argCQgwWIe3cy3d+PURqRe2mr+2UrDf6xjehGYMjELKR3MOR3J04OdcrHr4KM0UtgCKYpKY4SB0NEUKH/mkCYh1pdsAfuDfMT2L37hZGbS4F8BvPQqKxDH0s8WAwV2XCi6B90milesZ8+WBpgRUsZfKZS6cX+5ExMoZyn53xk8qxgV27DpKW6OGdHxlQgxQ2iraqaecwK8oUKQG9D27i60hpX2rW1YBPmhhL1CKf9G7dfABeKqvBAwac8s1yswSzhQtGsVvh4+CxFqTYlD/dQ3wPGDoysJuMdJ7nXCZKTV9j9Qm/TUR6Rbf+2Mp5QFneSPeSSVR3qUg933g+n0kfLOTZsCsTE9Vb7uykVyuN4Ndby1cupQnO02KMlFxlYCYVofj6762KuZlgO1EkIuhGkb7WE1xHkZ6IChhdJHW4j5rjrYuyxayOS/I57ZR8LObtBidcd0UkreYLgqJN4YyL5eZ2CblvEd7lIVoW2A9EoljLne3XBwtpwquHOwaR1xczTBd8YVPIfPlna/uQXn3dtXiIfEFGOdeID0m7tA9rkp+w6khfYpnd/ksj56oKFz7d/JqyvGRN9w9A9AOL0FA8FS/2h2urXinA558eefxhZBvCRkrX05E2g4JZrzum/XC0Jxw4RATolh
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR21MB4704.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(7416014)(22082099003)(18002099003)(7053199004)(56012099006)(11063799006)(38070700021)(10067099003)(7146999003)(921020);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?eMrrpiAsoC3qffpbkcB6wPlKuezsasXxE+e+HGwWKLc1HRAeVixTav5CVDym?=
- =?us-ascii?Q?VGTA66nfReJO3EW9+AtR1yWjAKz52Gvd07jJNZB7dzWu3vJIbZF1ieAd1/kN?=
- =?us-ascii?Q?KeUqApNX5oE71jyJMOwkCpMwI3R+P3SdP+aixzkgq9YuutHGxJJDfXbDyA8j?=
- =?us-ascii?Q?ob7uTMsIm+CHC/RpAPxpn0/l5kh2i5G+/jXRouxSmvTwsq6mPXle8P3eLTK4?=
- =?us-ascii?Q?SWjf9+r2u35Dmn/9XgM3fxsZFs8kovlItE6R/eVvhiXc5HwhRjeZMTx8Ss7d?=
- =?us-ascii?Q?22EwRqpDIx01Zc+iS2xS6bGw6bY4kL1pbrnY7TGNvry/E5QgGQj8PZcmc4Ui?=
- =?us-ascii?Q?4TO8aRKiTANhkaRs+EY2U8oQhVTHuf4Qgu+ZkCfTPiNJGFTlog0AveLpBGil?=
- =?us-ascii?Q?4eaBnAB/VcFYgnSIScOQKB8P7XIXdMW/UigHp/xDju5UtbWx5bxfvRhIvayW?=
- =?us-ascii?Q?MkXGgt6EzjcQEft84t0XDKz67XS7gCow3x/cUz6R2Tk2W+DQET/zBT9NKH0v?=
- =?us-ascii?Q?34tD+J8lNEaeWhMHh6lG5xOQCgCSn5tRn56kEVi839dnl9lUSY4sZnmvEOQL?=
- =?us-ascii?Q?eqfOl9VLBlhIfbwkLq8m78RARblB9uSsGoQ+4LBINtkW27MwMw29TiEI/9Cn?=
- =?us-ascii?Q?oVLzBT4VJFg1lPbMvcNhrJQAcq0le4fbVZQVbdw+qDFMZHQNTHhMmXux1uK4?=
- =?us-ascii?Q?M52Yz0J0CtRjZ6mGs4x0oDo0gDiZ9+5MH8jkfcoVJ+40RsrtNqnNaFAmeg5N?=
- =?us-ascii?Q?35x9ffSo/I1BwBB0fN9FabT4018Cq5Ep5jiiIPL8Q4sRp+5+fNZMaWekc/5v?=
- =?us-ascii?Q?JxPPZhjX5oBMKBOax3hBlzaLtUd9oFCCo7R1q6RdIN2XAKS7QOKtg3ry/NzA?=
- =?us-ascii?Q?uBvgA4sklmrybG5jxoxPow0Rou4ktwB7EkWk6T26KtRkh/gZ8s/g+zLNNZaI?=
- =?us-ascii?Q?+o2/TAMTlSE59cAJSnjRLa2mMwrZ7xaJ9S4M2Ze4+VsvT4qugCQISkJxf7hB?=
- =?us-ascii?Q?pbH221ukYI56LuZnffNsint4m4fVewH1qzn+mPsbN46T2hY4DFWdmJ76ibWV?=
- =?us-ascii?Q?44NwbQ5QZPJB3wzgpVuycKg6JZPbVYjd5Fi3NzhTUbyzTYQDNBhPBXWVtNUy?=
- =?us-ascii?Q?8fdIIpF6gxPIN1whrquoo4lCKyHxiXXWp2RjKlSnXPXr+Y7kvZ+YBC92hPFd?=
- =?us-ascii?Q?KWLTqDirLYbU/gA0TyySRcCyI9Xi0AwAm1P4ON6FxWLTopQA+XEASPVB9OOD?=
- =?us-ascii?Q?U+Ux0ajjDYGmO4BU2imqoB+DAZjyPBduAiQAgYcOKzxRep/1fPOH3OMOvaHz?=
- =?us-ascii?Q?pmsWi9WSAFrXgJZlLfbu4Rc9bLl34wbLh96TUskhKx1jgbl98yxlcok4lOLG?=
- =?us-ascii?Q?n3F8H4vkiMTt+6lc1NBrAKpQ9gDO+sQn5wdoH8/mS6JCLx/IMUcucMuYmtck?=
- =?us-ascii?Q?Tqq3pe3F64q61WW8IUL063AeCPP/tYF+UZzGCk+rwn5q4aHMThs/GuBB0LCS?=
- =?us-ascii?Q?Vnja3C6MdT88YX/RXMsR9yZ25W/KwR7lznDBJGittGeKDzq90wEiO6mpibyq?=
- =?us-ascii?Q?apqfa7Zxrt8m8ptxJsEUlXMAvyxMA1tLJhV8Hp0UVtDmIH3CjdCC02uhIQzR?=
- =?us-ascii?Q?HCJlJdSEglJfjWLPoPbUEYU3kcmmiFAjVHQOLD2dmDr8RyqYP9ZeqL9vtm2k?=
- =?us-ascii?Q?RMlbEouK9+uiHOpYQOueOWhRPP0VZ4kggl6OpEksTcZnFmNywGtlhTM2E0VU?=
- =?us-ascii?Q?Xysmtip0iQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c9d72vjq"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d032846c95so19924715ad.1
+        for <linux-hyperv@vger.kernel.org>; Wed, 05 Aug 2026 13:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785962283; x=1786567083; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BmVh4KRe3hgz9m4MpvFISw7w1ZAAFF37oKFJENEaSMU=;
+        b=c9d72vjqdIH5bRETUjyvJf5/3w1n/Wj5J6lQm3tTUIBueeoZWLy2wrU7YMH/Wopaiy
+         ENJYhmCNUBjpk7CHfliuOGZ6TpN6mScv/BoUEN2WnTV25iaEHlc1BJFmArgPnGx18+Hr
+         X0K+KRnE8LIO+aOfi2UBvA+GR6EElU1C6PpwoEXSksOmNx+bC4gEIbVGO2nu9oF8V/Sw
+         gyD1LB2APYxO29wKY7Hb0Jk+eZGvz/kljfbJo1yluqLv9p5TPoivS/FHKdX1cgNoK1B5
+         EB79Hg6Erng5S/RdZASYithZmLN+pCDLwwCXPR+pcXWa4hrGuH0MLTNHtknE/xuUzp/S
+         c4jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785962283; x=1786567083;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BmVh4KRe3hgz9m4MpvFISw7w1ZAAFF37oKFJENEaSMU=;
+        b=FReNmpqe7ygQtNuQiJSRjBoSoSbtGm7r6fIyC0E2L6IsN2Vjuh1Kk3X605zn7/M395
+         uW6dWJKS5P1thRd6/04RzwQuo6c9ODdad3M7XND633IHiYx1RAKzc9LVLGi/+VDEelqj
+         0SNnl6PJQ6Xa0avvpHEGJLIv/SsgVA3+WqjlTanvqXcCsMagGP1g0uqETZ14e/LDH4/0
+         8tSBzo097njQxQVrs2qAdS9mfE0UdFWnsgLn31swe1G48UYFRPNp6yLZwcep/1P2pugw
+         CRsLPApSckCygLUfm7oJ78nArplV7L3Yadi2M64czr5Mra8+CwviwWruG1ZsvNQ4K+Iq
+         DMkQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1JTMcO0HJL8lgRftC9jtW7q2NYT9MXbBSq72aVt6/NMOA+xwcced4KeYfnt/nIhmjmKhLFwud68+eJZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOKIT//nLXgjOspnulBTFX+xqeID81Y6iVSL15mpV38985pk+N
+	aSeruIwJGHBiYLXipj4hqe0/0JKZ4f5B0JPcr7SHWrYlKwxIZL1TowzD
+X-Gm-Gg: AR+sD11GWu6rvJmzN1iJpkbYWVaeW5icuNfhUWTiTNpajmUgQeNL2DEI5DvcnVUrgO2
+	KREeMCCD5fTvHHXeGstvYcJxFI3qVp/AxmRVpVIaIpNeJP+3ZGoeNnVZbzqIE+N/KMB5zH3vN++
+	t1HlGHBVZ6p5iWsn24dK/QlDVdtjXmjRqszvREKZZqvLGUhH4hOMiZtxQIcC4VTvas+IYvVWU1b
+	hgSNy7K5IzUma66sfBo4B6crOT9LcoDrIfBJlMvsgxSmysGMYuXjZZjDN5UThJIMzpkZF6/24Ke
+	muLz849TLT0FSgVU93gZh4XOViBVrOVRHX07rUOzGLkzpAnnsdEGBo2yOyPlfngL/5gv5CGguml
+	a64ofciCXxTHDRTEi4KRedi6K2/CBwK1TlARHxXKcpBB+6C4InGO6odiRwm5ReC5VQL2LFJAQxl
+	l0K9bFeN/X0P8NIh32LET6u/bbH1/4zVeNpUcOYQmlH0s+8O9oa3R4A6msi5pOGDwqGX4nLuIH6
+	oLTAqhHuRPxEfXSv3o9kEvNe8/V7P6TXlgEmJuGbmo=
+X-Received: by 2002:a17:903:4588:b0:2cf:477f:57c5 with SMTP id d9443c01a7336-2d0ca71b42bmr109216615ad.1.1785962283175;
+        Wed, 05 Aug 2026 13:38:03 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0aa4c0b1fsm21372745ad.64.2026.08.05.13.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 13:38:02 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] Remove support for Windows Server 2012/2012R2 & Win8/Win8.1 versions of Hyper-V
+Date: Wed,  5 Aug 2026 13:37:45 -0700
+Message-Id: <20260805203751.2678-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV5PR21MB4704.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90564ad0-9e38-4e83-e0dd-08def3236155
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2026 18:57:21.5277
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3EBQRoRtAKVg77X/RU/whUP6jQNdtasttADc8JbXn3AvrTMqLTUYE/hxmZDudK0tWEsd7qN5yvYDd7HC8td/2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV9PR21MB4997
+Content-Transfer-Encoding: 8bit
 
+Linux code for running as a Hyper-V guest includes special cases for
+running on Hyper-V in WS2012/2012R2 and Windows 8/8.1. These versions
+were initially released 14 years ago, and official support ended in 2023
+(unless a customer has contracted for extended security updates). Given
+the release of subsequent versions with improved functionality, there's
+no need to continue to support the latest Linux kernels on these versions
+of Hyper-V. If someone is running Linux on one of these older Hyper-V
+versions and doesn't want to upgrade, they can continue to do so as
+presumably they don't want upgrade the Linux version either.
 
+Simplify Linux code by removing special cases for running on these
+old versions of Hyper-V. This includes removing the negotiation of the
+VMBus protocol versions for WS2012/Win8, and the special case code based
+on those VMBus protocol versions. Changes are in the core VMBus code and
+several drivers for synthetic VMBus devices.
 
-> -----Original Message-----
-> From: Haiyang Zhang <haiyangz@linux.microsoft.com>
-> Sent: Friday, July 31, 2026 5:23 PM
-> To: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; KY Srinivasan
-> <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>; Wei Liu
-> <wei.liu@kernel.org>; Dexuan Cui <DECUI@microsoft.com>; Long Li
-> <longli@microsoft.com>; Andrew Lunn <andrew+netdev@lunn.ch>; David S.
-> Miller <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub
-> Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Konstantin
-> Taranov <kotaranov@microsoft.com>; Simon Horman <horms@kernel.org>; Erni
-> Sri Satya Vennela <ernis@linux.microsoft.com>; Dipayaan Roy
-> <dipayanroy@linux.microsoft.com>; Aditya Garg
-> <gargaditya@linux.microsoft.com>; Breno Leitao <leitao@debian.org>; linux=
--
-> kernel@vger.kernel.org; linux-rdma@vger.kernel.org
-> Cc: Paul Rosswurm <paulros@microsoft.com>
-> Subject: [PATCH net-next v2] net: mana: Extend RX CQE coalescing up to 8
-> packets
->=20
-> From: Haiyang Zhang <haiyangz@microsoft.com>
->=20
-> To support up to 8 packets per CQE, update related CQE processing
-> code and structures.
-> Update ethtool handlers to set this feature.
-> Update per queue stat to show the coalesced CQE counters.
-> This feature is supported on NIC hardware showing the relevant
-> PF flag.
->=20
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-> ---
-> v2:
->   Updated PF flag hanlding, and comments based on AI review.
->=20
-> ---
->  drivers/net/ethernet/microsoft/mana/mana_en.c | 137 ++++++++++++------
->  .../ethernet/microsoft/mana/mana_ethtool.c    |  29 +++-
->  include/net/mana/gdma.h                       |   4 +
->  include/net/mana/mana.h                       |  44 ++++--
->  4 files changed, 150 insertions(+), 64 deletions(-)
->=20
+Some VMBus drivers have device-specific protocols with the Hyper-V host.
+Further simplify the code by removing the use of protocol versions that
+are specific to WS2012/Win8 and earlier.
 
-Sent out v3 based on the latest net-next.
-- Haiyang
+Finally, the WS2012/Win8 versions of Hyper-V were the last to use
+messages to deliver synthetic timer interrupts. Starting in WS2016/Win10,
+stimer interrupts are delivered to their own assigned interrupt vector
+(called "Direct Mode"). So remove the code for handling timer interrupts
+delivered as messages. This removal has a broader benefit in removing
+a key blocker to disentangling VMBus code (which handles the messages)
+and stimer code, as they should be independent of each other. The
+final disentangling will come as a follow-on patch set.
+
+Testing:
+* VM on local Hyper-V on up-to-date Windows 11
+* Added temp debug code to suppress Direct Mode enumeration. Fallback
+  to LAPIC timer worked as expected (x86/x64 only)
+* Used hv_vmbus.max_version=0x30000 on the kernel boot line to simulate
+  running on WS2012/Win8 Hyper-V and see the new error message output
+  when VMBus can't connect
+* Azure VM DC16eds v6: TDX CoCo VM with HvLite paravisor
+* Azure VM DC16ads v6: SEV-SNP VM with an older paravisor
+* Azure VM D16alds_v7: normal AMD x86 VM with HvLite paravisor
+* Azure VM D16plds v6: normal ARM64 VM with MSFT Cobalt processor
+* Not tested running in VTL2
+
+There's no specific urgency to removing the special case code for
+WS2012/Win8, so if the broader Linux kernel community surfaces
+a reason why this clean-up should not be done now, we can wait.
+But I think we want to eventually stop carrying around this extra
+baggage, and based on discussions with the Hyper-V team within
+Microsoft, we're past the point that it has any value.
+
+Michael Kelley (6):
+  Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version of
+    Hyper-V
+  hv_sock: Remove check for old Hyper-V hosts
+  hv_netvsc: Remove GPADL teardown special case for old Hyper-V hosts
+  drm_hyperv: Remove support for synth video protocol of old Hyper-V
+    hosts
+  scsi: storvsc: Remove support for storvsc protocol of old Hyper-V
+    hosts
+  clocksource: hyper-v: Remove support for stimer interrupts in message
+    mode
+
+ arch/x86/hyperv/hv_init.c                 |  17 +--
+ arch/x86/kernel/cpu/mshyperv.c            |   4 +-
+ drivers/clocksource/hyperv_timer.c        | 150 +++-------------------
+ drivers/gpu/drm/hyperv/hyperv_drm.h       |   1 -
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c |  44 ++-----
+ drivers/hv/channel_mgmt.c                 |   8 +-
+ drivers/hv/connection.c                   |  11 +-
+ drivers/hv/hv.c                           |   4 -
+ drivers/hv/hv_balloon.c                   |  36 +++---
+ drivers/hv/hv_snapshot.c                  |   5 -
+ drivers/hv/vmbus_drv.c                    |  10 +-
+ drivers/net/hyperv/netvsc.c               |  20 +--
+ drivers/scsi/storvsc_drv.c                |  53 ++------
+ include/clocksource/hyperv_timer.h        |   6 -
+ include/linux/hyperv.h                    |   5 +-
+ net/vmw_vsock/hyperv_transport.c          |   3 -
+ 16 files changed, 82 insertions(+), 295 deletions(-)
+
+-- 
+2.25.1
+
