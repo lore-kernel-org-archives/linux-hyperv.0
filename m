@@ -1,154 +1,129 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567F5389459;
-	Wed,  5 Aug 2026 14:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D393E3158
+	for <linux-hyperv@vger.kernel.org>; Wed,  5 Aug 2026 15:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785940774; cv=none; b=uREZcjZh4r7xvIxqHq2a2HKp2eqNJCbN/aw7cGUlyt1XlQHTLZLsOMw6fFuCocG8CgqdeThi0YoA5aMr6Of90CpALMWl2iBADI4OIUDBHDFd7lKZ/Aqezsl1P9T34MdwZrT+t9CT+12FJ5erRPwMraz8FJHW0dA+wKBtpI8/JEI=
+	t=1785942762; cv=none; b=lE0pdLEpsH7eTZiOhH30I3HA9Ac85xW4GAhyTj7FCi50Zm3U/mDMrbMIP8bA46SKjN3YZLObOYzrzuaTNwRz9BQdWTi2HqE35PplNBZxbLBKPOZ5y5/4Fabds4zQ+SOI8gtaQS2KyUzFDt3kiQQoOQwi6wW2SvDjlZjHiraOnjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785940774; c=relaxed/simple;
-	bh=XMBb6d/y1n/AwFvVUXVb8hKhKFloTDk1XVYh2Q2UY4k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sHb2SsriDxciD6/nVI272LjoLwJIgF3d/UlyFN3bLWwZLdRWUzID6DV9EnBkiZo+VbGOoXDc8TnVG++qvTiV1ESiOXOPjB2wy7oA9j5LGLLczVlk7Ci3jlyVHQusM2BYaG2vmbAinhfTspW0DPU9ECoQApBRShdy+cm999VIqWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wCXYX0PS3NqirRpAA--.25350S3;
-	Wed, 05 Aug 2026 22:39:13 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgBn1coPS3NqoWiTAw--.11061S2;
-	Wed, 05 Aug 2026 22:39:11 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: netdev@vger.kernel.org
-Cc: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net] net: mana: fix reset work race with device removal
-Date: Wed,  5 Aug 2026 14:38:12 +0000
-Message-Id: <20260805143812.220509-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1785942762; c=relaxed/simple;
+	bh=x+3FjV1V8nTR4+UiTANBZrJzaoaHSLJ+k9/1nIFmr2A=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=axvnZQI1ZU/LJFP0rfC+71kCNBbLbOBhTwTgEYpIGeriugoXAIm6gUXOazOoDCEEuh2kP8chcskmdOQTUp5Pe5vYmQnddxcTo/Q4hVj2JBGwsAtYRikOuxZsElRwtZCSbRgbrVKzfq22E9ISHPQpi7BqkRN87k1QW7KpF+WTDAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mk4tA9UP; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mk4tA9UP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4651F000E9;
+	Wed,  5 Aug 2026 15:12:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785942760;
+	bh=xEItjSProfOPfZIr0mmvaAYwTPFhTtZdZtH/k+msRjc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Mk4tA9UPU2zdnn+JDejWtxhp2TELQvCpLTbrlcQd8aBOsxrVW9pHDkuACF/nQsrvE
+	 FmkcT3lVBSUzC2WshawDB3c9NcSKwObF6OQUQTdYTYLTqIj9bwkQXw5o2cfCrynrc/
+	 5b8lre4fjeM9WSz9RdFHyo2f1MDJFBWikdiFZocpl1KNcAsmjwZr49SaxTn7TOlnIz
+	 nuRSvKzVOxqD2ibnP4didO8r+tPs8aFyfJ0pB7H8f1aQ5L27hE12WaNDq5YpUq5s3N
+	 Q3wApvpnm5JXapwNkKT/Af0IJbmn4koUqHd3RZ5y6ZW5M6IBfARNWk6dg9gXzpjEVD
+	 Vndl8ow1y11UQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup
+ for non-nested root partition
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Michael Kelley" <mhkelley58@gmail.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260805142421.104797-1-mhklinux@outlook.com>
+References: <20260805142421.104797-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Aug 2026 15:12:39 +0000
+Message-Id: <20260805151240.BA4651F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgBn1coPS3NqoWiTAw--.11061S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?Z5m0kQXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI2g296NCMXtJfF7ces+JkUUi0DLmFX8pqq6QkZHEZ8IugFf
-	V0wuhzE57S6t9ekeFXup9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxGF47Gw1rZFyrKr15GF4ftFc_yoW5AryDpF
-	W5Wa48KryDKF17ua1UXw48ZFy5ua9aq3yrCrWIk3ZIkwnIyw4kJrn5tFy2qrWfJrZ5tFnI
-	vFW8t3W5uFyqq3XCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUm2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxM4IIrI8v6xkF7I0E8cxan2IY04v7
-	MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-	z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07je_M-UUUUU=
 
-The reset service work runs on the system workqueue and obtains the
-GDMA context through PCI drvdata.  It can race with device removal
-(mana_gd_remove()), which frees the context.  A reset work that runs
-after removal can therefore dereference the freed context.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Serialize mana_serv_reset() with device removal by taking the PCI
-device lock across its drvdata access and reset sequence.  The driver
-core holds the same lock while invoking the remove callback, so remove
-waits for an in-progress reset.  Work that runs after remove observes
-the drvdata cleared before the context is freed.
-
-Drop the lock before rescanning, since the rescan path may remove the
-device and acquire the device lock again.  Also clear GC_IN_SERVICE
-before rescanning after a failed resume, so this exit follows the same
-service-state cleanup as the other reset exits.
-
-This issue was found by an in-house static analysis tool.
-
-Fixes: fbe346ce9d62 ("net: mana: Handle Reset Request from MANA NIC")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index e8b7ffb47eb9..ae03d7a53 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -591,15 +591,16 @@ static void mana_serv_fpga(struct pci_dev *pdev)
-
- static void mana_serv_reset(struct pci_dev *pdev)
- {
--	struct gdma_context *gc = pci_get_drvdata(pdev);
-+	struct gdma_context *gc;
- 	struct hw_channel_context *hwc;
- 	int ret;
-
-+	device_lock(&pdev->dev);
-+	gc = pci_get_drvdata(pdev);
- 	if (!gc) {
- 		/* Perform PCI rescan on device if GC is not set up */
- 		dev_err(&pdev->dev, "MANA service: GC not setup, rescanning\n");
--		mana_serv_rescan(pdev);
--		return;
-+		goto rescan;
- 	}
-
- 	hwc = gc->hwc.driver_data;
-@@ -621,8 +622,8 @@ static void mana_serv_reset(struct pci_dev *pdev)
- 	if (ret == -ETIMEDOUT || ret == -EPROTO) {
- 		/* Perform PCI rescan on device if we failed on HWC */
- 		dev_err(&pdev->dev, "MANA service: resume failed, rescanning\n");
--		mana_serv_rescan(pdev);
--		return;
-+		clear_bit(GC_IN_SERVICE, &gc->flags);
-+		goto rescan;
- 	}
-
- 	if (ret)
-@@ -632,6 +633,12 @@ static void mana_serv_reset(struct pci_dev *pdev)
-
- out:
- 	clear_bit(GC_IN_SERVICE, &gc->flags);
-+	device_unlock(&pdev->dev);
-+	return;
-+
-+rescan:
-+	device_unlock(&pdev->dev);
-+	mana_serv_rescan(pdev);
- }
-
- static void mana_do_service(enum gdma_eqe_type type, struct pci_dev *pdev)
-@@ -2436,6 +2443,7 @@ static void mana_gd_remove(struct pci_dev *pdev)
-
- 	pci_iounmap(pdev, gc->bar0_va);
-
-+	pci_set_drvdata(pdev, NULL);
- 	vfree(gc);
-
- 	pci_release_regions(pdev);
+Pre-existing issues:
+- [High] Backwards teardown in `vmbus_exit()` causes failure to free IRQ ac=
+tion, leading to reload failure and potential Use-After-Free of unmapped IR=
+Q handler.
 --
-2.34.1
 
+--- Patch [1]: [PATCH v2 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup=
+ for non-nested root partition ---
+commit d186708fbf26f95dce2f00a8fed8b7ac79496439
+Author: Michael Kelley <mhkelley58@gmail.com>
+
+Drivers: hv: vmbus: Skip VMBus module cleanup for non-nested root partition
+
+This commit updates the VMBus module exit function to skip cleanup when
+running in a non-nested root partition, matching the behavior of the
+initialization function. This prevents memory faults and kernel panics
+caused by attempting to clean up uninitialized resources during module
+unload.
+
+Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@sm=
+tp.kernel.org/
+
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 6824bd7cb3c4f..88fc6add26860 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -3030,6 +3030,9 @@ static void __exit vmbus_exit(void)
+>  {
+>  	int cpu;
+> =20
+> +	if (hv_root_partition() && !hv_nested)
+> +		return;
+> +
+>  	unregister_syscore(&hv_synic_syscore);
+> =20
+>  	hv_remove_kexec_handler();
+
+[ ... ]
+
+>  	vmbus_disconnect();
+>  	if (vmbus_irq =3D=3D -1)
+>  		hv_remove_vmbus_handler();
+>  	else
+>  		free_percpu_irq(vmbus_irq, &vmbus_evt);
+
+[Severity: High]
+This is a pre-existing issue, but does calling free_percpu_irq() here abort=
+=20
+and leak the irqaction?
+
+It appears the CPUs have not yet disabled the interrupt, as=20
+cpuhp_remove_state() is called much later in this function. Because=20
+cpuhp_remove_state() is what triggers hv_synic_cleanup() to disable the=20
+percpu IRQ on each CPU, the IRQ is still locally enabled here.
+
+This sequence typically trips the structural safety check in=20
+__free_percpu_irq() causing the free operation to abort and return NULL.=20
+If the IRQ line fires after the module is unloaded, could the kernel execut=
+e=20
+an unmapped function pointer?
+
+[ ... ]
+
+>  	bus_unregister(&hv_bus);
+> =20
+>  	cpuhp_remove_state(hyperv_cpuhp_online);
+
+[Severity: High]
+This is related to the pre-existing issue above. Is this execution of=20
+cpuhp_remove_state() too late in the teardown sequence?
+
+This step triggers the offline callback hv_synic_cleanup() which calls=20
+disable_percpu_irq(vmbus_irq). Because it runs after free_percpu_irq(),=20
+the IRQ action is permanently leaked and subsequent attempts to reload the=
+=20
+module might fail.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260805142421.1047=
+97-1-mhklinux@outlook.com?part=3D1
