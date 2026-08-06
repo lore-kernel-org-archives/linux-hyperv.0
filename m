@@ -1,57 +1,57 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FC344A3F5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5784641B8D9
 	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059393; cv=none; b=f12qs4GRH0I9fHAY4ld4Zt1nZULZSMflrguXj5NOQO2X1vcJKH3EERqYKmiL/L37GDJi7TW5TeGfW5odZyvZUpbyBXh/YldMmUec6YX2A1m7CO8eHyfACNXAnnAGxtDrUYWooWxSVFmtP0AHVMKfApivmFrrvmcAl1m2JmRr/rE=
+	t=1786059394; cv=none; b=LA7kLynaV1qOJw/FYthmdlWvqPpyjmlYd+zPDyWJzc5kkyabzyfWIbd+Oi7jj/owwsiWIjd8hr9TuNrcTCGd2jKuSPim9LkRyFSn2g/z8pBKpI/p8hsP8gkgd2uPjZbXoEZYqrgZelLlBUDDiWYzwHXL4V2OSy+UMAVTCYan9cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059393; c=relaxed/simple;
-	bh=ovqgLwzv9GptZQJnSNvVW0VhM2ENGfkbKgdGmBqtAeI=;
+	s=arc-20240116; t=1786059394; c=relaxed/simple;
+	bh=X1lXC7wwYepEcyxXlelWc3xQjHjFJjQegmWHjMap6JE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JvS0RKpoETCDDZzmhDsb9TZsqkT+0I9L5ObUVjitutd60jjDlUy9DvVPf7FxeNmNtlDTC7HLX7MfBoefNpop7xx61h2JGY6zR4/CBB8/IJPt/LwUlg9VvhrdLHED4MC/B0WG1KNFFDwTgLs3K5mINFFdJ1ns5eI5JDXyqNOLMuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y1m0d6uf; arc=none smtp.client-ip=209.85.210.198
+	 To:Cc:Content-Type; b=rLc1HGdWEFlc4YNUSzakjZAiB6dtbquHf03b2bbDiRakQR98JhDB4L3DdE1KvnGRXhIPbslSO5l+liOieJA/kUKD9W8+W4c/Y66Jm0VzMKbBgBLkfEkhkTl9q5MMkhbohdhrZRmhSHOmuKLpYsj0mhS91Wl4TiVZK01zzGmZGF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PYVp2MfV; arc=none smtp.client-ip=209.85.215.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y1m0d6uf"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8487ed7f7beso3066061b3a.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PYVp2MfV"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cb6dd278512so1611780a12.3
         for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059386; x=1786664186; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786059389; x=1786664189; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=lGVITa15iYf7ywTb6PznrnwE5mV86GVcr9KZACd8UjM=;
-        b=Y1m0d6ufJixeCfvrGR9+G5GcsnNNjDZPuazE11YFqFiTxZHWjXHBnIvnDU6yW1WRAW
-         qNqkNBPxfiNdurCvJSOunnHl35KeSlNkOKG2Oxu7MLPk6lv0bcKaDWk8FHQtJGD+8lW4
-         bBaGLbA8QYW5lSuyW4pLGG16R0bEml4hoU7Plhz4KygmRBJ5L3tqAnQ8hMTvaE84hQAN
-         2ez5Tpa7WJEO/I0OCngKpl1R7ZvqbZ9ScQS+4azsj1Vfs7WN1Vd65r905Mi7qAd+83LV
-         wyR5rEFWMTGKm31qNcHKpXGRilVitN5MM6dLPuKqdR9z8nQ9RJzl15rI7Nj30EHFMbhE
-         gwtw==
+        bh=Bl6f0kmYO+QvCHyY9ZYfUQzYrQcYJLjL3x7Z6ExdFrE=;
+        b=PYVp2MfVOEWDFDxRKN84/PKiWyvbIzcu7P7uQ4Erve4pEIfjKG6I6JRYbwiUnHVRHj
+         UNEBMz3CJD5CnZLpETc3AgtBG6Nt41HjP/AVSgc3LQstIS1mghd2y/ZgoSkEWdTETaVi
+         FQ0GiG0I6w79YBc9ZFlTxqD62dnEFiZohXVH704P2bIfLybcwNy6rsmEDk02id+ru90K
+         HOl1zB5RG4QOCUNzhFZIC+0v9taoPEWOvQUV02SAbVv10a90mwUH/wKVhKuVzbVM54Kz
+         5UMlUpxWo2Kb7NoyK6UD9/wi4+X2BoaLk5MnaAHn/ugu2w6Zfn2Yh/edLPLldyJVSKqh
+         4bsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059386; x=1786664186;
+        d=1e100.net; s=20251104; t=1786059389; x=1786664189;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lGVITa15iYf7ywTb6PznrnwE5mV86GVcr9KZACd8UjM=;
-        b=ZH/sgwmf1dB211Lh0Cd2XCn+tYOHglCRGAiJtY7ky1kL7IMCiGQ0VkCaXOS+UoXADf
-         FdVlYp2LulBKVPlVQC/5WzOeKH0dP+ACjnmn02VeHyG590UZY+otqBbkXWTv+n9MUQlY
-         IqIvZxUut78MNq803UCmsk7lXPVjQR866gW+oiFzI/HW4wGGEg/Bct1bwnAf43OPxguq
-         nuPwZxPBKziER84MarkjvkS9tVg8mUc9waTM6L0ybMaHhICB4A7+H4wY5J8RbXiDXtE5
-         dfYe+50ZJZsnr8WVb2U9iEmrYHdPr2D26L7GcYg4fzfWUh+D6YSpcV3pRdDQI5DdLDqu
-         gH5A==
-X-Forwarded-Encrypted: i=1; AHgh+RpFpaPfeKSrC48TszYf6D0EuSmfPDh69YavtHE2ofv5nYU1/NjFDg8sw35GaBgpPb5n2S5q7YWG6nyk6N4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzsmy5JtkqDw0SMvmGXdzy/1GtSDnC2cW1B1SNvG3RadbTNRrSk
-	5GTt/ghW+PqcHCdBjjz+KYbNscE2Il2WWzWEBYD+Z5qCzc33tmJS3b88bLsvS4tNFmkXcVTqDk/
-	CkVMPBg==
-X-Received: from pgnc18.prod.google.com ([2002:a63:7252:0:b0:c9e:6c82:64e8])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1310:b0:84e:216d:7e52
- with SMTP id d2e1a72fcca58-84f2e03175emr20642138b3a.14.1786059385989; Thu, 06
- Aug 2026 16:36:25 -0700 (PDT)
+        bh=Bl6f0kmYO+QvCHyY9ZYfUQzYrQcYJLjL3x7Z6ExdFrE=;
+        b=Vvsi0WKisKNS9e8lcjdCl1QOdhAOWM6QJCu/HvL8t/k0M0qNfXoKR7OKHtftWAkQ3r
+         fLz1BxPB44KZd8Eyyd+3+l6Sg0gY8Lzeax/CzeVOlYs9K9yNUYRCmjlTDaM/IqbyZWZY
+         XVKCN0M4263LQ+Qcynv29vK+Rf4tQBKYE0itven8ahnu2P7pcwM65D1LkAmxMRm5RyU5
+         JgjwTbxrWgXTpJ7KF9g1XQ+jSvA7vCRlBoS2qLIIkxapsKUiAN0DTTRv1rbIW97l079N
+         UsEspr4Mk5N5U5wChLDhaCKGF78hxGmTdW5wCOBn8jy2ez+2N7dOMxGfTfnIa/Bocc0+
+         BCBQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoAV5rFKTU8PXYl/vITWNJyZpKcpMCTnIugsJkX+9Nrd9g2LLGCWtHZqkOHoyU9eInhy2FdZfkogWythAU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxYl1N5dXpHR9vN9bGyyaDZRS3Pjd76zdy4OKXLD5Zpm+gJEEN
+	AaZN2XAg0FuU5QwNV5g2RSgXluXbkZOhNji9rB+b9geXzxTP47RKw41dc2x/UhCWh+xRsJHPNaK
+	kh8OXXg==
+X-Received: from pgav2.prod.google.com ([2002:a05:6a02:2dc2:b0:c85:9dd2:d11e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7349:b0:3c6:3c5b:f2e1
+ with SMTP id adf61e73a8af0-3cbadcfcacfmr5222309637.32.1786059388428; Thu, 06
+ Aug 2026 16:36:28 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:35:19 -0700
+Date: Thu,  6 Aug 2026 16:35:21 -0700
 In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -61,9 +61,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-3-seanjc@google.com>
-Subject: [PATCH v6 02/51] x86/apic: Add CONFIG_X86_LOCAL_APIC=n stubs for APIC
- timer frequency APIs
+Message-ID: <20260806233609.212337-5-seanjc@google.com>
+Subject: [PATCH v6 04/51] x86/tsc: Restrict recalibrate_cpu_khz() export to
+ p4-clockmod and powernow-k7
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -86,82 +86,30 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Add stubs for the apic_set_timer_frequency_{,k}hz() APIs when the kernel is
-built without support for a local APIC, and drop #ifdefs in callers that
-don't need to check CONFIG_X86_LOCAL_APIC for other reasons.
+Export recalibrate_cpu_khz() only for its two users, p4-clockmod.ko and
+powernow-k7.ko, to help document that recalibration is relevant only to
+ancient CPUs.
 
-No functional change intended.
+For all intents and purposes, no functional change intended.
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/include/asm/apic.h  | 2 ++
- arch/x86/kernel/cpu/vmware.c | 2 --
- arch/x86/kernel/tsc.c        | 2 --
- arch/x86/kernel/tsc_msr.c    | 2 --
- 4 files changed, 2 insertions(+), 6 deletions(-)
+ arch/x86/kernel/tsc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-index 6946220a6008..9c5084f3317f 100644
---- a/arch/x86/include/asm/apic.h
-+++ b/arch/x86/include/asm/apic.h
-@@ -189,6 +189,8 @@ static inline void disable_local_APIC(void) { }
- # define setup_boot_APIC_clock x86_init_noop
- # define setup_secondary_APIC_clock x86_init_noop
- static inline void lapic_update_tsc_freq(void) { }
-+static inline void apic_set_timer_frequency_hz(u64 freq_hz, const char *source) { }
-+static inline void apic_set_timer_frequency_khz(u64 freq_khz, const char *source) { }
- static inline void init_bsp_APIC(void) { }
- static inline void apic_intr_mode_select(void) { }
- static inline void apic_intr_mode_init(void) { }
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 22842bf5b59e..2225df67d45f 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -422,10 +422,8 @@ static void __init vmware_platform_setup(void)
- 		x86_platform.calibrate_tsc = vmware_get_tsc_khz;
- 		x86_platform.calibrate_cpu = vmware_get_tsc_khz;
- 
--#ifdef CONFIG_X86_LOCAL_APIC
- 		/* Skip lapic calibration since we know the bus frequency. */
- 		apic_set_timer_frequency_hz(ecx, "VMware hypervisor");
--#endif
- 	} else {
- 		pr_warn("Failed to get TSC freq from the hypervisor\n");
- 	}
 diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index 63e26805f8dd..4392fddd616e 100644
+index bc4348585194..09bf10f322ba 100644
 --- a/arch/x86/kernel/tsc.c
 +++ b/arch/x86/kernel/tsc.c
-@@ -710,7 +710,6 @@ unsigned long native_calibrate_tsc(void)
- 	if (boot_cpu_data.x86_vfm == INTEL_ATOM_GOLDMONT)
- 		setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
- 
--#ifdef CONFIG_X86_LOCAL_APIC
- 	/*
- 	 * The local APIC appears to be fed by the core crystal clock
- 	 * (which sounds entirely sensible). We can set the global
-@@ -718,7 +717,6 @@ unsigned long native_calibrate_tsc(void)
- 	 * timer later.
- 	 */
- 	apic_set_timer_frequency_khz(crystal_khz, "CPUID 0x15/0x16");
--#endif
- 
- 	return crystal_khz * ebx_numerator / eax_denominator;
+@@ -943,7 +943,7 @@ void recalibrate_cpu_khz(void)
+ 						    cpu_khz_old, cpu_khz);
+ #endif
  }
-diff --git a/arch/x86/kernel/tsc_msr.c b/arch/x86/kernel/tsc_msr.c
-index 4bd5f2ae656b..179e3a331ef9 100644
---- a/arch/x86/kernel/tsc_msr.c
-+++ b/arch/x86/kernel/tsc_msr.c
-@@ -211,9 +211,7 @@ unsigned long cpu_khz_from_msr(void)
- 	if (freq == 0)
- 		pr_err("Error MSR_FSB_FREQ index %d is unknown\n", index);
+-EXPORT_SYMBOL_GPL(recalibrate_cpu_khz);
++EXPORT_SYMBOL_FOR_MODULES(recalibrate_cpu_khz, "p4-clockmod,powernow-k7");
  
--#ifdef CONFIG_X86_LOCAL_APIC
- 	apic_set_timer_frequency_khz(freq, "MSR_FSB_FREQ");
--#endif
  
- 	/*
- 	 * TSC frequency determined by MSR is always considered "known"
+ static unsigned long long cyc2ns_suspend;
 -- 
 2.55.0.679.g6767b8d81c-goog
 
