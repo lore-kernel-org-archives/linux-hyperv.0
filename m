@@ -1,57 +1,57 @@
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5784641B8D9
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397D9411F91
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059394; cv=none; b=LA7kLynaV1qOJw/FYthmdlWvqPpyjmlYd+zPDyWJzc5kkyabzyfWIbd+Oi7jj/owwsiWIjd8hr9TuNrcTCGd2jKuSPim9LkRyFSn2g/z8pBKpI/p8hsP8gkgd2uPjZbXoEZYqrgZelLlBUDDiWYzwHXL4V2OSy+UMAVTCYan9cM=
+	t=1786059396; cv=none; b=DwVQc8As6GSbfxNE+eSyPPC5kgni2sBoahTJSJvOd9Ut5x+OswcKhsJzeJfoiqtnFaz6rbtaKjHJ+lruwlsr6lKu/1Ya7RWmS5eXAFTmQ1YDKtv8GttjGPImbM86MP4ETQfVHdrgaQVjM4kgTTB+sGkvF6US3YFBNzb958tWdcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059394; c=relaxed/simple;
-	bh=X1lXC7wwYepEcyxXlelWc3xQjHjFJjQegmWHjMap6JE=;
+	s=arc-20240116; t=1786059396; c=relaxed/simple;
+	bh=aU5kM212JBkNYfzrGASMdLJK5GDFtg5whJEddSUurGY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rLc1HGdWEFlc4YNUSzakjZAiB6dtbquHf03b2bbDiRakQR98JhDB4L3DdE1KvnGRXhIPbslSO5l+liOieJA/kUKD9W8+W4c/Y66Jm0VzMKbBgBLkfEkhkTl9q5MMkhbohdhrZRmhSHOmuKLpYsj0mhS91Wl4TiVZK01zzGmZGF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PYVp2MfV; arc=none smtp.client-ip=209.85.215.199
+	 To:Cc:Content-Type; b=aAMIxMKsMvXfVf2EGqA4+CpVocLBmVptHf1qOOC0BG4BzAn7rRAKtVMtrYFNGSFhwJJOoI4k+eXTWm4zdQj73TEfpyrRRQrOhaTf4wB+AmTAgdVfE16MzuPMIGHp+GSYSkasqqXGAqqoE74YOMRxZi6Fcp9mtXIjbwTWe4bY1AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gxGpKV6A; arc=none smtp.client-ip=209.85.216.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PYVp2MfV"
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cb6dd278512so1611780a12.3
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gxGpKV6A"
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38ec0f510a9so5940435a91.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059389; x=1786664189; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786059391; x=1786664191; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Bl6f0kmYO+QvCHyY9ZYfUQzYrQcYJLjL3x7Z6ExdFrE=;
-        b=PYVp2MfVOEWDFDxRKN84/PKiWyvbIzcu7P7uQ4Erve4pEIfjKG6I6JRYbwiUnHVRHj
-         UNEBMz3CJD5CnZLpETc3AgtBG6Nt41HjP/AVSgc3LQstIS1mghd2y/ZgoSkEWdTETaVi
-         FQ0GiG0I6w79YBc9ZFlTxqD62dnEFiZohXVH704P2bIfLybcwNy6rsmEDk02id+ru90K
-         HOl1zB5RG4QOCUNzhFZIC+0v9taoPEWOvQUV02SAbVv10a90mwUH/wKVhKuVzbVM54Kz
-         5UMlUpxWo2Kb7NoyK6UD9/wi4+X2BoaLk5MnaAHn/ugu2w6Zfn2Yh/edLPLldyJVSKqh
-         4bsg==
+        bh=JiQKL/d/a0vrWgDwSPI6P4lMZN4rNkkCCv7n67xdKiQ=;
+        b=gxGpKV6APU1NEZbL9fnmim4JSyG6jmsFSieu1pXiNRJc8L0omgVlO58fRcQpU35aws
+         Gm3oWD9tqFYkySYEpE4QETz7MfzcJ2EBMi9dMXpT/14jWXMUDW6qfFAJwKph4IR+3dxo
+         GV6hezS+9x2/v5FNACfE7EX6SwfepjKj9PbGxuXlXZeAjY6Ti292ChOOK+xY6hW62HSU
+         BrGHJQMZeRqnTscAd7RWhWaRLZwcwaqDIPBV7epyshDLzQRDj9+gkxUjf6lmDdZb84x2
+         H3T3hQqsiA7W6usVf+gaBd1AHsNYW3JTBDRJ1I7Re2/iY+U+npyloOPpoiaIrUw6jqNR
+         Drmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059389; x=1786664189;
+        d=1e100.net; s=20251104; t=1786059391; x=1786664191;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Bl6f0kmYO+QvCHyY9ZYfUQzYrQcYJLjL3x7Z6ExdFrE=;
-        b=Vvsi0WKisKNS9e8lcjdCl1QOdhAOWM6QJCu/HvL8t/k0M0qNfXoKR7OKHtftWAkQ3r
-         fLz1BxPB44KZd8Eyyd+3+l6Sg0gY8Lzeax/CzeVOlYs9K9yNUYRCmjlTDaM/IqbyZWZY
-         XVKCN0M4263LQ+Qcynv29vK+Rf4tQBKYE0itven8ahnu2P7pcwM65D1LkAmxMRm5RyU5
-         JgjwTbxrWgXTpJ7KF9g1XQ+jSvA7vCRlBoS2qLIIkxapsKUiAN0DTTRv1rbIW97l079N
-         UsEspr4Mk5N5U5wChLDhaCKGF78hxGmTdW5wCOBn8jy2ez+2N7dOMxGfTfnIa/Bocc0+
-         BCBQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoAV5rFKTU8PXYl/vITWNJyZpKcpMCTnIugsJkX+9Nrd9g2LLGCWtHZqkOHoyU9eInhy2FdZfkogWythAU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxYl1N5dXpHR9vN9bGyyaDZRS3Pjd76zdy4OKXLD5Zpm+gJEEN
-	AaZN2XAg0FuU5QwNV5g2RSgXluXbkZOhNji9rB+b9geXzxTP47RKw41dc2x/UhCWh+xRsJHPNaK
-	kh8OXXg==
-X-Received: from pgav2.prod.google.com ([2002:a05:6a02:2dc2:b0:c85:9dd2:d11e])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7349:b0:3c6:3c5b:f2e1
- with SMTP id adf61e73a8af0-3cbadcfcacfmr5222309637.32.1786059388428; Thu, 06
- Aug 2026 16:36:28 -0700 (PDT)
+        bh=JiQKL/d/a0vrWgDwSPI6P4lMZN4rNkkCCv7n67xdKiQ=;
+        b=sB8TqmZxUTyijuYv/3cOg688DumyURwfIcklEwQZ1ekX9SKgpPj9d1GL3dvnATBhau
+         DiC8rYq/h3Eq4jLZAZqXccJMDcD9QUcuIfm/yrHU3316wjLUcfTB0vQJBXQKCvxJw5Kw
+         Znt3QL8eRppgA8ZAgmPEGPhzgBT0uW6uXnzkV3qnZt8wfyG605fglND5gzeDtVrasLNX
+         ZlTVmCOwHy/XUtWiypvQP/UFsinH8+inAqnnBUV74HqayNu35T0EUD25cLSG+Vx8cym/
+         3hEjVx5KDOdMWSUE6MocepqtBaD2ms/AJ/BRrZf0tWi9AOgtkGd/1/tsw6LLL2LXNzSM
+         kF1Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpRpAV+9mDfZDA9C/yCs6ihzCe3b88NDta1XuSH2oHqMRgUtMKEEqdd3DhXeGh1C5DZrtTo4OurNG+JcIE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR3v3VYyvUbGGbXFm65Zx01VlzQLZAaxFXejK3TC1YVVcyuUL5
+	d5AoPzB6Bi6yQLGhBb7Eisn2lTw9TO0h5VydOAv/V9hnnTxeTa1kJTFt3Lg3F2J0pRbQSiXLIV8
+	8UWeFsw==
+X-Received: from pjbsr12.prod.google.com ([2002:a17:90b:4e8c:b0:383:a728:1317])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:ec86:b0:38e:bbf1:de34
+ with SMTP id 98e67ed59e1d1-3903c537a12mr20234960a91.7.1786059390540; Thu, 06
+ Aug 2026 16:36:30 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:35:21 -0700
+Date: Thu,  6 Aug 2026 16:35:22 -0700
 In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -61,9 +61,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-5-seanjc@google.com>
-Subject: [PATCH v6 04/51] x86/tsc: Restrict recalibrate_cpu_khz() export to
- p4-clockmod and powernow-k7
+Message-ID: <20260806233609.212337-6-seanjc@google.com>
+Subject: [PATCH v6 05/51] x86/sev: Mark TSC as reliable when configuring
+ Secure TSC
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -86,30 +86,50 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Export recalibrate_cpu_khz() only for its two users, p4-clockmod.ko and
-powernow-k7.ko, to help document that recalibration is relevant only to
-ancient CPUs.
+Move the code to mark the TSC as reliable from sme_early_init() to
+snp_secure_tsc_init().  The only reader of TSC_RELIABLE is the aptly
+named check_system_tsc_reliable(), which runs in tsc_init(), i.e.
+after snp_secure_tsc_init().
 
-For all intents and purposes, no functional change intended.
+This will allow consolidating the handling of TSC_KNOWN_FREQ and
+TSC_RELIABLE when overriding the TSC calibration routine.
 
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Reviewed-by: Nikunj A Dadhania <nikunj@amd.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kernel/tsc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/coco/sev/core.c      | 2 ++
+ arch/x86/mm/mem_encrypt_amd.c | 3 ---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index bc4348585194..09bf10f322ba 100644
---- a/arch/x86/kernel/tsc.c
-+++ b/arch/x86/kernel/tsc.c
-@@ -943,7 +943,7 @@ void recalibrate_cpu_khz(void)
- 						    cpu_khz_old, cpu_khz);
- #endif
+diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
+index ecd77d3217f3..ed0ac52a765e 100644
+--- a/arch/x86/coco/sev/core.c
++++ b/arch/x86/coco/sev/core.c
+@@ -2037,6 +2037,8 @@ void __init snp_secure_tsc_init(void)
+ 	secrets = (__force struct snp_secrets_page *)mem;
+ 
+ 	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
++	setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
++
+ 	rdmsrq(MSR_AMD64_GUEST_TSC_FREQ, tsc_freq_mhz);
+ 
+ 	/* Extract the GUEST TSC MHZ from BIT[17:0], rest is reserved space */
+diff --git a/arch/x86/mm/mem_encrypt_amd.c b/arch/x86/mm/mem_encrypt_amd.c
+index 2f8c32173972..6c3af974c7c2 100644
+--- a/arch/x86/mm/mem_encrypt_amd.c
++++ b/arch/x86/mm/mem_encrypt_amd.c
+@@ -535,9 +535,6 @@ void __init sme_early_init(void)
+ 		 */
+ 		x86_init.resources.dmi_setup = snp_dmi_setup;
+ 	}
+-
+-	if (sev_status & MSR_AMD64_SNP_SECURE_TSC)
+-		setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
  }
--EXPORT_SYMBOL_GPL(recalibrate_cpu_khz);
-+EXPORT_SYMBOL_FOR_MODULES(recalibrate_cpu_khz, "p4-clockmod,powernow-k7");
  
- 
- static unsigned long long cyc2ns_suspend;
+ void __init mem_encrypt_free_decrypted_mem(void)
 -- 
 2.55.0.679.g6767b8d81c-goog
 
