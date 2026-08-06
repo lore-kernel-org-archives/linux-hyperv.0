@@ -1,57 +1,57 @@
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543994AE659
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731F74AD67C
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059450; cv=none; b=bAw8s8tthcW93cSKFmzDzC+xLd7MU+rXf3VQe1z4sTUaakxKEtsFE+K8uXbdzibpThJLYi/S2Fs0CSbWeBxBDdjooJ6CPsykcKCOAcQfkbj+eyw/DpqeKVsiz5ACHbmfJlWJdci58f6v2bvNbViDRQMnbSeY7T8tZ37y397Q7wc=
+	t=1786059450; cv=none; b=lhX2G/uscgsrcQjUH+8MvBJhK1IwP/WA4ye+CjFYLCCMfx/HgVsO113zhnPRXx+11aR8ZLt6Dx7ME6d5GOYG3/LGpIeqcLkm03hQYTgGtqhIaNP2KWSSIm0MUBVw7bwcPoEKAqAFVinjKj7reidRDMm3feVz5Yu6ca3Kn6eq2EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786059450; c=relaxed/simple;
-	bh=XsGLMtVm+PnMkFVZK403hqaUQQJSgP5QvusfM67Nl2Y=;
+	bh=UjpjKwl+lBUDjSIYpCNArAdlu1FqZC9gy6u6ndRSMj4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rM5NcUSrCZeeCzgJBtmja+/w93ycln3bm1T0mC+BjD/+kY8Uj0BC+W9n5BlS5O0syRN7UXjtTFLa29EkHebUUu9s6Ur6e1DH+tI2gQEQ+EJzPD0E/LQtDAR76CnhrxIGlrXqUHLpweViR2zNXjYuAzTuExi0tS+pQcGYJ8GxHm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HGMKg28n; arc=none smtp.client-ip=209.85.216.71
+	 To:Cc:Content-Type; b=nONGoogEeOMbi7/a51IHJOlDkoujI5832c7NqL5CT0miXvJ7Y1ItmSqvIuLJST1RWlRyrAeCRktV8Wj8LN3p4uqnreUckpFmKrD6rL1u6LjGrKuB4X157bo11YWu0GNe7BX2UZN4ZBQbQ5WoV1k049Eo9fw2fUF4AS4PuolEcQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F2ieCjFj; arc=none smtp.client-ip=209.85.214.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HGMKg28n"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38ce7fabf76so4359616a91.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:37:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F2ieCjFj"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc6dd43737so50917245ad.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059446; x=1786664246; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786059447; x=1786664247; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=yUUzKej44hzjMWM7byUMUm3T8+/2OB7FMHfj7k4gSDk=;
-        b=HGMKg28nASFYLGCgOBBJLFyCmJx4pKOxyOgpGsBXm405qiiMJXK8ddrh35Yo3xvAwv
-         MgxrQ5YWbd9oXsaDi6xfaolQU06Z8N51/rCKFWfRZGBM2vNKCsmSo+/320NTz3+G9eMC
-         eUfGMTj5mfH3jqjMcfUe6sEoaz4CL3Er2n9LX9i4K04NagAV3PLKZDwtUP0QaWlmI/3w
-         jU9SzqzOIXURE1zHfGuROcuJigUbWIejtJBD7HahA2Mt1iqhE3dExLv1D4midT4t4FNa
-         rDVQQolP6LKG4g0WLg+JMvPvR9KcqFVtcOFQrkbr67p0BqUUzVsfLdze8RbklMw76Gui
-         KcJA==
+        bh=WG6tzs8/D5vUVAMD7J6BXfy7SNaM+XPXtfc+RTelhM8=;
+        b=F2ieCjFjISEPh5Mxfbr1nKl0tKoKKUgXtVYrsB5u1kUy3eaEFqDeUZyRDCThAD9e1Y
+         p5dHbHqPgc/IAA02Ylbi1DXp4ePS4pheU/i9wZ3QthJOhm1VLQ1/bnWw9pXimFiFFDWL
+         K1wJqXq9Zi9FAIF9lw9+fQUWikDGgrvrDwg2JSHMfASeZeW4xt8btj8ZFRpZVmVjVZM4
+         eoWEtH1xyUIqTfLKreDfY0WV++aii9jOsJy57GRAoNeCV9/Iq/dJEDng7InwVXIfJ6bd
+         2FLYv2RD3U1RQw+GDUEhiBR7b/s8g8qhiButAEWRh6/wAT6zJLkpu8ZmEOQFcTWv59NN
+         bLjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059446; x=1786664246;
+        d=1e100.net; s=20251104; t=1786059447; x=1786664247;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yUUzKej44hzjMWM7byUMUm3T8+/2OB7FMHfj7k4gSDk=;
-        b=SYbCZOxPSQattsOwZDSr5UCsYzM4OoFxh02hBu4nAv0/AfgvgIkftmNRx/tjBHVHMr
-         2iRPXM054x/W1FPYowQREyhsbUVCFTXguOwYGhw9q2WkjuuH/yQf+nCLJYYoblJGVIA3
-         TWYQdX3K3Tb7zb8//xyYEFVdLdEhFz5RXmJ6MzbQGesyXQL1/ZFTvMZBDJXBr3k4f9Qt
-         U4A4eSQ3Dc8WSlbyJniBYwcPuezS+Sf4TadAjpEVWAepKqLW9WDUz2scYPdkj9tmGADj
-         mmU9wJU6V+yYr/rpIZ2LSocPYyaqB+bt2WpkBWafbtfDzz50FixC3b1znSf05a7a+iVq
-         rVYA==
-X-Forwarded-Encrypted: i=1; AHgh+RpvfK1dNyiL4839P7zsrIzN7KcH/xXtu+wpaW2zvD6nCOEzuzooaDI3xbaGcchBdnmJs+i7zgiVKWfzVt4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhWIIwbSIXiG4Hh/z+cZbXChr0yRCIhrjLXmKQmulUbltl3uoX
-	EnHYp4ya5YYptezeVI7xy1sy/AtjwN46NvlZbQOiUYJYQx4YTnTSlOE1MJtaHcHFdI5TJTScUpV
-	N+2AwZw==
-X-Received: from pjzp16.prod.google.com ([2002:a17:90b:110:b0:382:7fcd:a18a])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:520a:b0:38f:5828:a40c
- with SMTP id 98e67ed59e1d1-3903c59a6eemr19079453a91.10.1786059446038; Thu, 06
- Aug 2026 16:37:26 -0700 (PDT)
+        bh=WG6tzs8/D5vUVAMD7J6BXfy7SNaM+XPXtfc+RTelhM8=;
+        b=TDpcsVguwlP3mopw4dfZm53zqueE7hZMbxIM5l+DL/pHQ1Ge5u9jcSRpIr0EohYYvk
+         jaTlVsF3Z8Jw7wPPiuKA3dY7zNS8kPy6MzcdOxISReHSp+jmR700pb19WtrOFt9IEHXR
+         D9vZ/7DGIftabjqbKI2Isfu8P1L1uGRvLdFfkKKLfdkgC44CNg9U0qrRz3REpjaVLuJL
+         VG7YGEr3lZ4O6vPpBXmO2ukDdH/gRhzaMionWC0/06FQ/LcspXSQQb1xfYdjShIJdi5y
+         re0/hCgAv6oekcIagNBjtCIw1kMMr2a0j6wZHDWCgkQE0fSOe94wyVqFFgys+GZwqj6p
+         UjPg==
+X-Forwarded-Encrypted: i=1; AHgh+RrtLAq8JPGqhzBILsXC7x+WgkFejft2zRJ7+nOLak3jiSoz3Lw/pR6lbixs94KEzM0ZAAvdsd3baiLqaxY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywfdy/DuiT7D5zJTx5/rpDxR+Q12G1yoJ63f8lx6kNRdAE+lLmP
+	U/NOeLZoVD/dumg+UD7MfsBDS9PXvLXdB5eAJSQCqe0897on64DU1GUJ48qcKxKrCiES8uEbaTL
+	5TOQgQg==
+X-Received: from pjgg14.prod.google.com ([2002:a17:90b:57ce:b0:380:f969:825e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2590:b0:38f:2168:b9cb
+ with SMTP id 98e67ed59e1d1-3903c572a05mr18788898a91.9.1786059447175; Thu, 06
+ Aug 2026 16:37:27 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:36:07 -0700
+Date: Thu,  6 Aug 2026 16:36:08 -0700
 In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -61,9 +61,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-51-seanjc@google.com>
-Subject: [PATCH v6 50/51] x86/paravirt: Move using_native_sched_clock() stub
- into timer.h
+Message-ID: <20260806233609.212337-52-seanjc@google.com>
+Subject: [PATCH v6 51/51] x86/kvm: Get local APIC bus frequency from PV CPUID
+ Timing Info
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -86,57 +86,44 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Now that timer.h ended up with CONFIG_PARAVIRT #ifdeffery anyways, move the
-PARAVIRT=n using_native_sched_clock() stub into timer.h as a "free"
-optimization.
+When running as a KVM guest with PV timing info provided by the host,
+stuff the APIC timer period/frequency with the local APIC bus frequency
+reported in CPUID.0x40000010.EBX instead of trying to calibrate/guess the
+frequency.
 
-No functional change intended.
+See Documentation/virt/kvm/x86/cpuid.rst for details.
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/include/asm/timer.h | 6 ++++--
- arch/x86/kernel/tsc.c        | 2 --
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ arch/x86/kernel/kvm.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/timer.h b/arch/x86/include/asm/timer.h
-index ca5c95d48c03..a52388af6055 100644
---- a/arch/x86/include/asm/timer.h
-+++ b/arch/x86/include/asm/timer.h
-@@ -11,9 +11,9 @@ extern void recalibrate_cpu_khz(void);
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index b954238b09fc..edeff41c03c2 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -992,7 +992,7 @@ static void __init kvm_init_platform(void)
+ 		.mask_lo = (u32)(~(SZ_4G - tolud - 1)) | MTRR_PHYSMASK_V,
+ 		.mask_hi = (BIT_ULL(boot_cpu_data.x86_phys_bits) - 1) >> 32,
+ 	};
+-	u32 timing_info_leaf;
++	u32 timing_info_leaf, apic_khz;
+ 	bool tsc_is_reliable;
  
- extern int no_timer_check;
- 
--extern bool using_native_sched_clock(void);
--
- #ifdef CONFIG_PARAVIRT
-+extern bool using_native_sched_clock(void);
+ 	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) &&
+@@ -1054,6 +1054,11 @@ static void __init kvm_init_platform(void)
+ 			x86_init.hyper.get_tsc_khz = kvm_get_tsc_khz;
+ 			x86_init.hyper.get_cpu_khz = kvm_get_tsc_khz;
+ 		}
 +
- int __init __paravirt_set_sched_clock(u64 (*func)(void), bool stable,
- 				      void (*save)(void), void (*restore)(void));
++		/* The leaf also includes the local APIC bus/timer frequency.*/
++		apic_khz = cpuid_ebx(timing_info_leaf);
++		if (apic_khz)
++			apic_set_timer_frequency_khz(apic_khz, "KVM hypervisor");
+ 	}
  
-@@ -23,6 +23,8 @@ static __always_inline void paravirt_set_sched_clock(u64 (*func)(void),
- {
- 	(void)__paravirt_set_sched_clock(func, true, save, restore);
- }
-+#else
-+static inline bool using_native_sched_clock(void) { return true; }
- #endif
- 
- /*
-diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index c0e4485484f2..74298e8ffa1f 100644
---- a/arch/x86/kernel/tsc.c
-+++ b/arch/x86/kernel/tsc.c
-@@ -302,8 +302,6 @@ int __init __paravirt_set_sched_clock(u64 (*func)(void), bool stable,
- }
- #else
- u64 sched_clock_noinstr(void) __attribute__((alias("native_sched_clock")));
--
--bool using_native_sched_clock(void) { return true; }
- #endif
- 
- notrace u64 sched_clock(void)
+ 	/*
 -- 
 2.55.0.679.g6767b8d81c-goog
 
