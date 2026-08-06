@@ -1,178 +1,295 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1EF3D301D
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 18:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3146C480320;
+	Thu,  6 Aug 2026 20:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786042543; cv=none; b=khok0+IZqmPUD7kcMLI0VRWqUoCp0mKMZqChE9ASxgBsRvxi8dieNKSbOEp/rYeEzx1YDiQldfT77DfObpcCFRmTjnu9ozeaLgcMcAkcQzcUTQ+nStc7KtlyD4n8aHxfvMz4Xyen28JwfuIYIb1xSiy2qRDhz1O4ZDAXMpYJFOs=
+	t=1786046798; cv=none; b=QEnavgCG1Qc2Nd9Cbju+EgxlI7dTpsj83213IVpSip6UF9DQh/DHvvzLG8sb/sDwGxJK7f5a7OoLnIyUTRv0tmAGJ+KYkw52w5RDwsr98fYOEU0Ub4EABKlLlg+vI3pShRLEcuOTuhTnIqkrOUs/ro9VgXzaEmQB272e79c6vwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786042543; c=relaxed/simple;
-	bh=170UlcaQ38dZhrgp9di10e3tBWByfXORmUXkrDEonLQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=GWHk+kiOTrODVx1omQ9y4TsiLuiBDUnFg2V3W0fudLdXWTZSKkuNRjHYdopDsA0podTcMyl2Wy7H/spygKeifSGZs1a3UnzrbHzeJejcCuqP1EQP3LTRCuQR18vndyuOOb/RABtjqwsekRsxnZSxxLT/mFUdSoUgNqLGB9xQupk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBdLHtrD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786046798; c=relaxed/simple;
+	bh=Ap0Qmzmts3oLJZ105+phZogBJij9nWouUMEY0x1uZuk=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HYTqvXtzMHAytzbRhZM7kLvGYdiVqV6zLna6fU8tZNVWoGUW9oQVSvy7ZxIstt5jfsOzzU5vuQxhza0TRXHEPfqZctQvV+QHw23DrDaXMJu0HKblbFD00QSzoMl3IIZC1eT42J1xnF+Af+mWtIfbE8Nuj0GKteC3uyRd+7hPKBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oAid7uyS; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBdLHtrD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52EA61F000E9;
-	Thu,  6 Aug 2026 18:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786042536;
-	bh=YXohdDrS99aeIjhamBRpIF1tlUhe1BvEZLYc9n6tPIc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LBdLHtrDvXtQzj51SLQ83MyO8sM9VHJwVu+0O53py0snwS95rDl5CWa2XJyYB0mLn
-	 ymQARufBzGMJ65SDIppM0KYiKCojkfmRDDTJ8DoFMFWE6CcKcmO7s5QAiEB8OR0Yzq
-	 HIjcBsG4fMSoQdjzy73SJ7xA7fRjtXyzWrSpdfoxNc6GZBFCLbEv5Fz6BWRuRgOLVE
-	 6h19O2Wy4oS3JT7+7vRQjp+4UXrOBN2WVpcehTYfWsrghybp7qd/YGoQw+kYifYdbd
-	 S0A9W3e4Y64DOHcMiVIhrPjeKHSpBSy7QlaG9RiDH7iivBh1JfF7jlTw/dcRR4wkQv
-	 MIfjEchHHVgrg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v3] net: mana: Extend RX CQE coalescing up to 8
- packets
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Haiyang Zhang" <haiyangz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260805185404.1052177-1-haiyangz@linux.microsoft.com>
-References: <20260805185404.1052177-1-haiyangz@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 Aug 2026 18:55:35 +0000
-Message-Id: <20260806185536.52EA61F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oAid7uyS"
+Received: from DairyQueen (unknown [52.172.102.222])
+	by linux.microsoft.com (Postfix) with ESMTPSA id ACD0F20B7128;
+	Thu,  6 Aug 2026 13:05:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ACD0F20B7128
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786046757;
+	bh=opTdFPaBV44HR5yoUGxKTjRAiPFf3Is0t+ryAsEWKGU=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date:From;
+	b=oAid7uySaLszQR1S02jcnghuKw+hOQlQQyA5o2OuFM1PXFqcceb/lqrO4tyPY7/ik
+	 bJYZhfiKekrqjS22mATGgM7GSDxbsVfEQzgBskHeO8IBaptje0GXPH2/uHuZ9FVl6A
+	 Pn2k9/hl9o6TmHwEB3BmQZ1Iq6R8YdOZYDQqr2Oo=
+From: "Kameron Carr" <kameroncarr@linux.microsoft.com>
+To: "'Michael Kelley'" <mhklinux@outlook.com>,
+	<decui@microsoft.com>,
+	<haiyangz@microsoft.com>,
+	<kys@microsoft.com>,
+	<longli@microsoft.com>,
+	<wei.liu@kernel.org>
+Cc: <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>,
+	<edumazet@google.com>,
+	<kuba@kernel.org>,
+	<pabeni@redhat.com>,
+	<linux-hyperv@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<netdev@vger.kernel.org>
+References: <20260730233359.3850612-1-kameroncarr@linux.microsoft.com> <20260730233359.3850612-3-kameroncarr@linux.microsoft.com> <SN6PR02MB41576627C0DBA40FA8BB49C7D4C82@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB41576627C0DBA40FA8BB49C7D4C82@SN6PR02MB4157.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v2 2/2] hv_netvsc: Allocate host-visible GPADL buffers as decrypted contiguous chunks
+Date: Thu, 6 Aug 2026 13:06:08 -0700
+Message-ID: <002d01dd25df$0b94f8b0$22beea10$@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQIub+xPS5YiyaZvP24gK8Dc9/eqxgFfExjQAiIv4nu10VI0EA==
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On Friday, July 31, 2026 8:47 AM, Michael Kelley wrote:
+> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Thursday, July
+30, 2026 4:34 PM
+> >
+> > On CoCo VMs without confidential VMBus, the netvsc send and receive
+buffers
+> > must be made host-visible by decrypting them. These buffers are
+vmalloc'ed,
+> > but set_memory_decrypted()/encrypted() do not work on vmalloc'ed memory.
+> > This use case is (so far) unique to netvsc, so solve it locally rather
+than
+> > changing the set_memory() or allocation APIs.
+> >
+> > Add vmbus_alloc_buffer()/vmbus_free_buffer() to the VMBus core. When the
+> > guest's isolation model requires it, allocate the buffer as a list of
+> > physically-contiguous chunks via alloc_pages_node(), starting at
+> > MAX_PAGE_ORDER and falling back to smaller orders so the allocation
+still
+> > succeeds under memory fragmentation. Each chunk is decrypted in place
+via
+> > set_memory_decrypted() on its direct-map address, and the chunks are
+then
+> > stitched into a single virtually-contiguous range with vmap(). Buffers
+that
+> > do not need decryption keep using vzalloc().
+> >
+> > This approach minimizes scattering of decrypted 4 KiB pages through the
+> > kernel direct map and the resulting shattering of large page mappings.
+> >
+> > Use vmbus_establish_gpadl_caller_decrypted() so there is no attempt
+> > to decrypt the virtual address. At teardown, vunmap() the range and
+> > re-encrypt and free each chunk individually; any chunk that fails
+> > re-encryption is leaked to prevent accidentally freeing decrypted
+memory.
+> >
+> > Because vunmap() and set_memory_encrypted() must run in process context,
+> > replace the rcu_head/call_rcu() pair used to defer free_netvsc_device()
+> > with rcu_work/queue_rcu_work(). This also fixes a small race condition
+> > where the buffers may be accessed while being re-encrypted by moving the
+> > re-encryption after the RCU grace period.
+> >
+> > Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+> > ---
+> >  drivers/hv/channel.c            | 158 ++++++++++++++++++++++++++++++++
+> >  drivers/net/hyperv/hyperv_net.h |   8 +-
+> >  drivers/net/hyperv/netvsc.c     | 104 ++++++++++++++-------
+> >  drivers/net/hyperv/netvsc_drv.c |   6 ++
+> >  include/linux/hyperv.h          |   7 ++
+> >  5 files changed, 249 insertions(+), 34 deletions(-)
+> 
+> Arguably, this patch should be broken into two patches. One
+> patch adds the buffer allocation/free functions to the VMBus core.
+> The second updates netvsc to use the new allocation/free
+> functions and to call the free function in the required context.
 
-Pre-existing issues:
-- [High] The RX NAPI polling function completely ignores the NAPI `budget`,=
- potentially processing up to 4096 packets in a single poll iteration, whic=
-h causes severe latency spikes and violates NAPI fairness rules.
---
+Ack.
 
---- Patch [1]: [PATCH net-next v3] net: mana: Extend RX CQE coalescing up t=
-o 8 packets ---
-commit dbd47242aa242a736726a34fdaa26e55adbdfab1
-Author: Haiyang Zhang <haiyangz@microsoft.com>
+> > diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+[...]
+> > +void *vmbus_alloc_buffer(struct vmbus_channel *channel,
+> > +			 u32 size,
+> > +			 struct page ***chunks_out,
+> > +			 u32 *chunk_cnt_out)
+> > +{
+> > +	u32 nr_pages = PFN_UP(size);
+> 
+> Is there a reason for nr_pages to be u32, and then cast it to unsigned
+long
+> a couple of places below? The first argument to kvmalloc_array() is of
+> type size_t.  Avoiding the casts would be incrementally cleaner.
 
-net: mana: Extend RX CQE coalescing up to 8 packets
+Ack.
 
-To support up to 8 packets per CQE, update related CQE processing code and
-structures. This updates ethtool handlers to set this feature and per queue
-stats to show the coalesced CQE counters.
+> > +	struct page **chunks = NULL;
+> > +	struct page **pages = NULL;
+> > +	unsigned int order;
+> > +	u32 chunk_cnt = 0;
+> > +	u32 page_idx = 0;
+> > +	u32 remaining = nr_pages;
+> > +	void *addr;
+> > +	u32 i;
+> > +	int ret;
+> > +
+> > +	*chunks_out = NULL;
+> > +	*chunk_cnt_out = 0;
+> > +
+> > +	if (!nr_pages)
+> > +		return NULL;
+> > +
+> > +	/* If the buffer does not need to be decrypted, just use vzalloc()
+*/
+> > +	if (!hv_is_isolation_supported() || channel->co_external_memory)
+> > +		return vzalloc((unsigned long)nr_pages << PAGE_SHIFT);
+> > +
+> > +	/* Worst case: every chunk is a single page. */
+> > +	chunks = kvmalloc_array(nr_pages, sizeof(*chunks),
+> > +				GFP_KERNEL | __GFP_ZERO);
+> > +	if (!chunks)
+> > +		goto err;
+> > +
+> > +	pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
+> > +	if (!pages)
+> > +		goto err;
+> > +
+> > +	/*
+> > +	 * @order monotonically decreases across iterations
+> > +	 *
+> > +	 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing, but try
+> > +	 * harder at order 0 since that is the final fallback.
+> > +	 */
+> > +	order = min(MAX_PAGE_ORDER, ilog2(nr_pages));
+> 
+> This works, but is more complex than needed. Just set order to
+> MAX_PAGE_ORDER, and the min() at the top of the while loop below
+> will do the right thing. And you could do order = MAX_PAGE_ORDER
+> where order is declared.
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> index 2519a98ad00b0..3c96e6fc3d81d 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+Ack.
 
-[ ... ]
+> > +	while (remaining) {
+> > +		struct page *page;
+> > +		gfp_t gfp;
+> > +
+> > +		order = min(order, ilog2(remaining));
 
-> @@ -2304,54 +2354,48 @@ static void mana_process_rx_cqe(struct mana_rxq *=
-rxq, struct mana_cq *cq,
->  		return;
->  	}
-> =20
-> +	pkt_i =3D 0;
->  	for (i =3D 0; i < MANA_RXCOMP_OOB_NUM_PPI; i++) {
-> -		old_buf =3D NULL;
-> -		pktlen =3D oob->ppi[i].pkt_len;
-> -		if (pktlen =3D=3D 0)
-> -			break;
-> -
-> -		curr =3D rxq->buf_index;
-> -		rxbuf_oob =3D &rxq->rx_oobs[curr];
-> -		WARN_ON_ONCE(rxbuf_oob->wqe_inf.wqe_size_in_bu !=3D 1);
-> -
-> -		if (unlikely(pktlen > rxq->datasize)) {
-> -			/* Increase it even if mana_rx_skb() isn't called. */
-> -			rxq->rx_cq.work_done++;
-> +		u32 pkt_hash;
-> =20
-> -			++ndev->stats.rx_dropped;
-> -			netdev_warn_once(ndev,
-> -				"Dropped oversized RX packet: len=3D%u, datasize=3D%u\n",
-> -				pktlen, rxq->datasize);
-> -
-> -			/* Reuse the RX buffer since rxbuf_oob is unchanged. */
-> +		if (coalesced_8) {
-> +			/* 8-pkt mode: 2 packets per PPI entry */
-> +			pktlen =3D oob->ppi[i].pkt_len0;
-> +			pkt_hash =3D oob->ppi[i].pkt_hash0;
->  		} else {
-> -
-> -			mana_refill_rx_oob(dev, rxq, rxbuf_oob, pktlen,
-> -					   &old_buf, &old_fp);
-> -
-> -			/* Unsuccessful refill will have old_buf =3D=3D NULL.
-> -			 * In this case, mana_rx_skb() will drop the packet.
-> -			 */
-> -			mana_rx_skb(old_buf, old_fp, oob, rxq, i);
-> +			pktlen =3D oob->ppi[i].pkt_len;
-> +			pkt_hash =3D oob->ppi[i].pkt_hash;
->  		}
-> +		if (pktlen =3D=3D 0)
-> +			break;
-> =20
-> -		mana_move_wq_tail(rxq->gdma_rq,
-> -				  rxbuf_oob->wqe_inf.wqe_size_in_bu);
-> -
-> -		mana_post_pkt_rxq(rxq);
-> +		mana_process_one_rx_pkt(dev, rxq, oob, pktlen, pkt_hash);
-> +		pkt_i++;
-> =20
->  		if (!coalesced)
->  			break;
-> +
-> +		/* Process 2nd packet from the same PPI in 8-pkt mode */
-> +		if (coalesced_8) {
-> +			pktlen =3D oob->ppi[i].pkt_len1;
-> +			pkt_hash =3D oob->ppi[i].pkt_hash1;
-> +			if (pktlen =3D=3D 0)
-> +				break;
-> +
-> +			mana_process_one_rx_pkt(dev, rxq, oob, pktlen,
-> +						pkt_hash);
-> +			pkt_i++;
-> +		}
->  	}
+Context: this fails to compile on x86 since order is unsigned and ilog2()
+is signed.
 
-[Severity: High]
-This is a pre-existing issue, but does extending coalescing to 8 packets per
-CQE severely worsen an existing NAPI budget violation?
+Is it acceptable to avoid the min_t() by changing order to be a signed int?
 
-Looking at the caller mana_poll_rx_cq(), it pulls up to 512 CQEs from the
-hardware and processes them all in a loop without checking the NAPI budget:
+> > +
+> > +		for (;;) {
+> > +			gfp = GFP_KERNEL | __GFP_ZERO;
+> > +			if (order)
+> > +				gfp |= __GFP_COMP | __GFP_NORETRY |
+__GFP_NOWARN;
+> > +			page =
+alloc_pages_node(cpu_to_node(channel->target_cpu),
+> > +						gfp, order);
+> > +			if (page)
+> > +				break;
+> > +			if (!order)
+> > +				goto err;
+> > +			order--;
+> > +		}
+> 
+> I think this nested for loop can be avoided. At this point in the outer
+while
+> loop, set the gfp flags and call alloc_pages_node() as you have here. The
+> good and normal path is that alloc_pages_node() succeeds. The exception
+> path is alloc_pages_node() failing, so you can do:
+> 
+> 		if (!page) {
+> 			if (!order--)
+> 				goto err;
+> 			continue;
+> 		}
+> 
+> The "continue" just restarts the outer while loop with the decremented
+> value of "order" and everything proceeds normally. To me avoiding the
+> nested loop is simpler, though "simpler" can be in the eye of the
+beholder,
+> so if you prefer to keep this as is, I'm OK with that.
 
-    comp_read =3D mana_gd_poll_cq(cq->gdma_cq, comp,
-                    min((cq->gdma_cq->queue_size /
-                          COMP_ENTRY_SIZE) * 4,
-                         CQE_POLLING_BUFFER));
-    ...
-    for (i =3D 0; i < comp_read; i++) {
-        ...
-        mana_process_rx_cqe(rxq, cq, &comp[i]);
-    }
+I agree. Thank you for the suggestion.
 
-Then in mana_poll(), the driver bounds the returned work done to the NAPI
-budget, hiding the over-processing from the core network stack:
+> > +
+> > +		ret = set_memory_decrypted((unsigned
+long)page_address(page),
+> > +					   1U << order);
+> > +		if (ret) {
+> > +			/*
+> > +			 * set_memory_decrypted() failed; the page state is
+> > +			 * unknown so it must be leaked rather than freed.
+> > +			 */
+> > +			goto err;
+> > +		}
+> > +
+> > +		chunks[chunk_cnt++] = page;
+> > +
+> > +		for (i = 0; i < (1U << order); i++)
+> > +			pages[page_idx++] = page + i;
+> > +
+> > +		remaining -= 1U << order;
+> > +	}
+> > +
+> > +	addr = vmap(pages, nr_pages, VM_MAP, pgprot_decrypted(PAGE_KERNEL));
+> > +	if (!addr)
+> > +		goto err;
+> > +
+> > +	memset(addr, 0, (unsigned long)nr_pages << PAGE_SHIFT);
+> > +
+> > +	kvfree(pages);
+> > +	*chunks_out = chunks;
+> > +	*chunk_cnt_out = chunk_cnt;
+> > +	return addr;
+> > +
+> > +err:
+> > +	kvfree(pages);
+> > +	vmbus_free_buffer(NULL, chunks, chunk_cnt);
+> > +	return NULL;
+> > +}
+[...]
+> > diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+> > index 59e95341f9b1e..1192929d93a86 100644
+> > --- a/drivers/net/hyperv/netvsc.c
+> > +++ b/drivers/net/hyperv/netvsc.c
+> > @@ -28,6 +28,8 @@
+> >  #include "hyperv_net.h"
+> >  #include "netvsc_trace.h"
+> >
+> > +static struct workqueue_struct *netvsc_wq;
+> > +
+> 
+> Does netvsc needs its own workqueue to do the "free" operation,
+> or would the system default workqueue (system_dfl_wq) be just
+> as good? At first glance, the system_dfl_wq seems like it would work,
+> since netvsc free operations are rare and don't have any strict
+> latency requirements. But I'm far from being expect in workqueues,
+> and there could be subtleties I'm not aware of.
 
-    w =3D mana_cq_handler(cq, cq->gdma_cq);
+I have to drain the work queue before module unload.
+Currently this is handled by destroying the queue.
 
-    return min(w, budget);
+Originally, I tried using a system wide queue, but I saw that there are
+compile time warnings, __warn_flushing_systemwide_wq(), which state:
+"WARNING: Flushing system-wide workqueues will be prohibited in near
+future."
 
-Since mana_process_rx_cqe() does not check if the packets processed exceed
-the budget and can now process up to 8 packets per CQE, a single poll
-iteration could process up to 4096 packets (8 packets * 512 CQEs) while
-ignoring the budget.
+I got the impression that having a driver specific work queue is best
+practice.
 
-Can this cause softirq starvation, latency jitter, or RCU stalls on busy
-networks by blocking the CPU for long periods?
+- Kameron
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260805185404.1052=
-177-1-haiyangz@linux.microsoft.com?part=3D1
+
