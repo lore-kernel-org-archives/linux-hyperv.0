@@ -1,324 +1,136 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25730421F1B;
-	Thu,  6 Aug 2026 21:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD9142D758
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 22:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052058; cv=none; b=M9Ruqq/ScUBb4KYbtmKoCAWKEZfbzNrpJedAetuhBZaepYaaAW8rh65EfhVvmVuTj5YA90U3LND+oQvdEU4xBzgt2LOE3C/u/qB01pngq258LsnB9eJvxfcqqytVW8zK7Z7R6qYaTZJ9J5D6N+kLauvtsPDxuuDZCSYx6nXyLKA=
+	t=1786054691; cv=none; b=L8MqDQTENPWBH2zsU4mrmlcC+muYSrsUEzTIyM2OKwm9kANKiFSaKjIitz7EOmfhpf/4dFip7ouTxrWKkB1QXYV7hfQyUMUQrYLU6ZqBo1u6SQKLrm0xApZJw7O87P/WxuOZJvylS7v5K+HlUu5PqbOzIQ4hywVJSuBJd39CAhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052058; c=relaxed/simple;
-	bh=TV/OJAGo0l/qYS7Lh2LnxQeChJEJxruUMkll5V4QZAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IKYirJuH8HYKbj7UmMzxBK+VZpybbYQ+duL1G+yXiwx2bEEjz80dqzEciwae+Zyu3qXmwQ2NTV869AHFzTLbwnp/tMYvdFDhVcLtP42sMzr7DOLG6Knfrp9kmZ1rvZCY1VrQhDsCY0ckf1/YjVosbxoVr3nzPLVwtpvOUctULjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MVQYy8G0; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1786054691; c=relaxed/simple;
+	bh=on3mRg2u5XTVO1NtPed6Wnq5su/1HFfJAZ0A5V6XV54=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=NAwWXaQxca7AOvn4FBPBOuPeQWbt5WswZQqVuMf4hUV/Z+2WJ4ARPeev0IlqCGbZF4FoSaN54YpZOPg5wlw6QWlnJI0wNNW6znGU5Uj8Ar1tc4O6szaAAh3UhZQnjsO6k2ogV1nAF+E4IeCyga/ri9IhV85oQ3UM+J7TP3LkP6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c0zyvnWr; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MVQYy8G0"
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6997E20B712B;
-	Thu,  6 Aug 2026 14:33:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6997E20B712B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786052032;
-	bh=m/xxZiPPPnx3a/e9x1rtE138HUAcJY9rU0x0uP+0JAc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MVQYy8G0PgzYyxTmwDja8A4MV0ZB5PHD4209AASsOicNmT5KpvNr3Zj+J783lBz7I
-	 bqxCHsBkAP3HBjNr1nY5e3UuJeCyx1QWTN3kQc5Ffevl6yjHymDdVp9sqo/Sj9X8aW
-	 pj5z3Xguqeg+ktmn4RetdMA6vqZ+voE4ipH0ePiQ=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: decui@microsoft.com,
-	haiyangz@microsoft.com,
-	kys@microsoft.com,
-	longli@microsoft.com,
-	wei.liu@kernel.org,
-	mhklinux@outlook.com
-Cc: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH v3 3/3] hv_netvsc: Allocate host-visible GPADL buffers using vmbus_alloc_buffer()
-Date: Thu,  6 Aug 2026 14:33:26 -0700
-Message-ID: <20260806213326.1425848-4-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
-References: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c0zyvnWr"
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8485d853b08so4546513b3a.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 15:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786054686; x=1786659486; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/BEVvi4/7i6XDSu/QYDIwcuZoEPs9pbAb29S0DeOBes=;
+        b=c0zyvnWrdAFI8VFr+T7yfPo4tTie0zkMyU5vE9IpFpQ0bnMIrYNe7D0NVU015/CXq7
+         tTbpg+GiP1jxYehCF2k+ss1WmL9zCZkVS/XP0JucnBtnbFrZkun5/zwtPKeVvswIcv0x
+         9OXKkSojC+SITbl2r6dWFilo0SBjtSgUXGY7YnzSHnPU836SD7nqqW9ITYT/jJd2JfJs
+         YEHVrb3r0enPzU2kmPfGXFNmXi/PHHzpE2fxx1rujcOQQ7gqf5oljFESaE7Lq4tlkZTn
+         WgYMlIoEKzbDMturQFbG5GZceqZ9xgZGT0PW3z3gR7B9CbY4okSoPvvfuMih1H9+/ciy
+         UOxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786054686; x=1786659486;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/BEVvi4/7i6XDSu/QYDIwcuZoEPs9pbAb29S0DeOBes=;
+        b=b6NcWvpfdjyzVvSRVLJyZ6RftHY9ZU4YcI9fOzMgZO+Jq2trdLfk5Esw2oMH9c61pt
+         BJUkcBx4AvtROdvLzUZix44xc+kltszG1YU+j/fOQ1C33gdimmECjtB87tx7lCInll00
+         yY+KTbf7XAH2F+RQiG2tZaapi05FLsKFH0rAZ+j86dYOk8mpbWKYVsbMJC1eMy7xt9oG
+         t8Rk3GKpO2N5YSa1hjqbZ93I62PRO24ntqZB0smkxidu/Ha9JcK4W3NPI1O46fjPUYH/
+         gwFt2qWuIXQgtMOuF8+PLx25zcDIdQleU0YGbjIyCEgQAiP6jG/WLs+Q+qbzhyZyPwI9
+         7+Bg==
+X-Forwarded-Encrypted: i=1; AHgh+RrDPAcfZ7olgeNV6+lwEYhhkQrtG1xulRCu0i3lTDf3Ngsf7lYP0Ev8tn/sHesFx9tChX8mzRCml1VVbN0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrGPObzYEGYfjOWRhmhlGUcliB0aHx5YlxPx5WJL5VzkhCjr4N
+	FArvB95xmo9pD2E18kkIZVaCMQC0xdlAAZkJafsoTocGbapeHyWNuNZB1W7cVJMPJzvO6hp6Ern
+	HVPOhfQ==
+X-Received: from pfbln15.prod.google.com ([2002:a05:6a00:3ccf:b0:848:5415:1869])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3a0f:b0:848:3f07:c5a2
+ with SMTP id d2e1a72fcca58-84f2dfd0a06mr18297213b3a.4.1786054685697; Thu, 06
+ Aug 2026 15:18:05 -0700 (PDT)
+Date: Thu, 6 Aug 2026 15:18:05 -0700
+In-Reply-To: <SN6PR02MB4157453D405AB80859B12DF9D4F52@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260701193212.749551-1-seanjc@google.com> <20260701193212.749551-48-seanjc@google.com>
+ <SN6PR02MB4157453D405AB80859B12DF9D4F52@SN6PR02MB4157.namprd02.prod.outlook.com>
+Message-ID: <anUIHY-1_q3oVFPf@google.com>
+Subject: Re: [PATCH v5 47/51] x86/paravirt: Don't use a PV sched_clock in CoCo
+ guests with trusted TSC
+From: Sean Christopherson <seanjc@google.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Andy Lutomirski <luto@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, John Stultz <jstultz@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, 
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>, 
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, Tom Lendacky <thomas.lendacky@amd.com>, 
+	Nikunj A Dadhania <nikunj@amd.com>, David Woodhouse <dwmw@amazon.co.uk>, 
+	David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="us-ascii"
 
-On CoCo VMs without confidential VMBus, the netvsc send and receive buffers
-must be made host-visible by decrypting them. These buffers are vmalloc'ed,
-but set_memory_decrypted()/encrypted() do not work on vmalloc'ed memory.
-This use case is (so far) unique to netvsc, so solve it locally rather than
-changing the set_memory() or allocation APIs.
+On Thu, Jul 02, 2026, Michael Kelley wrote:
+> From: Sean Christopherson <seanjc@google.com> Sent: Wednesday, July 1, 2026 12:32 PM
+> > 
+> > Silently ignore attempts to switch to a paravirt sched_clock when running
+> > as a CoCo guest with trusted TSC.  In hand-wavy theory, a misbehaving
+> > hypervisor could attack the guest by manipulating the PV clock to affect
+> > guest scheduling in some weird and/or predictable way.  More importantly,
+> > reading TSC on such platforms is faster than any PV clock, and sched_clock
+> > is all about speed.
+> > 
+> > Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+> > Signed-off-by: Sean Christopherson <seanjc@google.com>
+> > ---
+> >  arch/x86/kernel/tsc.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+> > index 012321fed5e5..a146fc7b5e74 100644
+> > --- a/arch/x86/kernel/tsc.c
+> > +++ b/arch/x86/kernel/tsc.c
+> > @@ -283,6 +283,15 @@ bool using_native_sched_clock(void)
+> >  int __init __paravirt_set_sched_clock(u64 (*func)(void), bool stable,
+> >  				      void (*save)(void), void (*restore)(void))
+> >  {
+> > +	/*
+> > +	 * Don't replace TSC with a PV clock when running as a CoCo guest and
+> > +	 * the TSC is secure/trusted; PV clocks are emulated by the hypervisor,
+> > +	 * which isn't in the guest's TCB.
+> > +	 */
+> > +	if (cc_platform_has(CC_ATTR_GUEST_SNP_SECURE_TSC) ||
+> > +	    boot_cpu_has(X86_FEATURE_TDX_GUEST))
+> > +		return -EPERM;
+> 
+> Do a pr_warn() in the error case? Your commit message says to do the ignore
+> silently, but I wonder if that's a good idea. At least for Hyper-V, the error
+> case shouldn't happen.
 
-Use vmbus_alloc_buffer() to allocate the send and receive buffers, which
-will make them host-visible. Store the list of memory chunks in the
-netvsc_device struct so they can be individually freed later. Use
-vmbus_establish_gpadl_caller_decrypted() so there is no attempt to decrypt
-the virtual address.
+I agree it's not a great idea, but unfortunately it's pretty much guaranteed to
+fire on KVM-based setups.  The KVM world hasn't been anywhere near as aggressive
+as Hyper-V in terms of killing off PV features when running SNP/TDX guests (which
+is largely how this series came to be in the first place).
 
-Appropriately free the buffers with vmbus_free_buffer(). Because vunmap()
-and set_memory_encrypted() must run in process context, replace the
-rcu_head/call_rcu() pair used to defer free_netvsc_device() with
-rcu_work/queue_rcu_work(). This also fixes a small race condition where the
-buffers may be accessed while being re-encrypted by moving the
-re-encryption after the RCU grace period.
-
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- drivers/net/hyperv/hyperv_net.h |   8 ++-
- drivers/net/hyperv/netvsc.c     | 103 ++++++++++++++++++++++----------
- drivers/net/hyperv/netvsc_drv.c |   6 ++
- 3 files changed, 83 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index 7397c693f984a..4841367fdab2f 100644
---- a/drivers/net/hyperv/hyperv_net.h
-+++ b/drivers/net/hyperv/hyperv_net.h
-@@ -220,6 +220,8 @@ struct net_device_context;
- 
- extern u32 netvsc_ring_bytes;
- 
-+int netvsc_workqueue_init(void);
-+void netvsc_workqueue_destroy(void);
- struct netvsc_device *netvsc_device_add(struct hv_device *device,
- 					const struct netvsc_device_info *info);
- int netvsc_alloc_recv_comp_ring(struct netvsc_device *net_device, u32 q_idx);
-@@ -1158,6 +1160,8 @@ struct netvsc_device {
- 	/* Receive buffer allocated by us but manages by NetVSP */
- 	void *recv_buf;
- 	u32 recv_buf_size; /* allocated bytes */
-+	struct page **recv_buf_chunks;
-+	u32 recv_buf_chunk_cnt;
- 	struct vmbus_gpadl recv_buf_gpadl_handle;
- 	u32 recv_section_cnt;
- 	u32 recv_section_size;
-@@ -1166,6 +1170,8 @@ struct netvsc_device {
- 	/* Send buffer allocated by us */
- 	void *send_buf;
- 	u32 send_buf_size;
-+	struct page **send_buf_chunks;
-+	u32 send_buf_chunk_cnt;
- 	struct vmbus_gpadl send_buf_gpadl_handle;
- 	u32 send_section_cnt;
- 	u32 send_section_size;
-@@ -1193,7 +1199,7 @@ struct netvsc_device {
- 
- 	struct netvsc_channel chan_table[VRSS_CHANNEL_MAX];
- 
--	struct rcu_head rcu;
-+	struct rcu_work rwork;
- };
- 
- /* NdisInitialize message */
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 59e95341f9b1e..c59f2a44badf0 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -28,6 +28,8 @@
- #include "hyperv_net.h"
- #include "netvsc_trace.h"
- 
-+static struct workqueue_struct *netvsc_wq;
-+
- /*
-  * Switch the data path from the synthetic interface to the VF
-  * interface.
-@@ -125,6 +127,47 @@ static void netvsc_subchan_work(struct work_struct *w)
- 	rtnl_unlock();
- }
- 
-+static void __free_netvsc_device(struct netvsc_device *nvdev)
-+{
-+	int i;
-+
-+	kfree(nvdev->extension);
-+
-+	vmbus_free_buffer(nvdev->recv_buf, nvdev->recv_buf_chunks,
-+			  nvdev->recv_buf_chunk_cnt);
-+	vmbus_free_buffer(nvdev->send_buf, nvdev->send_buf_chunks,
-+			  nvdev->send_buf_chunk_cnt);
-+	bitmap_free(nvdev->send_section_map);
-+
-+	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-+		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
-+		kfree(nvdev->chan_table[i].recv_buf);
-+		vfree(nvdev->chan_table[i].mrc.slots);
-+	}
-+
-+	kfree(nvdev);
-+}
-+
-+static void free_netvsc_device(struct work_struct *w)
-+{
-+	struct rcu_work *rwork = to_rcu_work(w);
-+
-+	__free_netvsc_device(container_of(rwork, struct netvsc_device, rwork));
-+}
-+
-+int netvsc_workqueue_init(void)
-+{
-+	netvsc_wq = alloc_workqueue("hv_netvsc", WQ_UNBOUND, 0);
-+
-+	return netvsc_wq ? 0 : -ENOMEM;
-+}
-+
-+void netvsc_workqueue_destroy(void)
-+{
-+	rcu_barrier();
-+	destroy_workqueue(netvsc_wq);
-+}
-+
- static struct netvsc_device *alloc_net_device(void)
- {
- 	struct netvsc_device *net_device;
-@@ -143,36 +186,18 @@ static struct netvsc_device *alloc_net_device(void)
- 	init_completion(&net_device->channel_init_wait);
- 	init_waitqueue_head(&net_device->subchan_open);
- 	INIT_WORK(&net_device->subchan_work, netvsc_subchan_work);
-+	INIT_RCU_WORK(&net_device->rwork, free_netvsc_device);
- 
- 	return net_device;
- }
- 
--static void free_netvsc_device(struct rcu_head *head)
--{
--	struct netvsc_device *nvdev
--		= container_of(head, struct netvsc_device, rcu);
--	int i;
--
--	kfree(nvdev->extension);
--
--	if (!nvdev->recv_buf_gpadl_handle.decrypted)
--		vfree(nvdev->recv_buf);
--	if (!nvdev->send_buf_gpadl_handle.decrypted)
--		vfree(nvdev->send_buf);
--	bitmap_free(nvdev->send_section_map);
--
--	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
--		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
--		kfree(nvdev->chan_table[i].recv_buf);
--		vfree(nvdev->chan_table[i].mrc.slots);
--	}
--
--	kfree(nvdev);
--}
--
- static void free_netvsc_device_rcu(struct netvsc_device *nvdev)
- {
--	call_rcu(&nvdev->rcu, free_netvsc_device);
-+	/*
-+	 * Defer the actual free to process context: vunmap() and
-+	 * set_memory_encrypted() cannot run from RCU softirq context.
-+	 */
-+	queue_rcu_work(netvsc_wq, &nvdev->rwork);
- }
- 
- static void netvsc_revoke_recv_buf(struct hv_device *device,
-@@ -351,7 +376,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 		buf_size = min_t(unsigned int, buf_size,
- 				 NETVSC_RECEIVE_BUFFER_SIZE_LEGACY);
- 
--	net_device->recv_buf = vzalloc(buf_size);
-+	net_device->recv_buf =
-+		vmbus_alloc_buffer(device->channel, buf_size,
-+				   &net_device->recv_buf_chunks,
-+				   &net_device->recv_buf_chunk_cnt);
- 	if (!net_device->recv_buf) {
- 		netdev_err(ndev,
- 			   "unable to allocate receive buffer of size %u\n",
-@@ -367,9 +395,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * channel.  Note: This call uses the vmbus connection rather
- 	 * than the channel to establish the gpadl handle.
- 	 */
--	ret = vmbus_establish_gpadl(device->channel, net_device->recv_buf,
--				    buf_size,
--				    &net_device->recv_buf_gpadl_handle);
-+	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-+						     net_device->recv_buf,
-+						     buf_size,
-+						     &net_device->recv_buf_gpadl_handle);
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			"unable to establish receive buffer's gpadl\n");
-@@ -457,7 +486,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	buf_size = device_info->send_sections * device_info->send_section_size;
- 	buf_size = round_up(buf_size, PAGE_SIZE);
- 
--	net_device->send_buf = vzalloc(buf_size);
-+	net_device->send_buf =
-+		vmbus_alloc_buffer(device->channel, buf_size,
-+				   &net_device->send_buf_chunks,
-+				   &net_device->send_buf_chunk_cnt);
- 	if (!net_device->send_buf) {
- 		netdev_err(ndev, "unable to allocate send buffer of size %u\n",
- 			   buf_size);
-@@ -470,9 +502,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * channel.  Note: This call uses the vmbus connection rather
- 	 * than the channel to establish the gpadl handle.
- 	 */
--	ret = vmbus_establish_gpadl(device->channel, net_device->send_buf,
--				    buf_size,
--				    &net_device->send_buf_gpadl_handle);
-+	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-+						     net_device->send_buf,
-+						     buf_size,
-+						     &net_device->send_buf_gpadl_handle);
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			   "unable to establish send buffer's gpadl\n");
-@@ -1863,7 +1896,11 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
- 	netif_napi_del(&net_device->chan_table[0].napi);
- 
- cleanup2:
--	free_netvsc_device(&net_device->rcu);
-+	/*
-+	 * net_device was never published, so we don't need to wait for an
-+	 * RCU grace period -- call the free routine synchronously.
-+	 */
-+	__free_netvsc_device(net_device);
- 
- 	return ERR_PTR(ret);
- }
-diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index ee5ab5ceb2be2..1d43c73fd73f1 100644
---- a/drivers/net/hyperv/netvsc_drv.c
-+++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2867,12 +2867,17 @@ static void __exit netvsc_drv_exit(void)
- {
- 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
- 	vmbus_driver_unregister(&netvsc_drv);
-+	netvsc_workqueue_destroy();
- }
- 
- static int __init netvsc_drv_init(void)
- {
- 	int ret;
- 
-+	ret = netvsc_workqueue_init();
-+	if (ret)
-+		return ret;
-+
- 	if (ring_size < RING_SIZE_MIN) {
- 		ring_size = RING_SIZE_MIN;
- 		pr_info("Increased ring_size to %u (min allowed)\n",
-@@ -2890,6 +2895,7 @@ static int __init netvsc_drv_init(void)
- 
- err_vmbus_reg:
- 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
-+	netvsc_workqueue_destroy();
- 	return ret;
- }
- 
--- 
-2.45.4
-
+So while I'm conceptually not opposed to the idea of printing an error message,
+in practice I'm pretty strong against it because odds are very good I'll end up
+dealing with "bug" reports due to less-than-awesome setups.
