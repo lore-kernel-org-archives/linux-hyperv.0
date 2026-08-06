@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F5F390222;
-	Thu,  6 Aug 2026 21:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25730421F1B;
+	Thu,  6 Aug 2026 21:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052057; cv=none; b=DFKyDmtMl08dsDrmR+Dp2GtvFaRxHmvZ4EEhIAAiIaLwuBl006oCZn+0M5LLdd7T8Sa0BCKuR9hnRNX8FfS5yPNHoN5Ug//YQSRNGJ40fFeI8FZHgntxYR/HvFmBsPv04iMHFyTRIXPzCh5Cz4gCHlEcu3oegStUyIt1/57KBCg=
+	t=1786052058; cv=none; b=M9Ruqq/ScUBb4KYbtmKoCAWKEZfbzNrpJedAetuhBZaepYaaAW8rh65EfhVvmVuTj5YA90U3LND+oQvdEU4xBzgt2LOE3C/u/qB01pngq258LsnB9eJvxfcqqytVW8zK7Z7R6qYaTZJ9J5D6N+kLauvtsPDxuuDZCSYx6nXyLKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052057; c=relaxed/simple;
-	bh=ZBVpA1xtRSSzCla5+8e1etH16wdj+nvnZtchuVs2hU8=;
+	s=arc-20240116; t=1786052058; c=relaxed/simple;
+	bh=TV/OJAGo0l/qYS7Lh2LnxQeChJEJxruUMkll5V4QZAk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p8QVG8oUNRWH4RSdCm+6QY5CyBuaLNMlzUNgBAmmk5mgDEyh637urS81j7Oh2bPbRuYl3hRsCFfndRKCsxysGK68uMOwE6ltETke/BJ+DWBlzjnLrwm0CH/jlxlKu9+1MJgDHkrnz+zkNA+u50EFg4qMRToXxfEUpIweesTEVHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZXZSAfMB; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=IKYirJuH8HYKbj7UmMzxBK+VZpybbYQ+duL1G+yXiwx2bEEjz80dqzEciwae+Zyu3qXmwQ2NTV869AHFzTLbwnp/tMYvdFDhVcLtP42sMzr7DOLG6Knfrp9kmZ1rvZCY1VrQhDsCY0ckf1/YjVosbxoVr3nzPLVwtpvOUctULjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MVQYy8G0; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZXZSAfMB"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MVQYy8G0"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D7FB320B7129;
-	Thu,  6 Aug 2026 14:33:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7FB320B7129
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6997E20B712B;
+	Thu,  6 Aug 2026 14:33:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6997E20B712B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786052031;
-	bh=+FP7mPsX1Kj/5TH+3tAG4BUAHUCj7PyCkyIspDx+cks=;
+	s=default; t=1786052032;
+	bh=m/xxZiPPPnx3a/e9x1rtE138HUAcJY9rU0x0uP+0JAc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZXZSAfMBFbnHh/10zbXB0T8HWgk9u6Cn3VkI21Nuyla6IZ7ip+e1r3jjOt9glZ5yd
-	 jE9k5HTryi+ffyin3TwEfQOIfuHba2YmA5qdNKOqoFkHmGg6fn3z7fOKNAsPxmpv5D
-	 2McXybHzhIqP+zVGpJmNYCni+z63em04f+XnHzPI=
+	b=MVQYy8G0PgzYyxTmwDja8A4MV0ZB5PHD4209AASsOicNmT5KpvNr3Zj+J783lBz7I
+	 bqxCHsBkAP3HBjNr1nY5e3UuJeCyx1QWTN3kQc5Ffevl6yjHymDdVp9sqo/Sj9X8aW
+	 pj5z3Xguqeg+ktmn4RetdMA6vqZ+voE4ipH0ePiQ=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: decui@microsoft.com,
 	haiyangz@microsoft.com,
@@ -40,9 +40,9 @@ Cc: andrew+netdev@lunn.ch,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v3 2/3] hv: vmbus: Add vmbus_alloc_buffer()/vmbus_free_buffer() for CoCo VMs
-Date: Thu,  6 Aug 2026 14:33:25 -0700
-Message-ID: <20260806213326.1425848-3-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v3 3/3] hv_netvsc: Allocate host-visible GPADL buffers using vmbus_alloc_buffer()
+Date: Thu,  6 Aug 2026 14:33:26 -0700
+Message-ID: <20260806213326.1425848-4-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
 References: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
@@ -60,224 +60,265 @@ but set_memory_decrypted()/encrypted() do not work on vmalloc'ed memory.
 This use case is (so far) unique to netvsc, so solve it locally rather than
 changing the set_memory() or allocation APIs.
 
-Add vmbus_alloc_buffer()/vmbus_free_buffer() to the VMBus core. When the
-guest's isolation model requires it, allocate the buffer as a list of
-physically-contiguous chunks via alloc_pages_node(), starting at
-MAX_PAGE_ORDER and falling back to smaller orders so the allocation still
-succeeds under memory fragmentation. Each chunk is decrypted in place via
-set_memory_decrypted() on its direct-map address, and the chunks are then
-stitched into a single virtually-contiguous range with vmap(). Buffers that
-do not need decryption keep using vzalloc().
+Use vmbus_alloc_buffer() to allocate the send and receive buffers, which
+will make them host-visible. Store the list of memory chunks in the
+netvsc_device struct so they can be individually freed later. Use
+vmbus_establish_gpadl_caller_decrypted() so there is no attempt to decrypt
+the virtual address.
 
-To free the buffer, vmbus_free_buffer() calls vunmap() on the range then
-re-encrypts and frees each chunk individually; any chunk that fails
-re-encryption is leaked to prevent accidentally freeing decrypted memory.
-
-This approach minimizes scattering of decrypted 4 KiB pages through the
-kernel direct map and the resulting shattering of large page mappings.
+Appropriately free the buffers with vmbus_free_buffer(). Because vunmap()
+and set_memory_encrypted() must run in process context, replace the
+rcu_head/call_rcu() pair used to defer free_netvsc_device() with
+rcu_work/queue_rcu_work(). This also fixes a small race condition where the
+buffers may be accessed while being re-encrypted by moving the
+re-encryption after the RCU grace period.
 
 Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
- drivers/hv/channel.c   | 155 +++++++++++++++++++++++++++++++++++++++++
- include/linux/hyperv.h |   7 ++
- 2 files changed, 162 insertions(+)
+ drivers/net/hyperv/hyperv_net.h |   8 ++-
+ drivers/net/hyperv/netvsc.c     | 103 ++++++++++++++++++++++----------
+ drivers/net/hyperv/netvsc_drv.c |   6 ++
+ 3 files changed, 83 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 4782f5070bba9..f4370617deacb 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -13,11 +13,13 @@
- #include <linux/wait.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
-+#include <linux/log2.h>
- #include <linux/module.h>
- #include <linux/hyperv.h>
- #include <linux/uio.h>
- #include <linux/interrupt.h>
- #include <linux/set_memory.h>
-+#include <linux/vmalloc.h>
- #include <linux/export.h>
- #include <asm/page.h>
- #include <asm/mshyperv.h>
-@@ -608,6 +610,159 @@ int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
+diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
+index 7397c693f984a..4841367fdab2f 100644
+--- a/drivers/net/hyperv/hyperv_net.h
++++ b/drivers/net/hyperv/hyperv_net.h
+@@ -220,6 +220,8 @@ struct net_device_context;
+ 
+ extern u32 netvsc_ring_bytes;
+ 
++int netvsc_workqueue_init(void);
++void netvsc_workqueue_destroy(void);
+ struct netvsc_device *netvsc_device_add(struct hv_device *device,
+ 					const struct netvsc_device_info *info);
+ int netvsc_alloc_recv_comp_ring(struct netvsc_device *net_device, u32 q_idx);
+@@ -1158,6 +1160,8 @@ struct netvsc_device {
+ 	/* Receive buffer allocated by us but manages by NetVSP */
+ 	void *recv_buf;
+ 	u32 recv_buf_size; /* allocated bytes */
++	struct page **recv_buf_chunks;
++	u32 recv_buf_chunk_cnt;
+ 	struct vmbus_gpadl recv_buf_gpadl_handle;
+ 	u32 recv_section_cnt;
+ 	u32 recv_section_size;
+@@ -1166,6 +1170,8 @@ struct netvsc_device {
+ 	/* Send buffer allocated by us */
+ 	void *send_buf;
+ 	u32 send_buf_size;
++	struct page **send_buf_chunks;
++	u32 send_buf_chunk_cnt;
+ 	struct vmbus_gpadl send_buf_gpadl_handle;
+ 	u32 send_section_cnt;
+ 	u32 send_section_size;
+@@ -1193,7 +1199,7 @@ struct netvsc_device {
+ 
+ 	struct netvsc_channel chan_table[VRSS_CHANNEL_MAX];
+ 
+-	struct rcu_head rcu;
++	struct rcu_work rwork;
+ };
+ 
+ /* NdisInitialize message */
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 59e95341f9b1e..c59f2a44badf0 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -28,6 +28,8 @@
+ #include "hyperv_net.h"
+ #include "netvsc_trace.h"
+ 
++static struct workqueue_struct *netvsc_wq;
++
+ /*
+  * Switch the data path from the synthetic interface to the VF
+  * interface.
+@@ -125,6 +127,47 @@ static void netvsc_subchan_work(struct work_struct *w)
+ 	rtnl_unlock();
  }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
  
-+/**
-+ * vmbus_free_buffer - release a buffer allocated by vmbus_alloc_buffer().
-+ *
-+ * @addr: buffer address, or NULL if none was allocated (e.g. cleanup from a
-+ *        failed allocation)
-+ * @chunks: chunks array from vmbus_alloc_buffer(), or NULL
-+ * @chunk_cnt: number of entries in @chunks
-+ *
-+ * When @chunks is NULL the buffer is a plain vzalloc() allocation.
-+ *
-+ * Otherwise tear down the vmap, and for each chunk re-encrypt and free
-+ * the underlying pages. Any chunk that cannot be re-encrypted is leaked.
-+ */
-+void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
++static void __free_netvsc_device(struct netvsc_device *nvdev)
 +{
-+	u32 i;
++	int i;
 +
-+	if (!chunks) {
-+		vfree(addr);
-+		return;
++	kfree(nvdev->extension);
++
++	vmbus_free_buffer(nvdev->recv_buf, nvdev->recv_buf_chunks,
++			  nvdev->recv_buf_chunk_cnt);
++	vmbus_free_buffer(nvdev->send_buf, nvdev->send_buf_chunks,
++			  nvdev->send_buf_chunk_cnt);
++	bitmap_free(nvdev->send_section_map);
++
++	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
++		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
++		kfree(nvdev->chan_table[i].recv_buf);
++		vfree(nvdev->chan_table[i].mrc.slots);
 +	}
 +
-+	vunmap(addr);
-+
-+	for (i = 0; i < chunk_cnt; i++) {
-+		unsigned long vaddr =
-+			(unsigned long)page_address(chunks[i]);
-+		unsigned int order = folio_order(page_folio(chunks[i]));
-+
-+		if (set_memory_encrypted(vaddr, 1U << order))
-+			continue;
-+		__free_pages(chunks[i], order);
-+	}
-+
-+	kvfree(chunks);
++	kfree(nvdev);
 +}
-+EXPORT_SYMBOL_GPL(vmbus_free_buffer);
 +
-+/**
-+ * vmbus_alloc_buffer - allocate a host-visible, virtually-contiguous buffer.
-+ *
-+ * @channel: the channel the buffer will be attached to
-+ * @size: requested buffer size in bytes (will be rounded up to PAGE_SIZE)
-+ * @chunks_out: on success, set to the array of underlying chunks, or NULL when
-+ *              the buffer was allocated with vzalloc()
-+ * @chunk_cnt_out: on success, set to the number of chunks
-+ *
-+ * Buffers not requiring decryption are allocated with vzalloc().
-+ *
-+ * Buffers requiring decryption are allocated as a series of
-+ * physically-contiguous chunks, starting at MAX_PAGE_ORDER and falling back to
-+ * smaller orders on allocation failure. Each chunk is transitioned to
-+ * host-visible via set_memory_decrypted() on its direct-map address, then all
-+ * chunks are combined into a virtually-contiguous range via vmap().
-+ *
-+ * Return: the buffer's virtual address, or NULL on failure.
-+ */
-+void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-+			 u32 size,
-+			 struct page ***chunks_out,
-+			 u32 *chunk_cnt_out)
++static void free_netvsc_device(struct work_struct *w)
 +{
-+	unsigned long nr_pages = PFN_UP(size);
-+	unsigned long remaining = nr_pages;
-+	unsigned long page_idx = 0;
-+	struct page **chunks = NULL;
-+	struct page **pages = NULL;
-+	int order = MAX_PAGE_ORDER;
-+	u32 chunk_cnt = 0;
-+	void *addr;
-+	u32 i;
-+	int ret;
++	struct rcu_work *rwork = to_rcu_work(w);
 +
-+	*chunks_out = NULL;
-+	*chunk_cnt_out = 0;
-+
-+	if (!nr_pages)
-+		return NULL;
-+
-+	/* If the buffer does not need to be decrypted, just use vzalloc() */
-+	if (!hv_is_isolation_supported() || channel->co_external_memory)
-+		return vzalloc(nr_pages << PAGE_SHIFT);
-+
-+	/* Worst case: every chunk is a single page. */
-+	chunks = kvmalloc_array(nr_pages, sizeof(*chunks),
-+				GFP_KERNEL | __GFP_ZERO);
-+	if (!chunks)
-+		goto err;
-+
-+	pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-+	if (!pages)
-+		goto err;
-+
-+	while (remaining) {
-+		struct page *page;
-+		gfp_t gfp;
-+
-+		order = min(order, ilog2(remaining));
-+
-+		/*
-+		 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing,
-+		 * but try harder at order 0 since that is the final
-+		 * fallback.
-+		 * __GFP_COMP stores order information in the page folio.
-+		 */
-+		gfp = GFP_KERNEL | __GFP_ZERO;
-+		if (order)
-+			gfp |= __GFP_COMP | __GFP_NORETRY | __GFP_NOWARN;
-+
-+		page = alloc_pages_node(cpu_to_node(channel->target_cpu),
-+					gfp, order);
-+		if (!page) {
-+			if (!order--)
-+				goto err;
-+			continue;
-+		}
-+
-+		ret = set_memory_decrypted((unsigned long)page_address(page),
-+					   1U << order);
-+		if (ret) {
-+			/*
-+			 * set_memory_decrypted() failed; the page state is
-+			 * unknown so it must be leaked rather than freed.
-+			 */
-+			goto err;
-+		}
-+
-+		chunks[chunk_cnt++] = page;
-+
-+		for (i = 0; i < (1U << order); i++)
-+			pages[page_idx++] = page + i;
-+
-+		remaining -= 1U << order;
-+	}
-+
-+	addr = vmap(pages, nr_pages, VM_MAP, pgprot_decrypted(PAGE_KERNEL));
-+	if (!addr)
-+		goto err;
-+
-+	memset(addr, 0, nr_pages << PAGE_SHIFT);
-+
-+	kvfree(pages);
-+	*chunks_out = chunks;
-+	*chunk_cnt_out = chunk_cnt;
-+	return addr;
-+
-+err:
-+	kvfree(pages);
-+	vmbus_free_buffer(NULL, chunks, chunk_cnt);
-+	return NULL;
++	__free_netvsc_device(container_of(rwork, struct netvsc_device, rwork));
 +}
-+EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
 +
- /**
-  * request_arr_init - Allocates memory for the requestor array. Each slot
-  * keeps track of the next available slot in the array. Initially, each
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1146addbb42c4..f843ee0efa22f 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1214,6 +1214,13 @@ extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
- extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
- 				     struct vmbus_gpadl *gpadl);
++int netvsc_workqueue_init(void)
++{
++	netvsc_wq = alloc_workqueue("hv_netvsc", WQ_UNBOUND, 0);
++
++	return netvsc_wq ? 0 : -ENOMEM;
++}
++
++void netvsc_workqueue_destroy(void)
++{
++	rcu_barrier();
++	destroy_workqueue(netvsc_wq);
++}
++
+ static struct netvsc_device *alloc_net_device(void)
+ {
+ 	struct netvsc_device *net_device;
+@@ -143,36 +186,18 @@ static struct netvsc_device *alloc_net_device(void)
+ 	init_completion(&net_device->channel_init_wait);
+ 	init_waitqueue_head(&net_device->subchan_open);
+ 	INIT_WORK(&net_device->subchan_work, netvsc_subchan_work);
++	INIT_RCU_WORK(&net_device->rwork, free_netvsc_device);
  
-+extern void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-+				u32 size,
-+				struct page ***chunks_out,
-+				u32 *chunk_cnt_out);
-+
-+extern void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt);
-+
- void vmbus_reset_channel_cb(struct vmbus_channel *channel);
+ 	return net_device;
+ }
  
- extern int vmbus_recvpacket(struct vmbus_channel *channel,
+-static void free_netvsc_device(struct rcu_head *head)
+-{
+-	struct netvsc_device *nvdev
+-		= container_of(head, struct netvsc_device, rcu);
+-	int i;
+-
+-	kfree(nvdev->extension);
+-
+-	if (!nvdev->recv_buf_gpadl_handle.decrypted)
+-		vfree(nvdev->recv_buf);
+-	if (!nvdev->send_buf_gpadl_handle.decrypted)
+-		vfree(nvdev->send_buf);
+-	bitmap_free(nvdev->send_section_map);
+-
+-	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
+-		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
+-		kfree(nvdev->chan_table[i].recv_buf);
+-		vfree(nvdev->chan_table[i].mrc.slots);
+-	}
+-
+-	kfree(nvdev);
+-}
+-
+ static void free_netvsc_device_rcu(struct netvsc_device *nvdev)
+ {
+-	call_rcu(&nvdev->rcu, free_netvsc_device);
++	/*
++	 * Defer the actual free to process context: vunmap() and
++	 * set_memory_encrypted() cannot run from RCU softirq context.
++	 */
++	queue_rcu_work(netvsc_wq, &nvdev->rwork);
+ }
+ 
+ static void netvsc_revoke_recv_buf(struct hv_device *device,
+@@ -351,7 +376,10 @@ static int netvsc_init_buf(struct hv_device *device,
+ 		buf_size = min_t(unsigned int, buf_size,
+ 				 NETVSC_RECEIVE_BUFFER_SIZE_LEGACY);
+ 
+-	net_device->recv_buf = vzalloc(buf_size);
++	net_device->recv_buf =
++		vmbus_alloc_buffer(device->channel, buf_size,
++				   &net_device->recv_buf_chunks,
++				   &net_device->recv_buf_chunk_cnt);
+ 	if (!net_device->recv_buf) {
+ 		netdev_err(ndev,
+ 			   "unable to allocate receive buffer of size %u\n",
+@@ -367,9 +395,10 @@ static int netvsc_init_buf(struct hv_device *device,
+ 	 * channel.  Note: This call uses the vmbus connection rather
+ 	 * than the channel to establish the gpadl handle.
+ 	 */
+-	ret = vmbus_establish_gpadl(device->channel, net_device->recv_buf,
+-				    buf_size,
+-				    &net_device->recv_buf_gpadl_handle);
++	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
++						     net_device->recv_buf,
++						     buf_size,
++						     &net_device->recv_buf_gpadl_handle);
+ 	if (ret != 0) {
+ 		netdev_err(ndev,
+ 			"unable to establish receive buffer's gpadl\n");
+@@ -457,7 +486,10 @@ static int netvsc_init_buf(struct hv_device *device,
+ 	buf_size = device_info->send_sections * device_info->send_section_size;
+ 	buf_size = round_up(buf_size, PAGE_SIZE);
+ 
+-	net_device->send_buf = vzalloc(buf_size);
++	net_device->send_buf =
++		vmbus_alloc_buffer(device->channel, buf_size,
++				   &net_device->send_buf_chunks,
++				   &net_device->send_buf_chunk_cnt);
+ 	if (!net_device->send_buf) {
+ 		netdev_err(ndev, "unable to allocate send buffer of size %u\n",
+ 			   buf_size);
+@@ -470,9 +502,10 @@ static int netvsc_init_buf(struct hv_device *device,
+ 	 * channel.  Note: This call uses the vmbus connection rather
+ 	 * than the channel to establish the gpadl handle.
+ 	 */
+-	ret = vmbus_establish_gpadl(device->channel, net_device->send_buf,
+-				    buf_size,
+-				    &net_device->send_buf_gpadl_handle);
++	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
++						     net_device->send_buf,
++						     buf_size,
++						     &net_device->send_buf_gpadl_handle);
+ 	if (ret != 0) {
+ 		netdev_err(ndev,
+ 			   "unable to establish send buffer's gpadl\n");
+@@ -1863,7 +1896,11 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
+ 	netif_napi_del(&net_device->chan_table[0].napi);
+ 
+ cleanup2:
+-	free_netvsc_device(&net_device->rcu);
++	/*
++	 * net_device was never published, so we don't need to wait for an
++	 * RCU grace period -- call the free routine synchronously.
++	 */
++	__free_netvsc_device(net_device);
+ 
+ 	return ERR_PTR(ret);
+ }
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index ee5ab5ceb2be2..1d43c73fd73f1 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -2867,12 +2867,17 @@ static void __exit netvsc_drv_exit(void)
+ {
+ 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
+ 	vmbus_driver_unregister(&netvsc_drv);
++	netvsc_workqueue_destroy();
+ }
+ 
+ static int __init netvsc_drv_init(void)
+ {
+ 	int ret;
+ 
++	ret = netvsc_workqueue_init();
++	if (ret)
++		return ret;
++
+ 	if (ring_size < RING_SIZE_MIN) {
+ 		ring_size = RING_SIZE_MIN;
+ 		pr_info("Increased ring_size to %u (min allowed)\n",
+@@ -2890,6 +2895,7 @@ static int __init netvsc_drv_init(void)
+ 
+ err_vmbus_reg:
+ 	unregister_netdevice_notifier(&netvsc_netdev_notifier);
++	netvsc_workqueue_destroy();
+ 	return ret;
+ }
+ 
 -- 
 2.45.4
 
