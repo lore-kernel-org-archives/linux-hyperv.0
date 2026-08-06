@@ -1,64 +1,69 @@
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BBB446C0D
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F77431A30
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059389; cv=none; b=LNKly5+QuFUWfxxgCTrAkebJCpZ0M7bQBFTXLwdlDBD/YszqGWPJko81vwPaCIS1QJBcOKJeOWXX/y0tD5DTVCCxssMRg3SFBeTZibwHF+eQEOKr3T0SzqbhC1eggaISo20mV62TuH4eb3zdz61WDevtc6yh7atvuU34sZyrw5g=
+	t=1786059391; cv=none; b=j8YRUGAneM+vfITAHe2LkWcs8gu5sNCr5xsq3euXbyZV0+jvqglJQ2JtYujxZN2oje8eV+iL20OAfgQ6f23dmy4f8KLjMBxW/cbQgm6zB/JDQU7wQz84G7LXHxMYtWxt+Jgk8kR0L3Z5vWRHLMBrJyDcsM1K5CwX9io1MKBl01g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059389; c=relaxed/simple;
-	bh=lR9IkcHoGrXHsdwXoIduNalQpdmQkvbQdYBkWmYqX3U=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=s3b5d01jJnDgI87THHhLn6fiVocZF0gjAy7+k6gbM6GD6PnMA2EofxdIvYaEYBWYjwHTuLAzQun55HMUJ8NRKqjvQucGgx6m0EPmCxztQIhEzUoCf4JL9J39eQpd0CAnco1C89Dj5FVOqzkFrPnD7fJj2QA9k/Chs5J+69IQwWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CF/nmvG5; arc=none smtp.client-ip=209.85.216.69
+	s=arc-20240116; t=1786059391; c=relaxed/simple;
+	bh=7nJCUtk9B2SvR5o4wifrpms9dp9KqKgrU4RtlPAo6TY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KVAsE7LYjYOxzS9Z0WvE3adO0Ij6rIAPqCUyJ+6eFCFaiBlY0szZ9hUGSvwZDrTAgLbxiEAvaw/93icavD811zt8XSr1bxXw0ww5qGMwRt5IK8I5w8BhFJ7rHmwrgRZjoEbGhdvVFtgq0+xbHxK6NbSfnzxlJ9nXmgpd097j/Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e3scNbAS; arc=none smtp.client-ip=209.85.214.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CF/nmvG5"
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3811279d51aso4526596a91.1
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e3scNbAS"
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2d004f13426so35028635ad.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059384; x=1786664184; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :reply-to:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=keDa3uiMUyNdngDUOX3bQBFQQi+1yM63Rcdpk9ukwB4=;
-        b=CF/nmvG5PIme9Hbulos3rQvzNVbZhrDAXZH2JJ4IHIfTgMOWKt/Xk2TnYI8nU0MmuL
-         Yg3s6NPsApRRw6Bkx0ztcOSPhBVutZQTZ4Iz2JcihO/0xVFjJPD0iMwu3MQZj4USZF2s
-         NimSQ2Uib3LL+NVLLwM0zJSZoCKDwVuhUVhnQ5HiHCsMlawjTi0CrElHmsZn+wbJ2DPK
-         mYy9/8POEM2ULtPiwhvm0U80TJzgafmlYBKWprlYm3WWp//kDVu4bvM6jAl8RbpSLGJ0
-         WdiV51jFpxuo5CM5YJVvExE3uk1awZqn/mHqY33AUso8KRGyn7N72nB2F9pEnj9W01D2
-         E2Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059384; x=1786664184;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=google.com; s=20251104; t=1786059385; x=1786664185; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=keDa3uiMUyNdngDUOX3bQBFQQi+1yM63Rcdpk9ukwB4=;
-        b=AEEWo/jLA0nHK8hKfGoLbEQfMw01+GKc+koQA9KLgs+n8T1rG6bi4tUMcrnYZh7LZy
-         GWwkWkl3JERZ+Yu6a96Pl5QqJwkgir6OMeySCynJihncJ3qgBFXDLjX6OJ8sl53k7BM5
-         LDyYOHBzipRpoehz5jJgvGBD/H1HbR8okV5LJwRhLczJ6MYtRu/dSTVfX6KX6Bguzn0W
-         iPQr3YQ3QgD2Fem7q8lLJaFrzk1uGjyF11URWNhzW6Me9r5CIh6KBlqjUEToKDiH/ALz
-         Si24u6htSX1m4k+0HyxbEUyCzA1hnUSAR/3nxVQYfK76I14IYVPHk5g87HCD+9sa7btp
-         3s8w==
-X-Forwarded-Encrypted: i=1; AHgh+RpqZ4/0AdAdnIZ9aE/6QCvJzK+znMJTuaVfxDSU3DdPkmJk9VagzaKYnyIEdDfMQSKpxWkWcUjP/ZGBzzU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgNr/bqQQJouBuaoWdv5611s9/7sraEwa3z3KXGgBATc65YZQz
-	98COdmIoT5r7krQHduTnI6wyfmVZ36UCFJ2HE3wX0gM3ICeB4nCiBXxhjMA9z4u0IfEOilf5p15
-	5VY6acA==
-X-Received: from pjnu1.prod.google.com ([2002:a17:90a:8901:b0:383:c59b:fc00])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:278c:b0:381:792d:f993
- with SMTP id 98e67ed59e1d1-3903c5bf6fbmr20025179a91.17.1786059383863; Thu, 06
- Aug 2026 16:36:23 -0700 (PDT)
+        bh=VnGiMJAeWdyvdLpQdGy9NuKyd6BkLuzFrwi8wF2quVo=;
+        b=e3scNbASaVi0OlUyIWxqNieLbtIHkidcpPpbYOIBBBtEFJkNJq9LAPtehnuTtERCDJ
+         YZU50NdHUNUflwB3uMPETcbyeaKjAV/6K3gkt02wuV147HZAUWzrCpIg/L/q1j6D9DXy
+         RwwJkxuSLEXhteKVN1lClQoqNZCF2BYfGZGr0uvVqfnwNM8CPX5boyV5sJdWSoTOZSjh
+         CgWugxFM/+Kzl7ZkUu1pGaksKMU0ylSPTZhwXH5r0H9N5rlMmJfyocCT0rAG4ESeOjcz
+         BQ3lJBn3vrIpoCr+qZYKfnoi0bQB85jLrNI4u2vGmGcfPTi/C2HBUt8Vhv4fiZ7xcxjO
+         kqXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786059385; x=1786664185;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VnGiMJAeWdyvdLpQdGy9NuKyd6BkLuzFrwi8wF2quVo=;
+        b=DuhujZhOTz2Hm9CAly/THBUoTaB3IxuDnRxLZzNdTLaE+gthfOuqBVv4GpzKA6Ickj
+         xVdvBdrUgRiIMeYx4TCJSPyIs2I+D+8jq965Z5YlWtTt2ye1hAPLOynFw6L7gjmDEoss
+         j6aaNt29TTZMFT1dSb2Kj99jOzetyXBx2mtRGx2MTirdQ69YJp+++R6uMqkHe0SwydtI
+         nYtI9VkZJUgSwLhlB974m4PjeS1Vi0e5Q6X4QJPGuBvLpYJi0ijlMeM0zMfSFnWAfSW6
+         J/MP5WFL78dcXbSZi13tuLvPW7ZiwLajddMlvdx+I0oDio46Mg0vWpZur4IZZdMM+9E/
+         tRWg==
+X-Forwarded-Encrypted: i=1; AHgh+RqjsLD7Fj6POYvQcnrkehrC99M67P7XK3uXFmkxT8CNxhT00Fy68PjO5Kj3T4l4Qm6Fs4B6OQEI8Wlh2YQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC6qScHxO1SPHsaznM+vODsX74i/XgbNrdIaskdGtoW4GGXflg
+	zpK9uwf1jEMgQPTfusQPPBKgyWBoTvN2aZMPvvVpOtUbOnuKxgJ2ROHUCalZcWIcNgXuZ7JpLA+
+	zViaW1A==
+X-Received: from plzw6.prod.google.com ([2002:a17:902:9046:b0:2cc:6ddb:debc])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:dac1:b0:2c0:e5ee:f554
+ with SMTP id d9443c01a7336-2d0ca71b3d7mr204312595ad.8.1786059384888; Thu, 06
+ Aug 2026 16:36:24 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:35:17 -0700
+Date: Thu,  6 Aug 2026 16:35:18 -0700
+In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-1-seanjc@google.com>
-Subject: [PATCH v6 00/51] x86: Try to wrangle PV clocks vs. TSC
+Message-ID: <20260806233609.212337-2-seanjc@google.com>
+Subject: [PATCH v6 01/51] x86/apic: Provide helpers to set local APIC timer
+ frequency in hz and khz
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -81,212 +86,168 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-The primary goal of this series to fix flaws with SNP and TDX guests where a
-PV clock provided by the untrusted hypervisor is used instead of the secure
-TSC that is controlled by trusted firmware.
+Add and use APIs to set the local APIC timer period (given a frequency)
+instead of open coding the subtle HZ math in all external callers, and
+make lapic_timer_period local to apic.c.  Provide APIs to specify the
+frequency in both hertz and kilohertz so that Hyper-V and VMware code
+aren't forced to lose precision.
 
-The secondary goal is modernize running under KVM.  Currently, KVM guests will
-use TSC for clocksource, but not sched_clock.  And Linux-as-a-KVM-guest doesn't
-support paravirt enumeration of the TSC/APIC frequencies, even though QEMU
-provides that information by default.
+Opportunistically take the frequency as a u64 to harden against the
+possibility that the frequency (in Khz) is greater than 4294967, i.e. if
+the APIC timer runs at ~4.29 GHz.  As pointed out by Sashiko,
+4294968 * 1000 == 0x1_000002c0, and thus a Khz period of 4294968 would
+silently overflow the 32-bit unsigned integer used by most callers.
 
-The tertiary goal is to clean up the PV clock code to deduplicate logic across
-hypervisors, and to hopefully make it all easier to maintain going forward.
+Print out who set the period to maintain equivalent Hyper-V and VMware
+functionality, and in general to make it easier to triage/debug issues.
 
-The quaternary goal is to clean up the TSC calibration code, which was made
-stupidly hard to follow by hypervisor code mixing in with the native
-calibration routines, instead of being implemented as a pure alternative.
+Cc: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/include/asm/apic.h    |  3 ++-
+ arch/x86/kernel/apic/apic.c    | 19 ++++++++++++++++++-
+ arch/x86/kernel/cpu/mshyperv.c |  5 +----
+ arch/x86/kernel/cpu/vmware.c   |  4 +---
+ arch/x86/kernel/jailhouse.c    |  2 +-
+ arch/x86/kernel/tsc.c          |  2 +-
+ arch/x86/kernel/tsc_msr.c      |  2 +-
+ 7 files changed, 25 insertions(+), 12 deletions(-)
 
-Note, the VMware and Xen changes still probably should get acks from those
-maintainers, as my understanding of what they're trying to do may be flawed.
-
-Lots more background on the SNP/TDX motiviation:
-https://lore.kernel.org/all/20250106124633.1418972-13-nikunj@amd.com
-
-As before, I deliberately omitted jailhouse-dev@googlegroups.com from the To/Cc,
-as those emails bounced on v1, AFAICT nothing has changed.
-
-v5:
- - Use cpu_feature_enabled() instead of boot_cpu_has(). [Boris]
- - WARN if recalibrate_cpu_khz() runs on a system with TSC_KNOWN_FREQ. [Thomas]
- - Opportunistically drop a line break in native_calibrate_tsc(). [Thomas]
- - Rely on callers of cpuid_get_tsc_info() to check the result instead of
-   unnecessarily zeroing the structure. [Boris]
- - Ignore tsc_early_khz if the TSC frequency is provided by trusted firmware
-   or by the hypervisor. [Thomas, Sashiko]
- - Cache CPUID output in acrn_init_platform() to avoid introducing a transient
-   bug where TSC_KNOWN_FREQ could be set even if the ACRN hypervisor didn't
-   actually provide the frequency. [Sashiko]
- - Drop kvmclock's useless/dead check_tsc_unstable() call (it occurs before the
-   command line parameter is parsed). [Sashiko]
- - Add helpers to set lapic_timer_period, to fix not-so-theoretical overflow
-   in the various "khz * 1000 / HZ" patterns. [Sashiko]
- - Drop the "x86/xen: Obtain TSC frequency from CPUID if present" patch as it
-   doesn't have any dependencies/conflicts on/with this series, and Sashiko had
-   concerns about the assumptions it was making. [Sashiko]
- - Collect reviews. [David] (Kirill's got dropped because the patch he reviewed
-   got completely rewritten).
-
-
-v4:
- - Use x86_init_noop() to skip save/restore on VMware and Xen instead of
-   nullifying x86_platform.{save,restore}_sched_clock_state. [Sashiko]
- - Use '0' to indicate "failure" when getting the CPU frequency from CPUID, to
-   avoid using an out-param and thus make it all but impossible to
-   unintentionally clobber the global cpu_khz (which v3 did). [Sashiko]
- - Rename cpuid_get_cpu_freq() => __cpu_khz_from_cpuid() to capture its
-   relationship with cpu_khz_from_cpuid().
- - Compute lapic_timer_period in units of ticks, not Khz. [Sashiko]
- - Kill off x86_platform_ops.calibrate_{cpu,tsc}(), and instead use dedicated
-   hooks for hypervisor code, and direct calls for TDX and SNP. [David, loosely]
- - Drop SNP's secure TSC override of _CPU_ calibration, as there's zero
-   evidence it's justified or a net positive.
- - Collect reviews/acks. [David, Wei]
- - Decouple getting TSC/APIC frequencies from KVM PV CPUID from kvmclock. [David]
- - Fix an amusing number of Opportunistically misspellings. [David]
- - Set kvm_sched_clock_offset _before_ registering kvmclock as sched_clock,
-   and add a comment to guard against future goofs. [Sashiko]
- - Keep "setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE)" in Hyper-V's handling
-   of HV_ACCESS_TSC_INVARIANT, as it's technically possible to have a VM
-   with HV_ACCESS_TSC_INVARIANT but not HV_ACCESS_FREQUENCY_MSRS.  Though as
-   a _very_ nice side effect of using dedicated sequencing for selecting the
-   TSC frequency source, this would have naturally happened anyways. [Sashiko]
-
-v3:
- - https://lore.kernel.org/all/20260515191942.1892718-1-seanjc@google.com
- - Collect reviews. [Michael, Thomas]
- - Use Hyper-V reference counter / refcounter instead of Hyper-V timer. [Michael]
- - Use the paravirt CPUID interface first proposed by VMware for KVM's
-   "official" mechanism for communicating frequency to KVM-aware guests,
-   instead of abusing Intel's CPUID leafs. [David]
- - Deal with paravirt code being moved into asm/timers.h and
-   arch/x86/kernel/tsc.c.
-
-v2:
- - https://lore.kernel.org/all/Z8YWttWDtvkyCtdJ@google.com
- - Add struct to hold the TSC CPUID output. [Boris]
- - Don't pointlessly inline the TSC CPUID helpers. [Boris]
- - Fix a variable goof in a helper, hopefully for real this time. [Dan]
- - Collect reviews. [Nikunj]
- - Override the sched_clock save/restore hooks if and only if a PV clock
-   is successfully registered.
- - During resome, restore clocksources before reading persistent time.
- - Clean up more warts created by kvmclock.
- - Fix more bugs in kvmclock's suspend/resume handling.
- - Try to harden kvmclock against future bugs.
-
-v1: https://lore.kernel.org/all/20250201021718.699411-1-seanjc@google.com
-
-David Woodhouse (2):
-  KVM: x86: Officially define CPUID 0x40000010 as PV Timing Info (TSC
-    and Bus)
-  x86/kvm: Obtain TSC frequency from PV CPUID if present
-
-Sean Christopherson (49):
-  x86/apic: Provide helpers to set local APIC timer frequency in hz and
-    khz
-  x86/apic: Add CONFIG_X86_LOCAL_APIC=n stubs for APIC timer frequency
-    APIs
-  x86/tsc: Ensure that TSC recalibration doesn't run if TSC frequency is
-    known
-  x86/tsc: Restrict recalibrate_cpu_khz() export to p4-clockmod and
-    powernow-k7
-  x86/sev: Mark TSC as reliable when configuring Secure TSC
-  x86/sev: Don't override CPU frequency calibration for SNP's Secure TSC
-  x86/sev: Move check for SNP Secure TSC support to tsc_early_init()
-  x86/sev: Shove SNP's secure/trusted TSC frequency directly into
-    "calibration"
-  x86/tsc: Add a standalone helper for getting TSC info from CPUID.0x15
-  x86/tdx: Force TSC frequency with CPUID-based info provided by the
-    TDX-Module
-  x86/tsc: Add dedicated hypervisor hooks for getting known TSC/CPU
-    frequencies
-  x86/acrn: Register TSC/CPU frequency callbacks iff frequency is
-    actually in CPUID
-  x86/acrn: Mark TSC frequency as known when using ACRN for calibration
-  x86/tsc: Consolidate forcing of X86_FEATURE_TSC_KNOWN_FREQ for PV code
-  x86/tsc: Kill off x86_platform_ops.calibrate_{cpu,tsc}() hooks
-  x86/tsc: Rename pit_hpet_ptimer_calibrate_cpu() =>
-    native_calibrate_cpu_late()
-  x86/tsc: Fold native_calibrate_cpu() into recalibrate_cpu_khz()
-  x86/kvmclock: Rename kvm_get_tsc_khz() to kvmclock_get_tsc_khz()
-  x86/kvmclock: Drop dead check on TSC being unstable during
-    kvmclock_init()
-  x86/kvm: Mark TSC as reliable when it's constant and nonstop
-  x86/tsc: Add standalone helper for getting CPU frequency from CPUID
-  x86/kvm: Get CPU base frequency from CPUID when it's available
-  clocksource: hyper-v: Register sched_clock save/restore iff it's
-    necessary
-  clocksource: hyper-v: Drop wrappers to sched_clock save/restore
-    helpers
-  clocksource: hyper-v: Don't save/restore TSC offset when using HV
-    sched_clock
-  x86/kvmclock: Setup kvmclock for secondary CPUs iff CONFIG_SMP=y
-  x86/kvm: Don't disable kvmclock on BSP in syscore_suspend()
-  x86/paravirt: Remove unnecessary PARAVIRT=n stub for
-    paravirt_set_sched_clock()
-  x86/paravirt: Move handling of unstable PV clocks into
-    paravirt_set_sched_clock()
-  x86/kvmclock: Move sched_clock save/restore helpers up in kvmclock.c
-  x86/xen/time: NOP-ify x86_platform's sched_clock save/restore hooks
-  x86/vmware: NOP-ify save/restore hooks when using VMware's sched_clock
-  x86/tsc: WARN if TSC sched_clock save/restore used with PV sched_clock
-  x86/paravirt: Pass sched_clock save/restore helpers during
-    registration
-  x86/kvmclock: Move kvm_sched_clock_init() down in kvmclock.c
-  x86/xen/time: Mark xen_setup_vsyscall_time_info() as __init
-  x86/pvclock: Mark setup helpers and related various as
-    __init/__ro_after_init
-  x86/pvclock: WARN if pvclock's valid_flags are overwritten
-  x86/kvmclock: Refactor handling of PVCLOCK_TSC_STABLE_BIT during
-    kvmclock_init()
-  timekeeping: Resume clocksources before reading persistent clock
-  x86/kvmclock: Hook clocksource.suspend/resume when kvmclock isn't
-    sched_clock
-  x86/kvmclock: WARN if wall clock is read while kvmclock is suspended
-  x86/paravirt: Mark __paravirt_set_sched_clock() as __init
-  x86/paravirt: Plumb a return code into __paravirt_set_sched_clock()
-  x86/paravirt: Don't use a PV sched_clock in CoCo guests with trusted
-    TSC
-  x86/kvmclock: Use TSC for sched_clock if it's constant and non-stop
-  x86/kvmclock: Plumb in AP-online and BSP-resume to kvmlock, for
-    documentation
-  x86/paravirt: Move using_native_sched_clock() stub into timer.h
-  x86/kvm: Get local APIC bus frequency from PV CPUID Timing Info
-
- .../admin-guide/kernel-parameters.txt         |   5 +
- Documentation/virt/kvm/x86/cpuid.rst          |  12 +
- arch/x86/coco/sev/core.c                      |  21 +-
- arch/x86/coco/tdx/tdx.c                       |  19 +-
- arch/x86/include/asm/acrn.h                   |   5 -
- arch/x86/include/asm/apic.h                   |   5 +-
- arch/x86/include/asm/kvm_para.h               |  12 +-
- arch/x86/include/asm/sev.h                    |   4 +-
- arch/x86/include/asm/tdx.h                    |   2 +
- arch/x86/include/asm/timer.h                  |  15 +-
- arch/x86/include/asm/tsc.h                    |  10 +-
- arch/x86/include/asm/x86_init.h               |   8 +-
- arch/x86/include/uapi/asm/kvm_para.h          |  11 +
- arch/x86/kernel/apic/apic.c                   |  19 +-
- arch/x86/kernel/cpu/acrn.c                    |  14 +-
- arch/x86/kernel/cpu/mshyperv.c                |  70 +-----
- arch/x86/kernel/cpu/vmware.c                  |  19 +-
- arch/x86/kernel/jailhouse.c                   |   9 +-
- arch/x86/kernel/kvm.c                         | 101 ++++++--
- arch/x86/kernel/kvmclock.c                    | 208 +++++++++++------
- arch/x86/kernel/pvclock.c                     |   9 +-
- arch/x86/kernel/tsc.c                         | 218 +++++++++++-------
- arch/x86/kernel/tsc_msr.c                     |   4 +-
- arch/x86/kernel/x86_init.c                    |   2 -
- arch/x86/mm/mem_encrypt_amd.c                 |   3 -
- arch/x86/xen/time.c                           |  14 +-
- drivers/clocksource/hyperv_timer.c            |  38 ++-
- include/clocksource/hyperv_timer.h            |   2 -
- kernel/time/timekeeping.c                     |   9 +-
- 29 files changed, 547 insertions(+), 321 deletions(-)
-
-
-base-commit: 6949feed6e32823a6628873000602988a4cafe06
+diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
+index 9cd493d467d4..6946220a6008 100644
+--- a/arch/x86/include/asm/apic.h
++++ b/arch/x86/include/asm/apic.h
+@@ -63,7 +63,6 @@ extern int apic_verbosity;
+ extern int local_apic_timer_c2_ok;
+ 
+ extern bool apic_is_disabled;
+-extern unsigned int lapic_timer_period;
+ 
+ extern enum apic_intr_mode_id apic_intr_mode;
+ enum apic_intr_mode_id {
+@@ -138,6 +137,8 @@ void register_lapic_address(unsigned long address);
+ extern void setup_boot_APIC_clock(void);
+ extern void setup_secondary_APIC_clock(void);
+ extern void lapic_update_tsc_freq(void);
++extern void apic_set_timer_frequency_hz(u64 freq_hz, const char *source);
++extern void apic_set_timer_frequency_khz(u64 freq_khz, const char *source);
+ 
+ #ifdef CONFIG_X86_64
+ static inline bool apic_force_enable(unsigned long addr)
+diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
+index 90025451ace2..9239dca91c41 100644
+--- a/arch/x86/kernel/apic/apic.c
++++ b/arch/x86/kernel/apic/apic.c
+@@ -37,6 +37,7 @@
+ #include <linux/smp.h>
+ #include <linux/mm.h>
+ #include <linux/kvm_types.h>
++#include <linux/units.h>
+ 
+ #include <xen/xen.h>
+ 
+@@ -176,7 +177,7 @@ static struct resource lapic_resource = {
+ };
+ 
+ /* Measured in ticks per HZ. */
+-unsigned int lapic_timer_period = 0;
++static unsigned int lapic_timer_period;
+ 
+ static void apic_pm_activate(void);
+ 
+@@ -796,6 +797,22 @@ bool __init apic_needs_pit(void)
+ 	return lapic_timer_period == 0;
+ }
+ 
++void apic_set_timer_frequency_hz(u64 freq_hz, const char *source)
++{
++	u32 f_remainder;
++	u64 f_khz = div_u64_rem(freq_hz, HZ_PER_KHZ, &f_remainder);
++
++	lapic_timer_period = div_u64(freq_hz, HZ);
++
++	pr_info("Local APIC Timer Frequency set to %llu.%03u KHz (from '%s').\n",
++		f_khz, f_remainder, source);
++}
++
++void apic_set_timer_frequency_khz(u64 freq_khz, const char *source)
++{
++	apic_set_timer_frequency_hz(freq_khz * HZ_PER_KHZ, source);
++}
++
+ static int __init calibrate_APIC_clock(void)
+ {
+ 	struct clock_event_device *levt = this_cpu_ptr(&lapic_events);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 185d4f677ec0..cadc7f872b4f 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -646,10 +646,7 @@ static void __init ms_hyperv_init_platform(void)
+ 		u64	hv_lapic_frequency;
+ 
+ 		rdmsrq(HV_X64_MSR_APIC_FREQUENCY, hv_lapic_frequency);
+-		hv_lapic_frequency = div_u64(hv_lapic_frequency, HZ);
+-		lapic_timer_period = hv_lapic_frequency;
+-		pr_info("Hyper-V: LAPIC Timer Frequency: %#x\n",
+-			lapic_timer_period);
++		apic_set_timer_frequency_hz(hv_lapic_frequency, "Hyper-V hypervisor");
+ 	}
+ 
+ 	register_nmi_handler(NMI_UNKNOWN, hv_nmi_unknown, NMI_FLAG_FIRST,
+diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
+index 34b73573b108..22842bf5b59e 100644
+--- a/arch/x86/kernel/cpu/vmware.c
++++ b/arch/x86/kernel/cpu/vmware.c
+@@ -424,9 +424,7 @@ static void __init vmware_platform_setup(void)
+ 
+ #ifdef CONFIG_X86_LOCAL_APIC
+ 		/* Skip lapic calibration since we know the bus frequency. */
+-		lapic_timer_period = ecx / HZ;
+-		pr_info("Host bus clock speed read from hypervisor : %u Hz\n",
+-			ecx);
++		apic_set_timer_frequency_hz(ecx, "VMware hypervisor");
+ #endif
+ 	} else {
+ 		pr_warn("Failed to get TSC freq from the hypervisor\n");
+diff --git a/arch/x86/kernel/jailhouse.c b/arch/x86/kernel/jailhouse.c
+index f58ce9220e0f..615a1f25c83a 100644
+--- a/arch/x86/kernel/jailhouse.c
++++ b/arch/x86/kernel/jailhouse.c
+@@ -65,7 +65,7 @@ static void jailhouse_get_wallclock(struct timespec64 *now)
+ 
+ static void __init jailhouse_timer_init(void)
+ {
+-	lapic_timer_period = setup_data.v1.apic_khz * (1000 / HZ);
++	apic_set_timer_frequency_khz(setup_data.v1.apic_khz, "Jailhouse hypervisor");
+ }
+ 
+ static unsigned long jailhouse_get_tsc(void)
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index 723347e2cf7f..63e26805f8dd 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -717,7 +717,7 @@ unsigned long native_calibrate_tsc(void)
+ 	 * lapic_timer_period here to avoid having to calibrate the APIC
+ 	 * timer later.
+ 	 */
+-	lapic_timer_period = crystal_khz * 1000 / HZ;
++	apic_set_timer_frequency_khz(crystal_khz, "CPUID 0x15/0x16");
+ #endif
+ 
+ 	return crystal_khz * ebx_numerator / eax_denominator;
+diff --git a/arch/x86/kernel/tsc_msr.c b/arch/x86/kernel/tsc_msr.c
+index d74743c8d2a4..4bd5f2ae656b 100644
+--- a/arch/x86/kernel/tsc_msr.c
++++ b/arch/x86/kernel/tsc_msr.c
+@@ -212,7 +212,7 @@ unsigned long cpu_khz_from_msr(void)
+ 		pr_err("Error MSR_FSB_FREQ index %d is unknown\n", index);
+ 
+ #ifdef CONFIG_X86_LOCAL_APIC
+-	lapic_timer_period = (freq * 1000) / HZ;
++	apic_set_timer_frequency_khz(freq, "MSR_FSB_FREQ");
+ #endif
+ 
+ 	/*
 -- 
 2.55.0.679.g6767b8d81c-goog
 
