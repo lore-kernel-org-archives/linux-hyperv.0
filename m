@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA474386C13;
-	Thu,  6 Aug 2026 21:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F5F390222;
+	Thu,  6 Aug 2026 21:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052057; cv=none; b=L3PGCLNzvPpfrK4mXeTSbbEtVCJCV4Tmv765roDvI/KKuCsXVN3MVyx+meoC2iO+npMZ4fOXsiOp7ipuA9VaFA2txE0ICkxScD+KwagJCQLM9PuIQ91f3pb5t/AnqQ9+p03lp/7eLhqY0F1jUs6QYyViMsbLjFTmeQUPmzLWqPs=
+	t=1786052057; cv=none; b=DFKyDmtMl08dsDrmR+Dp2GtvFaRxHmvZ4EEhIAAiIaLwuBl006oCZn+0M5LLdd7T8Sa0BCKuR9hnRNX8FfS5yPNHoN5Ug//YQSRNGJ40fFeI8FZHgntxYR/HvFmBsPv04iMHFyTRIXPzCh5Cz4gCHlEcu3oegStUyIt1/57KBCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786052057; c=relaxed/simple;
-	bh=z9IC3UaCT3kcUFx7/yXEBf/jScwzDKSxJVLbhjyQhIM=;
+	bh=ZBVpA1xtRSSzCla5+8e1etH16wdj+nvnZtchuVs2hU8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KKzacpVlTsCHCmeYziFFygMUzP/1Km59TaSx6bBdrqwiszToIsh8ZzX82cyHwVPk3sfhhECIJfJL7yt1lmr71dcjsPkPLMC/CtNIRD/3aITnXIlooSc8pisnZgOE5qQ++gh2r5KgU8FOJTwn0sJY/F7PYwGWJLUfk+l9QogOF6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qdGVmK3v; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=p8QVG8oUNRWH4RSdCm+6QY5CyBuaLNMlzUNgBAmmk5mgDEyh637urS81j7Oh2bPbRuYl3hRsCFfndRKCsxysGK68uMOwE6ltETke/BJ+DWBlzjnLrwm0CH/jlxlKu9+1MJgDHkrnz+zkNA+u50EFg4qMRToXxfEUpIweesTEVHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZXZSAfMB; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qdGVmK3v"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZXZSAfMB"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7789720B7128;
+	by linux.microsoft.com (Postfix) with ESMTPSA id D7FB320B7129;
 	Thu,  6 Aug 2026 14:33:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7789720B7128
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7FB320B7129
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1786052031;
-	bh=MYlBk5yNAwEn7cL0hMdoyVFC+wgS7cecv71nTRouSjs=;
+	bh=+FP7mPsX1Kj/5TH+3tAG4BUAHUCj7PyCkyIspDx+cks=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qdGVmK3vDxczpxPLZ3+2B4Q2cFu62ZPPH7xxAtiyH7p8O2YbrzHJU+XGZLB9xMZZf
-	 PolLZW4a156dc4z4uFL3voWdPLZpvo/WFBr4xGvohXK1xwZ/yAI4ETTsaSrgT6hPfr
-	 uoQGhqLyhgEXnaCtFr/ZCi6rz6tDSELNC8+Z4Kwk=
+	b=ZXZSAfMBFbnHh/10zbXB0T8HWgk9u6Cn3VkI21Nuyla6IZ7ip+e1r3jjOt9glZ5yd
+	 jE9k5HTryi+ffyin3TwEfQOIfuHba2YmA5qdNKOqoFkHmGg6fn3z7fOKNAsPxmpv5D
+	 2McXybHzhIqP+zVGpJmNYCni+z63em04f+XnHzPI=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: decui@microsoft.com,
 	haiyangz@microsoft.com,
@@ -40,9 +40,9 @@ Cc: andrew+netdev@lunn.ch,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v3 1/3] Drivers: hv: vmbus: add vmbus_establish_gpadl_caller_decrypted()
-Date: Thu,  6 Aug 2026 14:33:24 -0700
-Message-ID: <20260806213326.1425848-2-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v3 2/3] hv: vmbus: Add vmbus_alloc_buffer()/vmbus_free_buffer() for CoCo VMs
+Date: Thu,  6 Aug 2026 14:33:25 -0700
+Message-ID: <20260806213326.1425848-3-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
 References: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
@@ -54,111 +54,230 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new vmbus_establish_gpadl_caller_decrypted() for callers that want to
-decrypt their own buffers. Add a new hv_gpadl_type,
-HV_GPADL_BUFFER_DECRYPTED, to communicate the decryption status of the
-buffer.
+On CoCo VMs without confidential VMBus, the netvsc send and receive buffers
+must be made host-visible by decrypting them. These buffers are vmalloc'ed,
+but set_memory_decrypted()/encrypted() do not work on vmalloc'ed memory.
+This use case is (so far) unique to netvsc, so solve it locally rather than
+changing the set_memory() or allocation APIs.
 
-No functional change for existing callers.
+Add vmbus_alloc_buffer()/vmbus_free_buffer() to the VMBus core. When the
+guest's isolation model requires it, allocate the buffer as a list of
+physically-contiguous chunks via alloc_pages_node(), starting at
+MAX_PAGE_ORDER and falling back to smaller orders so the allocation still
+succeeds under memory fragmentation. Each chunk is decrypted in place via
+set_memory_decrypted() on its direct-map address, and the chunks are then
+stitched into a single virtually-contiguous range with vmap(). Buffers that
+do not need decryption keep using vzalloc().
+
+To free the buffer, vmbus_free_buffer() calls vunmap() on the range then
+re-encrypts and frees each chunk individually; any chunk that fails
+re-encryption is leaked to prevent accidentally freeing decrypted memory.
+
+This approach minimizes scattering of decrypted 4 KiB pages through the
+kernel direct map and the resulting shattering of large page mappings.
 
 Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
- drivers/hv/channel.c   | 27 +++++++++++++++++++++++++--
- include/linux/hyperv.h |  8 +++++++-
- 2 files changed, 32 insertions(+), 3 deletions(-)
+ drivers/hv/channel.c   | 155 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/hyperv.h |   7 ++
+ 2 files changed, 162 insertions(+)
 
 diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 6821f225248b1..4782f5070bba9 100644
+index 4782f5070bba9..f4370617deacb 100644
 --- a/drivers/hv/channel.c
 +++ b/drivers/hv/channel.c
-@@ -40,6 +40,7 @@ static inline u32 hv_gpadl_size(enum hv_gpadl_type type, u32 size)
- {
- 	switch (type) {
- 	case HV_GPADL_BUFFER:
-+	case HV_GPADL_BUFFER_DECRYPTED:
- 		return size;
- 	case HV_GPADL_RING:
- 		/* The size of a ringbuffer must be page-aligned */
-@@ -100,6 +101,7 @@ static inline u64 hv_gpadl_hvpfn(enum hv_gpadl_type type, void *kbuffer,
- 
- 	switch (type) {
- 	case HV_GPADL_BUFFER:
-+	case HV_GPADL_BUFFER_DECRYPTED:
- 		break;
- 	case HV_GPADL_RING:
- 		if (i == 0)
-@@ -460,7 +462,8 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	}
- 
- 	gpadl->decrypted = !((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
--		(channel->co_ring_buffer && type == HV_GPADL_RING));
-+		(channel->co_ring_buffer && type == HV_GPADL_RING) ||
-+		(type == HV_GPADL_BUFFER_DECRYPTED));
- 	if (gpadl->decrypted) {
- 		/*
- 		 * The "decrypted" flag being true assumes that set_memory_decrypted() succeeds.
-@@ -575,7 +578,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
-  * @channel: a channel
-  * @kbuffer: from kmalloc or vmalloc
-  * @size: page-size multiple
-- * @gpadl_handle: some funky thing
-+ * @gpadl: output gpadl
-  */
- int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
- 			  u32 size, struct vmbus_gpadl *gpadl)
-@@ -585,6 +588,26 @@ int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
+@@ -13,11 +13,13 @@
+ #include <linux/wait.h>
+ #include <linux/mm.h>
+ #include <linux/slab.h>
++#include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/hyperv.h>
+ #include <linux/uio.h>
+ #include <linux/interrupt.h>
+ #include <linux/set_memory.h>
++#include <linux/vmalloc.h>
+ #include <linux/export.h>
+ #include <asm/page.h>
+ #include <asm/mshyperv.h>
+@@ -608,6 +610,159 @@ int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
  }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
+ EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
  
-+/*
-+ * vmbus_establish_gpadl_caller_decrypted - Establish a GPADL for a buffer
-+ * that has already been decrypted by the caller.
++/**
++ * vmbus_free_buffer - release a buffer allocated by vmbus_alloc_buffer().
 + *
-+ * @channel: a channel
-+ * @kbuffer: from kmalloc or vmalloc; must already be decrypted by the caller
-+ * @size: page-size multiple
-+ * @gpadl: output gpadl
++ * @addr: buffer address, or NULL if none was allocated (e.g. cleanup from a
++ *        failed allocation)
++ * @chunks: chunks array from vmbus_alloc_buffer(), or NULL
++ * @chunk_cnt: number of entries in @chunks
 + *
-+ * The caller is responsible for re-encrypting the buffer before freeing it.
++ * When @chunks is NULL the buffer is a plain vzalloc() allocation.
++ *
++ * Otherwise tear down the vmap, and for each chunk re-encrypt and free
++ * the underlying pages. Any chunk that cannot be re-encrypted is leaked.
 + */
-+int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
-+					   void *kbuffer, u32 size,
-+					   struct vmbus_gpadl *gpadl)
++void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
 +{
-+	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER_DECRYPTED,
-+				       kbuffer, size, 0U, gpadl);
++	u32 i;
++
++	if (!chunks) {
++		vfree(addr);
++		return;
++	}
++
++	vunmap(addr);
++
++	for (i = 0; i < chunk_cnt; i++) {
++		unsigned long vaddr =
++			(unsigned long)page_address(chunks[i]);
++		unsigned int order = folio_order(page_folio(chunks[i]));
++
++		if (set_memory_encrypted(vaddr, 1U << order))
++			continue;
++		__free_pages(chunks[i], order);
++	}
++
++	kvfree(chunks);
 +}
-+EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
++EXPORT_SYMBOL_GPL(vmbus_free_buffer);
++
++/**
++ * vmbus_alloc_buffer - allocate a host-visible, virtually-contiguous buffer.
++ *
++ * @channel: the channel the buffer will be attached to
++ * @size: requested buffer size in bytes (will be rounded up to PAGE_SIZE)
++ * @chunks_out: on success, set to the array of underlying chunks, or NULL when
++ *              the buffer was allocated with vzalloc()
++ * @chunk_cnt_out: on success, set to the number of chunks
++ *
++ * Buffers not requiring decryption are allocated with vzalloc().
++ *
++ * Buffers requiring decryption are allocated as a series of
++ * physically-contiguous chunks, starting at MAX_PAGE_ORDER and falling back to
++ * smaller orders on allocation failure. Each chunk is transitioned to
++ * host-visible via set_memory_decrypted() on its direct-map address, then all
++ * chunks are combined into a virtually-contiguous range via vmap().
++ *
++ * Return: the buffer's virtual address, or NULL on failure.
++ */
++void *vmbus_alloc_buffer(struct vmbus_channel *channel,
++			 u32 size,
++			 struct page ***chunks_out,
++			 u32 *chunk_cnt_out)
++{
++	unsigned long nr_pages = PFN_UP(size);
++	unsigned long remaining = nr_pages;
++	unsigned long page_idx = 0;
++	struct page **chunks = NULL;
++	struct page **pages = NULL;
++	int order = MAX_PAGE_ORDER;
++	u32 chunk_cnt = 0;
++	void *addr;
++	u32 i;
++	int ret;
++
++	*chunks_out = NULL;
++	*chunk_cnt_out = 0;
++
++	if (!nr_pages)
++		return NULL;
++
++	/* If the buffer does not need to be decrypted, just use vzalloc() */
++	if (!hv_is_isolation_supported() || channel->co_external_memory)
++		return vzalloc(nr_pages << PAGE_SHIFT);
++
++	/* Worst case: every chunk is a single page. */
++	chunks = kvmalloc_array(nr_pages, sizeof(*chunks),
++				GFP_KERNEL | __GFP_ZERO);
++	if (!chunks)
++		goto err;
++
++	pages = kvmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
++	if (!pages)
++		goto err;
++
++	while (remaining) {
++		struct page *page;
++		gfp_t gfp;
++
++		order = min(order, ilog2(remaining));
++
++		/*
++		 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing,
++		 * but try harder at order 0 since that is the final
++		 * fallback.
++		 * __GFP_COMP stores order information in the page folio.
++		 */
++		gfp = GFP_KERNEL | __GFP_ZERO;
++		if (order)
++			gfp |= __GFP_COMP | __GFP_NORETRY | __GFP_NOWARN;
++
++		page = alloc_pages_node(cpu_to_node(channel->target_cpu),
++					gfp, order);
++		if (!page) {
++			if (!order--)
++				goto err;
++			continue;
++		}
++
++		ret = set_memory_decrypted((unsigned long)page_address(page),
++					   1U << order);
++		if (ret) {
++			/*
++			 * set_memory_decrypted() failed; the page state is
++			 * unknown so it must be leaked rather than freed.
++			 */
++			goto err;
++		}
++
++		chunks[chunk_cnt++] = page;
++
++		for (i = 0; i < (1U << order); i++)
++			pages[page_idx++] = page + i;
++
++		remaining -= 1U << order;
++	}
++
++	addr = vmap(pages, nr_pages, VM_MAP, pgprot_decrypted(PAGE_KERNEL));
++	if (!addr)
++		goto err;
++
++	memset(addr, 0, nr_pages << PAGE_SHIFT);
++
++	kvfree(pages);
++	*chunks_out = chunks;
++	*chunk_cnt_out = chunk_cnt;
++	return addr;
++
++err:
++	kvfree(pages);
++	vmbus_free_buffer(NULL, chunks, chunk_cnt);
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
 +
  /**
   * request_arr_init - Allocates memory for the requestor array. Each slot
   * keeps track of the next available slot in the array. Initially, each
 diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 964f1be8150c5..1146addbb42c4 100644
+index 1146addbb42c4..f843ee0efa22f 100644
 --- a/include/linux/hyperv.h
 +++ b/include/linux/hyperv.h
-@@ -70,7 +70,8 @@
-  */
- enum hv_gpadl_type {
- 	HV_GPADL_BUFFER,
--	HV_GPADL_RING
-+	HV_GPADL_RING,
-+	HV_GPADL_BUFFER_DECRYPTED
- };
- 
- /* Single-page buffer */
-@@ -1205,6 +1206,11 @@ extern int vmbus_establish_gpadl(struct vmbus_channel *channel,
- 				      u32 size,
- 				      struct vmbus_gpadl *gpadl);
- 
-+extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
-+						  void *kbuffer,
-+						  u32 size,
-+						  struct vmbus_gpadl *gpadl);
-+
+@@ -1214,6 +1214,13 @@ extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
  extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
  				     struct vmbus_gpadl *gpadl);
  
++extern void *vmbus_alloc_buffer(struct vmbus_channel *channel,
++				u32 size,
++				struct page ***chunks_out,
++				u32 *chunk_cnt_out);
++
++extern void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt);
++
+ void vmbus_reset_channel_cb(struct vmbus_channel *channel);
+ 
+ extern int vmbus_recvpacket(struct vmbus_channel *channel,
 -- 
 2.45.4
 
