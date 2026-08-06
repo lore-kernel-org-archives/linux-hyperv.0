@@ -1,57 +1,57 @@
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB024A4315
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B5049DD51
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059420; cv=none; b=mhqUlPA6C6MOzPHXULAUOb+dZbZE61e23UV/1GuwYZ8cQJ/8Z/69FEvdRNz7fjpa7ozmOWwKwO6uL42Ud6plYUkj19Q/BcIFGqDOmHYkjb7zPXvv2jjWx0XV6Ehy/ETblk9hG/JKegdokHrExMAwlf2H2G4uhGOj/Cd0WxjXH90=
+	t=1786059421; cv=none; b=pUSSaeKodeH7fEzsOauG8VoDbkGxs2WBj0Bdv/lS1jQDfSS3Ofm0drK1Dr1mYl5/jsarTe6qNGHtMzo+GCkQFIgNZZ9puRNnk2Ui6aWHJU27+mqKyRw+iGqaTAYIKL3Rb2KVsUhk4PlUxL7FPfW0mDqMUagLBqFXIVL+UDJV3w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059420; c=relaxed/simple;
-	bh=9DAIjDH1F2HoJUEVpdMLcADO0LnHG+NJf0QuZz8Bg8c=;
+	s=arc-20240116; t=1786059421; c=relaxed/simple;
+	bh=pvk61KgZsdgezrqmuUH0lmIu4eH6UZ//mUcKEN2ubd8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=i2iJxusTEX737VjLCclfWgyWJdCrN8QOzy5JrUlpFTxWuC9K+UzMnZBEtHekjs8bueuFYfDjHomW2gfVH3PHferjtsvk0/k/7TRcUR1EaGWb79IZB4sahPgEVFZkq1EAILETSNa7e5DJgO+Oyix1h3py9e2V1XMwiqTUNgWkFrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YSIjCUzp; arc=none smtp.client-ip=209.85.214.199
+	 To:Cc:Content-Type; b=ibzeFS3rY4UVxeh95ox0gpahXcRGtMz5Ml5o7zw5uC8eZGAf3s7eaFseynrw51s7aUJUSe8DNJZQN7zQWvTzzS8idkQ1Tm95+nmBf6rbZ8//Zo2YtlKVZZsrBJZ6B5C/cJRi0R+8ReuQxXak9dqs/eVRHxn9qq8Q8Fw+4XFNuB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JgeuRY+G; arc=none smtp.client-ip=209.85.215.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YSIjCUzp"
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cccfa32670so37817095ad.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JgeuRY+G"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cab041eced3so4024496a12.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059417; x=1786664217; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786059418; x=1786664218; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=mGO2RWCI+1OC1QgQlwRZRpcTYMYFszJFieAT3RQjORg=;
-        b=YSIjCUzpIj6KrkOh58ZIjgHX2VQ9aHKIaEq4q3rJpZAPwdTOgqP8pUBsHp5oJ8J5Td
-         sb0/7nK5SVE3sEmphEixRA9cIkXC9HLtPd+6qM2St95q3bai98baz54O3nuv5goX7iyJ
-         gC5ZalhA673YyYikpDEY6IH74VkCtpu/EGPUdJhQ7kCoCMOKaItxk1YcCQArbOZ2ViPh
-         8WelV0PuyIrKjVOQEy/29pbu/MHRjwPJvxE9WGEGvX6XW2FlYCxiSk9yJNN1qoclYJoy
-         U03Gb5PFxcO5dJX0Hoe9mL9wzPDbC5ry6bQx3DtZWk7hdO7/iQefWtbey5ulO0fg3os6
-         CTIA==
+        bh=heSuqSIgeH92pLRWbhNi7GYX8HqrNShkMIs22IEn4aI=;
+        b=JgeuRY+G87SI6mEJFTSetd951fXXpqnhpp2TqQRSxfa88MqKJD0jaFS1egNVCLlWy4
+         iXwzU3V+X4Ps0A/pyPrWbE0+PQPvv92+qhwK5pHcAV69EdRBCfXOtAeGpYAE3LziETYJ
+         vtKuYNGX4v9UIJ1xwDTkkCFNVQjqN6rZ1P3a2wQd0Clz85cKjsqEING7YqmH1yL1p0uT
+         Gm6Yn/yldjsvSIdY4nK5z08iiI6KstDKtml7Jtiz/xv4lBmEak5NIXlteg3tGXsQVXd7
+         64rntZ5m/l1qBNuqXkfrFUhe+Ke2qXunUXfy/DNV1Ugqcx19RfRJjleApH1jHG6Y/R7B
+         skmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059417; x=1786664217;
+        d=1e100.net; s=20251104; t=1786059418; x=1786664218;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=mGO2RWCI+1OC1QgQlwRZRpcTYMYFszJFieAT3RQjORg=;
-        b=rxqLSCf6rMfMORq6akfGGsoQhrJznYDbsXaVYTIMTOVq6+zmm3wPrDZLkMRcLYK/QX
-         6g25vpwMGaB/LSn1Z1Q33J7lciQSCOxD0MGIBk5tE6ubRBRwdv1AKmIKKox7YwZKG5Te
-         aeO6FgeU0f5+C0B0iMLpzoZoSuG3waSx9lv1ATmoYngyPYGl+bfJvbczp6JK06UCLhL1
-         fJJ1SLBzkuFlg7F1YDCAdbeCIoI4vXjDyLhIIu3KimNTI3iKFt9zzP4brVifoepWWRny
-         Ntdlo4tvMy4jlNvCJGCVSBQNfcbFTfXcP+iVuv1UY2vviuF9szgjN1MKHud2zNPrisD3
-         +kfA==
-X-Forwarded-Encrypted: i=1; AHgh+RpXmaMRGCed0IJm84HBv9icsNc7J7rz2DU3WoAob1L1OZH9kTLSAGQzORQtz8bJSYFdHYwADgYETsORCP8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy87DTwCeF7tqZPKVEenOr4R0KiL4aM8kFInH8fQr3XqyguNtxm
-	M5Hib7pFVgj0NdTsoahu4qBtziKlZkt80SxH9O/PfVMxJDN030YTeq1e2aYAFKrzI/nijZwRuOb
-	LF+xwkg==
-X-Received: from pgmj25.prod.google.com ([2002:a63:5959:0:b0:c9e:364c:61a2])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:329c:b0:3c3:8315:80b7
- with SMTP id adf61e73a8af0-3cb85e9757amr21773483637.9.1786059416350; Thu, 06
- Aug 2026 16:36:56 -0700 (PDT)
+        bh=heSuqSIgeH92pLRWbhNi7GYX8HqrNShkMIs22IEn4aI=;
+        b=owyJTrknUei22c9Nkfxbu39IRPlvMQG07tezVg4pCGCCul8VEh4Pyk3KrgRIuCragJ
+         LkmRO+bTsniYNj55SaAD5dZhqRkLQvH1izSDBKBD8FivicXFtJ9d11q4nQpA2rlkXUJ8
+         JFF6vJIcy194rIROlG1jY8N6DinYFg0/w84rErGWQ/hc9RLTsr5Sm9rogp1cbX7xuVQf
+         gHAZw7DjAALxU0VrU39aYuWYTWvu6JUxJSK1ly6Gvt0EtDzFfJtrkud1/lHjsi5D5xzR
+         PgfsSAdm32lOVoP6EwcQHH8N//Isq1XEQTQ+BRh8YfrDMGQij1MjrLsKz2RFL/bvclfL
+         etoA==
+X-Forwarded-Encrypted: i=1; AHgh+RpUshSjaHzXCDMBPwj+E2xpj8C+oLsmLjFoIyZ6o5KLt6XDCSDp5wWHAe7kzf6qJ2N9A7Di9DomZxzfzQs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBYw+WauLLZmoGzWJU5FP45OCRFy2zp0mYmo0TTQ8R1ipJ0t2q
+	dL0rFcXbQiRShYe/guIIUFs0Q/5sGTOo3Tgov8gCXLPSLhwsovE5fSNIe90bIpFoZX+oxcIdNek
+	V0LIz9A==
+X-Received: from pgmc19.prod.google.com ([2002:a63:1c53:0:b0:c98:2639:852e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7344:b0:3bf:6acf:2940
+ with SMTP id adf61e73a8af0-3cb85df0a1bmr20575846637.11.1786059417589; Thu, 06
+ Aug 2026 16:36:57 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:35:43 -0700
+Date: Thu,  6 Aug 2026 16:35:44 -0700
 In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -61,9 +61,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-27-seanjc@google.com>
-Subject: [PATCH v6 26/51] clocksource: hyper-v: Drop wrappers to sched_clock
- save/restore helpers
+Message-ID: <20260806233609.212337-28-seanjc@google.com>
+Subject: [PATCH v6 27/51] clocksource: hyper-v: Don't save/restore TSC offset
+ when using HV sched_clock
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -86,97 +86,69 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Now that all of the Hyper-V reference counter sched_clock code is located
-in a single file, drop the superfluous wrappers for the save/restore flows.
+Now that Hyper-V overrides the sched_clock save/restore hooks if and only
+sched_clock itself is set to the Hyper-V reference counter, drop the
+invocation of the "old" save/restore callbacks.  When the registration of
+the PV sched_clock was done separately from overriding the save/restore
+hooks, it was possible for Hyper-V to clobber the TSC save/restore
+callbacks without actually switching to the Hyper-V refcounter.
 
-No functional change intended.
+Enabling a PV sched_clock is a one-way street, i.e. the kernel will never
+revert to using TSC for sched_clock, and so there is no need to invoke the
+TSC save/restore hooks (and if there was, it belongs in common PV code).
 
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 Tested-by: Michael Kelley <mhklinux@outlook.com>
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 Acked-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- drivers/clocksource/hyperv_timer.c | 34 +++++-------------------------
- include/clocksource/hyperv_timer.h |  2 --
- 2 files changed, 5 insertions(+), 31 deletions(-)
+ drivers/clocksource/hyperv_timer.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
 diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index 4293173c3a27..daa8cbfe61ee 100644
+index daa8cbfe61ee..220668207d19 100644
 --- a/drivers/clocksource/hyperv_timer.c
 +++ b/drivers/clocksource/hyperv_timer.c
-@@ -488,17 +488,6 @@ static void resume_hv_clock_tsc(struct clocksource *arg)
- 	hv_set_msr(HV_MSR_REFERENCE_TSC, tsc_msr.as_uint64);
- }
+@@ -544,9 +544,6 @@ static __always_inline void hv_setup_sched_clock(void *sched_clock)
+ #include <asm/timer.h>
  
--/*
-- * Called during resume from hibernation, from overridden
-- * x86_platform.restore_sched_clock_state routine. This is to adjust offsets
-- * used to calculate time for hv tsc page based sched_clock, to account for
-- * time spent before hibernation.
-- */
--void hv_adj_sched_clock_offset(u64 offset)
--{
--	hv_sched_clock_offset -= offset;
--}
+ static u64 hv_ref_counter_at_suspend;
+-static void (*old_save_sched_clock_state)(void);
+-static void (*old_restore_sched_clock_state)(void);
 -
- #ifdef HAVE_VDSO_CLOCKMODE_HVCLOCK
- static int hv_cs_enable(struct clocksource *cs)
- {
-@@ -565,12 +554,14 @@ static void (*old_restore_sched_clock_state)(void);
-  * based clocksource, proceeds from where it left off during suspend and
-  * it shows correct time for the timestamps of kernel messages after resume.
+ /*
+  * Hyper-V clock counter resets during hibernation. Save and restore clock
+  * offset during suspend/resume, while also considering the time passed
+@@ -556,8 +553,6 @@ static void (*old_restore_sched_clock_state)(void);
   */
--static void save_hv_clock_tsc_state(void)
-+static void hv_save_sched_clock_state(void)
+ static void hv_save_sched_clock_state(void)
  {
-+	old_save_sched_clock_state();
-+
+-	old_save_sched_clock_state();
+-
  	hv_ref_counter_at_suspend = hv_read_reference_counter();
  }
  
--static void restore_hv_clock_tsc_state(void)
-+static void hv_restore_sched_clock_state(void)
- {
- 	/*
- 	 * Adjust the offsets used by hv tsc clocksource to
-@@ -578,23 +569,8 @@ static void restore_hv_clock_tsc_state(void)
- 	 * adjusted value = reference counter (time) at suspend
+@@ -570,8 +565,6 @@ static void hv_restore_sched_clock_state(void)
  	 *                - reference counter (time) now.
  	 */
--	hv_adj_sched_clock_offset(hv_ref_counter_at_suspend - hv_read_reference_counter());
--}
--/*
-- * Functions to override save_sched_clock_state and restore_sched_clock_state
-- * functions of x86_platform. The Hyper-V clock counter is reset during
-- * suspend-resume and the offset used to measure time needs to be
-- * corrected, post resume.
-- */
--static void hv_save_sched_clock_state(void)
--{
--	old_save_sched_clock_state();
--	save_hv_clock_tsc_state();
--}
-+	hv_sched_clock_offset -= (hv_ref_counter_at_suspend - hv_read_reference_counter());
- 
--static void hv_restore_sched_clock_state(void)
--{
--	restore_hv_clock_tsc_state();
- 	old_restore_sched_clock_state();
+ 	hv_sched_clock_offset -= (hv_ref_counter_at_suspend - hv_read_reference_counter());
+-
+-	old_restore_sched_clock_state();
  }
  
-diff --git a/include/clocksource/hyperv_timer.h b/include/clocksource/hyperv_timer.h
-index d48dd4176fd3..a4c81a60f53d 100644
---- a/include/clocksource/hyperv_timer.h
-+++ b/include/clocksource/hyperv_timer.h
-@@ -38,8 +38,6 @@ extern void hv_remap_tsc_clocksource(void);
- extern unsigned long hv_get_tsc_pfn(void);
- extern struct ms_hyperv_tsc_page *hv_get_tsc_page(void);
+ static __always_inline void hv_setup_sched_clock(void *sched_clock)
+@@ -579,10 +572,7 @@ static __always_inline void hv_setup_sched_clock(void *sched_clock)
+ 	/* We're on x86/x64 *and* using PV ops */
+ 	paravirt_set_sched_clock(sched_clock);
  
--extern void hv_adj_sched_clock_offset(u64 offset);
+-	old_save_sched_clock_state = x86_platform.save_sched_clock_state;
+ 	x86_platform.save_sched_clock_state = hv_save_sched_clock_state;
 -
- static __always_inline bool
- hv_read_tsc_page_tsc(const struct ms_hyperv_tsc_page *tsc_pg,
- 		     u64 *cur_tsc, u64 *time)
+-	old_restore_sched_clock_state = x86_platform.restore_sched_clock_state;
+ 	x86_platform.restore_sched_clock_state = hv_restore_sched_clock_state;
+ }
+ #else /* !CONFIG_GENERIC_SCHED_CLOCK && !CONFIG_PARAVIRT */
 -- 
 2.55.0.679.g6767b8d81c-goog
 
