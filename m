@@ -1,129 +1,103 @@
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731F74AD67C
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C214B0488;
+	Thu,  6 Aug 2026 23:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059450; cv=none; b=lhX2G/uscgsrcQjUH+8MvBJhK1IwP/WA4ye+CjFYLCCMfx/HgVsO113zhnPRXx+11aR8ZLt6Dx7ME6d5GOYG3/LGpIeqcLkm03hQYTgGtqhIaNP2KWSSIm0MUBVw7bwcPoEKAqAFVinjKj7reidRDMm3feVz5Yu6ca3Kn6eq2EY=
+	t=1786060537; cv=none; b=YS5VSi/RRuUFmicP3QU52JAlqA8O43xZG6H8ZGDJXMhZrGMytiCETflKM8E1sRG9FMnGtnje8Jc2Ub71FVGqggHat7x4iMrptnkDjvqgTe6A9dpZDgtzFRUf1NZ7CSRVq6akNP8OuEFZ2lhMqzfctT0sAaUEidnT8omEYS2iWno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059450; c=relaxed/simple;
-	bh=UjpjKwl+lBUDjSIYpCNArAdlu1FqZC9gy6u6ndRSMj4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nONGoogEeOMbi7/a51IHJOlDkoujI5832c7NqL5CT0miXvJ7Y1ItmSqvIuLJST1RWlRyrAeCRktV8Wj8LN3p4uqnreUckpFmKrD6rL1u6LjGrKuB4X157bo11YWu0GNe7BX2UZN4ZBQbQ5WoV1k049Eo9fw2fUF4AS4PuolEcQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F2ieCjFj; arc=none smtp.client-ip=209.85.214.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1786060537; c=relaxed/simple;
+	bh=7WLNfMz1Gbl5Jpq79HpX8W1c0VhYvOB50LOMpiCq66s=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=nuje3OgqaDCHXWwuwJyXbuLAZPUiW+8Qym39+N6OVtVbJC+ieHxN36KUJc1xnoUsETr/hMKGnancGOzw/GfaJ0rrgXzkPaIIeu8P9963ZNmlGCZJYYtB+ZnXKasxR+BOVPmzjoQFNq9d/NtrQ5kpKhgDzPlHFXgYcNxHGoeyg1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwLfB4BS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F2ieCjFj"
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc6dd43737so50917245ad.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059447; x=1786664247; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=WG6tzs8/D5vUVAMD7J6BXfy7SNaM+XPXtfc+RTelhM8=;
-        b=F2ieCjFjISEPh5Mxfbr1nKl0tKoKKUgXtVYrsB5u1kUy3eaEFqDeUZyRDCThAD9e1Y
-         p5dHbHqPgc/IAA02Ylbi1DXp4ePS4pheU/i9wZ3QthJOhm1VLQ1/bnWw9pXimFiFFDWL
-         K1wJqXq9Zi9FAIF9lw9+fQUWikDGgrvrDwg2JSHMfASeZeW4xt8btj8ZFRpZVmVjVZM4
-         eoWEtH1xyUIqTfLKreDfY0WV++aii9jOsJy57GRAoNeCV9/Iq/dJEDng7InwVXIfJ6bd
-         2FLYv2RD3U1RQw+GDUEhiBR7b/s8g8qhiButAEWRh6/wAT6zJLkpu8ZmEOQFcTWv59NN
-         bLjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059447; x=1786664247;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WG6tzs8/D5vUVAMD7J6BXfy7SNaM+XPXtfc+RTelhM8=;
-        b=TDpcsVguwlP3mopw4dfZm53zqueE7hZMbxIM5l+DL/pHQ1Ge5u9jcSRpIr0EohYYvk
-         jaTlVsF3Z8Jw7wPPiuKA3dY7zNS8kPy6MzcdOxISReHSp+jmR700pb19WtrOFt9IEHXR
-         D9vZ/7DGIftabjqbKI2Isfu8P1L1uGRvLdFfkKKLfdkgC44CNg9U0qrRz3REpjaVLuJL
-         VG7YGEr3lZ4O6vPpBXmO2ukDdH/gRhzaMionWC0/06FQ/LcspXSQQb1xfYdjShIJdi5y
-         re0/hCgAv6oekcIagNBjtCIw1kMMr2a0j6wZHDWCgkQE0fSOe94wyVqFFgys+GZwqj6p
-         UjPg==
-X-Forwarded-Encrypted: i=1; AHgh+RrtLAq8JPGqhzBILsXC7x+WgkFejft2zRJ7+nOLak3jiSoz3Lw/pR6lbixs94KEzM0ZAAvdsd3baiLqaxY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfdy/DuiT7D5zJTx5/rpDxR+Q12G1yoJ63f8lx6kNRdAE+lLmP
-	U/NOeLZoVD/dumg+UD7MfsBDS9PXvLXdB5eAJSQCqe0897on64DU1GUJ48qcKxKrCiES8uEbaTL
-	5TOQgQg==
-X-Received: from pjgg14.prod.google.com ([2002:a17:90b:57ce:b0:380:f969:825e])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2590:b0:38f:2168:b9cb
- with SMTP id 98e67ed59e1d1-3903c572a05mr18788898a91.9.1786059447175; Thu, 06
- Aug 2026 16:37:27 -0700 (PDT)
-Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:36:08 -0700
-In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwLfB4BS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F41A1F000E9;
+	Thu,  6 Aug 2026 23:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786060536;
+	bh=EZywgeu2KMUchYx837WzIhIye1RN8pPl2DG+DJbnzUU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=YwLfB4BScSZt3YN4TpdAcmJ7Ot1NmY8rwoy+zKVkM/myjmeMCxgMhc8eJMkjlTSwE
+	 T7xRg0Ah465GFTGRR0Na5Ww1NosgLfkkJe8g0ETlySny/y1yYW/htUUo/ix7+KhOY5
+	 HW6yxWVxXstniz6RDe78dHzvem6priAtd01Yie/6WLInU0DIaNgG1tpgcwc4S4DO9r
+	 uf38XUjIrAVVgUV3dS3enNUQY8c6AiqpZw8dbfIUnUzZ161ZJIja/lRpMB4DyAIEiX
+	 nhwJwuZGwbyhFhRV+0iPOOFbT0x2bhtqElblFVo96PGr9PZ2U2/53FlGp3UCTSEJKY
+	 G8RRJqCyC/IXQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 06/51] x86/sev: Don't override CPU frequency
+ calibration for SNP's Secure TSC
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sean Christopherson" <seanjc@google.com>
+Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
+In-Reply-To: <20260806233609.212337-7-seanjc@google.com>
+References: <20260806233609.212337-1-seanjc@google.com>
+ <20260806233609.212337-7-seanjc@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Aug 2026 23:55:35 +0000
+Message-Id: <20260806235536.2F41A1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260806233609.212337-1-seanjc@google.com>
-X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-52-seanjc@google.com>
-Subject: [PATCH v6 51/51] x86/kvm: Get local APIC bus frequency from PV CPUID
- Timing Info
-From: Sean Christopherson <seanjc@google.com>
-To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	John Stultz <jstultz@google.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Miroslav Lichvar <mlichvar@redhat.com>, x86@kernel.org, linux-coco@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, Michael Kelley <mhklinux@outlook.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, 
-	David Woodhouse <dwmw@amazon.co.uk>, David Woodhouse <dwmw2@infradead.org>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
 
-When running as a KVM guest with PV timing info provided by the host,
-stuff the APIC timer period/frequency with the local APIC bus frequency
-reported in CPUID.0x40000010.EBX instead of trying to calibrate/guess the
-frequency.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] The patch attempts to decouple CPU frequency from Secure TSC fre=
+quency for SNP guests, but a downstream core x86 check defeats this logic i=
+f the frequencies differ by more than 10%.
+--
 
-See Documentation/virt/kvm/x86/cpuid.rst for details.
+--- Patch [6]: [PATCH v6 06/51] x86/sev: Don't override CPU frequency calib=
+ration for SNP's Secure TSC ---
+commit fde9a60ee57bc9ae26f0e19e9b9a2405fdf1fe11
+Author: Sean Christopherson <seanjc@google.com>
 
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kernel/kvm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+x86/sev: Don't override CPU frequency calibration for SNP's Secure TSC
 
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index b954238b09fc..edeff41c03c2 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -992,7 +992,7 @@ static void __init kvm_init_platform(void)
- 		.mask_lo = (u32)(~(SZ_4G - tolud - 1)) | MTRR_PHYSMASK_V,
- 		.mask_hi = (BIT_ULL(boot_cpu_data.x86_phys_bits) - 1) >> 32,
- 	};
--	u32 timing_info_leaf;
-+	u32 timing_info_leaf, apic_khz;
- 	bool tsc_is_reliable;
- 
- 	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) &&
-@@ -1054,6 +1054,11 @@ static void __init kvm_init_platform(void)
- 			x86_init.hyper.get_tsc_khz = kvm_get_tsc_khz;
- 			x86_init.hyper.get_cpu_khz = kvm_get_tsc_khz;
- 		}
-+
-+		/* The leaf also includes the local APIC bus/timer frequency.*/
-+		apic_khz = cpuid_ebx(timing_info_leaf);
-+		if (apic_khz)
-+			apic_set_timer_frequency_khz(apic_khz, "KVM hypervisor");
- 	}
- 
- 	/*
--- 
-2.55.0.679.g6767b8d81c-goog
+This commit removes the override of the kernel's CPU frequency calibration
+routine for SNP guests with Secure TSC. It aims to allow the CPU frequency
+to be calibrated independently of the TSC frequency.
 
+> diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
+> index ed0ac52a765e0..665de1aea0ee9 100644
+> --- a/arch/x86/coco/sev/core.c
+> +++ b/arch/x86/coco/sev/core.c
+> @@ -2046,7 +2046,6 @@ void __init snp_secure_tsc_init(void)
+> =20
+>  	snp_tsc_freq_khz =3D SNP_SCALE_TSC_FREQ(tsc_freq_mhz * 1000, secrets->t=
+sc_factor);
+> =20
+> -	x86_platform.calibrate_cpu =3D securetsc_get_tsc_khz;
+
+[Severity: Medium]
+Does this actually decouple the frequencies if they differ significantly?
+
+If the independent CPU calibration determines a frequency that differs from=
+=20
+the Secure TSC frequency by more than 10%, the core x86 code will still=20
+overwrite it.
+
+Looking at determine_cpu_tsc_frequencies() in arch/x86/kernel/tsc.c:
+
+        if (cpu_khz =3D=3D 0)
+                cpu_khz =3D tsc_khz;
+        else if (abs(cpu_khz - tsc_khz) * 10 > tsc_khz)
+                cpu_khz =3D tsc_khz;
+
+Will this downstream sanity check silently clamp cpu_khz back to tsc_khz=20
+anyway, defeating the patch's attempt to keep them separate when APERF/MPER=
+F=20
+values diverge?
+
+>  	x86_platform.calibrate_tsc =3D securetsc_get_tsc_khz;
+> =20
+>  	early_memunmap(mem, PAGE_SIZE);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260806233609.2123=
+37-1-seanjc@google.com?part=3D6
