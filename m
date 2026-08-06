@@ -1,57 +1,57 @@
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C03849425B
-	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C714D49A24F
+	for <linux-hyperv@vger.kernel.org>; Thu,  6 Aug 2026 23:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786059405; cv=none; b=PXeKQYlJENESAdTz8mefkV5ej9skTYQKGOjtYBaxAjqYTMPb+SzWRB3vXtgYKHAOHKUsppupBLeiyQd6D922S+0vveiw2CgnfHebMJSOE4BYiyrf1CIHhHCE6c0MaDgzmPGjpez/8WT9BTbxEfRbNptg5mJhDsSojoQujKLQYGg=
+	t=1786059406; cv=none; b=b7nsFEyHjEcyH6OJbpVaiOaBpaAxW7cFb1B5erewjyf1H1DkrryhAi/8HkSgjX4nunoT5fpqEDK4uVxduweDo2jcsGBTuMIH0Xz45d8CPdcaLlhzTmQhxUpaIO8GWLsvylt0Yz1zNgzBgJWmp5wlzob0cAzq95sbk8lgMpcuFMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786059405; c=relaxed/simple;
-	bh=M65IyX8rm7dTt45KlwDHi8ahXU+KWS/raGfMe6r6K7w=;
+	s=arc-20240116; t=1786059406; c=relaxed/simple;
+	bh=5EQ2Y/7/FNva86+E9j6gKcmQXh6x7dP7WF5CCExJXh8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p06fcf4XHdqCjHc+9kgbSIuXWPMMi8o2ezMC6Rn4dd3QkB5WmgR/CY3046ZeDWSFSBBkri0EO00kAxvBNPstdoGxQJdXpQUG6XHhp4qJnjkK1XZFCpisM5Xp3AG0ZxvhNwKmKcq0CCzoagXwxomBqC1oEU0GyR95cRhwlcLY5Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=grN5KYSv; arc=none smtp.client-ip=209.85.215.200
+	 To:Cc:Content-Type; b=jPIyrsntG+B12BUNzPbskL4cCGqEtQvC/J04fDQY9h9adiyQynUV3v/MaPSpb0RsPBN5fxMwnpI1WKMyeJdKQ6LOn+BmtYHZpk28z36T/KMG7MgLBROD30q5Hjav3DFBZTWodJUp469W7vXds6fBRMjk6PTAcB+O4Xd4CdayvtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wii+txzL; arc=none smtp.client-ip=209.85.216.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="grN5KYSv"
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c9fe4c5eb39so2012156a12.1
-        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wii+txzL"
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e7621655eso4064619a91.0
+        for <linux-hyperv@vger.kernel.org>; Thu, 06 Aug 2026 16:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786059401; x=1786664201; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1786059402; x=1786664202; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=xHY7WhZzoR4x+WtFqsSoEfBU4PaM9Rhz3R83jbux6ZU=;
-        b=grN5KYSvTPkU9iZxvDYixscdd/ScZGt50gIQHRPY3J29UlhVnpppkXtrQw0Q43LqKO
-         GPgHPIG3UrN3ok6VU+DmIjC/JXeP3otskUIJh16bcexanzHdXoPasfoGFC6O6n5sMMG5
-         MVYhQyOkAKe9ZLN0wkRblq+1pFxkUQ05ko+sJra5SBfZ0sk1L5HlzWgtSZJJiHW4YYdI
-         m/y1cwIXLqtDh8vHp9X7X/hU1+r2JPefayDJNzlzs9Ohm9SrYlIv4mrNWgW9koc7iV4m
-         jj6srDpOGKcd7mlOcSz8bbWS2C3y43NmRfNH53TQnPNiB/sJuTlpRiflla4Ty7ej0KZ3
-         XMsg==
+        bh=wbY0NuQ4jmVaTb967BiKKQEFZ81rzIFWsnI6s/GLKnk=;
+        b=Wii+txzLelzaKOJJOA6gpOLE3CopBg+pArw7kCtIF0L84BVM09uKlUDsy6R50IlMwp
+         dT5PExfGdLxGZ3mqBgRQnanWpvY1JO8D7PbSOKemRQWuefxrcwUE69eROOcajx3owu0u
+         b8G4P/jLgGEm+j68qbMUjkUylct0KuT4GEzNh98M9olXvl5L7UdFbNYggq66rPzWy5AJ
+         SjJLX9Dr8TlAQ7yFGbARnfDiuwhOT/9e+gvnXdirkcjqocm+42YXk6GHyoxMuZrToL6r
+         I5kYvnD/4Pe3hj1A6Cq0mSpaDFRMUA7vhtPKMnOON62dn5fedVgSEddldxsbU+5jkOAK
+         t6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786059401; x=1786664201;
+        d=1e100.net; s=20251104; t=1786059402; x=1786664202;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:reply-to:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xHY7WhZzoR4x+WtFqsSoEfBU4PaM9Rhz3R83jbux6ZU=;
-        b=RM43uuT35qCLea9p+RQJSpSkzTfOaZxF7znRACSCod82GAD6t35zjOyzwiPBt8tSw5
-         edCG+38/os2ypuqh8yi7Hv6XrmJA7eOM9V3b5Aaj/B9R4VCZmGKAn1Feog3KKWX4c6zJ
-         2eRYROvXJfDFPAX9RZRhsSCZiXkD8BFRBhZJ04stsT1J+XqYVfHXcPctUV5goE8YYU3a
-         VCE1/kBun7na+9xoZYmrCBPzhVMNjgFziSMmtLi1QHRH4/a50aQY8KzyfW2tlTc7+ohW
-         TBVZiN5Y60n7H9zFzeRZf44PsmdJMSw9qzUZp2yIESGrmqC05ycyuMKbxQZgifTFvtWe
-         h0OA==
-X-Forwarded-Encrypted: i=1; AHgh+RoZP3RFUdBBJ/0I/kMQ3a79Uz4JcNd/WYWESYxgURWCSIZThhWmOZhOJCQ9sWONYcNjrcr9SN7CwPAFL5w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm5iTECURuVRP8Y5Xn76BEdMmHaBODOn2pNJLFmCSgiEC8NECS
-	pOoQ5lMosVno6H5ovBUcJmSKEoaIJjJi/Jo1D6fBcTu8IgFWngiAfxa0maOMRwhY5yKG6T32FW8
-	DIpgamA==
-X-Received: from pfbbu11.prod.google.com ([2002:a05:6a00:410b:b0:848:8b16:23d6])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2383:b0:842:5b66:3c7f
- with SMTP id d2e1a72fcca58-84f2dedf356mr20263411b3a.0.1786059400868; Thu, 06
- Aug 2026 16:36:40 -0700 (PDT)
+        bh=wbY0NuQ4jmVaTb967BiKKQEFZ81rzIFWsnI6s/GLKnk=;
+        b=IW7CgyUZt1jdFeYodcI1Il92MILJqbIpqAZ7YKp3s+8gPVvPu16l7ry4Jr1aosjETn
+         Uxdygh0po50bQu45wwk7zJEX45iCB/z1Okqf57Q3NJIprdcDKh2vTvZwWYnWQhH9Zslf
+         DhigVR9DXEUQ5djPRopt23uFBKYHEcr55j/3vz64I/oW43bKmlLm0txjKK4kqMV1IKDf
+         EtuNz3UGiYgprY8k5MR0YBWWrJyMmqY0XDPzbLQqwv1e2W3Z9TpGRLwDIliTNLG7wCf9
+         LHAIKdgrLfSsv8lZIzGHIKbBBLxq+zUwRmtNt10o9ekW6JHYIhUKFxqEWFgrP8d3BhuG
+         4C5w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp68+e4/aEndv3Rj7eThCIEcg4gGFUnVf7U7dw4n9DaeGHWwsDvX9wSMMdwa9sCC8P1SvGjRCmIpRBKQ0Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLMzlN9ndz9aAIR/ULhuN8Yrueg9N+X0lMLdv70plzdPKnqII/
+	Ieh9e76NBfBu3d4Q2l1O5XKLy6HDAYGZH7965XSFR7R5XSq/MGoLVtMktJl74JjDZ5Uw6F6n9CP
+	XqpAHnw==
+X-Received: from pjbcv18.prod.google.com ([2002:a17:90a:fd12:b0:38e:7f2c:2c4b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:264c:b0:37f:e326:6557
+ with SMTP id 98e67ed59e1d1-3903c598e8amr20096574a91.4.1786059402046; Thu, 06
+ Aug 2026 16:36:42 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Thu,  6 Aug 2026 16:35:31 -0700
+Date: Thu,  6 Aug 2026 16:35:32 -0700
 In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -61,9 +61,9 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260806233609.212337-1-seanjc@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260806233609.212337-15-seanjc@google.com>
-Subject: [PATCH v6 14/51] x86/tsc: Consolidate forcing of X86_FEATURE_TSC_KNOWN_FREQ
- for PV code
+Message-ID: <20260806233609.212337-16-seanjc@google.com>
+Subject: [PATCH v6 15/51] x86/tsc: Kill off x86_platform_ops.calibrate_{cpu,tsc}()
+ hooks
 From: Sean Christopherson <seanjc@google.com>
 To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -86,154 +86,159 @@ Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Now that all paravirt code that explicitly specifies the TSC frequency
-also sets X86_FEATURE_TSC_KNOWN_FREQ, replace all of the one-off code
-and simply set X86_FEATURE_TSC_KNOWN_FREQ if the TSC frequency is known.
-
-Do NOT force set TSC_KNOWN_FREQ if the "known" TSC frequency was provided
-by the user.  Per commit bd35c77e32e4 ("x86/tsc: Add tsc_early_khz command
-line parameter"), one of the goals of the param is to allow the refined
-calibration work "to do meaningful error checking".
+Now that getting the CPU and/or TSC frequencies from the hypervisor uses
+dedicated hooks, drop x86_platform_ops.calibrate_{cpu,tsc}() and instead
+directly invoke the correct helper at each phase of (re)calibration.  In
+addition to eliminating unnecessary code, this makes it a bit more obvious
+when the "late" path invokes pit_hpet_ptimer_calibrate_cpu() instead of
+x86_platform_ops.calibrate_cpu().
 
 No functional change intended.
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/coco/sev/core.c       |  1 -
- arch/x86/coco/tdx/tdx.c        |  1 -
- arch/x86/kernel/cpu/acrn.c     |  1 -
- arch/x86/kernel/cpu/mshyperv.c |  1 -
- arch/x86/kernel/cpu/vmware.c   |  2 --
- arch/x86/kernel/jailhouse.c    |  1 -
- arch/x86/kernel/kvmclock.c     |  1 -
- arch/x86/kernel/tsc.c          | 13 ++++++++++---
- arch/x86/xen/time.c            |  1 -
- 9 files changed, 10 insertions(+), 12 deletions(-)
+ arch/x86/include/asm/tsc.h      |  2 --
+ arch/x86/include/asm/x86_init.h |  4 ----
+ arch/x86/kernel/tsc.c           | 28 ++++++++++++----------------
+ arch/x86/kernel/x86_init.c      |  2 --
+ 4 files changed, 12 insertions(+), 24 deletions(-)
 
-diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
-index bc5ae9ef74da..72313b36b6f5 100644
---- a/arch/x86/coco/sev/core.c
-+++ b/arch/x86/coco/sev/core.c
-@@ -2027,7 +2027,6 @@ unsigned int __init snp_secure_tsc_init(void)
+diff --git a/arch/x86/include/asm/tsc.h b/arch/x86/include/asm/tsc.h
+index b6b86e24e1bf..c09ec485abcd 100644
+--- a/arch/x86/include/asm/tsc.h
++++ b/arch/x86/include/asm/tsc.h
+@@ -95,8 +95,6 @@ extern void mark_tsc_unstable(char *reason);
+ extern int unsynchronized_tsc(void);
+ extern int check_tsc_unstable(void);
+ extern void mark_tsc_async_resets(char *reason);
+-extern unsigned long native_calibrate_cpu_early(void);
+-extern unsigned long native_calibrate_tsc(void);
+ extern unsigned long long native_sched_clock_from_tsc(u64 tsc);
  
- 	secrets = (__force struct snp_secrets_page *)mem;
+ extern int tsc_clocksource_reliable;
+diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
+index 0c89bf40f507..e879e6e83428 100644
+--- a/arch/x86/include/asm/x86_init.h
++++ b/arch/x86/include/asm/x86_init.h
+@@ -295,8 +295,6 @@ struct x86_hyper_runtime {
  
--	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
- 
- 	rdmsrq(MSR_AMD64_GUEST_TSC_FREQ, tsc_freq_mhz);
-diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
-index ec28a15e26ac..21a574e60e0f 100644
---- a/arch/x86/coco/tdx/tdx.c
-+++ b/arch/x86/coco/tdx/tdx.c
-@@ -1203,7 +1203,6 @@ unsigned int __init tdx_tsc_init(void)
- 
- 	/* TSC is the only reliable clock in TDX guest */
- 	setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
--	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 
- 	return info.crystal_khz * info.numerator / info.denominator;
- }
-diff --git a/arch/x86/kernel/cpu/acrn.c b/arch/x86/kernel/cpu/acrn.c
-index 3818f6ae0629..dc71a6fdd461 100644
---- a/arch/x86/kernel/cpu/acrn.c
-+++ b/arch/x86/kernel/cpu/acrn.c
-@@ -40,7 +40,6 @@ static void __init acrn_init_platform(void)
- 	if (acrn_tsc_khz_cpuid) {
- 		x86_init.hyper.get_tsc_khz = acrn_get_tsc_khz;
- 		x86_init.hyper.get_cpu_khz = acrn_get_tsc_khz;
--		setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	}
- }
- 
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 4a0cdda0c49e..3bca987e05c3 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -575,7 +575,6 @@ static void __init ms_hyperv_init_platform(void)
- 	    ms_hyperv.misc_features & HV_FEATURE_FREQUENCY_MSRS_AVAILABLE) {
- 		x86_init.hyper.get_tsc_khz = hv_get_tsc_khz;
- 		x86_init.hyper.get_cpu_khz = hv_get_tsc_khz;
--		setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	}
- 
- 	if (ms_hyperv.priv_high & HV_ISOLATION) {
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3f1dab69d90e..cbe8b59ab79f 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -390,8 +390,6 @@ static void __init vmware_set_capabilities(void)
- {
- 	setup_force_cpu_cap(X86_FEATURE_CONSTANT_TSC);
- 	setup_force_cpu_cap(X86_FEATURE_TSC_RELIABLE);
--	if (vmware_tsc_khz)
--		setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	if (vmware_hypercall_mode == CPUID_VMWARE_FEATURES_ECX_VMCALL)
- 		setup_force_cpu_cap(X86_FEATURE_VMCALL);
- 	else if (vmware_hypercall_mode == CPUID_VMWARE_FEATURES_ECX_VMMCALL)
-diff --git a/arch/x86/kernel/jailhouse.c b/arch/x86/kernel/jailhouse.c
-index 595cd28f9a9f..8107c28eb2bc 100644
---- a/arch/x86/kernel/jailhouse.c
-+++ b/arch/x86/kernel/jailhouse.c
-@@ -255,7 +255,6 @@ static void __init jailhouse_init_platform(void)
- 	pr_debug("Jailhouse: PM-Timer IO Port: %#x\n", pmtmr_ioport);
- 
- 	precalibrated_tsc_khz = setup_data.v1.tsc_khz;
--	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 
- 	pci_probe = 0;
- 
-diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
-index 4f8299303a19..35a879d33e9e 100644
---- a/arch/x86/kernel/kvmclock.c
-+++ b/arch/x86/kernel/kvmclock.c
-@@ -138,7 +138,6 @@ static inline void kvm_sched_clock_init(bool stable)
+ /**
+  * struct x86_platform_ops - platform specific runtime functions
+- * @calibrate_cpu:		calibrate CPU
+- * @calibrate_tsc:		calibrate TSC, if different from CPU
+  * @get_wallclock:		get time from HW clock like RTC etc.
+  * @set_wallclock:		set time back to HW clock
+  * @iommu_shutdown:		set by an IOMMU driver for shutdown if necessary
+@@ -320,8 +318,6 @@ struct x86_hyper_runtime {
+  * @guest:			guest incarnations callbacks
   */
- static unsigned int __init kvm_get_tsc_khz(void)
- {
--	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	return pvclock_tsc_khz(this_cpu_pvti());
- }
- 
+ struct x86_platform_ops {
+-	unsigned long (*calibrate_cpu)(void);
+-	unsigned long (*calibrate_tsc)(void);
+ 	void (*get_wallclock)(struct timespec64 *ts);
+ 	int (*set_wallclock)(const struct timespec64 *ts);
+ 	void (*iommu_shutdown)(void);
 diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
-index 7f1ca6df0004..f42872c9ae99 100644
+index f42872c9ae99..1d41ef1db27c 100644
 --- a/arch/x86/kernel/tsc.c
 +++ b/arch/x86/kernel/tsc.c
-@@ -1541,11 +1541,18 @@ void __init tsc_early_init(void)
- 	if (!known_tsc_khz && x86_init.hyper.get_tsc_khz)
- 		known_tsc_khz = x86_init.hyper.get_tsc_khz();
+@@ -672,7 +672,7 @@ int cpuid_get_tsc_info(struct cpuid_tsc_info *info)
+  * native_calibrate_tsc - determine TSC frequency
+  * Determine TSC frequency via CPUID, else return 0.
+  */
+-unsigned long native_calibrate_tsc(void)
++static unsigned long native_calibrate_tsc(void)
+ {
+ 	struct cpuid_tsc_info info;
  
-+	/*
-+	 * Mark the TSC frequency as known if it was obtained from a hypervisor
-+	 * or trusted firmware.
-+	 */
-+	if (known_tsc_khz)
-+		setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
-+
- 	/*
- 	 * Ignore the user-provided TSC frequency if the exact frequency was
--	 * obtained from trusted firmware or the hypervisor, as the user-
--	 * provided frequency is intended as a "starting point", not a known,
--	 * guaranteed frequency.
-+	 * obtained from trusted firmware or the hypervisor, and don't mark the
-+	 * frequency as known, as the user-provided frequency is intended as a
-+	 * "starting point", not a known, guaranteed frequency
- 	 */
- 	if (!known_tsc_khz)
- 		known_tsc_khz = tsc_early_khz;
-diff --git a/arch/x86/xen/time.c b/arch/x86/xen/time.c
-index 1adb44fdddb2..487ad838c441 100644
---- a/arch/x86/xen/time.c
-+++ b/arch/x86/xen/time.c
-@@ -43,7 +43,6 @@ static unsigned int __init xen_tsc_khz(void)
- 	struct pvclock_vcpu_time_info *info =
- 		&HYPERVISOR_shared_info->vcpu_info[0].time;
+@@ -904,7 +904,7 @@ static unsigned long pit_hpet_ptimer_calibrate_cpu(void)
+ /**
+  * native_calibrate_cpu_early - can calibrate the cpu early in boot
+  */
+-unsigned long native_calibrate_cpu_early(void)
++static unsigned long native_calibrate_cpu_early(void)
+ {
+ 	unsigned long flags, fast_calibrate = cpu_khz_from_cpuid();
  
--	setup_force_cpu_cap(X86_FEATURE_TSC_KNOWN_FREQ);
- 	return pvclock_tsc_khz(info);
+@@ -918,7 +918,7 @@ unsigned long native_calibrate_cpu_early(void)
+ 	return fast_calibrate;
  }
  
+-
++#ifndef CONFIG_SMP
+ /**
+  * native_calibrate_cpu - calibrate the cpu
+  */
+@@ -931,6 +931,7 @@ static unsigned long native_calibrate_cpu(void)
+ 
+ 	return tsc_freq;
+ }
++#endif
+ 
+ void recalibrate_cpu_khz(void)
+ {
+@@ -943,8 +944,8 @@ void recalibrate_cpu_khz(void)
+ 	if (WARN_ON_ONCE(cpu_feature_enabled(X86_FEATURE_TSC_KNOWN_FREQ)))
+ 		return;
+ 
+-	cpu_khz = x86_platform.calibrate_cpu();
+-	tsc_khz = x86_platform.calibrate_tsc();
++	cpu_khz = native_calibrate_cpu();
++	tsc_khz = native_calibrate_tsc();
+ 	if (tsc_khz == 0)
+ 		tsc_khz = cpu_khz;
+ 	else if (abs(cpu_khz - tsc_khz) * 10 > tsc_khz)
+@@ -1458,17 +1459,19 @@ static bool __init determine_cpu_tsc_frequencies(bool early,
+ 	WARN_ON(cpu_khz || tsc_khz);
+ 
+ 	if (early) {
++		/*
++		 * Early CPU calibration can only use methods that are available
++		 * early in boot (obviously).
++		 */
+ 		if (known_cpu_khz)
+ 			cpu_khz = known_cpu_khz;
+ 		else
+-			cpu_khz = x86_platform.calibrate_cpu();
++			cpu_khz = native_calibrate_cpu_early();
+ 		if (known_tsc_khz)
+ 			tsc_khz = known_tsc_khz;
+ 		else
+-			tsc_khz = x86_platform.calibrate_tsc();
++			tsc_khz = native_calibrate_tsc();
+ 	} else {
+-		/* We should not be here with non-native cpu calibration */
+-		WARN_ON(x86_platform.calibrate_cpu != native_calibrate_cpu);
+ 		cpu_khz = pit_hpet_ptimer_calibrate_cpu();
+ 	}
+ 
+@@ -1571,13 +1574,6 @@ void __init tsc_init(void)
+ 		return;
+ 	}
+ 
+-	/*
+-	 * native_calibrate_cpu_early can only calibrate using methods that are
+-	 * available early in boot.
+-	 */
+-	if (x86_platform.calibrate_cpu == native_calibrate_cpu_early)
+-		x86_platform.calibrate_cpu = native_calibrate_cpu;
+-
+ 	if (!tsc_khz) {
+ 		/* We failed to determine frequencies earlier, try again */
+ 		if (!determine_cpu_tsc_frequencies(false, 0, 0)) {
+diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
+index 252c5827d063..b7a48e622f48 100644
+--- a/arch/x86/kernel/x86_init.c
++++ b/arch/x86/kernel/x86_init.c
+@@ -147,8 +147,6 @@ static void enc_kexec_finish_noop(void) {}
+ static bool is_private_mmio_noop(u64 addr) {return false; }
+ 
+ struct x86_platform_ops x86_platform __ro_after_init = {
+-	.calibrate_cpu			= native_calibrate_cpu_early,
+-	.calibrate_tsc			= native_calibrate_tsc,
+ 	.get_wallclock			= mach_get_cmos_time,
+ 	.set_wallclock			= mach_set_cmos_time,
+ 	.iommu_shutdown			= iommu_shutdown_noop,
 -- 
 2.55.0.679.g6767b8d81c-goog
 
