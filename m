@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C93D5346E7A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA474386C13;
 	Thu,  6 Aug 2026 21:34:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052056; cv=none; b=db5xrURDgz1P2/N0yj5+lVYT86WSpjLiD+D+RX9CkuB9qqDsQ4MaxoOJXEPO+jjJAjiQrncMrhVxUHg0mZUjv7lB/tOveaEFIOXaJH6KVq8akSKwxVpL6753n/BtEJDTGnC7k7Yl/OCr8nneoZBZslDUyapywEMu9N9qwjDoCz4=
+	t=1786052057; cv=none; b=L3PGCLNzvPpfrK4mXeTSbbEtVCJCV4Tmv765roDvI/KKuCsXVN3MVyx+meoC2iO+npMZ4fOXsiOp7ipuA9VaFA2txE0ICkxScD+KwagJCQLM9PuIQ91f3pb5t/AnqQ9+p03lp/7eLhqY0F1jUs6QYyViMsbLjFTmeQUPmzLWqPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052056; c=relaxed/simple;
-	bh=q/aVbacnGgRHudHOfvxJxz/qLBUI7C4D1ykLfZe6PII=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JRxYMiuYSDdPUNTciyutw6Nt8e9lSOsh32nv3200r3LfhJ0grGGEQJp7D5g2selnrdG/UM+pw/SO/+PGstz/8/EQCWtIlY1rc2CHgCXGMZRJ5nuT5+i7lEjzM/mWWw55ZlNVx4bkmCUNSh4adHZoVXhvJOLMCaiqICcaeROoWHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BQg721ey; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1786052057; c=relaxed/simple;
+	bh=z9IC3UaCT3kcUFx7/yXEBf/jScwzDKSxJVLbhjyQhIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KKzacpVlTsCHCmeYziFFygMUzP/1Km59TaSx6bBdrqwiszToIsh8ZzX82cyHwVPk3sfhhECIJfJL7yt1lmr71dcjsPkPLMC/CtNIRD/3aITnXIlooSc8pisnZgOE5qQ++gh2r5KgU8FOJTwn0sJY/F7PYwGWJLUfk+l9QogOF6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qdGVmK3v; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BQg721ey"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qdGVmK3v"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 18E6F20B710C;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7789720B7128;
 	Thu,  6 Aug 2026 14:33:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 18E6F20B710C
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7789720B7128
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1786052031;
-	bh=TSD+o9YTVjqxiJfuImsRafP+UbGHCdj/0/T9of7oZBo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BQg721eyrvmPtSH2j2iEnUO4aFjU1FjoiH8YdfmZk0zX1bFISWy8bb33SKh9HwUv8
-	 kNFKDi42mP65IGIvckfENdMJrwuMlHo9CEvceRQZsSSH0Xjf3YwMM5HefUx38gfyWB
-	 9Xqi8gbub6iXsTU1FNbu0XvCvk0qIBzafsbFhnpc=
+	bh=MYlBk5yNAwEn7cL0hMdoyVFC+wgS7cecv71nTRouSjs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qdGVmK3vDxczpxPLZ3+2B4Q2cFu62ZPPH7xxAtiyH7p8O2YbrzHJU+XGZLB9xMZZf
+	 PolLZW4a156dc4z4uFL3voWdPLZpvo/WFBr4xGvohXK1xwZ/yAI4ETTsaSrgT6hPfr
+	 uoQGhqLyhgEXnaCtFr/ZCi6rz6tDSELNC8+Z4Kwk=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: decui@microsoft.com,
 	haiyangz@microsoft.com,
@@ -39,10 +40,12 @@ Cc: andrew+netdev@lunn.ch,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v3 0/3] Drivers: hv: decrypt netvsc buffers on contiguous direct-map addresses
-Date: Thu,  6 Aug 2026 14:33:23 -0700
-Message-ID: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v3 1/3] Drivers: hv: vmbus: add vmbus_establish_gpadl_caller_decrypted()
+Date: Thu,  6 Aug 2026 14:33:24 -0700
+Message-ID: <20260806213326.1425848-2-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
+References: <20260806213326.1425848-1-kameroncarr@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -51,65 +54,111 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Arm CCA Realms implement set_memory_decrypted() only for addresses in the
-kernel linear map; vmalloc()/vmap() addresses are rejected. netvsc
-allocates its large send and receive buffers with vzalloc() and passes
-those addresses to vmbus_establish_gpadl(), which calls
-set_memory_decrypted(), causing GPADL establishment to fail in a Realm.
+Add a new vmbus_establish_gpadl_caller_decrypted() for callers that want to
+decrypt their own buffers. Add a new hv_gpadl_type,
+HV_GPADL_BUFFER_DECRYPTED, to communicate the decryption status of the
+buffer.
 
-This series allocates shared buffers as a list of chunks, each physically
-contiguous, decrypts each chunk through its direct-map address, and
-combines them into a virtually contiguous mapping with vmap(). Private
-buffers continue to use vzalloc().
+No functional change for existing callers.
 
-Changes since v1 [1]:
-  Patch 1:
-    - Add HV_GPADL_BUFFER_DECRYPTED to enum hv_gpadl_type to indicate a
-      buffer that has already been decrypted.
-  Patch 2:
-    - Rename netvsc_{alloc,free}_buf_pages() -> vmbus_{alloc,free}_buffer()
-      and move them to channel.c. 
-    - Remove struct netvsc_buf_chunk and replace with page folio in
-      compound pages.
-    - vmbus_alloc_buffer():
-      - use vzalloc() for non-host-visible buffers and remove the
-        encryption decision out of netvsc.
-      - min_t() -> min().
-      - zero the memory after allocation.
-      - specify @size "will be rounded up to PAGE_SIZE" in the docstring.
+Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+---
+ drivers/hv/channel.c   | 27 +++++++++++++++++++++++++--
+ include/linux/hyperv.h |  8 +++++++-
+ 2 files changed, 32 insertions(+), 3 deletions(-)
 
-Changes since v2 [2]:
-  Patch 2:
-    - Split patch into two patches, separating new helper functions in 
-      VMBus from the netvsc driver changes.
-    - Change `nr_pages`, `remaining`, and `page_idx` to unsigned long to
-      avoid casting.
-    - Move `order` initialization to the top of vmbus_alloc_buffer(),
-      removing one min() call.
-    - Change `order` to a signed int to avoid needing min_t().
-    - Restructure loop in vmbus_alloc_buffer() to avoid nested loops and
-      simplify logic.
-    - Small comment changes.
-
-[1]: https://lore.kernel.org/all/20260721195633.1438361-1-kameroncarr@linux.microsoft.com/
-[2]: https://lore.kernel.org/all/20260730233359.3850612-1-kameroncarr@linux.microsoft.com/
-
-
-Kameron Carr (3):
-  Drivers: hv: vmbus: add vmbus_establish_gpadl_caller_decrypted()
-  hv: vmbus: Add vmbus_alloc_buffer()/vmbus_free_buffer() for CoCo VMs
-  hv_netvsc: Allocate host-visible GPADL buffers using
-    vmbus_alloc_buffer()
-
- drivers/hv/channel.c            | 182 +++++++++++++++++++++++++++++++-
- drivers/net/hyperv/hyperv_net.h |   8 +-
- drivers/net/hyperv/netvsc.c     | 104 ++++++++++++------
- drivers/net/hyperv/netvsc_drv.c |   6 ++
- include/linux/hyperv.h          |  15 ++-
- 5 files changed, 278 insertions(+), 37 deletions(-)
-
-
-base-commit: a4ffc59238be84dd1c26bf1c001543e832674fc6
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 6821f225248b1..4782f5070bba9 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -40,6 +40,7 @@ static inline u32 hv_gpadl_size(enum hv_gpadl_type type, u32 size)
+ {
+ 	switch (type) {
+ 	case HV_GPADL_BUFFER:
++	case HV_GPADL_BUFFER_DECRYPTED:
+ 		return size;
+ 	case HV_GPADL_RING:
+ 		/* The size of a ringbuffer must be page-aligned */
+@@ -100,6 +101,7 @@ static inline u64 hv_gpadl_hvpfn(enum hv_gpadl_type type, void *kbuffer,
+ 
+ 	switch (type) {
+ 	case HV_GPADL_BUFFER:
++	case HV_GPADL_BUFFER_DECRYPTED:
+ 		break;
+ 	case HV_GPADL_RING:
+ 		if (i == 0)
+@@ -460,7 +462,8 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	}
+ 
+ 	gpadl->decrypted = !((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
+-		(channel->co_ring_buffer && type == HV_GPADL_RING));
++		(channel->co_ring_buffer && type == HV_GPADL_RING) ||
++		(type == HV_GPADL_BUFFER_DECRYPTED));
+ 	if (gpadl->decrypted) {
+ 		/*
+ 		 * The "decrypted" flag being true assumes that set_memory_decrypted() succeeds.
+@@ -575,7 +578,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+  * @channel: a channel
+  * @kbuffer: from kmalloc or vmalloc
+  * @size: page-size multiple
+- * @gpadl_handle: some funky thing
++ * @gpadl: output gpadl
+  */
+ int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
+ 			  u32 size, struct vmbus_gpadl *gpadl)
+@@ -585,6 +588,26 @@ int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
+ }
+ EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
+ 
++/*
++ * vmbus_establish_gpadl_caller_decrypted - Establish a GPADL for a buffer
++ * that has already been decrypted by the caller.
++ *
++ * @channel: a channel
++ * @kbuffer: from kmalloc or vmalloc; must already be decrypted by the caller
++ * @size: page-size multiple
++ * @gpadl: output gpadl
++ *
++ * The caller is responsible for re-encrypting the buffer before freeing it.
++ */
++int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
++					   void *kbuffer, u32 size,
++					   struct vmbus_gpadl *gpadl)
++{
++	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER_DECRYPTED,
++				       kbuffer, size, 0U, gpadl);
++}
++EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
++
+ /**
+  * request_arr_init - Allocates memory for the requestor array. Each slot
+  * keeps track of the next available slot in the array. Initially, each
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 964f1be8150c5..1146addbb42c4 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -70,7 +70,8 @@
+  */
+ enum hv_gpadl_type {
+ 	HV_GPADL_BUFFER,
+-	HV_GPADL_RING
++	HV_GPADL_RING,
++	HV_GPADL_BUFFER_DECRYPTED
+ };
+ 
+ /* Single-page buffer */
+@@ -1205,6 +1206,11 @@ extern int vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 				      u32 size,
+ 				      struct vmbus_gpadl *gpadl);
+ 
++extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
++						  void *kbuffer,
++						  u32 size,
++						  struct vmbus_gpadl *gpadl);
++
+ extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
+ 				     struct vmbus_gpadl *gpadl);
+ 
 -- 
 2.45.4
 
