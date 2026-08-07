@@ -1,127 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B2D25F988
-	for <linux-hyperv@vger.kernel.org>; Fri,  7 Aug 2026 15:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DEE476690
+	for <linux-hyperv@vger.kernel.org>; Fri,  7 Aug 2026 15:42:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786116649; cv=none; b=HX/J7DHKKyWK3LHx8c8W64dkgIQpXszqM454ghy0a0sPvDeNL53UOqOhYUVcrO2/Gx+jnhmb9hrj4/uuWSTYaaoPVSgru01Z7m3VViI3xd4D5B3TBqPjPtL11Xp6jwaqpBTkHWQy0GzKFEMqhc6Z7aDdjxEc/g6ZJxhZx1VDMjs=
+	t=1786117323; cv=none; b=NJqfD/QllrGgZ7B/ifZbDMkkUekMnZWQRcW7Bwu+RuZOME6kIX06MUQEKdORKP0xKovw4LYXe3eixqLSdUgWWv/4eCcaH/UV+AE7sx6fZaW1afdy1PFGAxwqaUzvMbnvvtOz71T65nu0Pw5+018mrEIqm1TmNl1AK63oEZqPL0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786116649; c=relaxed/simple;
-	bh=ltmHC23QIdWj15JLP0h9Lc/tvDrib/glR6LA/Cizk4c=;
+	s=arc-20240116; t=1786117323; c=relaxed/simple;
+	bh=72MsQjy6D3L7SsvHD6ubRPldvYSRu8I1zGyEym+GlsM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=DYCFbA10WNRk6/XOrlKYOxhhYHb6JlzA+BfP/ign6Piv8IykjNyYHJ2C45XgjYrcBot5KVuCmYPFm6uKa3QEClT9GU0ovpLgyxRKX5gNRW2T9OwQzgP0WAYc5oj68xWyi3OyfODaqbevWp9mNJqM/SR8j0xBp69NGTYZnqwz5ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQDORWyr; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Leucu6/wHL7k7By8GjAgdJ6KHHLGTf55bPU28QI00kpk9bUbUwW17eO7XEehrISVlvod1e+xyShZgH8Wv/hxjuHRv+CHca91IpwdbXRhtw0703vOMA/2pa5ISaZNAXJJMm4a6sKGFkbQADsqil4H162gKRh8OiMmz4p4RYZYAOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntCHfkkF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQDORWyr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6691F000E9;
-	Fri,  7 Aug 2026 15:30:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntCHfkkF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327A51F00A3A;
+	Fri,  7 Aug 2026 15:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786116648;
-	bh=qYDOKBd+h2vbXzlvRqO5pO4uhy0JDneZzGoQeyXn5Bs=;
+	s=k20260515; t=1786117321;
+	bh=XJDjdH5Tgn+/KfoBe21ckVnyBZLMXmZoJhDQvNnW8KQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AQDORWyrN/2NYxghQVNAW+Isqmbv/0F90M6O9VVF0hNtkJYF290eHxiQpEYbKtZ0B
-	 8TOBYdH8PTL+XUnvAdc8/Q38AWUfeeWW7wO7LTlUgbL7rWgWByw0XLYPftN165kHXE
-	 tcKTxacKT6ptkPnedJRGsjYC3bUwywzQpGzB6t34hfewtO36YDua39pzKl/NfGPbjV
-	 USmReLhwDDbyj/X3YlrRpca0J/82qzilluvaBO4cLFBdSFVXaeAfr5IJmwl4hfMN/p
-	 Tc/gNBkczJcW+h7ysU6CKfIuTzlJhj/lyKOaPxDNoIPr08637gsETVWTpV4mjyZeJr
-	 rAwis/ECNK18w==
+	b=ntCHfkkFsjskBpus3hPSiQbkHY/aoUPPV43Gj3aFN7lXjaYOV8ixfy+tfEXIcNxBR
+	 PtP4OTbwv9s3C+MkDSslXIGzTthDNYTt7rGQa2+UjXnF9mPUAwmwA1RXh6sfkS92bT
+	 Ow9ZAKFZkPD+8KUb7ISrZgKXk4rjysDU6wI2NmeoiPlgxsDrM5GvRw9sAqeFvIYs+L
+	 3jch62KExAYlU7G4bji3cC7HUwhQI01KBrDAZihnnhV9yEHhQYGzgF1fIE4tv4iCgi
+	 VfhuEBID0gCgg6vwNq/MnRUfMZS2yCC6M8QpGn9+DKwYnGkgHfsS3OFBuWvhDvExS3
+	 F/JqkkiF4GYxw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 08/13] mshv: accept partial CPU feature banks
+Subject: Re: [PATCH v1 09/13] mshv: define full processor and xsave feature
+ masks
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260807135134.303943-9-weh@linux.microsoft.com>
+In-Reply-To: <20260807135134.303943-10-weh@linux.microsoft.com>
 References: <20260807135134.303943-1-weh@linux.microsoft.com>
- <20260807135134.303943-9-weh@linux.microsoft.com>
+ <20260807135134.303943-10-weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 15:30:47 +0000
-Message-Id: <20260807153047.CF6691F000E9@smtp.kernel.org>
+Date: Fri, 07 Aug 2026 15:42:00 +0000
+Message-Id: <20260807154201.327A51F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Medium] Kernel stack memory leak to the hypervisor on ARM64 when the MSH=
-V_PT_BIT_CPU_AND_XSAVE_FEATURES flag is omitted.
+- [Medium] Uninitialized kernel stack memory is leaked to the hypervisor on=
+ non-x86 architectures when the legacy v1 ioctl is used.
+- [Low] Typo in the bitfield name `vrew_clear_supported` (should be `verw_c=
+lear_supported`).
 --
 
---- Patch [8]: [PATCH v1 08/13] mshv: accept partial CPU feature banks ---
-commit f76ad6e0838cf1ac9e5affb070dfe61ab6bea40d
+--- Patch [9]: [PATCH v1 09/13] mshv: define full processor and xsave featu=
+re masks ---
+commit 758f4dc3eb51bb86e9e77dff7703639f92529960
 Author: Wei Liu <wei.liu@kernel.org>
 
-mshv: accept partial CPU feature banks
+mshv: define full processor and xsave feature masks
 
-Allow userspace to provide fewer than MSHV_NUM_CPU_FEATURES_BANKS banks
-for the create-partition v2 ioctl. Preserve the default disabled-feature
-mask for omitted banks instead of rejecting the ioctl or overwriting all
-banks.
+Add the missing processor and xsave feature bit definitions and use
+them when constructing the default disabled-feature mask, so legacy
+SNP partition creation applies a complete, well-defined feature mask.
 
 > diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index 11d3c86050b45..729916e1eacff 100644
+> index 729916e1eacff..c81a8d0493c19 100644
 > --- a/drivers/hv/mshv_root_main.c
 > +++ b/drivers/hv/mshv_root_main.c
-> @@ -2423,20 +2423,12 @@ static long mshv_ioctl_process_pt_flags(void __us=
+> @@ -2406,11 +2406,21 @@ static long mshv_ioctl_process_pt_flags(void __us=
 er *user_arg, u64 *pt_flags,
->  		    args.pt_isolation >=3D MSHV_PT_ISOLATION_COUNT)
->  			return -EINVAL;
+[ ... ]
+>  	disabled_xsave->as_uint64 =3D U64_MAX;
+>  	disabled_xsave->xsave_support =3D 0;
+>  	disabled_xsave->xsaveopt_support =3D 0;
+>  	disabled_xsave->avx_support =3D 0;
+> +	disabled_xsave->xsave_comp_support =3D 0;
+> +	disabled_xsave->xsave_supervisor_support =3D 0;
+>  #endif
 > =20
-> -		if (args.pt_num_cpu_fbanks !=3D MSHV_NUM_CPU_FEATURES_BANKS ||
-> +		if (args.pt_num_cpu_fbanks > MSHV_NUM_CPU_FEATURES_BANKS ||
->  		    mshv_field_nonzero(args, pt_rsvd) ||
->  		    mshv_field_nonzero(args, pt_rsvd1))
->  			return -EINVAL;
-> =20
-> -		/*
-> -		 * Note this assumes MSHV_NUM_CPU_FEATURES_BANKS will never
-> -		 * change and equals HV_PARTITION_PROCESSOR_FEATURES_BANKS
-> -		 * (i.e. 2).
-> -		 *
-> -		 * Further banks (index >=3D 2) will be modifiable as 'early'
-> -		 * properties via the set partition property hypercall.
-> -		 */
-> -		for (i =3D 0; i < HV_PARTITION_PROCESSOR_FEATURES_BANKS; i++)
-> +		for (i =3D 0; i < args.pt_num_cpu_fbanks; i++)
->  			disabled_procs->as_uint64[i] =3D args.pt_cpu_fbanks[i];
-> =20
->  #if IS_ENABLED(CONFIG_X86_64)
+>  	/* Check if user provided newer struct with feature fields */
 
 [Severity: Medium]
-Does this code leak uninitialized kernel stack memory to the hypervisor on
-ARM64?
+Does this leave disabled_xsave uninitialized on non-x86 architectures when
+using the legacy v1 ioctl?
 
-When a user calls the MSHV_CREATE_PARTITION ioctl without the
-MSHV_PT_BIT_CPU_AND_XSAVE_FEATURES flag, the initialization of
-disabled_processor_xsave_features appears to be skipped on ARM64.
+When MSHV_PT_BIT_CPU_AND_XSAVE_FEATURES is not set on ARM64, the fallback
+initialization that clears disabled_xsave->as_uint64 is skipped because it =
+is
+nested inside the v2 struct check block further down in
+mshv_ioctl_process_pt_flags().
 
-In mshv_ioctl_create_partition(), creation_properties is allocated on the
-kernel stack uninitialized:
+This leaves 8 bytes of uninitialized kernel stack in
+creation_properties.disabled_processor_xsave_features (allocated in
+mshv_ioctl_create_partition()), which is then passed to the hypervisor via
+hv_call_create_partition().
 
-    struct hv_partition_creation_properties creation_properties;
+This appears to have been introduced earlier in this patch series in the co=
+mmit
+"mshv: default to safe partition CPU features" when the original else block
+clearing the legacy features was removed.
 
-If the MSHV_PT_BIT_CPU_AND_XSAVE_FEATURES flag is omitted, the block below
-is skipped in mshv_ioctl_process_pt_flags():
+> diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+> index 691ac495a095d..54b0e671a028f 100644
+> --- a/include/hyperv/hvhdk.h
+> +++ b/include/hyperv/hvhdk.h
+> @@ -231,7 +231,47 @@ union hv_partition_processor_features {
+>  		u64 fzlrep_movsb : 1;
+>  		u64 fsrep_stosb : 1;
+>  		u64 fsrep_cmpsb : 1;
+> -		u64 reserved_bank1 : 42;
+[ ... ]
+> +		u64 sbpb_supported : 1;
+> +		u64 ibpb_br_type_supported : 1;
+> +		u64 srso_no_supported : 1;
+> +		u64 srso_user_kernel_no_supported : 1;
+> +		u64 vrew_clear_supported : 1;
 
-    if (args.pt_flags & BIT_ULL(MSHV_PT_BIT_CPU_AND_XSAVE_FEATURES)) {
+[Severity: Low]
+This isn't a bug, but there is a typo in the bitfield name vrew_clear_suppo=
+rted,
+it should be verw_clear_supported.
 
-The default initialization of disabled_processor_xsave_features is
-conditionally excluded via #if IS_ENABLED(CONFIG_X86_64), leaving it
-uninitialized on ARM64.
-
-Later, hv_call_create_partition() copies the entire structure to the
-hypercall input page:
-
-    memcpy(&input->partition_creation_properties, &creation_properties,
-           sizeof(creation_properties));
-
-Could this send 8 bytes of uninitialized kernel stack memory to the
-hypervisor, potentially causing it to disable random XSAVE features for the
-guest VM?
+> +		u64 tsa_l1_no_supported : 1;
+> +		u64 tsa_sq_no_supported : 1;
+> +		u64 lass_support : 1;
+> +		u64 reserved_bank1 : 2;
+>  	} __packed;
+>  };
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807135134.3039=
-43-1-weh@linux.microsoft.com?part=3D8
+43-1-weh@linux.microsoft.com?part=3D9
