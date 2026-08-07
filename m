@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D504B049D;
-	Fri,  7 Aug 2026 00:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D024B049E;
+	Fri,  7 Aug 2026 00:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786061094; cv=none; b=pKngF0ppAVsw71PmzpIEYktOZsZvADz6TdX1CuNYDP60eO5gBiDhSnuOUsm2BPAv9YRFRu97nFHXqk9Ixpgq92CJsdl3TRu7FUHFTQtXv34XOy5yJyFbIHR8TPYL1XfnYMt2tEChQJhzl/b6adxwENZ7gXoZa7b2lfkmDAAvVHs=
+	t=1786061293; cv=none; b=f+tziO1g1Pu2N9OIf4aBBy6IIdyKxqR7kXUzlrGllqFx9p5hJeYomQWyIe4pVDpXGaiYzpDMKTojX/QMfJu+0Ac4x2bVOTKOKayx/P0WakbL68bn+QWAcHEgJ5qU67i/Yg834fh/adxP+kRGW+TQw429thGnGAR+yg98daNT6Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786061094; c=relaxed/simple;
-	bh=mmHD8T5M1dan+YmMPKR9gL5IrtP73LPdwaqxkwIDiRM=;
+	s=arc-20240116; t=1786061293; c=relaxed/simple;
+	bh=FWdJH+609JBqyQYy38/G+aJ0xVS8XCPo0VpdrJUvePk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=mdX/76SZeALJQ3Lec0mui1wxpuvcm+FO8dNScLWy28vEqv1c9SOQdw3tnUds3L/Jba7KLbWZ4g0RAget3eOJEwiu0NZvITSXovZHB9KxXuNu1toCE478N//hXh4npQ6sjnE8NJy7UPk4qjPNGicWiewF18xRE2imTeSy6ztX9VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HYavdR3A; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=UFMxhHT2uGYdl+5XCOX3jtM2vrMNqnPt6xX9YP968A6bDfQka2PhNVa9yxaQ04gRsunjKxt5zRh0agOFBjwqqWeXVf1+62XBBRsW3hJou8ZzrCmETe2qmw86vC2SzpAmaLNAgNqFfGsCkao+PmZCxUSKiKtXMXhH65igaeGh+IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7gOY3i0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HYavdR3A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB171F00A3A;
-	Fri,  7 Aug 2026 00:04:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7gOY3i0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A6C1F000E9;
+	Fri,  7 Aug 2026 00:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786061093;
-	bh=lmjCXrLIFPFtW3D/d3XAGDi9zGOMWSkwdU7tYKKC03w=;
+	s=k20260515; t=1786061291;
+	bh=3LtXzaMrAvJxHCFQ0hSe3iPzxWuGqsIdcsrTqp8uFeQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HYavdR3AZjBMeNGL3uXryKSMcLJzgAYgS+x6QTBzYVvDf2O4NBZ4mI169dnKeGdtl
-	 IhWFhMY6suWZl3A6PouLbGV84Vm6r66nuOTQRYXIISYgmW7cWUQavRyihTY+ahiS/K
-	 74EfQqU5fNC8Vv5E2zW8ZGfmKaBHM75u4qE7MVNXLZ5m7CN6X3PHBTSFJl9+FWlbD9
-	 AUFk++3Jz5EOtPeIIFID1vtZcPm9ZcmI4JP2jU5EonjVpcW8/F5aEHa3h5uPC36+3K
-	 R6wqBxvs43RlGQMDfEpCSzFjz1yUPE8uS24YYCLsMj/eGqYSdPvCjavLp2kGFgmQ7O
-	 z/p/O985OiMbw==
+	b=k7gOY3i0HxSbSULqoGVYw+6W63ThoNyaCsrREBqXUexJ3yC3mtPEYotHgUl7uerDa
+	 ohcj9r7MvhWBcaUlYTYxQTDv4l2zL2aEWAPG8gKyo9gADDpx7j3okY88dul65EPvSk
+	 M9dSED7tGQ4kgO5xEm7KBhzwbUjRc4BAkyypMjN3FutU2XL0l0b/q5MZEUoJk22c8A
+	 8Q9YaE7oZQE6hg+TVwGNOQsb3wX8/Lyb2AXaVzivPDN70lRNHA5PGynGZl6tvwCK9W
+	 +4UmHFgD5wM1hSmwW/TbXSqBX0Uxn2A0FRgUiijjqBpyb6cOCfyrT/ObBTxRgS01g/
+	 FzmKLAFa/NuTA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 24/51] x86/kvm: Get CPU base frequency from CPUID
- when it's available
+Subject: Re: [PATCH v6 51/51] x86/kvm: Get local APIC bus frequency from PV
+ CPUID Timing Info
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sean Christopherson" <seanjc@google.com>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org
-In-Reply-To: <20260806233609.212337-25-seanjc@google.com>
+Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260806233609.212337-52-seanjc@google.com>
 References: <20260806233609.212337-1-seanjc@google.com>
- <20260806233609.212337-25-seanjc@google.com>
+ <20260806233609.212337-52-seanjc@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 00:04:52 +0000
-Message-Id: <20260807000453.0EB171F00A3A@smtp.kernel.org>
+Date: Fri, 07 Aug 2026 00:08:10 +0000
+Message-Id: <20260807000811.19A6C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,67 +47,77 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] The patch's intent to decouple CPU base frequency from TSC frequ=
-ency is silently defeated by core x86 timekeeping logic if the explicitly e=
-numerated frequencies diverge by more than 10%.
+- [High] Missing validation of the APIC timer frequency provided by an untr=
+usted CPUID leaf allows a malicious hypervisor to cause a guest interrupt s=
+torm or timer freeze.
 --
 
---- Patch [24]: [PATCH v6 24/51] x86/kvm: Get CPU base frequency from CPUID=
- when it's available ---
-commit 950176e6b76f307f2a6acf272049d92426a49766
+--- Patch [51]: [PATCH v6 51/51] x86/kvm: Get local APIC bus frequency from=
+ PV CPUID Timing Info ---
+commit f6ea787ae688819e70ecd70def270210b8842a87
 Author: Sean Christopherson <seanjc@google.com>
 
-x86/kvm: Get CPU base frequency from CPUID when it's available
+x86/kvm: Get local APIC bus frequency from PV CPUID Timing Info
 
-If CPUID.0x16 is present and valid, use the CPU frequency provided by
-CPUID instead of assuming that the virtual CPU runs at the same
-frequency as TSC and/or kvmclock.
+When running as a KVM guest with PV timing info provided by the host, this
+commit updates the code to use the local APIC bus frequency reported in
+CPUID.0x40000010.EBX for the APIC timer period instead of calibrating it.
 
 > diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-> index 255a24a99f288..83b9351f28100 100644
+> index b954238b09fc0..edeff41c03c2a 100644
 > --- a/arch/x86/kernel/kvm.c
 > +++ b/arch/x86/kernel/kvm.c
 [ ... ]
-> @@ -1043,6 +1049,14 @@ static void __init kvm_init_platform(void)
+> @@ -1054,6 +1054,11 @@ static void __init kvm_init_platform(void)
+>  			x86_init.hyper.get_tsc_khz =3D kvm_get_tsc_khz;
+>  			x86_init.hyper.get_cpu_khz =3D kvm_get_tsc_khz;
 >  		}
->  	}
-> =20
-> +	/*
-> +	 * Prefer CPUID.0x16 over KVM's PV CPUID when possible, as the base CPU
-> +	 * frequency isn't necessarily the same as the TSC frequency.
-> +	 */
-> +	kvm_cpu_khz_cpuid =3D __cpu_khz_from_cpuid();
-> +	if (kvm_cpu_khz_cpuid)
-> +		x86_init.hyper.get_cpu_khz =3D kvm_get_cpu_khz;
 > +
-[Severity: Medium]
-Will this actually decouple the CPU base frequency from the TSC frequency if
-they diverge by more than 10%?
+> +		/* The leaf also includes the local APIC bus/timer frequency.*/
+> +		apic_khz =3D cpuid_ebx(timing_info_leaf);
+> +		if (apic_khz)
+> +			apic_set_timer_frequency_khz(apic_khz, "KVM hypervisor");
 
-Looking at determine_cpu_tsc_frequencies() in arch/x86/kernel/tsc.c, it see=
-ms
-there is a legacy sanity check that overrides the explicitly enumerated CPU
-frequency if it diverges too much from the TSC frequency:
+[Severity: High]
+Does this code allow an untrusted hypervisor to cause a guest interrupt sto=
+rm
+or timer freeze?
 
-arch/x86/kernel/tsc.c:determine_cpu_tsc_frequencies() {
-...
-    else if (abs(cpu_khz - tsc_khz) * 10 > tsc_khz)
-        cpu_khz =3D tsc_khz;
-...
+In a Confidential Computing (CoCo) environment, the hypervisor could provid=
+e a
+maliciously small value for apic_khz in CPUID leaf 0x40000010.EBX. When this
+value is passed to apic_set_timer_frequency_khz(), it calculates and stores
+lapic_timer_period.
+
+Later, calibrate_APIC_clock() bypasses its normal safety checks when
+lapic_timer_period is already set:
+
+arch/x86/kernel/apic/apic.c:calibrate_APIC_clock() {
+    ...
+	if (!lapic_init_clockevent()) {
+		apic_pr_verbose("lapic timer already calibrated %d\n", lapic_timer_period=
+);
+		/*
+		 * Direct calibration methods must have an always running
+		 * local APIC timer, no need for broadcast timer.
+		 */
+		lapic_clockevent.features &=3D ~CLOCK_EVT_FEAT_DUMMY;
+		return 0;
+	}
+    ...
 }
 
-During boot, KVM sets x86_init.hyper.get_cpu_khz to return the CPUID.0x16
-frequency. The core x86 tsc_early_init() reads this and passes it to
-determine_cpu_tsc_frequencies().
+This early return skips the subsequent check:
+if (lapic_timer_period < (1000000 / HZ))
 
-Doesn't this mean the core timekeeping logic will silently overwrite the
-explicitly enumerated CPU frequency with the TSC frequency in these cases,
-neutralizing the intent of this patch?
+Could a malicious hypervisor provide a small enough value that causes the
+timer interval (TMICT) to become 1 or 0, stopping the local timer entirely
+or causing an endless interrupt storm?
 
+>  	}
+> =20
 >  	/*
->  	 * If the TSC counts at a constant frequency across P/T states and in
->  	 * deep C-states, treat the TSC reliable, as guaranteed by KVM.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260806233609.2123=
-37-1-seanjc@google.com?part=3D24
+37-1-seanjc@google.com?part=3D51
