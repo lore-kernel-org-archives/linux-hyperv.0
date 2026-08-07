@@ -1,67 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CED282F3A;
-	Fri,  7 Aug 2026 17:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3397A3B4432;
+	Fri,  7 Aug 2026 21:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786123707; cv=none; b=ENiAKlJ3Bq8bTQIFSCE0wChairosONB0xZ7uw61pAQOLoKYbqciX4mBAZwe+fKNKQKT6sr2bcKAk5U6rn1ZazRostY1YxsNdyXMSeDDXf5fAQHj4bZXlVwOcIvOEI5OMz/HdsVjCZEy410rH9iA63mbSb4tPT/O0QrkzTiN4xVQ=
+	t=1786136436; cv=none; b=DwVnnnbPXPhCuQ5Yj5U7f74DmE0K7x5Tjb99V/0IQZ0UHIMOQ9tXzj64zPRIcxJvhIl2344+vzTzQMm43clrWSscVgWIghjV/OHMpbPOnZKIVpkLi+QY3ALZENSaZfKp5H+sICm31ZBFPiega1GPEDiYQFrrZ2T+Fh/Qk6+10pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786123707; c=relaxed/simple;
-	bh=wvF/yAdAENW6ynY5aE7h6/r8LjNYZddSAaoDaQhOmrY=;
-	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
-	 MIME-Version:Content-Type; b=f/+KX1z+ehanRb/MvW6NjrPkf5XxziJ88iK3hdFbFwLPeZwtqzmp7qD7Bx7aW5UdvjUEkRFoaeD0K9wJ8gbikrTjNLw8PwqtZ5vMzi0SgO9bYghTd4NDnw8QjTBQFsZK/jTOoI6e+HF7TcG02yFljsHhHjwmlhvHRut5imU145k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZpn2v6G; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786136436; c=relaxed/simple;
+	bh=IU/wOHAdOnn5q0LYcAHP4MyCAoqdgeUod1C2cMCd/Y4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=nCYxp1KiG9ZghrbLnSkzbuH3rnYfpIzIeeRI/Kli6sHVcACUg1L4+0HWCr9FKSKx7tHX+5NJ76iJKxSB+snL0yZ1ZwLQtr5m9DufXDCkAiXeKZWx+/uIde0I6i3bJptR8vdUJDvElgHPQWCHA5JPKhKe/FgQzUMs4zt58F9ED5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=R5uBYPU9; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZpn2v6G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7FC1F000E9;
-	Fri,  7 Aug 2026 17:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786123705;
-	bh=RYNg6VgBqbMhT3DRW9zf2CopE96jsw77BBtpsdA364k=;
-	h=To:Cc:Subject:From:In-Reply-To:References:Date;
-	b=FZpn2v6GQWa2wwwZg5tECIDlDt7mkSecyb+HGIbwLghQxDk6XUCqgjD/zouNAotXR
-	 Ca5+SGtUbDtE1tJgrLH9qk6P1Yx3SalKhjb29CF1KeYZLGAnJL83oAnLFaSR97WOLq
-	 Iqn7j/CU6XUQXZ3NlL9OXIcH1oHACOOQNVjmtVxBCTR52SGJNAJfuduxAQAXNWyEop
-	 WNh6CAjHv1IJb/yjIV6kGG3qBjZVS8CLKw/sBzhx58UZl+nsZ8v612XCw0DMwWZ9Tc
-	 z4KprcF/Xk9QYITqiwbsYI0anu3m3fMa5MqtW3Th0ALohvxTCvUEjyAGNWijlXDLX1
-	 aWEXB0pyOu6vA==
-To: Laurence Oberman <loberman@redhat.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,  Haiyang Zhang
- <haiyangz@microsoft.com>,  Wei Liu <wei.liu@kernel.org>,  Dexuan Cui
- <decui@microsoft.com>,  Long Li <longli@microsoft.com>,  "James E.J.
- Bottomley" <James.Bottomley@HansenPartnership.com>,  "Martin K. Petersen"
- <martin.petersen@oracle.com>,  linux-hyperv@vger.kernel.org,
-  linux-scsi@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scsi: storvsc: Support manual scans for all Hyper-V
- targets
-From: "Martin K. Petersen (Oracle)" <mkp@kernel.org>
-In-Reply-To: <20260723163743.1274830-1-loberman@redhat.com> (Laurence
-	Oberman's message of "Thu, 23 Jul 2026 12:37:43 -0400")
-Message-ID: <yq18q6h3kol.fsf@mail.kernel.org>
-References: <20260723163743.1274830-1-loberman@redhat.com>
-Date: Fri, 07 Aug 2026 13:28:24 -0400
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="R5uBYPU9"
+Received: by linux.microsoft.com (Postfix, from userid 1231)
+	id 2594A20B710C; Fri,  7 Aug 2026 14:00:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2594A20B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786136407;
+	bh=JuDkUjWqdq5JFucVLsaZYr2yfv0pLbVlmq39QqXO7xY=;
+	h=From:To:Subject:Date:From;
+	b=R5uBYPU94YZTZ3sjspm4sx81BNOP3HxGjJtt32rhTl4H33baCQmJrzkI492CKKjDW
+	 JW1TC9/IcjIsRDAESxCLi/gOGJdkp5pylD+i4FjyPQnufGTyNCaNz8oexHhWRZBl/9
+	 NJ0evOMkLzOxSdliLmxAaOSiKrYb0MtWGIvBU+EY=
+From: Aditya Garg <gargaditya@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	kotaranov@microsoft.com,
+	horms@kernel.org,
+	ernis@linux.microsoft.com,
+	dipayanroy@linux.microsoft.com,
+	shradhagupta@linux.microsoft.com,
+	kees@kernel.org,
+	sgeorgejohn@microsoft.com,
+	ssengar@linux.microsoft.com,
+	gargaditya@linux.microsoft.com,
+	gargaditya@microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next 0/2] net: mana: Avoid DMA queue allocation failure under memory fragmentation
+Date: Fri,  7 Aug 2026 13:56:34 -0700
+Message-ID: <20260807210002.1695263-1-gargaditya@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
+The MANA driver can fail to bring up its queues on systems with high
+memory utilization because every GDMA queue ring is allocated as a
+single dma_alloc_coherent() of the whole power-of-2 ring size. Under
+memory fragmentation these high-order allocations may fail, preventing
+the driver from creating queues when opening the interface, after a VF
+reset, or when reconfiguring channels, ring parameters or MTU.
 
-Laurence,
+Per-queue sizes that are problematic, with depth and size given as
+(default, max) over the ethtool ring settings:
 
-> The Fibre Channel transport topology created by storvsc exposes only
-> one dummy remote port per SCSI host. Its scsi_target_id is always
-> zero.
->
-> As a result, the FC transport user-scan path looks up the remote port
-> using target ID 0. It cannot initiate a scan for Target 1 or higher.
-> No SCSI command is therefore sent to Hyper-V when userspace explicitly
-> requests a scan of one of these targets.
+  ring                  entry  depth          size
+  ------------------------------------------------------------
+  TX completion queue   64 B   (256, 16384)   (16 KB, 1024 KB)
+  TX send queue         32 B   (256, 16384)   ( 8 KB,  512 KB)
+  RX completion queue   64 B   (1024, 8192)   (64 KB,  512 KB)
+  RX receive queue      32 B   (1024, 8192)   (32 KB,  256 KB)
+  event queue           16 B   2048 (fixed)   32 KB
 
-Applied to 7.3/scsi-staging, thanks!
+This series addresses the issue by:
+  1. Routing all CPU-side ring access through mana_gd_ring_ptr() and
+     mana_gd_ring_contig_avail(). On a contiguous ring these reduce to
+     simple arithmetic, so this patch is a pure refactor.
+  2. Falling back in mana_gd_alloc_memory() to a vector of scattered
+     order-0 coherent pages when the contiguous allocation fails. The
+     device sees the same page-list format either way, as
+     mana_gd_create_dma_region() already describes a ring as a list of
+     MANA_PAGE_SIZE addresses. The HW channel stays contiguous, as
+     advertising a scattered page list needs the HW channel itself.
+
+Throughput testing confirms no regression. Since the fallback only
+triggers under memory fragmentation, the scattered-page path was enabled
+unconditionally for all eligible GDMA queue rings during testing (iperf3,
+Gbit/s):
+
+                 Baseline    Patched     Patched
+  Connections   Contiguous  Contiguous  Scattered
+  -----------------------------------------------
+  1                  46.1        46.2       46.1
+  16                 182         182        182
+  32                 182         182        182
+  64                 182         182        182
+
+Aditya Garg (2):
+  net: mana: Route ring-buffer access through offset-based helpers
+  net: mana: Fall back to scattered pages for GDMA queues
+
+ .../net/ethernet/microsoft/mana/gdma_main.c   | 219 +++++++++++++++---
+ .../net/ethernet/microsoft/mana/hw_channel.c  |   2 +-
+ drivers/net/ethernet/microsoft/mana/mana_en.c |   3 +
+ include/net/mana/gdma.h                       |  19 +-
+ 4 files changed, 205 insertions(+), 38 deletions(-)
 
 -- 
-Martin K. Petersen
+2.43.0
+
