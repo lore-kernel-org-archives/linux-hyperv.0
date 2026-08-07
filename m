@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7576336920C
-	for <linux-hyperv@vger.kernel.org>; Fri,  7 Aug 2026 14:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F204937266E
+	for <linux-hyperv@vger.kernel.org>; Fri,  7 Aug 2026 14:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786111406; cv=none; b=aOCaZd8kUG4B1exTeSr5UeION3Yr776yIKy/ZuXf7+Vzru+AhQ0hXFsRKxeBWumguTFQMgbHUykFrPEagBiz6fSQVSiWf9gxtIVG3b9QCtE/UDGzwf6o3qx6cuDXZR6ayL8fzvGDdCSDYVcWAu9XzOvKxmpUUpMJ2PEDXpgwS6I=
+	t=1786112501; cv=none; b=hYGkzrjG0RLhFXjGUedgG2/d4BVLgpIsrQb7uXpSNBcOeeinwnNfCJR2j4papLb+Cc6fTRODei6fEWmq4+jaIcV7xMrA697qVTTiy6jH3i7Zu6VbsxyYNHERddqHPjZwt2kZKUwDadf5EWbMLZKjctUp841QysynA6H5bpYNL/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786111406; c=relaxed/simple;
-	bh=pZSkiNq609BFkvmW+k44UHOlvIEPlM02NsMvJtUr/08=;
+	s=arc-20240116; t=1786112501; c=relaxed/simple;
+	bh=rdkI4rXdKU7JttJEmaLBoQtGohol2Yl9rmZPeGpxYKU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=gAW/JtwsoHyVVpSuLyU3djMm5clRoz5edZsKzJFaVYeIyO1AuguDClUBW8fGTYrCtKWIwnlbyzqb60I177mWWYp84PrBSlC0xmAIp5CxQdKyf2xd1z0GUo8kB+oIelhhwrx5aNIV5aJPKqt5swRU2KRWPT9qa+8+1xy0LB8EsZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FDdOLZ5G; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=HyeDqfBS4upyci9Ih+PM/0VHmqfTLrukZSQ+CF0zZcjSjG6elxiC0JTTApgsjtUvDFHZ6kc8ADXuaVhd6VKkn4EHhRmSxeaRrhT/4/jImRacYq8bf5vrnYZ7cwNl+I1jxnd3g08d5wylRf3sW9Ila9yYWsU0Vg7GNl9korQOcS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKTDGQdW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FDdOLZ5G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174BD1F000E9;
-	Fri,  7 Aug 2026 14:03:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKTDGQdW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69F531F000E9;
+	Fri,  7 Aug 2026 14:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786111405;
-	bh=MOQjeBXn4WIQeVf3LBz66jmjva10YqXKPdLvx2Hv3ws=;
+	s=k20260515; t=1786112499;
+	bh=9Lcoln2HEQvkll+o1al5gKpbv1ZPY4ZTqLW8JTlNeKk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FDdOLZ5GXSXBMOUCp4XA/6qfTU73uuSqRlElShI038L7BrAkMZTEUeJCorl5+0JXG
-	 Tx/DE9AMPGlYqFvOKzBH2i8v/nOrSfn1uTn20GeeHkjX7ZQowjLuv9o0Os7wZQtBgY
-	 9u3RtpDRE1bLpm0yNh8vBzKnc5burXUu4oiD4lsM5qyu+7etQHZBT7+3wLhxu2JNA9
-	 GJxhsZWdgXN0bdtY5gPeE2/TAEykPFyOhrpa8fKNvQjHEFNkbsQA/VHfClaNf1N+hT
-	 KiNKvg6iZwUGKikFG9sh25WgDRL9q9p0EHDWUX4ZtNg+bmERd1PvtSO1nRw+w1iVxh
-	 jGiuVIYDUtXfA==
+	b=HKTDGQdWSfuKenwjENnzjQOdhabRAmW5rRVwkJmb52iR+jkJ0Lyb0IgzTfw43Dcjc
+	 9/LNYKaSkPH/AjUN1+rI0szz9/AeE0BuozyIyYBMHtHtVqkeP7WchwS2AHthcC3acw
+	 swFlQtyW2+FMR6ikLuycd0h1FnKy32ieVNibWyDjZC42zm05akxGhZQAFTKGvH6BB3
+	 w3VTGKRGubGjlpP/M21B86sEXDXRkCcY1YxJWzG9q2TLiiDF9V9mIYI6bDo/faAkwb
+	 ZTt1mZBnIo6eEkB3kgPwfSpj8NTQZo+onPlRlNlNHrxdmjVmtnnN4FKjitz4d/wx8N
+	 3r+MgMynV4Dcg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 01/13] mshv: add SEV-SNP UAPI definitions
+Subject: Re: [PATCH v1 03/13] mshv: add SEV-SNP isolated page hypercalls
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260807135134.303943-2-weh@linux.microsoft.com>
+In-Reply-To: <20260807135134.303943-4-weh@linux.microsoft.com>
 References: <20260807135134.303943-1-weh@linux.microsoft.com>
- <20260807135134.303943-2-weh@linux.microsoft.com>
+ <20260807135134.303943-4-weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Aug 2026 14:03:24 +0000
-Message-Id: <20260807140325.174BD1F000E9@smtp.kernel.org>
+Date: Fri, 07 Aug 2026 14:21:38 +0000
+Message-Id: <20260807142139.69F531F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,65 +46,91 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] The newly added UAPI structure `struct mshv_complete_isolated_impo=
-rt` embeds `union hv_partition_complete_isolated_import_data` directly by v=
-alue. However, this union is defined in `include/hyperv/hvhdk_mini.h`, whic=
-h is a kernel-internal header and not exported to userspace. Because usersp=
-ace headers cannot access this internal definition, the union evaluates to =
-an undeclared, incomplete type. Any userspace application including `<linux=
-/mshv.h>` will now fail to compile with a hard compiler error, completely b=
-reaking the UAPI.
+- [High] The `completed` variable is evaluated from `status` before the asy=
+nchronous completion handler updates it, leading to a stale completion coun=
+t and an infinite loop.
 --
 
---- Patch [1]: [PATCH v1 01/13] mshv: add SEV-SNP UAPI definitions ---
-commit 0c72e15c0e7fd5f724d97fa58e436ee572659cfa
+--- Patch [3]: [PATCH v1 03/13] mshv: add SEV-SNP isolated page hypercalls =
+---
+commit 3c19c21fc983589586a3386b97c714ce13aec72c
 Author: Wei Liu <wei.liu@kernel.org>
 
-mshv: add SEV-SNP UAPI definitions
+mshv: add SEV-SNP isolated page hypercalls
 
-This adds the MSHV UAPI and Hyper-V ABI definitions needed by the SEV-SNP
-partition ioctls. It includes structures for SNP isolation type, GPA=20
-host-access, isolated-page requests, and SEV control register definitions.
+Add helpers for importing isolated pages and completing isolated
+imports.  These are used by SEV-SNP guest launch flows to transfer
+isolated page state to the hypervisor.
 
-> diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-> index 32ff92b6342b2..4e7f3038f0c67 100644
-> --- a/include/uapi/linux/mshv.h
-> +++ b/include/uapi/linux/mshv.h
+> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_cal=
+l.c
+> index 48abe338c06f8..9ddc8dd73da7a 100644
+> --- a/drivers/hv/mshv_root_hv_call.c
+> +++ b/drivers/hv/mshv_root_hv_call.c
 [ ... ]
-> @@ -219,6 +220,55 @@ struct mshv_gpap_access_bitmap {
+> @@ -1010,6 +1014,99 @@ int hv_unmap_stats_page(enum hv_stats_object_type =
+type,
+>  }
+> =20
+>  #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+> +int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
+> +				  u64 num_pages,
+> +				  enum hv_isolated_page_type page_type,
+> +				  enum hv_isolated_page_size page_size,
+> +				  void (*completion_handler)(void *data,
+> +							     u64 *status),
+> +				  void *completion_data)
+> +{
 [ ... ]
-> +struct mshv_complete_isolated_import {
-> +	union hv_partition_complete_isolated_import_data import_data;
-> +};
+> +	while (remaining) {
+> +		rep_count =3D min_t(unsigned long, remaining,
+> +				  HV_ISOLATED_PAGE_BATCH_SIZE);
+> +
+> +		local_irq_save(flags);
+> +		input =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +		memset(input, 0, sizeof(*input));
+> +		input->partition_id =3D partition_id;
+> +		input->page_type =3D page_type;
+> +		input->page_size =3D page_size;
+> +		memcpy(input->page_number, gpa, rep_count * sizeof(*gpa));
+> +		status =3D hv_do_rep_hypercall(HVCALL_IMPORT_ISOLATED_PAGES,
+> +					     rep_count, 0, input, NULL);
+> +		local_irq_restore(flags);
+> +
+> +		completed =3D hv_repcomp(status);
+> +		if (hv_result(status) =3D=3D HV_STATUS_CALL_PENDING)
+> +			completion_handler(completion_data, &status);
 
 [Severity: High]
-Will this cause a compilation failure for userspace applications including
-<linux/mshv.h>?=20
+If the hypercall returns HV_STATUS_CALL_PENDING, the completion_handler upd=
+ates
+the status variable, but the completed variable was already evaluated from =
+the
+initial status.
 
-It appears union hv_partition_complete_isolated_import_data is defined in
-include/hyperv/hvhdk_mini.h, which is a kernel-internal header and not expo=
-rted
-to userspace.=20
+Could this lead to completed being 0 (or a stale value), which would then
+prevent gpa and remaining from advancing correctly?
 
-Because userspace headers cannot access this internal definition, embedding=
- the
-union directly by value here will evaluate to an undeclared, incomplete type
-for any userspace application trying to use the UAPI.
-
-[ ... ]
-> @@ -254,6 +304,11 @@ struct mshv_root_hvcall {
-[ ... ]
-> +#define MSHV_COMPLETE_ISOLATED_IMPORT	_IOW(MSHV_IOCTL, 0xF4, struct mshv=
-_complete_isolated_import)
+> +
+> +		if (!hv_result_success(status)) {
+> +			pr_err("%s: completed %llu of %llu, %s\n", __func__,
+> +			       num_pages - remaining, num_pages,
+> +			       hv_result_to_string(status));
+> +			return hv_result_to_errno(status);
+> +		}
+> +
+> +		gpa +=3D completed;
+> +		remaining -=3D completed;
 
 [Severity: High]
-Does this ioctl macro expansion also fail in userspace for the same reason?
+If completed is not updated after the completion handler executes, does this
+result in an infinite loop since remaining will not decrease?
 
-The _IOW macro implicitly requires the size of the incomplete type during
-expansion, which will also break compilation when the underlying struct rel=
-ies
-on the kernel-internal union.
+> +	}
+> +
+> +	return 0;
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260807135134.3039=
-43-1-weh@linux.microsoft.com?part=3D1
+43-1-weh@linux.microsoft.com?part=3D3
