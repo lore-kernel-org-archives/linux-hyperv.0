@@ -1,177 +1,204 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECE734E74B;
-	Sat,  8 Aug 2026 02:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F04A3C279B;
+	Sat,  8 Aug 2026 10:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786156491; cv=none; b=Ox5v1i+Dujc8+sXKZx5aGXil6NMIRkxGBqbJ73MmWaHZWWPBX2ELMOYzqqgVrszGuKoHt/3R6JhLXiMnFndYJEWcgz72cfwcYO/Jqa2VIi2nYTX8etAJZZJoS4SNHlYn+F7fwx0bhXbYQ1oybxjmlpYemNWEj4XaZg3Z+dmdPxc=
+	t=1786185405; cv=none; b=JyEHaV0cpXqF9c7yT+HeBPBMp8/ZUNTTKvtp/2TBX27xgkiT/8ObG7vkeLJCCixN33piNbWisKHupYRBA1TG0qsx3d76DHF1NFPBCXxZzHJO9IBHR+U4jAcbSX6R/2KI2KHiPUWrjY4dzITFUHIZ01vGDn9a1zGsqXuY9BslStc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786156491; c=relaxed/simple;
-	bh=261V3UhfgEsljTYdAaXPrPFK1WulRle5IvACDlIm5C0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gkcdF2dcxJtK/08DHDn1OLguGcEjGiUWemHjEld7oxH+i5hLcbu8r7SVOwjc6uv6ZVgMbYnXNmmekrlyPunceIeqZu2loMWOOuwb2X6wpv7RpZI0nl+tG5n13qkVFU1z+cSCEgcU157/OUkpIACo5aVHBbRspUZWA0SWO6fPEpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id 55FDF20B710C; Fri,  7 Aug 2026 19:34:26 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 55FDF20B710C
-From: Long Li <longli@microsoft.com>
-To: Long Li <longli@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	shradhagupta@linux.microsoft.com,
-	Simon Horman <horms@kernel.org>,
-	ernis@linux.microsoft.com,
-	stephen@networkplumber.org,
-	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>,
-	Kees Cook <kees@kernel.org>,
-	Shachar Raindel <shacharr@microsoft.com>
-Cc: netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net v4 7/7] net: mana: keep max_num_cqs immutable once cq_table is allocated
-Date: Fri,  7 Aug 2026 19:34:16 -0700
-Message-ID: <20260808023417.1746886-8-longli@microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260803234355.636038-1-longli@microsoft.com>
-References: <20260803234355.636038-1-longli@microsoft.com>
+	s=arc-20240116; t=1786185405; c=relaxed/simple;
+	bh=RBMyDlI9bYhhju6SazkJ74+FPw4KUUTT3qdlDDFzYVg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
+	 MIME-Version; b=oeLp8FTfMy0ee4u1jLZiLeN4Kmu1oyCFqjzhzKX57nWWHH0V+nzxLNC+X2w10kVKeVxWCsi20t3dLX3yRMLV8pYwi/eqU3ckaqyaUI+NPpwp7YC6ruHBgJQBpg2fPNmnSsrcjxL9EzzFOBJAenQL7gNAgsvfGyNBIsUIMjOqEyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MiHbwmDI; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MiHbwmDI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:References;
+	bh=mrC+xOT3bpITTMAExjiGGBzjrg3sW5ihiujwcUvw5oE=; b=MiHbwmDIzYwEe6BwoNHGeNjHq7
+	f65veJY5YjTHd83AKNHa4qlLhl2EUZpbVBaKqJiRZbtmu20uTY06o1B9vUPmy9ooa0TSwVbO5SmyB
+	Xy0GLrvdIYt0ZVf9LjZ9Y5CZGlIdKAAMhY3vBTHKxjBRud+sPw9U/bCbRI6kAK+1MRJ14Lqdn74XU
+	imEjrXxYVgSdeKhaTEfdqtWfdcNVAMSL8GeyMQWoCow4VfoKrqiLLHSIhmsGgpzr51rHAAQTat189
+	ObgOshNFcjyaEjVmhcISSqs8Yd6VuRoErbndkGqxAkVjftfRavz/HKtgRiucilnU6E14iBEd/ZZjN
+	z8nvzx4A==;
+Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wsePo-00000006Fn4-0KfB;
+	Sat, 08 Aug 2026 10:36:32 +0000
+Message-ID: <f00c9f7af1d24f833dbca0958e54cae989994ae1.camel@infradead.org>
+Subject: Re: [PATCH v6 01/51] x86/apic: Provide helpers to set local APIC
+ timer frequency in hz and khz
+From: David Woodhouse <dwmw2@infradead.org>
+To: seanjc@google.com
+Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, 	longli@microsoft.com, ajay.kaher@broadcom.com,
+ alexey.makhalov@broadcom.com, 	jan.kiszka@siemens.com,
+ dave.hansen@linux.intel.com, luto@kernel.org, 	peterz@infradead.org,
+ jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
+	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org
+Date: Sat, 08 Aug 2026 11:36:30 +0100
+In-Reply-To: <20260806233609.212337-2-seanjc@google.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-+oD9ig9rliifEw/S0oU7"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-mana_hwc_init_event_handler() applied every HWC_INIT_DATA_MAX_NUM_CQS
-event straight to gc->max_num_cqs.  That handler stays live for the whole
-channel lifetime -- it also services runtime reconfig and link events --
-so it is not confined to the initial bootstrap.
 
-gc->cq_table is allocated once, sized to the max_num_cqs seen at bootstrap,
-and every reader (mana_gd_process_eqe(), mana_create_rxq() and
-mana_create_txq()) bounds-checks a CQ index against gc->max_num_cqs before
-indexing gc->cq_table.  A device -- or a malicious host in a confidential
-VM -- that sends a later HWC_INIT_DATA_MAX_NUM_CQS with a larger value
-inflates the bound past the allocation.  This includes an event timed to
-land while mana_hwc_establish_channel() is between reading the count and
-publishing cq_table.  A subsequent out-of-range CQ id then passes the
-bounds check and indexes cq_table out of bounds: an out-of-bounds read in
-the EQ fast path, or an out-of-bounds pointer write in
-mana_create_rxq()/mana_create_txq(), corrupting guest kernel memory.
+--=-+oD9ig9rliifEw/S0oU7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Stop writing gc->max_num_cqs from the event handler.  Store the reported
-value in hwc_init_max_num_cqs, and let mana_hwc_establish_channel() commit
-it to gc->max_num_cqs once, from the same snapshot that sizes cq_table.
-The handler store uses WRITE_ONCE() and the establish-time read uses
-READ_ONCE(), since the two run concurrently (EQ interrupt vs process
-context); the single, non-reloadable read is what guarantees the value
-that sizes cq_table is the same one published as the bound, even across
-the sleeping vcalloc().  gc->max_num_cqs then always matches the
-allocation and no later event can change the bound after the table is
-published, so the existing bounds checks are sufficient.
+On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
+> Add and use APIs to set the local APIC timer period (given a frequency)
+> instead of open coding the subtle HZ math in all external callers, and
+> make lapic_timer_period local to apic.c.  Provide APIs to specify the
+> frequency in both hertz and kilohertz so that Hyper-V and VMware code
+> aren't forced to lose precision.
+>
+> Opportunistically take the frequency as a u64 to harden against the
+> possibility that the frequency (in Khz) is greater than 4294967, i.e. if
+> the APIC timer runs at ~4.29 GHz.  As pointed out by Sashiko,
+> 4294968 * 1000 =3D=3D 0x1_000002c0, and thus a Khz period of 4294968 woul=
+d
+> silently overflow the 32-bit unsigned integer used by most callers.
+>
+> Print out who set the period to maintain equivalent Hyper-V and VMware
+> functionality, and in general to make it easier to triage/debug issues.
+>
+> Cc: Michael Kelley <mhklinux@outlook.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
 
-Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
-Signed-off-by: Long Li <longli@microsoft.com>
----
-Changes in v4:
- - New patch in v4, split out of the v3 teardown-safety work in
-   response to review: gc->max_num_cqs is set once when cq_table is
-   allocated and never reset, so a spoofed post-init HWC event cannot
-   inflate the bound past the allocation.
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
- .../net/ethernet/microsoft/mana/hw_channel.c  | 34 ++++++++++++++++---
- include/net/mana/hw_channel.h                 |  1 +
- 2 files changed, 30 insertions(+), 5 deletions(-)
+--=-+oD9ig9rliifEw/S0oU7
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 2f0dae353955..03b5e2f02e35 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -246,7 +246,15 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
- 			break;
- 
- 		case HWC_INIT_DATA_MAX_NUM_CQS:
--			gd->gdma_context->max_num_cqs = val;
-+			/* Store, don't apply: mana_hwc_establish_channel()
-+			 * commits this to gc->max_num_cqs once, together
-+			 * with sizing cq_table, so a spoofed post-init event
-+			 * cannot inflate the bound past the allocation.
-+			 * WRITE_ONCE() pairs with the READ_ONCE() there:
-+			 * this store runs in EQ interrupt context,
-+			 * concurrently with that process-context read.
-+			 */
-+			WRITE_ONCE(hwc->hwc_init_max_num_cqs, val);
- 			break;
- 
- 		case HWC_INIT_DATA_PDID:
-@@ -852,6 +860,8 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
- 	struct gdma_queue *eq = hwc->cq->gdma_eq;
- 	struct gdma_queue *cq = hwc->cq->gdma_cq;
- 	struct gdma_queue __rcu **cq_table;
-+	u32 num_cqs;
-+	u32 cq_id;
- 	int err;
- 
- 	init_completion(&hwc->hwc_init_eqe_comp);
-@@ -881,15 +891,29 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
- 	*max_req_msg_size = hwc->hwc_init_max_req_msg_size;
- 	*max_resp_msg_size = hwc->hwc_init_max_resp_msg_size;
- 
--	/* Both were set in mana_hwc_init_event_handler(). */
--	if (WARN_ON(cq->id >= gc->max_num_cqs))
-+	/* Snapshot the device-reported CQ count and CQ id into locals and
-+	 * use only the locals below, so the same value that sizes cq_table
-+	 * also bounds and indexes it -- even across the sleeping vcalloc().
-+	 * Both fields are written by mana_hwc_init_event_handler() from EQ
-+	 * interrupt context: hwc_init_max_num_cqs under WRITE_ONCE() (paired
-+	 * here), and cq->id as an ordinary store.  READ_ONCE() keeps each
-+	 * read tear-free and, crucially, non-reloadable, so a spoofed
-+	 * post-init event cannot make the WARN_ON() pass against one value
-+	 * while the allocation or the index uses another.
-+	 */
-+	num_cqs = READ_ONCE(hwc->hwc_init_max_num_cqs);
-+	cq_id = READ_ONCE(cq->id);
-+
-+	if (WARN_ON(cq_id >= num_cqs))
- 		return -EPROTO;
- 
--	cq_table = vcalloc(gc->max_num_cqs, sizeof(*cq_table));
-+	cq_table = vcalloc(num_cqs, sizeof(*cq_table));
- 	if (!cq_table)
- 		return -ENOMEM;
- 
--	rcu_assign_pointer(cq_table[cq->id], cq);
-+	gc->max_num_cqs = num_cqs;
-+
-+	rcu_assign_pointer(cq_table[cq_id], cq);
- 	/* Publish the fully-initialised table last; pairs with the
- 	 * rcu_dereference(gc->cq_table) in mana_gd_process_eqe().
- 	 */
-diff --git a/include/net/mana/hw_channel.h b/include/net/mana/hw_channel.h
-index 23bf83e2a3ec..c275150baf49 100644
---- a/include/net/mana/hw_channel.h
-+++ b/include/net/mana/hw_channel.h
-@@ -203,6 +203,7 @@ struct hw_channel_context {
- 	u16 hwc_init_q_depth_max;
- 	u32 hwc_init_max_req_msg_size;
- 	u32 hwc_init_max_resp_msg_size;
-+	u32 hwc_init_max_num_cqs;
- 
- 	struct completion hwc_init_eqe_comp;
- 
--- 
-2.43.0
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+KYW1bIAgIYcNvvK8GmKR4aQAAAAAAAA=
 
+
+--=-+oD9ig9rliifEw/S0oU7--
