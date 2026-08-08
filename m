@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F03BA3D;
-	Sat,  8 Aug 2026 15:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212421E2834;
+	Sat,  8 Aug 2026 15:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786201542; cv=none; b=LDr5dzzr1LFTkaH7eA5TLV+I6VBG5AbRgjNIymmWgfJf206o/7q78tIFFKcKAmnt6gqZFBDKShcqn869u8ZHw4RMxR9tiAOwrsQF5SDb3bzsuUQvsNcTpfTe2GoxY00r6CL0FAlAoDQ8QeRxin5mB0KuLJTwSpJiekAfkGHMswo=
+	t=1786201624; cv=none; b=W3dCLiOqbvaBscdwhfaxJo9se0StenWqQWc1nxnC3q7ZBZ6nX9kqPhkO0ZmD7MFa1nQPpQMHJGcCU3Sy/X3akpXFvTvejnd6DYxUVuy28Yoaq6VzSVTSrZOSw0YXbdoLkFVSSYmfp6ZLjtbnXVmWGeVOBQf+E8kClpwVHLmu7tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786201542; c=relaxed/simple;
-	bh=ooQqkTBP2aw581qnakN5t2SCd2AjIQSVpOqD3UV1JgI=;
+	s=arc-20240116; t=1786201624; c=relaxed/simple;
+	bh=Fbbn9MQ4G6MUWNu9/+/GjCMrKWLmyryuw2S3ABmDA6I=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=S3SwTZlEI6SaBuJujBSvT+VQ75VKHaF58WBJxt31T50TFuIXa4DG/swOvcpvWx5loJOC5l0BNPddZxaiKrll3hxwWxBOV0j1siv4q+nrP09ccZSyAD+LfwRzlU3LZL91n1h00Pr7cEQTdfVQ8OwasxvIpiyDJM1Lk8/Qt+vIboM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hlYPBpot; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=LdDh4hMZoT4XjhAkyOlzj/Qf23Zlp4hS1st85+Q5kzoflOXTPMv6NyeWPiMVsiQKnkC6fvFm28ehXx69TTMlgIGqpgLoKRGYG1Fq5yvEG1NwzT/awyTyIEApsIXUxNno3wLIDsTaAdTP0X7uammfSBzH2N7DSO4tkXWMg+LX334=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YoP6gRks; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hlYPBpot"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YoP6gRks"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=k+OamkYrv2Q/1Mc6CsMtTvPptfqZvc3HFc+EwxszCfc=; b=hlYPBpotHaB95aCGdAYb8rWrKG
-	KNI9+ZVShJ4Ay6zxwsOUpNJWjPvdGkEG9NwAn5zoMv/eGYSvR8AsXsfffEJnoQQKlLgd8Qnqa+OuU
-	mNBgEL6qPs8Sy5mGvzbmNMGWGa5UTCuk+md58+H01r5jM5AK1pWT0DaOtuNRDOHr73p7f1P0IZ0M+
-	o7WyiBkfKf5TLyq50c7Vf+G/sgGEej2IoI5tPmWAxAiqI0RBo5N6/54mpQLYJZRAVwIPTw6oNahu9
-	5zcqtF1+uci6tRLFYlZNAc25hy+I4btFu/um7mbNPifcJ2HzQC9bkx4VrQuxV6KOmh0d9aHxfdQv7
-	GcrajjZA==;
+	bh=5/jyAha6D+U5zzU3W+cCpJ3j4Z4I6ySL2lxtV4bdMdQ=; b=YoP6gRksn/p59tVjUCAEqmph19
+	weP9rQo8AlW5WV2KQS0n5f4YHgiz2Pl+8aPdOGfzFhagy5y5Ssii1oWx+2ScxbgznxW9qpWhhA/0A
+	ajwu5drZGj+3XNpCbCT46fXxUbrOlkD2uJ83sZVbE1SzC7/Di1WJW6k7VapxZ+2HdMQAaQlznVIEV
+	+UQAWE1PdzjUoASLyv+2+mTRbnshLC2mqyc36EQJN0F4qjxxBpnPX2O1viAXFperEWI4HRTjeTjR6
+	xIeK1PAAwGivwf9G5AboB23MahXCwnXhFTAhLz7GC1wb64934IM9q5kZI67h4UKuWxz1s50LqEWAp
+	oaelbJ3g==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsicA-00000006ZIm-2rcE;
-	Sat, 08 Aug 2026 15:05:34 +0000
-Message-ID: <91c9ca8c1ab7f3facc12fd7a033d79254d4a181d.camel@infradead.org>
-Subject: Re: [PATCH v6 19/51] x86/kvmclock: Drop dead check on TSC being
- unstable during kvmclock_init()
+	id 1wsidV-00000006ZMH-1xgd;
+	Sat, 08 Aug 2026 15:06:57 +0000
+Message-ID: <908a4fd0ec4498c907decfd105e1662fb4ce19eb.camel@infradead.org>
+Subject: Re: [PATCH v6 24/51] x86/kvm: Get CPU base frequency from CPUID
+ when it's available
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -45,10 +45,10 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
 	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
 	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 16:05:33 +0100
-In-Reply-To: <20260806233609.212337-20-seanjc@google.com>
+Date: Sat, 08 Aug 2026 16:06:56 +0100
+In-Reply-To: <20260806233609.212337-25-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-jL4BIGsiNKeXF0OKBwg7"
+	boundary="=-5qVG4UC9E8Q5nQrvV8Pq"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,40 +59,25 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-jL4BIGsiNKeXF0OKBwg7
+--=-5qVG4UC9E8Q5nQrvV8Pq
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> As pointed out by Sashiko[*], kvmclock_init() runs before __setup() and
-> thus before notsc_setup() or tsc_setup() can mark the TSC unstable.
-> kvmclock_init() also runs well before tsc_init(), and even before
-> tsc_early_init().  Simply delete the check, as it's been dead code since
-> it was introduced.
+> If CPUID.0x16 is present and valid, use the CPU frequency provided by
+> CPUID instead of assuming that the virtual CPU runs at the same
+> frequency as TSC and/or kvmclock.  Back before constant TSCs were a
+> thing, treating the TSC and CPU frequencies as one and the same was
+> somewhat reasonable, but now it's nonsensical, especially if the
+> hypervisor explicitly enumerates the CPU frequency.
 >
-> Note, odds are good the check_tsc_unstable() call was copied from Xen's
-> xen_time_init()+xen_tsc_safe_clocksource() logic (as so much of KVM's PV
-> code was).  However, xen_time_init() runs via x86_init.timers.timer_init(=
-),
-> which is invoke from x86_late_time_init(), and thus after params have bee=
-n
-> parsed.
->
-> Alternatively, kvmclock could register itself later on, or tsc_setup()
-> could be parsed as an early param.  Given that there's zero evidence ther=
-e
-> was any meaningful intent or need to actually check for an unstable TSC,
-> go with the simplest option.
->
-> Fixes: 7539b174aef4 ("x86: kvmguest: use TSC clocksource if invariant TSC=
- is exposed")
-> Link: https://lore.kernel.org/all/20260529181213.0B27A1F00893@smtp.kernel=
-.org [*]
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
+
+I still don't think I care about Sashiko's complaint.
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-jL4BIGsiNKeXF0OKBwg7
+--=-5qVG4UC9E8Q5nQrvV8Pq
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -190,22 +175,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNTA1MzNaMC8GCSqGSIb3DQEJBDEiBCBPg/28/nMAA7kD8KB7YWidZV5ltXud
-WC5ifsuEkfezqjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNTA2NTZaMC8GCSqGSIb3DQEJBDEiBCAkPGP3r5uT4tS4OGDg5LaRCyG2yz/P
+/Lwudtzg4ZoebTCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIA0VHY3rUJsG/wBPTSPREp9yqeyqejmyR/heT+mqB8BWh225fhd04z
-ioB0PkU7vEaPfZcTY/8jq/iJWAkLqQrFJrkPoZOdQ0ahcn5xe8H+dPFK8qaZ93V2rKJ1wIl9/Uxi
-bsJs3B2GFpvGnsppMORG5oYNiqz1VZcT6o40tKq5Z5UyehSaMmb5ZBRdq4EMo7dgF2WpAlLllQsm
-aM5GYWUhFjUMD0MGY5HWWLwL08otRfdVO+QrMGgxV6Kq3I4VknD5cVHj9AWbWFWoQMfurpoL53Ua
-ggqemoRyZCctjEMwcGa0mldjBFzt7O44GEqcrQj/sulmDwZT4r7vsB2aR+RdgeMqODtpUSFrfCKN
-y1FGIIY4ya0vyUZ7wnNj9Om5iTKEa/mCTvWUEzA/blotqYzgXQTEPekqB7y/fDgzvFW/Y3AnU+v5
-srizsBxsxt9SBKLre1D3DFheyAM0hqwMONtqf+udkfLTYx46gveIE9diCSUlNWXMb8AQb8e/4OU1
-81mzeXpMe4DHVsd0veZZ+/DQNa6gnh7qnDzvWln7ZE4OPUDxIt6/ZPWFoUUDVHwdAl0fQAgM5E3Y
-v+BY9BVoViYVBRC69H0YKScpNOOF00/QgKLRpGafit9TWGdrVcJ5YS9V3YXkiahKAAyi4aNV4Eqb
-ArTRJFANS1EAwPtGmF7Q3zUAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAuRtAu48d3cDEH8Yyruawqxjo+2bBjXqiN17kaxj+u6IcLAW0Nrdo
+nzxRSU7g63188lVFEYlyVH1mR8e/jnhuLNbISNodetQLsVn48QsKDnvjTf03Qg8EfWMW2Q9XPflg
+ujjMSLOjY+oy5TCeXl1MiYwiYhOnWAMOikQybdXiN4yKyu8d7Gkydo8xr8ru8/a0TF2KKhfu3I1d
+2xkI268NxH6+Cv9y5+bGCHzpe9uLgPsEbl59gRqxfxGFniNgDb1s9nmrA0sHNkZ8USM/MDh/KsrM
+qWJWvxLIurJ+Xn7Y9irqlMbA+JP7v6yMYDH2QAHMvxVpw4iaIo0L7UCAFb37/HI6YK7Trdk1GJgF
+HAshq0ZDzPYkkNFl3HBbQldIf4Jy3Eu8QiizlbiiDOvp4HqKCgS0bnBtcjHtx86Ord4r/mzm04qY
+8HDk7icEUoMyxTMJlntkJCEtLvBfQ0SkEACFQmxcXDqaI/EqUzt4YuNYdo7Tp2GAeCyYIDdDMI4H
+ELDUg1Q+jdabA45cKulihQLMEC/5aOkrJGZaPeSwx1uueapFNBUUHdSwIMeXuUdrjVm9IcLgum3c
+YfU7Cd9T4E0dqkggIiLcvkwBSeKK4Ev3lDN6cNSSNzRRQbWp8aMqd6eIh5r9zVWMgsJwnB0UEjBs
+snTppZI8KQqD0ALD+ClLQUYAAAAAAAA=
 
 
---=-jL4BIGsiNKeXF0OKBwg7--
+--=-5qVG4UC9E8Q5nQrvV8Pq--
