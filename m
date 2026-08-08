@@ -1,109 +1,84 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEA43F23DB
-	for <linux-hyperv@vger.kernel.org>; Fri,  7 Aug 2026 23:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB3A1D61BC;
+	Sat,  8 Aug 2026 01:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786144440; cv=none; b=Rl1EF8UidOebHbtsGkel5g0D0vY3ITFjuvfIR+1kfuad7RzLedIlPWV33J6dT4+JDtoT0VU49AEzhOikjvl6nFlJE+ni1d20xbY7Ih4P0kIjZkOYTcsibGrbtynDVfUIkDHm9FZxaa+Ej82Iu1RiTqFKpF74M+CVkiNHt+sgWhg=
+	t=1786153256; cv=none; b=iXMGBWZMEVYkrOMPVdTyorjKr7oF2WMQDJo7jGfSo/LpABAbJQJqGmcjcEm3gE5vaSRoTF2qk3zIV9KhtOODxgPPfiNDOr50+I+8VyH7H5NSx6f7Rei8V4MnhJNRc6tg1z8WSWDKmpHmFODyWUh8Xqr3vSyluFSttHYP81k4ID8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786144440; c=relaxed/simple;
-	bh=tqUjXiHomX+VrKleMFQsfMOb8MiW4dZzgPZl+5IWgtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c926vAVxdKKIc/hRi7M39wxNTvNpmpBTimlRmjPdB0+UJxLb+2u3e2rkMibrTvA0ie5vjME74hIp0nao1jQaJa4QZBwkZ2+3wQqoPvX8QyW+K6BFIX4/a+49R//0qYOp9ROCsTBjg8PjP7rfotm30GxjEFK668wbhg+etoxlp8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=XM9syh0g; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1786153256; c=relaxed/simple;
+	bh=4A94kzJ2MRWi1gSe76j6gFHh3DmsFJsVRSxq78BfUQw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=pmEULNA3W0AofktO34EcDK7bVhyFV/4kBgEAI1zaVkpGSU49FRlQzQeghX9u0WTPbHk1SqsfVr4yRMLdOmaqJu9aLmsyR2eTipAnOxvwH9Hzy7irJmQIRchHTSNLjS9C6pF+Irj/aGWPgoqOd0MxVeY31gzxUObZoBs8FSGj2q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2YfOh1c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XM9syh0g"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c04bf4711so903531cf.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 07 Aug 2026 16:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1786144438; x=1786749238; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tqUjXiHomX+VrKleMFQsfMOb8MiW4dZzgPZl+5IWgtk=;
-        b=XM9syh0g7YijndTABQ0Uj7uoscky6+Y1s3Oh5oNH7LHDnmSkfMTJMDPqstPd23mhwR
-         cdSfvBontzP074JnhY3vrp5mpyDrT5a1vDH5DnRVYw7pVwvowAIQndBTStKo35nXmjwe
-         4GHNfSYW/TKuDUTR78TollixPB06XXR+ugEDtYnROYmH00XMTQAr+8ZCRxAloIMSlC7v
-         eq2vRaltp3UyNVNIQrA1NcZmpE4SrqSJXhpv9sj4tfVmDIU5VFs1YP58tlI150NTqleY
-         obukpD5sADci/gjtbwYBHZ/hFUYXS52xb7qjnclcTizgSJoiD+tcxzCvyqqPCA+E39OC
-         R4qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786144438; x=1786749238;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tqUjXiHomX+VrKleMFQsfMOb8MiW4dZzgPZl+5IWgtk=;
-        b=S3bYTOzhc0EjsikwORFn19k4DfT0hjELUkNy3ZqecOgLXDrrx7vWvN7aqMUnnK0TXG
-         5bJ33xy8wxa1SVR+pDDyomw1edeMNaz725R49veIJS/q6Ss3H3CwQf8Gl9aedsNeSM42
-         DMYhn+N++MgfbxibG6b+IQbfvt2n49aHJFhLgbeFRs1fTfrkHEIRAeIbPpKTIi0rWxk7
-         wqRgYeGhCsJgyjClfZIvc6gSwPN0tlBPBzFvLzhGmlcMjDupTdu9aaaT6H3xHbtqa1gB
-         lgFdw/4/y7NTWoYs/5LkxtXDc6dxQ75K/lZMTXYOVIklmrFYWEV2E7iL9bFKGDaVfOUF
-         mxqA==
-X-Forwarded-Encrypted: i=1; AHgh+RoAJ/TWjq03ePMwYxKz6GO2lucTID4lBHb9LzKs48d5Qcw6/c0LrbSd9/tVsOahcww92o3MKgezx/ndNqU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2oia3QfXlboPjddF/TmwTZcom42Ce8d9f3LAITm6aXpjESofO
-	0x3x0uELmvc3eoeWzVUYZLBqPr/CHM2fdsdJOCKiNSvqjwklG/5oOpo1DzDGz8Xmg8Q=
-X-Gm-Gg: AR+sD10oReaBEDvG7bb5Tfl4vHNI9Cx4slPItBYEl8UVK7WTrOWW5BVFiZq+dxUfqLs
-	ZngUwCwxtZ0x99HidOaWVAQWqZHhRRN1bkKKf738SfuaRntWx5Hx1FBQlfAA01SoH0aJ8MbPcJG
-	W6g8NNMdG7CGyGKRp7U6PKDyD2UzYaZb+k24mEyb24ZWZdi/qucSWGKLQ/1/w/x9/qnGedGij+f
-	FWiYkrx9UWudsVN7kX0FdIxGernArtXz0WZXfIHs2lf0GeAukgX7rvysZHcWK+BFUr4ZmKNktZY
-	AvTQR04usiCJwpbFHArPhLutS5r/SJSE/5XC5/AECXUVCwp6qcPv0dLEOBAsrCFe4iV6t6Y9GUv
-	U4hK1YFfEqkUDldHK0MnC0GDYNuG03EmxrESgmSBZbhvkliHT/GUN++KowtFiVOKQXy0d5/sbYm
-	eBgDMvqK6yrItK6E2E/Cdue0S3pH04DiBLYUOYewk=
-X-Received: by 2002:a05:622a:4c9:b0:51a:1651:b796 with SMTP id d75a77b69052e-52ce6188478mr291017851cf.29.1786144437788;
-        Fri, 07 Aug 2026 16:13:57 -0700 (PDT)
-Received: from ziepe.ca ([142.166.156.215])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a918db45sm19297086d6.4.2026.08.07.16.13.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 16:13:57 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wsTlE-00000001Hhl-2cyu;
-	Fri, 07 Aug 2026 20:13:56 -0300
-Date: Fri, 7 Aug 2026 20:13:56 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Konstantin Taranov <kotaranov@microsoft.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"leon@kernel.org" <leon@kernel.org>, Long Li <longli@microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH rdma-next] RDMA/mana_ib: Retain create CQ flags field name
-Message-ID: <20260807231356.GM200537@ziepe.ca>
-References: <20260731091041.2250897-1-jiri@resnulli.us>
- <DU8PR83MB0975547820CBB956D4EFFE57B4C82@DU8PR83MB0975.EURPRD83.prod.outlook.com>
- <anCBtLSxn8TtFcSz@FV6GYCPJ69>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2YfOh1c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36301F000E9;
+	Sat,  8 Aug 2026 01:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786153254;
+	bh=IHIXuXRdIPTKhEay8m4BmOZHs4ncZ7z4Du8deIqZBPY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=J2YfOh1cnJ3t4el4LPxlspRvz9ZWe0Cjx9YIjsN4BSSg7Z0mcYFyvy8drqU3vXT2g
+	 Qq8gLLB+7CKYpcXwX18S11a2lw5xCA4yDnJ1HDON5hHTQ3XAWVJIGLwCCJ2IIEBkop
+	 Kkw239gUhMSFYXiguFTr5e7PfAdm11eDu2tENUUQqs/NCXoq7UEnjaw1rfJgnmwxB1
+	 5AAhyhBbd2xSOUzKDoosf4p+GkBLkUvfzWIMHw7+Y5PVR0EDbjm1IRO7GitTg6Im1H
+	 x9mIFoMRAtBCx2aWnFWSkx1aqGKNJsbJIwtW3Ao3K4+wK8mobDi1KjgF+UPY3XJTZ2
+	 cMoDI4yRwiNPg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5694F380CEE4;
+	Sat,  8 Aug 2026 01:40:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anCBtLSxn8TtFcSz@FV6GYCPJ69>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3] net: mana: Extend RX CQE coalescing up to 8
+ packets
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178615321289.2493713.8444046585409083595.git-patchwork-notify@kernel.org>
+Date: Sat, 08 Aug 2026 01:40:12 +0000
+References: <20260805185404.1052177-1-haiyangz@linux.microsoft.com>
+In-Reply-To: <20260805185404.1052177-1-haiyangz@linux.microsoft.com>
+To: Haiyang Zhang <haiyangz@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, kys@microsoft.com,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ longli@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ kotaranov@microsoft.com, horms@kernel.org, ernis@linux.microsoft.com,
+ dipayanroy@linux.microsoft.com, gargaditya@linux.microsoft.com,
+ jacob.e.keller@intel.com, leitao@debian.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, paulros@microsoft.com
 
-On Mon, Aug 03, 2026 at 01:59:07PM +0200, Jiri Pirko wrote:
+Hello:
 
-> That is not doable in UAPI. Some userspace app, like rdma-core in
-> this case, might use it and rename breaks the compilation. Some other
-> app you don't know about may use it.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Linus actualy had some comments on this once (which I will never be
-able to find I guess), but we broadly follow what he outlined. The
-userspace has copies of the kernel headers embedded in it. When the
-kernel headers change the user space updates it's copy and fixes any
-build breaks.
+On Wed,  5 Aug 2026 11:53:51 -0700 you wrote:
+> From: Haiyang Zhang <haiyangz@microsoft.com>
+> 
+> To support up to 8 packets per CQE, update related CQE processing
+> code and structures.
+> Update ethtool handlers to set this feature.
+> Update per queue stat to show the coalesced CQE counters.
+> This feature is supported on NIC hardware showing the relevant
+> PF flag.
+> 
+> [...]
 
-So long as the build breaks are fixable, and don't change the ABI, it
-is fine.
+Here is the summary with links:
+  - [net-next,v3] net: mana: Extend RX CQE coalescing up to 8 packets
+    https://git.kernel.org/netdev/net-next/c/55d20f50a221
 
-Many parts of the kernel work like this because userspace is not
-supposed to directly use the kernel headers themselves, they are
-supposed to be sanitized by glibc or some other helper library.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-There are a few places that don't work like this of course..
 
-Jason
