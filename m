@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFEB414DCD;
-	Sat,  8 Aug 2026 14:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2B13FD14F;
+	Sat,  8 Aug 2026 14:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786200937; cv=none; b=TukfQYh0z+nK7G3t/qTb8Lc3LyiSxYEOT4tJfqO8CucZlHH8WKRBtq987e3Or9pd4jMYHh75e0kHTZHBjvdZI1xAWKweKl8N3ItzSRLuTOlqGCyAleEjqEuLzbq2yVvW/JEA7psQ4ExGp5fFQ8YKjaRmcDMpsfZolS17YSlu4XU=
+	t=1786201054; cv=none; b=U6lg2jf/HhRwAUKhjeVBy2nm4paGojZOkiQ/EFSNtRwdDmJ5q+hTF0KtWkBnhzfOIzL6nRUQQv6E2tI3r0MBz3Yw9UBMjohZYXPN+S3dEM6WVbBs1cgoOwCRGCdvJ9AHBvyOW+UJW9762DuN2JSXX3ORNSAnr2uD5P6HZuzVnoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786200937; c=relaxed/simple;
-	bh=dk6gJos6gseCqNPJbsTJ1LWDySvvajaUB9xRGdf2ICc=;
+	s=arc-20240116; t=1786201054; c=relaxed/simple;
+	bh=LIGJEcaRXqr7wCUf27z+4NhKupGX0RJq33R3TeaV9EA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=KCXL+ZlbTtZTi4dVkb7v3PK0SNM1CiPnlUoxenBmgx9Y+5fkeJW1c+5MP0VxDnuw/TQJ4ixOXqUwc7B3+cqmk8CVCnvVNOMPIc29frGIchsMLTxPejxJ5zcMGQr+Ghh3GZz9q2wk0prrmWJDVcGRLssNErzz1n8cp6kObSsmOgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qJnOvhH/; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=h4nFNP9QdnijGV/80FJ3VQQYmpQj4ehNSjz5rIOjBG/YAEmxTlAcF1ugjUGf0BurqOUiXS8JQhQTLAfLJzn29I8rv5e/RIgBdkd6b7JdlaIvMwGqlMPeFd/XeelZa1ewNcTWNU3MI2jkkivUewlkDnTQEyEmvM7GAOwajKJLVtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p96FcflV; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qJnOvhH/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p96FcflV"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=9ZmoEJU8Nj3R7GEBPZuKKQOrDJ9kwjJLRhMvX9eg2b0=; b=qJnOvhH/oom5NnirTM1L3sqRet
-	zFy6+LaUk6eYcTvcX776vouIX3Nf3O+yd9Q4oxOXRrt3y7NfCMk4gArdnMLxdVZTpnP68AWbUF5DB
-	zc7NOWZS42fketVNwBjHe6GRIGAIv/JxbK38FwAK9iu15FChMR+PBll/RDaQidTWi2LKz7z7iUD0e
-	3IrdyOVumQ6UC8zb0+WKukb+yb3wM+eY3DZboLvHuvSJfw9KWQo/swQCBB7uW35Rnvy2fDG0wcPOO
-	v7DzUoGoCgbe3/quqnGwJ6G1W3fTY6gObp0ieJ81dufGHnoXcU4yhekVl3jsLTp2sfPosHVYctUvV
-	xv8gXpuQ==;
+	bh=goIfeKepOMWSzakf5pw+sPdIm1bWS35DFpCXt8MSupo=; b=p96FcflViCat4ySTi/DsnOVH7Y
+	OWUql4bbp1fOAfACeyXPzIVujSGn405GbbS4XQTkAqsF2Ee2T3pBBDM/RwsgjvCGdvcrF62P8k0Qv
+	+j0ziw5KY27pi7xiKTjKBHqJGqJUTI7cHxBZwd1MEbOC+nCwFEHpdO8vxU01ELVLyu8OMc/Y8ttSG
+	ujZwU5OWZiUa3FHl7UNQi+aMTAE82JTY8X0rEd6tzu7d0ZC1W9/fXWcXDZhB/kwgIqRJF5yrXMls/
+	TH8GVTZh9RgDpqvMF4ddigrlzTvF0XLyvNWVpLCLIGTBZFSJ02e6EbcP1NxXxgqxlylWlBkd2y9h0
+	4VFw87uA==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsiSN-00000006YVa-3vur;
-	Sat, 08 Aug 2026 14:55:28 +0000
-Message-ID: <91341b40020a6c12c380651f2658897d3e4c6345.camel@infradead.org>
-Subject: Re: [PATCH v6 11/51] x86/tsc: Add dedicated hypervisor hooks for
- getting known TSC/CPU frequencies
+	id 1wsiUH-00000006Yb7-1FD8;
+	Sat, 08 Aug 2026 14:57:25 +0000
+Message-ID: <890afcaebda8688d5b642e312da2c27a3731354a.camel@infradead.org>
+Subject: Re: [PATCH v6 12/51] x86/acrn: Register TSC/CPU frequency callbacks
+ iff frequency is actually in CPUID
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -41,14 +41,14 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
  alexey.makhalov@broadcom.com, 	jan.kiszka@siemens.com,
  dave.hansen@linux.intel.com, luto@kernel.org, 	peterz@infradead.org,
  jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
-	jstultz@google.com, mhklinux@outlook.com, x86@kernel.org, 
-	linux-coco@lists.linux.dev, kvm@vger.kernel.org,
- linux-hyperv@vger.kernel.org, 	virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 15:55:26 +0100
-In-Reply-To: <20260806233609.212337-12-seanjc@google.com>
+	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org
+Date: Sat, 08 Aug 2026 15:57:23 +0100
+In-Reply-To: <20260806233609.212337-13-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-rqA7MqJn6IlGbHYL5W9W"
+	boundary="=-Y57aRO+CU11wowyiP33M"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,37 +59,23 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-rqA7MqJn6IlGbHYL5W9W
+--=-Y57aRO+CU11wowyiP33M
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> Add dedicated hypervisor hooks for getting known TSC/CPU frequencies
-> instead of overriding seemingly generic platform hooks, and explicitly
-> prioritize hypervisor-provided frequencies over native methods, but do NO=
-T
-> clobber the frequency obtained from trusted firmware.  While shuffling th=
-e
-> hooks around is arguably "six of one, half dozen of the other", scoping
-> them to x86_hyper_init makes their purpose more obvious, and allows for
-> explicitly defining the priority of sources (as is done here).
+> Register ACRN's TSC/CPU frequency overrides if and only if the exact TSC
+> frequency is actually provided in CPUID.  This will allow marking the TSC
+> as reliable as appropriate, and avoids relying on the caller to handle
+> "failure".
 >
-> As is already done when trusted firmware provides the TSC frequency, igno=
-re
-> tsc_early_khz if the exact TSC frequency was obtained from the hypervisor=
-,
-> as attempting to refine the TSC frequency when running in a VM is all but
-> guaranteed to cause problems sooner or later due to the calibration sourc=
-es
-> being emulated devices in the vast majority of setups.
+> For all intents and purposes, no functional change intended.
 >
-> Cc: David Woodhouse <dwmw2@infradead.org>
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-rqA7MqJn6IlGbHYL5W9W
+--=-Y57aRO+CU11wowyiP33M
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -187,22 +173,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNDU1MjZaMC8GCSqGSIb3DQEJBDEiBCBXj2pOn7w99V9/APxOjyywOoy1tNze
-sBNaxAitVZEENTCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNDU3MjNaMC8GCSqGSIb3DQEJBDEiBCBNe8sZhW1r/oYnm1j0YO2K+/rjRNSD
+8xlcT1C2Jk9SWjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAkLLvuDi2xErhAXmhGRxhKl29cHidfsYNi+OvY8o/YUo20MCbwkOf
-Y0Wldj9/dOacpxTtEp218iwxL3Y/45pYGTaBXv+PjgVn+Epet+g8T7t78DhaX+FZ/13VpB30The7
-f+v/V+mvS49kI/4EG7NDd3B1LSVgxH1eYRXvakdAP0o7R7lAz9eEln5j6lKi4s/33yK3iwRo+dmc
-Fsm9oGVP7Jyom1aZ6gkm0Tuf1ZFmDjoPdemkXQblVXahYM8JiR4PXUkC75ANioqfF3G6u/qpbaxc
-U/g8hhJMlcnjhZaBgxkZby2K0i094zvRrcZhbJaMtM2VWU6FODUTS0z0chxbpkFAT2eUaNRipZcM
-KsJYWe6SHfIXoa+TGeBd3gvBfEaPJFzFl0WNb0G8xeMjvVg0LqhVaLg2DVMPCSZbB7nqZf62+t1Y
-eHyS+QGunPqYXkWgYGrULorsiz0AhgiARJr7Z6DMc8YD/Ecy1LX2F0eSQ0v0AiDZ9kYYQIBFbpHZ
-LGPBPXjGFhisUoNW+RYzOsFuiZKtSpzb+zpEp2gYDR8nioFjd4zih3xmXLQ7/xNvfhcbyibGNbPC
-XVK4j6hKT53M+636FeKveRHYpFQon4cUH9qAbrOzdZg6AzV08g1Q7cOgD+WsYxNm5DQm4W4TTJJ8
-mPEnWr/Iz/Fi0iFJQu669ckAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAxo9YW8AOod7cWia03OVU4V4JE2q4NqDOHa+dlXSm6gdzeweMYKJT
+bgDzyK6WOJMYCUmmLylQWR2E7EAZE8WMaCblt5YcZL725mGJjcnTnirsJ6dGUR14Ml+2TcucWFoD
+tmk7T5bV+6r5DQRvRJCVqNb3enFVlBsBgFicBwUTCtoFsco8OTd7pK3z5INuUMPCfST6/u2rAE4i
+f083BhwEJx2DtefyoF4z55pXibZltA9HCcjNTj5DwuWgq16Tygmn/R1A3M6+OZof1WTBY4gM9big
+C5j3MeXrDgKw0M0umhybNRMbIHN5be/SwlZg5Cgk73f4Swz8Ww5Td6gc6kfvzhQNeVfDt2m5vyEf
+jJeKijtinMX5UibLbHr+CVTWX/dF5C1/Yo/ShXNoEyXNEbMO/TTduFAs7HUN0Xh8Ph8Ab/4Q5Voa
+zu31O1OapaIo1ab6s26WguagVWDoQlsKw3N3FFAhU6Czzt5/39ewzAvTaTZFUOOVNnToa01jrH2x
+QC7Bs3ALzWfOMVMqXk+5zTAStTjV0PzvU2FJBvdxDMO42f8MzADaC5PHVyIB9FvVKJ3niFe/iKq6
+Pte0y22JM/UbGSu3Ut8EkrAMnY9mK8N02l20fZ7e4LWq6wiPUsjQC81/lfM0HNgYl6J25KULmMBA
+zS/JkQqcCXwG9s8K8lOlLcYAAAAAAAA=
 
 
---=-rqA7MqJn6IlGbHYL5W9W--
+--=-Y57aRO+CU11wowyiP33M--
