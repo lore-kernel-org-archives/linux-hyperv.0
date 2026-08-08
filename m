@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761603A7848;
-	Sat,  8 Aug 2026 14:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B51C416D17;
+	Sat,  8 Aug 2026 14:50:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786200519; cv=none; b=L7FAmrUkmEjpPUrCL3x9BfjOPzwQAr8hbYQNyiQmSA5UxoD/yAYLx/dzkuzOuXWeSHsfFesopXsvL3oFQtFtAbL3hoYFHAB7nctyuWDMA66zqxkc63uOTisQ4iWooO/TckEpRV+owE3NxTGFbT8I1epF3IhsBd/tQ+P6m+8GUNo=
+	t=1786200622; cv=none; b=Hb5c3vKr93aTXMsJgYFKX2fMQw4IN4DXZJZIlaXBrk/OLy+cTTp066yD7JRuyTzFOuoS0Jy1h4fRCWqO6D5ONjkfNOcp2CAFSNXoDUAFxZPpAXHJHbDCAb6zIdsxjOZiORJysa2EsDEJe4Ir/JXRa94Sg85jiRA2/lmz4aF3wzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786200519; c=relaxed/simple;
-	bh=brVyL9uxUyCaid1UVPrzMKrs/2c+m3hSu977oL0pJ6w=;
+	s=arc-20240116; t=1786200622; c=relaxed/simple;
+	bh=izwfnJYIu+PTa9z6xcTADtGrPHwXB85qax3pPKgkMak=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=f4n1YkIBvifGkAlF/mfUitkWUyE5mv+8WJJkHEGQ2hKrzgjP4Tc8sL7myix8N+a8b6c1x4ycIcN/zIS3ZCCDkrbJDWePTxq+coAxJCgbuxV3S868HvV6pwND73zGckSUmnORpr81SIIWmILQUqMXmcleS+XEXf+5fhdlo+MWclI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rBOnKBSI; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=e30nUWAh4wqn6i+2Jn37Ue/hkuG32Lj+VZPZCZI0Cp23lyih9LNR5PuiD0YZbsTNBe6Gs64Zblq3Tp6PU/B1GmmB3bCTAjvq6jOk0A81cuY4FjTdjqsaF9RqToxSLfmEXZC3Ql5Vb8JSow4AV519tpp3wtBScIYtdnaPZqnYENs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XTFvbD+5; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rBOnKBSI"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XTFvbD+5"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=xY4a+9HON7tEJc6vDtf+k5V2duOaIaUpGsGxjtTbvEs=; b=rBOnKBSIfNIiJWrONCIgb0BG7F
-	ylD/TZimAGdzgAEI5IcIkgHTwd38AKwrBjjDHK8RPKNMPRaT9gi1rOQtAp05FECP4gcBXxbNwzcSZ
-	9K27YZmoAcmeXzFZbU20BTS3wuazn5qthvl0pxWs4WDw/ylYlQ2xWJAbT4yeFH5q1J6dotOsWD9zv
-	Gw2YN5cSgII8IIvzUEpcFxm3DuG52OAn33VXMWJ3hERGDovRuCgWlAPGLJEZdsGJpRpaPO5YFDLS9
-	DRRdXewcmsvVBmteeZFBT4Cgu1Y+bg5IWGwaCxnEw4fvEWMHCdYIM/mH9CPBQhK2PprWvfr/4eohc
-	0wwE4hEA==;
+	bh=bnJWUG/JPui2uKucDdDHwnUhtYzLmNsoiXZpYxk9nBU=; b=XTFvbD+5iS6pcriqXmD8agcern
+	2FWv3Ir1GasPqGWKF61v/VQd6u2VdUgnlRwC0CcW6lzrEk8qKHOS3F10tdhT3WYBAXA2hb5XBNHok
+	bFLrhfZbt41DRqScoE19op5dRHSpEuwAo+yDPi4a1JpUBMVMKRhTOEYvUbAjaKLiDQWgHQjVVGx/g
+	cAi9Q9g+iOCA1tWwOzgfN/5xZo3zRtfebUDQP2MNsYwdRKmusewzwtnJTPBsnvEuN0aUEibgi5Skh
+	fUpO1VmwLCDPjl9S4jB5tjFamBmVI2sA2tGjGpPR1UoH3nUQ/zYtpO29WBFHHPMNW+UDk0FXX7zKK
+	XtRCOGEw==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsiLa-00000006Xtt-3R8T;
-	Sat, 08 Aug 2026 14:48:27 +0000
-Message-ID: <58d4607c93e72094d0394c09c976142e7e179cb5.camel@infradead.org>
-Subject: Re: [PATCH v6 06/51] x86/sev: Don't override CPU frequency
- calibration for SNP's Secure TSC
+	id 1wsiNI-00000006Y8K-1AmE;
+	Sat, 08 Aug 2026 14:50:12 +0000
+Message-ID: <0f3e31008c86e07e020dbcdfc5a279ab76498695.camel@infradead.org>
+Subject: Re: [PATCH v6 08/51] x86/sev: Shove SNP's secure/trusted TSC
+ frequency directly into "calibration"
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -45,10 +45,10 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
  x86@kernel.org, 	linux-coco@lists.linux.dev, kvm@vger.kernel.org,
  linux-hyperv@vger.kernel.org, 	virtualization@lists.linux.dev,
  linux-kernel@vger.kernel.org, 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 15:48:25 +0100
-In-Reply-To: <20260806233609.212337-7-seanjc@google.com>
+Date: Sat, 08 Aug 2026 15:50:10 +0100
+In-Reply-To: <20260806233609.212337-9-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-2WHVA9tRtaaaro8+TEvx"
+	boundary="=-mi0iPdDBicy/0pphTprS"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,40 +59,49 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-2WHVA9tRtaaaro8+TEvx
+--=-mi0iPdDBicy/0pphTprS
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> Don't override the kernel's CPU frequency calibration routine when
-> registering SNP's Secure TSC calibration routine.  SNP (the architecture)
-> provides zero guarantees that the CPU runs at the same frequency as the
-> TSC.  The justification for clobbering the CPU routine was:
+> As a first step towards dropping .calibrate_{cpu,tsc}() and explicitly
+> defining precedence/priority for "calibration" routines, pass the secure
+> TSC frequency obtained from SNP firmware directly to
+> determine_cpu_tsc_frequencies() instead of overriding the .calibrate_tsc(=
+)
+> hook.
 >
->   Since the difference between CPU base and TSC frequency does not apply
->   in this case, the same callback is being used.
+> Unlike the native calibration routines, all of the paravirtual overrides,
+> including SNP and TDX, are constant in the sense that the frequency
+> provided by the hypervisor or trusted firmware is fixed, known, and alway=
+s
+> available during early boot.  More importantly, for CoCo (SNP and TDX) VM=
+s,
+> it's imperative that the kernel uses the frequency provided by the truste=
+d
+> firmware, not by the untrusted hypervisor.  Enforcing the priority betwee=
+n
+> sources by carefully ordering seemingly unrelated init calls, so that the
+> trusted override "wins", is brittle and all but impossible to follow.
 >
-> but that's simply not true.  E.g. if APERF/MPERF is exposed to the VM, th=
-en
-> the CPU frequency absolutely does matter.
+> Explicitly ignore tsc_early_khz if the exact TSC frequency was obtained
+> from trusted firmware, as per commit bd35c77e32e4 ("x86/tsc: Add
+> tsc_early_khz command line parameter"), the goal of the param is to play
+> nice with setups that provide partial frequency information in CPUID, i.e=
+.
+> is NOT intended to be a hard override.  Neither SNP's secure TSC nor TDX
+> was supported when commit bd35c77e32e4 landed back in 2020, i.e. lack of
+> consideration for the interaction was purely due to oversight when SNP an=
+d
+> TDX support came along.
 >
-> While relying on heuristics and/or the untrusted hypervisor to provide th=
-e
-> CPU frequency isn't ideal, it's at least not outright wrong.
->
-> Fixes: 73bbf3b0fbba ("x86/tsc: Init the TSC for Secure TSC guests")
-> Cc: Nikunj A Dadhania <nikunj@amd.com>
-> Cc: Tom Lendacky <thomas.lendacky@amd.com>
 > Reviewed-by: Nikunj A Dadhania <nikunj@amd.com>
+> Tested-by: Nikunj A Dadhania <nikunj@amd.com>
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
-I don't think I care about Sashiko's complaint. Even if we still clamp
-it in generic code, I think that's better than having those in the
-platform-specific code.
-
---=-2WHVA9tRtaaaro8+TEvx
+--=-mi0iPdDBicy/0pphTprS
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -190,22 +199,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNDQ4MjVaMC8GCSqGSIb3DQEJBDEiBCCQubn/jFA3eSBfXv3QWaqzwBRRhkIm
-IOwbMGknJhY/TjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNDUwMTBaMC8GCSqGSIb3DQEJBDEiBCBXwFXXgl/z9qBpWUhMcnA7RIlh7ihZ
+bd+UGk7JfRe7djCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAffxk/dqrhP4HMbv3HB1zGSpyStJ1EN+hO7+2zJd431JlQJq9VWW4
-3vGaA3GFtSotn2ZYoZAGBd54XyqIbzafd0AV3MzDJGn1GU1rbYPIHEjnuF0pysFI+gSl4aRiHrOI
-GubT6zS8vJxttEIOXf1QRzl5NK/OMXiAik6SSimZo+c0e/dRM9wYO77QSGx53XW5NVKPIB8u1r6H
-xNHW+CA5qDIRam5Q+xk0juc0RZxaCnMJbWdmB9rDk3iVY+dv5gv28S2CQtOhfXIZx2i6q6C38bKd
-jmxZ6TtEWOgvqpQkwT0uH+r/AaB88xVUK0ywNaj1lRSx861QTwNsyyC2HmexOL5ON2jVN8nm5tXL
-l7xDZ4vWogvwguJ1sp8pnW85snUD0ngU5ANvdIZoUqi6rvgDrLWSZgOuc6i/Ka0cPdd+mhp4wJYd
-IHSOY564LDqmU1t3MoBbWxchW/UvYUOM4uU4uvaIZwsK1gFG/LTA9CnOoyIrvCawEPaxuFZsVMxS
-hDl1qqxQt9XtJJBiFN8gfcR1oUStsWwFxKX4g2hESwRn+pY+5mLYPTbezB5ZyH05xXlbzYMVfpdA
-gtSY8/ATfqNHJGFtt6UqvfuSRe/8gMoc6WwJlQb5d8TsTO+Oz7V548z2X3fFOkVtfiaU0IQ0480b
-ebvE1iHCFgXC+N29aIfPgLEAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAAJnHOpJupW9mJZGzq/kZvUu4BPry95maA6XY7JFXlHcdvpFIPkBc
+j6z4VU1YqlFRNpDCyMzjzucpoF6y1OsLeM20pTRwDp5uQFb8XnCyyGFRPjcAaPO5t66piomh+5nT
++1K01m6O3Pk9jb9akYiq8l1YjMvCOhRnNb19TV+W33ZanaHloNUxNpFHSMCbk7lm29XRAlj4gcWI
+eMYiF54O/PIGrzoS4S4Pcda0IaqsQvLzC4nQFV3DOOnh8Vyx6hasMqffi6z/dECSBWIlkM2Tr0+Y
+FtwdtnWAZvoNMrxI63dmkAUAWjWgb8fIHttZGvJxVyrZkDbk7FfDtESnyclNgJ7POmFzcxj67tmI
+ZNsLhYdlS2a4qz+rcPfVcsDG1NfQv5R8q9xZ7lj6WxgHQdMgFwyYxRVZpN8PA114ywECvKXfJSq/
+WrZsgW9imgpB0xa5uDTO7RCDhLnctmlqsQoWpq8hArSn5liJ2zWeD+KislrBAOIk2445l3ciJAVS
+ZPFwl8gotWgmUgRIGW6CURWQFBjK2CgPKNEhiEl2EMgvz93uEt2BHmbV9ACmqvNl52HIW5zT9uFt
+SEedWaoPTUw+SHT47gZPbre9HSPx56N5EH0TcROiyi/46oaxBY0k3mqvRlshxXhOK1PyMc06a01A
+CvZEvf56ddFQXuDGNuyMrM4AAAAAAAA=
 
 
---=-2WHVA9tRtaaaro8+TEvx--
+--=-mi0iPdDBicy/0pphTprS--
