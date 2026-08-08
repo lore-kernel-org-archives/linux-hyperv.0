@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9451E260C;
-	Sat,  8 Aug 2026 15:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3996425C6EE;
+	Sat,  8 Aug 2026 15:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786201261; cv=none; b=jR6wIos/EPkH9O02MkNoNAFLOgTokQr8G5UlyYCOiywNynIScxSrw9p44tuhXwEcHq1bK+B7TZXeIpa+RH8xEN2WulRkiyNcWYrCZuS+64pIoQ1bfH699fr5XXfxmDlKEx/HkEzMB2lZyn4VU1QqARbt7zCswacp8H2JBJpM5UQ=
+	t=1786201314; cv=none; b=a9BJTc7rY8G220gQv21rYIpiUWZ3EiXzKpycFrX57WqDip2gZpJivtxQfnLy01ADTXyONCK5VzUpzdivVqRK2FRjP+/A8FNwnpSskZ5z38WJOEhFFuhrR1gt3rDsUQpel3ErV3eUb1oXmGIjm7ACSEq2pH1Esf0us96/7SCu+XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786201261; c=relaxed/simple;
-	bh=pLdysBZOnVjWErWzQFSFDbYzOYoECP+gWhvV6ari7dk=;
+	s=arc-20240116; t=1786201314; c=relaxed/simple;
+	bh=t7zjsSz/wiHIaJn/3sNFBOh16nnEsauOWTzu8AMnQm0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=nrsodqNrBcyVRRqYuL/1oRQBuGthvDY0fQjerR6XHYdsgBt2+O5kWNTb5/bM11bRDaxUQjeTrtOMC6TA3EhHuX2sr/kkzNj4Fe+x58kTYbsI1hvMhoeY4lkv3DlXiOQmEqh0bus88EadsAw/n96cuVGl+w6xX4uQyuHsZ9W+sZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=idGrWCoh; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=eBpxpMYUx0mueoSWEka1rbT7ng7m27F/ja8WKXeFaCUGXs2p7cWEzfazvn0DzMzdSEjKjkItHmtTut4GhgOfuPXOh38I/hJYYA+sYXtsyhj0IkG4o4O8jWeB9HcpeRwnRaAA5Yw5AVWDt6sbNfXMS8Osg+gwjwAPdRZzoRbflj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RQl6FO1T; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="idGrWCoh"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RQl6FO1T"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=c4buHOPZ0bv4R4NaEGhdIQQVpZl513kZ0VUZz72Z6nQ=; b=idGrWCohNRmBgA/YGZOQqJxDsA
-	k3wQhrj0VjDBMG8JodKxYbYtLSGI/kmklqklDXk+DXeCeV50NV43iFpkW8y2PSr9WvW7Jrhwwvgrz
-	VxzS1EQVP0o/gk087C8CXi5i34Y+xLX0UBpSz4d1hvvTVXkAm1gC+jbWE+LMfyFcN8OR9dBEX6I+I
-	ndK7de7kJSwGsyuVrYgo6LTi1uB4bIjFoE+Dl59NSdmrqbrSXXfmUX9F+ZcRQofgOWgS+mTBwRcMU
-	ogVkhgo0HacPcds+kv+1mOrhrU2h5nsSVpwH0LzXeK/6rFtcu++iFfns+JQT27PeoCXa0fYqsSQPl
-	+VWnLgog==;
+	bh=cHemq+R8kBm2N1D7zG41iiZY974/e28EH+HY3NEkjlY=; b=RQl6FO1TyeVj01qXv3h/XfhhJx
+	dAHGFabC35mI/v7f6ZF5yH+HKPBOeuP/bWSBVFV5as4PSm1Bv8io5zjFliFY0HcIylgKGiHaC748n
+	zu9G33Xwug60AG3WOjt2XjSME+LG4diie634BCniVnH1TVMNv2fbzCzsFf8oNNZDe6AwxB6pBZ/1R
+	p24TokgsZ2p0tkHnytpq5r6cCg+Q/byy6DfZuj8jh3RxuE5Q3IIJz5ucstMPbT1hyxOfCnCMH+1W6
+	dLkKOEN7clgBbyoNP5OHrVenrk6iCo/mr+l9IkUlE1t5n2u1m6JWn9JvaL1ZfHw/7VSutADt9Rpqn
+	n2jjdCVQ==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsiXc-00000006Yv6-3MY3;
-	Sat, 08 Aug 2026 15:00:53 +0000
-Message-ID: <ce799a0b5dd12d80ae0d75e85a7e965199060059.camel@infradead.org>
-Subject: Re: [PATCH v6 14/51] x86/tsc: Consolidate forcing of
- X86_FEATURE_TSC_KNOWN_FREQ for PV code
+	id 1wsiYV-00000006YxH-0R1J;
+	Sat, 08 Aug 2026 15:01:47 +0000
+Message-ID: <8cdb54e0c25494e9574559d858a81916cc461863.camel@infradead.org>
+Subject: Re: [PATCH v6 15/51] x86/tsc: Kill off
+ x86_platform_ops.calibrate_{cpu,tsc}() hooks
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -41,14 +41,14 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
  alexey.makhalov@broadcom.com, 	jan.kiszka@siemens.com,
  dave.hansen@linux.intel.com, luto@kernel.org, 	peterz@infradead.org,
  jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
-	jstultz@google.com, mhklinux@outlook.com, x86@kernel.org, 
-	linux-coco@lists.linux.dev, kvm@vger.kernel.org,
- linux-hyperv@vger.kernel.org, 	virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 16:00:51 +0100
-In-Reply-To: <20260806233609.212337-15-seanjc@google.com>
+	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org
+Date: Sat, 08 Aug 2026 16:01:45 +0100
+In-Reply-To: <20260806233609.212337-16-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-8/mRcnFKKGOky2orgg6e"
+	boundary="=-pJV6LuA8JirWt+CeIJA2"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,29 +59,26 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-8/mRcnFKKGOky2orgg6e
+--=-pJV6LuA8JirWt+CeIJA2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> Now that all paravirt code that explicitly specifies the TSC frequency
-> also sets X86_FEATURE_TSC_KNOWN_FREQ, replace all of the one-off code
-> and simply set X86_FEATURE_TSC_KNOWN_FREQ if the TSC frequency is known.
->
-> Do NOT force set TSC_KNOWN_FREQ if the "known" TSC frequency was provided
-> by the user.  Per commit bd35c77e32e4 ("x86/tsc: Add tsc_early_khz comman=
-d
-> line parameter"), one of the goals of the param is to allow the refined
-> calibration work "to do meaningful error checking".
+> Now that getting the CPU and/or TSC frequencies from the hypervisor uses
+> dedicated hooks, drop x86_platform_ops.calibrate_{cpu,tsc}() and instead
+> directly invoke the correct helper at each phase of (re)calibration.  In
+> addition to eliminating unnecessary code, this makes it a bit more obviou=
+s
+> when the "late" path invokes pit_hpet_ptimer_calibrate_cpu() instead of
+> x86_platform_ops.calibrate_cpu().
 >
 > No functional change intended.
 >
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-8/mRcnFKKGOky2orgg6e
+--=-pJV6LuA8JirWt+CeIJA2
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -179,22 +176,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNTAwNTFaMC8GCSqGSIb3DQEJBDEiBCDTAZMeDB5NUudSa1SgH3uYEQRYZrGc
-iAMarKDxBeHsjDCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNTAxNDVaMC8GCSqGSIb3DQEJBDEiBCD6U2t+qvpPAReeHMywFnP+Wc79R2Uj
+KxqBjf4L3+z40DCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAgFQM/AN8fHVMioNBRlOChv5+9L+91ZtiHLMzRfe74UjeZTaBnrEW
-l8MjDT9KP3yloTgeGY1Kq+GMQdc9yWNZ2IEi7SJfJ3GXwNFG8ci6jRxjX4/GvzHZPQoY5Ylzsvzi
-lNjngUSINtSTrMWk8vfWl9Da3hNH+Mcr7XB1ycn7ci7jOQamSQ/5vyazW7P/AZLHdcXmMsTt0p4+
-HKMteIKaavmItYrj4GSJo8f104PNWrTTIgmEzXfWAscqY3XKIfKnHTa0amZX5MkT04frZ8ePCltp
-3CofcDopJzT5e5VGh3ALgOjyceW13n7naBVUxbj5JlJ9uWm9FBw5D++xasvBlx//MypdExRZqPAw
-mi62dTv6A1ukCivEwjQUMWvUqlqbvcFRcl0kHf9khvLzSD/gsBEBCqTP6eszoZWG/YOKYC9ap1Ih
-I+eHmnksk5EfzOMxKU9679sGvS+daA4LtNUqLAsF5C0Hj3LFLgTkM+g8LqOMlU22amqRDukl02Ls
-NyPIDP3ip3epzIixnD5/bxxTE2FlYHglsv+zE/Wr84HMccfvPM7mSru68wSA/bSf7xWQuz3xQI3N
-rOTTpwKkynO83J6DoX2cJsCugLO8seIXuID6KRQO1dLGPKRQPp0+ibMi3dips3kXm3HAn4gVzUNZ
-o+BkaAi2Rel3KHiQvNzOB7oAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAAy3K89cKEOtHZsOjH0NMIQUudmikHtnnYwiYb4UJ2XjXJt1UOcWy
+bt9n7ZC4GFpOjb8SbQ8pcL2H7+QL2SvmrOnzxk/+k4Q1gf1xTAk/veIK31v1K74zzsM7vxBue7lg
+4K01P7Dqei6rlTkS+tX4E/C95L9bC2SGgk8E72GWfeAKvywnIc8MtJXhIk7l958gY/PFPIzcUOj8
+TMWGz2CKMdvMGlCUD4d0sJAjxZKHfHunykJDVzJsyjB/NH5oTXndyvmqZt/S9Cuk1Pxl3PR0ipGX
+nAC1ieRnd9rFGgMkmSuNo+S76vaNTNsYXx5ubha1gSfBOLAIbNFc3wrksW0oriE/U7cJeec0ePXr
+9BlD26Q56z/grlOSwUCP3hMmGUiymPZbj2rI626kexeCleFFszCQnJQJ57YQujNY4HGEInWpwGGc
+Bk1C8zMunpNRKBshfQKM5hJ78yg5PwiMQED8jwqfN0YZ+Xi20GcjUSeS/vnhAa4ICp+n+B35P/IS
+RQzo3I47LKoHzGhLSqtrLaehP5pzoxsVlz/Gvbxj0lWZ1WKcVu9ZI/VhbQacslUKk0x/Pkti0NkU
+tyJKN+pgCpBZyet6g+e7ERgeqAJzJ6/BSve5aa4+wF/K4rEEJRt+7/bcG4bUdCpqTMfOJtrzTnm6
+SnNxS0tHcFCE4mXozVOfHnMAAAAAAAA=
 
 
---=-8/mRcnFKKGOky2orgg6e--
+--=-pJV6LuA8JirWt+CeIJA2--
