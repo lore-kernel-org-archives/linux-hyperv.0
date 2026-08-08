@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A76B41835F;
-	Sat,  8 Aug 2026 14:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFEB414DCD;
+	Sat,  8 Aug 2026 14:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786200847; cv=none; b=Qr6TWtmezqxsmTO/r6dWR/hoakabYf9IS08Spt2yFnkgaKYZH/5LacQSFEyv8FmTzz/oBV22orHTXJ44HY3DznhVV3nB5TQZOmlZ8894q21laFFWRQ3UvuvA+quf2XDJ2kNpjZRs/UIczIqPs7BOkNijP1V81PjFqEMwIiDbCDY=
+	t=1786200937; cv=none; b=TukfQYh0z+nK7G3t/qTb8Lc3LyiSxYEOT4tJfqO8CucZlHH8WKRBtq987e3Or9pd4jMYHh75e0kHTZHBjvdZI1xAWKweKl8N3ItzSRLuTOlqGCyAleEjqEuLzbq2yVvW/JEA7psQ4ExGp5fFQ8YKjaRmcDMpsfZolS17YSlu4XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786200847; c=relaxed/simple;
-	bh=F6b0UbnfArTNK2LguK8TIuH6f+dIJrrREkbVpxj6vv8=;
+	s=arc-20240116; t=1786200937; c=relaxed/simple;
+	bh=dk6gJos6gseCqNPJbsTJ1LWDySvvajaUB9xRGdf2ICc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=bPi2ixKc9H1gzDaK0OneuO/s7VW0DdPkrVduk8J6HD1bgF9NXUkCr9PXTiWFVpcZ8zE1wl2nFhSWDUnL3pwxgZioF8aHmEhoCOtjPB/PQ7xUUkBVo4Frb4EY0HiGbA5jp004Ye5jm+g5EtoUyNRMP+2PIhgaFTWmkLfEC2+YEbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KvnfyU3K; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=KCXL+ZlbTtZTi4dVkb7v3PK0SNM1CiPnlUoxenBmgx9Y+5fkeJW1c+5MP0VxDnuw/TQJ4ixOXqUwc7B3+cqmk8CVCnvVNOMPIc29frGIchsMLTxPejxJ5zcMGQr+Ghh3GZz9q2wk0prrmWJDVcGRLssNErzz1n8cp6kObSsmOgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qJnOvhH/; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KvnfyU3K"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qJnOvhH/"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=Cuh+2guypgME3E5tPAMft+l41S7Z051cLycWAT64MZc=; b=KvnfyU3Kg+Hyujh2eKk8oY/xbS
-	AWycnumVzq2JvmDw3H2xzJa7LvtAG2SLujPf8ebnAmlYv/VsGtvSs3wpeNL7ayKVAxPPqElMyIJko
-	U44CufxlA0UUnsperbJHSupH+gpofgP1UCW9i2OBfzSOa5NrLm4WS6Ax0O4fPYn2+th94CJfDbuPs
-	3wl4u5tKMYlIHHqSB1dKSjrrVK/jYFzrqIUAT8f/OjvqjTrqH2iH3kFRpWZkTsNc5CYyQMuEj6/13
-	Xyv1qVAulf5sk3wfXHTi6gQV83zct5cCkUVVefEKGJ6/B4xRIH8dApgUX9dVLLdHsKv+5AX+HoLje
-	AhoVhZzg==;
+	bh=9ZmoEJU8Nj3R7GEBPZuKKQOrDJ9kwjJLRhMvX9eg2b0=; b=qJnOvhH/oom5NnirTM1L3sqRet
+	zFy6+LaUk6eYcTvcX776vouIX3Nf3O+yd9Q4oxOXRrt3y7NfCMk4gArdnMLxdVZTpnP68AWbUF5DB
+	zc7NOWZS42fketVNwBjHe6GRIGAIv/JxbK38FwAK9iu15FChMR+PBll/RDaQidTWi2LKz7z7iUD0e
+	3IrdyOVumQ6UC8zb0+WKukb+yb3wM+eY3DZboLvHuvSJfw9KWQo/swQCBB7uW35Rnvy2fDG0wcPOO
+	v7DzUoGoCgbe3/quqnGwJ6G1W3fTY6gObp0ieJ81dufGHnoXcU4yhekVl3jsLTp2sfPosHVYctUvV
+	xv8gXpuQ==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsiQw-00000006YJq-463R;
-	Sat, 08 Aug 2026 14:53:59 +0000
-Message-ID: <b8c0e3537904e29f233cbb03f4d3ddb5247e2af7.camel@infradead.org>
-Subject: Re: [PATCH v6 10/51] x86/tdx: Force TSC frequency with CPUID-based
- info provided by the TDX-Module
+	id 1wsiSN-00000006YVa-3vur;
+	Sat, 08 Aug 2026 14:55:28 +0000
+Message-ID: <91341b40020a6c12c380651f2658897d3e4c6345.camel@infradead.org>
+Subject: Re: [PATCH v6 11/51] x86/tsc: Add dedicated hypervisor hooks for
+ getting known TSC/CPU frequencies
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -41,14 +41,14 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
  alexey.makhalov@broadcom.com, 	jan.kiszka@siemens.com,
  dave.hansen@linux.intel.com, luto@kernel.org, 	peterz@infradead.org,
  jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
-	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 15:53:57 +0100
-In-Reply-To: <20260806233609.212337-11-seanjc@google.com>
+	jstultz@google.com, mhklinux@outlook.com, x86@kernel.org, 
+	linux-coco@lists.linux.dev, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, 	virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, 	xen-devel@lists.xenproject.org
+Date: Sat, 08 Aug 2026 15:55:26 +0100
+In-Reply-To: <20260806233609.212337-12-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-t9ptKw29GmA8+P6aeY7O"
+	boundary="=-rqA7MqJn6IlGbHYL5W9W"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,65 +59,37 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-t9ptKw29GmA8+P6aeY7O
+--=-rqA7MqJn6IlGbHYL5W9W
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> When running as a TDX guest, explicitly set the TSC frequency to a known
-> value, using CPUID-based information, instead of potentially relying on a
-> hypervisor-controlled PV routine.  For TDX guests, CPUID.0x15 is always
-> emulated by the TDX-Module, i.e. the information from CPUID is more
-> trustworthy than the information provided by the hypervisor.
->
-> To maintain backwards compatibility with TDX guest kernels that use nativ=
+> Add dedicated hypervisor hooks for getting known TSC/CPU frequencies
+> instead of overriding seemingly generic platform hooks, and explicitly
+> prioritize hypervisor-provided frequencies over native methods, but do NO=
+T
+> clobber the frequency obtained from trusted firmware.  While shuffling th=
 e
-> calibration, and because it's the least awful option, retain
-> native_calibrate_tsc()'s stuffing of the local APIC bus period using the
-> core crystal frequency.  While it's entirely possible for the hypervisor
-> to emulate the APIC timer at a different frequency than the core crystal
-> frequency, the commonly accepted interpretation of Intel's SDM is that AP=
-IC
-> timer runs at the core crystal frequency when that latter is enumerated v=
-ia
-> CPUID:
+> hooks around is arguably "six of one, half dozen of the other", scoping
+> them to x86_hyper_init makes their purpose more obvious, and allows for
+> explicitly defining the priority of sources (as is done here).
 >
->   The APIC timer frequency will be the processor's bus clock or core
->   crystal clock frequency (when TSC/core crystal clock ratio is enumerate=
-d
->   in CPUID leaf 0x15).
+> As is already done when trusted firmware provides the TSC frequency, igno=
+re
+> tsc_early_khz if the exact TSC frequency was obtained from the hypervisor=
+,
+> as attempting to refine the TSC frequency when running in a VM is all but
+> guaranteed to cause problems sooner or later due to the calibration sourc=
+es
+> being emulated devices in the vast majority of setups.
 >
-> If the hypervisor is malicious and deliberately runs the APIC timer at th=
-e
-> wrong frequency, nothing would stop the hypervisor from modifying the
-> frequency at any time, i.e. attempting to manually calibrate the frequenc=
-y
-> out of paranoia would be futile.
->
-> Deliberately leave CPU frequency calibration as is, since the TDX-Module
-> doesn't provide any guarantees with respect to CPUID.0x16.
->
-> Expose and use cpuid_get_tsc_info() instead of providing a wrapper to
-> get the TSC and core crystal frequency, as TDX is the only anticipated
-> user outside of the TSC code, i.e. adding a helper to dedup the math won'=
-t
-> actually dedup anything.  Having TDX use "struct cpuid_tsc_info" also
-> avoids the temptation of declaring a local "tsc_khz" variable and thus
-> unintentionally creating a shadow of the global "tsc_khz".
->
-> Cc: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Cc: David Woodhouse <dwmw2@infradead.org>
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
-
-I don't know if we should set X86_FEATURE_TSC_RELIABLE before bailing
-out in the case where cpuid_get_tsc_info() fails, or just not care
-about that because it Can Never Happen=E2=84=A2? Previously it was set
-unconditionally from tdx_early_init().
-
-Whatever...
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-t9ptKw29GmA8+P6aeY7O
+--=-rqA7MqJn6IlGbHYL5W9W
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -215,22 +187,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNDUzNTdaMC8GCSqGSIb3DQEJBDEiBCB128CVBJN8xuT3FiKKePSSmD1dGYDR
-PbTRvv3V0qPdhzCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNDU1MjZaMC8GCSqGSIb3DQEJBDEiBCBXj2pOn7w99V9/APxOjyywOoy1tNze
+sBNaxAitVZEENTCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAONQVsVqcQyHMNv3ndBzrZgpCILyQP+t1HaHjvmV8XwFE+1n+c6wZ
-5kxata2TXbey92bUtsTg6WpP4/A56MFfNWaTRjFxxOS0ZeWWsryymaD1XDpdHdhWpOZPUfdq7VWm
-ctAXsM8mdlD2tMk/L7KYvgx1WsdEGiE+ZKtTlMmZjuxCkOGMh07ZbhY+dzm7VJk6ybiw+D8R57hu
-BLcjmDEhLbxIs/MWasr6lY9NXe4qyMmRcT4L9f+ppQ+t2QhcZ/MktdHhop+YXdl2K1oRzvUU7SHf
-Vpf7t3taxR2mrqscOxwmu4E2s5Qi9CQGJ7kvEuE+FqKfTjjcusg3jZ0VMItrxNR5lLoAx8MZ9PTD
-xUMNUJzhDE2Crh55kbSkkEkfxz1mILKWBNhK7+tQ+7mXIi/8fJ+qzUE0hW4kLV4A7iU1PS8pAF8p
-pjYPlVws/cqXhoj2iEaT8SAT5aICcXZ+LWq3lmZKSPhTvls4l5oKfsD2Sx3Jy5OtTshtwV8HRsU3
-tXmsaZxeq2vYQVIvDGy6IoNvUSfK67W23VCWaVINNRgRok7Qd0paFBZz2OTwgU5fEm/LAUlQe+1s
-3SOg6XMHVDD61w/MDzNmbysf9L6bH795bXTEalXqwhR4qd51LhACF09ku60FvSWPbgUdTE+f/rvE
-Exg5EaO7qp5P7n9DQ5PyO44AAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAkLLvuDi2xErhAXmhGRxhKl29cHidfsYNi+OvY8o/YUo20MCbwkOf
+Y0Wldj9/dOacpxTtEp218iwxL3Y/45pYGTaBXv+PjgVn+Epet+g8T7t78DhaX+FZ/13VpB30The7
+f+v/V+mvS49kI/4EG7NDd3B1LSVgxH1eYRXvakdAP0o7R7lAz9eEln5j6lKi4s/33yK3iwRo+dmc
+Fsm9oGVP7Jyom1aZ6gkm0Tuf1ZFmDjoPdemkXQblVXahYM8JiR4PXUkC75ANioqfF3G6u/qpbaxc
+U/g8hhJMlcnjhZaBgxkZby2K0i094zvRrcZhbJaMtM2VWU6FODUTS0z0chxbpkFAT2eUaNRipZcM
+KsJYWe6SHfIXoa+TGeBd3gvBfEaPJFzFl0WNb0G8xeMjvVg0LqhVaLg2DVMPCSZbB7nqZf62+t1Y
+eHyS+QGunPqYXkWgYGrULorsiz0AhgiARJr7Z6DMc8YD/Ecy1LX2F0eSQ0v0AiDZ9kYYQIBFbpHZ
+LGPBPXjGFhisUoNW+RYzOsFuiZKtSpzb+zpEp2gYDR8nioFjd4zih3xmXLQ7/xNvfhcbyibGNbPC
+XVK4j6hKT53M+636FeKveRHYpFQon4cUH9qAbrOzdZg6AzV08g1Q7cOgD+WsYxNm5DQm4W4TTJJ8
+mPEnWr/Iz/Fi0iFJQu669ckAAAAAAAA=
 
 
---=-t9ptKw29GmA8+P6aeY7O--
+--=-rqA7MqJn6IlGbHYL5W9W--
