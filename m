@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F04A3C279B;
-	Sat,  8 Aug 2026 10:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E6A3C9EF0;
+	Sat,  8 Aug 2026 10:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786185405; cv=none; b=JyEHaV0cpXqF9c7yT+HeBPBMp8/ZUNTTKvtp/2TBX27xgkiT/8ObG7vkeLJCCixN33piNbWisKHupYRBA1TG0qsx3d76DHF1NFPBCXxZzHJO9IBHR+U4jAcbSX6R/2KI2KHiPUWrjY4dzITFUHIZ01vGDn9a1zGsqXuY9BslStc=
+	t=1786185447; cv=none; b=PqEowxWTLRP9Vq9wkYbz+CS2NwaGtPsKaQoT4jyB+UfrVMLtlBO5MrLNaD598ssF2NC59MfR61U68+a66MPZjDwnmLRfXzMkjcHT3CfXqPCoLX8bmNI223GRR2OU3ng1Vi3QEbmJBBrdU1N7cWnKZLyA4sS7gOcxqTjulZWwkKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786185405; c=relaxed/simple;
-	bh=RBMyDlI9bYhhju6SazkJ74+FPw4KUUTT3qdlDDFzYVg=;
+	s=arc-20240116; t=1786185447; c=relaxed/simple;
+	bh=f29rvv9+wlkntIPT5Ps4cFH0UXO7Vv52XKOfUHOb+Q0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=oeLp8FTfMy0ee4u1jLZiLeN4Kmu1oyCFqjzhzKX57nWWHH0V+nzxLNC+X2w10kVKeVxWCsi20t3dLX3yRMLV8pYwi/eqU3ckaqyaUI+NPpwp7YC6ruHBgJQBpg2fPNmnSsrcjxL9EzzFOBJAenQL7gNAgsvfGyNBIsUIMjOqEyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MiHbwmDI; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=jr3JGkrPPDnQW4qruP2oFwxhB+gRGYZWwKbnMw06dEeAzU+apZbZkW3+5508z1x7kotRZHvEuYpheyf13DZEJA4xmS1EbCaF70ZtR7x1BjhxccEf43X/nz1DV52aZTwG1W2zHOS7Yk7J7jQzzsuUCiOi4R1sc5e6xHT0CdxSAQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D2svqsHA; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MiHbwmDI"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D2svqsHA"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=mrC+xOT3bpITTMAExjiGGBzjrg3sW5ihiujwcUvw5oE=; b=MiHbwmDIzYwEe6BwoNHGeNjHq7
-	f65veJY5YjTHd83AKNHa4qlLhl2EUZpbVBaKqJiRZbtmu20uTY06o1B9vUPmy9ooa0TSwVbO5SmyB
-	Xy0GLrvdIYt0ZVf9LjZ9Y5CZGlIdKAAMhY3vBTHKxjBRud+sPw9U/bCbRI6kAK+1MRJ14Lqdn74XU
-	imEjrXxYVgSdeKhaTEfdqtWfdcNVAMSL8GeyMQWoCow4VfoKrqiLLHSIhmsGgpzr51rHAAQTat189
-	ObgOshNFcjyaEjVmhcISSqs8Yd6VuRoErbndkGqxAkVjftfRavz/HKtgRiucilnU6E14iBEd/ZZjN
-	z8nvzx4A==;
+	bh=f29rvv9+wlkntIPT5Ps4cFH0UXO7Vv52XKOfUHOb+Q0=; b=D2svqsHAXm4sBiBfJCyb7jCc5/
+	2wMus2zAWLXhTf14y5qyPC4zugp6/m6ba1ITEUNUoKUQbjx3piavkex81lXXz4JHO/+kzvfoKKjuz
+	WwcK/33N1SB7z6NbpQ9pe3t3ae8GqEeyNrOxP4E9VRrOzW/Mo/ig3ukPpQUke9rHChYuko6251JX0
+	ofhLEfsxvEh9VGdfXpONsOssRrjQ3zqdSsH7kxVdMA/F21SHMISVjgRZleSmm9JR9WXcC2nW9qXyt
+	f9fp6iq0Nl5JMmnCJpS/CalLFw2DacVaSsjzq8fCuc/VRfMCGbDCli/r7hPfrM4Evg49V/If4+8da
+	2S0sG7pQ==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsePo-00000006Fn4-0KfB;
-	Sat, 08 Aug 2026 10:36:32 +0000
-Message-ID: <f00c9f7af1d24f833dbca0958e54cae989994ae1.camel@infradead.org>
-Subject: Re: [PATCH v6 01/51] x86/apic: Provide helpers to set local APIC
- timer frequency in hz and khz
+	id 1wseQX-00000006Fq7-0f75;
+	Sat, 08 Aug 2026 10:37:17 +0000
+Message-ID: <3203fdfd32780c24eb084b6210ecbb6757ffde4d.camel@infradead.org>
+Subject: Re: [PATCH v6 02/51] x86/apic: Add CONFIG_X86_LOCAL_APIC=n stubs
+ for APIC timer frequency APIs
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -45,10 +45,10 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
 	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
 	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 11:36:30 +0100
-In-Reply-To: <20260806233609.212337-2-seanjc@google.com>
+Date: Sat, 08 Aug 2026 11:37:16 +0100
+In-Reply-To: <20260806233609.212337-3-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-+oD9ig9rliifEw/S0oU7"
+	boundary="=-xuPnJagTwLip0w74n07K"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,33 +59,23 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-+oD9ig9rliifEw/S0oU7
+--=-xuPnJagTwLip0w74n07K
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> Add and use APIs to set the local APIC timer period (given a frequency)
-> instead of open coding the subtle HZ math in all external callers, and
-> make lapic_timer_period local to apic.c.  Provide APIs to specify the
-> frequency in both hertz and kilohertz so that Hyper-V and VMware code
-> aren't forced to lose precision.
+> Add stubs for the apic_set_timer_frequency_{,k}hz() APIs when the kernel =
+is
+> built without support for a local APIC, and drop #ifdefs in callers that
+> don't need to check CONFIG_X86_LOCAL_APIC for other reasons.
 >
-> Opportunistically take the frequency as a u64 to harden against the
-> possibility that the frequency (in Khz) is greater than 4294967, i.e. if
-> the APIC timer runs at ~4.29 GHz.  As pointed out by Sashiko,
-> 4294968 * 1000 =3D=3D 0x1_000002c0, and thus a Khz period of 4294968 woul=
-d
-> silently overflow the 32-bit unsigned integer used by most callers.
+> No functional change intended.
 >
-> Print out who set the period to maintain equivalent Hyper-V and VMware
-> functionality, and in general to make it easier to triage/debug issues.
->
-> Cc: Michael Kelley <mhklinux@outlook.com>
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-+oD9ig9rliifEw/S0oU7
+--=-xuPnJagTwLip0w74n07K
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -183,22 +173,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxMDM2MzBaMC8GCSqGSIb3DQEJBDEiBCDZfXqeVG3VulW1SDf7vKX5fGconm3X
-N2jFMhL1JOKjFzCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxMDM3MTZaMC8GCSqGSIb3DQEJBDEiBCDqMNTrhIQcYeugvtTx9Nml3TBZja4Z
+MoH1u5VFH23opjCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIADj/qkDRDOXKU7m9R5GVeBXirw935MPsnVjsswGqUR0qI7rfbDsus
-C317c59+rHUVhQ/RGvTbt9QTl6+kEeB8nPqpJWdyR7FUrMxTJruHZcYI9/6a74QSnQLgq9205z+o
-DrXBGzO1WLxZFNe5uBZGUoUgSfp1gFh1jQKOr93lavH+1uuEHKOv3MNR2V/ZxtwagTvX7rMszWsG
-T8auRZCEEZZQK8Nx62U4lYCn7usBnyDuR+kAgW4kcjbMDDahpdxVZKoBDNBehOoxyvWyoYjiBz8e
-L8FB00fFYf8rLer7VsIPPxyQNW71hVMZQfCfyr4mhnRVhEU2E/DoyeHtk0gX1LD7Ge7cs12zyqgd
-VGvamvr1MZT5Afvi629Y8yAfNIUPmKCp1mIcvyzob+5R7iKc6x1BYUerssfWqNl4gpt8qC3o6RFF
-ECLljyC2cmS/EXxxA9WZimyf5/dmKwOeO+Jn2JiLd6+i3FeK60BUu0Oph/5uZ5dOD+o/RPk3IiFC
-aEk+qOBVog+J++klFK7mdzacPy58SEMgWHwcQM5wRDyMJNpz51edFxxfrSLG/odY9wmI0p1mwwRx
-+xgd46fmnh8z3xees84PdNwk973eSCR0oaDg5ApNb+uvCPkspUT1rlOcINqHiRivu7WCn2Ll4RH/
-KYW1bIAgIYcNvvK8GmKR4aQAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIACpDMdxTrh/nlXzCRYR7RK5tgv/Hap8079kw9mZGcxh2T4wpY0E23
+y7NBF1BFXOtAun11AXyLSjlLiJtXw3eaBJrlkc9y8OTY3t4FHSCEglOrHQh7hEYaJ98qcLkZnqnY
+RUXjhGNpgJv05Rx+xx1TTTAdnhvjZzruuUGTAoRGNLbSuKTqFmgwwLEwMOgEG+x6oohxkjND8mQT
+qgpiKi208SkPGQLQbmDKmBAT/jLjNkAUWphmht56yj3r/2i0N96GSM58zX0fa084gz4acBl2BQsY
+KaLH1EK6YFSjl0XdU17xBFzyqjxx1b7iQz99faWQrjR7puDMpU3ThsbpyCOV5ctjjSINjt6vQcBa
+5mC5Le5E1XkdpDiqjJghuWQN1em25UeSMN7c7LY8KUmmkDENXbKoic/vm55zijHWf/Pa9vXUHBxH
+8QtPvCctx4PDHz5NKUE6Xv+LJf74aaNIVbvROMNdlqojoezkJDoKMgqwEdQ0riSa3m+vd5d1ID4B
+QIAPdyHbP3IHHNswQOQYtQCsfDQ7R0h7NFeA4tWa3MQ143dHPNDRhzEjZ+V/bBrtQdXK5a8zzyx4
+JW8WiD5oKkRRT9zD37uzo2rqWXnmJqIRWxj8UhEoXRchfz1SJRSveC4NhcjbzghCcCjLug52iLZy
+kl915kfTy426nEBLZ+qMrkIAAAAAAAA=
 
 
---=-+oD9ig9rliifEw/S0oU7--
+--=-xuPnJagTwLip0w74n07K--
