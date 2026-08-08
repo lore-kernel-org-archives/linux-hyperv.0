@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3996425C6EE;
-	Sat,  8 Aug 2026 15:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417452EB0F;
+	Sat,  8 Aug 2026 15:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786201314; cv=none; b=a9BJTc7rY8G220gQv21rYIpiUWZ3EiXzKpycFrX57WqDip2gZpJivtxQfnLy01ADTXyONCK5VzUpzdivVqRK2FRjP+/A8FNwnpSskZ5z38WJOEhFFuhrR1gt3rDsUQpel3ErV3eUb1oXmGIjm7ACSEq2pH1Esf0us96/7SCu+XY=
+	t=1786201394; cv=none; b=nEgFTYO1f//AnjcYoXgJ6U05fix+xMcxVKYRu+ePPCN+DWVCUvAyxqGzMlmvUnWuRWKwpUWNJnDJuzW5GtAT9sayx3cLiB//qO0zzwDa/+s+6KLJM1sfOVU2wAbeEVedffyd8NqRLz2ys6BhTJr/xWe8ujXo3WM3lV7mivKpzMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786201314; c=relaxed/simple;
-	bh=t7zjsSz/wiHIaJn/3sNFBOh16nnEsauOWTzu8AMnQm0=;
+	s=arc-20240116; t=1786201394; c=relaxed/simple;
+	bh=Wa7Hzq2JSx29IaNuU/muzEjzSoG8OuGbp+agE00B49Q=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=eBpxpMYUx0mueoSWEka1rbT7ng7m27F/ja8WKXeFaCUGXs2p7cWEzfazvn0DzMzdSEjKjkItHmtTut4GhgOfuPXOh38I/hJYYA+sYXtsyhj0IkG4o4O8jWeB9HcpeRwnRaAA5Yw5AVWDt6sbNfXMS8Osg+gwjwAPdRZzoRbflj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RQl6FO1T; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=GQw3t9V92+gTjtu+laqEiDaMdnIPXMzcE5Ymf8fVtanCutXjZMuRh7C4c14noCNTx50A9wHDqkGkoH7caE/KHJtD85ngZDL8LKu2gJtG8+7oEqkxmwF3Wvh8TR+X7xKLbdgQ7i6iDxrJitw3Zrwu1i6g7CMV32W0n4kW8s/X+cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rmnS9mZp; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RQl6FO1T"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rmnS9mZp"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
 	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:References;
-	bh=cHemq+R8kBm2N1D7zG41iiZY974/e28EH+HY3NEkjlY=; b=RQl6FO1TyeVj01qXv3h/XfhhJx
-	dAHGFabC35mI/v7f6ZF5yH+HKPBOeuP/bWSBVFV5as4PSm1Bv8io5zjFliFY0HcIylgKGiHaC748n
-	zu9G33Xwug60AG3WOjt2XjSME+LG4diie634BCniVnH1TVMNv2fbzCzsFf8oNNZDe6AwxB6pBZ/1R
-	p24TokgsZ2p0tkHnytpq5r6cCg+Q/byy6DfZuj8jh3RxuE5Q3IIJz5ucstMPbT1hyxOfCnCMH+1W6
-	dLkKOEN7clgBbyoNP5OHrVenrk6iCo/mr+l9IkUlE1t5n2u1m6JWn9JvaL1ZfHw/7VSutADt9Rpqn
-	n2jjdCVQ==;
+	bh=Wa7Hzq2JSx29IaNuU/muzEjzSoG8OuGbp+agE00B49Q=; b=rmnS9mZpeKjdGdBlUegOL51BkB
+	pKn5oJgOcQodQGcg9eGzYS2wFJKM/KZYTLkRAEyutqxfbi+pYDyPRfMgJhLYKI+EuWlRgRoRyYfNc
+	gB9wfCiu9XDZZY5sijChUtaNjzq/Hizp3Xi21sQmf8gP5yzKSs1ZrH+tu0MvunYWQFsBl61TOp7wa
+	1NMeK9CQnYQPVKHz+rLmD0X0f42m9xhYRZt6G1ylOv/6rQBcCOCAiCVJxtjJdOOJjA3rlyb8iempC
+	QZ+0RuqumEp7/7WkG25rcVsZk2rQU1EaGpdE73GctG0VJeeEsQLb+QQ3YykGJVWsaRKaTqcKcQBfY
+	6x4NhTqA==;
 Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsiYV-00000006YxH-0R1J;
-	Sat, 08 Aug 2026 15:01:47 +0000
-Message-ID: <8cdb54e0c25494e9574559d858a81916cc461863.camel@infradead.org>
-Subject: Re: [PATCH v6 15/51] x86/tsc: Kill off
- x86_platform_ops.calibrate_{cpu,tsc}() hooks
+	id 1wsiZm-00000006Z4O-0oAc;
+	Sat, 08 Aug 2026 15:03:06 +0000
+Message-ID: <b3bdd75b8f22b5c10f834c09e0231b9c10ded250.camel@infradead.org>
+Subject: Re: [PATCH v6 17/51] x86/tsc: Fold native_calibrate_cpu() into
+ recalibrate_cpu_khz()
 From: David Woodhouse <dwmw2@infradead.org>
 To: seanjc@google.com
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -45,10 +45,10 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
 	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
 	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 16:01:45 +0100
-In-Reply-To: <20260806233609.212337-16-seanjc@google.com>
+Date: Sat, 08 Aug 2026 16:03:04 +0100
+In-Reply-To: <20260806233609.212337-18-seanjc@google.com>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-pJV6LuA8JirWt+CeIJA2"
+	boundary="=-3h8ypXMqBwC7mZwWnyZO"
 User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -59,18 +59,17 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-pJV6LuA8JirWt+CeIJA2
+--=-3h8ypXMqBwC7mZwWnyZO
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> Now that getting the CPU and/or TSC frequencies from the hypervisor uses
-> dedicated hooks, drop x86_platform_ops.calibrate_{cpu,tsc}() and instead
-> directly invoke the correct helper at each phase of (re)calibration.  In
-> addition to eliminating unnecessary code, this makes it a bit more obviou=
-s
-> when the "late" path invokes pit_hpet_ptimer_calibrate_cpu() instead of
-> x86_platform_ops.calibrate_cpu().
+> Fold the guts of native_calibrate_cpu() into its sole remaining caller,
+> recalibrate_cpu_khz() to eliminate the extra SMP=3Dn #ifdef, and so that =
+it's
+> more obvious that directly invoking the early vs. late calibration routin=
+es
+> in determine_cpu_tsc_frequencies() is intentional.
 >
 > No functional change intended.
 >
@@ -78,7 +77,7 @@ s
 
 Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
 
---=-pJV6LuA8JirWt+CeIJA2
+--=-3h8ypXMqBwC7mZwWnyZO
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -176,22 +175,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjA4MDgxNTAxNDVaMC8GCSqGSIb3DQEJBDEiBCD6U2t+qvpPAReeHMywFnP+Wc79R2Uj
-KxqBjf4L3+z40DCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjA4MDgxNTAzMDRaMC8GCSqGSIb3DQEJBDEiBCDwb5m5oE9xtGsjsdRmZNgxK62hdyL4
+WC3aSn2DOLO7iDCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAAy3K89cKEOtHZsOjH0NMIQUudmikHtnnYwiYb4UJ2XjXJt1UOcWy
-bt9n7ZC4GFpOjb8SbQ8pcL2H7+QL2SvmrOnzxk/+k4Q1gf1xTAk/veIK31v1K74zzsM7vxBue7lg
-4K01P7Dqei6rlTkS+tX4E/C95L9bC2SGgk8E72GWfeAKvywnIc8MtJXhIk7l958gY/PFPIzcUOj8
-TMWGz2CKMdvMGlCUD4d0sJAjxZKHfHunykJDVzJsyjB/NH5oTXndyvmqZt/S9Cuk1Pxl3PR0ipGX
-nAC1ieRnd9rFGgMkmSuNo+S76vaNTNsYXx5ubha1gSfBOLAIbNFc3wrksW0oriE/U7cJeec0ePXr
-9BlD26Q56z/grlOSwUCP3hMmGUiymPZbj2rI626kexeCleFFszCQnJQJ57YQujNY4HGEInWpwGGc
-Bk1C8zMunpNRKBshfQKM5hJ78yg5PwiMQED8jwqfN0YZ+Xi20GcjUSeS/vnhAa4ICp+n+B35P/IS
-RQzo3I47LKoHzGhLSqtrLaehP5pzoxsVlz/Gvbxj0lWZ1WKcVu9ZI/VhbQacslUKk0x/Pkti0NkU
-tyJKN+pgCpBZyet6g+e7ERgeqAJzJ6/BSve5aa4+wF/K4rEEJRt+7/bcG4bUdCpqTMfOJtrzTnm6
-SnNxS0tHcFCE4mXozVOfHnMAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIACx2XiWqoOsyRHJvHYpRHx2KK8aqyfD7+x4R0BLQ0PVFMU3qilduU
+RfgooqwW+L0+Gv6dMwsC1wlZipXcALB+wp+0tK72qgMitY4A/SYQa02Ycy80m/CldZhFh4ntn6K3
+EzQXz2sg95KiE+0JgNYZJXY+92ur0y8i/3qRPcZWZW7fwiASskS3RX5+o9Pz0u8HeaA8MMHe647A
+wpw1qBKUtlBrUidL7AMOG9kfbBC3g2bOrKdGgmPT59OKny0rnTYjXrSEmlvOBz7YDidbEGSwOTHT
+EUfFzCME58zSPxiGE86zuIfIrs+vOnKqjwbQWZO65IFJYqiAGiqoUWkTOxdS9l8rlfah72m+Y/Lu
+O+XDzCujaGwZ4XpTf5dhM1sojJNDx+syG1ColZz6SkmFroS8UPSGna7qMMtNWyXxU9okHTVcVQgL
+uLdFMNY2+rn9ImFgfsG8eC4c2wDRuBDmvVbSXBsji4kmKfDlnpw43G6dCpuLYv8rbLz5Cct6PcAB
+S005/n00xCdXREcIxwzgkWKhUBw7dWhlvbGRq6B0qxbRZtlqBAuZ+5H2lzppx0tVgUEUw41qKEXy
+tBQMmFNP7HsDhb7B9l8kn96VPVC+xTzU+c2hA9icEM3N/G5nCuTPcLP/kB2rxA31Zt30G3ii9rAJ
+eqD95h+YeobJ1DGZJK81JbAAAAAAAAA=
 
 
---=-pJV6LuA8JirWt+CeIJA2--
+--=-3h8ypXMqBwC7mZwWnyZO--
