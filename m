@@ -1,136 +1,187 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E174B0486
-	for <linux-hyperv@vger.kernel.org>; Sun,  9 Aug 2026 02:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7EC2288D5
+	for <linux-hyperv@vger.kernel.org>; Sun,  9 Aug 2026 02:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786242900; cv=none; b=gOdMRtmLuzcL9+xTtgPMCCWObROeyPdgR8Byy5UUpYKe2y64lFIjQ3bHYO1X7AV99ibgNxo0NnE0tv2QMgPhMndeW6mlqySJDvE1BL4jxLkjasCT72G8B0Eqt3kduSG6p1MIznYc+sybSYwhQnt0sKAXepHYeaJRt3sQA5qQxDc=
+	t=1786242900; cv=none; b=fzBNIRqDId5vkbpBD3odRImXhLmxaiYPGpFxvanK6OwGAO57X0mzIb9gsUBYEVK2YsPk8WZcn1NlgdOS+aO7Nvrju56asHw4rJGn7yxz0L6SX4D55YF6EhIICNXIsXu+t7zbYZMPZ7IB42iD1DekpCIaEjX3DaSLJXHI4YUq0Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786242900; c=relaxed/simple;
-	bh=65hOq/UD/6WzvEha/ePjQd4oPvTCPQf6A3BnBm0BKYo=;
+	bh=28K5tdu6u9CY0S/HBi0/qk98le/CYuM+FGudNjTsX10=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=HvFRb0xBKzhhVuScuk6uTF6z1VtVRKfbIhcrJe8BEIV82nPuW6XVkx0AJeQ+EzuZNPqWwI3KadGPteuA0cTlcoSz8F0CVE7oLoK/6Z2zlGpic1Z93q5UfiHEHcohnpK7OqKFLdcF0LZ/w9AwZIFdDJDfSTJXVbo+azs4s4sGx0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPzl9wg8; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=cVAi/dWd7vNsTtAnq4B+yqo0AQbaohVP2Qq8bWgfrR0JpnU8lbAikhKotoD8ZtI6YuwW9fH2Cl3XmQmBAYtnRwlUewQNPfqPpUKKbkc1ds6uc0+LqZ0sYvjE0/QwJiQzNdAO4P2lV2wBk+GHWOQdo1Fsk0/jkE2bl5OhlrTGgSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zocnv1VC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPzl9wg8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6D61F000E9;
-	Sun,  9 Aug 2026 02:34:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zocnv1VC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D1F1F00A3A;
+	Sun,  9 Aug 2026 02:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786242898;
-	bh=ypDYnAWmPOOxGCwMiFf57Zkwe/MfqMmlJ+iiuQd53kA=;
+	s=k20260515; t=1786242899;
+	bh=EU7FrtJrxvrTuu8VV3VEsfkBPQpH27r1EazV3gB/Myw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DPzl9wg8kjpXEwjOFjl2NfntBU36dcdH3mEtTA5stxS8p7/SdsId3rjZ3LkjO7vO1
-	 lM1g02/s3wsUd2urmsf09bgHCYN2B+4nGFeqBPt5Qn0neuuaI4zgs8zcnTZVtmwYrt
-	 vgNICF6P7JfEh7lj/auRByfZzIa52RBizxL+i/rC5+yncfy+/f0UxwVjnjgRhw7HYF
-	 uRDk0RZdE4Rq9kF6iClYyv7MvZyvO16zjhlzBbVuWcbFBmXxt8Tazm/39S3bbp7KoQ
-	 +F2w3MMi7eXDIRwkzZMQGUaIRpyH+VPgPBC0e6bwBtHlbh09s2ibFyMu6kYAYZymX4
-	 4+o2IkIM/t+mA==
+	b=Zocnv1VCx/AzB7rBygo5p0T8OIRRpxGPUWOaxZqSEl61K6rKq8Jn9e3L+AcOsF1ks
+	 +WGC4KU/gyFMECpzHsMqHwkoQ+JGwSPqI86ESGLVptyzrRyvKCZ66RSK9danfj/i/0
+	 fNm7pDKTPYKY8THKTXpKMimyhx/9J4T6IOne++Y1RhyAo5Zgvh9k5yqzY8e4UNS6pN
+	 PYrOI/rCLoaDfVPFsr10bDY4V2BV1EgzK5ex3jKtyCmNijPCwj4fYr1sAsM6/16SPV
+	 iOHwtSfbu/Zunr+VfZVlIP1AUC2RY/yAL4SdPB1R6DgBaQcjJObCqaNcJz8sgBqzPY
+	 ycOZ2kWVxoKHw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v4 4/7] net: mana: validate hardware-supplied values
- in the HWC RX path
+Subject: Re: [PATCH net v4 6/7] net: mana: fix stale HWC response after
+ command timeout
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260808023417.1746886-5-longli@microsoft.com>
+In-Reply-To: <20260808023417.1746886-7-longli@microsoft.com>
 References: <20260803234355.636038-1-longli@microsoft.com>
- <20260808023417.1746886-5-longli@microsoft.com>
+ <20260808023417.1746886-7-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 Aug 2026 02:34:57 +0000
-Message-Id: <20260809023458.0B6D61F000E9@smtp.kernel.org>
+Date: Sun, 09 Aug 2026 02:34:58 +0000
+Message-Id: <20260809023459.38D1F1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [Critical] Race condition leading to stack memory corruption and Use-Afte=
-r-Free (ABA) on hardware command timeout.
+- [High] Data race due to publishing the message slot before context initia=
+lization
+- [High] Flawed early response mitigation causes premature sender completio=
+n and cascading slot corruption
 --
 
---- Patch [4]: [PATCH net v4 4/7] net: mana: validate hardware-supplied val=
-ues in the HWC RX path ---
-commit 3dd532e8ebcefe4a1f19044be675c58a1504e9c6
+--- Patch [6]: [PATCH net v4 6/7] net: mana: fix stale HWC response after c=
+ommand timeout ---
+commit f9387b68b6c4ace004d0fe502f200e95cf110776
 Author: Long Li <longli@microsoft.com>
 
-net: mana: validate hardware-supplied values in the HWC RX path
+net: mana: fix stale HWC response after command timeout
 
-This commit adds validation for hardware-supplied lengths and indices in the
-MANA hardware channel RX handler. It ensures the inline OOB size, SGE addre=
-sses,
-and response lengths are checked before use. Out-of-bounds or untrusted RX =
-WQEs
-are leaked and, if exhausted, the channel goes into a terminal state.
+This commit fixes an issue where a hardware command timeout leaves a stale
+response in the channel, potentially corrupting subsequent requests. It
+introduces a per-slot lock, refcount, and a responded flag to safely track
+slot ownership between the sender and the CQ interrupt handler.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
 et/ethernet/microsoft/mana/hw_channel.c
-> index 19896bb5ce1a4..5db8cfe2d8443 100644
+> index adc7ad98ca8d8..2f0dae3539552 100644
 > --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
 > +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> @@ -83,6 +83,19 @@ static void mana_hwc_handle_resp(struct hw_channel_con=
-text *hwc, u32 resp_len,
->  	struct hwc_caller_ctx *ctx;
->  	int err;
+> @@ -7,25 +7,58 @@
+>  #include <linux/pci.h>
+>  #include <linux/vmalloc.h>
 > =20
-> +	/* Defence in depth: the sole caller, mana_hwc_rx_event_handler(),
-> +	 * already rejects msg_id >=3D hwc->num_inflight_msg with the value it
-> +	 * passes here by value, so this cannot be reached out of range.  Keep
-> +	 * the guard at the indexing site so the bitmap and caller_ctx array
-> +	 * are never indexed without a bound in view.
-> +	 */
-> +	if (msg_id >=3D hwc->num_inflight_msg) {
-> +		dev_err(hwc->dev, "hwc_rx: msg_id %u >=3D max %u\n",
-> +			msg_id, hwc->num_inflight_msg);
-> +		mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
-> +		return;
-> +	}
+> +/* Acquire a free message slot from the inflight bitmap.  Returns
+> + * -ETIMEDOUT if a prior HWC command has timed out (preserving the
+> + * error code callers expect).
+> + */
+>  static int mana_hwc_get_msg_index(struct hw_channel_context *hwc, u16 *m=
+sg_id)
+>  {
+>  	struct gdma_resource *r =3D &hwc->inflight_msg_res;
+>  	unsigned long flags;
+>  	u32 index;
+> =20
+> -	down(&hwc->sema);
+> +	for (;;) {
+> +		spin_lock_irqsave(&r->lock, flags);
+> =20
+> -	spin_lock_irqsave(&r->lock, flags);
+> +		if (hwc->hwc_timed_out) {
+> +			spin_unlock_irqrestore(&r->lock, flags);
+> +			return -ETIMEDOUT;
+> +		}
+> =20
+> -	index =3D find_first_zero_bit(hwc->inflight_msg_res.map,
+> -				    hwc->inflight_msg_res.size);
+> +		index =3D find_first_zero_bit(r->map, r->size);
+> +		if (index < r->size) {
+> +			struct hwc_caller_ctx *ctx;
 > +
->  	if (!test_bit(msg_id, hwc->inflight_msg_res.map)) {
->  		dev_err(hwc->dev, "hwc_rx: invalid msg_id =3D %u\n", msg_id);
->  		mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
+> +			bitmap_set(r->map, index, 1);
+> +			ctx =3D &hwc->caller_ctx[index];
+> +			reinit_completion(&ctx->comp_event);
 
-[Severity: Critical]
-This is a pre-existing issue, but is there a race condition between this
-test_bit() check and the command timeout path that could corrupt stack memo=
-ry?
+[Severity: High]
+Could this publish the message slot before the context is fully initialized?
 
-If a thread calling mana_hwc_send_request() times out, it takes this path:
+The slot is marked active in the bitmap with bitmap_set() before the
+caller_ctx fields (comp_event, refcnt, responded, error) are initialized.
 
-	if (!wait_for_completion_timeout(&ctx->comp_event,
-					 (hwc->hwc_timeout * HZ) / 1000)) {
-		dev_err(hwc->dev, "HWC: Request timed out!\n");
-		err =3D -ETIMEDOUT;
-		goto out;
-	}
-    ...
-    out:
-	mana_hwc_put_msg_index(hwc, msg_id);
-	return err;
+Since mana_hwc_handle_resp() checks the bitmap locklessly via test_bit():
 
-The timeout path clears the message ID bit and returns without synchronizing
-with the interrupt handler.
+mana_hwc_handle_resp() {
+        ...
+        if (!test_bit(msg_id, hwc->inflight_msg_res.map)) {
+                dev_err(hwc->dev, "hwc_rx: invalid msg_id =3D %u\n", msg_id=
+);
+                ...
+        }
+        ctx =3D hwc->caller_ctx + msg_id;
+        spin_lock(&ctx->lock);
+        ...
+}
 
-Concurrently, if a delayed hardware response arrives here in
-mana_hwc_handle_resp(), it could pass the test_bit() check right before the
-timeout path clears it.
+If a stale or duplicate hardware response arrives at this exact moment,
+can the interrupt handler observe the published bit and interact with the
+partially initialized ctx fields?
 
-The timeout thread then clears the bit and returns, popping its stack.
-Then mana_hwc_handle_resp() proceeds and executes:
+> +			/* Take the response-side reference here, under
+> +			 * r->lock and together with the slot bitmap bit,
+> +			 * so a stale or duplicate response that lands
+> +			 * before mana_hwc_send_request() posts the request
+> +			 * cannot drop the refcount to zero and free the
+> +			 * slot under the sender.  One reference is the
+> +			 * sender's; the other is released by
+> +			 * mana_hwc_handle_resp().
+> +			 */
+> +			refcount_set(&ctx->refcnt, 2);
+> +			ctx->responded =3D false;
+> +			ctx->msg_id =3D index;
+> +			ctx->error =3D -EINPROGRESS;
+> +			spin_unlock_irqrestore(&r->lock, flags);
+> +			break;
+> +		}
 
-	if (!err && ctx->output_buf) {
-		ctx->status_code =3D resp_msg->status;
-		memcpy(ctx->output_buf, resp_msg, resp_len);
+[ ... ]
 
-Since ctx->output_buf points to the now-freed stack frame, could this memcp=
-y()
-write hardware data into a freed stack frame or to the stack frame of a new
-thread reusing the message ID?
+> @@ -1039,6 +1119,10 @@ int mana_hwc_send_request(struct hw_channel_contex=
+t *hwc, u32 req_len,
+>  		dest_vrcq =3D hwc->pf_dest_vrcq_id;
+>  	}
+> =20
+> +	/* handle_resp()'s reference was taken in mana_hwc_get_msg_index(),
+> +	 * so hardware responding immediately after the doorbell ring cannot
+> +	 * release the slot before this sender is done with it.
+> +	 */
+>  	err =3D mana_hwc_post_tx_wqe(txq, tx_wr, dest_vrq, dest_vrcq, false);
+>  	if (err) {
+>  		dev_err(hwc->dev, "HWC: Failed to post send WQE: %d\n", err);
+
+[Severity: High]
+Does this early response mitigation handle the sender's completion correctl=
+y?
+
+If a stale response arrives before mana_hwc_send_request() posts its WQE,
+mana_hwc_handle_resp() processes it and calls complete(&ctx->comp_event).
+
+When the sender then reaches wait_for_completion_timeout() right below the
+WQE posting step, the completion is already signaled, so it will return
+immediately as if successful.=20
+
+The sender then drops its reference and frees the slot, even though the new=
+ly
+posted WQE is still actively being processed by the hardware.
+
+If another thread reuses this slot, it will reset ctx->responded =3D false.
+When the hardware later delivers the real response for the original request,
+will mana_hwc_handle_resp() accept it and use it to complete the new thread=
+'s
+request with incorrect data?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803234355.6360=
-38-1-longli@microsoft.com?part=3D4
+38-1-longli@microsoft.com?part=3D6
