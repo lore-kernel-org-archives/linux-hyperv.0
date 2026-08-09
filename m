@@ -1,161 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3B91531E8
-	for <linux-hyperv@vger.kernel.org>; Sun,  9 Aug 2026 02:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E1314900E;
+	Sun,  9 Aug 2026 03:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786242905; cv=none; b=WgWadIEOTZZITjlU+Hletlg6DbSbyTUJD0jxcCR3gAe49WJtjc+Q+kV1gVOquqcTDzkQkVPjdKbP/C2LbKnXfD0qE/sNrDw93ORzi+A57R87SDIo33JeJSWtGeKj/ENhUN53CZSITIDwIGtIHadCVcbVN08UF2skPIaSvT+Jf9E=
+	t=1786246566; cv=none; b=Ak0syPjqsUEV6+Nv3Iy7P8iUH+P2wdNsHX1nr+6Bi38AeCN0C3WaRNz/Pb3NO3DBNUCnBpH3TJp1GhbGQ4XSl23zJq0Nkc4QTfQ4p3oV8VHzcwjevoU3IGelrPC5lnlGE6pHdoLDYxVivAois6p52AfpWMXvw3ptBp9mKK4ElqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786242905; c=relaxed/simple;
-	bh=JH2eRH7icsfCF9al+qNDXCgDMRvlvuNakX31EZe/Gb4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=e9avkrq/OSyrd266zkYyNfvvOh/SDaxMc4dVDizfoz6Xooeo52nF600CvKM+UeK340E8X6LwXhnbfwh+uBbyBHYg/i7LWmX2Qy0RzkW/7vu/e6mJ+Q56NQWkW27v+4gd1Q7N/RmjUUFIBWQ5k8uj5uzMzRChkIAwd+W1nDnCN8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6/d0r2Y; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6/d0r2Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83B331F00A3A;
-	Sun,  9 Aug 2026 02:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786242904;
-	bh=2Sk4MWX75Orr3feCtieUVYdWUgRgQlzcKe30HIPpalM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R6/d0r2Yc0vtbJkBmYEGACf8iS0DEr1qo9jj7nbnTo615S5wOLWBLHi2vjwWtSTO3
-	 lbxgpqwr5yPBKmNq3LAyx9zATNkxM6qsHb75UBfgTd6B5oW+7ch6nU4yVsde2dqfoZ
-	 HgLeZIhRvRdiHli2lmpPSPkiGXmdJYZDR8rRCLBVvoCLBrpQsPczkUfaw66DtVVL3b
-	 mXwZK/2Tzr41snjc9dgWtdnnupAej4pD34uaG1XdygSN8KTxPN8DYbRc2l/7foQhVr
-	 3nCat5rSfUM/rAMBS3VbLy8i0ODi2sYZc+HhdZ6YRMnkvojsSWUrCSUHu6mWarViRy
-	 xL1GvP/NkWS1A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v4 3/7] net: mana: free HWC comp_buf after
- destroying the EQ
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Long Li" <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260808023417.1746886-4-longli@microsoft.com>
-References: <20260803234355.636038-1-longli@microsoft.com>
- <20260808023417.1746886-4-longli@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 Aug 2026 02:35:03 +0000
-Message-Id: <20260809023504.83B331F00A3A@smtp.kernel.org>
+	s=arc-20240116; t=1786246566; c=relaxed/simple;
+	bh=IWPAPGy9vH7MTxWAG9zcneAboQuUaGBJtRUA2MuRx7g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=L6+96hdVezlFektTgcxCWTrsF0czoZEFV1w7/EyigjMcw6xGAAg+cl54dD8X7ZJvXxvHWwkw3IOJaqx0UY0v/mILD3qCHx1GLyJrBoAori7wh7ZZXCmdEWhWzdmx5vQJc/Yc/GuWkF3AvV33LYbZaDjR7s+ZU9mqkF2etwDRqPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wAH4j6L9Xdq1915AA--.27924S3;
+	Sun, 09 Aug 2026 11:35:40 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app4 (Coremail) with SMTP id zi_KCgDXCjKL9XdqUFEIAw--.44444S2;
+	Sun, 09 Aug 2026 11:35:39 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: netdev@vger.kernel.org
+Cc: Simon Horman <horms@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Dipayaan Roy <dipayanroy@microsoft.com>,
+	Sahil Chandna <sahilchandna@microsoft.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net] net: mana: fix reset work race with device removal
+Date: Sun,  9 Aug 2026 03:34:26 +0000
+Message-Id: <20260809033426.104315-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260807124945.713853-1-horms@kernel.org>
+References: <20260807124945.713853-1-horms@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zi_KCgDXCjKL9XdqUFEIAw--.44444S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?jWzTmwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZz/GESoQyYY5g5ROxLVgloiSWibBz7tv/ix5d2wiXMFtG7d
+	zgFok0WJcWaj/I/E15vN5RPxYw6l01w8CbPzC/8w
+X-Coremail-Antispam: 1Uk129KBj93XoW7tF4fJF4rCFW7Gw45AFy8tFc_yoW8Xw13pr
+	y5Ga1kCr97W3yxG3yqvr1xXFy8Crs5Ja13CwnFg3W8Cwn8Ar15tr42qr4Y9ry7Crs5Gwn0
+	vFWYqw1rZa1jqFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxM4IIrI8v6xkF7I0E8cxan2IY04v7
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
+	WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8ructUUUUU==
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Thanks for the review.
 
-Pre-existing issues:
-- [Critical] DMA-after-free and memory corruption due to skipped hardware t=
-eardown on timeout.
-- [High] Use-After-Free of `hwc->txq` and `hwc->rxq` in Event Queue handler=
-s.
---
+On the service-gating concern: I will keep GC_IN_SERVICE set on the
+failed-resume rescan exit, so the existing gate is preserved until the
+old device is removed.  A freshly probed device starts with clear flags,
+so the bit naturally resets across the rescan, and no second service or
+tx-timeout work can be admitted while mana_serv_rescan() tears the device
+down.
 
---- Patch [3]: [PATCH net v4 3/7] net: mana: free HWC comp_buf after destro=
-ying the EQ ---
-commit 3b2de5d23ee69b3df0c657484fe10e47ed38e264
-Author: Long Li <longli@microsoft.com>
+On the lock scope: agreed that holding the driver-core device lock across
+mana_gd_suspend() + the msleep() + mana_gd_resume() is far too broad.
+Narrowing it is not as simple as swapping in a driver-private mutex,
+though.  A mutex embedded in struct gdma_context cannot itself protect the
+drvdata lookup, which happens before such a lock can be taken, and
+mana_gd_remove() cannot take-then-free-then-release a lock that lives
+inside the object being freed.  What this race actually needs is a drain
+boundary: close admission of new reset work, wait for the already-admitted
+work to finish, and only then clear drvdata and tear the context down.
 
-net: mana: free HWC comp_buf after destroying the EQ
+I am aligning this with Long Li's in-flight series "[PATCH net v4 0/7]
+net: mana: HW channel reliability and hardening fixes", which is
+establishing the HWC teardown lifecycle model (the setup_active state and
+explicit destroy ordering), so that the reset/remove rework follows the
+same HWC lifecycle and teardown ordering, rather than introducing an
+independent synchronization scheme that could conflict with that work.
 
-mana_hwc_destroy_cq() freed hwc_cq->comp_buf and destroyed the CQ before
-the EQ. That was unsafe while the EQ was still registered because a late
-EQE dispatched after the free could touch freed memory. Destroy the EQ firs=
-t,
-which deregisters its IRQ and waits out in-flight handlers, fencing all
-EQE dispatch.
+I will send a reworked version once that direction is settled.
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
-et/ethernet/microsoft/mana/hw_channel.c
-> index 3f011ebbe7b3e..19896bb5ce1a4 100644
-> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> @@ -384,14 +384,24 @@ static void mana_hwc_comp_event(void *ctx, struct g=
-dma_queue *q_self)
-> =20
->  static void mana_hwc_destroy_cq(struct gdma_context *gc, struct hwc_cq *=
-hwc_cq)
->  {
-> -	kfree(hwc_cq->comp_buf);
-> +	/* Destroy the EQ before the CQ.  mana_gd_destroy_queue() on the EQ
-> +	 * deregisters its IRQ and waits out in-flight handlers, fencing all
-> +	 * EQE dispatch =E2=80=94 both the completion path and HWC init/reconfig
-> +	 * events.  Freeing the CQ first would leave the EQ live and able to
-> +	 * dispatch an event that dereferences hwc->cq->gdma_cq (e.g.
-> +	 * mana_hwc_init_event_handler()) after it has been freed.
-> +	 */
-> +	if (hwc_cq->gdma_eq)
-> +		mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but I see a similar vulnerability
-unpatched in mana_hwc_destroy_channel() in the same file.
-
-While this patch ensures the EQ is destroyed before the CQ,
-mana_hwc_destroy_channel() calls mana_hwc_destroy_wq() for the TX and
-RX queues before calling mana_hwc_destroy_cq().
-
-If an interrupt fires between the WQ frees and the EQ fence inside
-mana_hwc_destroy_cq(), the EQ handler can process completion or init events
-that dereference the freed WQs:
-
-mana_hwc_tx_event_handler() {
-    ...
-    struct hwc_wq *hwc_txq =3D hwc->txq;
-
-    WARN_ON_ONCE(!hwc_txq || hwc_txq->gdma_wq->id !=3D gdma_txq_id);
-    ...
-}
-
-Could this order of operations leave a window where active EQ interrupts
-can access freed WQ memory?
-
-
-[Severity: Critical]
-This is another pre-existing issue, but it looks like there might be a flaw
-in the teardown logic when a timeout occurs.
-
-In mana_hwc_establish_channel(), mana_smc_setup_hwc() provides the DMA
-addresses to the hardware. If the wait for the init event times out, the
-driver calls mana_hwc_destroy_channel().
-
-However, mana_hwc_destroy_channel() will skip the hardware teardown if
-the initialization didn't complete:
-
-mana_hwc_destroy_channel() {
-    ...
-    /* gc->max_num_cqs is set in mana_hwc_init_event_handler(). If it's
-     * non-zero, the HWC worked and we should tear down the HWC here.
-     */
-    if (gc->max_num_cqs > 0)
-        mana_smc_teardown_hwc(&gc->shm_channel, false);
-    ...
-}
-
-Because max_num_cqs is 0, it skips mana_smc_teardown_hwc(), but then
-proceeds to free all queue DMA buffers. Since the hardware channel was
-established, can it write to the freed DMA addresses if it processes
-the delayed events later, corrupting whatever reused those pages?
-
-> =20
-> +	/* comp_buf is reached only by mana_hwc_comp_event(), invoked from
-> +	 * the now-fenced EQ handler, so it is safe to free once the EQ and
-> +	 * CQ are gone.
-> +	 */
->  	if (hwc_cq->gdma_cq)
->  		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
-> =20
-> -	if (hwc_cq->gdma_eq)
-> -		mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
-> -
-> +	kfree(hwc_cq->comp_buf);
->  	kfree(hwc_cq);
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803234355.6360=
-38-1-longli@microsoft.com?part=3D3
