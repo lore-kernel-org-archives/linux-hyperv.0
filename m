@@ -1,196 +1,136 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212421E2834;
-	Sat,  8 Aug 2026 15:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E174B0486
+	for <linux-hyperv@vger.kernel.org>; Sun,  9 Aug 2026 02:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786201624; cv=none; b=W3dCLiOqbvaBscdwhfaxJo9se0StenWqQWc1nxnC3q7ZBZ6nX9kqPhkO0ZmD7MFa1nQPpQMHJGcCU3Sy/X3akpXFvTvejnd6DYxUVuy28Yoaq6VzSVTSrZOSw0YXbdoLkFVSSYmfp6ZLjtbnXVmWGeVOBQf+E8kClpwVHLmu7tI=
+	t=1786242900; cv=none; b=gOdMRtmLuzcL9+xTtgPMCCWObROeyPdgR8Byy5UUpYKe2y64lFIjQ3bHYO1X7AV99ibgNxo0NnE0tv2QMgPhMndeW6mlqySJDvE1BL4jxLkjasCT72G8B0Eqt3kduSG6p1MIznYc+sybSYwhQnt0sKAXepHYeaJRt3sQA5qQxDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786201624; c=relaxed/simple;
-	bh=Fbbn9MQ4G6MUWNu9/+/GjCMrKWLmyryuw2S3ABmDA6I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=LdDh4hMZoT4XjhAkyOlzj/Qf23Zlp4hS1st85+Q5kzoflOXTPMv6NyeWPiMVsiQKnkC6fvFm28ehXx69TTMlgIGqpgLoKRGYG1Fq5yvEG1NwzT/awyTyIEApsIXUxNno3wLIDsTaAdTP0X7uammfSBzH2N7DSO4tkXWMg+LX334=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YoP6gRks; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1786242900; c=relaxed/simple;
+	bh=65hOq/UD/6WzvEha/ePjQd4oPvTCPQf6A3BnBm0BKYo=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=HvFRb0xBKzhhVuScuk6uTF6z1VtVRKfbIhcrJe8BEIV82nPuW6XVkx0AJeQ+EzuZNPqWwI3KadGPteuA0cTlcoSz8F0CVE7oLoK/6Z2zlGpic1Z93q5UfiHEHcohnpK7OqKFLdcF0LZ/w9AwZIFdDJDfSTJXVbo+azs4s4sGx0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPzl9wg8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YoP6gRks"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:In-Reply-To:
-	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:References;
-	bh=5/jyAha6D+U5zzU3W+cCpJ3j4Z4I6ySL2lxtV4bdMdQ=; b=YoP6gRksn/p59tVjUCAEqmph19
-	weP9rQo8AlW5WV2KQS0n5f4YHgiz2Pl+8aPdOGfzFhagy5y5Ssii1oWx+2ScxbgznxW9qpWhhA/0A
-	ajwu5drZGj+3XNpCbCT46fXxUbrOlkD2uJ83sZVbE1SzC7/Di1WJW6k7VapxZ+2HdMQAaQlznVIEV
-	+UQAWE1PdzjUoASLyv+2+mTRbnshLC2mqyc36EQJN0F4qjxxBpnPX2O1viAXFperEWI4HRTjeTjR6
-	xIeK1PAAwGivwf9G5AboB23MahXCwnXhFTAhLz7GC1wb64934IM9q5kZI67h4UKuWxz1s50LqEWAp
-	oaelbJ3g==;
-Received: from [54.239.6.187] (helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wsidV-00000006ZMH-1xgd;
-	Sat, 08 Aug 2026 15:06:57 +0000
-Message-ID: <908a4fd0ec4498c907decfd105e1662fb4ce19eb.camel@infradead.org>
-Subject: Re: [PATCH v6 24/51] x86/kvm: Get CPU base frequency from CPUID
- when it's available
-From: David Woodhouse <dwmw2@infradead.org>
-To: seanjc@google.com
-Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, 	longli@microsoft.com, ajay.kaher@broadcom.com,
- alexey.makhalov@broadcom.com, 	jan.kiszka@siemens.com,
- dave.hansen@linux.intel.com, luto@kernel.org, 	peterz@infradead.org,
- jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
-	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	xen-devel@lists.xenproject.org
-Date: Sat, 08 Aug 2026 16:06:56 +0100
-In-Reply-To: <20260806233609.212337-25-seanjc@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-5qVG4UC9E8Q5nQrvV8Pq"
-User-Agent: Evolution 3.60.3-0ubuntu1~ppa9~24.04 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPzl9wg8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6D61F000E9;
+	Sun,  9 Aug 2026 02:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786242898;
+	bh=ypDYnAWmPOOxGCwMiFf57Zkwe/MfqMmlJ+iiuQd53kA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DPzl9wg8kjpXEwjOFjl2NfntBU36dcdH3mEtTA5stxS8p7/SdsId3rjZ3LkjO7vO1
+	 lM1g02/s3wsUd2urmsf09bgHCYN2B+4nGFeqBPt5Qn0neuuaI4zgs8zcnTZVtmwYrt
+	 vgNICF6P7JfEh7lj/auRByfZzIa52RBizxL+i/rC5+yncfy+/f0UxwVjnjgRhw7HYF
+	 uRDk0RZdE4Rq9kF6iClYyv7MvZyvO16zjhlzBbVuWcbFBmXxt8Tazm/39S3bbp7KoQ
+	 +F2w3MMi7eXDIRwkzZMQGUaIRpyH+VPgPBC0e6bwBtHlbh09s2ibFyMu6kYAYZymX4
+	 4+o2IkIM/t+mA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v4 4/7] net: mana: validate hardware-supplied values
+ in the HWC RX path
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Long Li" <longli@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260808023417.1746886-5-longli@microsoft.com>
+References: <20260803234355.636038-1-longli@microsoft.com>
+ <20260808023417.1746886-5-longli@microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 09 Aug 2026 02:34:57 +0000
+Message-Id: <20260809023458.0B6D61F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
---=-5qVG4UC9E8Q5nQrvV8Pq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Pre-existing issues:
+- [Critical] Race condition leading to stack memory corruption and Use-Afte=
+r-Free (ABA) on hardware command timeout.
+--
 
-On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> If CPUID.0x16 is present and valid, use the CPU frequency provided by
-> CPUID instead of assuming that the virtual CPU runs at the same
-> frequency as TSC and/or kvmclock.  Back before constant TSCs were a
-> thing, treating the TSC and CPU frequencies as one and the same was
-> somewhat reasonable, but now it's nonsensical, especially if the
-> hypervisor explicitly enumerates the CPU frequency.
->
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
+--- Patch [4]: [PATCH net v4 4/7] net: mana: validate hardware-supplied val=
+ues in the HWC RX path ---
+commit 3dd532e8ebcefe4a1f19044be675c58a1504e9c6
+Author: Long Li <longli@microsoft.com>
 
-I still don't think I care about Sashiko's complaint.
+net: mana: validate hardware-supplied values in the HWC RX path
 
-Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+This commit adds validation for hardware-supplied lengths and indices in the
+MANA hardware channel RX handler. It ensures the inline OOB size, SGE addre=
+sses,
+and response lengths are checked before use. Out-of-bounds or untrusted RX =
+WQEs
+are leaked and, if exhausted, the channel goes into a terminal state.
 
---=-5qVG4UC9E8Q5nQrvV8Pq
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
+et/ethernet/microsoft/mana/hw_channel.c
+> index 19896bb5ce1a4..5db8cfe2d8443 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -83,6 +83,19 @@ static void mana_hwc_handle_resp(struct hw_channel_con=
+text *hwc, u32 resp_len,
+>  	struct hwc_caller_ctx *ctx;
+>  	int err;
+> =20
+> +	/* Defence in depth: the sole caller, mana_hwc_rx_event_handler(),
+> +	 * already rejects msg_id >=3D hwc->num_inflight_msg with the value it
+> +	 * passes here by value, so this cannot be reached out of range.  Keep
+> +	 * the guard at the indexing site so the bitmap and caller_ctx array
+> +	 * are never indexed without a bound in view.
+> +	 */
+> +	if (msg_id >=3D hwc->num_inflight_msg) {
+> +		dev_err(hwc->dev, "hwc_rx: msg_id %u >=3D max %u\n",
+> +			msg_id, hwc->num_inflight_msg);
+> +		mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
+> +		return;
+> +	}
+> +
+>  	if (!test_bit(msg_id, hwc->inflight_msg_res.map)) {
+>  		dev_err(hwc->dev, "hwc_rx: invalid msg_id =3D %u\n", msg_id);
+>  		mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-snTppZI8KQqD0ALD+ClLQUYAAAAAAAA=
+[Severity: Critical]
+This is a pre-existing issue, but is there a race condition between this
+test_bit() check and the command timeout path that could corrupt stack memo=
+ry?
 
+If a thread calling mana_hwc_send_request() times out, it takes this path:
 
---=-5qVG4UC9E8Q5nQrvV8Pq--
+	if (!wait_for_completion_timeout(&ctx->comp_event,
+					 (hwc->hwc_timeout * HZ) / 1000)) {
+		dev_err(hwc->dev, "HWC: Request timed out!\n");
+		err =3D -ETIMEDOUT;
+		goto out;
+	}
+    ...
+    out:
+	mana_hwc_put_msg_index(hwc, msg_id);
+	return err;
+
+The timeout path clears the message ID bit and returns without synchronizing
+with the interrupt handler.
+
+Concurrently, if a delayed hardware response arrives here in
+mana_hwc_handle_resp(), it could pass the test_bit() check right before the
+timeout path clears it.
+
+The timeout thread then clears the bit and returns, popping its stack.
+Then mana_hwc_handle_resp() proceeds and executes:
+
+	if (!err && ctx->output_buf) {
+		ctx->status_code =3D resp_msg->status;
+		memcpy(ctx->output_buf, resp_msg, resp_len);
+
+Since ctx->output_buf points to the now-freed stack frame, could this memcp=
+y()
+write hardware data into a freed stack frame or to the stack frame of a new
+thread reusing the message ID?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260803234355.6360=
+38-1-longli@microsoft.com?part=3D4
