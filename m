@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B116F3ACA5A;
-	Mon, 10 Aug 2026 09:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C7F39CCF9;
+	Mon, 10 Aug 2026 09:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786352849; cv=none; b=DiHgIxvdfuai7nVpTSwodBlfdfWEABAHHUbW9vOl1LsdHxQ8xd8w9cgib69BEvcdsBdGBLY2UkHkjh5ovJyGX6eldKRdO4/VKYm+c33u1Mpb99f9CzHOk8k9On7n1VeTyCt2P+FdfGkz+TH/IaYwrC9lqYJwaadyEaSuFB2qChE=
+	t=1786352854; cv=none; b=kDhKfLFiMWr+Fy74JjSr6iH4+w6KIy9K2xhdnfiPkuXT92kpWzjJhXtSi74XlVEukNQ26nOau2q8a0o6ant80EKIg9by8VrTpTOXIdAFeznVwcWP8Azb+TRkjs4miP1Kh2qBiTy0lAhay81twPQiP85xyL79jvOnpL18hHT66aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786352849; c=relaxed/simple;
-	bh=RcLbGilKNPNC0RUtf9NSMs+SW3P3+5XKJ39gGa4XbLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mhja4GJWZA6LY1Jfg5mmh6Nz68zxU5QTezXnLPqfJBzqzMne0UnUOQkN941i1911guWl35z6OhPUGX7RThJQlIw+0q4eukGXeJ7/7L348q+8nlljy4BRPhDp1a7Q2xNjxUdQTaZ5VgDhT5FJLV3ftDImVTyT3hZFGFq8z5fxNyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nZfvei8m; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1786352854; c=relaxed/simple;
+	bh=xa78jNuHvayG1KaCaq7REqe7r+ZZLRS4/vOo4+m26K8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kT42X0uevlNIyOYg0Rq+MzhaM3UBKBruSQTLiuarccT+bIKjuB8JldjK4YmysxMJKPFZXpmXWChqm94TtzMQoMGoBZF/peRB+c4O5zothwBOQmflU1CNJcd4OKRdCLoHp/UI3l+A86pwWinrKKCFqtTPrvt1qTlwJEMa0Tny10Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=p9pjXXIR; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nZfvei8m"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="p9pjXXIR"
 Received: from CPC-namja-026ON.redmond.corp.microsoft.com (unknown [4.213.232.21])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A21AC20B7167;
-	Mon, 10 Aug 2026 02:06:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A21AC20B7167
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7192520B7166;
+	Mon, 10 Aug 2026 02:07:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7192520B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786352822;
-	bh=1KPmg0Fee/slatq+vNTVHE9Mgne9Fj3pacSFimVqm8U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nZfvei8m69pgOEwZikK4apxa1XgVSDms4l3ejMv5mC0rD1qLHcnZurJwtbaegcxGp
-	 4ryQzVRKLu50eJvn/yQjwqVtLC+ZhhSzJto0cMnufnl7oktyijbIvWW/qP+y/7JdoN
-	 llPnzD4XOgW08QnBlJ8Hbttp9Iv9d9TXpu0UL2+o=
+	s=default; t=1786352829;
+	bh=Bx26xf7cHtvbDBbCkLmMLyTj3yU5wo6z0sqPBJm9JBk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=p9pjXXIRyC0Kg1gTcXxO6D8U226lLA1H4p1gYy4Pj91Tet/vs8/e8+FG+V5YILE0G
+	 WfwbHqQHKea9392eXQl97GZsIdqSYSudP7Rjse3m0yVgR8P9nd0mCAmfBfiDbWg7ie
+	 FE54+YmQqTS+XxZrBg2reozGYl7RIgZfgRwgIiWA=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: Thomas Gleixner <tglx@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -52,10 +53,12 @@ Cc: "H. Peter Anvin" <hpa@zytor.com>,
 	linux-hyperv@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] x86/irq: Fix lost interrupts on CPU hot-unplug for Hyper-V PCI/MSI
-Date: Mon, 10 Aug 2026 09:07:12 +0000
-Message-ID: <20260810090716.2325295-1-namjain@linux.microsoft.com>
+Subject: [PATCH v2 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
+Date: Mon, 10 Aug 2026 09:07:13 +0000
+Message-ID: <20260810090716.2325295-2-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260810090716.2325295-1-namjain@linux.microsoft.com>
+References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -64,38 +67,43 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On CPU hot-unplug, fixup_irqs() re-injects interrupts that are still
-pending in the outgoing CPU's IRR via the irqchip's irq_retrigger()
-callback. The Hyper-V vPCI MSI irqchip never installs one, so such a
-pending interrupt is silently dropped, leading to lost interrupts, stalls
-and "No irq handler for vector" messages.
+The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
 
-Patch 1 is the minimal, backportable fix (Fixes:/Cc: stable) that installs
-irq_chip_retrigger_hierarchy() on the Hyper-V PCI/MSI chip. Patch 2 then
-switches fixup_irqs() to call irq_chip_retrigger_hierarchy() directly, so
-the retrigger works for any stacked irqchip without a per-chip callback.
-Patch 3 drops the now-redundant irq_retrigger() initializations.
-This way, patch 2 and 3 do not need to be backported.
+On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
+the outgoing CPU to a new target. If an interrupt still has its pending bit
+set in the outgoing CPU's IRR at that point, fixup_irqs() resends it on the
+new target through the irqchip's irq_retrigger() callback. As the Hyper-V
+PCI/MSI chip does not provide that callback, the pending interrupt is
+silently dropped, which can result in lost interrupts, stalls and "No irq
+handler for vector" messages during CPU hotplug.
 
-Changes since v1:
-https://lore.kernel.org/all/20260728135117.2888175-1-namjain@linux.microsoft.com/#t
-* Added Review tags
-* Adding minor clarification in commit msg of patch 2 (Shradha)
+Install irq_chip_retrigger_hierarchy() as the irq_retrigger() callback for
+the Hyper-V PCI/MSI irqchip, so that a pending interrupt is resent on its
+new target CPU via the parent x86 vector domain.
 
-Original RFC: https://lore.kernel.org/all/87y0f3jhd6.ffs@fw13/
+Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
+Cc: stable@vger.kernel.org
+Suggested-by: Long Li <longli@microsoft.com>
+Suggested-by: Thomas Gleixner <tglx@kernel.org>
+Reviewed-by: Aditya Garg <gargaditya@linux.microsoft.com>
+Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+---
+ drivers/pci/controller/pci-hyperv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Naman Jain (3):
-  PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
-  x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
-  x86/irq, iommu/amd, PCI: Drop redundant irq_retrigger inits
-
- arch/x86/kernel/apic/io_apic.c |  2 --
- arch/x86/kernel/apic/msi.c     |  4 +---
- arch/x86/kernel/hpet.c         |  1 -
- arch/x86/kernel/irq.c          | 23 +++++++----------------
- drivers/iommu/amd/init.c       |  1 -
- 5 files changed, 8 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index cfc8fa403dad6..89816a2bd7cd3 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
+ 	info->ops->msi_prepare = hv_msi_prepare;
+ 
+ 	chip->irq_set_affinity = irq_chip_set_affinity_parent;
++	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+ 
+ 	if (IS_ENABLED(CONFIG_X86))
+ 		chip->flags |= IRQCHIP_MOVE_DEFERRED;
 -- 
 2.43.0
 
