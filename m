@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B03C3DA5CC
-	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C823C140F
+	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786367155; cv=none; b=sTrUR4iNyY18r8y7S6wSrA88X7unUlfggvwHwuSqGOsW4KZr7jaeBiy/y/s+q2EZVdgrzvrwNW2PSHiNk9UCKxqGG2qmHBhX3K8pR9oiXxvaepwAvkCOgx/0EuQLKt6+zYKECmdocQQDfgVTMSgG+8/kMnwZV2ru5gd0xgHOYvs=
+	t=1786367233; cv=none; b=KgDxzsWsbNsGmeeua+bmYB8uExz3ro7vUQAQVwUDS1LAie9plDWlXXLpqXrzFAejofmt+KD0ON59ZMMVzOKVGMqwvfJe6BkYKEistTSJc5YNSRV0KxHTcha3fMv8e5oQYKVqRLnSFk5KB6UCAjgzw9BEHj981Lv4OIcupCaCoXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786367155; c=relaxed/simple;
-	bh=vOLVZMXSzSrAFmG61K6lOTediWX3jokEcyNQ5Qr8tMA=;
+	s=arc-20240116; t=1786367233; c=relaxed/simple;
+	bh=FVuJUiIdYxokpry3SGVTUB3AItGMMx7g6AeFlREff84=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Knz6vW6F+PSoTgsDXluwaqJLw/upYf57R642628Py8+tKBb+jJnTb3tV6mHM0PUIAcKBYnPKNtdpAN+hHCvREmBbLLMwdrsVmK/PxN/hsmLUaG4u4AmTg4FaCLnWMohzJXZgxfmwUxqRcYlj92y+EuDyrrWNd2tyyNCuLStBYdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B/re7ayH; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=fcV0v9EI1l3AAGpSi9iZhw1sGoFUACOyciN16W+t9ljwY+b87gyAcENT9fNS7yQLRZuHNcDMdTbyRHf8Xbar5qMQqFoSnvEpOix0tvJzHquZYZK4oBKYzv5cNe2WQZ7R3Uv/tBq3YEQdUYDWygvOv+dPzONvO89CL7wN3HakksE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nneBa3z6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B/re7ayH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21291F000E9;
-	Mon, 10 Aug 2026 13:05:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nneBa3z6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298451F000E9;
+	Mon, 10 Aug 2026 13:07:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786367154;
-	bh=EtsgEQYQgMABhJLCbrAaaoltxF0MoIStD4xUpsVh4Do=;
+	s=k20260515; t=1786367231;
+	bh=bMaz/1CXRMSoNCQf3Jip3+rMs8HE1D+q0Gfjn/VvCBM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=B/re7ayHJf4vFk8vrP41c9t5MDPHyt/7H4/epUN2vMNbZx/2abxVirrSy1U0XDmfK
-	 lkoc6NTDReQV//pkzaoBQoxytDEpmyF+CrtLuQiZWq+sOEbggEsybIoS4LuhNxfuw+
-	 jl5K9COHE5usIVGzWGwNncE5Ew1KPSEOlqPtmMfx8ejuIY4rsJyqemxuUOPt9WIctj
-	 eY2lJrjX9ZKrmf5v+8Mpx9uVwmGcgshsnhLdzOrlJQAJXYmAlkuEoq+XpTeVGGZMaE
-	 tsjlKlHWblBr8aiVxbUjX5i0m19UCXhj6I0+RMYczlWzRrn31vVp3McmRUZNt3WSyw
-	 +W7G3wBDxRQBQ==
+	b=nneBa3z6Cxw8ZROpoCdB560JVIU+x3dak6f6rkyzPYniOXLXG9SiYYbRzzNXtSEN7
+	 ZF/IKhbG6MyJXkZ7zQy65BxjjLG+qNcAeCsq+CKbkTFDLVO8776JLS/1FSYeomgdVk
+	 VZ24DzIcFbnQkyqqDOsjSovwvH327pWrS9C6WdMykVXds1de0RKsq2sVup0ojbUzcl
+	 1eXjbPPCugp0Auv1j/gppHhqrXQvmgDMmDsKMtmL231YBIt6uRa6OJWo1YmnOQv2+5
+	 y8ShiJTaFrvNO8oRPtyyPPt5yRfTi1KvlBeJMrvDNg74IXvSv/TlqFO7bSmhMXipW/
+	 BQQB1UHl+A0XQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 12/13] hyperv: add MSHV Dom0 root-partition boot
- enablement (EFI HvLoader)
+Subject: Re: [PATCH v2 04/13] mshv: wire SEV-SNP partition ioctls
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260810124527.1409634-13-weh@linux.microsoft.com>
+In-Reply-To: <20260810124527.1409634-5-weh@linux.microsoft.com>
 References: <20260810124527.1409634-1-weh@linux.microsoft.com>
- <20260810124527.1409634-13-weh@linux.microsoft.com>
+ <20260810124527.1409634-5-weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Aug 2026 13:05:53 +0000
-Message-Id: <20260810130553.D21291F000E9@smtp.kernel.org>
+Date: Mon, 10 Aug 2026 13:07:10 +0000
+Message-Id: <20260810130711.298451F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,292 +46,221 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 7 potential issue(=
 s) to consider:
-- [Critical] Secure Boot bypass and arbitrary memory overwrite via `hyperv_=
-resvd=3D` early parameter.
-- [High] Uninitialized stack variable `ret` used across trust boundary in `=
-mshv_launch`.
-- [High] EFI stub passes unmerged hypervisor memory ranges to the kernel, o=
-verflowing command-line and parser limits.
-- [High] Logic error in `hv_parse_hyperv_resvd_new` rejects valid physical =
-address 0.
-- [Medium] Incorrect variadic argument forwarding in `mshv_efi_reboot`.
-- [Medium] State corruption in `hv_parse_hyperv_resvd_new` overwriting head=
- without clearing the tail.
-- [Low] Incomplete implementation/Dead code: `SETUP_MSHV` is built but neve=
-r parsed.
+
+New issues:
+- [Critical] Guest memory regions are unpinned and freed back to the host a=
+llocator before the hypervisor restores host access, leading to fatal RMP v=
+iolations.
+- [High] Inconsistent handling of the user-provided guest_pfns array betwee=
+n SEV-SNP ioctls, causing correct input to be corrupted.
+- [High] Potential CPU stall in hv_call_import_isolated_pages() due to unbo=
+unded loop over user-provided page count without cond_resched().
+- [High] Unbounded retry loop in destroy_partition() if destroy_snp_partiti=
+on_state() fails.
+- [High] Module unload race with the delayed_work 'destroy_work' causes a U=
+se-After-Free kernel panic.
+- [High] hv_call_set_partition_property compares the raw 64-bit status to H=
+V_STATUS_CALL_PENDING without masking, breaking the completion handler.
+
+Pre-existing issues:
+- [High] Inverted logic in mshv_init_async_handler()'s completion check per=
+manently bricks the partition on stray completions.
 --
 
---- Patch [12]: [PATCH v2 12/13] hyperv: add MSHV Dom0 root-partition boot =
-enablement (EFI HvLoader) ---
-commit d68b02782397b0c67109138fd120320cacae1537
-Author: Wei Hu <weh@microsoft.com>
+--- Patch [4]: [PATCH v2 04/13] mshv: wire SEV-SNP partition ioctls ---
+commit 903e3452cece23d95187a14a4beb770df83a5add
+Author: Wei Liu <wei.liu@kernel.org>
 
-hyperv: add MSHV Dom0 root-partition boot enablement (EFI HvLoader)
+mshv: wire SEV-SNP partition ioctls
 
-Port the EFI HvLoader protocol handshake (efi-mshv stub + SETUP_MSHV) and
-the hyperv_resvd_new memory reservation so an upstream kernel can boot as
-a Microsoft Hypervisor (MSHV) root partition.
+Wire the SEV-SNP partition ioctls for GPA host-access changes,
+isolated-page import, PSP guest requests, AP creation, and SNP partition
+teardown.
 
-> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyper=
-v.c
-> index 185d4f677ec0f..63504b22b5ba8 100644
-> --- a/arch/x86/kernel/cpu/mshyperv.c
-> +++ b/arch/x86/kernel/cpu/mshyperv.c
+The GPA host-access ioctl converts the guest addresses to GFNs before
+issuing the hypercall. The PSP guest-request path restores host access
+to the request/response pages if the hypercall fails, so a failed request
+does not leave guest pages inaccessible to the host.
+
+> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_cal=
+l.c
+> index 4e48c1a9a6308..6d42fdd2c573f 100644
+> --- a/drivers/hv/mshv_root_hv_call.c
+> +++ b/drivers/hv/mshv_root_hv_call.c
 [ ... ]
-> +static int __init hv_parse_hyperv_resvd(char *arg)
+> @@ -1014,6 +1014,41 @@ int hv_unmap_stats_page(enum hv_stats_object_type =
+type,
+>  }
+> =20
+>  #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+> +int hv_call_set_partition_property(u64 partition_id, u64 property_code,
+> +				   u64 property_value,
+> +				   void (*completion_handler)(void *, u64 *),
+> +				   void *completion_data)
 > +{
-> +	int idx, max =3D ARRAY_SIZE(hv_resvd_ranges);
-> +	int i =3D 0;
 [ ... ]
-> +	while (get_option(&arg, &idx)) {
-> +		if (i >=3D max) {
-> +			pr_err("Hyper-V: resvd ranges tbl full %d\n", idx);
-> +			break;
-> +		}
+> +	status =3D hv_do_hypercall(HVCALL_SET_PARTITION_PROPERTY, input, NULL);
+> +	local_irq_restore(flags);
 > +
-> +		hv_resvd_ranges[i++] =3D idx;
-> +	}
-> +
-> +	return 0;
-> +}
-> +early_param("hyperv_resvd", hv_parse_hyperv_resvd);
-> +
-> +/*
-> + * Reserve memory that the hypervisor is using early on. The ranges are =
-marked
-> + * reserved by a custom bootloader, change that to usable and reserve th=
-at
-> + * range. Note, the bootloader sanitizes the e820 before passing on here.
-> + */
-> +static void __init hv_resv_mshv_memory(void)
+> +	if (unlikely(status =3D=3D HV_STATUS_CALL_PENDING))
+
+[Severity: High]
+Does this code incorrectly compare the raw 64-bit status to
+HV_STATUS_CALL_PENDING without masking it?
+
+All other hypercalls use the macro hv_result(status) =3D=3D HV_STATUS_CALL_=
+PENDING
+to strip diagnostic and reserved bits. If this comparison fails because of
+upper bits being set, the hypercall completion handler is bypassed, causing
+the function to fail with an error when it should wait. This would lead the
+partition destruction into an infinite retry loop.
+
+> +		completion_handler(completion_data, &status);
+[ ... ]
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index 146726cc4e9ba..8c87dd8e0378f 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+[ ... ]
+> @@ -1625,6 +1668,289 @@ mshv_partition_ioctl_initialize(struct mshv_parti=
+tion *partition)
+[ ... ]
+> +static long
+> +mshv_partition_ioctl_modify_gpa_host_access(struct mshv_partition *parti=
+tion,
+> +					    void __user *user_args)
 > +{
-> +	u64 start, end, size;
-> +	int i, idx, max =3D ARRAY_SIZE(hv_resvd_ranges);
-> +	int resource_index =3D 0;
-> +
-> +	for (i =3D 0; i < max && hv_resvd_ranges[i] !=3D -1; i++) {
-> +		idx =3D hv_resvd_ranges[i];
 [ ... ]
-> +		start =3D e820_table->entries[idx].addr;
-> +		size =3D e820_table->entries[idx].size;
-> +		end =3D start + size - 1;
+> +	for (i =3D 0; i < args.page_count; i++)
+> +		gpfns[i] =3D HVPFN_DOWN(gpfns[i]);
 > +
-> +		memblock_reserve(start, size);
-> +		e820_table->entries[idx].type =3D E820_TYPE_RAM;
-> +		pr_info("Hyper-V reserve [mem %#018Lx-%#018Lx]\n", start, end);
+
+[Severity: High]
+Are we inconsistent in how we handle the user-provided guest_pfns array
+between SEV-SNP ioctls?
+
+Here, the code applies HVPFN_DOWN() to a field named guest_pfns, treating it
+as a GPA instead of a PFN. This shifts the PFNs right by 12 bits, corrupting
+the values.=20
+
+However, in mshv_partition_ioctl_import_isolated_pages(), the identically
+named guest_pfns array is passed directly to the hypercall without
+downshifting. This mismatch breaks the API contract and can lead to memory
+corruption or hypercall failures when incorrect physical addresses are
+provided to the hypervisor.
+
+[ ... ]
+> +static long
+> +mshv_partition_ioctl_import_isolated_pages(struct mshv_partition *partit=
+ion,
+> +					   void __user *user_args)
+> +{
+[ ... ]
+> +	ret =3D mshv_init_async_handler(partition);
+
+[Severity: High]
+This is a pre-existing issue, but does mshv_init_async_handler() have inver=
+ted
+logic in its completion check that permanently bricks the partition?
+
+mshv_init_async_handler() has this check:
+
+    if (completion_done(&partition->async_hypercall)) {
+        pt_err(partition, "Cannot issue async hypercall while another one i=
+n progress!\n");
+        return -EPERM;
+    }
+
+completion_done() returns true if a completion is completed (done > 0). The
+function incorrectly assumes another operation is in progress, when in fact=
+ it
+means the completion is fully resolved. If a spurious completion fires, it
+permanently denies service for any further asynchronous hypercalls for the
+partition.
+
+> +	if (ret)
+> +		goto out;
 > +
-> +		hv_mshv_res[resource_index].name =3D "Hypervisor Code and Data";
-> +		hv_mshv_res[resource_index].flags =3D IORESOURCE_BUSY | IORESOURCE_SYS=
-TEM_RAM;
-> +		hv_mshv_res[resource_index].start =3D start;
-> +		hv_mshv_res[resource_index++].end =3D end;
-> +	}
-> +}
+> +	ret =3D hv_call_import_isolated_pages(partition->pt_id, pages,
+> +					    args.page_count, args.page_type,
+> +					    HV_ISOLATED_PAGE_SIZE_4KB,
+> +					    mshv_async_hvcall_handler,
+> +					    partition);
+
+[Severity: High]
+Can this lead to a CPU stall and kernel watchdog panic?
+
+Userspace can invoke MSHV_IMPORT_ISOLATED_PAGES with a massive page_count.
+The while (remaining) loop inside hv_call_import_isolated_pages() will
+continuously issue synchronous hypercalls based on this unbounded
+user-supplied page count without ever calling cond_resched(), monopolizing
+the processor.
+
+[ ... ]
+> @@ -1782,6 +2191,9 @@ static void destroy_partition(struct mshv_partition=
+ *partition)
+[ ... ]
+>  	if (partition->pt_initialized) {
+> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+> +		if (mshv_partition_encrypted(partition)) {
+> +			hlist_for_each_entry_safe(region, n,
+> +						  &partition->pt_mem_regions,
+> +						  hnode) {
+> +				hlist_del(&region->hnode);
+> +				mshv_region_put(region);
+> +			}
 
 [Severity: Critical]
-Does this allow bypassing kernel lockdown?
+Does this unpin and free guest memory regions back to the host allocator
+before the hypervisor restores host access?
 
-The hv_parse_hyperv_resvd() function takes an unauthenticated index from the
-kernel command line. Then hv_resv_mshv_memory() blindly converts that e820
-entry to E820_TYPE_RAM and IORESOURCE_SYSTEM_RAM without bounds checks.
+The code calls mshv_region_put() to free the memory to the host buddy
+allocator BEFORE destroy_snp_partition_state() successfully transitions the
+partition state to INSECURE_DIRTY. If the host reallocates and writes to
+these pages before the transition completes, it triggers a fatal RMP violat=
+ion
+and a Machine Check Exception (MCE).
 
-Could a user with access to the bootloader command line use this to target
-reserved ACPI or firmware regions, map them as System RAM, and overwrite th=
-em
-via kexec_file_load?
-
-> diff --git a/drivers/firmware/efi/libstub/efi-mshv-common.c b/drivers/fir=
-mware/efi/libstub/efi-mshv-common.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/firmware/efi/libstub/efi-mshv-common.c
-[ ... ]
-> +efi_status_t mshv_launch(void)
-> +{
-> +	struct hvl_return_data ret;
 > +
-> +	if (!efi_mshv)
-> +		return EFI_SUCCESS;
-> +
-> +	efi_mshv->launch_hv(NULL, &ret);
-> +	/* TODO: Where/how do we dump the hv loader logs? */
-> +	if (ret.launch_data.launch_status !=3D 0)
-> +		efi_rt_call(reset_system, EFI_RESET_COLD, EFI_ABORTED, 0, NULL);
-> +	return EFI_SUCCESS;
-> +}
+> +			ret =3D destroy_snp_partition_state(partition);
+> +			if (ret) {
+> +				pt_err(partition,
+> +				       "Failed to destroy SNP state: %d; retrying\n",
+> +				       ret);
+> +				schedule_delayed_work(&partition->destroy_work, HZ);
+> +				return;
 
 [Severity: High]
-Can this result in evaluating uninitialized stack memory?
+Could this error path cause an unbounded infinite retry loop?
 
-The ret structure is allocated on the stack but not zeroed before being
-passed to efi_mshv->launch_hv(). If the hypervisor loader protocol fails
-early or neglects to fully populate the structure, does checking
-ret.launch_data.launch_status read stack garbage and trigger an unexpected
-cold reboot?
+If the hypervisor rejects an idempotent state transition during partition
+destruction, the error path unconditionally schedules a retry without a max=
+imum
+retry limit. Because it reschedules destroy_partition() entirely, previously
+successful state transitions will be repeated, potentially failing
+indefinitely.
 
-> diff --git a/drivers/firmware/efi/libstub/efi-mshv.h b/drivers/firmware/e=
-fi/libstub/efi-mshv.h
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/firmware/efi/libstub/efi-mshv.h
 [ ... ]
-> +static inline void mshv_efi_reboot(const char *fmt, ...)
-> +{
-> +	va_list args;
-> +
-> +	va_start(args, fmt);
-> +	efi_printk(fmt, args);
-> +	va_end(args);
-> +
-> +	efi_bs_call(stall, 5 * EFI_USEC_PER_SEC);
-> +	efi_rt_call(reset_system, EFI_RESET_COLD, EFI_ABORTED, 0, NULL);
-> +}
-
-[Severity: Medium]
-Is args correctly passed to efi_printk() here?
-
-efi_printk() is a variadic function rather than a vprintf-style function.
-Passing a va_list directly to it as the first argument will cause it to
-interpret the va_list structure itself as the format argument, which prints
-garbage memory values instead of the actual error codes.
-
-> diff --git a/drivers/firmware/efi/libstub/x86-efi-mshv.c b/drivers/firmwa=
-re/efi/libstub/x86-efi-mshv.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/firmware/efi/libstub/x86-efi-mshv.c
-[ ... ]
-> +efi_status_t mshv_efi_setup(struct boot_params *boot_params)
-> +{
-[ ... ]
-> +	for (i =3D 0, nr_ranges =3D 0; i < nr_desc; i++) {
-[ ... ]
-> +		mshv_range->name =3D "Hypervisor Code and Data";
-> +		mshv_range->flags =3D IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM;
-> +		mshv_range->start =3D d->phys_addr;
-> +		mshv_range->end =3D d->phys_addr + (d->num_pages << PAGE_SHIFT) - 1;
-> +
-> +		prev =3D mshv_range++;
-> +		nr_ranges++;
-[ ... ]
-> +	}
-> +
-> +	status =3D mshv_populate_ranges(boot_params, mem_map, map_sz, desc_sz);
+> @@ -2051,6 +2485,8 @@ mshv_ioctl_create_partition(void __user *user_arg, =
+struct device *module_dev)
+>  	mutex_init(&partition->pt_irq_lock);
+> =20
+>  	init_completion(&partition->async_hypercall);
+> +	INIT_DELAYED_WORK(&partition->destroy_work,
+> +			  mshv_partition_destroy_work);
 
 [Severity: High]
-Does this pass the unmerged EFI memory map to the command line?
+Might this delayed work cause a Use-After-Free kernel panic on module unloa=
+d?
 
-The code successfully merges adjacent EFI descriptors into the mshv_reserved
-array above, but then passes the raw, unmerged mem_map array into
-mshv_populate_ranges().
-
-Since mshv_efi_update_cmdline() serializes every descriptor, could this
-exceed the 32-range limit (HV_MAX_RESVD_RANGES) in hv_parse_hyperv_resvd_ne=
-w()
-if the unmerged map is highly fragmented, causing the kernel to silently
-drop the remaining ranges?
-
-> +	if (status !=3D EFI_SUCCESS)
-> +		mshv_efi_reboot("failed to update command line with code %d",
-> +				status);
-> +
-> +	/* Build an indirect setup_data for each mshv reserved range. */
-> +	status =3D efi_bs_call(allocate_pool, EFI_LOADER_DATA,
-> +			     nr_ranges * sizeof(struct mshv_setup_data),
-> +				(void **)&sd_block);
-> +	if (status !=3D EFI_SUCCESS)
-> +		mshv_efi_reboot("failed to allocate space for hv ranges: error code %d=
-", status);
-[ ... ]
-> +	for (i =3D 0; i < nr_ranges; i++) {
-> +		start =3D mshv_reserved[i].start;
-> +		end =3D mshv_reserved[i].end;
-> +
-> +		sd_block[i].sd.type =3D SETUP_INDIRECT;
-> +		sd_block[i].sd.len  =3D sizeof(struct setup_indirect);
-> +		sd_block[i].sd.next =3D (__u64)&sd_block[i + 1];
-> +
-> +		sd_block[i].si.type =3D SETUP_MSHV;
-> +		sd_block[i].si.reserved =3D 0;
-> +		sd_block[i].si.len =3D end - start + 1;
-> +		sd_block[i].si.addr =3D start;
-> +	}
-
-[Severity: Low]
-Is the SETUP_MSHV data parsed by the kernel later?
-
-The stub builds a SETUP_INDIRECT chain wrapping SETUP_MSHV elements, but it
-doesn't look like there is any logic added in the kernel to parse SETUP_MSH=
-V.
-Does this leave unused structures in boot memory?
-
-> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-> index 6b67ac6167891..ab301dd602fbc 100644
-> --- a/drivers/hv/hv_common.c
-> +++ b/drivers/hv/hv_common.c
-[ ... ]
-> +static int __init hv_parse_hyperv_resvd_new(char *arg)
-> +{
-> +	int i =3D 0;
-> +
-> +	if (is_kdump_kernel())
-> +		return 0;
-> +
-> +	while (arg && *arg) {
-> +		unsigned long long region_start, region_sz;
-> +		char *range, *addr_str;
-[ ... ]
-> +		if (kstrtoull(range, 16, &region_sz) || !region_sz ||
-> +		    kstrtoull(addr_str, 16, &region_start) || !region_start) {
-
-[Severity: High]
-Does the !region_start check reject physical address 0?
-
-If the hypervisor reserves a range starting at the beginning of physical
-address space (page 0), region_start will be 0. This check will treat it
-as a validation failure and break out of the parsing loop.
-
-> +			pr_err("Hyper-V: invalid format for hyperv_resvd_new\n");
-> +			break;
-> +		}
-> +
-> +		memblock_reserve(region_start, region_sz);
-> +
-> +		hv_mshv_res[i].name =3D "Hypervisor Code and Data";
-> +		hv_mshv_res[i].flags =3D IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM;
-> +		hv_mshv_res[i].start =3D region_start;
-> +		hv_mshv_res[i].end =3D region_start + region_sz - 1;
-> +
-> +		++i;
-> +	}
-> +
-> +	ranges_nr =3D i;
-> +
-> +	return 0;
-> +}
-> +early_param("hyperv_resvd_new", hv_parse_hyperv_resvd_new);
-[ ... ]
-> +void __init hv_mark_resources(void)
-> +{
-> +	int i, max =3D ARRAY_SIZE(hv_mshv_res);
-> +
-> +	for (i =3D 0; i < max && hv_mshv_res[i].end; i++)
-
-[Severity: Medium]
-Can stale entries in hv_mshv_res be read during resource marking?
-
-If hv_parse_hyperv_resvd_new() is invoked multiple times (e.g. appended by
-bootloader and supplied by user), the local index i resets to 0, overwriting
-the head of hv_mshv_res without clearing the tail.
-
-Because hv_mark_resources() iterates until hv_mshv_res[i].end =3D=3D 0 rath=
-er
-than using ranges_nr, it will process the remaining stale tail entries from
-the previous parse.
-
-> +		insert_resource(&iomem_resource, &hv_mshv_res[i]);
-> +}
+If partition destruction fails and defers via this destroy_work, and usersp=
+ace
+closes the file descriptor, the module reference count will reach zero. The
+module exit routine mshv_parent_partition_exit() fails to iterate over
+remaining partitions or call cancel_delayed_work_sync(). If an administrator
+unloads the module before the delayed work fires, the workqueue will execute
+unmapped text.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260810124527.1409=
-634-1-weh@linux.microsoft.com?part=3D12
+634-1-weh@linux.microsoft.com?part=3D4
