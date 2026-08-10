@@ -1,199 +1,226 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270262641CA
-	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5503B2FF8
+	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:13:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786367403; cv=none; b=H1OcEJfYEcVN1U2fmE48SUDZ5mJWerbb/v5WwFG9DD4wiKCUETrVAFnMBlcThjmynU87goH4JCjE/epMfQxFo+xxrrjczkCjVZ0WufyexUpNtkhuLc6ngSG+yzZCygXxXqp3G2U+Z/KHO2rUtRWwpPKPFCndN0ACspIv3/0XTf4=
+	t=1786367602; cv=none; b=iPzEUs8GYOzvjgISa9g/iRE0G1xaijUH2qanJV27mwOrFH79VOJ4tVwGvNR04WdsoVp+a0BCGY5pn2q54PoMLDfIbUwSTMz73h4mRBC99yHfJek26HxNysBSRKcYd/x4TaP1DzQ7aL6A5LsaCXZDkS48A9bAGdrzZHZQTrupBWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786367403; c=relaxed/simple;
-	bh=cUZ7uko43dtmPcOtVV5SZKtbxHRhbuZH9SZIsUG8RwQ=;
+	s=arc-20240116; t=1786367602; c=relaxed/simple;
+	bh=JUxXgeqZ/xl8whvW03E90lDySHQFap/MNejOw2vVnmI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=bgQ+FX3LJdiEtg7XaRfFIQXLym997boH4pIO6enbfjXXAUwFzfslvelyPjCgIGKyZeLTZOtzOn1mRGlvO/5mU+no6jzi+bzLZrl/SVTSgQwEK3GBvHsVPQIYimABF4ZsQf6q9+n/Oc+3B8UkoO1sD9h8ClOtZYRKVXvW7EXHRnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwAiHq3W; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=US0KASLg7vbXtucnQOS33juTxbHZXcB9kv2PHz94LYeI7P7oRFUE9YfdkFoeB1n9npB+fh0ifttdhC50QLjAeHlRKnJatFbQxO1uRDXydKgQZde+B6V/A+eldwqAMv4QK7cS+mE5zYyYDXsFTnpUgVKv27GsObrYmueWNKFa8Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZsIugSK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwAiHq3W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE771F000E9;
-	Mon, 10 Aug 2026 13:10:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZsIugSK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54A81F000E9;
+	Mon, 10 Aug 2026 13:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786367401;
-	bh=2BdO7Q1FxCxkCMhFgoH/y1YZ+lDA6D1n11DvDEeCjmc=;
+	s=k20260515; t=1786367601;
+	bh=yFwVyasore+L6w9fQXmSmslwAyu7k4zviBH2qO+9bec=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UwAiHq3W/iPJzQIqeR0mWHmFAePTJOk3jvI9+YiBbtB1GsolIsAJZb5j5BSF/eSHy
-	 3vnbimt4lWGBjiPbbwL2ZFHw7BRcRE06Mhb+rktCt5yHahPF13vA7NPIvYadfZPaC1
-	 1uH7wYAqrsngmOo+dSIpFNGHZ1SL+XJKsihrHX8zsf0to+zFIYbjDwbmxiP2YGTo95
-	 sVRJRqexvbFDbUfT5vJGqfk1nzsSXMA95yx3XeP+FDlocwLa/kTCQrRteT0g/P8LYx
-	 aO/7BwqzK1f9Gw2xsvvpvZ2r4FR58waQSEVHZt/PoVj8jHfH58fIgmMZJAWD/2pdGG
-	 dzkCKOr++PtzQ==
+	b=mZsIugSKBQ9B0ktcRpNKeOEgwZuWER+WQ816skuhk9/q/ZmfyHieFDPIo9xmTfXQh
+	 MpgKV2YN7MtE+7T+hGRXNrAakcXm8Re+YnjbHYAMQiYoTYa11PYcnM8gMcOKtnf7Xo
+	 szxiHyYwbV8VqNsi0Q8LVv7xcMka26i1HZ8/rCG0ZV7e8pIy9L6sAtJoF8LcB4BJka
+	 SlN5/rEa6Ktuj4KhxuKwrZHjNjV95dTjJ7u05s0U76ut+GBRZ0wqngp3JMsV3qRVyI
+	 SGqZdQOU7RCeRxsjABRZ+T2UsBSGD6B5CCjnaDdLkZHAkFKgK8zL61clioCBWVxT0a
+	 uAnuPWXvhfMDA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 11/13] mshv: unlock SNP pages on panic for crashdump
- collection
+Subject: Re: [PATCH v2 10/13] mshv: unmap SNP memory before state teardown
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260810124527.1409634-12-weh@linux.microsoft.com>
+In-Reply-To: <20260810124527.1409634-11-weh@linux.microsoft.com>
 References: <20260810124527.1409634-1-weh@linux.microsoft.com>
- <20260810124527.1409634-12-weh@linux.microsoft.com>
+ <20260810124527.1409634-11-weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Aug 2026 13:10:00 +0000
-Message-Id: <20260810131001.ADE771F000E9@smtp.kernel.org>
+Date: Mon, 10 Aug 2026 13:13:19 +0000
+Message-Id: <20260810131320.E54A81F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [High] Panic notifier fails to set crash_kexec_post_notifiers globally, b=
-ypassing memory unmap in default configurations.
-- [High] Acquiring spinlock_t via spin_trylock in a panic notifier is struc=
-turally unsafe and violates PREEMPT_RT wait-context rules.
-- [Medium] Panic path memory unlocking aborts on the first chunk error, fai=
-ling to execute best-effort vmcore recovery.
-- [Low] Missing rcu_read_lock() during RCU hash table traversal.
-- [Low] Misleading success message is logged unconditionally even if SNP un=
-locking completely aborts.
+
+New issues:
+- [Critical] The `destroy_work` delayed work is never explicitly canceled d=
+uring module unload, leading to a potential use-after-free and kernel panic.
+- [High] Retrying `destroy_partition` on failure causes partial unmap abort=
+s, permanently leaving remaining chunks of a memory region mapped.
+- [Low] Intentional early return in `mshv_region_destroy` permanently leaks=
+ the `mshv_mem_region` kernel tracking struct.
+
+Pre-existing issues:
+- [High] Direct kfree(vp) without waiting for RCU grace period allows Use-A=
+fter-Free in concurrent ISRs.
 --
 
---- Patch [11]: [PATCH v2 11/13] mshv: unlock SNP pages on panic for crashd=
-ump collection ---
-commit b8503cbf714b3ffa7932540f4a80cc94da615bdc
-Author: Wei Hu <weh@microsoft.com>
+--- Patch [10]: [PATCH v2 10/13] mshv: unmap SNP memory before state teardo=
+wn ---
+commit fe90624ce2dba03d1ad11c9e5fd88e8f71d8c3d0
+Author: Wei Liu <wei.liu@kernel.org>
 
-mshv: unlock SNP pages on panic for crashdump collection
+mshv: unmap SNP memory before state teardown
 
-Add an SNP panic-path page-unlock feature so a root partition running
-confidential (SEV-SNP) guests can still collect a Linux root vmcore via
-kexec after a crash. On panic, guest pages of every encrypted partition
-are unmapped and shared back to the host so kexec can read them.
+Unmap memory regions before destroying SNP partition state, and only
+release regions after SNP state is torn down. Dropping regions first
+attempts to regain host access while the partition is still secure and
+can leave pages inaccessible.
 
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index 0dbf509351bb0..6b38a45ad43cc 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-> @@ -2941,6 +2941,81 @@ static int __init mshv_init_vmm_caps(struct device=
- *dev)
->  	return 0;
+> diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
+> index 6d65e5b421529..62c49b4d2a33e 100644
+> --- a/drivers/hv/mshv_regions.c
+> +++ b/drivers/hv/mshv_regions.c
+[ ... ]
+> @@ -337,7 +337,7 @@ static int mshv_region_chunk_unmap(struct mshv_mem_re=
+gion *region,
+>                                        page_count, flags);
 >  }
 > =20
-> +#if defined(CONFIG_X86_64) && IS_ENABLED(CONFIG_CRASH_DUMP)
-> +static void mshv_panic_unlock_snp(struct mshv_partition *vm)
-> +{
-> +	struct mshv_mem_region *memreg;
-> +	int ret;
-> +
-> +	if (!spin_trylock(&vm->pt_mem_regions_lock)) {
-> +		pt_err(vm, "Cannot lock SNP memory regions during panic\n");
-> +		return;
-> +	}
-
-[Severity: High]
-Is it safe to acquire a spinlock_t via spin_trylock() in a panic notifier?
-
-Calling spin_trylock() on a spinlock_t from a hardirq or NMI context violat=
-es
-PREEMPT_RT wait-context rules.=20
-
-Additionally, if the CPU that panicked happens to hold this lock, the trylo=
-ck
-will fail and bypass the memory unmap entirely, breaking the kexec crashdum=
-p.
-
-> +
-> +	hlist_for_each_entry(memreg, &vm->pt_mem_regions, hnode) {
-> +		mshv_region_unmap(memreg);
-> +		ret =3D mshv_region_share(memreg);
-
-[Severity: Medium]
-Will this abort prematurely if an error occurs on a single chunk?
-
-The return value of mshv_region_unmap() is ignored, and both underlying
-functions call mshv_region_process_range() which aborts immediately on the
-first error.
-
-Could a best-effort approach be used here to continue attempting to unlock
-remaining regions instead of halting on the first hypercall failure?
-
-> +		if (ret)
-> +			pt_err(vm, "Unlock snp failed. ret:0x%x gfn:%llx numpfns:%lld\n",
-> +			       ret, memreg->start_gfn, memreg->nr_pages);
-> +	}
-> +
-> +	spin_unlock(&vm->pt_mem_regions_lock);
-> +}
-> +
-> +static int mshv_root_panic_cb(struct notifier_block *this, unsigned long=
- event,
-> +			      void *ptr)
-> +{
-> +	int i, done =3D 0;
-> +	struct mshv_partition *pt;
-> +	struct device *dev =3D NULL;
-> +
-> +	hash_for_each_rcu(mshv_root.pt_htable, i, pt, pt_hnode) {
+> -static int mshv_region_unmap(struct mshv_mem_region *region)
+> +int mshv_region_unmap(struct mshv_mem_region *region)
+>  {
+>         return mshv_region_process_range(region, 0,
 
 [Severity: Low]
-Should this RCU hash table traversal be protected by rcu_read_lock()?
+Does this error path leak the kernel tracking structure?
 
-While preemption is stopped in the panic path, RCU subsystem semantics still
-dictate explicitly delimiting the critical section to prevent static checker
-warnings.
+When tearing down an SNP encrypted partition and mshv_region_share()
+fails, the function returns early to intentionally leave guest memory
+pinned and prevent host crashes:
 
-> +		if (!mshv_partition_encrypted(pt))
-> +			continue;
-> +
-> +		done =3D 1;
-> +		mshv_panic_unlock_snp(pt);
-> +		dev =3D pt->pt_module_dev;
-> +	}
-> +	if (done && dev)
-> +		dev_info(dev, "SNP pages are unlocked for panic\n");
+drivers/hv/mshv_regions.c:mshv_region_destroy() {
+    ...
+        if (ret) {
+            pt_err(partition,
+                   "Failed to regain access to memory... %d\n", ret);
+            return;
+        }
+    }
 
-[Severity: Low]
-Could this emit a misleading success message?
+    mshv_region_unmap(region);
+    mshv_region_invalidate(region);
+    vfree(region);
+}
 
-The done flag is set to 1 before mshv_panic_unlock_snp() is called. If the
-spin_trylock() inside mshv_panic_unlock_snp() fails and returns early, or if
-an error occurs during unmapping, this will still unconditionally log that =
-SNP
-pages are unlocked.
+Since the mshv_mem_region structure is already removed from the partition
+lists and its refcount is zero, could bypassing the vfree(region) call
+result in permanently leaking the mreg_pages array and tracking structure?
 
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +static struct notifier_block mshv_root_panic_blk =3D {
-> +	.notifier_call =3D mshv_root_panic_cb,
-> +};
-> +
-> +/*
-> + * If mshv devirt setup failed during boot, or the feature itself is not
-> + * available, allow the system to at least collect linux root vmcore. For
-> + * that, snp guest pages must be made readable in the panic path so kexe=
-c can
-> + * collect them.
-> + */
-> +static void mshv_crashdump_init(void)
-> +{
-> +	if (hv_crash_enabled)
-> +		return;
-> +
-> +	atomic_notifier_chain_register(&panic_notifier_list,
-> +				       &mshv_root_panic_blk);
+[ ... ]
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index c32d3375af8c5..0dbf509351bb0 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+> @@ -2208,10 +2208,8 @@ static void destroy_partition(struct mshv_partitio=
+n *partition)
+>                 if (mshv_partition_encrypted(partition)) {
+>                         hlist_for_each_entry_safe(region, n,
+>                                                   &partition->pt_mem_regi=
+ons,
+> -                                                 hnode) {
+> -                               hlist_del(&region->hnode);
+> -                               mshv_region_put(region);
+> -                       }
+> +                                                 hnode)
+> +                               mshv_region_unmap(region);
+> =20
+>                         ret =3D destroy_snp_partition_state(partition);
+>                         if (ret) {
 
 [Severity: High]
-Does this setup guarantee that the notifier will run before kexec boots?
+Can this retry logic lead to a partial unmap regression when a memory region
+is processed a second time?
 
-By default, panic() calls __crash_kexec() before evaluating
-panic_notifier_list.
+If destroy_snp_partition_state() fails, the teardown is retried via
+destroy_work:
 
-Without explicitly setting crash_kexec_post_notifiers to true here, the
-kdump kernel will boot immediately upon panic on standard configurations,
-skipping the notifier list and leaving SNP memory locked.
+drivers/hv/mshv_root_main.c:destroy_partition() {
+    ...
+    ret =3D destroy_snp_partition_state(partition);
+    if (ret) {
+        ...
+        schedule_delayed_work(&partition->destroy_work, HZ);
+        return;
+    }
+}
+
+On the subsequent attempt, mshv_region_unmap() will iterate through the
+region chunks again starting from offset 0. Since mreg_pages isn't
+cleared during the initial successful unmap, the hypervisor will likely
+return an error when attempting to unmap the first chunk again.
+
+mshv_region_process_range() aborts processing immediately on error:
+
+drivers/hv/mshv_regions.c:mshv_region_process_range() {
+    ...
+    ret =3D mshv_region_process_chunk(region, flags, page_offset, ...);
+    if (ret < 0)
+        return ret;
+}
+
+Will this completely bypass the unmapping of any remaining chunks that
+were not reached in the previous pass?
+
+[Severity: High]
+Is it safe to schedule a delayed work task that lacks cancelation during mo=
+dule
+unload?
+
+If destroy_snp_partition_state() fails, the teardown is retried via
+delayed work. If the partition file descriptor is closed, the module
+reference count drops to 0, which allows the administrator to unload the
+mshv module.
+
+Looking at the exit path:
+
+drivers/hv/mshv_root_main.c:mshv_parent_partition_exit() {
+    ...
+    mshv_irqfd_wq_cleanup();
+    root_scheduler_deinit();
+    mshv_synic_exit();
+}
+
+Since mshv_parent_partition_exit() executes without calling
+cancel_delayed_work_sync(&partition->destroy_work), can the timer fire
+after the kernel module is unloaded and execute freed memory?
+
+[Severity: High]
+This is a pre-existing issue, but would this direct free cause a
+use-after-free regression in concurrent interrupt service routines?
+
+In destroy_partition(), vp structures are freed directly:
+
+drivers/hv/mshv_root_main.c:destroy_partition() {
+    ...
+        kfree(vp);
+        partition->pt_vp_array[i] =3D NULL;
+    ...
+}
+
+Concurrently, the intercept ISR reads these pointers under an RCU lock:
+
+drivers/hv/mshv_synic.c:mshv_intercept_isr() {
+    ...
+    vp =3D partition->pt_vp_array[vp_index];
+    if (unlikely(!vp)) {
+        ...
+    }
+    kick_vp(vp);
+    ...
+}
+
+Since drain_all_vps() is skipped for non-root schedulers, intercept
+messages can still arrive during partition teardown. If destroy_partition()
+executes between the time mshv_intercept_isr() reads the vp pointer and
+dereferences it in kick_vp(), could this result in accessing freed memory
+because synchronize_rcu() or kfree_rcu() isn't used?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260810124527.1409=
-634-1-weh@linux.microsoft.com?part=3D11
+634-1-weh@linux.microsoft.com?part=3D10
