@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990F93DB625;
-	Mon, 10 Aug 2026 12:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20F423DA7EE;
+	Mon, 10 Aug 2026 12:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786365986; cv=none; b=NtF+UzFE+s5/SXEMXYHgxLPTs23Yv6LhN8CD2WXuAjApUFEZfkNvdvHoed2gIXCMGVge7QGUPJYJy2fYnZ7UxEyEvcBskVxLcENsYCauSkMdzi7uO0Bt0TWghwROQ3P79ImNw27kzVJB9YeaXk7v3UmgHLUjVoQhZfJEMIW+H5I=
+	t=1786365989; cv=none; b=a4YkEZKXOePOssA/G3Mo9KKzsmvPCM9Ms4ufuijEs857Po78Fq0kV3jQ1yTjr3EWjTx/zkLxr+Ju1YOmQvTDZV2Qf3pJ2h2PvyNDMgLOL4+ESGnVqqrRwZAi6/y62b+hlO0L7L7zHAnKG5+fNIIrXwlf1loJmoJep3PVp0IQYc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786365986; c=relaxed/simple;
-	bh=e2DbX3u3XlzlwTiXtkag5c2fb7zb9vXXSo1oDsRvG7A=;
+	s=arc-20240116; t=1786365989; c=relaxed/simple;
+	bh=EfiFp7ToR3xzPLC3QsTzE6oK1abIn8WnOSrrKglg4So=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=klJ6vbbw6ScgsAsEb1FZEX7IkfLN3o6ngj89KaoeNyoAajfXYXKr6qw88FJ0Ru0UOfdOOZFWvQzTzsRkxaSxqtMPOiBJ7INpHmAvGRRIw9OXtkxnb4H2L/gktZ929VUhjvLn+Smf8nCKzRswiar1m6sl21CqH5ra5XHsTE8NW6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=iIRedEfp; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=WqjIN3PYmZt6k+CSCNeY6x0vAiaU2eSx/+gJs6pyDPwpOonqKT/pfL9Hpq/n0VX09jYhS7+m9sFU7DkoAHiyIWs59tR7UMp9Rl3NdLcCdAULleanItmDghVUpif4Ub9apYwc0HGOqEdV30SofuGwcVCjS6veBdHXM0Y684z54bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KTsMMgfi; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="iIRedEfp"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KTsMMgfi"
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8E47320B7167;
-	Mon, 10 Aug 2026 05:46:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8E47320B7167
+	by linux.microsoft.com (Postfix) with ESMTPSA id E6FB720B7166;
+	Mon, 10 Aug 2026 05:46:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E6FB720B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786365961;
-	bh=SUJ6bUfwzYpBtZ/YdAkfwOcLHfy3T4tKrMRu8mrEZcU=;
+	s=default; t=1786365964;
+	bh=pfvLJd718hof9eXx4rhBXX2zG65sdwT3GsmiqMZvv78=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iIRedEfpBmn72ovZxVKr39E3ElWFWXSsa5at/w/BjkrKqJdlQ0+RJkezIbDQ0U7Zr
-	 KA2PrupVgADLz5fhFA9Ojz08mZX+ftpMGywvEPnA/7Bbdt9Kd9TMUt3V3wMEf0xxxs
-	 knvZZsJoe3qof83gpNUtiqEYrwtfgAz8zD0HIRdY=
+	b=KTsMMgfiq/lvbjwl3hWo35vmDPkUchzJEQVdih8ACb6Fxg4xdgoiO+ddT6NvQm6LE
+	 Hs7NR7/5+ez0Dfn8jtLEhRUd6/0aEb1wL5YOvo3DQglKuULYcpuMBzzxWnHw+5Hh65
+	 +6q02PKOuUZhd0JdlvuXtm2szBbaD4kUStizxSVs=
 From: Wei Hu <weh@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -32,11 +32,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Wei Hu <weh@microsoft.com>
-Subject: [PATCH v2 05/13] hyperv: fix hv_input_get_system_property layout for SNP status
-Date: Mon, 10 Aug 2026 12:44:59 +0000
-Message-ID: <20260810124527.1409634-6-weh@linux.microsoft.com>
+	Long Li <longli@microsoft.com>
+Subject: [PATCH v2 06/13] mshv: detect and report SEV-SNP support at init
+Date: Mon, 10 Aug 2026 12:45:00 +0000
+Message-ID: <20260810124527.1409634-7-weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260810124527.1409634-1-weh@linux.microsoft.com>
 References: <20260810124527.1409634-1-weh@linux.microsoft.com>
@@ -48,33 +47,134 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+From: Wei Liu <wei.liu@kernel.org>
 
-The processor-feature selector must sit at offset 8 (property_id + u32
-reserved), matching the Microsoft Hypervisor ABI. Upstream 7.1's leaner
-struct placed it at offset 4, so HVCALL_GET_SYSTEM_PROPERTY(SNP_STATUS)
-failed and mshv aborted (no /dev/mshv). Restore reserved + u64 union.
+Query Hyper-V dynamic processor features during mshv initialization to
+determine SEV-SNP availability, and report the result: on success log the
+maximum number of encrypted partitions, otherwise log the decoded SNP
+status string so misconfigurations are diagnosable. Cloud Hypervisor
+expects the root driver to perform this capability check before SEV-SNP
+child partition setup.
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- include/hyperv/hvhdk_mini.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hv/mshv_root_main.c | 96 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-index db83fedce243..dd84085c0aff 100644
---- a/include/hyperv/hvhdk_mini.h
-+++ b/include/hyperv/hvhdk_mini.h
-@@ -237,8 +237,9 @@ enum hv_dynamic_processor_feature_property {
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 8c87dd8e0378..712f45dcef60 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -2705,6 +2705,100 @@ static int mshv_root_scheduler_cleanup(unsigned int cpu)
+ }
  
- struct hv_input_get_system_property {
- 	u32 property_id; /* enum hv_system_property */
-+	u32 reserved;
- 	union {
--		u32 as_uint32;
-+		u64 as_uint64;
- #if IS_ENABLED(CONFIG_X86)
- 		/* enum hv_dynamic_processor_feature_property */
- 		u32 hv_processor_feature;
+ /* Must be called after retrieving the scheduler type */
++#if defined(__x86_64__)
++static const char *hv_snp_status_to_string(enum hv_snp_status status)
++{
++	switch (status) {
++	case HV_SNP_STATUS_NONE:
++		return "not available";
++	case HV_SNP_STATUS_AVAILABLE:
++		return "available";
++	case HV_SNP_STATUS_INCOMPATIBLE:
++		return "incompatible";
++	case HV_SNP_STATUS_PSP_UNAVAILABLE:
++		return "PSP unavailable";
++	case HV_SNP_STATUS_PSP_INIT_FAILED:
++		return "PSP init failed";
++	case HV_SNP_STATUS_PSP_BAD_FW_VERSION:
++		return "bad PSP firmware version";
++	case HV_SNP_STATUS_BAD_CONFIGURATION:
++		return "bad configuration";
++	case HV_SNP_STATUS_PSP_FW_UPDATE_IN_PROGRESS:
++		return "PSP firmware update in progress";
++	case HV_SNP_STATUS_PSP_RB_INIT_FAILED:
++		return "PSP ring buffer init failed";
++	case HV_SNP_STATUS_PSP_PLATFORM_STATUS_FAILED:
++		return "PSP platform status failed";
++	case HV_SNP_STATUS_PSP_INIT_LATE_FAILED:
++		return "PSP late init failed";
++	default:
++		return "unknown";
++	}
++}
++
++static void mshv_print_max_sev_snp_partitions(struct device *dev)
++{
++	struct hv_input_get_system_property *input;
++	struct hv_output_get_system_property *output;
++	unsigned long flags;
++	u64 status;
++
++	local_irq_save(flags);
++	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
++
++	memset(input, 0, sizeof(*input));
++	input->property_id = HV_DYNAMIC_PROCESSOR_FEATURE_PROPERTY;
++	input->hv_processor_feature =
++		HV_X64_DYNAMIC_PROCESSOR_FEATURE_MAX_ENCRYPTED_PARTITIONS;
++
++	status = hv_do_hypercall(HVCALL_GET_SYSTEM_PROPERTY, input, output);
++	local_irq_restore(flags);
++	if (!hv_result_success(status)) {
++		dev_warn(dev, "Failed to get max SNP partitions: %s\n",
++			 hv_result_to_string(status));
++		return;
++	}
++
++	dev_info(dev, "Maximum supported SEV-SNP partitions are: %llu\n",
++		 output->hv_processor_feature_value);
++}
++
++static void __init mshv_check_sev_snp_support(struct device *dev)
++{
++	struct hv_input_get_system_property *input;
++	struct hv_output_get_system_property *output;
++	unsigned long flags;
++	enum hv_snp_status snp_status;
++	u64 status;
++
++	local_irq_save(flags);
++	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
++
++	memset(input, 0, sizeof(*input));
++	input->property_id = HV_DYNAMIC_PROCESSOR_FEATURE_PROPERTY;
++	input->hv_processor_feature = HV_X64_DYNAMIC_PROCESSOR_FEATURE_SNP_STATUS;
++
++	status = hv_do_hypercall(HVCALL_GET_SYSTEM_PROPERTY, input, output);
++	local_irq_restore(flags);
++	if (!hv_result_success(status)) {
++		dev_warn(dev, "Failed to get SNP support: %s\n",
++			 hv_result_to_string(status));
++		return;
++	}
++
++	snp_status = output->hv_processor_feature_value;
++	dev_info(dev, "SEV-SNP support status: %s (%u)\n",
++		 hv_snp_status_to_string(snp_status), snp_status);
++
++	if (snp_status == HV_SNP_STATUS_AVAILABLE)
++		mshv_print_max_sev_snp_partitions(dev);
++}
++#else
++static void __init mshv_check_sev_snp_support(struct device *dev) {}
++#endif
++
+ static int
+ root_scheduler_init(struct device *dev)
+ {
+@@ -2808,6 +2902,8 @@ static int __init mshv_parent_partition_init(void)
+ 	if (ret)
+ 		goto synic_cleanup;
+ 
++	mshv_check_sev_snp_support(dev);
++
+ 	ret = root_scheduler_init(dev);
+ 	if (ret)
+ 		goto synic_cleanup;
 -- 
 2.43.0
 
