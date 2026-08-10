@@ -1,41 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79087439F90;
-	Mon, 10 Aug 2026 18:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDA7437864;
+	Mon, 10 Aug 2026 18:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786388149; cv=none; b=UD1VyCCM3nKtHnuq/VsGkHR0xTkSnA3XRAeHi9n7UjCnGlJKJuMTcySfGZG/1DutbA9OZL4BIBUfr9nKn2AcbGu3T9Vlf10gW/NOwYK54lGGtD8dum3SFsool6xwOpGI0UtgHtknzNJLnTV1ZNJuWBh9Ew1RLh9y4p0gTVYK8G0=
+	t=1786388223; cv=none; b=rdOksLZGTU5qpOj6STLU0NA/4a5lcE6Q7aGgBOuxRwnknucsUZ4stNG3jHiRAZfWrMU90jHDYnA//fSi3+P8cOS9aXRbI7UZn9uDEXyXZDA2oJxDUHmVkBPc3ekYiACfuoqTaaxJRjyt9om5CLghY7MW2D1m1w0SPbG9ggDujyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786388149; c=relaxed/simple;
-	bh=dYcouYbgcszfoZP7xxZHfNu+BNKAGfkYKmm5DvZFUV8=;
+	s=arc-20240116; t=1786388223; c=relaxed/simple;
+	bh=nIH5ybnmFPcavUfh+PzC+Ps6169UDLs0k3hio2C8sv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyj8O7v6iBBeAQOHaWFuyi+BIfwu0lU1QkokrC8xmtCqIJa241M/kzlkLDsJa9BzV2pGLH1P+vmZeVCmfBSbHfdUVdFL8IS9lx4F1cbGQMqVubhfp9j7qFrv9w3wN3gXktlneu6tEBwLj113v4Hb/fmDTEwRHtPD8UPFOWdt8O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ozQuxWrC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IRQg4vVD3aPFHI+55UW/rXUEfx4rLMPfax1xE1gPPZSJNYkkU6dhUxVcA6+yAJSlL6faJp1sfLIqUArmAnwhjIR/FDPeRz7LyDY8D+Ww20Y7ZuZIfVLJSaV2pMeBshh2M5olMmNhaBNIcKCiT/Y1XcPleQxVaXZ9HJdzvSFjItQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGjCopdH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ozQuxWrC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE171F000E9;
-	Mon, 10 Aug 2026 18:55:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGjCopdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 937911F000E9;
+	Mon, 10 Aug 2026 18:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786388147;
-	bh=aQ75Op3u4ovI2w7uoxlbwZuzzJOOlbqAnY/+5K3a0Vk=;
+	s=k20260515; t=1786388222;
+	bh=DgHH11rbBugxycgVfllDqGnSiJw+pTYpQUpXBdKD4ec=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ozQuxWrChfMzyS/tJ9PNoBL+h4h6xocxxhGybly23sRMKgXd03tfcz5bKthgb1k2P
-	 mD5XUIJb1BGI0yx0w++wKmnqgMHtiNIPrdosDyaXVxlOnvpIMxtQcpDzy6P0WZZ2iB
-	 tB0ysp0YVh0mllXnAF1haSgwScnmqG2VjuqYzyDFAUA1h7PoktU7RBDeogEX18sziM
-	 Pa0qYpN5ua4n79UTKl0p6z857kNaSmx3zZ6AKVrer7VU9xZnnS2I0OI4GNHhAO48lB
-	 KOOBAE6t021jzxHzRvcnWJ95HawX/PVEWD+6uyfEhGZ5STA3sKvDXuX3fR3PjZY02p
-	 kN9fAGKfYlu1A==
-Date: Mon, 10 Aug 2026 11:55:45 -0700
+	b=dGjCopdH5Dh+u5udlFJdn6uvtThWYmJaM5Eb2jrmqTmlPXe5UlQ0CRphwRoBIJAm6
+	 F0kU/FDdk2naDL4p3srV/lxFnEfrV9izlK0/eVoMoRzHM6zEAlb9GpeWNPiLSHMibY
+	 7/DPwPPVatxqKpZv+TfYsfmRCGlQLyQIHN6gqgSCuosDQKnkX7zFjgBI0zLwi3MUEy
+	 whMrR+qxXWlWfsydnEdMuQYTG3VOiaRpdN8MxbYzSZLGHi/ErGFwHRXNVMMZH+h3LY
+	 9bzRCWjMFzLk9BevIJ+7lY7vmKa9eVcOTLJ3LnT1A3hINcRRz11t4KUr+PC1fbqo0Y
+	 U7y9rB8HQKU5A==
+Date: Mon, 10 Aug 2026 11:57:00 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-	linux-pci@vger.kernel.org
-Cc: Wei Liu <wei.liu@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/2] PCI: Add controller reset method
-Message-ID: <20260810185545.GC2496954@liuwe-devbox-debian-v2.local>
-References: <20260724230844.3259741-1-wei.liu@kernel.org>
- <20260724230844.3259741-2-wei.liu@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Wei Liu <wei.liu@kernel.org>,
+	Stanislav Kinsburskii <skinsburskii@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+	Oded Gabbay <ogabbay@kernel.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v11 0/8] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-ID: <20260810185700.GD2496954@liuwe-devbox-debian-v2.local>
+References: <20260723-hmm-v10-v11-0-c55b003a4b61@gmail.com>
+ <20260723142242.5d3f87208d47819d873ae458@linux-foundation.org>
+ <20260731211728.GA3243658@liuwe-devbox-debian-v2.local>
+ <20260731143733.6f74ec9b9023f898c3c260e1@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -44,111 +70,35 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260724230844.3259741-2-wei.liu@kernel.org>
+In-Reply-To: <20260731143733.6f74ec9b9023f898c3c260e1@linux-foundation.org>
 
-Hi Bjorn,
-
-Since this is adding to the PCI reset framework, this patch needs your
-approval.
-
-Please see below for my questions. I'm happy to change the code however
-you see fit.
-
-On Fri, Jul 24, 2026 at 04:08:42PM -0700, wei.liu@kernel.org wrote:
-> From: Wei Liu <wei.liu@kernel.org>
+On Fri, Jul 31, 2026 at 02:37:33PM -0700, Andrew Morton wrote:
+> On Fri, 31 Jul 2026 14:17:28 -0700 Wei Liu <wei.liu@kernel.org> wrote:
 > 
-> Some PCI controllers provide a function reset mechanism that is not
-> advertised in PCI configuration space. Allow them to expose it through an
-> optional pci_ops callback.
+> > On Thu, Jul 23, 2026 at 02:22:42PM -0700, Andrew Morton wrote:
+> > > On Thu, 23 Jul 2026 10:36:32 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+> > > 
+> > > > This series extends the HMM framework to support userfaultfd-backed memory
+> > > > by allowing the mmap read lock to be dropped during hmm_range_fault().
+> > > > 
+> > > 
+> > > Thanks, I've updated mm.git to this version.
+> > 
+> > Hi Andrew,
+> > 
+> > I see this series in linux-next now.
+> > 
+> > I'm curious to know if these patches are going to make 7.3.
 > 
-> Add the controller reset method to the standard reset_method interface.
-> Prefer FLR and AF FLR by default, and use the controller operation before
-> PM and bus reset fallbacks.
-> 
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> ---
->  drivers/pci/pci.c   | 22 ++++++++++++++++++++++
->  include/linux/pci.h |  3 ++-
->  2 files changed, 24 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 77b17b13ee61..4e55da202cad 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4962,6 +4962,27 @@ static int pci_reset_bus_function(struct pci_dev *dev, bool probe)
->  	return rc;
->  }
->  
-> +static int pci_controller_reset(struct pci_dev *dev, bool probe)
-> +{
-> +	int rc;
-> +
-> +	if (!dev->bus->ops->reset)
-> +		return -ENOTTY;
-> +
-> +	if (probe)
-> +		return dev->bus->ops->reset(dev, probe);
-> +
-> +	rc = pci_dev_reset_iommu_prepare(dev);
-> +	if (rc) {
-> +		pci_err(dev, "failed to stop IOMMU for a PCI reset: %d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	rc = dev->bus->ops->reset(dev, probe);
-> +	pci_dev_reset_iommu_done(dev);
-> +	return rc;
-> +}
-> +
+> Probably.  The series is incompletely reviewed at this time.  Perhaps
+> you can assist with this?
 
-The first question is whether modelling this on the controller level
-is the correct approach.
+Fair point. I'm not an MM expert but I will try.
 
-Please refer to the second patch for the intended usage in the Hyper-V
-vPCI code.
-
-Whatever is added here, a new reset_method value will be added to the
-table. I chose "controller" to reflect the decision above.
-
-
->  static int cxl_reset_bus_function(struct pci_dev *dev, bool probe)
->  {
->  	struct pci_dev *bridge;
-> @@ -5094,6 +5115,7 @@ const struct pci_reset_fn_method pci_reset_fn_methods[] = {
->  	{ pci_dev_acpi_reset, .name = "acpi" },
->  	{ pcie_reset_flr, .name = "flr" },
->  	{ pci_af_flr, .name = "af_flr" },
-> +	{ pci_controller_reset, .name = "controller" },
-
-The second question is whether this ordering is okay.
-
-Thanks,
 Wei
 
->  	{ pci_pm_reset, .name = "pm" },
->  	{ pci_reset_bus_function, .name = "bus" },
->  	{ cxl_reset_bus_function, .name = "cxl_bus" },
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 64b308b6e61c..d7759ee70670 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -52,7 +52,7 @@
->  			       PCI_STATUS_PARITY)
->  
->  /* Number of reset methods used in pci_reset_fn_methods array in pci.c */
-> -#define PCI_NUM_RESET_METHODS 8
-> +#define PCI_NUM_RESET_METHODS 9
->  
->  #define PCI_RESET_PROBE		true
->  #define PCI_RESET_DO_RESET	false
-> @@ -875,6 +875,7 @@ struct pci_ops {
->  	void __iomem *(*map_bus)(struct pci_bus *bus, unsigned int devfn, int where);
->  	int (*read)(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *val);
->  	int (*write)(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 val);
-> +	int (*reset)(struct pci_dev *dev, bool probe);
->  };
->  
->  /*
-> -- 
-> 2.53.0
 > 
+> > We have some work that's dependent on this so would like to plan
+> > accordingly.
+> > 
+> > Thank you Stanislav for continue pushing this.
