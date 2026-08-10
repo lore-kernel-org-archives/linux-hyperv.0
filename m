@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34D23C0617;
-	Mon, 10 Aug 2026 12:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4A73DAACF;
+	Mon, 10 Aug 2026 12:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786365975; cv=none; b=cCtjzhUou7bNQP6UIjArxvEkif8M59vvt4tWUggNvcux4IOObizEK80qz/uBYN7qdguhAXpabc0LEvjFBn/Ua7Ic0XqSpu3BBDdxYbAJ1vUhwSXbYot2ByXTW9P+aWSYlydaJ2cjdKyAJuyD1G9XVqFCdKmGt/55L7PjdJz3dVg=
+	t=1786365980; cv=none; b=QAie9Y1H6Oay6tTTgwxDyKOtvm/iv6wLBecTDTeX6YjAtxMatccXJoJbSitOAdwbacDp23NpDbZRCAFDsUKrHzFxGlxlCEsaCLDoxNdpk6AdxajfREJGCrLghnMlrs45+qLykip8t6TWQoA43YRV7X09m4AAcDwadmRmZ5nTtMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786365975; c=relaxed/simple;
-	bh=75m7s6WIioVBnYGY2JBW2o01YxgINzhypd2kucCP1ZA=;
+	s=arc-20240116; t=1786365980; c=relaxed/simple;
+	bh=g7FxBRxuMIutHFn3n9/nWLsbe4v4NWFt4RirF6L2+Tc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iSIHiojp0P2RKBCwZrlxEXlJYFLQpUutzdrv/7TE6aaD/T7FAgRAYUkaXGT4s9hVRU7TbSIejy3b8NwgMwQLI3bjNetTpVN+R207Xx3xk0spUdzVP9SafA+tfioPI7ItXsXOyidO//DyQ6GJk2+adYcLSpNrB8PKitVUtd5HC6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CFSgPnYU; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=OkeI30CYl588Bf+ZBYYtEhp6MH/4WSlpy7gi8D+Q1izE9uy0qzJyj4KpLJ2d600iv8lhGA2IlJ/UDo9F5OgRkb/6wwb22uCYhLcofwMQQhgbdkuDy4LCKiJAUNlrYQulXdBsqsNF2DigWlWXgur8D8HXdG7ElWafUUQ+Dv/b3IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OiwhLiMf; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CFSgPnYU"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OiwhLiMf"
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C1AE720B7167;
-	Mon, 10 Aug 2026 05:45:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C1AE720B7167
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6489520B7166;
+	Mon, 10 Aug 2026 05:45:55 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6489520B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786365950;
-	bh=cmfE/9bIuLa/vekId7fJnXniapynIUsWYBNUojlu1wI=;
+	s=default; t=1786365955;
+	bh=OP8H0VNUJo+d1sEMSZm6tGGfQq//RorRcZBtjabtsEc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CFSgPnYUA1hOna5g6SuDpa+veUAsMzlrlU/rGGPzaD5LCoSzzUO5LQhUsbiZAtjkz
-	 XQDgLnbjEfslWrU8/e5pKydNMOUOeBC1SwTrZg2rxmUDvqFYvikz8Sn0c4Wo1C3j1T
-	 25YYGsFtwabixrK9sarAajQG3r6ENBKrJN5fswhI=
+	b=OiwhLiMfCiywB9t3NP6W5S5/Fs5OBYdwQEG2cv+XQlLNo+A+00vkOO9ydkWm+/AkC
+	 M5g6edkmAs7MwhItpcITK3b9YWW1Q6d4fnOw72VWNpXE0TftlsnlJB3vwkKMwfiCdv
+	 MYlQIlg+UuDgs4NjjASYTvOgI+vh6XHdexDKp+6c=
 From: Wei Hu <weh@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -33,9 +33,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
 	Long Li <longli@microsoft.com>
-Subject: [PATCH v2 02/13] mshv: add SEV-SNP PSP request hypercall
-Date: Mon, 10 Aug 2026 12:44:56 +0000
-Message-ID: <20260810124527.1409634-3-weh@linux.microsoft.com>
+Subject: [PATCH v2 03/13] mshv: add SEV-SNP isolated page hypercalls
+Date: Mon, 10 Aug 2026 12:44:57 +0000
+Message-ID: <20260810124527.1409634-4-weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260810124527.1409634-1-weh@linux.microsoft.com>
 References: <20260810124527.1409634-1-weh@linux.microsoft.com>
@@ -49,49 +49,128 @@ Content-Transfer-Encoding: 8bit
 
 From: Wei Liu <wei.liu@kernel.org>
 
-Add a helper for HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST so MSHV can
-issue asynchronous PSP guest requests on behalf of encrypted
-partitions.
+Add helpers for importing isolated pages and completing isolated
+imports.  These are used by SEV-SNP guest launch flows to transfer
+isolated page state to the hypervisor.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/hv/mshv_root.h         |  8 +++++++
- drivers/hv/mshv_root_hv_call.c | 39 ++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+ drivers/hv/mshv_root.h         |  12 ++++
+ drivers/hv/mshv_root_hv_call.c | 102 +++++++++++++++++++++++++++++++++
+ 2 files changed, 114 insertions(+)
 
 diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 1f086dcb7aa1..8abb080938fd 100644
+index 8abb080938fd..69226179cfbf 100644
 --- a/drivers/hv/mshv_root.h
 +++ b/drivers/hv/mshv_root.h
-@@ -378,4 +378,12 @@ bool mshv_region_handle_gfn_fault(struct mshv_mem_region *region, u64 gfn);
- void mshv_region_movable_fini(struct mshv_mem_region *region);
+@@ -379,6 +379,18 @@ void mshv_region_movable_fini(struct mshv_mem_region *region);
  bool mshv_region_movable_init(struct mshv_mem_region *region);
  
-+#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-+int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
-+				    u64 rsp_pfn,
-+				    void (*completion_handler)(void *data,
-+							       u64 *status),
-+				    void *completion_data);
-+#endif
-+
- #endif /* _MSHV_ROOT_H_ */
+ #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
++int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
++				  u64 num_pages,
++				  enum hv_isolated_page_type page_type,
++				  enum hv_isolated_page_size page_size,
++				  void (*completion_handler)(void *data,
++							     u64 *status),
++				  void *completion_data);
++int hv_call_complete_isolated_import(u64 partition_id,
++				     union hv_partition_complete_isolated_import_data *import_data,
++				     void (*completion_handler)(void *data,
++								u64 *status),
++				     void *completion_data);
+ int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
+ 				    u64 rsp_pfn,
+ 				    void (*completion_handler)(void *data,
 diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index cb55d4d4be2e..48abe338c06f 100644
+index 48abe338c06f..4e48c1a9a630 100644
 --- a/drivers/hv/mshv_root_hv_call.c
 +++ b/drivers/hv/mshv_root_hv_call.c
-@@ -1009,6 +1009,45 @@ int hv_unmap_stats_page(enum hv_stats_object_type type,
- 	return ret;
+@@ -14,6 +14,10 @@
+ 
+ #include "mshv_root.h"
+ 
++#define HV_ISOLATED_PAGE_BATCH_SIZE					       \
++	((HV_HYP_PAGE_SIZE - sizeof(struct hv_input_import_isolated_pages)) /  \
++	 sizeof(u64))
++
+ /* Determined empirically */
+ #define HV_INIT_PARTITION_DEPOSIT_PAGES 208
+ #define HV_MAP_GPA_DEPOSIT_PAGES	256
+@@ -1010,6 +1014,104 @@ int hv_unmap_stats_page(enum hv_stats_object_type type,
  }
  
-+#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-+int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
-+				    u64 rsp_pfn,
-+				    void (*completion_handler)(void *data,
-+							       u64 *status),
-+				    void *completion_data)
+ #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
++int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
++				  u64 num_pages,
++				  enum hv_isolated_page_type page_type,
++				  enum hv_isolated_page_size page_size,
++				  void (*completion_handler)(void *data,
++							     u64 *status),
++				  void *completion_data)
 +{
-+	struct hv_input_issue_psp_guest_request *input;
++	struct hv_input_import_isolated_pages *input;
++	unsigned long remaining = num_pages;
++	unsigned long flags;
++	u64 *gpa = pages;
++	u64 completed;
++	u64 status;
++	int rep_count;
++
++	if (!num_pages)
++		return -EINVAL;
++
++	if (!completion_handler) {
++		pr_err("%s: missing completion handler, page_type=%u\n",
++		       __func__, page_type);
++		return -EINVAL;
++	}
++
++	while (remaining) {
++		rep_count = min_t(unsigned long, remaining,
++				  HV_ISOLATED_PAGE_BATCH_SIZE);
++
++		local_irq_save(flags);
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++		memset(input, 0, sizeof(*input));
++		input->partition_id = partition_id;
++		input->page_type = page_type;
++		input->page_size = page_size;
++		memcpy(input->page_number, gpa, rep_count * sizeof(*gpa));
++		status = hv_do_rep_hypercall(HVCALL_IMPORT_ISOLATED_PAGES,
++					     rep_count, 0, input, NULL);
++		local_irq_restore(flags);
++
++		completed = hv_repcomp(status);
++		if (hv_result(status) == HV_STATUS_CALL_PENDING) {
++			completion_handler(completion_data, &status);
++			if (hv_repcomp(status))
++				completed = hv_repcomp(status);
++		}
++
++		if (!hv_result_success(status)) {
++			pr_err("%s: completed %llu of %llu, %s\n", __func__,
++			       num_pages - remaining, num_pages,
++			       hv_result_to_string(status));
++			return hv_result_to_errno(status);
++		}
++		if (!completed || completed > remaining)
++			return -EIO;
++
++		gpa += completed;
++		remaining -= completed;
++	}
++
++	return 0;
++}
++
++int hv_call_complete_isolated_import(u64 partition_id,
++				     union hv_partition_complete_isolated_import_data *import_data,
++				     void (*completion_handler)(void *data,
++								u64 *status),
++				     void *completion_data)
++{
++	struct hv_input_complete_isolated_import *input;
 +	unsigned long flags;
 +	u64 status;
 +
@@ -104,10 +183,8 @@ index cb55d4d4be2e..48abe338c06f 100644
 +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
 +	memset(input, 0, sizeof(*input));
 +	input->partition_id = partition_id;
-+	input->request_page = req_pfn;
-+	input->response_page = rsp_pfn;
-+	status = hv_do_hypercall(HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST, input,
-+				 NULL);
++	input->import_data = *import_data;
++	status = hv_do_hypercall(HVCALL_COMPLETE_ISOLATED_IMPORT, input, NULL);
 +	local_irq_restore(flags);
 +
 +	if (hv_result(status) == HV_STATUS_CALL_PENDING)
@@ -121,11 +198,10 @@ index cb55d4d4be2e..48abe338c06f 100644
 +
 +	return 0;
 +}
-+#endif
 +
- int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
- 				   u64 page_struct_count, u32 host_access,
- 				   u32 flags, u8 acquire)
+ int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
+ 				    u64 rsp_pfn,
+ 				    void (*completion_handler)(void *data,
 -- 
 2.43.0
 
