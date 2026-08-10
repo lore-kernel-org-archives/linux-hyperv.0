@@ -1,111 +1,204 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E1A3A8722;
-	Mon, 10 Aug 2026 12:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20813D9DCA
+	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 12:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786366011; cv=none; b=IwbyoRfX/pdvYpQ/wuJbP/B/6QIJJo9fMIXlrSdildTExDtfHtG46/NXxdCpIbD3T+Z1T1oGzhWGrd7+Q5Vgu0UaeZ3Ea7svQXfSQsG1Y9WD9pFzOrDEelgzpaXrXS4Ft9K4eKTOY8Ho7rAUkG3zRSMhQ7mnAJ/DhwS7ckj+eFw=
+	t=1786366537; cv=none; b=cBwp/rrzyjOuHOXMolpiQNamIr7I1UZ211w9YUxx6YQzEHZY6CE6WGCxMT3FHIGhSJ1Xh67bc7CuHIZNhRdIZnBTXZSJqFQ9KS/nZVuXWvJm20lXzNs5tsPxiiX79NSTD/kuQs+I0mwBQuKENXZ2HhyQUQ1MIuG9VYewlWg+/mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786366011; c=relaxed/simple;
-	bh=m2bLUYVTEB3YJAkD+xC5GMAHYEv4B7FVZZOmucpRDjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k+z+Vr2+rTWbOuIoX7ncMTLNTinkahjlAGL4Vlm3lt9/g2lJ3sYpa/BDrL5nwc/uMVXrrgTsWH31qkl5rawaWsjaUIH0THZbkkFwJrCbvks2HRpY+HgPHD3GJdwiDjPaXosD1/Xqi/jkHZ3jI4nfnPeXr25jW8TdYvsjpAth3cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EjjR71aL; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1786366537; c=relaxed/simple;
+	bh=tklWrYhO05qiYR9hwn24DcflO1jzeKNdJcqenfbOybY=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=LvAOK13qxj47zSkQBL9L9L878goziXrzufY3TMspsBcEkqvp6hIhd73Wwbm1ZxlaIXNCIk31YpJxQfF8+MPJMTwDy8xywi3aWod0yGJM0GcUOBWDQMxuWI4lVmIFRZcYpDTXW7tjSwKj2m9fhqOLYSMSAFPphtxsFNsE7gfm5ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8JhPO/9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EjjR71aL"
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A5FF620B7168;
-	Mon, 10 Aug 2026 05:46:25 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A5FF620B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786365986;
-	bh=L44M7OPo4VJC4v3Tmn6RpOW+nljlGoEHBjwlchUWzGs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EjjR71aLYoCTO/LbM62mAGAb20wJeoXVJQq3TQkiPzmgNTBnNVdvwMVfwBE19+ciR
-	 aaPfeQe4RpTEbG+KUVD++OYAMmxn7OFBW89qfBFqlbXS+t98UzH6nQAqUm/rFGpY5J
-	 MqtELHBPhlC8XX2rNLIluzCXbZAWhUIEessAaulw=
-From: Wei Hu <weh@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Wei Hu <weh@microsoft.com>
-Subject: [PATCH v2 13/13] mshv: set up own SynIC registers on a nested root partition
-Date: Mon, 10 Aug 2026 12:45:07 +0000
-Message-ID: <20260810124527.1409634-14-weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260810124527.1409634-1-weh@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8JhPO/9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2DE1F000E9;
+	Mon, 10 Aug 2026 12:55:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786366535;
+	bh=tQyGNH/+VdZi1VcO6Y4wyl95Vu2TIwYBJ7wG+u415yM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=V8JhPO/9fzKk6Iq3i8MgyvwQB6PqwdzVh222cG+XQHS0kwHLN2Oso7szHisXkVk5x
+	 qtz6kI6rr+77e8jtGsKbbS+aqKpFQO9sFPMTcSvkX8X4R133QDU1DBp+aOGas656tQ
+	 G+SdzMC8uH32Svyf7+yHn85LAvYbVKhx/gK8iaiGkDS15FI14kTZonVFOvJJF3RQ61
+	 D9p9BFb4kdNsYjxFY0nKBAfzfotx6DXeDHz69slH0XKXTu48h/fvYGtuqOJgvpDYUu
+	 H/d2E+ojFug30dpUmK+5zmDHpkKgANe4vkFFUQ3vCi0Kt8U2DjdFOb3hewV11i+zKT
+	 Rv0Dy4SNP3rUw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 06/13] mshv: detect and report SEV-SNP support at
+ init
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260810124527.1409634-7-weh@linux.microsoft.com>
 References: <20260810124527.1409634-1-weh@linux.microsoft.com>
+ <20260810124527.1409634-7-weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 10 Aug 2026 12:55:34 +0000
+Message-Id: <20260810125535.5F2DE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-Upstream mshv_synic_cpu_init()/_exit() skip programming the SynIC
-SIMP/SIEFP/SCONTROL registers when VMBus is active (hv_vmbus_exists()),
-assuming VMBus's hv_hyp_synic_enable_regs() already provisioned them.
+New issues:
+- [Medium] The shared per-CPU hypercall output buffer is read after local i=
+nterrupts are restored, creating a race condition that can lead to data cor=
+ruption.
 
-That assumption is wrong for a *nested* root partition. There, VMBus
-programs the *nested* SynIC MSRs (HV_X64_MSR_NESTED_SIMP, ...) via
-hv_set_msr()'s nested remap, while mshv_synic reads/writes the
-*non-nested* SynIC MSRs (hv_get/set_non_nested_msr). As a result mshv
-maps the wrong message page, never receives the SYNIC intercept message
-that carries the async hypercall completion, and mshv_async_hvcall_handler
-blocks forever -- hanging SEV-SNP guest creation from user space.
+Pre-existing issues:
+- [High] Userspace can access the `/dev/mshv` character device before the r=
+oot driver initialization is complete, exposing uninitialized structures.
+--
 
-Gate the "VMBus owns the SynIC registers" optimization on !hv_nested so
-that a nested root partition programs its own non-nested SynIC registers,
-restoring correct intercept/async-hypercall delivery. No change for a
-non-nested (bare-metal) root.
+--- Patch [6]: [PATCH v2 06/13] mshv: detect and report SEV-SNP support at =
+init ---
+commit e5cd5a244ce2b3b2547714151c9b94d944d9fd7b
+Author: Wei Liu <wei.liu@kernel.org>
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
----
- drivers/hv/mshv_synic.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+mshv: detect and report SEV-SNP support at init
 
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index 7c168e5a740d..7d714ee5d226 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -472,7 +472,13 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 	 * VMBus owns SIMP/SIEFP/SCONTROL when it is active.
- 	 * See hv_hyp_synic_enable_regs() for that initialization.
- 	 */
--	bool vmbus_active = hv_vmbus_exists();
-+	/*
-+	 * On a nested root partition VMBus programs the *nested* SynIC MSRs
-+	 * (SIMP/SIEFP/SCONTROL) via hv_set_msr()'s nested remap, whereas the
-+	 * code below reads/writes the non-nested SynIC MSRs. So when nested,
-+	 * do not defer SynIC setup to VMBus -- set up our own registers.
-+	 */
-+	bool vmbus_active = hv_vmbus_exists() && !hv_nested;
- 
- 	/*
- 	 * Map the SYNIC message page. When VMBus is not active the
-@@ -593,7 +599,13 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- 	struct hv_synic_event_ring_page **event_ring_page =
- 		&spages->synic_event_ring_page;
- 	/* VMBus owns SIMP/SIEFP/SCONTROL when it is active */
--	bool vmbus_active = hv_vmbus_exists();
-+	/*
-+	 * On a nested root partition VMBus programs the *nested* SynIC MSRs
-+	 * (SIMP/SIEFP/SCONTROL) via hv_set_msr()'s nested remap, whereas the
-+	 * code below reads/writes the non-nested SynIC MSRs. So when nested,
-+	 * do not defer SynIC setup to VMBus -- set up our own registers.
-+	 */
-+	bool vmbus_active = hv_vmbus_exists() && !hv_nested;
- 
- 	/* Disable the interrupt */
- 	sint.as_uint64 = hv_get_non_nested_msr(HV_MSR_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX);
--- 
-2.43.0
+Query Hyper-V dynamic processor features during mshv initialization to
+determine SEV-SNP availability, and report the result. On success, log the
+maximum number of encrypted partitions, otherwise log the decoded SNP status
+string so misconfigurations are diagnosable.
 
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index 8c87dd8e0378f..712f45dcef60c 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+
+[ ... ]
+
+> @@ -2705,6 +2705,100 @@ static int mshv_root_scheduler_cleanup(unsigned i=
+nt cpu)
+>  }
+> =20
+>  /* Must be called after retrieving the scheduler type */
+> +#if defined(__x86_64__)
+
+[ ... ]
+
+> +static void mshv_print_max_sev_snp_partitions(struct device *dev)
+> +{
+> +	struct hv_input_get_system_property *input;
+> +	struct hv_output_get_system_property *output;
+> +	unsigned long flags;
+> +	u64 status;
+> +
+> +	local_irq_save(flags);
+> +	input =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	output =3D *this_cpu_ptr(hyperv_pcpu_output_arg);
+> +
+> +	memset(input, 0, sizeof(*input));
+> +	input->property_id =3D HV_DYNAMIC_PROCESSOR_FEATURE_PROPERTY;
+> +	input->hv_processor_feature =3D
+> +		HV_X64_DYNAMIC_PROCESSOR_FEATURE_MAX_ENCRYPTED_PARTITIONS;
+> +
+> +	status =3D hv_do_hypercall(HVCALL_GET_SYSTEM_PROPERTY, input, output);
+> +	local_irq_restore(flags);
+> +	if (!hv_result_success(status)) {
+> +		dev_warn(dev, "Failed to get max SNP partitions: %s\n",
+> +			 hv_result_to_string(status));
+> +		return;
+> +	}
+> +
+> +	dev_info(dev, "Maximum supported SEV-SNP partitions are: %llu\n",
+> +		 output->hv_processor_feature_value);
+
+[Severity: Medium]
+Could this result in a corrupted value being read from the output buffer?
+
+By calling local_irq_restore(flags) before reading
+output->hv_processor_feature_value, an interrupt could occur immediately
+after IRQs are restored. If the interrupt handler executes another hypercal=
+l,
+the per-CPU output buffer (hyperv_pcpu_output_arg) will be overwritten befo=
+re
+the value is logged.=20
+
+Should the value be copied to a local variable before restoring local
+interrupts?
+
+> +}
+> +
+> +static void __init mshv_check_sev_snp_support(struct device *dev)
+> +{
+> +	struct hv_input_get_system_property *input;
+> +	struct hv_output_get_system_property *output;
+> +	unsigned long flags;
+> +	enum hv_snp_status snp_status;
+> +	u64 status;
+> +
+> +	local_irq_save(flags);
+> +	input =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	output =3D *this_cpu_ptr(hyperv_pcpu_output_arg);
+> +
+> +	memset(input, 0, sizeof(*input));
+> +	input->property_id =3D HV_DYNAMIC_PROCESSOR_FEATURE_PROPERTY;
+> +	input->hv_processor_feature =3D HV_X64_DYNAMIC_PROCESSOR_FEATURE_SNP_ST=
+ATUS;
+> +
+> +	status =3D hv_do_hypercall(HVCALL_GET_SYSTEM_PROPERTY, input, output);
+> +	local_irq_restore(flags);
+> +	if (!hv_result_success(status)) {
+> +		dev_warn(dev, "Failed to get SNP support: %s\n",
+> +			 hv_result_to_string(status));
+> +		return;
+> +	}
+> +
+> +	snp_status =3D output->hv_processor_feature_value;
+
+[Severity: Medium]
+If an interrupt overwrites the buffer after local_irq_restore(flags) but
+before snp_status is assigned, snp_status could read a corrupted value.
+
+Is there a similar race condition here as seen in
+mshv_print_max_sev_snp_partitions()?
+
+> +	dev_info(dev, "SEV-SNP support status: %s (%u)\n",
+> +		 hv_snp_status_to_string(snp_status), snp_status);
+> +
+> +	if (snp_status =3D=3D HV_SNP_STATUS_AVAILABLE)
+> +		mshv_print_max_sev_snp_partitions(dev);
+> +}
+
+[ ... ]
+
+> @@ -2808,6 +2902,8 @@ static int __init mshv_parent_partition_init(void)
+>  	if (ret)
+>  		goto synic_cleanup;
+> =20
+> +	mshv_check_sev_snp_support(dev);
+> +
+
+[Severity: High]
+This is a pre-existing issue, but is it safe to expose the character device
+before the root driver initialization is complete?
+
+Earlier in mshv_parent_partition_init(), misc_register(&mshv_dev) is called,
+which immediately exposes the device to userspace. A racing userspace thread
+could open the device and trigger the MSHV_CREATE_PARTITION ioctl before
+initialization finishes.
+
+The ioctl invokes add_partition(), which attempts to acquire
+mshv_root.pt_ht_lock. The lock initialization spin_lock_init(&mshv_root.pt_=
+ht_lock)
+isn't executed until much later in the setup sequence.
+
+Wouldn't this trigger a kernel oops if accessed early?
+
+>  	ret =3D root_scheduler_init(dev);
+>  	if (ret)
+>  		goto synic_cleanup;
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260810124527.1409=
+634-1-weh@linux.microsoft.com?part=3D6
