@@ -1,67 +1,68 @@
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F496311C36
-	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE573F4DDC
+	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 14:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786370193; cv=none; b=TEC4dZoJj7Efq0ultao5BzoDHr4n2/Fo95+03G+1KMGLDcY+ZhoAAcAsV7jKdmz9UAiKTMs1AYITpH/7ReqP/xVmx4ggxoTScdP1g0mQROm27F3LQEuSkSe2z/dEjn+DbYQo+MjP3g9qLwsmYeFlnw99Ps2ZTGjnXp06QQ6MMlQ=
+	t=1786372208; cv=none; b=eIst/6D1MaxQfunZhuyu9EQaShzkuuE6raQzUwC/0DFk3Q2/DfE3xYAbfessC+plCUI/SG+9mU7XtYKOnekF4zT5pB8u0SWmycvHfDsmXrB0OdKQZMorrYpiA+OpCofV6SJI7VMRzink9+fdaMRy1BLyhu4UG9LuHJnGjbzv0k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786370193; c=relaxed/simple;
-	bh=T4h+0OngmiFLBNepEjU3d20+8UJV2w5wRPCm1XE6zT0=;
+	s=arc-20240116; t=1786372208; c=relaxed/simple;
+	bh=4hkqL67a+abI0W9PGYZV3w1q/c9dy9KBL2UatITOk78=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=eAttsJRHIbE/MgQ34y5fxWfD3dfZ/oIuB5t8Eidt9wa9KFeldjVhdCoe1lmvMA8RXcb8tYCK0j5RwQn2T6V5mg9BiM4qL+4Iq7Nri4oKyOyfHcG1oTVkblCzxhHNgIzjC8dquj3DiiUvJgL9x+MS4LirD1OqSTaHk9pMhBJuezI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Cc/T2yLT; arc=none smtp.client-ip=209.85.214.198
+	 To:Cc:Content-Type; b=CxfFvQG+bFlpDh8RsCebH+eDHlOANNxreuOStssEcImaCAWTRNsh3TbJdjdPw15sNFECjW3pgwKj/TrYhm1XgP5XvdHrEABngjXUa2xO3eyy9NZgk7VfFVGsJ2S0Kf9RTcQw1n93bZ8sK+wvZjDgL57GslE5iNQAqwHb+6yCuRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VFhutPxZ; arc=none smtp.client-ip=209.85.215.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Cc/T2yLT"
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d001671a54so46409505ad.2
-        for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 06:56:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VFhutPxZ"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c96b4f58ddcso1637922a12.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 07:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786370192; x=1786974992; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=scUOSvWK83pq1cJ9Y23cB7+1ZF4+W+kSdr2X3LP0fns=;
-        b=Cc/T2yLT/c07BtIK/l07CYzocsnCVLWmh0n4zfZHY7LgF/9R5h3EwEQEgb3cpVEXlT
-         2rSB/Z5N9qMCtSzLqa0hb7Pcxs0BkiqsuGaCm3tjSf3vqDCD1qqVbQT4J5bpPEJeIprt
-         nZQzkvn/+iE7w2qdrkZpY3zC82Z9ZW6sNhSAyZiT9GcJeQNzd0LtHTSh7gs292np+mvf
-         pXBwiejtChxZ9lqPkJ1biXdh2qAMhRCF6TK7hvSo/uIBBohtljaRx4WLbo9ZEOf4xO5n
-         tFjXzot8m4vOjZ7b0crM6qZ1qyo2QIWbQtfm0vlG4EvWTGPSCKcrlLiQ/fyatbyo3gGq
-         NAaQ==
+        d=google.com; s=20251104; t=1786372206; x=1786977006; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Pt4y4GsIfgXju50y9aE1V5oqKvyqhzjPLlHBnjvlrwI=;
+        b=VFhutPxZzXHMuMqxwBlLbGiTds7tkLIFe2/WqXmjf0TwHMTCRkJXg3iVEe+HILUGpA
+         Mi12f2bjjUOj7z4JotlTMHaNISmTHOYZUAewTpsDx/zC2+UYkIMnubcqOFk1RTKRjvlQ
+         HBvJwBk8TxKfKCTnTnU0fgLggsLE9kr7UiDwNZ/p8Rv2tQTg2Y+J7s5anG5VaAbkrayJ
+         V7kFRrNfn42zG2mQHtGFALWDKEO9ZQoO3b3QIRDACZ1Hb2lEaeF8xtf9U2PGoObWR3MO
+         EVIFFHBRA/VMiffkQeD8WQ3fwMgknGHzZDE7Co17MItlPUMu14xK9a6VVye5IIyyFxnR
+         Sksg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786370192; x=1786974992;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=scUOSvWK83pq1cJ9Y23cB7+1ZF4+W+kSdr2X3LP0fns=;
-        b=erJ1tKBZEuUJ3Rhen7XafqwKw3CELDDfLJ1fF9EDCYFwASvX/bbeMKwfRTHsAbJEzG
-         GVdaWCE2fIX0xeweLdDj14q2k8iaL0FwQyLYy9hhUlS5GCU/pHq69yHejodobuUUx6F6
-         YBZFCQcnDP1dzbM9Y5QVAVVEUxcLG/YziDbz3Ai7oqCzVmAFmgNv/VCsubcTDX0fzRrW
-         NK6jd2pSPFc/znJFG8gaB0BSUd0dciXcufVv+HxHrhSArPJy+SqT8e1ynZU5chEPNCyQ
-         VvcM6tdOVapAlMyKZmZNf0UMW+tKKLbsN48tXMn5RV9RrhT+hNrEjfuaBK3rcqWx0b4S
-         4b2Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoB9MyNn+PRKuVm9/brGX7B7K3mmWlP3TatvQYIGY/IgRiJACXWfzX+v8LkOyVRNk6OIzugKD/PBLffEIk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRFIPDqycAof1jbbtPz+vZEZLWqKvb18Oitj0w/wJkbewlBx8x
-	h7xzo1Vp+zWfzqqLKnawzStvjN0uN8n3C27wGgDGwGAADan7quyxrgrK1N2tS+cYau8csTW6ZVQ
-	KVjz1qA==
-X-Received: from plml3.prod.google.com ([2002:a17:903:1843:b0:2cc:7ef7:ea41])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:13c7:b0:2ce:9c48:22d3
- with SMTP id d9443c01a7336-2d30033718fmr21913835ad.11.1786370191619; Mon, 10
- Aug 2026 06:56:31 -0700 (PDT)
-Date: Mon, 10 Aug 2026 06:56:31 -0700
-In-Reply-To: <d0ee3cf97854b904323db3799e05117d065a6ba0.camel@infradead.org>
+        d=1e100.net; s=20251104; t=1786372206; x=1786977006;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Pt4y4GsIfgXju50y9aE1V5oqKvyqhzjPLlHBnjvlrwI=;
+        b=VkN1XnocJYvVyW3uVu0uLrvDr/To+N+X2emks57xyeW33bW+JSulV8jh0CFolZUOuy
+         KTF9wJEuFfS8D99RSnJK9P11y4pJk1rJgsV+ZDHHyEPcTXDq7u0eU2R1nCVzT3+JItQU
+         Iis/goh1MshNiXxGejprFhoXmhUWt4/4hWVFEoFQiAAL7ctw0EwhW1R9kuLGhZJN3I7K
+         WKbQh6YEyV+/7Vd9fk/tdyaFf+6CZV6XHue+WD3j2AVJDkGtUJSiL80cKg6bDFLPsxJE
+         K17kSxvIeVb0rBj9Wsu78nHuBDfpNYbLgO4Ba1H1UL0w1F5HKcp8bS9ccFk5qfzO0lfx
+         10Sg==
+X-Forwarded-Encrypted: i=1; AHgh+RrdDP1u6rdgDzNhVLPxRjky2Di2Nwf7yl3dY6gSu25ytjJ4/AmJqOuc2j/SpEjjd5FwB5IjZZ1N4MbbZE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi97EbGmp5RRiNsZ3zIHhO7vV9l179tC9bDZFNonzsI6rL9Tl8
+	f7VcOI2mwxGrA6/CUfwtkGJ9FKw/YSYMokKTvO9HlU9lVk/V6ehrt0Da1ggIigDB7LwTWiTslmT
+	sGp3G9g==
+X-Received: from pgmo14.prod.google.com ([2002:a63:5d4e:0:b0:cbe:7df7:35b0])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7fa0:b0:3c3:76a8:c0f
+ with SMTP id adf61e73a8af0-3cbce6f17b9mr20503675637.4.1786372205374; Mon, 10
+ Aug 2026 07:30:05 -0700 (PDT)
+Date: Mon, 10 Aug 2026 07:30:04 -0700
+In-Reply-To: <b8c0e3537904e29f233cbb03f4d3ddb5247e2af7.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260806233609.212337-14-seanjc@google.com> <d0ee3cf97854b904323db3799e05117d065a6ba0.camel@infradead.org>
-Message-ID: <annYj0zj68hH8zIu@google.com>
-Subject: Re: [PATCH v6 13/51] x86/acrn: Mark TSC frequency as known when using
- ACRN for calibration
+References: <20260806233609.212337-11-seanjc@google.com> <b8c0e3537904e29f233cbb03f4d3ddb5247e2af7.camel@infradead.org>
+Message-ID: <anngbOavdPam2kKy@google.com>
+Subject: Re: [PATCH v6 10/51] x86/tdx: Force TSC frequency with CPUID-based
+ info provided by the TDX-Module
 From: Sean Christopherson <seanjc@google.com>
 To: David Woodhouse <dwmw2@infradead.org>
 Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
@@ -74,21 +75,74 @@ Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com,
 	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
 	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	xen-devel@lists.xenproject.org
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
 On Sat, Aug 08, 2026, David Woodhouse wrote:
 > On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
-> > Mark the TSC frequency as known when using ACRN's PV CPUID information.
-> > Per commit 81a71f51b89e ("x86/acrn: Set up timekeeping") and common sense,
-> > the TSC freq is explicitly provided by the hypervisor.
+> > When running as a TDX guest, explicitly set the TSC frequency to a know=
+n
+> > value, using CPUID-based information, instead of potentially relying on=
+ a
+> > hypervisor-controlled PV routine.  For TDX guests, CPUID.0x15 is always
+> > emulated by the TDX-Module, i.e. the information from CPUID is more
+> > trustworthy than the information provided by the hypervisor.
 > >
+> > To maintain backwards compatibility with TDX guest kernels that use nat=
+ive
+> > calibration, and because it's the least awful option, retain
+> > native_calibrate_tsc()'s stuffing of the local APIC bus period using th=
+e
+> > core crystal frequency.  While it's entirely possible for the hyperviso=
+r
+> > to emulate the APIC timer at a different frequency than the core crysta=
+l
+> > frequency, the commonly accepted interpretation of Intel's SDM is that =
+APIC
+> > timer runs at the core crystal frequency when that latter is enumerated=
+ via
+> > CPUID:
+> >
+> >   The APIC timer frequency will be the processor's bus clock or core
+> >   crystal clock frequency (when TSC/core crystal clock ratio is enumera=
+ted
+> >   in CPUID leaf 0x15).
+> >
+> > If the hypervisor is malicious and deliberately runs the APIC timer at =
+the
+> > wrong frequency, nothing would stop the hypervisor from modifying the
+> > frequency at any time, i.e. attempting to manually calibrate the freque=
+ncy
+> > out of paranoia would be futile.
+> >
+> > Deliberately leave CPU frequency calibration as is, since the TDX-Modul=
+e
+> > doesn't provide any guarantees with respect to CPUID.0x16.
+> >
+> > Expose and use cpuid_get_tsc_info() instead of providing a wrapper to
+> > get the TSC and core crystal frequency, as TDX is the only anticipated
+> > user outside of the TSC code, i.e. adding a helper to dedup the math wo=
+n't
+> > actually dedup anything.  Having TDX use "struct cpuid_tsc_info" also
+> > avoids the temptation of declaring a local "tsc_khz" variable and thus
+> > unintentionally creating a shadow of the global "tsc_khz".
+> >
+> > Cc: Kiryl Shutsemau (Meta) <kas@kernel.org>
 > > Signed-off-by: Sean Christopherson <seanjc@google.com>
-> 
-> Huh... does this literally get reverted completely in the very *next*
-> patch in the series? Kind of weird, but I guess in some ways it makes
-> sense...
+>=20
+> I don't know if we should set X86_FEATURE_TSC_RELIABLE before bailing
+> out in the case where cpuid_get_tsc_info() fails, or just not care
+> about that because it Can Never Happen=E2=84=A2? Previously it was set
+> unconditionally from tdx_early_init().
+>=20
+> Whatever...
 
-The literal code gets reverted, but the functional change does not.  Before this
-change, ACRN is the only guest-side PV code that doesn't set X86_FEATURE_TSC_KNOWN_FREQ
-when the hypervisor provides the exact frequency.  I.e. this patch allows for
-making the "No functional change intended" claim in the next patch.
+Heh, yeah, "whatever" is about my thought exactly.  I could go either way. =
+ I
+would buy an argument that the TSC itself is still reliable even if the fre=
+quency
+isn't known.  On the other hand, the frequency could be computed via calibr=
+ation,
+at which point the frequency is no longer reliable and arguably should be s=
+anity
+checked.
