@@ -1,226 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5503B2FF8
-	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F496311C36
+	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 13:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786367602; cv=none; b=iPzEUs8GYOzvjgISa9g/iRE0G1xaijUH2qanJV27mwOrFH79VOJ4tVwGvNR04WdsoVp+a0BCGY5pn2q54PoMLDfIbUwSTMz73h4mRBC99yHfJek26HxNysBSRKcYd/x4TaP1DzQ7aL6A5LsaCXZDkS48A9bAGdrzZHZQTrupBWE=
+	t=1786370193; cv=none; b=TEC4dZoJj7Efq0ultao5BzoDHr4n2/Fo95+03G+1KMGLDcY+ZhoAAcAsV7jKdmz9UAiKTMs1AYITpH/7ReqP/xVmx4ggxoTScdP1g0mQROm27F3LQEuSkSe2z/dEjn+DbYQo+MjP3g9qLwsmYeFlnw99Ps2ZTGjnXp06QQ6MMlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786367602; c=relaxed/simple;
-	bh=JUxXgeqZ/xl8whvW03E90lDySHQFap/MNejOw2vVnmI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=US0KASLg7vbXtucnQOS33juTxbHZXcB9kv2PHz94LYeI7P7oRFUE9YfdkFoeB1n9npB+fh0ifttdhC50QLjAeHlRKnJatFbQxO1uRDXydKgQZde+B6V/A+eldwqAMv4QK7cS+mE5zYyYDXsFTnpUgVKv27GsObrYmueWNKFa8Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZsIugSK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786370193; c=relaxed/simple;
+	bh=T4h+0OngmiFLBNepEjU3d20+8UJV2w5wRPCm1XE6zT0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=eAttsJRHIbE/MgQ34y5fxWfD3dfZ/oIuB5t8Eidt9wa9KFeldjVhdCoe1lmvMA8RXcb8tYCK0j5RwQn2T6V5mg9BiM4qL+4Iq7Nri4oKyOyfHcG1oTVkblCzxhHNgIzjC8dquj3DiiUvJgL9x+MS4LirD1OqSTaHk9pMhBJuezI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Cc/T2yLT; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZsIugSK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54A81F000E9;
-	Mon, 10 Aug 2026 13:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786367601;
-	bh=yFwVyasore+L6w9fQXmSmslwAyu7k4zviBH2qO+9bec=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mZsIugSKBQ9B0ktcRpNKeOEgwZuWER+WQ816skuhk9/q/ZmfyHieFDPIo9xmTfXQh
-	 MpgKV2YN7MtE+7T+hGRXNrAakcXm8Re+YnjbHYAMQiYoTYa11PYcnM8gMcOKtnf7Xo
-	 szxiHyYwbV8VqNsi0Q8LVv7xcMka26i1HZ8/rCG0ZV7e8pIy9L6sAtJoF8LcB4BJka
-	 SlN5/rEa6Ktuj4KhxuKwrZHjNjV95dTjJ7u05s0U76ut+GBRZ0wqngp3JMsV3qRVyI
-	 SGqZdQOU7RCeRxsjABRZ+T2UsBSGD6B5CCjnaDdLkZHAkFKgK8zL61clioCBWVxT0a
-	 uAnuPWXvhfMDA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 10/13] mshv: unmap SNP memory before state teardown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Hu" <weh@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260810124527.1409634-11-weh@linux.microsoft.com>
-References: <20260810124527.1409634-1-weh@linux.microsoft.com>
- <20260810124527.1409634-11-weh@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Aug 2026 13:13:19 +0000
-Message-Id: <20260810131320.E54A81F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Cc/T2yLT"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d001671a54so46409505ad.2
+        for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 06:56:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786370192; x=1786974992; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=scUOSvWK83pq1cJ9Y23cB7+1ZF4+W+kSdr2X3LP0fns=;
+        b=Cc/T2yLT/c07BtIK/l07CYzocsnCVLWmh0n4zfZHY7LgF/9R5h3EwEQEgb3cpVEXlT
+         2rSB/Z5N9qMCtSzLqa0hb7Pcxs0BkiqsuGaCm3tjSf3vqDCD1qqVbQT4J5bpPEJeIprt
+         nZQzkvn/+iE7w2qdrkZpY3zC82Z9ZW6sNhSAyZiT9GcJeQNzd0LtHTSh7gs292np+mvf
+         pXBwiejtChxZ9lqPkJ1biXdh2qAMhRCF6TK7hvSo/uIBBohtljaRx4WLbo9ZEOf4xO5n
+         tFjXzot8m4vOjZ7b0crM6qZ1qyo2QIWbQtfm0vlG4EvWTGPSCKcrlLiQ/fyatbyo3gGq
+         NAaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786370192; x=1786974992;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=scUOSvWK83pq1cJ9Y23cB7+1ZF4+W+kSdr2X3LP0fns=;
+        b=erJ1tKBZEuUJ3Rhen7XafqwKw3CELDDfLJ1fF9EDCYFwASvX/bbeMKwfRTHsAbJEzG
+         GVdaWCE2fIX0xeweLdDj14q2k8iaL0FwQyLYy9hhUlS5GCU/pHq69yHejodobuUUx6F6
+         YBZFCQcnDP1dzbM9Y5QVAVVEUxcLG/YziDbz3Ai7oqCzVmAFmgNv/VCsubcTDX0fzRrW
+         NK6jd2pSPFc/znJFG8gaB0BSUd0dciXcufVv+HxHrhSArPJy+SqT8e1ynZU5chEPNCyQ
+         VvcM6tdOVapAlMyKZmZNf0UMW+tKKLbsN48tXMn5RV9RrhT+hNrEjfuaBK3rcqWx0b4S
+         4b2Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoB9MyNn+PRKuVm9/brGX7B7K3mmWlP3TatvQYIGY/IgRiJACXWfzX+v8LkOyVRNk6OIzugKD/PBLffEIk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRFIPDqycAof1jbbtPz+vZEZLWqKvb18Oitj0w/wJkbewlBx8x
+	h7xzo1Vp+zWfzqqLKnawzStvjN0uN8n3C27wGgDGwGAADan7quyxrgrK1N2tS+cYau8csTW6ZVQ
+	KVjz1qA==
+X-Received: from plml3.prod.google.com ([2002:a17:903:1843:b0:2cc:7ef7:ea41])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:13c7:b0:2ce:9c48:22d3
+ with SMTP id d9443c01a7336-2d30033718fmr21913835ad.11.1786370191619; Mon, 10
+ Aug 2026 06:56:31 -0700 (PDT)
+Date: Mon, 10 Aug 2026 06:56:31 -0700
+In-Reply-To: <d0ee3cf97854b904323db3799e05117d065a6ba0.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+References: <20260806233609.212337-14-seanjc@google.com> <d0ee3cf97854b904323db3799e05117d065a6ba0.camel@infradead.org>
+Message-ID: <annYj0zj68hH8zIu@google.com>
+Subject: Re: [PATCH v6 13/51] x86/acrn: Mark TSC frequency as known when using
+ ACRN for calibration
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kas@kernel.org, rick.p.edgecombe@intel.com, pbonzini@redhat.com, 
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org, 
+	decui@microsoft.com, longli@microsoft.com, ajay.kaher@broadcom.com, 
+	alexey.makhalov@broadcom.com, jan.kiszka@siemens.com, 
+	dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org, 
+	jgross@suse.com, daniel.lezcano@kernel.org, tglx@kernel.org, 
+	jstultz@google.com, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org
+Content-Type: text/plain; charset="us-ascii"
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
+On Sat, Aug 08, 2026, David Woodhouse wrote:
+> On Thu, 2026-08-06 at 16:35 -0700, Sean Christopherson wrote:
+> > Mark the TSC frequency as known when using ACRN's PV CPUID information.
+> > Per commit 81a71f51b89e ("x86/acrn: Set up timekeeping") and common sense,
+> > the TSC freq is explicitly provided by the hypervisor.
+> >
+> > Signed-off-by: Sean Christopherson <seanjc@google.com>
+> 
+> Huh... does this literally get reverted completely in the very *next*
+> patch in the series? Kind of weird, but I guess in some ways it makes
+> sense...
 
-New issues:
-- [Critical] The `destroy_work` delayed work is never explicitly canceled d=
-uring module unload, leading to a potential use-after-free and kernel panic.
-- [High] Retrying `destroy_partition` on failure causes partial unmap abort=
-s, permanently leaving remaining chunks of a memory region mapped.
-- [Low] Intentional early return in `mshv_region_destroy` permanently leaks=
- the `mshv_mem_region` kernel tracking struct.
-
-Pre-existing issues:
-- [High] Direct kfree(vp) without waiting for RCU grace period allows Use-A=
-fter-Free in concurrent ISRs.
---
-
---- Patch [10]: [PATCH v2 10/13] mshv: unmap SNP memory before state teardo=
-wn ---
-commit fe90624ce2dba03d1ad11c9e5fd88e8f71d8c3d0
-Author: Wei Liu <wei.liu@kernel.org>
-
-mshv: unmap SNP memory before state teardown
-
-Unmap memory regions before destroying SNP partition state, and only
-release regions after SNP state is torn down. Dropping regions first
-attempts to regain host access while the partition is still secure and
-can leave pages inaccessible.
-
-> diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-> index 6d65e5b421529..62c49b4d2a33e 100644
-> --- a/drivers/hv/mshv_regions.c
-> +++ b/drivers/hv/mshv_regions.c
-[ ... ]
-> @@ -337,7 +337,7 @@ static int mshv_region_chunk_unmap(struct mshv_mem_re=
-gion *region,
->                                        page_count, flags);
->  }
-> =20
-> -static int mshv_region_unmap(struct mshv_mem_region *region)
-> +int mshv_region_unmap(struct mshv_mem_region *region)
->  {
->         return mshv_region_process_range(region, 0,
-
-[Severity: Low]
-Does this error path leak the kernel tracking structure?
-
-When tearing down an SNP encrypted partition and mshv_region_share()
-fails, the function returns early to intentionally leave guest memory
-pinned and prevent host crashes:
-
-drivers/hv/mshv_regions.c:mshv_region_destroy() {
-    ...
-        if (ret) {
-            pt_err(partition,
-                   "Failed to regain access to memory... %d\n", ret);
-            return;
-        }
-    }
-
-    mshv_region_unmap(region);
-    mshv_region_invalidate(region);
-    vfree(region);
-}
-
-Since the mshv_mem_region structure is already removed from the partition
-lists and its refcount is zero, could bypassing the vfree(region) call
-result in permanently leaking the mreg_pages array and tracking structure?
-
-[ ... ]
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index c32d3375af8c5..0dbf509351bb0 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-> @@ -2208,10 +2208,8 @@ static void destroy_partition(struct mshv_partitio=
-n *partition)
->                 if (mshv_partition_encrypted(partition)) {
->                         hlist_for_each_entry_safe(region, n,
->                                                   &partition->pt_mem_regi=
-ons,
-> -                                                 hnode) {
-> -                               hlist_del(&region->hnode);
-> -                               mshv_region_put(region);
-> -                       }
-> +                                                 hnode)
-> +                               mshv_region_unmap(region);
-> =20
->                         ret =3D destroy_snp_partition_state(partition);
->                         if (ret) {
-
-[Severity: High]
-Can this retry logic lead to a partial unmap regression when a memory region
-is processed a second time?
-
-If destroy_snp_partition_state() fails, the teardown is retried via
-destroy_work:
-
-drivers/hv/mshv_root_main.c:destroy_partition() {
-    ...
-    ret =3D destroy_snp_partition_state(partition);
-    if (ret) {
-        ...
-        schedule_delayed_work(&partition->destroy_work, HZ);
-        return;
-    }
-}
-
-On the subsequent attempt, mshv_region_unmap() will iterate through the
-region chunks again starting from offset 0. Since mreg_pages isn't
-cleared during the initial successful unmap, the hypervisor will likely
-return an error when attempting to unmap the first chunk again.
-
-mshv_region_process_range() aborts processing immediately on error:
-
-drivers/hv/mshv_regions.c:mshv_region_process_range() {
-    ...
-    ret =3D mshv_region_process_chunk(region, flags, page_offset, ...);
-    if (ret < 0)
-        return ret;
-}
-
-Will this completely bypass the unmapping of any remaining chunks that
-were not reached in the previous pass?
-
-[Severity: High]
-Is it safe to schedule a delayed work task that lacks cancelation during mo=
-dule
-unload?
-
-If destroy_snp_partition_state() fails, the teardown is retried via
-delayed work. If the partition file descriptor is closed, the module
-reference count drops to 0, which allows the administrator to unload the
-mshv module.
-
-Looking at the exit path:
-
-drivers/hv/mshv_root_main.c:mshv_parent_partition_exit() {
-    ...
-    mshv_irqfd_wq_cleanup();
-    root_scheduler_deinit();
-    mshv_synic_exit();
-}
-
-Since mshv_parent_partition_exit() executes without calling
-cancel_delayed_work_sync(&partition->destroy_work), can the timer fire
-after the kernel module is unloaded and execute freed memory?
-
-[Severity: High]
-This is a pre-existing issue, but would this direct free cause a
-use-after-free regression in concurrent interrupt service routines?
-
-In destroy_partition(), vp structures are freed directly:
-
-drivers/hv/mshv_root_main.c:destroy_partition() {
-    ...
-        kfree(vp);
-        partition->pt_vp_array[i] =3D NULL;
-    ...
-}
-
-Concurrently, the intercept ISR reads these pointers under an RCU lock:
-
-drivers/hv/mshv_synic.c:mshv_intercept_isr() {
-    ...
-    vp =3D partition->pt_vp_array[vp_index];
-    if (unlikely(!vp)) {
-        ...
-    }
-    kick_vp(vp);
-    ...
-}
-
-Since drain_all_vps() is skipped for non-root schedulers, intercept
-messages can still arrive during partition teardown. If destroy_partition()
-executes between the time mshv_intercept_isr() reads the vp pointer and
-dereferences it in kick_vp(), could this result in accessing freed memory
-because synchronize_rcu() or kfree_rcu() isn't used?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260810124527.1409=
-634-1-weh@linux.microsoft.com?part=3D10
+The literal code gets reverted, but the functional change does not.  Before this
+change, ACRN is the only guest-side PV code that doesn't set X86_FEATURE_TSC_KNOWN_FREQ
+when the hypervisor provides the exact frequency.  I.e. this patch allows for
+making the "No functional change intended" claim in the next patch.
