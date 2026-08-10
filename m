@@ -1,128 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC93E43BDD3
-	for <linux-hyperv@vger.kernel.org>; Mon, 10 Aug 2026 19:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F5A53090D4;
+	Mon, 10 Aug 2026 19:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786388505; cv=none; b=g6Cf6Af5CmNLXNxtTSN+8f69cTvrEg5GdUCh5ooLG00grBOpVRpmrVxvRZiZGZI3VIIdhE3Z2H6kVGyz3jM4JnqbGMLQTZX7xc+5X3HutptOT0KtfJssXzmkgIfyHYe3g09Fs8UqJgcms3RcDGAhDeZRQY/W+2cmGMBH6gUBViM=
+	t=1786388621; cv=none; b=qF6fAO/p2IGUCJgtGyo8IM5eeTGxLj3WnVnR3lUGZw0MbSVtzTfaMiVsTk/zJdy2SAKyj84I1CUcTBqAjmDUEcnSA3bMgM16BixgjF7JYamIVIZPq4PR8+VcE7NUxZooIHULP1HXhb5/F+Isthcw1AZgM1XIa93LuhGwbAhgJKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786388505; c=relaxed/simple;
-	bh=Z+9RmSBD4BdGOQYj6XfhH7qSpGteEi98/YwIn4urDgU=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=bNaR/kh6lS3pmg8BZD+O3CmvKTS5f5Eom01VIjKYBsOO7zcscM/o9piRXD3KzpjiyajZEK4yuiKa/CD1d16W/AcktAkA2RXXkyFBzjDKFEyl8+D9BtffVvywlbYqUQR3vvM34FCuOhqHF+oBDTZsG+ccoay4/iwg8Zq+TILESgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Om9XJ2tX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786388621; c=relaxed/simple;
+	bh=q2bcCIZ4dgolsRUYzeovrjzX9by+oJ6PTP3P1RDDybg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iF8vl4yT9k/F3pxZUCn2PjLGxEBJb+3TmQcP2JZ/cboC2D6ue4pdQGL93eDHyETfM/yxOtQICYT3qOG6iEwLZHvLr8Lt4HtsdYJv6rgjLY5d9FuUnc7fs5XsBMhx/V4G3d/E5YGwSjGB7V4iw8oLW+LLDNBWh+bYgTrJvRpUClQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=h3aiYQYs; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Om9XJ2tX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482891F000E9;
-	Mon, 10 Aug 2026 19:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786388503;
-	bh=nTixLo0qab4gCuZKjQAI0psjcplI278pO0yWyDGy2WQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Om9XJ2tX1R/Oo1B89KUgJpwSZBFtwNxlOQod4+rboRNsqpnzNBxNY3cdmpNmAxUN+
-	 NfKaZ27WAyD0P/rkVDxKpC8B3h7pevPf+tjWhPkk34ddT+Q4Q3LmUaxBevW9l+444p
-	 wmXq3+9PUynHQMtO+zrujiYJltVBdlWebLixGsdbOCKzRWMHUNOuOryLaLsOofeMXZ
-	 4Rn3o0CUIpC1HlxHV9lmWTvr4wQe7j7gTmCVoejJEuqB1xjnBnlcwqowg/8VRc7tGs
-	 BdO25l9oQPT3RgrxSaxAOi98TVWqY/r61Bx42OtqPs9IkyzuuOkmUWwzRnSsPeRHBQ
-	 uX7YNMloK+qjg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v5 7/7] net: mana: keep max_num_cqs immutable once
- cq_table is allocated
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Long Li" <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260809190047.2086368-8-longli@microsoft.com>
-References: <20260809190047.2086368-1-longli@microsoft.com>
- <20260809190047.2086368-8-longli@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Aug 2026 19:01:42 +0000
-Message-Id: <20260810190143.482891F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="h3aiYQYs"
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2959620B7167;
+	Mon, 10 Aug 2026 12:03:10 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2959620B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786388590;
+	bh=P8nZDm19O79jea9Uz1kCkeTF8j1nb+vQ/x4vewJHtuM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h3aiYQYst4ljZCTGWjoENBb1weWkY8gf/YtspTfwIJUSxxnzL5gFxOLwrDUVrazaY
+	 C86Wheht04il3x+bPhnVB02weo89rwijhpeSdJs2jT6MJFa4OdAsV/c5Ep10s62K63
+	 f2TSBFRRm46t30zf4EbhroBWCP8eGd/pZYOuwiUE=
+Message-ID: <74f2ef45-9fc5-2df2-832d-dbbf5f30885f@linux.microsoft.com>
+Date: Mon, 10 Aug 2026 12:03:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH] x86/hyperv: reserve more vectors
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc: "mukeshrathor@linux.microsoft.com" <mukeshrathor@linux.microsoft.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
+ Long Li <longli@microsoft.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)"
+ <linux-kernel@vger.kernel.org>
+References: <20260730005020.2181875-1-wei.liu@kernel.org>
+ <SN6PR02MB41579785497E4D4FC62A95E0D4DE2@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB41579785497E4D4FC62A95E0D4DE2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On 8/10/26 08:35, Michael Kelley wrote:
+> From: wei.liu@kernel.org <wei.liu@kernel.org> Sent: Wednesday, July 29, 2026 5:50 PM
+>>
+>> Microsoft Hypervisor delivers three vectors to the NT HAL running in the
+>> root partition and refuses to map a device interrupt to any of them when
+>> interrupt remapping is not available in the system. As of writing, the
+> 
+> s/of writing/of this writing/
+> 
+>> nested MSHV setup has no interrupt remapping capability.
+>>
+>> The three vectors are:
+>>
+>>    HAL_NT_APC_VECTOR		0x1F
+>>    HAL_NT_DPC_VECTOR		0x2F
+>>    HAL_NT_CLOCK_IPI_VECTOR	0xD2
+>>
+>> 0x1F is below FIRST_EXTERNAL_VECTOR so the vector allocator never hands
+>> it out, but 0x2F and 0xD2 are both inside the allocatable range and are
+>> handed out once enough vectors are in use. Mapping such an interrupt
+>> then fails with HV_STATUS_INVALID_PARAMETER, and the interrupt is never
+>> delivered.
+>>
+>> Reserve all three next to the hypervisor debug vectors that are already
+>> kept out of the allocator's hands.
+>>
+>> Signed-off-by: Wei Liu <wei.liu@kernel.org>
+>> ---
+>>   arch/x86/kernel/cpu/mshyperv.c | 21 ++++++++++++++++++---
+>>   1 file changed, 18 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+>> index 185d4f677ec0..229c7377a980 100644
+>> --- a/arch/x86/kernel/cpu/mshyperv.c
+>> +++ b/arch/x86/kernel/cpu/mshyperv.c
+>> @@ -502,17 +502,32 @@ static void hv_reserve_irq_vectors(void)
+>>   	#define HYPERV_DBG_ASSERT_VECTOR	0x2C
+>>   	#define HYPERV_DBG_SERVICE_VECTOR	0x2D
+>>
+>> +	/*
+>> +	 * The hypervisor delivers these three to the NT HAL and refuses to
+>> +	 * map a device interrupt to any of them.
+>> +	 *
+>> +	 * The hypervisor will provide a hint in the future when these
+>> +	 * vectors become available to use.
+>> +	 */
+>> +	#define HAL_NT_APC_VECTOR		0x1F
+>> +	#define HAL_NT_DPC_VECTOR		0x2F
+>> +	#define HAL_NT_CLOCK_IPI_VECTOR		0xD2
+>> +
+>>   	if (cpu_feature_enabled(X86_FEATURE_FRED))
+>>   		return;
+>>
+>>   	if (test_and_set_bit(HYPERV_DBG_ASSERT_VECTOR, system_vectors) ||
+>>   	    test_and_set_bit(HYPERV_DBG_SERVICE_VECTOR, system_vectors) ||
+>> -	    test_and_set_bit(HYPERV_DBG_FASTFAIL_VECTOR, system_vectors))
+>> +	    test_and_set_bit(HYPERV_DBG_FASTFAIL_VECTOR, system_vectors) ||
+>> +	    test_and_set_bit(HAL_NT_APC_VECTOR, system_vectors) ||
+>> +	    test_and_set_bit(HAL_NT_DPC_VECTOR, system_vectors) ||
+>> +	    test_and_set_bit(HAL_NT_CLOCK_IPI_VECTOR, system_vectors))
+> 
+> Calling test_and_set_bit() explicitly for each of the 6 vectors seems right
+> on the border of where it would be better to declare a static array with
+> the vectors and loop through the array. The loop could also populate the
+> string to be output in the pr_info() statement below. But leaving it explicit
+> as you have done is probably simpler unless the vector list grows again.
 
-Pre-existing issues:
-- [Critical] A spoofed GDMA_EQE_HWC_INIT_EQ_ID_DB event changes gd->doorbel=
-l without bounds checking, leading to an out-of-bounds MMIO write.
---
+Simpler and better imo, but moreover, we want to discourage the
+list enlarging, if anything, i hope going forward we can shrink it
+back to absolutely minimum.
 
---- Patch [7]: [PATCH net v5 7/7] net: mana: keep max_num_cqs immutable onc=
-e cq_table is allocated ---
-commit e3524562bdca9a596ad21cc819f86df8b083a5c4
-Author: Long Li <longli@microsoft.com>
-Subject: net: mana: keep max_num_cqs immutable once cq_table is allocated
+Thanks,
+-Mukesh
 
-This commit prevents a spoofed HWC_INIT_DATA_MAX_NUM_CQS event from bypassi=
-ng
-allocation bounds checks. It modifies the initialization event handler to s=
-tore
-the reported value rather than applying it directly, committing it only once
-when sizing the table.
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
-et/ethernet/microsoft/mana/hw_channel.c
-> index 2f0dae3539552..03b5e2f02e352 100644
-> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> @@ -246,7 +246,15 @@ static void mana_hwc_init_event_handler(void *ctx, s=
-truct gdma_queue *q_self,
->  			break;
-> =20
->  		case HWC_INIT_DATA_MAX_NUM_CQS:
-> -			gd->gdma_context->max_num_cqs =3D val;
-> +			/* Store, don't apply: mana_hwc_establish_channel()
-> +			 * commits this to gc->max_num_cqs once, together
-> +			 * with sizing cq_table, so a spoofed post-init event
-> +			 * cannot inflate the bound past the allocation.
-> +			 * WRITE_ONCE() pairs with the READ_ONCE() there:
-> +			 * this store runs in EQ interrupt context,
-> +			 * concurrently with that process-context read.
-> +			 */
-> +			WRITE_ONCE(hwc->hwc_init_max_num_cqs, val);
->  			break;
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> 
+>>   		BUG();
+>>
+>> -	pr_info("Hyper-V: reserve vectors: 0x%x 0x%x 0x%x\n",
+>> +	pr_info("Hyper-V: reserve vectors: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x\n",
+>>   		HYPERV_DBG_ASSERT_VECTOR, HYPERV_DBG_SERVICE_VECTOR,
+>> -		HYPERV_DBG_FASTFAIL_VECTOR);
+>> +		HYPERV_DBG_FASTFAIL_VECTOR, HAL_NT_APC_VECTOR,
+>> +		HAL_NT_DPC_VECTOR, HAL_NT_CLOCK_IPI_VECTOR);
+>>   }
+>>
+>>   static void __init ms_hyperv_init_platform(void)
+>> --
+>> 2.53.0
+>>
+> 
 
-[Severity: Critical]
-This is a pre-existing issue, but while this patch protects against spoofed
-CQ counts from untrusted environments, could a similar out-of-bounds memory
-access happen with the doorbell index?
-
-Looking earlier in mana_hwc_init_event_handler(), a spoofed doorbell index
-appears to be accepted blindly:
-
-mana_hwc_init_event_handler() {
-    ...
-    switch (event->type) {
-    case GDMA_EQE_HWC_INIT_EQ_ID_DB:
-        eq_db.as_uint32 =3D event->details[0];
-        hwc->cq->gdma_eq->id =3D eq_db.eq_id;
-        gd->doorbell =3D eq_db.doorbell;
-        break;
-    ...
-}
-
-If a malicious host sends a GDMA_EQE_HWC_INIT_EQ_ID_DB event with an
-arbitrarily large doorbell index, it is updated without bounds validation
-against gc->bar0_size.
-
-Would this lead to an out-of-bounds MMIO write when later ringing the
-doorbell?
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_ring_doorbell() {
-    ...
-    void __iomem *addr =3D gc->db_page_base + gc->db_page_size * db_index;
-    ...
-    writeq(e.as_uint64, addr);
-}
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260809190047.2086=
-368-1-longli@microsoft.com?part=3D7
