@@ -1,143 +1,250 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9733A0B3B;
-	Tue, 11 Aug 2026 08:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856273B7B97;
+	Tue, 11 Aug 2026 15:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786436290; cv=none; b=NlNTSPFtQZFSCMFS7LahH/c+r1aQJFF7WrOAui3mzFk2OosxT3yCSJIeMVcClBVdI+XR2U+MxdHBACykCZ5QSjGOdRe1y9CTDA6wtNK8tZ+k3y3dJp0DkFL+vh0JnS574sCO1NZ7mNw+/o0BUOgoI4lYPLeuRnjXBuhCV1AWpe4=
+	t=1786463432; cv=none; b=HtYYQaDVkORUghvdLKkdqyGFT5axVJAMztqe7gdSfCzn64MEPNM0nE8lyvzuX82FUVvGe1tgoksgEMH5MOz3e4Wf0st0ZV/kCvL1D8ELP0gsSoiOnVcCDcjiHgXI4H3322E58hZBdEGIdWg3gm7fLnKOylVSDXZQS2W9BZRVF7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786436290; c=relaxed/simple;
-	bh=GBZkSKMRB35nnp93GNKTNI1tGqEifvDr2qVl0X3NrH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hrws1NsGBoJY1AOUS3AXGUO30Jan6Ddbp+yLjGGBCuJacuKh8lBmfNRJEGnQbBlH4yWnWH4iZ155lYR4RQLT4Ksu1+rqaynytcStcawFIU+QeI3VrwJsOCMmzPpZd/ilzalOV5FmT03OLiJOtsGFNCoxiB7op1RYLUGF8R+Inzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQnewV2W; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786463432; c=relaxed/simple;
+	bh=JyX1R4rPrWQl9nmt0fY7d6xWzqLQIXHk/myT4/Hfvfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lpBmbrBW2JbCPnbRto0dU4cYOxxVUroYbiZk8jwu7jHddoerx/ZAdMNzAKrEEXBD5kzP8zO7K/PQ5RlrwvwCxK+AgAWVB1jrXcrl52bVXeAgU/6ipB1OSzy6YUk26x7RE9lgJoVBOTgV2kR+Axze87xVP2tl+Dla0DPkFCli6WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=i35QTZET; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQnewV2W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811511F000E9;
-	Tue, 11 Aug 2026 08:18:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786436289;
-	bh=Hm7kl2t5BzVeTM+JScoXRdPioLQ7IvGBVbKzMUZ6lKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UQnewV2W/lRT0ku3cj4unQUJZKScEXOkh2ZwfAe5mjbdjTjk3zcJCdAD+tvPC3k59
-	 6y3gbxkRi9B0smgZkt4YezZHEPB3C9RlBsnwQnfNeUY9dBoQAPmxmWguWzcaa1Hmyx
-	 hcnpkeeFkmeNHyMeWaTkZN2NwjMItFAEnSd6VdpK9fCTNcDjHFXwhhWY4RkKK06aX6
-	 jZM1cjxw3w+knWhr6H2I4A4zsrum5bCGgdmZloDtFbTJ2yNDfsB5ezNP+y0dHQ/gxU
-	 RGjCfqMcx7FIVaJe/gLlooL3Oecv31z34ty5M333BO1MfxO+O5Y1EvVdSHaqFdGV94
-	 UIfrOtLLyIdHQ==
-Date: Tue, 11 Aug 2026 11:18:05 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Long Li <longli@microsoft.com>
-Cc: Konstantin Taranov <kotaranov@microsoft.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	shradhagupta@linux.microsoft.com, Simon Horman <horms@kernel.org>,
-	ernis@linux.microsoft.com, stephen@networkplumber.org,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v6 1/7] net: mana: RCU-protect gc->cq_table lookups
- against concurrent CQ destroy
-Message-ID: <20260811081805.GA30770@unreal>
-References: <20260811023823.2391255-1-longli@microsoft.com>
- <20260811023823.2391255-2-longli@microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="i35QTZET"
+Received: from zhangyu-hyperv.mshome.net (unknown [167.220.233.38])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 51FB120B7167;
+	Tue, 11 Aug 2026 08:50:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 51FB120B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786463405;
+	bh=Lq+DaLRgzXCrrbPKI1cYJSz4DfcqtmnxwXOXuaTGWxo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i35QTZET7lGYil0vf6lc8D0zEDLNm+SFTXmyNmiEhfuU9HbH4T9wpiRoodMhoDI1G
+	 IO8Z2CPdNFIfodo2jgpGNsablaCJZJsrVCi2FswqDnRW8DNhQUIaktFCHKb51lcLLD
+	 ofYJKsfrr63sPKkTMdvoxtiUziLDm/sWMB5d704k=
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	x86@kernel.org
+Cc: wei.liu@kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	lpieralisi@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	arnd@arndb.de,
+	jgg@ziepe.ca,
+	mhklinux@outlook.com,
+	jacob.pan@linux.microsoft.com,
+	tgopinath@linux.microsoft.com,
+	easwar.hariharan@linux.microsoft.com,
+	mrathor@linux.microsoft.com,
+	baolu.lu@linux.intel.com,
+	suravee.suthikulpanit@amd.com,
+	vasant.hegde@amd.com
+Subject: [PATCH v3 0/5] Hyper-V: Add para-virtualized IOMMU support for Linux guests
+Date: Tue, 11 Aug 2026 23:50:16 +0800
+Message-ID: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260811023823.2391255-2-longli@microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 10, 2026 at 07:38:15PM -0700, Long Li wrote:
-> The EQ interrupt handler (mana_gd_process_eqe) looks up the completing CQ
-> in gc->cq_table[cq_id] and runs its callback, concurrently with CQ
-> teardown on another CPU that clears the slot and frees the CQ.  cq_table
-> was a plain pointer array freed with no grace period, so the two race
-> into a use-after-free:
-> 
->   CPU A (mana_gd_intr, hard IRQ)        CPU B (CQ destroy)
->   ----------------------------------    ------------------------------
->   cq = gc->cq_table[cq_id];  // valid
->                                         gc->cq_table[id] = NULL;
->                                         kfree(cq);          // freed
->   cq->cq.callback(ctx, cq);  // use-after-free
-> 
-> The handler's existing rcu_read_lock() only guards the per-IRQ EQ list
-> traversal; cq_table was never under any RCU contract, and a read-side
-> lock is inert unless the freer also defers the free past a grace period.
-> 
-> Put cq_table under RCU: annotate the base pointer and entries __rcu, read
-> with rcu_dereference() in the handler, publish with rcu_assign_pointer(),
-> and on teardown clear the slot then synchronize_rcu() before freeing the
-> CQ.  The grace period blocks until every in-flight handler has dropped
-> the old pointer, so the kfree() can no longer race the callback.
-> 
-> This fixes only the CQ lifetime (the use-after-free); it does not make
-> the cq_id bound trustworthy.  gc->max_num_cqs is still range-checked
-> outside the published table, and hardening that field against a spoofed
-> device value is a separate change.
-> 
-> netdev teardown destroys a CQ per TX and per RX queue, so one grace
-> period each in mana_gd_destroy_cq() would serialize up to
-> 2 * MANA_MAX_NUM_QUEUES synchronize_rcu() calls under RTNL on every
-> ifdown, MTU change or ring/channel reconfigure.  Clear all of a port's
-> CQ slots first and take a single grace period per teardown instead:
-> mana_gd_unpublish_cq() clears a slot without waiting, and
-> mana_gd_destroy_cq() -- which still serves the single-CQ callers --
-> finds the slot already cleared and skips its own synchronize_rcu().
-> 
-> Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
-> Signed-off-by: Long Li <longli@microsoft.com>
-> ---
-> Changes in v6:
->  - mana_gd_unpublish_cq() and mana_ib_remove_cq_cb() clear a cq_table
->    slot only when it still points at the CQ being torn down, so the
->    two-pass teardown cannot wipe an entry a concurrent RDMA CQ create
->    recycled during the grace period.
->  - mana_gd_process_eqe() drops an already-unpublished (NULL) slot quietly
->    instead of a WARN_ON_ONCE() splat during a normal ifdown/MTU change,
->    and reads gc->cq_table before gc->max_num_cqs with an smp_rmb()
->    between them so a shrinking re-establish cannot pair a stale bound
->    with a newly published, smaller table.
->  - Documented the cq_table/max_num_cqs contract on the cq_table field
->    instead of rewording the comment above max_num_cqs.
-> 
-> Changes in v5:
->  - No code changes since v4 (resend as a standalone thread).
-> 
-> Changes in v4:
->  - Replaced the per-CQ synchronize_rcu() in the netdev teardown paths
->    with a two-pass quiesce/free that takes one grace period per
->    teardown; mana_gd_unpublish_cq() splits the slot-clear from the grace
->    period.
->  - Snapshot cq->id and max_num_cqs with READ_ONCE() in
->    mana_hwc_establish_channel() so one value sizes, bounds and indexes
->    cq_table.
->  - Corrected the gc->cq_table lifetime comment in gdma.h; rescoped the
->    changelog to the use-after-free fix (the bound is patch 7).
-> 
->  drivers/infiniband/hw/mana/cq.c               |  51 ++++++-
->  .../net/ethernet/microsoft/mana/gdma_main.c   |  65 +++++++--
->  .../net/ethernet/microsoft/mana/hw_channel.c  |  29 ++--
->  drivers/net/ethernet/microsoft/mana/mana_en.c | 136 ++++++++++++++----
->  include/net/mana/gdma.h                       |  37 ++++-
->  5 files changed, 268 insertions(+), 50 deletions(-)
+This patch series introduces a para-virtualized IOMMU driver for
+Linux guests running on Microsoft Hyper-V. The driver enables two
+primary use cases:
+  1) In-kernel DMA protection for devices assigned to the guest.
+  2) Device assignment to guest user space (e.g., via VFIO).
 
-This patch is so bloated with AI that it is hard to read and difficult to justify
-such a large diff for a simple change, which all drivers experience that
-flow.
+The driver implements the following core functionality:
+*   Hypercall-based Enumeration
+    Unlike traditional ACPI-based discovery (e.g., DMAR/IVRS),
+    this driver enumerates the Hyper-V IOMMU capabilities directly
+    via hypercalls. This approach allows the guest to discover
+    IOMMU presence and features without requiring specific virtual
+    firmware extensions or modifications.
 
-As a bare minimum. you need to reorder mana_ib_gd_destroy_cq(), mana_ib_destroy_queue(),
-and mana_ib_remove_cq_cb() so that HW objects are stopped before SW state is torn down.
+*   Domain Management
+    The driver manages IOMMU domains through a new set of Hyper-V
+    hypercall interfaces, handling domain allocation and attachment
+    for endpoint devices.
 
-And probably introduce get/put CQ primitives.
+*   Nested Translation Support
+    This implementation leverages guest-managed stage-1 I/O page
+    tables nested with host stage-2 translations. It is built
+    upon the consolidated IOMMU page table framework (IOMMU_PT).
+    This design eliminates the need for emulating map operations.
+    Both Intel VT-d and AMD IOMMU platforms are supported.
 
-Thanks
+*   IOTLB Invalidation
+    IOTLB invalidation requests are marshaled and issued to the
+    hypervisor through the same hypercall mechanism. Both domain-
+    selective and page-selective flushes are supported.
+
+Implementation Notes:
+*   Platform Support
+    The current implementation targets x86 platforms with Intel
+    VT-d and AMD IOMMU hardware.
+
+*   MSI Region Handling
+    The standard x86 MSI interrupt range
+    (0xfee00000 - 0xfeefffff) is reserved from normal IOVA mappings.
+    Future updates may allow this configuration to be queried via
+    hypercalls if new hardware platforms are to be supported.
+
+*   Reserved Regions (RMRR)
+    There is currently no requirement to support assigned devices with
+    ACPI RMRR limitations. Consequently, this patch series does not
+    specify or query reserved memory regions.
+
+*   Guest Hibernation
+    Guest hibernation and resume are not supported by this initial
+    implementation. The current pvIOMMU interface does not define how
+    Hyper-V device-domain objects and device attachments are restored.
+
+Testing:
+Validated with the following configurations:
+- NVMe devices assigned to the guest on AMD platforms, tested
+  with fio.
+- Intel DSA devices assigned to the guest, tested with dmatest.
+- dma_map_benchmark for DMA mapping performance evaluation.
+
+Changelog:
+
+v2[1] -> v3:
+- Added a separate patch defining the common x86 architectural MSI
+  reserved range and converted the Intel, AMD, and Hyper-V IOMMU
+  drivers to use it.
+
+- hyperv: hypercall interfaces:
+  - Used BIT_ULL() for 64-bit capability flags.
+  - Matched the create-device-domain input layout to the 32-byte
+    Hyper-V ABI.
+  - Corrected the page-selective flush range layout to 6/6/52 bits.
+
+- hv: logical device ID registry:
+  - Replaced the linear list with an rhashtable for the sparse PCI
+    domain number mapping.
+  - Used RCU-protected lookup and deferred freeing on removal.
+  - Simplified the registration and cleanup paths.
+
+- iommu/hyperv: para-virtualized IOMMU:
+  - Renamed the guest driver source to hv-iommu-guest.c.
+  - Enabled ATS only after a device-domain attachment succeeds, and
+    disabled ATS before attaching the blocking domain.
+  - Removed the obsolete deferred-flush capability, unused geometry,
+    and redundant device-private-data clearing.
+  - Made the Hyper-V domain settings explicit at each caller instead
+    of deriving them from the Linux domain type.
+  - Added transactional create/configure domain handling with rollback.
+  - Required only the base page size and masked the domain page-size
+    bitmap with the Hyper-V-supported bitmap.
+  - Silenced detection for unsupported hosts while retaining errors
+    for actual hypercall and capability failures.
+  - Clarified Kconfig support for assigned PCI devices and documented
+    the lack of guest hibernation/resume support.
+
+- iommu/hyperv: page-selective IOTLB flush:
+  - Removed the inclusive-end overflow and kept the range calculation
+    in byte addresses until the final page conversion.
+  - Cleared both the fixed hypercall header and the range entry.
+  - Warned on selective-flush failure before falling back to a
+    full-domain flush.
+
+v1[2] -> v2:
+- Dropped the "move to subdirectory" patch; the directory now exists
+  upstream.
+
+- hv: logical device ID registry:
+  - Moved the registry to hv_common.c so it can be shared, and derived
+    the prefix via a shared helper instead of caching it in pci-hyperv's
+    private struct.
+  - Moved the lookup out of the irq-disabled region (PREEMPT_RT).
+
+- iommu/hyperv: para-virtualized IOMMU:
+  - Removed the unused detach_dev op.
+  - Rejected a hypervisor not advertising x86 page sizes instead of
+    masking and warning.
+  - Statically initialized the identity and blocking domains.
+  - Gave the blocking domain its own attach op, which returns the hypercall
+    status and WARNs on failure.
+
+- iommu/hyperv: page-selective IOTLB flush:
+  - Used a single descriptor covering a slightly larger power-of-two
+    range, instead of splitting the range into multiple descriptors.
+  - Fixed the inclusive-end corner case in the flush range calculation.
+
+RFC v1[3] -> v1[2]:
+- Scoped platform support to x86 only (Intel VT-d and AMD IOMMU);
+  initialization now uses x86_init.iommu.iommu_init
+- Added page-selective IOTLB flush support
+- Disable device ATS in hv_iommu_release_device()
+- Addressed review comments from Michael Kelley:
+  - Reversed dependency: pvIOMMU exports registration API for
+    pci-hyperv to call, instead of pci-hyperv exporting
+    hv_build_logical_dev_id()
+  - Dropped separate output page allocation patch; hypercall input
+    and output now share the same per-CPU page
+  - Cleaned up Kconfig (removed PCI_HYPERV dependency, unnecessary
+    selects)
+  - Removed dev_list, per-domain spinlock, and syscore_ops
+  - Removed forward declarations by reordering functions
+  - Fixed typos, cleaned up Kconfig selects, improved pr_info
+    messages, etc.
+
+[1] v2:
+https://lore.kernel.org/linux-hyperv/20260702160518.311234-1-zhangyu1@linux.microsoft.com/
+[2] v1:
+https://lore.kernel.org/linux-hyperv/20260511162408.1180069-1-zhangyu1@linux.microsoft.com/
+[3] RFC v1:
+https://lore.kernel.org/linux-hyperv/20251209051128.76913-1-zhangyu1@linux.microsoft.com/
+
+
+Wei Liu (1):
+  hyperv: Introduce new hypercall interfaces used by Hyper-V guest IOMMU
+
+Yu Zhang (4):
+  Drivers: hv: Add logical device ID registry for vPCI devices
+  iommu/x86: Share the architectural MSI reserved range
+  iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest
+  iommu/hyperv: Add page-selective IOTLB flush support
+
+ arch/x86/hyperv/hv_init.c             |   4 +
+ arch/x86/include/asm/iommu.h          |   3 +
+ arch/x86/include/asm/mshyperv.h       |   4 +
+ drivers/hv/hv_common.c                | 123 +++++
+ drivers/iommu/Kconfig                 |   1 +
+ drivers/iommu/amd/iommu.c             |   7 +-
+ drivers/iommu/hyperv/Kconfig          |  16 +
+ drivers/iommu/hyperv/Makefile         |   1 +
+ drivers/iommu/hyperv/hv-iommu-guest.c | 703 ++++++++++++++++++++++++++
+ drivers/iommu/hyperv/iommu.h          |  50 ++
+ drivers/iommu/intel/iommu.c           |   7 +-
+ drivers/pci/controller/pci-hyperv.c   |  21 +-
+ include/asm-generic/mshyperv.h        |  14 +
+ include/hyperv/hvgdk_mini.h           |   9 +
+ include/hyperv/hvhdk_mini.h           | 143 ++++++
+ include/linux/hyperv.h                |   8 +
+ 16 files changed, 1101 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/iommu/hyperv/Kconfig
+ create mode 100644 drivers/iommu/hyperv/hv-iommu-guest.c
+ create mode 100644 drivers/iommu/hyperv/iommu.h
+
+-- 
+2.52.0
