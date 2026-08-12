@@ -1,112 +1,164 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44015437455
-	for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 12:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2932D46DFF3
+	for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 14:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786537840; cv=none; b=rC5SdvuJoNYqEqQikxv24UJgNU4mr5v49R6VWMbRnnNlXcy1+yYTC/4ROGlh6ZDwndhuE9J1cU94gwLyIJ4F0aNDdbWTM8wwTP8pvWZvUhvI1mZ84Kf8nC+nvVJuDkzA/vA0oGzScP4qL2Tn1VQA6vbs04yMzPBQDMD8HffM+Q0=
+	t=1786546384; cv=none; b=JTeFBVhzRLDjacvbdyzHdsAtzn4MaSqUr8V3gnuBSuhm6GSbtzxMU0MbPzf1p06iaXIHYwC6y5IBwl3bSZU7W4AiB8GBz1REvgx3dl227i4RdiM2Yci88AWxUtyvNmxuWoidJtPTur/fc09OE60EPIUbCRHkw5M3kzaAeXlbsfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786537840; c=relaxed/simple;
-	bh=oPx8rA1LxifIFXbFQU3CUDbGAZuvNtfeA5eTxK6h5cE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qX594rVIYX3a7/F//EOydbqq9P37UgczRMCv4O1MNsOtIYKGznFduLrcL899S/PjF/L6o0Cr8Rr7Sn3OcDEBOy7nIJylqQFWXL32xzBzGbHBXbleoI5ClsSAL8D3H4bjxCKtiornZ5jsLs6Z+eH1PYspuQKhbO15Ztwu2TYfG3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=K1DObIFJ; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1786546384; c=relaxed/simple;
+	bh=BgxGmF/gEVjhGh2kZVcaq+xYjvvkScCWLA+i0CJhRdo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Or6owIlEsE8TAGCsmtYAO2ztK/2ZlH1XvGu+VKMkNVg9pNSshRFqpvq0GBGtOQpJ7/maOPTvmE3kdwLyNorlDdAhaYylq8kLJUrZt9pMUW24uZMEZo9HWEpBl4cdGSkhPyn34e3mwZTXNLLiQmcXXC35AjElKBykJWRb1kOb86k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YD0ETkPY; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="K1DObIFJ"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9349ad9c857so105820985a.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 05:30:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YD0ETkPY"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso778275a12.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 07:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1786537835; x=1787142635; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xTId/AcxtpBf7EUq04FOwN+m2Ext7rtU8m+LVRU8E1E=;
-        b=K1DObIFJ02M62a8WH5OMJo0XF8ybEoV5IKOKtoneADLfcGcd6D13fy71m1wkEHHor2
-         TPme1C5Gi2840NobPWnm62GXfVqvTuoIJpbQG6LQabrmCciRAXa8JcuDN2FEBfb0i4RI
-         xIXCpHjhYiZhX9MRUesBGq7FdMC7env1mhQylwZ9AwtesKzAzUS3wQ3OqvdJI4d7XEmb
-         0jghcwKcPa1OOLlHbuiZ3yTkW737qSSlrmuAB6Lsf8/B4Nn9TeVJZ3e99eayK6NAGkNB
-         wv0JCbD6UAKa3rdSQH4C0Hd+jmFBTG86tQbpwlUoPCLGJtpLfaJbWUJ9bBUeiCYXG8He
-         sSug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786537835; x=1787142635;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786546373; x=1787151173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xTId/AcxtpBf7EUq04FOwN+m2Ext7rtU8m+LVRU8E1E=;
-        b=Ec2QCnPSOWKAw/XT5uuv4sVAPuq2MEPfH0QT811Ald/HjeVlz3sINM3YiIR121ZDG8
-         v7WLSY8uFnOIY5DYJ7j8l9X11cvGeXDtyi/nHSUdwGpnRY+HHD8VcPR0JO+pZ2tjG5L7
-         wDq8uNqfzZau6lqNvquW3Kn9ZK7zoZs1KiKK8I1jFyzP/Fs3Pg/NVVnOFHU02SikQsjT
-         LlUXpZXfxKzJgq7LONLDGfhKI/mlEs/5hczUnSNe864R424Wgyr9fdmMU0gYI16eKYct
-         6OffyDiXJZzfvAsVLcfSZi9fdk8BINwZUMrNTiAgwJcI+00FsAWrHMlhRfQOOnrJY34J
-         LRCg==
-X-Forwarded-Encrypted: i=1; AHgh+RrkKCfJwHQfF3kGc5JcvxYOJFB/BZSU2IwadXAATp8K2ZpSQ1477w+bHJ4NeJdWU6LaqLHyHAurcbKHWPI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmN5FR5lJWCwlPkrkcXmrT/Ei9eNIxpu1jxLs90gt2wu1tHYZ4
-	haGL1p4SHQs5bvddhJGV1sewKfY41MiAiM8BZq7aHFPhKbSK8t3VcxK+Rzlvsg+8T00=
-X-Gm-Gg: AR+sD13+Wt8TBIG2JZ7LAR4pp7BNENrgBN62AZrPhmEgoka4ZPGYfXfQL5Y60JS9OOL
-	P454GSS7uiI9zyibEnt5o/Mb46FWGjHEOhJTgyrjwFp9fbLijxqJ0fVHLeES8PvzPhLALp2F0p/
-	CkmuDSw0Lc8H4WnMS50ApJqbQij3Hj2GbltTQ31lkYczVYl2FHGAFAxB5kvnQYi3Dl1aZmmT0mt
-	KJwL8pTfAemN8jUNDH49vslQHdUY9VwVHA+VBOXvJLoBjmzZy2RZEib9RYl3Ss24BSWeyt6+O3Y
-	hxEFGEIB4ckP8P/6gc6sdVpmNQxP94gamjjwOqTy7u5e/hLFugOBHjlkKWUHitVy5Ng8K79klIX
-	vyNfPowqnAacaAyKRy0nMS0pc+km6G5lqDPmWzK2IKJNihjG8cU92o4crvxej9uDEJtDNv/dWVH
-	uLten/NUuZ3X9yhCEy1mNOuqGgkRTeIX/TVUxMuUwBpfNUie3F
-X-Received: by 2002:a05:620a:4013:b0:930:e2ea:2881 with SMTP id af79cd13be357-936b3d940c1mr359405785a.36.1786537834756;
-        Wed, 12 Aug 2026 05:30:34 -0700 (PDT)
-Received: from ziepe.ca ([142.166.156.215])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-936b5f1388fsm117247585a.24.2026.08.12.05.30.33
+        bh=WWBBeOrxKs82FFOYNNbA/6UdKGIQh+oHC8GNFO/oR8k=;
+        b=YD0ETkPYojKmBHOG+fCyxM5WjDeQqlYA88SVxjkgWOPcHOuDB4GiFZGnLLPMvnsx3f
+         IJXZp9YEFdKbCWXHI7U/TNKU3AODkzhlZ3tsK7C3pwh3MsxIibfUgrKKMDLy0jmaWwBa
+         RkyFLa8ZAs/i5WicyUuQjYtjLGt6l2BeWcf/sXaVPZiLLE2diiIObsD2tORSvXW7GY5b
+         B+kPWyWG2HblFLhlk9dFzrTg41z3khOSLStqPP8EV9+4cPPHq1HCUEHzeuvs2PoBdwrK
+         xNtSN+Ra79aX4t5Y3CebkS6EsviQb8z8EXJt6Ties3Gv/QkJSP7NT8IeuyaikJiIwGbV
+         VvZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786546373; x=1787151173;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WWBBeOrxKs82FFOYNNbA/6UdKGIQh+oHC8GNFO/oR8k=;
+        b=gJztlWFTw0gcT1N1HnxELkQDbcxOEbn/En+K0W0dvCALxxyUGpM8DBAeUXPdG4t87D
+         h6jMOt4TGS+WlvXICzKXdsbNlSfPCxXQ4WGvhVkWPvZIHje0rFV/pmpEk2q2HmaM7Aaq
+         fA5yFX5MUXaah5gUPrD0zoAfXkXVWosWydHe0uQ2KPwUoe4EKC6Vss44I92zynPCQTE0
+         6DcdNfuJhC3T2lg5DlbD9Mo6lvBvvJUkzyyG6nxOghSsXvL0s2tYDYxocVL4Ulk5fvAn
+         t5+XInCNxmxFm7vJYre3AphpTdg2ysdfmX0w4kQnY/YOw6Xu1pNhJZw+i6znZB+IEB/n
+         ETFQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpU+2GSrowiQIvo9nHrFt85Jtq9zvzKW17VRHj2xSDpw/nBdoiFAIE3T+nfwD9AvK/KmaNUTi2LA2C3wNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3SX06ohkMhtWryVGbSUpJG3LwBsPAeNOXZjTpJiUnUuhlVVjy
+	hOYP0zKv0nE8WEOjX0e9J2/ydjwyYi4Gc8lndcPu33iKIKnH7bAJ4kCw
+X-Gm-Gg: AR+sD1002qQ28QhxIF+lH+JN98KRyuIX5AlTRA7tWsVCiLwyJ5SY8fleHs26As1ekHW
+	3bYAC3uGtXQClJdL6udnrLSb/xU44RZdcJ3s1Xw1Hvg/ZVBZ/V+QuZguAQN1uiBBhCV7IA2TqM+
+	MhEy2L70VSybnj3MM/XsUgsIzs6wqyEIQdPyaNCtsCBj7iDnQPqo4J2IUKvnRKFhgml1HtblOhj
+	5UjAxWMxF4ndD0rezSZhh57LXOlFGCFTjlerdEmTX4gbweyzM9RkU8HQG5aBbjMGkNbzW5+lzSy
+	Azwd2Q4t/iIeYpoEbVzZqL6cvU8NrPL/SVjqmlFEASTvvG8T/xLIw03Rc/zPYVaJqGaDDuhtOlM
+	QcEQdvOHHEoDMBg4J8EnhmbKXYJ327awcSZ27RqsCm6wiAaMfHvhCUdWqU6KzWbct/aNeWVOJV7
+	GuPFwXqGnd25Ga/3+uQZ1xxv/sShHo0KIcGYTI+oKXNoUxvWsxRoWjGFeTsPiKhNK0/JYAocSeD
+	cM2d81MmEfksVqvU3bxwSArDe1cFluKG35d1fm8qw2iyMhEYZeDTA==
+X-Received: by 2002:a05:6a00:148a:b0:848:700d:c950 with SMTP id d2e1a72fcca58-84fb55bbb9cmr4903182b3a.37.1786546372718;
+        Wed, 12 Aug 2026 07:52:52 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fb1cf7fadsm1191885b3a.7.2026.08.12.07.52.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 05:30:34 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wu86L-000000030Ox-0KWD;
-	Wed, 12 Aug 2026 09:30:33 -0300
-Date: Wed, 12 Aug 2026 09:30:33 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arch@vger.kernel.org, x86@kernel.org, wei.liu@kernel.org,
-	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
-	longli@microsoft.com, joro@8bytes.org, will@kernel.org,
-	robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
-	lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org,
-	arnd@arndb.de, mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
-	tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
-	mrathor@linux.microsoft.com, baolu.lu@linux.intel.com,
-	suravee.suthikulpanit@amd.com, vasant.hegde@amd.com
-Subject: Re: [PATCH v3 3/5] iommu/x86: Share the architectural MSI reserved
- range
-Message-ID: <20260812123033.GB662699@ziepe.ca>
-References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
- <20260811155022.108148-4-zhangyu1@linux.microsoft.com>
- <20260811162124.GK544626@ziepe.ca>
- <obiixds667qdhv5upqdpxmgrvrvp3bl5gfbpingvog2vzbexhg@b7n4fpfbkff5>
+        Wed, 12 Aug 2026 07:52:52 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup for non-nested root partition
+Date: Wed, 12 Aug 2026 07:52:23 -0700
+Message-Id: <20260812145223.85949-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <obiixds667qdhv5upqdpxmgrvrvp3bl5gfbpingvog2vzbexhg@b7n4fpfbkff5>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 12, 2026 at 04:58:28PM +0800, Yu Zhang wrote:
-> Thank you, Jason!
-> Do you mean something like below?
-> 
-> -#define X86_IOMMU_MSI_RANGE_START        0xfee00000
-> -#define X86_IOMMU_MSI_RANGE_END          0xfeefffff
-> +static inline struct iommu_resv_region *
-> +iommu_alloc_resv_x86_msi_region(void)
-> +{
-> +       return iommu_alloc_resv_region(0xfee00000, SZ_1M, 0,
-> +                                      IOMMU_RESV_MSI, GFP_KERNEL);
-> +}
+The VMBus module initialization function, hv_acpi_init(), currently
+does nothing when running in the root partition and root is not nested
+in another VM. But the initialization function reports success, so the
+VMBus module is indeed loaded. VMBus functionality is not actually
+needed, but the VMBus module must be loaded so that hv_vmbus_exists()
+can answer correctly. Furthermore, the mshv_root dependency on the
+VMBus module is needed as described in the commit message for
+840b740a35bf ("mshv: Add conditional VMBus dependency").
 
-Yeah something like that.
+Loading the VMBus module without actually initializing it causes
+failures if the module should later be unloaded. The module unload code
+tries to clean up things that were never initialized, resulting in
+memory faults and a panic.
 
-Jason
+Fix this by having VMBus module exit function perform the same
+check for non-nested root partition, and do nothing in such a
+case, just like hv_acpi_init().
+
+In the long run, the code that manages the Hyper-V provided SynIC
+should be refactored to better coordinate the requirements of
+root partition scenarios and normal VM scenarios, and to hopefully
+remove the hv_vmbus_exists() dependnecy between mshv_root and
+VMBus modules. Preventing the current unload failure scenario is
+an expediency until such a refactoring is done.
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@smtp.kernel.org/
+Fixes: 7e279d78664aa ("Drivers: hv: vmbus: skip VMBus initialization if Linux is root")
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+---
+v2: https://lore.kernel.org/linux-hyperv/20260805142421.104797-1-mhklinux@outlook.com/
+v1: https://lore.kernel.org/linux-hyperv/20260804190517.101981-1-mhklinux@outlook.com/
+
+Changes in v3:
+* Add code comments in hv_acpi_init() and in vmbus_exit(). No code
+  changes. [Easwar Hariharan]
+
+Changes in v2:
+* Use a different solution: Allow the VMBus module to load but have the
+  unload function do nothing for non-nested root
+* Change the patch Subject and commit message to reflect the new approach
+
+ drivers/hv/vmbus_drv.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 6824bd7cb3c4..18ee549d9880 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2982,6 +2982,13 @@ static int __init hv_acpi_init(void)
+ 		return -ENODEV;
+ 
+ 	if (hv_root_partition() && !hv_nested)
++		/*
++		 * A non-nested root partition does not need VMBus client
++		 * functionality. However, the mshv_root module may have
++		 * a dependency on the VMBus module as described in
++		 * commit 840b740a35bf. Return success so the module
++		 * loads even though no VMBus initialization is done.
++		 */
+ 		return 0;
+ 
+ 	/*
+@@ -3030,6 +3037,14 @@ static void __exit vmbus_exit(void)
+ {
+ 	int cpu;
+ 
++	if (hv_root_partition() && !hv_nested)
++		/*
++		 * If a non-nested root partition loaded the VMBus module,
++		 * hv_acpi_init() did not do any VMBus initialization.
++		 * There's nothing to clean up, so just return.
++		 */
++		return;
++
+ 	unregister_syscore(&hv_synic_syscore);
+ 
+ 	hv_remove_kexec_handler();
+-- 
+2.25.1
+
