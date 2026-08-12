@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987A42C11E2
-	for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 00:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477DE2EEE9D
+	for <linux-hyperv@vger.kernel.org>; Wed, 12 Aug 2026 00:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786493703; cv=none; b=iYCDF+EyE2wTEDqjjZXgO3GWniNjZX1tM5Fd2LrGnVDOVKNqumtgzg2j0QYIwBBDlvJnp7vZRlOdEULUcPmLHp25A+YA4nVEzk8ckVgfHBr6gb8m3jDbLiWsJEaTxIC2Ro7bHAKz+7jnTs9yb4HcvpzOo3jh69IQNCWZxKQNjt0=
+	t=1786493801; cv=none; b=uNdXa0OkcrGwm/cHrrxKHYM0iyG0ttBk0Lxi2Gnh5wZC1w/mPRgDSFDgiLpT0drMu3NSgFGTM+ePdx4GmKcwe5LrLitseNUGkj6KmAV0T6zze5YlEZzVP9BHPGktLqDxBDg1TzvXtAXOyy5S+bD5s7Qnufu71kI6eVblkkvNg64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786493703; c=relaxed/simple;
-	bh=2KV448a6/Ec4G1KwujFiXOwqJvsH0xjQ3eRqL0GgW0E=;
+	s=arc-20240116; t=1786493801; c=relaxed/simple;
+	bh=nMfTSDzgLr1Gfdi85oj902x1qIpCe3FpQw5IlWxH0Pw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=tRL2bkGL7SnUfgm0GGHo99VBYyqrGTtQgLh1J4EHv1MgkOhhK3XDZAgcAhh+/vf0JbZKLjkzzNetqiZB99c8fTpQD0dxV681rQOyTEOZQakP6nRRe5nTZANAeN1uj5zBzw7B266Ixeqw/ipQbftcAKISS3Ng4ghtKl+8kk6Pbq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJF5E4H7; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=JH+hkoMPNadt0Qbermei6HDVPYbnhynROLI1QL8SVqQoMtEWsi4hCnaz1fgadYL+zRDKR83neDhGwPh7xfWNaakBPP6Y9tkqATXpccgo4tGFuNgI8eRpKr/P3Z+seBqlrDfa7Yo/HkFzYeLNs4KHUspcQBM9vSawGrGoTb+krr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/cMeql4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJF5E4H7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D431F000E9;
-	Wed, 12 Aug 2026 00:15:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/cMeql4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F4D1F000E9;
+	Wed, 12 Aug 2026 00:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786493702;
-	bh=+WiNGYZVatH8L65eAtBciGsHp9TR5rWZDN2qyErPY7o=;
+	s=k20260515; t=1786493798;
+	bh=0VUW5bp/n/CwJdZ22zb/Wk83SJ3P6iIIBcW5XyYxY/A=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TJF5E4H7Ua+LqTBrqA2PqeJ5IYFj7BLjiln228wc6HSBfaz3WhUCC8Cs84oj7gWji
-	 evZ83dxBmCK7IlcmZe56eIpgqTd1WPtuspuxUZGDl7oduPZfxawFEiNXE+8UiOWX/4
-	 JTm3rgojC0mBxzotblzItt3Iild185d0DMWHYucEiG22l85KW85wi2UuDbTJySpWFo
-	 Ar6ecfVyWpzhQNMexcrE77yX77kjg8kop1kiRcoT5VJrKYYjoXuj72yaUHhEtgd3aE
-	 VEJsppme40QsRe7u9WU8aF+gfPxhyulIfPFuvKBUBYM0GluTA3Z9o83u5yusutcEDQ
-	 kHPVULitfG6eQ==
+	b=f/cMeql4YzHNFvt5L7mdAdGGRnDsW6ibMlXCszBiRWRBksbvWgjQ0Ms9TALYN3xMq
+	 5iqHCJ7w34w4qgqPZgiweNqG9doILpWaUxjPWQ30inS/ZXOGL2mYGsxVYo58jh8/fN
+	 DiaJXaa9zSyj2wvazbmqUb0P/muqn2y3dy9hxFccSDBDquRrE1MRouGh4iboTDQW7b
+	 PN1RUGbtHi9/B4vzYDEOQ7Jp1mkpLTMSwmYy3SHj0buwNYk1tYm+eY5Cb/aPvSFtJa
+	 nDLbmQcGUt4PkqE5mGXvRkx7v1KPwNohX4w2XVICYdWCyZ9rb8PTRQ6s4XYjM8kmT2
+	 wENNLUOb9e7Fw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V0 2/2] mshv: Redesign hypervisor memory deposit logic
+Subject: Re: [PATCH V0 1/2] mshv: Stub out deposit memory functions
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mukesh R" <mrathor@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260812000507.3809046-3-mrathor@linux.microsoft.com>
+In-Reply-To: <20260812000507.3809046-2-mrathor@linux.microsoft.com>
 References: <20260812000507.3809046-1-mrathor@linux.microsoft.com>
- <20260812000507.3809046-3-mrathor@linux.microsoft.com>
+ <20260812000507.3809046-2-mrathor@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Aug 2026 00:15:01 +0000
-Message-Id: <20260812001502.55D431F000E9@smtp.kernel.org>
+Date: Wed, 12 Aug 2026 00:16:37 +0000
+Message-Id: <20260812001638.51F4D1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,201 +46,109 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] Incorrect memory allocator and cleanup for contiguous pages leads =
-to memory corruption and kernel crashes.
-- [High] Unhandled partial success in the deposit memory rep hypercall lead=
-s to memory corruption.
-- [Medium] Optimistic high-order allocations missing __GFP_NOWARN will spam=
- the kernel log.
+
+New issues:
+- [High] Intentional breakage of core driver functionality, boot crashes, a=
+nd UAPI violation via hardcoded error stubs.
+
+Pre-existing issues:
+- [Critical] A partial failure during the HVCALL_MAP_GPA_PAGES batch proces=
+sing fails to unmap successfully mapped pages, leaving the guest with valid=
+ GPA mappings to host pages that are subsequently unpinned and reallocated.
+- [Critical] A partial failure during HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_A=
+CCESS causes the host to permanently lose access to pinned memory, leading =
+to a host kernel crash when the pages are unpinned and reused.
 --
 
---- Patch [2]: [PATCH V0 2/2] mshv: Redesign hypervisor memory deposit logi=
-c ---
-commit 8f3cb1a3334e617608894587fd59c0c23c46b19a
+--- Patch [1]: [PATCH V0 1/2] mshv: Stub out deposit memory functions ---
+commit 31673114cbc4abf8a6e554e641203a81af3ed70c
 Author: Mukesh R <mrathor@linux.microsoft.com>
 
-mshv: Redesign hypervisor memory deposit logic
+mshv: Stub out deposit memory functions
 
-This commit redesigns the hypervisor memory deposit logic to improve
-performance. It attempts a contiguous 2M allocation and minimizes allocatio=
-ns
-to speed up the deposit process while handling contiguous requirements.
+This commit replaces the implementations of hv_call_deposit_pages() and
+hv_deposit_memory_node() with stubs that unconditionally return -ENOTSUPP.
+The commit message states this is to make adding new redesigned functions
+easier to review.
 
 > diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> index d5ce9a032e9c7..fd74c286e6129 100644
+> index 57b2c64197cb9..d5ce9a032e9c7 100644
 > --- a/drivers/hv/hv_proc.c
 > +++ b/drivers/hv/hv_proc.c
-> @@ -9,15 +9,182 @@
+> @@ -9,135 +9,15 @@
 >  #include <linux/export.h>
 >  #include <asm/mshyperv.h>
 > =20
-> -int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
-> +#define HV_DEPOSIT_MAX 512
-> +#define HV_DEPOSIT_INP_MAX ((HV_HYP_PAGE_SIZE -  \
-> +	offsetof(struct hv_deposit_memory, gpa_page_list)) / sizeof(u64))
-> +
-> +static int hv_alloc_contig_pages(int node, u64 *pfna, u64 *lastpfnp,
-> +				 int num_pages)
-> +{
-> +	void *p;
-> +	int i, tmp;
-> +	ulong pfn;
-> +	size_t size =3D num_pages * HV_HYP_PAGE_SIZE;
-> +
-> +	if (num_pages > HV_DEPOSIT_MAX ||
-> +	    (num_pages =3D=3D HV_DEPOSIT_MAX && lastpfnp =3D=3D NULL))
-> +		return -EINVAL;
-> +
-> +	p =3D kmalloc_node(size, GFP_KERNEL, node);
-
-[Severity: High]
-Does this kmalloc_node() allocation lead to memory corruption or crashes?
-
-For small requests, kmalloc_node() returns memory from a slab cache, sharing
-the physical page with other objects. For large requests (e.g. 512 pages/2M=
-B),
-it returns a compound page.
-
-When these PFNs are handed to the hypervisor, the hypervisor takes full
-physical ownership of the page. If it's a slab-managed page, won't this cor=
-rupt
-other kernel objects residing in the same slab page?
-
-Additionally, when this is a compound page, isn't there a risk in the error
-path below?
-
-hv_alloc_contig_pages()
-    p =3D kmalloc_node(size, ...);
-
-hv_call_deposit_memory()
-    __free_page(pfn_to_page(lastpfn));
-
-Since this lastpfn is a tail page of a compound allocation, won't __free_pa=
-ge()
-trigger a VM_BUG_ON_PAGE(PageTail(page), page) and crash the kernel?
-
-> +	if (p =3D=3D NULL)
-> +		return -ENOMEM;
-> +
-> +	pfn =3D PFN_DOWN(virt_to_phys(p));
-> +	tmp =3D min(num_pages, HV_DEPOSIT_INP_MAX);
-> +
-> +	for (i =3D 0; i < tmp; i++, pfn++)
-> +		pfna[i] =3D pfn;
-> +
-> +	if (num_pages =3D=3D HV_DEPOSIT_MAX)
-> +		*lastpfnp =3D pfn;
-> +
-> +	return num_pages;
-> +}
-> +
-> +
-> +/*
-> + * Allocate free pages for deposit to hypervisor. pfna[] must be large e=
-nough
-> + * to hold HV_DEPOSIT_INP_MAX (511) pages. If num_pages is 512, return l=
-ast
-> + * pfn in lastpfn.
-> + *
-> + * Returns : -ENOMEM if zero allocated, else number of pages allocated
-> + */
-> +static int hv_alloc_dep_pages(int node, u64 *pfna, u64 *lastpfnp, int nu=
-m_pages)
-> +{
-> +	struct page *page;
-> +	int num_allocd, count =3D 0;
-> +
-> +	/* Published ABI, enforce its immutability. */
-> +	BUILD_BUG_ON(HV_DEPOSIT_INP_MAX !=3D 511);
-> +
-> +	if (num_pages > HV_DEPOSIT_MAX ||
-> +	    (num_pages =3D=3D HV_DEPOSIT_MAX && lastpfnp =3D=3D NULL))
-> +		return -EINVAL;
-> +
-> +	while (num_pages) {
-> +		/* Find highest order we can actually allocate */
-> +		int order =3D 31 - __builtin_clz(num_pages);
-> +
-> +		while (1) {
-> +			page =3D alloc_pages_node(node, GFP_KERNEL, order);
-
-[Severity: Medium]
-Should this high-order allocation attempt include the __GFP_NOWARN flag?
-
-High-order allocations frequently fail on fragmented systems. Because this
-failure is fully expected and handled gracefully by the fallback loop
-decrementing the order, this warning is spurious and could needlessly spam =
-the
-kernel log, or even crash the system if panic_on_warn is enabled.
-
-> +			if (page || order =3D=3D 0)
-> +				break;
-> +
-> +			order--;
-> +		}
-> +
-> +		if (page =3D=3D NULL)
-> +			break;
-
 [ ... ]
-
-> +static int hv_call_deposit_memory(int node, u64 partition_id, bool conti=
-guous)
+>  int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
 >  {
-
 [ ... ]
-
-> +	/* We are not using hyperv_pcpu_input_arg, so no need to disable */
-> +
-> +	status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, num_pages,
-> +				     0, hc_input, NULL);
-> +	if (!hv_result_success(status)) {
-> +		hv_status_err(status, "\n");
-> +		rc =3D hv_result_to_errno(status);
-> +		goto out_free_dep_pages;
-> +	}
+> -free_buf:
+> -	free_page((unsigned long)pages);
+> -	kfree(counts);
+> -	return ret;
+> +	return -ENOTSUPP;
+>  }
 
 [Severity: High]
-Could this error path cause memory corruption if the rep hypercall partially
-completes?
+Does unconditionally returning -ENOTSUPP here break core driver
+functionality and cause boot failures?
 
-Rep hypercalls can partially complete (e.g., due to a timeout or interrupt =
-in
-the hypervisor). In this case, hv_result_success(status) returns false, but
-hv_repcomp(status) indicates the number of successfully processed elements.
+If hv_smp_prepare_cpus() in arch/x86/kernel/cpu/mshyperv.c requires memory
+during early CPU setup, the -ENOTSUPP return will trigger a BUG_ON(ret),
+resulting in a fatal early boot crash.
 
-Since the code treats any non-success status as a complete failure, jumping
-directly to out_free_dep_pages without checking hv_repcomp(status), won't t=
-he
-error path blindly free pages that were already consumed by the hypervisor?
+Additionally, hv_call_initialize_partition() in
+drivers/hv/mshv_root_hv_call.c unconditionally calls this function.
+Returning -ENOTSUPP (which is internal to the kernel) will propagate up
+to the mshv_partition_ioctl return value and leak to userspace as an
+unrecognized error, while guaranteeing partition creation always fails.
 
-This could lead to Linux and the hypervisor concurrently using the same
-physical pages.
+[Severity: Critical]
+This is a pre-existing issue, but I noticed a potential problem in
+drivers/hv/mshv_root_hv_call.c:hv_do_map_gpa_hcall():
 
-> +
-> +	if (lastpfn) {
-> +		hc_input->gpa_page_list[0] =3D lastpfn;
-> +		status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, 1, 0,
-> +					     hc_input, NULL);
-> +		if (!hv_result_success(status))
-> +			/* We deposited some earlier, so just free this */
-> +			__free_page(pfn_to_page(lastpfn));
-> +	}
-> +
-> +	free_page((unsigned long)hc_input);
-> +	return 0;
-> +
-> +out_free_dep_pages:
-> +	for (i =3D 0; i < num_pages; i++)
-> +		__free_page(pfn_to_page(pfna[i]));
-> +	if (lastpfn)
-> +		__free_page(pfn_to_page(lastpfn));
-> +
-> +out_free:
-> +	free_page((unsigned long)hc_input);
-> +	return rc;
->  }
+		} else if (!hv_result_success(status)) {
+			ret =3D hv_result_to_errno(status);
+			break;
+		}
+
+		done +=3D completed;
+
+If a partial failure occurs during the HVCALL_MAP_GPA_PAGES batch processin=
+g,
+the break statement skips the done +=3D completed update.
+
+Could this permanently lose track of the successfully mapped pages in this
+batch?
+
+If the stale done value is used during cleanup, successfully mapped pages
+would not be unmapped, leaving the guest with valid GPA mappings to host
+pages that are subsequently unpinned and reallocated.
+
+[Severity: Critical]
+This is a pre-existing issue, but there appears to be another error handling
+concern in drivers/hv/mshv_root_hv_call.c:hv_call_modify_spa_host_access():
+
+		completed =3D hv_repcomp(status);
+
+		if (!hv_result_success(status))
+			return hv_result_to_errno(status);
+
+		done +=3D completed;
+
+If this hypercall partially succeeds but returns an error for a subsequent
+page, the function returns immediately and discards the completed count.
+
+Can this prevent the caller from knowing which pages need their host access
+restored?
+
+If the caller treats the region as failed and unpins the pages without
+restoring host access, the host kernel allocator could reuse pages that lack
+host access. This could lead to a hardware-level access violation and a fat=
+al
+kernel panic when the host accesses them.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260812000507.3809=
-046-1-mrathor@linux.microsoft.com?part=3D2
+046-1-mrathor@linux.microsoft.com?part=3D1
