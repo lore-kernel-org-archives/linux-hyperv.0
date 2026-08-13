@@ -1,317 +1,943 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11021110.outbound.protection.outlook.com [40.93.194.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DAD3B0AE7;
-	Thu, 13 Aug 2026 21:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.110
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786657253; cv=fail; b=YjYPGm1ZEsfVt09ssLeTgCI+vVXQPvKhP/SZzIHv7Z3T4/7rgM+lo9hSDd2RzfTjDec8Y+cO7bzyG3EgIGLAlHesG6KqG8d5VyKnoosEXbhyOUZDiHwEgu1hDiukp2JgqQEWXNewloBv8azpqlMM9oXhlqc+xRezD1dUEntQ1E4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786657253; c=relaxed/simple;
-	bh=e/6EBbYDKz03fqinZGpcpDwiqDKlCIWM/yrpvavMCLA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RhOuz/Ym0iVtfnV8pVYnUgqIjlMrZneyzsZxWfXava+w8rNa/Mp+Quu7EhAG3aFfBMEwWvHRYr6TyZ0QZG6c07G8vWRTVkh/WnxCvotMq+d+RErougSTYAWlsR33soqie/cQ81gL8BBcPRK9yceR64Zs8I7IFwgrvPf5BuBSO8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=SgXBRW78; arc=fail smtp.client-ip=40.93.194.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056E130D3EE;
+	Thu, 13 Aug 2026 22:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786660160; cv=none; b=PgG2KJ17F5Uk4tMazwdk0tmn0IdADZ0li70ewColu0keHlsLZsusRr0P2GLsU2M3FVSRe8ZL9dQ+1n0wxH1jxCWWpiX9bCBnXxdqFD5HhjezSHvk6pHQQUVgS0pl93/PAnlR/UP0Z3m6rxKOHhCgtAm65O4/PUYAxf42G0wL9+w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786660160; c=relaxed/simple;
+	bh=KdxhWZ1GCILuibf5sr6SYLgBjflq8lz7aNob+Yq7F3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=azoJQngyVpkfhQv/22GKmgxIsiAU1ecPzDdRwA7TVdzVg0m1lbuALHRCW/h+CkGpzR4MN7Lk8strPED+slDSHHPFlQhkXmQ6Fg7jEdxrP2mVlqmeZstiN+AizoL2SB3Y+pAo6PqK3YyB45n44tPhoVX+tLDeb9T/IFlN/bT1aEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EhyrKtT5; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="SgXBRW78"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t1Zzjd6C3W0saspAdahbO8tvJ9ud2LG2pxtDkN38fr+TLgk9ljRQCizfDUiwsNvGF+MJ27IM917jAhV/YoQVegPGyCVhP3i9nVQXmG7vGyDluAI2+/9y/nbvIGq6HrnBdlDSBWtSvBR84qFwAI2WeqX0UarapXL/BlGqlNEramZcK4V9VCBeJUyoiDRmdXjfmjoyS0spmqtPsOwh+q0bvRZPZU7MOmkOSL6XoeJF9PAqomcFP+0WbqDKRhvJ0kw1gLIx3XEUKAXoETykJqvsjwowK4QrKjSncwdNBaiXsHDB/askWyn4Eu3HYvXzbsif6gNZfQ3EM8mL7GEm7SqWVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iso9rbTdPWot2xyIlj2eaFytS9x3AyWwJuJQY1HMk0s=;
- b=AXGOyHd7Ys7kQKNmTG1PQprYgY4jC93oJieggGC92a6oH/7FHouIP/vKpQoThF8O4kYqTy7U98MbC1wuDRZ5GzoY5dc9B5TdRoJAi0mAMrG9tcYXHKSuyd5nUucbl/0u43hDQQAPxVQJ/6uWtkLszwPTmVmGqMybIjd1ksi1ruqRHhe0u9GswUXbB4JcfbGd7gG8HkRiauQVQ11saWfqq9SAg5sMVQlALxh085KIcoZ0nFJkz/l8Ohhqd4mUKxVC/ZaihJRWIPl1uERtSfV173tJZ16nR8VbaY80N1qzHnpkbvtl+Halw7iMfp/bvnMSLp//VA0LvfRSgaYOm1LO6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iso9rbTdPWot2xyIlj2eaFytS9x3AyWwJuJQY1HMk0s=;
- b=SgXBRW78PFiG0qBVSbCSX2X1gZj9DTZCXH9nuFYAB6S4KRtMmT2yjnRKTqrAWyZfapuj1I/j2k5By72fY06OJ+f+1Moy86Zfjnia99G28iA8qpcagXsOwhQj6S+Lif4BTm+9980FCx6PEUr5TgYJwG729uqEiO40xvR2/M2E3iM=
-Received: from SA1PR21MB6683.namprd21.prod.outlook.com (2603:10b6:806:4a4::6)
- by SA1PR21MB6755.namprd21.prod.outlook.com (2603:10b6:806:4af::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.9; Thu, 13 Aug
- 2026 21:40:49 +0000
-Received: from SA1PR21MB6683.namprd21.prod.outlook.com
- ([fe80::8bad:6294:8a07:fe18]) by SA1PR21MB6683.namprd21.prod.outlook.com
- ([fe80::8bad:6294:8a07:fe18%6]) with mapi id 15.21.0315.008; Thu, 13 Aug 2026
- 21:40:48 +0000
-From: Long Li <longli@microsoft.com>
-To: "wei.liu@kernel.org" <wei.liu@kernel.org>, Linux on Hyper-V List
-	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>
-CC: KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <DECUI@microsoft.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
-	<bhelgaas@google.com>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: RE: [EXTERNAL] [PATCH RFC 2/2] PCI: hv: Add vPCI device reset support
-Thread-Topic: [EXTERNAL] [PATCH RFC 2/2] PCI: hv: Add vPCI device reset
- support
-Thread-Index: AQHdG8FlMURpOa52y0SiaFGkYVFQK7acoTlw
-Date: Thu, 13 Aug 2026 21:40:48 +0000
-Message-ID:
- <SA1PR21MB6683A0687C14475889222AACCEDB2@SA1PR21MB6683.namprd21.prod.outlook.com>
-References: <20260724230844.3259741-1-wei.liu@kernel.org>
- <20260724230844.3259741-3-wei.liu@kernel.org>
-In-Reply-To: <20260724230844.3259741-3-wei.liu@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b83fdbce-181a-403b-900d-56cb950488cb;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-08-13T21:40:32Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR21MB6683:EE_|SA1PR21MB6755:EE_
-x-ms-office365-filtering-correlation-id: 26cf5477-a428-4b19-07de-08def9838a30
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|38070700021|10067099003|7146999003|6133799003|11063799006|4143699003|7053199004|18002099003|22082099003|56012099006|3023799007;
-x-microsoft-antispam-message-info:
- 9RkOctgXHL9MBxpqoBCNQkOx6o7zkeH0tqnG7HeLKACtyweCl0zvP+XD6xNyQuJql7+BF7PNKpPZzZIOGqL8et8P5oqHsxu6dwZMVru0lHzVH5hF4Oagm7dEn7X10X0bx4MuHz/XDQxUA5qi2vXxCRVgwPyy9kEKvhZ0PJUijHWF9qFaTkQqpUmh+dIDXunh/2d/K9CCPl38a0OtceyOmOdkBQTgkhelwNXnPniZStjdAC5RarjzPX93Q/9IDv+DAsr6foTZM8IDxrEDWn6jcjaWdWfLWMISPojC0TMig96zywqbOPdBDOwvcc8/nmkEfZO88y4B2zsCvNAjXUvf87xWl1prMCxPy5/H9cDLUGWt4xf23tByOpH0xCkYEKbJTN0/qQ53IFeoNCJschvdC6LLodc4bEyrLqsWuwEfnh5zA8iU9cWly4pwechWxpG8t5kn3RkDNJbvQ1F2HVoQJKGbFjPK0kHhzdZxDFjz+yUg18D7SMXRqaur1Ensl1D9dAX9QXIQhSz4porYKL72LQQzb1L7E8cTDbvZhwm9OyIU8b8e2XVwvqJOkq5508rDyiJX/RD+SGI616pH7StxabLLlu2+5sJ6lmmE+vuE0S9ceA9O03G829uUCaSLI0o38mXQIdbiiEAFD0+GKtGzviF6b7Eojml7G33MSxfXBf544cOf2TGz7SLngZbQpGNhxRB8zIXCL7mUqGrgxV+KlE/pw9FTZMam7qG7U4ecU9k=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB6683.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(38070700021)(10067099003)(7146999003)(6133799003)(11063799006)(4143699003)(7053199004)(18002099003)(22082099003)(56012099006)(3023799007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?jmzHtT9rQsaKU+p0C6GHv3tPRZ7ZfVOWMPeMHiR2xQGbvHJENwEJpSSGLn?=
- =?iso-8859-2?Q?CXp7By842MPONHh25u1McxvFqHyR3Rlt4PITCBWZpjagngYPUWNa0eZcmA?=
- =?iso-8859-2?Q?72lhe90fVH0NG9zPKaaaO40Udv5ExZUH/vqcmAwIED9GY5oCSBGoIQkOwb?=
- =?iso-8859-2?Q?EBHuXLWt8Y6LSIxX1O/uRaGx43nZKn0Drwjwv/jRj/9Ay7jsixQlczE4zH?=
- =?iso-8859-2?Q?hzCSU6sw+ag6K4yRsr/PXAZPba29h7laEExOVhD2Tj4pDI8tvhIUCCv15a?=
- =?iso-8859-2?Q?SE44rWz/IrHsnxx9QOFjNdSgGjYTdbI66HzcOAC9BJVV4N5PwBfmCbuxzK?=
- =?iso-8859-2?Q?xMK44qNmwLlUpGRYaxIretGYIjvLyFoKmYA5H5fZ/rHBmTYk2ruifhw9nH?=
- =?iso-8859-2?Q?4qVcHDaXX/ZSTvo4HLrtaQn4oqDWwW7jSh4keZQgmlyExSfzcjR4WK0FLO?=
- =?iso-8859-2?Q?pcMnlDw4TTG/bm8Jb8A4k2CTPwjxgqg13TajVxwF9pQyLZOMTVXy/z6ass?=
- =?iso-8859-2?Q?entNTwxysde71uVnXFLByCTGZq4GaDlrvZH8N74mjcbQxZJawley40tPhd?=
- =?iso-8859-2?Q?kHo4XhcBc6Pm9wZCFSWhbnkATOca2TjEnWb+bGCehvaepNOZtSTFIhK0sj?=
- =?iso-8859-2?Q?B+L+/ldFHt1x7WP610+crHHwXCRvshusqtdmMpNb4Pg8SCnOGkbVYUtsEf?=
- =?iso-8859-2?Q?uAKBgnaZAu/xBhpFSEgpKzBvpXAr2qBy9bNJmAojn+7DaYpVdlM7cRFGPn?=
- =?iso-8859-2?Q?N6B7cN2WWT3rVwsYhTioPc4wMm+J8no3SFnn2A8PXOqfAY5uVd/0EigKq6?=
- =?iso-8859-2?Q?ylCaZ4YuYvGQEi57b6VPuMGeqxze2btY6l2mcE+0OQwDocblTf9Yv5pQFL?=
- =?iso-8859-2?Q?MzOjo4pcR7+z+bsLoRzGe+tuzsp5Kwr24EHz3OYihP9LBaPGhTqYGBzUky?=
- =?iso-8859-2?Q?FYO6OvJZbKrF/0fW7hh55OYXHh21kQi513V9yWzA1YWuShM3S+UABj+uCC?=
- =?iso-8859-2?Q?uP66OWDKgH7+b9js7A8a/s9xQcvssrXKez7J4UX97oE4u00jgFnRokIzSM?=
- =?iso-8859-2?Q?BWkHEeqNx7BALJifJQ08eki48swmgEEMsm8zNUA5VIu/KfVhQ2qSg2xIA9?=
- =?iso-8859-2?Q?2X7+2OcNKbw/w1/u2Eqp9Y31xA7+uSEjJbjXpunDPuMZ0AaiBQhVGG8RyY?=
- =?iso-8859-2?Q?IPeHSMzdSXVKJT2+YB5Kj2hPDE+oteYpz3FinhGZhAPh6N9SnbAywO3z2v?=
- =?iso-8859-2?Q?iU/ilfGPDopDUAdj+whksxFtOaDFORFo45822Jj2iegIQfZIjSQ6t+qcA6?=
- =?iso-8859-2?Q?rIVcjIohEYIVdV08xRuamdEcOjwngwPYCiNNJdcQjdaFvshP3VBslbPNmE?=
- =?iso-8859-2?Q?PDVRBejn2dXya2ffJ0CdySP4A/9xK43NJt33OV7PI2yDrDkjny/2ZDx6C7?=
- =?iso-8859-2?Q?LXDEKmD7Q/ETUBH/JArtI4/O7OzMfB5r/RMlQfReJY/YBnyD4dwFDCRFkS?=
- =?iso-8859-2?Q?BtWRUxxR/n+emjtbRxA+86UuoQy9EdwGf9KVRQltfK/VyT5b+XKlK1ot9g?=
- =?iso-8859-2?Q?EoDk631WzNqg6YyVHMgizne4uL+/26tcqTGPgc32+wWqXWdysoikJN2qRa?=
- =?iso-8859-2?Q?F8k03sEubiAyfIOEe8RlHkngmCZJECBYeeTvcBBaxOMvflCUdQnqF/ITS5?=
- =?iso-8859-2?Q?mC+gOAT5dmRfyVlOdfLt51Pq2ZE62Xanl0PZl8/uLqLW3lSOMVYs0s1BiW?=
- =?iso-8859-2?Q?5F2HmibiFdv3FDs4JI5s+1HOQrSz98CNNce5XddJSMuI6D?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EhyrKtT5"
+Received: from localhost (unknown [20.191.74.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A046020B7168;
+	Thu, 13 Aug 2026 15:28:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A046020B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786660130;
+	bh=haqzxaGpYVx3myr2zjNuJ/4zNb3wfAFqCExTcZNVdYI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EhyrKtT5w33dNwVku9IP9iY+gPSRT8oIVBCPGqzB5j3rkIhgzKidh/0lwph0EN8aP
+	 zLQU5veIzovIIM64Lgs7YTnaq5FYfyRw2oNShhOxdyrueW7MmkPF0xlDpC6E2NgxTa
+	 js+zLG83rRGN+vGQowIKDymyVcZFSpNitTy16YI0=
+Date: Thu, 13 Aug 2026 15:29:13 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Yu Zhang <zhangyu1@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ iommu@lists.linux.dev, linux-pci@vger.kernel.org,
+ linux-arch@vger.kernel.org, x86@kernel.org, wei.liu@kernel.org,
+ kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+ longli@microsoft.com, joro@8bytes.org, will@kernel.org,
+ robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
+ lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de,
+ jgg@ziepe.ca, mhklinux@outlook.com, tgopinath@linux.microsoft.com,
+ easwar.hariharan@linux.microsoft.com, mrathor@linux.microsoft.com,
+ baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com,
+ vasant.hegde@amd.com, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v3 4/5] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <20260813152913.00003d8a@linux.microsoft.com>
+In-Reply-To: <20260811155022.108148-5-zhangyu1@linux.microsoft.com>
+References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
+	<20260811155022.108148-5-zhangyu1@linux.microsoft.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB6683.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26cf5477-a428-4b19-07de-08def9838a30
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Aug 2026 21:40:48.7353
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ld8n7LvliIbyppH8gxDyFSuKm1Zc13ek9rD4YU+BhE8mn1FfPJYapjYQAcxPToiaYjQ9rR9WE+0etyptoezApQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR21MB6755
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Hi Yu,
 
+On Tue, 11 Aug 2026 23:50:20 +0800
+Yu Zhang <zhangyu1@linux.microsoft.com> wrote:
 
-> -----Original Message-----
-> From: wei.liu@kernel.org <wei.liu@kernel.org>
-> Sent: Friday, July 24, 2026 4:09 PM
-> To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>; linux-
-> pci@vger.kernel.org
-> Cc: Wei Liu <wei.liu@kernel.org>; KY Srinivasan <kys@microsoft.com>;
-> Haiyang Zhang <haiyangz@microsoft.com>; Dexuan Cui
-> <DECUI@microsoft.com>; Long Li <longli@microsoft.com>; Jonathan Corbet
-> <corbet@lwn.net>; Shuah Khan <skhan@linuxfoundation.org>; Lorenzo
-> Pieralisi <lpieralisi@kernel.org>; Krzysztof Wilczy=F1ski
-> <kwilczynski@kernel.org>; Manivannan Sadhasivam <mani@kernel.org>; Rob
-> Herring <robh@kernel.org>; Bjorn Helgaas <bhelgaas@google.com>; open
-> list:DOCUMENTATION <linux-doc@vger.kernel.org>; open list <linux-
-> kernel@vger.kernel.org>
-> Subject: [EXTERNAL] [PATCH RFC 2/2] PCI: hv: Add vPCI device reset suppor=
-t
->=20
-> From: Wei Liu <wei.liu@kernel.org>
->=20
-> Hyper-V vPCI protocol version 1.5 adds a RESET_DEVICE request for project=
-ed
-> PCI functions. Negotiate the new protocol version and issue the request
-> through the vPCI VMBus channel from the PCI controller reset callback.
->=20
-> Use the existing VMBus response path. Return -ENOTTY when the host
-> reports STATUS_NOT_SUPPORTED so PCI core may try another reset method.
->=20
+> Add a para-virtualized IOMMU driver for Linux guests running on
+> Hyper-V. This driver implements stage-1 IO translation within the
+> guest OS. It integrates with the Linux IOMMU core, utilizing Hyper-V
+> hypercalls for:
+>  - Capability discovery
+>  - Domain allocation, configuration, and deallocation
+>  - Device attachment and detachment
+>  - IOTLB invalidation
+> 
+> The driver constructs x86-compatible stage-1 IO page tables in the
+> guest memory using consolidated IO page table helpers. This allows
+> the guest to manage stage-1 translations independently of vendor-
+> specific drivers (like Intel VT-d or AMD IOMMU).
+> 
+> Hyper-V consumes this stage-1 IO page table when a device domain is
+> created and configured, and nests it with the host's stage-2 IO page
+> tables, therefore eliminating the VM exits for guest IOMMU mapping
+> operations. For unmapping operations, VM exits to perform the IOTLB
+> flush are still unavoidable.
+> 
+> Guest hibernation and resume are not supported by this initial
+> implementation. The guest-owned stage-1 page tables reside in guest
+> memory and are preserved in the hibernation image. However, the image
+> does not by itself preserve the Hyper-V device-domain objects or their
+> device attachments, and the current pvIOMMU interface does not define
+> whether or how Hyper-V restores that state.
+> 
+> To identify a device in its hypercall interface, the driver looks up
+> the logical device ID prefix registered for the device's PCI domain
+> (see the logical device ID registry in hv_common.c) and combines it
+> with the PCI function number of the endpoint device.
+> 
+> Co-developed-by: Wei Liu <wei.liu@kernel.org>
 > Signed-off-by: Wei Liu <wei.liu@kernel.org>
-
-Reviewed-by: Long Li <longli@microsoft.com>
-
-
-
-
-
-> ---
->  Documentation/virt/hyperv/vpci.rst  |  2 +-  drivers/pci/controller/pci-
-> hyperv.c | 61 +++++++++++++++++++++++++++++
->  2 files changed, 62 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/virt/hyperv/vpci.rst
-> b/Documentation/virt/hyperv/vpci.rst
-> index b65b2126ede3..6bfee7225c14 100644
-> --- a/Documentation/virt/hyperv/vpci.rst
-> +++ b/Documentation/virt/hyperv/vpci.rst
-> @@ -65,7 +65,7 @@ exchange messages with the vPCI VSP for the purpose
-> of setting  up and configuring the vPCI device in Linux.  Once the device=
-  is
-> fully configured in Linux as a PCI device, the VMBus  channel is used onl=
-y if
-> Linux changes the vCPU to be interrupted -in the guest, or if the vPCI de=
-vice
-> is removed from
-> +in the guest, or if the vPCI device is reset or removed from
->  the VM while the VM is running.  The ongoing operation of the  device
-> happens directly between the Linux device driver for  the device and the
-> hardware, with VMBus and the VMBus channel diff --git
-> a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv=
-.c
-> index cfc8fa403dad..d3c0fd5e1d8e 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -68,6 +68,7 @@ enum pci_protocol_version_t {
->  	PCI_PROTOCOL_VERSION_1_2 =3D PCI_MAKE_VERSION(1, 2),	/*
-> RS1 */
->  	PCI_PROTOCOL_VERSION_1_3 =3D PCI_MAKE_VERSION(1, 3),	/*
-> Vibranium */
->  	PCI_PROTOCOL_VERSION_1_4 =3D PCI_MAKE_VERSION(1, 4),	/*
-> WS2022 */
-> +	PCI_PROTOCOL_VERSION_1_5 =3D PCI_MAKE_VERSION(1, 5),	/* GE,
-> device reset */
->  };
->=20
->  #define CPU_AFFINITY_ALL	-1ULL
-> @@ -77,6 +78,7 @@ enum pci_protocol_version_t {
->   * first.
->   */
->  static enum pci_protocol_version_t pci_protocol_versions[] =3D {
-> +	PCI_PROTOCOL_VERSION_1_5,
->  	PCI_PROTOCOL_VERSION_1_4,
->  	PCI_PROTOCOL_VERSION_1_3,
->  	PCI_PROTOCOL_VERSION_1_2,
-> @@ -90,6 +92,7 @@ static enum pci_protocol_version_t
-> pci_protocol_versions[] =3D {  #define MAX_SUPPORTED_MSI_MESSAGES 0x400
->=20
->  #define STATUS_REVISION_MISMATCH 0xC0000059
-> +#define STATUS_NOT_SUPPORTED     0xC00000BB
->=20
->  /* space for 32bit serial number as string */  #define SLOT_NAME_SIZE 11
-> @@ -136,6 +139,7 @@ enum pci_message_type {
->  	PCI_BUS_RELATIONS2		=3D PCI_MESSAGE_BASE + 0x19,
->  	PCI_RESOURCES_ASSIGNED3         =3D PCI_MESSAGE_BASE + 0x1A,
->  	PCI_CREATE_INTERRUPT_MESSAGE3   =3D PCI_MESSAGE_BASE + 0x1B,
-> +	PCI_RESET_DEVICE                =3D PCI_MESSAGE_BASE + 0x1C,
->  	PCI_MESSAGE_MAXIMUM
->  };
->=20
-> @@ -1397,10 +1401,66 @@ static int hv_pcifront_write_config(struct pci_bu=
-s
-> *bus, unsigned int devfn,
->  	return PCIBIOS_SUCCESSFUL;
->  }
->=20
-> +static int hv_pcifront_reset(struct pci_dev *pdev, bool probe) {
-> +	struct hv_pcibus_device *hbus =3D
-> +		container_of(pdev->bus->sysdata, struct hv_pcibus_device,
-> sysdata);
-> +	struct pci_child_message reset =3D {};
-> +	struct hv_pci_compl comp_pkt;
-> +	struct pci_packet pkt =3D {
-> +		.completion_func =3D hv_pci_generic_compl,
-> +		.compl_ctxt =3D &comp_pkt,
-> +	};
-> +	enum hv_pcibus_state state;
-> +	int ret;
+> Co-developed-by: Easwar Hariharan
+> <easwar.hariharan@linux.microsoft.com> Signed-off-by: Easwar
+> Hariharan <easwar.hariharan@linux.microsoft.com> Signed-off-by: Yu
+> Zhang <zhangyu1@linux.microsoft.com> ---
+>  arch/x86/hyperv/hv_init.c             |   4 +
+>  arch/x86/include/asm/mshyperv.h       |   4 +
+>  drivers/iommu/Kconfig                 |   1 +
+>  drivers/iommu/hyperv/Kconfig          |  16 +
+>  drivers/iommu/hyperv/Makefile         |   1 +
+>  drivers/iommu/hyperv/hv-iommu-guest.c | 632
+> ++++++++++++++++++++++++++ drivers/iommu/hyperv/iommu.h          |
+> 50 ++ 7 files changed, 708 insertions(+)
+>  create mode 100644 drivers/iommu/hyperv/Kconfig
+>  create mode 100644 drivers/iommu/hyperv/hv-iommu-guest.c
+>  create mode 100644 drivers/iommu/hyperv/iommu.h
+> 
+> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+> index 55a8b6de2865..094f9f7ddb72 100644
+> --- a/arch/x86/hyperv/hv_init.c
+> +++ b/arch/x86/hyperv/hv_init.c
+> @@ -578,6 +578,10 @@ void __init hyperv_init(void)
+>  	old_setup_percpu_clockev =
+> x86_init.timers.setup_percpu_clockev;
+> x86_init.timers.setup_percpu_clockev =
+> hv_stimer_setup_percpu_clockev; +#ifdef CONFIG_HYPERV_PVIOMMU
+> +	x86_init.iommu.iommu_init = hv_iommu_init;
+> +#endif
 > +
-> +	/* Device reset was added in vPCI protocol version 1.5. */
-> +	if (hbus->protocol_version < PCI_PROTOCOL_VERSION_1_5)
-> +		return -ENOTTY;
+>  	hv_apic_init();
+>  
+>  	x86_init.pci.arch_init = hv_pci_init;
+> diff --git a/arch/x86/include/asm/mshyperv.h
+> b/arch/x86/include/asm/mshyperv.h index f64393e853ee..20d947c2c758
+> 100644 --- a/arch/x86/include/asm/mshyperv.h
+> +++ b/arch/x86/include/asm/mshyperv.h
+> @@ -313,6 +313,10 @@ static inline void
+> mshv_vtl_return_hypercall(void) {} static inline void
+> __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {} #endif
+>  
+> +#ifdef CONFIG_HYPERV_PVIOMMU
+> +int __init hv_iommu_init(void);
+> +#endif
 > +
-> +	/* Hyper-V exposes projected functions directly on the root bus. */
-> +	if (!pci_is_root_bus(pdev->bus))
-> +		return -ENOTTY;
+>  #include <asm-generic/mshyperv.h>
+>  
+>  #endif
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 6e07bd69467a..0d128f377929 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -195,6 +195,7 @@ config MSM_IOMMU
+>  source "drivers/iommu/amd/Kconfig"
+>  source "drivers/iommu/arm/Kconfig"
+>  source "drivers/iommu/intel/Kconfig"
+> +source "drivers/iommu/hyperv/Kconfig"
+>  source "drivers/iommu/iommufd/Kconfig"
+>  source "drivers/iommu/riscv/Kconfig"
+>  
+> diff --git a/drivers/iommu/hyperv/Kconfig
+> b/drivers/iommu/hyperv/Kconfig new file mode 100644
+> index 000000000000..37114239b832
+> --- /dev/null
+> +++ b/drivers/iommu/hyperv/Kconfig
+> @@ -0,0 +1,16 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# HyperV paravirtualized IOMMU support
+> +config HYPERV_PVIOMMU
+> +	bool "Microsoft Hypervisor para-virtualized IOMMU support"
+> +	depends on X86_64 && HYPERV
+> +	select IOMMU_API
+> +	select GENERIC_PT
+> +	select IOMMU_PT
+> +	select IOMMU_PT_X86_64
+> +	select IOMMU_IOVA
+> +	default HYPERV
+> +	help
+> +	  Para-virtualized IOMMU driver for Linux guests running on
+> +	  Microsoft Hyper-V. Provides DMA remapping and IOTLB
+> +	  flush support to enable DMA isolation for PCI devices
+> +	  assigned to the guest.
+> diff --git a/drivers/iommu/hyperv/Makefile
+> b/drivers/iommu/hyperv/Makefile index 6ef0ef97f3dd..d3b2a259439c
+> 100644 --- a/drivers/iommu/hyperv/Makefile
+> +++ b/drivers/iommu/hyperv/Makefile
+> @@ -1,2 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_IRQ_REMAP) += hv-irq-remap-x86.o
+> +obj-$(CONFIG_HYPERV_PVIOMMU) += hv-iommu-guest.o
+> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c
+> b/drivers/iommu/hyperv/hv-iommu-guest.c new file mode 100644
+> index 000000000000..2a00353ce733
+> --- /dev/null
+> +++ b/drivers/iommu/hyperv/hv-iommu-guest.c
+> @@ -0,0 +1,632 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +	if (probe)
-> +		return 0;
+> +/*
+> + * Hyper-V IOMMU driver.
+> + *
+> + * Copyright (C) 2019, 2024-2026 Microsoft, Inc.
+> + */
 > +
-> +	/* Do not take state_lock: eject holds it while removing/locking pdev.
-> */
-> +	state =3D READ_ONCE(hbus->state);
-> +	if (state !=3D hv_pcibus_probed && state !=3D hv_pcibus_installed)
-> +		return -ENODEV;
+> +#define pr_fmt(fmt) "Hyper-V pvIOMMU: " fmt
+> +#define dev_fmt(fmt) pr_fmt(fmt)
 > +
-> +	init_completion(&comp_pkt.host_event);
-> +	reset.message_type.type =3D PCI_RESET_DEVICE;
-> +	reset.wslot.slot =3D devfn_to_wslot(pdev->devfn);
+> +#include <linux/iommu.h>
+> +#include <linux/pci.h>
+> +#include <linux/dma-map-ops.h>
+> +#include <linux/generic_pt/iommu.h>
+> +#include <linux/pci-ats.h>
 > +
-> +	ret =3D vmbus_sendpacket(hbus->hdev->channel, &reset, sizeof(reset),
-> +			       (unsigned long)&pkt, VM_PKT_DATA_INBAND,
+> +#include <asm/iommu.h>
+> +#include <asm/hypervisor.h>
+> +#include <asm/mshyperv.h>
 > +
-> VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
-> +	if (ret)
-> +		return ret;
+> +#include "iommu.h"
+> +#include "../iommu-pages.h"
 > +
-> +	ret =3D wait_for_response(hbus->hdev, &comp_pkt.host_event);
-> +	if (ret)
-> +		return ret;
+> +struct hv_iommu_dev *hv_iommu_device;
 > +
-> +	if (comp_pkt.completion_status =3D=3D STATUS_NOT_SUPPORTED)
-> +		return -ENOTTY;
+> +/*
+> + * Identity and blocking domains are static singletons: identity is
+> a 1:1
+> + * passthrough with no page table, blocking rejects all DMA. Neither
+> holds
+> + * per-IOMMU state, so one instance suffices even with multiple
+> vIOMMUs.
+> + */
+> +static const struct iommu_domain_ops hv_iommu_identity_domain_ops;
+> +static const struct iommu_domain_ops hv_iommu_blocking_domain_ops;
+> +static struct iommu_ops hv_iommu_ops;
 > +
-> +	if (comp_pkt.completion_status) {
-> +		pci_err(pdev, "Hyper-V device reset failed: %#x\n",
-> +			comp_pkt.completion_status);
-> +		return -EIO;
-> +	}
+> +static struct hv_iommu_domain hv_identity_domain = {
+> +	.domain = {
+> +		.type	= IOMMU_DOMAIN_IDENTITY,
+> +		.ops	= &hv_iommu_identity_domain_ops,
+> +		.owner	= &hv_iommu_ops,
+> +	},
+> +};
 > +
-> +	return 0;
+> +static struct hv_iommu_domain hv_blocking_domain = {
+> +	.domain = {
+> +		.type	= IOMMU_DOMAIN_BLOCKED,
+> +		.ops	= &hv_iommu_blocking_domain_ops,
+> +		.owner	= &hv_iommu_ops,
+> +	},
+> +};
+> +
+> +static inline bool hv_iommu_present(u64 cap)
+> +{
+> +	return cap & HV_IOMMU_CAP_PRESENT;
 > +}
 > +
->  /* PCIe operations */
->  static struct pci_ops hv_pcifront_ops =3D {
->  	.read  =3D hv_pcifront_read_config,
->  	.write =3D hv_pcifront_write_config,
-> +	.reset =3D hv_pcifront_reset,
->  };
->=20
->  /*
-> @@ -1996,6 +2056,7 @@ static void hv_compose_msi_msg(struct irq_data
-> *data, struct msi_msg *msg)
->  		break;
->=20
->  	case PCI_PROTOCOL_VERSION_1_4:
-> +	case PCI_PROTOCOL_VERSION_1_5:
->  		size =3D hv_compose_msi_req_v3(&ctxt.int_pkts.v3,
->  					cpu,
->  					hpdev->desc.win_slot.slot,
-> --
-> 2.53.0
+> +static inline bool hv_iommu_s1_domain_supported(u64 cap)
+> +{
+> +	return cap & HV_IOMMU_CAP_S1;
+> +}
+> +
+> +static inline bool hv_iommu_5lvl_supported(u64 cap)
+> +{
+> +	return cap & HV_IOMMU_CAP_S1_5LVL;
+> +}
+> +
+> +static inline bool hv_iommu_ats_supported(u64 cap)
+> +{
+> +	return cap & HV_IOMMU_CAP_ATS;
+> +}
+> +
+> +static int hv_create_device_domain(struct hv_iommu_domain *hv_domain)
+> +{
+> +	int ret;
+> +	u64 status;
+> +	unsigned long flags;
+> +	struct hv_input_create_device_domain *input;
+> +
+> +	ret = ida_alloc_range(&hv_iommu_device->domain_ids,
+> +			      hv_iommu_device->first_domain,
+> +			      hv_iommu_device->last_domain,
+> GFP_KERNEL);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	hv_domain->device_domain.partition_id = HV_PARTITION_ID_SELF;
+> +	hv_domain->device_domain.domain_id.type =
+> HV_DEVICE_DOMAIN_TYPE_S1;
+> +	hv_domain->device_domain.domain_id.id = ret;
+> +	hv_domain->hv_iommu = hv_iommu_device;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->device_domain = hv_domain->device_domain;
+> +	input->create_device_domain_flags.forward_progress_required
+> = 1;
+> +	input->create_device_domain_flags.inherit_owning_vtl = 0;
+> +	status = hv_do_hypercall(HVCALL_CREATE_DEVICE_DOMAIN, input,
+> NULL); +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status)) {
+> +		hv_status_err(status, "HVCALL_CREATE_DEVICE_DOMAIN
+> failed\n");
+> +		ida_free(&hv_iommu_device->domain_ids,
+> +			 hv_domain->device_domain.domain_id.id);
+> +	}
+> +
+> +	return hv_result_to_errno(status);
+> +}
+> +
+> +static void hv_delete_device_domain(struct hv_iommu_domain
+> *hv_domain) +{
+> +	u64 status;
+> +	unsigned long flags;
+> +	struct hv_input_delete_device_domain *input;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->device_domain = hv_domain->device_domain;
+> +	status = hv_do_hypercall(HVCALL_DELETE_DEVICE_DOMAIN, input,
+> NULL); +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status))
+> +		hv_status_err(status, "HVCALL_DELETE_DEVICE_DOMAIN
+> failed\n"); +
+> +	ida_free(&hv_domain->hv_iommu->domain_ids,
+> +		 hv_domain->device_domain.domain_id.id);
+> +}
+> +
+> +static int
+> +hv_configure_device_domain(struct hv_iommu_domain *hv_domain,
+> +			   const struct hv_device_domain_settings
+> *settings) +{
+> +	struct hv_input_configure_device_domain *input;
+> +	unsigned long flags;
+> +	u64 status;
+> +
+nit: Local variable declarations are ordered differently from the
+surrounding functions.
+
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->device_domain = hv_domain->device_domain;
+> +	input->settings = *settings;
+> +	status = hv_do_hypercall(HVCALL_CONFIGURE_DEVICE_DOMAIN,
+> input, NULL); +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status))
+> +		hv_status_err(status,
+> +			      "HVCALL_CONFIGURE_DEVICE_DOMAIN
+> failed\n"); +
+> +	return hv_result_to_errno(status);
+> +}
+> +
+> +static int
+> +hv_create_configure_device_domain(struct hv_iommu_domain *hv_domain,
+> +				  const struct
+> hv_device_domain_settings *settings) +{
+> +	int ret;
+> +
+> +	ret = hv_create_device_domain(hv_domain);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hv_configure_device_domain(hv_domain, settings);
+> +	if (ret)
+> +		hv_delete_device_domain(hv_domain);
+> +
+> +	return ret;
+> +}
+> +
+> +static bool hv_iommu_capable(struct device *dev, enum iommu_cap cap)
+> +{
+> +	return cap == IOMMU_CAP_CACHE_COHERENCY;
+> +}
+> +
+> +static void hv_flush_device_domain(struct hv_iommu_domain *hv_domain)
+> +{
+> +	u64 status;
+> +	unsigned long flags;
+> +	struct hv_input_flush_device_domain *input;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->device_domain = hv_domain->device_domain;
+> +	status = hv_do_hypercall(HVCALL_FLUSH_DEVICE_DOMAIN, input,
+> NULL); +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status))
+> +		hv_status_err(status, "HVCALL_FLUSH_DEVICE_DOMAIN
+> failed\n"); +}
+should this be a WARN_ONCE? flush TLB failure can be catastrophic, not
+an ordinary hypercall failure.
+
+> +
+> +static int hv_iommu_attach_dev(struct iommu_domain *domain, struct
+> device *dev,
+> +			       struct iommu_domain *old)
+> +{
+> +	u64 status;
+> +	u32 prefix;
+> +	unsigned long flags;
+> +	struct pci_dev *pdev;
+> +	struct hv_input_attach_device_domain *input;
+> +	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
+> +	struct hv_iommu_domain *hv_domain =
+> to_hv_iommu_domain(domain);
+> +	int ret;
+> +
+> +	pdev = to_pci_dev(dev);
+> +	dev_dbg(dev, "attaching to domain %d\n",
+> +		hv_domain->device_domain.domain_id.id);
+> +
+> +	ret =
+> hv_iommu_lookup_logical_dev_id(pci_domain_nr(pdev->bus), &prefix);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "no IOMMU registration for vPCI
+> bus\n");
+> +		return ret;
+> +	}
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->device_domain = hv_domain->device_domain;
+> +	input->device_id.as_uint64 = (u64)prefix |
+> PCI_FUNC(pdev->devfn);
+> +	status = hv_do_hypercall(HVCALL_ATTACH_DEVICE_DOMAIN, input,
+> NULL); +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status)) {
+> +		hv_status_err(status, "HVCALL_ATTACH_DEVICE_DOMAIN
+> failed\n");
+> +	} else {
+> +		vdev->hv_domain = hv_domain;
+> +
+> +		if (domain != &hv_blocking_domain.domain &&
+> +		    !pdev->ats_enabled &&
+> +		    hv_iommu_ats_supported(hv_iommu_device->cap) &&
+> +		    pci_ats_supported(pdev))
+> +			pci_enable_ats(pdev, PAGE_SHIFT);
+> +	}
+> +
+> +	return hv_result_to_errno(status);
+> +}
+> +
+> +static int hv_iommu_blocking_attach_dev(struct iommu_domain *domain,
+> +					struct device *dev,
+> +					struct iommu_domain *old)
+> +{
+> +	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
+> +	struct hv_iommu_domain *hv_domain =
+> to_hv_iommu_domain(domain);
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+> +	int ret;
+> +
+> +	if (pdev->ats_enabled)
+> +		pci_disable_ats(pdev);
+> +
+> +	if (vdev->hv_domain == hv_domain)
+> +		return 0;
+It may not be needed since the core code will check this. If you keep
+this as extra precaution, should this be moved up before ats? since ats
+must be disabled already if blocking domain is attached.
+
+> +
+> +	ret = hv_iommu_attach_dev(domain, dev, old);
+> +
+> +	/*
+> +	 * Attaching to the blocking domain only asks the hypervisor
+> to
+> +	 * disable translation and IOPF for the device, so it cannot
+> fail
+> +	 * unless there is a driver or hypervisor bug. Return the
+> hypercall
+> +	 * status rather than 0 so that a failure on the DMA
+> ownership claim
+> +	 * path (VFIO/iommufd) fails the claim instead of leaving
+> the device
+> +	 * unblocked. WARN since such a failure indicates a bug.
+> +	 */
+> +	WARN_ON(ret);
+> +	return ret;
+> +}
+> +
+> +static int
+> +hv_iommu_get_logical_device_property(struct device *dev, u32 code,
+> +				     struct
+> hv_output_get_logical_device_property *property) +{
+> +	u64 status;
+> +	u32 prefix;
+> +	unsigned long flags;
+> +	int ret;
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+> +	struct hv_input_get_logical_device_property *input;
+> +	struct hv_output_get_logical_device_property *output;
+> +
+> +	ret =
+> hv_iommu_lookup_logical_dev_id(pci_domain_nr(pdev->bus), &prefix);
+> +	if (ret)
+> +		return ret;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	output = (struct hv_output_get_logical_device_property
+> *)(input + 1);
+> +	memset(input, 0, sizeof(*input));
+> +	input->partition_id = HV_PARTITION_ID_SELF;
+> +	input->logical_device_id = (u64)prefix |
+> PCI_FUNC(pdev->devfn);
+> +	input->code = code;
+> +	status = hv_do_hypercall(HVCALL_GET_LOGICAL_DEVICE_PROPERTY,
+> input, output);
+> +	*property = *output;
+> +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status))
+> +		hv_status_err(status,
+> +			      "HVCALL_GET_LOGICAL_DEVICE_PROPERTY
+> failed\n"); +
+> +	return hv_result_to_errno(status);
+> +}
+> +
+> +static struct iommu_device *hv_iommu_probe_device(struct device *dev)
+> +{
+> +	struct hv_iommu_endpoint *vdev;
+> +	struct hv_output_get_logical_device_property
+> device_iommu_property = {0}; +
+> +	if (!dev_is_pci(dev))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	if (hv_iommu_get_logical_device_property(dev,
+> +
+> HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU,
+> +
+> &device_iommu_property) ||
+> +	    !(device_iommu_property.device_iommu &
+> HV_DEVICE_IOMMU_ENABLED))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	vdev = kzalloc_obj(*vdev, GFP_KERNEL);
+> +	if (!vdev)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	vdev->dev = dev;
+> +	vdev->hv_iommu = hv_iommu_device;
+> +	dev_iommu_priv_set(dev, vdev);
+> +
+> +	return &vdev->hv_iommu->iommu;
+> +}
+> +
+> +static void hv_iommu_release_device(struct device *dev)
+> +{
+> +	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+> +
+> +	if (pdev->ats_enabled)
+> +		pci_disable_ats(pdev);
+> +
+> +	kfree(vdev);
+> +}
+> +
+> +static struct iommu_group *hv_iommu_device_group(struct device *dev)
+> +{
+> +	if (!dev_is_pci(dev))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return pci_device_group(dev);
+> +}
+> +
+> +static int __init hv_initialize_static_domains(void)
+> +{
+> +	/*
+> +	 * Clearing translation_enabled bypasses stage-1
+> translation, so DMA
+> +	 * addresses are used directly as GPAs. Hyper-V requires
+> paging and
+> +	 * blocked domains to keep translation_enabled set.
+> +	 */
+> +	const struct hv_device_domain_settings identity_settings = {
+> +		.flags.translation_enabled = 0,
+> +	};
+> +	const struct hv_device_domain_settings blocked_settings = {
+> +		.flags = {
+> +			.translation_enabled = 1,
+> +			.blocked = 1,
+> +		},
+> +	};
+> +	int ret;
+> +
+> +	/* Default stage-1 identity domain */
+> +	ret = hv_create_configure_device_domain(&hv_identity_domain,
+> +						&identity_settings);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Default stage-1 blocked domain */
+> +	ret = hv_create_configure_device_domain(&hv_blocking_domain,
+> +						&blocked_settings);
+> +	if (ret)
+> +		goto delete_identity_domain;
+> +
+> +	return 0;
+> +
+> +delete_identity_domain:
+> +	hv_delete_device_domain(&hv_identity_domain);
+> +	return ret;
+> +}
+> +
+> +static void hv_iommu_get_resv_regions(struct device *dev,
+> +				      struct list_head *head)
+> +{
+> +	struct iommu_resv_region *region;
+> +
+> +	region = iommu_alloc_resv_region(X86_IOMMU_MSI_RANGE_START,
+> +					 X86_IOMMU_MSI_RANGE_END -
+> +					 X86_IOMMU_MSI_RANGE_START +
+> 1,
+> +					 0, IOMMU_RESV_MSI,
+> GFP_KERNEL);
+> +	if (!region)
+> +		return;
+> +
+> +	list_add_tail(&region->list, head);
+> +}
+> +
+> +static void hv_iommu_flush_iotlb_all(struct iommu_domain *domain)
+> +{
+> +	hv_flush_device_domain(to_hv_iommu_domain(domain));
+> +}
+> +
+> +static void hv_iommu_iotlb_sync(struct iommu_domain *domain,
+> +				struct iommu_iotlb_gather
+> *iotlb_gather) +{
+> +	hv_flush_device_domain(to_hv_iommu_domain(domain));
+> +
+> +	iommu_put_pages_list(&iotlb_gather->freelist);
+> +}
+> +
+> +static void hv_iommu_paging_domain_free(struct iommu_domain *domain)
+> +{
+> +	struct hv_iommu_domain *hv_domain =
+> to_hv_iommu_domain(domain); +
+> +	/* Free all remaining mappings */
+> +	pt_iommu_deinit(&hv_domain->pt_iommu);
+> +
+> +	hv_delete_device_domain(hv_domain);
+> +
+> +	kfree(hv_domain);
+> +}
+> +
+> +static const struct iommu_domain_ops hv_iommu_identity_domain_ops = {
+> +	.attach_dev	= hv_iommu_attach_dev,
+> +};
+> +
+> +static const struct iommu_domain_ops hv_iommu_blocking_domain_ops = {
+> +	.attach_dev	= hv_iommu_blocking_attach_dev,
+> +};
+> +
+> +static const struct iommu_domain_ops hv_iommu_paging_domain_ops = {
+> +	.attach_dev	= hv_iommu_attach_dev,
+> +	IOMMU_PT_DOMAIN_OPS(x86_64),
+> +	.flush_iotlb_all = hv_iommu_flush_iotlb_all,
+> +	.iotlb_sync = hv_iommu_iotlb_sync,
+> +	.free = hv_iommu_paging_domain_free,
+> +};
+> +
+> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct
+> device *dev) +{
+> +	int ret;
+> +	struct hv_iommu_domain *hv_domain;
+> +	struct pt_iommu_x86_64_hw_info pt_info;
+> +	struct pt_iommu_x86_64_cfg cfg = {};
+> +	struct hv_device_domain_settings settings = {
+> +		.flags = {
+> +			.translation_enabled = 1,
+> +		},
+> +	};
+> +
+> +	hv_domain = kzalloc_obj(*hv_domain, GFP_KERNEL);
+> +	if (!hv_domain)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	hv_domain->pt_iommu.nid = dev_to_node(dev);
+> +
+> +	cfg.common.hw_max_vasz_lg2 = hv_iommu_device->max_iova_width;
+> +	cfg.common.hw_max_oasz_lg2 = 52;
+> +	/*
+> +	 * Hyper-V S1 domains use a 4-level root for IOVA widths up
+> to
+> +	 * 48 bits. A 5-level root is used only for wider apertures
+> when
+> +	 * HV_IOMMU_CAP_S1_5LVL is advertised.
+> +	 */
+> +	cfg.top_level = (hv_iommu_device->max_iova_width > 48) ? 4 :
+> 3; +
+> +	ret = pt_iommu_x86_64_init(&hv_domain->pt_iommu_x86_64,
+> &cfg, GFP_KERNEL);
+> +	if (ret)
+> +		goto err_free;
+> +
+> +	/* Constrain to page sizes the hypervisor supports */
+> +	hv_domain->domain.pgsize_bitmap &=
+> hv_iommu_device->pgsize_bitmap; +
+> +	hv_domain->domain.ops = &hv_iommu_paging_domain_ops;
+> +
+> +	pt_iommu_x86_64_hw_info(&hv_domain->pt_iommu_x86_64,
+> &pt_info);
+> +	settings.page_table_root = pt_info.gcr3_pt;
+> +	settings.flags.first_stage_paging_mode = pt_info.levels == 5;
+> +
+> +	ret = hv_create_configure_device_domain(hv_domain,
+> &settings);
+> +	if (ret)
+> +		goto err_pt_deinit;
+> +
+> +	return &hv_domain->domain;
+> +
+> +err_pt_deinit:
+> +	pt_iommu_deinit(&hv_domain->pt_iommu);
+> +err_free:
+> +	kfree(hv_domain);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static struct iommu_ops hv_iommu_ops = {
+> +	.capable		  = hv_iommu_capable,
+> +	.domain_alloc_paging	  = hv_iommu_domain_alloc_paging,
+> +	.probe_device		  = hv_iommu_probe_device,
+> +	.release_device		  = hv_iommu_release_device,
+> +	.device_group		  = hv_iommu_device_group,
+> +	.get_resv_regions	  = hv_iommu_get_resv_regions,
+> +	.owner			  = THIS_MODULE,
+> +	.identity_domain	  = &hv_identity_domain.domain,
+> +	.blocked_domain		  =
+> &hv_blocking_domain.domain,
+> +	.release_domain		  =
+> &hv_blocking_domain.domain, +};
+> +
+> +static u64 hv_iommu_detect(struct hv_output_get_iommu_capabilities
+> *cap) +{
+> +	u64 status;
+> +	unsigned long flags;
+> +	struct hv_input_get_iommu_capabilities *input;
+> +	struct hv_output_get_iommu_capabilities *output;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	output = (struct hv_output_get_iommu_capabilities *)(input +
+> 1);
+> +	memset(input, 0, sizeof(*input));
+> +	input->partition_id = HV_PARTITION_ID_SELF;
+> +	status = hv_do_hypercall(HVCALL_GET_IOMMU_CAPABILITIES,
+> input, output);
+> +	*cap = *output;
+> +
+> +	local_irq_restore(flags);
+> +
+> +	return status;
+> +}
+> +
+> +static void __init
+> +hv_init_iommu_device(struct hv_iommu_dev *hv_iommu,
+> +		     struct hv_output_get_iommu_capabilities
+> *hv_iommu_cap) +{
+> +	ida_init(&hv_iommu->domain_ids);
+> +
+> +	hv_iommu->cap = hv_iommu_cap->iommu_cap;
+> +	hv_iommu->max_iova_width = hv_iommu_cap->max_iova_width;
+> +	if (!hv_iommu_5lvl_supported(hv_iommu->cap) &&
+> +	    hv_iommu->max_iova_width > 48) {
+> +		pr_info("5-level paging not supported, limiting iova
+> width to 48.\n");
+> +		hv_iommu->max_iova_width = 48;
+> +	}
+> +
+> +	hv_iommu->first_domain = HV_DEVICE_DOMAIN_ID_DEFAULT + 1;
+> +	hv_iommu->last_domain = HV_DEVICE_DOMAIN_ID_NULL - 1;
+> +	hv_iommu->pgsize_bitmap = hv_iommu_cap->pgsize_bitmap;
+> +	hv_iommu_device = hv_iommu;
+> +}
+> +
+> +int __init hv_iommu_init(void)
+> +{
+> +	u64 status;
+> +	int ret = 0;
+> +	struct hv_iommu_dev *hv_iommu = NULL;
+> +	struct hv_output_get_iommu_capabilities hv_iommu_cap = {0};
+> +
+> +	if (no_iommu || iommu_detected)
+> +		return -ENODEV;
+> +
+> +	if (!hv_is_hyperv_initialized())
+> +		return -ENODEV;
+> +
+> +	status = hv_iommu_detect(&hv_iommu_cap);
+> +	if (!hv_result_success(status)) {
+> +		if (hv_result(status) ==
+> HV_STATUS_INVALID_HYPERCALL_CODE)
+> +			return -ENODEV;
+> +
+> +		hv_status_err(status, "HVCALL_GET_IOMMU_CAPABILITIES
+> failed\n");
+> +		return hv_result_to_errno(status);
+> +	}
+> +
+> +	if (!hv_iommu_present(hv_iommu_cap.iommu_cap))
+> +		return -ENODEV;
+> +
+> +	if (!hv_iommu_s1_domain_supported(hv_iommu_cap.iommu_cap)) {
+> +		pr_err("stage-1 translation not supported:
+> cap=%#llx\n",
+> +		       hv_iommu_cap.iommu_cap);
+> +		return -ENODEV;
+> +	}
+> +
+> +	/*
+> +	 * Require the base page size. The domain page-size bitmap
+> is later
+> +	 * restricted to the sizes supported by both iommupt and
+> Hyper-V.
+> +	 */
+> +	if (!(hv_iommu_cap.pgsize_bitmap & PAGE_SIZE)) {
+> +		pr_err("unsupported page sizes:
+> pgsize_bitmap=0x%llx\n",
+> +		       hv_iommu_cap.pgsize_bitmap);
+> +		return -ENODEV;
+> +	}
+> +
+> +	iommu_detected = 1;
+> +	pci_request_acs();
+> +
+> +	hv_iommu = kzalloc_obj(*hv_iommu, GFP_KERNEL);
+> +	if (!hv_iommu)
+> +		return -ENOMEM;
+> +
+> +	hv_init_iommu_device(hv_iommu, &hv_iommu_cap);
+> +
+> +	ret = hv_initialize_static_domains();
+> +	if (ret)
+> +		goto err_free;
+> +
+> +	ret = iommu_device_sysfs_add(&hv_iommu->iommu, NULL, NULL,
+> "%s", "hv-iommu");
+> +	if (ret) {
+> +		pr_err("iommu_device_sysfs_add failed: %d\n", ret);
+> +		goto err_delete_static_domains;
+> +	}
+> +
+> +	ret = iommu_device_register(&hv_iommu->iommu, &hv_iommu_ops,
+> NULL);
+> +	if (ret) {
+> +		pr_err("iommu_device_register failed: %d\n", ret);
+> +		goto err_sysfs_remove;
+> +	}
+> +
+> +	pr_info("initialized: %u-bit IOVA aperture, page-size bitmap
+> %#llx\n",
+> +		hv_iommu->max_iova_width, hv_iommu->pgsize_bitmap);
+> +	return 0;
+> +
+> +err_sysfs_remove:
+> +	iommu_device_sysfs_remove(&hv_iommu->iommu);
+> +err_delete_static_domains:
+> +	hv_delete_device_domain(&hv_blocking_domain);
+> +	hv_delete_device_domain(&hv_identity_domain);
+> +err_free:
+> +	kfree(hv_iommu);
+> +	return ret;
+> +}
+> diff --git a/drivers/iommu/hyperv/iommu.h
+> b/drivers/iommu/hyperv/iommu.h new file mode 100644
+> index 000000000000..a8566d511102
+> --- /dev/null
+> +++ b/drivers/iommu/hyperv/iommu.h
+> @@ -0,0 +1,50 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/*
+> + * Hyper-V IOMMU driver.
+> + *
+> + * Copyright (C) 2024-2025, Microsoft, Inc.
+2026?
+
+> + *
+> + */
+> +
+> +#ifndef _HYPERV_IOMMU_H
+> +#define _HYPERV_IOMMU_H
+> +
+> +struct hv_iommu_dev {
+> +	struct iommu_device iommu;
+> +	struct ida domain_ids;
+> +
+> +	/* Device configuration */
+> +	u8  max_iova_width;
+> +	u8  max_pasid_width;
+> +	u64 cap;
+> +	u64 pgsize_bitmap;
+> +
+> +	u64 first_domain;
+> +	u64 last_domain;
+> +};
+> +
+> +struct hv_iommu_domain {
+> +	union {
+> +		struct iommu_domain    domain;
+> +		struct pt_iommu        pt_iommu;
+> +		struct pt_iommu_x86_64 pt_iommu_x86_64;
+> +	};
+> +	struct hv_iommu_dev *hv_iommu;
+> +	struct hv_input_device_domain device_domain;
+> +	u64		pgsize_bitmap;
+> +};
+> +
+> +PT_IOMMU_CHECK_DOMAIN(struct hv_iommu_domain, pt_iommu, domain);
+> +PT_IOMMU_CHECK_DOMAIN(struct hv_iommu_domain, pt_iommu_x86_64.iommu,
+> domain);
+> +struct hv_iommu_endpoint {
+> +	struct device *dev;
+> +	struct hv_iommu_dev *hv_iommu;
+> +	struct hv_iommu_domain *hv_domain;
+> +};
+> +
+> +#define to_hv_iommu_domain(d) \
+> +	container_of(d, struct hv_iommu_domain, domain)
+> +
+> +#endif /* _HYPERV_IOMMU_H */
+With the above nits addressed,
+
+Reviewed-by: Jacob Pan <jacob.pan@linux.microsoft.com>
 
