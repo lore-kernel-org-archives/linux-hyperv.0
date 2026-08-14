@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9BA18FDDE
-	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 05:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4652726FA60
+	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 05:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786683917; cv=none; b=L0Z38BB1us8tyomrRtBMxlfnwnx8Ce+FT//eGfm3lAY50lNrMSejjaZ3vxQw6SJhf4Pf7kQcMsXZnBZZylPXTDrnYCygAYfKgOL2xvfLu7Z79IpVZ+2WKqPgkNhd7i4vPCD2RczrX6x1JsrTf2YYDmqiQxa0iGzyKUOs6LTAz30=
+	t=1786683917; cv=none; b=u/VU0b8fBBuJdhF9/Otbdk00UP/UdYFkeOdkKhplvUArOjNcYVFi/gC4ut/aECCXwJst2ziKzXeOIq3QjMoJW27BnGffHhO1V0v8w/jOgf6VrZk7iYyKIytzGibZio6DeP7ahPCjNCwkZRE+CoJ+u61vIV52mi2E1GJnZ/JD5+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786683917; c=relaxed/simple;
-	bh=otJA7GrkeRvyhIeiGhaxiqy4McCeF2vDAwvOQXMkg2M=;
+	bh=7uxhvjA41si8hZ6c5LfcmLVN3xoDdkw561iiEakFxVo=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KdLoDlKYHUytz29ShoR5yZ0FAQUfYoiNGuPKAuPs6mUhsBKpnQz4t2nEJ3r7eOb2PRJd7XjE7Jw1jnXpeKXyQmOXVg4oxtXRj/naTypZkjQx6Kago6Wrul+ZBsGmbAjxJjOWZBJVtfWqNWLbgnDFe0PTrDz1WB1efXhpUijVy0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcwlz/CI; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=kiuZgqhFdzXXG/9JxhAKZMGklTJkciICBE4SrYGGwnrFgV4nl0skNPwXl02bEvKGjqjdA3qO3JtmDlkQ9ZERV5GysC7+7nYHv2bpq5xTuC0uk8uFK4sIuG9RIDM8XZIZD4q2MYroaIZngeUtQUvQhTiWfdgjsRUc2p1/fRJ5hVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvjaK5I3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcwlz/CI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B65B1F000E9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvjaK5I3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C531F00A3A;
 	Fri, 14 Aug 2026 05:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786683915;
-	bh=2XQcvqz9d94/UcFPpc3E+mpNBLzPQei8zSBwvJtznkU=;
+	s=k20260515; t=1786683916;
+	bh=iI9hpViTr3y9QfvES3yNrixEOCmhHemHuYCE9HWCX18=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lcwlz/CIWRcgS7WFaZapR3gzLZ5QTHh+KtKAToRKnRzV7N58aOgajWg4EONU40jEm
-	 WF47bdcFvrBRkBP5t1uTE4WqLEW8tHVWyBregRqpACEIq210fZJSAKPyZvxuaZlu5K
-	 fTH9maCMLPO9DAIkm6kWZuONSP1q1AgGb3yWsLd6opMLOO8yWsVRHsR7p1GyngF8dX
-	 lShNGvZe9oKQX1uSa172tD4CbEwhkNol0m2epj1zhjta2LNHhg0jN6dJ6oFdKu4Hp7
-	 s3dVayXYZUYjRcUcMMiyTMOoNullD+CORIESfWA26LzFaEoXWNRNfotdPHffJFmz8g
-	 kpDBYwvmfBHJA==
+	b=FvjaK5I3S87X1SZLvZ7YBRhCVuM4LALQ9YTgmDT8Xs08Gx/jLHOLr5d94R38QMc3z
+	 5n2YuwhaAWY4eOGpNMPOnwI6kkanCF59TiVd1tlq5ZFuqGTeDPSj0CvaBk2egiYpcu
+	 jHY1WVT7k0THB02HWSv1H/cwJMm80N4L3JGOIRc3XnIaxRiWZECqkEXoFQnkJ/3YEX
+	 t3+WXuR14N6k3dOYsQlwHnTu3R/5pgz+C5ZK4tHVMDzWkMmM6jiWihCJvB+MtzE0Dt
+	 ig2WTbVyYWTHF9i0OUzN7h5z2E8iUAEJdp42TM7WJf2Y7yps9pDxkQmtA7Jzz1q4Dn
+	 Kjf+/Bl9OYP8w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 08/13] net: mana: keep per-queue statistics
- in the port context
+Subject: Re: [PATCH net-next v2 02/13] net: mana: swap queue sets in
+ mana_set_channels
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260813050418.2906468-9-longli@microsoft.com>
+In-Reply-To: <20260813050418.2906468-3-longli@microsoft.com>
 References: <20260813050418.2906468-1-longli@microsoft.com>
- <20260813050418.2906468-9-longli@microsoft.com>
+ <20260813050418.2906468-3-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Aug 2026 05:05:11 +0000
-Message-Id: <20260814050515.3B65B1F000E9@smtp.kernel.org>
+Date: Fri, 14 Aug 2026 05:05:15 +0000
+Message-Id: <20260814050515.D0C531F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,70 +47,79 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] Concurrent writers to the same `u64_stats_sync` structure during=
- RX queue swap.
+- [Medium] mana_set_channels silently drops user-configured RSS indirection=
+ tables
 --
 
---- Patch [8]: [PATCH net-next v2 08/13] net: mana: keep per-queue statisti=
-cs in the port context ---
-commit 48e144b542daf3b7f2ff07b74db60098e784159d
+--- Patch [2]: [PATCH net-next v2 02/13] net: mana: swap queue sets in mana=
+_set_channels ---
+commit 20d58255702f027247917ff013e18e0c18e9845c
 Author: Long Li <longli@microsoft.com>
+Subject: net: mana: swap queue sets in mana_set_channels
 
-net: mana: keep per-queue statistics in the port context
+This converts the channel count path away from detach/attach. It builds
+the new queue set while the current one keeps serving traffic, then swaps
+it in and retires the old one.
 
-This commit moves per-queue statistics out of the queue structures and into=
- a
-port-context array to prevent statistics from resetting when the queue is
-reconfigured. The stats are indexed by the queue index, and the arrays outl=
-ive
-the queues so totals stay monotonic.
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
+/net/ethernet/microsoft/mana/mana_ethtool.c
+> index 04b7a5c0fdabc..b12291555eaeb 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
 [ ... ]
-> @@ -1059,6 +1065,48 @@ static void mana_cleanup_port_context(struct mana_=
-port_context *apc)
->  	apc->rxqs =3D NULL;
->  }
+> @@ -659,42 +659,88 @@ static int mana_set_channels(struct net_device *nde=
+v,
+>  	apc->channel_changing =3D true;
+>  	mutex_unlock(&apc->vport_mutex);
 > =20
-> +/* Counters belong to the port, not the queues, so a queue-set replaceme=
-nt
-> + * does not reset them. Sized to max_queues, allocated once.
-> + *
-> + * A swap adds no writer to a TX slot. RX slots do overlap briefly, sinc=
-e a
-> + * retiring rxq keeps its NAPI until mana_free_qset() destroys it. MANA =
-is
-> + * 64-bit only, so u64_stats_sync has no seqcount and at worst a few
-> + * increments are lost; the alternatives are a lock in the receive path =
-or
-> + * per-set slots that make ndo_get_stats64() dip during a swap.
-> + */
+> -	err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, new_count);
+> -	if (err) {
+> -		netdev_err(ndev, "Insufficient memory for new allocations");
+> +	scratch =3D mana_qset_scratch_alloc(apc);
+> +	if (!scratch) {
+> +		err =3D -ENOMEM;
+>  		goto clear_flag;
+>  	}
+> =20
+> -	err =3D mana_detach(ndev, false);
+> -	if (err) {
+> -		netdev_err(ndev, "mana_detach failed: %d\n", err);
+> -		goto out;
+> -	}
+> +	err =3D mana_alloc_qset(scratch, new_count, apc->rx_queue_size,
+> +			      apc->tx_queue_size, apc->priv_flags, &newq);
 
 [Severity: Medium]
-Is it safe to allow concurrent writers to the same u64_stats_sync structure?
+Does this silently drop a user-configured RSS indirection table?
 
-The u64_stats_sync API requires that writers must be mutually exclusive for=
- a
-given syncp. While MANA is 64-bit only and lacks a seqcount in the syncp,
-allowing both the retiring RX queue's NAPI and the new RX queue's NAPI to
-concurrently update the same apc->rxq_stats[rxq_idx] introduces a data race.
+By using mana_alloc_qset() here in mana_set_channels(), a custom RSS
+indirection table configured via ethtool will be lost. When mana_alloc_qset=
+()
+is called, it unconditionally initializes the table with default values in
+drivers/net/ethernet/microsoft/mana/mana_en.c:
 
-For example, both could be running mana_rx_skb() at the same time:
+mana_alloc_qset() {
+    ...
+    mana_rss_table_init(scratch);
+    ...
+    mana_qset_snapshot(scratch, out);
+}
 
-	u64_stats_update_begin(&rx_stats->syncp);
-	rx_stats->packets++;
-	rx_stats->bytes +=3D pkt_len;
+Because out->rxfh_indir_lost is explicitly set to false, the old indirection
+table is freed without preserving the entries, and no ethtool_rxfh_indir_lo=
+st()
+notification is sent.
 
-Could this lead to undefined behavior or KCSAN warnings when the queues
-overlap during a swap?
+Will this cause the interface to silently revert to a default hashing
+distribution after a channel count change instead of preserving it?
 
-> +static int mana_alloc_queue_stats(struct mana_port_context *apc)
-> +{
-> +	unsigned int i;
+> +	if (err)
+> +		goto free_scratch; /* current qset untouched, nothing to undo */
+> =20
+> -	apc->num_queues =3D new_count;
+> -	err =3D mana_attach(ndev);
+> +	err =3D mana_publish_qset(apc, &newq, &oldq);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260813050418.2906=
-468-1-longli@microsoft.com?part=3D8
+468-1-longli@microsoft.com?part=3D2
