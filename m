@@ -1,271 +1,117 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785D6381EA8;
-	Fri, 14 Aug 2026 01:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 737A5346A11;
+	Fri, 14 Aug 2026 04:39:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786671093; cv=none; b=KK4mni8O00k3Yz4LR3bA09GEs5EC0XpMzIxZpvulYz4px5sa682lZCx9wratBPuvS3ZnZOhyT50igwHRz2X/JzFluZ/3bbN0sGBcNyfKcPsAdgZ0vKfwaqgFhtfeVqIffUA7yMADC7W0vr1M3lur7VQlM4TxtkA098o93B3P4vQ=
+	t=1786682380; cv=none; b=hvkSyvLVq2o9/ycQ3l8mqoffF4uXHlOQsiE5z5NhU0KyyWvPlghNaaVW8ZSgT6e5qXADUFctBiBDsYQ2zkQ6tvU+cSXhsh6kmig3PZQ4q28R7jGmKeaZ2xXIhpcsI+zorPcO1Lt3Nfz6KeWEIwlMg6hf6ceE32x3/k74fp29dV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786671093; c=relaxed/simple;
-	bh=fYMHZtsU1q8Ki1KL5MjcdaTKrU2fykayBff5uieVI+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dNQs7ONdmDByzSDvxQuQYT+p+BT8SmDDYaKNjt72fTKE4nfMZEawJUcrECoL2ybcG6EpVI7v9r0zzGu5ubexePbfNULekGNAt9cY0UbYgtwjA08GQ9wPZdOLRHkWovyEWtmFeLwihvHAz7Bmi2bvtNpsVvFvXmHiq06I5gK8G+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FrHc7M6d; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1786682380; c=relaxed/simple;
+	bh=l7MlkFcx5aXhWYUWVpvxGnnEJL694R59rO1Mj51uBK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=i2mTNVR4IuvTIDGnroG3yqwZ69/2z3liV04yeAuP9bAhTRQAARB2kpj4z5Tr2U+EjcAxk6oowDaPRUtv9KIXURdevLsaQmdaiMb3epvpYVEKOUzQtG3PWzXH8hilNoXbG2NpYEA9WrVhidxP6cPNnFSt13tUHLLoQZC6VMLknm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dj4mOji6; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FrHc7M6d"
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B351420B7168;
-	Thu, 13 Aug 2026 18:30:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B351420B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dj4mOji6"
+Received: from [192.168.1.72] (122-34-238-49.southernonline.net [49.238.34.122])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0A95420B7168;
+	Thu, 13 Aug 2026 21:39:06 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0A95420B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786671043;
-	bh=0PXy/ggOWNNvWQOor8GDA3xjsYgM5NH+BDPZ7mEqX+g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FrHc7M6d2S7sj0Z04ZasjMAHr0jYQ/B1yZPDKU0aKPocHo4IX662X99ei7yEsgcuA
-	 Sq4ivSoXjHKZ7vtebL3xtSmg1rRBblvS8IvAUqdIFC2AUCmogMiwe6Gpj0xiNzLoJN
-	 rQPOpTWkFNHRM7/d20yLmEZLniANaNCuaCsXOnbk=
-Message-ID: <fdc50372-e121-52cd-51ce-1411f143d3ea@linux.microsoft.com>
-Date: Thu, 13 Aug 2026 18:31:07 -0700
+	s=default; t=1786682352;
+	bh=MOe6fLrAlEx+A1d/mzHUXYx7j4HKsqNLoNeyfEBpCRA=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=dj4mOji6sNNHg2ML9OZz9BI3QnqKeaIsoVJTvB66q7ZSMa5/q4RyxB+DK5iwGA+0R
+	 Og4XPWds2BmdU6xVlU1uoFQtxoLhNJFcDQYuinIjNC8qu6BbBb35Pvml4mEfG07ebw
+	 MnOoDf99zko/yOHk6puzpuEvhP1leJnsvoGci72s=
+Message-ID: <c8d403ee-641e-4b7c-90e3-41839b9a8bff@linux.microsoft.com>
+Date: Fri, 14 Aug 2026 10:09:28 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3 1/5] hyperv: Introduce new hypercall interfaces used by
- Hyper-V guest IOMMU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/2] net: mana: Avoid DMA queue allocation
+ failure under memory fragmentation
+To: Paolo Abeni <pabeni@redhat.com>, kys@microsoft.com,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ longli@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, kotaranov@microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, dipayanroy@linux.microsoft.com,
+ shradhagupta@linux.microsoft.com, kees@kernel.org,
+ sgeorgejohn@microsoft.com, ssengar@linux.microsoft.com,
+ gargaditya@microsoft.com, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org
+References: <20260807210002.1695263-1-gargaditya@linux.microsoft.com>
+ <711d525c-cfc6-472c-b073-0fcfc9f95b14@redhat.com>
 Content-Language: en-US
-To: Yu Zhang <zhangyu1@linux.microsoft.com>, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
- linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, x86@kernel.org
-Cc: wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
- decui@microsoft.com, longli@microsoft.com, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
- lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de,
- jgg@ziepe.ca, mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
- tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
- baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, vasant.hegde@amd.com
-References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
- <20260811155022.108148-2-zhangyu1@linux.microsoft.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <20260811155022.108148-2-zhangyu1@linux.microsoft.com>
+From: Aditya Garg <gargaditya@linux.microsoft.com>
+In-Reply-To: <711d525c-cfc6-472c-b073-0fcfc9f95b14@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/11/26 08:50, Yu Zhang wrote:
-> From: Wei Liu <wei.liu@kernel.org>
+On 13-08-2026 17:12, Paolo Abeni wrote:
+> On 8/7/26 10:56 PM, Aditya Garg wrote:
+>> The MANA driver can fail to bring up its queues on systems with high
+>> memory utilization because every GDMA queue ring is allocated as a
+>> single dma_alloc_coherent() of the whole power-of-2 ring size. Under
+>> memory fragmentation these high-order allocations may fail, preventing
+>> the driver from creating queues when opening the interface, after a VF
+>> reset, or when reconfiguring channels, ring parameters or MTU.
+>>
+>> Per-queue sizes that are problematic, with depth and size given as
+>> (default, max) over the ethtool ring settings:
+>>
+>>    ring                  entry  depth          size
+>>    ------------------------------------------------------------
+>>    TX completion queue   64 B   (256, 16384)   (16 KB, 1024 KB)
+>>    TX send queue         32 B   (256, 16384)   ( 8 KB,  512 KB)
+>>    RX completion queue   64 B   (1024, 8192)   (64 KB,  512 KB)
+>>    RX receive queue      32 B   (1024, 8192)   (32 KB,  256 KB)
+>>    event queue           16 B   2048 (fixed)   32 KB
+>>
+>> This series addresses the issue by:
+>>    1. Routing all CPU-side ring access through mana_gd_ring_ptr() and
+>>       mana_gd_ring_contig_avail(). On a contiguous ring these reduce to
+>>       simple arithmetic, so this patch is a pure refactor.
+>>    2. Falling back in mana_gd_alloc_memory() to a vector of scattered
+>>       order-0 coherent pages when the contiguous allocation fails. The
+>>       device sees the same page-list format either way, as
+>>       mana_gd_create_dma_region() already describes a ring as a list of
+>>       MANA_PAGE_SIZE addresses. The HW channel stays contiguous, as
+>>       advertising a scattered page list needs the HW channel itself.
+>>
+>> Throughput testing confirms no regression. Since the fallback only
+>> triggers under memory fragmentation, the scattered-page path was enabled
+>> unconditionally for all eligible GDMA queue rings during testing (iperf3,
+>> Gbit/s):
+>>
+>>                   Baseline    Patched     Patched
+>>    Connections   Contiguous  Contiguous  Scattered
+>>    -----------------------------------------------
+>>    1                  46.1        46.2       46.1
+>>    16                 182         182        182
+>>    32                 182         182        182
+>>    64                 182         182        182
+> Given the above, I suggest to follow-up and remove entirely the single
+> dma_alloc_coherent() allocation; you will get simpler code and less
+> pressure for later dma users.
 > 
-> Hyper-V guest IOMMU is a para-virtualized IOMMU based on hypercalls.
-> Introduce the hypercalls used by the child partition to interact with
-> this facility.
-> 
-> These hypercalls fall into below categories:
-> - Detection and capability: HVCALL_GET_IOMMU_CAPABILITIES is used to
->    detect the existence and capabilities of the guest IOMMU.
-> 
-> - Device management: HVCALL_GET_LOGICAL_DEVICE_PROPERTY is used to
->    check whether an endpoint device is managed by the guest IOMMU.
-> 
-> - Domain management: A set of hypercalls is provided to handle the
->    creation, configuration, and deletion of guest domains, as well as
->    the attachment/detachment of endpoint devices to/from those domains.
-> 
-> - IOTLB flushing: HVCALL_FLUSH_DEVICE_DOMAIN is used to ask Hyper-V
->    for a domain-selective IOTLB flush (which in its handler may flush
->    the device TLB as well).
-> 
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Co-developed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
-> Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
-> ---
->   include/hyperv/hvgdk_mini.h |   8 +++
->   include/hyperv/hvhdk_mini.h | 126 ++++++++++++++++++++++++++++++++++++
->   2 files changed, 134 insertions(+)
-> 
-> diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-> index 6a4e8b9d570f..5bdbb44da112 100644
-> --- a/include/hyperv/hvgdk_mini.h
-> +++ b/include/hyperv/hvgdk_mini.h
-> @@ -486,10 +486,16 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
->   #define HVCALL_GET_VP_INDEX_FROM_APIC_ID		0x009a
->   #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE	0x00af
->   #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
-> +#define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
-> +#define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
->   #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
->   #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
->   #define HVCALL_DISPATCH_VP				0x00c2
-> +#define HVCALL_DETACH_DEVICE_DOMAIN			0x00c4
-> +#define HVCALL_DELETE_DEVICE_DOMAIN			0x00c5
->   #define HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9
-> +#define HVCALL_CONFIGURE_DEVICE_DOMAIN			0x00ce
-> +#define HVCALL_FLUSH_DEVICE_DOMAIN			0x00d0
->   #define HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7
->   #define HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8
->   #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY	0x00db
-> @@ -502,6 +508,8 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
->   #define HVCALL_MMIO_READ				0x0106
->   #define HVCALL_MMIO_WRITE				0x0107
->   #define HVCALL_DISABLE_HYP_EX                           0x010f
-> +#define HVCALL_GET_IOMMU_CAPABILITIES			0x0125
-> +#define HVCALL_GET_LOGICAL_DEVICE_PROPERTY		0x0127
->   #define HVCALL_MAP_STATS_PAGE2				0x0131
->   
->   /* HV_HYPERCALL_INPUT */
-> diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-> index 035ba20870f7..1e3eac99886a 100644
-> --- a/include/hyperv/hvhdk_mini.h
-> +++ b/include/hyperv/hvhdk_mini.h
-> @@ -548,4 +548,130 @@ union hv_device_id {		/* HV_DEVICE_ID */
->   	} acpi;
->   } __packed;
->   
-> +/* Device domain types */
-> +#define HV_DEVICE_DOMAIN_TYPE_S1	1 /* Stage 1 domain */
-> +
-> +/* ID for default domain and NULL domain */
-> +#define HV_DEVICE_DOMAIN_ID_DEFAULT 0
-> +#define HV_DEVICE_DOMAIN_ID_NULL    0xFFFFFFFFULL
-> +
-> +union hv_device_domain_id {
-> +	u64 as_uint64;
-> +	struct {
-> +		u32 type: 4;
-> +		u32 reserved: 28;
-> +		u32 id;
-> +	} __packed;
-> +};
-> +
-> +struct hv_input_device_domain {
-> +	u64 partition_id;
-> +	union hv_input_vtl owner_vtl;
-> +	u8 padding[7];
-> +	union hv_device_domain_id domain_id;
-> +} __packed;
-> +
-> +union hv_create_device_domain_flags {
-> +	u32 as_uint32;
-> +	struct {
-> +		u32 forward_progress_required: 1;
-> +		u32 inherit_owning_vtl: 1;
-> +		u32 reserved: 30;
-> +	} __packed;
-> +};
-> +
-> +struct hv_input_create_device_domain {
-> +	struct hv_input_device_domain device_domain;
-> +	union hv_create_device_domain_flags create_device_domain_flags;
-> +	u32 padding;
-> +} __packed;
-> +static_assert(sizeof(struct hv_input_create_device_domain) == 32);
-> +
-> +struct hv_input_delete_device_domain {
-> +	struct hv_input_device_domain device_domain;
-> +} __packed;
-> +
-> +struct hv_input_attach_device_domain {
-> +	struct hv_input_device_domain device_domain;
-> +	union hv_device_id device_id;
-> +} __packed;
-> +
-> +struct hv_input_detach_device_domain {
-> +	u64 partition_id;
-> +	union hv_device_id device_id;
-> +} __packed;
-> +
-> +struct hv_device_domain_settings {
-> +	struct {
-> +		/*
-> +		 * Enable translations. If not enabled, all transaction bypass
-> +		 * S1 translations.
-> +		 */
-> +		u64 translation_enabled: 1;
-> +		u64 blocked: 1;
-> +		/*
-> +		 * First stage address translation paging mode:
-> +		 * 0: 4-level paging (default)
-> +		 * 1: 5-level paging
-> +		 */
-> +		u64 first_stage_paging_mode: 1;
-> +		u64 reserved: 61;
-> +	} flags;
-> +
-> +	/* Address of translation table */
-> +	u64 page_table_root;
-> +} __packed;
-> +
-> +struct hv_input_configure_device_domain {
-> +	struct hv_input_device_domain device_domain;
-> +	struct hv_device_domain_settings settings;
-> +} __packed;
-> +
-> +struct hv_input_get_iommu_capabilities {
-> +	u64 partition_id;
-> +	u64 reserved;
-> +} __packed;
-> +
+> /P
 
+Thanks for the review, Paolo!
 
-Hi Yu,
+I got these throughput numbers from an idle system running only iperf3, 
+so we're not sure whether they would remain the same with other 
+workloads running in parallel. I'll try to get these numbers as well.
 
-I had mentioned before, please tag the structs properly. Eg:
+Also, our hardware team indicated that this fallback leads to additional 
+resource consumption on their side. I'll check with them and post a 
+follow-up.
 
-struct hv_input_attach_device_domain { /* HV_INPUT_ATTACH_DEVICE_DOMAIN */
-
-If it causes 80 cols line wrap, put the tag above.
-
-You can see my patch series for other ones, and lmk if you can't
-find equivalents for remaining in hyperv exported headers.
-
-Thanks,
--Mukesh
-
-> +struct hv_output_get_iommu_capabilities {
-> +	u32 size;
-> +	u16 reserved;
-> +	u8  max_iova_width;
-> +	u8  max_pasid_width;
-> +
-> +#define HV_IOMMU_CAP_PRESENT    BIT_ULL(0)
-> +#define HV_IOMMU_CAP_S2         BIT_ULL(1)
-> +#define HV_IOMMU_CAP_S1         BIT_ULL(2)
-> +#define HV_IOMMU_CAP_S1_5LVL    BIT_ULL(3)
-> +#define HV_IOMMU_CAP_PASID      BIT_ULL(4)
-> +#define HV_IOMMU_CAP_ATS        BIT_ULL(5)
-> +#define HV_IOMMU_CAP_PRI        BIT_ULL(6)
-> +
-> +	u64 iommu_cap;
-> +	u64 pgsize_bitmap;
-> +} __packed;
-> +
-> +enum hv_logical_device_property_code {
-> +	HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU = 10,
-> +};
-> +
-> +struct hv_input_get_logical_device_property {
-> +	u64 partition_id;
-> +	u64 logical_device_id;
-> +	/* Takes values from enum hv_logical_device_property_code. */
-> +	u32 code;
-> +	u32 reserved;
-> +} __packed;
-> +
-> +struct hv_output_get_logical_device_property {
-> +#define HV_DEVICE_IOMMU_ENABLED	BIT_ULL(0)
-> +	u64 device_iommu;
-> +	u64 reserved;
-> +} __packed;
-> +
-> +struct hv_input_flush_device_domain {
-> +	struct hv_input_device_domain device_domain;
-> +	u32 flags;
-> +	u32 reserved;
-> +} __packed;
-> +
->   #endif /* _HV_HVHDK_MINI_H */
-
+Regards,
+Aditya
