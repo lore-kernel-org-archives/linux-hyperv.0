@@ -1,219 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D40C4908BF
-	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 17:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7BF490C12
+	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 17:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786729405; cv=none; b=ou9sd8gCiGTQP+t9BuEgt0BW0T6ZNlRjde4kZ/RY1hBE8jR0jbDmsf5mp6auppTaQgqI7xsgcPcJXqnTQ903jkgf5QxBIVSa2dGgm8vvbzq6P+TBkP9uoO3EIJSwuEpGMLA27h8yBhaZ8CB1ML11C25N+Vfser1l82Cq0oreHAk=
+	t=1786729406; cv=none; b=RRBdc1V0+0hUN3qZurWLV35T93ye+fG5SjQmKycB2BL6VFbC3fzri9BsWZkAqJGIVy3GNe/gGNP6uyB+YyID1GiElSuIEsITxrtYOleE8yWf7g3PFJ5/Po+IdzfjviFxwWdiln207hpxokMXPxmD+4HFENPa6xI6g9WEbqgM+zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786729405; c=relaxed/simple;
-	bh=K0YMLe+OMoHwEUyXNwiE2GLsNRXPt6sPeW5Z20HsYIM=;
+	s=arc-20240116; t=1786729406; c=relaxed/simple;
+	bh=MOOUTG5jqUhZLf7okBUZ3VV3XQVYlA85iZa65eXy0uI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=RltOGIEjrUeEx3K6IESvABnRwxIfZoTIK3Uju+pfP531SHBowfuvHtFjiC6BLXXk4it1/xbAQ/TflNW6MxO6AL2W3RCWDN1I/3M2lboCqJQnletyjREUC08bnOiwBiAJSQiZmqyhhFK6OXpm8bt23DRw+NuMpM69vZEkJEpwkVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XuudrGBD; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Ghc0SKY3XcIgUuGdVZ3SDZd206MgAU60t224eX+sn5KgPJBjMfHqTWCI5CKkt58MfuX2EDPMEEkOXIpQa9T3rWybBpRcVJpOlHqSaNlYNZGdb9JvQDgGxt0QbeWEviMgQuulsHbmVOevnv0Z4LEFsAL3HmhqBLd9oPlNV5KEzXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6/+N/Tp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XuudrGBD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354161F00A3D;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6/+N/Tp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D73541F00A3A;
 	Fri, 14 Aug 2026 17:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786729404;
-	bh=8udgr8MQoEni37t8fZuHx46Q+LH+pWgaNMfMTpwjBwU=;
+	s=k20260515; t=1786729405;
+	bh=6iqA/0jCJA6peHlqeIpJM+dc+a2GYZ6g+WgZddLqLP0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XuudrGBDThfjMfXijAIT0bCLVYviCy+AeEgYEk4FJ8J/AWHQqksp8+y67h+6fS14/
-	 fA0P+Q9iuAeL8NAiPM4muVc64bNaJpEADXrGB3GZDZ1ysO13GHz9vK9QVT5jQd/kh9
-	 odx40jDqrzUcPP7sZQN4iHnmpCE6mEqY5Slf+iwd5vi8+2Cs00ZwV9C2TE/adNc3ow
-	 hViWZJEBavaJBwaIBf2rnr3p3NTg1gpSt6ISX0QcdFAKDhHVxk0hnJF05zOw73FfXB
-	 CgrCKyBdU34ffuBIkdmtyP0oRAkur2lWfx8hQ6mZBpLrcol1vlhniRwSfum8SJ5h20
-	 G9wOMIMMxzKKA==
+	b=X6/+N/Tp++IBpkHaZReRzO8VfWi53aVqVF+XShNm+0zJJuXbGec+b0i1wAQVn1wNe
+	 8hc3n7vWBTPqlrTTo1N1StFVhb0rW70ECdIF4XntYE5RbFCJpMOWQ+22itl1h9jcyR
+	 qsZn7HLq2jFqsSXVLPPclBK6dYl0R4KEXwgOO7VzEHB3mFJwiSyxjFelXcUnnlVu5L
+	 Jx84ZBbR86nr6EkmV3lramYSlYKuOe4EJgj+w1zfa1SGkyAzE4nzvKilNJwR2yYkIb
+	 loUwJj/iEveJXarPoVVwWgWNyXiBEpihIF1cM9RGeRXwEweWYCmsnM3iF7OcgK3+4X
+	 EW0bbOVpVRSqg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v7 2/7] net: mana: fix HWC RQ/SQ buffer size swap
+Subject: Re: [PATCH net v7 6/7] net: mana: fix stale HWC response after
+ command timeout
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260813174243.3044348-3-longli@microsoft.com>
+In-Reply-To: <20260813174243.3044348-7-longli@microsoft.com>
 References: <20260813174243.3044348-1-longli@microsoft.com>
- <20260813174243.3044348-3-longli@microsoft.com>
+ <20260813174243.3044348-7-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Aug 2026 17:43:23 +0000
-Message-Id: <20260814174324.354161F00A3D@smtp.kernel.org>
+Date: Fri, 14 Aug 2026 17:43:24 +0000
+Message-Id: <20260814174324.D73541F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [Critical] A timed-out HWC request prematurely releases its msg_id slot w=
-ithout hardware cancellation, allowing a delayed hardware response to corru=
-pt the memory of a subsequent request.
-- [High] mana_hwc_send_request() does not reinitialize the completion event=
- before waiting, making it vulnerable to duplicate hardware responses.
-- [High] The asynchronous work item `mana_serv_func` is scheduled on the gl=
-obal system workqueue but never canceled during device removal, leading to =
-a race condition and UAF on `gc`.
-- [High] Untrusted inline_oob_size_div4 from DMA memory causes an out-of-bo=
-unds read when parsing the WQE.
-- [High] The HWC RX event handler drops RX WQEs and permanently drains the =
-receive queue if the device returns a bogus msg_id or rx_req_idx.
+- [High] This problem wasn't introduced by this patch, but there is a remai=
+ning protocol correlation gap. Responses from the hardware are matched to r=
+equests solely by the reusable `hwc_msg_id` slot index. If a command times =
+out (or is a zero-wait teardown), its slot is released and can be immediate=
+ly reused by a new request. If the hardware later responds to the original =
+timed-out command, the response will carry the same `msg_id`. Because the s=
+lot now belongs to the new request (and `ctx->output_buf` is published), `m=
+ana_hwc_handle_resp()` will incorrectly accept the stale response and copy =
+its payload into the new request's buffer, leading to silent data corruptio=
+n.
 --
 
---- Patch [2]: [PATCH net v7 2/7] net: mana: fix HWC RQ/SQ buffer size swap=
- ---
-commit 55639f5c7ee6bd080a63d387fa6ec19ca3c639a4
+--- Patch [6]: [PATCH net v7 6/7] net: mana: fix stale HWC response after c=
+ommand timeout ---
+commit 4d60222957c8ccd6181005f7897ef459443e8e8b
 Author: Long Li <longli@microsoft.com>
-net: mana: fix HWC RQ/SQ buffer size swap
+net: mana: fix stale HWC response after command timeout
 
-This patch corrects the buffer sizes used for the hardware channel (HWC)
-queues. It sizes the receive queue (RQ) with max_resp_msg_size and the send
-queue (SQ) with max_req_msg_size, fixing a latent bug where these sizes
-were incorrectly swapped during queue initialization.
+This commit introduces a per-slot spinlock, refcount, and a responded flag
+to prevent a late response from writing into a sender's buffer after it has
+returned due to a timeout. It also replaces the counting semaphore with a
+waitqueue for admission control.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
 et/ethernet/microsoft/mana/hw_channel.c
-> index b5ed2dbce6ceb..ccef9bf9c6bfd 100644
+> index 88188523dcd48..b1269f7da0563 100644
 > --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
 > +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> @@ -263,7 +263,7 @@ static void mana_hwc_rx_event_handler(void *ctx, u32 =
-gdma_rxq_id,
-> =20
->  	/* Select the RX work request for virtual address and for reposting. */
->  	rq_base_addr =3D hwc_rxq->msg_buf->mem_info.dma_handle;
-> -	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_req_msg_size;
-> +	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_resp_msg_size;
-> =20
->  	if (rx_req_idx >=3D hwc_rxq->msg_buf->num_reqs) {
->  		dev_err(hwc->dev, "HWC RX: wrong rx_req_idx=3D%llu, num_reqs=3D%u\n",
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this code properly
-bound-check inline_oob_size_div4?
-
-In mana_hwc_rx_event_handler():
-
-	wqe =3D mana_gd_get_wqe_ptr(rq, rx_oob->wqe_offset / GDMA_WQE_BU_SIZE);
-	dma_oob =3D (struct gdma_wqe *)wqe;
-
-	sge =3D (struct gdma_sge *)(wqe + 8 + dma_oob->inline_oob_size_div4 * 4);
-
-If the host returns a maliciously large inline_oob_size_div4 in the DMA buf=
-fer,
-could this cause an out-of-bounds memory read when dereferencing sge->addre=
-ss
-on the line modified above?
-
-[Severity: High]
-This is also a pre-existing issue, but does this error path permanently
-leak the RX WQE?
-
-By returning early on an invalid rx_req_idx (or msg_id further down), this
-skips reposting the RX WQE back to the hardware via mana_hwc_post_rx_wqe().
-
-Could a malicious host repeatedly send invalid responses to completely drain
-the receive queue and halt control message processing?
-
-> @@ -737,14 +737,14 @@ static int mana_hwc_init_queues(struct hw_channel_c=
-ontext *hwc, u16 q_depth,
->  		goto out;
->  	}
-> =20
-> -	err =3D mana_hwc_create_wq(hwc, GDMA_RQ, q_depth, max_req_msg_size,
-> +	err =3D mana_hwc_create_wq(hwc, GDMA_RQ, q_depth, max_resp_msg_size,
->  				 hwc->cq, &hwc->rxq);
->  	if (err) {
->  		dev_err(hwc->dev, "Failed to create HWC RQ: %d\n", err);
->  		goto out;
->  	}
-> =20
-> -	err =3D mana_hwc_create_wq(hwc, GDMA_SQ, q_depth, max_resp_msg_size,
-> +	err =3D mana_hwc_create_wq(hwc, GDMA_SQ, q_depth, max_req_msg_size,
->  				 hwc->cq, &hwc->txq);
->  	if (err) {
->  		dev_err(hwc->dev, "Failed to create HWC SQ: %d\n", err);
-> @@ -753,6 +753,7 @@ static int mana_hwc_init_queues(struct hw_channel_con=
-text *hwc, u16 q_depth,
-> =20
->  	hwc->num_inflight_msg =3D q_depth;
->  	hwc->max_req_msg_size =3D max_req_msg_size;
-> +	hwc->max_resp_msg_size =3D max_resp_msg_size;
-> =20
->  	return 0;
->  out:
-
 [ ... ]
-
-[Severity: Critical]
-This isn't a bug introduced by this patch, but does the timeout handling in
-mana_hwc_send_request() allow a delayed hardware response to corrupt memory?
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_send_request() {
-	if (!wait_for_completion_timeout(&ctx->comp_event, ...)) {
-		...
-		err =3D -ETIMEDOUT;
-		goto out;
-	}
-...
-out:
-	mana_hwc_put_msg_index(hwc, msg_id);
-	return err;
-}
-
-The timeout path jumps to out: and releases the msg_id back to the bitmap
-without waiting for or canceling the hardware operation.
-
-If a new request reuses this msg_id, and the hardware subsequently delivers
-a delayed response for the original request, could mana_hwc_handle_resp()
-blindly memcpy() the delayed response into the new request's output_buf?
-
-[Severity: High]
-This is a pre-existing issue, but is ctx->comp_event properly reinitialized
-when a msg_id is reused?
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_send_request() {
-	ctx =3D hwc->caller_ctx + msg_id;
-	ctx->output_buf =3D resp;
-	ctx->output_buflen =3D resp_len;
-	...
-	if (!wait_for_completion_timeout(&ctx->comp_event, ...)) {
-...
-}
-
-Because reinit_completion() is never called before wait_for_completion_time=
-out(),
-a previous delayed response could cause mana_hwc_handle_resp() to call comp=
-lete().
-
-If that happens, could wait_for_completion_timeout() return immediately for
-a new request?
-
-This would cause the caller to process uninitialized data from ctx->output_=
-buf.
+> @@ -106,22 +129,34 @@ static void mana_hwc_handle_resp(struct hw_channel_=
+context *hwc, u32 resp_len,
+>  		resp_len =3D 0;
+>  	}
+> =20
+> -	err =3D mana_hwc_verify_resp_msg(ctx, resp_msg, resp_len);
+> -	if (err)
+> -		goto out;
+> +	spin_lock(&ctx->lock);
+> =20
+> -	ctx->status_code =3D resp_msg->status;
+> +	/* Honour a response only while the sender owns the slot (output_buf
+> +	 * published) and has not already been answered; otherwise drop it as
+> +	 * premature, stale or duplicate without touching the refcount.
+> +	 */
+> +	if (!ctx->output_buf || ctx->responded) {
+> +		spin_unlock(&ctx->lock);
+> +		mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
+> +		return;
+> +	}
+> +	ctx->responded =3D true;
+> =20
+> -	memcpy(ctx->output_buf, resp_msg, resp_len);
+> -out:
+> +	err =3D mana_hwc_verify_resp_msg(ctx, resp_msg, resp_len);
+> +	if (!err) {
+> +		ctx->status_code =3D resp_msg->status;
+> +		memcpy(ctx->output_buf, resp_msg, resp_len);
+> +	}
 
 [Severity: High]
-This is a pre-existing issue, but can the global serv_work cause a
-use-after-free during device removal?
+This isn't a bug introduced by this patch, but is there a remaining protocol
+correlation gap here?
 
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_schedule_serv_work() {
-	INIT_WORK(&mns_wk->serv_work, mana_serv_func);
-	schedule_work(&mns_wk->serv_work);
-}
+Responses from the hardware appear to be matched to requests solely by the
+reusable hwc_msg_id slot index, with no generation counter or unique
+transaction ID.
 
-The work item is scheduled on the global system workqueue. During device
-removal, mana_gd_remove() frees the gdma context (gc):
+If a command times out (or is a zero-wait teardown), its slot is released
+and can be immediately reused by a new request. If the hardware later
+responds to the original timed-out command, won't the response carry the
+same msg_id?
 
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_remove() {
-	...
-	vfree(gc);
-}
+Because the slot now belongs to the new request (and ctx->output_buf is
+published), could mana_hwc_handle_resp() incorrectly accept this stale
+response and copy its payload into the new request's buffer, leading to
+silent data corruption?
 
-Since the driver does not wait for or cancel this asynchronous work item,
-could mana_serv_func() execute after mana_gd_remove() and dereference the
-freed gc pointer in mana_serv_reset()?
+>  	ctx->error =3D err;
+> =20
+> -	/* Must post rx wqe before complete(), otherwise the next rx may
+> -	 * hit no_wqe error.
+> +	/* Post RX WQE before completing =E2=80=94 the next response may arrive
+> +	 * immediately and needs a posted buffer.
+>  	 */
+>  	mana_hwc_post_rx_wqe(hwc->rxq, rx_req);
+> -
+>  	complete(&ctx->comp_event);
+> +	spin_unlock(&ctx->lock);
+> +
+> +	hwc_ctx_put(hwc, ctx);
+>  }
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260813174243.3044=
-348-1-longli@microsoft.com?part=3D2
+348-1-longli@microsoft.com?part=3D6
