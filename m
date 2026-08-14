@@ -1,217 +1,219 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A683B492196
-	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 17:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D40C4908BF
+	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 17:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786729405; cv=none; b=sp1CHZHZNmd93cbzC5YRoM8+7OLnp0jvdjA5ubD4VaKse4DnNtM7I4ovf8HqL6szRvxccVHJbsk+Gqm5cxrF6Q2l3W2gaQKJolSqpyji0DzEm5X9KA8uXQ0NPsw/FeKLmQ7kxeKZFg6cCpGc8aEztpkIxvWlxSPzoP8zPaIX0v4=
+	t=1786729405; cv=none; b=ou9sd8gCiGTQP+t9BuEgt0BW0T6ZNlRjde4kZ/RY1hBE8jR0jbDmsf5mp6auppTaQgqI7xsgcPcJXqnTQ903jkgf5QxBIVSa2dGgm8vvbzq6P+TBkP9uoO3EIJSwuEpGMLA27h8yBhaZ8CB1ML11C25N+Vfser1l82Cq0oreHAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786729405; c=relaxed/simple;
-	bh=VX+uhDwhAPcrurUv8JJz4a96cBTzc2aCiLXLFUkiKLM=;
+	bh=K0YMLe+OMoHwEUyXNwiE2GLsNRXPt6sPeW5Z20HsYIM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Qf10jXegBfa6n6E+5AkxlEYu4mZKf6fJQVC7wC/m4PQLfd+QP0CxXlVJVST8b/spkTTyG00zMzCr91aqhcdmFzY/K9O6D0z54OxJwg2H3caui3FGHNIgjWD9WzyEUUzkzsshfZ7ig4ci8KW3vCBdgaflKfuB6YErrNCDv7aa7sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khqoshKd; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=RltOGIEjrUeEx3K6IESvABnRwxIfZoTIK3Uju+pfP531SHBowfuvHtFjiC6BLXXk4it1/xbAQ/TflNW6MxO6AL2W3RCWDN1I/3M2lboCqJQnletyjREUC08bnOiwBiAJSQiZmqyhhFK6OXpm8bt23DRw+NuMpM69vZEkJEpwkVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XuudrGBD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khqoshKd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6311C1F000E9;
-	Fri, 14 Aug 2026 17:43:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XuudrGBD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354161F00A3D;
+	Fri, 14 Aug 2026 17:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786729403;
-	bh=e1lqosTYuAaTGhHZxlouwcRNnj+DJ6wJa4NqW2CDBGs=;
+	s=k20260515; t=1786729404;
+	bh=8udgr8MQoEni37t8fZuHx46Q+LH+pWgaNMfMTpwjBwU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=khqoshKdv/KIyxldAZN+kfY/313imU0zEoNx6izOEUWBPCNrCOK26Rv6tShIj5ziV
-	 b1swQ4zyc8+JcL79PrsZZSQIXeuoSFgsi5FtKxB4jrVBaM66dF0oXrhuOv+DU2IXpc
-	 e0OaY+qZ4BB2NgpupvhBb2RBiXPDRCNRipQSRNdauGTksIcSuWSeSM40Ptyfdxqzt3
-	 yuZy+PHcF81W409xDBa4q+TbxbcI9wDWHCgkrlF52q2VLmKRXfkMMgyhfYMMUUXUUS
-	 JMbP464wSmjO6CDlkY5Rp4o4UYvGtanyP/TgCEIYIgADtLr6YV0CDyKKkMRwAj9eyW
-	 CPVvH31IWycYA==
+	b=XuudrGBDThfjMfXijAIT0bCLVYviCy+AeEgYEk4FJ8J/AWHQqksp8+y67h+6fS14/
+	 fA0P+Q9iuAeL8NAiPM4muVc64bNaJpEADXrGB3GZDZ1ysO13GHz9vK9QVT5jQd/kh9
+	 odx40jDqrzUcPP7sZQN4iHnmpCE6mEqY5Slf+iwd5vi8+2Cs00ZwV9C2TE/adNc3ow
+	 hViWZJEBavaJBwaIBf2rnr3p3NTg1gpSt6ISX0QcdFAKDhHVxk0hnJF05zOw73FfXB
+	 CgrCKyBdU34ffuBIkdmtyP0oRAkur2lWfx8hQ6mZBpLrcol1vlhniRwSfum8SJ5h20
+	 G9wOMIMMxzKKA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v7 7/7] net: mana: keep max_num_cqs immutable once
- cq_table is allocated
+Subject: Re: [PATCH net v7 2/7] net: mana: fix HWC RQ/SQ buffer size swap
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260813174243.3044348-8-longli@microsoft.com>
+In-Reply-To: <20260813174243.3044348-3-longli@microsoft.com>
 References: <20260813174243.3044348-1-longli@microsoft.com>
- <20260813174243.3044348-8-longli@microsoft.com>
+ <20260813174243.3044348-3-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Fri, 14 Aug 2026 17:43:23 +0000
-Message-Id: <20260814174323.6311C1F000E9@smtp.kernel.org>
+Message-Id: <20260814174324.354161F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] A Time-of-Check to Time-of-Use (TOCTOU) race condition in `mana_gd=
-_publish_cq()` and `mana_gd_unpublish_cq()` allows a malicious device to ca=
-use out-of-bounds array reads and writes, bypassing the patch's protection.
-- [High] The untouched `WARN_ON(err)` in `mana_hwc_establish_channel()` sti=
-ll allows a maliciously crafted concurrent device response to trigger a ker=
-nel panic, defeating the purpose of the patch.
-- [High] Multiple other `WARN_ON_ONCE` statements evaluating device-control=
-led inputs remain in the code, leaving the guest vulnerable to a device-ind=
-uced panic.
+- [Critical] A timed-out HWC request prematurely releases its msg_id slot w=
+ithout hardware cancellation, allowing a delayed hardware response to corru=
+pt the memory of a subsequent request.
+- [High] mana_hwc_send_request() does not reinitialize the completion event=
+ before waiting, making it vulnerable to duplicate hardware responses.
+- [High] The asynchronous work item `mana_serv_func` is scheduled on the gl=
+obal system workqueue but never canceled during device removal, leading to =
+a race condition and UAF on `gc`.
+- [High] Untrusted inline_oob_size_div4 from DMA memory causes an out-of-bo=
+unds read when parsing the WQE.
+- [High] The HWC RX event handler drops RX WQEs and permanently drains the =
+receive queue if the device returns a bogus msg_id or rx_req_idx.
 --
 
---- Patch [7]: [PATCH net v7 7/7] net: mana: keep max_num_cqs immutable onc=
-e cq_table is allocated ---
-commit e063157399f0ceb210a06b4543697e98b1cac7e9
+--- Patch [2]: [PATCH net v7 2/7] net: mana: fix HWC RQ/SQ buffer size swap=
+ ---
+commit 55639f5c7ee6bd080a63d387fa6ec19ca3c639a4
 Author: Long Li <longli@microsoft.com>
+net: mana: fix HWC RQ/SQ buffer size swap
 
-net: mana: keep max_num_cqs immutable once cq_table is allocated
-
-This commit addresses an issue where an untrusted device event can update t=
-he
-max_num_cqs bound after cq_table allocation, leading to out-of-bounds
-accesses. It fixes this by snapshotting the bound in hwc_init_max_num_cqs a=
-nd
-reading it once in mana_hwc_establish_channel(). It also replaces a WARN_ON
-with an error return so that a malicious device cannot panic a panic_on_warn
-guest.
+This patch corrects the buffer sizes used for the hardware channel (HWC)
+queues. It sizes the receive queue (RQ) with max_resp_msg_size and the send
+queue (SQ) with max_req_msg_size, fixing a latent bug where these sizes
+were incorrectly swapped during queue initialization.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
 et/ethernet/microsoft/mana/hw_channel.c
-> index b1269f7da0563..d9bff4634dc35 100644
+> index b5ed2dbce6ceb..ccef9bf9c6bfd 100644
 > --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
 > +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -263,7 +263,7 @@ static void mana_hwc_rx_event_handler(void *ctx, u32 =
+gdma_rxq_id,
+> =20
+>  	/* Select the RX work request for virtual address and for reposting. */
+>  	rq_base_addr =3D hwc_rxq->msg_buf->mem_info.dma_handle;
+> -	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_req_msg_size;
+> +	rx_req_idx =3D (sge->address - rq_base_addr) / hwc->max_resp_msg_size;
+> =20
+>  	if (rx_req_idx >=3D hwc_rxq->msg_buf->num_reqs) {
+>  		dev_err(hwc->dev, "HWC RX: wrong rx_req_idx=3D%llu, num_reqs=3D%u\n",
+
+[Severity: High]
+This isn't a bug introduced by this patch, but does this code properly
+bound-check inline_oob_size_div4?
+
+In mana_hwc_rx_event_handler():
+
+	wqe =3D mana_gd_get_wqe_ptr(rq, rx_oob->wqe_offset / GDMA_WQE_BU_SIZE);
+	dma_oob =3D (struct gdma_wqe *)wqe;
+
+	sge =3D (struct gdma_sge *)(wqe + 8 + dma_oob->inline_oob_size_div4 * 4);
+
+If the host returns a maliciously large inline_oob_size_div4 in the DMA buf=
+fer,
+could this cause an out-of-bounds memory read when dereferencing sge->addre=
+ss
+on the line modified above?
+
+[Severity: High]
+This is also a pre-existing issue, but does this error path permanently
+leak the RX WQE?
+
+By returning early on an invalid rx_req_idx (or msg_id further down), this
+skips reposting the RX WQE back to the hardware via mana_hwc_post_rx_wqe().
+
+Could a malicious host repeatedly send invalid responses to completely drain
+the receive queue and halt control message processing?
+
+> @@ -737,14 +737,14 @@ static int mana_hwc_init_queues(struct hw_channel_c=
+ontext *hwc, u16 q_depth,
+>  		goto out;
+>  	}
+> =20
+> -	err =3D mana_hwc_create_wq(hwc, GDMA_RQ, q_depth, max_req_msg_size,
+> +	err =3D mana_hwc_create_wq(hwc, GDMA_RQ, q_depth, max_resp_msg_size,
+>  				 hwc->cq, &hwc->rxq);
+>  	if (err) {
+>  		dev_err(hwc->dev, "Failed to create HWC RQ: %d\n", err);
+>  		goto out;
+>  	}
+> =20
+> -	err =3D mana_hwc_create_wq(hwc, GDMA_SQ, q_depth, max_resp_msg_size,
+> +	err =3D mana_hwc_create_wq(hwc, GDMA_SQ, q_depth, max_req_msg_size,
+>  				 hwc->cq, &hwc->txq);
+>  	if (err) {
+>  		dev_err(hwc->dev, "Failed to create HWC SQ: %d\n", err);
+> @@ -753,6 +753,7 @@ static int mana_hwc_init_queues(struct hw_channel_con=
+text *hwc, u16 q_depth,
+> =20
+>  	hwc->num_inflight_msg =3D q_depth;
+>  	hwc->max_req_msg_size =3D max_req_msg_size;
+> +	hwc->max_resp_msg_size =3D max_resp_msg_size;
+> =20
+>  	return 0;
+>  out:
 
 [ ... ]
 
-> @@ -209,7 +209,11 @@ static void mana_hwc_init_event_handler(void *ctx, s=
-truct gdma_queue *q_self,
->  			break;
-> =20
->  		case HWC_INIT_DATA_MAX_NUM_CQS:
-> -			gd->gdma_context->max_num_cqs =3D val;
-> +			/* Store only; establish_channel() commits it to
-> +			 * max_num_cqs once, so a later event cannot grow the
-> +			 * bound past the allocation.  Pairs with its READ_ONCE().
-> +			 */
-> +			WRITE_ONCE(hwc->hwc_init_max_num_cqs, val);
->  			break;
-> =20
+[Severity: Critical]
+This isn't a bug introduced by this patch, but does the timeout handling in
+mana_hwc_send_request() allow a delayed hardware response to corrupt memory?
+
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_send_request() {
+	if (!wait_for_completion_timeout(&ctx->comp_event, ...)) {
+		...
+		err =3D -ETIMEDOUT;
+		goto out;
+	}
+...
+out:
+	mana_hwc_put_msg_index(hwc, msg_id);
+	return err;
+}
+
+The timeout path jumps to out: and releases the msg_id back to the bitmap
+without waiting for or canceling the hardware operation.
+
+If a new request reuses this msg_id, and the hardware subsequently delivers
+a delayed response for the original request, could mana_hwc_handle_resp()
+blindly memcpy() the delayed response into the new request's output_buf?
 
 [Severity: High]
-This is a pre-existing issue, but does this vulnerability still exist for t=
-he
-CQ ID?
+This is a pre-existing issue, but is ctx->comp_event properly reinitialized
+when a msg_id is reused?
 
-In mana_hwc_init_event_handler(), the untrusted device event can concurrent=
-ly
-overwrite the queue ID without synchronization:
-
-		case HWC_INIT_DATA_CQID:
-			hwc->cq->gdma_cq->id =3D val;
-			break;
-
-Meanwhile, mana_gd_publish_cq() reads queue->id multiple times, first to
-validate the bound and then to index the array:
-
-	if (!cq_table || queue->id >=3D gc->max_num_cqs)
-		return -EINVAL;
-
-	/* Sharing a CQ between WQs is not supported. */
-	if (rcu_access_pointer(cq_table[queue->id]))
-		return -EINVAL;
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_send_request() {
+	ctx =3D hwc->caller_ctx + msg_id;
+	ctx->output_buf =3D resp;
+	ctx->output_buflen =3D resp_len;
 	...
-	rcu_assign_pointer(cq_table[queue->id], queue);
+	if (!wait_for_completion_timeout(&ctx->comp_event, ...)) {
+...
+}
 
-If the device sends a malformed CQID event that arrives after the bounds
-check but before the array indexing, couldn't this force an out-of-bounds
-array write of the queue pointer? The same Time-of-Check to Time-of-Use race
-condition appears to exist in mana_gd_unpublish_cq().
+Because reinit_completion() is never called before wait_for_completion_time=
+out(),
+a previous delayed response could cause mana_hwc_handle_resp() to call comp=
+lete().
 
-[ ... ]
+If that happens, could wait_for_completion_timeout() return immediately for
+a new request?
 
-> @@ -810,17 +816,32 @@ static int mana_hwc_establish_channel(struct gdma_c=
-ontext *gc, u16 *q_depth,
->  	*max_req_msg_size =3D hwc->hwc_init_max_req_msg_size;
->  	*max_resp_msg_size =3D hwc->hwc_init_max_resp_msg_size;
-> =20
-> -	/* Both were set in mana_hwc_init_event_handler(). */
-> -	if (WARN_ON(cq->id >=3D gc->max_num_cqs))
-> +	/* Snapshot the device-reported count and id once, so the same value
-> +	 * sizes, bounds and indexes cq_table even across the sleeping
-> +	 * vcalloc() and a concurrent init event.
-> +	 */
-> +	num_cqs =3D READ_ONCE(hwc->hwc_init_max_num_cqs);
-> +	cq_id =3D READ_ONCE(cq->id);
-> +
-> +	/* Both operands come from untrusted HWC bootstrap events; a missing
-> +	 * MAX_NUM_CQS leaves num_cqs at 0.  Reject rather than WARN_ON() so a
-> +	 * malformed device response cannot panic a panic_on_warn guest.
-> +	 */
-> +	if (cq_id >=3D num_cqs) {
-> +		dev_err_ratelimited(hwc->dev,
-> +				    "HWC: bad CQ id %u >=3D max %u\n",
-> +				    cq_id, num_cqs);
->  		return -EPROTO;
-> +	}
-> =20
-> -	cq_table =3D vcalloc(gc->max_num_cqs, sizeof(*cq_table));
-> +	cq_table =3D vcalloc(num_cqs, sizeof(*cq_table));
->  	if (!cq_table)
->  		return -ENOMEM;
-> =20
-> -	/* Publish the initialised table; pairs with smp_load_acquire()
-> -	 * in mana_gd_get_cq().
-> +	/* Publish the bound and the initialised table together; the release
-> +	 * pairs with smp_load_acquire() in mana_gd_get_cq().
->  	 */
-> +	gc->max_num_cqs =3D num_cqs;
->  	smp_store_release(&gc->cq_table, cq_table);
-> =20
->  	/* Publish the HWC CQ now that the table is in place. */
+This would cause the caller to process uninitialized data from ctx->output_=
+buf.
 
 [Severity: High]
-This is a pre-existing issue, but does a maliciously crafted concurrent dev=
-ice
-response still have the ability to trigger a kernel panic here?
+This is a pre-existing issue, but can the global serv_work cause a
+use-after-free during device removal?
 
-Just below this context in mana_hwc_establish_channel(), there is an
-untouched WARN_ON():
+drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_schedule_serv_work() {
+	INIT_WORK(&mns_wk->serv_work, mana_serv_func);
+	schedule_work(&mns_wk->serv_work);
+}
 
-	err =3D mana_gd_publish_cq(gc, cq);
-	if (WARN_ON(err))
-		return err;
+The work item is scheduled on the global system workqueue. During device
+removal, mana_gd_remove() frees the gdma context (gc):
 
-If a HWC_INIT_DATA_CQID event is processed after the READ_ONCE(cq->id)
-snapshot earlier in this function, mana_gd_publish_cq() will correctly reje=
-ct
-the modified ID and return -EINVAL. However, won't that returned error
-trigger this WARN_ON(), crashing a panic_on_warn guest anyway?
+drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_remove() {
+	...
+	vfree(gc);
+}
 
-[Severity: High]
-This is a pre-existing issue, but are there other WARN_ON_ONCE() statements
-evaluating device-controlled inputs that could lead to a device-induced pan=
-ic?
-
-For example, in mana_hwc_rx_event_handler():
-
-	if (WARN_ON_ONCE(hwc_rxq->gdma_wq->id !=3D gdma_rxq_id))
-		return;
-
-In mana_hwc_tx_event_handler():
-
-	WARN_ON_ONCE(!hwc_txq || hwc_txq->gdma_wq->id !=3D gdma_txq_id);
-
-And in mana_gd_read_cqe():
-
-	new_bits =3D (cq->head / num_cqe) & GDMA_CQE_OWNER_MASK;
-	/* Return -1 if overflow detected. */
-	if (WARN_ON_ONCE(owner_bits !=3D new_bits))
-		return -1;
-
-Since these validate untrusted values from the DMA completion ring, could a
-malformed response trigger these warnings and panic a guest?
+Since the driver does not wait for or cancel this asynchronous work item,
+could mana_serv_func() execute after mana_gd_remove() and dereference the
+freed gc pointer in mana_serv_reset()?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260813174243.3044=
-348-1-longli@microsoft.com?part=3D7
+348-1-longli@microsoft.com?part=3D2
