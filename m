@@ -1,239 +1,271 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A460A1A6838;
-	Thu, 13 Aug 2026 23:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785D6381EA8;
+	Fri, 14 Aug 2026 01:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786662437; cv=none; b=N1Kodk2FEUnj3+F/SrDJxY6w4SoG01ena2TA1Z0aYQWpkjwCvjiNPpW8QtUQQo7EGqf96KsPVGdX74kxlNenNMb20pq68T8APgs2N/hE+LJezgrjMO6gN9nw7EnNd1QwsluEUUiLI/lU0SOR7MfYHv8tI+pYyZwXVJexJ9uWIVk=
+	t=1786671093; cv=none; b=KK4mni8O00k3Yz4LR3bA09GEs5EC0XpMzIxZpvulYz4px5sa682lZCx9wratBPuvS3ZnZOhyT50igwHRz2X/JzFluZ/3bbN0sGBcNyfKcPsAdgZ0vKfwaqgFhtfeVqIffUA7yMADC7W0vr1M3lur7VQlM4TxtkA098o93B3P4vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786662437; c=relaxed/simple;
-	bh=gNfmfqZKHEN4g/kFYlJY0LevoSVC3c5PxNrr/6fotWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZvARarBGntVedbxHXk7FdlZtVs+T4dFxwmRZ31qrEQY94PalyGEgelmirMvm/L0JTn+FaF0Y5riwiFFZjXjh+TAVynAoV2A/u8rbLjJm6SdI6zQaJII7lpnOEARJYARxjEo2K/5RCcwOxwzbzozKmcK0kP9w5hFvJWXVm06alEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FilbaOAU; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1786671093; c=relaxed/simple;
+	bh=fYMHZtsU1q8Ki1KL5MjcdaTKrU2fykayBff5uieVI+M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dNQs7ONdmDByzSDvxQuQYT+p+BT8SmDDYaKNjt72fTKE4nfMZEawJUcrECoL2ybcG6EpVI7v9r0zzGu5ubexePbfNULekGNAt9cY0UbYgtwjA08GQ9wPZdOLRHkWovyEWtmFeLwihvHAz7Bmi2bvtNpsVvFvXmHiq06I5gK8G+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FrHc7M6d; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FilbaOAU"
-Received: from localhost (unknown [52.148.171.5])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EB65C20B7168;
-	Thu, 13 Aug 2026 16:06:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EB65C20B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FrHc7M6d"
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B351420B7168;
+	Thu, 13 Aug 2026 18:30:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B351420B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786662409;
-	bh=z4TnU21bv+s/VplA7mMdEL+um8LnOh7bSLXP56RKBAU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FilbaOAUR744s88wlXKGuTpCUoMEOGvAk5NwGhJ63CUlmixhldyShj7EA+1NEPG9b
-	 GlizgZFBwlzDHFcVS0aio9yJWMyyDAawiLLa4AmC4wmI4N4kLTNFKOAhexn3VhyaPY
-	 Pa7f9okXrGFlbY4Zf+8hCxumCVUpUy/HwnU+0rH4=
-Date: Thu, 13 Aug 2026 16:07:13 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-arch@vger.kernel.org, x86@kernel.org, wei.liu@kernel.org,
- kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- longli@microsoft.com, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
- lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de,
- jgg@ziepe.ca, mhklinux@outlook.com, tgopinath@linux.microsoft.com,
- easwar.hariharan@linux.microsoft.com, mrathor@linux.microsoft.com,
- baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com,
- vasant.hegde@amd.com, jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH v3 5/5] iommu/hyperv: Add page-selective IOTLB flush
- support
-Message-ID: <20260813160713.00004f95@linux.microsoft.com>
-In-Reply-To: <20260811155022.108148-6-zhangyu1@linux.microsoft.com>
-References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
-	<20260811155022.108148-6-zhangyu1@linux.microsoft.com>
-Organization: LSG
-X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	s=default; t=1786671043;
+	bh=0PXy/ggOWNNvWQOor8GDA3xjsYgM5NH+BDPZ7mEqX+g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FrHc7M6d2S7sj0Z04ZasjMAHr0jYQ/B1yZPDKU0aKPocHo4IX662X99ei7yEsgcuA
+	 Sq4ivSoXjHKZ7vtebL3xtSmg1rRBblvS8IvAUqdIFC2AUCmogMiwe6Gpj0xiNzLoJN
+	 rQPOpTWkFNHRM7/d20yLmEZLniANaNCuaCsXOnbk=
+Message-ID: <fdc50372-e121-52cd-51ce-1411f143d3ea@linux.microsoft.com>
+Date: Thu, 13 Aug 2026 18:31:07 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 1/5] hyperv: Introduce new hypercall interfaces used by
+ Hyper-V guest IOMMU
+Content-Language: en-US
+To: Yu Zhang <zhangyu1@linux.microsoft.com>, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
+ linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, x86@kernel.org
+Cc: wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
+ decui@microsoft.com, longli@microsoft.com, joro@8bytes.org, will@kernel.org,
+ robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
+ lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de,
+ jgg@ziepe.ca, mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
+ tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
+ baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, vasant.hegde@amd.com
+References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
+ <20260811155022.108148-2-zhangyu1@linux.microsoft.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <20260811155022.108148-2-zhangyu1@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+
+On 8/11/26 08:50, Yu Zhang wrote:
+> From: Wei Liu <wei.liu@kernel.org>
+> 
+> Hyper-V guest IOMMU is a para-virtualized IOMMU based on hypercalls.
+> Introduce the hypercalls used by the child partition to interact with
+> this facility.
+> 
+> These hypercalls fall into below categories:
+> - Detection and capability: HVCALL_GET_IOMMU_CAPABILITIES is used to
+>    detect the existence and capabilities of the guest IOMMU.
+> 
+> - Device management: HVCALL_GET_LOGICAL_DEVICE_PROPERTY is used to
+>    check whether an endpoint device is managed by the guest IOMMU.
+> 
+> - Domain management: A set of hypercalls is provided to handle the
+>    creation, configuration, and deletion of guest domains, as well as
+>    the attachment/detachment of endpoint devices to/from those domains.
+> 
+> - IOTLB flushing: HVCALL_FLUSH_DEVICE_DOMAIN is used to ask Hyper-V
+>    for a domain-selective IOTLB flush (which in its handler may flush
+>    the device TLB as well).
+> 
+> Signed-off-by: Wei Liu <wei.liu@kernel.org>
+> Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+> Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+> Co-developed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+> Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+> ---
+>   include/hyperv/hvgdk_mini.h |   8 +++
+>   include/hyperv/hvhdk_mini.h | 126 ++++++++++++++++++++++++++++++++++++
+>   2 files changed, 134 insertions(+)
+> 
+> diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+> index 6a4e8b9d570f..5bdbb44da112 100644
+> --- a/include/hyperv/hvgdk_mini.h
+> +++ b/include/hyperv/hvgdk_mini.h
+> @@ -486,10 +486,16 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+>   #define HVCALL_GET_VP_INDEX_FROM_APIC_ID		0x009a
+>   #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE	0x00af
+>   #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
+> +#define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
+> +#define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
+>   #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
+>   #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
+>   #define HVCALL_DISPATCH_VP				0x00c2
+> +#define HVCALL_DETACH_DEVICE_DOMAIN			0x00c4
+> +#define HVCALL_DELETE_DEVICE_DOMAIN			0x00c5
+>   #define HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9
+> +#define HVCALL_CONFIGURE_DEVICE_DOMAIN			0x00ce
+> +#define HVCALL_FLUSH_DEVICE_DOMAIN			0x00d0
+>   #define HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7
+>   #define HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8
+>   #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY	0x00db
+> @@ -502,6 +508,8 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+>   #define HVCALL_MMIO_READ				0x0106
+>   #define HVCALL_MMIO_WRITE				0x0107
+>   #define HVCALL_DISABLE_HYP_EX                           0x010f
+> +#define HVCALL_GET_IOMMU_CAPABILITIES			0x0125
+> +#define HVCALL_GET_LOGICAL_DEVICE_PROPERTY		0x0127
+>   #define HVCALL_MAP_STATS_PAGE2				0x0131
+>   
+>   /* HV_HYPERCALL_INPUT */
+> diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
+> index 035ba20870f7..1e3eac99886a 100644
+> --- a/include/hyperv/hvhdk_mini.h
+> +++ b/include/hyperv/hvhdk_mini.h
+> @@ -548,4 +548,130 @@ union hv_device_id {		/* HV_DEVICE_ID */
+>   	} acpi;
+>   } __packed;
+>   
+> +/* Device domain types */
+> +#define HV_DEVICE_DOMAIN_TYPE_S1	1 /* Stage 1 domain */
+> +
+> +/* ID for default domain and NULL domain */
+> +#define HV_DEVICE_DOMAIN_ID_DEFAULT 0
+> +#define HV_DEVICE_DOMAIN_ID_NULL    0xFFFFFFFFULL
+> +
+> +union hv_device_domain_id {
+> +	u64 as_uint64;
+> +	struct {
+> +		u32 type: 4;
+> +		u32 reserved: 28;
+> +		u32 id;
+> +	} __packed;
+> +};
+> +
+> +struct hv_input_device_domain {
+> +	u64 partition_id;
+> +	union hv_input_vtl owner_vtl;
+> +	u8 padding[7];
+> +	union hv_device_domain_id domain_id;
+> +} __packed;
+> +
+> +union hv_create_device_domain_flags {
+> +	u32 as_uint32;
+> +	struct {
+> +		u32 forward_progress_required: 1;
+> +		u32 inherit_owning_vtl: 1;
+> +		u32 reserved: 30;
+> +	} __packed;
+> +};
+> +
+> +struct hv_input_create_device_domain {
+> +	struct hv_input_device_domain device_domain;
+> +	union hv_create_device_domain_flags create_device_domain_flags;
+> +	u32 padding;
+> +} __packed;
+> +static_assert(sizeof(struct hv_input_create_device_domain) == 32);
+> +
+> +struct hv_input_delete_device_domain {
+> +	struct hv_input_device_domain device_domain;
+> +} __packed;
+> +
+> +struct hv_input_attach_device_domain {
+> +	struct hv_input_device_domain device_domain;
+> +	union hv_device_id device_id;
+> +} __packed;
+> +
+> +struct hv_input_detach_device_domain {
+> +	u64 partition_id;
+> +	union hv_device_id device_id;
+> +} __packed;
+> +
+> +struct hv_device_domain_settings {
+> +	struct {
+> +		/*
+> +		 * Enable translations. If not enabled, all transaction bypass
+> +		 * S1 translations.
+> +		 */
+> +		u64 translation_enabled: 1;
+> +		u64 blocked: 1;
+> +		/*
+> +		 * First stage address translation paging mode:
+> +		 * 0: 4-level paging (default)
+> +		 * 1: 5-level paging
+> +		 */
+> +		u64 first_stage_paging_mode: 1;
+> +		u64 reserved: 61;
+> +	} flags;
+> +
+> +	/* Address of translation table */
+> +	u64 page_table_root;
+> +} __packed;
+> +
+> +struct hv_input_configure_device_domain {
+> +	struct hv_input_device_domain device_domain;
+> +	struct hv_device_domain_settings settings;
+> +} __packed;
+> +
+> +struct hv_input_get_iommu_capabilities {
+> +	u64 partition_id;
+> +	u64 reserved;
+> +} __packed;
+> +
+
 
 Hi Yu,
 
-On Tue, 11 Aug 2026 23:50:21 +0800
-Yu Zhang <zhangyu1@linux.microsoft.com> wrote:
+I had mentioned before, please tag the structs properly. Eg:
 
-> Add page-selective IOTLB flush using HVCALL_FLUSH_DEVICE_DOMAIN_LIST.
-> This hypercall accepts a list of (page_number, page_mask_shift)
-> entries, enabling finer-grained IOTLB invalidation compared to the
-> domain-wide HVCALL_FLUSH_DEVICE_DOMAIN used by
-> hv_iommu_flush_iotlb_all().
-> 
-> hv_iommu_calc_flush_range() computes the smallest power-of-two aligned
-> range that covers the target IOVA region, producing a single flush
-> descriptor. This may over-flush when the range is not naturally
-> aligned, matching the approach used by Intel VT-d PSI. If the
-> page-selective flush fails, the code falls back to a full domain
-> flush.
-> 
-> Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
-> ---
->  drivers/iommu/hyperv/hv-iommu-guest.c | 73
-> ++++++++++++++++++++++++++- include/hyperv/hvgdk_mini.h           |
-> 1 + include/hyperv/hvhdk_mini.h           | 17 +++++++
->  3 files changed, 90 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c
-> b/drivers/iommu/hyperv/hv-iommu-guest.c index
-> 2a00353ce733..060c2efd6bf0 100644 ---
-> a/drivers/iommu/hyperv/hv-iommu-guest.c +++
-> b/drivers/iommu/hyperv/hv-iommu-guest.c @@ -9,6 +9,7 @@
->  #define pr_fmt(fmt) "Hyper-V pvIOMMU: " fmt
->  #define dev_fmt(fmt) pr_fmt(fmt)
->  
-> +#include <linux/hyperv.h>
-why need this?
+struct hv_input_attach_device_domain { /* HV_INPUT_ATTACH_DEVICE_DOMAIN */
 
->  #include <linux/iommu.h>
->  #include <linux/pci.h>
->  #include <linux/dma-map-ops.h>
-> @@ -408,10 +409,79 @@ static void hv_iommu_flush_iotlb_all(struct
-> iommu_domain *domain)
-> hv_flush_device_domain(to_hv_iommu_domain(domain)); }
->  
-> +/*
-> + * Calculate the minimal power-of-two aligned range that covers
-> [start, end]
-> + * (end is inclusive). Returns a single (page_number,
-> page_mask_shift)
-> + * descriptor that may over-flush when the range is not naturally
-> aligned.
-> + */
-> +static void
-> +hv_iommu_calc_flush_range(unsigned long start, unsigned long end,
-> +			  union hv_iommu_flush_va *va)
-> +{
-> +	unsigned int sz_lg2;
-> +
-> +	sz_lg2 = fls_long(start ^ end);
-> +	if (sz_lg2 < HV_HYP_PAGE_SHIFT)
-> +		sz_lg2 = HV_HYP_PAGE_SHIFT;
-> +
-> +	/*
-> +	 * A valid IOVA range shall not span bit 63. Use the maximum
-> mask
-> +	 * so the host can safely perform a full flush.
-> +	 */
-> +	if (WARN_ON_ONCE(sz_lg2 >= BITS_PER_LONG)) {
-> +		va->as_uint64 = 0;
-> +		va->page_mask_shift =
-> +			BITS_PER_LONG - HV_HYP_PAGE_SHIFT;
-> +		return;
-> +	}
-> +
-> +	va->page_number =
-> +		(start & GENMASK(BITS_PER_LONG - 1, sz_lg2)) >>
-> +		HV_HYP_PAGE_SHIFT;
-> +	va->page_mask_shift = sz_lg2 - HV_HYP_PAGE_SHIFT;
-> +}
-> +
-> +static void hv_flush_device_domain_list(struct hv_iommu_domain
-> *hv_domain,
-> +					struct iommu_iotlb_gather
-> *iotlb_gather) +{
-> +	u64 status;
-> +	unsigned long flags;
-> +	struct hv_input_flush_device_domain_list *input;
-> +
-> +	local_irq_save(flags);
-> +
-> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> +	/* Clear the fixed header and the single range entry. */
-> +	memset(input, 0, struct_size(input, iova_list, 1));
-> +
-> +	input->device_domain = hv_domain->device_domain;
-> +	input->flags |= HV_FLUSH_DEVICE_DOMAIN_LIST_IOMMU_FORMAT;
-> +	hv_iommu_calc_flush_range(iotlb_gather->start,
-> iotlb_gather->end,
-> +				  &input->iova_list[0]);
-> +
-> +	status = hv_do_rep_hypercall(HVCALL_FLUSH_DEVICE_DOMAIN_LIST,
-> +				     1, 0, input, NULL);
-> +
-> +	if (WARN_ON_ONCE(!hv_result_success(status))) {
-> +		/* Page-selective flush failed, fall back to full
-> flush. */
-> +		struct hv_input_flush_device_domain *flush_all =
-> (void *)input; +
-> +		memset(flush_all, 0, sizeof(*flush_all));
-> +		flush_all->device_domain = hv_domain->device_domain;
-> +		status = hv_do_hypercall(HVCALL_FLUSH_DEVICE_DOMAIN,
-> +					 flush_all, NULL);
-> +		WARN(!hv_result_success(status),
-> +		     "HVCALL_FLUSH_DEVICE_DOMAIN fallback also
-> failed: %lld\n",
-> +		     status);
-> +	}
-> +
-> +	local_irq_restore(flags);
-> +}
-> +
->  static void hv_iommu_iotlb_sync(struct iommu_domain *domain,
->  				struct iommu_iotlb_gather
-> *iotlb_gather) {
-> -	hv_flush_device_domain(to_hv_iommu_domain(domain));
-> +	hv_flush_device_domain_list(to_hv_iommu_domain(domain),
-> iotlb_gather); 
->  	iommu_put_pages_list(&iotlb_gather->freelist);
-Maybe add a comment explaining that HVCALL_FLUSH_DEVICE_DOMAIN_LIST
-covers non-leaf/walk caches, therefore it is safe to put freelist.
+If it causes 80 cols line wrap, put the tag above.
 
->  }
-> @@ -464,6 +534,7 @@ static struct iommu_domain
-> *hv_iommu_domain_alloc_paging(struct device *dev) 
->  	cfg.common.hw_max_vasz_lg2 = hv_iommu_device->max_iova_width;
->  	cfg.common.hw_max_oasz_lg2 = 52;
-> +	cfg.common.features |= BIT(PT_FEAT_FLUSH_RANGE);
->  	/*
->  	 * Hyper-V S1 domains use a 4-level root for IOVA widths up
-> to
->  	 * 48 bits. A 5-level root is used only for wider apertures
-> when diff --git a/include/hyperv/hvgdk_mini.h
-> b/include/hyperv/hvgdk_mini.h index 5bdbb44da112..eaaf87171478 100644
-> --- a/include/hyperv/hvgdk_mini.h
-> +++ b/include/hyperv/hvgdk_mini.h
-> @@ -496,6 +496,7 @@ union hv_vp_assist_msr_contents {	 /*
-> HV_REGISTER_VP_ASSIST_PAGE */ #define
-> HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9 #define
-> HVCALL_CONFIGURE_DEVICE_DOMAIN			0x00ce #define
-> HVCALL_FLUSH_DEVICE_DOMAIN			0x00d0 +#define
-> HVCALL_FLUSH_DEVICE_DOMAIN_LIST			0x00d1 #define
-> HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7 #define
-> HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8 #define
-> HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY	0x00db diff
-> --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-> index 1e3eac99886a..25671ee7056d 100644 ---
-> a/include/hyperv/hvhdk_mini.h +++ b/include/hyperv/hvhdk_mini.h
-> @@ -674,4 +674,21 @@ struct hv_input_flush_device_domain {
->  	u32 reserved;
->  } __packed;
->  
-> +union hv_iommu_flush_va {
-> +	u64 as_uint64;
-> +	struct {
-> +		u64 page_mask_shift : 6;
-> +		u64 reserved : 6;
-> +		u64 page_number : 52;
-> +	};
+You can see my patch series for other ones, and lmk if you can't
+find equivalents for remaining in hyperv exported headers.
+
+Thanks,
+-Mukesh
+
+> +struct hv_output_get_iommu_capabilities {
+> +	u32 size;
+> +	u16 reserved;
+> +	u8  max_iova_width;
+> +	u8  max_pasid_width;
+> +
+> +#define HV_IOMMU_CAP_PRESENT    BIT_ULL(0)
+> +#define HV_IOMMU_CAP_S2         BIT_ULL(1)
+> +#define HV_IOMMU_CAP_S1         BIT_ULL(2)
+> +#define HV_IOMMU_CAP_S1_5LVL    BIT_ULL(3)
+> +#define HV_IOMMU_CAP_PASID      BIT_ULL(4)
+> +#define HV_IOMMU_CAP_ATS        BIT_ULL(5)
+> +#define HV_IOMMU_CAP_PRI        BIT_ULL(6)
+> +
+> +	u64 iommu_cap;
+> +	u64 pgsize_bitmap;
 > +} __packed;
 > +
-> +struct hv_input_flush_device_domain_list {
+> +enum hv_logical_device_property_code {
+> +	HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU = 10,
+> +};
+> +
+> +struct hv_input_get_logical_device_property {
+> +	u64 partition_id;
+> +	u64 logical_device_id;
+> +	/* Takes values from enum hv_logical_device_property_code. */
+> +	u32 code;
+> +	u32 reserved;
+> +} __packed;
+> +
+> +struct hv_output_get_logical_device_property {
+> +#define HV_DEVICE_IOMMU_ENABLED	BIT_ULL(0)
+> +	u64 device_iommu;
+> +	u64 reserved;
+> +} __packed;
+> +
+> +struct hv_input_flush_device_domain {
 > +	struct hv_input_device_domain device_domain;
-> +#define HV_FLUSH_DEVICE_DOMAIN_LIST_IOMMU_FORMAT BIT(0)
 > +	u32 flags;
 > +	u32 reserved;
-> +	union hv_iommu_flush_va iova_list[];
 > +} __packed;
 > +
->  #endif /* _HV_HVHDK_MINI_H */
+>   #endif /* _HV_HVHDK_MINI_H */
 
-Reviewed-by: Jacob Pan <jacob.pan@linux.microsoft.com>
