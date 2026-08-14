@@ -1,118 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E3333FE15
-	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 05:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F6E53403E1;
+	Fri, 14 Aug 2026 09:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786683921; cv=none; b=F8pI9fZ9lU6qgMnrJ5JwwLE3ov6dZ426Eb0MRJXAsXY0FGdzMBkVN3BdyP3B3fU7IeVEKEpKmFBYaqPFXQsX7bNQhAa00VbEzaZCJPZMeXBrzmGbnub3ouJWwDwnDnbjx+l23q8dh4CFkX5Qn6/avZWTVRVAsg2R591IakhId+g=
+	t=1786699936; cv=none; b=TyO/NLsiJemvnfRKT5+1SaDOck7qfK3KY61KmmFnxvhb6O0IgqMSprlUAD8ZQwIfQQl5X/sg6j2tAh+ivp0To1RKT7ZCRQ4z2efCLvHWXx7kSxeULhqe8DiPOe9ICdwGKZsSXRMurKTUdwIbTzHOnMBlo/IYCJJduKPTUwdwW9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786683921; c=relaxed/simple;
-	bh=LJAJ/QWpVCk4Sdla42EoORBeAlmw5alxaXSachaLENs=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=GIfcZbswaAuuzHbSGV+FmL94jpyBLovgw3jIz5d7p7XOqvAwyi6SmwjhUmLA8d49zax9FS22njfw0aJL+wBxDrO3d6QWQWJFfyVRNYDnwA+TgISMqwu8ACkjWdoNmfyZ8Ju8Wl7ir2sIFXLQY3cLt2ek3aaC6gio70rtR1HXEg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELfLvDgc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786699936; c=relaxed/simple;
+	bh=XVIa39kEBZy1m4tD2cbmh7QicRxGJ219J8UiVV9JRrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VC2Cm/KNdlYyOY1Ty6BHSnGrxSocfjmEGUWlOgKrPepKKGxsvJfXRtSvRY4Vmz6SE6HaMqH49DBdOKXHx6L2gO0ipXsCR/nHrDveNb9DmL7qMNau8u2gk0U6D/iKtpSe7KjG5S7N0pXmzzTn+fz7aybVZ5zsm02A0dj+G/U4LWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=V52fu+Q7; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELfLvDgc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2051F00A3A;
-	Fri, 14 Aug 2026 05:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786683919;
-	bh=XyXsT4QpA9JNIqej2/5jnBNEFYVHlOLxjavgjaudqa8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ELfLvDgcpfqjcvMoF4PXWplxEjI4eg2z/lBFV2vds8E32PaZTRqidURrvGBKPEK3i
-	 367i+rYB9cxxgSVfPKjRGHTIPUu9/j+8LG9B50jZDI/Q5fqu1k7NzaqxG3jcYXN8A7
-	 o9ZsvEd+lclZB2VLlrV/fZ/Dw5kgZn1kdmO2jHsGefr0G16V60anJF52Ps8UPCG2zv
-	 x4sCErPl1NZhyAqToOV0LG17KHi9DlamDoW6iYd9efZlqtDqnEUISzIMTrOFHTxOFC
-	 fweywyirh5SW0BYSUM1t7NiT9WxNDyoiANmdB2xq/fWEtS4jstK9g/rJlPpNsJM2+L
-	 +9a/DYoa1NjmQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 11/13] net: mana: keep a user-configured RSS
- table across a queue rebuild
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Long Li" <longli@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260813050418.2906468-12-longli@microsoft.com>
-References: <20260813050418.2906468-1-longli@microsoft.com>
- <20260813050418.2906468-12-longli@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Aug 2026 05:05:19 +0000
-Message-Id: <20260814050519.BE2051F00A3A@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="V52fu+Q7"
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id AC4A620B7168; Fri, 14 Aug 2026 02:31:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AC4A620B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786699902;
+	bh=LGikjDL90B601+oxWQxAwcIjr4mTtMim1u9PxK6sLPk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=V52fu+Q7YwHWX9W2/wZbpu6Cw7VpwyngkD+kMRAP7yZF3d2G77nY3ySEgO8vexhQn
+	 FdaNUrJya/ip3BiPvpLwgCoanNrBRsqTAh8Fac8n48JqWoR9aVjtre3AiQMgsfajX0
+	 ZSbYN/s1WJ3wuQGawPlLLPVZiux6QHIF8fRi5n1M=
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>
+Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Kelley <mikelley@microsoft.com>,
+	Shradha Gupta <shradhagupta@microsoft.com>
+Subject: [RFC PATCH 0/2] arm64/hyperv: Enable kexec reboot support
+Date: Fri, 14 Aug 2026 02:31:28 -0700
+Message-ID: <20260814093133.3191250-1-shradhagupta@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Kexec reboot consistently fails on ARM64 Hyper-V guests (Azure VMs).
+During the kexec shutdown path, VMBus channels are never cleaned up,
+so in the fresh kexec kernel startup hv_acpi_init() blocks because
+the hypervisor still holds the old kernel's VMBus session open.
 
-Pre-existing issues:
-- [Medium] Desynchronization between `apc->indir_table_sz` and the actual h=
-eap allocation size of `apc->indir_table` during device reset leads to heap=
- out-of-bounds read and write.
---
+This is because ARM64 lacks the VMBus teardown that x86 performs during
+kexec via hv_machine_shutdown(). On x86, machine_ops.shutdown is
+overridden to send CHANNELMSG_UNLOAD and disable SynIC before CPUs
+go offline. ARM64 has no equivalent mechanism.
 
---- Patch [11]: [PATCH net-next v2 11/13] net: mana: keep a user-configured=
- RSS table across a queue rebuild ---
-commit e2bf133521a3f8f376f19cc855758c1eb53a195b
-Author: Long Li <longli@microsoft.com>
-net: mana: keep a user-configured RSS table across a queue rebuild
+Why existing notification mechanisms don't work:
 
-A queue rebuild regenerates the RSS indirection table from the driver defau=
-lt.
-This patch updates the driver to carry the user-configured table over inste=
-ad
-when the queue count is unchanged.
+- Reboot notifiers: Fire too early - they run inside
+  kernel_restart_prepare(), BEFORE device_shutdown(). VMBus UNLOAD
+  must happen AFTER device_shutdown() so that PCI drivers can clean
+  up interrupt mappings (PCI_DELETE_INTERRUPT_MESSAGE) before UNLOAD
+  force-closes channels. Sending UNLOAD first causes interrupt
+  mapping leaks because the mappings aren't released on channel
+  close.
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
-ethernet/microsoft/mana/mana_en.c
-> index 7c43c2f9043ba..6e77b59cfcf90 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-[ ... ]
-> +static bool mana_rss_table_keep(struct mana_port_context *apc,
-> +				unsigned int num_queues, bool *lost)
-> +{
-> +	u32 i;
-> +
-> +	*lost =3D false;
-> +
-> +	if (!netif_is_rxfh_configured(apc->ndev))
-> +		return false;
-> +
-> +	for (i =3D 0; i < apc->indir_table_sz; i++) {
-> +		if (apc->indir_table[i] >=3D num_queues) {
+- Device .shutdown callbacks: Too narrow - these handle per-device
+  cleanup (e.g., individual VMBus channel teardown), but cannot
+  perform bus-level operations like sending the global VMBus UNLOAD
+  message or removing the SynIC CPU hotplug state via
+  cpuhp_remove_state().
 
-[Severity: Medium]
-This is a pre-existing issue, but can this loop perform an out-of-bounds
-read on apc->indir_table?
+- VMBus parent device .shutdown callback: Also insufficient -
+  cpuhp_remove_state() for SynIC teardown must run after all device
+  shutdown completes, not during it. A parent .shutdown callback
+  still executes within device_shutdown().
 
-During a device reset, mana_init_port() re-queries the hardware and updates
-apc->indir_table_sz directly:
+- The required window is: after device_shutdown() completes, after
+  cpu_hotplug_enable(), but before smp_shutdown_nonboot_cpus(). That
+  window exists inside machine_shutdown(), which currently has no hook.
 
-mana_init_port() {
-	...
-	err =3D mana_query_vport_cfg(apc, port_idx, &max_txq, &max_rxq,
-				   &apc->indir_table_sz);
-	...
-}
+The need for an ARM64 shutdown hook was previously discussed in [1]
+but lacked a concrete failure case at the time. We now have one.
 
-If the hardware returns a larger size than what was originally allocated
-for apc->indir_table, does the driver reallocate the array to match the
-new apc->indir_table_sz? If not, this loop might read past the end of
-the existing heap allocation, which this patch extends into the new
-mana_rss_table_keep() function.
+[1] https://lore.kernel.org/linux-arm-kernel/427a8277-49f0-4317-d6c3-4a15d7070e55@igalia.com/
 
-> +			*lost =3D true;
-> +			return false;
-> +		}
-> +	}
-> +
-> +	return true;
-> +}
+This RFC proposes fixing kexec on ARM64 Hyper-V guests with:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260813050418.2906=
-468-1-longli@microsoft.com?part=3D11
+Patch 1: A platform hook (arm64_pre_smp_shutdown_hook) in ARM64's
+  machine_shutdown(), analogous to x86's machine_ops.shutdown. This
+  runs after device_shutdown() and cpu_hotplug_enable(), allowing
+  platform code to inject pre-shutdown logic at the right point in
+  the kexec path.
+
+  Design choices I'd like feedback on:
+  - Single function pointer vs full machine_ops struct: ARM64 uses
+    kernel-wide APIs (register_restart_handler, register_platform_power_off)
+    for restart/poweroff rather than x86's monolithic machine_ops, so
+    a targeted hook seemed more consistent with the ARM64 pattern.
+  - On ARM64, machine_shutdown() is only called from kernel_kexec(),
+    unlike x86/powerpc where it's also called from restart/halt/poweroff.
+
+Patch 2: Uses this hook to call hv_kexec_handler() which performs:
+  - vmbus_initiate_unload(): sends CHANNELMSG_UNLOAD to host
+  - cpuhp_remove_state(): disables SynIC (SIMP, SIEFP, SINT) on
+    all CPUs, ensuring the kexec'd kernel starts with clean state
+
+Tested on ARM64 Azure VMs (Ubuntu 22.04, multiple vCPU configs):
+- kexec reboot succeeds, VM comes back online with SSH
+- Normal reboot/poweroff unaffected
+- Multiple consecutive kexec cycles pass
+
+Looking for feedback on:
+1. Is the single function pointer hook acceptable for ARM64, or would
+   the ARM64 maintainers prefer a registration API or __weak function?
+2. Should this be arm64-specific or generic kexec infrastructure?
+
+Shradha Gupta (2):
+  arm64: Add pre-shutdown hook to machine_shutdown()
+  arm64/hyperv: Add kexec handler using machine_shutdown hook
+
+ arch/arm64/hyperv/mshyperv.c         | 37 ++++++++++++++++++++++++++++
+ arch/arm64/include/asm/system_misc.h |  2 ++
+ arch/arm64/kernel/process.c          | 13 ++++++++++
+ 3 files changed, 52 insertions(+)
+
+-- 
+2.43.0
+
