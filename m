@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B9826FA60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E3333FE15
 	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 05:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786683920; cv=none; b=a0DBEHYjBZdI1OkmKLcj9MU1ZnYbrw5TrvjKchNhfjeldTOQ/2J3b9hfcC90MTPNEt2ZUie9MdazfaM3/zhxamyePRlzcaJcNcBJUWIm/U06wSQamqcyKDZaACRKkH3RvElErhywN/fmxJssg+zf4WGYgX/tdMOeau9mbhmDjMk=
+	t=1786683921; cv=none; b=F8pI9fZ9lU6qgMnrJ5JwwLE3ov6dZ426Eb0MRJXAsXY0FGdzMBkVN3BdyP3B3fU7IeVEKEpKmFBYaqPFXQsX7bNQhAa00VbEzaZCJPZMeXBrzmGbnub3ouJWwDwnDnbjx+l23q8dh4CFkX5Qn6/avZWTVRVAsg2R591IakhId+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786683920; c=relaxed/simple;
-	bh=SAB1PC0OW6vKxq4gvWlWBaQkmkXpnZIa6D241OirpcQ=;
+	s=arc-20240116; t=1786683921; c=relaxed/simple;
+	bh=LJAJ/QWpVCk4Sdla42EoORBeAlmw5alxaXSachaLENs=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=X17xQDdFObQEtwgW4Au6RuPfWCknBOPFzJBtG4XWRp2cOoOLMnmwdAYIhKCDsvJ6jFiRJQhrgVYXlF9dR+agl0GpXCKGXOT+rVJH9q2ajylu7N8OqR5K04FcvYy9pbboxJL8EoVDzxGaYOtupQH3qpWWqpAJt/S5+tUYUfWDsVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b43dvRpN; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=GIfcZbswaAuuzHbSGV+FmL94jpyBLovgw3jIz5d7p7XOqvAwyi6SmwjhUmLA8d49zax9FS22njfw0aJL+wBxDrO3d6QWQWJFfyVRNYDnwA+TgISMqwu8ACkjWdoNmfyZ8Ju8Wl7ir2sIFXLQY3cLt2ek3aaC6gio70rtR1HXEg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELfLvDgc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b43dvRpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B8851F000E9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELfLvDgc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2051F00A3A;
 	Fri, 14 Aug 2026 05:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1786683919;
-	bh=K9NkJQQRvvRI9+m+W7xbcwZ2SVX34iqdsvVjPmVPwmU=;
+	bh=XyXsT4QpA9JNIqej2/5jnBNEFYVHlOLxjavgjaudqa8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=b43dvRpNHRNXRHCpK7lvAppTZX7uNqh4UxLUYBUAiW5rih4tU9FBbfHbbtZtRRHtF
-	 Q9mqK9oemlJhwFa81kiATprAQSB+NAFk0viph86zFyaHXzgEb7gBis6E0ahtpdXy/k
-	 WzDvPrKq0TfpgjLsAa07k32YbTYrFbXAQObMh0AMr6Vf14wVsopZB6DiaqKTaFF9Sh
-	 MtYieytBZqVajXSrFKbupp3N7PJBeQy+T9wHs7jrS2Rpt0HWzInaCOqRZU4irzPUC7
-	 Ob7Qs9uEuugh1bhwyF5gQ8puGhFf6MAfQ+DBorOsA2HmEuKeQUtgHP41NkWPVDFL2K
-	 ae9YRldVY+FjQ==
+	b=ELfLvDgcpfqjcvMoF4PXWplxEjI4eg2z/lBFV2vds8E32PaZTRqidURrvGBKPEK3i
+	 367i+rYB9cxxgSVfPKjRGHTIPUu9/j+8LG9B50jZDI/Q5fqu1k7NzaqxG3jcYXN8A7
+	 o9ZsvEd+lclZB2VLlrV/fZ/Dw5kgZn1kdmO2jHsGefr0G16V60anJF52Ps8UPCG2zv
+	 x4sCErPl1NZhyAqToOV0LG17KHi9DlamDoW6iYd9efZlqtDqnEUISzIMTrOFHTxOFC
+	 fweywyirh5SW0BYSUM1t7NiT9WxNDyoiANmdB2xq/fWEtS4jstK9g/rJlPpNsJM2+L
+	 +9a/DYoa1NjmQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 01/13] net: mana: add queue-set allocation
- and teardown helpers
+Subject: Re: [PATCH net-next v2 11/13] net: mana: keep a user-configured RSS
+ table across a queue rebuild
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Long Li" <longli@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260813050418.2906468-2-longli@microsoft.com>
+In-Reply-To: <20260813050418.2906468-12-longli@microsoft.com>
 References: <20260813050418.2906468-1-longli@microsoft.com>
- <20260813050418.2906468-2-longli@microsoft.com>
+ <20260813050418.2906468-12-longli@microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Aug 2026 05:05:18 +0000
-Message-Id: <20260814050519.2B8851F000E9@smtp.kernel.org>
+Date: Fri, 14 Aug 2026 05:05:19 +0000
+Message-Id: <20260814050519.BE2051F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,70 +47,72 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] User-configured RSS indirection table is silently discarded and =
-reset to defaults during per-queue reconfigurations.
+
+Pre-existing issues:
+- [Medium] Desynchronization between `apc->indir_table_sz` and the actual h=
+eap allocation size of `apc->indir_table` during device reset leads to heap=
+ out-of-bounds read and write.
 --
 
---- Patch [1]: [PATCH net-next v2 01/13] net: mana: add queue-set allocatio=
-n and teardown helpers ---
-commit fcc6a74602d4e66dc287809434c5e9b44c3be829
+--- Patch [11]: [PATCH net-next v2 11/13] net: mana: keep a user-configured=
+ RSS table across a queue rebuild ---
+commit e2bf133521a3f8f376f19cc855758c1eb53a195b
 Author: Long Li <longli@microsoft.com>
-Subject: net: mana: add queue-set allocation and teardown helpers
+net: mana: keep a user-configured RSS table across a queue rebuild
 
-The ethtool reconfiguration paths (channel count, ring size, private
-flags), mana_change_mtu() and mana_xdp_set() rebuild the queues with
-mana_detach() then mana_attach(). This adds the data model and helpers for
-pre-allocate and swap to independently build and tear down a queue set.
+A queue rebuild regenerates the RSS indirection table from the driver defau=
+lt.
+This patch updates the driver to carry the user-configured table over inste=
+ad
+when the queue count is unchanged.
 
 > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
 ethernet/microsoft/mana/mana_en.c
+> index 7c43c2f9043ba..6e77b59cfcf90 100644
 > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
 [ ... ]
-> +int mana_alloc_qset(struct mana_port_context *scratch, unsigned int num_=
-queues,
-> +		    unsigned int rx_queue_size, unsigned int tx_queue_size,
-> +		    u32 priv_flags, struct mana_qset *out)
+> +static bool mana_rss_table_keep(struct mana_port_context *apc,
+> +				unsigned int num_queues, bool *lost)
 > +{
-> +	struct net_device *ndev =3D scratch->ndev;
-> +	int err;
-[ ... ]
-> +	err =3D mana_rss_table_alloc(scratch);
-> +	if (err)
-> +		goto cleanup_rxq_array;
+> +	u32 i;
 > +
-> +	err =3D mana_create_eq(scratch);
-> +	if (err)
-> +		goto cleanup_rss;
+> +	*lost =3D false;
 > +
-> +	err =3D mana_create_txq(scratch, ndev);
-> +	if (err)
-> +		goto cleanup_eq;
+> +	if (!netif_is_rxfh_configured(apc->ndev))
+> +		return false;
 > +
-> +	err =3D mana_add_rx_queues(scratch, ndev);
-> +	if (err)
-> +		goto cleanup_rxq;
-> +
-> +	mana_rss_table_init(scratch);
+> +	for (i =3D 0; i < apc->indir_table_sz; i++) {
+> +		if (apc->indir_table[i] >=3D num_queues) {
 
 [Severity: Medium]
-Will this unconditionally reset the RSS indirection table to defaults during
-reconfigurations?
+This is a pre-existing issue, but can this loop perform an out-of-bounds
+read on apc->indir_table?
 
-Since mana_rss_table_alloc() creates a new table and mana_rss_table_init()
-initializes it to default round-robin values, it seems like a user's existi=
-ng
-custom RSS steering configuration might be silently overwritten when the new
-queue set is published.
+During a device reset, mana_init_port() re-queries the hardware and updates
+apc->indir_table_sz directly:
 
-Could this cause a regression where the custom configuration is lost? Should
-it be preserved by copying the existing table from the active port context
-instead?
+mana_init_port() {
+	...
+	err =3D mana_query_vport_cfg(apc, port_idx, &max_txq, &max_rxq,
+				   &apc->indir_table_sz);
+	...
+}
 
+If the hardware returns a larger size than what was originally allocated
+for apc->indir_table, does the driver reallocate the array to match the
+new apc->indir_table_sz? If not, this loop might read past the end of
+the existing heap allocation, which this patch extends into the new
+mana_rss_table_keep() function.
+
+> +			*lost =3D true;
+> +			return false;
+> +		}
+> +	}
 > +
-> +	mana_qset_snapshot(scratch, out);
-> +	return 0;
+> +	return true;
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260813050418.2906=
-468-1-longli@microsoft.com?part=3D1
+468-1-longli@microsoft.com?part=3D11
