@@ -1,112 +1,113 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11020095.outbound.protection.outlook.com [40.93.198.95])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11023077.outbound.protection.outlook.com [40.107.201.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B58A2E739D
-	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 18:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5081A3542F6
+	for <linux-hyperv@vger.kernel.org>; Fri, 14 Aug 2026 18:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.77
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786732346; cv=fail; b=qMnKGej2LLOXK9zm5eo3QBfuaC38M+HS+oCrBjW6YJ5gXXcl8NWMATpYvDZNFsjYKmoLng9BilFYHmwnqSkp5qqWwhOIhBrQeLV0E6x3zfdkTxTwmSH7IWyKRhiErauQalSPGyJy7jJk68Hpcv90CJp0uu7g6r7BRGsh330c2YE=
+	t=1786732684; cv=fail; b=W5xUwmhOwK2MAViOfIxN54pPmShI12Nz2M9RNMvKpDHxhzjykTrWnQSnnjGfBCiXxJ2fEp5DP5tg9jYzauP08K6L936XmEgCU3y2XiuR7T7LVcSxUxXh5r2VjkiuEqWeNg3N+twJmNO13GYf0T3OuW90ZhezEiBbLIGAnWtxkXA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786732346; c=relaxed/simple;
-	bh=2NqA60Enbo+lHhfIDFTW/hyyFVVjVnMlnOy258TArBk=;
+	s=arc-20240116; t=1786732684; c=relaxed/simple;
+	bh=7Rgjq7j3Zi09J0PKRN0EeytNlKKRYSKR18FBJhFnvy8=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FjiLzXxbG6NZFoI/aIXsdg9brM0WDjZ+y5thpN2GZAzylN0TfG8IDST4gQh0JFnTiI3Mq3C1XnT3YaLoAKecxnPesrsJRkCeHraOsxQLnlJdNf9cL73Ksx9GNAjN8GqRIGPCUNFOVB8KLSDb1sR7372aseBDE8H3JYLbqwktAM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=XAOd5elA; arc=fail smtp.client-ip=40.93.198.95
+	 Content-Type:MIME-Version; b=ZekqV9mHxi0sE2stOA+5QL5cS0YBkP59b+oQw8P37IJTV1nIu4nC89faKYerBl8/OiThjkczaToh3YYaH5UmSBjJQFiXcdR92evtPWp8CMrvE8yWcELcUvL9z6tqODgku+kxPn9K0zCgwFJqtk068Rjhau8BS1ngxTiTHkhWDmU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=fP7oVlOB; arc=fail smtp.client-ip=40.107.201.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="XAOd5elA"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="fP7oVlOB"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=adT+x4LEBtQfvDVNaa8gvVA/oXewaK2IPmF86zIbvtHSlmryFICBIyQOVpMwM+0opoGOTn5lUPbJptCKv3noA3zxZn98HFcWw13TMZpAE9rEUDPM2z76CQc1saP7LUYic0xulHcDDqB1rpjEXUe2CWq6i23eMT+L/rQHVwTfnRijmcOFzfv3E6wnCA9DI5rgaJjSe47yRxTz458Cn9o3vSjisL0Y9pzGlPN48cMp+Ur741ebEprmrBxJsTcKDlT48sEAVjQVx1VdDe0WqiU35WIBdN62mfXB2RK9KXuMa9Wg4Ixuh+09H/MDUqPnqjp92Fhtrlm8tCMdpC6gtElAHA==
+ b=mHubyiw0MGxuZCgDakHVc9egb3OqB7V9whvRrYLaPGVMbgjTeXCN9myR1Fax8lH3iaEoaaCeP80hubDO96xWzxPwjroZvVVbEfhKValWATK7/AXSQ7mrFMhJnoVmiqjVxc1uc/rKbdGI8ErAiGkUI5kqBQzcZvH8kGlLfsmlftWaKfOjnpTmqXR5QXkoDAJjxxyLHcQVMwivReKB8GTEDzZ+KZroFB49yEiV+9QIehvRo8lqZnyjyptw/jZbNASOygC2eL8Vp06SgUVMARHd7jJpirxxuiPDumtZXZt4GAwF+QqgcwhqGx11yH5BG5QHTA+x1Pso6pQ/Vb/t8aL2+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IT0wdZ+gvJSlHP+wGetTT9INdHgUiANgIahWdByvMI8=;
- b=fSpAoGG/6qvuW6Vu61tJiVQrqwZM36rg9kfJ9Kyo4I8dwL4zU/Hdszs6FCTIWTqj7jNB2VIMVxtHbFzyd4S8vk0h8sZw0LRwiLjr44VNiAKRRodjulsXMK4M0Ecg+r/YE2fK5a0AedYxIW5Ydek+hqLhv5b9V7Qatn6wKGg+ZSLXHVMwbLSIF1DC/gAQFMPQCHPGOOzzLf3qZbW5Fo6OnzS48x78QDrSp1ojoALKHElQyAt1agwJDuKAwKuYLcVIVyCpT5vtLVzGMbkgpgHfUx2o5ADF1XS031MXJGYPROozpfzkStZVXU2pnNipr2jn0JSIPTyAFNcsIAJQlOJ4VQ==
+ bh=8FhxfSvdxYvPqH+6d9iGS3xObxS/X5rbFjWc+0cYmRA=;
+ b=MmPstInyD3Jr6fB/bQQIGXcMxnTemBJAwlK/V/+DLCX3Uqj4Q84rty8ObYxJhIkYo2UnCeO8POza/qqIv6T54pqjt8BawfDmkpXi8brEJGJRN8znXb6tHfRMMNtAyinLIdDC68MsKmDJSkY1NPVZ+H1YAV3n5hehRrtSDU9uxmuxRx87UBKOjU75hx8Oc6T2b0KfCSWIyXMp6hwyqkBAvtCoQfb3J/mpztb6gDmFPz+fEnNGsdUxcDrltw4jQtpnrRAgVtDWQatz8Z+t9JimRVdLcO+vU341m1RgR9wFSdV96lCl1eND/LzXrIgyDJ4XoYOTNjn6aFpdZvLcxf9oYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IT0wdZ+gvJSlHP+wGetTT9INdHgUiANgIahWdByvMI8=;
- b=XAOd5elARJuWY6zhZ+IE1kO51ZrSGU1Yf3dzpC1mL/u5lv0H0llCN8dZq0o2KS9Z/4ATyPeL8mPG6A3DTiRRkV+3DZRJXo2KGnMRn/PHUHT/06KtBOAjyyAsFZP2zd/8xj+CESALkeTRhUUoxZngbz1/n9V80WN51akVkE944/o=
+ bh=8FhxfSvdxYvPqH+6d9iGS3xObxS/X5rbFjWc+0cYmRA=;
+ b=fP7oVlOBcjID9jib0oOjamRD6awPkVzA7F4TSi1bPAVtl2wO2cuOqS4b6ZyshL0+G1gJ/N73/zUoF0Nj0fKgtaH39y5rwOX7p4IOl2kWCi7aQFb3T+HCX8F9J6ZG7rBmCpDUbKdQy41freSUstV01TXw7alPWsiEOr9rCljP90U=
 Received: from SA1PR21MB6683.namprd21.prod.outlook.com (2603:10b6:806:4a4::6)
- by SA0PR21MB2012.namprd21.prod.outlook.com (2603:10b6:806:132::19) with
+ by SA1PR21MB4033.namprd21.prod.outlook.com (2603:10b6:806:38f::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.6; Fri, 14 Aug
- 2026 18:32:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.1; Fri, 14 Aug
+ 2026 18:38:00 +0000
 Received: from SA1PR21MB6683.namprd21.prod.outlook.com
  ([fe80::8bad:6294:8a07:fe18]) by SA1PR21MB6683.namprd21.prod.outlook.com
  ([fe80::8bad:6294:8a07:fe18%6]) with mapi id 15.21.0315.008; Fri, 14 Aug 2026
- 18:32:21 +0000
+ 18:38:00 +0000
 From: Long Li <longli@microsoft.com>
 To: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>
 CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [EXTERNAL] Re: [PATCH net-next v2 05/13] net: mana: swap queue
- sets in mana_change_mtu
-Thread-Topic: [EXTERNAL] Re: [PATCH net-next v2 05/13] net: mana: swap queue
- sets in mana_change_mtu
-Thread-Index: AQHdKuFKrtzUiaVhUEena3fToVLUCrac/z0AgADhTMA=
-Date: Fri, 14 Aug 2026 18:32:21 +0000
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v2 07/13] net: mana: do not bail
+ out of mana_detach on dealloc failure
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v2 07/13] net: mana: do not bail
+ out of mana_detach on dealloc failure
+Thread-Index: AQHdKuFLBDbeMlxtUEGKcI1IQzcD1bac/zoAgADiJAA=
+Date: Fri, 14 Aug 2026 18:38:00 +0000
 Message-ID:
- <SA1PR21MB66836DF0CD0C486DB9F77641CEDA2@SA1PR21MB6683.namprd21.prod.outlook.com>
+ <SA1PR21MB6683E8B3384DB015CB34D6BACEDA2@SA1PR21MB6683.namprd21.prod.outlook.com>
 References: <20260813050418.2906468-1-longli@microsoft.com>
- <20260813050418.2906468-6-longli@microsoft.com>
- <20260814050518.805D11F00A3D@smtp.kernel.org>
-In-Reply-To: <20260814050518.805D11F00A3D@smtp.kernel.org>
+ <20260813050418.2906468-8-longli@microsoft.com>
+ <20260814050516.7629A1F00A3D@smtp.kernel.org>
+In-Reply-To: <20260814050516.7629A1F00A3D@smtp.kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=c0833a48-2d84-4d56-95d0-cf7c142b559c;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-08-14T18:31:40Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=2f89b830-d0c2-4bad-b7be-29d97516b009;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-08-14T18:34:38Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
  3, 0, 1;
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR21MB6683:EE_|SA0PR21MB2012:EE_
-x-ms-office365-filtering-correlation-id: 361c0cc7-1e3a-453d-e9a4-08defa32612b
+x-ms-traffictypediagnostic: SA1PR21MB6683:EE_|SA1PR21MB4033:EE_
+x-ms-office365-filtering-correlation-id: 15834c3c-c7ec-46ef-748c-08defa332ae1
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|38070700021|7146999003|6133799003|10067099003|56012099006|4143699003|11063799006|22082099003|18002099003;
+ BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|38070700021|6133799003|10067099003|7146999003|4143699003|22082099003|18002099003|56012099006|5023799004|11063799006;
 x-microsoft-antispam-message-info:
- 6KMinRXG6tsXVJ+k4SZQFUFxuDwCAVG8WWZu0ezQ325iv2u/RdilBkoRJKuaS+muhoK4GONAAo0Ay8qbAlRSosAw6dEHpBKFDGeW9NLPtxIPosi38ih6xVRa+tUasXygKvn5jZmv8e/DyIrQg91IE9qakNwFVYKkjO8FbyqRuAyctbWGkesyDEMmauaWnHXOsWnlMmiWVYZfRbtz4ya9CxWAryapWmjdfFLM5qLPRXhQXFlP0RZr634B3u/5ol5RAJt229ikfdR3G0Zcx7toIPg2nfrqACs98y7SpAi44nxbuqoEPUFkYYXeJ5ga2WFPa5U7moI7dVmvytNGSzFnYoFWrXgozvH3UDx0js7lV4PwfSfz1PqsRmLrYpa45T4FJNqEaOZfZ++kbBZshzgSwE2ousQTcVjVXFDD3BoUzt4eCHziQycsxcjQzqsdrRJ4fFLlggrnl3+4MG21yR7BS6Umj+OQfIeOTzJG0RX8XF2ffaMDcgN4wW0XfNsKqAnXryqTeY0rQWm1+mtVY/waMaMyjz+nwhQQmt8GCEhjuURWrGnqPvQkl2JVgbo0HZ1TSWTVI+KssESPhTrhexF4UwcAN8MzL1hU8/SzA6mRLC4zk5BYHYmmq+OP8ufn4gnfF8Ee/LCXjHy1PlD6Ir661+Y4G0bVTOJQUm7IRAI2/QYwBPHTcxDL3PGSgHZUyVm6KOFsMjfTYS+qtSd7hHj11uZrZZlXQjsFDlZ1wpm8OUY=
+ ekxiiJtrjwx2NcBhOQTNgOL7/Gj6EYgqjFwFmibwM9zPC6F+adrHQB1Sh7en5ejERC/1pfKLnKE2gD28AoqTxonxmX+7VJC9JxPRvXLLP6QdYOT1FENGcVtHq88Y7tJ3tnn3EoeUIJzaDr7CAzPiyc+58VFsCtg/tkD/1cSNOa/tk5RwgUSDhWJ+DlQYQt5GGYLBb/dBA96KyvP+DiL/2Ks0aTkwK8S3U8JTdJs5ns/3+SlnG1MNktb80LOR5nLGYTCo2pNYZYbt5W6Q2+JkzZ/zu7PH/ARH7c1xCozRPeK2MsY1lBlfDByq54Al/mZucN9mklv9b71Hv4+U0zE5lyUjhJPX0YDDs5ho2nnieTcDg6H6FPKMFAQeDbeLDx1j3/F0aLnQqD0JCFQgCnq8Rl/CH4wKbcjncCD+RgzGeo1U1/augApNPoQElMZQUwSQ/aXicpgn7fsb0wIBuBQ/BtyYaZUNK2INfiNMI69rW+BoOnmZ7+SToAQsCdNTUlxRbr+hrPasTOITQM9kviyFv0BU7tu1uBSNGMm3V4nW169Wzp6neYsqGAR5gXoGoeWtydRVAaM89ZZnVuJwxBswOwDEfPLUKAWi+LhUvvgYEmQ6ZqVsgz0PdkjSoP93YwydycKygGZ1KUCCEhHOvonTAfNWUMCZFshn6h+WMfzXSLGf7LKfeagQe99dJY+oUmnFW7k+4cHddgFHWwdXmH8y9WGPQQyxelxpkXUkoZou03s=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB6683.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(38070700021)(7146999003)(6133799003)(10067099003)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB6683.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(38070700021)(6133799003)(10067099003)(7146999003)(4143699003)(22082099003)(18002099003)(56012099006)(5023799004)(11063799006);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?kck2Eu7NqTGUEl/0D7q2IXdb7M0cPWhJj9H+5UVZjPw2FYd5VdAJBjZAZj3a?=
- =?us-ascii?Q?jUJOSY080H+3+PFexyOXSKmlAavPLLdVfAUZ0pnSZ0GrwNkLuBxeRYHS68kj?=
- =?us-ascii?Q?NKffulEWY64lBYKlUTIMNX8QZecz+pnPjb3iF1AcfhpkvwWFarToQ4aSCW6x?=
- =?us-ascii?Q?1HfgCKhwaXe+YwJIveq7EaKg9GQ4l3oEcAL3vqhwjN7kLgATQRovWD2b3FWY?=
- =?us-ascii?Q?lwNPIZbaRVMwtLadwDP1hv/hzkBH1t0mi13JZCF9yizI/0m4N3dHMqNM8Xsn?=
- =?us-ascii?Q?bpryUti34rNElWMSaLkDvTZZHG76oo5n2WbOcZlp+yPqNw1avvCUd5KpBYX0?=
- =?us-ascii?Q?UMLJVGejaApG0MaRfLrvX7DGnPxYUzJtAPgI6xChM7mwgzgUfByCm+KuBAmD?=
- =?us-ascii?Q?qa10IcLX0QNiKFLBNC57JYfrUXQ6WfgfUJeyE2Z0mN9mjReaqD/W6QZjMHX6?=
- =?us-ascii?Q?sktSk7y75WoPP64MmRpMR08VZM0JdJ9JrNLQo29jW6vcGgQeP5Q6bKoT9c4E?=
- =?us-ascii?Q?wzcx4sdG8e6vh12Tl+vobp58UbZdRfoxnOl3b+CqeyyzJt65DZbiJrqRtiFL?=
- =?us-ascii?Q?B2Z5z7nb+k/rUnio9Rl3c++5VbttpeQxtAPlZ8l8BWAgPbvtZOfMSFp8pf86?=
- =?us-ascii?Q?0xwWoSkbp2TiWRdcDUvaChKuMvt+R5QLQpzG6w9+z1w8Meiv8m9SYP2JVVOt?=
- =?us-ascii?Q?nOxtRY8d7eEHDtBciV8q3/34jVWCRNG4mbTYw2b640ELCpSKZTulAzlL7pV5?=
- =?us-ascii?Q?/uDptWUpRybrdG+29PW74BZtDyvdVYMjeoDhSKU37vPsCzZ94TypaFfEPUhO?=
- =?us-ascii?Q?2gEEanM3ea5X0/oL+7+vK9JA9uVmTvdM/bfWhswkBAK6mKbjOVSFTY/YyFeo?=
- =?us-ascii?Q?azrnTOSVDtHFJ7fRC6vXpSjSRBJf6n5U6zm0MwxpT52aQjDwwuYXE1wtpV15?=
- =?us-ascii?Q?vzUirrXi2j0nUuxgxweqXix7yg8tgN3ELkWPuw3vUuYOneZ3xFYqRLkd4jD+?=
- =?us-ascii?Q?VUPKXYxTmmGOL4Atr9QiNE4lK2xx1rW4CDOOWb6F1uijI09Y0aEHY9vuBXDv?=
- =?us-ascii?Q?hhtoczoewukG1le67P9BiL8pSVYDK1J3REUdbsm1Cy61H4SwDObTXheIM//R?=
- =?us-ascii?Q?g3+NQv7ix4yq+pqTKlnIaopTNNiONVwTkkp4VZRztx2Bfzi+b3BaqAJ9H8rA?=
- =?us-ascii?Q?npbxsgnNSzmAsTLuS56REkHxd6AE5NNVXuDL3CEw7ZfPXsEMIi/g1ZS3pth1?=
- =?us-ascii?Q?5Q7yNLUz5yVelBGVyMMCl/H/YNOtcrQbstHkkBWWQPbS+mqcxHlMBVI5VkBN?=
- =?us-ascii?Q?ihPS+XYG7c25+vOua3f7BY/TTx5W9HNz8UtQGlunV3QHBn5Kf8cXAICtNDNS?=
- =?us-ascii?Q?nsrbbRmDGACcFCMmwDdVEtS5V1qST34c5s8hOaCqnSIJFuuM/kTnkrKz2eYB?=
- =?us-ascii?Q?v+D7NBX34J1fkckSn/25UDAfWY1imATM1VgCjE+Hmb6ykRJw5QI5N2TxjHxZ?=
- =?us-ascii?Q?K+4Vr7tyBzEIBC5QsYzLMGBon55J8JO31qs6F35GaKb6kiwwLbVik/h3RzwD?=
- =?us-ascii?Q?HUa81yZjxAXFIVWlyKDWSgkSIHnhZG1XqgFXWgVDXfpkJxXJyvgzpptq+NwO?=
- =?us-ascii?Q?DVQxyjVHdatYv5KJbFyCfx/CF3kIAWJf2kBH+S4MS5mHgUIps9CM/iX9R9EJ?=
- =?us-ascii?Q?WU2RYe8eqL+aVodtUlhs1dB2V/VLppZv0nuYpgEwcXUmWA7J?=
-Content-Type: text/plain; charset="us-ascii"
+ =?iso-8859-1?Q?kAMPUOBuTJLGE25OdIavEMeXZhWfa+NtCcB2mO57XhdPIhMWDwODN7m5M0?=
+ =?iso-8859-1?Q?q7YIAO/89DpHFgR//hXCLLmWY9Xt8N6xHXgJ542PHAjDIbJF+5jS+0e2m9?=
+ =?iso-8859-1?Q?vR1lDs+QfsDZcVgjyL3AbI66SG0Tj9VgXMKWMaWnkddQGiCo4coxGLxA2a?=
+ =?iso-8859-1?Q?ne75AN5AAUFPqcgzgxDd6eMFAMIGJnp+YaZV0VFifKE8KwwblD3HRbPbCA?=
+ =?iso-8859-1?Q?RJ4AOCAOFSlP8GkLCktm0Xg8kkGErxwwU1SxBZNikspN1+NIht5KIZgIim?=
+ =?iso-8859-1?Q?17eDsUcwmfqsFLs982EAhe8l/D+9hW/zyzsNcnetINvNLiQqSJBv0Z7tvG?=
+ =?iso-8859-1?Q?SYFTrDHOZRH0PTz7IbGq83V8h2feSCkf6ec240yFzHp682ZunNUYSdQq2j?=
+ =?iso-8859-1?Q?f0MzBkPFPv4jMjxMTOMQqaE6bRGvnXHjdLSa+ZxNm4ZE/qHO46pjLsa6wG?=
+ =?iso-8859-1?Q?Clc9vBNLtl5VbrMKJC8Klk/kfBu9v43iAyMRwe3yADJRz7nRAwjj/0KFJd?=
+ =?iso-8859-1?Q?jZyZzTMmo5VGRW6kxoq0E30H5wBNrJOnZ+Df7Hj9aIPavemjvpE7uaS8fq?=
+ =?iso-8859-1?Q?gDzLMxrdDzaI2TkAV9rcilh6YXC8sebUNh+ltacF9SLSvX86g7ho+4NE5O?=
+ =?iso-8859-1?Q?pKgpcBOLF28K5tSZcvsu1Bbc1K/lzeDpCWJrnFe5zFCeJC0ODLKw/LXujn?=
+ =?iso-8859-1?Q?33xrLBUV+0oa8ahYeC+h/8WEIMWHcPFIrwez4rpFSrztCYkPK0gHI1blo2?=
+ =?iso-8859-1?Q?f2oNMDKiaYxkfpGX9fRf3eBg9t/4VRiQbo+Fn9hjNL1HVqfMmpxYMjrLyp?=
+ =?iso-8859-1?Q?/B5/wR2py47H5OD5wRzO9gQgr4jrMSfCmb8Tk8qYYrKso64UwnjWP24FTp?=
+ =?iso-8859-1?Q?e+ZfiNjnzEhWGbzBY395RpKFUY3ryIO9cUlS80IPCR5rRvcuzs+td3/B47?=
+ =?iso-8859-1?Q?rcqsr0LlmqJO48tBq3QPEuyIuHv068h8ACBtNaWkw6xEkivLw2yzt5CgyA?=
+ =?iso-8859-1?Q?KtyESFIfUWmytIm6ub+x7xIxqr7JMHpsbM83L0e/Yi2GuzFXopcLS+9Khu?=
+ =?iso-8859-1?Q?7BNlGK1xTjbVM3Txf2fj//E1Q2VEzukKEKIWVQZeGPkych6edxqTJThops?=
+ =?iso-8859-1?Q?11iLwCUByqtu4JTSG9P+uASVMTr+Bl4+Hv8eSQybAzYF0SqOoJiIwEQeZy?=
+ =?iso-8859-1?Q?3E/F205s4dqCYdEApfau7gODZh6pJFtzQ6vHgRMudcnsvnJmlz/6Gv7nn8?=
+ =?iso-8859-1?Q?a2v84jhNqSMX2vSrBDLAkC+eVA0EOF+bybO0YaoeXJSQ06hdk05OMb9epm?=
+ =?iso-8859-1?Q?CKfRVNbhebO9JY5OI83d2h/86SJOdPNnhOX7Tg+f9FkAxNOkv/n4+qOljw?=
+ =?iso-8859-1?Q?zW6n/HVoqPyCEapHQlh53bTvOyGGI9YSlwMzIB1OqY6uHpSj+5QPR4uZnu?=
+ =?iso-8859-1?Q?G4lVNANMzrWrND6rbDrDkfV1PPGJ/zOEIwIiS5S4V55x5mMYtZPA8WFyA8?=
+ =?iso-8859-1?Q?MSFxr/n9iw+W/+iSncfWCLw3y1erit59z4A5U1NX0bjTVIgrtjGWor2dqL?=
+ =?iso-8859-1?Q?lbQXiYEX9tYw1/JrQTvxRfjFoJcZ4dCxmRIomWEaMXzlIi2/BKJHdCbnj2?=
+ =?iso-8859-1?Q?iU2BG4zh2VDdy0VDtO74A9BuP9xVcr7SuPyBKJ8zc4NGfQLtqssytrDI+G?=
+ =?iso-8859-1?Q?ntfKVYb44w11QMY/hnLbli/lUK7RIc/NAiaa+AIDxPMtUpmRLLo/lQ6KEQ?=
+ =?iso-8859-1?Q?VzZg8ienfqUV4PjYgW5Xv5VZY1m5n0zKU3W7oGSEzvJJ7e?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -117,119 +118,149 @@ MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB6683.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 361c0cc7-1e3a-453d-e9a4-08defa32612b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2026 18:32:21.8539
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15834c3c-c7ec-46ef-748c-08defa332ae1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2026 18:38:00.2463
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t8GlFDXS8fQUJyyTyYXBppm5kJ/P+bvRtsIU8HgcP/jUY9KAkmnfKgYwKQ6qguRHJCxyRJK7BrKZhXzcjq4uZg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR21MB2012
+X-MS-Exchange-CrossTenant-userprincipalname: VlNN5KJn2DyxbwiVFxoowTAoZgApGMS6ITwgQnTYZKbFv9Jcza4WUGG+KhdZK5J4vr7q6n0W8Vku4wa6hY8N7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR21MB4033
 
 >=20
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
 e(s)
 > to consider:
 >=20
+> New issues:
+> - [High] The 'channel_changing' boolean flag is used as an ad-hoc lock to
+> guard code sections and prevent concurrent access, violating kernel
+> synchronization guidelines.
+>=20
 > Pre-existing issues:
-> - [High] mana_xdp_set() is vulnerable to a race condition with RDMA vport
-> creation because it continues to use the legacy mana_detach()/mana_attach=
-()
-> sequence without blocking RDMA, leaving the interface permanently down if
-> a race occurs.
+> - [Critical] Hardware queue memory and RX page pools are freed while the
+> device may still be DMAing to them if it fails to quiesce during teardown
+> (DMA Use-After-Free).
 > --
 >=20
-> --- Patch [5]: [PATCH net-next v2 05/13] net: mana: swap queue sets in
-> mana_change_mtu --- commit
-> 07ab252b810cb193b26b16516fc0a40653d2b458
-> Author: Long Li <longli@microsoft.com>
+> --- Patch [7]: [PATCH net-next v2 07/13] net: mana: do not bail out of
+> mana_detach on dealloc failure --- commit
+> 04170ba1361c402d70e39fad639e6d6455da30a2
+> Author: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 >=20
-> net: mana: swap queue sets in mana_change_mtu
+> net: mana: do not bail out of mana_detach on dealloc failure
 >=20
-> The RX buffer layout depends on the MTU, so changing it rebuilds the
-> queues. Convert mana_change_mtu() to pre-allocate and swap.
->=20
-> The MTU becomes part of the queue-set configuration, so a new set can be
-> built for the new MTU while the running one still serves traffic at the o=
-ld
-> one, and ndev->mtu is updated only once the new set is live.
-> Previously it was written before mana_attach() and rolled back on failure=
-, so
-> a failed change was briefly visible to the stack.
+> This commit modifies mana_detach() to remove the early return if
+> mana_dealloc_queues() fails. This ensures that the function completes its=
+ full
+> teardown, including netif_device_detach() and
+> mana_cleanup_port_context(), avoiding an inconsistent port state.
 >=20
 > > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c
 > > b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > index c0f31b386536a..c858a58577dfb 100644
+> > index e54ad4db918ce..2b3250483b439 100644
 > > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 > > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > @@ -884,35 +884,49 @@ int mana_pre_alloc_rxbufs(struct
-> mana_port_context *mpc, int new_mtu, int num_qu
-> >  	return -ENOMEM;
-> >  }
+> > @@ -4502,10 +4502,8 @@ int mana_detach(struct net_device *ndev, bool
+> > from_close)
 > >
-> > +/* ndev->mtu is updated only once the new set is live
-> > +(mana_publish_qset), so
-> > + * a failed allocation leaves the queues and the advertised MTU
-> untouched.
-> > + */
-> >  static int mana_change_mtu(struct net_device *ndev, int new_mtu)  {
-> >  	struct mana_port_context *mpc =3D netdev_priv(ndev);
-> > -	unsigned int old_mtu =3D ndev->mtu;
-> > +	struct mana_port_context *scratch;
-> > +	struct mana_qset newq, oldq;
-> >  	int err;
-> >
-> > -	/* Pre-allocate buffers to prevent failure in mana_attach later */
-> > -	err =3D mana_pre_alloc_rxbufs(mpc, new_mtu, mpc->num_queues);
-> > -	if (err) {
-> > -		netdev_err(ndev, "Insufficient memory for new MTU\n");
-> > -		return err;
-> > +	/* Port is down: no queues to rebuild, just record the new MTU.
-> > +	 * mana_open() will size the RX buffers accordingly.
-> > +	 */
-> > +	if (!mpc->port_is_up) {
-> > +		mpc->configured_mtu =3D new_mtu;
-> > +		WRITE_ONCE(ndev->mtu, new_mtu);
-> > +		return 0;
+> >  	if (apc->port_st_save) {
+> >  		err =3D mana_dealloc_queues(ndev);
+>=20
+> [Severity: Critical]
+> This is a pre-existing issue, but does mana_dealloc_queues() safely handl=
+e a
+> failure to quiesce the device?
+>=20
+> If mana_drain_txqs() times out and pci_try_reset_function() fails, it ski=
+ps
+> freeing the TX SKB buffers and returns false:
+>=20
+> drivers/net/ethernet/microsoft/mana/mana_en.c:mana_drain_txqs() {
+>     ...
+> 		err =3D pci_try_reset_function(to_pci_dev(gd->gdma_context-
+> >dev));
+> 		if (err) {
+> 			netdev_err(apc->ndev,
+> 				   "function reset failed: %d, %d pkts pending
+> in txq %u\n",
+> 				   err, atomic_read(&txq->pending_sends),
+> 				   txq->gdma_txq_id);
+> 			quiesced =3D false;
+>     ...
+> 	if (!quiesced) {
+> 		netdev_err(apc->ndev,
+> 			   "device not quiesced, leaking pending TX buffers
+> instead of unmapping memory it can still DMA from\n");
+> 		return reset;
+> 	}
+>     ...
+> }
+>=20
+> However, mana_dealloc_queues() ignores this false return value and
+> proceeds with the teardown:
+>=20
+> drivers/net/ethernet/microsoft/mana/mana_en.c:mana_dealloc_queues() {
+>     ...
+> 	if (mana_drain_txqs(apc)) {
+> 		struct mana_context *ac =3D apc->ac;
+> 		unsigned int i;
+>     ...
+> 	/* Even in err case, still need to cleanup the vPort */
+> 	mana_destroy_rxqs(apc);
+> 	mana_destroy_txq(apc);
+>     ...
+> }
+>=20
+> Because the device was never successfully quiesced, it remains active. Wi=
+ll
+> unconditionally freeing the GDMA SQ and RQ hardware ring buffers and RX
+> page pool buffers here lead to a DMA use-after-free when the hardware
+> continues to DMA read/write to the now-freed memory?
+
+Pre-existing behavior exactly the same in upstream, and the ordering alread=
+y accounts for it: =A0mana_destroy_txq()=A0/=A0mana_destroy_rxq()=A0 call =
+=A0mana_destroy_wq_obj()=A0 first, which tells the device to stop using the=
+ queue, and only then free the rings and page pool. This patch set doesn't =
+attempt to address this.
+
+>=20
+> > -		if (err) {
+> > +		if (err)
+> >  			netdev_err(ndev, "%s failed to deallocate
+> queues: %d\n", __func__, err);
+> > -			return err;
+> > -		}
 > >  	}
-> >
-> > -	err =3D mana_detach(ndev, false);
-> > -	if (err) {
-> > -		netdev_err(ndev, "mana_detach failed: %d\n", err);
-> > -		goto out;
-> > -	}
 >=20
 > [Severity: High]
-> This isn't a bug introduced by this patch, but since it converts
-> mana_change_mtu() to avoid the mana_detach()/mana_attach() sequence, is
-> mana_xdp_set() still vulnerable to a race condition with RDMA vport
-> creation?
+> Is the channel_changing boolean flag being used as an ad-hoc lock to guar=
+d
+> code sections and prevent concurrent access?
 >=20
-> Looking at mana_xdp_set() in
-> drivers/net/ethernet/microsoft/mana/mana_bpf.c,
-> it still uses the legacy detach/attach pattern without blocking RDMA:
->=20
-> 	err =3D mana_detach(ndev, false);
-> 	if (err) {
-> 		netdev_err(ndev,
-> 			   "mana_detach failed at xdp set: %d\n", err);
-> 		NL_SET_ERR_MSG_MOD(extack,
-> 				   "XDP: Re-config failed at detach");
-> 		goto err_dealloc_rxbuffs;
+> drivers/net/ethernet/microsoft/mana/mana_ethtool.c:mana_set_ringparam(
+> ) {
+>     ...
+> 	mutex_lock(&apc->vport_mutex);
+> 	if (apc->channel_changing) {
+> 		mutex_unlock(&apc->vport_mutex);
+> 		return -EBUSY;
 > 	}
+> 	apc->channel_changing =3D true;
+> 	mutex_unlock(&apc->vport_mutex);
+>     ...
+> }
 >=20
-> 	err =3D mana_attach(ndev);
+> Using a boolean flag to protect entire blocks of code bypasses standard
+> kernel locking mechanisms. This prevents lockdep from analyzing lock
+> dependencies and forces concurrent callers to fail with -EBUSY instead of
+> gracefully waiting.
 >=20
-> Because mana_xdp_set() drops vport_use_count to 0 without holding
-> vport_mutex or setting channel_changing =3D true, couldn't an RDMA
-> application successfully acquire the vport in the middle of XDP
-> reconfiguration?
->=20
-> If a race occurs, mana_attach() would fail with -EBUSY because RDMA owns
-> the vport, leaving the Ethernet port permanently down and requiring manua=
-l
-> intervention to recover.
+> Could a proper mutex or rwsem be used here instead?
 
-It's fixed by 06/13 patch.
+This is the pre-existing upstream locking mechanism. The patch set doesn't =
+attempt to change it.
 
 Long
+
+
