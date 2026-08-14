@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5587A33AD9C;
-	Fri, 14 Aug 2026 20:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A442E7390;
+	Fri, 14 Aug 2026 20:56:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786740708; cv=none; b=TYZOiDFOcVsCi1NhRzqbeO5vbn+DYtLnhM1j+7QPuyCsXkvPzIt1NY+NymOssDGAZZEvm051jm1WNFr5KZHG/4ZInLJRihg43SK2dRxHjMlMuN8fo5NUc3BAyujdqdHHxbD7jLIs2qUWh1uDlNtnmFGHQL9Q8uTEAJbSUo2lHa0=
+	t=1786740965; cv=none; b=kPLDowQaoamv7J1jdGt+HzMvwGRKjHJSN84XkCq2UHQtUAZNWbK+EMJ/ROkrfCzrcqiHYWcY4nYfqkUTik7juV+gRD1JB+ShkMzO7Khu7BJXBsJ8+lwTXP7cpDwCYba2IGMWPSUZm41FATuedeJ6i0fRWuDKHc6iFID7kzVWttw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786740708; c=relaxed/simple;
-	bh=sKmwZzj1qR9pXfms5hAGhL3d8vFO3rdxpfs+J8G31hE=;
+	s=arc-20240116; t=1786740965; c=relaxed/simple;
+	bh=OZOxNC1RpuxYhD0EzavS3619bf2lcmmOSimmgIlTmTY=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=TK6BoiYMXgKS2Gn15NPqkXkMO1Pwez0to/S047A9NxOKlEBzeUU13Of+/TY8F7WjFexHlzuNH9zE8qrQYKiz/YJhgMNMox/XXW00OkBcH0ibRiIzqEuKgATVWpRpfC7cXmr4hb6Y4P+DwY3fsY6jMcHmves/3KGNexQoD85qE9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kutsmjbd; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=KvWOUWNvN9IVxTXMPaEzh5GBHTTd1uAMFkhLtCln2g3/JNGp3qxM2cwEWe1YKhP2wlplGokojOjMm8KJ3b585f6VNVf6k0BjJqVSPjwRp0pH3eYnuCE8RkZNKtNdmGjhU0oIISFANt8bicQ/v/PP59hL+ns+isSXVHUg+o16Hq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faVlqrLB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kutsmjbd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560FA1F000E9;
-	Fri, 14 Aug 2026 20:51:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faVlqrLB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 497061F00A3A;
+	Fri, 14 Aug 2026 20:56:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786740706;
-	bh=0IYOYwNbA/BZ+ifKph8wX7c9viUdBpinxV81JfV7DrM=;
+	s=k20260515; t=1786740963;
+	bh=fTfUDQrgJ3Y+t0RXMYFXkxKPnYej7d4+iN1qSmhzYRY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=kutsmjbdJj//waNJ/u3uWkelQcLhVYJqTjCMBkH/ia5KfE6A0TogkSU5frpfOAaFJ
-	 n0YEsTDwkj/GqZ5xeVuH4gwDFA2SE6/t9KZBUhQxDsr1uAnCSjLCFml8X3A4i87iR5
-	 cegpEf+BcQYBuIxfzNj0Yvr3AGoDN1tcdNQNzo2KozfvRJUKqRlmMOC6GYvilCJIBw
-	 uSs8o2df0YNNh/tViXOY06lHy1VzxJU6Ih9ngO9OyYzOeg5mTlMKo1gle2oIsKXkAH
-	 mPbHu1FXJQd5LCGwZoat4Kkf/9oY7psZyF1nhOTuGWdNNhTxgSoMxC/86yz5Kx7qn0
-	 f7XsIIT4TRQCw==
+	b=faVlqrLBEhwneawuv22KUSZLYCX7unkodfOtf3Hcy0hRJXpLl3IrOplgOC9ywccXK
+	 /vk5qU0qILftzpV2Z7wUjZLsodfwUxICqs6/i8/CUNzSkAv9eMhVbmhJYDgyIO1sFz
+	 /vw2D90gMNhpA5V7nvcO2ezHZLgrc+4Pexmc4Rx48OQcgcqOgowpqtXddb6/IaOYEq
+	 8PhWN/CHhCzvr6WLO+6UFekETFGShIvJYIG1le4FZ+XixW3npDsdzUeZOMRgLiMApa
+	 QmNJghPBd6iqva7/1NKcD+XRgPOmQteFxxCjrDZO0mxUkdbG6sX+inC02wD0bucfHX
+	 T9S1jtidwcOhQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/5] drm/vblank: Remove num_crtcs argument from
+Subject: Re: [PATCH 4/5] drm/vblank: Use drm_for_each_crtc() in
  drm_vblank_init()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Lyude Paul" <lyude@redhat.com>
-Cc: linux-hyperv@vger.kernel.org, intel-xe@lists.freedesktop.org, Frank.Li@kernel.org, linux-sunxi@lists.linux.dev, imx@lists.linux.dev, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org, wsa+renesas@sang-engineering.com, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-In-Reply-To: <20260814203542.1405135-4-lyude@redhat.com>
+Cc: imx@lists.linux.dev, intel-xe@lists.freedesktop.org, neil.armstrong@linaro.org, intel-gfx@lists.freedesktop.org, linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org, wsa+renesas@sang-engineering.com, Frank.Li@kernel.org
+In-Reply-To: <20260814203542.1405135-5-lyude@redhat.com>
 References: <20260814203542.1405135-1-lyude@redhat.com>
- <20260814203542.1405135-4-lyude@redhat.com>
+ <20260814203542.1405135-5-lyude@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Aug 2026 20:51:45 +0000
-Message-Id: <20260814205146.560FA1F000E9@smtp.kernel.org>
+Date: Fri, 14 Aug 2026 20:56:02 +0000
+Message-Id: <20260814205603.497061F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,98 +47,82 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Critical] drm_vblank_init() returns -ENODEV causing probe failures in mu=
-ltiple drivers
+- [Critical] Calling `drm_vblank_init` before creating CRTCs results in a z=
+ero-size allocation, leading to a kernel crash when vblank features are lat=
+er used.
 --
 
---- Patch [3]: [PATCH 3/5] drm/vblank: Remove num_crtcs argument from drm_v=
-blank_init() ---
-commit 049e1e142facf2bbdd92cd8a8847a53f6b18b3aa
+--- Patch [4]: [PATCH 4/5] drm/vblank: Use drm_for_each_crtc() in drm_vblan=
+k_init() ---
+commit 4aec980231f556c8a36b5294d67b3d582d49d623
 Author: Lyude Paul <lyude@redhat.com>
 
-drm/vblank: Remove num_crtcs argument from drm_vblank_init()
+drm/vblank: Use drm_for_each_crtc() in drm_vblank_init()
 
-This commit removes the num_crtcs argument from drm_vblank_init() and
-updates callers across the tree to rely on the internal DRM count of CRTCs
-instead. The change was applied mechanically using a Coccinelle patch.
+This patch updates drm_vblank_init() to use the drm_for_each_crtc() iterator
+instead of manually counting the number of CRTCs.
 
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/as=
-peed/aspeed_gfx_drv.c
-> index d4577663a1f0e..ba78695d1015c 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -205,7 +205,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
->  	if (ret < 0)
->  		return ret;
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 17283e8920378..d57405050554f 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -547,19 +547,20 @@ static void drm_vblank_init_release(struct drm_devi=
+ce *dev, void *ptr)
+>  int drm_vblank_init(struct drm_device *dev)
+>  {
+>  	int ret;
+> -	unsigned int num_crtcs =3D dev->mode_config.num_crtc;
+> -	unsigned int i;
+> +	struct drm_crtc *crtc;
 > =20
-> -	ret =3D drm_vblank_init(drm, 1);
-> +	ret =3D drm_vblank_init(drm);
-
-[Severity: Critical]
-Will this cause a probe regression for this driver?
-
-By removing the explicit CRTC count, drm_vblank_init() now relies on the
-DRM device's internal CRTC list being populated. However, aspeed_gfx_load()
-calls drm_vblank_init() before calling aspeed_gfx_create_pipe(), which is
-where the CRTC is actually created.
-
-Because the CRTC list is empty at this point, drm_vblank_init() will
-return -ENODEV and fail the probe.
-
->  	if (ret < 0) {
->  		dev_err(drm->dev, "Failed to initialise vblank\n");
->  		return ret;
-
-> [ ... ]
-
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_kms.c
-> index 9228a7ad0dfa4..c9e29da53d056 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -888,7 +888,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  	 * Initialize vertical blanking interrupts handling. Start with vblank
->  	 * disabled for all CRTCs.
->  	 */
-> -	ret =3D drm_vblank_init(dev, rcdu->num_crtcs);
-> +	ret =3D drm_vblank_init(dev);
-
-[Severity: Critical]
-Does this introduce a similar regression for rcar-du?
-
-The driver calls drm_vblank_init() here, but the CRTCs are not created
-until the rcar_du_crtc_create() loop further down. This means
-drm_vblank_init() will see an empty CRTC list and fail with -ENODEV.
-
->  	if (ret < 0)
->  		return ret;
-
-> [ ... ]
-
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 5a640b531d88f..5a830cee7fe9b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -192,8 +192,7 @@ int vkms_create(struct vkms_config *config)
->  		goto out_devres;
->  	}
+>  	spin_lock_init(&dev->vbl_lock);
+>  	spin_lock_init(&dev->vblank_time_lock);
 > =20
-> -	ret =3D drm_vblank_init(&vkms_device->drm,
-> -			      vkms_config_get_num_crtcs(config));
-> +	ret =3D drm_vblank_init(&vkms_device->drm);
+> -	dev->vblank =3D drmm_kcalloc(dev, num_crtcs, sizeof(*dev->vblank), GFP_=
+KERNEL);
+> +	dev->vblank =3D drmm_kcalloc(dev, dev->mode_config.num_crtc,
+> +				   sizeof(*dev->vblank), GFP_KERNEL);
+>  	if (!dev->vblank)
+>  		return -ENOMEM;
+> =20
+>  	dev->has_hw_vblank =3D true;
+> =20
+> -	for (i =3D 0; i < num_crtcs; i++) {
+> +	drm_for_each_crtc(crtc, dev) {
 
 [Severity: Critical]
-Can this lead to a complete initialization failure for vkms?
+Could this change lead to an uninitialized vblank array and subsequent page
+fault for drivers that initialize vblank before creating CRTCs?
 
-The call to drm_vblank_init() occurs before vkms_modeset_init(), meaning
-the pipeline components have not been created yet and the internal CRTC
-count is zero.
+For example, in vkms_drv.c:vkms_create(), drm_vblank_init() is called before
+vkms_modeset_init() creates the CRTCs:
 
->  	if (ret) {
->  		DRM_ERROR("Failed to vblank\n");
->  		goto out_devres;
+	ret =3D drm_vblank_init(&vkms_device->drm);
+	if (ret) {
+		DRM_ERROR("Failed to vblank\n");
+		goto out_devres;
+	}
+
+	ret =3D vkms_modeset_init(vkms_device);
+
+Because the CRTCs are not yet created at this point, dev->mode_config.num_c=
+rtc
+is 0. The allocation for the vblank array becomes a 0-byte allocation,
+returning ZERO_SIZE_PTR (0x10). The drm_for_each_crtc() loop then executes 0
+times, and drm_vblank_init() successfully returns 0.
+
+When userspace later calls DRM_IOCTL_WAIT_VBLANK, the kernel looks up the
+CRTC using drm_vblank_crtc(dev, pipe). This returns a pointer into the arra=
+y,
+which evaluates to ZERO_SIZE_PTR + pipe * sizeof(...).
+
+Will dereferencing this pointer cause an immediate kernel OOPS?
+
+> +		unsigned int i =3D crtc->index;
+>  		struct drm_vblank_crtc *vblank =3D drm_vblank_crtc(dev, i);
+> =20
+>  		vblank->dev =3D dev;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260814203542.1405=
-135-1-lyude@redhat.com?part=3D3
+135-1-lyude@redhat.com?part=3D4
