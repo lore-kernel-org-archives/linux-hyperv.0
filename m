@@ -1,118 +1,168 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forwardcorp1a.mail.yandex.net (forwardcorp1a.mail.yandex.net [178.154.239.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC82446842
-	for <linux-hyperv@vger.kernel.org>; Mon, 17 Aug 2026 17:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3426ED4F;
+	Mon, 17 Aug 2026 22:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786988157; cv=none; b=qr+dqr/Pkt/6aAz2MqH9ODxRNv/3HqZyWxUlp8Ch4iD/f21y5wOnnwejp4l/Mb2dsNbR/0wxNeEmlNi5r7BDQa2Gz8QydcW/cIDJhK/jTck8x0IybOleMcM9v65OjEzOrYTDxjzF5nTXps0+nqQ80y/HnG4g3JsUYgmjrRU7Zmk=
+	t=1787004989; cv=none; b=gvhM1R8C8JBIqNCawutMlBXdwxzUxQTIW7uCO1l7DRwL1VD65lFgoCKypTQIsSjsAKBtWoHGuZnpdqaM8TzzvM6mzt3Blqrjfo59hhLrl05R2xt+AfPkFMo1XCO0xU7+95ozhAnz1oLNzzuC/f9NCTOtc6gWf8BLOqSmke1B5vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786988157; c=relaxed/simple;
-	bh=+e98k4168mAh10/uMiEYObv7JgiKCyhKONJNJqBtoX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsHJ5IIdDwfrXL4w7hCSl71yDG0v4XfG5hPbOIlbM8vwccyLwGbXrn2xIuji+CMKmQi4FBeU2AIxJ18/l6uBODC/CmlcZ/gw8XHhHWCRwUI+DfQoS5K4fmt3Od4BnebzfAfFMSyegZXjvB02lyf5LrnnpSKKRpuXPKZ6Mgp85qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=gw7r+pwV; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1787004989; c=relaxed/simple;
+	bh=0pp1Vxu+goQlHbq1pQ07TMz1QvRgRhvkA4HKqSMY60U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dgbL9B/6PAwIkGTE5tEC0qswymAtnB70rVmDOBVe28jTrad0mifWAG9N3cOf1k+I70ttakuQ/oSfZCWzSTlfQ20NQxEHvcnQoDWXK99kdA9sBqbwVsijhAdu7OvI2bq+2Z3abc4JIihxw14VNdKtsg7Tt9wax+KU1v1cwvuBog0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=Bqo7B2+O; arc=none smtp.client-ip=178.154.239.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="gw7r+pwV"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-908934450cdso28775396d6.1
-        for <linux-hyperv@vger.kernel.org>; Mon, 17 Aug 2026 10:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1786988154; x=1787592954; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7xTL49KfLwAq5Qv044eqsaTTNVVybZ9ovZEhY6mKMv0=;
-        b=gw7r+pwV6rzaKBcmZKbwEorQMsOdlVWe4SFpxiD/v+PRtMIy4J6HyT5Oi7RHiQrWWs
-         S7sgNNTz0bKsFxxJi4ZjqFSvTstHa3USTWT2Eipq3w3i5siHj0sMdeJ9G9HfzAN9AFGw
-         AS/9rqZoB4O5CVatSRFs+PHzWOL8pLryM/kM8YG5pChw0pWNRZTJ/m0Bvs3BjAwXOAOY
-         SlFoeDIVLBpfLDfq6xuZMB+RAtAaXbsiayBy7+lC48SmZo3iRK62RcUwpJOrqErVGTVF
-         VDrG6vkwao1Nu9bVUxqDAOulVQVW88mTNz2SToj8FaeXahz2c02MFx4esKc7GrCtQmo1
-         4yPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786988154; x=1787592954;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7xTL49KfLwAq5Qv044eqsaTTNVVybZ9ovZEhY6mKMv0=;
-        b=QORi64fJaxpYgjvcOjOAnkZKr9nD4MAvf4MArgjtdBcYnkLsShjA4R+6CLjbY1nU2j
-         BOfQxKNJKNTM93B98d7H2Wg/K7RflFf3YiuAuCY3i0lBGb9Fkgzp55DxTxUfOn72gRdh
-         FVrTw1+cU0cVKmNT1S71SkwdmHBMTPTeyQeH6mH3kmTI+iJ/QXOL3lR2G9yHio1Fohwg
-         N1dKQUFm/NP16KDCghMCBSBO6keAp6fpviXvL8DxQ4lkIf8Sq1TDVH9G78CW/B0GLMtW
-         DdC4yqtCnyWe3iNg1hemyvfl5ABjPH4YNRFc5g8jd/NHzX8Jf88oS+j4SevnoNv2p9Qe
-         rWTQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0Rnypc5Nl2o5uDAxoHIWepy8rLrd66g3ksO0VPVGgRMPKzOrJyotoRDdTPRbgzpLg7l6zV9eq/zLHKpk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi+nm//ct3yO/kPMKX3xMXFtgsZTe1tZGQcx52OHykQC9VuwRy
-	axV/DsVjtFGbL79LSkkSLNM0DDFUF9KhDLIb1LGulvr823hmm0aRkNwlGmH35N5xKn8=
-X-Gm-Gg: AR+sD126t2/e99fV6+Z/jvJKAwO1sMtjKEPmPn//Coct1p7e+8q5LdHhdGXXlC5t30z
-	byzcDQAqw4wOhDUQxNgbgeqQUFnPfJSuN22IoAKpABwKwfwGJF7gKTxAUUA/3OOZcTHyYZMpB8m
-	5Xnx73l1NNh8gmpJgPJ86Vh2MZrfJ+TQPq2Mo9GkH70Y/2lCOXsTuGWzcGsYQQtQX88s/unRjm6
-	vtMywZmG4psYnA4LzKrKy7erPuWU5U8E/Slr5K4TwraGIakYyu9p3eX7hEnvMHdurWB5OBCW+nm
-	bPJKjWaEUwZZCxnpUjz8tFAXEUY/FLOCUWLMMTfuReESSqAgkfs0fr9zO1FyOmY+y7D+O0pUCBr
-	Ti30Xq3rHFW42BJN/Ngx7A/hZwv8UCUxM7SnPs6abN7hF7xDGuNBFiDJGrsyoNVBZDI54nAHkVg
-	SK9U6gODiqUcOkcSYFzFHxU/9uhudG+rWKJ0TETw==
-X-Received: by 2002:a05:6214:e6e:b0:907:bf7a:9771 with SMTP id 6a1803df08f44-90a91def3cdmr277120766d6.21.1786988154391;
-        Mon, 17 Aug 2026 10:35:54 -0700 (PDT)
-Received: from ziepe.ca ([142.166.156.215])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c4580f90csm13765356d6.9.2026.08.17.10.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 10:35:53 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1ww1FY-00000006A9C-3bVH;
-	Mon, 17 Aug 2026 14:35:52 -0300
-Date: Mon, 17 Aug 2026 14:35:52 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: Jacob Pan <jacob.pan@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
-	x86@kernel.org, wei.liu@kernel.org, kys@microsoft.com,
-	haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-	bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org,
-	mani@kernel.org, robh@kernel.org, arnd@arndb.de,
-	mhklinux@outlook.com, tgopinath@linux.microsoft.com,
-	easwar.hariharan@linux.microsoft.com, mrathor@linux.microsoft.com,
-	baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com,
-	vasant.hegde@amd.com
-Subject: Re: [PATCH v3 4/5] iommu/hyperv: Add para-virtualized IOMMU support
- for Hyper-V guest
-Message-ID: <20260817173552.GA1418894@ziepe.ca>
-References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
- <20260811155022.108148-5-zhangyu1@linux.microsoft.com>
- <20260813152913.00003d8a@linux.microsoft.com>
- <20260813224627.GA933791@ziepe.ca>
- <p7ts4y6lxt7k6ldzaa26v7rckmmp7o5js2gn2r3eantgzut2cc@xxsvso76nefj>
- <20260817122216.GD933791@ziepe.ca>
- <gk7lcfk73uzntmnmf7eb5clp2h7q7oqb7lykj2qlrrkilotfvx@mf6wima2kibk>
- <aiioa6ospojivued3djhwadyfpit5temyvrgm3xxzhzt6aqbiv@hqz6q5bqnl6w>
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="Bqo7B2+O"
+Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net [IPv6:2a02:6b8:c2d:3530:0:640:eca4:0])
+	by forwardcorp1a.mail.yandex.net (postfix) with ESMTPS id DB311C0A13;
+	Tue, 18 Aug 2026 01:16:14 +0300 (MSK)
+Received: from [IPV6:2a02:6bf:8080:636::1:14] (unknown [2a02:6bf:8080:636::1:14])
+	by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp) with ESMTPSA id AGdauh9aNOs0-b6cs1GW7;
+	Tue, 18 Aug 2026 01:16:14 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+	s=default; t=1787004974;
+	bh=b0Z0/tXuCNUd1fMwZ+IpDj+Wo0HtUhiZ0PxFs9YzGJE=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=Bqo7B2+OcvbL6jkoeu5ZtQ58ESgMa5yx1X9ZY/km3cBov6qCeQ5SDsgsZ0U86Rt5d
+	 uYvDSlYKTy4SV0n31y+JkkPZM+aJbk85EmEmmi+5ZG2KRLadsxdZofEw9k/LGvaPc2
+	 rA3R7E8/1y06BWknqf88/HkaFxTe9jLnAMqszcpg=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
+Message-ID: <0d1f0afe-74f0-4adb-a7cf-2d4efd001de3@yandex-team.ru>
+Date: Tue, 18 Aug 2026 01:16:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aiioa6ospojivued3djhwadyfpit5temyvrgm3xxzhzt6aqbiv@hqz6q5bqnl6w>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 21/51] x86/kvm: Obtain TSC frequency from PV CPUID if
+ present
+To: Sean Christopherson <seanjc@google.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Ajay Kaher <ajay.kaher@broadcom.com>,
+ Alexey Makhalov <alexey.makhalov@broadcom.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Andy Lutomirski
+ <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Juergen Gross <jgross@suse.com>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, John Stultz <jstultz@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd
+ <sboyd@kernel.org>, Miroslav Lichvar <mlichvar@redhat.com>, x86@kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Michael Kelley <mhklinux@outlook.com>, Tom Lendacky
+ <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, David Woodhouse <dwmw2@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>
+References: <20260806233609.212337-1-seanjc@google.com>
+ <20260806233609.212337-22-seanjc@google.com>
+ <ef3b56bf-8df0-4a40-82c7-bd2d65eec71e@yandex-team.ru>
+ <aoMVy4VB1sq4T-ys@google.com>
+Content-Language: en-US
+From: Maksim Davydov <davydov-max@yandex-team.ru>
+In-Reply-To: <aoMVy4VB1sq4T-ys@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 18, 2026 at 01:22:03AM +0800, Yu Zhang wrote:
 
-> So we could
-> - either keep the duplicate check in hv_iommu_blocking_attach_dev();
-> - or add code in our common helper, hv_iommu_attach_dev(), to treat
->   HV_STATUS_DEVICE_ALREADY_IN_DOMAIN also as successful explicitly. 
+
+On 8/17/26 17:08, Sean Christopherson wrote:
+> On Mon, Aug 17, 2026, Maksim Davydov wrote:
+>> On 8/7/26 02:35, Sean Christopherson wrote:
+>>> diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
+>>> index 29ca37e9a3bc..f55d0305d1f3 100644
+>>> --- a/arch/x86/kernel/kvmclock.c
+>>> +++ b/arch/x86/kernel/kvmclock.c
+>>> @@ -342,8 +342,10 @@ void __init kvmclock_init(void)
+>>>  	flags = pvclock_read_flags(&hv_clock_boot[0].pvti);
+>>>  	kvm_sched_clock_init(flags & PVCLOCK_TSC_STABLE_BIT);
+>>>  
+>>> -	x86_init.hyper.get_tsc_khz = kvmclock_get_tsc_khz;
+>>> -	x86_init.hyper.get_cpu_khz = kvmclock_get_tsc_khz;
+>>> +	if (!x86_init.hyper.get_tsc_khz)
+>>> +		x86_init.hyper.get_tsc_khz = kvmclock_get_tsc_khz;
+>>> +	if (!x86_init.hyper.get_cpu_khz)
+>>> +		x86_init.hyper.get_cpu_khz = kvmclock_get_tsc_khz;
+>>>  	x86_platform.get_wallclock = kvm_get_wallclock;
+>>>  	x86_platform.set_wallclock = kvm_set_wallclock;
+>>>  #ifdef CONFIG_X86_LOCAL_APIC
+>>
+>>
+>> I cannot test this right now as I lack two servers with different CPU
+>> base frequencies, but it seems that this patch might break something in
+>> guests:
+>> After migrating a VM (QEMU + KVM) from a host with one base frequency to
+>> another host with a different base frequency, the value in CPUID leaf
+>> 0x40000010 EAX changes and becomes the same as the destination host base
+>> frequency instead of remaining the source base frequency.
 > 
-> And since normal paging-domain attaches do not have this duplicate
-> case, I'd prefer the first choice, to keep current check in
-> hv_iommu_blocking_attach_dev().
+> That's a bug in whatever is orchestrating the migration, and/or QEMU if QEMU is
+> handing the upper layers a loaded footgun.
+> 
+>> The main reason for this behaviour is that setting the TSC frequency via
+>> ioctl(KVM_SET_TSC_KHZ) doesn't change the value in CPUID leaf 0x40000010
+>> EAX and these two entities are still not connected.
+> 
+> And they never will be.  It's userspace's responsibility to fill the correct
+> values for 0x40000010.
+> 
+> But AFAICT, QEMU does the right thing.  env->tsc_khz is used for both the CPUID
+> leaf and for KVM_SET_TSC_KHZ.
+> 
+> kvm_arch_init_vcpu():
+> 
+>         c = &cpuid_data.entries[cpuid_i++];
+>         c->function = KVM_CPUID_SIGNATURE | 0x10;
+>         c->eax = env->tsc_khz;
+>         c->ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
+>         c->ecx = c->edx = 0;
+> 
+> kvm_arch_set_tsc_khz():
+> 
+>     r = set_ioctl ?
+>         kvm_vcpu_ioctl(cs, KVM_SET_TSC_KHZ, env->tsc_khz) :
+>         -ENOTSUP;
+> 
 
-I think everything can technically be re-attached and must not fail,
-you have to handle that possibility everywhere.
+Agreed.
+However, kvm_arch_set_tsc_khz() is also used at the end of migration
+(qemu_loadvm_state -> cpu_synchronize_post_init).
+So, the new value of env->tsc_khz from the source host can be loaded
+during migration via KVM_SET_TSC_KHZ. However, the frequency in CPUID
+leaf 0x40000010 remains the same as on the destination host (the TSC
+frequency can differ from the source host's frequency). Thus, it's
+possible to have unsynchronized CPUID leaf 0x40000010 when using default
+QEMU parameters.
 
-So accepting that code as success seems like it might be needed anyhow?
+>> I saw this behaviour with QEMU 7, but I've checked the code of the
+>> latest version and it seems that the described behaviour still exists.
+>> So, in that case, it's possible that with these changes a VM will use
+>> the wrong TSC frequency from CPUID leaf 0x40000010 EAX if it's migrated
+>> and then rebooted.
+>>
+>> Putting it all together, after the previous patch ("KVM: x86: Officially
+>> define CPUID 0x40000010 as PV Timing Info (TSC and Bus)") a new way to
+>> show the guest that CPUID leaf 0x40000010 is valid should be implemented
+>> and only then this leaf can be used to get the TSC frequency.
+> 
+> No, there are already non-Linux kernels that consume 0x40000010, e.g. FreeBSD.
+> In my very strong opinion, if this problematic for a deployment, then that
+> deployment needs to urgently fix their broken setup.
 
-Jason
+-- 
+Best regards,
+Maksim Davydov
+
