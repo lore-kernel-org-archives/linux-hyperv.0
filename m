@@ -1,143 +1,114 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32733411FB6;
-	Mon, 17 Aug 2026 12:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F163F9284
+	for <linux-hyperv@vger.kernel.org>; Mon, 17 Aug 2026 12:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786968918; cv=none; b=AM61ag92LoWptEUkizYaO95B3Q8OSPFU52E4Iwg6G5xCH4SmyzA6O5hTka1ppymIJAP87T1aZp38hptOmj34SClgy0jPhJA10PnHn7rH143u2QqIiVZMz/edL9pRrm/5GavojvkqB4QhwSw0bf3WgzYrjk4tELt4Ka4jrK3OCD4=
+	t=1786969340; cv=none; b=EwZNlP778otE/EwEr07v7Ao0OFI9wnRr8Ofocfwu6PP44f03jFDHBhic6ZnbqZlFakQKOMXDL6fuWuhriFbO0C4RbyRIc8S4ykinpH3pDTWfSDdk72ua5sxP+hpDHJVcZ305dBLFu7x6/5DFYoDn8iudJu9GZU94QSNv3bfxCV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786968918; c=relaxed/simple;
-	bh=LfkMGxW3AfJh/pU9fRvSw7avyvH/dXlsBnbY75MIEzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YC1h8uSbCXSctQGMVMiO75WWIrurgDTrbHJUyff6bcLf1vjacPeik7HkzPOvaJgsujajfC/JRiMKbYWKjX/UGs2bxGPgsEJl4FyEBzz+CZxznBGR6iqFC8657EkfhNEAlV6y9zheQ3/pyexoSFw2f+a1k3N/FwdSERYSas76V5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QfpZTzbR; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1786969340; c=relaxed/simple;
+	bh=I+UkeZQjqj3g0bJcjZoQjrVdpo8txWH3MfMsXY6UQ6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pNGq/vyxX6D5gP2VQczeJcjCZdsa2HCfIJ+l2ouyO/E2JkmBq4FrtKjVW2enwlwfBz1/KyG/nm1gMbHvgKR+lNPjnz9irGd1Ku7KNBFNYiBQCfOIyLALUUfTDfb1tggePkOZdttT1M7WcuoLHYq2/34tBOxl8jIxNPfjETanwhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=YA4a0nO0; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QfpZTzbR"
-Received: from [192.168.1.70] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 79D6020B7168;
-	Mon, 17 Aug 2026 05:14:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 79D6020B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786968889;
-	bh=ylyanNErPjAyvnQPvT7fBwEJtMRZX/h/apq3acxliy0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QfpZTzbRsCjcIaHIvZ/0FvUrHtmzKspiso/SltYEUuFkdbUkLZOEAyuFK83JC3lJP
-	 N89no9gYObhP+v/D/Q5lUprhRcEAGPzH/kkacURRjOlblou6AxS8CwGQolYK7FIgJa
-	 8MDz3hIQ7vrZqEJnwnL0Oxm4iOF17UpMXyQeZruE=
-Message-ID: <68315782-3695-4e16-a990-3a1c41cb7476@linux.microsoft.com>
-Date: Mon, 17 Aug 2026 17:45:06 +0530
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="YA4a0nO0"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-936d00181abso145277185a.2
+        for <linux-hyperv@vger.kernel.org>; Mon, 17 Aug 2026 05:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1786969337; x=1787574137; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Fjc8YE85ySy/Tyy7fdL+qRRJqTW8oWeIB13unlKZzTU=;
+        b=YA4a0nO0nH4v84iv6elfrsvINBNSoFqqFooCYFt/cRuYftKq9UxSrecdC1bO8LxTmj
+         34iaCd1M6wxXfmSzn4njprKUhNyXxgNor+wdcMdW+oQ7bkKBdSqcvOIhfP1QPqH/MXdR
+         TBQlF7ijV7sLpk1nwy6HXvYVby0j3i7zTi6nGZJvRbKknPLga1un1MuRPNj/F89+8J8U
+         3R+UfBzK5j0qFbBD6gmKibLW/K3dsysN3qBHU3AgSIwz6pI0ebsRHBdAHESNHqtXoa+0
+         LkqS1kSLp7+n4aDiVSMigDPOBeLnNvNjrvp0z/Y80YXnNAriMzzHP38XdapZG3uHhgC5
+         s7Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786969337; x=1787574137;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Fjc8YE85ySy/Tyy7fdL+qRRJqTW8oWeIB13unlKZzTU=;
+        b=UF5e9JZ7s4rfH06awVhTplEBkIUX/MtcmX2rfQdoEHqnmEN8f//fxmToF9EkqbDDW8
+         wjcJkdsCYS+aReDxpM2Vxvp0XiYc1RN5xoVengCyLMkguQHulUMSm+BxbFY24sVOQGhU
+         8ovOiJVWAxedqT0PTR6BEY6Nm7cdC7HHkEAtsDcxeWyvHkzvZyOuJqPldpxWLNmcTZRY
+         8JaxYVaqeIhFC0gT/a1RxejBHJWEK7kf8bI3BsPJA9p2824hIbG/Dv5j3CAtPZMCKE49
+         0yJRjNOjijCYeJ3xLbl6CzR8vGMDt5O3et6KAxg2UzJFu9GE4Rcf4jrC45eDv48b0NJH
+         AY/w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3qeYtwDIPa6vichOBFyv2tjB6VrhV/GQNNYkIIsP+o1p+uGzL3BiWkU30io6GeDIRMM0vo76Qu5Xqsz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyULX7Bk54IFohe6PlCyb1bsLJOi6oV2WYTOYi3+PqvuDhIwnRj
+	PfwMM345GVhvaQ99L4cLbu3OElSdPydq6XEHGyIxvUx/O+FA0KWrUJyeadeknEG6JoI=
+X-Gm-Gg: AR+sD10GAL2p3U5apq2u3MtYElW1xM9BKdmnDi76mY6llx82B2YbGU4ge4ZzHQY/OcI
+	CchY88z/9/blDCuLpAK3dtkXMCJb8C3QOrXw4B06FQ7YrZ1cxfPqKo2Rp7EH1gw/9MWeO+tEgf+
+	wehd0N4bJxKANuqYZRwO1h39/V+BMNTIrqnsu8HQ5OSkdWD/BMa9a8QYFh4Qf/e+kOsoXb+mabd
+	agX/xDApRksRsYfB09bf0bHc0KUs4bX6XLc0rLKJlnFtterrP/tjm6lwTDbJcQ4DSdm3zykAVt5
+	y//Aqzx0vlsyi0Wi0Bmti2YbzWt309Dxg1NLIlRNPr/JrQFQUg52POSmL2FzJQtA01IloPx0vSk
+	H/gHrSUDQFQKYjyiaNP2TqORmypOy4yLHeRQbYBGelcRKCsjhD5sqVttx7m9BxHgCJOnbMe299a
+	w2FBqXEKeohGmgTiNGJGR0LY8uyVIfgPViVLpoosj3ydSjJJJZww==
+X-Received: by 2002:a05:620a:2552:b0:92e:f3ca:2ec8 with SMTP id af79cd13be357-936d202b715mr2670485685a.19.1786969337333;
+        Mon, 17 Aug 2026 05:22:17 -0700 (PDT)
+Received: from ziepe.ca ([142.166.156.215])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-937033fad12sm31868985a.36.2026.08.17.05.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 05:22:16 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wvwM4-00000005tO2-0GS8;
+	Mon, 17 Aug 2026 09:22:16 -0300
+Date: Mon, 17 Aug 2026 09:22:16 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Yu Zhang <zhangyu1@linux.microsoft.com>
+Cc: Jacob Pan <jacob.pan@linux.microsoft.com>, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
+	x86@kernel.org, wei.liu@kernel.org, kys@microsoft.com,
+	haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
+	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+	bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org,
+	mani@kernel.org, robh@kernel.org, arnd@arndb.de,
+	mhklinux@outlook.com, tgopinath@linux.microsoft.com,
+	easwar.hariharan@linux.microsoft.com, mrathor@linux.microsoft.com,
+	baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com,
+	vasant.hegde@amd.com
+Subject: Re: [PATCH v3 4/5] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <20260817122216.GD933791@ziepe.ca>
+References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
+ <20260811155022.108148-5-zhangyu1@linux.microsoft.com>
+ <20260813152913.00003d8a@linux.microsoft.com>
+ <20260813224627.GA933791@ziepe.ca>
+ <p7ts4y6lxt7k6ldzaa26v7rckmmp7o5js2gn2r3eantgzut2cc@xxsvso76nefj>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] PCI: hv: Set irq_retrigger callback for the
- Hyper-V PCI MSI irqchip
-To: Michael Kelley <mhklinux@outlook.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
- <x86@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>,
- Shradha Gupta <shradhagupta@linux.microsoft.com>,
- Aditya Garg <gargaditya@linux.microsoft.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
- <20260810090716.2325295-2-namjain@linux.microsoft.com>
- <SN6PR02MB4157CE7F6C5A11D172444D60D4A72@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB4157CE7F6C5A11D172444D60D4A72@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <p7ts4y6lxt7k6ldzaa26v7rckmmp7o5js2gn2r3eantgzut2cc@xxsvso76nefj>
 
-
-
-On 8/17/2026 9:08 AM, Michael Kelley wrote:
-> From: Naman Jain <namjain@linux.microsoft.com> Sent: Monday, August 10, 2026 2:07 AM
->>
->> The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
->>
->> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
->> the outgoing CPU to a new target. If an interrupt still has its pending bit
->> set in the outgoing CPU's IRR at that point, fixup_irqs() resends it on the
->> new target through the irqchip's irq_retrigger() callback. As the Hyper-V
->> PCI/MSI chip does not provide that callback, the pending interrupt is
->> silently dropped, which can result in lost interrupts, stalls and "No irq
->> handler for vector" messages during CPU hotplug.
->>
->> Install irq_chip_retrigger_hierarchy() as the irq_retrigger() callback for
->> the Hyper-V PCI/MSI irqchip, so that a pending interrupt is resent on its
->> new target CPU via the parent x86 vector domain.
+On Fri, Aug 14, 2026 at 05:37:48PM +0800, Yu Zhang wrote:
+> > Why check it at all? Is there an issue with attaching the same thing
+> > twice? Will it blip the DMA or something?
 > 
-> The RFC version of this patch set listed the asynchronous nature
-> of the HVCALL_RETARGET_INTERRUPT hypercall as a cause of the
-> problem. Is that hypercall still believed to be asynchronous?
-> My understanding of "asynchronous" would be that Hyper-V
-> does not guarantee that the retargeting of the interrupt to a new
-> vCPU has occurred when the hypercall returns. There is an
-> unspecified time period during which the interrupt could still be
-> directed to the vCPU that is going offline. Furthermore, Hyper-V
-> provides no rendezvous mechanism for the guest to know when
-> the interrupt is guaranteed to go to the new vCPU.
+> Actually, I do not think there should be any issue with attaching twice.
+> Hyper-V *should* be able to accept such attachment. But I do not want to
+> make such assumption just for a redundant hypercall.
 > 
-> If the async behavior is indeed present, isn't it a problem, even
-> after this patch? irq_migrate_all_off_this_cpu() causes the
-> RETARGET_INTERRUPT hypercall to be made, but a new interrupt
-> could still be generated to the going-offline vCPU after fixup_irqs()
-> runs its loop searching for any pending interrupts. A new such
-> interrupt would be lost. The 1 millisecond delay in fixup_irqs()
-> probably mitigates this problem by giving Hyper-V time to complete
-> the retargeting. But it's not a 100% solution.
- > > Assuming my thinking is correct, there isn't a 100% solution. But
-> the problem's existence, and the likely benefit of the 1 ms delay,
-> should be called out in the commit message and/or code
-> comments for future readers.
+> Does this reasoning make sense, or would you prefer that I remove the
+> check?
 
-Please allow me to confirm with the Hyper-V team internally once. I may 
-have assumed asynchronous behavior because of the pending interrupt 
-after retarget. It could simply have been committed to the old route 
-before the retarget operation.
+I would probably drop it. Having blocking always set blocking to the
+HW regardless of what the SW tracking state says feels more robust to
+me.
 
-> 
-> I also wondered about arm64 where Hyper-V provides an
-> emulated GICv3. The RETARGET_INTERRUPT hypercall is not
-> used since the retargeting is done by writing to a GICD register.
-> Presumably on real GICv3 hardware, after the write the new
-> CPU is guaranteed to receive any subsequent interrupts. And if
-> an interrupt was pending at the time of the write, the appropriate
-> trigger happens in the new CPU, so everything works. As long
-> as Hyper-V is doing the emulation the same way (i.e., fully
-> synchronously), the problem would not occur on arm64
-> guests.
-> 
-> I'm reminded that a similar problem occurred with changing
-> the target CPU for a VMBus channel interrupt. The initial
-> Hyper-V implementation of the VMBus MODIFYCHANNEL
-> message was asynchronous, which caused the same problem
-> as seen here if a vCPU were to be taken offline. A later version
-> of the VMBus protocol added a notification that the change to
-> the target vCPU is complete, which solves the problem. See
-> vmbus_channel_set_cpu() and vmbus_send_modifychannel()
-> and the associated code comments.
-> 
-
-Thanks for sharing this info. I'll check and get back.
-
-Regards,
-Naman
-
+Jason
