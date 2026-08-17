@@ -1,192 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE8D41D116;
-	Mon, 17 Aug 2026 12:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175C843711C
+	for <linux-hyperv@vger.kernel.org>; Mon, 17 Aug 2026 13:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786970474; cv=none; b=WZ2Jpvwfk2vVyqnMwGwiLUrRXHVTA+t5rGUbzOrHQMtJx+WTRR+8npkfFS7eCK8Jw0T27wbg3S6RGy1EWgtTqWgCLuW0fVQJsX6lquikrO3cK7Md6jXZZ+pU7ASH4/Od0C480RxDggAVvvFlL8dAJGljrBF4Wadr7JbCFaxlQhI=
+	t=1786973309; cv=none; b=a5Xnxkj8cGKfRH0xnnEYCIF4kwCyaCfw5djvFTfKqr9WEriU+rRkis7r+77M+d8rFYCluIo36fA7fN3l68SnU2DS2m5lyuE2h5s4b8t5lebEgiQCgpZl82v/09cy7M+QSU63e3DYxCEe8TJUojzTvBSSni69l1nAq1TDtY28Z34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786970474; c=relaxed/simple;
-	bh=7X4st2dfy1l8lT+fjQAQC0tAfIF/QQdIXAwtTks4e/k=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CPMPSitB42OLM42uVW9v+5+VmQ5NPqZq1EEsNyStM6KWBwkAQYdDbQZsTitUEIY1v/GA2MCB6slUzAyZrEJqkm3D+R5w0Ix9Fpg7mA4+Qel3w8dDRzzg5AVS9QSZvsOeX5O9f1rZoAa48mijIR9W7xQcx5D+08rrgIJN2gzL74A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aoCANBg2; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786973309; c=relaxed/simple;
+	bh=IazxHX+RHUkRnRFbKnOMrt+XO1dpE9zzI6uZpKPk/jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N0s9fryBU/t0XtXY+ucTN0fRHk9s4gD0faGCNBSTaAf44cc8X/NbvsaLiTmJn4GfGqRwcxfSSbHBHnSAjJsyOs26fZCvl3ZZONu+SCDksIRIdQtU2tt8tNtbBv/my80lqkVxr34pyX+Ysdq0ewj5jjMFaMII3Puc3N5kkOkAn60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ISEYnvPQ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aoCANBg2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786970471; x=1818506471;
-  h=from:to:subject:in-reply-to:references:date:message-id:
-   mime-version;
-  bh=7X4st2dfy1l8lT+fjQAQC0tAfIF/QQdIXAwtTks4e/k=;
-  b=aoCANBg23f6hM++EUWX5525byy5v5c6zWGrwg/KiAVFSp/WghxX3Ar3m
-   /6zwcHjA/VxbxfPx6xfEoGl3eis8ImmuA7sz7utu+t6IpCOXy8InG0CSM
-   T0yqDPiqXnCnC9nLrr0cBEA/RTaiVY3IaPbr+FUpghBU+ZYyUvP+RgkQV
-   4f/ei+2e4YH7ftlpbzZyPf5UyU7PYOiwv8OmQB8sWtKxDOw8auU2eWZi5
-   6k9ow65XPdSkFxNrWZWEGerJkJjZC1VxXb2x3V2wRpN9VzK6hqYS+uzoz
-   UpG0wwIKwRWP9tDRzfv1i+flskA5/w0Pm/gjeLH8rxGStuKtc/dZnLe9f
-   Q==;
-X-CSE-ConnectionGUID: nqskxE+2STilEaTWKs8ZOw==
-X-CSE-MsgGUID: v6Fq7FuYQFqJWjjSJzZMMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98598084"
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="98598084"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 05:41:10 -0700
-X-CSE-ConnectionGUID: kO9/n7EERguTo2l7wfOCtw==
-X-CSE-MsgGUID: 7ox5dl61Tw6To4e/rrOiGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="266887598"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.110])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 05:41:05 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- linux-aspeed@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- imx@lists.linux.dev
-Subject: Re: [PATCH 0/5] drm/vblank: Enforce all-or-nothing vblank support
-In-Reply-To: <20260814203542.1405135-1-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260814203542.1405135-1-lyude@redhat.com>
-Date: Mon, 17 Aug 2026 15:41:02 +0300
-Message-ID: <5f06e91a5ff0e5bb887b72e4ff9077c45cd9216e@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ISEYnvPQ"
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id 8CEDF20B7168; Mon, 17 Aug 2026 06:28:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8CEDF20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1786973280;
+	bh=wE/KSNA2IF+wb72w9EHFZN0ZxVCzMKOucJxYMzjjrQo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ISEYnvPQ6gITISzNVkpr7gWYwGLQxsrv7c/8lKs/KLp8nsLegNeTOgsUzuCu7ta2v
+	 XZ8LKKyCIQZHOSiG6EfT1ErRav0A+AITtPlZLr3WJybyDjlbZ8X1Ci3/gUJ4x1SBfI
+	 vQQ+tzHNjO0SLnoMvi3iWHEit1+nLwF4yYztRx+A=
+Date: Mon, 17 Aug 2026 06:28:00 -0700
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-hyperv@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] arm64: Add pre-shutdown hook to
+ machine_shutdown()
+Message-ID: <aoMMYJiH/oA2avUv@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260814093133.3191250-1-shradhagupta@linux.microsoft.com>
+ <20260814093154.3191311-1-shradhagupta@linux.microsoft.com>
+ <20260814093857.1DD1C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260814093857.1DD1C1F000E9@smtp.kernel.org>
 
-On Fri, 14 Aug 2026, Lyude Paul <lyude@redhat.com> wrote:
-> One of the oddities with DRM that is leftover from the old days is how
-> vblank support is implemented by drivers. This has caused some minor
-> issues for the rust bindings for KMS which could be worked around.
-> However, it seems like a much better idea to fix this on the C side.
-> Those oddities are mainly:
+On Fri, Aug 14, 2026 at 09:38:56AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] The newly introduced global function pointer `arm64_pre_smp_shutdown_hook` is placed in writable memory without the `__ro_after_init` annotation, creating a potential target for control-flow hijacking.
+> --
+> 
+> --- Patch [1]: [RFC PATCH 1/2] arm64: Add pre-shutdown hook to machine_shutdown() ---
+> commit 438763f14354dbd91b5fa7bea807c334ada0c642
+> Author: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> 
+> arm64: Add pre-shutdown hook to machine_shutdown()
+> 
+> This patch introduces a global function pointer invoked from
+> machine_shutdown() to allow platform-specific cleanup before secondary CPUs
+> go offline during kexec or reboot.
+> 
+> [ ... ]
+> 
+> > diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> > index 581f80e9b9b73..41c0e98409138 100644
+> > --- a/arch/arm64/kernel/process.c
+> > +++ b/arch/arm64/kernel/process.c
+> > @@ -88,8 +88,21 @@ void __noreturn arch_cpu_idle_dead(void)
+> 
+> [ ... ]
+> 
+> > +/*
+> > + * Hook for platform code to perform cleanup after device_shutdown()
+> > + * but before secondary CPUs are offlined. This runs in the kexec path
+> > + * from kernel_kexec() after device_shutdown() and cpu_hotplug_enable()
+> > + * have been called, matching the point at which x86 invokes
+> > + * machine_ops.shutdown.
+> > + */
+> > +void (*arm64_pre_smp_shutdown_hook)(void);
+> 
+> [Severity: Medium]
+> Should this global function pointer be annotated with __ro_after_init?
+> 
+> Without it, the pointer resides in writable memory, which could make it a
+> reliable target for control-flow hijacking if an arbitrary memory write
+> primitive is obtained elsewhere. Since the hook is presumably only set once
+> during platform initialization, making it read-only after init would improve
+> defense-in-depth on the shutdown/reboot path.
 >
-> * There's nothing in the vblank core that actually ensures that all
->   CRTCs implement vblank support if one of them do. On Rust's side, we
->   can't have this and have to ensure either the whole device has vblank
->   support or not - otherwise it would be quite painful ensuring we don't
->   expose vblank methods to drivers that can't use them.
->   This additionally means such a situation would lead to UB.
-> * There is a second variable for keeping track of the number of CRTCs
->   and it's kind of broken and confusing. Even worse, we currently allow
->   the vblank API to allow a driver to specify a different number of
->   CRTCs then it actually has.
->
-> So, let's just go ahead and fix this across the whole tree, and enforce
-> that a driver must either implement hardware vblank support for all
-> CRTCs or no CRTCs.
 
-For i915, the relevant init order is currently:
+The pointer is assigned when the VMBus kexec handler is registered and
+cleared when it is removed, so it cannot be __ro_after_init.
 
-- drm_vblank_init()
-- drm_mode_config_init()
-- drm_crtc_init_with_planes() for each CRTC
+In v1 though, I will use WRITE_ONCE() when publishing/clearing the
+callback
+and READ_ONCE() before invoking it, preventing compiler refetching of
+the pointer.
 
-For the patch series to work, drm_vblank_init() would have to happen
-after mode config and CRTC init. Off-hand, I couldn't say if there are
-dependencies that make this change difficult.
-
-I'd be surprised if i915 were the only driver like this.
-
-
-BR,
-Jani.
-
->
-> Lyude Paul (5):
->   drm/vblank: Add drm_device.has_hw_vblank
->   drm/vblank: Remove drm->num_crtcs
->   drm/vblank: Remove num_crtcs argument from drm_vblank_init()
->   drm/vblank: Use drm_for_each_crtc() in drm_vblank_init()
->   drm/vblank: Require all CRTCs implement vblank support in
->     drm_vblank_init()
->
->  drivers/gpu/drm/adp/adp_drv.c                 |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
->  .../gpu/drm/arm/display/komeda/komeda_kms.c   |  2 +-
->  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
->  drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
->  drivers/gpu/drm/armada/armada_drv.c           |  2 +-
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
->  drivers/gpu/drm/drm_vblank.c                  | 60 ++++++++++++-------
->  drivers/gpu/drm/exynos/exynos_drm_drv.c       |  2 +-
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
->  drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
->  drivers/gpu/drm/gma500/psb_irq.c              |  4 +-
->  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  2 +-
->  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
->  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |  2 +-
->  .../drm/i915/display/intel_display_driver.c   |  3 +-
->  drivers/gpu/drm/imx/dc/dc-kms.c               |  2 +-
->  drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
->  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |  2 +-
->  drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |  2 +-
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
->  drivers/gpu/drm/kmb/kmb_drv.c                 |  2 +-
->  drivers/gpu/drm/logicvc/logicvc_mode.c        |  2 +-
->  drivers/gpu/drm/loongson/lsdc_drv.c           |  2 +-
->  drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
->  drivers/gpu/drm/meson/meson_drv.c             |  2 +-
->  drivers/gpu/drm/msm/msm_kms.c                 |  2 +-
->  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  2 +-
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_display.c     |  2 +-
->  drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
->  drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
->  drivers/gpu/drm/qxl/qxl_display.c             |  2 +-
->  drivers/gpu/drm/radeon/atombios_crtc.c        |  4 +-
->  drivers/gpu/drm/radeon/radeon_irq_kms.c       |  2 +-
->  drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |  4 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |  2 +-
->  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  2 +-
->  drivers/gpu/drm/sprd/sprd_drm.c               |  2 +-
->  drivers/gpu/drm/sti/sti_compositor.c          |  2 +-
->  drivers/gpu/drm/stm/ltdc.c                    |  2 +-
->  drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
->  drivers/gpu/drm/tegra/drm.c                   |  2 +-
->  drivers/gpu/drm/tidss/tidss_kms.c             |  2 +-
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
->  drivers/gpu/drm/tiny/bochs.c                  |  2 +-
->  drivers/gpu/drm/tiny/cirrus-qemu.c            |  2 +-
->  drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
->  drivers/gpu/drm/vc4/vc4_kms.c                 |  6 +-
->  drivers/gpu/drm/verisilicon/vs_drm.c          |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_display.c      |  2 +-
->  drivers/gpu/drm/vkms/vkms_drv.c               |  3 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c          |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_kms.c             |  2 +-
->  include/drm/drm_device.h                      | 10 +++-
->  include/drm/drm_vblank.h                      |  2 +-
->  64 files changed, 114 insertions(+), 92 deletions(-)
->
->
-> base-commit: 568d4cb5dcc5ec4e22975699b6ea67a30806884c
-
--- 
-Jani Nikula, Intel
+Regards,
+Shradha
+ 
+> > +
+> >  void machine_shutdown(void)
+> >  {
+> > +	if (arm64_pre_smp_shutdown_hook)
+> > +		arm64_pre_smp_shutdown_hook();
+> > +
+> >  	smp_shutdown_nonboot_cpus(reboot_cpu);
+> >  }
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260814093133.3191250-1-shradhagupta@linux.microsoft.com?part=1
