@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A3A03612F8;
-	Tue, 18 Aug 2026 07:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E88238C2D1;
+	Tue, 18 Aug 2026 07:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787038304; cv=none; b=EU/UAzsDtSM7MSXRa2cg4iBEAdjZDCOXOb6ZZ5chCvudEGtXo+dbSwrXcIdi02OLXKfOmsKySs+JoA6NVe9QcQqtnoa3kQfjdvKRVh9B2Ae1p9f4yhoy4ufZsDGqGs0DCY4ML0HKAVaIjED2TkmwfGM++h9O3AbaZ0eNltUcBFg=
+	t=1787038309; cv=none; b=Y0KAmnVuoqFmnOX8W5/UaC7a0UVPXkKLj5lm2jjtKBuCs5/SRtgl12TPRwE51EkFujnNtzMG9IJczc1bSlCUfLxZoih4lFCT1IC2dgiuZYTdZaRL1Xf+5SQ2FWKLLNK3Frs16nneoLivIfFTBwMaG6k530arbGM8iVJt7+7qTBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787038304; c=relaxed/simple;
-	bh=qQc7NpVgjlwCgtPxFyKMVtz15dITF6AD/7Wy6HDmHxk=;
+	s=arc-20240116; t=1787038309; c=relaxed/simple;
+	bh=kd+aEj7HiYh+uDssfc1Wr0UmfDCUi/qlYwIPAE9dhi8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kD5PEf0TugFqoFR3N1iaNRgZD+Brx9BDxJEkBjBc3fyt/fHy4RvVVFBwOOmHE5WN6wpsunp069W3x3MAxxwLNeB01YcqUkVc3OH+R6sI5RMGu2x8shfpEnlwyJ7I0rCWy9OeLbFIG/wHdD23XRSKpvlK+9wFlDCZtdjD/sVLwMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=q2nGwtoA; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=STLbXjPYuTwmtLNhrqdmQ9KAaO8tY3ez3HyAr6TSna7tBEfUb9uuZ+n0kxPoAwhiZ7o6XM7kcFBGfM5MdS3M2yuidMCEKAZpnZl7WL6AzWIw6QRhRm5O7MLBNVOMnjQSRUs/kUeoAe/gTw0WJ9AnJVqitZR+vOjfRB0SWwxZZFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fUrsCUDT; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="q2nGwtoA"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fUrsCUDT"
 Received: from [192.168.1.70] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D85D320B7167;
-	Tue, 18 Aug 2026 00:30:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D85D320B7167
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8C44620B7168;
+	Tue, 18 Aug 2026 00:31:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8C44620B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787038264;
-	bh=33oeJJ2KUl0c85m92fbwyfbJQ2UNWDvCfDyVxz5S2j4=;
+	s=default; t=1787038272;
+	bh=of93UnPxr+GXvnkB7oIT0Kq8tP1Ii3Vu6hCXuqd00bY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=q2nGwtoAukCeLTzPxYYr6c23vKRkqtZ52Zjv8TzRZkwl0RZcW+uz/1MQsshivtqzA
-	 G4TbUr4MlTAM6k/PMNhqsT6NomohtocqNCFggsiDNe7vpsm0fsRI5FiVgclObAIXY0
-	 jjRQQ3oplBqjyFIBME3El7DBVd5mSjwTMtO7zpaw=
-Message-ID: <72ccf7d4-0fda-4f55-a47c-27486ef3e159@linux.microsoft.com>
-Date: Tue, 18 Aug 2026 13:01:20 +0530
+	b=fUrsCUDTT67KQ9cLJTU/H2jJrANa28ZXqOpX+jLlVHkFOQpJJ15XzM6i2xU5jTSGO
+	 rrJGx255ysvW8R74ebl0P3GT1axkG/Lbn3xNYCyhv6Pqyq4zGV7mQjpteiKXjA7mXe
+	 ATlKrxgLFoh1M6zGY7CH+orkIlzVzS0/grgUqQHs=
+Message-ID: <4852d87f-0fba-476b-8a91-15afa89705e8@linux.microsoft.com>
+Date: Tue, 18 Aug 2026 13:01:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,8 +34,8 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] x86/irq: Use irq_chip_retrigger_hierarchy() in
- fixup_irqs()
+Subject: Re: [PATCH v2 3/3] x86/irq, iommu/amd, PCI: Drop redundant
+ irq_retrigger inits
 To: Michael Kelley <mhklinux@outlook.com>, Thomas Gleixner <tglx@kernel.org>,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
  Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
@@ -57,154 +57,144 @@ Cc: "H. Peter Anvin" <hpa@zytor.com>,
  "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
- <20260810090716.2325295-3-namjain@linux.microsoft.com>
- <SN6PR02MB41570E8FC664CAC4A05CAFA9D4A62@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20260810090716.2325295-4-namjain@linux.microsoft.com>
+ <SN6PR02MB415737853F902BA2FFD72719D4A62@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Language: en-US
 From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB41570E8FC664CAC4A05CAFA9D4A62@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB415737853F902BA2FFD72719D4A62@SN6PR02MB4157.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
 On 8/18/2026 10:40 AM, Michael Kelley wrote:
 > From: Naman Jain <namjain@linux.microsoft.com> Sent: Monday, August 10, 2026 2:07 AM
 >>
->> fixup_irqs() re-injects a pending interrupt on its new target CPU by
->> looking at the outermost domain chip and invoking its irq_retrigger()
->> callback directly. That only works when the outermost chip happens to
->> install an irq_retrigger() callback, which is not guaranteed for every
->> irqchip and could lead to lost interrupts on CPU hot-unplug.
+>> With fixup_irqs() now using irq_chip_retrigger_hierarchy() and the generic
+>> resend path (try_retrigger()) already falling back to it, installing
+>> irq_chip_retrigger_hierarchy() as the irq_retrigger() callback on the
+>> outermost domain chips is no longer required. The hierarchy walk reaches
+>> the x86 vector domain's apic_retrigger_irq() for all of these stacked
+>> domain chips.
 >>
->> Use irq_chip_retrigger_hierarchy() instead, which walks up the interrupt
->> hierarchy until it finds a chip that implements irq_retrigger().
+>> Remove the now redundant irq_retrigger() initializations from the outermost
+>> domain interrupt chips.
+>> msi_set_affinity() is the only site that invoked the outermost chip's
+>> irq_retrigger() directly. Convert it to irq_chip_retrigger_hierarchy() so
+>> the x86_init_dev_msi_info() initialization can be dropped as well.
 >>
->> While at it, move the loop-local variables into the loop scope and use a
->> scoped guard for desc->lock.
-> 
-> Moving the loop-local variables into the loop scope seems to be churn
-> with no real benefit. I know Thomas' suggested code made that change
-> and he's the maintainer, so it's his call. But still . . .
-> 
-> Changing to use the scoped guard seems OK since that's a new pattern
-> we want to be using.
-> 
-
-I can avoid moving this to loop-local variable in next version, if we 
-are moving ahead with changing the logic for below comments.
-
->>
->> VECTOR_RETRIGGERED is now set only when the retrigger succeeds
->> (irq_chip_retrigger_hierarchy() returns non-zero) instead of
->> unconditionally. This is harmless today since apic_retrigger_irq()
->> always returns 1, and arguably more correct. No functional change
->> intended for chips which already provide an irq_retrigger() callback
->> on the outermost domain.
+>> No functional change intended.
 >>
 >> Suggested-by: Thomas Gleixner <tglx@kernel.org>
 >> Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
 >> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 >> ---
->>   arch/x86/kernel/irq.c | 23 +++++++----------------
->>   1 file changed, 7 insertions(+), 16 deletions(-)
+>>   arch/x86/kernel/apic/io_apic.c      | 2 --
+>>   arch/x86/kernel/apic/msi.c          | 4 +---
+>>   arch/x86/kernel/hpet.c              | 1 -
+>>   drivers/iommu/amd/init.c            | 1 -
+>>   drivers/pci/controller/pci-hyperv.c | 1 -
+>>   5 files changed, 1 insertion(+), 8 deletions(-)
 >>
->> diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
->> index 30122f0b3af96..ef1bdd3c4659a 100644
->> --- a/arch/x86/kernel/irq.c
->> +++ b/arch/x86/kernel/irq.c
->> @@ -466,11 +466,6 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_posted_msi_notification)
->>   /* A cpu has been removed from cpu_online_mask.  Reset irq affinities. */
->>   void fixup_irqs(void)
->>   {
->> -	unsigned int vector;
->> -	struct irq_desc *desc;
->> -	struct irq_data *data;
->> -	struct irq_chip *chip;
->> -
->>   	irq_migrate_all_off_this_cpu();
->>
->>   	/*
->> @@ -489,22 +484,18 @@ void fixup_irqs(void)
->>   	 * vector_lock because the cpu is already marked !online, so
->>   	 * nothing else will touch it.
+>> diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+>> index 7d7175d012288..18f49a251f23b 100644
+>> --- a/arch/x86/kernel/apic/io_apic.c
+>> +++ b/arch/x86/kernel/apic/io_apic.c
+>> @@ -1857,7 +1857,6 @@ static struct irq_chip ioapic_chip __read_mostly = {
+>>   	.irq_ack		= irq_chip_ack_parent,
+>>   	.irq_eoi		= ioapic_ack_level,
+>>   	.irq_set_affinity	= ioapic_set_affinity,
+>> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+>>   	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
+>>   	.flags			= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED |
+>>   				  IRQCHIP_AFFINITY_PRE_STARTUP,
+>> @@ -1871,7 +1870,6 @@ static struct irq_chip ioapic_ir_chip __read_mostly = {
+>>   	.irq_ack		= irq_chip_ack_parent,
+>>   	.irq_eoi		= ioapic_ir_ack_level,
+>>   	.irq_set_affinity	= ioapic_set_affinity,
+>> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+>>   	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
+>>   	.flags			= IRQCHIP_SKIP_SET_WAKE |
+>>   				  IRQCHIP_AFFINITY_PRE_STARTUP,
+>> diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
+>> index 66bc5d3e79db3..aad2f15eb2176 100644
+>> --- a/arch/x86/kernel/apic/msi.c
+>> +++ b/arch/x86/kernel/apic/msi.c
+>> @@ -137,7 +137,7 @@ msi_set_affinity(struct irq_data *irqd, const struct cpumask *mask, bool force)
+>>   	 * IRR.
 >>   	 */
->> -	for (vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
->> -		if (IS_ERR_OR_NULL(__this_cpu_read(vector_irq[vector])))
->> +	for (unsigned int vector = FIRST_EXTERNAL_VECTOR; vector < NR_VECTORS; vector++) {
->> +		struct irq_desc *desc = __this_cpu_read(vector_irq[vector]);
->> +
->> +		if (IS_ERR_OR_NULL(desc))
->>   			continue;
->>
->>   		if (is_vector_pending(vector)) {
->> -			desc = __this_cpu_read(vector_irq[vector]);
->> -
->> -			raw_spin_lock(&desc->lock);
->> -			data = irq_desc_get_irq_data(desc);
->> -			chip = irq_data_get_irq_chip(data);
->> -			if (chip->irq_retrigger) {
->> -				chip->irq_retrigger(data);
->> +			guard(raw_spinlock)(&desc->lock);
->> +			if (irq_chip_retrigger_hierarchy(&desc->irq_data))
+>>   	if (lapic_vector_set_in_irr(cfg->vector))
+>> -		irq_data_get_irq_chip(irqd)->irq_retrigger(irqd);
+>> +		irq_chip_retrigger_hierarchy(irqd);
 > 
-> The existing code uses irq_desc_get_irq_data() instead of directly
-> accessing the irq_data field.  I *think* using the function is preferred,
-> but maybe I'm out-of-date.
-
-I can switch to irq_desc_get_irq_data().
-
-static inline struct irq_data *irq_desc_get_irq_data(struct irq_desc *desc)
-{
-         return &desc->irq_data;
-}
-
-> 
-> Sashiko pointed out that irq_chip_retrigger_hierarchy() doesn't check
-> the outermost domain -- it immediately goes the parent. In v1 of this patch
-> series, you categorized this as a false positive. But I don’t understand
-> your explanation. Even if there aren't currently any outermost domains
-> with a custom retrigger function, there could be at some point in the
-> future. So it seems wrong to skip it. But maybe I'm missing something.
-> Could you elaborate on your reasoning?
+> Again, this will miss the outermost chip's retrigger function if it
+> is set to something custom.
 > 
 > Michael
-> 
 
-irq_chip_retrigger_hierarchy() deliberately skips the chip passed to it 
-and begins with its parent, i.e. apic_retrigger_irq(). The new code was 
-doing the same. However, if someone adds a custom .irq_retrigger, hoping 
-that it would get executed, it would not.
-
-Sashiko's example was valid in principle, but it is not relevant to 
-these device interrupts because desc->irq_data is the outer 
-MSI/IOAPIC/Hyper-V chip. The LAPIC data is its parent, not the starting 
-data. I found no device IRQ in this path whose descriptor starts 
-directly at lapic_controller.
-
-I am all in for adding this as a fallback -
-+    if (chip->irq_retrigger)
-+        ret = chip->irq_retrigger(data);
-+    else
-+        ret = irq_chip_retrigger_hierarchy(data);
-
-This should solve this problem while still covering the chips which can 
-forget to add a retrigger function.
-
-Please let me know if this looks good to you.
-
->>   				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
->> -			}
->> -			raw_spin_unlock(&desc->lock);
->>   		}
->> +
->>   		if (__this_cpu_read(vector_irq[vector]) != VECTOR_RETRIGGERED)
->>   			__this_cpu_write(vector_irq[vector], VECTOR_UNUSED);
->>   	}
->> --
->> 2.43.0
->>
-> 
+In case we all agree to adding a fallback in previous patch, I am 
+afraid, we will have to add it here as well.
 
 Regards,
 Naman
+> 
+>>
+>>   	return ret;
+>>   }
+>> @@ -246,7 +246,6 @@ static bool x86_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+>>   	info->ops->msi_prepare		= x86_msi_prepare;
+>>
+>>   	info->chip->irq_ack		= irq_chip_ack_parent;
+>> -	info->chip->irq_retrigger	= irq_chip_retrigger_hierarchy;
+>>   	info->chip->flags		|= IRQCHIP_SKIP_SET_WAKE |
+>>   					   IRQCHIP_AFFINITY_PRE_STARTUP;
+>>
+>> @@ -313,7 +312,6 @@ static struct irq_chip dmar_msi_controller = {
+>>   	.irq_mask		= dmar_msi_mask,
+>>   	.irq_ack		= irq_chip_ack_parent,
+>>   	.irq_set_affinity	= msi_domain_set_affinity,
+>> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+>>   	.irq_compose_msi_msg	= dmar_msi_compose_msg,
+>>   	.irq_write_msi_msg	= dmar_msi_write_msg,
+>>   	.flags			= IRQCHIP_SKIP_SET_WAKE |  IRQCHIP_MOVE_DEFERRED |
+>> diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
+>> index 8dc7b710e1250..2bb7a6f466af3 100644
+>> --- a/arch/x86/kernel/hpet.c
+>> +++ b/arch/x86/kernel/hpet.c
+>> @@ -509,7 +509,6 @@ static struct irq_chip hpet_msi_controller __ro_after_init = {
+>>   	.irq_mask = hpet_msi_mask,
+>>   	.irq_ack = irq_chip_ack_parent,
+>>   	.irq_set_affinity = msi_domain_set_affinity,
+>> -	.irq_retrigger = irq_chip_retrigger_hierarchy,
+>>   	.irq_write_msi_msg = hpet_msi_write_msg,
+>>   	.flags = IRQCHIP_SKIP_SET_WAKE | IRQCHIP_AFFINITY_PRE_STARTUP,
+>>   };
+>> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+>> index ea3377e61aa5c..0c362e86a09d9 100644
+>> --- a/drivers/iommu/amd/init.c
+>> +++ b/drivers/iommu/amd/init.c
+>> @@ -2468,7 +2468,6 @@ static struct irq_chip intcapxt_controller = {
+>>   	.irq_unmask		= intcapxt_unmask_irq,
+>>   	.irq_mask		= intcapxt_mask_irq,
+>>   	.irq_ack		= irq_chip_ack_parent,
+>> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+>>   	.irq_set_affinity       = intcapxt_set_affinity,
+>>   	.irq_set_wake		= intcapxt_set_wake,
+>>   	.flags			= IRQCHIP_MASK_ON_SUSPEND | IRQCHIP_MOVE_DEFERRED,
+>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+>> index 89816a2bd7cd3..cfc8fa403dad6 100644
+>> --- a/drivers/pci/controller/pci-hyperv.c
+>> +++ b/drivers/pci/controller/pci-hyperv.c
+>> @@ -2119,7 +2119,6 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev,
+>> struct irq_domain *dom
+>>   	info->ops->msi_prepare = hv_msi_prepare;
+>>
+>>   	chip->irq_set_affinity = irq_chip_set_affinity_parent;
+>> -	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+>>
+>>   	if (IS_ENABLED(CONFIG_X86))
+>>   		chip->flags |= IRQCHIP_MOVE_DEFERRED;
+>> --
+>> 2.43.0
+>>
 
