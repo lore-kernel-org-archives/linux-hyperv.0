@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969DE313E2C;
-	Tue, 18 Aug 2026 13:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D81819046E;
+	Tue, 18 Aug 2026 13:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787058277; cv=none; b=Xr7ZZ1XC6cA4Jm/nEWrihS/dCJqyTs0vbehen+lXP7atRb5GIpsNH3AMH1kRbd7y6xq2ss97vn9UCulfDO5r4ippwP283xRfO68OGCofOQ3Q+pG5tlR/1mq2xVqhFSLmyyWAOCIiQ3lP40RiztOpgCJjhYALUsH/DLGh+jO/f7o=
+	t=1787058349; cv=none; b=V4SnWxE6CkhNZTpX9QPbyLb4aF5W2zlqIbGJyUhKCvn9cSBjx/50dbhQjsD8t4/P65GhwXXDFBU9qN5C+mUceQAz/UjZ2uE+9zs+3fxSxyxMccF9QNoH9s04PTsi1Lw+9H4EDlzNO+joyHYPENdA1/ui4c5EXJYn8pg3HNvL6Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787058277; c=relaxed/simple;
-	bh=iVGKt//W8WTe6GsyD1fsWDCXkHdOHHIXCBr3gqcUFMA=;
+	s=arc-20240116; t=1787058349; c=relaxed/simple;
+	bh=O7AMBbC0gGtaHUfiQJj5hfxyBrReOKB66vcxJRZNGxA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CPEBMSsV6ou9zCA0geq9ZFi9f/qSQ5ETDV0y9Kuk1eyJXNkpJHMyoTdFFGcJq/7BUy40yQhRejCDG7XR7xDaoT+I4qLvJnvQtH1BLll+SlbB6s+tkuZgi2abWii+A6u2kk4d2n1sKGKr2guQCebqN39MUvp9asIl+4VsNdt7768=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iadpa/4s; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=ETyViFzrp9NdfbfE87OJhFVIUN3M3jQWEQHilHFstY4U1eGgqVPXoQHcK2tu3SvbVxMmN03baUDUV0MyXBVLJR7VchTggxOUP89qkPZKiCdS203R24QA8h0ptC6H55cr5MWku7kVkORVXDWxo9/MKLNlVjPcfjEeLkIw3jt0RRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvGuIMNJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iadpa/4s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC1391F000E9;
-	Tue, 18 Aug 2026 13:04:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvGuIMNJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FEDF1F00A3A;
+	Tue, 18 Aug 2026 13:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787058276;
-	bh=Fyr2rTcnJQyyFIFbxd0Nsnv3dEJzBm98+nePcwg0vk0=;
+	s=k20260515; t=1787058347;
+	bh=bQaJgiGjuAD96kn/7OalzUA6lCHbPxXMTnaT8tOMXqk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iadpa/4sPruxnUmQWiaFza8mqTnrrz82L1CH/7dSADIIhsOZMQZBgt8nvOy1FZLNS
-	 lqdaxpDCCTrP/t2ydy5r3hEg5p5cvzQlmIXOCwywnVknHqOtyF+rhh6YDCNIeJjxFY
-	 CNAq0UID2JtftEcU5VRdBBoSJU8BqqDz4UsWbnRhi5EqP9tCVovnuuZzPFTR0bpyED
-	 hBkFufkODMOge6y8vlDzTTZmZq34BTpxBV20dNhv/z2vZZzy021DFXisfn1AtRWUdi
-	 sP7usoakeCtOyuvjTZnXEEzA448QO7FZHFEoSq5gemiBtvOMfmEtaQpEMVFnFHA583
-	 B0vW5U3EAFHeQ==
+	b=gvGuIMNJqu5T1Uwhxc6cYB/9GNIK02OoNZbtDftXHBmt0BsG5mIg/tYiLRZCx2cFu
+	 NmLR2mW6xEIU/qLZZxjhF9EpF1FG/e99HYFePMo8M/ZLehswtz/kyjC6P6mSsl7c9L
+	 eI1K9L/eyQVxwbL1sIza9DK0qvFzqMzO9kLxRORoC10HbjbeMQXvMuUHvjFPNW8xS7
+	 /eHvKKCcTd6vT5EMahR8MWp1Mt7CXXdd70aCoqEfqooImOIO5nPw6Xvt6QTr9IorL6
+	 qOQG8KCJ17Upaw9jPDSo4tQESIWswflThYhYQ37R04wZrMs35TqZ26Nq2sao7CHf2A
+	 hXlkVWOTSQF6g==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 03/12] drm/panic: Return -EINVAL if font is not
- available
+Subject: Re: [PATCH 07/12] drm/panic: Retry in dispatch function if panic
+ output fails
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: intel-xe@lists.freedesktop.org, ojeda@kernel.org, Frank.Li@kernel.org, intel-gfx@lists.freedesktop.org, imx@lists.linux.dev, wsa+renesas@sang-engineering.com, linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260818125012.468092-4-tzimmermann@suse.de>
+Cc: linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org, Frank.Li@kernel.org, imx@lists.linux.dev, intel-xe@lists.freedesktop.org, ojeda@kernel.org, dri-devel@lists.freedesktop.org, wsa+renesas@sang-engineering.com
+In-Reply-To: <20260818125012.468092-8-tzimmermann@suse.de>
 References: <20260818125012.468092-1-tzimmermann@suse.de>
- <20260818125012.468092-4-tzimmermann@suse.de>
+ <20260818125012.468092-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Aug 2026 13:04:35 +0000
-Message-Id: <20260818130435.BC1391F000E9@smtp.kernel.org>
+Date: Tue, 18 Aug 2026 13:05:46 +0000
+Message-Id: <20260818130547.4FEDF1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,59 +47,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] Missing NULL check for the result of `kmap_local_page_try_from_pan=
-ic()` in `drm_panic_write_pixel24_xpage()` leads to a NULL pointer derefere=
-nce.
+- [Medium] Removing the internal fallback from `draw_panic_screen_qr_code` =
+breaks the `drm_panic` KUnit tests.
 --
 
---- Patch [3]: [PATCH 03/12] drm/panic: Return -EINVAL if font is not avail=
-able ---
-commit 5ad93562bf6ffaf36ef771a5c8eebc2aa43f5621
+--- Patch [7]: [PATCH 07/12] drm/panic: Retry in dispatch function if panic=
+ output fails ---
+commit 23392eb57457ad383d9c4741f6fc2f3c107aabb3
 Author: Thomas Zimmermann <tzimmermann@suse.de>
 
-drm/panic: Return -EINVAL if font is not available
+drm/panic: Retry in dispatch function if panic output fails
 
-Font lookup does not allocate memory. Hence reporting ENOMEM on
-failed lookups is misleading. Report EINVAL instead.
+On failed output of QR codes and kmsg buffers, fall back to a user
+message. QR-code output already did this internally, but now formally
+support it in drm_panic_dispatch(). Streamlines the existing logic.
 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 705b72bf0d839..96d238bfceee9 100644
 > --- a/drivers/gpu/drm/drm_panic.c
 > +++ b/drivers/gpu/drm/drm_panic.c
-
 [ ... ]
+> @@ -816,15 +816,6 @@ static int _draw_panic_screen_qr_code(struct drm_sca=
+nout_buffer *sb,
+>  	drm_panic_blit(sb, &r_qr, qr_image, qr_pitch, scale, fg_color);
+>  	return 0;
+>  }
+> -
+> -static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
+> -				     u32 fg_color, u32 bg_color,
+> -				     unsigned int qr_version)
+> -{
+> -	if (_draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version))
+> -		draw_panic_screen_user(sb, fg_color, bg_color);
+> -	return 0;
+> -}
 
-> static void drm_panic_write_pixel24_xpage(void *vaddr, struct page *next_=
-page,
-> 					  unsigned int offset, u32 color)
-> {
-> 	u8 *vaddr2;
-> 	u8 *p =3D vaddr + offset;
->=20
-> 	vaddr2 =3D kmap_local_page_try_from_panic(next_page);
->=20
-> 	*p++ =3D color & 0xff;
-> 	color >>=3D 8;
->=20
-> 	if (offset =3D=3D PAGE_SIZE - 1)
-> 		p =3D vaddr2;
->=20
-> 	*p++ =3D color & 0xff;
+[Severity: Medium]
+Does removing this fallback cause the drm_panic KUnit tests to fail?
 
-[Severity: High]
-This isn't a bug introduced by this patch, but does=20
-drm_panic_write_pixel24_xpage() lack a NULL check for vaddr2?
+Looking at the test suite in drivers/gpu/drm/tests/drm_panic_test.c, it
+calls this function directly without going through the new dispatch logic:
 
-If the next page is located in HighMem, kmap_local_page_try_from_panic()
-returns NULL since it is unsafe to map HighMem during a panic.
+static int draw_panic_screen_qr_code_default(struct drm_scanout_buffer *sb)
+{
+	return draw_panic_screen_qr_code(sb, 0x00ffffff, 0x00000000, 40);
+}
 
-When vaddr2 is NULL and the offset crosses the page boundary
-(PAGE_SIZE - 1 or PAGE_SIZE - 2), the write pointer p is set to vaddr2.
-Would the subsequent write operation then dereference NULL, causing a
-recursive panic that aborts the DRM panic handler?
+When tested with a small resolution like 300x200, the scale evaluates to 0
+and returns -ENOSPC. Previously, this wrapper caught the error, fell back
+to draw_panic_screen_user, and safely returned 0, satisfying the KUnit
+check.
+
+Since the fallback was moved to draw_panic_dispatch and the test calls
+the lower-level function directly, will this now propagate the -ENOSPC
+error and spuriously fail the test?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260818125012.4680=
-92-1-tzimmermann@suse.de?part=3D3
+92-1-tzimmermann@suse.de?part=3D7
