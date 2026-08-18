@@ -1,102 +1,69 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A73CF1FD;
-	Tue, 18 Aug 2026 15:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D532123E325;
+	Tue, 18 Aug 2026 16:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787068524; cv=none; b=c9Rtw9W2l4ZJg7ivSNKHw9+0wZNRN4lW5zYEVfb/kJc3TZHL4u8FTIP3rN7ePSJ4aeQ8VCPAf3uxEWHAgYWJ51WMCPouS1Fq0WwALmCq8c/F0LQpl1KdBXuWFk6DAb55mpJRpwgDtRUj4AoLewEDbt/sa++2fcsnew02u++zvPg=
+	t=1787070008; cv=none; b=YEXdAYARHDn1dzo9bKdVv5qLxXQyzIGJziqtWcDKqJKXJXtZt13JGPcYhbaJvdkNITNCgPEwtC+eqVWK1oAziPICtu1g24rOdDPOJtb3urX4pJoWAX/AuGWdhBh8sky1Fa4GXkyGGCedGLoJmPcdQ59UcYBCSfKRR0zFKqN5FqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787068524; c=relaxed/simple;
-	bh=yBB5Ah18TwalqEmv2x0ZGwuCUI1Tc8gkXWpKPtytP4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I3zsbNc6w0XOKnbiU3FRMIIJOAvezv5UyihMi+pscw2M4s7gFC2ytWnRKPN99HM/xNhNeqAq/MCGpQpfuOTjOiMCB/rVbvfTAYzpPM3KKykAy1+ZyePXSxb98PTZAsZmB9DXmi1+AP4LBLukXvbo2QGA07kegHcuz85inFpybOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ui5KdUDl; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787070008; c=relaxed/simple;
+	bh=yxkliXWesWiCi3foBPl9p6T9SvA9nlVQHNj4rveIru0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OaSYd0J67RAxY9Eek1yyP62FC79Klg98bX91Ss8wEhCeK/9PCD5PKEgutck8SelcgqcQ7RazrpcEslIGfMSf4RSlw7UikoA8edIoat2j5WFGai9qsK7FYIC3dTz9g6tGCjlMNiarduMyrnyFm0zUZLDHIcrxdH8U0qM7NtXSNhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKIHd+E1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ui5KdUDl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Oib1sAGemzHmu6ROtRkEHyhCtwDTicVNKskycatCaao=; b=Ui5KdUDlipNO9Vm4nINkg/+v4R
-	bOUqu7BxrFpPjJPyyxL5/SQNc4/JySqtBdMrb5CyEz/IRILpW8+YnFuGzsaYbvWJv+9e0YtT8uwx/
-	eE0eXe6fRPjm1sfCVSmOReeGwtH7/zEHlNxdnu5tpHNRyMiy4cejksDu81kvbeMEFRTaItbMt/IGi
-	Q61CWpoF2IThZoi159FSHVf/TCVp1AzMzc9ZSRaQVSMkGFqvkSEm1dUtgG8Qvp88FNz5jkcBhNEOs
-	ACjeQ2XWgqHevHSOffjhKrvnRBjt4Y+4cNGXzMxdf7NzZpsvk2bac1B5a/UMTuKt7keKswSiklY2c
-	JG0mN6zA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wwM9g-00000008JC7-1PPo;
-	Tue, 18 Aug 2026 15:55:12 +0000
-Message-ID: <916c4bd5-c73f-466e-8e9b-aee9d4d7d742@infradead.org>
-Date: Tue, 18 Aug 2026 08:55:11 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKIHd+E1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A821F00A3A;
+	Tue, 18 Aug 2026 16:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787070007;
+	bh=EoccZUmFZ1vWVHYL9ZYevW51B1dbZMK3ybbpx1KHxgg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=PKIHd+E1Mvfb6BrDcVdnVayOJ9LXfmTz8LhrV6+p5pYogvcFA6a93l3OLnx6HWvu9
+	 4k3OEoW7LGP74fBqS85PyQJLiM7diZsbTQ12HznUBnWqZxkns5PJmxpTOZzAEXctN3
+	 ZEa5yGmNKy2B+EumBZmL6LYCKpe2p0hIfRAFiQjgBA8JTDomwBvUZPlK8DpeYADXGt
+	 dcwgAlFXAhm7opWRDD3enOGeCOyWFd83FYdpv+zrgujBwVWrQRtAzDR/WkmbR2OkwC
+	 HlbO4gH1r5p9qUmnMHdYG6fqC87N3YULtMObur2upqj/5cQZVHOyFWWdwDdkJVHpHP
+	 5jQAiWjcqAd+Q==
+Date: Tue, 18 Aug 2026 09:20:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Long Li <longli@microsoft.com>
+Cc: Konstantin Taranov <kotaranov@microsoft.com>, "David S . Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Haiyang Zhang
+ <haiyangz@microsoft.com>, "K . Y . Srinivasan" <kys@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ shradhagupta@linux.microsoft.com, Simon Horman <horms@kernel.org>,
+ ernis@linux.microsoft.com, stephen@networkplumber.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v7 1/7] net: mana: reference-count CQs looked up
+ from the EQ handler
+Message-ID: <20260818092005.25dfbc17@kernel.org>
+In-Reply-To: <20260813174243.3044348-2-longli@microsoft.com>
+References: <20260813174243.3044348-1-longli@microsoft.com>
+	<20260813174243.3044348-2-longli@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] drm/panic: Move panic display code into helper
- library
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
- sashiko-reviews@lists.linux.dev
-References: <20260818125012.468092-1-tzimmermann@suse.de>
- <20260818125012.468092-12-tzimmermann@suse.de>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260818125012.468092-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 8/18/26 5:28 AM, Thomas Zimmermann wrote:
->  M:	Hans de Goede <hansg@kernel.org>
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 323422861e8f..cdfd72d9a9c5 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -45,6 +45,7 @@ config DRM_MIPI_DSI
->  config DRM_KMS_HELPER
->  	tristate
->  	depends on DRM
-> +	select DRM_PANIC_HELPER if DRM_PANIC
-
-but DRM_PANIC_HELPER depends on DRM_TTM so
-DRM_KMS_HELPER should also depend on DRM_TTM. Otherwise:
-
-WARNING: unmet direct dependencies detected for DRM_PANIC_HELPER
-  Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_TTM [=n]
-  Selected by [y]:
-  - DRM_KMS_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANIC [=y]
-
-
->  	select FB_CORE if DRM_FBDEV_EMULATION
->  	help
->  	  CRTC helpers for KMS drivers.
-> @@ -130,6 +131,10 @@ config DRM_PANIC_SCREEN_QR_VERSION
->  	  Smaller QR code are easier to read, but will contain less debugging
->  	  data. Default is 40.
+On Thu, 13 Aug 2026 10:42:33 -0700 Long Li wrote:
+>  }
 >  
-> +config DRM_PANIC_HELPER
-> +	bool
-> +	depends on DRM_TTM
-> +
->  config DRM_RAS
->  	bool "DRM RAS support"
->  	depends on DRM
+> +static struct gdma_queue *mana_gd_get_cq(struct gdma_context *gc, u32 cq_id);
+> +static void mana_gd_put_cq(struct gdma_queue *cq);
 
+Forward declarations are considered a bad smell in the kernel.
+Please add these functions here, I don't see a reason for this
+they are purely calling kernel APIs.
+
+>  static void mana_gd_process_eqe(struct gdma_queue *eq)
 -- 
-~Randy
-
+pw-bot: cr
