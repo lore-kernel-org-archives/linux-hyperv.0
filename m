@@ -1,74 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0350478E57;
-	Tue, 18 Aug 2026 16:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4955F330B32;
+	Tue, 18 Aug 2026 16:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787070061; cv=none; b=B/RM+Wg6q/3jq4Nfq4uRD1mQK8xIGsbm11SrnWCIOEcKC56jc8mvGhnbr6SyrICBIzE5wJvfBt2pQ5kwih5cgBzlAR8V1KtvNk3UUZraz4FsybG5RRanOBeNOLW1lfNArp+f3tun2kuuomKYHt7bDWrmcQi8adEZGS06za0KnOk=
+	t=1787071903; cv=none; b=dO14Oba8JzvNGOVnd3y4/y05SvduP+Wwu1cdE84MP9Zy3yW2ebzLlaIoRzXZc5fub+xEuhrZMjPSbceb/HXArVj0l2Lliys6V7RyGlNwmb6oaY8VY8ZJomFa4+XLOrEtPQkxbLw2IiRO7nGFonfJ2oTJ6DFG2gcv6lTL0tSLUA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787070061; c=relaxed/simple;
-	bh=XVkiqEzmR8LlmHZj/orPfn9pbzTjaNByvc1R7R8haLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T2gfpnrTEGlUBdkQ2w7xP2qFgQdSo1FeP2IArQyAL510M7AEeti9CKftJuOwAn26qdIQbW4jngZIhC3P/81UY6UwHRkrwK5+gj9Q1iYe5hQkBE+poOkujsDVvOz6U27RIaU+A2WjrXv8JPnrcoSe9xnG8fy3VeGBxNJrOm1UCtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZdEzQLJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787071903; c=relaxed/simple;
+	bh=lFjGbXuhkA8MceO+XNW6SAQeNJyoiER3NXQWxghfdKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cmve6UcceOwxJJ6JEr6eTkFxOCurGHBenBXGJMQa6i0sS18P0zUu1myZu+12/idvCKTk/W6zD4H2oFvGvVDhZRoItieNK+eMiUpDTTpHhca8tsQ6PLI+VzK3cQxGPW/Yn5sQGFNjCSG7i4qazzGDSE+MI8wSdE7rE5DaWy4qz7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hDNKQvBP; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZdEzQLJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643781F000E9;
-	Tue, 18 Aug 2026 16:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787070060;
-	bh=o1Rc4UcWATfkuiiyIovbnQ/+G+6Oq09fG28yqi1Cnzk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MZdEzQLJzwcyb9kJtmLO0+JkFJrXWOkPKU4MY7V91s02HQcUeVVHDOho4ELGu7RJq
-	 gqsJ/g9iECrT6nUZwio1b5NxuTrNvmBnV4shEoBg+Pbn3A4wHWiwTPeHG7k5N2qYgT
-	 KwQglj14EDfITJuqbyDqmdpx9kmvCYaU3q59f3oZHzjvHjxIzGrxFwNROjexZtyN6b
-	 jgrRLVXgNdXfzRKjXiUXT0GRwj0ScNT4/AwgtBMTe9ryAuPKZkgybCX6nIYJbMtJ6u
-	 DbRLlmSvzLSKRZhzikieK4KvkUKC5E8lFEgI9e6CVF5rOWr3HBI3xGJd6OmhMT8NCH
-	 ruiPJXQn1vK9w==
-Date: Tue, 18 Aug 2026 09:20:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Long Li <longli@microsoft.com>
-Cc: Konstantin Taranov <kotaranov@microsoft.com>, "David S . Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
- <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jason Gunthorpe
- <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Haiyang Zhang
- <haiyangz@microsoft.com>, "K . Y . Srinivasan" <kys@microsoft.com>, Wei Liu
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- shradhagupta@linux.microsoft.com, Simon Horman <horms@kernel.org>,
- ernis@linux.microsoft.com, stephen@networkplumber.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v7 1/7] net: mana: reference-count CQs looked up
- from the EQ handler
-Message-ID: <20260818092058.5da26ce6@kernel.org>
-In-Reply-To: <20260818092005.25dfbc17@kernel.org>
-References: <20260813174243.3044348-1-longli@microsoft.com>
-	<20260813174243.3044348-2-longli@microsoft.com>
-	<20260818092005.25dfbc17@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hDNKQvBP"
+Received: from localhost (unknown [167.220.233.38])
+	by linux.microsoft.com (Postfix) with ESMTPSA id EE32120B7168;
+	Tue, 18 Aug 2026 09:51:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EE32120B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787071873;
+	bh=2mZgx5gWgDVlkDtD9tOh15r2h1aKGr5ZdoPzlQnaaGk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hDNKQvBPny8fKA+Jg9JeUq/O6PTuDCIHjiYutdxQWgXqlRNOsv27jkZwShquF9wfR
+	 ZVy8Iwbvz4AoqC+QST4cseVKi/v0m1pnCQDVh7iS6drIG7en2QgLGBBJj9Cv86Gd0n
+	 48Tmn4ata8KVMi+vbvYvvg00K+G/+hIR96uDm2Q0=
+Date: Wed, 19 Aug 2026 00:51:39 +0800
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, x86@kernel.org, wei.liu@kernel.org, 
+	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, 
+	longli@microsoft.com, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org, mani@kernel.org, 
+	robh@kernel.org, arnd@arndb.de, mhklinux@outlook.com, 
+	tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com, 
+	mrathor@linux.microsoft.com, baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, 
+	vasant.hegde@amd.com
+Subject: Re: [PATCH v3 4/5] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <4cchi7bka5sopnvxyeycmv23scesfgtkg5lnlrq2yqsmwah5qd@5e3qqvsil2t3>
+References: <20260811155022.108148-1-zhangyu1@linux.microsoft.com>
+ <20260811155022.108148-5-zhangyu1@linux.microsoft.com>
+ <20260813152913.00003d8a@linux.microsoft.com>
+ <20260813224627.GA933791@ziepe.ca>
+ <p7ts4y6lxt7k6ldzaa26v7rckmmp7o5js2gn2r3eantgzut2cc@xxsvso76nefj>
+ <20260817122216.GD933791@ziepe.ca>
+ <gk7lcfk73uzntmnmf7eb5clp2h7q7oqb7lykj2qlrrkilotfvx@mf6wima2kibk>
+ <aiioa6ospojivued3djhwadyfpit5temyvrgm3xxzhzt6aqbiv@hqz6q5bqnl6w>
+ <20260817173552.GA1418894@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260817173552.GA1418894@ziepe.ca>
 
-On Tue, 18 Aug 2026 09:20:05 -0700 Jakub Kicinski wrote:
-> On Thu, 13 Aug 2026 10:42:33 -0700 Long Li wrote:
-> >  }
-> >  
-> > +static struct gdma_queue *mana_gd_get_cq(struct gdma_context *gc, u32 cq_id);
-> > +static void mana_gd_put_cq(struct gdma_queue *cq);  
+On Mon, Aug 17, 2026 at 02:35:52PM -0300, Jason Gunthorpe wrote:
+> On Tue, Aug 18, 2026 at 01:22:03AM +0800, Yu Zhang wrote:
 > 
-> Forward declarations are considered a bad smell in the kernel.
-> Please add these functions here, I don't see a reason for this
-> they are purely calling kernel APIs.
+> > So we could
+> > - either keep the duplicate check in hv_iommu_blocking_attach_dev();
+> > - or add code in our common helper, hv_iommu_attach_dev(), to treat
+> >   HV_STATUS_DEVICE_ALREADY_IN_DOMAIN also as successful explicitly. 
+> > 
+> > And since normal paging-domain attaches do not have this duplicate
+> > case, I'd prefer the first choice, to keep current check in
+> > hv_iommu_blocking_attach_dev().
 > 
-> >  static void mana_gd_process_eqe(struct gdma_queue *eq)  
+> I think everything can technically be re-attached and must not fail,
+> you have to handle that possibility everywhere.
+> 
+> So accepting that code as success seems like it might be needed anyhow?
+> 
 
-Well, prolly not gonna have time to review the rest this week
-due to the merge window, so pls TAL at the AI review as well 
-before you respin:
-https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260813174243.3044348-2-longli@microsoft.com
+Thank you, Jason! Then we'll introduce HV_STATUS_DEVICE_ALREADY_IN_DOMAIN,
+and treat it as successful in hv_iommu_attach_dev().
+
+B.R.
+Yu
+> Jason
+> 
