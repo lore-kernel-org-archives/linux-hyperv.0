@@ -1,273 +1,150 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D962EEE7E;
-	Tue, 18 Aug 2026 23:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787096376; cv=none; b=cfspwuFWldk11eD1WD2jlWo6m2deZMQ7bW4W+14T99CWA51PCBs7Zlc8H/07EHe+/3Sx3Y58W24VAEXRBbFWoZI4LMg4noJX1iycMQiha0wy4yiAKJ/kWE0aCJcaQ6BAiXGxB8v/uqIbI/zHz2WhGN1WsH3EJOlqxaeRCFL8MYA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787096376; c=relaxed/simple;
-	bh=nwd3RyznRTSV4M4ELptWVLvjCziCHWfkUzhNAL75aeE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fULyaKjRyUiFKQMVwE/v9ywQced6LF+Oki0hhE/0DcIBJSpgNmztMMSwqaWX0TAyy4Kk207RWAVEnDgou43XwmF1Rbxjxux3TuOECGueR7FXiwJl2K70vgOrCNMcRBnBHQ3Ad55hObJcfkNK4Z6LZF3QFKCV6t6EBScRAtRiZ0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gyQRpmJp; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011054.outbound.protection.outlook.com [52.101.52.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E073532B110;
+	Tue, 18 Aug 2026 23:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787096927; cv=fail; b=L6iWLGT0ea8GgwFww6x6LBK2mg4gx6WlFiAuXPMwDGTixqnIchceDOuez3skS+4AcbKYGuVeEBm9b8VOAnUR8T5fIQyI/CoMPFyoBfJh+SzDKUhoTgrd54WqMn+aG3fKAdBjf91wbFAQjLvhumD5bC6LYPejOSHn9p2O0b52WL0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787096927; c=relaxed/simple;
+	bh=9XrlD1uJ2VEa6DB5P12cG2x8OHCUr1VC75vf5syT0JE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=P6VEPhMjsfO5OGNC3J6OmxpVpB19e4+CrvYNFV3bJj5zQsh2QoV5JRbIOGtgdwoAKwbrPyG21KDEWDxkb4fsLXLJ5AHYMjsVhSSvcRqU9jYR7h+FANF4zxCxFA24qaWi77AETAp/RHV5O8AJPGvbxlIpIaWeUIhqe6wMGWRZVYs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Qbo4hsH+; arc=fail smtp.client-ip=52.101.52.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gyQRpmJp"
-Received: from [100.75.32.23] (unknown [40.78.13.173])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5C3A620B7168;
-	Tue, 18 Aug 2026 16:39:05 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5C3A620B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787096346;
-	bh=6Vg7S5eW4IB5cfpTNUIWwcHhaH3WSmycs7ywYAuFQhg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gyQRpmJpJAIddWtyV+PYsOSRd4Y4ptbNhmXBwRU29u68jxyv0HnttSpOLgk3nlOaG
-	 RtH513IQbWGx972giQLbl8vYGriA8actQk3dY0u7ejV5thKzDBU8UV7y1w0YzeKBv8
-	 gUbLej1IatQUz7iKn0qfQ+pnzAM3d6baevTom9qU=
-Message-ID: <269d79fa-08ab-55ff-77c7-fb11fa2005d9@linux.microsoft.com>
-Date: Tue, 18 Aug 2026 16:39:32 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Qbo4hsH+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YqZPSJ0lo6HHHw+vzDWtqh5+EWcgPB+DxluxXK/rpYoOo7lRNaYKnWMiFun2yCHpUT0JCefmzBgwM4gCSWhRMi8P7iIu7x5rYqhI2n70jO49bMvoD3UWw2jopcChRt5+C6ZYEhRrZs/pkLA5FR5+WeGklv7AjR2XiWrJmSCkMfSLp9PFc2grvNui5mWdEVc73oSLqIEOjhPsiaWXUl94NIBkhgwsA90A3jLOKPgIXCGDcAVReMZOlo7SUHE15+igSFGX6irInAXe2ZkReaNbkUWv9+pbtCld42EMCf/qw5qEkBTXIFDdRo9XmCUv2Xc+CQvUN9guVYqPWnnm98wMAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9XrlD1uJ2VEa6DB5P12cG2x8OHCUr1VC75vf5syT0JE=;
+ b=fMUaPtg1krlibXsmKC0CTfzW9rk7XiVBRHgzAd+ZD2uorjBLouNhZ0oaZTNPxaHMw8qtsZ34rN6iW2kV9Qhx+IupWbPcS9f1N99GI6twU1HPTS0F5k3fKQEb7T6zLUBaAX31NcUHvwK6zHJ1iLYYbEzhzqz0Ruyss2PxXBLnG/Rbs5P98DWYVvik/PIuNJwriDzu11pU6CBIUjR4heeJ9tPKqMAPbXSfJ7EdGHfzYe8Ec4eZATCBg9Lpvi/aA/wos7ZX7wd8NJv9z3wCMHhfNovrXSABhq867dRsHXTi6FkEq5wW82rna5Hlm/MtL/d6foHw5Kgl59eggMJ8szNonA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9XrlD1uJ2VEa6DB5P12cG2x8OHCUr1VC75vf5syT0JE=;
+ b=Qbo4hsH+1wtYEhdt66trWWATOTVgaNHpRQD3hvAZg3QmwsiTE93b6U9yU5rESlKKmd3KXoMGfq6fYcepp9TnouNGquMSMHQpnt2xE0I9No7nr67SUxulb/VtmLIKBHJCX+tLl+b92keE78hiU6fd2kDgC9OXqCpebsBfMnM4WvRHZcfPQPvjnp/T4nJYj2QUFAYbI1NRNpdOEhOmNgAISYIIiHSjK8OxFFXYZiKRvmnokAdGazeRfpuPj4PKCZ/J6dn8VhtgkhkUz+uBMTHI1oZL44zfo6e2R9f7Lypm8rgNQaZNbjfLo2KFntPypM/O0HmV/S9NzKnICmTb6H8Xqw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by SA1PR12MB999228.namprd12.prod.outlook.com (2603:10b6:806:4db::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Tue, 18 Aug
+ 2026 23:48:42 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0339.007; Tue, 18 Aug 2026
+ 23:48:42 +0000
+Date: Tue, 18 Aug 2026 20:48:40 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Mukesh R <mrathor@linux.microsoft.com>
+Cc: hpa@zytor.com, robin.murphy@arm.com, robh@kernel.org,
+	wei.liu@kernel.org, mhklinux@outlook.com, muislam@microsoft.com,
+	namjain@linux.microsoft.com, magnuskulke@linux.microsoft.com,
+	anbelski@linux.microsoft.com, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
+	kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+	longli@microsoft.com, tglx@kernel.org, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	joro@8bytes.org, will@kernel.org, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, bhelgaas@google.com, arnd@arndb.de,
+	jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v5 7/9] x86/hyperv: Implement Hyper-V virtual IOMMU
+Message-ID: <20260818234840.GA134244@nvidia.com>
+References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
+ <20260731223427.2554388-8-mrathor@linux.microsoft.com>
+ <20260805124838.GP27883@nvidia.com>
+ <269d79fa-08ab-55ff-77c7-fb11fa2005d9@linux.microsoft.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <269d79fa-08ab-55ff-77c7-fb11fa2005d9@linux.microsoft.com>
+X-ClientProxiedBy: YT4PR01CA0162.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ac::28) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v5 7/9] x86/hyperv: Implement Hyper-V virtual IOMMU
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: hpa@zytor.com, robin.murphy@arm.com, robh@kernel.org, wei.liu@kernel.org,
- mhklinux@outlook.com, muislam@microsoft.com, namjain@linux.microsoft.com,
- magnuskulke@linux.microsoft.com, anbelski@linux.microsoft.com,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-arch@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
- decui@microsoft.com, longli@microsoft.com, tglx@kernel.org,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- joro@8bytes.org, will@kernel.org, lpieralisi@kernel.org,
- kwilczynski@kernel.org, bhelgaas@google.com, arnd@arndb.de,
- jacob.pan@linux.microsoft.com
-References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
- <20260731223427.2554388-8-mrathor@linux.microsoft.com>
- <20260805124838.GP27883@nvidia.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <20260805124838.GP27883@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SA1PR12MB999228:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19e76736-8d47-4d6e-9b89-08defd833bd3
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|56012099006|4143699003|10067099003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	+eh/mBk23/hp8TvBNQsObJ4/G6DVzr681x/2bE/WnrPkP5MlT+6+rSiX3cwQnWAfHs1IwQdSvAFXYUawmza9D9SkG2mMLPsfDQ6/ogOCFUjGGKA4DAN2f5uYIsm3IDbwx2ROJVUCkhtxiqCBhovVlzfoZtNUEW/ES0XDobCiTU4sNRUc/5yNMeBhosnjqF+3RdED50YMC5d2zQ0znSWELVXtOWhmZxVU1vB5pFbljmlllHzVP6cBOMKClkKaL4n6cJEtOHJ79cr0HyFOAAO9bqgPq4V9TNkrUFYtLMKfxRosUljDeBztwHmLTZygo14t/70ztFALGLontjXKA4E0IzZiMUX4yC/McgfbQHCWcO8F32ogWqLxtZKPW7J0sUA9nRlP9H2SUAmN4n403WgBUOjdsOItL/JLbfrlE9st6yvEe61e4SYADaKl8m8C9YFS6cFLwTxXXsnRwQ0JzQyt3bWMLaMid4/8d8w2+ZezuntZNGAZ62p03I23zk89qDGvNCPKmiisS9EhZixXsew9or42hwzXIfa33YLAcYXZbeqj/+O7Hov7FNepYijlDcOpUMNXm2IdGqYokjIjeIgAbP2+7n5ivbGkKp2754VJaW5MkVvWgbZI4llhP5yqoGrpazIDqqIrh78IaGAf/GbE8ilhSThLPPBgbSmNJlqqfPE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(56012099006)(4143699003)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XJY6CCshQ6Y53JW8R91mmdX1honcJQsRCmXPjiUnDN36/WNy9uiqs0lKoLAp?=
+ =?us-ascii?Q?fOWYyxn5fT47QcnqaMidS9zhKCxeXLRR1S5YgHl80ChaUPpzvtKD1QUWgD1i?=
+ =?us-ascii?Q?TmYdw4Y08hGDpApT01i16oAAj0vd/HikUwH9cYLL7JQHH9tqA31gUvMab3Vt?=
+ =?us-ascii?Q?JEZIkDCCzAUS/Ws484G1ffeILlFuoe6IHPS8LOrW796ulBo96QTftbMmldo1?=
+ =?us-ascii?Q?VfS8OYFSsq6TaZhg7mtB9Z28Gxu4JLnl8w2BS645fSdpPXhe4tzg0JSAs5Ij?=
+ =?us-ascii?Q?7C9OAyWmI4u1Owos0sWLDQB+EuZiuZnxAcArKJCuspk4TxNFocXniFBnfAb6?=
+ =?us-ascii?Q?g4KqyRcXA3NL7vm+8c+yAuuH5v3+z5R8r9YN3xCw08y28GHEnlZ0YuQDXqoJ?=
+ =?us-ascii?Q?D5Yz33qFYSz6S+q/3T8ZT5HmGgR37oWECU54caVpbKe8jFptYm+5LdMYx+kR?=
+ =?us-ascii?Q?ff+U4PlQCZc3GNFuVOEOGP3azFCuEIK4VgTtOvsE+C0HtX2FGGkFhhj0uRf/?=
+ =?us-ascii?Q?5Gsi/5fLA8cnF4WOvCKBOaN02SkmitPTgBYCb4ng+Hjg5oWXFbAGP1mm5ZGc?=
+ =?us-ascii?Q?kXOYs18ZwfXDnp1sP7qQ8z5TnWbdxG1fJftXHHhCoWO4K2H0OTeuijG0mHBz?=
+ =?us-ascii?Q?byFSmPNEYfPWkIbIzefhmJGvUQ1ooE305stqiabWRKAndacMlEIn2PabnkvM?=
+ =?us-ascii?Q?z53MeohU+XeTnEWbDTvgEHD4s0KSh3OxUvILQbnyphVrmZInZD8ZCL3zSeVj?=
+ =?us-ascii?Q?bA0JoDFfRl4X25Uc+RAC3TuO89VK0YGN9Tdkk2hKWbAPjaGt3A35HJth7YmJ?=
+ =?us-ascii?Q?qwhhB3PUXff3m2Xv3yUqJ+BSX1GGQuDJlFbzfKYvWXNEARt44K0zaSNEnpw1?=
+ =?us-ascii?Q?8okSZ+QNjSSULgQX7rggGkQ73GCuMBYNbMk0ZCyuQ5nM5AGdTPELle7hEJ2v?=
+ =?us-ascii?Q?2orisKvuh1wU6SsMCQQ5JPRYjFX12AR8xT2iMZPRliBXHbmDYYgkatR3GStl?=
+ =?us-ascii?Q?vLa0OFNgePSHyCKA6Gfk9ZhdV5mUagA9vm1amVtJRRrUyfeVVq3HSaj2X8yT?=
+ =?us-ascii?Q?EUOK0KOkAt3Icev5mQRXYcaWT8XduwyvFKA/mrgjUSuRSn4B2kgy4ocT1etM?=
+ =?us-ascii?Q?w7kxfI7O0xoCPrOZfJBZtJjJfAtG2ySHqrwKx83GKswj9MgqldJ/tzZK9gcw?=
+ =?us-ascii?Q?CNxusgkzOadCteResot70ORsWbGohWu+8klZ/D0f7JYFclYvbAvQNjDY3BgQ?=
+ =?us-ascii?Q?t1ww2LquzjJ/Yeho7K7mmpULgSd1xH0XYKUU7L/aHhgTNB3rgmduDi1ove/3?=
+ =?us-ascii?Q?EPP2W+gPU5JDHtgq08KuCKdAkFMoGXgeXI6S1EZMIrmLfgG/9oy1iBTTN9Q7?=
+ =?us-ascii?Q?CsU5Za1ScJMw7/BlcIlm47sTmE0gT7pVHjK8O9yUq2inT+rio73GI1pIupV/?=
+ =?us-ascii?Q?E7dGUZl8BSTCsGo+CyKy6MkWe4yf1tsPBC0o0QlnlmfSSIGfJ0DSax1VEspP?=
+ =?us-ascii?Q?xggHUY0rIWdqJlRLKTf/vRNMfUfpaj+YKzlPK0xDPix5XWQhFt5l+TQo4AZN?=
+ =?us-ascii?Q?KuuPBLYSF9GwEtizZFwY/wXpzrqx1DBbw2Kyx0DQQn0ZUDb0/Kf2HKhzr0ge?=
+ =?us-ascii?Q?b0HjBLFSJVXppXEB+HFafr/5lu3Q3KSw4cBV8bXO/+4Ywg7qbrivTbwmWpNj?=
+ =?us-ascii?Q?UjmYRVglIaJL54COMZwZK9CVrvNIN5lICfMhAp6eB54MKf3w?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19e76736-8d47-4d6e-9b89-08defd833bd3
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 23:48:42.1767
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GrEv1P4Zyw0+yK9QcGQ+CsqzB9fiV297vpa7rhSDZ1O5fnSN77YCXWZ6wV+EcVRz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999228
 
-On 8/5/26 05:48, Jason Gunthorpe wrote:
-> On Fri, Jul 31, 2026 at 03:34:25PM -0700, Mukesh R wrote:
->> +struct iommu_domain_geometry default_geometry = (struct iommu_domain_geometry) {
->> +	.aperture_start = 0,
->> +	.aperture_end = -1UL,
->> +	.force_aperture = true,
->> +};
-> 
-> This should not exist
+On Tue, Aug 18, 2026 at 04:39:32PM -0700, Mukesh R wrote:
 
-Yup, we are working with hyp team on getting the hypercall to query
-iommu capabilities for S2 added for root/dom0.
+> Thanks for the review. I know there is another set of patches for pvIOMMU
+> ongoing (both came from the same source) and you are probably repeating
+> things, and I appreciate your patience. I'll also try to look for your
+> comments in that patch series going forward.
 
->> +/*
->> + * If the current thread is a VMM thread, return the partition id of the VM it
->> + * is managing, else return HV_PARTITION_ID_INVALID.
->> + */
->> +static u64 hv_get_current_partid(void)
->> +{
-> 
-> No, you cannot transparently detect VMMs and link them like this. The
-> VMM makes it self visible to the iommu driver via the viommu interface
-> and you get a kvm FD to fish your partid out of. This is hackery not OK.
-> 
-> You should come with VMM support as a followup once you get a basic
-> kernel-only iommu driver working.
+Those patches look pretty good so you should try to copy their stuff
+:)
 
-Ok, will do that. FWIW, this was originally done internally in the 5.x
-kernel by folks not here anymore, and has been getting ported forward.
+They ended up never calling detach, I hope you can do that too. Just
+always have a blocking or identity domain and just use it everywhere.
 
-Will work with Jacob to exploit the viommu object when his patch is done.
+Since you can't predict what translation detach gives it should not
+be set on a device. release could be the only exception and only if
+you reall have to.
 
->> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
->> +{
->> +	struct hv_domain *hvdom;
->> +	int rc;
->> +	u32 unique_id;
->> +	u64 ptid = hv_get_current_partid();
->> +
->> +	if (ptid == HV_PARTITION_ID_INVALID)
->> +		return NULL;
->> +
->> +	hvdom = kzalloc_obj(struct hv_domain);
->> +	if (hvdom == NULL)
->> +		return NULL;
->> +
->> +	spin_lock_init(&hvdom->mappings_lock);
->> +	hvdom->mappings_tree = RB_ROOT_CACHED;
->> +
->> +	unique_id = (u32)atomic_inc_return(&hv_unique_id);
->> +	if (unique_id == HV_DEVICE_DOMAIN_ID_S2_NULL)	/* ie, UINTMAX */
->> +		goto out_err;
->> +
->> +	hvdom->domid_num = unique_id;
->> +	hvdom->partid = ptid;
->> +	hvdom->iommu_dom.geometry = default_geometry;
->> +	hvdom->iommu_dom.pgsize_bitmap = HV_IOMMU_PGSIZES;
-> 
-> This is the only place that needs it, and I somehow doubt -1 is the
-> right end value since that isn't supported by most HW.
-> 
->> +static int hv_iommu_attach_dev(struct iommu_domain *immdom, struct device *dev,
->> +			       struct iommu_domain *old)
->> +{
->> +	struct pci_dev *pdev;
->> +	int rc;
->> +	struct hv_domain *hvdom_new = to_hv_domain(immdom);
->> +	struct hv_domain *hvdom_prev = to_hv_domain(old);
->> +
->> +	/* Only allow PCI devices for now */
->> +	if (!dev_is_pci(dev))
->> +		return -EINVAL;
->> +
->> +	pdev = to_pci_dev(dev);
->> +
->> +	/* There are no explicit detach calls, hence check if we need to detach
->> +	 * first. Also, in case of guest shutdown, it's the VMM thread that
->> +	 * attaches it back to the hv_def_identity_dom, and hvdom_prev will not
->> +	 * be null then. It is null during boot.
->> +	 */
->> +	if (hvdom_prev && !hv_special_domain(hvdom_prev))
->> +		hv_iommu_detach_dev(hvdom_prev, dev);
-> 
-> What translation does this set? If it is anything other than blocking
-> it is security broken for VFIO.
-
-It uses whatever default was during boot. In case of baremetal dom0/root,
-looks like it would be identity domain. So, not blocked.
-  
-> If it is blocking then why does  this:
-> 
->> +	rc = hv_iommu_att_dev2dom(hvdom_new, pdev);
-> 
-> Attach HV_DEVICE_DOMAIN_ID_S2_NULL ?
-> 
->> +	if (rc == 0)
->> +		dev_iommu_priv_set(dev, hvdom_new);  /* sets "private" field */
-> 
-> The only thing the priv is used for is release_device ?
-> 
-> It would be better to have a 'detach domain' as the
-> release_domain so you don't need this.
-
-
-Ok, sounds good.
-
->> +static void hv_iommu_probe_finalize(struct device *dev)
->> +{
->> +	struct iommu_domain *immdom = iommu_get_domain_for_dev(dev);
->> +
->> +	if (immdom && immdom->type == IOMMU_DOMAIN_DMA)
->> +		iommu_setup_dma_ops(dev, immdom);
->> +	else
->> +		set_dma_ops(dev, NULL);
->> +}
-
-> I've forgotten now, but I thought we had reached the point of getting
-> rid of this from most drivers? amd and vtd do not implement this, why
-> does this need it?
-
-Yeah, this is a much older driver. Will address it.
-
->> +static void hv_iommu_release_device(struct device *dev)
->> +{
->> +	struct hv_domain *hvdom = dev_iommu_priv_get(dev);
->> +
->> +	/* Need to detach device from device domain if necessary. */
->> +	if (hvdom)
->> +		hv_iommu_detach_dev(hvdom, dev);
-> 
-> What does "detach" actually do? What translation will be in effect for
-> the device?
-
-It puts the device in the default boot domain. In baremetal-dom0
-case it would be identity. This is required when device moves from
-a device domain to the direct attachment, hyp requires it first be
-detached. But, this will go way in the kernel only iommu driver support,
-we can then do the add ons for vmm support and direct attaches.
-
-> Ideally you should set the release_domain to blocking or identity and
-> arrange things so that is enough to destroy the iommu attachment. But
-> I see both blocking and identity do new attaches so IDK what this
-> trying to do..
-> 
->> +static int hv_iommu_def_domain_type(struct device *dev)
->> +{
->> +	/* The hypervisor always creates this by default during boot */
->> +	return IOMMU_DOMAIN_IDENTITY;
->> +}
-> 
-> That isn't what this does, it overrides the policy set by Linux. Fully
-> functional HW should not implement this function, please remove it.
-
-Ok, will do.
-
->> +static struct iommu_ops hv_iommu_ops = {
->> +	.capable	    = hv_iommu_capable,
->> +	.domain_alloc_paging	= hv_iommu_domain_alloc_paging,
->> +	.probe_device	    = hv_iommu_probe_device,
->> +	.probe_finalize     = hv_iommu_probe_finalize,
->> +	.release_device     = hv_iommu_release_device,
->> +	.def_domain_type    = hv_iommu_def_domain_type,
->> +	.device_group	    = hv_iommu_device_group,
->> +	.default_domain_ops = &(const struct iommu_domain_ops) {
->> +		.attach_dev   = hv_iommu_attach_dev,
->> +		.map_pages    = hv_iommu_map_pages,
->> +		.unmap_pages  = hv_iommu_unmap_pages,
->> +		.iova_to_phys = hv_iommu_iova_to_phys,
->> +		.free	      = hv_iommu_domain_free,
->> +	},
-> 
-> Please don't use default_domain_ops, this should a new struct
-> hv_paging_domain_ops
-
-Ok, this is an old driver from pre 5.x days, so lacks that. Jacob and
-I looked at it, and it appeared most drivers except intel were still
-using default ops, so we thought that was acceptable. But I will change
-it in the next version.
-
-
->> +	.owner		    = THIS_MODULE,
->> +	.identity_domain = &hv_def_identity_dom.iommu_dom,
->> +	.blocked_domain  = &hv_null_dom.iommu_dom,
-> 
-> Can we call null dom blocked dom please?
-
-Sure.
-
->> +static void __init hv_initialize_special_domains(void)
->> +{
->> +	hv_def_identity_dom.iommu_dom.type = IOMMU_DOMAIN_IDENTITY;
->> +	hv_def_identity_dom.iommu_dom.ops = &hv_special_domain_ops;
->> +	hv_def_identity_dom.iommu_dom.owner = &hv_iommu_ops;
->> +	hv_def_identity_dom.iommu_dom.geometry = default_geometry;
->> +	hv_def_identity_dom.domid_num = HV_DEVICE_DOMAIN_ID_S2_DEFAULT; /* 0 */
->> +
->> +	hv_null_dom.iommu_dom.type = IOMMU_DOMAIN_BLOCKED;
->> +	hv_null_dom.iommu_dom.ops = &hv_special_domain_ops;
->> +	hv_null_dom.iommu_dom.owner = &hv_iommu_ops;
->> +	hv_null_dom.iommu_dom.geometry = default_geometry;
->> +	hv_null_dom.domid_num = HV_DEVICE_DOMAIN_ID_S2_NULL;  /* INTMAX */
-> 
-> These ones don't use geometry. Didn't I say this once before?
-> 
-> Jason
-
-Thanks for the review. I know there is another set of patches for pvIOMMU
-ongoing (both came from the same source) and you are probably repeating
-things, and I appreciate your patience. I'll also try to look for your
-comments in that patch series going forward.
-
-Thanks,
--Mukesh
-
+Jason
