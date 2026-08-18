@@ -1,50 +1,64 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8771446EC9B;
-	Tue, 18 Aug 2026 12:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A58346EC73;
+	Tue, 18 Aug 2026 12:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787056795; cv=none; b=oxETGe5fu8kAgvAZnveSaRVrxOnTKIUborQXvUwPctexbrAR1C33QniHdJy3nP05vGhVDO3TuQ3OMNzew8EAsKchveK76cC8t+KqJRRJnh7li3CYd2hTXhubJCObjytHB5kP4Fl2eyrVFl/GnAznyr4Zl1LVx4MPqM9IBiTW85w=
+	t=1787057426; cv=none; b=nJNaqwMs/BkeS5rTg3PWSx5fR5vBgrdLl+uql14ZCQVhnpSbOcpQCjFEyhlY/WLIFdelKphbrgvzszeR+Q3RbvXFHm9NTzFK19I85RSQy6YHH0TN9E+CkqA3/VtYCPFgyJjcoOLjh32YnfUR3Dc9BfpogkgoZ7g33zhMWc1d3V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787056795; c=relaxed/simple;
-	bh=pZC195ubo9vC9qIqjVGMk3pL3WHwKK+nlWXXlxb8KW4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FjstNLCzzAIc1l8zeBH0EgDwLmd1LznU0WaIEdeYUaVoi9WjnMU9AlPrKAOcDp3LZaUdeqmAwxnGfSwPJNwx2iGF8czCSf+ffddbMTPKhAwDOZ4eR7ueBNXugvdPfcupj/CXHUCok/kDUq2QtPP/hHcD+CL3rEjN/CGHdxZVlFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cJGXOOz7; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cJGXOOz7"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=61EB7xd78VmsW3Vtne3/GVzkEJHCsedf1b4wP+cKgAc=;
-	b=cJGXOOz7g4QJkUJsl3S6q/OHVIO2OpSQ12Gwnvx/LDfB7j2e9EmtE+wl+FvTTaNmlXxPZBSoM
-	KNe7EYBgpJaWfulSYLlXHEJmvcN4dYRcyiGIBUJ8QEQpm3tmfYJh6RI69VsVdB7Pf0ztoogoZH+
-	DH6PmEGQgvfg2NxnkDJIw3E=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hPTX46pPgz1prKd;
-	Tue, 18 Aug 2026 20:28:52 +0800 (CST)
-Received: from kwepemo200010.china.huawei.com (unknown [7.202.195.178])
-	by mail.maildlp.com (Postfix) with ESMTPS id BC10A4058C;
-	Tue, 18 Aug 2026 20:39:35 +0800 (CST)
-Received: from huawei.com (10.44.142.85) by kwepemo200010.china.huawei.com
- (7.202.195.178) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 18 Aug
- 2026 20:39:34 +0800
-From: Qi Xi <xiqi2@huawei.com>
-To: <akpm@linux-foundation.org>, <vbabka@kernel.org>
-CC: <longli@microsoft.com>, <kotaranov@microsoft.com>,
-	<jan.kiszka@siemens.com>, <kbingham@kernel.org>, <surenb@google.com>,
-	<mhocko@suse.com>, <brendan.jackman@linux.dev>, <hannes@cmpxchg.org>,
-	<ziy@nvidia.com>, <linux-hyperv@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <sunnanyong@huawei.com>,
-	<wangkefeng.wang@huawei.com>, <xiqi2@huawei.com>
-Subject: [PATCH] mm: drop stale MAX_ORDER references
-Date: Tue, 18 Aug 2026 20:24:08 +0800
-Message-ID: <20260818122408.4182417-1-xiqi2@huawei.com>
-X-Mailer: git-send-email 2.33.0
+	s=arc-20240116; t=1787057426; c=relaxed/simple;
+	bh=myiNgoE13ZjElqPl0ARd95vkQIz+p9utKwQhr5FcLmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=St7RkdQAZDwYeJ/YE1x3Q8rJR8MTzDmyo2HAtveLtoEkVdfFLMoWtbLyh8rz1YTat6C914so8r67GnEniiXsU3maebHOINNL1xec3N4fGDOB79ACe+o/J1h9y+AcLsO7vq6iukJ1zXneeUZs8RV0pj7tmXdel7v7TF4uG/fo7/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E97384591;
+	Tue, 18 Aug 2026 12:50:23 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C06B2367D;
+	Tue, 18 Aug 2026 12:50:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GCHLLQxVhGojIAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 18 Aug 2026 12:50:20 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	javierm@redhat.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	nouveau@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	sashiko-reviews@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 07/12] drm/panic: Retry in dispatch function if panic output fails
+Date: Tue, 18 Aug 2026 14:28:05 +0200
+Message-ID: <20260818125012.468092-8-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260818125012.468092-1-tzimmermann@suse.de>
+References: <20260818125012.468092-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -52,86 +66,91 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemo200010.china.huawei.com (7.202.195.178)
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)]
+X-Rspamd-Queue-Id: 7E97384591
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-The treewide rename in commit 5e0a760b4441 ("mm, treewide: rename
-MAX_ORDER to MAX_PAGE_ORDER") left a few spots still using the old
-name:
+On failed output of QR codes and kmsg buffers, fall back to a user
+message. QR-code output already did this internally, but now formally
+support it in drm_panic_dispatch(). Streamlines the existing logic.
 
-  - two comments in include/net/mana/mana.h and mm/page_alloc.c;
-  - the gdb helper scripts/gdb/linux/mm.py, where self.MAX_ORDER is
-    a local mirror of the kernel's MAX_ORDER define.
+Also pass module parameter drm_panic_type as a parameter to
+drm_panic_dispatch(). This simpifies the implementation. It will later
+allow for moving the function into a helper library.
 
-Rename the leftover instances to MAX_PAGE_ORDER so the tree is
-consistent.
-
-No functional changes.
-
-Signed-off-by: Qi Xi <xiqi2@huawei.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/net/mana/mana.h | 4 ++--
- mm/page_alloc.c         | 2 +-
- scripts/gdb/linux/mm.py | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_panic.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 04acb6791dbd..1d5bed71d6a7 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -40,8 +40,8 @@ enum TRI_STATE {
- #define COMP_ENTRY_SIZE 64
- 
- /* This Max value for RX buffers is derived from __alloc_page()'s max page
-- * allocation calculation. It allows maximum 2^(MAX_ORDER -1) pages. RX buffer
-- * size beyond this value gets rejected by __alloc_page() call.
-+ * allocation calculation. It allows maximum 2^(MAX_PAGE_ORDER -1) pages. RX
-+ * buffer size beyond this value gets rejected by __alloc_page() call.
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 12c39217cbcb..0960750bfce2 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -746,9 +746,9 @@ static int drm_panic_get_qr_code(u8 **qr_image, unsigned int qr_version)
+ /*
+  * Draw the panic message at the center of the screen, with a QR Code
   */
- #define MAX_RX_BUFFERS_PER_QUEUE 8192
- #define DEF_RX_BUFFERS_PER_QUEUE 1024
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index ee902a468c2f..42b5b41432c5 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -7803,7 +7803,7 @@ static bool cond_accept_memory(struct zone *zone, unsigned int order,
- 	/*
- 	 * Watermarks have not been initialized yet.
- 	 *
--	 * Accepting one MAX_ORDER page to ensure progress.
-+	 * Accepting one MAX_PAGE_ORDER page to ensure progress.
- 	 */
- 	if (!wmark)
- 		return try_to_accept_memory_one(zone);
-diff --git a/scripts/gdb/linux/mm.py b/scripts/gdb/linux/mm.py
-index dffadccbb01d..28d33624c38b 100644
---- a/scripts/gdb/linux/mm.py
-+++ b/scripts/gdb/linux/mm.py
-@@ -56,7 +56,7 @@ class x86_page_ops():
+-static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
+-				      u32 fg_color, u32 bg_color,
+-				      unsigned int qr_version)
++static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
++				     u32 fg_color, u32 bg_color,
++				     unsigned int qr_version)
+ {
+ 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
+ 	struct drm_rect r_screen, r_logo, r_msg, r_qr, r_qr_canvas;
+@@ -816,15 +816,6 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
+ 	drm_panic_blit(sb, &r_qr, qr_image, qr_pitch, scale, fg_color);
+ 	return 0;
+ }
+-
+-static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
+-				     u32 fg_color, u32 bg_color,
+-				     unsigned int qr_version)
+-{
+-	if (_draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version))
+-		draw_panic_screen_user(sb, fg_color, bg_color);
+-	return 0;
+-}
+ #else
+ static void drm_panic_qr_init(void) {};
+ static void drm_panic_qr_exit(void) {};
+@@ -899,13 +890,22 @@ static int draw_panic_dispatch(struct drm_scanout_buffer *sb, enum drm_panic_typ
+ {
+ 	int ret;
  
-         self.MAX_PHYSMEM_BITS = 46
-         self.SECTION_SIZE_BITS = 27
--        self.MAX_ORDER = 10
-+        self.MAX_PAGE_ORDER = 10
- 
-         self.SECTIONS_SHIFT = self.MAX_PHYSMEM_BITS - self.SECTION_SIZE_BITS
-         self.NR_MEM_SECTIONS = 1 << self.SECTIONS_SHIFT
-@@ -233,11 +233,11 @@ class aarch64_page_ops():
-         self.SECTIONS_SHIFT = self.MAX_PHYSMEM_BITS - self.SECTION_SIZE_BITS
- 
-         if str(constants.LX_CONFIG_ARCH_FORCE_MAX_ORDER).isdigit():
--            self.MAX_ORDER = constants.LX_CONFIG_ARCH_FORCE_MAX_ORDER
-+            self.MAX_PAGE_ORDER = constants.LX_CONFIG_ARCH_FORCE_MAX_ORDER
-         else:
--            self.MAX_ORDER = 10
-+            self.MAX_PAGE_ORDER = 10
- 
--        self.MAX_ORDER_NR_PAGES = 1 << (self.MAX_ORDER)
-+        self.MAX_ORDER_NR_PAGES = 1 << (self.MAX_PAGE_ORDER)
-         self.PFN_SECTION_SHIFT = self.SECTION_SIZE_BITS - self.PAGE_SHIFT
-         self.NR_MEM_SECTIONS = 1 << self.SECTIONS_SHIFT
-         self.PAGES_PER_SECTION = 1 << self.PFN_SECTION_SHIFT
++retry:
+ 	switch (panic_type) {
+ 	case DRM_PANIC_TYPE_KMSG:
+ 		ret = draw_panic_screen_kmsg(sb, fg_color, bg_color);
++		if (ret) {
++			panic_type = DRM_PANIC_TYPE_USER;
++			goto retry;
++		}
+ 		break;
+ #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+ 	case DRM_PANIC_TYPE_QR:
+ 		ret = draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version);
++		if (ret) {
++			panic_type = DRM_PANIC_TYPE_USER;
++			goto retry;
++		}
+ 		break;
+ #endif
+ 	case DRM_PANIC_TYPE_USER:
 -- 
-2.33.0
+2.55.0
 
