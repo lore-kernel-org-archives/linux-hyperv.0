@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727D73D0903;
-	Wed, 19 Aug 2026 06:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5299C371897
+	for <linux-hyperv@vger.kernel.org>; Wed, 19 Aug 2026 08:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787120270; cv=none; b=QB3oK/4e+/h0Kn2XYqwidvkc9ZsUYMUaVZuy+QNlnVHLqOESUZI6m6PLpg+8Clmz4v5N1SOafOsi0Gb34D+frZD9596nNqTxZl9SxbIfzntgIVWVCOnit99BYY8xB2u9y5a8cIWkgpFanLS4+CgyOPec66B9C55WSJXWaS1qnN8=
+	t=1787127606; cv=none; b=XfnKOpec1XkLAOTBryFHfDK88Mm/deu8sqGiMbBZvKQoK+kB2zH5DiCdXtNWGN5aBcfEV/9F1BYKMezjDTWH7BJ1B+/byz27/adtTrdSB+4AFFA19qqril6jqg4M1SVLwe6uj4thg3e23oXt9hYSOMVNNFizEnh8fvqriBfqCBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787120270; c=relaxed/simple;
-	bh=3EajQNbjuEt3B0aP/HWXhloydBrWAMv9GoLKHiDXcSw=;
+	s=arc-20240116; t=1787127606; c=relaxed/simple;
+	bh=IlgaD+BVzERZ3ss5zBYogc9mdd3/BtFWgL+DfqrqphY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gKYmTEkcrWQ09K3+Dwuw9+MdEIh8/NytxXgudE5c8R1l4hlcRRQ2VI9GffjLb3SdmDuLVN5lCyQkg0OLGU6k+wsTGJlp1YAUyxrX7QouVpNgC2r+B/np2tUSv/SAP1rQummjPO/OxQig8GUyt057CIgmZlYY9PW7jHZJzEiwOdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dO720plT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3Q9NN6B3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L8HnCUTS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eaPdP7nU; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=IKmmwqOG1nJ/7bEL/bENvZYl1KHGpg0PVzRo+HWvJNosue1afrMoRTXq7W5GEwpkhIJzsva0+XVCawXq4V/H0f1rfTq6FTwxtsCivrNfIwSH9Yq6Kfhki/r6mt4hBlVwPCh3amQwgEzJwH+qwTv5akOplWzQUnMlVPsAcvKD4d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ovtBMPFe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OLCjMxRK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TTbq1g0N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5BKZ5yqq; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dO720plT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Q9NN6B3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L8HnCUTS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eaPdP7nU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ovtBMPFe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OLCjMxRK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TTbq1g0N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5BKZ5yqq"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 168B33E69;
-	Wed, 19 Aug 2026 06:16:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 804703EAC;
+	Wed, 19 Aug 2026 08:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787120204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787127595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c/AzOS9nYCn1gKcDW+iR9M86QEqFfEOWGqdTZE1/Q8A=;
-	b=dO720plTJcEcHC+arFs6mB/9g8FDyt9rYEInkQG8s2VxFn+S+3tlBdg/z0/AE76kVegV/J
-	po0cwcLIJ0eVH1dO9hOcYHWbGx/nXdmjU0jchzVB/Ap9d4oLj2BeJMXDhXaD1gW3tzAHoa
-	VMq/ekbE9a8qAKfFTXWZ3jSUpCcnGBI=
+	bh=T9GnN3rAoGpYO3vjH23hNjM1l2JRoLE1XiBBXLMKyqs=;
+	b=ovtBMPFeqr8k1j/i0grRpHq6DPHJFiiTC8snRK0fCDyav4/FBVVuWo2QqtZs+hS/dq0nsu
+	3/KAEP0FVpLw28IB9+WV1UCnc6zUofJ3WF/8xDW4sxwgaxKGGRR/szXja0DO4SFQPbXQI1
+	tq7vteUceI3GDnxUN8FHOfxSiX4rX8M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787120204;
+	s=susede2_ed25519; t=1787127595;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c/AzOS9nYCn1gKcDW+iR9M86QEqFfEOWGqdTZE1/Q8A=;
-	b=3Q9NN6B3P//DA/0r1qISw0CBzYxq34c3kFnAVy/gpQSWIUSsUBzu81MGBqHvUkojiRlIT4
-	IvkPnljiLo7vL3CA==
+	bh=T9GnN3rAoGpYO3vjH23hNjM1l2JRoLE1XiBBXLMKyqs=;
+	b=OLCjMxRKl/OALMDCOPesk9Tez9TmPlVmjt/NNsv01xxV8W5JU8qbbuPe+wYqaVmTIl+wOW
+	BylcTuIwHhAVGSDQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L8HnCUTS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eaPdP7nU
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TTbq1g0N;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5BKZ5yqq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787120200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787127591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c/AzOS9nYCn1gKcDW+iR9M86QEqFfEOWGqdTZE1/Q8A=;
-	b=L8HnCUTSvXwz89JqoFEUVGXfyBa/oJZAT7BC7J3w1uwidMcKF4OuijNQdTHOe7KdU9uEgh
-	5FjLcKdQXjz0iGVcE0TMronQ79HDZTovL3ne4XDVb7NDRzvZyTBD8D37rgnErtXW0X/CoY
-	vMYe1wsMsZ1pQJYvLMtEzC1qL6dpgqk=
+	bh=T9GnN3rAoGpYO3vjH23hNjM1l2JRoLE1XiBBXLMKyqs=;
+	b=TTbq1g0Nl1OwfJF+pdbIOnpH0eQf5d90Y38JQGsX3GsXVI83AK5xSZMHpajrZjmk2yW/J3
+	zZfIDpH+uhtSrYJsxwbzT5GxDNcqXEzU0EXTyk6eWIiNXYzE9F5M8dZxQlmCEV5cvtbUH+
+	dWEpdCSBd3/SQ/tZ3wdBLY6BsfxvAoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787120200;
+	s=susede2_ed25519; t=1787127591;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c/AzOS9nYCn1gKcDW+iR9M86QEqFfEOWGqdTZE1/Q8A=;
-	b=eaPdP7nUjcgGMN2xiwEPnkNBTlV45RYeLfigA5z8I3ZRnJMisCHgbu0N+Luewac2zV75sO
-	rnXH4UsE7FZEdMAg==
+	bh=T9GnN3rAoGpYO3vjH23hNjM1l2JRoLE1XiBBXLMKyqs=;
+	b=5BKZ5yqqFVmo0J6a7W8dVqSOIXB999m7uAmRNNHrXNOLlingAOTwkScnqxBPCxphBHBLyS
+	snH1HSVHt8GhveCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 960AA2F81;
-	Wed, 19 Aug 2026 06:16:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 416BD779BE;
+	Wed, 19 Aug 2026 08:19:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B2BRI0dKhWpUcwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 19 Aug 2026 06:16:39 +0000
-Message-ID: <614bdf7b-031d-444b-a30c-132daa55ce3e@suse.de>
-Date: Wed, 19 Aug 2026 08:16:39 +0200
+	id tb24DidnhWrpawAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 19 Aug 2026 08:19:51 +0000
+Message-ID: <c4bbf710-2b9a-4922-91fe-70fb104808ad@suse.de>
+Date: Wed, 19 Aug 2026 10:19:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -83,21 +83,16 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] drm/panic: Move panic display code into helper
- library
-To: Randy Dunlap <rdunlap@infradead.org>, jfalempe@redhat.com,
- javierm@redhat.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
- sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH 06/12] drm/panic: Pass global module parameters to
+ drm_panic_dispatch()
+To: sashiko-reviews@lists.linux.dev
+Cc: intel-xe@lists.freedesktop.org, ojeda@kernel.org,
+ linux-hyperv@vger.kernel.org, Frank.Li@kernel.org,
+ intel-gfx@lists.freedesktop.org, wsa+renesas@sang-engineering.com,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
 References: <20260818125012.468092-1-tzimmermann@suse.de>
- <20260818125012.468092-12-tzimmermann@suse.de>
- <916c4bd5-c73f-466e-8e9b-aee9d4d7d742@infradead.org>
+ <20260818125012.468092-7-tzimmermann@suse.de>
+ <20260818130916.110771F000E9@smtp.kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -124,85 +119,123 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <916c4bd5-c73f-466e-8e9b-aee9d4d7d742@infradead.org>
+In-Reply-To: <20260818130916.110771F000E9@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.50 / 50.00];
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.19)[-0.973];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[infradead.org,redhat.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
-X-Spam-Score: -4.50
+X-Spam-Score: -4.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 168B33E69
+X-Rspamd-Queue-Id: 804703EAC
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 
-Hi
 
-Am 18.08.26 um 17:55 schrieb Randy Dunlap:
-> Hi,
->
-> On 8/18/26 5:28 AM, Thomas Zimmermann wrote:
->>   M:	Hans de Goede <hansg@kernel.org>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 323422861e8f..cdfd72d9a9c5 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -45,6 +45,7 @@ config DRM_MIPI_DSI
->>   config DRM_KMS_HELPER
->>   	tristate
->>   	depends on DRM
->> +	select DRM_PANIC_HELPER if DRM_PANIC
-> but DRM_PANIC_HELPER depends on DRM_TTM so
-> DRM_KMS_HELPER should also depend on DRM_TTM. Otherwise:
 
-Oops, how did that creep in?  There's no TTM dependency. This Kconfig 
-change appears to be a copy-paste accident. Thanks for noting.
+Am 18.08.26 um 15:09 schrieb sashiko-bot@kernel.org:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+>
+> Pre-existing issues:
+> - [High] Concurrent debugfs writes or KUnit tests across multiple DRM devices race on global static buffers without adequate synchronization.
 
-Best regards
-Thomas
+A fix would be nice, but is beyond this series. As it affects debugfs 
+and kunit test there's no urgency.
 
+> --
 >
-> WARNING: unmet direct dependencies detected for DRM_PANIC_HELPER
->    Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_TTM [=n]
->    Selected by [y]:
->    - DRM_KMS_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANIC [=y]
+> --- Patch [6]: [PATCH 06/12] drm/panic: Pass global module parameters to drm_panic_dispatch() ---
+> commit 9f2a1b5158feac614c09a17c83f387591642e034
+> Author: Thomas Zimmermann <tzimmermann@suse.de>
 >
+> drm/panic: Pass global module parameters to drm_panic_dispatch()
 >
->>   	select FB_CORE if DRM_FBDEV_EMULATION
->>   	help
->>   	  CRTC helpers for KMS drivers.
->> @@ -130,6 +131,10 @@ config DRM_PANIC_SCREEN_QR_VERSION
->>   	  Smaller QR code are easier to read, but will contain less debugging
->>   	  data. Default is 40.
+> This patch sets the panic type and QR version in draw_panic_plane() as a single
+> point of truth, passing these values into the individual drawing functions.
+> In the test case, it always creates a QR code with version 40.
+>
+>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>> index ede620b27515a..12c39217cbcb5 100644
+>> --- a/drivers/gpu/drm/drm_panic.c
+>> +++ b/drivers/gpu/drm/drm_panic.c
+> [ ... ]
+>> @@ -951,6 +955,11 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
+>>   #else
+>>   	u32 bg_color = 0x00000000;
+>>   #endif
+>> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+>> +	unsigned int qr_version = panic_qr_version;
+>> +#else
+>> +	unsigned int qr_version = 0;
+>> +#endif
 >>   
->> +config DRM_PANIC_HELPER
->> +	bool
->> +	depends on DRM_TTM
->> +
->>   config DRM_RAS
->>   	bool "DRM RAS support"
->>   	depends on DRM
+>>   	if (!drm_panic_trylock(plane->dev, flags))
+>>   		return;
+>> @@ -966,7 +975,7 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
+>>   
+>>   	drm_panic_set_description(description);
+>>   
+>> -	ret = draw_panic_dispatch(&sb, fg_color, bg_color);
+>> +	ret = draw_panic_dispatch(&sb, drm_panic_type, fg_color, bg_color, qr_version);
+> [Severity: High]
+> This is a pre-existing issue, but does the per-device locking in
+> drm_panic_trylock() adequately protect the global buffers?
+>
+> Since the lock is per-device (plane->dev->mode_config.panic_lock), concurrent
+> debugfs writes across multiple DRM devices can still race and mutate global
+> static variables, such as the zlib stream workspace (struct z_stream_s stream)
+> or qrbuf1 and qrbuf2.
+>
+> If a real kernel panic occurs while a debugfs write is concurrently using these
+> buffers, the true panic handler could inherit a corrupted zlib workspace state,
+> which might lead to a recursive fault and failure to display the panic screen.
+>
+> Could this be protected by a global lock for non-panic paths?
+>
+> [ ... ]
+>> diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
+>> index 969a096ec840f..196496238d231 100644
+>> --- a/drivers/gpu/drm/tests/drm_panic_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_panic_test.c
+>> @@ -58,7 +58,7 @@ static int draw_panic_screen_kmsg_default(struct drm_scanout_buffer *sb)
+>>   #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+>>   static int draw_panic_screen_qr_code_default(struct drm_scanout_buffer *sb)
+>>   {
+>> -	return draw_panic_screen_qr_code(sb, 0x00ffffff, 0x00000000);
+>> +	return draw_panic_screen_qr_code(sb, 0x00ffffff, 0x00000000, 40);
+>>   }
+>>   #endif
+> [Severity: High]
+> This isn't a bug introduced by this patch, but do the KUnit tests safely access
+> the global drawing state?
+>
+> It appears the KUnit tests bypass draw_panic_plane() entirely and directly call
+> drawing functions like draw_panic_screen_qr_code() without acquiring any locks.
+> Could running the tests race on the global buffers and corrupt the zlib
+> workspace?
+>
 
 -- 
 --
