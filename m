@@ -1,141 +1,139 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44AB8635D;
-	Thu, 20 Aug 2026 15:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29C747DFA8
+	for <linux-hyperv@vger.kernel.org>; Thu, 20 Aug 2026 17:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787238037; cv=none; b=riKrfh6lenirNzYO3IoqF8ZaQNZrG3k86l2wpr8ZXA4SwIsTJRgHE1TBPhlmgy94lmipeBKgAOvPUSDUy8SGPIAM/osEAepieJrKc3CXicE8BSwMx4EPdyWheofpsyrfqFj4O8bOX9pm9IctO4E5WW7JiHhWfE59WCAGhofetvM=
+	t=1787245507; cv=none; b=iPSkWsxVnGrDP0N96Hbi0ay47n0urwrZeak1Yvu7WkjCcfZPTROmz9GHAgvOBhOvKOQKuAMxv2tm5ZGg8ghs8yFlWd4tTjOzCfsPOG5oepjRWjfp3u7RrlxJr1ADQugN+VNcASX96dCFwayx8CLChSzOdNAfWStmhaW5TS3tUqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787238037; c=relaxed/simple;
-	bh=XY4JzP5ma2KQH4gyE4kaYXAqEKpyo5FR9wDQl00t85Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwcIJxUqElhfnRXuKMVsFctffTGR2LmApDjVrhYCY5OX1FuuUfLgalH+NI9ztWAgsQR3nIbmhcvpEZZtEe0pqT7cgne/EBzLEm4RHKjMUBMJIrNZbtTSRQKe5tlbEIGrGCzsTATNrgJZHipHIYc08SeG3YAXQDnlXLbyAbV7LB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=ybSy9LUp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PHxqwqwy; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	s=arc-20240116; t=1787245507; c=relaxed/simple;
+	bh=OOvAhEjtRhOw0a+UjXxcotOqI4sqWEFsEYl3cZ0ejEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R3puhz7r0WEsqfkYrY4/AYmKJFU5ODNtWNa4+A21nAHG0QY90/op90KQgC4ioM3QkhVeQh5gt4Sd+124keAFco9/TRs4cx3Tn6PgYwfziCU/kekCngRF2bDSrxlwRyZQoR/eY06F9k6dMb568NDfI61IVIBxOdU6sciIj0oomjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EDoMONvZ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=GNngpUhG; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="ybSy9LUp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PHxqwqwy"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CED8F14000F9;
-	Thu, 20 Aug 2026 11:00:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 20 Aug 2026 11:00:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1787238034; x=
-	1787324434; bh=9NHH3MAtXegQM8wmmdhADbFPM8G3Gs+3JvKoiIEVOUc=; b=y
-	bSy9LUpE2TURrJNCOInPhz/J81lPAqVQADV0DEAbsVj6h+mjSiK+Pl5c2no3xAln
-	ZT+pzGa5KiN3qQ1x3RGqaD2pT7iMHj66SjHDcH4vpCe+WtG9UYs1/w1HQt3DgXYw
-	ItJLSrzyMCOODVb9vONn/rL509AB5VFE8/QGOMilyEcJ4sDB3ebU1+mbDFlpyRkA
-	zjdEmsD+LkS6yLwImrIg6rHzcVhXV2236J9+up/B3D0Avpxf0iUqUZosYUgX1Idt
-	LOAcDc3RVspuEr9GEoy+OVY0Lgf6FmLe97KGYBiI9H4Yj5GiICPjiwyAL5TNkSPP
-	v6j3URIh8hBHdCcpwVcOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1787238034; x=1787324434; bh=9NHH3MAtXegQM8wmmdhADbFPM8G3Gs+3JvK
-	oiIEVOUc=; b=PHxqwqwynGL8tEvQeE+15D03uaZFylAb8AkxfjH8V5Vt6Jbvlp7
-	AhiFrpT+7afJNlj81D3/Iq4+NDqmGfRvB5Rr11IX8jH0uj85Dr62ruGO/6sQxZOR
-	g+kdENZsyo9MQ8rah61ds4e2rrVYWo6P+hlDTmsrRUYVubr7bffCwgDcM7qei2SA
-	NWuR1t7zRwAeoEM4wWKYT/BILWDwM8huFhdZiSxg2fSTQsHuyt04/fcxKlpuggyX
-	IuAbbyI85ALz3lifCqJPfyXbX6yD7d+OJAnM2dcgWhVYHjuYRhxBaOwxwU9d0Wl/
-	wCP27Dpn5O/7UcZHkAShrBw+OxBleBUYP9g==
-X-ME-Sender: <xms:khaHamGnNRiFZlkdmJZ4zuJg3rhsgAjyObmc5LXpP_-6mO31if4RTQ>
-    <xme:khaHaqpYN-WTlny29pDASt1_ZFQWgmW1Fx5qHl0s9tyr4ADGxZvU9Yho15Y3g-CAs
-    JIeKX93VxZmhF21HB-OIrBa57AdC_Ofhw_hIgAgUeZhzYKJX4a138E>
-X-ME-Received: <xmr:khaHakMmKYlYiSlWPA-bm_BW25GZzfm-WBHlsMm4cBrPFLv_40aJgT8Rmp0>
-X-ME-Proxy-Cause: dmFkZTE0/9X7WIzT7v0cJ1Q68jjWE24R4f9YD+0vv/l4GrYIP7tL5wuv093UaXVgVH30E8
-    80/ZyKNSEHmGq7ojjVQqWlktXNiRKQYT8pxO4ERvYN1NOvSqsMenUQKZxDhs+dHKXEVPI6
-    UQQI3Cnxqx257NeEinkkbSMAgIyrxGy+3LyIVGD662Q9JoUG3XYDJGL2sXVXCbPKO39QrX
-    iwCOxpG2/06ZaIhxY9r4yHvNjqDfm/OrVj93wsPLClOa0UNxBIXUehNGDPpbqr4MpNbeSo
-    /3U46K13FXumbfTWf33t2x28XQ8MR5zuXgJxJvRFw/xeMsvO6a64SnRydROJmhGIrt/wFH
-    +K37V1yOAoB6fwsiRq0cHC06gi2Y2E1FBp+ddRUkRsBuF3CEoKbKmiOMyflSStNRWTUL1p
-    4YxUt6h0cGoKGpPXs2vMr7wzHwnBvtaQ7z07Q8Nqk4q+/UZeJf/45TWikhigUxinmx3azV
-    gkxUA+qHp/NWcZnaPXxmyxVm/KlKpppJOftyEkqSyzEpWyk6VjF4dxF89yrWKVjrYxs38c
-    6SDNc5ybBk5uGxQycyp0kY3hDW8o0WKvG928wnqhTqjl4XLvTrfde9HVu8Cstdt+S4DcNQ
-    xqQredZLSBYoxAqpvtNV5sv1zjhBl6xxcp0rcFpHtzkKB8a9BpAwcFFa2+RA
-X-ME-Proxy: <xmx:khaHamfGePOUDx_KIr-CYt3fgla9L8ETY60ZgWHB3MG9ENcYDXguvw>
-    <xmx:khaHaiRHdbUzGdikB4dUgxAaZ50EPlCYGgwP-F2hKm_OH9Y37ujDog>
-    <xmx:khaHalqo3uZVoZSbr8MTIBVao_ZEKKDSTO4_xcKgfOBhGywwyYHwSg>
-    <xmx:khaHao7-20IRSnV_KugpYALdKzVrKpiwHmYgttlohevlP5g-tGBAJQ>
-    <xmx:khaHao0eLrIu1KQhhVdJ-QeLxcqyJPJ_P4rsas9Zlo6hPkmOBkTLIK4J>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Aug 2026 11:00:32 -0400 (EDT)
-Date: Thu, 20 Aug 2026 16:00:31 +0100
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Qi Xi <xiqi2@huawei.com>, akpm@linux-foundation.org, vbabka@kernel.org, 
-	longli@microsoft.com, kotaranov@microsoft.com, jan.kiszka@siemens.com, 
-	kbingham@kernel.org, surenb@google.com, mhocko@suse.com, brendan.jackman@linux.dev, 
-	hannes@cmpxchg.org, linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	sunnanyong@huawei.com, wangkefeng.wang@huawei.com
-Subject: Re: [PATCH] mm: drop stale MAX_ORDER references
-Message-ID: <aocWWrK_K1iCtq4P@thinkstation>
-References: <20260818122408.4182417-1-xiqi2@huawei.com>
- <aocAePwuxr4te2jG@thinkstation>
- <AF9812A4-550F-4E3A-B67C-EAF6F9F56982@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EDoMONvZ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="GNngpUhG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787245504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TF+roY3oCVB3u96D2m+Kn+7JYFil1XkjxfPcXPVAxaA=;
+	b=EDoMONvZNkKJ8aU2NuNKwz5ixgLykNkMuc6tCR+7QydjEiYXVPzvu5HRgGXuZs2lhL1res
+	MQ8EUqHHFyQdt3jwgiuysBHCFkrOiYzmkBdaLfcXGSzyzCNhVmQ7extwMxVMBItl2zKbbM
+	sshOUrx7Ytil15L3NHbkNEf0Lk0Zq/k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-275-Z9gcO_3nPemWt4cx3YaM7A-1; Thu, 20 Aug 2026 13:05:00 -0400
+X-MC-Unique: Z9gcO_3nPemWt4cx3YaM7A-1
+X-Mimecast-MFC-AGG-ID: Z9gcO_3nPemWt4cx3YaM7A_1787245499
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-499a8039ff5so331305e9.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 20 Aug 2026 10:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1787245499; x=1787850299; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TF+roY3oCVB3u96D2m+Kn+7JYFil1XkjxfPcXPVAxaA=;
+        b=GNngpUhGw6LvGOZy9Q9TqjDH/Jo4/N0UbO4oLdHnx1bz2LLQR7bdoORWUXOO0MWywX
+         we1MQuBsglWX4t3Kp4SbHafc05j1YigY9Q1GioUFTdzJ+frrO4CdStl7pGAbg4Aj5Y1j
+         yjQFYfS2ilL23rAbgMHBZcptID7e3L+KmfjH9cyq2dzPTqsaCCxlzk+hn2LoakpWmt+r
+         Lg8V+YDNGI87UIrkPlvZVvrlmVMJj0Pu8bIv5DxE/DqyfOthKbdzQokjPKampK9hvdkt
+         ORgdaKC8BHMf6sFgvoUhtBE5lEqF9uAFXSkwtrxrxy5GI3vcyVlcmHAmZ9tNsgMOmrTa
+         RFrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787245499; x=1787850299;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TF+roY3oCVB3u96D2m+Kn+7JYFil1XkjxfPcXPVAxaA=;
+        b=KbFY9voLh4rWVL2RZtcHCUSs7ByhYF30K64bWBwnamq2lXJ+G5sQ0HVAVNQqHM0m5A
+         72JoyR9jX4nQMhBz/nzp54howH1FUSOc1KhG3saOrxOl7eakV3MITjw5pVUSk5OVLe/D
+         gimuyddlceFp3bp6wl5zZJn9EFGVB+Nyw2Z4i3qnN9/Ugd1I5oK6uHV6eC395f46PzRO
+         9se1Xxz2SsvXh/m/3o9bMv1KcbwqU+NpaHR6C2T28JiaEEhc2LcTL3suAnQ81cDC0xcN
+         9J4OggxPITHwQrntrV3Q+6YMkcss5Yi4ukFnDPg9W9gxjo0MImp+cOqk9rEekLRb1dBu
+         JDdA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3XmhdMH35AQamewPYsqArABCzsxspOUwDzS9/FVMwaPc5Rv3EqMeRgKs2fAIKQB87M4Sr/gsKi4uZs0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDMntXShkaLQhL5ttVwtF4/JtkJOHLdKgViRLYRwo6/M696c1x
+	i8qEmDW3Ejf539rj7Y8RuLuQHv8IHmZL5K7K2CI1BokePcWn+S0tKnKu4MTLmRsmPH+8ptpMuG7
+	jJjygHjzVyg00/2k9TZQHC9MpqWdNSMskdGTQc0PRx32u69G+7Byd3MOV3KvJN66wjg==
+X-Gm-Gg: AR+sD12Jl+f13kJAEOVbFEJ1djPLWBIru3JNOUPVlP4P9KRfZ6lWJMN4wZu4fhlgKOf
+	MaNYIhLjA2tvuOQ4aW+ejoIXoitzVye25ipSeStDAVWs3/O3KArbTyIdFTM1EdypKpcvqCILw4X
+	BOWHOWrSQnVXjKEmUo0u44oVisUSUmaT+Pvrqo91+LL82kLtTpoIEguVT3Uw+vyUdVBVp04mutu
+	tlzuJ0hdNXeKUlk3K0Lu82dTpNeUcQxicyyh3eOgKUFBi9MV0pt4YzfufM9V4vkKA6INFgAf2DO
+	ehRPNCkNg2HRBg3AGNCTUoT6A1oRG7KVPDqPvnNMyythGnbyYIGZk7gyCAA+E+QcPjQgUh4x5Ka
+	z9CWR5dikN70AEAhpxGlHDFAjozMtp+K5IvsaAWCzmSSHCQ==
+X-Received: by 2002:a05:600c:6211:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499b8465f7dmr5017125e9.10.1787245499112;
+        Thu, 20 Aug 2026 10:04:59 -0700 (PDT)
+X-Received: by 2002:a05:600c:6211:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499b8465f7dmr5015695e9.10.1787245498659;
+        Thu, 20 Aug 2026 10:04:58 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:11aa:87f0:935:4f8e:b423:64eb? ([2a01:e0a:11aa:87f0:935:4f8e:b423:64eb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14c33b3sm13157002f8f.27.2026.08.20.10.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2026 10:04:58 -0700 (PDT)
+Message-ID: <cb784cf6-f3d8-41aa-9f71-c197a5eba7f2@redhat.com>
+Date: Thu, 20 Aug 2026 19:04:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AF9812A4-550F-4E3A-B67C-EAF6F9F56982@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/12] drm/panic: Return -EINVAL if font is not available
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
+ sashiko-reviews@lists.linux.dev
+References: <20260818125012.468092-1-tzimmermann@suse.de>
+ <20260818125012.468092-4-tzimmermann@suse.de>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20260818125012.468092-4-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 20, 2026 at 09:52:03AM -0400, Zi Yan wrote:
-> On 20 Aug 2026, at 9:27, Kiryl Shutsemau wrote:
+On 18/08/2026 14:28, Thomas Zimmermann wrote:
+> Font lookup does not allocate memory. Hence reporting ENOMEM on
+> failed lookups is misleading. Report EINVAL instead.
+
+Thanks, it looks good to me.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
-> > On Tue, Aug 18, 2026 at 08:24:08PM +0800, Qi Xi wrote:
-> >> The treewide rename in commit 5e0a760b4441 ("mm, treewide: rename
-> >> MAX_ORDER to MAX_PAGE_ORDER") left a few spots still using the old
-> >> name:
-> >>
-> >>   - two comments in include/net/mana/mana.h and mm/page_alloc.c;
-> >>   - the gdb helper scripts/gdb/linux/mm.py, where self.MAX_ORDER is
-> >>     a local mirror of the kernel's MAX_ORDER define.
-> >>
-> >> Rename the leftover instances to MAX_PAGE_ORDER so the tree is
-> >> consistent.
-> >>
-> >> No functional changes.
-> >>
-> >> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> >> ---
-> >>  include/net/mana/mana.h | 4 ++--
-> >>  mm/page_alloc.c         | 2 +-
-> >>  scripts/gdb/linux/mm.py | 8 ++++----
-> >>  3 files changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-> >> index 04acb6791dbd..1d5bed71d6a7 100644
-> >> --- a/include/net/mana/mana.h
-> >> +++ b/include/net/mana/mana.h
-> >> @@ -40,8 +40,8 @@ enum TRI_STATE {
-> >>  #define COMP_ENTRY_SIZE 64
-> >>
-> >>  /* This Max value for RX buffers is derived from __alloc_page()'s max page
-> >> - * allocation calculation. It allows maximum 2^(MAX_ORDER -1) pages. RX buffer
-> >> - * size beyond this value gets rejected by __alloc_page() call.
-> >> + * allocation calculation. It allows maximum 2^(MAX_PAGE_ORDER -1) pages. RX
-> >
-> > Should it reference MAX_ORDER_NR_PAGES instead?
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/drm_panic.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> It is fixed in v2[1].
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index 705b72bf0d83..96d238bfceee 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -757,8 +757,10 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+>   	int qr_width, qr_canvas_width, qr_pitch, v_margin;
+>   	u8 *qr_image;
+>   
+> -	if (!font || !stream.workspace)
+> +	if (!stream.workspace)
+>   		return -ENOMEM;
+> +	if (!font)
+> +		return -EINVAL;
+>   
+>   	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+>   
 
-It is not :)
-
-My point is that 2^MAX_PAGE_ORDER is MAX_ORDER_NR_PAGES.
-
-But v2 is good enough.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
