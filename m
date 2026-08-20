@@ -1,135 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DE73AE6E5;
-	Thu, 20 Aug 2026 06:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654E845040D;
+	Thu, 20 Aug 2026 13:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787205986; cv=none; b=gw+nKe+YV1MkTZMcldu7LRg1adatU9FscRk+hLbXkjNBKthPEE5oAOj3KYmzmXdP97hTkl9NCaXuxVkxoiJtIfBhoS34zQDBn5sAlkJzBgkFvT6MIVrDxUzieqYk9pAlla1S7lgWcxhC8Ik+szqeHGwk27yasPYO3bsK5DiMt+s=
+	t=1787232453; cv=none; b=CHCBVygG91nIukWYVIrGgbtXn/19dXwB+bpVtp2apttlFvEAqgAC6v/ciit10pDpHv9ewvo3LNBbmrwvUpi+2s2tjRFpqgXuoRFhU/9RBEvXWWqd3LEzuE0+htG8q8BSiHcvAun5+ONdcstEM42xKyyXZGe3zyvI/TxWyDGOLDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787205986; c=relaxed/simple;
-	bh=z7pB0ckMr2OaLmwtRf84WyK35FfiHatfdlZmGKp64pU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kZH6EITTkhFeqOSGpXQbGY/E+y8qay6sOqnFc7nIKZCI0bjraZxn2VnpYbAyQU9OHxbxdhzq+6CuKsEmjLm7c84hfoQTJHdoMVz+Qe7ptZhK8XV78v8AJmZuUBIRAYIuHrMORhTjfNS5MstiaoelBlJaEWWmheAN3pY8JTs7oE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7FFTwj8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787232453; c=relaxed/simple;
+	bh=TAqznz15wgPfHo3xEvzGtxlg0S2lx26s7Bov3a65OPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KiQjkpJc3f6oSGyopmSH9ewo9yhpxqRFr5QRLpM0htk1ufwLVMWHvNYlohMIRuvFAALiKdDRfrN4hT0TaI8YlhKZ1xcj3fuzmEmYz775lowNTY2tP8oF9meSYgpqWklYJspM5IUyFPGcDBaaJ9fkaNRhoblvExrE0cDtKEqYCMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=EODRIw3P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d4z0BTyc; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7FFTwj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 106F71F000E9;
-	Thu, 20 Aug 2026 06:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787205985;
-	bh=8Ul4LcNKNGu0Z584PICkjX7+P+obMk+pMAEdlAEtBLc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=n7FFTwj85oHM8+Z0bncLFNY9/eW5UxEc3LeFSPwVmM/J0yU3NCrZjNz2zCIEYZwLE
-	 VkUDYV1ptH6tax/0F1oXiJjDiE4SC7hgcWjk/xP+EHEssecT4QfZMP4aTD2PVsDkB/
-	 PHZc88roAXGNSFiQUibZJ0cNvxEnz09z/agN4p5AbkwKKXMWc8TIrdxjcPbruKZSKu
-	 3OPsCjNo23WGFwZ6ajg3ye5CpkwpwGndpwB3CJOPi5MYLZRxkxBpTyt0laVyIVRSIA
-	 t9R0jcmDR/EPUk7IXvEelvCevQFSUrNEUzW4iSTQEsCRum1JwmrzWQUfF/uSY/YiLe
-	 LHO1ski2SQNRg==
-Message-ID: <21d31639-4d16-4ee2-8ff3-18877636aa8b@kernel.org>
-Date: Thu, 20 Aug 2026 15:06:10 +0900
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="EODRIw3P";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d4z0BTyc"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5DB0914000F9;
+	Thu, 20 Aug 2026 09:27:30 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Thu, 20 Aug 2026 09:27:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1787232450; x=
+	1787318850; bh=4Ozy3CczgOizZ3ooFCppKIjSA7fkYEtdaAuwRLg7kbU=; b=E
+	ODRIw3P2o1acvpUAqB72OM7hK828HA4AEGL7JzwwmMOfO/ncvj6zaV25GHFUOXAd
+	4alwM0WIJtrx/07sWpU0q9o0MlmoS516ZXhz5w0/TVVZV+h4s0z76t+RNZvQiA0a
+	Ybqu/tJyb9RbnTHVhInmsdmjhPp1t5S3m7SFdi6LwCNGHyJO+wlfgflYvI1skpEG
+	MwYd1YTdsRKAPowaxhTozYRGj1xkWy2ot/9mbsW9zfyfpT7evJQNWY8Kc36dzrG4
+	X8rx28meskatUlgr9Dqrr/mOk3o0msUdGjuwIIqlzQhbQjGmnY+uw0H4U4Pxv8uy
+	D2crUL7NA7JlIknhkw+Iw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1787232450; x=1787318850; bh=4Ozy3CczgOizZ3ooFCppKIjSA7fkYEtdaAu
+	wRLg7kbU=; b=d4z0BTycjChykZU1niYaj7gAn+TEb7PaorwazbN5uNjSN1Gklyz
+	0bGJt0Kf6GrgD4StCK1QcI5v2cElqeLub/EdavWJJ+D0hTgfvOrCy67Z1G2+j31z
+	d1euHASEcrF51Rlg8JkVcns9yvV5j6cwXH9nxjGlV6JUrzr5JN1R+De+iRqLRabn
+	+2Qgt1/U3zwpAkFM9Fbut0v14Dkx/vKwxWrus7omgNVhSgp25LF8M9wMZyXG4Qz4
+	bIVNSpCu87Z1RwXte9hLE611iQMYocKWW6CF/1JkQ1cXI5QDxQ6vBimhzAJlLuT7
+	y1b7IfVWnzAgx1+Wy6oA4Sp+wwp3PXCbDCw==
+X-ME-Sender: <xms:wQCHasFuB8LJ9TeH7QvEB3gn-XxmvGbmB7FDrkBxE5DvIeHl3ER_zw>
+    <xme:wQCHaop8KbndauSCo9fxeOQHmHkV4fqeVRHg_B7zGMUmxX9DTsptntwkiAQkIMjpJ
+    IAxCZY7vexw6rutRJQYXyGTsjWd_uTOOyP3VzLJkHyiL_r_d7co_sGW>
+X-ME-Received: <xmr:wQCHaqOs_aXMJZKFYhML8XvvB3xnXVf-qSaaJVuCzk4umQEgTkIJ9ksI_r4>
+X-ME-Proxy-Cause: dmFkZTEoKWm6bbmmfKi8x+K64Bxlg2CB2ySvnBwPrS1jXCXrk+eT4gF4UsCKBI5mmn6nm6
+    60dm5WiLU3C4ooe5Pk2R042r9JhGRWPI4U8qW/2GOICA1YTtX5yENYuOuFlIecdJVuWR/w
+    5JGXSbmyBZhjSNoTK2zFoJKBzMljg4Jc9hIgPbXyLQw7jrbietBBxSHh1AiAfo1n1bvrLW
+    qn8jrbWy3WhtmSFEgBwZdQxOxJOXdzvw78mkoULr1Y6Q5l0wDkEO1Kdj+eWSSV6ljPRsZA
+    CL5JMXuJcVo7h0NaIjspEMlNGtoTil/pue8HDKYy5THLX0778c/3xdRsjTjEuyjpul/QLt
+    aF4PiCfx1WRJe4eFQAex2bzNi43lzQxmOeRwqDlQnAMimRgm0BpmnF4jgtVcZL+4xxeyYh
+    tXBXiCYKLmv5WaqY5rlD2ICC3W6go5soIqOIegCyG6+m62SVB2j3G4tTKLEdrEX+MynZiF
+    6/cAoU3xCRTJipaFsMy+2toLPoljjNDoqIpl+j3ouLTC5UgptPnjYOunOKRRno9OLqCyHk
+    x2WY6lMCRD+gt8AIe28D55YhWoGNr2WLc7Ybsq8nQjIJQvL7M2ckIEU2Du+HOBNFtBj2yf
+    WWAbNidtxuzP/HJSAAX+Bz8r/0LtsO7Jn68I2EmckseVmg6Ki4jxx5c3AJGg
+X-ME-Proxy: <xmx:wQCHakc9MEuLFfvEzNeb5Pr9JuA039uguEI6PYwYrwEAEPMNl2TqFA>
+    <xmx:wQCHaoQk4LldvSf0eRdTXHa74QTPOGcpuby8QszIaaprPncX9NpdDA>
+    <xmx:wQCHajoqwx894LBwB-ltGDxUGmE992BMq71Jlys4T8xbbx4MtpZpow>
+    <xmx:wQCHau6KVsNnv_pNePY2FqvioCzKQBg-lFQW5Wnhb6PWBbgI_n-cKQ>
+    <xmx:wgCHamfXySBPmm6VzFXjELx3tJldPDBMdhRwZ9pl45wgFfqiBQ1nlqHs>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Aug 2026 09:27:29 -0400 (EDT)
+Date: Thu, 20 Aug 2026 14:27:27 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Qi Xi <xiqi2@huawei.com>
+Cc: akpm@linux-foundation.org, vbabka@kernel.org, longli@microsoft.com, 
+	kotaranov@microsoft.com, jan.kiszka@siemens.com, kbingham@kernel.org, surenb@google.com, 
+	mhocko@suse.com, brendan.jackman@linux.dev, hannes@cmpxchg.org, ziy@nvidia.com, 
+	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, sunnanyong@huawei.com, 
+	wangkefeng.wang@huawei.com
+Subject: Re: [PATCH] mm: drop stale MAX_ORDER references
+Message-ID: <aocAePwuxr4te2jG@thinkstation>
+References: <20260818122408.4182417-1-xiqi2@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/13] treewide: convert rdmsrq() from a macro to an
- inline function
-To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-perf-users@vger.kernel.org,
- linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, linux-edac@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-coco@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-ide@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-mtd@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, linux-fbdev@vger.kernel.org
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Pu Wen <puwen@hygon.cn>, Tony Luck <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- Babu Moger <babu.moger@amd.com>, Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Andy Lutomirski <luto@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Len Brown <lenb@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- David Airlie <airlied@redhat.com>, Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui <ray.huang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
- Artem Bityutskiy <dedekind1@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Ashok Raj <ashok.raj.linux@gmail.com>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
- David E Box <david.e.box@intel.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Helge Deller <deller@gmx.de>,
- xen-devel@lists.xenproject.org, linux-geode@lists.infradead.org
-References: <20260819102314.1499258-1-jgross@suse.com>
- <20260819102314.1499258-13-jgross@suse.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260819102314.1499258-13-jgross@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260818122408.4182417-1-xiqi2@huawei.com>
 
-On 8/19/26 19:23, Juergen Gross wrote:
-> Today rdmsrq() is a macro using its second parameter as the target for
-> storing the read MSR value.
+On Tue, Aug 18, 2026 at 08:24:08PM +0800, Qi Xi wrote:
+> The treewide rename in commit 5e0a760b4441 ("mm, treewide: rename
+> MAX_ORDER to MAX_PAGE_ORDER") left a few spots still using the old
+> name:
 > 
-> Convert rdmsrq() to an inline function returning the MSR value.
+>   - two comments in include/net/mana/mana.h and mm/page_alloc.c;
+>   - the gdb helper scripts/gdb/linux/mm.py, where self.MAX_ORDER is
+>     a local mirror of the kernel's MAX_ORDER define.
 > 
-> The users have been converted using the following semantic patch:
+> Rename the leftover instances to MAX_PAGE_ORDER so the tree is
+> consistent.
 > 
->   // Options: --include-headers
+> No functional changes.
 > 
->   virtual patch
->   virtual report
+> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+> ---
+>  include/net/mana/mana.h | 4 ++--
+>  mm/page_alloc.c         | 2 +-
+>  scripts/gdb/linux/mm.py | 8 ++++----
+>  3 files changed, 7 insertions(+), 7 deletions(-)
 > 
->   @@
->   expression msr, val;
->   @@
->   (
->   - rdmsrq(msr,val)
->   + val = rdmsrq(msr)
->   )
-> 
-> Signed-off-by: Juergen Gross <jgross@suse.com>
+> diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+> index 04acb6791dbd..1d5bed71d6a7 100644
+> --- a/include/net/mana/mana.h
+> +++ b/include/net/mana/mana.h
+> @@ -40,8 +40,8 @@ enum TRI_STATE {
+>  #define COMP_ENTRY_SIZE 64
+>  
+>  /* This Max value for RX buffers is derived from __alloc_page()'s max page
+> - * allocation calculation. It allows maximum 2^(MAX_ORDER -1) pages. RX buffer
+> - * size beyond this value gets rejected by __alloc_page() call.
+> + * allocation calculation. It allows maximum 2^(MAX_PAGE_ORDER -1) pages. RX
 
-For the ata bits,
+Should it reference MAX_ORDER_NR_PAGES instead?
 
-Acked-by: Damien Le Moal <dlemoal@kernel.org>
+> + * buffer size beyond this value gets rejected by __alloc_page() call.
+>   */
+>  #define MAX_RX_BUFFERS_PER_QUEUE 8192
+>  #define DEF_RX_BUFFERS_PER_QUEUE 1024
 
 -- 
-Damien Le Moal
-Western Digital Research
+  Kiryl Shutsemau / Kirill A. Shutemov
