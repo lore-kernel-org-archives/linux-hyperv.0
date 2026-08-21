@@ -1,96 +1,63 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA3C429CC6;
-	Fri, 21 Aug 2026 10:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14C0346EC66;
+	Fri, 21 Aug 2026 13:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787309850; cv=none; b=aSzSK+hD+N1QWOwX5UWU6k2OBnxTZCepR0rwC6YErwPuzcLgYN/kZElhhMH1NGmTjJcKfyzUqS8se5IL9GARpLKDm/1tRxYw9gqXa2BszujzH9OdsapI/ZBgrBT2ykheUwzITneVVop7p60LQPs4CwzNQO94hvEXcB6TU6hWb04=
+	t=1787318824; cv=none; b=JA8EBwDsZPZ5rfiwCcLqZosm1uQfQ9vahEUZAGEu7u7NUEF/tqfmC2V0M54rRSmtTt9T+6llcqG7Sjoykqca3fIz0rY7l4bYaRnrmKb+/REGhLNp/CTL5WQ0voWCvHkICCT6YQJF9MjILy/MihrAJ0dS5goPPUUyqW1grjHUYyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787309850; c=relaxed/simple;
-	bh=gL1MluruJ5upKyj95/l/2E+d2fkvh467H6pWxyaLAi4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iSDvTj5yr2Uv2mR0zKHEXz0B1zjIB9F8sV1zOKr4mxdtShr8nxp/1cKZw5zzkOrysR/dVqVnYMUl33bposABLtZYTvStR23aUmlOdvHXXCHObvp3zLmjWutZ8el3jZkhrptp6szU52MpJlhA6hKP8MXewHdGWoMXePiirN+Kwz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=A6JuVBn8; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=BdWa8Ox/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1787318824; c=relaxed/simple;
+	bh=A6etM3S8LMw1uxwtzm2zR8I6yuUntWFrFMSvHs/fSos=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JaRykc01WAtUG2zlr8IkF5Z5UcttAx/fE3fEzt75f+TcbxsRJyBhJwRnj/UO5WbBxD8mFzz2NhWnobNt3Tb1cqOzfj8FrxNSqKyhNHb03xklThqAFimQsGE6+4ybLaet0UDWhWnNTvYiKyYUvmW8s6ciFKCtmMA7BBvoZgK+4cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HlJwCYjL; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="A6JuVBn8";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="BdWa8Ox/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BDFAB3EC1;
-	Fri, 21 Aug 2026 10:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1787309840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5T9rrWVYmn/y/C1RYcJS/lb0+erN8NQa2xUIJuUNdRU=;
-	b=A6JuVBn81oQlub3Te8JMGiRRD2jNW8RhKY+/YSLVMayPLRBdRPzWmDUirIN4DMWrQF2yVJ
-	ucpXcgek7VvTUIQTovR2KaIfLCU4z4B4uqxwvOh+ZeVGYmv8BKTCCEC/zWItUi41ju5pGj
-	Z6Iamq06PSBkGn1Yb0CzikS4wEyRirk=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b="BdWa8Ox/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1787309836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5T9rrWVYmn/y/C1RYcJS/lb0+erN8NQa2xUIJuUNdRU=;
-	b=BdWa8Ox/1y2upBvtXRobTnrmmlIU3VV3dPW82zT+aQOPvXfhSOB9IDC4dAqMlH2mK0I8pa
-	6pALXOEae/9qiIjyEqQDj/cMQJaCLu7FLpfl63OG7aGJUSvf4tYnxWpks0UwUuEfnr6t0I
-	lvgIaqR2CjLf6/6ufh5QJ1m7wzDB87I=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 113DD26F8;
-	Fri, 21 Aug 2026 10:57:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xAILAwwviGrHAQAAD6G6ig
-	(envelope-from <jgross@suse.com>); Fri, 21 Aug 2026 10:57:16 +0000
-From: Juergen Gross <jgross@suse.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HlJwCYjL"
+Received: from zhangyu-hyperv.mshome.net (unknown [167.220.233.38])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B4CD520B7128;
+	Fri, 21 Aug 2026 06:26:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B4CD520B7128
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787318791;
+	bh=CUDvFhs2gDAVJNdnuKeFcoGCW6ywUjdV3ujU9CDexI8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HlJwCYjLn8dworFwiOSmqJRMT12/+0Rvodb3nUud9EczPXFqRZ8A9QTPetsRegdIx
+	 DOGSL+cYEzr2/EC/mmj6SyUi4UqNqPZjZoyB1ITndiktliVVy9s/oMM7BJGvXMHP//
+	 L2/KCaumUrzFb9jIRMsL7d7ohhVJOZC7y5migfYU=
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
 To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-perf-users@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev
-Cc: Juergen Gross <jgross@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Michael Kelley <mhklinux@outlook.com>
-Subject: [PATCH v3 13/13] x86/msr: Simplify some rdmsrq() use cases
-Date: Fri, 21 Aug 2026 12:57:09 +0200
-Message-ID: <20260821105709.1671132-1-jgross@suse.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260819102314.1499258-14-jgross@suse.com>
-References: <20260819102314.1499258-14-jgross@suse.com>
+	iommu@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	x86@kernel.org
+Cc: wei.liu@kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	lpieralisi@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	arnd@arndb.de,
+	jgg@ziepe.ca,
+	mhklinux@outlook.com,
+	jacob.pan@linux.microsoft.com,
+	tgopinath@linux.microsoft.com,
+	easwar.hariharan@linux.microsoft.com,
+	mrathor@linux.microsoft.com,
+	baolu.lu@linux.intel.com,
+	suravee.suthikulpanit@amd.com,
+	vasant.hegde@amd.com
+Subject: [PATCH v4 0/5] Hyper-V: Add para-virtualized IOMMU support for Linux guests
+Date: Fri, 21 Aug 2026 21:26:49 +0800
+Message-ID: <20260821132654.211730-1-zhangyu1@linux.microsoft.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -98,366 +65,216 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,infradead.org,redhat.com,kernel.org,arm.com,linux.intel.com,google.com,intel.com,linaro.org,alien8.de,zytor.com,microsoft.com,outlook.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,suse.com:email,suse.com:mid,suse.com:dkim];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[outlook.com];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	R_RATELIMIT(0.00)[to_ip_from(RLkdkdrsxe9hqhhs5ask8616i6)];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: BDFAB3EC1
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 
-After the conversion of rdmsrq() to an inline function some use cases
-can be simplified by dropping an intermediate variable or by
-eliminating the inline function completely.
+This patch series introduces a para-virtualized IOMMU driver for
+Linux guests running on Microsoft Hyper-V. The driver enables two
+primary use cases:
+  1) In-kernel DMA protection for devices assigned to the guest.
+  2) Device assignment to guest user space (e.g., via VFIO).
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Reviewed-by: Michael Kelley <mhklinux@outlook.com> # Hyper-V
----
-V3:
-- eliminate KVM's read_msr() (Sean Christopherson)
----
- arch/x86/events/amd/core.c      |  6 +-----
- arch/x86/events/amd/lbr.c       | 12 ++----------
- arch/x86/events/intel/core.c    |  6 +-----
- arch/x86/events/intel/cstate.c  |  5 +----
- arch/x86/events/intel/knc.c     |  6 +-----
- arch/x86/events/intel/lbr.c     | 17 +++--------------
- arch/x86/events/intel/uncore.c  |  6 +-----
- arch/x86/events/rapl.c          |  4 +---
- arch/x86/events/zhaoxin/core.c  |  6 +-----
- arch/x86/hyperv/hv_apic.c       |  5 +----
- arch/x86/include/asm/apic.h     |  5 +----
- arch/x86/include/asm/debugreg.h |  6 +-----
- arch/x86/include/asm/kvm_host.h | 10 ----------
- arch/x86/kvm/vmx/tdx.c          |  2 +-
- arch/x86/kvm/vmx/vmx.c          |  6 +++---
- 15 files changed, 19 insertions(+), 83 deletions(-)
+The driver implements the following core functionality:
+*   Hypercall-based Enumeration
+    Unlike traditional ACPI-based discovery (e.g., DMAR/IVRS),
+    this driver enumerates the Hyper-V IOMMU capabilities directly
+    via hypercalls. This approach allows the guest to discover
+    IOMMU presence and features without requiring specific virtual
+    firmware extensions or modifications.
 
-diff --git a/arch/x86/events/amd/core.c b/arch/x86/events/amd/core.c
-index 80ed49dba255..3d0e076c1636 100644
---- a/arch/x86/events/amd/core.c
-+++ b/arch/x86/events/amd/core.c
-@@ -660,12 +660,8 @@ static __always_inline void amd_pmu_set_global_ctl(u64 ctl)
- 
- static inline u64 amd_pmu_get_global_status(void)
- {
--	u64 status;
--
- 	/* PerfCntrGlobalStatus is read-only */
--	status = rdmsrq(MSR_AMD64_PERF_CNTR_GLOBAL_STATUS);
--
--	return status;
-+	return rdmsrq(MSR_AMD64_PERF_CNTR_GLOBAL_STATUS);
- }
- 
- static inline void amd_pmu_ack_global_status(u64 status)
-diff --git a/arch/x86/events/amd/lbr.c b/arch/x86/events/amd/lbr.c
-index 29628af6a023..1b4c0ef81485 100644
---- a/arch/x86/events/amd/lbr.c
-+++ b/arch/x86/events/amd/lbr.c
-@@ -74,20 +74,12 @@ static __always_inline void amd_pmu_lbr_set_to(unsigned int idx, u64 val)
- 
- static __always_inline u64 amd_pmu_lbr_get_from(unsigned int idx)
- {
--	u64 val;
--
--	val = rdmsrq(MSR_AMD_SAMP_BR_FROM + idx * 2);
--
--	return val;
-+	return rdmsrq(MSR_AMD_SAMP_BR_FROM + idx * 2);
- }
- 
- static __always_inline u64 amd_pmu_lbr_get_to(unsigned int idx)
- {
--	u64 val;
--
--	val = rdmsrq(MSR_AMD_SAMP_BR_FROM + idx * 2 + 1);
--
--	return val;
-+	return rdmsrq(MSR_AMD_SAMP_BR_FROM + idx * 2 + 1);
- }
- 
- static __always_inline u64 sign_ext_branch_ip(u64 ip)
-diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-index 41ae90b6bbdc..d19ac42b6e8c 100644
---- a/arch/x86/events/intel/core.c
-+++ b/arch/x86/events/intel/core.c
-@@ -2963,11 +2963,7 @@ static void intel_tfa_pmu_enable_all(int added)
- 
- static inline u64 intel_pmu_get_status(void)
- {
--	u64 status;
--
--	status = rdmsrq(MSR_CORE_PERF_GLOBAL_STATUS);
--
--	return status;
-+	return rdmsrq(MSR_CORE_PERF_GLOBAL_STATUS);
- }
- 
- static inline void intel_pmu_ack_status(u64 ack)
-diff --git a/arch/x86/events/intel/cstate.c b/arch/x86/events/intel/cstate.c
-index 69eb6cf51d3b..c6d9146d8ec8 100644
---- a/arch/x86/events/intel/cstate.c
-+++ b/arch/x86/events/intel/cstate.c
-@@ -322,10 +322,7 @@ static int cstate_pmu_event_init(struct perf_event *event)
- 
- static inline u64 cstate_pmu_read_counter(struct perf_event *event)
- {
--	u64 val;
--
--	val = rdmsrq(event->hw.event_base);
--	return val;
-+	return rdmsrq(event->hw.event_base);
- }
- 
- static void cstate_pmu_event_update(struct perf_event *event)
-diff --git a/arch/x86/events/intel/knc.c b/arch/x86/events/intel/knc.c
-index c4f81215f758..a74caa8280be 100644
---- a/arch/x86/events/intel/knc.c
-+++ b/arch/x86/events/intel/knc.c
-@@ -199,11 +199,7 @@ static void knc_pmu_enable_event(struct perf_event *event)
- 
- static inline u64 knc_pmu_get_status(void)
- {
--	u64 status;
--
--	status = rdmsrq(MSR_KNC_IA32_PERF_GLOBAL_STATUS);
--
--	return status;
-+	return rdmsrq(MSR_KNC_IA32_PERF_GLOBAL_STATUS);
- }
- 
- static inline void knc_pmu_ack_status(u64 ack)
-diff --git a/arch/x86/events/intel/lbr.c b/arch/x86/events/intel/lbr.c
-index fc05ec3b9a99..70dae299627a 100644
---- a/arch/x86/events/intel/lbr.c
-+++ b/arch/x86/events/intel/lbr.c
-@@ -209,10 +209,7 @@ void intel_pmu_lbr_reset(void)
-  */
- static inline u64 intel_pmu_lbr_tos(void)
- {
--	u64 tos;
--
--	tos = rdmsrq(x86_pmu.lbr_tos);
--	return tos;
-+	return rdmsrq(x86_pmu.lbr_tos);
- }
- 
- enum {
-@@ -311,26 +308,18 @@ static __always_inline u64 rdlbr_from(unsigned int idx, struct lbr_entry *lbr)
- 
- static __always_inline u64 rdlbr_to(unsigned int idx, struct lbr_entry *lbr)
- {
--	u64 val;
--
- 	if (lbr)
- 		return lbr->to;
- 
--	val = rdmsrq(x86_pmu.lbr_to + idx);
--
--	return val;
-+	return rdmsrq(x86_pmu.lbr_to + idx);
- }
- 
- static __always_inline u64 rdlbr_info(unsigned int idx, struct lbr_entry *lbr)
- {
--	u64 val;
--
- 	if (lbr)
- 		return lbr->info;
- 
--	val = rdmsrq(x86_pmu.lbr_info + idx);
--
--	return val;
-+	return rdmsrq(x86_pmu.lbr_info + idx);
- }
- 
- static inline void
-diff --git a/arch/x86/events/intel/uncore.c b/arch/x86/events/intel/uncore.c
-index ab2c5a962b31..cffbd780a435 100644
---- a/arch/x86/events/intel/uncore.c
-+++ b/arch/x86/events/intel/uncore.c
-@@ -169,11 +169,7 @@ struct intel_uncore_box *uncore_pmu_to_box(struct intel_uncore_pmu *pmu, int cpu
- 
- u64 uncore_msr_read_counter(struct intel_uncore_box *box, struct perf_event *event)
- {
--	u64 count;
--
--	count = rdmsrq(event->hw.event_base);
--
--	return count;
-+	return rdmsrq(event->hw.event_base);
- }
- 
- void uncore_mmio_exit_box(struct intel_uncore_box *box)
-diff --git a/arch/x86/events/rapl.c b/arch/x86/events/rapl.c
-index 180cc18282ca..2d2376c59816 100644
---- a/arch/x86/events/rapl.c
-+++ b/arch/x86/events/rapl.c
-@@ -192,9 +192,7 @@ static inline unsigned int get_rapl_pmu_idx(int cpu, int scope)
- 
- static inline u64 rapl_read_counter(struct perf_event *event)
- {
--	u64 raw;
--	raw = rdmsrq(event->hw.event_base);
--	return raw;
-+	return rdmsrq(event->hw.event_base);
- }
- 
- static inline u64 rapl_scale(u64 v, struct perf_event *event)
-diff --git a/arch/x86/events/zhaoxin/core.c b/arch/x86/events/zhaoxin/core.c
-index 1980e5995e27..9203321c18b4 100644
---- a/arch/x86/events/zhaoxin/core.c
-+++ b/arch/x86/events/zhaoxin/core.c
-@@ -266,11 +266,7 @@ static void zhaoxin_pmu_enable_all(int added)
- 
- static inline u64 zhaoxin_pmu_get_status(void)
- {
--	u64 status;
--
--	status = rdmsrq(MSR_CORE_PERF_GLOBAL_STATUS);
--
--	return status;
-+	return rdmsrq(MSR_CORE_PERF_GLOBAL_STATUS);
- }
- 
- static inline void zhaoxin_pmu_ack_status(u64 ack)
-diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-index 4e30f9a11bc4..52ee8c237c2c 100644
---- a/arch/x86/hyperv/hv_apic.c
-+++ b/arch/x86/hyperv/hv_apic.c
-@@ -36,10 +36,7 @@ static struct apic orig_apic;
- 
- static u64 hv_apic_icr_read(void)
- {
--	u64 reg_val;
--
--	reg_val = rdmsrq(HV_X64_MSR_ICR);
--	return reg_val;
-+	return rdmsrq(HV_X64_MSR_ICR);
- }
- 
- static void hv_apic_icr_write(u32 low, u32 id)
-diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-index e028140fac49..993b52b52625 100644
---- a/arch/x86/include/asm/apic.h
-+++ b/arch/x86/include/asm/apic.h
-@@ -231,10 +231,7 @@ static inline void native_x2apic_icr_write(u32 low, u32 id)
- 
- static inline u64 native_x2apic_icr_read(void)
- {
--	unsigned long val;
--
--	val = rdmsrq(APIC_BASE_MSR + (APIC_ICR >> 4));
--	return val;
-+	return rdmsrq(APIC_BASE_MSR + (APIC_ICR >> 4));
- }
- 
- extern int x2apic_mode;
-diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
-index 60a3df32a4d3..e00251c7eb12 100644
---- a/arch/x86/include/asm/debugreg.h
-+++ b/arch/x86/include/asm/debugreg.h
-@@ -174,15 +174,11 @@ static inline unsigned long amd_get_dr_addr_mask(unsigned int dr)
- 
- static inline unsigned long get_debugctlmsr(void)
- {
--	unsigned long debugctlmsr = 0;
--
- #ifndef CONFIG_X86_DEBUGCTLMSR
- 	if (boot_cpu_data.x86 < 6)
- 		return 0;
- #endif
--	debugctlmsr = rdmsrq(MSR_IA32_DEBUGCTLMSR);
--
--	return debugctlmsr;
-+	return rdmsrq(MSR_IA32_DEBUGCTLMSR);
- }
- 
- static inline void update_debugctlmsr(unsigned long debugctlmsr)
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 2097602a00a0..74a10e7ffbd6 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -2412,16 +2412,6 @@ static inline void kvm_load_ldt(u16 sel)
- 	asm("lldt %0" : : "rm"(sel));
- }
- 
--#ifdef CONFIG_X86_64
--static inline unsigned long read_msr(unsigned long msr)
--{
--	u64 value;
--
--	value = rdmsrq(msr);
--	return value;
--}
--#endif
--
- static inline void kvm_inject_gp(struct kvm_vcpu *vcpu, u32 error_code)
- {
- 	kvm_queue_exception_e(vcpu, GP_VECTOR, error_code);
-diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
-index 545b03d9d10b..88f2e137598b 100644
---- a/arch/x86/kvm/vmx/tdx.c
-+++ b/arch/x86/kvm/vmx/tdx.c
-@@ -793,7 +793,7 @@ void tdx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
- 	if (likely(is_64bit_mm(current->mm)))
- 		vt->msr_host_kernel_gs_base = current->thread.gsbase;
- 	else
--		vt->msr_host_kernel_gs_base = read_msr(MSR_KERNEL_GS_BASE);
-+		vt->msr_host_kernel_gs_base = rdmsrq(MSR_KERNEL_GS_BASE);
- 
- 	vt->guest_state_loaded = true;
- 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index bd16bdfc1d61..534e83d857c2 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1374,8 +1374,8 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
- 	} else {
- 		savesegment(fs, fs_sel);
- 		savesegment(gs, gs_sel);
--		fs_base = read_msr(MSR_FS_BASE);
--		vt->msr_host_kernel_gs_base = read_msr(MSR_KERNEL_GS_BASE);
-+		fs_base = rdmsrq(MSR_FS_BASE);
-+		vt->msr_host_kernel_gs_base = rdmsrq(MSR_KERNEL_GS_BASE);
- 	}
- 
- 	wrmsrq(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
-@@ -1434,7 +1434,7 @@ static u64 vmx_read_guest_host_msr(struct vcpu_vmx *vmx, u32 msr, u64 *cache)
- {
- 	preempt_disable();
- 	if (vmx->vt.guest_state_loaded)
--		*cache = read_msr(msr);
-+		*cache = rdmsrq(msr);
- 	preempt_enable();
- 	return *cache;
- }
+*   Domain Management
+    The driver manages IOMMU domains through a new set of Hyper-V
+    hypercall interfaces, handling domain allocation and attachment
+    for endpoint devices.
+
+*   Nested Translation Support
+    This implementation leverages guest-managed stage-1 I/O page
+    tables nested with host stage-2 translations. It is built
+    upon the consolidated IOMMU page table framework (IOMMU_PT).
+    This design eliminates the need for emulating map operations.
+    Both Intel VT-d and AMD IOMMU platforms are supported.
+
+*   IOTLB Invalidation
+    IOTLB invalidation requests are marshaled and issued to the
+    hypervisor through the same hypercall mechanism. Both domain-
+    selective and page-selective flushes are supported.
+
+Implementation Notes:
+*   Platform Support
+    The current implementation targets x86 platforms with Intel
+    VT-d and AMD IOMMU hardware.
+
+*   MSI Region Handling
+    The standard x86 MSI interrupt range
+    (0xfee00000 - 0xfeefffff) is reserved from normal IOVA mappings.
+    Future updates may allow this configuration to be queried via
+    hypercalls if new hardware platforms are to be supported.
+
+*   Reserved Regions (RMRR)
+    There is currently no requirement to support assigned devices with
+    ACPI RMRR limitations. Consequently, this patch series does not
+    specify or query reserved memory regions.
+
+*   Guest Hibernation
+    Guest hibernation and resume are not supported by this initial
+    implementation. The current pvIOMMU interface does not define how
+    Hyper-V device-domain objects and device attachments are restored.
+
+Testing:
+Validated with the following configurations:
+- NVMe devices assigned to the guest on AMD platforms, tested
+  with fio.
+- Intel DSA devices assigned to the guest, tested with dmatest.
+- dma_map_benchmark for DMA mapping performance evaluation.
+
+Changelog:
+
+v3[1] -> v4:
+- Added Jacob Pan's Reviewed-by tag for patch 1/4/5.
+
+- hyperv: hypercall interfaces:
+  - Added the authoritative Hyper-V type names to imported definitions.
+  - Added HV_STATUS_DEVICE_ALREADY_IN_DOMAIN and mapped it to -EEXIST.
+
+- hv: logical device ID registry:
+  - Made the registry independent of CONFIG_HYPERV_PVIOMMU.
+  - Renamed the APIs to hv_pci_xxx_dev_id(),
+  - Reworked initialization and error cleanup to propagate failures.
+  - Return -EEXIST with a warning for duplicate registration.
+
+- iommu/x86: architectural MSI reserved region:
+  - Replaced the exported range constants with
+    iommu_alloc_resv_x86_msi_region().
+
+- iommu/hyperv: para-virtualized IOMMU:
+  - Accepted HV_STATUS_DEVICE_ALREADY_IN_DOMAIN as a successful attach,
+    and removed the blocking-domain-specific duplicate check.
+  - Removed the redundant ATS disable from release_device(); ATS is
+    disabled when attaching the release domain.
+
+- iommu/hyperv: page-selective IOTLB flush:
+  - Removed the redundant include of linux/hyperv.h.
+  - Documented that the list flush also invalidates non-leaf page-walk
+    caches before detached page-table pages are freed.
+
+v2[2] -> v3:
+- Added a separate patch defining the common x86 architectural MSI
+  reserved range and converted the Intel, AMD, and Hyper-V IOMMU
+  drivers to use it.
+
+- hyperv: hypercall interfaces:
+  - Used BIT_ULL() for 64-bit capability flags.
+  - Matched the create-device-domain input layout to the 32-byte
+    Hyper-V ABI.
+  - Corrected the page-selective flush range layout to 6/6/52 bits.
+
+- hv: logical device ID registry:
+  - Replaced the linear list with an rhashtable for the sparse PCI
+    domain number mapping.
+  - Used RCU-protected lookup and deferred freeing on removal.
+  - Simplified the registration and cleanup paths.
+
+- iommu/hyperv: para-virtualized IOMMU:
+  - Renamed the guest driver source to hv-iommu-guest.c.
+  - Enabled ATS only after a device-domain attachment succeeds, and
+    disabled ATS before attaching the blocking domain.
+  - Removed the obsolete deferred-flush capability, unused geometry,
+    and redundant device-private-data clearing.
+  - Made the Hyper-V domain settings explicit at each caller instead
+    of deriving them from the Linux domain type.
+  - Added transactional create/configure domain handling with rollback.
+  - Required only the base page size and masked the domain page-size
+    bitmap with the Hyper-V-supported bitmap.
+  - Silenced detection for unsupported hosts while retaining errors
+    for actual hypercall and capability failures.
+  - Clarified Kconfig support for assigned PCI devices and documented
+    the lack of guest hibernation/resume support.
+
+- iommu/hyperv: page-selective IOTLB flush:
+  - Removed the inclusive-end overflow and kept the range calculation
+    in byte addresses until the final page conversion.
+  - Cleared both the fixed hypercall header and the range entry.
+  - Warned on selective-flush failure before falling back to a
+    full-domain flush.
+
+v1[3] -> v2:
+- Dropped the "move to subdirectory" patch; the directory now exists
+  upstream.
+
+- hv: logical device ID registry:
+  - Moved the registry to hv_common.c so it can be shared, and derived
+    the prefix via a shared helper instead of caching it in pci-hyperv's
+    private struct.
+  - Moved the lookup out of the irq-disabled region (PREEMPT_RT).
+
+- iommu/hyperv: para-virtualized IOMMU:
+  - Removed the unused detach_dev op.
+  - Rejected a hypervisor not advertising x86 page sizes instead of
+    masking and warning.
+  - Statically initialized the identity and blocking domains.
+  - Gave the blocking domain its own attach op, which returns the hypercall
+    status and WARNs on failure.
+
+- iommu/hyperv: page-selective IOTLB flush:
+  - Used a single descriptor covering a slightly larger power-of-two
+    range, instead of splitting the range into multiple descriptors.
+  - Fixed the inclusive-end corner case in the flush range calculation.
+
+RFC v1[4] -> v1[3]:
+- Scoped platform support to x86 only (Intel VT-d and AMD IOMMU);
+  initialization now uses x86_init.iommu.iommu_init
+- Added page-selective IOTLB flush support
+- Disable device ATS in hv_iommu_release_device()
+- Addressed review comments from Michael Kelley:
+  - Reversed dependency: pvIOMMU exports registration API for
+    pci-hyperv to call, instead of pci-hyperv exporting
+    hv_build_logical_dev_id()
+  - Dropped separate output page allocation patch; hypercall input
+    and output now share the same per-CPU page
+  - Cleaned up Kconfig (removed PCI_HYPERV dependency, unnecessary
+    selects)
+  - Removed dev_list, per-domain spinlock, and syscore_ops
+  - Removed forward declarations by reordering functions
+  - Fixed typos, cleaned up Kconfig selects, improved pr_info
+    messages, etc.
+
+[1] v3:
+https://lore.kernel.org/linux-hyperv/20260811155022.108148-1-zhangyu1@linux.microsoft.com/
+[2] v2:
+https://lore.kernel.org/linux-hyperv/20260702160518.311234-1-zhangyu1@linux.microsoft.com/
+[3] v1:
+https://lore.kernel.org/linux-hyperv/20260511162408.1180069-1-zhangyu1@linux.microsoft.com/
+[4] RFC v1:
+https://lore.kernel.org/linux-hyperv/20251209051128.76913-1-zhangyu1@linux.microsoft.com/
+
+
+Wei Liu (1):
+  hyperv: Introduce new hypercall interfaces used by Hyper-V guest IOMMU
+
+Yu Zhang (4):
+  Drivers: hv: Add logical device ID registry for vPCI devices
+  iommu/x86: Add architectural MSI reserved region helper
+  iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest
+  iommu/hyperv: Add page-selective IOTLB flush support
+
+ arch/x86/hyperv/hv_init.c             |   4 +
+ arch/x86/include/asm/iommu.h          |  14 +
+ arch/x86/include/asm/mshyperv.h       |   4 +
+ drivers/hv/hv_common.c                | 113 +++++
+ drivers/iommu/Kconfig                 |   1 +
+ drivers/iommu/amd/iommu.c             |   6 +-
+ drivers/iommu/hyperv/Kconfig          |  16 +
+ drivers/iommu/hyperv/Makefile         |   1 +
+ drivers/iommu/hyperv/hv-iommu-guest.c | 694 ++++++++++++++++++++++++++
+ drivers/iommu/hyperv/iommu.h          |  49 ++
+ drivers/iommu/intel/iommu.c           |   6 +-
+ drivers/pci/controller/pci-hyperv.c   |  21 +-
+ include/asm-generic/mshyperv.h        |   4 +
+ include/hyperv/hvgdk_mini.h           |  10 +
+ include/hyperv/hvhdk_mini.h           | 155 ++++++
+ include/linux/hyperv.h                |   8 +
+ 16 files changed, 1091 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/iommu/hyperv/Kconfig
+ create mode 100644 drivers/iommu/hyperv/hv-iommu-guest.c
+ create mode 100644 drivers/iommu/hyperv/iommu.h
+
 -- 
-2.55.0
-
+2.52.0
