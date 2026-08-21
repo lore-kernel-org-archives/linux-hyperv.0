@@ -1,95 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B821423A83
-	for <linux-hyperv@vger.kernel.org>; Fri, 21 Aug 2026 14:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C153A381E94;
+	Fri, 21 Aug 2026 18:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787323192; cv=none; b=PerGyl0AAS6f/cxPE3bcdp6/3Lxp4jeUWMktpMtMX0CcWgZwUgLx28ELNLRmUpSr2EatTPGeHZ2odqnCxsyG3Q+SDv0cq+Ukve2UD5y2ShZzIt/lZs8ACxapn0aKJBBE4RbOxzFhuX6NpI/lrE8dHRYh0l16jmEoHWDzh/KCu8U=
+	t=1787337501; cv=none; b=DFyJE+ahScHtJ41oUdhsd4+VEKkYCCyXi03t7WQxCURc/ZEgSwA551jDdUVxX0mTLuPhu+V/Lh7M5KJHlpU3BqyEG58j9nzzeS3ebULibVOnWrqo3lmW8p7pDWwQLHOAwJJTt4SQRqbAtFlAtjlc6RjYI/esDBAUjyIKJUWRg+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787323192; c=relaxed/simple;
-	bh=ruXycmb3plf+6PWeu1i/vP/qvX3ZaYbws8zFBzAuWY8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ipgV/pAmaOuapP6TE90o0a51kHvswRd+QjWVYh4sBWTVn73ORBjUYwqjSjFCQtxuDdSnpdPxEyKij5y4pZUfphfUFiHoLGaxbVMVAkY/mwjAoCntHy6RmjtLJYXLeunQWTPZZnFC6HvjMSTO9TB1OQbOGC/jHJR/mWKXl6vz6C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzAwTeuz; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzAwTeuz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4247F1F000E9;
-	Fri, 21 Aug 2026 14:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787323186;
-	bh=re1eb35ZdS1svUjOnqsfFM5fIy5wYJs2GS7KkwlgjzE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=EzAwTeuzdJPbkSjPGP26/swSCzlkVRWxSRD0+/TKaqH7rfrtsPgYVCWtgiOJaNNvD
-	 92k5wdY9zwZZKKvBhAS38YgrJ7B1o5rOoJQk6lgx4Tc6MbB4g3P38H5sQGpNh/dEnm
-	 wMsGRfHsDw//TuoBStTap96OaBo08qC1hJdw4Qj8pcCwchSkXYYztHK6Sij5kj/ubV
-	 JDvJDxpyPbVrhIYpinbKG+5kg8XFy2QxV0PzfWdWarTQr7rEPgFmRqw3Ht5UL8P7OH
-	 Ugeuk3xmbrwIPNpFb8wdVqkmhEABIH8JYwubfgLYk9wdC1DpYjnk56ZpoXCRJzHxtm
-	 XrtfvqFceaT1g==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 21 Aug 2026 16:38:46 +0200
-Subject: [PATCH 10/70] drm/hyperv: Switch to
- drm_atomic_helper_crtc_create_state
+	s=arc-20240116; t=1787337501; c=relaxed/simple;
+	bh=4j8pYSywgvMU2lJIS+Rm10mNROhwBmPrBC8NO4ituEc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=icq2sN6bOXjRV94QyQSUntYKBrnt3+FLHWtpYTstyK7SctNwDpxGtozHrZHmhCLi0FpOsO20Rq2BjobKqepe2celtDd6b7TSYr+TY6+9kyHzA+boYKG4QBvBd4Wl5OIm711flUoEwiVqYWviiyxZDu04gpfWWQ95Bp5SFdhMtNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: by linux.microsoft.com (Postfix, from userid 1202)
+	id A980820B7128; Fri, 21 Aug 2026 11:37:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A980820B7128
+From: Long Li <longli@microsoft.com>
+To: Long Li <longli@microsoft.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	shradhagupta@linux.microsoft.com,
+	Simon Horman <horms@kernel.org>,
+	ernis@linux.microsoft.com,
+	stephen@networkplumber.org
+Cc: netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] net: mana: Cap MSI-X vectors to the device MSI-X table size
+Date: Fri, 21 Aug 2026 11:37:36 -0700
+Message-ID: <20260821183736.733296-1-longli@microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-drm-no-more-crtc-reset-v1-10-fb793475c05a@kernel.org>
-References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
-In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ruXycmb3plf+6PWeu1i/vP/qvX3ZaYbws8zFBzAuWY8=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFkdSX+CvY+dS93+izW6+VbR0435+p+TZb6c9Xzbo+pv5
- XKurNmlYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExEcR1jnUH5pahHN2ekTZ+8
- ziO8bMeLn+vSUir+/18SvVeY7WGxpmdN5S4W56uLTOeEMh5ey8E3hbHh3VypKs39qxUkLkzcKBL
- 9zTf7qE7z3ois2EORE4V9Frvp+V6SuCZnU7nGYqbDnDlC58UB
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
 
-The hyperv crtc implementation uses the deprecated
-drm_atomic_helper_crtc_reset() as its reset hook.
+mana_gd_query_max_resources() sizes gc->num_msix_usable from resp.max_msix
+and the CPU count, but never from the device MSI-X table. On a 1792 vCPU
+M-series VM that yields 1793 while the table has 1024 entries, and
+mana_gd_setup_remaining_irqs() then walks indices 1..1792, running off the
+end of the region mapped by msix_map_region():
 
-Switch to drm_atomic_helper_crtc_create_state() instead.
+  BUG: unable to handle page fault for address: ff8e347f8b99800c
+  RIP: 0010:msix_prepare_msi_desc+0x7a/0x90
+  RAX: 0000000000004000 RBX: ff4330cb164ea780 RCX: ff8e347f8b998000
+  Call Trace:
+   <TASK>
+   __msi_domain_alloc_irqs+0x13a/0x440
+   msi_domain_alloc_irq_at+0x149/0x1b0
+   mana_gd_setup+0x351/0x890
+   mana_gd_probe+0x274/0x390
+   </TASK>
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+RAX is index 1024 * PCI_MSIX_ENTRY_SIZE, one entry past the table.
+
+msi_insert_desc() does range check the index, but only against the MSI
+domain hwsize, which matches the table only for devices on an MSI parent
+domain. With a global PCI/MSI domain hwsize is MSI_XA_DOMAIN_SIZE, so
+nothing bounds the request.
+
+Cap num_msix_usable with pci_msix_vec_count().
+
+Fixes: 755391121038 ("net: mana: Allocate MSI-X vectors dynamically")
+Signed-off-by: Long Li <longli@microsoft.com>
 ---
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Long Li <longli@microsoft.com>
-Cc: Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
----
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../net/ethernet/microsoft/mana/gdma_main.c   | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 1855749c1e41..3261e730c69d 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -124,11 +124,11 @@ static const struct drm_crtc_helper_funcs hv_drm_crtc_helper_funcs = {
- 	.atomic_enable = hv_drm_crtc_helper_atomic_enable,
- 	.atomic_disable = drm_crtc_vblank_atomic_disable,
- };
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index ed9af314e4ede3ea0422694bd1f2f652f9c10478..f92b2d0bf926e1b715ff665d37f8173a2103e6fe 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -182,6 +182,7 @@ static int mana_gd_query_max_resources(struct pci_dev *pdev)
+ 	struct gdma_query_max_resources_resp resp = {};
+ 	struct gdma_general_req req = {};
+ 	unsigned int max_num_queues;
++	unsigned int msix_vec_count;
+ 	u8 bm_hostmode;
+ 	u16 num_ports;
+ 	int err;
+@@ -218,6 +219,24 @@ static int mana_gd_query_max_resources(struct pci_dev *pdev)
+ 		gc->num_msix_usable = min(resp.max_msix, num_online_cpus() + 1);
+ 	}
  
- static const struct drm_crtc_funcs hv_drm_crtc_funcs = {
--	.reset = drm_atomic_helper_crtc_reset,
-+	.atomic_create_state = drm_atomic_helper_crtc_create_state,
- 	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	/* MSI-X vectors are allocated by index into the device MSI-X table, so
++	 * never ask for more than the table holds. It can be smaller than both
++	 * resp.max_msix and the CPU count.
++	 */
++	err = pci_msix_vec_count(pdev);
++	if (err <= 0) {
++		dev_err(gc->dev, "Failed to query MSI-X table size: %d\n", err);
++		return err < 0 ? err : -ENOSPC;
++	}
++	msix_vec_count = err;
++
++	if (gc->num_msix_usable > msix_vec_count) {
++		dev_info(gc->dev,
++			 "Limiting MSI-X vectors from %u to table size %u\n",
++			 gc->num_msix_usable, msix_vec_count);
++		gc->num_msix_usable = msix_vec_count;
++	}
++
+ 	if (gc->num_msix_usable <= 1)
+ 		return -ENOSPC;
+ 
 
+base-commit: 746fc0787f616da418ffc04a110296fe95d53491
 -- 
-2.55.0
+2.43.0
 
