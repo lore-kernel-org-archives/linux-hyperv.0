@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 378AE46F484;
-	Fri, 21 Aug 2026 13:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AD348A2CE;
+	Fri, 21 Aug 2026 13:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787318839; cv=none; b=tnibzd276uy4LdRc5hEyia52PKbpsqDYeoGX3xtnGjdynhqZiArgicSg0y2EyQkJ2ASHVHI4ZLxHg8I8bz0uvUBfLzfbI6PegVtZGFsQYkYNpe3SToRu7Egy4mN/hjsoDH6ld5V2Q4ZrG+LzuKWLkU7v3YzjoqeeKzx7MwhF4Uo=
+	t=1787318845; cv=none; b=sS7NNHjMNqW9CT68p8rsAsY9KKzwet3OUSXRxlE8E+YL9CNWO4GLeJog3mAfafY2gztnkDGjnn26rHofeoysYlcq+ByfWiW8LRIKpSblroCxEJNiHWu/YL3+Awcm6AE3FnRQGgFi5Bz6HoLViYXhT66eSo77JYRLvUdHWbX7d4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787318839; c=relaxed/simple;
-	bh=OJQGc4dL+AV5mSPsc5Tu0CrxpM3h3Z3I1HSl1uIJ300=;
+	s=arc-20240116; t=1787318845; c=relaxed/simple;
+	bh=E8sgcggN4XqDrTpBDaS1PxIA9CcWolF73AfOnkRnQlc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SDaviVo8fVduQ0gec7m46tLnMBlLXusegvA5fieIOJps+PpMCblMtAgzCzvmSkRQ3Hn+BScYzkU7fqoE7SCwhLM+zk3ff9xILsGkju+yFabSZy3fGRRf6Ov0XChVNqhPwNUMDrDBVUnvxG1twCU/QdrDh2nMpOnyUDhPx6Hbrbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AMh5KdGv; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=fmELQcbxAdTDIKRdi6uptyRSIRk9gLSMQqp7zQXYE+3+cyjPFhJZWv9WaeM7Vw7bFjKCuzyU4Eb2+gxqxEi3AypameasWwGph9AIJV86CVNoiAN/7vOWNqz61MzgF2skCTynB+lQ2TTbjtixJghGVQMXndeeQQuuiqUpsoVZejo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CUMpAiEh; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AMh5KdGv"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CUMpAiEh"
 Received: from zhangyu-hyperv.mshome.net (unknown [167.220.233.38])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 397DA20B712B;
-	Fri, 21 Aug 2026 06:26:38 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 397DA20B712B
+	by linux.microsoft.com (Postfix) with ESMTPSA id 212AF20B7128;
+	Fri, 21 Aug 2026 06:26:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 212AF20B7128
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787318803;
-	bh=FZcqK0eDH84d9tFJ5zSTz6oER/fPEbkz2VZTeMXGNmw=;
+	s=default; t=1787318809;
+	bh=yuNvgsrd17bq25Q3Vdh9MWZm+oooDaNTqJ+d4sn2xgA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AMh5KdGv22PBfEg1M8gZ8i4XnLoULAsbjpIDtPJLChbj55oykY9Qnn9dGf5dRXThW
-	 bsh4M8fUP7PPHG6Q+FdEpRq5iPugZwdqVVYXHiNp3g6MRyuJ1IQ3iXT5ZxH+pUK/2B
-	 iq75dBNrgjXBQwVP21+3esTjGkukyJG/QpRV2uos=
+	b=CUMpAiEhAFjcXbjzBS1Uhk8DFm2qFJgo6djh+RbAluKKv6JE7PAr/aTCPJ2B/mcS5
+	 PmNFRZ8VNI3/i4SrbZuMFHWgq57ol/yYOYi5HuTf1+Z1wrnkCi4AsgOb9KGMQxnjKM
+	 FFAiOnX7mJAf5DsHQ32lvHelLEoUCFMKT4LlCtOM=
 From: Yu Zhang <zhangyu1@linux.microsoft.com>
 To: linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc: wei.liu@kernel.org,
 	baolu.lu@linux.intel.com,
 	suravee.suthikulpanit@amd.com,
 	vasant.hegde@amd.com
-Subject: [PATCH v4 2/5] Drivers: hv: Add logical device ID registry for vPCI devices
-Date: Fri, 21 Aug 2026 21:26:51 +0800
-Message-ID: <20260821132654.211730-3-zhangyu1@linux.microsoft.com>
+Subject: [PATCH v4 3/5] iommu/x86: Add architectural MSI reserved region helper
+Date: Fri, 21 Aug 2026 21:26:52 +0800
+Message-ID: <20260821132654.211730-4-zhangyu1@linux.microsoft.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260821132654.211730-1-zhangyu1@linux.microsoft.com>
 References: <20260821132654.211730-1-zhangyu1@linux.microsoft.com>
@@ -69,294 +69,100 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hyper-V identifies each PCI pass-thru device by a logical device ID in
-its hypercall interface. This ID consists of a per-bus prefix, derived
-from the VMBus device instance GUID, combined with the PCI function
-number of the endpoint device.
+Intel and AMD IOMMU drivers both reserve the x86 architectural MSI
+address window from normal IOVA mappings, but each open-codes the range
+and its allocation attributes.
 
-Add a registry in hv_common.c that maps a PCI domain number to its
-logical device ID prefix. The vPCI bus driver (pci-hyperv) registers the
-prefix when a bus is probed and unregisters it when the bus is removed.
-Consumers such as the para-virtualized IOMMU driver look up the prefix
-by PCI domain number and combine it with the function number to form the
-complete logical device ID for hypercalls.
+Add iommu_alloc_resv_x86_msi_region() to encapsulate those details, and
+convert the Intel and AMD drivers to use it.
 
-Use rhashtable for the sparse exact-match mapping. Lookups copy the
-prefix while holding the RCU read lock, and removal defers freeing the
-entry until existing readers have completed.
-
-The prefix construction is shared via hv_build_logical_dev_id_prefix() so
-that pci-hyperv's interrupt retargeting path and the registry use exactly
-the same byte layout. It is derived on demand from the constant hv_device
-instance GUID rather than cached in struct hv_pcibus_device, which is
-private to the pci-hyperv module; this keeps the interface narrow and
-avoids depending on pci-hyperv internals.
-
-Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
 ---
- drivers/hv/hv_common.c              | 112 ++++++++++++++++++++++++++++
- drivers/pci/controller/pci-hyperv.c |  21 ++++--
- include/asm-generic/mshyperv.h      |   4 +
- include/linux/hyperv.h              |   8 ++
- 4 files changed, 140 insertions(+), 5 deletions(-)
+ arch/x86/include/asm/iommu.h | 14 ++++++++++++++
+ drivers/iommu/amd/iommu.c    |  6 +-----
+ drivers/iommu/intel/iommu.c  |  6 +-----
+ 3 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index b5d2d6cd65ae..808751aa356b 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -21,6 +21,7 @@
- #include <linux/panic_notifier.h>
- #include <linux/ptrace.h>
- #include <linux/random.h>
-+#include <linux/rhashtable.h>
- #include <linux/efi.h>
- #include <linux/kdebug.h>
- #include <linux/kmsg_dump.h>
-@@ -78,6 +79,22 @@ static struct ctl_table_header *hv_ctl_table_hdr;
- u8 * __percpu *hv_synic_eventring_tail;
- EXPORT_SYMBOL_GPL(hv_synic_eventring_tail);
+diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
+index 3be2451e7bc8..6404f4fbeae8 100644
+--- a/arch/x86/include/asm/iommu.h
++++ b/arch/x86/include/asm/iommu.h
+@@ -4,6 +4,11 @@
  
-+struct hv_pci_busdata {
-+	int pci_domain_nr;
-+	u32 logical_dev_id_prefix;
-+	struct rhash_head node;
-+	struct rcu_head rcu;
-+};
-+
-+static struct rhashtable hv_pci_bus_ht;
-+static bool hv_pci_bus_ht_initialized;
-+
-+static const struct rhashtable_params hv_pci_bus_ht_params = {
-+	.key_len	= sizeof_field(struct hv_pci_busdata, pci_domain_nr),
-+	.key_offset	= offsetof(struct hv_pci_busdata, pci_domain_nr),
-+	.head_offset	= offsetof(struct hv_pci_busdata, node),
-+};
-+
- /*
-  * Hyper-V specific initialization and shutdown code that is
-  * common across all architectures.  Called from architecture
-@@ -86,6 +103,11 @@ EXPORT_SYMBOL_GPL(hv_synic_eventring_tail);
+ #include <linux/acpi.h>
  
- void __init hv_common_free(void)
++#ifdef CONFIG_IOMMU_API
++#include <linux/iommu.h>
++#include <linux/sizes.h>
++#endif
++
+ #include <asm/e820/api.h>
+ 
+ extern int force_iommu, no_iommu;
+@@ -21,6 +26,15 @@ extern bool x86_swiotlb_enable;
+ /* 10 seconds */
+ #define DMAR_OPERATION_TIMEOUT ((cycles_t) tsc_khz*10*1000)
+ 
++#ifdef CONFIG_IOMMU_API
++static inline struct iommu_resv_region *
++iommu_alloc_resv_x86_msi_region(void)
++{
++	return iommu_alloc_resv_region(0xfee00000, SZ_1M, 0,
++				       IOMMU_RESV_MSI, GFP_KERNEL);
++}
++#endif
++
+ static inline int __init
+ arch_rmrr_sanity_check(struct acpi_dmar_reserved_memory *rmrr)
  {
-+	if (hv_pci_bus_ht_initialized) {
-+		rhashtable_destroy(&hv_pci_bus_ht);
-+		hv_pci_bus_ht_initialized = false;
-+	}
-+
- 	unregister_sysctl_table(hv_ctl_table_hdr);
- 	hv_ctl_table_hdr = NULL;
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index 4dc306a4b5c6..b9bbd9aa99a8 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -50,8 +50,6 @@
+ #define CMD_SET_TYPE(cmd, t) ((cmd)->data[1] |= ((t) << 28))
  
-@@ -315,6 +337,7 @@ u8 __init get_vtl(void)
- int __init hv_common_init(void)
- {
- 	int i;
-+	int ret;
- 	union hv_hypervisor_version_info version;
+ /* Reserved IOVA ranges */
+-#define MSI_RANGE_START		(0xfee00000)
+-#define MSI_RANGE_END		(0xfeefffff)
+ #define HT_RANGE_START		(0xfd00000000ULL)
+ #define HT_RANGE_END		(0xffffffffffULL)
  
- 	/* Get information about the Microsoft Hypervisor version */
-@@ -394,6 +417,13 @@ int __init hv_common_init(void)
- 	for (i = 0; i < nr_cpu_ids; i++)
- 		hv_vp_index[i] = VP_INVAL;
- 
-+	ret = rhashtable_init(&hv_pci_bus_ht, &hv_pci_bus_ht_params);
-+	if (ret) {
-+		hv_common_free();
-+		return ret;
-+	}
-+	hv_pci_bus_ht_initialized = true;
-+
- 	return 0;
- }
- 
-@@ -864,3 +894,85 @@ const char *hv_result_to_string(u64 status)
- 	return "Unknown";
- }
- EXPORT_SYMBOL_GPL(hv_result_to_string);
-+
-+/*
-+ * Logical device ID registry for Hyper-V PCI buses. The pci-hyperv
-+ * driver registers each bus's logical device ID prefix before scanning
-+ * its devices. Consumers look up the prefix by PCI domain number when
-+ * building logical device IDs for Hyper-V interfaces.
-+ */
-+int hv_pci_register_dev_id(int pci_domain_nr, u32 logical_dev_id_prefix)
-+{
-+	struct hv_pci_busdata *bus, *new;
-+	int ret;
-+
-+	new = kzalloc_obj(*new, GFP_KERNEL);
-+	if (!new)
-+		return -ENOMEM;
-+
-+	new->pci_domain_nr = pci_domain_nr;
-+	new->logical_dev_id_prefix = logical_dev_id_prefix;
-+
-+	bus = rhashtable_lookup_get_insert_fast(&hv_pci_bus_ht, &new->node,
-+						hv_pci_bus_ht_params);
-+	if (IS_ERR(bus)) {
-+		ret = PTR_ERR(bus);
-+		goto free_new;
-+	}
-+
-+	if (WARN_ONCE(bus != NULL,
-+		      "Hyper-V PCI domain %d is already registered\n",
-+		      pci_domain_nr)) {
-+		ret = -EEXIST;
-+		goto free_new;
-+	}
-+
-+	return 0;
-+
-+free_new:
-+	kfree(new);
-+	return ret;
-+}
-+EXPORT_SYMBOL_FOR_MODULES(hv_pci_register_dev_id, "pci-hyperv");
-+
-+void hv_pci_unregister_dev_id(int pci_domain_nr)
-+{
-+	struct hv_pci_busdata *bus;
-+	int ret = -ENOENT;
-+
-+	rcu_read_lock();
-+	bus = rhashtable_lookup(&hv_pci_bus_ht, &pci_domain_nr,
-+				hv_pci_bus_ht_params);
-+	if (bus)
-+		ret = rhashtable_remove_fast(&hv_pci_bus_ht, &bus->node,
-+					     hv_pci_bus_ht_params);
-+	rcu_read_unlock();
-+
-+	if (WARN_ON_ONCE(ret))
-+		return;
-+
-+	kfree_rcu(bus, rcu);
-+}
-+EXPORT_SYMBOL_FOR_MODULES(hv_pci_unregister_dev_id, "pci-hyperv");
-+
-+/*
-+ * Look up the logical device ID prefix registered for @pci_domain_nr.
-+ * Returns 0 on success with *prefix filled in; -ENODEV if no entry is
-+ * registered for that PCI domain.
-+ */
-+int hv_pci_lookup_dev_id(int pci_domain_nr, u32 *prefix)
-+{
-+	struct hv_pci_busdata *bus;
-+	int ret = -ENODEV;
-+
-+	rcu_read_lock();
-+	bus = rhashtable_lookup(&hv_pci_bus_ht, &pci_domain_nr,
-+				hv_pci_bus_ht_params);
-+	if (bus) {
-+		*prefix = bus->logical_dev_id_prefix;
-+		ret = 0;
-+	}
-+	rcu_read_unlock();
-+
-+	return ret;
-+}
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index cfc8fa403dad..55c0a098fef1 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -641,10 +641,7 @@ static void hv_irq_retarget_interrupt(struct irq_data *data)
- 	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
- 	params->int_entry.msi_entry.address.as_uint32 = int_desc->address & 0xffffffff;
- 	params->int_entry.msi_entry.data.as_uint32 = int_desc->data;
--	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
--			   (hbus->hdev->dev_instance.b[4] << 16) |
--			   (hbus->hdev->dev_instance.b[7] << 8) |
--			   (hbus->hdev->dev_instance.b[6] & 0xf8) |
-+	params->device_id = hv_build_logical_dev_id_prefix(hbus->hdev) |
- 			   PCI_FUNC(pdev->devfn);
- 	params->int_target.vector = hv_msi_get_int_vector(data);
- 
-@@ -3715,6 +3712,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	struct hv_pcibus_device *hbus;
- 	int ret, dom;
- 	u16 dom_req;
-+	u32 prefix;
- 	char *name;
- 
- 	bridge = devm_pci_alloc_host_bridge(&hdev->device, 0);
-@@ -3857,13 +3855,22 @@ static int hv_pci_probe(struct hv_device *hdev,
- 
- 	hbus->state = hv_pcibus_probed;
- 
--	ret = create_root_hv_pci_bus(hbus);
-+	/* Register the bus before scanning any devices on it. */
-+	prefix = hv_build_logical_dev_id_prefix(hdev);
-+
-+	ret = hv_pci_register_dev_id(dom, prefix);
- 	if (ret)
- 		goto free_windows;
- 
-+	ret = create_root_hv_pci_bus(hbus);
-+	if (ret)
-+		goto unregister_pci_bus;
-+
- 	mutex_unlock(&hbus->state_lock);
- 	return 0;
- 
-+unregister_pci_bus:
-+	hv_pci_unregister_dev_id(dom);
- free_windows:
- 	hv_pci_free_bridge_windows(hbus);
- exit_d0:
-@@ -3977,6 +3984,8 @@ static void hv_pci_remove(struct hv_device *hdev)
- 
- 	hbus = hv_get_drvdata(hdev);
- 	if (hbus->state == hv_pcibus_installed) {
-+		int dom = hbus->bridge->domain_nr;
-+
- 		tasklet_disable(&hdev->channel->callback_event);
- 		hbus->state = hv_pcibus_removing;
- 		tasklet_enable(&hdev->channel->callback_event);
-@@ -3994,6 +4003,8 @@ static void hv_pci_remove(struct hv_device *hdev)
- 		hv_pci_remove_slots(hbus);
- 		pci_remove_root_bus(hbus->bridge->bus);
- 		pci_unlock_rescan_remove();
-+
-+		hv_pci_unregister_dev_id(dom);
+@@ -3140,9 +3138,7 @@ static void amd_iommu_get_resv_regions(struct device *dev,
+ 		list_add_tail(&region->list, head);
  	}
  
- 	hv_pci_bus_exit(hdev, false);
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index bf601d67cecb..34d4c332449c 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -73,6 +73,10 @@ extern enum hv_partition_type hv_curr_partition_type;
- extern void * __percpu *hyperv_pcpu_input_arg;
- extern void * __percpu *hyperv_pcpu_output_arg;
+-	region = iommu_alloc_resv_region(MSI_RANGE_START,
+-					 MSI_RANGE_END - MSI_RANGE_START + 1,
+-					 0, IOMMU_RESV_MSI, GFP_KERNEL);
++	region = iommu_alloc_resv_x86_msi_region();
+ 	if (!region)
+ 		return;
+ 	list_add_tail(&region->list, head);
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 2e3b3ab216f8..c4de4bbcb065 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -39,8 +39,6 @@
+ #define IS_ISA_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA)
+ #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
  
-+int hv_pci_register_dev_id(int pci_domain_nr, u32 logical_dev_id_prefix);
-+void hv_pci_unregister_dev_id(int pci_domain_nr);
-+int hv_pci_lookup_dev_id(int pci_domain_nr, u32 *prefix);
-+
- u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
- u64 hv_do_fast_hypercall8(u16 control, u64 input8);
- u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64 input2);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index a2b484679eb4..7bc7b9b60002 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1287,6 +1287,14 @@ struct hv_device {
- #define device_to_hv_device(d)	container_of_const(d, struct hv_device, device)
- #define drv_to_hv_drv(d)	container_of_const(d, struct hv_driver, driver)
+-#define IOAPIC_RANGE_START	(0xfee00000)
+-#define IOAPIC_RANGE_END	(0xfeefffff)
+ #define IOVA_START_ADDR		(0x1000)
  
-+static inline u32 hv_build_logical_dev_id_prefix(struct hv_device *hdev)
-+{
-+	return ((u32)hdev->dev_instance.b[5] << 24) |
-+	       ((u32)hdev->dev_instance.b[4] << 16) |
-+	       ((u32)hdev->dev_instance.b[7] << 8) |
-+	       (hdev->dev_instance.b[6] & 0xf8u);
-+}
-+
- static inline void hv_set_drvdata(struct hv_device *dev, void *data)
- {
- 	dev_set_drvdata(&dev->device, data);
+ #define DEFAULT_DOMAIN_ADDRESS_WIDTH 57
+@@ -3459,9 +3457,7 @@ static void intel_iommu_get_resv_regions(struct device *device,
+ 	}
+ #endif /* CONFIG_INTEL_IOMMU_FLOPPY_WA */
+ 
+-	reg = iommu_alloc_resv_region(IOAPIC_RANGE_START,
+-				      IOAPIC_RANGE_END - IOAPIC_RANGE_START + 1,
+-				      0, IOMMU_RESV_MSI, GFP_KERNEL);
++	reg = iommu_alloc_resv_x86_msi_region();
+ 	if (!reg)
+ 		return;
+ 	list_add_tail(&reg->list, head);
 -- 
 2.52.0
 
