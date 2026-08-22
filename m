@@ -1,45 +1,44 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C153A381E94;
-	Fri, 21 Aug 2026 18:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDBC493625
+	for <linux-hyperv@vger.kernel.org>; Sat, 22 Aug 2026 00:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787337501; cv=none; b=DFyJE+ahScHtJ41oUdhsd4+VEKkYCCyXi03t7WQxCURc/ZEgSwA551jDdUVxX0mTLuPhu+V/Lh7M5KJHlpU3BqyEG58j9nzzeS3ebULibVOnWrqo3lmW8p7pDWwQLHOAwJJTt4SQRqbAtFlAtjlc6RjYI/esDBAUjyIKJUWRg+A=
+	t=1787358996; cv=none; b=ENcl1eFp6i6OOo6oPV8JgLqBqbggm/bh+hSL5W4rUQtDi/7u67kh5FuA6yzs7dJG+MMd3HHHJSLQxigxQCE/GLOSfVFU1NigEUHdfdMW4KkFbiDDMTyl1XyN1hE5iH+xc3gvqI6xPz74nJJBZeLtKiAlwCj1ysK8jbZCcS5sVtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787337501; c=relaxed/simple;
-	bh=4j8pYSywgvMU2lJIS+Rm10mNROhwBmPrBC8NO4ituEc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=icq2sN6bOXjRV94QyQSUntYKBrnt3+FLHWtpYTstyK7SctNwDpxGtozHrZHmhCLi0FpOsO20Rq2BjobKqepe2celtDd6b7TSYr+TY6+9kyHzA+boYKG4QBvBd4Wl5OIm711flUoEwiVqYWviiyxZDu04gpfWWQ95Bp5SFdhMtNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id A980820B7128; Fri, 21 Aug 2026 11:37:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A980820B7128
-From: Long Li <longli@microsoft.com>
-To: Long Li <longli@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
+	s=arc-20240116; t=1787358996; c=relaxed/simple;
+	bh=HX7hWyLxgcgkGNfONvb1S9oXXuWs/DtA1BF9c8Ugn3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FYDYV0JB37YS5czAUNh9oedh7GB0DNXMEgGAQmjQuj8OfqS+M2Q0v+r+gex/StG0Fuf27c2mfkGTNBmbfZZEOoINki9enRqUnklbj6RYKd8mNjb9cjDPHgONX8RgOnTdxek6SxqMzeRqdxOigif90yB8hYaY1PNJ8WPEnpqw7Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KEAcMsT3; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KEAcMsT3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159121F000E9;
+	Sat, 22 Aug 2026 00:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787358995;
+	bh=nMJb761mDP4Usmny0YltysofVr7ZAsowTN4AE/9PcBY=;
+	h=From:To:Cc:Subject:Date;
+	b=KEAcMsT39Tx8k5UMHwfMSbYez3G9gwyV/L1+9TIZ/41hXJgKYQmSHn7Y6bRMkw0gi
+	 8ckun31lolJMUfHu5Dau68WcX+WefWAEMBPz2dpH7VJFyG4T/lDYdR4QARsLHkhCxe
+	 6r0cZtBC0psfpPIp7cy1kp+5T7+cLZCPo6zAoxNYgg+FPtw3FzgDbNWDhyEwKkrIIh
+	 lfj1gpZVg9K5DsolIpNUJgSDO56XJNEMcegwc+4xKElZsojep+m1jRCqyATGndPtqz
+	 CM3Oxfbwfl1D+q1NdTiHYdVtlPvccDtVh78a+qViT14ev/6lPKZ2s29NnKPNoRN2US
+	 mUG7fBIc/eJ+Q==
+From: wei.liu@kernel.org
+To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc: mukeshrathor@linux.microsoft.com,
+	anirudh@anirudhrb.com,
+	schakrabarti@linux.microsoft.com,
 	Wei Liu <wei.liu@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
 	Dexuan Cui <decui@microsoft.com>,
-	shradhagupta@linux.microsoft.com,
-	Simon Horman <horms@kernel.org>,
-	ernis@linux.microsoft.com,
-	stephen@networkplumber.org
-Cc: netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net] net: mana: Cap MSI-X vectors to the device MSI-X table size
-Date: Fri, 21 Aug 2026 11:37:36 -0700
-Message-ID: <20260821183736.733296-1-longli@microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	Long Li <longli@microsoft.com>
+Subject: [PATCH 0/3] Fix pci-hyperv interrupt code on a nested root partition
+Date: Fri, 21 Aug 2026 17:36:19 -0700
+Message-ID: <20260822003623.2925128-1-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -48,77 +47,37 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mana_gd_query_max_resources() sizes gc->num_msix_usable from resp.max_msix
-and the CPU count, but never from the device MSI-X table. On a 1792 vCPU
-M-series VM that yields 1793 while the table has 1024 entries, and
-mana_gd_setup_remaining_irqs() then walks indices 1..1792, running off the
-end of the region mapped by msix_map_region():
+From: Wei Liu <wei.liu@kernel.org>
 
-  BUG: unable to handle page fault for address: ff8e347f8b99800c
-  RIP: 0010:msix_prepare_msi_desc+0x7a/0x90
-  RAX: 0000000000004000 RBX: ff4330cb164ea780 RCX: ff8e347f8b998000
-  Call Trace:
-   <TASK>
-   __msi_domain_alloc_irqs+0x13a/0x440
-   msi_domain_alloc_irq_at+0x149/0x1b0
-   mana_gd_setup+0x351/0x890
-   mana_gd_probe+0x274/0x390
-   </TASK>
+There are two issues in pci-hyperv when Linux runs as the root partition
+on a nested setup.
 
-RAX is index 1024 * PCI_MSIX_ENTRY_SIZE, one entry past the table.
+1. Interrupt state between Linux and the hypervisor is out of sync due
+   to pci-hyperv not issuing unmap hypercall.
+2. Interrupt migration is broken due to Linux doesn't retarget
+   interrupts correctly.
 
-msi_insert_desc() does range check the index, but only against the MSI
-domain hwsize, which matches the table only for devices on an MSI parent
-domain. With a global PCI/MSI domain hwsize is MSI_XA_DOMAIN_SIZE, so
-nothing bounds the request.
+The first patch is trivial. The two issues are fixed by two separate
+patches.
 
-Cap num_msix_usable with pci_msix_vec_count().
+Wei
 
-Fixes: 755391121038 ("net: mana: Allocate MSI-X vectors dynamically")
-Signed-off-by: Long Li <longli@microsoft.com>
----
- .../net/ethernet/microsoft/mana/gdma_main.c   | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+CC: "K. Y. Srinivasan" <kys@microsoft.com>,
+CC: Haiyang Zhang <haiyangz@microsoft.com>,
+CC: Dexuan Cui <decui@microsoft.com>,
+CC: Long Li <longli@microsoft.com>,
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index ed9af314e4ede3ea0422694bd1f2f652f9c10478..f92b2d0bf926e1b715ff665d37f8173a2103e6fe 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -182,6 +182,7 @@ static int mana_gd_query_max_resources(struct pci_dev *pdev)
- 	struct gdma_query_max_resources_resp resp = {};
- 	struct gdma_general_req req = {};
- 	unsigned int max_num_queues;
-+	unsigned int msix_vec_count;
- 	u8 bm_hostmode;
- 	u16 num_ports;
- 	int err;
-@@ -218,6 +219,24 @@ static int mana_gd_query_max_resources(struct pci_dev *pdev)
- 		gc->num_msix_usable = min(resp.max_msix, num_online_cpus() + 1);
- 	}
- 
-+	/* MSI-X vectors are allocated by index into the device MSI-X table, so
-+	 * never ask for more than the table holds. It can be smaller than both
-+	 * resp.max_msix and the CPU count.
-+	 */
-+	err = pci_msix_vec_count(pdev);
-+	if (err <= 0) {
-+		dev_err(gc->dev, "Failed to query MSI-X table size: %d\n", err);
-+		return err < 0 ? err : -ENOSPC;
-+	}
-+	msix_vec_count = err;
-+
-+	if (gc->num_msix_usable > msix_vec_count) {
-+		dev_info(gc->dev,
-+			 "Limiting MSI-X vectors from %u to table size %u\n",
-+			 gc->num_msix_usable, msix_vec_count);
-+		gc->num_msix_usable = msix_vec_count;
-+	}
-+
- 	if (gc->num_msix_usable <= 1)
- 		return -ENOSPC;
- 
+Wei Liu (3):
+  x86/hyperv: export hv_unmap_msi_interrupt()
+  PCI: hv: unmap MSI interrupt on the nested root partition teardown
+    path
+  PCI: hv: fix interrupt affinity change on the nested root partition
 
-base-commit: 746fc0787f616da418ffc04a110296fe95d53491
+ arch/x86/hyperv/irqdomain.c         |   9 +-
+ arch/x86/include/asm/mshyperv.h     |   2 +
+ drivers/pci/controller/pci-hyperv.c | 122 ++++++++++++++++++++++++++--
+ 3 files changed, 122 insertions(+), 11 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
