@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409EF493625;
-	Sat, 22 Aug 2026 00:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DB32877DE;
+	Sat, 22 Aug 2026 00:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787359006; cv=none; b=r4f8AR+vQKGJ7RxDWTB1ZAtV5Em7AyTGSHtQLHpq9oGUN37lYEnzQql48E+ehxaw/D2dcB9HocYwFzVTnKtgGC5wg7TLJTKXwZtJGz66U0Bf+fERFAIvtIS3q/cm57E+sdEjv89c03BZnqEr9bjl9iX8VFluZX5C6H7QnVHcZBQ=
+	t=1787359007; cv=none; b=exZfcnMkGiTdWRO7pe+Cu2rxbqCN5DIGols8kAwBG7xa/fDIp4Eyst6vHvi48iefUhDk/ukqjWyVvwFTkam0ibvwhE7SMSvIiIEfA9obEZOg2grQqif/xDLLGnXxTAzFuepLDKTspmDkWN6MDnZDuMLRnXc5yjPPKd2W0vIz81w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787359006; c=relaxed/simple;
-	bh=n77bWfg7/SrqlIq5Q92QVouaBeAoGZrrdJTdctsD25o=;
+	s=arc-20240116; t=1787359007; c=relaxed/simple;
+	bh=+pkHvdT+l83Tw4aKXnLVQLmRKttr2HFKJIMEqqLCnhg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PqNwdnKiH4TtM2mnjfHMBxIX3Gtl/qMs8zp34HqTpZO5+300Jm5MeF87WBC2vsyLTTl3n53GR48Qm4rsuhytzYTq+QngUeb0FHeHTgCFYgCKkVCXaWKhvceOtOoa6iZFyZVICEnLhcMG1kzSDICDhe7SSKWLqi/mBwYIux+BBH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZgA81X+2; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=OviT0DLlwddJBwlEEwwXLQgc14mxTUBjjWppK1cZ1Xip4F6Vud8EzLVcgpxY4TKNZeeDxbRy+NRoHxUuqlx851TyObBfpEBsFzMfJSXm1jPs77LEDaGX4vrezG4W3u6XBt/zN6pY785DqYcgk6EbHHhHbiiuRLPh0UgEWc1B+s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RLD8dfPe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZgA81X+2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1DB41F000E9;
-	Sat, 22 Aug 2026 00:36:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLD8dfPe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D64721F00A3A;
+	Sat, 22 Aug 2026 00:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787359004;
-	bh=4rPUvs1SqNmPF0n53kqBCF5WofIrOkSEXjsutvg8ZDo=;
+	s=k20260515; t=1787359006;
+	bh=kuTu8yvhI4xwJHJ6qGpDIhDANj4SIchNOzv5SPa3P38=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZgA81X+2v3w6MMbAEtxjLh75fNzzkpJhFo2h7Ta09HUL6r47wF0cv4Y1wEnnX27Nz
-	 8USK6ZShd1DW6uhlTeBSaEuo1fgNdnvMzHVRIV396KOwLudUx41J637Y81ggQsJSl9
-	 eTJr8I1oh1sJVGT2sYPNEAMoEVZFBuFmbAkk7Ym3YfVGscI9FY+Qswk4ML6UT9nPW/
-	 1EM03RLIU+aqHuW7fUdKTAsvMSytxz6B+w7mT/0lrvJxGWPNQK4rI7jI4y9EzBo2M9
-	 RbdIXYnmjPzgVWj362NXAUJvkr5o9Ow4TayqnmZ0qM448JYIpq4drBJRlynhqQ0LTu
-	 WZM3NR7XeFmCw==
+	b=RLD8dfPexP9hayujtCZnE4oSn8rayIw3iiaIQIFuV+40inJ2A6RKDcFKT/Ih1iutE
+	 Y79k0cAZqIDNJYA5+ML6K87WFU8wyZtg6iGeKhk2KaD0g2dXH0TRGQ0b5E/J3RyPFZ
+	 fWz79V3jzUj2nPNJcbQJ4tygagWO3Vx+EAbo9Izw35UEYiaBchG3TkBrXuiS0JlipR
+	 kzbRZb7ka4OIh7LTl3o4uLHibNmsR4euGfDmPJhLqoqpEFsHwesM7sxYpCVfNfUQix
+	 SBncYsauhJbyqZVNrCWOCtdKA+Q21LLiSMU8NuLMxBhdP0c2vYQXjX5RYG1iEbABOh
+	 +wztQ3LqhRO6Q==
 From: wei.liu@kernel.org
 To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc: mukeshrathor@linux.microsoft.com,
@@ -43,9 +43,9 @@ Cc: mukeshrathor@linux.microsoft.com,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	linux-pci@vger.kernel.org (open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 2/3] PCI: hv: unmap MSI interrupt on the nested root partition teardown path
-Date: Fri, 21 Aug 2026 17:36:21 -0700
-Message-ID: <20260822003623.2925128-3-wei.liu@kernel.org>
+Subject: [PATCH 3/3] PCI: hv: fix interrupt affinity change on the nested root partition
+Date: Fri, 21 Aug 2026 17:36:22 -0700
+Message-ID: <20260822003623.2925128-4-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260822003623.2925128-1-wei.liu@kernel.org>
 References: <20260822003623.2925128-1-wei.liu@kernel.org>
@@ -59,172 +59,111 @@ Content-Transfer-Encoding: 8bit
 
 From: Wei Liu <wei.liu@kernel.org>
 
-On a nested root partition the vPCI MSI/MSI-X interrupts of vmbus
-devices (e.g. the MANA NIC) are mapped in the hypervisor with a
-MAP_DEVICE_INTERRUPT hypercall.  This is done from hv_arch_irq_unmask()
--> hv_map_msi_interrupt() because the nested hypervisor performs the
-interrupt remapping and a RETARGET_INTERRUPT is not usable there.
+hv_compose_msi_msg() sends PCI_CREATE_INTERRUPT carrying
+int_desc.vector, and the vPCI backend programs the device with the
+address/data it returns for it.
 
-The mapping was never removed: hv_arch_irq_unmask() called
-hv_map_msi_interrupt(data, NULL), so the returned hv_interrupt_entry was
-discarded, and hv_msi_free() tears the interrupt down with a vmbus
-PCI_DELETE_INTERRUPT message (hv_int_desc_free()) without issuing
-UNMAP_DEVICE_INTERRUPT.
+An affinity change only ran irq_chip_set_affinity_parent(), which
+re-allocates the x86 vector and nothing else, and hv_arch_irq_unmask()
+then issued MAP_DEVICE_INTERRUPT for the new (VP, vector).  Nothing
+re-composed the interrupt, so the device kept signalling the vector it
+was created with and the new mapping was never used. This led to loss of
+interrupts.
 
-This has led to MSHV rejecting already-mapped (vp, vector) pair from
-being used. When this happens during early boot, the system hangs.
-
-Keep the hypervisor mapping in sync with the kernel's interrupt
-lifecycle.
-
-The mapping is only created on x86 (hv_arch_irq_unmask() is a stub on
-arm64), so the unmap hypercall is guarded accordingly.
+Do the re-target where the vector is known and the interrupt is
+quiescent.  If the vector changed, re-compose the VMBus interrupt for
+it, write the resulting message to the device, and only then map the new
+(vp, vector); the old mapping is destroyed as the new message is
+composed.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/pci/controller/pci-hyperv.c | 85 ++++++++++++++++++++++++++---
- 1 file changed, 78 insertions(+), 7 deletions(-)
+ drivers/pci/controller/pci-hyperv.c | 41 +++++++++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index cfc8fa403dad..5a36382742bf 100644
+index 5a36382742bf..5acb8e41567e 100644
 --- a/drivers/pci/controller/pci-hyperv.c
 +++ b/drivers/pci/controller/pci-hyperv.c
-@@ -283,6 +283,35 @@ struct tran_int_desc {
- 	u64	address;
- } __packed;
+@@ -294,6 +294,7 @@ struct tran_int_desc {
+ struct hv_msi_int_entry {
+ 	struct tran_int_desc		int_desc;
+ 	struct hv_interrupt_entry	hv_entry;
++	unsigned int			mapped_vector;
+ };
  
-+/*
-+ * On a nested root partition a vPCI MSI is mapped in the hypervisor with a
-+ * MAP_DEVICE_INTERRUPT hypercall in hv_arch_irq_unmask().  Keep the entry the
-+ * hypervisor returns next to the per-interrupt transaction descriptor so the
-+ * mapping can be removed again with UNMAP_DEVICE_INTERRUPT when the interrupt
-+ * is torn down.  tran_int_desc stays first: chip_data is used as a struct
-+ * tran_int_desc throughout this driver.
-+ */
-+struct hv_msi_int_entry {
-+	struct tran_int_desc		int_desc;
-+	struct hv_interrupt_entry	hv_entry;
-+};
-+
-+/* chip_data is passed around as a struct tran_int_desc *, so it must be first. */
-+static_assert(offsetof(struct hv_msi_int_entry, int_desc) == 0);
-+
-+static void hv_vmbus_unmap_msi_interrupt(struct pci_dev *pdev __maybe_unused,
-+					 void *chip_data)
-+{
-+	struct hv_msi_int_entry *ie = chip_data;
-+
-+	if (!ie || !ie->hv_entry.source)
-+		return;
-+#ifdef CONFIG_X86
-+	hv_unmap_msi_interrupt(pdev, &ie->hv_entry);
-+#endif
-+	memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
-+}
-+
- /*
-  * A generic message format for virtual PCI.
-  * Specific message formats are defined later in the file.
-@@ -715,16 +744,30 @@ static void hv_irq_retarget_interrupt(struct irq_data *data)
+ /* chip_data is passed around as a struct tran_int_desc *, so it must be first. */
+@@ -742,6 +743,8 @@ static void hv_irq_retarget_interrupt(struct irq_data *data)
+ 			"%s() failed: %#llx", __func__, res);
+ }
  
++static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg);
++
  static void hv_arch_irq_unmask(struct irq_data *data)
  {
--	if (hv_root_partition())
-+	if (hv_root_partition()) {
- 		/*
- 		 * In case of the nested root partition, the nested hypervisor
- 		 * is taking care of interrupt remapping and thus the
- 		 * MAP_DEVICE_INTERRUPT hypercall is required instead of
+ 	if (hv_root_partition()) {
+@@ -752,9 +755,17 @@ static void hv_arch_irq_unmask(struct irq_data *data)
  		 * RETARGET_INTERRUPT.
+ 		 *
+ 		 * Keep the returned entry so the mapping can be removed again
+-		 * when the interrupt is torn down.
++		 * when the interrupt is re-targeted or torn down.
 +		 *
-+		 * Keep the returned entry so the mapping can be removed again
-+		 * when the interrupt is torn down.
++		 * This is also the re-target point.  The core calls us from
++		 * __irq_move_irq() with the interrupt masked once the new
++		 * vector has been assigned, so if the vector changed the vmbus
++		 * interrupt is re-composed for it first -- PCI_CREATE_INTERRUPT
++		 * carries the vector, so the device would otherwise keep
++		 * signalling the one it was created with.
  		 */
--		(void)hv_map_msi_interrupt(data, NULL);
--	else
-+		struct hv_msi_int_entry *ie = data->chip_data;
-+
-+		/*
-+		 * A NULL chip_data means hv_compose_msi_msg() failed and the
-+		 * interrupt was never set up, so there is nothing to map.
-+		 */
-+		if (!ie)
+ 		struct hv_msi_int_entry *ie = data->chip_data;
++		unsigned int vec = hv_msi_get_int_vector(data);
+ 
+ 		/*
+ 		 * A NULL chip_data means hv_compose_msi_msg() failed and the
+@@ -763,8 +774,29 @@ static void hv_arch_irq_unmask(struct irq_data *data)
+ 		if (!ie)
+ 			return;
+ 
+-		if (hv_map_msi_interrupt(data, &ie->hv_entry))
++		/* Already mapped for this vector, nothing changed. */
++		if (ie->mapped_vector == vec && ie->hv_entry.source)
 +			return;
 +
-+		if (hv_map_msi_interrupt(data, &ie->hv_entry))
-+			memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
-+	} else {
++		if (ie->mapped_vector && ie->mapped_vector != vec) {
++			struct msi_msg msg;
++
++			hv_compose_msi_msg(data, &msg);
++
++			ie = data->chip_data;
++			if (!ie)
++				return;
++
++			if (data->chip->irq_write_msi_msg)
++				data->chip->irq_write_msi_msg(data, &msg);
++		}
++
++		if (hv_map_msi_interrupt(data, &ie->hv_entry)) {
+ 			memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
++			ie->mapped_vector = 0;
++			return;
++		}
++		ie->mapped_vector = vec;
+ 	} else {
  		hv_irq_retarget_interrupt(data);
-+	}
- }
- #elif defined(CONFIG_ARM64)
- /*
-@@ -1708,6 +1751,7 @@ static void hv_msi_free(struct irq_domain *domain, unsigned int irq)
- 		return;
  	}
- 
-+	hv_vmbus_unmap_msi_interrupt(pdev, int_desc);
- 	hv_int_desc_free(hpdev, int_desc);
- 	put_pcichild(hpdev);
- }
-@@ -1882,6 +1926,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 	const struct cpumask *dest;
- 	struct compose_comp_ctxt comp;
- 	struct tran_int_desc *int_desc;
-+	struct hv_msi_int_entry *int_entry;
- 	struct msi_desc *msi_desc;
- 	/*
- 	 * vector_count should be u16: see hv_msi_desc, hv_msi_desc2
-@@ -1932,9 +1977,10 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+@@ -1974,6 +2006,11 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ 	if (data->chip_data && !multi_msi) {
+ 		int_desc = data->chip_data;
+ 		data->chip_data = NULL;
++		/*
++		 * The descriptor is about to be destroyed, so release the
++		 * hypervisor mapping that belongs to it first.
++		 */
++		hv_vmbus_unmap_msi_interrupt(pdev, int_desc);
  		hv_int_desc_free(hpdev, int_desc);
  	}
  
--	int_desc = kzalloc_obj(*int_desc, GFP_ATOMIC);
--	if (!int_desc)
-+	int_entry = kzalloc_obj(*int_entry, GFP_ATOMIC);
-+	if (!int_entry)
- 		goto drop_reference;
-+	int_desc = &int_entry->int_desc;
- 
- 	if (multi_msi) {
- 		/*
-@@ -2184,9 +2230,34 @@ static void hv_pcie_domain_free(struct irq_domain *d, unsigned int virq, unsigne
- 	irq_domain_free_irqs_top(d, virq, nr_irqs);
- }
- 
-+/*
-+ * Runs from irq_domain_deactivate_irq() during irq_shutdown(), before the
-+ * parent (x86 vector) domain is deactivated and the (cpu, vector) is returned
-+ * to the matrix allocator, so a freed vector can never collide with a stale
-+ * hypervisor entry when it is reused.
-+ */
-+static void hv_pcie_domain_deactivate(struct irq_domain *d,
-+				      struct irq_data *data)
-+{
-+	struct msi_desc *msi_desc;
-+	struct pci_dev *pdev;
-+
-+	if (!hv_root_partition())
-+		return;
-+
-+	msi_desc = irq_data_get_msi_desc(data);
-+	if (!msi_desc)
-+		return;
-+
-+	pdev = msi_desc_to_pci_dev(msi_desc);
-+	if (pdev)
-+		hv_vmbus_unmap_msi_interrupt(pdev, data->chip_data);
-+}
-+
- static const struct irq_domain_ops hv_pcie_domain_ops = {
--	.alloc	= hv_pcie_domain_alloc,
--	.free	= hv_pcie_domain_free,
-+	.alloc		= hv_pcie_domain_alloc,
-+	.free		= hv_pcie_domain_free,
-+	.deactivate	= hv_pcie_domain_deactivate,
- };
- 
- /**
 -- 
 2.53.0
 
