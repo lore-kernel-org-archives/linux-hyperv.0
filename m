@@ -1,120 +1,94 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCDF314D1A
-	for <linux-hyperv@vger.kernel.org>; Mon, 24 Aug 2026 07:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B850C32D43C;
+	Mon, 24 Aug 2026 09:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787555363; cv=none; b=DIkPunCRhYxSkHyHa0yMBrthI6LxBFMfTwPAiYPFfiv0bDFj2ah5/Eu1mmfrH+3MN6t06N8pjG9bSyLK2/ljlBxe1UgAo6GBfXi8pJf5XEbcEYQ991XQH6XWBZDQUBvuGxUt/9TXzsxIIfsCfXXjDo+SPRk8D/Z8r3/vctwdXxQ=
+	t=1787562607; cv=none; b=oMa0UaPt9EmZiEQFRAHEz2kOxApK4o2d65VZujkhW5P87Qb3V/XHO3NIvuWWGyNxX01mI7YQP5KfiA5SEEfcQ9PzO6AnIMVmXSjsrFH4HoOIxy6CvjYvzo/spJicoyv3JfrmUT/eBlK7NyhFkNG4aFryUSmgdwa9YRG/2LIpZxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787555363; c=relaxed/simple;
-	bh=T3Znx85+wRAnG9rsNvo9Z30hf5HBN/a8hUHQ/NtsWcA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To; b=Td85+EDWV88rC3lv3SJZzZqbm+70dgl/YLv5DPIXcs+WrTV+tewcuN/jDmDX7xR/4Jv+tmoFlAT8k4ptiIxJY2NhnzWzVePzd/MNw/XQyAjgK+rpLWSFwJ78QKgWMb70TcvP6IjXdSnV+wpM1TeST314hL9DBup6doC5Jdp4ymc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MNFGA+KK; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787562607; c=relaxed/simple;
+	bh=Q6HYv8cYhoF3iYduGTqlOx0GD7cG8Bps3kRxT85X2RU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/J8qqQX93xIstiYfwyhn2AbDo99ig59X8i+AYEfAm35jzqPwJ8MeucT9ijxYxrskL70cQYA2S97l84lKrIR7V4aYEnAKnMqvvmwqwytQcZdVv4gtSDFViXhTiTUnr9AcapzhOP9AZ91cFtbWA+SYveC7hsmjIk0H8AhxuLT9tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kNJxgyEu; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MNFGA+KK"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cbe6295f05bso2772830a12.1
-        for <linux-hyperv@vger.kernel.org>; Mon, 24 Aug 2026 00:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787555361; x=1788160161; darn=vger.kernel.org;
-        h=to:from:subject:cc:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JQN40EZErL2DHTXaUSRxFDwWdzQHo0e1wBH6G70Kxos=;
-        b=MNFGA+KKQ/GzWEmOBj6yvmVGQcC3mZcQiL6wx2lHaxRCiAEQ5Y2PFocep+uSvQKfMV
-         Wjcd1dIuI+WdlrrtPeRrsFCIOf4HhGqfD1Aygd2C7aMbIKP5GitmTO2RxlW5NnjBpk3q
-         Fx6yTekRZp79SokuY5HgsIHlChXKHHynuYYdtS/po47Yt4EtbWWGXAfyfvqzNGECSg+j
-         DIHgaGlt8T5eS4vOYIHm/icW1/l4LCyi6KqXxTpxNHJdgDjGOzaU8Yqv/nj2QFTD+u9F
-         Y9ILxxzbrlGqZmUHgVGMRPqTUe72k5Wh4XIPYev8BvO9ISxynvsZhKI2oyjPojrQWu81
-         mHZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787555361; x=1788160161;
-        h=to:from:subject:cc:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JQN40EZErL2DHTXaUSRxFDwWdzQHo0e1wBH6G70Kxos=;
-        b=j5zcnh4F0fR22Ntbsh3LIw/5qY3oE8wexoVXISOj4PG0Xs/FHr+gF6ZrXowWdos60d
-         IDET9vTB9mhR1wHA5/kVTIg8R8BleEsOCGgz7gZOq1lAsczjgCnM7kA0ueI/r9E4Uk/a
-         3etuRk8zAF2T6ncfnK1wNYScw7uKa7EJuli+K7CShTiYc9TVfaGHffVpRZWsNZWC95YH
-         cdKCrbbTdFxgQG7ZCt1z53s61/kKSP0vZkiyWDdDXMTw3haG9vNoI4j1+liK22uFxmrP
-         BOFr/N988+iUuCRDWaJ7Heuye0xGeRpF7QImRq3zASlaT3c8v4J2pA5diayf1rSfKjHl
-         TDtw==
-X-Gm-Message-State: AFuF++kLff9crlbfsXVs5EIgPLlWbzH7sbc0cmc+70XPU2CaKbdqs5+x
-	sBdnDk80jhlnSVmz6Qevxe0twKGo3GG/Y9dzctF+7a2ZSOJGvTflwXV5
-X-Gm-Gg: AR+sD1136k+9skksLQI2fU7tBt0TraaFYmGpmE75GteCVGfsPD7AIsJgC+PF3gSH+5D
-	RqeslEpEIiMxKkChRePuOryWFmWL8y4A9xzWuSljWXz8/KUMq5c2Nkygo4jr8vVLMzx83Q8ogDV
-	yEQ1axB59L6cuWF0wfnjGNaLLL4+0zgMfksQu4OqoHmJcrN6eOg+YyNlfg5sBnVpC7279wO1i3j
-	GPpuYzohIlzbzP83CRg6Hlmfh+7xgpqGSNZo3nPP7UrL3C/3YsnhtEgVpw1EtaWCQkZtUkmgQgN
-	XndmUPzeJdeQ8a1OV6ErJ/2iDTy+sRLz/SkE7PdcKvfykRYPgV+f1oEX7yqWH9OuqUeNJ6Ys4AL
-	DjrvLvvpprj2rLKbhvYKpFBdlVOSz6r7RvpDkrrBER5dKqzKDydhtDtUcIfru+32pG5eaf4+NYf
-	ARMpohGCcdPKittrcXh+8gFWlVZBobdL8uyboGC+1zXmlXjD1rN5i1zJNTv2YhxmDSR3opPfz9o
-	GH75qk+bHUi4h7PSUzGpLo=
-X-Received: by 2002:a17:90b:388d:b0:387:d9cc:7dc3 with SMTP id 98e67ed59e1d1-395a074a348mr40512016a91.21.1787555361491;
-        Mon, 24 Aug 2026 00:09:21 -0700 (PDT)
-Received: from localhost ([2401:4900:8850:f081:3f06:139b:b140:eb29])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3280782f09fsm15279067eec.20.2026.08.24.00.09.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 00:09:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kNJxgyEu"
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id 424BB20B7167; Mon, 24 Aug 2026 02:09:34 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 424BB20B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787562574;
+	bh=iliDBqjEx4orC+pbVHq7+cD2NLWm0bEnhWlr15LeCas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kNJxgyEuuV+r+D6dEYGvhkwoRyH7nCEtAdiYs6pf+77V8nnT5vUZ/1KTdIIA49BsE
+	 RM3HvSocIRSMdYdoEJEj+CEEvg9ACpDO+lu2AFNMgRSqlZQTjXZgcRM+LBZ5RvW/KV
+	 J0w7SJbvybh0H3KwGLOYfWQLv7LiPfbsGRhYWWIs=
+Date: Mon, 24 Aug 2026 02:09:34 -0700
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Kelley <mikelley@microsoft.com>,
+	Shradha Gupta <shradhagupta@microsoft.com>
+Subject: Re: [RFC PATCH 0/2] arm64/hyperv: Enable kexec reboot support
+Message-ID: <aowKTktjAeA9H9/W@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260814093133.3191250-1-shradhagupta@linux.microsoft.com>
+ <aoglGZD7ntLJkmcO@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Aug 2026 12:39:06 +0530
-Message-Id: <DKWZHHOFA1F3.1EL2DMFNGMP0Y@gmail.com>
-Cc: <linux-hyperv@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>
-Subject: [PATCH net-next] net: mana: remove unreachable dead code in
- mana_bpf()
-From: "Muhammad Falak R Wani" <falakreyaz@gmail.com>
-To: "K. Y. Srinivasan" <kys@microsoft.com>, "Haiyang Zhang"
- <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan Cui"
- <decui@microsoft.com>, "Long Li" <longli@microsoft.com>, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
- Abeni" <pabeni@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoglGZD7ntLJkmcO@arm.com>
 
-mana_bpf() declares an uninitialized 'ret' and falls through to a
-trailing 'return ret;' after a switch statement whose every case
-(XDP_SETUP_PROG and default) already returns unconditionally. This
-statement is therefore unreachable dead code left over from an
-earlier refactor, and it would return an uninitialized value if it
-were ever reached.
+On Fri, Aug 21, 2026 at 11:14:49AM +0100, Catalin Marinas wrote:
+> On Fri, Aug 14, 2026 at 02:31:28AM -0700, Shradha Gupta wrote:
+> > Kexec reboot consistently fails on ARM64 Hyper-V guests (Azure VMs).
+> > During the kexec shutdown path, VMBus channels are never cleaned up,
+> > so in the fresh kexec kernel startup hv_acpi_init() blocks because
+> > the hypervisor still holds the old kernel's VMBus session open.
+> > 
+> > This is because ARM64 lacks the VMBus teardown that x86 performs during
+> > kexec via hv_machine_shutdown(). On x86, machine_ops.shutdown is
+> > overridden to send CHANNELMSG_UNLOAD and disable SynIC before CPUs
+> > go offline. ARM64 has no equivalent mechanism.
+> 
+> I'm really not keen on such hook, a bare pointer you set elsewhere. Not
+> sure it was discussed before but can you not use the syscore_shutdown()
+> mechanism? This hook got added in 2023, so the 2022 discussion you
+> referenced precedes it.
+> 
+> -- 
+> Catalin
 
-Drop the unused variable and the unreachable return.
+Thanks for the suggestion, Catalin.
 
-Signed-off-by: Muhammad Falak R Wani <falakreyaz@gmail.com>
----
- drivers/net/ethernet/microsoft/mana/mana_bpf.c | 3 ---
- 1 file changed, 3 deletions(-)
+I looked into syscore_shutdown() and it should work. The
+syscore_shutdown() call in the kexec path runs after
+device_shutdown() and before smp_shutdown_nonboot_cpus(),
+which is exactly the window where VMBus teardown needs to happen.
+It does run before cpu_hotplug_enable() (unlike the x86 path
+where hv_kexec_handler runs inside machine_shutdown, after
+cpu_hotplug_enable), but that should be safe because
+cpuhp_remove_state() acquires cpus_read_lock, which should be
+independent of the cpu_hotplug_disabled flag.
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/e=
-thernet/microsoft/mana/mana_bpf.c
-index 53308e139cbe9..70bb8c9dc3413 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-@@ -253,7 +253,6 @@ static int mana_xdp_set(struct net_device *ndev, struct=
- bpf_prog *prog,
- int mana_bpf(struct net_device *ndev, struct netdev_bpf *bpf)
- {
- 	struct netlink_ext_ack *extack =3D bpf->extack;
--	int ret;
-=20
- 	switch (bpf->command) {
- 	case XDP_SETUP_PROG:
-@@ -262,6 +261,4 @@ int mana_bpf(struct net_device *ndev, struct netdev_bpf=
- *bpf)
- 	default:
- 		return -EOPNOTSUPP;
- 	}
--
--	return ret;
- }
---=20
-2.55.0
+The implementation would override hv_setup_kexec_handler() in
+arch/arm64/hyperv/mshyperv.c to register a syscore_ops.shutdown
+callback, guarded by kexec_in_progress. No ARM64 arch changes needed,
+and other shutdown paths (reboot, halt, poweroff, kdump) should also be
+unaffected.
+
+I am testing this now and will send a v2 with the updated approach.
+
+Shradha
 
