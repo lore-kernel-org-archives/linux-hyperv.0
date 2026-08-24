@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542881A5B9E;
-	Mon, 24 Aug 2026 00:33:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB072D8DBB;
+	Mon, 24 Aug 2026 00:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787531635; cv=none; b=MdnVX1kH0MrRVq4Wtxh2GnBZRY34yqLVWLg+tveEYRx6VdY+mEjAiBECflWN//ITQ2WLECDuaCvbsYZUb0/rx8yPYxjH80W5lzOJ7f+IQPZmzRvZieqWsZPrx5T4EGATkXjmmmfwWHfqE15ZVueDfL7ArWoaepSPtVDH7elaleY=
+	t=1787531886; cv=none; b=i+8PjSnDXoAwXQZTbXihrA6HgM3R9mafg8tuGjhoGKgYpcv7sKpumI/Arzv7V3ILSRsQN4IHXsSGTZZKQd7SaM6CAsuMZGs3F9XtKxehNiIVnw5JKOE80I2s7txWnBG3X+K/OzZE0vABQMyylNMADff1Hzq3pLcIsVd3J6/KxNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787531635; c=relaxed/simple;
-	bh=vimA5frroaQop+gXI41yK9tc5h2nhZEBmvU9pM8fauU=;
+	s=arc-20240116; t=1787531886; c=relaxed/simple;
+	bh=VdlZR8Gtobu/XrmAn9l2j+YKk3cmGFUVOZvYRDH8MHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZsUBjPe4Fj/YUTIgYVo55uLkPtsX9Zbcdwxn/EbmYmYLRncQTxaWHuazYIZFzsudW2w1fUlGcFVX+KByfTzyrGqPBvGMrYX8eWKNlunP4gjxb/b/+Sv3Gi7OS4bZhTbuKKkEmCcYEBn4ir9eRYwKCBWthCGW9tsc8WtiT4rWnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mc3fYX3J; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qnUA679THgGvmlJCOyNbCThCyI2XoUv1m0DKZROjhhNHXpU7S9TcZFCXJYefa0+e5di12nh3/508IFRG419zL2g7buxUVPEi3tExICX/wucJeByR6E0GY+LjJk1Kb2t8RKs9HiaouMmxo/eo1bVu+vmjTVUS93pO4XzYuL919DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CN/T24d3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mc3fYX3J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B00281F000E9;
-	Mon, 24 Aug 2026 00:33:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CN/T24d3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159651F00ACA;
+	Mon, 24 Aug 2026 00:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787531633;
-	bh=XQkd3Eue/ZIdgnMLrwU4Ac3/VNF9X2y1wQVURMKty/U=;
+	s=k20260515; t=1787531885;
+	bh=vFhomx4kPyG+9+xmyABHxCpLjFLIbt0D5vKljOyXnUE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mc3fYX3JfNIqi8ut9jYk0TLNjfmWb79fdBzdSmRhfniW8jEUITPHfZWizkO5NLQgi
-	 8N3hyTY6n6LLqgq0woG+x6wNp01e48yzcUzimfoYDxoFwpweBODAbClwxAZtpi3bWD
-	 Bd2ltfqaMFCib8tATIlVzi/Ldu/z1uUfGr3v5zbrnQBtWQBn9dBYOrKHiw0PvONd6Q
-	 XSJ4cgE4LDBlGvEjuMPwAlhUA9QkAH9q0H27qwr6oqgmjZACce+8rAq8Q1EAoL3IkT
-	 WEguWZ3FxzCEuL5pnbNvc154oEiG7nAQQ6+hj9CHWmHZymAH1MPyAK3WZMysFncGd4
-	 +d2GMMnDw0qvw==
-Date: Sun, 23 Aug 2026 17:33:52 -0700
+	b=CN/T24d369oYix0ltsq9IjJMm0H1G/lFGya+0b6pIelDx8DV029pGo5ipm7h/Yg0S
+	 Vk1sneOk1v+LgYcz0kM/DB7JNgn0xDLDDrjYPvwyKrDd+1FCqbClaUPXkE7GBtCws0
+	 4LZZmyCFohEcCLQDzryxJRdje6ybE6U6Cm4JMZCcF5A+eWuImJiiyGocxkt+IOmyCv
+	 mzlaqhTKfwk6bT/v6LFJBsA0YKHNV1R2MVb6AD/U/3q4atQXin5sfUvKvt3LY8e+Z+
+	 QrdTWN2b64LoTT3dqAy5qd2BtgQtj31MmrSIxOPR8HkLddATWlAWyEWv+wjaUzKjzK
+	 BMlk/3UaZWKPQ==
+Date: Sun, 23 Aug 2026 17:38:03 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>
-Cc: decui@microsoft.com, haiyangz@microsoft.com, kys@microsoft.com,
-	longli@microsoft.com, wei.liu@kernel.org, mhklinux@outlook.com,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] Drivers: hv: decrypt netvsc buffers on contiguous
- direct-map addresses
-Message-ID: <20260824003352.GH3566091@liuwe-devbox-debian-v2.local>
-References: <20260811160447.2529876-1-kameroncarr@linux.microsoft.com>
+To: mhklinux@outlook.com
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Remove support for Windows Server 2012/2012R2 &
+ Win8/Win8.1 versions of Hyper-V
+Message-ID: <20260824003803.GI3566091@liuwe-devbox-debian-v2.local>
+References: <20260805203751.2678-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,16 +44,44 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260811160447.2529876-1-kameroncarr@linux.microsoft.com>
+In-Reply-To: <20260805203751.2678-1-mhklinux@outlook.com>
 
-On Tue, Aug 11, 2026 at 09:04:44AM -0700, Kameron Carr wrote:
-[...]
-> Kameron Carr (3):
->   Drivers: hv: vmbus: add vmbus_establish_gpadl_caller_decrypted()
->   Drivers: hv: vmbus: Add vmbus_alloc_buffer()/vmbus_free_buffer() for
->     CoCo VMs
->   hv_netvsc: Allocate send/receive buffers using vmbus_alloc_buffer()
+On Wed, Aug 05, 2026 at 01:37:45PM -0700, Michael Kelley wrote:
+> Michael Kelley (6):
+>   Drivers: hv: Remove support for WS2012/2012R2 & Win8/8.1 version of
+>     Hyper-V
+>   hv_sock: Remove check for old Hyper-V hosts
+>   hv_netvsc: Remove GPADL teardown special case for old Hyper-V hosts
+>   drm_hyperv: Remove support for synth video protocol of old Hyper-V
+>     hosts
 
-Applied. Thanks.
+This drm_hyperv doesn't apply cleanly. I have applied the rest.
 
 Wei
+
+>   scsi: storvsc: Remove support for storvsc protocol of old Hyper-V
+>     hosts
+>   clocksource: hyper-v: Remove support for stimer interrupts in message
+>     mode
+> 
+>  arch/x86/hyperv/hv_init.c                 |  17 +--
+>  arch/x86/kernel/cpu/mshyperv.c            |   4 +-
+>  drivers/clocksource/hyperv_timer.c        | 150 +++-------------------
+>  drivers/gpu/drm/hyperv/hyperv_drm.h       |   1 -
+>  drivers/gpu/drm/hyperv/hyperv_drm_proto.c |  44 ++-----
+>  drivers/hv/channel_mgmt.c                 |   8 +-
+>  drivers/hv/connection.c                   |  11 +-
+>  drivers/hv/hv.c                           |   4 -
+>  drivers/hv/hv_balloon.c                   |  36 +++---
+>  drivers/hv/hv_snapshot.c                  |   5 -
+>  drivers/hv/vmbus_drv.c                    |  10 +-
+>  drivers/net/hyperv/netvsc.c               |  20 +--
+>  drivers/scsi/storvsc_drv.c                |  53 ++------
+>  include/clocksource/hyperv_timer.h        |   6 -
+>  include/linux/hyperv.h                    |   5 +-
+>  net/vmw_vsock/hyperv_transport.c          |   3 -
+>  16 files changed, 82 insertions(+), 295 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
