@@ -1,60 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53961A9F83;
-	Mon, 24 Aug 2026 00:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AC413777E;
+	Mon, 24 Aug 2026 00:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787530951; cv=none; b=JtnqPTE1gHBy0nOOopxlExb3mKOGoMrC2cXuL+GpVGy3opVqPGT9kpmxQzfTFY/Wyb81+eqRi1/qnZF0RmkeFjO5+lgrQPLG81l74kwZ7zceYXsqaNod4U00sq5Xa8BcgbsHJrZWHcB9PIGxiXMUCAU+hBKik5Qw6AoxJNXSUgE=
+	t=1787531589; cv=none; b=DKmj1E7pgYGmvpRKbcJL0cZ1ILmRPQtxcpMCxJOi59lfJaKnfrxgWlOG4ZVchAoM4TIcntGT46KcDmiem0EV7JcIFDamX2dFscd/rATKIO3O8eV560qhxfl989n9PLvZlsZC28tIInpKRHVdYKfzRcnobVRIISNWFcJeTRkz6ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787530951; c=relaxed/simple;
-	bh=dV3R+Pz5kQ5h6ZlLsF1aWhISVPB4UEergia3lJpO3dI=;
+	s=arc-20240116; t=1787531589; c=relaxed/simple;
+	bh=xuBTTq1IAu3LtTyToSi0sHCf+K1X8ZtUeY3KuqBqQfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nnWziQm3tUo8jPWfbzPC7eEI8N/Hk8a2XFzagI6pJnBx9UFuMTFQAAiCoYuSIeMLBg6bYPstTjzasidJwL+duN7tTq59GlxOgLWGtwfE/p7TLa0+zHWxy+EBT4zYBDj5D8LBd6+N8Cj69lXR2dEiRRxne+Jf/fMXR/5VQFF29Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjXgM4Jg; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=g1ctLH0sWk1JqZxA1+06COvkc6zixsXQo8bqaUKJL5HA+xFSnVxQgbJQv0UbTyPY4ATf0rlXGfNWWATn2VqAK4JzCM3R1MKS4lJ4F7Z8jQRbNlkLWr1sQ0fCJSGSTM7JeXuRM01naRZxzjpiZtMzI+1/iTmMaDQXGVj458RM0s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJwgMmMT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjXgM4Jg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 329A31F000E9;
-	Mon, 24 Aug 2026 00:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJwgMmMT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E551F000E9;
+	Mon, 24 Aug 2026 00:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787530949;
-	bh=6i8J1ynUdc4pHe6Njdru111x+LUNyRVLA355H1iwvLs=;
+	s=k20260515; t=1787531587;
+	bh=krg7k3KsK9mqHoK8ctDly2tIPJ7nB7D2CZV0M3mK/5w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cjXgM4JgpYFLPIXhx97eXNxmxm5azf3IMVW47mC18tA/3TmtKyO5alSfBE+tX03pH
-	 M0Dt8Y/P2n8xYMmch9fOeJbtBLw0fjf9YEI5w5/U0vcFDhRoJlu9FJuwKfb4t9Z/Qn
-	 AKf5ITcD7G9plTrE3fkCFEPK39ZgxN62WxQl6N58AtlbGg/icf0j+I6mR6g/T8zEPX
-	 NTt3Yw0fcTp9esSIi+PscCaAR/7qk7W5gfB0M+pEuM2r9rSIX4aTpX2SETJ2Yf+ROV
-	 fD41yjdxEMfWCcgxq/ndRR1WJckPQQMGFhS9w+sb0o1kfRtNfQ8+ctdPnqJ4K9zdEK
-	 kTjerB1zXxY5w==
-Date: Sun, 23 Aug 2026 17:22:28 -0700
+	b=oJwgMmMT+EK/VsVp+JgjsJCS8DZvXnJ417C570VaLd4R0I2qdbaPbo9cQ9wG+dLp7
+	 mzZqMBYpwZKF/Pk1Uq9Ki7+TWSqAM/cwsx6pn8Y5ySIlWEOycH7YKiJreGdNUpQk+h
+	 muzbz+0bJhU6J8AXcK5n+Hck0NyOuzJDeeVkt4SgrLa5KS/SmUeDmYHC1V576IKI6T
+	 RqaRv596gfoVE5tEa1CRWjnZBM+AfJU7yLmJY1piJG8s66/IjbZ7UtCXoLq9uybt8E
+	 6ubsMz0+8h9ap4kJV/2RNTXwA3Jp9cpLgqIEwv9EqJiphx2J9WtsCccGhjvuT6lMHk
+	 yxVZg15yd5XAA==
+Date: Sun, 23 Aug 2026 17:33:06 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
-	Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>, iommu@lists.linux.dev,
-	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] PCI: hv: Set irq_retrigger callback for the
- Hyper-V PCI MSI irqchip
-Message-ID: <20260824002228.GF3566091@liuwe-devbox-debian-v2.local>
-References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
- <20260810090716.2325295-2-namjain@linux.microsoft.com>
+To: mhklinux@outlook.com
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, longli@microsoft.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] Drivers: hv: vmbus: Skip VMBus module cleanup for
+ non-nested root partition
+Message-ID: <20260824003306.GG3566091@liuwe-devbox-debian-v2.local>
+References: <20260812145223.85949-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -63,52 +44,38 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260810090716.2325295-2-namjain@linux.microsoft.com>
+In-Reply-To: <20260812145223.85949-1-mhklinux@outlook.com>
 
-On Mon, Aug 10, 2026 at 09:07:13AM +0000, Naman Jain wrote:
-> The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
+On Wed, Aug 12, 2026 at 07:52:23AM -0700, Michael Kelley wrote:
+> The VMBus module initialization function, hv_acpi_init(), currently
+> does nothing when running in the root partition and root is not nested
+> in another VM. But the initialization function reports success, so the
+> VMBus module is indeed loaded. VMBus functionality is not actually
+> needed, but the VMBus module must be loaded so that hv_vmbus_exists()
+> can answer correctly. Furthermore, the mshv_root dependency on the
+> VMBus module is needed as described in the commit message for
+> 840b740a35bf ("mshv: Add conditional VMBus dependency").
 > 
-> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
-> the outgoing CPU to a new target. If an interrupt still has its pending bit
-> set in the outgoing CPU's IRR at that point, fixup_irqs() resends it on the
-> new target through the irqchip's irq_retrigger() callback. As the Hyper-V
-> PCI/MSI chip does not provide that callback, the pending interrupt is
-> silently dropped, which can result in lost interrupts, stalls and "No irq
-> handler for vector" messages during CPU hotplug.
+> Loading the VMBus module without actually initializing it causes
+> failures if the module should later be unloaded. The module unload code
+> tries to clean up things that were never initialized, resulting in
+> memory faults and a panic.
 > 
-> Install irq_chip_retrigger_hierarchy() as the irq_retrigger() callback for
-> the Hyper-V PCI/MSI irqchip, so that a pending interrupt is resent on its
-> new target CPU via the parent x86 vector domain.
+> Fix this by having VMBus module exit function perform the same
+> check for non-nested root partition, and do nothing in such a
+> case, just like hv_acpi_init().
 > 
-> Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Long Li <longli@microsoft.com>
-> Suggested-by: Thomas Gleixner <tglx@kernel.org>
-> Reviewed-by: Aditya Garg <gargaditya@linux.microsoft.com>
-> Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
-> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+> In the long run, the code that manages the Hyper-V provided SynIC
+> should be refactored to better coordinate the requirements of
+> root partition scenarios and normal VM scenarios, and to hopefully
+> remove the hv_vmbus_exists() dependnecy between mshv_root and
+> VMBus modules. Preventing the current unload failure scenario is
+> an expediency until such a refactoring is done.
+> 
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/linux-hyperv/20260721154943.A09BD1F00A3D@smtp.kernel.org/
+> Fixes: 7e279d78664aa ("Drivers: hv: vmbus: skip VMBus initialization if Linux is root")
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 
-I applied this patch alone. It is a good bug fix. The rest still have
-opens.
-
-Wei
-
-> ---
->  drivers/pci/controller/pci-hyperv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-> index cfc8fa403dad6..89816a2bd7cd3 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
->  	info->ops->msi_prepare = hv_msi_prepare;
->  
->  	chip->irq_set_affinity = irq_chip_set_affinity_parent;
-> +	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
->  
->  	if (IS_ENABLED(CONFIG_X86))
->  		chip->flags |= IRQCHIP_MOVE_DEFERRED;
-> -- 
-> 2.43.0
-> 
+Applied. Thanks.
