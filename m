@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9583F58E0;
-	Mon, 24 Aug 2026 13:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FFB2C9D;
+	Mon, 24 Aug 2026 13:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577348; cv=none; b=cvvr2yAh9EW9UL5Q9EgPf6YLrxmM1cgL2JQcPpSxqb9obYuTGKqpwxxldZw7fC8Ef709dveL7vUrC1OW0qJqDwFOL3ggVBmYB9Sx9QMmnNtOEp/fYKVLPonD4ZPN4FBid1wqbYMaeFSCoDL1cZ4hFPcfTYUbZ7L31iHY2IXgFTs=
+	t=1787577681; cv=none; b=Bfxwvn4TPmy2a9fRZpKAsclJ0APQ3Df+Y3kb8zVUM9iWH3qWAFRsF1KY8rLas1z/eKtaSy2sEk9weIz3SYPo/TmT+Ba+HD7VgS5wifgH3tu2cLfot222nrWkailigl1NHRDtnCB5Xj+p17xfR5cgNf2f3edggpQU1o0SNFPSgrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577348; c=relaxed/simple;
-	bh=Oer2t2eQPBsZQBORcb+SSg1kwBUQ9dlysA5qLeXyhPM=;
+	s=arc-20240116; t=1787577681; c=relaxed/simple;
+	bh=PNtSKVSUXLlUo7MPNhnGWaeTqFeekLZ+xnHo0kdhbXk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=hmDmAp/zRjARPS4eWBigbCAoAI69GOykMhxiCq9EYlHIh1NydgQr4/PIRnX1ZVe9gkFPXYOutIuAdUOF3nZTyUs25s3jXXis24DiD8ZeEvthTH4bB0dq2SxYK43ujHd5Le/zVMKvfLYZLnQk1TudCZ7SZeuBwvWDo+bzcQUwm6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cq/VJgqh; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=R4zqgtCxenGpOjYbpczBkQDGzJfeh+9VpNS+fhNXyP0eM0TEzMain2Reh/gPwHa4Fp9oMtuHpL7/QlfLcvlcc94gYPq7IJrbOxRVHv0ZAlftXXy4qbzubyzQcJ/A3f1T9kf8vwTkC5hGEB3O5G5dKPLAGWi0y2hso5fmtEJZUtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7eZ+srk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cq/VJgqh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B364A1F000E9;
-	Mon, 24 Aug 2026 13:15:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7eZ+srk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0027B1F000E9;
+	Mon, 24 Aug 2026 13:21:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787577347;
-	bh=XxLDEedc+fH0MClbI9nD7UrI/pQwIQVYtWd8rQeNnKg=;
+	s=k20260515; t=1787577679;
+	bh=tqQWdU7qIu7z80Vg+ML+5cNSrgns2KDCFHdeeAvGBcg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cq/VJgqhQtFgfR9yQV/bP1/SnCzRTmGsFSOCg0yuPsY0hv90NAxNoozUEsX6K8sCb
-	 Noa4BkzrB4SWVuJOhAKk6GVsm33dyxZRcbMQT4rnWVIWygVtReT+CIGbHV4Rwxdo2p
-	 fzmp0ipgtiUhd4LTtjkHZmC110Qn3WtRLdMV7+bhuhTj0S96v2LUbHRk/VwOdxtnkg
-	 WCKn6daBm1jfwzT1idKpMPOINm1QLRkMuq1lagPJ2QhoTdCujiHEF0gQvQkzkZ7HtU
-	 Sn3fXQ2fnRaAQHwQ5wTzN6IaZr1OQ0hKYXL4xy8ihZ2bjKtb5EjZvO/pO0SQcSlaEo
-	 ch+zIOK5u7plw==
+	b=k7eZ+srkEa6Mjjhy159+Dlxi9kUsa8zInzcYaa9ZfJ4kJ6C6bmwFKCqwfFKwBCLkI
+	 hqdiYLhjcWzRuyGQRwVUa1+6K/t31eXHV84x1HeVy2HVW7VxOPIjAdJTpEzN2HMzTv
+	 R2XzFKijKlzLAWUIjp3909DA46jPjHP8gSQZWEBJgyBpdtwg56c8/bCdvRk6plNfYz
+	 QIQsn/oo6kO76R+JRXmBB0XZgxD5mszoYvhKAImi3NFRvmlBdP5TH8ygRF3NZtiDFa
+	 7LaCJTzLecy+s1SY87VGHwqkpkx4NEUvOui9SsgoYbkwJUp7NtSLjOcGxihe6HObLR
+	 sJrmlVyhrl+Lw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 04/13] drm/panic: Return errno codes if panic output
- fails
+Subject: Re: [PATCH v2 07/13] drm/panic: Retry in dispatch function if panic
+ output fails
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: imx@lists.linux.dev, intel-xe@lists.freedesktop.org, ojeda@kernel.org, linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, Frank.Li@kernel.org, wsa+renesas@sang-engineering.com, intel-gfx@lists.freedesktop.org
-In-Reply-To: <20260824125201.218863-5-tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, wsa+renesas@sang-engineering.com, Frank.Li@kernel.org, linux-hyperv@vger.kernel.org, intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, ojeda@kernel.org, imx@lists.linux.dev
+In-Reply-To: <20260824125201.218863-8-tzimmermann@suse.de>
 References: <20260824125201.218863-1-tzimmermann@suse.de>
- <20260824125201.218863-5-tzimmermann@suse.de>
+ <20260824125201.218863-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Aug 2026 13:15:46 +0000
-Message-Id: <20260824131546.B364A1F000E9@smtp.kernel.org>
+Date: Mon, 24 Aug 2026 13:21:18 +0000
+Message-Id: <20260824132119.0027B1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,138 +47,80 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-
-New issues:
-- [Medium] Using KUNIT_ASSERT_EQ causes kernel test memory to leak if the d=
-rawing function returns an error, bypassing explicit resource cleanup.
-
-Pre-existing issues:
-- [High] Concurrent invocation of the debugfs trigger for planes on differe=
-nt devices causes data races on global panic buffers, leading to memory cor=
-ruption.
+- [Medium] The commit message claims a change that is not present in the co=
+de diff.
+- [Medium] Fallback to user mode silently flushes a blank screen if the scr=
+een is narrower than a single character, defeating failure preservation.
 --
 
---- Patch [4]: [PATCH v2 04/13] drm/panic: Return errno codes if panic outp=
-ut fails ---
-commit 6a8545466378db489975c829328cc895f57550b4
+--- Patch [7]: [PATCH v2 07/13] drm/panic: Retry in dispatch function if pa=
+nic output fails ---
+commit 43648cf544bdeed6f6c85be5e74f3e855c778814
 Author: Thomas Zimmermann <tzimmermann@suse.de>
 
-drm/panic: Return errno codes if panic output fails
+drm/panic: Retry in dispatch function if panic output fails
 
-Return errno codes from the panic output helpers to detect invalid panic
-handling and avoid flushing the display if an error occurred. The panic
-test cases are updated to assert these new return values.
+This patch introduces explicit fallback to DRM_PANIC_TYPE_USER in
+drm_panic_dispatch() when QR code or kmsg outputs fail. It also increases t=
+he
+minimum QR code test size to 494x494.
+
+> Also pass module parameter drm_panic_type as a parameter to
+> drm_panic_dispatch(). This simpifies the implementation. It will later
+> allow for moving the function into a helper library.
+
+[Severity: Medium]
+This isn't a bug, but the commit message mentions passing drm_panic_type as=
+ a
+parameter to drm_panic_dispatch(), which isn't present in this patch's code
+changes. Was this already implemented in a preceding commit?
 
 > diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index 62490d32019cc..cc33a2b4bb52a 100644
+> index f597ef04c5bcb..bc7c096c42363 100644
 > --- a/drivers/gpu/drm/drm_panic.c
 > +++ b/drivers/gpu/drm/drm_panic.c
 
 [ ... ]
 
-> @@ -945,9 +954,15 @@ static void draw_panic_plane(struct drm_plane *plane=
-, const char *description)
+> @@ -895,13 +886,22 @@ static int draw_panic_dispatch(struct drm_scanout_b=
+uffer *sb, enum drm_panic_typ
+>  {
+>  	int ret;
 > =20
->  	drm_panic_set_description(description);
-> =20
-> -	draw_panic_dispatch(&sb);
-> -	if (plane->helper_private->panic_flush)
-> -		plane->helper_private->panic_flush(plane);
-> +	ret =3D draw_panic_dispatch(&sb);
+> +retry:
+>  	switch (panic_type) {
+>  	case DRM_PANIC_TYPE_KMSG:
+>  		ret =3D draw_panic_screen_kmsg(sb, fg_color, bg_color);
+> +		if (ret) {
+> +			panic_type =3D DRM_PANIC_TYPE_USER;
+> +			goto retry;
+> +		}
 
-[Severity: High]
-This is a pre-existing issue, but can concurrent writes to the debugfs trig=
-ger
-corrupt global buffers?
+[Severity: Medium]
+Does this fallback logic inadvertently cause the screen to be overwritten w=
+ith
+a blank screen if the screen is narrower than a single character?
 
-If a user concurrently writes to the debugfs trigger files (drm_panic_plane=
-_%d)
-for planes on different DRM devices, draw_panic_plane() executes concurrent=
-ly
-because dev->mode_config.panic_lock is a per-device lock.
+If drm_panic_type is set to KMSG and sb->width < font->width,
+draw_panic_screen_kmsg() returns -EINVAL. The retry logic here catches this
+and falls back to DRM_PANIC_TYPE_USER.
 
-When DRM_PANIC_TYPE_QR is active, multiple threads could enter
-drm_panic_get_qr_code_url() and modify the global static variables qrbuf1,
-qrbuf2, and stream.workspace without cross-device synchronization:
+However, looking at draw_panic_screen_user(), it lacks a similar width chec=
+k.
+It clears the screen with the background color:
 
-drivers/gpu/drm/drm_panic.c:drm_panic_get_qr_code_url() {
+drivers/gpu/drm/drm_panic.c:draw_panic_screen_user() {
     ...
-    stream.next_in =3D kmsg;
-    stream.avail_in =3D kmsg_len;
-    stream.total_in =3D 0;
-    stream.next_out =3D qrbuf2;
-    stream.avail_out =3D QR_BUFFER2_SIZE;
-    stream.total_out =3D 0;
+    /* Fill with the background color, and draw text on top */
+    drm_panic_fill(sb, &r_screen, bg_color);
     ...
 }
 
-Could this cause memory corruption during simultaneous debugfs writes?
-
-> +	if (!ret) {
-> +		/*
-> +		 * Only flush if we have a panic screen to display. Otherwise
-> +		 * it's probably better to leave the display output as-is.
-> +		 */
-> +		if (plane->helper_private->panic_flush)
-> +			plane->helper_private->panic_flush(plane);
-> +	}
-> =20
->  	drm_panic_clear_description();
-
-[ ... ]
-
-> diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tes=
-ts/drm_panic_test.c
-> index ad2f3a2f93b6a..fdd77b0cc54c9 100644
-> --- a/drivers/gpu/drm/tests/drm_panic_test.c
-> +++ b/drivers/gpu/drm/tests/drm_panic_test.c
-
-[ ... ]
-
-> @@ -102,7 +102,8 @@ static void drm_test_panic_screen_user_map(struct kun=
-it *test)
->  	sb->height =3D params->height;
->  	sb->pitch[0] =3D params->width * sb->format->cpp[0];
-> =20
-> -	params->draw_screen(sb);
-> +	ret =3D params->draw_screen(sb);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-
-[Severity: Medium]
-Will this KUNIT_ASSERT_EQ() cause memory leaks if the test fails?
-
-If params->draw_screen() returns an error, KUNIT_ASSERT_EQ() will abort the
-test thread immediately. This means the test will skip explicit resource
-cleanup, such as the vfree(fb) call at the end of
-drm_test_panic_screen_user_map().
-
-Should this use KUNIT_EXPECT_EQ() instead to allow the cleanup code to run?
-
-> =20
->  	for (i =3D 0; i < fb_size; i++)
->  		drm_panic_check_color_byte(test, fb[i]);
-
-[ ... ]
-
-> @@ -146,7 +147,8 @@ static void drm_test_panic_screen_user_page(struct ku=
-nit *test)
->  	sb->height =3D params->height;
->  	sb->pitch[0] =3D params->width * sb->format->cpp[0];
-> =20
-> -	params->draw_screen(sb);
-> +	ret =3D params->draw_screen(sb);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-
-[Severity: Medium]
-Similarly here in drm_test_panic_screen_user_page(), if KUNIT_ASSERT_EQ()
-aborts the test on failure, will it skip the free_pages: cleanup label,
-resulting in a permanent memory leak?
-
-> =20
->  	for (p =3D 0; p < npages; p++) {
->  		int bytes_in_page =3D (p =3D=3D npages - 1) ? fb_size - p * PAGE_SIZE =
-: PAGE_SIZE;
+It then returns 0 (success) without drawing any text. This success code cau=
+ses
+draw_panic_plane() to flush the blank screen, destroying the existing visual
+evidence instead of preserving it.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260824125201.2188=
-63-1-tzimmermann@suse.de?part=3D4
+63-1-tzimmermann@suse.de?part=3D7
