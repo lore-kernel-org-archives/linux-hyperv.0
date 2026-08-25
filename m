@@ -1,112 +1,140 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6494212542;
-	Tue, 25 Aug 2026 04:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB43347BA7
+	for <linux-hyperv@vger.kernel.org>; Tue, 25 Aug 2026 04:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787630749; cv=none; b=CMELgDKeRM2mgCHWFhCkZoHD397w8FfKxbnvjrRD1bdX2pSV9evHXzN6tn3DWEloAtJVzSJBQXXGG0Q7GjNaAGB23K6DiD86U7XPuNlj5Cx41I5Bb9VTXr8Ay5yqUR3gdtYRYV7clWa7U3rnS0l+T4cPaRop7+9bP1rUu3vE52g=
+	t=1787631468; cv=none; b=PkQI2LTFMEqJ8ELKVVI6aagygv+i5shAuJk4O9xgGBHuqV9BPNm9Y7oTH4YRF5ogqxY80UeREmBPYYJeY6qZwliO/cCUqBNyrqUepfHHsxqQ9xzI8+uMBs0GF53Ay9ia0fxmwZ8TdgEhIzL5UpZmx2oegZdxCQo+x42/W7+lH1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787630749; c=relaxed/simple;
-	bh=hY6Zqjbp6ivpaT14Ky0kYnCHy9KFAFrBH/dmulP0FZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iTZO43JxWjWeO54ArjQo2wddwiYzaaoflyBJGyqogVbzW6IbOFdDR71DKPMsrxMRoq4e2JiW5FRBrD2m2Ll77aITpVnTMy2gHVjecdq2Iv1vFDq5haVw35B7zSMpdOPQtdMYiWIQo7yhh0NnxNOmndTlaM3D27vajemKsfOWHxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OEDEUhOS; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1787631468; c=relaxed/simple;
+	bh=02WmQ8a9LIJCZqtDJ/vnsS0B2pDmIPmJdtqlKPV4ra8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Mo3AlNrYo2AogrojpklWCfsakkLSkZTcr79pQ2aQ4BUVYukNGhlImrJDyzq3trw9DBzYiyL64ZfrrUPmL3+4p5F6zoHE2KI+CZxFYQfpqe5UJ2xpHq6qodM6jF/rvrDLPYf2/EodcX/1f8pXZMOsCHeVnivutaaayXfStMryJzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaR6qTiS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OEDEUhOS"
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D40A520B6F01;
-	Mon, 24 Aug 2026 21:05:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D40A520B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787630715;
-	bh=SFVmphJGUgjGqagEnUY1UsHmAGjgir4rNYApD2dB5cU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OEDEUhOS89FdKiu46nTdzeET4DGxXETFAy8VxkUTDw1Au6NlFd8CnIOCkkW5XgF2k
-	 82h5me5XRHFZVzQqZy+nT1jYqW4YFPqf1LrZlZkZTKNI1kMXc0fn47ZKJOTcAeUF2X
-	 YIJYSZlphYtlQZWi/X+zHvvtLZn58uL27Lnyc+fU=
-From: Wei Hu <weh@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Wei Hu <weh@microsoft.com>
-Subject: [PATCH v3 7/7] mshv: set up own SynIC registers on a nested root partition
-Date: Tue, 25 Aug 2026 04:04:39 +0000
-Message-ID: <20260825040505.826600-8-weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260825040505.826600-1-weh@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaR6qTiS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 764D61F000E9;
+	Tue, 25 Aug 2026 04:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787631466;
+	bh=aLlUrE1wvz7ijs96aK7V8k8RUc9ELMb8o1aw6V0Ke8s=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=GaR6qTiSOLKdqL4iXkh6G9u9Kt+adJV52s797MaCsoHWJt9ymitWIXereSsAi97iE
+	 iNgOec3dSJLCG0h3SVorwYUoiNfq9y2dYYIg0Unpf5qU5+efIz2DaeVhkPiChsM34t
+	 LBm2EFdoC4sm5bBRdozelT0xipD+iZ6gfMKpZqEtpuEPgk6GjQqcnnmv3ESpsSyARL
+	 gf4O7CT4L5hGOPs6XZwtieaQD0/G63E8mYzDkQgGSmA0nGwfqNRmgiU0tD2Yylhf6T
+	 2YQMIjl+wL+DvH8Q0zp2GPteqfzfAzvMLFcdst1f2Q5oX3F1H9lK0y+kPGS1pMPeHp
+	 KniCyxhC9s4Kw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 2/7] mshv: add SEV-SNP PSP request hypercall
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260825040505.826600-3-weh@linux.microsoft.com>
 References: <20260825040505.826600-1-weh@linux.microsoft.com>
+ <20260825040505.826600-3-weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 25 Aug 2026 04:17:45 +0000
+Message-Id: <20260825041746.764D61F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] The function misuses the shared per-CPU `hyperv_pcpu_input_arg` fo=
+r an asynchronous hypercall, potentially corrupting the hypercall input.
+- [Medium] Un-ratelimited `pr_err` on the guest-triggerable hypercall failu=
+re path allows a malicious guest to flood the host kernel log.
+--
 
-Upstream mshv_synic_cpu_init()/_exit() skip programming the SynIC
-SIMP/SIEFP/SCONTROL registers when VMBus is active (hv_vmbus_exists()),
-assuming VMBus's hv_hyp_synic_enable_regs() already provisioned them.
+--- Patch [2]: [PATCH v3 2/7] mshv: add SEV-SNP PSP request hypercall ---
+commit 8b1f140f3a0780e521d7a96627211fe9e4967940
+Author: Wei Liu <wei.liu@kernel.org>
 
-That assumption is wrong for a *nested* root partition. There, VMBus
-programs the *nested* SynIC MSRs (HV_X64_MSR_NESTED_SIMP, ...) via
-hv_set_msr()'s nested remap, while mshv_synic reads/writes the
-*non-nested* SynIC MSRs (hv_get/set_non_nested_msr). As a result mshv
-maps the wrong message page, never receives the SYNIC intercept message
-that carries the async hypercall completion, and
-mshv_async_hvcall_handler blocks forever -- hanging SEV-SNP guest
-creation from user space.
+mshv: add SEV-SNP PSP request hypercall
 
-Gate the "VMBus owns the SynIC registers" optimization on !hv_nested so
-that a nested root partition programs its own non-nested SynIC
-registers, restoring correct intercept/async-hypercall delivery. No
-change for a non-nested (bare-metal) root.
+This commit adds a helper for HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST so MSHV
+can issue asynchronous PSP guest requests on behalf of encrypted partitions.
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
----
- drivers/hv/mshv_synic.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_cal=
+l.c
+> index cb55d4d4be2e5..48abe338c06f8 100644
+> --- a/drivers/hv/mshv_root_hv_call.c
+> +++ b/drivers/hv/mshv_root_hv_call.c
+> @@ -1009,6 +1009,45 @@ int hv_unmap_stats_page(enum hv_stats_object_type =
+type,
+>  	return ret;
+>  }
+> =20
+> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+> +int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
+> +				    u64 rsp_pfn,
+> +				    void (*completion_handler)(void *data,
+> +							       u64 *status),
+> +				    void *completion_data)
+> +{
+> +	struct hv_input_issue_psp_guest_request *input;
+> +	unsigned long flags;
+> +	u64 status;
+> +
+> +	if (!completion_handler) {
+> +		pr_err("%s: missing completion handler\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	local_irq_save(flags);
+> +	input =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->partition_id =3D partition_id;
+> +	input->request_page =3D req_pfn;
+> +	input->response_page =3D rsp_pfn;
+> +	status =3D hv_do_hypercall(HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST, input,
+> +				 NULL);
+> +	local_irq_restore(flags);
+> +
+> +	if (hv_result(status) =3D=3D HV_STATUS_CALL_PENDING)
+> +		completion_handler(completion_data, &status);
 
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index 7c168e5a740d..7d714ee5d226 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -472,7 +472,13 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 	 * VMBus owns SIMP/SIEFP/SCONTROL when it is active.
- 	 * See hv_hyp_synic_enable_regs() for that initialization.
- 	 */
--	bool vmbus_active = hv_vmbus_exists();
-+	/*
-+	 * On a nested root partition VMBus programs the *nested* SynIC MSRs
-+	 * (SIMP/SIEFP/SCONTROL) via hv_set_msr()'s nested remap, whereas the
-+	 * code below reads/writes the non-nested SynIC MSRs. So when nested,
-+	 * do not defer SynIC setup to VMBus -- set up our own registers.
-+	 */
-+	bool vmbus_active = hv_vmbus_exists() && !hv_nested;
- 
- 	/*
- 	 * Map the SYNIC message page. When VMBus is not active the
-@@ -593,7 +599,13 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- 	struct hv_synic_event_ring_page **event_ring_page =
- 		&spages->synic_event_ring_page;
- 	/* VMBus owns SIMP/SIEFP/SCONTROL when it is active */
--	bool vmbus_active = hv_vmbus_exists();
-+	/*
-+	 * On a nested root partition VMBus programs the *nested* SynIC MSRs
-+	 * (SIMP/SIEFP/SCONTROL) via hv_set_msr()'s nested remap, whereas the
-+	 * code below reads/writes the non-nested SynIC MSRs. So when nested,
-+	 * do not defer SynIC setup to VMBus -- set up our own registers.
-+	 */
-+	bool vmbus_active = hv_vmbus_exists() && !hv_nested;
- 
- 	/* Disable the interrupt */
- 	sint.as_uint64 = hv_get_non_nested_msr(HV_MSR_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX);
--- 
-2.43.0
+[Severity: High]
+Does this code risk corrupting the hypercall input data?
 
+The function uses the shared per-CPU hyperv_pcpu_input_arg for the hypercal=
+l.
+However, it restores interrupts and invokes completion_handler() which bloc=
+ks
+while the hypercall is pending.
+
+During this time, another thread scheduled on the same CPU can issue a
+hypercall and overwrite the shared per-CPU page while the hypervisor is sti=
+ll
+reading the original parameters asynchronously.
+
+> +
+> +	if (!hv_result_success(status)) {
+> +		pr_err("%s: status=3D%s partition_id=3D%llu\n", __func__,
+> +		       hv_result_to_string(status), partition_id);
+
+[Severity: Medium]
+Could this unconditional error print be used to flood the host kernel log?
+
+If a malicious guest VM repeatedly issues invalid SEV-SNP PSP requests, the
+hypercall will fail and trigger this error print on the failure path.
+
+Since this can be triggered at will by the guest, it might be safer to
+rate-limit this message.
+
+> +		return hv_result_to_errno(status);
+> +	}
+> +
+> +	return 0;
+> +}
+> +#endif
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260825040505.8266=
+00-1-weh@linux.microsoft.com?part=3D2
