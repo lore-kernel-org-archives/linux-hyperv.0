@@ -1,258 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BDC31D72E
-	for <linux-hyperv@vger.kernel.org>; Tue, 25 Aug 2026 04:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48EC53101A0;
+	Tue, 25 Aug 2026 04:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787631765; cv=none; b=ayRhyfxC6Xx+lgTKOOskcEwy4CKy6iZa9HOAOv6/jc9CliEVZzQ2yNzNJlMdu4wtLgvohl1Iseeva9T8c2utBVp+2xojyUPL7Hyz/oM46fr95TWKlDCjtxGutTpc6lpu2hA+FPbCYB/Q/0hoUZYhAT41IutgMLAUAA4ZV4HmJPc=
+	t=1787632927; cv=none; b=SLqONQ7/nC/SBtqk+hRVmj3oD+iRBL8sVmdCQLmHr+0fevcEi+mwRkfCn0jFULXSsGA1K9m0Lcceh6InuN+xwb3nVUi5skMjChnARTqkFCNBGwmstVHUHairfpxDHxZF9IhgxhKSf/h16VxUw3cE4x3mbV/hQSM4u2Aj0v0iemE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787631765; c=relaxed/simple;
-	bh=vFAzhW1045eOikikZ263xCA22+9Zik71Eii+wfTkxuU=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=W9veiMfL36jWdUVNhxjEcnhXlQnKvMC6rYq5o678z6VV7r7cLDD0ThwegYOngwHvZb1gAFPQxhYWbC6jlD5qdF92U7OTOMyOc5o2F2l6YQBlePSsTlosA1RsJVpGEPjQpzHwGD46bdg3BwsOc2PmQjBCcMeLGPET7IijGIIHMn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2QnCyaa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787632927; c=relaxed/simple;
+	bh=XE2Ab0GG9kmt8pSqRAwcSHToJNuqWMlTyG0wNh2OK0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LBJOaejqDuqU4qW8Z1UeZe/Cg7h0Nv2HJgyLNBlFFi8gdKGbFtu3PF1zr24E84KR75gdu6kFqSWmkRRu0J5wKF9w2JYCE9UXdNVyw/7X0zf8MXweiGsq401/9+BUXvLYA4c1jspcV4gItX6TvzXVDMnxnW9cbcSAs9x7IHvFr/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q1WplNng; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2QnCyaa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175C11F000E9;
-	Tue, 25 Aug 2026 04:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787631764;
-	bh=TIZqUd1tnVn02OFgNUmkIlbI2iZiziMnB5IZDa+deN8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=M2QnCyaaMUKwybckfD1lb4L1WAnQWBR2vb378kPJ53U8/I6XCaIA+CrcjzHTLZTLK
-	 oUJo3S75ai4DJUBYPcZ/sHxBJxQxKDf/5diFzJPzV8ZX7BWh+PKUFt2Ij/T1blMn2P
-	 hIuF8GoFWKPWyH+7elNpgtiyHxv012x3n1bUS1dkPwEnFS9SKpC5arWixRtQM7MYKQ
-	 U32qF3BgeBZsn+ejElfw0/Hz3DPTqv+99mLnv2bUwMXhGwRSxbwsbeO/lQk1s/Sc8T
-	 Y3wkAjZUiLGf+lt7TxHao2q2O6znhgaFgGK7f4Hkj2578zC7fNVgU5fhb1SBl+ZP+5
-	 CZ5s8XOxAGksQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/7] mshv: wire SEV-SNP partition ioctls
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Hu" <weh@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260825040505.826600-5-weh@linux.microsoft.com>
-References: <20260825040505.826600-1-weh@linux.microsoft.com>
- <20260825040505.826600-5-weh@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 25 Aug 2026 04:22:43 +0000
-Message-Id: <20260825042244.175C11F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q1WplNng"
+Received: from [192.168.1.70] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 87D7B20B7166;
+	Mon, 24 Aug 2026 21:41:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 87D7B20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787632894;
+	bh=2UJlLi20XMSxA7zww1xtzN2KILuXIuj1I5rEPmJqvNE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Q1WplNng40iw7ncVS17Q5u1PqVWhUxNiymQEfSN2ArTnRFvLIzqzVvrww0xrEqg1H
+	 605U3ofKhG4QG2QZbp5FvZSFQ10JfKF3DhAhyBM/lCbHojurIl9xiwjqRPVpg779RO
+	 KCffdDFS9wVMw8jEDoxV6SdBi7lbwZjj4JUZgeh4=
+Message-ID: <fb4dfd8a-599d-4c4d-be76-4caef290da23@linux.microsoft.com>
+Date: Tue, 25 Aug 2026 10:12:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V
+ PCI MSI irqchip
+To: Wei Liu <wei.liu@kernel.org>
+Cc: sashiko-reviews@lists.linux.dev, linux-pci@vger.kernel.org,
+ linux-hyperv@vger.kernel.org
+References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+ <20260728135117.2888175-2-namjain@linux.microsoft.com>
+ <20260728140427.714311F000E9@smtp.kernel.org>
+ <a9d44162-3c90-44c8-aae7-4813678234a9@linux.microsoft.com>
+ <20260824001406.GC3566091@liuwe-devbox-debian-v2.local>
+ <c165f17f-b214-4a96-a446-6dd4e6cb2161@linux.microsoft.com>
+ <20260824165908.GC3665124@liuwe-devbox-debian-v2.local>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20260824165908.GC3665124@liuwe-devbox-debian-v2.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
 
-New issues:
-- [Critical] Revoking host access to guest pages without invalidating them =
-in the kernel's direct map allows stray kernel accesses to crash the host s=
-ystem.
-- [High] destroy_partition attempts to restore host access before unmapping=
- memory for uninitialized SEV-SNP partitions, guaranteeing failure and perm=
-anent memory leak.
-- [Medium] Batched IOCTLs abort on failure midway through without reporting=
- progress or unrolling completed operations, permanently bricking partition=
- state.
 
-Pre-existing issues:
-- [Critical] Ignored return value of mshv_region_unmap() in mshv_region_des=
-troy() allows guest access to freed host physical memory.
---
+On 8/24/2026 10:29 PM, Wei Liu wrote:
+> On Mon, Aug 24, 2026 at 11:57:56AM +0530, Naman Jain wrote:
+>>
+>>
+>> On 8/24/2026 5:44 AM, Wei Liu wrote:
+>>> On Thu, Jul 30, 2026 at 04:56:27PM +0530, Naman Jain wrote:
+>>>>
+>>>>
+>>>> On 7/28/2026 7:34 PM, sashiko-bot@kernel.org wrote:
+>>>>> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+>>>>>
+>>>>> Pre-existing issues:
+>>>>> - [High] The fix for dropped pending interrupts during CPU hot-unplug was missed in the sister Hyper-V root partition MSI domain.
+>>>>> --
+>>>>>
+>>>>> --- Patch [1]: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip ---
+>>>>> commit b8b1c843c457dd145f0d360b44f4b1bf34bd8cf5
+>>>>> Author: Naman Jain <namjain@linux.microsoft.com>
+>>>>>
+>>>>> PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
+>>>>>
+>>>>> The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
+>>>>> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
+>>>>> the outgoing CPU to a new target. As the Hyper-V PCI/MSI chip does not
+>>>>> provide that callback, the pending interrupt is silently dropped, which
+>>>>> can result in lost interrupts, stalls and "No irq handler for vector"
+>>>>> messages.
+>>>>>
+>>>>> Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Suggested-by: Long Li <longli@microsoft.com>
+>>>>> Suggested-by: Thomas Gleixner <tglx@kernel.org>
+>>>>> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+>>>>>
+>>>>>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+>>>>>> index cfc8fa403dad6..89816a2bd7cd3 100644
+>>>>>> --- a/drivers/pci/controller/pci-hyperv.c
+>>>>>> +++ b/drivers/pci/controller/pci-hyperv.c
+>>>>>> @@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
+>>>>>>     	info->ops->msi_prepare = hv_msi_prepare;
+>>>>>>     	chip->irq_set_affinity = irq_chip_set_affinity_parent;
+>>>>>> +	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+>>>>>
+>>>>> [Severity: High]
+>>>>> This isn't a bug introduced by this patch, but does the sister Hyper-V root
+>>>>> partition MSI domain in arch/x86/hyperv/irqdomain.c also need this fix?
+>>>>>
+>>>>> Looking at hv_init_dev_msi_info(), it appears to be missing the exact same
+>>>>> callback initialization for the root partition's top-level irq_chip:
+>>>>>
+>>>>> arch/x86/hyperv/irqdomain.c:hv_init_dev_msi_info() {
+>>>>> 	...
+>>>>> 	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
+>>>>> 		return false;
+>>>>>
+>>>>> 	chip->flags |= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
+>>>>>
+>>>>> 	info->ops->msi_prepare = pci_msi_prepare;
+>>>>>
+>>>>> 	return true;
+>>>>> }
+>>>>>
+>>>>> If a CPU is hot-unplugged while a device MSI interrupt is pending in its
+>>>>> local APIC IRR, could fixup_irqs() fail to resend the pending interrupt
+>>>>> to the new target CPU because this callback is NULL?
+>>>>>
+>>>>> This could potentially lead to the same lost interrupts and I/O stalls
+>>>>> described in this commit message, just in the root partition MSI domain
+>>>>> instead of the guest paravirtual MSI domain.
+>>>>>
+>>>>>>     	if (IS_ENABLED(CONFIG_X86))
+>>>>>>     		chip->flags |= IRQCHIP_MOVE_DEFERRED;
+>>>>>>
+>>>>>
+>>>>
+>>>> I am not planning to include this in this series, since this issue is not
+>>>> seen in root partition yet and I am not sure if it is applicable here.
+>>>> Second patch would anyways fix it going forward, but I am OK adding the
+>>>> change for this, if we need.
+>>>
+>>> What's the downside of fixing the root partition irq domain?
+>>
+>> No downside as such. It would be a latent bug, exposed only if we exercise
+>> hotplug in root partition, which seems like we don't. After patch 2 of this
+>> series, that would go away anyways. If you tell me, I can add a change
+>> similar to patch 1, which is backportable, but then I would need to remove
+>> it similarly in patch 3.
+> 
+> Yes, please fix that for the root partition, too. Being consistent
+> across different use cases is going to save us some headache in the
+> future.
+> 
+> Wei
 
---- Patch [4]: [PATCH v3 4/7] mshv: wire SEV-SNP partition ioctls ---
-commit 438c5ba1c23ba880c2f38d767dbf75dd5ce5c64b
-Author: Wei Liu <wei.liu@kernel.org>
-Subject: mshv: wire SEV-SNP partition ioctls
+Acked.
 
-Wire the SEV-SNP partition ioctls for GPA host-access changes,
-isolated-page import, PSP guest requests, AP creation, and ordered SNP
-partition teardown. Process userspace page arrays in bounded batches.
+Regards,
+Naman
 
-> --- a/drivers/hv/mshv_regions.c
-> +++ b/drivers/hv/mshv_regions.c
-[ ... ]
-> @@ -354,17 +354,19 @@ static void mshv_region_destroy(struct kref *ref)
->  	if (region->mreg_type =3D=3D MSHV_REGION_TYPE_MEM_MOVABLE)
->  		mshv_region_movable_fini(region);
-> =20
-> -	if (mshv_partition_encrypted(partition)) {
-> +	if (mshv_partition_encrypted(partition) &&
-> +	    !partition->snp_host_access_restored) {
->  		ret =3D mshv_region_share(region);
->  		if (ret) {
->  			pt_err(partition,
-> -			       "Failed to regain access to memory, unpinning user pages will =
-fail and crash the host error: %d\n",
-> +			       "Failed to regain access to memory, retaining pinned region: %=
-d\n",
->  			       ret);
->  			return;
->  		}
->  	}
-> =20
-> -	mshv_region_unmap(region);
-> +	if (!partition->snp_regions_unmapped)
-> +		mshv_region_unmap(region);
-> =20
->  	mshv_region_invalidate(region);
-
-[Severity: Critical]
-This is a pre-existing issue, but does mshv_region_destroy() ignore the
-return value of mshv_region_unmap()?
-
-If a user issues MSHV_SET_GUEST_MEMORY with the UNMAP flag on an active
-partition, mshv_unmap_user_memory() is triggered. This removes the region
-from the list and calls mshv_region_put().
-
-When the refcount drops to 0, mshv_region_destroy() calls
-mshv_region_unmap() to perform HVCALL_UNMAP_GPA_PAGES. If this hypercall
-fails due to hypervisor state or invalid parameters, the pages remain mapped
-in the guest's GPA space.
-
-Because the return value is ignored, the code unconditionally proceeds to
-mshv_region_invalidate(), unpinning the pages and returning them to the
-host buddy allocator. Can the running guest then trivially read or write
-these freed pages, resulting in host memory corruption via use-after-free?
-
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-[ ... ]
-> @@ -1648,6 +1682,409 @@ mshv_partition_ioctl_initialize(struct mshv_parti=
-tion *partition)
->  	return ret;
->  }
-> =20
-> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-[ ... ]
-> +static long
-> +mshv_partition_ioctl_modify_gpa_host_access(struct mshv_partition *parti=
-tion,
-> +					    void __user *user_args)
-> +{
-[ ... ]
-> +		ret =3D hv_call_modify_spa_host_access(partition->pt_id, pages,
-> +						     count, host_access, flags,
-> +					     acquire);
-
-[Severity: Critical]
-When revoking host access from guest pages here, shouldn't we invalidate
-them in the kernel's direct map?
-
-MSHV_MODIFY_GPA_HOST_ACCESS calls hv_call_modify_spa_host_access() with
-HV_MODIFY_SPA_PAGE_HOST_ACCESS_MAKE_EXCLUSIVE to make pages exclusive to
-the guest.
-
-If these pages are not removed from the Linux kernel's direct map using
-set_direct_map_invalid_noflush(), they remain mapped on the host while
-hardware-level access is revoked by the hypervisor.
-
-Could speculative execution, prefetching, or background kernel activity
-accessing these virtual addresses trigger a hardware exception because the
-underlying physical memory is protected by SEV-SNP RMP rules, leading to a
-complete host panic?
-
-> +		if (ret)
-> +			break;
-
-[Severity: Medium]
-If the loop breaks midway due to a validation or hypercall failure, are the
-completed pages unrolled?
-
-Memory arrays are processed in chunks of 4096 pages. Validation checks like
-mshv_pages_are_contiguous_2m() and the hypercalls are performed inside this
-loop.
-
-If a check fails on a subsequent iteration, the loop breaks and returns an
-error code. Since the input arguments are passed by value, userspace receiv=
-es
-a generic error and cannot determine which pages were modified.
-
-Does this leave the VM in a fragmented state where neither the kernel nor
-userspace can safely clean up or resume the operation?
-
-[ ... ]
-> +static long
-> +mshv_partition_ioctl_import_isolated_pages(struct mshv_partition *partit=
-ion,
-> +					   void __user *user_args)
-> +{
-[ ... ]
-> +		ret =3D hv_call_import_isolated_pages(partition->pt_id, pages, count,
-> +						    args.page_type, args.page_size,
-> +						    mshv_async_hvcall_handler,
-> +						    partition);
-> +		if (ret)
-> +			break;
-
-[Severity: Medium]
-Does this loop share the same brittle chunking and abort logic as
-mshv_partition_ioctl_modify_gpa_host_access() mentioned above?
-
-[ ... ]
-> @@ -1805,6 +2324,9 @@ static void destroy_partition(struct mshv_partition=
- *partition)
->  	struct mshv_mem_region *region;
->  	struct hlist_node *n;
->  	int i;
-> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-> +	int ret;
-> +#endif
-> =20
->  	if (refcount_read(&partition->pt_ref_count)) {
->  		pt_err(partition,
-> @@ -1814,7 +2336,87 @@ static void destroy_partition(struct mshv_partitio=
-n *partition)
-> =20
->  	trace_mshv_destroy_partition(partition->pt_id);
-> =20
-> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-> +	if (!partition->pt_initialized && mshv_partition_encrypted(partition)) {
-> +		int region_ret;
-> +
-> +		ret =3D 0;
-> +		hlist_for_each_entry_safe(region, n,
-> +					  &partition->pt_mem_regions, hnode) {
-> +			region_ret =3D mshv_region_share(region);
-> +			if (region_ret) {
-> +				pt_err(partition,
-> +				       "Failed to restore host access at GFN %#llx: %d\n",
-> +				       region->start_gfn, region_ret);
-> +				ret =3D region_ret;
-> +			}
-> +		}
-> +		if (ret) {
-> +			pt_err(partition,
-> +			       "Retaining uninitialized partition with inaccessible SNP pages=
-\n");
-> +			mshv_quarantine_partition(partition);
-> +			return;
-> +		}
-
-[Severity: High]
-When tearing down an uninitialized SEV-SNP partition, does
-destroy_partition() fail to restore host access because the memory hasn't
-been unmapped yet?
-
-If a user creates an SNP partition, maps memory (which creates active GPA
-mappings via mshv_prepare_pinned_region()), and then closes the fd without
-initializing the partition, this path executes.
-
-The code explicitly loops over all memory regions and calls
-mshv_region_share() to restore host access before unmapping the GPAs,
-which happens later when mshv_region_destroy() is triggered.
-
-Will the hypervisor reject the share request since the pages are still
-actively mapped in the guest's SLAT? The resulting mshv_region_share()
-failure triggers mshv_quarantine_partition(), intentionally leaking the
-partition object and its pinned memory.
-
-Could an unprivileged user exploit this to cause host memory exhaustion by
-rapidly creating, mapping, and destroying uninitialized partitions?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260825040505.8266=
-00-1-weh@linux.microsoft.com?part=3D4
