@@ -1,35 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBD2353A73;
-	Mon, 24 Aug 2026 19:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDFA1F427C;
+	Tue, 25 Aug 2026 04:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787598672; cv=none; b=DLkkqc2f91fCCsZASPKk7lUoA0ndPCTdOB9bHEatJ3ysxQoLiyrSVnyXbJ59EssjhislwPqElQTlBRCgMRSOmHJLhh/jxWsju2Au0rTYeWB4MGASnCOJ/jCGiZHP5B3/bRBB9fqQIQKhb23P4CGIHBzDIDZlGJam0MIzba8D1GQ=
+	t=1787630713; cv=none; b=In8Ql3vT4/l5Af3ShzKCQu8BQYxpcs3QmItdDVI5jnp/rX7iFIKlx/qrgU8N4Ppe4D/unYM0lH3gQIcykB1+tdUZ0WE2rGNS+0YwiFwtKAPxsWmoTmPYVIoeAAnqlmXKUgwjNHwm4K26584MPHGnIC+L89Z9aTMfvY3whOXvw5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787598672; c=relaxed/simple;
-	bh=PHHOGK61N4x8xH3mE1NIQa4WWO4g54voMMeOKvBCp2I=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HX1oUWBrcYJDexxUYARaCDE7LF2rDrcI6+85cE3mD/+puAn4njC4CT8/k/R9iQyAORFLyD+TqmV1DyDoa17xULFqovCIyQSv50jbY57Ox+eqJNKvJFL9wV0W27ntoUnq+ziF8/sDnHbrQCObaxQDmNLHBv/eYanwBHO8OTEpXw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lTLSMvsK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787630713; c=relaxed/simple;
+	bh=K5pJtA9m3VT7Dbor0BVe//qicpcj5PRYGqkXUyPmMDw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYJ5Rf334qNXUN5GYGUR2SaLyHBqWesZLUeAaqkNQiYJFJVdIjqBGW4Enlj5wgLbqXgCEut58KpxCi1wcJS2E7UB5ylD8SRU/Faf9NreHTXl3HciFOXvizBSUtCfbBibob3uAY3EzNgMWhT+KaJovMjZg/BC5kC7IGhAqrTHmU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LQlqMa2S; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lTLSMvsK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67CF1F00A3E;
-	Mon, 24 Aug 2026 19:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787598670;
-	bh=gRqYaFP71RYXxDbVtmJnm3PU5E9JC49RTvlpnEabZ+0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=lTLSMvsKW0LawBviXbc9JqQ9kYIKUW3qe+M/nFO+lTrNS0QLxo40l/nyYYmPUjpPj
-	 9OxahpFl25DzXxAi/R0ISljw2OKT4PY9FTUOQmYcoqx3xZ7UhqEVqWUF480EOr46Ja
-	 7sI8N3aLNXg2FezYIrlEcCdWIgetW/oUaRrD1T8V7iFipzav1woXiVu3kHkadQiNo5
-	 xzScb/0Ub/4qWrAic+eZAnB2ymBCdlk5ON+SNo6G1v8dWHM/WXmJR8U9Sz6wDbFgQK
-	 6mim1iR6ZCGGCoS6DmHAl6igkklkd98pMklesTr5JuscJpTgQdx8o8o3txHz8jjxi+
-	 hfx5NBBhbHzpg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939BB3924A4C;
-	Mon, 24 Aug 2026 19:10:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LQlqMa2S"
+Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C830820B7166;
+	Mon, 24 Aug 2026 21:04:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C830820B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787630679;
+	bh=Re7/ImR4UTsF3GT2YTwiBGBIxmsfWYv7sG2SmlEvUNE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LQlqMa2S8p77WDCEJiRoSVyRH2b5UjgyAxKvPmEXGpZDsc47iPcqYAM988g3pG43Z
+	 HyogW1aXSowlCd9HeFHXQD4SLIs9YyK8SwPYR2aejQtneNHRaQFPpIOwHkU8MEe8IJ
+	 Xn5IIxG5fAOxn6hBOUNS3M8ZLw+XoxawOO0Grr90=
+From: Wei Hu <weh@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v3 0/7] mshv: add SEV-SNP support for MSHV root partitions
+Date: Tue, 25 Aug 2026 04:04:32 +0000
+Message-ID: <20260825040505.826600-1-weh@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -37,56 +57,87 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: mana: Cap MSI-X vectors to the device MSI-X
- table
- size
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178759861814.3069565.10209025813207370256.git-patchwork-notify@kernel.org>
-Date: Mon, 24 Aug 2026 19:10:18 +0000
-References: <20260821183736.733296-1-longli@microsoft.com>
-In-Reply-To: <20260821183736.733296-1-longli@microsoft.com>
-To: Long Li <longli@microsoft.com>
-Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
- leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello:
+This series adds support for creating and managing AMD SEV-SNP
+confidential virtual machines through the Microsoft Hypervisor root
+partition driver.
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+The series adds fixed-size MSHV UAPI definitions, the required Microsoft
+Hypervisor ABI definitions and hypercall helpers, partition ioctls,
+capability discovery, processor-feature handling, ordered encrypted-memory
+teardown, and nested-root SynIC handling.
 
-On Fri, 21 Aug 2026 11:37:36 -0700 you wrote:
-> mana_gd_query_max_resources() sizes gc->num_msix_usable from resp.max_msix
-> and the CPU count, but never from the device MSI-X table. On a 1792 vCPU
-> M-series VM that yields 1793 while the table has 1024 entries, and
-> mana_gd_setup_remaining_irqs() then walks indices 1..1792, running off the
-> end of the region mapped by msix_map_region():
-> 
->   BUG: unable to handle page fault for address: ff8e347f8b99800c
->   RIP: 0010:msix_prepare_msi_desc+0x7a/0x90
->   RAX: 0000000000004000 RBX: ff4330cb164ea780 RCX: ff8e347f8b998000
->   Call Trace:
->    <TASK>
->    __msi_domain_alloc_irqs+0x13a/0x440
->    msi_domain_alloc_irq_at+0x149/0x1b0
->    mana_gd_setup+0x351/0x890
->    mana_gd_probe+0x274/0x390
->    </TASK>
-> 
-> [...]
+The patches are based on the current hyperv-next branch.
 
-Here is the summary with links:
-  - [net] net: mana: Cap MSI-X vectors to the device MSI-X table size
-    https://git.kernel.org/netdev/net/c/2c7493f98014
+Testing:
 
-You are awesome, thank you!
+  - Built the complete seven-patch series on x86_64.
+  - Verified the installed UAPI in 64-bit and 32-bit userspace builds.
+  - Generated rust-vmm MSHV bindings from the kernel headers.
+  - Booted Linux as an MSHV root partition with SEV-SNP available.
+  - Passed Cloud Hypervisor's common_cvm::test_focal_simple_launch.
+  - Booted a four-vCPU SEV-SNP guest to login.
+
+The development host needs two additional local patches to boot as a
+nested MSHV root partition: the EFI HvLoader enablement and the
+non-upstreamable nested-VMBus interrupt-vector workaround. Neither patch
+is part of this series.
+
+Changes since v2:
+
+  - Rebase onto current hyperv-next.
+  - Drop the system-property structure fix, which is already upstream as
+    commit d6f0248f04a9 ("mshv: fix hv_input_get_system_property struct").
+  - Drop the EFI HvLoader patch as requested; alternative root-partition
+    boot mechanisms will be explored separately.
+  - Drop the panic-notifier SNP unlock patch. A panic notifier is not a
+    guaranteed pre-crash-kexec hook and cannot safely traverse mutable
+    memory-region state in all contexts.
+  - Redesign variable-length ioctls to use fixed-size headers and aligned
+    userspace pointers. Name GPA and PFN inputs explicitly and add the
+    isolated-page size to the UAPI.
+  - Replace public bitfields and the large by-value launch payload with a
+    naturally aligned pointer-based ABI and field-by-field kernel
+    translation.
+  - Process userspace page arrays in bounded batches, yield between
+    batches, validate large-page alignment and contiguity, and improve
+    partial-progress diagnostics.
+  - Keep encrypted pages pinned until mappings are removed, the SNP
+    partition state is destroyed, and host access is restored. Quarantine
+    the partition and retain the module if a safety-critical phase fails.
+  - Remove the unbounded delayed-work teardown retry.
+  - Treat rejected SNP capability queries (including L1VH) as non-fatal,
+    and copy per-CPU results before restoring interrupts.
+  - Preserve nested virtualization in the legacy safe feature defaults.
+  - Reject device opens until parent-partition initialization completes.
+  - Remove redundant SNP operations from the generic passthrough
+    hypercall interface.
+
+Link: https://lore.kernel.org/linux-hyperv/20260810124527.1409634-1-weh@linux.microsoft.com/
+
+Wei Hu (1):
+  mshv: set up own SynIC registers on a nested root partition
+
+Wei Liu (6):
+  mshv: add SEV-SNP UAPI definitions
+  mshv: add SEV-SNP PSP request hypercall
+  mshv: add SEV-SNP isolated page hypercalls
+  mshv: wire SEV-SNP partition ioctls
+  mshv: detect and report SEV-SNP support at init
+  mshv: use safe partition CPU feature defaults
+
+ drivers/hv/mshv_regions.c      |  10 +-
+ drivers/hv/mshv_root.h         |  29 ++
+ drivers/hv/mshv_root_hv_call.c | 190 +++++++-
+ drivers/hv/mshv_root_main.c    | 854 +++++++++++++++++++++++++++++++--
+ drivers/hv/mshv_synic.c        |  16 +-
+ include/hyperv/hvgdk_mini.h    |  31 ++
+ include/hyperv/hvhdk.h         | 124 ++++-
+ include/hyperv/hvhdk_mini.h    |  53 ++
+ include/uapi/linux/mshv.h      |  99 +++-
+ 9 files changed, 1365 insertions(+), 41 deletions(-)
+
+
+base-commit: be0cfab740e58b70047ef6e7e3d578f00ed5d258
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+2.43.0
