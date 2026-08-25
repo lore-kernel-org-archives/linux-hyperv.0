@@ -1,155 +1,110 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48EC53101A0;
-	Tue, 25 Aug 2026 04:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E2201F3D56;
+	Tue, 25 Aug 2026 05:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787632927; cv=none; b=SLqONQ7/nC/SBtqk+hRVmj3oD+iRBL8sVmdCQLmHr+0fevcEi+mwRkfCn0jFULXSsGA1K9m0Lcceh6InuN+xwb3nVUi5skMjChnARTqkFCNBGwmstVHUHairfpxDHxZF9IhgxhKSf/h16VxUw3cE4x3mbV/hQSM4u2Aj0v0iemE=
+	t=1787635143; cv=none; b=A25gYvUtU8hgUjMqN/7qsuhC88XZYyJSQW6oJaST8wKFItuGFLtZdsohc+Ih/nV3fhE09bd3iDnwbcf8KLigVkrbSXdftaJ+Pi6Oe8qfczDFZvsxw7kUfqBW7diTVrFOdkavGi2VozDICmIxWrivLtBNRbaFlYJQEFwmjWdqDt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787632927; c=relaxed/simple;
-	bh=XE2Ab0GG9kmt8pSqRAwcSHToJNuqWMlTyG0wNh2OK0k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LBJOaejqDuqU4qW8Z1UeZe/Cg7h0Nv2HJgyLNBlFFi8gdKGbFtu3PF1zr24E84KR75gdu6kFqSWmkRRu0J5wKF9w2JYCE9UXdNVyw/7X0zf8MXweiGsq401/9+BUXvLYA4c1jspcV4gItX6TvzXVDMnxnW9cbcSAs9x7IHvFr/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q1WplNng; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1787635143; c=relaxed/simple;
+	bh=8DgmtUn3Fzm43q42Nhr/eVs7RwM+IyYFXBcQi5BHGRQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=fhsAiuDrr7oQiqbvDGGWL3dFP99tumDS+J9rBk0hoKoGMX0pzilzaBDgTgNFITPqA1ScAJI2SnGzIZBhhiHW4aiCpkK5B2Tep0w0kBNVbKnWxK32UzeSz5KQ7jvv9rkS8Gc5ieKVTzV8P7so6faCHbTMFPPzquRrhFFRzhVW9bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hp/57e7r; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q1WplNng"
-Received: from [192.168.1.70] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 87D7B20B7166;
-	Mon, 24 Aug 2026 21:41:32 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 87D7B20B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hp/57e7r"
+Received: from sahil.mshome.net (unknown [4.213.232.22])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C429E20B7166;
+	Mon, 24 Aug 2026 22:18:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C429E20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787632894;
-	bh=2UJlLi20XMSxA7zww1xtzN2KILuXIuj1I5rEPmJqvNE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q1WplNng40iw7ncVS17Q5u1PqVWhUxNiymQEfSN2ArTnRFvLIzqzVvrww0xrEqg1H
-	 605U3ofKhG4QG2QZbp5FvZSFQ10JfKF3DhAhyBM/lCbHojurIl9xiwjqRPVpg779RO
-	 KCffdDFS9wVMw8jEDoxV6SdBi7lbwZjj4JUZgeh4=
-Message-ID: <fb4dfd8a-599d-4c4d-be76-4caef290da23@linux.microsoft.com>
-Date: Tue, 25 Aug 2026 10:12:01 +0530
+	s=default; t=1787635110;
+	bh=9BxmoeNKcrVz0BFb+VjuMoWpZF9NlmX83HbgkVBiwLo=;
+	h=From:To:Subject:Date:From;
+	b=hp/57e7raKygHgltk2moRgCuREsWghbZtRTUF/8W6GZv63FdgfP3apiV1P8By1NVd
+	 6OklWSrVc0XiBrwqV3ory43WUdxTsBwgNDZUA4+/tc/xdHIXKwymXUoOFXzyGVAzub
+	 D9DnjfdbOegiUhlSI9X3byQSQlnC/5PExSHReiBs=
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	bhelgaas@google.com,
+	linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] PCI: hv: Warn when wait_for_response() waits indefinitely
+Date: Mon, 24 Aug 2026 22:17:00 -0700
+Message-ID: <20260825051850.2438816-1-sahilchandna@linux.microsoft.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V
- PCI MSI irqchip
-To: Wei Liu <wei.liu@kernel.org>
-Cc: sashiko-reviews@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
- <20260728135117.2888175-2-namjain@linux.microsoft.com>
- <20260728140427.714311F000E9@smtp.kernel.org>
- <a9d44162-3c90-44c8-aae7-4813678234a9@linux.microsoft.com>
- <20260824001406.GC3566091@liuwe-devbox-debian-v2.local>
- <c165f17f-b214-4a96-a446-6dd4e6cb2161@linux.microsoft.com>
- <20260824165908.GC3665124@liuwe-devbox-debian-v2.local>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260824165908.GC3665124@liuwe-devbox-debian-v2.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+A guest can wait indefinitely in wait_for_response() for the host to
+send either a rescind message or a packet completion. If the
+host does not send either, the guest can remain blocked with no
+diagnostic indicating a reason.
+This was observed during a guest kernel upgrade in which the
+host-side application handling the PCI channel faulted, causing the
+guest to never receive the completion request.
+Add a periodic warning in wait_for_response() when the wait exceeds
+a timeout so that such a hang is visible in the guest's kernel log
+and can be correlated with host-side state.
 
+Suggested-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+---
+This was sent earlier upstream [1]
+[1] https://lore.kernel.org/linux-hyperv/20260612174010.2598695-1-hamzamahfooz@linux.microsoft.com/
+---
+ drivers/pci/controller/pci-hyperv.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-On 8/24/2026 10:29 PM, Wei Liu wrote:
-> On Mon, Aug 24, 2026 at 11:57:56AM +0530, Naman Jain wrote:
->>
->>
->> On 8/24/2026 5:44 AM, Wei Liu wrote:
->>> On Thu, Jul 30, 2026 at 04:56:27PM +0530, Naman Jain wrote:
->>>>
->>>>
->>>> On 7/28/2026 7:34 PM, sashiko-bot@kernel.org wrote:
->>>>> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
->>>>>
->>>>> Pre-existing issues:
->>>>> - [High] The fix for dropped pending interrupts during CPU hot-unplug was missed in the sister Hyper-V root partition MSI domain.
->>>>> --
->>>>>
->>>>> --- Patch [1]: [PATCH 1/3] PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip ---
->>>>> commit b8b1c843c457dd145f0d360b44f4b1bf34bd8cf5
->>>>> Author: Naman Jain <namjain@linux.microsoft.com>
->>>>>
->>>>> PCI: hv: Set irq_retrigger callback for the Hyper-V PCI MSI irqchip
->>>>>
->>>>> The Hyper-V vPCI MSI irqchip never installs an irq_retrigger() callback.
->>>>> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
->>>>> the outgoing CPU to a new target. As the Hyper-V PCI/MSI chip does not
->>>>> provide that callback, the pending interrupt is silently dropped, which
->>>>> can result in lost interrupts, stalls and "No irq handler for vector"
->>>>> messages.
->>>>>
->>>>> Fixes: 4daace0d8ce85 ("PCI: hv: Add paravirtual PCI front-end for Microsoft Hyper-V VMs")
->>>>> Cc: stable@vger.kernel.org
->>>>> Suggested-by: Long Li <longli@microsoft.com>
->>>>> Suggested-by: Thomas Gleixner <tglx@kernel.org>
->>>>> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
->>>>>
->>>>>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
->>>>>> index cfc8fa403dad6..89816a2bd7cd3 100644
->>>>>> --- a/drivers/pci/controller/pci-hyperv.c
->>>>>> +++ b/drivers/pci/controller/pci-hyperv.c
->>>>>> @@ -2119,6 +2119,7 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
->>>>>>     	info->ops->msi_prepare = hv_msi_prepare;
->>>>>>     	chip->irq_set_affinity = irq_chip_set_affinity_parent;
->>>>>> +	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
->>>>>
->>>>> [Severity: High]
->>>>> This isn't a bug introduced by this patch, but does the sister Hyper-V root
->>>>> partition MSI domain in arch/x86/hyperv/irqdomain.c also need this fix?
->>>>>
->>>>> Looking at hv_init_dev_msi_info(), it appears to be missing the exact same
->>>>> callback initialization for the root partition's top-level irq_chip:
->>>>>
->>>>> arch/x86/hyperv/irqdomain.c:hv_init_dev_msi_info() {
->>>>> 	...
->>>>> 	if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
->>>>> 		return false;
->>>>>
->>>>> 	chip->flags |= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
->>>>>
->>>>> 	info->ops->msi_prepare = pci_msi_prepare;
->>>>>
->>>>> 	return true;
->>>>> }
->>>>>
->>>>> If a CPU is hot-unplugged while a device MSI interrupt is pending in its
->>>>> local APIC IRR, could fixup_irqs() fail to resend the pending interrupt
->>>>> to the new target CPU because this callback is NULL?
->>>>>
->>>>> This could potentially lead to the same lost interrupts and I/O stalls
->>>>> described in this commit message, just in the root partition MSI domain
->>>>> instead of the guest paravirtual MSI domain.
->>>>>
->>>>>>     	if (IS_ENABLED(CONFIG_X86))
->>>>>>     		chip->flags |= IRQCHIP_MOVE_DEFERRED;
->>>>>>
->>>>>
->>>>
->>>> I am not planning to include this in this series, since this issue is not
->>>> seen in root partition yet and I am not sure if it is applicable here.
->>>> Second patch would anyways fix it going forward, but I am OK adding the
->>>> change for this, if we need.
->>>
->>> What's the downside of fixing the root partition irq domain?
->>
->> No downside as such. It would be a latent bug, exposed only if we exercise
->> hotplug in root partition, which seems like we don't. After patch 2 of this
->> series, that would go away anyways. If you tell me, I can add a change
->> similar to patch 1, which is backportable, but then I would need to remove
->> it similarly in patch 3.
-> 
-> Yes, please fix that for the root partition, too. Being consistent
-> across different use cases is going to save us some headache in the
-> future.
-> 
-> Wei
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index cfc8fa403dad..c4fba0039164 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1040,11 +1040,18 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
 
-Acked.
+ /*
+  * There is no good way to get notified from vmbus_onoffer_rescind(),
+- * so let's use polling here, since this is not a hot path.
++ * so let's use polling here, since this is not a hot path. If
++ * wait_for_response() has been polling for PCI_RESPONSE_HANG_TIMEOUT_SEC
++ * without either a rescind or completion, add a periodic warning.
+  */
++#define PCI_RESPONSE_HANG_TIMEOUT_SEC 300
++
+ static int wait_for_response(struct hv_device *hdev,
+ 			     struct completion *comp)
+ {
++	unsigned long delay = secs_to_jiffies(PCI_RESPONSE_HANG_TIMEOUT_SEC);
++	u64 timeout = get_jiffies_64() + delay;
++
+ 	while (true) {
+ 		if (hdev->channel->rescind) {
+ 			dev_warn_once(&hdev->device, "The device is gone.\n");
+@@ -1053,6 +1060,11 @@ static int wait_for_response(struct hv_device *hdev,
 
-Regards,
-Naman
+ 		if (wait_for_completion_timeout(comp, HZ / 10))
+ 			break;
++
++		if (time_after64(get_jiffies_64(), timeout)) {
++			dev_warn(&hdev->device, "PCI stuck waiting for response.\n");
++			timeout = get_jiffies_64() + delay;
++		}
+ 	}
 
+ 	return 0;
+--
+2.53.0
