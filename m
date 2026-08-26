@@ -1,171 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC91C46AA7C
-	for <linux-hyperv@vger.kernel.org>; Wed, 26 Aug 2026 17:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ACF471252
+	for <linux-hyperv@vger.kernel.org>; Wed, 26 Aug 2026 19:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787766742; cv=none; b=ev02AOYejzFfkSktMAV1TFsG8Dm8SqcrctGV1E2k1gMBBunOasCwcDqyQdVu8uRaRCenZS2792KXx1sw86nRUvpx5Ri4f/Wo1bbRJyak2W4TNYBKCvKG7B+p/qfkEDixx+zkIHxk/X7GBJfzVLWZxjvDnkZ4SfQj2nh1U8Eg8lA=
+	t=1787772357; cv=none; b=fNmockh36jbz+Umq49tewWT5qX7PCcN9SpaSaWVSdgthVDsXd/M1lktal2egDXL7n2zAqyGoqSQPO+ebgeCbOGO+p4s4FZXx3P5+8xjb8YYE/tfenLk9lCc6O0MTlZE7g73953jvN2epiwd965hWWq2Xcv/ITOeJoP+q+KNpxqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787766742; c=relaxed/simple;
-	bh=n3SsaKpmJSbTSrF7G6dJssR9w8zIcmMwzSI+QOFQdAs=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=n4iH8SzUZARan9xNI7MDRia4yOvKA0+WzlyiQmPcxUrVqt36oyIB4h0DhIIVZQ4WbXrI767nSfbq0oFB9K4hMUKAoJFPoB2LBDb4fIRRnLX47uEsxSl4HY19K4KRfyfDjdDcEsm0njIRrRAB1FGEEezz/of35HUtQx6/mhFmW8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga8gEnaQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787772357; c=relaxed/simple;
+	bh=VTDKVn+aa1FR7TOWMkSE/KFr/jyQmOGuAG+H/AxcJJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2mgvqhZqP9fzK+60IpeKWnyB+EW+mCJDuBrMYGGaWTrDoxTuWHkUNrEtnha0UPSftVBEIO+HXZGyYVjLiHm7JkafxK6O+F3sVzc/Iw8wpYJGwp88rh5fzv0ovtFtti4qULpfbQMTFBiHJjrlS6df3J4PLcTRwbJOmN7/UlCIp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jNqkTPLW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga8gEnaQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42EE01F00A3D;
-	Wed, 26 Aug 2026 17:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787766726;
-	bh=28wEZLzJPp3f2XecNdtftYTURGIMDQaghKBhKJPg+PE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ga8gEnaQgZoBKMmsL2FiYtPkjytvjvjEUhToRYk/JbEv0sPTtnzbU0cDFDo1Rfo6f
-	 m3dNYL+LCftPqR8SAG9+2+m3sBT9gAr4YetONPpqO3iEtzcQAhAHPP66ErHgQGPVvx
-	 xHpWOEsGchRfGpLVCr8D7qRyIAZBVuvoZErCKc7qq01XlsRDKgf2DCYUvzp7guzBXo
-	 ZUL6CKI5zkU5L8jM/+VDKEqnidmsHLIFRyNtYUmvdoGaOHQcTiwziTbPNkyk93nEYx
-	 gKsZWJNFqQ1EU/ah92ERzr+6NGOFyZnCsru6VFd9KNVN+fU1YniZ8776V8iHiog7yZ
-	 5IHDjnPDg9fRw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] Drivers: hv: Avoid infinite retry loop in
- init_vp_index()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Waiman Long" <longman@redhat.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260826173710.511604-1-longman@redhat.com>
-References: <20260826173710.511604-1-longman@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Aug 2026 17:52:05 +0000
-Message-Id: <20260826175206.42EE01F00A3D@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jNqkTPLW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787772332;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sHjqfZcCHdemnAFP2kuQbb8s6bb/4zThhyZF+luJUpg=;
+	b=jNqkTPLWB2xyv+EGQEUExZiGpFKVKyIxKAhpR2aPDyUUWjjJx0OneQrUFQHMyP7dxjxkir
+	aDPjS6LlxT7VKsb1momOCa/AOB5OEJ+0kdB7UVU50ACDnx2JX9y+k57kMw9+1/NpZWUik4
+	gNt4rsMpYPML2lhly/NJrp3X+pfDvKg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-344-a2hGDbYEO8mOKPrQqX4sFQ-1; Wed,
+ 26 Aug 2026 15:25:28 -0400
+X-MC-Unique: a2hGDbYEO8mOKPrQqX4sFQ-1
+X-Mimecast-MFC-AGG-ID: a2hGDbYEO8mOKPrQqX4sFQ_1787772327
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 26C1B1955E97;
+	Wed, 26 Aug 2026 19:25:27 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.rmtusnh.csb (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3D8F3434;
+	Wed, 26 Aug 2026 19:25:25 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Michael Kelley <mikelley@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v2] Drivers: hv: Avoid infinite retry loop in init_vp_index()
+Date: Wed, 26 Aug 2026 15:25:09 -0400
+Message-ID: <20260826192509.529838-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] The patch inadvertently leaves `check_hkcpu` as `false` for non-pe=
-rformance VMbus channels, unintentionally disabling `HK_TYPE_MANAGED_IRQ` i=
-solation checks and allowing their interrupts to be assigned to isolated CP=
-Us.
-- [High] The fix actively violates the user's CPU isolation configuration b=
-y forcing interrupts onto isolated CPUs instead of simply skipping incompat=
-ible NUMA nodes.
---
+There is a retry loop in init_vp_index() where the CPUs from a certain
+node are stripped out if they have already been in the allocated cpumask
+or not in HK_TYPE_MANAGED_IRQ housekeeping cpumask. If there is no
+CPU left, the allocated cpumask is ignored and the process is retried
+again. However, if the HK_TYPE_MANAGED_IRQ housekeeping cpumask turns
+out not to contain any CPU in that particular node, that will become an
+infinite retry loop.  This particular problem was reported by sashiko
+[1]. This should rarely happen, but we still need to guard against this.
 
-commit 36f8ef6b096e353e5114a6a9d0a4e19a5ab2e941
-Author: Waiman Long <longman@redhat.com>
+Fix this infinite loop problem by skipping to the next numa node if
+the allocated cpumask has already been cleared before. Set target_cpu
+to the default VMBUS_CONNECT_CPU instead if the for loop is ending.
 
-Drivers: hv: Avoid infinite retry loop in init_vp_index()
+Link: https://sashiko.dev/#/message/20260422030903.E1BFCC2BCB0%40smtp.kernel.org [1]
+Fixes: 6640b5df1a38 ("Drivers: hv: vmbus: Don't assign VMbus channel interrupts to isolated CPUs")
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ drivers/hv/channel_mgmt.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-This commit addresses an infinite retry loop in init_vp_index() by allowing
-the housekeeping cpumask to be ignored if the allocated cpumask has already
-been cleared. It introduces a check_hkcpu flag in struct vmbus_channel to
-control whether the housekeeping CPU check should be performed.
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 89d214dda360..e80ac9fb5ed3 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -793,10 +793,20 @@ static void init_vp_index(struct vmbus_channel *channel)
+ 		if (cpumask_empty(available_mask)) {
+ 			/*
+ 			 * We have cycled through all the CPUs in the node;
+-			 * reset the allocated map.
++			 * reset the allocated map. If the allocated map
++			 * has already been cleared, we will try the next numa
++			 * node. Set target_cpu to the default VMBUS_CONNECT_CPU
++			 * instead if the for loop is going to end.
+ 			 */
+-			cpumask_clear(allocated_mask);
+-			goto retry;
++			if (!cpumask_empty(allocated_mask)) {
++				cpumask_clear(allocated_mask);
++				goto retry;
++			}
++			if (i > ncpu) {
++				target_cpu = VMBUS_CONNECT_CPU;
++				break;
++			}
++			continue;	/* Try next numa node */
+ 		}
+ 
+ 		target_cpu = cpumask_first(available_mask);
+-- 
+2.55.0
 
-Link: https://sashiko.dev/#/message/20260422030903.E1BFCC2BCB0%40smtp.kerne=
-l.org [1]
-
-> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index a044fd3b3c4e7..30d369ee4bf4a 100644
-> --- a/drivers/hv/channel_mgmt.c
-> +++ b/drivers/hv/channel_mgmt.c
-> @@ -774,6 +774,7 @@ static void init_vp_index(struct vmbus_channel *chann=
-el)
->  	}
-> =20
->  	for (i =3D 1; i <=3D ncpu + 1; i++) {
-> +		channel->check_hkcpu =3D true;
-
-[Severity: High]
-Since struct vmbus_channel is allocated with kzalloc(), check_hkcpu starts
-as false. In init_vp_index(), non-performance channels return early before
-this loop:
-
-    if (!perf_chn || ...) {
-        channel->target_cpu =3D VMBUS_CONNECT_CPU;
-        return;
-    }
-
-Does this unintentionally leave check_hkcpu disabled permanently for
-non-performance channels?
-
-If CPU hotplug (hv_synic_cleanup() -> hv_pick_new_cpu()) or sysfs
-target_cpu_store() later changes the CPU for a non-performance channel, it
-appears vmbus_channel_set_cpu() will skip the housekeeping check because
-check_hkcpu is false.
-
-Could this allow non-performance VMbus channels to be assigned to isolated
-CPUs, bypassing CPU isolation protections?
-
->  		while (true) {
->  			numa_node =3D next_numa_node_id++;
->  			if (numa_node =3D=3D nr_node_ids) {
-> @@ -788,14 +789,21 @@ static void init_vp_index(struct vmbus_channel *cha=
-nnel)
-> =20
->  retry:
->  		cpumask_xor(available_mask, allocated_mask, cpumask_of_node(numa_node)=
-);
-> -		cpumask_and(available_mask, available_mask, hk_mask);
-> +		if (channel->check_hkcpu)
-> +			cpumask_and(available_mask, available_mask, hk_mask);
-> =20
->  		if (cpumask_empty(available_mask)) {
->  			/*
->  			 * We have cycled through all the CPUs in the node;
-> -			 * reset the allocated map.
-> +			 * reset the allocated map. If the allocated map has
-> +			 * already been cleared, we will have to ignore the
-> +			 * HK_TYPE_MANAGED_IRQ housekeeping cpumask as its use
-> +			 * is on a best effort basis, not a must.
->  			 */
-> -			cpumask_clear(allocated_mask);
-> +			if (!cpumask_empty(allocated_mask))
-> +				cpumask_clear(allocated_mask);
-> +			else
-> +				channel->check_hkcpu =3D false;
->  			goto retry;
->  		}
-
-[Severity: High]
-Does this logic actively violate CPU isolation configurations by forcing
-interrupts onto isolated CPUs?
-
-When the allocator selects a NUMA node where all CPUs are isolated (none are
-in hk_mask), clearing check_hkcpu forces the interrupt onto one of those
-isolated CPUs.
-
-Since cpumask_empty(hk_mask) is checked globally before the loop, there is
-guaranteed to be at least one housekeeping CPU on some other node in the
-system.
-
-Would it be better to simply skip incompatible nodes entirely instead
-of permanently overriding the housekeeping mask and forcing high-throughput
-performance channels onto isolated CPUs?
-
-[ ... ]
-
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 5ebdbe24b5a1e..4cb9da8467f29 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -1745,7 +1745,8 @@ int vmbus_channel_set_cpu(struct vmbus_channel *cha=
-nnel, u32 target_cpu)
->  	if (target_cpu >=3D nr_cpumask_bits)
->  		return -EINVAL;
-> =20
-> -	if (!cpumask_test_cpu(target_cpu, housekeeping_cpumask(HK_TYPE_MANAGED_=
-IRQ)))
-> +	if (channel->check_hkcpu &&
-> +	    !cpumask_test_cpu(target_cpu, housekeeping_cpumask(HK_TYPE_MANAGED_=
-IRQ)))
->  		return -EINVAL;
-> =20
->  	if (!cpu_online(target_cpu))
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260826173710.5116=
-04-1-longman@redhat.com?part=3D1
