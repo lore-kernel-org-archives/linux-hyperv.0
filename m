@@ -1,44 +1,44 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazolkn19011025.outbound.protection.outlook.com [52.103.13.25])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazolkn19013087.outbound.protection.outlook.com [52.103.14.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B093822A9;
-	Thu, 27 Aug 2026 04:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.13.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B7E3890EE;
+	Thu, 27 Aug 2026 04:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.14.87
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787804921; cv=fail; b=sFiMK4xTf4IJ20eZK6WtIY+eROaz7PR3pRV2sITenjgymBjxjAgJM1FCkL3HDpdlibwb2OnkqfFQt89+RB90ME3fBrO83G11CMp8HwTsddSxTGXlgNTvnBq+DOcTqdATM/pgYjxMQDl/IIJ8oWqLhDyHDsTsAp7MWreA+rPl/24=
+	t=1787804940; cv=fail; b=aVaZ+xCqpUgbCOu903YHnrrxF0Bl2+OzH9rmixgqziGrBTH1SIczp5svFj5iB5Zla3veIlxzSFfCv9+tH9z41xuR4MN1oIx6EmKGeq+XPeyK9i3kw4cjdFfahbsamt2t965ZUPpuxJTgas9nlA5odYiJfAgFXDWDrCDpAv9A5NY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787804921; c=relaxed/simple;
-	bh=VmhEef9JI8bjC5ZVvANfHCTmymnPBuG1YoX4QflDLCM=;
+	s=arc-20240116; t=1787804940; c=relaxed/simple;
+	bh=3n1WaNw/r8dScV3PIa7BG/WQAcks3dK3IYlrAkGLfKo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=J7QY3OA6gNHkYjaGQMD+lFAnfZITODxuroXYTvtEaPDeY5pgf4rVIrR6s352d+rL7gik48dbi0cTegiZKRbpi24VygsxAzvq6va2caRplzra3Ps/nV1xh6CFX1xLfre9hcaC4VjV9FUzaNDzxSQNl/TxpDYAfZ+nHWlq3t2YQdE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=J2ZrtMB3; arc=fail smtp.client-ip=52.103.13.25
+	 Content-Type:MIME-Version; b=j8BzPp58HIY77UuWLWQk70CxGHDa2VHvoKhCYAwzcvNG7yan/LjUobgBkp2MW/i1D4CRG5o7XjmBLW8wBAp0WHbqBMuDfwfFttWaPw9Aick3ESuTGVboiK4W2jdXePZSWFPhd0kSjLYdOaNTmv1ixiXxyEVoqqNJKJCgLvaDHt0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=kneGZaep; arc=fail smtp.client-ip=52.103.14.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="J2ZrtMB3"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="kneGZaep"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rjDav9GUAWqyJQQti6AoSEolUzTecEnV7oFy9G9+Gye2TwioIZrNlsxWKyZAR8wEoxw+Yzb+zk9ta9aGN2jt0MSUOLBKexPWcxYXod8/w0Kcbsrj85mFtNydwJDnXJDO0ZpRsVOhyT/QHDCH2AoXL03j9oqmP8Bi3ykuG5JglsAlQ0UxcH2rXfBMfpX9f4TxoVHtQYP9TQIWHfh7MzcN69wJ43JPKz8UPyjvgIPH+Fz17QMOIIYD3Ndzo2LokhUxHFr9R8Bn4Q2ZlXqKnQX/wwK7emtpqMyCdQ7hk3XmmqQQRKet1Q0gdbN+nEBpdSZb09RxWsYDvGKYWE6DCkBEQg==
+ b=fOwH/kmxNvjiRfejrjpTlEvIDgDHhZWzj655HJSChp4wU2fH9sazOcUxTwu9LY7QqOoHHL07twssGonU3NgUyr9/r9JuxDcGeVZ93MUzSQ4ntmucK+ufiK7ghPl7QXa412GnpXAi+zEfbmKClpOqEryDmbqLGxMRrggQrNXUi94ctCFyCwkD+u9g/vwye3Jup9cQNuEdv3eXHlNDgY3jJgXaQeCSvGUeSymeOAEfFZ7rNySv3ot5IXtG0yIXIxVHwWocHQAfWDXhENA81B55Jvo9xqd2O4AO83Exfaa6QbzT2yrLEUPk4aah3GWvlt9kpMzus1cdcFpEG6MG9mHFOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pmf8wmKUdfrJPNuff+aeSkEwVK4/n+P+0/pAHbRU29Y=;
- b=X2hM/nmfS8A4rufrtzAlQMHFuDy+XpaHv57jdn+qIqNWbsfk6r8MTSZzOg8KEia3rHcPCV9mgVjLjmGJKXPSRAp5ngIDv1eIB95fzn6GPwWMbyO6T3+gqOO3q0XibDa45pLWnx8CbYaVGLvfjMmUouhmarqPYKILj0dHEbosbeo8RdeNTy83pCT6eryk8H/hkmk1jtr9bVDPcqlH5FZ/hrKv1ctQ89wO61CpKy6TITszhH8T7FREys9rscPQViokxHAfrGSeCAKCyzBulABqYN9WtmN0ye01Ri7bPrXPMagz08JATzBrNFSbjF14Q/M+7JJl9ypKe57VLgnchGzO3g==
+ bh=HFCfeezYd/s400fhG1VyXZet3oxuGdJ/wRjS+JD7oCo=;
+ b=yl30Ilpf+/QGB67eoLBKKWIAD3R/bFSr7am5QZRdgYHC4DHuZp8G2o7ClmAlL/6U9M5h7UqvZdGbpmupqH80KkZ9AdWcSAnpiX6Rl+oZD4BcM7zPYh4fdwK1x8O3PEPp0gjwB18bY7cpp6tE9VQXrFfLBDiRbIBO6f4yKCVrSfiWdkdNXVi7iktLO/sAfD9SqGCkbDlaf5Hjm8WKaGHDy/yypLll2cEkTM+yykDWrpcnkVDUAgkrmQMXvSQ2RrSh14Qt7YqX6hFuFUePOwpvOqDISFyZrZAqihillN8FKNJYA+C0yM/HqC7mBf6+w7KbZl884weD+MLME8B/fFei5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pmf8wmKUdfrJPNuff+aeSkEwVK4/n+P+0/pAHbRU29Y=;
- b=J2ZrtMB3g8IgLx1OJ16leGjM90+ASYSZHZ0wwaE2voL8U0tOJGJB9x1brYpJuM2LggPuOAhvSIpDJ+aPLd4zPeG+p71AXP/6H3+blnZA49GBMG0PmPkoU6LV2mGpSwLONyHrWPKDIVGMN67vW+KXq/biaJ7qBtqjWPbxBHvYPiegLZy2fmvaMo9MuyGWsQZoSo8Y3R8l07evL1RQboeLYQeDb3ej1ST3NylgJDaFDM2swsOgDzPFbC0H1Br9Dxpb3OjMO6/6k3obp8kXfbT4r3LfeZbaaRAdeu3w3nPjsvr/vLtX6Lhdvnlh/6qyyzfC7HgOz73aQQVPcQZdu1JNaQ==
+ bh=HFCfeezYd/s400fhG1VyXZet3oxuGdJ/wRjS+JD7oCo=;
+ b=kneGZaepqpYa1Owm2/4cSmw0kfHD/fzLtHYqW4KdUq2vy4lTDacE/BtgK6CQFSac6pCvZADrvi2cuRy15D59WpuMxQdV6YY5OP/NjPJenGapEiqgQ40WHCQJiTllz7sKVh2rg0nE1R4sSat3DE07/X+hNA6JHXvDHJZt8xmfE0zyqLvYOZ2aLUqQAUEIOfXXW9UYRtaCtbPBU5tNd12AV+mXfiPAEcPwesp7feK5EeYn+y9L4WTpcih9osrHfq/H00NxRCNkzpvJGpnFhPGWl4VX/O8HoBme7uwrakpUDorArwcbpjHRRBL27hiyJvHx+UCejuYIVxqkx0Z6WGGWew==
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
  by BY5PR02MB7011.namprd02.prod.outlook.com (2603:10b6:a03:23c::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Thu, 27 Aug
- 2026 04:28:34 +0000
+ 2026 04:28:54 +0000
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0360.005; Thu, 27 Aug 2026
- 04:28:34 +0000
+ 04:28:54 +0000
 From: Michael Kelley <mhklinux@outlook.com>
 To: "wei.liu@kernel.org" <wei.liu@kernel.org>, Linux on Hyper-V List
 	<linux-hyperv@vger.kernel.org>
@@ -52,73 +52,73 @@ CC: "mukeshrathor@linux.microsoft.com" <mukeshrathor@linux.microsoft.com>,
  Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "open
  list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
 	<linux-pci@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/3] PCI: hv: unmap MSI interrupt on the nested root
- partition teardown path
-Thread-Topic: [PATCH 2/3] PCI: hv: unmap MSI interrupt on the nested root
- partition teardown path
-Thread-Index: AQKjGFGck1AJEvvCYICSEZT2NjuzuAI02fCOtRPOf1A=
-Date: Thu, 27 Aug 2026 04:28:34 +0000
+Subject: RE: [PATCH 3/3] PCI: hv: fix interrupt affinity change on the nested
+ root partition
+Thread-Topic: [PATCH 3/3] PCI: hv: fix interrupt affinity change on the nested
+ root partition
+Thread-Index: AQKjGFGck1AJEvvCYICSEZT2NjuzuAEnfXj0tRxDHwA=
+Date: Thu, 27 Aug 2026 04:28:54 +0000
 Message-ID:
- <SN6PR02MB4157B8B7D644D489D147ED35D4AD2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <SN6PR02MB4157DDA074C9080EBB7A79D8D4AD2@SN6PR02MB4157.namprd02.prod.outlook.com>
 References: <20260822003623.2925128-1-wei.liu@kernel.org>
- <20260822003623.2925128-3-wei.liu@kernel.org>
-In-Reply-To: <20260822003623.2925128-3-wei.liu@kernel.org>
+ <20260822003623.2925128-4-wei.liu@kernel.org>
+In-Reply-To: <20260822003623.2925128-4-wei.liu@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|BY5PR02MB7011:EE_
-x-ms-office365-filtering-correlation-id: 7b240049-c7ae-4451-6a51-08df03f3a873
+x-ms-office365-filtering-correlation-id: 5ff29cb5-b006-4812-df03-08df03f3b469
 x-microsoft-antispam:
  BCL:0;ARA:14566002|12121999013|41001999006|25010399006|19110799012|37011999003|31061999003|55001999006|15080799012|8062599012|13091999003|8060799015|24021099003|51005399006|12091999003|3412199025|440099028|102099032|40105399003|2607281247196008;
 x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?WLOPzW5TBK8+Ak7wJh6YV7lGojUsyL/WZFqL1/QYFRm9N3pEZ2iAplZGCy?=
- =?iso-8859-2?Q?CmdlDmabNLvx/gYZL3bVXEfpX+KhQ3k4JwMcKe+taE1JuW/MrPK9O37AIp?=
- =?iso-8859-2?Q?ZtRKkAhANbNCw5oc/Rm96F8ar1LyoZK/tyrvjl4ZSgQpjBa9a2TE8jn+/x?=
- =?iso-8859-2?Q?R/+jCmRhQB4KlBiuAQZXYgDeO0NR4oYyOcC18nU5ThrWMPJFHLLXUhKv3j?=
- =?iso-8859-2?Q?w0wV9rIT6Wnrt7V1HaW7nqWVPTmpiPWeYYO+PsqnUbgbI9QXRwT5iHs+lK?=
- =?iso-8859-2?Q?2P2eFczv/LzsrTSO+sN1vlwNSuRO7O8hdEhM/t+E+oVQ0VgZvGFqaHO5al?=
- =?iso-8859-2?Q?k8W4JWqecDaYiq5irN9eLQm+jT6yiWIs6NcyXpkJpqiFBcY5UN0ILocaJf?=
- =?iso-8859-2?Q?b27bk6b4oRm2f2kn7JtZFCvkyV8Z1q0HDgZ6xOwoZGxU7YeKEWBLA/FEA9?=
- =?iso-8859-2?Q?stEzX+mm67SNXljnJuEUvKiYsjvGEISfD/RHuhgYyHPS9yWg7yqbAyQxUq?=
- =?iso-8859-2?Q?3m66bXd+fZvILCfd1cM11DcB/GJIFlLVnVOE7VH7qFUR+QQKSWgQmOcW2B?=
- =?iso-8859-2?Q?lG7Dc5MOWi6HAfget8PiZLu4TnQ+rks3xWSK8Rzms5IncKzNV9+D/rH6z2?=
- =?iso-8859-2?Q?yrnAAcMwUEqnYkYEPy2406ABjMVJX+v41QA/ntDEE0QlRKRzAkyK2lRWwO?=
- =?iso-8859-2?Q?g+UZQDSY9jVOOHLdGrG2Qq07+JHPFg/pVr5ZZ9vyKHplHdRro55AKITnu/?=
- =?iso-8859-2?Q?EqsO10MBJJrlrXgb7K9C5HT6PV8By7izAxIW8PCOc9n2NqHGjOrYD9nQI+?=
- =?iso-8859-2?Q?occQ2b9l0eyxUxCqgxfvsQbFnFui/+iMs9FLDGiaMpcjkSeeS9YlOqLL+o?=
- =?iso-8859-2?Q?2wbUekM76IsMJVaiETLSmy6Inv1rSuDcD7724yo1ObMiBfXMSbu5As+kSe?=
- =?iso-8859-2?Q?v6RAdmeaBEgSGRq+hGAKVPP3PI0aB8yvJ2aAGmagxnkYEStyRraygoJpvp?=
- =?iso-8859-2?Q?ba9YZbbJU98nHeYksv6Cdzv/ti5dZDGRzqsZ7WEsKeJGWpdjW18xhsUB7m?=
- =?iso-8859-2?Q?2eS+rIx0QrfYuN7MMqwRYUdQOwuMH40fOIZpvNeAhyXSSTHHnvxh1zg+gH?=
- =?iso-8859-2?Q?KEgypNKTKs5lGT3ADGRdTVlEBDBskGYZu9lesowMRUt/zEzNQv?=
+ =?iso-8859-2?Q?Z5o0EE6EkNS2tQ4nRKAEJIqU7nUOrre9iFk+CIcDQae/BanXeDQOOkszoZ?=
+ =?iso-8859-2?Q?kEphpy2tDMVFD+GiHTHhW9yTiyNNoKZkLwtZ7Q7ygrSKmHrUgdoTC4JoPV?=
+ =?iso-8859-2?Q?bL/1FoIPi6Yvl8gcW9W8u0I8CvXwkvwKJXi++Ct8qSaMaac+30wHSfZgw5?=
+ =?iso-8859-2?Q?eJSP5BiqCXaTIluNK0mbE5062B7heAkeM64XFnLb6n5BXWvFebx7VeXxM2?=
+ =?iso-8859-2?Q?hZEjxVbgLMnwJp1Rr80sYhhdsCqSANdD5jIheHLdx7RRy97Z6jFKY+6PVS?=
+ =?iso-8859-2?Q?yUtphzwZAeDf/LAXrb1yPVIi3Kned8aZ1SVriiMBmZrH33Y3fuHtdQxzvF?=
+ =?iso-8859-2?Q?lah8T42Ki/3Sd7IVQ2QJ40GBjSa/S1mkOBhtkWFTH54jc07JeHway20Nka?=
+ =?iso-8859-2?Q?L/JThDJpwQ7EuLuEvBhQONZLdJVtIkAJegK59+uyrtTTyTeWGiLe2lIbbk?=
+ =?iso-8859-2?Q?jeo8QGcA7NLQM6kTCEYYVO4B0bTDI7Jg/kEJz7A4arfxYk+ysQxXQC6mFw?=
+ =?iso-8859-2?Q?PqxSLpT3ULOtxSoaIK3LHLI/gD50JbAK4/yxp9qYnWrqDv1NxS4mrJMQC1?=
+ =?iso-8859-2?Q?anWu7bb8LyMdh8QOZEc0YuMTrfns+o9RkKP/i3vyNithxBLrPhkd6S4Xjm?=
+ =?iso-8859-2?Q?qJOx9TnxaO/C3ubyZ2NzxozrMMhimq1nyEizLJAW+FsneyjSdM+aDFq0qD?=
+ =?iso-8859-2?Q?DwuWeAmpPojYz8+P76euI8siGGcxBCE+/8sA6Vvos1E5gUdDcnM7NMh5vC?=
+ =?iso-8859-2?Q?cYBeOxI+RbthvyVZt3xiRKLe0gJqUJz3T0kfWv9EoeaGmwj2f35NG/y3Ar?=
+ =?iso-8859-2?Q?xSHrdgsBRYtUu86sZ2VHe+3WYIuTsITInYupxILMBBjMc8pADKKfyVNAyQ?=
+ =?iso-8859-2?Q?ahiydVvkUqIgOfm1mN9TnOwsYDA1hW74HCQG7e9qR7TikDyuV9YKThunLu?=
+ =?iso-8859-2?Q?24rm6lyjV38BBhhfsqdd+C9RcBc7D9GLL2wZGcULzJEAkaireVb8owy8OO?=
+ =?iso-8859-2?Q?qAKgDwOvx2QexVQgwEwniggGQJnz6wAnWqq266LEMyuXz754WiyHkBKM7C?=
+ =?iso-8859-2?Q?DQTOfWvLON7ZjuZ2F6yOkiL3i02K3o5WMX/8Oj+b5WKWMPz+fo7lde/Ret?=
+ =?iso-8859-2?Q?fTyGIKjhHxWmc4oUsKxOkegxafezb4Bkm+jif1f9/8RoQQ+qtZ?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?Q/oZeaWAT5Fl7a0k/ponvyM4rnLuctPSL279gMVTMteNd+9ZnWGB3A3PzS?=
- =?iso-8859-2?Q?Po8fJnOJaOb7hoSIAbcTyzsWgRBKWk40awLczaobWQH5TCNeeoh/0Zkwhc?=
- =?iso-8859-2?Q?tba8tWi9Y+N38+d8pV3LGXlf03BAKcqKBWbeo0ZVp7iNhCxgyzBosQpisv?=
- =?iso-8859-2?Q?AEdO813zz3V4b1kPHVNS9kyYjoRagi2h2bVdjQMxU+ywcoac3aLtamoHcv?=
- =?iso-8859-2?Q?lvR3U7n29P9OEbVjRxUrAEVWmZgMaZ7TPohDHCLATzjcEz5xz4JBWcZnZY?=
- =?iso-8859-2?Q?twgKA6zRq0NVWZZohzIXwNpp7wFhq2D3F53fzHf44he9DohINmGbstvXYg?=
- =?iso-8859-2?Q?iqiyAUhq9ca1sppnz848rE5chD/6lMrBLX5rgM2YMYRmAt+JeEgNkhPsE/?=
- =?iso-8859-2?Q?BoagUvPYL+WvmgEAO8p+fJjkPZNVloxUaSis095w2erfFjzG9dgsNu6w6O?=
- =?iso-8859-2?Q?t/qO62Vo6ePpShAwHjpddmPEbFyHhrmKFuXGZtuwdkSJWzsS7KC7K6p9h4?=
- =?iso-8859-2?Q?/lK8DfHjsT4oTboVoMELqPZVfCtqGxiqmIgWwG7Ed08U0JWuMSN94JqI56?=
- =?iso-8859-2?Q?gutpE+dFs89Vc4gkipcCzsssgTZEWXOcBhHwTreCypufb/4Xl/6c/LKlXv?=
- =?iso-8859-2?Q?hDtZSjcW4WHsD2Qpn1xoCGwneZiNsA+eaU3TsaVN0EJG7ITzVzPLrTobVn?=
- =?iso-8859-2?Q?FgjjOSMMpl0bjknSSXQW/vdHuFMS6hUnuNUv4pd1gd+34rp8KNlUVCdAXP?=
- =?iso-8859-2?Q?DWA9ZtMXE+OWPmKUNXDaI1pMhqDY1cXwrbE+UZbYxoJRlZrMCTwILeFRmZ?=
- =?iso-8859-2?Q?gpbZCYt108AcAx1eMjOfSQGveuJO5CVAqF7vgOF941MS5Nr9Z55e+xsIua?=
- =?iso-8859-2?Q?Js6c9Qi7dhZOEwKsqa8QMxgKjtZi1grqyXHAQwdnqUaWzpF+eshimidyBH?=
- =?iso-8859-2?Q?SqJbW4sdbsV4pbZCtfmaSCe7YSiVWausMMdy+3Pmwkp+JxZZyRGvBE+nbb?=
- =?iso-8859-2?Q?xEPflvKN2NjJFv6VuD9xLHF314R42fWKVtvJGoKomwmwaDNJ35ZciWd7UK?=
- =?iso-8859-2?Q?sMo+gffncBU74F04RBaokU8Dg+63CFeG9bLJeksfRmC0uqRACqWmnUrO+S?=
- =?iso-8859-2?Q?s0qCRGaAwdTxTk17bWvU/WJTsZ+v0QlFIBj+8hqzlAqD8UEejaIK6Koi8Q?=
- =?iso-8859-2?Q?FW4O/IslnsX3Dg8nbV1eeLClMkTT3BC3bXBBjyRailugtb6z2cWNitArc9?=
- =?iso-8859-2?Q?F5wKonVzAnxW7RSRl2bTaGeS1GKY7nZSoLulz/e3OLdVmEcTs9ooOn8Na7?=
- =?iso-8859-2?Q?nJBC9whulWhQ7/F6WkzR3dU+J7Q2T1o+9DKZMEa7aZqukeHqG4DFbV3J+y?=
- =?iso-8859-2?Q?C91v8ArBnVQTsa2obe++ugSyA87ZO53d2HFQu6UoNK89ofwNPvFoE=3D?=
+ =?iso-8859-2?Q?mfeqAakQueqEe2XM1n06xhXv20RVI8k8ijDO69fV3zJCsnF81cOYqy0VDi?=
+ =?iso-8859-2?Q?7sB/WMA47f/VrrzOEJEWuluh3LWO1uitnUCOpPxgHEcIuOq/238Q3AwsO3?=
+ =?iso-8859-2?Q?Ke8TMCGzMpgiuRJEX5avzcP8nX8xifapPEgkxsCrHP0sYSsF/fDZxnyouZ?=
+ =?iso-8859-2?Q?gqn0u0j30uyA6kBmttbiWAm4fmqCODfYo2VjXMNg0F23Z7+Lt0yAk9HBf4?=
+ =?iso-8859-2?Q?fpJ0xE4uLnIqDNgdoLwxqxpk7xt36EtkIBOJbcK0N7pzQV2nqGJEcsIG54?=
+ =?iso-8859-2?Q?ydqDivzbdA7CScIZjxWqtu2Q8hLJolbBroaVv9QJquNQfz0/PKNDcmqF5L?=
+ =?iso-8859-2?Q?I4mcR0vwekzEjZBQNNi2DtfDm+6Q2Fhrs2Btd5pfG3PJriuM09zBbeAsC0?=
+ =?iso-8859-2?Q?Dwl6HZICmb7MR/Kiw/lI760UYSdhCwiHi0m3edhJvs+iAg+cZEXloFsEZS?=
+ =?iso-8859-2?Q?cQi6nR8pzmq/687h5VBRR2fzdqsOy3rAK++jY/l6fd/lbwJ+c/HJXp9RSF?=
+ =?iso-8859-2?Q?yGztspVaTVWDUrcvzGNdEL69c2TNIIlcg+bOwGV9QFi+6ttb3bLr5hoT1P?=
+ =?iso-8859-2?Q?y48VmvNOkUR8FETQy8zqYXnvawgjiCmQVTX+y8JvlDAiFpO6GcksqgMizu?=
+ =?iso-8859-2?Q?xjX51mla3WfLd0VtwH0V+24lTBqEd7UNq55ObfMcUp86vGh9ITzCFHjjfo?=
+ =?iso-8859-2?Q?KxBvp8ZrCs5MWCwNt95HtKVhX3PBO2gCD0TaGb1fwT+yH//bqUhWr+mMv3?=
+ =?iso-8859-2?Q?RIvEBGWBXQNp5KKOj17RlXdPheAOf+rArosmi1P5nR0hbUucSlnLTP2n86?=
+ =?iso-8859-2?Q?mHpY78NWoRKwt6C+95WKtEfZWTxiCptJcBVoOQb7j9utF1Wrjp7ClYxHsH?=
+ =?iso-8859-2?Q?DEtcEabepRGxhKom0MOm0a9DIgHRmPQjk3Gn5dnb1c6RhornGTJgwF3O4f?=
+ =?iso-8859-2?Q?ke1EV32t++Bj2io6j298eN0xlYBNblozsED9tSIQle7r52yh872t1SG8Df?=
+ =?iso-8859-2?Q?9dnkAEgrnsEjI73JSfch9IFthazSzKwAb1f7kuOYYWv+y5p1mLUW1TzShL?=
+ =?iso-8859-2?Q?xEIbkORTaoFkQFnSIBSt/uY8hKkZH/MKChY18zQ8NkVyOPo3Q8ejBg96Jf?=
+ =?iso-8859-2?Q?Ez4j1lpU1qpHS9KbhTPxalBRFDgxD+LJbXgz9bVDWek6nnIhxptoCjS/2x?=
+ =?iso-8859-2?Q?gyj4c9Y4ipEJkB0746uXKQONi57vVSfv3/7rW8yjGbh8cZPYWe/sW5I+Uq?=
+ =?iso-8859-2?Q?QPIvWTNh0rtgzJy/HewCSH7nsTeriB6Ppk2WsMn4EI1Nsfe8M5J/4acdjy?=
+ =?iso-8859-2?Q?Meou9vdvLx5e5mK/OWt14bp8qtfTFlp/o/NLxPJpJvMS8o40oLoiKRc1H5?=
+ =?iso-8859-2?Q?w9VhMNxlQhRiEW6/iCH5MLBwwhDcmsMAxTTAfPiULuk99160i06U8=3D?=
 Content-Type: text/plain; charset="iso-8859-2"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -131,8 +131,8 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b240049-c7ae-4451-6a51-08df03f3a873
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2026 04:28:34.7392
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff29cb5-b006-4812-df03-08df03f3b469
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2026 04:28:54.7863
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -142,220 +142,146 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB7011
 From: wei.liu@kernel.org <wei.liu@kernel.org> Sent: Friday, August 21, 2026=
  5:36 PM
 >=20
-> On a nested root partition the vPCI MSI/MSI-X interrupts of vmbus
-
-s/vmbus/VMBus/   [and other places in this commit msg]
-
-> devices (e.g. the MANA NIC) are mapped in the hypervisor with a
-> MAP_DEVICE_INTERRUPT hypercall.  This is done from hv_arch_irq_unmask()
-> -> hv_map_msi_interrupt() because the nested hypervisor performs the
-> interrupt remapping and a RETARGET_INTERRUPT is not usable there.
+> hv_compose_msi_msg() sends PCI_CREATE_INTERRUPT carrying
+> int_desc.vector, and the vPCI backend programs the device with the
+> address/data it returns for it.
 >=20
-> The mapping was never removed: hv_arch_irq_unmask() called
+> An affinity change only ran irq_chip_set_affinity_parent(), which
+> re-allocates the x86 vector and nothing else, and hv_arch_irq_unmask()
+> then issued MAP_DEVICE_INTERRUPT for the new (VP, vector).  Nothing
+> re-composed the interrupt, so the device kept signalling the vector it
+> was created with and the new mapping was never used. This led to loss of
+> interrupts.
 
-s/was/is/=20
-s/called/calls/
+Shift the wording in the above paragraph to present tense.
 
-The wording in this whole paragraph shifts to past tense. I'd suggest
-keeping present tense for consistency and per general kernel usage.
-
-> hv_map_msi_interrupt(data, NULL), so the returned hv_interrupt_entry was
-> discarded, and hv_msi_free() tears the interrupt down with a vmbus
-> PCI_DELETE_INTERRUPT message (hv_int_desc_free()) without issuing
-> UNMAP_DEVICE_INTERRUPT.
 >=20
-> This has led to MSHV rejecting already-mapped (vp, vector) pair from
-> being used. When this happens during early boot, the system hangs.
->=20
-> Keep the hypervisor mapping in sync with the kernel's interrupt
-> lifecycle.
->=20
-> The mapping is only created on x86 (hv_arch_irq_unmask() is a stub on
-> arm64), so the unmap hypercall is guarded accordingly.
+> Do the re-target where the vector is known and the interrupt is
+> quiescent.  If the vector changed, re-compose the VMBus interrupt for
 
-See comment below about the x86-only situation.
+I don't think of this as "VMbus interrupt". VMBus interrupts are
+channel interrupts or control message interrupts tied to the
+HYPERVISOR_CALLBACK_VECTOR. I think this is just an MSI/MSI-X
+Interrupt from the guest's standpoint.
 
+> it, write the resulting message to the device, and only then map the new
+> (vp, vector); the old mapping is destroyed as the new message is
+> composed.
 >=20
 > Signed-off-by: Wei Liu <wei.liu@kernel.org>
 > ---
->  drivers/pci/controller/pci-hyperv.c | 85 ++++++++++++++++++++++++++---
->  1 file changed, 78 insertions(+), 7 deletions(-)
+>  drivers/pci/controller/pci-hyperv.c | 41 +++++++++++++++++++++++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
 /pci-hyperv.c
-> index cfc8fa403dad..5a36382742bf 100644
+> index 5a36382742bf..5acb8e41567e 100644
 > --- a/drivers/pci/controller/pci-hyperv.c
 > +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -283,6 +283,35 @@ struct tran_int_desc {
->  	u64	address;
->  } __packed;
+> @@ -294,6 +294,7 @@ struct tran_int_desc {
+>  struct hv_msi_int_entry {
+>  	struct tran_int_desc		int_desc;
+>  	struct hv_interrupt_entry	hv_entry;
+> +	unsigned int			mapped_vector;
+>  };
 >=20
-> +/*
-> + * On a nested root partition a vPCI MSI is mapped in the hypervisor wit=
-h a
-> + * MAP_DEVICE_INTERRUPT hypercall in hv_arch_irq_unmask().  Keep the ent=
-ry the
-> + * hypervisor returns next to the per-interrupt transaction descriptor s=
-o the
-> + * mapping can be removed again with UNMAP_DEVICE_INTERRUPT when the int=
-errupt
-> + * is torn down.  tran_int_desc stays first: chip_data is used as a stru=
-ct
-> + * tran_int_desc throughout this driver.
-> + */
-> +struct hv_msi_int_entry {
-> +	struct tran_int_desc		int_desc;
-> +	struct hv_interrupt_entry	hv_entry;
-> +};
-> +
-> +/* chip_data is passed around as a struct tran_int_desc *, so it must be=
+>  /* chip_data is passed around as a struct tran_int_desc *, so it must be=
  first. */
-> +static_assert(offsetof(struct hv_msi_int_entry, int_desc) =3D=3D 0);
-> +
-> +static void hv_vmbus_unmap_msi_interrupt(struct pci_dev *pdev __maybe_un=
-used,
-> +					 void *chip_data)
-> +{
-> +	struct hv_msi_int_entry *ie =3D chip_data;
-> +
-> +	if (!ie || !ie->hv_entry.source)
-> +		return;
-> +#ifdef CONFIG_X86
-> +	hv_unmap_msi_interrupt(pdev, &ie->hv_entry);
-> +#endif
-> +	memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
-> +}
-
-This function seems out-of-place, as it is added in the middle of a
-bunch of structure definitions. There's large #ifdef CONFIG_X86 ...
-#elif defined(CONFIG_ARM64) ... #endif block in this source code
-file. I'd suggest putting this function alongside hv_arch_irq_unmask()
-in the x86 section, which is where hv_map_msi_interrupt() is
-called. Then put a stub in the arm64 section -- there's already a stub
-for hv_arch_irq_unmask(). And maybe name the function
-hv_arch_unmap_msi_interrupt() since it really doesn't have to do
-with VMBus stuff like channels, sending ring buffer messages, etc.
-
-> +
->  /*
->   * A generic message format for virtual PCI.
->   * Specific message formats are defined later in the file.
-> @@ -715,16 +744,30 @@ static void hv_irq_retarget_interrupt(struct irq_da=
-ta *data)
+> @@ -742,6 +743,8 @@ static void hv_irq_retarget_interrupt(struct irq_data=
+ *data)
+>  			"%s() failed: %#llx", __func__, res);
+>  }
 >=20
+> +static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *ms=
+g);
+> +
 >  static void hv_arch_irq_unmask(struct irq_data *data)
 >  {
-> -	if (hv_root_partition())
-> +	if (hv_root_partition()) {
->  		/*
->  		 * In case of the nested root partition, the nested hypervisor
->  		 * is taking care of interrupt remapping and thus the
->  		 * MAP_DEVICE_INTERRUPT hypercall is required instead of
+>  	if (hv_root_partition()) {
+> @@ -752,9 +755,17 @@ static void hv_arch_irq_unmask(struct irq_data *data=
+)
 >  		 * RETARGET_INTERRUPT.
+>  		 *
+>  		 * Keep the returned entry so the mapping can be removed again
+> -		 * when the interrupt is torn down.
+> +		 * when the interrupt is re-targeted or torn down.
 > +		 *
-> +		 * Keep the returned entry so the mapping can be removed again
-> +		 * when the interrupt is torn down.
+> +		 * This is also the re-target point.  The core calls us from
+> +		 * __irq_move_irq() with the interrupt masked once the new
+> +		 * vector has been assigned, so if the vector changed the vmbus
+> +		 * interrupt is re-composed for it first -- PCI_CREATE_INTERRUPT
+> +		 * carries the vector, so the device would otherwise keep
+> +		 * signalling the one it was created with.
 >  		 */
-> -		(void)hv_map_msi_interrupt(data, NULL);
-> -	else
-> +		struct hv_msi_int_entry *ie =3D data->chip_data;
+>  		struct hv_msi_int_entry *ie =3D data->chip_data;
 
-There's the inline function irq_data_get_irq_chip_data() which seems
-to be used instead of directly referencing the field (at least most of the
-time throughout the kernel).
+Use irq_data_to_irq_chip_data()??
 
-> +
-> +		/*
-> +		 * A NULL chip_data means hv_compose_msi_msg() failed and the
-> +		 * interrupt was never set up, so there is nothing to map.
-> +		 */
-> +		if (!ie)
+> +		unsigned int vec =3D hv_msi_get_int_vector(data);
+>=20
+>  		/*
+>  		 * A NULL chip_data means hv_compose_msi_msg() failed and the
+> @@ -763,8 +774,29 @@ static void hv_arch_irq_unmask(struct irq_data *data=
+)
+>  		if (!ie)
+>  			return;
+>=20
+> -		if (hv_map_msi_interrupt(data, &ie->hv_entry))
+> +		/* Already mapped for this vector, nothing changed. */
+> +		if (ie->mapped_vector =3D=3D vec && ie->hv_entry.source)
 > +			return;
 > +
-> +		if (hv_map_msi_interrupt(data, &ie->hv_entry))
-> +			memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
-> +	} else {
+> +		if (ie->mapped_vector && ie->mapped_vector !=3D vec) {
+> +			struct msi_msg msg;
+> +
+> +			hv_compose_msi_msg(data, &msg);
+
+hv_compose_msi_msg() sends a VMBus message, and busy
+waits for the ack, which is really ugly, but necessary. I have no idea
+whether it's OK to do all that from the irq_unmask function.
+
+> +
+> +			ie =3D data->chip_data;
+> +			if (!ie)
+> +				return;
+
+Setting ie and checking for NULL appears to be duplicative of code
+above.
+
+> +
+> +			if (data->chip->irq_write_msi_msg)
+> +				data->chip->irq_write_msi_msg(data, &msg);
+
+Is the irq_write_msi_msg function defaulting to pci_msi_domain_write_msg()?
+I didn't go follow all the paths to see how this function gets set .....  I=
+s it
+even necessary to check for NULL before calling? I don't see such checks
+in the few other places irq_write_msi_msg is invoked.
+
+> +		}
+> +
+> +		if (hv_map_msi_interrupt(data, &ie->hv_entry)) {
+>  			memset(&ie->hv_entry, 0, sizeof(ie->hv_entry));
+> +			ie->mapped_vector =3D 0;
+> +			return;
+> +		}
+> +		ie->mapped_vector =3D vec;
+>  	} else {
 >  		hv_irq_retarget_interrupt(data);
-> +	}
->  }
->  #elif defined(CONFIG_ARM64)
->  /*
-> @@ -1708,6 +1751,7 @@ static void hv_msi_free(struct irq_domain *domain, =
-unsigned int irq)
->  		return;
 >  	}
->=20
-> +	hv_vmbus_unmap_msi_interrupt(pdev, int_desc);
->  	hv_int_desc_free(hpdev, int_desc);
->  	put_pcichild(hpdev);
->  }
-> @@ -1882,6 +1926,7 @@ static void hv_compose_msi_msg(struct irq_data *dat=
-a, struct msi_msg *msg)
->  	const struct cpumask *dest;
->  	struct compose_comp_ctxt comp;
->  	struct tran_int_desc *int_desc;
-> +	struct hv_msi_int_entry *int_entry;
->  	struct msi_desc *msi_desc;
->  	/*
->  	 * vector_count should be u16: see hv_msi_desc, hv_msi_desc2
-> @@ -1932,9 +1977,10 @@ static void hv_compose_msi_msg(struct irq_data *da=
+> @@ -1974,6 +2006,11 @@ static void hv_compose_msi_msg(struct irq_data *da=
 ta, struct msi_msg *msg)
+>  	if (data->chip_data && !multi_msi) {
+>  		int_desc =3D data->chip_data;
+>  		data->chip_data =3D NULL;
+> +		/*
+> +		 * The descriptor is about to be destroyed, so release the
+> +		 * hypervisor mapping that belongs to it first.
+> +		 */
+> +		hv_vmbus_unmap_msi_interrupt(pdev, int_desc);
 >  		hv_int_desc_free(hpdev, int_desc);
 >  	}
 >=20
-> -	int_desc =3D kzalloc_obj(*int_desc, GFP_ATOMIC);
-> -	if (!int_desc)
-> +	int_entry =3D kzalloc_obj(*int_entry, GFP_ATOMIC);
-> +	if (!int_entry)
->  		goto drop_reference;
-> +	int_desc =3D &int_entry->int_desc;
->=20
->  	if (multi_msi) {
->  		/*
-> @@ -2184,9 +2230,34 @@ static void hv_pcie_domain_free(struct irq_domain =
-*d, unsigned int virq, unsigne
->  	irq_domain_free_irqs_top(d, virq, nr_irqs);
->  }
->=20
-> +/*
-> + * Runs from irq_domain_deactivate_irq() during irq_shutdown(), before t=
-he
-> + * parent (x86 vector) domain is deactivated and the (cpu, vector) is re=
-turned
-> + * to the matrix allocator, so a freed vector can never collide with a s=
-tale
-> + * hypervisor entry when it is reused.
-> + */
-> +static void hv_pcie_domain_deactivate(struct irq_domain *d,
-> +				      struct irq_data *data)
-> +{
-> +	struct msi_desc *msi_desc;
-> +	struct pci_dev *pdev;
-> +
-> +	if (!hv_root_partition())
-> +		return;
-> +
-> +	msi_desc =3D irq_data_get_msi_desc(data);
-> +	if (!msi_desc)
-> +		return;
-> +
-> +	pdev =3D msi_desc_to_pci_dev(msi_desc);
-> +	if (pdev)
-> +		hv_vmbus_unmap_msi_interrupt(pdev, data->chip_data);
-
-Same here regarding direct reference to the chip_data field.
-
-> +}
-> +
->  static const struct irq_domain_ops hv_pcie_domain_ops =3D {
-> -	.alloc	=3D hv_pcie_domain_alloc,
-> -	.free	=3D hv_pcie_domain_free,
-> +	.alloc		=3D hv_pcie_domain_alloc,
-> +	.free		=3D hv_pcie_domain_free,
-> +	.deactivate	=3D hv_pcie_domain_deactivate,
->  };
->=20
->  /**
 > --
 > 2.53.0
 >=20
