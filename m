@@ -1,125 +1,120 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D9642125F;
-	Thu, 27 Aug 2026 17:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AAA427FB9
+	for <linux-hyperv@vger.kernel.org>; Thu, 27 Aug 2026 19:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787852098; cv=none; b=D2/hfCvvK1eEScrec3w/I2hb1qUTjbx4/wDRytCIfMMesL+RQUeuo3+JA354Z4VoKxjDL+tYdW7qxAewY9rHviT9QRYcFBWaa/iwzaGN9hyEluoWp0qpSW6HM9tlyPlyVGoc5r8UNLANohi9Dtk6G9bEhekqYXI7wIi0wkbL0RE=
+	t=1787859495; cv=none; b=C89q2rzg3o8KOKrAx0XzZPUARcHYkV6o0fFH3gSKQ/AxhuWgeNZ6bQ6eufrlvRvJsjLsXlOLiux3gzdQaCbBjllW+vmX154NuWULmdZWBZzrJ3bIeYQS8zFnLp0u1JH9rZeAoDgoXwODVIm43XCf+A90XMGqAfBntNaWnfwQqq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787852098; c=relaxed/simple;
-	bh=HIYz2kIXhv1C4lh+L3uA2mr5Px+nz+onXV60RWtd3NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ri3Fsy++eoKD3U1mR7muWm0x0sqOTeb4Z6+Lt2XAHWobiDw/SDCbHeF0+q9agehvcH6fAIaFKnIgc+HbxciCyJBjL8cMABlTsr7T1xl+kJJ6MENIx8HyMe9ucMOHVZ+t0Rkr7PuUhVV9crkRqhPETSRaP7t4criAMdDKuCCeIy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JDTuz51W; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1787859495; c=relaxed/simple;
+	bh=Cc+DvbiYY/ooLehhxSq3Bx4qgnUQVzZhgaXdBIvk2yc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tqFokczzYFJubTUGlcq/cAlPMwRW6HlH2WCwo+cfUGJ59D6J5289flFtCfDVukns7GFruO2mGRWkrw4oX7OWIlqRdWV7n3NPvJOS/Aa74gMUZqJLmoYTDqgi/AX9viI85WU7eWzBA0UjICqB434/IIL9/oz4K1h16waf48SEzDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PTooxWFx; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JDTuz51W"
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-	id B6B5720B7167; Thu, 27 Aug 2026 10:34:23 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B6B5720B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1787852063;
-	bh=PRM4WsYYCbTuuUkMBHLU01nQ7CqrfJwf9ezzBDEDiA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JDTuz51WYfRjLQHX5p8dgR5B9SyCSIS9i2mbOHECoUjLkXLAyPAAnmUTXHs/dFj63
-	 aQMPDrnOSHxpIZBBGcXXQ798WHA2nQaqomr0QnGhIe1t33PrPX1ttWntYzO2/6fU3Z
-	 IOHWG6i6QTlCoH4xXGwDPinGzZpvQK0AXqDVdAAI=
-Date: Thu, 27 Aug 2026 10:34:23 -0700
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Long Li <longli@microsoft.com>,
-	Naman Jain <namjain@linux.microsoft.com>,
-	Sahil Chandna <sahilchandna@linux.microsoft.com>,
-	KY Srinivasan <kys@microsoft.com>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PTooxWFx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787859492;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Kt0iMpDBFlmiHQAy/q1M3G998Q+sldYNRt9UNMrTIzg=;
+	b=PTooxWFx8i2yj6S+70R2ttbJYqnJYUttll0E3x+2nKAWDE1EECpUt8wwMN1/s6V7R1Yegn
+	snGMNOGYFC/jvRMcKrrcQpn1SBKiMkiA2aVuR+hjPkja7DH8w9m0z3ahNcHVWG4eLhBNV/
+	xENaZ/8nN5PewebS463KwTdeZs85VmQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-547-DSgbXbAIMnu3mYMVbwhzjA-1; Thu,
+ 27 Aug 2026 15:38:09 -0400
+X-MC-Unique: DSgbXbAIMnu3mYMVbwhzjA-1
+X-Mimecast-MFC-AGG-ID: DSgbXbAIMnu3mYMVbwhzjA_1787859488
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 114E91801356;
+	Thu, 27 Aug 2026 19:38:08 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.rmtusnh.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5C40F1800640;
+	Thu, 27 Aug 2026 19:38:06 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>,
-	Dexuan Cui <DECUI@microsoft.com>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	"kwilczynski@kernel.org" <kwilczynski@kernel.org>,
-	"mani@kernel.org" <mani@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] PCI: hv: Warn when wait_for_response() waits indefinitely
-Message-ID: <apB1HytkO5xu7jP6@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20260825051850.2438816-1-sahilchandna@linux.microsoft.com>
- <736091cf-8d00-415e-a890-e2dfa6739325@linux.microsoft.com>
- <SA1PR21MB66836C32FD0FABD94B45D7F6CEAF2@SA1PR21MB6683.namprd21.prod.outlook.com>
- <SN6PR02MB41578D73327A61FD3D7412C2D4AD2@SN6PR02MB4157.namprd02.prod.outlook.com>
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Michael Kelley <mikelley@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v3] Drivers: hv: Avoid infinite retry loop in init_vp_index()
+Date: Thu, 27 Aug 2026 15:37:50 -0400
+Message-ID: <20260827193750.662623-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB41578D73327A61FD3D7412C2D4AD2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Thu, Aug 27, 2026 at 04:07:06PM +0000, Michael Kelley wrote:
-> From: Long Li <longli@microsoft.com> Sent: Tuesday, August 25, 2026 10:01 AM
-> 
-> [snip]
-> 
-> > >
-> > > Basically something like this:
-> > >
-> > > #define PCI_RESPONSE_WARN_TIMEOUT_SEC 300
-> > >
-> > > static int wait_for_response(struct hv_device *hdev,
-> > >                   struct completion *comp) {
-> > >      unsigned long warn_at =
-> > >          jiffies + secs_to_jiffies(PCI_RESPONSE_WARN_TIMEOUT_SEC);
-> > >      bool warned = false;
-> > >
-> > >      while (true) {
-> > >          if (hdev->channel->rescind) {
-> > >              dev_warn_once(&hdev->device, "The device is gone.\n");
-> > >              return -ENODEV;
-> > >          }
-> > >
-> > >          if (wait_for_completion_timeout(comp, HZ / 10)) {
-> > >              if (warned || time_after_eq(jiffies, warn_at))
-> > >                  dev_warn(&hdev->device,
-> > >                       "PCI response received after prolonged wait.\n");
-> > >              return 0;
-> > >          }
-> > >
-> > >          if (!warned && time_after_eq(jiffies, warn_at)) {
-> > >              dev_warn(&hdev->device,
-> > >                   "PCI still waiting for response.\n");
-> > >              warned = true;
-> > >          }
-> > >      }
-> > > }
-> > >
-> > > Regards,
-> > > Naman
-> > 
-> > This looks better.
-> > 
-> 
-> I like getting the "response received" message if the response
-> eventually does come in. It's a judgment call, but I would be OK
-> with outputting the "still waiting" message after each wait interval
-> rather than doing it only once. And I would make the interval smaller
-> than 300 seconds. Five minutes is a long time to wait and wonder
-> what's going on when things are hung. 60 or 120 seconds would
-> be OK -- a line in dmesg every 1 or 2 minutes doesn't seem like
-> spamming to me when something is fundamentally broken.
-> And probably don't expect a VM in this broken state to keep running
-> for hours -- the sysadmin or automatic monitoring software will
-> reboot it to get it working again.
+There is a retry loop in init_vp_index() where the CPUs from a certain
+node are stripped out if they have already been in the allocated cpumask
+or not in HK_TYPE_MANAGED_IRQ housekeeping cpumask. If there is no
+CPU left, the allocated cpumask is ignored and the process is retried
+again. However, if the HK_TYPE_MANAGED_IRQ housekeeping cpumask turns
+out not to contain any CPU in that particular node, that will become an
+infinite retry loop.  This particular problem was reported by sashiko
+[1]. This should rarely happen, but we still need to guard against this.
 
-I will also vote for repeated message as long as interval between two
-messages is greater than 60 seconds.
+Fix this infinite loop problem by also skipping NUMA node that has no
+housekeeping CPU in the inner while loop of init_vp_index(). As the outer
+for loop will only be reached if the housekeeping cpumask isn't empty,
+a NUMA node with housekeeping CPUs will eventually be found.
 
-- Saurabh
+Link: https://sashiko.dev/#/message/20260422030903.E1BFCC2BCB0%40smtp.kernel.org [1]
+Fixes: 6640b5df1a38 ("Drivers: hv: vmbus: Don't assign VMbus channel interrupts to isolated CPUs")
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ drivers/hv/channel_mgmt.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-> 
-> Just my $.02. Outputting the "still waiting" message only once is
-> also OK. Your call.
-> 
-> Michael
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 89d214dda360..ed121d74d73f 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -752,6 +752,7 @@ static void init_vp_index(struct vmbus_channel *channel)
+ 	u32 i, ncpu = num_online_cpus();
+ 	cpumask_var_t available_mask;
+ 	struct cpumask *allocated_mask;
++	const struct cpumask *node_mask;
+ 	const struct cpumask *hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
+ 	u32 target_cpu;
+ 	int numa_node;
+@@ -780,14 +781,16 @@ static void init_vp_index(struct vmbus_channel *channel)
+ 				next_numa_node_id = 0;
+ 				continue;
+ 			}
+-			if (cpumask_empty(cpumask_of_node(numa_node)))
++			node_mask = cpumask_of_node(numa_node);
++			if (cpumask_empty(node_mask) ||
++			    !cpumask_intersects(node_mask, hk_mask))
+ 				continue;
+ 			break;
+ 		}
+ 		allocated_mask = &hv_context.hv_numa_map[numa_node];
+ 
+ retry:
+-		cpumask_xor(available_mask, allocated_mask, cpumask_of_node(numa_node));
++		cpumask_xor(available_mask, allocated_mask, node_mask);
+ 		cpumask_and(available_mask, available_mask, hk_mask);
+ 
+ 		if (cpumask_empty(available_mask)) {
+-- 
+2.55.0
+
