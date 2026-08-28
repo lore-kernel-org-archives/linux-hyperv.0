@@ -1,113 +1,143 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE47739D6D5
-	for <linux-hyperv@vger.kernel.org>; Fri, 28 Aug 2026 03:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12AE53BBFAD;
+	Fri, 28 Aug 2026 05:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787888695; cv=none; b=Fka5v0atlxqQp9WBZNHxYGANt/KwPGzQWJL7B+mQahfzV0ksB/Hzlr7sZ664oxcuLGs/y/eI6kJytuEUk63KAh0OW/KIPVqKsqi0K0anJJQ/Kr6dljNcLM8QLe3SyklsPRzfYdkbtMizlLIfqrlme7yuUK6K4YMZMEpbGdhfEaE=
+	t=1787895632; cv=none; b=iuZ84yBf32n4X8Qv52GRwqtOGv4l4fP1z0IeC8ojngIYaF7fkxfMZt2QkMCz+N/m8GYslcou/wnZ7ME1fBTbEo857HJ/rgsOMv11tfXSI/YJfzR3g4qiQYA/6coSQ4WPbh5KajIaKCe7HdCzv/TJDnRQpLsY5XGYz0IVIoNpBh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787888695; c=relaxed/simple;
-	bh=oyqO7yApbiBq84HOVVa9hmxDcvJ9fuCOtoFjK3Ayl00=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vEuFffvcVQcZhFozS1Ow/adpCid2opFy2ngkxhYx9qjaDi5GXjwAih4cCjzlQzsa/iTfPHaDHoBHMrLJtVqbsoDa3WQQ3XxQWQ6yE+fCtp3K9+XTzEWCiAX5frtDiBf6ibLCOHJOf9w6NAvqxhigy9m6iKaSeDpY5jE4/0Z1eW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CRinrNCg; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787895632; c=relaxed/simple;
+	bh=eUbFwp2PG0fl1ojsL6Secy1mOkbeNfISfk/aamS/g+k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QhicXV5Cxtqvbh97yFmMohxwhXSd8jGmvtR09oN4FH/THsgTvBKWhDiOjba92dbQ2m+xbnj0crr7W354jVZcLXoirtJ43/f3XkzX8Ya2ATcWtlfdhw6fXPNh/Bge8WHoHRKTvnIBGEj5CwSrAAL0BfLj1tqg0EH8dxX3g7agJ7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mPBz4YEI; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CRinrNCg"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8541875f596so74384b3a.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 27 Aug 2026 20:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787888693; x=1788493493; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E5k4SS5gxupECR4Og0IkmCwIimkhRF1YOiA+xzlWzz4=;
-        b=CRinrNCgDI43q+FvqwEyXY2cq2cAYSgEdQqZUK1bpaGmfvsmL234yvTrec6VKDhy0P
-         QF/QkZrMocA/JuErkzQizFrLXQvtEqiLh9qhMuK+3yF+ykDEZVAPiCl7LrgvIgcOcXTC
-         tfDndXzkq55+PS8hN/Py1b0akqcF9YYyulESjG8WUra4vQAr3P0mKCl2XQz3/LBSgyBT
-         sHVWzrmqgN28IXFdkp0ImTE9/1HNQSP4EjlrpxHlvxykS3KwvVQRU8SfFqMKkZ0tlqpv
-         CA8IPYYpDjE9W4y2uEHGIlqvYoAWXJr1ijlOmy/186F+zpUES8cFqp48AQSjvLelQAbc
-         Dbeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787888693; x=1788493493;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=E5k4SS5gxupECR4Og0IkmCwIimkhRF1YOiA+xzlWzz4=;
-        b=T4Rzi2fMuOz0LuH1v2jqdxgPyy93ClCTRGIPdBmXXrK0zLb+ghI/7/6aoWsXU3b0dz
-         Oq9PAFiuWWje1qlPi86c92E1yrEBhICystalFyOi6af/n7NCPN2vqxlHhsTGeT1FcP2a
-         RSfqgZPUdnQvgLQN251Kn+yKjOdQQCM9PynGs/7bUyd4nBYvzsZ5frLckFG3yjFZ9oR5
-         EoNtB10d8A8azsHi8dLM4x2vUTlS4R2POBmNifafOkDDzrD/uIob/HGhP7+gdsZ0xMT4
-         MdPlD4bI5ptOS+kLUpCu18zYom0OYHXlx6VKouglyS0rLL+C+w1LYWDxD2U2OV0J5jJP
-         U+Rw==
-X-Forwarded-Encrypted: i=1; AHgh+RpLL8230sVHqwS5/EGo6d46fzSzHkRBOtKnOfkPW1/9XPT5a+uSJbc4SVZ9OU22++zFVkggfHgha3pPNtk=@vger.kernel.org
-X-Gm-Message-State: AFuF++m7ijE1aSMnf5OT9hq+QznDxUdtCwccuGgMW5ToyH/nT8xk8x1h
-	TIaUyVvyzni3452tJIjYl7ebUWLyM7wKVTndNTetQSVzOfeF/j6zESxy
-X-Gm-Gg: AR+sD11r7TZJ/16eGRD3k9tqBe3r8COv1r/+nCkhx3vjUqeqM/1hPTP51NgY4oS+Hww
-	53ASO69Bfl6Iw8aTu3/FvzTVc6RsZ95nD3fCYaWABoUr3TQRLt4XNBKeb3XdZ6PhenwI86ayL5b
-	VaQRZKTfEkymYYapNEEh3jJqvyxBu0PJdYPElZKQAYZdPGLVx3EjsuhxilD5tpsXmeIGfFMje9I
-	Uk5uQWhnBPa5gB9RtR1Oj8KDTeKmfD7YEEMZCKcbIi9NJI5XWZmLbDMQNU2HKrA13McL+LbmPSp
-	5GsuExWFLo1bm+zhdFCRT8/sSBhvD5SyjytngDHGyEPVn5JWtyHauj7p/gQf/W0xd9TIJFArYbR
-	XBSmYS42wdu/sGQOwIoNHQbMJzvdnKRNqowVRcymWVQ4io/6BKH0HzXqHDcnjpZwZvtVym/log5
-	UJJTxgVxsTn9z+5s++O6LSNsMtKMSrlqVocqVW6ls3NlsHRlHlqFbWd0HS++k0uKU/PTr9G+XjM
-	Be25/HTKWq+04FnxpfGojoXqfrt0vwfr5B9mgBR8Ks=
-X-Received: by 2002:a05:6a00:4fca:b0:846:8b22:4933 with SMTP id d2e1a72fcca58-8562c24568cmr6389634b3a.17.1787888693036;
-        Thu, 27 Aug 2026 20:44:53 -0700 (PDT)
-Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569f49f50bsm158541b3a.11.2026.08.27.20.44.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 20:44:52 -0700 (PDT)
-From: Michael Kelley <mhkelley58@gmail.com>
-X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	linux-hyperv@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] Drivers: hv: Remove !CPU_BIG_ENDIAN qualifier for arm64
-Date: Thu, 27 Aug 2026 20:44:48 -0700
-Message-Id: <20260828034448.8291-1-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-Reply-To: mhklinux@outlook.com
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mPBz4YEI"
+Received: from [192.168.1.70] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2103520B710C;
+	Thu, 27 Aug 2026 22:39:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2103520B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1787895596;
+	bh=CTrVeM9o/7ylhxd1mu/YGbNHLW47aNI/iqZ1r6HJ+As=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mPBz4YEIU1NvxDCbxYc6+yJqx+5R9337ulR0/0Ic4+/cD+QNF9Ttwq+SzSjnGI5Q9
+	 3S5+I/GDX/OHcFoAcXmbI22F2mZ2SsFb+Hkh2momrYxCnGyPUjiIxO6vOesQVWJ7jX
+	 iWSVGT9HFVPfWmJvnsRni71TQJ6WcDLCvwwvGZTM=
+Message-ID: <27277d1e-fd41-4dc9-aea2-eae3773ba322@linux.microsoft.com>
+Date: Fri, 28 Aug 2026 11:10:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI: hv: Warn when wait_for_response() waits indefinitely
+To: Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
+ Michael Kelley <mhklinux@outlook.com>
+Cc: Long Li <longli@microsoft.com>,
+ Sahil Chandna <sahilchandna@linux.microsoft.com>,
+ KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <DECUI@microsoft.com>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
+ "mani@kernel.org" <mani@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260825051850.2438816-1-sahilchandna@linux.microsoft.com>
+ <736091cf-8d00-415e-a890-e2dfa6739325@linux.microsoft.com>
+ <SA1PR21MB66836C32FD0FABD94B45D7F6CEAF2@SA1PR21MB6683.namprd21.prod.outlook.com>
+ <SN6PR02MB41578D73327A61FD3D7412C2D4AD2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <apB1HytkO5xu7jP6@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <apB1HytkO5xu7jP6@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Support for CPU_BIG_ENDIAN configurations on arm64 was deprecated
-in commit 1cf89b6bf660 ("arm64: Kconfig: Make CPU_BIG_ENDIAN depend
-on BROKEN"). The support is now in the process of being completely
-removed.
 
-The Kconfig for Hyper-V guests on arm64 currently has a
-!CPU_BIG_ENDIAN qualifier since Hyper-V only supports little
-endian. But with Linux on arm64 restricted to little endian,
-that qualifier is no longer necessary. Remove it.
 
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/hv/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 8/27/2026 11:04 PM, Saurabh Singh Sengar wrote:
+> On Thu, Aug 27, 2026 at 04:07:06PM +0000, Michael Kelley wrote:
+>> From: Long Li <longli@microsoft.com> Sent: Tuesday, August 25, 2026 10:01 AM
+>>
+>> [snip]
+>>
+>>>>
+>>>> Basically something like this:
+>>>>
+>>>> #define PCI_RESPONSE_WARN_TIMEOUT_SEC 300
+>>>>
+>>>> static int wait_for_response(struct hv_device *hdev,
+>>>>                    struct completion *comp) {
+>>>>       unsigned long warn_at =
+>>>>           jiffies + secs_to_jiffies(PCI_RESPONSE_WARN_TIMEOUT_SEC);
+>>>>       bool warned = false;
+>>>>
+>>>>       while (true) {
+>>>>           if (hdev->channel->rescind) {
+>>>>               dev_warn_once(&hdev->device, "The device is gone.\n");
+>>>>               return -ENODEV;
+>>>>           }
+>>>>
+>>>>           if (wait_for_completion_timeout(comp, HZ / 10)) {
+>>>>               if (warned || time_after_eq(jiffies, warn_at))
+>>>>                   dev_warn(&hdev->device,
+>>>>                        "PCI response received after prolonged wait.\n");
+>>>>               return 0;
+>>>>           }
+>>>>
+>>>>           if (!warned && time_after_eq(jiffies, warn_at)) {
+>>>>               dev_warn(&hdev->device,
+>>>>                    "PCI still waiting for response.\n");
+>>>>               warned = true;
+>>>>           }
+>>>>       }
+>>>> }
+>>>>
+>>>> Regards,
+>>>> Naman
+>>>
+>>> This looks better.
+>>>
+>>
+>> I like getting the "response received" message if the response
+>> eventually does come in. It's a judgment call, but I would be OK
+>> with outputting the "still waiting" message after each wait interval
+>> rather than doing it only once. And I would make the interval smaller
+>> than 300 seconds. Five minutes is a long time to wait and wonder
+>> what's going on when things are hung. 60 or 120 seconds would
+>> be OK -- a line in dmesg every 1 or 2 minutes doesn't seem like
+>> spamming to me when something is fundamentally broken.
+>> And probably don't expect a VM in this broken state to keep running
+>> for hours -- the sysadmin or automatic monitoring software will
+>> reboot it to get it working again.
 
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index aa11bcefddf2..db8464fcd119 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -5,7 +5,7 @@ menu "Microsoft Hyper-V guest support"
- config HYPERV
- 	bool "Microsoft Hyper-V core hypervisor support"
- 	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
--		|| (ARM64 && !CPU_BIG_ENDIAN)
-+		|| ARM64
- 	select PARAVIRT
- 	select X86_HV_CALLBACK_VECTOR if X86
- 	select OF_EARLY_FLATTREE if OF
--- 
-2.25.1
+I think this is a main point of this discussion. FWIK, this is not 
+automatically recovered as of now, ever. With these changes, we could 
+get dmesg logs completely filled with this same log, which does not add 
+any value. On the other hand, I was suggesting Sahil if this problem is 
+not recoverable by Azure fabric layer or other monitoring services, and 
+is extremely rare and the VM is unusable, perhaps we should consider 
+adding a bug/timeout in this path instead of just logging about it.
+
+Regards,
+Naman
+
+> 
+> I will also vote for repeated message as long as interval between two
+> messages is greater than 60 seconds.
+> 
+> - Saurabh
+> 
+>>
+>> Just my $.02. Outputting the "still waiting" message only once is
+>> also OK. Your call.
+>>
+>> Michael
+
 
