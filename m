@@ -1,108 +1,160 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6F035F5E7
-	for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 05:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B132AD16;
+	Mon, 31 Aug 2026 05:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788153682; cv=none; b=LSgAZv/6jTP4/CMjPAYZ8WEO1Eqz+z9MHuT74zy2UIVSTLEoWOIlsBmyNLYbrzbdiVSXJ4K4y2xY4+A0Wr5/b24pDpWap3LWeEuDWffsA4LUNthv29xaKMNIdQdoHG/2ciJ5Ba+Cx7xkXWP6CroY5WFkDyz4H5E1MmsjP1nd/Cw=
+	t=1788154278; cv=none; b=lJ+rEbVEHq/WaMy4bwdiHBYccOoJz2pkmm5BIHa2RBlKzGk45sgGW9DB93o6iXx1eOMUDgG2i2V9v33ntiSKXnBfYtpWr7ci5It5hkLGuSA+2GM7IygaHsC7ZKPazCEI03aurj77jjyznMjQ8oRUvyWu5KC7uJcnhUJzQg3imo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788153682; c=relaxed/simple;
-	bh=D/OAPtmWMg/a24pmYC9Ob5VtMdBNPfjduUlqAtvXTS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b0a72facbik6nwChKXBqy1XDRBXPlnwK0Vj6jt+0ThwDiGr0yCUODj24BwLp29Dz0jVeteOIEB0DYjOBpYjkQ9vqygxtumGnkJAU21rrZNJG8muT6M7u5DX37OLQ5oox4i3AQRB+h7Ffe0uFLNrDixZ53Xw8GFeLGLfblKG3tHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U4a7MX6b; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788154278; c=relaxed/simple;
+	bh=LCsSCuuOPY1pn3BqTdBch58ysMowYY/iG3gsfJSXPkc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u7j48y5dBTBAl2RHoli8sGEFZPx7qpJLYhXuT0tBeSFxIg7KCAPpFcOOMyujqBo8CYjV9CrHxFbPEq4MGNayB2X1vLROioXKLpcZ2Vz0dSgLbKjqrcU6pevTzT3NEWhVtxyZaUbfKD55htwUGwccc+bQUH561pk/uNQMyPeu5B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qjqZ77Ix; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U4a7MX6b"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso2496739a91.1
-        for <linux-hyperv@vger.kernel.org>; Sun, 30 Aug 2026 22:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788153680; x=1788758480; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a7w1HCUHNpjVoop/odhxR+2e8lKBAC9Tc7w090GqBj4=;
-        b=U4a7MX6bEZTs/VvDrfZw6JnrwBpKfH3kA0gXnZA/uiHr9fC8zqNtw86OerV2R7MQib
-         d8jNm8uEZRtk1wNaWJxf5pOIVR03mXgXgkz6Zy3CkQ+GghtBR2Z6+NsAh1+7Gvge15I2
-         acdqvZo6eDSNcZ/2qw5M0sGuWM7U3lJ4QXEbD7OxQdoDUaGg4hlBQ3ajqa6X8lTxCm2l
-         ycg6PxPYyKvRzUiFVbHYd+JDC0Sjgx1oshaBhTPM0mFHh9sdVMX7tmI0ec8MEjPW9+ku
-         PgP078zxf8cjP+/FAtuJHZ7LKhfS6T7Kwm5k403509OF1YWf2BKDpCBwN0ntfbrV8CsH
-         /5qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788153680; x=1788758480;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=a7w1HCUHNpjVoop/odhxR+2e8lKBAC9Tc7w090GqBj4=;
-        b=k2H0hZ+2H/x5ArNEi1NvN88uX3h1LtvonnZMzQqIUev5rhpVNNLymTRY89lT9MNCQc
-         OIwHWA5YxViDdC35bDZpbLZd0get+PrkbIvBTt324dOHdVDrTekoPY8LHpUA46mqZQp0
-         msQXKBMaa5jvdQiHxwsTEzpwejF9VfHPi5tm1MMRDLFoV0YLxLFjQatS3gg9E/1KAKBy
-         GM9D5jp5jJEoryC9uzkqpJ0Ppxi33E6BLfPkf1wqwSnupQDJ2Jfs4sqNDhecvUttRwGV
-         CR7l/00KXyanqkqA0wdsMFGx40s/ZLaGOlqLjUjal9LIr9iuHss+KrjomNMUuaA7r+0l
-         p54Q==
-X-Gm-Message-State: AFuF++lZkzXDSR32zxNJblGCGqGDESP3wFQgOB0FLMYrkxks/sHKMnJ2
-	D9N7Z0IcwbIy028x1F0NLMT90i8CJf56uVEFhpOCFCrHbpIhfSd1/y5e
-X-Gm-Gg: AYBFou1c/xpVWqYo/oY4KGgu52qRTVQ8rzeQZ5mbF9vAkD/OVS5zRrFn5X+i8zJIMPZ
-	DQZAfJwrFVzR5PEjkZCNhL06vQx5tciYDLg+sj7lVrQfbTEuxRK9yFHsIaR2YtTOazbQ5Piyl1W
-	sXvgz5esizPuzM6yAHD66NOEqQMRg5vp3j5iZGVFFaW9WA4GY4k1rqACsjVEzzjkGPkdy4xaZWu
-	Luxx4Aiuct86E1z5C4t0s6zmN4S4jMRmNiTKe/0VsHocoQ8IoRJKC3ECPQVRQi9RqvmuL3B7WXp
-	BnGeh5M7oQ6CVnS3C6/mnI7V0ebIiV6JwD3nS4Yvcdbp1W9AnnIofrS6Aq+gq+oSJK5LPvz/bMF
-	TNqB3ObPOQKj7dlOvDm2YG/kVEzZx4onGg2UuxxSJt5XDKcTRZZjXi1QhE3oqt5TXYLmasv8zdD
-	7x3FhufXuAQpDMGRlNasGQ8QFp9qahFgiEhbSOyct+S2DIBenshogzKWU=
-X-Received: by 2002:a17:90b:3c8c:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-396d0e7255bmr36972808a91.8.1788153680048;
-        Sun, 30 Aug 2026 22:21:20 -0700 (PDT)
-Received: from ubuntu.. ([110.9.142.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b0ea808csm19612656a91.2.2026.08.30.22.21.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 22:21:19 -0700 (PDT)
-From: Sang-Heon Jeon <ekffu200098@gmail.com>
-To: Long Li <longli@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>
-Cc: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH rdma-next] RDMA/mana_ib: Remove redundant NULL check before netdev_put()
-Date: Mon, 31 Aug 2026 14:21:07 +0900
-Message-ID: <20260831052108.903019-1-ekffu200098@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qjqZ77Ix"
+Received: from [10.95.65.30] (unknown [52.172.102.253])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B271220B7168;
+	Sun, 30 Aug 2026 22:30:31 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B271220B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788154234;
+	bh=rfO41nkJiRiqETYIHaR71M3ZSyMwQzOASX5L1tk/MB8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qjqZ77IxPum1qzTgmXyYgJH1GlzaTbqty2npwQDHwPNe1dzfSulxF4xskZU5Mr/0R
+	 qKa4UE9mafvgW2gJ5kBj0rq5ouxwS8V+SfECBG3ztny3dLkicz76Ner2PVdmJYXt74
+	 tX25KYWAbhmrdE6E2fT7RNsv2vM+WjNzmitLWezQ=
+Message-ID: <fa1b65fb-3f77-4089-8928-e4b8c656759f@linux.microsoft.com>
+Date: Mon, 31 Aug 2026 11:01:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] lib/group_cpus: rotate extra groups to avoid IRQ
+ stacking
+To: Michael Kelley <mhklinux@outlook.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ming Lei <tom.leiming@gmail.com>,
+ Ming Lei <ming.lei@redhat.com>
+Cc: Wangyang Guo <wangyang.guo@intel.com>, Tianyou Li <tianyou.li@intel.com>,
+ Tim Chen <tim.c.chen@linux.intel.com>, Long Li <longli@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+References: <20260810062144.2108758-1-namjain@linux.microsoft.com>
+ <SN6PR02MB415735EB56D0EBEAC606282DD4AE2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ffd568dc-8292-43c4-b425-a68047a40c8e@linux.microsoft.com>
+ <SN6PR02MB4157F84374BFA68158E0D85AD4AA2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157F84374BFA68158E0D85AD4AA2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-netdev_put() does nothing if dev is NULL, so the check before the call
-is redundant.
 
-So remove it. No functional change.
 
-This is the result of running the Coccinelle script from
-scripts/coccinelle/free/ifnulldev_put.cocci after commit f83b8a58695c
-("coccinelle: ifnulldev_put: update outdated helper names").
+On 8/31/2026 5:27 AM, Michael Kelley wrote:
+> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, August 27, 2026 2:11 AM
+>>
+>> On 8/26/2026 7:31 AM, Michael Kelley wrote:
+>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Sunday, August 9, 2026 11:22 PM
+>>>
+>>> [snip]
+>>>
+>>>> @@ -510,6 +633,8 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+>>>>    	if (!masks)
+>>>>    		goto fail_node_to_cpumask;
+>>>>
+>>>> +	spread_offset = (unsigned int)atomic_fetch_inc(&group_spread_cnt);
+>>>> +
+>>>>    	build_node_to_cpumask(node_to_cpumask);
+>>>>
+>>>
+>>> One additional observation:  In my testing, group_cpus_evenly() is
+>>> often called with numgrps set to 1. This happens in the block "loop"
+>>> devices (drivers/block/loop.c) and for the NVMe admin queue. In
+>>> these cases, the spread_offset is never used, but group_spread_cnt
+>>> gets incremented anyway. Incrementing for NVMe admin queues
+>>> tends to dirty the spreading for multiple NVMe devices with the
+>>> same configuration because it is usually interleaved with the
+>>> spreading of the main NVMe I/O queues.
+>>>
+>>> To improve this, I changed the above code to this:
+>>>
+>>> +       if (numgrps == 1)
+>>> +               spread_offset = 0;
+>>> +       else
+>>> +               spread_offset = (unsigned int)atomic_fetch_inc(&group_spread_cnt);
+>>>
+>>> With this change, my configuration #1 (Azure L48s v2 VM) is noticeably
+>>> better.  All CPUs in NUMA node 1 have either 3 or 4 IRQs assigned. NUMA
+>>> node 0 ranges from 3 to 5 IRQs, but that's partly because the NUMA
+>>> nodes themselves aren't balanced, as previously discussed. With your
+>>> change to apply group_spread_cnt to the NUMA nodes, and my change
+>>> above, my config #1 is likely to work out very near optimal. Of course,
+>>> there's no guarantee that some other device won't increment
+>>> group_spread_cnt and dirty things, but for the typical case it probably
+>>> works very well.
+>>>
+>>
+>> Thanks for the suggestion, I tried this and it works fine.
+>>
+>>> This change to skip incrementing group_spread_cnt when numgrps == 1
+>>> doesn't help my arm64 configs. I'm still thinking about ways to do better
+>>> when there aren't any clusters. I have an idea that I'm experimenting
+>>> with, but it may be a few more days before I reach any conclusions.
+>>>
+> 
+> I finally figured out why arm64 is different from x86. By adding a
+> kernel boot line parameter for controlling the number of NVMe queues
+> per controller (for experimentation only), I could construct identical
+> configs on x86 and arm64.  And even though the clustering is
+> different, group_cpus_evenly() returns exactly the same set of
+> cpumasks on the two architectures. So the clustering difference
+> isn't the reason for the poor spreading on arm64.
+> 
+> My experiments have been mostly cases where the number of NVMe
+> queues is small compared with the number of CPUs -- e.g., 6 NVMe
+> queues on each controller in a VM with 96 CPUs. In this example,
+> there are 16 CPUs in the cpumask for each queue. That set of 16
+> CPUs is the smp_affinity for the IRQ and is the same for both
+> architectures. But determining the single CPU that is the
+> effective_affinity is different. The x86 APIC vector code must load
+> balance assignments across CPUs because each x86 CPU has a
+> limited number of vectors available. At a result, x86 spreads out
+> which CPU in the set of 16 becomes the effective_affinity. But arm64
+> does not. The GICv3 function gic_set_affinity() always picks the
+> 1st CPU in the set of 16 CPUs. So the NVMe IRQs get stacked on
+> the same 6 CPUs and the other 90 CPUs get none.
+> 
+> If the number of queues doesn't evenly divide into the number of
+> CPUs, then your patch provides a modest amount of spreading in
+> how the cpumasks are constructed, and the interrupt load gets
+> slightly more spread on the arm64 CPUs, but not nearly as well
+> as on x86.
+> 
+> I was previously aware of the vector load balancing done by
+> x86, but had never compared with what arm64 does. I had
+> to run a few experiments to have the light bulb come on in my
+> head. :-)  But I learned something so it was time well spent.
+> 
+> In any case, improving the spreading in such configurations
+> on arm64 probably isn't the job of group_cpus_evenly(). The
+> arm64 GIC code would need to do some spreading when
+> picking the effective_affinity from the CPUs in the affinity mask.
+> 
+> Michael
 
-Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
----
- drivers/infiniband/hw/mana/device.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thank you for looking into this and sharing this valuable information 
+Michael, it means a lot.
 
-diff --git a/drivers/infiniband/hw/mana/device.c b/drivers/infiniband/hw/mana/device.c
-index a8d19586a78a..62c7803ca6c6 100644
---- a/drivers/infiniband/hw/mana/device.c
-+++ b/drivers/infiniband/hw/mana/device.c
-@@ -103,8 +103,7 @@ static int mana_ib_netdev_event(struct notifier_block *this,
- 				ib_device_set_netdev(&dev->ib_dev, ndev, i + 1);
- 
- 				/* mana_get_primary_netdev() returns ndev with refcount held */
--				if (ndev)
--					netdev_put(ndev, &dev->dev_tracker);
-+				netdev_put(ndev, &dev->dev_tracker);
- 
- 				return NOTIFY_OK;
- 			default:
--- 
-2.43.0
+So for now, we have two enhancements - NUMA node level balancing and 
+additional (numgrps == 1) check.
 
+I'll make these changes, evaluate them and send them in next version.
+
+Regards,
+Naman
