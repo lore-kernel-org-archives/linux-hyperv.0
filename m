@@ -1,281 +1,166 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECE23DC857
-	for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 12:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B1442E8FA;
+	Mon, 31 Aug 2026 13:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788180029; cv=none; b=FUp7semCx9Z/NOabnb2DX82LvwXIZGq4IY+35EabgEyC+Y5V1R0gwO2rYJhyAvJnRcHoEZBR7tkdslP+MF9Mjrx+SV3Eua2hStifigDXRWerecKTiu8jXokCzkDqnQqNV2sv0x3Op0Bi9rH2PvCyXpjTSnBwS2P+pKzORjAkv4c=
+	t=1788183395; cv=none; b=R44sq6RE59GlOGY0yEbw2RP94GYrsh4/gjQ1weNvSQUgdCB5sZv58xGKvM2c8CV5mu+qNY/iNDdRW4r1gE5wEU3ZDTzHOpL0CLEo/ZM6cEEBhqEKPSVjYOnGWCMWLNJeZpodyVDdEu11MbW0DiBph1XLtTFQ7jv7obp8SU5V9PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788180029; c=relaxed/simple;
-	bh=S8dZjeqOYV4ek91I2r4Qov9/LVvEEgQMX8OjggbeLCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M20VlCoADERqRvKVqbATCWEYJ7rIWTSjJH+WNbs34RpQL/X8otIm7CDBT3yRjpQNHzBh+wiZZqMHTVURAsFpMyoLu63mLEj9IVqTbg9VWLIkLrzZBmJBSNaVBNGjUzkXYX0+r0cCk/qgInE1nkxEjSNCxKA/ON5wzLSTfiHYbLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hmTHClyx; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788183395; c=relaxed/simple;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD0DD9xQiC3uzOWpMNluZckbv9WDXbuDq2jfiYTG0ppx1FHM/top8kJx2V0JsskKvmdBPqC1Iw3fx4if4/cSGyKWzrwfgOgViuaHmQhvkgIenzsLTJHyqxS2vSHJlmWsyE6MgN+/TzsZJ9jFRNaBhtNUMR9I0UuSRhTzsDITxEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa7a1Q3Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hmTHClyx"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-499b2981a7bso38301285e9.3
-        for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 05:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788180026; x=1788784826; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2wnfH7b7KKmDiXtn7bM9cfVe5VuHQ+7bwoAdYTm8PAY=;
-        b=hmTHClyxhl3g8IIP1y/KOI/t2FGA9hqsQcFIt3fS906aTCmPhS2X20H50m/EAlfmuv
-         QMlaQGlD2bc2o1KoqHwgKuYGpNTtMTjHZWvmsMt26Ill2vUOgBN/wUw5FWhpgIdsCl+y
-         +Dtf2Ei25rq4fInbiCwaqDojk2NLR+Tq8KS5/VLHqI3MH1w0RpiAyfZvKfmBqAXwIgAr
-         fioZsY/knH1c8Sxx8RWSOQhcPo3CZl29hrYm4j8VoLmgz4WSNcsX8I8P/HbhQdLtJZUb
-         Eg09ihGctnA4vRnwvFQ1zc6DfR82F2ptH6Kzg31hKGg4bSBtveukBd7fnNWx87bId1tQ
-         Cz+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788180026; x=1788784826;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2wnfH7b7KKmDiXtn7bM9cfVe5VuHQ+7bwoAdYTm8PAY=;
-        b=HnXG1EFKMpU/rIjc8NXQb6Al35qmF3vDo1oBpGyDoIf2iC6saFW1TXjK3VwJavosCS
-         atpwdN7+xd/cHmy7OkRA1qLySqt8+cRxrv5oBFljrr1zbQEOl0I62dqFVxDWda8Yl6u5
-         5kzdeNlaDXjAK0aE3IpwsfYcKOu9MevcH9eZqdHiQlF7jLb/qn2sR5GoUTJKBrdJXLw2
-         B5BQ7Mn/oKUDzlrODdM/M3Qrh8cegY8v9pzjqvYOUcP1gGmg876np6hAD8L/RnW0hJ+O
-         jOIBkgQO+TqvBMQ38/L2nVwlkMGCoGJa7SVftY2doPfQxAJhpNiqiddkWuPFV9tTokVV
-         wdpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrIvl1uhx3v7w1oloPZPNDwI0coJQ9zEHyP8mfLwKAkPd0tdO6Tc/bI026xUumTKmzt/rJCAUGGJzT65P4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lMSh2lPjYpIPMxvYP38gwFgx+/pRP35dF7U0d+KMRyZHApYqxJ
-	Dpsf3qqB108eC8RwBMDOoDEGFLGWyA01hQ6w7xi7QyAo2FVyWHZnsneh
-X-Gm-Gg: AR+sD11BE2LmQoRjfgeVrukhZvT4x1CoYVHadpfB7DUAGxkWcqy0Fm1iT+8STiBKICT
-	Sj4Jmgz5ydRkJ34Mn0+t10VVB2mRfNTbS6jt4StG7+etGVafUFgCdLyGuNtzhsdYhLiureGjyrR
-	UTZzg8ryGEb34Nd8/JHN6mONoJ29VC/y47vDGhLkhK1D+L594YC0Pr1zli2v98zcNqcXqvahTb4
-	R7sL2vlxajRqh2xnJoQBZlXk5Llo4zQ5Zb1Ou4qqowuxcsiyCfMUyaeAkhZdu5BrdM0Ho2YvIK+
-	oXti73Eecp4VZ+ukozpFimiSao4FYljHrAXjb/4XjBKOPtAV2aOltnnF7EEVDBPqi5cx0JL0oWe
-	bEFo5BRvWYcelFsjNl36E2wNvLmCzwx3hfqV5nPhEza3z+mkmYeGB0BQXDvzvIQ6dUoJQV2nzcO
-	TrEIBJ4eM8PKCijKA/GAEqSwAkL9vPcmDFa1prx5TgXmbnllD5y7yh+MEtpMCEiPlC1SxcqbQyM
-	8R088+WZSba3ySrDGPOdQJLOw==
-X-Received: by 2002:a05:600c:8011:b0:496:bbce:fc with SMTP id 5b1f17b1804b1-49cdc5660bamr4232645e9.12.1788180025820;
-        Mon, 31 Aug 2026 05:40:25 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b945816f2sm338783295e9.8.2026.08.31.05.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 05:40:25 -0700 (PDT)
-Date: Mon, 31 Aug 2026 13:40:23 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- kys@microsoft.com, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, linux-input@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] HID: hyperv: add KUnit coverage for device info
- bounds
-Message-ID: <20260831134023.7784374a@pumpkin>
-In-Reply-To: <20260710022854.3739558-3-michael.bommarito@gmail.com>
-References: <20260710022854.3739558-1-michael.bommarito@gmail.com>
-	<20260710022854.3739558-3-michael.bommarito@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa7a1Q3Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016D61F000E9;
+	Mon, 31 Aug 2026 13:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183394;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Fa7a1Q3YoUsfdoMvZbQAiBxdeh/TNaAy2cWmN+gHJtD0G5fAKj07cg5+8PsqlLHGz
+	 A1PAQuTvFk3cBiBuBnU9BX06M7lLnfqiM9pOLnHs/A2YOWF6hTp4V8VTsE2c/GmSFo
+	 URF1s+nDBwrxxWO45AdqLpYaq6wzMJThp7iMOVVQEGXgXFPN8CtiP/WnqMUZqdnyKW
+	 EQDpd7/10qJ2kUHSiXAJKr/GRWQLdNSiDsyIUkC44uOO8x+JESPpssnyKwOnT03CZH
+	 1TMqMRafZA0VRWtpwFEEpq9yiXTseAFhl04jX5wKhiXF3DXtIzYeLnD80tcC/prJs1
+	 YmW1jKy9yiPhA==
+Date: Mon, 31 Aug 2026 15:36:29 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>, 
+	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
+	Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Inki Dae <inki.dae@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org, 
+	Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>, 
+	Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>, 
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yongbang Shi <shiyongbang@huawei.com>, 
+	John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Xinliang Liu <xinliang.liu@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Liu Ying <victor.liu@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org, 
+	linux-arm-msm@vger.kernel.org, Marek Vasut <marex@denx.de>, Dave Airlie <airlied@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Aditya Garg <gargaditya08@proton.me>, 
+	Aun-Ali Zaidi <admin@kodeit.net>, LiangCheng Wang <zaq14760@gmail.com>, 
+	Alex Lanzano <lanzano.alex@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>, Chia-I Wu <olvaffe@gmail.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Michal Simek <michal.simek@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Huacai Chen <chenhuacai@kernel.org>, Jianmin Lv <lvjianmin@loongson.cn>, 
+	Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>, 
+	Xi Ruoyao <xry111@xry111.site>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
+	linux-rockchip@lists.infradead.org, Iker Pedrosa <ikerpedrosam@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, Melissa Wen <melissa.srw@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+Message-ID: <apWDRq8YOTwvGuSf@houat>
+References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="eainbiqt42xdkeio"
+Content-Disposition: inline
+In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 
-On Thu,  9 Jul 2026 22:28:54 -0400
-Michael Bommarito <michael.bommarito@gmail.com> wrote:
 
-> Add KUnit coverage for Hyper-V synthetic HID initial device-info parsing.
-> The tests cover zero bLength, a valid descriptor plus report descriptor,
-> and a malformed report descriptor length that exceeds the received
-> message.
-> 
-> The same-translation-unit test uses a KUnit-only ACK bypass so parser
-> coverage does not require a live VMBus channel.
+--eainbiqt42xdkeio
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+MIME-Version: 1.0
 
-Breaks build - see below.
+On Fri, Aug 21, 2026 at 04:38:36PM +0200, Maxime Ripard wrote:
+> This is a follow-up to the plane reset removal series, and part of a
+> larger effort to remove the reset hook from all KMS objects.
+>=20
+> The CRTC reset hook is overloaded: it is called both at probe time to
+> create the initial software state and during suspend/resume to reset
+> hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
+>=20
+> While reset has the semantics to reset both the software and hardware
+> state, the vast majority of implementations and all the helpers only
+> reset the software state, making them equivalent to
+> atomic_create_state in practice. The atomic_create_state hook makes
+> this explicit: it only allocates and initializes a pristine state
+> without any side effect, and returns the state pointer or an ERR_PTR
+> on failure.
+>=20
+> This series converts all CRTC drivers tree-wide from the reset hook to
+> atomic_create_state, then removes the reset hook from struct
+> drm_crtc_funcs entirely. Two drivers (tilcdc and loongson) had actual
+> hardware reset logic mixed into their reset hook; those are moved to
+> CRTC creation instead. The conversions were done using a combination of
+> Coccinelle semantic patches and manual adjustments.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-> 
-> Assisted-by: Codex:gpt-5-5-xhigh
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> ---
->  drivers/hid/Kconfig      |  10 ++++
->  drivers/hid/hid-hyperv.c | 117 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 120 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index c1d9f7c6a5f23..41ca48d9adc9e 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -1183,6 +1183,16 @@ config HID_HYPERV_MOUSE
->  	help
->  	Select this option to enable the Hyper-V mouse driver.
->  
-> +config HID_HYPERV_MOUSE_KUNIT_TEST
-> +	bool "KUnit tests for Hyper-V mouse driver" if !KUNIT_ALL_TESTS
-> +	depends on KUNIT && HID_HYPERV_MOUSE
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  Builds unit tests for the Hyper-V synthetic HID driver.
-> +	  These tests exercise the initial device-info parser with
-> +	  malformed host-provided HID descriptors and are only useful
-> +	  for kernel developers running KUnit.
-> +
->  config HID_SMARTJOYPLUS
->  	tristate "SmartJoy PLUS PS2/USB adapter support"
->  	help
-> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-> index fd90196430e29..6579bd19da13a 100644
-> --- a/drivers/hid/hid-hyperv.c
-> +++ b/drivers/hid/hid-hyperv.c
-> @@ -13,6 +13,9 @@
->  #include <linux/hiddev.h>
->  #include <linux/hyperv.h>
->  
-> +#if IS_ENABLED(CONFIG_HID_HYPERV_MOUSE_KUNIT_TEST)
-> +#include <kunit/test.h>
-> +#endif
->  
->  struct hv_input_dev_info {
->  	unsigned int size;
-> @@ -240,13 +243,18 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
->  	ack.ack.header.size = 1;
->  	ack.ack.reserved = 0;
->  
-> -	ret = vmbus_sendpacket(input_device->device->channel,
-> -			&ack,
-> -			sizeof(struct pipe_prt_msg) +
-> -			sizeof(struct synthhid_device_info_ack),
-> -			(unsigned long)&ack,
-> -			VM_PKT_DATA_INBAND,
-> -			VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
-> +	if (IS_ENABLED(CONFIG_HID_HYPERV_MOUSE_KUNIT_TEST) &&
-> +	    !input_device->device) {
-> +		ret = 0;
-> +	} else {
-> +		ret = vmbus_sendpacket(input_device->device->channel,
-> +				       &ack,
-> +				       sizeof(struct pipe_prt_msg) +
-> +				       sizeof(struct synthhid_device_info_ack),
-> +				       (unsigned long)&ack,
-> +				       VM_PKT_DATA_INBAND,
-> +				       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
-> +	}
->  
->  	if (!ret)
->  		input_device->dev_info_status = 0;
-> @@ -635,5 +643,100 @@ static void __exit mousevsc_exit(void)
->  MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("Microsoft Hyper-V Synthetic HID Driver");
->  
-> +#if IS_ENABLED(CONFIG_HID_HYPERV_MOUSE_KUNIT_TEST)
-> +static struct mousevsc_dev *mousevsc_kunit_alloc_dev(struct kunit *test)
-> +{
-> +	struct mousevsc_dev *input_dev;
-> +
-> +	input_dev = kunit_kzalloc(test, sizeof(*input_dev), GFP_KERNEL);
-> +	if (!input_dev)
-> +		return NULL;
-> +
-> +	init_completion(&input_dev->wait_event);
-> +
-> +	return input_dev;
-> +}
-> +
-> +static void mousevsc_device_info_zero_blength(struct kunit *test)
-> +{
-> +	struct synthhid_device_info *info;
-> +	struct mousevsc_dev *input_dev;
-> +
-> +	input_dev = mousevsc_kunit_alloc_dev(test);
-> +	KUNIT_ASSERT_NOT_NULL(test, input_dev);
-> +	info = kunit_kzalloc(test, sizeof(*info), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
-> +	info->hid_descriptor.bLength = 0;
-> +
-> +	mousevsc_on_receive_device_info(input_dev, info, sizeof(*info));
-> +
-> +	KUNIT_EXPECT_EQ(test, input_dev->dev_info_status, -ENOMEM);
-> +}
-> +
-> +static void mousevsc_device_info_valid_descriptor(struct kunit *test)
-> +{
-> +	struct synthhid_device_info *info;
-> +	struct mousevsc_dev *input_dev;
-> +	u8 *report;
-> +
-> +	input_dev = mousevsc_kunit_alloc_dev(test);
-> +	KUNIT_ASSERT_NOT_NULL(test, input_dev);
-> +	info = kunit_kzalloc(test, sizeof(*info) + 4, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
-> +	info->hid_descriptor.bLength = sizeof(struct hid_descriptor);
-> +	info->hid_descriptor.rpt_desc.wDescriptorLength = cpu_to_le16(4);
-> +	report = ((u8 *)&info->hid_descriptor) + info->hid_descriptor.bLength;
-> +	memset(report, 0x42, 4);
 
-This has landed in rc1 and fails to build (with gcc 12.2) because the tests
-in fortify-string.h detect that is it writing beyond the end of the
-structure.
+Applied patches 1,3-14,16-28,31-41,43,45-49,52-62,64-68 to drm-misc-next
 
-> +
-> +	mousevsc_on_receive_device_info(input_dev, info, sizeof(*info) + 4);
-> +
-> +	KUNIT_EXPECT_EQ(test, input_dev->dev_info_status, 0);
-> +	KUNIT_EXPECT_EQ(test, input_dev->report_desc_size, 4);
-> +	KUNIT_EXPECT_MEMEQ(test, input_dev->report_desc, report, 4);
-> +
-> +	kfree(input_dev->hid_desc);
-> +	kfree(input_dev->report_desc);
-> +}
-> +
-> +static void mousevsc_device_info_report_desc_oob(struct kunit *test)
-> +{
-> +	struct synthhid_device_info *info;
-> +	struct mousevsc_dev *input_dev;
-> +	u8 *report;
-> +
-> +	input_dev = mousevsc_kunit_alloc_dev(test);
-> +	KUNIT_ASSERT_NOT_NULL(test, input_dev);
-> +	info = kunit_kzalloc(test, sizeof(*info) + 8, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, info);
-> +
-> +	info->hid_descriptor.bLength = sizeof(struct hid_descriptor);
-> +	info->hid_descriptor.rpt_desc.wDescriptorLength = cpu_to_le16(64);
-> +	report = ((u8 *)&info->hid_descriptor) + info->hid_descriptor.bLength;
-> +	memset(report, 0x42, 8);
+Maxime
 
-Same here.
+--eainbiqt42xdkeio
+Content-Type: application/pgp-signature; name="signature.asc"
 
-David
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +	mousevsc_on_receive_device_info(input_dev, info, sizeof(*info) + 8);
-> +
-> +	KUNIT_EXPECT_EQ(test, input_dev->dev_info_status, -EINVAL);
-> +
-> +	kfree(input_dev->hid_desc);
-> +}
-> +
-> +static struct kunit_case mousevsc_test_cases[] = {
-> +	KUNIT_CASE(mousevsc_device_info_zero_blength),
-> +	KUNIT_CASE(mousevsc_device_info_valid_descriptor),
-> +	KUNIT_CASE(mousevsc_device_info_report_desc_oob),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite mousevsc_test_suite = {
-> +	.name = "hid_hyperv_mouse",
-> +	.test_cases = mousevsc_test_cases,
-> +};
-> +
-> +kunit_test_suite(mousevsc_test_suite);
-> +#endif
-> +
->  module_init(mousevsc_init);
->  module_exit(mousevsc_exit);
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCapWDXQAKCRAnX84Zoj2+
+dtnDAYDvbcHtYOX7CuJCyNGSb99Ed+Livj62dMg0nsp864oeIMVzqxGBJIKgPp8Z
+RCHnUyUBfAxvXYJDr3LaH94QifMoTvJPOgPapZRwWXp6VAygmOgZF8WFxC9cEp2h
+0/QjaJymHA==
+=mCUP
+-----END PGP SIGNATURE-----
 
+--eainbiqt42xdkeio--
