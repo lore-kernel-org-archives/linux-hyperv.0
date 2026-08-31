@@ -1,279 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A303F12D0
-	for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 12:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D6433C18E
+	for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 12:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788178047; cv=none; b=TUaxJd7v6WgsT3i/ZZMCIv5d5mbI+yUE5gKeKeTEFkr7Ty/mXpQHlJFlN73xnlpD77VvxXJFgiUn7g+4VeGk8ex0F0eEaHV4pChD6humOQrjpAnUZYUgiV3svnWWs08dPdXqUjAw58x4gnyNmteVbFKsHVeaDa9C9KtqMm/9quw=
+	t=1788178184; cv=none; b=pub45P6YIHcL56d7IrDgG9pn+gb2ubZ+OxRqGUcdGTvbMAMOGKCFSnBGWFI404bek9el88Ru8MD+UOwazYLgaUOOny+Awd7K8JhDAHQNad7i3wUz05ydBgQUzxPS6KWICCguZbHmfiyvahHaxAhq97Fff+LdmDznnHD8j2MNMAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788178047; c=relaxed/simple;
-	bh=hSNCDuYWw49A/30BG37S2fPhDKihdk0F/jh8EIkkLMg=;
+	s=arc-20240116; t=1788178184; c=relaxed/simple;
+	bh=TzJcACtoE7soFQoW1KO1g5rfuvOtJexL8ruqTwtGN5E=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=lij5HJfwPWSK1aLTlGMnk/KGc5d7t936Rh4IOv9kSSdRwH4PX/oqxpQGfSa1u9QxS3qiR0RVMpfVq5PH+IFvvZtqu+caq7kGSCvdW8UuRAdLRcdMtJjCDmNnhbibVtGZ937IZG/iuCwH3K64gggcnbRiP3km4Ds8fokczzJrdBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KSeNup/B; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=ozeU1MdQIlYP2z/sEc6ePUUnT92I/u3St6MVgMPPAmyzj/LfNyafjxIUXzFhOCJ2MedSErinXS1D1oVKL5fz+fTx8wOu3tnUHNAUdIXwbi/18kPm5euUV15xARO9vd8s9lOAXgvYNErOR+/MEBgahEt5tsTXdd4sjV4HUn2TFH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RvAJ+7fJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KSeNup/B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70731F000E9;
-	Mon, 31 Aug 2026 12:07:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RvAJ+7fJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED911F000E9;
+	Mon, 31 Aug 2026 12:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788178046;
-	bh=hpqfNv0BqE5dO+1Eb2R/Q6miw/LMuRoOYELXiVPmm3k=;
+	s=k20260515; t=1788178182;
+	bh=Ts73YQbrc7ljgWJUxmQs/z68pcw5rTcdNbRg3rmRksk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KSeNup/B7StXM7tBfE6U1I2FTyB83gpcy+3Id6Z4eXc34GAVmZ2PZ33T+A3zhdh8Z
-	 NlQyePDNPnYtad7y12DCLOJRwr/jh8sSRcRd20Jk9PqpYvedxQQmA3bPon5zek7fv4
-	 nl1Nr3PUDheDFkpQVAejnzu80eh2jAfmISY/M9h40Faf90KtH0VRHKILb8/ubsk+0p
-	 gj9C5P9Z/ArPQxrPh86gjvSl8lVOuoVkd09KgZYqA2FS5HOXZQw7bh2phylbX0nKq7
-	 9xt5DUw0fL+/OVFXXpzyJ3xDDf95zG/mB4kXbhcStbG10jHWKJ9eNjAPHAaGh/vxtA
-	 vKLHIYw1qym4g==
+	b=RvAJ+7fJnYWVS/10EYcc/4/wkM4vrka3gkGPQKcw9ee16ssbSOuBQEn6gPBWEn7Qh
+	 LEbjQrNOCvglFctHuHtYIlMgih1TBZq6UWMZ9/VnDSat7LAlaoXmQZfSDgaVp0IC8w
+	 MnftLV6GBwj/Q+tPpOWdf6RWoUafKU5eGbQnUIimGFafxINR3+aJbTW+tVub2TWppM
+	 Se6pkeVoDn9lccYmeuPvvWGQVzUpLiKi8JK8pKx9cb7wpgLKAH6KSBwdk0byP9TFGB
+	 bNu9EZXE9e895QEaEm8wapHx1cWFjrDD7CEvvNxoSIvcv6mlDaugjQyCyNGFEFs80V
+	 OYFq7MdRfuZaA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 6/9] mshv: wire SEV-SNP partition ioctls
+Subject: Re: [PATCH v4 9/9] mshv: set up own SynIC registers on a nested
+ root partition
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260831112704.2851147-7-weh@linux.microsoft.com>
+In-Reply-To: <20260831112704.2851147-10-weh@linux.microsoft.com>
 References: <20260825040505.826600-1-weh@linux.microsoft.com>
  <20260831112704.2851147-1-weh@linux.microsoft.com>
- <20260831112704.2851147-7-weh@linux.microsoft.com>
+ <20260831112704.2851147-10-weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 31 Aug 2026 12:07:25 +0000
-Message-Id: <20260831120725.C70731F000E9@smtp.kernel.org>
+Date: Mon, 31 Aug 2026 12:09:42 +0000
+Message-Id: <20260831120942.9ED911F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] Error recovery paths unconditionally attempt to re-acquire host ac=
-cess for all pages in a request or region, guaranteeing failure and trigger=
-ing unwarranted partition quarantine.
-- [High] `MSHV_MODIFY_GPA_HOST_ACCESS` alters host access without updating =
-the region's `host_access_released` flag, causing host access to be permane=
-ntly leaked or double-acquired during teardown.
-- [High] Releasing host access fails to set the MAKE_EXCLUSIVE flag, causin=
-g the hypercall to use partition_id 0 and failing to assign the memory to t=
-he guest partition.
+- [High] Missing memory decryption for locally allocated L1VH SIRBP in Conf=
+idential VMs.
 --
 
-commit f76d3f5042ec21e318f98c3b6d0b444fad2c8e2d
-Author: Wei Liu <wei.liu@kernel.org>
+commit 0a5809fa9d9b76912e599a03beec81fda2326b1b
+Author: Wei Hu <weh@microsoft.com>
 
-mshv: wire SEV-SNP partition ioctls
+mshv: set up own SynIC registers on a nested root partition
 
-This commit wires the SEV-SNP UAPI into partition creation, memory ownershi=
-p,
-isolated-page import, launch completion, PSP guest requests, AP creation,
-and teardown. It implements tracking for child mappings and released host
-access per region, with error handling for partial maps and teardowns.
+This patch modifies mshv_synic to set up its own SynIC registers on nested
+root partitions instead of assuming VMBus has provisioned them. It also
+updates the mapping of hypervisor-provided SIMP, SIEFP, and root SIRBP pages
+to use MEMREMAP_DEC to support confidential hosts.
 
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index 4a15d4bfa925a..424b7da680c16 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
+> diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
+> index 0fdbae1e053c3..8470cf958f21b 100644
+> --- a/drivers/hv/mshv_synic.c
+> +++ b/drivers/hv/mshv_synic.c
+
 [ ... ]
-> @@ -1297,51 +1331,51 @@ static int mshv_prepare_pinned_region(struct mshv=
-_mem_region *region)
-[ ... ]
->  	if (mshv_partition_encrypted(partition)) {
-> +		int recovery_ret;
-> +
->  		ret =3D mshv_region_unshare(region);
->  		if (ret) {
-> -			pt_err(partition,
-> -			       "Failed to unshare memory region (guest_pfn: %llu): %d\n",
-> -			       region->start_gfn, ret);
-> +			pt_err_ratelimited(partition,
-> +					   "Failed to release host access at GFN %#llx: %d\n",
-> +					   region->start_gfn, ret);
-> +			recovery_ret =3D mshv_region_share(region);
+
+> @@ -511,8 +524,8 @@ static int mshv_synic_cpu_init(unsigned int cpu)
+>  	sirbp.as_uint64 =3D hv_get_non_nested_msr(HV_MSR_SIRBP);
+> =20
+>  	if (hv_root_partition()) {
+> -		event_ring_page =3D memremap(sirbp.base_sirbp_gpa << HV_HYP_PAGE_SHIFT,
+> -					   HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+> +		event_ring_page =3D
+> +			mshv_synic_map_shared_page(sirbp.base_sirbp_gpa);
+> =20
+>  		if (!event_ring_page)
+>  			goto cleanup_siefp;
 
 [Severity: High]
-Does the error recovery path in mshv_prepare_pinned_region() (in
-drivers/hv/mshv_root_main.c) unconditionally attempt to re-acquire host
-access for all pages in the region?
+Since this patch adds support for confidential hosts by mapping
+hypervisor-provided pages with MEMREMAP_DEC, what happens to the locally
+allocated SIRBP in the else branch for L1VH partitions?
 
-If mshv_region_unshare(region) fails partway through the region,
-mshv_region_share(region) will iterate over the entire region from 0 to
-nr_pages.
+If we look further down in mshv_synic_cpu_init():
 
-Will this blindly hit the exact same page that caused the initial unshare to
-fail, predictably turning a localized failure into an unrecoverable failure
-that permanently quarantines the partition?
+	} else {
+		/*
+		 * On L1VH the hypervisor does not provide a SIRBP page.
+		 * Allocate one and program its GPA into the MSR.
+		 */
+		event_ring_page =3D (struct hv_synic_event_ring_page *)
+			get_zeroed_page(GFP_KERNEL);
 
-> +			if (recovery_ret) {
-> +				pt_err(partition,
-> +				       "Failed to recover host access at GFN %#llx: %d; retaining re=
-gion\n",
-> +				       region->start_gfn, recovery_ret);
-> +				return ret;
-> +			}
->  			goto invalidate_region;
->  		}
->  	}
+In a Confidential VM, memory allocated via get_zeroed_page() is encrypted by
+default. Because set_memory_decrypted() is never called here, will the
+hypervisor be unable to access the event ring, causing a regression in event
+delivery for L1VH?
+
+For comparison, drivers/hv/hv.c decrypts its locally allocated SynIC pages
+via hv_alloc_page(..., decrypt=3Dtrue, ...).
+
 [ ... ]
-> @@ -1689,6 +1744,473 @@ mshv_partition_ioctl_initialize(struct mshv_parti=
-tion *partition)
-[ ... ]
-> +static long
-> +mshv_partition_ioctl_modify_gpa_host_access(struct mshv_partition *parti=
-tion,
-> +					    void __user *user_args)
-> +{
-[ ... ]
-> +	while (offset < args.page_count) {
-> +		u64 count =3D min_t(u64, args.page_count - offset,
-> +				  MSHV_USER_PAGE_BATCH_SIZE);
-> +		u64 completed =3D 0;
-> +		u64 i;
-[ ... ]
-> +		ret =3D hv_call_modify_spa_host_access(partition->pt_id, pages,
-> +						     count, &completed,
-> +						     host_access, flags, acquire);
+
+> @@ -595,8 +608,7 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
+>  	struct hv_message_page *msg_page;
+>  	struct hv_synic_event_flags_page *event_flags_page;
+>  	struct hv_synic_event_ring_page *event_ring_page;
+> -	/* VMBus owns SIMP/SIEFP/SCONTROL when it is active */
+> -	bool vmbus_active =3D hv_vmbus_exists();
+> +	bool vmbus_active =3D mshv_synic_vmbus_owns_registers();
+> =20
+>  	msg_page =3D READ_ONCE(spages->hyp_synic_message_page);
+>  	event_flags_page =3D READ_ONCE(spages->synic_event_flags_page);
 
 [Severity: High]
-Will releasing host access via mshv_partition_ioctl_modify_gpa_host_access()
-in drivers/hv/mshv_root_main.c fail to assign the memory to the guest
-partition?
+If the allocation in mshv_synic_cpu_init() is updated to decrypt the page,
+does the cleanup path in mshv_synic_cpu_exit() need a corresponding change?
 
-When userspace issues this ioctl with acquire=3Dfalse to make pages exclusi=
-ve
-to the guest, the flags variable lacks the
-HV_MODIFY_SPA_PAGE_HOST_ACCESS_MAKE_EXCLUSIVE bit.
+Looking at the cleanup path in mshv_synic_cpu_exit():
 
-Because the MAKE_EXCLUSIVE flag is omitted, the underlying helper
-hv_call_modify_spa_host_access() will not populate
-input_page->partition_id and it will default to 0. Does this mistakenly
-assign the memory to the root partition instead of the guest?
+	if (event_ring_page) {
+		if (hv_root_partition())
+			memunmap(event_ring_page);
+		else
+			free_page((unsigned long)event_ring_page);
+	}
 
-[Severity: High]
-Does mshv_partition_ioctl_modify_gpa_host_access() in
-drivers/hv/mshv_root_main.c alter host access without updating the region's
-host_access_released flag?
-
-When userspace successfully unshares pages here, the change in hypervisor
-state is not recorded in the kernel's region tracking.
-
-Because destroy_partition() relies on the host_access_released boolean,
-will it skip restoring host access during teardown, leading to host access
-being permanently leaked or double-acquired, and causing a host hardware
-memory encryption violation when the memory is later reused?
-
-> +		if (completed > count) {
-> +			ret =3D -EPROTO;
-> +			completed =3D 0;
-> +		}
-[ ... ]
-> +static long
-> +mshv_partition_ioctl_issue_psp_guest_request(struct mshv_partition *part=
-ition,
-> +					     void __user *user_args)
-> +{
-[ ... ]
-> +	ret =3D hv_call_modify_spa_host_access(partition->pt_id, pages,
-> +					     ARRAY_SIZE(pages), &completed,
-> +					     0, 0, false);
-
-[Severity: High]
-Is the HV_MODIFY_SPA_PAGE_HOST_ACCESS_MAKE_EXCLUSIVE flag similarly missing
-here in mshv_partition_ioctl_issue_psp_guest_request()
-(drivers/hv/mshv_root_main.c)?
-
-The flags parameter is passed as 0. Will this also cause the hypercall to
-use partition_id 0 and fail to assign the memory to the guest partition?
-
-> +	if (ret)
-> +		goto restore_host_access;
-> +
-> +	ret =3D mshv_init_async_handler(partition);
-> +	if (ret)
-> +		goto restore_host_access;
-> +
-> +	ret =3D hv_call_issue_psp_guest_request(partition->pt_id,
-> +					      HVPFN_DOWN(req.req_gpa),
-> +					      HVPFN_DOWN(req.rsp_gpa),
-> +					      mshv_async_hvcall_handler,
-> +					      partition);
-> +	if (!ret)
-> +		return 0;
-> +
-> +restore_host_access:
-> +	{
-> +		int restore_ret;
-> +
-> +		restore_ret =3D hv_call_modify_spa_host_access(partition->pt_id,
-> +							     pages, ARRAY_SIZE(pages),
-> +							     &completed, host_access,
-> +							     0, true);
-
-[Severity: High]
-Does this recovery path in mshv_partition_ioctl_issue_psp_guest_request()
-ignore the completed variable from the original failure?
-
-By passing ARRAY_SIZE(pages) instead of the number of successfully released
-pages, it attempts to restore pages that were never released (or failed to
-release), guaranteeing that the hypervisor will reject this operation again.
-
-Could this predictable secondary failure trigger an unwarranted partition
-quarantine and memory leak?
-
-> +		if (restore_ret) {
-> +			pt_err(partition,
-> +			       "Failed to restore PSP request page access: %d\n",
-> +			       restore_ret);
-> +			mshv_quarantine_partition(partition);
-> +			if (!ret)
-> +				ret =3D restore_ret;
-> +		}
-> +	}
-> +	return ret;
-> +}
-[ ... ]
-> @@ -1901,6 +2498,34 @@ static void destroy_partition(struct mshv_partitio=
-n *partition)
-[ ... ]
-> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-> +	if (mshv_partition_encrypted(partition)) {
-> +		if (partition->pt_initialized) {
-> +			ret =3D destroy_snp_partition_state(partition);
-> +			if (ret) {
-> +				pt_err(partition,
-> +				       "Failed to destroy SNP state: %d; retaining partition\n",
-> +				       ret);
-> +				mshv_quarantine_partition(partition);
-> +				return;
-> +			}
-> +		}
-> +
-> +		hlist_for_each_entry(region, &partition->pt_mem_regions, hnode) {
-> +			if (!region->host_access_released)
-> +				continue;
-> +			ret =3D mshv_region_share(region);
-
-[Severity: High]
-Does this teardown code in destroy_partition()
-(drivers/hv/mshv_root_main.c) rely entirely on the desynchronized
-host_access_released boolean?
-
-Because mshv_partition_ioctl_modify_gpa_host_access() alters host access
-without updating this flag, will this skip restoring host access for regions
-that were dynamically unshared by userspace, leading to improper cleanup and
-host kernel crashes upon page reuse?
-
-> +			if (ret) {
-> +				pt_err(partition,
-> +				       "Failed to restore host access at GFN %#llx: %d; retaining pa=
-rtition\n",
-> +				       region->start_gfn, ret);
-> +				mshv_quarantine_partition(partition);
-> +				return;
-> +			}
-> +		}
-> +	}
-> +#endif
+If the page is decrypted during initialization, will freeing it here without
+first calling set_memory_encrypted() return a decrypted page to the kernel
+allocator and cause a memory corruption regression?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260831112704.2851=
-147-1-weh@linux.microsoft.com?part=3D6
+147-1-weh@linux.microsoft.com?part=3D9
