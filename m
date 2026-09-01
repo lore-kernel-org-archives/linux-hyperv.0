@@ -1,82 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B12440EB9C;
-	Tue,  1 Sep 2026 14:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E8748422F;
+	Tue,  1 Sep 2026 16:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788274465; cv=none; b=jbgPOJlBCmRH0zD0rZfbBcXWNxR0YMqx4HUJoq9QDMnBVgAP9ajRXf2BlqLanwIiBZbAZTRPp7hZBjCyxs+YTzrI/0EzvQx1144AQ85FXEGoIsKc91ZTFbA8zemNZ+RfLOPQSxsa0/QF7hiS1pq0cqProa1j6mG3+MglT9VTZNc=
+	t=1788281852; cv=none; b=hW/3nnLiChiGFbf33qkbUwrMjaRHMKa+F+PZTbLQ5vXfgIPJFd0x9pN3g1WysAmo5S7iW+twAKxe+khlQxjW76Ucmt/oWqotlMKMSvLcFBxyHFaDcTyzY9Jpa6hU6MezzJNehThkvNV3Fq4R7SVMcgxSgiAokPdpdQLI6scV2ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788274465; c=relaxed/simple;
-	bh=2yqEFoZRV/gOa/QOao+FpoDyoS0SOeTraFB+BwNzpAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsSENMNrx1fTModBkoRLiXmfzaKniQrwDogGbAvkf8UIQwPtjAB1vFBOqAu8MmbbU3CkKv5rrlhKpfUQZLTOcGGtvdB2RQAIUDNcmICBNQY03RYyyaSaoESiRkCRQUWs+5S+LIBZASSCeqkxLnkzjPQLc+0EHgbmiEPpkXoVA44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IC1MTE/t; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788281852; c=relaxed/simple;
+	bh=BYLNSpftBMqiAsSmrofow/DtQEm1FVYqb+nofRHTU0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hzX0g5dYF9mYqKcuNEe+0vfKNQagwCiae4cIHpKlaOefuNXGfmtvHyBpA6nKHdQhjCF5hEQZVNHhPKJ4TdOSTeDKm7jldq0l63Dpv9WRWfrA+Yqu7v0y2gylMENZltzmcf8OnSIf0Eizj5M1OTIGODBRPZol5yCdi0VMvJpMmwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ByuK+gb5; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IC1MTE/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D34071F00A3A;
-	Tue,  1 Sep 2026 14:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788274463;
-	bh=D2Aw6+sh/9HCL/pfHHy9+7bmNqAJtyeu2dn/jRsQJgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IC1MTE/tMVT7MfUj42mlnRumBVMs0Rm/xghQWbRQcHvGBNhru2GFH08KM5UhSvayS
-	 OALRscp688it1rCVtPNV0IRSPGGmNXq2mjNi7LiNt2WEcFTsPKJ1WzJKsBccr4tsXv
-	 tZY0tv2wYn1IjVeCF1Nnt+tZC9sUhqCmIcsHf/zhyscNLrgxVWRM8oDcs68LyjG8vR
-	 BxIq4EhT00TQ5qMH9/60r2uYHWsEWZTVUqiOXS2vGF3qZ1HujaBt9h930lqLGdRPat
-	 HLEkJMdW+0IBfGakHXd+9uqbqcvWgrQseWY6weoQ0TUlDad0aFyfWblHe8GJyD0QZz
-	 DymLFfIyqtr3A==
-Date: Tue, 1 Sep 2026 16:53:58 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Long Li <longli@microsoft.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, 
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, x86@kernel.org, Jake Oshins <jakeo@microsoft.com>, 
-	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] x86/irq: Fix lost interrupts on CPU hot-unplug for
- Hyper-V PCI/MSI
-Message-ID: <7zu54oo4dx2dwnmu3ckxjbasszn6ayn2kq6kdhu2ce4ltlsmu3@jbzjlk52ydbf>
-References: <20260728135117.2888175-1-namjain@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ByuK+gb5"
+Received: by linux.microsoft.com (Postfix, from userid 1130)
+	id B049220B7128; Tue,  1 Sep 2026 09:56:54 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B049220B7128
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788281814;
+	bh=pq3olvd2U6K9Wem0Ry+RFBQUO82EsXIj9NKtu2tnT/w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ByuK+gb5R6+Yu1yunYrmlM2ifm0fOym4YVQQvwo/SeSNZMCjDpGIcAKg9ZN1qw3qV
+	 hHuuIg2KUU1rzKgbVPtiNfFgQe5sBu/3Pw0GyjVsh5ypIeJf+WUN9R/8YgQizAJd36
+	 sIeTfmow7t8EW9ZXC0XSwsL6Am6QiwL2q9X7tm/I=
+From: Thara Gopinath <tgopinath@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	ardb@kernel.org,
+	ilias.apalodimas@linaro.org
+Cc: James.Bottomley@HansenPartnership.com,
+	"longli@microsoft.com--cc=tzimmermann"@suse.de, javierm@redhat.com,
+	lszubowi@redhat.com, francescopompo2@gmail.com,
+	tgopinath@microsoft.com, x86@kernel.org,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	Thara Gopinath <tgopinath@linux.microsoft.com>
+Subject: [RFC PATCH 01/12] drivers: hv: Add HYPERV_VSM kconfig option
+Date: Tue,  1 Sep 2026 09:55:15 -0700
+Message-ID: <20260901165647.3160413-2-tgopinath@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260901165647.3160413-1-tgopinath@linux.microsoft.com>
+References: <20260901165647.3160413-1-tgopinath@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728135117.2888175-1-namjain@linux.microsoft.com>
 
-On Tue, Jul 28, 2026 at 01:51:14PM +0000, Naman Jain wrote:
-> On CPU hot-unplug, fixup_irqs() re-injects interrupts that are still
-> pending in the outgoing CPU's IRR via the irqchip's irq_retrigger()
-> callback. The Hyper-V vPCI MSI irqchip never installs one, so such a
-> pending interrupt is silently dropped, leading to lost interrupts, stalls
-> and "No irq handler for vector" messages.
-> 
-> Patch 1 is the minimal, backportable fix (Fixes:/Cc: stable) that installs
-> irq_chip_retrigger_hierarchy() on the Hyper-V PCI/MSI chip. Patch 2 then
-> switches fixup_irqs() to call irq_chip_retrigger_hierarchy() directly, so
-> the retrigger works for any stacked irqchip without a per-chip callback.
-> Patch 3 drops the now-redundant irq_retrigger() initializations.
-> This way, patch 2 and 3 do not need to be backported.
-> 
-> The series follows the original RFC:
-> Link: https://lore.kernel.org/all/87y0f3jhd6.ffs@fw13/
-> 
+Introduce CONFIG_HYPERV_VSM, the top-level switch that gates
+VTL0-side support for Microsoft Hyper-V's Virtual Secure Mode (VSM).
+Enabling it lets the VTL0 kernel load a small secure kernel into
+VTL1 and stand up the VTL0<->VTL1 interfaces needed to request
+VSM services.
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com> # PCI
+Depends on HYPERV and on X86_64 which is the only architecture currently
+implemented.
 
-- Mani
+Signed-off-by: Thara Gopinath <tgopinath@linux.microsoft.com>
+---
+ drivers/hv/Kconfig | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index aa11bcefddf2c..a325fc61be604 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -40,6 +40,15 @@ config HYPERV_VTL_MODE
+ 
+ 	  If unsure, say N
+ 
++config HYPERV_VSM
++	bool "Microsoft Hyper-V VSM driver"
++	depends on HYPERV && X86_64
++	help
++	  Select this option to enable Hyper-V Virtual Secure Mode.
++	  Enabling this option will load a secure kernel in VTL1 and
++	  establish an interface between VTL0 and VTL1 to request for
++	  VSM services.
++
+ config HYPERV_TIMER
+ 	def_bool HYPERV && X86
+ 
 -- 
-மணிவண்ணன் சதாசிவம்
+2.34.1
+
