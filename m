@@ -1,121 +1,112 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazolkn19012057.outbound.protection.outlook.com [52.103.2.57])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11020107.outbound.protection.outlook.com [52.101.85.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC18D2D1913;
-	Tue,  1 Sep 2026 21:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.2.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD21472075;
+	Tue,  1 Sep 2026 22:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.107
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788299347; cv=fail; b=tqgXM4mzlZaZKFd6ObksTzExmfuLnmdxm0Jf3x7XhigjL10hJ4GpcRc6GoSL1HkK4abHmV6a+dkHM3CigO+1k4suUFz82urcuuBsSTFXnqXVyFxWAsbijyEFXR5GYL60SpRyIxHk7yyIxwk3xI5GvvAh0NQLFfxPUBzC+XowrJ4=
+	t=1788300273; cv=fail; b=bx4yudz+i9XRW12u6LupOWmBMN+QAzRVVjU9/0XbmC+jUWqcyFaIx++NokyJlQnclR2MBxtvCvt52hGTVgnflrtSJ+Ajt1Htx3v8GZjfNm80WhI5ZtEizZoeH4vCNNcHqgNCts+R2KElGhDeH02FAgbzlSFosiy6QZblVDJBQ/Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788299347; c=relaxed/simple;
-	bh=ye1Rf3ymkEIuqBC+7ib6mcKoA4K3+Z0onWAjFZY9AU8=;
+	s=arc-20240116; t=1788300273; c=relaxed/simple;
+	bh=XcZTuWLrDBgvrpzSXvtFTuICK0Ppg+6kOU8PAE8hgTk=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Y4PajLHT72CWESqNGvVWfF3SH6jshhCotKuiclXwmoF450z83Rerq20ZXFJDyRCVGCpn9P/3OIDigtDwsHpWK+GeE5UZK7vmxrpjzWy5yIa1AZrHZOXJqlNNnAhG+QoNveUhioAFILFrrcRePBHGbI3ij7bl3FCD8aCGPksp9t0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=gFLkjLmm; arc=fail smtp.client-ip=52.103.2.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	 Content-Type:MIME-Version; b=rxgEqTysOBJSjM/dtnQFcUnAfCbtX0LeQcBB6YqpLfYDVUo1KG1rHJX+KlNA0W5cHiMnNa7EdAf/VzBb0ZSsNsy3YcUYrEmcfQXb+kceVcs7WdJueyLV6+w1jTIu1ZnnZYjftcHF89BrBwir8d2WSSBmyugMJDkJRHb+2wy5GuU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=dolGooN4; arc=fail smtp.client-ip=52.101.85.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="gFLkjLmm"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="dolGooN4"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L+MOydS5y6FX0W0rV3IsNDc0dVvH50JeL9+qZzjt1gU2odeVvVf5M9cxSf5tajkw+9KJlJNx62aGtTFhFAvXQVCdfHqOgkjQRp3sLgMwGnmjGoKzKHCqPOkEKfHgbI2FtMbY4yx/vMVM9+XDxsa3X1S0+9gDb4OJgJFwTMlzsbganWM0Spt0Kg4fLlxeW0vk5B9QN7PUmiuxCosC13HW41IPD7fFt1cm+DNxJr9DbPf+uodRsL7Dde2TzuFfqmNHwXlJ41CGjbhwidC8gcOh9IDUCtWrSQWFOrbj+4rGZevkJKKDaCmEC1RdUinRHs3nN6Gw91+sFmQpQUvrcGUUNw==
+ b=XGHWuoqpJ8zze0KnKwAD4hk51R7QJ3wc6g0bTYO9O87lj/5tg6p2G6z++89BzhslrM8eupXkp4Riz/ck3a76bFa28LVatVpUwqQxb8b+9KWM4SduCPNjupLo7edBgkQCYx7AYF4SMexHlXZN9l4pFLcG/YWoCztsDEkBy6dx7cC8GFwticKMmbhw5T1kw1U/4cIw3yMK4am8gX5KyaSIwlbj7SKEWm9XkY16iRRAzLUPB/5mLuV1tfOjQQ5qla8D3IM3udda1xLQkLfqlo+V52+54XubSdqXqOv0r6tVaHNhXmu603nMD01wNrC2w7JDmL2DrKJxlW2B7vOqOzyRhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z2rwUGGX/YmpKU7iwXQ4hO647MIeecLmjoYdMrjHunQ=;
- b=Tv4LLY1Qwv5WxJWI9UzvAuMtEHR/gpdqDRj52IRSU0oaHuioEXIIU8/gc5dHQ4npE6EOHaQJHP++aLg0hbe6sMNdDv+uBNyNHcn77zhQNDr69Ps4r7+zeWi3n1uhUxP0da0q6NbE9Wp3tP1j8agXrweOrrCj8a5Q+ixSFhvNXs5yxE9tkMPXgTCpnmh2erqFqIIfvho7YX0cZdVqtqBBjZq6EOxxVqm4EPSNIkGhRX19n40/IrfgjwoS5csSsnhAUefRbsyoWjEMV0VIouDbt60fS9CUQGY/ChzcuUhkG3Uam+zp7ohjOYWVx/qPqekdp4KOS6p72bg9FVjQqTuoMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=XcZTuWLrDBgvrpzSXvtFTuICK0Ppg+6kOU8PAE8hgTk=;
+ b=KCFXkaCPyGTxm2C4dco3J86YI3WhpKhqAkC7iBDtdX3Q0Iv7v4XVfVYTlRnBXqdunNgwQ4HFQ08YhlakybORPahJNDI1sPi8zy8oikhCVmiFLwrgftcQvggwUkEA0JOA3lBAj+ww6hmTQY90Fva2Tix2coHYQJE3SuhuymvEP69HeOLdZy9k/zEaDXj0iwxSJMyJ/u2KZUVFHO8oBsqpDxLyPgPjlju1ouvKxhIToeUCBA8Zyx4CT8nbU44Wlnv24p4Pb6Y/l7+BNTeKQ1SyaLWv5gos4HZSGOLdE5puss5BLm0FUIRVqp7jpSLErri3lgSlt5qYOAxWXNLw+TvoPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z2rwUGGX/YmpKU7iwXQ4hO647MIeecLmjoYdMrjHunQ=;
- b=gFLkjLmmfqLZ8M2JoXeJorQGbIgE3/hiTzsanUfr/3AvWHvKRktvk/zW/sgkU+JvvYxXzleGofGs7YcJk81ss8jLWPh9CZiFg8aKi3OFGQCy1wV+ZUycFvUAtkDKConHhwBbRTX03HlKxuTO4wlrwn+5ni4LqWuE7qeymX377KMS0in/LvLeiFkwadahEAtLy8w4c3TNCq5vigKuENxkU/+MzXm0kgTknXpC7dBxIM1NfoznfcZtlAj6UlOYzbtBXU1xTkMcV5t7g991H3xgr6n7+x9DkUxOX1unrYqNMbE121Z1Y+LOFZTh6B+m5aFyoQVnIMskaoDZwmIUs6Qiew==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by PH0PR02MB8405.namprd02.prod.outlook.com (2603:10b6:510:107::5) with
+ bh=XcZTuWLrDBgvrpzSXvtFTuICK0Ppg+6kOU8PAE8hgTk=;
+ b=dolGooN4/vMPynF2gQ/4k9wYzLgsU1RDUFeKXtLV1oKxbUfp0GVAw1sfHPmQenxZzil7oU7JMCbgwd3tZ++cIrHCBtoicV6ngn1gLWqj3MjXa+UrviTyYMfd7T6EbNGfSNeoRpHWYHOKbwatUK8fSD/Qo7ex/7EFd7GQl0rTGzc=
+Received: from LV5PR21MB4704.namprd21.prod.outlook.com (2603:10b6:408:307::7)
+ by LV2PR21MB3087.namprd21.prod.outlook.com (2603:10b6:408:17b::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 21:49:03 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 21:49:03 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Jiangshan Yi <yijiangshan@kylinos.cn>, "kys@microsoft.com"
-	<kys@microsoft.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
-	<decui@microsoft.com>, "longli@microsoft.com" <longli@microsoft.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>
-CC: "hpa@zytor.com" <hpa@zytor.com>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "13667453960@163.com" <13667453960@163.com>
-Subject: RE: [PATCH] x86/hyperv: Fix stale comments after stimer message mode
- removal
-Thread-Topic: [PATCH] x86/hyperv: Fix stale comments after stimer message mode
- removal
-Thread-Index: AQG9kfKljQUV8g90vRudy5ZCogHbMLb5kSng
-Date: Tue, 1 Sep 2026 21:49:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.0; Tue, 1 Sep 2026
+ 22:04:22 +0000
+Received: from LV5PR21MB4704.namprd21.prod.outlook.com
+ ([fe80::144b:98da:1262:2ebb]) by LV5PR21MB4704.namprd21.prod.outlook.com
+ ([fe80::144b:98da:1262:2ebb%3]) with mapi id 15.21.0406.000; Tue, 1 Sep 2026
+ 22:04:22 +0000
+From: Haiyang Zhang <haiyangz@microsoft.com>
+To: Christian Melendez <chrismelnu@gmail.com>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [EXTERNAL] netvsc.rst: is XDP_REDIRECT still actually
+ unsupported?
+Thread-Topic: [EXTERNAL] netvsc.rst: is XDP_REDIRECT still actually
+ unsupported?
+Thread-Index: AQHdOYPj36/Bm4wrJEKYaF+h1j0eDra6SHGA
+Date: Tue, 1 Sep 2026 22:04:22 +0000
 Message-ID:
- <SN6PR02MB415786ED07FC3162B07BA23CD4A82@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260901033201.167219-1-yijiangshan@kylinos.cn>
-In-Reply-To: <20260901033201.167219-1-yijiangshan@kylinos.cn>
+ <LV5PR21MB470448DB6745196E16491E3ACAA82@LV5PR21MB4704.namprd21.prod.outlook.com>
+References: <20260831200357.45390-1-chrismelnu@gmail.com>
+In-Reply-To: <20260831200357.45390-1-chrismelnu@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=3436e298-0ff4-4017-8dc5-24ea1f623374;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-09-01T22:03:36Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|PH0PR02MB8405:EE_
-x-ms-office365-filtering-correlation-id: 248ed40d-7a72-4d46-28c7-08df0872d6d7
-x-ms-exchange-slblob-mailprops:
- Cq7lScuPrnrlC5lHdFGci+YUsdS3F/CI608IrAXhbtN5mY9QiVFe1Ey+Wrkm1x6WJjAAFf05iqaYozq4H1Xl1GuBcLf45t6tgog6DmHfQ6btw0EnpnUzs2Dsrj2cfvhT0oaCx/ZDAhF+ji8Cit/eNKqRkfFlFYWSc+XPYwZR4wIIUKYCuGrEP4gxO0sS1GXrtWIaANFNFrG8s8J4OC8oA3TSr2yzbQqA8b2VUvbcy7/XHzUz/WDUCjyhezRG7xHCrAKvhKhBwkNTbGivQrnYt6OCmrBqgzisQhIcYwCAR86licYww/P4yZAq9VfP8kJ2QL0T/GyaVttjDXL6PE2yY0UsQbsXgsY+fq2FRZ68Q5w48UwP4waE91Bqp4B9MhQtLRJEv7GzfQQXXcFaIGVmK8nrV5WkN8ceLlHZ+sQDtdEn1Y5Li3ZedVhZxfYgrcplGgsQ+y9lcKRvbFVbjgtaixYSe/IB/FTJWr/tDRkRxdsvEaMpaLlQDMcsweUqyqx+298aSUczClrLAatCvO18k6xwYuZzd5r9iZ+67m35T0+F/HUTGph2OhT90xXQeClwJ8tkaRCgiaA6B0QbDvrdGOTTmJ0QqzC0YejkCVUmFNabm3NZzl2A44+P4j/Q8Uc5DKKD/Dn/DJXv2EWfUMZ6rpytQQdmRpkmqTYMdsq2nny5hYPrUX3xadIJz0J8xbPcTSV3ae/JMgSuai8zHURHAtXLvADdXXePXG4In001NpvnwnhtDAUj3UZCMNWbjV/wPe0ppCgr8Pw=
+x-ms-traffictypediagnostic: LV5PR21MB4704:EE_|LV2PR21MB3087:EE_
+x-ms-office365-filtering-correlation-id: 8f7e4318-7cd5-4fd3-a62f-08df0874fae7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:14566002|24021099003|55001999006|25010399006|4140399003|8062599012|8060799015|19110799012|37011999003|15080799012|51005399006|31061999003|13091999003|3412199025|440099028|102099032|40105399003|2607281247196008;
+ BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|38070700021|10067099003|7146999003|56012099006|11063799006|7053199004|18002099003|22082099003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?Mn39TYrYrRiATYle9c8WUZ4GyCQ2fZ17KHliTvF8VEZvOdFd0TQmuj1EB6HE?=
- =?us-ascii?Q?H0orsBm0ife8xtffgbFjxFQrwgKYlwoLsT3TZmo3hUUJLKUVf+Cp1xFg6Dw/?=
- =?us-ascii?Q?BOaLhJt/pvHu2+YxwGgLR38Qbc0uvameu5v/IxIX4XqF5TwZ1i2Hpn0v99nB?=
- =?us-ascii?Q?xEncME89qLfzF0mI5qqiZdZXUAd962I5gmTGRrwnLTWFaKgmI8+LOTxFiiI8?=
- =?us-ascii?Q?dCKXG+lyMwlCPe7lVGfMy20PvWNzXFSuV74xZTfca14iYybZdX1CDmWok72n?=
- =?us-ascii?Q?ShoT5nM88uogzvnz3HGJXTWT+0jhUy/COwKhS0rh9CbUkNJ2d4h+iZLKkDEf?=
- =?us-ascii?Q?TJpi3IWapf3OzOWVMtOVw2UKDqfYkYTVecTn+nXWJFWdiLkVbMIN9In7jnwK?=
- =?us-ascii?Q?qgEuBjTO6CQzs1Q+llZykHnYkIZtN8UY2Uuynm/Zde0IVnKu6TYyGL7g8Pr9?=
- =?us-ascii?Q?FiX7iRINYkhPbKfyUifrRccQGlc1nqHY9WYVca7muy496XB+wfZwnhmhTYO4?=
- =?us-ascii?Q?siS0jQ4afxlFi61mdHwJE4OId58U4xwgCpiG1qIj6nvxkHCDfZIpl+wC07co?=
- =?us-ascii?Q?ygyKCThzBDLDwSzOlL3nunUN6cnlVsYDrorL+/hxnGhUHxM9uKPsMKBh8mWZ?=
- =?us-ascii?Q?wE3txFReddjoVqj93DEya5IIx+ev8baE5FCWh8/m7L6waodx6MCGuxvrCUMH?=
- =?us-ascii?Q?2XxM49xiS6T0kIMG9XQKEwj1MFcp6ejBGAAVlYC66KLXBWytEQK+qNiIsXcC?=
- =?us-ascii?Q?Xu2+G4fPLcuSdhPvAilG4Kb2Trq5KGLX+oIg8TpPxmnav0L8aWYwi4TXpvxh?=
- =?us-ascii?Q?lq4A2vpSmfk+ehQumlco0U5lTd5HU79Xit2ngpzhBA/GCNZu+YjqVlLvFQYR?=
- =?us-ascii?Q?Kr7DehOoWaZzcBz0QTM7dgrzyHPB2AMGF71HacJrsFLbrrHQHO3cZ1RrH3Ny?=
- =?us-ascii?Q?iH2C1XwoVf1V7Yruyidko4gtPpwpa9N6ZbTzi2ksYse0bIgNbqL4yaD/9tQQ?=
- =?us-ascii?Q?TLJgxEy8IEFwC7MRgy/WHqkAl31FDtmN/DeW6WRD/Pqjyv8=3D?=
+ B/iIGTWgMYDUtP8IjKg/J4XNk8Qz5k6KKsIjPI3Lg+fZIpmywOoy3Yj6LwaeuH4U2eIzqAfX90PlARkHHXi4a+3Hv7rrqN+33Evu7ujm1Sp86SrIuqqQSjCjwTWzzC1kk/JBNwSRZobMQoG+e2Lvpv8iUs2Hsk7uo/iP9AA89bffX+8gmTOgU//KfglbImPC6AQ9q9MnDW9xwunx6KNFi6R7mUxF6f7ttl7VnrweQEUvZqwJi7pNoLdhHxB3ZB4vectTcSzI4xNu69EIs41+FOaI+b2VKwJhRu3/rtBiMq2qOcvOlOLmhZg0HMKLYnpGACqEWnR+RmHjkAkSab2nXd6jDP0WPb4jWINHbc9KhHmNigZvZkl3bA0l6OYC2X0XRHZHIbDyIQk6TvtgOWohimh/feWGfdtRDbS1Vb08bbJpa5KFgAFcki5r38kVs0FmlB0tgpdeG9WGOVSps6RVYA8GaIO1kimUgDt2NysbbqOOwZqjlyM7fcru7WZGLGG8MF/6zKsTpehCbNakhESHUQmxvAUTwwhXSb7XmYsU5/A34g1zE4lgUiGZP8YS4sSwJJZgJP0O1bIRpwO+tU04AMMNi8Cpjqk8PVuD7p5PVCTuKKER+ojCBZahm3Vh6n1rKGm45dDfu5LaBm9F1kOk0O1/JZeT0XTxYbuXuhSPXvdz707oPkTxzigCXqjz22T9cJ/OQX8M/YK5JH5BXleBcVNLS/1zk8qD+MDCvi+RCiQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR21MB4704.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(38070700021)(10067099003)(7146999003)(56012099006)(11063799006)(7053199004)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?shgDLE+50qZkmfTnGUuKA/QhvsvxrlCsqmCt1ktvT6VKbYFxKs2+4tdF10Jd?=
- =?us-ascii?Q?MAxfZo29EMobEMFxJpIQ7smBQb/9V4sT7XMaUN0pO3+q5nBL6P6epkJhi1VW?=
- =?us-ascii?Q?+ZN/FG60KqPyc9a6ta95mshNKm0b2KCrtE/cHGupGOK058z/Sgu6G2WeeXn4?=
- =?us-ascii?Q?zE4CfxwMs3Z3jidorSWam0F3P2By4fihaS/5gWRYbJ2iHy+iR8q013aqTrE3?=
- =?us-ascii?Q?i6f+fiqenqbD2IXBS4dqmPk6ORDBQajJ45nPUZgkwyuT9iOOo9Hzy5I6txI8?=
- =?us-ascii?Q?RixVkWFU1Qh+gnXnq1yZQSclqrKB4rHP4v+B6XzQcR6jrmB5aSjw+RVAwakO?=
- =?us-ascii?Q?xVkiN9IC9UQx6VsRwU/rxNLidawwJz6qdLovfWSdyQemml9WhwF46DytReMG?=
- =?us-ascii?Q?vBkgkKBLupBu8hb9iAvDg5A/Lo7GhWyZxG9HqxVdzm8ydcySl7e+atw/iz2s?=
- =?us-ascii?Q?lOgUC5oa87mhgyCjDzRTt9QJuh8/+4togJJHp3n514/oZ7dsaIlMfLLF6fvM?=
- =?us-ascii?Q?clObotT8AmnEOCIf82SBmCBvB8VC6QtS/AItHtfdeSCKUZynYwx6F1UZrngk?=
- =?us-ascii?Q?cwkR4pwxK8Ot/GmQv2kDsBHEhIWmKFNJ2YUN5jKH8XwvYiQ5qy4Xm+L2doeC?=
- =?us-ascii?Q?YNnG9ZjpdriO5J35fO3hOJSPXnrjMq+0EZLcuGO0pNJ4MWQvTyU54JuofIDI?=
- =?us-ascii?Q?cUuJ+dnu0lnWmMFakPqrX3bfcNrtSaTuqx+samZayp9TswWwSjJSPnZGHBBc?=
- =?us-ascii?Q?vlg0wj+xtmQBLFV7tiwOeaTx215qT2zq1yjq7VhJaLRT2spkRLeqp7DhmBr1?=
- =?us-ascii?Q?mCsBQKjM9gn8OjGKbfu5BCz2oVM78Jz6iL6QIN7rmeEeJZg47AjHu3LmjDj7?=
- =?us-ascii?Q?PRTFLKwI3ptRnQvqRtiDdJ28TsTUpukGnabDmOlJt4C61yyb2+7DauO/imPA?=
- =?us-ascii?Q?02ej5Bbt8/CocW26k2GguAg0uew+Lr6tL+Xz1VMxrw5g9H6g+53HIkq3NzMY?=
- =?us-ascii?Q?lKenqSehWS8mmqwmW5rxH5IhjBWZCKvvQLGJz/mtzW7+xdnMwwmb3CASonZb?=
- =?us-ascii?Q?tqIchYvpgdx9achzoxg6iPdf1u9hx3v1KEyBJ1PI/h48kcsp6jsBg+4oUqJW?=
- =?us-ascii?Q?Z107SWtYR36+0l5ix/iPhS+zelmo7DbC78fOtk5eK81+hK0raobrKJcuZSvb?=
- =?us-ascii?Q?H838PCYEDFsiIXnFVECsrAgMGL16HuA3IE3Ci2+fSoqqRh4x54TzzEiPZw4q?=
- =?us-ascii?Q?sENMAIgPCahRy3BED2WEzYkzn0iDgDZngmcIPGzzIplF0s9PO18WBzb3hoss?=
- =?us-ascii?Q?KQyBxbnVvlQ1TqxNnn5DAF3kMbKaKO+XVmVmbKvTYWazvIHZ5lLQY6jLMHFe?=
- =?us-ascii?Q?SclNViQ=3D?=
+ =?us-ascii?Q?45f0XUwepfa6cWphUp7GbXa0WzI2u7oL0R6bhcNDfGlPPormdqTmvZg3Zv/c?=
+ =?us-ascii?Q?rNKSUXPbpL4UYhEfbw4MkgRWxGbd4Pg8dyO5S3ceGekPvpTtRuqz8Nf7KiQB?=
+ =?us-ascii?Q?KXYyZ2Kg533HvyZhd4ehOUDA7yogJ9gadhL74/6xYVbAVEJhrkcvF4qTYoWU?=
+ =?us-ascii?Q?t1xlh8llTZEW/6zykefAAnE0vLBOTnJaTiTelQ4sSAbchItxlQWJw+Sr5+vj?=
+ =?us-ascii?Q?5blT8XjfccEbQUHC0l4NRd2tcOM0dC6J0dZx9ihLfWyUOxXODO0NQJKBvPqO?=
+ =?us-ascii?Q?eepOjeCqydWS5Y5IbfGR2NsrTseUhqnUJ0LdbUQJtNV1bKh5FpB+s01e1dbi?=
+ =?us-ascii?Q?5I5bwFwXjlHBzOfgWSdwvCsrA6cwcg6nzGU9GLoOWrrnd9d32FF2p1QRMBNT?=
+ =?us-ascii?Q?s5tFz6DtjGVTdKpzW/ibfhBa5v6PXDzFLWaPJgaJpmFY/4+o5LKPVQl38TOf?=
+ =?us-ascii?Q?MnD6yiT3lI2eZz8Smw2w04Em906TBn+TXEKtUsKUAvxnhTmjZ7CdHG5/jyrz?=
+ =?us-ascii?Q?SeouxqYZoRX2cR8zaASPikaEwqYe+VbNoi5OGYEtwOapX5M1V9nydgEG/p0M?=
+ =?us-ascii?Q?mex8yqKCvQ9n3NILb3clSh5FJsW8AhN0ws1WfsfvYkmd7ikv6pxy0V0JVPSC?=
+ =?us-ascii?Q?VNlLPzxfThqwBGVFRcPI77EIkb/EvIpIq04I9SQRGH/hIWr2Eqfr1JOC7M3x?=
+ =?us-ascii?Q?jQuYXAFNuMbnZEDMXryX14pf1q9sOMmb7JbPoeXMNLs5X7fexRyzEXN00/uI?=
+ =?us-ascii?Q?gqQ70Q/AiZ48Py7bOd3Fh69S/Xv9jfj6eFwLyjN7W2eX8zJzsqqRSWFjd6Zz?=
+ =?us-ascii?Q?08UqujvIKxBGhc80Emuo4NJsxBXSJquw9/kGGcFKm/CM2c1z6yO9qzlQrvcq?=
+ =?us-ascii?Q?95agu/mJ/CHnILWDwJbk3gl1D1M/OrqVHwtlMHLtR9mLR1Hrw2dkKnd/Pgm6?=
+ =?us-ascii?Q?rL5FOXagea4xcfSOv6L17U5vFnGKGMPUe7fXgmqeOFxAeaaNmDyIAPOqAMVT?=
+ =?us-ascii?Q?NgPs04XR8a5PNYLftjLiah1GfS+/yi+amZohazAPsMNrPCIqOQQASLOWCgEt?=
+ =?us-ascii?Q?wSoBa7SbvpwaoznF16+29WLXcFxJOea4w0XpKdPBbFvDUInwL4Emugt8vE9f?=
+ =?us-ascii?Q?A66OLIuVAiw/MLClqezqe6ybU4Aik3H5xTisPXMEshc1f0raz3qSLHnf3zRm?=
+ =?us-ascii?Q?4BqIe9e+pz67KLSQrJHdCwVWNBRtJoFSkaLLttWHkYUAMZA/YfM2Dn8+Kif/?=
+ =?us-ascii?Q?5FRFV4Ml55Ko0rx/8USpW0sEhECtfs80Qe99zV5oplRy/mpdZvBpQ5scDgKd?=
+ =?us-ascii?Q?sE6dWA7JzqddUzVuGTZeauk64ciC/77bK4yHw4WVhcUSX+UrHseHbWzCOdt7?=
+ =?us-ascii?Q?y7qWPBGZhabolTQXOkgPlZV0tQcIZjcFDzh288XhGf4m2V509RA9thEahCgE?=
+ =?us-ascii?Q?0cxWIqZRPsyu4pyT98GpIvn7RCnJob61AW2dBndXEZOYp0VYAbHYWJlY9ub6?=
+ =?us-ascii?Q?z5K8b0kLne38GZLGZEf1/deSVOiVPpl3fba501jDkxzFs8eAYukakQ1VkruW?=
+ =?us-ascii?Q?fbfD/da7L3awDIbRcIoiTk5RPopXnQ/sMY7qsfn5DEXdFU6+aZxQB0HWxySs?=
+ =?us-ascii?Q?TzVAKlOulL2gUtukER66FKQMTvjBPP+GtAtC61khWLuSr/slX3HhcNqOjwui?=
+ =?us-ascii?Q?RqsQeNkBOOjNkBQ/Tgl9HEecYI8+tceGm18L+rBTVif/GGRrDlht+Bd7nEKa?=
+ =?us-ascii?Q?6eyG8jkd+g=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -124,105 +115,48 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 248ed40d-7a72-4d46-28c7-08df0872d6d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2026 21:49:03.3055
+X-MS-Exchange-CrossTenant-AuthSource: LV5PR21MB4704.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7e4318-7cd5-4fd3-a62f-08df0874fae7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2026 22:04:22.8143
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB8405
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Rb8yv0yG8crhk6lF6/ZFPGJujqmAvGN83NuJ8MvBy1gbVUbVPiLdJwl4wsFp552tRR1HjK7NeHAiqsoiedDa/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR21MB3087
 
-From: Jiangshan Yi <yijiangshan@kylinos.cn> Sent: Monday, August 31, 2026 8=
-:32 PM
+
+
+> -----Original Message-----
+> From: Christian Melendez <chrismelnu@gmail.com>
+> Sent: Monday, August 31, 2026 4:04 PM
+> To: Haiyang Zhang <haiyangz@microsoft.com>
+> Cc: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; linux-
+> doc@vger.kernel.org
+> Subject: [EXTERNAL] netvsc.rst: is XDP_REDIRECT still actually
+> unsupported?
 >=20
-> The removal of stimer message mode in commit be0cfab740e5 ("clocksource:
-> hyper-v: Remove support for stimer interrupts in message mode") left a
-> few comments out of date. hv_stimer_setup_percpu_clockev() picked up two
-> typos ("afters", "to allows"), and the hv_synic_suspend() comment still
-> references the deleted hv_stimer_legacy_cleanup(), the legacy non-Direct
-> Mode configuration, and clockevents_unbind_device(), which is no longer
-> on the cleanup path.
+> [You don't often get email from chrismelnu@gmail.com. Learn why this is
+> important at https://aka.ms/LearnAboutSenderIdentification ]
 >=20
-> Update the typos and rewrite the hv_synic_suspend() comment to describe
-> the current Direct Mode path: non-boot CPU stimers are cleaned up via
-> the cpuhp teardown callback hv_stimer_cleanup(), and CPU0's stimer is
-> left alone because it is harmless (interrupts stay disabled across the
-> suspend/resume window) and is shut down later by the timekeeping code.
+> Hi Haiyang,
 >=20
-> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
-> ---
->  arch/x86/hyperv/hv_init.c |  4 ++--
->  drivers/hv/vmbus_drv.c    | 18 +++++++-----------
->  2 files changed, 9 insertions(+), 13 deletions(-)
+> Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
+> still says "XDP_REDIRECT action is not yet supported," but
+> netvsc_run_xdp() in netvsc_bpf.c seems to handle it fully -- calls
+> xdp_do_redirect(), tracks stats, and netvsc_drv.c advertises
+> NETDEV_XDP_ACT_REDIRECT. This looks like it's been true since your
+> commit 1cb9d3b6185b.
 >=20
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index 0b4a1c0b0b16..690f95295ee4 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -426,7 +426,7 @@ static void __init hv_stimer_setup_percpu_clockev(voi=
-d)
->  	int ret;
->=20
->  	/*
-> -	 * Continue afters errors in setting up stimer clockevents
-> +	 * Continue after errors in setting up stimer clockevents
->  	 * as we can run with the LAPIC timer as a fallback.
->  	 */
->  	ret =3D hv_stimer_alloc(false);
-> @@ -434,7 +434,7 @@ static void __init hv_stimer_setup_percpu_clockev(voi=
-d)
->  		pr_warn("stimer setup failed with error %d\n", ret);
->=20
->  	/*
-> -	 * Still register the LAPIC timer to allows users
-> +	 * Still register the LAPIC timer to allow users
->  	 * to switch to LAPIC timer via /sys, if they want to.
->  	 */
->  	if (old_setup_percpu_clockev)
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 5ebdbe24b5a1..c1edc3a5b673 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -2923,23 +2923,19 @@ static void hv_crash_handler(struct pt_regs *regs=
-)
->  static int hv_synic_suspend(void *data)
->  {
->  	/*
-> -	 * When we reach here, all the non-boot CPUs have been offlined.
-> -	 * If we're in a legacy configuration where stimer Direct Mode is
-> -	 * not enabled, the stimers on the non-boot CPUs have been unbound
-> -	 * in hv_synic_cleanup() -> hv_stimer_legacy_cleanup() ->
-> -	 * hv_stimer_cleanup() -> clockevents_unbind_device().
-> +	 * When we reach here, all the non-boot CPUs have been offlined,
-> +	 * and their stimers have been cleaned up by the cpuhp teardown
-> +	 * callback hv_stimer_cleanup().
->  	 *
->  	 * hv_synic_suspend() only runs on CPU0 with interrupts disabled.
-> -	 * Here we do not call hv_stimer_legacy_cleanup() on CPU0 because:
-> -	 * 1) it's unnecessary as interrupts remain disabled between
-> -	 * syscore_suspend() and syscore_resume(): see create_image() and
-> +	 * The stimer on CPU0 is not explicitly cleaned up here because:
-> +	 * 1) it's harmless as interrupts remain disabled between
-> +	 * syscore_suspend() and syscore_resume(), so the stimer cannot
-> +	 * fire during this window: see create_image() and
->  	 * resume_target_kernel()
->  	 * 2) the stimer on CPU0 is automatically disabled later by
->  	 * syscore_suspend() -> timekeeping_suspend() -> tick_suspend() -> ...
->  	 * -> clockevents_shutdown() -> ... -> hv_ce_shutdown()
-> -	 * 3) a warning would be triggered if we call
-> -	 * clockevents_unbind_device(), which may sleep, in an
-> -	 * interrupts-disabled context.
->  	 */
->=20
->  	hv_hyp_synic_disable_regs(0);
-> --
-> 2.25.1
+> Is the doc just stale, or is there a caveat I'm missing? Happy to
+> send a one-line fix, or feel free to just tweak it yourself if
+> that's quicker.
 >=20
 
-Thanks for cleaning up after my changes!
+Yes XDP_REDIRECT is supported already. The doc is stale
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Thanks,
+- Haiyang
+
