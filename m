@@ -1,70 +1,77 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78DF3EE1D4;
-	Tue,  1 Sep 2026 03:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F6C39E18E
+	for <linux-hyperv@vger.kernel.org>; Tue,  1 Sep 2026 03:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788233578; cv=none; b=B9XpFaXV59710tpl9m+wEmsYiOdjqJd/VtETIgwMq3IjbpSPAsyLCm6NuErOxK4sK6rKBel/EXwNlKj8IH7fht3VweIvNyBLuBk6CcgoRbXIAv/K//W4SSNfdpVGZKNvMOD4ynYZAb5KWJ3q67PegSiLeRUirr97N44I7MJnqAw=
+	t=1788234324; cv=none; b=mUpOEhSVR2kX3K2Ksl+hB+Ncc+xqupOIfWBM+hZUTqtRw7H8ZyqhKL4cLwqO/KKjSPyedVaoA65wqMuGwTHgvf7BQSPj2s7cj8sOHG8XcNx71bhc2G9qUEr4T2/2x3HGlaNplWeTkj8O3KPW8atk6hTnmYCREWZdzpL36m1A6jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788233578; c=relaxed/simple;
-	bh=HHnwIxMb509xaGyZBuKFY4im5E4B6xtw5Vgf2wj7Oms=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cyYdGLBl/9SY2lArjhumvVeDFm47hOLE5Vp7IkRcIkHIxiB8qSTTQsxPq7ChbzNOxoIppynUNpsMVh0SAxBpzQ0ktBJ+rZsCpOm2Q72yq7kJzkwD9HfyhF6vZrXuQdqL+hkyITjbeIO6bOuOYPna0K+i+HjWhcO7zxiLV8NjmvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: cd2d4f12a5b511f19a56ed5b684f684d-20260901
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:a8a367bd-781c-48fe-a36b-53cedefa1865,IP:15,
-	URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-10
-X-CID-INFO: VERSION:1.3.19,REQID:a8a367bd-781c-48fe-a36b-53cedefa1865,IP:15,UR
-	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-10
-X-CID-META: VersionHash:7db8b62,CLOUDID:890a2db5c5d2b456cd70ad6411d84326,BulkI
-	D:260901113251RJE2V1R8,BulkQuantity:0,SF:10|38|66|78|102|127|136|850|865|8
-	98,TC:nil,Content:0|15|50,EDM:-3|-100,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil
-	,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:
-	0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: cd2d4f12a5b511f19a56ed5b684f684d-20260901
-X-User: yijiangshan@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <yijiangshan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 308339226; Tue, 01 Sep 2026 11:32:47 +0800
-From: Jiangshan Yi <yijiangshan@kylinos.cn>
+	s=arc-20240116; t=1788234324; c=relaxed/simple;
+	bh=k0EgHSBZ67xrXqBHCWWygsrB9CHbdTlyhPuetNdyA6s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eHzA5najoIoXHIkv9yRNZ9eBkx8MMK34/5qKUHuU4rwBlo0pY0sRahJbKUC09QDZheBeAHeN1xbXay3DhGtZdB5yY0mBMCd3kyF8v27FcZIVLPKaJ5uZ6CJTTM5RWR05wyGoJMQ9qIPF9EUe8E78Ti0AoHedweuXH0IqARfuSUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NDMmDPZz; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDMmDPZz"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d6e954afbdso2313965ad.2
+        for <linux-hyperv@vger.kernel.org>; Mon, 31 Aug 2026 20:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788234322; x=1788839122; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PZaQTPZCBX65twnVoRmMEPBMoXrLHKwaCW1qQEkDk8k=;
+        b=NDMmDPZzhy7hPeLf7lycTu/rP0yqY6OJsJNFQdlQDkPFQ0KNvalzQXwZmg5mzPb1SR
+         O22Q5GGCMW8OTI8edrSWC+vBfrLMw5zMJzIeZRkD96ntnfYFRE6CdKa2W/3vG9yuetEW
+         YZYaVJbTDa8nQh78vIlJwN/fFruLNj0Tv5NBO0z1B4rEhlrGgVXkgBDkJmPKZ4LEaen4
+         EtnEZitIvVWsYJe0FN5tiNFyEnz2bHxjxBunhQ6wq0OZsjAsZpMYNIwdqqcw1jLFDOtS
+         DOdBkwjGHWCiDtpx7nP7MSVFZ8UCPwrKajeVtxhjbpnOHo+7aE6tqJRwFltDeu+s+19b
+         C8aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788234322; x=1788839122;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PZaQTPZCBX65twnVoRmMEPBMoXrLHKwaCW1qQEkDk8k=;
+        b=lEgScck6Yz8p+DP0JcAiI2YqOTpGHkRcerOwjj0tiZQO4/zRYpGP9iyeDoLr7lV+r5
+         BcAFWgOH45OJ/fSCpGXxUMNEv6P6F4GKON6SsT3ItzUG1yA0IGhEP/F5Fr/iGRfORqX+
+         FW2FqlGsk7ftDqfvjx7VLeoHcZHQ5TONLYN1IL/NBmlXbRq+WbQvYiwIaRxDjWJu2mZf
+         +w8iH1304pjIjA8JP0hZUicbkjadvVoFeyqLeoNsMnMoacNBmMW/j7O9OubZ2a1lgapn
+         ke2zPsJ6DezTT1d2vMW/6fdvD3jHycpfPWk9w/rgEwYB1OIKXzMW0amtDshNnscKZ0su
+         wVnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw/9dejlBryWR3JK8+sFmM3f3m4GHaq87b4ZR9VrtxXIeAIvdUFbWVWEBB7nEEP/iSKfINth5Y/oqBXBU8=@vger.kernel.org
+X-Gm-Message-State: AFuF++ljyitRhFxovk7RXGjsl5R0CIaF6E3F94xfuggwqaf9C/b7L8ew
+	jjsC/KT2P4uFIeJ+Ohet5pcDvhDx7tZYcqSuBiUOmZ9LarkmTjvG+9FC
+X-Gm-Gg: AYBFou22sQe7W5obj4Rq0fhQwuo5CKdwsegj+rj1gG3KLhfH1mBgPymadg3kTG6Grww
+	mvPUYmK41YwFcGj0X1HO2KUzeT3sYDljmIiYF+PMX9Osp6RLopWeaJms8qRr3LXrlR91UIncGVv
+	XsFxy/GJSVFoXPMtbyZ7vMQItOMHt4385SBktqyKt/1SV75/lVggR0Gb4cX26nqDiquoJetWmMB
+	Eh+SvHxAar1iMHqWqvBTSo+Fn/Dnj2BGzH8Ni07npX//JQqW3NNyf5jW2nn3nfHMJYA58i/LTw2
+	dE9A/6ExDRSoHmwxb+Tuq+7Tvwq4NPNkTwOSzBa/0GY9gap8xotS6ojWRbqFXDQoC2ZNtglJv30
+	jGQ9sb0SObNO7znmsWx0vpAfbuRCdo1d8fvKva8/0EEoD3I3UTQdkXCFRfmq7lfZO5+QakTfdqn
+	LXucmm2DAD9xmNEROWmW/WLynOdC3xJrtyJ1Ql46gcDxX2BnR1oat7c2hwIYfe+iMt2fV/GSO17
+	OMrKTpbF3inJpwxfw0YBnAnuq1Rk1Wdd5nmjySmgOc=
+X-Received: by 2002:a17:902:da8d:b0:2d6:8d4a:3ff7 with SMTP id d9443c01a7336-2d74e11c367mr435643785ad.12.1788234321861;
+        Mon, 31 Aug 2026 20:45:21 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d75963fc5csm43427605ad.33.2026.08.31.20.45.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 20:45:21 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
 	longli@microsoft.com,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org
-Cc: hpa@zytor.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	13667453960@163.com,
-	Jiangshan Yi <yijiangshan@kylinos.cn>
-Subject: [PATCH] x86/hyperv: Fix stale comments after stimer message mode removal
-Date: Tue,  1 Sep 2026 11:32:01 +0800
-Message-Id: <20260901033201.167219-1-yijiangshan@kylinos.cn>
+	linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] Drivers: hv: Don't reset VMBus connection state on error/exit paths
+Date: Mon, 31 Aug 2026 20:45:14 -0700
+Message-Id: <20260901034514.457089-1-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -73,83 +80,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The removal of stimer message mode in commit be0cfab740e5 ("clocksource:
-hyper-v: Remove support for stimer interrupts in message mode") left a
-few comments out of date. hv_stimer_setup_percpu_clockev() picked up two
-typos ("afters", "to allows"), and the hv_synic_suspend() comment still
-references the deleted hv_stimer_legacy_cleanup(), the legacy non-Direct
-Mode configuration, and clockevents_unbind_device(), which is no longer
-on the cleanup path.
+In two places, current code forces vmbus_connection.conn_state to
+DISCONNECTED prior to calling vmbus_disconnect(). But vmbus_disconnect()
+calls vmbus_initiate_unload(), which unloads the VMBus connection
+only if the conn_state is CONNECTED. Consequently, the connection
+remains and the Hyper-V host might continue to send messages or post
+VMBus interrupts.
 
-Update the typos and rewrite the hv_synic_suspend() comment to describe
-the current Direct Mode path: non-boot CPU stimers are cleaned up via
-the cpuhp teardown callback hv_stimer_cleanup(), and CPU0's stimer is
-left alone because it is harmless (interrupts stay disabled across the
-suspend/resume window) and is shut down later by the timekeeping code.
+The problem was introduced in commit 74347a99e73ae ("x86/Hyper-V:
+Unload vmbus channel in hv panic callback"), in that
+vmbus_initiate_unload() started checking the current connection
+state before doing the unload. This commit removed some occurrences
+where conn_state was forced to DISCONNECTED, but these two remained,
+apparently due to an oversight at the time.
 
-Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+Fix this by not forcing conn_state to DISCONNECTED during VMBus exit,
+or if a failure occurs when establishing the connection in the first
+place. Whatever value conn_state has at the time is then read by
+vmbus_initiate_unload() to determine if there is a connection to
+be unloaded.
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/linux-hyperv/20260805205806.B5AC31F000E9@smtp.kernel.org/
+Fixes: 74347a99e73ae ("x86/Hyper-V: Unload vmbus channel in hv panic callback")
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- arch/x86/hyperv/hv_init.c |  4 ++--
- drivers/hv/vmbus_drv.c    | 18 +++++++-----------
- 2 files changed, 9 insertions(+), 13 deletions(-)
+ drivers/hv/connection.c | 1 -
+ drivers/hv/vmbus_drv.c  | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 0b4a1c0b0b16..690f95295ee4 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -426,7 +426,7 @@ static void __init hv_stimer_setup_percpu_clockev(void)
- 	int ret;
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 1ab3581b096a..818667ef9c74 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -346,7 +346,6 @@ int vmbus_connect(void)
+ cleanup:
+ 	pr_err("Unable to connect to host\n");
  
- 	/*
--	 * Continue afters errors in setting up stimer clockevents
-+	 * Continue after errors in setting up stimer clockevents
- 	 * as we can run with the LAPIC timer as a fallback.
- 	 */
- 	ret = hv_stimer_alloc(false);
-@@ -434,7 +434,7 @@ static void __init hv_stimer_setup_percpu_clockev(void)
- 		pr_warn("stimer setup failed with error %d\n", ret);
+-	vmbus_connection.conn_state = DISCONNECTED;
+ 	vmbus_disconnect();
  
- 	/*
--	 * Still register the LAPIC timer to allows users
-+	 * Still register the LAPIC timer to allow users
- 	 * to switch to LAPIC timer via /sys, if they want to.
- 	 */
- 	if (old_setup_percpu_clockev)
+ 	kfree(msginfo);
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 5ebdbe24b5a1..c1edc3a5b673 100644
+index 5ebdbe24b5a1..547bc731114f 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -2923,23 +2923,19 @@ static void hv_crash_handler(struct pt_regs *regs)
- static int hv_synic_suspend(void *data)
- {
- 	/*
--	 * When we reach here, all the non-boot CPUs have been offlined.
--	 * If we're in a legacy configuration where stimer Direct Mode is
--	 * not enabled, the stimers on the non-boot CPUs have been unbound
--	 * in hv_synic_cleanup() -> hv_stimer_legacy_cleanup() ->
--	 * hv_stimer_cleanup() -> clockevents_unbind_device().
-+	 * When we reach here, all the non-boot CPUs have been offlined,
-+	 * and their stimers have been cleaned up by the cpuhp teardown
-+	 * callback hv_stimer_cleanup().
- 	 *
- 	 * hv_synic_suspend() only runs on CPU0 with interrupts disabled.
--	 * Here we do not call hv_stimer_legacy_cleanup() on CPU0 because:
--	 * 1) it's unnecessary as interrupts remain disabled between
--	 * syscore_suspend() and syscore_resume(): see create_image() and
-+	 * The stimer on CPU0 is not explicitly cleaned up here because:
-+	 * 1) it's harmless as interrupts remain disabled between
-+	 * syscore_suspend() and syscore_resume(), so the stimer cannot
-+	 * fire during this window: see create_image() and
- 	 * resume_target_kernel()
- 	 * 2) the stimer on CPU0 is automatically disabled later by
- 	 * syscore_suspend() -> timekeeping_suspend() -> tick_suspend() -> ...
- 	 * -> clockevents_shutdown() -> ... -> hv_ce_shutdown()
--	 * 3) a warning would be triggered if we call
--	 * clockevents_unbind_device(), which may sleep, in an
--	 * interrupts-disabled context.
- 	 */
+@@ -3043,7 +3043,6 @@ static void __exit vmbus_exit(void)
  
- 	hv_hyp_synic_disable_regs(0);
+ 	hv_remove_kexec_handler();
+ 	hv_remove_crash_handler();
+-	vmbus_connection.conn_state = DISCONNECTED;
+ 	hv_stimer_global_cleanup();
+ 	vmbus_disconnect();
+ 	if (vmbus_irq == -1)
 -- 
 2.25.1
 
