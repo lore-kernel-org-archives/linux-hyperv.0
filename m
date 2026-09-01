@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446BC483811
-	for <linux-hyperv@vger.kernel.org>; Tue,  1 Sep 2026 17:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E6E485CDA
+	for <linux-hyperv@vger.kernel.org>; Tue,  1 Sep 2026 17:10:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788282570; cv=none; b=OYUAk/To1urFxvmED+yL26jw5bxpFDcAmUGDBAnWI2X0qDnDRh3UBOhZVAb/zgGs7moP4nL4xS9BYpwVdivrSCWAgNg24G1kY3lNFcZxpO/tTCGhPvkIjxmdCPSNi4muuSJ30oiq5BqIZC27mRrLfnbqrUYhJHUvM7psOagh1M8=
+	t=1788282617; cv=none; b=W4LY7IKL8NRV+Uj/xGVa4rsImcCXx9adIgboAtdJrvLVahctMgAv8MTk2BT8w3qZ8X3UHJudENfOU8Y8qsBujJtMx/lZNd+4VS3Cl1dmBfwhJxUh5pxjL52Zn6IwhylFiS6VbtjDzhOZ9SuMkoAhr2A+QRZ8frk0poHN5C6P+Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788282570; c=relaxed/simple;
-	bh=A+AY8NGSTQHol/oPi+Gdr8tuRsNkqi1VomRl+dmrphw=;
+	s=arc-20240116; t=1788282617; c=relaxed/simple;
+	bh=lDCnZq9AlDEqt2Gb2HsUZnLNRyg6fywR0cmD8MyRMew=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=XRebzy7H3Q4i9NN/7SskCgypZJKy4BkaxgSqjgKFaGVmSpAVe+EIrMFPU/lZmqlk/VTJhGD98rjCX2eVEYmDA/5Aj+7O6SYI0BrrachlEwrFOtFeBDQTKLoVMbWNwOeKbrjTJWvcwa55966cXYf+LOzPALSiDLgFTDlwANglNAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DClX0pay; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=qT8vhSO5OYOqVTXLXg3SWnjSRjzh17lDtEIP+Qzfxq/gPX52SlqX8PidqcDh43Y/Fa3Iv8v2fguty4QgOoMmUHI3Scrygu4bFH2cLrXILWeZAKRuMd6XaMSMKCv9iOjxwkSD8i589VOFMO7iRWut2/6WMN6OC6AjCXQugyIhB7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKEHn4Mf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DClX0pay"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1091F000E9;
-	Tue,  1 Sep 2026 17:09:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKEHn4Mf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A14DE1F000E9;
+	Tue,  1 Sep 2026 17:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788282569;
-	bh=t6JkAfekKBciD6cKR0UIs4JItP2QhJbf7GXXOgPvbLY=;
+	s=k20260515; t=1788282615;
+	bh=uaj7vguPcJkMyxI6JTZMuCUx77wPPhK4VVl36xv6ucQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DClX0payDt2nCrgiloeQbc2q4muxBFOQwaYC7qrvXD0KtCj5obU767eJ5N2CT/d5d
-	 Rj/0FGAl9yBcSXejw5bwXw3d4ghX6/uJoGHNWwA0ak9uBWq5EQ+zIrk+3mjOWkeQie
-	 9evpFpS+3MYJv5TAr/O2kP7LI+Nva9q5QvzB6vXe5Mt4GWXiOc4jqFUmqOsHUWS6KV
-	 DO9l/efUzSq6rH4KmYIT9MTfQePa4M37KV2fgxiQx+TrSJcQdEIVlym9Z0tiQJglww
-	 KS75ZCwyN8XTE+HRWuPdwR8UrJ481ji0IalCZIqyvtFGnAqeGkuW0uC7FnZkZmUEGK
-	 T6+H75tRu7dsQ==
+	b=WKEHn4Mf2qXXMbLry29UVXgOtV/C25YO8lIWyBaDK5A/MvAxUEOhXsa346eWj8toz
+	 hf1FcXuxcEl0sSScmjgMuZVcJbX1klDlYmp5il9Pv5+8niaGyMX2r8fbi+5in3Q41d
+	 /y76CcZ08DOZQNC3CpOeKhkOoRbmfNrHI94NOMKrrc1zlcwuai4M561hSee0Eid9zp
+	 xuekezGJmFs4VIfWsiODoOmYf8nPfloeAGq2XcliXP/GJMTOuwqqou/kXGWrFw9tqA
+	 lcjATSBsy2rfmJiLOVNI7/dN3yIXEfpeE7GifnjonOz5vSOwmP6OiKEVs16YRguK5l
+	 ECfI7cDqYNRcQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH 04/12] firmware: efi: libstub: x86-stub: Enable VSM
- awareness in efi os indications variable
+Subject: Re: [RFC PATCH 03/12] drivers: hv: Reserve memory for VSM secure
+ kernel during early boot
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thara Gopinath" <tgopinath@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260901165647.3160413-5-tgopinath@linux.microsoft.com>
+In-Reply-To: <20260901165647.3160413-4-tgopinath@linux.microsoft.com>
 References: <20260901165647.3160413-1-tgopinath@linux.microsoft.com>
- <20260901165647.3160413-5-tgopinath@linux.microsoft.com>
+ <20260901165647.3160413-4-tgopinath@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Sep 2026 17:09:27 +0000
-Message-Id: <20260901170928.6B1091F000E9@smtp.kernel.org>
+Date: Tue, 01 Sep 2026 17:10:14 +0000
+Message-Id: <20260901171014.A14DE1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,150 +47,181 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [High] Uninitialized stack memory leak to NVRAM and unintended EFI variab=
-le size modification.
-- [Medium] Unconditional execution of `efi_set_hv_os_indications()` causes =
-an EFI error message on all non-Hyper-V systems.
-- [Medium] `efi_set_hv_os_indications()` fails to enable VSM if `OsLoaderIn=
-dications` does not already exist.
-- [Low] Missing newline character in `efi_info()` output.
+- [High] The automatic memory reservation fallback is never executed if the=
+ `securekernel` parameter is omitted from the kernel command line.
+- [High] Manual string parsing of boot_command_line uses a fragile substrin=
+g match, misparsing unrelated parameters and ignoring the pre-parsed setup =
+argument.
+- [Medium] The `__setup` handler returns 0 on success and -EINVAL on failur=
+e, inverting the API contract and leaking the parameter to the init process.
+- [Low] parse_securekernel_simple fails to validate trailing characters aft=
+er parsing the base address.
 --
 
-commit 3d285ae76c7e0c1fdff6a68f110b5b5a021e7b38
+commit c057f006b3a9db9a754349283e3c7dd23550b133
 Author: Thara Gopinath <tgopinath@linux.microsoft.com>
+Date:   Tue Sep 1 16:55:17 2026 +0000
 
-firmware: efi: libstub: x86-stub: Enable VSM awareness in efi os indication=
-s variable
+    drivers: hv: Reserve memory for VSM secure kernel during early boot
 
-This commit sets bit 0 of the Hyper-V private OsLoaderIndications EFI varia=
-ble
-during exit_boot() to let the bootloader or firmware know that the OS inten=
-ds
-to enable VTL1. The variable is written only when supported and when the bit
-is not already set.
+The VSM secure kernel runs in VTL1 and requires its memory to be reserved
+early. This commit introduces a driver to handle early boot reservation of
+this memory, either parsed from the securekernel=3D command line parameter =
+or
+calculated automatically as a fallback.
 
-> diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/e=
-fi/libstub/x86-stub.c
-> index cef32e2c82d8f..ab3cd4fe36599 100644
-> --- a/drivers/firmware/efi/libstub/x86-stub.c
-> +++ b/drivers/firmware/efi/libstub/x86-stub.c
-
+> diff --git a/drivers/hv/hv_vsm_securekernel.c b/drivers/hv/hv_vsm_securek=
+ernel.c
+> new file mode 100644
+> index 0000000000000..f90f6204b4d18
+> --- /dev/null
+> +++ b/drivers/hv/hv_vsm_securekernel.c
 [ ... ]
-
-> @@ -754,6 +765,47 @@ static efi_status_t exit_boot_func(struct efi_boot_m=
-emmap *map,
->  	return EFI_SUCCESS;
->  }
-> =20
-> +#ifdef CONFIG_HYPERV_VSM
-> +static void efi_set_hv_os_indications(void)
+> +static int __init parse_securekernel_simple(char *cmdline,
+> +					    unsigned long long *securekernel_size,
+> +					    unsigned long long *securekernel_base)
 > +{
-> +	efi_guid_t guid =3D HYPERV_PRIVATE_EFI_NAMESPACE_GUID;
-> +	efi_status_t status;
-> +	unsigned long size;
-> +	u32 attr, val;
-
-[Severity: High]
-Since val is declared without zero-initialization, is it possible for
-get_efi_var() to copy fewer than 4 bytes if the actual size of the variable
-in NVRAM is smaller?
-
-If so, the upper bytes of val might remain as uninitialized stack memory.
-When set_efi_var() is subsequently called with size =3D sizeof(val), could
-this leak up to 3 bytes of uninitialized kernel stack memory into persistent
-NVRAM?=20
-
-Also, could this force the EFI variable to be exactly 4 bytes, potentially
-corrupting it if the firmware expects a different size?
-
+> +	char *cur =3D cmdline;
 > +
-> +	size =3D sizeof(val);
-> +	status =3D get_efi_var(efi_HvPrivOsloaderIndicationsSupported_name,
-> +			     &guid, &attr, &size, &val);
-> +	if (status !=3D EFI_SUCCESS) {
-> +		efi_err("Could not read Hyper-V OsloaderIndicationsSupported\n");
-> +		return;
+> +	*securekernel_size =3D memparse(cmdline, &cur);
+> +	if (cmdline =3D=3D cur) {
+> +		pr_warn("securekernel: memory value expected\n");
+> +		return -EINVAL;
 > +	}
 > +
-> +	if (!(val & HV_OSLOADER_INDICATION_VSM)) {
-> +		efi_info("Hyper-V does not support VSM in OsloaderIndicationsSupported=
-\n");
-> +		return;
-> +	}
-> +
-> +	size =3D sizeof(val);
-> +	status =3D get_efi_var(efi_HvPrivOsloaderIndications_name, &guid, &attr=
-, &size, &val);
-> +	if (status !=3D EFI_SUCCESS) {
-> +		efi_err("Could not read Hyper-V OsLoaderIndications\n");
-
-[Severity: Medium]
-If the OsLoaderIndications variable does not exist (for example, on a fresh
-OS installation or if not pre-populated by firmware), get_efi_var() will
-return EFI_NOT_FOUND.=20
-
-Does treating this as a fatal error prevent VTL1 from being brought up?
-
-Would it be better to handle EFI_NOT_FOUND by assuming val is 0 and
-proceeding to create the variable?
-
-> +		return;
-> +	}
-> +
-> +	if (val & HV_OSLOADER_INDICATION_VSM) {
-> +		efi_info("VSM is already supported in OsLoaderIndications.");
+> +	if (*cur =3D=3D '@') {
+> +		*securekernel_base =3D memparse(cur + 1, &cur);
+> +	} else if (*cur !=3D ' ' && *cur !=3D '\0') {
 
 [Severity: Low]
-Does this efi_info() string need a trailing newline character?
+Does this code skip trailing character validation if @ was found?
 
-Because efi_info() maps to efi_printk() which does not append newlines
-automatically, this might cause subsequent EFI console output to be
-concatenated onto the same line.
+Because the validation is inside an else if, if a user specifies a base
+address with trailing non-space characters (e.g., securekernel=3D16M@2G_foo=
+),
+memparse() consumes the valid number, but the remaining garbage characters
+are silently ignored without raising an error.
 
-> +		return;
+> +		pr_warn("securekernel: unrecognized char: %c\n", *cur);
+> +		return -EINVAL;
 > +	}
 > +
-> +	val |=3D HV_OSLOADER_INDICATION_VSM;
-> +	size =3D sizeof(val);
-> +	status =3D set_efi_var(efi_HvPrivOsloaderIndications_name, &guid, attr,=
- size, &val);
-> +	if (status !=3D EFI_SUCCESS)
-> +		efi_err("Could not set Hyper-V OsLoaderIndications to indicate VSM sup=
-port\n");
+> +	return 0;
 > +}
-> +#endif
 > +
->  static efi_status_t exit_boot(struct boot_params *boot_params, void *han=
-dle)
->  {
->  	struct setup_data *e820ext =3D NULL;
-> @@ -768,6 +820,11 @@ static efi_status_t exit_boot(struct boot_params *bo=
-ot_params, void *handle)
->  	if (status !=3D EFI_SUCCESS)
->  		return status;
-> =20
-> +#ifdef CONFIG_HYPERV_VSM
-> +	/* Indicate to bootloader that we will be enabling VTL1 before exiting =
-boot services */
-> +	efi_set_hv_os_indications();
+> +static __init char *get_last_securekernel(char *cmdline, const char *nam=
+e)
+> +{
+> +	char *p =3D cmdline, *sk_cmdline =3D NULL;
+> +
+> +	/* find securekernel and use the last one if there are more */
+> +	p =3D strstr(p, name);
+> +	while (p) {
+> +		sk_cmdline =3D p;
+> +		p =3D strstr(p + 1, name);
+
+[Severity: High]
+Does this unbounded substring search misparse unrelated parameters?
+
+Because it lacks word-boundary or prefix validation, strstr() will match
+the substring anywhere in the command line. The driver could misparse
+independent kernel parameters (e.g., nosecurekernel=3D100M).
+
+Furthermore, since it explicitly searches for the last occurrence, an unrel=
+ated
+parameter at the end of the command line containing the substring secureker=
+nel=3D
+could overwrite a valid reservation parameter.
+
+> +	}
+> +
+> +	if (!sk_cmdline)
+> +		return NULL;
+> +
+> +	return sk_cmdline;
+> +}
+[ ... ]
+> +static int __init hv_vsm_seckernel_mem_init(char *__unused)
+
+[Severity: High]
+Is it intentional to discard the correctly pre-parsed parameter value provi=
+ded
+by the __setup infrastructure?
+
+The __setup() macro already does exact matching and provides the specific
+parameter value to the callback via its argument. By explicitly ignoring th=
+is
+argument (naming it __unused) and implementing a custom parser over the glo=
+bal
+boot_command_line, the driver uses a fragile manual parsing routine instead
+of the established API.
+
+> +{
+> +	unsigned long long securekernel_size =3D 0, securekernel_base =3D 0;
+> +	int ret;
+[ ... ]
+> +	/* Default: Find the base address automatically */
+> +	if (!securekernel_base) {
+> +		securekernel_base =3D memblock_phys_alloc_range(securekernel_size, SEC=
+KERNEL_ALIGN,
+> +							      0, SECKERNEL_ADDR_MAX);
+> +		if (!securekernel_base) {
+> +			pr_err("%s: Securekernel reservation failed-VSM will not be enabled.\=
+n",
+> +			       __func__);
+> +			return -EINVAL;
 
 [Severity: Medium]
-Since this function is called unconditionally on all x86 EFI boots when
-CONFIG_HYPERV_VSM is enabled, will this cause get_efi_var() to return
-EFI_NOT_FOUND on systems without Hyper-V?
+Will returning -EINVAL (non-zero) on the error path incorrectly tell the
+kernel's parser that the parameter was successfully handled?
 
-It seems this could result in spurious error messages in the boot log for
-all non-Hyper-V users because efi_err() is called unconditionally inside
-efi_set_hv_os_indications().
+The kernel API documentation requires __setup handlers to return 1 (or
+non-zero) if handled and 0 if not. Returning a non-zero error code treats
+the failed parameter as successfully consumed.
 
-Should there be a check for Hyper-V presence before making this call?
-
-> +#endif
+> +		}
+> +	}
 > +
->  	/* Might as well exit boot services now */
->  	status =3D efi_exit_boot_services(handle, &priv, exit_boot_func);
->  	if (status !=3D EFI_SUCCESS)
+> +	pr_info("Reserving %ldMB of memory at 0x%llx(%ld MB) for securekernel(S=
+ystem RAM:%ldMB)\n",
+> +		(unsigned long)(securekernel_size >> 20),
+> +		securekernel_base,
+> +		(unsigned long)(securekernel_base >> 20),
+> +		(unsigned long)(memblock_phys_mem_size() >> 20));
+> +
+> +	sk_res.start =3D securekernel_base;
+> +	sk_res.end   =3D securekernel_base + securekernel_size - 1;
+> +	insert_resource(&iomem_resource, &sk_res);
+> +
+> +	return 0;
+
+[Severity: Medium]
+Will returning 0 on the success path inform the kernel's setup infrastructu=
+re
+that the parameter was not handled?
+
+This causes the kernel to erroneously pass the securekernel=3D... parameter=
+ as
+an environment variable to the init process. The handler should return 1 wh=
+en
+the parameter is successfully handled.
+
+> +}
+> +__setup("securekernel", hv_vsm_seckernel_mem_init);
+
+[Severity: High]
+Can the automatic memory reservation fallback ever execute if the parameter=
+ is
+omitted from the kernel command line?
+
+Functions registered with __setup() are only invoked by init/main.c if the
+target string matches a command-line parameter. If absent, the initializati=
+on
+function is completely bypassed, meaning the core feature (automatic memory
+reservation) fails entirely by default, and the VSM secure kernel will not =
+boot
+due to lack of reserved memory.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901165647.3160=
-413-1-tgopinath@linux.microsoft.com?part=3D4
+413-1-tgopinath@linux.microsoft.com?part=3D3
