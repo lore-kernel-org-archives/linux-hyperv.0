@@ -1,338 +1,235 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9330238A736;
-	Wed,  2 Sep 2026 18:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788373149; cv=none; b=LWTlz0G7Og+h0Qcjf6ENoTtlIhdtzm27TmDHiUEhhOg+rw/dXRkDrlEltGjxnTNspkysSA4PV3ovxJ/oS1vCzwqWPTk65Upw2azZlKHqF7AqFliSIQONnSXpZbwtA/7cl9iDBl2rJxjJHU1BLAhFcsDKobw2+69/lQi1pzH7zSI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788373149; c=relaxed/simple;
-	bh=hbgQzV4TsDAypUVt+pVQPQwNL/J0nnyascedAv8GyCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qKrz6RtjwbNVrdRIIzUxXVP/ySt9XXF6cwBCKHKyWqllBb+nwl93klepTTnwhnMrLspzZcTli8y2wHb6cd3xQsXS5aa5XJjVTBbafD4oCMPLHWz4aVRRcChS7LLnLq4bXDCLp5oJ/vzf+18IUXL4U0g8pOl/h+n/OXliX8X5px4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MRvP+jmb; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11021082.outbound.protection.outlook.com [52.101.57.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8994D39478B
+	for <linux-hyperv@vger.kernel.org>; Wed,  2 Sep 2026 19:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788377162; cv=fail; b=NSS2rUXvNAWV+zi8W1QxPGcQJXanZLu+80p0S6XJSSkYSdm8VPTl+dd2Vy7urIrLzkbBS7f8RqF5t5nfhYnSH2LEliAjuxP38Ao0ETDSLRqTmTjMweZQ222Mf7Mi8OFiWySIuWLjTE4F+P/SLGurWT60a1AwPX7ShM+NjsKFcKA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788377162; c=relaxed/simple;
+	bh=LkXiGjfwDEKe4uzccvgnTHJCkby+9HOUdUwilhpxeUA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=AvdmDn7S3H1YFOWIzMOfarr+NlXeylwC8MeeTdaULEpf67WMgO9V8ynqxCVHPjFsi/N0czBpNeCqh7VSHoxAEiIEkPmDcRSqWvRVP+6iHx5NLnjvn6enaxwATYPWFsXMZTu+/2IrGhI95QM7sKKcTBo55qAJOzynx8Sgs39u4Fc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=J0N6/q4o; arc=fail smtp.client-ip=52.101.57.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MRvP+jmb"
-Received: from localhost (unknown [20.236.11.69])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 788CA20B7129;
-	Wed,  2 Sep 2026 11:18:29 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 788CA20B7129
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788373110;
-	bh=+S/srMXP148DJ3iow1AbhMmsg6NLcnBjUJW+9hsDjsM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MRvP+jmbcxjA1akLb6PZdjxYAno+m1CEsNlvjaABGK4UkOXZ3Uq4KcDSP4M4D0Sxs
-	 5qxACRfR2y1RFd89YdjcR6EEDDTyQ42NT8JOZ6pdrnBVg+Xj7TQBjXk3shjikZ2zcE
-	 tE5RGLu+9W1vsUNGJKTtWaIbxkR7ZpI/VXYDHc9I=
-Date: Wed, 2 Sep 2026 11:19:05 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: Mukesh R <mrathor@linux.microsoft.com>, Alex Williamson
- <alex@shazbot.org>
-Cc: hpa@zytor.com, robin.murphy@arm.com, robh@kernel.org,
- wei.liu@kernel.org, mhklinux@outlook.com, muislam@microsoft.com,
- namjain@linux.microsoft.com, magnuskulke@linux.microsoft.com,
- anbelski@linux.microsoft.com, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
- linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, jgg@nvidia.com,
- kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- longli@microsoft.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, joro@8bytes.org,
- will@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
- bhelgaas@google.com, arnd@arndb.de, jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH v5 3/9] mshv: Introduce basic mshv bridge device for
- VFIO to build upon
-Message-ID: <20260902111905.000079d4@linux.microsoft.com>
-In-Reply-To: <20260731223427.2554388-4-mrathor@linux.microsoft.com>
-References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
-	<20260731223427.2554388-4-mrathor@linux.microsoft.com>
-Organization: LSG
-X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="J0N6/q4o"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SkrxlOHU9rxSy4MNhr0yCnPnYUJMwp596RQJRt3ywEG4ymsUsPERmtPnGE3BjR0rnMKhBdn3eWlmM324WIdTcOyycZZEaYtzNn+KImatw5gySLxZka/SH5M/VyOug8IiCD07cHkpKnLNWKzR+fjGc+hUq2pgx+WQMgt11WDFguwWsgZ4ESx3a6ehH6C7fZXAJnVaoUsQ+KM8Sg0v+OTHTvBJwKGLHjm3Trlc+t2enwKvQ0gMlkfuH8yN6R90FWmxFWfSIT97DNlE5CzGgc1D+LsFD+CIkKoDENcgwwFt9EybSxqshSqMzPLKpQqrC9LBAxs0FZ3ZyXIlasX5pMYXHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E2wO2OMCQV1aQLhBUbB6cdn1v3e1A5wDGsTCqWb+G1Y=;
+ b=NX5SlvNiNd9oX6wjpCVk8brlzHjxb/yEVuARUNdjDFqZ+oYBIhkLv7O14iXEbo73HWU2bV1IrhSgoW9X22pfCv0RhL2e8rLadnkM3Rtw5LK2TcOfBpwlscQNfhv2SplC6qUyr/OlzAY902q19ys84bhpSk94BrmtXjRfzuStY/Y6F3ai/BWWM7WT3UEX9qTXDnopdqRp9RBr5OFsyfz52PMmMq5ZXJsjjvTkvFmx0d+Q0ZccLdXZX1JDxO1bP5dUNva2PyOteBlwxfPFvjRDlbg0a5P4Pb75UXaOzAwXc8E5nIkYD5yp2/Mkp07Gn0iz0zPFHFUBW2R0Dny/uVWk7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E2wO2OMCQV1aQLhBUbB6cdn1v3e1A5wDGsTCqWb+G1Y=;
+ b=J0N6/q4oAwYXNbJbNL6oZKyzJ9lPl1IBcYJSHrFgkSnQvPnKgTy0rSMu6IsasS56DWAN2HxhdRGmr2veyrYnKXBk90um0Ml6z+Pja0V30VqdeqseRTu8FmjWixrFKmglrA7mVpZ5DwfXjNZvWgZb5tFNM9L1NWElwVMOXslRrlA=
+Received: from SA1PR21MB6683.namprd21.prod.outlook.com (2603:10b6:806:4a4::6)
+ by SA1PR21MB6562.namprd21.prod.outlook.com (2603:10b6:806:4a7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.1; Wed, 2 Sep 2026
+ 19:25:52 +0000
+Received: from SA1PR21MB6683.namprd21.prod.outlook.com
+ ([fe80::8bad:6294:8a07:fe18]) by SA1PR21MB6683.namprd21.prod.outlook.com
+ ([fe80::8bad:6294:8a07:fe18%6]) with mapi id 15.21.0315.008; Wed, 2 Sep 2026
+ 19:25:51 +0000
+From: Long Li <longli@microsoft.com>
+To: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v3 04/13] net: mana: swap queue
+ sets in mana_set_ringparam
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v3 04/13] net: mana: swap queue
+ sets in mana_set_ringparam
+Thread-Index: AQHdObOUM7JdfrfpUEmwwX6GHA597La6hheAgAEn1eA=
+Date: Wed, 2 Sep 2026 19:25:51 +0000
+Message-ID:
+ <SA1PR21MB668357F0C586389EFE989747CEB72@SA1PR21MB6683.namprd21.prod.outlook.com>
+References: <20260901014442.2945689-1-longli@microsoft.com>
+ <20260901014442.2945689-5-longli@microsoft.com>
+ <20260902014536.1CCE71F000E9@smtp.kernel.org>
+In-Reply-To: <20260902014536.1CCE71F000E9@smtp.kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=127baba3-b9d5-4846-8bcc-7a71d64a8f7b;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-09-02T19:24:24Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR21MB6683:EE_|SA1PR21MB6562:EE_
+x-ms-office365-filtering-correlation-id: fd7497ef-1339-4683-1fa0-08df09280011
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|4143699003|5023799004|6133799003|11063799006|10067099003|56012099006|22082099003|7146999003|18002099003;
+x-microsoft-antispam-message-info:
+ WXvvm+yhNBEv+hYGlKxIv/g0jWQwTvm4NtbiqvXloQobNQ2QYD6nVXmOzUzpdq7RatxnRQDltgfRpond5Q92k5PO/mJ0Yc1P4tNj73yxzUhjCk55zCkWIhONaQUNuve1NYWtcCO+1hlJzy8GxviqRD0O/3U34kYwG6grPcaWhEPm/ygqqvSS2SxDVkLEZgfvhPXZ0lkcBLpr51Da/8Rrdg5Q/7SPlHL8HoXQG2MMqxbyFfiKLBMwWDj0a+1edNBNpsKlAKLtQKDComxmsR9esxacWtd+RGuqJGWDG1yvfgstEz5M4ATqAhUhHq1ZZEHAVKoar23/0VlBSg/4IQ9BkvJC+8D7Ff6PSZhVmBnayG6uyI34A5hTdhBkofibkp/D8FH45M56Qtwtc2f6zpgWQoQzBeLEttlgUt0dSSoC2kF8zC3LRQ8gofO2DGBsHfiPpxKoIxsRALms096YV4VYVOVph4YMsF8a/+LkHWEZamS8jtq4lNEuydUsWiL/FxFiCU9gAwsOt/cq6e8i3tStO6mr2fmB/TPzyfHRqoJyCWnFi3M4TqR8JQFqgtMhWcafHNNrMOjyvxCcrLrGvl+O13G0kccLiw0lLOni4z27TQPqZSvlSApYF5fb3lKOqi8P1bJeULiaTQN3B2ImwRd0VwXd5NwRZ6ATIVFX8ElD30xZJvYFqMyd7bMr+H2Ejc8dBZMN4zW5yQc0xHnWBtMpvFyy655L83NWiWlxTr7ex6k=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB6683.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(4143699003)(5023799004)(6133799003)(11063799006)(10067099003)(56012099006)(22082099003)(7146999003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8CLj1jPGYQP547NoaW9XnH3Bf4LL+/hDk/GQxdNtWNwaNMkAi2E6f2C3KguR?=
+ =?us-ascii?Q?H7GwcAsOc/Z9526lgBhOO0FCiOwYOcSu8Hh1LXNfmWtRULqm9rvC5ssdtFyo?=
+ =?us-ascii?Q?hEZrA5FijAFW6acyoNadurNy10aGXQEhPzSSpkhgsqGjSVIFTnmjWivT+Gcl?=
+ =?us-ascii?Q?1y/TEYjQMFhffYrN+ZMVpm4duSiIqRI6Y+fWxaUrMaul3X3Ry3oeulBk1EaK?=
+ =?us-ascii?Q?XjvRhmz1COifbzX7V/DL8DPFZkDBBSusXFTT5iEcldj84YVPUlk7rZ5AcNa9?=
+ =?us-ascii?Q?lsTU1FxdhZyB/hQzu9dBn6r3EKUPLtXQ6OYcaLY0PTLb3muWKOCYHtuYzLhY?=
+ =?us-ascii?Q?MyQvTYH9sTBsleDz3KF0kAv2CPREWofdbOAQWhqLzSmnDFM1Hyl5cBds4Ljl?=
+ =?us-ascii?Q?tDsspps8W7WsywV2HCj1rqDiTSeyjAMUGrSAtYidoS9Z47jWViwliRthWl7i?=
+ =?us-ascii?Q?TN+R96cqY1EHGnGZoK6J9GY+5KRqSiIERxPlEWH8Jl7zbaBUqU8CgCk7x255?=
+ =?us-ascii?Q?MXeGSyNBSDBLzMIeFjN+KZ043H7m4FLxZpM6lIQLoNHevJu8lhRSAtCdPhoU?=
+ =?us-ascii?Q?eK1Ixd9V5+DY58IWlPYpmlYdER2PBcW/E31wrPn0cDyHz6xh4svGFbf8QW3l?=
+ =?us-ascii?Q?a+WkLWB7c9wOvRhOaxSPMYVUWMQqShoqJOT5f/jPHBNFxKLqaplOh1QEvd3x?=
+ =?us-ascii?Q?wgacfNKvRr4RdoIkWv2EYiC6ONsv0o3f6dDaedeJQjgsWUEDPU0CRsillBjo?=
+ =?us-ascii?Q?6gM2y27IiFmyRFGRByHOZJGKEQ8XnV7N7bI0T3Sxt+Kp+KzM7PxS+vnEU/DB?=
+ =?us-ascii?Q?u8hnavAH0cGthYrE9h5GA4m2yU1hD13Akr2Uv0eqm146XkXnAiOy8ugr8T24?=
+ =?us-ascii?Q?S9WkCOlxSsds/lIxd4VKYzw3X5RvGRpPqr1TgfOu5LgcWNV+1/AxfPX+TSmS?=
+ =?us-ascii?Q?xiKP6NBe5mV3ctJhE2vl1Dkeg3c6ctGg0tqm4inl2UxsTAynm73Osr2v7qhZ?=
+ =?us-ascii?Q?rPqEudebfhf6BtSKlL64D6OpFLlDClU9yOVjl8+EINllWncX1Spw3QqGCKAQ?=
+ =?us-ascii?Q?T4JP9iUW1c5CZWlCqWNE45IrnHBTyQRxDGQ4cf9dfg95N5lqkscAg2bhpHwx?=
+ =?us-ascii?Q?v72Kwd22G5AWqUhHwUIqKfHL1HBXL8OKLjtCImQyRVhfxeAzZzDibT+foFf4?=
+ =?us-ascii?Q?CYKuHuGYDKf/vab7bUJ8qPMeMsMNWWAJGJNI9mk4SOYNvGecJdOTNeUT8rGd?=
+ =?us-ascii?Q?hgSLSxOv/7ho7dJmQ0ocjmuMJVWBlZRlDAA8acW7/aoGjRYKxsbNWedoQoVt?=
+ =?us-ascii?Q?yoCwvxJ4gpB1HIvlOfa9Zwe5+06RbtMZzyJV5g72NKG0LO94EoLoIRfxLTY8?=
+ =?us-ascii?Q?/qVeJpzYzkXWw5iwtPWMZ+k2PvC+/ibE60OIi25YN8qR6ek+W+iVvOnMlBul?=
+ =?us-ascii?Q?GZV5QkiAQQKFYyeK0v2woKdkPG6T2wC1RHv9gPshdT6S6iRv4A+t35fk6cLp?=
+ =?us-ascii?Q?cs9XW+WL29LQeV0jTcxSAWO6KKubzgL1iwG+pnRAI0OdGllitxyWY1GbFiNH?=
+ =?us-ascii?Q?PrzXoGZYM4CUfpqsb/LLjB0OtewExIaEb0BQfqef64Zu+jHHWqeML43oU0ir?=
+ =?us-ascii?Q?fwgPqgFyF+uOlp5n/KjVOLCJmwacB1ZBNPKDRI1xtevTJFWcRvnUVGWg7R8q?=
+ =?us-ascii?Q?4VY1lEDDjh6W4a14+/U6+SZIhP+x0jBlpku/qoD3TDLR2EaP?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB6683.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd7497ef-1339-4683-1fa0-08df09280011
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2026 19:25:51.3784
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: j38x2FqgCbH6gtdWXnIJgnW3Atf8D8fHZ4zIcV4RqmeDFcRm+b4W+o7fvvda3y7Hc0cHKYBszhNtfnqqHbjeeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR21MB6562
 
-Hi Mukesh,
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s)
+> to consider:
+> - [Low] The patch introduces a boolean flag (`channel_changing`) into
+> `mana_set_ringparam` to act as an ad-hoc lock against concurrent RDMA
+> operations. The subsystem guidelines explicitly prohibit using a boolean =
+flag
+> set on entry and cleared on exit of a code region to prevent concurrent
+> access, requiring a proper lock instead. Furthermore, this ad-hoc lock is
+> entirely redundant and constitutes unnecessary code complexity: the RDMA
+> path (`mana_cfg_vport`) already returns `-EBUSY` when `apc-
+> >vport_use_count > 0`. Because `mana_set_ringparam` returns early if the
+> port is down, `vport_use_count` is guaranteed to be `> 0` when the flag i=
+s set
+> (as the author notes in the code comment). This means the RDMA path will
+> always short-circuit and fail before it even evaluates `apc-
+> >channel_changing`, making the flag updates dead code.
+> --
+>=20
+> commit ea4e4054a6be8a40258c13cd5a0aa9f21fa11e29
+> Author: Long Li <longli@microsoft.com>
+>=20
+> net: mana: swap queue sets in mana_set_ringparam
+>=20
+> Convert the ring size path to pre-allocate and swap so that allocation fa=
+ilures
+> return an error without touching the running configuration. This drops th=
+e
+> fallback on failure and returns early when the requested sizes round to t=
+he
+> values already in use.
+>=20
+> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> > b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> > --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> > +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> [ ... ]
+> > +	/* Block RDMA from acquiring the vport for the duration. The vport
+> > +	 * itself is never released, so vport_use_count stays > 0.
+> > +	 */
+> > +	mutex_lock(&apc->vport_mutex);
+> > +	if (apc->channel_changing) {
+> > +		mutex_unlock(&apc->vport_mutex);
+> > +		return -EBUSY;
+> > +	}
+> > +	apc->channel_changing =3D true;
+> > +	mutex_unlock(&apc->vport_mutex);
+>=20
+> [Severity: Low]
+> Does this introduce a boolean flag as an ad-hoc lock? Subsystem guideline=
+s
+> prohibit using a boolean flag set on entry and cleared on exit of a code
+> region to prevent concurrent access, requiring a proper lock instead.
+>=20
+> Additionally, could this flag be entirely redundant? Since the RDMA path
+> returns -EBUSY when apc->vport_use_count > 0, and the port is up here
+> (meaning vport_use_count > 0, as noted in the comment), the RDMA path
+> will likely short-circuit and fail before it even evaluates apc-
+> >channel_changing.
+> Does this make the flag updates dead code?
+>=20
+> [ ... ]
+> > +clear_flag:
+> > +	mutex_lock(&apc->vport_mutex);
+> > +	apc->channel_changing =3D false;
+> > +	mutex_unlock(&apc->vport_mutex);
+> >  	return err;
+> >  }
+>=20
+> [Severity: Low]
+> This clears the ad-hoc lock mentioned above. Can we remove this flag-base=
+d
+> synchronization entirely if the RDMA path is already blocked by
+> vport_use_count?
 
-On Fri, 31 Jul 2026 15:34:21 -0700
-Mukesh R <mrathor@linux.microsoft.com> wrote:
+The flag is not introduced by this patch. channel_changing is already in
+mainline: declared in struct mana_port_context, checked inside
+mana_cfg_vport() via its check_channel_changing argument, and
+set/cleared by mana_set_channels(), mana_set_priv_flags() and the
+per-port reset work handler. This patch converts mana_set_ringparam() to
+the swap model and follows the convention the neighbouring ethtool
+setters already use.
 
-> Add a new file to implement basic VFIO-MSHV bridge pseudo device.
-> These functions are called in the VFIO framework, and credits to
-> kvm/vfio.c as this file was adapted from it. This is a basic version
-> to build upon.
-> 
-> Co-developed-by: Wei Liu <wei.liu@kernel.org>
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
-> ---
->  drivers/hv/Makefile       |   3 +-
->  drivers/hv/mshv_vfio.c    | 211
-> ++++++++++++++++++++++++++++++++++++++ include/uapi/linux/mshv.h |
-> 1 + 3 files changed, 214 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/hv/mshv_vfio.c
-> 
-> diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-> index 888a748cc7cb..9ab6fc254c38 100644
-> --- a/drivers/hv/Makefile
-> +++ b/drivers/hv/Makefile
-> @@ -14,7 +14,8 @@ hv_vmbus-y := vmbus_drv.o \
->  hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
->  hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
->  mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o
-> mshv_irq.o \
-> -	       mshv_root_hv_call.o mshv_portid_table.o mshv_regions.o
-> +	       mshv_root_hv_call.o mshv_portid_table.o
-> mshv_regions.o  \
-> +               mshv_vfio.o
->  mshv_root-$(CONFIG_DEBUG_FS) += mshv_debugfs.o
->  mshv_root-$(CONFIG_TRACEPOINTS) += mshv_trace.o
->  mshv_vtl-y := mshv_vtl_main.o
-> diff --git a/drivers/hv/mshv_vfio.c b/drivers/hv/mshv_vfio.c
-> new file mode 100644
-> index 000000000000..92cfbaef0328
-> --- /dev/null
-> +++ b/drivers/hv/mshv_vfio.c
-> @@ -0,0 +1,211 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * VFIO-MSHV bridge pseudo device
-> + *
-> + * Heavily inspired by the VFIO-KVM bridge pseudo device.
-> + */
-> +#include <linux/errno.h>
-> +#include <linux/file.h>
-> +#include <linux/list.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/slab.h>
-> +#include <linux/vfio.h>
-> +#include <asm/mshyperv.h>
-> +
-> +#include "mshv.h"
-> +#include "mshv_root.h"
-> +
-> +struct mshv_vfio_file {
-> +	struct list_head node;
-> +	struct file *file;	/* list of struct mshv_vfio_file */
-> +};
-> +
-> +struct mshv_vfio {
-> +	struct list_head file_list;
-> +	struct mutex lock;
-> +};
-> +
-> +static bool mshv_vfio_file_is_valid(struct file *file)
-> +{
-> +	bool (*fn)(struct file *file);
-> +	bool ret;
-> +
-> +	fn = symbol_get(vfio_file_is_valid);
-> +	if (!fn)
-> +		return false;
-> +
-> +	ret = fn(file);
-> +
-> +	symbol_put(vfio_file_is_valid);
-> +
-> +	return ret;
-> +}
-> +
-> +static long mshv_vfio_file_add(struct mshv_device *mshvdev, unsigned
-> int fd) +{
-> +	struct mshv_vfio *mshv_vfio = mshvdev->device_private;
-> +	struct mshv_vfio_file *mvf;
-> +	struct file *filp;
-> +	long ret = 0;
-> +
-> +	filp = fget(fd);
-> +	if (!filp)
-> +		return -EBADF;
-> +
-> +	/* Ensure the FD is a vfio FD. */
-> +	if (!mshv_vfio_file_is_valid(filp)) {
-> +		ret = -EINVAL;
-> +		goto out_fput;
-> +	}
-> +
-> +	mutex_lock(&mshv_vfio->lock);
-> +
-> +	list_for_each_entry(mvf, &mshv_vfio->file_list, node) {
-> +		if (mvf->file == filp) {
-> +			ret = -EEXIST;
-> +			goto out_unlock;
-> +		}
-> +	}
-> +
-> +	mvf = kzalloc(sizeof(*mvf), GFP_KERNEL_ACCOUNT);
-> +	if (!mvf) {
-> +		ret = -ENOMEM;
-> +		goto out_unlock;
-> +	}
-> +
-> +	mvf->file = get_file(filp);
-> +	list_add_tail(&mvf->node, &mshv_vfio->file_list);
-> +
-Why there is no vfio_device_file_set_kvm equivalent for mshv? since VFIO
-device open/bind path will do vfio_device/group_get_kvm_safe() to ensure
-lifetime alignment. Otherwise, vfio group/device can outlive mshv
-partition.
+It is also not dead code. The reasoning holds for the success path:
+while the swap succeeds the vport is never released, vport_use_count
+stays at 1, and mana_cfg_vport() short-circuits on the first disjunct
+exactly as you describe. The failure path releases it:
 
-If we do want to support this kvm-vfio bridge semantics beyond kvm,
-maybe this should be abstracted as a generic VFIO "hypervisor
-partition" association, with hypervisor-specific get/put callbacks,
-rather than adding an MSHV-only copy of the KVM hook.
-+Alex
+  free_scratch:
+        mana_publish_close_if_needed(apc);  /* -> mana_dealloc_queues()
+                                               -> mana_destroy_vport()
+                                               -> mana_uncfg_vport(): 1 -> =
+0 */
+        mana_qset_scratch_free(scratch);
+  clear_flag:
+        apc->channel_changing =3D false;
 
-> +out_unlock:
-> +	mutex_unlock(&mshv_vfio->lock);
-> +out_fput:
-> +	fput(filp);
-> +	return ret;
-> +}
-> +
-> +static long mshv_vfio_file_del(struct mshv_device *mshvdev, unsigned
-> int fd) +{
-> +	struct mshv_vfio *mshv_vfio = mshvdev->device_private;
-> +	struct mshv_vfio_file *mvf;
-> +	long ret;
-> +
-> +	CLASS(fd, f)(fd);
-> +
-> +	if (fd_empty(f))
-> +		return -EBADF;
-> +
-> +	ret = -ENOENT;
-> +	mutex_lock(&mshv_vfio->lock);
-> +
-> +	list_for_each_entry(mvf, &mshv_vfio->file_list, node) {
-> +		if (mvf->file != fd_file(f))
-> +			continue;
-> +
-> +		list_del(&mvf->node);
-> +		fput(mvf->file);
-> +		kfree(mvf);
-> +		ret = 0;
-> +		break;
-> +	}
-> +
-> +	mutex_unlock(&mshv_vfio->lock);
-> +	return ret;
-> +}
-> +
-> +static long mshv_vfio_set_file(struct mshv_device *mshvdev, long
-> attr,
-> +			      void __user *arg)
-> +{
-> +	int32_t __user *argp = arg;
-> +	int32_t fd;
-> +
-> +	switch (attr) {
-> +	case MSHV_DEV_VFIO_FILE_ADD:
-> +		if (get_user(fd, argp))
-> +			return -EFAULT;
-> +		return mshv_vfio_file_add(mshvdev, fd);
-> +
-> +	case MSHV_DEV_VFIO_FILE_DEL:
-> +		if (get_user(fd, argp))
-> +			return -EFAULT;
-> +		return mshv_vfio_file_del(mshvdev, fd);
-> +	}
-> +
-> +	return -ENXIO;
-> +}
-> +
-> +static long mshv_vfio_set_attr(struct mshv_device *mshvdev,
-> +			      struct mshv_device_attr *attr)
-> +{
-> +	switch (attr->group) {
-> +	case MSHV_DEV_VFIO_FILE:
-> +		return mshv_vfio_set_file(mshvdev, attr->attr,
-> +
-> u64_to_user_ptr(attr->addr));
-> +	}
-> +
-> +	return -ENXIO;
-> +}
-> +
-> +static long mshv_vfio_has_attr(struct mshv_device *mshvdev,
-> +			      struct mshv_device_attr *attr)
-> +{
-> +	switch (attr->group) {
-> +	case MSHV_DEV_VFIO_FILE:
-> +		switch (attr->attr) {
-> +		case MSHV_DEV_VFIO_FILE_ADD:
-> +		case MSHV_DEV_VFIO_FILE_DEL:
-> +			return 0;
-> +		}
-> +
-> +		break;
-> +	}
-> +
-> +	return -ENXIO;
-> +}
-> +
-> +static long mshv_vfio_create_device(struct mshv_device *mshvdev)
-> +{
-> +	struct mshv_device *tmp;
-> +	struct mshv_vfio *mshv_vfio;
-> +
-> +	/* Only one VFIO "device" per VM */
-> +	hlist_for_each_entry(tmp, &mshvdev->device_pt->pt_devices,
-> +			     device_ptnode)
-> +		if (tmp->device_ops == &mshv_vfio_device_ops)
-> +			return -EBUSY;
-> +
-> +	mshv_vfio = kzalloc_obj(*mshv_vfio);
-> +	if (mshv_vfio == NULL)
-> +		return -ENOMEM;
-> +
-> +	INIT_LIST_HEAD(&mshv_vfio->file_list);
-> +	mutex_init(&mshv_vfio->lock);
-> +
-> +	mshvdev->device_private = mshv_vfio;
-> +
-> +	return 0;
-> +}
-> +
-> +/* This is called from mshv_device_fop_release() */
-> +static void mshv_vfio_release_device(struct mshv_device *mshvdev)
-> +{
-> +	struct mshv_vfio *mv = mshvdev->device_private;
-> +	struct mshv_vfio_file *mvf, *tmp;
-> +
-> +	list_for_each_entry_safe(mvf, tmp, &mv->file_list, node) {
-> +		fput(mvf->file);
-> +		list_del(&mvf->node);
-> +		kfree(mvf);
-> +	}
-> +
-> +	kfree(mv);
-> +	kfree(mshvdev);
-> +}
-> +
-> +const struct mshv_device_ops mshv_vfio_device_ops = {
-> +	.device_name = "mshv-vfio",
-> +	.device_create = mshv_vfio_create_device,
-> +	.device_release = mshv_vfio_release_device,
-> +	.device_set_attr = mshv_vfio_set_attr,
-> +	.device_has_attr = mshv_vfio_has_attr,
-> +};
-> diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-> index be6fe3ee8707..b038a79786d2 100644
-> --- a/include/uapi/linux/mshv.h
-> +++ b/include/uapi/linux/mshv.h
-> @@ -254,6 +254,7 @@ struct mshv_root_hvcall {
->  #define MSHV_GET_GPAP_ACCESS_BITMAP	_IOWR(MSHV_IOCTL, 0x06,
-> struct mshv_gpap_access_bitmap) /* Generic hypercall */
->  #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07,
-> struct mshv_root_hvcall) +#define MSHV_CREATE_DEVICE
-> _IOWR(MSHV_IOCTL, 0x08, struct mshv_create_device) 
->  /*
->   ********************************
+When mana_publish_qset() hits a dead end the port is closed, which drops
+vport_use_count to 0, and the flag is only cleared after that. In that
+window channel_changing is the only thing still blocking RDMA, which
+calls mana_cfg_vport(..., true) from drivers/infiniband/hw/mana/main.c
+without RTNL and can therefore land in it. The same applies to the reset
+work handler, which this series does not convert and which still does a
+full detach/attach.
 
+Thanks,
+Long
