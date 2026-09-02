@@ -1,68 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F8A47F794;
-	Wed,  2 Sep 2026 12:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9ACA481A81;
+	Wed,  2 Sep 2026 12:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788350969; cv=none; b=ed2d8DLYIUCTkE+4hZlTUKn8YkVkJwNbE1iGHTyCbjm8EDqzaiB6oRvQcrmOyY1d8uW5C+EuwCQPdtTKMafyg8u4n7NVXjvGLm/T2/vlNa9KujHQs/TGUP1VdVbUwlNgU6ZdgmedmKKA0xHHveiPVMfirFbL5qXcEzX+49gVAyU=
+	t=1788351584; cv=none; b=mnE+PeA1C2oNqprzrrlj00cGvCSJ3797a1yCD9nAorW4eHYQQ0P0KGMdu8gSlVlOU8nXnnfyGc6iHjc6Fq95IN+J/CVOLfVne6hF/HBAxylQ2An/Of4Q8PSNx/zY/u3UlDAl0Hb/PqrVj8BZKS2A4jixBUeBENqtJhWvmAkFf3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788350969; c=relaxed/simple;
-	bh=h8E6356LN7xOxoD3tqsYtk+8SJEe6nTT9DC33DwukXI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CTUGMsGLxOiLN+si0pWRSCj96N8kUUri7frC1xk+K301GuGL38BnoYz9PPzj0dHd/ZO1o8BGHEFjCYwWAQJ4cXPkapIR0LZqd+k0ox0XaYZnIPVi750UDDd1Gv5tStZryhH5EJoaCXZr79d0Km8dl9YNKtT4HgyKkmItaRwrt4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bt0IHAjN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788351584; c=relaxed/simple;
+	bh=odxnxmaAf2RV3ti0/nNL9HKMt/VzDj+O4M2J6w+83Kw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o4rqGgUYLxkceNsMG2UePhY52kO7dp9w/dnb+0P1NpA3E7TNJn6AyVp3NcvCVQCR1FI83UgmwaoxjhgJzhQzfFmI0yvOj9vLNPnawE+mQBxByTn+WRAnrPfZiLI73sQ/9VuZaKuCMq+U1pFlyaf8dhOcRVTRFAL3/tNTetQYBBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h8edhgbl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UEnYf/Qw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bt0IHAjN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A1F1F00A3A;
-	Wed,  2 Sep 2026 12:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788350957;
-	bh=h8E6356LN7xOxoD3tqsYtk+8SJEe6nTT9DC33DwukXI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bt0IHAjNENWKisip1BHemRkNfVbmPLDkvpO3LJzIA3vo87vjOsxv0gFlpiOw3I7g1
-	 +T+kx+i8hBk1+G5gH152BnsApXORdmQxmTlb4i9tzExiU8/q9VCzVuIa3PAChS/P+h
-	 xpTmOhaXhd2OpyL2JK4fKS/7YCw0HWlMZZONEQNopoEDuu9YoyfJmUA2Uc+xB+h9Le
-	 KpotOHCmj++VuOO/WfChEBvZOCE4TSQwq8x71wT0Kgw/JGr4HNs++8yPzxz8KF4/38
-	 sEFCUfpnHCVdv1GHT1GFggfdJvBepCi5+lnKVU5N4MJQdH1ZqOrwN+FIms+wr4orYS
-	 5vJBlnO7U71Yw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] PCI: hv: warn when wait_for_response() waits
- indefinitely
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sahil Chandna" <sahilchandna@linux.microsoft.com>
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260902115854.2629164-1-sahilchandna@linux.microsoft.com>
-References: <20260902115854.2629164-1-sahilchandna@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Sep 2026 12:09:16 +0000
-Message-Id: <20260902120917.50A1F1F00A3A@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h8edhgbl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UEnYf/Qw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A4E2621D5E;
+	Wed,  2 Sep 2026 12:19:36 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788351576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnvK6SDSqRaczPeuHNPtlErQ77C4BU5i8ISwXQWL8II=;
+	b=h8edhgbl6RVp8SJUxIPEGfMSSHRYDj4TJfRiaFwu62RPAyU7q3NISvgq5JqytYkqiLk6IG
+	i7pMDNAz/IPgbLYhafwM5iaJCksmq+6PoUmSJ+1PZCEJg0iHhyRzM/GS0lO6CmeRsd0tL6
+	CdHGjC9Z0+ZCbSxPcCgdOrhBFr2cXbI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788351576;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SnvK6SDSqRaczPeuHNPtlErQ77C4BU5i8ISwXQWL8II=;
+	b=UEnYf/QwT5+lmPmD6NlstQ/A1nAK6r7ekQQtgUpM50XvwqunP5BJ232xVCWxVGrf/89ZAI
+	WqHdhSYyZ90+AmAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F211713874;
+	Wed,  2 Sep 2026 12:19:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IPSsOVcUmGqxEAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 02 Sep 2026 12:19:35 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	javierm@redhat.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	geert@linux-m68k.org,
+	rdunlap@infradead.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	nouveau@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	sashiko-reviews@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 03/14] drm/panic: Return -EINVAL if font is not available
+Date: Wed,  2 Sep 2026 14:13:11 +0200
+Message-ID: <20260902121930.597222-4-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260902121930.597222-1-tzimmermann@suse.de>
+References: <20260902121930.597222-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A4E2621D5E
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)]
 
-> A guest can wait indefinitely in wait_for_response() for the host to
-> send either a rescind message or a packet completion. If the
-> host does not send either, the guest can remain blocked with no
-> diagnostic indicating a reason.
-> This was observed during a guest kernel upgrade in which the
-> host-side application handling the PCI channel faulted, causing the
-> guest to never receive the completion request.
-> Add a warning in wait_for_response() when the wait exceeds
-> a timeout so that such a hang is visible in the guest's kernel log
-> and can be correlated with host-side state.
->=20
-> Suggested-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> Suggested-by: Naman Jain <namjain@linux.microsoft.com>
-> Suggested-by: Michael Kelley <mhklinux@outlook.com>
-> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+Font lookup does not allocate memory. Hence reporting ENOMEM on
+failed lookups is misleading. Report EINVAL instead.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260902115854.2629=
-164-1-sahilchandna@linux.microsoft.com?part=3D1
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index d28ce8878e05..62490d32019c 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -751,8 +751,10 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ 	int qr_width, qr_canvas_width, qr_pitch, v_margin;
+ 	u8 *qr_image;
+ 
+-	if (!font || !qrbuf1 || !qrbuf2 || !stream.workspace)
++	if (!qrbuf1 || !qrbuf2 || !stream.workspace)
+ 		return -ENOMEM;
++	if (!font)
++		return -EINVAL;
+ 
+ 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+ 
+-- 
+2.55.0
 
