@@ -1,131 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF01D2FFDEA;
-	Wed,  2 Sep 2026 01:16:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3B535C1B1
+	for <linux-hyperv@vger.kernel.org>; Wed,  2 Sep 2026 01:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788311779; cv=none; b=ZiW+lrnxX7+9+iBDBgHLVkVD9NF5VP03GDHhkRnod0pc8WjdE3s5epybXgFBeF0zn96F8juObDPp4dRb/OvjyaZgdYhdFoxKy/6lEkqvDrGQmdbiLdfFG8TkNuRbjVf/keM8Urx1WGw6pCnufGjsHHQ/Ef7x/rTW9wU+xyjcCJA=
+	t=1788313545; cv=none; b=fu73LvuUIt7lGnR0tzjfY+H7GhcEawzBGfBIhxUApuCk4easi3/y9pxzfe11XqTLr2G5PWfkujysKuQAwMqmpkCnkWVEnD0N06O8aPt2ij/aFbWuHC0aHe7+yQIYD6ukUuENguzkSqtRyjJER5EwXXL4OtioAauVVIh9JWIj4uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788311779; c=relaxed/simple;
-	bh=ZAMUHon1gs/wG9bddYmFDKbb2l9r+Vy2DBxCzLCRD/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSa7j0uc2OrKtnifrFFsDGmKlQZ5LUl+DVfRSk8MoFqs17xVkI29YIJbwVJV3DBGyhf5iv8KS0oAgAVDUrhESZTq/2W4BFBeMSFf0NRwrmBUk2KIsn5YXCXrkI6qVDYhBKym8uZA7XA5Xyf5cMRkbKWRWy8DoUEOO6BSNCPfT9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qs9uMuDl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788313545; c=relaxed/simple;
+	bh=k6FSQdX52F0nEeZ0Qm9KumH430zabt/0yxuRgS9MQDI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=epX68ln6HjaATKdvJlXUMllBMiuPqYWwqOzodEcHQzjCXBhja8wwOi4g0if0nvl9PqqJtlJDzbNlM7KbgB11Wskep5YQf4JXQN2N+GDjO0dBQyc9sUFjAxcIMr3/AwrmNWSImXB9kyCpwPOwPP8I6eeQfgRWcHQTh2TDCSHALuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BbWbQgsh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qs9uMuDl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1433A1F000E9;
-	Wed,  2 Sep 2026 01:16:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BbWbQgsh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CCE71F000E9;
+	Wed,  2 Sep 2026 01:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788311777;
-	bh=+MvqVmQTfTFOdXNNlT1ynolKBRUcZbyluA/ExFj8JmM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qs9uMuDliiVDZr+pN4S560jdVcQIjVnbsj0NgtgNKWi1ZXk2AriMzlYM5w/ko7liN
-	 d1KkWoHrJTMm9fGd+LSIOXo+j8zA6BP82ZDqQITRDJ9wOQ5QVX8JuLxXJAwUX1yG/G
-	 O4pl0ZqkFXaWP0+q06Btl6YYKmeDZc51gwzJjCAxvJ5IQyG2iwW4OhrPi6FVfANd0b
-	 TVwJBaQRvNwtbFvHbAraVKheU+Ft10zcRGtUeHQzwV8j/PYUTiV1y0wuHAoGvRwDIJ
-	 fKToq4IXj5O1VO6p5JfE0fCEyNsQvrZ+2PfSQgOVvxikgtczyWusE3GkEfIPJFuUsu
-	 ya7vNZHzstvDQ==
-Date: Tue, 1 Sep 2026 18:16:15 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: Thara Gopinath <tgopinath@linux.microsoft.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, tglx@kernel.org, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-	ardb@kernel.org, ilias.apalodimas@linaro.org,
-	James.Bottomley@hansenpartnership.com, javierm@redhat.com,
-	lszubowi@redhat.com, francescopompo2@gmail.com,
-	tgopinath@microsoft.com, x86@kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [RFC PATCH 06/12] drivers: hv: Add VSM boot driver and enable
- VTL1 at the partition level
-Message-ID: <20260902011615.GE2583463@liuwe-devbox-debian-v2.local>
-References: <20260901165647.3160413-1-tgopinath@linux.microsoft.com>
- <20260901165647.3160413-7-tgopinath@linux.microsoft.com>
+	s=k20260515; t=1788313536;
+	bh=ibXhd65kf2eYF5QLBz0Mmx4JMdQlaNboj0O2Wo6dKWc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BbWbQgshvQ2eZoCWr0hItDhHejyRs1dHTtW6Ru01TbWhBGMcQc0n+83I0Uw8cN3bZ
+	 s7G0x7VIho1GhKjwDICykEDfJQ8VKKrRt27np746a2dS9EOaE1+TRGMWFtFRY8F+E/
+	 E0gcmuh5aMpGdYwxb4sEr6nmy5LD5AfkZDGSguhN+hn1ktzqKUCUQaT1iSlUY+fXGF
+	 X3FIV015Yi7rz9DUTWOmING2zgzXvAXoNiX7nsgw0TufZ9GhUm9feLTtQ2JOe7WQru
+	 2dUFyYAZQ8l0JbRecwOfFUWUpdqWEr2U/lJQsW+AvIiqaMVxDkLEbg+pEBbVZ5ECv7
+	 YLRHax6J6D96g==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v3 04/13] net: mana: swap queue sets in
+ mana_set_ringparam
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Long Li" <longli@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260901014442.2945689-5-longli@microsoft.com>
+References: <20260901014442.2945689-1-longli@microsoft.com>
+ <20260901014442.2945689-5-longli@microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 02 Sep 2026 01:45:35 +0000
+Message-Id: <20260902014536.1CCE71F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901165647.3160413-7-tgopinath@linux.microsoft.com>
 
-On Tue, Sep 01, 2026 at 09:55:20AM -0700, Thara Gopinath wrote:
-> Linux VBS (LVBS) uses Hyper-V's Virtual Secure Mode to run a small
-> trusted kernel in VTL1 alongside the regular VTL0 kernel, so that
-> security-sensitive state (e.g. hypervisor-enforced code integrity,
-> credential isolation) can live behind a higher-privilege boundary
-> that VTL0 compromise cannot cross. Bringing that up from Linux
-> requires the VTL0 kernel to drive the VSM setup itself.
-> 
-> Add drivers/hv/hv_vsm_boot.c as the entry point for that sequence.
-> This first step handles partition-level VTL1 enable only:
-> 
->   - Probe VSM / VP-register privileges and SynIC availability before
->     doing anything.
->   - Pin init to the VTL0 boot CPU so VTL1 comes up on the same CPU
->     (later patches rely on this).
->   - Read HV_REGISTER_VSM_PARTITION_STATUS, and if VTL1 is not already
->     enabled, issue HVCALL_ENABLE_PARTITION_VTL with MBEC and confirm
->     by re-reading the register.
-> 
-> Signed-off-by: Thara Gopinath <tgopinath@linux.microsoft.com>
-> ---
-[...]
-> +static int __init hv_vsm_boot_init(void)
-> +{
-> +	cpumask_var_t mask;
-> +	unsigned int boot_cpu;
-> +	int ret;
-> +
-> +	if (!vsm_arch_has_vsm_access())
-> +		return 0;
-> +
-> +	/*
-> +	 * Copy the current cpu mask and pin rest of the running code to boot cpu.
-> +	 * Important since we want boot cpu of VTL0 to be the boot cpu for VTL1.
-> +	 * ToDo: Check if copying and restoring current->cpus_mask is enough
-> +	 * ToDo: Verify the assumption that cpumask_first(cpu_online_mask) is
-> +	 * the boot cpu
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] The patch introduces a boolean flag (`channel_changing`) into `mana=
+_set_ringparam` to act as an ad-hoc lock against concurrent RDMA operations=
+. The subsystem guidelines explicitly prohibit using a boolean flag set on =
+entry and cleared on exit of a code region to prevent concurrent access, re=
+quiring a proper lock instead. Furthermore, this ad-hoc lock is entirely re=
+dundant and constitutes unnecessary code complexity: the RDMA path (`mana_c=
+fg_vport`) already returns `-EBUSY` when `apc->vport_use_count > 0`. Becaus=
+e `mana_set_ringparam` returns early if the port is down, `vport_use_count`=
+ is guaranteed to be `> 0` when the flag is set (as the author notes in the=
+ code comment). This means the RDMA path will always short-circuit and fail=
+ before it even evaluates `apc->channel_changing`, making the flag updates =
+dead code.
+--
 
-Can we get closures on these todos?
+commit ea4e4054a6be8a40258c13cd5a0aa9f21fa11e29
+Author: Long Li <longli@microsoft.com>
 
-I see a bunch of todos in other patches, too. It would be good to close
-them as well.
+net: mana: swap queue sets in mana_set_ringparam
 
-Wei
+Convert the ring size path to pre-allocate and swap so that allocation fail=
+ures
+return an error without touching the running configuration. This drops the
+fallback on failure and returns early when the requested sizes round to the
+values already in use.
 
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
+/net/ethernet/microsoft/mana/mana_ethtool.c
+> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+[ ... ]
+> +	/* Block RDMA from acquiring the vport for the duration. The vport
+> +	 * itself is never released, so vport_use_count stays > 0.
 > +	 */
-> +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> +		panic("Could not allocate cpumask");
-> +
-> +	cpumask_copy(mask, &current->cpus_mask);
-> +	boot_cpu = cpumask_first(cpu_online_mask);
-> +	set_cpus_allowed_ptr(current, cpumask_of(boot_cpu));
-> +
-> +	ret = hv_vsm_bootstrap_vtl();
-> +	/*
-> +	 * At this point VTL0 has already advertised VSM support to the
-> +	 * bootloader/firmware via the Hyper-V OsLoaderIndications EFI
-> +	 * variable (see the x86-stub change). That signals the platform
-> +	 * that a trusted VTL1 will be brought up. If we fail to actually
-> +	 * set VTL1 up here, the partition is left in a state where an
-> +	 * attacker could race to configure VTL1 themselves and gain a
-> +	 * higher-privilege foothold than VTL0. Panic rather than continue
-> +	 * running with that exposure.
-> +	 */
-> +	if (ret)
-> +		panic("VTL1 boot failure caused kernel panic; consult log for more details.\n");
-> +
-> +	set_cpus_allowed_ptr(current, mask);
-> +	free_cpumask_var(mask);
-> +	return ret;
-> +}
-> +device_initcall(hv_vsm_boot_init);
-> -- 
-> 2.34.1
-> 
-> 
+> +	mutex_lock(&apc->vport_mutex);
+> +	if (apc->channel_changing) {
+> +		mutex_unlock(&apc->vport_mutex);
+> +		return -EBUSY;
+> +	}
+> +	apc->channel_changing =3D true;
+> +	mutex_unlock(&apc->vport_mutex);
+
+[Severity: Low]
+Does this introduce a boolean flag as an ad-hoc lock? Subsystem guidelines
+prohibit using a boolean flag set on entry and cleared on exit of a code
+region to prevent concurrent access, requiring a proper lock instead.
+
+Additionally, could this flag be entirely redundant? Since the RDMA path
+returns -EBUSY when apc->vport_use_count > 0, and the port is up here (mean=
+ing
+vport_use_count > 0, as noted in the comment), the RDMA path will likely
+short-circuit and fail before it even evaluates apc->channel_changing.
+Does this make the flag updates dead code?
+
+[ ... ]
+> +clear_flag:
+> +	mutex_lock(&apc->vport_mutex);
+> +	apc->channel_changing =3D false;
+> +	mutex_unlock(&apc->vport_mutex);
+>  	return err;
+>  }
+
+[Severity: Low]
+This clears the ad-hoc lock mentioned above. Can we remove this flag-based
+synchronization entirely if the RDMA path is already blocked by
+vport_use_count?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901014442.2945=
+689-1-longli@microsoft.com?part=3D4
