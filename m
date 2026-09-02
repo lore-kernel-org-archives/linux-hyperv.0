@@ -1,188 +1,396 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013064.outbound.protection.outlook.com [52.103.20.64])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022116.outbound.protection.outlook.com [40.93.195.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED335C1AD;
-	Wed,  2 Sep 2026 16:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CC83750BD;
+	Wed,  2 Sep 2026 17:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.116
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788368251; cv=fail; b=F4CoX76yBJiwX+dCT66esV9yjE34VPt89XhzUZ1UrS+kcF05GGdCiV8aTlHiLmnQCvPFYt4daZ4VrfbRG+l51m+SDNmK5M4NzozTTEna9QZHomhSL5B7w5zAiG0PF6pxMWhhShKuhu9ZdaSM0zoou+a56hfPwYlAhdHUYE862Xo=
+	t=1788370952; cv=fail; b=goeFv9JuT4N9geR0xD35jvmWQCAhnvwE9IkQLwbftUFDZmh5D93MsFiZyogRu9ppssGAwvdJCUbs3NxKqrSlCfC2Xu4YKSUpySOh3j8JwPPQ7Nv+ZEdKxCDUMEJrTMljFU7jB8506zGDN/4Bbv2eX9fVoRItnt/HfWZc029dwNk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788368251; c=relaxed/simple;
-	bh=qdTbLlYqxDIVfE0rhR0pMK9oZPMBXwOWGxayGOOiBKI=;
+	s=arc-20240116; t=1788370952; c=relaxed/simple;
+	bh=uhc4ZbP1hDzob3mhFnckvm1I62RfL6ijRIrAzFjOkXM=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Wscqoxl7uqjhfE6cXB8Oh9i0h2RsPi8QA8NvpsoJLG2ecx7MKpp49H7K6mK03aAAcv5OBt7oxNTPIkD+ajLp/OvkGTAhzWy6/B7/VmDHtsydM0YYdWqZeMqbWys1nCpfw8xu/N9lmsPs7/EM7GplbW1JdN+1aXjqG3+AyRNFi9Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=N5p3ARXn; arc=fail smtp.client-ip=52.103.20.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	 Content-Type:MIME-Version; b=UERGqJ6k259DiWdPJ6gYkGXu7ObxQ6ykJoJKq3F3Z9/B7NZQA3McC2bDsgjkM7WLoEy5caEsDzxNsiqWdOkbHJMaHsBhNDlee8ugnI0o4/YEkK3qsAkdWKefg1ysD725kSjBvLRiNJjhSVxDqK+FvB/i/Dm86DYJTJjXNf4e8tQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=MFDbqGyu; arc=fail smtp.client-ip=40.93.195.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="N5p3ARXn"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="MFDbqGyu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v1TZYonDfA2WnAlyPpreQUBYkiLmpBjAFspfPh5ndyxeS1BKKiz/VqRqjIQPhle3c9dDiRWygLDXsCM2mmtkRBX99/Uv5vQGYGl02CgnwSIWtgqITztaHKcu4DvlHjrgObmcJCmKYFJadCr78YdLWLk0D/0xCdLSsE0+HXtUL7GL6YmI6qiJGQTrjt7Y2GD3FWV4ArVKQHz+H3Il9JcajvvimzpryARbCUSAUf15paDAs5LwIgPsRmZWRw3rMrt4z2YSKyzaJcs+5ltrm1fD3/yll3a+xN4C00pzklZcP7D/kuXCOcWseHQbsHB0CXyF/syacUn+aZYfOB9W75Bquw==
+ b=X8LuVR8g+PKSaXYtBerGsHH5ECl9bmXfcn7hEzkL4fwzz7UAxqT0GZ6nw6mcQV/Q83yRf4uHbGovb652Ux5oCBcM+e4opMo9eMgxvWcvrYJ/g6MFUp2oYE8l3L75Yxkb0ZI5wsGiZCfYcJT4ebHvMV2ONH9loAvQZ80Pw5aR8PxqpADHc3fDuciCyrvCsBl8i0tletmSRA+8BM4QgO9VyajEM4oWrnIjY+DmvpSWJvVnZXmegO8Q2JZlfL22G1aC1hkSg2DldzPbFX933ym2LEN3K9GRhr+TiQ3W1ctq8jiSiEO+YMNNUeKix3BTc/h0yyHvR5TBuwdagBzRESDtcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qdTbLlYqxDIVfE0rhR0pMK9oZPMBXwOWGxayGOOiBKI=;
- b=LxVYQOs4ovVk5JDrbxUOEKyLmviZcIMmkmdmstbGlweD2B2r32V57sqerJ3ju2syGlf9ebF/zPX0d3nuGKc0FZGB3SWWDAf2oG/inLj5+IbZTDuSCYw4iKeygXhDbf9f8b91hQAUfTpNTNzSWrSmCd0hJrtIcizj/wWIdmOvJN5xueeBf/A7upP+Xjepp5vNn0rGm6qR4tTQNGWxZs9qxFHxATZCcHEg0rH/g3lzrQ1ulBiQERT5HqzwUfyE9Mw6sv+Ca/+aJXG6S6+apRQoKHo19srCQV/PncvaEnmZd8TLcjS24fLNTkxHtW8u+M7p9bh9Jm/fvZyguUTXjH9eDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=6S3TTX33hgVVXgDGZKWYLwIZEuIpiP+IgNwInvGzM2Q=;
+ b=c4GVebkemZPvzxwVcU5oWghCD2FyZEJ1lkwNNo6bcNkXYK7+GjT3y5zzXiizE+sfOJT4uz3BwmFiWhkSLKLZowTBAx2s/kQP90c5J3ZUiPzulfezegYQP/tvSVyKlyeoDnDYdb6FtxIONCZ5DIhoOSDEn9XN6wqo5ESgTnsPkGa4muxs9Bkxc0HVqiMglEGXGWqaykCkIJHftoApExb24T8/T6uHouLRO0ORykFRZyA+04iRk7UIxxz+tAxu3rja6YKQLK4bcqGYaTRvaR+y76yDzZudPmTXSgwgGaZQgsbsohcrJx/C4CYSGpbF3utIh6XnTr8mb7iamMyvrbxMjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdTbLlYqxDIVfE0rhR0pMK9oZPMBXwOWGxayGOOiBKI=;
- b=N5p3ARXn3Rco31Nf3tdXpjjg+rosnmsvojeytENqslXGhh/jX8XnidvALmyqbT16FwjoFrt9LrB9HvQHI/VlB/LBF/9BkrazQxF+MFOqhFVv/2FkDj5P02hC0ZW5LHD09OwbtybhWPJ+pWcLaXux/3cmCBSjbtPOGZOtsBFNE/vUlMrB1OY2auRRirGu48GsSLjc8dSovB385aA0Fau90lI1GCIVySlLJUvqFmF0+Lts9bfi5Gn6gu5f8L5OIhb3cEKgDiOsIEOtV0LhkHQ/+kRNNuyA8HyjLrUciDRz00w4/P/JhEwuf11AEIIfZ9qkdVC5Nswtk48QwIIOKvbMEg==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by DM4PR02MB9192.namprd02.prod.outlook.com (2603:10b6:8:108::12) with
+ bh=6S3TTX33hgVVXgDGZKWYLwIZEuIpiP+IgNwInvGzM2Q=;
+ b=MFDbqGyubML7UxUU7yM1cPmKeyC1/9Ijf5FomknxEbfdZISbBeLD9+KLOwbeISjdWEAusEJPMT13zIVT8U9pLNTsz3yHsdkqGoFBX81i7XLh76OpauFlx+A8IRzMPiZt8/sAtruy94bRkzO1pR6hyMIDKZkQck3/85gBc7V9HJw=
+Received: from SA1PR21MB6683.namprd21.prod.outlook.com (2603:10b6:806:4a4::6)
+ by SA3PR21MB5677.namprd21.prod.outlook.com (2603:10b6:806:49a::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 16:57:26 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 16:57:22 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Naman Jain <namjain@linux.microsoft.com>, Michael Kelley
-	<mhklinux@outlook.com>, Andrew Morton <akpm@linux-foundation.org>, Thomas
- Gleixner <tglx@kernel.org>, Ming Lei <tom.leiming@gmail.com>, Ming Lei
-	<ming.lei@redhat.com>
-CC: Wangyang Guo <wangyang.guo@intel.com>, Tianyou Li <tianyou.li@intel.com>,
-	Tim Chen <tim.c.chen@linux.intel.com>, Long Li <longli@microsoft.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v2] lib/group_cpus: rotate extra groups to avoid IRQ
- stacking
-Thread-Topic: [PATCH v2] lib/group_cpus: rotate extra groups to avoid IRQ
- stacking
-Thread-Index: AQHdKJCMH5PeXdnWRUiBUqx3W0OgELa4+KewgAHm1QCAAMee0A==
-Date: Wed, 2 Sep 2026 16:57:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.1; Wed, 2 Sep 2026
+ 17:42:24 +0000
+Received: from SA1PR21MB6683.namprd21.prod.outlook.com
+ ([fe80::8bad:6294:8a07:fe18]) by SA1PR21MB6683.namprd21.prod.outlook.com
+ ([fe80::8bad:6294:8a07:fe18%6]) with mapi id 15.21.0315.008; Wed, 2 Sep 2026
+ 17:42:24 +0000
+From: Long Li <longli@microsoft.com>
+To: Simon Horman <horms@kernel.org>
+CC: Konstantin Taranov <kotaranov@microsoft.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
+	<edumazet@google.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "leon@kernel.org" <leon@kernel.org>, Haiyang
+ Zhang <haiyangz@microsoft.com>, KY Srinivasan <kys@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <DECUI@microsoft.com>,
+	"shradhagupta@linux.microsoft.com" <shradhagupta@linux.microsoft.com>,
+	"ernis@linux.microsoft.com" <ernis@linux.microsoft.com>,
+	"stephen@networkplumber.org" <stephen@networkplumber.org>,
+	"shirazsaleem@microsoft.com" <shirazsaleem@microsoft.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [EXTERNAL] Re: [PATCH net v2] net: mana: Clear RDMA teardown and
+ suspend state in mana_rdma_probe()
+Thread-Topic: [EXTERNAL] Re: [PATCH net v2] net: mana: Clear RDMA teardown and
+ suspend state in mana_rdma_probe()
+Thread-Index: AQHdNoHyJHxYt4xOt0q521Qs+wjjDLa7h7UAgAAMHwA=
+Date: Wed, 2 Sep 2026 17:42:24 +0000
 Message-ID:
- <SN6PR02MB4157F6AD93437B057878E048D4B72@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260810062144.2108758-1-namjain@linux.microsoft.com>
- <SN6PR02MB4157B73B333F08702875110ED4A82@SN6PR02MB4157.namprd02.prod.outlook.com>
- <19005077-4dde-4193-aafa-5b248a2131a6@linux.microsoft.com>
-In-Reply-To: <19005077-4dde-4193-aafa-5b248a2131a6@linux.microsoft.com>
+ <SA1PR21MB668394D2F100CF7B14FD6FE8CEB72@SA1PR21MB6683.namprd21.prod.outlook.com>
+References: <20260828001202.2110938-1-longli@microsoft.com>
+ <20260902164445.528471-2-horms@kernel.org>
+In-Reply-To: <20260902164445.528471-2-horms@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0450f7d8-e380-4432-9663-9f996cbfcb98;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-09-02T17:28:09Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|DM4PR02MB9192:EE_
-x-ms-office365-filtering-correlation-id: e734e2ef-dc99-45ce-1be6-08df091341d8
-x-ms-exchange-slblob-mailprops:
- vuaKsetfIZn9IFDOZRHBr3PkJ6iE+FIkDUn8RT1l1bRCuZS5pxQb+0kSwRZYHb+IDtUvt6Q9RFnM3YjtRONxGSWwBVmgiJgprtypR/dcpcZ3/7Gkrgx0bdozv4SwhpDRi2QR69AwgUfD2lNNgAD9FwvxAZGcI3lsYFfsXbdl4nU2xstlIdmapswf7DI+WOofQchTHQaCNo2Vp6qPA6ts6FASSGVcxjG/3gm35Qgg/SWA8iBCT+mP4/LovMG/NnNIOrg3yECIYOx8Jg/6kJ9cgCacoz9/cUbYkWBaTYtWNkl3OukfhRa+ZOkwkwHrOHnANxJ+3ZM//PB0/wIW/zngCpIwDvqKchbhgHY1WahpmfMsa5oklxvKncXueCHqK0WbL9MF1G++HHTLueBzWBQS0H/2z98IlxTlFUk35t+1lkJHRFUKjdI16su2lVTtYHYBq66dP5gc9GIso7oFZXgdEXEeARruJMn7RznQL7fl7hnsXAPasNwBpyIloZ4vPSi+jHvaUV7k9fKS6zqTgCdm3bHuEvsrLfRq6/IGx6YTCde2h8GiIHvI4yg2OAhB+N6OCC2mgPJo6dt6UFB7o2T/ADQB2QRk4MZAqisMdGcv5PdFmGZuwfTU6QWGzvAi5ulzhbfSf89tDEwgkZfSz9AOAHi1ueqRrMuA1vO2yKZ9EB0jShcIeVIHAYKxqG7jAgHb2i8jl/9rII+lwRogstXatqFRvfWAzzmFbVmmiq4KZTcwHrvu9Z0pDdL5UvIoViS5iInOW02tTUPWg7j+18DaZZDk5QUY+pku6Bgm2/wbooT/JwjXgCxeTwdE+FE2loaa
+x-ms-traffictypediagnostic: SA1PR21MB6683:EE_|SA3PR21MB5677:EE_
+x-ms-office365-filtering-correlation-id: 173a2046-fda8-44a5-99cd-08df09198c58
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:14566002|25010399006|12121999013|19110799012|8060799015|8062599012|13091999003|15080799012|37011999003|24021099003|55001999006|51005399006|31061999003|4302099013|440099028|3412199025|102099032|1602099012|40105399003|2607281247196008|10035399007|1710799026;
+ BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|10067099003|7146999003|5023799004|18002099003|22082099003|56012099006|11063799006|4143699003|38070700021;
 x-microsoft-antispam-message-info:
- =?utf-8?B?MVZ0MXgyR2R0MStMYXJQbmRtOTErdkdGbkpGekdBL3pkWThKTERZZWxadFNw?=
- =?utf-8?B?VitBaEhlck1TREJXczRSbUhsTmVEZ3V1SlRZNS9BMHJ1SmEyZklIdDFOYW1O?=
- =?utf-8?B?NThiYnZUcFJlVExzWVN1UHNxYTFrSkthdnlQVFdqWmxiSm1XRGVHbUxUQ1dV?=
- =?utf-8?B?c0RRcDRJVXpEU25kWlFYQXN5cEhyVnZKME0vR05CQ1NicTJEZ3UwVG0yTHRI?=
- =?utf-8?B?S1BKMFl4dFAwMndHa3gvbmVJOXV2dVpiMURoTDFZWnU2cTBLNnhFSUpxTy9z?=
- =?utf-8?B?a0liZVZpbmtic0pOWkE4SGd1bEtsekd5aWduT0JSeExvdzBsMkhlMUQvZTBp?=
- =?utf-8?B?bCtQR2Jjd0JIbURyY2NZVStXcEdGNTZYK2EwcitqY1VIdjJqOWYwLy84UTZU?=
- =?utf-8?B?aGNWakRHMjhhMHp1d1NZN09mQ0Yzc3h5bVRHbW5ZYnRYQ3Z5clpWczRSb2gv?=
- =?utf-8?B?L3RQNkJvOHB5c3hDc3VtUExSaHZ2dkcwM2hlS0JWeUUxRDJ3Mi9FQ2V1eFp0?=
- =?utf-8?B?RVJBWTdiQWpPVnlnTG84TEF0Y2FMT08yVjZOV3JoNTBPY2hCcmh5Qk1rQnIw?=
- =?utf-8?B?dVBIOGlRbTFDUytrR1cxckNnbFBJMjl4emNVS3VOVXEzNXFaWndxTXJWbXhN?=
- =?utf-8?B?ejFwUS9GN20vb2lGN0ZFWXBHbXJBNlhDa083c3I5RkVURTBJMDQ4VmV3MlJQ?=
- =?utf-8?B?UGhIbG5ZZnUyREJNU1pFWGlUOGZyc1kvbWpsNVR6UjF4ZVFHWnBaM2pPbkxs?=
- =?utf-8?B?dWtFbUVBNGw5VUZDSit5MDc1b0xlc3ozajNmMHRqaDZCaFN6L3VVWWczWU02?=
- =?utf-8?B?TmZnR21RWFhnaEpJYjJUdXZBcWlZbzd3cHQ2VUVVcUJSYnJUM3VKRHZGc0g2?=
- =?utf-8?B?bHFBOURmdXJvVGdzcnArcng5Slh2Sk1seWNrRHl2TlJxMXZGQWZUNjZBd2NG?=
- =?utf-8?B?QzFPQXpuZ0ttTTZsRXhBZXZHKzN0anY3ZEdqbTFBbFdMS3NjbW1UalV1NmZN?=
- =?utf-8?B?R3ZmVWh5bHdyWStSMTRLeUNCUGYyUEVTWW1tblY0QWdWYUp6M0J6YWUzdHQv?=
- =?utf-8?B?T1Rhblg5dVY1MHNlZTgrLzczRWZXQ3E3VVFpR0xYR081S0tjNGE0L0NPZ2xO?=
- =?utf-8?B?S2xUT3FQbzFtZEdsUmt6NEtGT1RsRkNLNjlwandQOHVIcWFUVktQbk9HbDFk?=
- =?utf-8?B?QVZRUkovUXpLb2lGKzZQUWRZaWY2d0NmVXJjRmVQTkFyRWlyVGNvdnlUbmgz?=
- =?utf-8?B?c3lIV0pKTWxNak00MVE4VVI4eGFvbVZabGNKNm9jZEJzRG1ZMjVLdnlOUldi?=
- =?utf-8?B?akVLd1FKeDZweDBYZHFzRCt6bVlXZ2VLV3lXUlg1SE81cXFlUklzVUlnZmtV?=
- =?utf-8?B?VkdtcSt1RUNNbC9DbFhQWUM1YnBNODQxeG9nMld0aTRjcGtUSHVVN3ZESFpD?=
- =?utf-8?B?aXdEakpsaGxCUk1DRGxvNVhnSGtVQ0NGVUpEbUhFc3FCNHRlYnZqWk95Y3kz?=
- =?utf-8?B?ZEZNWW16L096K3dtR3JHOE9sQkRXZ1d6V1Z6d2FHNUhrRWpzdjZPVWViNjk5?=
- =?utf-8?Q?Y0S2MHKkJGK1UTI59UbbtLB37RBCpYoD+KgwXghv0ASZ//?=
+ 4E51XWQbmK2YifwdqNhVAL54/qOl9mIRqMOJBF9V2/TVhdrWsKSnyxBJElahwpp0xDTEt1qFStef+eNs9SxJ5qTTIGNwWiarxkL+qb0AkRVX4Iaxd+uYjZ01lUFacj5nlwXAMwPRt1HmhrQD5KVgAq9NWYu2mjQgMn9RkC39clz6LePTqQekwqHiTN5flYDowfleLQSEMOc3Vw8+LALeUXn0f0oaRRKUKTfXrOlqFmNexARAAdTdgKoEn+3KNALAxosoyAWf5cOZ+yhVD0C5/xnGA+7m28cHiG880qyw+B/P1gUka5m/BgLB4rVSOO+MoF+eImpnRYcHzpJ2Vj9RzXIOn6JVRnQga9K6R1NLJxsDeNmm9bPWkvzcan/ITLcEm0JJdPAdtmeqCaMvfK7X+Aax6rBP1q1zre7Qjkq4Tta4giX1A5kkTI+dCzS1U5fjJfGpVtsfvGKy2t/UzFNFqAN/wUQwmih9AjvnoJoxpZ5Z06wi6Uyh45UhLF9jT5XViXTbzjBZ/cMwE1+qU+Xza79gFVbu3WicJIIFCqypiJpac7/dxT6IgrVLLRuo/0fUmpUt5gxm/tVK2nB0sb1KooaZT+BYyEGy6Jyj7RDhuWJ0KtMLhSFPJzPXkd67wCbGUdOAXq/tjFrE6Bv7Sgui/VVCbqv/viqylJy42fif34PsnKuLvPrWQw9bOvDA8yUWjGAXFegAYd/jV0xPvrzhEUWsA6apegUChirtiKV/mic=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB6683.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(10067099003)(7146999003)(5023799004)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003)(38070700021);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?cEIzNGd2WFpSVW5LSzNCbkJ5Y2lhRFRUTytEOCttdzlvNnRxcndQT2FLRTZW?=
- =?utf-8?B?RDRzWitNNXUxMVFGK2xHL05zYWsxdm9rejF3SVk1a2QvWFFyV2gyUmx6ejlG?=
- =?utf-8?B?ZWZUZXlUMVZ6RkFpbkNYblc5WFBFVE90YUN4bENSTUJuV2lERDVkUjczaUhB?=
- =?utf-8?B?TmsxaVM3b0JSK2RnQzdlWk9odWVWL3loRjNLd0xyNjFqV25IaDkxakhWYmlB?=
- =?utf-8?B?cm0zMFJNRWI0RTRrQTdiVmxEaUVzQ3h4UWVBb1NReE1xNmZlcWxMNGhqcmpw?=
- =?utf-8?B?YW9meDRIQWxMdW5oRE9KbDhxeGMrOHErblFHY01jZW9hV3pKeEVodzhrSmZO?=
- =?utf-8?B?UlpheTJnZGNsQ3dqRU5YOTdrQUF5UlFoZFMwemw5bEVUQXFhU2dRYWlJRGhL?=
- =?utf-8?B?Nll3WTZmRFRwcTdQKzI5M2I1OWZBNTJFWWNXdVR4ZzlQaHFiRUVVZUc5ZC9k?=
- =?utf-8?B?Ti9qbjBSMU9XVUpkYmhuOVBiMys5Ly9lSS9ob09XRjQ0TllZOTQ5VEFSTzlv?=
- =?utf-8?B?a2R6NThsQnQ2ajlhWitsd0U0R3RUU1dTNjYyNHFtYWRwNzlGdzNHblhERmo5?=
- =?utf-8?B?QlhPdDVtNmV5a3BrWGZkeWNqQ1o5N1AwdzU4aVpvNm00YlBZTWNFTm82a0ZW?=
- =?utf-8?B?NWt0VDFDVWVheVErL0hpcDc2YzZBcWlZSUQ4NVlYdmtWMVNZS0xJa1ZlZzFk?=
- =?utf-8?B?Q25MQWtEMWFTRGZ3VEtLeFZVUUpHNHF5SmNOcDMzVW1MQlduWU12ZVJzM010?=
- =?utf-8?B?b0RRWG90My9kblNJN1FFT3dlTjROczhOL1EvWFBNa2dNUDNJcWh3YkoraFN1?=
- =?utf-8?B?S1dWRTVOQlpFUlJkdk42anBMbmdZN1kwSEdxdFpPVkdWbGhtajZ4T0VWaDI3?=
- =?utf-8?B?L0Fjb1MxM25tMWhOOWhPdjh0SmxDTENlZkF4bjh0TWtUSjQzMzdLK3VhYlFy?=
- =?utf-8?B?eTJmVmZkaFUvWFMyUlNwNHNrcWtmQU93dVlZTDZ6WS9oSXRsSkRYU2taZGcz?=
- =?utf-8?B?QlBPc1JtcUdXanFzdy9rMXdhM3Y0SE1zM1BkRnZpQ21MOXpvb3RaK1hxVVF0?=
- =?utf-8?B?SXlaVGJsRDVoS0c2d041M25IaTArKzgvY0dJbFhrSHVDOTBBY1lxNUNkR2VK?=
- =?utf-8?B?cXRFakducHY4cFpDNDhYVGJHd1pwUVhSTzZycHpDb3llT1A1RmdQZTRMZDFL?=
- =?utf-8?B?VENZakNFd0hpejZtSlQ5SThVaTdmR09nRDFPc2RnT0xLaTNGZ3p4K0lZY3Nl?=
- =?utf-8?B?cnVpTExXUFFhRkpJK3VPdFE5eDM2NFN6dUtueEdoM0ZmRUFTWm5ZNFJPWkxE?=
- =?utf-8?B?NWxPQ3QrZXFscXVtaWswOTV5RmlTWG4ydlJVSTU5bThGYjV5TzJLVXhsRjZI?=
- =?utf-8?B?bGRmYkt3R1hVbUJvay83Q1QxMlFFelpwY041eGh5UXJiUWhaUHpSSGg5SzlL?=
- =?utf-8?B?ZUVDVC9PVUV1WWhxdEhXMC9JMnVrSVFVamJuOUI3RktpbjA3d3VPL1YyM1cx?=
- =?utf-8?B?c0JLM2NlVXFwQXRha3dqaWhNR1l5OU1ZTElaaS9MdTkrOUJNeEM2ckhscFoy?=
- =?utf-8?B?UGxRalpUUStRWHBWdVVOTXVKcHpNdURRd1RZMTdBOVFESjNHNDloWk5kTklw?=
- =?utf-8?B?dm9TZGZEOFBXanB4Y3d1bm11Qnd2ZFJ0dlFOVTZQdjR2ZThUWkF0Zzd2S1Bn?=
- =?utf-8?B?L21jdE9WQ1hBQ1JOdnhNd1FsWUpTcnN5anhrZGowbzc0Z1dnU2VYbjFyamhm?=
- =?utf-8?B?ZjdiSnB1WWpFSWVwdUVTd0NDWFJOSnAvYmtaUWg3MVRjMzh0UDZyOHBJR3lj?=
- =?utf-8?Q?6f2PMTVp/ib311yQcZbgWYyvKpVmHn0MGZLfw=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?us-ascii?Q?tshlOD11aKZL4mZ41MZtGOWQTv16AsQA4iyLjWuLaItwHxubJyHxzaZ0sM6H?=
+ =?us-ascii?Q?4oQrMzKf5vK/LUQzIH5oekFFdqlU6H5hgN9BBorw1ObupsM/tMWDYAvXiIIb?=
+ =?us-ascii?Q?kPYgvL2egoCh1m+tsLHTrxXcuXb1kqbHUb/5mdnT85b2dvXcdHPAoqhm1Mf6?=
+ =?us-ascii?Q?3BLWOzlXF9Q5p36rlrSia5rwhKblBTd/b3IL987Gx2bwAx+Y2lcOr5CK9DRk?=
+ =?us-ascii?Q?QaZNdcN24P4sAB5IwLCl6mk+mZoyaXKm6PBpB5yWdDt6ZTkt7t2ElqQy9xC/?=
+ =?us-ascii?Q?1zEeEzLJ9njentoxqKtsOqxG2Az+EuzKwASXF5Tf+qPiJcs2VnHpLrL4Qtnc?=
+ =?us-ascii?Q?y0i/kiy6K2nSj45W+APhQsG0Rx8yHanSzS6W2tuKhX8Nv7FSnthDNDMT1sTM?=
+ =?us-ascii?Q?k1nw3pNPmXw+U+IyoPAL2FZ+VhQCvSo7APDdOtGjR6K3c6mEFUL3th2lkWhF?=
+ =?us-ascii?Q?l4fExbdoTQ4mdPp4HqFXAEFerX00KF2A2+tRiw86ukVALwIfs1QS3Vrazd2J?=
+ =?us-ascii?Q?YrOwMw9fyNCt7TnJqwG7OgH5rKo/+DBNtcdIBIZoCp7wSGu3eheWpHhP04Y+?=
+ =?us-ascii?Q?YD2G4/wZpeEf8BjJz2SYC1EdvY9YyW8AgtkYENvSWJIhmTqXUNwenjQB1+tP?=
+ =?us-ascii?Q?SWNkprE2m0JAERiFWl4kfDO806uJqtLNKPqyj5SNKMyGahu6b0rIPdlSZJ/l?=
+ =?us-ascii?Q?HxDvqv+LBL6ozYe8hA7QHdX/gxm797zqY6OUW45W6Z+PbUNNL2CI/NrruJwH?=
+ =?us-ascii?Q?hGA5Z3iwkffcudyKn973476a96MMvmbJlurAhpZs88K/T2K58w2OGGevnqR0?=
+ =?us-ascii?Q?0qBMFPmdMA/BAXCJ1OZU8a/0J6YsP0iu5J8a5K6m1HSi2906z0sVGAUK4q2X?=
+ =?us-ascii?Q?GFjrc0Vsk3vMlCogs7Rl8MNRtQJY7/cqOVXSGMSOzfW3mFNUqErZuyZgE3iK?=
+ =?us-ascii?Q?z/2bnJzRDi+oXhYBMCkzz1zM1RhF0AKRwAIf+u3bx+1xL3kQXcPaqVLPUtm2?=
+ =?us-ascii?Q?RGms/zNvKzI0NMkbjyhKIlMZaZz/A+nUrdtOl5HSB+vqERh8UfI8+AWCGjx2?=
+ =?us-ascii?Q?27hdIrkVYS3n86CWgZdbQuhV0OsOb7AedVTwFTdgtNzmRFzoToPrWlf0p5oo?=
+ =?us-ascii?Q?MRT3Q7z+Y0rckTTHwugLb+RYT5y8jjNZd3bAHuTGyU6c0q/nrYbdM/OZR6Cp?=
+ =?us-ascii?Q?dVzUZ10eAPQNnclxP/82PV4nLNzz9nmqcGrTs2m5I3zp9nO/PPvT3sDgQj8E?=
+ =?us-ascii?Q?q+IC5f4v5acCuyc9L0DsiHD6isIn8fV32Wr3knubSS50ioIg6XccIU+s5953?=
+ =?us-ascii?Q?5+7QIURD1vNLti17DH8non1EpkN4abcQmwg+fGA92QhdgjPeYw9YWn9KFDOW?=
+ =?us-ascii?Q?AQMA7qj0zZMWtebReMBR+tV/b3xt6eATnRuDULLaGE3IxoZjcgNpQRLcwypC?=
+ =?us-ascii?Q?VTkl+XlppfAwkQmZ0szqYkZi4ObOSoGY3GYZjJE5K3f2+I+/FIaQPPh+NeqY?=
+ =?us-ascii?Q?IrflK7E7y5eILpZvVhWKX/jnXxxBo0mZxAufQfDX1cUTqfnbBs/sM4LWyrwH?=
+ =?us-ascii?Q?DNOSMZYjz87HT3eOVRwgQyMVvhbQ/i5oLULjbWj4F+KlPtVTPz7Ugru0dQzF?=
+ =?us-ascii?Q?04y1hvLwyGHOfADr3vJwAQp/ChuqvFe5IWnvh7jbgFgHV53M17cEVdxmsVBC?=
+ =?us-ascii?Q?79T9P+TA/bhqnBZUwrM7ERwhiZFRyeEMeDm1ocjrIXkiUMuo?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e734e2ef-dc99-45ce-1be6-08df091341d8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2026 16:57:22.3424
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB6683.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 173a2046-fda8-44a5-99cd-08df09198c58
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2026 17:42:24.2906
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR02MB9192
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ulBTrKzuCpm7Gm8imtejTrjV0JSvtAFwVXv3EDUthCYyLMxzJ1ZzA6ttsgRtFJBj14Cel9PYIpzKkGm/bA2+/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR21MB5677
 
-RnJvbTogTmFtYW4gSmFpbiA8bmFtamFpbkBsaW51eC5taWNyb3NvZnQuY29tPiBTZW50OiBUdWVz
-ZGF5LCBTZXB0ZW1iZXIgMSwgMjAyNiAxMDowMyBQTQ0KPiANCj4gT24gOS8xLzIwMjYgNTozMiBB
-TSwgTWljaGFlbCBLZWxsZXkgd3JvdGU6DQo+ID4gRnJvbTogTmFtYW4gSmFpbiA8bmFtamFpbkBs
-aW51eC5taWNyb3NvZnQuY29tPiBTZW50OiBTdW5kYXksIEF1Z3VzdCA5LCAyMDI2IDExOjIyIFBN
-DQoNCltzbmlwXQ0KDQo+ID4+IEBAIC0yNzAsMTEgKzI3OSwxNSBAQCBzdGF0aWMgdm9pZCBhc3Np
-Z25fY3B1c190b19ncm91cHModW5zaWduZWQgaW50IG5jcHVzLA0KPiA+PiAgIAlmb3IgKHYgPSAw
-OyB2IDwgbnYtPm5ncm91cHM7IHYrKywgKmN1cmdycCArPSAxKSB7DQo+ID4+ICAgCQljcHVzX3Bl
-cl9ncnAgPSBuY3B1cyAvIG52LT5uZ3JvdXBzOw0KPiA+Pg0KPiA+PiAtCQkvKiBBY2NvdW50IGZv
-ciBleHRyYSBncm91cHMgdG8gY29tcGVuc2F0ZSByb3VuZGluZyBlcnJvcnMgKi8NCj4gPj4gLQkJ
-aWYgKGV4dHJhX2dycHMpIHsNCj4gPj4gKwkJLyoNCj4gPj4gKwkJICogUm90YXRlIHdoaWNoIGdy
-b3VwcyBnZXQgdGhlIGV4dHJhIENQVSBzbyB0aGF0DQo+ID4+ICsJCSAqIHN1Y2Nlc3NpdmUgY2Fs
-bGVycyBwcm9kdWNlIGRpZmZlcmVudCBtYXBwaW5ncywNCj4gPj4gKwkJICogYXZvaWRpbmcgSVJR
-IHN0YWNraW5nIHdoZW4gbXVsdGlwbGUgZGV2aWNlcw0KPiA+PiArCQkgKiBzaGFyZSB0aGUgc2Ft
-ZSBDUFUgdG9wb2xvZ3kuDQo+ID4+ICsJCSAqLw0KPiA+PiArCQlpZiAoZXh0cmFfZ3JwcyAmJg0K
-PiA+DQo+ID4gRXhwbGljaXRseSB0ZXN0aW5nIGV4dHJhX2dycHMgZm9yIHplcm8gaXNuJ3QgbmVj
-ZXNzYXJ5LiBJZiBpdCBpcw0KPiA+IHplcm8sIHRoZSAibGVzcyB0aGFuIiB0ZXN0IGJlbG93IHdp
-bGwgYWx3YXlzIGJlIGZhbHNlIGFueXdheS4NCj4gPg0KPiANCj4gVGhhdCBpcyB0cnVlLCBidXQg
-dGhlIGludGVudGlvbiB3YXMgdG8gaW1wcm92ZSByZWFkYWJpbGl0eSBvZiB0aGlzDQo+IGJsb2Nr
-LiBVbmxlc3MgeW91IHJlYWxseSBmZWVsIHRoYXQgdGhpcyBzaG91bGQgYmUgcmVtb3ZlZCwgSSB3
-b3VsZA0KPiBwcmVmZXIgdG8gcmV0YWluIHRoaXMuDQo+IA0KDQpGYWlyIGVub3VnaC4gSXQncyB5
-b3VyIGNhbGwgdW5sZXNzIFRob21hcyBHbGVpeG5lciBhcyB0aGUgbWFpbnRhaW5lcg0Kc2F5cyBv
-dGhlcndpc2UuIEkgZmxhZyB0aGVzZSBjYXNlcyBiZWNhdXNlIEkgc3BlbmQgdGltZSBsb29raW5n
-IGZvcg0Kc29tZSBzdWJ0bGUgcmVhc29uIHdoeSB0aGUgdGVzdCBpcyBhY3R1YWxseSBuZWVkZWQu
-IEZvciBleGFtcGxlLA0KaWYgdGhlIGxlZnQgc2lkZSBvZiB0aGUgImxlc3MgdGhhbiIgdGVzdCBi
-ZWxvdyBoYXMgc2lkZS1lZmZlY3RzLCB0aGVuDQpjaGVja2luZyBleHRyYV9nYXBzIGZvciB6ZXJv
-IHByZXZlbnRzIHRoZSBzaWRlLWVmZmVjdHMgZnJvbSBvY2N1cnJpbmcuDQpUbyBtZSB0aGUgcmVk
-dW5kYW50IHRlc3QgaW50cm9kdWNlcyBhbWJpZ3VpdHkgLS0gaXMgdGhlcmUgYSByZWFzb24NCml0
-IGlzIG5lZWRlZCwgb3IgaXMgaXQgc3VwZXJmbHVvdXM/DQoNCkludGVyZXN0aW5nbHksIEkgaGFk
-IGFuIGlkZW50aWNhbCBjb252ZXJzYXRpb24gaW4gYW5vdGhlciBwYXRjaA0KcmV2aWV3IFsxXSB0
-aHJlZSBkYXlzIGFnby4NCg0KTWljaGFlbA0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-bGludXgtaHlwZXJ2LzhkMzhmN2MwLWYxNWQtNDU2OC1iYzJmLTU1OTE3OWNjYjQ1Y0ByZWRoYXQu
-Y29tLw0KDQo+IA0KPiA+PiArCQkgICAgKHYgKyBzcHJlYWRfb2Zmc2V0KSAlIG52LT5uZ3JvdXBz
-IDwgZXh0cmFfZ3JwcykNCj4gPj4gICAJCQljcHVzX3Blcl9ncnArKzsNCj4gPj4gLQkJCS0tZXh0
-cmFfZ3JwczsNCj4gPj4gLQkJfQ0K
+> This is an AI-generated review of your patch. The human sending this emai=
+l
+> has considered the AI review valid, or at least plausible.
+> Full review at:
+> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fnetde=
+v
+> -
+> ai.bots.linux.dev%2Fsashiko%2F%23%2Fpatchset%2F20260828001202.211093
+> 8-1-
+> longli%40microsoft.com%3Fpart%3D1&data=3D05%7C02%7Clongli%40microsoft.
+> com%7C588623f27cf64c19cb1008df0911b29d%7C72f988bf86f141af91ab2d7cd
+> 011db47%7C1%7C0%7C639239643786367503%7CUnknown%7CTWFpbGZsb3
+> d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
+> joiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DfPON6yyxZubRe8V9
+> 4xCzc9ZMoSxXSR0cU2Zug1r8Lck%3D&reserved=3D0
+> ---
+> net: mana: Clear RDMA teardown and suspend state in mana_rdma_probe()
+>=20
+> This clears gd->rdma_teardown and gd->is_suspended in
+> mana_rdma_probe() so that RDMA servicing events are handled again after a
+> hardware service reset cycle. The gate is re-opened with smp_store_releas=
+e(),
+> paired with a new
+> smp_load_acquire() in mana_rdma_service_handle().
+>=20
+> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > index 7a1ac853e3abc..56f426da72864 100644
+> > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> > @@ -3983,7 +3983,8 @@ static void mana_rdma_service_handle(struct
+> work_struct *work)
+> >  	struct device *dev =3D gd->gdma_context->dev;
+> >  	int ret;
+> >
+> > -	if (READ_ONCE(gd->rdma_teardown))
+> > +	/* Pairs with the smp_store_release() in mana_rdma_probe(). */
+> > +	if (smp_load_acquire(&gd->rdma_teardown))
+> >  		goto out;
+> >
+> >  	switch (serv_work->event) {
+>=20
+> [ ... ]
+>=20
+> > @@ -4279,6 +4280,17 @@ int mana_rdma_probe(struct gdma_dev *gd)
+> >  	if (err)
+> >  		return err;
+> >
+> > +	/* Clear the state left by a previous mana_rdma_remove() so
+> servicing
+> > +	 * events are handled again after a reset cycle.
+> > +	 */
+> > +	gd->is_suspended =3D false;
+>=20
+> [Severity: Low]
+>=20
+> Does the invariant described in the commit message hold on the initial pr=
+obe
+> path?  The commit message says:
+>=20
+>     is_suspended is otherwise only touched by mana_rdma_service_handle()
+> on
+>     the ordered service workqueue, so clear it while rdma_teardown still
+>     gates that handler
+>=20
+> That is true for the reset path, where mana_rdma_remove() set
+> rdma_teardown and flushed gc->service_wq first.  On mana_gd_probe() ->
+> mana_probe() ->
+> mana_rdma_probe() the gate was never closed: gc comes from vzalloc(), so
+> both
+> gd->rdma_teardown and gd->is_suspended are already false, and
+> gd->mana_gd_setup()
+> has already created gc->service_wq and brought up the HWC and EQs before
+> mana_rdma_probe() runs.
+>=20
+> So on that path the smp_store_release() is a false -> false store and the
+> handler's smp_load_acquire() has no state change to order against, while =
+the
+> plain write of gd->is_suspended here (and add_adev()'s plain write of
+> gd->adev) can run concurrently with the handler's plain accesses to the
+> gd->same
+> two fields with no lock on either side.
+>=20
+> The outcome looks benign today, since is_suspended is already false and t=
+he
+> handler is a no-op in that window, but would it be worth wording the
+> comment and commit message so they only claim the property that actually
+> holds?
+
+Thank you, Simon.
+
+I will submit v3, with the commit message changed to be more accurate.
+
+The following issue is pre-existing. The race window exists for all service=
+ events; this patch doesn't enlarge that race window or make it more visibl=
+e. I'll explain more later in this email.
+
+This patch only fixes the issue with the 2nd service event not reaching to =
+RDMA probe.
+
+>=20
+> > +
+> > +	/* Publish is_suspended before re-opening the gate, so the handler
+> > +	 * cannot act on a stale value.  Pairs with the smp_load_acquire()
+> > +	 * in mana_rdma_service_handle().
+> > +	 */
+> > +	smp_store_release(&gd->rdma_teardown, false);
+> > +
+> >  	err =3D add_adev(gd, "rdma");
+> >  	if (err)
+> >  		mana_gd_deregister_device(gd);
+>=20
+> [Severity: Medium]
+>=20
+> Is the gate re-opened too early here, i.e. before add_adev() has publishe=
+d
+> gd->adev?  add_adev() stores it as its last step, after
+> auxiliary_device_add() has already synchronously probed mana_ib:
+>=20
+> drivers/net/ethernet/microsoft/mana/mana_en.c:add_adev() {
+> 	...
+> 	ret =3D auxiliary_device_add(adev);
+> 	if (ret)
+> 		goto add_fail;
+>=20
+> 	gd->adev =3D adev;
+> 	...
+> }
+>=20
+> A GDMA_SERVICE_TYPE_RDMA_SUSPEND work item that runs inside that
+> window passes the acquire load, but sees gd->adev =3D=3D NULL because
+> remove_adev() cleared it during the preceding mana_rdma_remove():
+>=20
+> mana_rdma_service_handle() {
+> 	case GDMA_SERVICE_TYPE_RDMA_SUSPEND:
+> 		if (!gd->adev || gd->is_suspended)
+> 			break;
+>=20
+> 		remove_adev(gd);
+> 		gd->is_suspended =3D true;
+> 		break;
+>=20
+> so the suspend event is consumed without setting gd->is_suspended, and
+> the matching GDMA_SERVICE_TYPE_RDMA_RESUME then also breaks on !gd-
+> >is_suspended.  Doesn't that leave the freshly created RDMA auxiliary dev=
+ice
+> live across a servicing operation that explicitly asked for it to be quie=
+sced,
+> which is the same silently-dropped-servicing behaviour this change sets o=
+ut
+> to fix, now confined to the probe window?
+>=20
+> Can the two contexts really overlap?  mana_serv_reset() runs on the syste=
+m
+> workqueue via mana_schedule_serv_work()/schedule_work() (or from
+> mana_recovery_delayed_func()) and calls mana_gd_suspend() ->
+> mana_rdma_remove() then mana_gd_resume() -> mana_gd_setup() ->
+> mana_rdma_probe(), while the handler runs on gc->service_wq, which
+> mana_gd_setup() re-creates before mana_rdma_probe() is called:
+>=20
+> mana_rdma_service_event() {
+> 	...
+> 	INIT_WORK(&serv_work->work, mana_rdma_service_handle);
+> 	queue_work(gc->service_wq, &serv_work->work);
+>=20
+> Different workqueues, and GC_IN_SERVICE only serializes further reset
+> requests.
+>=20
+> Related to the new comment: the handler's read of gd->adev is a plain rea=
+d
+> racing with add_adev()'s plain write, so "the handler cannot act on a sta=
+le
+> value" holds for is_suspended but not for gd->adev.
+>=20
+> mana_rdma_remove() uses the opposite ordering, closing the gate and
+> draining the workqueue before touching gd->adev:
+>=20
+> mana_rdma_remove() {
+> 	WRITE_ONCE(gd->rdma_teardown, true);
+>=20
+> 	if (gc->service_wq)
+> 		flush_workqueue(gc->service_wq);
+>=20
+> 	if (gd->adev)
+> 		remove_adev(gd);
+>=20
+> Would doing the mirror image in probe work here, i.e. keeping the
+> gd->is_suspended =3D false store where it is but issuing
+> smp_store_release(&gd->rdma_teardown, false) only after add_adev() has
+> succeeded? =20
+
+No, and I'd rather not make that change.
+
+First, this window is pre-existing and this patch does not change it.
+The code that drops the event is:
+
+        case GDMA_SERVICE_TYPE_RDMA_SUSPEND:
+                if (!gd->adev || gd->is_suspended)
+                        break;
+
+That test is untouched by this patch -- it does not appear in the diff.
+It is reachable in mainline today on the initial probe path:
+
+        gc =3D vzalloc()                  rdma_teardown =3D false, adev =3D=
+ NULL
+        mana_gd_setup()
+          alloc_ordered_workqueue()     service_wq exists
+          mana_gd_setup_hwc_irqs()      HWC events are flowing
+          mana_gd_detect_devices()      mana_ib.dev_id.type is set
+        mana_rdma_probe()
+          add_adev()                    gd->adev published last
+
+gc is zeroed, so the gate starts clear, and mana_rdma_service_event()
+already passes its dev_id.type test by then.  A SUSPEND arriving while
+add_adev() is still running is dropped on a stock kernel, with or
+without this patch.
+
+What this patch changes is only that the reset path now reaches that
+same pre-existing test.  Before, it stopped earlier:
+
+        if (READ_ONCE(gd->rdma_teardown))
+                goto out;
+
+because mana_rdma_remove() set rdma_teardown and nothing ever cleared
+it, so that event and every event after it were dropped for the life of
+the device.  There is no input where this patch loses an event that
+mainline would have delivered.
+
+Second, on the reordering itself: the gate is a discard, not a defer.
+A work item that sees it closed falls through to "out: kfree(serv_work)"
+and is never re-queued, so moving the store just relocates the loss from
+!gd->adev to the gate, as you noted.  It also leaves rdma_teardown set
+when add_adev() fails, reinstating the stuck gate this patch fixes.
+
+> Note that ordering alone still drops such an event, just via the
+> gate instead; serializing mana_rdma_probe(), mana_rdma_remove() and the
+> handler body with a mutex rather than extending the bool gate would close
+> the window entirely.
+
+Agreed, because the handler would wait rather than discard.  One trap
+for whoever writes it: mana_rdma_remove() closes the gate and then
+calls flush_workqueue(gc->service_wq).  If that flush ends up inside
+the mutex while the handler body also takes it, it deadlocks.  The
+mutex would also be held across auxiliary_device_add(), which probes
+mana_ib synchronously, so it needs a lockdep run.
+
+Since the window predates this patch, I'd rather keep this one as the
+minimal fix for the stuck gate and the is_suspended leak, which is what
+the Fixes: tag refers to, and do the mutex separately against net-next.
+
+
+Thanks,
+Long
+
+
