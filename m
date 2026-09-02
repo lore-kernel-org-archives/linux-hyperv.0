@@ -1,129 +1,213 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49B224AA3F4;
-	Wed,  2 Sep 2026 16:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480584AA407;
+	Wed,  2 Sep 2026 16:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788366163; cv=none; b=Tvh9TnihxDqUk3jfEflBy3MT6lADhfIVt27uYnx1BG3U+jQpsCw4MPLd5ptznzeCByMq/DgRaPMIJFxwpOnAsr/uyZCTbLv7G3hmr7CNkhbXn+OSfvu1ZDBzYQF10Hf2m172O5zEPd4uveVI2T98ljnGj9PqVris3pC4S+4zd6g=
+	t=1788367574; cv=none; b=qj8gxtnUKnYVkMS/XNGvfWEjtaZ2ekgsogumtL/3X9UUt+8iLaIlp3iNsz4fL/a4CXckgS3GlawRK7C447haHLfFBJKB9Ejv5snKxuNohN9MAByYzu8A8zbp8n0gj00g2hwqt2VyiwD5Wq2XoAjdwV0FeGlHIIQXmzNN9/lqsRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788366163; c=relaxed/simple;
-	bh=35EstDuMwFTJkXwd8XjJdaRQlR2EtnmI53sCU5QGR1s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EhFQfmpoPAqmyn7ShRyP2DLk/LXhKIVOylGQFFBAIOoCSlB1IwX1LUpt8eDvSLcxt+bX6DdnD/+tYjI+JBPsj9BVT0nmF8cJnd3+kLbQe+wchgTCozkZFCfbmbHv3JHyS7SkOfXx17LjViRSPIcE4zjFw/SWv7pyl4XdnSWTwmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qqWUyDXO; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1788367574; c=relaxed/simple;
+	bh=zic0TrT16v8VJIkBRRUBGqdxOSQx7/8Ug7AavmbH9mU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UR8O7qVXqpPamnEBxlpl8BswS5lHfpnpkaMQJ3PqWeCd3U1lM78VmVIEe+F74EiQWoQjU59fnsk2WCNM+rRHTtEZZYLPw80fPeSSwKHsbh8P8BK+7bSA9FxXYZAqZonJorQF8510znNXri4PzwsaI9BWKqRZdE2dsm3GtK3jF+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+rxEDTe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qqWUyDXO"
-Received: from [100.96.96.2] (unknown [52.167.115.14])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ED13E20B7129;
-	Wed,  2 Sep 2026 09:22:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED13E20B7129
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788366123;
-	bh=DL4LgKzmMK4nAxsWVXsvmnwn/GSFB1ohXTsW7Q4KrOY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qqWUyDXO51H2V/XbTG6/ifa4WYin+SOWbYNDEefYkEF21tN/x2SIEsySCd5YcGFNr
-	 u7wMRiEKi84H7lYcH2ETf2ceadiAzDsLlC3ufpZhkYjDCh7E0IhWQMlIa9EbjSG/ak
-	 QPreynUFWxvj6DokkLUcMG7GM7r86X7rf3YxxwOk=
-Message-ID: <4d876bd8-3885-4d65-a272-d846ae0d7d3d@linux.microsoft.com>
-Date: Wed, 2 Sep 2026 12:22:37 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+rxEDTe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D371F000E9;
+	Wed,  2 Sep 2026 16:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788367571;
+	bh=+q6EDF1wgOiC60/E1opKcjImp2c2cIOLj39OZi27oXE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=G+rxEDTeZjEZJwYiDoBPhbJhFyp06/8gcaBaG8IMrkn4rqRA85hg5+A6Md+HjPCSM
+	 DwLlQkBrkhLVVDLKUQEqsStxNGqWLoenlKeylAgn4/yMnCSF/3KYBxYFBrXPRXdxYL
+	 yYI3cG43Szzm6n6yKwVNHdStEUpBe6ws1H8eQizy7avwRfD8f1J63r2558VuScLp3W
+	 tfykK9IPUlcMfKOHQZ5y19Hzcw7f5FuP4iYRj+L6K/FwsHcF7sS9mpShB7Nk8r/ahk
+	 n/IFiNvmO2I5gmNQUJFDeRHs/WjxvMvaGRZicwbR7UZltAjgismXAJMbnTbt1EBF+u
+	 Dx9xCEVNf/ICg==
+From: Simon Horman <horms@kernel.org>
+To: longli@microsoft.com
+Cc: Simon Horman <horms@kernel.org>,
+	kotaranov@microsoft.com,
+	kuba@kernel.org,
+	davem@davemloft.net,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	jgg@ziepe.ca,
+	leon@kernel.org,
+	haiyangz@microsoft.com,
+	kys@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	shradhagupta@linux.microsoft.com,
+	ernis@linux.microsoft.com,
+	stephen@networkplumber.org,
+	shirazsaleem@microsoft.com,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2] net: mana: Clear RDMA teardown and suspend state in mana_rdma_probe()
+Date: Wed,  2 Sep 2026 17:44:46 +0100
+Message-ID: <20260902164445.528471-2-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260828001202.2110938-1-longli@microsoft.com>
+References: <20260828001202.2110938-1-longli@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 07/12] drivers: hv: hv_vsm_boot: load secure kernel
- image from firmware
-To: Wei Liu <wei.liu@kernel.org>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, hpa@zytor.com, ardb@kernel.org,
- ilias.apalodimas@linaro.org, James.Bottomley@hansenpartnership.com,
- javierm@redhat.com, lszubowi@redhat.com, francescopompo2@gmail.com,
- tgopinath@microsoft.com, x86@kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-References: <20260901165647.3160413-1-tgopinath@linux.microsoft.com>
- <20260901165647.3160413-8-tgopinath@linux.microsoft.com>
- <20260902043732.GF2583463@liuwe-devbox-debian-v2.local>
-Content-Language: en-US
-From: Thara Gopinath <tgopinath@linux.microsoft.com>
-In-Reply-To: <20260902043732.GF2583463@liuwe-devbox-debian-v2.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260828001202.2110938-1-longli@microsoft.com?part=1
+---
+net: mana: Clear RDMA teardown and suspend state in mana_rdma_probe()
 
+This clears gd->rdma_teardown and gd->is_suspended in mana_rdma_probe() so
+that RDMA servicing events are handled again after a hardware service reset
+cycle. The gate is re-opened with smp_store_release(), paired with a new
+smp_load_acquire() in mana_rdma_service_handle().
 
-On 9/2/2026 12:37 AM, Wei Liu wrote:
-> On Tue, Sep 01, 2026 at 09:55:21AM -0700, Thara Gopinath wrote:
->> LVBS bring-up requires loading a secure kernel image into VTL1 before
->> starting it. Add the VTL0-side loader that stages the image in the
->> memory region reserved by hv_vsm_securekernel, in preparation for the
->> VTL1 bring-up.
->>
->> The image is a 64-bit ELF fetched via request_firmware("vsm_sk"). It
->> is expected to ship inside the signed UKI/initramfs so it is
->> authenticated end-to-end via Secure Boot before the loader consumes
->> it; sourcing it from an unauthenticated location would break the LVBS
->> trust model.
->>
->> The loader validates the ELF header, stages the PT_LOAD segments into
->> the reserved region and records the entry point as a physical address
->> for use at VTL1 start time.
->>
->> If VSM support has been advertised to the hypervisor but no secure
->> kernel region was reserved on the command line, panic: LVBS bring-up
->> is committed at this point and there is no safe way to continue.
-> 
-> This conflicts with the memory reservation patch, in which there is an
-> automatic allocation when no kernel command line is specified.
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 7a1ac853e3abc..56f426da72864 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> @@ -3983,7 +3983,8 @@ static void mana_rdma_service_handle(struct work_struct *work)
+>  	struct device *dev = gd->gdma_context->dev;
+>  	int ret;
+>  
+> -	if (READ_ONCE(gd->rdma_teardown))
+> +	/* Pairs with the smp_store_release() in mana_rdma_probe(). */
+> +	if (smp_load_acquire(&gd->rdma_teardown))
+>  		goto out;
+>  
+>  	switch (serv_work->event) {
 
-Ah no.. So securekernel= has to be specified in the command line for
-__setup() to be invoked . It can be left blank without parameters like
-securekernel= or with parameters like securekernel=256M@0x80000000. The
-reservation logic will take care of reserving the correct memory if there
-are no parameters but if there is no command line specified __setup will
-not be  called. The other way of solving this and invoking the reservations
-unconditionally will be to call it from setup_arch like how reserve_crashkernel
-is invoked. I am not sure if we want to do that now ?? What do you think ?
+[ ... ]
 
-But I will reword this and state that the panic happens if there is no
-securekernel memory allocated (either because securekernel= was not
-specified or because memory reservation itself failed)
+> @@ -4279,6 +4280,17 @@ int mana_rdma_probe(struct gdma_dev *gd)
+>  	if (err)
+>  		return err;
+>  
+> +	/* Clear the state left by a previous mana_rdma_remove() so servicing
+> +	 * events are handled again after a reset cycle.
+> +	 */
+> +	gd->is_suspended = false;
 
-> 
->>
->> Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
->> Signed-off-by: Thara Gopinath <tgopinath@linux.microsoft.com>
->> ---
->>  drivers/hv/hv_vsm.h      |  17 ++++
->>  drivers/hv/hv_vsm_boot.c | 201 ++++++++++++++++++++++++++++++++++++++-
->>  include/hyperv/vsm.h     |  21 ++++
->>  3 files changed, 238 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/hv/hv_vsm.h
->>  create mode 100644 include/hyperv/vsm.h
-> [...]
->> +
->> +static void __init hv_vsm_get_sk_mem(void)
->> +{
->> +	/*
->> +	 * The reserved secure kernel region is mandatory once VSM support has
->> +	 * been advertised. Without it we cannot load the secure kernel and
->> +	 * bringing up VTL1 is impossible, so fail hard rather than continuing
->> +	 * in an unusable state.
->> +	 */
->> +	if (!sk_res.start)
->> +		panic("No memory reserved in cmdline for secure kernel");
->> +
-> 
-> This log line is wrong.
+[Severity: Low]
 
-I will fix this 
+Does the invariant described in the commit message hold on the initial probe
+path?  The commit message says:
 
-Warm Regards
-Thara
-> 
-> Wei
+    is_suspended is otherwise only touched by mana_rdma_service_handle() on
+    the ordered service workqueue, so clear it while rdma_teardown still
+    gates that handler
 
+That is true for the reset path, where mana_rdma_remove() set rdma_teardown
+and flushed gc->service_wq first.  On mana_gd_probe() -> mana_probe() ->
+mana_rdma_probe() the gate was never closed: gc comes from vzalloc(), so both
+gd->rdma_teardown and gd->is_suspended are already false, and mana_gd_setup()
+has already created gc->service_wq and brought up the HWC and EQs before
+mana_rdma_probe() runs.
+
+So on that path the smp_store_release() is a false -> false store and the
+handler's smp_load_acquire() has no state change to order against, while the
+plain write of gd->is_suspended here (and add_adev()'s plain write of
+gd->adev) can run concurrently with the handler's plain accesses to the same
+two fields with no lock on either side.
+
+The outcome looks benign today, since is_suspended is already false and the
+handler is a no-op in that window, but would it be worth wording the comment
+and commit message so they only claim the property that actually holds?
+
+> +
+> +	/* Publish is_suspended before re-opening the gate, so the handler
+> +	 * cannot act on a stale value.  Pairs with the smp_load_acquire()
+> +	 * in mana_rdma_service_handle().
+> +	 */
+> +	smp_store_release(&gd->rdma_teardown, false);
+> +
+>  	err = add_adev(gd, "rdma");
+>  	if (err)
+>  		mana_gd_deregister_device(gd);
+
+[Severity: Medium]
+
+Is the gate re-opened too early here, i.e. before add_adev() has published
+gd->adev?  add_adev() stores it as its last step, after
+auxiliary_device_add() has already synchronously probed mana_ib:
+
+drivers/net/ethernet/microsoft/mana/mana_en.c:add_adev() {
+	...
+	ret = auxiliary_device_add(adev);
+	if (ret)
+		goto add_fail;
+
+	gd->adev = adev;
+	...
+}
+
+A GDMA_SERVICE_TYPE_RDMA_SUSPEND work item that runs inside that window
+passes the acquire load, but sees gd->adev == NULL because remove_adev()
+cleared it during the preceding mana_rdma_remove():
+
+mana_rdma_service_handle() {
+	case GDMA_SERVICE_TYPE_RDMA_SUSPEND:
+		if (!gd->adev || gd->is_suspended)
+			break;
+
+		remove_adev(gd);
+		gd->is_suspended = true;
+		break;
+
+so the suspend event is consumed without setting gd->is_suspended, and the
+matching GDMA_SERVICE_TYPE_RDMA_RESUME then also breaks on
+!gd->is_suspended.  Doesn't that leave the freshly created RDMA auxiliary
+device live across a servicing operation that explicitly asked for it to be
+quiesced, which is the same silently-dropped-servicing behaviour this change
+sets out to fix, now confined to the probe window?
+
+Can the two contexts really overlap?  mana_serv_reset() runs on the system
+workqueue via mana_schedule_serv_work()/schedule_work() (or from
+mana_recovery_delayed_func()) and calls mana_gd_suspend() ->
+mana_rdma_remove() then mana_gd_resume() -> mana_gd_setup() ->
+mana_rdma_probe(), while the handler runs on gc->service_wq, which
+mana_gd_setup() re-creates before mana_rdma_probe() is called:
+
+mana_rdma_service_event() {
+	...
+	INIT_WORK(&serv_work->work, mana_rdma_service_handle);
+	queue_work(gc->service_wq, &serv_work->work);
+
+Different workqueues, and GC_IN_SERVICE only serializes further reset
+requests.
+
+Related to the new comment: the handler's read of gd->adev is a plain read
+racing with add_adev()'s plain write, so "the handler cannot act on a stale
+value" holds for is_suspended but not for gd->adev.
+
+mana_rdma_remove() uses the opposite ordering, closing the gate and draining
+the workqueue before touching gd->adev:
+
+mana_rdma_remove() {
+	WRITE_ONCE(gd->rdma_teardown, true);
+
+	if (gc->service_wq)
+		flush_workqueue(gc->service_wq);
+
+	if (gd->adev)
+		remove_adev(gd);
+
+Would doing the mirror image in probe work here, i.e. keeping the
+gd->is_suspended = false store where it is but issuing
+smp_store_release(&gd->rdma_teardown, false) only after add_adev() has
+succeeded?  Note that ordering alone still drops such an event, just via the
+gate instead; serializing mana_rdma_probe(), mana_rdma_remove() and the
+handler body with a mutex rather than extending the bool gate would close the
+window entirely.
