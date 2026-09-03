@@ -1,215 +1,119 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F816391825;
-	Thu,  3 Sep 2026 09:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9F46C4C5;
+	Thu,  3 Sep 2026 09:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788426093; cv=none; b=TQXbGQIhi07IByMatGf3y3eGlAKenTyCr1ytFO6p1TG37h3GOvhwtbiPl2y4MBvCEQMOCh78dXGxnCGV+kdMu+4qbevouTNFvEG3qRvQPu78wxi2nnf+Jc14I5WkcojOUoIIlQzPK0OSJgjtijQ1HvD8v4t0F5FnCTmzKXqLZ/I=
+	t=1788426653; cv=none; b=q0pia8nEJ7um7yeQtGO1sjIpSnJNDXv1HnUzPRPCmnjXaJ4M2Y/vdTiyDom/bKQiVvDBboAohtgdwh95jtszAO47i4MT+mS34i1b6fCqWQ3k/RSTG/h795XVKnqpbB1O5SQI0wADaCt9lfOjTU/DaJ8F1LRPU74BvjbLQuSMwuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788426093; c=relaxed/simple;
-	bh=pJLqEdh5BKyLk+Z0K0nd9obpHNYsjuYK0HXdHdH74bA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tEeuobgcp26XbxSJeF0cBBjTZfjjq7emK/lVZtdwAzJWp1x/HKKYhMKg1Jfo8SPO4P+49XYszlZkAfZV3tEguE0u8/81VgrLmvJuE/IGny7ObPU40jdPawSzyi1ZcdsdQoLmHQ56z7R195Rhps0C3A6bpfW8K0DIzPBQ6XEX0HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nRn0N9/M; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1788426653; c=relaxed/simple;
+	bh=cx1axVRz7cdn8WI+nJ8VQQmUx0Er/eDQmSJDpr1pDiw=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=o1xjuiUPI//DCAVI2/gyEPdahGvQkEHTAHciMrj/6ULYRjYGXBRwukSJnpzu78xpGrNyJm8GQJYO8l0aA5qi44+bnP+cvDY4y+5khJuPpcyPk56UVZRzOaLZd587CW9Cnu1pwTr9H6mpHQsRP1I5gTpcfWg0amEeMRLF2sQfQNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kuhcU9kk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nRn0N9/M"
-Received: from [10.95.64.226] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B5A4120B712D;
-	Thu,  3 Sep 2026 02:00:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B5A4120B712D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788426055;
-	bh=xWSrpShJ59jVErQSUL2BzyHUDerOTAuOsEeioNN/qhQ=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=nRn0N9/Mm7G1Sb+sxYsXIGjkocvUB3sZqbkJfga+dqiJHIceT+JsuY+Vby6RP3Zxg
-	 t+MSMoBVNB1/kA4nc8bAQ5DhQxHIQtK8dYXZgskgjPGsvp21/TFYaugd1vi7Hsrryd
-	 pfJUV1sxUXGIeliwQe+AjGGUqlzjdSZe8Jchk+0E=
-Message-ID: <f3fe2dd2-51d9-42c0-8692-83976139f7a7@linux.microsoft.com>
-Date: Thu, 3 Sep 2026 14:31:24 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kuhcU9kk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B731F000E9;
+	Thu,  3 Sep 2026 09:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788426650;
+	bh=yK8wvrGSHpZjkUMfwjPfTJBNF4H8Z42Q5sZ5A9sNFkA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=kuhcU9kkkhsCH60W93JxL+ToA4RQQEwX52TMV2pJeEiAMpq0i8WdMZHD4Sd5httfK
+	 MEi6ejHLEYN4MSl8uZWird/h36hjJ9SjOdJhDMCGO/JuLLGjtBsgIucCrh8ACWEme9
+	 tH0DvRIXpzfFx14swQguyQ9s9wDzTzN/TNcEWLgKpZfFcFeMRifVLXMmQqAZEG93kp
+	 0jVjFJXfOXf1dsyXn1aaiSTl2ipoMoasl1GWtzabaOW91pBDQbAZQqlIZcImy3iHds
+	 1CLXKBRUvKcwZi0VYn8mcrYM5NBhZvO24SZ5ZiR7eF/LdYnvfIZpUC6r/mVG7KRWW1
+	 dyubeIbrhBCXA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v2] net: mana: remove unreachable dead code in
+ mana_bpf()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Muhammad Falak R Wani" <falakreyaz@gmail.com>
+Cc: bpf@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <3d8b67307df6fefdc18743274cef3de4fca0e7de.1788339612.git.falakreyaz@gmail.com>
+References: <3d8b67307df6fefdc18743274cef3de4fca0e7de.1788339612.git.falakreyaz@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Sep 2026 09:10:50 +0000
+Message-Id: <20260903091050.84B731F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] PCI: hv: warn when wait_for_response() waits
- indefinitely
-To: Sahil Chandna <sahilchandna@linux.microsoft.com>, kys@microsoft.com,
- haiyangz@microsoft.com, mhklinux@outlook.com,
- hamzamahfooz@linux.microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- longli@microsoft.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
- mani@kernel.org, robh@kernel.org, bhelgaas@google.com,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260902115854.2629164-1-sahilchandna@linux.microsoft.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260902115854.2629164-1-sahilchandna@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
+Pre-existing issues:
+- [High] Failure to restore `apc->bpf_prog` on error path causes Use-After-=
+Free.
+--
 
-On 9/2/2026 5:28 PM, Sahil Chandna wrote:
-> A guest can wait indefinitely in wait_for_response() for the host to
-> send either a rescind message or a packet completion. If the
-> host does not send either, the guest can remain blocked with no
-> diagnostic indicating a reason.
-> This was observed during a guest kernel upgrade in which the
-> host-side application handling the PCI channel faulted, causing the
-> guest to never receive the completion request.
-> Add a warning in wait_for_response() when the wait exceeds
-> a timeout so that such a hang is visible in the guest's kernel log
-> and can be correlated with host-side state.
-> 
-> Suggested-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> Suggested-by: Naman Jain <namjain@linux.microsoft.com>
-> Suggested-by: Michael Kelley <mhklinux@outlook.com>
+commit 26086af444af1d715f516a007146a7dd00ce97c6
+Author: Muhammad Falak R Wani <falakreyaz@gmail.com>
 
-These two tags can be omitted IMO.
+net: mana: remove unreachable dead code in mana_bpf()
 
-> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
-> ---
-> Changes since v1:
-> - Removed periodic warning to one time warning in 2 minutes
-> - Include vmbus relid and stuck PCI msg.
-> Link to v1: https://lore.kernel.org/all/20260825051850.2438816-1-sahilchandna@linux.microsoft.com/
-> ---
->   drivers/pci/controller/pci-hyperv.c | 48 +++++++++++++++++++++++------
->   1 file changed, 38 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-> index 89816a2bd7cd..ca9d8efd748c 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -1040,19 +1040,40 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
-> 
->   /*
->    * There is no good way to get notified from vmbus_onoffer_rescind(),
-> - * so let's use polling here, since this is not a hot path.
-> + * so let's use polling here, since this is not a hot path. If
-> + * wait_for_response() has been polling for PCI_RESPONSE_HANG_TIMEOUT_SEC
-> + * without either a rescind or completion, add a warning.
->    */
-> +#define PCI_RESPONSE_HANG_TIMEOUT_SEC 120
-> +
->   static int wait_for_response(struct hv_device *hdev,
-> -			     struct completion *comp)
-> +			     struct completion *comp,
-> +			     const char *msg_type)
->   {
-> +	unsigned long delay = secs_to_jiffies(PCI_RESPONSE_HANG_TIMEOUT_SEC);
-> +	u64 timeout = get_jiffies_64() + delay;
-> +	bool warned = false;
-> +
->   	while (true) {
->   		if (hdev->channel->rescind) {
->   			dev_warn_once(&hdev->device, "The device is gone.\n");
->   			return -ENODEV;
->   		}
-> 
-> -		if (wait_for_completion_timeout(comp, HZ / 10))
-> +		if (wait_for_completion_timeout(comp, HZ / 10)) {
-> +			if (warned)
-> +				dev_warn(&hdev->device,
-> +					 "Late %s completion arrived.\n", msg_type);
->   			break;
-> +		}
-> +
-> +		if (!warned && time_after64(get_jiffies_64(), timeout)) {
-> +			dev_err(&hdev->device,
-> +				"%s stuck waiting for response, relid = %u\n",
-> +				msg_type, hdev->channel->offermsg.child_relid);
-> +
-> +			warned = true;
-> +		}
->   	}
-> 
->   	return 0;
-> @@ -1518,7 +1539,8 @@ static int hv_read_config_block(struct pci_dev *pdev, void *buf,
->   	if (ret)
->   		return ret;
-> 
-> -	ret = wait_for_response(hbus->hdev, &comp_pkt.comp_pkt.host_event);
-> +	ret = wait_for_response(hbus->hdev, &comp_pkt.comp_pkt.host_event,
-> +				"PCI_READ_BLOCK");
+This commit cleans up mana_bpf() by removing an unreachable return statement
+after a switch statement that already unconditionally returns.
 
-Instead of hard-coding this msg type two times everywhere, would it be 
-better to simply pass corresponding variable.message_type.type?
+Link: https://lore.kernel.org/netdev/DKWZHHOFA1F3.1EL2DMFNGMP0Y@gmail.com/
 
->   	if (ret)
->   		return ret;
-> 
-> @@ -1607,7 +1629,8 @@ static int hv_write_config_block(struct pci_dev *pdev, void *buf,
->   	if (ret)
->   		return ret;
-> 
-> -	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event);
-> +	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event,
-> +				"PCI_WRITE_BLOCK");
->   	if (ret)
->   		return ret;
-> 
-> @@ -2624,7 +2647,8 @@ static struct hv_pci_dev *new_pcichild_device(struct hv_pcibus_device *hbus,
->   	if (ret)
->   		goto error;
-> 
-> -	if (wait_for_response(hbus->hdev, &comp_pkt.host_event))
-> +	if (wait_for_response(hbus->hdev, &comp_pkt.host_event,
-> +			      "PCI_QUERY_RESOURCE_REQUIREMENTS"))
->   		goto error;
-> 
->   	hpdev->desc = *desc;
-> @@ -3256,7 +3280,8 @@ static int hv_pci_protocol_negotiation(struct hv_device *hdev,
->   				(unsigned long)pkt, VM_PKT_DATA_INBAND,
->   				VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
->   		if (!ret)
-> -			ret = wait_for_response(hdev, &comp_pkt.host_event);
-> +			ret = wait_for_response(hdev, &comp_pkt.host_event,
-> +						"PCI_QUERY_PROTOCOL_VERSION");
-> 
->   		if (ret) {
->   			dev_err(&hdev->device,
-> @@ -3476,7 +3501,8 @@ static int hv_pci_enter_d0(struct hv_device *hdev)
->   			       (unsigned long)pkt, VM_PKT_DATA_INBAND,
->   			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
->   	if (!ret)
-> -		ret = wait_for_response(hdev, &comp_pkt.host_event);
-> +		ret = wait_for_response(hdev, &comp_pkt.host_event,
-> +					"PCI_BUS_D0ENTRY");
-> 
->   	if (ret)
->   		goto exit;
-> @@ -3553,7 +3579,8 @@ static int hv_pci_query_relations(struct hv_device *hdev)
->   	ret = vmbus_sendpacket(hdev->channel, &message, sizeof(message),
->   			       0, VM_PKT_DATA_INBAND, 0);
->   	if (!ret)
-> -		ret = wait_for_response(hdev, &comp);
-> +		ret = wait_for_response(hdev, &comp,
-> +					"PCI_QUERY_BUS_RELATIONS");
-> 
->   	/*
->   	 * In the case of fast device addition/removal, it's possible that
-> @@ -3644,7 +3671,8 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
->   				VM_PKT_DATA_INBAND,
->   				VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
->   		if (!ret)
-> -			ret = wait_for_response(hdev, &comp_pkt.host_event);
-> +			ret = wait_for_response(hdev, &comp_pkt.host_event,
-> +						"PCI_RESOURCE_ASSIGNED");
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net=
+/ethernet/microsoft/mana/mana_bpf.c
+> index 53308e139cbe9..70bb8c9dc3413 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
+[ ... ]
 
-There is an if-else condition before this, which can lead to message 
-type be one of PCI_RESOURCES_ASSIGNED or PCI_RESOURCES_ASSIGNED2. 
-Hard-coding it this way will miss PCI_RESOURCES_ASSIGNED2.
+This is a pre-existing issue, but while reviewing this patch I noticed a
+potential problem in the adjacent mana_xdp_set() function when it handles
+allocation failures:
 
->   		if (ret)
->   			break;
-> 
-> --
-> 2.53.0
+drivers/net/ethernet/microsoft/mana/mana_bpf.c:mana_xdp_set() {
+        ...
+        apc->bpf_prog =3D prog;
 
-Regards,
-Naman
+        if (apc->port_is_up) {
+                ...
+                err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queu=
+es);
+                if (err) {
+                        NL_SET_ERR_MSG_MOD(extack,
+                                           "XDP: Insufficient memory for tx=
+/rx re-config");
+                        return err;
+                }
+        ...
+}
 
+[Severity: High]
+Does this error path leave a dangling pointer in apc->bpf_prog?
+
+It appears that if mana_pre_alloc_rxbufs() fails, the function returns
+immediately without restoring apc->bpf_prog =3D old_prog. The generic XDP c=
+aller
+will see the failure, assume the driver rejected the program, and drop its =
+BPF
+program reference.
+
+Could this leave a freed pointer in apc->bpf_prog that might be dereferenced
+when the interface is later restarted or accessed?
+
+> @@ -253,7 +253,6 @@ static int mana_xdp_set(struct net_device *ndev, stru=
+ct bpf_prog *prog,
+>  int mana_bpf(struct net_device *ndev, struct netdev_bpf *bpf)
+>  {
+>  	struct netlink_ext_ack *extack =3D bpf->extack;
+> -	int ret;
+> =20
+>  	switch (bpf->command) {
+>  	case XDP_SETUP_PROG:
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/3d8b67307df6fefdc18=
+743274cef3de4fca0e7de.1788339612.git.falakreyaz@gmail.com?part=3D1
