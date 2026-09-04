@@ -1,254 +1,304 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BFB4028EE;
-	Fri,  4 Sep 2026 04:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 435993D9041;
+	Fri,  4 Sep 2026 07:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788497223; cv=none; b=pE7ek7pIVvp7Z/w3LzbnSHPiV9x38BkEXFlSJmFisGMRu5j4dQ8LkfNSzDfUqEchl2atYZIxZOGjbCjrEH/+LCYImVqnjq8cc8FL1fl8u3qo3nsb2XYAbe3aEd48KbqyGklN4EkzTduVMRYd6JPIm56QyUZI/UeP1kgRChO4s9c=
+	t=1788508528; cv=none; b=NOcY5E5g351dgcCJZa7TKgMcPbqGU9eTpJs61lAR5zCv8gVxY0il4Y/PSoY2kMDFt6/B5NntxVk7spo/HP1+y+C2Ue5CyqCdInxFYKD/lk+HnbHo0nXH7aLQz7ci59fcQ+x5vV+xydWBbtUeX1v7h4OgysJEirlKSgT3fxuCjTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788497223; c=relaxed/simple;
-	bh=AwqOShEIJdBbQ699iE24FcsF3aS6M0VazuAXBEapsVw=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=U/YUpkPq3zylHukojy7BbMNHgZdkO6132PRRll15BYuOK9x/sI3GCZB7kpMjiT3jy4lHwny/bT1drB4xlRbXbXNtviN0ua+9f4z/QnVU2taC+/VYQ5tpwUCDKnCTUyYMQa2SePTGRTe9xrrOZ6sawvEOyc6CHRf8Jk+f7dVikm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2D2XWFZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788508528; c=relaxed/simple;
+	bh=MgsOnSPI18/lPcOqjXi5Ci1t1cSJm08d/y88hnqb4kQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uoR3N5HS6GJJKq1iAE2YwQp1AyeMH4TSsnaD8mL+a3aCqXENYKg63ZdkaPt2ZN2OOusPrT3MA9WbRQzpMeSRw7wib/4oE6E9vzdDRvn+KpjVr3m2XQOpnnnllC/3OFDfHIELixbSkRS1cZYnXKc51F1qCANjw9f47WkfYrN/9Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Y+OORXik; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2D2XWFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3666A1F00ACA;
-	Fri,  4 Sep 2026 04:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788497220;
-	bh=w4ryqUQLjRQpK++qeuJJrLUfbYhyB5v+st0yHndw1MA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=R2D2XWFZH1DR5/7gCVLAE0fBHJ8d5O9owxrNguHbK1/x2kyv9Bq2v4/F0lZhdzE54
-	 z5uJ77oas9pu2mxKTBcd2GhmSCPpUSiw/Tewm2lGkTuL6OBGyf2CvbawRu65aY31gM
-	 h83dWJaZ72Go5O27ETdrUDh4gIeQMGUa77AIM3eZe4/UcupLyrkq1fsuAvYdGDdQ/b
-	 zi7MGLlMaKjD99uayi5NRufcwYy7uzdHdcLSnqRde7xI2g+FWzM70g1P2beZI4xc7w
-	 k3x6NUA7rW1u+AMRXbTPA1BFUhnbxW1R7ehN40pWuDgyDr2f4arEE6g+gei794wfFT
-	 bSAmeNG1egGOw==
-Subject: Re: [PATCH net-next v3 13/13] net: mana: keep the existing queues
- when the channel count is raised
-From: netdev-bot+sashiko@kernel.org
-To: longli@microsoft.com
-Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
- leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- shirazsaleem@microsoft.com, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 04 Sep 2026 04:46:58 +0000
-Message-ID: <178849721880.4131868.8845620290538329303@kernel.org>
-In-Reply-To: <20260901014442.2945689-14-longli@microsoft.com>
-References: <20260901014442.2945689-14-longli@microsoft.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Y+OORXik"
+Received: from zhangyu-hyperv.mshome.net (unknown [167.220.233.38])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7BAEC20B712B;
+	Fri,  4 Sep 2026 00:54:44 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7BAEC20B712B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788508489;
+	bh=GrkUbCx1rMvHDUBAxHwhu2yGimv7MTKuPSLdFBVCBRE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Y+OORXik/3mAZmW2sjSWO3iNiM3HKZsC1NbxXsbrbbRivL+bu+i3T1j42c54mfO9m
+	 g6b+90Oa4YoZZmZpDjhSvnG14S+qh9pTZOPIF+haLU22J9HbjZiQxlLbQ9XHp/f91E
+	 wyc4wpMBuYsgqVhC/v3WBW60pBwT99aEqJEa82g4=
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	x86@kernel.org
+Cc: wei.liu@kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	lpieralisi@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	arnd@arndb.de,
+	jgg@ziepe.ca,
+	mhklinux@outlook.com,
+	jacob.pan@linux.microsoft.com,
+	tgopinath@linux.microsoft.com,
+	easwar.hariharan@linux.microsoft.com,
+	mrathor@linux.microsoft.com,
+	baolu.lu@linux.intel.com,
+	suravee.suthikulpanit@amd.com,
+	vasant.hegde@amd.com
+Subject: [PATCH v5 1/5] hyperv: Introduce new hypercall interfaces used by Hyper-V guest IOMMU
+Date: Fri,  4 Sep 2026 15:55:08 +0800
+Message-ID: <20260904075512.174154-2-zhangyu1@linux.microsoft.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260904075512.174154-1-zhangyu1@linux.microsoft.com>
+References: <20260904075512.174154-1-zhangyu1@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+From: Wei Liu <wei.liu@kernel.org>
 
-Critical: 0 · High: 0 · Medium: 0 · Low: 1
+Hyper-V guest IOMMU is a para-virtualized IOMMU based on hypercalls.
+Introduce the hypercalls used by the child partition to interact with
+this facility.
 
-- [Low] Claim of latent double-free/use-after-free: the new helper
-  mana_destroy_txq_from()…
+These hypercalls fall into below categories:
+- Detection and capability: HVCALL_GET_IOMMU_CAPABILITIES is used to
+  detect the existence and capabilities of the guest IOMMU.
 
---
+- Device management: HVCALL_GET_LOGICAL_DEVICE_PROPERTY is used to
+  check whether an endpoint device is managed by the guest IOMMU.
 
-net: mana: keep the existing queues when the channel count is raised
+- Domain management: A set of hypercalls is provided to handle the
+  creation, configuration, and deletion of guest domains, as well as
+  the attachment/detachment of endpoint devices to/from those domains.
 
-Growing the channel count now carries the running queues over and builds
-only the [old, new) tail, instead of building a full second queue set and
-discarding the old one. mana_alloc_qset() loses its num_queues argument
-since a count change goes through mana_split_qset() or the new
-mana_grow_qset(), and the self-recovery-on-resize-failure capability bit is
-advertised to the firmware.
+- IOTLB flushing: HVCALL_FLUSH_DEVICE_DOMAIN is used to ask Hyper-V
+  for a domain-selective IOTLB flush (which in its handler may flush
+  the device TLB as well).
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index ae7c664bf76ef..67bfea57e6ed2 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Co-developed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+Reviewed-by: Jacob Pan <jacob.pan@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+---
+ drivers/hv/hv_common.c      |   1 +
+ include/hyperv/hvgdk_mini.h |   9 +++
+ include/hyperv/hvhdk_mini.h | 137 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 147 insertions(+)
 
-[ ... ]
-
-> @@ -2958,7 +2958,11 @@ static void mana_deinit_txq(struct mana_port_context *apc, struct mana_txq *txq)
->  	mana_gd_destroy_queue(gd->gdma_context, txq->gdma_sq);
->  }
->  
-> -static void mana_destroy_txq(struct mana_port_context *apc)
-> +/* The array itself is left in place: the grow path tears down only a range,
-> + * and the queues below @first are still live and still referenced by it.
-> + */
-> +static void mana_destroy_txq_from(struct mana_port_context *apc,
-> +				  unsigned int first)
->  {
->  	struct napi_struct *napi;
->  	int i;
-> @@ -2966,7 +2970,7 @@ static void mana_destroy_txq(struct mana_port_context *apc)
->  	if (!apc->tx_qp)
->  		return;
->  
-> -	for (i = 0; i < apc->num_queues; i++) {
-> +	for (i = first; i < apc->num_queues; i++) {
->  		if (!apc->tx_qp[i])
->  			continue;
->  
-> @@ -2991,6 +2995,14 @@ static void mana_destroy_txq(struct mana_port_context *apc)
->  
->  		kvfree(apc->tx_qp[i]);
->  	}
-> +}
-
-[Severity: Low]
-This isn't a bug today, but should this loop clear the slot after the
-kvfree(), the way the RX sibling added in this same patch does?
-
-The comment above mana_destroy_txq_from() says the array is deliberately
-left in place, and the loop guard is:
-
-	if (!apc->tx_qp[i])
-		continue;
-
-but nothing sets apc->tx_qp[i] = NULL after kvfree(), so for the
-[first, num_queues) range that guard can no longer tell "already
-destroyed" from "live".
-
-mana_destroy_rxqs_from() does clear its slot:
-
-	mana_destroy_rxq(apc, rxq, true);
-	apc->rxqs[rxq_idx] = NULL;
-
-I traced the three call sites and none of them re-reads a stale slot at the
-moment:
-
-  mana_destroy_txq()                 -> first == 0, immediately followed by
-                                        kfree(apc->tx_qp); apc->tx_qp = NULL;
-  mana_create_txq() out: (first != 0) -> caller mana_grow_qset() jumps to
-                                        cleanup_rss, skipping cleanup_rxq
-  mana_grow_qset() cleanup_rxq       -> falls into free_arrays, which just
-                                        kfree()s new_tx without walking it
-
-So the only thing keeping the tail from being torn down twice is the label
-choice in mana_grow_qset() below. Would a single store keep the two helpers
-symmetric and make that independent of the caller?
-
->  
-> +static void mana_destroy_txq(struct mana_port_context *apc)
-> +{
-> +	if (!apc->tx_qp)
-> +		return;
-> +
-> +	mana_destroy_txq_from(apc, 0);
->  
->  	kfree(apc->tx_qp);
->  	apc->tx_qp = NULL;
-
-[ ... ]
-
-> @@ -3164,7 +3185,10 @@ static int mana_create_txq(struct mana_port_context *apc,
->  out:
->  	netdev_err(net, "Failed to create %d TX queues, %d\n",
->  		   apc->num_queues, err);
-> -	mana_destroy_txq(apc);
-> +	if (first)
-> +		mana_destroy_txq_from(apc, first);
-> +	else
-> +		mana_destroy_txq(apc);
->  	return err;
->  }
-
-[Severity: Low]
-This is the first standalone caller of mana_destroy_txq_from(): it tears
-down [first, num_queues) and returns without freeing the container, so the
-freed-but-non-NULL pointers survive back into mana_grow_qset().
-
-[ ... ]
-
-> @@ -3569,6 +3599,11 @@ static void mana_destroy_rxqs(struct mana_port_context *apc)
->  	}
->  }
->  
-> +static void mana_destroy_rxqs(struct mana_port_context *apc)
-> +{
-> +	mana_destroy_rxqs_from(apc, 0);
-> +}
-> +
-
-[ ... ]
-
-> @@ -4454,13 +4489,161 @@ void mana_discard_split(struct mana_qset *newq, struct mana_qset *tailq)
-
-[ ... ]
-
-> +	err = mana_create_txq(scratch, ndev, old_count);
-> +	if (err)
-> +		goto cleanup_rss; /* create_txq already undid its own work */
-> +
-> +	err = mana_add_rx_queues(scratch, ndev, old_count);
-> +	if (err)
-> +		goto cleanup_rxq;
-
-[Severity: Low]
-Related to the comment on mana_destroy_txq_from(): correctness here rests
-entirely on this goto targeting cleanup_rss rather than cleanup_rxq.
-
-If a later change routed the mana_create_txq() failure to cleanup_rxq
-instead, mana_destroy_txq_from(scratch, old_count) would run a second time
-over the tail slots that mana_create_txq()'s out: path already kvfree()d,
-re-running napi_disable_locked() / cancel_work_sync() on freed memory.
-
-Is that invariant worth making explicit, either with the NULL store in the
-helper or a note at this label?
-
-[ ... ]
-
-> +cleanup_rxq:
-> +	mana_destroy_rxqs_from(scratch, old_count);
-> +	mana_destroy_txq_from(scratch, old_count);
-> +cleanup_rss:
-> +	mana_cleanup_indir_table(scratch);
-> +free_arrays:
-> +	/* Only the containers: every queue they name is still live on @apc. */
-> +	scratch->tx_qp = NULL;
-> +	scratch->rxqs = NULL;
-> +	kfree(new_tx);
-> +	kfree(new_rx);
-> +	kfree(fresh_tx);
-> +	kfree(fresh_rx);
-
-[ ... ]
-
-> @@ -4861,7 +5037,7 @@ int mana_publish_qset(struct mana_port_context *apc, struct mana_qset *newq,
->   * Idempotent: a carried-over queue keeps its node; suppressed creation leaves
->   * an error pointer, not NULL, so both read as "no node". Under RTNL.
->   */
-> -static void mana_qset_debugfs_publish(struct mana_port_context *apc)
-> +void mana_qset_debugfs_publish(struct mana_port_context *apc)
->  {
->  	unsigned int i;
->  
-
-[Severity: Low]
-One more consumer of the same convention, now that this is no longer
-static:
-
-	if (apc->tx_qp && apc->tx_qp[i] &&
-	    IS_ERR_OR_NULL(apc->tx_qp[i]->mana_tx_debugfs))
-
-It treats any non-NULL tx_qp[i] as live and dereferences it. I confirmed it
-cannot be reached with a stale array today, because every grow-failure path
-frees the container without publishing it, and after a failed
-mana_publish_qset() the rollback reinstalls the original apc->tx_qp.
-
-Does relying on that reachability argument, rather than on the slot being
-cleared, seem like the right long-term contract for the helper?
-
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 31256cb22b39..8896fb4809b5 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -808,6 +808,7 @@ static const struct hv_status_info hv_status_infos[] = {
+ 	_STATUS_INFO(HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED,	-EOPNOTSUPP),
+ 	_STATUS_INFO(HV_STATUS_INVALID_LP_INDEX,		-EINVAL),
+ 	_STATUS_INFO(HV_STATUS_INVALID_REGISTER_VALUE,		-EINVAL),
++	_STATUS_INFO(HV_STATUS_DEVICE_ALREADY_IN_DOMAIN,	-EEXIST),
+ 	_STATUS_INFO(HV_STATUS_OPERATION_FAILED,		-EIO),
+ 	_STATUS_INFO(HV_STATUS_TIME_OUT,			-EIO),
+ 	_STATUS_INFO(HV_STATUS_CALL_PENDING,			-EIO),
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 6a4e8b9d570f..5d1338197eee 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -37,6 +37,7 @@ struct hv_u128 {
+ #define HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED	0x20
+ #define HV_STATUS_INVALID_LP_INDEX			0x41
+ #define HV_STATUS_INVALID_REGISTER_VALUE		0x50
++#define HV_STATUS_DEVICE_ALREADY_IN_DOMAIN		0x66
+ #define HV_STATUS_OPERATION_FAILED			0x71
+ #define HV_STATUS_INSUFFICIENT_ROOT_MEMORY		0x73
+ #define HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY	0x75
+@@ -486,10 +487,16 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_GET_VP_INDEX_FROM_APIC_ID		0x009a
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE	0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
++#define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
++#define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
+ #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
+ #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
+ #define HVCALL_DISPATCH_VP				0x00c2
++#define HVCALL_DETACH_DEVICE_DOMAIN			0x00c4
++#define HVCALL_DELETE_DEVICE_DOMAIN			0x00c5
+ #define HVCALL_GET_GPA_PAGES_ACCESS_STATES		0x00c9
++#define HVCALL_CONFIGURE_DEVICE_DOMAIN			0x00ce
++#define HVCALL_FLUSH_DEVICE_DOMAIN			0x00d0
+ #define HVCALL_ACQUIRE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d7
+ #define HVCALL_RELEASE_SPARSE_SPA_PAGE_HOST_ACCESS	0x00d8
+ #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY	0x00db
+@@ -502,6 +509,8 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_MMIO_READ				0x0106
+ #define HVCALL_MMIO_WRITE				0x0107
+ #define HVCALL_DISABLE_HYP_EX                           0x010f
++#define HVCALL_GET_IOMMU_CAPABILITIES			0x0125
++#define HVCALL_GET_LOGICAL_DEVICE_PROPERTY		0x0127
+ #define HVCALL_MAP_STATS_PAGE2				0x0131
+ 
+ /* HV_HYPERCALL_INPUT */
+diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
+index 035ba20870f7..7b9f43b320cd 100644
+--- a/include/hyperv/hvhdk_mini.h
++++ b/include/hyperv/hvhdk_mini.h
+@@ -548,4 +548,141 @@ union hv_device_id {		/* HV_DEVICE_ID */
+ 	} acpi;
+ } __packed;
+ 
++/* Device domain types */
++#define HV_DEVICE_DOMAIN_TYPE_S1	1 /* HV_DEVICE_DOMAIN_ID_TYPE_S1 */
++
++/* ID for default domain and NULL domain */
++#define HV_DEVICE_DOMAIN_ID_DEFAULT 0
++#define HV_DEVICE_DOMAIN_ID_NULL    0xFFFFFFFFULL
++
++union hv_device_domain_id {	/* HV_DEVICE_DOMAIN_ID */
++	u64 as_uint64;
++	struct {
++		u32 type: 4;
++		u32 reserved: 28;
++		u32 id;
++	} __packed;
++};
++
++struct hv_input_device_domain {	/* HV_INPUT_DEVICE_DOMAIN */
++	u64 partition_id;
++	union hv_input_vtl owner_vtl;
++	u8 padding[7];
++	union hv_device_domain_id domain_id;
++} __packed;
++
++/* HV_CREATE_DEVICE_DOMAIN_FLAGS */
++union hv_create_device_domain_flags {
++	u32 as_uint32;
++	struct {
++		u32 forward_progress_required: 1;
++		u32 inherit_owning_vtl: 1;
++		u32 reserved: 30;
++	} __packed;
++};
++
++/* HV_INPUT_CREATE_DEVICE_DOMAIN */
++struct hv_input_create_device_domain {
++	struct hv_input_device_domain device_domain;
++	union hv_create_device_domain_flags create_device_domain_flags;
++	u32 padding;
++} __packed;
++
++/* HV_INPUT_DELETE_DEVICE_DOMAIN */
++struct hv_input_delete_device_domain {
++	struct hv_input_device_domain device_domain;
++} __packed;
++
++/* HV_INPUT_ATTACH_DEVICE_DOMAIN */
++struct hv_input_attach_device_domain {
++	struct hv_input_device_domain device_domain;
++	union hv_device_id device_id;
++} __packed;
++
++/* HV_INPUT_DETACH_DEVICE_DOMAIN */
++struct hv_input_detach_device_domain {
++	u64 partition_id;
++	union hv_device_id device_id;
++} __packed;
++
++struct hv_device_domain_settings {	/* HV_DEVICE_DOMAIN_SETTINGS */
++	struct {
++		/*
++		 * Enable translations. If not enabled, all transaction bypass
++		 * S1 translations.
++		 */
++		u64 translation_enabled: 1;
++		u64 blocked: 1;
++		/*
++		 * First stage address translation paging mode:
++		 * 0: 4-level paging (default)
++		 * 1: 5-level paging
++		 */
++		u64 first_stage_paging_mode: 1;
++		u64 reserved: 61;
++	} flags;
++
++	/* Address of translation table */
++	u64 page_table_root;
++} __packed;
++
++/* HV_INPUT_CONFIGURE_DEVICE_DOMAIN */
++struct hv_input_configure_device_domain {
++	struct hv_input_device_domain device_domain;
++	struct hv_device_domain_settings settings;
++} __packed;
++
++/* HV_INPUT_GET_IOMMU_CAPABILITIES */
++struct hv_input_get_iommu_capabilities {
++	u64 partition_id;
++	u64 reserved;
++} __packed;
++
++/* HV_OUTPUT_GET_IOMMU_CAPABILITIES */
++struct hv_output_get_iommu_capabilities {
++	u32 size;
++	u16 reserved;
++	u8  max_iova_width;
++	u8  max_pasid_width;
++
++#define HV_IOMMU_CAP_PRESENT    BIT_ULL(0)
++#define HV_IOMMU_CAP_S2         BIT_ULL(1)
++#define HV_IOMMU_CAP_S1         BIT_ULL(2)
++#define HV_IOMMU_CAP_S1_5LVL    BIT_ULL(3)
++#define HV_IOMMU_CAP_PASID      BIT_ULL(4)
++#define HV_IOMMU_CAP_ATS        BIT_ULL(5)
++#define HV_IOMMU_CAP_PRI        BIT_ULL(6)
++
++	u64 iommu_cap;
++	u64 pgsize_bitmap;
++} __packed;
++
++/* HV_LOGICAL_DEVICE_PROPERTY_CODE */
++enum hv_logical_device_property_code {
++	HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU = 10,
++};
++
++/* HV_INPUT_GET_LOGICAL_DEVICE_PROPERTY */
++struct hv_input_get_logical_device_property {
++	u64 partition_id;
++	u64 logical_device_id;
++	/* Takes values from enum hv_logical_device_property_code. */
++	u32 code;
++	u32 reserved;
++} __packed;
++
++/* HV_OUTPUT_GET_LOGICAL_DEVICE_PROPERTY */
++struct hv_output_get_logical_device_property {
++#define HV_DEVICE_IOMMU_ENABLED	BIT_ULL(0)
++	u64 device_iommu;
++	u64 reserved;
++} __packed;
++
++/* HV_INPUT_FLUSH_DEVICE_DOMAIN */
++struct hv_input_flush_device_domain {
++	struct hv_input_device_domain device_domain;
++	u32 flags;
++	u32 reserved;
++} __packed;
++
+ #endif /* _HV_HVHDK_MINI_H */
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260901014442.2945689-1-longli%40microsoft.com
+2.52.0
+
