@@ -1,170 +1,468 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011004.outbound.protection.outlook.com [52.101.62.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C5A4CCDF7;
-	Fri,  4 Sep 2026 00:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788480614; cv=fail; b=azIdqL+HmPUEhoBXRCMUGSNIAp2tmc18hpSgKl9uTMELaVZSkUv3E6wL2GHAlAMUtVjKpdZsYdaJQrRE4PNvdYe7nHDVvrR7CxDUSmGcqwgEfNsIDtektIz7BZJAfNTkB+0Pymrrv77mXsx1lT6vKTdblxsd+6M0nypVI3MRDYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788480614; c=relaxed/simple;
-	bh=AaypQ6c/4i4Sh4u8jTjSMNCGY82+/BULaoIpeldpVXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bfE9CqXVR6VAcUeM+oyg1IEaX9Q2d9QsylEpORRxxvEet9E4NUyWhTcjSPw1Q7eEcKAccK2ucy9uKPBtZlf5otx4+h2i8OjDI1eWD8putAOIhgnlbf1lYtTKGD+yGEyE2thlw2J4+IZ2hvNvEYAKvX44rIf8MsQxXZcr5LckC9w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CZkww+DG; arc=fail smtp.client-ip=52.101.62.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A0E3B9920;
+	Fri,  4 Sep 2026 04:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788497201; cv=none; b=u/gtWXPtJBAKhyRK9/R81DqR+ybcTfLtfMWTBHB+od/Mt0N5GlZdcm4ul8fenBdP1EPUh2KMd2rUczcsZG1GzsPHrs4jrmBFeiMP0YW7in+Yg+LcpfKE2Ja6JvXAJXJe/NZ/lEKB99mdH+5rTU7i5RfNexu4zFxBhVltuQU1fj0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788497201; c=relaxed/simple;
+	bh=7IUjLSHcxt0fmJCy/QKtVOfaJPL3D9mI05ICbADcxM8=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Hr7+3KlXhij5ryccSFApw1vtLUhTW0RCa15vFi/dENeUNl2wxo2O+lzzwRfPEheuuqvMcfuyl6TZuFp+tAwWVXLgaNNwXagy1znrZvqPYC9aiTtejbXSzvdPYt2N5PIuR4wa2FZkTwBm7sPHo1pWrNtdlgTDzunuvkXCb87rWhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8ZfPPPE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CZkww+DG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NjzkHeemgs5vhJldWbc6LFrxRznv2o/blMlyu6/Fq/2MQQMAXZkfKb+J6UmrVeFtZUsHs1PwuVJypZ9sGj8JJ/38ECUL/SSSTjkaVdjQfbUhtdijD1rYd++9dI70EVoraQ6MaDXiwX3moALBdUnqTJyq/WPg69YL4cI91D68lxy/xb+PU5HKNh/K9tD3tod/gzLzw0gqHNchtq2Wgs7GKW5+0hevly+jVHErF5VOv2Ien1BQn6CYrqgHmHycTwWWOhx7BzvG8C6HihlA7WowowAhVkxTzsGuu0lcQc9vJy1zou9xB70VCfKe/A4QWHyoLGNQ/vOGNknCETH1+jPNxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LUUkUsuTQzbDUcN7MyzcGD5HmTAucklv8wznb5Nbtyc=;
- b=pJomfzYZGoO5DokE+NsUZc3GznD2Fpc2IpHqoNXAION35EjnnHnvU3OCJKt039L90Smny9vo3b9pu4krp819GB8VWIZdq3tO35frM86SHTRWI9ldlPyKkoYI3XlXjYR0O6mZqXiKN1PXxJ6vHeaqFinyr3jkqypShpptRCSvZvmxempx56Xq/c9xy5dEgFI05v5E6ZzWIS90KaOUSHW1yiUeVeGTCoaZE3wZ99Ji535gCfrE1ktkUnKN0FBzi/Ajkrng3d/lyHYYgnUHsqNrxJw6VODWkE6zV+caBP9VpuZapMt8emffXHiB65rxrcpvfDK318LFpKpCI7RNyiQEzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LUUkUsuTQzbDUcN7MyzcGD5HmTAucklv8wznb5Nbtyc=;
- b=CZkww+DG/7qh8oLmLIO5aDPySZP45HojZ0IN37Uibt3a3zpVSRqcX6k6gN3ruSqXs0ZL9Q7AHu61LXdPQprQ9J/DwT7sNA2nwitDaaRuBRAU6RZvNjMCqJ/3Dl0+tAh+sNaA70Waj0VITrR7AGuvOV6Iz9X9Jmu2DSyFm810Kf/fumtVZGeYTwg/QDhMZ+ukgXT+4VvqOHB2yBd2l6vmF/Q1y8J+Yv1P3nywMY3ko9Euf1ARzR0IET04WX3sSlNuLEfh/G/JvY9Fr/mcoj2mkzbH13/WFP6I8k7Qqaa5hAxTVtp0Xgpf7xC5ksVGRmCkL33NZE1RQ3FEvYnLueslug==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by PH8PR12MB6819.namprd12.prod.outlook.com (2603:10b6:510:1ca::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.12; Fri, 4 Sep
- 2026 00:10:08 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0360.008; Fri, 4 Sep 2026
- 00:10:08 +0000
-Date: Thu, 3 Sep 2026 21:10:06 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jacob Pan <jacob.pan@linux.microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>, Mukesh R <mrathor@linux.microsoft.com>,
-	Alex Williamson <alex@shazbot.org>, hpa@zytor.com,
-	robin.murphy@arm.com, robh@kernel.org, mhklinux@outlook.com,
-	muislam@microsoft.com, namjain@linux.microsoft.com,
-	magnuskulke@linux.microsoft.com, anbelski@linux.microsoft.com,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arch@vger.kernel.org, kys@microsoft.com,
-	haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
-	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, joro@8bytes.org,
-	will@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	bhelgaas@google.com, arnd@arndb.de,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Subject: Re: [PATCH v5 3/9] mshv: Introduce basic mshv bridge device for VFIO
- to build upon
-Message-ID: <20260904001006.GO4157646@nvidia.com>
-References: <20260731223427.2554388-1-mrathor@linux.microsoft.com>
- <20260731223427.2554388-4-mrathor@linux.microsoft.com>
- <20260902111905.000079d4@linux.microsoft.com>
- <20260903144236.GK4157646@nvidia.com>
- <20260903161328.GA3102631@liuwe-devbox-debian-v2.local>
- <20260903174014.GM4157646@nvidia.com>
- <20260903114647.00005a1f@linux.microsoft.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903114647.00005a1f@linux.microsoft.com>
-X-ClientProxiedBy: MN2PR15CA0050.namprd15.prod.outlook.com
- (2603:10b6:208:237::19) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8ZfPPPE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1893F1F00A3D;
+	Fri,  4 Sep 2026 04:46:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788497199;
+	bh=yhjIwVxa73fhe2bU0+aTkBlXH1qWUvZgQ7zbihERAwY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=J8ZfPPPEncg6DpmiKcmHoqzlhOgwqZcdQANnHga8XhwOjvMb6r7jMH/AUYGtopzw3
+	 ANOlWBshn+Wq7gWZIdgpo6Rq8Crfes3liehCc3wqVtymc4tFB32NgSM1IL1OuJ2Dhg
+	 cMhO6G81sOI1bC5UpMusNUeI91YmirkXIrueQtByCfRwz/Dx7bLyaaP6bM7abrDrR7
+	 +LcUI//Ue8jMBmOVBQPluL6GDKJG96rbIB1aE9ylwZ4/mnjGPpv/Xn+HrpnV3Yzwir
+	 g5/gfFw/O5tpenUX7KsfBwkpPHwy3+E4lsMvi1xXgsmDKOcJtmouhxcSimnD4vay7Y
+	 msQu/aqkJpN9w==
+Subject: Re: [PATCH net-next v3 01/13] net: mana: add queue-set allocation and
+ teardown helpers
+From: netdev-bot+sashiko@kernel.org
+To: longli@microsoft.com
+Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
+ pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
+ leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+ shirazsaleem@microsoft.com, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Fri, 04 Sep 2026 04:46:37 +0000
+Message-ID: <178849719763.4131868.4917085699227078071@kernel.org>
+In-Reply-To: <20260901014442.2945689-2-longli@microsoft.com>
+References: <20260901014442.2945689-2-longli@microsoft.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|PH8PR12MB6819:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae02a7d2-9ce3-4383-f714-08df0a18e0d2
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|7416014|376014|22082099003|18002099003|56012099006|11063799006|10067099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	ZlqWOFYBgGecFpeSaJKQpHyZaemVcLrojKXN8bS+qtUQ9k0CXbTsEoHAO+cH1A5Y4jjfxUGVPoZ/68kiQ/uh/fXks83Qyiidxv35El8sdVX/VYsTeFQiNNvgfLH8QZnnBOO7wRHIHg/IDNsuw0+Xn9EKc3hyVcPHXj3+JtFoMwUhkPbdlQbseVORYvAcZV46sQQ42Wxe+kkspu42euPlp5lKYw23xsML6o6Mf1xRBrL8AHzFGKRpJTSalg0wu0BSCh9whZO282ZJpAByXyccMiGwKrQnnXzWv4XWWYEfIsjPOkj0XiVO3SBZS1A+qMvtjc3ipr+WGOgXAlf/g+kpm91SMIIekfEJKue7Wu8RezHebRjx17JUuqfy5Ap6q66DjeTUsPdCCVPW8aOkhkMwePUx9G2bbI1PaMm9x/zVPLdJ+raELLgVxEYXr6fOL75c4+AfziJCMvWwH1UGyL1tDLpciJxrQYO/qB96eP9dbLP9dz/so1PRP+gukczLJR9eg8aUyr7FhiC7FJtlBcFYp5XnRX5XTJX8cUm84fLyROrL6gOzDwIJ0/d8egqh2aHMG7vwkR3+KzBok+XWiPisRYKw0SokYcJjZTSyOM+Z2a9XU1+nwtzxLAl+o9QT7U2Fb49N+CvG7SimMxJTsPkkipaSz4PrUwBPwWCYw5kHaSM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(7416014)(376014)(22082099003)(18002099003)(56012099006)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8s8kxERyAqkOqW4fi6BWmEcXaqJIyFUc+qWBdTuzCnSqgfKHJwqhzZN9EJ4H?=
- =?us-ascii?Q?cuTOdSSqUDKLLC/z/Plq904+5L5hETvYOqgSdSMy0DtgSywXlWJZ4QcSQq5S?=
- =?us-ascii?Q?IIO/hDg/ViQ+w2UUzlWXUS2PnJCqyQkzsnsp0L1jbAwf5JIG+niWpf93HQ5i?=
- =?us-ascii?Q?7TN/ZLFAjjnqaueYKGuhWWJovvBdrN9sKPMS5Z3OUJkMUKXvSOZShAGXOCkv?=
- =?us-ascii?Q?EQGB+eiOAs6PvVr9oFnGJrFWOLuBeuRnySOYPcVbk2d6YBxGwTH8rYk7Z9sR?=
- =?us-ascii?Q?0mtGtftQFqBL0WqFWmwsRW1DNHDAqRoi7gmUxige0Wa/RO7LIUBrlbkFmDIq?=
- =?us-ascii?Q?Y9ZCgJjeHnhXHrIGjiiyZxfnsE4FVO9TVWXNPMnOb1ao8j8WTC6BxSb/aFMb?=
- =?us-ascii?Q?lQ8gbxF6IakEhHIujr7e+3lSdo+7EiknYYXUSWhDtjl0OUoACtZhUJI9i+zS?=
- =?us-ascii?Q?1l9ar4gyhN0q8W9rMK71OTHYfS6T6Neq8ID6PrNrwjwysHPiXdCvRpCgTM5J?=
- =?us-ascii?Q?jpQBue9hYAn1dingBzDrZGFFPGUVbriX5xrh4cCiv/W+SveMd2VvwDIZJCkM?=
- =?us-ascii?Q?7GrucjFn4TJRfSXt3HOXi2K1AJXnsrzCoiRgr0Z+lKDKeloqaynn8UFI3ciO?=
- =?us-ascii?Q?8W/ZElEYE+w2nJ6BgvkLu98HdFC+H08BNpqucahB1uUL7Nko+pxTpc1i4CJj?=
- =?us-ascii?Q?ukrroQ7OUOg0z5cdYKGiH/gCmzvZ36nyFGu3Pd2GvAphRcokHZm6dVGRMF/A?=
- =?us-ascii?Q?tVjxDm2N7LaUYxTNKAr+xcdakdkoY/MxVrl4KYSNl951WPSQ5DHDzdINxDeD?=
- =?us-ascii?Q?BbXj8zrrPivAOr5Jc6yP2Z1qfDcDti9njP6pHEI2n3l/blRXJxNm2HaTG6Td?=
- =?us-ascii?Q?gQIS0nfTK5DCkaxpfYb8clN/TvedvoZOFPKurJDf4oV7mIlEId4Bcj3VnjYd?=
- =?us-ascii?Q?guG4qDI9H6DWTZJREdM1LgHdwAvNFIpeSRyKwrafDMNFf6vDC4ESlo7dchO8?=
- =?us-ascii?Q?xpspVUl02M9q+b2FNmtbm7FxFDaPtfPSD04O4cwgLemb0cmfJjXrcLFtNqy5?=
- =?us-ascii?Q?JYruGe/OWgkZC7/fxbk/CIp4+XLcfrwUeaAeszy06wuZQ7gqQ0hWdiTXDcl5?=
- =?us-ascii?Q?7hXm+EsT59KZXNX10ThGWBsieUBZ0zfKnaMEoDTTxe+2ZTpfzQczvQqkMyfG?=
- =?us-ascii?Q?FlR7fDt8FBgMGX6bePAWMxpcJetVYrIZo8Pen+PWmK6N0+cAY2JDumhz+0sq?=
- =?us-ascii?Q?2uMTjYeKRvD8MiUNVKDOHoaW+EdGHLsqpVy0DUiNMzlMRkiu55p+JIebovJG?=
- =?us-ascii?Q?KRsfKfa21/0CYexbl7ZcQZa8t2RYI9ZwTjA1YyH+z4clQC1e06hbW4q8/s7o?=
- =?us-ascii?Q?OQSOufSDfZKLUKZfi5iFvMFE3CofC7l7rGPmuLr+4QFgJdal9DSKDWG2LoaF?=
- =?us-ascii?Q?X5f5ETN1EJE3T+tI4Yh4FNRGRxDd0gC+LZSOBfc9uHb+/4AVww9TK12SsLA/?=
- =?us-ascii?Q?2l7UqicQPVYgjHYdjZFrauBjEv5C5f/zC3Tsk8/IsgFCGw6IKAFY6RLZlvpI?=
- =?us-ascii?Q?V9bvysCxN9aVCk0aLEG+9HmXCZNvcfkrYD8xcyhNkkKw9VbEFhlffuPNIcQP?=
- =?us-ascii?Q?VhWHYCBd/+vmJJhSm4dTxtLvs8asvXmNi1PN/9omwX6qUIHqb/g9k9an7vS9?=
- =?us-ascii?Q?VRxJzWciX1UKQE3n5rqgk+/UgiM7K2iwWajsdNY1nt+cWlh8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae02a7d2-9ce3-4383-f714-08df0a18e0d2
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 00:10:07.9696
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+dynyWlSB2VmkkXVfIM0O3DV6mypDKazBCHhPRSjQ6kvtVFcRTMkUw1E5IivAG7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6819
 
-On Thu, Sep 03, 2026 at 11:46:47AM -0700, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Thu, 3 Sep 2026 14:40:14 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
-> 
-> > On Thu, Sep 03, 2026 at 09:13:28AM -0700, Wei Liu wrote:
-> > > > Does mshv use KVM at all? Can a kvm fd describe the partition?  
-> > > 
-> > > No. MSHV doesn't use KVM. We don't have a kvm fd. We have an mshv
-> > > fd to describe the partition. They are different virtualization
-> > > solutions.
-> > > 
-> > > In the ideal world, the fd should be hypervisor agnostic, not tied
-> > > to kvm.  
-> > 
-> > There is a patch generalizing vfio to work on FDs instead of KVM
-> > structures:
-> > 
-> >  https://patch.msgid.link/20260903-vfio-v2-1-ef4cd4190ae7@linux.ibm.com 
-> > 
-> > That's probably a good step long that line.
-> Yeah, ideally, it would be removing/rename device/group->kvm to
-> something like group/device->vm_file?
+Thank you for your contribution! Sashiko AI review found 8 potential
+issue(s) to consider:
 
-Maybe it could? Do you need the file in VFIO land or is what you
-showed in the other message OK?
+Critical: 0 · High: 2 · Medium: 3 · Low: 3
 
-I think it should be broadly fine to pass in the file that way and
-hold a reference on it in the viommu object..
+- [High] mana_drain_txqs() refuses to unmap/free pending TX SKBs when the
+  fallback pci_try_reset_function() fails ("leaking pending TX buffers…
+- [High] The drain's fallback reset was changed from an unconditional
+  pcie_flr() to pci_try_reset_function(), which starts with…
+- [Medium] The commit message claims "No functional change otherwise:
+  nothing calls the new helpers yet", but the TX-drain rewrite changes…
+- [Medium] After a successful function reset invalidates every port's
+  queues, the sibling recovery this patch newly relies on can exit…
+- [Medium] The drain fallback issues a PCI function-level reset and, on
+  success, treats the function as usable: it bumps reset_gen, continues…
+- [Low] include/net/mana/mana.h documents mana_context.reset_gen as
+  "Bumped on every PCI function reset", and mana_drain_txqs() uses a…
+- [Low] The commit message presents "That tears the vport down, so RDMA
+  can claim it while released" as applying to all of the named…
+- [Low] The live-path change from a bare pcie_flr() to a PCI-core-managed
+  function reset is a user-visible correctness fix (the bare FLR wipes…
 
-Jason
+--
+
+net: mana: add queue-set allocation and teardown helpers
+
+This adds a mana_qset data model plus mana_qset_scratch_alloc(),
+mana_alloc_qset() and mana_free_qset() so a queue set can be built and
+retired against a scratch port context rather than by tearing the vport
+down. It also moves the TX drain out of mana_dealloc_queues() into a new
+mana_drain_txqs() and replaces the fallback pcie_flr() with
+pci_try_reset_function().
+
+No Link: tags are present in the commit message.
+
+A few questions on the commit message first, then some on the diff.
+
+> The ethtool reconfiguration paths (channel count, ring size, private
+> flags), mana_change_mtu() and mana_xdp_set() rebuild the queues with
+> mana_detach() then mana_attach(). That tears the vport down, so RDMA can
+> claim it while released, and a failed mana_attach() leaves the port down
+> with no way back but manual intervention.
+
+[Severity: Low]
+This isn't a bug, but does the RDMA part of that sentence hold for all of
+the listed paths?
+
+mana_set_channels() and mana_set_priv_flags() in mana_ethtool.c already
+set apc->channel_changing = true across their detach/attach window:
+
+	/* Block RDMA from grabbing the vport during detach/attach */
+	apc->channel_changing = true;
+
+and mana_cfg_vport() returns -EBUSY while that flag is set. The RDMA
+exposure argument seems to apply to mana_set_ringparam(),
+mana_change_mtu() and mana_xdp_set() only, while the failed-attach
+argument applies to all of them. Could the wording be narrowed?
+
+> The TX drain moves out of mana_dealloc_queues() so the new teardown path
+> gets it too, and its fallback reset becomes pci_try_reset_function()
+> rather than an open-coded pcie_flr(), which does not save and restore
+> config space. Trylock because this runs under RTNL while removal takes
+> the device lock first.
+
+[Severity: Low]
+This part reads as a correctness fix to the pre-existing fallback reset in
+mana_dealloc_queues(), but the patch carries no Fixes: tag and declares no
+functional change. Would it be better as a separate commit so it can be
+considered for stable on its own?
+
+> No functional change otherwise: nothing calls the new helpers yet.
+
+[Severity: Medium]
+Is the "no functional change otherwise" claim accurate for the live
+teardown path (mana_close()/mana_detach()/mana_remove())? Three behaviour
+changes seem to ride along:
+
+- On a failed fallback reset, mana_drain_txqs() returns before the
+  skb_dequeue() loop, so pending TX SKBs and their DMA mappings are now
+  deliberately leaked. The baseline code ran that loop unconditionally
+  after the pcie_flr() attempt.
+
+- On a successful reset, mana_dealloc_queues() now walks ac->ports[] and
+  queues sib->queue_reset_work for every other port, so unrelated netdevs
+  get their queues torn down and rebuilt.
+
+- mana_remove() now clears ac->ports[i], which is only justified by a code
+  comment.
+
+Could these be called out in the changelog?
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 7a1ac853e3abc..b9d9543d1a6dc 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -3679,15 +3684,115 @@ int mana_attach(struct net_device *ndev)
+>  	return 0;
+>  }
+>  
+> -static int mana_dealloc_queues(struct net_device *ndev)
+> +/* Drain a set about to be destroyed: nothing new can reach it, so wait for the
+> + * hardware to finish what it owns, then release every mapped SKB.
+> + *
+> + * The 120s budget is shared across all queues. On timeout the device is reset,
+> + * since its buffers are about to be freed while it may still DMA into them; if
+> + * that fails too they are leaked.
+> + *
+> + * Returns true only if a reset happened, taking every queue on the function
+> + * down with it.
+> + */
+> +static bool mana_drain_txqs(struct mana_port_context *apc)
+>  {
+> -	struct mana_port_context *apc = netdev_priv(ndev);
+>  	unsigned long timeout = jiffies + 120 * HZ;
+> -	struct gdma_dev *gd = apc->ac->gdma_dev;
+> +	struct gdma_context *gc = apc->ac->gdma_dev->gdma_context;
+> +	bool quiesced = true;
+> +	bool reset = false;
+>  	struct mana_txq *txq;
+>  	struct sk_buff *skb;
+> -	int i, err;
+>  	u32 tsleep;
+> +	int i, err;
+> +
+> +	if (!apc->tx_qp)
+> +		return false;
+> +
+> +	for (i = 0; i < apc->num_queues; i++) {
+> +		if (!apc->tx_qp[i])
+> +			continue;
+> +
+> +		txq = &apc->tx_qp[i]->txq;
+> +
+> +		/* The function was reset after this queue was created, so the
+> +		 * device has stopped touching its buffers and the completions
+> +		 * waited for below can never arrive. Without this the port
+> +		 * would burn the full timeout under RTNL, then reset the
+> +		 * function again on the way out.
+> +		 */
+> +		if (READ_ONCE(apc->ac->reset_gen) != txq->reset_gen)
+> +			continue;
+> +
+> +		tsleep = 1000;
+> +		while (atomic_read(&txq->pending_sends) > 0 &&
+> +		       time_before(jiffies, timeout)) {
+> +			usleep_range(tsleep, tsleep + 1000);
+> +			tsleep <<= 1;
+> +		}
+> +		if (atomic_read(&txq->pending_sends)) {
+> +			/* The device still owns these buffers, so reset it
+> +			 * before they are freed. pci_try_reset_function()
+> +			 * rather than pcie_flr(): it saves and restores config
+> +			 * space, which a bare FLR wipes behind the PCI core's
+> +			 * back. Trylock because RTNL is held here while the
+> +			 * remove path takes the device lock first.
+> +			 */
+> +			err = pci_try_reset_function(to_pci_dev(gc->dev));
+
+[Severity: High]
+Can this reset ever happen on the remove path? mana_gd_remove() is the PCI
+.remove callback, and the driver core invokes it with device_lock held:
+
+mana_gd_remove() -> mana_remove() -> mana_detach() -> mana_dealloc_queues()
+  -> mana_drain_txqs()
+
+and pci_try_reset_function() begins with:
+
+	if (!pci_dev_trylock(dev))
+		return -EAGAIN;
+
+on a mutex the calling thread already owns, so it looks like it can only
+return -EAGAIN there. The old pcie_flr() had no lock dependency and did
+stop the device, so on unbind with un-drained TX the device now appears to
+never be reset while its queues are still destroyed below. Would
+pci_reset_function_locked() (or __pci_reset_function_locked()) be the right
+call for a caller that is already under device_lock?
+
+> +			if (err) {
+> +				netdev_err(apc->ndev,
+> +					   "function reset failed: %d, %d pkts pending in txq %u\n",
+> +					   err,
+> +					   atomic_read(&txq->pending_sends),
+> +					   txq->gdma_txq_id);
+> +				quiesced = false;
+> +			} else {
+> +				/* Every queue on the function is dead now,
+> +				 * including the ones this loop has not reached
+> +				 * and those of the other ports.
+> +				 */
+> +				WRITE_ONCE(apc->ac->reset_gen,
+> +					   apc->ac->reset_gen + 1);
+> +
+> +				/* Only a reset that actually happened takes the
+> +				 * other ports down with it; reporting a failed
+> +				 * one would rebuild them for nothing.
+> +				 */
+> +				reset = true;
+> +			}
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* Only a reset that actually happened makes freeing these safe; without
+> +	 * one the device still owns them. Leak instead, bounded at one SQ ring
+> +	 * of skbs per queue.
+> +	 */
+> +	if (!quiesced) {
+> +		netdev_err(apc->ndev,
+> +			   "device not quiesced, leaking pending TX buffers instead of unmapping memory it can still DMA from\n");
+> +		return reset;
+> +	}
+
+[Severity: High]
+Does this leak-instead-of-unmap decision reach the callers?
+
+The return value is reset, which is false both for a healthy drain and for
+a failed reset, so neither mana_dealloc_queues() nor mana_free_qset() can
+tell the two apart. Both then run unconditionally:
+
+	mana_fence_rqs(apc);
+	mana_destroy_rxqs(apc);
+	mana_destroy_txq(apc);
+	mana_destroy_eq(apc);
+
+and mana_gd_destroy_queue() in gdma_main.c releases the SQ/CQ/EQ ring
+memory regardless of whether the firmware-side destroy succeeded:
+
+	mana_gd_destroy_dma_region(gc, gmi->dma_region_handle);
+	mana_gd_free_memory(gmi);
+	kfree(queue);
+
+while mana_destroy_rxq() unmaps and frees the RX pages. So the pending SKB
+mappings are kept, but the descriptor rings and RX buffers of the same
+un-quiesced device go back to the page allocator. Can the device DMA into
+that memory after it is reused?
+
+> +
+> +	for (i = 0; i < apc->num_queues; i++) {
+> +		if (!apc->tx_qp[i])
+> +			continue;
+> +
+> +		txq = &apc->tx_qp[i]->txq;
+> +		while ((skb = skb_dequeue(&txq->pending_skbs))) {
+> +			mana_unmap_skb(skb, apc);
+> +			dev_kfree_skb_any(skb);
+> +		}
+> +		atomic_set(&txq->pending_sends, 0);
+> +	}
+> +
+> +	return reset;
+> +}
+
+[ ... ]
+
+> @@ -3705,41 +3810,27 @@ static int mana_dealloc_queues(struct net_device *ndev)
+>  	 * new packets due to apc->port_is_up being false.
+>  	 *
+>  	 * Drain all the in-flight TX packets.
+> -	 * A timeout of 120 seconds for all the queues is used.
+> -	 * This will break the while loop when h/w is not responding.
+> -	 * This value of 120 has been decided here considering max
+> -	 * number of queues.
+> +	 *
+> +	 * If the drain had to reset the function to get there, every other
+> +	 * port on the adapter lost its queues too, so schedule them for a
+> +	 * rebuild. This port is being torn down here and needs no such
+> +	 * treatment, and a down port stays down: with port_st_save false,
+> +	 * detach and attach both skip the queue work.
+>  	 */
+> +	if (mana_drain_txqs(apc)) {
+> +		struct mana_context *ac = apc->ac;
+> +		unsigned int i;
+
+[ ... ]
+
+> +		for (i = 0; i < ac->num_ports; i++) {
+> +			struct mana_port_context *sib;
+>  
+> -		for (i = 0; i < apc->num_queues; i++) {
+> -			txq = &apc->tx_qp[i]->txq;
+> -			while ((skb = skb_dequeue(&txq->pending_skbs))) {
+> -				mana_unmap_skb(skb, apc);
+> -				dev_kfree_skb_any(skb);
+> -			}
+> -			atomic_set(&txq->pending_sends, 0);
+> +			if (!ac->ports[i] || ac->ports[i] == ndev)
+> +				continue;
+> +			sib = netdev_priv(ac->ports[i]);
+> +			netdev_err(ac->ports[i],
+> +				   "queues reset by a sibling port, scheduling rebuild\n");
+> +			queue_work(ac->per_port_queue_reset_wq,
+> +				   &sib->queue_reset_work);
+>  		}
+>  	}
+
+[Severity: Medium]
+Can this rebuild silently not happen? mana_per_port_queue_reset_work_handler()
+gives up before detach/attach when the RX pre-allocation fails:
+
+	err = mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
+	if (err) {
+		netdev_err(ndev, "Insufficient memory for reset post tx stall detection\n");
+		goto clear_flag;
+	}
+
+There is no retry and no state change on that branch, so under memory
+pressure the sibling netdev stays with port_is_up true and
+apc->tx_qp[]/apc->rxqs[] pointing at queues the function reset destroyed,
+until someone does a manual ifdown/ifup. Should this branch requeue the
+work or mark the port down?
+
+> @@ -3763,6 +3854,278 @@ static int mana_dealloc_queues(struct net_device *ndev)
+>  	return 0;
+>  }
+>  
+
+[ ... ]
+
+> +void mana_free_qset(struct mana_port_context *scratch, struct mana_qset *qset)
+> +{
+
+[ ... ]
+
+> +	if (mana_drain_txqs(scratch)) {
+> +		/* The drain had to reset the function to stop the device
+> +		 * touching those buffers. A function reset takes down every
+> +		 * port on the adapter, not just this one, so rebuild them all
+> +		 * - the same recovery mana_tx_timeout() relies on. A port that
+> +		 * is already down has nothing to rebuild and its handler
+> +		 * leaves it down.
+> +		 */
+
+[Severity: Medium]
+After the function reset, what re-establishes the GDMA/HWC state that the
+scheduled rebuilds need?
+
+The driver registers no pci_error_handlers, so there is no reset_prepare or
+reset_done callback, and pci_try_reset_function() only saves and restores
+config space. The only path that re-bootstraps the device is:
+
+mana_serv_reset() -> mana_gd_suspend()/mana_gd_resume()
+  -> mana_gd_cleanup_device()/mana_gd_setup()
+
+and that is not invoked here. Each queued queue_reset_work then re-enters
+mana_attach() and issues HWC requests over a channel the reset destroyed,
+while gc->cq_table[], the EQ/MSI-X bookkeeping and the cached vport and
+queue handles still describe objects that no longer exist. The mana_ib
+auxiliary device on the same function is also not told.
+
+Is the comment's "the same recovery mana_tx_timeout() relies on" accurate?
+That path never resets the function, so its HWC is still alive when the
+rebuild runs.
+
+> +		struct mana_port_context *apc = netdev_priv(scratch->ndev);
+> +		struct mana_context *ac = apc->ac;
+> +		struct mana_port_context *sib;
+> +		unsigned int i;
+> +
+> +		netdev_err(scratch->ndev,
+> +			   "device reset while retiring a queue set, scheduling port reset\n");
+> +
+> +		for (i = 0; i < ac->num_ports; i++) {
+> +			if (!ac->ports[i])
+> +				continue;
+> +			sib = netdev_priv(ac->ports[i]);
+> +			queue_work(ac->per_port_queue_reset_wq,
+> +				   &sib->queue_reset_work);
+> +		}
+> +	}
+
+[ ... ]
+
+> diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+> index 83b7eff4646ea..356aaa652fa6f 100644
+> --- a/include/net/mana/mana.h
+> +++ b/include/net/mana/mana.h
+
+[ ... ]
+
+> @@ -537,6 +547,14 @@ struct mana_context {
+>  	u8 bm_hostmode;
+>  
+>  	struct mana_ethtool_hc_stats hc_stats;
+> +
+> +	/* Bumped on every PCI function reset. A queue created before the
+> +	 * current value can no longer be reached by the device, so its buffers
+> +	 * need no drain. All access is under RTNL: the bump is a non-atomic
+> +	 * read-modify-write, so a second writer would lose an increment.
+> +	 */
+> +	u32 reset_gen;
+
+[Severity: Low]
+Is "bumped on every PCI function reset" true? The only writer is
+mana_drain_txqs(), right after its own successful pci_try_reset_function().
+
+Resets initiated elsewhere leave it unchanged, for example:
+
+  echo 1 > /sys/bus/pci/devices/<bdf>/reset
+
+as well as secondary-bus/slot resets, EEH/AER recovery, and the driver's
+own mana_serv_reset() -> mana_gd_suspend()/mana_gd_resume() cycle. There
+is no reset_done callback anywhere under drivers/net/ethernet/microsoft/mana/
+that would observe them, so mana_drain_txqs() still burns the full 120s
+under RTNL and then resets the function again.
+
+The effect is conservative rather than unsafe, so would either adding a
+reset_done handler or narrowing the comment to resets issued by
+mana_drain_txqs() be preferable?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260901014442.2945689-1-longli%40microsoft.com
