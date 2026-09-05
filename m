@@ -1,512 +1,275 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16E35358378;
-	Sat,  5 Sep 2026 02:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AF236C5AE;
+	Sat,  5 Sep 2026 20:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788575932; cv=none; b=S9Ie//6aHlPkt7B77WoBCntrcsPybhHHKyCh3WQavaWlXkf/sUWMLGCvBa2SYZe4YgEJN0/YSwpiFn8WO2i/YTZxBHoxFckrz5f7eczQlX1C1VnR5dpxw5T7Y1KaS/vPNUCWIKrTK+q/FrSaJRtF149nFNCOHQIVFZVzb0WLK6g=
+	t=1788638544; cv=none; b=itN2OYHmC4b0UZ7TOT/4potxr4EXtsB0X0TGPivPrJ6OhQhRhyloylRpOeqT/XU4nQF/0ReJgesp2gT3fd8spJqSHZ7cxZhuu3+iACItVvIhCBym9a+tabgeaIu+98HnryAgPLiSpkE7VKAkzp6dCP3nlzjOOBFT+398Fd0ixYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788575932; c=relaxed/simple;
-	bh=dPiz1k8MShIscV7U7Ejf2SZEObGZkZZAB3U+4lvncgw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QQ47VrzdaFl9tX1im+be+1Hz6rjqCDTKPThLLEK1n2Ipk24h6dlQ3G9phgPZPGwfnaiqVtMh3Q7xFxMGvUojsD5HOPsJBCicv7CtMa1vXV324bn4JBHZq3ysVWjIAB5gSa6clb1bk8KpBNB6lqVYV36yvBk2QhKllVS71nV3Ydg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wA3FSikgJtqRt3wAA--.5526S3;
-	Sat, 05 Sep 2026 10:38:30 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app3 (Coremail) with SMTP id zS_KCgCHcnehgJtq+C_xBA--.15226S2;
-	Sat, 05 Sep 2026 10:38:25 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: netdev@vger.kernel.org
-Cc: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	Song Li <songl@zju.edu.cn>
-Subject: [PATCH net v2] net: mana: fix reset work race with device removal
-Date: Sat,  5 Sep 2026 02:36:02 +0000
-Message-Id: <20260905023602.425827-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1788638544; c=relaxed/simple;
+	bh=fcUCxxcBEpwCphCQ8aPJ+zpWnv9TVdxFaACAJnN5LT4=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YOaG3QvXrjWUMSC/BhVAeVAtl29dbrFewfWvJgyRwGKWmhGFAduAIRzivbSwI2v5V3jJbcXmqoXwCkwyyWYic9as3lAPup7wE/Ao1yRaNVREDKMY5OIXoobIZNlixmrxESRQQ0A0Q4iYUlFVrdW6xtToKEiN48TBr+Uc9PjJ8PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtbrOBSX; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtbrOBSX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378341F00A3A;
+	Sat,  5 Sep 2026 20:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788638542;
+	bh=J5Ia008taJgxfufAhB2HEHHMOuhTk4WXO+X+xRAFacc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=VtbrOBSXyJg12NLSxeDKVfOUpD/8wmXtvV2cktEEPwQE2Yu31j24xBE5Sqx6JbZkS
+	 jcOW86kQMUJQsAfj0BI+Vk75S+S+Gncaq32XRl0HDTh06BjBsenJxISZPZ0XRnpOSG
+	 nwhzmAPTL1M2Rc6dVu+TTCdz5n6eJi1f12QBA+JDLQn1aHoYD/lP+y6FA0Unxtvfvs
+	 tCfwUJ8/7JXfCQ3K9tGate1sW4OSCV6BcSJJv9bo196maBhHdvJ4S8EMK3Z2mEPouc
+	 +Xk3fD8yEzE1x9RGe0oriyS93wZvKrnkzs54J004UEGfZYQPPyOCIdAMm8hsxNruTo
+	 qHDR6gaUuIX7w==
+Subject: Re: [PATCH net-next v4 1/4] net: mana: track when the HWC has been
+ handed to the PF
+From: netdev-bot+sashiko@kernel.org
+To: longli@microsoft.com
+Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
+ pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
+ leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+ shirazsaleem@microsoft.com, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Sat, 05 Sep 2026 20:02:20 +0000
+Message-ID: <178863854071.219967.16644612539187136296@kernel.org>
+In-Reply-To: <20260901200018.3194525-2-longli@microsoft.com>
+References: <20260901200018.3194525-2-longli@microsoft.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zS_KCgCHcnehgJtq+C_xBA--.15226S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?iYxUtQXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnZPoDCNGYdHSfuFmYJL54WNAQamieo0OhYHiuKjLXq8p5uZ2lCS+heQbNv0sWTfuRmsI
-	EzhGf2FuLLnaNHu7kzVM4mgi+E1YyIsSrNptnRNP
-X-Coremail-Antispam: 1Uk129KBj9fXoW3tF1xAr4kury5JF1fZF1fuFX_yoW8XF1DCo
-	WfXrnxXw4rt3y5C3yktrykJFy3uFW093Z5XF48uFZrAw1UX3Wjk348Cr13Jwn8WF1rK342
-	va4fXwn7uF90vwnrl-sFpf9Il3svdjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUOj7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_GcCE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjx
-	CEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAF
-	wI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0x
-	vY0x0EwIxGrwACjcxG0xvY0x0EwIxGrVCF72vEw4AK0wACI402YVCY1x02628vn2kIc2xK
-	xwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr
-	0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jbo7NUUUUU=
 
-The reset service work is queued on the system workqueue and can
-outlive mana_gd_remove(), which frees the GDMA context. It may
-then dereference gc through the stale service work.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider:
 
-Embed the service work in gdma_context and make GC_IN_SERVICE describe
-whether it may still access gc. Removal and probe unwind close new
-admission with GC_REMOVING and wait for an admitted cycle to retire
-before clearing drvdata and freeing gc. Service exits retire before
-taking the PCI rescan/remove lock, avoiding a lock-cycle with remove.
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 1
 
-Do not admit service work while probe is still constructing or
-unwinding the device. Latch reset events seen during probe and let
-the probe rollback/recovery path handle them; a boundary recheck
-preserves events racing probe completion.
+- [Medium] Commit message mischaracterizes the change: "No functional
+  change is intended for the current single-establish flow" is not…
+- [Low] The teardown-failure branch of mana_hwc_destroy_channel() is an
+  inert store, and the documentation added by the patch describes…
 
-The service work stays on the system workqueue because a reset cycle
-destroys and re-creates gc->service_wq.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but it is now
+  explicitly acknowledged in code and left unfixed: when DESTROY_HWC…
 
-This issue was found by an in-house static analysis tool.
+--
 
-Fixes: fbe346ce9d62 ("net: mana: Handle Reset Request from MANA NIC")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6
-Co-developed-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
+net: mana: track when the HWC has been handed to the PF
 
-Changes since v1 (<20260805143812.220509-1-fanwu01@zju.edu.cn>,
-https://lore.kernel.org/netdev/20260805143812.220509-1-fanwu01@zju.edu.cn):
+The patch replaces the gc->max_num_cqs test in mana_hwc_destroy_channel()
+with a new hw_channel_context::setup_active flag.  mana_smc_setup_hwc()
+clears the flag on entry and sets it just before the ESTABLISH_HWC message
+is written to shared memory, so teardown can tell whether the PF was ever
+given the queue addresses.
 
-- Dropped the device_lock() serialisation: holding the driver-core
-  device lock across mana_gd_suspend() + msleep() + mana_gd_resume()
-  blocks unbind, reboot, device PM and all PCI hotplug for up to a
-  full reset cycle, and can deadlock against the
-  flush_workqueue()/destroy_workqueue() of gc->service_wq.
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> index 263e7c4e29341..75fdccdc8c482 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -683,7 +683,7 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
+>  				 cq->mem_info.dma_handle,
+>  				 rq->mem_info.dma_handle,
+>  				 sq->mem_info.dma_handle,
+> -				 eq->eq.msix_index);
+> +				 eq->eq.msix_index, &hwc->setup_active);
+>  	if (err)
+>  		return err;
+>  
+> @@ -815,13 +815,20 @@ void mana_hwc_destroy_channel(struct gdma_context *gc)
+>  	if (!hwc)
+>  		return;
+>  
+> -	/* gc->max_num_cqs is set in mana_hwc_init_event_handler(). If it's
+> -	 * non-zero, the HWC worked and we should tear down the HWC here.
+> +	/* Tear down only if setup_hwc() handed the queues to the PF.  Until
+> +	 * then the device never saw them, so there is nothing to undo.
+>  	 */
+> -	if (gc->max_num_cqs > 0) {
+> -		mana_smc_teardown_hwc(&gc->shm_channel, false);
+> -		gc->max_num_cqs = 0;
+> +	if (hwc->setup_active) {
 
-- Replaced it with admission/drain gates: GC_REMOVING closes new
-  admission and the freeing paths wait for an admitted cycle to
-  retire (clear_bit_unlock/test_bit_acquire pairing) before clearing
-  drvdata and calling vfree(); the failed-resume rescan no longer
-  reopens admission, and mana_tx_timeout() also skips queue-reset
-  work during removal.
+[Severity: Medium]
+The commit message says:
 
-- No longer admit service work before the probe completes (the
-  reset-event handler no longer overloads GC_PROBE_SUCCEEDED with a
-  mid-probe latch); the FPGA reconfig exit and the probe-failure
-  recovery path are gated as well.
+    No functional change is intended for the current single-establish flow.
 
-- Reference series for the HWC lifecycle model:
-  https://lore.kernel.org/netdev/20260813174243.3044348-1-longli@microsoft.com
----
- .../net/ethernet/microsoft/mana/gdma_main.c   | 176 ++++++++++++++----
- drivers/net/ethernet/microsoft/mana/mana_en.c |  11 +-
- include/net/mana/gdma.h                       |  14 +-
- 3 files changed, 150 insertions(+), 51 deletions(-)
+Is that accurate for the failure paths?  gc->max_num_cqs is written in
+exactly one place, mana_hwc_init_event_handler():
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index f92b2d0..eec8634 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -678,10 +678,38 @@ out:
- 	pci_unlock_rescan_remove();
- }
- 
--static void mana_serv_fpga(struct pci_dev *pdev)
-+/* Retire one service cycle: GC_IN_SERVICE is the last state published
-+ * by the work, so remove() and the probe unwind may free gc once it
-+ * is clear.  Must run before the exit paths take pci_lock_rescan_remove():
-+ * removal can be waiting on the bit while holding that lock.
-+ */
-+static void mana_service_done(struct gdma_context *gc)
-+{
-+	/* Pairs with test_bit_acquire() on the wait side. */
-+	clear_bit_unlock(GC_IN_SERVICE, &gc->flags);
-+	/* wake_up_var() requires a full barrier between the update of the
-+	 * waited-on variable and the wake.
-+	 */
-+	smp_mb__after_atomic();
-+	wake_up_var(&gc->flags);
-+}
-+
-+/* Retire a cycle whose exit removes the device: close admission
-+ * first so no new cycle can be admitted in the retire window.
-+ */
-+static void mana_service_done_removing(struct gdma_context *gc)
-+{
-+	set_bit(GC_REMOVING, &gc->flags);
-+	mana_service_done(gc);
-+}
-+
-+static void mana_serv_fpga(struct pci_dev *pdev, struct gdma_context *gc)
- {
- 	struct pci_bus *bus, *parent;
- 
-+	if (gc)
-+		mana_service_done_removing(gc);
-+
- 	pci_lock_rescan_remove();
- 
- 	bus = pdev->bus;
-@@ -706,9 +734,8 @@ out:
- 	pci_unlock_rescan_remove();
- }
- 
--static void mana_serv_reset(struct pci_dev *pdev)
-+static void mana_serv_reset(struct pci_dev *pdev, struct gdma_context *gc)
- {
--	struct gdma_context *gc = pci_get_drvdata(pdev);
- 	struct hw_channel_context *hwc;
- 	int ret;
- 
-@@ -738,6 +765,7 @@ static void mana_serv_reset(struct pci_dev *pdev)
- 	if (ret == -ETIMEDOUT || ret == -EPROTO) {
- 		/* Perform PCI rescan on device if we failed on HWC */
- 		dev_err(&pdev->dev, "MANA service: resume failed, rescanning\n");
-+		mana_service_done_removing(gc);
- 		mana_serv_rescan(pdev);
- 		return;
- 	}
-@@ -748,22 +776,25 @@ static void mana_serv_reset(struct pci_dev *pdev)
- 		dev_info(&pdev->dev, "MANA reset cycle completed\n");
- 
- out:
--	clear_bit(GC_IN_SERVICE, &gc->flags);
-+	mana_service_done(gc);
- }
- 
--static void mana_do_service(enum gdma_eqe_type type, struct pci_dev *pdev)
-+static void mana_do_service(enum gdma_eqe_type type, struct pci_dev *pdev,
-+			    struct gdma_context *gc)
- {
- 	switch (type) {
- 	case GDMA_EQE_HWC_FPGA_RECONFIG:
--		mana_serv_fpga(pdev);
-+		mana_serv_fpga(pdev, gc);
- 		break;
- 
- 	case GDMA_EQE_HWC_RESET_REQUEST:
--		mana_serv_reset(pdev);
-+		mana_serv_reset(pdev, gc);
- 		break;
- 
- 	default:
- 		dev_err(&pdev->dev, "MANA service: unknown type %d\n", type);
-+		if (gc)
-+			mana_service_done(gc);
- 		break;
- 	}
- }
-@@ -779,12 +810,26 @@ static void mana_recovery_delayed_func(struct work_struct *w)
- 	spin_lock_irqsave(&work->lock, flags);
- 
- 	while (!list_empty(&work->dev_list)) {
-+		struct gdma_context *gc;
-+
- 		dev = list_first_entry(&work->dev_list,
- 				       struct mana_dev_recovery, list);
- 		list_del(&dev->list);
- 		spin_unlock_irqrestore(&work->lock, flags);
- 
--		mana_do_service(dev->type, dev->pdev);
-+		/* Serialize the drvdata lookup and admission against
-+		 * probe/remove.  Do not call sleeping functions while
-+		 * holding the device lock.
-+		 */
-+		device_lock(&dev->pdev->dev);
-+		gc = pci_get_drvdata(dev->pdev);
-+		if (gc)
-+			mana_schedule_serv_work(gc, dev->type);
-+		device_unlock(&dev->pdev->dev);
-+
-+		if (!gc)
-+			mana_do_service(dev->type, dev->pdev, NULL);
-+
- 		pci_dev_put(dev->pdev);
- 		kfree(dev);
- 
-@@ -796,48 +841,49 @@ static void mana_recovery_delayed_func(struct work_struct *w)
- 
- static void mana_serv_func(struct work_struct *w)
- {
--	struct mana_serv_work *mns_wk;
--	struct pci_dev *pdev;
--
--	mns_wk = container_of(w, struct mana_serv_work, serv_work);
--	pdev = mns_wk->pdev;
-+	struct gdma_context *gc = container_of(w, struct gdma_context, serv_work);
-+	struct pci_dev *pdev = to_pci_dev(gc->dev);
- 
--	if (pdev)
--		mana_do_service(mns_wk->type, pdev);
-+	mana_do_service(gc->serv_type, pdev, gc);
- 
-+	/* The rescan exits of mana_do_service() remove the device, which
-+	 * frees gc before returning.  Only touch the pdev and the module
-+	 * reference from here on; both are held until this point drops them.
-+	 */
- 	pci_dev_put(pdev);
--	kfree(mns_wk);
- 	module_put(THIS_MODULE);
- }
- 
- int mana_schedule_serv_work(struct gdma_context *gc, enum gdma_eqe_type type)
- {
--	struct mana_serv_work *mns_wk;
--
- 	if (test_and_set_bit(GC_IN_SERVICE, &gc->flags)) {
- 		dev_info(gc->dev, "Already in service\n");
- 		return -EBUSY;
- 	}
- 
-+	/* Pairs with set_bit(GC_REMOVING) + smp_mb__after_atomic() in
-+	 * mana_gd_remove(): the test_and_set_bit() above is fully ordered,
-+	 * so either this read sees GC_REMOVING and the cycle aborts, or
-+	 * remove() observes GC_IN_SERVICE and waits for the cycle to retire
-+	 * before it frees gc.
-+	 */
-+	if (test_bit(GC_REMOVING, &gc->flags)) {
-+		dev_info(gc->dev, "Device is being removed\n");
-+		mana_service_done(gc);
-+		return -EBUSY;
-+	}
-+
- 	if (!try_module_get(THIS_MODULE)) {
- 		dev_info(gc->dev, "Module is unloading\n");
--		clear_bit(GC_IN_SERVICE, &gc->flags);
-+		mana_service_done(gc);
- 		return -ENODEV;
- 	}
- 
--	mns_wk = kzalloc(sizeof(*mns_wk), GFP_ATOMIC);
--	if (!mns_wk) {
--		module_put(THIS_MODULE);
--		clear_bit(GC_IN_SERVICE, &gc->flags);
--		return -ENOMEM;
--	}
--
- 	dev_info(gc->dev, "Start MANA service type:%d\n", type);
--	mns_wk->pdev = to_pci_dev(gc->dev);
--	mns_wk->type = type;
--	pci_dev_get(mns_wk->pdev);
--	INIT_WORK(&mns_wk->serv_work, mana_serv_func);
--	schedule_work(&mns_wk->serv_work);
-+
-+	gc->serv_type = type;
-+	pci_dev_get(to_pci_dev(gc->dev));
-+	queue_work(system_wq, &gc->serv_work);
- 	return 0;
- }
- 
-@@ -957,14 +1003,20 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
- 	case GDMA_EQE_HWC_RESET_REQUEST:
- 		dev_info(gc->dev, "Recv MANA service type:%d\n", type);
- 
--		if (!test_and_set_bit(GC_PROBE_SUCCEEDED, &gc->flags)) {
-+		if (!test_bit(GC_PROBE_SUCCEEDED, &gc->flags)) {
- 			/*
--			 * Device is in probe and we received a hardware reset
--			 * event, the probe function will detect that the flag
--			 * has changed and perform service procedure.
-+			 * Probe not completed: latch the event and let the
-+			 * probe roll back, the recovery path will rescan.
-+			 * Never admit service work before probe success;
-+			 * the success re-check below preserves an event
-+			 * racing probe completion.
- 			 */
--			dev_info(gc->dev,
--				 "Service is to be processed in probe\n");
-+			if (!test_and_set_bit(GC_SERVICE_DURING_PROBE,
-+					      &gc->flags))
-+				dev_info(gc->dev,
-+					 "Service is to be processed in probe\n");
-+			else if (test_bit(GC_PROBE_SUCCEEDED, &gc->flags))
-+				mana_schedule_serv_work(gc, type);
- 			break;
- 		}
- 		mana_schedule_serv_work(gc, type);
-@@ -2546,6 +2598,7 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	gc->bar0_va = bar0_va;
- 	gc->dev = &pdev->dev;
-+	INIT_WORK(&gc->serv_work, mana_serv_func);
- 	xa_init(&gc->irq_contexts);
- 
- 	err = mana_gd_setup(pdev);
-@@ -2558,19 +2611,36 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	err = mana_rdma_probe(&gc->mana_ib);
- 	if (err)
--		goto cleanup_mana;
-+		goto service_quiesce;
- 
- 	/*
- 	 * If a hardware reset event has occurred over HWC during probe,
--	 * rollback and perform hardware reset procedure.
-+	 * rollback and perform hardware reset procedure.  Storing the
-+	 * success bit before the latch check pairs with the handler's
-+	 * latch-then-recheck, so an event racing probe completion is
-+	 * admitted rather than lost.
- 	 */
--	if (test_and_set_bit(GC_PROBE_SUCCEEDED, &gc->flags)) {
-+	set_bit(GC_PROBE_SUCCEEDED, &gc->flags);
-+	if (test_and_set_bit(GC_SERVICE_DURING_PROBE, &gc->flags)) {
- 		err = -EPROTO;
--		goto cleanup_mana_rdma;
-+		goto service_quiesce;
- 	}
- 
- 	return 0;
- 
-+service_quiesce:
-+	/* The stats work can admit a service cycle once mana_probe()
-+	 * has run: close admission and retire an in-flight cycle
-+	 * before any teardown, like mana_gd_remove() does.  Earlier
-+	 * failure points cannot have admitted service work.
-+	 */
-+	set_bit(GC_REMOVING, &gc->flags);
-+	/* Pairs with the ordered test_and_set_bit(GC_IN_SERVICE) in
-+	 * mana_schedule_serv_work().
-+	 */
-+	smp_mb__after_atomic();
-+	wait_var_event(&gc->flags,
-+		       !test_bit_acquire(GC_IN_SERVICE, &gc->flags));
- cleanup_mana_rdma:
- 	mana_rdma_remove(&gc->mana_ib);
- cleanup_mana:
-@@ -2581,6 +2651,14 @@ unmap_bar:
- 	xa_destroy(&gc->irq_contexts);
- 	pci_iounmap(pdev, bar0_va);
- free_gc:
-+	/* Backstop: drain before every vfree(). */
-+	set_bit(GC_REMOVING, &gc->flags);
-+	/* Pairs with the ordered test_and_set_bit(GC_IN_SERVICE) in
-+	 * mana_schedule_serv_work().
-+	 */
-+	smp_mb__after_atomic();
-+	wait_var_event(&gc->flags,
-+		       !test_bit_acquire(GC_IN_SERVICE, &gc->flags));
- 	pci_set_drvdata(pdev, NULL);
- 	vfree(gc);
- release_region:
-@@ -2624,6 +2702,20 @@ static void mana_gd_remove(struct pci_dev *pdev)
- {
- 	struct gdma_context *gc = pci_get_drvdata(pdev);
- 
-+	/* Close admission and retire an in-flight cycle before any
-+	 * teardown: the service work is the only user of gc that
-+	 * remove() does not otherwise synchronise with.  The service
-+	 * exits retire before taking the PCI rescan/remove lock, so
-+	 * this wait cannot deadlock against them.
-+	 */
-+	set_bit(GC_REMOVING, &gc->flags);
-+	/* Pairs with the ordered test_and_set_bit(GC_IN_SERVICE) in
-+	 * mana_schedule_serv_work().
-+	 */
-+	smp_mb__after_atomic();
-+	wait_var_event(&gc->flags,
-+		       !test_bit_acquire(GC_IN_SERVICE, &gc->flags));
-+
- 	pci_disable_sriov(pdev);
- 
- 	mana_rdma_remove(&gc->mana_ib);
-@@ -2635,6 +2727,8 @@ static void mana_gd_remove(struct pci_dev *pdev)
- 
- 	pci_iounmap(pdev, gc->bar0_va);
- 
-+	/* Prevent late recovery work from using freed gc. */
-+	pci_set_drvdata(pdev, NULL);
- 	vfree(gc);
- 
- 	pci_release_regions(pdev);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 7a1ac85..67c7e7e 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -924,8 +924,8 @@ static void mana_tx_timeout(struct net_device *netdev, unsigned int txqueue)
- 		return;
- 	}
- 
--	/* Already in service, hence tx queue reset is not required.*/
--	if (test_bit(GC_IN_SERVICE, &gc->flags))
-+	if (test_bit(GC_IN_SERVICE, &gc->flags) ||
-+	    test_bit(GC_REMOVING, &gc->flags))
- 		return;
- 
- 	/* Note: If there are pending queue reset work for this port(apc),
-@@ -4056,9 +4056,12 @@ static void mana_gf_stats_work_handler(struct work_struct *work)
- 		dev_warn(gc->dev,
- 			 "Gf stats wk handler: gf stats query timed out.\n");
- 		/* As HWC timed out, indicating a faulty HW state and needs a
--		 * reset.
-+		 * reset.  Never admit service work before the probe has
-+		 * completed: a probe that is failing unwinds netdevs and the
-+		 * HWC channel itself and cannot drain a cycle.
- 		 */
--		mana_schedule_serv_work(gc, GDMA_EQE_HWC_RESET_REQUEST);
-+		if (test_bit(GC_PROBE_SUCCEEDED, &gc->flags))
-+			mana_schedule_serv_work(gc, GDMA_EQE_HWC_RESET_REQUEST);
- 		return;
- 	}
- 	schedule_delayed_work(&ac->gf_stats_work, MANA_GF_STATS_PERIOD);
-diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-index 308950f..fd4b967 100644
---- a/include/net/mana/gdma.h
-+++ b/include/net/mana/gdma.h
-@@ -228,12 +228,6 @@ enum gdma_page_type {
- 
- #define GDMA_INVALID_DMA_REGION 0
- 
--struct mana_serv_work {
--	struct work_struct serv_work;
--	struct pci_dev *pdev;
--	enum gdma_eqe_type type;
--};
--
- struct gdma_mem_info {
- 	struct device *dev;
- 
-@@ -420,6 +414,8 @@ struct gdma_irq_context {
- enum gdma_context_flags {
- 	GC_PROBE_SUCCEEDED	= 0,
- 	GC_IN_SERVICE		= 1,
-+	GC_REMOVING		= 2,
-+	GC_SERVICE_DURING_PROBE	= 3,
- };
- 
- struct gdma_context {
-@@ -479,6 +475,12 @@ struct gdma_context {
- 
- 	struct workqueue_struct *service_wq;
- 
-+	/* The in-flight MANA service cycle, queued on the system workqueue:
-+	 * a reset cycle destroys and re-creates @service_wq.
-+	 */
-+	struct work_struct	serv_work;
-+	enum gdma_eqe_type	serv_type;
-+
- 	unsigned long		flags;
- 
- 	/* Protect access to GIC context */
+	case HWC_INIT_DATA_MAX_NUM_CQS:
+		gd->gdma_context->max_num_cqs = val;
 
+so it stays zero until the PF has processed ESTABLISH_HWC and started
+delivering bootstrap EQEs.  hwc->setup_active is set in
+mana_smc_setup_hwc() immediately before the writel() loop, so the new
+condition is a strict superset of the old one.
+
+Two paths reach mana_hwc_destroy_channel() with gc->max_num_cqs still 0 and
+now send DESTROY_HWC where they previously sent nothing:
+
+mana_hwc_establish_channel()
+	if (!wait_for_completion_timeout(&hwc->hwc_init_eqe_comp, 60 * HZ))
+		return -ETIMEDOUT;
+
+mana_smc_setup_hwc()
+	err = mana_smc_read_response(sc, SMC_MSG_TYPE_ESTABLISH_HWC,
+				     SMC_MSG_TYPE_ESTABLISH_HWC_VERSION,
+				     reset_vf);
+	if (err) {
+		dev_err(sc->dev, "Error when setting up HWC: %d\n", err);
+		return err;
+	}
+
+On those paths mana_smc_teardown_hwc() polls mana_smc_poll_register() for up
+to 20 * 1000 iterations of usleep_range(1000, 2000) and then polls again
+inside mana_smc_read_response(), so a failing probe or resume against a
+wedged PF can now take tens of seconds longer than before.
+
+Should the changelog describe the error-path change and the extra polling
+delay instead of stating no functional change?  Since the newly attempted
+teardown is also what closes the existing window where the queue memory is
+freed while the PF still holds its addresses on the establish-timeout path,
+would a Fixes: tag be appropriate here?
+
+> +		/* Only a successful teardown invalidates the MST entries.  If
+> +		 * it fails the device may still be using the queues, so leave
+> +		 * the flag set rather than record a clean teardown.
+> +		 */
+> +		if (!mana_smc_teardown_hwc(&gc->shm_channel, false))
+> +			hwc->setup_active = false;
+> +		else
+> +			dev_err(hwc->dev, "Failed to tear down HWC\n");
+>  	}
+> +	gc->max_num_cqs = 0;
+
+[Severity: Low]
+The comment explains that the flag is deliberately left set for a later
+reader, but is there a reader left?  mana_hwc_destroy_channel() frees hwc a
+few lines further down in the same function:
+
+	kfree(hwc);
+	gc->hwc.driver_data = NULL;
+
+and mana_hwc_destroy_channel() is the only place that reads setup_active;
+the only other references are the *submitted stores in mana_smc_setup_hwc()
+and the &hwc->setup_active argument passed by
+mana_hwc_establish_channel().  mana_hwc_create_channel() allocates a fresh
+zeroed hw_channel_context, so a new attempt starts with setup_active ==
+false regardless.
+
+Does the else branch have any observable effect today, or is the retained
+value discarded by the kfree(hwc) below?
+
+>  
+>  	if (hwc->txq)
+>  		mana_hwc_destroy_wq(hwc, hwc->txq);
+
+[Severity: High]
+This isn't a bug introduced by this patch, but the new comment now states
+the hazard explicitly while the code still proceeds: when
+mana_smc_teardown_hwc() fails, "the device may still be using the queues",
+yet the queue memory is freed unconditionally right here.
+
+mana_hwc_destroy_wq() releases both the message buffer and the ring:
+
+	mana_hwc_dealloc_dma_buf(hwc, hwc_wq->msg_buf);
+
+	if (hwc_wq->gdma_wq)
+		mana_gd_destroy_queue(hwc->gdma_dev->gdma_context,
+				      hwc_wq->gdma_wq);
+
+and both paths end in mana_gd_free_memory():
+
+	dma_free_coherent(gmi->dev, PAGE_SIZE, gmi->pages_va[i],
+			  gmi->pages_dma[i]);
+
+mana_smc_teardown_hwc() documents why the response matters:
+
+	/* Read shmem response (polling for VF possession) and validate.
+	 * For teardown, waiting for response is required to ensure hardware
+	 * invalidates MST entries before software frees memory.
+	 */
+
+A non-zero return therefore means the driver has no confirmation that the
+MST entries were invalidated (mana_smc_poll_register() timed out, or the
+response header did not confirm DESTROY_HWC).  Can the PF keep DMAing
+completions and EQEs into pages that dma_free_coherent() has already
+returned to the allocator in that case?  Would it be better to leak or
+quarantine the HWC buffers when teardown is not confirmed rather than free
+them?  The same log-only-and-continue sequence is still present at the tip
+of the series (mana_hwc_destroy_channel() in c850f2d5).
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/shm_channel.c b/drivers/net/ethernet/microsoft/mana/shm_channel.c
+> index d21b5db06e509..1ec8e3661721d 100644
+> --- a/drivers/net/ethernet/microsoft/mana/shm_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/shm_channel.c
+> @@ -144,6 +150,8 @@ int mana_smc_setup_hwc(struct shm_channel *sc, bool reset_vf, u64 eq_addr,
+>  	int err;
+>  	int i;
+>  
+> +	*submitted = false;
+> +
+>  	/* Ensure VF already has possession of shared memory */
+>  	err = mana_smc_poll_register(sc->base, false);
+>  	if (err) {
+
+[Severity: Low]
+The clear here is unconditional and happens before the three pre-handover
+exits (poll timeout, non-page-aligned addresses, msix index outside
+VECTOR_MASK).  If a future caller ever enters mana_smc_setup_hwc() with a
+handover still outstanding, would one of those exits silently downgrade the
+flag to "device untouched" and make mana_hwc_destroy_channel() skip
+DESTROY_HWC?  I checked that every mana_smc_setup_hwc() call in
+mana_hwc_create_channel() at the series tip is preceded by a successful
+mana_smc_teardown_hwc() plus hwc->setup_active = false, so this is not
+reachable today, only a trap for the next caller.
+
+[ ... ]
+
+> diff --git a/include/net/mana/hw_channel.h b/include/net/mana/hw_channel.h
+> index 16feb39616c1b..237608b488e5e 100644
+> --- a/include/net/mana/hw_channel.h
+> +++ b/include/net/mana/hw_channel.h
+> @@ -199,6 +199,16 @@ struct hw_channel_context {
+>  	u32 pf_dest_vrcq_id;
+>  	u32 hwc_timeout;
+>  
+> +	/* True once mana_smc_setup_hwc() has handed the ESTABLISH_HWC message
+> +	 * to the PF, so the device may DMA into the HWC buffers.  That
+> +	 * function clears it on entry and sets it at the handover, so only a
+> +	 * failure before the handover leaves it false; a failure after it --
+> +	 * including one reported by mana_hwc_establish_channel() -- leaves it
+> +	 * set, which is what makes teardown attempt DESTROY_HWC.  Cleared
+> +	 * again once that teardown succeeds.
+> +	 */
+> +	bool setup_active;
+> +
+>  	struct hwc_caller_ctx *caller_ctx;
+>  };
+
+[Severity: Low]
+"Cleared again once that teardown succeeds" reads as state that survives an
+attempt, but the field lives in the object that mana_hwc_destroy_channel()
+kfree()s and that mana_hwc_create_channel() re-allocates zeroed.  Could the
+comment say that the flag only lives for the lifetime of one
+hw_channel_context?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260901200018.3194525-1-longli%40microsoft.com
