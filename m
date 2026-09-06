@@ -1,192 +1,200 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E5417BEBF;
-	Sat,  5 Sep 2026 20:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC089282F36
+	for <linux-hyperv@vger.kernel.org>; Sun,  6 Sep 2026 00:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788639511; cv=none; b=rbIdg/DE1IS19GIF0iXBtX+oyTendRKnPyEDYMZn2INkVSOg1DxHAcNKEpdHOswXn9gCDDqKF01KzwiivWRY9/GM4OkEte8+03x74ZRDgS0Q/VrM2i1xWsxF5pjE/RS9z+PEIE/QahbEGTvES0G5hwwWiMTqUwexokMY7VdYgbQ=
+	t=1788655489; cv=none; b=QpPVoyvGkUkzOB2PYKRRmqdXrsG87e2Myknb8zgzSIkmg1oRXWBHp0G0XqrY8A+7kQUott7leq7zEgj2egYknH7kajehiHgkDWLcqqWN/qJeTRwyKGq1LA548qwgOGVrMNOIjTUbAVrqKF05s9YzaG3a3NqxjqMl1LQan8iUSM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788639511; c=relaxed/simple;
-	bh=n9Lnfiwyl5OajeeBie6rM5WJfo7cguusl2JA7MBql/0=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=i6AeVhHWTTWNEoYm3nUPK8AciSG1wkOoXQ6r1jdWiECSScYqYxVehG6wchbbnEha45QePQykul5XyIcsaE1pOzEyp9ltgNIZ3GJYl80OPyoTbTQIYcNaQ87+2lunYexAH9yRNEUSZxPtJt64NNJWQTeJkv7LHmNDTX0wx0Qj2dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrK3a/0m; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788655489; c=relaxed/simple;
+	bh=+PX69J/bbqExHt48Mau1YbzrVBPDOWzT0oaWbT7Z+O8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=krpbWOi/B/Bbb5lg7wDXlHwUy0BBPt9oMHi3Yftx760JsqvdqMmxnYxYDyahd8x5/VnLzKJ0+Ytvref7X/iJNNA17Z6XwE7R34Y4A9qKTovA3q/GMpkZnxepOnb33SIDubjgLTiJfM2u4XT1SrB3ttaLNM6qCTtIGjmk156ob/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgF70Q/C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrK3a/0m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A5E1F00A3A;
-	Sat,  5 Sep 2026 20:18:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgF70Q/C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1DB1F00A3A;
+	Sun,  6 Sep 2026 00:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788639510;
-	bh=w6ICuuD/feq6WGs/LKNzZKUtoP6az1C2mBnyJRe76jM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=HrK3a/0miYYhtk1+9SxIH1W0z/jyXF4z5W9Yt7aeZm3hrPAH11Klz+XPMmMN3jWNv
-	 ++dBJhKIs9FFrcg2qKKIsDaOi3pAGtDzU7ckJxt1P+lYSGmCZpaMul6mgjh0EI2gKS
-	 gAO2wV700JUBAAzE9118Y9I2nHxrkdQ5ckPwC3aa9Y7kfn1gLuq3l1sCltPn8UMWt4
-	 DqNRgEKw5pXLNDzJZVV06JK14aEuVdtwMtSoH/QSKJ9CKN348PbAPFAjj5u/35w4Gj
-	 iJwhq9QwAVZnL0gjzV3+X0a7hs0S8VHOo68b00YjjZubI0XqVAlUEJs/JXMBLCOz7q
-	 UrfzLedtVPGoA==
-Subject: Re: [PATCH net v3] net: mana: Clear RDMA teardown and suspend state
- in mana_rdma_probe()
-From: netdev-bot+sashiko@kernel.org
-To: longli@microsoft.com
-Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
- leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- shirazsaleem@microsoft.com, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Sat, 05 Sep 2026 20:18:28 +0000
-Message-ID: <178863950861.219967.11031826205252016526@kernel.org>
-In-Reply-To: <20260902175153.3410560-1-longli@microsoft.com>
-References: <20260902175153.3410560-1-longli@microsoft.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1788655487;
+	bh=cF7UajFF5KAmaPybWxJ5KbkdxiiuYCmJ3OU1LuAfWXw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bgF70Q/CjYnOlpPSqtF8IUVNNzNv0mmaBTAblIKqU9nwEoU9YWI0RJ7XDFlOQUYlh
+	 OFo4AEzW1ci7vqQc1R1x66XUhcnvAuE+vpahVWcuatX0V+pIiiJIa7blJpEouMqrpb
+	 uJZ30nxdiO0NC0NqDiR8U9xDnsYdcySR7ivzx/ip55zre074mOkzImyhqMZsRvdR5t
+	 tMJ79LtYNlwiyDrovqLeSY4W7YVVvxoJUX4OuaWQgatE+TTVLMCIn3BsrrePJLECAs
+	 vFYR5oh+m6gseMFditMnFqpsJ8JmO6Cw1+ygkGMcbo5Y0BIlAUxrnu5CPcE3f47HJO
+	 9TV32Q0xs7sxg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net] net: mana: do not discard an ethtool-configured RSS
+ table on a queue rebuild
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Long Li" <longli@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20260905004401.3937066-1-longli@microsoft.com>
+References: <20260905004401.3937066-1-longli@microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 06 Sep 2026 00:44:46 +0000
+Message-Id: <20260906004447.3B1DB1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider:
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+New issues:
+- [High] State desynchronization causes newly added queues to be left unuti=
+lized after a sequence of channel count changes.
 
-- [Medium] In mana_rdma_probe()
-  (drivers/net/ethernet/microsoft/mana/mana_en.c:4296) the servicing…
-
+Pre-existing issues:
+- [Critical] Pre-existing Use-After-Free in stats collection due to ad-hoc =
+synchronization flag.
 --
 
-net: mana: Clear RDMA teardown and suspend state in mana_rdma_probe()
+commit dc8331f7b2434de9035275921f9768699946cdcb
+Author: Long Li <longli@microsoft.com>
 
-mana_rdma_remove() sets gd->rdma_teardown and nothing ever clears it, so
-after the first hardware service reset every GDMA_EQE_HWC_SOC_SERVICE event
-returns early.  This patch clears gd->is_suspended and re-opens the gate
-with smp_store_release() in mana_rdma_probe(), paired with a new
-smp_load_acquire() in mana_rdma_service_handle().
+net: mana: do not discard an ethtool-configured RSS table on a queue rebuild
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 7a1ac853e3ab..d8e847df7a44 100644
+mana_alloc_queues() regenerates the RSS indirection table from the driver
+default every time the queues are built, so a table installed with
+"ethtool -X" is silently replaced by any operation that rebuilds them.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 7a1ac853e3abc..97386e17b9421 100644
 > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> @@ -3983,7 +3983,8 @@ static void mana_rdma_service_handle(struct work_struct *work)
->  	struct device *dev = gd->gdma_context->dev;
->  	int ret;
->  
-> -	if (READ_ONCE(gd->rdma_teardown))
-> +	/* Pairs with the smp_store_release() in mana_rdma_probe(). */
-> +	if (smp_load_acquire(&gd->rdma_teardown))
->  		goto out;
->  
->  	switch (serv_work->event) {
+> @@ -3306,6 +3306,28 @@ static void mana_rss_table_init(struct mana_port_c=
+ontext *apc)
+>  			ethtool_rxfh_indir_default(i, apc->num_queues);
+>  }
+> =20
+> +/* Whether the current indirection table can be kept for apc->num_queues,
+> + * rather than rebuilt from the driver default.
+> + *
+> + * Only a user table ("ethtool -X") is worth keeping; a driver-generated=
+ one
+> + * is rebuilt so that it spreads over every queue. An entry pointing pas=
+t the
+> + * last queue cannot be kept: mana_config_rss() uses these entries to in=
+dex
+> + * apc->rxqs[], which holds apc->num_queues pointers.
+> + */
+> +static bool mana_rss_table_keep(struct mana_port_context *apc)
+> +{
+> +	u32 i;
+> +
+> +	if (!netif_is_rxfh_configured(apc->ndev))
+> +		return false;
+> +
+> +	for (i =3D 0; i < apc->indir_table_sz; i++)
+> +		if (apc->indir_table[i] >=3D apc->num_queues)
+> +			return false;
+> +
+> +	return true;
+> +}
+
+[Severity: High]
+Does this check wrongly trust netif_is_rxfh_configured() without validating
+if the table was previously replaced by a driver fallback?
+
+If a user sets a custom RSS table via ethtool -X and then reduces the chann=
+el
+count, mana_alloc_queues() detects the user table indices are out of bounds
+and generates a narrow driver-default table, but intentionally avoids
+notifying the core via ethtool_rxfh_indir_lost(). The core's
+netif_is_rxfh_configured() remains true.
+
+When the user subsequently increases the channel count, could this function
+incorrectly believe the narrow driver-generated fallback table is still a
+user-configured table? Since its bounds fit the new queue count, it seems
+this might permanently freeze the table at the smaller size.
+
+> +
+>  int mana_disable_vport_rx(struct mana_port_context *apc)
+>  {
+>  	return mana_cfg_vport_steering(apc, TRI_STATE_FALSE, false, false,
+> @@ -3621,7 +3643,20 @@ int mana_alloc_queues(struct net_device *ndev)
+>  		goto destroy_rxq;
+>  	}
+> =20
+> -	mana_rss_table_init(apc);
+> +	/* Keep a user-configured table across the rebuild: its entries are
+> +	 * queue indices and stay meaningful while they are all still in range.
+> +	 * Only a driver-generated table is regenerated here.
+> +	 *
+> +	 * A table that cannot be kept is replaced by the default without
+> +	 * telling the core, which keeps reporting the table as user
+> +	 * configured. That is what this function did for every table before,
+> +	 * and reporting it here is not an option: ethtool_rxfh_indir_lost()
+> +	 * sends ETHTOOL_MSG_RSS_NTF, which requires the netdev instance lock,
+> +	 * and this runs both with that lock held (ndo_open) and without it
+> +	 * (mana_attach() from the reset and resume paths).
+> +	 */
+> +	if (!mana_rss_table_keep(apc))
+> +		mana_rss_table_init(apc);
+
+[Severity: High]
+If mana_rss_table_keep() incorrectly returns true due to the
+desynchronization described above, does it skip the table regeneration and
+leave newly added queues unutilized?
 
 [ ... ]
 
-> @@ -4279,6 +4280,21 @@ int mana_rdma_probe(struct gdma_dev *gd)
->  	if (err)
->  		return err;
->  
-> +	/* Clear the state left by a previous mana_rdma_remove() so servicing
-> +	 * events are handled again after a reset cycle.
-> +	 */
-> +	gd->is_suspended = false;
-> +
-> +	/* Publish is_suspended before re-opening the gate, so the handler
-> +	 * cannot observe an open gate with a stale is_suspended.  Pairs
-> +	 * with the smp_load_acquire() in mana_rdma_service_handle().  This
-> +	 * matters on the reset path, where mana_rdma_remove() closed the
-> +	 * gate and drained the workqueue; on the initial probe path the
-> +	 * gate was never closed and both flags are already clear.  It does
-> +	 * not order gd->adev, which add_adev() publishes below.
-> +	 */
-> +	smp_store_release(&gd->rdma_teardown, false);
-> +
->  	err = add_adev(gd, "rdma");
->  	if (err)
->  		mana_gd_deregister_device(gd);
+[Severity: Critical]
+This is a pre-existing issue, but is there a Use-After-Free in the stats
+collection due to the ad-hoc port_is_up synchronization flag?
 
-[Severity: Medium]
+Looking at mana_get_stats64(), the reader path relies on the ad-hoc
+port_is_up flag and dereferences the queue structure, but can be preempted
+before accessing it:
 
-Would it be better to open the gate after add_adev() succeeds rather than
-before it?
-
-As written, the store that re-enables the handler happens while gd->adev is
-still NULL from the remove half of the reset cycle.  The publication happens
-later, at the end of add_adev():
-
-drivers/net/ethernet/microsoft/mana/mana_en.c:add_adev() {
-	...
-	ret = auxiliary_device_add(adev);
-	if (ret)
-		goto add_fail;
-
-	gd->adev = adev;
-	...
+drivers/net/ethernet/microsoft/mana/mana_en.c:mana_get_stats64() {
+	if (!apc->port_is_up)
+		return;
+...
+	for (q =3D 0; q < num_queues; q++) {
+		rx_stats =3D &apc->rxqs[q]->stats;
+...
 }
 
-A GDMA_SERVICE_TYPE_RDMA_SUSPEND handled in that window passes the gate and
-then hits the gd->adev test in mana_rdma_service_handle():
+Concurrently, a teardown path clears the flag and proceeds to free the
+underlying memory structures without waiting for concurrent readers:
 
-	case GDMA_SERVICE_TYPE_RDMA_SUSPEND:
-		if (!gd->adev || gd->is_suspended)
-			break;
+drivers/net/ethernet/microsoft/mana/mana_en.c:mana_detach() {
+	apc->port_st_save =3D apc->port_is_up;
+	apc->port_is_up =3D false;
 
-		remove_adev(gd);
-		gd->is_suspended = true;
-		break;
+	/* Ensure port state updated before txq state */
+	smp_wmb();
 
-so the suspend request is discarded, probe finishes with a live aux device
-and is_suspended == false, and the matching RESUME is then also swallowed by
-the "if (!gd->is_suspended) break;" test.  Is the resulting state (host asked
-for a quiesce, RDMA aux device still live) recoverable without another reset?
+	netif_tx_disable(ndev);
 
-Is the concurrency here real on the reset path?  From what I can follow, the
-probe runs from system_wq while the handler runs on gc->service_wq:
+	if (apc->port_st_save) {
+		err =3D mana_dealloc_queues(ndev);
+...
+}
 
-mana_schedule_serv_work()
-	schedule_work(&mns_wk->serv_work)   /* system_wq */
-	  mana_serv_reset()
-	    mana_gd_suspend() -> mana_rdma_remove()
-	    mana_gd_resume()  -> mana_gd_setup()
-	                      -> mana_probe()
-	                      -> mana_rdma_probe()
+The memory is then synchronously freed, guaranteeing a Use-After-Free if a
+reader is mid-execution:
 
-and mana_gd_resume() calls mana_gd_setup() first, which re-creates
-gc->service_wq, re-arms the HWC IRQs, re-creates the HW channel and
-re-detects devices so gc->mana_ib.dev_id.type is valid again, all before
-mana_rdma_probe() runs.  So an event arriving during probe reaches
-mana_hwc_init_event_handler() -> mana_rdma_service_event() ->
-queue_work(gc->service_wq) and mana_rdma_service_handle() can execute on
-another CPU while mana_rdma_probe() is still in add_adev().  Since the event
-timing is driven by the host, is that window reachable in practice?
+drivers/net/ethernet/microsoft/mana/mana_en.c:mana_destroy_txq() {
+...
+		mana_deinit_txq(apc, &apc->tx_qp[i]->txq);
 
-In the opposite interleaving, the handler reads gd->adev with a plain load
-and immediately destroys the object through remove_adev()
-(auxiliary_device_delete/uninit, mana_adev_idx_free) while probe is still
-finishing.  The new acquire load only orders is_suspended against the
-release; the "gd->adev = adev;" store has no release pairing with the
-handler's load.  Would publishing gd->adev with release semantics, or moving
-the smp_store_release() below a successful add_adev(), cover this too?
+		kvfree(apc->tx_qp[i]);
+...
+}
 
-There is also the question of what rdma_teardown now is.  Before this patch
-it was a write-once teardown flag; with the clear in mana_rdma_probe() it
-becomes a gate that mana_rdma_remove() closes on entry:
+Could a preempted reader accessing the freed memory lead to memory corrupti=
+on?
 
-	WRITE_ONCE(gd->rdma_teardown, true);
-
-	if (gc->service_wq)
-		flush_workqueue(gc->service_wq);
-
-and that mana_rdma_probe() re-opens on the way back in.  That is a flag
-guarding a code region rather than expressing device state.  Would a mutex
-held across mana_rdma_probe(), mana_rdma_remove() and
-mana_rdma_service_handle() be a better fit here, since it would also remove
-the window the comment documents instead of describing it?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260902175153.3410560-1-longli%40microsoft.com
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260905004401.3937=
+066-1-longli@microsoft.com?part=3D1
