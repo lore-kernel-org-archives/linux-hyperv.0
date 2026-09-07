@@ -1,77 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB883408626;
-	Mon,  7 Sep 2026 07:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA3C2439F86;
+	Mon,  7 Sep 2026 08:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788764755; cv=none; b=lpeRd27xnG97dj/01jS5JSY8rfx3oRnJHOcTaKulDBtHXvPb1h6N8SCEmA8kVzfvCmIMOgLs7GOzSyd/iluAOXNP85AKPY6JTHonfdXLoHTu6x9WaSQmc5bcWlDvtfoD/wEGGJDOa4u08pqmbh0x9N+oaWpExG9OMI32ryxFG2c=
+	t=1788770509; cv=none; b=e3Sb+iKNn2caUv2K62eJ2cDc4iDd449jhNDqYyRReCcqeUum7joDlK7q+hgDuRDzp2/2jbWgY9PubhpoMWxRzOzvx7WGYVWtzm9lr6JO10GS8BH43JeQnXjnKE3xQXKm7p6W0fuhX6+fsYe8zJV85+1mErpNdv4acwSc6Xubb4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788764755; c=relaxed/simple;
-	bh=9n1YSZo6B3UfOa8vsiem7Bn6ItIGNN4W17gq6R0aCPw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=GmVarWHpOgHLZWHEPz5aZ1ZOe/huQhicWUuMoJ4uhvboGFVAyviook1vH6dtyVihR+nG/kc632kLTiCJIlViZ+auFsPSFAnxX8qd3ifuWr/SUMw+9SpE5dbSJpKA4jjdfMRDe2pRUHhEpDY4/pWOwxmXiBaCQeDxMyfi/tOTCY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VrIS4TUI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788770509; c=relaxed/simple;
+	bh=E/UIgNpc25GUSWm1XbC00DjUtLL27lOf+DtKpkc4ypo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xvxwddi8yo8hZLnzoMiF+3z2bO1H1fxGEvjPSQU4VsZthSnhf/+K2xeoSqvCznR1yMMEzas/0sBoOVjKgQMeHheAa2LAF09OMFt0R45qpxDogK5Nudg43Z6iX5xgbPjrHn+Fb+Dm6uYqpqOEmzn44nCoX2EIzk1DfR2Z+sNIwC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MLP/nXtF; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VrIS4TUI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275351F00A3A;
-	Mon,  7 Sep 2026 07:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788764753;
-	bh=9n1YSZo6B3UfOa8vsiem7Bn6ItIGNN4W17gq6R0aCPw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VrIS4TUI/09fxXMy99p5Ci9xSA1YzKtfwoH0Fong9tynQTjvAhizVYQOcrcegCsz8
-	 yZ0guXahXLi3EgYzedgAgDc8nHnECbHB8w0u8davY0cE0S8pfiSoEHBKE7TmBEMyFU
-	 dP03+PP215HWarE3j5hCh6wgiCIDzkLS/OtXYatnd+PVwDCaBiYi7n0F0QkJq7ESzt
-	 DuP8yrak61g6Cyn+6gGIb8QJPWC2t/aBTRWbL1IaIsdn2yq7NfPkDL5qQgPi7ryiC0
-	 lP92m1TDJiinQLaBIuk7CwqV2w46ZDTZCnfE9TGi0Cha/1lViEYA1vEW6avNweRSzl
-	 q2u6nwYT2Acxg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/3] x86/hyperv: Set irq_retrigger for root partition
- PCI/MSI irqchip
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Naman Jain" <namjain@linux.microsoft.com>
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260907065129.269262-2-namjain@linux.microsoft.com>
-References: <20260907065129.269262-1-namjain@linux.microsoft.com>
- <20260907065129.269262-2-namjain@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Sep 2026 07:05:52 +0000
-Message-Id: <20260907070553.275351F00A3A@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MLP/nXtF"
+Received: from localhost (unknown [167.220.233.38])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3129620B710C;
+	Mon,  7 Sep 2026 01:41:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3129620B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788770468;
+	bh=yR7782cSE2dRsdzPrK2mP3H/FNlWtg/vkjWXAGyEDv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MLP/nXtFx6zptvpPxsuQkjgkNMf9ZbnuxXGcMf0KttNVVB8AegKCpYdovLm9pw/Z6
+	 nyopZuhkxGgJvCKTEYsIA2pqY5smdVh+kjIQK9ttwBD79+iw/V4ZKve/bD4uD2q2MM
+	 RO9lo9DzJfwMbQWy3Mj1BmrxLk6Sl3SW/dX8TX88=
+Date: Mon, 7 Sep 2026 16:41:44 +0800
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: Mukesh R <mrathor@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, 
+	x86@kernel.org, wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, 
+	decui@microsoft.com, longli@microsoft.com, joro@8bytes.org, will@kernel.org, 
+	robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org, 
+	lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de, jgg@ziepe.ca, 
+	mhklinux@outlook.com, jacob.pan@linux.microsoft.com, tgopinath@linux.microsoft.com, 
+	easwar.hariharan@linux.microsoft.com, baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, 
+	vasant.hegde@amd.com
+Subject: Re: [PATCH v5 4/5] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <re2lmz757bvtzbkylxtsj7zu2pjqz7ro752tcg7bpjaicuj6ml@mgsg6jnvgbyd>
+References: <20260904075512.174154-1-zhangyu1@linux.microsoft.com>
+ <20260904075512.174154-5-zhangyu1@linux.microsoft.com>
+ <af047ef8-91ef-7786-c230-25e28b1c8c04@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af047ef8-91ef-7786-c230-25e28b1c8c04@linux.microsoft.com>
 
-> The Hyper-V root partition vPCI MSI irqchip lost its irq_retrigger()
-> callback when it was converted to msi_create_parent_irq_domain(). The
-> callback was present on the original irqchip and was dropped during that
-> conversion.
->=20
-> On CPU hot-unplug fixup_irqs() migrates the interrupts which are affine to
-> the outgoing CPU to a new target. If an interrupt still has its pending b=
-it
-> set in the outgoing CPU's IRR at that point, fixup_irqs() resends it on t=
-he
-> new target through the irqchip's irq_retrigger() callback. As the root
-> partition PCI/MSI chip no longer provides that callback, the pending
-> interrupt is silently dropped, which can result in lost interrupts, stalls
-> and "No irq handler for vector" messages during CPU hotplug.
->=20
-> Restore irq_chip_retrigger_hierarchy() as the irq_retrigger() callback for
-> the root partition PCI/MSI irqchip, so that a pending interrupt is resent
-> on its new target CPU via the parent x86 vector domain.
->=20
-> Fixes: 4691db0704ac ("x86/hyperv: Switch to msi_create_parent_irq_domain(=
-)")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+<snip>
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+> > +{
+> > +	u64 status;
+> > +	u32 prefix;
+> > +	unsigned long flags;
+> > +	int ret;
+> > +	struct pci_dev *pdev = to_pci_dev(dev);
+> > +	struct hv_input_get_logical_device_property *input;
+> > +	struct hv_output_get_logical_device_property *output;
+> > +
+> > +	ret = hv_pci_lookup_dev_id(pci_domain_nr(pdev->bus), &prefix);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	local_irq_save(flags);
+> > +
+> > +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> > +	output = (struct hv_output_get_logical_device_property *)(input + 1);
+> 
+> Any reason for not using pcpu output arg like we do in all other places?
+> If there is a technical reason, please document it, otherwise when revisited
+> in future for re-design, anyone looking at this will be confused and
+> waste time investigating if there is anything different about this hypercall.
+> 
+> 
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260907065129.2692=
-62-1-namjain@linux.microsoft.com?part=3D1
+Thank you, Mukesh. I had also incorrectly assumed that output required
+a separate page, which is why the RFC included a separate output-page
+allocation patch. Michael clarified during that review [1] that input
+and output can share a page as long as their buffers do not overlap,
+so I dropped that patch latter.
 
+Actually, there's nothing specific to this hypercall here - it follows
+the existing usage. E.g., hv_pci_read_mmio() already uses such arrangement,
+as Michael noted in [2]. pvIOMMU queries fit within the existing per-CPU
+page, with output placed after input, avoiding an unnecessary allocation. 
+                                                                         
+[1] https://lore.kernel.org/all/SN6PR02MB4157C3EF6617A7BA4CA9E432D485A@SN6PR02MB4157.namprd02.prod.outlook.com/
+[2] https://lore.kernel.org/all/SN6PR02MB4157BF936EBDA23AD1EC5183D480A@SN6PR02MB4157.namprd02.prod.outlook.com/
+                                                                                                               
+B.R.                                                                                                           
+Yu 
