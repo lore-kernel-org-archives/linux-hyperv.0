@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8AF46DFF1;
-	Mon,  7 Sep 2026 13:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38ED46EC77;
+	Mon,  7 Sep 2026 13:13:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788786772; cv=none; b=TcYZPDAj/V+UJjVcvyZMVb5GINY5npiYzjY8DVLer1qyvctql824zpynSA90IHHmscioE65gCLKvsFv5LroF9Gl7il1C0UGJPbinX92JUTZ5bDtsbTSC5FUv8/Oy8/JJpUQBY2DWbezyiSU85Cts6/h6Yw0RycZm9feunNClgL0=
+	t=1788786800; cv=none; b=fGAuTgMSwQD/63iUTqsHW1Tr16Ay/SVAz32lCiSGXkBljr/bcIjJ/HWF/RJK4RePPGflHLPeCAOlXcDS09TTugw+9xcpd/fgzRBQHsDw1xa3H4gjyuormbbgoFeQTJFMBw7JbvZqTYH6pz6pj/JjidzPCwuhm82B8MWgkBPLrsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788786772; c=relaxed/simple;
-	bh=ZArz3sw1T0RuypyxhGQkyTg2rcfJq/JMIpEbvqqrpf8=;
+	s=arc-20240116; t=1788786800; c=relaxed/simple;
+	bh=sCyqdA7XYz/cXsFKfyuwykcilF3WMPlvoJkerdQfDrs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QKCFiLok38XJyfheIx/wGbizQ0oKxTwyr5hbKQ0qqH0tXisjkAng4wXi7OBms+GgzynsyB4XB28q0CWqjhkhjGGx831DtFKC+5ydy4a4+8KmU3HuydcoM3TF5Cczu4VmnGhcc20/Hxqo9EZbytWQrNuzUefON7S3Ii3ABdF9aOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKchw7qo; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=O2YhCzUgDBNziiD1Gp9nOhXXKLk9p7MwXm+vRE0RyfDCpSxwyAxEP29fSXpHPkdPas+/+yBwvI6zdPj+jHA+13KPy51boRqZa+XSI3JxxMFUET8tBIm+UEDy127V+Esq2OHlNPhn9X4Ihhif+gdgd7g5AOTJnClbp9NUuZbJfGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHWLJ5ee; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKchw7qo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09AE01F00A3A;
-	Mon,  7 Sep 2026 13:12:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHWLJ5ee"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BB81F00A3A;
+	Mon,  7 Sep 2026 13:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788786767;
-	bh=ZArz3sw1T0RuypyxhGQkyTg2rcfJq/JMIpEbvqqrpf8=;
+	s=k20260515; t=1788786795;
+	bh=sCyqdA7XYz/cXsFKfyuwykcilF3WMPlvoJkerdQfDrs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=NKchw7qo1SvSDyp/8R/+mMJ451mJyRqZw3jUnzvFRFRGsZECAJx48ikVn7wen5z1i
-	 JtH3auEVBmz0+SEXZhYEy48Np2phewVI4bVmpmOWn/kmII3m0TZRLW5Uqi93WoI90A
-	 kLOkk62jG8gjAwwqTJSlhDrhPn48XmvqOXqTTRyw14pLR9oYP64/onQdzvLwRYBJa4
-	 7onUZ5lqrfWMxv72jvjEeA7mb4eyih4AdQoRZkYCKZeeZKmDZA4wG+xuQkZgAWBt5T
-	 USZ/gteY2RrfFWPpSGQqi4C/xwWWmDcPByd9hpxBAasxNnirRl5Ewk/vSS6eftvES4
-	 e561gnAzKjd/Q==
+	b=mHWLJ5eejw1DAWE24BKkr7csqEjBElRPKGHJPmtHXeCTNjccZW0Dnu3fn8UL955U3
+	 fQB5ucZqA9OMqXI/Md+NP2OC/gXAYre7PULDNaJ8H2eeyCspoD4Z1829FeRSylPUQX
+	 vOLSNE8ULcuYlgf7uMpicB7OVcyrUV5VKD96apvjkgKtwBFP2ywujSY6a+DvyoDRk3
+	 LSEZ3cm8B0atA6WRgQvHnQe1VR3EmE4xai945KgHQNXoFTOxrxmYuc8BfDrHEOCqKy
+	 XgGLXMdc9qrCCNrvYrOTCH1/lcg8eyRjljzDeJUDFYH7GAZ87WpC1ONUgaqhpviwJU
+	 9bAWGKoVLzxJg==
 From: Thomas Gleixner <tglx@kernel.org>
 To: Naman Jain <namjain@linux.microsoft.com>, Ingo Molnar
  <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
@@ -50,13 +50,13 @@ Cc: Michael Kelley <mhklinux@outlook.com>, Long Li <longli@microsoft.com>,
  <daniel@quora.org>, linux-hyperv@vger.kernel.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
  linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] x86/irq: Fall back to
- irq_chip_retrigger_hierarchy() in fixup_irqs()
-In-Reply-To: <20260907065129.269262-3-namjain@linux.microsoft.com>
+Subject: Re: [PATCH v3 3/3] x86/irq, iommu/amd, x86/hyperv, PCI: Drop
+ redundant irq_retrigger inits
+In-Reply-To: <20260907065129.269262-4-namjain@linux.microsoft.com>
 References: <20260907065129.269262-1-namjain@linux.microsoft.com>
- <20260907065129.269262-3-namjain@linux.microsoft.com>
-Date: Mon, 07 Sep 2026 15:12:44 +0200
-Message-ID: <87qzj52oj7.ffs@fw13>
+ <20260907065129.269262-4-namjain@linux.microsoft.com>
+Date: Mon, 07 Sep 2026 15:13:12 +0200
+Message-ID: <87o6e92oif.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -66,20 +66,20 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On Mon, Sep 07 2026 at 06:51, Naman Jain wrote:
-> fixup_irqs() re-injects a pending interrupt on its new target CPU by
-> looking at the outermost domain chip and invoking its irq_retrigger()
-> callback directly. When the outermost chip does not implement
-> irq_retrigger(), the pending interrupt is silently dropped, which can
-> lead to lost interrupts on CPU hot-unplug.
+
+> With fixup_irqs() and the generic resend path (try_retrigger()) now both
+> falling back to irq_chip_retrigger_hierarchy(), installing it as the
+> irq_retrigger() callback on the outermost domain chips is no longer
+> required. The hierarchy walk reaches the x86 vector domain's
+> apic_retrigger_irq() for all of these stacked domain chips.
 >
-> Keep calling the outermost chip's irq_retrigger() when it is present,
-> but fall back to irq_chip_retrigger_hierarchy() otherwise, which walks
-> up the interrupt hierarchy until it finds a chip that implements
-> irq_retrigger().
+> Remove the now redundant irq_retrigger() initializations from the outermost
+> domain interrupt chips, including the Hyper-V root partition PCI/MSI chip.
+> msi_set_affinity() is the only site that invoked the outermost chip's
+> irq_retrigger() directly. Convert it to irq_chip_retrigger_hierarchy() so
+> the x86_init_dev_msi_info() initialization can be dropped as well.
 >
-> While at it, use a scoped guard for desc->lock. VECTOR_RETRIGGERED is
-> now set only when the retrigger succeeds instead of unconditionally,
-> which is harmless today since apic_retrigger_irq() always returns 1.
+> No functional change intended.
 >
 > Suggested-by: Thomas Gleixner <tglx@kernel.org>
 > Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
