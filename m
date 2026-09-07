@@ -1,151 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1274F3CCFD2;
-	Mon,  7 Sep 2026 13:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D63519929;
+	Mon,  7 Sep 2026 16:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788787181; cv=none; b=hYLBh7UUUI8Ugru9UpKvVAsD+VtIe2gItFFozE79QWFjgqB+N8jlzywLMIJV12aq9oW1HMkKdREQ0pczzJISMnpXrEsHm+BH5memeGXreX/aR2Y6/zmn14LWoq55xPCZj9ltyd30FtNWSDzaObT/JNDqlvvMmmGaWNvwh1Csnqs=
+	t=1788797996; cv=none; b=in//KL8jsprm3kBIA8dyPZmZtsdnsNANMlQh8QWASgppFJeOweGzHlA0Ndvpf0XWCEjZJH9fCLc7lcs0k/sH77ncJ9ghO+n7W3eU3C0RDD51DxbWDalosGymWJZfs5VRZYWY//dgyZJDMV2C7gkK9GlnDzu+z1mAuIJtixRDYAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788787181; c=relaxed/simple;
-	bh=LSo7jmJ24Scp6m3Zpm08iW2ip9POwOxwp/IhmpjiN2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KW2kFFz16T9L5ncEIyUKUrpNspyJ6cd8gbA9X26fbBqSFqrIF3FH/Oy73i4CuvfO0A3q3x+C657dQ/E2qoDJp2s1gV3uGsKGgbtgtc8AIV3AbivcMAICIS1U2aTVQium4C0/c71a10VNhZCXFVzUZnG0/HK78KK2WRgpP0LtjaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SHnsGY+D; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788797996; c=relaxed/simple;
+	bh=94/6PTfQQHAxtx3vpoS0pW5JB0xmeY9kGBDqMSCUW0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=UpuOxS3pymfazfZTbdH6sFOG6y5nTHDwsoz7FfienYf6CJBaRl+0l4upwTC+yx8k3wUn8FMAgkLdWDfx3BH3+u5Ee+BwXGh2EzYlu5DAdsHcALglR6toda+K12D8NephAgJTds2cUyZSEsPg2zHBwnNly2maDI5FSLQDTWCouFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FNanFaVz; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SHnsGY+D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD79A1F00A3A;
-	Mon,  7 Sep 2026 13:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788787176;
-	bh=BUmwcbTHkYXmph0slZ3nwW7rclemNODX0V/5P30wQP8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SHnsGY+D7x5OPgXM4osNJUAlNld4XyLWPAXr7TIKuGlJczyGoDbvWLhEfiwMemNE6
-	 6d6TjSYITNXpzL20w+GdL1CRIKBo0LfL5jk9OBfwh+EQc48ZfxTcSs+JEbeGt2UAmq
-	 5kqsDjDNIrKSaJShHyGQ6DfG781+F2An5kM37CKS6fGkNblptGW9gaWulZbHgHhJTm
-	 HBhZe92EUVw/i5cDIgmn/5ECVcGo21pSO2iaPvDBeHSVHAXeRYBaH8KWZh89jpNkQp
-	 tWCQYnCtZi1dFpA8Z7CjMy9yYcXSCblelTIAvJuobpbJ25AOsMZo7xmTtaL4xCikFP
-	 hgPD56rR7wj+Q==
-Date: Mon, 7 Sep 2026 15:19:30 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Baoli Zhang <baoli.zhang@linux.intel.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Long Li <longli@microsoft.com>, Jiri Kosina <jikos@kernel.org>, 
-	Michael Bommarito <michael.bommarito@gmail.com>, linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hyperv: fix fortify write overflow in KUnit device
- info tests
-Message-ID: <ap65ZxP8IIaJKMgQ@beelink>
-References: <20260907004619.2479833-1-baoli.zhang@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FNanFaVz"
+Received: from [10.26.7.43] (unknown [4.213.232.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C457520B7128;
+	Mon,  7 Sep 2026 09:19:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C457520B7128
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788797944;
+	bh=Fo7GYCo1+WqhMXMFyYhqDp10kubr9hmrubcGwO15lik=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=FNanFaVzOfeDri3m/58Evp9Dch0MhunQG9cPlspyvRVzWGAtQPlOX15E1asHlIx3j
+	 CZ5C6MlOsoBRp0LoeYvmVGYkoePn7Fxc9B86ddo69mi2J50AL1OAmUfPcPmgI8HKA5
+	 gHocibi1cSpLs9YWSAIKKVfFgSa8SOQCHtO2FjJk=
+Message-ID: <ac921650-8648-4d5f-a4f9-cadd9dfca27e@linux.microsoft.com>
+Date: Mon, 7 Sep 2026 21:49:37 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260907004619.2479833-1-baoli.zhang@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] PCI: hv: warn when wait_for_response() waits
+ indefinitely
+To: Michael Kelley <mhklinux@outlook.com>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "namjain@linux.microsoft.com" <namjain@linux.microsoft.com>,
+ "hamzamahfooz@linux.microsoft.com" <hamzamahfooz@linux.microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "longli@microsoft.com" <longli@microsoft.com>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
+ "mani@kernel.org" <mani@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260902115854.2629164-1-sahilchandna@linux.microsoft.com>
+ <SN6PR02MB41576349B2BDB3D44815E894D4B62@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB41576349B2BDB3D44815E894D4B62@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sep 07 2026, Baoli Zhang wrote:
-> allyesconfig fails to build:
+On 03-09-2026 22:18, Michael Kelley wrote:
+> From: Sahil Chandna <sahilchandna@linux.microsoft.com> Sent: Wednesday, September 2, 2026 4:59 AM
+>>
+>> A guest can wait indefinitely in wait_for_response() for the host to
+>> send either a rescind message or a packet completion. If the
+>> host does not send either, the guest can remain blocked with no
+>> diagnostic indicating a reason.
+>> This was observed during a guest kernel upgrade in which the
+>> host-side application handling the PCI channel faulted, causing the
+>> guest to never receive the completion request.
+>> Add a warning in wait_for_response() when the wait exceeds
+>> a timeout so that such a hang is visible in the guest's kernel log
+>> and can be correlated with host-side state.
+>>
+>> Suggested-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+>> Suggested-by: Naman Jain <namjain@linux.microsoft.com>
+>> Suggested-by: Michael Kelley <mhklinux@outlook.com>
+>> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+>> ---
+>> Changes since v1:
+>> - Removed periodic warning to one time warning in 2 minutes
+>> - Include vmbus relid and stuck PCI msg.
+>> Link to v1: https://lore.kernel.org/all/20260825051850.2438816-1-sahilchandna@linux.microsoft.com/
+>> ---
+>>  drivers/pci/controller/pci-hyperv.c | 48 +++++++++++++++++++++++------
+>>  1 file changed, 38 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+>> index 89816a2bd7cd..ca9d8efd748c 100644
+>> --- a/drivers/pci/controller/pci-hyperv.c
+>> +++ b/drivers/pci/controller/pci-hyperv.c
+>> @@ -1040,19 +1040,40 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
+>>
+>>  /*
+>>   * There is no good way to get notified from vmbus_onoffer_rescind(),
+>> - * so let's use polling here, since this is not a hot path.
+>> + * so let's use polling here, since this is not a hot path. If
+>> + * wait_for_response() has been polling for PCI_RESPONSE_HANG_TIMEOUT_SEC
+>> + * without either a rescind or completion, add a warning.
+>>   */
+>> +#define PCI_RESPONSE_HANG_TIMEOUT_SEC 120
 > 
->   In function 'fortify_memset_chk',
->       inlined from 'mousevsc_device_info_valid_descriptor':
->   ./include/linux/fortify-string.h:430:25: error: call to
->   '__write_overflow_field' declared with attribute warning: detected
->   write beyond size of field (1st parameter); maybe use struct_group()?
+> This all looks good to me and it should work as written. But the code
+> seems more complex than it needs to be. There are two timers running in
+> parallel -- the 100 millisecond timer in wait_for_completion_timeout(),
+> and the larger 120 second timeout for printing the "stuck waiting" message.
+> A simpler approach would be to count iterations through the "while(true)"
+> loop. Print the "stuck warning" message when the count is exactly
+> 1200. Print the "late completion" message if the completion occurs and
+> count is > 1200. Then there's no need to manipulate jiffies and the "warned"
+> flag isn't needed. Make the loop counter 64-bit so overflow isn't an issue.
 > 
-> Both tests place a report descriptor in bytes allocated past
-> struct synthhid_device_info, then memset() it, and derive its address
-> from the hid_descriptor member:
+> Arguably this suggested approach is a little too clever, but it seems clear
+> enough to be easily understood.
 > 
->   report = ((u8 *)&info->hid_descriptor) + info->hid_descriptor.bLength;
+> Michael
 > 
-> Because that expression is a member reference, the fortify checks bound
-> the write by sizeof(info->hid_descriptor). bLength is exactly that size
-> here, so the remaining room in the member is zero and every write is
-> flagged, even though the memory really came from the caller's
-> kunit_kzalloc(sizeof(*info) + N).
-> 
-> Compute the address from the start of info instead, mirroring the
-> desc_offset arithmetic that mousevsc_on_receive_device_info() itself
-> uses. Deriving from info gives the whole allocation as the object, so
-> the writes are no longer attributed to a single member. The result is
-> the same address: (u8 *)&info->hid_descriptor is by definition
-> (u8 *)info + offsetof(struct synthhid_device_info, hid_descriptor), so
-> test behaviour is unchanged.
-> 
-> sizeof(*info) deliberately is not used for this: hid_descriptor is
-> __packed while synthhid_device_info is not, so the struct may carry
-> trailing padding and the report would land at the wrong offset.
-> 
-> Fixes: 83df7b5fa6735 ("HID: hyperv: add KUnit coverage for device info bounds")
-> Signed-off-by: Baoli Zhang <baoli.zhang@linux.intel.com>
+Thanks for reviewing. Sure, this makes sense.I will share proposed
+implementation in v3
 
-Please always check is a patch is not already pending in linux-next or
-in mainline linux.
+Regards,
+Sahil
+>> +
+>>  static int wait_for_response(struct hv_device *hdev,
+>> -			     struct completion *comp)
+>> +			     struct completion *comp,
+>> +			     const char *msg_type)
+>>  {
+>> +	unsigned long delay = secs_to_jiffies(PCI_RESPONSE_HANG_TIMEOUT_SEC);
+>> +	u64 timeout = get_jiffies_64() + delay;
+>> +	bool warned = false;
+>> +
+>>  	while (true) {
+>>  		if (hdev->channel->rescind) {
+>>  			dev_warn_once(&hdev->device, "The device is gone.\n");
+>>  			return -ENODEV;
+>>  		}
+>>
+>> -		if (wait_for_completion_timeout(comp, HZ / 10))
+>> +		if (wait_for_completion_timeout(comp, HZ / 10)) {
+>> +			if (warned)
+>> +				dev_warn(&hdev->device,
+>> +					 "Late %s completion arrived.\n", msg_type);
+>>  			break;
+>> +		}
+>> +
+>> +		if (!warned && time_after64(get_jiffies_64(), timeout)) {
+>> +			dev_err(&hdev->device,
+>> +				"%s stuck waiting for response, relid = %u\n",
+>> +				msg_type, hdev->channel->offermsg.child_relid);
+>> +
+>> +			warned = true;
+>> +		}
+>>  	}
+>>
+>>  	return 0;
+>> @@ -1518,7 +1539,8 @@ static int hv_read_config_block(struct pci_dev *pdev, void *buf,
+>>  	if (ret)
+>>  		return ret;
+>>
+>> -	ret = wait_for_response(hbus->hdev, &comp_pkt.comp_pkt.host_event);
+>> +	ret = wait_for_response(hbus->hdev, &comp_pkt.comp_pkt.host_event,
+>> +				"PCI_READ_BLOCK");
+>>  	if (ret)
+>>  		return ret;
+>>
+>> @@ -1607,7 +1629,8 @@ static int hv_write_config_block(struct pci_dev *pdev, void *buf,
+>>  	if (ret)
+>>  		return ret;
+>>
+>> -	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event);
+>> +	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event,
+>> +				"PCI_WRITE_BLOCK");
+>>  	if (ret)
+>>  		return ret;
+>>
+>> @@ -2624,7 +2647,8 @@ static struct hv_pci_dev *new_pcichild_device(struct
+>> hv_pcibus_device *hbus,
+>>  	if (ret)
+>>  		goto error;
+>>
+>> -	if (wait_for_response(hbus->hdev, &comp_pkt.host_event))
+>> +	if (wait_for_response(hbus->hdev, &comp_pkt.host_event,
+>> +			      "PCI_QUERY_RESOURCE_REQUIREMENTS"))
+>>  		goto error;
+>>
+>>  	hpdev->desc = *desc;
+>> @@ -3256,7 +3280,8 @@ static int hv_pci_protocol_negotiation(struct hv_device *hdev,
+>>  				(unsigned long)pkt, VM_PKT_DATA_INBAND,
+>>
+>> 	VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
+>>  		if (!ret)
+>> -			ret = wait_for_response(hdev, &comp_pkt.host_event);
+>> +			ret = wait_for_response(hdev, &comp_pkt.host_event,
+>> +						"PCI_QUERY_PROTOCOL_VERSION");
+>>
+>>  		if (ret) {
+>>  			dev_err(&hdev->device,
+>> @@ -3476,7 +3501,8 @@ static int hv_pci_enter_d0(struct hv_device *hdev)
+>>  			       (unsigned long)pkt, VM_PKT_DATA_INBAND,
+>>  			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
+>>  	if (!ret)
+>> -		ret = wait_for_response(hdev, &comp_pkt.host_event);
+>> +		ret = wait_for_response(hdev, &comp_pkt.host_event,
+>> +					"PCI_BUS_D0ENTRY");
+>>
+>>  	if (ret)
+>>  		goto exit;
+>> @@ -3553,7 +3579,8 @@ static int hv_pci_query_relations(struct hv_device *hdev)
+>>  	ret = vmbus_sendpacket(hdev->channel, &message, sizeof(message),
+>>  			       0, VM_PKT_DATA_INBAND, 0);
+>>  	if (!ret)
+>> -		ret = wait_for_response(hdev, &comp);
+>> +		ret = wait_for_response(hdev, &comp,
+>> +					"PCI_QUERY_BUS_RELATIONS");
+>>
+>>  	/*
+>>  	 * In the case of fast device addition/removal, it's possible that
+>> @@ -3644,7 +3671,8 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
+>>  				VM_PKT_DATA_INBAND,
+>>
+>> 	VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
+>>  		if (!ret)
+>> -			ret = wait_for_response(hdev, &comp_pkt.host_event);
+>> +			ret = wait_for_response(hdev, &comp_pkt.host_event,
+>> +						"PCI_RESOURCE_ASSIGNED");
+>>  		if (ret)
+>>  			break;
+>>
+>> --
+>> 2.53.0
 
-d0ad81b2b5fe ("HID: hyperv: make pointer arithmetics understandable for
-FORTIFY_SOURCE") already fixes this very same issue.
-
-Cheers,
-Benjamin
-
-> ---
->  drivers/hid/hid-hyperv.c | 23 +++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-> index 6579bd19da13a..f1042b36d10b7 100644
-> --- a/drivers/hid/hid-hyperv.c
-> +++ b/drivers/hid/hid-hyperv.c
-> @@ -657,6 +657,25 @@ static struct mousevsc_dev *mousevsc_kunit_alloc_dev(struct kunit *test)
->  	return input_dev;
->  }
->  
-> +/*
-> + * Address of the report descriptor that mousevsc_on_receive_device_info()
-> + * expects immediately after the HID descriptor.
-> + *
-> + * Computed from the start of @info, mirroring the desc_offset arithmetic in
-> + * mousevsc_on_receive_device_info(), rather than from &info->hid_descriptor.
-> + * The report lives in the extra bytes the caller allocated past the struct, so
-> + * deriving it from the member would leave the fortify checks bounding writes
-> + * by sizeof(info->hid_descriptor) and reject them. Note sizeof(*info) cannot
-> + * be used instead: hid_descriptor is packed while synthhid_device_info is not,
-> + * so the struct may carry trailing padding.
-> + */
-> +static u8 *mousevsc_kunit_report_desc(struct synthhid_device_info *info)
-> +{
-> +	return (u8 *)info +
-> +	       offsetof(struct synthhid_device_info, hid_descriptor) +
-> +	       info->hid_descriptor.bLength;
-> +}
-> +
->  static void mousevsc_device_info_zero_blength(struct kunit *test)
->  {
->  	struct synthhid_device_info *info;
-> @@ -687,7 +706,7 @@ static void mousevsc_device_info_valid_descriptor(struct kunit *test)
->  
->  	info->hid_descriptor.bLength = sizeof(struct hid_descriptor);
->  	info->hid_descriptor.rpt_desc.wDescriptorLength = cpu_to_le16(4);
-> -	report = ((u8 *)&info->hid_descriptor) + info->hid_descriptor.bLength;
-> +	report = mousevsc_kunit_report_desc(info);
->  	memset(report, 0x42, 4);
->  
->  	mousevsc_on_receive_device_info(input_dev, info, sizeof(*info) + 4);
-> @@ -713,7 +732,7 @@ static void mousevsc_device_info_report_desc_oob(struct kunit *test)
->  
->  	info->hid_descriptor.bLength = sizeof(struct hid_descriptor);
->  	info->hid_descriptor.rpt_desc.wDescriptorLength = cpu_to_le16(64);
-> -	report = ((u8 *)&info->hid_descriptor) + info->hid_descriptor.bLength;
-> +	report = mousevsc_kunit_report_desc(info);
->  	memset(report, 0x42, 8);
->  
->  	mousevsc_on_receive_device_info(input_dev, info, sizeof(*info) + 8);
-> -- 
-> 2.43.0
-> 
-> 
