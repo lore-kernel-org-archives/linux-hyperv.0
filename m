@@ -1,302 +1,177 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazolkn19011002.outbound.protection.outlook.com [52.103.1.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEA73E3DA7
-	for <linux-hyperv@vger.kernel.org>; Mon,  7 Sep 2026 21:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788816921; cv=none; b=nKFt/zFwGZCgRvXrKbliJaoJpsqRGzhFjNfBegwirVaZvHpWZUy9oILM/KgK/CnA8/48Nbpq9J26b8qCV/s+CGN4psZWYnw6xFY7S8VuOA9ZkiRz4atj5pnVPC/Jt1r+MKLcxlmJhwdbjrtwXqhU/qmOuq9GD+m0E0TjSNGcX/A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788816921; c=relaxed/simple;
-	bh=Ujih48/7PyJVacHYK17Ti9IEauiWuQMit2sL2HMdfAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p+rD7prWCZJApb/IJaZx59MmfBpgoiuQWjCIIchxCEwx7U1IghbVcWREZsFEaP1gwbGqadIs6r0kWQWIA1QNqiENQpQhTyHYuMev4NLUKwordY6CtBsNlwnVdCZ1OaFJMob2RWIIcUrP4SFr0pp4MuAmATpuaDWSFfzppJKykgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gSNJHwvm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB562D5925;
+	Mon,  7 Sep 2026 21:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.1.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788817711; cv=fail; b=DJVowwRfOtWf6J7VirsuvgUCc4jp4RrRuMR9QM2C+mJXHf6+th985h12SQSwB3EyAqcyrB7LMWV9XcctLEAIfFchxxJZcuJIQrJgqWQz8qqZXWXR4UEn4XBMWSbPGk6Bs6J41iwPT0Lrhd0n5gGcA0fqX6JvvDWJRm4XktNTtkE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788817711; c=relaxed/simple;
+	bh=NSai/LlDD6TI0b5djeO4znRniiKqbYCmgV9m7ckjIy8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oYfks8nO3GAtvimRbvAW0zHtyyWZ6oapf2moHzypXQjPl/rymrf6HbzSsRB1naszQIg1LRQAycsMkKI7WWPkANQstNN8l9IEl8HaW/2r2FU483SbQSbrO/+LwZqpDJiS8wVVuSPkasN5WTaAzGTOk1kacwpk72rEwxgHHfMYqVs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=ZKTM9p9s; arc=fail smtp.client-ip=52.103.1.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gSNJHwvm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788816918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JDsc9mqLSLWmK/G1yswq76Two3vz6FazKLBCHBs0HW4=;
-	b=gSNJHwvmj4gQvBm4CX/yHI50Vp5rWPYd8NisYexkqfSj2EZ2Tw7+rRNmPYLwEHCfbFknrg
-	hhzXZJHX00igzrQla9gdfsRF71Dpqn1ppaHyrLNa5wM6Ib1CNRf3WneiVAvJM1m50LlcHy
-	65NN6JoACRaZJxLNwh46Y9qTwdBTyP4=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-450-eEV7gbATOIudCBG4JSjYYw-1; Mon,
- 07 Sep 2026 17:35:11 -0400
-X-MC-Unique: eEV7gbATOIudCBG4JSjYYw-1
-X-Mimecast-MFC-AGG-ID: eEV7gbATOIudCBG4JSjYYw_1788816909
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BCCCD19540D9;
-	Mon,  7 Sep 2026 21:35:08 +0000 (UTC)
-Received: from [100.91.157.188] (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 66E941801AEA;
-	Mon,  7 Sep 2026 21:35:03 +0000 (UTC)
-Message-ID: <27d2c523-fbdd-4dff-8920-88432d938b22@redhat.com>
-Date: Mon, 7 Sep 2026 23:35:00 +0200
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="ZKTM9p9s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ov0RKVgFRxRcFwwovLtCFHb/+R0iz5HibOZfi9sKdIlIbtx/VcVjEuGDXyKule8WmJzhk5DoWEWiDEyNFtBG6iDL5p+MRpPjNliBqCD4XZJGJB5lspMzqExe1EsLvAyGemseFAQlmWxsvd7HG2XMTRRMeEy6VW64KzGSelRZBHLmkjBnuTdpUzfJWDhhxHmciR2NY702ZZcxpdSF3GKRHLlGxLP1FuqKEyuPTeCx40MZDl1bNARBJjoITJGRheDIrEvT05buwyBtVMXGPeB2i0QhzrvdFKiGoA4uDukyobzG/LfQZzOdwPq1RSf5Dk1ZDf4u6kXShC3Z8bDpN+byfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NqWmF361GnO87QjtUUyHBe8y7bksDYmlBdISXg2T5Yo=;
+ b=vZXExPUL/kIid2IHpCRtM9rD6nss4iOXk3xBaA98xKdeWugbuYLlgQij7BjSlHghD7mG0fGFCT3BWAW0RusxOS5JjGxmd/uN0GAj4LdXt0FycjcmL9KoNtblxE83NdFhj0ZLgYgUfnRj5k1rEYKZt3c0wN6L8cmKlE8dHVmF1TFMR5wzBJjdLYMQXIVX12/x+shliMxzhDk6fObdbtFZ2UOhyQZ3zNZ1ZzDSupWQaNATHb0Hx5bIU1pvznKvkUxNTmmwHy0M1InD8AwlRZZQz3/1gIGzBa2nsRaovr21Jtb3qQKA+8ELyQi8nAistn1g+xoeKCF+LZvYuN+A0fPLlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NqWmF361GnO87QjtUUyHBe8y7bksDYmlBdISXg2T5Yo=;
+ b=ZKTM9p9s1VpQXYRD1WXkIn8JsqsaMCiwi0MnIHr0VuKrwCeGkYJCAo7HGf4CLkCIApb7CdBcA8TN/+SrRrCM2CNlK6SMunS6gjizsp7CpwWCMTU6vIcG+mWYKE/tefdoDtHnToxoO/VrtmBAFehqWP3SmQXXhrW8h2FwegKVSPlVb1O+K/QU8O0qdEpvpuKOMVO4YRIH+ckdriHZ9B8/JDmCOPZNGpFBVQgMyF8CIu9aANOKwVE2kWHnvbR6x/+21xpJhiNmo7iVUC9YfRS1e4lp13ep7Iump1Y8F3sz13u5YPustO3XPgRNvanao6NBQuvCaQyXdqJk8SkgpCI7HQ==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by MW4PR02MB7169.namprd02.prod.outlook.com (2603:10b6:303:7f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 21:48:26 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 21:48:26 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: "kys@microsoft.com" <kys@microsoft.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "longli@microsoft.com"
+	<longli@microsoft.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH 0/2] hv_netvsc: Fix leaking of send/receive buffers after
+ GPADL teardown error
+Thread-Topic: [PATCH 0/2] hv_netvsc: Fix leaking of send/receive buffers after
+ GPADL teardown error
+Thread-Index: AQFHVm9dMeVqpqUlk7GE8NQ1Dm/qS7fvd6JA
+Date: Mon, 7 Sep 2026 21:48:26 +0000
+Message-ID:
+ <SN6PR02MB41572101F40CE1EE8546B26AD4B22@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260903160651.1637-1-mhklinux@outlook.com>
+In-Reply-To: <20260903160651.1637-1-mhklinux@outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|MW4PR02MB7169:EE_
+x-ms-office365-filtering-correlation-id: 52c5e472-f58f-407b-15cb-08df0d29bf63
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|15080799012|8060799015|31061999003|13091999003|19110799012|25010399006|51005399006|2604032031799003|37011999003|24021099003|55001999006|8062599012|102099032|12091999003|440099028|3412199025|40105399003|2607281247196008;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?iGGu1VO1At2VQZ3bgEBCMugKaCGyzPt06ZXuPgFbZcC/fV80FRYsUf0HyTfs?=
+ =?us-ascii?Q?b4j788efyLkKD5+HHwEqUcnMZUBoZOPuKME7BT+17kSsRHLamHLmuRAEYIgk?=
+ =?us-ascii?Q?AG2/X8O44xgkkmJCkx+VrbIrUHT7rqyi4dWDhnGvXJsL0nyTF5pUCrQYkRv2?=
+ =?us-ascii?Q?iCV+f0YQcOXpMgo1PQnYrGuhHfiarFg9tYtp4EcdSVRhznJU0ipYPvYM24pi?=
+ =?us-ascii?Q?3KZWpsLXz3e6WI+qlFmvTTydrqbBLs87rElyS7P3yLPel/2aShuj6KmE9xbo?=
+ =?us-ascii?Q?/mBu8pQswEzPSl+W2HENA+bn32ez5mlBF7cZyUOBlFwOom1vVdgoRRDzevnO?=
+ =?us-ascii?Q?5SamYcxUATixIKEdjUVNOHtjwH6RfcGBNkC3ifmUEpMZuP5pC9PWVop1tD3/?=
+ =?us-ascii?Q?k+F1+rktz+sUkqVtR3d841LCdhOJlhwtWmGLbIB+H+v4iWIF+Xqb7GW2ktF4?=
+ =?us-ascii?Q?jXmj9oTDgYupsve0wB1AkR/9tJrMsoxvnvG1kvAwzMcuGXzoZM/UfQDkkUvy?=
+ =?us-ascii?Q?CjqzlUk6WWsrpYaFP+8Cuy6Y2fNWMxRlCmCJQ6M5gZH/WkOF0Vlzkf/cXmzi?=
+ =?us-ascii?Q?IsZ5z7eV/a05WhnJze/WngoOqQjzOikTkZUhA/sgv85FWxYLRU7xkNuf2wkf?=
+ =?us-ascii?Q?8lqbx4FaNrMiCbuqubzhgVMc082RpWA5DKWAfsfaiSBDyVKrK0oYsRK8slkz?=
+ =?us-ascii?Q?Xfa16cU/jPxtCpEcGcjXcGlujj/ZFfL0vWZIfCvLe5CpGSCE+IwiRWfVoqyV?=
+ =?us-ascii?Q?i73NI1H3/onP+5UtyGP/EdlbYUNELoEYyZtnQKqnIjD5wUt+4WoZNHSzw+v/?=
+ =?us-ascii?Q?4kS4M9RWi50vEDAZOfS+3GfjDAXN/wkh/evm+FHIMSJ0qqFyvhYX+1JNJAE9?=
+ =?us-ascii?Q?kMmune2EkeUxXdNE9MJ3Ie42he/Wqi49QZ8iQzjn03sSODAEbx1Jmi9ApgG9?=
+ =?us-ascii?Q?VPmJ/6nvJqdxOBZuaadMCPnD2D4gDeEpdtja6WFpFKZII1NdqTfVnzqfcUOY?=
+ =?us-ascii?Q?oR2SiEdgm3ugCpZe/LchwF45gA2rJVfHxqyNCiia18d+5tSmI+PPG61nm2pB?=
+ =?us-ascii?Q?1Vcj0B7c2EWvDjIAGnFTtoo0d0WCziknWAdVvylvG6OnSx0s7Rc=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?kpkAOj822iGntr5pftytjc4H1Ot2+5muZN+b0JYUna8MLvjN5K/qCnZ/30N/?=
+ =?us-ascii?Q?RPfSCTnJYCGK5xeAGDrcn98iwKt7DDt6HgD2po9PRyzpo0P5b2r5LHhRwmu/?=
+ =?us-ascii?Q?SHlVcuhlHHHUTPlA/Dvbjh81b+xOh5CALMiXxfD6crIvQDm01cIaKVyTVSWj?=
+ =?us-ascii?Q?gXYA7fudD0LMUKjjjZfuIkmNHFVKdV6SLh6QHHLXuxH06VtZIdvaM5wuy+9t?=
+ =?us-ascii?Q?as40VxDd5YoModG1D+PLzbQp86/TeuTaNG45s3FABdd9qj3RQUz1/YIJXVvC?=
+ =?us-ascii?Q?VNlVYoOa0m+BYR2pwkQrtLw7uf/r77bL4C0WtmEdla2Cf1P5R1C7nnF0aWOL?=
+ =?us-ascii?Q?XrcCvO8p1Np9ELPQt45Gr1glVWIcqG35Cc3COIVZusBrNca88Cu+e3uUfBRU?=
+ =?us-ascii?Q?Fms2HtTAgrFOASGektVoQhp7hlNN4pJl7/PlDKR5Zg+bm7qKeGDvo5IeQvJb?=
+ =?us-ascii?Q?2ZDelRj70IFQCaHu+R18bmcw2SyD4Au15XNhB8e1TbPVFg+b2NSEaY3MIIxw?=
+ =?us-ascii?Q?2ReLFc51QvroKD5QsAs1F3z88Nth6I0YBcBT1QPqoAKfat7/Fs6UQqgnIR5c?=
+ =?us-ascii?Q?4J4kON1FHRVdj3iDeSnOfvIAFZk50FqHkwtPf/yzaqPMEjx+BaBHv6xSSrt2?=
+ =?us-ascii?Q?8jSgdO2aY11zAIUCrNZ3NHYFh5VWPBn655GYx3zje+TErpYC+jMc+WgBO9YN?=
+ =?us-ascii?Q?m+BuGh4vQM0M7YMqGQbnRyDEvBg3A4irf0/sia8TsO2p5QbmJq8ZpoxuEctT?=
+ =?us-ascii?Q?SgHB9LbHmojuApgc+RWwq7hqe0mSH+GDbGHVy1zpJcSh+vAUg0jNSTFcvmb7?=
+ =?us-ascii?Q?/S9kQQ0FluCaWEr6NQu1nZzNgyFMoGdexccdW/sIS+pgqTw02aLXErL4ooXV?=
+ =?us-ascii?Q?oilWOthF51cbF0KRhccLEy2+DzAIqePQZZhcdKgWV9/YAo+ar0yw8NaN6Tkx?=
+ =?us-ascii?Q?mBctaRI7BXapD0q3alz/ZNA7T8jbBsj10c3H+wHMAwq39zpq3LVJlR3r69Oj?=
+ =?us-ascii?Q?aoseZPfy0SvJxy/gRDg6lgjQsTs/encHhRlex4e5AGzjnEBfQUSNgjuGP0G1?=
+ =?us-ascii?Q?5NPk3noe4BLaaCOB/hbKCEcICBqTkxwr9odvbyE4gC8/JCRStQRkkw4GUQOs?=
+ =?us-ascii?Q?J70ykoaI0plcONvOQqP7s3LnqX8ztgwAJqxkEIvH93xtbPlQVqitKUOp7IAU?=
+ =?us-ascii?Q?4hzlVzBssEg3S2YG6w+KpgWKoEEo9w/gDt3s+eThEoyb6YH5sVttR4BGuDs0?=
+ =?us-ascii?Q?SCW676p5OIqFnnL6DxOhH/cMs5eEgA4aZ0CjDO7C9ofXTqwkwLLO+YKVRq4L?=
+ =?us-ascii?Q?tggztTWOB4u/PRPqzjqC8PkfkDdTB8A8HoN4C16xu8SAwa3uFfRVtPYNztz2?=
+ =?us-ascii?Q?JXpSkaM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/14] drm/panic: Compile KUnit tests as module
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, geert@linux-m68k.org, rdunlap@infradead.org
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
- sashiko-reviews@lists.linux.dev
-References: <20260902121930.597222-1-tzimmermann@suse.de>
- <20260902121930.597222-15-tzimmermann@suse.de>
-Content-Language: en-US, fr
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20260902121930.597222-15-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52c5e472-f58f-407b-15cb-08df0d29bf63
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2026 21:48:26.4894
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7169
 
-On 9/2/26 14:13, Thomas Zimmermann wrote:
-> Fix dependency of the panic-helper KUnit tests on CONFIG_DRM_KUNIT_TEST=y
-> and make them build as a module. Export the necessary interfaces from the
-> panic helpers iff the KUnit framework has been enabled.
-> 
-> Select DRM_PANIC_HELPER from DRM_KUNIT_TEST to meet the dependencies of
-> the panic-helper tests.
-> 
-> It is now possible to run the tests by modprobe-ing drm_panic_helper_test
-> at runtime.
+From: Michael Kelley <mhkelley58@gmail.com> Sent: Thursday, September 3, 20=
+26 9:07 AM
+>=20
+> When a Hyper-V netvsc device is shutdown, the GPADLs for the device's
+> large send and receive buffers are torn down. If the teardown fails,
+> Hyper-V retain access to the buffers and may continue to read or write
+> them. Consequently the buffers should be leaked after such an error.
+>=20
+> Leaking the buffers used to work correctly, but was broken by a
+> commit applied in the 4.16 kernel. This patch series restores the
+> correct leaking behavior.
+>=20
+> Because the large buffers are allocated with wrapper functions
+> that allow allocations larger than MAX_ORDER_NR_PAGES, leaking the
+> memory is not as simple as setting the memory pointer to NULL so
+> vfree() or kfree() does nothing. Patch 1 introduces a new
+> vmbus_leak_buffer() function that causes vmbus_free_buffer() to
+> properly leak the buffers. Then Patch 2 uses this function in
+> the netvsc driver.
+>=20
+> Michael Kelley (2):
+>   Drivers: hv: Add vmbus_leak_buffer()
+>   hv_netvsc: Leak send/recv buffers if GPADL teardown fails
+>=20
+>  drivers/hv/channel.c        | 26 ++++++++++++++++++++++++++
+>  drivers/net/hyperv/netvsc.c |  6 ++++++
+>  include/linux/hyperv.h      |  4 ++++
+>  3 files changed, 36 insertions(+)
+>=20
+> --
+> 2.25.1
+>=20
 
-Thanks, it looks good to me.
+I will be posting a v2 of this patch set that fixes an additional
+bug in vmbus_teardown_gpadl() that Sashiko pointed out.
+That fix is necessary for the full "leak on failure" scenario
+to work correctly.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-> 
-> v3:
-> - clean up after each test case (Sashiko)
-> v2:
-> - fix parameter order in decl of drm_panic_helper_draw_screen_qr()
->    (Sashiko)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/Kconfig.debug                 |  1 +
->   drivers/gpu/drm/drm_panic_helper.c            | 26 ++++++++++---------
->   drivers/gpu/drm/tests/Makefile                |  1 +
->   drivers/gpu/drm/tests/drm_panic_helper_test.c | 21 ++++++++++++---
->   include/drm/drm_panic_helper.h                |  8 ++++++
->   5 files changed, 41 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
-> index 1f4c98cbf090..b909cd0a619f 100644
-> --- a/drivers/gpu/drm/Kconfig.debug
-> +++ b/drivers/gpu/drm/Kconfig.debug
-> @@ -69,6 +69,7 @@ config DRM_KUNIT_TEST
->   	select DRM_EXPORT_FOR_TESTS if m
->   	select DRM_GEM_SHMEM_HELPER
->   	select DRM_KUNIT_TEST_HELPERS
-> +	select DRM_PANIC_HELPER
->   	select DRM_SYSFB_HELPER
->   	select PRIME_NUMBERS
->   	default KUNIT_ALL_TESTS
-> diff --git a/drivers/gpu/drm/drm_panic_helper.c b/drivers/gpu/drm/drm_panic_helper.c
-> index f64a3ca38467..683af48de38c 100644
-> --- a/drivers/gpu/drm/drm_panic_helper.c
-> +++ b/drivers/gpu/drm/drm_panic_helper.c
-> @@ -8,6 +8,8 @@
->   #include <linux/utsname.h>
->   #include <linux/zlib.h>
->   
-> +#include <kunit/visibility.h>
-> +
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_modeset_helper_vtables.h>
-> @@ -433,8 +435,8 @@ static void drm_panic_helper_logo_draw(struct drm_scanout_buffer *sb, struct drm
->   				   fg_color);
->   }
->   
-> -static int drm_panic_helper_draw_screen_user(struct drm_scanout_buffer *sb,
-> -					     u32 fg_color, u32 bg_color)
-> +VISIBLE_IF_KUNIT int drm_panic_helper_draw_screen_user(struct drm_scanout_buffer *sb,
-> +						       u32 fg_color, u32 bg_color)
->   {
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->   	struct drm_rect r_screen, r_logo, r_msg;
-> @@ -466,6 +468,7 @@ static int drm_panic_helper_draw_screen_user(struct drm_scanout_buffer *sb,
->   
->   	return 0;
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(drm_panic_helper_draw_screen_user);
->   
->   /*
->    * Draw one line of kmsg, and handle wrapping if it won't fit in the screen width.
-> @@ -504,8 +507,8 @@ static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_
->    * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
->    * and going up until reaching the top of the screen.
->    */
-> -static int drm_panic_helper_draw_screen_kmsg(struct drm_scanout_buffer *sb,
-> -					     u32 fg_color, u32 bg_color)
-> +VISIBLE_IF_KUNIT int drm_panic_helper_draw_screen_kmsg(struct drm_scanout_buffer *sb,
-> +						       u32 fg_color, u32 bg_color)
->   {
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->   	struct drm_rect r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
-> @@ -549,6 +552,7 @@ static int drm_panic_helper_draw_screen_kmsg(struct drm_scanout_buffer *sb,
->   
->   	return 0;
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(drm_panic_helper_draw_screen_kmsg);
->   
->   #if defined(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
->   /*
-> @@ -691,9 +695,9 @@ static int drm_panic_helper_get_qr_code(u8 **qr_image, unsigned int qr_version)
->   /*
->    * Draw the panic message at the center of the screen, with a QR Code
->    */
-> -static int drm_panic_helper_draw_screen_qr_code(struct drm_scanout_buffer *sb,
-> -						u32 fg_color, u32 bg_color,
-> -						unsigned int qr_version)
-> +VISIBLE_IF_KUNIT int drm_panic_helper_draw_screen_qr_code(struct drm_scanout_buffer *sb,
-> +							  u32 fg_color, u32 bg_color,
-> +							  unsigned int qr_version)
->   {
->   	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
->   	struct drm_rect r_screen, r_logo, r_msg, r_qr, r_qr_canvas;
-> @@ -763,6 +767,7 @@ static int drm_panic_helper_draw_screen_qr_code(struct drm_scanout_buffer *sb,
->   	drm_panic_helper_blit(sb, &r_qr, qr_image, qr_pitch, scale, fg_color);
->   	return 0;
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(drm_panic_helper_draw_screen_qr_code);
->   #else
->   static void __init drm_panic_helper_qr_init(void) { };
->   static void __exit drm_panic_helper_qr_exit(void) { };
-> @@ -815,7 +820,7 @@ static int draw_panic_helper_dispatch(struct drm_scanout_buffer *sb,
->   	return ret;
->   }
->   
-> -static void drm_panic_helper_set_description(const char *description)
-> +VISIBLE_IF_KUNIT void drm_panic_helper_set_description(const char *description)
->   {
->   	u32 len;
->   
-> @@ -830,6 +835,7 @@ static void drm_panic_helper_set_description(const char *description)
->   		desc_line->len = len;
->   	}
->   }
-> +EXPORT_SYMBOL_IF_KUNIT(drm_panic_helper_set_description);
->   
->   static void drm_panic_helper_clear_description(void)
->   {
-> @@ -910,7 +916,3 @@ void __exit drm_panic_helper_exit(void)
->   {
->   	drm_panic_helper_qr_exit();
->   }
-> -
-> -#ifdef CONFIG_DRM_KUNIT_TEST
-> -#include "tests/drm_panic_helper_test.c"
-> -#endif
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> index e7193b49cf91..42207df1d1c8 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->   	drm_managed_test.o \
->   	drm_mm_test.o \
->   	drm_modes_test.o \
-> +	drm_panic_helper_test.o \
->   	drm_plane_helper_test.o \
->   	drm_probe_helper_test.o \
->   	drm_rect_test.o \
-> diff --git a/drivers/gpu/drm/tests/drm_panic_helper_test.c b/drivers/gpu/drm/tests/drm_panic_helper_test.c
-> index e6befe0f1c83..6184a6fc7eb8 100644
-> --- a/drivers/gpu/drm/tests/drm_panic_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_panic_helper_test.c
-> @@ -6,13 +6,17 @@
->    * KUNIT tests for DRM panic helpers
->    */
->   
-> -#include <drm/drm_fourcc.h>
-> -#include <drm/drm_panic.h>
-> +#include <linux/highmem.h>
-> +#include <linux/units.h>
-> +#include <linux/vmalloc.h>
->   
->   #include <kunit/test.h>
->   
-> -#include <linux/units.h>
-> -#include <linux/vmalloc.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_panic.h>
-> +#include <drm/drm_panic_helper.h>
-> +
-> +MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
->   
->   static void drm_panic_check_color_byte(struct kunit *test, u8 b)
->   {
-> @@ -86,6 +90,11 @@ static int drm_test_panic_init(struct kunit *test)
->   	return 0;
->   }
->   
-> +static void drm_test_panic_exit(struct kunit *test)
-> +{
-> +	drm_panic_helper_set_description(NULL);
-> +}
-> +
->   /*
->    * Test drawing the panic screen, using a memory mapped framebuffer
->    * Set the whole buffer to 0xa5, and then check that all pixels have been
-> @@ -229,7 +238,11 @@ static struct kunit_case drm_panic_screen_user_test[] = {
->   static struct kunit_suite drm_panic_helper_suite = {
->   	.name = "drm_panic_helper",
->   	.init = drm_test_panic_init,
-> +	.exit = drm_test_panic_exit,
->   	.test_cases = drm_panic_screen_user_test,
->   };
->   
->   kunit_test_suite(drm_panic_helper_suite);
-> +
-> +MODULE_DESCRIPTION("KUnit test suite for DRM panic handling");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/drm/drm_panic_helper.h b/include/drm/drm_panic_helper.h
-> index 6cc9a0eba077..6b19607e0784 100644
-> --- a/include/drm/drm_panic_helper.h
-> +++ b/include/drm/drm_panic_helper.h
-> @@ -8,6 +8,7 @@
->   enum drm_panic_type;
->   
->   struct drm_plane;
-> +struct drm_scanout_buffer;
->   
->   /* drm_panic_helper.c */
->   int drm_plane_helper_display_panic_screen(struct drm_plane *plane,
-> @@ -15,6 +16,13 @@ int drm_plane_helper_display_panic_screen(struct drm_plane *plane,
->   					  enum drm_panic_type panic_type,
->   					  u32 fg_color, u32 bg_color,
->   					  unsigned int qr_version);
-> +#if IS_ENABLED(CONFIG_KUNIT)
-> +int drm_panic_helper_draw_screen_user(struct drm_scanout_buffer *sb, u32 fg_color, u32 bg_color);
-> +int drm_panic_helper_draw_screen_kmsg(struct drm_scanout_buffer *sb, u32 fg_color, u32 bg_color);
-> +int drm_panic_helper_draw_screen_qr_code(struct drm_scanout_buffer *sb,
-> +					 u32 fg_color, u32 bg_color, unsigned int qr_version);
-> +void drm_panic_helper_set_description(const char *description);
-> +#endif
->   
->   /* drm_panic_helper_qr.rs */
->   size_t drm_panic_helper_qr_max_data_size(u8 version, size_t url_len);
+Michael
 
