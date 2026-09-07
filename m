@@ -1,119 +1,107 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E49B7282F01;
-	Mon,  7 Sep 2026 21:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB213EC83D
+	for <linux-hyperv@vger.kernel.org>; Mon,  7 Sep 2026 21:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788815319; cv=none; b=UWRnLgBsVkb3NazS1aIo3tZYHrCnhJ7jTs+T1EPzDXh3SpsO9LSqe0H9VXMR7R/Umto+ohbLxOIL/0TaAfqSX8RK4UBPC1nWx+KyvUitKNDGxPvCUTRIC0FOtnYDwpHuGUhZ5I2POv9YkpT4DKr9n2G3gUmgUFfn1HRB+9aYV5w=
+	t=1788815403; cv=none; b=R9htiNOEk2x9qOggY14gdbG89cgiUxxPFIaWNfMekBAMWkB29Jm3ypNqLlc04drUoq2qvDZUz+JGtYfoGqDGJshuG0h7IhShlew5H5WHrSKTzmh4/9gBq8tUVKNUoem5g3zLq0uHgmsioEEpK1ZiNdugh0tCI4yKj+DIR/uHfzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788815319; c=relaxed/simple;
-	bh=CRknQiozJQuLcNkSrtiRtM/kdCB8yooI2gbfGFTtfE8=;
+	s=arc-20240116; t=1788815403; c=relaxed/simple;
+	bh=fOcgRzp+AkDsXO3kxiBG3fa0WOrkhLtbxHvF3DDw9Kc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHlDuie9JCwnmqatpHbrvA79GkBCkjHQGSEoBigm5Jabiy1A+4NtAZp7nIdH9BCcAvp5iLVFafcTFVVk0qO2PbnDzIfjiGEsMGEhUDZ790G5m/kuPvD6NP7gT4aA+CJmxcebGX/uTg+X174UzT3w7z3nSv7D6yrARA8RmJkRoM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gVyv5bPu; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 In-Reply-To:Content-Type; b=Tv35kxmNq7yK4rdGoIewMtNE1xAuVSJaDvS9Mw++gRp0S9ABgty9ygBvZpxyc2r0AJbNm6gVOF5YZh4kB+40taprambBOyv4TBZX3C+4JKdLKg9probtnV8b+zrT6xCJgzbTRO2+CFszy9E7XUBEDr8hoWXGJUa5dVxjUfb3ImY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LhslB9Zk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gVyv5bPu"
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DCAD820B6F01;
-	Mon,  7 Sep 2026 14:07:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DCAD820B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788815277;
-	bh=kY/lfW05YvJHRzh3O0sx3RlULE7OXDqOdzjhtNx8jWw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gVyv5bPuda4Xj5AdVX6X/uEViR9zPXkZjQ4CdjQ6i/hVtDSAsJNqWF2sMP+ELFkeo
-	 ngypYO4qT9g25FiAV/jDoEwB1yyj3jKncLHmPBucrPQUVksocReCdFW62sV4eUzsSr
-	 xW5x2ITYbMHUKS/pdh6FXQA3BluobC8AzAVN3OIU=
-Message-ID: <421b3805-5b90-dfc9-b84c-ee58969f5e36@linux.microsoft.com>
-Date: Mon, 7 Sep 2026 14:08:35 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LhslB9Zk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788815397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FuVXo6f9Z1spKRdlImVETM3b3qRtGRWXee9cH9hEi4U=;
+	b=LhslB9ZkXO/shCg2moaI+BuUhVgtrHFTxOq3NovsqW2bKHubpDWGBfRjdowc8yUmvZ8ehM
+	CXhFDcLZihS/GMUeC9dG/H7qVKJChiQr/HXJcO2f9VxMMSLZUk64L1UE7xJVGEqargop+M
+	CS8Vd583LMn0jCCNYFHOWJlrZuz97V0=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-681-_p36ToZzOMyOl86nP76L3Q-1; Mon,
+ 07 Sep 2026 17:09:53 -0400
+X-MC-Unique: _p36ToZzOMyOl86nP76L3Q-1
+X-Mimecast-MFC-AGG-ID: _p36ToZzOMyOl86nP76L3Q_1788815391
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1D3701801200;
+	Mon,  7 Sep 2026 21:09:50 +0000 (UTC)
+Received: from [100.91.157.188] (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D0FA15B1;
+	Mon,  7 Sep 2026 21:09:42 +0000 (UTC)
+Message-ID: <fea78e29-a3a8-48d2-9353-48a94d3a1649@redhat.com>
+Date: Mon, 7 Sep 2026 23:09:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v5 4/5] iommu/hyperv: Add para-virtualized IOMMU support
- for Hyper-V guest
-Content-Language: en-US
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-arch@vger.kernel.org, x86@kernel.org, wei.liu@kernel.org,
- kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
- longli@microsoft.com, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org,
- lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de,
- jgg@ziepe.ca, mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
- tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
- baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, vasant.hegde@amd.com
-References: <20260904075512.174154-1-zhangyu1@linux.microsoft.com>
- <20260904075512.174154-5-zhangyu1@linux.microsoft.com>
- <af047ef8-91ef-7786-c230-25e28b1c8c04@linux.microsoft.com>
- <re2lmz757bvtzbkylxtsj7zu2pjqz7ro752tcg7bpjaicuj6ml@mgsg6jnvgbyd>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <re2lmz757bvtzbkylxtsj7zu2pjqz7ro752tcg7bpjaicuj6ml@mgsg6jnvgbyd>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/14] drm/panic: Return from screen_user if display is
+ too small
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, geert@linux-m68k.org, rdunlap@infradead.org
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev,
+ sashiko-reviews@lists.linux.dev
+References: <20260902121930.597222-1-tzimmermann@suse.de>
+ <20260902121930.597222-8-tzimmermann@suse.de>
+Content-Language: en-US, fr
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20260902121930.597222-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On 9/7/26 01:41, Yu Zhang wrote:
-> <snip>
+On 9/2/26 14:13, Thomas Zimmermann wrote:
+> Return an error if the display is too small to display at least a
+> single character. If the panic handler cannot display any message
+> it does at least not destroy the current output, which might help
+> with identifying the problem.
 > 
->>> +{
->>> +	u64 status;
->>> +	u32 prefix;
->>> +	unsigned long flags;
->>> +	int ret;
->>> +	struct pci_dev *pdev = to_pci_dev(dev);
->>> +	struct hv_input_get_logical_device_property *input;
->>> +	struct hv_output_get_logical_device_property *output;
->>> +
->>> +	ret = hv_pci_lookup_dev_id(pci_domain_nr(pdev->bus), &prefix);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	local_irq_save(flags);
->>> +
->>> +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
->>> +	output = (struct hv_output_get_logical_device_property *)(input + 1);
->>
->> Any reason for not using pcpu output arg like we do in all other places?
->> If there is a technical reason, please document it, otherwise when revisited
->> in future for re-design, anyone looking at this will be confused and
->> waste time investigating if there is anything different about this hypercall.
->>
->>
+> This change duplicates the logic from screen_kmsg output.
+
+Thanks, it looks good to me.
+
+maybe add a check also for font->height > sb->height
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
-> Thank you, Mukesh. I had also incorrectly assumed that output required
-> a separate page, which is why the RFC included a separate output-page
-> allocation patch. Michael clarified during that review [1] that input
-> and output can share a page as long as their buffers do not overlap,
-> so I dropped that patch latter.
-
-They can share a page, but we don't enforce the sizes combined do
-not overflow a page, and that could be an issue in future. There is
-a tool on the hyp side i believe to check that input and output struct
-sizes do not exceed page size.
-
-Also, both the input and output pages are pre-allocated, so there is no
-extra allocation (otherwise, we'd have changed all places by now). So
-it's better to just follow the convention we've so far just to avoid
-confusion during future redesign imo. We def need to revisit this in
-near/medium future for all hypercalls.
-
-Thanks,
--Mukesh
-
-> Actually, there's nothing specific to this hypercall here - it follows
-> the existing usage. E.g., hv_pci_read_mmio() already uses such arrangement,
-> as Michael noted in [2]. pvIOMMU queries fit within the existing per-CPU
-> page, with output placed after input, avoiding an unnecessary allocation.
->                                                                           
-> [1] https://lore.kernel.org/all/SN6PR02MB4157C3EF6617A7BA4CA9E432D485A@SN6PR02MB4157.namprd02.prod.outlook.com/
-> [2] https://lore.kernel.org/all/SN6PR02MB4157BF936EBDA23AD1EC5183D480A@SN6PR02MB4157.namprd02.prod.outlook.com/
->                                                                                                                 
-> B.R.
-> Yu
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/drm_panic.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index f597ef04c5bc..c317afc76669 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -486,7 +486,7 @@ static int draw_panic_screen_user(struct drm_scanout_buffer *sb, u32 fg_color, u
+>   	struct drm_rect r_screen, r_logo, r_msg;
+>   	unsigned int msg_width, msg_height;
+>   
+> -	if (!font)
+> +	if (!font || font->width > sb->width)
+>   		return -EINVAL;
+>   
+>   	fg_color = drm_draw_color_from_xrgb8888(fg_color, sb->format->format);
 
