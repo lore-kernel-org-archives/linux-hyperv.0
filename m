@@ -1,148 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE151A08AF
-	for <linux-hyperv@vger.kernel.org>; Tue,  8 Sep 2026 02:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD8C51D5174;
+	Tue,  8 Sep 2026 03:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788834277; cv=none; b=uic/6YxNbEZ2lz77QO/Yx0z4rwpLwunMtEXimo7ULz05Hui/wuSsfMxfS9RXgpxb6zqffbK99O7yfyEj1/pFF9xRUDEVOzTH/92Gim18Z1/ZLIcYcJqZdj77vbCiBzx6VGSWToY1CdOZlu72UfS/KOSpcyIr85taBNzZ2lmGmuY=
+	t=1788837383; cv=none; b=UhqaRzlSYWzy1sxzEmGdITzhov/HsoZ04MDp76cFEjNwt7cSo5wC2fPyHEHDfqpa+/7ggp+EWEKm+U6DEgknkVmX0EeyS1a/vyWwLtVxhCFPyLzapN2/woOuZNscxmLdZ+vOvibslyYVU1sug8wpA9AH+XroyFzqqZX6EUqcYdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788834277; c=relaxed/simple;
-	bh=3G3AKc2SPl9VsXmE5oqiKNp2R5Xpus7MapyEWPEaNCI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=IT+6JE7znziXExt1XDsOHDTR+CUCDEG5Q1ew9r79KYeH8l9dRhjzKt1cTq5ny7OR4b/rJowYDdv6eTOH2ZGnhUYfLWgXnw2Zq+TY3nLYZzKvrSOZooX3n9LJniLrwP4L3L7Rkv8XFxuXjY7Oiztl4pdMeoi+nx/BEUh1IN79Ve4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HigqxdhJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788837383; c=relaxed/simple;
+	bh=0SOAYylIn/iT32ZuhYhnLeMtvTFzELG1v5iufdQHD64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NHTETcemSjCw33pqV45SwB+Fvhscm1odFAWcx4nFnTzCX1G6nuBXkV9pOT94QDnZW8fYxl1Zwiu8KWFjo+35ai1qZOfslwtw8Gp4TEpZyxnz5E7rQXHh5XCmJrEPEgv2KJKeLYzmWiK3o5msRcKo++msLD6lUc4GFhZn4AWxUlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OcCXQrlN; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HigqxdhJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 790601F00A3A;
-	Tue,  8 Sep 2026 02:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788834275;
-	bh=Nkyuymj7mBved5RNygfBUAO4tOYPsc0BqS1XKDjoXQE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HigqxdhJHEFhCz5YPo2qGL3dAVaA0yA2aV/dwjtdp9fa2p/phq9npQZVfAlHQaniQ
-	 0xWz+COyfLv+wg+NvkGc3Ap9DnBi5ZeSJ1GqQ6Ovafh7ICAEdSJqSOijxhQcmE2YS6
-	 /r5oqLdgPYO27ShgIlGgG5m/B3EXTFMRMqNYkq/nfw46i4y2GYoQh9SPnzDXacqKI5
-	 7EQC4iXP9fdP/iaxl1RUzkqjDcHitr5V8lABoMFZkp6Qy8Xt1ERcEUPELdbmWQZ2Av
-	 EzajkGbdy+4u13R/ZJAI91X4qBlNru9dUhcmEa/McOTjeCswLjezzH+kgV7db5wyQv
-	 cnAFSuixiSv1w==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh R" <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260908021340.2548924-3-mrathor@linux.microsoft.com>
-References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
- <20260908021340.2548924-3-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Sep 2026 02:24:34 +0000
-Message-Id: <20260908022435.790601F00A3A@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OcCXQrlN"
+Received: from localhost (unknown [124.126.141.200])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2783020B710C;
+	Mon,  7 Sep 2026 20:15:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2783020B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788837341;
+	bh=yvnPaMlJnV54aQ4efWfHMY4CmyOcsP8nXDCwg89Qi7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OcCXQrlNmLed6XGcOcyyEBZFHQQFiBxldOuAfNWmipiP6CECpG25ktmX+0kCQMplh
+	 dzFU0zmKGMi29OZNXRpyMYKDp3d17h1apT545sGz6p2/xlSAkyVEfGpSzpGVh5iUQW
+	 GJQ/GAHarStjTlZ8rvbONrxofbGO1VleIc9fySHY=
+Date: Tue, 8 Sep 2026 11:16:18 +0800
+From: Yu Zhang <zhangyu1@linux.microsoft.com>
+To: Mukesh R <mrathor@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, 
+	x86@kernel.org, wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, 
+	decui@microsoft.com, longli@microsoft.com, joro@8bytes.org, will@kernel.org, 
+	robin.murphy@arm.com, bhelgaas@google.com, kwilczynski@kernel.org, 
+	lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, arnd@arndb.de, jgg@ziepe.ca, 
+	mhklinux@outlook.com, jacob.pan@linux.microsoft.com, tgopinath@linux.microsoft.com, 
+	easwar.hariharan@linux.microsoft.com, baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com, 
+	vasant.hegde@amd.com
+Subject: Re: [PATCH v5 4/5] iommu/hyperv: Add para-virtualized IOMMU support
+ for Hyper-V guest
+Message-ID: <mjwk6raf75lpd3wjotii5lnxmnlt4c474tu55ezrwsvr2rbfmx@krnwg7yoifes>
+References: <20260904075512.174154-1-zhangyu1@linux.microsoft.com>
+ <20260904075512.174154-5-zhangyu1@linux.microsoft.com>
+ <af047ef8-91ef-7786-c230-25e28b1c8c04@linux.microsoft.com>
+ <re2lmz757bvtzbkylxtsj7zu2pjqz7ro752tcg7bpjaicuj6ml@mgsg6jnvgbyd>
+ <421b3805-5b90-dfc9-b84c-ee58969f5e36@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <421b3805-5b90-dfc9-b84c-ee58969f5e36@linux.microsoft.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] The error path for a failed second hypercall erroneously frees=
- pages already deposited to the hypervisor and double-frees `lastpfn`.
-- [High] If the deposit hypercall fails with `U64_MAX`, the error handler s=
-kips freeing pages, leaking up to 511 pages per call.
---
+On Mon, Sep 07, 2026 at 02:08:35PM -0700, Mukesh R wrote:
+> On 9/7/26 01:41, Yu Zhang wrote:
+> > <snip>
+> > 
+> > > > +{
+> > > > +	u64 status;
+> > > > +	u32 prefix;
+> > > > +	unsigned long flags;
+> > > > +	int ret;
+> > > > +	struct pci_dev *pdev = to_pci_dev(dev);
+> > > > +	struct hv_input_get_logical_device_property *input;
+> > > > +	struct hv_output_get_logical_device_property *output;
+> > > > +
+> > > > +	ret = hv_pci_lookup_dev_id(pci_domain_nr(pdev->bus), &prefix);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	local_irq_save(flags);
+> > > > +
+> > > > +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+> > > > +	output = (struct hv_output_get_logical_device_property *)(input + 1);
+> > > 
+> > > Any reason for not using pcpu output arg like we do in all other places?
+> > > If there is a technical reason, please document it, otherwise when revisited
+> > > in future for re-design, anyone looking at this will be confused and
+> > > waste time investigating if there is anything different about this hypercall.
+> > > 
+> > > 
+> > 
+> > Thank you, Mukesh. I had also incorrectly assumed that output required
+> > a separate page, which is why the RFC included a separate output-page
+> > allocation patch. Michael clarified during that review [1] that input
+> > and output can share a page as long as their buffers do not overlap,
+> > so I dropped that patch latter.
+> 
+> They can share a page, but we don't enforce the sizes combined do
+> not overflow a page, and that could be an issue in future. There is
 
-commit 03b27f8f1637e85a6319eb9bbc84a63e9b9df5c5
-Author: Mukesh R <mrathor@linux.microsoft.com>
+The two hypercalls (HVCALL_GET_IOMMU_CAPABILITIES and
+HVCALL_GET_LOGICAL_DEVICE_PROPERTY) each currently use only 40 bytes of
+combined input and output. No concrete requirement has been identified
+that would make either approach 4 KB. A hypothetical future expansion
+is not sufficient reason to allocate another per-CPU page now. 
 
-mshv: Redesign hypervisor memory deposit logic
+> a tool on the hyp side i believe to check that input and output struct
+> sizes do not exceed page size.
+> 
+> Also, both the input and output pages are pre-allocated, so there is no
+> extra allocation (otherwise, we'd have changed all places by now). So
+> it's better to just follow the convention we've so far just to avoid
+> confusion during future redesign imo. We def need to revisit this in
+> near/medium future for all hypercalls.
+> 
 
-This commit redesigns the hypervisor memory deposit logic to improve
-performance and fix contiguous range requirements. It changes the logic to
-attempt allocating a 2MB contiguous range by default and reduces the
-allocations per deposit.
+Well, output page is NOT pre-allocated ordinary child partitions. Please
+see hv_output_page_exists() in hv_common.c.
+                                                                                                                                                        
+My RFC included a separate allocation because I had incorrectly assumed
+that output required its own page. Like I mentioned earlier, this was
+already discussed during the RFC review [1], and that allocation patch
+was dropped following the discussion.
 
-> diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> index 57864bb5bcd8c..0ebede0bc8b4f 100644
-> --- a/drivers/hv/hv_proc.c
-> +++ b/drivers/hv/hv_proc.c
+Using separate pages is NOT a *convention* either: hv_pci_read_mmio()
+already places input and output in non-overlapping regions of the same
+page.
 
-[ ... ]
+We can certainly reassess which hypercalls need separate output pages
+in a broader review. I would keep that separate from this series,
+rather than reopen the RFC discussion without a concrete issue in
+the current implementation.
 
-> +static int hv_call_deposit_pages(int node, u64 partition_id, bool contig=
-uous)
-> +{
-> +	struct hv_deposit_memory *hc_input;
-> +	int i, rc, num_pages;
-> +	u64 status, *pfna, lastpfn =3D 0;
-> +	bool trunc_extra =3D false;
+[1] https://lore.kernel.org/all/SN6PR02MB4157C3EF6617A7BA4CA9E432D485A@SN6PR02MB4157.namprd02.prod.outlook.com/
 
-[ ... ]
-
-> +	if (lastpfn) {
-> +		hc_input->gpa_page_list[0] =3D lastpfn;
-> +		status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, 1, 0,
-> +					     hc_input, NULL);
-> +
-> +		if (!hv_result_success(status)) {
-> +			if (contiguous)
-> +				goto err_free_dep_pages;
-> +
-> +			/* We deposited lot earlier, so give it a go */
-> +			__free_page(pfn_to_page(lastpfn));
-> +		}
-> +	}
-> +
-> +	free_page((unsigned long)hc_input);
-> +	return 0;
-> +
-> +err_free_dep_pages:
-> +	hv_status_err(status, "\n");
-> +	rc =3D hv_result_to_errno(status);
-> +
-> +	for (i =3D hv_repcomp(status); i < num_pages; i++)
-> +		__free_page(pfn_to_page(pfna[i]));
-
-[Severity: High]
-If hv_do_rep_hypercall() fails and returns U64_MAX, doesn't hv_repcomp(stat=
-us)
-evaluate to 4095?
-
-Since 4095 is always greater than num_pages (which is capped at 511), this =
-loop
-condition would evaluate to false immediately, bypassing the cleanup and
-causing an unconditional leak of the allocated pages.
-
-[Severity: Critical]
-If the first hypercall succeeds but the second hypercall fails while contig=
-uous
-is true, the code jumps to err_free_dep_pages.
-
-At this point, num_pages is still from the first hypercall, but status is f=
-rom
-the failed second hypercall, so hv_repcomp(status) is likely 0. Does this m=
-ean
-the loop will iterate from 0 to 511, mistakenly returning pages to the buddy
-allocator that the hypervisor successfully assumed ownership of during the
-first hypercall?
-
-Furthermore, because hc_input->gpa_page_list[0] was replaced with lastpfn j=
-ust
-before the second hypercall, the loop will free lastpfn at index 0.
-
-Could the subsequent block:
-
-> +	if (lastpfn)
-> +		__free_page(pfn_to_page(lastpfn));
-
-then free lastpfn a second time, resulting in a double-free?
-
-> +
-> +out_free:
-> +	free_page((unsigned long)hc_input);
-> +	return rc;
-> +}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908021340.2548=
-924-1-mrathor@linux.microsoft.com?part=3D2
+B.R.
+Yu
