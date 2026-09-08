@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC1952E06A;
-	Tue,  8 Sep 2026 12:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B22F0538D9E;
+	Tue,  8 Sep 2026 12:14:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788869667; cv=none; b=cb6lIgravSOSaOizWa3VAhhmP4ITuAZt3SiR3daavK9b0WCvf2o0/kI88297WgXceyLmSx6pkFE0ZXjpdd+DpI4TM3PMBYR/1wO6udIqbTM436cDP+2GYaJmgd2G0G3Q99CDYZXysSjp5Tm3vBHoRpTh8y+mDYFL17NfN98VLxY=
+	t=1788869670; cv=none; b=jBr4V7D4Jw1ay74VV9IIR92KnZdm0NG8pnAnegdYsUp3OlI0bBA3KYDkmBVsvQnuJv7H3QgLs2dkPQ52HMK70ijJRN72tmTBawvOmXcPiZ/VdSRS9ra8l3DhrIBu2OJtH2/B9ysRB9m/rrNvqYBZzzHnAVSAXCgQGl6aFzWt4zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788869667; c=relaxed/simple;
-	bh=+c+qmkiAfHB2GBH9GId1XLpzC33ZYKuBXWq7q5agsOI=;
+	s=arc-20240116; t=1788869670; c=relaxed/simple;
+	bh=Nf//S+UZB/izXaqyBLvYx7oo344+WN8ThkgMyHxO6Uw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EraWqE/g1k77IVzRBrLR8T73eV5UynyWLEys9O4v5FD1nGensTFpbxoqBViBSUk9DmmAl38gXTNEsqutb0gVqbInqCtWUD/BC3RwRD7NJVS7g8v9NCpTsekkpPuRg+m2KhXOMCNtGZ0RrnDvms/s3FRCy5Wbc2BjiL3X76PwOVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=H74pxnyi; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=IeRnqsmRYkt3viM5Ej91aHowD1gQkzRqX7l5zof3UQQgCZiuSXuXsByxc6cmPTWNbewUqoyFy9xCkRXwtnfMXIAtF/856m7jheZbXN2id4czauIvyvWmuNzXr5ZWhRRR6ENEi7ohokNvDkuFsoAE0cpabRh/9O+lnZLli8QF9QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hCxPWQRi; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="H74pxnyi"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hCxPWQRi"
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 67E5E20B712D;
-	Tue,  8 Sep 2026 05:13:26 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 67E5E20B712D
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8C80820B7135;
+	Tue,  8 Sep 2026 05:13:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8C80820B7135
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788869606;
-	bh=IW0t/VwAUm93K9A34UNvyhGw0xUWA7TYZNQFNw45B4s=;
+	s=default; t=1788869610;
+	bh=Ix8z5WZg7MrHxcAx17amkm48JmatppO9P2H9D8ASIbA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H74pxnyiJNOAjF3FeESE0L/5e5kXfLqmpdXj6HPA93Hg5D8El6uu4BQeBqcSH9CDB
-	 3SU/ABNsUwFNtM1i1oUyWJmL3HmnriI5ePf1tvXtemfOAfLYFHCyt7wERT8lEz8obN
-	 CtPN5aCcJcG7OKd+MHEUFDNvakrxGWqbaKzLMnhw=
+	b=hCxPWQRin7AYNk+6eZOVaUSXscFsQ8d08kiZmTJnh7kTErwya7PhiRURCf8QT+d41
+	 oPPss0hInwIew2aDD2SMckS3oJk2WE11J/DDWLn3wc5JXGmzZgRslf3Kg5Gel1NB35
+	 EOYedgTITgpxBw2hB4rSwyeq4cvYF//e4nlMRnug=
 From: Wei Hu <weh@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -32,11 +32,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Wei Hu <weh@microsoft.com>
-Subject: [PATCH v5 1/9] mshv: retain memory regions until unmap succeeds
-Date: Tue,  8 Sep 2026 12:13:34 +0000
-Message-ID: <20260908121403.1160280-2-weh@linux.microsoft.com>
+	Long Li <longli@microsoft.com>
+Subject: [PATCH v5 3/9] mshv: add SEV-SNP UAPI definitions
+Date: Tue,  8 Sep 2026 12:13:36 +0000
+Message-ID: <20260908121403.1160280-4-weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260908121403.1160280-1-weh@linux.microsoft.com>
 References: <20260831112704.2851147-1-weh@linux.microsoft.com>
@@ -49,788 +48,367 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+From: Wei Liu <wei.liu@kernel.org>
 
-Do not remove a region from the partition list or unpin its pages until
-a checked UnmapGpaPages hypercall has completed. Validate repetition
-progress so malformed zero or oversized completion counts cannot spin or
-conceal partial state.
+Add the MSHV UAPI and Microsoft Hypervisor ABI definitions required to
+create and manage SEV-SNP child partitions.
 
-Map failure cleanup now unmaps the full requested range. If cleanup is
-uncertain, retain the region, partition, and module rather than allowing
-the child partition to access freed pages. Keep fallible hypervisor
-cleanup out of the kref release callback.
+Use fixed-size ioctl headers with aligned userspace pointers for variable
+page arrays and the launch-finish payload. The host-access interface
+names its input as guest GPAs, while isolated import takes guest PFNs and
+an explicit page-size value. Keep the public launch structures naturally
+aligned and represent the SNP policy as a raw 64-bit ABI value rather
+than compiler-dependent bitfields.
 
-For movable regions, use the fault rwsem only as a GPA-fault admission
-and notifier-lifetime gate. The MMU interval notifier serializes directly
-with the region mutex, publishes its sequence after locking, and skips a
-NO_ACCESS remap only after a checked unmap proves no mapping remains.
+Until the implementation is added later in the series, continue to reject
+every non-NONE isolation type rather than silently creating an unisolated
+partition.
 
-Explicit unmap and partition teardown block and drain faults with the
-write side, then take the region mutex around the checked hypervisor
-unmap. Restore list visibility and fault admission on failure. Remove the
-interval notifier only after dropping both locks.
+Both array ioctls return the exact number of input entries completed. The
+field is MBZ on input; userspace may resume at array + completed with
+count - completed. Completed operations are not rolled back when a later
+entry fails.
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/hv/mshv_regions.c      | 180 +++++++++++++++++----------------
- drivers/hv/mshv_root.h         |  14 ++-
- drivers/hv/mshv_root_hv_call.c |  81 ++++++++++-----
- drivers/hv/mshv_root_main.c    | 115 +++++++++++++++++++--
- 4 files changed, 268 insertions(+), 122 deletions(-)
+ drivers/hv/mshv_root_main.c |   4 +-
+ include/hyperv/hvgdk_mini.h |  19 +++++++
+ include/hyperv/hvhdk.h      |  45 +++++++++++++++
+ include/hyperv/hvhdk_mini.h |  53 ++++++++++++++++++
+ include/uapi/linux/mshv.h   | 108 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 227 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-index 6d65e5b42152..7b1860d3233d 100644
---- a/drivers/hv/mshv_regions.c
-+++ b/drivers/hv/mshv_regions.c
-@@ -188,6 +188,8 @@ struct mshv_mem_region *mshv_region_create(u64 guest_pfn, u64 nr_pages,
- 		region->hv_map_flags |= HV_MAP_GPA_EXECUTABLE;
- 
- 	kref_init(&region->mreg_refcount);
-+	mutex_init(&region->mreg_mutex);
-+	init_rwsem(&region->mreg_fault_lock);
- 
- 	return region;
- }
-@@ -245,13 +247,21 @@ static int mshv_region_chunk_remap(struct mshv_mem_region *region,
- 				   u64 page_offset, u64 page_count,
- 				   bool huge_page)
- {
-+	bool chunk_mapping_may_exist;
-+	int ret;
-+
- 	if (huge_page)
- 		flags |= HV_MAP_GPA_LARGE_PAGE;
- 
--	return hv_call_map_gpa_pages(region->partition->pt_id,
--				     region->start_gfn + page_offset,
--				     page_count, flags,
--				     region->mreg_pages + page_offset);
-+	ret = hv_call_map_gpa_pages(region->partition->pt_id,
-+				    region->start_gfn + page_offset,
-+				    page_count, flags,
-+				    region->mreg_pages + page_offset,
-+				    &chunk_mapping_may_exist);
-+	if (chunk_mapping_may_exist)
-+		region->mapping_may_exist = true;
-+
-+	return ret;
- }
- 
- static int mshv_region_remap_pages(struct mshv_mem_region *region,
-@@ -337,37 +347,39 @@ static int mshv_region_chunk_unmap(struct mshv_mem_region *region,
- 				       page_count, flags);
- }
- 
--static int mshv_region_unmap(struct mshv_mem_region *region)
-+int mshv_region_unmap(struct mshv_mem_region *region)
- {
--	return mshv_region_process_range(region, 0,
--					 0, region->nr_pages,
--					 mshv_region_chunk_unmap);
-+	int ret;
-+
-+	if (!region->mapping_may_exist)
-+		return 0;
-+
-+	if (region->mreg_type == MSHV_REGION_TYPE_MEM_PINNED)
-+		ret = mshv_region_process_range(region, 0, 0, region->nr_pages,
-+						mshv_region_chunk_unmap);
-+	else
-+		ret = hv_call_unmap_gpa_pages(region->partition->pt_id,
-+					      region->start_gfn,
-+					      region->nr_pages, 0);
-+	if (!ret)
-+		region->mapping_may_exist = false;
-+
-+	return ret;
- }
- 
- static void mshv_region_destroy(struct kref *ref)
- {
- 	struct mshv_mem_region *region =
- 		container_of(ref, struct mshv_mem_region, mreg_refcount);
--	struct mshv_partition *partition = region->partition;
--	int ret;
-+
-+	/* Callers must retain the list reference until cleanup is certain. */
-+	if (WARN_ON_ONCE(region->mapping_may_exist))
-+		return;
- 
- 	if (region->mreg_type == MSHV_REGION_TYPE_MEM_MOVABLE)
- 		mshv_region_movable_fini(region);
- 
--	if (mshv_partition_encrypted(partition)) {
--		ret = mshv_region_share(region);
--		if (ret) {
--			pt_err(partition,
--			       "Failed to regain access to memory, unpinning user pages will fail and crash the host error: %d\n",
--			       ret);
--			return;
--		}
--	}
--
--	mshv_region_unmap(region);
--
- 	mshv_region_invalidate(region);
--
- 	vfree(region);
- }
- 
-@@ -382,54 +394,18 @@ int mshv_region_get(struct mshv_mem_region *region)
- }
- 
- /**
-- * mshv_region_hmm_fault_and_lock - Handle HMM faults and lock the memory region
-- * @region: Pointer to the memory region structure
-- * @range: Pointer to the HMM range structure
-+ * mshv_region_range_fault - Fault and map pages for a movable region.
-+ * @region: Memory region receiving the GPA fault.
-+ * @page_offset: First page in the region.
-+ * @page_count: Number of pages to fault.
-  *
-- * This function performs the following steps:
-- * 1. Reads the notifier sequence for the HMM range.
-- * 2. Acquires a read lock on the memory map.
-- * 3. Handles HMM faults for the specified range.
-- * 4. Releases the read lock on the memory map.
-- * 5. If successful, locks the memory region mutex.
-- * 6. Verifies if the notifier sequence has changed during the operation.
-- *    If it has, releases the mutex and returns -EBUSY to match with
-- *    hmm_range_fault() return code for repeating.
-- *
-- * Return: 0 on success, a negative error code otherwise.
-- */
--static int mshv_region_hmm_fault_and_lock(struct mshv_mem_region *region,
--					  struct hmm_range *range)
--{
--	int ret;
--
--	range->notifier_seq = mmu_interval_read_begin(range->notifier);
--	mmap_read_lock(region->mreg_mni.mm);
--	ret = hmm_range_fault(range);
--	mmap_read_unlock(region->mreg_mni.mm);
--	if (ret)
--		return ret;
--
--	mutex_lock(&region->mreg_mutex);
--
--	if (mmu_interval_read_retry(range->notifier, range->notifier_seq)) {
--		mutex_unlock(&region->mreg_mutex);
--		cond_resched();
--		return -EBUSY;
--	}
--
--	return 0;
--}
--
--/**
-- * mshv_region_range_fault - Handle memory range faults for a given region.
-- * @region: Pointer to the memory region structure.
-- * @page_offset: Offset of the page within the region.
-- * @page_count: Number of pages to handle.
-+ * mreg_fault_lock is only an admission and lifetime gate. A teardown writer
-+ * sets faults_blocked before taking the write side, which prevents new faults
-+ * and drains faults that can still remap the region. On an HMM retry, drop the
-+ * gate and mmap_lock before trying again so a waiting writer cannot create a
-+ * fairness cycle. The notifier never takes mreg_fault_lock.
-  *
-- * This function resolves memory faults for a specified range of pages
-- * within a memory region. It uses HMM (Heterogeneous Memory Management)
-- * to fault in the required pages and updates the region's page array.
-+ * Lock order for one attempt is mreg_fault_lock -> mmap_lock -> mreg_mutex.
-  *
-  * Return: 0 on success, negative error code on failure.
-  */
-@@ -440,6 +416,7 @@ static int mshv_region_range_fault(struct mshv_mem_region *region,
- 		.notifier = &region->mreg_mni,
- 		.default_flags = HMM_PFN_REQ_FAULT | HMM_PFN_REQ_WRITE,
- 	};
-+	struct mm_struct *mm;
- 	unsigned long *pfns;
- 	int ret;
- 	u64 i;
-@@ -452,21 +429,44 @@ static int mshv_region_range_fault(struct mshv_mem_region *region,
- 	range.start = region->start_uaddr + page_offset * HV_HYP_PAGE_SIZE;
- 	range.end = range.start + page_count * HV_HYP_PAGE_SIZE;
- 
--	do {
--		ret = mshv_region_hmm_fault_and_lock(region, &range);
--	} while (ret == -EBUSY);
-+retry:
-+	down_read(&region->mreg_fault_lock);
-+	if (READ_ONCE(region->faults_blocked) ||
-+	    !mmget_not_zero(region->mreg_mni.mm)) {
-+		ret = -ECANCELED;
-+		goto out_unlock_faults;
-+	}
-+	mm = region->mreg_mni.mm;
- 
-+	mmap_read_lock(mm);
-+	range.notifier_seq = mmu_interval_read_begin(range.notifier);
-+	ret = hmm_range_fault(&range);
- 	if (ret)
--		goto out;
-+		goto out_unlock_mmap;
-+
-+	mutex_lock(&region->mreg_mutex);
-+	if (mmu_interval_read_retry(range.notifier, range.notifier_seq)) {
-+		mutex_unlock(&region->mreg_mutex);
-+		ret = -EBUSY;
-+		goto out_unlock_mmap;
-+	}
- 
- 	for (i = 0; i < page_count; i++)
- 		region->mreg_pages[page_offset + i] = hmm_pfn_to_page(pfns[i]);
- 
- 	ret = mshv_region_remap_pages(region, region->hv_map_flags,
- 				      page_offset, page_count);
--
- 	mutex_unlock(&region->mreg_mutex);
--out:
-+
-+out_unlock_mmap:
-+	mmap_read_unlock(mm);
-+	mmput(mm);
-+out_unlock_faults:
-+	up_read(&region->mreg_fault_lock);
-+	if (ret == -EBUSY) {
-+		cond_resched();
-+		goto retry;
-+	}
- 	kfree(pfns);
- 	return ret;
- }
-@@ -486,10 +486,11 @@ bool mshv_region_handle_gfn_fault(struct mshv_mem_region *region, u64 gfn)
- 
- 	ret = mshv_region_range_fault(region, page_offset, page_count);
- 
--	WARN_ONCE(ret,
-+	WARN_ONCE(ret && ret != -ECANCELED,
- 		  "p%llu: GPA intercept failed: region %#llx-%#llx, gfn %#llx, page_offset %llu, page_count %llu\n",
- 		  region->partition->pt_id, region->start_uaddr,
--		  region->start_uaddr + (region->nr_pages << HV_HYP_PAGE_SHIFT),
-+		  region->start_uaddr +
-+		  (region->nr_pages << HV_HYP_PAGE_SHIFT),
- 		  gfn, page_offset, page_count);
- 
- 	return !ret;
-@@ -531,6 +532,12 @@ static bool mshv_region_interval_invalidate(struct mmu_interval_notifier *mni,
- 	page_offset = HVPFN_DOWN(mstart - region->start_uaddr);
- 	page_count = HVPFN_DOWN(mend - mstart);
- 
-+	/*
-+	 * mmap_lock is already held by the notifier core. Take only the region
-+	 * mutex here; taking the fair fault rwsem would deadlock behind an unmap
-+	 * writer that is waiting for this mutex. Publish the sequence after the
-+	 * mutex is acquired even when a checked unmap proved no mapping remains.
-+	 */
- 	if (mmu_notifier_range_blockable(range))
- 		mutex_lock(&region->mreg_mutex);
- 	else if (!mutex_trylock(&region->mreg_mutex))
-@@ -538,15 +545,15 @@ static bool mshv_region_interval_invalidate(struct mmu_interval_notifier *mni,
- 
- 	mmu_interval_set_seq(mni, cur_seq);
- 
--	ret = mshv_region_remap_pages(region, HV_MAP_GPA_NO_ACCESS,
--				      page_offset, page_count);
--	if (ret)
--		goto out_unlock;
-+	if (READ_ONCE(region->mapping_may_exist)) {
-+		ret = mshv_region_remap_pages(region, HV_MAP_GPA_NO_ACCESS,
-+					      page_offset, page_count);
-+		if (ret)
-+			goto out_unlock;
-+	}
- 
- 	mshv_region_invalidate_pages(region, page_offset, page_count);
--
- 	mutex_unlock(&region->mreg_mutex);
--
- 	return true;
- 
- out_unlock:
-@@ -567,7 +574,11 @@ static const struct mmu_interval_notifier_ops mshv_region_mni_ops = {
- 
- void mshv_region_movable_fini(struct mshv_mem_region *region)
- {
-+	if (!region->mni_registered)
-+		return;
-+
- 	mmu_interval_notifier_remove(&region->mreg_mni);
-+	region->mni_registered = false;
- }
- 
- bool mshv_region_movable_init(struct mshv_mem_region *region)
-@@ -581,7 +592,6 @@ bool mshv_region_movable_init(struct mshv_mem_region *region)
- 	if (ret)
- 		return false;
- 
--	mutex_init(&region->mreg_mutex);
--
-+	region->mni_registered = true;
- 	return true;
- }
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 1f086dcb7aa1..d0770d36defb 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/spinlock.h>
- #include <linux/mutex.h>
-+#include <linux/rwsem.h>
- #include <linux/semaphore.h>
- #include <linux/sched.h>
- #include <linux/srcu.h>
-@@ -88,10 +89,15 @@ struct mshv_mem_region {
- 	u64 start_gfn;
- 	u64 start_uaddr;
- 	u32 hv_map_flags;
-+	/* True until a checked hypervisor unmap has completed. */
-+	bool mapping_may_exist;
- 	struct mshv_partition *partition;
- 	enum mshv_region_type mreg_type;
- 	struct mmu_interval_notifier mreg_mni;
- 	struct mutex mreg_mutex;	/* protects region pages remapping */
-+	struct rw_semaphore mreg_fault_lock;
-+	bool faults_blocked;
-+	bool mni_registered;
- 	struct page *mreg_pages[];
- };
- 
-@@ -139,6 +145,7 @@ struct mshv_partition {
- 	struct mshv_girq_routing_table __rcu *pt_girq_tbl;
- 	u64 isolation_type;
- 	bool import_completed;
-+	bool teardown_quarantined;
- 	bool pt_initialized;
- #if IS_ENABLED(CONFIG_DEBUG_FS)
- 	struct dentry *pt_stats_dentry;
-@@ -281,9 +288,11 @@ int hv_call_create_partition(u64 flags,
- int hv_call_initialize_partition(u64 partition_id);
- int hv_call_finalize_partition(u64 partition_id);
- int hv_call_delete_partition(u64 partition_id);
--int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa, u64 numpgs);
-+int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa,
-+			   u64 numpgs, bool *mapping_may_exist);
- int hv_call_map_gpa_pages(u64 partition_id, u64 gpa_target, u64 page_count,
--			  u32 flags, struct page **pages);
-+			  u32 flags, struct page **pages,
-+			  bool *mapping_may_exist);
- int hv_call_unmap_gpa_pages(u64 partition_id, u64 gpa_target, u64 page_count,
- 			    u32 flags);
- int hv_call_delete_vp(u64 partition_id, u32 vp_index);
-@@ -370,6 +379,7 @@ struct mshv_mem_region *mshv_region_create(u64 guest_pfn, u64 nr_pages,
- int mshv_region_share(struct mshv_mem_region *region);
- int mshv_region_unshare(struct mshv_mem_region *region);
- int mshv_region_map(struct mshv_mem_region *region);
-+int mshv_region_unmap(struct mshv_mem_region *region);
- void mshv_region_invalidate(struct mshv_mem_region *region);
- int mshv_region_pin(struct mshv_mem_region *region);
- void mshv_region_put(struct mshv_mem_region *region);
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index cb55d4d4be2e..1fa644e0e437 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -190,14 +190,19 @@ int hv_call_delete_partition(u64 partition_id)
- 
- /* Ask the hypervisor to map guest ram pages or the guest mmio space */
- static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
--			       u32 flags, struct page **pages, u64 mmio_spa)
-+			       u32 flags, struct page **pages, u64 mmio_spa,
-+			       bool *mapping_may_exist)
- {
- 	struct hv_input_map_gpa_pages *input_page;
- 	u64 status, *pfnlist;
- 	unsigned long irq_flags, large_shift = 0;
--	int ret = 0, done = 0;
- 	u64 page_count = page_struct_count;
-+	u64 done = 0;
-+	bool cleanup_needed = false;
-+	int ret = 0;
- 
-+	if (mapping_may_exist)
-+		*mapping_may_exist = false;
- 	if (page_count == 0 || (pages && mmio_spa))
- 		return -EINVAL;
- 
-@@ -213,8 +218,9 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 	}
- 
- 	while (done < page_count) {
--		ulong i, completed, remain = page_count - done;
--		int rep_count = min(remain, HV_MAP_GPA_BATCH_SIZE);
-+		u64 i, completed, remain = page_count - done;
-+		unsigned int rep_count = min_t(u64, remain,
-+					       HV_MAP_GPA_BATCH_SIZE);
- 
- 		local_irq_save(irq_flags);
- 		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
-@@ -224,49 +230,62 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 		input_page->map_flags = flags;
- 		pfnlist = input_page->source_gpa_page_list;
- 
--		for (i = 0; i < rep_count; i++)
-+		for (i = 0; i < rep_count; i++) {
- 			if (flags & HV_MAP_GPA_NO_ACCESS) {
- 				pfnlist[i] = 0;
- 			} else if (pages) {
- 				u64 index = (done + i) << large_shift;
- 
--				if (index >= page_struct_count) {
--					ret = -EINVAL;
--					break;
--				}
- 				pfnlist[i] = page_to_pfn(pages[index]);
- 			} else {
- 				pfnlist[i] = mmio_spa + done + i;
- 			}
--		if (ret)
--			break;
-+		}
- 
- 		status = hv_do_rep_hypercall(HVCALL_MAP_GPA_PAGES, rep_count, 0,
- 					     input_page, NULL);
- 		local_irq_restore(irq_flags);
- 
- 		completed = hv_repcomp(status);
-+		if (completed > rep_count) {
-+			cleanup_needed = true;
-+			ret = -EIO;
-+			break;
-+		}
-+		done += completed;
- 
- 		if (hv_result_needs_memory(status)) {
- 			ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
- 						    HV_MAP_GPA_DEPOSIT_PAGES);
- 			if (ret)
- 				break;
--
--		} else if (!hv_result_success(status)) {
-+			continue;
-+		}
-+		if (!hv_result_success(status)) {
- 			ret = hv_result_to_errno(status);
- 			break;
- 		}
--
--		done += completed;
-+		if (!completed) {
-+			cleanup_needed = true;
-+			ret = -EIO;
-+			break;
-+		}
- 	}
- 
--	if (ret && done) {
-+	if (ret && (done || cleanup_needed)) {
- 		u32 unmap_flags = 0;
-+		int unmap_ret;
- 
- 		if (flags & HV_MAP_GPA_LARGE_PAGE)
- 			unmap_flags |= HV_UNMAP_GPA_LARGE_PAGE;
--		hv_call_unmap_gpa_pages(partition_id, gfn, done, unmap_flags);
-+		/* Unmap the full request so no unknown partial mapping survives. */
-+		unmap_ret =
-+			hv_call_unmap_gpa_pages(partition_id, gfn,
-+						page_struct_count, unmap_flags);
-+		if (unmap_ret && mapping_may_exist)
-+			*mapping_may_exist = true;
-+	} else if (!ret && mapping_may_exist) {
-+		*mapping_may_exist = true;
- 	}
- 
- 	return ret;
-@@ -274,16 +293,18 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 
- /* Ask the hypervisor to map guest ram pages */
- int hv_call_map_gpa_pages(u64 partition_id, u64 gpa_target, u64 page_count,
--			  u32 flags, struct page **pages)
-+			  u32 flags, struct page **pages,
-+			  bool *mapping_may_exist)
- {
- 	return hv_do_map_gpa_hcall(partition_id, gpa_target, page_count,
--				   flags, pages, 0);
-+				   flags, pages, 0, mapping_may_exist);
- }
- 
- /* Ask the hypervisor to map guest mmio space */
--int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa, u64 numpgs)
-+int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa,
-+			   u64 numpgs, bool *mapping_may_exist)
- {
--	int i;
-+	u64 i;
- 	u32 flags = HV_MAP_GPA_READABLE | HV_MAP_GPA_WRITABLE |
- 		    HV_MAP_GPA_NOT_CACHED;
- 
-@@ -292,7 +313,7 @@ int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa, u64 numpgs)
- 			return -EINVAL;
- 
- 	return hv_do_map_gpa_hcall(partition_id, gfn, numpgs, flags, NULL,
--				   mmio_spa);
-+				   mmio_spa, mapping_may_exist);
- }
- 
- int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
-@@ -301,7 +322,8 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
- 	struct hv_input_unmap_gpa_pages *input_page;
- 	u64 status, page_count = page_count_4k;
- 	unsigned long irq_flags, large_shift = 0;
--	int ret = 0, done = 0;
-+	u64 done = 0;
-+	int ret = 0;
- 
- 	if (page_count == 0)
- 		return -EINVAL;
-@@ -315,8 +337,9 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
- 	}
- 
- 	while (done < page_count) {
--		ulong completed, remain = page_count - done;
--		int rep_count = min(remain, HV_UMAP_GPA_PAGES);
-+		u64 completed, remain = page_count - done;
-+		unsigned int rep_count = min_t(u64, remain,
-+					       HV_UMAP_GPA_PAGES);
- 
- 		local_irq_save(irq_flags);
- 		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
-@@ -329,10 +352,18 @@ int hv_call_unmap_gpa_pages(u64 partition_id, u64 gfn, u64 page_count_4k,
- 		local_irq_restore(irq_flags);
- 
- 		completed = hv_repcomp(status);
-+		if (completed > rep_count) {
-+			ret = -EIO;
-+			break;
-+		}
- 		if (!hv_result_success(status)) {
- 			ret = hv_result_to_errno(status);
- 			break;
- 		}
-+		if (!completed) {
-+			ret = -EIO;
-+			break;
-+		}
- 
- 		done += completed;
- 	}
 diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index cc2cfce2aefd..bb6f16fac4de 100644
+index bb6f16fac4de..0a35c73a6349 100644
 --- a/drivers/hv/mshv_root_main.c
 +++ b/drivers/hv/mshv_root_main.c
-@@ -65,6 +65,7 @@ static int mshv_vp_mmap(struct file *file, struct vm_area_struct *vma);
- static vm_fault_t mshv_vp_fault(struct vm_fault *vmf);
- static int mshv_init_async_handler(struct mshv_partition *partition);
- static void mshv_async_hvcall_handler(void *data, u64 *status);
-+static void mshv_quarantine_partition(struct mshv_partition *partition);
+@@ -2057,7 +2057,7 @@ static long mshv_ioctl_process_pt_flags(void __user *user_arg, u64 *pt_flags,
+ 		return -EFAULT;
  
- static const union hv_input_vtl input_vtl_zero;
- static const union hv_input_vtl input_vtl_normal = {
-@@ -1397,13 +1398,15 @@ mshv_map_user_memory(struct mshv_partition *partition,
- 		ret = hv_call_map_gpa_pages(partition->pt_id,
- 					    region->start_gfn,
- 					    region->nr_pages,
--					    HV_MAP_GPA_NO_ACCESS, NULL);
-+					    HV_MAP_GPA_NO_ACCESS, NULL,
-+					    &region->mapping_may_exist);
- 		break;
- 	case MSHV_REGION_TYPE_MMIO:
- 		ret = hv_call_map_mmio_pages(partition->pt_id,
- 					     region->start_gfn,
- 					     mmio_pfn,
--					     region->nr_pages);
-+					     region->nr_pages,
-+					     &region->mapping_may_exist);
- 		break;
- 	}
- 
-@@ -1421,7 +1424,17 @@ mshv_map_user_memory(struct mshv_partition *partition,
- 	return 0;
- 
- errout:
--	mshv_region_put(region);
-+	if (region->mapping_may_exist) {
-+		spin_lock(&partition->pt_mem_regions_lock);
-+		hlist_add_head(&region->hnode, &partition->pt_mem_regions);
-+		spin_unlock(&partition->pt_mem_regions_lock);
-+		pt_err(partition,
-+		       "Retaining region after uncertain map cleanup at GFN %#llx\n",
-+		       region->start_gfn);
-+		mshv_quarantine_partition(partition);
-+	} else {
-+		mshv_region_put(region);
-+	}
- 	return ret;
- }
- 
-@@ -1431,33 +1444,64 @@ mshv_unmap_user_memory(struct mshv_partition *partition,
- 		       struct mshv_user_mem_region *mem)
- {
- 	struct mshv_mem_region *region;
-+	long ret;
- 
- 	if (!(mem->flags & BIT(MSHV_SET_MEM_BIT_UNMAP)))
+ 	if ((args.pt_flags & ~MSHV_PT_FLAGS_MASK) ||
+-	    args.pt_isolation >= MSHV_PT_ISOLATION_COUNT)
++	    args.pt_isolation != MSHV_PT_ISOLATION_NONE)
  		return -EINVAL;
  
+ 	disabled_procs = &cr_props->disabled_processor_features;
+@@ -2070,7 +2070,7 @@ static long mshv_ioctl_process_pt_flags(void __user *user_arg, u64 *pt_flags,
+ 
+ 		/* Re-validate v1 fields after second copy_from_user() */
+ 		if ((args.pt_flags & ~MSHV_PT_FLAGS_MASK) ||
+-		    args.pt_isolation >= MSHV_PT_ISOLATION_COUNT)
++		    args.pt_isolation != MSHV_PT_ISOLATION_NONE)
+ 			return -EINVAL;
+ 
+ 		if (args.pt_num_cpu_fbanks != MSHV_NUM_CPU_FEATURES_BANKS ||
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 6a4e8b9d570f..a53c0f59994a 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -497,6 +497,9 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_UNMAP_VP_STATE_PAGE			0x00e2
+ #define HVCALL_GET_VP_STATE				0x00e3
+ #define HVCALL_SET_VP_STATE				0x00e4
++#define HVCALL_IMPORT_ISOLATED_PAGES			0x00ef
++#define HVCALL_COMPLETE_ISOLATED_IMPORT			0x00f1
++#define HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST		0x00f2
+ #define HVCALL_GET_VP_CPUID_VALUES			0x00f4
+ #define HVCALL_GET_PARTITION_PROPERTY_EX		0x0101
+ #define HVCALL_MMIO_READ				0x0106
+@@ -1065,6 +1068,9 @@ enum hv_register_name {
+ 	HV_REGISTER_VSM_PARTITION_CONFIG	= 0x000D0007,
+ 
+ #if defined(CONFIG_X86)
++	/* AMD SEV-SNP configuration register */
++	HV_X64_REGISTER_SEV_CONTROL				= 0x00090040,
++
+ 	/* X64 Debug Registers */
+ 	HV_X64_REGISTER_DR0	= 0x00050000,
+ 	HV_X64_REGISTER_DR1	= 0x00050001,
+@@ -1267,6 +1273,18 @@ union hv_x64_pending_interruption_register {
+ 	} __packed;
+ };
+ 
++#ifdef CONFIG_X86
++#define HV_SUPPORTS_SEV_SNP_GUESTS
++union hv_x64_register_sev_control {
++	u64 as_uint64;
++	struct {
++		u64 enable_encrypted_state : 1;
++		u64 reserved_z : 11;
++		u64 vmsa_gpa_page_number : 52;
++	} __packed;
++};
++#endif
++
+ union hv_register_value {
+ 	struct hv_u128 reg128;
+ 	u64 reg64;
+@@ -1286,6 +1304,7 @@ union hv_register_value {
+ #ifdef CONFIG_X86
+ 	union hv_x64_interrupt_state_register interrupt_state;
+ 	union hv_x64_pending_interruption_register pending_interruption;
++	union hv_x64_register_sev_control sev_control;
+ #endif
+ 	union hv_arm64_pending_synthetic_exception_event pending_synthetic_exception_event;
+ };
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 0c89c62c9706..691ac495a095 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -953,4 +953,49 @@ struct hv_input_modify_sparse_spa_page_host_access {
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_LARGE_PAGE      0x4
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_HUGE_PAGE       0x8
+ 
++enum hv_isolated_page_type {
++	HV_ISOLATED_PAGE_TYPE_NORMAL,
++	HV_ISOLATED_PAGE_TYPE_VMSA,
++	HV_ISOLATED_PAGE_TYPE_ZERO,
++	HV_ISOLATED_PAGE_TYPE_UNMEASURED,
++	HV_ISOLATED_PAGE_TYPE_SECRETS,
++	HV_ISOLATED_PAGE_TYPE_CPUID,
++	HV_ISOLATED_PAGE_TYPE_COUNT
++};
++
++enum hv_isolated_page_size {
++	HV_ISOLATED_PAGE_SIZE_4KB,
++	HV_ISOLATED_PAGE_SIZE_2MB
++};
++
++struct hv_input_import_isolated_pages {
++	u64 partition_id;
++	u32 page_type;
++	u32 page_size;
++	u64 page_number[];
++} __packed;
++
++struct hv_input_issue_psp_guest_request {
++	u64 partition_id;
++	u64 request_page;
++	u64 response_page;
++} __packed;
++
++enum hv_partition_isolation_state {
++	HV_PARTITION_ISOLATION_INVALID,
++	HV_PARTITION_ISOLATION_INSECURE_CLEAN,
++	HV_PARTITION_ISOLATION_INSECURE_DIRTY,
++	HV_PARTITION_ISOLATION_SECURE,
++	HV_PARTITION_ISOLATION_SECURE_DIRTY,
++	HV_PARTITION_ISOLATION_SECURE_TERMINATING,
++};
++
++union hv_partition_isolation_control {
++	u64 as_uint64;
++	struct {
++		u64 runnable : 1;
++		u64 reserved_z : 63;
++	} __packed;
++};
++
+ #endif /* _HV_HVHDK_H */
+diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
+index 035ba20870f7..dd84085c0aff 100644
+--- a/include/hyperv/hvhdk_mini.h
++++ b/include/hyperv/hvhdk_mini.h
+@@ -94,6 +94,8 @@ enum hv_partition_property_code {
+ 
+ 	/* Resource properties */
+ 	HV_PARTITION_PROPERTY_GPA_PAGE_ACCESS_TRACKING		= 0x00050005,
++	HV_PARTITION_PROPERTY_ISOLATION_STATE			= 0x0005000c,
++	HV_PARTITION_PROPERTY_ISOLATION_CONTROL			= 0x0005000d,
+ 	HV_PARTITION_PROPERTY_UNIMPLEMENTED_MSR_ACTION		= 0x00050017,
+ 
+ 	/* Compatibility properties */
+@@ -145,6 +147,57 @@ enum hv_snp_status {
+ 	HV_SNP_STATUS_PSP_INIT_LATE_FAILED = 10,
+ };
+ 
++union hv_snp_guest_policy {
++	struct {
++		u64 minor_version : 8;
++		u64 major_version : 8;
++		u64 smt_allowed : 1;
++		u64 vmpls_required : 1;
++		u64 migration_agent_allowed : 1;
++		u64 debug_allowed : 1;
++		u64 reserved : 44;
++	} __packed;
++	u64 as_uint64;
++};
++
++struct hv_snp_id_block {
++	u8 launch_digest[48];
++	u8 family_id[16];
++	u8 image_id[16];
++	u32 version;
++	u32 guest_svn;
++	union hv_snp_guest_policy policy;
++} __packed;
++
++struct hv_snp_id_auth_info {
++	u32 id_key_algorithm;
++	u32 auth_key_algorithm;
++	u8 reserved0[56];
++	u8 id_block_signature[512];
++	u8 id_key[1028];
++	u8 reserved1[60];
++	u8 id_key_signature[512];
++	u8 author_key[1028];
++} __packed;
++
++struct hv_psp_launch_finish_data {
++	struct hv_snp_id_block id_block;
++	struct hv_snp_id_auth_info id_auth_info;
++	u8 host_data[32];
++	u8 id_block_enabled;
++	u8 author_key_enabled;
++} __packed;
++
++union hv_partition_complete_isolated_import_data {
++	u64 reserved;
++	struct hv_psp_launch_finish_data psp_parameters;
++} __packed;
++
++struct hv_input_complete_isolated_import {
++	u64 partition_id;
++	union hv_partition_complete_isolated_import_data import_data;
++} __packed;
++
+ enum hv_system_property {
+ 	/* Add more values when needed */
+ 	HV_SYSTEM_PROPERTY_SLEEP_STATE = 3,
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 32ff92b6342b..9c665f47ce71 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -36,6 +36,7 @@ enum {
+ 
+ enum {
+ 	MSHV_PT_ISOLATION_NONE,
++	MSHV_PT_ISOLATION_SNP,
+ 	MSHV_PT_ISOLATION_COUNT,
+ };
+ 
+@@ -219,6 +220,108 @@ struct mshv_gpap_access_bitmap {
+ 	__u64 bitmap_ptr;
+ };
+ 
++enum {
++	MSHV_GPA_HOST_ACCESS_BIT_ACQUIRE,
++	MSHV_GPA_HOST_ACCESS_BIT_READABLE,
++	MSHV_GPA_HOST_ACCESS_BIT_WRITABLE,
++	MSHV_GPA_HOST_ACCESS_BIT_LARGE_PAGE,
++	MSHV_GPA_HOST_ACCESS_BIT_COUNT
++};
++
++#define MSHV_GPA_HOST_ACCESS_FLAGS_MASK \
++	((1 << MSHV_GPA_HOST_ACCESS_BIT_COUNT) - 1)
++
++struct mshv_modify_gpa_host_access {
++	__u8 flags;
++	__u8 rsvd[7];
++	__u64 page_count;
 +	/*
-+	 * The list owns one reference. Take a temporary reference and detach
-+	 * under the lookup lock before waiting for existing remappers. This
-+	 * prevents a zero-ref region from being reinserted on unmap failure.
++	 * MBZ on input; number of guest_gpas entries completed on output.
++	 * Completed entries are not rolled back; resume at guest_gpas +
++	 * completed with page_count - completed entries.
 +	 */
- 	spin_lock(&partition->pt_mem_regions_lock);
--
- 	region = mshv_partition_region_by_gfn(partition, mem->guest_pfn);
--	if (!region) {
-+	if (!region || !mshv_region_get(region)) {
- 		spin_unlock(&partition->pt_mem_regions_lock);
- 		return -ENOENT;
- 	}
- 
--	/* Paranoia check */
- 	if (region->start_uaddr != mem->userspace_addr ||
- 	    region->start_gfn != mem->guest_pfn ||
- 	    region->nr_pages != HVPFN_DOWN(mem->size)) {
- 		spin_unlock(&partition->pt_mem_regions_lock);
-+		mshv_region_put(region);
- 		return -EINVAL;
- 	}
- 
--	hlist_del(&region->hnode);
--
-+	WRITE_ONCE(region->faults_blocked, true);
-+	hlist_del_init(&region->hnode);
- 	spin_unlock(&partition->pt_mem_regions_lock);
- 
--	mshv_region_put(region);
-+	/* Drain admitted faults, then serialize against the notifier remap. */
-+	down_write(&region->mreg_fault_lock);
-+	mutex_lock(&region->mreg_mutex);
-+	ret = mshv_region_unmap(region);
-+	if (ret)
-+		goto restore_region;
++	__u64 completed;
++	__aligned_u64 guest_gpas;
++};
 +
-+	mutex_unlock(&region->mreg_mutex);
-+	up_write(&region->mreg_fault_lock);
++enum {
++	MSHV_ISOLATED_PAGE_NORMAL,
++	MSHV_ISOLATED_PAGE_VMSA,
++	MSHV_ISOLATED_PAGE_ZERO,
++	MSHV_ISOLATED_PAGE_UNMEASURED,
++	MSHV_ISOLATED_PAGE_SECRETS,
++	MSHV_ISOLATED_PAGE_CPUID,
++	MSHV_ISOLATED_PAGE_COUNT
++};
 +
-+	if (region->mreg_type == MSHV_REGION_TYPE_MEM_MOVABLE)
-+		mshv_region_movable_fini(region);
++enum {
++	MSHV_ISOLATED_PAGE_SIZE_4KB,
++	MSHV_ISOLATED_PAGE_SIZE_2MB,
++	MSHV_ISOLATED_PAGE_SIZE_COUNT
++};
++
++struct mshv_import_isolated_pages {
++	__u8 page_type;
++	__u8 page_size;
++	__u8 rsvd[6];
++	__u64 page_count;
++	/*
++	 * MBZ on input; number of guest_pfns entries completed on output.
++	 * Completed entries are not rolled back; resume at guest_pfns +
++	 * completed with page_count - completed entries.
++	 */
++	__u64 completed;
++	__aligned_u64 guest_pfns;
++};
++
++struct mshv_issue_psp_guest_request {
++	__u64 req_gpa;
++	__u64 rsp_gpa;
++};
++
++struct mshv_sev_snp_ap_create {
++	__u64 vp_id;
++	__u64 vmsa_gpa;
++};
++
++struct mshv_snp_id_block {
++	__u8 launch_digest[48];
++	__u8 family_id[16];
++	__u8 image_id[16];
++	__u32 version;
++	__u32 guest_svn;
++	__u64 policy;
++};
++
++struct mshv_snp_id_auth_info {
++	__u32 id_key_algorithm;
++	__u32 auth_key_algorithm;
++	__u8 reserved0[56];
++	__u8 id_block_signature[512];
++	__u8 id_key[1028];
++	__u8 reserved1[60];
++	__u8 id_key_signature[512];
++	__u8 author_key[1028];
++};
++
++/*
++ * This structure describes the PSP launch-finish wire data. The two trailing
++ * reserved bytes make the userspace object naturally aligned; they must be 0
++ * and are not copied into the packed Hyper-V ABI structure.
++ */
++struct mshv_psp_launch_finish_data {
++	struct mshv_snp_id_block id_block;
++	struct mshv_snp_id_auth_info id_auth_info;
++	__u8 host_data[32];
++	__u8 id_block_enabled;
++	__u8 author_key_enabled;
++	__u8 reserved[2];
++};
++
++struct mshv_complete_isolated_import {
++	__aligned_u64 psp_parameters;
++};
++
+ /**
+  * struct mshv_root_hvcall - arguments for MSHV_ROOT_HVCALL
+  * @code: Hypercall code (HVCALL_*)
+@@ -254,6 +357,11 @@ struct mshv_root_hvcall {
+ #define MSHV_GET_GPAP_ACCESS_BITMAP	_IOWR(MSHV_IOCTL, 0x06, struct mshv_gpap_access_bitmap)
+ /* Generic hypercall */
+ #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07, struct mshv_root_hvcall)
++#define MSHV_MODIFY_GPA_HOST_ACCESS	_IOWR(MSHV_IOCTL, 0x09, struct mshv_modify_gpa_host_access)
++#define MSHV_IMPORT_ISOLATED_PAGES	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_import_isolated_pages)
++#define MSHV_COMPLETE_ISOLATED_IMPORT	_IOW(MSHV_IOCTL, 0xF4, struct mshv_complete_isolated_import)
++#define MSHV_ISSUE_PSP_GUEST_REQUEST	_IOW(MSHV_IOCTL, 0xF5, struct mshv_issue_psp_guest_request)
++#define MSHV_SEV_SNP_AP_CREATE		_IOW(MSHV_IOCTL, 0xF6, struct mshv_sev_snp_ap_create)
  
-+	/* Drop the detached list ownership and the temporary reference. */
-+	mshv_region_put(region);
-+	mshv_region_put(region);
- 	return 0;
-+
-+restore_region:
-+	/* Restore lookup visibility before allowing remappers to proceed. */
-+	spin_lock(&partition->pt_mem_regions_lock);
-+	hlist_add_head(&region->hnode, &partition->pt_mem_regions);
-+	WRITE_ONCE(region->faults_blocked, false);
-+	spin_unlock(&partition->pt_mem_regions_lock);
-+	mutex_unlock(&region->mreg_mutex);
-+	up_write(&region->mreg_fault_lock);
-+	mshv_region_put(region);
-+	return ret;
-+
- }
- 
- static long
-@@ -1658,6 +1702,11 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 	if (mutex_lock_killable(&partition->pt_mutex))
- 		return -EINTR;
- 
-+	if (partition->teardown_quarantined) {
-+		ret = -EIO;
-+		goto out;
-+	}
-+
- 	switch (ioctl) {
- 	case MSHV_INITIALIZE_PARTITION:
- 		ret = mshv_partition_ioctl_initialize(partition);
-@@ -1688,6 +1737,7 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		ret = -ENOTTY;
- 	}
- 
-+out:
- 	mutex_unlock(&partition->pt_mutex);
- 	return ret;
- }
-@@ -1795,6 +1845,16 @@ remove_partition(struct mshv_partition *partition)
- 	synchronize_rcu();
- }
- 
-+static void mshv_quarantine_partition(struct mshv_partition *partition)
-+{
-+	if (partition->teardown_quarantined)
-+		return;
-+
-+	/* Retain both the partition and the cleanup code indefinitely. */
-+	__module_get(THIS_MODULE);
-+	partition->teardown_quarantined = true;
-+}
-+
  /*
-  * Tear down a partition and remove it from the list.
-  * Partition's refcount must be 0
-@@ -1814,6 +1874,39 @@ static void destroy_partition(struct mshv_partition *partition)
- 
- 	trace_mshv_destroy_partition(partition->pt_id);
- 
-+	hlist_for_each_entry(region, &partition->pt_mem_regions, hnode) {
-+		bool was_blocked;
-+		int unmap_ret;
-+
-+		/* Stop new lookup users before draining in-flight remappers. */
-+		spin_lock(&partition->pt_mem_regions_lock);
-+		was_blocked = READ_ONCE(region->faults_blocked);
-+		WRITE_ONCE(region->faults_blocked, true);
-+		spin_unlock(&partition->pt_mem_regions_lock);
-+
-+		down_write(&region->mreg_fault_lock);
-+		mutex_lock(&region->mreg_mutex);
-+		unmap_ret = mshv_region_unmap(region);
-+		if (unmap_ret) {
-+			spin_lock(&partition->pt_mem_regions_lock);
-+			WRITE_ONCE(region->faults_blocked, was_blocked);
-+			spin_unlock(&partition->pt_mem_regions_lock);
-+			mutex_unlock(&region->mreg_mutex);
-+			up_write(&region->mreg_fault_lock);
-+
-+			pt_err(partition,
-+			       "Failed to unmap region at GFN %#llx: %d; retaining partition\n",
-+			       region->start_gfn, unmap_ret);
-+			mshv_quarantine_partition(partition);
-+			return;
-+		}
-+		mutex_unlock(&region->mreg_mutex);
-+		up_write(&region->mreg_fault_lock);
-+
-+		if (region->mreg_type == MSHV_REGION_TYPE_MEM_MOVABLE)
-+			mshv_region_movable_fini(region);
-+	}
-+
- 	if (partition->pt_initialized) {
- 		/*
- 		 * We only need to drain signals for root scheduler. This should be
-@@ -1874,7 +1967,7 @@ static void destroy_partition(struct mshv_partition *partition)
- 
- 	hlist_for_each_entry_safe(region, n, &partition->pt_mem_regions,
- 				  hnode) {
--		hlist_del(&region->hnode);
-+		hlist_del_init(&region->hnode);
- 		mshv_region_put(region);
- 	}
- 
-@@ -1883,6 +1976,8 @@ static void destroy_partition(struct mshv_partition *partition)
- 	hv_call_delete_partition(partition->pt_id);
- 
- 	mshv_free_routing_table(partition);
-+	if (partition->teardown_quarantined)
-+		module_put(THIS_MODULE);
- 	kfree(partition);
- }
- 
+  ********************************
 -- 
 2.43.0
 
