@@ -1,120 +1,119 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010002.outbound.protection.outlook.com [52.103.13.2])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010017.outbound.protection.outlook.com [52.103.13.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE5D5448BD;
-	Tue,  8 Sep 2026 18:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.13.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB31957EDAA;
+	Tue,  8 Sep 2026 18:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.13.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788890584; cv=fail; b=nw3yvH3US0O4HZnpvAFbXSnEdJVhLZua/UmivJF3qK9TnztXZLWdebNSC7Un8MM5S4V55nrQ7V2YLe6D/tXf9S/iLaJX1Dx6xUBHlwSBWgldC1ydEeGTS8vy3eHGHzG0f4rRprh2b8LO3buysQGf/jFA66sf8sBaS3HzyghAxbk=
+	t=1788890595; cv=fail; b=tHrF4pmAEIfnproiDc/31JK0TxFpwd92lkACzZyiuiJFBJgOGCflqiFJHer2ToJg5ib5P6zQWGh9kezOBadw6g8+2kNUxStGIt3sRqVVClZ03LP6betfqbgxoR26xiuwMZzTe2anlLoSUzwuER1uXJtGw8HCX/MBWVqAkiCKaWQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788890584; c=relaxed/simple;
-	bh=4zZk6RoeY9FzGJOzKHFvFV78RU4VsZk+g0B6oLBaHN8=;
+	s=arc-20240116; t=1788890595; c=relaxed/simple;
+	bh=cfV4eVMqeiZ6AhPE6fuqxwtpEA2x4tZ8PdbchUU+buE=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JxM/s2+h9E0LTtiYY4SW+3NkueG0LQCtGF0hN1Im7s1iJalNdCQ/7xyFkvDXOA049NM925h70Rer4CuF+P7OJnwa3e1XdlX0mqs9oy0UYZeeW0SI4w5VCTXXKHfK/BeIP+0SCwQQomU5v7tFNgDvncJWz5siYztFfI7IDPK53Mw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=CZB1yJJv; arc=fail smtp.client-ip=52.103.13.2
+	 Content-Type:MIME-Version; b=i0VJTF73nVBynXiDlLNYEhKQ04d2O4zbnXYYJ4toyUFwwX/qF3XQTttuoGUQbohdusvZqHbQnPsgLaMDR+ICOkTj50iroGuMC/ExaelR01jo0wtphaL2OCrdCM+bCqHFrwnB6P4lgqFot+CWxWYYOaigUrMV7/2WkH4ulQVJiOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=hLBlwgpS; arc=fail smtp.client-ip=52.103.13.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="CZB1yJJv"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="hLBlwgpS"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n7t0MX9uE8c36vMndzpXwjgsI0m1jQ6Vqos0Ig3rh3/SL33oOiz0JTxxIxL5UMTtl1P/Sh0NmoBH/O+MbOI8RM+u4/JBpZLD71ZlCjNvfjpYZsof6VwcdNqGPhi96n2Ok7CJB1kj8OhUrSeKrPp10kHysTMp5/HAa0lgqBVjYMlyjoiDkoU4HqrPdYRpdjGZDCBFYa/wNbNuwk5C7nOJjktnROWCux484ARcnF1/Y1Cp8rXmtEI3QtL24vaWvQCMzuyu79OBbH1j/I714a//DYInMGw5lbpLdmtHfCLkX29NUG+KBrVgsxfWG3JnQoa2G6GRB/NG1AnuYD/w3BlddQ==
+ b=bosFUF1UMVfCZBx3uRf8C18trJT2iYeeapW+bg8wHI0vCA7cFmHqI1sYqYGAO9hg0wpeYVJt1VsrwVBh+rpCe4SlPebwK1apr7p22FDmSc1xL5kgyfiCZ2ErNMoKHHthdYjB1cv+oywswe80JrbQQ8gx+s82Lychy5RMmiXXoSLCTbvSkCIQsNRvAde9tTkipyyXmE8jcSt1PgOhWph6lzLQcZ+lZW56CB06U5pT06Jg9xqd1tDXix71QystiYjsBfHczsi7J/o7ClhYMrRU/27vCrbQoZhhwiwRzWHa2lYWauoqXutUVthdH3JN8oBNMkcUNI/pculJ8LjSs0KezA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=reNk9nxo5M9D8KfMNbtR2GZ81gsgK1PpzBT6Jh2w04A=;
- b=sXCOYHQCzO0Nw9feHq4gjM4HISZB1i7sx/akvavDccKMjdNcg+hLEwHBUfzBFsf7N3f9ceBfmCtaafwsLP7ukNRH6/tWSH3D+cR/e3cEW2bSSLlZXxq7hzqH9P61xEg12C1c4wupq61r6Dm0oYmNpdYXf2Zhja9Xdh2SQg8wbmZkvtR6sVX5T3eCR22b2q7vp0G5mnoNRgj/nyiXibPE0J3kl4IlDrRxRIDiLV/h41yg7SxK83rdsaE9vaDKvO6xDranXsmiU9jIAKm3S1yBWcf2YNlh74zx6TCiXHPWKezJdRO/YhG3cXjLfHQAuMqm+630jgUnPkvIhOChbnYVEg==
+ bh=iUgfhpjJTnQE8BZPOn7k25CA1tjiKkuE/d0gZALirPA=;
+ b=C9uMJch6bg8QK8yFUdIblj5YHabmDJUU2B68Jw/uT749pWQk7hXh0kKEvxmm/UQepDM1bEodqkk5BkFOi/BQtlAZkBMy78yTq+WbFSlfgSZOO0HlxZMdmLHFgOVAqhTU7dkGIZAYpNIc0R6UTz7ixJNzI6qNxEo6AFRNFN/jnLDXjnp3o7+HjgeZxALs/LZfDG0ryEwehfOHOR43JVt7Nfu290pbowYIxq+sORw76+TcpfdN0zWK0C3jrW1fRbDByIdxutBWm87huhrryPHIfIO2gbgGHIyo57s50b3OGcaLVabztsfWJMvdxhiU5tmcU2Y0jHsPkSBp1+dmMXxb/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=reNk9nxo5M9D8KfMNbtR2GZ81gsgK1PpzBT6Jh2w04A=;
- b=CZB1yJJvnJJqkS6RLA12GZ2NWS2EwD884Z46sgIhzAqsXMHDzIC48r7uSTNgr3qe3BpImG7tZu823jci/F3JvRqKsuPAAtK0mDVQtiZojaWAPZqLDTrgfHs1eRy/7ylmB8z5mXsdAFt+I5X7VniRL/TyJMd5iNfRvm8XLwXcZiwhYvqm0EYCyw8xyW4BE7VqaIoec0dcMr8FmG+MpLkuezkCQetrA5vts/eHk72ybI2Irh3DFKhXDtJ33G/geZEGSf+Hi9y5bWrz3lUXcse4Du4MEtQikiRRAwE4byAdx+scFYDF92xCgbzQnogF2KGCSsIi5f74ue1qjf56o/o8Vw==
+ bh=iUgfhpjJTnQE8BZPOn7k25CA1tjiKkuE/d0gZALirPA=;
+ b=hLBlwgpSUOrf/nBfEo/VtV++jbRHfBJaYO5ZYefEtx6TGwF4qUUrb+uq46Bd4kebpk/tpj/uV6fD0q5nW1wSmT28JyA43yV0JihmO+2ckXBpYIUdYZGxC/r2oBbGsfKkHzZdNh5HMThvt7EB1Tmxf9j5MYKHoIRvBGWiByglvpiv4N38cw4eaYYS0n50icwAmGjUb7UkL8qxOIPxexIW5DGfGlRS0+eMKcd1ki777lb6vNirw9kHySc2q0eVndM0qgGn3XBscUlawTekAkip2CO8FAu4P0DPTVKlHlba2tqi3XtMNcaxTDHkunvv7lF+5pN0W/7XtU0EPbeJuVp6zA==
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
  by LV2PR02MB11153.namprd02.prod.outlook.com (2603:10b6:408:34c::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
- 2026 18:02:57 +0000
+ 2026 18:03:10 +0000
 Received: from SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
  ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
- 18:02:57 +0000
+ 18:03:10 +0000
 From: Michael Kelley <mhklinux@outlook.com>
 To: Mukesh R <mrathor@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
 	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>
 CC: "kys@microsoft.com" <kys@microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>
-Subject: RE: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Thread-Topic: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Thread-Index: AQHdPze4UOAVldAj6E+TOUlSti9vk7bE+h0g
-Date: Tue, 8 Sep 2026 18:02:57 +0000
+	<wei.liu@kernel.org>, "mhkelley58@gmail.com" <mhkelley58@gmail.com>
+Subject: RE: [PATCH V1 3/3] mshv: Remove unused *_old memory deposit functions
+Thread-Topic: [PATCH V1 3/3] mshv: Remove unused *_old memory deposit
+ functions
+Thread-Index: AQHdPze42mZv9sCE/k6zwwhJuves2bbE+ixw
+Date: Tue, 8 Sep 2026 18:03:10 +0000
 Message-ID:
- <SN6PR02MB4157AB63EF3BA9E3BC560E19D4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <SN6PR02MB41579AD38FA1E6C9EABE65EAD4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
 References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
- <20260908021340.2548924-3-mrathor@linux.microsoft.com>
-In-Reply-To: <20260908021340.2548924-3-mrathor@linux.microsoft.com>
+ <20260908021340.2548924-4-mrathor@linux.microsoft.com>
+In-Reply-To: <20260908021340.2548924-4-mrathor@linux.microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV2PR02MB11153:EE_
-x-ms-office365-filtering-correlation-id: b7edec0c-e7ae-4d7c-8fda-08df0dd369be
+x-ms-office365-filtering-correlation-id: 89417006-c2c3-4321-b320-08df0dd37175
 x-ms-exchange-slblob-mailprops:
- P1EfU6pZOd/ur0QDa6YmBjuOVf78JKonIb7RV5ngpeVYgWCNN4KNJlRYo3K4eHW8WCWnmr7XE9G9dHcH+Yhuvml8/OXf0Iue8O26aiB9l0e5xf86DywH3KT7chU35ex1e0SxBJp54UJSFn/fYtPfRelddq2lAm1u8CmLKsDpDf3xFaxyoJmevAWavvQETVrao8hLCjkaIzo5x7ZnfTGOZ7trh8w8uoKixWixkV7a/rmu9Ms5+R2v/TaPJPRf03cgwqVxYF0QfYv+8fpUnmtmNv7T539zfcvHxk1U3klkOdll/LBTmFJcHLVEJhfeShqPs99pLlDU0UAy635dsHvYNpkt7Zgf6fiXNk+MsuxFHCyaWUBusuymDhAfWlVKbDWqtQTV9TM+5RmmTsW/bJtSvGMrW25H72R3EJIX6GB+S0j9Kbvt5EbEL4if7FkiVYw2eur67Duaw47d+/z4TkvB1BjGLvexgFf+djvl5v9hsy9AgDoRIhZzqq7zSBx9DQvtNjTp5MStubN+MTjXe0ibf802rhWqLp02UXvAQggTJW9K85ilc70N2bF8ZNtPSbtR3BDbAzkAdslnVWzQiax0VvauxuLR92lSTBoQXYyhWCG+eH0csj/SVpsVvCMnoyyjYPsD3roULFyuSVHzENdjyOEhN4BjCXy16/slRlZDXcR0m8gSzAg1mg2ox8XsjtZzxkLNtYrQX9xEoxLvFrjDL8fCgqEl/9sCb58m0LJ3D5hftCdrL3ObfzTl/AaG9Xy1zfw+jgW25XfwdpcnMBbn2m8w/HBGY/kzt7NzyjfJIiLcCYWg+4zasA==
+ AZnQBsB9XmrTkIzDOCxR6E7nJ4I/6XZ7UHD2zUNzuec/oOgDaAUcj23jJ41OFf64/QY5MaTtiC9Cm+zINYcacHezrAR6XXiUJQIKMDx3HUMjfXO0BoTaEGJ8I416TbOw8SqPtDxj9Yi1GJpu9utkUJxFy9IDFQpB1hR317IL1wK0wkmvY1Yh1P42Jy+wsrZ6Mic0A40ANUuQLUpeZGI+iGE58iCeSQxVc0edeNH3wqyTBO1pmt8IRpBbDvwvn5b+752FVvxa5Yj83IZeZ4bnNaSlx9vloYPkbSdLRa6RSc/Vx2rSDF94k3mJjzs942rxJQVl40Hva7sh7nO5wSLtD1+4XxruWfYn4GhKQLKRWxh3GxDLDXMmIeNYhk610iSsUlQwSoz7vniaGFVRaqHqr+HbpdxZh2agH8yDySMF8cR2JhJjgvDHhN2w3CltgfjUw1fUbPzPPLDSMIPX0Qf+OmIaCLPKpVeEtyITSJkauSW0A0EMfyi4F+H0accpNy5aFGxqFcq6GqBf98MFzQts2ewt5bVj8eEzeMm639EHFwzfI0rBCXlY2w9RQekzFiQBNvamDHQDI0gT1RqP2V6qkfvyACmYAMUodC1JVSEq5KBShX9b21hzBgLAlSUuJkMxdAXiGTk0wBPfue8X3/FF6/8ZsRjGNVu86Mi59IxMD6z5i4fD0pPLVBEcF4LjzSTUcrzXbTqpJHUlIvgvGt/Q5Lj8mhbZuom1v0kpltkGunKrq0Ri7vC6c2fFE0ar7cOXDExdcjmJ1Vk=
 x-microsoft-antispam:
- BCL:0;ARA:14566002|41001999006|37011999003|11091999009|25010399006|19110799012|8062599012|8060799015|12121999013|15080799012|24021099003|55001999006|2604032031799003|51005399006|31061999003|13091999003|56899033|4302099013|440099028|3412199025|102099032|1602099012|40105399003|12091999003|2607281247196008|10035399007;
+ BCL:0;ARA:14566002|41001999006|37011999003|11091999009|25010399006|4140399003|19110799012|8062599012|8060799015|12121999013|15080799012|24021099003|55001999006|2604032031799003|51005399006|31061999003|13091999003|440099028|3412199025|102099032|40105399003|12091999003|2607281247196008;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?M8loLB1yrBMs+L+g3TH/+D+T0cZfQ3RDrUPTWmNty13r+mdDBSmSCTR/miNi?=
- =?us-ascii?Q?dhffu6tkHQ5GYPZVnAQeXeb3aBAMHTNcbv0a2mSL83MA7QWTrawBcptJWeaC?=
- =?us-ascii?Q?7nZ/WSMHB5b4ElKi4FkmDWB0J2Fa9P7EvyNUn639d46ySYHENgJj6mCTj5Eu?=
- =?us-ascii?Q?pHG8GzperCtGerunDni/cjdKaE4ggHS1+9hb60RCUxT0JJchTMC3QXlDgR5W?=
- =?us-ascii?Q?/7KXLzjsL42qUZn/LLh8n9uZQQ/tWWdUl+XtfOP4jdusDLnKwiT84i7hNFUU?=
- =?us-ascii?Q?2f49agihV+0HUYXerHyH1JM5DzpZbecsYI8T7vQdJVJI6LyTK9L6q3L8i7WZ?=
- =?us-ascii?Q?B3Iwk+hDV6m8bGzl3QTJR7b11VHG5HnTGckPlpE8fKOJNkxrka3egKgSC53Z?=
- =?us-ascii?Q?2jrBsSbpIX8tSpY2YchB56H2SgH92BYRH7amZ0phB0uG4L9zeqS5dFvp2Fup?=
- =?us-ascii?Q?zc5AK5eXis5wsk1j0maqLJ9jP7zbQYTekz8G7XVl5ZQT8ijmjSu8EDs9Q5m8?=
- =?us-ascii?Q?162TceYknRxEzAY2oA8KnSyamSBIPYzTtJn4qXyPWBpzvxzeIcYmx6eAgr1Z?=
- =?us-ascii?Q?HQnG5qdf0yHufBmkVmqL8LuVRoHowCGn0IFxD5cgi68V3dDjTrUVR1jcyOT0?=
- =?us-ascii?Q?m4oUAGMjLdBXijm+yv+yORy5XH94ITYnD2kBonaTmm72q677njQWso2cQhsk?=
- =?us-ascii?Q?19jiJVgyyCFZc/YGBS8+dLbJvWSxncKpnpdzBaX2P0HR4JoKBwkQ58LQe8aX?=
- =?us-ascii?Q?77bh7u8bZWQ1999JN79lcaeZ6ailMGqTFyHGC/tlbq4Jy1nZymee/GAVdN2K?=
- =?us-ascii?Q?PsDZAsJgV3QImGdQu9uoH3wGH5reA7LhO2BvBlh/4FwvzpLcEw/0+0NHofaq?=
- =?us-ascii?Q?uJxWl5Nl9n7UU3Tt/k0YyluuzpPZzEzRjSEK+jjX4LyHRLb+f/dZmZRWMbM3?=
- =?us-ascii?Q?juDjJC8G5/yEXuLu6zzr5HTwQtMQ34KPj/7IEfAehAyhyIH8zlRgzkt9LzTP?=
- =?us-ascii?Q?dq5TVI6RI26LIzZbdhuquxno45RfXI7d/J/fUzhnFWwDNwBpLEe5FBsQjiGE?=
- =?us-ascii?Q?uXlqk3I50FsLY3BjMHjuVYABmKbveU4VpolefaVsBU+hmj1pX3+S2so+zqQh?=
- =?us-ascii?Q?vI8dBpl1fEiWowCXcYdsxZcWvgpquf7v/lraqpr5nWV5ny6GncOu/4rYgInN?=
- =?us-ascii?Q?oNc2zdoOntAggUnrM4itGleVs74boQnbbuyB9tqZiX/KWJCJ95/yisewES0a?=
- =?us-ascii?Q?k1gVm1lI9v5ierszGAiHbJRaTueNV5VVSEpiEd4YT7HnKRFcHOrNn+FWpPYa?=
- =?us-ascii?Q?8Cw=3D?=
+ =?us-ascii?Q?P3ZYcOWiPXWUJuA9YxzzsOsKAtqXw5X2rA91nWg18T5DZZL9KbOKt8N5DhO6?=
+ =?us-ascii?Q?JSlspRe3Zn6ClQJlxNtZzE/WwqH8XConyutKIm2wruJl96i5LMqtVd8+v7xg?=
+ =?us-ascii?Q?f+Nbum74H51/w1Rm/Rifbt+vWysy54Dz2Fb89uybUh0ktbkrqqeO5c3LhZAG?=
+ =?us-ascii?Q?ytHTDVFmzLWyNy4hGnpLsswcrFX8VRMdMHAKMiO1NclqKZb1XgyTjdl43RgG?=
+ =?us-ascii?Q?KBnmWBEyuBuSIDFBdg5wmAJ33UCFhz8+P/SVlfampX4wYgtxZ4FxOfxawJ1z?=
+ =?us-ascii?Q?3uFj53nfTFYSYnw+4zEhQToQB3+2bRImwA7uXBuiFNF8wV3Xxh9kGN8+QjE5?=
+ =?us-ascii?Q?0JZww+mnTjVdi8KQFGyVal+Q4VrbblmzmT6Nk/hMxpcvDxkfLsd9RTQrjrFb?=
+ =?us-ascii?Q?6qC+wVD76oLA/8DMBtf/B7sV0MyUNaWD5uzi7qZdCRpVOtHyaUpQHri5gul1?=
+ =?us-ascii?Q?0ZhrnU3cmP64El0HgSGO6LLPm0cXfaZzN0VcTDH4kG4s9/UPKmPqKOOcQk07?=
+ =?us-ascii?Q?FZP/zAwSJU5A6j7MgpHoRYEazNZT5miw64GiRo9b/aGMaDosZN7uUxiyuoaW?=
+ =?us-ascii?Q?lqxGxmS70+AAYjo5OEldIymgKtNXNgIkjMlnpzyIV+3cyWsPD/983/MCl1e9?=
+ =?us-ascii?Q?jkb+ahR0wjaw8i2Iva/UUMnysN1DvitxB0QCwm0mub7AquO9nhxkphsa1/yt?=
+ =?us-ascii?Q?0DZo3ult9/q56g1td5ZfDyP/NVrR3m/Wey+NegkcZC6c5TwWVOGDdAktGZV0?=
+ =?us-ascii?Q?ptCnP1XYRuUY75M1K+kGbGFRhu+L1wrri1kQe4VoVf250K/4mbT57BxfiQSC?=
+ =?us-ascii?Q?R/N4cxck03m2omfmxSM8MsvReeL4BKXQkdD4R4+uSgnis6gtBqhVrSah5tLP?=
+ =?us-ascii?Q?sMQSsCGcdAB7k1UCjKgEO5D/08pQU4jB9MXku9+NVaoZTDYgPQQTRR2vwlpu?=
+ =?us-ascii?Q?J70ilMZs/Vw8zXRfKhFKHa+ynJTCJduwBpGXySetPAjQ509sefNaZfL/hiAj?=
+ =?us-ascii?Q?y2KxiFlTv2RmmlaK5CKpxQu5ZKeGtE620EUhaqAhxooXN2Ttiln3zy9ec1fC?=
+ =?us-ascii?Q?9o4MlnLNx7onhGQUKCUHk6UVQW1NRPAjVnMoz/FGuNBeZY5zTxgRRn0y/yla?=
+ =?us-ascii?Q?4AFWKZe5qLhJCqQiTJ0SvKc+TxivbapVMPygFLkI+/4D6vZCQ0v2fKLVMsx6?=
+ =?us-ascii?Q?Atg9nEemKQRdhQQJ?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ihyZv/UxoecAE/jnnvSYhrBL9z0cw/vq3GW1ptmYKgnzLw4xE731aU4JCV1j?=
- =?us-ascii?Q?4zP9MkvZQNWkl4bOnKVXsoC2jeOg9uSBxkxk7QtHYRt1XuaKoOJ3HkgtdTWD?=
- =?us-ascii?Q?eeSl7iUleLYB+G1p5eLFCY4n5JUi1q11/kw5STdl2yM612/Lv4XIa8nHhzMR?=
- =?us-ascii?Q?XIbBAzmNwPVDswS7aj9XjgrCmz5B4J09N+vvT4z2G3ngWEj97r65zeFljHUD?=
- =?us-ascii?Q?Eutt8AFFGnMV7vHjJytB18lseshIV1BNquQ7unwXPW6fEeCV91EubgoQtkso?=
- =?us-ascii?Q?qg5TSFHPox7aHs3Qni6Od5qLHUMeYf9Errd4/2gv2PbRVL6jwoXTXZ2v+b3y?=
- =?us-ascii?Q?KMJ6tX67s1s0A6WO3IjE4Q4ZptGvC1Z9BG/1XLKRynYMJsUgj8XT/WScrjBE?=
- =?us-ascii?Q?y8wRbQgXXGbNrBMR/WT6t5VSC8eFRUxN5U/9Apa+nNrTWcyQB40A/ROcgNNG?=
- =?us-ascii?Q?2MagX76IZ5C3YK8ttfdoqQQDimgWkIiAjVcerei9bTvC97Kzqdhp4NZ2cibh?=
- =?us-ascii?Q?oRpODKRepy2suxty8gBsglIVuZ/cq9iVOARW73LONVgUTuvnI3b/k5fj/KCf?=
- =?us-ascii?Q?6ia83w78DcujmjO+F/BzupGhYE1jmIAsiBXU1pTx/F60nmgEPZ4KRT91d9Iu?=
- =?us-ascii?Q?FYQTfScZCFBFpmlO39FwDwGX78C0TSrSiAKw+jMp8P8BJKT/XIIjdwe1qNvI?=
- =?us-ascii?Q?Mknox71jZm3SpHg2seQWRxuIVp8W8i2RqwZYOTWvrR7Co0Rx5kqlhBS+kXt+?=
- =?us-ascii?Q?XM6nfI6qKAtPTE9llTtI129+mYCHLOLPjMWJNGXIWbM2xCcejlVLAu4IfGfi?=
- =?us-ascii?Q?PLWv1it0VhEQKrbZmOxU3yFC8v7xCycxDIAgVOpvyL49743dy/zerywjC1H2?=
- =?us-ascii?Q?aFcSDhscIixsvRUBM1xKbfRYhk2zgmg+9BuOraObM0wL5Xwt4bMinC/Z0yv8?=
- =?us-ascii?Q?Aa8TMil4V1FcMmPQo+Qmiv/6KvNeNZxMJKbn6p12ys2cGEdLNad52q2S3AC8?=
- =?us-ascii?Q?QEDs52IsofQ87Ml9uEtixXEtdWv25DHQ0tA2hpGblrHcm406Uc4MHkhs0l8y?=
- =?us-ascii?Q?3i00LzXHtJCnOQKZHu3pLLFjPyjyUfXNwEg1ZLDGwy63Guc8cIIio7TeInDI?=
- =?us-ascii?Q?+cXZ1vAXkq5gwmHfIqhIk2uw9gyqZFg1u7D4Q0AIMc2taCNO5ukVCxirceyR?=
- =?us-ascii?Q?OaST/xZyh54dFlXqm2nP3V5EJnVXg9vG9Zh4WpfMWSUAblcJ8cbbp45qSTNy?=
- =?us-ascii?Q?XmIAd7aOHlNaACOrezWQkNsTvKYpnhe5GRTN8hUG/Mfrn1ka+ii2RhesumsQ?=
- =?us-ascii?Q?VMlC7zL56If7PaLwc0Rt3BttJR2WRbkVJOjLgyTCsm7EI1YhsQ5GD535ObcH?=
- =?us-ascii?Q?7aEIKAk=3D?=
+ =?us-ascii?Q?ZwMAi0d4nmI5oQoUd+CTKMCczrdle5ME426+3ii9blB8EwprdvKDzHYGCoNe?=
+ =?us-ascii?Q?0qpZ3GbMOcaHucbhN5ecHso6tCA5yU9JlAPf+ZVUniDUgNJCq5qNDwheoC3y?=
+ =?us-ascii?Q?09TcW0AZPxzMlpXhvK/GbSTYdX+Xk7TFkQjdakwnPAX2KTVA8ENgrBZoCJHp?=
+ =?us-ascii?Q?V7MXzVkQUp2O5Z324x2QTexsOOUtaT4ClySGhGvtOP6nsjCfSZf93UJ1nyrv?=
+ =?us-ascii?Q?8RO+JCKA3hpwnZO84uiLX8lfyHHh675trbhJ/xwm+efcgrqFC9/fDbWqiuBs?=
+ =?us-ascii?Q?S/kim0EhlBvyrOh2h+IVSdLIiSfDk7e+XbFrd7vvoA95ucP7gNzQblloCGKe?=
+ =?us-ascii?Q?ump70tHO5AETseg6OguAYM39gbnlI5vZJlnpVyano9huHI4vqzTF5jehEPOf?=
+ =?us-ascii?Q?grUpuWjIbaguuRdbY65gPAkC1cUweW0nTV3ZOnpAJBVwF9EIpRae683LMa0G?=
+ =?us-ascii?Q?8taaBU0UrETG3A8Z0nBde6ox08QZlOIQl0AmTshDIbzTrYOeBTEpf85LeydN?=
+ =?us-ascii?Q?MACWoJWLQlOoVGgMCq0+mCyH8BOWOJ1cMM3alrx3Bx0H8p7VDHx9NqkD7dKv?=
+ =?us-ascii?Q?vYkrs78zpcEKK+HO8DSWrpGACpt41eD/BlLjKlqw9dMNQYXH7EL0o19pcc09?=
+ =?us-ascii?Q?hSWORPeZqYzNtmc+ulS2YvnhjlQceXwbYxyBFaqM3glgj4+88eXM8Tp55NAx?=
+ =?us-ascii?Q?hnraCGXolqdoEHKrZkkEb/+P07sT4TiVsWviFrDmHIDJJpcgzZeTYqQVecBM?=
+ =?us-ascii?Q?xhiNK6Efaikq7sNcotLz7tVBUdK9tZrEP6dpnGzasEuppyB5C7DdoSx1V8uO?=
+ =?us-ascii?Q?kqvAwbPJBQi0rZLMiEMSnxYPSUhegfb9mG25nVs60aIpIyn9VN0L0fmqJxDw?=
+ =?us-ascii?Q?LKOyrv3gjnkFx36EBjA8a2atBGuzP8+VrxkXYiBX9WDKc+8kIsTVC+ezstxt?=
+ =?us-ascii?Q?qpbWLNpotySDnJiK8vm5yv8DUHwlXswXe5CeQuCm0WzWvECllcp8IIqbYT9M?=
+ =?us-ascii?Q?wxhlIjd49LnlfIZLqQgyS8SH0AgoWXwy/bKPg3p4/GzRi/yTqBoozbQrcTJJ?=
+ =?us-ascii?Q?/elUIJ8kfrQZd/JyMszaynwPnOGuhux9LX1vgKUyjEJd/8hIwS8N5+O1LFdx?=
+ =?us-ascii?Q?qWG6MB15Clzmkq4NKQ80FdNUqOLFve49FhxTfxpWhqVvAhSJn39dEl/RXQWk?=
+ =?us-ascii?Q?PwwnsfoBy64TpDeYkIoIV9OBF5EaUaTZK7BVyDWckxkukwH9TOPM/YId4fCg?=
+ =?us-ascii?Q?ejowATxg3aTvmj9QSJQv+Wxek4RO22oCL274sYAHw43gRKGMHRBIif4Oe06+?=
+ =?us-ascii?Q?MSKGwHHgtfTNfi0Rzr+z+ArjLyLi7ZHzy6dB16gmWQZMOdrtV3P1n/oJd5xo?=
+ =?us-ascii?Q?34gszhc=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -127,8 +126,8 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7edec0c-e7ae-4d7c-8fda-08df0dd369be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2026 18:02:57.2777
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89417006-c2c3-4321-b320-08df0dd37175
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2026 18:03:10.2517
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -138,411 +137,160 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR02MB11153
 From: Mukesh R <mrathor@linux.microsoft.com> Sent: Monday, September 7, 202=
 6 7:14 PM
 >=20
-> The current memory deposit implementation has a few issues and bugs:
->  o It is very slow
->  o Contiguous range requirement is broken, and is critical bug
->  o An incorrect assumption is made that contiguous memory size would
->    always be power of 2.
-
-Is this HV_MAX_CONTIGUOUS_ALLOCATION_PAGES? That value is
-defined as a constant in hvhdk_mini.h. So is there a possibility that
-the constant will change in the future, or in some new variation of
-the overall environment?
-
->  o Two pages are allocated, only one is really needed. This adds to
->    overhead.
->  o For a 512 page deposit, the allocation is split into two: one for 511
->    and second for 1. Thus, an order 9 allocation never happens. A
->    contiguous 2M range, if possible, significantly improves performance
->    in the hypervisor.
->  o Since a page is already allocated to collect the frames, there is
->    not really a need to use per cpu input page, and hence avoid local
->    irq disable.
->  o In hv_call_deposit_pages(), in case of error, under err_free_allocatio=
-ns
->    label, all pages are freed without checking status to see if some page=
-s
->    were deposited. This is a critical bug as it would free pages that hyp
->    may be using.
->=20
-> All of above is addressed by:
->  o Allocate 2M by default, this is the recommendation from the hypervisor
->    team, and greatly improves performance.
-
-Can you be more specific about "improves performance"? Is the
-improvement on the guest side, or on the hypervisor side? And what's
-the key leverage point in improving performance, regardless of which
-side? It might be helpful to record this for future reference to prevent
-a change from being made that unknowingly hurts the key leverage
-point.
-
->  o Always start with a full 2M range allocation, thus getting contiguous =
-if
->    available. In cases where possible, the deposits are much faster.
-
-Is this faster because the hypervisor can consume the pages faster
-if they are contiguous?
-
->  o Allocate only one page in the deposit function and collect 511 pfns
->    there. Just use a local variable for last pfn.
->  o Use the page as input to hypercall. Since this page is locally allocat=
-ed,
->    irq disable can be avoided helping speed up the deposit.
->  o Fix the physical contiguous memory requirement.
->  o Lastly, remove pre-deposits hv_call_create_vp() and
->    hv_call_initialize_partition() as they were removed internally while
->    ago, most likely because they didn't help much.
+> Remove the renamed *_old functions.
 >=20
 > Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+
 > ---
->  drivers/hv/hv_proc.c           | 198 +++++++++++++++++++++++++++++----
->  drivers/hv/mshv_root_hv_call.c |  10 +-
->  include/asm-generic/mshyperv.h |   5 -
->  3 files changed, 179 insertions(+), 34 deletions(-)
+>  drivers/hv/hv_proc.c | 129 -------------------------------------------
+>  1 file changed, 129 deletions(-)
 >=20
 > diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> index 57864bb5bcd8..0ebede0bc8b4 100644
+> index 0ebede0bc8b4..dfae4b933fa9 100644
 > --- a/drivers/hv/hv_proc.c
 > +++ b/drivers/hv/hv_proc.c
-> @@ -9,6 +9,184 @@
->  #include <linux/export.h>
->  #include <asm/mshyperv.h>
->=20
-> +#define HV_DEPOSIT_MAX 512
-> +#define HV_DEPOSIT_INP_MAX ((HV_HYP_PAGE_SIZE -  \
-> +	offsetof(struct hv_deposit_memory, gpa_page_list)) / sizeof(u64))
-> +
-> +/*
-> + * Allocate free pages for deposit to hypervisor. pfna[] must be large e=
-nough
-> + * to hold HV_DEPOSIT_INP_MAX (511) pages. If num_pages is 512, return l=
-ast
-> + * pfn in lastpfn. If @single, then it must be a single allocation (not =
-split
-> + * over multiple contiguous ranges).
-> + *
-> + * Returns: number of pages allocated or -ENOMEM
-> + */
-> +static int hv_alloc_dep_pages(int node, u64 *pfna, u64 *lastpfnp, int nu=
-m_pages,
-> +			      bool single)
-> +{
-> +	struct page *page;
-> +	int num_allocd, count =3D 0;
-> +
-> +	/* Published ABI, enforce its immutability. */
-> +	BUILD_BUG_ON(HV_DEPOSIT_INP_MAX !=3D 511);
-> +
-> +	if (num_pages > HV_DEPOSIT_MAX ||
-> +	    (num_pages =3D=3D HV_DEPOSIT_MAX && lastpfnp =3D=3D NULL))
-> +		return -EINVAL;
-> +
-> +	while (num_pages) {
-> +		/* Find highest order we can actually allocate */
-> +		int order =3D 31 - __builtin_clz(num_pages);
-
-Outside of the kernel source file da9062-regulator.c and the definition
-of fls(), there are only about 14 direct uses of __builtin_clz() in the
-kernel. By contrast fls() is used more than 700 times. Using __builtin_clz(=
-)
-works, but you might consider using fls() instead just to be on the more
-common path.
-
-> +		gfp_t gfp_flags =3D GFP_KERNEL;
-> +
-> +		if (!single)
-> +			gfp_flags |=3D __GFP_NOWARN;
-> +
-> +		while (1) {
-> +			page =3D alloc_pages_node(node, gfp_flags, order);
-> +			if (page || order =3D=3D 0 || single)
-> +				break;
-> +
-> +			order--;
-> +		}
-> +
-> +		if (page =3D=3D NULL)
-
-Nit: I've always thought kernel style has a slight preference for "!page"
-instead of "page =3D=3D NULL". And indeed, a few lines above you test
-just "page". Not a big deal, but when there are inconsistencies I wonder
-if there's a reason ....
-
-> +			break;
-> +
-> +		split_page(page, order);
-> +		num_allocd =3D 1 << order;
-> +		num_pages -=3D num_allocd;
-> +
-> +		while (num_allocd && count < HV_DEPOSIT_INP_MAX) {
-> +			pfna[count++] =3D page_to_pfn(page++);
-> +			num_allocd--;
-> +		}
-> +
-> +		if (num_allocd-- && count =3D=3D HV_DEPOSIT_INP_MAX) {
-> +			*lastpfnp =3D page_to_pfn(page);
-> +			count++;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return count ? count : -ENOMEM;
-> +}
-> +
-> +/*
-> + * Deposit memory in the hypervisor. Even if @contiguous is false, a con=
-tiguous
-> + * 2M worth of pfns is utmost desired for performance reasons. But short=
- of
-> + * that, we deposit whatever contiguous chunks we can get. If @contiguou=
-s is
-> + * true, then the entire range has to be physically contiguous. Note, in=
- that
-> + * case, upon withdrawl, hypervisor could return any page in between the=
- range,
-> + * so we must split that also. Lastly, HV_MAX_CONTIGUOUS_ALLOCATION_PAGE=
-S is
-> + * not guaranteed to always be power of 2.
-> + */
-> +static int hv_call_deposit_pages(int node, u64 partition_id, bool contig=
-uous)
-> +{
-> +	struct hv_deposit_memory *hc_input;
-> +	int i, rc, num_pages;
-> +	u64 status, *pfna, lastpfn =3D 0;
-> +	bool trunc_extra =3D false;
-> +
-> +	BUILD_BUG_ON(HV_MAX_CONTIGUOUS_ALLOCATION_PAGES > HV_DEPOSIT_MAX);
-> +
-> +	if (contiguous) {
-> +		num_pages =3D roundup_pow_of_two(
-> +				 HV_MAX_CONTIGUOUS_ALLOCATION_PAGES);
-> +		trunc_extra =3D num_pages !=3D HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
-> +	} else {
-> +		num_pages =3D HV_DEPOSIT_MAX;
-> +	}
-> +
-> +	hc_input =3D (struct hv_deposit_memory *)get_zeroed_page(GFP_KERNEL);
-
-Mike Rapoport has a kernel-wide effort underway to replace
-__get_free_page() with kmalloc() and get_zeroed_page() with kzalloc().
-See [1] for one example of the many patches he has submitted. The
-commit message has a short explanation. Going with kzalloc() here
-would probably avoid a future change.
-
-[1] https://lore.kernel.org/lkml/20260830-tty-v1-1-0cbe6170649b@kernel.org/
-
-> +	if (hc_input =3D=3D NULL)
-> +		return -ENOMEM;
-> +
-> +	hc_input->partition_id =3D partition_id;
-> +	pfna =3D hc_input->gpa_page_list;
-> +
-> +	rc =3D hv_alloc_dep_pages(node, pfna, &lastpfn, num_pages, contiguous);
-> +	if (rc < 0)
-> +		goto out_free;
-> +
-> +	num_pages =3D rc;
-> +	if (num_pages > HV_DEPOSIT_INP_MAX)
-> +		num_pages =3D HV_DEPOSIT_INP_MAX;
-> +
-> +	if (contiguous && trunc_extra) {
-> +		for (i =3D HV_MAX_CONTIGUOUS_ALLOCATION_PAGES; i < num_pages; i++)
-> +			__free_page(pfn_to_page(pfna[i]));
-> +
-> +		if (lastpfn) {
-> +			__free_page(pfn_to_page(lastpfn));
-> +			lastpfn =3D 0;
-> +		}
-> +
-> +		num_pages =3D HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
-> +	}
-> +
-> +	/* We are not using hyperv_pcpu_input_arg, so no need to disable */
-
-"disable interrupts"?
-
-> +
-> +	status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, num_pages,
-> +				     0, hc_input, NULL);
-> +	if (!hv_result_success(status))
-> +		goto err_free_dep_pages;
-> +
-> +	if (lastpfn) {
-> +		hc_input->gpa_page_list[0] =3D lastpfn;
-> +		status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, 1, 0,
-> +					     hc_input, NULL);
-
-So if a full 2 MiB contiguous is allocated, it's OK to deposit the
-first 511 pages and then do a 2nd hypercall to deposit the last
-page? Does the hypervisor figure out that the 2 MiB is contiguous
-and map it with a single 2 MiB PTE to get the mapping perf benefit?
-I realize there's not any other choice given the limitation of 1 page
-of hypercall input, but I just wondered.
-
-> +
-> +		if (!hv_result_success(status)) {
-> +			if (contiguous)
-> +				goto err_free_dep_pages;
-> +
-> +			/* We deposited lot earlier, so give it a go */
-> +			__free_page(pfn_to_page(lastpfn));
-> +		}
-> +	}
-> +
-> +	free_page((unsigned long)hc_input);
-> +	return 0;
-> +
-> +err_free_dep_pages:
-> +	hv_status_err(status, "\n");
-> +	rc =3D hv_result_to_errno(status);
-> +
-> +	for (i =3D hv_repcomp(status); i < num_pages; i++)
-> +		__free_page(pfn_to_page(pfna[i]));
-> +	if (lastpfn)
-> +		__free_page(pfn_to_page(lastpfn));
-> +
-> +out_free:
-> +	free_page((unsigned long)hc_input);
-> +	return rc;
-> +}
-> +
-> +int hv_deposit_memory_node(int node, u64 pt_id, u64 hv_status)
-> +{
-> +	int result =3D hv_result(hv_status);
-> +	bool contiguous =3D false;
-> +
-> +	if (result =3D=3D HV_STATUS_INSUFFICIENT_ROOT_MEMORY ||
-> +	    result =3D=3D HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY) {
-> +		if (!hv_root_partition()) {
-> +			hv_status_err(hv_status,
-> +				      "Unexpected root memory deposit\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		pt_id =3D HV_PARTITION_ID_SELF;
-> +	}
-> +
-> +	if (result =3D=3D HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY ||
-> +	    result =3D=3D HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY)
-> +		contiguous =3D true;
-> +
-> +	return hv_call_deposit_pages(node, pt_id, contiguous);
-> +}
-> +EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
-> +
->  /*
->   * See struct hv_deposit_memory. The first u64 is partition ID, the rest
->   * are GPAs.
-> @@ -109,12 +287,6 @@ static int hv_call_deposit_pages_old(int node, u64 p=
-artition_id, u32 num_pages)
->  	return ret;
+> @@ -187,135 +187,6 @@ int hv_deposit_memory_node(int node, u64 pt_id, u64=
+ hv_status)
 >  }
+>  EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
 >=20
-> -int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+> -/*
+> - * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+> - * are GPAs.
+> - */
+> -#define HV_DEPOSIT_MAX_OLD (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+> -
+> -/* Deposits exact number of pages. Must be called with interrupts enable=
+d.  */
+> -static int hv_call_deposit_pages_old(int node, u64 partition_id, u32 num=
+_pages)
 > -{
+> -	struct page **pages, *page;
+> -	int *counts;
+> -	int num_allocations;
+> -	int i, j, page_count;
+> -	int order;
+> -	u64 status;
+> -	int ret;
+> -	u64 base_pfn;
+> -	struct hv_deposit_memory *input_page;
+> -	unsigned long flags;
+> -
+> -	if (num_pages > HV_DEPOSIT_MAX_OLD)
+> -		return -E2BIG;
+> -	if (!num_pages)
+> -		return 0;
+> -
+> -	/* One buffer for page pointers and counts */
+> -	page =3D alloc_page(GFP_KERNEL);
+> -	if (!page)
+> -		return -ENOMEM;
+> -	pages =3D page_address(page);
+> -
+> -	counts =3D kzalloc_objs(int, HV_DEPOSIT_MAX_OLD);
+> -	if (!counts) {
+> -		free_page((unsigned long)pages);
+> -		return -ENOMEM;
+> -	}
+> -
+> -	/* Allocate all the pages before disabling interrupts */
+> -	i =3D 0;
+> -
+> -	while (num_pages) {
+> -		/* Find highest order we can actually allocate */
+> -		order =3D 31 - __builtin_clz(num_pages);
+> -
+> -		while (1) {
+> -			pages[i] =3D alloc_pages_node(node, GFP_KERNEL, order);
+> -			if (pages[i])
+> -				break;
+> -			if (!order) {
+> -				ret =3D -ENOMEM;
+> -				num_allocations =3D i;
+> -				goto err_free_allocations;
+> -			}
+> -			--order;
+> -		}
+> -
+> -		split_page(pages[i], order);
+> -		counts[i] =3D 1 << order;
+> -		num_pages -=3D counts[i];
+> -		i++;
+> -	}
+> -	num_allocations =3D i;
+> -
+> -	local_irq_save(flags);
+> -
+> -	input_page =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> -
+> -	input_page->partition_id =3D partition_id;
+> -
+> -	/* Populate gpa_page_list - these will fit on the input page */
+> -	for (i =3D 0, page_count =3D 0; i < num_allocations; ++i) {
+> -		base_pfn =3D page_to_pfn(pages[i]);
+> -		for (j =3D 0; j < counts[i]; ++j, ++page_count)
+> -			input_page->gpa_page_list[page_count] =3D base_pfn + j;
+> -	}
+> -	status =3D hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY,
+> -				     page_count, 0, input_page, NULL);
+> -	local_irq_restore(flags);
+> -	if (!hv_result_success(status)) {
+> -		hv_status_err(status, "\n");
+> -		ret =3D hv_result_to_errno(status);
+> -		goto err_free_allocations;
+> -	}
+> -
+> -	ret =3D 0;
+> -	goto free_buf;
+> -
+> -err_free_allocations:
+> -	for (i =3D 0; i < num_allocations; ++i) {
+> -		base_pfn =3D page_to_pfn(pages[i]);
+> -		for (j =3D 0; j < counts[i]; ++j)
+> -			__free_page(pfn_to_page(base_pfn + j));
+> -	}
+> -
+> -free_buf:
+> -	free_page((unsigned long)pages);
+> -	kfree(counts);
+> -	return ret;
+> -}
+> -
+> -static int __maybe_unused hv_deposit_memory_node_old(int node, u64 parti=
+tion_id, u64 hv_status)
+> -{
+> -	u32 num_pages =3D 1;
+> -
+> -	switch (hv_result(hv_status)) {
+> -	case HV_STATUS_INSUFFICIENT_MEMORY:
+> -		break;
+> -	case HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY:
+> -		num_pages =3D HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
+> -		break;
+> -
+> -	case HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY:
+> -		num_pages =3D HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
+> -		fallthrough;
+> -	case HV_STATUS_INSUFFICIENT_ROOT_MEMORY:
+> -		if (!hv_root_partition()) {
+> -			hv_status_err(hv_status, "Unexpected root memory deposit\n");
+> -			return -ENOMEM;
+> -		}
+> -		partition_id =3D HV_PARTITION_ID_SELF;
+> -		break;
+> -
+> -	default:
+> -		hv_status_err(hv_status, "Unexpected!\n");
+> -		return -ENOMEM;
+> -	}
 > -	return hv_call_deposit_pages_old(node, partition_id, num_pages);
 > -}
-> -EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
-> -
->  static int __maybe_unused hv_deposit_memory_node_old(int node, u64 parti=
-tion_id, u64 hv_status)
->  {
->  	u32 num_pages =3D 1;
-> @@ -144,12 +316,6 @@ static int __maybe_unused hv_deposit_memory_node_old=
-(int node, u64 partition_id,
->  	return hv_call_deposit_pages_old(node, partition_id, num_pages);
->  }
->=20
-> -int hv_deposit_memory_node(int node, u64 partition_id, u64 hv_status)
-> -{
-> -	return hv_deposit_memory_node_old(node, partition_id, hv_status);
-> -}
-> -EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
 > -
 >  bool hv_result_needs_memory(u64 status)
 >  {
 >  	switch (hv_result(status)) {
-> @@ -212,14 +378,6 @@ int hv_call_create_vp(int node, u64 partition_id, u3=
-2 vp_index, u32 flags)
->  	unsigned long irq_flags;
->  	int ret =3D 0;
->=20
-> -	/* Root VPs don't seem to need pages deposited */
-> -	if (partition_id !=3D hv_current_partition_id) {
-> -		/* The value 90 is empirically determined. It may change. */
-> -		ret =3D hv_call_deposit_pages(node, partition_id, 90);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
->  	do {
->  		local_irq_save(irq_flags);
->=20
-> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_cal=
-l.c
-> index cb55d4d4be2e..b8d199f95299 100644
-> --- a/drivers/hv/mshv_root_hv_call.c
-> +++ b/drivers/hv/mshv_root_hv_call.c
-> @@ -15,8 +15,6 @@
->  #include "mshv_root.h"
->=20
->  /* Determined empirically */
-> -#define HV_INIT_PARTITION_DEPOSIT_PAGES 208
-> -#define HV_MAP_GPA_DEPOSIT_PAGES	256
->  #define HV_UMAP_GPA_PAGES		512
->=20
->  #define HV_PAGE_COUNT_2M_ALIGNED(pg_count) (!((pg_count) & (0x200 - 1)))
-> @@ -140,11 +138,6 @@ int hv_call_initialize_partition(u64 partition_id)
->=20
->  	input.partition_id =3D partition_id;
->=20
-> -	ret =3D hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
-> -				    HV_INIT_PARTITION_DEPOSIT_PAGES);
-> -	if (ret)
-> -		return ret;
-> -
->  	do {
->  		status =3D hv_do_fast_hypercall8(HVCALL_INITIALIZE_PARTITION,
->  					       *(u64 *)&input);
-> @@ -248,8 +241,7 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 =
-gfn, u64 page_struct_count,
->  		completed =3D hv_repcomp(status);
->=20
->  		if (hv_result_needs_memory(status)) {
-> -			ret =3D hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
-> -						    HV_MAP_GPA_DEPOSIT_PAGES);
-> +			ret =3D hv_deposit_memory(partition_id, status);
->  			if (ret)
->  				break;
->=20
-> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyper=
-v.h
-> index bf601d67cecb..c16abaecb65e 100644
-> --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -345,7 +345,6 @@ static inline bool hv_parent_partition(void)
->=20
->  bool hv_result_needs_memory(u64 status);
->  int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
-> -int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
->  int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
->  int hv_call_notify_all_processors_started(void);
->  bool hv_lp_exists(u32 lp_index);
-> @@ -360,10 +359,6 @@ static inline int hv_deposit_memory_node(int node, u=
-64 partition_id, u64 status)
->  {
->  	return -EOPNOTSUPP;
->  }
-> -static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 =
-num_pages)
-> -{
-> -	return -EOPNOTSUPP;
-> -}
->  static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 a=
-cpi_id)
->  {
->  	return -EOPNOTSUPP;
 > --
 > 2.51.2.vfs.0.1
 >=20
