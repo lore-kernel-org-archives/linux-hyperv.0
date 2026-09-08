@@ -1,324 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazolkn19011031.outbound.protection.outlook.com [52.103.14.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D8D53CA7E
-	for <linux-hyperv@vger.kernel.org>; Tue,  8 Sep 2026 12:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788870811; cv=none; b=B2Kjg0fsYVdgcTTlKyZMUnGmLGDth5fUXV+mHLi/qw8FlDlzb5zrTqH16hWWnunyPS0DcYZxYOpwfdvTaa2ZVj+1xyjcvURfw3zqmXu++RQ8I7TZK8ymnZgBABXiArkNOlM6YvI8lYnGtc8DhZLFzR0mbVkqP5WKWQET82Ujq5k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788870811; c=relaxed/simple;
-	bh=aYxYVb4Hs4o6E+CTCBb8RFJjtFLHYrZaFCKCNb932N4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=uI+pESPVcO0Qbjx0SRlCT8KOtbSf9qI809t/PnAjhRXNj4qpzjhI61HBkeyX9GYvAMtmfkBZCACtHK4/S7UA5VIQFxtGCwChb7DTvt038W8hprxdkqHVyxD2jYnWmVnq7uZsc+jrzuFuFoBs5Uk47JT/E+GM7NlroEmoPiMBASY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+xHjjqG; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1941D5237A3;
+	Tue,  8 Sep 2026 18:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.14.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788890506; cv=fail; b=rIpIZ8X0Qebs+Yeq6/q/8za5xavycGyAmMn/t1hVeb5r02hhGmp/s2aLmspmXTPcnZE0ACpI832Ze2xAgorJSxSaoMYKwNtjNT6Ix/H81HufWocSYfAK/zkLBj9jdfK2KFXNxnV8B+CLMIC3l5tjKU476k8mAZyMbATJ6n6WZI8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788890506; c=relaxed/simple;
+	bh=LrcHlTuV5EywqaskhZ7/rVhf1ILYtnhoo+JrWi5fIC4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=N+o2Q0m/YvBekGzhYe2D5xUTk+wqd+l1RILyy3mmwT8hEDNmn/ChAJmIgG89TV1EnJsjfMYe025MXNZYfh8vAvjEP/6uxMQ+HsZcr5Q7UDOglL3jTjDpN6fXKPdCGYzqSjEm2n9tkNYRcQ+7UlVyQozAXJs5rDSc+d4oTcnHadI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=pKAFyBth; arc=fail smtp.client-ip=52.103.14.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+xHjjqG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89911F00A3A;
-	Tue,  8 Sep 2026 12:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788870809;
-	bh=9SNVULsma0l9ACdLvuvkGICToJinRtwl382n3xRMHwk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Y+xHjjqGmMHFaxX+YK7KYSlTQm/UQV6vF92cy0ZuAsvwKQwnY8xwticgb7QEOeDpk
-	 Yzzu7N55qN905BGEOs0RDRMWRU2iuC3+9Sai2pq+8uNiRGhgGXQXq0x1cOGUmZPNNV
-	 orp6qYADVW3VGWoo4NHAO3WhnZAgff71hAQ9Gq24karhv7oqh28b+MYVsZYvNRH6cP
-	 I4FqWb02KdhHQd5KzL8Id+XM2R/Q49lIovX0ABUSysqrxTsSFEw9d0JI5bPCpT43Ak
-	 dhFkVbXX0HgXG3wDAncZFxAzkCnzIsBlmQylIWTuCvKwTeK3dk4sBYuyLdbdi+SX7n
-	 uvYqReFQpFj+g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 1/9] mshv: retain memory regions until unmap succeeds
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Hu" <weh@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260908121403.1160280-2-weh@linux.microsoft.com>
-References: <20260831112704.2851147-1-weh@linux.microsoft.com>
- <20260908121403.1160280-1-weh@linux.microsoft.com>
- <20260908121403.1160280-2-weh@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="pKAFyBth"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CqTViGt7l1O2wneqXP5pInaOQDc+4x0FqIEQtDvfzuP1VcDraZrVWkRPJwfpu2sWSPaTeN0Jol8zYS1YcylCsdqCEG2I6C7baajbcEuuUdx7WI18Bz5Fp70wBndOl1xnd8SlsszCnrdo+Nac0xmyiOwhcsNTrXpQgA2AiKYdgF+g/CDFyIUopAvv8P4d/WVO4LznSFNeyTOtp0IjX4HryNV7cTWMDyX71wlenHneRMTgmWIMo5hxzoxc4PRvb4XWvs7MlxBTodOXZ32Pa/r6+nModF/TZErNof4iQPLlax2kg8+dOf1Y6B63JcWd4F2zmotjZx8IRmixJ16+Bgh7lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EDKuLTNUPHiVZi4RfGW2u7TUuTHoUzFU2YiSdEO3Rpc=;
+ b=ow+D8UNZpuiffDhz8b2RgO30m1ubBZ2uCTOJ9Pal/Sf6emitsT0ZS1QLdB93IG5paTrgxGCpOIcWaC/lfPlw2lpJy1TQSyTPBlyxZjZuvbTvmuk6GTNcQshOZ4OBQxaG5/IiNeiyaQcTp6oOYMRzGr/Gqww5Xtb7dGebghBQO1Fw/VlQEULvMrQI5GaISgcrDWj69iNbRDb8pQbDrvsBO/UE8f1+pLCuUtxqwYSir/vh+pOc1oQx7hdoyWYwKTAm/eZr++B2dJsLGh1LVjzyS5XJrHYUXc8xL6xyfhPyriexpYFw345yMC3vqebsV49UbiiRioqN8o94MZ9jJ29zZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EDKuLTNUPHiVZi4RfGW2u7TUuTHoUzFU2YiSdEO3Rpc=;
+ b=pKAFyBthxeXbX02TF2zoJ+UkfngG/Wz5/TjXkzlLaPaVpb5W/DY2pM9l/N3rVtkZDNyz0HDQ7UAaxJ3rN3SWpm3gPS5wPRxMuActXlrwYleXE30dZPa2DXFYKEuggn1SjucP1XmFX9HjhBRTiEPAZLq5yZIcYte168MN8Va+zF/U0saKGa0FKwvFlrj6Fu4FGdkVvhp3YxIFO9Ugw7nD7pWcIoO5L3duIgZ5h0TLhfAtHwiblL/4ECCi+CD4Sb0vOXfmgY/Y3UWMGdo0Cs8jiDG2WcHVjfICfN9BjU5qVggPoGiBCWBYb3EaCzl9l0rKpHOMHg0gO5jpJt8r+LASqw==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by LV2PR02MB11153.namprd02.prod.outlook.com (2603:10b6:408:34c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
+ 2026 18:01:42 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
+ 18:01:42 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Mukesh R <mrathor@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: "kys@microsoft.com" <kys@microsoft.com>, "wei.liu@kernel.org"
+	<wei.liu@kernel.org>
+Subject: RE: [PATCH V1 1/3] mshv: Rename memory deposit memory functions to
+ _old
+Thread-Topic: [PATCH V1 1/3] mshv: Rename memory deposit memory functions to
+ _old
+Thread-Index: AQHdPze4t0iLeIQ6+kakBQ4jjn7iQLbE+cGw
+Date: Tue, 8 Sep 2026 18:01:42 +0000
+Message-ID:
+ <SN6PR02MB4157D9294688C8E5F21BDD19D4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
+ <20260908021340.2548924-2-mrathor@linux.microsoft.com>
+In-Reply-To: <20260908021340.2548924-2-mrathor@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|LV2PR02MB11153:EE_
+x-ms-office365-filtering-correlation-id: 715858b9-0a86-4d9e-90cf-08df0dd33d3b
+x-ms-exchange-slblob-mailprops:
+ 02NmSoc12Dcj/mAxI/NGvzdUkjNASRo/Moxhqk4VeBQXPI5azRUag83neldJ3t01zA19L78WVkTZZ1qMSz4720BILgQrMpPzlOeCC2F1UT2IlGHCp+w8WBh2P1qawb4A8ce/pxA15pEz0OB5WnodGlL8WEmHUw44SY63hzDzi+DS48iwDUHIl9StOPtEek53Vu7qcRShP84cMFqD/MkgqpAhYKXn233vGjDs/v+PEgWLAsNpeRukpTFkk1i76CLCO426FCZnsnYEKxdlcyFo5iJi+JVde50+EQb9HZeRPjjax+bj6kVhnLpmxxDqHr4R6Tof766FaF4JnWdS9ci4r/TW30oDZ4IDJTJMLLmI+HmYZOYPnlNGH38VhNsVhjQXGBXmitlYUOZWyyVq+Et7VrOjz4OKtN5KslFtOl8JcpUl3YpKV6uuebs+xqjB6ei+mastfyW3fYJUWBuybKScrR33j5x+eP9CIKsQRwlAJNfUb3N2ao+yTNO1JJsw3ae28fF0HrhVcg+IU4Kvm10qcuTTFqptDo6+FOolRJtxScJ20raEEze2hPt+KqKb284wS/ZxUDZX3H2s1dI/6pl/28fDo8vvFFCXy1SHRKhlIqk2EXO1gLWSYPYrmwWaUcSKRd2zodbuRgsDb3ubvfVt9R0IKTtEMUsLQnmkX01y0iBLAZYpWDr7TbkhfYJF5veYor0wcFJdXui2CbFmU6U4q7q5PMAk5GmizC8n+tzAr6NkVuke+ZlganBxR3b6jl2F
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|41001999006|37011999003|11091999009|25010399006|19110799012|8062599012|8060799015|12121999013|15080799012|24021099003|55001999006|2604032031799003|51005399006|31061999003|13091999003|440099028|3412199025|102099032|40105399003|12091999003|2607281247196008;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?V7BNNnRw+n8kr3+YX6CSLKC3NpNmhZrv1uSd13W5Ux3UM6QMmKNecw0Xe+MT?=
+ =?us-ascii?Q?Fb6RFFwF6T3UzFsHDjB7nJzuNsovN0OAILCboOSHhIkIfWXBMNJZgf+u0UA8?=
+ =?us-ascii?Q?lSw/qHdkksNQ6TJI2Kp22+UinJUZirmEoyXjSZClKP7p4ps6QSHExfEZ+GPN?=
+ =?us-ascii?Q?ggX/lh4oJSGq0WsvGWJc7sMlQGlLhGmclRWXhtZ7L3+c7oomapwPDgWas3RP?=
+ =?us-ascii?Q?nObYXyT5CZsN4NK93gGD5vSGz1U3vQM8S2NdM7LfMvIJRwIDa2Xs4/sN7i9U?=
+ =?us-ascii?Q?XcaRarlb8HZtYb3xg+vaq/CIuOqzeVky7d/G+IF881z06Wyrz7dHMTYPlJbr?=
+ =?us-ascii?Q?RFokRG9PIhwhsDo7gtfzxEY4Ph6Hc6M8zwvPFoBPVAAC0RDMU8PQAkd6BE8K?=
+ =?us-ascii?Q?60GNj8tdlqODMSn9MMDK1gFrs50Gs14TuwCxbwRP+ZeqA+6cj15hxHheup+T?=
+ =?us-ascii?Q?CudFPyA0c9myo9WHArwMh7NL3j4AKRfsOgT8ViEOAV8tpv6s1NuJSVkdUIha?=
+ =?us-ascii?Q?MkeA81O8iqJ9X5pejQ6uR5dd0SuEOBHPn+PcEaFYY3NyoL2297WzlFaJ8/5g?=
+ =?us-ascii?Q?b0k6YAUo1ZI99iwVe25KrQqaBaeXQXMSdaPMmwaUsZZAeHWg69DhZ8fCYhu+?=
+ =?us-ascii?Q?m/MkIx1DJoyaS5zYM6vcpMuUbQIKREIewTJKnEPp7ZB5WU+KV8jk+r1CcJ50?=
+ =?us-ascii?Q?mB5z1xI7rjbv4slP78M71imKf5RkC5FdHJahAYybhrBWUJfsrE5zNzpKUI7U?=
+ =?us-ascii?Q?A6bBORRyffjGf2KDHmoHfth62R/gHy4JH3hzz9eHrteghhxQkR9N4npvZyZ0?=
+ =?us-ascii?Q?KO/eSDnRfcri1d9yC+4u+l7aN3aqAAWPairyzfLKXE51YU22zaqKjL1ujIE7?=
+ =?us-ascii?Q?TqrHA55r7DF6arYhB/TiH2Y0lLGsMrGuW4qz8HDa7LZh0vw3Kq3uPyFCocCY?=
+ =?us-ascii?Q?crLgf5UTz2ZMorxJKhaHIQQyZpCoAdo2+wdX9DdEZCrGnLHX7PIGLghZKlxH?=
+ =?us-ascii?Q?+fbF5u9P20U/w7lrf4nw3haXXnoUvgWInXPzJiO65ilAYvwyx1vUTDwSdu4d?=
+ =?us-ascii?Q?1pF2LYt7Yoj7KNfHm20bYT92xrxGHWtiwsGLPZa7U1NsXwgc3zbrfwJ6ML+U?=
+ =?us-ascii?Q?a2aiKTNLz3Lsuc+I8wp/tbkFX5tqtpg1jMEaSurSaZb84wNI32/7wO5RZNw7?=
+ =?us-ascii?Q?g9QpXbHOkiDJrnmRVfgucnGofeY/5CfA/+g/yg=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?mXHU3+Z8TySyJLofyd2nyIA/Agx7lS4h3GZ5zzZ9yJnXT9wkOZHdXxsjN4wN?=
+ =?us-ascii?Q?5RF+Y+zDtUJbQDhFTJgEg4gtK9oLs00lZoMfZzn5NEk0VjZGT2F135Juytyz?=
+ =?us-ascii?Q?vYi4ecNTqWpFCXZR8+SJJZIKJq7v3oHZuhbSR6w3UIIR3mO4ojUjIxwlTF1E?=
+ =?us-ascii?Q?uNexymfLMgkfvu5YoidVVVPCTtrQ2lZL43nQKQkMD2eu7CwWQdkhWcGD082U?=
+ =?us-ascii?Q?tmpFUA4g/An8rlDdbcyb/yXZ8yFpT0ilX+WWNMDRClN0t0JYYn23+Pji23bi?=
+ =?us-ascii?Q?PVezGbmqGrAHwNXH8aQLpFcutd2qRz98ilh4oWyitSSJiSZdjzydGKfe5yDM?=
+ =?us-ascii?Q?45wJUgF3muZ4Vy6QxqBapsKpzxQW1735gzuxr8XxrVVq5R/AL0zbbBxhJvDC?=
+ =?us-ascii?Q?AKKLGECQbPjZkoHl+sSd5d0rSSOUgaW0px2ammBKewbYep+8XXslQk/95VCM?=
+ =?us-ascii?Q?SS8Ula9dY03l23qkuYNsZYD5Lp/6nDGhusRK+MGxpRCGrIP/ayzxl2+qwf06?=
+ =?us-ascii?Q?Yf5TxjoWBR3gyJxPzRHUvs0nhRCeSzhS/srviiVbYhKLeMpwY/YNJ/vMLyyb?=
+ =?us-ascii?Q?n8pOgoCoOVpWYckZSr9URag5N7OYBM3Ua8EN3RHq0Mzow+Xwm2i8Ox6/Y1td?=
+ =?us-ascii?Q?Nyi/GWnuvp1evqXlanb6bZk1EbUpeLq5RFY+Pjxc81oeZKxObstsbNc5ey32?=
+ =?us-ascii?Q?avYNaXgHCMkUdBcmmnfoQ0I5r1yK5AWW1W3fD9sDIr7cOJ3dhG8X0oqeQ7Vn?=
+ =?us-ascii?Q?Gs7JUUVsgUJ7EHHCTwqVrmbNPwqp0g+B+puJpceviOw9F6+CRL8Uzd1vMn4d?=
+ =?us-ascii?Q?lL5RxN4tzfBYSfHnDkOp9IW/yC3IVfAinO6qUYnP+V79FdcESHgp/GTPIu6d?=
+ =?us-ascii?Q?q6xsqdaZ3Ti8lbX/mXUg3fwY3E9pMjM+X9p9XW3S223RvmY57JiZoW+3Zg3d?=
+ =?us-ascii?Q?dk6cZg72cuGbiEa5GXnnLbeLmRB+pYy4Cx7Dbkb5gNkaGLVTY6NJ4AI61/NI?=
+ =?us-ascii?Q?74Ghv2fEjsAVGG+49OYv+vBRLC/snoLRgQTq8OhVAmY2RNrE61YfTlsIuE6T?=
+ =?us-ascii?Q?BRW2p8Uuqot5YV1sA7iKOffEO4L125NtFnR3Kt93fF7r2OrzUt1XmxIeEKwr?=
+ =?us-ascii?Q?bJDorHMfX82iQ9xINt18C7DQepAtDAcRhF+eAX6ipMwfON4yWjETBCu/maX8?=
+ =?us-ascii?Q?i19UzDwYgMEZwuHDJh9hqtlklGxddbg4WhKY08M3LWCgqkOrbIHYdyvRUN8P?=
+ =?us-ascii?Q?OMnhabmLnWr2worwW7JUu82tuy5wdHWJF9jYh2YL96+XxY3nSWOPuLQSRwS/?=
+ =?us-ascii?Q?nzxaRgyTw94XvLg2OF78MtrJx36pMKr/aGgLmxaKCqmuoT//S9YTzOKY2B5M?=
+ =?us-ascii?Q?WFXYegk=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Sep 2026 12:33:28 +0000
-Message-Id: <20260908123329.C89911F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 715858b9-0a86-4d9e-90cf-08df0dd33d3b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2026 18:01:42.6131
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR02MB11153
 
-Thank you for your contribution! Sashiko AI review found 7 potential issue(=
-s) to consider:
-
-New issues:
-- [High] Partial mapping failure for pinned memory causes permanent VM quar=
-antine and memory leak without attempting rollback.
-- [Medium] Data race on `region->mapping_may_exist` between the initializat=
-ion mapping hypercall and the MMU interval notifier.
-
-Pre-existing issues:
-- [Critical] Missing verification of contiguous physical pages when mapping=
- 2M chunks to the hypervisor, allowing guests to bypass COW and modify shar=
-ed huge folios.
-- [High] The mmu_interval_notifier invalidate callback returns false on a b=
-lockable failure, violating the API contract and causing host use-after-fre=
-e.
-- [High] GFP_KERNEL allocation inside MMU interval notifier invalidate call=
-back causes reclaim deadlocks and atomic context sleep violations.
-- [High] mshv_region_destroy calls unpin_user_pages on a NULL array after e=
-rror paths have already invalidated the region, causing a kernel panic.
-- [High] mshv_map_user_memory computes mmio_pfn incorrectly when userspace_=
-addr is not at the VMA start, mapping the wrong physical memory into the gu=
-est.
---
-
-commit ae5e74dcd02edb43f5a42fb59ce2354d9c3d2b17
-Author: Wei Hu <weh@microsoft.com>
-
-mshv: retain memory regions until unmap succeeds
-
-Do not remove a region from the partition list or unpin its pages until
-a checked UnmapGpaPages hypercall has completed. Validate repetition
-progress so malformed zero or oversized completion counts cannot spin or
-conceal partial state.
-
-> diff --git a/drivers/hv/mshv_regions.c b/drivers/hv/mshv_regions.c
-> index 6d65e5b421529..7b1860d3233d3 100644
-> --- a/drivers/hv/mshv_regions.c
-> +++ b/drivers/hv/mshv_regions.c
-[ ... ]
-> @@ -245,13 +247,21 @@ static int mshv_region_chunk_remap(struct mshv_mem_=
-region *region,
->  				   u64 page_offset, u64 page_count,
->  				   bool huge_page)
+From: Mukesh R <mrathor@linux.microsoft.com> Sent: Monday, September 7, 202=
+6 7:14 PM
+>=20
+> Rename hv_call_deposit_pages() and hv_deposit_memory_node() to _old
+> to make reviewing the new functions much easier.
+>=20
+> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+> ---
+>  drivers/hv/hv_proc.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+> index 57b2c64197cb..57864bb5bcd8 100644
+> --- a/drivers/hv/hv_proc.c
+> +++ b/drivers/hv/hv_proc.c
+> @@ -13,10 +13,10 @@
+>   * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+>   * are GPAs.
+>   */
+> -#define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+> +#define HV_DEPOSIT_MAX_OLD (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+>=20
+>  /* Deposits exact number of pages. Must be called with interrupts enable=
+d.  */
+> -int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+> +static int hv_call_deposit_pages_old(int node, u64 partition_id, u32 num=
+_pages)
 >  {
-
-[Severity: Critical]
-This is a pre-existing issue, but I have a question about the huge page path
-here. When mapping 2M chunks to the hypervisor, is there any verification
-that the intermediate physical pages are contiguous and belong to the same
-folio?
-
-In mshv_chunk_stride() and mshv_region_process_chunk(), the code seems to
-check only the first page and increments by a stride of 512. If a huge folio
-mapped into the host has pages broken by COW (replaced by private anonymous
-pages), the hypervisor might still be instructed to map the entire 2M
-contiguous physical page. Could this allow a guest to bypass COW and overwr=
-ite
-shared huge folio memory belonging to other processes?
-
-> +	bool chunk_mapping_may_exist;
-> +	int ret;
-> +
->  	if (huge_page)
->  		flags |=3D HV_MAP_GPA_LARGE_PAGE;
-> =20
-> -	return hv_call_map_gpa_pages(region->partition->pt_id,
-> -				     region->start_gfn + page_offset,
-> -				     page_count, flags,
-> -				     region->mreg_pages + page_offset);
-> +	ret =3D hv_call_map_gpa_pages(region->partition->pt_id,
-> +				    region->start_gfn + page_offset,
-> +				    page_count, flags,
-> +				    region->mreg_pages + page_offset,
-> +				    &chunk_mapping_may_exist);
-> +	if (chunk_mapping_may_exist)
-> +		region->mapping_may_exist =3D true;
-> +
-> +	return ret;
->  }
-[ ... ]
-> @@ -337,37 +347,39 @@ static int mshv_region_chunk_unmap(struct mshv_mem_=
-region *region,
-[ ... ]
->  static void mshv_region_destroy(struct kref *ref)
->  {
->  	struct mshv_mem_region *region =3D
->  		container_of(ref, struct mshv_mem_region, mreg_refcount);
-> -	struct mshv_partition *partition =3D region->partition;
-> -	int ret;
-> +
-> +	/* Callers must retain the list reference until cleanup is certain. */
-> +	if (WARN_ON_ONCE(region->mapping_may_exist))
-> +		return;
-> =20
->  	if (region->mreg_type =3D=3D MSHV_REGION_TYPE_MEM_MOVABLE)
->  		mshv_region_movable_fini(region);
-> =20
-> -	if (mshv_partition_encrypted(partition)) {
-> -		ret =3D mshv_region_share(region);
-> -		if (ret) {
-> -			pt_err(partition,
-> -			       "Failed to regain access to memory, unpinning user pages will =
-fail and crash the host error: %d\n",
-> -			       ret);
-> -			return;
-> -		}
-> -	}
-> -
-> -	mshv_region_unmap(region);
-> -
->  	mshv_region_invalidate(region);
-
-[Severity: High]
-This is a pre-existing issue, but I am concerned about calling
-mshv_region_invalidate() here unconditionally.
-
-On error during mshv_prepare_pinned_region(), the code calls
-mshv_region_invalidate_pages(), which unpins the pages and zero-initializes
-the mreg_pages array. The error then propagates to mshv_map_user_memory()
-which drops the refcount and triggers this mshv_region_destroy().
-
-Because mshv_region_destroy() calls mshv_region_invalidate() again, it will
-pass the now-NULL mreg_pages array elements to unpin_user_pages().
-Will this result in a kernel panic when unpin_user_pages() dereferences the
-NULL page pointers?
-
-> -
->  	vfree(region);
->  }
-[ ... ]
-> @@ -531,6 +532,12 @@ static bool mshv_region_interval_invalidate(struct m=
-mu_interval_notifier *mni,
->  	page_offset =3D HVPFN_DOWN(mstart - region->start_uaddr);
->  	page_count =3D HVPFN_DOWN(mend - mstart);
-> =20
-> +	/*
-> +	 * mmap_lock is already held by the notifier core. Take only the region
-> +	 * mutex here; taking the fair fault rwsem would deadlock behind an unm=
-ap
-> +	 * writer that is waiting for this mutex. Publish the sequence after the
-> +	 * mutex is acquired even when a checked unmap proved no mapping remain=
-s.
-> +	 */
->  	if (mmu_notifier_range_blockable(range))
->  		mutex_lock(&region->mreg_mutex);
->  	else if (!mutex_trylock(&region->mreg_mutex))
-> @@ -538,15 +545,15 @@ static bool mshv_region_interval_invalidate(struct =
-mmu_interval_notifier *mni,
-> =20
->  	mmu_interval_set_seq(mni, cur_seq);
-> =20
-> -	ret =3D mshv_region_remap_pages(region, HV_MAP_GPA_NO_ACCESS,
-> -				      page_offset, page_count);
-> -	if (ret)
-> -		goto out_unlock;
-> +	if (READ_ONCE(region->mapping_may_exist)) {
-> +		ret =3D mshv_region_remap_pages(region, HV_MAP_GPA_NO_ACCESS,
-> +					      page_offset, page_count);
-> +		if (ret)
-> +			goto out_unlock;
-> +	}
-
-[Severity: High]
-This is a pre-existing issue, but I am worried about memory allocations her=
-e.
-
-mshv_region_interval_invalidate() is invoked by memory reclaim or atomic
-contexts. It calls mshv_region_remap_pages() which triggers a hypercall.
-If the hypervisor requires memory, it calls hv_call_deposit_pages(), which
-allocates memory using alloc_page(GFP_KERNEL).
-
-Does using sleepable allocations (GFP_KERNEL) from reclaim context cause
-deadlocks, or from atomic context trigger a sleeping-in-atomic bug?
-
-[Severity: Medium]
-Also, is it safe to use READ_ONCE(region->mapping_may_exist) here when
-the writer in hv_do_map_gpa_hcall() uses a plain assignment
-(*mapping_may_exist =3D true)?
-
-Since mmu_interval_notifier_insert() could be called before the hypercall,
-mshv_region_interval_invalidate() might run concurrently. Under the C memory
-model, this data race could lead to missed invalidations if the compiler
-reorders or tears the write.
-
-> =20
->  	mshv_region_invalidate_pages(region, page_offset, page_count);
-> -
->  	mutex_unlock(&region->mreg_mutex);
-> -
->  	return true;
-> =20
->  out_unlock:
-
-[Severity: High]
-This isn't a bug introduced by this patch, but returning false on a
-blockable failure here violates the mmu_interval_notifier API contract.
-
-The core MM subsystem strictly forbids returning false when
-mmu_notifier_range_blockable(range) is true. Doing so causes a WARN_ON and
-ignores the failure, which means the host proceeds to free or reuse the page
-while the hypervisor retains guest access.
-Could this lead to a cross-process use-after-free reachable under memory
-pressure or untrusted guest action?
-
-> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-> index cc2cfce2aefdb..bb6f16fac4de1 100644
-> --- a/drivers/hv/mshv_root_main.c
-> +++ b/drivers/hv/mshv_root_main.c
-[ ... ]
-> @@ -1397,13 +1398,15 @@ mshv_map_user_memory(struct mshv_partition *parti=
-tion,
->  		ret =3D hv_call_map_gpa_pages(partition->pt_id,
->  					    region->start_gfn,
->  					    region->nr_pages,
-> -					    HV_MAP_GPA_NO_ACCESS, NULL);
-> +					    HV_MAP_GPA_NO_ACCESS, NULL,
-> +					    &region->mapping_may_exist);
->  		break;
->  	case MSHV_REGION_TYPE_MMIO:
->  		ret =3D hv_call_map_mmio_pages(partition->pt_id,
->  					     region->start_gfn,
->  					     mmio_pfn,
-> -					     region->nr_pages);
-> +					     region->nr_pages,
-> +					     &region->mapping_may_exist);
-
-[Severity: High]
-This is a pre-existing issue, but I wanted to ask about the mmio_pfn
-computation earlier in this function:
-
-	mmio_pfn =3D is_mmio ? vma->vm_pgoff : 0;
-
-Does this completely ignore the page offset of the requested userspace_addr
-within the VMA? If a user requests a mapping for a sub-region of the VMA,
-would the guest incorrectly be mapped to the very beginning of the VMA's
-physical address space instead of the requested offset?
-
->  		break;
->  	}
-> =20
-> @@ -1421,7 +1424,17 @@ mshv_map_user_memory(struct mshv_partition *partit=
-ion,
->  	return 0;
-> =20
->  errout:
-> -	mshv_region_put(region);
-> +	if (region->mapping_may_exist) {
-> +		spin_lock(&partition->pt_mem_regions_lock);
-> +		hlist_add_head(&region->hnode, &partition->pt_mem_regions);
-> +		spin_unlock(&partition->pt_mem_regions_lock);
-> +		pt_err(partition,
-> +		       "Retaining region after uncertain map cleanup at GFN %#llx\n",
-> +		       region->start_gfn);
-> +		mshv_quarantine_partition(partition);
-> +	} else {
-> +		mshv_region_put(region);
-> +	}
-
-[Severity: High]
-If a later chunk fails to map during mshv_prepare_pinned_region(), the
-earlier chunks remain mapped, leaving region->mapping_may_exist as true.
-
-When the error propagates back here and mapping_may_exist is true, the
-driver immediately calls mshv_quarantine_partition(), permanently leaking
-the partition and module.
-
-Should this code attempt to call mshv_region_unmap() on the error path to
-clean up the partially mapped chunks before resorting to quarantine, to
-prevent a permanent DoS via resource exhaustion?
-
+>  	struct page **pages, *page;
+>  	int *counts;
+> @@ -29,7 +29,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u=
+32 num_pages)
+>  	struct hv_deposit_memory *input_page;
+>  	unsigned long flags;
+>=20
+> -	if (num_pages > HV_DEPOSIT_MAX)
+> +	if (num_pages > HV_DEPOSIT_MAX_OLD)
+>  		return -E2BIG;
+>  	if (!num_pages)
+>  		return 0;
+> @@ -40,7 +40,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u=
+32 num_pages)
+>  		return -ENOMEM;
+>  	pages =3D page_address(page);
+>=20
+> -	counts =3D kzalloc_objs(int, HV_DEPOSIT_MAX);
+> +	counts =3D kzalloc_objs(int, HV_DEPOSIT_MAX_OLD);
+>  	if (!counts) {
+>  		free_page((unsigned long)pages);
+>  		return -ENOMEM;
+> @@ -108,10 +108,14 @@ int hv_call_deposit_pages(int node, u64 partition_i=
+d, u32 num_pages)
+>  	kfree(counts);
 >  	return ret;
 >  }
+> +
+> +int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+> +{
+> +	return hv_call_deposit_pages_old(node, partition_id, num_pages);
+> +}
+>  EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
+>=20
+> -int hv_deposit_memory_node(int node, u64 partition_id,
+> -			   u64 hv_status)
+> +static int __maybe_unused hv_deposit_memory_node_old(int node, u64 parti=
+tion_id, u64 hv_status)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908121403.1160=
-280-1-weh@linux.microsoft.com?part=3D1
+I'm not clear on why there is "__maybe_unused" here. If CONFIG_MSHV_ROOT
+isn't defined, this whole file isn't built.
+
+But it doesn't really matter since Patch 3 of the series deletes the code a=
+nyway.
+
+>  {
+>  	u32 num_pages =3D 1;
+>=20
+> @@ -137,7 +141,12 @@ int hv_deposit_memory_node(int node, u64 partition_i=
+d,
+>  		hv_status_err(hv_status, "Unexpected!\n");
+>  		return -ENOMEM;
+>  	}
+> -	return hv_call_deposit_pages(node, partition_id, num_pages);
+> +	return hv_call_deposit_pages_old(node, partition_id, num_pages);
+> +}
+> +
+> +int hv_deposit_memory_node(int node, u64 partition_id, u64 hv_status)
+> +{
+> +	return hv_deposit_memory_node_old(node, partition_id, hv_status);
+>  }
+>  EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
+>=20
+> --
+> 2.51.2.vfs.0.1
+>=20
+
+The "__maybe_unused" notwithstanding,
+
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+
