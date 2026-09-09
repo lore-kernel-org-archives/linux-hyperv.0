@@ -1,225 +1,139 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9153939C8;
-	Wed,  9 Sep 2026 18:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788978166; cv=none; b=h8BP96AAbxVKV2nBju7ZDgK4axzSPngO/DUEgnpx1lgiAf1C+Izom8YWzUTxt7RD7s0YqlCxqN4LsrDErVVg9xAGIlweeA9ZKAsA5euymDwMmxP+n2F9uHkSuLxc6KwXICnu0H/tTN7hp3oCKLNI3ggDnf8YvIQjpxe6HFYoqk8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788978166; c=relaxed/simple;
-	bh=6V9Z+LF+27lb2JLVHJ/u+hYjEbOatlpGbOlbpMS9b7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jda5on8Wze351KWqSRHeKp9xD9PLhy+QXw0h1n76xtqR2XvybUKaJk+ok8cmu7PmLkkzOOVfa09aJEKpYiTHr7dVbHHwZo0CrdZ7XgTAwnMXQWMxfPmxzeRLhA2AQiJ/wkP/STb+CM2lal3ws9tz6+ktKH+KDNyNq1CXk2QmXV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XGAZIjKg; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11022089.outbound.protection.outlook.com [40.107.200.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCAB3A9611;
+	Wed,  9 Sep 2026 18:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788979368; cv=fail; b=bhwE05h30jz1tXJ62UaMRM8jgZtZtZgjwMrpAXJ1CIanrwBf1N+MtPaSjRWM/Q1v9JphfjCyo9JT9phiCWLKB4ftTrTv+UP4a4I8gJSbyoogL6RMNz1blSgPya/VbEGSXCyfQ3q087lYM3RyiFQ7CnEf7S7rJkxA9dG9CDgXvzE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788979368; c=relaxed/simple;
+	bh=4IVpSV8qhLKCMkUMJqv9yp7Z8ydT2jEqiC7hyxwjeJE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BTeXu6JGKIGfR6T1BaU3cPh8nHWhCo+3P9zADer4sqAOTKS1mFhU+TeI1PZuNEM4FEHG/ol5xU2Iq+pF+mT6QGulv/9r/uX7dSfUvMEpZN+jyCYsJchXIsNDT11eP3K39UWpZ97anEBc6OZJ9pMlzoU9iuAclz3xmJl5NrRVzS4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=bJvSuD25; arc=fail smtp.client-ip=40.107.200.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XGAZIjKg"
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C7F2020B7169;
-	Wed,  9 Sep 2026 11:22:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C7F2020B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788978123;
-	bh=FmU6oA2HkXd8D1YiRe81FJ1My2bAxbr+XjLX7sQ/N4I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XGAZIjKgYe+Vezs2mc1Hs2DEAim3HETc6qqbHSotSsg67/iGHdYQACvZ8FdZ8prlu
-	 /1BpLqnujQbtejv5cl0wxtpxq8z9oIXh0d3wRneYGcqG88kvWyoNTybSirGZsqtG0C
-	 LBZVibmfc1WxBp5HqvNPAnCGgmXsX6rEVbMqg3EA=
-Message-ID: <9c22e90d-2bd8-04fe-22d5-0fe614253eaf@linux.microsoft.com>
-Date: Wed, 9 Sep 2026 11:22:43 -0700
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="bJvSuD25"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uVLvA9tRBUOTJdOuH7cF5WTySkwpk4On/XF3ZI+PNLr/oI7JxhR2MwMGY7HkGi4LlUOqISU9bhd2XOTsw4+AdT+lckxjdFSpzL+W1FFpAFXhr5qOdOS4mrUkCSTkAjlM/9eunfxJe32eBSBT7Mn3mnzV6RGX/6NjYfSdkcJUP6y0NeP3kkA/AW+3fP/L7cV6CVrpgmGy58nPnbDyHhHSTEk8thOtAxHEOzkLFzLV2Yvw50tBtzv3KEOGrzgZ1tLNGt2RuYmTtz/oOHKRRajDIPMp8pT+ZobOrck70EdrKhvnYEn8dl6y4P8LHCQV+H7Xq8+F6jDcGi6j5w4UP74jIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4IVpSV8qhLKCMkUMJqv9yp7Z8ydT2jEqiC7hyxwjeJE=;
+ b=E1766I2L8q4w8cg7Iachtzah29cGQMSitqyN+A2lENJT+ZjO6AWMb2wKSfbUNE0rnbYh9OSSTd7cMYsob+4YTv7pBZkqJcLUX6n0yamKC+9Hr9QryTrYE15PymO+OmeoQRJlCoDIKBgxXZ85MMKPJQ6W11m0a5ONALD/mlFXYj7Njlbp4CmkiLYMDynrRWWHZOWJOQw1k67/jCZmsJLtOSfom72rTZXRrA5Z+TA+lo1ZedPn/DZ+XZ/hdz9vRw4YKb98A+kkX/sDjtYhxFdeD/ZQvqdtez/HeMSfPaiGboVCSQPskcnLMc0Rd/YTCJkSjZtlyQo8dqr1zk6Bkei/Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4IVpSV8qhLKCMkUMJqv9yp7Z8ydT2jEqiC7hyxwjeJE=;
+ b=bJvSuD25hUQBfN8lyVlQROFXhsnbOrimKDVbKYebrPjrxBvlTx4y2xipXbWe1X0MmtI2yZpsVtiypSwVnnOe6Ppd80qChjfyhLm38VCD80Hq7z4HWuOw+q/03uRnF0ssCJKwevLNeyIOU0cRrGSBi7YUFlpllgYKijkQJaOY8U0=
+Received: from DS4PR21MB5419.namprd21.prod.outlook.com (2603:10b6:8:2ab::17)
+ by DS4PR21MB5296.namprd21.prod.outlook.com (2603:10b6:8:299::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.0; Wed, 9 Sep 2026
+ 18:42:43 +0000
+Received: from DS4PR21MB5419.namprd21.prod.outlook.com
+ ([fe80::213e:684c:c119:ded3]) by DS4PR21MB5419.namprd21.prod.outlook.com
+ ([fe80::213e:684c:c119:ded3%7]) with mapi id 15.21.0428.004; Wed, 9 Sep 2026
+ 18:42:43 +0000
+From: Dexuan Cui <DECUI@microsoft.com>
+To: Naman Jain <namjain@linux.microsoft.com>, "tglx@kernel.org"
+	<tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>
+CC: "hpa@zytor.com" <hpa@zytor.com>, "yunhong.jiang@linux.intel.com"
+	<yunhong.jiang@linux.intel.com>, "ricardo.neri-calderon@linux.intel.com"
+	<ricardo.neri-calderon@linux.intel.com>, "rahul.tanwar@linux.intel.com"
+	<rahul.tanwar@linux.intel.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: RE: [PATCH] x86/init: Initialize wall clock in get_rtc_noop()
+Thread-Topic: [PATCH] x86/init: Initialize wall clock in get_rtc_noop()
+Thread-Index: AQHdOSJVimovIGX+OEyUsVmDoaGEBLbGo2Ng
+Date: Wed, 9 Sep 2026 18:42:43 +0000
+Message-ID:
+ <DS4PR21MB54193C373A52D57B1BD1AC8DBFB02@DS4PR21MB5419.namprd21.prod.outlook.com>
+References: <20260831082528.1623843-1-namjain@linux.microsoft.com>
+In-Reply-To: <20260831082528.1623843-1-namjain@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=7f15ccd7-41be-41e3-ac98-5d33b8414353;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-09-09T18:41:30Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS4PR21MB5419:EE_|DS4PR21MB5296:EE_
+x-ms-office365-filtering-correlation-id: 0fb7e2fd-002a-49ff-51f0-08df0ea22260
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|23010399003|376014|7416014|366016|38070700021|7146999003|10067099003|56012099006|11063799006|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ XDK2UljbFV01qBWc3ocbJ3hK42fWYVkh8TeahD4ayNWiCuYxTBjcoD6DUw5Y2A5zlc5hVA+5WyPCc2YD19WHnDtdiHPXspzmSfaZmGP5KlZqocJoRICHeqyR053VkOKcB2f33f4IH71DrN52b++MO0d1wURIDFp26WyMQmZRdHdQSAN3YW9NGP5u6RLxJeJtzX+YxliqGEquEiSJhzms/L/EbISxiDS0/H819R7uMa++Qi0NG3Q4G+h7o12bwLuL+TCBJXuC958fCFua4lBnFYCeozZTEG+rbWRWR2O+V3MdGJuNzsn3Bdrs37v8yMf7+cxmsHbAMJ4akXBd3BzDyfbZxBWPwBZKP6cOquhbAlJjjNU6gfKpvrmFUAdr8vA2p64RqPVF4FhN+Z46FAYYbwDQELv6OhXh0tCTjpbvDWuao8AVDAoOhzD+dOUN7XEFOduwMRgMWwYjv9ssw0yK/uT4c8LxoSQwhCAJprZq4IZyjFMD6BV4li/n5I/IgnvL0zMFNdUcBuiqVKFe5QIdFf2OsvoKbZNwMflGa0/5AFRoChzhOEfS4sZFooAlmgdY/ko3G1fJ1DAD7yLpNWMJ9GbolYZdZrTw13AlYaSykbbGzR+/nJBNESYRbPJkEBeyZ8Q9dUnIYCmyU5p801LU+Q4vaPHYezkVaZjLt601S1KEffXEj1HgwHUwNfixbVCRfA4cMoGT1sbPiq4QxA/eF0xFfxi1L7XOf1onbl3Cn8A=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PR21MB5419.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(7416014)(366016)(38070700021)(7146999003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?t4w3aAW3HIK9Rwm+IeGfmroKCHqLgNDk8dIfA9Ag3WWLDVP6aKVU7fGW8Xsl?=
+ =?us-ascii?Q?cfThp9r+N7418oQ8wBotX/Zex5i2TX2ALKg09lkAr+3YbyvJIRmnV9F3CBHn?=
+ =?us-ascii?Q?Fj3uplLsc7mMqlwaPhsc1p+UkK6bJgzqpx5iexX/sCPC3ATqeT0vpEisNvtB?=
+ =?us-ascii?Q?9nvV8CnSdDLDZR6zVvzIAisCikn1nEGuZcqenjdKDzeKbldoHzBww8ha4ROl?=
+ =?us-ascii?Q?O/VsIKsKnFIgsVZRz+1Q/ee5C7b+TkFvIKv4zm4vriTQM1QVQYDtJ/jMyVry?=
+ =?us-ascii?Q?MjC1IHqRfPvIVF0xSdsY3B6/Nr+hJu7N5JaoqkbAIRIcGQUxptIfRoDtFhDp?=
+ =?us-ascii?Q?w4w5rEXSW7HhiqjGW+7vGYd5lm90HtYKQkrKr7KhzRBWXnrLAKpiOqcKBbKe?=
+ =?us-ascii?Q?9h9+JcQkuDMU62LJuC97Vvfthzr9cxn2GuEbNvGfXYWvTRa+mUAwfnruZwsR?=
+ =?us-ascii?Q?ZY2GNF/ik5QTk7qvsorKEh9a6+Hgym39GZatGnMFIAUU79DZP7bHayWsE5pd?=
+ =?us-ascii?Q?wjyCNKZ0f9yCyOyM/piyYsJf/DmtvcLMsIcpBcuY/8XTesNl6y+OP+eAMONl?=
+ =?us-ascii?Q?MNuUSvGxnIAVDQnd5cksxRjdcnrJSZadw8fxmOsCSnYFbYdrEE6D6an9dX4l?=
+ =?us-ascii?Q?40Vu15sNdHcGHObM4AtJjoF1Td0LPfqWzpyNUwKWNDttmEsOxGnUOSz0gCKf?=
+ =?us-ascii?Q?L0uZGBT/1ZJ39k7IzJgGFMpMwAUKpDG9Rc30WLIS/Zftj0MgOJixV2tN/NN/?=
+ =?us-ascii?Q?YMm2/YRu3FwyL0Cfw0+jDYp71fpRmV2XABVFs9CCEFOOZsejXK4fwTIEAWWh?=
+ =?us-ascii?Q?xvPNnPq29VrsrFl/BSGP31qJ+Uopvwr3nMgh9NUitTEYlV4P1w8lFi/+vWW+?=
+ =?us-ascii?Q?TAU6TqUFoCg09uqC3FGPd2DfVHV+ppUHlb0uFXccFzDDNNPITXfszgNFR+Gd?=
+ =?us-ascii?Q?2VpMGZ70pXTDZMM8alqfHbHHuUuzXUphXPcSbTR1KPdNDSdydMiSLY23NxzH?=
+ =?us-ascii?Q?9/qW2OaYu4d7A7kgFTyL6F60+9rIZj4at2ZcIOghJDRlSgQLV3MxacYbpTDV?=
+ =?us-ascii?Q?4BD108BrEmUxtHqhYeXmIQTEsar694vIiGIiAyP3OKGyb/gTotqmSyb2uWlR?=
+ =?us-ascii?Q?uyFk/ky6ljT2iw+s7ELqqA218Fo/F6YV+kQKlex5vgV4HTahnnAQI52DSobe?=
+ =?us-ascii?Q?+x273rUzVw/7lMGW1UfXANIW65+CBLv+Eovaqi6TqdpuyPfAzAy6M8b2qRZb?=
+ =?us-ascii?Q?PPOj/44I5GYSlj4ZGxqom2FXZB4v4veDsRb7ou4fC/f/pB0FIK1K+HvkrfWx?=
+ =?us-ascii?Q?0XB2MwpX2yL0NodBOyMh4Ed9EnQDmB3AhLR5/oyl0u7o34F6gIpixVlaBTiW?=
+ =?us-ascii?Q?vwq5+ySUcHEOx+u7brIylYxMtoKgkbuohj2dLDDDMPmdtcVuhm8ycnT5Xpdi?=
+ =?us-ascii?Q?wP1o8VjQuwgCKcyAiOR4uOP7XV5E51Mro35vIP8bD0oz7/vuM1W4D+Okuoxz?=
+ =?us-ascii?Q?DtVq1N82Ofmrozw2xIMwYSQ9866F52yx770IMb6QHt7MrDNk7wyez/+DIcvI?=
+ =?us-ascii?Q?7e1DvOz0jchML92WJVibQE0JpGS+R8VnmiDws1o0JsCxY0/DXK+UCugJ6dDF?=
+ =?us-ascii?Q?hsKxxzsRiuPupwAHHtKOOcb+kisnkLTvCNFCG+yyHRjczWXD17fRxmWaTpF9?=
+ =?us-ascii?Q?iHoBf7jYZ0JIkpvOyVl4vMz7thfuIDDdlvjhZLr0ng8HuQnJ?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Content-Language: en-US
-To: Michael Kelley <mhklinux@outlook.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "kys@microsoft.com" <kys@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>
-References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
- <20260908021340.2548924-3-mrathor@linux.microsoft.com>
- <SN6PR02MB4157AB63EF3BA9E3BC560E19D4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
- <f5836bf1-1baf-68c2-4ac7-b1a6459069ad@linux.microsoft.com>
- <SN6PR02MB415768481DC2DEB2C2690E1CD4B02@SN6PR02MB4157.namprd02.prod.outlook.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <SN6PR02MB415768481DC2DEB2C2690E1CD4B02@SN6PR02MB4157.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS4PR21MB5419.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fb7e2fd-002a-49ff-51f0-08df0ea22260
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 18:42:43.3934
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2fgZ0yDDGqU3X5JiRgraCdAgB2gLkuUWAxzcE366RSaW6pNGRzkwejVR7A5mfCKFuHxOxkwoiTcMLMyYGbFp7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR21MB5296
 
-On 9/9/26 10:32, Michael Kelley wrote:
-> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Tuesday, September 8, 2026 3:33 PM
->>
->> On 9/8/26 11:02, Michael Kelley wrote:
->>> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Monday, September 7, 2026 7:14 PM
->>>>
->>>> The current memory deposit implementation has a few issues and bugs:
->>>>    o It is very slow
->>>>    o Contiguous range requirement is broken, and is critical bug
->>>>    o An incorrect assumption is made that contiguous memory size would
->>>>      always be power of 2.
->>>
->>> Is this HV_MAX_CONTIGUOUS_ALLOCATION_PAGES? That value is
->>> defined as a constant in hvhdk_mini.h. So is there a possibility that
->>> the constant will change in the future, or in some new variation of
->>> the overall environment?
->>
->> Yes, I was told it could change in future. It is also not guaranteed to
->> be power of 2 (even tho it is currently).
->>
->>>>    o Two pages are allocated, only one is really needed. This adds to
->>>>      overhead.
->>>>    o For a 512 page deposit, the allocation is split into two: one for 511
->>>>      and second for 1. Thus, an order 9 allocation never happens. A
->>>>      contiguous 2M range, if possible, significantly improves performance
->>>>      in the hypervisor.
->>>>    o Since a page is already allocated to collect the frames, there is
->>>>      not really a need to use per cpu input page, and hence avoid local
->>>>      irq disable.
->>>>    o In hv_call_deposit_pages(), in case of error, under err_free_allocations
->>>>      label, all pages are freed without checking status to see if some pages
->>>>      were deposited. This is a critical bug as it would free pages that hyp
->>>>      may be using.
->>>>
->>>> All of above is addressed by:
->>>>    o Allocate 2M by default, this is the recommendation from the hypervisor
->>>>      team, and greatly improves performance.
->>>
->>> Can you be more specific about "improves performance"? Is the
->>> improvement on the guest side, or on the hypervisor side? And what's
->>> the key leverage point in improving performance, regardless of which
->>> side? It might be helpful to record this for future reference to prevent
->>> a change from being made that unknowingly hurts the key leverage
->>> point.
->>
->> Well, overall improvement I'd say. Lesser HV_STATUS_INSUFFICIENT_MEMORY
->> means lesser interruptions means faster non-deposit hypercalls. With
->> larger deposits, it will not come back as often with insufficient memory.
->> If it only uses 1M say out of the 2, next time it will reuse the remaining
->> meg before coming back and asking for more. IOW, incomplete hypercalls
->> repeatedly coming back asking for more ram add lot of overhead.
->> Eg. the guest setup part reduces from 8 sec to 1 sec with this, I
->> don't have further breakdown of which ioctls.
-> 
-> OK -- this part wasn't clear to me from reading the commit message.
-> The primary goal is to reduce hypercall failures due to insufficient
-> memory, followed by the cycle of adding memory and trying again. By
-> adding memory in larger chunks in the first place, you reduce those
-> cycles. Improving the performance of the code for doing the deposit
-> helps, but that's probably not where you get the most noticeable
-> benefit. Could you clarify this in the commit message?
-> 
->>
->>>>    o Always start with a full 2M range allocation, thus getting contiguous if
->>>>      available. In cases where possible, the deposits are much faster.
->>>
->>> Is this faster because the hypervisor can consume the pages faster
->>> if they are contiguous?
->>
->> I didn't ask but my guess is that it can map 2M page in its page
->> tables, so all the benefits of large pages: faster L2 mapping, less
->> tlb overhead, etc..
-> 
-> Makes sense. This seems like it is probably a 2nd order benefit
-> after reducing hypercall failures due to insufficient memory.
-> 
->>
->>>>    o Allocate only one page in the deposit function and collect 511 pfns
->>>>      there. Just use a local variable for last pfn.
->>>>    o Use the page as input to hypercall. Since this page is locally allocated,
->>>>      irq disable can be avoided helping speed up the deposit.
-> 
-> Again, seems like a 2nd order perf improvement in the code
-> for doing the memory deposit.
-> 
->>>>    o Fix the physical contiguous memory requirement.
->>>>    o Lastly, remove pre-deposits hv_call_create_vp() and
->>>>      hv_call_initialize_partition() as they were removed internally while
->>>>      ago, most likely because they didn't help much.
->>>>
->>>> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
->>>> ---
->>>>    drivers/hv/hv_proc.c           | 198 +++++++++++++++++++++++++++++----
->>>>    drivers/hv/mshv_root_hv_call.c |  10 +-
->>>>    include/asm-generic/mshyperv.h |   5 -
->>>>    3 files changed, 179 insertions(+), 34 deletions(-)
->>>>
-> 
-> [snip]
-> 
->>>> +/*
->>>> + * Deposit memory in the hypervisor. Even if @contiguous is false, a contiguous
->>>> + * 2M worth of pfns is utmost desired for performance reasons. But short of
-> 
-> Again, this comment isn't clear on *why* the 2M helps performance.
+> From: Naman Jain <namjain@linux.microsoft.com>
+> Sent: Monday, August 31, 2026 1:25 AM
 
-It can be mapped as large page in hyp page tables.
+LGTM.
 
->>>> + * that, we deposit whatever contiguous chunks we can get. If @contiguous is
->>>> + * true, then the entire range has to be physically contiguous. Note, in that
->>>> + * case, upon withdrawl, hypervisor could return any page in between the range,
->>>> + * so we must split that also. Lastly, HV_MAX_CONTIGUOUS_ALLOCATION_PAGES is
->>>> + * not guaranteed to always be power of 2.
->>>> + */
->>>> +static int hv_call_deposit_pages(int node, u64 partition_id, bool contiguous)
->>>> +{
->>>> +	struct hv_deposit_memory *hc_input;
->>>> +	int i, rc, num_pages;
->>>> +	u64 status, *pfna, lastpfn = 0;
->>>> +	bool trunc_extra = false;
->>>> +
->>>> +	BUILD_BUG_ON(HV_MAX_CONTIGUOUS_ALLOCATION_PAGES > HV_DEPOSIT_MAX);
->>>> +
->>>> +	if (contiguous) {
->>>> +		num_pages = roundup_pow_of_two(
->>>> +				 HV_MAX_CONTIGUOUS_ALLOCATION_PAGES);
->>>> +		trunc_extra = num_pages != HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
->>>> +	} else {
->>>> +		num_pages = HV_DEPOSIT_MAX;
->>>> +	}
->>>> +
->>>> +	hc_input = (struct hv_deposit_memory *)get_zeroed_page(GFP_KERNEL);
->>>
->>> Mike Rapoport has a kernel-wide effort underway to replace
->>> __get_free_page() with kmalloc() and get_zeroed_page() with kzalloc().
->>> See [1] for one example of the many patches he has submitted. The
->>> commit message has a short explanation. Going with kzalloc() here
->>> would probably avoid a future change.
->>
->> There might be places where a get_page may not be strictly needed, but
->> in this case we do for the hypercall (we use it as input page), and
->> this hypercall can go upto exactly one page. I don't think an operating
->> system can ever get away without having a get_page() api :). kmalloc()
->> could add an aligntment parameter, but it would just call get_page
->> anyways for page aligned requests.
->>
-> 
-> What Mike wants to do is:
-> 
-> 	hc_input = kzalloc(PAGE_SIZE, GFP_KERNEL);
-> 
-> This is guaranteed to provide page-aligned memory, just like
-> get_zeroed_page(). See 2nd paragraph under "Description" at [1].
-
-Confusing... the first line after Description also says:
-
-"kmalloc is the normal method of allocating memory for objects smaller
-  than page size in the kernel."
-
-I think it is clearer to keep get_page, it also helps keep common code
-with earlier versions
-
-Thanks,
--Mukesh
-
-
-
-> Michael
-> 
-> [1] https://www.kernel.org/doc/html/latest/core-api/mm-api.html#c.kmalloc
-
+Reviewed-by: Dexuan Cui <decui@microsoft.com>
