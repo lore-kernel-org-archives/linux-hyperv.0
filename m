@@ -1,278 +1,225 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19011074.outbound.protection.outlook.com [52.103.23.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA3A38DC58;
-	Wed,  9 Sep 2026 17:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.23.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788975156; cv=fail; b=Q/+BWWK+wY54z484ACrxIhTn43NFM+I+24wbQH0gqlhX/MPFNEYz4+HBDcNb5LKwBUy5xlYB+RP80+2N9RXmT9Aa8HauaqqvOPCUS4b5QP+gtTKtpx0Zz5+RfyVNeHpd2Us+iCoFuXHPM805XQLhS2QxavVFie5PhDbCvTqFQec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788975156; c=relaxed/simple;
-	bh=EwWeMZ7KKG/pR4QvdUHqSMIoZ3CjDZ15IhzNlbXqt2c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XZV/i1l50+MDLWLWrkuyrfIN7QkTwaQMwji1Tj1naA1k5TYwYjyScFa5DaiTb0x0sbUShigHxfAl1HQRuAridvCdeBOaOQ7gF8MCt/YDlkoFPKTociaAlOC6P1wbpJthUpXI07i1M6yt78AKFtl1xEn0g/RQleX3+7YP1qKy5aY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=WJLMRN/a; arc=fail smtp.client-ip=52.103.23.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9153939C8;
+	Wed,  9 Sep 2026 18:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788978166; cv=none; b=h8BP96AAbxVKV2nBju7ZDgK4axzSPngO/DUEgnpx1lgiAf1C+Izom8YWzUTxt7RD7s0YqlCxqN4LsrDErVVg9xAGIlweeA9ZKAsA5euymDwMmxP+n2F9uHkSuLxc6KwXICnu0H/tTN7hp3oCKLNI3ggDnf8YvIQjpxe6HFYoqk8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788978166; c=relaxed/simple;
+	bh=6V9Z+LF+27lb2JLVHJ/u+hYjEbOatlpGbOlbpMS9b7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jda5on8Wze351KWqSRHeKp9xD9PLhy+QXw0h1n76xtqR2XvybUKaJk+ok8cmu7PmLkkzOOVfa09aJEKpYiTHr7dVbHHwZo0CrdZ7XgTAwnMXQWMxfPmxzeRLhA2AQiJ/wkP/STb+CM2lal3ws9tz6+ktKH+KDNyNq1CXk2QmXV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XGAZIjKg; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="WJLMRN/a"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q6e+cugoXGsc1X61fiaYyy9xkL5io2iqk+Zyu6SKDh3puEbbj+L/V6wnQk/HeDy7PrXCi2yv1r/wke8WGdVln4b0OQennwFD4OATw/1wOq28r/qszOysJxsqlhRniXVgPitmeI4K9Gca1p1GECY/67u01UKgEVYPfsf6mgORs43JRsqu6013igei3pi2x/iOfNSASEG6sU0ZHnzCOAK95rJzHSL+ZgLrO7ofw5Om02Xe31wMyuGo1WIjBU7TrOgx2FCucU2vzWNbPxtJKP/OwSLkTwrVkp9Ng+wHZRtqLSeBA+dA84foWteY302xkoj4UXR26JGMPMrIRxWp+V83XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EwWeMZ7KKG/pR4QvdUHqSMIoZ3CjDZ15IhzNlbXqt2c=;
- b=BPsmzELvveDg2Jld7M9SfRgT8oFNClZmB4UR10AigeYw0yOb+zmAla148ANZSngNAymi7U30DnstXpm1Yx9Su5Sb8JU5fAV7/5PrxSXOE8Tgvxp0DoKfSyAE44T/v0IEGrKfUs67l4I/cv+qiGuULWTpKdhTb/FXw1v6+gF+6KQvodU0YtYKUGksZdy5HJpnrVEQh3QGNC/52+N7a69hxpwxxK96Sc+MPyBRJLiz9k613JJASr1mDltmTsXYzbQIDXFGtWkBicoNUPPSMZasdpng8VrAaw5lEms5Tpf6dncYSmazJ7+n7eTKqaURpXDcD/h/ymBoR2UDj7no1lhqHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EwWeMZ7KKG/pR4QvdUHqSMIoZ3CjDZ15IhzNlbXqt2c=;
- b=WJLMRN/a2ptmkY1dRBNGimF5zMbNgSzoSuGRmaRKin/+LzkZ9s5Z9ryI1F9FMdNDWl3pxgpcqtZqv9s20lYw42JYFqUpcuV7fQ9/nqygqaPepn4XNHXRAh6xr7oFsCIhCJ03sz9YrmoJ2wJrmj6Yvy5KcuP6m3bAh2jdEvWhlS5gRFc4TLxQ5r8NH6d6+omnqYjEkFXapvOEntbqFWomnsnaldsLLzz4bz/hDwXGkZ6WOmBAj2muW7HFjyrdytupjiAjCVHyrZVBc9ehOe3RYiYo9h5ftesmAGpasBvt5R+Y/jILeCUIa9gFxorGs2Wzz4lRaM/UV+ZMuPU67HQy8A==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by CO1PR02MB8428.namprd02.prod.outlook.com (2603:10b6:303:157::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
- 17:32:31 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%3]) with mapi id 15.21.0406.007; Wed, 9 Sep 2026
- 17:32:31 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Mukesh R <mrathor@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "kys@microsoft.com" <kys@microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>
-Subject: RE: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Thread-Topic: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
-Thread-Index: AQHdPze4UOAVldAj6E+TOUlSti9vk7bE+h0ggABLXICAAT52oA==
-Date: Wed, 9 Sep 2026 17:32:31 +0000
-Message-ID:
- <SN6PR02MB415768481DC2DEB2C2690E1CD4B02@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
- <20260908021340.2548924-3-mrathor@linux.microsoft.com>
- <SN6PR02MB4157AB63EF3BA9E3BC560E19D4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
- <f5836bf1-1baf-68c2-4ac7-b1a6459069ad@linux.microsoft.com>
-In-Reply-To: <f5836bf1-1baf-68c2-4ac7-b1a6459069ad@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|CO1PR02MB8428:EE_
-x-ms-office365-filtering-correlation-id: eb1fc51a-d068-4323-8408-08df0e9853ed
-x-ms-exchange-slblob-mailprops:
- P1EfU6pZOd/ur0QDa6YmBjuOVf78JKonHmyGrDvlKqL6WDFSfW7v5rbC7DoJm0WaiBx/avvN0sMCit8BooKc1L+55DZheUO345IiphOydaVivM/14FFXN2/vQuqNKEqj1ajF33j4B3D25M782Mt2NWenpcXqU7g0VqRtCrA0cE6mgZBq1MpONuHqUNv6WQzkc433z3MIlYS8U18nfOXUmk80EC/e20DrThlhYyczarIPeH7hwY2P8BzBWi4xhR7ZKGx+TRzy6vFIhflL8Lyq8SKic53IEV2Kw+Nb8WLEl4HOshAp5dopa8dj7J6U1OCUcD4iImW1nISWwXO0Hf2foabtZKo+0Rj/K1AOjx73pIiR3BLaptU+aPfte7+XrefEIxIkib2ZZaD+ZUXzryBeeKjWwvY0Ja04p2uEa7/OwnhHGXEnIAngvfLiBqC5CFDqqNfsw2rfBjxJyAcfXgQscz313TeABGOujiDMl+A+g8VNFBJ0rielyH8aJq6OsMWioUZT0YAsp0lDR48n1cp6ETPBT0iE775EECc6/1ZuMiX6jl28iFYw1n6rZIv58386RpHKiQ5fO0m3U+TFc4grCRY2Avo9xugcSaSLDyQEQ1lS3oh95+x/wOg5dQo1Tn8+9KHFg1sA36WsW87fvzj+DY4+cQAphSx9QA+Eh/qEeyn6gtCnuYXpyYx1k/1m3599BxPIe4GIZOz9/n56C8YUBTtPL2/MntnAbv8e1QfQin7iEYLBS6Xb9w6nuXWKF1lENYF3zK5QNuqM6KBP/o9fhAynbF462iDxZ0EAfRwoEDlWG6Mo9VbRwQ==
-x-microsoft-antispam:
- BCL:0;ARA:14566002|37011999003|11091999009|41001999006|25010399006|8062599012|8060799015|19110799012|12121999013|24021099003|55001999006|15080799012|51005399006|31061999003|13091999003|4302099013|3412199025|440099028|102099032|1602099012|40105399003|12091999003|2607281247196008|10035399007;
-x-microsoft-antispam-message-info:
- =?utf-8?B?QWFvUUllTUQreGZtTlJFTmNwYjIvWHF5Z3JTb0tHcWFVOG56cmkzYzBtY0g2?=
- =?utf-8?B?VFBaOG9HZ2VjK2Z0cWVmSlA0MFkwRW5KelY2elhITUdZdVR3cC83blE2TFlx?=
- =?utf-8?B?MXBiY0F3eWY3dmNnd0tGeCt0S2l6L2ZmcGxOdUdWT1VuMy9TMjE0UVQrZEVC?=
- =?utf-8?B?NGY0V0hDSllMSkZUeFhkeDFzUUd5OXlxSk90bW51WFZzc1hzbDJGRmxmS3Rv?=
- =?utf-8?B?alFKY2hOazdwMy9iRTdKZUoxVTlBN25mc0U1aFVwOWlsQm96WE5yRE1LR20z?=
- =?utf-8?B?SmV2Q0lDQmJNQmVRWXlzcnlZRWE2RFlJZlZETUppdEt2TW5DTjBjbndocjFE?=
- =?utf-8?B?VlZRbzA0THNyaHJHZ010Qko3YlV4aXk5SlA2VWt5MngwcFFNZ1F2WWJ6YVI4?=
- =?utf-8?B?bE5aQmliTDEzRUt6N0c5S0srekY5UkVFRTBOclU4VDY3cllxeTQ1VjVleHdK?=
- =?utf-8?B?RG5IR2EyeGpRTWRzVkVKdGpkVGo1eUVLQTVKTjBvSFBsb1k2Z3VhNG85T0xq?=
- =?utf-8?B?WCtQRDMwcXh5bDJlYlRWOEloZ0NrNThSQzJScW0vTmd3YmpvbWlHSVhyc3N5?=
- =?utf-8?B?UzN6VXJIYlpFVHVFSGJwbTRxbmxOWVNmZm5FUG52WUN1ZHk0ekI0aEMrb3dD?=
- =?utf-8?B?VlFkU3liNGJDQ3ErYWdoZjZSQ1kvb0F0SFY5NkEwZmJlOTdtMDFjYzFicnhO?=
- =?utf-8?B?c0hkOTRvYlQwcWJHcjVXTmlTd0dKbUlHNUVDc2d5MkhuRjlBMytiam9qUEhW?=
- =?utf-8?B?Qy9kWnJFNDF4Q0FiTU9BNjY5QjZTTGlpUmcxMEJvcjVjVyszQ1lGUWt5TG9v?=
- =?utf-8?B?ZUpGMmFCTVh6QlA2ZmFJbm5raUZKRGJmSmprcXI4T1BXVXJqT2VTYzF2UmFr?=
- =?utf-8?B?VUF3TFlqUFdyakkvL1BZNEhTRjdTZWVPR1VxNzNMaGRMbWI2bU1nMFdydGll?=
- =?utf-8?B?UVp0eEs4ZXpUdmYyVVVrRzNzK1l6UHJiTk9sczFJUTMrc0dHL0xrSXd2ekpI?=
- =?utf-8?B?Z3lTRGxaY0RXNmZ1Y2pHdnNHYy9vbTM1TlFUTXFIUmpEdnBHdXhiYzBuelZM?=
- =?utf-8?B?bW1GTXNJc0JLMFFkZ0ZwM0xRRGloNmttYzB1cVJ6WW1iMUJ2TUN6eS9DOXkw?=
- =?utf-8?B?dXhxL0JrTER3N0x0RWU4dThZZUVUWEl1c2hPMHFDWmd4aWN5alN5bE1ERlVs?=
- =?utf-8?B?bkI0L0lSSWp2cDZrZW5MVzlCVWMyaVhxWS9na2dySmVOR01KRkQybmpMbFdP?=
- =?utf-8?B?Y1pxK0lSZSszWmNtYkVUTDVOYTdReTVjZHhuQk5WYmRjNzZ6NFRFWG9wU2Yw?=
- =?utf-8?B?emZ0WkJERGRzLzE2TmVpMnFEYURoSUJJeUFYMWtiNHQ3N0k5S0dhaTJ5YTdQ?=
- =?utf-8?B?VFhaT25DT2lDZXZhVVB5QVh6YnB2bjUzSGdmNngyNUVTZ1R1YWRpVW1nekZM?=
- =?utf-8?B?NjNzL3NzOXFxYW1OYnpLMTgxeVNEQmpPY3kyWEk3Mkp4dnZUaDFwcFoxOG1V?=
- =?utf-8?B?dUF3NDdLRUFncXppeHpROEJTMzVMdzVrM3FHOU1HZHpXdUg3dkRzTW85bElK?=
- =?utf-8?B?NTJPMnJIcFN5S3B2NHdGV2hwck1IZmNIdEVQekNFWUlCZFlaSkcyREJMdXRk?=
- =?utf-8?B?eks1TXpnN1oyR09hd3FibXdiak9JczQrWmtPQkQrYlpQbFloalUyaGR5ZW1j?=
- =?utf-8?Q?lINrpABatPDGnNDa8/Je?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bWhuN2FBNzRlSW1DN1J4ZExmS3lZT1VRNmE2S0ROTlltY20xL3lCWnRKYkhv?=
- =?utf-8?B?K05CTVZYUnpSczNXWVBNS1VmeEdNRXNLblRXSE4rcllNTnFTaGdjVTVIUCtV?=
- =?utf-8?B?Y1lzemUvenp4NUxjY2I3d1oyR3QvSnh3czB5SUszSXRSUkJpazAwaGxXKzFM?=
- =?utf-8?B?VlJsNWZzckpSdnFWVUVBK1BmUUp3bHZJTElBSCtjTDlKeTlNamlKUGZDTmRt?=
- =?utf-8?B?YTQ2Y05iMmdGTHBsVHI0ZnlWU0pLWEZkZDdRSW9pSGlBK0NJV3J1cnFCczY3?=
- =?utf-8?B?Yzhvb3J2Mk92a0Q4ekVBUDl3OEhVZERkaXNoQkhBTkJsS2JmUnJnMlcwTUVT?=
- =?utf-8?B?aVZJUFhLWWRGanZtVUJYM2w2Tzl1aHp5VWl2Qm5PS3EwSit1cVNUbzYwbVpx?=
- =?utf-8?B?bllEWHJNZy9ldzArc095ZGZ0ckxFS2ZhUm1nVXJVM3JXc25maGpwaUtGT0h4?=
- =?utf-8?B?VHVwWUd0REJJalIwb2FaYzJpamFDYnB6WE5tMkJDcUFXbVlkQ2dFcFlsbEpR?=
- =?utf-8?B?OVloZHN3WnRDVmNQTVB5cThnMjh0TVJubXFia05NUDl5dGRvTk9uRUNTRk9Z?=
- =?utf-8?B?ZHlSbjBTMTZTekNuSFFoZ05VZ3A4WloxL1ZUVzdsell5cXQwVVAvZ0oxak5S?=
- =?utf-8?B?MG1FOEVtZFRHOVVmVWx4bHR5ZC9idFBJcW8yVW5scCtwMFgrQzg3Qks4VVg3?=
- =?utf-8?B?TWhLeVlZWW9FLy8xejdyZzRTRXNEUjlVb3QzRTJ3dUs3eWh5QUZXdVNhdndx?=
- =?utf-8?B?SjFINkxuL2N2aWRENzhMM2lZZmRWcEsrVXZQTUFZWXBRanU2UFFSaVBPWmZD?=
- =?utf-8?B?VzVNYkk5MmJUbkZldCtrT0ZOTjhoRGlBRHk3UnpLREFtNG41b0liL09NRzZq?=
- =?utf-8?B?TGV5NWtVRWNlcXI1ckN6MUFjSlRCTXF5eXEwcUNDQStEVithMk1ndnptdlNP?=
- =?utf-8?B?cDZpU2tBbEpacVNPQXl5VjV6ZUFUVHFmSmwwS2ZGNTZyQ3JSSW5GcHhQYmYw?=
- =?utf-8?B?WlZlUWsvTjFYOERCeEliK2kwODFENWovalZsQ1ZNbk9ya254Y2hLeU1BSGpY?=
- =?utf-8?B?NzBJeWExVnE0Qk9lTEpMU2d2OEFQYVlxdWJtZHFhcENOWVVQU1l3eWVKN3FT?=
- =?utf-8?B?MU9SdExhWTlqSkdUZU1sakowUzZXTG1IZEVlMlZrNm1sL3NzUTBoQ2E5TGtB?=
- =?utf-8?B?S1JPdWQ0UlJRVGtRRUVtKzZZQWhHa2paUzZJN1l6bWJFNmxHSzhzS3JYbTBi?=
- =?utf-8?B?WWhGVUNQY0tqK0hiTC9aSVpiS01mWEVlOXlDZEx0L3Z1OXA4dEVLVGRNdjdP?=
- =?utf-8?B?T3pRNmhnTU54elE4Sk5ZR3NoQWtXNGRtWkU5c3lvcUhEYjlIMk95YTJuRlZn?=
- =?utf-8?B?TjR4L0JBRks0bGw3dWNpSXE4TGM4OXEzU1FPeGVMeC9hNEh0VTE3WVpHWXFW?=
- =?utf-8?B?YkJYd3lFQzcyamJlVjA0L0hxb3FWTTMrcG1qbDBrM254bG9vcVRYYWlJMlcw?=
- =?utf-8?B?cndjUUlNeExuWXZFOVd2YkkvdFcvLzRxNDdtMVcreVBXVWs3KzhuYlZBN2ov?=
- =?utf-8?B?YWZWdjEzWTVCU0Q5UEszVWRaWkNzWmJHUmVNVTRNdS9wT093V1JUZisveVJr?=
- =?utf-8?B?SUdWcnZpSjY5emhOR0lCWGhGVEFJNU5DZ0xDbVhrK3d1V01qcXlHUWxMR0hT?=
- =?utf-8?B?WVBiWDJvVElsVExDeUtJMjBybU1LOSt4eWhwa3p0ME4rR1ZVV0MvcDVKTHhN?=
- =?utf-8?B?MmUxVUNOTXRQQUJhSW5hcWhyTHlFZU1jYm1xVFVsbzFGMTdOZUQ3SnZ1WTNa?=
- =?utf-8?Q?7fVLfwV4LQoOXPmBrbtwX2hPUjl/rXmjzrn/g=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XGAZIjKg"
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C7F2020B7169;
+	Wed,  9 Sep 2026 11:22:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C7F2020B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1788978123;
+	bh=FmU6oA2HkXd8D1YiRe81FJ1My2bAxbr+XjLX7sQ/N4I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XGAZIjKgYe+Vezs2mc1Hs2DEAim3HETc6qqbHSotSsg67/iGHdYQACvZ8FdZ8prlu
+	 /1BpLqnujQbtejv5cl0wxtpxq8z9oIXh0d3wRneYGcqG88kvWyoNTybSirGZsqtG0C
+	 LBZVibmfc1WxBp5HqvNPAnCGgmXsX6rEVbMqg3EA=
+Message-ID: <9c22e90d-2bd8-04fe-22d5-0fe614253eaf@linux.microsoft.com>
+Date: Wed, 9 Sep 2026 11:22:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb1fc51a-d068-4323-8408-08df0e9853ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 17:32:31.5322
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR02MB8428
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V1 2/3] mshv: Redesign hypervisor memory deposit logic
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "kys@microsoft.com" <kys@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>
+References: <20260908021340.2548924-1-mrathor@linux.microsoft.com>
+ <20260908021340.2548924-3-mrathor@linux.microsoft.com>
+ <SN6PR02MB4157AB63EF3BA9E3BC560E19D4B12@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <f5836bf1-1baf-68c2-4ac7-b1a6459069ad@linux.microsoft.com>
+ <SN6PR02MB415768481DC2DEB2C2690E1CD4B02@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB415768481DC2DEB2C2690E1CD4B02@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-RnJvbTogTXVrZXNoIFIgPG1yYXRob3JAbGludXgubWljcm9zb2Z0LmNvbT4gU2VudDogVHVlc2Rh
-eSwgU2VwdGVtYmVyIDgsIDIwMjYgMzozMyBQTQ0KPiANCj4gT24gOS84LzI2IDExOjAyLCBNaWNo
-YWVsIEtlbGxleSB3cm90ZToNCj4gPiBGcm9tOiBNdWtlc2ggUiA8bXJhdGhvckBsaW51eC5taWNy
-b3NvZnQuY29tPiBTZW50OiBNb25kYXksIFNlcHRlbWJlciA3LCAyMDI2IDc6MTQgUE0NCj4gPj4N
-Cj4gPj4gVGhlIGN1cnJlbnQgbWVtb3J5IGRlcG9zaXQgaW1wbGVtZW50YXRpb24gaGFzIGEgZmV3
-IGlzc3VlcyBhbmQgYnVnczoNCj4gPj4gICBvIEl0IGlzIHZlcnkgc2xvdw0KPiA+PiAgIG8gQ29u
-dGlndW91cyByYW5nZSByZXF1aXJlbWVudCBpcyBicm9rZW4sIGFuZCBpcyBjcml0aWNhbCBidWcN
-Cj4gPj4gICBvIEFuIGluY29ycmVjdCBhc3N1bXB0aW9uIGlzIG1hZGUgdGhhdCBjb250aWd1b3Vz
-IG1lbW9yeSBzaXplIHdvdWxkDQo+ID4+ICAgICBhbHdheXMgYmUgcG93ZXIgb2YgMi4NCj4gPg0K
-PiA+IElzIHRoaXMgSFZfTUFYX0NPTlRJR1VPVVNfQUxMT0NBVElPTl9QQUdFUz8gVGhhdCB2YWx1
-ZSBpcw0KPiA+IGRlZmluZWQgYXMgYSBjb25zdGFudCBpbiBodmhka19taW5pLmguIFNvIGlzIHRo
-ZXJlIGEgcG9zc2liaWxpdHkgdGhhdA0KPiA+IHRoZSBjb25zdGFudCB3aWxsIGNoYW5nZSBpbiB0
-aGUgZnV0dXJlLCBvciBpbiBzb21lIG5ldyB2YXJpYXRpb24gb2YNCj4gPiB0aGUgb3ZlcmFsbCBl
-bnZpcm9ubWVudD8NCj4gDQo+IFllcywgSSB3YXMgdG9sZCBpdCBjb3VsZCBjaGFuZ2UgaW4gZnV0
-dXJlLiBJdCBpcyBhbHNvIG5vdCBndWFyYW50ZWVkIHRvDQo+IGJlIHBvd2VyIG9mIDIgKGV2ZW4g
-dGhvIGl0IGlzIGN1cnJlbnRseSkuDQo+IA0KPiA+PiAgIG8gVHdvIHBhZ2VzIGFyZSBhbGxvY2F0
-ZWQsIG9ubHkgb25lIGlzIHJlYWxseSBuZWVkZWQuIFRoaXMgYWRkcyB0bw0KPiA+PiAgICAgb3Zl
-cmhlYWQuDQo+ID4+ICAgbyBGb3IgYSA1MTIgcGFnZSBkZXBvc2l0LCB0aGUgYWxsb2NhdGlvbiBp
-cyBzcGxpdCBpbnRvIHR3bzogb25lIGZvciA1MTENCj4gPj4gICAgIGFuZCBzZWNvbmQgZm9yIDEu
-IFRodXMsIGFuIG9yZGVyIDkgYWxsb2NhdGlvbiBuZXZlciBoYXBwZW5zLiBBDQo+ID4+ICAgICBj
-b250aWd1b3VzIDJNIHJhbmdlLCBpZiBwb3NzaWJsZSwgc2lnbmlmaWNhbnRseSBpbXByb3ZlcyBw
-ZXJmb3JtYW5jZQ0KPiA+PiAgICAgaW4gdGhlIGh5cGVydmlzb3IuDQo+ID4+ICAgbyBTaW5jZSBh
-IHBhZ2UgaXMgYWxyZWFkeSBhbGxvY2F0ZWQgdG8gY29sbGVjdCB0aGUgZnJhbWVzLCB0aGVyZSBp
-cw0KPiA+PiAgICAgbm90IHJlYWxseSBhIG5lZWQgdG8gdXNlIHBlciBjcHUgaW5wdXQgcGFnZSwg
-YW5kIGhlbmNlIGF2b2lkIGxvY2FsDQo+ID4+ICAgICBpcnEgZGlzYWJsZS4NCj4gPj4gICBvIElu
-IGh2X2NhbGxfZGVwb3NpdF9wYWdlcygpLCBpbiBjYXNlIG9mIGVycm9yLCB1bmRlciBlcnJfZnJl
-ZV9hbGxvY2F0aW9ucw0KPiA+PiAgICAgbGFiZWwsIGFsbCBwYWdlcyBhcmUgZnJlZWQgd2l0aG91
-dCBjaGVja2luZyBzdGF0dXMgdG8gc2VlIGlmIHNvbWUgcGFnZXMNCj4gPj4gICAgIHdlcmUgZGVw
-b3NpdGVkLiBUaGlzIGlzIGEgY3JpdGljYWwgYnVnIGFzIGl0IHdvdWxkIGZyZWUgcGFnZXMgdGhh
-dCBoeXANCj4gPj4gICAgIG1heSBiZSB1c2luZy4NCj4gPj4NCj4gPj4gQWxsIG9mIGFib3ZlIGlz
-IGFkZHJlc3NlZCBieToNCj4gPj4gICBvIEFsbG9jYXRlIDJNIGJ5IGRlZmF1bHQsIHRoaXMgaXMg
-dGhlIHJlY29tbWVuZGF0aW9uIGZyb20gdGhlIGh5cGVydmlzb3INCj4gPj4gICAgIHRlYW0sIGFu
-ZCBncmVhdGx5IGltcHJvdmVzIHBlcmZvcm1hbmNlLg0KPiA+DQo+ID4gQ2FuIHlvdSBiZSBtb3Jl
-IHNwZWNpZmljIGFib3V0ICJpbXByb3ZlcyBwZXJmb3JtYW5jZSI/IElzIHRoZQ0KPiA+IGltcHJv
-dmVtZW50IG9uIHRoZSBndWVzdCBzaWRlLCBvciBvbiB0aGUgaHlwZXJ2aXNvciBzaWRlPyBBbmQg
-d2hhdCdzDQo+ID4gdGhlIGtleSBsZXZlcmFnZSBwb2ludCBpbiBpbXByb3ZpbmcgcGVyZm9ybWFu
-Y2UsIHJlZ2FyZGxlc3Mgb2Ygd2hpY2gNCj4gPiBzaWRlPyBJdCBtaWdodCBiZSBoZWxwZnVsIHRv
-IHJlY29yZCB0aGlzIGZvciBmdXR1cmUgcmVmZXJlbmNlIHRvIHByZXZlbnQNCj4gPiBhIGNoYW5n
-ZSBmcm9tIGJlaW5nIG1hZGUgdGhhdCB1bmtub3dpbmdseSBodXJ0cyB0aGUga2V5IGxldmVyYWdl
-DQo+ID4gcG9pbnQuDQo+IA0KPiBXZWxsLCBvdmVyYWxsIGltcHJvdmVtZW50IEknZCBzYXkuIExl
-c3NlciBIVl9TVEFUVVNfSU5TVUZGSUNJRU5UX01FTU9SWQ0KPiBtZWFucyBsZXNzZXIgaW50ZXJy
-dXB0aW9ucyBtZWFucyBmYXN0ZXIgbm9uLWRlcG9zaXQgaHlwZXJjYWxscy4gV2l0aA0KPiBsYXJn
-ZXIgZGVwb3NpdHMsIGl0IHdpbGwgbm90IGNvbWUgYmFjayBhcyBvZnRlbiB3aXRoIGluc3VmZmlj
-aWVudCBtZW1vcnkuDQo+IElmIGl0IG9ubHkgdXNlcyAxTSBzYXkgb3V0IG9mIHRoZSAyLCBuZXh0
-IHRpbWUgaXQgd2lsbCByZXVzZSB0aGUgcmVtYWluaW5nDQo+IG1lZyBiZWZvcmUgY29taW5nIGJh
-Y2sgYW5kIGFza2luZyBmb3IgbW9yZS4gSU9XLCBpbmNvbXBsZXRlIGh5cGVyY2FsbHMNCj4gcmVw
-ZWF0ZWRseSBjb21pbmcgYmFjayBhc2tpbmcgZm9yIG1vcmUgcmFtIGFkZCBsb3Qgb2Ygb3Zlcmhl
-YWQuDQo+IEVnLiB0aGUgZ3Vlc3Qgc2V0dXAgcGFydCByZWR1Y2VzIGZyb20gOCBzZWMgdG8gMSBz
-ZWMgd2l0aCB0aGlzLCBJDQo+IGRvbid0IGhhdmUgZnVydGhlciBicmVha2Rvd24gb2Ygd2hpY2gg
-aW9jdGxzLg0KDQpPSyAtLSB0aGlzIHBhcnQgd2Fzbid0IGNsZWFyIHRvIG1lIGZyb20gcmVhZGlu
-ZyB0aGUgY29tbWl0IG1lc3NhZ2UuDQpUaGUgcHJpbWFyeSBnb2FsIGlzIHRvIHJlZHVjZSBoeXBl
-cmNhbGwgZmFpbHVyZXMgZHVlIHRvIGluc3VmZmljaWVudA0KbWVtb3J5LCBmb2xsb3dlZCBieSB0
-aGUgY3ljbGUgb2YgYWRkaW5nIG1lbW9yeSBhbmQgdHJ5aW5nIGFnYWluLiBCeQ0KYWRkaW5nIG1l
-bW9yeSBpbiBsYXJnZXIgY2h1bmtzIGluIHRoZSBmaXJzdCBwbGFjZSwgeW91IHJlZHVjZSB0aG9z
-ZQ0KY3ljbGVzLiBJbXByb3ZpbmcgdGhlIHBlcmZvcm1hbmNlIG9mIHRoZSBjb2RlIGZvciBkb2lu
-ZyB0aGUgZGVwb3NpdA0KaGVscHMsIGJ1dCB0aGF0J3MgcHJvYmFibHkgbm90IHdoZXJlIHlvdSBn
-ZXQgdGhlIG1vc3Qgbm90aWNlYWJsZQ0KYmVuZWZpdC4gQ291bGQgeW91IGNsYXJpZnkgdGhpcyBp
-biB0aGUgY29tbWl0IG1lc3NhZ2U/DQoNCj4gDQo+ID4+ICAgbyBBbHdheXMgc3RhcnQgd2l0aCBh
-IGZ1bGwgMk0gcmFuZ2UgYWxsb2NhdGlvbiwgdGh1cyBnZXR0aW5nIGNvbnRpZ3VvdXMgaWYNCj4g
-Pj4gICAgIGF2YWlsYWJsZS4gSW4gY2FzZXMgd2hlcmUgcG9zc2libGUsIHRoZSBkZXBvc2l0cyBh
-cmUgbXVjaCBmYXN0ZXIuDQo+ID4NCj4gPiBJcyB0aGlzIGZhc3RlciBiZWNhdXNlIHRoZSBoeXBl
-cnZpc29yIGNhbiBjb25zdW1lIHRoZSBwYWdlcyBmYXN0ZXINCj4gPiBpZiB0aGV5IGFyZSBjb250
-aWd1b3VzPw0KPiANCj4gSSBkaWRuJ3QgYXNrIGJ1dCBteSBndWVzcyBpcyB0aGF0IGl0IGNhbiBt
-YXAgMk0gcGFnZSBpbiBpdHMgcGFnZQ0KPiB0YWJsZXMsIHNvIGFsbCB0aGUgYmVuZWZpdHMgb2Yg
-bGFyZ2UgcGFnZXM6IGZhc3RlciBMMiBtYXBwaW5nLCBsZXNzDQo+IHRsYiBvdmVyaGVhZCwgZXRj
-Li4NCg0KTWFrZXMgc2Vuc2UuIFRoaXMgc2VlbXMgbGlrZSBpdCBpcyBwcm9iYWJseSBhIDJuZCBv
-cmRlciBiZW5lZml0DQphZnRlciByZWR1Y2luZyBoeXBlcmNhbGwgZmFpbHVyZXMgZHVlIHRvIGlu
-c3VmZmljaWVudCBtZW1vcnkuDQoNCj4gDQo+ID4+ICAgbyBBbGxvY2F0ZSBvbmx5IG9uZSBwYWdl
-IGluIHRoZSBkZXBvc2l0IGZ1bmN0aW9uIGFuZCBjb2xsZWN0IDUxMSBwZm5zDQo+ID4+ICAgICB0
-aGVyZS4gSnVzdCB1c2UgYSBsb2NhbCB2YXJpYWJsZSBmb3IgbGFzdCBwZm4uDQo+ID4+ICAgbyBV
-c2UgdGhlIHBhZ2UgYXMgaW5wdXQgdG8gaHlwZXJjYWxsLiBTaW5jZSB0aGlzIHBhZ2UgaXMgbG9j
-YWxseSBhbGxvY2F0ZWQsDQo+ID4+ICAgICBpcnEgZGlzYWJsZSBjYW4gYmUgYXZvaWRlZCBoZWxw
-aW5nIHNwZWVkIHVwIHRoZSBkZXBvc2l0Lg0KDQpBZ2Fpbiwgc2VlbXMgbGlrZSBhIDJuZCBvcmRl
-ciBwZXJmIGltcHJvdmVtZW50IGluIHRoZSBjb2RlDQpmb3IgZG9pbmcgdGhlIG1lbW9yeSBkZXBv
-c2l0Lg0KDQo+ID4+ICAgbyBGaXggdGhlIHBoeXNpY2FsIGNvbnRpZ3VvdXMgbWVtb3J5IHJlcXVp
-cmVtZW50Lg0KPiA+PiAgIG8gTGFzdGx5LCByZW1vdmUgcHJlLWRlcG9zaXRzIGh2X2NhbGxfY3Jl
-YXRlX3ZwKCkgYW5kDQo+ID4+ICAgICBodl9jYWxsX2luaXRpYWxpemVfcGFydGl0aW9uKCkgYXMg
-dGhleSB3ZXJlIHJlbW92ZWQgaW50ZXJuYWxseSB3aGlsZQ0KPiA+PiAgICAgYWdvLCBtb3N0IGxp
-a2VseSBiZWNhdXNlIHRoZXkgZGlkbid0IGhlbHAgbXVjaC4NCj4gPj4NCj4gPj4gU2lnbmVkLW9m
-Zi1ieTogTXVrZXNoIFIgPG1yYXRob3JAbGludXgubWljcm9zb2Z0LmNvbT4NCj4gPj4gLS0tDQo+
-ID4+ICAgZHJpdmVycy9odi9odl9wcm9jLmMgICAgICAgICAgIHwgMTk4ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0tLQ0KPiA+PiAgIGRyaXZlcnMvaHYvbXNodl9yb290X2h2X2NhbGwu
-YyB8ICAxMCArLQ0KPiA+PiAgIGluY2x1ZGUvYXNtLWdlbmVyaWMvbXNoeXBlcnYuaCB8ICAgNSAt
-DQo+ID4+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxNzkgaW5zZXJ0aW9ucygrKSwgMzQgZGVsZXRpb25z
-KC0pDQo+ID4+DQoNCltzbmlwXQ0KDQo+ID4+ICsvKg0KPiA+PiArICogRGVwb3NpdCBtZW1vcnkg
-aW4gdGhlIGh5cGVydmlzb3IuIEV2ZW4gaWYgQGNvbnRpZ3VvdXMgaXMgZmFsc2UsIGEgY29udGln
-dW91cw0KPiA+PiArICogMk0gd29ydGggb2YgcGZucyBpcyB1dG1vc3QgZGVzaXJlZCBmb3IgcGVy
-Zm9ybWFuY2UgcmVhc29ucy4gQnV0IHNob3J0IG9mDQoNCkFnYWluLCB0aGlzIGNvbW1lbnQgaXNu
-J3QgY2xlYXIgb24gKndoeSogdGhlIDJNIGhlbHBzIHBlcmZvcm1hbmNlLg0KDQo+ID4+ICsgKiB0
-aGF0LCB3ZSBkZXBvc2l0IHdoYXRldmVyIGNvbnRpZ3VvdXMgY2h1bmtzIHdlIGNhbiBnZXQuIElm
-IEBjb250aWd1b3VzIGlzDQo+ID4+ICsgKiB0cnVlLCB0aGVuIHRoZSBlbnRpcmUgcmFuZ2UgaGFz
-IHRvIGJlIHBoeXNpY2FsbHkgY29udGlndW91cy4gTm90ZSwgaW4gdGhhdA0KPiA+PiArICogY2Fz
-ZSwgdXBvbiB3aXRoZHJhd2wsIGh5cGVydmlzb3IgY291bGQgcmV0dXJuIGFueSBwYWdlIGluIGJl
-dHdlZW4gdGhlIHJhbmdlLA0KPiA+PiArICogc28gd2UgbXVzdCBzcGxpdCB0aGF0IGFsc28uIExh
-c3RseSwgSFZfTUFYX0NPTlRJR1VPVVNfQUxMT0NBVElPTl9QQUdFUyBpcw0KPiA+PiArICogbm90
-IGd1YXJhbnRlZWQgdG8gYWx3YXlzIGJlIHBvd2VyIG9mIDIuDQo+ID4+ICsgKi8NCj4gPj4gK3N0
-YXRpYyBpbnQgaHZfY2FsbF9kZXBvc2l0X3BhZ2VzKGludCBub2RlLCB1NjQgcGFydGl0aW9uX2lk
-LCBib29sIGNvbnRpZ3VvdXMpDQo+ID4+ICt7DQo+ID4+ICsJc3RydWN0IGh2X2RlcG9zaXRfbWVt
-b3J5ICpoY19pbnB1dDsNCj4gPj4gKwlpbnQgaSwgcmMsIG51bV9wYWdlczsNCj4gPj4gKwl1NjQg
-c3RhdHVzLCAqcGZuYSwgbGFzdHBmbiA9IDA7DQo+ID4+ICsJYm9vbCB0cnVuY19leHRyYSA9IGZh
-bHNlOw0KPiA+PiArDQo+ID4+ICsJQlVJTERfQlVHX09OKEhWX01BWF9DT05USUdVT1VTX0FMTE9D
-QVRJT05fUEFHRVMgPiBIVl9ERVBPU0lUX01BWCk7DQo+ID4+ICsNCj4gPj4gKwlpZiAoY29udGln
-dW91cykgew0KPiA+PiArCQludW1fcGFnZXMgPSByb3VuZHVwX3Bvd19vZl90d28oDQo+ID4+ICsJ
-CQkJIEhWX01BWF9DT05USUdVT1VTX0FMTE9DQVRJT05fUEFHRVMpOw0KPiA+PiArCQl0cnVuY19l
-eHRyYSA9IG51bV9wYWdlcyAhPSBIVl9NQVhfQ09OVElHVU9VU19BTExPQ0FUSU9OX1BBR0VTOw0K
-PiA+PiArCX0gZWxzZSB7DQo+ID4+ICsJCW51bV9wYWdlcyA9IEhWX0RFUE9TSVRfTUFYOw0KPiA+
-PiArCX0NCj4gPj4gKw0KPiA+PiArCWhjX2lucHV0ID0gKHN0cnVjdCBodl9kZXBvc2l0X21lbW9y
-eSAqKWdldF96ZXJvZWRfcGFnZShHRlBfS0VSTkVMKTsNCj4gPg0KPiA+IE1pa2UgUmFwb3BvcnQg
-aGFzIGEga2VybmVsLXdpZGUgZWZmb3J0IHVuZGVyd2F5IHRvIHJlcGxhY2UNCj4gPiBfX2dldF9m
-cmVlX3BhZ2UoKSB3aXRoIGttYWxsb2MoKSBhbmQgZ2V0X3plcm9lZF9wYWdlKCkgd2l0aCBremFs
-bG9jKCkuDQo+ID4gU2VlIFsxXSBmb3Igb25lIGV4YW1wbGUgb2YgdGhlIG1hbnkgcGF0Y2hlcyBo
-ZSBoYXMgc3VibWl0dGVkLiBUaGUNCj4gPiBjb21taXQgbWVzc2FnZSBoYXMgYSBzaG9ydCBleHBs
-YW5hdGlvbi4gR29pbmcgd2l0aCBremFsbG9jKCkgaGVyZQ0KPiA+IHdvdWxkIHByb2JhYmx5IGF2
-b2lkIGEgZnV0dXJlIGNoYW5nZS4NCj4gDQo+IFRoZXJlIG1pZ2h0IGJlIHBsYWNlcyB3aGVyZSBh
-IGdldF9wYWdlIG1heSBub3QgYmUgc3RyaWN0bHkgbmVlZGVkLCBidXQNCj4gaW4gdGhpcyBjYXNl
-IHdlIGRvIGZvciB0aGUgaHlwZXJjYWxsICh3ZSB1c2UgaXQgYXMgaW5wdXQgcGFnZSksIGFuZA0K
-PiB0aGlzIGh5cGVyY2FsbCBjYW4gZ28gdXB0byBleGFjdGx5IG9uZSBwYWdlLiBJIGRvbid0IHRo
-aW5rIGFuIG9wZXJhdGluZw0KPiBzeXN0ZW0gY2FuIGV2ZXIgZ2V0IGF3YXkgd2l0aG91dCBoYXZp
-bmcgYSBnZXRfcGFnZSgpIGFwaSA6KS4ga21hbGxvYygpDQo+IGNvdWxkIGFkZCBhbiBhbGlnbnRt
-ZW50IHBhcmFtZXRlciwgYnV0IGl0IHdvdWxkIGp1c3QgY2FsbCBnZXRfcGFnZQ0KPiBhbnl3YXlz
-IGZvciBwYWdlIGFsaWduZWQgcmVxdWVzdHMuDQo+IA0KDQpXaGF0IE1pa2Ugd2FudHMgdG8gZG8g
-aXM6DQoNCgloY19pbnB1dCA9IGt6YWxsb2MoUEFHRV9TSVpFLCBHRlBfS0VSTkVMKTsNCg0KVGhp
-cyBpcyBndWFyYW50ZWVkIHRvIHByb3ZpZGUgcGFnZS1hbGlnbmVkIG1lbW9yeSwganVzdCBsaWtl
-DQpnZXRfemVyb2VkX3BhZ2UoKS4gU2VlIDJuZCBwYXJhZ3JhcGggdW5kZXIgIkRlc2NyaXB0aW9u
-IiBhdCBbMV0uDQoNCk1pY2hhZWwNCg0KWzFdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0
-bWwvbGF0ZXN0L2NvcmUtYXBpL21tLWFwaS5odG1sI2Mua21hbGxvYw0K
+On 9/9/26 10:32, Michael Kelley wrote:
+> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Tuesday, September 8, 2026 3:33 PM
+>>
+>> On 9/8/26 11:02, Michael Kelley wrote:
+>>> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Monday, September 7, 2026 7:14 PM
+>>>>
+>>>> The current memory deposit implementation has a few issues and bugs:
+>>>>    o It is very slow
+>>>>    o Contiguous range requirement is broken, and is critical bug
+>>>>    o An incorrect assumption is made that contiguous memory size would
+>>>>      always be power of 2.
+>>>
+>>> Is this HV_MAX_CONTIGUOUS_ALLOCATION_PAGES? That value is
+>>> defined as a constant in hvhdk_mini.h. So is there a possibility that
+>>> the constant will change in the future, or in some new variation of
+>>> the overall environment?
+>>
+>> Yes, I was told it could change in future. It is also not guaranteed to
+>> be power of 2 (even tho it is currently).
+>>
+>>>>    o Two pages are allocated, only one is really needed. This adds to
+>>>>      overhead.
+>>>>    o For a 512 page deposit, the allocation is split into two: one for 511
+>>>>      and second for 1. Thus, an order 9 allocation never happens. A
+>>>>      contiguous 2M range, if possible, significantly improves performance
+>>>>      in the hypervisor.
+>>>>    o Since a page is already allocated to collect the frames, there is
+>>>>      not really a need to use per cpu input page, and hence avoid local
+>>>>      irq disable.
+>>>>    o In hv_call_deposit_pages(), in case of error, under err_free_allocations
+>>>>      label, all pages are freed without checking status to see if some pages
+>>>>      were deposited. This is a critical bug as it would free pages that hyp
+>>>>      may be using.
+>>>>
+>>>> All of above is addressed by:
+>>>>    o Allocate 2M by default, this is the recommendation from the hypervisor
+>>>>      team, and greatly improves performance.
+>>>
+>>> Can you be more specific about "improves performance"? Is the
+>>> improvement on the guest side, or on the hypervisor side? And what's
+>>> the key leverage point in improving performance, regardless of which
+>>> side? It might be helpful to record this for future reference to prevent
+>>> a change from being made that unknowingly hurts the key leverage
+>>> point.
+>>
+>> Well, overall improvement I'd say. Lesser HV_STATUS_INSUFFICIENT_MEMORY
+>> means lesser interruptions means faster non-deposit hypercalls. With
+>> larger deposits, it will not come back as often with insufficient memory.
+>> If it only uses 1M say out of the 2, next time it will reuse the remaining
+>> meg before coming back and asking for more. IOW, incomplete hypercalls
+>> repeatedly coming back asking for more ram add lot of overhead.
+>> Eg. the guest setup part reduces from 8 sec to 1 sec with this, I
+>> don't have further breakdown of which ioctls.
+> 
+> OK -- this part wasn't clear to me from reading the commit message.
+> The primary goal is to reduce hypercall failures due to insufficient
+> memory, followed by the cycle of adding memory and trying again. By
+> adding memory in larger chunks in the first place, you reduce those
+> cycles. Improving the performance of the code for doing the deposit
+> helps, but that's probably not where you get the most noticeable
+> benefit. Could you clarify this in the commit message?
+> 
+>>
+>>>>    o Always start with a full 2M range allocation, thus getting contiguous if
+>>>>      available. In cases where possible, the deposits are much faster.
+>>>
+>>> Is this faster because the hypervisor can consume the pages faster
+>>> if they are contiguous?
+>>
+>> I didn't ask but my guess is that it can map 2M page in its page
+>> tables, so all the benefits of large pages: faster L2 mapping, less
+>> tlb overhead, etc..
+> 
+> Makes sense. This seems like it is probably a 2nd order benefit
+> after reducing hypercall failures due to insufficient memory.
+> 
+>>
+>>>>    o Allocate only one page in the deposit function and collect 511 pfns
+>>>>      there. Just use a local variable for last pfn.
+>>>>    o Use the page as input to hypercall. Since this page is locally allocated,
+>>>>      irq disable can be avoided helping speed up the deposit.
+> 
+> Again, seems like a 2nd order perf improvement in the code
+> for doing the memory deposit.
+> 
+>>>>    o Fix the physical contiguous memory requirement.
+>>>>    o Lastly, remove pre-deposits hv_call_create_vp() and
+>>>>      hv_call_initialize_partition() as they were removed internally while
+>>>>      ago, most likely because they didn't help much.
+>>>>
+>>>> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+>>>> ---
+>>>>    drivers/hv/hv_proc.c           | 198 +++++++++++++++++++++++++++++----
+>>>>    drivers/hv/mshv_root_hv_call.c |  10 +-
+>>>>    include/asm-generic/mshyperv.h |   5 -
+>>>>    3 files changed, 179 insertions(+), 34 deletions(-)
+>>>>
+> 
+> [snip]
+> 
+>>>> +/*
+>>>> + * Deposit memory in the hypervisor. Even if @contiguous is false, a contiguous
+>>>> + * 2M worth of pfns is utmost desired for performance reasons. But short of
+> 
+> Again, this comment isn't clear on *why* the 2M helps performance.
+
+It can be mapped as large page in hyp page tables.
+
+>>>> + * that, we deposit whatever contiguous chunks we can get. If @contiguous is
+>>>> + * true, then the entire range has to be physically contiguous. Note, in that
+>>>> + * case, upon withdrawl, hypervisor could return any page in between the range,
+>>>> + * so we must split that also. Lastly, HV_MAX_CONTIGUOUS_ALLOCATION_PAGES is
+>>>> + * not guaranteed to always be power of 2.
+>>>> + */
+>>>> +static int hv_call_deposit_pages(int node, u64 partition_id, bool contiguous)
+>>>> +{
+>>>> +	struct hv_deposit_memory *hc_input;
+>>>> +	int i, rc, num_pages;
+>>>> +	u64 status, *pfna, lastpfn = 0;
+>>>> +	bool trunc_extra = false;
+>>>> +
+>>>> +	BUILD_BUG_ON(HV_MAX_CONTIGUOUS_ALLOCATION_PAGES > HV_DEPOSIT_MAX);
+>>>> +
+>>>> +	if (contiguous) {
+>>>> +		num_pages = roundup_pow_of_two(
+>>>> +				 HV_MAX_CONTIGUOUS_ALLOCATION_PAGES);
+>>>> +		trunc_extra = num_pages != HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
+>>>> +	} else {
+>>>> +		num_pages = HV_DEPOSIT_MAX;
+>>>> +	}
+>>>> +
+>>>> +	hc_input = (struct hv_deposit_memory *)get_zeroed_page(GFP_KERNEL);
+>>>
+>>> Mike Rapoport has a kernel-wide effort underway to replace
+>>> __get_free_page() with kmalloc() and get_zeroed_page() with kzalloc().
+>>> See [1] for one example of the many patches he has submitted. The
+>>> commit message has a short explanation. Going with kzalloc() here
+>>> would probably avoid a future change.
+>>
+>> There might be places where a get_page may not be strictly needed, but
+>> in this case we do for the hypercall (we use it as input page), and
+>> this hypercall can go upto exactly one page. I don't think an operating
+>> system can ever get away without having a get_page() api :). kmalloc()
+>> could add an aligntment parameter, but it would just call get_page
+>> anyways for page aligned requests.
+>>
+> 
+> What Mike wants to do is:
+> 
+> 	hc_input = kzalloc(PAGE_SIZE, GFP_KERNEL);
+> 
+> This is guaranteed to provide page-aligned memory, just like
+> get_zeroed_page(). See 2nd paragraph under "Description" at [1].
+
+Confusing... the first line after Description also says:
+
+"kmalloc is the normal method of allocating memory for objects smaller
+  than page size in the kernel."
+
+I think it is clearer to keep get_page, it also helps keep common code
+with earlier versions
+
+Thanks,
+-Mukesh
+
+
+
+> Michael
+> 
+> [1] https://www.kernel.org/doc/html/latest/core-api/mm-api.html#c.kmalloc
+
