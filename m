@@ -1,111 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C1037A822;
-	Wed,  9 Sep 2026 10:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF6057EDA8;
+	Wed,  9 Sep 2026 16:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949472; cv=none; b=KwdHuUG50h9zgbBL8PD64TIGqaJUfgzunGs1UYM0F8oyyp8W1JtIrtWtMDtGX3fzLBsx+LR17Zm+Gt8fYBX9ntPmgHeI260z3/9yL2wZdNeFQYPoxiYiHJFNQJ/65ZkSTqeCG5wp42d6nFLzhOI3apjkcDr3iqGxwEXdCCf6GvM=
+	t=1788970086; cv=none; b=KHWL/Xi86sasfD76q3slLrU/R8/vbth/N2xKSqQB0/UocpqZu8AJJ+4KlFTFBK38EUS9eLd5H1rTxqU0pxsIeCx1Q9DvKDbjpF8aeNN/1QeO0aK7qRtVWATVEEgiJt1TqKP4L1DJaz19Fiww/h6kENioLDpc0gEXdTirmlf0+18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949472; c=relaxed/simple;
-	bh=I8Onle8fDcB2jJH/6ZCRLaXNOxUd6QuB/0FGJ6RuK6c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Dc1i56k62MYBQdjz9mkoY12znDIV/GpMiAcUvJ6EdbTw2NqUCX0bo9fVwJ27jXkeGPQ15nupPYxYzoKc800tlCvcCGTdnQg5BkJClV0jSo7tCjH8inZoLv/6YIO58Nc0VLdKvDTUO1KygcHiyI8M8AkbYeAWBWkfVMNWaJR3iFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLovTtU8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788970086; c=relaxed/simple;
+	bh=JkwN6FfLnr515igDH51Qz5wd7d/8nukuTZUzodOTA8s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fPP91aWos7wXlSN8OFBnEq376WVe1KTKjfYBtMJDhhqChwg4YX2DvMiqmWbDIHIFU8eEu60pRI3E12iUyz/TRQRlzr2Av50uqZmEBrERdWysaVH/EH4Fd1e2Aiq2C0+EVeW5u96XMIb8mpc6C/OesYuRru+p1DJfFqpAzNyu8LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FEIZW+VT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLovTtU8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6FF1F00A3A;
-	Wed,  9 Sep 2026 10:24:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FEIZW+VT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B671F00A3A;
+	Wed,  9 Sep 2026 16:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788949471;
-	bh=gbV02tkIR0l5+u0XIgUNoM3WdEsWs96K0HwU9kLHxWA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=JLovTtU8ApoMQpMX5pDtVyhtOFv/Glvm3zMo8dcpf76G+RSWmHoiTBS3WRw4ShQkv
-	 Yt93feqcMS9bZwLHeqwYNTe76OrQ7Aj2jzuHo5zKdYiaWck4KRJ2KHT3oyb5vg7b71
-	 pO0FLMvr7AXwYeOKjIi0rL7iF4aEACVceVIlRioRQfFOK+FLTUELHwjNCTU8HDFBNS
-	 hujPHhJcpkYem4MSeRlW7bRb7H5iqNEErxtpIWq/1wk+EGRpe2WfbCCqqWT51sMfU+
-	 BzNINXI3vSeWDj2A/I24P6C4F5tEyoUNJvf+XkYGjwalWmMO5inCt+1seGL53F+oWz
-	 j5pG+i3gSZ6Jg==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "Joerg Roedel (AMD)"
- <joro@8bytes.org>, Will Deacon <will@kernel.org>, "K. Y. Srinivasan"
- <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
- <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam
- <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>, Vasant Hegde <vasant.hegde@amd.com>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
- Shradha Gupta <shradhagupta@linux.microsoft.com>, Aditya Garg
- <gargaditya@linux.microsoft.com>, iommu@lists.linux.dev,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] x86/irq, iommu/amd, PCI: Drop redundant
- irq_retrigger inits
-In-Reply-To: <20260810090716.2325295-4-namjain@linux.microsoft.com>
-References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
- <20260810090716.2325295-4-namjain@linux.microsoft.com>
-Date: Wed, 09 Sep 2026 12:24:28 +0200
-Message-ID: <875x0e204j.ffs@fw13>
+	s=k20260515; t=1788970084;
+	bh=rF0cscCMKkD34fePqalub+pXM8u7LKVqJfRQzNw+xSA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=FEIZW+VT3PgxiYb+2e5ZnzD+HVV1wbf4R3eIbAjFz2rqPlaf91/lrmKCVPmvQYzlG
+	 oy513tX4003zIrkK4Jpab/8+QTzVCEMAr0+nJy/hNiSbm9uYeUwkKmlUsnQu6xyVRq
+	 6K61Dyz/yMQjzjj09IHUUONKRMUr8QY/7fQF6t5qRfveJFdOWycbV2zHDDqMWKxfDr
+	 kAZ9pU2meBFCXFA58kBulQDoOk11mlEMZm7YgAAHkuoRHuJvfa4X2iJ9V0o0r3cpYs
+	 JKFVsZstNYOaCFySp+0Br0q4Mxc8rV7TaOuCeM3vIjsdNXqutKKNu4pgUj2xAnkB0I
+	 07IjUPG+qK1mQ==
+From: Simon Horman <horms@kernel.org>
+To: mhkelley58@gmail.com
+Cc: Simon Horman <horms@kernel.org>,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 1/3] Drivers: hv: vmbus: Fix error paths in vmbus_teardown_gpadl()
+Date: Wed,  9 Sep 2026 17:07:11 +0100
+Message-ID: <20260909160711.697508-1-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260907214902.9046-2-mhklinux@outlook.com>
+References: <20260907214902.9046-2-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 10 2026 at 09:07, Naman Jain wrote:
-> --- a/arch/x86/kernel/apic/msi.c
-> +++ b/arch/x86/kernel/apic/msi.c
-> @@ -137,7 +137,7 @@ msi_set_affinity(struct irq_data *irqd, const struct cpumask *mask, bool force)
->  	 * IRR.
->  	 */
->  	if (lapic_vector_set_in_irr(cfg->vector))
-> -		irq_data_get_irq_chip(irqd)->irq_retrigger(irqd);
-> +		irq_chip_retrigger_hierarchy(irqd);
-
-That's broken because irqd points at the vector domain already, so there
-is no parent and nothing gets retriggered.
-
-Let's look at the hierarchy when interrupt remapping is enabled:
-
-             | --- [DMAR]
-[VECTOR] --- |                | -- [IOAPIC]
-             | --- [REMAP] ---| -- [HPET]
-                              | -- [DEVICE MSI]
-
-All outer domains have .irq_set_affinity = msi_domain_set_affinity,
-which does:
-
-msi_domain_set_affinity(irqdata, ....)
-
-    irqdata->parent->irq_set_affinity(irqdata->parent, ....);
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev/#/patchset/20260907214902.9046-2-mhklinux@outlook.com?part=1
+---
+    Drivers: hv: vmbus: Fix error paths in vmbus_teardown_gpadl()
     
-In that case msi_set_affinity() is only reachable for the DMAR domain
-and all others (IOAPIC, HPET, DEVICE MSI) end up in the REMAP domain
-which handles irq_set_affinity and never ends up in the above code.
+    In vmbus_teardown_gpadl(), the return value from vmbus_post_msg() is
+    overwritten by the logic that decides if set_memory_encrypted() should
+    run. A failure from vmbus_post_msg() is lost and vmbus_teardown_gpadl()
+    may incorrectly report success. Furthermore, if vmbus_post_msg() fails,
+    the GPADL remains active on the Hyper-V side, yet in a CoCo VM the
+    buffer will be re-encrypted anyway.
 
-In the non-remapping case:
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/linux-hyperv/20260904160724.82AB51F00A3D@smtp.kernel.org/
+Fixes: d4dccf353db8 ("Drivers: hv: vmbus: Mark vmbus ring buffer visible to host in Isolation VM")
 
-             | -- [IOAPIC]
-[VECTOR] --- | -- [HPET]
-             | -- [DEVICE MSI]
+> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+> index f4370617deacb..cc86e8505ad0b 100644
+> --- a/drivers/hv/channel.c
+> +++ b/drivers/hv/channel.c
+> @@ -1059,14 +1059,14 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
+>  
+>  	kfree(info);
+>  
+> -	if (gpadl->decrypted)
+> +	if (!ret && gpadl->decrypted) {
+>  		ret = set_memory_encrypted((unsigned long)gpadl->buffer,
+>  					PFN_UP(gpadl->size));
+> -	else
+> -		ret = 0;
+> -	if (ret)
+> -		pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
+> +		if (ret)
+> +			pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
+> +	}
+>  
+> +	/* If error in ret, mark buffer decrypted so it is leaked */
+>  	gpadl->decrypted = ret;
 
-In this case the vector domain is the MSI parent domain for all of them
-and all outer domains will end up in msi_set_affinity() via
-msi_domain_set_affinity().
+[Severity: High]
+This is a pre-existing issue, but does this early return in
+vmbus_teardown_gpadl() bypass the leak mechanism?
 
-In any case 'irqd' in msi_set_affinity() will always point to the vector
-domain and therefore the exiting code is correct and can't be changed to
-retrigger hierarchy as that would see irqd->parent == NULL and do
-nothing. Neither will adding a conditional there do anything useful
-because the vector domain always has the retrigger callback set.
+drivers/hv/channel.c:vmbus_teardown_gpadl() {
+	...
+	info = kzalloc(sizeof(*info) +
+		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
+	if (!info)
+		return -ENOMEM;
+	...
+}
 
-Thanks,
+If this kzalloc() fails, gpadl->decrypted is not updated.
 
-        tglx
+In a CoCo VM, __vmbus_open() establishes a GPADL for the ring buffer and
+initializes gpadl->decrypted to false. If a subsequent step in
+__vmbus_open() fails, it calls vmbus_teardown_gpadl() to roll back:
+
+drivers/hv/channel.c:__vmbus_open() {
+	...
+error_free_gpadl:
+	vmbus_teardown_gpadl(newchannel, &newchannel->ringbuffer_gpadlhandle);
+error_clean_ring:
+	...
+	return err;
+}
+
+Since __vmbus_open() ignores the teardown failure, vmbus_open() will then
+proceed to call vmbus_free_ring():
+
+drivers/hv/channel.c:vmbus_free_ring() {
+	...
+		/* In a CoCo VM leak the memory if it didn't get re-encrypted */
+		if (!channel->ringbuffer_gpadlhandle.decrypted)
+			__free_pages(channel->ringbuffer_page,
+			...
+}
+
+Because gpadl->decrypted remains false instead of being set to -ENOMEM,
+vmbus_free_ring() will erroneously free the memory back to the kernel page
+allocator. Could this lead to guest memory corruption if the host hypervisor
+retains an active GPADL mapping and overwrites it?
+
+>  
+>  	return ret;
