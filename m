@@ -1,79 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBA4384250;
-	Wed,  9 Sep 2026 09:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B86468C3D;
+	Wed,  9 Sep 2026 09:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788944403; cv=none; b=s5fC5s9P5D/kxXzbj7/glJ7I8BkAa0zSiMnqpJslN4WhiKWjqicXkYqMdkDz2gZ8nxv4my8Ca2ohjzrZLMoseDqocMdfVMSmODsitvxFBJ4oOl1hf75GV8P3oqyt10eMNziJeWBS0qWcjsi1m117LZUPXp8jePdDDFF1HzO4TzE=
+	t=1788944418; cv=none; b=Rn0tmSVC55u5+zMoqiaG4FKOiCN2bpIQ0f12nIgMPev78BniPhX1+B+ShAbZC1BYwxZ/6pTEx8yxSGvFHVGYBjD5dnZebh1wSd3LxbJgBio+zZRnt1A3cBqU5rI0qPoZVs3ajXH6rytdUvEOZ+1UEYhlLhP3yJrrGuWZq0jo/oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788944403; c=relaxed/simple;
-	bh=eciJ9jsr7AB7/58KShnubYuqD7EkujTJGBnTFwC9GoQ=;
+	s=arc-20240116; t=1788944418; c=relaxed/simple;
+	bh=LJHZ6KCxwsKKNuf/zX87PHgsvBnitasvTfoElzqx/lc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iS4kbBZFuLOLaoOT4KWWyykfOROgSwn5vZrwqlVcptQcoHSBCHnKY652tzbFzJp7uGct7XOv+bOl4jk+EK5lyeX81H0Tkse1Dz4YAmbOFWCoov0x1K0WT9KwuIfoxuvr9eahPHtsYFxspuyIhTRTWjPwkd5dkI6wc6F4WvLmcTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W9oDqvLR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lMP3GEWW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wyHpAJeh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF0iZZum; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=NyTsf6aY+qGDz6uQ784oRp6iLf/s2CHSLEiTk+XRIohCogxlR1aq/NTY4Y1ErLoXDhY7St4//is6fmgr/+QKMo/UFoB5Q/DdalPE5/OxPR+/qAzEOaFng4UlrjTMCpAxCEdJsejE6qHYqq6InPlIcm3F5Bd8V3YhVpmbPVXowds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1dm1xO1x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AyB9DOLf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U4OeGi32; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AorCwKKY; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W9oDqvLR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lMP3GEWW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wyHpAJeh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF0iZZum"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1dm1xO1x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AyB9DOLf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U4OeGi32";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AorCwKKY"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E553E1F83F;
-	Wed,  9 Sep 2026 08:58:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F45721A7E;
+	Wed,  9 Sep 2026 08:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788944325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788944326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MC0+KLKbJpYLNfJ5VRFGCqadwDqoWaUxvHFHXz5HZnc=;
-	b=W9oDqvLR94YZVdt+BS7omr3yZFARPrM0F/4BfMmTbwtAOw9EUx7q9gqF9E3LfK4xCEMs+/
-	h4SG6ChZ43p/vgp6Sh3P6pKxKaIPUZ4yf8wixBjRdiQ18f3pVXDw+2FrRfU+94JoWVU+dE
-	He93ViGttc0mJF44wQBKYG5lKdwhlBI=
+	bh=/yw/+e2gzQxo9H+pdwIa/AXa45ESt2VPejHwf9N8gL4=;
+	b=1dm1xO1x3hLqRrsmVizHSExZ08U5t0vJ59xO7zwq3xHt3LAATOhHEKpTiL3uxciWMvCbPs
+	8w8e73ZsrNlOZYbGexGKNE0XJ6vF2JSxro+4Mv7aIYB6kKF4dXPO9haQJ+7MYSBpnUd6fg
+	RtLDXwUfhBCScXS5cO3Wj+3HTtn8gDE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788944325;
+	s=susede2_ed25519; t=1788944326;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MC0+KLKbJpYLNfJ5VRFGCqadwDqoWaUxvHFHXz5HZnc=;
-	b=lMP3GEWWgdpO3BhN2PR4cMMVzCwwhyrssFpbrhJXzsDkK3ExXm7jipkH1bNxa2dtrRKPbw
-	vTvYX2RisGELfcBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wyHpAJeh;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SF0iZZum
+	bh=/yw/+e2gzQxo9H+pdwIa/AXa45ESt2VPejHwf9N8gL4=;
+	b=AyB9DOLf/MsVeP4truED/BqsipN0gXwRUM8uKJpuTrrmkz5mQZmznl1nmIH1JzbnP0Nso1
+	14PP0j3oCMA5z3DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=U4OeGi32;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AorCwKKY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788944320; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788944322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MC0+KLKbJpYLNfJ5VRFGCqadwDqoWaUxvHFHXz5HZnc=;
-	b=wyHpAJehst7/fj38EwLjbLwqvboxksxoqvF31Z7mpUPD6zvhbpoEvLm8ThKnBFXtIL4avy
-	IDMLG/GesSE7G7XiPANZHW0isfMce+1kNO+8F2N50eMJTr1/P93MIn2A4k0lQL2Fz4Km9M
-	CFMREthR8OqCfVJA7fVMLyTxFLczfUs=
+	bh=/yw/+e2gzQxo9H+pdwIa/AXa45ESt2VPejHwf9N8gL4=;
+	b=U4OeGi32J/zKC0WnRfvdYuh7OGEVPH8zZWZh1n+7OguBQEayIbkmI4H4kQpxze9qi5rHl9
+	iZm2xO0v47xQyvBGKKryLTD6hR7MwdEXAe5WSvPmM9PfnnpOkw4tP8HdChhqpRl9cdBTYw
+	KXCtnJQA3+rTp4o+rMZCr12GwMqQzic=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788944320;
+	s=susede2_ed25519; t=1788944322;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MC0+KLKbJpYLNfJ5VRFGCqadwDqoWaUxvHFHXz5HZnc=;
-	b=SF0iZZumOC4RWUCn+pDWPmRyV76F7+RbpRiZnSr4abbEGI3Z6s5gKH7yJqmkVxUYa21rAS
-	C7FLBPJdwzpfV+DA==
+	bh=/yw/+e2gzQxo9H+pdwIa/AXa45ESt2VPejHwf9N8gL4=;
+	b=AorCwKKY3gSBU8990Mrshvx+tOznGvCi8rGQl7B4okGlFGOFBgRPOaKyYhMk9K0qi2ufkH
+	ZFdu/y6iH8gQ/TAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1EB7213929;
-	Wed,  9 Sep 2026 08:58:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 670BB1396B;
+	Wed,  9 Sep 2026 08:58:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GI4XBrsfoWoVUQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 09 Sep 2026 08:58:35 +0000
+	id wE3GF70foWoVUQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 09 Sep 2026 08:58:37 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com,
 	javierm@redhat.com,
@@ -96,9 +96,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	virtualization@lists.linux.dev,
 	sashiko-reviews@lists.linux.dev,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 06/14] drm/panic: Pass global module parameters to drm_panic_dispatch()
-Date: Wed,  9 Sep 2026 10:55:21 +0200
-Message-ID: <20260909085826.64529-7-tzimmermann@suse.de>
+Subject: [PATCH v4 10/14] drm/panic: Restrict to primary planes
+Date: Wed,  9 Sep 2026 10:55:25 +0200
+Message-ID: <20260909085826.64529-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260909085826.64529-1-tzimmermann@suse.de>
 References: <20260909085826.64529-1-tzimmermann@suse.de>
@@ -110,7 +110,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: E553E1F83F
+X-Rspamd-Queue-Id: 2F45721A7E
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Rspamd-Action: no action
@@ -134,7 +134,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_TLS_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,suse.de:mid];
 	FREEMAIL_TO(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org,linux-m68k.org,infradead.org];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
@@ -142,159 +142,59 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 
-Set the panic type and QR version in draw_panic_plane() as a single
-point of truth. Pass the values into the individual drawing functions.
+Restrict panic handling to primary displays. Overlays and cursors
+should not display panic output. If there are exceptions, they can
+be registered by the driver itself.
 
-In the test case, always create a QR code with version 40 (i.e., the
-highest supported version).
+v3:
+- also update drm_panic_is_enabled() (Sashiko)
+- still do some testing when unregistering (Sashiko)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/drm_panic.c            | 39 ++++++++++++++++----------
- drivers/gpu/drm/tests/drm_panic_test.c |  2 +-
- 2 files changed, 25 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/drm_panic.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index 834653d288a9..f597ef04c5bc 100644
+index 809d51ad78a8..522ea990a2e9 100644
 --- a/drivers/gpu/drm/drm_panic.c
 +++ b/drivers/gpu/drm/drm_panic.c
-@@ -654,7 +654,7 @@ static void drm_panic_qr_exit(void)
- 	stream.workspace = NULL;
+@@ -1059,9 +1059,13 @@ bool drm_panic_is_enabled(struct drm_device *dev)
+ 	if (!dev->mode_config.num_total_plane)
+ 		return false;
+ 
+-	drm_for_each_plane(plane, dev)
+-		if (plane->helper_private && plane->helper_private->get_scanout_buffer)
+-			return true;
++	drm_for_each_plane(plane, dev) {
++		if (plane->type != DRM_PLANE_TYPE_PRIMARY)
++			continue;
++		if (!plane->helper_private || !plane->helper_private->get_scanout_buffer)
++			continue;
++		return true;
++	}
+ 	return false;
  }
- 
--static int drm_panic_get_qr_code_url(u8 **qr_image)
-+static int drm_panic_get_qr_code_url(u8 **qr_image, unsigned int qr_version)
- {
- 	struct kmsg_dump_iter iter;
- 	char url[256];
-@@ -666,7 +666,7 @@ static int drm_panic_get_qr_code_url(u8 **qr_image)
- 			   CONFIG_DRM_PANIC_SCREEN_QR_CODE_URL,
- 			   utsname()->machine, utsname()->release);
- 
--	max_qr_data_size = drm_panic_qr_max_data_size(panic_qr_version, url_len);
-+	max_qr_data_size = drm_panic_qr_max_data_size(qr_version, url_len);
- 	max_kmsg_size = min(MAX_ZLIB_RATIO * max_qr_data_size, QR_BUFFER1_SIZE);
- 
- 	/* get kmsg to buffer 1 */
-@@ -712,11 +712,11 @@ static int drm_panic_get_qr_code_url(u8 **qr_image)
- 				     qrbuf1, QR_BUFFER1_SIZE);
- }
- 
--static int drm_panic_get_qr_code_raw(u8 **qr_image)
-+static int drm_panic_get_qr_code_raw(u8 **qr_image, unsigned int qr_version)
- {
- 	struct kmsg_dump_iter iter;
- 	size_t kmsg_len;
--	size_t max_kmsg_size = min(drm_panic_qr_max_data_size(panic_qr_version, 0),
-+	size_t max_kmsg_size = min(drm_panic_qr_max_data_size(qr_version, 0),
- 				   QR_BUFFER1_SIZE);
- 
- 	kmsg_dump_rewind(&iter);
-@@ -729,19 +729,20 @@ static int drm_panic_get_qr_code_raw(u8 **qr_image)
- 				     qrbuf2, QR_BUFFER2_SIZE);
- }
- 
--static int drm_panic_get_qr_code(u8 **qr_image)
-+static int drm_panic_get_qr_code(u8 **qr_image, unsigned int qr_version)
- {
- 	if (strlen(CONFIG_DRM_PANIC_SCREEN_QR_CODE_URL) > 0)
--		return drm_panic_get_qr_code_url(qr_image);
-+		return drm_panic_get_qr_code_url(qr_image, qr_version);
- 	else
--		return drm_panic_get_qr_code_raw(qr_image);
-+		return drm_panic_get_qr_code_raw(qr_image, qr_version);
- }
- 
- /*
-  * Draw the panic message at the center of the screen, with a QR Code
-  */
- static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
--				      u32 fg_color, u32 bg_color)
-+				      u32 fg_color, u32 bg_color,
-+				      unsigned int qr_version)
- {
- 	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
- 	struct drm_rect r_screen, r_logo, r_msg, r_qr, r_qr_canvas;
-@@ -768,7 +769,7 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
- 
- 	max_qr_size = min(3 * sb->width / 4, 3 * sb->height / 4);
- 
--	qr_width = drm_panic_get_qr_code(&qr_image);
-+	qr_width = drm_panic_get_qr_code(&qr_image, qr_version);
- 	if (qr_width < 0)
- 		return qr_width;
- 	else if (!qr_width)
-@@ -812,9 +813,11 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
- 	return 0;
- }
- 
--static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb, u32 fg_color, u32 bg_color)
-+static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb,
-+				     u32 fg_color, u32 bg_color,
-+				     unsigned int qr_version)
- {
--	if (_draw_panic_screen_qr_code(sb, fg_color, bg_color))
-+	if (_draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version))
- 		return draw_panic_screen_user(sb, fg_color, bg_color);
- 	return 0;
- }
-@@ -887,17 +890,18 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
- 	return drm_draw_can_convert_from_xrgb8888(format->format);
- }
- 
--static int draw_panic_dispatch(struct drm_scanout_buffer *sb, u32 fg_color, u32 bg_color)
-+static int draw_panic_dispatch(struct drm_scanout_buffer *sb, enum drm_panic_type panic_type,
-+			       u32 fg_color, u32 bg_color, unsigned int qr_version)
- {
- 	int ret;
- 
--	switch (drm_panic_type) {
-+	switch (panic_type) {
- 	case DRM_PANIC_TYPE_KMSG:
- 		ret = draw_panic_screen_kmsg(sb, fg_color, bg_color);
- 		break;
- #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
- 	case DRM_PANIC_TYPE_QR:
--		ret = draw_panic_screen_qr_code(sb, fg_color, bg_color);
-+		ret = draw_panic_screen_qr_code(sb, fg_color, bg_color, qr_version);
- 		break;
- #endif
- 	case DRM_PANIC_TYPE_USER:
-@@ -947,6 +951,11 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
- #else
- 	u32 bg_color = 0x00000000;
- #endif
-+#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-+	unsigned int qr_version = panic_qr_version;
-+#else
-+	unsigned int qr_version = 0;
-+#endif
- 
- 	if (!drm_panic_trylock(plane->dev, flags))
+ EXPORT_SYMBOL(drm_panic_is_enabled);
+@@ -1079,6 +1083,8 @@ void drm_panic_register(struct drm_device *dev)
  		return;
-@@ -962,7 +971,7 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
  
- 	drm_panic_set_description(description);
+ 	drm_for_each_plane(plane, dev) {
++		if (plane->type != DRM_PLANE_TYPE_PRIMARY)
++			continue;
+ 		if (!plane->helper_private || !plane->helper_private->get_scanout_buffer)
+ 			continue;
+ 		plane->kmsg_panic.dump = drm_panic;
+@@ -1106,6 +1112,8 @@ void drm_panic_unregister(struct drm_device *dev)
+ 		return;
  
--	ret = draw_panic_dispatch(&sb, fg_color, bg_color);
-+	ret = draw_panic_dispatch(&sb, drm_panic_type, fg_color, bg_color, qr_version);
- 	if (!ret) {
- 		/*
- 		 * Only flush if we have a panic screen to display. Otherwise
-diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
-index 969a096ec840..196496238d23 100644
---- a/drivers/gpu/drm/tests/drm_panic_test.c
-+++ b/drivers/gpu/drm/tests/drm_panic_test.c
-@@ -58,7 +58,7 @@ static int draw_panic_screen_kmsg_default(struct drm_scanout_buffer *sb)
- #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
- static int draw_panic_screen_qr_code_default(struct drm_scanout_buffer *sb)
- {
--	return draw_panic_screen_qr_code(sb, 0x00ffffff, 0x00000000);
-+	return draw_panic_screen_qr_code(sb, 0x00ffffff, 0x00000000, 40);
- }
- #endif
- 
+ 	drm_for_each_plane(plane, dev) {
++		if (plane->type != DRM_PLANE_TYPE_PRIMARY)
++			continue;
+ 		if (!plane->helper_private || !plane->helper_private->get_scanout_buffer)
+ 			continue;
+ 		kmsg_dump_unregister(&plane->kmsg_panic);
 -- 
 2.55.0
 
