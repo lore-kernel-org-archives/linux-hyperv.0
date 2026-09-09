@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D32B63B83E1;
-	Wed,  9 Sep 2026 06:45:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A423C1F22;
+	Wed,  9 Sep 2026 06:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788936331; cv=none; b=daa+HtPlAw+IrJIz8qIXGjhKpEV3IfcUeU8dJuFneltlDxVC7ieG79xV+OIRtYezpmhq6KgVb3XjAYbITT+YmJWR8o2xzknqpS5GgQr9kV+SUDtfy4MkSRsuHiSCKITD1F5apR/4Wu+FJvAU05EfU7Q1ROWOC4fTZvRfsV9esEc=
+	t=1788936340; cv=none; b=Rtq3M3UJWQnX4bhkjtLIU+8Iu+RmSohhH7n1SnJTP7iMHE6rZx9owpA3QW5o39p1jcKmD/GPUNTChL2cbD/66n+/ax8tQwzduz16yXAerhm+dAM58K/IYStSO9BmHzzQ+NPYJucRY5alQmAE04H/b7sEx1nNRBQ3XIvaaisWYkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788936331; c=relaxed/simple;
-	bh=HSoqkeQpnPn0IcBwaWar28Zz7ZtQC3OqmJMY9ypZ6MQ=;
+	s=arc-20240116; t=1788936340; c=relaxed/simple;
+	bh=PGJavdQgYUimXVIAhNE4yi04+m9XkT5iuItxrj6lD0U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GZo4tkLZHvWmHYJnC8lGLRZ4D5VQVm4Tap8yFUN1H+n2AsEd0AdSnJcjJvoqFEAdOoN8v/FdjPSELbFK110OZqs2PW+rkznYWLWw/7i0PLTvoQWKlEbpKQicw9ODiqem7fi4TQQA8LXWZ59DgRh9Av3WIJcbAfx0yES2y7H6Lqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mvYEGR/K; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=RvFvSp5SToaqpjKZnruNiB6JqqfTuLLOhwVfwLPcvNsUqeutp0O5Amm0GheaMJjVUvjWC9NWZFTmmz15Yj2idNdpYPSF2Pi7InZ7MaJ6TCzxrApjOXlHjid/eXaI81tlJO98wKjv82pKFl0dZiXrcY+v98MxSiTAqkcceHc5Dt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JG5j1pEp; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mvYEGR/K"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JG5j1pEp"
 Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.16])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EF3C220B7136;
-	Tue,  8 Sep 2026 23:44:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EF3C220B7136
+	by linux.microsoft.com (Postfix) with ESMTPSA id 134DA20B7128;
+	Tue,  8 Sep 2026 23:44:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 134DA20B7128
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788936289;
-	bh=koAnNaNQyQ/gB5aR9yFBdh8NzxgGLfEa9F99gJSBoUo=;
+	s=default; t=1788936298;
+	bh=VosnKlv+oHSDjpR45cHswOoJ5a2EWdGkJ6BlBC9uMR0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mvYEGR/KujxX6Lsdz2WkBnsDGVh6iYqoCJdJMLkOt8uVD8W7w/l19D0L7jAt54MQM
-	 fjFqP74Hz0Z3M3R8j5KSchvpHs5lVnV/O83g6limIrMUazJGWDix5qk4i/6AcCFNL+
-	 S5fQ5kUBkhwcXM6Jzf9UpJfTyjSPbDCrsFSD1t/I=
+	b=JG5j1pEpDgd2zZaTuLpsuOzXLbAcU/T8Rthscawe6ZmjCsOOGIy1PqKDPSJQMCKuR
+	 7/+PDmbpcInnMLLH026FbYSDeskR2WYp9/VqyV9M6doQ+LaEIZ5Wo3yixvi7fnFMGy
+	 DUtWujL71ucmhwprCrIdam8KRbDcVyjHOFpLyvkU=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: Thomas Gleixner <tglx@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -64,9 +64,9 @@ Cc: Michael Kelley <mhklinux@outlook.com>,
 	linux-kernel@vger.kernel.org,
 	iommu@lists.linux.dev,
 	linux-pci@vger.kernel.org
-Subject: [PATCH v4 3/4] x86/irq: Fall back to irq_chip_retrigger_hierarchy() in msi_set_affinity()
-Date: Wed,  9 Sep 2026 06:44:47 +0000
-Message-ID: <20260909064448.1004-4-namjain@linux.microsoft.com>
+Subject: [PATCH v4 4/4] x86/irq, iommu/amd, x86/hyperv, PCI: Drop redundant irq_retrigger inits
+Date: Wed,  9 Sep 2026 06:44:48 +0000
+Message-ID: <20260909064448.1004-5-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260909064448.1004-1-namjain@linux.microsoft.com>
 References: <20260909064448.1004-1-namjain@linux.microsoft.com>
@@ -78,44 +78,118 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-msi_set_affinity() re-injects a pending interrupt on its new target by
-looking at the outermost domain chip and invoking its irq_retrigger()
-callback directly, without checking whether that callback is present.
+With fixup_irqs(), msi_set_affinity() and the generic resend path
+(try_retrigger()) now all falling back to irq_chip_retrigger_hierarchy(),
+installing it as the irq_retrigger() callback on the outermost domain chips
+is no longer required. The hierarchy walk reaches the x86 vector domain's
+apic_retrigger_irq() for all of these stacked domain chips.
 
-Keep calling the outermost chip's irq_retrigger() when it is present,
-but fall back to irq_chip_retrigger_hierarchy() otherwise, which walks
-up the interrupt hierarchy until it finds a chip that implements
-irq_retrigger().
+Remove the now redundant irq_retrigger() initializations from the outermost
+domain interrupt chips, including the Hyper-V root partition PCI/MSI chip.
+
+No functional change intended.
 
 Suggested-by: Thomas Gleixner <tglx@kernel.org>
 Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
 Reviewed-by: Thomas Gleixner <tglx@kernel.org>
 Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 ---
- arch/x86/kernel/apic/msi.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ arch/x86/hyperv/irqdomain.c         | 1 -
+ arch/x86/kernel/apic/io_apic.c      | 2 --
+ arch/x86/kernel/apic/msi.c          | 2 --
+ arch/x86/kernel/hpet.c              | 1 -
+ drivers/iommu/amd/init.c            | 1 -
+ drivers/pci/controller/pci-hyperv.c | 1 -
+ 6 files changed, 8 deletions(-)
 
+diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
+index 6d790636c8b95..b3ad50a874dca 100644
+--- a/arch/x86/hyperv/irqdomain.c
++++ b/arch/x86/hyperv/irqdomain.c
+@@ -316,7 +316,6 @@ static bool hv_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+ 		return false;
+ 
+ 	chip->flags |= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
+-	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+ 
+ 	info->ops->msi_prepare = pci_msi_prepare;
+ 
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index 7d7175d012288..18f49a251f23b 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -1857,7 +1857,6 @@ static struct irq_chip ioapic_chip __read_mostly = {
+ 	.irq_ack		= irq_chip_ack_parent,
+ 	.irq_eoi		= ioapic_ack_level,
+ 	.irq_set_affinity	= ioapic_set_affinity,
+-	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+ 	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED |
+ 				  IRQCHIP_AFFINITY_PRE_STARTUP,
+@@ -1871,7 +1870,6 @@ static struct irq_chip ioapic_ir_chip __read_mostly = {
+ 	.irq_ack		= irq_chip_ack_parent,
+ 	.irq_eoi		= ioapic_ir_ack_level,
+ 	.irq_set_affinity	= ioapic_set_affinity,
+-	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+ 	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE |
+ 				  IRQCHIP_AFFINITY_PRE_STARTUP,
 diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index 66bc5d3e79db3..66647d51c0473 100644
+index 66647d51c0473..728d3bfefa85c 100644
 --- a/arch/x86/kernel/apic/msi.c
 +++ b/arch/x86/kernel/apic/msi.c
-@@ -136,8 +136,14 @@ msi_set_affinity(struct irq_data *irqd, const struct cpumask *mask, bool force)
- 	 * underlying vector store. It's just checking the local APIC's
- 	 * IRR.
- 	 */
--	if (lapic_vector_set_in_irr(cfg->vector))
--		irq_data_get_irq_chip(irqd)->irq_retrigger(irqd);
-+	if (lapic_vector_set_in_irr(cfg->vector)) {
-+		struct irq_chip *chip = irq_data_get_irq_chip(irqd);
-+
-+		if (chip->irq_retrigger)
-+			chip->irq_retrigger(irqd);
-+		else
-+			irq_chip_retrigger_hierarchy(irqd);
-+	}
+@@ -252,7 +252,6 @@ static bool x86_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+ 	info->ops->msi_prepare		= x86_msi_prepare;
  
- 	return ret;
- }
+ 	info->chip->irq_ack		= irq_chip_ack_parent;
+-	info->chip->irq_retrigger	= irq_chip_retrigger_hierarchy;
+ 	info->chip->flags		|= IRQCHIP_SKIP_SET_WAKE |
+ 					   IRQCHIP_AFFINITY_PRE_STARTUP;
+ 
+@@ -319,7 +318,6 @@ static struct irq_chip dmar_msi_controller = {
+ 	.irq_mask		= dmar_msi_mask,
+ 	.irq_ack		= irq_chip_ack_parent,
+ 	.irq_set_affinity	= msi_domain_set_affinity,
+-	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+ 	.irq_compose_msi_msg	= dmar_msi_compose_msg,
+ 	.irq_write_msi_msg	= dmar_msi_write_msg,
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED |
+diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
+index 8dc7b710e1250..2bb7a6f466af3 100644
+--- a/arch/x86/kernel/hpet.c
++++ b/arch/x86/kernel/hpet.c
+@@ -509,7 +509,6 @@ static struct irq_chip hpet_msi_controller __ro_after_init = {
+ 	.irq_mask = hpet_msi_mask,
+ 	.irq_ack = irq_chip_ack_parent,
+ 	.irq_set_affinity = msi_domain_set_affinity,
+-	.irq_retrigger = irq_chip_retrigger_hierarchy,
+ 	.irq_write_msi_msg = hpet_msi_write_msg,
+ 	.flags = IRQCHIP_SKIP_SET_WAKE | IRQCHIP_AFFINITY_PRE_STARTUP,
+ };
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 40726dfef2733..a19e1faf98750 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -2471,7 +2471,6 @@ static struct irq_chip intcapxt_controller = {
+ 	.irq_unmask		= intcapxt_unmask_irq,
+ 	.irq_mask		= intcapxt_mask_irq,
+ 	.irq_ack		= irq_chip_ack_parent,
+-	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+ 	.irq_set_affinity       = intcapxt_set_affinity,
+ 	.irq_set_wake		= intcapxt_set_wake,
+ 	.flags			= IRQCHIP_MASK_ON_SUSPEND | IRQCHIP_MOVE_DEFERRED,
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 89816a2bd7cd3..cfc8fa403dad6 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -2119,7 +2119,6 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
+ 	info->ops->msi_prepare = hv_msi_prepare;
+ 
+ 	chip->irq_set_affinity = irq_chip_set_affinity_parent;
+-	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
+ 
+ 	if (IS_ENABLED(CONFIG_X86))
+ 		chip->flags |= IRQCHIP_MOVE_DEFERRED;
 -- 
 2.43.0
 
