@@ -1,20 +1,20 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313F1493D59;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7D4493D58;
 	Wed,  9 Sep 2026 22:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788992717; cv=none; b=RmvufKLezb1v00+Kt18fJwTMN6Zfnjj7XUV04J+sQpOiVFTGgC3lmCPYXiMF+Gs3scq5nwChi0jh0UL/HcSYQySUZP3u/eJ0WsZspcr9hd61NCKhW1mMbsEftlH0PelTjePyGkqvNDvBJ2m9FbhvvIGPhve4xU99ghJxVgaGE3c=
+	t=1788992717; cv=none; b=aXAZmILY+T27D872Nj//SqitJ0wwg2kv3Lu6IHPRBhjNbKbQU1bvv94Ubat19JfSnSkbzyNtq4qKRj39FS0VuH9ZwmbEFv8NWJZY+TJ4oTB8ZGYMfYULb9KjBtJllRfvItDJlUbvBDhSry45wFiD2A1Am++nG5Jm+Yr8hkE2qAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788992717; c=relaxed/simple;
-	bh=jY+P3A3+fjaNjIgHLHhfZjggzZus3kriWxtpMECBmwE=;
+	bh=eD9tFiZQkj0UUL66ipyPBrQRIvJWNeJq69DUrTdvu4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b3KBAeYCt1UP4qve5yCLSHHkROQevp+UiTiE3OQiwlN/TvxT2oBm1qpWaEmYh/ycEAaMcr9feGC18zeaLiLMa5PTg3MmU/ru5w0plcl6hSHfH2gE6R9Wjk6WmJDu+Fyx8vt73lBKkjjdWN14WPvbU+QFQaLUBCQDn3NYuoCoLJU=
+	 MIME-Version; b=GRiUeho59i/CF6rbZr/ANvVBoNWNB/C2EsshfTLO18UUQKL218lI89vKjaX2XWullUJ2sZGzgcvu8A3J7k1Rlp/MrgHdUJAgc09kFu2gaS2FvGZy129Rjs+r6fgXBSNkL0KD4zPuUZEANfzv1EkgwW5M89mMryTCvoyLId4nxy0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id BADC920B7178; Wed,  9 Sep 2026 15:24:29 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BADC920B7178
+	id 9D6FE20B7171; Wed,  9 Sep 2026 15:24:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9D6FE20B7171
 From: Long Li <longli@microsoft.com>
 To: Long Li <longli@microsoft.com>,
 	Long Li <longli@kernel.org>,
@@ -38,10 +38,11 @@ To: Long Li <longli@microsoft.com>,
 Cc: netdev@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5 10/13] net: mana: release EQs left idle by a channel-count reduction
-Date: Wed,  9 Sep 2026 15:24:13 -0700
-Message-ID: <20260909222416.884246-11-longli@microsoft.com>
+	linux-kernel@vger.kernel.org,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>
+Subject: [PATCH net-next v5 08/13] net: mana: do not bail out of mana_detach on dealloc failure
+Date: Wed,  9 Sep 2026 15:24:11 -0700
+Message-ID: <20260909222416.884246-9-longli@microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260909222416.884246-1-longli@microsoft.com>
 References: <20260909222416.884246-1-longli@microsoft.com>
@@ -53,132 +54,43 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Release EQs above the live queue count after retiring queues are freed
-or replacement allocation fails. All CQs using those EQs must be gone.
-Return their vector allocations to the pool; IRQ registrations remain.
+From: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 
-Store each EQ's debugfs dentry in apc->eqs[] rather than a stack copy so
-shrinking can remove individual EQ directories.
+Remove the early return after mana_dealloc_queues() so detach continues
+its device and port-context cleanup.
 
+The return is currently unreachable: mana_dealloc_queues() only rejects
+an up port, and mana_detach() clears port_is_up before calling it. This
+is a robustness cleanup, not a fix for a reachable reset failure.
+
+Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
 Signed-off-by: Long Li <longli@microsoft.com>
 ---
 Changes in v5:
   - Rebased onto current net-next; no changes to this patch.
 
 Changes in v4:
-  - Derive the live port from scratch->ndev inside mana_free_qset()
-    instead of adding a redundant parameter and shadowing local.
-  - State the CQ-lifetime requirement for shrinking and shorten comments.
+  - Frame this as removal of an unreachable error return, not a fix
+    for a reachable fatal reset failure.
 
- drivers/net/ethernet/microsoft/mana/mana_en.c | 49 ++++++++++++++++---
- .../ethernet/microsoft/mana/mana_ethtool.c    |  1 -
- 2 files changed, 41 insertions(+), 9 deletions(-)
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 98007bb3ef7caa974849c3f4998854f15c925321..fc96837d69a00f97c090474ca69bf42cb4805353 100644
+index 62c11af2fc422206f0ab8e144a4d082d62f7737d..5752e3745ccc6ba26bdd8f9be3108e4f3de69be0 100644
 --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -1881,6 +1881,8 @@ void mana_destroy_eq(struct mana_port_context *apc)
- 		msi = eq->eq.msix_index;
- 		mana_gd_destroy_queue(gc, eq);
- 		mana_gd_put_gic(gc, !gc->msi_sharing, msi);
-+		apc->eqs[i].eq = NULL;
-+		apc->eqs[i].mana_eq_debugfs = NULL;
+@@ -4340,10 +4340,8 @@ int mana_detach(struct net_device *ndev, bool from_close)
+ 
+ 	if (apc->port_st_save) {
+ 		err = mana_dealloc_queues(ndev);
+-		if (err) {
++		if (err)
+ 			netdev_err(ndev, "%s failed to deallocate queues: %d\n", __func__, err);
+-			return err;
+-		}
  	}
  
- 	kfree(apc->eqs);
-@@ -1891,15 +1893,16 @@ EXPORT_SYMBOL_NS(mana_destroy_eq, "NET_MANA");
- 
- static void mana_create_eq_debugfs(struct mana_port_context *apc, int i)
- {
--	struct mana_eq eq = apc->eqs[i];
-+	struct mana_eq *eq = &apc->eqs[i];
- 	char eqnum[32];
- 
- 	sprintf(eqnum, "eq%d", i);
--	eq.mana_eq_debugfs = debugfs_create_dir(eqnum, apc->mana_eqs_debugfs);
--	debugfs_create_u32("head", 0400, eq.mana_eq_debugfs, &eq.eq->head);
--	debugfs_create_u32("tail", 0400, eq.mana_eq_debugfs, &eq.eq->tail);
--	debugfs_create_u32("irq", 0400, eq.mana_eq_debugfs, &eq.eq->eq.irq);
--	debugfs_create_file("eq_dump", 0400, eq.mana_eq_debugfs, eq.eq, &mana_dbg_q_fops);
-+	eq->mana_eq_debugfs = debugfs_create_dir(eqnum, apc->mana_eqs_debugfs);
-+	debugfs_create_u32("head", 0400, eq->mana_eq_debugfs, &eq->eq->head);
-+	debugfs_create_u32("tail", 0400, eq->mana_eq_debugfs, &eq->eq->tail);
-+	debugfs_create_u32("irq", 0400, eq->mana_eq_debugfs, &eq->eq->eq.irq);
-+	debugfs_create_file("eq_dump", 0400, eq->mana_eq_debugfs, eq->eq,
-+			    &mana_dbg_q_fops);
- }
- 
- int mana_create_eq(struct mana_port_context *apc)
-@@ -2008,11 +2011,37 @@ static int mana_grow_eqs(struct mana_port_context *apc, unsigned int need)
- 
- 	return 0;
- out:
--	/* Retain partial growth for reuse; the live set still needs this pool.
--	 */
- 	return err;
- }
- 
-+/* All CQs referencing EQs at or above @keep must be destroyed first. */
-+static void mana_shrink_eqs(struct mana_port_context *apc, unsigned int keep)
-+{
-+	struct gdma_context *gc = apc->ac->gdma_dev->gdma_context;
-+	struct gdma_queue *eq;
-+	unsigned int msi;
-+	unsigned int i;
-+
-+	if (!apc->eqs || keep >= apc->num_eqs)
-+		return;
-+
-+	for (i = keep; i < apc->num_eqs; i++) {
-+		eq = apc->eqs[i].eq;
-+		if (!eq)
-+			continue;
-+
-+		debugfs_remove_recursive(apc->eqs[i].mana_eq_debugfs);
-+		apc->eqs[i].mana_eq_debugfs = NULL;
-+
-+		msi = eq->eq.msix_index;
-+		mana_gd_destroy_queue(gc, eq);
-+		mana_gd_put_gic(gc, !gc->msi_sharing, msi);
-+		apc->eqs[i].eq = NULL;
-+	}
-+
-+	apc->num_eqs = keep;
-+}
-+
- static int mana_fence_rq(struct mana_port_context *apc, struct mana_rxq *rxq)
- {
- 	struct mana_fence_rq_resp resp = {};
-@@ -4148,6 +4177,8 @@ int mana_alloc_qset(struct mana_port_context *apc,
- 	kfree(scratch->rxqs);
- 	scratch->rxqs = NULL;
- out_err:
-+	mana_shrink_eqs(apc, apc->num_queues);
-+
- 	netdev_err(ndev, "%s(num_queues=%u) failed: %d\n", __func__,
- 		   num_queues, err);
- 	return err;
-@@ -4453,6 +4484,8 @@ void mana_free_qset(struct mana_port_context *scratch, struct mana_qset *qset)
- 	 */
- 	netif_set_real_num_rx_queues(apc->ndev, apc->num_queues);
- 
-+	mana_shrink_eqs(apc, apc->num_queues);
-+
- 	mana_qset_debugfs_publish(apc);
- }
- 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index 77dcbd01a1f3da692c341f17d8f2a8301c02bd6b..53a76ae42333f46e8791c3c493887ede5c6bb410 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -752,7 +752,6 @@ static int mana_set_channels(struct net_device *ndev,
- 	mana_free_qset(scratch, &oldq);
- 
- free_scratch:
--	/* Release unpublished queues before closing their shared EQ pool. */
- 	mana_publish_close_if_needed(apc);
- 	mana_qset_scratch_free(scratch);
- clear_flag:
+ 	if (!from_close) {
 -- 
 2.43.0
