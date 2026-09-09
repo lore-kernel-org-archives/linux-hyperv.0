@@ -1,255 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBD4283FD4;
-	Wed,  9 Sep 2026 01:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCA8328B5E;
+	Wed,  9 Sep 2026 03:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788917911; cv=none; b=PVfFAMRnko/hRGFV4VwllbG7PkESJrjy9d8UumUShixCKIiSKnhIlbFFT5Bmt2+mtrJnIhqG3K4tbdU+UiRVKMZz8Ig2hdB7IOhMg+U9U1l5NyomEnw3mRxLTXgaAggs11AXP/Ta5ODoxzH1A+C38/oqyIXRYaEWSVUem8ouUxM=
+	t=1788924584; cv=none; b=TGw9cy8saEZqOGoqpVRx32XE1EsZ5FiN9GY6NB4Wyj8kBgd7OZ5Zk1+kn5FcHdUvTMvWBIAje22C5PHI/eTueSW2bNabBiJaXfJJCkWtUFhlx+UkIMbl70kjUQyRlnLdEmSypQzVYs2LpwoFge4g5AoK1o0NyUbjKYqwEr5Slh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788917911; c=relaxed/simple;
-	bh=RoV+EFnTcrTRHMWJGo1xyTOCQ3ZnjClqQCiB9MZHTFE=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gMhCZOH1F7xRIkQOEqVS9s19vx+LPcejKl0mVj30sfCVzM5swIHfb3+kypwjQvO4T/ZrGUcYJnheHgbYOlLesxTr2VQwh8zHIgK3YRb+jdG/HtbCj86z8IvDN0+FAowTayAZdOumM6FnloR+7IfazHNXDOmcMFDt7Xm4S7ODQBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mLdhf635; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788924584; c=relaxed/simple;
+	bh=j40YAeY17xA8/GHg5ifsjYJsZxdfnc4Tf6lKF+Stk8E=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=N1JIv7nchoTMNWrzRgQOXmuO4FfEA+KqvIpfSn1ROU9cvoIFWruWk/7rxT08z7MupEW0xcMmCcvJrjvV8djoQyf0dwJ3zVGgtWM7yxFZQWZ8wbN9j3xqza6B1wRCgxMt9INjscy/aJn2fQ9NSPQV/X1ib5UcYwnSPXX5l/ltIxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzB/SYE6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mLdhf635"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED1E1F00A3E;
-	Wed,  9 Sep 2026 01:38:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzB/SYE6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082491F00A3A;
+	Wed,  9 Sep 2026 03:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788917909;
-	bh=YoXSEZhjnbXC9qTpBQBpEEc0Pa+DT0Kb5ktdSRVq7mQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=mLdhf635fEl/9I7XygasiRE+Mv9x5rv7S33QIfTw45b+ZdKP8dHjzB9+dYlc6kPW8
-	 qP00gp3S/pgk7/zxFagW0BRezpExFZRpMIxamYRGLt6D/F7e1BGZiDAmSuy6UBPJ6S
-	 oigJbW/JcKOi2b49PRgCgYYStr2C1K7bYYFaO9NREDHs5A41zM2iGJgWm9yOGoYKoE
-	 RhZrCtICJdVu5m9XuZBYD5z+TmQkzHMtZ7ZjIXZYvtkTevAW8fB/tJjHbERlXZKH4t
-	 MgGJhy9T0Sqn4K4pYQreIrrUq61pjUEt9zmDLd87p9ZW1wSEhSMTVO9Fn34l+Xvu+q
-	 rrDpKVdFhmp+Q==
-Subject: Re: [PATCH net-next] net: mana: Use the HWC destination queues
- reported by the hardware
-From: netdev-bot+sashiko@kernel.org
-To: mawasthi@linux.microsoft.com
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, longli@microsoft.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, horms@kernel.org,
- gargaditya@linux.microsoft.com, ernis@linux.microsoft.com, kees@kernel.org,
- paulros@microsoft.com
-Date: Wed, 09 Sep 2026 01:38:27 +0000
-Message-ID: <178891790797.219967.6930927720056812233@kernel.org>
-In-Reply-To: <20260903184104.3194819-1-mawasthi@linux.microsoft.com>
-References: <20260903184104.3194819-1-mawasthi@linux.microsoft.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1788924583;
+	bh=cutRSEvTT+PEqbEIHriLj7ycJZuQB13TP1pWWBbnito=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=HzB/SYE6cZQHZ/icaqd58t2c8Kp3Hqx+U/VKCQxWHUDIPgQxtAmwkzl+oOH+3TWEq
+	 3jnfp9bssNy1ejRJlJvIzFEHV+SsuxTzH9766yYmDWSw6yPsocgqi+POn4yYDOONRh
+	 plt1udVZtoSgDvXCNSJ+99QJhB7G4RBPwV4oiM2cP/TBNje4ngqAg+ogg+KhTcPs5s
+	 rT2/x/QjqIsFL2N4v88tVAaTfqmol0ICpOv22MtSicR1mDfPZ2CXPYxxruIeHKV+Jr
+	 qniqcHmn1OG9pEj5Th13k88NZcHTAnQcOil3NI/ayLSA30wsV5xhS4L4awWD4gyjJY
+	 M4coAeWZZwTIQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v4 06/13] net: mana: swap queue sets in
+ mana_change_mtu
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Long Li" <longli@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org
+In-Reply-To: <20260908032843.397667-7-longli@microsoft.com>
+References: <20260908032843.397667-1-longli@microsoft.com>
+ <20260908032843.397667-7-longli@microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Sep 2026 03:29:42 +0000
+Message-Id: <20260909032943.082491F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider:
-
-Critical: 0 · High: 1 · Medium: 1 · Low: 1 (1)
-
-- [High] Removing the `if (gc->is_pf)` gate in `mana_hwc_send_request()`
-  (drivers/net/ethernet/microsoft/mana/hw_channel.c:897-898) makes…
-- [Medium] Commit message understates a functional change and carries no
-  Fixes tag.
-- [Low] The patch redefines the meaning of hardware-protocol fields but
-  renames nothing, leaving an internally contradictory abstraction: the…
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
 Pre-existing issues:
-- [Low] `hwc->pf_dest_vrq_id` and `hwc->pf_dest_vrcq_id` are written from
-  the HWC EQ callback `mana_hwc_init_event_handler()`…
-
+- [High] mana_change_mtu lacks channel_changing protection, causing a race =
+condition with RDMA vport configuration on failure.
 --
 
-net: mana: Use the HWC destination queues reported by the hardware
+commit 1868db24408cc9d4a118e97d242371346d9b0c67
+Author: Long Li <longli@microsoft.com>
 
-This removes the gc->is_pf gate in mana_hwc_send_request() so that the HWC
-destination queue IDs learned from the HWC init events are used
-unconditionally.  Previously non-PF functions posted every HWC request with
-destination vRQ/vRCQ of 0.
+net: mana: swap queue sets in mana_change_mtu
 
-No Link: tags were present in the commit header.
+This commit updates mana_change_mtu to carry the MTU in the queue set,
+replacing RX buffers and rebuilding all queues using a temporary queue set
+swap instead of just detaching and attaching.
 
-A few questions on the change below.
-
-> net: mana: Use the HWC destination queues reported by the hardware
->
-> mana_hwc_send_request() gates the HWC destination queue IDs on
-> gc->is_pf, which the PCI probe derives from the device ID.
->
-> The gate is not needed. hwc->pf_dest_vrq_id and hwc->pf_dest_vrcq_id
-> are only ever assigned from the HWC_INIT_DATA_PF_DEST_RQ_ID and
-> HWC_INIT_DATA_PF_DEST_CQ_ID init events, and the hardware always
-> reports values that are valid for the function it sends them to.
-
-[Severity: Medium]
-Is "The gate is not needed" an accurate description of what changes here?
-
-mana_is_pf() in gdma_main.c returns true only for MANA_PF_DEVICE_ID and
-MANA_PF2_DEVICE_ID, so mana_gd_probe() leaves gc->is_pf false for every VF:
-
-	gc->is_pf = mana_is_pf(pdev->device);
-	gc->is_pf2 = (pdev->device == MANA_PF2_DEVICE_ID);
-
-That means the removed branch was false exactly on VFs, and on those
-functions mana_hwc_send_request() used to post with dest_vrq = dest_vrcq =
-0 and now posts hwc->pf_dest_vrq_id / hwc->pf_dest_vrcq_id instead.
-
-The two statements in the message seem to pull in opposite directions:
-"The gate is not needed" reads as a no-op cleanup, while "the hardware
-always reports values that are valid for the function it sends them to"
-only carries meaning if the hardware does report these values to VFs, i.e.
-if VF behaviour changes.
-
-Could the changelog say which of the two it is, name the user-visible
-symptom being fixed (HWC command timeout, probe failure, something else),
-say which host/firmware versions are affected, and which of PF, PF2, VF
-and bare-metal hostmode were tested?
-
-Also, both the pf_dest_* fields and the gc->is_pf gate being deleted came
-from commit 1566e7d6206f ("net: mana: Add the Linux MANA PF driver").
-Should this carry a Fixes: tag naming it?
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> index 263e7c4e29341..5d75c2478a8a8 100644
-> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-
-[ ... ]
-
-> @@ -890,10 +889,13 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
->  	tx_wr->msg_size = req_len;
->  	command = req_msg->req.msg_type;
->  
-> -	if (gc->is_pf) {
-> -		dest_vrq = hwc->pf_dest_vrq_id;
-> -		dest_vrcq = hwc->pf_dest_vrcq_id;
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index bb9ef4e634a6e..7f7833f3e1aad 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> @@ -902,32 +902,37 @@ int mana_pre_alloc_rxbufs(struct mana_port_context =
+*mpc, int new_mtu, int num_qu
+>  static int mana_change_mtu(struct net_device *ndev, int new_mtu)
+>  {
+>  	struct mana_port_context *mpc =3D netdev_priv(ndev);
+> -	unsigned int old_mtu =3D ndev->mtu;
+> +	struct mana_port_context *scratch;
+> +	struct mana_qset newq, oldq;
+>  	int err;
+> =20
+> -	/* Pre-allocate buffers to prevent failure in mana_attach later */
+> -	err =3D mana_pre_alloc_rxbufs(mpc, new_mtu, mpc->num_queues);
+> -	if (err) {
+> -		netdev_err(ndev, "Insufficient memory for new MTU\n");
+> -		return err;
+> +	if (!mpc->port_is_up) {
+> +		mpc->configured_mtu =3D new_mtu;
+> +		WRITE_ONCE(ndev->mtu, new_mtu);
+> +		return 0;
+>  	}
+> =20
+> -	err =3D mana_detach(ndev, false);
+> -	if (err) {
+> -		netdev_err(ndev, "mana_detach failed: %d\n", err);
+> -		goto out;
 > -	}
-> +	/* The hardware reports the HWC destination queues through
-> +	 * HWC_INIT_DATA_PF_DEST_RQ_ID and HWC_INIT_DATA_PF_DEST_CQ_ID, and
-> +	 * always supplies values that are valid for this function, so no
-> +	 * PF-specific handling is needed here.
-> +	 */
-> +	dest_vrq = hwc->pf_dest_vrq_id;
-> +	dest_vrcq = hwc->pf_dest_vrcq_id;
+> +	scratch =3D mana_qset_scratch_alloc(mpc);
+> +	if (!scratch)
+> +		return -ENOMEM;
+> =20
+> -	WRITE_ONCE(ndev->mtu, new_mtu);
+> +	err =3D mana_alloc_qset(mpc, scratch, mpc->num_queues,
+> +			      mpc->rx_queue_size, mpc->tx_queue_size,
+> +			      mpc->priv_flags, new_mtu, &newq);
+> +	if (err)
+> +		goto free_scratch;
 
 [Severity: High]
-Where in the driver is the invariant stated by the new comment actually
-established?
+This is a pre-existing issue, but does mana_change_mtu() need to set the
+channel_changing flag to protect against concurrent RDMA operations? Unlike
+the ethtool queue configuration paths, this function initiates a queue set
+swap without taking vport_mutex to set apc->channel_changing to true.
 
-The only producers of these two fields are in mana_hwc_init_event_handler():
-
-	case HWC_INIT_DATA_PF_DEST_RQ_ID:
-		hwc->pf_dest_vrq_id = val;
-		break;
-
-	case HWC_INIT_DATA_PF_DEST_CQ_ID:
-		hwc->pf_dest_vrcq_id = val;
-		break;
-
-There is no gc->is_pf / gc->is_pf2 test there, no range check against
-gc->max_num_cqs, and no check that the reported queues belong to the
-receiving function.  Compare mana_hwc_establish_channel(), which does at
-least sanity-check the HWC CQ id it got from the same handler:
-
-	/* Both were set in mana_hwc_init_event_handler(). */
-	if (WARN_ON(cq->id >= gc->max_num_cqs))
-		return -EPROTO;
-
-So if a non-PF function ever receives those init events with non-zero
-values, is every HWC request now addressed to a queue that function may not
-own?
-
-The values go straight into the hardware OOB in mana_hwc_post_tx_wqe():
-
-	tx_oob->vrq_id = dest_virt_rq_id;
-	tx_oob->dest_vfid = 0;
-	tx_oob->vrcq_id = dest_virt_rcq_id;
-	...
-	tx_oob->dest_pf = dest_pf;
-
-and this call site still passes dest_pf = false while dest_vfid is
-hardcoded to 0, which does not look like a descriptor addressed at a PF
-destination.
-
-If a request is misdirected, does the channel recover?  In
-mana_hwc_send_request() the completion never arrives, the
-wait_for_completion_timeout(&ctx->comp_event, ...) expires with -ETIMEDOUT,
-and the same path then does:
-
-		/* Reduce further waiting if HWC no response */
-		if (hwc->hwc_timeout > 1)
-			hwc->hwc_timeout = 1;
-
-after which every later command fails fast.  Since the first users of this
-path run during mana_hwc_create_channel() and mana_hwc_test_channel() at
-bring-up, would that show up as a probe failure and loss of the interface?
-
-The ABI names (HWC_INIT_DATA_PF_DEST_RQ_ID, HWC_INIT_DATA_PF_DEST_CQ_ID,
-pf_dest_vrq_id, pf_dest_vrcq_id) and the fact that the gate and the fields
-were added together for the bare-metal PF path all read as evidence
-against the premise.  Would it be safer to keep the function-type gate, or
-to move the gate/validation into mana_hwc_init_event_handler() and document
-the firmware contract there?
-
-[Severity: Low]
-This isn't a bug, but the patch redefines the meaning of these fields
-without renaming anything.  The declarations stay as:
-
-	u32 pf_dest_vrq_id;
-	u32 pf_dest_vrcq_id;
-
-the init-data constants stay as HWC_INIT_DATA_PF_DEST_RQ_ID and
-HWC_INIT_DATA_PF_DEST_CQ_ID, mana_hwc_post_tx_wqe() is still called with
-dest_pf = false, and the only record of the new semantics is free text at
-this one call site.
-
-A later reader seeing pf_dest_vrq_id consumed unconditionally right next to
-dest_pf = false cannot tell whether that is deliberate.  If the premise
-holds, could the fields and constants be renamed (dest_vrq_id,
-HWC_INIT_DATA_DEST_RQ_ID) so the invariant lives at the definition?
-
-[Severity: Low]
-This is a pre-existing issue rather than something introduced here, but
-the patch widens it from PF-only to all function types, so it seems worth
-mentioning.
-
-These two fields are written from the HWC EQ callback
-mana_hwc_init_event_handler() and read here in process context with no
-lock, no READ_ONCE(), and as two separate plain loads, even though
-mana_hwc_post_tx_wqe() consumes them as a pair.
-
-The initial publication is ordered correctly: the stores precede
-GDMA_EQE_HWC_INIT_DONE -> complete(&hwc->hwc_init_eqe_comp), and
-mana_hwc_establish_channel() waits on that completion before anything is
-posted:
-
-	if (!wait_for_completion_timeout(&hwc->hwc_init_eqe_comp, 60 * HZ))
-		return -ETIMEDOUT;
-
-The EQ callback stays registered for the life of the channel though, and
-the GDMA_EQE_HWC_INIT_DATA switch has no guard against a further init-data
-event while requests are in flight.  If one lands between these two reads,
-can the WQE end up carrying a vrq_id from one generation and a vrcq_id
-from another, so the completion is steered at a queue the driver is not
-waiting on and the caller blocks for the full hwc_timeout?
-
-I have no evidence any firmware re-delivers that event, and the same
-handler would also rewrite hwc->cq->gdma_cq->id, the rxq/txq gdma_wq ids
-and gpa_mkey unsynchronized, so this is a property of the whole init-data
-handler rather than of the two fields touched here.
-
->  
->  	err = mana_hwc_post_tx_wqe(txq, tx_wr, dest_vrq, dest_vrcq, false);
+> =20
+> -	err =3D mana_attach(ndev);
+> +	err =3D mana_publish_qset(mpc, &newq, &oldq);
 >  	if (err) {
+> -		netdev_err(ndev, "mana_attach failed: %d\n", err);
+> -		WRITE_ONCE(ndev->mtu, old_mtu);
+> +		mana_free_qset(scratch, &newq);
+> +		goto free_scratch;
+>  	}
+> =20
+> -out:
+> -	mana_pre_dealloc_rxbufs(mpc);
+> +	mana_free_qset(scratch, &oldq);
+> +
+> +free_scratch:
+> +	mana_publish_close_if_needed(mpc);
+> +	mana_qset_scratch_free(scratch);
+>  	return err;
+>  }
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260903184104.3194819-1-mawasthi%40linux.microsoft.com
+[Severity: High]
+This isn't a bug introduced by this patch, but can this failure path race
+with RDMA vport configuration?
+
+On failure, mana_publish_close_if_needed() triggers a vport teardown via
+mana_dealloc_queues() and mana_destroy_vport(). Because the
+channel_changing flag is not set, a concurrent RDMA operation (such as
+creating an RDMA RAW QP from userspace) could grab the vport mid-teardown,
+specifically between mana_uncfg_vport() and mana_pf_deregister_hw_vport().
+
+If this race occurs, the Ethernet driver might send a hardware deregister
+command for a vport that RDMA just configured, potentially causing hardware
+state corruption or PCIe errors.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908032843.3976=
+67-1-longli@microsoft.com?part=3D6
