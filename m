@@ -1,89 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34403DB64B;
-	Thu, 10 Sep 2026 15:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E961655293A
+	for <linux-hyperv@vger.kernel.org>; Thu, 10 Sep 2026 17:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789053680; cv=none; b=GJ9tEBwcn1ke4hOsO62SbNTyVXZRr+jna5/iR5zmnlXN5MfBXEi3pgD4UDS0zP9VKkUXXx/k5/A0bJZASxJOYNWpKD/iKNpoXFXpxK19fyaM4+1jDfia49YnSPmiln6Py4CV0x7/ac4MGKmilOkNnL1TQo1YKDNdEe4N+nAmoNw=
+	t=1789063159; cv=none; b=c3slCf3YeFipYlsHsru3xo6FTN3LLbHjaKHdaRVOYRycbp1WocMsRUJ8cHCZIGSbRqvrD2QZgtFAT4YSi7Qm8M0TlFyU2j0pzbTxXlN1Wq8KcBg5HWpA+2j/+CkQwmOZZsm8Fun135ZWW7+h2upYPBBZqGijwEpjb1yW5UEfl8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789053680; c=relaxed/simple;
-	bh=lQrR/NQniI4VsVmRj+f09Njkvc/mgDaiKYr85iY4+ls=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HC/Ys4Z/eOzTjTa4erNTLtCK45hTn2YJMzyVlSUifKoWBLhBOQXXnUs9ctqbkXv7Nta23A2IdLQmv2rIm16hFiD7ZZhToMEkeBUy62qVNMHOkXY5tOyAmOXCTkxiM/4Req9cPaIdWxAkcUqmGoAxyumtlE8Ycnchk5TRizO+iAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyA7lnfN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789063159; c=relaxed/simple;
+	bh=iihdVpeTD7xqvFs81N5pzrr3yHNO8lXqn++m5NS1tpY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Content-Type; b=GS9aPbE9EbFZy6leO0dyYlqdcwPCiErS9YGm8nBbgz9oAAnXRQzuIoLWW1x3Asi2WIVsgN6MLXP5ElcniXKVdoDEJKIKov9kP74vjAhu+hCsExFTUyi1exhooWeyJwtY+qu3S4X2Cz/Rd2iGGzyP9OO67x1JPgjfKcJCT0WuDLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qp0PeyC1; arc=none smtp.client-ip=209.85.214.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyA7lnfN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665DF1F00893;
-	Thu, 10 Sep 2026 15:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789053668;
-	bh=/o6Lf7XnOGTlaFywaXjjRieZKJoqvdthEim0g1lVyOQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=TyA7lnfNOlGk5PC7wmVwZW1HJ+GAujB2fAgFp+iXSl9UwUtzk3g/3wQiUligwNj4D
-	 jWcTqWnCCOO5YwnC7hMiBvCmrFKBpS+k8QLRgZ6Llsgo3RNaY/MMBs8b2DTN8TY0GR
-	 t2WRGUl1OKeJzi4ta8ybYbeFj2FzEmuk0isHpWldS7z9xIfiK7BOUwcyLoqOBDptCl
-	 OS0x7GfUQLgmHDocrw2yRcdn1UDRGmbGIEcHR5DKvm8zm55wrcKeh+5RPy4Ijc1eMy
-	 nhmn8gkdHui7Uhkaa73SbTiXk2gUzbbUuE6/WvzsRqxN+m3OJ8O0OlkvTToZbAlJhN
-	 zTF+nHCOqmuoQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19929380CEF8;
-	Thu, 10 Sep 2026 15:20:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qp0PeyC1"
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2d63bad3d09so115518955ad.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 10 Sep 2026 10:59:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789063157; x=1789667957; darn=vger.kernel.org;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VdUk7xT6Q2S0XYOIdYUuypvFM5moeaGi7+AJeTxN8N4=;
+        b=Qp0PeyC1s/TlCYvWFn3xsZc47//NfWkIAzttYA+mbNnTss7pmMXJpRYv4tU+ObTZN+
+         x680/ndDKtd4iof2E5/Npt/XrEqItRPArY0pUeRjKh5RvXjdCqn0ssDE9bCrX9UFjShk
+         DpNQ+mSlH+FyvQKJYI9+11ES0TOChqQk3jfmF93W8v5rk77jOoDfdiq8uN91LZgjOE2B
+         dOMDDM9j3So7ee/tFy9tEIRtpd/YOEokwpbVSIWJqvedhbsZLD1DkkuKNcPS/vdiVGdj
+         c9l/hiXm+Z6gTnufOs+N9ybQmPtk0sCF9wEOpWNaSu/khgVuVxJwMn+MooE2lbgxZG0K
+         4yXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789063157; x=1789667957;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VdUk7xT6Q2S0XYOIdYUuypvFM5moeaGi7+AJeTxN8N4=;
+        b=dF0/KoutFmNJkY5V9QFN8EdIY3jpfyVk+InUnFNOVeHu1py6gQHpxug1ca8aj70x6k
+         aePcZwalVoTdCRRbFzKEUI4Q2S0VOChk/9K62M8rx7qT2cZYXE7xDFUWjZ0y9SO72yS/
+         yszaUdVi+kC+8P7E9h1WHDPvXKCEUbikUr0Fx/TQ45pbbpyPdDLtHQ32mvaj5dGbCp8t
+         +xraYKGQc3N0gZL9VgTtJD1QpApLNIu91A/XLbfYzuDlIOOI7x07F9U8ncGrtnIxayGe
+         PHLVcn96f021DKEVYwxFhqm+AqS9uJfuKY60398X941fV9deHfP4t7TOG/ZemyLNofod
+         Ithw==
+X-Forwarded-Encrypted: i=1; AKwUvBy8nvaAXSkrIQdhzUxKllMUfrKreUI/2jWwOzQeB55l7xs+AitZJrL86gJmlDF7f4/LPQQDBjQXvN/kiaE=@vger.kernel.org
+X-Gm-Message-State: AFuF++l4HEjwMERwSeOFh3E6FrmECkJ943SiBokKH7C6wtCe7tvmQnLL
+	D+P41Qg6U9tfCIyBJUO4CHEQ6oJ+2H/gJeEgT2TGMXQfJYDAjiqymYT9ahfswLmoamCALidZtGz
+	TwsX7gQ==
+X-Received: from pleg13.prod.google.com ([2002:a17:902:e38d:b0:2c9:b703:3bfb])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce8b:b0:2d7:2edd:d140
+ with SMTP id d9443c01a7336-2dd2a1c3e42mr9017035ad.3.1789063156725; Thu, 10
+ Sep 2026 10:59:16 -0700 (PDT)
+Date: Thu, 10 Sep 2026 10:59:16 -0700
+In-Reply-To: <20260806233609.212337-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: mana: restore the XDP program pointer when
- pre-allocation fails
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178905360563.1492964.7576375446845174702.git-patchwork-notify@kernel.org>
-Date: Thu, 10 Sep 2026 15:20:05 +0000
-References: <20260904202640.3900685-1-longli@microsoft.com>
-In-Reply-To: <20260904202640.3900685-1-longli@microsoft.com>
-To: Long Li <longli@microsoft.com>
-Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
- leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- shirazsaleem@microsoft.com, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, sdf@fomichev.me,
- daniel@iogearbox.net, hawk@kernel.org, ast@kernel.org,
- john.fastabend@gmail.com
+Mime-Version: 1.0
+References: <20260806233609.212337-1-seanjc@google.com>
+Message-ID: <aqLv9GwBNymyHs8q@google.com>
+Subject: Re: [PATCH v6 00/51] x86: Try to wrangle PV clocks vs. TSC
+From: Sean Christopherson <seanjc@google.com>
+To: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	John Stultz <jstultz@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Miroslav Lichvar <mlichvar@redhat.com>, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, Michael Kelley <mhklinux@outlook.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, 
+	David Woodhouse <dwmw@amazon.co.uk>, David Woodhouse <dwmw2@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="us-ascii"
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Fri,  4 Sep 2026 13:26:40 -0700 you wrote:
-> mana_xdp_set() publishes the new program into apc->bpf_prog before it
-> allocates anything, because mana_pre_alloc_rxbufs() sizes the buffers
-> from it via mana_get_rxbuf_cfg(). When that allocation fails the
-> function returns the error directly, skipping the err_dealloc_rxbuffs
-> label which is the only place that restores the previous pointer.
+On Thu, Aug 06, 2026, Sean Christopherson wrote:
+> The primary goal of this series to fix flaws with SNP and TDX guests where a
+> PV clock provided by the untrusted hypervisor is used instead of the secure
+> TSC that is controlled by trusted firmware.
 > 
-> The attach is reported as failed, so the BPF core drops the reference it
-> held for the caller and the program can be freed, while apc->bpf_prog
-> still points at it. The next consumer of mana_xdp_get() - typically
-> mana_chn_setxdp() from mana_alloc_queues() on the following ifup, or
-> after a TX timeout reset - then calls bpf_prog_add() on freed memory.
+> The secondary goal is modernize running under KVM.  Currently, KVM guests will
+> use TSC for clocksource, but not sched_clock.  And Linux-as-a-KVM-guest doesn't
+> support paravirt enumeration of the TSC/APIC frequencies, even though QEMU
+> provides that information by default.
 > 
-> [...]
+> The tertiary goal is to clean up the PV clock code to deduplicate logic across
+> hypervisors, and to hopefully make it all easier to maintain going forward.
+> 
+> The quaternary goal is to clean up the TSC calibration code, which was made
+> stupidly hard to follow by hypervisor code mixing in with the native
+> calibration routines, instead of being implemented as a pure alternative.
+> 
+> Note, the VMware and Xen changes still probably should get acks from those
+> maintainers, as my understanding of what they're trying to do may be flawed.
 
-Here is the summary with links:
-  - [net] net: mana: restore the XDP program pointer when pre-allocation fails
-    https://git.kernel.org/netdev/net/c/4c46beb807ef
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+This (thankfully) still applies cleanly.  What can I do to help move this forward?
