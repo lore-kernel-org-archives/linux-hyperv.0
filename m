@@ -1,108 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED309488741;
-	Thu, 10 Sep 2026 12:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A084A0924;
+	Thu, 10 Sep 2026 15:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789044386; cv=none; b=UgEkugsPM5AYrq5zbTgM3b5ZpjeOwuG7QZA2VVN4HsvpSdKdXdyXKN007tONZPbG8EvBYhujEMNt6bEG4S9es606TX9FV4yxA9flJQdjepkje2igcfWMiaCsKTL/kbrvPzt9EuuA2d4ft4K+WeGHIywATs87aMp83I44lB7O7ls=
+	t=1789053503; cv=none; b=dfO1kayzpUEM7/Rcn4riIhiJp3QCODoQaKTv//ul7Ylv0kJHy+i1TwS8iSyboxSRW5ERcFMz/DNC7ofLfjpiNio9BVgh2Jmi84vklGtVpL15IK1FtyTQ83+ffPHf2BG9xezplhrmwLnDYa6w2Ci1TaininTix4nUFFFMcfQsDik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789044386; c=relaxed/simple;
-	bh=PPTZOOwrBo0xAyIDhPi/8KGdNalSXPAwU0S7x0iveAk=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Wg/S4xz1eTSb3tqDPxR8KgzzLc1Ii/zQwZxm/TZD1xaXTZPytuxCsIjMig4+RvyZoYlf1+sn42wKvSXHZZUNjdfR8J9iZzm2OMV7/BAsCG2fxRHNH5Cs9oa7sLd4vjj6A7WO02+y+ffmah+VEPwJ1cOMUeyccstS5wj08lzQy5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axfB2bZy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789053503; c=relaxed/simple;
+	bh=T5VnlgTVywjpsC+VSkdtJUpb/TlFFnOO9PLJR4PsFj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i3Aq668vqzqJTBmQ3enEkLih/zONp0gwffy2Pms2YyQmbOSveOVBHQK8Ln5j62PLnknWYDS7XJM2st5atyZlEzAlEHaG8LfxsafVpTdY9zc4IsBO2xEPeKMYG/+I+YPOoiyD6yYhKMOB75mQVq8x9/WFbx5aT52+JRJ7w51XRXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RK55kTVE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axfB2bZy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC291F00893;
-	Thu, 10 Sep 2026 12:46:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RK55kTVE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620981F000FF;
+	Thu, 10 Sep 2026 15:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789044382;
-	bh=cwYOsc4JExSInv+TOcwbAh1z0HVTWDEwXBC25sOTT0c=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=axfB2bZyHV7N1y//Ra/oW2XdwWi9t7ABVh4HMe62P6CtbN+BxWHARB9uSWl4rpWRM
-	 raXjBezauUqkMPDZGtBkCbKoci0a7yzzIbv8rbkpdtYiMsd4C52XwAfKfoagYVRXjt
-	 lGKgM9XHJX0wcwT5aFYLAqSxyhJnb5FxSenEIm2QvI//lMOGxJuvAc6P/XeI9tOIMt
-	 XXRm3hofUJofDMZjrseh026Rm8SFPcbrJSljRX8sZzZWtoV1yT1CuBXZ7BxHKqoN/R
-	 JwDK1+Iv2FT0nTtEDYwHhdVkiYg2IbFGUqDtd+CmqwkXPl22BSMyOSp3nf16kzE6xP
-	 oxaSOS7LhqO1w==
-Subject: Re: [PATCH net] net: mana: do not discard an ethtool-configured RSS
- table on a queue rebuild
-From: netdev-bot+sashiko@kernel.org
-To: longli@microsoft.com
-Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
- pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
- leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+	s=k20260515; t=1789053496;
+	bh=QrU+td30ipE3gFmbNs5GxY4/VYYApGafrlEXLR3OyV0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=RK55kTVETjREQOJJKlZGvtHx1v1hIKvPYukKwHxNZKEQcvQ2Lxo/E5SKvd54RTSH7
+	 UZ61YXOFMnZ+Fhy4Dqzjfdgsr0EAf0dIYHIsDZXAhmtn6Oc08Ydh9s2qXF4sDM/SyK
+	 lN7TLqQ1zMk/BGKfALEMo1SXgwXHwAeeH4t0g/F1vBiG/Q9KFBaTXSWKRJeEDT+Z5R
+	 MAD86peMnr/9ji0BchwEyMbIQzgRlh2OfwdkRcxrNtKXCWqhE+Qs0KrzMfwi7IPfS/
+	 XL2LpsNFjaUDvB5VG0mcJIWB1hl9+0OMLO6hs81jYdZBRS5iabB7ox8ORhVmmNlULh
+	 Dbdl0LDRYkr7w==
+Date: Thu, 10 Sep 2026 08:18:14 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Long Li <longli@microsoft.com>
+Cc: Konstantin Taranov <kotaranov@microsoft.com>, "David S . Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Haiyang Zhang
+ <haiyangz@microsoft.com>, "K . Y . Srinivasan" <kys@microsoft.com>, Wei Liu
+ <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ shradhagupta@linux.microsoft.com, Simon Horman <horms@kernel.org>,
+ ernis@linux.microsoft.com, stephen@networkplumber.org,
  shirazsaleem@microsoft.com, netdev@vger.kernel.org,
  linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Date: Thu, 10 Sep 2026 12:46:20 +0000
-Message-ID: <178904438067.219967.6198285642265210218@kernel.org>
+Subject: Re: [PATCH net] net: mana: do not discard an ethtool-configured RSS
+ table on a queue rebuild
+Message-ID: <20260910081814.1b5b7b36@kernel.org>
 In-Reply-To: <20260905004401.3937066-1-longli@microsoft.com>
 References: <20260905004401.3937066-1-longli@microsoft.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider:
+On Fri,  4 Sep 2026 17:44:01 -0700 Long Li wrote:
+> mana_alloc_queues() regenerates the RSS indirection table from the driver
+> default every time the queues are built, so a table installed with
+> "ethtool -X" is silently replaced by any operation that rebuilds them:
+> an MTU change, a ring-size, channel-count or private-flag change, an XDP
+> attach, TX-timeout reset recovery, or resume.
+> 
+> The driver never clears the core's IFF_RXFH_CONFIGURED, so
+> netif_is_rxfh_configured() keeps reporting a user table while the
+> hardware has been reprogrammed with the default one. "ethtool -x" then
+> shows a table the user did not ask for, with no indication it changed:
+> 
+>   # ethtool -X ens1 equal 2
+>   # ethtool -x ens1
+>   RX flow hash indirection table for ens1 with 16 RX ring(s):
+>       0:      0     1     0     1     0     1     0     1
+>       8:      0     1     0     1     0     1     0     1
+>   # ip link set ens1 mtu 1400
+>   # ethtool -x ens1
+>   RX flow hash indirection table for ens1 with 16 RX ring(s):
+>       0:      0     1     2     3     4     5     6     7
+>       8:      8     9    10    11    12    13    14    15
+> 
+> Keep the table instead, and rebuild it only when it is driver-generated
+> or cannot be honoured. An entry may not be kept if it points past the
+> last queue: mana_config_rss() uses these entries to index apc->rxqs[],
+> which holds apc->num_queues pointers. That is reachable because
+> mana_attach() calls mana_init_port(), which lowers apc->num_queues to the
+> maximum the device reports, so a table configured for more queues can
+> outlive them.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 2 (1)
+To be clear this is only acceptable if the number of queues drops due 
+to re-negotiation of caps with the device, not for example if XDP
+requires some queues to be used for other purposes. In the latter case
+just refuse the config change.
 
-- [Medium] Undisclosed TX-side consequence of preserving the indirection
-  table.
-- [Low] The commit message states: "The driver never clears the core's
-  IFF_RXFH_CONFIGURED, so netif_is_rxfh_configured() keeps reporting a…
-- [Low] When the surviving table cannot be honoured (an entry >=
-  apc->num_queues after mana_init_port() lowered the queue count),…
+> A table that cannot be kept is still replaced by the default silently,
+> without ethtool_rxfh_indir_lost(). That helper sends
+> ETHTOOL_MSG_RSS_NTF, which requires the netdev instance lock, and
+> mana_alloc_queues() runs both with that lock held, from ndo_open, and
+> without it, from mana_attach() on the reset and resume paths. Leaving
+> the core's view untouched is what the driver did for every table before
+> this change.
 
-Pre-existing issues:
-- [Low] Incomplete lockset for apc->indir_table on the ethtool read side.
+Okay, so you have a problem of not having the lock...
 
---
+> Opt the RSS ethtool operations into rtnl_lock() while here. Reading the
+> table in mana_alloc_queues() has to be serialized against mana_set_rxfh()
+> replacing it, and the two had no lock in common: mana_set_rxfh() ran under
+> the netdev instance lock alone, while mana_alloc_queues() reaches this
+> point holding only RTNL, from ndo_open and from mana_attach() on the reset
+> and resume paths. Taking the instance lock there instead is not possible,
+> since ndo_open already runs with it held. The same flag covers the netlink
+> and ioctl entry points.
 
-net: mana: do not discard an ethtool-configured RSS table on a queue rebuild
-
-mana_alloc_queues() no longer regenerates the RSS indirection table from the
-driver default when the table was installed by the user, so an "ethtool -X"
-table now survives operations that rebuild the queues.  A table whose
-entries point past the last queue is still replaced by the default.  The RSS
-ethtool operations are also opted into rtnl_lock() via
-ETHTOOL_OP_NEEDS_RTNL_RSS.
-
-A couple of questions about the commit message and the new code below.
-
->     The driver never clears the core's IFF_RXFH_CONFIGURED, so
->     netif_is_rxfh_configured() keeps reporting a user table while the
->     hardware has been reprogrammed with the default one.
-
-[Severity: Low]
-Is IFF_RXFH_CONFIGURED still the right name here?  A tree-wide grep for
-IFF_RXFH_CONFIGURED at this commit returns nothing.  The state that
-netif_is_rxfh_configured() consults is now:
-
-net/ethtool/common.c:
-bool netif_is_rxfh_configured(const struct net_device *dev)
-{
-	return dev->ethtool->rss_indir_user_size;
-}
-
-set and cleared by the core in net/ethtool/rss.c and net/ethtool/ioctl.c.
-The mechanism described matches, only the symbol name looks stale.
-
+.. and yet your fix is not to try to take it but the reverse, to add 
+a different lock? You need to explain why reset path can't take the
+instance lock. Of course you can't take it _inside_ ndo_open, but the
+caller should be able to.
+ 
+> Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
+> Signed-off-by: Long Li <longli@microsoft.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/mana_en.c | 37 ++++++++++++++++++-
+>  .../ethernet/microsoft/mana/mana_ethtool.c    |  3 +-
+>  2 files changed, 38 insertions(+), 2 deletions(-)
+> 
 > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 45a7520491a65..396b741fa86ed 100644
+> index 7a1ac853e3abcd28c4a1e5c6987ec631a18ad840..97386e17b9421aedefa25bab6fbf0b7b1f2996d4 100644
 > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> @@ -3310,6 +3310,28 @@ static void mana_rss_table_init(struct mana_port_context *apc)
+> @@ -3306,6 +3306,28 @@ static void mana_rss_table_init(struct mana_port_context *apc)
 >  			ethtool_rxfh_indir_default(i, apc->num_queues);
 >  }
 >  
@@ -127,38 +150,11 @@ The mechanism described matches, only the symbol name looks stale.
 > +
 > +	return true;
 > +}
-
-[Severity: Medium]
-Does keeping the table also pin the TX side?  In this driver
-apc->indir_table selects the transmit queue too:
-
-mana_en.c:mana_get_tx_queue() {
-	...
-	txq = apc->indir_table[hash & (apc->indir_table_sz - 1)];
-	...
-}
-
-reached from mana_select_queue(), and the struct member itself is commented
-"Indirection Table for RX & TX" in include/net/mana/mana.h.
-
-Before this change every rebuild ran mana_rss_table_init() and restored
-index % num_queues, so this sequence ended up with both RX and TX spread
-over all 16 queues:
-
-	ethtool -X ens1 equal 2
-	ethtool -L ens1 combined 16
-
-After the change mana_rss_table_keep() returns true, since every entry (0
-and 1) is below the new apc->num_queues of 16, so the two-entry table
-survives mana_set_channels() -> mana_attach() -> mana_alloc_queues().
-netif_set_real_num_tx_queues() then publishes 16 TX queues while
-mana_get_tx_queue() can only ever return 0 or 1.
-
-The changelog lists the rebuild paths that are affected but describes the
-change purely in terms of the RSS indirection table.  Would it be worth
-mentioning that TX queue selection becomes sticky in the same way?
-
-> @@ -3625,7 +3647,20 @@ int mana_alloc_queues(struct net_device *ndev)
+> +
+>  int mana_disable_vport_rx(struct mana_port_context *apc)
+>  {
+>  	return mana_cfg_vport_steering(apc, TRI_STATE_FALSE, false, false,
+> @@ -3621,7 +3643,20 @@ int mana_alloc_queues(struct net_device *ndev)
 >  		goto destroy_rxq;
 >  	}
 >  
@@ -177,38 +173,11 @@ mentioning that TX queue selection becomes sticky in the same way?
 > +	 */
 > +	if (!mana_rss_table_keep(apc))
 > +		mana_rss_table_init(apc);
-
-[Severity: Low]
-This is the acknowledged case, so mostly a question about whether it can be
-narrowed rather than a new problem.
-
-When mana_attach() -> mana_init_port() lowers apc->num_queues and an entry
-falls out of range, this branch installs the driver default while
-dev->ethtool->rss_indir_user_size stays set, so netif_is_rxfh_configured()
-and "ethtool -x" keep advertising a user table the user never installed.
-
-The stated reason for skipping ethtool_rxfh_indir_lost() does hold up: its
-own assert accepts RTNL,
-
-net/ethtool/common.c:ethtool_rxfh_indir_lost() {
-	WARN_ONCE(!rtnl_is_locked() &&
-		  !lockdep_is_held_type(&dev->ethtool->rss_lock, -1),
-		  "RSS context lock assertion failed\n");
-	...
-	dev->ethtool->rss_indir_user_size = 0;
-	ethtool_rss_notify(dev, ETHTOOL_MSG_RSS_NTF, 0);
-}
-
-but the notification lands in ethnl_notify(), which runs
-netdev_assert_locked_ops_compat(dev).  mana registers net_shaper_ops, so
-with CONFIG_NET_SHAPER=y that reduces to lockdep_assert_held(&dev->lock),
-which the rtnl-only reset and resume paths do not hold.
-
-Is there a way to reach the same result without the notification, so that
-the core's view and the programmed table agree in this case?
-
+>  
+>  	err = mana_config_rss(apc, TRI_STATE_TRUE, true, true);
+>  	if (err) {
 > diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> index ece7ff9cc409a..e3acaf17efabc 100644
+> index ece7ff9cc409a806b6a6de70a85b44874bfa6dad..e3acaf17efabcd62f7cffabdb8404cf16b917272 100644
 > --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
 > +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
 > @@ -871,7 +871,8 @@ const struct ethtool_ops mana_ethtool_ops = {
@@ -218,42 +187,7 @@ the core's view and the programmed table agree in this case?
 > -				  ETHTOOL_OP_NEEDS_RTNL_GLINK,
 > +				  ETHTOOL_OP_NEEDS_RTNL_GLINK |
 > +				  ETHTOOL_OP_NEEDS_RTNL_RSS,
+>  	.get_ethtool_stats	= mana_get_ethtool_stats,
+>  	.get_sset_count		= mana_get_sset_count,
+>  	.get_strings		= mana_get_strings,
 
-[Severity: Low]
-This isn't a problem introduced by this patch, but does the new flag cover
-the read side as well?
-
-The core only consults ETHTOOL_OP_NEEDS_RTNL_RSS for ETHTOOL_MSG_RSS_SET
-and for the SRSSH / SRXFH / SRXFHINDIR ioctls:
-
-net/ethtool/common.h:
-	case ETHTOOL_MSG_RSS_SET:
-		return ops->op_needs_rtnl & ETHTOOL_OP_NEEDS_RTNL_RSS;
-
-so mana_get_rxfh() still runs with the netdev instance lock plus rss_lock
-only, while the rebuild writes the same array entry by entry holding RTNL
-alone when it comes from mana_attach():
-
-mana_en.c:mana_rss_table_init() {
-	for (i = 0; i < apc->indir_table_sz; i++)
-		apc->indir_table[i] =
-			ethtool_rxfh_indir_default(i, apc->num_queues);
-}
-
-CPU0: mana_per_port_queue_reset_work_handler() -> rtnl_lock() ->
-      mana_attach() -> mana_alloc_queues() -> mana_rss_table_init()
-CPU1: ethtool -x -> rss_prepare_get() -> mana_get_rxfh()
-
-Can "ethtool -x" print a mix of old and new entries in that window?  The
-hardware itself is programmed from the driver copy by mana_config_rss(), so
-this looks limited to the reported table.  The write/read race the patch set
-out to close on the set side does get closed by the new flag.
-
-For what it is worth, the freed-table variant of this does not appear to
-exist: mana_attach()'s failure path calls mana_cleanup_port_context(), which
-only frees apc->rxqs and the debugfs dentry, and mana_cleanup_indir_table()
-is only reached from mana_probe_port() before register_netdev() and from
-mana_remove() after unregister_netdevice().
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260905004401.3937066-1-longli%40microsoft.com
