@@ -1,159 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0F84A0905;
-	Thu, 10 Sep 2026 15:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34403DB64B;
+	Thu, 10 Sep 2026 15:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789053531; cv=none; b=Bn60vIKaYVWtUwKnRZKsvvrZGiuYh3Deo3zOTa68m6/NHfROSfL5VQ51E+qjtxryPZAr/6WjelLU8R3txpqGlwiIeC47bD5JcFfWckXB5Ad+zbPZHY+C6+Jgs522iM4xEzjaVcqnkL8M8xFF5FVIcTTHaqb4JxMu+5ktsdpt3Z4=
+	t=1789053680; cv=none; b=GJ9tEBwcn1ke4hOsO62SbNTyVXZRr+jna5/iR5zmnlXN5MfBXEi3pgD4UDS0zP9VKkUXXx/k5/A0bJZASxJOYNWpKD/iKNpoXFXpxK19fyaM4+1jDfia49YnSPmiln6Py4CV0x7/ac4MGKmilOkNnL1TQo1YKDNdEe4N+nAmoNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789053531; c=relaxed/simple;
-	bh=6tfqr90qp+Pt3hhDdxlIsSvQU6RFtqVvzJCVe/1d2rw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QIouD+vMhctKmhR4Dedzfsqhj7Topcl9Gp1SlYfPHb+dCOVae1GSX2Dk/ny2X67h6tzmOjGzdzVL8LBchx8vuaNLEOl9oLimY/xJCqkFHjPCuHzb6yUW6YbBsBOY4vEQT8+B4w7NIuvWNSjDTz972/z/zzBQngV1bQUH7Va0Weo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNgEda4j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789053680; c=relaxed/simple;
+	bh=lQrR/NQniI4VsVmRj+f09Njkvc/mgDaiKYr85iY4+ls=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=HC/Ys4Z/eOzTjTa4erNTLtCK45hTn2YJMzyVlSUifKoWBLhBOQXXnUs9ctqbkXv7Nta23A2IdLQmv2rIm16hFiD7ZZhToMEkeBUy62qVNMHOkXY5tOyAmOXCTkxiM/4Req9cPaIdWxAkcUqmGoAxyumtlE8Ycnchk5TRizO+iAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyA7lnfN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNgEda4j"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33D41C2BCC7;
-	Thu, 10 Sep 2026 15:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789053530;
-	bh=6tfqr90qp+Pt3hhDdxlIsSvQU6RFtqVvzJCVe/1d2rw=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=eNgEda4jC8tpQhCZWS0+smJvOujWNlmX6TGiiiX+S9wbbKNRrzyRUEbpRzaeqRK/M
-	 Uv+0jpWQMa8d8A86Zipg9mwMB8saMCDN6jstyu6Rvjwyl3m/RWuOtdxLolabHzbeVV
-	 PZqW1qkfCv18BVBRRUdU66g+06gMfVEfgMldqGyYt6KE/crETJhs+xV3FdWRkBQ+Rj
-	 FdoJwuu2FYTRwYGxDQwDXC4E5lXbKdGcP7rX2GzLe4fAJAWTKud4k2trKI6D1+c047
-	 1a9Hf4Vkd0aUgukG65kPvA0J7iLHIMW18/vF/6ue3bBPsVfhUMGx6S7SV7DLpxe4ju
-	 CPXFK/Q/r5ssA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A85C79FBF;
-	Thu, 10 Sep 2026 15:18:50 +0000 (UTC)
-From: Gunter Woytowitz via B4 Relay <devnull+gunter.vcinity.io@kernel.org>
-Date: Thu, 10 Sep 2026 11:17:47 -0400
-Subject: [PATCH net] net: mana: never hand a non-page_pool buffer to XDP
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyA7lnfN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665DF1F00893;
+	Thu, 10 Sep 2026 15:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789053668;
+	bh=/o6Lf7XnOGTlaFywaXjjRieZKJoqvdthEim0g1lVyOQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=TyA7lnfNOlGk5PC7wmVwZW1HJ+GAujB2fAgFp+iXSl9UwUtzk3g/3wQiUligwNj4D
+	 jWcTqWnCCOO5YwnC7hMiBvCmrFKBpS+k8QLRgZ6Llsgo3RNaY/MMBs8b2DTN8TY0GR
+	 t2WRGUl1OKeJzi4ta8ybYbeFj2FzEmuk0isHpWldS7z9xIfiK7BOUwcyLoqOBDptCl
+	 OS0x7GfUQLgmHDocrw2yRcdn1UDRGmbGIEcHR5DKvm8zm55wrcKeh+5RPy4Ijc1eMy
+	 nhmn8gkdHui7Uhkaa73SbTiXk2gUzbbUuE6/WvzsRqxN+m3OJ8O0OlkvTToZbAlJhN
+	 zTF+nHCOqmuoQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19929380CEF8;
+	Thu, 10 Sep 2026 15:20:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260910-mana-xdp-pagepool-v1-1-dab140d91fed@vcinity.io>
-X-B4-Tracking: v=1; b=H4sIABrKomoC/yWMwQrCMBAFf6W8swtJkEr8FfGwbbZ1RZOQVCmU/
- rtRjzMws6FKUak4dxuKvLVqig3socN44zgLaWgMZ1xvvDX05Mi0hkyZZ8kpPSj0lk9Hb9zgJ7Q
- uF5l0/T0viLLg+pf1NdxlXL437PsH5/mPFHoAAAA=
-X-Change-ID: 20260910-mana-xdp-pagepool-d61a74902b9f
-To: "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Stanislav Fomichev <sdf@fomichev.me>
-Cc: "open list:Hyper-V/Azure CORE AND DRIVERS" <linux-hyperv@vger.kernel.org>, 
- "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:XDP eXpress Data Path:Keyword:?:b|_xdp?:b|_" <bpf@vger.kernel.org>, 
- Gunter Woytowitz <gunter@vcinity.io>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789053514; l=3692;
- i=gunter@vcinity.io; s=20260910; h=from:subject:message-id;
- bh=t35EUXvqFJ2uE2i3MYOOcxmhW+Pix8QOFDeXbTpTRo0=;
- b=NKaAMktkjRymX7yeIUQMcFSX4xXFQO1p857Cw9i+09qUKmkP9XE+M6xbd3BtmFug/Js4+KWft
- qyu9RTS81xNCSgon0yLahJiPGi8+Qlqu6LQsm8RGoRCLk9sBeRnGX4m
-X-Developer-Key: i=gunter@vcinity.io; a=ed25519;
- pk=6nOwIllYdhcDoigio1cuWODQHYf4rmE6FCJmKXcGH7w=
-X-Endpoint-Received: by B4 Relay for gunter@vcinity.io/20260910 with
- auth_id=1021
-X-Original-From: Gunter Woytowitz <gunter@vcinity.io>
-Reply-To: gunter@vcinity.io
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: mana: restore the XDP program pointer when
+ pre-allocation fails
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178905360563.1492964.7576375446845174702.git-patchwork-notify@kernel.org>
+Date: Thu, 10 Sep 2026 15:20:05 +0000
+References: <20260904202640.3900685-1-longli@microsoft.com>
+In-Reply-To: <20260904202640.3900685-1-longli@microsoft.com>
+To: Long Li <longli@microsoft.com>
+Cc: kotaranov@microsoft.com, kuba@kernel.org, davem@davemloft.net,
+ pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, jgg@ziepe.ca,
+ leon@kernel.org, haiyangz@microsoft.com, kys@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+ shirazsaleem@microsoft.com, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org, sdf@fomichev.me,
+ daniel@iogearbox.net, hawk@kernel.org, ast@kernel.org,
+ john.fastabend@gmail.com
 
-From: Gunter Woytowitz <gunter@vcinity.io>
+Hello:
 
-mana_create_rxq() registers MEM_TYPE_PAGE_POOL for the rxq
-unconditionally, so every buffer XDP can see must be owned by that
-page_pool: on XDP_REDIRECT the frame is freed through __xdp_return()
--> page_pool_put_full_page().
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-mana_xdp_set() assigns apc->bpf_prog before calling
-mana_pre_alloc_rxbufs(), which allocates with dev_alloc_pages(), and
-mana_fill_rx_oob() prefers those buffers whenever mpc->rxbufs_pre is
-set, leaving from_pool false. So for a port that is up when a program
-is attached, the entire re-created ring is filled with pages the
-page_pool does not own.
+On Fri,  4 Sep 2026 13:26:40 -0700 you wrote:
+> mana_xdp_set() publishes the new program into apc->bpf_prog before it
+> allocates anything, because mana_pre_alloc_rxbufs() sizes the buffers
+> from it via mana_get_rxbuf_cfg(). When that allocation fails the
+> function returns the error directly, skipping the err_dealloc_rxbuffs
+> label which is the only place that restores the previous pointer.
+> 
+> The attach is reported as failed, so the BPF core drops the reference it
+> held for the caller and the program can be freed, while apc->bpf_prog
+> still points at it. The next consumer of mana_xdp_get() - typically
+> mana_chn_setxdp() from mana_alloc_queues() on the following ifup, or
+> after a TX timeout reset - then calls bpf_prog_add() on freed memory.
+> 
+> [...]
 
-The page_pool then sees pp_ref_count == 0 when such a frame is
-returned, so the atomic_long_sub_return() in page_pool_unref_netmem()
-goes negative and trips its WARN_ON(ret < 0), once per redirected
-frame. Observed on a 5.14-based distro kernel, where that warning sits
-at helpers.h:269:
+Here is the summary with links:
+  - [net] net: mana: restore the XDP program pointer when pre-allocation fails
+    https://git.kernel.org/netdev/net/c/4c46beb807ef
 
-  WARNING: CPU: 3 PID: 0 at include/net/page_pool/helpers.h:269
-                                            __xdp_return+0x2b3/0x2c0
-  mana_process_rx_cqe -> mana_run_xdp -> mana_rx_skb -> xsk_map_redirect
-                                            -> __xdp_return
-
-On a VM booted with console=ttyS0 the resulting stack traces peg the
-console thread and the machine becomes unusable.
-
-Fill from the page_pool when a program is attached, using
-mana_xdp_get() -- the predicate mana_get_rxbuf_cfg() already uses to
-choose the XDP buffer geometry. With no program attached nothing
-changes, so the pre-allocation still does its job of keeping
-mana_attach() from failing on allocation.
-
-Leaving the pre-allocated buffers unconsumed is safe:
-mana_pre_dealloc_rxbufs() dma-unmaps and put_page()s the remainder,
-and every caller (mana_xdp_set(), mana_change_mtu(), and both ethtool
-ring and channel paths) already runs it after mana_attach().
-
-The rxq->xdp_save_va reuse in mana_get_rxfrag() also leaves from_pool
-false, but that cache is fed only by the drop path's non-pool branch,
-which this change makes unreachable while a program is attached, so
-it needs no fix.
-
-Found and fixed on a 5.14-based distro kernel running AF_XDP over
-MANA in copy mode: 24M+ redirected frames with no warnings, where the
-unpatched driver warned on essentially every redirected frame. All of
-the code involved is unchanged in mainline.
-
-Fixes: b1d13f7a3b53 ("net: mana: Add page pool for RX buffers")
-Signed-off-by: Gunter Woytowitz <gunter@vcinity.io>
----
- drivers/net/ethernet/microsoft/mana/mana_en.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 7a1ac853e..a2cb66753 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -2925,7 +2925,14 @@ static int mana_fill_rx_oob(struct mana_recv_buf_oob *rx_oob, u32 mem_key,
- 	dma_addr_t da;
- 	void *va;
- 
--	if (mpc->rxbufs_pre)
-+	/* The pre-allocated buffers come from dev_alloc_pages(), not from the
-+	 * rxq's page_pool. With a program attached any buffer can reach
-+	 * __xdp_return(), which returns it to the pool the rxq registered, so
-+	 * fill from the pool instead. The unused pre-allocated buffers are
-+	 * released by the mana_pre_dealloc_rxbufs() every caller already runs
-+	 * after mana_attach().
-+	 */
-+	if (mpc->rxbufs_pre && !mana_xdp_get(mpc))
- 		va = mana_get_rxbuf_pre(rxq, &da);
- 	else
- 		va = mana_get_rxfrag(rxq, dev, &da, &from_pool, &pp_page,
-
----
-base-commit: 50d05c7c76c96b90462f24debacca971d2e86713
-change-id: 20260910-mana-xdp-pagepool-d61a74902b9f
-
-Best regards,
---  
-Gunter Woytowitz <gunter@vcinity.io>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
