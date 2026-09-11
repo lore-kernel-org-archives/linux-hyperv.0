@@ -1,75 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B4A47F3D9;
-	Fri, 11 Sep 2026 13:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EAB38E8A3
+	for <linux-hyperv@vger.kernel.org>; Fri, 11 Sep 2026 13:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131699; cv=none; b=ISujdY/afk0dtJ/L+NtWW0WN9jFtWRXxT+vvDPEfW7zWajyL9KFaJ9XJvjDuaSSrIkBsThPafPaHgzt1I4yT7j4AJ1jESiRxXS/cO3FUMtZF//JrWQCSyvJcYzCnAV3TXn+dFW3maW5Az1yM4ltOEIvgInN7X28GcYlSZUFFR1s=
+	t=1789132859; cv=none; b=MErN28wHTun8D1oDDTWf6jHMR5RjvpnQviVtDB0D7hAWh8UWhKl97KLGGL/SJSJcS737WiwdOmNfibmMoYO5hIjWZqGSK9mQfrspBwEdJgCQI71dgAbu48yZokFkHfq9MMkv4NM6SA+Oc9FL1g3i7RJe2uLAQ8otFc/2DDe6X7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131699; c=relaxed/simple;
-	bh=ITWwrU1+lRmLuva48oLsKTlgUumBuY7FaZNMvnW/XTw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Y/lyRsETsHw/iA/1l3cYW2a675f6Mb1YSi+E6J8vhRpKpVZUocoFKnlFiDs9SUiQ0QQFycP3Gi3RAtzbWledi63mF6rBtRsOy+SkyHRetJhCpvk8mKquwBvfWXKRbrqN8Sb9t3V9sufNSETLa5G+FLSjZDlI+H+82PNNqT8yQV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jIHTr6sS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789132859; c=relaxed/simple;
+	bh=EolGcyXZdQB+WJQ/fbAT/ovCeKnyMlJRoovdxLhAScI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=A1lgiVPDU719eYnqSMBSRQn9tXmIDRYoE6Aa6LZS4n3dcyty0y0gzctyv+MpRmkbVRNg8qN1MHLh/Lq9JZs2PZnjwWhlwa6UKeaIqb5BERdsdSbONRrj5gCuIDGKmYff+xyeGOFZvGAMZMXjSMIzLPikyonOSIaPI8EosiE8oLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JhWuBsjX; arc=none smtp.client-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jIHTr6sS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EEA1F000FF;
-	Fri, 11 Sep 2026 13:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789131682;
-	bh=njJNqx2xN32J4SV/wSn1hvanaa80mVzmvuVh8G0EjAo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jIHTr6sSpk5e//l7q7kerPPajxMrnRUkF2npfHv6BrMyq2xheK/KRFkXkiwLsQap2
-	 r2S7ppJiminXJFI58jHPB6HHOXQLRU/NmNjfEA89U5p5qfNqAYjByd6qJ1lRGeJAfy
-	 mrIZsCBIJMygeXjpXaqmTATjbdPd9bmI2ueM5hDn92YMb0luJQR+4qdUKqqnarVQbm
-	 w6fGUr0/5SnvtcHikUWUaFFjAIrsgUB82TXZ+1D2fAI5Yvlpmk3YBRGVxzBCybLJRH
-	 gzMEZbfycDDCSWxyXZEwUufA5JjuNx6Z/hoL6IO8w9oK91UUVYeBWJ6P1ntwpijDY4
-	 F8dllB0p0thSQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 14/14] drm/panic: Compile KUnit tests as module
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: linux-hyperv@vger.kernel.org, Frank.Li@kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, imx@lists.linux.dev, "Michael
- S. Tsirkin" <mst@redhat.com>, ojeda@kernel.org, "Eugenio Perez" <eperezma@redhat.com>, gary@garyguo.net, wsa+renesas@sang-engineering.com, dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-In-Reply-To: <20260911124540.279841-15-tzimmermann@suse.de>
-References: <20260911124540.279841-1-tzimmermann@suse.de>
- <20260911124540.279841-15-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 13:01:21 +0000
-Message-Id: <20260911130121.78EEA1F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JhWuBsjX"
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-869c40637faso943131b3a.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 11 Sep 2026 06:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789132857; x=1789737657; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G6E03lEoHjRnSy/KkF9YUurNW1tkrhzCisRbnf6MQso=;
+        b=JhWuBsjXKa/j2xC4TWzqQDqGpN1vHZydGvEuR7ZlNNx+eE3dFNstaCQI8H8Vby0lc8
+         By2hVTiaeIiQ5+ng8Cw24ZqBl6meSDOJlF/pgf+vev7XiTla4WEez/EaD/JaZ2cPMZBr
+         Rak3KpMdOUFDf0qD8nBOpqHJSO7wTyn8KK3iRPvnicl8fHPeQhWXqRKr3CbKCRL6xJeW
+         t+iwL0VhWlzhHU/v7hrGqOxwY3Xacg1IkfPGhfYjCmOeGF4/MGMfPvhlsLWHnaAh5xPO
+         tAyT4YxpueHloR+rke5kFjTPSDy74AdyrXtcM6idmrzY/CAUZWw+p+IrOwH5iBpkDvx/
+         MWIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789132857; x=1789737657;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G6E03lEoHjRnSy/KkF9YUurNW1tkrhzCisRbnf6MQso=;
+        b=q2R18FYfJ1NqTTFbfZEjfna/4vtnlt7C7T6vg1oYMOpEiNhH65n3Vuu3Sm1GNFZx2m
+         R6RdC7SNJ1wYoWjHQ+DnqRmxw+nWqxb2A2iAEODmYetGxCm7pnDvviOPze9dQVdaaF8k
+         5TdEW0e/fKB0Pxhtt0sEv7fFTUz+cN5ksIMdLJ/0Ey04iQabOm6Et7Z3UlYz7pqgYUeX
+         /sYMrSWbgyJaqHTh4ixIQrH421QXyRkpTtev/rBsl8Ph9uqVLz5f5G5800004AP+J2Bw
+         MjBVKTs8iyRFBqPW2v4wfzPNYjpLv0AYYelxdeCOan5NHQa/m6snXhGd3fyWcxPN9wG2
+         sGTA==
+X-Forwarded-Encrypted: i=1; AKwUvBw3sG50bQf36Pit9vQMTXbuliz4AjaozQ0MPZC7K0NHXvZZTYJEjvNRC9TqillEdZCAADfEM/Pl9DgKEcg=@vger.kernel.org
+X-Gm-Message-State: AFuF++lk82VtvtslvjxPxmJ7REOgfB2FhZ0p66hVv9W5teRShPFrH2W0
+	CyDF9rnpu1VQWlSNJSlQ6LJP/10+HGxL+Ef9dkAIqzZKpXFyGhA/Qytui2dGiY7WQRFyVZZZ+tA
+	6ZhegWg==
+X-Received: from pgfd7-n1.prod.google.com ([2002:a05:6a02:6547:10b0:cc4:56ea:7ae7])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:6a26:b0:3da:5eda:d167
+ with SMTP id adf61e73a8af0-3daed1515e3mr7900074637.5.1789132857186; Fri, 11
+ Sep 2026 06:20:57 -0700 (PDT)
+Date: Fri, 11 Sep 2026 06:20:55 -0700
+In-Reply-To: <20260911074530.3140830-14-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+References: <20260911074530.3140830-1-jgross@suse.com> <20260911074530.3140830-14-jgross@suse.com>
+Message-ID: <aqQAN6JbTe0fveKs@google.com>
+Subject: Re: [PATCH v3 13/13] x86/msr: Simplify some rdmsrq() use cases
+From: Sean Christopherson <seanjc@google.com>
+To: Juergen Gross <jgross@suse.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Michael Kelley <mhklinux@outlook.com>
+Content-Type: text/plain; charset="us-ascii"
 
-> Fix dependency of the panic-helper KUnit tests on CONFIG_DRM_KUNIT_TEST=
-=3Dy
-> and make them build as a module. Export the necessary interfaces from the
-> panic helpers iff the KUnit framework has been enabled.
->=20
-> Select DRM_PANIC_HELPER from DRM_KUNIT_TEST to meet the dependencies of
-> the panic-helper tests.
->=20
-> It is now possible to run the tests by modprobe-ing drm_panic_helper_test
-> at runtime.
->=20
-> v5:
-> - clear test description with drm_panic_helper_clear_description() (Sashi=
-ko)
-> v3:
-> - clean up after each test case (Sashiko)
-> v2:
-> - fix parameter order in decl of drm_panic_helper_draw_screen_qr()
->   (Sashiko)
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Fri, Sep 11, 2026, Juergen Gross wrote:
+> After the conversion of rdmsrq() to an inline function some use cases
+> can be simplified by dropping an intermediate variable or by
+> eliminating the inline function completely.
+> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com> # Hyper-V
+> ---
+> V3:
+> - eliminate KVM's read_msr() (Sean Christopherson)
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Thank you!
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260911124540.2798=
-41-1-tzimmermann@suse.de?part=3D14
-
+Acked-by: Sean Christopherson <seanjc@google.com>
