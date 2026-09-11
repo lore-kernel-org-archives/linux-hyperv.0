@@ -1,121 +1,308 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E55443C02;
-	Fri, 11 Sep 2026 11:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE2D47798A;
+	Fri, 11 Sep 2026 12:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125149; cv=none; b=Nwdh0kgI8n5awMc+xm8twN7N5LzP8AvvFPjFV3kYI/djtKbsuw8gwt3E0Yg6x1pA4/ntPZN+pF/KDS0dYUqppI68XERZ2zIAHvaqsojJk+JZECNS0ZIwhiQR9p5Ubd5idhAJJeAOrRSIudccpq5N/zqaqaFwMvzeviynVCyYS1s=
+	t=1789130757; cv=none; b=ur25MqpG/mOWvZbTs3HC3Qehx6M/eDUXnPKAm+48TcW0F8OI5RK1bZAPItFzKFDtWQ3c3t6rfdGuq4Tm6DJYjB99q1yEbhtX+ka3SM8V4JkDQbeyxt4sjVULd6sOUlCizfYo3PZSoji6O6AhfDs+BYKIxQiqsVVUxgFKwhdCmKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789125149; c=relaxed/simple;
-	bh=ZjvJhN1sUcXl/KlhudMLw6Au683rhTCl8o0lO63aipM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YO7NScyKc93nu5YfGNwdqMSs17JLFoxq41zJ6mxQAFRZL+qHgfN7L5I6UAHF/4uMYFls+vlF31JSWOURU119lytS39oOiMONs40MHAg40JyMlv7x1SdvygAZB19xhMGntQkMGtWTkaheOw59F3rlUG1680XuHS3dmo5XWPm3KMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nrdbgWLd; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nrdbgWLd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9011F000FF;
-	Fri, 11 Sep 2026 11:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789125146;
-	bh=I2vgVpqPQ1ZhtBK9NLDLlAeVZpr4d0jIeDhEU9WUw9I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nrdbgWLd/DZexiWEEIHBp9mThONVdd4WayBySHTzHcfspy90UPG0DNhAIV9injCT/
-	 dNZL8F5/yUydONCnmV9oBMCYML7+iRwsE5SipOHa2JV8XU/fBPJB/KuKVBkuPxu62Q
-	 m6CbbmSBucLI2Csa8a18sajIjkb6Mng3K7khAx6NYCPvr3hmH6cTq4LLQ/k6FSRhtn
-	 0Fyuf5wEg7DkKrxpYyIctr1vwm+JS77s/b4b2MkXxCs4xqeqBJYDCKsKMtjWyHzT/y
-	 NZYwELo+OrUfQDRFltJNxRdD2MTdyBq3HD3IYw62tPRBVmuRzA4g+WvW+MbTZWFQeA
-	 1+2D+5CzdQfYw==
-Date: Fri, 11 Sep 2026 12:12:21 +0100
-From: Simon Horman <horms@kernel.org>
-To: Gunter Woytowitz <gunter@vcinity.io>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	"open list:Hyper-V/Azure CORE AND DRIVERS" <linux-hyperv@vger.kernel.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:XDP eXpress Data Path:Keyword:?:b|_xdp?:b|_" <bpf@vger.kernel.org>
-Subject: Re: [PATCH net] net: mana: never hand a non-page_pool buffer to XDP
-Message-ID: <20260911111221.GE48209@horms.kernel.org>
-References: <20260910-mana-xdp-pagepool-v1-1-dab140d91fed@vcinity.io>
+	s=arc-20240116; t=1789130757; c=relaxed/simple;
+	bh=NAlEuAjAAvqC1pgj124dsNfJ2Vahdu9c7oKTi27QScA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=e6RokVdpmUS7iXzgIR2bb/bxCunMRfK8ZvP1t+W+ovqZuiwzIwdVL54sDrOebKbt7/FldFbryXmfBUQG1L3bsdTD5nXMKwzEhlGCzcHZuYudKbAyKMBgu3Fmt6EMFtsbBQzGSHnYkNjIvh9e6jGUNnm33rPfZ4ZCA9K22ujEuyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E672421B74;
+	Fri, 11 Sep 2026 12:45:50 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0B8A137DE;
+	Fri, 11 Sep 2026 12:45:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4OL4Jfv3o2r8EQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 11 Sep 2026 12:45:47 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com,
+	javierm@redhat.com,
+	airlied@gmail.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	geert@linux-m68k.org,
+	rdunlap@infradead.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	nouveau@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	sashiko-reviews@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v5 04/14] drm/panic: Return errno codes if panic output fails
+Date: Fri, 11 Sep 2026 14:43:57 +0200
+Message-ID: <20260911124540.279841-5-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260911124540.279841-1-tzimmermann@suse.de>
+References: <20260911124540.279841-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910-mana-xdp-pagepool-v1-1-dab140d91fed@vcinity.io>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E672421B74
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
 
-On Thu, Sep 10, 2026 at 11:17:47AM -0400, Gunter Woytowitz wrote:
-> mana_create_rxq() registers MEM_TYPE_PAGE_POOL for the rxq
-> unconditionally, so every buffer XDP can see must be owned by that
-> page_pool: on XDP_REDIRECT the frame is freed through __xdp_return()
-> -> page_pool_put_full_page().
-> 
-> mana_xdp_set() assigns apc->bpf_prog before calling
-> mana_pre_alloc_rxbufs(), which allocates with dev_alloc_pages(), and
-> mana_fill_rx_oob() prefers those buffers whenever mpc->rxbufs_pre is
-> set, leaving from_pool false. So for a port that is up when a program
-> is attached, the entire re-created ring is filled with pages the
-> page_pool does not own.
-> 
-> The page_pool then sees pp_ref_count == 0 when such a frame is
-> returned, so the atomic_long_sub_return() in page_pool_unref_netmem()
-> goes negative and trips its WARN_ON(ret < 0), once per redirected
-> frame. Observed on a 5.14-based distro kernel, where that warning sits
-> at helpers.h:269:
-> 
->   WARNING: CPU: 3 PID: 0 at include/net/page_pool/helpers.h:269
->                                             __xdp_return+0x2b3/0x2c0
->   mana_process_rx_cqe -> mana_run_xdp -> mana_rx_skb -> xsk_map_redirect
->                                             -> __xdp_return
-> 
-> On a VM booted with console=ttyS0 the resulting stack traces peg the
-> console thread and the machine becomes unusable.
-> 
-> Fill from the page_pool when a program is attached, using
-> mana_xdp_get() -- the predicate mana_get_rxbuf_cfg() already uses to
-> choose the XDP buffer geometry. With no program attached nothing
-> changes, so the pre-allocation still does its job of keeping
-> mana_attach() from failing on allocation.
-> 
-> Leaving the pre-allocated buffers unconsumed is safe:
-> mana_pre_dealloc_rxbufs() dma-unmaps and put_page()s the remainder,
-> and every caller (mana_xdp_set(), mana_change_mtu(), and both ethtool
-> ring and channel paths) already runs it after mana_attach().
-> 
-> The rxq->xdp_save_va reuse in mana_get_rxfrag() also leaves from_pool
-> false, but that cache is fed only by the drop path's non-pool branch,
-> which this change makes unreachable while a program is attached, so
-> it needs no fix.
-> 
-> Found and fixed on a 5.14-based distro kernel running AF_XDP over
-> MANA in copy mode: 24M+ redirected frames with no warnings, where the
-> unpatched driver warned on essentially every redirected frame. All of
-> the code involved is unchanged in mainline.
-> 
-> Fixes: b1d13f7a3b53 ("net: mana: Add page pool for RX buffers")
-> Signed-off-by: Gunter Woytowitz <gunter@vcinity.io>
+Return errno codes from the panic output helpers to detect invalid
+panic handling. Avoid flushing the display if an error ocured. The
+unflushed display output might be helpful in debugging.
 
-Unfortunately the CI failed to apply this patch to net.
-Which is curious, because I am able to apply it locally.
+For now, test the result values in the panic test cases. A later patch
+will add support for retrying failed panic output.
 
-But perhaps it would be best to (rebase and?) repost
-after waiting for the usual 24h[*] to elapse.
+v2:
+- forward return value of draw_panic_screen_user() (Sashiko)
+- forward errno code from drm_panic_get_qr_code
 
-[*] https://docs.kernel.org/process/maintainer-netdev.html
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic.c            | 47 +++++++++++++++++---------
+ drivers/gpu/drm/tests/drm_panic_test.c | 16 +++++----
+ 2 files changed, 41 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 62490d32019c..cc33a2b4bb52 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -480,7 +480,7 @@ static void drm_panic_logo_draw(struct drm_scanout_buffer *sb, struct drm_rect *
+ 				   fg_color);
+ }
+ 
+-static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ {
+ 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
+ 						    sb->format->format);
+@@ -491,7 +491,7 @@ static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ 	unsigned int msg_width, msg_height;
+ 
+ 	if (!font)
+-		return;
++		return -EINVAL;
+ 
+ 	r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
+ 	drm_panic_logo_rect(&r_logo, font);
+@@ -510,6 +510,8 @@ static void draw_panic_screen_user(struct drm_scanout_buffer *sb)
+ 		drm_panic_logo_draw(sb, &r_logo, font, fg_color);
+ 
+ 	draw_txt_rectangle(sb, font, panic_msg, panic_msg_lines, true, &r_msg, fg_color);
++
++	return 0;
+ }
+ 
+ /*
+@@ -549,7 +551,7 @@ static int draw_line_with_wrap(struct drm_scanout_buffer *sb, const struct font_
+  * Draw the kmsg buffer to the screen, starting from the youngest message at the bottom,
+  * and going up until reaching the top of the screen.
+  */
+-static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ {
+ 	u32 fg_color = drm_draw_color_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR,
+ 						    sb->format->format);
+@@ -564,7 +566,7 @@ static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ 	int yoffset;
+ 
+ 	if (!font || font->width > sb->width)
+-		return;
++		return -EINVAL;
+ 
+ 	yoffset = sb->height - font->height - (sb->height % font->height) / 2;
+ 
+@@ -591,6 +593,8 @@ static void draw_panic_screen_kmsg(struct drm_scanout_buffer *sb)
+ 			start--;
+ 		}
+ 	}
++
++	return 0;
+ }
+ 
+ #if defined(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+@@ -767,7 +771,9 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ 	max_qr_size = min(3 * sb->width / 4, 3 * sb->height / 4);
+ 
+ 	qr_width = drm_panic_get_qr_code(&qr_image);
+-	if (qr_width <= 0)
++	if (qr_width < 0)
++		return qr_width;
++	else if (!qr_width)
+ 		return -ENOSPC;
+ 
+ 	qr_canvas_width = qr_width + QR_MARGIN * 2;
+@@ -808,10 +814,11 @@ static int _draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ 	return 0;
+ }
+ 
+-static void draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
++static int draw_panic_screen_qr_code(struct drm_scanout_buffer *sb)
+ {
+ 	if (_draw_panic_screen_qr_code(sb))
+-		draw_panic_screen_user(sb);
++		return draw_panic_screen_user(sb);
++	return 0;
+ }
+ #else
+ static void drm_panic_qr_init(void) {};
+@@ -882,23 +889,25 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
+ 	return drm_draw_can_convert_from_xrgb8888(format->format);
+ }
+ 
+-static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
++static int draw_panic_dispatch(struct drm_scanout_buffer *sb)
+ {
++	int ret;
++
+ 	switch (drm_panic_type) {
+ 	case DRM_PANIC_TYPE_KMSG:
+-		draw_panic_screen_kmsg(sb);
++		ret = draw_panic_screen_kmsg(sb);
+ 		break;
+-
+ #if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+ 	case DRM_PANIC_TYPE_QR:
+-		draw_panic_screen_qr_code(sb);
++		ret = draw_panic_screen_qr_code(sb);
+ 		break;
+ #endif
+-
+ 	case DRM_PANIC_TYPE_USER:
+ 	default:
+-		draw_panic_screen_user(sb);
++		ret = draw_panic_screen_user(sb);
+ 	}
++
++	return ret;
+ }
+ 
+ static void drm_panic_set_description(const char *description)
+@@ -945,9 +954,15 @@ static void draw_panic_plane(struct drm_plane *plane, const char *description)
+ 
+ 	drm_panic_set_description(description);
+ 
+-	draw_panic_dispatch(&sb);
+-	if (plane->helper_private->panic_flush)
+-		plane->helper_private->panic_flush(plane);
++	ret = draw_panic_dispatch(&sb);
++	if (!ret) {
++		/*
++		 * Only flush if we have a panic screen to display. Otherwise
++		 * it's probably better to leave the display output as-is.
++		 */
++		if (plane->helper_private->panic_flush)
++			plane->helper_private->panic_flush(plane);
++	}
+ 
+ 	drm_panic_clear_description();
+ 
+diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
+index ad2f3a2f93b6..fdd77b0cc54c 100644
+--- a/drivers/gpu/drm/tests/drm_panic_test.c
++++ b/drivers/gpu/drm/tests/drm_panic_test.c
+@@ -30,7 +30,7 @@ struct drm_test_mode {
+ 	const int width;
+ 	const int height;
+ 	const u32 format;
+-	void (*draw_screen)(struct drm_scanout_buffer *sb);
++	int (*draw_screen)(struct drm_scanout_buffer *sb);
+ 	const char *fname;
+ };
+ 
+@@ -87,7 +87,7 @@ static void drm_test_panic_screen_user_map(struct kunit *test)
+ 	const struct drm_test_mode *params = test->param_value;
+ 	char *fb;
+ 	int fb_size;
+-	int i;
++	int i, ret;
+ 
+ 	sb->format = drm_format_info(params->format);
+ 	fb_size = params->width * params->height * sb->format->cpp[0];
+@@ -102,7 +102,8 @@ static void drm_test_panic_screen_user_map(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->pitch[0] = params->width * sb->format->cpp[0];
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ 
+ 	for (i = 0; i < fb_size; i++)
+ 		drm_panic_check_color_byte(test, fb[i]);
+@@ -119,7 +120,7 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
+ {
+ 	struct drm_scanout_buffer *sb = test->priv;
+ 	const struct drm_test_mode *params = test->param_value;
+-	int fb_size, p, i, npages;
++	int fb_size, p, i, npages, ret;
+ 	struct page **pages;
+ 	u8 *vaddr;
+ 
+@@ -146,7 +147,8 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->pitch[0] = params->width * sb->format->cpp[0];
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ 
+ 	for (p = 0; p < npages; p++) {
+ 		int bytes_in_page = (p == npages - 1) ? fb_size - p * PAGE_SIZE : PAGE_SIZE;
+@@ -182,6 +184,7 @@ static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
+ {
+ 	struct drm_scanout_buffer *sb = test->priv;
+ 	const struct drm_test_mode *params = test->param_value;
++	int ret;
+ 
+ 	sb->format = drm_format_info(params->format);
+ 	sb->set_pixel = drm_test_panic_set_pixel;
+@@ -189,7 +192,8 @@ static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
+ 	sb->height = params->height;
+ 	sb->private = test;
+ 
+-	params->draw_screen(sb);
++	ret = params->draw_screen(sb);
++	KUNIT_ASSERT_EQ(test, ret, 0);
+ }
+ 
+ static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
 -- 
-pw-bot: changes-requested
+2.55.0
+
