@@ -1,492 +1,382 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538783803DF;
-	Fri, 11 Sep 2026 06:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507424570CD;
+	Fri, 11 Sep 2026 07:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789109623; cv=none; b=i7zXLjSK4gUpUQ3I/hD3t5ke+JFbcwDGACD272tG+BBpNhZkaJ0Dp41FePXFQPtE/Mt5O+uqFn4T2jetFzYV7W+YUwWGnamy64WNxQD+JU8uoWCfYkRCIfy86GPz5GmEgmuvBGoo3zviiIPYstmdVX4k5zx31+zOlb/naO5k80o=
+	t=1789112748; cv=none; b=Oq0IClQbgrDU/t/zeBfUN000QpSTEBQgpemvuNxM2UReUoh795MqN/iB6IgQGyruFi/ndhKxDilpPaXpgsTj7kGrRY50/jteAjqRZQgHT9buzscWHIaJIyNF4cB9efrsQ/mxh0xVCnD572o63/IDhb/SFPeuj5l2oyL3t8OuT/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789109623; c=relaxed/simple;
-	bh=7jukiRDIQUe98DOlCWGj00+XVBxaD6qe6aDh1w82DGg=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YxjDEWbmVqv2KU4RV2mH5xKyNaLuaN8hqQsBLoMRG1mBtUrBPVpp3a2REQ852Vj+CO9I3PK42IEbBWojdChpSWoxv3VDkQA3UPthbkmXOqu6kPN6rAb+LR7Xod2vZBUSp9gTgN82usF5GoDJf0XGt95ke6c6Ixn1t6XRfUj/gZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GlgUb6no; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789112748; c=relaxed/simple;
+	bh=KjFN7F7VCGI1BaErZLO3/SXnZGRR2A4FBybhmREMJMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UNp8VjXCXIXyUyI02BOisSv9jhfWYFDfVNzxFXFCy1Z91VzBq93qUY/88jWrcEmmRJxSzs9LwW66r+a6poIspoPJhtUaGMzR8Ugr0QUhynlMeoCj8d6ScSEXi/YYo5yjo0j6RFRU3zn0OtqWlw7NutLuOTsLjWn5JZZezsxBtjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=T8vJzNG0; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ZSaFHXZm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GlgUb6no"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6691F00899;
-	Fri, 11 Sep 2026 06:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789109608;
-	bh=snprWzUSgbKVG/P47RkBXhtyoJ+JYJhl5Vp4QkYh3b0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GlgUb6no7XIiM36oO/8ENvyzGupSPUJ/NdDsjVfZoyA2b1H7y09TKAcFVEv4nW+J8
-	 W68cqWpVekf4YX0HUondRpdk/x2c0+qz/5rFkyWguzr00qy9jpX0I2vGInwXx+OV3+
-	 uoFhHlgXoGCBCAQhtFIxKhO5kcDWkO09OehcUwEXbQX+ZnONg5GBhBSJO27VPv1lQL
-	 P2Zqv9R2BYMzNhUl2JNTKwZJElriRI8K/6zkF+OI0o1krd6sUqLPzgJU2REiZHevT/
-	 a8an2NbbQlA8xZnLrzAshcZWSR9rCFomwSAaenB5QjJRMnM5X/4LLMhq7evjDN6yk6
-	 ln7BfRUAxrlPQ==
-Subject: Re: [PATCH net-next v5 4/4] net: mana: add dynamic HWC queue depth
- with reinit path
-From: netdev-bot+sashiko@kernel.org
-To: longli@microsoft.com
-Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
- davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- andrew+netdev@lunn.ch, jgg@ziepe.ca, leon@kernel.org, haiyangz@microsoft.com,
- kys@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- shradhagupta@linux.microsoft.com, horms@kernel.org, ernis@linux.microsoft.com,
- stephen@networkplumber.org, shirazsaleem@microsoft.com,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 11 Sep 2026 06:53:26 +0000
-Message-ID: <178910960684.219967.7896357652375395801@kernel.org>
-In-Reply-To: <20260908035201.402424-5-longli@microsoft.com>
-References: <20260908035201.402424-5-longli@microsoft.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="T8vJzNG0";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZSaFHXZm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C7051FD65;
+	Fri, 11 Sep 2026 07:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1789112740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1QSWKaNZ65L3rk2qSG3qEF6vvEFGDlwFz8pe7qA3wNk=;
+	b=T8vJzNG0WjXD9oew4znbnpRhNr4cduF4wX0/G5JWBAhNh6q/VIfpYf/fUBkcVm6cROP8wL
+	d7Tw6tNJd2/Uc1yaaCnSKMf45wB90ggC7/6aHgHKt1AvwLS+V6Grbb4BaDss/ymuQh3uLX
+	R/JPn7ajI9jOWOy+wgo92RQhnyBQ8B8=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1789112736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1QSWKaNZ65L3rk2qSG3qEF6vvEFGDlwFz8pe7qA3wNk=;
+	b=ZSaFHXZmagMuB8+hqr9P5F1w2lKBV8EJ76ulznETppNd368ICMAo96FZHFm26sndOkLQBp
+	DO+Ed5uvBjbKGWvwO62oqlUwSJ+KvFdOyo/zUKikLlBjGWA7ZER+RlKfHf4bve8r2bw+Br
+	b2AR8rC+XGluiV1AFzZUGzhvWzUsaEo=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBE9B136ED;
+	Fri, 11 Sep 2026 07:45:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SsloMJ2xo2qtWAAAD6G6ig
+	(envelope-from <jgross@suse.com>); Fri, 11 Sep 2026 07:45:33 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	virtualization@lists.linux.dev,
+	linux-ide@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	David Airlie <airlied@redhat.com>,
+	Helge Deller <deller@gmx.de>,
+	linux-geode@lists.infradead.org,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Pu Wen <puwen@hygon.cn>,
+	Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Len Brown <lenb@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	Xi Pardee <xi.pardee@linux.intel.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v3 00/13] x86/msr: Drop 32-bit MSR interfaces
+Date: Fri, 11 Sep 2026 09:45:17 +0200
+Message-ID: <20260911074530.3140830-1-jgross@suse.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-Thank you for your contribution! Sashiko AI review found 4 potential
-issue(s) to consider:
-
-Critical: 0 · High: 3 (1) · Medium: 1 (1) · Low: 0
-
-- [High] The new re-init and bootstrap-fallback blocks in
-  mana_hwc_create_channel() unpublish the CQ table in the wrong order:…
-- [High] The new reinit_fallback block treats a failed DESTROY_HWC as
-  fatal (`if (mana_smc_teardown_hwc(&gc->shm_channel, false)) {…
-- [High] mana_hwc_establish_channel() now sets `gc->hwc.doorbell =
-  INVALID_DOORBELL;` (UINT_MAX) at the top of every establish, after…
-- [Medium] The commit message states "Advertise support in the driver-
-  version request", but GDMA_DRV_CAP_FLAG_1_DYN_HWC_QUEUE_DEPTH cannot…
-
-Pre-existing issues:
-- [High] The new guard in mana_hwc_establish_channel() validates the HWC
-  doorbell only against the INVALID_DOORBELL sentinel (UINT_MAX); it…
-- [Medium] mana_hwc_destroy_cq() frees resources that the still-live HWC
-  EQ interrupt handler can reach before the EQ is deregistered:…
-
---
-
-net: mana: add dynamic HWC queue depth with reinit path
-
-This rebuilds the depth-one HWC bootstrap queues at the device-advertised
-maximum depth, capped at 128, and keeps the 24-bit reported depth in a u32
-with bounded DMA allocations. It adds a bootstrap fallback path that tears
-down and rebuilds at depth one when the larger-depth teardown, rebuild or
-re-establishment fails.
-
-No Link: tags in the commit header.
-
-A few questions below about the new reinit and fallback paths.
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index eb88bae2b14d8..78424e1d884f1 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -1260,15 +1260,17 @@ static void mana_gd_create_cq(const struct gdma_queue_spec *spec,
->  static void mana_gd_destroy_cq(struct gdma_context *gc,
->  			       struct gdma_queue *queue)
->  {
-> +	struct gdma_queue **cq_table = READ_ONCE(gc->cq_table);
->  	u32 id = queue->id;
->  
-> -	if (id >= gc->max_num_cqs)
-> +	/* HWC re-establishment can fail before allocating the CQ table. */
-> +	if (!cq_table || id >= gc->max_num_cqs)
->  		return;
->  
-> -	if (!gc->cq_table[id])
-> +	if (!cq_table[id])
->  		return;
->  
-> -	gc->cq_table[id] = NULL;
-> +	cq_table[id] = NULL;
->  }
-
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> index a4f7346d285f7..750ee8f729994 100644
-> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-
-[ ... ]
-
-> @@ -771,6 +780,15 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
->  	struct gdma_queue *cq = hwc->cq->gdma_cq;
->  	int err;
->  
-> +	/* Do not reuse dimensions or routing IDs from a previous establish. */
-> +	hwc->hwc_init_q_depth_max = 0;
-> +	hwc->hwc_init_max_req_msg_size = 0;
-> +	hwc->hwc_init_max_resp_msg_size = 0;
-> +	gc->hwc.doorbell = INVALID_DOORBELL;
-> +	gc->hwc.pdid = INVALID_PDID;
-> +	hwc->pf_dest_vrq_id = 0;
-> +	hwc->pf_dest_vrcq_id = 0;
-> +
-
-[Severity: High]
-Is it safe to set gc->hwc.doorbell to INVALID_DOORBELL here while the HWC
-EQ is already registered on the shared msix 0 interrupt?
-
-mana_hwc_init_queues() has already run mana_gd_create_eq() ->
-mana_gd_register_irq() -> list_add_rcu(&queue->entry, &gic->eq_list), so
-mana_gd_process_eq_events() can run at any point after
-mana_smc_setup_hwc() writes the shared-memory request. At the end of every
-batch it arms unconditionally:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_process_eq_events() {
-	...
-	mana_gd_ring_doorbell(gc, eq->gdma_dev->doorbell, eq->type, eq->id,
-			      head, SET_ARM_BIT);
-	...
-}
-
-and mana_gd_ring_doorbell() forms the MMIO address with no validity check:
-
-	void __iomem *addr = gc->db_page_base + gc->db_page_size * db_index;
-	...
-	writeq(e.as_uint64, addr);
-
-Only GDMA_EQE_HWC_INIT_EQ_ID_DB repopulates gd->doorbell in
-mana_hwc_init_event_handler(). If the first delivered batch does not start
-with that event, does the writeq() run with db_index == 0xFFFFFFFF, i.e.
-roughly 17 TiB past the ioremapped BAR0 window?
-
-The field is also written from hard IRQ context (gd->doorbell =
-eq_db.doorbell;) while this store is a plain process-context store with no
-WRITE_ONCE() or barrier. Since the reinit path calls
-mana_hwc_establish_channel() two or three times per probe, does this
-multiply the window rather than close it?
-
->  	init_completion(&hwc->hwc_init_eqe_comp);
->  
->  	err = mana_smc_setup_hwc(&gc->shm_channel, false,
-> @@ -789,6 +807,14 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
->  	*max_req_msg_size = hwc->hwc_init_max_req_msg_size;
->  	*max_resp_msg_size = hwc->hwc_init_max_resp_msg_size;
->  
-> +	/* Reject a missing doorbell before the channel test. This neither
-> +	 * validates its BAR range nor protects earlier IRQ rearming.
-> +	 */
-> +	if (gc->hwc.doorbell == INVALID_DOORBELL) {
-> +		dev_err(hwc->dev, "HWC: no doorbell in init data\n");
-> +		return -EPROTO;
-> +	}
-> +
-
-[Severity: High]
-This isn't a bug introduced by this patch, but since a doorbell sanity
-check is being added right here, could it also cover the BAR range?
-
-The value comes from a 16-bit device-controlled field and is stored with no
-validation:
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_init_event_handler() {
-	...
-	eq_db.as_uint32 = event->details[0];
-	hwc->cq->gdma_eq->id = eq_db.eq_id;
-	gd->doorbell = eq_db.doorbell;
-	...
-}
-
-It is then consumed unchecked by mana_gd_ring_doorbell() from the EQ rearm,
-from mana_gd_ring_cq() on the HWC CQ and from mana_gd_wq_ring_doorbell() on
-the HWC SQ/RQ. The driver already has the corresponding check for the
-PF-reported db_id:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_register_device() {
-	...
-	if (gc->db_page_off + gc->db_page_size * ((u64)resp.db_id + 1) > gc->bar0_size) {
-		dev_err(gc->dev, "Doorbell ID %u out of range\n", resp.db_id);
-		return -EPROTO;
-	}
-	...
-}
-
-With a 4 KiB doorbell page, a reported index of 0x8000 gives a 128 MiB
-offset, well outside a typical VF BAR0. Can the writeq() then land outside
-the ioremapped region at a device-chosen offset? The commit message notes
-the gap ("does not cover BAR bounds"), so was leaving it open intentional?
-
->  	/* Both were set in mana_hwc_init_event_handler(). */
->  	if (WARN_ON(cq->id >= gc->max_num_cqs))
->  		return -EPROTO;
-
-[ ... ]
-
-> @@ -846,13 +878,44 @@ static int mana_hwc_init_queues(struct hw_channel_context *hwc, u16 q_depth,
->  	return err;
->  }
->  
-> +/* Bring-up only: requires no senders or concurrent lifecycle operations.
-> + * This helper does not unpublish the HWC or drain senders.
-> + */
-> +static void mana_hwc_destroy_queues(struct hw_channel_context *hwc)
-> +{
-> +	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
-> +
-> +	/* The CQ helper deregisters the HWC EQ before returning. */
-> +	if (hwc->cq) {
-> +		mana_hwc_destroy_cq(gc, hwc->cq);
-> +		hwc->cq = NULL;
-> +	}
-
-[Severity: Medium]
-This is a pre-existing ordering issue rather than something this patch
-introduces, but the comment says the CQ helper deregisters the EQ before
-returning, and that only happens as the last step:
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_destroy_cq() {
-	kfree(hwc_cq->comp_buf);
-
-	if (hwc_cq->gdma_cq)
-		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
-
-	if (hwc_cq->gdma_eq)
-		mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
-	...
-}
-
-The list_del_rcu()/synchronize_rcu() pair that actually drains in-flight EQ
-users lives in mana_gd_deregister_irq(), reached only from the final
-gdma_eq destroy. During the first two frees the EQ is still on
-gic->eq_list.
-
-Can an interrupt in that window reach mana_hwc_comp_event() and use the
-already freed comp_buf?
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_comp_event() {
-	...
-	completions = hwc_cq->comp_buf;
-	comp_read = mana_gd_poll_cq(q_self, completions, hwc_cq->queue_depth);
-	...
-}
-
-An HWC init EQE in the same window would instead reach
-mana_hwc_init_event_handler(), which writes hwc->cq->gdma_eq->id and
-hwc->cq->gdma_cq->id while those objects are being freed, since hwc->cq is
-only cleared after mana_hwc_destroy_queues() returns. Would destroying the
-EQ first, before comp_buf and the gdma_cq, close this?
-
-> +
-> +	kfree(hwc->caller_ctx);
-> +	hwc->caller_ctx = NULL;
-> +
-> +	if (hwc->txq) {
-> +		mana_hwc_destroy_wq(hwc, hwc->txq);
-> +		hwc->txq = NULL;
-> +	}
-> +
-> +	if (hwc->rxq) {
-> +		mana_hwc_destroy_wq(hwc, hwc->rxq);
-> +		hwc->rxq = NULL;
-> +	}
-> +
-> +	mana_gd_free_res_map(&hwc->inflight_msg_res);
-> +	hwc->num_inflight_msg = 0;
-> +}
-> +
-
-[ ... ]
-
-> @@ -896,8 +959,132 @@ int mana_hwc_create_channel(struct gdma_context *gc)
->  		goto out;
->  	}
->  
-> +	if (q_depth_max > HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH) {
-
-[ ... ]
-
-> +		err = mana_smc_teardown_hwc(&gc->shm_channel, false);
-> +		if (err) {
-> +			dev_err(hwc->dev,
-> +				"Failed to teardown HWC for reinit: %d\n",
-> +				err);
-> +			goto reinit_fallback;
-> +		}
-> +
-> +		hwc->setup_active = false;
-> +
-> +		/* Unpublish the CQ and drain its EQ before freeing the table. */
-> +		mana_hwc_destroy_queues(hwc);
-> +
-> +		old_cq_table = gc->cq_table;
-> +		gc->cq_table = NULL;
-> +		gc->max_num_cqs = 0;
-> +		synchronize_rcu();
-> +		vfree(old_cq_table);
-
-[Severity: High]
-Is the store order here inverted with respect to what the readers check?
-
-The pre-existing teardown in mana_hwc_destroy_channel() clears the bound
-first and only drops the pointer at the very end (gc->max_num_cqs = 0; ...
-vfree(gc->cq_table); gc->cq_table = NULL;). Here the pointer goes away
-first, leaving a state where the bound check passes but the pointer is
-NULL.
-
-The surviving hard IRQ consumer validates only the bound:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_process_eqe() {
-	...
-	cq_id = eqe->details[0] & 0xFFFFFF;
-	if (WARN_ON_ONCE(cq_id >= gc->max_num_cqs))
-		break;
-
-	cq = gc->cq_table[cq_id];
-	...
-}
-
-That is exactly the case the patch guards against in mana_gd_destroy_cq()
-with READ_ONCE() plus a NULL check, but mana_gd_process_eqe() has neither.
-
-Beyond the adjacent-store window, is there a much longer one? The
-subsequent mana_hwc_init_queues() re-registers the HWC EQ on msix 0 before
-mana_hwc_establish_channel() runs, and the hard IRQ init handler sets
-gd->gdma_context->max_num_cqs = val from HWC_INIT_DATA_MAX_NUM_CQS while
-gc->cq_table is still NULL. The vcalloc() that repopulates it only happens
-after the up-to-60 s wait_for_completion_timeout() returns. Would a
-GDMA_EQE_COMPLETION delivered in that window pass the bound check and
-dereference NULL plus cq_id * 8, then call through the loaded value as
-cq->cq.callback?
-
-Also, since the reclaim now relies on synchronize_rcu(), should these be
-WRITE_ONCE()/rcu_assign_pointer() stores rather than plain ones?
-
-> +
-> +		err = mana_hwc_init_queues(hwc, q_depth_max,
-> +					   max_req_msg_size,
-> +					   max_resp_msg_size);
-> +		if (err) {
-> +			dev_err(hwc->dev, "Failed to reinit HWC: %d\n", err);
-> +			goto reinit_fallback;
-> +		}
-
-[ ... ]
-
-> +	}
-> +
-> +	goto skip_reinit;
-> +
-> +reinit_fallback:
-> +	/* A failed handshake leaves queue ownership uncertain. */
-> +	if (hwc->setup_active) {
-> +		if (mana_smc_teardown_hwc(&gc->shm_channel, false)) {
-> +			dev_err(hwc->dev,
-> +				"Failed to tear down HWC before bootstrap fallback\n");
-> +			goto out;
-> +		}
-> +		hwc->setup_active = false;
-> +	}
-
-[Severity: High]
-Does this abort actually avoid freeing memory the device may still own?
-
-The goto out lands in mana_hwc_destroy_channel(), which retries the
-teardown once and then continues regardless of the result:
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_destroy_channel() {
-	...
-	if (hwc->setup_active) {
-		if (!mana_smc_teardown_hwc(&gc->shm_channel, false))
-			hwc->setup_active = false;
-		else
-			dev_err(hwc->dev, "Failed to tear down HWC\n");
-	}
-	gc->max_num_cqs = 0;
-
-	/* Deregister the HWC EQ before freeing the work queues. */
-	if (hwc->cq)
-		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
-	...
-}
-
-So a third failure is logged and then mana_hwc_destroy_cq() and
-mana_hwc_destroy_wq() run mana_gd_destroy_queue() ->
-mana_gd_free_memory() -> dma_free_coherent(), plus vfree(gc->cq_table) and
-kfree(hwc), with hwc->setup_active still true.
-
-mana_smc_teardown_hwc() states the requirement explicitly:
-
-drivers/net/ethernet/microsoft/mana/shm_channel.c:mana_smc_teardown_hwc() {
-	...
-	/* Read shmem response (polling for VF possession) and validate.
-	 * For teardown, waiting for response is required to ensure hardware
-	 * invalidates MST entries before software frees memory.
-	 */
-	...
-}
-
-Can the coherent EQ/CQ/SQ/RQ rings and HWC message buffers then be returned
-to the page allocator while the hardware MST entries still map them, and
-with hwc freed so no later safe teardown is possible? The ignore-the-failure
-behaviour in mana_hwc_destroy_channel() predates this series, but this abort
-path is newly reachable, and the commit message says the intent is to
-"never test queues after an indeterminate destroy result".
-
-[ ... ]
-
-> diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-> index 571a533e62e64..22dd7c9cecc8a 100644
-> --- a/include/net/mana/gdma.h
-> +++ b/include/net/mana/gdma.h
-> @@ -692,6 +692,9 @@ enum {
->  /* Driver supports dynamic interrupt moderation - DIM */
->  #define GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION BIT(28)
->  
-> +/* Driver supports dynamic queue depth for HWC */
-> +#define GDMA_DRV_CAP_FLAG_1_DYN_HWC_QUEUE_DEPTH BIT(29)
-> +
-
-[Severity: Medium]
-The commit message says "Advertise support in the driver-version request."
-Can this flag gate the new behaviour at all?
-
-GDMA_DRV_CAP_FLAGS1 is only transmitted by mana_gd_verify_vf_version(),
-which runs after the HWC has been created:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_setup() {
-	...
-	err = mana_hwc_create_channel(gc);
-	if (err)
-		goto remove_irq;
-
-	err = mana_gd_verify_vf_version(pdev);
-	...
-}
-
-By then mana_hwc_create_channel() has already consumed
-HWC_INIT_DATA_QUEUE_DEPTH and performed the DESTROY_HWC plus second
-ESTABLISH_HWC cycle, and the verify request itself travels over the rebuilt
-channel. So the rebuild in mana_hwc_create_channel() is taken purely from
-the device-reported depth:
-
-	if (q_depth_max > HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH) {
-
-Unlike other capabilities in this driver, there is no PF acknowledgment
-check (GDMA_PF_CAP_FLAG_1_* in gc->pf_cap_flags1) before acting.
-
-In the baseline, hwc_init_q_depth_max was stored but never acted on, since
-mana_hwc_test_channel() was always called with
-HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH. Does existing hardware that already
-reports a depth above one now perform an extra shared-memory
-teardown/establish per probe, each with mana_smc_poll_register() polling and
-a 60 * HZ wait_for_completion_timeout()? And can probe now fail through the
-reinit_fallback goto out paths where it previously succeeded at depth one?
-
-Could the commit message describe the flag as informational only, and
-mention the behaviour change on PF firmware that never saw the new bit?
-
-[ ... ]
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,broadcom.com,gmx.de,lists.infradead.org,selenic.com,gondor.apana.org.au,arndb.de,linuxfoundation.org,infradead.org,arm.com,google.com,intel.com,linaro.org,microsoft.com,hygon.cn,amd.com,zhaoxin.com,oracle.com,roeck-us.net,gmail.com,bootlin.com,nod.at,ti.com,lists.xenproject.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLbixyxwsf3a5i7e4ez64ejni4)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[95];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+
+For accessing the MSR registers on the local CPU, there are 2 types of
+interfaces: the "modern" 64-bit ones (rdmsrq() etc.) and the 32-bit
+ones (rdmsr() etc.) which are using the upper and lower 32-bit halves
+of the 64-bit wide MSR register values.
+
+The 32-bit interfaces are not optimal for 3 reasons:
+
+- They are based on primitives using 64-bit sized values anyway.
+
+- Modern x86 CPUs have added support for MSR access instructions using
+  an immediate value instead of a register for addressing the MSR,
+  while the value is in a 64-bit register.
+
+- rdmsr() is a macro storing the upper and lower 32-bit halves in
+  variables specified as macro parameters. This is obscuring variable
+  assignment through a macro. Additionally rdmsrq() is mimicking this
+  pattern by being a macro, too, with the target variable specified as
+  a parameter as well.
+
+For those reasons drop the 32-bit interfaces for accessing the x86 MSR
+registers completely and only use the 64-bit variants.
+
+This allows to switch all "high-level" MSR access macros to inline
+functions in the end.
+
+This series will be used as the base for further reorganisation of the
+MSR access functions, especially for completely inlining the MSR
+access instructions even with paravirtualization being active.
+
+Based on kernel 7.3 as of 2026-09-11.
+
+Changes in V2:
+- dropped already applied patches
+- added patch 1
+- rebased
+
+Changes in V3:
+- small fixes in patches 4 and 13
+- rebased
+
+Juergen Gross (13):
+  x86/cpu: Fix coding style violation
+  x86/msr: Remove wrmsr_safe()
+  x86/msr: Remove rdmsr_safe()
+  drivers/ata: Stop using 32-bit MSR interfaces
+  agp/nvidia: Stop using 32-bit MSR interfaces
+  fbdev/geode: Stop using 32-bit MSR interfaces
+  hw_random/via-rng: Stop using 32-bit MSR interfaces
+  drivers/gpio: Stop using 32-bit MSR interfaces
+  drivers/misc: Stop using 32-bit MSR interfaces
+  x86/msr: Remove wrmsr()
+  x86/msr: Remove rdmsr()
+  treewide: convert rdmsrq() from a macro to an inline function
+  x86/msr: Simplify some rdmsrq() use cases
+
+ arch/x86/coco/sev/core.c                      |  2 +-
+ arch/x86/events/amd/brs.c                     |  4 +-
+ arch/x86/events/amd/core.c                    |  8 +--
+ arch/x86/events/amd/ibs.c                     | 18 +++----
+ arch/x86/events/amd/lbr.c                     | 16 ++----
+ arch/x86/events/amd/power.c                   |  8 +--
+ arch/x86/events/amd/uncore.c                  |  4 +-
+ arch/x86/events/core.c                        | 20 ++++----
+ arch/x86/events/intel/core.c                  | 15 ++----
+ arch/x86/events/intel/cstate.c                |  5 +-
+ arch/x86/events/intel/ds.c                    |  2 +-
+ arch/x86/events/intel/knc.c                   | 10 ++--
+ arch/x86/events/intel/lbr.c                   | 25 +++-------
+ arch/x86/events/intel/p4.c                    |  6 +--
+ arch/x86/events/intel/p6.c                    |  4 +-
+ arch/x86/events/intel/pt.c                    | 12 ++---
+ arch/x86/events/intel/uncore.c                |  6 +--
+ arch/x86/events/intel/uncore_nhmex.c          |  4 +-
+ arch/x86/events/intel/uncore_snb.c            |  2 +-
+ arch/x86/events/intel/uncore_snbep.c          |  6 +--
+ arch/x86/events/msr.c                         |  2 +-
+ arch/x86/events/perf_event.h                  |  6 +--
+ arch/x86/events/rapl.c                        |  6 +--
+ arch/x86/events/zhaoxin/core.c                | 10 ++--
+ arch/x86/hyperv/hv_apic.c                     |  9 ++--
+ arch/x86/hyperv/hv_init.c                     | 26 +++++-----
+ arch/x86/hyperv/hv_spinlock.c                 |  2 +-
+ arch/x86/include/asm/apic.h                   |  7 +--
+ arch/x86/include/asm/debugreg.h               |  6 +--
+ arch/x86/include/asm/fsgsbase.h               |  2 +-
+ arch/x86/include/asm/kvm_host.h               | 10 ----
+ arch/x86/include/asm/msr.h                    | 39 ++-------------
+ arch/x86/include/asm/paravirt.h               | 26 +---------
+ arch/x86/kernel/apic/apic.c                   | 14 +++---
+ arch/x86/kernel/apic/apic_numachip.c          |  6 +--
+ arch/x86/kernel/cet.c                         |  2 +-
+ arch/x86/kernel/cpu/amd.c                     | 14 +++---
+ arch/x86/kernel/cpu/aperfmperf.c              |  8 +--
+ arch/x86/kernel/cpu/bugs.c                    | 12 ++---
+ arch/x86/kernel/cpu/bus_lock.c                |  8 +--
+ arch/x86/kernel/cpu/centaur.c                 |  8 +--
+ arch/x86/kernel/cpu/common.c                  | 12 ++---
+ arch/x86/kernel/cpu/feat_ctl.c                |  4 +-
+ arch/x86/kernel/cpu/hygon.c                   |  4 +-
+ arch/x86/kernel/cpu/intel.c                   |  6 +--
+ arch/x86/kernel/cpu/intel_epb.c               |  4 +-
+ arch/x86/kernel/cpu/mce/amd.c                 |  4 +-
+ arch/x86/kernel/cpu/mce/core.c                |  8 +--
+ arch/x86/kernel/cpu/mce/inject.c              |  2 +-
+ arch/x86/kernel/cpu/mce/intel.c               | 18 +++----
+ arch/x86/kernel/cpu/mce/p5.c                  |  8 +--
+ arch/x86/kernel/cpu/mce/winchip.c             |  2 +-
+ arch/x86/kernel/cpu/microcode/intel.c         |  2 +-
+ arch/x86/kernel/cpu/mshyperv.c                |  6 +--
+ arch/x86/kernel/cpu/mtrr/amd.c                |  4 +-
+ arch/x86/kernel/cpu/mtrr/cleanup.c            |  4 +-
+ arch/x86/kernel/cpu/mtrr/generic.c            | 32 ++++++------
+ arch/x86/kernel/cpu/mtrr/mtrr.c               |  2 +-
+ arch/x86/kernel/cpu/resctrl/core.c            |  2 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c         |  4 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c     |  4 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |  2 +-
+ arch/x86/kernel/cpu/topology.c                |  2 +-
+ arch/x86/kernel/cpu/topology_amd.c            |  4 +-
+ arch/x86/kernel/cpu/transmeta.c               |  8 +--
+ arch/x86/kernel/cpu/tsx.c                     | 10 ++--
+ arch/x86/kernel/cpu/umwait.c                  |  2 +-
+ arch/x86/kernel/cpu/zhaoxin.c                 |  4 +-
+ arch/x86/kernel/fpu/core.c                    |  2 +-
+ arch/x86/kernel/hpet.c                        |  2 +-
+ arch/x86/kernel/kvm.c                         |  2 +-
+ arch/x86/kernel/mmconf-fam10h_64.c            |  6 +--
+ arch/x86/kernel/process.c                     |  4 +-
+ arch/x86/kernel/process_64.c                  | 14 +++---
+ arch/x86/kernel/shstk.c                       |  8 +--
+ arch/x86/kernel/traps.c                       |  4 +-
+ arch/x86/kernel/tsc.c                         |  2 +-
+ arch/x86/kernel/tsc_msr.c                     |  6 +--
+ arch/x86/kernel/tsc_sync.c                    |  6 +--
+ arch/x86/kvm/msrs.c                           |  2 +-
+ arch/x86/kvm/svm/pmu.c                        |  4 +-
+ arch/x86/kvm/svm/svm.c                        |  4 +-
+ arch/x86/kvm/vmx/nested.c                     |  4 +-
+ arch/x86/kvm/vmx/pmu_intel.c                  |  8 +--
+ arch/x86/kvm/vmx/sgx.c                        |  6 +--
+ arch/x86/kvm/vmx/tdx.c                        |  2 +-
+ arch/x86/kvm/vmx/vmx.c                        | 42 ++++++++--------
+ arch/x86/kvm/x86.c                            |  6 +--
+ arch/x86/lib/insn-eval.c                      |  6 +--
+ arch/x86/lib/msr-smp.c                        |  2 +-
+ arch/x86/mm/pat/memtype.c                     |  2 +-
+ arch/x86/pci/amd_bus.c                        |  8 +--
+ arch/x86/platform/olpc/olpc-xo1-rtc.c         |  6 +--
+ arch/x86/platform/olpc/olpc-xo1-sci.c         |  2 +-
+ arch/x86/power/cpu.c                          | 10 ++--
+ arch/x86/realmode/init.c                      |  2 +-
+ arch/x86/virt/hw.c                            |  8 +--
+ arch/x86/virt/svm/sev.c                       | 18 +++----
+ arch/x86/virt/vmx/tdx/tdx.c                   |  2 +-
+ arch/x86/xen/suspend.c                        |  2 +-
+ drivers/acpi/processor_perflib.c              |  2 +-
+ drivers/ata/pata_cs5535.c                     | 24 ++++-----
+ drivers/ata/pata_cs5536.c                     | 17 +++----
+ drivers/char/agp/nvidia-agp.c                 | 32 ++++++------
+ drivers/char/hw_random/via-rng.c              | 29 +++++------
+ drivers/cpufreq/acpi-cpufreq.c                |  8 +--
+ drivers/cpufreq/amd-pstate.c                  |  4 +-
+ drivers/cpufreq/e_powersaver.c                | 20 ++++----
+ drivers/cpufreq/intel_pstate.c                | 28 +++++------
+ drivers/cpufreq/longhaul.c                    | 12 ++---
+ drivers/cpufreq/longrun.c                     | 16 +++---
+ drivers/cpufreq/powernow-k7.c                 | 10 ++--
+ drivers/cpufreq/powernow-k8.c                 |  8 +--
+ drivers/cpufreq/speedstep-centrino.c          |  4 +-
+ drivers/cpufreq/speedstep-lib.c               | 14 +++---
+ drivers/edac/amd64_edac.c                     |  6 +--
+ drivers/gpio/gpio-cs5535.c                    | 10 ++--
+ drivers/hv/mshv_vtl_main.c                    |  2 +-
+ drivers/hwmon/hwmon-vid.c                     |  4 +-
+ drivers/idle/intel_idle.c                     | 26 +++++-----
+ drivers/misc/cs5535-mfgpt.c                   | 33 ++++++------
+ drivers/mtd/nand/raw/cs553x_nand.c            |  6 +--
+ drivers/platform/x86/intel/ifs/load.c         | 10 ++--
+ drivers/platform/x86/intel/ifs/runtest.c      |  8 +--
+ drivers/platform/x86/intel/pmc/cnp.c          |  2 +-
+ .../intel/speed_select_if/isst_if_mbox_msr.c  |  6 +--
+ .../intel/speed_select_if/isst_tpmi_core.c    |  2 +-
+ drivers/platform/x86/intel_ips.c              | 20 ++++----
+ drivers/powercap/intel_rapl_msr.c             |  2 +-
+ drivers/thermal/intel/intel_hfi.c             |  8 +--
+ drivers/thermal/intel/therm_throt.c           | 22 ++++----
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  6 +--
+ drivers/video/fbdev/geode/display_gx.c        |  8 +--
+ drivers/video/fbdev/geode/gxfb_core.c         |  2 +-
+ drivers/video/fbdev/geode/lxfb_ops.c          | 50 +++++++++----------
+ drivers/video/fbdev/geode/suspend_gx.c        | 24 +++++----
+ drivers/video/fbdev/geode/video_gx.c          |  8 +--
+ include/linux/cs5535.h                        | 10 ++--
+ 138 files changed, 575 insertions(+), 694 deletions(-)
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260908035201.402424-1-longli%40microsoft.com
+2.55.0
+
