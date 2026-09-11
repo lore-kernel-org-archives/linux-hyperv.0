@@ -1,70 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CA747F3C8;
-	Fri, 11 Sep 2026 12:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1396247F77C;
+	Fri, 11 Sep 2026 12:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131607; cv=none; b=WPK3T+Rj01Sqhv12xJLV08r+4IG/NpMfRkD3UOLtO5vlSWol7QOYnqvxrMabvARwudUFhd4EWwH4BTXIileqJPT9nt8DBXmgXG+bGrK5uaW5SgwDKZnbmuYooLBRc3ngLP2iZ4g474qOKyzDpIFKjg9pOtuUgkzyMzySr5iTw5A=
+	t=1789131615; cv=none; b=rudpgw9TukynyLQpdaalHjkyiw1uwqYldX1YcGU1EBMou7r3BGUHRR5H71v6PrBRZFvaIAY7VdVd6pr+m+MCI2Z+0zjgA8g//h4utssf7lM6Q2UOhSbaj9tL4DqDG6F8Qa7ejzXydO2xVAytRgPlidFC2fz1WWbyO3uRbvP+P+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131607; c=relaxed/simple;
-	bh=4GSlZVdim4UHhZgzdztPlxiMIor4//3/w7uuyumnHns=;
+	s=arc-20240116; t=1789131615; c=relaxed/simple;
+	bh=yX+3ilPb20xiw8ZmOebnP4VcjHhRYW77anjC2PSUMOQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ja9ZpY9kj9Y/4mbJhk5somGrK+2WrmeTI5caB56Jaly5erYc2TEI+kl+GrPAVhHB/z+F2MuMp7oAX1HKFNthu8iLXWDOGlAF3t9t6d3eEGhPRv84EOUlqburlyYTzDbPby4xjLGYmv1vCjgFlKRB/Fbioy4Be8baycMpjBdDSwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRqxgu/2; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=pK44NgKcnAcmVYjgEXy7cUFDNkTg8UXeOA8TTSCag/u/54SvrlUgheO18izjVmZgVf+Ev0dHYqkVUN518kNN9pKO2ys/nVGA5NIh4ZFKSSPWNFRK/pEgwRVgs6Hyk26cjS/XfOa/S+JHP1MjVxvCGorz0B9+5dU0S/tisGLgJFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1/IRq2u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRqxgu/2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BE5C1F00898;
-	Fri, 11 Sep 2026 12:59:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1/IRq2u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6441F00899;
+	Fri, 11 Sep 2026 12:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789131584;
-	bh=4GSlZVdim4UHhZgzdztPlxiMIor4//3/w7uuyumnHns=;
+	s=k20260515; t=1789131590;
+	bh=yX+3ilPb20xiw8ZmOebnP4VcjHhRYW77anjC2PSUMOQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lRqxgu/2JkLI3PeOol6tJ9dW7mpOXvyeEjCoKTGxIJfu2xLeTH8J/4j4FdL3OBcRA
-	 ncOrlOVhWVZgGORHiCqp6KNhNEGk28PfIqWjbDTg93snCFvm/GoviUlIG1AQlmnWG4
-	 FXpRgoOIApiLBke+RIWY1FWRsODT6ZQ3ai8A46xYMBaXtUk93qSyd9nDVENCZqB0ZB
-	 ym9h6YCRADgJ6ZW+jhC4/V2osHOSBozpIdjQYZKe05g+Y2Utb6eL+zxMFBlxH9XaDz
-	 3pEDFaQQw/DrywGtQ5Sjbj+hGAPGsLF/x8JmVH4pFJQoaUSqDVqBQhc2X9XsCWKIpz
-	 WxqtvI/UhWqxw==
+	b=b1/IRq2uo/UurTvnX1op4KNq5KATENSdkp0JYc2lVsGM9E5jNnZCMjILGfVXMV5wU
+	 JLYrDeORq5/Csgv2ukR5a4dOik0cTfmGpIDqBAQ3qHi8TuC+Rt6MNnqbEvp4zC1lUU
+	 /cdL3PWW5Ekeg/maVEU7NulsQB77bVWYoqx/s6J4Ibsob+Pmn8rlXAVr3dZf59J8vl
+	 XndM5q++BzLOVQbeaSpA/NGcC1BNRxrer8Q4fkOP0ZA1GegGjoX6iX7OhuerRIo0Vi
+	 dH4W9Q9EehI36N9x4Z2+wQxe5dgBOINSJttdUgzCfjIXUjx3VCRiD9RP6Zb1sN5tqV
+	 6aPTad0ybnfbQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 11/14] drm/panic: Display panic screen via per-plane
- callback
+Subject: Re: [PATCH v5 13/14] drm/panic: Move panic display code into helper
+ library
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: Frank.Li@kernel.org, gary@garyguo.net, "Michael S. Tsirkin" <mst@redhat.com>, imx@lists.linux.dev, ojeda@kernel.org, intel-xe@lists.freedesktop.org, virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org, wsa+renesas@sang-engineering.com, linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20260911124540.279841-12-tzimmermann@suse.de>
+Cc: ojeda@kernel.org, linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, imx@lists.linux.dev, wsa+renesas@sang-engineering.com, Frank.Li@kernel.org, "Eugenio
+ Perez" <eperezma@redhat.com>, gary@garyguo.net, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260911124540.279841-14-tzimmermann@suse.de>
 References: <20260911124540.279841-1-tzimmermann@suse.de>
- <20260911124540.279841-12-tzimmermann@suse.de>
+ <20260911124540.279841-14-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 12:59:43 +0000
-Message-Id: <20260911125944.1BE5C1F00898@smtp.kernel.org>
+Date: Fri, 11 Sep 2026 12:59:49 +0000
+Message-Id: <20260911125950.4B6441F00899@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-> Add display_panic_screen to struct drm_plane_funcs. If set on a plane,
-> register a panic handler for the plane from the DRM core's panic
-> handling. Invoke this helper from the core to display a panic screen.
+> Move drm_plane_helper_display_panic_screen() and the existing panic-
+> display code into drm_panic_helper.c. Rename symbols accordingly.
+> Also update the QR-related code and the bindings accordingly.
 >=20
-> The new callback replaces get_scanout_buffer as signal for panic
-> support in a plane. Using get_scanout_buffer is now merely a detail
-> of the implementation. This will also free struct drm_scanout_buffer
-> for use cases besides panic handling.
+> Link the rsp. object file into drm_kms_helper.ko. Eventually the code
+> will become a DRM drawing library, together with DRM's format and draw
+> helpers. This requires more preparation. until then, KMS helpers serve
+> as a module. All DRM drivers link it anyway.
 >=20
-> With display_panic_screen in place, rename draw_panic_plane() to
-> drm_plane_helper_display_panic_screen() and make it available to DRM
-> drivers via drm_panic_helper.h. Do not change the implementation or
-> functionality of this code. drm_plane_helper_display_panic_screen()
-> still supports kernel messages, user messages and QR codes on various
-> color formats.
-> [ ... ]
-> - only consider planes with get_scanout_buffer (Sashiko)
-> - set callback for planes create with drm_crtc_init() (Sashiko)
-> - return errno code from display_panic_screen
+> Add a new section about drawing helpers to the documentation of the KMS
+> helpers. List format and panic helpers there.
+>=20
+> v2:
+> - fix dependencies on other DRM modules (Randy, Sashiko)
+> - provide placeholders for drm_panic_helper_{init,exit}() (Sashiko)
 >=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
@@ -72,5 +69,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260911124540.2798=
-41-1-tzimmermann@suse.de?part=3D11
+41-1-tzimmermann@suse.de?part=3D13
 
