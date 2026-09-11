@@ -1,67 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1396247F77C;
-	Fri, 11 Sep 2026 12:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B4A47F3D9;
+	Fri, 11 Sep 2026 13:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131615; cv=none; b=rudpgw9TukynyLQpdaalHjkyiw1uwqYldX1YcGU1EBMou7r3BGUHRR5H71v6PrBRZFvaIAY7VdVd6pr+m+MCI2Z+0zjgA8g//h4utssf7lM6Q2UOhSbaj9tL4DqDG6F8Qa7ejzXydO2xVAytRgPlidFC2fz1WWbyO3uRbvP+P+4=
+	t=1789131699; cv=none; b=ISujdY/afk0dtJ/L+NtWW0WN9jFtWRXxT+vvDPEfW7zWajyL9KFaJ9XJvjDuaSSrIkBsThPafPaHgzt1I4yT7j4AJ1jESiRxXS/cO3FUMtZF//JrWQCSyvJcYzCnAV3TXn+dFW3maW5Az1yM4ltOEIvgInN7X28GcYlSZUFFR1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131615; c=relaxed/simple;
-	bh=yX+3ilPb20xiw8ZmOebnP4VcjHhRYW77anjC2PSUMOQ=;
+	s=arc-20240116; t=1789131699; c=relaxed/simple;
+	bh=ITWwrU1+lRmLuva48oLsKTlgUumBuY7FaZNMvnW/XTw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=pK44NgKcnAcmVYjgEXy7cUFDNkTg8UXeOA8TTSCag/u/54SvrlUgheO18izjVmZgVf+Ev0dHYqkVUN518kNN9pKO2ys/nVGA5NIh4ZFKSSPWNFRK/pEgwRVgs6Hyk26cjS/XfOa/S+JHP1MjVxvCGorz0B9+5dU0S/tisGLgJFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1/IRq2u; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Y/lyRsETsHw/iA/1l3cYW2a675f6Mb1YSi+E6J8vhRpKpVZUocoFKnlFiDs9SUiQ0QQFycP3Gi3RAtzbWledi63mF6rBtRsOy+SkyHRetJhCpvk8mKquwBvfWXKRbrqN8Sb9t3V9sufNSETLa5G+FLSjZDlI+H+82PNNqT8yQV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jIHTr6sS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1/IRq2u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6441F00899;
-	Fri, 11 Sep 2026 12:59:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jIHTr6sS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EEA1F000FF;
+	Fri, 11 Sep 2026 13:01:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789131590;
-	bh=yX+3ilPb20xiw8ZmOebnP4VcjHhRYW77anjC2PSUMOQ=;
+	s=k20260515; t=1789131682;
+	bh=njJNqx2xN32J4SV/wSn1hvanaa80mVzmvuVh8G0EjAo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=b1/IRq2uo/UurTvnX1op4KNq5KATENSdkp0JYc2lVsGM9E5jNnZCMjILGfVXMV5wU
-	 JLYrDeORq5/Csgv2ukR5a4dOik0cTfmGpIDqBAQ3qHi8TuC+Rt6MNnqbEvp4zC1lUU
-	 /cdL3PWW5Ekeg/maVEU7NulsQB77bVWYoqx/s6J4Ibsob+Pmn8rlXAVr3dZf59J8vl
-	 XndM5q++BzLOVQbeaSpA/NGcC1BNRxrer8Q4fkOP0ZA1GegGjoX6iX7OhuerRIo0Vi
-	 dH4W9Q9EehI36N9x4Z2+wQxe5dgBOINSJttdUgzCfjIXUjx3VCRiD9RP6Zb1sN5tqV
-	 6aPTad0ybnfbQ==
+	b=jIHTr6sSpk5e//l7q7kerPPajxMrnRUkF2npfHv6BrMyq2xheK/KRFkXkiwLsQap2
+	 r2S7ppJiminXJFI58jHPB6HHOXQLRU/NmNjfEA89U5p5qfNqAYjByd6qJ1lRGeJAfy
+	 mrIZsCBIJMygeXjpXaqmTATjbdPd9bmI2ueM5hDn92YMb0luJQR+4qdUKqqnarVQbm
+	 w6fGUr0/5SnvtcHikUWUaFFjAIrsgUB82TXZ+1D2fAI5Yvlpmk3YBRGVxzBCybLJRH
+	 gzMEZbfycDDCSWxyXZEwUufA5JjuNx6Z/hoL6IO8w9oK91UUVYeBWJ6P1ntwpijDY4
+	 F8dllB0p0thSQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 13/14] drm/panic: Move panic display code into helper
- library
+Subject: Re: [PATCH v5 14/14] drm/panic: Compile KUnit tests as module
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: ojeda@kernel.org, linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, "Michael
- S. Tsirkin" <mst@redhat.com>, imx@lists.linux.dev, wsa+renesas@sang-engineering.com, Frank.Li@kernel.org, "Eugenio
- Perez" <eperezma@redhat.com>, gary@garyguo.net, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260911124540.279841-14-tzimmermann@suse.de>
+Cc: linux-hyperv@vger.kernel.org, Frank.Li@kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, imx@lists.linux.dev, "Michael
+ S. Tsirkin" <mst@redhat.com>, ojeda@kernel.org, "Eugenio Perez" <eperezma@redhat.com>, gary@garyguo.net, wsa+renesas@sang-engineering.com, dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+In-Reply-To: <20260911124540.279841-15-tzimmermann@suse.de>
 References: <20260911124540.279841-1-tzimmermann@suse.de>
- <20260911124540.279841-14-tzimmermann@suse.de>
+ <20260911124540.279841-15-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 12:59:49 +0000
-Message-Id: <20260911125950.4B6441F00899@smtp.kernel.org>
+Date: Fri, 11 Sep 2026 13:01:21 +0000
+Message-Id: <20260911130121.78EEA1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-> Move drm_plane_helper_display_panic_screen() and the existing panic-
-> display code into drm_panic_helper.c. Rename symbols accordingly.
-> Also update the QR-related code and the bindings accordingly.
+> Fix dependency of the panic-helper KUnit tests on CONFIG_DRM_KUNIT_TEST=
+=3Dy
+> and make them build as a module. Export the necessary interfaces from the
+> panic helpers iff the KUnit framework has been enabled.
 >=20
-> Link the rsp. object file into drm_kms_helper.ko. Eventually the code
-> will become a DRM drawing library, together with DRM's format and draw
-> helpers. This requires more preparation. until then, KMS helpers serve
-> as a module. All DRM drivers link it anyway.
+> Select DRM_PANIC_HELPER from DRM_KUNIT_TEST to meet the dependencies of
+> the panic-helper tests.
 >=20
-> Add a new section about drawing helpers to the documentation of the KMS
-> helpers. List format and panic helpers there.
+> It is now possible to run the tests by modprobe-ing drm_panic_helper_test
+> at runtime.
 >=20
+> v5:
+> - clear test description with drm_panic_helper_clear_description() (Sashi=
+ko)
+> v3:
+> - clean up after each test case (Sashiko)
 > v2:
-> - fix dependencies on other DRM modules (Randy, Sashiko)
-> - provide placeholders for drm_panic_helper_{init,exit}() (Sashiko)
+> - fix parameter order in decl of drm_panic_helper_draw_screen_qr()
+>   (Sashiko)
 >=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
@@ -69,5 +71,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260911124540.2798=
-41-1-tzimmermann@suse.de?part=3D13
+41-1-tzimmermann@suse.de?part=3D14
 
