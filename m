@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606D414883F;
-	Sat, 12 Sep 2026 00:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B92874C14;
+	Sat, 12 Sep 2026 00:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789171419; cv=none; b=bsgxX/7/sgzS53TbTIWeirRXKWTabqmwhO+772CSLVmNxyEDVC4pmvfmQ1N2Hobf1jTSdZUeY/D+hc2yiQF4t4AdT+CFOzVXaetvHvMGeriWqtr2eq7pzw4YkfLcgLM3lWrVMUKdhosRnrhEYVc4tfTnNxMPV1B1wfP9KLHd274=
+	t=1789171420; cv=none; b=dD8viqF/sM/rKJMSnjL+7iRRH9dFksDvPE2s93VDCBWwR64vUBKfJ0eIp4FDbVLYkzN9KQpVzl3jYVckQaQzttw9QVhdTxjplOLWgV0GQEMe6MrSB5VnPgHrcR0xcCgQ8Ap2QfSLvR8Ayv4tGLY2zF/JLuL56CUHz/wwNHHgnps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789171419; c=relaxed/simple;
-	bh=5jIkuEdepZUzIbdH2Vq7u3srHwcMBiN4I0mx1oxIK6Q=;
+	s=arc-20240116; t=1789171420; c=relaxed/simple;
+	bh=Mt294p71DI4BZ0u8z7Z3x7X2CPaY1VAbkEQlw1QAXfk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W6mMHY/5yNGsXwpYiWotV33hhM9F0sKFnWKc9yBh77btjeWpm8R0df59su7f44Yy1NuMdZ82pX10f16aIEzm09EvlJYcZAoj7CS+xl/SvFMYM97EBnEOsIg6fM3bY7zUWcTWYR4SOQ1oswdnnQhiRdKsr/EMc9X6lYiyEE5ao0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HiOHDVze; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=EX2YfyTn8EBtSvqYa4p/7ljyQ6QjmmYFceWaeB6+eiWgZj9fXQRvyU++LzhB7klt6nnEIyq/myYqY5A/zUJbeXfHqs7BlfwMra/933zdlxMW/ghxxM8DCs48AzldXLBip2WZs50rPbyJ6eVV/Ron4F8xQTL8BUUj+JN/1CRWytU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=W7Wfdwml; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HiOHDVze"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="W7Wfdwml"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A1D1A20B7168;
-	Fri, 11 Sep 2026 17:02:53 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A1D1A20B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9750F20B716A;
+	Fri, 11 Sep 2026 17:02:54 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9750F20B716A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789171373;
-	bh=+lKK0syMghxBwPTGfsrbUmVaV3YlZDzU9VrtX6uMcVE=;
+	s=default; t=1789171374;
+	bh=B5d0o0fXN6uDKm28l8fppnurj3UFuA1lkh2v2wNdAGg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HiOHDVzeb9e9Aks+BLycSKBh2v7xbyaqFH5jjoBIPzzwnQDNBMMF+ikuhwlPtXgmZ
-	 y/83td53U5TrB+wuxQQb06EQ42aOS4i/1HGSR1z6bmt2xCBTmrmU6X4u7OC1gX5bZo
-	 s6U3c4n34YWrtfUUGobCto5XGpmpvs/WKQLbHJJs=
+	b=W7Wfdwmlynan+8UCuJFR+2juMErp4zySvIxpxWDcB/ZSJzexcmNekavSUTpY8Z91b
+	 JhwCAbujwkQXVsN9/9fwWr/OYqLVyNaSCRQ25IsfoazvBvfy8sql3LS5QWJks8Os2d
+	 gkog1Ezp29dx1+JIlKwNn+LeBQMKqZBOFx/FlkVY=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -32,9 +32,9 @@ Cc: kys@microsoft.com,
 	wei.liu@kernel.org,
 	mhkelley58@gmail.com,
 	mrathor@linux.microsoft.com
-Subject: [PATCH V2 2/3] mshv: Redesign hypervisor memory deposit logic
-Date: Fri, 11 Sep 2026 17:03:17 -0700
-Message-ID: <20260912000318.2959621-3-mrathor@linux.microsoft.com>
+Subject: [PATCH V2 3/3] mshv: Remove unused *_old memory deposit functions
+Date: Fri, 11 Sep 2026 17:03:18 -0700
+Message-ID: <20260912000318.2959621-4-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 In-Reply-To: <20260912000318.2959621-1-mrathor@linux.microsoft.com>
 References: <20260912000318.2959621-1-mrathor@linux.microsoft.com>
@@ -46,335 +46,154 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current memory deposit implementation has a few issues and bugs:
- o It is very slow: one of the main contributions to slow VM creations
-   and boot is many hypercalls repeatedly coming back with insufficient
-   memory. On Hyper-V, a hypercall returns with such status whenever it
-   cannot complete due to lack of memory in the hypervisor and needs more.
- o Contiguous range requirement is broken, and is critical bug
- o An incorrect assumption is made that contiguous memory size would
-   always be power of 2.
- o Two pages are allocated, only one is really needed. Extra alloc adds
-   to the overhead.
- o For a 512 page deposit, the allocation is split into two: one for 511
-   and second for 1. Thus, an order 9 allocation never happens. A
-   contiguous 2M range, if possible, greatly improves performance
-   in the hypervisor as it can be mapped as large page whenever possible.
-   Also, removing extra allocation reduces overhead in linux.
- o Since a page is already allocated to collect the frames, there is
-   not really a need to use per cpu input page, and hence avoid local
-   irq disable.
- o In hv_call_deposit_pages(), in case of error, under err_free_allocations
-   label, all pages are freed without checking status to see if some pages
-   were deposited. This is a critical bug as it would free pages that hyp
-   may be using.
-
-All of above is addressed by:
- o Allocate 2M by default, this is the recommendation from the hypervisor
-   team, and greatly improves performance. Depositing one or few pages
-   at a time results in lot of insufficient memory returns from hypercalls.
- o Always start with a full 2M range allocation, thus getting contiguous if
-   available. In cases where possible, the deposits are much faster.
- o Allocate only one page in the deposit function and collect 511 pfns
-   there. Just use a local variable for last pfn.
- o Use the page as input to hypercall. Since this page is locally allocated,
-   irq disable can be avoided helping speed up the deposit.
- o Fix the physical contiguous memory enforcement..
- o Lastly, remove pre-deposits hv_call_create_vp() and
-   hv_call_initialize_partition() as they were removed internally while
-   ago, most likely because they didn't help much.
+Remove the renamed *_old functions, done for ease of review.
 
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/hv_proc.c           | 194 +++++++++++++++++++++++++++++----
- drivers/hv/mshv_root_hv_call.c |  10 +-
- include/asm-generic/mshyperv.h |   5 -
- 3 files changed, 175 insertions(+), 34 deletions(-)
+ drivers/hv/hv_proc.c | 129 -------------------------------------------
+ 1 file changed, 129 deletions(-)
 
 diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 57864bb5bcd8..df39a5c587ca 100644
+index df39a5c587ca..f811bb5c42a1 100644
 --- a/drivers/hv/hv_proc.c
 +++ b/drivers/hv/hv_proc.c
-@@ -9,6 +9,180 @@
- #include <linux/export.h>
- #include <asm/mshyperv.h>
- 
-+#define HV_DEPOSIT_MAX 512
-+#define HV_DEPOSIT_INP_MAX ((HV_HYP_PAGE_SIZE -  \
-+	offsetof(struct hv_deposit_memory, gpa_page_list)) / sizeof(u64))
-+
-+/*
-+ * Allocate free pages for deposit to hypervisor. pfna[] must be large enough
-+ * to hold HV_DEPOSIT_INP_MAX (511) pages. If num_pages is 512, return last
-+ * pfn in lastpfn. If @single, then it must be a single allocation (not split
-+ * over multiple contiguous ranges).
-+ *
-+ * Returns: number of pages allocated or -ENOMEM
-+ */
-+static int hv_alloc_dep_pages(int node, u64 *pfna, u64 *lastpfnp, int num_pages,
-+			      bool single)
-+{
-+	struct page *page;
-+	int num_allocd, count = 0;
-+
-+	/* Published ABI, enforce its immutability. */
-+	BUILD_BUG_ON(HV_DEPOSIT_INP_MAX != 511);
-+
-+	if (num_pages > HV_DEPOSIT_MAX ||
-+	    (num_pages == HV_DEPOSIT_MAX && lastpfnp == NULL))
-+		return -EINVAL;
-+
-+	while (num_pages) {
-+		/* Find highest order we can actually allocate */
-+		int order = 31 - __builtin_clz(num_pages);
-+		gfp_t gfp_flags = GFP_KERNEL;
-+
-+		if (!single)
-+			gfp_flags |= __GFP_NOWARN;
-+
-+		while (1) {
-+			page = alloc_pages_node(node, gfp_flags, order);
-+			if (page || order == 0 || single)
-+				break;
-+
-+			order--;
-+		}
-+
-+		if (page == NULL)
-+			break;
-+
-+		split_page(page, order);
-+		num_allocd = 1 << order;
-+		num_pages -= num_allocd;
-+
-+		while (num_allocd && count < HV_DEPOSIT_INP_MAX) {
-+			pfna[count++] = page_to_pfn(page++);
-+			num_allocd--;
-+		}
-+
-+		if (num_allocd-- && count == HV_DEPOSIT_INP_MAX) {
-+			*lastpfnp = page_to_pfn(page);
-+			count++;
-+			break;
-+		}
-+	}
-+
-+	return count ? count : -ENOMEM;
-+}
-+
-+/*
-+ * Deposit memory in the hypervisor. Even if @contiguous is false, a contiguous
-+ * 2M worth of pfns is utmost desired for performance reasons. But short of
-+ * that, we deposit whatever contiguous chunks we can get. If @contiguous is
-+ * true, then the entire range has to be physically contiguous. Note, in that
-+ * case, upon withdrawl, hypervisor could return any page in between the range,
-+ * so we must split that also. Lastly, HV_MAX_CONTIGUOUS_ALLOCATION_PAGES is
-+ * not guaranteed to always be power of 2.
-+ */
-+static int hv_call_deposit_pages(int node, u64 partition_id, bool contiguous)
-+{
-+	struct hv_deposit_memory *hc_input;
-+	int i, rc, num_pages;
-+	u64 status, *pfna, lastpfn = 0;
-+	bool trunc_extra = false;
-+
-+	BUILD_BUG_ON(HV_MAX_CONTIGUOUS_ALLOCATION_PAGES > HV_DEPOSIT_MAX);
-+
-+	if (contiguous) {
-+		num_pages = roundup_pow_of_two(
-+					  HV_MAX_CONTIGUOUS_ALLOCATION_PAGES);
-+		trunc_extra = num_pages != HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
-+	} else {
-+		num_pages = HV_DEPOSIT_MAX;
-+	}
-+
-+	hc_input = (struct hv_deposit_memory *)get_zeroed_page(GFP_KERNEL);
-+	if (hc_input == NULL)
-+		return -ENOMEM;
-+
-+	hc_input->partition_id = partition_id;
-+	pfna = hc_input->gpa_page_list;
-+
-+	rc = hv_alloc_dep_pages(node, pfna, &lastpfn, num_pages, contiguous);
-+	if (rc < 0)
-+		goto out_free;
-+
-+	num_pages = rc;
-+	if (num_pages > HV_DEPOSIT_INP_MAX)
-+		num_pages = HV_DEPOSIT_INP_MAX;
-+
-+	if (contiguous && trunc_extra) {
-+		for (i = HV_MAX_CONTIGUOUS_ALLOCATION_PAGES; i < num_pages; i++)
-+			__free_page(pfn_to_page(pfna[i]));
-+
-+		if (lastpfn) {
-+			__free_page(pfn_to_page(lastpfn));
-+			lastpfn = 0;
-+		}
-+
-+		num_pages = HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
-+	}
-+
-+	/* Not using hyperv_pcpu_input_arg, so no need to disable interrupts */
-+
-+	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, num_pages, 0,
-+				     hc_input, NULL);
-+	if (!hv_result_success(status))
-+		goto err_free_dep_pages;
-+
-+	if (lastpfn) {
-+		hc_input->gpa_page_list[0] = lastpfn;
-+		status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, 1, 0,
-+					     hc_input, NULL);
-+
-+		if (!hv_result_success(status) && hv_repcomp(status) == 0)
-+			/* We deposited lot earlier, so give it a go */
-+			__free_page(pfn_to_page(lastpfn));
-+	}
-+
-+	free_page((unsigned long)hc_input);
-+	return 0;
-+
-+err_free_dep_pages:
-+	hv_status_err(status, "\n");
-+	rc = hv_result_to_errno(status);
-+
-+	for (i = hv_repcomp(status); i < num_pages; i++)
-+		__free_page(pfn_to_page(pfna[i]));
-+	if (lastpfn)
-+		__free_page(pfn_to_page(lastpfn));
-+
-+out_free:
-+	free_page((unsigned long)hc_input);
-+	return rc;
-+}
-+
-+int hv_deposit_memory_node(int node, u64 pt_id, u64 hv_status)
-+{
-+	int result = hv_result(hv_status);
-+	bool contiguous = false;
-+
-+	if (result == HV_STATUS_INSUFFICIENT_ROOT_MEMORY ||
-+	    result == HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY) {
-+		if (!hv_root_partition()) {
-+			hv_status_err(hv_status,
-+				      "Unexpected root memory deposit\n");
-+			return -EINVAL;
-+		}
-+
-+		pt_id = HV_PARTITION_ID_SELF;
-+	}
-+
-+	if (result == HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY ||
-+	    result == HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY)
-+		contiguous = true;
-+
-+	return hv_call_deposit_pages(node, pt_id, contiguous);
-+}
-+EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
-+
- /*
-  * See struct hv_deposit_memory. The first u64 is partition ID, the rest
-  * are GPAs.
-@@ -109,12 +283,6 @@ static int hv_call_deposit_pages_old(int node, u64 partition_id, u32 num_pages)
- 	return ret;
+@@ -183,135 +183,6 @@ int hv_deposit_memory_node(int node, u64 pt_id, u64 hv_status)
  }
+ EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
  
--int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+-/*
+- * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+- * are GPAs.
+- */
+-#define HV_DEPOSIT_MAX_OLD (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+-
+-/* Deposits exact number of pages. Must be called with interrupts enabled.  */
+-static int hv_call_deposit_pages_old(int node, u64 partition_id, u32 num_pages)
 -{
+-	struct page **pages, *page;
+-	int *counts;
+-	int num_allocations;
+-	int i, j, page_count;
+-	int order;
+-	u64 status;
+-	int ret;
+-	u64 base_pfn;
+-	struct hv_deposit_memory *input_page;
+-	unsigned long flags;
+-
+-	if (num_pages > HV_DEPOSIT_MAX_OLD)
+-		return -E2BIG;
+-	if (!num_pages)
+-		return 0;
+-
+-	/* One buffer for page pointers and counts */
+-	page = alloc_page(GFP_KERNEL);
+-	if (!page)
+-		return -ENOMEM;
+-	pages = page_address(page);
+-
+-	counts = kzalloc_objs(int, HV_DEPOSIT_MAX_OLD);
+-	if (!counts) {
+-		free_page((unsigned long)pages);
+-		return -ENOMEM;
+-	}
+-
+-	/* Allocate all the pages before disabling interrupts */
+-	i = 0;
+-
+-	while (num_pages) {
+-		/* Find highest order we can actually allocate */
+-		order = 31 - __builtin_clz(num_pages);
+-
+-		while (1) {
+-			pages[i] = alloc_pages_node(node, GFP_KERNEL, order);
+-			if (pages[i])
+-				break;
+-			if (!order) {
+-				ret = -ENOMEM;
+-				num_allocations = i;
+-				goto err_free_allocations;
+-			}
+-			--order;
+-		}
+-
+-		split_page(pages[i], order);
+-		counts[i] = 1 << order;
+-		num_pages -= counts[i];
+-		i++;
+-	}
+-	num_allocations = i;
+-
+-	local_irq_save(flags);
+-
+-	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
+-
+-	input_page->partition_id = partition_id;
+-
+-	/* Populate gpa_page_list - these will fit on the input page */
+-	for (i = 0, page_count = 0; i < num_allocations; ++i) {
+-		base_pfn = page_to_pfn(pages[i]);
+-		for (j = 0; j < counts[i]; ++j, ++page_count)
+-			input_page->gpa_page_list[page_count] = base_pfn + j;
+-	}
+-	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY,
+-				     page_count, 0, input_page, NULL);
+-	local_irq_restore(flags);
+-	if (!hv_result_success(status)) {
+-		hv_status_err(status, "\n");
+-		ret = hv_result_to_errno(status);
+-		goto err_free_allocations;
+-	}
+-
+-	ret = 0;
+-	goto free_buf;
+-
+-err_free_allocations:
+-	for (i = 0; i < num_allocations; ++i) {
+-		base_pfn = page_to_pfn(pages[i]);
+-		for (j = 0; j < counts[i]; ++j)
+-			__free_page(pfn_to_page(base_pfn + j));
+-	}
+-
+-free_buf:
+-	free_page((unsigned long)pages);
+-	kfree(counts);
+-	return ret;
+-}
+-
+-static int __maybe_unused hv_deposit_memory_node_old(int node, u64 partition_id, u64 hv_status)
+-{
+-	u32 num_pages = 1;
+-
+-	switch (hv_result(hv_status)) {
+-	case HV_STATUS_INSUFFICIENT_MEMORY:
+-		break;
+-	case HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY:
+-		num_pages = HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
+-		break;
+-
+-	case HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY:
+-		num_pages = HV_MAX_CONTIGUOUS_ALLOCATION_PAGES;
+-		fallthrough;
+-	case HV_STATUS_INSUFFICIENT_ROOT_MEMORY:
+-		if (!hv_root_partition()) {
+-			hv_status_err(hv_status, "Unexpected root memory deposit\n");
+-			return -ENOMEM;
+-		}
+-		partition_id = HV_PARTITION_ID_SELF;
+-		break;
+-
+-	default:
+-		hv_status_err(hv_status, "Unexpected!\n");
+-		return -ENOMEM;
+-	}
 -	return hv_call_deposit_pages_old(node, partition_id, num_pages);
 -}
--EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
--
- static int __maybe_unused hv_deposit_memory_node_old(int node, u64 partition_id, u64 hv_status)
- {
- 	u32 num_pages = 1;
-@@ -144,12 +312,6 @@ static int __maybe_unused hv_deposit_memory_node_old(int node, u64 partition_id,
- 	return hv_call_deposit_pages_old(node, partition_id, num_pages);
- }
- 
--int hv_deposit_memory_node(int node, u64 partition_id, u64 hv_status)
--{
--	return hv_deposit_memory_node_old(node, partition_id, hv_status);
--}
--EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
 -
  bool hv_result_needs_memory(u64 status)
  {
  	switch (hv_result(status)) {
-@@ -212,14 +374,6 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 	unsigned long irq_flags;
- 	int ret = 0;
- 
--	/* Root VPs don't seem to need pages deposited */
--	if (partition_id != hv_current_partition_id) {
--		/* The value 90 is empirically determined. It may change. */
--		ret = hv_call_deposit_pages(node, partition_id, 90);
--		if (ret)
--			return ret;
--	}
--
- 	do {
- 		local_irq_save(irq_flags);
- 
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index cb55d4d4be2e..b8d199f95299 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -15,8 +15,6 @@
- #include "mshv_root.h"
- 
- /* Determined empirically */
--#define HV_INIT_PARTITION_DEPOSIT_PAGES 208
--#define HV_MAP_GPA_DEPOSIT_PAGES	256
- #define HV_UMAP_GPA_PAGES		512
- 
- #define HV_PAGE_COUNT_2M_ALIGNED(pg_count) (!((pg_count) & (0x200 - 1)))
-@@ -140,11 +138,6 @@ int hv_call_initialize_partition(u64 partition_id)
- 
- 	input.partition_id = partition_id;
- 
--	ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
--				    HV_INIT_PARTITION_DEPOSIT_PAGES);
--	if (ret)
--		return ret;
--
- 	do {
- 		status = hv_do_fast_hypercall8(HVCALL_INITIALIZE_PARTITION,
- 					       *(u64 *)&input);
-@@ -248,8 +241,7 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 		completed = hv_repcomp(status);
- 
- 		if (hv_result_needs_memory(status)) {
--			ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
--						    HV_MAP_GPA_DEPOSIT_PAGES);
-+			ret = hv_deposit_memory(partition_id, status);
- 			if (ret)
- 				break;
- 
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index bf601d67cecb..c16abaecb65e 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -345,7 +345,6 @@ static inline bool hv_parent_partition(void)
- 
- bool hv_result_needs_memory(u64 status);
- int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
--int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
- int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
- int hv_call_notify_all_processors_started(void);
- bool hv_lp_exists(u32 lp_index);
-@@ -360,10 +359,6 @@ static inline int hv_deposit_memory_node(int node, u64 partition_id, u64 status)
- {
- 	return -EOPNOTSUPP;
- }
--static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
--{
--	return -EOPNOTSUPP;
--}
- static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id)
- {
- 	return -EOPNOTSUPP;
 -- 
 2.51.2.vfs.0.1
 
