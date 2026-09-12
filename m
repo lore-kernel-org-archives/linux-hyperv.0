@@ -1,90 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BE2486425;
-	Fri, 11 Sep 2026 21:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3FAC15A85A;
+	Sat, 12 Sep 2026 00:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789162401; cv=none; b=A8YitdoY6NWohbDMEoqsI+b3RR2adKkll6tlbdlxetWTMf7o/Lv3R2qXCha6AHL4geeaKEnYJOjxjpw5Y1jRU+Hyz7BVgNNpu2OKHBkZy/MIRSlbR6ZLsAZ1v71ov//DthNeNc/6WglKsk+SHqL5YtjuR0NnhcmDEqOoBmqtO+c=
+	t=1789171417; cv=none; b=ZfsWjhxswwuAq5MYxsUnO0uMQ13gVU089e9UpBY745OTjNsTok8cE+q+wBOeG2QN6AaISPzk0BS3h356FtsBrPfoQjLX19wW+pSvtNiQJNlstXEljbSa4XdmREXYWLX3Tek41muhN9yseVxsgg6QqzQTbEBIDtfaIIO9qm4SjiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789162401; c=relaxed/simple;
-	bh=LLh915AQdAp4J10TCNRimZZoYeqU7drKfQ5rboSF9y0=;
+	s=arc-20240116; t=1789171417; c=relaxed/simple;
+	bh=31WjxIO6unFBqWpeLRL8/RN7E7l5HJ7SyVkC9K2p1us=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qFmioBj9tbXXrLVu9ehyZZmC5IvDM2us0gcpmAsAkz3MZZTlvDT2FxzdFekKmqMJzx9cDXeQm4PwM9Bkpg9qm71MYERFQWXYptzlQj3vVuEeWh64Ix/z0Sz3qGAZvRsqza/lH2KK7bMC3XUT6HtS3RRQAPmgaiK+30uiub1HbT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=is0jUT2T; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 MIME-Version; b=Odwjy8hwDwhW6uJB2aCAbAKxDXA9qvv9TUNc/+hxWOLKSwSrGnX33ptFY4xUR+eX+KyRSRJh/DgP7hD9pvCZBCsIaonPie1Fd+GH3BM5m8yH1WU7BH5OXZgwUGCAl6ysZjDsx7he5bnDtW0CLRKwGdx6LiX7uK8SQOSOQf8nRQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=aepcA5MP; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="is0jUT2T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789162399; x=1820698399;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LLh915AQdAp4J10TCNRimZZoYeqU7drKfQ5rboSF9y0=;
-  b=is0jUT2TmWOokkEX4FGMe/1MuibjTCuZkhbqW3FNMbCRGA/J56R6Fdhn
-   wxbSnjwQwiJaqkqHPBKY+JYvNgYTCdVbmKTI2+TvwHra/9/Gdqx7GivBF
-   BhKJdSc/6H5iAgtEOauqlr58zdmYrHuwwGvkaQN/4ijjQmzvUFfQp7k66
-   YIzFC1owJ6Ai3zTkrx4oGvYhl0dmreNosxgC6/xyamcHQ/+YmrtZ5oUOk
-   VVg8UhQhXJGFH/vOY18L/fiElHERNj/Im0Di/79nV4HWnMhUXqRRLQXo4
-   /CTHlOsSmNw0yELsmIrkyznGaSVfHiTq49/doFJOMqT6DK79h5GLLLmw5
-   Q==;
-X-CSE-ConnectionGUID: 3EsP74/4ROe9tWo+JTZcLQ==
-X-CSE-MsgGUID: GlA1+uO7SamTjXboBcXzCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89506468"
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="89506468"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 14:33:18 -0700
-X-CSE-ConnectionGUID: oMrzMjhKSuekEVWUIbJibA==
-X-CSE-MsgGUID: Dzin76L+QiuFAL6LDY6KzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="265833602"
-Received: from smtp.ostc.intel.com ([10.54.69.131])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 14:33:17 -0700
-Received: from cwf-2s5.sh.intel.com (cwf-2s5.sh.intel.com [10.239.48.132])
-	by smtp.ostc.intel.com (Postfix) with ESMTP id 738646393;
-	Fri, 11 Sep 2026 14:33:11 -0700 (PDT)
-From: Shreshth Srivastava <shreshth.srivastava@intel.com>
-To: jgross@suse.com,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev
-Cc: acme@kernel.org,
-	adrian.hunter@intel.com,
-	alexander.shishkin@linux.intel.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	decui@microsoft.com,
-	haiyangz@microsoft.com,
-	hpa@zytor.com,
-	irogers@google.com,
-	james.clark@linaro.org,
-	jolsa@kernel.org,
-	kas@kernel.org,
-	kys@microsoft.com,
-	longli@microsoft.com,
-	mark.rutland@arm.com,
-	mhklinux@outlook.com,
-	mingo@redhat.com,
-	namhyung@kernel.org,
-	pbonzini@redhat.com,
-	peterz@infradead.org,
-	rick.p.edgecombe@intel.com,
-	seanjc@google.com,
-	tglx@kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="aepcA5MP"
+Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id EA76C20B7167;
+	Fri, 11 Sep 2026 17:02:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EA76C20B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789171373;
+	bh=PJalcYvX+YQhx71OB34l2znmtmW8ubFuHXXlew4BXOU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aepcA5MPPQ3enqzUInPV4ULKLPVk6jb5E0zmI0Ebam9kML1DUcVdbvVLciLWDXNy4
+	 Nhx//MyeAYObpx2FUqJIb8Nbl3zD2WH1ZQ9XZl+idaOfB2bjaQET7udHbvRFnF7Q7j
+	 dbGsg4yrsU05DKMaj2WCovgnm3qz/SakbaHt15Cw=
+From: Mukesh R <mrathor@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: kys@microsoft.com,
 	wei.liu@kernel.org,
-	shreshth.srivastava@intel.com
-Subject: Re: [PATCH v3 13/13] x86/msr: Simplify some rdmsrq() use cases
-Date: Fri, 11 Sep 2026 17:33:10 -0400
-Message-ID: <20260911213310.381839-1-shreshth.srivastava@intel.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260821105709.1671132-1-jgross@suse.com>
-References: <20260821105709.1671132-1-jgross@suse.com>
+	mhkelley58@gmail.com,
+	mrathor@linux.microsoft.com
+Subject: [PATCH V2 1/3] mshv: Rename memory deposit memory functions to _old
+Date: Fri, 11 Sep 2026 17:03:16 -0700
+Message-ID: <20260912000318.2959621-2-mrathor@linux.microsoft.com>
+X-Mailer: git-send-email 2.51.2.vfs.0.1
+In-Reply-To: <20260912000318.2959621-1-mrathor@linux.microsoft.com>
+References: <20260912000318.2959621-1-mrathor@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -93,21 +46,81 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Juergen,
+Rename hv_call_deposit_pages() and hv_deposit_memory_node() to _old
+to make reviewing the new functions much easier.
 
-I'm working on a v3 of Dave's "x86/msr: Consolidate native/paravirt MSR
-functions" series on top of yours, so I tried testing this patch.
+Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+---
+ drivers/hv/hv_proc.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-While I'm here: you mentioned you'd send a V3 after rc1 if conflicts
-turned up. Is that still the plan? I wasn't sure whether to base on v2
-plus the respins of 4 and 13, or wait.
+diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+index 57b2c64197cb..57864bb5bcd8 100644
+--- a/drivers/hv/hv_proc.c
++++ b/drivers/hv/hv_proc.c
+@@ -13,10 +13,10 @@
+  * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+  * are GPAs.
+  */
+-#define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
++#define HV_DEPOSIT_MAX_OLD (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+ 
+ /* Deposits exact number of pages. Must be called with interrupts enabled.  */
+-int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
++static int hv_call_deposit_pages_old(int node, u64 partition_id, u32 num_pages)
+ {
+ 	struct page **pages, *page;
+ 	int *counts;
+@@ -29,7 +29,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 	struct hv_deposit_memory *input_page;
+ 	unsigned long flags;
+ 
+-	if (num_pages > HV_DEPOSIT_MAX)
++	if (num_pages > HV_DEPOSIT_MAX_OLD)
+ 		return -E2BIG;
+ 	if (!num_pages)
+ 		return 0;
+@@ -40,7 +40,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 		return -ENOMEM;
+ 	pages = page_address(page);
+ 
+-	counts = kzalloc_objs(int, HV_DEPOSIT_MAX);
++	counts = kzalloc_objs(int, HV_DEPOSIT_MAX_OLD);
+ 	if (!counts) {
+ 		free_page((unsigned long)pages);
+ 		return -ENOMEM;
+@@ -108,10 +108,14 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 	kfree(counts);
+ 	return ret;
+ }
++
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
++{
++	return hv_call_deposit_pages_old(node, partition_id, num_pages);
++}
+ EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
+ 
+-int hv_deposit_memory_node(int node, u64 partition_id,
+-			   u64 hv_status)
++static int __maybe_unused hv_deposit_memory_node_old(int node, u64 partition_id, u64 hv_status)
+ {
+ 	u32 num_pages = 1;
+ 
+@@ -137,7 +141,12 @@ int hv_deposit_memory_node(int node, u64 partition_id,
+ 		hv_status_err(hv_status, "Unexpected!\n");
+ 		return -ENOMEM;
+ 	}
+-	return hv_call_deposit_pages(node, partition_id, num_pages);
++	return hv_call_deposit_pages_old(node, partition_id, num_pages);
++}
++
++int hv_deposit_memory_node(int node, u64 partition_id, u64 hv_status)
++{
++	return hv_deposit_memory_node_old(node, partition_id, hv_status);
+ }
+ EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
+ 
+-- 
+2.51.2.vfs.0.1
 
-Most of the code this touches can't run on my box, so I compared compiled
-output instead. Built patches 1-12, then 1-13, with the same .config and
-compiler, and diffed "objdump -d" output for every .o in both trees. All
-9396 objects came out identical. The 1-13 kernel boots fine under KVM.
-
-Only tried the one config: x86_64, gcc 11.5.0,
-CPU_SUP_{INTEL,AMD,ZHAOXIN}=y, HYPERV=y, KVM_INTEL=y, KVM_INTEL_TDX=y.
-
-Tested-by: Shreshth Srivastava <shreshth.srivastava@intel.com>
