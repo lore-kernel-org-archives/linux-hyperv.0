@@ -1,68 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBDE40A936;
-	Sun, 13 Sep 2026 22:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E001C3009E2;
+	Sun, 13 Sep 2026 22:36:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789338922; cv=none; b=QYXKdxt6W8SL/bTQUsqfJkdA+iS8raX+sKj9wd6Mcg66GdT3EoLc9n2q4RjPxk6PQWQzPigWKc1J/vQHCQFqy2y9M9EBbX5tGCeaDY+QF72oDrsJyzqap2RQlgV6tCpcZ/0U3426iwQv9HaXtsT0cj/qHXah3YbrgNoWvprr4eQ=
+	t=1789338967; cv=none; b=cmZQ3k4DA1y9TO4rFjarTvbZ3BWYZiwZlLRCJZbSa6cUz6M8Le1AOcJHOu+6ZoVsnFofU0jV9iGMa66Elo7WqZxuXjKvHxkG0EgrgaHOtTlnI9tj6gPoQVeIW64Aqg6LuN/YOJaFMK8sdZr/qg2ur7+37Qk1fxY6XjsC5u0JVYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789338922; c=relaxed/simple;
-	bh=LOp//g0bc+vTk2Dmip4yNKD5H+grs7CkiRjsLcw9eGA=;
+	s=arc-20240116; t=1789338967; c=relaxed/simple;
+	bh=PyETr6kniFxbA8m0lnCw9/q5V4PTbXjgSumaMgZahhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nP/I0EKBhM1VyKMQY0YibCDZeIREScZjmDt8hGBlNL6pMC8EMlnIhNNpbpsdL7QaeA6zHgTMbt7H2vhpxoYJoBK+DtmDdYOcRiYK2H4BsJEdLiJDFZ37b5tgaCYNulfNiFQxQ6OvM6VXEQDWj8qZleOr8JGrBQiCWvPC8bfR6YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFtneyHV; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gH7AE48/9/LH5W5mww38TTcrO1QIYdUjDdEeCTK3OcvxUrAculSHbr1CETGSImLCDGUgNwx+BSd4ZLbAc/oig9oz/HU702n8RgR+Fq1PxwtQWFPLmaMiNpIhHw/y2GKYoNz/pO3HznPtacbf1j2sFCklWrZvnjDTg4ZgBgBflsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OT02HLRY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFtneyHV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 421C51F00893;
-	Sun, 13 Sep 2026 22:35:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OT02HLRY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BF9E1F000FF;
+	Sun, 13 Sep 2026 22:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789338920;
-	bh=KYUhZjDEg9ultMYW7GBGOQ3tpye6JGPr8fYLY6CdUbQ=;
+	s=k20260515; t=1789338966;
+	bh=PyETr6kniFxbA8m0lnCw9/q5V4PTbXjgSumaMgZahhY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CFtneyHVTMyWjDhnI6cehreYdU0vVQaWFS3s/ehfv7F+Qhjqz603m9P4wBeaZ1VjH
-	 SYML5rfU0DfufgPd4meecYmXe+SXjN2sqj8ooTiw+c0FKvv4JtS9nwRCPbPEXUO1Da
-	 0ZON36YfiNx0IG3SFBZgTU9caio4UDuu3OOq++KYuEJ1/NXhlxa6siValXg9wTHTqm
-	 aDgVQq/Tc8aZtwSP72LU5C80SvBqgGDNZLGNXeHWyO0qr8m/goGghhbQV8qF4Km1uP
-	 dpxGChy92FHHUPq8MSJxNqej2Sqnq3dHpQfLiKE7Jz6OyNDWK0HPB3LlUtQHEY4N49
-	 p/uHu3XmCq/hQ==
-Date: Sun, 13 Sep 2026 15:35:19 -0700
+	b=OT02HLRY2Pj1BgXeOx8qKJykTZf3Q2612ZWRGqL9KZgYqdEdVW0KZmqiYh4NMOhM5
+	 4kuVrYLF/sY9Y/hugPwHjuFlvXn3MvEK4DcXSbQYPkvfZkOq9A5cv3nHgWKxwimzVX
+	 kLcbQs+B2lboXH30Nvv7U2BCQ/YGVXnFCKKlZ1n68b3+X8cRR/BeeoLXq9MwfjngD7
+	 XnE6nUHPenGOJ1UTZ0rDZsVwjRfPl2LKUHmqdNf6MmgaCrQGdtrplPkRIqbfdVSLZU
+	 5s8Q4sRkq3DlytBepUm07vpq+0T8L2QXpBCIFBNUO9wR1+FR8O+MKvY1C+rZMhQehJ
+	 BJpmQKQDdMTQA==
+Date: Sun, 13 Sep 2026 15:36:05 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Jiangshan Yi <yijiangshan@kylinos.cn>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, 13667453960@163.com
-Subject: Re: [PATCH] x86/hyperv: Fix stale comments after stimer message mode
- removal
-Message-ID: <20260913223519.GC2219269@liuwe-devbox-debian-v2.local>
-References: <20260901033201.167219-1-yijiangshan@kylinos.cn>
+To: Tianyu Lan <ltykernel@gmail.com>
+Cc: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
+	wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] x86/hyperv: Avoid using per-cpu output page in
+ hv_apicid_to_vp_index()
+Message-ID: <20260913223605.GD2219269@liuwe-devbox-debian-v2.local>
+References: <20260902030127.581040-1-mhklinux@outlook.com>
+ <CAMvTesAKMHYC36QViaUi_cw8-gSkBQyJtCd+Kt73HoDaLOkwUQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260901033201.167219-1-yijiangshan@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMvTesAKMHYC36QViaUi_cw8-gSkBQyJtCd+Kt73HoDaLOkwUQ@mail.gmail.com>
 
-On Tue, Sep 01, 2026 at 11:32:01AM +0800, Jiangshan Yi wrote:
-> The removal of stimer message mode in commit be0cfab740e5 ("clocksource:
-> hyper-v: Remove support for stimer interrupts in message mode") left a
-> few comments out of date. hv_stimer_setup_percpu_clockev() picked up two
-> typos ("afters", "to allows"), and the hv_synic_suspend() comment still
-> references the deleted hv_stimer_legacy_cleanup(), the legacy non-Direct
-> Mode configuration, and clockevents_unbind_device(), which is no longer
-> on the cleanup path.
-> 
-> Update the typos and rewrite the hv_synic_suspend() comment to describe
-> the current Direct Mode path: non-boot CPU stimers are cleaned up via
-> the cpuhp teardown callback hv_stimer_cleanup(), and CPU0's stimer is
-> left alone because it is harmless (interrupts stay disabled across the
-> suspend/resume window) and is shut down later by the timekeeping code.
-> 
-> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+On Wed, Sep 02, 2026 at 02:30:02PM +0800, Tianyu Lan wrote:
+> On Wed, Sep 2, 2026 at 11:02 AM Michael Kelley <mhkelley58@gmail.com> wrote:
+> >
+> > hv_apicid_to_vp_index() currently uses the per-cpu hypercall input
+> > and output pages. This function is called when running in VTL2 and
+> > when running in an SEV-SNP CoCo VM with no paravisor. In the former
+> > case, the output page is allocated, but in the latter case it is
+> > not, so the hypervisor stores the output VP index in memory that has
+> > not been allocated by the guest.
+> >
+> > Fix this by using the input page for both input and output. The
+> > hypercall has very small input and output, so sharing the same
+> > page for both is straightforward. An alternative fix is to
+> > allocate the per-cpu output page when running in an SEV-SNP CoCo
+> > guest, but this uses significantly more memory, particularly
+> > with larger vCPUs counts.
+> >
+> > Fixes: 86c48271e0d6 ("x86/hyperv: Fix APIC ID and VP index confusion in hv_snp_boot_ap()")
+> > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> > ---
+> > I'm not aware that this bug is causing any real problems because
+> > SEV-SNP CoCo VMs on Hyper-V are rarely, if ever, used without a
+> > paravisor. But it was on my list of little clean-ups to do, and
+> > a recent Sashiko analysis [1] flagged the issue. So the best thing
+> > to do is just fix it.
+> Reviewed-by: Tianyu Lan <tiala@microsoft.com>
 
 Applied. Thanks.
