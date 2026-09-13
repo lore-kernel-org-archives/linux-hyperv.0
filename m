@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FFE367F3A;
-	Sun, 13 Sep 2026 22:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233D7386C3F;
+	Sun, 13 Sep 2026 23:03:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789340341; cv=none; b=TU5OoPqB7uAxrqU2gTLsFmRYUDIqF3qsgUgckJspaZKkF1WMqWPiBM1AxZxpPFIJat8m+meoLMoh3cz9xYrBSLrdlKSS0R2eoBmJldwXnJxhM5OSzhB6CkRLn5XWw4qRDoXH3qJBd42HGQdHNcUGGaVUTmaT6L0fPTOcVMp7hyI=
+	t=1789340628; cv=none; b=i0ZlnYAes2DL3UHfHrc6eTohK15oMQ7UxHBIgBtzNNdbN+d8QlKvCUknXwqBfzQw7XEJEhu84lumlP9v+MZwIAd9AiAn8eTa91yovXEwCDioISg0e8+Tl8VNUGId5BeZGR5Uo/QQDElg5YDjpCqHldlhViw8GTs1N6wJqchOFj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789340341; c=relaxed/simple;
-	bh=Oi0kJRqHz97fGcDtqHeiokEjhF4U+9eWn/vQWLkjEXE=;
+	s=arc-20240116; t=1789340628; c=relaxed/simple;
+	bh=htNhTUYnrLPOLMcApobjqHAZ9koIePcdkjpvsjQRsGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4WPvzD9NmG3f4KAkSqQS5cOuz5wqE0nA2KWAzBolssIoJwBKg6m+UPeBAJVNXh4Z3I/AdJxyDc1S1zIFPH8tXKB9xjb0LY0yh1BKVNraCvaYjq+P9DYwJQ7lwCtbSnFZeIDyiPJCxoGC79DfEoCAhrGW+JBSJ3yaJKuyYL6Ly0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UT3NnnER; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Myi0GGvpF5xFWKFSfoOjfV3jcbIxOYN2Hlz7Lxx4LyFeMlKB0ZV2y3FhgCCIeEIxfdL3sEDbs5uLSorR+j6j2T36Abn1cW+/9CA+fOm3S16lVVxis2CANEYGjkY4fCqWsWFN0Jmrj0Oi5xlhgD5NGPHskTrJyeILtKYGiXTG3p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JPWbhQuw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UT3NnnER"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66961F000FF;
-	Sun, 13 Sep 2026 22:58:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JPWbhQuw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907B31F000FF;
+	Sun, 13 Sep 2026 23:03:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789340340;
-	bh=uEl1/Y+y13fSKP4CZn0HofyZ8xEWWRvmTzNdAamYRo4=;
+	s=k20260515; t=1789340626;
+	bh=x86Xkw2S2pPIip/cKOLKriM2DECY1ED2Y7lj8zh1b+s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UT3NnnERRgG5NQF3sT594WOTY04mlH/PO4dtcbLaC7AD+Gd5Qs4kltFMX8V2yFPE0
-	 sCWSrAErusAiZhnzDLkcIZjVTpOLeuBsXD47j/bB62Fn31SLjjxnDnTLR1jjNLFSc0
-	 rMys5IBXP4WG5qhO/c34WLL2/vdpXlnJV8zbuRMj8DED7MnqY1Jnv+MbluGwVIMDHv
-	 Ou2FWWqkN2qdt7XI61LkFvKEHF/4IAzSZ/yBks4NoYupC7QZEQeEjNFqcbB1OvQePc
-	 UYyLHPJ1Gisa7QQd7eockzoRxXrFinyv9YNeOx9fsKqnDwJSy2z6j20xWAxX+MBuMN
-	 idIrPbL8IEwBA==
-Date: Sun, 13 Sep 2026 15:58:58 -0700
+	b=JPWbhQuwjMRNKPTSQuMOcYI/Ruvh1tYpd6/WsdNkstGuwUlUSWLAKaJk4zC0dLxa/
+	 NyAzG7g+QBxrw5TkAFsBwTtj72zDa8RNIabQBTF0jLOnxuEk5k2lqEs/BNpKRtx+aj
+	 bpePpQJ+FYl8Pz8AG0dSIg/jYsM2NHLvyna44l3Y8AeaViYHVx7Nq8hT+xghlw32Mm
+	 XieOmEE4TPTAtNO5yALT/+xk0D8F3VGGstcDJ1ToFZl1CNwiIT3Cg1wehzQo4EBlcY
+	 KV9kya1IcXqGjyefWtMuUOpI9xOX7hQXXeTPwI/X5jha8oSpu5mjEZTXP3Nb49e8j6
+	 m1xUpUiooHUTg==
+Date: Sun, 13 Sep 2026 16:03:45 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: mhklinux@outlook.com
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, longli@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] Drivers: hv: Don't reset VMBus connection state on
- error/exit paths
-Message-ID: <20260913225858.GI2219269@liuwe-devbox-debian-v2.local>
-References: <20260901034514.457089-1-mhklinux@outlook.com>
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: "K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Michael Kelley <mhklinux@outlook.com>
+Subject: Re: [PATCH v2 1/2] Drivers: hv: vmbus: fix typo "substract" in
+ comment
+Message-ID: <20260913230345.GJ2219269@liuwe-devbox-debian-v2.local>
+References: <20260907044946.10813-1-hemanth.selam@gmail.com>
+ <20260907044946.10813-2-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -44,32 +47,40 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260901034514.457089-1-mhklinux@outlook.com>
+In-Reply-To: <20260907044946.10813-2-hemanth.selam@gmail.com>
 
-On Mon, Aug 31, 2026 at 08:45:14PM -0700, Michael Kelley wrote:
-> In two places, current code forces vmbus_connection.conn_state to
-> DISCONNECTED prior to calling vmbus_disconnect(). But vmbus_disconnect()
-> calls vmbus_initiate_unload(), which unloads the VMBus connection
-> only if the conn_state is CONNECTED. Consequently, the connection
-> remains and the Hyper-V host might continue to send messages or post
-> VMBus interrupts.
+On Mon, Sep 07, 2026 at 10:19:45AM +0530, Hemanth Selam wrote:
+> Correct "substract" to "subtract", reported by scripts/checkpatch.pl using
+> the misspelling list in scripts/spelling.txt.  Only touches a comment, no
+> code changes.
 > 
-> The problem was introduced in commit 74347a99e73ae ("x86/Hyper-V:
-> Unload vmbus channel in hv panic callback"), in that
-> vmbus_initiate_unload() started checking the current connection
-> state before doing the unload. This commit removed some occurrences
-> where conn_state was forced to DISCONNECTED, but these two remained,
-> apparently due to an oversight at the time.
-> 
-> Fix this by not forcing conn_state to DISCONNECTED during VMBus exit,
-> or if a failure occurs when establishing the connection in the first
-> place. Whatever value conn_state has at the time is then read by
-> vmbus_initiate_unload() to determine if there is a connection to
-> be unloaded.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/linux-hyperv/20260805205806.B5AC31F000E9@smtp.kernel.org/
-> Fixes: 74347a99e73ae ("x86/Hyper-V: Unload vmbus channel in hv panic callback")
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> The subject prefix changed since v1, from "hv:" to "Drivers: hv: vmbus:",
+> for consistency with the rest of the subsystem's history as Michael Kelley
+> pointed out.
 
-Applied. Thanks.
+You can drop this long wall of text. It is pretty clear what this patch
+does.
+
+Wei
+
+> 
+> Assisted-by: Cursor:claude-opus-5
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+> ---
+>  drivers/hv/channel.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+> index f4370617deac..c36ec14529b9 100644
+> --- a/drivers/hv/channel.c
+> +++ b/drivers/hv/channel.c
+> @@ -79,7 +79,7 @@ static inline u32 hv_ring_gpadl_send_hvpgoffset(u32 offset)
+>  	 * therefore leaving a (PAGE_SIZE - HV_HYP_PAGE_SIZE) gap.
+>  	 *
+>  	 * And to calculate the effective send offset in gpadl, we need to
+> -	 * substract this gap.
+> +	 * subtract this gap.
+>  	 */
+>  	return (offset - (PAGE_SIZE - HV_HYP_PAGE_SIZE)) >> HV_HYP_PAGE_SHIFT;
+>  }
