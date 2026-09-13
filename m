@@ -1,80 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E001C3009E2;
-	Sun, 13 Sep 2026 22:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14A035B634;
+	Sun, 13 Sep 2026 22:39:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789338967; cv=none; b=cmZQ3k4DA1y9TO4rFjarTvbZ3BWYZiwZlLRCJZbSa6cUz6M8Le1AOcJHOu+6ZoVsnFofU0jV9iGMa66Elo7WqZxuXjKvHxkG0EgrgaHOtTlnI9tj6gPoQVeIW64Aqg6LuN/YOJaFMK8sdZr/qg2ur7+37Qk1fxY6XjsC5u0JVYg=
+	t=1789339195; cv=none; b=t6lWGSSy9qSRbOEgf1YSzvr/M/GYzENeFBdYaahWV4YgGjndKOj1GzthT9FeQoJdzjIzlWh0sAhEzGtOmh2lqXBJVtdFyB/5JqdJF6WN5V6LpcTzobLC2nKwp4KwPw2m9YrVjOdEKxRmh+Y8nhqF5oDMa05Y2YcsVt8pujgI+8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789338967; c=relaxed/simple;
-	bh=PyETr6kniFxbA8m0lnCw9/q5V4PTbXjgSumaMgZahhY=;
+	s=arc-20240116; t=1789339195; c=relaxed/simple;
+	bh=aZiqDReMsM2D4iUFh0xQPvNQvFw8ZLj4F4ePkL+P+e0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gH7AE48/9/LH5W5mww38TTcrO1QIYdUjDdEeCTK3OcvxUrAculSHbr1CETGSImLCDGUgNwx+BSd4ZLbAc/oig9oz/HU702n8RgR+Fq1PxwtQWFPLmaMiNpIhHw/y2GKYoNz/pO3HznPtacbf1j2sFCklWrZvnjDTg4ZgBgBflsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OT02HLRY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oTIjTtNR6U9vq59uggSLw+kka2n/KItH7evyzvPhMP+730rSLV+Hz1zhaN2Twj5xoa16si0/X6xi4JlYMKrIHWu23As20taAb5D67iQ0Dr68R7C07lWh2mqNUJguOh8KPR4AMtX8Uf8t+1+RtYoVdNwgrLU+SaqULxn4Qy9O4ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvE9wa3e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OT02HLRY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BF9E1F000FF;
-	Sun, 13 Sep 2026 22:36:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvE9wa3e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C54D1F000FF;
+	Sun, 13 Sep 2026 22:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789338966;
-	bh=PyETr6kniFxbA8m0lnCw9/q5V4PTbXjgSumaMgZahhY=;
+	s=k20260515; t=1789339194;
+	bh=0Rf62qtp2T8RCmF5Smaw5L38HTOThi3MhIC+kh2jwjo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OT02HLRY2Pj1BgXeOx8qKJykTZf3Q2612ZWRGqL9KZgYqdEdVW0KZmqiYh4NMOhM5
-	 4kuVrYLF/sY9Y/hugPwHjuFlvXn3MvEK4DcXSbQYPkvfZkOq9A5cv3nHgWKxwimzVX
-	 kLcbQs+B2lboXH30Nvv7U2BCQ/YGVXnFCKKlZ1n68b3+X8cRR/BeeoLXq9MwfjngD7
-	 XnE6nUHPenGOJ1UTZ0rDZsVwjRfPl2LKUHmqdNf6MmgaCrQGdtrplPkRIqbfdVSLZU
-	 5s8Q4sRkq3DlytBepUm07vpq+0T8L2QXpBCIFBNUO9wR1+FR8O+MKvY1C+rZMhQehJ
-	 BJpmQKQDdMTQA==
-Date: Sun, 13 Sep 2026 15:36:05 -0700
+	b=WvE9wa3eTytCyxqyze1VTsgM1uk3z/LhPEMWvJVlMGzXnXv7dUlG/FmTeOcja8RKK
+	 e824AJsggfeOCbDer7Uhl7PyRizyUEPb6Ln/Ek87kInm8fPJrrMuh+XUKgdE20SBDl
+	 pZLs+jjOkasJiVjKKRFrrHLlkjdUfDXvpcWgK9QYss6XrepN7Pr5L+fi3TCdMqwHp1
+	 Z7RNSTcUeGXU54DN3/YvPDaWIjY20yb6JKoGa9K8NNk9jrtyR7FSo4fGrdeuBrw00Z
+	 2/04bExXsIcruC4dey1QTpOzz5yzFwTLInPY8YLhFf30vP85CWmGaX+EoKMfJnOBmH
+	 KnezgssVdah0Q==
+Date: Sun, 13 Sep 2026 15:39:52 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Tianyu Lan <ltykernel@gmail.com>
-Cc: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
-	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] x86/hyperv: Avoid using per-cpu output page in
- hv_apicid_to_vp_index()
-Message-ID: <20260913223605.GD2219269@liuwe-devbox-debian-v2.local>
-References: <20260902030127.581040-1-mhklinux@outlook.com>
- <CAMvTesAKMHYC36QViaUi_cw8-gSkBQyJtCd+Kt73HoDaLOkwUQ@mail.gmail.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Naman Jain <namjain@linux.microsoft.com>,
+	Sahil Chandna <sahilchandna@linux.microsoft.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+	robh@kernel.org, bhelgaas@google.com, linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mhklinux@outlook.com
+Subject: Re: [PATCH v3] PCI: hv: Warn when wait_for_response() waits
+ indefinitely
+Message-ID: <20260913223952.GE2219269@liuwe-devbox-debian-v2.local>
+References: <20260908113009.3005964-1-sahilchandna@linux.microsoft.com>
+ <c8b6e10f-dd52-4c74-8d16-268563d8bc1f@linux.microsoft.com>
+ <hen5k4ejonfffwdir7tfa2gnmxwfbbqabrjtwooo4o5pjf5gnz@x52vfm5phv3l>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMvTesAKMHYC36QViaUi_cw8-gSkBQyJtCd+Kt73HoDaLOkwUQ@mail.gmail.com>
+In-Reply-To: <hen5k4ejonfffwdir7tfa2gnmxwfbbqabrjtwooo4o5pjf5gnz@x52vfm5phv3l>
 
-On Wed, Sep 02, 2026 at 02:30:02PM +0800, Tianyu Lan wrote:
-> On Wed, Sep 2, 2026 at 11:02 AM Michael Kelley <mhkelley58@gmail.com> wrote:
-> >
-> > hv_apicid_to_vp_index() currently uses the per-cpu hypercall input
-> > and output pages. This function is called when running in VTL2 and
-> > when running in an SEV-SNP CoCo VM with no paravisor. In the former
-> > case, the output page is allocated, but in the latter case it is
-> > not, so the hypervisor stores the output VP index in memory that has
-> > not been allocated by the guest.
-> >
-> > Fix this by using the input page for both input and output. The
-> > hypercall has very small input and output, so sharing the same
-> > page for both is straightforward. An alternative fix is to
-> > allocate the per-cpu output page when running in an SEV-SNP CoCo
-> > guest, but this uses significantly more memory, particularly
-> > with larger vCPUs counts.
-> >
-> > Fixes: 86c48271e0d6 ("x86/hyperv: Fix APIC ID and VP index confusion in hv_snp_boot_ap()")
-> > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> > ---
-> > I'm not aware that this bug is causing any real problems because
-> > SEV-SNP CoCo VMs on Hyper-V are rarely, if ever, used without a
-> > paravisor. But it was on my list of little clean-ups to do, and
-> > a recent Sashiko analysis [1] flagged the issue. So the best thing
-> > to do is just fix it.
-> Reviewed-by: Tianyu Lan <tiala@microsoft.com>
+On Fri, Sep 11, 2026 at 12:29:05PM +0200, Manivannan Sadhasivam wrote:
+> On Wed, Sep 09, 2026 at 03:01:22PM +0530, Naman Jain wrote:
+> > 
+> > 
+> > On 9/8/2026 5:00 PM, Sahil Chandna wrote:
+> > > A guest can wait indefinitely in wait_for_response() for the host to
+> > > send either a rescind message or a packet completion. If the
+> > > host does not send either, the guest can remain blocked with no
+> > > diagnostic indicating a reason.
+> > > This was observed during a guest kernel upgrade in which the
+> > > host-side application handling the PCI channel faulted, causing the
+> > > guest to never receive the completion request.
+> > > Add a warning in wait_for_response() when the wait exceeds
+> > > a timeout so that such a hang is visible in the guest's kernel log
+> > > and can be correlated with host-side state.
+> > > 
+> > > Suggested-by: Michael Kelley <mhklinux@outlook.com>
+> > > Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+> > > ---
+> > > Changes since v2:
+> > > - Add counter based timeout instead of introducing another timer
+> > > Link to v2: https://lore.kernel.org/all/20260902115854.2629164-1-sahilchandna@linux.microsoft.com/
+> > > 
+> > > Changes since v1:
+> > > - Removed periodic warning to one time warning in 2 minutes
+> > > - Include vmbus relid and stuck PCI msg.
+> > > Link to v1: https://lore.kernel.org/all/20260825051850.2438816-1-sahilchandna@linux.microsoft.com/
+> > >   drivers/pci/controller/pci-hyperv.c | 46 ++++++++++++++++++++++-------
+> > >   1 file changed, 36 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+> > > index 89816a2bd7cd..bd07402c47ed 100644
+> > > --- a/drivers/pci/controller/pci-hyperv.c
+> > > +++ b/drivers/pci/controller/pci-hyperv.c
+> > > @@ -1040,19 +1040,38 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
+> > > 
+> > >   /*
+> > >    * There is no good way to get notified from vmbus_onoffer_rescind(),
+> > > - * so let's use polling here, since this is not a hot path.
+> > > + * so let's use polling here, since this is not a hot path. If
+> > > + * wait_for_response() has been polling for 2 minutes
+> > > + * without either a rescind or completion, add a warning.
+> > >    */
+> > > +#define PCI_RESPONSE_HANG_TICKS 1200
+> > > +
+> > 
+> > Nit, I think this variable name could be misleading, as this represents a
+> > loop counter for a retry logic, but not exactly *ticks* from kernel
+> > terminology.
+> > 
+> > I would have preferred something like: PCI_RESPONSE_WARN_POLL_COUNT.
+> > 
+> 
+> PCI_RESPONSE_POLL_COUNT?
 
-Applied. Thanks.
+Sahil, let me know if you will send out another version. If it is only
+changing one macro name, I can do that.
+
+Wei
