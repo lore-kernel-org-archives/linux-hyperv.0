@@ -1,117 +1,112 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F25AD448B9B;
-	Mon, 14 Sep 2026 11:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5659C443312;
+	Mon, 14 Sep 2026 11:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789385531; cv=none; b=Zt1/ZfLuzHThU4Mnfrq7EKFm6bS8uImYt518qdNWMqYsmt+LtBPio5+U+cZdprjBJs0wOrhNcIJlt2qlydygnnJjwmYBvvMAeLJCFeMwpzykpc8iYLqI6gWvhVZJ0CgATwGuWESsXRyqX0w+JeJxHXSq0SaKCeyABHt8Qw+3miw=
+	t=1789385696; cv=none; b=T7JZWP4s8zTcfBSiOXUgx481bFuKupCBlUJ0rzDx6uBx+erzlDK7SiIEjrQHUP0T69K4stm07VEOgohLWnYhR/0ACOy6qqf8YLTRi7QHvVrTQjVwQBHf6ndVjU7H8w/e00II/BzNWWyKypB1Ur9a6Gu4hX6fK2PpztHzHEVbt6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789385531; c=relaxed/simple;
-	bh=Zqz/YBama82idufgQFRjdf+mojRujH+4XfJGD0Ez3Rk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t10Gn9Hoo2nZWCF4wkvXdz5cZebK2IfT/YnhNK/dEMGC301gW/+VuwPVv3SPrOIuN2hQgi7MX67RjIDSRXFzm7O/QXCzBfrSu14UuDsNUiyqQY1aAUi0kiiGJQ/rdxmoGdw3lASL50HbBeG7yX/aGTT25FTwFh0bFSLDOyDxLwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FtQiHDDW; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1789385696; c=relaxed/simple;
+	bh=24hfIN03bvH9nUUi0JMuYoqII6d5TuKmXTVhaAx768c=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=ZoEmlCdTrh4Xxl11xwublla7Ub1+0WJc+3j5fEnhOEmLAo28rlqyNaG8z2OMgcaxjlTPD1GAXNrO3eR1nMtvEgrJBEZpf9ZQAzGAWu09UQUeoIGZzwh09QVdzAfXZzJVyxLwfKZMyavvsZ7eqSaV/Ob6wyilhqwP8HKWCExH/wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8gQiV/I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FtQiHDDW"
-Received: from [192.168.1.22] (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DBD5920B7168;
-	Mon, 14 Sep 2026 04:31:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DBD5920B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789385482;
-	bh=esSepxVumQzKD1UYYxNO+aYDJjPH6X5V74k/9fUhk+U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FtQiHDDWX3RV/kFKMKwH/P3ztguNs9vaaiDtLyQqJdVBohHDpymSxYRsfZ9MC2Sm6
-	 vLlvWvxYyX0373N2OgNFk9zkZEcxk/j79W2kzF1DO5mUISaNTNWc1Saj/fxnTkzR0D
-	 ulcl0kD+kGasVdzaLETnUWeC8hAgXXcmz35rJSU0=
-Message-ID: <210aa40c-88e1-4d88-ba6b-9224b05b0820@linux.microsoft.com>
-Date: Mon, 14 Sep 2026 17:01:58 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8gQiV/I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A441F000FF;
+	Mon, 14 Sep 2026 11:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789385694;
+	bh=uXm9jPWyqiPYswZygbYCLMBoSUOh5BbQ/FiIezcSOxI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=c8gQiV/IYOeWNXf/iGIAidqAod4oDmPs0grLCLXF0VNhEDtObX7f6JHpcLUvaMhkZ
+	 6JUzkNc+uLxDSPLHJvbDf9GhljYeigVXWy5zLp+rWHaVbgZK3KMSBv/idr8/JPsc0V
+	 3SwSPiv83vgVN5ELFvndgtHPbAdwvj0IxrMrGedvZkf5yZsr80uceTi6/k8ug41wsp
+	 ka/PlE7Rv0ry5qjxVkXF4wcNtZ2Dnr0kj8GldPJy64aUK4BojTX0+H8YivHqLyIA+0
+	 bmFjWTIYvlXsWmMy1u7UiA8R+NRL4rueKv3wvwlrlk0KN1UvfJNkO1fN6VHIFFcCb8
+	 kkYEiq3/tZDpA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 2/4] x86/irq: Use irq_chip_retrigger_hierarchy() in
+ fixup_irqs()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Naman Jain" <namjain@linux.microsoft.com>
+Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <20260914111836.2119301-3-namjain@linux.microsoft.com>
+References: <20260914111836.2119301-1-namjain@linux.microsoft.com>
+ <20260914111836.2119301-3-namjain@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2026 11:34:54 +0000
+Message-Id: <20260914113454.A5A441F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] x86/init: Initialize wall clock in get_rtc_noop()
-To: Roman Kisel <vdso@mailbox.org>
-Cc: glx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- decui@microsoft.com, yunhong.jiang@linux.intel.com,
- ricardo.neri-calderon@linux.intel.com, rahul.tanwar@linux.intel.com,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260831082528.1623843-1-namjain@linux.microsoft.com>
- <aqTInOmsyr8AiciA@xps-8930>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <aqTInOmsyr8AiciA@xps-8930>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] The use of irq_chip_retrigger_hierarchy() silently drops pending i=
+nterrupts for root-level irq_chips (like lapic_controller) during CPU hotpl=
+ug, because it intentionally bypasses the outermost chip.
+--
 
+commit 25a8009ce9e28c732ed15d13383d7819cd1539c8
+Author: Naman Jain <namjain@linux.microsoft.com>
 
-On 9/12/2026 9:05 AM, Roman Kisel wrote:
-> On Mon, Aug 31, 2026 at 08:25:28AM +0000, Naman Jain wrote:
->> get_rtc_noop() is used when an RTC is unavailable, but leaves its output
->> argument untouched. When CONFIG_INIT_STACK_ALL_ZERO is not enabled,
->> timekeeping_init() may therefore receive a nonzero invalid persistent
->> clock value and warn:
->> "Persistent clock returned invalid value"
->>
->> Initialize the output to zero, the documented representation of an
->> unsupported persistent clock.
->>
->> Fixes: c311ed6183f4 ("x86/init: Allow DT configured systems to disable RTC at boot time")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
->> ---
->>   arch/x86/kernel/x86_init.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
->> index 252c5827d0634..3b9b41820c84c 100644
->> --- a/arch/x86/kernel/x86_init.c
->> +++ b/arch/x86/kernel/x86_init.c
->> @@ -37,7 +37,7 @@ static void iommu_shutdown_noop(void) { }
->>   bool __init bool_x86_init_noop(void) { return false; }
->>   void x86_op_int_noop(int cpu) { }
->>   int set_rtc_noop(const struct timespec64 *now) { return -EINVAL; }
->> -void get_rtc_noop(struct timespec64 *now) { }
->> +void get_rtc_noop(struct timespec64 *now) { *now = (struct timespec64){0}; }
-> 
-> Hi Naman,
-> 
-> Could be
-> 
-> *now = (struct timespec64){};
-> 
-> to save a byte :)
+x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
 
-hi Roman,
-Thanks for reviewing.
+This patch modifies fixup_irqs() to re-inject pending interrupts by walking
+the interrupt hierarchy using irq_chip_retrigger_hierarchy(), rather than
+relying solely on the outermost chip. It also introduces scoped guards for
+the descriptor locks and conditionally sets VECTOR_RETRIGGERED only when
+the retrigger operation succeeds.
 
-Tianyu pointed out offline that this is handled in yet another way in 
-jailhouse code:
+> diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
+> --- a/arch/x86/kernel/irq.c
+> +++ b/arch/x86/kernel/irq.c
+[ ... ]
+> @@ -490,21 +490,19 @@ void fixup_irqs(void)
+[ ... ]
+>  		if (is_vector_pending(vector)) {
+> -			desc =3D __this_cpu_read(vector_irq[vector]);
+> -
+> -			raw_spin_lock(&desc->lock);
+> +			guard(raw_spinlock)(&desc->lock);
+>  			data =3D irq_desc_get_irq_data(desc);
+> -			chip =3D irq_data_get_irq_chip(data);
+> -			if (chip->irq_retrigger) {
+> -				chip->irq_retrigger(data);
+> +			ret =3D irq_chip_retrigger_hierarchy(data);
+> +			if (ret)
+>  				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
+> -			}
+> -			raw_spin_unlock(&desc->lock);
+>  		}
 
-arch/x86/kernel/jailhouse.c
-static void jailhouse_get_wallclock(struct timespec64 *now)
-{
-       memset(now, 0, sizeof(now));
+[Severity: High]
+Does this silently drop pending interrupts for root-level irq_chips like
+lapic_controller?
+
+Looking at irq_chip_retrigger_hierarchy(), it initializes its loop by
+stepping immediately to the parent data:
+
+kernel/irq/chip.c:irq_chip_retrigger_hierarchy() {
+    for (data =3D data->parent_data; data; data =3D data->parent_data)
+        if (data->chip && data->chip->irq_retrigger)
+            return data->chip->irq_retrigger(data);
+
+    return 0;
 }
 
-Regards,
-Naman
+If the interrupt relies on a non-hierarchical root domain where parent_data
+is NULL, this loop will immediately exit and return 0. The valid
+irq_retrigger callback on the outermost leaf chip is never executed.
 
-> 
-> LGTM.
-> Reviewed-by: Roman Kisel <vdso@mailbox.org>
-> 
->>   
->>   static __initconst const struct of_device_id of_cmos_match[] = {
->>   	{ .compatible = "motorola,mc146818" },
->> -- 
->> 2.43.0
->>
+Could this lead to lost hardware interrupts (such as legacy timer or ISA
+interrupts) during CPU hot-unplug for these devices?
 
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260914111836.2119=
+301-1-namjain@linux.microsoft.com?part=3D2
