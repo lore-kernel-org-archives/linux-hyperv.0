@@ -1,116 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26817271464;
-	Sun, 13 Sep 2026 23:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5349D433059;
+	Mon, 14 Sep 2026 10:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789342493; cv=none; b=F874NPqEk/yMzSLlFOhjSPi5AjISYp0Zp0+WvQzlbDuhed3LLRBNvSotYjSd5dVGnafi1Qh3k3BFnrJmS3AgMvgqBO5ztwYosFpcrHekfHZ3MTlGNCaoi/QrFL+s6xOdrRXQ65XKdCfQWEA6dLhd/9ozyDCUjYPG8VsCTLbk6ps=
+	t=1789381688; cv=none; b=dSZQ25B9LaQlS6b4Av9cygbuRLV9YE+YOVgCIwhVc4mVMVUxux/6WE/Q6FqNm7BnK8HblM8dehoRexlX/D9+c+HRKhNOoW1Ua1xTdQxUyi8O0S1X2NCKJ//lIBDtPqaibXzTB/sCopciJVounrKCaW+hzERwB+EFul5KRydYEDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789342493; c=relaxed/simple;
-	bh=YZE4BwU4qtMAogi/3Dlpj3U9IsDoADjsg16MrNRuDco=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=SrMcmpa9fPTSGw+4+Ezj+Lvzyl49Myzmuw8eF+bmv9vo3QIPY/35JHlWnssKDdZqxSrMnzSvkpZVMKm49ZECh428Y6rSpaPnu+WiYS+/nqTonF5UycpsUlLsRkKT3Ik/h7cAcZAT8RPqsUHLHfl0M/m+XFk+J2oo3j9GAIRlFTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m2aI7UY1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789381688; c=relaxed/simple;
+	bh=BwOrr2KAJAZg+sgOgloSxZAMjyVMU0vsY3LxgeDpaRk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JVRVszLc6E/JJyII8U3/+rxQUAla0AOeUH7GReNL0N+bK+dMlBMk2dELqamaCpDyKV5LJCfaYXlwktVYiZov/m+Ly+XDdCwxB1sXTpZfdvz55+hh7lpnWMCXbgv7wYouI+nbbsuoyxR4Bp/GXEMvOb5ntY9NhdpS5caRZopFG0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qvqyfRlT; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m2aI7UY1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D691F000FF;
-	Sun, 13 Sep 2026 23:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789342491;
-	bh=DXK3aFyXFtNdiAF1Cgs5lDGN4nEnz+MRU2y6MDtyg4U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=m2aI7UY1fV3sGg9PT+CQjalBjs5GJVImo4Mbj7ASq22GBcP3Nl/HZEEbI8ErDgw5s
-	 qmsSNQmHDSEoG7xdy4nlv58jRAmC4pz6VrnIy35cdqrNk49l92YBusppkbsJTCOtvd
-	 ExL7SSEXggflVtIg8DbG1I9Jr0Hhc0oYnzViRn1acBj3dl1cUqvlQin66L9USIHR7H
-	 33mPyQpTjJNfxieF3PK6+0apex6pNg6qK980gjMgLr7iC6MdNn6KdPe07T0lfSMcoI
-	 ODhAlTjPGdVmeeZWVDYxcwSap6lfQKQWq5y9J0lHrNDQ0yGASkfF2JEYOUlApZ47zt
-	 viyKkhCJ884ng==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] PCI: hv: hardwire PCI_INTERRUPT_PIN to 0
-Reply-To: sashiko-reviews@lists.linux.dev
-To: wei.liu@kernel.org
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260913232255.2801797-1-wei.liu@kernel.org>
-References: <20260913232255.2801797-1-wei.liu@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 13 Sep 2026 23:34:51 +0000
-Message-Id: <20260913233451.95D691F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qvqyfRlT"
+Received: from [192.168.1.22] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DBFBE20B7168;
+	Mon, 14 Sep 2026 03:27:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DBFBE20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789381637;
+	bh=9FMakUTBN+IyCdDcaWf7V7aTn6h5oZP5pYbgi1KoQUI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qvqyfRlTlbcG9uClnlktIuT2JJ9/rpqb493t3eWY3D03MVLG2VT7cy+uoByMG77Wm
+	 cjs5IJFvlxYra/FjOXmPvNBAz2bSFYtA4Ff7EnqXIiDAXntznu0y6VX0PGf1D/Zdb4
+	 R/MONBUDUZ1T+rPkCA3UX6aVMnnfRAyIMwHl2m9Y=
+Message-ID: <28e42462-732b-4d58-bcdb-cc9378eb134d@linux.microsoft.com>
+Date: Mon, 14 Sep 2026 15:57:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] x86/irq, iommu/amd, PCI: Drop redundant
+ irq_retrigger inits
+To: Thomas Gleixner <tglx@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "x86@kernel.org"
+ <x86@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, "namcao@linutronix.de" <namcao@linutronix.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ Rob Herring <robh@kernel.org>,
+ Shradha Gupta <shradhagupta@linux.microsoft.com>,
+ Aditya Garg <gargaditya@linux.microsoft.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260810090716.2325295-1-namjain@linux.microsoft.com>
+ <20260810090716.2325295-4-namjain@linux.microsoft.com> <875x0e204j.ffs@fw13>
+ <SN6PR02MB4157F453542D6003038CAC3DD4BF2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <87mrtoyzoy.ffs@fw13>
+ <SN6PR02MB4157B093E09517D408FD58DAD4BE2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <87y0d6xpan.ffs@fw13>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <87y0d6xpan.ffs@fw13>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Directly modifying a u32 buffer via a char pointer cast assumes Li=
-ttle Endian memory layout, clearing the wrong byte and corrupting adjacent =
-registers on Big Endian architectures.
-- [Medium] The patch hardwires PCI_INTERRUPT_PIN to 0 for 16/32-bit reads b=
-ut completely ignores PCI_INTERRUPT_LINE, creating an inconsistent configur=
-ation space state.
---
 
-commit badaaf9419fe573b12895ca135de8cb0ded77d3e
-Author: Mukesh R <mrathor@linux.microsoft.com>
 
-PCI: hv: hardwire PCI_INTERRUPT_PIN to 0
+On 9/13/2026 12:36 AM, Thomas Gleixner wrote:
+> On Fri, Sep 11 2026 at 16:32, Michael Kelley wrote:
+>> From: Thomas Gleixner <tglx@kernel.org> Sent: Friday, September 11, 2026 1:12 AM
+>> As for the future, you may remember my RFC patch set from a couple
+>> years ago for the Synthetic Interrupt Controller (SynIC) that Hyper-V
+>> provides to guests. The SynIC currently has special case nodes under
+>> /sys/bus/vmbus to manage CPU affinity. As a better approach, the patch
+>> set modelled the SynIC as an irqchip so standard Linux mechanisms could
+>> manage affinity. You and I corresponded about per-cpu flow handler
+>> tweaks to make it all work. The RFC patch set didn't get traction with
+>> the Microsoft folks and I didn't push it. But it had a stand-alone IRQ
+>> domain not parented to VECTOR because Hyper-V interrupts are hard
+>> coded to HYPERVISOR_CALLBACK_VECTOR. As a stand-alone domain,
+>> a .irq_retrigger function might have been useful in fixup_irqs(). That's
+>> all speculative, but it was in the back of my head when I suggested to
+>> Naman that the outermost chip .irq_retrigger function should be
+>> checked. I'm fine with not doing that check now, and if a future case
+>> like the Hyper-V SynIC arises, the check can be added.
+> 
+> It doesn't because that domain is not parented by the vector domain, so
+> interrupts in that domain cannot have a descriptor in the descriptor
+> array and neither will end up in msi_set_affinity().
+> 
+> These interrupts are handled in the generic cpuhotplug mechanism.
+> 
+> fixup_irqs() is really only about the vector domain to handle the case
+> where an interrupt was raised on the old vector on the outgoing CPU
+> before the generic hotplug affinity change took effect.
+> 
+>>> Devices might have a way to retrigger at the device level, but that's
+>>> not reachable from the interrupt chip.
+>>>
+>>> So both places fixup_irq() and msi_set_affinity() can use retrigger
+>>> hierarchy safely without the conditional checking the outermost domain
+>>> chip.
+>>
+>> And setting .irq_retrigger in x86_init_dev_msi_info() becomes
+>> superfluous, right?
+> 
+> Yes.
+> 
+> Thanks,
+> 
+>          tglx
 
-Hyper-V DDA does not support legacy interrupts, so the driver intercepts
-8-bit configuration reads to hardwire PCI_INTERRUPT_PIN to 0. This commit
-attempts to also hardwire the pin for 16-bit and 32-bit reads, which
-previously bypassed the emulation and leaked host hardware values.
 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
-/pci-hyperv.c
-> index 89816a2bd7cd3..bb4e6ca4ac1ce 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -1240,6 +1240,16 @@ static void _hv_pcifront_read_config(struct hv_pci=
-_dev *hpdev, int where,
->  			mb();
->  		}
->  		spin_unlock_irqrestore(&hbus->config_lock, flags);
-> +
-> +		/*
-> +		 * Make sure PCI_INTERRUPT_PIN is hard-wired to 0, since it
-> +		 * may be read using a 32bit read, which is skipped by the
-> +		 * above emulation.
-> +		 */
-> +		if (where <=3D PCI_INTERRUPT_PIN &&
-> +		    PCI_INTERRUPT_PIN < (where + size))
+I'll remove the conditional check in next version at both of the places.
+Thanks.
 
-[Severity: Medium]
-Will this leave PCI_INTERRUPT_LINE leaking host hardware state on 16-bit
-and 32-bit reads?
+Regards,
+Naman
 
-The original code correctly hardwires both PCI_INTERRUPT_LINE and
-PCI_INTERRUPT_PIN to 0 for 8-bit reads. By only checking and clearing
-PCI_INTERRUPT_PIN here, a 16-bit or 32-bit read starting at
-PCI_INTERRUPT_LINE will bypass the emulation and return the raw host
-hardware legacy configuration to the guest.
-
-> +			*((char *)val + PCI_INTERRUPT_PIN - where) =3D 0;
-
-[Severity: High]
-Could this corrupt adjacent configuration registers on big-endian
-architectures?
-
-This pointer cast directly modifies the memory backing the u32 val buffer.
-Because a u32 is stored in CPU native endianness, treating it as a char
-array assumes a little-endian layout.
-
-On a big-endian guest, the computed byte offset will point to the wrong byte
-in the u32, such as clearing PCI_MIN_GNT instead of PCI_INTERRUPT_PIN. This
-would leave the intended pin unmodified while corrupting another register.
-
-> +
->  	} else {
->  		dev_err(dev, "Attempt to read beyond a function's config space.\n");
->  	}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260913232255.2801=
-797-1-wei.liu@kernel.org?part=3D1
