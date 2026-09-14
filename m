@@ -1,112 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5659C443312;
-	Mon, 14 Sep 2026 11:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC7544470A;
+	Mon, 14 Sep 2026 11:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789385696; cv=none; b=T7JZWP4s8zTcfBSiOXUgx481bFuKupCBlUJ0rzDx6uBx+erzlDK7SiIEjrQHUP0T69K4stm07VEOgohLWnYhR/0ACOy6qqf8YLTRi7QHvVrTQjVwQBHf6ndVjU7H8w/e00II/BzNWWyKypB1Ur9a6Gu4hX6fK2PpztHzHEVbt6k=
+	t=1789386385; cv=none; b=WzP3nwSvaAADydIV60voXa4JUD14ldKg/FXv9mOcn1X+PXNeTJEI9CuGICgelGpJ62EmLabtfzeCMH4u/k0/YN2buyJI80Su44YOTXxA4uYjm41g6cZUZC9OLmqlHPBMHXUNUp7QhgzcrcX9XcQAimI0V6syLkWEdeJICezMwIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789385696; c=relaxed/simple;
-	bh=24hfIN03bvH9nUUi0JMuYoqII6d5TuKmXTVhaAx768c=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ZoEmlCdTrh4Xxl11xwublla7Ub1+0WJc+3j5fEnhOEmLAo28rlqyNaG8z2OMgcaxjlTPD1GAXNrO3eR1nMtvEgrJBEZpf9ZQAzGAWu09UQUeoIGZzwh09QVdzAfXZzJVyxLwfKZMyavvsZ7eqSaV/Ob6wyilhqwP8HKWCExH/wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8gQiV/I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789386385; c=relaxed/simple;
+	bh=bTE5MXIvqSiIZe5i+49lO4aoO1UQoLMV88Vli15QSPg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kXhKNKFZsFjj04c+MQ2jHtquGd4FNU3L0lM6Yy+QxJVCpdRUx5v/IL/CDOAzXdONBofmRADWiAGjPbxtlBw77Qs/9w+gXduqPM9sdhwFLIwF8Rb9e4sQ5UmiztRQw2RFGdIma325CgDnhGhjjI5DXRgoaBdmILSsvUUWLBnk2I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RlWcAYlz; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8gQiV/I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A441F000FF;
-	Mon, 14 Sep 2026 11:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789385694;
-	bh=uXm9jPWyqiPYswZygbYCLMBoSUOh5BbQ/FiIezcSOxI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=c8gQiV/IYOeWNXf/iGIAidqAod4oDmPs0grLCLXF0VNhEDtObX7f6JHpcLUvaMhkZ
-	 6JUzkNc+uLxDSPLHJvbDf9GhljYeigVXWy5zLp+rWHaVbgZK3KMSBv/idr8/JPsc0V
-	 3SwSPiv83vgVN5ELFvndgtHPbAdwvj0IxrMrGedvZkf5yZsr80uceTi6/k8ug41wsp
-	 ka/PlE7Rv0ry5qjxVkXF4wcNtZ2Dnr0kj8GldPJy64aUK4BojTX0+H8YivHqLyIA+0
-	 bmFjWTIYvlXsWmMy1u7UiA8R+NRL4rueKv3wvwlrlk0KN1UvfJNkO1fN6VHIFFcCb8
-	 kkYEiq3/tZDpA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 2/4] x86/irq: Use irq_chip_retrigger_hierarchy() in
- fixup_irqs()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Naman Jain" <namjain@linux.microsoft.com>
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260914111836.2119301-3-namjain@linux.microsoft.com>
-References: <20260914111836.2119301-1-namjain@linux.microsoft.com>
- <20260914111836.2119301-3-namjain@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2026 11:34:54 +0000
-Message-Id: <20260914113454.A5A441F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RlWcAYlz"
+Received: from DESKTOP-TUU1E5L.localdomain (unknown [167.220.208.69])
+	by linux.microsoft.com (Postfix) with ESMTPSA id ACB6B20B7168;
+	Mon, 14 Sep 2026 04:45:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ACB6B20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789386340;
+	bh=79zZtpmo8YK6M8lOBOuuMDodxRd5Y13bD5Fuxjb9XZ4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RlWcAYlzSS1vrigLLKTk9VqMycQPw3r+6pkBLogzRLzKxNAwaimWjfroOlGH+uZCe
+	 e/xERgpSPiYlIF9LWerAL29wAPrE+ArpA3Bcr7cdXq7bNYdsBHjH5CckMwLayYl26R
+	 IqIxRirYQIBDvNfMR22IozMmUVb4UTH5y2/vamso=
+From: Magnus Kulke <magnuskulke@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dexuan Cui <decui@microsoft.com>,
+	Wei Liu <liuwe@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>,
+	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Long Li <longli@microsoft.com>
+Subject: [RFC PATCH] drivers/hv: remove deposited pages from direct map
+Date: Mon, 14 Sep 2026 13:46:17 +0200
+Message-Id: <20260914114617.27628-1-magnuskulke@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] The use of irq_chip_retrigger_hierarchy() silently drops pending i=
-nterrupts for root-level irq_chips (like lapic_controller) during CPU hotpl=
-ug, because it intentionally bypasses the outermost chip.
---
+(RFC b/c feedback from arm64 maintainers to access the impact is
+pending)
 
-commit 25a8009ce9e28c732ed15d13383d7819cd1539c8
-Author: Naman Jain <namjain@linux.microsoft.com>
+hv_call_deposit_pages() donates pages (deposit) to hypervisor for L2
+guest on L1VH systems via HVCALL_DEPOSIT_MEMORY. The hypervisor takes
+ownership of those pages and per contract revokes root partition
+access to them, raising a #GP on access from the L1VH root partition.
 
-x86/irq: Use irq_chip_retrigger_hierarchy() in fixup_irqs()
+However, the pages remain mapped in the kernel direct map, so kernel
+code may still access them even though the hypervisor has revoked
+access.
 
-This patch modifies fixup_irqs() to re-inject pending interrupts by walking
-the interrupt hierarchy using irq_chip_retrigger_hierarchy(), rather than
-relying solely on the outermost chip. It also introduces scoped guards for
-the descriptor locks and conditionally sets VECTOR_RETRIGGERED only when
-the retrigger operation succeeds.
+Helpers such as "load_unaligned_zeropad()" deliberately read past the
+end of a buffer and across page boundaries. A read into an unmapped
+page is tolerated and triggers a #PF, for which the kernel executed
+a fixup in the exception table.
 
-> diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
-> --- a/arch/x86/kernel/irq.c
-> +++ b/arch/x86/kernel/irq.c
-[ ... ]
-> @@ -490,21 +490,19 @@ void fixup_irqs(void)
-[ ... ]
->  		if (is_vector_pending(vector)) {
-> -			desc =3D __this_cpu_read(vector_irq[vector]);
-> -
-> -			raw_spin_lock(&desc->lock);
-> +			guard(raw_spinlock)(&desc->lock);
->  			data =3D irq_desc_get_irq_data(desc);
-> -			chip =3D irq_data_get_irq_chip(data);
-> -			if (chip->irq_retrigger) {
-> -				chip->irq_retrigger(data);
-> +			ret =3D irq_chip_retrigger_hierarchy(data);
-> +			if (ret)
->  				__this_cpu_write(vector_irq[vector], VECTOR_RETRIGGERED);
-> -			}
-> -			raw_spin_unlock(&desc->lock);
->  		}
+If such a call steps into a page that has been deposited, the access
+raises a #GP by the hypervisor from which the above handler cannot
+recover and the kernel panics:
 
-[Severity: High]
-Does this silently drop pending interrupts for root-level irq_chips like
-lapic_controller?
+  Oops: general protection fault, maybe for address 0xff1100941a3dfffc
+  RIP: 0010:csum_partial+0xe5/0x110
 
-Looking at irq_chip_retrigger_hierarchy(), it initializes its loop by
-stepping immediately to the parent data:
+This condition will appear on L1VH system that have created L2
+partitions (and hence deposited pages) and exercise networking code
+paths such as csum_partial() can trigger this condition when a buffer
+ends close to a page boundary (e.g fffc in the above example).
 
-kernel/irq/chip.c:irq_chip_retrigger_hierarchy() {
-    for (data =3D data->parent_data; data; data =3D data->parent_data)
-        if (data->chip && data->chip->irq_retrigger)
-            return data->chip->irq_retrigger(data);
+The fix is to remove the deposited pages from the direct map before
+they are passed to the hypervisor, and restore them when the hypervisor
+returns them again.
 
-    return 0;
-}
+We want to avoid flushing the TLB in the loop, so we use the _noflush()
+variant of set_direct_map_valid() when marking a deposited page invalid
+and flush the affected page ranges in one go ourselves. In the opposite
+direction this is not required:
 
-If the interrupt relies on a non-hierarchical root domain where parent_data
-is NULL, this loop will immediately exit and return 0. The valid
-irq_retrigger callback on the outermost leaf chip is never executed.
+  > If a paging-structure entry is modified to change the P flag from
+  > 0 to 1, no invalidation is necessary. This is because no TLB entry
+  > or paging-structure cache entry is created with information from a
+  > paging-structure entry in which the P flag is 0.
 
-Could this lead to lost hardware interrupts (such as legacy timer or ISA
-interrupts) during CPU hot-unplug for these devices?
+(Intel SDM Vol. 3, 4.10.4.3)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260914111836.2119=
-301-1-namjain@linux.microsoft.com?part=3D2
+Signed-off-by: Magnus Kulke <magnuskulke@linux.microsoft.com>
+---
+ drivers/hv/hv_proc.c           | 53 +++++++++++++++++++++++++++++++++-
+ drivers/hv/mshv_root_hv_call.c |  2 ++
+ include/asm-generic/mshyperv.h |  4 +++
+ 3 files changed, 58 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+index 57b2c64197cb..3ab02adf7efb 100644
+--- a/drivers/hv/hv_proc.c
++++ b/drivers/hv/hv_proc.c
+@@ -7,7 +7,9 @@
+ #include <linux/cpuhotplug.h>
+ #include <linux/minmax.h>
+ #include <linux/export.h>
++#include <linux/set_memory.h>
+ #include <asm/mshyperv.h>
++#include <asm/tlbflush.h>
+ 
+ /*
+  * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+@@ -15,6 +17,35 @@
+  */
+ #define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+ 
++/*
++ * Add or remove a set of physically contiguous page runs from the kernel
++ * direct map. Once a page has been deposited the hypervisor owns it and
++ * revokes root partition access to it.
++ */
++static int hv_deposit_update_direct_map(struct page **pages, int *counts,
++					int num_allocations, bool valid)
++{
++	int i, err, ret = 0;
++
++	for (i = 0; i < num_allocations; ++i) {
++		err = set_direct_map_valid_noflush(pages[i], counts[i], valid);
++		if (err && !ret)
++			ret = err;
++	}
++
++	if (valid)
++		return ret;
++
++	for (i = 0; i < num_allocations; ++i) {
++		unsigned long addr = (unsigned long)page_address(pages[i]);
++		unsigned long size = (unsigned long)counts[i] << PAGE_SHIFT;
++
++		flush_tlb_kernel_range(addr, addr + size);
++	}
++
++	return ret;
++}
++
+ /* Deposits exact number of pages. Must be called with interrupts enabled.  */
+ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ {
+@@ -72,6 +103,10 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 	}
+ 	num_allocations = i;
+ 
++	ret = hv_deposit_update_direct_map(pages, counts, num_allocations, false);
++	if (ret)
++		goto err_restore_direct_map;
++
+ 	local_irq_save(flags);
+ 
+ 	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
+@@ -90,12 +125,15 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 	if (!hv_result_success(status)) {
+ 		hv_status_err(status, "\n");
+ 		ret = hv_result_to_errno(status);
+-		goto err_free_allocations;
++		goto err_restore_direct_map;
+ 	}
+ 
+ 	ret = 0;
+ 	goto free_buf;
+ 
++err_restore_direct_map:
++	hv_deposit_update_direct_map(pages, counts, num_allocations, true);
++
+ err_free_allocations:
+ 	for (i = 0; i < num_allocations; ++i) {
+ 		base_pfn = page_to_pfn(pages[i]);
+@@ -110,6 +148,19 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ }
+ EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
+ 
++/*
++ * Put withdrawn pages back in the direct map. Counterpart to the direct map
++ * removal done by hv_call_deposit_pages().
++ */
++void hv_restore_withdrawn_pages(const u64 *pfns, int count)
++{
++	int i;
++
++	for (i = 0; i < count; ++i)
++		set_direct_map_valid_noflush(pfn_to_page(pfns[i]), 1, true);
++}
++EXPORT_SYMBOL_GPL(hv_restore_withdrawn_pages);
++
+ int hv_deposit_memory_node(int node, u64 partition_id,
+ 			   u64 hv_status)
+ {
+diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
+index cb55d4d4be2e..8c21ad4ba3b0 100644
+--- a/drivers/hv/mshv_root_hv_call.c
++++ b/drivers/hv/mshv_root_hv_call.c
+@@ -69,6 +69,8 @@ int hv_call_withdraw_memory(u64 count, int node, u64 partition_id)
+ 
+ 		completed = hv_repcomp(status);
+ 
++		hv_restore_withdrawn_pages(output_page->gpa_page_list, completed);
++
+ 		for (i = 0; i < completed; i++)
+ 			__free_page(pfn_to_page(output_page->gpa_page_list[i]));
+ 
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index bf601d67cecb..397c8ec0ce9a 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -346,6 +346,7 @@ static inline bool hv_parent_partition(void)
+ bool hv_result_needs_memory(u64 status);
+ int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
+ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
++void hv_restore_withdrawn_pages(const u64 *pfns, int count);
+ int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
+ int hv_call_notify_all_processors_started(void);
+ bool hv_lp_exists(u32 lp_index);
+@@ -364,6 +365,9 @@ static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_page
+ {
+ 	return -EOPNOTSUPP;
+ }
++
++static inline void hv_restore_withdrawn_pages(const u64 *pfns, int count) { }
++
+ static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id)
+ {
+ 	return -EOPNOTSUPP;
+-- 
+2.34.1
+
