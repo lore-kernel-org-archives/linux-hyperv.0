@@ -1,125 +1,67 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB22043CED8;
-	Mon, 14 Sep 2026 10:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960D53CF213;
+	Mon, 14 Sep 2026 10:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789382507; cv=none; b=NV6qrjAIdPwXrGn+k7zIE/ouWwcUac9YjaNJ+6W/jKGjFsz9/pK5rkOIWYQfmxOlhCbdulLtfnTVb+pM1wECk9gCMdLQDQY2UdUmmRQPvi1XGlg5olw4C/+3/BBAfcBNxX2YnYd4k4at2+XmuMtAVGEnUvJ4r63ZJMMBcQ4/7IE=
+	t=1789383368; cv=none; b=T16vUisKZw8ohvBjJSJsNQqJTy+frPQVtqPLo5Ow9hGxKP5McGHlwl2s1mmOw+BlHgUHMwifTXZK/y43a4Nlwx+Cyq4ZBX5ytn1KWytvU5xlFRPNfL+Gmho9bK6TbDynFqZyDIlKNVyITNmAD4NoONBs9soo2UQCguDaC8TPGuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789382507; c=relaxed/simple;
-	bh=94qu4rAdu9BDdMWqu386QnYL1IBJ4EFaF1ClssR1BME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lcy7XC/9WCd+ndsetc03m1EHUTiCzPGzeROBdJDRpmefPh84Ypb6zG64D/Jr5nvKUNP8nhNH8rDH2zM+qFmu6tGGFBW0SqgGe3A+ywTsHwYUV3C5mEAUstRV05mzTr3BQcvB/ObZaBJbBfNuX0d1EoOnOZFOvMq5eUoj/znbCNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BKnlUBUG; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1789383368; c=relaxed/simple;
+	bh=Gai0pBSLTGfFJcKoEexFk/LR7HNghtXwRSCetz3W8yk=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=LHz/TbuiY7y3RAa6pEGqOgRfqqYKmPukhc/a0VVzOT5Idw9JoclZ7/YslM5z+lZ5Tdj0SU+5xttqCoVQt90VuBxh8nePVMMJ48FwWs0miB0u9uSlGDFmoBTL8FecG3s/hblrMNc/1ACcBTeY+CBcVXMjpn/n6hj1XcFQV5Txhbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nvQfm+iL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BKnlUBUG"
-Received: from [10.26.7.43] (unknown [4.213.232.17])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CFD0E20B716A;
-	Mon, 14 Sep 2026 03:40:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CFD0E20B716A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789382461;
-	bh=ywbtivO3C7A9YnZodIeAOtYclDeN4qmK+nporFagxcw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BKnlUBUGB0PgLKRWoEyW/SfW9EnwOFv73PqSowkdaGoZSxVHi4I+ST4+/xc9y9Q4u
-	 Nh1yKz8hC/hsq65kNrbsO605LhHPiTO5zIgHuTUSk8/G96/Xv2vF4/gxj2jd6eOkJs
-	 JcC+8mPUyrQZQu1NTL1HqTNLFDk85O8XSpTvzjAk=
-Message-ID: <59a834d6-0041-4eee-8ac0-5f035d093d71@linux.microsoft.com>
-Date: Mon, 14 Sep 2026 16:11:38 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nvQfm+iL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A041F000FF;
+	Mon, 14 Sep 2026 10:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789383365;
+	bh=Gai0pBSLTGfFJcKoEexFk/LR7HNghtXwRSCetz3W8yk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nvQfm+iLMn3Thcsqm1EeTSDMyDsIUiA5U18LlIe4Rld+sBHmF9K/LkWTeGNQfZrUh
+	 dszlS+VGjoAhLK5B9kBLqN7/r9R84Z6V5SspYjiBuO4+qi9FLyYQATf33etpzIyAbl
+	 3nONYbYagWWPccn+U/0re7I9OaUf9m8yKid8aYx0Rj2TcG2gz4I2JI+I6/mdeEFzLR
+	 nOsSehnMxPqg9apN1NPFQ0ciTNk+WfBkaiXRRRg7RqL7V8FLG9wshsggJ/fuOC8cu/
+	 Ep7VPoMww0Nzv0StS0lhgw7bubDjeidZfg/M2KBhj0QmwqmITXo6WDdUJCLvYDjSh1
+	 C2Uq4jj1TWFbg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4] PCI: hv: Warn when wait_for_response() waits
+ indefinitely
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sahil Chandna" <sahilchandna@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
+In-Reply-To: <20260914103918.3125157-1-sahilchandna@linux.microsoft.com>
+References: <20260914103918.3125157-1-sahilchandna@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Sep 2026 10:56:05 +0000
+Message-Id: <20260914105605.92A041F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] PCI: hv: Warn when wait_for_response() waits
- indefinitely
-To: Wei Liu <wei.liu@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>
-Cc: Naman Jain <namjain@linux.microsoft.com>, kys@microsoft.com,
- haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com,
- lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
- bhelgaas@google.com, linux-hyperv@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, mhklinux@outlook.com
-References: <20260908113009.3005964-1-sahilchandna@linux.microsoft.com>
- <c8b6e10f-dd52-4c74-8d16-268563d8bc1f@linux.microsoft.com>
- <hen5k4ejonfffwdir7tfa2gnmxwfbbqabrjtwooo4o5pjf5gnz@x52vfm5phv3l>
- <20260913223952.GE2219269@liuwe-devbox-debian-v2.local>
-Content-Language: en-US
-From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-In-Reply-To: <20260913223952.GE2219269@liuwe-devbox-debian-v2.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 14-09-2026 04:09, Wei Liu wrote:
-> On Fri, Sep 11, 2026 at 12:29:05PM +0200, Manivannan Sadhasivam wrote:
->> On Wed, Sep 09, 2026 at 03:01:22PM +0530, Naman Jain wrote:
->>>
->>>
->>> On 9/8/2026 5:00 PM, Sahil Chandna wrote:
->>>> A guest can wait indefinitely in wait_for_response() for the host to
->>>> send either a rescind message or a packet completion. If the
->>>> host does not send either, the guest can remain blocked with no
->>>> diagnostic indicating a reason.
->>>> This was observed during a guest kernel upgrade in which the
->>>> host-side application handling the PCI channel faulted, causing the
->>>> guest to never receive the completion request.
->>>> Add a warning in wait_for_response() when the wait exceeds
->>>> a timeout so that such a hang is visible in the guest's kernel log
->>>> and can be correlated with host-side state.
->>>>
->>>> Suggested-by: Michael Kelley <mhklinux@outlook.com>
->>>> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
->>>> ---
->>>> Changes since v2:
->>>> - Add counter based timeout instead of introducing another timer
->>>> Link to v2: https://lore.kernel.org/all/20260902115854.2629164-1-sahilchandna@linux.microsoft.com/
->>>>
->>>> Changes since v1:
->>>> - Removed periodic warning to one time warning in 2 minutes
->>>> - Include vmbus relid and stuck PCI msg.
->>>> Link to v1: https://lore.kernel.org/all/20260825051850.2438816-1-sahilchandna@linux.microsoft.com/
->>>>   drivers/pci/controller/pci-hyperv.c | 46 ++++++++++++++++++++++-------
->>>>   1 file changed, 36 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
->>>> index 89816a2bd7cd..bd07402c47ed 100644
->>>> --- a/drivers/pci/controller/pci-hyperv.c
->>>> +++ b/drivers/pci/controller/pci-hyperv.c
->>>> @@ -1040,19 +1040,38 @@ static void put_pcichild(struct hv_pci_dev *hpdev)
->>>>
->>>>   /*
->>>>    * There is no good way to get notified from vmbus_onoffer_rescind(),
->>>> - * so let's use polling here, since this is not a hot path.
->>>> + * so let's use polling here, since this is not a hot path. If
->>>> + * wait_for_response() has been polling for 2 minutes
->>>> + * without either a rescind or completion, add a warning.
->>>>    */
->>>> +#define PCI_RESPONSE_HANG_TICKS 1200
->>>> +
->>>
->>> Nit, I think this variable name could be misleading, as this represents a
->>> loop counter for a retry logic, but not exactly *ticks* from kernel
->>> terminology.
->>>
->>> I would have preferred something like: PCI_RESPONSE_WARN_POLL_COUNT.
-Ack, I have added in v4.
->>>
->>
->> PCI_RESPONSE_POLL_COUNT?
-> 
-Hi Mani, i am inclining towards PCI_RESPONSE_WARN_POLL_COUNT as
-intention of change is to emit a warning when counter has exceeded a set
-threshold.
+> A guest can wait indefinitely in wait_for_response() for the host to
+> send either a rescind message or a packet completion. If the
+> host does not send either, the guest can remain blocked with no
+> diagnostic indicating a reason.
+> This was observed during a guest kernel upgrade in which the
+> host-side application handling the PCI channel faulted, causing the
+> guest to never receive the completion request.
+> Add a warning in wait_for_response() when the wait exceeds
+> a timeout so that such a hang is visible in the guest's kernel log
+> and can be correlated with host-side state.
+>=20
+> Suggested-by: Michael Kelley <mhklinux@outlook.com>
+> Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
 
-> Sahil, let me know if you will send out another version. If it is only
-> changing one macro name, I can do that.
-> 
-Hi Wei,
-I have sent out v4.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Regards,
-Sahil
-> Wei
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260914103918.3125=
+157-1-sahilchandna@linux.microsoft.com?part=3D1
 
