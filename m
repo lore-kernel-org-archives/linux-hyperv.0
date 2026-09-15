@@ -1,73 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD157DA66;
-	Tue, 15 Sep 2026 00:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D1E431499;
+	Tue, 15 Sep 2026 04:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789433447; cv=none; b=eZpIbfoI0U4M/6Cu8yRCtdts7RRQ1+USceKTzu4r6/5bFajoU7JlVlAsJLge7XNKaVB80R1MRdFmN7PIhZRf82VOYkZEEiQg7gx6MTf5Ck8rwj5VqaWhii0l/nNWMNHUvE9DeEpeoARSUD2gcldWiYXHqBau1OWy9cFDK6+6a1I=
+	t=1789446697; cv=none; b=MzUEF+Mn/99IcsXBv7o5u5X3PuSHiwBTujFb99za5+0HzNwRmLA8WSXeK/48SqRxeC+rt2Ib+GHMvx7kd0DnVWjc+1azC6EcZ7EdqIpRHcuqHJJrR9JThVobDNvLNFi/VrHAVhIhUffOa5Pnp+8rn8cvEfuceAMrJvZFiJ9r9M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789433447; c=relaxed/simple;
-	bh=glZbkAdzl9o/gebqVbiu60g6TjSA0qLnpnPl0k4Tdr8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iHsk5tTTQZBFAWSaQW14vQSMWD1QzJZrRrX5rOukqvqXUcIKFmw631BqHq+x/+Gq5EG12oxr/oLxSUYW9qlMwTCYTWUkU6SQnFMQtFGnsxqjxF+5iqTyFsCgFxhx8Zh/XhzaO10+mm/waIEPBmDMLbY1SSugSSpuayd61osgLRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoKOt/9a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789446697; c=relaxed/simple;
+	bh=kyzN3dg3O5j4C+ixXMm2PPn2r2u8wrUq+gKl+V1RvsI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KTFfkwUfEQASVCvXbJOomwQyq1XFSX5BDj2wPH5cOlmNeOkx3RU/RHcO4gq2We/TZR62rMFKiREi6hObiPjnTAQQy5Loef2SVKEdR2EztE2jzpXd/UOz8+XuAXBOwCMosMA0GtMC7/l1akjx2tSn/c9ejERvwKWvDibodsfCzUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCSxHa6b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoKOt/9a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409C41F000FF;
-	Tue, 15 Sep 2026 00:50:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCSxHa6b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D3E1F00893;
+	Tue, 15 Sep 2026 04:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789433446;
-	bh=hiV219awBMXe3c+mWXpo87nzhG5UGhkydX5AfC45tws=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=aoKOt/9akz4JmfR70qnvBMs700iqTLTMkLJ5okFvYJkPZl8ry3HBIwusroQW+EYvE
-	 kcN7PmHxTeBt5K2heJSduYvpiZ5N91hzgFyVMeSOuK4FFElHbGcrk+Z+g2925+tcuR
-	 xzg/HG7PuRbAATUusPb7f3vInT/d0BIA5Ddl+984/vcyq5pJZY96A2yeSXeLiKD5x+
-	 hFH/LDLwckH5nkDUUApZ2OEcV5Nhp7aX2s0HzR0u3rhWXJAMKrHcreXIOrntgXugCo
-	 fD/O2eInxmAPC4Abe1mv0L5bVXJxvhrQoyIR/ZG+HpFkj2tYbimFWMcPAOhG02Mufk
-	 X67okzxcDqAZQ==
-Date: Mon, 14 Sep 2026 17:50:44 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Long Li <longli@microsoft.com>
-Cc: Long Li <longli@kernel.org>, Konstantin Taranov
- <kotaranov@microsoft.com>, "David S . Miller" <davem@davemloft.net>, Paolo
- Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky
- <leon@kernel.org>, Haiyang Zhang <haiyangz@microsoft.com>, "K . Y .
- Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, shradhagupta@linux.microsoft.com, Simon Horman
- <horms@kernel.org>, ernis@linux.microsoft.com, stephen@networkplumber.org,
- shirazsaleem@microsoft.com, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/4] net: mana: give each HWC message slot
- its own completion state
-Message-ID: <20260914175044.2a26bb46@kernel.org>
-In-Reply-To: <20260908035201.402424-3-longli@microsoft.com>
-References: <20260908035201.402424-1-longli@microsoft.com>
-	<20260908035201.402424-3-longli@microsoft.com>
+	s=k20260515; t=1789446685;
+	bh=ZX8p0xKhWvzdMr3cMuo+x22JfL3TAIzCrrx12gcubGI=;
+	h=From:To:Cc:Subject:Date;
+	b=GCSxHa6b6IMWGpMHqqle6pvir1NCwpqc7yuEqQ5a1PmqsgtKKJ1GvemvM8iSRPckp
+	 tC0HCTdPpttqM6X/O3Z55dgKvJGy/66pcrB6BVD+kq7clGUoKb6aqsMCBN9l3OFewl
+	 eF1sjSFj5KKjLCPYqg5AZcv5e6W49xZjH/pqUHyntjM2eb+e3NHqL5/4c15gGEkwLc
+	 lNSLxywm23ygQAjthwviHZizbgXPeMFF2e0MZODpnWdTeaJF5pJAviuyVCynE5Zsze
+	 l7aexr9HCKm8a7LY5Sclzki/ch2PtMAV8ljpPDNrZAkzcRAcswxHqIQVd1fwxhB+Vh
+	 68ER1Q3wBxf0g==
+From: Long Li <longli@kernel.org>
+To: jgg@ziepe.ca,
+	leon@kernel.org
+Cc: weh@microsoft.com,
+	kotaranov@microsoft.com,
+	linux-rdma@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Long Li <longli@kernel.org>
+Subject: [PATCH] MAINTAINERS: hand over MANA RDMA driver to Wei Hu
+Date: Mon, 14 Sep 2026 21:31:21 -0700
+Message-Id: <20260915043121.10370-1-longli@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon,  7 Sep 2026 20:51:56 -0700 Long Li wrote:
-> +	status = ctx->status_code;
-> +	spin_unlock_irqrestore(&ctx->lock, flags);
-> +	hwc_ctx_put(hwc, ctx);
-> +
-> +check_status:
-> +	if (err)
-> +		goto done;
->  
-> -	if (ctx->status_code && ctx->status_code != GDMA_STATUS_MORE_ENTRIES) {
-> -		if (ctx->status_code == GDMA_STATUS_CMD_UNSUPPORTED) {
-> +	if (status && status != GDMA_STATUS_MORE_ENTRIES) {
+Wei Hu takes over maintainership of the Microsoft MANA RDMA driver.
 
-Please don't use goto to jump around functions.
-This code needs to be refactored.
-So does patch 4 at a glance.
+Signed-off-by: Long Li <longli@kernel.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3b2eb2a7a..ee9328178 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18046,7 +18046,7 @@ F:	include/linux/cciss*.h
+ F:	include/uapi/linux/cciss*.h
+ 
+ MICROSOFT MANA RDMA DRIVER
+-M:	Long Li <longli@microsoft.com>
++M:	Wei Hu <weh@microsoft.com>
+ M:	Konstantin Taranov <kotaranov@microsoft.com>
+ L:	linux-rdma@vger.kernel.org
+ L:	linux-hyperv@vger.kernel.org
+-- 
+2.34.1
+
