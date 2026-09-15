@@ -1,60 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA8F4A49B1;
-	Tue, 15 Sep 2026 11:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544AE3B6379;
+	Tue, 15 Sep 2026 11:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789472687; cv=none; b=iBeoNNeqMPCYbzOVN0Nc1tD5ynU24pl6M60xAaPuWJhRybIoHTBSk8NuZy2shmTO/Wek0FXJDZYsa6xpmAfsXxWh4h9Eed2+mjiopPN2XDq0lpP1gZOwIxsdRaH3wEsznsRWoINYO5kP0WH3/jK9TUzBUcM+MyiN8fuSaxbWOeM=
+	t=1789472757; cv=none; b=JEVCDpNHxneZzKAAAEAOa9wfWTYnMv8eqjgSp1FeRjTmaYFHJomzNhi4muNmN0JsPc9B7j3MbHo3j6XelRSz3HHgTi4Vl4bMF/oQU3y/1U/hfTOfs/Lm/j7R1zuzCSX8FvzylR47YNYooF/KOkPXab7orgRJ9aar6rCMjD6VDmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789472687; c=relaxed/simple;
-	bh=GvhpuUbC0L03A+cxBQNJFpAw3lYVurMJDVoMIPwYJ9s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=AGHv9yr1md0G9+hr38w+6OH2LAzfM5L5L9EQ+sBFd8DNFQa/Z1hUbP6ex8J8YSLM1tXXZuK1Adjcz+NhIn8yY2gmGD/wAYi+Wm4hoivebRR4QF8rVbXYTlmrwRKq3IZVK+1D7NjHk7ccsYLpooc//y4ORmkehYSazoHsXCZaju0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMBs/2sz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789472757; c=relaxed/simple;
+	bh=84qdWoL1LKc5gtdlqTMvnJT+oufAgjOVJobzRLdUed0=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=BPZvhH3gUUeZhMXpqSb5Rqt4wGmGJd2ArmOrcUszi+Sk2vTNHatxQ/t4KS7ikmmcGqYWGvXfZU0oyki9e14RKFfmpQ6bsOOOytfDTd+0BCTFP15gKh/R2hMmruXuiENgJQUaUqN9FwydgSxm3fW4+9ITc8RiW0uVBh1m6tQweN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OvyMOoJ/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UMBs/2sz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D66FA1F00893;
-	Tue, 15 Sep 2026 11:44:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvyMOoJ/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6688D1F00893;
+	Tue, 15 Sep 2026 11:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789472686;
-	bh=y4QTAEullyvf1LwAhwtL5n0UdicfZrJiGsKbYB+xjJc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=UMBs/2szWVBjw9Fb36ddkHoDU4L6bzOm/Lkatf+6OSeZfdZJXOZgR/y/6gOc9QarF
-	 PGzBtHIm5ipIbLYJMOwyEssKZUBmZskpN+iWeA7IaexZn0FqDTz+yckaSdu3c8Q/hL
-	 MVw3W5Z3IYPnpUugbWRDkO0G7160ZppeshHYBIagwBPphHhwj5421skgDufPjcmUH1
-	 XSxTd2P6Y7nVdAOi+csKqoZCkzNN35oOXZKdLGlbtvPmpr70T3MCrO9V1MipjMZyPR
-	 MNXb6b0dn0vbNwLiYipBOpafOdSWrBPyTKAb5BJRMJhQSRwO3ueHRs2dvBCAFSdSOA
-	 xE0yIU+fAqy+Q==
-From: Leon Romanovsky <leon@kernel.org>
-To: jgg@ziepe.ca, Long Li <longli@kernel.org>
-Cc: weh@microsoft.com, kotaranov@microsoft.com, linux-rdma@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260915043121.10370-1-longli@kernel.org>
-References: <20260915043121.10370-1-longli@kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: hand over MANA RDMA driver to Wei Hu
-Message-Id: <178947268361.1248043.8254467416222689342.b4-ty@kernel.org>
-Date: Tue, 15 Sep 2026 07:44:43 -0400
+	s=k20260515; t=1789472756;
+	bh=84qdWoL1LKc5gtdlqTMvnJT+oufAgjOVJobzRLdUed0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=OvyMOoJ/eHXXAGCUuAHV9UPjednx+3v2kDsPpsRiMt2vJNRigBckYplzs+k1CunG2
+	 VWZZat6CVLgoaSJTbzAssnUcFLqBHnWcBIQrLSfCF6yx/37jt+iOEtPkQuPGH8kPjd
+	 AcdsSWp6kCGfJlkts3qZap21GHGOxCB9xpK4lKpyaxS4E3Gaqn2VwY0tbDq0dM8cvD
+	 +S2ZTPvYUXYUWl8wkJIZFxNOYN02VLCEE6CbGr+QmxOcs6ih+Z8gfikh487gD4do1z
+	 HtstDA3lVNKx0gLEevE1N9RvYOxqvCFfMI9vHNdE7EnXbFWmMIRc5NCWTLObCYGVL0
+	 9PhkPHo1Z/4SA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC POC 11/50] MIPS: commit fds on syscall exit
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>, "Linus Torvalds" <torvalds@linux-foundation.org>
+Cc: io-uring@vger.kernel.org, linux-gpio@vger.kernel.org, "Jens Axboe" <axboe@kernel.dk>, linuxppc-dev@lists.ozlabs.org, linux-arm-msm@vger.kernel.org, "David
+ Airlie" <airlied@redhat.com>, linux-snps-arc@lists.infradead.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, linux-csky@vger.kernel.org, "Jan Kara" <jack@suse.cz>, linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, "Ingo
+ Molnar" <mingo@redhat.com>, virtualization@lists.linux.dev, "Peter Zijlstra" <peterz@infradead.org>, linux-mips@vger.kernel.org, linux-hyperv@vger.kernel.org, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, bpf@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org, linux-sh@vger.kernel.org, linux-parisc@vger.kernel.org, "Eugenio
+ Perez" <eperezma@redhat.com>, linux-mm@kvack.org, "Jann Horn" <jannh@google.com>, linux-alpha@vger.kernel.org, linux-m68k@lists.linux-m68k.org, "Oleg
+ Nesterov" <oleg@redhat.com>, kvm@vger.kernel.org, =?utf-8?b?Q2hyaXN0aWFu?=
+ =?utf-8?b?IEJyYXVuZXIgKEFtdXRhYmxlKQ==?= <brauner@kernel.org>, kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-11-4d5217d6b246@kernel.org>
+References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+ <20260915-work-fd-reserve-unify-folded-v1-11-4d5217d6b246@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Sep 2026 11:45:52 +0000
+Message-Id: <20260915114553.6688D1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-18f8f
 
+> Add TIF_FD_SLOTS to the syscall exit work. The return path rereads
+> the flags after the system call and calls syscall_trace_leave() for
+> any of the exit work bits which commits the reservations before audit
+> and the ptrace exit stop.
+>=20
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-On Mon, 14 Sep 2026 21:31:21 -0700, Long Li wrote:
-> Wei Hu takes over maintainership of the Microsoft MANA RDMA driver.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Applied, thanks!
-
-[1/1] MAINTAINERS: hand over MANA RDMA driver to Wei Hu
-      https://git.kernel.org/rdma/rdma/c/18922a5387b65d
-
-Best regards,
--- 
-Leon Romanovsky <leon@kernel.org>
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260915-work-fd-re=
+serve-unify-folded-v1-0-4d5217d6b246@kernel.org?part=3D11
 
