@@ -1,69 +1,82 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47F0414A16
-	for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 16:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789488555; cv=none; b=L9eL1f9cDXpAygI0bOSnPt4p5L3THjFeeTN2cNI0KryfQHTF6XxbBwG0JN3hpA11PRjKJ9tXt5uvEUljw3v8OwfOvPOdaDhUlt0gYMMHDSLmDXDKin0hIAdyQ+eutXeEG9nxG6zGBrUcqwGmLsZeezjKj5dn7r6WjBBUO4WGTd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789488555; c=relaxed/simple;
-	bh=TaD3IKHcoZf0PQ+wUUh3mHvOgYZf6uXYuUZRFHNcE+Q=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E36438493
+	for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 17:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789494730; cv=pass; b=aKu2PNCrifZvIDBSXE+AnuPD+UWfrXS6ezWWoiHcnljpXuV29MOhpiqbgISjwygQnAgzJ5Eed3VgVSZqgUIeerPPwHVtF99xxAW2uxPKsUpJr4hI1XPJR2eijBgM6RbBSxtkTGul4t5oQJzamA4bWCcrck5RBldwMDkLaxUvZWo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789494730; c=relaxed/simple;
+	bh=+4G5uXJmB7HF3o1L37WqbjganRxVa3Gn0saA7lTxNiM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h2fKaREfynW0b0TR6fghD3NeEHcSQitrCCKXMNTiUiY/TTcxcV/Rkyp5q9wZ1jFGnfeCubZkg67ump2guplQBmW01Lgy6hmQQWra1ujbPA0plTH/yMllGc0xTujFmGdyzLIh5YRiirYLXdsumLXgzJi6gOwT1i/9np70UzSuZ98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=KYIKdYeG; arc=none smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 To:Cc:Content-Type; b=FlrROPOaIf6ZNk0DuYf8hNbE7XUmPsEs3+frc/PPPWqLjszXAF67lPl7TKmiEJ7ERaVpyBu2eMBVfjKjUFjO+zdtmgi1HTZE8k8G7b/AGcjbEgizgyqIL0AZx9dbrbwgeGqMaakQ+qeo6XHu4e91cIczmEX6YLwm+4Zr6z93lGo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WPgx9Wh6; arc=pass smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="KYIKdYeG"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a99391ffb2so6089579a12.0
-        for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 09:09:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WPgx9Wh6"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2db425c9050so12215ad.0
+        for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 10:52:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789494727; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LPxAw/TFelXG1uKwx8J4G5rSJezg5RbBF1tUYo4idUDq6M+HN1RVQKRYQi6240ADJj
+         74e4um/+37bjF2XCmM7eqCO35zpvHToa8MAwTV0f+oZKgQLhRF0rBEhhV6/xBEYqeqjB
+         tTl6ycbrxl7UY679b+P5ypmM9JBDxWtT3qGaUqVwEOLEcYOi7wuiqN20lAg3yExtIvHF
+         IKOmGWsK/IgGw4mn8ILJ1AGvt+oadiRil1uKGlrq82rBh8jNCO5dWmgX41fnbuqDIS8W
+         k1SzNBmKPtbUlpiyThYlAHCesQ/6PIAEvsMP/gz4g47CgdG8gO9NOQLyAwhThYoRAIoH
+         AS6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+4G5uXJmB7HF3o1L37WqbjganRxVa3Gn0saA7lTxNiM=;
+        fh=a9+NwBVARrlmCqC1LDr1+F3oE2LKleJPKhOxv8Se1Y8=;
+        b=FdykuFsPanBKhTkSHb7gcEh4u9v3byMymbEPaXZlMyF/ZJ3871mtSEXK9rTQi3sNlw
+         TxIwM6ZJOiWT1eDETn1T8Scam6HG+Lr/i8YP2231gK90xE+8zooFNKM2oOXRBr8saoC2
+         FDcmyGZueGUPGui9TccHfj4kajv/vbVeAhfPLrZHQqAGt1WQp5bYx6OWOpvWmWS8oNdx
+         Q0y/2K7JntA1k7WC7PT7z0dPhZv8lNgPMmBPMZ5sihxL6AKxbl05N97gxEZn1FTZgZfh
+         7DOPqwMbg/ellFjCycsiO+sOTwWa1Z4YDFRfT/emTnaPfbVSOCixMgGLv2DQm67Z6K03
+         STjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1789488551; x=1790093351; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cj8iWYGkmy9fr6Sp+MjBMi0cvssqzarl8Tgut8FUMEc=;
-        b=KYIKdYeGjmyBjw+9lGbHovqSCQlhO7Cd8jUUt/+5Ly04+JZlHqxQzkXviwWicmcWGD
-         COLIIamcICpj58bs1K/fLy/nBJ8ev2p+h9g3n+ZfZDZp2NWdJ4hJfeGDSzhVgV+COYu5
-         7cN2LHMH0jHZFBMWCHOwytx1N2e+NbY6eor/E=
+        d=google.com; s=20251104; t=1789494727; x=1790099527; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+4G5uXJmB7HF3o1L37WqbjganRxVa3Gn0saA7lTxNiM=;
+        b=WPgx9Wh6g8ehXMOaZf8ZSNtevHb9fzr3lXk5INKsJirqC99dpiARLSwTsIwHA4pbMW
+         JbWx8MvBxDUFu6opqA60njTwuSet+XjH0Wga4OKXeEmVhOXoy61UWc3rqiL6EU8/l428
+         EjMY1UqvowxmFEZiD+cpXVE0I3gM0Ssco82ZH8FSIs0h6jzSdSLoGG2b/9Ga+W+7Aup7
+         R3Y2jKX2VRyqaVjVjF8po02JGQLWYioBTM31SQGX//CGOHsZjgwuKy0KaaC3tSzQflwo
+         ISJi8sLOMT0xayOGlmIx3TnuUJAs8/tTEps0xY78QDJPw7a+XDrg4k1OSruo0M4Rr9uE
+         eRpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789488551; x=1790093351;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cj8iWYGkmy9fr6Sp+MjBMi0cvssqzarl8Tgut8FUMEc=;
-        b=C+1NMG/AMOcAhco43FC0xuaKFKIfVrzqfqSSzNyuziSRB1WVsPsk21oAzkLLTp+5Qw
-         JqOFf5blMudiYMnKp/asaQAsZZa/qyUck6iBcEYJ5U8urvkrh5HO0u06pRxlFLyvlRN7
-         kQw1ze6zRSSZgejH7VYsllVB8TtPlMNw22AreeDoNqg3DICNtrl29ZKWVLUl+6BNuExJ
-         jBNfkKBbxvB/6rj8ez76dKRZke1xhxxC5LD2IrqnVD9E4Jafl3WodNYflqLUPy6ZpPXh
-         uCGJ0eDLxhDxlC/8cbvphFiY9rYygm6mS/vhIWDcgU4ohYLiguA+63U3dUbXVDJW0D17
-         UBBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzvor6diKHg5ymyxfBM7e7LCf1x72TvniB9m19/H0DuhrT5fUuKacyVmTLUjrPIcCfC3T5n8bnPKFQmMN8=@vger.kernel.org
-X-Gm-Message-State: AFuF++nxXoku3FkXOEdIgT2eoH7FVvImeH3KkskVXH02LtmghIlCk5g7
-	ZpZb0ojcXhVzfqgdQQ1MTJ9ujAw6m21Z9HAUGKWSCef5sz51mpK83xHmzrFAAXsxVVt+934hOpc
-	Ak2NoWbQ=
-X-Gm-Gg: AYBFou3PtO0lskX/Y/L9OS5Lmpop0dym2WMXLaB9hMkadwemEkVbRGfFAMwo829gpG9
-	2rAG65I0v/nvJpcDnn1hZdGXOwd1chfz0lWHoGR6ZGVvvpYOjROgzChF0GU8Zzo0JCZ3ssBKmI0
-	OxD91EFWLgSX4r6RMxnPqtvgfbrt7Ksb42Q4pnVrWBzlPOtuBjri7BfPCEPOL1xkEpNYwOW5VEW
-	8YOjeZOp2coCRK57sSQcIkQNDQaH89WgqGc69YFggjqTriMvsApLB6cM/xwRP7i1IqveSzScZLk
-	W2Aaq4s6kQV1bv3KSfx3+bm/z120JYkS2U64UE1MV7FZ/tnoVXAvDiBqGVHlDScKWKtCIh/t17I
-	7dtsO1v++REnrGPwBZY/ym1+wQaMK3MnBIzGM4IUmN8CkN5cGKLlRCRGXXdZ0aX1ZRAN38ittlS
-	9i4ZwNxLCFfdDCPzuV5siJednQzrI2pRstF9Ivgr69csHaYK6xJfW6bRdeVYiXNVc2sSh9/dsDG
-	z9isi0QzAyZUmImsSjnA9lb0Dtg2sRSPtk1qj8hues2m3L1tg==
-X-Received: by 2002:a17:907:ea91:b0:c26:19de:9ac3 with SMTP id a640c23a62f3a-c29b86f8fb0mr539122466b.27.1789488550628;
-        Tue, 15 Sep 2026 09:09:10 -0700 (PDT)
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com. [74.125.228.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29de5b915csm937266b.37.2026.09.15.09.09.10
-        for <linux-hyperv@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 09:09:10 -0700 (PDT)
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2953a01240so511866b.0
-        for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 09:09:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw4PlEiszawzd5nhrAWrh1ZeKxismBcGxRu5nE4bh/YT1M64gLYAw24C1EWJd2RNhlMnAoTtjjb3SfDhmE=@vger.kernel.org
-X-Received: by 2002:a17:907:cd0d:b0:c29:439b:d5c1 with SMTP id
- a640c23a62f3a-c29b86141b9mr553591866b.16.1789488168046; Tue, 15 Sep 2026
- 09:02:48 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789494727; x=1790099527;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+4G5uXJmB7HF3o1L37WqbjganRxVa3Gn0saA7lTxNiM=;
+        b=RI7IqwrLO5YrrPPz1n+DbK1T22wUnItQW7RByohaPnF6khw/KYgwwFJlQKQXc1/JOO
+         98JfwPfCqV1PNwuLa24Yasdl0F9PklctO0vRGldnd7mDnP2fl4EoR3GL/5yLYBWD51j0
+         2SjBTE4eG/hB35c3T+x8sju48heuSLLQe8nR+JZ8Vy82Q8eKJNsQFZxhQH/k1b2edk/5
+         xrOBDSH240pwzJ0mcSC1nVR3IYRnH70N/lEKthNHsP+LjCf/HDjlYIsuXOy9zRhfuc2L
+         NigkpWhC7DU4mmzj3Y7nBRdnypRH4aQLCj1NBwrvp6NgtyZ7syNULsBgauePOFQT/Xoa
+         Encg==
+X-Forwarded-Encrypted: i=1; AKwUvByo+60nlM4cyAbfF0w4xwhrJpt5BnpsOXziJkWj9NHSnWUSpbspttmnKmix5V7w8sAMqTjBoB5gIfFYFXE=@vger.kernel.org
+X-Gm-Message-State: AFuF++nge9cDcAXyaYj3noXFjjrqs/lleiVIHZko9K974GNYOOtma33d
+	1ScSqyXCtojYmGNbZ+FPkcq2lJ36FbJhqJwnjE2KwI2ie7sHnE7OQj1vDXdaNqtdxiBUcKwbVwu
+	zoGZ+CowdD5kbaGVojwtntBHybSIhzhDVxueEzFDT
+X-Gm-Gg: AYBFou0uZlY1nBLOYHvo9eTNavrjg7lVPxT/8x7TIcvFQZGqshe/LAIRGilUcChc08N
+	eUCFW6zepc5mqQU6gtsao1UcL9nNOUw4MPqFmCkNqifuudOZuGnTYhybZOo0Dca/Q/12yUot73O
+	9IEbI2sy6wIg8dEBR+vopsTonU4J7TGWWWvXdUcPki/VaI10y1h+pGxzjD9S/gsE67YAHHGexOM
+	98vI3t9ykBiW1BlRQSU3YXfNbbttXakQxiUmTW92NeIBashPhNXGSdCZLcZkMLM/+ZG6Nn4C6aB
+	C56wVq40GKR1bxCOGhAyh+T15C1SXoU6RGdoT5PLt4+k8+Nm6K2FCKawxipmNR3M/RsV32VQnuM
+	dJKbSkZE9qwxCpIo6g+Vmijp26rfNO1sUA/ruKaIuOOz9P/1ugUM=
+X-Received: by 2002:a17:902:f612:b0:2dd:5363:31ec with SMTP id
+ d9443c01a7336-2dd89c0c38amr177395ad.14.1789494726332; Tue, 15 Sep 2026
+ 10:52:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -72,17 +85,16 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
 In-Reply-To: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 15 Sep 2026 09:02:31 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjeamU=_RYT9cR3dZJ2N-Teo-N1+aYh7jwhrB=iWXD0cg@mail.gmail.com>
-X-Gm-Features: AcwNN1WK06t9f9BcKFBIanysXcyUXK4eRICuH4x14s60AdlpF6ijCATIYaYAAvQ
-Message-ID: <CAHk-=wjeamU=_RYT9cR3dZJ2N-Teo-N1+aYh7jwhrB=iWXD0cg@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 15 Sep 2026 19:51:27 +0200
+X-Gm-Features: AcwNN1Vhgv53PI2-XyXtJBbVzCNkGiiWjtvOE2b-8zHim7-UybJ3H2xniPj1VUE
+Message-ID: <CAG48ez1RsdT=O=-0city3vjgWhDvY424KtTmrCJntWy5ds3HBQ@mail.gmail.com>
 Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
 To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Oleg Nesterov <oleg@redhat.com>, linux-alpha@vger.kernel.org, 
 	linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
 	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, 
 	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
@@ -95,58 +107,26 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, Jan 
 	David Airlie <airlied@redhat.com>, virtualization@lists.linux.dev, kvm@vger.kernel.org, 
 	kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Sept 2026 at 04:31, Christian Brauner <brauner@kernel.org> wrote:
->
+On Tue, Sep 15, 2026 at 1:31=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 > TL;DR, this lets arch code handle fd install and cleanup. fd_prepare()
 > allocates a descriptor like get_unused_fd_flags() does and records it in
 > a slot on the task. fd_stage() attaches the file to that slot and
 > returns the number.
 
-Honestly, I am *not* a fan. At all.
+I'm not really a fan but I feel like if you want to do this, you
+should be using task_work so you don't have to touch the entry/exit
+paths directly? (And if task_work is too inefficient somehow, you
+could tinker with the task_work implementation.)
 
-I think this adds complexity rather than removing it.
+> When the syscall returns success the exit path installs every staged
+> file. When it returns an error it drops the descriptors and the files.
 
-The diffstat tells a story:
-
->  106 files changed, 962 insertions(+), 861 deletions(-)
-
-in how this adds a hundred lines more than it deletes.
-
-But to make things worse, it adds them in bad places: low-level
-architecture assembly code.
-
-Those extra lines are *not* making complicated code simpler. Quite the
-reverse. They are taking fairly straightforward "just deal with errors
-with normal cleanup in the place where it makes sense" and makes the
-*straightforward* case simpler, while making the big picture more
-complicated and subtle, and adding new code to places that are not
-simple and just blindly do somethign that makes no sense in that
-context.
-
-IOW: it's more code, and it's more abstraction, and it DOES NOT HELP.
-
-And yes, most of the well-maintained modern platforms (read: x86 and
-arm64) use the generic infrastructure and they don't show that
-low-level asm effect. So for those cases, it's mainly just  that added
-conceptual complexity and a new odd rule - and makes a *successful*
-system call go through that "extra work" and indirection phase that it
-didn't use to go through.
-
-So it just spreads out the work, and moves it to a less obvious place.
-
-All for the very questionable advantage that you can now randomly add
-a file descriptor without the few lines of fairly straightforward
-rollback.
-
-IOW, I do not see a single real upside to this, and I see immediate
-downsides to it, and a more abstract complicated machinery.
-
-I do *not* see why we woudl want to make this be a "every system call
-exit" kind of thing. If there are places that think it's complicated
-to do, they could have *their* local little stack of fd's pending. Why
-force it onto the low-level system call entry for every system call
-when there are only a small handful of actual real cases (the vfs
-itself, and random ioctl's by odd driver subsystems).
-
-              Linus
+Is this mainly about stuff like "we installed a file descriptor and
+then the following put_user() failed"? Because if so, I think a nicer
+fix would be to have a policy of "if userspace provides unwritable
+memory to a syscall, just keep going and pretend the access worked",
+and maybe have a sysctl that kills the process when this happens to
+emphasize that userspace should not be doing this.
