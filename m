@@ -1,64 +1,64 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D333563FA
-	for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 07:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6933043C7C4
+	for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 07:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789455720; cv=none; b=pgePN3I/kQZhKu2oi+3w57F4BrNVKJ+pTwXN247UbLGmRO7zEye79jlCbsdOiqP3bS3Ph4fj3Su6gmpIGW4GQCn6T/mOCm0bXKDTGtWbb9UU0NKjCUaEf1MCGhFNKzssngBLKPueOeGXLt7IJCcM6NqM5FVUT4aWy5oot+pHORc=
+	t=1789455722; cv=none; b=eymLESlRcWolYz2kCE0/DPpnTe32NmDkFyyxqI1MqEOBFWSiupl679UxlQBWD4JhqVRChJ78quOzNyA+22R569e3nfvzbT6h/TZiYoyh7jSXa3CCTfvcdAiq1oMPEwQ0MteFptrPXRHltLRTyyimeP50QuptNpy6mdBVBPBHhSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789455720; c=relaxed/simple;
-	bh=SmVFfhSX65tUNLF4crAjZPrJT+oXElV9Xhfp3R7sQr0=;
+	s=arc-20240116; t=1789455722; c=relaxed/simple;
+	bh=wADxDyewyOsUCJtETMgNzxY4kTMGU5c75K1QgMa7kRI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dzwH4GlXbpp4cxttL7iXkYoojZn02aWmnZ0Usa4TZjOoT1CZsWFm+iANi/rxyT8oBPPmUxiKwT3A/Mzkm78riKGBTye+AFkvWqoxqCHvYXqgr4TVQCeDXr0ZEo1J35dbOTeXkAhgoQAd+lKUhIZyfJ88F5Pep083u8dywykRuls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AnV/bUZX; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=lMwnZhIS1Dm4vWpP16EiRCR6nxUPdbeYDG3aiHQoGkNhobxTPp65gFt8VcHvvEZpL/ziaU0fnDt4/VM10oI1Bebey4j97OC7wfDn6erb6R3pBVPwK5e8jlx2Xq9m/FJsNhEoPe8K7w/500sfxwT1nrdzh9PAPzQl4XayJH4Yhk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ASrZACSW; arc=none smtp.client-ip=74.125.231.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AnV/bUZX"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccafb74fso2903124a91.3
-        for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 00:01:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ASrZACSW"
+Received: by mail-oo2-f40.google.com with SMTP id 46e09a7af769-80527255583so1042966a34.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 15 Sep 2026 00:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789455719; x=1790060519; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789455720; x=1790060520; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2hXwNzmZuh9VGj26rZAssJYXJ3fSJyHCnF9FFfAHDC4=;
-        b=AnV/bUZXN3SEQVnsE7bKDVhdW1CSEubeM7H5Sjyan8+CinWRj2BYIfq8V0MSVBfSUi
-         AN5hNoCPvPK4B3s84pStsAU/JnrOSMzZkuUWi+aCfs3GngcLmQKIFy/S3tFDxx+t5uWn
-         S+idbYFAVWyE100qyyPdOMaZgmTh6vOF/UIBdoYuk7gF32v1kQKY5B3e0na/5hALz5Fu
-         oz+G+T47mD+Siy9rcBGeVev+UGinLUlbRbzDEqBL9jryLS1KifMI+e83pzCTQVqDNYjI
-         jA40FFaWazxaJWZhT94boUD3zSnqjheiLqrqQRqE+0AEvV48WCTVrNfql9w9mSL0ENB3
-         VcmQ==
+        bh=3xCHSjyHMTeilTTEs0go6U5us28HnZkS/RTQ6nrFEXk=;
+        b=ASrZACSWJVqC7i0y1vkBujh775pAeuK01EOXVaRE28KwwOdQVDBvJrk9aIqDh0C/2H
+         vDTbj4t9t+sa3ZuhdbQhCubDxv8nSPnANuRjSFVy1d5IDdgqPkEe/e3/ej9z6Yvh0vty
+         DPkkO8Snn5+6wZdfiSRqImtbe3IFJIZTmY6ybi4qE/eBzGY1f8gJJ0pOyCvirBycqXOf
+         kEmoMi5D/PXbInuyihvmYKiyqpO/XXPiPxGBI7eSQG7M/HlQHxhC3jJXaj8WBjbj1F+T
+         9m0rUb55knfgJeHyMyXM1Xj4iMVwPTvD2Gpr1Z4iK3h/gxwrcoQUt0HVf8RgXM2IjoOw
+         65jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789455719; x=1790060519;
+        d=1e100.net; s=20260707; t=1789455720; x=1790060520;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2hXwNzmZuh9VGj26rZAssJYXJ3fSJyHCnF9FFfAHDC4=;
-        b=VaiLKVUHX9VyyVNLZ54Sgtu2aEvQBlldZzNTx7Eiv+SUt1jVFOO3BNNWJT5Nu9ub1d
-         H/EQ5YfPKiqboz7+CZ/8fgcOYe+cfSNoaYWZ/quSAcOKWEV+Qah5ztRYOrcriMizLs08
-         i+qfubIYKfepWKUHhWDqPzwx+DBI+omP27C6OAHOokWWqFNQRBWf6iIiEPmqQ/UddfQZ
-         yRmezJIkr2iWeuN/rSMdFbaxrq/LLUAqpBfBm7JGOnlR4W6Nq1SDMmAbQZp1UjO11UiQ
-         SyYIhGBzneGFE9NLIO3tSjDxIc5z4E/eYjrwp7X/ajcL2EkfrYsNm9Svu/MqQVPuBpAX
-         8ytA==
-X-Forwarded-Encrypted: i=1; AKwUvBx6JPx7ZSnioJvPFyjt0O577imB16I06jI/X1gYiyYILgTXNSimX4KgvzDjAH1AY5oCsEurBiMqut8lS+k=@vger.kernel.org
-X-Gm-Message-State: AFuF++npNgGnahZkc3H/yngXY0n/LbXjKm3egc6NROzXw01XcgZJ6VGQ
-	g7ugZ16wibzA0XrY0V8Ce9la83sc9axhxs2bx41CSPN1dqXA5ZUgIcxC
-X-Gm-Gg: AYBFou3rZnb8fYzkTNN7devx5V7ViR2XbvKnYAKj539/JJScOKpBoZPb1tQYMSnSfSX
-	1P05XbJQ/HzAtTQNDbvuhr/hqsZg3k0pdFRe8mU7XypYQzNBOhxs3m7bstwgDDkRk/l90r0aIW2
-	7MmBJ56iJVHZKXpw178rKIBvRww2Rmc6sB1SETv8i9vYjCXDeJYbu+dd/IAkvBAZm1nJn+mUax9
-	qTY2EMTQmo/cAKfYETzrtUCwkjMh+ZGIEW06avaq8VKYc31QQHNsuBuYJ1Oi66D6+7UMoe6A+6p
-	j7nNo+B8Vk61LLWdbpl4AaVHJ0mggpkDdmjcZkIleBcEw0NjxN07+1wY1eAFiz0mIb8sGVcwnFO
-	6HPy9hBTeyum3uimeSqVvlGk++54Efs9n2WmAxIsSO4Vb4qjC0oDi0CNiz4JIigztHBwDiT3Fmx
-	0vImp03b+ePha0ZoUpPC4a0akouiHFfFRHPfXpLcxZs+Oj8B6muAQ9Na/ZFDi120eC410AEfBKf
-	mVzSEaYxTrEylBENVJYhOgChlw=
-X-Received: by 2002:a17:90b:264c:b0:39d:f18c:1ad1 with SMTP id 98e67ed59e1d1-39df18c1bb5mr10762706a91.3.1789455718837;
-        Tue, 15 Sep 2026 00:01:58 -0700 (PDT)
+        bh=3xCHSjyHMTeilTTEs0go6U5us28HnZkS/RTQ6nrFEXk=;
+        b=jpY4fqUQPW2J3IeAilagsBHnjQwT7/jG3UZs8fMKRFdjoMnj7LJcmPcAaxrmufN1a1
+         8WP6EZeHg/W+4oiRtf4Z+5z0xgfKvUOrCjAm91IZiiTv7QKScZjSLCJNE1nA98vKRnjZ
+         iP98LZ6dcNt+FKuPV4Y09rSkDojFo3j1SQ9DSSWLhc/tZj/+eQ9airLDdV60ie0b0tV6
+         VUP5pyQ5AKdlIrlEkarSx3S7EMvedbmB6dAHSgacClNHU6W5iJX1uz+Ebje/9GJ4aF7r
+         xwT7DtPa8i843eHwEwwk59FJt376ERzl0GWaNNS7FvgfhScI3/VC4qCoQYwxOg2kGwcJ
+         8lqg==
+X-Forwarded-Encrypted: i=1; AKwUvBy4INOTkfm+yL4JnJP7sEeoTQXov5CiB/7vH2zLqFLmX+VIE0NyXvFosHr1M9+ouVnnCGDAwatWndGAR3A=@vger.kernel.org
+X-Gm-Message-State: AFuF++kHM7/0RMvppFq60VIE8UfqbtCByOiBlIlQDWfiBT4aNFUmrjFj
+	KfI+4C/08Wu3jagFSfO8T9GYAQrQzZOeroJPA/Utqs7S9vTEJXrd4mvd
+X-Gm-Gg: AYBFou2NZ7wdDHMXEgJo003b1jfQEY0YUyf6R+0VEEzLBRG/qnA9uElX4XomY222phi
+	pQfRwmbMOs+Nfx26cOIEw3GC5zsnqiZnykYpxFToVF49Ym4a44KieSf5CPMYg08Hj3tCThlszgO
+	6nXsn4F3XSQJGWsdpYRDrYM6c/R57hk2IGOo269KsgmYa/cgyjQeNwpceq8geOYEZH6yAB5LNqt
+	RAzlzLRqGQLsbdUj05uFHW0nMeUUKF/Xuw6lNnJ+l4sJ3b0p4s4oz/PO2SmHT0ras9D0Hf/Qd9S
+	KTqEmHDbb2lzviKcoFJvCyAvsPBKzk+1zZk2OVk/CmdENrBWzIR9SBrOqfP2BQsBhdCNSfZIRRK
+	+V0rOHRZseg5BPkAJ5u3kItoadpo5cnd4G6LNF6aOmXojNli4gs7A5UiEy+Gij/TyzILFF13fJA
+	I35HXGG2i/JNKaz8nLUU1iE1GycHhzEZfy2QcU1frAAgn0orgPgag28w5dH6m3SUtPgi53m7STk
+	xGldcymchoVBCruoUGe/Aup
+X-Received: by 2002:a4a:ee0f:0:b0:6b7:46e9:9706 with SMTP id 006d021491bc7-6c54155ca23mr3546006eaf.54.1789455715477;
+        Tue, 15 Sep 2026 00:01:55 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b97994sm56553791c88.12.2026.09.15.00.01.55
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b97994sm56553791c88.12.2026.09.15.00.01.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 00:01:58 -0700 (PDT)
+        Tue, 15 Sep 2026 00:01:55 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Wei Liu <wei.liu@kernel.org>,
 	"K. Y. Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc: Michael Kelley <mhklinux@outlook.com>,
 	Long Li <longli@microsoft.com>,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] tools/hv: fix typo "retrive" in comment
-Date: Tue, 15 Sep 2026 12:31:45 +0530
-Message-ID: <33db65bfcef30cb347a3e00b152dc4bfdd0bf288.1789455635.git.hemanth.selam@gmail.com>
+Subject: [PATCH v3 1/2] Drivers: hv: vmbus: fix typo "substract" in comment
+Date: Tue, 15 Sep 2026 12:31:44 +0530
+Message-ID: <4209afe678a3a9c5930edfd3cc07b57cf897b256.1789455635.git.hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1789455635.git.hemanth.selam@gmail.com>
 References: <20260907044946.10813-1-hemanth.selam@gmail.com> <cover.1789455635.git.hemanth.selam@gmail.com>
@@ -82,26 +82,27 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct "retrive" to "retrieve".
+Correct "substract" to "subtract".
 
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- tools/hv/hv_get_dns_info.sh | 2 +-
+ drivers/hv/channel.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/hv/hv_get_dns_info.sh b/tools/hv/hv_get_dns_info.sh
-index 268521234d4b..288821565eee 100755
---- a/tools/hv/hv_get_dns_info.sh
-+++ b/tools/hv/hv_get_dns_info.sh
-@@ -1,6 +1,6 @@
- #!/bin/sh
- 
--# This example script parses /etc/resolv.conf to retrive DNS information.
-+# This example script parses /etc/resolv.conf to retrieve DNS information.
- # In the interest of keeping the KVP daemon code free of distro specific
- # information; the kvp daemon code invokes this external script to gather
- # DNS information.
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 7e4cc6f55237..a0883ddf32e2 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -79,7 +79,7 @@ static inline u32 hv_ring_gpadl_send_hvpgoffset(u32 offset)
+ 	 * therefore leaving a (PAGE_SIZE - HV_HYP_PAGE_SIZE) gap.
+ 	 *
+ 	 * And to calculate the effective send offset in gpadl, we need to
+-	 * substract this gap.
++	 * subtract this gap.
+ 	 */
+ 	return (offset - (PAGE_SIZE - HV_HYP_PAGE_SIZE)) >> HV_HYP_PAGE_SHIFT;
+ }
 -- 
 2.48.1
 
