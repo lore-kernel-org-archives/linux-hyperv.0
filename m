@@ -1,169 +1,155 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BE228852E
-	for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 09:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789551007; cv=pass; b=OEK1uo9tTXfRLiB8V4LJEgWlDVJvuHoBz+2bYCxoF8XRzG0iwgLyI5OCR7kf/flLKG2QBCOa8NWQiyGJCfHvqGq4R5c8czzmzl6audyznTC5wofo4YrdH2qZjO15hkTrSjfc9hP0wNtIwmsd5GsG39C1RigMeE6cu7DpzJZgGAU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789551007; c=relaxed/simple;
-	bh=rVlNPjI4P2z37o7qE9/JXBSWEwGmZChcHXGnM7D9n6c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6itYEVudPdwvkGfQtN1L25BwJ5u4H0XTmSkUTRqmYqPrId1J7AkawSMoW0JNlNFS8W9tWvFgEK1XbhZMN5qUKnyRnKdT1LcYgSDuJQo1n1r0isAEb981OQedbon3KNPes2Y43dDij6UrXbpf2B/COfSkF4ROAzEBe2RnIWKI8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YCaIdDCy; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WRnBBIGW; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606354908C4
+	for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 09:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789552229; cv=none; b=VSvxQY+rt/7Z9a8JNqN6nnPp5tcIl19SOyg57Q1ZWmUtVx7G1kz4ozKvPoMa19RZZnZ3jTfZ9FfI7IlAcG+oRtlKzokuTNhnQPz1oQ3GAdiVo5n6Tvk15gsu6HKDsJTcm3GoQiBZ8SEhdD7qnWT/EKqtzfi/IhxSCFN5jkrCY2w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789552229; c=relaxed/simple;
+	bh=zVftL0e6KTn1Fup/RmgkkUqXURXldH56P13A6WLi8KQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PreamslXU02jxfiEToVsxi34505W8kqojYnIU4MKhUQEM/Wt3CMR30pvMd8T2/o2POhfZzwOq+TEwgoCkJuFU/yA7y6Rpqy7+1V5If7hCVt5hb8JAoI+KVfRNNPj6URKtO+gOHxN8w8S7+OMKLnVl2vF2M7mkawuYG4qVg+AfKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dzby88uf; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YCaIdDCy";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WRnBBIGW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789550997;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pLJ3zniryXoIXYXj2kORk+UpoeKS9R6ImYDJyVbdKgw=;
-	b=YCaIdDCyoE93yZmBAfESVoajo49TPwa7hyUImgklXjgAUauE0Chzl86f50GNoG1YHkECbX
-	uKOo7D/Pns4ekjXFNcSGeDA73JAlN9XoMn0nntR3B7692bbvQVsqyPCtGxslQ+DCgKEJnz
-	UEYk9QAiKvMY6GLKrQa4HtfSFvVHLhs=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-CDoXXIcCMo-xJXfeNU1lQw-1; Wed, 16 Sep 2026 05:29:56 -0400
-X-MC-Unique: CDoXXIcCMo-xJXfeNU1lQw-1
-X-Mimecast-MFC-AGG-ID: CDoXXIcCMo-xJXfeNU1lQw_1789550995
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ce7dff6253so21891455ad.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 02:29:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789550995; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NuxFu+vTr7bHPtODKcUKDK+dVEA1L2Hcr/zlxCgV4Zs+G1YUbS79EFNsCp3VEaximn
-         Ev4NYRFblEBLfkQY9vDl45xb/G1Tae7Ubu3NmA1R3bNRRDdgCIO4asVgKtS5AfBJBs/q
-         nqfVTn8sCRaH8yBxcDLKifroOoxZFaurOhwVH8qaG7dMgiz42qOD9yJBVzNqx1b65cGh
-         UgoardAGGx+9CJGYPp08KvpVMlqjPTGEjv7fOZ1mgje/26ONORi5Zpq2rxEFelJISLyQ
-         8zXuRCtiazaBwdaQNPJNoRMjcATZNjTr2e84Yza4UrSqrZIGPZhQgkD4PTziCxL2B/S8
-         9+4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pLJ3zniryXoIXYXj2kORk+UpoeKS9R6ImYDJyVbdKgw=;
-        fh=13AG41wfI4AH1D19CE0piQhSGFdaF1d4qfPfBqMUDEs=;
-        b=aHHMSbg6jQkRY3XgxR9lpZQLY2yczHa7JguvmHuxVQfOGPz5B1iujUoYxDIkE5qPk1
-         LsUMHPA0jn/zrgxlO0Xvq0Mk13GFjQvo+fIG+UoIXtbftDERah7ez1Lb1PXcqKv6L/ZK
-         EZBjywt1tvVIgbO7klR7o16olfMIU9Tt6jlFQ+BmB7P77719EmB9vOYRTsIREP7XI/9F
-         xcMgu9jBXo1ifGstDDQhCwfHgGsxfe+fxkNpq4fTr07hqfeDj3wW3Me7cPV8tx7FaGRa
-         aB1UnhbWmhS2UVjEMTvk8mE87us+Y39qhvZpQ6SvJE3GZIPBpfMmOwTsWpoWR9S/8/1U
-         FDiA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dzby88uf"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e66390995so4145605e9.2
+        for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 02:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789550995; x=1790155795; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789552219; x=1790157019; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=pLJ3zniryXoIXYXj2kORk+UpoeKS9R6ImYDJyVbdKgw=;
-        b=WRnBBIGWZwHMn0ZjkwESc0vAF9AHz6MKg5a+Le6ugPl2SpFowsXuhEonCafP6F+ZjS
-         W0qMM4kk5aqErx/gFDyI3fCZvELr9KMvk0bjPR25BsIwqMIPUiCxlChn6VbCIGc8Hr8x
-         P/l7JkuNt+enKPxChzh6cIms67RaPlFkSL/Z066e2tEsw+Uwc9bnKUAAbowsgS2leZRA
-         OgzKAvyMwJprx4UXVctmV8jAdbojb3Py6EnFTTziuHf4d+aVJMrjh+5ZCUuLooOyDPkz
-         pgiYOkdl6i/0sf1bBnzYeUh4vWE1OorhRxF4143F35mg7tBnNp2s1cEAK0jCLZDswaS7
-         lZLg==
+        bh=79YAdtaHEv3S3nDvYc6X9C5ar06F3FncZEtUncQdJQ4=;
+        b=Dzby88ufsV19pEuHSQnO0Z3r75FgiJ44qF/jXgKTm3w+wAYVSGDUH6LyexeTQiqa/g
+         mb7EWvB3UuhKI7YAj+i2TOZr9/Z0Jn4HnQ3SO6kUkIrvAwSnRTzKzvfGb0So06LetuEf
+         Ts3VEs9CM5zHiWBu1V4JZ71jpXN6ZkETnLDwqKE7PV3aA5kY0+ABvWOim6YHWnbq5cCK
+         nHzOneSJDYvvXY/C7BkTDDo/hN/r3+9IBjrwRhsKYcoz9kdWM+uOTg6K8qjcDaH6D7EX
+         KA0rYEGGzwyipB5cM3imDGmhTpbUuWgcSiyW3ZIBr1TR7/Q7dN5mD7jr++kuJyreI5UR
+         skeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789550995; x=1790155795;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789552219; x=1790157019;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pLJ3zniryXoIXYXj2kORk+UpoeKS9R6ImYDJyVbdKgw=;
-        b=xN08HgAjtHfcoBENSTA08Ni5AkuWuEcVprsDgBjqrnRAqJey5QaluNx3dsq1ut610o
-         Mpn3PFkU0SO3BCynoX64dqg5BtpP05RHEED86CDK/S7j7zuF/zupBY1WRjBtGmLLE7Gy
-         NnHlHoWSsB2ew4CiMKm1XLuP3rT/3bYbxRsGeqdYTFEE92PGM5j3i0kHqmSyRwHeDymW
-         x9fYByWuGQog0z5RFbfVs6/6SXF2ytxocYdTDHSvFDwno0cz5ihpyCm62f6WsjOq9OvC
-         OvGgY8Xkm3EblElQ4Bn9sf70dfU5ANIrguGEO5kMpyhYyOT3oCLMGGJeWTEw2hMHCODR
-         6FHQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwG5xXc3dr6uyEkqWOOW2XQ9yzzWg6q4DtzdjvkurnXKrjNU3FTFn9PZxqIZTwznPcP6s+Y41R3EMLn7aw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYHX9JEtbZEZTYl7si8EfIDgAEumBKHv5gpF0c6Y6oSLg0vboh
-	Krc938Dmdybe6x9zkevF8TRr6dnH+QGWumpHV7y5pc6XrVH9fJyT2NbUx6fno+nyM4nQw4KDYC5
-	6wTXp/s5QJNISLkyYU/cA7Rk9t0fKE7NcSocUqpMhbAJpeNvPQHH6uHL2lGSlYctCuQoqnwDI7Q
-	DFVVMgtSjZnYsj+k+dGgD3Un3/hYUyv+hyO8VhnHza
-X-Gm-Gg: AYBFou3Dsfv5J3yOITZueHV9MAYvecx6a8N3+VberjcoQit25UMyjYTmNyl51/ewY2u
-	ScmzsXBuFFp9Uu+ppEw5a3gbnEFQsRHAzwqNCjziOnvFsCrsKcyyWvBmROb+VVqvCMS9s5iK6dF
-	KT7Oztt88G9SFEesesI23mOuiSxZUZe3u95/he8ebYxMaQp1qITjLwaoTJ
-X-Received: by 2002:a17:903:3b8f:b0:2d7:4bc8:41a4 with SMTP id d9443c01a7336-2dd8ea1cd1dmr23798575ad.10.1789550995049;
-        Wed, 16 Sep 2026 02:29:55 -0700 (PDT)
-X-Received: by 2002:a17:903:3b8f:b0:2d7:4bc8:41a4 with SMTP id
- d9443c01a7336-2dd8ea1cd1dmr23798155ad.10.1789550994573; Wed, 16 Sep 2026
- 02:29:54 -0700 (PDT)
+        bh=79YAdtaHEv3S3nDvYc6X9C5ar06F3FncZEtUncQdJQ4=;
+        b=oow9gHa3yYLhkQ3mSszdx5q9iXcuznBfzd9gYrJCVZJOeZiIu5CszDfG2dpiVo3zxU
+         pM3z15CnNzVB7lkvm2GnvwT+KWw+qUMHv/OBSM0nVuusqCPO1IxrQBucC4RbaGrJ2M41
+         lFzGc5akJ2QNvNeeuVp0kdbXdQ7yK72aiuQSbE+r4aG0m3+O8p0a+j1zitTIXN6/zl9y
+         QBWhoDP75WvpPUo1jpKbE0LU3J/8pgebUdYK7Kni3DvtVk9sCOsfBl4YuU62Ge+itHae
+         a9lXefeAnJA96KvbjBwLZi/RT3iqk3oXE2ibDFsAQUhyt55ggVX7b28o51gs8R6vQ1bJ
+         zRtA==
+X-Forwarded-Encrypted: i=1; AKwUvBwfuOMzXRxwYFOBhcQWR2CzMhp0NXuylvUymLIf2FM7abq3Wm/QjehHsMXFzhKgsLkbavMwjTf2TP72puI=@vger.kernel.org
+X-Gm-Message-State: AFuF++mbIas8On2yefOhfAdvv+R2Cp71YpZvqahpPFp3tm0nJLiFEpAz
+	X+npdg+BKXbX2sTqaN0YrGLMCw0hR/5q1hVSpbCpyBZsNqkN8ks23xL1
+X-Gm-Gg: AYBFou3PPdTn8m99wk60eVYN7al6j1BaT030HRS/pjJLynba8uACU0r9xfguBz1dqjW
+	1qDL8jvSP9tUanAgbWEgR8zX6PTlf7VHgSVzADe89bv97k0WKxEwr6Tupbtr9hDYnIwCXfY8FKO
+	4Mz/fByaDW8nj2uUaQO2IvRrk9ZJ/wYvJ4vf7Vx/vESO8fRY+aB4MBXcQN372JKmJEQha7QZQok
+	ofddra/hW6chSELWRHq3jVdYyKR59n6RiNB+WjSTksScDmr3P729dpeO4sLd9vW5qFfwsMf6j8c
+	oyQe4GlhX7c+/v6hMy1f2cjomhlev3w7JRaKp2hnQUctIZBK5ktTLeKcn0kv1Vq+HrOoB18PREf
+	9/mxnCkXR0zN9VZYBExfK/ZdYT3GN68f5d22DgoRYcNE1MpisTqKi45bN3+MvsysYKMn+FJ58SG
+	SnaB64F/+KVAHBeXsh/+PTm9xXD+GxKKZrtyza4Dyv4rFlJ5eAiK9ovBbITfzWP1tOrR5KvRObF
+	NPSbEF5sb971D7i0ziNTkA3pcVEPmWxnxq0LNoD0EYPqwA=
+X-Received: by 2002:a05:600c:4ec6:b0:49c:fea3:8633 with SMTP id 5b1f17b1804b1-49eb732aec0mr19444455e9.24.1789552219000;
+        Wed, 16 Sep 2026 02:50:19 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83b02245sm84055225e9.10.2026.09.16.02.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 02:50:18 -0700 (PDT)
+Date: Wed, 16 Sep 2026 10:50:17 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jann Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ingo
+ Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Oleg Nesterov <oleg@redhat.com>,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-um@lists.infradead.org, Jens Axboe
+ <axboe@kernel.dk>, io-uring@vger.kernel.org, netdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bpf@vger.kernel.org, David Airlie <airlied@redhat.com>,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
+Message-ID: <20260916105017.13ea5e36@pumpkin>
+In-Reply-To: <CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
+References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
+	<CAG48ez1RsdT=O=-0city3vjgWhDvY424KtTmrCJntWy5ds3HBQ@mail.gmail.com>
+	<CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260911124540.279841-1-tzimmermann@suse.de> <20260911124540.279841-3-tzimmermann@suse.de>
-In-Reply-To: <20260911124540.279841-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-Date: Wed, 16 Sep 2026 11:29:42 +0200
-X-Gm-Features: AcwNN1VjQRR608PaSU5v9yXg9eP7o3aE9lu55JInhqrDujLUhvS3kxSMIUXF4N0
-Message-ID: <CAFOAJEfWX09ZvnQvn1+SBeW4_MaSRO2JNLfoJRGYS4jXGr-09w@mail.gmail.com>
-Subject: Re: [PATCH v5 02/14] drm/panic: Test address from kmap op for NULL
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: jfalempe@redhat.com, airlied@gmail.com, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, geert@linux-m68k.org, rdunlap@infradead.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, virtualization@lists.linux.dev, 
-	sashiko-reviews@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello Thomas,
+On Tue, 15 Sep 2026 12:08:57 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-On Fri, Sep 11, 2026 at 2:46=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Do nothing if kmap_local_page_try_from_panic() returns NULL. This is
-> not likely to hapen, as the previous page from the same memory area
-> has been mapped successfully.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 23437509a694 ("drm/panic: Fix 24bit pixel crossing page boundaries=
-")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.18+
-> ---
->  drivers/gpu/drm/drm_panic.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index ba21df4be338..d28ce8878e05 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -178,6 +178,8 @@ static void drm_panic_write_pixel24_xpage(void *vaddr=
-, struct page *next_page,
->         u8 *p =3D vaddr + offset;
->
->         vaddr2 =3D kmap_local_page_try_from_panic(next_page);
-> +       if (!vaddr2)
-> +               return;
->
->         *p++ =3D color & 0xff;
->         color >>=3D 8;
-> --
-> 2.55.0
->
+> On Tue, 15 Sept 2026 at 10:52, Jann Horn <jannh@google.com> wrote:
+> >
+> > Is this mainly about stuff like "we installed a file descriptor and
+> > then the following put_user() failed"? Because if so, I think a nicer
+> > fix would be to have a policy of "if userspace provides unwritable
+> > memory to a syscall, just keep going and pretend the access worked",
+> > and maybe have a sysctl that kills the process when this happens to
+> > emphasize that userspace should not be doing this.  
+> 
+> We've done that before, where we just ignore put_user() errors and the
+> user gets whatever the user gets.
+> 
+> It is maybe not optimal, but it's fine. You can find quite a lot of
+> unchecked put_user() calls with a pattern like
+> 
+>         git grep '^[[:space:]]*put_user(.*);'
+> 
+> and some of them are in core code - see the two in kernel/fork.c, for example.
+> 
+> One of them says "if userspace has not set up a proper pointer then
+> tough luck". The other one doesn't even bother with a comment.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I think the code should try to return EFAULT (IIRC that is too hard
+in one of the exec cases).
+Otherwise very unexpected things might happen if the memory is just
+readonly.
+If you ignore the error and the pointer is invalid the application will
+get a SIGSEGV and (usually) die.
+But winding back kernel data because a user copy failed is likely to
+be problematic/difficult and at best have error path code that isn't
+really tested.
 
---=20
-Best regards,
+As well as writing fd numbers to userspace, some sockopt code tries to
+wind back if the write to optlen fails (which has been read earlier).
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+I've forgotten which Unix converted EFAULT to SIGSEGV in the system
+call exit code - I'm sure one of the ones I've used did.
+
+David
+
+> 
+> The scheduler has two cases too, although one of them is admittedly
+> for another error case.
+> 
+> So yes, saying "if you pass bogus arguments, you get what you get" is
+> a valid model. It's perhaps not the *preferred* model, but it's not
+> wrong.
+> 
+> It *would* be wrong to take code that already has error handling and
+> remove the error handling, though.
+> 
+>                   Linus
+> 
 
