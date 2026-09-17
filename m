@@ -1,47 +1,47 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A964E9C33;
-	Thu, 17 Sep 2026 20:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BEDE470EB6;
+	Thu, 17 Sep 2026 20:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789675605; cv=none; b=j939HUxwQGC5avNlE+6PzYqHQfdYo/fLJzqVN78VredwrXG2mhoFl/tDH6hRV67Lpf7GgzfjXWhzqNMg3w96DwoNUrqBK81akvtRn7UFO8thp8Hlt7IC+6UunnbXXShsxZ0QtXjEJnBa+6FoDMtb2Vps3zt6xgdjodqQJMiVDqw=
+	t=1789675875; cv=none; b=Djx86qV3i6wSUQDKNEmCQ5jmonMsCkwniuC7gBSE20x2QvVGCjzayZ2ymQ1DoAqTeuobtgi0KKWgJ6WWZUKOYki57FYsyyDVk2rrd7YRl5JsheYBgDl2XWFKWGN6XtEqpiK1sISGVFl71eZ4tdyWRL4oMRtyYxoMog4FcoXK5II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789675605; c=relaxed/simple;
-	bh=DZm40K670bliC9lhVuxt08HSOIkihEufkmESXr1xJRI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g4SS5WdM2YkHFLeZGFrnzR3McsCKK2p3eyNtjhnf+5APr4ScGuBUT0+UY0+7D6ZYjfJYsXs+tFtGnoqifWcIqtS6iGte3ZUQSlhNsiIiUugiMdL1ijoxvRTvX/vCftwHmNBWRvGRWcPrDMbBwUZoCjtoRiFOcEK4tAfNdY/kmRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pOR6etyp; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1789675875; c=relaxed/simple;
+	bh=qVRJfinOkKGEsLurt9NE3NHzXR6ieyQbEYI9sUl7KQE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m1lhrXHN7NrgZnG4qv1PNcr+hNV0A0b69jNflWbhHC6DFT3XzqYIFTymDpSUgK3TCqkkmIM0RfaXrmh8Ize5jXAbCCQG+pmzBhyMrGwz/+LOPpKFYxwxeRpxAOYaAhAyF9lvaYE/lu6XJ/N2o1y/XeOB7skrCbBYyofwf9d8XoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=P2M4eg3d; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pOR6etyp"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="P2M4eg3d"
 Received: from DESKTOP-TUU1E5L.fritz.box (p3e9c0608.dip0.t-ipconnect.de [62.156.6.8])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7E12020B7166;
-	Thu, 17 Sep 2026 13:05:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7E12020B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id A6F3320B7166;
+	Thu, 17 Sep 2026 13:10:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A6F3320B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789675552;
-	bh=DIw7BG/QuJoROGDTUeKD2qGIB/dKpOB+bjl3PBIclJo=;
+	s=default; t=1789675815;
+	bh=wfkzm/MaGtBi0cGbet1CRM8jaGbBmSfienEvT5Oc2rs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=pOR6etyplu1oaQlo7nf7O6y+m4E0Hko0kcWwsrlaRCc/CKjw+YgtPuJvuxIIcaBiz
-	 +zP6FNR27KYq8ThgX4M1fODZkfhFaT8/tHQGgpVPrJanlaJPBZJ1Aq3pogx2qbyFPF
-	 Rsv8tqO5hIjVGx438QD5qArG9WLR3oVJyWXAeAdU=
+	b=P2M4eg3dajSp0YxCCH9FwGnGw9ouXURZZayNzG2Z115Ju3VPiN7YBU8amNLDd2P3f
+	 1WWIOI1bwt1nzQcBx+oHolgR4S1Tpa0dqWUrx41JZHNVCqSvg1FDHc+FGEpO7KE86p
+	 WvT6V5bHp5vJt2jflzgkYIAFnThbCQkT0fqJoXNU=
 From: Magnus Kulke <magnuskulke@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
 	Wei Liu <liuwe@microsoft.com>,
-	linux-arch@vger.kernel.org,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Dexuan Cui <decui@microsoft.com>,
-	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>,
 	Magnus Kulke <magnuskulke@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
 	Long Li <longli@microsoft.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drivers/hv: remove deposited pages from direct map
-Date: Thu, 17 Sep 2026 22:06:28 +0200
-Message-Id: <20260917200628.2119065-1-magnuskulke@linux.microsoft.com>
+	linux-arch@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org,
+	Wei Liu <wei.liu@kernel.org>
+Subject: [PATCH v3] drivers/hv: remove deposited pages from direct map
+Date: Thu, 17 Sep 2026 22:10:52 +0200
+Message-Id: <20260917201052.2123701-1-magnuskulke@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -95,18 +95,21 @@ direction this is not required:
 
 Signed-off-by: Magnus Kulke <magnuskulke@linux.microsoft.com>
 ---
+Changes since v2:
+- Checkpatch format fix
+
 Changes since RFC:
 - Handle direct-map restoration failures without returning unmapped
   pages to the allocator.
 - Move freeing of withdrawn pages into the restoration helper.
 ---
- drivers/hv/hv_proc.c           | 76 +++++++++++++++++++++++++++++++++-
+ drivers/hv/hv_proc.c           | 77 +++++++++++++++++++++++++++++++++-
  drivers/hv/mshv_root_hv_call.c |  4 +-
  include/asm-generic/mshyperv.h |  4 ++
- 3 files changed, 80 insertions(+), 4 deletions(-)
+ 3 files changed, 81 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 57b2c64197cb..07ffead4c116 100644
+index 57b2c64197cb..2a392b45205d 100644
 --- a/drivers/hv/hv_proc.c
 +++ b/drivers/hv/hv_proc.c
 @@ -7,7 +7,9 @@
@@ -183,7 +186,7 @@ index 57b2c64197cb..07ffead4c116 100644
 +	 * mark them valid in the direct map.
 +	 */
 +	if (hv_deposit_update_direct_map(pages, counts, num_allocations, true)) {
-+		WARN(1, "leaking %d page block(s) that could not be set to valid \n",
++		WARN(1, "leaking %d page block(s) that could not be set to valid\n",
 +		     num_allocations);
 +		goto free_buf;
 +	}
@@ -191,7 +194,7 @@ index 57b2c64197cb..07ffead4c116 100644
  err_free_allocations:
  	for (i = 0; i < num_allocations; ++i) {
  		base_pfn = page_to_pfn(pages[i]);
-@@ -110,6 +156,34 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+@@ -110,6 +156,35 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
  }
  EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
  
@@ -203,6 +206,7 @@ index 57b2c64197cb..07ffead4c116 100644
 +{
 +	int i, ret = 0;
 +	struct page *page;
++
 +	for (i = 0; i < count; ++i) {
 +		page = pfn_to_page(pfns[i]);
 +		ret = set_direct_map_valid_noflush(page, 1, true);
