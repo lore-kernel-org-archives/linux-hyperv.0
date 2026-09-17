@@ -1,155 +1,174 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606354908C4
-	for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 09:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71F953BD64A;
+	Thu, 17 Sep 2026 04:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789552229; cv=none; b=VSvxQY+rt/7Z9a8JNqN6nnPp5tcIl19SOyg57Q1ZWmUtVx7G1kz4ozKvPoMa19RZZnZ3jTfZ9FfI7IlAcG+oRtlKzokuTNhnQPz1oQ3GAdiVo5n6Tvk15gsu6HKDsJTcm3GoQiBZ8SEhdD7qnWT/EKqtzfi/IhxSCFN5jkrCY2w=
+	t=1789618682; cv=none; b=abdfrVG2XMg8Pc2gdrRZpNYFsKiTmbYwX+flfJqt4IbfLCfz2h2Z4n3FXxnFvvdTDYhsRmrMuXQh0XyemC7vppTGmpAY9TzKq+gkszd8nuNQQAtKWzW12C9yPD3QN/3SVoaulzU7lyPeXIw4lUyo2+5oydlNKwmEQlG56gNu6fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789552229; c=relaxed/simple;
-	bh=zVftL0e6KTn1Fup/RmgkkUqXURXldH56P13A6WLi8KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PreamslXU02jxfiEToVsxi34505W8kqojYnIU4MKhUQEM/Wt3CMR30pvMd8T2/o2POhfZzwOq+TEwgoCkJuFU/yA7y6Rpqy7+1V5If7hCVt5hb8JAoI+KVfRNNPj6URKtO+gOHxN8w8S7+OMKLnVl2vF2M7mkawuYG4qVg+AfKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dzby88uf; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789618682; c=relaxed/simple;
+	bh=26GnqgYxtB9JdP+RDaDXJjF+NXvLunCYGnwedQjCFS8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F9rF7+sZhK+K3MheOeHqq23NTk6ZNpIVSrhuh+Wiu28Q5FDra1yboa3PCpZUG0nYjWHNUNIeDRy7VShWr+JzBNMRbidgeDOUY/Y5SxEg1yqNa/1H5lYlqk5MJ+N/zl/nM6/i41uLbh2+n4M6rJuluyFgRll/drfNbvGyXr7WQpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dKW0rFh+; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dzby88uf"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e66390995so4145605e9.2
-        for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2026 02:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789552219; x=1790157019; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=79YAdtaHEv3S3nDvYc6X9C5ar06F3FncZEtUncQdJQ4=;
-        b=Dzby88ufsV19pEuHSQnO0Z3r75FgiJ44qF/jXgKTm3w+wAYVSGDUH6LyexeTQiqa/g
-         mb7EWvB3UuhKI7YAj+i2TOZr9/Z0Jn4HnQ3SO6kUkIrvAwSnRTzKzvfGb0So06LetuEf
-         Ts3VEs9CM5zHiWBu1V4JZ71jpXN6ZkETnLDwqKE7PV3aA5kY0+ABvWOim6YHWnbq5cCK
-         nHzOneSJDYvvXY/C7BkTDDo/hN/r3+9IBjrwRhsKYcoz9kdWM+uOTg6K8qjcDaH6D7EX
-         KA0rYEGGzwyipB5cM3imDGmhTpbUuWgcSiyW3ZIBr1TR7/Q7dN5mD7jr++kuJyreI5UR
-         skeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789552219; x=1790157019;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=79YAdtaHEv3S3nDvYc6X9C5ar06F3FncZEtUncQdJQ4=;
-        b=oow9gHa3yYLhkQ3mSszdx5q9iXcuznBfzd9gYrJCVZJOeZiIu5CszDfG2dpiVo3zxU
-         pM3z15CnNzVB7lkvm2GnvwT+KWw+qUMHv/OBSM0nVuusqCPO1IxrQBucC4RbaGrJ2M41
-         lFzGc5akJ2QNvNeeuVp0kdbXdQ7yK72aiuQSbE+r4aG0m3+O8p0a+j1zitTIXN6/zl9y
-         QBWhoDP75WvpPUo1jpKbE0LU3J/8pgebUdYK7Kni3DvtVk9sCOsfBl4YuU62Ge+itHae
-         a9lXefeAnJA96KvbjBwLZi/RT3iqk3oXE2ibDFsAQUhyt55ggVX7b28o51gs8R6vQ1bJ
-         zRtA==
-X-Forwarded-Encrypted: i=1; AKwUvBwfuOMzXRxwYFOBhcQWR2CzMhp0NXuylvUymLIf2FM7abq3Wm/QjehHsMXFzhKgsLkbavMwjTf2TP72puI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mbIas8On2yefOhfAdvv+R2Cp71YpZvqahpPFp3tm0nJLiFEpAz
-	X+npdg+BKXbX2sTqaN0YrGLMCw0hR/5q1hVSpbCpyBZsNqkN8ks23xL1
-X-Gm-Gg: AYBFou3PPdTn8m99wk60eVYN7al6j1BaT030HRS/pjJLynba8uACU0r9xfguBz1dqjW
-	1qDL8jvSP9tUanAgbWEgR8zX6PTlf7VHgSVzADe89bv97k0WKxEwr6Tupbtr9hDYnIwCXfY8FKO
-	4Mz/fByaDW8nj2uUaQO2IvRrk9ZJ/wYvJ4vf7Vx/vESO8fRY+aB4MBXcQN372JKmJEQha7QZQok
-	ofddra/hW6chSELWRHq3jVdYyKR59n6RiNB+WjSTksScDmr3P729dpeO4sLd9vW5qFfwsMf6j8c
-	oyQe4GlhX7c+/v6hMy1f2cjomhlev3w7JRaKp2hnQUctIZBK5ktTLeKcn0kv1Vq+HrOoB18PREf
-	9/mxnCkXR0zN9VZYBExfK/ZdYT3GN68f5d22DgoRYcNE1MpisTqKi45bN3+MvsysYKMn+FJ58SG
-	SnaB64F/+KVAHBeXsh/+PTm9xXD+GxKKZrtyza4Dyv4rFlJ5eAiK9ovBbITfzWP1tOrR5KvRObF
-	NPSbEF5sb971D7i0ziNTkA3pcVEPmWxnxq0LNoD0EYPqwA=
-X-Received: by 2002:a05:600c:4ec6:b0:49c:fea3:8633 with SMTP id 5b1f17b1804b1-49eb732aec0mr19444455e9.24.1789552219000;
-        Wed, 16 Sep 2026 02:50:19 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83b02245sm84055225e9.10.2026.09.16.02.50.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 02:50:18 -0700 (PDT)
-Date: Wed, 16 Sep 2026 10:50:17 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jann Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ingo
- Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Oleg Nesterov <oleg@redhat.com>,
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-um@lists.infradead.org, Jens Axboe
- <axboe@kernel.dk>, io-uring@vger.kernel.org, netdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-gpio@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bpf@vger.kernel.org, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux.dev, kvm@vger.kernel.org,
- kexec@lists.infradead.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH RFC POC 00/50] file: handle files on syscall exit
-Message-ID: <20260916105017.13ea5e36@pumpkin>
-In-Reply-To: <CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
-References: <20260915-work-fd-reserve-unify-folded-v1-0-4d5217d6b246@kernel.org>
-	<CAG48ez1RsdT=O=-0city3vjgWhDvY424KtTmrCJntWy5ds3HBQ@mail.gmail.com>
-	<CAHk-=wi3Kkqgfg6zUTHpQoZNL2VOB4vYqpi6RX0WNO++29UtyQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dKW0rFh+"
+Received: from [10.95.64.142] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 68FD320B7166;
+	Wed, 16 Sep 2026 21:17:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 68FD320B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789618628;
+	bh=EWkJaPCGnadf9C319Yf1I683reFcIoPIjbK3zxDokJM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dKW0rFh+GSoaiomIVQO6ibYNYDFtq6bv3eaaW/28BE4tzPdBucxVMSFbAgEmGAQ8h
+	 QQe7xs73adXtG/q/dIDlMYk7GdN6dgGOOUBd+u2993MhZkmY3QI9O/r7+OezsyeocE
+	 jRJMEuAbAV6ueNx/sfoCk+KSpwJaQPS4slnROwzc=
+Message-ID: <933f9e42-9f35-4513-ab69-93aef2284da5@linux.microsoft.com>
+Date: Thu, 17 Sep 2026 09:47:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI: hv: Probe vPCI buses asynchronously
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+References: <20260907054742.235389-1-namjain@linux.microsoft.com>
+ <20260907060205.2B97C1F00A3A@smtp.kernel.org>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20260907060205.2B97C1F00A3A@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 15 Sep 2026 12:08:57 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-> On Tue, 15 Sept 2026 at 10:52, Jann Horn <jannh@google.com> wrote:
-> >
-> > Is this mainly about stuff like "we installed a file descriptor and
-> > then the following put_user() failed"? Because if so, I think a nicer
-> > fix would be to have a policy of "if userspace provides unwritable
-> > memory to a syscall, just keep going and pretend the access worked",
-> > and maybe have a sysctl that kills the process when this happens to
-> > emphasize that userspace should not be doing this.  
-> 
-> We've done that before, where we just ignore put_user() errors and the
-> user gets whatever the user gets.
-> 
-> It is maybe not optimal, but it's fine. You can find quite a lot of
-> unchecked put_user() calls with a pattern like
-> 
->         git grep '^[[:space:]]*put_user(.*);'
-> 
-> and some of them are in core code - see the two in kernel/fork.c, for example.
-> 
-> One of them says "if userspace has not set up a proper pointer then
-> tough luck". The other one doesn't even bother with a comment.
 
-I think the code should try to return EFAULT (IIRC that is too hard
-in one of the exec cases).
-Otherwise very unexpected things might happen if the memory is just
-readonly.
-If you ignore the error and the pointer is invalid the application will
-get a SIGSEGV and (usually) die.
-But winding back kernel data because a user copy failed is likely to
-be problematic/difficult and at best have error path code that isn't
-really tested.
-
-As well as writing fd numbers to userspace, some sockopt code tries to
-wind back if the write to optlen fails (which has been read earlier).
-
-I've forgotten which Unix converted EFAULT to SIGSEGV in the system
-call exit code - I'm sure one of the ones I've used did.
-
-David
-
+On 9/7/2026 11:32 AM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
 > 
-> The scheduler has two cases too, although one of them is admittedly
-> for another error case.
+> Pre-existing issues:
+> - [Critical] VMBus transaction mappings are not removed when wait_for_response() aborts early, leading to stack or heap Use-After-Free (UAF) upon delayed host completion.
+> - [High] Memory leak of child PCI devices (struct hv_pci_dev / hpdev) on the error paths of hv_pci_probe().
+> - [High] Workqueue leaked on hv_pci_remove() if hv_pci_resume() previously failed.
+> --
 > 
-> So yes, saying "if you pass bogus arguments, you get what you get" is
-> a valid model. It's perhaps not the *preferred* model, but it's not
-> wrong.
+
+All of the issues reported by Sashiko are pre-existing and unrelated to 
+my patch. No action required.
+
+Regards,
+Naman
+
+> commit acbe68fb0b4a7fd692c44acd0bc27c2e48b030db
+> Author: Naman Jain <namjain@linux.microsoft.com>
 > 
-> It *would* be wrong to take code that already has error handling and
-> remove the error handling, though.
+> PCI: hv: Probe vPCI buses asynchronously
+>      
+> On Hyper-V guests each virtual PCI bus is enumerated by its own
+> hv_pci_probe() call. The probe performs several synchronous host
+> request/response exchanges while negotiating the protocol, querying bus
+> relations, entering D0, and reporting allocated resources.
 > 
->                   Linus
+>> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+>> index 89816a2bd7cd3..056d379b3cee4 100644
+>> --- a/drivers/pci/controller/pci-hyperv.c
+>> +++ b/drivers/pci/controller/pci-hyperv.c
+>> @@ -4155,6 +4155,9 @@ static struct hv_driver hv_pci_drv = {
+>>   	.remove		= hv_pci_remove,
+>>   	.suspend	= hv_pci_suspend,
+>>   	.resume		= hv_pci_resume,
+>> +	.driver = {
+>> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>> +	},
+>>   };
+> 
+> [Severity: High]
+> This is a pre-existing issue, but I noticed a potential memory leak of child
+> PCI device structures (struct hv_pci_dev) in the error paths of
+> hv_pci_probe() in drivers/pci/controller/pci-hyperv.c.
+> 
+> If hv_pci_enter_d0() fails, the error path jumps directly to
+> release_state_lock:
+> 
+>      ret = hv_pci_enter_d0(hdev);
+>      if (ret)
+>          goto release_state_lock;
+> 
+> This completely skips hv_pci_bus_exit(), which is responsible for unlinking
+> and freeing the children.
+> 
+> Additionally, if an error occurs earlier and it jumps to exit_d0, it calls
+> hv_pci_bus_exit() but skips freeing the devices:
+> 
+> exit_d0:
+>      (void) hv_pci_bus_exit(hdev, true);
+> release_state_lock:
+>      mutex_unlock(&hbus->state_lock);
+> 
+> The keep_devs=true argument explicitly skips freeing the children.
+> 
+> In both situations, the hbus structure is subsequently freed, leaving the
+> previously populated hbus->children list permanently leaked. Could these
+> error paths be adjusted to ensure child devices are properly freed?
+> 
+> [Severity: High]
+> This is a pre-existing issue, but could a workqueue be leaked in
+> hv_pci_remove() if hv_pci_resume() had previously failed?
+> 
+> In drivers/pci/controller/pci-hyperv.c:hv_pci_resume(), hbus->state is
+> initially set to hv_pcibus_init. If a subsequent operation fails, the
+> function returns an error without restoring the state.
+> 
+> Later, when the device is removed, hv_pci_remove() checks the state before
+> destroying the workqueue:
+> 
+>      if (hbus->state == hv_pcibus_installed) {
+>          tasklet_disable(&hdev->channel->callback_event);
+>          hbus->state = hv_pcibus_removing;
+>          tasklet_enable(&hdev->channel->callback_event);
+>          destroy_workqueue(hbus->wq);
+>          hbus->wq = NULL;
+>          ...
+> 
+> Since the state was left as hv_pcibus_init, this block is bypassed, and
+> the workqueue is leaked when hbus is later freed. Does this state check need
+> to be modified to ensure the workqueue is always destroyed on removal?
+> 
+> [Severity: Critical]
+> This is a pre-existing issue, but can VMBus transaction mappings be left
+> dangling when wait_for_response() aborts early, leading to a Use-After-Free
+> upon delayed host completion?
+> 
+> In drivers/pci/controller/pci-hyperv.c, several functions allocate a
+> struct pci_packet on the stack or heap, pass it to the VMBus requestor,
+> and then wait for a response. For example, in new_pcichild_device():
+> 
+>      if (wait_for_response(hbus->hdev, &comp_pkt.host_event))
+>          goto error;
+> 
+> Or in hv_pci_enter_d0():
+> 
+>      ret = wait_for_response(hdev, &comp_pkt.host_event);
+>      if (ret)
+>          goto exit;
+> 
+> Similar early returns occur in hv_read_config_block() and
+> hv_write_config_block().
+> 
+> If wait_for_response() aborts immediately (e.g. returning -ENODEV due to a
+> channel rescind), the caller returns and destroys its stack frame or frees
+> the heap allocation.
+> 
+> However, the transaction ID mapping remains in the VMBus requestor. If the
+> host sends a completion packet just after this, the hv_pci_onchannelcallback()
+> tasklet will retrieve the dangling pointer and execute its completion_func,
+> corrupting the stack or heap.
+> 
+> Should these functions use vmbus_request_addr_match() to remove the mapping
+> on failure, similar to how hv_pci_bus_exit() handles it?
 > 
 
