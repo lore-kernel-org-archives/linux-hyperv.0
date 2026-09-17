@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71F953BD64A;
-	Thu, 17 Sep 2026 04:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322AE30216D;
+	Thu, 17 Sep 2026 05:31:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789618682; cv=none; b=abdfrVG2XMg8Pc2gdrRZpNYFsKiTmbYwX+flfJqt4IbfLCfz2h2Z4n3FXxnFvvdTDYhsRmrMuXQh0XyemC7vppTGmpAY9TzKq+gkszd8nuNQQAtKWzW12C9yPD3QN/3SVoaulzU7lyPeXIw4lUyo2+5oydlNKwmEQlG56gNu6fM=
+	t=1789623070; cv=none; b=pQfITuilME2P9w/epDqxIQG8wX9miLXqumwa+SmbL/fW1jVQvYMmZr2+aoDQjp9efUVg0CsvAI9aZ2sz46PH6AnHP6bS0B1by5yV9mJ5roZUTaw7xevEPp4vEvftwLGOwYgc6m3fQPT8GLGmAkqJBN58IQ4uut26LcSZrA7DG0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789618682; c=relaxed/simple;
-	bh=26GnqgYxtB9JdP+RDaDXJjF+NXvLunCYGnwedQjCFS8=;
+	s=arc-20240116; t=1789623070; c=relaxed/simple;
+	bh=33pHxhqcKOACoiDbk8F25AIt1rOFzy0h0XB5mJ7Slew=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F9rF7+sZhK+K3MheOeHqq23NTk6ZNpIVSrhuh+Wiu28Q5FDra1yboa3PCpZUG0nYjWHNUNIeDRy7VShWr+JzBNMRbidgeDOUY/Y5SxEg1yqNa/1H5lYlqk5MJ+N/zl/nM6/i41uLbh2+n4M6rJuluyFgRll/drfNbvGyXr7WQpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dKW0rFh+; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=MtNGP8zQujwTmFNhkd+tlOQrc1UzLb8pH21E9iII2pVjsMNc0fUV9vY8tYEQLOYRi9QtF6CZhLJgaOwV295eEREk1JPmTpk+U/tsPjGDKvPL6d4+QDg6eq5tXClhL/C61Aonwmnw11XWahCrpuNIEbuWiXmWGDeF7iWtKmYVF5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nODgqGEV; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dKW0rFh+"
-Received: from [10.95.64.142] (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 68FD320B7166;
-	Wed, 16 Sep 2026 21:17:07 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 68FD320B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nODgqGEV"
+Received: from [10.26.7.43] (unknown [4.213.232.21])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B6D7A20B7169;
+	Wed, 16 Sep 2026 22:30:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B6D7A20B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789618628;
-	bh=EWkJaPCGnadf9C319Yf1I683reFcIoPIjbK3zxDokJM=;
+	s=default; t=1789623023;
+	bh=L1pN5bVd9usMHlHHI6Pzx9hyCre9b6mdSIltt5Mq1Eo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dKW0rFh+GSoaiomIVQO6ibYNYDFtq6bv3eaaW/28BE4tzPdBucxVMSFbAgEmGAQ8h
-	 QQe7xs73adXtG/q/dIDlMYk7GdN6dgGOOUBd+u2993MhZkmY3QI9O/r7+OezsyeocE
-	 jRJMEuAbAV6ueNx/sfoCk+KSpwJaQPS4slnROwzc=
-Message-ID: <933f9e42-9f35-4513-ab69-93aef2284da5@linux.microsoft.com>
-Date: Thu, 17 Sep 2026 09:47:49 +0530
+	b=nODgqGEVBO2Xo1Jk6m0Eopf6OvUMppRSgUHv89lQYFLzYWp3sC6JBwa1HsHkxm3qi
+	 eHXm2Tey7eS63QOF46hN5SRZof5Yd14FjOBK4QZUx/H1Qp9Rvfz0GbJQZYkx4TR203
+	 L7uQR09mJ9LC31UVy0Nvzka0677iUqNpuPgOYQ1M=
+Message-ID: <011f1fa5-89c5-4bc5-8b2e-c5f415a57559@linux.microsoft.com>
+Date: Thu, 17 Sep 2026 11:01:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -35,140 +35,81 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] PCI: hv: Probe vPCI buses asynchronously
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
+To: Naman Jain <namjain@linux.microsoft.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20260907054742.235389-1-namjain@linux.microsoft.com>
- <20260907060205.2B97C1F00A3A@smtp.kernel.org>
 Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20260907060205.2B97C1F00A3A@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+In-Reply-To: <20260907054742.235389-1-namjain@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 9/7/2026 11:32 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> 
-> Pre-existing issues:
-> - [Critical] VMBus transaction mappings are not removed when wait_for_response() aborts early, leading to stack or heap Use-After-Free (UAF) upon delayed host completion.
-> - [High] Memory leak of child PCI devices (struct hv_pci_dev / hpdev) on the error paths of hv_pci_probe().
-> - [High] Workqueue leaked on hv_pci_remove() if hv_pci_resume() previously failed.
-> --
-> 
-
-All of the issues reported by Sashiko are pre-existing and unrelated to 
-my patch. No action required.
-
-Regards,
-Naman
-
-> commit acbe68fb0b4a7fd692c44acd0bc27c2e48b030db
-> Author: Naman Jain <namjain@linux.microsoft.com>
-> 
-> PCI: hv: Probe vPCI buses asynchronously
->      
+On 07-09-2026 11:17, Naman Jain wrote:
 > On Hyper-V guests each virtual PCI bus is enumerated by its own
 > hv_pci_probe() call. The probe performs several synchronous host
 > request/response exchanges while negotiating the protocol, querying bus
-> relations, entering D0, and reporting allocated resources.
+> relations, entering D0, and reporting allocated resources. These waits
+> are latency-bound rather than CPU-bound.
 > 
->> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
->> index 89816a2bd7cd3..056d379b3cee4 100644
->> --- a/drivers/pci/controller/pci-hyperv.c
->> +++ b/drivers/pci/controller/pci-hyperv.c
->> @@ -4155,6 +4155,9 @@ static struct hv_driver hv_pci_drv = {
->>   	.remove		= hv_pci_remove,
->>   	.suspend	= hv_pci_suspend,
->>   	.resume		= hv_pci_resume,
->> +	.driver = {
->> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
->> +	},
->>   };
+> hv_pci registers as an ordinary VMBus driver, so driver_register() walks
+> matching vPCI buses and probes them sequentially while the driver's
+> initcall runs. On guests that expose several devices, each through its
+> own vPCI bus, this serialization adds the host round-trip latencies to
+> device initialization.
 > 
-> [Severity: High]
-> This is a pre-existing issue, but I noticed a potential memory leak of child
-> PCI device structures (struct hv_pci_dev) in the error paths of
-> hv_pci_probe() in drivers/pci/controller/pci-hyperv.c.
+> Each bus is described by its own struct hv_pcibus_device, so
+> independent buses can be probed concurrently. Request asynchronous
+> probing via PROBE_PREFER_ASYNCHRONOUS, causing the driver core to
+> schedule matching buses for asynchronous probe work.
 > 
-> If hv_pci_enter_d0() fails, the error path jumps directly to
-> release_state_lock:
+> On an Azure Standard_L32s_v3 guest with five vPCI targets (four NVMe
+> controllers and one Mellanox VF), Linux 7.2.3 was tested with one warm-up
+> and three measured boots per variant. The median interval from the first
+> hv_pci_probe() entry to the last return decreased from 2847.968 ms to
+> 2786.709 ms, a 61.259 ms (2.15%) improvement.
 > 
->      ret = hv_pci_enter_d0(hdev);
->      if (ret)
->          goto release_state_lock;
+> Co-developed-by: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+> ---
 > 
-> This completely skips hv_pci_bus_exit(), which is responsible for unlinking
-> and freeing the children.
+> Previous discussion around this change:
+> https://lore.kernel.org/all/20230420024037.5921-7-decui@microsoft.com/
 > 
-> Additionally, if an error occurs earlier and it jumps to exit_d0, it calls
-> hv_pci_bus_exit() but skips freeing the devices:
+> Skipping removal of pci_rescan_remove_lock, due to possible
+> synchronization problems associated with this lock removal. Also, with
+> my current setup, I was not able to see much improvements with this
+> change, so keeping it for later. Asynchronous probing change is not
+> dependent on this.
 > 
-> exit_d0:
->      (void) hv_pci_bus_exit(hdev, true);
-> release_state_lock:
->      mutex_unlock(&hbus->state_lock);
+> ---
+>  drivers/pci/controller/pci-hyperv.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> The keep_devs=true argument explicitly skips freeing the children.
-> 
-> In both situations, the hbus structure is subsequently freed, leaving the
-> previously populated hbus->children list permanently leaked. Could these
-> error paths be adjusted to ensure child devices are properly freed?
-> 
-> [Severity: High]
-> This is a pre-existing issue, but could a workqueue be leaked in
-> hv_pci_remove() if hv_pci_resume() had previously failed?
-> 
-> In drivers/pci/controller/pci-hyperv.c:hv_pci_resume(), hbus->state is
-> initially set to hv_pcibus_init. If a subsequent operation fails, the
-> function returns an error without restoring the state.
-> 
-> Later, when the device is removed, hv_pci_remove() checks the state before
-> destroying the workqueue:
-> 
->      if (hbus->state == hv_pcibus_installed) {
->          tasklet_disable(&hdev->channel->callback_event);
->          hbus->state = hv_pcibus_removing;
->          tasklet_enable(&hdev->channel->callback_event);
->          destroy_workqueue(hbus->wq);
->          hbus->wq = NULL;
->          ...
-> 
-> Since the state was left as hv_pcibus_init, this block is bypassed, and
-> the workqueue is leaked when hbus is later freed. Does this state check need
-> to be modified to ensure the workqueue is always destroyed on removal?
-> 
-> [Severity: Critical]
-> This is a pre-existing issue, but can VMBus transaction mappings be left
-> dangling when wait_for_response() aborts early, leading to a Use-After-Free
-> upon delayed host completion?
-> 
-> In drivers/pci/controller/pci-hyperv.c, several functions allocate a
-> struct pci_packet on the stack or heap, pass it to the VMBus requestor,
-> and then wait for a response. For example, in new_pcichild_device():
-> 
->      if (wait_for_response(hbus->hdev, &comp_pkt.host_event))
->          goto error;
-> 
-> Or in hv_pci_enter_d0():
-> 
->      ret = wait_for_response(hdev, &comp_pkt.host_event);
->      if (ret)
->          goto exit;
-> 
-> Similar early returns occur in hv_read_config_block() and
-> hv_write_config_block().
-> 
-> If wait_for_response() aborts immediately (e.g. returning -ENODEV due to a
-> channel rescind), the caller returns and destroys its stack frame or frees
-> the heap allocation.
-> 
-> However, the transaction ID mapping remains in the VMBus requestor. If the
-> host sends a completion packet just after this, the hv_pci_onchannelcallback()
-> tasklet will retrieve the dangling pointer and execute its completion_func,
-> corrupting the stack or heap.
-> 
-> Should these functions use vmbus_request_addr_match() to remove the mapping
-> on failure, similar to how hv_pci_bus_exit() handles it?
-> 
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+> index 89816a2bd7cd3..056d379b3cee4 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -4155,6 +4155,9 @@ static struct hv_driver hv_pci_drv = {
+>  	.remove		= hv_pci_remove,
+>  	.suspend	= hv_pci_suspend,
+>  	.resume		= hv_pci_resume,
+> +	.driver = {
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +	},
+>  };
+>  
+>  static void __exit exit_hv_pci_drv(void)
+LGTM.
+Reviewed-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
 
+Regards,
+Sahil
