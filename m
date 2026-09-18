@@ -1,115 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B070370D69
-	for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 12:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359C33403FA
+	for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 13:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789735682; cv=none; b=lxOiXcdImaGHHO0vMk4IInYCzePX7OEk5Lna7EtgvMFN0Bohtp8btEk9zT5toZcctUWffidGKFHjaB8SsNuV9SIUdzc0H5mS91uX09ZuOHaX5gqDTxzFvb57jB+JDot0u8kNXzsgnKoDcaoVrGYfXInEDfrNtik02j90OZOexVQ=
+	t=1789737465; cv=none; b=L4ihgFfrWuT2pla+IIY/6kcqlywamTAmhf3c3BzL0k8GCCWAUflTXU34K0gj8mS32jRF8slbkDbDEMoblsvQM510JTbqApWMsAQPXPEV2oXCTv/NudEUvEuyRlAjDgxSuPwqV78fiDOqu09E3iWKITXKA6L1GfMZX+Jh/Y9O34w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789735682; c=relaxed/simple;
-	bh=q9aV8UEMRbT/uR1gFd6YDDhJxj0IDZcbyD15EdPgcc0=;
+	s=arc-20240116; t=1789737465; c=relaxed/simple;
+	bh=kN5BYIsmhqVkXYrS9tG2zrKZRLqVYGZ8zSUbwhKf4uY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=izTEpt9XNtYOXD1oaurz25W555lfoDSZmZqQKhpuY6v4SF3enH6U428eKVc8XbDHUCpSvz8/jUU8v0yqcU0f92jSoHICYsS7+8dm9rthJshlRuQVDhLk47nACa5TkENCr550ppeF0phLpMO2LUwRDCs04WN6Vn6NQDgDlQkc9oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FLpa61C2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YhakHtRz; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=QkA1sCvdgctwJDWRjn6KHqyvPJOot/pGdKmQwuHqmHtxCjHzEOHMkX8S4cfFui4M8HVbihyearV+PfGGlrER+z5C0nwOo+KN9kHr5BmRAE+FObuy2S6B9yuO2uIgZq3W0CPij01FTWUqZJC4fXUg1PpRAUUmV9TqglI0Xq1gqu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FdBLbbkO; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=V3mkCakR; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FLpa61C2";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YhakHtRz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FdBLbbkO";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="V3mkCakR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789735679;
+	s=mimecast20190719; t=1789737461;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v+JaQ3C2cAyYFQJK2/l9R/7/otniBmov2ptyT3UUpaA=;
-	b=FLpa61C2G1npS71icky6TU6kqja4FX1q1xTeIAfM+eI65G05BaMN07T49Q8zd10XlNnNgu
-	ehY8lUBr+q+tXzQFzy6YZSZpIWbKNEdR7eOusjEHxP+9qf7Rw8Wi+sma1X4kO/42ilUCpe
-	FW6+Xsf3spdJqSuCwC2KNSyxlDLTExA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=nkVFW+VrXNXfe1YNrYXwQ6v387x1mrai9WsSFx3ezhw=;
+	b=FdBLbbkOdGmsje1dko1wRM2HOaUFz/ViIcU3aEwmyyPZGdN4KLKPIEsmcaOzY94LdlJEt0
+	7hF/Ypqi4jVQUfUZuL+JNHAClO/KOl+hyhiV6d2gU8HfTw/hhabdNuoYzAVOpaHydn/UT0
+	yNpEnDfEIY/slCtLzBFFuT9hcGi4d4M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-177-UMvAnj1TOE-6frggFOse3A-1; Fri, 18 Sep 2026 08:47:58 -0400
-X-MC-Unique: UMvAnj1TOE-6frggFOse3A-1
-X-Mimecast-MFC-AGG-ID: UMvAnj1TOE-6frggFOse3A_1789735677
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49e635a6002so5363745e9.0
-        for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 05:47:57 -0700 (PDT)
+ us-mta-596-bQIUh8w6N9GB_5CRGteMhA-1; Fri, 18 Sep 2026 09:17:40 -0400
+X-MC-Unique: bQIUh8w6N9GB_5CRGteMhA-1
+X-Mimecast-MFC-AGG-ID: bQIUh8w6N9GB_5CRGteMhA_1789737459
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-490a767b782so6264385e9.2
+        for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 06:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1789735677; x=1790340477; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v+JaQ3C2cAyYFQJK2/l9R/7/otniBmov2ptyT3UUpaA=;
-        b=YhakHtRzDg3AFAhi1m8zD/7L6U44YVEtLDLCl6RlFTwUl4Azw27op6Kk363YDZq74m
-         VrIhqEyAY32Y3vk99imElBMWb0zqMolGrHzTGEeLMb5HumtauqNMdlScUbYj5ahv9xR4
-         TEMHDF0n/bMWsN4B4hX9xQFB05WARj4/psUFp9bF/ebfg6EY0sTb3ooP9OKYFPM08HXQ
-         MoxCYGRSp1f17KHNaTjbQ/kE6hU6jzd25xah+a7ryCfzo06AJdMF86Lmt9dpZ0+gefQY
-         IyND+X/WYsZUF6Mf+wBGhXRCNrVSNDJ67MB0jvomZwfmlIdnEpneTna3a0Ap/wgYeDO1
-         jhNg==
+        d=redhat.com; s=google; t=1789737459; x=1790342259; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nkVFW+VrXNXfe1YNrYXwQ6v387x1mrai9WsSFx3ezhw=;
+        b=V3mkCakROQjZhk5iskwk3U86uF0A9Jhc3p3EF9nbcE0r9TEQ7hIGbgiqhSbJTy2XKj
+         1VHe36U7uEjvQrE0IqXjB5jmCXsZuZ9ZTcDqFapYzboUOZnQmw/RrQeFZbz1DKLJg/Wi
+         ICR7z8ljoF2aqG2YZeecKHX0/d01j+JtaFlitadSWv37Ir7grHMLZ0Dz4fqE0Ax64jWY
+         aksHCuUan/y18PIbUMS12fQS8O17DLfbUpjTnhEHfShbxqCyqGs8/8x6kAgWc7jsXQNH
+         c+cvehETLDvSuH8ObJj5xMAZ3JpcfADZR+iv1fTtmNp05VtZbO80K6iRjRbEZt2juSw5
+         veiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789735677; x=1790340477;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v+JaQ3C2cAyYFQJK2/l9R/7/otniBmov2ptyT3UUpaA=;
-        b=mA7j79MDrEz4uspcXz2y9+Zc2y4tYGd2gPULlvXsFE0G3iZqFPJHPoQef+ee6f95F/
-         wGmkuYV+a61uxlFeJFPVRDbIiW3hvOuRc0tE0ubqsbcJHiIvyETsIFcUEhiEz6di4j+c
-         21p4R78P5x2uwNoIRmGSw4BdYigpntc/Sbj86b4jaRBU14tI/luE25oqB3tqj4brgvcu
-         lkR9jjixdvsiBfB95ovrUx750iwNT+pjX4tliHhAbAKkCqOl6aIoYF5u6h0HYehGVKRv
-         E8ltZ10xc7g3jvHgimNYI/YCXfszPZJ1WFXHqwVRcm1b4fpWjk//hotzlLBz1sVdOZtH
-         eI/w==
-X-Forwarded-Encrypted: i=1; AKwUvBzEOTxMUe+7T4J6j2Wvlt8mBEpYO7bhhbnDe0JDZTni8JrTZIlDcRKBhZ2bj21PTrqSTgdG02WVOZjqKIc=@vger.kernel.org
-X-Gm-Message-State: AFuF++nLmUqgmBJKIC/5jhJvAJOt0qyGzoRm99YnusX21krZNO9GDzaK
-	g9CP69j53/BaDeyBEyaod9TDgW8xxqqcCYNcsj3gRJFYrnReTS1oGcrrwBGFTEcGtqpDRDmtu19
-	rFbJUjVUI+19Tfy7aWA/4Fr6OsYa/EjueQ6OoMbtiQ8ze/ZCkkKd0gRBjyc2qUDXYLg==
-X-Gm-Gg: AYBFou2AZukGZQS+ejbg/38h85tq3q6xaMMdHaOK5V+DmYfibccZEXgIdmmPBV5m+M8
-	QtzM0o6Nnm+4GJ8slC/p/K/v8g9ENvBniBp5bgwGmjMMgGNCss80gmiC/YmRbHzfW1MuV6Z4+ik
-	zzz2XAKXM5HcQxp+QYsm9FnzhivfEE6PzAkZoyYlJJPY8YE2ig0hAzREdCcJUhppJAuJp7vn1nJ
-	6sPiT+bN0EfU5yEbRurTfKAzJUEIaUpRDCTuveiGk3tWPyip3MdgG44ou+wab5Lvc7XwvJC6GJ9
-	3c6XtRNsiXAEoP7LAZ7ZtXh/ukxud3w+xkwj42pdKKsusdIBat3w8t8zKSnWh3gVuRJD1f9ieIG
-	am5Qzk6NYZltkgQFwZBjW1pAn+u3RMwIZaygUivfR3XC9Lw==
-X-Received: by 2002:a05:600c:1d99:b0:499:8ff5:8ecc with SMTP id 5b1f17b1804b1-49fc56dacbfmr35462245e9.15.1789735676776;
-        Fri, 18 Sep 2026 05:47:56 -0700 (PDT)
-X-Received: by 2002:a05:600c:1d99:b0:499:8ff5:8ecc with SMTP id 5b1f17b1804b1-49fc56dacbfmr35461105e9.15.1789735675472;
-        Fri, 18 Sep 2026 05:47:55 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789737459; x=1790342259;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nkVFW+VrXNXfe1YNrYXwQ6v387x1mrai9WsSFx3ezhw=;
+        b=kcmZOz6/UN4dH965BGMSjp0IX+zVoL2UOkOZt0ajWHbHwppHevurThhbMZqS4lSZ8z
+         Ec1TuuPNh4PXcBY62ZBX2mM/doFDPZJEFHhmXlvmN3jYUhfeLUw/XAPTB7Nfiz00YHZZ
+         sjARlZ1pnNEHDwxB92Aojmjd5Z3ALN4rpP1Qw+dTQluuCkjcUIVpA/QtbLHRXmQd3X6T
+         aXfMQhXZpPgq01Ek4S5TvfHp2rE8CMsn9a3Ti20GSfdWqsodqj1qWA1CCrI42D+kUFTr
+         npw5CHmzv66puRQ3mVNSDfLOSwqS/kmDHo6LWD1E/+0oYxnfsLi6NsnjoB01ezrUZgNF
+         NtFA==
+X-Forwarded-Encrypted: i=1; AKwUvBzFa29Q/i/KFciT/tpWWQ4aGGHuDaBt6NquRGC/iWvnV+F3qbengPj2qK+FXnbPNd9vuTtTQq48rr7A43s=@vger.kernel.org
+X-Gm-Message-State: AFuF++lo/HJXaByPCMmcQBfNoxjpwmArI53kVciAj+0Yi26abXou/kAc
+	Q7zHxp6lCyqdONKlfzplWOE+/8y9lDFvU1S2gTRpStkjhKDxN3ecqht1uPDq7RKZ3ztBAhRCTJT
+	iPO8by/f/+8fRMaKf/dIh4OOmnjLMBHPtpRo0XVQz5JNIQuEeTxkC+Y5Dw7P8/0KrWw==
+X-Gm-Gg: AYBFou17CuIpIrJhKUBgsp6L+FLKHYjSi5eM7Bcdd7mFajQzGt2OA9eHM29dDe/fi2l
+	9C5f9BjYsZ+q9K4EM/cFCvGsUntktY78e40LFDr+0OHNUS7Zk8CzgR5Bp0R2QjqApQBdCEGDU4b
+	qXt09HcTjsIplg2SsSEtF9TGBrUxBS4McNfWawk7uiI3vhoNwLh5yDN4aG0L6MXoIJ10zdffm1F
+	+V9QS5MFK9yxh9ZaMpNrXL/AHtzXnvxGrBJJGg05B5xbUQzspDDSwpyLpimbK4ILj8pNUnoAyxB
+	wOMULYyUOyaIoxwv7HcFomitzjWWy4Dhm+BZ+xGZ/zvVl9TccBr8L7Hy6SkTD/5w36KWJK5ou3m
+	hQKMrkd8SpJRWOwLHqlY6YGQX7IZzGih9sZ3ON4XSkTDdOA==
+X-Received: by 2002:a05:600c:548d:b0:49e:816a:9bae with SMTP id 5b1f17b1804b1-49fc58500e5mr31289975e9.28.1789737459136;
+        Fri, 18 Sep 2026 06:17:39 -0700 (PDT)
+X-Received: by 2002:a05:600c:548d:b0:49e:816a:9bae with SMTP id 5b1f17b1804b1-49fc58500e5mr31289535e9.28.1789737458692;
+        Fri, 18 Sep 2026 06:17:38 -0700 (PDT)
 Received: from sgarzare-redhat (host-79-53-30-11.retail.telecomitalia.it. [79.53.30.11])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc58a1176sm39414825e9.2.2026.09.18.05.47.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd1d0978sm155058355e9.2.2026.09.18.06.17.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 05:47:54 -0700 (PDT)
-Date: Fri, 18 Sep 2026 14:47:41 +0200
+        Fri, 18 Sep 2026 06:17:38 -0700 (PDT)
+Date: Fri, 18 Sep 2026 15:17:33 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
-To: Ivy Lopez <skunkolee@gmail.com>
-Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org, 
-	decui@microsoft.com, longli@microsoft.com, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] vsock/hv_sock: fix socket/table leak when rescind races
- the delayed close
-Message-ID: <aq0ydoRGx4hq7BdR@sgarzare-redhat>
-References: <20260917220213.56102-1-bartlomiej.dmitruk@isec.pl>
- <20260918025650.15990-1-skunkolee@gmail.com>
+To: =?utf-8?Q?Bart=C5=82omiej?= Dmitruk <bartlomiej.dmitruk@isec.pl>
+Cc: Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vsock/hv_sock: reject incoming connections when the
+ listener is being released
+Message-ID: <aq05eT6CP9ns6Cae@sgarzare-redhat>
+References: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20260918025650.15990-1-skunkolee@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
 
-On Thu, Sep 17, 2026 at 08:56:50PM -0600, Ivy Lopez wrote:
->LGTM.
+On Fri, Sep 18, 2026 at 12:01:54AM +0200, Bartłomiej Dmitruk wrote:
+>hvs_open_connection() only checks sk_state == TCP_LISTEN and
+>sk_acceptq_is_full() before creating a child and calling
+>vsock_enqueue_accept().  __vsock_release() sets sk->sk_shutdown =
+>SHUTDOWN_MASK and flushes the accept queue while leaving sk_state ==
+>TCP_LISTEN, so a host channel offer that races close() of the listener
+>passes both checks and enqueues a child onto the already-flushed queue.
+>That child socket (and the VMBUS channel opened for it) is never accepted
+>or cleaned up and leaks.
 >
->Should this need a Fixes: tag and possibly a Cc: stable@vger.kernel.org?
+>The virtio transport guards exactly this case in
+>virtio_transport_recv_listen(); hv_sock lacks the equivalent guard.
+>hv_sock holds lock_sock(sk) across hvs_open_connection(), so the check is
+>race-free.
 >
 
-Yes, please.
+Fixes tag missing.
 
-Also, if LLM was used, we should add also Assisted-by tag, see 
-https://docs.kernel.org/process/coding-assistants.html
+>Signed-off-by: Bartłomiej Dmitruk <bartlomiej.dmitruk@isec.pl>
+>---
+>diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+>--- a/net/vmw_vsock/hyperv_transport.c
+>+++ b/net/vmw_vsock/hyperv_transport.c
+>@@ -324,6 +324,14 @@
+>
+> 	if (conn_from_host) {
+> 		if (sk_acceptq_is_full(sk))
+>+			goto out;
+>+
+>+		/* __vsock_release() may have already flushed the accept queue
+>+		 * and set sk_shutdown = SHUTDOWN_MASK while leaving sk_state ==
+>+		 * TCP_LISTEN.  Enqueuing a child now would leak the child socket
+>+		 * and its VMBUS channel.  Mirror virtio_transport_recv_listen().
+>+		 */
+>+		if (sk->sk_shutdown == SHUTDOWN_MASK)
+> 			goto out;
 
+Should we do this check also if conn_from_host is false?
+
+If it's the case, I guess we can add that check in the checks we do 
+after lock_sock().
+
+Thanks,
 Stefano
+
+>
+> 		new = vsock_create_connected(sk);
+>
 
