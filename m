@@ -1,63 +1,63 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E004538D6A8
-	for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 01:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD5039D6DD
+	for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 01:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789695628; cv=none; b=VkoI+j1TkaCsOB8/fRetS0iuxfoeI2xCa9jKgOldZ/H2C2YKexDllnVr4PglNPLtUtrNlh8t5Zf06f4+Z0NHtDJyNRxe8asKvx/nojQJ5yXBiNiJCC9FBJ6M/NDuPdspy5eF30qilzLXTgZ02EIJuoKq8GyrRJtO8AHMmEyRcBA=
+	t=1789695633; cv=none; b=dVDerqwuVt9drTxNAyaHIc+pE8g3elVk46N+exQSkUtVW9TYGrteRimcCKZQf1yK992+2qRVCvgrmRir9S1wOmCoCzM8lGZ8la8xZi9rlE6g5bRrdA4XEnSh4wqe6xNGaBlXy2YjRkFMR9O95HKVAyig2Q55Y5hA8n9svSfARwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789695628; c=relaxed/simple;
-	bh=yTYDUqcwFkJ+mQb7ZSXeToQmp7rvyhF0lR3QiMuHDOk=;
+	s=arc-20240116; t=1789695633; c=relaxed/simple;
+	bh=MjA16pExLkaZIqlRpPXEjMeSmR5rlH/+8EC5lPDOKJ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tq7DME+1Iqlw4oOxlMmKsAyuaFWJbBbrxmR1CuZDG2nGVHqrzcTRf8nbEuaTzbjMRbeGPuerMJFus/LKwH0Qbph7IOGePzhTqyUL5vXSBbuh/vDCDJ82DmGRISffeO5l/U5r54qSes2/fTjai5dbBgNrJj+JotEF6belrF4rCIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3cKMRhH; arc=none smtp.client-ip=74.125.230.235
+	 MIME-Version; b=si7d12XU+N20xaWkDYFfoRANvjbs1ar0M3SFuFrKyoIkPwZCSVsC4JaIN9ML2N8JAytIlIj9GNvByBpYyaFAKi8yBN5d6cFYfv5wWufTx701cNCqJyY3I2F9z+hMMBnCpYlu7LCeD9il5ghLGx6134hnCO5sQKACusRSeDeuU7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HB9sg9YM; arc=none smtp.client-ip=74.125.230.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3cKMRhH"
-Received: by mail-qk2-f43.google.com with SMTP id af79cd13be357-939eb3249c1so21594185a.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 17 Sep 2026 18:40:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HB9sg9YM"
+Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-912408b2b2dso2913296d6.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 17 Sep 2026 18:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789695624; x=1790300424; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789695628; x=1790300428; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VokQt3PCInSeNOo/Tg+pYrBPXpRCo2iy3+S4MYEH2ts=;
-        b=G3cKMRhHmK/SGKz0h0viXnysKeawPZSfE4NhKkKDoPDD0qJlZfBj0RnUSFuVigMOIx
-         x2fOlu1UtX4SLyOykAdsVbaXxSlJ6Kx6KRYubvsLi48YKMkR9it0eAMtJjdS5+kuT0U2
-         TN/fi5RIp6/5S4jgDjgpxy39/GhayU3LQe0q+e906uJuIa9KJn6no07zV/6eeevSqWY5
-         4GEKGSAvYsXndGjU4PcluIs0/vpHXrncI22bivrIEPutREW9wHg72ASizTxRfJ+V+fsk
-         AjH/0xTORnkqE8NB/WqLYYFzSTyOgkz3bAJN4x3tgWK4cKP5aUMDs0D2SeT46ZBciWSk
-         XSdw==
+        bh=nRAjD5Twbhw4VbK5DrLWKjqqcqzlujpu2AVb3G2zojo=;
+        b=HB9sg9YMxiPeQiuT9r7zNza//AmM2kh7Zjtd4c4dz7V/mdISvY+0FiKuhIDhVxJeGl
+         nUH7PRKL5EN506Nb2PAKQr0su73lPoY4o1b7EhUwe3bCrUhSrcqRpamsncvyRydD9uR7
+         bh97wXviwn1mIoOsxE9BjDSbfJJuy5bgKuAFYaj+iehxueYsSKja15/V/DDByTtZK8K0
+         HyoFMgCWZJRcyQSIdz1xuKaHa4uNysMeijmCxHBrhfOKORzZZMmV0J0bXJRfa8dvsGA9
+         RJnyS6vAb1KfxCYYvPifXH6O6zXP4+SO9GzWB1qQW+6YcKoDUMoLHFV+ZiAeDgL1AXos
+         7Bsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789695624; x=1790300424;
+        d=1e100.net; s=20260707; t=1789695628; x=1790300428;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VokQt3PCInSeNOo/Tg+pYrBPXpRCo2iy3+S4MYEH2ts=;
-        b=e1niWKPSkVyi2zdkhTCdJOTobwO4VQKiUJUDX2s8G8DNTYlaY2tkK+sQMnonEV4hkE
-         CazLhlWAKn+WggKrfWrkwTsOKpkPgImEYWAubgq6dv35tMSPaYfwSfBuarAu0uEvWrbI
-         Hacp3IqUsGk8VJb1C6QPvuCWfTT8H/jYHBLsDO9YUP6pic/sEk6eIU0jZ/KnLsygHn3p
-         wo0jocTT0q/j6taHSsdMvdrqrApY4OH/5Xq8uPPpGIxbrz420tVKhz7Bz5rkG/9lUQXc
-         vuiUeTtTiPIkSrqYGJe8x/5eu6MfYZgxjzrcUzGEZJd8sPbMfT7m4RA5D4wDKhJ3mABc
-         4OnQ==
-X-Gm-Message-State: AFuF++lpps5rcUUz7/zMudUSy/6t687aiAAMqH47mBahcBZLCpU7Xi5Q
-	h+Y/P2dsUvCEuwWG96dHs54GPVO08c32lfYEdmslin69o+zVi5GEpkXD/TnpPCsoDxU=
-X-Gm-Gg: AYBFou1bOk5AZllRQxX9nmW4cISf9KwuoJrHe0+tfPbvwnrG8ZWpNTddqFWoxXKturO
-	IP4Nf3BrqYx3+O4FDYqB25Hmu1pL2oS3IBq4NW+e7p4FPRWtGa2/1WMiCypF6H2cNQt8qvKRAML
-	05fH2wQZMwW7yTwxqHYecVCqfZGWnMBOmpUvN9wQjSU7ZS8osoAm7JjW288KJhnoiqykmg/51Pf
-	dJlVhcIrGITO6ViKJqpULdgP4lj+13ydHXZDpvaAxsnQvWUv3VBw7EX5OuQHY4bfeaIq220weqv
-	EQZYoOIXIbQEzULwAxN9DHEBHvsdLvvxb10ev9K4a61uI0UkRWKuRZY0U1PVce7T7Inhzg4/H2v
-	HUXNgZCfgQSt9sNmBHiDBYDscvh/z0Bsb/XVBYSL3CxZA9beQVxt87K83Tbc9KcaNqwzLv+TSwz
-	6Y6ibR+1gaiROOMPARfG86TMOGqKAnXv1gf3GvLAZEQVQcWBJFhl4f5LxMcbxfDluMHBKq3oQds
-	0MjqtYq4r55klAkxdYiyQ==
-X-Received: by 2002:a05:620a:3187:b0:93b:cb6d:6d73 with SMTP id af79cd13be357-93bdc730deemr128890985a.32.1789695624426;
-        Thu, 17 Sep 2026 18:40:24 -0700 (PDT)
+        bh=nRAjD5Twbhw4VbK5DrLWKjqqcqzlujpu2AVb3G2zojo=;
+        b=vutk/0kNrQiqdYEgZ5lT2FxXWZWMYg+pLWHVSuv35XYF61ONKi6l3Y3JOF/3raqRWJ
+         tUp+jeMUfm8wZEytgg/JyDcGmDHFJv2IkN4S35V7rxJK3TiPXogDa2U2aXi0/RiOrCux
+         CxYVVq2G8Zm9IAtrRkvjv01Fnf/W6KwTcVeIgiQ14tLq3SAw6olwpBvEOEUX3my91YiS
+         W/z8Uj4zR8Q8Yi6olhxY1ghQwskH/cViCdTne0a2OprL0widHjetpNVGMeUvXoExAUjv
+         9FhS1Mu8B7kBhvv1nYL92OrEhFIvZcDcXKDdAvq72IZRzQzrgrNkPSSEP93sH5v4UWKg
+         hq/w==
+X-Gm-Message-State: AFuF++nFCzs30YgeYstFd7cfLI6YZIeZQXaD3iFp0ZkfvONBhCcfdPGi
+	zvRB4rLGYPmGZLFT70xWMaOzoN8LbRonbLdBLY/jtQthkyxWv7ODezrFFlYFOESJ5Ok=
+X-Gm-Gg: AYBFou1OT/uIHE1/KzCq+hUHIf4msHglRFSO73fFL6UVN6LuEXGQozzGCTOSV8qRnmL
+	49oeXy8orF4oGETUMegyxxIsjAByn++nRikVwiKosYcmfJZfrmiwRpUECBgpYUFRxhhusFJBkaX
+	KuzlAcrMWOc8u+SqhI579HSisquqysrA0ArDGkSjsI9actPFZSD+l/gRs5CMOfaDAXJtCptn+si
+	CKCjhMb5EqrcGrAw//pyguB2iiANhz7rQX76p5w+M/Ghz55MaYStL3TlvH2g0gicBsTmdwpXRtL
+	kwdVcapv/zo6RAqzwj3U4lv8sNpRUy4btopVwIQ+WQdAkoT6QURHhKklKQPvpwI3NRbKNEZP2hQ
+	HHsDhIJWxqqRuEtornlnC6PVLwWv+c1yqlxnCvsZ70xOdZmgsKCrgX5rv7dMqZd4N+wjfHc1CzS
+	VXhvanYQpGAK3oZRFiUd8k4ieCoFXrURmRkWzwA+M6A9K/iOgGwBBPcBoa/BdWy6QPrVq6RrFM0
+	xuLVgrg+0ycHNdnXeWn7kqAsKdSY+4Q
+X-Received: by 2002:a05:620a:1a17:b0:93b:d79b:9a64 with SMTP id af79cd13be357-93bdca9c9eemr126662685a.69.1789695627605;
+        Thu, 17 Sep 2026 18:40:27 -0700 (PDT)
 Received: from emedev.tailf75c28.ts.net ([148.222.209.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93be0e4f987sm13002285a.14.2026.09.17.18.40.22
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93be0e4f987sm13002285a.14.2026.09.17.18.40.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 18:40:23 -0700 (PDT)
+        Thu, 17 Sep 2026 18:40:27 -0700 (PDT)
 From: Emerson Busson <emersonbusson@gmail.com>
 To: linux-hyperv@vger.kernel.org
 Cc: kys@microsoft.com,
@@ -66,9 +66,9 @@ Cc: kys@microsoft.com,
 	decui@microsoft.com,
 	linux-kernel@vger.kernel.org,
 	emersonbusson@gmail.com
-Subject: [PATCH 1/2] hv: vmbus: prevent control-plane starvation and balloon thrash under memory pressure
-Date: Thu, 17 Sep 2026 22:40:16 -0300
-Message-ID: <20260918014017.2536753-2-emersonbusson@gmail.com>
+Subject: [PATCH 2/2] hv: vmbus: add virtual memory fallback for ring buffer allocations under memory pressure
+Date: Thu, 17 Sep 2026 22:40:17 -0300
+Message-ID: <20260918014017.2536753-3-emersonbusson@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260918014017.2536753-1-emersonbusson@gmail.com>
 References: <20260918014017.2536753-1-emersonbusson@gmail.com>
@@ -80,122 +80,203 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Under Microsoft WSL2 and Hyper-V guest environments, workloads
-generating heavy memory allocation and rapid page dirtiness can drive
-the guest kernel into aggressive direct reclaim. When guest available
-memory drops below critical thresholds (~400-512 MB), atomic page
-allocations (GFP_ATOMIC) for synthetic VMBus packet rings, virtual
-networking (netvsc), and balloon management fail.
+When VMBus sub-channels (such as synthetic SCSI, network, or vsock
+channels) are dynamically opened during periods of sustained memory
+load or memory tier eviction, `vmbus_alloc_ring()` attempts to
+allocate physically contiguous memory using
+`alloc_pages(GFP_KERNEL | __GFP_ZERO, order)`.
 
-Because the guest is unable to allocate atomic buffers to service host
-heartbeats, the Windows Host Compute System (HCS) and Hyper-V watchdog
-infer that the guest kernel has hard-locked. This triggers an abrupt
-virtual network switch teardown (Hyper-V-VmSwitch Event 102/291) and
-forces a VM restart before the guest Linux OOM killer can intervene.
+For standard rings (order-7, 512 KiB contiguous memory), high buddy
+allocator fragmentation under memory pressure frequently causes
+`alloc_pages()` to fail with -ENOMEM even when ample total virtual
+memory is available. This manifests in userspace as connection
+timeouts (e.g. `accept4 failed 110: Connection timed out` on WSL2 vsock
+control planes).
 
-Furthermore, under such memory pressure, the host balloon driver may
-simultaneously request balloon inflation, exacerbating memory
-starvation.
-
-This patch addresses the issue in two architecture-neutral ways:
-1. Auto-calibrates `vm.min_free_kbytes` during `late_initcall` via
-   `ms_hyperv_init_memory_headroom` in `drivers/hv/hv_common.c` to a
-   dynamic floor scaled to total guest RAM (clamped between 64 MiB and
-   512 MiB). Running as `late_initcall` ensures `totalram_pages()` is
-   fully cataloged. This guarantees that physical pages remain
-   permanently reserved for kernel atomic allocations and VMBus
-   communication.
-2. Introduces a memory pressure check in `drivers/hv/hv_balloon.c` to
-   defer balloon inflation whenever available memory drops below the
-   critical threshold (`totalram_pages() / 32`), avoiding competing
-   with kswapd.
+This patch introduces a resilient fallback mechanism:
+1. When `alloc_pages()` fails due to external fragmentation,
+   `vmbus_alloc_ring()` falls back to `vzalloc_node()` (or `vzalloc()`)
+   to satisfy the buffer allocation from virtually contiguous pages.
+2. In `hv_ringbuffer_init()`, detects `is_vmalloc_addr(virt_addr)` and
+   populates the `pages_wraparound` mapping array using
+   `vmalloc_to_page()`.
+3. In `vmbus_free_ring()`, tracks `ringbuffer_is_vmalloc` and calls
+   `vfree()` safely, preserving Confidential VM (CoCo) memory
+   re-encryption isolation checks prior to release.
 
 Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
 ---
- drivers/hv/hv_balloon.c | 12 ++++++++++++
- drivers/hv/hv_common.c  | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ drivers/hv/channel.c      | 46 ++++++++++++++++++++++++++++++++++-----
+ drivers/hv/hyperv_vmbus.h |  2 +-
+ drivers/hv/ring_buffer.c  | 19 +++++++++++-----
+ include/linux/hyperv.h    |  2 ++
+ 4 files changed, 57 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-index 2b4080e51..41cf97329 100644
---- a/drivers/hv/hv_balloon.c
-+++ b/drivers/hv/hv_balloon.c
-@@ -26,6 +26,7 @@
- #include <linux/percpu_counter.h>
- #include <linux/page_reporting.h>
- #include <linux/sizes.h>
-+#include <linux/mm.h>
- 
- #include <linux/hyperv.h>
- #include <hyperv/hvhdk.h>
-@@ -1205,6 +1206,17 @@ static unsigned int alloc_balloon_pages(struct hv_dynmem_device *dm,
- 	unsigned int i, j;
- 	struct page *pg;
- 
-+	/*
-+	 * Defer balloon inflation if guest is in critical reclaim zone.
-+	 * Competing with kswapd under pressure starves VMBus channels.
-+	 * Evaluates against 3.125% of total system RAM to avoid forbidden
-+	 * out-of-core extern mutations while maintaining memory headroom.
-+	 */
-+	if (si_mem_available() < (totalram_pages() / 32)) {
-+		pr_warn_ratelimited("hv_balloon: balloon inflation deferred; guest memory constrained\n");
-+		return 0;
-+	}
-+
- 	for (i = 0; i < num_pages / alloc_unit; i++) {
- 		if (bl_resp->hdr.size + sizeof(union dm_mem_page_range) >
- 			HV_HYP_PAGE_SIZE)
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 71fd3ea4f..8a7ee00b6 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -28,6 +28,8 @@
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 162d6aeec..f0fb3dd8f 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -12,6 +12,7 @@
+ #include <linux/sched.h>
+ #include <linux/wait.h>
+ #include <linux/mm.h>
++#include <linux/vmalloc.h>
  #include <linux/slab.h>
- #include <linux/dma-map-ops.h>
- #include <linux/set_memory.h>
-+#include <linux/mm.h>
-+#include <linux/init.h>
- #include <hyperv/hvhdk.h>
- #include <asm/mshyperv.h>
+ #include <linux/module.h>
+ #include <linux/hyperv.h>
+@@ -153,13 +154,20 @@ void vmbus_free_ring(struct vmbus_channel *channel)
+ 	hv_ringbuffer_cleanup(&channel->outbound);
+ 	hv_ringbuffer_cleanup(&channel->inbound);
  
-@@ -397,6 +399,36 @@ int __init hv_common_init(void)
- 	return 0;
+-	if (channel->ringbuffer_page) {
++	if (channel->ringbuffer_is_vmalloc && channel->ringbuffer_page_virt) {
++		/* In a CoCo VM leak the memory if it didn't get re-encrypted */
++		if (!channel->ringbuffer_gpadlhandle.decrypted)
++			vfree(channel->ringbuffer_page_virt);
++		channel->ringbuffer_page_virt = NULL;
++		channel->ringbuffer_is_vmalloc = false;
++	} else if (channel->ringbuffer_page) {
+ 		/* In a CoCo VM leak the memory if it didn't get re-encrypted */
+ 		if (!channel->ringbuffer_gpadlhandle.decrypted)
+ 			__free_pages(channel->ringbuffer_page,
+ 			     get_order(channel->ringbuffer_pagecount
+ 				       << PAGE_SHIFT));
+ 		channel->ringbuffer_page = NULL;
++		channel->ringbuffer_page_virt = NULL;
+ 	}
  }
+ EXPORT_SYMBOL_GPL(vmbus_free_ring);
+@@ -182,10 +190,26 @@ int vmbus_alloc_ring(struct vmbus_channel *newchannel,
+ 	if (!page)
+ 		page = alloc_pages(GFP_KERNEL|__GFP_ZERO, order);
  
-+extern int min_free_kbytes;
-+extern void setup_per_zone_wmarks(void);
+-	if (!page)
+-		return -ENOMEM;
++	if (!page) {
++		/* Fallback to virtual memory allocation under buddy fragmentation */
++		void *virt_addr = vzalloc_node(send_size + recv_size,
++					       cpu_to_node(newchannel->target_cpu));
 +
-+/*
-+ * Ensure sufficient atomic page headroom for Hyper-V synthetic devices
-+ * (vmbus, netvsc, balloon) to prevent host watchdog timeouts under pressure.
-+ */
-+static int __init ms_hyperv_init_memory_headroom(void)
-+{
-+	unsigned long total_ram_kb;
-+	unsigned long min_headroom_kb;
++		if (!virt_addr)
++			virt_addr = vzalloc(send_size + recv_size);
 +
-+	if (!hv_is_hyperv_initialized())
-+		return 0;
++		if (!virt_addr)
++			return -ENOMEM;
 +
-+	total_ram_kb = totalram_pages() * (PAGE_SIZE / 1024);
-+	/* Scale headroom: 3.125% of RAM, clamped between 64MB and 512MB */
-+	min_headroom_kb = clamp_t(unsigned long, total_ram_kb / 32, 64 * 1024, 512 * 1024);
-+
-+	if (min_free_kbytes < min_headroom_kb) {
-+		pr_info("Hyper-V: Calibrating min_free_kbytes from %d kB to %lu kB for VMBus resilience\n",
-+			min_free_kbytes, min_headroom_kb);
-+		min_free_kbytes = min_headroom_kb;
-+		setup_per_zone_wmarks();
++		newchannel->ringbuffer_page = NULL;
++		newchannel->ringbuffer_page_virt = virt_addr;
++		newchannel->ringbuffer_is_vmalloc = true;
++	} else {
++		newchannel->ringbuffer_page = page;
++		newchannel->ringbuffer_page_virt = page_address(page);
++		newchannel->ringbuffer_is_vmalloc = false;
 +	}
+ 
+-	newchannel->ringbuffer_page = page;
+ 	newchannel->ringbuffer_pagecount = (send_size + recv_size) >> PAGE_SHIFT;
+ 	newchannel->ringbuffer_send_offset = send_size >> PAGE_SHIFT;
+ 
+@@ -639,6 +663,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 	struct vmbus_channel_open_channel *open_msg;
+ 	struct vmbus_channel_msginfo *open_info = NULL;
+ 	struct page *page = newchannel->ringbuffer_page;
++	void *inbound_virt = NULL;
+ 	u32 send_pages, recv_pages;
+ 	unsigned long flags;
+ 	int err;
+@@ -669,6 +694,8 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 	newchannel->ringbuffer_gpadlhandle.gpadl_handle = 0;
+ 
+ 	err = __vmbus_establish_gpadl(newchannel, HV_GPADL_RING,
++				      newchannel->ringbuffer_page_virt ?
++				      newchannel->ringbuffer_page_virt :
+ 				      page_address(newchannel->ringbuffer_page),
+ 				      (send_pages + recv_pages) << PAGE_SHIFT,
+ 				      newchannel->ringbuffer_send_offset << PAGE_SHIFT,
+@@ -677,11 +704,18 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 		goto error_clean_ring;
+ 
+ 	err = hv_ringbuffer_init(&newchannel->outbound,
+-				 page, send_pages, 0);
++				 page, newchannel->ringbuffer_page_virt,
++				 send_pages, 0);
+ 	if (err)
+ 		goto error_free_gpadl;
+ 
+-	err = hv_ringbuffer_init(&newchannel->inbound, &page[send_pages],
++	if (newchannel->ringbuffer_page_virt)
++		inbound_virt = newchannel->ringbuffer_page_virt +
++			       (send_pages << PAGE_SHIFT);
 +
-+	return 0;
-+}
-+late_initcall(ms_hyperv_init_memory_headroom);
-+
- void __init ms_hyperv_late_init(void)
++	err = hv_ringbuffer_init(&newchannel->inbound,
++				 page ? &page[send_pages] : NULL,
++				 inbound_virt,
+ 				 recv_pages, newchannel->max_pkt_size);
+ 	if (err)
+ 		goto error_free_gpadl;
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 34943de7d..ec06c30d2 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -182,7 +182,7 @@ extern int hv_synic_cleanup(unsigned int cpu);
+ void hv_ringbuffer_pre_init(struct vmbus_channel *channel);
+ 
+ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+-		       struct page *pages, u32 pagecnt, u32 max_pkt_size);
++		       struct page *pages, void *virt_addr, u32 pagecnt, u32 max_pkt_size);
+ 
+ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info);
+ 
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 23ce1fb70..e6d4cf185 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -184,7 +184,7 @@ void hv_ringbuffer_pre_init(struct vmbus_channel *channel)
+ 
+ /* Initialize the ring buffer. */
+ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+-		       struct page *pages, u32 page_cnt, u32 max_pkt_size)
++		       struct page *pages, void *virt_addr, u32 page_cnt, u32 max_pkt_size)
  {
- 	struct acpi_table_header *header;
+ 	struct page **pages_wraparound;
+ 	int i;
+@@ -201,10 +201,19 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+ 	if (!pages_wraparound)
+ 		return -ENOMEM;
+ 
+-	pages_wraparound[0] = pages;
+-	for (i = 0; i < 2 * (page_cnt - 1); i++)
+-		pages_wraparound[i + 1] =
+-			&pages[i % (page_cnt - 1) + 1];
++	if (virt_addr && is_vmalloc_addr(virt_addr)) {
++		pages_wraparound[0] = vmalloc_to_page(virt_addr);
++		for (i = 0; i < 2 * (page_cnt - 1); i++) {
++			void *curr_virt = virt_addr + ((i % (page_cnt - 1) + 1) << PAGE_SHIFT);
++
++			pages_wraparound[i + 1] = vmalloc_to_page(curr_virt);
++		}
++	} else {
++		pages_wraparound[0] = pages;
++		for (i = 0; i < 2 * (page_cnt - 1); i++)
++			pages_wraparound[i + 1] =
++				&pages[i % (page_cnt - 1) + 1];
++	}
+ 
+ 	ring_info->ring_buffer = (struct hv_ring_buffer *)
+ 		vmap(pages_wraparound, page_cnt * 2 - 1, VM_MAP,
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index a76f556f5..63203df4d 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -807,6 +807,8 @@ struct vmbus_channel {
+ 
+ 	/* Allocated memory for ring buffer */
+ 	struct page *ringbuffer_page;
++	void *ringbuffer_page_virt;
++	bool ringbuffer_is_vmalloc;
+ 	u32 ringbuffer_pagecount;
+ 	u32 ringbuffer_send_offset;
+ 	struct hv_ring_buffer_info outbound;	/* send to parent */
 -- 
 2.43.0
 
