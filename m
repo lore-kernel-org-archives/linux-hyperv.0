@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CDDE4E5332;
-	Fri, 18 Sep 2026 11:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A53804E534C;
+	Fri, 18 Sep 2026 11:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789732669; cv=none; b=gISEMZ/thO3VAO53bFp5AKiL21FEkXlr2oiSg9+pMTzEe8iPrebS6Oa+ehrrkeM8s6aI7KKj5vfPDFOBnYAAYNHVUuHgTDZyIklHzweZJoOaZluU7Cj8T+O6m6aFyCLY5V2qA+XI4kSgeARmklrknn0IB/Rc4c4mPktU1GH2Lk4=
+	t=1789732671; cv=none; b=b2qVP2AjcRKc8HTVlm7izvvIu43RAdR6ClvUu2bEXYUIXJAQ6IiYNvtk5S1rlS91bFLI33R9DeZJi2YMqoVlTNTLYiYd/SzJg5LLszhIjFm+RaPf09m5+dtqLJ73j51Ft0dugYx6Ms5tK6eqcGMhe8wr6teEOg7hHIPiMJoXkBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789732669; c=relaxed/simple;
-	bh=S9CP+L/RgFRJCuk1PTUfzCx+J1bqlERwoM2PaRrn1D0=;
+	s=arc-20240116; t=1789732671; c=relaxed/simple;
+	bh=HIV8qE9QB/ZlwK1oX1lfInjQrCscht35Eu82HdG+2H8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n0JVch9E4eDBPUesINVIBuCdDbEUDwW4c1P3s1ZSI8T/PIdjHHQGImowGKn3y8rkydcaxBUF6ts8ZdyijTEipW+E483ve6zkTCwmtZ9K5o4fMJngOTzG4dPvnKdM3t361nmb8QdNso7fQyf/lT4hSb5HNN3jq9R6HHjD9nVqGN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ACnoiKj/; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=nhDiuWezmV5qva0QISd5AiUB01Ag6ZNP2B3f33zUaHELa3crUd4CYSB1PcLkm9JsnlufvFlXS9JHkrvrRPm5Yect6IU3JkwSh86d6MaHigReJwMtFfvq6ykHwrgMvUbDKbhzCOpgatplg/TfnJ6AsK8AQaTVjvNP9HL9jvl+93U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kB3z2M1Y; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ACnoiKj/"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kB3z2M1Y"
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 66AF520B7166;
-	Fri, 18 Sep 2026 04:57:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 66AF520B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id 236EA20B7169;
+	Fri, 18 Sep 2026 04:57:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 236EA20B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789732621;
-	bh=TjgKX2J9Dixnu+lAwzjsVfBFkbjUXHFd/rnDdpxlKzk=;
+	s=default; t=1789732623;
+	bh=K8HpHWrBu6+EVUnTODc3P1tBZpCYm1MaAF4ztVy7ymY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ACnoiKj/LcYyMun5cd6827JTfr1MEv28Ad17l4ikO+an2yr70ybR+ICEFASV+cRQj
-	 0rOPgJbCWBtWLeGZRT7ILAdh5rCRnDB9lxXLDRSjBYmQwnxtY/Xqow5Y5WA2hYFWHJ
-	 Wr0BKJgME/oC0BnfVKStSMhI1dMogP7EUAgC6eWA=
+	b=kB3z2M1YKifOHWOlJ1/vMSXExqfYZo1sKxKNBK7IiAA1t3ohlQgx5H6QBdDkK7c8v
+	 kpGkerl3SAvuHYyxwEMz9UdLJ76cfA6P7bPLFUsPe5JfQMJxwjIyPyAt66jiYnHZq7
+	 kTzCHXxLZnxREyWuaAfFAoA/tmkpRkwI4W0ppgb8=
 From: Wei Hu <weh@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -32,11 +32,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Wei Hu <weh@microsoft.com>
-Subject: [PATCH v6 2/9] mshv: clear SynIC mappings before freeing them
-Date: Fri, 18 Sep 2026 11:57:14 +0000
-Message-ID: <20260918115741.3791682-3-weh@linux.microsoft.com>
+	Long Li <longli@microsoft.com>
+Subject: [PATCH v6 3/9] mshv: add SEV-SNP UAPI definitions
+Date: Fri, 18 Sep 2026 11:57:15 +0000
+Message-ID: <20260918115741.3791682-4-weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260918115741.3791682-1-weh@linux.microsoft.com>
 References: <20260908121403.1160280-1-weh@linux.microsoft.com>
@@ -47,312 +46,369 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+From: Wei Liu <wei.liu@kernel.org>
 
-Publish and withdraw per-CPU SynIC mapping pointers explicitly so
-interrupt readers cannot retain stale addresses across CPU hotplug
-teardown or initialization failure. Address the CPUHP callback CPU
-directly and guard all cleanup paths against missing pages.
+Add the MSHV UAPI and Microsoft Hypervisor ABI definitions required to
+create and manage SEV-SNP child partitions.
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
+Use fixed-size ioctl headers with aligned userspace pointers for variable
+page arrays and the launch-finish payload. The host-access interface
+names its input as guest GPAs, while isolated import takes guest PFNs and
+an explicit page-size value. Keep the public launch structures naturally
+aligned and represent the SNP policy as a raw 64-bit ABI value rather
+than compiler-dependent bitfields.
+
+Until the implementation is added later in the series, continue to reject
+every non-NONE isolation type rather than silently creating an unisolated
+partition.
+
+Both array ioctls return the exact number of input entries completed. The
+field is MBZ on input; userspace may resume at array + completed with
+count - completed. Completed operations are not rolled back when a later
+entry fails.
+
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/hv/mshv_synic.c | 136 ++++++++++++++++++++--------------------
- 1 file changed, 69 insertions(+), 67 deletions(-)
+ drivers/hv/mshv_root_main.c |   4 +-
+ include/hyperv/hvgdk_mini.h |  19 +++++++
+ include/hyperv/hvhdk.h      |  45 +++++++++++++++
+ include/hyperv/hvhdk_mini.h |  53 ++++++++++++++++++
+ include/uapi/linux/mshv.h   | 108 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 227 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index 7c168e5a740d..c77688b8d23c 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -28,33 +28,31 @@ static int mshv_sint_irq = -1; /* Linux IRQ for mshv_sint_vector */
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 4e7812d8958f..de6519ac677b 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -2087,7 +2087,7 @@ static long mshv_ioctl_process_pt_flags(void __user *user_arg, u64 *pt_flags,
+ 		return -EFAULT;
  
- static u32 synic_event_ring_get_queued_port(u32 sint_index)
- {
--	struct hv_synic_event_ring_page **event_ring_page;
-+	struct hv_synic_event_ring_page *event_ring_page;
- 	volatile struct hv_synic_event_ring *ring;
- 	struct hv_synic_pages *spages;
--	u8 **synic_eventring_tail;
-+	u8 *eventring_tail;
- 	u32 message;
- 	u8 tail;
+ 	if ((args.pt_flags & ~MSHV_PT_FLAGS_MASK) ||
+-	    args.pt_isolation >= MSHV_PT_ISOLATION_COUNT)
++	    args.pt_isolation != MSHV_PT_ISOLATION_NONE)
+ 		return -EINVAL;
  
- 	spages = this_cpu_ptr(synic_pages);
--	event_ring_page = &spages->synic_event_ring_page;
--	synic_eventring_tail = (u8 **)this_cpu_ptr(hv_synic_eventring_tail);
-+	event_ring_page = READ_ONCE(spages->synic_event_ring_page);
-+	eventring_tail = READ_ONCE(*this_cpu_ptr(hv_synic_eventring_tail));
+ 	disabled_procs = &cr_props->disabled_processor_features;
+@@ -2100,7 +2100,7 @@ static long mshv_ioctl_process_pt_flags(void __user *user_arg, u64 *pt_flags,
  
--	if (unlikely(!*synic_eventring_tail)) {
-+	if (unlikely(!eventring_tail)) {
- 		pr_debug("Missing synic event ring tail!\n");
- 		return 0;
- 	}
--	tail = (*synic_eventring_tail)[sint_index];
-+	tail = eventring_tail[sint_index];
+ 		/* Re-validate v1 fields after second copy_from_user() */
+ 		if ((args.pt_flags & ~MSHV_PT_FLAGS_MASK) ||
+-		    args.pt_isolation >= MSHV_PT_ISOLATION_COUNT)
++		    args.pt_isolation != MSHV_PT_ISOLATION_NONE)
+ 			return -EINVAL;
  
--	if (unlikely(!*event_ring_page)) {
-+	if (unlikely(!event_ring_page)) {
- 		pr_debug("Missing synic event ring page!\n");
- 		return 0;
- 	}
+ 		if (args.pt_num_cpu_fbanks != MSHV_NUM_CPU_FEATURES_BANKS ||
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 6a4e8b9d570f..a53c0f59994a 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -497,6 +497,9 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_UNMAP_VP_STATE_PAGE			0x00e2
+ #define HVCALL_GET_VP_STATE				0x00e3
+ #define HVCALL_SET_VP_STATE				0x00e4
++#define HVCALL_IMPORT_ISOLATED_PAGES			0x00ef
++#define HVCALL_COMPLETE_ISOLATED_IMPORT			0x00f1
++#define HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST		0x00f2
+ #define HVCALL_GET_VP_CPUID_VALUES			0x00f4
+ #define HVCALL_GET_PARTITION_PROPERTY_EX		0x0101
+ #define HVCALL_MMIO_READ				0x0106
+@@ -1065,6 +1068,9 @@ enum hv_register_name {
+ 	HV_REGISTER_VSM_PARTITION_CONFIG	= 0x000D0007,
  
--	ring = &(*event_ring_page)->sint_event_ring[sint_index];
-+	ring = &event_ring_page->sint_event_ring[sint_index];
- 
--	/*
--	 * Get the message.
--	 */
-+	/* Get the message. */
- 	message = ring->data[tail];
- 
- 	if (!message) {
-@@ -78,9 +76,6 @@ static u32 synic_event_ring_get_queued_port(u32 sint_index)
- 			mb();
- 			message = ring->data[tail];
- 
--			/*
--			 * Ok, lets bail out.
--			 */
- 			if (!message)
- 				return 0;
- 		}
-@@ -88,15 +83,13 @@ static u32 synic_event_ring_get_queued_port(u32 sint_index)
- 		ring->signal_masked = 1;
- 	}
- 
--	/*
--	 * Clear the message in the ring buffer.
--	 */
-+	/* Clear the message in the ring buffer. */
- 	ring->data[tail] = 0;
- 
- 	if (++tail == HV_SYNIC_EVENT_RING_MESSAGE_COUNT)
- 		tail = 0;
- 
--	(*synic_eventring_tail)[sint_index] = tail;
-+	eventring_tail[sint_index] = tail;
- 
- 	return message;
- }
-@@ -408,16 +401,17 @@ mshv_intercept_isr(struct hv_message *msg)
- void mshv_isr(void)
- {
- 	struct hv_synic_pages *spages = this_cpu_ptr(synic_pages);
--	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
-+	struct hv_message_page *msg_page;
- 	struct hv_message *msg;
- 	bool handled;
- 
--	if (unlikely(!(*msg_page))) {
-+	msg_page = READ_ONCE(spages->hyp_synic_message_page);
-+	if (unlikely(!msg_page)) {
- 		pr_debug("Missing synic page!\n");
- 		return;
- 	}
- 
--	msg = &((*msg_page)->sint_message[HV_SYNIC_INTERCEPTION_SINT_INDEX]);
-+	msg = &msg_page->sint_message[HV_SYNIC_INTERCEPTION_SINT_INDEX];
- 
- 	/*
- 	 * If the type isn't set, there isn't really a message;
-@@ -462,12 +456,10 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 	union hv_synic_siefp siefp;
- 	union hv_synic_sirbp sirbp;
- 	union hv_synic_sint sint;
--	struct hv_synic_pages *spages = this_cpu_ptr(synic_pages);
--	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
--	struct hv_synic_event_flags_page **event_flags_page =
--			&spages->synic_event_flags_page;
--	struct hv_synic_event_ring_page **event_ring_page =
--			&spages->synic_event_ring_page;
-+	struct hv_synic_pages *spages = per_cpu_ptr(synic_pages, cpu);
-+	struct hv_message_page *msg_page;
-+	struct hv_synic_event_flags_page *event_flags_page;
-+	struct hv_synic_event_ring_page *event_ring_page;
- 	/*
- 	 * VMBus owns SIMP/SIEFP/SCONTROL when it is active.
- 	 * See hv_hyp_synic_enable_regs() for that initialization.
-@@ -484,11 +476,11 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 		simp.simp_enabled = true;
- 		hv_set_non_nested_msr(HV_MSR_SIMP, simp.as_uint64);
- 	}
--	*msg_page = memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
--			     HV_HYP_PAGE_SIZE,
--			     MEMREMAP_WB);
-+	msg_page = memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
-+			    HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+	WRITE_ONCE(spages->hyp_synic_message_page, msg_page);
- 
--	if (!(*msg_page))
-+	if (!msg_page)
- 		goto cleanup_simp;
- 
- 	/*
-@@ -500,35 +492,37 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 		siefp.siefp_enabled = true;
- 		hv_set_non_nested_msr(HV_MSR_SIEFP, siefp.as_uint64);
- 	}
--	*event_flags_page = memremap(siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT,
--				     HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+	event_flags_page = memremap(siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT,
-+				    HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+	WRITE_ONCE(spages->synic_event_flags_page, event_flags_page);
- 
--	if (!(*event_flags_page))
-+	if (!event_flags_page)
- 		goto cleanup_siefp;
- 
- 	/* Setup the Synic's event ring page */
- 	sirbp.as_uint64 = hv_get_non_nested_msr(HV_MSR_SIRBP);
- 
- 	if (hv_root_partition()) {
--		*event_ring_page = memremap(sirbp.base_sirbp_gpa << HV_HYP_PAGE_SHIFT,
--					    HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+		event_ring_page = memremap(sirbp.base_sirbp_gpa << HV_HYP_PAGE_SHIFT,
-+					   HV_HYP_PAGE_SIZE, MEMREMAP_WB);
- 
--		if (!(*event_ring_page))
-+		if (!event_ring_page)
- 			goto cleanup_siefp;
- 	} else {
- 		/*
- 		 * On L1VH the hypervisor does not provide a SIRBP page.
- 		 * Allocate one and program its GPA into the MSR.
- 		 */
--		*event_ring_page = (struct hv_synic_event_ring_page *)
-+		event_ring_page = (struct hv_synic_event_ring_page *)
- 			get_zeroed_page(GFP_KERNEL);
- 
--		if (!(*event_ring_page))
-+		if (!event_ring_page)
- 			goto cleanup_siefp;
- 
--		sirbp.base_sirbp_gpa = virt_to_phys(*event_ring_page)
-+		sirbp.base_sirbp_gpa = virt_to_phys(event_ring_page)
- 				>> HV_HYP_PAGE_SHIFT;
- 	}
-+	WRITE_ONCE(spages->synic_event_ring_page, event_ring_page);
- 
- 	sirbp.sirbp_enabled = true;
- 	hv_set_non_nested_msr(HV_MSR_SIRBP, sirbp.as_uint64);
-@@ -565,19 +559,22 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 	return 0;
- 
- cleanup_siefp:
--	if (*event_flags_page)
--		memunmap(*event_flags_page);
- 	if (!vmbus_active) {
- 		siefp.siefp_enabled = false;
- 		hv_set_non_nested_msr(HV_MSR_SIEFP, siefp.as_uint64);
- 	}
-+	WRITE_ONCE(spages->synic_event_ring_page, NULL);
-+	WRITE_ONCE(spages->synic_event_flags_page, NULL);
-+	if (event_flags_page)
-+		memunmap(event_flags_page);
- cleanup_simp:
--	if (*msg_page)
--		memunmap(*msg_page);
- 	if (!vmbus_active) {
- 		simp.simp_enabled = false;
- 		hv_set_non_nested_msr(HV_MSR_SIMP, simp.as_uint64);
- 	}
-+	WRITE_ONCE(spages->hyp_synic_message_page, NULL);
-+	if (msg_page)
-+		memunmap(msg_page);
- 
- 	return -EFAULT;
- }
-@@ -586,15 +583,17 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- {
- 	union hv_synic_sint sint;
- 	union hv_synic_sirbp sirbp;
--	struct hv_synic_pages *spages = this_cpu_ptr(synic_pages);
--	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
--	struct hv_synic_event_flags_page **event_flags_page =
--		&spages->synic_event_flags_page;
--	struct hv_synic_event_ring_page **event_ring_page =
--		&spages->synic_event_ring_page;
-+	struct hv_synic_pages *spages = per_cpu_ptr(synic_pages, cpu);
-+	struct hv_message_page *msg_page;
-+	struct hv_synic_event_flags_page *event_flags_page;
-+	struct hv_synic_event_ring_page *event_ring_page;
- 	/* VMBus owns SIMP/SIEFP/SCONTROL when it is active */
- 	bool vmbus_active = hv_vmbus_exists();
- 
-+	msg_page = READ_ONCE(spages->hyp_synic_message_page);
-+	event_flags_page = READ_ONCE(spages->synic_event_flags_page);
-+	event_ring_page = READ_ONCE(spages->synic_event_ring_page);
+ #if defined(CONFIG_X86)
++	/* AMD SEV-SNP configuration register */
++	HV_X64_REGISTER_SEV_CONTROL				= 0x00090040,
 +
- 	/* Disable the interrupt */
- 	sint.as_uint64 = hv_get_non_nested_msr(HV_MSR_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX);
- 	sint.masked = true;
-@@ -614,24 +613,18 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- 	sirbp.as_uint64 = hv_get_non_nested_msr(HV_MSR_SIRBP);
- 	sirbp.sirbp_enabled = false;
+ 	/* X64 Debug Registers */
+ 	HV_X64_REGISTER_DR0	= 0x00050000,
+ 	HV_X64_REGISTER_DR1	= 0x00050001,
+@@ -1267,6 +1273,18 @@ union hv_x64_pending_interruption_register {
+ 	} __packed;
+ };
  
--	if (hv_root_partition()) {
--		hv_set_non_nested_msr(HV_MSR_SIRBP, sirbp.as_uint64);
--		memunmap(*event_ring_page);
--	} else {
-+	if (!hv_root_partition())
- 		sirbp.base_sirbp_gpa = 0;
--		hv_set_non_nested_msr(HV_MSR_SIRBP, sirbp.as_uint64);
--		free_page((unsigned long)*event_ring_page);
--	}
-+	hv_set_non_nested_msr(HV_MSR_SIRBP, sirbp.as_uint64);
- 
- 	/*
--	 * Release our mappings of the message and event flags pages.
--	 * When VMBus is not active, we enabled SIMP/SIEFP — disable
--	 * them. Otherwise VMBus owns the MSRs — leave them.
-+	 * When VMBus is not active, disable registers before withdrawing the
-+	 * pointers visible to interrupt readers.
- 	 */
--	memunmap(*event_flags_page);
- 	if (!vmbus_active) {
- 		union hv_synic_simp simp;
- 		union hv_synic_siefp siefp;
-+		union hv_synic_scontrol sctrl;
- 
- 		siefp.as_uint64 = hv_get_non_nested_msr(HV_MSR_SIEFP);
- 		siefp.siefp_enabled = false;
-@@ -640,18 +633,27 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- 		simp.as_uint64 = hv_get_non_nested_msr(HV_MSR_SIMP);
- 		simp.simp_enabled = false;
- 		hv_set_non_nested_msr(HV_MSR_SIMP, simp.as_uint64);
--	}
--	memunmap(*msg_page);
--
--	/* When VMBus is active it owns SCONTROL — leave it. */
--	if (!vmbus_active) {
--		union hv_synic_scontrol sctrl;
- 
- 		sctrl.as_uint64 = hv_get_non_nested_msr(HV_MSR_SCONTROL);
- 		sctrl.enable = 0;
- 		hv_set_non_nested_msr(HV_MSR_SCONTROL, sctrl.as_uint64);
- 	}
- 
-+	WRITE_ONCE(spages->synic_event_ring_page, NULL);
-+	WRITE_ONCE(spages->synic_event_flags_page, NULL);
-+	WRITE_ONCE(spages->hyp_synic_message_page, NULL);
++#ifdef CONFIG_X86
++#define HV_SUPPORTS_SEV_SNP_GUESTS
++union hv_x64_register_sev_control {
++	u64 as_uint64;
++	struct {
++		u64 enable_encrypted_state : 1;
++		u64 reserved_z : 11;
++		u64 vmsa_gpa_page_number : 52;
++	} __packed;
++};
++#endif
 +
-+	if (event_ring_page) {
-+		if (hv_root_partition())
-+			memunmap(event_ring_page);
-+		else
-+			free_page((unsigned long)event_ring_page);
-+	}
-+	if (event_flags_page)
-+		memunmap(event_flags_page);
-+	if (msg_page)
-+		memunmap(msg_page);
-+
- 	return 0;
- }
+ union hv_register_value {
+ 	struct hv_u128 reg128;
+ 	u64 reg64;
+@@ -1286,6 +1304,7 @@ union hv_register_value {
+ #ifdef CONFIG_X86
+ 	union hv_x64_interrupt_state_register interrupt_state;
+ 	union hv_x64_pending_interruption_register pending_interruption;
++	union hv_x64_register_sev_control sev_control;
+ #endif
+ 	union hv_arm64_pending_synthetic_exception_event pending_synthetic_exception_event;
+ };
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 0c89c62c9706..691ac495a095 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -953,4 +953,49 @@ struct hv_input_modify_sparse_spa_page_host_access {
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_LARGE_PAGE      0x4
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_HUGE_PAGE       0x8
  
++enum hv_isolated_page_type {
++	HV_ISOLATED_PAGE_TYPE_NORMAL,
++	HV_ISOLATED_PAGE_TYPE_VMSA,
++	HV_ISOLATED_PAGE_TYPE_ZERO,
++	HV_ISOLATED_PAGE_TYPE_UNMEASURED,
++	HV_ISOLATED_PAGE_TYPE_SECRETS,
++	HV_ISOLATED_PAGE_TYPE_CPUID,
++	HV_ISOLATED_PAGE_TYPE_COUNT
++};
++
++enum hv_isolated_page_size {
++	HV_ISOLATED_PAGE_SIZE_4KB,
++	HV_ISOLATED_PAGE_SIZE_2MB
++};
++
++struct hv_input_import_isolated_pages {
++	u64 partition_id;
++	u32 page_type;
++	u32 page_size;
++	u64 page_number[];
++} __packed;
++
++struct hv_input_issue_psp_guest_request {
++	u64 partition_id;
++	u64 request_page;
++	u64 response_page;
++} __packed;
++
++enum hv_partition_isolation_state {
++	HV_PARTITION_ISOLATION_INVALID,
++	HV_PARTITION_ISOLATION_INSECURE_CLEAN,
++	HV_PARTITION_ISOLATION_INSECURE_DIRTY,
++	HV_PARTITION_ISOLATION_SECURE,
++	HV_PARTITION_ISOLATION_SECURE_DIRTY,
++	HV_PARTITION_ISOLATION_SECURE_TERMINATING,
++};
++
++union hv_partition_isolation_control {
++	u64 as_uint64;
++	struct {
++		u64 runnable : 1;
++		u64 reserved_z : 63;
++	} __packed;
++};
++
+ #endif /* _HV_HVHDK_H */
+diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
+index 035ba20870f7..dd84085c0aff 100644
+--- a/include/hyperv/hvhdk_mini.h
++++ b/include/hyperv/hvhdk_mini.h
+@@ -94,6 +94,8 @@ enum hv_partition_property_code {
+ 
+ 	/* Resource properties */
+ 	HV_PARTITION_PROPERTY_GPA_PAGE_ACCESS_TRACKING		= 0x00050005,
++	HV_PARTITION_PROPERTY_ISOLATION_STATE			= 0x0005000c,
++	HV_PARTITION_PROPERTY_ISOLATION_CONTROL			= 0x0005000d,
+ 	HV_PARTITION_PROPERTY_UNIMPLEMENTED_MSR_ACTION		= 0x00050017,
+ 
+ 	/* Compatibility properties */
+@@ -145,6 +147,57 @@ enum hv_snp_status {
+ 	HV_SNP_STATUS_PSP_INIT_LATE_FAILED = 10,
+ };
+ 
++union hv_snp_guest_policy {
++	struct {
++		u64 minor_version : 8;
++		u64 major_version : 8;
++		u64 smt_allowed : 1;
++		u64 vmpls_required : 1;
++		u64 migration_agent_allowed : 1;
++		u64 debug_allowed : 1;
++		u64 reserved : 44;
++	} __packed;
++	u64 as_uint64;
++};
++
++struct hv_snp_id_block {
++	u8 launch_digest[48];
++	u8 family_id[16];
++	u8 image_id[16];
++	u32 version;
++	u32 guest_svn;
++	union hv_snp_guest_policy policy;
++} __packed;
++
++struct hv_snp_id_auth_info {
++	u32 id_key_algorithm;
++	u32 auth_key_algorithm;
++	u8 reserved0[56];
++	u8 id_block_signature[512];
++	u8 id_key[1028];
++	u8 reserved1[60];
++	u8 id_key_signature[512];
++	u8 author_key[1028];
++} __packed;
++
++struct hv_psp_launch_finish_data {
++	struct hv_snp_id_block id_block;
++	struct hv_snp_id_auth_info id_auth_info;
++	u8 host_data[32];
++	u8 id_block_enabled;
++	u8 author_key_enabled;
++} __packed;
++
++union hv_partition_complete_isolated_import_data {
++	u64 reserved;
++	struct hv_psp_launch_finish_data psp_parameters;
++} __packed;
++
++struct hv_input_complete_isolated_import {
++	u64 partition_id;
++	union hv_partition_complete_isolated_import_data import_data;
++} __packed;
++
+ enum hv_system_property {
+ 	/* Add more values when needed */
+ 	HV_SYSTEM_PROPERTY_SLEEP_STATE = 3,
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 32ff92b6342b..9c665f47ce71 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -36,6 +36,7 @@ enum {
+ 
+ enum {
+ 	MSHV_PT_ISOLATION_NONE,
++	MSHV_PT_ISOLATION_SNP,
+ 	MSHV_PT_ISOLATION_COUNT,
+ };
+ 
+@@ -219,6 +220,108 @@ struct mshv_gpap_access_bitmap {
+ 	__u64 bitmap_ptr;
+ };
+ 
++enum {
++	MSHV_GPA_HOST_ACCESS_BIT_ACQUIRE,
++	MSHV_GPA_HOST_ACCESS_BIT_READABLE,
++	MSHV_GPA_HOST_ACCESS_BIT_WRITABLE,
++	MSHV_GPA_HOST_ACCESS_BIT_LARGE_PAGE,
++	MSHV_GPA_HOST_ACCESS_BIT_COUNT
++};
++
++#define MSHV_GPA_HOST_ACCESS_FLAGS_MASK \
++	((1 << MSHV_GPA_HOST_ACCESS_BIT_COUNT) - 1)
++
++struct mshv_modify_gpa_host_access {
++	__u8 flags;
++	__u8 rsvd[7];
++	__u64 page_count;
++	/*
++	 * MBZ on input; number of guest_gpas entries completed on output.
++	 * Completed entries are not rolled back; resume at guest_gpas +
++	 * completed with page_count - completed entries.
++	 */
++	__u64 completed;
++	__aligned_u64 guest_gpas;
++};
++
++enum {
++	MSHV_ISOLATED_PAGE_NORMAL,
++	MSHV_ISOLATED_PAGE_VMSA,
++	MSHV_ISOLATED_PAGE_ZERO,
++	MSHV_ISOLATED_PAGE_UNMEASURED,
++	MSHV_ISOLATED_PAGE_SECRETS,
++	MSHV_ISOLATED_PAGE_CPUID,
++	MSHV_ISOLATED_PAGE_COUNT
++};
++
++enum {
++	MSHV_ISOLATED_PAGE_SIZE_4KB,
++	MSHV_ISOLATED_PAGE_SIZE_2MB,
++	MSHV_ISOLATED_PAGE_SIZE_COUNT
++};
++
++struct mshv_import_isolated_pages {
++	__u8 page_type;
++	__u8 page_size;
++	__u8 rsvd[6];
++	__u64 page_count;
++	/*
++	 * MBZ on input; number of guest_pfns entries completed on output.
++	 * Completed entries are not rolled back; resume at guest_pfns +
++	 * completed with page_count - completed entries.
++	 */
++	__u64 completed;
++	__aligned_u64 guest_pfns;
++};
++
++struct mshv_issue_psp_guest_request {
++	__u64 req_gpa;
++	__u64 rsp_gpa;
++};
++
++struct mshv_sev_snp_ap_create {
++	__u64 vp_id;
++	__u64 vmsa_gpa;
++};
++
++struct mshv_snp_id_block {
++	__u8 launch_digest[48];
++	__u8 family_id[16];
++	__u8 image_id[16];
++	__u32 version;
++	__u32 guest_svn;
++	__u64 policy;
++};
++
++struct mshv_snp_id_auth_info {
++	__u32 id_key_algorithm;
++	__u32 auth_key_algorithm;
++	__u8 reserved0[56];
++	__u8 id_block_signature[512];
++	__u8 id_key[1028];
++	__u8 reserved1[60];
++	__u8 id_key_signature[512];
++	__u8 author_key[1028];
++};
++
++/*
++ * This structure describes the PSP launch-finish wire data. The two trailing
++ * reserved bytes make the userspace object naturally aligned; they must be 0
++ * and are not copied into the packed Hyper-V ABI structure.
++ */
++struct mshv_psp_launch_finish_data {
++	struct mshv_snp_id_block id_block;
++	struct mshv_snp_id_auth_info id_auth_info;
++	__u8 host_data[32];
++	__u8 id_block_enabled;
++	__u8 author_key_enabled;
++	__u8 reserved[2];
++};
++
++struct mshv_complete_isolated_import {
++	__aligned_u64 psp_parameters;
++};
++
+ /**
+  * struct mshv_root_hvcall - arguments for MSHV_ROOT_HVCALL
+  * @code: Hypercall code (HVCALL_*)
+@@ -254,6 +357,11 @@ struct mshv_root_hvcall {
+ #define MSHV_GET_GPAP_ACCESS_BITMAP	_IOWR(MSHV_IOCTL, 0x06, struct mshv_gpap_access_bitmap)
+ /* Generic hypercall */
+ #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07, struct mshv_root_hvcall)
++#define MSHV_MODIFY_GPA_HOST_ACCESS	_IOWR(MSHV_IOCTL, 0x09, struct mshv_modify_gpa_host_access)
++#define MSHV_IMPORT_ISOLATED_PAGES	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_import_isolated_pages)
++#define MSHV_COMPLETE_ISOLATED_IMPORT	_IOW(MSHV_IOCTL, 0xF4, struct mshv_complete_isolated_import)
++#define MSHV_ISSUE_PSP_GUEST_REQUEST	_IOW(MSHV_IOCTL, 0xF5, struct mshv_issue_psp_guest_request)
++#define MSHV_SEV_SNP_AP_CREATE		_IOW(MSHV_IOCTL, 0xF6, struct mshv_sev_snp_ap_create)
+ 
+ /*
+  ********************************
 -- 
 2.43.0
 
