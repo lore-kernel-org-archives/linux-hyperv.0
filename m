@@ -1,80 +1,132 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2344CDDF9;
-	Fri, 18 Sep 2026 10:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79EC34E50B8;
+	Fri, 18 Sep 2026 11:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789728516; cv=none; b=KWyEwL9vJ1pt7W4cCrGg+TOwMnm5yGBdtA9dNcdRrImbc9rfMyQp3NZSy/BKEXwFkFH6tURDVfCo+SkaoXpdMdJo6+O8Omt65rgi0nvKNdvMTdpkC97fF/U3QKF/iWH3hI+FqQiEsRgMdaDIugi7cv9rLs8GqybFaPhX4rzoxKQ=
+	t=1789732666; cv=none; b=eoqGXb5xqSOWxXXyiduXpbUjFQGvASg66HqWvdSzqqiGr7mKz/jxd6DR18wN54iMtq/7wBR3LUSaZd0DAoiUUZGXFt6ToP1ReOZ+Uk8tSs18sIjKSXNISuWcBOO63kukxuvDPe0jIbFulCbhjHpi+VvP6AH43rXCCb8dWyzUUVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789728516; c=relaxed/simple;
-	bh=2bc3TgRLj8raO/M9/O/ANshCkiowC3hyRqaWmD+yCwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ej54rYcSr4e+shc3B4gT4o4WEkt2199L5+NyCIEbQEa0I+sW1OmFOeFvmRt6CXnHiyC3Sstzmiqc869pl4S7hU/xzanNbnG/0FCtyaZgvx0ej6am/I5K4xmg2Wpc20JOWv3NH9cigmbNQ53bU3jD+kTbCuilg4g+Tsb65i8fTXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ifBVYNZW; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1789732666; c=relaxed/simple;
+	bh=vxCWhFr+RM4qSYd+zDX3huhagwR8jHfFBDfngVcEoZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ajsLIMN86iDyOJ1x+qgTQN+LqYGZKz9zAGzICEETkrWjKAoaGGZPFrWg3wRTG1ydapIr3YEpmfAdHlagTNWJVHhF9l587A7PI64KXyxOvMw4Qg+IcX4TFpc0t/8JxX9o2TOv6KojWJEI2jkqMtBdayLmaKrnv8Zwpq1g77JwPYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=m7cnMq6F; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ifBVYNZW"
-Received: from example.com (unknown [167.220.208.36])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B1B4B20B7166;
-	Fri, 18 Sep 2026 03:47:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B1B4B20B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="m7cnMq6F"
+Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 308AA20B7166;
+	Fri, 18 Sep 2026 04:56:57 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 308AA20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789728468;
-	bh=I4R2G5IfeYbw7m5Y9d+ubIdH4R/mL1LHup49Y12Tbz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ifBVYNZWWuD96/TL+c33M6pJ/oZsLa5gFg6sGztsa62TkMgHzmTAun//TBWl+f3u+
-	 r4kG+B/gWgXUUkCufrt+XnLHu2asEbSR3y7DClVK6UPJF3hkgtKAnU8kWD0v7pS7Eq
-	 m/lReY51OpWs617vApLTe5Fyix6F8kby3kTMuZ3M=
-Date: Fri, 18 Sep 2026 12:48:29 +0200
-From: Magnus Kulke <magnuskulke@linux.microsoft.com>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Wei Liu <liuwe@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Magnus Kulke <magnuskulke@microsoft.com>,
-	Long Li <longli@microsoft.com>, linux-arch@vger.kernel.org,
+	s=default; t=1789732617;
+	bh=BAULP8mYtdCcqUB4JbYQdoc1HBM4y+JPJPl5h3WYJJM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m7cnMq6F1Cg1iVvKiOlCfUMfTyR71uKA6ST1JngZ2lza2NIRF/G3fyWHpL/g7Z0DX
+	 2JAaXl/EvQjeYSsc0eO3fy3XESmb1Y83/M9CfYX82oBAcbf1M3nxUoVEAuAcy48CjF
+	 vkSK+7DuNbUHktIUTIfow6QBwHekT9Fm3/g04mUc=
+From: Wei Hu <weh@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH v3] drivers/hv: remove deposited pages from direct map
-Message-ID: <aq0W/c9SKCympVHE@example.com>
-References: <20260917201052.2123701-1-magnuskulke@linux.microsoft.com>
- <a543145c-4503-bdd8-bd73-a2cbcce1e06e@linux.microsoft.com>
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>
+Subject: [PATCH v6 0/9] mshv: add SEV-SNP support for MSHV root partitions
+Date: Fri, 18 Sep 2026 11:57:12 +0000
+Message-ID: <20260918115741.3791682-1-weh@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260908121403.1160280-1-weh@linux.microsoft.com>
+References: <20260908121403.1160280-1-weh@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a543145c-4503-bdd8-bd73-a2cbcce1e06e@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 17, 2026 at 05:23:15PM -0700, Mukesh R wrote:
-> On 9/17/26 13:10, Magnus Kulke wrote:
-> 
-> FYI:
-> 
-> https://lore.kernel.org/linux-hyperv/20260912000318.2959621-1-mrathor@linux.microsoft.com/
-> 
-> Thanks,
-> -Mukesh
-> 
-> 
+This series adds support for creating and managing AMD SEV-SNP
+confidential virtual machines through the Microsoft Hypervisor root
+partition driver.
 
-Thanks, the change to a larger single page makes sense. I assume we
-would still be susceptible to a #GP once the kernel steps into it?
+The series adds fixed-size MSHV UAPI definitions, the required Microsoft
+Hypervisor ABI definitions and hypercall helpers, partition ioctls,
+capability discovery, processor-feature handling, ordered encrypted-memory
+teardown, and nested-root SynIC handling.
 
-Since this is addressing acute crashes on L1VH, it would be good to
-merge a fix first IMO. it can then be easily cherrypicked into
-backports or distro-kernels.
+Two prerequisite fixes lead the series. The first makes memory-region
+unmap ownership explicit and retains mappings, pinned pages, the partition,
+and the module whenever checked hypervisor unmap cannot prove cleanup. The
+second publishes and withdraws per-CPU SynIC pointers so interrupt readers
+cannot observe mappings after initialization failure or CPU teardown.
 
-Or would you rather see the problem addressed as part of in your
-deposit-pages refactoring?
+Testing:
 
-best,
+  - Built all four affected x86 MSHV objects with W=1 at every commit (9/9).
+  - Built the complete x86_64 kernel and modules with W=1.
+  - Built the affected ARM64 objects with W=1.
+  - Ran scripts/checkpatch.pl --strict on every production patch.
+  - Verified installed UAPI layouts in 64-bit and 32-bit userspace builds.
+  - Generated rust-vmm MSHV bindings for x86_64 and arm64.
+  - Passed all 9 KUnit host-access tests on a separate test-only branch.
+  - Passed the Cloud Hypervisor single-CVM launch test.
+  - Booted a four-vCPU SEV-SNP guest to login; Cloud Hypervisor exited cleanly.
 
-magnus
+The development host needs two additional local runtime patches to boot as
+a nested MSHV root partition: EFI HvLoader root-partition boot enablement
+and the non-upstreamable nested-VMBus interrupt-vector workaround. Neither
+patch, the KUnit follow-up, nor any runtime-only commit is part of this
+nine-patch series.
+
+Changes since v5:
+
+  - In patch 1, keep the existing failed-chunk rollback, then attempt checked
+    full-region cleanup for any earlier mapped chunks before quarantining an
+    unpublished region. Preserve the original map error and serialize the
+    initial movable NO_ACCESS map with mreg_mutex.
+  - In patch 6, cap MODIFY_GPA_HOST_ACCESS at 65536 4K array entries. Reject a
+    larger request with -E2BIG and completed set to zero before variable
+    allocation or side effects. Use sort_nonatomic() and bounded scheduling
+    points in long user-controlled loops.
+  - Document in patch 6 that a successful PSP request intentionally leaves
+    request and response pages host-none for encrypted guest consumption;
+    explicit access changes or teardown restore them.
+  - In patch 7, use CONFIG_X86_64 for the in-kernel SNP reporting block. Keep
+    __x86_64__ in exported UAPI because headers_install rejects CONFIG_* leaks;
+    x86_64 and arm64 bindgen output and UAPI layouts remain correct.
+  - Classify the reported PSP-success restoration issue as a false positive.
+    Findings identified as pre-existing remain unchanged and out of scope.
+
+Link: https://lore.kernel.org/linux-hyperv/20260908121403.1160280-1-weh@linux.microsoft.com/
+
+Wei Hu (3):
+  mshv: retain memory regions until unmap succeeds
+  mshv: clear SynIC mappings before freeing them
+  mshv: set up own SynIC registers on a nested root partition
+
+Wei Liu (6):
+  mshv: add SEV-SNP UAPI definitions
+  mshv: add SEV-SNP PSP request hypercall
+  mshv: add SEV-SNP isolated page hypercalls
+  mshv: wire SEV-SNP partition ioctls
+  mshv: detect and report SEV-SNP support at init
+  mshv: use safe partition CPU feature defaults
+
+ drivers/hv/mshv_regions.c      |  510 +++++++++---
+ drivers/hv/mshv_root.h         |  122 ++-
+ drivers/hv/mshv_root_hv_call.c |  369 +++++++--
+ drivers/hv/mshv_root_main.c    | 1324 ++++++++++++++++++++++++++++++--
+ drivers/hv/mshv_synic.c        |  172 +++--
+ include/hyperv/hvgdk_mini.h    |   31 +
+ include/hyperv/hvhdk.h         |  124 ++-
+ include/hyperv/hvhdk_mini.h    |   53 ++
+ include/uapi/linux/mshv.h      |  117 ++-
+ 9 files changed, 2518 insertions(+), 304 deletions(-)
+
+
+base-commit: be0cfab740e58b70047ef6e7e3d578f00ed5d258
+-- 
+2.43.0
+
