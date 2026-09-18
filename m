@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E7A4E5323;
-	Fri, 18 Sep 2026 11:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923DD4E73C2;
+	Fri, 18 Sep 2026 11:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789732672; cv=none; b=E32M5hJtH53kYyuQ5IdDRZxjdaVkcUTM1Oxer0gM4KI7H0Mtyota66GarKGk7G1ghYG5muJbtUM2nQ2NkS6vYBl1xWwq7vkN4+hF2GUHxZwKYBYngyS+m0fPKgdrCq8+mBRQSan1LksM2treDOz0n3ilxvyG1rtIRCdGSnyx1eo=
+	t=1789732674; cv=none; b=kGCo9yXCB/7Op7163pSquMN0a0D+W4m3+38TDtgyju1jzeV/azS9MrytKYoCL219KI8JI4hyovGr0de7seGUi7NTrorfZ9p8Wn09NloHrXcvw9goSr2q37m0RQDb6Yqw1NNmgcyGKri5d7aZEqhntqty5EYVq4OUDsUjsgyLNeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789732672; c=relaxed/simple;
-	bh=a1xZzLn3zdkjjhgieqg7txyjVX2v4LU2ITbeQa3SADo=;
+	s=arc-20240116; t=1789732674; c=relaxed/simple;
+	bh=h0Pbr3uDOK+LhdiANiDuyD57TbfJilMNHt3zknr4bS0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QesmzbMV4D4GoeIxVoKV+DlFACPqu/NCezhFhbqxLhS7fKodBIG9WsKrmGqzFTUjvRXdYAtGL2DB4RugHtmdxvbHJOA1GzFI45qlqFUdUhKHwNxCAOpW6JmnV7qfz/C9K1V8pGKHA+8AM8EDzShtaEeUHK2rHz/jg31eh+dLz00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HwdGhrhL; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=JctHm8GTq2qHCM6X/U1Z868z9f9iM9zObm2FFTMd0PYiwq4iAL9RtxzLe8KQys0RveUuQUS4lcDmUg5EXrx74SkZYh92TW0kGhLjFFm1PHk5cTO4G+eZ1w3nxayzJi+zKppTX358YTyrgFFpDWt7C2VBNutcRSBCb6S5Lc3xb/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=SaLsyOnX; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HwdGhrhL"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SaLsyOnX"
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7614820B7166;
-	Fri, 18 Sep 2026 04:57:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7614820B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id A55E420B716B;
+	Fri, 18 Sep 2026 04:57:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A55E420B716B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1789732624;
-	bh=FFvNQUMvFxVtQSReNycbADifhq8DUGSqWOOlfKSkobQ=;
+	s=default; t=1789732626;
+	bh=t826CEA5cOklINtEnyFlGz2ebwpAS3TU/8JbWJ2X23o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HwdGhrhLjnq6ZwBt7GPwZ6wSjvIN4+m6ZJgS12xtfMNPv798ZyTOcHsc1u3IUOBo/
-	 uHSFEmt5LNSflVC5hx6uDUTq+VFzWNsgKdPHa2nofern97lCpZNLS1WaugbNFld4o9
-	 qIGk0dgwp6Wk95Yp30FRXz+9GCu9ONc8RfNHwkvI=
+	b=SaLsyOnXULfNXt7TMHkB14NF2uI8cOfhqN+pL54dWz1xkwzrJr2MsnambkPcWs1uD
+	 ZITWq//SYNVd3dUWVOIqwYcZAfwrxiN7XMaRnVUtKBEZrWYDyWWJym2FKf27VLoUtS
+	 X5/u7m+Jam3mIrHBpELJiKob5o/lxfNrCObGEIWk=
 From: Wei Hu <weh@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -33,9 +33,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
 	Long Li <longli@microsoft.com>
-Subject: [PATCH v6 4/9] mshv: add SEV-SNP PSP request hypercall
-Date: Fri, 18 Sep 2026 11:57:16 +0000
-Message-ID: <20260918115741.3791682-5-weh@linux.microsoft.com>
+Subject: [PATCH v6 5/9] mshv: add SEV-SNP isolated page hypercalls
+Date: Fri, 18 Sep 2026 11:57:17 +0000
+Message-ID: <20260918115741.3791682-6-weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260918115741.3791682-1-weh@linux.microsoft.com>
 References: <20260908121403.1160280-1-weh@linux.microsoft.com>
@@ -50,48 +50,142 @@ Content-Transfer-Encoding: 8bit
 
 From: Wei Liu <wei.liu@kernel.org>
 
-Add a helper for HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST so MSHV can issue
-asynchronous PSP guest requests on behalf of encrypted partitions.
+Add wrappers for importing isolated pages and completing an isolated
+partition import. Support synchronous and pending completion and batch
+repetition calls within the Hyper-V input page.
+
+Preserve the asynchronous completion result and encode its bounded
+repetition count in the standard hypercall status field. Keep the distinct,
+currently unused substatus out of the result bits. Return exact bounded
+import progress on both success and failure, reject malformed completion
+counts, and rate-limit guest-driven failures.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/hv/mshv_root.h         |  8 +++++++
- drivers/hv/mshv_root_hv_call.c | 41 ++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ drivers/hv/mshv_root.h         |  12 ++++
+ drivers/hv/mshv_root_hv_call.c | 110 +++++++++++++++++++++++++++++++++
+ drivers/hv/mshv_synic.c        |  10 ++-
+ 3 files changed, 131 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index d0770d36defb..fdee3629eb0a 100644
+index fdee3629eb0a..78508b57b5ad 100644
 --- a/drivers/hv/mshv_root.h
 +++ b/drivers/hv/mshv_root.h
-@@ -388,4 +388,12 @@ bool mshv_region_handle_gfn_fault(struct mshv_mem_region *region, u64 gfn);
- void mshv_region_movable_fini(struct mshv_mem_region *region);
+@@ -389,6 +389,18 @@ void mshv_region_movable_fini(struct mshv_mem_region *region);
  bool mshv_region_movable_init(struct mshv_mem_region *region);
  
-+#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-+int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
-+				    u64 rsp_pfn,
-+				    void (*completion_handler)(void *data,
-+							       u64 *status),
-+				    void *completion_data);
-+#endif
-+
- #endif /* _MSHV_ROOT_H_ */
+ #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
++int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
++				  u64 num_pages, u64 *completed_pages,
++				  enum hv_isolated_page_type page_type,
++				  enum hv_isolated_page_size page_size,
++				  void (*completion_handler)(void *data,
++							     u64 *status),
++				  void *completion_data);
++int hv_call_complete_isolated_import(u64 partition_id,
++				     union hv_partition_complete_isolated_import_data *import_data,
++				     void (*completion_handler)(void *data,
++								u64 *status),
++				     void *completion_data);
+ int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
+ 				    u64 rsp_pfn,
+ 				    void (*completion_handler)(void *data,
 diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index 1fa644e0e437..fca2419df397 100644
+index fca2419df397..cb5727529355 100644
 --- a/drivers/hv/mshv_root_hv_call.c
 +++ b/drivers/hv/mshv_root_hv_call.c
-@@ -1040,6 +1040,47 @@ int hv_unmap_stats_page(enum hv_stats_object_type type,
- 	return ret;
+@@ -14,6 +14,10 @@
+ 
+ #include "mshv_root.h"
+ 
++#define HV_ISOLATED_PAGE_BATCH_SIZE					       \
++	((HV_HYP_PAGE_SIZE - sizeof(struct hv_input_import_isolated_pages)) /  \
++	 sizeof(u64))
++
+ /* Determined empirically */
+ #define HV_INIT_PARTITION_DEPOSIT_PAGES 208
+ #define HV_MAP_GPA_DEPOSIT_PAGES	256
+@@ -1041,6 +1045,112 @@ int hv_unmap_stats_page(enum hv_stats_object_type type,
  }
  
-+#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
-+int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
-+				    u64 rsp_pfn,
-+				    void (*completion_handler)(void *data,
-+							       u64 *status),
-+				    void *completion_data)
+ #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
++
++int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
++				  u64 num_pages, u64 *completed_pages,
++				  enum hv_isolated_page_type page_type,
++				  enum hv_isolated_page_size page_size,
++				  void (*completion_handler)(void *data,
++							     u64 *status),
++				  void *completion_data)
 +{
-+	struct hv_input_issue_psp_guest_request *input;
++	struct hv_input_import_isolated_pages *input;
++	u64 remaining = num_pages;
++	unsigned long flags;
++	u64 *gpa = pages;
++	u64 completed;
++	u64 status;
++	int rep_count;
++
++	if (!num_pages || !completed_pages)
++		return -EINVAL;
++	*completed_pages = 0;
++
++	if (!completion_handler) {
++		pr_err("%s: missing completion handler, page_type=%u\n",
++		       __func__, page_type);
++		return -EINVAL;
++	}
++
++	while (remaining) {
++		rep_count = min_t(u64, remaining,
++				  HV_ISOLATED_PAGE_BATCH_SIZE);
++
++		local_irq_save(flags);
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++		memset(input, 0, sizeof(*input));
++		input->partition_id = partition_id;
++		input->page_type = page_type;
++		input->page_size = page_size;
++		memcpy(input->page_number, gpa, rep_count * sizeof(*gpa));
++		status = hv_do_rep_hypercall(HVCALL_IMPORT_ISOLATED_PAGES,
++					     rep_count, 0, input, NULL);
++		local_irq_restore(flags);
++
++		if (hv_result(status) == HV_STATUS_CALL_PENDING)
++			completion_handler(completion_data, &status);
++
++		completed = hv_repcomp(status);
++		if (completed > rep_count) {
++			pr_err_ratelimited("%s: invalid completion count %llu/%d\n",
++					   __func__, completed, rep_count);
++			return -EPROTO;
++		}
++		*completed_pages += completed;
++
++		if (!hv_result_success(status)) {
++			pr_err_ratelimited("%s: completed %llu of %llu, %s\n",
++					   __func__, *completed_pages, num_pages,
++					   hv_result_to_string(status));
++			return hv_result_to_errno(status);
++		}
++		if (!completed)
++			return -EPROTO;
++
++		gpa += completed;
++		remaining -= completed;
++		cond_resched();
++	}
++
++	return 0;
++}
++
++int hv_call_complete_isolated_import(u64 partition_id,
++				     union hv_partition_complete_isolated_import_data *import_data,
++				     void (*completion_handler)(void *data,
++								u64 *status),
++				     void *completion_data)
++{
++	struct hv_input_complete_isolated_import *input;
 +	unsigned long flags;
 +	u64 status;
 +
@@ -104,13 +198,10 @@ index 1fa644e0e437..fca2419df397 100644
 +	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
 +	memset(input, 0, sizeof(*input));
 +	input->partition_id = partition_id;
-+	input->request_page = req_pfn;
-+	input->response_page = rsp_pfn;
-+	status = hv_do_hypercall(HVCALL_ISSUE_SNP_PSP_GUEST_REQUEST, input,
-+				 NULL);
++	input->import_data = *import_data;
++	status = hv_do_hypercall(HVCALL_COMPLETE_ISOLATED_IMPORT, input, NULL);
 +	local_irq_restore(flags);
 +
-+	/* Hyper-V consumes the input before returning CALL_PENDING. */
 +	if (hv_result(status) == HV_STATUS_CALL_PENDING)
 +		completion_handler(completion_data, &status);
 +
@@ -123,11 +214,31 @@ index 1fa644e0e437..fca2419df397 100644
 +
 +	return 0;
 +}
-+#endif
 +
- int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
- 				   u64 page_struct_count, u32 host_access,
- 				   u32 flags, u8 acquire)
+ int hv_call_issue_psp_guest_request(u64 partition_id, u64 req_pfn,
+ 				    u64 rsp_pfn,
+ 				    void (*completion_handler)(void *data,
+diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
+index c77688b8d23c..0fdbae1e053c 100644
+--- a/drivers/hv/mshv_synic.c
++++ b/drivers/hv/mshv_synic.c
+@@ -159,7 +159,15 @@ static bool mshv_async_call_completion_isr(struct hv_message *msg)
+ 		goto unlock_out;
+ 	}
+ 
+-	partition->async_hypercall_status = async_msg->status;
++	/* No current completion caller consumes the distinct substatus. */
++	(void)async_msg->sub_status;
++	partition->async_hypercall_status =
++		(u64)async_msg->status & ~HV_HYPERCALL_REP_COMP_MASK;
++	partition->async_hypercall_status |=
++		(min_t(u64, async_msg->completion_count,
++		       HV_HYPERCALL_REP_COMP_MASK >>
++		       HV_HYPERCALL_REP_COMP_OFFSET) <<
++		 HV_HYPERCALL_REP_COMP_OFFSET);
+ 	complete(&partition->async_hypercall);
+ 
+ 	handled = true;
 -- 
 2.43.0
 
