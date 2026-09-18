@@ -1,93 +1,141 @@
-Received: from mail-pj2-f25.google.com (mail-pj2-f25.google.com [74.125.227.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5C33D75A4
-	for <linux-hyperv@vger.kernel.org>; Fri, 18 Sep 2026 02:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.153
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E4B4915B4;
+	Fri, 18 Sep 2026 06:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789700222; cv=none; b=srNAazBT9XWXHTY1iKMzs0jQIN/0KysF6za4mrWXSkQidIr5AGpEOnoZzUgHi64zeceAEl1orI4cygkozDipRGP91k11qoHSJnb+meLMQjLQOsGbVXzVGArjBeOD2yhl1b4+pdpqgBjr9CMbc0599pSPGJXcDy3MGkL8KKDSUlc=
+	t=1789714135; cv=none; b=epJW/BJtN8NDQwTd9mT6A9Qf1KGXVkuNPwm1Ng/5VUE2I+M6IYZJbK7F2gjVJF8oaySaziqwCvA2C5Geu5P/Hq+znyF9utUHL0I8iMIggTbuKDeLKBaKgySulj0M3SLXPhtk1n+DmleuIrS5hR5L805VSW08inXXAZP9YXQtztI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789700222; c=relaxed/simple;
-	bh=WH/rnE12a+uaVlNTry7gwUg4MsviWYt1nqi8WX9vXi4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=szBAm78iTDAStS9flJjw9m2y6sXfl3wEh/TU4OCHo7BEiPwSQ/xP27PV3Uw7q29Bf3t9MtJHeyLbvcAtuOn7ui+XOzvfX3+/94kr16Cv3ngnOL+XcIvMaumjrX9GqonZ6jBGLSDfPEjNE4S8vcPVrcpyjHFfmiSwNix/64MVr58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=clNNZkJG; arc=none smtp.client-ip=74.125.227.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789714135; c=relaxed/simple;
+	bh=scOg0zkY929U7MefX1SWenzzv/DGXcB5ud9XJmcHH+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AycpeCoPV6zApOZqmMSedrSTqux/Q3c7SrVEFu2d8ZGG1LWzS6Fd1J+mS5kUPPrP1+nSkU5/FI0eoGjXnCrBRB/HIR+Hqq1Nzf3j5K/9r7c9vCxew2a3mMkQIiXXeY8SFE/iHKzo9/zs3E/B8ElqKFGJytbL1okkFo861RzLOjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lTE5wuVi; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="clNNZkJG"
-Received: by mail-pj2-f25.google.com with SMTP id d9443c01a7336-2dd4b43b20bso1628985ad.1
-        for <linux-hyperv@vger.kernel.org>; Thu, 17 Sep 2026 19:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789700216; x=1790305016; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WH/rnE12a+uaVlNTry7gwUg4MsviWYt1nqi8WX9vXi4=;
-        b=clNNZkJG562ToNrLE3Cu8NKoJn1kjRqSfvGdob1UUiHd6STXZr07fKOScqWbTRiEjI
-         Ehp/KSeIyKyNcJsmKl+x/+kh8BOL644uLZny57bf0uAhnjr7MmT3wvHIY0ODSk1tm7ab
-         +haxeFBVHP/+MQR3+7fxX2/JfI5i9OUbtgJl1Z+WCY6UbT+atHc2cg/qaMpRCdfJb0PV
-         /HcvpA0ml5TJekYHepfVcZSB6y7MD2F1rEcmI/oI4RINHu1/tH4EBRkxNRK7m3Q4jLkU
-         GadmRjScFiTxatV6lzGyP3QGkNaqWALY7Ti2jUbJvaCSuROXrDD2Ii1BYudA4GjTdhTH
-         rZ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789700216; x=1790305016;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WH/rnE12a+uaVlNTry7gwUg4MsviWYt1nqi8WX9vXi4=;
-        b=PeAYoCFsAXOvchUpErh8g4jnyW4IMJLTNY+L50fjWNH1klDryNTM2w4xc7NC7lGMOX
-         nn4kxYBXI0nlgdOfqoe8rXROwxJPeT+hFiOCoECTbNlkj0dg/7PdyBOJQyoMTMkXfu7j
-         04R0WHDn8aUWBkK9SS6VQe0WdI19cHqGkNhMYgHP4J2m/2Fnt2uLRF3W+TR43AAg1gGI
-         lj+6iyHtw8iT/oiWm0PuzivA6S0FecSrirHtAow+Z8vXrYcSW2PEdz4xMJLgyzLcXseo
-         bCqcWMVJYiRpL+iLidCrL4IneM4bWeZiAM7KvmEttJEHyVzW2m7wKGGGCUdIARERBBWL
-         Eazw==
-X-Forwarded-Encrypted: i=1; AKwUvBwPjbT/4+iwXuZqwekQgAbKpLNT1887CEY66PT5gNLcGfTHXbnTZK5YOPugqgoGJ+u2m4aNaMolcsqemdY=@vger.kernel.org
-X-Gm-Message-State: AFuF++n71bZwRjw4l+dZZrIFT1MZaWHLHEEfw1HLoKqep+9QCRZq73oO
-	Apdr3fRwdbZOiSXjzwlXIlAG4PijnK74DzWP0hg5WdfYvf672VXz1Ppa
-X-Gm-Gg: AYBFou0OsKjirQgfMoHsVa23VVxMszqAZOnu9EZUhxVJsaDaMpQZ4dthsDD9Zr3Ux/C
-	TLDkLVuFzQAaRL4q1bpy5e06kAvgKkI+5ZmhDIBfGYRcBI5mOdAmdYGvp4+OOhOJWz7oX/9wvUK
-	TBF13bA3v38tjXzVWRXWOk6mmuRu0X3v3ZlVkoUlI9gGXBWjvwSVgFOrELx2k3Q3b1HppYwadHA
-	+5KAitO3sTGorIliBY501edBU4qMWqN7p9ZrpOAJPyoCuOoP4Fi3CBKoiFCRh4nkzaR9WdtGunB
-	S56hIrKZT4fMJiq26t3XdrA4TDcWyNdUnzjCicuG83ltT1Kj4TBPVenPsHaUOOIU9Eljy63fTzg
-	MN/2gJCuJnWKf53apl8vjxcZZUweJhNawLSc/gOHFZ/umaNmK4t3MAn+UjxZkOGHQyNosQ0k29l
-	xw0ZhWKD7FFoaUR7ASpqedETPwZ+k939cnfW/x220KsvmjMKFnhAqY9Xp872+fB8rX
-X-Received: by 2002:a17:903:2f8f:b0:2dd:ad74:ac32 with SMTP id d9443c01a7336-2ddb1baf0a0mr24255345ad.27.1789700216039;
-        Thu, 17 Sep 2026 19:56:56 -0700 (PDT)
-Received: from bloom.localdomain ([2604:3d09:178e:e100::c570])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddb75b52e2sm734085ad.60.2026.09.17.19.56.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 19:56:55 -0700 (PDT)
-From: Ivy Lopez <skunkolee@gmail.com>
-To: kys@microsoft.com
-Cc: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	sgarzare@redhat.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	linux-hyperv@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] vsock/hv_sock: fix socket/table leak when rescind races the delayed close
-Date: Thu, 17 Sep 2026 20:56:50 -0600
-Message-ID: <20260918025650.15990-1-skunkolee@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917220213.56102-1-bartlomiej.dmitruk@isec.pl>
-References: <20260917220213.56102-1-bartlomiej.dmitruk@isec.pl>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lTE5wuVi"
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id A9B9420B7166; Thu, 17 Sep 2026 23:47:54 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A9B9420B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1789714074;
+	bh=5t9cgIT5f9rP+bBZj+k2OohF1bEsiI+o9JoKpM8YBmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lTE5wuViE5zsPSQWG4RRydfhk85bXsmJErXz0umjjbR5/VO1bnR8U+it7k8TayikU
+	 vZ/mNjtzJcRBnQwSoKeqBCWc8kh4W4DOCi9QnypUMZa3yMiqqmNfuZDSUlGHxwqwOj
+	 cmVOZzZADm26KnVYNsRaIbzx2A9Z1XyPKUSPj4Ro=
+Date: Thu, 17 Sep 2026 23:47:54 -0700
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: "K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Michael Kelley <mikelley@microsoft.com>,
+	linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, namjain@linux.microsoft.com
+Subject: Re: [PATCH v2] arm64: hyperv: run VMBus kexec handler via syscore
+ shutdown
+Message-ID: <aqzempJPsZ41cOsk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20260907092544.230338-1-shradhagupta@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907092544.230338-1-shradhagupta@linux.microsoft.com>
 
-LGTM.
+On Mon, Sep 07, 2026 at 02:25:42AM -0700, Shradha Gupta wrote:
 
-Should this need a Fixes: tag and possibly a Cc: stable@vger.kernel.org?
+Gentle reminder.
+
+> On ARM64, machine_shutdown() does not provide a platform hook between
+> device_shutdown() and smp_shutdown_nonboot_cpus(), unlike x86's
+> machine_ops.shutdown. This prevents the Hyper-V VMBus kexec handler
+> from running at the correct point during kexec shutdown, causing
+> kexec reboot to fail on ARM64 Hyper-V guests.
+> 
+> Use syscore_ops.shutdown instead: syscore_shutdown() runs in the same
+> window (after device_shutdown(), before CPUs are taken offline) where
+> VMBus UNLOAD and cpuhp_remove_state() must execute.
+> 
+> Provide ARM64-specific overrides of hv_setup_kexec_handler() and
+> hv_remove_kexec_handler() that register/unregister a syscore_ops
+> shutdown callback, replacing the __weak no-op stubs in hv_common.c.
+> On x86, the existing machine_ops.shutdown mechanism is unchanged.
+> 
+> Fixes: 9d7cf2c96758 ("Drivers: hv: Add arch independent default functions for some Hyper-V handlers")
+> Link: https://lore.kernel.org/all/20260814093133.3191250-1-shradhagupta@linux.microsoft.com/
+> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+> ---
+>  Changes in V2
+>  * Use syscore_ops.shutdown instead of a bare function pointer hook in
+>    machine_shutdown(), per Catalin's suggestion.
+> ---
+>  arch/arm64/hyperv/mshyperv.c | 40 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+> 
+> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+> index 4fdc26ade1d7..e608e546a395 100644
+> --- a/arch/arm64/hyperv/mshyperv.c
+> +++ b/arch/arm64/hyperv/mshyperv.c
+> @@ -15,10 +15,50 @@
+>  #include <linux/errno.h>
+>  #include <linux/version.h>
+>  #include <linux/cpuhotplug.h>
+> +#include <linux/kexec.h>
+> +#include <linux/syscore_ops.h>
+>  #include <asm/mshyperv.h>
+>  
+>  static bool hyperv_initialized;
+>  
+> +/*
+> + * Kexec handler registered by VMBus.
+> + *
+> + * On ARM64, machine_shutdown() does not provide a platform hook between
+> + * device_shutdown() and smp_shutdown_nonboot_cpus(), unlike the
+> + * machine_ops.shutdown mechanism used on x86.  Use a syscore_ops shutdown
+> + * callback instead: syscore_shutdown() runs after device_shutdown() and
+> + * before CPUs are taken offline, which is the same window VMBus needs to
+> + * run its UNLOAD message and cpuhp_remove_state() during kexec.
+> + */
+> +static void (*hv_kexec_handler_fn)(void);
+> +
+> +static void hv_kexec_syscore_shutdown(void *data)
+> +{
+> +	if (kexec_in_progress && hv_kexec_handler_fn)
+> +		hv_kexec_handler_fn();
+> +}
+> +
+> +static const struct syscore_ops hv_kexec_syscore_ops = {
+> +	.shutdown	= hv_kexec_syscore_shutdown,
+> +};
+> +
+> +static struct syscore hv_kexec_syscore = {
+> +	.ops		= &hv_kexec_syscore_ops,
+> +};
+> +
+> +void hv_setup_kexec_handler(void (*handler)(void))
+> +{
+> +	hv_kexec_handler_fn = handler;
+> +	register_syscore(&hv_kexec_syscore);
+> +}
+> +
+> +void hv_remove_kexec_handler(void)
+> +{
+> +	unregister_syscore(&hv_kexec_syscore);
+> +	hv_kexec_handler_fn = NULL;
+> +}
+> +
+>  int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
+>  {
+>  	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION,
+> -- 
+> 2.43.0
