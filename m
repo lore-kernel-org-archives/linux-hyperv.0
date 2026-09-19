@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2B0313293;
-	Sat, 19 Sep 2026 23:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B463630AC;
+	Sat, 19 Sep 2026 23:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789858896; cv=none; b=isZT59DqDDjFbENNEdOI4kYx90fD1y2gUuHvRsDQ9veVgJm8BG6WYphV6Y+eqFJsnMxhZImg4ZSZwix6JdSH5vq4IwD7QSc36/jD5D/Tu8ut3mU3KwN/3wS6V+1S9UlL2ON/bOHXNnAzvmdl2H89I47d/O8yGVpruPLQUK9OO0k=
+	t=1789858975; cv=none; b=ZwHaP0CncVAZIchWZu2EWkKGKT6JX1DZ+XSpspC1NoB846IPJT5CJZeq8/0jcmJJFRBTaEg3dm7sDBsgNRM0Qkqa6L2opTetUSUPXcv+datBM95GqIBCiVJxy5I511yb4F/351oslyiBhnnDkfvCaqrgCsd/2lWDAhG9s11/+wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789858896; c=relaxed/simple;
-	bh=DLvSffMEWO/zgeVYKxCvSK8Qf243kitp0txfQfa8hIQ=;
+	s=arc-20240116; t=1789858975; c=relaxed/simple;
+	bh=aLcHy+tRIvfthrGREUYSdcd+VtIPry1piG+pXHYG38g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2248ilKnbwyajmiiwp0f7HVmINMpF89oaFE60P4gd+iYYsEV9StA+0HVQ9E0T0LjPZTlS1a80oeIBegpgqHValZ6mj9ooJZ+CEWpYBmV9ReWM7oaw7ZtYVh7pdFfyOGqghgLPHzuklHwnsqPTeok9zcVChibwWERksDsRuxsOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKUCitWO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=vCiMtaxSthJ1AXjPVBdoAdqky12brShupTohPidt3Y85V1i/1wYwTkNjGEukx7c8F7RVUWS6gulYrYaELzBlNQMk7gjsJih7t/hpz7Nk0F3txUPGUeWaNmvm+u+eIE0AzP3gT8tIYs8WVRXqBphjGgMmpdkmRdK0HiFfZrr5BL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuJIstdr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKUCitWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256B81F000FF;
-	Sat, 19 Sep 2026 23:01:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuJIstdr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B46A1F000FF;
+	Sat, 19 Sep 2026 23:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789858895;
-	bh=BAjpmyGPSiOS56oilR/js/1YvQt5mNtEuMewwPlDQO0=;
+	s=k20260515; t=1789858973;
+	bh=UdaaWIUOK9NvtNlCweVVV4He/hsXV40fNOtj8Y5b8LQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZKUCitWObP7Ews+Bvzaz/5IKMfXe5veuVyYl1qeq32nFrqr7F3XXMiva4gB7SRLti
-	 OqQWm/fGLq4NWfg479RoWuJ+GACeo8QaXmHSUgfFOy9J6QaElThCmG9gdq9ofD3+Xy
-	 /YAQT2U4s4aQZSKuQw8EKM5kqCCuF6QhMhIMGuMFSL5TvnstMB+WBMnGnXiCn92Ffa
-	 fw8qUdvhX25h1zFWBWpUlR4h22xQPI3HrmXEDcCn6HV6Db0gx/XIWHMQk5Yn8MzxDT
-	 ttuvMbIzMgt9xdMNb+9NCnlAtLAQtu1OYFWY9TinUNuA/APLjQzAUJK0yS3qxS8y3d
-	 RVQj5Wm+i9STQ==
-Date: Sat, 19 Sep 2026 16:01:33 -0700
+	b=DuJIstdrDYIQK29WTnhvCenUcGbEDVptA6TEKHI18CDKRiJblksJji/AEZKHMY9kH
+	 MigDsgiO1/NADHC6uHVq2iy2UR8Re1kO+y9ovKI9dMBtLSVgjKSucp/Kx050vbd6Fu
+	 0jO0R7mx1hdeDJ2xRS2MRO+ra2+hrc1lfgyTXyEMxR30z96MQBRJS2rZXXv8VDjHUD
+	 JPL+mEWg9fUSIIDpmIpEzikNFSZIy5iIAkq4HCH3eHMGsB71BIOyw0yv6uUhkcF2d2
+	 wCNVltg7MWYP4s9Nkc64QRAdlxafTkb57rtTLT9GFfqe55zwixEP7V1xjdLb/bW6lR
+	 jyG/fEIwrCppw==
+Date: Sat, 19 Sep 2026 16:02:51 -0700
 From: Wei Liu <wei.liu@kernel.org>
-To: Hemanth Selam <hemanth.selam@gmail.com>
-Cc: Wei Liu <wei.liu@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Drivers: hv: fix typos in comments
-Message-ID: <20260919230133.GA1008213@liuwe-devbox-debian-v2.local>
-References: <20260907044946.10813-1-hemanth.selam@gmail.com>
- <cover.1789455635.git.hemanth.selam@gmail.com>
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: Hardik Garg <hargar@linux.microsoft.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	mhklinux@outlook.com, ssengar@linux.microsoft.com,
+	romank@linux.microsoft.com, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] mshv_vtl: Check per-CPU register page before mmap
+Message-ID: <20260919230251.GB1008213@liuwe-devbox-debian-v2.local>
+References: <20260911175146.1370148-1-hargar@linux.microsoft.com>
+ <3f771293-f5df-4e74-aca7-5d34966d00e0@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,28 +46,49 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1789455635.git.hemanth.selam@gmail.com>
+In-Reply-To: <3f771293-f5df-4e74-aca7-5d34966d00e0@linux.microsoft.com>
 
-On Tue, Sep 15, 2026 at 12:31:43PM +0530, Hemanth Selam wrote:
-> Two one-line comment typo fixes.  The diffs are unchanged from v2.
-> 
-> v3:
->  - Trimmed the commit messages down to a single line each (Wei Liu).
->  - Dropped the Assisted-by trailer naming the model.
->  - Moved the note about the v1 -> v2 subject prefix change out of patch
->    1/2's commit message and into this cover letter: the prefix became
->    "Drivers: hv: vmbus:" to match the subsystem's history, as Michael
->    Kelley pointed out.
-> 
-> Michael Kelley's Reviewed-by is carried over on both patches, as neither
-> diff changed.
-> 
-> v2: https://lore.kernel.org/all/20260907044946.10813-1-hemanth.selam@gmail.com/
+On Tue, Sep 15, 2026 at 10:11:36AM +0530, Naman Jain wrote:
 > 
 > 
-> Hemanth Selam (2):
->   Drivers: hv: vmbus: fix typo "substract" in comment
->   tools/hv: fix typo "retrive" in comment
+> On 9/11/2026 11:21 PM, Hardik Garg wrote:
+> > Register-page setup is optional for each CPU. If allocation or
+> > registration fails, mshv_vtl_configure_reg_page() warns and leaves that
+> > CPU's reg_page NULL, but initial context setup continues successfully.
+> > Meanwhile, successful setup on another CPU sets the global
+> > mshv_has_reg_page flag.
+> > 
+> > mshv_vtl_fault() checks this global flag before selecting the requested
+> > CPU's register page. With mixed setup results across online CPUs, the
+> > check passes even for a CPU with no register page, reaching
+> > get_page(NULL) when userspace faults in that mapping.
+> > 
+> > Check the selected per-CPU register page before taking its reference and
+> > return VM_FAULT_SIGBUS if it is absent.
+> > 
+> > Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
+> > ---
+> >   drivers/hv/mshv_vtl_main.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+> > index fc993560a45c..3296ab5c0243 100644
+> > --- a/drivers/hv/mshv_vtl_main.c
+> > +++ b/drivers/hv/mshv_vtl_main.c
+> > @@ -912,6 +912,9 @@ static vm_fault_t mshv_vtl_fault(struct vm_fault *vmf)
+> >   		return VM_FAULT_NOPAGE;
+> >   	}
+> > +	if (!page)
+> > +		return VM_FAULT_SIGBUS;
+> > +
+> >   	get_page(page);
+> >   	vmf->page = page;
 > 
+> 
+> LGTM. Thanks.
+> 
+> Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
 
 Applied. Thanks.
