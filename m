@@ -1,77 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684CF345ED2;
-	Sat, 19 Sep 2026 12:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2B0313293;
+	Sat, 19 Sep 2026 23:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789821824; cv=none; b=gMD3lcmTMUtstsRAtRsWhUQDbwkONKLGNfQszDG5Xu8r9r1aqb2cgpfaXbomE5EcsKRHi2LE/9+Sk2O2eUwmSnCler0/at9J0ALKkpABpIEcmyL5WbbblqfdF0VVabiks+DpQ1ISPYhe78UN0EDpTCDsFAC/JfURBXliC56vrng=
+	t=1789858896; cv=none; b=isZT59DqDDjFbENNEdOI4kYx90fD1y2gUuHvRsDQ9veVgJm8BG6WYphV6Y+eqFJsnMxhZImg4ZSZwix6JdSH5vq4IwD7QSc36/jD5D/Tu8ut3mU3KwN/3wS6V+1S9UlL2ON/bOHXNnAzvmdl2H89I47d/O8yGVpruPLQUK9OO0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789821824; c=relaxed/simple;
-	bh=BnH3aoLxRKIE3Ma0+9/j5SzrGY8ao/QGld34xRrwFvo=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=K4kmRgC1Dqv7J/7/rwAf++8Ehi+ipRbnOU1xBUoUdZ+c1T+SG7tdGq/XOXSWHlN5az50thn7DFw9ZJgaXVE9kn8nVGHWVPcdsyZFVDYLInV86KR1B/cYUqTlRQKiQW7dwnmLQh5To9E0bDqrPRKEki061uxoXsxDojc2Oa8HJuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1qpurOD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789858896; c=relaxed/simple;
+	bh=DLvSffMEWO/zgeVYKxCvSK8Qf243kitp0txfQfa8hIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u2248ilKnbwyajmiiwp0f7HVmINMpF89oaFE60P4gd+iYYsEV9StA+0HVQ9E0T0LjPZTlS1a80oeIBegpgqHValZ6mj9ooJZ+CEWpYBmV9ReWM7oaw7ZtYVh7pdFfyOGqghgLPHzuklHwnsqPTeok9zcVChibwWERksDsRuxsOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKUCitWO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1qpurOD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35AB1F000FF;
-	Sat, 19 Sep 2026 12:43:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKUCitWO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256B81F000FF;
+	Sat, 19 Sep 2026 23:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789821823;
-	bh=BnH3aoLxRKIE3Ma0+9/j5SzrGY8ao/QGld34xRrwFvo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=X1qpurODU3izzhJK0zx18xi6Rwhqj89uhep9IdjVWlp3erJvMKk58YNuanBh/itAV
-	 QCBVUeQwtFzzaK8eZZ7mD7v9YYFCVHiVk0nWy/7/DDhPCYrWddb/dxKo4lqz9O6Kna
-	 H9YpfJxzBi4UzhUqKTT2gV9DfaSlxgE89XT39tACiSegryrYn49Z7eg+pkTwSHjmL8
-	 atTTaqwzNQPXFw9be7VMcBfjKSQ8qki3VIii1PRCB2+jo3C7X4DcGnFSnqRQP0LRSS
-	 HAfk3g6o0Rqx/3sLKqxl+ziDbn7F3bMUi0akuFvyqyapz0YlfCoUlW6HNesa/D1ff3
-	 HQxYFu+QDKnzg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] vsock/hv_sock: don't finish a connection on a socket
- being released
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QmFydMWCb21pZWogRG1pdHJ1aw==?= <bartlomiej.dmitruk@isec.pl>
-Cc: "Eugenio Perez" <eperezma@redhat.com>, linux-hyperv@vger.kernel.org, "Michael
- S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev
-In-Reply-To: <20260919123128.28868-1-bartlomiej.dmitruk@isec.pl>
-References: <20260919123128.28868-1-bartlomiej.dmitruk@isec.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 19 Sep 2026 12:43:42 +0000
-Message-Id: <20260919124342.B35AB1F000FF@smtp.kernel.org>
+	s=k20260515; t=1789858895;
+	bh=BAjpmyGPSiOS56oilR/js/1YvQt5mNtEuMewwPlDQO0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZKUCitWObP7Ews+Bvzaz/5IKMfXe5veuVyYl1qeq32nFrqr7F3XXMiva4gB7SRLti
+	 OqQWm/fGLq4NWfg479RoWuJ+GACeo8QaXmHSUgfFOy9J6QaElThCmG9gdq9ofD3+Xy
+	 /YAQT2U4s4aQZSKuQw8EKM5kqCCuF6QhMhIMGuMFSL5TvnstMB+WBMnGnXiCn92Ffa
+	 fw8qUdvhX25h1zFWBWpUlR4h22xQPI3HrmXEDcCn6HV6Db0gx/XIWHMQk5Yn8MzxDT
+	 ttuvMbIzMgt9xdMNb+9NCnlAtLAQtu1OYFWY9TinUNuA/APLjQzAUJK0yS3qxS8y3d
+	 RVQj5Wm+i9STQ==
+Date: Sat, 19 Sep 2026 16:01:33 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: Wei Liu <wei.liu@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Drivers: hv: fix typos in comments
+Message-ID: <20260919230133.GA1008213@liuwe-devbox-debian-v2.local>
+References: <20260907044946.10813-1-hemanth.selam@gmail.com>
+ <cover.1789455635.git.hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1789455635.git.hemanth.selam@gmail.com>
 
-> hvs_open_connection() only checks sk->sk_state (TCP_LISTEN for a
-> host-initiated connection, TCP_SYN_SENT for a guest-initiated one) before
-> proceeding. __vsock_release() sets sk->sk_shutdown =3D SHUTDOWN_MASK and,=
- for
-> a listener, flushes the accept queue, while leaving sk_state unchanged. A
-> VMBUS channel offer that races close() therefore still passes the state
-> check and either enqueues a child onto the already-flushed accept queue
-> (conn_from_host) or completes a connection on a socket being torn down
-> (!conn_from_host); the socket and its VMBUS channel then leak.
->=20
-> The virtio transport guards the listener case in
-> virtio_transport_recv_listen(); hv_sock has no equivalent. Add a
-> sk_shutdown =3D=3D SHUTDOWN_MASK check to the common path right after
-> lock_sock(), so both the host- and guest-initiated paths bail out.
-> hv_sock holds lock_sock(sk) across hvs_open_connection(), so the check is
-> race-free.
->=20
-> This was found by code inspection; I do not have Hyper-V hardware to test=
- on.
->=20
-> Fixes: ae0078fcf0a5 ("hv_sock: implements Hyper-V transport for Virtual S=
-ockets (AF_VSOCK)")
-> Signed-off-by: Bart=C5=82omiej Dmitruk <bartlomiej.dmitruk@isec.pl>
+On Tue, Sep 15, 2026 at 12:31:43PM +0530, Hemanth Selam wrote:
+> Two one-line comment typo fixes.  The diffs are unchanged from v2.
+> 
+> v3:
+>  - Trimmed the commit messages down to a single line each (Wei Liu).
+>  - Dropped the Assisted-by trailer naming the model.
+>  - Moved the note about the v1 -> v2 subject prefix change out of patch
+>    1/2's commit message and into this cover letter: the prefix became
+>    "Drivers: hv: vmbus:" to match the subsystem's history, as Michael
+>    Kelley pointed out.
+> 
+> Michael Kelley's Reviewed-by is carried over on both patches, as neither
+> diff changed.
+> 
+> v2: https://lore.kernel.org/all/20260907044946.10813-1-hemanth.selam@gmail.com/
+> 
+> 
+> Hemanth Selam (2):
+>   Drivers: hv: vmbus: fix typo "substract" in comment
+>   tools/hv: fix typo "retrive" in comment
+> 
 
-Sashiko has reviewed this patch and found no issues. It looks great!
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260919123128.2886=
-8-1-bartlomiej.dmitruk@isec.pl?part=3D1
-
+Applied. Thanks.
