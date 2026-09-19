@@ -1,54 +1,84 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B5A1A6835;
-	Sat, 19 Sep 2026 04:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA0E19B5A3
+	for <linux-hyperv@vger.kernel.org>; Sat, 19 Sep 2026 12:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789791119; cv=none; b=s36cXME7l3DOek7G0jd1TOUaQyVnJzbmnV0uAaCpoIEHlUiu+bW+FJG301xKnJobtu6PwKGKhn/SvINa6RBp3fJs3oI5gGtiLOuNutrE+1pVj35evr/ojdWGwp4OLyjfNnBCy/oBSXkVBtjnFcqLnY7ZF7Z+6hTOCzHLz89rlAA=
+	t=1789821098; cv=none; b=VhVo6Gpbb8hDF/Go+0BLwcJDoojw8XU7bRlphaxOw/Eq8AgOaFsoJGhaZ/svDQdSc+d8M1j+GJep3NyC8pQkPNCgN5j54pPcmjYw5teb1SLTS9udnfwishhtIcnKPyAcJC8bWZKaP3wSi+x1lSsu1ALsGj+kNRLTCVAa9fvF0TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789791119; c=relaxed/simple;
-	bh=RjTWz4LAIN4EHUgEKsf39ko8jdsdlJmzQX4ba8aLM/0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=XNueUDIaY8yr4NnngmdyI3uWG9q0//xmXl0XlPt6mmwSM2AwTbAtQb6cjgVGR/Nww2mxlP7JjUbmpfkGUOnLYOUs1NoT9OYF700qYYUbUUDPaCb15uxgifcvaJOIugGxqHx/Q0wSCvpTAx7/FA9uMMzoT+5Q6nBWgfMV0N0ZRiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XCL6zRRC; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1789821098; c=relaxed/simple;
+	bh=roY2IqwHzwrcrhsrQDrMg9vMQMIiXHYHrXRILhi6xxQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wc7n8sYAgJ4SXMwyBDNekkfdUvkkqVDt8LoK6Mv1BPBfPxutIP27xdxhTrMr6/oXy5WEDgCNi8E22c5Wda8zGbK/8DwXId+SLOQjypPZuhS4ThFZfLAzhpCEPTfVIFH6D5yD32QadX3dWtuWllqGwntEd7/ls9OWvajsSMbg1Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=isec.pl; spf=pass smtp.mailfrom=isec.pl; dkim=pass (2048-bit key) header.d=isec.pl header.i=@isec.pl header.b=cS1zikkN; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=isec.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isec.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XCL6zRRC"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hmwzs3FwLzKn9X;
-	Sat, 19 Sep 2026 06:11:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1789791113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HLbR/+UEx2bhf0/HsuB/ZyBuo0TWZ9TVU+4TmozdlKI=;
-	b=XCL6zRRC/i7TSKQeNfWOco8GC2nbzfLA/kX7ig2hXnz38yMVtYpcgaYVLEk62J6+/bB8d1
-	E5M7vR/0I9emlbQehrS4o4Z0XfP+IlMhiROJi02s/GPsAFno1xZDurdrpjgJHOC2+POKwe
-	TLqPHDaPYUogZkFi1mh8DxNAoGeOXe5zw2q8XsyYmP/AYEpBhTTFw6IwgsRlrrHpn3PdVX
-	p2JaICiQMLFjdBT7GCJfMB2u32c/M+1FatIukxR0bB7sLi5HSDWa3pZGfoUuJ5HqOf/g9B
-	pP31xcmMyRo4FMexQ7c/M0aSWalBRmQrNoIgRkNQA8KdTQWiyO07B2Kn2lHHkA==
-Date: Fri, 18 Sep 2026 21:11:50 -0700 (PDT)
-From: vdso@mailbox.org
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: glx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	decui@microsoft.com, yunhong.jiang@linux.intel.com,
-	ricardo.neri-calderon@linux.intel.com, rahul.tanwar@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	stable@vger.kernel.org
-Message-ID: <15750262.186413.1789791110042@app.mailbox.org>
-In-Reply-To: <210aa40c-88e1-4d88-ba6b-9224b05b0820@linux.microsoft.com>
-References: <20260831082528.1623843-1-namjain@linux.microsoft.com>
- <aqTInOmsyr8AiciA@xps-8930>
- <210aa40c-88e1-4d88-ba6b-9224b05b0820@linux.microsoft.com>
-Subject: Re: [PATCH] x86/init: Initialize wall clock in get_rtc_noop()
+	dkim=pass (2048-bit key) header.d=isec.pl header.i=@isec.pl header.b="cS1zikkN"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ce364488dso4333655e9.0
+        for <linux-hyperv@vger.kernel.org>; Sat, 19 Sep 2026 05:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isec.pl; s=google; t=1789821094; x=1790425894; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AWoa1wKmbRq3MEqfsLgwsOWlgxTV8JygGlO2bb0IVX4=;
+        b=cS1zikkNnZ/oTE/4e95a25qRP351V7cwgo5zRq5/pMo+JBSy/tqYy4eKlxuTnsempT
+         vN5gk7v14Luo2oN7iPNKEHINip4YNMR52K0+pwEmHfMiRyp9+CzleJ0+Q3Gcgz+lQTKV
+         ZvEqMdIv5KAWi+TAG75zPZqpzYbZdm/VCiZwHS3B7BwQ4WYXmYGbeRm1NfnzexYUVW7n
+         lnU0AE93pQMO84G/3BUCcui3pl2InrbX8Ha6C0mnqOFGPOZReSB5zVkN3y/5v+WqWwkK
+         O7UtqRbYO8ryiOcNARAAJIq9Qx3d6fP1krk443mMfJU20JHTC1ZZucvfGF+Kk7vXRxPN
+         iDZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789821094; x=1790425894;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AWoa1wKmbRq3MEqfsLgwsOWlgxTV8JygGlO2bb0IVX4=;
+        b=MXe/7vqGOEiveoEcbSlq2FjJWl6IObrr5RQ5/ak4qxrRkPCQae1ALZvaB5eHAgMDwZ
+         E5HgBS+s4vim3MeiMtseNdN3WqSKc19htlEC2VwDcN55N9sNy7qKav/goMTUs3+x18N/
+         U4FvMpJLTnH8y7YjX0AJzIfz1QQ0Fl/i5lADHioFC6H3ZKBuOXwk2WgjeJ3Ye+jPjymI
+         pHMhN+BZGAxi4a+CTgYLJ/IedVyiEQVpnePS68Ae9wPQlpAKVCs1wM2A96OvN2ff/M7k
+         rP8KPGmN0QzkA3HmwZ9wS8jjOCdpxjWCWGnILB5Mj8ttrX53rpNbL1tz/TSDcSJxdnlr
+         GV2w==
+X-Forwarded-Encrypted: i=1; AKwUvBxJcvEodzTUKmQY+axC2F4JTAsMeznwwv7k09JY6GerBt0p3fS0UpnQzEvK9Q4xaqogmiK86nNsP6GqiZY=@vger.kernel.org
+X-Gm-Message-State: AFuF++m+46QIQYvuRk2n9ANnAJPxtiFNGH7BEUFnNR3fKVRQiuu7zHOM
+	oP/qWitQ2kwPKNRzuAfk9qOXAJw5NIvPOwE6FKtuQZ24ApgKmvDrF1tcqbwlb/vxNn4=
+X-Gm-Gg: AYBFou0gJGo71OCYMPtxIHeCF1epFy4GwTJu7pRKs4O6UoTccRERNAl9i9TlBhnvxHI
+	BmAMcWZMc4g5LRNCRYBmU/uJ55XFGohxX0eSM549F/lg8+kDcNxaB0O3TNHPywcNB5RGpVTpXN5
+	A9kB7XIC35iqMvaCZf4dja/e1cdgDLSB0xwIe6/Qd++7MTXB/HESc+e7a+2V3gRcGjix/3cW2O5
+	Md+NDEx8NcToTxr4VudXMpCnjb7/Z2XAuQ5XkVs3P6/Z5za52ZDM6R4sGXRgVqEhnU/E4VWCDKC
+	q2Jy5LzVS9CjFv6PRNfeGbZ739656BjVHtHbRDBk4t4cIXBbPhCknGyKdx3beGeE6meXl+eaR0N
+	VrLtQaRd+s9lJiEEPNYgPdIKcEe1ClviSzs7AQeffIkEb56nkLd6ZqvCxTfyHd3LNE3CjZilCug
+	ps73uhJynBGZg3GPtEPmXCWbtTFfGF2gcKWyI3Cc5QetVwLB7WrNXWVTguJG/gnOM4G58BeqMH7
+	WPPYZbIWC/6RZJrPsODyr4P4hPBvHBk/YI+ZtvJW+8eI8M=
+X-Received: by 2002:a05:600c:1389:b0:49d:2936:8ad1 with SMTP id 5b1f17b1804b1-49fc4f71c7dmr84366785e9.1.1789821093959;
+        Sat, 19 Sep 2026 05:31:33 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a318:80b3:9080:dcd8:ca10:f229:8aed])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724562aebsm7118300f8f.14.2026.09.19.05.31.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 19 Sep 2026 05:31:33 -0700 (PDT)
+From: =?UTF-8?q?Bart=C5=82omiej=20Dmitruk?= <bartlomiej.dmitruk@isec.pl>
+To: "K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	linux-hyperv@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] vsock/hv_sock: don't finish a connection on a socket being released
+Date: Sat, 19 Sep 2026 14:31:27 +0200
+Message-ID: <20260919123128.28868-1-bartlomiej.dmitruk@isec.pl>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -56,66 +86,50 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-MBO-RS-META: w37tqeymr6wn4d5uq7nsxgcsmsr5a85w
-X-MBO-RS-ID: a755947659e7d29af1e
+Content-Transfer-Encoding: 8bit
 
+hvs_open_connection() only checks sk->sk_state (TCP_LISTEN for a
+host-initiated connection, TCP_SYN_SENT for a guest-initiated one) before
+proceeding. __vsock_release() sets sk->sk_shutdown = SHUTDOWN_MASK and, for
+a listener, flushes the accept queue, while leaving sk_state unchanged. A
+VMBUS channel offer that races close() therefore still passes the state
+check and either enqueues a child onto the already-flushed accept queue
+(conn_from_host) or completes a connection on a socket being torn down
+(!conn_from_host); the socket and its VMBUS channel then leak.
 
-> On 09/14/2026 4:31 AM PDT Naman Jain <namjain@linux.microsoft.com> wrote:
-> 
->  
-> On 9/12/2026 9:05 AM, Roman Kisel wrote:
-> > On Mon, Aug 31, 2026 at 08:25:28AM +0000, Naman Jain wrote:
+The virtio transport guards the listener case in
+virtio_transport_recv_listen(); hv_sock has no equivalent. Add a
+sk_shutdown == SHUTDOWN_MASK check to the common path right after
+lock_sock(), so both the host- and guest-initiated paths bail out.
+hv_sock holds lock_sock(sk) across hvs_open_connection(), so the check is
+race-free.
 
-[...]
+This was found by code inspection; I do not have Hyper-V hardware to test on.
 
-> >> +void get_rtc_noop(struct timespec64 *now) { *now = (struct timespec64){0}; }
-> > 
-> > Hi Naman,
-> > 
-> > Could be
-> > 
-> > *now = (struct timespec64){};
-> > 
-> > to save a byte :)
-> 
-> hi Roman,
-> Thanks for reviewing.
-> 
-> Tianyu pointed out offline that this is handled in yet another way in 
-> jailhouse code:
-> 
-> arch/x86/kernel/jailhouse.c
-> static void jailhouse_get_wallclock(struct timespec64 *now)
-> {
->        memset(now, 0, sizeof(now));
-> }
+Fixes: ae0078fcf0a5 ("hv_sock: implements Hyper-V transport for Virtual Sockets (AF_VSOCK)")
+Signed-off-by: Bartłomiej Dmitruk <bartlomiej.dmitruk@isec.pl>
+---
+v2: move the SHUTDOWN_MASK check to the common checks after lock_sock() so it
+    also covers the guest-initiated (!conn_from_host) path; add Fixes tag
+    (Stefano Garzarella).
+v1: https://lore.kernel.org/netdev/20260917220156.56015-1-bartlomiej.dmitruk@isec.pl/
 
-Appreciate sharing! Makes sense to me, looks way more explicit. Most
-importantly imo, the memset isn't actually producing a call here so
-the clock no-op stays cheap when choosing `memset` over ` = {}`.
-
-One can see that the kernel build compiles ` = {0}`, ` = {}` into
-
-pxor ...
-movups ...
-
-on x64 in the above. I made sure the memset "call" is relaxed/optimized
-away into the same sequence `pxor ...; movups ...`.
-
-> 
-> Regards,
-> Naman
-> 
-> > 
-> > LGTM.
-> > Reviewed-by: Roman Kisel <vdso@mailbox.org>
-> > 
-> >>   
-> >>   static __initconst const struct of_device_id of_cmos_match[] = {
-> >>   	{ .compatible = "motorola,mc146818" },
-> >> -- 
-> >> 2.43.0
-> >>
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -322,6 +322,15 @@
+ 	    (!conn_from_host && sk->sk_state != TCP_SYN_SENT))
+ 		goto out;
+ 
++	/* __vsock_release() may have already set sk_shutdown = SHUTDOWN_MASK
++	 * (and, for a listener, flushed the accept queue) while leaving the
++	 * socket in TCP_LISTEN/TCP_SYN_SENT.  Proceeding would enqueue a child
++	 * onto a released listener, or complete a connection on a released
++	 * socket, leaking it and its VMBUS channel.
++	 */
++	if (sk->sk_shutdown == SHUTDOWN_MASK)
++		goto out;
++
+ 	if (conn_from_host) {
+ 		if (sk_acceptq_is_full(sk))
+ 			goto out;
