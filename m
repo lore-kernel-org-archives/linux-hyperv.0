@@ -1,149 +1,216 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205E82E266C
-	for <linux-hyperv@vger.kernel.org>; Mon, 21 Sep 2026 23:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFFE398902;
+	Mon, 21 Sep 2026 23:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790031866; cv=none; b=CqpiiOMwK55J+k0KTJc7HK0KimHQQFoUSvTnZxxH1Udnlzi6Xsu5Xdu1hrjjEFldptGadH0lP3a8INhpOFOlhlPlRB7ckjLcwXC3jtOvmEi8U5Ur3Ey93aM7VnugXS+IPamQI+Gr/8NmKvN75j03jPVXRu341LN3OBDs/MEaQRA=
+	t=1790032645; cv=none; b=bDPeTEJt+9NrjlmtgSj4aRGwB8oZ8qKHRnmv9HvXRBGC0i5H2G4IiikEg1fOcgJgYTTWdcca6ruElOCkbcBU8HZm0qf2XNLq9l2eugMY41+e8E5ZHQ+rQxGNUK6GgMN0WAaafDOxDNiOMabONzimuIbmSrjaWz38PnilwmQNoVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790031866; c=relaxed/simple;
-	bh=If2W+fhEti6pmKYAWSmHr7q4uP7gCjlEm4p+uixMn0E=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=J7r0czicwZk+wBsJr6ZwAAt/SxEtfeTCZqkSko0gn6TSLxslIg6ihseWvgS4075VRcuxQul9Ish+SDTN5ynCaIZ7sDsWhF6yyiPI1T6d/ybklLqg/dtE9fU9NlAQTcLh3Zote1xMczrZdyo34IU18x846t8RZZcecu7DF6im/R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9Oi2ofa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790032645; c=relaxed/simple;
+	bh=AUFbhEmXlZkVXtSMKv7VlAO0otXxEUML2aBbTl1nVMs=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MEBCOxorM6PZkDqmaUaqOpPQsIjxOdqMdtX+ZbHKzhjGWHZfQhOG49ZtYinUEnoa0ftawKIDvFfM+cs1D5BECIjM4AhMn5p0dqEM/ItFWZiwSV18R8Fgonf0+xGP3ZJhhili9XctLUBhu7PjQYPMfWKug7Avv9MptgI4EoxYcbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+oJrMdn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9Oi2ofa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B45FE1F000FF;
-	Mon, 21 Sep 2026 23:04:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+oJrMdn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F088E1F000FF;
+	Mon, 21 Sep 2026 23:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790031864;
-	bh=opIKO1Uy4rtdTzR24tyGykLxP3pjQzjJELcHJ/GAJys=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=m9Oi2ofaIh3LFYd1YLMN8YJeLIbP6HI846YB5PGBoqZ5AV3aF9XZHsupR3rnBhgzu
-	 vcToN2d2VUzs9+7dZJI8bEi8FDmt3t5mmb0cGjoK+VO+fuuGSJfHVY3NL3sJI4CaE2
-	 6xO+y/FTIrWI+LUWf0uCbaVGVXNXu0xHEYiWpY/xmuMDEQVzrDgne5/VjW/JYya7N8
-	 fBGLoXB0ofiyCzL0tLb4Fuyi/wZ3ol60gJUD673je3niyTGHLM7TyT2MfrXvAY1HNr
-	 86YRq9OBN+h27yuCKBGNho5aeK15ZHLSoAAK2+vxbdv9CsDgn6SS8bf4/lrMy3jJce
-	 CRtPEU1svNXeg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V0 3/3] x86/hyperv: Implement root VM IOMMU kernel only
- driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh R" <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260921225028.4007330-4-mrathor@linux.microsoft.com>
-References: <20260921225028.4007330-1-mrathor@linux.microsoft.com>
- <20260921225028.4007330-4-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Sep 2026 23:04:24 +0000
-Message-Id: <20260921230424.B45FE1F000FF@smtp.kernel.org>
+	s=k20260515; t=1790032641;
+	bh=+wEn3Ak0xk7EOTNfcdfLsG0vOpuUj3SLgH6sSDqmVac=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=X+oJrMdnXu+h3ySDtfxpoOridtFjoYe842E/PQsyzPDq79DbbHydjTTLZtD3s5vST
+	 bjZsQ3byp1ixHxbC1x/dJforJlTKDvQOmP+13lNmaQj3W9msBdrAbtB2+74CIfkdB3
+	 r1rFGWvKu6xWbcFXZ7J3/F79PWYGBtLJk6wZWmKAKyzBInnyJLcPbol7c7xebaG7Qr
+	 uztpDqKmy+h9ootJ1trcyVDqiY5SJo6wpeAAgbXmSEjqPAQKq2SSeyWmiij037A+K1
+	 gJXOhXui0XFMs1DNzlunsh165us9vJMzxrOhq7gSmcEWK5sDlQLcNbqFVjM5ZGFCU7
+	 F5Wt3O8QdxHYQ==
+Subject: Re: [PATCH] vsock/hv_sock: reject incoming connections when the
+ listener is being released
+From: netdev-bot+sashiko@kernel.org
+To: bartlomiej.dmitruk@isec.pl
+Cc: decui@microsoft.com, wei.liu@kernel.org, haiyangz@microsoft.com,
+ kys@microsoft.com, linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+ sgarzare@redhat.com, mst@redhat.com, kuba@kernel.org
+Date: Mon, 21 Sep 2026 23:17:20 +0000
+Message-ID: <179003264046.2160803.3176959842906352107@kernel.org>
+In-Reply-To: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
+References: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
+X-sashiko-severity: Critical
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] iommu: Flawed partial unmap logic causes memory leak and over-unma=
-p in hv_iommu_map_pages
-- [High] iommu: Incorrect assignment of IOVA aperture_end restricts DMA add=
-ress space
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
+
+Critical: 1 · High: 0 (1) · Medium: 0 · Low: 1
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Critical] The new early-exit added to hvs_open_connection() jumps to
+  the `out:` label, which performs `sock_put(sk)`…
+- [Low] The commit fixes a real, user-visible socket and VMBUS-channel
+  leak in hvs_open_connection() (net/vmw_vsock/hyperv_transport.c:334)…
+
+Pre-existing issues:
+- [High] hvs_open_connection() (net/vmw_vsock/hyperv_transport.c): the
+  new released-listener guard `if (sk->sk_shutdown == SHUTDOWN_MASK)…
+
 --
 
-commit c33bf0d2ad36d04023ab67f38b30621e50f3b924
-Author: Mukesh R <mrathor@linux.microsoft.com>
+vsock/hv_sock: reject incoming connections when the listener is being released
 
-x86/hyperv: Implement root VM IOMMU kernel only driver
+This adds a check for sk_shutdown == SHUTDOWN_MASK in
+hvs_open_connection() so that a host channel offer racing close() of an
+hv_sock listener does not create a child socket and enqueue it onto an
+accept queue that __vsock_release() has already flushed.  The stated goal
+is to stop the child socket and its VMBUS channel from leaking.
 
-Adds a new kernel-only virtual IOMMU driver that works with the Microsoft
-Hyper-V hypervisor on privileged root VMs. The driver communicates with the
-hypervisor for managing paging domains and device mappings.
+No Link: tags are present in the commit header.
 
-> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/=
-hv-iommu-root.c
-> new file mode 100644
-> index 0000000000000..a5268e0e52cc2
-> --- /dev/null
-> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
-> @@ -0,0 +1,645 @@
-[ ... ]
-> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *=
-dev)
-> +{
-[ ... ]
-> +	hvdom->domid_num =3D unique_id;
-> +
-> +	hvdom->iommu_dom.pgsize_bitmap =3D HV_IOMMU_PGSIZES;
-> +	hvdom->iommu_dom.geometry.aperture_start =3D 0;
-> +	hvdom->iommu_dom.geometry.aperture_end =3D hv_max_iova_width;
+A few questions about the change below.
 
-[Severity: High]
-Does this directly assign the bit-width value to the maximum address bounda=
-ry
-instead of creating an address mask?
+[Severity: Low]
+Should this carry a Fixes: tag?
 
-The hypervisor capability max_iova_width returns the bit-width of the
-supported IOVA space (e.g., 39 or 48 bits), not the maximum memory address
-mask. Since the IOMMU core uses aperture_end as the absolute maximum address
-for IOVA allocations, this seems to restrict the DMA address space to a
-scalar bit-width value, which could cause any DMA mapping requested above
-address 39 or 48 to fail.
+The unguarded child creation in hvs_open_connection(), and the release
+path that sets sk_shutdown = SHUTDOWN_MASK while leaving sk_state ==
+TCP_LISTEN, both date back to the introduction of the transport, so the
+trailer would be:
 
-> +	hvdom->iommu_dom.geometry.force_aperture =3D true;
-> +	hvdom->iommu_dom.ops =3D &hv_paging_domain_ops;
-[ ... ]
-> +static int hv_iommu_map_pages(struct iommu_domain *immdom, ulong iova,
-> +			      phys_addr_t paddr, size_t pgsize, size_t pgcount,
-> +			      int prot, gfp_t gfp, size_t *mapped)
-> +{
-[ ... ]
-> +	if (!hv_result_success(status)) {
-> +		size_t done_size =3D done << HV_HYP_PAGE_SHIFT;
-> +
-> +		hv_status_err(status, "pgs:%lx/%lx iova:%lx\n",
-> +			      done, npages, iova);
-> +		/*
-> +		 * lookup tree has all mappings [0 - size-1]. Below unmap will
-> +		 * only remove from [0 - done], we need to remove second chunk
-> +		 * [done+1 - size-1].
+Fixes: ae0078fcf0a5 ("hv_sock: implements Hyper-V transport for Virtual Sockets (AF_VSOCK)")
+
+Without it, stable tooling will not pick up what is otherwise a real leak
+fix.
+
+> diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+> index 855b15971c359..19e487ac27263 100644
+> --- a/net/vmw_vsock/hyperv_transport.c
+> +++ b/net/vmw_vsock/hyperv_transport.c
+> @@ -326,6 +326,14 @@ static void hvs_open_connection(struct vmbus_channel *chan)
+>  		if (sk_acceptq_is_full(sk))
+>  			goto out;
+>  
+> +		/* __vsock_release() may have already flushed the accept queue
+> +		 * and set sk_shutdown = SHUTDOWN_MASK while leaving sk_state ==
+> +		 * TCP_LISTEN.  Enqueuing a child now would leak the child socket
+> +		 * and its VMBUS channel.  Mirror virtio_transport_recv_listen().
 > +		 */
-> +		hv_iommu_del_tree_mappings(hvdom, iova, size - done_size);
-> +		hv_iommu_unmap_pages(immdom, iova - done_size, HV_HYP_PAGE_SIZE,
-> +				     done, NULL);
+> +		if (sk->sk_shutdown == SHUTDOWN_MASK)
+> +			goto out;
+> +
 
-[Severity: High]
-If a batched mapping operation fails midway, does this error path
-inadvertently leak mappings and over-unmap pages?
+[Severity: Critical]
+Can this new goto out lead to a use-after-free of the listener?
 
-When splitting the software tree mapping, the error path calls
-hv_iommu_del_tree_mappings(), which blocks removing the unmapped tail becau=
-se
-it does not support splitting:
+The out: epilogue in hvs_open_connection() drops the reference before it
+unlocks:
 
-drivers/iommu/hyperv/hv-iommu-root.c:hv_iommu_del_tree_mappings() {
-    ...
-    /* Splitting of a mapping is not supported at present */
-    if (mapping->iova.start < iova)
-        break;
-    ...
+net/vmw_vsock/hyperv_transport.c:hvs_open_connection() {
+	...
+out:
+	/* Release refcnt obtained when we called vsock_find_bound_socket() */
+	sock_put(sk);
+
+	release_sock(sk);
 }
 
-Subsequently, does the head unmap via hv_iommu_unmap_pages() delete the
-entire software node and use its full original size to unmap pages from the
-hypervisor?
+In the exact race this patch targets, is the vsock_find_bound_socket()
+reference the last one left?  The racing close() drops everything else:
 
-This seems like it would send out-of-bounds unmap requests for pages never
-successfully mapped, and abandon the correctly mapped pages since the
-software node is destroyed.
+net/vmw_vsock/af_vsock.c:__vsock_release() {
+	sock_set_flag(sk, SOCK_DEAD);
 
-> +		if (mapped)
-> +			*mapped =3D 0;
-> +	} else
-[ ... ]
+	if (vsk->transport)
+		vsk->transport->release(vsk);	/* hvs_release() ->
+						 * vsock_remove_sock() ->
+						 * vsock_remove_bound()
+						 */
+	sock_orphan(sk);
+	sk->sk_shutdown = SHUTDOWN_MASK;
+	...
+	while ((pending = vsock_dequeue_accept(sk)) != NULL) {
+		__vsock_release(pending, SINGLE_DEPTH_NESTING);
+		sock_put(pending);
+	}
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260921225028.4007=
-330-1-mrathor@linux.microsoft.com?part=3D3
+	release_sock(sk);
+	sock_put(sk);
+}
+
+vsock_dequeue_accept() also does sock_put(listener) for each queued child,
+and hvs_close_lock_held() returns true immediately for TCP_LISTEN without
+touching sk_state, so once __vsock_release() finishes the listener is only
+kept alive by the lookup reference held by hvs_open_connection().
+
+hvs_open_connection() then takes the lock, sees sk_state == TCP_LISTEN,
+matches the new sk_shutdown == SHUTDOWN_MASK test, and goes to out:, where
+sock_put() drops the count to zero.  vsock_proto sets neither SOCK_RCU_FREE
+nor SLAB_TYPESAFE_BY_RCU, so sk_free() -> __sk_destruct() ->
+kmem_cache_free() runs synchronously and the following release_sock(sk)
+touches sk->sk_lock.slock, the backlog and the wait queue on freed memory.
+
+Before this change the same race normally continued into
+vsock_enqueue_accept(), which does sock_hold(listener), so the leak being
+fixed here is what kept the socket alive past that sock_put().  Should the
+epilogue be reordered to release_sock(sk) followed by sock_put(sk) as part
+of this fix?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but should the new test be
+hoisted above the if (conn_from_host) block so it also covers the
+guest-initiated arm?
+
+As placed, the check only runs for conn_from_host.  For the
+!conn_from_host case hvs_open_connection() accepts sk_state ==
+TCP_SYN_SENT, and hvs_close_lock_held() leaves sk_state alone for that
+state too, so a socket that __vsock_release() has already torn down still
+looks connectable while sock_orphan() has cleared sk->sk_socket.  The else
+branch then does:
+
+net/vmw_vsock/hyperv_transport.c:hvs_open_connection() {
+	...
+	} else {
+		sk->sk_state = TCP_ESTABLISHED;
+		sk->sk_socket->state = SS_CONNECTED;
+
+		vsock_insert_connected(vsock_sk(sk));
+	}
+	...
+}
+
+which writes through a NULL sk_socket, and inserts an already released
+socket into the connected table.
+
+Core vsock already treats that combination as a state where sk_socket must
+not be dereferenced:
+
+net/vmw_vsock/af_vsock.c:vsock_connect_timeout() {
+	...
+	if (sk->sk_state == TCP_SYN_SENT &&
+	    (sk->sk_shutdown != SHUTDOWN_MASK)) {
+		sk->sk_state = TCP_CLOSE;
+		sk->sk_socket->state = SS_UNCONNECTED;
+	...
+}
+
+Moving the new check up to just after the sk_state tests would cover both
+arms.
+
+>  		new = vsock_create_connected(sk);
+>  		if (!new)
+>  			goto out;
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260917220156.56015-1-bartlomiej.dmitruk%40isec.pl
