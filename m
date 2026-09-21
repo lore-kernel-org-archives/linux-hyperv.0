@@ -1,110 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701C53B813E
-	for <linux-hyperv@vger.kernel.org>; Mon, 21 Sep 2026 23:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205E82E266C
+	for <linux-hyperv@vger.kernel.org>; Mon, 21 Sep 2026 23:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790031689; cv=none; b=morkQOr++u3g7lFxcrzbDRyn6lwiCdtLI0t1W3i8bipZaZSRCAdvDak87Q7VtZck90LTs4rBdFOnXqSqr9U8xVMuB6bXnPEnR4txZGLYAFNvZ8rmvpVdTvbA0X7bU9kPuryraKryfbCOIMtQ40fbdixgYZN4Trffmruj2vWDgD8=
+	t=1790031866; cv=none; b=CqpiiOMwK55J+k0KTJc7HK0KimHQQFoUSvTnZxxH1Udnlzi6Xsu5Xdu1hrjjEFldptGadH0lP3a8INhpOFOlhlPlRB7ckjLcwXC3jtOvmEi8U5Ur3Ey93aM7VnugXS+IPamQI+Gr/8NmKvN75j03jPVXRu341LN3OBDs/MEaQRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790031689; c=relaxed/simple;
-	bh=gHpknGT5/FCdGG/SRJhV6AE+WQFNuOZqJeOUYnzNzSk=;
+	s=arc-20240116; t=1790031866; c=relaxed/simple;
+	bh=If2W+fhEti6pmKYAWSmHr7q4uP7gCjlEm4p+uixMn0E=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=f9TdyjCJ6MmHEsbUeWP3CMfD2FkL9hdQT5XQlUMkjafV4ay7eZqqS7PStAQvwD5PmO/0HfepuGf2Ok/VBbP3wi5kyKUYfNNT4rE1Z01Kvxu5rDfQauCwDQHX9tETf9/YOD2f09UVwA8L8yGNXBjMi6SsorJ/eM3npkiR5OOfG1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWVXagfA; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=J7r0czicwZk+wBsJr6ZwAAt/SxEtfeTCZqkSko0gn6TSLxslIg6ihseWvgS4075VRcuxQul9Ish+SDTN5ynCaIZ7sDsWhF6yyiPI1T6d/ybklLqg/dtE9fU9NlAQTcLh3Zote1xMczrZdyo34IU18x846t8RZZcecu7DF6im/R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9Oi2ofa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWVXagfA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFBD41F000FF;
-	Mon, 21 Sep 2026 23:01:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9Oi2ofa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B45FE1F000FF;
+	Mon, 21 Sep 2026 23:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790031688;
-	bh=GFXllnPKPybHjy1Iw6rivea3CkHRyiv7jHQAcDEgTUI=;
+	s=k20260515; t=1790031864;
+	bh=opIKO1Uy4rtdTzR24tyGykLxP3pjQzjJELcHJ/GAJys=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KWVXagfAWJvHOE/V6Vr9mdZIkpAiITRA4PJmwV6rqmpntXdDR4ivVdbnXx9y1lXbQ
-	 Am9sD2e7+PJFTd6tDOniGMHZsyOxl5cH3gfpL79Rc5PbzUC6sABwxRqkwlPJJuRCB1
-	 jKR/c1CpyJt7kqCRX60woEzXoS6JB+q9VRkQVHIZ8lky6ccDlvmYysQbzkqbMJUa4v
-	 NqwXTtYKZ5YvtSyLkaoCxwzPO95Hcl3KJNzD8HSkdp5oEREA12stYacg6XmqHFoMok
-	 MqTZBwfzs405UOEUpsa2c0XKcjP1MzbtSFtOLWgo/UXvTwPb4OFPwhqeZZLq9dXcC4
-	 m/5hskRFhxp7A==
+	b=m9Oi2ofaIh3LFYd1YLMN8YJeLIbP6HI846YB5PGBoqZ5AV3aF9XZHsupR3rnBhgzu
+	 vcToN2d2VUzs9+7dZJI8bEi8FDmt3t5mmb0cGjoK+VO+fuuGSJfHVY3NL3sJI4CaE2
+	 6xO+y/FTIrWI+LUWf0uCbaVGVXNXu0xHEYiWpY/xmuMDEQVzrDgne5/VjW/JYya7N8
+	 fBGLoXB0ofiyCzL0tLb4Fuyi/wZ3ol60gJUD673je3niyTGHLM7TyT2MfrXvAY1HNr
+	 86YRq9OBN+h27yuCKBGNho5aeK15ZHLSoAAK2+vxbdv9CsDgn6SS8bf4/lrMy3jJce
+	 CRtPEU1svNXeg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V0 1/3] PCI: hv: Export hv_build_devid_type_pci() and
- change return type
+Subject: Re: [PATCH V0 3/3] x86/hyperv: Implement root VM IOMMU kernel only
+ driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mukesh R" <mrathor@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260921225028.4007330-2-mrathor@linux.microsoft.com>
+In-Reply-To: <20260921225028.4007330-4-mrathor@linux.microsoft.com>
 References: <20260921225028.4007330-1-mrathor@linux.microsoft.com>
- <20260921225028.4007330-2-mrathor@linux.microsoft.com>
+ <20260921225028.4007330-4-mrathor@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Sep 2026 23:01:27 +0000
-Message-Id: <20260921230127.BFBD41F000FF@smtp.kernel.org>
+Date: Mon, 21 Sep 2026 23:04:24 +0000
+Message-Id: <20260921230424.B45FE1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] hv: invalid fallback device ID when CONFIG_PCI_MSI=3Dn
+- [High] iommu: Flawed partial unmap logic causes memory leak and over-unma=
+p in hv_iommu_map_pages
+- [High] iommu: Incorrect assignment of IOVA aperture_end restricts DMA add=
+ress space
 --
 
-commit 92e8d721eb5c704c530977f1074dc44ee7895e0a
+commit c33bf0d2ad36d04023ab67f38b30621e50f3b924
 Author: Mukesh R <mrathor@linux.microsoft.com>
 
-PCI: hv: Export hv_build_devid_type_pci() and change return type
+x86/hyperv: Implement root VM IOMMU kernel only driver
 
-This commit makes hv_build_devid_type_pci() public and changes its return
-type to u64 to enforce its size. It also adds a fallback stub for when
-CONFIG_PCI_MSI is disabled.
+Adds a new kernel-only virtual IOMMU driver that works with the Microsoft
+Hyper-V hypervisor on privileged root VMs. The driver communicates with the
+hypervisor for managing paging domains and device mappings.
 
-> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyp=
-erv.h
-> index f64393e853ee3..8ebbd1cb7c8ce 100644
-> --- a/arch/x86/include/asm/mshyperv.h
-> +++ b/arch/x86/include/asm/mshyperv.h
-> @@ -248,6 +248,12 @@ void hv_crash_asm_end(void);
->  static inline void hv_root_crash_init(void) {}
->  #endif  /* CONFIG_MSHV_ROOT && CONFIG_CRASH_DUMP */
-> =20
-> +#ifdef CONFIG_PCI_MSI
-> +u64 hv_build_devid_type_pci(struct pci_dev *pdev);
-> +#else
-> +static inline u64 hv_build_devid_type_pci(struct pci_dev *pdev) { return=
- 0; }
+> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/=
+hv-iommu-root.c
+> new file mode 100644
+> index 0000000000000..a5268e0e52cc2
+> --- /dev/null
+> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
+> @@ -0,0 +1,645 @@
+[ ... ]
+> +static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *=
+dev)
+> +{
+[ ... ]
+> +	hvdom->domid_num =3D unique_id;
+> +
+> +	hvdom->iommu_dom.pgsize_bitmap =3D HV_IOMMU_PGSIZES;
+> +	hvdom->iommu_dom.geometry.aperture_start =3D 0;
+> +	hvdom->iommu_dom.geometry.aperture_end =3D hv_max_iova_width;
 
 [Severity: High]
-Does returning 0 here break PCI device isolation and silently misconfigure =
-the
-hypervisor IOMMU?
+Does this directly assign the bit-width value to the maximum address bounda=
+ry
+instead of creating an address mask?
 
-On Hyper-V, a device ID of 0 is not an error code; it is a valid ID
-corresponding to HV_DEVICE_TYPE_LOGICAL (type 0) with ID 0. If CONFIG_PCI_M=
-SI
-is disabled (which is permitted, as CONFIG_HYPERV_ROOT_IOMMU does not selec=
-t or
-depend on it), the IOMMU driver will silently issue attach/map hypercalls
-targeting Logical Device 0 instead of the actual PCI device.
+The hypervisor capability max_iova_width returns the bit-width of the
+supported IOVA space (e.g., 39 or 48 bits), not the maximum memory address
+mask. Since the IOMMU core uses aperture_end as the absolute maximum address
+for IOVA allocations, this seems to restrict the DMA address space to a
+scalar bit-width value, which could cause any DMA mapping requested above
+address 39 or 48 to fail.
 
-For example, when compiled with CONFIG_HYPERV_ROOT_IOMMU=3Dy and
-CONFIG_PCI_MSI=3Dn, during boot and device initialization, hv_iommu_att_dev=
-2dom()
-could call this stub and pass the resulting 0 to the
-HVCALL_ATTACH_DEVICE_DOMAIN hypercall.
-
-Can the actual implementation of hv_build_devid_type_pci() in
-arch/x86/hyperv/irqdomain.c and its dependencies (get_rid_cb, struct rid_da=
-ta)
-be moved outside the CONFIG_PCI_MSI configuration boundary rather than being
-masked by a silently failing stub? They use standard PCI APIs and have no
-real dependency on MSI.
-
-> +#endif
+> +	hvdom->iommu_dom.geometry.force_aperture =3D true;
+> +	hvdom->iommu_dom.ops =3D &hv_paging_domain_ops;
+[ ... ]
+> +static int hv_iommu_map_pages(struct iommu_domain *immdom, ulong iova,
+> +			      phys_addr_t paddr, size_t pgsize, size_t pgcount,
+> +			      int prot, gfp_t gfp, size_t *mapped)
+> +{
+[ ... ]
+> +	if (!hv_result_success(status)) {
+> +		size_t done_size =3D done << HV_HYP_PAGE_SHIFT;
 > +
->  #else /* CONFIG_HYPERV */
->  static inline void hyperv_init(void) {}
+> +		hv_status_err(status, "pgs:%lx/%lx iova:%lx\n",
+> +			      done, npages, iova);
+> +		/*
+> +		 * lookup tree has all mappings [0 - size-1]. Below unmap will
+> +		 * only remove from [0 - done], we need to remove second chunk
+> +		 * [done+1 - size-1].
+> +		 */
+> +		hv_iommu_del_tree_mappings(hvdom, iova, size - done_size);
+> +		hv_iommu_unmap_pages(immdom, iova - done_size, HV_HYP_PAGE_SIZE,
+> +				     done, NULL);
+
+[Severity: High]
+If a batched mapping operation fails midway, does this error path
+inadvertently leak mappings and over-unmap pages?
+
+When splitting the software tree mapping, the error path calls
+hv_iommu_del_tree_mappings(), which blocks removing the unmapped tail becau=
+se
+it does not support splitting:
+
+drivers/iommu/hyperv/hv-iommu-root.c:hv_iommu_del_tree_mappings() {
+    ...
+    /* Splitting of a mapping is not supported at present */
+    if (mapping->iova.start < iova)
+        break;
+    ...
+}
+
+Subsequently, does the head unmap via hv_iommu_unmap_pages() delete the
+entire software node and use its full original size to unmap pages from the
+hypervisor?
+
+This seems like it would send out-of-bounds unmap requests for pages never
+successfully mapped, and abandon the correctly mapped pages since the
+software node is destroyed.
+
+> +		if (mapped)
+> +			*mapped =3D 0;
+> +	} else
+[ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260921225028.4007=
-330-1-mrathor@linux.microsoft.com?part=3D1
+330-1-mrathor@linux.microsoft.com?part=3D3
