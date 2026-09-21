@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFFE398902;
-	Mon, 21 Sep 2026 23:17:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8E947D460;
+	Mon, 21 Sep 2026 23:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790032645; cv=none; b=bDPeTEJt+9NrjlmtgSj4aRGwB8oZ8qKHRnmv9HvXRBGC0i5H2G4IiikEg1fOcgJgYTTWdcca6ruElOCkbcBU8HZm0qf2XNLq9l2eugMY41+e8E5ZHQ+rQxGNUK6GgMN0WAaafDOxDNiOMabONzimuIbmSrjaWz38PnilwmQNoVU=
+	t=1790033042; cv=none; b=A27pAOiaQIqhtdCsRJPqLvaGpz/T2QF6rkwjcn7/NoYkclZbliyCqm7jFz4E3Z5N9zodxCdNNAdjkqxdITPsZciZewEJ24ARGjsqL+WZBDi0vJgHN+6r97lhEoZNpFiMcm53k2ozr/cJBcqbICjj4Ygd1ilZiDE36dlaynp56cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790032645; c=relaxed/simple;
-	bh=AUFbhEmXlZkVXtSMKv7VlAO0otXxEUML2aBbTl1nVMs=;
+	s=arc-20240116; t=1790033042; c=relaxed/simple;
+	bh=F9Nc5VQmOoSmRUIxGOfwTVssqSez1uZN9c7xJYqdl5I=;
 	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MEBCOxorM6PZkDqmaUaqOpPQsIjxOdqMdtX+ZbHKzhjGWHZfQhOG49ZtYinUEnoa0ftawKIDvFfM+cs1D5BECIjM4AhMn5p0dqEM/ItFWZiwSV18R8Fgonf0+xGP3ZJhhili9XctLUBhu7PjQYPMfWKug7Avv9MptgI4EoxYcbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+oJrMdn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:MIME-Version; b=dc8JvAAMQviadUIDvwJ8YEcpbqjcdYLAViqfGon8gH4e2HSCRaLYuhic4T4Dq/zqdUSfmdGg3xyTqy9jfVDn9erbEQy2m2n+5UMJzJ+ginNUkE/4SDhWXquaRFyDiS96njoBA6e2GmEtMMLjIlCIMAYiiLJ/EAHyqypZbBzyY1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uvo2n6Fi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+oJrMdn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F088E1F000FF;
-	Mon, 21 Sep 2026 23:17:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uvo2n6Fi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 306E71F000FF;
+	Mon, 21 Sep 2026 23:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790032641;
-	bh=+wEn3Ak0xk7EOTNfcdfLsG0vOpuUj3SLgH6sSDqmVac=;
+	s=k20260515; t=1790033037;
+	bh=q/Nbz2dyNClG9b4ee353cgWCmiZ/CbxVIEn8L+troCo=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=X+oJrMdnXu+h3ySDtfxpoOridtFjoYe842E/PQsyzPDq79DbbHydjTTLZtD3s5vST
-	 bjZsQ3byp1ixHxbC1x/dJforJlTKDvQOmP+13lNmaQj3W9msBdrAbtB2+74CIfkdB3
-	 r1rFGWvKu6xWbcFXZ7J3/F79PWYGBtLJk6wZWmKAKyzBInnyJLcPbol7c7xebaG7Qr
-	 uztpDqKmy+h9ootJ1trcyVDqiY5SJo6wpeAAgbXmSEjqPAQKq2SSeyWmiij037A+K1
-	 gJXOhXui0XFMs1DNzlunsh165us9vJMzxrOhq7gSmcEWK5sDlQLcNbqFVjM5ZGFCU7
-	 F5Wt3O8QdxHYQ==
-Subject: Re: [PATCH] vsock/hv_sock: reject incoming connections when the
- listener is being released
+	b=Uvo2n6FiGWfFvycM6y1y/I7EE1/KRtfmO3D2WYmBsvvHpmiKkAZLuc/sTvdveTX52
+	 VHJvhyG4+9lgiLSVtJQch9Z8BgVPTJna0vIcQgAqF7LsOsmP5xIYLkWCd2KhTmXePa
+	 kWObz8aU2BI3moyNuOS9kkeOUFDZTgu34kggH2SP9aYCzmm6WOxkI6bTGtZs6gRdtH
+	 l/J7dXVhoyXjf1HMT9RncEUzQ7VWZpU5rhgxla6A6LXC5MyjwYiY5/QKuaicO9Ldfk
+	 Istbvu5fpLeJeXuveJ7Lp21hxiSovjYdzxgSOG28lRDISjEA3Zq34aSdIRNVZiUqtt
+	 1fVX8ldeGjnpA==
+Subject: Re: [PATCH] vsock/hv_sock: fix socket/table leak when rescind races
+ the delayed close
 From: netdev-bot+sashiko@kernel.org
 To: bartlomiej.dmitruk@isec.pl
 Cc: decui@microsoft.com, wei.liu@kernel.org, haiyangz@microsoft.com,
  kys@microsoft.com, linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
  sgarzare@redhat.com, mst@redhat.com, kuba@kernel.org
-Date: Mon, 21 Sep 2026 23:17:20 +0000
-Message-ID: <179003264046.2160803.3176959842906352107@kernel.org>
-In-Reply-To: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
-References: <20260917220156.56015-1-bartlomiej.dmitruk@isec.pl>
-X-sashiko-severity: Critical
+Date: Mon, 21 Sep 2026 23:23:56 +0000
+Message-ID: <179003303663.2160803.2038691427232135222@kernel.org>
+In-Reply-To: <20260917220213.56102-1-bartlomiej.dmitruk@isec.pl>
+References: <20260917220213.56102-1-bartlomiej.dmitruk@isec.pl>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -47,10 +47,10 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 1 potential
 issue(s) to consider.
 
-Critical: 1 · High: 0 (1) · Medium: 0 · Low: 1
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -58,159 +58,140 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Critical] The new early-exit added to hvs_open_connection() jumps to
-  the `out:` label, which performs `sock_put(sk)`…
-- [Low] The commit fixes a real, user-visible socket and VMBUS-channel
-  leak in hvs_open_connection() (net/vmw_vsock/hyperv_transport.c:334)…
+- [Medium] Missing `Fixes:` tag and stable Cc on a real bug fix.
 
 Pre-existing issues:
-- [High] hvs_open_connection() (net/vmw_vsock/hyperv_transport.c): the
-  new released-listener guard `if (sk->sk_shutdown == SHUTDOWN_MASK)…
+- [High] The identical leak the patch closes for hv_sock remains in the
+  sibling transport that shares the same `vsk->close_work` /…
 
 --
 
-vsock/hv_sock: reject incoming connections when the listener is being released
+vsock/hv_sock: fix socket/table leak when rescind races the delayed close
 
-This adds a check for sk_shutdown == SHUTDOWN_MASK in
-hvs_open_connection() so that a host channel offer racing close() of an
-hv_sock listener does not create a child socket and enqueue it onto an
-accept queue that __vsock_release() has already flushed.  The stated goal
-is to stop the child socket and its VMBUS channel from leaking.
+This changes hvs_close_timeout() so that, when SOCK_DONE is already set but
+vsk->close_work_scheduled is still true, the running work drops the
+scheduling reference and calls vsock_remove_sock() itself. That covers the
+case where hvs_close_connection() could not cancel the already-dequeued
+work.
 
-No Link: tags are present in the commit header.
+A couple of questions below.
 
-A few questions about the change below.
+> Make the running timeout complete the cleanup the rescind path could not:
+> when SOCK_DONE is set but the work is still marked scheduled, drop the
+> scheduling reference and remove the socket.  The two cleanup sites are
+> mutually exclusive and guarded by close_work_scheduled, so the reference
+> is dropped exactly once.  (cancel_delayed_work_sync() cannot be used from
+> hvs_do_close_lock_held(): it runs under the same lock_sock() the work
+> takes.)
+>
+> Signed-off-by: Bartłomiej Dmitruk <bartlomiej.dmitruk@isec.pl>
 
-[Severity: Low]
-Should this carry a Fixes: tag?
+[Severity: Medium]
+Should this carry a Fixes: tag and a stable Cc?
 
-The unguarded child creation in hvs_open_connection(), and the release
-path that sets sk_shutdown = SHUTDOWN_MASK while leaving sk_state ==
-TCP_LISTEN, both date back to the introduction of the transport, so the
-trailer would be:
+git blame on the pre-image points both halves of the defective logic at
+commit a9eeb998c28d ("hv_sock: Add support for delayed close"): the
+cancel_delayed_work()-conditional reference drop in
+hvs_do_close_lock_held(), and the unconditional
+vsk->close_work_scheduled = false in hvs_close_timeout().
 
-Fixes: ae0078fcf0a5 ("hv_sock: implements Hyper-V transport for Virtual Sockets (AF_VSOCK)")
+The triggering event is a host-initiated channel rescind, so it is not
+under guest control. Would the following trailers be appropriate, along
+with a [PATCH net] subject prefix?
 
-Without it, stable tooling will not pick up what is otherwise a real leak
-fix.
+  Fixes: a9eeb998c28d ("hv_sock: Add support for delayed close")
+  Cc: stable@vger.kernel.org
 
 > diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-> index 855b15971c359..19e487ac27263 100644
+> index 855b15971c359..2779961fc18ca 100644
 > --- a/net/vmw_vsock/hyperv_transport.c
 > +++ b/net/vmw_vsock/hyperv_transport.c
-> @@ -326,6 +326,14 @@ static void hvs_open_connection(struct vmbus_channel *chan)
->  		if (sk_acceptq_is_full(sk))
->  			goto out;
+> @@ -499,10 +499,18 @@ static void hvs_close_timeout(struct work_struct *work)
 >  
-> +		/* __vsock_release() may have already flushed the accept queue
-> +		 * and set sk_shutdown = SHUTDOWN_MASK while leaving sk_state ==
-> +		 * TCP_LISTEN.  Enqueuing a child now would leak the child socket
-> +		 * and its VMBUS channel.  Mirror virtio_transport_recv_listen().
+>  	sock_hold(sk);
+>  	lock_sock(sk);
+> -	if (!sock_flag(sk, SOCK_DONE))
+> +	if (!sock_flag(sk, SOCK_DONE)) {
+>  		hvs_do_close_lock_held(vsk, false);
+> -
+> -	vsk->close_work_scheduled = false;
+> +	} else if (vsk->close_work_scheduled) {
+> +		/* A concurrent rescind (hvs_close_connection) set SOCK_DONE but
+> +		 * could not cancel this already-running work, so it left the
+> +		 * scheduling reference and vsock_remove_sock() to us.  Finish
+> +		 * the cleanup to avoid leaking the socket and its table entry.
 > +		 */
-> +		if (sk->sk_shutdown == SHUTDOWN_MASK)
-> +			goto out;
-> +
-
-[Severity: Critical]
-Can this new goto out lead to a use-after-free of the listener?
-
-The out: epilogue in hvs_open_connection() drops the reference before it
-unlocks:
-
-net/vmw_vsock/hyperv_transport.c:hvs_open_connection() {
-	...
-out:
-	/* Release refcnt obtained when we called vsock_find_bound_socket() */
-	sock_put(sk);
-
-	release_sock(sk);
-}
-
-In the exact race this patch targets, is the vsock_find_bound_socket()
-reference the last one left?  The racing close() drops everything else:
-
-net/vmw_vsock/af_vsock.c:__vsock_release() {
-	sock_set_flag(sk, SOCK_DEAD);
-
-	if (vsk->transport)
-		vsk->transport->release(vsk);	/* hvs_release() ->
-						 * vsock_remove_sock() ->
-						 * vsock_remove_bound()
-						 */
-	sock_orphan(sk);
-	sk->sk_shutdown = SHUTDOWN_MASK;
-	...
-	while ((pending = vsock_dequeue_accept(sk)) != NULL) {
-		__vsock_release(pending, SINGLE_DEPTH_NESTING);
-		sock_put(pending);
-	}
-
-	release_sock(sk);
-	sock_put(sk);
-}
-
-vsock_dequeue_accept() also does sock_put(listener) for each queued child,
-and hvs_close_lock_held() returns true immediately for TCP_LISTEN without
-touching sk_state, so once __vsock_release() finishes the listener is only
-kept alive by the lookup reference held by hvs_open_connection().
-
-hvs_open_connection() then takes the lock, sees sk_state == TCP_LISTEN,
-matches the new sk_shutdown == SHUTDOWN_MASK test, and goes to out:, where
-sock_put() drops the count to zero.  vsock_proto sets neither SOCK_RCU_FREE
-nor SLAB_TYPESAFE_BY_RCU, so sk_free() -> __sk_destruct() ->
-kmem_cache_free() runs synchronously and the following release_sock(sk)
-touches sk->sk_lock.slock, the backlog and the wait queue on freed memory.
-
-Before this change the same race normally continued into
-vsock_enqueue_accept(), which does sock_hold(listener), so the leak being
-fixed here is what kept the socket alive past that sock_put().  Should the
-epilogue be reordered to release_sock(sk) followed by sock_put(sk) as part
-of this fix?
+> +		vsk->close_work_scheduled = false;
+> +		vsock_remove_sock(vsk);
+> +		sock_put(sk);
+> +	}
+>  	release_sock(sk);
+>  	sock_put(sk);
+>  }
 
 [Severity: High]
-This isn't a bug introduced by this patch, but should the new test be
-hoisted above the if (conn_from_host) block so it also covers the
-guest-initiated arm?
+This is a pre-existing issue and not introduced by this patch, but does the
+same struct sock leak still exist in virtio_transport_common.c, which uses
+the same vsk->close_work and vsk->close_work_scheduled fields from
+include/net/af_vsock.h?
 
-As placed, the check only runs for conn_from_host.  For the
-!conn_from_host case hvs_open_connection() accepts sk_state ==
-TCP_SYN_SENT, and hvs_close_lock_held() leaves sk_state alone for that
-state too, so a socket that __vsock_release() has already torn down still
-looks connectable while sock_orphan() has cleared sk->sk_socket.  The else
-branch then does:
+virtio_transport_close_timeout() still has the pattern this hunk replaces:
 
-net/vmw_vsock/hyperv_transport.c:hvs_open_connection() {
-	...
-	} else {
-		sk->sk_state = TCP_ESTABLISHED;
-		sk->sk_socket->state = SS_CONNECTED;
+net/vmw_vsock/virtio_transport_common.c:virtio_transport_close_timeout() {
+	sock_hold(sk);
+	lock_sock(sk);
 
-		vsock_insert_connected(vsock_sk(sk));
+	if (!sock_flag(sk, SOCK_DONE)) {
+		(void)virtio_transport_reset(vsk, NULL);
+
+		virtio_transport_do_close(vsk, false);
 	}
-	...
+
+	vsk->close_work_scheduled = false;
+
+	release_sock(sk);
+	sock_put(sk);
 }
 
-which writes through a NULL sk_socket, and inserts an already released
-socket into the connected table.
+and the cancel-failure path is the same one described in the changelog:
 
-Core vsock already treats that combination as a state where sk_socket must
-not be dereferenced:
+net/vmw_vsock/virtio_transport_common.c:virtio_transport_cancel_close_work() {
+	if (vsk->close_work_scheduled &&
+	    (!cancel_timeout || cancel_delayed_work(&vsk->close_work))) {
+		vsk->close_work_scheduled = false;
 
-net/vmw_vsock/af_vsock.c:vsock_connect_timeout() {
-	...
-	if (sk->sk_state == TCP_SYN_SENT &&
-	    (sk->sk_shutdown != SHUTDOWN_MASK)) {
-		sk->sk_state = TCP_CLOSE;
-		sk->sk_socket->state = SS_UNCONNECTED;
-	...
+		virtio_transport_remove_sock(vsk);
+
+		/* Release refcnt obtained when we scheduled the timeout */
+		sock_put(sk);
+	}
 }
 
-Moving the new check up to just after the sk_state tests would cover both
-arms.
+The racing event there is a peer packet rather than a host rescind:
 
->  		new = vsock_create_connected(sk);
->  		if (!new)
->  			goto out;
+virtio_transport_recv_pkt()
+  lock_sock()
+  virtio_transport_recv_connected()   /* VIRTIO_VSOCK_OP_RST */
+    virtio_transport_do_close(vsk, true)
+      virtio_transport_cancel_close_work(vsk, true)
+
+If virtio_transport_close_timeout() has already been dequeued and is
+blocked on lock_sock(), cancel_delayed_work() returns false, so
+close_work_scheduled stays true, the scheduling sock_put() is skipped and
+virtio_transport_remove_sock() is not called, while SOCK_DONE is set. The
+work then resumes, skips the !sock_flag(sk, SOCK_DONE) branch, clears
+close_work_scheduled and drops only its own local reference.
+
+Does that leak the struct sock and its struct virtio_vsock_sock, leave the
+socket in the bound/connected tables, and leave vvs->rx_queue unpurged? The
+recovery in virtio_transport_destruct() -> virtio_transport_cancel_close_
+work(vsk, true) would not run because sk_refcnt never reaches zero, and
+would be a no-op anyway once the flag has been cleared.
+
+Since both transports share close_work and close_work_scheduled, would it
+make sense to put this cleanup rule in code common to both rather than only
+in hyperv_transport.c, so the two users do not implement different
+ownership protocols for the same field?
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260917220156.56015-1-bartlomiej.dmitruk%40isec.pl
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260917220213.56102-1-bartlomiej.dmitruk%40isec.pl
