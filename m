@@ -1,122 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B33D5616BB
-	for <linux-hyperv@vger.kernel.org>; Wed, 23 Sep 2026 19:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82F1569F20;
+	Wed, 23 Sep 2026 19:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790190792; cv=none; b=W70KLGFY/kWUfnoszEAdIZEq7GWSLq1LFyBQ8JiX6zLp7iJ6cDv595klGe0ycbqCN4xp/m9na5N1AbCR9hsivMiXrsUl5JHhA3nHpyVPE6/K54zbALQVoCR2PD/daqod1fZhxhFp3CJ9sTlmFFYytjCe1Y116CU+IEoBHxgoAFo=
+	t=1790192187; cv=none; b=C9W9eGUSBEgsBxbiiB3hLKC+iT1b7x9MVt9xWHZldXXqd0Butt8BOdzQv+b+QsOsI2ciYAITFGlmjvpl8kye8RWyozPLKlMWcuZSO9u9YHY+wMY+DHK6tqiwggUe68GuxRMfdlW3qlCpojmowO4Gkg0x+QxyB77/02RzmnmiSdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790190792; c=relaxed/simple;
-	bh=QkMRJqPJl7ePcYGGV7fY2eFNdHZRVJFUL4xJqCIlvU8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rumM14LLKZ853a3A9Ej5FDKvAHX+MvcwkE4zgxDZKeMPmzv00Ro1NJsJrGKp9lWDLLN7N0FwCQqJ3ZlZheId17bpHra3KsNpOTukhaOCUDgD2Y1SaouWfzZ1TtUa7WBHNa3swLvN7cCKDvBsdKnzwJufxdH4S0tVxQXwFYW+0co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8DGJ3tt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790192187; c=relaxed/simple;
+	bh=qbyegVfPVisMftvM9w19I2vmSLxDxgBL+oYOVHk7UT8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hKtAf/G4ihvbJcl0Sl+W5FaO+MFw+rL3hUlvL8tAYBPJ6piDtHoNcmxef2NtJ0kszJhg/AvRrFLcjQVZuzZB4bmOcBEuH0Sl1FSgoGXV+JQ4eXpe2nn2Gg6rxHtGPqWQNtuY1PsEcBW0ejG9z5hlZOwusYz393DGb6DJgk/aR3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gk2L7gGs; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8DGJ3tt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 176BB1F000FF
-	for <linux-hyperv@vger.kernel.org>; Wed, 23 Sep 2026 19:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790190790;
-	bh=I76f4OHyDlcX5rVdz+1/GZlzDhbdolScIBFIjAnh+HA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=L8DGJ3tt3GYF2k6tfb6Ccw8S91G7x148MzspOh6k+eauNkAAOz3oV5gZuvUEbDo4w
-	 UkIdvB8Ffh7FG4n/WPMkRspVMz0+WGzeAXMY7Xa3Hfqc/VOqC+ZXpGpmYqC7UjLbWP
-	 g+SlNwnSpgZNeC9hoVItl64tKSl7Yr/0O5EbSK5pYZR57rvKL+REZVlvjxxqt79bH+
-	 o8xhOciG2Q4d6XODDqUU2ZpgR9K1kc1qrCK92GV8dP6ZgHuwGiN/0zUXd9fFUp9qtA
-	 WVtZaFz7480LHw4TXf2MVLCVXRKFs73gLUilFAriYNO+4DrHjNrEcVkAPaRSTnAGC3
-	 ZIrZoZxNPZzRA==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a612404718so10738181fa.2
-        for <linux-hyperv@vger.kernel.org>; Wed, 23 Sep 2026 12:13:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzCzpdV8IFwgdzwznT0xBDWwWnGcrVCnZGtKLd/7YNpAcn1s243E9Qe5/A47gL71rNdG24rHNsj4BBE9rI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mLmbDMgJlLv/DNYLLy6J6F6bxFUWiYkLLwMhIkRn8ls3ulvQgq
-	WtE6K+kyJyG3phgu+lXikG03BM6BQvByojIcaYRF5wx16p/JTNUKJrQKXtq2C0TWmU6D+YqIx4o
-	zktzZeV62nqpjQonDbeK16WQjcECWF04=
-X-Received: by 2002:a2e:be90:0:b0:3a1:b658:feac with SMTP id
- 38308e7fff4ca-3a63c0df7a6mr418261fa.13.1790190788472; Wed, 23 Sep 2026
- 12:13:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gk2L7gGs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790192186; x=1821728186;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=qbyegVfPVisMftvM9w19I2vmSLxDxgBL+oYOVHk7UT8=;
+  b=Gk2L7gGs3MUpjNaygCBme6le3VQ+UyFdX4koLHlZnivvG4uta9PEShBs
+   eiMT4lq3/NKJoztMK1vcV6EnORppWw5Ce667GFjMKxE/06HkLRWRhCyYE
+   D4CQnUvYafwfm/NSgQwBayYhG5HS71IlcgjuXxKfA1ay4apa5R6nWs/wr
+   wJ9njTxH/vOb1YUvH+xgGw7bAjVYNmZWaMb2eQ3IbMdlt9wDtlxwLyw8S
+   8+fQ8FJZ778hNujGazYQX+itOYGuI+50AMQEVUk06PKsIhT4QE7Tp5kCs
+   FYp34rZUHRcO2r9JNgZZ+TpAdXn64iTLTOc50d8clqVlQjF2t0YOizRme
+   A==;
+X-CSE-ConnectionGUID: tgqtSWwXSA+kMHjhVI5GLg==
+X-CSE-MsgGUID: YJvV8JRsTg24VYTMMw2F2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="94745869"
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="94745869"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 12:36:25 -0700
+X-CSE-ConnectionGUID: V7WQAby/SG+8UCxdRYJ8CA==
+X-CSE-MsgGUID: rL2ba/rySBKoESyRt8MCQQ==
+X-ExtLoop1: 1
+Received: from smtp.ostc.intel.com ([10.54.69.131])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 12:36:24 -0700
+Received: from cwf-2s5.sh.intel.com (cwf-2s5.sh.intel.com [10.239.48.132])
+	by smtp.ostc.intel.com (Postfix) with ESMTP id 813186393;
+	Wed, 23 Sep 2026 12:36:20 -0700 (PDT)
+From: Shreshth Srivastava <shreshth.srivastava@intel.com>
+To: Juergen Gross <jgross@suse.com>,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-coco@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	llvm@lists.linux.dev
+Cc: tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	xin@zytor.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	jpoimboe@kernel.org,
+	peterz@infradead.org,
+	boris.ostrovsky@oracle.com,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v5 00/17] x86/msr: Inline rdmsr/wrmsr instructions
+Date: Wed, 23 Sep 2026 15:36:17 -0400
+Message-ID: <20260923193619.1408940-1-shreshth.srivastava@intel.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260911084211.3149957-1-jgross@suse.com>
+References: <20260911084211.3149957-1-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6329043.lOV4Wx5bFT@rafael.j.wysocki> <SN6PR02MB41577ECCDB3E757B8859AE7FD4822@SN6PR02MB4157.namprd02.prod.outlook.com>
- <CAJZ5v0juW=oum7jULzHeTbaG2Ame=ge3nitsKDz_05Xs6wQqZA@mail.gmail.com>
- <CAJZ5v0gG30TSY=di+TULEvbB3GxxFNcLvx=xT2i1aFgfiNjnmA@mail.gmail.com> <CAJZ5v0i_SO7yJSQMJqENVnO1cYbkCSHzwzkO4EvxbriNQ_ksGQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0i_SO7yJSQMJqENVnO1cYbkCSHzwzkO4EvxbriNQ_ksGQ@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 23 Sep 2026 21:11:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gt8+tRT92y3hPnGXmFvpG1AfqvFC6jRbfV6gxGMy8e1g@mail.gmail.com>
-X-Gm-Features: AclHuK8Jy2YHw6VOFjUIhdVb8r-z2f9I08RuDXiI3nHZDK0KyDP9zyBNWmx2rOc
-Message-ID: <CAJZ5v0gt8+tRT92y3hPnGXmFvpG1AfqvFC6jRbfV6gxGMy8e1g@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 8:50=E2=80=AFPM Rafael J. Wysocki (Intel)
-<rafael@kernel.org> wrote:
->
-> On Wed, Sep 23, 2026 at 8:31=E2=80=AFPM Rafael J. Wysocki (Intel)
-> <rafael@kernel.org> wrote:
-> >
-> > On Wed, Sep 23, 2026 at 7:32=E2=80=AFPM Rafael J. Wysocki (Intel)
-> > <rafael@kernel.org> wrote:
-> > >
-> > > On Wed, Sep 23, 2026 at 7:06=E2=80=AFPM Michael Kelley <mhklinux@outl=
-ook.com> wrote:
-> > > >
-> > > > From: Rafael J. Wysocki <rafael@kernel.org> Sent: Wednesday, Septem=
-ber 9, 2026 9:41 AM
-> > > > >
-> > > > > The ACPI bus type does not allow drivers to be registered, so the=
- sysfs
-> > > > > attributes related to drivers created for it and its devices are
-> > > > > useless, and its drivers/ directory is always empty.  All of that=
- is
-> > > > > confusing and wasteful.
-> > > > >
-> > > > > To allow skipping the creation of those sysfs attributes, introdu=
-ce a
-> > > > > "companion" bus type concept and add a special registration funct=
-ion for
-> > > > > registering "companion" bus types, companion_bus_register().
-> > > > >
-> > > > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > >
-> > > > As a heads up, this patch breaks Linux guests booting on Hyper-V.
-> > > > Something goes wrong in the VMBus driver getting loaded and
-> > > > initialized (drivers/hv/vmbus_drv.c).
-> > >
-> > > This patch doesn't affect anything except for bus registration and
-> > > driver addition and lookup for the ACPI bus type.
-> > >
-> > > > It may be that the VMBus
-> > > > driver is doing something wrong or making an invalid assumption.
-> > > > I'll debug the problem today or tomorrow, but any insight you can
-> > > > offer would be appreciated. I'm working with linux-next20260921.
-> > >
-> > > No idea what's going on.
-> >
-> > Actually, you may try to restore the stub .match() callback for
-> > acpi_bus_type because the lack of it causes 1 to be returned by
-> > driver_match_device(), so if any driver points to acpi_bus_type as its
-> > bus by mistake, the check will now succeed.
->
-> Which shouldn't matter though because driver_match_device() is only
-> called in 3 places and none of them is reachable for acpi_bus_type
-> after the $subject patch AFAICS.
+On 11.09.26 10:41, Juergen Gross wrote:
+> When building a kernel with CONFIG_PARAVIRT_XXL the paravirt
+> infrastructure will always use functions for reading or writing MSRs,
+> even when running on bare metal.
 
-Well, not quite.
+Hi Juergen,
 
-If a driver with an incorrect bus is passed to driver_attach(), it
-will iterate over devices on that bus and call __driver_attach() for
-each of them.  If driver_match_device() succeeds then, the device will
-be passed to driver_probe_device() and it will not be good.
+This doesn't build with CONFIG_PARAVIRT_XXL=y. 16/17 and 17/17 are where
+it breaks, but the cause is the .byte fallbacks: ASM_WRMSRNS_IMM from
+08/17 and ASM_RDMSR_IMM from 10/17 don't end in a separator, unlike the
+.insn variants above them.
 
-So it may be worth checking after all.
+  #define ASM_RDMSR_IMM				\
+	" .byte 0xc4,0xe7,0x7b,0xf6,0xc0; .long %c[msr]"
+
+That worked while they were only ever the last argument of an
+ALTERNATIVE(), which appends its own newline. 16/17 concatenates them
+with ASM_CLRERR:
+
+	ASM_RDMSR_IMM ASM_CLRERR, X86_FEATURE_MSR_IMM,	\
+
+so the .long operand runs into the xor. From
+make arch/x86/kernel/cpu/common.s:
+
+	.byte 0xc4,0xe7,0x7b,0xf6,0xc0; .long 266xor %rdx,%rdx
+
+  paravirt-msr.h:165: Error: junk at end of line, first unrecognized character is `x'
+
+clang reports "error: unexpected token" in the same place. 71 objects
+fail, the same 71 either way, no vmlinux.
+
+msr.h chooses between the .insn form and the .byte fallback with:
+
+	#if defined(CONFIG_AS_IS_GNU) && CONFIG_AS_VERSION >= 24100
+
+Two kinds of toolchain end up on the .byte side of that test:
+
+  - GNU as older than 2.41. RHEL 9 and CentOS Stream 9 ship 2.35, and
+    Documentation/process/changes.rst sets the minimum at 2.30, so this
+    is a supported configuration rather than an old outlier.
+  - clang, any version. CONFIG_AS_IS_GNU is never set for clang, so the
+    && short-circuits and the version comparison is never reached. Your
+    08/17 comment already notes that clang has no .insn support.
+
+gcc with binutils 2.41 or newer takes the .insn path, where both macros
+do end in a separator, and is unaffected.
+
+Reproduced on v7.3-rc2 with your v3 00/13, v2 0/5 and v5 00/17 applied in
+that order, x86_64 defconfig plus HYPERVISOR_GUEST, PARAVIRT, XEN and
+XEN_PV. gcc 11.5.0 with GNU as 2.35.2, and clang 21.1.7.
+
+Terminating both fallbacks fixes it, and both toolchains then build
+vmlinux with no errors or warnings:
+
+diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+index eba325ecfe4c..529c13553c63 100644
+--- a/arch/x86/include/asm/msr.h
++++ b/arch/x86/include/asm/msr.h
+@@ -78,9 +78,9 @@ static inline void do_trace_rdpmc(u32 msr, u64 val, int failed) {}
+  * form MSR access instructions reference %rax as the register operand.
+  */
+ #define ASM_RDMSR_IMM				\
+-	" .byte 0xc4,0xe7,0x7b,0xf6,0xc0; .long %c[msr]"
++	" .byte 0xc4,0xe7,0x7b,0xf6,0xc0; .long %c[msr]\n\t"
+ #define ASM_WRMSRNS_IMM				\
+-	" .byte 0xc4,0xe7,0x7a,0xf6,0xc0; .long %c[msr]"
++	" .byte 0xc4,0xe7,0x7a,0xf6,0xc0; .long %c[msr]\n\t"
+ #endif
+
+ #define RDMSR_AND_SAVE_RESULT			\
+
+ASM_WRMSRNS needs no change, _ASM_BYTES() already emits a semicolon.
+
+The WRMSRNS line belongs in 08/17 and the RDMSR line in 10/17.
+
+Thanks,
+Shreshth
