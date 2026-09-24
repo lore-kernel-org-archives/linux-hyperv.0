@@ -1,160 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5D942CB01
-	for <linux-hyperv@vger.kernel.org>; Thu, 24 Sep 2026 18:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F38411FA4;
+	Thu, 24 Sep 2026 19:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790275589; cv=none; b=IPB5M0Cqmjq6NveQQ59CBblH6RYZseTQKH0loV8iS4dA+SDxIKeNmF73bp23GFoUtvgK4hCDMK8TvjFVT8LyzQK1J8o37LJIbFDjOAzm2V2UPa/qN2DAVveGsIdqnA/8LznnVXYI87YGqUgu8WF8JhInSYt0SDK68sthp+ay8IU=
+	t=1790277578; cv=none; b=Z3oL9JaAXR2BF3QoK64SvV0Bs1oi2+MAzWBcJYOJjhv/y3pYNlQ2ghxFL2XbBVb6AVaKXYPtMrSNDqcpEOR00StIqLuZXHgvjyyk24v3DkLXjtAvFDLmqf0p3ul4riMmA954beosamgj4o+TYQAk12tcyHO0c3QL5mM73/l68uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790275589; c=relaxed/simple;
-	bh=XiJZu2DJ7QOUt/Amb86cxy51pfeARMzjxUXP6+qjxhk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CRZVBtERs8oSPyVu1E20bL1QYqzQU1ljUlDInF+dPr+goDWKa+IY67XTcD6ovtLoO05v49097Z1sKZtxZ1L+4wpZgr4ld9IzC2YLGlIhT9vnCv2Z0RQfISsyfYbD7QLUObP1uiJik38fOE2i0L4ILcSy473MXCOU30PXXJqegjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQiD8401; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790277578; c=relaxed/simple;
+	bh=SPHdUpVeDbmm/rG8+ZCd1nYzkslIBC/it2Ku7nwg6TU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t0pltzG4NRIsMHn1xotS4o5TE5xsROXQBNL4FnKepBnrfH57M2WYH1SyqtXszT0UDWWesJz8PBGmNt/PMyj/vcJnXY3NZPlkooL6Hvlxk6D9qkgNdiXQOgwWYHprdzIAUgCFM2J52VXQYEZW0fDBrPe1JEGT4W+6ijZi59k4aEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=c80mv6+O; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQiD8401"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48EC1F0089B
-	for <linux-hyperv@vger.kernel.org>; Thu, 24 Sep 2026 18:46:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790275580;
-	bh=S94iqHBHbR3PvK8lSesl73AJ9uh+LF5R5k+adzWkj+c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=OQiD8401dZXebvoU5pYyRnSTY0AqolBIOmzrLQpVla+dz+i1WHwuXx/W44ddTwzjT
-	 qyMnyGq/ytRwmimhSD95jJgF/kLGzZsByRnjZceXLvAaKezhsp1WrxjaVKSYmnOgQ3
-	 T/kLuPzfB6RGt50qNmnTOGWoGYD9b/vA8zrqJQLcLG0t/dQgaqnc92EWo4uaVs0/H8
-	 u19pXVNZOHmN+rrCybdgnyo8Sa2+xB4rBPxt2KscF4+d6OSmUI63ymk+sFSKt/CnzS
-	 XntbEi/S3tL3Gi+KV9DwWCpO9MioQXTISmtkhBC5UpTU+JlAlfNeITInNDYpOytZ4w
-	 nboE5PzYBekSg==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a302a4e42aso412901fa.3
-        for <linux-hyperv@vger.kernel.org>; Thu, 24 Sep 2026 11:46:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBz7y50jo4X43qbetJfsUxm976bIHDfVpYHk/lzwYrHF15f621oYplP5Sw7/+lgQjzCJCUqy2H9V8GEFxRs=@vger.kernel.org
-X-Gm-Message-State: AFuF++naJ7UDbfFA1wDGAplgQsaAoTWeppbuIVRpjCXd8gwdxUEslDG4
-	VamwIdmLI/7mGNh3BbRrUOgWwSkBTWPgPzuY969Zq2pSQRi5hDeBtC509igfKzB+zvtiw3O/bhD
-	fvB4EQz14Vl85OSeFYsroI0JddftirD4=
-X-Received: by 2002:a2e:bc20:0:b0:3a6:3946:3a23 with SMTP id
- 38308e7fff4ca-3a63dd9f008mr7438381fa.11.1790275578960; Thu, 24 Sep 2026
- 11:46:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="c80mv6+O"
+Received: from [100.65.224.201] (unknown [20.236.11.42])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 571A420B7168;
+	Thu, 24 Sep 2026 12:18:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 571A420B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1790277521;
+	bh=ra1ZNTMf+H3FfJz20jyeMOD8jL+yQijcig4CEZNAk8A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=c80mv6+ODE+85dIyYOpEix/sjPmj98S4Dh769y2PxC6UWPp/UmuOsd+aWej3hT+nc
+	 q7JyQtXp5OvWznsptqEsf0oApOhiHTXFctO6EKw7Dsh6/puIpWBDOc136XP00eO4GL
+	 d4Smno7vz+Npa1M7T2lOJpBsKdL2jo5ZXGXNH5No=
+Message-ID: <06f970fe-ae23-4b5d-87fc-f2751bacc8bf@linux.microsoft.com>
+Date: Thu, 24 Sep 2026 12:19:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6329043.lOV4Wx5bFT@rafael.j.wysocki> <SN6PR02MB41577ECCDB3E757B8859AE7FD4822@SN6PR02MB4157.namprd02.prod.outlook.com>
- <SN6PR02MB41575266A4580339E186E5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB41575266A4580339E186E5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 24 Sep 2026 20:44:42 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i2oawbWzrVro1gGx2=hYOhjXPNJWDJ6LsNCq1WOxfHGQ@mail.gmail.com>
-X-Gm-Features: AclHuK_kDP1jb-vmJEQTklCk_QMTq01kgGxRdse_GLImA2Vr_OAjJ9A1FRmmPhA
-Message-ID: <CAJZ5v0i2oawbWzrVro1gGx2=hYOhjXPNJWDJ6LsNCq1WOxfHGQ@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mshv_vtl: Check per-CPU register page before mmap
+To: Michael Kelley <mhklinux@outlook.com>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>
+Cc: "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
+ "namjain@linux.microsoft.com" <namjain@linux.microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20260911175146.1370148-1-hargar@linux.microsoft.com>
+ <SN6PR02MB4157E82658A24F00691EEC8BD4832@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Hardik Garg <hargar@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157E82658A24F00691EEC8BD4832@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 24, 2026 at 8:23=E2=80=AFPM Michael Kelley <mhklinux@outlook.co=
-m> wrote:
+
+On 9/21/2026 5:14 PM, Michael Kelley wrote:
+> From: Hardik Garg <hargar@linux.microsoft.com>
+>> Register-page setup is optional for each CPU. If allocation or
+>> registration fails, mshv_vtl_configure_reg_page() warns and leaves that
+>> CPU's reg_page NULL, but initial context setup continues successfully.
+>> Meanwhile, successful setup on another CPU sets the global
+>> mshv_has_reg_page flag.
+>>
+>> mshv_vtl_fault() checks this global flag before selecting the requested
+>> CPU's register page. With mixed setup results across online CPUs, the
+>> check passes even for a CPU with no register page, reaching
+>> get_page(NULL) when userspace faults in that mapping.
+> I'm a bit late in reviewing this because I was travelling all last week.
 >
-> From: Michael Kelley <mhklinux@outlook.com> Sent: Wednesday, September 23=
-, 2026 10:06 AM
-> >
-> > From: Rafael J. Wysocki <rafael@kernel.org> Sent: Wednesday, September =
-9, 2026 9:41 AM
-> > >
-> > > The ACPI bus type does not allow drivers to be registered, so the sys=
-fs
-> > > attributes related to drivers created for it and its devices are
-> > > useless, and its drivers/ directory is always empty.  All of that is
-> > > confusing and wasteful.
-> > >
-> > > To allow skipping the creation of those sysfs attributes, introduce a
-> > > "companion" bus type concept and add a special registration function =
-for
-> > > registering "companion" bus types, companion_bus_register().
-> > >
-> > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > As a heads up, this patch breaks Linux guests booting on Hyper-V.
-> > Something goes wrong in the VMBus driver getting loaded and
-> > initialized (drivers/hv/vmbus_drv.c). It may be that the VMBus
-> > driver is doing something wrong or making an invalid assumption.
-> > I'll debug the problem today or tomorrow, but any insight you can
-> > offer would be appreciated. I'm working with linux-next20260921.
+> This patch seems like it is just papering over the real problem, which
+> is that a global variable like mshv_has_reg_page can't represent the
+> status of an operation that may succeed or fail on a per-cpu basis.
+> I pointed this out (as did Sashiko) in review comments back in
+> April [1].
 >
-> Here's what I've learned so far:
+> The only other place mshv_has_reg_page is used is in 
+> mshv_ioctl_check_extensions() where its value is returned from an
+> ioctl() system call made by user space. That's a questionable practice
+> since ioctl() usually returns 0 on success, though the man page for
+> ioctl() does admit that some ioctls use the return value as an output
+> parameter and return a non-negative value on success. But even
+> then, a single value can't accurately reflect the status of an
+> operation that may succeed or fail on a per-cpu basis. User
+> space would presumably have a similar problem to what is
+> being fixed by this patch.
 >
-> 1) The problem is apparently due to systemd-udevd being unable
-> to load modules with the VMBus bus driver or any of the
-> individual drivers for VMBus devices.
+> Is there any reason that the real problem couldn't be fixed
+> instead of doing this fix on top of something that is fundamentally
+> broken?
 >
-> 2) I'm testing on Ubuntu 20.04 with systemd version 245. The
-> problem reproduces on a different 20.04 instance. But everything
-> works correctly on Ubuntu 24.04 with systemd version 255.
+> Michael
 >
-> 3) If the VMBus bus driver and key VMBus device drivers are
-> compiled as built-in instead of as modules, the Ubuntu 20.04 system
-> will boot.
->
-> 4) If I keep your patch, but change companion_bus_register() to
-> pass "true" as the second argument instead of "false", then the
-> /sys/bus/acpi/drivers directory is created as before, and everything
-> works. Also, only adding back the .match function as you suggested
-> does not make any difference.
->
-> 5) The VMBus bus is enumerated in the ACPI DSDT. The individual
-> synthetic devices that are logically on VMBus are not -- they are
-> "offered" by Hyper-V to the guest at runtime via a custom protocol.
-> The synthetic devices end up with paths like:
->
-> /sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/<some GUID>
+> [1] https://lore.kernel.org/linux-hyperv/SN6PR02MB4157CF364DA2C0CC657A6DCBD450A@SN6PR02MB4157.namprd02.prod.outlook.com/
 
-Which is rather unfortunate.
+Hi Michael,
+Thanks for the feedback and for pointing me to your April review.
+After going through it, I understand that the NULL check only addresses
+the immediate fault, while the global capability still misrepresents
+per-CPU availability.
 
-They should appear under the MSFT1000:00 platform device corresponding
-to the ACPI device with the same name.
+I'll work on addressing the underlying issue and send a proposed fix
+soon.
 
-Anyway, it looks like older systemd may be thinking that they are ACPI
-devices and may be looking for drivers in /sys/bus/acpi/drivers/.
+Thanks,
+Hardik
 
-To kind of check that this is the case, can you replace "use_drivers"
-with "true" in the first check in bus_register_internal() only (with
-the $subject patch applied, of course)?  That would leave the
-"drivers" directory in place, but it would skip the creation of the
-probe files.
-
-> My conclusion is that for some reason, the older system-udevd has
-> a dependency on the /sys/bus/acpi/drivers directory being present.
-> This isn't a kernel problem per se, but there's an implicit ABI of sorts
-> that assumes the existence of the "drivers" directory.
->
-> To confirm all this more precisely, I'm trying to find a clever way
-> to get an strace of systemd-udevd when it errors out due to the
-> missing "drivers" directory, and somehow relate that back to the
-> git history of systemd-udevd.
->
-> Thoughts?
-
-Well, the fact of life is that it can't cope with the changes made by
-the $subject patch, but maybe we can get away with a simpler one, so
-please check the above.
-
-I'll drop the $subject patch from linux-next at least for now.
-
-BTW, do you know why vmbus_acpi_add() does this:
-
-ACPI_COMPANION_SET(&device->dev, device);
-
-which essentially attempts to make an ACPI device become an ACPI
-companion of itself and is useless and broken?
-
-If this is done to work around something, there may be a design issue
-in that driver.
-
-Thanks!
+>> Check the selected per-CPU register page before taking its reference and
+>> return VM_FAULT_SIGBUS if it is absent.
+>>
+>> Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
+>> ---
+>>  drivers/hv/mshv_vtl_main.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+>> index fc993560a45c..3296ab5c0243 100644
+>> --- a/drivers/hv/mshv_vtl_main.c
+>> +++ b/drivers/hv/mshv_vtl_main.c
+>> @@ -912,6 +912,9 @@ static vm_fault_t mshv_vtl_fault(struct vm_fault *vmf)
+>>  		return VM_FAULT_NOPAGE;
+>>  	}
+>>
+>> +	if (!page)
+>> +		return VM_FAULT_SIGBUS;
+>> +
+>>  	get_page(page);
+>>  	vmf->page = page;
+>>
