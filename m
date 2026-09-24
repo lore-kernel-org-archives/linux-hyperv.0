@@ -1,60 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F2D4BC009;
-	Thu, 24 Sep 2026 17:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24F284A92FA;
+	Thu, 24 Sep 2026 17:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790271793; cv=none; b=ZLzhGcIAgnuBv0AFAIZHmZCqAD2d0r1p1YhjJtKxTvl514hH/N/nag0KpHoqiZRZANFd85duWOfYLxORHONOCP+k1kAlzsSyGFiwRy4vRuIJkG45tCdfuxekaYd1LXrT/VHd3ulmLKHVxd2T3yQ9amsE/1hM/NJt8r/tncZlmiE=
+	t=1790272100; cv=none; b=Bl/eDe+4D6k3c+FbntUtaIJtKiDmVuTM62TRigDjiWz3mrDdsVI84npk53Vm+vK9so0EJxIiBgVvQqxGxca5W19Z22hs1XW4Svx/1Ms4bXqD7hQ2pWd5SYDCoUZMzGxV6sgE3/0yPXUdKbvD/kiKpVExldVKdL1/VsjLT63FYUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790271793; c=relaxed/simple;
-	bh=p4/x1jKDHwfl1gP6Yc3r66dO7l61MEJys8RiAtqw+hM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=RPoBPnZdHSlwqsHpHxbHzlfrbvEjvkiUo9vxagfW0lMwCf+xhQJnHF9I0ucruTWTIq6wvqAoQ9lFIYtk/DuKIeXilYvALMS8eif1c1JWZDDOFg0lrXjc8Yduuqqw3RrTOJjnsEvsF78GMrAoj6PKRrS9RXaQ2RrNqFNvgb4hfmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9qp/6GF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790272100; c=relaxed/simple;
+	bh=gJTu2GKU6GBN9Ent8nfP/3LDprR16DIyQDpia6hxA0Y=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=B2a1akGPtwe2yEegrODfzo9QPbKUw9hd2OhlgWof0EF7DM0ROkju17Bv3VSh4EcagxvCUUiQV+HCIg1o+v1/VSNXPtldAM5cPD2JvCg/WOF1nWInO0k4VSsvGqPmRbu2M/++wmm19sJRKlGWji8gXKWPLKP2pz3bCq/vfeNv8PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=i9n0hfl4; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9qp/6GF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E3A61F000FF;
-	Thu, 24 Sep 2026 17:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790271792;
-	bh=p4/x1jKDHwfl1gP6Yc3r66dO7l61MEJys8RiAtqw+hM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=J9qp/6GFzSyqtFQZ5g/nEIL5RRl5BjOLB4pccH033YqNDqaWIdgrUhCuxFpj9fdaj
-	 iXNgjIqDlU2ufPJvUKQDXtylSewz2YM73zOqoSHzyJJRCeHrbxkXIL2Fxfa1LmGP22
-	 T+eoQsDycxktJwH/0QYv+Ju2HThWQgbaT/WT63M/LF8HH3rZGMyJVlIC8FvJnoOtUq
-	 WWAQsyOMYVor0FdHNoGje9rm4afEbz7Icqj4Id6R8FvQmEg27TfEBGQg12EocAhu+H
-	 lxPTv5dCt8QPVBfE6hIGUsACwxrbQ0DAthdu65T1j2Swv06rDnF9zuj9S+JvvF3gCa
-	 RXfepAHwvkW2g==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 4/4] net: mana: Add support for CDX device ID
- 0x00C2
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Manish Awasthi" <mawasthi@linux.microsoft.com>
-Cc: bpf@vger.kernel.org, linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260924173054.589291-5-mawasthi@linux.microsoft.com>
-References: <20260924173054.589291-1-mawasthi@linux.microsoft.com>
- <20260924173054.589291-5-mawasthi@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 24 Sep 2026 17:43:11 +0000
-Message-Id: <20260924174312.2E3A61F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="i9n0hfl4"
+Received: from [100.65.161.51] (unknown [20.236.11.185])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 26E9120B7168;
+	Thu, 24 Sep 2026 10:47:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 26E9120B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1790272049;
+	bh=dDnGDmx5A+LgnNNVIQ49CJjfmce0lnemjO1LvEOr3mA=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=i9n0hfl4dqFez8rBG7yagyv08/eLYAhZ+PrwGXhSENTLA1m/g85tYweM3QgoQyCKb
+	 ZiREM61/dwGIDuFQsoLQIoNHfmKg85wsWixVh32bSYEHh7OfIw0IMDnxanmjCGE8WA
+	 6HC7QCrL+nFkxNO/96hPN+9gbxpiZNG/a0rrKIwE=
+Message-ID: <4072da50-4c3f-4df9-aef9-789f2431e33c@linux.microsoft.com>
+Date: Thu, 24 Sep 2026 10:48:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ easwar.hariharan@linux.microsoft.com, jgg@nvidia.com,
+ jacob.pan@linux.microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, tglx@kernel.org, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
+Subject: Re: [PATCH V1 2/3] mshv: Import data structs around device domains
+ from hyperv headers
+To: Mukesh R <mrathor@linux.microsoft.com>
+References: <20260924020221.128762-1-mrathor@linux.microsoft.com>
+ <20260924020221.128762-3-mrathor@linux.microsoft.com>
+From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20260924020221.128762-3-mrathor@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Add the CDX transport as mana_cdx.ko for device ID 0x00C2, using the shar=
-ed
-> gdma_core.ko. Allocate interrupts at probe, limit queues to available
-> vectors, use 32-bit DMA, and keep CDX auxiliary devices separate from PCI.
->=20
-> Signed-off-by: Manish Awasthi <mawasthi@linux.microsoft.com>
-
-Sashiko has reviewed this patch and found no issues. It looks great!
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260924173054.5892=
-91-1-mawasthi@linux.microsoft.com?part=3D4
-
+On 9/23/2026 19:02, Mukesh R wrote:
+> Copy/import from Hyper-V public headers, definitions and declarations that
+> are related to creating iommu domains in the hypervisor, attaching devices
+> to them, doing the reverse, etc.
+> 
+> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+> ---
+>  include/hyperv/hvgdk_mini.h |  9 ++++
+>  include/hyperv/hvhdk_mini.h | 87 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 96 insertions(+)
+> 
+Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
