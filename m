@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE3D7446C17;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CCED3B42FC;
 	Fri, 25 Sep 2026 19:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790363281; cv=none; b=iCo0EKyFv0L98jDysDvCfy7YFtY4MQkRpZyiBJYBZ7J3OUX9rK25saFxJ+U+oUMHP6HOvriu7OyRHyJ0mIeEFcVLysgkExABdtOjUTrisMMzKnUHBWla/l0ieJeZ+YxcQfm9AVJapGZhv0vgSBd+BHTU+46Yi6wo8Fjqj0h2s28=
+	t=1790363281; cv=none; b=m67ToaWncFWs/lk//GkK1FU4mGtjgZx9fMJ3OmA8SZAx5XL0PvKBs9SgmeCMB2w4mgy+yZxuOsb/9RBMNw7y+Fd9/DErcuCRIQMzxbdPqmTXc9u5RVgK/JCSHnHDzPHA1JG8QNBKXxuwS0AnbR+lci/CdThQONsa5U3KXsoL4Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790363281; c=relaxed/simple;
-	bh=gdk5DrAnEhO7IbQyx0qQuh/Odu36KVV9jkbbmnTQXc4=;
+	bh=aW6TzuoRvD9yOJvMiM6Qz9GgczKPpcL4Pnj0nJhdVwA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XKaZdQbaQkuuPFcgwcqjw6LMR8OXaasp0ANj+FhYSMuU1oEJLs9m+sKYm9LqGBmZ8Nq5cnA0tyT3SXt24YJj2TTAacCd3YlNSL3bVHzjhuNqoKFGPRLoRxE8XeKpGBj13kNWwBostaKq/k5ylShu74UwnGOZtbf/bVcnyJFbXmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WCPWEAV7; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=p7TLFVc+Sc/AyzifYUDEYk/xJPSpEVinHjd4NEFEebJvNGohxrWhkuOOgBUv5c7ksSNYBTb94VYtvhqmlgfPKk8HGC9tWe193OS2HycteAJsrpC2wJJoBHUp5jfvkZqI8m7VY7r1kPY9L0o8bhyyPApbxeMoXBgQR2ZEU0zRTpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dYUBaROo; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WCPWEAV7"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dYUBaROo"
 Received: from administrator-PowerEdge-R660.corp.microsoft.com (unknown [131.107.1.135])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0079720B716A;
-	Fri, 25 Sep 2026 12:06:55 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0079720B716A
+	by linux.microsoft.com (Postfix) with ESMTPSA id BC6A720B716B;
+	Fri, 25 Sep 2026 12:06:56 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BC6A720B716B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1790363216;
-	bh=GB/b+h/Q30DY24zncUEJneqMr1IkwfqnAV3mludw02w=;
+	bh=lvRZbyObRks380y2DbHO3gPJS+KcqL9EpXw32dWonK8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WCPWEAV7D292iW/sdhrN3j44E6o46/Yum2CCX5LhQuvOr+nuCqcBQGW6SscpyFFXq
-	 l6Nu8DikIuOokvxwLqWuqo9D/uGNiUaxInECSgwzlunrJ51DzIbn0A5XdHwhJrTEWz
-	 QHTwRFBvq2e1Rqyz91ScWZ93KxgDWBj/vqmRSIDo=
+	b=dYUBaROoX7brYPNTIR15v562gFQDZHgwNbDYpGjntwchoI+qOzSBils7lUNecPdgI
+	 gzLD0KmDGGTCBsdUkIOsaFb87HTBETs2cIo5ew8nQv0JDS3WYqwQBxryzo/rWnEAPe
+	 KvTGztgDdeDhDrAxvIgwU2Is3styICG9SynsYB74=
 From: Jacob Pan <jacob.pan@linux.microsoft.com>
 To: iommu@lists.linux.dev
 Cc: Jason Gunthorpe <jgg@ziepe.ca>,
@@ -51,9 +51,9 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>,
 	Yu Zhang <zhangyu1@linux.microsoft.com>,
 	Easwar Hariharan <eahariha@linux.microsoft.com>,
 	Alex Williamson <alex@shazbot.org>
-Subject: [PATCH RFC 2/9] iommufd: Introduce hypervisor vIOMMU type
-Date: Fri, 25 Sep 2026 12:07:35 -0700
-Message-ID: <20260925190742.1575380-3-jacob.pan@linux.microsoft.com>
+Subject: [PATCH RFC 3/9] iommufd: Add external HWPT support
+Date: Fri, 25 Sep 2026 12:07:36 -0700
+Message-ID: <20260925190742.1575380-4-jacob.pan@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
 References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
@@ -65,219 +65,309 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add IOMMU_VIOMMU_TYPE_HYPERVISOR with a file-based VM partition
-reference. This represents a hypervisor-backed per-VM IOMMU object used
-to bind and organize vDEVICEs for a guest VM partition, with or without
-a guest vIOMMU.
+Add IOMMU_HWPT_DATA_EXTERNAL and an IOMMUFD_OBJ_HWPT_EXTERNAL object for
+externally managed attachable domains created under a vIOMMU.
 
-This type has no nesting-parent HWPT. Teach the vIOMMU core to pass a
-NULL parent domain to the driver callback.
+Route vIOMMU child HWPT allocation by data type, add the driver
+alloc_domain_external callback, and allow device attach/replace to
+consume external HWPTs.
 
-Signed-off-by: Jacob Pan <jacob.pan@linux.microsoft.com>
 Assisted-by: GPT-5.6 Sol
+Signed-off-by: Jacob Pan <jacob.pan@linux.microsoft.com>
 ---
- drivers/iommu/amd/iommufd.c    | 10 ++++++++-
- drivers/iommu/iommufd/viommu.c | 37 +++++++++++++++++++++++-----------
- include/linux/iommu.h          |  8 +++++---
- include/uapi/linux/iommufd.h   | 25 ++++++++++++++++++++++-
- 4 files changed, 63 insertions(+), 17 deletions(-)
+ drivers/iommu/iommufd/device.c          |  9 +--
+ drivers/iommu/iommufd/hw_pagetable.c    | 88 +++++++++++++++++++++++--
+ drivers/iommu/iommufd/iommufd_private.h |  7 ++
+ drivers/iommu/iommufd/main.c            |  4 ++
+ include/linux/iommufd.h                 | 11 ++++
+ include/uapi/linux/iommufd.h            | 17 +++++
+ 6 files changed, 126 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/iommu/amd/iommufd.c b/drivers/iommu/amd/iommufd.c
-index 52300b867c1f..8fcd5228c547 100644
---- a/drivers/iommu/amd/iommufd.c
-+++ b/drivers/iommu/amd/iommufd.c
-@@ -34,6 +34,10 @@ void *amd_iommufd_hw_info(struct device *dev, u32 *length, enum iommu_hw_info_ty
+diff --git a/drivers/iommu/iommufd/device.c b/drivers/iommu/iommufd/device.c
+index 5c4b06eda546..f99b4730994c 100644
+--- a/drivers/iommu/iommufd/device.c
++++ b/drivers/iommu/iommufd/device.c
+@@ -1026,6 +1026,7 @@ static int iommufd_device_change_pt(struct iommufd_device *idev,
+ 		return PTR_ERR(pt_obj);
  
- size_t amd_iommufd_get_viommu_size(struct device *dev, enum iommu_viommu_type viommu_type)
- {
-+	/* AMD vIOMMUs require a nesting parent; hypervisor vIOMMUs are parentless. */
-+	if (viommu_type == IOMMU_VIOMMU_TYPE_HYPERVISOR)
-+		return 0;
-+
- 	return VIOMMU_STRUCT_SIZE(struct amd_iommu_viommu, core);
+ 	switch (pt_obj->type) {
++	case IOMMUFD_OBJ_HWPT_EXTERNAL:
+ 	case IOMMUFD_OBJ_HWPT_NESTED:
+ 	case IOMMUFD_OBJ_HWPT_PAGING: {
+ 		struct iommufd_hw_pagetable *hwpt =
+@@ -1066,8 +1067,8 @@ static int iommufd_device_change_pt(struct iommufd_device *idev,
+  * iommufd_device_attach - Connect a device/pasid to an iommu_domain
+  * @idev: device to attach
+  * @pasid: pasid to attach
+- * @pt_id: Input an IOMMUFD_OBJ_IOAS, or IOMMUFD_OBJ_HWPT_PAGING
+- *         Output the IOMMUFD_OBJ_HWPT_PAGING ID
++ * @pt_id: Input an IOMMUFD_OBJ_IOAS, IOMMUFD_OBJ_HWPT_PAGING, or
++ *         IOMMUFD_OBJ_HWPT_EXTERNAL. Output the HWPT ID
+  *
+  * This connects the device/pasid to an iommu_domain, either automatically
+  * or manually selected. Once this completes the device could do DMA with
+@@ -1099,8 +1100,8 @@ EXPORT_SYMBOL_NS_GPL(iommufd_device_attach, "IOMMUFD");
+  * iommufd_device_replace - Change the device/pasid's iommu_domain
+  * @idev: device to change
+  * @pasid: pasid to change
+- * @pt_id: Input an IOMMUFD_OBJ_IOAS, or IOMMUFD_OBJ_HWPT_PAGING
+- *         Output the IOMMUFD_OBJ_HWPT_PAGING ID
++ * @pt_id: Input an IOMMUFD_OBJ_IOAS, IOMMUFD_OBJ_HWPT_PAGING, or
++ *         IOMMUFD_OBJ_HWPT_EXTERNAL. Output the HWPT ID
+  *
+  * This is the same as::
+  *
+diff --git a/drivers/iommu/iommufd/hw_pagetable.c b/drivers/iommu/iommufd/hw_pagetable.c
+index ef6e119c2a75..324a81d9bae4 100644
+--- a/drivers/iommu/iommufd/hw_pagetable.c
++++ b/drivers/iommu/iommufd/hw_pagetable.c
+@@ -77,6 +77,20 @@ void iommufd_hwpt_nested_abort(struct iommufd_object *obj)
+ 	iommufd_hwpt_nested_destroy(obj);
  }
  
-@@ -41,9 +45,13 @@ int amd_iommufd_viommu_init(struct iommufd_viommu *viommu, struct iommu_domain *
- 			    const struct iommu_user_data *user_data)
- {
- 	unsigned long flags;
--	struct protection_domain *pdom = to_pdomain(parent);
-+	struct protection_domain *pdom;
- 	struct amd_iommu_viommu *aviommu = container_of(viommu, struct amd_iommu_viommu, core);
- 
-+	if (!parent)
-+		return -EOPNOTSUPP;
++void iommufd_hwpt_external_destroy(struct iommufd_object *obj)
++{
++	struct iommufd_hwpt_external *hwpt_external =
++		container_of(obj, struct iommufd_hwpt_external, common.obj);
 +
-+	pdom = to_pdomain(parent);
- 	xa_init_flags(&aviommu->gdomid_array, XA_FLAGS_ALLOC1);
- 	aviommu->parent = pdom;
++	__iommufd_hwpt_destroy(&hwpt_external->common);
++	refcount_dec(&hwpt_external->viommu->obj.users);
++}
++
++void iommufd_hwpt_external_abort(struct iommufd_object *obj)
++{
++	iommufd_hwpt_external_destroy(obj);
++}
++
+ static int
+ iommufd_hwpt_paging_enforce_cc(struct iommufd_hwpt_paging *hwpt_paging)
+ {
+@@ -306,6 +320,8 @@ iommufd_viommu_alloc_hwpt_nested(struct iommufd_viommu *viommu, u32 flags,
+ 		return ERR_PTR(-EOPNOTSUPP);
+ 	if (!user_data->len)
+ 		return ERR_PTR(-EOPNOTSUPP);
++	if (!viommu->hwpt)
++		return ERR_PTR(-EINVAL);
+ 	if (!viommu->ops || !viommu->ops->alloc_domain_nested)
+ 		return ERR_PTR(-EOPNOTSUPP);
  
-diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
-index f7951057a1e5..73a06c1a2ada 100644
---- a/drivers/iommu/iommufd/viommu.c
-+++ b/drivers/iommu/iommufd/viommu.c
-@@ -10,7 +10,8 @@ void iommufd_viommu_destroy(struct iommufd_object *obj)
- 
- 	if (viommu->ops && viommu->ops->destroy)
- 		viommu->ops->destroy(viommu);
--	refcount_dec(&viommu->hwpt->common.obj.users);
-+	if (viommu->hwpt)
-+		refcount_dec(&viommu->hwpt->common.obj.users);
- 	xa_destroy(&viommu->vdevs);
+@@ -342,6 +358,53 @@ iommufd_viommu_alloc_hwpt_nested(struct iommufd_viommu *viommu, u32 flags,
+ 	return ERR_PTR(rc);
  }
  
-@@ -63,15 +64,19 @@ int iommufd_viommu_alloc_ioctl(struct iommufd_ucmd *ucmd)
- 		goto out_put_idev;
- 	}
- 
--	hwpt_paging = iommufd_get_hwpt_paging(ucmd, cmd->hwpt_id);
--	if (IS_ERR(hwpt_paging)) {
--		rc = PTR_ERR(hwpt_paging);
--		goto out_put_idev;
--	}
-+	if (cmd->type == IOMMU_VIOMMU_TYPE_HYPERVISOR) {
-+		hwpt_paging = NULL;
-+	} else {
-+		hwpt_paging = iommufd_get_hwpt_paging(ucmd, cmd->hwpt_id);
-+		if (IS_ERR(hwpt_paging)) {
-+			rc = PTR_ERR(hwpt_paging);
-+			goto out_put_idev;
-+		}
- 
--	if (!hwpt_paging->nest_parent) {
--		rc = -EINVAL;
--		goto out_put_hwpt;
-+		if (!hwpt_paging->nest_parent) {
-+			rc = -EINVAL;
-+			goto out_put_hwpt;
-+		}
- 	}
- 
- 	viommu = (struct iommufd_viommu *)_iommufd_object_alloc_ucmd(
-@@ -85,7 +90,8 @@ int iommufd_viommu_alloc_ioctl(struct iommufd_ucmd *ucmd)
- 	viommu->type = cmd->type;
- 	viommu->ictx = ucmd->ictx;
- 	viommu->hwpt = hwpt_paging;
--	refcount_inc(&viommu->hwpt->common.obj.users);
-+	if (viommu->hwpt)
-+		refcount_inc(&viommu->hwpt->common.obj.users);
- 	INIT_LIST_HEAD(&viommu->veventqs);
- 	init_rwsem(&viommu->veventqs_rwsem);
- 	/*
-@@ -95,7 +101,8 @@ int iommufd_viommu_alloc_ioctl(struct iommufd_ucmd *ucmd)
- 	 */
- 	viommu->iommu_dev = iommu_dev;
- 
--	rc = ops->viommu_init(viommu, hwpt_paging->common.domain,
-+	rc = ops->viommu_init(viommu,
-+			      hwpt_paging ? hwpt_paging->common.domain : NULL,
- 			      user_data.len ? &user_data : NULL);
- 	if (rc)
- 		goto out_put_hwpt;
-@@ -110,7 +117,8 @@ int iommufd_viommu_alloc_ioctl(struct iommufd_ucmd *ucmd)
- 	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
- 
- out_put_hwpt:
--	iommufd_put_object(ucmd->ictx, &hwpt_paging->common.obj);
-+	if (hwpt_paging)
-+		iommufd_put_object(ucmd->ictx, &hwpt_paging->common.obj);
- out_put_idev:
- 	iommufd_put_object(ucmd->ictx, &idev->obj);
- 	return rc;
-@@ -394,6 +402,11 @@ int iommufd_hw_queue_alloc_ioctl(struct iommufd_ucmd *ucmd)
- 	if (IS_ERR(viommu))
- 		return PTR_ERR(viommu);
- 
-+	if (!viommu->hwpt) {
-+		rc = -EOPNOTSUPP;
-+		goto out_put_viommu;
++static struct iommufd_hwpt_external *
++iommufd_viommu_alloc_hwpt_external(struct iommufd_viommu *viommu, u32 flags,
++				   const struct iommu_user_data *user_data)
++{
++	struct iommufd_hwpt_external *hwpt_external;
++	struct iommufd_hw_pagetable *hwpt;
++	int rc;
++
++	if (flags)
++		return ERR_PTR(-EOPNOTSUPP);
++	if (!user_data->len)
++		return ERR_PTR(-EOPNOTSUPP);
++	if (!viommu->ops || !viommu->ops->alloc_domain_external)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	hwpt_external = __iommufd_object_alloc(viommu->ictx, hwpt_external,
++					       IOMMUFD_OBJ_HWPT_EXTERNAL,
++					       common.obj);
++	if (IS_ERR(hwpt_external))
++		return ERR_CAST(hwpt_external);
++	hwpt = &hwpt_external->common;
++
++	hwpt_external->viommu = viommu;
++	refcount_inc(&viommu->obj.users);
++
++	hwpt->domain = viommu->ops->alloc_domain_external(viommu, flags,
++							user_data);
++	if (IS_ERR(hwpt->domain)) {
++		rc = PTR_ERR(hwpt->domain);
++		hwpt->domain = NULL;
++		goto out_abort;
 +	}
++	hwpt->domain->iommufd_hwpt = hwpt;
++	hwpt->domain->owner = viommu->iommu_dev->ops;
++	hwpt->domain->cookie_type = IOMMU_COOKIE_IOMMUFD;
 +
- 	if (!viommu->ops || !viommu->ops->get_hw_queue_size ||
- 	    !viommu->ops->hw_queue_init_phys) {
- 		rc = -EOPNOTSUPP;
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index ede77b90f0fd..95211e95ea5d 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -685,9 +685,11 @@ __iommu_copy_struct_to_user(const struct iommu_user_data *dst_data,
-  *                   driver-level vIOMMU structure related to the core one
-  * @viommu_init: Init the driver-level struct of an iommufd_viommu on a physical
-  *               IOMMU instance @viommu->iommu_dev, as the set of virtualization
-- *               resources shared/passed to user space IOMMU instance. Associate
-- *               it with a nesting @parent_domain. It is required for driver to
-- *               set @viommu->ops pointing to its own viommu_ops
-+ *               resources shared/passed to user space IOMMU instance.
-+ *               @parent_domain may be NULL for a parentless vIOMMU type; a
-+ *               driver advertising such a type through @get_viommu_size must
-+ *               accept a NULL parent. It is required for driver to set
-+ *               @viommu->ops pointing to its own viommu_ops
-  * @owner: Driver module providing these ops
-  * @identity_domain: An always available, always attachable identity
-  *                   translation.
-diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
-index 206fa667c782..bffa25c5267e 100644
---- a/include/uapi/linux/iommufd.h
-+++ b/include/uapi/linux/iommufd.h
-@@ -1095,6 +1095,11 @@ struct iommu_fault_alloc {
-  * @IOMMU_VIOMMU_TYPE_ARM_SMMUV3: ARM SMMUv3 driver specific type
-  * @IOMMU_VIOMMU_TYPE_TEGRA241_CMDQV: NVIDIA Tegra241 CMDQV (extension for ARM
-  *                                    SMMUv3) enabled ARM SMMUv3 type
-+ * @IOMMU_VIOMMU_TYPE_HYPERVISOR: Hypervisor-backed per-VM IOMMU object
-+ *                                tracks a file-based VM partition
-+ *                                reference; also used to bind and organize
-+ *                                vDEVICEs for a guest VM partition, with or
-+ *                                without a guest vIOMMU.
-  */
- enum iommu_viommu_type {
- 	IOMMU_VIOMMU_TYPE_DEFAULT = 0,
-@@ -1105,6 +1110,7 @@ enum iommu_viommu_type {
- 	 *   VMM must wire the HYP_OWN bit to 0 in guest VINTF_CONFIG register
- 	 */
- 	IOMMU_VIOMMU_TYPE_TEGRA241_CMDQV = 2,
-+	IOMMU_VIOMMU_TYPE_HYPERVISOR = 3,
++	if (WARN_ON_ONCE(hwpt->domain->type != IOMMU_DOMAIN_EXTERNAL)) {
++		rc = -EOPNOTSUPP;
++		goto out_abort;
++	}
++	return hwpt_external;
++
++out_abort:
++	iommufd_object_abort_and_destroy(viommu->ictx, &hwpt->obj);
++	return ERR_PTR(rc);
++}
++
+ int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+ {
+ 	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
+@@ -399,6 +462,7 @@ int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+ 		}
+ 		hwpt = &hwpt_nested->common;
+ 	} else if (pt_obj->type == IOMMUFD_OBJ_VIOMMU) {
++		struct iommufd_hwpt_external *hwpt_external;
+ 		struct iommufd_hwpt_nested *hwpt_nested;
+ 		struct iommu_device *iommu_dev;
+ 		struct iommufd_viommu *viommu;
+@@ -409,13 +473,25 @@ int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+ 			rc = -EINVAL;
+ 			goto out_unlock;
+ 		}
+-		hwpt_nested = iommufd_viommu_alloc_hwpt_nested(
+-			viommu, cmd->flags, &user_data);
+-		if (IS_ERR(hwpt_nested)) {
+-			rc = PTR_ERR(hwpt_nested);
+-			goto out_unlock;
++		if (cmd->data_type == IOMMU_HWPT_DATA_EXTERNAL) {
++			hwpt_external =
++				iommufd_viommu_alloc_hwpt_external(viommu,
++								   cmd->flags,
++								   &user_data);
++			if (IS_ERR(hwpt_external)) {
++				rc = PTR_ERR(hwpt_external);
++				goto out_unlock;
++			}
++			hwpt = &hwpt_external->common;
++		} else {
++			hwpt_nested = iommufd_viommu_alloc_hwpt_nested(
++				viommu, cmd->flags, &user_data);
++			if (IS_ERR(hwpt_nested)) {
++				rc = PTR_ERR(hwpt_nested);
++				goto out_unlock;
++			}
++			hwpt = &hwpt_nested->common;
+ 		}
+-		hwpt = &hwpt_nested->common;
+ 	} else {
+ 		rc = -EINVAL;
+ 		goto out_put_pt;
+diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
+index eb2e85b27e42..8b7aaaaba194 100644
+--- a/drivers/iommu/iommufd/iommufd_private.h
++++ b/drivers/iommu/iommufd/iommufd_private.h
+@@ -403,6 +403,11 @@ struct iommufd_hwpt_nested {
+ 	struct iommufd_viommu *viommu;
  };
  
- /**
-@@ -1123,13 +1129,29 @@ struct iommu_viommu_tegra241_cmdqv {
- 	__aligned_u64 out_vintf_mmap_length;
++struct iommufd_hwpt_external {
++	struct iommufd_hw_pagetable common;
++	struct iommufd_viommu *viommu;
++};
++
+ static inline bool hwpt_is_paging(struct iommufd_hw_pagetable *hwpt)
+ {
+ 	return hwpt->obj.type == IOMMUFD_OBJ_HWPT_PAGING;
+@@ -465,6 +470,8 @@ void iommufd_hwpt_paging_destroy(struct iommufd_object *obj);
+ void iommufd_hwpt_paging_abort(struct iommufd_object *obj);
+ void iommufd_hwpt_nested_destroy(struct iommufd_object *obj);
+ void iommufd_hwpt_nested_abort(struct iommufd_object *obj);
++void iommufd_hwpt_external_destroy(struct iommufd_object *obj);
++void iommufd_hwpt_external_abort(struct iommufd_object *obj);
+ int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd);
+ int iommufd_hwpt_invalidate(struct iommufd_ucmd *ucmd);
+ 
+diff --git a/drivers/iommu/iommufd/main.c b/drivers/iommu/iommufd/main.c
+index 9a921b153162..6835bb87916a 100644
+--- a/drivers/iommu/iommufd/main.c
++++ b/drivers/iommu/iommufd/main.c
+@@ -736,6 +736,10 @@ static const struct iommufd_object_ops iommufd_object_ops[] = {
+ 		.destroy = iommufd_hwpt_nested_destroy,
+ 		.abort = iommufd_hwpt_nested_abort,
+ 	},
++	[IOMMUFD_OBJ_HWPT_EXTERNAL] = {
++		.destroy = iommufd_hwpt_external_destroy,
++		.abort = iommufd_hwpt_external_abort,
++	},
+ 	[IOMMUFD_OBJ_IOAS] = {
+ 		.destroy = iommufd_ioas_destroy,
+ 	},
+diff --git a/include/linux/iommufd.h b/include/linux/iommufd.h
+index 6e7efe83bc5d..ce740a2d1588 100644
+--- a/include/linux/iommufd.h
++++ b/include/linux/iommufd.h
+@@ -31,6 +31,7 @@ enum iommufd_object_type {
+ 	IOMMUFD_OBJ_DEVICE,
+ 	IOMMUFD_OBJ_HWPT_PAGING,
+ 	IOMMUFD_OBJ_HWPT_NESTED,
++	IOMMUFD_OBJ_HWPT_EXTERNAL,
+ 	IOMMUFD_OBJ_IOAS,
+ 	IOMMUFD_OBJ_ACCESS,
+ 	IOMMUFD_OBJ_FAULT,
+@@ -149,6 +150,12 @@ struct iommufd_hw_queue {
+  *                       must be defined in include/uapi/linux/iommufd.h.
+  *                       It must fully initialize the new iommu_domain before
+  *                       returning. Upon failure, ERR_PTR must be returned.
++ * @alloc_domain_external: Allocate a IOMMU_DOMAIN_EXTERNAL on a vIOMMU that holds
++ *                       the VM identity for an external attach domain. @user_data must
++ *                       be defined in
++ *                       include/uapi/linux/iommufd.h. It must fully initialize
++ *                       the new iommu_domain before returning. Upon failure,
++ *                       ERR_PTR must be returned.
+  * @cache_invalidate: Flush hardware cache used by a vIOMMU. It can be used for
+  *                    any IOMMU hardware specific cache: TLB and device cache.
+  *                    The @array passes in the cache invalidation requests, in
+@@ -186,6 +193,10 @@ struct iommufd_viommu_ops {
+ 	struct iommu_domain *(*alloc_domain_nested)(
+ 		struct iommufd_viommu *viommu, u32 flags,
+ 		const struct iommu_user_data *user_data);
++	struct iommu_domain *
++		(*alloc_domain_external)(struct iommufd_viommu *viommu,
++					 u32 flags,
++					 const struct iommu_user_data *user_data);
+ 	int (*cache_invalidate)(struct iommufd_viommu *viommu,
+ 				struct iommu_user_data_array *array);
+ 	const size_t vdevice_size;
+diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
+index bffa25c5267e..fa6185f04c1c 100644
+--- a/include/uapi/linux/iommufd.h
++++ b/include/uapi/linux/iommufd.h
+@@ -506,18 +506,31 @@ struct iommu_hwpt_amd_guest {
+ 	__aligned_u64 dte[4];
  };
  
 +/**
-+ * struct iommu_viommu_hypervisor - Hypervisor-backed virtual IOMMU
-+ *                            (IOMMU_VIOMMU_TYPE_HYPERVISOR)
-+ * @vm_fd: Hypervisor VM/partition file descriptor
-+ * @flags: Must be 0 for now. Future flags may indicate the presence of a guest
-+ *         virtual IOMMU, allowing hypervisor pvIOMMU drivers to enable
-+ *         PASID/ATS and prepare for nested translation as appropriate.
++ * struct iommu_hwpt_external - external attach domain
++ *			      (IOMMU_HWPT_DATA_EXTERNAL)
++ * @flags: Must be 0
 + * @__reserved: Must be 0
 + */
-+struct iommu_viommu_hypervisor {
-+	__s32 vm_fd;
++struct iommu_hwpt_external {
 +	__u32 flags;
-+	__aligned_u64 __reserved;
++	__u32 __reserved;
 +};
 +
  /**
-  * struct iommu_viommu_alloc - ioctl(IOMMU_VIOMMU_ALLOC)
-  * @size: sizeof(struct iommu_viommu_alloc)
-  * @flags: Must be 0
-  * @type: Type of the virtual IOMMU. Must be defined in enum iommu_viommu_type
-  * @dev_id: The device's physical IOMMU will be used to back the virtual IOMMU
-- * @hwpt_id: ID of a nesting parent HWPT to associate to
-+ * @hwpt_id: ID of a nesting parent HWPT to associate to. This field is
-+ *           ignored if the vIOMMU type does not use a nesting parent
-  * @out_viommu_id: Output virtual IOMMU ID for the allocated object
-  * @data_len: Length of the type specific data
-  * @__reserved: Must be 0
-@@ -1146,6 +1168,7 @@ struct iommu_viommu_tegra241_cmdqv {
-  * - Delivery of paravirtualized invalidation
-  * - Direct assigned invalidation queues
-  * - Direct assigned interrupts
-+ * - Hypervisor controlled translation, e.g. for Type-1 Bare-metal hypervisors
+  * enum iommu_hwpt_data_type - IOMMU HWPT Data Type
+  * @IOMMU_HWPT_DATA_NONE: no data
+  * @IOMMU_HWPT_DATA_VTD_S1: Intel VT-d stage-1 page table
+  * @IOMMU_HWPT_DATA_ARM_SMMUV3: ARM SMMUv3 Context Descriptor Table
+  * @IOMMU_HWPT_DATA_AMD_GUEST: AMD IOMMU guest page table
++ * @IOMMU_HWPT_DATA_EXTERNAL: external attach domain
   */
- struct iommu_viommu_alloc {
- 	__u32 size;
+ enum iommu_hwpt_data_type {
+ 	IOMMU_HWPT_DATA_NONE = 0,
+ 	IOMMU_HWPT_DATA_VTD_S1 = 1,
+ 	IOMMU_HWPT_DATA_ARM_SMMUV3 = 2,
+ 	IOMMU_HWPT_DATA_AMD_GUEST = 3,
++	IOMMU_HWPT_DATA_EXTERNAL = 4,
+ };
+ 
+ /**
+@@ -552,6 +565,10 @@ enum iommu_hwpt_data_type {
+  * via @dev_id and the vIOMMU via @pt_id must be associated to the same IOMMU
+  * instance.
+  *
++ * An external attach HWPT can be created from a given vIOMMU via @pt_id. In this
++ * case, @data_type selects the external attach domain type, such as
++ * IOMMU_HWPT_DATA_EXTERNAL, and the created HWPT is not IOAS-backed.
++ *
+  * If the @data_type is set to IOMMU_HWPT_DATA_NONE, @data_len and
+  * @data_uptr should be zero. Otherwise, both @data_len and @data_uptr
+  * must be given.
 -- 
 2.43.0
 
