@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 550AC4D0CE1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DC24D0A02;
 	Fri, 25 Sep 2026 19:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790363290; cv=none; b=WLOY02KhIsv4Ac16GaXtpw/H7m81r6B5weW8Y3GdBtuQ/BCKDyXmyBK/2Fwm/4y/4rtMHFP3IO4eS03HqiNrbrm841QQLnjFlXOG7QPnFGjS2Xy7/hogOeFHqWw8RTgJsdZBI6uSoIM5reXEzE6SXWi9d2XjPdRYpCSIAUadVNw=
+	t=1790363288; cv=none; b=bucZSbWBscrNDh1DevGogKKJyrAvsewxF8gGlEJVDKL6QLRZAQoevvz6hoE6Cpi9nprgk91IPKitTMPMP1PxFftkrXDliXq40wGBL66TrPUQcKuiuNq3OBy54E4WqYq6LzuGOIy4oGgNpJb4TfOos/+62IZfQI16UrREKoQCdGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790363290; c=relaxed/simple;
-	bh=GZZMXG8OarCWWW+jwF7/L5uJFiWpK4K/j+8dsbx/yPA=;
+	s=arc-20240116; t=1790363288; c=relaxed/simple;
+	bh=5X+mnxBQNb7I64OfqLtrW/sJn+mW48nbnX0Azou/8VM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e72uEp8cwN5OzqckBDv+f41guIfqlJ27KHoVzVs67EpWC01ZQw9ZtKyG8hpqjLXdo2FcGOiecrRgdiyV/dXkD0lpazFYcq7Z1HDfSP/NmyOsMYNuH1fciTEmDLbQJATBg7mqOFX13O9G6BlIKlgYSI2Q24x+wosDOmrqFoVha8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qDfH5P+t; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=d3agZ5Vr6sM+N3CiL9CLI+Qp4il2O7bW3GX1PHE1uK8JCiUeDZI4jXjqyUHWqpS5Piuf90OwsZsX0dpJDxLnBZyq2KojWTe8SCRUSn9fY9wCv4bsjjjhFuEiIhDHXjj7Au3VZ0q3xqEyLU16mKIK8NoJdkGfvlv9b6FIfp2WtTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JW89HmnN; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qDfH5P+t"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JW89HmnN"
 Received: from administrator-PowerEdge-R660.corp.microsoft.com (unknown [131.107.1.135])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CFBC620B7171;
-	Fri, 25 Sep 2026 12:07:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CFBC620B7171
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5658220B716D;
+	Fri, 25 Sep 2026 12:06:58 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5658220B716D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790363221;
-	bh=FoeEr+OnLwxx2zLyfVK537I78o+eF433Mirxja5xOvw=;
+	s=default; t=1790363218;
+	bh=BoBzNlrsUGm3UP4I+pr45MrOD+dOEKC2c0VOt7Ua8iA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qDfH5P+tFwXtkWJr3ON3rc1hK1VX3Tlcft/tm4vdEk/zx+PSHT+2Zx+UTAYdYvMGi
-	 WcXuHg7F9/0QjwIF4Dm7njX5IJSoFCKcISLZEvWaXUvHyAHxTcAZW07mqPVzJrCvVV
-	 eopQh4lHzJSyI9k83iTjLOjJCsXvvQa2TZ+NfNio=
+	b=JW89HmnNVbc1O1+5CXVHTfb//SFPZ83PF7JViOXnPPgYvIM7YsVq6NXKAemYdoPKW
+	 PUA0F2fV3SiSWAYJH4SCWB9BH+muJyayHz+3EHva/wXSVKyM2rCtv/Fr3HfgLNodHG
+	 pYsTrChkbUA+e6+ackhGwGbmP03ZlsGLay/ZW2aM=
 From: Jacob Pan <jacob.pan@linux.microsoft.com>
 To: iommu@lists.linux.dev
 Cc: Jason Gunthorpe <jgg@ziepe.ca>,
@@ -51,9 +51,9 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>,
 	Yu Zhang <zhangyu1@linux.microsoft.com>,
 	Easwar Hariharan <eahariha@linux.microsoft.com>,
 	Alex Williamson <alex@shazbot.org>
-Subject: [PATCH RFC 9/9] iommu/hyperv: Add IOMMUFD external domains
-Date: Fri, 25 Sep 2026 12:07:42 -0700
-Message-ID: <20260925190742.1575380-10-jacob.pan@linux.microsoft.com>
+Subject: [PATCH RFC 5/9] mshv: Add partition file identity helper
+Date: Fri, 25 Sep 2026 12:07:38 -0700
+Message-ID: <20260925190742.1575380-6-jacob.pan@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
 References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
@@ -65,244 +65,234 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allocate IOMMU_DOMAIN_EXTERNAL domains under Hyper-V vIOMMUs and use
-HVCALL_ATTACH_DEVICE to assign devices to an MSHV partition.
+Provide a helper to derive the immutable MSHV partition ID from a
+partition file. IOMMU drivers can use this to bind a vIOMMU to the
+partition object represented by a userspace fd instead of relying on
+current-task lookup.
 
-Resolve the userspace-assigned vDEVICE virt_id during attach and use it
-as the Hyper-V logical device ID. External domains retain their vIOMMU
-so attach preparation can pin guest memory before atomically replacing
-the previous device assignment.
-
-Keep paging domains backed by normal Hyper-V device domains.
+Keep the public helper in built-in Hyper-V common code and let the MSHV
+root driver register the partition-file callbacks. This lets built-in
+IOMMU callers avoid symbol_get() when MSHV_ROOT is built as a module.
 
 Assisted-by: GPT-5.6 Sol
 Signed-off-by: Jacob Pan <jacob.pan@linux.microsoft.com>
 ---
- drivers/iommu/hyperv/hv-iommu-iommufd.c | 44 ++++++++++++
- drivers/iommu/hyperv/hv-iommu-root.c    | 89 +++++++++++++++++++++++++
- drivers/iommu/hyperv/hv-iommu.h         |  5 ++
- 3 files changed, 138 insertions(+)
+ drivers/hv/hv_common.c         | 69 ++++++++++++++++++++++++++++++++++
+ drivers/hv/mshv_root_main.c    | 36 +++++++++++++++++-
+ include/asm-generic/mshyperv.h | 35 +++++++++++++++++
+ 3 files changed, 139 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/hyperv/hv-iommu-iommufd.c b/drivers/iommu/hyperv/hv-iommu-iommufd.c
-index 486a85c0d1e8..e595f53ddc66 100644
---- a/drivers/iommu/hyperv/hv-iommu-iommufd.c
-+++ b/drivers/iommu/hyperv/hv-iommu-iommufd.c
-@@ -33,10 +33,54 @@ static void hv_iommu_viommu_destroy(struct iommufd_viommu *viommu)
- 	fput(hv_viommu->vm_file);
- }
- 
-+static struct iommu_domain *
-+hv_iommu_alloc_domain_external(struct iommufd_viommu *viommu, u32 flags,
-+			       const struct iommu_user_data *user_data)
-+{
-+	struct hv_iommu_viommu *hv_viommu = to_hv_iommu_viommu(viommu);
-+	struct iommu_hwpt_external external = {};
-+	struct hv_domain *hvdom;
-+	int rc;
-+
-+	if (viommu->type != IOMMU_VIOMMU_TYPE_HYPERVISOR)
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (flags)
-+		return ERR_PTR(-EOPNOTSUPP);
-+	if (!user_data || user_data->type != IOMMU_HWPT_DATA_EXTERNAL)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	rc = iommu_copy_struct_from_user(&external, user_data,
-+					 IOMMU_HWPT_DATA_EXTERNAL, flags);
-+	if (rc)
-+		return ERR_PTR(rc);
-+	if (external.flags || external.__reserved)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	hvdom = kzalloc_obj(*hvdom, GFP_KERNEL_ACCOUNT);
-+	if (!hvdom)
-+		return ERR_PTR(-ENOMEM);
-+
-+	hvdom->iommu_dom.type = IOMMU_DOMAIN_EXTERNAL;
-+	hvdom->iommu_dom.ops = &hv_iommu_external_domain_ops;
-+	hvdom->iommu_dom.pgsize_bitmap = HV_IOMMU_PGSIZES;
-+	hvdom->partid = hv_viommu->partid;
-+	hvdom->viommu = viommu;
-+
-+	return &hvdom->iommu_dom;
-+}
-+
- static const struct iommufd_viommu_ops hv_iommu_hypervisor_viommu_ops = {
- 	.destroy = hv_iommu_viommu_destroy,
-+	.alloc_domain_external = hv_iommu_alloc_domain_external,
- };
- 
-+int hv_iommufd_prepare_attach(struct iommufd_viommu *viommu)
-+{
-+	struct hv_iommu_viommu *hv_viommu = to_hv_iommu_viommu(viommu);
-+
-+	return mshv_partition_file_prepare_attach(hv_viommu->vm_file);
-+}
-+
- size_t hv_iommufd_get_viommu_size(struct device *dev,
- 				  enum iommu_viommu_type viommu_type)
- {
-diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/hv-iommu-root.c
-index d6424b9ea0cd..b87152489630 100644
---- a/drivers/iommu/hyperv/hv-iommu-root.c
-+++ b/drivers/iommu/hyperv/hv-iommu-root.c
-@@ -7,6 +7,7 @@
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 31256cb22b39..d259cb833376 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -17,6 +17,7 @@
+ #include <linux/export.h>
+ #include <linux/bitfield.h>
+ #include <linux/cpumask.h>
++#include <linux/fs.h>
+ #include <linux/sched/task_stack.h>
+ #include <linux/panic_notifier.h>
+ #include <linux/ptrace.h>
+@@ -24,6 +25,7 @@
+ #include <linux/efi.h>
+ #include <linux/kdebug.h>
+ #include <linux/kmsg_dump.h>
++#include <linux/mutex.h>
+ #include <linux/sizes.h>
+ #include <linux/slab.h>
  #include <linux/dma-map-ops.h>
- #include <linux/interval_tree.h>
- #include <linux/hyperv.h>
-+#include <linux/iommufd.h>
- #include "hv-iommu.h"
- #include <asm/iommu.h>
- #include <asm/mshyperv.h>
-@@ -59,6 +60,13 @@ static bool hv_special_domain(struct hv_domain *hvdom)
- 	return hvdom == &hv_def_identity_dom || hvdom == &hv_def_blocked_dom;
- }
+@@ -37,6 +39,73 @@ EXPORT_SYMBOL_GPL(hv_current_partition_id);
+ enum hv_partition_type hv_curr_partition_type;
+ EXPORT_SYMBOL_GPL(hv_curr_partition_type);
  
-+static u64 hv_iommu_host_device_id(struct pci_dev *pdev)
-+{
-+	u64 devid = hv_pci_vmbus_device_id(pdev);
++static DEFINE_MUTEX(mshv_partition_file_ops_lock);
++static const struct mshv_partition_file_ops *mshv_partition_file_ops;
 +
-+	return devid ? devid : hv_build_devid_type_pci(pdev);
++int mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops)
++{
++	int ret = 0;
++
++	if (!ops || !ops->file_is_partition || !ops->get_partid)
++		return -EINVAL;
++
++	mutex_lock(&mshv_partition_file_ops_lock);
++	if (mshv_partition_file_ops)
++		ret = -EBUSY;
++	else
++		mshv_partition_file_ops = ops;
++	mutex_unlock(&mshv_partition_file_ops_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(mshv_partition_file_ops_register);
++
++void
++mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops)
++{
++	mutex_lock(&mshv_partition_file_ops_lock);
++	if (mshv_partition_file_ops == ops)
++		mshv_partition_file_ops = NULL;
++	mutex_unlock(&mshv_partition_file_ops_lock);
++}
++EXPORT_SYMBOL_GPL(mshv_partition_file_ops_unregister);
++
++bool file_is_mshv_partition(struct file *file)
++{
++	const struct mshv_partition_file_ops *ops;
++	bool ret = false;
++
++	if (!file)
++		return false;
++
++	mutex_lock(&mshv_partition_file_ops_lock);
++	ops = mshv_partition_file_ops;
++	if (ops)
++		ret = ops->file_is_partition(file);
++	mutex_unlock(&mshv_partition_file_ops_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(file_is_mshv_partition);
++
++u64 mshv_partition_file_get_partid(struct file *file)
++{
++	const struct mshv_partition_file_ops *ops;
++	u64 ret = HV_PARTITION_ID_INVALID;
++
++	if (!file)
++		return HV_PARTITION_ID_INVALID;
++
++	mutex_lock(&mshv_partition_file_ops_lock);
++	ops = mshv_partition_file_ops;
++	if (ops && ops->file_is_partition(file))
++		ret = ops->get_partid(file);
++	mutex_unlock(&mshv_partition_file_ops_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(mshv_partition_file_get_partid);
++
+ /*
+  * ms_hyperv and hv_nested are defined here with other
+  * Hyper-V specific globals so they are shared across all architectures and are
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 8b31e3948c09..838ea6397c9f 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -2160,6 +2160,33 @@ u64 mshv_current_partid(void)
+ }
+ EXPORT_SYMBOL_GPL(mshv_current_partid);
+ 
++static bool mshv_partition_file_is_valid(struct file *file)
++{
++	if (!file)
++		return false;
++
++	if (file->f_op == &mshv_partition_fops)
++		return true;
++
++	return false;
 +}
 +
- static atomic_t hv_unique_id;		/* unique numeric id for a new domain */
- 
- static bool hv_iommu_capable(struct device *dev, enum iommu_cap cap)
-@@ -205,6 +213,11 @@ static void hv_iommu_domain_free(struct iommu_domain *immdom)
- 	if (hv_special_domain(hvdom))
- 		return;
- 
-+	if (immdom->type == IOMMU_DOMAIN_EXTERNAL) {
-+		kfree(hvdom);
-+		return;
++static u64 mshv_partition_file_get_partid_impl(struct file *file)
++{
++	if (file->f_op == &mshv_partition_fops) {
++		struct mshv_partition *partition = file->private_data;
++
++		return partition ? partition->pt_id : HV_PARTITION_ID_INVALID;
 +	}
 +
- 	/* Cleanup any remaining. 0 for size results in ULONG_MAX as the last */
- 	hv_iommu_del_tree_mappings(hvdom, 0, 0);
- 
-@@ -269,6 +282,10 @@ static int hv_iommu_attach_dev(struct iommu_domain *immdom, struct device *dev,
- 
- 	pdev = to_pci_dev(dev);
- 
-+	/*
-+	 * HVCALL_ATTACH_DEVICE_DOMAIN atomically replaces any existing
-+	 * assignment, leaving @old intact if the new attachment fails.
-+	 */
- 	rc = hv_iommu_att_dev2dom(hvdom_new, pdev);
- 	if (rc)
- 		WARN(1, "Failed to attach pdev:%s\n", pci_name(pdev));
-@@ -276,6 +293,73 @@ static int hv_iommu_attach_dev(struct iommu_domain *immdom, struct device *dev,
- 	return rc;
- }
- 
-+static int hv_iommu_external_attach_device(struct pci_dev *pdev, u64 partid,
-+					   unsigned long vdev_id)
-+{
-+	struct hv_input_attach_device *input;
-+	union hv_device_id host_devid;
-+	unsigned long flags;
-+	u64 status;
-+	int rc;
-+
-+	if (partid == HV_PARTITION_ID_INVALID)
-+		return -EINVAL;
-+
-+	host_devid.as_uint64 = hv_iommu_host_device_id(pdev);
-+
-+	do {
-+		local_irq_save(flags);
-+		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+		memset(input, 0, sizeof(*input));
-+
-+		input->partition_id = partid;
-+		input->device_id = host_devid;
-+		input->attdev_flags.logical_id = 1;
-+		input->logical_devid = vdev_id;
-+
-+		status = hv_do_hypercall(HVCALL_ATTACH_DEVICE, input, NULL);
-+		local_irq_restore(flags);
-+
-+		if (hv_result(status) == HV_STATUS_INSUFFICIENT_MEMORY) {
-+			rc = hv_call_deposit_pages(NUMA_NO_NODE, partid, 1);
-+			if (rc)
-+				return rc;
-+		}
-+	} while (hv_result(status) == HV_STATUS_INSUFFICIENT_MEMORY);
-+
-+	if (!hv_result_success(status))
-+		hv_status_err(status, "\n");
-+
-+	return hv_result_to_errno(status);
++	return HV_PARTITION_ID_INVALID;
 +}
 +
-+static int hv_iommu_external_attach_dev(struct iommu_domain *immdom,
-+					struct device *dev,
-+					struct iommu_domain *old)
-+{
-+	struct hv_domain *hvdom_new = to_hv_domain(immdom);
-+	unsigned long vdev_id;
-+	int rc;
-+
-+	if (!dev_is_pci(dev))
-+		return -EINVAL;
-+
-+	rc = iommufd_viommu_get_vdev_id(hvdom_new->viommu, dev, &vdev_id);
-+	if (rc)
-+		return rc;
-+
-+	rc = hv_iommufd_prepare_attach(hvdom_new->viommu);
-+	if (rc)
-+		return rc;
-+
-+	/*
-+	 * HVCALL_ATTACH_DEVICE atomically replaces any existing assignment,
-+	 * leaving @old intact if the new attachment fails.
-+	 */
-+	return hv_iommu_external_attach_device(to_pci_dev(dev),
-+					       hvdom_new->partid, vdev_id);
-+}
-+
- static u64 hv_iommu_unmap_batch(u32 domid_num, ulong iova, u16 count)
- {
- 	ulong flags;
-@@ -527,6 +611,11 @@ static struct iommu_domain_ops hv_paging_domain_ops = {
- 	.free = hv_iommu_domain_free,
- };
- 
-+const struct iommu_domain_ops hv_iommu_external_domain_ops = {
-+	.attach_dev = hv_iommu_external_attach_dev,
-+	.free = hv_iommu_domain_free,
++static const struct mshv_partition_file_ops mshv_partition_file_ops = {
++	.file_is_partition = mshv_partition_file_is_valid,
++	.get_partid = mshv_partition_file_get_partid_impl,
 +};
 +
- static struct iommu_ops hv_iommu_ops = {
- 	.capable	    = hv_iommu_capable,
- 	.domain_alloc_paging	= hv_iommu_domain_alloc_paging,
-diff --git a/drivers/iommu/hyperv/hv-iommu.h b/drivers/iommu/hyperv/hv-iommu.h
-index 6fdbe56a4b1d..647fead81533 100644
---- a/drivers/iommu/hyperv/hv-iommu.h
-+++ b/drivers/iommu/hyperv/hv-iommu.h
-@@ -20,16 +20,21 @@ struct iommu_user_data;
- struct hv_domain {
- 	struct iommu_domain iommu_dom;
- 	u32 domid_num;			      /* as opposed to domain_id.type */
-+	u64 partid;			      /* partition id for external attach */
-+	struct iommufd_viommu *viommu;
- 	spinlock_t mappings_lock;	      /* protects mappings_tree */
- 	struct rb_root_cached mappings_tree;  /* iova to pa lookup tree */
- };
+ static int
+ add_partition(struct mshv_partition *partition)
+ {
+@@ -2599,10 +2626,14 @@ static int __init mshv_parent_partition_init(void)
+ 	if (hv_get_hypervisor_version(&version_info))
+ 		return -ENODEV;
  
- #define to_hv_domain(d) container_of(d, struct hv_domain, iommu_dom)
+-	ret = misc_register(&mshv_dev);
++	ret = mshv_partition_file_ops_register(&mshv_partition_file_ops);
+ 	if (ret)
+ 		return ret;
  
-+extern const struct iommu_domain_ops hv_iommu_external_domain_ops;
++	ret = misc_register(&mshv_dev);
++	if (ret)
++		goto unregister_file_ops;
 +
- size_t hv_iommufd_get_viommu_size(struct device *dev,
- 				  enum iommu_viommu_type viommu_type);
- int hv_iommufd_viommu_init(struct iommufd_viommu *viommu,
- 			   struct iommu_domain *parent_domain,
- 			   const struct iommu_user_data *user_data);
-+int hv_iommufd_prepare_attach(struct iommufd_viommu *viommu);
+ 	dev = mshv_dev.this_device;
  
- #endif /* __HYPERV_IOMMU_H */
+ 	if (version_info.build_number < MSHV_HV_MIN_VERSION ||
+@@ -2652,6 +2683,8 @@ static int __init mshv_parent_partition_init(void)
+ 	mshv_synic_exit();
+ device_deregister:
+ 	misc_deregister(&mshv_dev);
++unregister_file_ops:
++	mshv_partition_file_ops_unregister(&mshv_partition_file_ops);
+ 	return ret;
+ }
+ 
+@@ -2661,6 +2694,7 @@ static void __exit mshv_parent_partition_exit(void)
+ 	mshv_port_table_fini();
+ 	mshv_debugfs_exit();
+ 	misc_deregister(&mshv_dev);
++	mshv_partition_file_ops_unregister(&mshv_partition_file_ops);
+ 	mshv_irqfd_wq_cleanup();
+ 	root_scheduler_deinit();
+ 	mshv_synic_exit();
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index c7258cd72a89..ed7ab21d68a2 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -401,6 +401,41 @@ static inline u64 mshv_current_partid(void)
+ }
+ #endif /* CONFIG_MSHV_ROOT */
+ 
++struct file;
++struct mshv_partition_file_ops {
++	bool (*file_is_partition)(struct file *file);
++	u64 (*get_partid)(struct file *file);
++};
++
++#if IS_ENABLED(CONFIG_HYPERV)
++int mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops);
++void
++mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops);
++bool file_is_mshv_partition(struct file *file);
++u64 mshv_partition_file_get_partid(struct file *file);
++#else
++static inline int
++mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void
++mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops)
++{
++}
++
++static inline bool file_is_mshv_partition(struct file *file)
++{
++	return false;
++}
++
++static inline u64 mshv_partition_file_get_partid(struct file *file)
++{
++	return HV_PARTITION_ID_INVALID;
++}
++#endif
++
+ static inline int hv_deposit_memory(u64 partition_id, u64 status)
+ {
+ 	return hv_deposit_memory_node(NUMA_NO_NODE, partition_id, status);
 -- 
 2.43.0
 
