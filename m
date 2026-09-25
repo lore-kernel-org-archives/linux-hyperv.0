@@ -1,298 +1,143 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DC24D0A02;
-	Fri, 25 Sep 2026 19:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7835047884F
+	for <linux-hyperv@vger.kernel.org>; Fri, 25 Sep 2026 21:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790363288; cv=none; b=bucZSbWBscrNDh1DevGogKKJyrAvsewxF8gGlEJVDKL6QLRZAQoevvz6hoE6Cpi9nprgk91IPKitTMPMP1PxFftkrXDliXq40wGBL66TrPUQcKuiuNq3OBy54E4WqYq6LzuGOIy4oGgNpJb4TfOos/+62IZfQI16UrREKoQCdGo=
+	t=1790372000; cv=none; b=W/KiBOrTbm3Y5aeFkycLNFcROnvO1s7ybk4AS16e9Tx60sPz7+j5OYHuc6NK7j13zshIKItSKnYAjDcWEWb0Bk7ZBz0e287UYljHExj5iHoxIiiZsfwVQ+99RYE7lgU/gEjfDpbeQUV6mJ8NVKOVp8VETr9qW4+IHKP0U4QAsO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790363288; c=relaxed/simple;
-	bh=5X+mnxBQNb7I64OfqLtrW/sJn+mW48nbnX0Azou/8VM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d3agZ5Vr6sM+N3CiL9CLI+Qp4il2O7bW3GX1PHE1uK8JCiUeDZI4jXjqyUHWqpS5Piuf90OwsZsX0dpJDxLnBZyq2KojWTe8SCRUSn9fY9wCv4bsjjjhFuEiIhDHXjj7Au3VZ0q3xqEyLU16mKIK8NoJdkGfvlv9b6FIfp2WtTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JW89HmnN; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1790372000; c=relaxed/simple;
+	bh=fdYTU5U5yPhXQuFyexoLor1rQLck6e9sGLmm960hzA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WEL/B9213+P70NipSuDJhXf9PH8yGm/8LxydZbppoc5zfzNcIbnM0YPSSLESvoK5SUuqtNWVWxw66+YcGLA4CBo4bSuGUqXNCzNabG8KOJAiesmM75SOH+f99rgpm9mviAcASpgrEgGiT4wu42bkualZ2PVTqx5PjXdytPvmtRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XL40tDeU; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JW89HmnN"
-Received: from administrator-PowerEdge-R660.corp.microsoft.com (unknown [131.107.1.135])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5658220B716D;
-	Fri, 25 Sep 2026 12:06:58 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5658220B716D
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XL40tDeU"
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2AE2B20B7169;
+	Fri, 25 Sep 2026 14:32:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2AE2B20B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790363218;
-	bh=BoBzNlrsUGm3UP4I+pr45MrOD+dOEKC2c0VOt7Ua8iA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JW89HmnNVbc1O1+5CXVHTfb//SFPZ83PF7JViOXnPPgYvIM7YsVq6NXKAemYdoPKW
-	 PUA0F2fV3SiSWAYJH4SCWB9BH+muJyayHz+3EHva/wXSVKyM2rCtv/Fr3HfgLNodHG
-	 pYsTrChkbUA+e6+ackhGwGbmP03ZlsGLay/ZW2aM=
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: iommu@lists.linux.dev
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	Joerg Roedel <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Mukesh Rathor <mukeshrathor@microsoft.com>,
-	John Starks <John.Starks@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Alex Williamson <alex@shazbot.org>
-Subject: [PATCH RFC 5/9] mshv: Add partition file identity helper
-Date: Fri, 25 Sep 2026 12:07:38 -0700
-Message-ID: <20260925190742.1575380-6-jacob.pan@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
-References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
+	s=default; t=1790371949;
+	bh=TRnGNk2C3pGkf1OWgvn5WxWb3mQ1EV+W88G8M579pHk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XL40tDeUa5VP2TXhXbvOTl66CYxfzmaPao2PLYMJfKbSctGeK5c+9tMWY8H7XG13T
+	 syScJ2xM88QTECHDr2GsrMAanWxYJyalfIWOOAUAvnMx/j6roCyN6MtyU6GZtoxLh6
+	 NRlAQQtUvIN0jLCZT2n76WzwduAuUJUTqV1X/vBU=
+Message-ID: <44536e5f-efcd-c9d4-7619-d2343c7b7f9f@linux.microsoft.com>
+Date: Fri, 25 Sep 2026 14:33:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V2 2/3] mshv: Redesign hypervisor memory deposit logic
+Content-Language: en-US
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-hyperv@vger.kernel.org
+References: <20260912000318.2959621-1-mrathor@linux.microsoft.com>
+ <20260912000318.2959621-3-mrathor@linux.microsoft.com>
+ <20260912001508.0C31C1F000FF@smtp.kernel.org>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <20260912001508.0C31C1F000FF@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Provide a helper to derive the immutable MSHV partition ID from a
-partition file. IOMMU drivers can use this to bind a vIOMMU to the
-partition object represented by a userspace fd instead of relying on
-current-task lookup.
+On 9/11/26 17:15, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] Memory leak of all un-deposited pages when `hv_do_rep_hypercall` returns `U64_MAX`.
+> --
+> 
+> commit 68b286f4de61fdc1a888242cfc4b1a1ea3d187dc
+> Author: Mukesh R <mrathor@linux.microsoft.com>
+> 
+> mshv: Redesign hypervisor memory deposit logic
+> 
+> This commit redesigns the hypervisor memory deposit logic to optimize
+> performance and address preexisting issues. It defaults to allocating and
+> depositing 2M chunks when possible to reduce overhead and avoids unnecessary
+> interrupt disabling during the process.
+> 
+>> diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+>> index 57864bb5bcd8c..df39a5c587ca2 100644
+>> --- a/drivers/hv/hv_proc.c
+>> +++ b/drivers/hv/hv_proc.c
+> [ ... ]
+>> +static int hv_call_deposit_pages(int node, u64 partition_id, bool contiguous)
+>> +{
+> [ ... ]
+>> +	/* Not using hyperv_pcpu_input_arg, so no need to disable interrupts */
+>> +
+>> +	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, num_pages, 0,
+>> +				     hc_input, NULL);
+>> +	if (!hv_result_success(status))
+>> +		goto err_free_dep_pages;
+>> +
+>> +	if (lastpfn) {
+>> +		hc_input->gpa_page_list[0] = lastpfn;
+>> +		status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY, 1, 0,
+>> +					     hc_input, NULL);
+>> +
+>> +		if (!hv_result_success(status) && hv_repcomp(status) == 0)
+> 
+> [Severity: Medium]
+> Will this leak the page pointed to by lastpfn if hv_do_rep_hypercall() returns
+> U64_MAX?
+> 
+> If the hypervisor is unavailable or hypercalls are unsupported,
+> hv_do_rep_hypercall() can return the sentinel value U64_MAX, which is explicitly
+> handled by hv_result_to_errno() elsewhere.
+> 
+> When status is U64_MAX, the hv_repcomp(status) macro extracts bits 43:32, which
+> results in 4095 instead of 0.
+> 
+> Does this cause the condition to evaluate to false and skip freeing the page?
 
-Keep the public helper in built-in Hyper-V common code and let the MSHV
-root driver register the partition-file callbacks. This lets built-in
-IOMMU callers avoid symbol_get() when MSHV_ROOT is built as a module.
+This hypercall will not return U64_MAX.
 
-Assisted-by: GPT-5.6 Sol
-Signed-off-by: Jacob Pan <jacob.pan@linux.microsoft.com>
----
- drivers/hv/hv_common.c         | 69 ++++++++++++++++++++++++++++++++++
- drivers/hv/mshv_root_main.c    | 36 +++++++++++++++++-
- include/asm-generic/mshyperv.h | 35 +++++++++++++++++
- 3 files changed, 139 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 31256cb22b39..d259cb833376 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -17,6 +17,7 @@
- #include <linux/export.h>
- #include <linux/bitfield.h>
- #include <linux/cpumask.h>
-+#include <linux/fs.h>
- #include <linux/sched/task_stack.h>
- #include <linux/panic_notifier.h>
- #include <linux/ptrace.h>
-@@ -24,6 +25,7 @@
- #include <linux/efi.h>
- #include <linux/kdebug.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/mutex.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
- #include <linux/dma-map-ops.h>
-@@ -37,6 +39,73 @@ EXPORT_SYMBOL_GPL(hv_current_partition_id);
- enum hv_partition_type hv_curr_partition_type;
- EXPORT_SYMBOL_GPL(hv_curr_partition_type);
- 
-+static DEFINE_MUTEX(mshv_partition_file_ops_lock);
-+static const struct mshv_partition_file_ops *mshv_partition_file_ops;
-+
-+int mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops)
-+{
-+	int ret = 0;
-+
-+	if (!ops || !ops->file_is_partition || !ops->get_partid)
-+		return -EINVAL;
-+
-+	mutex_lock(&mshv_partition_file_ops_lock);
-+	if (mshv_partition_file_ops)
-+		ret = -EBUSY;
-+	else
-+		mshv_partition_file_ops = ops;
-+	mutex_unlock(&mshv_partition_file_ops_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(mshv_partition_file_ops_register);
-+
-+void
-+mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops)
-+{
-+	mutex_lock(&mshv_partition_file_ops_lock);
-+	if (mshv_partition_file_ops == ops)
-+		mshv_partition_file_ops = NULL;
-+	mutex_unlock(&mshv_partition_file_ops_lock);
-+}
-+EXPORT_SYMBOL_GPL(mshv_partition_file_ops_unregister);
-+
-+bool file_is_mshv_partition(struct file *file)
-+{
-+	const struct mshv_partition_file_ops *ops;
-+	bool ret = false;
-+
-+	if (!file)
-+		return false;
-+
-+	mutex_lock(&mshv_partition_file_ops_lock);
-+	ops = mshv_partition_file_ops;
-+	if (ops)
-+		ret = ops->file_is_partition(file);
-+	mutex_unlock(&mshv_partition_file_ops_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(file_is_mshv_partition);
-+
-+u64 mshv_partition_file_get_partid(struct file *file)
-+{
-+	const struct mshv_partition_file_ops *ops;
-+	u64 ret = HV_PARTITION_ID_INVALID;
-+
-+	if (!file)
-+		return HV_PARTITION_ID_INVALID;
-+
-+	mutex_lock(&mshv_partition_file_ops_lock);
-+	ops = mshv_partition_file_ops;
-+	if (ops && ops->file_is_partition(file))
-+		ret = ops->get_partid(file);
-+	mutex_unlock(&mshv_partition_file_ops_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(mshv_partition_file_get_partid);
-+
- /*
-  * ms_hyperv and hv_nested are defined here with other
-  * Hyper-V specific globals so they are shared across all architectures and are
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index 8b31e3948c09..838ea6397c9f 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -2160,6 +2160,33 @@ u64 mshv_current_partid(void)
- }
- EXPORT_SYMBOL_GPL(mshv_current_partid);
- 
-+static bool mshv_partition_file_is_valid(struct file *file)
-+{
-+	if (!file)
-+		return false;
-+
-+	if (file->f_op == &mshv_partition_fops)
-+		return true;
-+
-+	return false;
-+}
-+
-+static u64 mshv_partition_file_get_partid_impl(struct file *file)
-+{
-+	if (file->f_op == &mshv_partition_fops) {
-+		struct mshv_partition *partition = file->private_data;
-+
-+		return partition ? partition->pt_id : HV_PARTITION_ID_INVALID;
-+	}
-+
-+	return HV_PARTITION_ID_INVALID;
-+}
-+
-+static const struct mshv_partition_file_ops mshv_partition_file_ops = {
-+	.file_is_partition = mshv_partition_file_is_valid,
-+	.get_partid = mshv_partition_file_get_partid_impl,
-+};
-+
- static int
- add_partition(struct mshv_partition *partition)
- {
-@@ -2599,10 +2626,14 @@ static int __init mshv_parent_partition_init(void)
- 	if (hv_get_hypervisor_version(&version_info))
- 		return -ENODEV;
- 
--	ret = misc_register(&mshv_dev);
-+	ret = mshv_partition_file_ops_register(&mshv_partition_file_ops);
- 	if (ret)
- 		return ret;
- 
-+	ret = misc_register(&mshv_dev);
-+	if (ret)
-+		goto unregister_file_ops;
-+
- 	dev = mshv_dev.this_device;
- 
- 	if (version_info.build_number < MSHV_HV_MIN_VERSION ||
-@@ -2652,6 +2683,8 @@ static int __init mshv_parent_partition_init(void)
- 	mshv_synic_exit();
- device_deregister:
- 	misc_deregister(&mshv_dev);
-+unregister_file_ops:
-+	mshv_partition_file_ops_unregister(&mshv_partition_file_ops);
- 	return ret;
- }
- 
-@@ -2661,6 +2694,7 @@ static void __exit mshv_parent_partition_exit(void)
- 	mshv_port_table_fini();
- 	mshv_debugfs_exit();
- 	misc_deregister(&mshv_dev);
-+	mshv_partition_file_ops_unregister(&mshv_partition_file_ops);
- 	mshv_irqfd_wq_cleanup();
- 	root_scheduler_deinit();
- 	mshv_synic_exit();
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index c7258cd72a89..ed7ab21d68a2 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -401,6 +401,41 @@ static inline u64 mshv_current_partid(void)
- }
- #endif /* CONFIG_MSHV_ROOT */
- 
-+struct file;
-+struct mshv_partition_file_ops {
-+	bool (*file_is_partition)(struct file *file);
-+	u64 (*get_partid)(struct file *file);
-+};
-+
-+#if IS_ENABLED(CONFIG_HYPERV)
-+int mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops);
-+void
-+mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops);
-+bool file_is_mshv_partition(struct file *file);
-+u64 mshv_partition_file_get_partid(struct file *file);
-+#else
-+static inline int
-+mshv_partition_file_ops_register(const struct mshv_partition_file_ops *ops)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline void
-+mshv_partition_file_ops_unregister(const struct mshv_partition_file_ops *ops)
-+{
-+}
-+
-+static inline bool file_is_mshv_partition(struct file *file)
-+{
-+	return false;
-+}
-+
-+static inline u64 mshv_partition_file_get_partid(struct file *file)
-+{
-+	return HV_PARTITION_ID_INVALID;
-+}
-+#endif
-+
- static inline int hv_deposit_memory(u64 partition_id, u64 status)
- {
- 	return hv_deposit_memory_node(NUMA_NO_NODE, partition_id, status);
--- 
-2.43.0
+>> +			/* We deposited lot earlier, so give it a go */
+>> +			__free_page(pfn_to_page(lastpfn));
+>> +	}
+>> +
+>> +	free_page((unsigned long)hc_input);
+>> +	return 0;
+>> +
+>> +err_free_dep_pages:
+>> +	hv_status_err(status, "\n");
+>> +	rc = hv_result_to_errno(status);
+>> +
+>> +	for (i = hv_repcomp(status); i < num_pages; i++)
+> 
+> [Severity: Medium]
+> Will this loop fail to free any pages in the pfna[] array when status is
+> U64_MAX?
+> 
+> Similar to the check above, if status is U64_MAX, hv_repcomp(status) evaluates
+> to 4095.
+> 
+> Since num_pages is bounded to a maximum of 511 (HV_DEPOSIT_INP_MAX) in this
+> path, the loop initialization sets i = 4095, making the condition i < num_pages
+> immediately false.
+> 
+> Does this cause the loop to terminate without executing, silently leaking up to
+> 511 allocated pages per failed deposit attempt?
+
+
+status cannot be U64_MAX for this hypercall.
+
+
+>> +		__free_page(pfn_to_page(pfna[i]));
+>> +	if (lastpfn)
+>> +		__free_page(pfn_to_page(lastpfn));
+>> +
+>> +out_free:
+>> +	free_page((unsigned long)hc_input);
+>> +	return rc;
+>> +}
+> 
 
