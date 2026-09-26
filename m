@@ -1,77 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC18547063;
-	Sat, 26 Sep 2026 07:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C74D368D66;
+	Sat, 26 Sep 2026 18:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790408434; cv=none; b=o/Wvj6+M3ZZKzxFHaKmUEcRZSAsqiYhMCEmQh5kqiLoYmR2SrjoQRSzwYCpKbyAj2BupS+ZCmZdU9VWaHXekmfN3zGFET1Fh6UB8ip5lQwreEK6Dx3/hbqW3mXLqbF1mUM2SdhSgZhQy0YLliyL2AW6a3+0EB7mUtXrs8ulbHq4=
+	t=1790449085; cv=none; b=AISbNLjrI/rU7fW0Vdh0Gb55JX/FtkdvZut1cFrOms6PSpplaFfQhCcfpR/D7IAlIJAhzZA1B9dzN/DuoDqyyAdqT8AQibBhpp96gFo/BQ/LbnX6PkviPUBRQf09+lVNZOLSWnZH0dmw/noRxPlrJCsDHBWNb52SDEukKNbeNhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790408434; c=relaxed/simple;
-	bh=hvso6QataZbi+mHsHv2Vfl3CuuRu6gjXK9d49MdERJE=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I6CkiopOJYYETthNPWHQM9Y658xi8Pt7v3xzJkSh7g+nhsAebDorwh27OHCOB8Xe+CRgLHUj/7tn4ePQXhLcYrUjrbsKwnKrzGDMinbhe5GuLZszQbvZMqlw54DKpstUzqNcoAqWCiHzCVFb1l0KPxSzxUjmSjBK1krK+CSK0TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqefaKg/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790449085; c=relaxed/simple;
+	bh=mWFmrQYgV2LAsBjAb2GiSDyoNZstKuqK2QwfumxlqDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mKEpGSfL6lVlnFwUzw57urhoTfYZg2Lg/pvoqrHf+hI9QENaLKAEQbxJo6Deq1VaHaUiGGF5PmZ3cCwiAMqrHqvhv7Ua3nNLw7XQV0/8wjhNKqobcES7uaRhqdbdIMUGTHvo0S7xC8Udz/YbODzPacnuzzw8n+VRmIHqfmqoXhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhdTsF6B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqefaKg/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8531F000FF;
-	Sat, 26 Sep 2026 07:40:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhdTsF6B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1171F000FF;
+	Sat, 26 Sep 2026 18:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790408432;
-	bh=ena0fpFeDtVV/SSXvnKDFH2KEMd5CE8KQmcKCnR29zU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=oqefaKg/yK+I6T5xsuehcIAeBGTcUxl8oW7Vq0x3p7JLFbJq2ynv+6QoqIpyGkI/G
-	 J/MjgLIv+JNemYTQbo0/TjQdMuiR8ohf9uF0XbPz+PtiEIwsgYzFAmNmGA7w4siUSc
-	 3UtCWXxZYmTJksdEIbVGs394PNy3AA4JDWTCch849AUNvLoenvBDYdqOw9ZdvfQ0pu
-	 5bzJUTPPJy05CtSspszBipx7iu44ThWhSQ2fsdz9hQkLq2/WX0e/6fsKwS/+jIyths
-	 1c+JtQp76gW6PiF1qSOBMOLnfJgRIMTD9/SFC82+oZdL6Q3H+6MzvciOPv72mOPfOW
-	 udzmpQDlPBcuA==
-Subject: Re: [PATCH net v4] net: mana: fix reset work race with device removal
-From: netdev-bot+sashiko@kernel.org
+	s=k20260515; t=1790449084;
+	bh=1K5UDdT+kVdpYBMxZC6/uTgz5rv7oUyjevgEXos2qtQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=DhdTsF6BQnLG1iGJ1Wwdp99Dx8iH0ZTL0dDksYkP06RyYJWQ7WhWX1QnNgPmTduDK
+	 QEEWoSUdPfqpfAzcCoeZnwbKD8D5K3ibOkzI0NtE29kjN3I5GGxVXvn6YSmmxk+QmG
+	 CH1st4LIUhpgbz03eUPMo/DL5WtXO2x70TAalZyXVg8eeaQAoJFva+RsNrbOJFu9Ob
+	 BUNtvB6H4OyLb367Stdtb615AAHzFJOtrBngGB69El5+QrGZzuPSQyLKZHTYs6unTR
+	 YDhjqAf88/u5aarDHVTGdYw0mLPZCQgesgc3ghOb1W9XwIbpQh5QtsF/RVK+zYJmsb
+	 Q9d3DWldN8cTg==
+From: Simon Horman <horms@kernel.org>
 To: fanwu01@zju.edu.cn
-Cc: netdev@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, songl@zju.edu.cn
-Date: Sat, 26 Sep 2026 07:40:30 +0000
-Message-ID: <179040843066.2160803.16315462315045553577@kernel.org>
+Cc: Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	songl@zju.edu.cn
+Subject: Re: [PATCH net v4] net: mana: fix reset work race with device removal
+Date: Sat, 26 Sep 2026 19:57:48 +0100
+Message-ID: <20260926185748.757672-1-horms@kernel.org>
+X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260922070728.309280-1-fanwu01@zju.edu.cn>
 References: <20260922070728.309280-1-fanwu01@zju.edu.cn>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
-
-Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] mana_gf_stats_work_handler()
-  (drivers/net/ethernet/microsoft/mana/mana_en.c:4056-4072) now drops…
-- [Low] The comment added at the new service_quiesce label in
-  mana_gd_probe() ('The stats work can admit service once mana_probe()…
-- [Low] mana_schedule_serv_work() replaces schedule_work() with
-  queue_work(system_wq, &gc->serv_work).
-
-Pre-existing issues:
-- [High] The new admission/quiesce protocol is applied to
-  mana_gd_remove(), mana_gd_shutdown() and the probe unwind, but not to…
-
---
-
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922070728.309280-1-fanwu01@zju.edu.cn?part=1
+---
 net: mana: fix reset work race with device removal
 
 The service work item is moved into struct gdma_context and its lifecycle
@@ -302,6 +292,3 @@ The EQ producer solves the same race by latching under serv_lock:
 Would routing this producer through the same latch-or-admit helper work, or
 alternatively keeping the delayed work re-armed so the request is retried
 once serv_probe_done is set?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922070728.309280-1-fanwu01%40zju.edu.cn
