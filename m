@@ -1,167 +1,307 @@
-Received: from mail-ua2-f43.google.com (mail-ua2-f43.google.com [74.125.226.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB06E38A736
-	for <linux-hyperv@vger.kernel.org>; Sat, 26 Sep 2026 04:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.226.235
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790395216; cv=pass; b=oYZw8SMfqg9KPySVWYF+k6w20aYTS9VmMF74IVTU0dVneVr5r7JvJB+/8cqxgWFtsK3joVOfvHyhK6CT+uiN7Ihib2nlYlVSW9EUAvwIZ3G460RRi4esYAK9icQY3oIKkyZjH9sglBr4esJlcmrYeslwXEOyI4PYPY4AyZ6b3lM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790395216; c=relaxed/simple;
-	bh=8Y2bsAkSTZILhk3+rv+DzLT4+GI9Kjxt3IAQHjbMyP0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=obqMjFMVgQsJz3JR+kUf171hsMOJTSLaG3fs35nPPGmBZGimp5yjjUFDYcK3xPO56jIxYHxgho7CQglu1wxJFHixI2q+mIcUlQNy6YWcRItDHtVksUsMPwjNMeeBPOOmZGgWfJ9HhSPlA9v4ECF06E/zE/whxrrT3fsgMY3QkHE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mUDjKBol; arc=pass smtp.client-ip=74.125.226.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC18547063;
+	Sat, 26 Sep 2026 07:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790408434; cv=none; b=o/Wvj6+M3ZZKzxFHaKmUEcRZSAsqiYhMCEmQh5kqiLoYmR2SrjoQRSzwYCpKbyAj2BupS+ZCmZdU9VWaHXekmfN3zGFET1Fh6UB8ip5lQwreEK6Dx3/hbqW3mXLqbF1mUM2SdhSgZhQy0YLliyL2AW6a3+0EB7mUtXrs8ulbHq4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790408434; c=relaxed/simple;
+	bh=hvso6QataZbi+mHsHv2Vfl3CuuRu6gjXK9d49MdERJE=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=I6CkiopOJYYETthNPWHQM9Y658xi8Pt7v3xzJkSh7g+nhsAebDorwh27OHCOB8Xe+CRgLHUj/7tn4ePQXhLcYrUjrbsKwnKrzGDMinbhe5GuLZszQbvZMqlw54DKpstUzqNcoAqWCiHzCVFb1l0KPxSzxUjmSjBK1krK+CSK0TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqefaKg/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mUDjKBol"
-Received: by mail-ua2-f43.google.com with SMTP id a1e0cc1a2514c-98531196e20so890418241.0
-        for <linux-hyperv@vger.kernel.org>; Fri, 25 Sep 2026 21:00:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790395213; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QESm+QJUUzHrcQtRbvgIGo9KanMItNAlbcr0k34rJK8M5Eel7zyrWRS4YqUSSpCSCh
-         wD02kHV/R2oXrp60tM202OAti2EJiiE61/eJcHM27R5cRSroF2ZUYPjYHPFcZTKVwXJO
-         4gjujfih5/dNdzIfdv8ADUy3VrrVvanb2zR6KSj4f9xGbg+EoguiVtNG5XTSo5aBqQvl
-         TSNMp1cJz6k8szS7zEtoxT0MVMvIiyFPf2iw1tNbKTUjnBgBS+Bz2rAJ2tOOQmvDjuaA
-         R2EvpMl1h7PEOIl+xkze87ai6x/g8vlJ9/AVxvivSDITaSDRcjRHnQ6FO1O5m3sDQhpT
-         UH9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MYpeyRZV+TWw0zn+XSYzCNOx9+tm8LCGwN/L1KGsoYA=;
-        fh=4T/PyGdU9AH5VmtgczqPAlTZ06aMCnPigoKD7n6DjuE=;
-        b=kFtfEAyMxu4IrJPhWgmXXys8XtAj41jItrKRR986Oy3tekOm01K/8p3WJ64Jh3zQuB
-         J5bFXn9rh7TQGKN0FIGY4KP3nNPXwmHaNzJngUDAVYpwcI3Xs/ZM6Dxh8pd/ze2/bT49
-         INy2G1f2uhOpFbVIutEzJ7J8jwlZGXqbw3Vy6pWVgs1WKqJ1wAvalmy1PXZRJvV8FZ+M
-         9hjdFFB4xGfBN9hvEDuf6l2cTkwDZDxmBgkLs5FVNmncQkyNk00bquNGaofo67tmS9cZ
-         ghyzt28O0c88BebIFajSY6K4JOXC6neaVzZn1p1Ud33BIoxhXTWk4gGF+wOh92n59zoK
-         Qc/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790395213; x=1791000013; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MYpeyRZV+TWw0zn+XSYzCNOx9+tm8LCGwN/L1KGsoYA=;
-        b=mUDjKBolyl6G6UFKJaNw0/pN9mtnFg5Zuujb9UtJH+TgqHTVVdBww7nUcIu57dBDMo
-         67m39PxoKPaOc0ZKf19r+0ZhvRFd9dKG4RVQW0gvJFVEasut4l3wHaCQlJ8bavsTvOoO
-         rQGWcfMqWxtXrbA2j56pj/al47BPbCRIcKPo03Axq1kABTuEK+mS8w1MSdY/8zhQP2va
-         ruGIR9aBHv77CA4GU2KRxgs3EiFeEuYRicIAckZ80QErQL1yyUKfVngkdcunwNnHpKGE
-         zmSwb6xV5nLJg2mZoTVHiHvoEa7UDN8t0JOVEXf39VSeJKy4P4Jvg6e9rg23kEdk7Xba
-         Mn5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790395213; x=1791000013;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MYpeyRZV+TWw0zn+XSYzCNOx9+tm8LCGwN/L1KGsoYA=;
-        b=WeszHikYrlD0KcEs4sQLI6ID8ldsybzViK+lDfEt/amzmRm+FSUmMUkpH4JVCzHDSo
-         uTIQvIHCVIDIboA+OEF2Xf78jSchyvdxKYM3RqhGmuxWxQ3yQbL1wOwtlGYhtusQ+wCG
-         /NgRIaxBERRCp+L/3ZEWYtz3mY2W5bxY+BeHmhiADolVN4dHIk+ooUn9ueKLdFqG5/MJ
-         QTvfh+275f9SsuKO6O4xTSPE75lpSLO4Nrum47yP0n9izn6zzfxksfdEDKe33c5Gna83
-         LjCx9S0bjA5VPOTHY5VpPdaSjlCFnkmFnCoH+2y2TfaDxpUvs5cpJ5stu0AIdLSokQLj
-         p7/g==
-X-Forwarded-Encrypted: i=1; AKwUvByUuuUwhsqkSvhdFdeEiHSwZsd6zZBg5j8RFMzs+9/HlTocqiaVWnuP5Mmrq/UjP+vcngN8/IlKU/VGqQc=@vger.kernel.org
-X-Gm-Message-State: AFuF++m41T93iDGB6R54uNuw0hstpBzprAZIIPxBHA7VDKAigWvaqwo+
-	0BdyllHE8Pn7nAEreDI6CfECnurGGlj+DlvOD/eEr0KFMC/+rbed/R1CPk4YGsu8SEkSMTy9T9Q
-	hcLDiHZ0UFCSbZiPzhoOXswFHbeqNj+vA+FpucZc=
-X-Gm-Gg: AYBFou2c1dE22bDzS3SS1n+3cMOprYMbzQ8dLZjO9mMHzmEIVSSPdLYx+Z69/65Dupo
-	TLZ7VFR9Lsgr6CSxgjymILGAjc40cUMbsGzqCjS/swwKmvbSBRljEewYpBEJ4VBrNsuJ4xRMIQF
-	MVjjTEh5XVHf6tcvRW6m/ZFNL5i925LyN7tkG/LI7aFKIC871SO3cKNx/SUYLgDfyRWsavx/aZV
-	5moBElP5r6YJEMUu/FUHmykQ/82+U2S66nbDjyvyhYjGIA9FGWVVC2o3Yk4Da4gKqOyd3nXwBK0
-	U5okfub8dmuAeLzNLiFjgII9701sT88SqaGQ7lHxCCHc01sEJABK6fBeCFGH2rEFlMyyyPiXNj7
-	1qEHvuwveJA8iWV5GuFb/
-X-Received: by 2002:a05:6102:290d:b0:7ae:da60:5dfb with SMTP id
- ada2fe7eead31-7af1bf73808mr3668288137.13.1790395212940; Fri, 25 Sep 2026
- 21:00:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqefaKg/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8531F000FF;
+	Sat, 26 Sep 2026 07:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790408432;
+	bh=ena0fpFeDtVV/SSXvnKDFH2KEMd5CE8KQmcKCnR29zU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=oqefaKg/yK+I6T5xsuehcIAeBGTcUxl8oW7Vq0x3p7JLFbJq2ynv+6QoqIpyGkI/G
+	 J/MjgLIv+JNemYTQbo0/TjQdMuiR8ohf9uF0XbPz+PtiEIwsgYzFAmNmGA7w4siUSc
+	 3UtCWXxZYmTJksdEIbVGs394PNy3AA4JDWTCch849AUNvLoenvBDYdqOw9ZdvfQ0pu
+	 5bzJUTPPJy05CtSspszBipx7iu44ThWhSQ2fsdz9hQkLq2/WX0e/6fsKwS/+jIyths
+	 1c+JtQp76gW6PiF1qSOBMOLnfJgRIMTD9/SFC82+oZdL6Q3H+6MzvciOPv72mOPfOW
+	 udzmpQDlPBcuA==
+Subject: Re: [PATCH net v4] net: mana: fix reset work race with device removal
+From: netdev-bot+sashiko@kernel.org
+To: fanwu01@zju.edu.cn
+Cc: netdev@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, songl@zju.edu.cn
+Date: Sat, 26 Sep 2026 07:40:30 +0000
+Message-ID: <179040843066.2160803.16315462315045553577@kernel.org>
+In-Reply-To: <20260922070728.309280-1-fanwu01@zju.edu.cn>
+References: <20260922070728.309280-1-fanwu01@zju.edu.cn>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923055320.2602534-1-morbo@google.com> <a51283e0-7d55-4d06-bf7d-3cd7b7a21faa@embeddedor.com>
- <202609230021.7F6F2140@keescook> <204fb990-7b45-4ce1-8e6a-260538bfb678@embeddedor.com>
-In-Reply-To: <204fb990-7b45-4ce1-8e6a-260538bfb678@embeddedor.com>
-From: Bill Wendling <morbo@google.com>
-Date: Fri, 25 Sep 2026 20:59:56 -0700
-X-Gm-Features: AclHuK_iI1gG_woeJMTGNDN_cmjTZYiMNuN9pp2RmlztTl9u5AsCWNOE4zKQOyY
-Message-ID: <CAGG=3QW43-Kez+FkRM=SuZtbJ_ODgVXY1nrtg7BTYG_OgP3kBQ@mail.gmail.com>
-Subject: Re: [PATCH] Drivers: hv: vmbus: annotate struct vmbus_gpadl with __counted_by_ptr
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: Kees Cook <kees@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Justin Stitt <justinstitt@google.com>, 
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, llvm@lists.linux.dev, 
-	codemender-patching+linux@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 1:02=E2=80=AFAM Gustavo A. R. Silva
-<gustavo@embeddedor.com> wrote:
-> On 9/23/26 16:23, Kees Cook wrote:
-> > On Wed, Sep 23, 2026 at 03:10:08PM +0900, Gustavo A. R. Silva wrote:
-> >>
-> >>
-> >> On 9/23/26 14:53, Bill Wendling wrote:
-> >>> Add the "__counted_by_ptr" attribute to the buffer field of "struct
-> >>> vmbus_gpadl". This allows compilers (GCC and Clang) to perform
-> >>> compile-time and runtime bounds-checking when KASAN is enabled, preve=
-nting
-> >>> potential out-of-bounds accesses to the GPADL buffer.
-> >>>
-> >>> The fields "buffer" and "size" of "struct vmbus_gpadl" are assigned
-> >>> exactly once, during GPADL establishment inside
-> >>> "__vmbus_establish_gpadl()" in "drivers/hv/channel.c".
-> >>>
-> >>> To ensure that the count field ("size") is initialized before the
-> >>> pointer field ("buffer") is assigned, we reorder the assignments in
-> >>> "__vmbus_establish_gpadl()" so that "gpadl->size" is written before
-> >>> "gpadl->buffer".
-> >>>
-> >>> Cc: codemender-patching+linux@google.com
-> >>> Assisted-by: LLM
-> >>> Signed-off-by: Bill Wendling <morbo@google.com>
-> >>> ---
-> >>>    drivers/hv/channel.c   | 2 +-
-> >>>    include/linux/hyperv.h | 2 +-
-> >>>    2 files changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-> >>> index 7e4cc6f55237..7042de2dd481 100644
-> >>> --- a/drivers/hv/channel.c
-> >>> +++ b/drivers/hv/channel.c
-> >>> @@ -548,8 +548,8 @@ static int __vmbus_establish_gpadl(struct vmbus_c=
-hannel *channel,
-> >>>     /* At this point, we received the gpadl created msg */
-> >>>     gpadl->gpadl_handle =3D gpadlmsg->gpadl;
-> >>> -   gpadl->buffer =3D kbuffer;
-> >>>     gpadl->size =3D size;
-> >>> +   gpadl->buffer =3D kbuffer;
-> >>
-> >> I think in some cases these subtle changes are worth a short but
-> >> informative comment saying that the _counter_ must be initialized
-> >> before the first reference to the pointer.
-> >
-> > But that's only for dereferencing it... there's no ordering requirement
->
-> Ah yes, I got a bit carried away by the change itself.
->
-> > here at all (and I think swapping order is needless churn). Neither
-> > order is correct: only having them both set before dereferencing
-> > "buffer" is required.
-> Yes; maybe this is something the LLM should learn.
->
-> Thanks
-> -Gustavo
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider.
 
-I've explicitly told the LLM exactly this, but it either forgets or
-ignores it. *sigh*
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
 
--bw
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] mana_gf_stats_work_handler()
+  (drivers/net/ethernet/microsoft/mana/mana_en.c:4056-4072) now drops…
+- [Low] The comment added at the new service_quiesce label in
+  mana_gd_probe() ('The stats work can admit service once mana_probe()…
+- [Low] mana_schedule_serv_work() replaces schedule_work() with
+  queue_work(system_wq, &gc->serv_work).
+
+Pre-existing issues:
+- [High] The new admission/quiesce protocol is applied to
+  mana_gd_remove(), mana_gd_shutdown() and the probe unwind, but not to…
+
+--
+
+net: mana: fix reset work race with device removal
+
+The service work item is moved into struct gdma_context and its lifecycle
+is guarded by a new serv_lock plus a waitqueue, so removal, shutdown and
+the probe unwind can close admission and wait for an in-flight reset cycle
+before gc is freed.  The probe boundary is handled by latching reset events
+that arrive while the probe is still running.
+
+A few questions below about the new admission gates and the paths that were
+not converted.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> index 8e9bfc1d6a2ae..b91d2542cfe56 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+
+[ ... ]
+
+> @@ -796,51 +899,94 @@ static void mana_recovery_delayed_func(struct work_struct *w)
+
+[ ... ]
+
+> +/* Serialize admission with retirement.  Called in hard IRQ context, so
+> + * serv_lock is taken with interrupts disabled and nothing that may
+> + * sleep runs under it.
+> + */
+>  int mana_schedule_serv_work(struct gdma_context *gc, enum gdma_eqe_type type)
+>  {
+> -	struct mana_serv_work *mns_wk;
+> +	unsigned long flags;
+> +	bool busy;
+
+[ ... ]
+
+>  	dev_info(gc->dev, "Start MANA service type:%d\n", type);
+> -	mns_wk->pdev = to_pci_dev(gc->dev);
+> -	mns_wk->type = type;
+> -	pci_dev_get(mns_wk->pdev);
+> -	INIT_WORK(&mns_wk->serv_work, mana_serv_func);
+> -	schedule_work(&mns_wk->serv_work);
+> +
+> +	gc->serv_type = type;
+> +	pci_dev_get(to_pci_dev(gc->dev));
+> +	queue_work(system_wq, &gc->serv_work);
+>  	return 0;
+>  }
+
+[Severity: Low]
+Is system_wq the intended target here?  include/linux/workqueue.h carries:
+
+    extern struct workqueue_struct *system_wq; /* use system_percpu_wq, this will be removed */
+
+and system_wq is created with __WQ_DEPRECATED, so __queue_work() emits:
+
+    workqueue: work func %ps enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+
+The schedule_work() that was removed expanded to queue_work(system_percpu_wq,
+...), so this hunk seems to newly pick the deprecated alias and a warning on
+every service cycle.
+
+Given that mana_serv_reset()/mana_serv_fpga() do msleep(MANA_SERVICE_PERIOD *
+1000) and PCI stop/rescan, would system_long_wq (or system_dfl_long_wq) be a
+better fit than the per-CPU queue?
+
+[ ... ]
+
+> @@ -2558,22 +2697,26 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  
+>  	err = mana_rdma_probe(&gc->mana_ib);
+>  	if (err)
+> -		goto cleanup_mana;
+> +		goto service_quiesce;
+>  
+>  	/*
+>  	 * If a hardware reset event has occurred over HWC during probe,
+>  	 * rollback and perform hardware reset procedure.
+>  	 */
+> -	if (test_and_set_bit(GC_PROBE_SUCCEEDED, &gc->flags)) {
+> +	rollback = mana_service_probe_complete(gc);
+> +	if (rollback) {
+>  		err = -EPROTO;
+> -		goto cleanup_mana_rdma;
+> +		goto service_quiesce;
+>  	}
+>  
+>  	return 0;
+>  
+> -cleanup_mana_rdma:
+> +service_quiesce:
+> +	/* The stats work can admit service once mana_probe() has run:
+> +	 * retire an in-flight cycle before any teardown.
+> +	 */
+> +	mana_service_quiesce(gc);
+
+[Severity: Low]
+Does this comment still describe the code after the change in mana_en.c?
+
+The stats work handler now only admits service when
+mana_service_probe_done(gc) is true, and serv_probe_done is set solely by
+mana_service_probe_complete(), which runs after mana_rdma_probe() has
+succeeded.  On the path that jumps here because mana_rdma_probe() failed,
+serv_probe_done is still false, so the stats work cannot have admitted a
+cycle at all, and the EQ producer is gated on the same flag.
+
+Could the comment be reworded to match the gate, or is a producer intended
+that can still admit during probe?
+
+[ ... ]
+
+> @@ -2687,6 +2837,9 @@ static void mana_gd_shutdown(struct pci_dev *pdev)
+>  
+>  	dev_info(&pdev->dev, "Shutdown was called\n");
+>  
+> +	/* Shutdown tears down the same HW paths as remove(). */
+> +	mana_service_quiesce(gc);
+> +
+>  	mana_rdma_remove(&gc->mana_ib);
+>  	mana_remove(&gc->mana, true);
+
+[Severity: High]
+This isn't a bug introduced by this patch, since the old GC_IN_SERVICE bit
+was ignored by the PM callbacks too, but should mana_gd_suspend() and
+mana_gd_resume() (installed as mana_driver.suspend/.resume) get the same
+treatment as remove() and shutdown()?
+
+An admitted cycle runs:
+
+mana_serv_reset()
+    mana_gd_suspend(pdev, PMSG_SUSPEND);
+    msleep(MANA_SERVICE_PERIOD * 1000);
+    ret = mana_gd_resume(pdev);
+
+with serv_in_flight set for that whole 10+ second window, and the work sits
+on system_wq, which is not WQ_FREEZABLE.  If the guest enters system suspend
+or hibernate during that window, pci_pm_suspend() -> pci_legacy_suspend()
+calls mana_gd_suspend() a second time on the same gc, and neither PM callback
+consults serv_in_flight/serv_removing or calls mana_service_quiesce().
+
+Both threads then reach mana_hwc_destroy_channel(), whose guard is not atomic
+with the clearing store:
+
+drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_destroy_channel() {
+	struct hw_channel_context *hwc = gc->hwc.driver_data;
+
+	if (!hwc)
+		return;
+	...
+	kfree(hwc);
+	gc->hwc.driver_data = NULL;
+	gc->hwc.gdma_context = NULL;
+
+	vfree(gc->cq_table);
+	gc->cq_table = NULL;
+}
+
+mana_gd_cleanup_device() has the same shape around gc->service_wq:
+
+	if (gc->service_wq) {
+		destroy_workqueue(gc->service_wq);
+		gc->service_wq = NULL;
+	}
+
+Can this interleaving double-free hwc and gc->cq_table, or call
+destroy_workqueue() twice on gc->service_wq?  And can mana_gd_resume() from
+the service cycle re-arm DMA/MMIO on a device the PM core has already
+suspended?
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 591fb4191d90d..0eb23aea2e139 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -4060,10 +4060,13 @@ static void mana_gf_stats_work_handler(struct work_struct *work)
+>  		memset(&ac->hc_stats, 0, sizeof(ac->hc_stats));
+>  		dev_warn(gc->dev,
+>  			 "Gf stats wk handler: gf stats query timed out.\n");
+> -		/* As HWC timed out, indicating a faulty HW state and needs a
+> -		 * reset.
+> +		/* As HWC timed out, indicating a faulty HW state and
+> +		 * needs a reset.  Never admit service work before the probe
+> +		 * has completed: a probe that is failing unwinds netdevs and
+> +		 * the HWC channel itself and cannot drain a cycle.
+>  		 */
+> -		mana_schedule_serv_work(gc, GDMA_EQE_HWC_RESET_REQUEST);
+> +		if (mana_service_probe_done(gc))
+> +			mana_schedule_serv_work(gc, GDMA_EQE_HWC_RESET_REQUEST);
+>  		return;
+>  	}
+>  	schedule_delayed_work(&ac->gf_stats_work, MANA_GF_STATS_PERIOD);
+
+[Severity: Medium]
+When mana_service_probe_done(gc) is false here, is the reset request lost for
+good?
+
+mana_probe() arms this work with a MANA_GF_STATS_PERIOD delay, while
+serv_probe_done is only set later, at the tail of mana_gd_probe():
+
+	err = mana_rdma_probe(&gc->mana_ib);
+	if (err)
+		goto service_quiesce;
+	...
+	rollback = mana_service_probe_complete(gc);
+
+So the handler can run with serv_probe_done still false if mana_rdma_probe()
+(register device plus the synchronous mana_ib adev probe and its HWC
+requests) takes longer than that delay.
+
+In that window an -ETIMEDOUT from mana_query_gf_stats() takes the new branch,
+no cycle is admitted, serv_during_probe is not set so
+mana_service_probe_complete() reports no rollback, and the return also skips
+the schedule_delayed_work() re-arm.  If the probe then succeeds, is there any
+remaining path that retries?  The recovery list in mana_gd_probe() is only
+populated when the probe itself fails with -ETIMEDOUT/-EPROTO, and
+hwc_timeout_occurred only feeds a warning, so hc_stats would stay zeroed for
+the life of the binding and a wedged HWC would never be reset.  Before this
+patch the request was unconditional and the resulting reset cycle re-armed
+the stats work through mana_probe(resuming=true).
+
+The EQ producer solves the same race by latching under serv_lock:
+
+	admit = gc->serv_probe_done;
+	first = !gc->serv_during_probe;
+	if (!admit)
+		gc->serv_during_probe = true;
+
+Would routing this producer through the same latch-or-admit helper work, or
+alternatively keeping the delayed work re-armed so the request is retried
+once serv_probe_done is set?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922070728.309280-1-fanwu01%40zju.edu.cn
