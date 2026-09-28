@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 884F1218592;
-	Mon, 28 Sep 2026 22:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56ECA47DF86;
+	Mon, 28 Sep 2026 23:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790634808; cv=none; b=VeH5kFNm+8NVDBWMlWdSPU8PvpIsRvIEKOh4FNiN3Tegic3zLKu+8m8YoCczFO52s45lYDcxEVoOXzLE9jtkSq0YIH94Z/PJvJwyISx2ZqBPpqd5OCkyg+Fd5fYz0eR+To7okoOkAd5lbagYXN124IicJzZxZX4LZfCoDqV3qQk=
+	t=1790638418; cv=none; b=A12Lk/7RUoNUYyJwlRteKlxGGPiURKOrNgYbp0xM5/Mn2Erftjso9A+Vas/CkZ6e3CLQ4/pTqoCDru/jnXQQK/xsJ3JY81vzxjqS6EL7cwKII88o48yNbccbb1uwVJWLJ9mU7zrN1fB4I3wiQLN+vbtgat3EMp6NBM6L6QHPJI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790634808; c=relaxed/simple;
-	bh=cz8rbxJONsY2x4jrMJgyEjXBr9ziZ1HR7nWQzwcwDr0=;
+	s=arc-20240116; t=1790638418; c=relaxed/simple;
+	bh=yLZ5jE+aOYjf/2iecgD8Qy20xu8jO95uvRKQarsAfC0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bIfr6KXogdpYiRzAmNf26thBrYvRUrc6i9pjsFRrlPkVqB1NjHbA27bcYVB70BKHXrhiaLgkN7Wb0OeDJ5aQzybjmp/yVy9vMIs2AswUWQmiCzspsx1cl68aGdKJ0WCRLkezqBvmx+PAsGvWQjNI8l7cxRj+gZPhQjYlAdc6tTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CcnPidtU; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=lJSZBTKu+m97lgePlH5hxz8Xbm99vAZfvzC7UFWgYRW9c7csL5W25pkgmgVnwBsdu11tNYyu/uknjbvZy+xjaWzRet/nHTvNs0GELlW3FsF7hFc/WjEZcvqafSiZCYQcozAUe9GlatdTj+kMRIbWK2jOhyhGXlHnm150viWS63U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hzoSdV1b; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CcnPidtU"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hzoSdV1b"
 Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BD99620B7166;
-	Mon, 28 Sep 2026 15:32:34 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BD99620B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5D5DF20B7166;
+	Mon, 28 Sep 2026 16:32:44 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5D5DF20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790634755;
-	bh=V3GoQAUmSzqBfz/Zu+bg0/ZemXC8i/dcC7ud7QqbcuM=;
+	s=default; t=1790638365;
+	bh=sMT8EN3O9tuZdfIltXdYrhZ4ASeGIOHvmQ803a27Hig=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CcnPidtUjTTkteuVjRzu5f8AFAcT89Ig+4rm2wifwBXFcFdlA+7qsnCNN180z1a+Y
-	 yb3j2q+AEuBkPd7PciSovFaSWM1+z3DhERaaF/dqEDM4pZifPYkL1ls3tXC7B5VYlY
-	 XICO8t7eZJUTgwuWFL9u/fqzZD4WBlPetdXC338M=
-Message-ID: <27f49fd8-a95e-9812-c996-53d9eb27a148@linux.microsoft.com>
-Date: Mon, 28 Sep 2026 15:33:25 -0700
+	b=hzoSdV1bTQdVLgm3l4rjKxwYbxUvS6O4VpN5wLn6eLdTGCgrlnIZL9E/q7HnO27sd
+	 jeUi4wsWQ+nO9S3EOKqfOPf0jyO79FcsGV6I5wXswo2aXZCmjoCVcn1ES8S89vqghQ
+	 i6EEK485kEqZHSwXiP8DstRWwl0Tt8u1nUU7J+qo=
+Message-ID: <28ef0634-24ed-2cc7-89c8-48c8615a9691@linux.microsoft.com>
+Date: Mon, 28 Sep 2026 16:33:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -38,94 +38,148 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
 Subject: Re: [PATCH V1 3/3] x86/hyperv: Implement root VM IOMMU kernel only
  driver
 Content-Language: en-US
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org, jgg@nvidia.com,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
  jacob.pan@linux.microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
  wei.liu@kernel.org, decui@microsoft.com, tglx@kernel.org, mingo@redhat.com,
  bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
+ joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
 References: <20260924020221.128762-1-mrathor@linux.microsoft.com>
  <20260924020221.128762-4-mrathor@linux.microsoft.com>
- <arUkaFhYGxaYwL0L@8bytes.org>
- <329027b5-3110-8362-ccee-080c14ed9b3e@linux.microsoft.com>
- <arYcFJYOvKf-A6xt@8bytes.org>
+ <179060271395.122959.9162511491972155683.b4-review@b4>
 From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <arYcFJYOvKf-A6xt@8bytes.org>
+In-Reply-To: <179060271395.122959.9162511491972155683.b4-review@b4>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/25/26 00:13, J?rg R?del wrote:
-> On Thu, Sep 24, 2026 at 05:14:12PM -0700, Mukesh R wrote:
->> So, I'm at a bit of loss. I could go back to V0 which did what what you
->> suggested above, but it can also leave stale mappings when map hypercall
->> succeeds partially and we delete the entire tree node in cleanup (but
->> we could add to the tree back whatever succeeded, but that could fail
->> also, but then we could unmap whatever was mapped, but that could fail
->> also.. see :)...).
->>
+On 9/28/26 06:38, Jason Gunthorpe wrote:
+>> [ ... 103 lines skipped ... ]
+>> +/*
+>> + * We will not claim these PCI devices. Eg hypervisor debugger is using it
+>> + * for a dynamic debug session. They cannot be enumerated under static ACPI
+>> + * device scope.
+>> + */
+>> +static char *hv_skip_pci_devs;
+>> +static int __init hv_iommu_setup_skip(char *str)
+>> +{
+>> +	hv_skip_pci_devs = str;
+>> +	return 1;
+>> +}
+>> +/* Eg: hv_iommu_skip=(SSSS:BB:DD.F)(SSSS:BB:DD.F) */
+>> +__setup("hv_iommu_skip=", hv_iommu_setup_skip);
 > 
-> The root-problem seems to be that every operation in the step can fail,
-> inluding the unmap operation. This makes it really hard to maintain a
-> consistent state. Are there any guarantees Hyper-V gives on the unmap
-> operation, e.g under which circumstances it can fail? It would really help if
-> the code could assume that it will never fail, or treat a failure as a hard
-> error.
+> I don't like this in a driver. This isn't really skipping anything, it
+> is just leaving some devices in an identity mode.
 
-I talked to the hyp dev, and unmap is guaranteed to succeed unless
-the input is bad, even suggesting i could put a bug there. But i know
-there is aversion to putting lot of BUG()s, so i'll just leave the WARN
-there.
+Ok. I talked to the original author of that and i can just remove
+it. It's mostly for running hyp debugger and we can just carry
+the patch internally, at least for now.
 
-> If there are no guarantees HV can give, a solution might be to add a
-> mapping-resize operation to the internal tree (which can not fail) to correctly
-> update the tree structure on partially successful unmaps.
 
-Yeah, perhaps we could do that in future to benefit all drivers.
+> If you have a use case for this as a general command line policy then
+> come with a core code enhacmenet so everyone can choose per-device
+> their boot time mode.
+> 
+>> [ ... 7 lines skipped ... ]
+>> +struct hv_domain {
+>> +	struct iommu_domain iommu_dom;
+>> +	u32 domid_num;			      /* as opposed to domain_id.type */
+>> +	spinlock_t mappings_lock;	      /* protects mappings_tree */
+>> +	struct rb_root_cached mappings_tree;  /* iova to pa lookup tree */
+> 
+> This seems basically identical to what virtio-iommu is doing, can you
+> consider sharing its code?
 
-> I still believe that the internal tree structure should be updated before the
-> HV map operation takes place.
+yeah, the tree part is somewhat identical, but virtio-iommu has extra
+fields that we don't need. overall, i don't think there is enough here
+to refactor, just few lines of code around add/remove calling kernel
+interval tree apis. moreover, if hyp can provide the lookup in future,
+i'd like to just remove it from here.
 
-Yes, i'll move that before map.
+>> [ ... 26 lines skipped ... ]
+>> +static bool hv_special_domain(struct hv_domain *hvdom)
+>> +{
+>> +	return hvdom == &hv_def_identity_dom || hvdom == &hv_def_blocked_dom;
+>> +}
+> 
+> This is only called by hv_iommu_domain_free() which is only linked to
+> hv_paging_domain_ops(), so it should be dead code
+> 
+>> [ ... 204 lines skipped ... ]
+>> +static int hv_iommu_attach_dev(struct iommu_domain *immdom, struct device *dev,
+>> +			       struct iommu_domain *old)
+>> +{
+>> +	struct pci_dev *pdev;
+>> +	int rc;
+>> +	struct hv_domain *hvdom_new = to_hv_domain(immdom);
+> 
+> 'new' is an odd variable name here
 
-Thanks again,
+'current' is passed as 'old', so we are moving from old to new i
+thought. please tell me what would you like it called, thx.
+
+>> [ ... 246 lines skipped ... ]
+>> +static struct iommu_group *hv_iommu_device_group(struct device *dev)
+>> +{
+>> +	return pci_device_group(dev);
+>> +}
+> 
+> No need for a wrapper, use the function directly in the ops
+
+it helps with quick debug... just set breakpoint in hv_iommu_device_group
+or add a printk here at the cost of one jmp instruction. but whatever..
+i can remove it if it helps move this forward.
+
+>> +
+>> +static void hv_iommu_get_resv_regions(struct device *dev,
+>> +				      struct list_head *head)
+>> +{
+>> +	struct iommu_resv_region *reg;
+>> +
+>> +	/* reserve the entire LAPIC region */
+>> +	reg = iommu_alloc_resv_region(0xfee00000, SZ_1M, 0, IOMMU_RESV_MSI,
+>> +				      GFP_KERNEL);
+> 
+> There was some discussion to make a helper for this, I don't see it
+> merged yet..
+
+we are both waiting on each other, whoever goes first will leave
+the follower to address it i guess. i cannot test without this and
+i am not sure if that series will merge first or this.
+
+>> [ ... 65 lines skipped ... ]
+>> +static int __init hv_iommu_init(void)
+>> +{
+>> +	int rc;
+>> +	struct iommu_device *iommup = &hv_virt_iommu;
+>> +	struct hv_output_get_iommu_capabilities caps;
+>> +
+>> +	if (!hv_is_hyperv_initialized())
+>> +		return -ENODEV;
+>> +
+>> +	rc = hv_iommu_get_caps(&caps);
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	hv_iommu_max_iova = ((ulong)1 << caps.max_iova_width) - 1;
+>> +
+>> +	rc = iommu_device_sysfs_add(iommup, NULL, NULL, "%s", "hyperv-iommu");
+>> +	if (rc) {
+>> +		pr_err("Hyper-V: iommu_device_sysfs_add failed: %d\n", rc);
+>> +		return rc;
+>> +	}
+>> +
+>> +	/* This must come before iommu_device_register() because the latter
+>> +	 * calls into the hooks.
+>> +	 */
+>> +	hv_initialize_special_domains();
+> 
+> This probably should be before doing anything with sysfs.
+
+ok.
+
+Thanks,
 -Mukesh
 
->>>> +static int __init hv_iommu_init(void)
->>>> +{
->>>> +	int rc;
->>>> +	struct iommu_device *iommup = &hv_virt_iommu;
->>>> +	struct hv_output_get_iommu_capabilities caps;
->>>> +
->>>> +	if (!hv_is_hyperv_initialized())
->>>> +		return -ENODEV;
->>>> +
->>>> +	rc = hv_iommu_get_caps(&caps);
->>>> +	if (rc)
->>>> +		return rc;
->>>> +
->>>
->>> The capabilities returned need more checking. I think at least it needs a check
->>> for HV_IOMMU_CAP_PRESENT and that PAGE_SIZE is set in the pgsize_bitmap.
->>
->> In general this caps hypercall is not available to root partitions,
->> our only agreement is for hyp to provide max_iova_width. But, we check
->> HV_DEVICE_DOMAIN_AVAILABLE in hv_iommu_detect() which sorta supersedes
->> HV_IOMMU_CAP_PRESENT. As for page size, hyp owns the iommu and can chose
->> the page size, meaning it can automatically use larger page size when
->> possible. But the hypercall HVCALL_MAP_DEVICE_GPA_PAGES will only take
->> 4k pfns as input, hence:
->>
->> #define HV_IOMMU_PGSIZES SZ_4K        /* for now, to be enhanced */
-> 
-> Okay, so this deserves a comment in the code to make it clear why there is no
-> additional checking and what the hyper-v to guest contract for feature
-> detection is.
-> 
->> Ok, I can change it back to DMA_BIT_MASK. (I removed after comment
->> on V0 that this is not dma address).
-> 
-> An IOVA is a DMA address by definition :)
-> 
-> -Joerg
 
