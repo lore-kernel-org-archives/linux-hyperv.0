@@ -1,88 +1,83 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57773AB286;
-	Mon, 28 Sep 2026 16:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DA34EDCDB;
+	Mon, 28 Sep 2026 17:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790613328; cv=none; b=SCp5Of/lLmpphcCGxfYr/3xdKvmBxCzxfJaL7sPyJ/7kjXBYav3sItHkwXK8T1BXMTnmVDhqxeU87ncmxMb0lFyMpeW4GVo8JYmelv0nsZkXJiHmQZTUlNOwEpqprCTGbkidQTiPjdc/SnKSh75p1Hyt7hW6HopScoRXYO3s0bo=
+	t=1790617366; cv=none; b=uHd47VzrVcRVyNodcJkuQsiQ2Xuf3SNetBfuUu6MlE0GMUcTQaX2JhatSr4L2MUqj2ODnN/Qw925GRG7B4UeHtLfD4dTfqgFWJIeETRzv+RjWv5ih7lrnq9fCxnlIjA9EyvmrDO0JJwbqLDKGuUrqQmnamiXTlF6kMLmbXk1CDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790613328; c=relaxed/simple;
-	bh=fMIldVq79Vg1ECmLOXmgQTg3mIrwGbRobNNMz1KHyTQ=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MOvSURJ16YESEpVeD9kQyV/LnwQOuIUU6Gm4V+y0zKGOtaDupqb38ytVfsu1Sfhg2K8ePr0fqgYZi4xMmM0cPGR/O0Wp3QbLJ+K+pJAZOteKrak0GLHx85a9H6FkCEiLpoGL+QLypJvUFxfGySz3ktmnm9hzea32DgFz5jBEX4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YIfPw0mx; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1790617366; c=relaxed/simple;
+	bh=6NCfchU+PQQZyERuUU2Ed3mKB3UP4iu3pRSwW0GBrJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nIoZDMHkirpFx+g/LfDfr0G22GhsMli50L0wU0iFT2Vn2qzgxlq0bPbPx8XV9XmvsCXPTsfDp38jayqnaoOSb/ZIxLfelpbk/yXPBK3ef6BTzdoR5KGtm227yClomgOMAbQQV0sjVyalfjbVTRYoOPt+0P/u9Kkyj1ALnj9ZCLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRKeJG7F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YIfPw0mx"
-Received: from [192.168.229.253] (c-73-140-209-209.hsd1.wa.comcast.net [73.140.209.209])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D650420B7166;
-	Mon, 28 Sep 2026 09:34:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D650420B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790613269;
-	bh=wJLUyjptW07lxscnylQF0hc3+nh6crOCKYUu/8hQv00=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=YIfPw0mxbgHKXRVVn3JFMRSbuVnb2fVSpG9ZH2jLIqeUWifrjaZg8TbaoiFnAHRYD
-	 CRmtTi3CB/jqI7Sh4So26Hzeb6wIxt1y+23dJtqCykCU/zsgsNZ8auhjHCtx84I5m+
-	 5P7r/5NFaWhDKW88DlXkp+J8wcVVYdJK88zBlPE4=
-Message-ID: <9f5a919a-5255-4dca-9e83-f124dfec872e@linux.microsoft.com>
-Date: Mon, 28 Sep 2026 09:35:22 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRKeJG7F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AECA1F000FF;
+	Mon, 28 Sep 2026 17:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790617365;
+	bh=UDattfyukG7O26TIJoHp52x3bz/aQeuPX0drEE2gCME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QRKeJG7FT4AQ4KAYYnwg1Mgg7UXxChV50eEcr/SFojsjo22EJ/71nY8A1n9aLaFAh
+	 +x0/3gJq12IUg+gctN1VCGLqIlG11+F4YRpkeM0yEJobM58QhXe7IwEextZCLR+vIr
+	 t8GE0cxP9lg8569mYudNnG3L7UeOOl43PL+WOQZSL4xduMer7Ff23lCBsr5bAmwfx1
+	 R4EFqgVLHMoRimgJC9t5LY7EcUubpkstATxMuLdrtOe6rWGS4k6S/AUuTFZ3F+/svg
+	 aWRK//5WaugSCngCHXmGszR2oSw7ZwPQ5wt4P/eMQQQp2lnaDWPzxw/aR82myDp+nO
+	 TwXsPHUWSqrvQ==
+Date: Mon, 28 Sep 2026 10:42:43 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Qiliang Yuan <odys.yuan@gmail.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH] KVM: x86: Clear CR3[63:32] on SMM entry from long mode
+Message-ID: <20260928174243.GA3705413@liuwe-devbox-debian-v2.local>
+References: <20260928-kvm-smm-cr3-upper-bits-v1-1-138f52dd531e@gmail.com>
+ <20260928072534.1987-1-odys.yuan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Mukesh R <mrathor@linux.microsoft.com>,
- easwar.hariharan@linux.microsoft.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, jacob.pan@linux.microsoft.com,
- kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, joro@8bytes.org,
- will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
-Subject: Re: [PATCH V1 3/3] x86/hyperv: Implement root VM IOMMU kernel only
- driver
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <20260924020221.128762-1-mrathor@linux.microsoft.com>
- <20260924020221.128762-4-mrathor@linux.microsoft.com>
- <179060271395.122959.9162511491972155683.b4-review@b4>
-From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <179060271395.122959.9162511491972155683.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928072534.1987-1-odys.yuan@gmail.com>
 
-On 9/28/2026 06:38, Jason Gunthorpe wrote:
->> [ ... 103 lines skipped ... ]
->> +/*
+Hi Qiliang
 
-<snip>
-
+On Mon, Sep 28, 2026 at 03:25:34PM +0800, Qiliang Yuan wrote:
+> +Cc Hyper-V folks and linux-hyperv, since the failure is triggered by
+> Hyper-V's handling of VMRUN for a nested (L1) hypervisor, i.e. KVM
+> running on WSL2.
 > 
->> +
->> +static void hv_iommu_get_resv_regions(struct device *dev,
->> +				      struct list_head *head)
->> +{
->> +	struct iommu_resv_region *reg;
->> +
->> +	/* reserve the entire LAPIC region */
->> +	reg = iommu_alloc_resv_region(0xfee00000, SZ_1M, 0, IOMMU_RESV_MSI,
->> +				      GFP_KERNEL);
+> For the Hyper-V side: the VMRUN is rejected when the guest state has
+> CR0.PG=0, EFER.LMA=0 and CR3[63:32] != 0, a combination that bare-metal
+> SVM does not reject.  Is that check intentional?  If it is not, a
+> Hyper-V fix would help older KVM versions as well; either way the patch
+> avoids creating that state in the first place.
 > 
-> There was some discussion to make a helper for this, I don't see it
-> merged yet..
-> <snip>
+> The full patch is here:
+> https://lore.kernel.org/r/20260928-kvm-smm-cr3-upper-bits-v1-1-138f52dd531e@gmail.com
 
-Hi Jason,
+Please share the Windows version from `winver`.
 
-That's patch 3 of the Hyper-V guest IOMMU driver series here:
-
-https://lore.kernel.org/all/20260904075512.174154-1-zhangyu1@linux.microsoft.com/T/#m248fd782be21c7fdb79c97b1764658e6c3c5f623
-
-That's awaiting an ack from you and Joerg to be picked up for the next merge window or additional feedback
-for the past couple of weeks.
+My colleague said that it had been fixed. Maybe the change needs to be ported.
 
 Thanks,
-Easwar (he/him)
+Wei
+
+> 
+> Thanks,
+> Qiliang
