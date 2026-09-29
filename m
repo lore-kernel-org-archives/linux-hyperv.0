@@ -1,119 +1,127 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D843AAF69;
-	Tue, 29 Sep 2026 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E61152CCD1;
+	Tue, 29 Sep 2026 13:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790668496; cv=none; b=HSaB7+PJqagDA8McZubPZhdl3TW4tPF/vDSw3u00lnfO2TrtGTVBnp6twts4wJJqhEdjeFlQQpsNlbtal9OT4QwBRMIXgTcBZ9R2gi1b6vaCNlFwaBQEjFhCSBdp5FKi3+qM6f9mXx3GcioMNM8uVUnNjRn6aNZR2pr+WCq23I4=
+	t=1790690266; cv=none; b=cf21iB0rQiMcGEEiMshVbwzDHVaO1U7Pf9e15ED7hdLJkC4UQgzdkxGFtcYHn7s0E6f4Qe5ZlgRj7WBDn9JZMpY3FWbyIOsbIfbp5T8agfsgbM7M9jj50ZwgGRWD9m9W34UIMQRRAJpf1twnjI5ICss3AESFLAiIPPcn7zg5JnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790668496; c=relaxed/simple;
-	bh=BMIu3XzRkJm+A1W6ZZm3DtEJrTbu/WBqZDXJAhuao4Y=;
+	s=arc-20240116; t=1790690266; c=relaxed/simple;
+	bh=DTJbNYpfCBu5ooZqKtvFHwpHQFtn+LZmSu/i/H5nnx4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJiUFPAuE8GxvaIZZkdNr5NORA5t/yfa6ZGMnRBw9gweKEUCLTpCkLNhNSbIjYp4GK9Wl+S25KwdF48wxh75QnjTsBfQyFy9THU9RKgbMDORT2qmkQr7tUAxNBUH6eP21NrEyotA6WLjnAtabxrp5f6QPE+zvmj9E7mGGG6i6Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bmQLzw4r; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=o/3J7UuQx9uVwfY/8qriI/vvJjO1PiWw7SsNHcz1kv4o14GfIszFvGCbaBDKAdAcJSy7Wi0QnbNJyhLm/N6Y/aHh4GyFUuSmAwVzAzRAlXWoz5AOFGt6OEnVhumU9SRsfrsGOsH2gASo3oN2oGpX7a2771g5/pL87ruo0RuIl50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCGE4C7s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bmQLzw4r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zT6GlfQft/QJeAy0pckXvrIl9KIiBoLg2QYNryNymLU=; b=bmQLzw4rqkY4fV8qO1gp2+zRk4
-	nhnwFpj7IgIbEV0UNBL0AOnauwbzBlCrL0ajhvhUVi+pNnh8SIZRzeefsOeh2Kr+NSn2B/sAIj7Vh
-	Cx4AjbKvt+mRby1KlKqiNENB9NvJZhwvbf7gm1HC3bSiE/zr2kOf2x6WRKTNv+D2/KJS9G+aCQfJy
-	toxyW81SwYmF7/bHp3ab0R0jpaRE1WptNnL1lIFsaUvgJvNpq1mWDNvoRc/z4pdNqCh2Tcmi+TgDy
-	hVZUhCFgMIoSgF2tN4jnyl9609fBdFBT+W9F9gzKS5Fe2LmAP+mdiNLql6o3NqdHV3RMF1f+4q+yR
-	ZPnsshtw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xBSfV-00000002Jcc-0zm7;
-	Tue, 29 Sep 2026 07:54:30 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F1E06300446; Tue, 29 Sep 2026 09:54:26 +0200 (CEST)
-Date: Tue, 29 Sep 2026 09:54:26 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	Christoph Lameter <cl@gentwo.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
-	Ashish Kalra <ashish.kalra@amd.com>
-Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
- encrypted guests
-Message-ID: <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
- <20260929040256.543767-3-zack.rusin@broadcom.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCGE4C7s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4DA1F000FF;
+	Tue, 29 Sep 2026 13:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790690264;
+	bh=xBnytLQO3xzqaW+JhEfPfT8bcu2EnuDx1iy7C0tBPVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LCGE4C7sJVroiez6PTTMMq9W9U2n+UUuPUySac02C+z6iiFu0qfbqS95MrI2Bx9Tg
+	 TCVmkJLeXDrjbkXDEohcdWU0kRcFuKs0ziNktkqe8tSjLk9YPXRxyViZuvYOGSxylp
+	 25V0lMsTyjGqGhHFlSESB4tofar6dlzzeozneZh38+Bkix4T5Wf334OJiyBzz+3nT6
+	 btNGEQLRqZh2lKb94tA80O8DjVuxep35kI/Y+8/fDjWlI0wQQe748i5LVJuqNUERTA
+	 I5zYwzJXm5Dmapzgk2KzmIyB7x97FusSu8Zzr4JDOu8m/LtYqmF/X/SToZB8R+RLVe
+	 Vly/BNAAM69oA==
+Date: Tue, 29 Sep 2026 14:57:38 +0100
+From: Simon Horman <horms@kernel.org>
+To: Manish Awasthi <mawasthi@linux.microsoft.com>
+Cc: netdev-bot+sashiko@kernel.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	kotaranov@microsoft.com, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+	nipun.gupta@amd.com, nikhil.agarwal@amd.com,
+	gargaditya@linux.microsoft.com, ernis@linux.microsoft.com,
+	kees@kernel.org, paulros@microsoft.com, mawasthi@microsoft.com
+Subject: Re: [PATCH net-next 4/4] net: mana: Add support for CDX device ID
+ 0x00C2
+Message-ID: <20260929135738.GT13925@horms.kernel.org>
+References: <20260924173054.589291-5-mawasthi@linux.microsoft.com>
+ <179035761944.2160803.12943182451050438147@kernel.org>
+ <20260928202555.617331-1-mawasthi@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260929040256.543767-3-zack.rusin@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260928202555.617331-1-mawasthi@linux.microsoft.com>
 
-On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
-> TDX also needs shared per-CPU buffers. Use X86_MEM_ENCRYPT for their
-> definition and placement, and provide page-aligned boundaries so the
-> architecture can convert each CPU's whole section before registration.
+On Mon, Sep 28, 2026 at 08:25:55PM +0000, Manish Awasthi wrote:
+> thanks for review. Comments inline.
 > 
-> Define the boundaries in the SMP template or UP data as appropriate.
-> Drop the unused DECLARE_PER_CPU_DECRYPTED() macro.
-> 
-> Suggested-by: Kiryl Shutsemau <kas@kernel.org>
-> Link: https://lore.kernel.org/r/aqqGUAX65s4LdJkr@thinkstation
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> ---
->  include/asm-generic/vmlinux.lds.h | 12 ++++++++----
->  include/linux/percpu-defs.h       |  7 ++-----
->  2 files changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index 64bc2bfdd2ec..145fcdbbe9db 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
+> > Thank you for your contribution! Sashiko AI review found 3 potential
+> > issue(s) to consider.
+> > 
+> > Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
+> > 
+> > If you believe none of the issues are legitimate, please reply to each
+> > issue of Medium severity or higher and explain why the AI is wrong.
+> > If any of them are legitimate and you plan to respin, please let patchwork
+> > know by including "pw-bot: cr" as a separate line at the end of your reply
+> > (one such reply per series is enough).
+> > 
+> > - [Medium] The CDX transport installs `.dev_reset = mana_cdx_dev_reset`
+> >   (-> `cdx_dev_reset()`) but has no way to recover afterwards.
+> > - [Low] `mana_cdx_setup_hwc_irqs()` skips IRQ affinity hints.
+> > - [Low] The comment in `mana_gd_query_max_resources()` (gdma_main.c)
+> >   says: "Only reset on platforms that support dynamic MSI-X allocation;…
+> > 
+> > Pre-existing issues:
+> > - [High] This problem wasn't introduced by this patch, but the shared HWC
+> >   bootstrap path that the new CDX transport now reaches trusts a device-…
+> > 
+> > --
+> > 
+> > net: mana: Add support for CDX device ID 0x00C2
+> > 
+> > This adds a CDX bus transport for MANA, built as mana_cdx.ko on top of
+> > the shared gdma_core.ko, for device ID 0x00C2. It allocates the whole MSI
+> > pool at probe time, limits the queue count to the available vectors,
+> > restricts DMA to 32 bits, and adds a per-bus auxiliary device name prefix
+> > so the CDX auxiliary devices stay separate from the PCI ones.
+> > 
+> > > diff --git a/drivers/net/ethernet/microsoft/mana/gdma_cdx.c b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
+> > > new file mode 100644
+> > > index 0000000000000..0d01e3d2f0d96
+> > > --- /dev/null
+> > > +++ b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
+> > > @@ -0,0 +1,340 @@
+> > 
+> > [ ... ]
+> > 
+> > > +static int mana_cdx_dev_reset(struct gdma_context *gc)
+> > > +{
+> > > +	return cdx_dev_reset(gc->dev);
+> > > +}
+> > 
+> > [Severity: Medium]
+> > Can this reset leave the whole function unusable, with no recovery short
+> > of a manual rebind?
+> > 
+> > mana_dealloc_queues() calls it when a TX queue still has pending_sends
+> > after the drain timeout:
+> > 
+> > mana_tx_timeout()
+> >   -> queue_reset_work
+> >     -> mana_per_port_queue_reset_work_handler()
+> >       -> mana_dealloc_queues()
+> >         -> mana_gd_dev_reset()
+> >           -> mana_cdx_dev_reset()
+> >             -> cdx_dev_reset()
+> > 
+> This version of the driver doesn't support recovery after mana_cdx_dev_reset.
 
-> @@ -1022,11 +1024,13 @@
->   * Note: We use a separate section so that only this section gets
->   * decrypted to avoid exposing more than we wish.
->   */
-> -#ifdef CONFIG_AMD_MEM_ENCRYPT
-> +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
->  #define PERCPU_DECRYPTED_SECTION					\
->  	. = ALIGN(PAGE_SIZE);						\
-> +	__start_percpu_decrypted = .;					\
->  	*(.data..percpu..decrypted)					\
-> -	. = ALIGN(PAGE_SIZE);
-> +	. = ALIGN(PAGE_SIZE);						\
-> +	__end_percpu_decrypted = .;
->  #else
->  #define PERCPU_DECRYPTED_SECTION
->  #endif
+I don't think it needs to delay progress of this patchset.
+But I am curious to know if there are plans to add such support.
 
-So you're page aligning something that will get different protection and
-will thus shatter large pages?
-
-That is somewhat uncool. We like large pages, large pages are good.
+...
