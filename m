@@ -1,30 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 947F83B774F;
-	Tue, 29 Sep 2026 22:36:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D0C3C0625;
+	Tue, 29 Sep 2026 22:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790721395; cv=none; b=Xcn6+Rswbmt7aiAStmLS/fEP6CsDzNn/KzSTIbdKQHC2fYezWkmA/2NDexAcL5pjmrbLDcG6YMP+DDBhikdzjDYjYe147qkoz7RDa1sqzWTWo3raZNged+t95Sr38OlUJZGU74xHcZTrR6KCazN8VqLfSAnX8vobJJamGcVKYp0=
+	t=1790721397; cv=none; b=p0arIUKEPMAehBAArVpCtlsPbLjtH3lDRxl4+bMLoJYM/4TAyvb/GSQrnTjD8cm9AuEGhrXlqDpj8do0zQvgETu5xRkWEKnwXviF7QsdkNzxSOTB5ZQoiiPLafIoT7HiqW57qHTUtFsFbAmlajPz6qpxdRTOx+EUwCB8snM2VZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790721395; c=relaxed/simple;
-	bh=XrlS4j2ym67Nadudj2nnICnK+UOg6EzZ3N5iVhLHtpY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Esd5HNv5/YWPIYegOQeK8ln1ea5w6Kc352m6CBntyWBpBn2goScJlgJDAI3pd2/2jjYxkVzPvbw/5BvjAv8bATwMZ1s3ZB7kGrbwm2coadhztI3YTQd9YjhB2NY08A4cawS+nlOyIrgkJOsSV5APVcaz12DCgAtfc4pa2oYB0lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QOMzOJIt; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1790721397; c=relaxed/simple;
+	bh=UVS1dhIiugzdHIfZyOqPjpdsOL1nw+37sSQf0bFl/xI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hluzj23aDQjHq5wSeqCDbOsJOausqkQwcEw381HhZ3Wdokrlq4y4zycUzZof8BG68wGHnZ6okTJmhl5TMnqbxRAHFA1Vq4FA6JbQV3qWTNhfyNTtsDINXj00TC2b4KuoemDaY42HV2Q0iI3NhJBmcqBd87BC3JrDwQsw1g92PZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fMwIHTuV; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QOMzOJIt"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fMwIHTuV"
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 495EA20B716A;
-	Tue, 29 Sep 2026 15:35:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 495EA20B716A
+	by linux.microsoft.com (Postfix) with ESMTPSA id DC18F20B7166;
+	Tue, 29 Sep 2026 15:35:39 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DC18F20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790721341;
-	bh=iXJtYZrPDgTihy0OwCsy2bPoc3grbkXyieDRn57gQkM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QOMzOJItk20qhjsuBwZ2NGV7lfBlVVwLlS6OVR7kMucBAOLTatboyD65b2naY3vB0
-	 4cUP7F00ei95qJOEwRVLlWj5CtjAkEBX0d9W9Wq1RuGZVVKAHaYn5DSjRfuhcNBcN7
-	 JStENekZBaV6amrHLnQwwnp7naUMJnUC1WHSQliM=
+	s=default; t=1790721340;
+	bh=JY/+V85NIX2IkP25YQOyeM+/zuoWIOPcVjOSPlujFWQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fMwIHTuVRg/+VI0s2ihT3wiaO3iKUQSnLtjlnl8EYW5+zHH+VpJ5hVkYtSMFMZgfj
+	 jUVZKwN8OioiVYeTCbpkcAjDwJQa4YC70wsfbjxHNJh0lUV9w+B7umFnzGBDSbrLRw
+	 Z6mNtAU/Wnd8JP/8dANQ+eHWlHhDZFsUlbOO9aww=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -47,12 +46,10 @@ Cc: jgg@nvidia.com,
 	robin.murphy@arm.com,
 	arnd@arndb.de,
 	mrathor@linux.microsoft.com
-Subject: [PATCH V2 1/4] mshv: Add gfp_flags parameter to hv_call_deposit_pages()
-Date: Tue, 29 Sep 2026 15:36:19 -0700
-Message-ID: <20260929223622.778617-2-mrathor@linux.microsoft.com>
+Subject: [PATCH V2 0/4] Hyper-V: root VM iommu kernel only driver
+Date: Tue, 29 Sep 2026 15:36:18 -0700
+Message-ID: <20260929223622.778617-1-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
-In-Reply-To: <20260929223622.778617-1-mrathor@linux.microsoft.com>
-References: <20260929223622.778617-1-mrathor@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -61,123 +58,57 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently GFP_KERNEL is hard coded in hv_call_deposit_pages(). Add
-gfp_flags parameter so it can be called in atomic context from
-map_pages callback in struct iommu_domain_ops and other places in
-future.
+This short series introduces hyperv root VM iommu kernel only driver. This
+driver acts as liason between the hypervisor and iommu layer. Details are
+both in the actual commit and in the comments in the file implementing it.
 
-Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
----
- drivers/hv/hv_proc.c           | 14 +++++++-------
- drivers/hv/mshv_root_hv_call.c |  6 ++++--
- include/asm-generic/mshyperv.h |  6 ++++--
- 3 files changed, 15 insertions(+), 11 deletions(-)
+Thanks,
+-Mukesh
 
-diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 57b2c64197cb..ce4276d37d45 100644
---- a/drivers/hv/hv_proc.c
-+++ b/drivers/hv/hv_proc.c
-@@ -15,8 +15,8 @@
-  */
- #define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
- 
--/* Deposits exact number of pages. Must be called with interrupts enabled.  */
--int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
-+int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages,
-+			  gfp_t gfp_flags)
- {
- 	struct page **pages, *page;
- 	int *counts;
-@@ -35,12 +35,12 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
- 		return 0;
- 
- 	/* One buffer for page pointers and counts */
--	page = alloc_page(GFP_KERNEL);
-+	page = alloc_page(gfp_flags);
- 	if (!page)
- 		return -ENOMEM;
- 	pages = page_address(page);
- 
--	counts = kzalloc_objs(int, HV_DEPOSIT_MAX);
-+	counts = kzalloc_objs(int, HV_DEPOSIT_MAX, gfp_flags);
- 	if (!counts) {
- 		free_page((unsigned long)pages);
- 		return -ENOMEM;
-@@ -54,7 +54,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
- 		order = 31 - __builtin_clz(num_pages);
- 
- 		while (1) {
--			pages[i] = alloc_pages_node(node, GFP_KERNEL, order);
-+			pages[i] = alloc_pages_node(node, gfp_flags, order);
- 			if (pages[i])
- 				break;
- 			if (!order) {
-@@ -137,7 +137,7 @@ int hv_deposit_memory_node(int node, u64 partition_id,
- 		hv_status_err(hv_status, "Unexpected!\n");
- 		return -ENOMEM;
- 	}
--	return hv_call_deposit_pages(node, partition_id, num_pages);
-+	return hv_call_deposit_pages(node, partition_id, num_pages, GFP_KERNEL);
- }
- EXPORT_SYMBOL_GPL(hv_deposit_memory_node);
- 
-@@ -206,7 +206,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 	/* Root VPs don't seem to need pages deposited */
- 	if (partition_id != hv_current_partition_id) {
- 		/* The value 90 is empirically determined. It may change. */
--		ret = hv_call_deposit_pages(node, partition_id, 90);
-+		ret = hv_call_deposit_pages(node, partition_id, 90, GFP_KERNEL);
- 		if (ret)
- 			return ret;
- 	}
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index cb55d4d4be2e..bd975239f3bc 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -141,7 +141,8 @@ int hv_call_initialize_partition(u64 partition_id)
- 	input.partition_id = partition_id;
- 
- 	ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
--				    HV_INIT_PARTITION_DEPOSIT_PAGES);
-+				    HV_INIT_PARTITION_DEPOSIT_PAGES,
-+				    GFP_KERNEL);
- 	if (ret)
- 		return ret;
- 
-@@ -249,7 +250,8 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 
- 		if (hv_result_needs_memory(status)) {
- 			ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id,
--						    HV_MAP_GPA_DEPOSIT_PAGES);
-+						    HV_MAP_GPA_DEPOSIT_PAGES,
-+						    GFP_KERNEL);
- 			if (ret)
- 				break;
- 
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index bf601d67cecb..af65dd3e3725 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -345,7 +345,8 @@ static inline bool hv_parent_partition(void)
- 
- bool hv_result_needs_memory(u64 status);
- int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
--int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
-+int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages,
-+			  gfp_t gfp_flags);
- int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
- int hv_call_notify_all_processors_started(void);
- bool hv_lp_exists(u32 lp_index);
-@@ -360,7 +361,8 @@ static inline int hv_deposit_memory_node(int node, u64 partition_id, u64 status)
- {
- 	return -EOPNOTSUPP;
- }
--static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
-+static inline int hv_call_deposit_pages(int node, u64 partition_id,
-+					u32 num_pages, gfp_t gfp_flags)
- {
- 	return -EOPNOTSUPP;
- }
+V0: based on upstream hyperv-next commit be0cfab740e5
+
+V1:
+ - change order of lookup tree deletions to appease all AI agents,
+   carving out hv_iommu_hyp_unmap_pages() from hv_iommu_unmap_pages().
+ - change unique_id to ida subsystem management so we never ever run
+   out of domain ids.
+ - change hv_max_iova_width to hv_iommu_max_iova and generate proper
+   mask.
+ - some other minor changes.
+
+V2:
+ - Add patch (0001) to allow gfp_flags to be passed to deposit pages
+   function.
+ - In last main patch:
+     o remove hv_iommu_setup_skip to skip devices being managed
+     o remove hv_special_domain()
+     o Add comments around pgsize_bitmap and IOMMU capabilities.
+     o Add to lookup tree before mapping iova in the map callback
+     o Unmap iova before removing from the tree in the unmap callback
+
+Mukesh R (4):
+  mshv: Add gfp_flags parameter to hv_call_deposit_pages()
+  PCI: hv: Export hv_build_devid_type_pci() and change return type
+  mshv: Import data structs around device domains from hyperv headers
+  x86/hyperv: Implement Hyper-V virtual IOMMU
+
+ arch/x86/hyperv/irqdomain.c          |   9 +-
+ arch/x86/include/asm/mshyperv.h      |   6 +
+ arch/x86/kernel/pci-dma.c            |   2 +
+ drivers/hv/hv_proc.c                 |  14 +-
+ drivers/hv/mshv_root_hv_call.c       |   6 +-
+ drivers/iommu/Kconfig                |   1 +
+ drivers/iommu/hyperv/Kconfig         |  15 +
+ drivers/iommu/hyperv/Makefile        |   1 +
+ drivers/iommu/hyperv/hv-iommu-root.c | 611 +++++++++++++++++++++++++++
+ include/asm-generic/mshyperv.h       |   9 +-
+ include/hyperv/hvgdk_mini.h          |   9 +
+ include/hyperv/hvhdk_mini.h          |  90 ++++
+ include/linux/hyperv.h               |   6 +
+ 13 files changed, 764 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/iommu/hyperv/Kconfig
+ create mode 100644 drivers/iommu/hyperv/hv-iommu-root.c
+
 -- 
 2.51.2.vfs.0.1
 
