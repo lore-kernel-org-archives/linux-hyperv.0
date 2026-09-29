@@ -1,92 +1,90 @@
-Received: from mail-yw1-f226.google.com (mail-yw1-f226.google.com [209.85.128.226])
+Received: from mail-yx1-f100.google.com (mail-yx1-f100.google.com [74.125.224.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183B336895
-	for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 17:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919582DA76C
+	for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 17:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790701988; cv=none; b=IV7nvuMVN1ubJDhiIuiMZCwnRVAqFELvLVUSHIIPpluF3WT2fguPGwFy1r4CNnwTMI0s2KAbJFu6if1AQqJ6pTutvw9JYRELhBnNmNSnkM9Tu88UUzb4n+MhRWKRqVmUSs65ckLw0A6g4Bhgein3wUdXZgIJSxS02LlAJr8yZIs=
+	t=1790703127; cv=none; b=YmJYgQ4jHMF09j9wRjfrk7AefiG5Qzcjbix9/ZM+H2NPrP46/IqNxm5RH+nN44+f8PXk3Fy8HQsxBoLLahNiHpgzIJiq2vsN3e1nZCj0R/K1NN4fiHVA5HfMpxq6CLPhU/EMOTocORTtAjUppG5YPNipjKOewguNH651hPcv7xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790701988; c=relaxed/simple;
-	bh=ZW0IhB8wBKydr8w3cfNHKO96VJkVoBdz9246yq2RyD0=;
+	s=arc-20240116; t=1790703127; c=relaxed/simple;
+	bh=gCSeuiqgcoAW0ZlJF4Drrm9uE2RGaXD9qAy3Cz7IsQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bh4PG1k31F0ocRfmaaYL/GWRPs6i0yeH9e+CDMKnl01Pp+hy0H6HmnasGfMyni7oizQCtkW+D/51g4NFeRupM4jXfAThz9wHPKX25TNULazTfqUL1Nl5Zu8Jdte2hVu83j2i5z0vr6J97hYosH5olwhY5aB02ROzT+HyCj+oOnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=b+87O7Ad; arc=none smtp.client-ip=209.85.128.226
+	 To:Cc:Content-Type; b=hxxZTezJrE9L7F4xvqnsqDFzrrw4L9hBxJ1kP+y9BgDP0qTqbKkVwrLvnhhXNZlHlstuEcuLlKCmTjcpiU7eB6CTgue2L1FxR0S5IveF5TcQGzPxeBHbIH5X6Y7VYKAlDeN+LOZZREhI81oFtsYiSRKHK/jHaX9ka71QFslW17Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=QE3hhA76; arc=none smtp.client-ip=74.125.224.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="b+87O7Ad"
-Received: by mail-yw1-f226.google.com with SMTP id 00721157ae682-89296e56dbaso6717397b3.2
-        for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 10:13:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="QE3hhA76"
+Received: by mail-yx1-f100.google.com with SMTP id 956f58d0204a3-67489c8202cso167741d50.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 10:32:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790701986; x=1791306786;
+        d=1e100.net; s=20260707; t=1790703124; x=1791307924;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PS/pJhXrYf+6KZJU6dkGxHVr+RfMM/O9fFmPnRjw9LQ=;
-        b=i5eMEUpyxDZmKPfuwJ9V0T6au4AlOa4lydlL1xL8wUvHmf3NJv41S87zPTEMOkmpIk
-         x3alflyOl23TIyYzllkiDO6vH6qeUNzznkXhXaPySpL5KoE18tevOVNlSaO9Tr5DjO6b
-         gX68QuW9Qoh48iQuqAAEr9GjfH9aPNHZgHrczC4kwcgZZEo08hDOlNmAlOAvqOpG0d+w
-         dA4C0kk+zj0xMHiD1JuK08TMDDg/p61Dm+I5wEIlh4WPBjE9WYiTvncw+ZCdNXeEJ8t4
-         f0etHyeTIe/TfXr5ZC5z2GvnWg6S+093vtiukjodOEeQgbW8JQrfEReQsSydlpQc9gBC
-         PnKg==
-X-Forwarded-Encrypted: i=1; AKwUvBw2vOi9lCE3rXftZFtEdYRg5VMMza/00E0sVcYu6EzYQsKcENOYKzAbF7C6+osnvpJSUhlZLldJG0LqNNU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJrXXX1s9aVrFjRAQs36S5DbqQd/ogluakdEMoowBPxO/f/NSbx
-	GEVilcXj79jq9IwmvGfOs9+5xwcn9VcYLMRMOfpDN387US33aiF0Tdfe2pe7U7qHNpBi9NBrqVL
-	j7JLemVMQ7slRn3CaNSM5ktg5YzgsFAlDSyRUGnHJ7ZpZ5ip+eiuN3apBsY4QbyYqt+F+AJIPzP
-	O6tyCTVeLNlCWPYDOvURu2mBNk2OAPaMbS58Oqru41iyArqPBP/NaUvnQGmRi2bA51V5y3mqDAi
-	eFaxfRmaj3EQ/Yj
-X-Gm-Gg: AYBFou1CxoMllJUIyEEUR8m5hdxfYngB2kOZBMuN1kXPGYtjVb6Sp7F2VPSKV5wWmSA
-	RYM7IGExHMtSnbJBTL4P1XrxjFNx75amQ5yPAfi/D7uUympioElZToGVKvWrGTXGrkX8unzAI2c
-	bNANnGVoHyhx/dAOQsn8MctcAuN2WlVJNsb9fYKM+l1oEcwh6oZ8w72wXJq8dtv+jFaq4N753Sb
-	Tt8HELcY+7nv5HAn1wimnjZPv/OWkrpc/qVe1ZmnjoPmZ8+9X+uRuYLkf9KVbhAW6U1Mh5h5djw
-	GQMwbf1VE6sUdYh7odhumqFQFRTQUfImKpM7PX9MfqFRLSEEiCNZwQCyByC1x+KgCbOK5+fkTn7
-	Tz0HVkrvViiTR+eYyxktL4sUdQ5UEIt9xqGV/ZtpMCANQNr6G1KvLYIOKpLtIZ2xpwZDtBMcRbe
-	EWM1n5Mc6zIREUtIhmx5+7aR3t2ccK/hyX9q0=
-X-Received: by 2002:a05:690e:804:20b0:671:70d2:5294 with SMTP id 956f58d0204a3-672ed3d0e7emr6250061d50.87.1790701985490;
-        Tue, 29 Sep 2026 10:13:05 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-120.dlp.protect.broadcom.com. [144.49.247.120])
-        by smtp-relay.gmail.com with ESMTPS id 956f58d0204a3-675b26fc7acsm78048d50.3.2026.09.29.10.13.04
+        bh=gCSeuiqgcoAW0ZlJF4Drrm9uE2RGaXD9qAy3Cz7IsQ8=;
+        b=UgmgZg6gh1TNtu6l93hoagThS++wDRU6s4PY6SPqdrh6VRiF5Astc1iIk4MgaYfxEb
+         UJNpL+quTfzImIicjYARyWt0/KD5GUiKndzMECuZKMr38tnTe2xBVTDI36S/j/Tx2eKs
+         LtKbG3D6G1q4vi3esgP1/dXscRzv813clXb6Z+IrQoiU0eXyW6lC2yQvJU4UKwkqa6Dd
+         m3RXIUUbqPwaCUSD7msFmA+iW25aUzwEKx/Geq+LlrOX7C5T6tEvjcUDeoz9TmIF49Nv
+         +VtCpPREnVimqHxENXYdO7QCz8evT0pONh96dGTLsJYH6JYpeVh0UXLINRtM16IDQN+t
+         I5sA==
+X-Forwarded-Encrypted: i=1; AKwUvBwzxIT0sV7hBBmJBCVin0BxZg2eZgWySJkGSRoCjjhonLug2hfX3QkpuCONmkwGXN6GJ79ZV9nLE5UrQMk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ3MLJ+cNP1jo2DXTP51gIx9gt14Qszysj0pYLvbQYQCqv6zfgH
+	uNOM5cqZHVZoPHWpQgEBmWPLUOLGsEGk9zQ5lUaShfEkjzTK5O7D9/cI68u52GhAUB+19Mkc1o8
+	sszLV0b+zS13dVKsOpb5mi71WQAOueB4f5Dn7tCuedsu9B4vt4ExyJWsi0nmnapPJONqaNf3x+y
+	LEpirmBCgHin0nq0EoBoMlWFoG/jgJkrtJe8dq63zCcx+wlveETu8edUlrMDqYC59ESijQ8aMD3
+	vv30FDIbUrBvsYj
+X-Gm-Gg: AYBFou2BSqW3wK2NuPgoZmWkXjlWuVKjWTqB3uAVUJSb5vHMyHmVtZlGxN5GyBjafzd
+	epnOwexl5xmWqx8bNkrEqwT6QcfREdsWCBXweMN8DdBFhp7yQcChXXtEK3DheqyCIpmbnabFrEu
+	MHLFA8UJNgAXLkCVDp1VeVWEza8Tspi+q6nRzCFo4og/JPc3cTF/PrPvuTtqF0MXA/XF8bo5K6F
+	pf6pgsnXVTWi8p7yfg4GGQ7dex3Qi6msg4LK1ieoKpCdGZrVapOwpQ+g3xdZQPZG8k4N5u2EsDz
+	+5EiYr1sUvZ4+qh1YtJSnr/Hb5s53MqQ+PnEmWzfor94ztRyM/WFKnGacBfrjkdb1sxMIa3ldz/
+	aIt7jZymba5XyxQQu7s4W6qW3cnupyrIuOP+I4XTJKHXaIA1PZ8J8uq9RoKqJ8oJFLSQQM8jgXt
+	UFx9YdEkaGF2zG0ywtbX8oN7ISHBujG/31dQE=
+X-Received: by 2002:a05:690e:d88:b0:675:40e7:8e61 with SMTP id 956f58d0204a3-67540e7c515mr3512013d50.43.1790703124176;
+        Tue, 29 Sep 2026 10:32:04 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
+        by smtp-relay.gmail.com with ESMTPS id 956f58d0204a3-675b76fd476sm87517d50.27.2026.09.29.10.32.03
         for <linux-hyperv@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 Sep 2026 10:13:05 -0700 (PDT)
+        Tue, 29 Sep 2026 10:32:04 -0700 (PDT)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-30c0d568830so8892835eec.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 10:13:04 -0700 (PDT)
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c29959eb71fso454503966b.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 10:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1790701983; x=1791306783; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1790703122; x=1791307922; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PS/pJhXrYf+6KZJU6dkGxHVr+RfMM/O9fFmPnRjw9LQ=;
-        b=b+87O7AdEXJhr2iE47ZmIC+536/1qQbIA+6qRmcHUbtMLMCHX2CJiY0AnsOiwf18L0
-         Ci5t6J8hZZkKLpDcu5GG+eJHhzeTOfVBrr/9N911DWDiA7F4HzP9TagCFKGZGFLezpzd
-         ltZrWRyIyS9hyy5yOwnhxM7dL4kzR4nsWew5A=
-X-Forwarded-Encrypted: i=1; AKwUvBxcz5NSL/rdx4H/lobsSqsZPYls7Xv+0cx5hIDVkyBFYvaW6gR/1eTm25WEigNNEj1CNIFi2HALb39pQyU=@vger.kernel.org
-X-Received: by 2002:a05:7301:4908:b0:348:201a:6c8b with SMTP id 5a478bee46e88-348201a6ef2mr6324523eec.38.1790701982873;
-        Tue, 29 Sep 2026 10:13:02 -0700 (PDT)
-X-Received: by 2002:a05:7301:4908:b0:348:201a:6c8b with SMTP id
- 5a478bee46e88-348201a6ef2mr6324466eec.38.1790701981900; Tue, 29 Sep 2026
- 10:13:01 -0700 (PDT)
+        bh=gCSeuiqgcoAW0ZlJF4Drrm9uE2RGaXD9qAy3Cz7IsQ8=;
+        b=QE3hhA762id5dbysgA14hRrL8GGyCRg+QYR69Tvyu+MpYw75XajOKDW1zEbWOhzLQd
+         wqLTV4+mPcOnhX/7azgZYPF6ylxqSyqjKAEPuUVlGT+EbIjNwEwQcRJ1tOPxD6lO+N9v
+         DP7mR8OT94LXyV9nlyfdg1R8LUlBmt2ROboqA=
+X-Forwarded-Encrypted: i=1; AKwUvBzBIRZC6OLT2jzyEeSfDnOiIN4SQCuLyvoXBfV3KjjYx389dPrISSlKJlRb/FQOouoWPmcXHT089rRWWdk=@vger.kernel.org
+X-Received: by 2002:a2e:beab:0:b0:3a1:9562:732 with SMTP id 38308e7fff4ca-3a7716e854emr518731fa.1.1790702723775;
+        Tue, 29 Sep 2026 10:25:23 -0700 (PDT)
+X-Received: by 2002:a2e:beab:0:b0:3a1:9562:732 with SMTP id
+ 38308e7fff4ca-3a7716e854emr518621fa.1.1790702723256; Tue, 29 Sep 2026
+ 10:25:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
- <20260929040256.543767-3-zack.rusin@broadcom.com> <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
+References: <20260929040256.543767-1-zack.rusin@broadcom.com> <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
+In-Reply-To: <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 29 Sep 2026 13:12:45 -0400
-X-Gm-Features: AclHuK9CQF2HwjTfB3IkA5Iz-7VKmkeLlHNlajXqAX5pb_ttJ9z-UY2UurMeehQ
-Message-ID: <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
- encrypted guests
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+Date: Tue, 29 Sep 2026 13:25:09 -0400
+X-Gm-Features: AclHuK9MtIFPSxXHWZMv2V63rPUuOwDojaWOanbSwfqwCxHPzt-TuhSiHt6biCo
+Message-ID: <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest setup
+To: Borislav Petkov <bp@alien8.de>
+Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
 	Rick Edgecombe <rick.p.edgecombe@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
 	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
 	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
@@ -99,100 +97,112 @@ Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel
 	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org, 
 	Jonathan Corbet <corbet@lwn.net>, "K. Y. Srinivasan" <kys@microsoft.com>, 
 	Haiyang Zhang <haiyangz@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000a5a38b065ca24b1d"
+	boundary="00000000000088e29e065ca28f14"
 
---000000000000a5a38b065ca24b1d
+--00000000000088e29e065ca28f14
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2026 at 3:54=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
-> On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
-> > @@ -1022,11 +1024,13 @@
-> >   * Note: We use a separate section so that only this section gets
-> >   * decrypted to avoid exposing more than we wish.
-> >   */
-> > -#ifdef CONFIG_AMD_MEM_ENCRYPT
-> > +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
-> >  #define PERCPU_DECRYPTED_SECTION                                     \
-> >       . =3D ALIGN(PAGE_SIZE);                                          =
- \
-> > +     __start_percpu_decrypted =3D .;                                  =
- \
-> >       *(.data..percpu..decrypted)                                     \
-> > -     . =3D ALIGN(PAGE_SIZE);
-> > +     . =3D ALIGN(PAGE_SIZE);                                          =
- \
-> > +     __end_percpu_decrypted =3D .;
-> >  #else
-> >  #define PERCPU_DECRYPTED_SECTION
-> >  #endif
+Hi, Boris.
+
+On Tue, Sep 29, 2026 at 1:40=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+> On Tue, Sep 29, 2026 at 12:02:49AM -0400, Zack Rusin wrote:
+> > VMware publishes its per-CPU steal-time GPA without first sharing the
+> > storage in encrypted guests.
 >
-> So you're page aligning something that will get different protection and
-> will thus shatter large pages?
+> So this one liner is the only explanation why this patchset exists, AFAIC=
+T. So
+> I asked AI. I'm pasting what it said below, at the end.
 >
-> That is somewhat uncool. We like large pages, large pages are good.
+> Is any of it true?
 
-I'm a huge large pages fan too. I have a poster in my office and
-everything... And I never do things that are uncool. I have a wwcdd
-(what would cool dude do) bracelet and I look at it every time I make
-a decision, which given that I'm old gets on my wife's nerves a lot.
-That is to say I'm handsome and innocent.
+Partly. So steal time tells Linux how much time a virtual CPU spent
+ready to run but waiting for the hypervisor to schedule it.
 
-The alignment isn't new. It has been there since ac26963a1175
-("percpu: Introduce DEFINE_PER_CPU_DECRYPTED") under AMD_MEM_ENCRYPT,
-which common distro kernels enable. This patch extends it to TDX-only
-builds and adds the boundary symbols. On bare metal and in ordinary
-guests nothing changes protection, so no large pages are split.
+For example, during a 100 ms interval, the vCPU might execute for 70
+ms and wait for a physical CPU for 30 ms. Reporting those 30 ms helps
+kernel:
+- account for CPU usage accurately: avoid charging applications for
+time when the hypervisor wasn't running their vCPU.
+- make fairer scheduling decisions: base task execution accounting on
+the CPU time tasks actually received.
+- expose host contention: the st field in top and counters in
+/proc/stat help explain why a VM is slow even though its applications
+don't appear to consume all available CPU time.
 
-In confidential guests, yes, converting each CPU's page splits the
-direct map around it. The alignment doesn't cause that: a large
-mapping can't be part private and part shared, so a converted page
-can't stay inside one. The alignment only keeps unrelated per-CPU data
-out of the shared page. Because that page sits in every CPU's per-CPU
-unit, each 2M mapping that holds one of them becomes 4K mappings,
-including the ordinary per-CPU data around it. In the layouts we've
-tested that's most of the first per-CPU chunk.
+The benefit is greatest on busy or overcommitted hosts. On a host
+where vCPUs rarely wait, steal time stays near zero.
 
-SMP KVM SEV guests already pay this today. sev_map_percpu_data()
-converts the same pages for every possible CPU, at the same
-granularity. What v2 adds is TDX guests and guests on other
-hypervisors.
+To make this work the hypervisor writes a running total into a small
+per-CPU buffer in guest memory, and the guest kernel reads it. More
+below...
 
-Where you're right is that v2 converts in every encrypted guest apart
-from Hyper-V vTOM, even when nothing uses the pages. VMware only needs
-them when the steal clock is enabled.
+> If so, how much and is that the reason this patchset exists?
+>
+> I.e., you want for vmware monitoring tools to work with CoCo guests.
+>
+> Yes, no? Anything else?
 
-If this is a deal breaker for you for v3 I could convert only when the
-hypervisor's platform setup says it will use them: VMware when the
-steal clock is available, KVM when async page faults, steal time or PV
-EOI are enabled. That decision would be made before the conversion
-(for KVM that means making it in kvm_init_platform() instead of
-kvm_guest_init()), so there's still no readiness state, and other
-confidential guests don't lose large pages to this.
+If options are binary then "no" :) It's not for monitoring tools, it's
+for the kernel's own steal-time accounting above, which currently
+doesn't work in confidential VMware guests. So the issue is that in a
+confidential guest (AMD SEV SNP, Intel TDX) memory is private by
+default, so the hypervisor can't read or write it. Any page the
+hypervisor has to write must first be converted to shared by the
+guest. Linux gives us the address of the steal-time buffer without
+converting it. The hypervisor then tries to write into a private page,
+which doesn't work. Currently ESXi deliberately powers off the VM when
+that happens. That only affects VMs with the steal clock enabled,
+which ESXi leaves off by default except for Photon guests. I'll
+probably change ESXi to just disable steal time when a guest gives us
+a private page, but that only avoids the power-off; steal time still
+won't work in these guests without this series.
 
-If you'd also like to keep large pages while the steal clock is in
-use, the alternative is to move these buffers out of the per-CPU area
-into one tightly packed allocation. That concentrates the splits in
-that one allocation, so the rest of the per-CPU area keeps its large
-pages. Kiryl preferred the per-CPU section when we discussed v1, so
-I'd like to hear from both of you before going that way. fwiw, I'd
-vastly prefer to first fix the steal-time bug for VMware before trying
-to do this though (whether it's with this series or a smaller
-VMware-only fix). x86 kernel team is notoriously opinionated, which
-isn't a bad thing, but it means that a rewrite of core x86 bits like
-that will take a long time and it's starting to feel a little like I
-stepped into something and you're all behind blast doors yelling "cut
-all the wires you coward!!!" and I'm just confused going "I just came
-here to get some blueberries".
+KVM has the same need for three of its per-CPU buffers (steal time,
+async page faults and PV EOI). It already converts them, but only on
+AMD and in its own loop. Kiryl asked on v1 for one common place that
+converts all such per CPU buffers early, on both AMD and Intel,
+instead of each hypervisor driver doing it. That's patches 2-6.
+
+Patch 1 fixes an old layout bug in uniprocessor kernels, where these
+buffers can share a page with unrelated data. The series also fixes
+SEV and SEV-SNP guests on KVM running kernels built with CONFIG_SMP=3Dn,
+which currently hang at boot (we reproduced the hang).
+
+> And looking at your commit messages, they don't really talk about why the
+> patches exist.
+>
+> And I don't think you know your audience - you're sending a bunch of patc=
+hes
+> touching arch/x86/ and you throw all that virt gibberish around like it a=
+in't
+> no tomorrow and you're thinking that tip people can follow. And I think w=
+e can
+> follow only bits and pieces but all of us will be mostly head-scratching =
+here
+> and probably ignore the whole set.
+>
+> So perhaps you should lay off your virt hat for a minute and try to expla=
+in in
+> an approachable way what you're trying to do so that even non-virt people=
+ can
+> follow.
+
+Fair enough. I'll rework the cover letter and the commit messages so
+each one starts with the problem. The series originally wasn't really
+touching x86 core parts and I haven't updated it for a larger crowd.
+Would you like an explanation of steal time, like the above, in the
+cover as well?
 
 z
 
---000000000000a5a38b065ca24b1d
+--00000000000088e29e065ca28f14
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -284,13 +294,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIM95
-Y+wYvsgw8fhQBqM5K0hnr0Cphy3qyWfbqheI4Lz8MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MDkyOTE3MTMwM1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIJNP
+S6jDImrUmlay9QeGHdRpWRIu9sjbDlG7nS4YLZLtMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MDkyOTE3MzIwMlowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFvC9yUf4NxqdbxrJRcyAp/5mQzhsOLZROjyygFB
-yBZ8VcJ9B6XVEIMx3ZhJzgeW/nkTMkE2njNsu0m3mo82ePcyXk1iXQ/Gi9jtgJQkGDPoDvnTYACV
-/exkyT1vYEnTQ9UwNxR0tih5JE8C8VS8OZrjIaL2gqiGuewJGFZZNha6AcjbJyVMvn0a9EGg5aUw
-VESPqWMG8KRf2gkLgDsHKgdUY0FrlFjzp/HhZ0BEkJdTGXaIu2Yfcf9ti2cBvfhvF820CEUE64xG
-kDNvoHKMDbCrGc+XZxH2F4e11DN9nq1ssLS7C+QzPQC0qSjaMKYb7leVCvjULe138pNDm0J+Auo=
---000000000000a5a38b065ca24b1d--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAJOsdWS4AhQKao1Q1WcJtgfxoZUeEu1NE3Jit1jP
+Ei+ABtUVWwB3a8HZQcXx9wbBnT5DTe7lZ6oHDQghWw5ZEV8hTyfx/glUzU/U1MyYWHHqzK5blKnf
+rHg2d40rRAWQBModAaRw5Q3bT4MYSxY9obmwKZmjrajO4Mcffc65ft+cY0UyupBm7cO34HSifbed
+dw5pTaUa7o9bLlzHKyerUpaKJXUdfa5I2U/JsWXG/CcbhY1nXaCuY4UjNMK6C7FRLZV4yxrfdY23
+k8MZs8MiW7QUFCdtb97SkE/fcJW6yde2YXCZJyIVWZ6JwqJRyDUwVRBVSGWJc0UDAXjX0X8buBs=
+--00000000000088e29e065ca28f14--
