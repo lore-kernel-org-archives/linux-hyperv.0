@@ -1,170 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9C03B42C5
-	for <linux-hyperv@vger.kernel.org>; Tue, 29 Sep 2026 22:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608CC3D953E;
+	Tue, 29 Sep 2026 23:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790722111; cv=none; b=ptuRcgW2ZX3J+wrbpY+5Gbta/T5r6UqYclAfUW8OvxbFHnjWd6j0xgcegL2wUdwLHSCmvWwPOQs1EIqgbDJmYe8hnbPKYfoLPKvT2Kuaq03aJI597DuUMk5MAFkZ0DHJv3uQELZdIJWltUvIKyvDPWbtJFaqA+mTWu8Vb08yf0w=
+	t=1790725515; cv=none; b=gpJ42LvNm0uAWEdqQZ/hR8H/jaO9ujFklSQBdJDHzRW+8kjxruJcd9GY9ieckKFaetN3TbSP9BfinhH0rLiAMegq9TJnFJxniA+IqkXH8Zr4hfl4Vj2BOpTJa4uaRd/eC5jbBAnld3UlZq8CObhJYSnJ3mBz4wCQmVnZyIJF1XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790722111; c=relaxed/simple;
-	bh=xwjSR/j8K7BVQsjAq9GGdTnsGAT/bQcYbKoUGJP2/N0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Bh5Om1Lo0JOPLAbb1bDETF25qKwa5DkR+M45MGtHItvLYWR66ZKuw2fHy/MPeOjB40IG/ASM905I32zpDGoLROXxV+meRcQBBTBLPBC0cmokzv3VdL2rcEanEbYFkQ88ntdicdjgKSBsZtkanmSnxD+QOjrasGpB5Pv2WQJFX1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj4TMTkf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790725515; c=relaxed/simple;
+	bh=qaD+oUK2DtSCtyltd/DU1cGOaw33iQMQ/3aJCRprPkQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HUH+vUTkCHI3A3zK1va7Uh9M1jbrp2tFY/fzBROAad84lsNbtLMsMymZswTTvSDYTclFScsE3ZPtnu3feEE8Ggw1t8paZFzims5Ab1uAO3emkqlwP//3rjEcQLDOi616Lemnop0ZQyWfDx2SJB1yDUKyr5rHqqzRWumdaPvBW/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NgkLEWKL; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj4TMTkf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2ED1F000FF;
-	Tue, 29 Sep 2026 22:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790722109;
-	bh=j/mzTBctLroCw4FEAEi9gydlBNxTRWioQqvBV7BB3YI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Aj4TMTkfZLenh5VlHCMDSr7+dkOAlbLad+pKqDLJSlJhPbvZDf6LL6ZIn2N4+6vEr
-	 PoeasE9Xnkwg9vY/ZRgbF7uaPBPpmbMs/zkYDN2Dr9wk2pim0ZQIB6SmlmLxYFrC79
-	 upVr+lnYJCQAwQhQoUcerwzGnS/buOEb2JiSuMRQHjFB17jGe3NgqmpaDgeIr7+2dL
-	 TWRWpkFPXQd/V06l4gK7GC61ZYurK1oc3oEWLrI6AIjJmpMdZw16Abn55mwOQL5q74
-	 Tc169RwZOr/XwKCrzUujyESPLKvoyc2Y2sq6oAW1d8K2/Usr6kEo/YtrYC2ZbN3ZpW
-	 oWqLoiK5ODPiw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V2 4/4] x86/hyperv: Implement root partition IOMMU
- kernel only driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh R" <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20260929223622.778617-5-mrathor@linux.microsoft.com>
-References: <20260929223622.778617-1-mrathor@linux.microsoft.com>
- <20260929223622.778617-5-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Sep 2026 22:48:29 +0000
-Message-Id: <20260929224829.AF2ED1F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NgkLEWKL"
+Received: from CPC-mawas-YGKSX.localdomain (unknown [70.37.26.35])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7D43D20B7166;
+	Tue, 29 Sep 2026 16:44:21 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7D43D20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1790725461;
+	bh=FuVEsT1W2BzsrFSye+6V6QlSXmi+gbYDtaB0fNAucQI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NgkLEWKLuqLGYVaKVKJ7I8Bkj6eL0gl4Q1U2MjjsFwhgNlaIbUv5JK5OMIT+x8Pl6
+	 lGKr2yfpcP/5Tzdd2O1NR1GihuZyOqzj4aveKxpODnlW88Cb2G54QVnaNrva5m1TJN
+	 amefGb0muT+7m1V/zMTU0UvxD8IJY9vtXfPwmP0o=
+From: Manish Awasthi <mawasthi@linux.microsoft.com>
+To: horms@kernel.org
+Cc: netdev-bot+sashiko@kernel.org,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	kotaranov@microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	bpf@vger.kernel.org,
+	nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com,
+	gargaditya@linux.microsoft.com,
+	ernis@linux.microsoft.com,
+	kees@kernel.org,
+	paulros@microsoft.com,
+	mawasthi@microsoft.com,
+	Manish Awasthi <mawasthi@linux.microsoft.com>
+Subject: Re: [PATCH net-next 4/4] net: mana: Add support for CDX device ID 0x00C2
+Date: Tue, 29 Sep 2026 23:45:08 +0000
+Message-ID: <20260929234508.10647-1-mawasthi@linux.microsoft.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260929135738.GT13925@horms.kernel.org>
+References: <20260924173054.589291-5-mawasthi@linux.microsoft.com> <179035761944.2160803.12943182451050438147@kernel.org> <20260928202555.617331-1-mawasthi@linux.microsoft.com> <20260929135738.GT13925@horms.kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] iommu/hyperv: hardware and software state desynchronization on par=
-tial unmaps
-- [Medium] iommu/hyperv: caller-provided GFP flags are ignored in hv_iommu_=
-map_pages
-- [Low] iommu/hyperv: missing select INTERVAL_TREE in Kconfig causes build =
-failure
---
-
-commit 3a4e409fbf35c471ff4e423714deeda11c2192b2
-Author: Mukesh R <mrathor@linux.microsoft.com>
-
-x86/hyperv: Implement root partition IOMMU kernel only driver
-
-This commit adds a kernel-only virtual IOMMU driver for Microsoft Hyper-V
-running on root partitions. It registers the IOMMU device, creates identity
-and blocked domains, and handles device attachment and page mappings.
-
-> diff --git a/drivers/iommu/hyperv/Kconfig b/drivers/iommu/hyperv/Kconfig
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/iommu/hyperv/Kconfig
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +# Hyper-V IOMMU support
-> +
-> +config HYPERV_ROOT_IOMMU
-> +	bool "Hyper-V IOMMU Device in root partition"
-> +	depends on HYPERV && X86 && PCI_MSI && MSHV_ROOT
-> +	select IOMMU_API
-
-[Severity: Low]
-Does this config need to select INTERVAL_TREE?=20
-
-The driver relies on interval_tree_insert and interval_tree_remove, which
-can cause a build failure if no other selected module provides the interval
-tree API.
-
-[ ... ]
-
-> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/=
-hv-iommu-root.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
-[ ... ]
-> +static int hv_iommu_add_tree_mapping(struct hv_iommu_domain *hvdom, ulon=
-g iova,
-> +				     phys_addr_t paddr, size_t size, u32 flags)
-> +{
-> +	ulong irqflags;
-> +	struct hv_iommu_mapping *mapping;
-> +
-> +	mapping =3D kzalloc_obj(struct hv_iommu_mapping, GFP_ATOMIC);
-
-[Severity: Medium]
-Is it intentional to hardcode GFP_ATOMIC for this allocation?
-
-Looking at hv_iommu_map_pages, the caller provides a gfp parameter:
-
-static int hv_iommu_map_pages(struct iommu_domain *immdom, ulong iova,
-                              phys_addr_t paddr, size_t pgsize, size_t pgco=
-unt,
-                              int prot, gfp_t gfp, size_t *mapped)
-
-This provided gfp parameter is discarded when hv_iommu_map_pages calls
-hv_iommu_add_tree_mapping. Using GFP_ATOMIC instead of the caller-provided
-flags can cause allocations to fail under memory pressure.
-
-[ ... ]
-
-> +static size_t hv_iommu_unmap_pages(struct iommu_domain *immdom, ulong io=
-va,
-> +				   size_t pgsize, size_t pgcount,
-> +				   struct iommu_iotlb_gather *gather)
-> +{
-> +	struct hv_iommu_domain *hvdom =3D to_hv_domain(immdom);
-> +	size_t unmap_sz, size =3D pgsize * pgcount;
-> +
-> +	/* For valid input, the hypervisor guarantees unmap will succeed */
-> +	unmap_sz =3D hv_iommu_hyp_unmap_pages(immdom, iova, size);
-> +	if (unmap_sz !=3D size)
-> +		WARN(1, "Failed to unmap device gpa(%lx/%lx)\n", unmap_sz,
-> +		     size);
-> +
-> +	size =3D hv_iommu_del_tree_mappings(hvdom, iova, unmap_sz);
-> +	if (size !=3D unmap_sz)
-> +		pr_err("%s: could not delete tree mappings (%lx:%lx/%lx)\n",
-> +		       __func__, iova, unmap_sz, size);
-> +
-> +	return size;
-> +}
-
-[Severity: High]
-Can this sequence cause a permanent desynchronization between the hardware
-and software tracking states?
-
-If a partial unmap is requested, hv_iommu_hyp_unmap_pages irreversibly modi=
-fies
-the hypervisor hardware state first. Then, hv_iommu_del_tree_mappings is ca=
-lled
-to update the software tracking tree.
-
-If the unmap forces a split, hv_iommu_del_tree_mappings bails out and retur=
-ns 0:
-
-        /* Splitting of a mapping is not supported at present */
-        if (mapping->iova.start < iova)
-                break;
-
-Returning the 0 unmapped size from the software tree instead of the actual
-hardware unmapped size causes the IOMMU core unmap loop to terminate
-prematurely. This leaks IOVA space while the hardware has already unmapped
-the pages.
-
-Could the software tree boundary be checked prior to executing the hypercal=
-l,
-or should the core receive the actual hardware unmapped size instead?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260929223622.7786=
-17-1-mrathor@linux.microsoft.com?part=3D4
+> On Mon, Sep 28, 2026 at 08:25:55PM +0000, Manish Awasthi wrote:
+> > thanks for review. Comments inline.
+> > 
+> > > Thank you for your contribution! Sashiko AI review found 3 potential
+> > > issue(s) to consider.
+> > > 
+> > > Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
+> > > 
+> > > If you believe none of the issues are legitimate, please reply to each
+> > > issue of Medium severity or higher and explain why the AI is wrong.
+> > > If any of them are legitimate and you plan to respin, please let patchwork
+> > > know by including "pw-bot: cr" as a separate line at the end of your reply
+> > > (one such reply per series is enough).
+> > > 
+> > > - [Medium] The CDX transport installs `.dev_reset = mana_cdx_dev_reset`
+> > >   (-> `cdx_dev_reset()`) but has no way to recover afterwards.
+> > > - [Low] `mana_cdx_setup_hwc_irqs()` skips IRQ affinity hints.
+> > > - [Low] The comment in `mana_gd_query_max_resources()` (gdma_main.c)
+> > >   says: "Only reset on platforms that support dynamic MSI-X allocation;…
+> > > 
+> > > Pre-existing issues:
+> > > - [High] This problem wasn't introduced by this patch, but the shared HWC
+> > >   bootstrap path that the new CDX transport now reaches trusts a device-…
+> > > 
+> > > --
+> > > 
+> > > net: mana: Add support for CDX device ID 0x00C2
+> > > 
+> > > This adds a CDX bus transport for MANA, built as mana_cdx.ko on top of
+> > > the shared gdma_core.ko, for device ID 0x00C2. It allocates the whole MSI
+> > > pool at probe time, limits the queue count to the available vectors,
+> > > restricts DMA to 32 bits, and adds a per-bus auxiliary device name prefix
+> > > so the CDX auxiliary devices stay separate from the PCI ones.
+> > > 
+> > > > diff --git a/drivers/net/ethernet/microsoft/mana/gdma_cdx.c b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
+> > > > new file mode 100644
+> > > > index 0000000000000..0d01e3d2f0d96
+> > > > --- /dev/null
+> > > > +++ b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
+> > > > @@ -0,0 +1,340 @@
+> > > 
+> > > [ ... ]
+> > > 
+> > > > +static int mana_cdx_dev_reset(struct gdma_context *gc)
+> > > > +{
+> > > > +	return cdx_dev_reset(gc->dev);
+> > > > +}
+> > > 
+> > > [Severity: Medium]
+> > > Can this reset leave the whole function unusable, with no recovery short
+> > > of a manual rebind?
+> > > 
+> > > mana_dealloc_queues() calls it when a TX queue still has pending_sends
+> > > after the drain timeout:
+> > > 
+> > > mana_tx_timeout()
+> > >   -> queue_reset_work
+> > >     -> mana_per_port_queue_reset_work_handler()
+> > >       -> mana_dealloc_queues()
+> > >         -> mana_gd_dev_reset()
+> > >           -> mana_cdx_dev_reset()
+> > >             -> cdx_dev_reset()
+> > > 
+> > This version of the driver doesn't support recovery after mana_cdx_dev_reset.
+> 
+> I don't think it needs to delay progress of this patchset.
+> But I am curious to know if there are plans to add such support.
+> 
+    It is possible to have similar recovery support as the pci in this path
+    after cdx_dev_reset() and we do have plans to add it in future.
+> ...
