@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66FC54DD3A2;
-	Wed, 30 Sep 2026 14:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E845F4F5E1F;
+	Wed, 30 Sep 2026 14:14:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790777685; cv=none; b=AIaU3Q8csWKEwnhwKM3Puu01d2jXOw9V/sT4jJ88JpYBAZ2p8xRU2/pHbf2z6Je9DlB/giYKU+PKa8mcGvi1y4vgJmx5yMi7j9WHMJdUsuM1aNIFPVZhfyp6KjhYj/eqsemN5KICmQqcZ3kJOkKEdfthhIuJvZpsnM2JmdAPneI=
+	t=1790777685; cv=none; b=Uw0yI69cgGbW98P5jcblY7Ihb9BeZj0leuprNrs3pZ+d603bqA+QR6ne8pSuUy2fFrQCIk7CF0dWLAGyaX+yi9hv+5Utjj78I2Ml974XclfPig/bkEa90gkWcEnrsJJjbraRIZRKRQB7x3RhEKut58BzKHgYi8rMWzx8WPfPsLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790777685; c=relaxed/simple;
-	bh=wtMy5krTOqrtrHFbLFyqpQBdYr/13eq4k3DaglIOUEU=;
+	bh=IYiUOCz/6QpLleMuS1vd3tDrsV9BvhCMWTDZW6vPAMs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CGzxI8z/U3F0+0mSPpibDFVfZ6U8cwfyVyf/7rz9OskH1CVYdTOrA2IG+CTbt2pq7XNjk9RgwkG+i5JupbekuS3IQwz91ziBiLtOugvC8HO+ZYbMNUrBSJLp2Olq3jRvmo1Oo5WLwJSJ1bepHc0o2og2buxpHsEbnaBMm8mSpCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZD55o73f; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=l+oSOw/aQtMXFaqurpFSkgLRnUBG1QmcM2AjerSxjlDbbzpvTD8ysr9B7/eyKnS64W83iFR9HDjBW8hCeEgJJIjwnUKDHyoLev1uBlOldgB1bwn9g0sNgAA/JT0ggCGHtrSbUWn3vQx+hwBtPgfHWDdKYfbd6h4FB172/8/AIa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UPsgLx5t; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZD55o73f"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UPsgLx5t"
 Received: from zhangyu-hyperv.mshome.net (unknown [167.220.233.38])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 69AC420B7166;
-	Wed, 30 Sep 2026 07:13:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 69AC420B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id E371520B716D;
+	Wed, 30 Sep 2026 07:13:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E371520B716D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790777625;
-	bh=J510VeTcmqQJ75QXmQXP+ClUYbnLSFpeSCq+Ay/+1hc=;
+	s=default; t=1790777614;
+	bh=1uk+lUYh0GUiqd4vRRIOlMYdykwJleVLPBdWh7xWICE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZD55o73fQYIm18XT3MHsXSLjpjhsRy/+b+Jl5K2NqS0uAlFzlWuBnR68bvOcvmp5i
-	 woNtKJSzKSGS0IeUty59dEAZ2hT5gHRTur3Zj4ydCnlqhmVCOrpWHmDjP6ig8sdPpE
-	 O6HVEfWOQa0zMZ5zBV9hCionFeuvMMR2XOv+3r0k=
+	b=UPsgLx5teEcxWYatJdZk0EfDNMeSDh/yKg4sk3sBgOKXGtq98a42sruawUDt2Zhmq
+	 hzoCNbJHkKp9EvV6zvuACVgXTeQhA97BMKVtB/oYYxyaOa1ZGOj9ekjRi6aCghDKp6
+	 XyNrr8La7WpscG5QoRNM6/3h93o4ACAcy0l5rSMQ=
 From: Yu Zhang <zhangyu1@linux.microsoft.com>
 To: linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc: wei.liu@kernel.org,
 	baolu.lu@linux.intel.com,
 	suravee.suthikulpanit@amd.com,
 	vasant.hegde@amd.com
-Subject: [PATCH v6 4/5] iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest
-Date: Wed, 30 Sep 2026 22:14:08 +0800
-Message-ID: <20260930141409.437904-5-zhangyu1@linux.microsoft.com>
+Subject: [PATCH v6 2/5] Drivers: hv: Add logical device ID registry for vPCI devices
+Date: Wed, 30 Sep 2026 22:14:06 +0800
+Message-ID: <20260930141409.437904-3-zhangyu1@linux.microsoft.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260930141409.437904-1-zhangyu1@linux.microsoft.com>
 References: <20260930141409.437904-1-zhangyu1@linux.microsoft.com>
@@ -68,796 +68,297 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a para-virtualized IOMMU driver for Linux guests running on Hyper-V.
-This driver implements stage-1 IO translation within the guest OS.
-It integrates with the Linux IOMMU core, utilizing Hyper-V hypercalls
-for:
- - Capability discovery
- - Domain allocation, configuration, and deallocation
- - Device attachment and detachment
- - IOTLB invalidation
+Hyper-V identifies each PCI pass-thru device by a logical device ID in
+its hypercall interface. This ID consists of a per-bus prefix, derived
+from the VMBus device instance GUID, combined with the PCI function
+number of the endpoint device.
 
-The driver constructs x86-compatible stage-1 IO page tables in the
-guest memory using consolidated IO page table helpers. This allows
-the guest to manage stage-1 translations independently of vendor-
-specific drivers (like Intel VT-d or AMD IOMMU).
+Add a registry in hv_common.c that maps a PCI domain number to its
+logical device ID prefix. The vPCI bus driver (pci-hyperv) registers the
+prefix when a bus is probed and unregisters it when the bus is removed.
+Consumers such as the para-virtualized IOMMU driver look up the prefix
+by PCI domain number and combine it with the function number to form the
+complete logical device ID for hypercalls.
 
-Hyper-V consumes this stage-1 IO page table when a device domain is
-created and configured, and nests it with the host's stage-2 IO page
-tables, therefore eliminating the VM exits for guest IOMMU mapping
-operations. For unmapping operations, VM exits to perform the IOTLB
-flush are still unavoidable.
+Use rhashtable for the sparse exact-match mapping. Lookups copy the
+prefix while holding the RCU read lock, and removal defers freeing the
+entry until existing readers have completed.
 
-Guest hibernation and resume are not supported by this initial
-implementation. The guest-owned stage-1 page tables reside in guest
-memory and are preserved in the hibernation image. However, the image
-does not by itself preserve the Hyper-V device-domain objects or their
-device attachments, and the current pvIOMMU interface does not define
-whether or how Hyper-V restores that state.
+The prefix construction is shared via hv_build_logical_dev_id_prefix() so
+that pci-hyperv's interrupt retargeting path and the registry use exactly
+the same byte layout. It is derived on demand from the constant hv_device
+instance GUID rather than cached in struct hv_pcibus_device, which is
+private to the pci-hyperv module; this keeps the interface narrow and
+avoids depending on pci-hyperv internals.
 
-To identify a device in its hypercall interface, the driver looks up the
-logical device ID prefix registered for the device's PCI domain (see the
-logical device ID registry in hv_common.c) and combines it with the PCI
-function number of the endpoint device.
-
-Co-developed-by: Wei Liu <wei.liu@kernel.org>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
-Reviewed-by: Jacob Pan <jacob.pan@linux.microsoft.com>
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- arch/x86/hyperv/hv_init.c             |   4 +
- arch/x86/include/asm/mshyperv.h       |   4 +
- drivers/iommu/Kconfig                 |   1 +
- drivers/iommu/hyperv/Kconfig          |  15 +
- drivers/iommu/hyperv/Makefile         |   1 +
- drivers/iommu/hyperv/hv-iommu-guest.c | 610 ++++++++++++++++++++++++++
- drivers/iommu/hyperv/iommu.h          |  44 ++
- 7 files changed, 679 insertions(+)
- create mode 100644 drivers/iommu/hyperv/Kconfig
- create mode 100644 drivers/iommu/hyperv/hv-iommu-guest.c
- create mode 100644 drivers/iommu/hyperv/iommu.h
+ drivers/hv/hv_common.c              | 114 ++++++++++++++++++++++++++++
+ drivers/pci/controller/pci-hyperv.c |  21 +++--
+ include/asm-generic/mshyperv.h      |   4 +
+ include/linux/hyperv.h              |   8 ++
+ 4 files changed, 142 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 0b4a1c0b0b16..d5edc8530964 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -579,6 +579,10 @@ void __init hyperv_init(void)
- 	old_setup_percpu_clockev = x86_init.timers.setup_percpu_clockev;
- 	x86_init.timers.setup_percpu_clockev = hv_stimer_setup_percpu_clockev;
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 8896fb4809b5..4f3bb9b4e87c 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -21,6 +21,7 @@
+ #include <linux/panic_notifier.h>
+ #include <linux/ptrace.h>
+ #include <linux/random.h>
++#include <linux/rhashtable.h>
+ #include <linux/efi.h>
+ #include <linux/kdebug.h>
+ #include <linux/kmsg_dump.h>
+@@ -78,6 +79,22 @@ static struct ctl_table_header *hv_ctl_table_hdr;
+ u8 * __percpu *hv_synic_eventring_tail;
+ EXPORT_SYMBOL_GPL(hv_synic_eventring_tail);
  
-+#ifdef CONFIG_HYPERV_PVIOMMU
-+	x86_init.iommu.iommu_init = hv_iommu_init;
-+#endif
-+
- 	hv_apic_init();
- 
- 	x86_init.pci.arch_init = hv_pci_init;
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index f64393e853ee..20d947c2c758 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -313,6 +313,10 @@ static inline void mshv_vtl_return_hypercall(void) {}
- static inline void __mshv_vtl_return_call(struct mshv_vtl_cpu_context *vtl0) {}
- #endif
- 
-+#ifdef CONFIG_HYPERV_PVIOMMU
-+int __init hv_iommu_init(void);
-+#endif
-+
- #include <asm-generic/mshyperv.h>
- 
- #endif
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 6e07bd69467a..0d128f377929 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -195,6 +195,7 @@ config MSM_IOMMU
- source "drivers/iommu/amd/Kconfig"
- source "drivers/iommu/arm/Kconfig"
- source "drivers/iommu/intel/Kconfig"
-+source "drivers/iommu/hyperv/Kconfig"
- source "drivers/iommu/iommufd/Kconfig"
- source "drivers/iommu/riscv/Kconfig"
- 
-diff --git a/drivers/iommu/hyperv/Kconfig b/drivers/iommu/hyperv/Kconfig
-new file mode 100644
-index 000000000000..fe24ed65b6a7
---- /dev/null
-+++ b/drivers/iommu/hyperv/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Hyper-V para-virtualized IOMMU driver for Linux guests
-+config HYPERV_PVIOMMU
-+	bool "Microsoft Hyper-V para-virtualized IOMMU driver for Linux guests"
-+	depends on X86_64 && HYPERV
-+	select IOMMU_DMA
-+	select GENERIC_PT
-+	select IOMMU_PT
-+	select IOMMU_PT_X86_64
-+	default HYPERV
-+	help
-+	  Para-virtualized IOMMU driver for Linux guests running on
-+	  Microsoft Hyper-V. Provides DMA remapping and IOTLB
-+	  flush support to enable DMA isolation for PCI devices
-+	  assigned to the guest.
-diff --git a/drivers/iommu/hyperv/Makefile b/drivers/iommu/hyperv/Makefile
-index 6ef0ef97f3dd..d3b2a259439c 100644
---- a/drivers/iommu/hyperv/Makefile
-+++ b/drivers/iommu/hyperv/Makefile
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_IRQ_REMAP) += hv-irq-remap-x86.o
-+obj-$(CONFIG_HYPERV_PVIOMMU) += hv-iommu-guest.o
-diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c b/drivers/iommu/hyperv/hv-iommu-guest.c
-new file mode 100644
-index 000000000000..341d70eed592
---- /dev/null
-+++ b/drivers/iommu/hyperv/hv-iommu-guest.c
-@@ -0,0 +1,610 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Hyper-V para-virtualized IOMMU driver for Linux guests.
-+ *
-+ * Copyright (C) 2024-2026 Microsoft, Inc.
-+ */
-+
-+#define pr_fmt(fmt) "Hyper-V pvIOMMU: " fmt
-+#define dev_fmt(fmt) pr_fmt(fmt)
-+
-+#include <linux/iommu.h>
-+#include <linux/pci.h>
-+#include <linux/dma-map-ops.h>
-+#include <linux/generic_pt/iommu.h>
-+#include <linux/pci-ats.h>
-+
-+#include <asm/iommu.h>
-+#include <asm/hypervisor.h>
-+#include <asm/mshyperv.h>
-+
-+#include "iommu.h"
-+#include "../iommu-pages.h"
-+
-+struct hv_iommu_dev *hv_iommu_device;
-+
-+/*
-+ * Identity and blocking domains are static singletons: identity is a 1:1
-+ * passthrough with no page table, blocking rejects all DMA. Neither holds
-+ * per-IOMMU state, so one instance suffices even with multiple vIOMMUs.
-+ */
-+static const struct iommu_domain_ops hv_iommu_identity_domain_ops;
-+static const struct iommu_domain_ops hv_iommu_blocking_domain_ops;
-+static struct iommu_ops hv_iommu_ops;
-+
-+static struct hv_iommu_domain hv_identity_domain = {
-+	.domain = {
-+		.type	= IOMMU_DOMAIN_IDENTITY,
-+		.ops	= &hv_iommu_identity_domain_ops,
-+		.owner	= &hv_iommu_ops,
-+	},
++struct hv_pci_busdata {
++	int pci_domain_nr;
++	u32 logical_dev_id_prefix;
++	struct rhash_head node;
++	struct rcu_head rcu;
 +};
 +
-+static struct hv_iommu_domain hv_blocking_domain = {
-+	.domain = {
-+		.type	= IOMMU_DOMAIN_BLOCKED,
-+		.ops	= &hv_iommu_blocking_domain_ops,
-+		.owner	= &hv_iommu_ops,
-+	},
++static struct rhashtable hv_pci_bus_ht;
++static bool hv_pci_bus_ht_initialized;
++
++static const struct rhashtable_params hv_pci_bus_ht_params = {
++	.key_len	= sizeof_field(struct hv_pci_busdata, pci_domain_nr),
++	.key_offset	= offsetof(struct hv_pci_busdata, pci_domain_nr),
++	.head_offset	= offsetof(struct hv_pci_busdata, node),
 +};
 +
-+static inline bool hv_iommu_present(u64 cap)
-+{
-+	return cap & HV_IOMMU_CAP_PRESENT;
-+}
-+
-+static inline bool hv_iommu_s1_domain_supported(u64 cap)
-+{
-+	return cap & HV_IOMMU_CAP_S1;
-+}
-+
-+static inline bool hv_iommu_5lvl_supported(u64 cap)
-+{
-+	return cap & HV_IOMMU_CAP_S1_5LVL;
-+}
-+
-+static inline bool hv_iommu_ats_supported(u64 cap)
-+{
-+	return cap & HV_IOMMU_CAP_ATS;
-+}
-+
-+static int hv_create_device_domain(struct hv_iommu_domain *hv_domain)
-+{
-+	int ret;
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_create_device_domain *input;
-+
-+	ret = ida_alloc_range(&hv_iommu_device->domain_ids,
-+			      hv_iommu_device->first_domain,
-+			      hv_iommu_device->last_domain, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	hv_domain->device_domain.partition_id = HV_PARTITION_ID_SELF;
-+	hv_domain->device_domain.domain_id.type = HV_DEVICE_DOMAIN_TYPE_S1;
-+	hv_domain->device_domain.domain_id.id = ret;
-+	hv_domain->hv_iommu = hv_iommu_device;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+	input->device_domain = hv_domain->device_domain;
-+	input->create_device_domain_flags.forward_progress_required = 1;
-+	input->create_device_domain_flags.inherit_owning_vtl = 0;
-+	status = hv_do_hypercall(HVCALL_CREATE_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status)) {
-+		hv_status_err(status, "HVCALL_CREATE_DEVICE_DOMAIN failed\n");
-+		ida_free(&hv_iommu_device->domain_ids,
-+			 hv_domain->device_domain.domain_id.id);
+ /*
+  * Hyper-V specific initialization and shutdown code that is
+  * common across all architectures.  Called from architecture
+@@ -86,6 +103,11 @@ EXPORT_SYMBOL_GPL(hv_synic_eventring_tail);
+ 
+ void __init hv_common_free(void)
+ {
++	if (hv_pci_bus_ht_initialized) {
++		rhashtable_destroy(&hv_pci_bus_ht);
++		hv_pci_bus_ht_initialized = false;
 +	}
 +
-+	return hv_result_to_errno(status);
-+}
-+
-+static void hv_delete_device_domain(struct hv_iommu_domain *hv_domain)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_delete_device_domain *input;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+	input->device_domain = hv_domain->device_domain;
-+	status = hv_do_hypercall(HVCALL_DELETE_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		hv_status_err(status, "HVCALL_DELETE_DEVICE_DOMAIN failed\n");
-+
-+	ida_free(&hv_domain->hv_iommu->domain_ids,
-+		 hv_domain->device_domain.domain_id.id);
-+}
-+
-+static int
-+hv_configure_device_domain(struct hv_iommu_domain *hv_domain,
-+			   const struct hv_device_domain_settings *settings)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_configure_device_domain *input;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+	input->device_domain = hv_domain->device_domain;
-+	input->settings = *settings;
-+	status = hv_do_hypercall(HVCALL_CONFIGURE_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		hv_status_err(status,
-+			      "HVCALL_CONFIGURE_DEVICE_DOMAIN failed\n");
-+
-+	return hv_result_to_errno(status);
-+}
-+
-+static int
-+hv_create_configure_device_domain(struct hv_iommu_domain *hv_domain,
-+				  const struct hv_device_domain_settings *settings)
-+{
+ 	unregister_sysctl_table(hv_ctl_table_hdr);
+ 	hv_ctl_table_hdr = NULL;
+ 
+@@ -315,6 +337,7 @@ u8 __init get_vtl(void)
+ int __init hv_common_init(void)
+ {
+ 	int i;
 +	int ret;
-+
-+	ret = hv_create_device_domain(hv_domain);
-+	if (ret)
-+		return ret;
-+
-+	ret = hv_configure_device_domain(hv_domain, settings);
-+	if (ret)
-+		hv_delete_device_domain(hv_domain);
-+
-+	return ret;
-+}
-+
-+static bool hv_iommu_capable(struct device *dev, enum iommu_cap cap)
-+{
-+	return cap == IOMMU_CAP_CACHE_COHERENCY;
-+}
-+
-+static void hv_flush_device_domain(struct hv_iommu_domain *hv_domain)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_flush_device_domain *input;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+	input->device_domain = hv_domain->device_domain;
-+	status = hv_do_hypercall(HVCALL_FLUSH_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	WARN_ONCE(!hv_result_success(status),
-+		  "HVCALL_FLUSH_DEVICE_DOMAIN failed: %#llx (%s)\n",
-+		  status, hv_result_to_string(status));
-+}
-+
-+static int hv_iommu_attach_dev(struct iommu_domain *domain, struct device *dev,
-+			       struct iommu_domain *old)
-+{
-+	u64 status;
-+	u32 prefix;
-+	unsigned long flags;
-+	struct pci_dev *pdev;
-+	struct hv_input_attach_device_domain *input;
-+	struct hv_iommu_domain *hv_domain = to_hv_iommu_domain(domain);
-+	int pci_domain;
-+	int ret;
-+
-+	pdev = to_pci_dev(dev);
-+	dev_dbg(dev, "attaching to domain %d\n",
-+		hv_domain->device_domain.domain_id.id);
-+
-+	pci_domain = pci_domain_nr(pdev->bus);
-+	ret = hv_pci_lookup_dev_id(pci_domain, &prefix);
+ 	union hv_hypervisor_version_info version;
+ 
+ 	/* Get information about the Microsoft Hypervisor version */
+@@ -394,6 +417,13 @@ int __init hv_common_init(void)
+ 	for (i = 0; i < nr_cpu_ids; i++)
+ 		hv_vp_index[i] = VP_INVAL;
+ 
++	ret = rhashtable_init(&hv_pci_bus_ht, &hv_pci_bus_ht_params);
 +	if (ret) {
-+		dev_err(dev,
-+			"no logical device ID registered for PCI domain %04x\n",
-+			pci_domain);
++		hv_common_free();
 +		return ret;
 +	}
++	hv_pci_bus_ht_initialized = true;
 +
-+	local_irq_save(flags);
+ 	return 0;
+ }
+ 
+@@ -862,3 +892,87 @@ const char *hv_result_to_string(u64 status)
+ 	return "Unknown";
+ }
+ EXPORT_SYMBOL_GPL(hv_result_to_string);
 +
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+	input->device_domain = hv_domain->device_domain;
-+	input->device_id.as_uint64 = (u64)prefix | PCI_FUNC(pdev->devfn);
-+	status = hv_do_hypercall(HVCALL_ATTACH_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status) &&
-+	    hv_result(status) != HV_STATUS_DEVICE_ALREADY_IN_DOMAIN) {
-+		hv_status_err(status, "HVCALL_ATTACH_DEVICE_DOMAIN failed\n");
-+		return hv_result_to_errno(status);
-+	}
-+
-+	if (domain != &hv_blocking_domain.domain &&
-+	    !pdev->ats_enabled &&
-+	    hv_iommu_ats_supported(hv_domain->hv_iommu->cap) &&
-+	    pci_ats_supported(pdev))
-+		pci_enable_ats(pdev, PAGE_SHIFT);
-+
-+	return 0;
-+}
-+
-+static int hv_iommu_blocking_attach_dev(struct iommu_domain *domain,
-+					struct device *dev,
-+					struct iommu_domain *old)
++/*
++ * Logical device ID registry for Hyper-V PCI buses. The pci-hyperv
++ * driver registers each bus's logical device ID prefix before scanning
++ * its devices. Consumers look up the prefix by PCI domain number when
++ * building logical device IDs for Hyper-V interfaces.
++ */
++int hv_pci_register_dev_id(int pci_domain_nr, u32 logical_dev_id_prefix)
 +{
-+	struct pci_dev *pdev = to_pci_dev(dev);
++	struct hv_pci_busdata *bus, *new;
 +	int ret;
 +
-+	if (pdev->ats_enabled)
-+		pci_disable_ats(pdev);
-+
-+	ret = hv_iommu_attach_dev(domain, dev, old);
-+
-+	/*
-+	 * Attaching to the blocking domain only asks the hypervisor to
-+	 * disable translation and IOPF for the device, so it cannot fail
-+	 * unless there is a driver or hypervisor bug. Return the hypercall
-+	 * status rather than 0 so that a failure on the DMA ownership claim
-+	 * path (VFIO/iommufd) fails the claim instead of leaving the device
-+	 * unblocked. WARN since such a failure indicates a bug.
-+	 */
-+	WARN_ON(ret);
-+	return ret;
-+}
-+
-+static int
-+hv_iommu_get_dev_property(struct device *dev, u32 code,
-+			  struct hv_output_get_logical_device_property *prop)
-+{
-+	u64 status;
-+	u32 prefix;
-+	unsigned long flags;
-+	int ret;
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct hv_input_get_logical_device_property *input;
-+	struct hv_output_get_logical_device_property *output;
-+
-+	ret = hv_pci_lookup_dev_id(pci_domain_nr(pdev->bus), &prefix);
-+	if (ret)
-+		return ret;
-+
-+	local_irq_save(flags);
-+
-+	/*
-+	 * The combined input and output fit in the per-CPU input page,
-+	 * so no separate output page is needed.
-+	 */
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = (struct hv_output_get_logical_device_property *)(input + 1);
-+	memset(input, 0, sizeof(*input));
-+	input->partition_id = HV_PARTITION_ID_SELF;
-+	input->logical_device_id = (u64)prefix | PCI_FUNC(pdev->devfn);
-+	input->code = code;
-+	status = hv_do_hypercall(HVCALL_GET_LOGICAL_DEVICE_PROPERTY,
-+				 input, output);
-+	*prop = *output;
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		hv_status_err(status,
-+			      "HVCALL_GET_LOGICAL_DEVICE_PROPERTY failed\n");
-+
-+	return hv_result_to_errno(status);
-+}
-+
-+static struct iommu_device *hv_iommu_probe_device(struct device *dev)
-+{
-+	struct hv_output_get_logical_device_property property = {0};
-+	int ret;
-+
-+	if (!dev_is_pci(dev))
-+		return ERR_PTR(-ENODEV);
-+
-+	ret = hv_iommu_get_dev_property(dev, HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU,
-+					&property);
-+	if (ret || !(property.device_iommu & HV_DEVICE_IOMMU_ENABLED))
-+		return ERR_PTR(-ENODEV);
-+
-+	return &hv_iommu_device->iommu;
-+}
-+
-+static struct iommu_group *hv_iommu_device_group(struct device *dev)
-+{
-+	if (!dev_is_pci(dev))
-+		return ERR_PTR(-ENODEV);
-+
-+	return pci_device_group(dev);
-+}
-+
-+static int __init hv_initialize_static_domains(void)
-+{
-+	/*
-+	 * Clearing translation_enabled bypasses stage-1 translation, so DMA
-+	 * addresses are used directly as GPAs. Hyper-V requires paging and
-+	 * blocked domains to keep translation_enabled set.
-+	 */
-+	const struct hv_device_domain_settings identity_settings = {
-+		.flags.translation_enabled = 0,
-+	};
-+	const struct hv_device_domain_settings blocked_settings = {
-+		.flags = {
-+			.translation_enabled = 1,
-+			.blocked = 1,
-+		},
-+	};
-+	int ret;
-+
-+	/* Default stage-1 identity domain */
-+	ret = hv_create_configure_device_domain(&hv_identity_domain,
-+						&identity_settings);
-+	if (ret)
-+		return ret;
-+
-+	/* Default stage-1 blocked domain */
-+	ret = hv_create_configure_device_domain(&hv_blocking_domain,
-+						&blocked_settings);
-+	if (ret)
-+		goto delete_identity_domain;
-+
-+	return 0;
-+
-+delete_identity_domain:
-+	hv_delete_device_domain(&hv_identity_domain);
-+	return ret;
-+}
-+
-+static void hv_iommu_get_resv_regions(struct device *dev,
-+				      struct list_head *head)
-+{
-+	iommu_add_resv_x86_msi_region(head);
-+}
-+
-+static void hv_iommu_flush_iotlb_all(struct iommu_domain *domain)
-+{
-+	hv_flush_device_domain(to_hv_iommu_domain(domain));
-+}
-+
-+static void hv_iommu_iotlb_sync(struct iommu_domain *domain,
-+				struct iommu_iotlb_gather *iotlb_gather)
-+{
-+	hv_flush_device_domain(to_hv_iommu_domain(domain));
-+
-+	iommu_put_pages_list(&iotlb_gather->freelist);
-+}
-+
-+static void hv_iommu_paging_domain_free(struct iommu_domain *domain)
-+{
-+	struct hv_iommu_domain *hv_domain = to_hv_iommu_domain(domain);
-+
-+	/* Free all remaining mappings */
-+	pt_iommu_deinit(&hv_domain->pt_iommu);
-+
-+	hv_delete_device_domain(hv_domain);
-+
-+	kfree(hv_domain);
-+}
-+
-+static const struct iommu_domain_ops hv_iommu_identity_domain_ops = {
-+	.attach_dev	= hv_iommu_attach_dev,
-+};
-+
-+static const struct iommu_domain_ops hv_iommu_blocking_domain_ops = {
-+	.attach_dev	= hv_iommu_blocking_attach_dev,
-+};
-+
-+static const struct iommu_domain_ops hv_iommu_paging_domain_ops = {
-+	.attach_dev	= hv_iommu_attach_dev,
-+	IOMMU_PT_DOMAIN_OPS(x86_64),
-+	.flush_iotlb_all = hv_iommu_flush_iotlb_all,
-+	.iotlb_sync = hv_iommu_iotlb_sync,
-+	.free = hv_iommu_paging_domain_free,
-+};
-+
-+static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
-+{
-+	int ret;
-+	struct hv_iommu_domain *hv_domain;
-+	struct pt_iommu_x86_64_hw_info pt_info;
-+	struct pt_iommu_x86_64_cfg cfg = {};
-+	struct hv_device_domain_settings settings = {
-+		.flags = {
-+			.translation_enabled = 1,
-+		},
-+	};
-+
-+	hv_domain = kzalloc_obj(*hv_domain, GFP_KERNEL);
-+	if (!hv_domain)
-+		return ERR_PTR(-ENOMEM);
-+
-+	hv_domain->pt_iommu.nid = dev_to_node(dev);
-+
-+	cfg.common.hw_max_vasz_lg2 = hv_iommu_device->max_iova_width;
-+	cfg.common.hw_max_oasz_lg2 = 52;
-+	/*
-+	 * Hyper-V S1 domains use a 4-level root for IOVA widths up to
-+	 * 48 bits. A 5-level root is used only for wider apertures when
-+	 * HV_IOMMU_CAP_S1_5LVL is advertised.
-+	 */
-+	cfg.top_level = (hv_iommu_device->max_iova_width > 48) ? 4 : 3;
-+
-+	ret = pt_iommu_x86_64_init(&hv_domain->pt_iommu_x86_64, &cfg, GFP_KERNEL);
-+	if (ret)
-+		goto err_free;
-+
-+	/* Constrain to page sizes the hypervisor supports */
-+	hv_domain->domain.pgsize_bitmap &= hv_iommu_device->pgsize_bitmap;
-+
-+	hv_domain->domain.ops = &hv_iommu_paging_domain_ops;
-+
-+	pt_iommu_x86_64_hw_info(&hv_domain->pt_iommu_x86_64, &pt_info);
-+	settings.page_table_root = pt_info.gcr3_pt;
-+	settings.flags.first_stage_paging_mode = pt_info.levels == 5;
-+
-+	ret = hv_create_configure_device_domain(hv_domain, &settings);
-+	if (ret)
-+		goto err_pt_deinit;
-+
-+	return &hv_domain->domain;
-+
-+err_pt_deinit:
-+	pt_iommu_deinit(&hv_domain->pt_iommu);
-+err_free:
-+	kfree(hv_domain);
-+	return ERR_PTR(ret);
-+}
-+
-+static struct iommu_ops hv_iommu_ops = {
-+	.capable		  = hv_iommu_capable,
-+	.domain_alloc_paging	  = hv_iommu_domain_alloc_paging,
-+	.probe_device		  = hv_iommu_probe_device,
-+	.device_group		  = hv_iommu_device_group,
-+	.get_resv_regions	  = hv_iommu_get_resv_regions,
-+	.owner			  = THIS_MODULE,
-+	.identity_domain	  = &hv_identity_domain.domain,
-+	.blocked_domain		  = &hv_blocking_domain.domain,
-+	.release_domain		  = &hv_blocking_domain.domain,
-+};
-+
-+static u64 hv_iommu_detect(struct hv_output_get_iommu_capabilities *cap)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_get_iommu_capabilities *input;
-+	struct hv_output_get_iommu_capabilities *output;
-+
-+	local_irq_save(flags);
-+
-+	/*
-+	 * The combined input and output fit in the per-CPU input page,
-+	 * so no separate output page is needed.
-+	 */
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = (struct hv_output_get_iommu_capabilities *)(input + 1);
-+	memset(input, 0, sizeof(*input));
-+	input->partition_id = HV_PARTITION_ID_SELF;
-+	status = hv_do_hypercall(HVCALL_GET_IOMMU_CAPABILITIES, input, output);
-+	*cap = *output;
-+
-+	local_irq_restore(flags);
-+
-+	return status;
-+}
-+
-+static void __init
-+hv_init_iommu_device(struct hv_iommu_dev *hv_iommu,
-+		     struct hv_output_get_iommu_capabilities *hv_iommu_cap)
-+{
-+	ida_init(&hv_iommu->domain_ids);
-+
-+	hv_iommu->cap = hv_iommu_cap->iommu_cap;
-+	hv_iommu->max_iova_width = hv_iommu_cap->max_iova_width;
-+	if (!hv_iommu_5lvl_supported(hv_iommu->cap) &&
-+	    hv_iommu->max_iova_width > 48) {
-+		pr_info("5-level paging not supported, limiting iova width to 48.\n");
-+		hv_iommu->max_iova_width = 48;
-+	}
-+
-+	hv_iommu->first_domain = HV_DEVICE_DOMAIN_ID_DEFAULT + 1;
-+	hv_iommu->last_domain = HV_DEVICE_DOMAIN_ID_NULL - 1;
-+	hv_iommu->pgsize_bitmap = hv_iommu_cap->pgsize_bitmap;
-+	hv_iommu_device = hv_iommu;
-+}
-+
-+int __init hv_iommu_init(void)
-+{
-+	u64 status;
-+	int ret = 0;
-+	struct hv_iommu_dev *hv_iommu = NULL;
-+	struct hv_output_get_iommu_capabilities hv_iommu_cap = {0};
-+
-+	if (no_iommu || iommu_detected)
-+		return -ENODEV;
-+
-+	if (!hv_is_hyperv_initialized())
-+		return -ENODEV;
-+
-+	status = hv_iommu_detect(&hv_iommu_cap);
-+	if (!hv_result_success(status)) {
-+		if (hv_result(status) == HV_STATUS_INVALID_HYPERCALL_CODE)
-+			return -ENODEV;
-+
-+		hv_status_err(status, "HVCALL_GET_IOMMU_CAPABILITIES failed\n");
-+		return hv_result_to_errno(status);
-+	}
-+
-+	if (!hv_iommu_present(hv_iommu_cap.iommu_cap))
-+		return -ENODEV;
-+
-+	if (!hv_iommu_s1_domain_supported(hv_iommu_cap.iommu_cap)) {
-+		pr_err("stage-1 translation not supported: cap=%#llx\n",
-+		       hv_iommu_cap.iommu_cap);
-+		return -ENODEV;
-+	}
-+
-+	/*
-+	 * Require the base page size. The domain page-size bitmap is later
-+	 * restricted to the sizes supported by both iommupt and Hyper-V.
-+	 */
-+	if (!(hv_iommu_cap.pgsize_bitmap & PAGE_SIZE)) {
-+		pr_err("unsupported page sizes: pgsize_bitmap=0x%llx\n",
-+		       hv_iommu_cap.pgsize_bitmap);
-+		return -ENODEV;
-+	}
-+
-+	iommu_detected = 1;
-+	pci_request_acs();
-+
-+	hv_iommu = kzalloc_obj(*hv_iommu, GFP_KERNEL);
-+	if (!hv_iommu)
++	new = kzalloc_obj(*new, GFP_KERNEL);
++	if (!new)
 +		return -ENOMEM;
 +
-+	hv_init_iommu_device(hv_iommu, &hv_iommu_cap);
++	new->pci_domain_nr = pci_domain_nr;
++	new->logical_dev_id_prefix = logical_dev_id_prefix;
 +
-+	ret = hv_initialize_static_domains();
-+	if (ret)
-+		goto err_free;
-+
-+	ret = iommu_device_sysfs_add(&hv_iommu->iommu, NULL, NULL, "%s", "hv-iommu");
-+	if (ret) {
-+		pr_err("iommu_device_sysfs_add failed: %d\n", ret);
-+		goto err_delete_static_domains;
++	bus = rhashtable_lookup_get_insert_fast(&hv_pci_bus_ht, &new->node,
++						hv_pci_bus_ht_params);
++	if (IS_ERR(bus)) {
++		ret = PTR_ERR(bus);
++		goto free_new;
 +	}
 +
-+	ret = iommu_device_register(&hv_iommu->iommu, &hv_iommu_ops, NULL);
-+	if (ret) {
-+		pr_err("iommu_device_register failed: %d\n", ret);
-+		goto err_sysfs_remove;
++	if (WARN_ONCE(bus != NULL,
++		      "Hyper-V PCI domain %04x is already registered\n",
++		      pci_domain_nr)) {
++		ret = -EEXIST;
++		goto free_new;
 +	}
 +
-+	pr_info("initialized: %u-bit IOVA aperture, page-size bitmap %#llx\n",
-+		hv_iommu->max_iova_width, hv_iommu->pgsize_bitmap);
 +	return 0;
 +
-+err_sysfs_remove:
-+	iommu_device_sysfs_remove(&hv_iommu->iommu);
-+err_delete_static_domains:
-+	hv_delete_device_domain(&hv_blocking_domain);
-+	hv_delete_device_domain(&hv_identity_domain);
-+err_free:
-+	kfree(hv_iommu);
++free_new:
++	kfree(new);
 +	return ret;
 +}
-diff --git a/drivers/iommu/hyperv/iommu.h b/drivers/iommu/hyperv/iommu.h
-new file mode 100644
-index 000000000000..c412dc1fd037
---- /dev/null
-+++ b/drivers/iommu/hyperv/iommu.h
-@@ -0,0 +1,44 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++EXPORT_SYMBOL_FOR_MODULES(hv_pci_register_dev_id, "pci-hyperv");
++
++void hv_pci_unregister_dev_id(int pci_domain_nr)
++{
++	struct hv_pci_busdata *bus;
++	int ret = -ENOENT;
++
++	rcu_read_lock();
++	bus = rhashtable_lookup(&hv_pci_bus_ht, &pci_domain_nr,
++				hv_pci_bus_ht_params);
++	if (bus)
++		ret = rhashtable_remove_fast(&hv_pci_bus_ht, &bus->node,
++					     hv_pci_bus_ht_params);
++	rcu_read_unlock();
++
++	if (WARN_ONCE(ret,
++		      "Failed to unregister Hyper-V PCI domain %04x\n",
++		      pci_domain_nr))
++		return;
++
++	kfree_rcu(bus, rcu);
++}
++EXPORT_SYMBOL_FOR_MODULES(hv_pci_unregister_dev_id, "pci-hyperv");
 +
 +/*
-+ * Hyper-V IOMMU driver.
-+ *
-+ * Copyright (C) 2024-2026, Microsoft, Inc.
-+ *
++ * Look up the logical device ID prefix registered for @pci_domain_nr.
++ * Returns 0 on success with *prefix filled in; -ENODEV if no entry is
++ * registered for that PCI domain.
 + */
++int hv_pci_lookup_dev_id(int pci_domain_nr, u32 *prefix)
++{
++	struct hv_pci_busdata *bus;
++	int ret = -ENODEV;
 +
-+#ifndef _HYPERV_IOMMU_H
-+#define _HYPERV_IOMMU_H
++	rcu_read_lock();
++	bus = rhashtable_lookup(&hv_pci_bus_ht, &pci_domain_nr,
++				hv_pci_bus_ht_params);
++	if (bus) {
++		*prefix = bus->logical_dev_id_prefix;
++		ret = 0;
++	}
++	rcu_read_unlock();
 +
-+struct hv_iommu_dev {
-+	struct iommu_device iommu;
-+	struct ida domain_ids;
++	return ret;
++}
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 89816a2bd7cd..db70be47af6e 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -641,10 +641,7 @@ static void hv_irq_retarget_interrupt(struct irq_data *data)
+ 	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
+ 	params->int_entry.msi_entry.address.as_uint32 = int_desc->address & 0xffffffff;
+ 	params->int_entry.msi_entry.data.as_uint32 = int_desc->data;
+-	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
+-			   (hbus->hdev->dev_instance.b[4] << 16) |
+-			   (hbus->hdev->dev_instance.b[7] << 8) |
+-			   (hbus->hdev->dev_instance.b[6] & 0xf8) |
++	params->device_id = hv_build_logical_dev_id_prefix(hbus->hdev) |
+ 			   PCI_FUNC(pdev->devfn);
+ 	params->int_target.vector = hv_msi_get_int_vector(data);
+ 
+@@ -3716,6 +3713,7 @@ static int hv_pci_probe(struct hv_device *hdev,
+ 	struct hv_pcibus_device *hbus;
+ 	int ret, dom;
+ 	u16 dom_req;
++	u32 prefix;
+ 	char *name;
+ 
+ 	bridge = devm_pci_alloc_host_bridge(&hdev->device, 0);
+@@ -3858,13 +3856,22 @@ static int hv_pci_probe(struct hv_device *hdev,
+ 
+ 	hbus->state = hv_pcibus_probed;
+ 
+-	ret = create_root_hv_pci_bus(hbus);
++	/* Register the bus before scanning any devices on it. */
++	prefix = hv_build_logical_dev_id_prefix(hdev);
 +
-+	/* Device configuration */
-+	u8  max_iova_width;
-+	u8  max_pasid_width;
-+	u64 cap;
-+	u64 pgsize_bitmap;
++	ret = hv_pci_register_dev_id(dom, prefix);
+ 	if (ret)
+ 		goto free_windows;
+ 
++	ret = create_root_hv_pci_bus(hbus);
++	if (ret)
++		goto unregister_pci_bus;
 +
-+	u64 first_domain;
-+	u64 last_domain;
-+};
+ 	mutex_unlock(&hbus->state_lock);
+ 	return 0;
+ 
++unregister_pci_bus:
++	hv_pci_unregister_dev_id(dom);
+ free_windows:
+ 	hv_pci_free_bridge_windows(hbus);
+ exit_d0:
+@@ -3978,6 +3985,8 @@ static void hv_pci_remove(struct hv_device *hdev)
+ 
+ 	hbus = hv_get_drvdata(hdev);
+ 	if (hbus->state == hv_pcibus_installed) {
++		int dom = hbus->bridge->domain_nr;
 +
-+struct hv_iommu_domain {
-+	union {
-+		struct iommu_domain    domain;
-+		struct pt_iommu        pt_iommu;
-+		struct pt_iommu_x86_64 pt_iommu_x86_64;
-+	};
-+	struct hv_iommu_dev *hv_iommu;
-+	struct hv_input_device_domain device_domain;
-+	u64		pgsize_bitmap;
-+};
+ 		tasklet_disable(&hdev->channel->callback_event);
+ 		hbus->state = hv_pcibus_removing;
+ 		tasklet_enable(&hdev->channel->callback_event);
+@@ -3995,6 +4004,8 @@ static void hv_pci_remove(struct hv_device *hdev)
+ 		hv_pci_remove_slots(hbus);
+ 		pci_remove_root_bus(hbus->bridge->bus);
+ 		pci_unlock_rescan_remove();
 +
-+PT_IOMMU_CHECK_DOMAIN(struct hv_iommu_domain, pt_iommu, domain);
-+PT_IOMMU_CHECK_DOMAIN(struct hv_iommu_domain, pt_iommu_x86_64.iommu, domain);
++		hv_pci_unregister_dev_id(dom);
+ 	}
+ 
+ 	hv_pci_bus_exit(hdev, false);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index bf601d67cecb..34d4c332449c 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -73,6 +73,10 @@ extern enum hv_partition_type hv_curr_partition_type;
+ extern void * __percpu *hyperv_pcpu_input_arg;
+ extern void * __percpu *hyperv_pcpu_output_arg;
+ 
++int hv_pci_register_dev_id(int pci_domain_nr, u32 logical_dev_id_prefix);
++void hv_pci_unregister_dev_id(int pci_domain_nr);
++int hv_pci_lookup_dev_id(int pci_domain_nr, u32 *prefix);
 +
-+#define to_hv_iommu_domain(d) \
-+	container_of(d, struct hv_iommu_domain, domain)
+ u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
+ u64 hv_do_fast_hypercall8(u16 control, u64 input8);
+ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64 input2);
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 9e109d91aa14..e61f9a4cb7c3 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1299,6 +1299,14 @@ struct hv_device {
+ #define device_to_hv_device(d)	container_of_const(d, struct hv_device, device)
+ #define drv_to_hv_drv(d)	container_of_const(d, struct hv_driver, driver)
+ 
++static inline u32 hv_build_logical_dev_id_prefix(struct hv_device *hdev)
++{
++	return ((u32)hdev->dev_instance.b[5] << 24) |
++	       ((u32)hdev->dev_instance.b[4] << 16) |
++	       ((u32)hdev->dev_instance.b[7] << 8) |
++	       (hdev->dev_instance.b[6] & 0xf8u);
++}
 +
-+#endif /* _HYPERV_IOMMU_H */
+ static inline void hv_set_drvdata(struct hv_device *dev, void *data)
+ {
+ 	dev_set_drvdata(&dev->device, data);
 -- 
 2.52.0
 
