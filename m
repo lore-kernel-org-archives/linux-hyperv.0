@@ -1,80 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AEB4F3ED5;
-	Wed, 30 Sep 2026 14:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E543F410E;
+	Wed, 30 Sep 2026 14:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790778467; cv=none; b=j91435vu78mUjH3/sk5gru+AxMtdD6IEeTrT4Wwn/O5CkkUVGigbgMU9ot4jW4PRCqoCCLlBW6W7N+5R07/DXakX6zp/RX3KAtFa6K33kPk2J6w+hl2nllyqia+XoocXeMeQMWSxJy3kInl0Cb6TKLOmkic5/87HXyt5jlek7OA=
+	t=1790779019; cv=none; b=mtLSTKA9D8zA0FWt3LLfEtYa4dS5hcuznABbWv3rXL1UkTB2093Mv2m2dhDaiEynBj3zjg/JXkg6HPq35RuJ8Azfy7Jl0f/i+xwxcr79As+YXL8AMY2ZjjVx3HYNrsbF0MUdkqJHWZjqA62y4nL29FLR3CkO5/9F7858rSRcGLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790778467; c=relaxed/simple;
-	bh=Wfi26VXgshrkmgSWcy0xfANrukFOjTdXZLi516LNLbk=;
+	s=arc-20240116; t=1790779019; c=relaxed/simple;
+	bh=R7ohTtZ4o0spMOuugFUpKcdg4Z1YVfYN8tLs8JiXdX0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=px0+xZJkNt46sBQFbtJt7Aluhg0IoaBOEtJZJVZ/FSS8FI8frVnR6DuAKrwuPgx87DeK9RRsaAopu7syFCJCRevjXkJ+Z1g5pZiHFaJ5kh41Fzg+fboSNlbfXQOebdH4m2Px5JYZiT8HtqcP+NuB4o1UTWhZN7KSWloHDXc2D/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oa41pPv/; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=XxRoobT7W7FZEP0rgjceKkbui698UcnzFcJkGNNIAQuWZZwNrx64pfHPK4b7I++HLZtf6Q/Y1VfzaSMj5+rUAJ/fCNe4UkUqULL6gO6NQWMJjoUgglfuU/6g/23kGrcs0t0PxoxM2c8JC7t15/Uk92L1stJqY33gA2Y8Wry+zbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oyk8R6A7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oa41pPv/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172031F000FF;
-	Wed, 30 Sep 2026 14:27:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oyk8R6A7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E381F00893;
+	Wed, 30 Sep 2026 14:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790778453;
-	bh=WsSkvb5QIumlCO0oqFroFjggPccVImChj2tnLC7Gp8k=;
+	s=k20260515; t=1790779008;
+	bh=R7ohTtZ4o0spMOuugFUpKcdg4Z1YVfYN8tLs8JiXdX0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Oa41pPv/IH6Y4uuahu7F2+cjPb2PtxFsTjD3Tj3X6HisiIMDkrCtyZTMCwPCYzzlv
-	 h78VwDZkBhPZgPsksIas5IvX3Sdm00g7SGt6CHvcgtlLOWwMjrj6wAaWkeq6Xtv9cH
-	 uZnxXv9E7ccBG3JY2p+dG0Q6hPHHWVOgFf8tsTQsE6WgWMVwGpEJiiMOv4u838Qk4K
-	 TloIZFDWR8GZUO23BTE783mOTtM2WqCdfxnv1VJQQ2f8VvvivJia57H/nENV9FtX+g
-	 da1knbdO2tfp0L9+zoYKclx0WhJrL317t+e9zdz07Iz9Om6jIkeShmj+S2shx270+Z
-	 PKicaqC5VbZCA==
+	b=Oyk8R6A7fNq9h3WQkAfX0dTcYewpdlOfx/pOJQTYpGSebCo1CT5DiaNt6JuoSATsh
+	 pdgmqIDd1CZ+76fWaQsOrHhScjWZ87O1PCZRwYz1p0YF85p0hDnnUnt3Lj+NGPc6g+
+	 SBscu3gRQ7DXmvDyEtu1CRxJc7V55+S6u+WUevpUWYIT3rnYk2tX1m7TEfiKVj5nZC
+	 b+HNpEAmIsPiO5lsuMMiR5Vxk5Ssgg167qhLyPL9FJe1cpVrf9jgeKHgFtYlzPbI4v
+	 twCwGET+wpw3ewsduY/S6bQuT4SIM/N+tcoYs2etKOsVXoVdC7lNqEAl+kwS8mBD1Y
+	 EIR8LcuGyJ7eQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/5] hyperv: Introduce new hypercall interfaces used
- by Hyper-V guest IOMMU
+Subject: Re: [PATCH v6 5/5] iommu/hyperv: Add page-selective IOTLB flush
+ support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Yu Zhang" <zhangyu1@linux.microsoft.com>
 Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260930141409.437904-2-zhangyu1@linux.microsoft.com>
+In-Reply-To: <20260930141409.437904-6-zhangyu1@linux.microsoft.com>
 References: <20260930141409.437904-1-zhangyu1@linux.microsoft.com>
- <20260930141409.437904-2-zhangyu1@linux.microsoft.com>
+ <20260930141409.437904-6-zhangyu1@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Sep 2026 14:27:32 +0000
-Message-Id: <20260930142733.172031F000FF@smtp.kernel.org>
+Date: Wed, 30 Sep 2026 14:36:48 +0000
+Message-Id: <20260930143648.A4E381F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-> From: Wei Liu <wei.liu@kernel.org>
+> Add page-selective IOTLB flush using HVCALL_FLUSH_DEVICE_DOMAIN_LIST.
+> This hypercall accepts a list of (page_number, page_mask_shift) entries,
+> enabling finer-grained IOTLB invalidation compared to the domain-wide
+> HVCALL_FLUSH_DEVICE_DOMAIN used by hv_iommu_flush_iotlb_all().
 >=20
-> Hyper-V guest IOMMU is a para-virtualized IOMMU based on hypercalls.
-> Introduce the hypercalls used by the child partition to interact with
-> this facility.
+> hv_iommu_calc_flush_range() computes the smallest power-of-two aligned
+> range that covers the target IOVA region, producing a single flush
+> descriptor. This may over-flush when the range is not naturally aligned,
+> matching the approach used by Intel VT-d PSI. If the page-selective
+> flush fails, the code falls back to a full domain flush.
 >=20
-> These hypercalls fall into below categories:
-> - Detection and capability: HVCALL_GET_IOMMU_CAPABILITIES is used to
->   detect the existence and capabilities of the guest IOMMU.
->=20
-> - Device management: HVCALL_GET_LOGICAL_DEVICE_PROPERTY is used to
->   check whether an endpoint device is managed by the guest IOMMU.
->=20
-> - Domain management: A set of hypercalls is provided to handle the
->   creation, configuration, and deletion of guest domains, as well as
->   the attachment/detachment of endpoint devices to/from those domains.
->=20
-> - IOTLB flushing: HVCALL_FLUSH_DEVICE_DOMAIN is used to ask Hyper-V
->   for a domain-selective IOTLB flush (which in its handler may flush
->   the device TLB as well).
->=20
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> Co-developed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 > Signed-off-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Co-developed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
 > Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260930141409.4379=
-04-1-zhangyu1@linux.microsoft.com?part=3D1
+04-1-zhangyu1@linux.microsoft.com?part=3D5
 
