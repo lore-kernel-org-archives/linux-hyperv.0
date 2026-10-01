@@ -1,58 +1,56 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CBAE448B9B;
-	Thu,  1 Oct 2026 13:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68A57357CE0;
+	Thu,  1 Oct 2026 13:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790860952; cv=none; b=Snh+v32cxHrE2P6AwJk7/nnVAYGwnSsXEnyulqbS/Yb2k2Kh5zKY0wsdyQsNPb2hEY79jR/VRaDl374u48eKQuqi5+iniG0jflmSv/b5oo/NL2pqvomPbD3/yZ2aGZWZ30b0sBmbExOI6pnTRqoYSJBdyskNmu+NunH72u4nrU8=
+	t=1790860981; cv=none; b=lHYdL3WFPqSe9cVTg0gMUZ34LXhhzG1SQanPL1l7Rlz7Ts6b8q11/vqzafk25mDFp0InLONkYWCPLE4tJ92VQQciyrPHekB/W2/fH80drPXdPYDT/6XlCXagjHpCrIsjWUk+o1BFa/EcVSsjEbp1xfxYweLxwCEcsZGQT9uP/zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790860952; c=relaxed/simple;
-	bh=KaScK6HZ++/LOz2Gmmuj6RJvMoW430IBJLE7+9YkYGc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MIjMrgmcuBY6z4MtOsm0m5QjK2JHQwb0ZCP4AoA2h0CI2Mj5h4zDVH7E7TQGc/bsvijJ2HjIkZ6bAUWi4TpNaPmUNi9btivOX4ppCQBkRHISq50cuC64y98YWBPH/LsVwzYrJ02UFBZJ9Xej33NKWVbPLNEQtwmGKTYanKOd5DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=jBPcGxp4; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1790860981; c=relaxed/simple;
+	bh=0A8liCUPoVbdWAOXJY7orUahBNRZbwZrl3V4uM+C6Cc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HPUwfaNzQbQD656j9YiLWQXrKp7BEEthp1j2pEWLD9l8lDzo8VGqKesYhHgugYb/PfpMb55qvCPCK4CFa4y+5RXLVZL7s0GetTZGMbk6mLDgvyjzXxHn8ko7Y5nIr8l9OG1JGWKn7/sx2//fFSvyXgbroQ3RS+JRQpk+bZtlcRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=T3uv7Nub; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jBPcGxp4"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="T3uv7Nub"
 Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id 2A36720B7167; Thu,  1 Oct 2026 06:21:38 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2A36720B7167
+	id 086C020B7168; Thu,  1 Oct 2026 06:22:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 086C020B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790860898;
-	bh=EjlOJ/OcDiSNWbB30Bul6Eomt2gGaGyv7txR7jxF0iQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jBPcGxp4n4AL4jR6mv2YVvUBaMT7eoAQ0cdBGb+WIR1kTvSM1AjhvPMauIMe5sdfJ
-	 Lm8uF823+SCZWFRggYrIXfBNUUbR2XS6f6sGK/1G+/P3O/Rtr5WZp9Yd6fFYI2t/Rc
-	 mJOThD2cSzQLTihor/xm3aUC3QH7UyXxKZzNZdmE=
+	s=default; t=1790860927;
+	bh=uYFTeLC5S4LrFfTV3X6JcwwE0ahBAJXRFfwT0kTJESc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=T3uv7Nub9YVUzSGXjjUijXFLfcCfotEOdSPcZ/Iu58rIUNDesOO7SDBKHG7cdDPma
+	 pQeS7SX+ob/VLJooX2oceP3w614ka1cOgi5x+YaUYcIjBhDh1xGjdm5kZ7YAzy68W8
+	 PMQNNBDbIW5900MUI+P3zWvtPIMfK8y3OZfYwrM8=
 From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Baoquan He <baoquan.he@linux.dev>
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Will Deacon <will@kernel.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
+	Long Li <longli@microsoft.com>
+Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
 	Thomas Gleixner <tglx@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
 	Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
 	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Michael Kelley <mhklinux@outlook.com>,
 	linux-hyperv@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: [PATCH v3 0/2] hyperv: Run VMBus kexec cleanup from syscore shutdown
-Date: Thu,  1 Oct 2026 06:21:25 -0700
-Message-ID: <20261001132128.1703511-1-shradhagupta@linux.microsoft.com>
+Subject: [PATCH v3 2/2] Drivers: hv: Run VMBus kexec cleanup from syscore shutdown
+Date: Thu,  1 Oct 2026 06:22:02 -0700
+Message-ID: <20261001132205.1703683-1-shradhagupta@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261001132128.1703511-1-shradhagupta@linux.microsoft.com>
+References: <20261001132128.1703511-1-shradhagupta@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -61,61 +59,185 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Kexec reboot fails on ARM64 Hyper-V guests because the VMBus
-connection and SynIC CPU hotplug state are not torn down before the
-secondary CPUs are stopped. The kexec kernel consequently starts with
-the previous kernel's VMBus state still active.
+ARM64 Hyper-V guests do not run the VMBus kexec cleanup before
+secondary CPUs are stopped. Consequently, the old VMBus connection
+and SynIC state remain active when the kexec kernel starts.
 
-The previous version added an ARM64-specific syscore shutdown
-implementation. This version follows Michael Kelley's review and moves
-the cleanup into the existing architecture-independent VMBus syscore
-operations. This removes the separate x86 handler dispatch and gives
-x86 and ARM64 the same ordering:
+Run the VMBus kexec handler from the existing VMBus syscore shutdown
+callback. syscore_shutdown() runs after device shutdown and before
+machine shutdown, while all CPUs needed by the SynIC CPU hotplug
+teardown are still available. Guard the callback with
+kexec_is_in_progress() so normal restart, halt, and poweroff paths are
+unchanged.
 
-  device_shutdown()
-  syscore_shutdown()
-    VMBus UNLOAD and SynIC CPU hotplug teardown
-  machine_shutdown()
+Use the same path on x86 and remove the architecture-specific handler
+pointer and the weak setup/remove interfaces. VMBus teardown now
+precedes hv_stimer_global_cleanup() on x86.
 
-On x86, VMBus teardown now runs before hv_stimer_global_cleanup().
-This ordering is safe after commit be0cfab740e5 ("clocksource: hyper-v:
-Remove support for stimer interrupts in message mode") removed the
-VMBus dependency from synthetic timer handling.
+The new x86 ordering relies on commit be0cfab740e5 ("clocksource:
+hyper-v: Remove support for stimer interrupts in message mode"), which
+removed the synthetic timer's dependency on VMBus message delivery.
+Older kernels that retain message-mode stimer interrupts must preserve
+the existing x86 ordering and therefore require an ARM64-specific
+backport.
 
-Patch 1 adds a read-only helper that reports whether a kexec reboot is
-in progress. The helper is exported because HYPERV_VMBUS is tristate
-and the common syscore callback must also link when VMBus is a module.
-Patch 2 moves the cleanup into the common callback and removes the
-obsolete architecture-specific setup/remove interface.
-
-For stable kernels that still support message-mode stimers, an
-ARM64-specific backport will be needed to preserve the existing x86
-ordering.
-
-Changes in v3:
-  - Use the existing common VMBus syscore operations on all
-    architectures, as suggested by Michael.
-  - Remove the x86 handler pointer and the weak setup/remove interface.
-  - Add an exported read-only helper for modular VMBus builds.
-  - Correct the Fixes tag to the commit that enabled Hyper-V on ARM64.
-
-Changes in v2:
-  - Use syscore shutdown instead of an ARM64 machine_shutdown() hook, as
-    suggested by Catalin.
-
-Shradha Gupta (2):
-  kexec: Add helper to report an active kexec reboot
-  Drivers: hv: Run VMBus kexec cleanup from syscore shutdown
-
+Fixes: 9bbb888824e3 ("arm64: hyperv: Initialize hypervisor on boot")
+Link: https://lore.kernel.org/all/20260814093133.3191250-1-shradhagupta@linux.microsoft.com/
+Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+Suggested-by: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+---
  arch/x86/kernel/cpu/mshyperv.c | 17 +----------------
  drivers/hv/hv_common.c         | 10 ----------
  drivers/hv/vmbus_drv.c         | 22 ++++++++++++++--------
  include/asm-generic/mshyperv.h |  2 --
- include/linux/kexec.h          |  2 ++
- kernel/kexec_core.c            |  7 +++++++
- 6 files changed, 24 insertions(+), 36 deletions(-)
+ 4 files changed, 15 insertions(+), 36 deletions(-)
 
-
-base-commit: be0cfab740e58b70047ef6e7e3d578f00ed5d258
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index b4af7c0a70ac..263f7e7acac0 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -148,7 +148,6 @@ EXPORT_SYMBOL_GPL(hv_set_msr);
+ static void (*mshv_handler)(void);
+ static void (*vmbus_handler)(void);
+ static void (*hv_stimer0_handler)(void);
+-static void (*hv_kexec_handler)(void);
+ static void (*hv_crash_handler)(struct pt_regs *regs);
+ 
+ DEFINE_IDTENTRY_SYSVEC(sysvec_hyperv_callback)
+@@ -215,16 +214,6 @@ void hv_remove_stimer0_handler(void)
+ 	hv_stimer0_handler = NULL;
+ }
+ 
+-void hv_setup_kexec_handler(void (*handler)(void))
+-{
+-	hv_kexec_handler = handler;
+-}
+-
+-void hv_remove_kexec_handler(void)
+-{
+-	hv_kexec_handler = NULL;
+-}
+-
+ void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs))
+ {
+ 	hv_crash_handler = handler;
+@@ -238,13 +227,9 @@ void hv_remove_crash_handler(void)
+ #ifdef CONFIG_KEXEC_CORE
+ static void hv_machine_shutdown(void)
+ {
+-	if (kexec_in_progress) {
++	if (kexec_in_progress)
+ 		hv_stimer_global_cleanup();
+ 
+-		if (hv_kexec_handler)
+-			hv_kexec_handler();
+-	}
+-
+ 	/*
+ 	 * Call hv_cpu_die() on all the CPUs, otherwise later the hypervisor
+ 	 * corrupts the old VP Assist Pages and can crash the kexec kernel.
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 31256cb22b39..bb290a5eaf1d 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -681,16 +681,6 @@ void __weak hv_setup_mshv_handler(void (*handler)(void))
+ }
+ EXPORT_SYMBOL_GPL(hv_setup_mshv_handler);
+ 
+-void __weak hv_setup_kexec_handler(void (*handler)(void))
+-{
+-}
+-EXPORT_SYMBOL_GPL(hv_setup_kexec_handler);
+-
+-void __weak hv_remove_kexec_handler(void)
+-{
+-}
+-EXPORT_SYMBOL_GPL(hv_remove_kexec_handler);
+-
+ void __weak hv_setup_crash_handler(void (*handler)(struct pt_regs *regs))
+ {
+ }
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 5ebdbe24b5a1..3532ea779d34 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -33,6 +33,7 @@
+ #include <linux/sysfb.h>
+ #include <linux/efi.h>
+ #include <linux/kernel.h>
++#include <linux/kexec.h>
+ #include <linux/syscore_ops.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/pci.h>
+@@ -2904,6 +2905,12 @@ static void hv_kexec_handler(void)
+ 	cpuhp_remove_state(hyperv_cpuhp_online);
+ };
+ 
++static void hv_vmbus_syscore_shutdown(void *data)
++{
++	if (kexec_is_in_progress())
++		hv_kexec_handler();
++}
++
+ static void hv_crash_handler(struct pt_regs *regs)
+ {
+ 	int cpu;
+@@ -2958,14 +2965,15 @@ static void hv_synic_resume(void *data)
+ 	 */
+ }
+ 
+-/* The callbacks run only on CPU0, with irqs_disabled. */
+-static const struct syscore_ops hv_synic_syscore_ops = {
++/* The suspend and resume callbacks run only on CPU0, with irqs_disabled. */
++static const struct syscore_ops hv_vmbus_syscore_ops = {
+ 	.suspend = hv_synic_suspend,
+ 	.resume = hv_synic_resume,
++	.shutdown = hv_vmbus_syscore_shutdown,
+ };
+ 
+-static struct syscore hv_synic_syscore = {
+-	.ops = &hv_synic_syscore_ops,
++static struct syscore hv_vmbus_syscore = {
++	.ops = &hv_vmbus_syscore_ops,
+ };
+ 
+ static int __init hv_acpi_init(void)
+@@ -3014,10 +3022,9 @@ static int __init hv_acpi_init(void)
+ 	if (ret)
+ 		goto cleanup;
+ 
+-	hv_setup_kexec_handler(hv_kexec_handler);
+ 	hv_setup_crash_handler(hv_crash_handler);
+ 
+-	register_syscore(&hv_synic_syscore);
++	register_syscore(&hv_vmbus_syscore);
+ 
+ 	return 0;
+ 
+@@ -3039,9 +3046,8 @@ static void __exit vmbus_exit(void)
+ 		 */
+ 		return;
+ 
+-	unregister_syscore(&hv_synic_syscore);
++	unregister_syscore(&hv_vmbus_syscore);
+ 
+-	hv_remove_kexec_handler();
+ 	hv_remove_crash_handler();
+ 	vmbus_connection.conn_state = DISCONNECTED;
+ 	hv_stimer_global_cleanup();
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index bf601d67cecb..98fe5c0f54ea 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -183,8 +183,6 @@ void hv_remove_vmbus_handler(void);
+ void hv_setup_stimer0_handler(void (*handler)(void));
+ void hv_remove_stimer0_handler(void);
+ 
+-void hv_setup_kexec_handler(void (*handler)(void));
+-void hv_remove_kexec_handler(void);
+ void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs));
+ void hv_remove_crash_handler(void);
+ void hv_setup_mshv_handler(void (*handler)(void));
 -- 
 2.43.0
