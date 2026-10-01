@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2ED375ADC;
-	Thu,  1 Oct 2026 01:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC8137757A;
+	Thu,  1 Oct 2026 01:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790818897; cv=none; b=jdxiW50ync44teuV88YgShsEqSZVl2CA6HLJcyEFOmp50IXYEdUtIPYQBRc0N3dRq2ITjcJiuABDpFykv9z5VCj8Opc5chfjQXUbavBGjy2GULSbeo/LRUnSzwkXWp5YD80B2l6YwmOv2nu6+Pttd5bMOBri2ovA2Dpm2mAuy5k=
+	t=1790818897; cv=none; b=rxMYBJHz4J7SneVUQioHLv8yLBKJluhhuE3KVKu6SW3m7l/yGiZ4kHbgyU7bndRtJqnpH1qUmLrZWVybLGlNR2x5AzhstAH6SrUxrk1gzERrnOBuo4lx8uyT3MSlSe3sGh6jzkaZg6XAnuSBQUVe/UOebEkuspyBznqGUmDuGy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790818897; c=relaxed/simple;
-	bh=GbjDCOwZBg/3ou9sV3Vs6nl2D5PazXu/CBDAHh8wc5c=;
+	bh=ZohQSylFdRjIMAGijAGdOeA+SsDj/B0BUxOw1ZiV7HI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jm7FTKQTobxRwB+3Mg4Yp3b2ta45LjPG1mjApqg1w46KOxKK+Q7E+jPtcmyoLWqQomQluBsuJLaH3x6GusptMdtNMThNfKSnKfR6Jt+zaUh1KHcHPg/5Ze1LTqfiklyfRpikmzzOf2fYn8jwM0EFcJclL2Ilon9YxjzZ7G6qa+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvCzPz40; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=BDMoLI9TZ3JhGRQS3QKfpK3DA3LdXRX45+V93XNTlJky3/hq/XJUsxfPAR/dNG2+V3eMAsYb5AObHovDiBFR2yM7K97G7AlctsiN7euS4FIXPkGG2kh6uOdftMGzazzxRqtTwedzjCmrSRjkI3HGv2cH0GVYhBD8Di9fVijoxiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iy95WR+6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvCzPz40"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D421F0089A;
-	Thu,  1 Oct 2026 01:41:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iy95WR+6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7134A1F0089E;
+	Thu,  1 Oct 2026 01:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1790818895;
-	bh=UcxDIxF8bGbaw6fKz/6k+MxQOXw9RmOat4MyuXsgaPU=;
+	bh=L7jSBi4kxjm4OYvSdaKKEPSayUy767obEfXfQVSc0qQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JvCzPz40bUInx+3+17iOUtkgx5NikWh20gSuzvJI6+p9+LUOXkhwqf7zmAsiCvApx
-	 ganrah0gPp4oUnb/zfZ2sMF8Yg4tW+utD3UV6FrKwHFR+mojpqFYR00+CRrYih44Uv
-	 /Z4ZbnYnhXsJ1ch6WcENu3qRrIwQ/MA7KXTPB+4I2mUII/tq+kADSIl2XVRIwyc8Ph
-	 ZKB3fUwvTAliGa8Ev3xbF3QDtqTLmyFnN5TpfWMWS704WbykAttsb55j6TznIjEhb7
-	 cQPoaW00Rwn6QfYVT2TxuNmjZJiVwGTDCBgo6ss56N1GFEnXxTRwWhc5rk4sihuAC6
-	 sE02nFCZzOZMg==
+	b=iy95WR+6acYHmP4W4hw75lrPBfL7THaWtUlzerjrfArtPObv9vnZagTumVkYbY4ve
+	 Sm8z0yxYBf4n6H92bMNEYpci2oljFyNlHFY6Mm3wn55vNGb0n5trfheciUA9MJA5So
+	 aKtnyNhpO5/70let93crxTccRJACJCmfpX0GBj47MtwojF8unkdBRoQSbZ2EX/sbF8
+	 9ZUTBrBKV61hS1Rh/1LpLPmVpb7gFTz9jTZd5RhUlvvvZEYghV3PR8aPgmANpIOwGc
+	 iX64TOtzs0IxMIQRTt+un6vAg+gQjpZdfsoAzPJxptO5NFpx4xCHXqBRoyqXPL2uUW
+	 Hi9EumYOYyHGQ==
 From: Jakub Kicinski <kuba@kernel.org>
 To: davem@davemloft.net
 Cc: netdev@vger.kernel.org,
@@ -42,9 +42,9 @@ Cc: netdev@vger.kernel.org,
 	andriin@fb.com,
 	Jakub Kicinski <kuba@kernel.org>,
 	stable+noautosel@kernel.org
-Subject: [PATCH net-next 3/5] hv_netvsc: treat the VF's XDP program the way bonding treats a slave's
-Date: Wed, 30 Sep 2026 18:41:29 -0700
-Message-ID: <20261001014131.310771-4-kuba@kernel.org>
+Subject: [PATCH net-next 4/5] hv_netvsc: move a new VF to netvsc's netns from a work item
+Date: Wed, 30 Sep 2026 18:41:30 -0700
+Message-ID: <20261001014131.310771-5-kuba@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261001014131.310771-1-kuba@kernel.org>
 References: <20261001014131.310771-1-kuba@kernel.org>
@@ -56,182 +56,140 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-netvsc_register_vf() pushes netvsc's XDP state down to every VF it
-takes over - its program, or NULL if it has none - once the VF has
-joined, and ignores the result. A VF which refuses the program leaves
-netvsc running XDP on its channels while traffic through the VF
-bypasses it, with nothing in the logs to say so. The core won't install
-a single-buffer program on a device with tcp-data-split enabled, nor
-any program on one with a memory provider, and the VF's driver has
-conditions of its own. A VF which runs a program of its own gets it
-replaced or removed behind the back of whoever attached it, and the
-core is about to refuse propagating over a device's own program anyway.
+When the VF registers in a different netns than netvsc, for example
+because it was hot-added into init_net while netvsc lives in a container
+netns, netvsc_register_vf() moves it over with dev_change_net_namespace()
+straight from the VF's NETDEV_REGISTER notifier. Since commit
+4c975fd70002 ("net: hold instance lock during NETDEV_REGISTER/UP") that
+notifier runs under the VF's instance lock, which the netns change takes
+again. For a VF with an ops lock the registration then deadlocks with
+RTNL held, taking the networking of the whole VM down with it. mana
+always has an ops lock, as it selects NET_SHAPER, and so does mlx5 for
+its queue management ops, so every VF hot-add or servicing event hangs a
+VM running netvsc in a netns, as does moving the VF out by hand.
 
-Nothing takes netvsc's program back when the VF stops being netvsc's
-either. netvsc_unregister_vf() runs when the VF is unregistered, when
-either device moves to another netns (netvsc drags the VF along when it
-moves itself), when netvsc is unbound or hot-removed, and on rmmod
-hv_netvsc, where unregistering the notifier replays NETDEV_UNREGISTER
-before netvsc_remove() ever runs. In all but the first case the VF
-stays, running netvsc's program with no upper left to own it. We will
-soon track in the core if the program is installed from upper; a
-leftover would then become the VF's own, and netvsc would refuse to
-take the VF back until someone removed it. netvsc_unregister_vf() used
-to propagate NULL to the VF, until commit 3ec523304976 ("hv_netvsc: fix
-potential deadlock in netvsc_vf_setxdp()") dropped the call on the
-grounds that the core cleans up through dev_xdp_uninstall(). That only
-runs when the VF itself is unregistered, and doesn't know about
-propagated programs at all, so even then the VF's driver keeps its
-reference to netvsc's program; mana, for one, leaks it on every VF
-removal while netvsc runs XDP.
+netvsc already leaves moving its VF to vfns_work when netvsc itself
+changes netns. Hand the new VF to the same work, holding a reference
+until it runs. The VF still joins netvsc when it registers again in
+netvsc's netns. If netvsc gets to the VF's netns before the work runs,
+for example because netvsc's netns went away, there is no move to
+register the VF again, so have the work take the VF over itself.
 
-Do what bonding does with its slaves instead. With no program on netvsc
-there is nothing to push down, so leave the VF's program alone. With a
-program on netvsc, don't take over a VF which runs one of its own, in
-any mode, or which refuses netvsc's; traffic then stays on the synthetic
-path, where the program runs, and the log says why. Install the program
-before joining the VF, so that a refusal needs no unwinding and nothing
-reaches netvsc through the VF without having been through the program,
-and sync the VF's features ahead of it, as LRO may keep the VF from
-taking XDP; a VF which refuses the program all the same keeps LRO off.
-Take the program back when the VF leaves, under the VF's lock, which
-none of the paths into netvsc_unregister_vf() hold, once netvsc's rx
-handler is gone. Key that on the program on netvsc's channels, the way
-bonding keys its release on bond->xdp_prog; a generic program on netvsc
-never reached the VF. Let the VF go in netvsc_remove() before the
-channels are cleared.
-
-The two halves only work together. The NULL pushed at registration was
-all that cleared a program an earlier netvsc instance left on the VF,
-and taking the program back without the refusal would strip a VF of its
-own program after it was joined despite refusing netvsc's.
-
-netvsc_bpf() already fails attaching a program the VF refuses, so a VF
-netvsc uses now always runs netvsc's program when netvsc has one.
-
-Reported by Sashiko during core rework. Unverified and untested.
+Spotted by AI while reviewing the XDP propagation series.
+Not verified, and untested.
 
 Cc: stable+noautosel@kernel.org # LLM report + LLM fix, untested
-Fixes: 351e1581395f ("hv_netvsc: Add XDP support")
-Fixes: 3ec523304976 ("hv_netvsc: fix potential deadlock in netvsc_vf_setxdp()")
+Fixes: 4c975fd70002 ("net: hold instance lock during NETDEV_REGISTER/UP")
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- drivers/net/hyperv/netvsc_drv.c | 57 ++++++++++++++++++++++++++-------
- 1 file changed, 45 insertions(+), 12 deletions(-)
+ drivers/net/hyperv/hyperv_net.h |  3 +++
+ drivers/net/hyperv/netvsc_drv.c | 41 +++++++++++++++++++++++----------
+ 2 files changed, 32 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
+index 4841367fdab2..5c771fe8d766 100644
+--- a/drivers/net/hyperv/hyperv_net.h
++++ b/drivers/net/hyperv/hyperv_net.h
+@@ -1064,6 +1064,9 @@ struct net_device_context {
+ 	struct netvsc_vf_pcpu_stats __percpu *vf_stats;
+ 	struct delayed_work vf_takeover;
+ 	struct delayed_work vfns_work;
++	/* VF for vfns_work to move to our netns, see netvsc_register_vf() */
++	struct net_device *vfns_dev;
++	netdevice_tracker vfns_dev_tracker;
+ 
+ 	/* 1: allocated, serial number is valid. 0: not allocated */
+ 	u32 vf_alloc;
 diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 1d43c73fd73f..17c86e749357 100644
+index 17c86e749357..10c05809c065 100644
 --- a/drivers/net/hyperv/netvsc_drv.c
 +++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2331,6 +2331,13 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
- 	if (!netvsc_dev || rtnl_dereference(net_device_ctx->vf_netdev))
- 		return NOTIFY_DONE;
+@@ -2311,6 +2311,12 @@ static int netvsc_prepare_bonding(struct net_device *vf_netdev)
+ 	return NOTIFY_DONE;
+ }
  
-+	prog = netvsc_xdp_get(netvsc_dev);
-+	if (prog && dev_xdp_prog_count(vf_netdev)) {
-+		netdev_warn(ndev, "not using VF %s, it has an XDP program attached\n",
-+			    vf_netdev->name);
-+		return NOTIFY_DONE;
-+	}
++static void netvsc_vfns_dev_put(struct net_device_context *ndev_ctx)
++{
++	netdev_put(ndev_ctx->vfns_dev, &ndev_ctx->vfns_dev_tracker);
++	ndev_ctx->vfns_dev = NULL;
++}
 +
+ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
+ {
+ 	struct net_device_context *net_device_ctx;
+@@ -2340,19 +2346,17 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
+ 
  	/* if synthetic interface is a different namespace,
  	 * then move the VF to that namespace; join will be
- 	 * done again in that context.
-@@ -2349,10 +2356,29 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
+-	 * done again in that context.
++	 * done again in that context. The VF's lock is held
++	 * for its registration, so leave the move to vfns_work.
+ 	 */
+ 	if (!net_eq(dev_net(ndev), dev_net(vf_netdev))) {
+-		ret = dev_change_net_namespace(vf_netdev,
+-					       dev_net(ndev), "eth%d");
+-		if (ret)
+-			netdev_err(vf_netdev,
+-				   "could not move to same namespace as %s: %d\n",
+-				   ndev->name, ret);
+-		else
+-			netdev_info(vf_netdev,
+-				    "VF moved to namespace with: %s\n",
+-				    ndev->name);
++		if (net_device_ctx->vfns_dev != vf_netdev) {
++			netvsc_vfns_dev_put(net_device_ctx);
++			netdev_hold(vf_netdev, &net_device_ctx->vfns_dev_tracker,
++				    GFP_KERNEL);
++			net_device_ctx->vfns_dev = vf_netdev;
++		}
++		schedule_delayed_work(&net_device_ctx->vfns_work, 0);
  		return NOTIFY_DONE;
  	}
  
-+	/* Install netvsc's program before joining, so that a VF which
-+	 * refuses it never gets used. Syncing the features first turns
-+	 * off LRO, which the VF may not run XDP with.
-+	 */
-+	if (prog) {
-+		vf_netdev->wanted_features = ndev->features;
-+		netdev_update_features(vf_netdev);
-+
-+		ret = netvsc_vf_setxdp(vf_netdev, prog);
-+		if (ret) {
-+			netdev_warn(ndev, "not using VF %s, it refused netvsc's XDP program: %d\n",
-+				    vf_netdev->name, ret);
-+			return NOTIFY_DONE;
-+		}
-+	}
-+
- 	netdev_info(ndev, "VF registering: %s\n", vf_netdev->name);
+@@ -2695,6 +2699,7 @@ static void netvsc_remove(struct hv_device *dev)
  
--	if (netvsc_vf_join(vf_netdev, ndev, context) != 0)
-+	if (netvsc_vf_join(vf_netdev, ndev, context) != 0) {
-+		if (prog)
-+			netvsc_vf_setxdp(vf_netdev, NULL);
- 		return NOTIFY_DONE;
-+	}
- 
- 	dev_hold(vf_netdev);
- 	rcu_assign_pointer(net_device_ctx->vf_netdev, vf_netdev);
-@@ -2363,9 +2389,6 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
- 	vf_netdev->wanted_features = ndev->features;
- 	netdev_update_features(vf_netdev);
- 
--	prog = netvsc_xdp_get(netvsc_dev);
--	netvsc_vf_setxdp(vf_netdev, prog);
--
- 	return NOTIFY_OK;
- }
- 
-@@ -2441,6 +2464,7 @@ static int netvsc_unregister_vf(struct net_device *vf_netdev)
- {
- 	struct net_device *ndev;
- 	struct net_device_context *net_device_ctx;
-+	struct netvsc_device *nvdev;
- 
- 	ndev = get_netvsc_byref(vf_netdev);
- 	if (!ndev)
-@@ -2453,6 +2477,15 @@ static int netvsc_unregister_vf(struct net_device *vf_netdev)
- 
- 	reinit_completion(&net_device_ctx->vf_add);
- 	netdev_rx_handler_unregister(vf_netdev);
-+
-+	/* Only once frames from the VF no longer reach netvsc */
-+	nvdev = rtnl_dereference(net_device_ctx->nvdev);
-+	if (nvdev && netvsc_xdp_get(nvdev)) {
-+		netdev_lock_ops(vf_netdev);
-+		netvsc_vf_setxdp(vf_netdev, NULL);
-+		netdev_unlock_ops(vf_netdev);
-+	}
-+
- 	netdev_upper_dev_unlink(vf_netdev, ndev);
- 	RCU_INIT_POINTER(net_device_ctx->vf_netdev, NULL);
- 	dev_put(vf_netdev);
-@@ -2664,21 +2697,21 @@ static void netvsc_remove(struct hv_device *dev)
+ 	rtnl_lock();
  	cancel_delayed_work_sync(&ndev_ctx->vfns_work);
++	netvsc_vfns_dev_put(ndev_ctx);
  
  	nvdev = rtnl_dereference(ndev_ctx->nvdev);
--	if (nvdev) {
-+	if (nvdev)
- 		cancel_work_sync(&nvdev->subchan_work);
--		netvsc_xdp_set(net, NULL, NULL, nvdev);
--	}
-+
-+	vf_netdev = rtnl_dereference(ndev_ctx->vf_netdev);
-+	if (vf_netdev)
-+		netvsc_unregister_vf(vf_netdev);
+ 	if (nvdev)
+@@ -2738,6 +2743,7 @@ static int netvsc_suspend(struct hv_device *dev)
  
- 	/*
- 	 * Call to the vsc driver to let it know that the device is being
- 	 * removed. Also blocks mtu and channel changes.
- 	 */
--	vf_netdev = rtnl_dereference(ndev_ctx->vf_netdev);
--	if (vf_netdev)
--		netvsc_unregister_vf(vf_netdev);
--
--	if (nvdev)
-+	if (nvdev) {
-+		netvsc_xdp_set(net, NULL, NULL, nvdev);
- 		rndis_filter_device_remove(dev, nvdev);
-+	}
+ 	rtnl_lock();
+ 	cancel_delayed_work_sync(&ndev_ctx->vfns_work);
++	netvsc_vfns_dev_put(ndev_ctx);
  
- 	unregister_netdevice(net);
- 	list_del(&ndev_ctx->list);
+ 	nvdev = rtnl_dereference(ndev_ctx->nvdev);
+ 	if (nvdev == NULL) {
+@@ -2815,7 +2821,9 @@ static void netvsc_event_set_vf_ns(struct net_device *ndev)
+ 
+ 	vf_netdev = rtnl_dereference(ndev_ctx->vf_netdev);
+ 	if (!vf_netdev)
+-		return;
++		vf_netdev = ndev_ctx->vfns_dev;
++	if (!vf_netdev || vf_netdev->reg_state != NETREG_REGISTERED)
++		goto out;
+ 
+ 	if (!net_eq(dev_net(ndev), dev_net(vf_netdev))) {
+ 		ret = dev_change_net_namespace(vf_netdev, dev_net(ndev),
+@@ -2828,7 +2836,16 @@ static void netvsc_event_set_vf_ns(struct net_device *ndev)
+ 			netdev_info(vf_netdev,
+ 				    "Moved VF to namespace with: %s\n",
+ 				    ndev->name);
++	} else if (!rtnl_dereference(ndev_ctx->vf_netdev)) {
++		/* netvsc got to the VF's netns first, so no move will
++		 * register the VF again, take it over from here
++		 */
++		netdev_lock_ops(vf_netdev);
++		netvsc_register_vf(vf_netdev, VF_REG_IN_NOTIFIER);
++		netdev_unlock_ops(vf_netdev);
+ 	}
++out:
++	netvsc_vfns_dev_put(ndev_ctx);
+ }
+ 
+ void netvsc_vfns_work(struct work_struct *w)
 -- 
 2.55.0
 
