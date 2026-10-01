@@ -1,153 +1,183 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A54E7437448;
-	Thu,  1 Oct 2026 22:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A09345741;
+	Fri,  2 Oct 2026 00:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790892697; cv=none; b=WYMC5h5FzXZBdinSQlAyYbv0wRRlmysvJe28S28BBgtYyx0jULZkFeR+QMfFqhDwMJHwhYl/xzxcTMJmCLQ5ZpS2mTb5GnG5BB39jO9GQb2xRPesTNCUYBjyKJnvmq/fVbbMEEDJcx12gIgXYwgP4bTfsFlrkN7lSpWLFHxccIQ=
+	t=1790899257; cv=none; b=OkOAYeZEFLHtak0vs1KQ7/zXt7D7v/XXDsQiha25S8oOYwsPaI40WYlQ9x/x7Vv4xhwWWju8tIzzFfFXlNfaRTaZjrCrbBoNzvirvrHcHe5w2Qh/6dWW6K68rKBoIzf9EDBH5BANpzSdZpFA91W7p8VNKO9IH5OS/+REs9yRhiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790892697; c=relaxed/simple;
-	bh=i5dGuL+vmCk0H0P/olMRt7aH85cUGBzKK2mmuD1WHqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tlJybo5ZkaGjMc5r4MG2+EieDGrotEeds7yg4tgFlotZChOx3h1Mh0Mz1mQk7jVQRqZmDLoVsazPjqzULVniODXbow8YWbYAFNlJpLqky9OlbpsS8N4LkJV50JKZ2EhOP9/4VDAZjB5c1xVrik4N5RPbfrZlXBcX/WNPzU+8AvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZssPztoY; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1790899257; c=relaxed/simple;
+	bh=x1strTpm8b1z4O62jRuNRGgT6L5CVAZjv+PrVHg22xI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfspXAtmQ7VfQG5fHlufMh2EQ+edojRqwtlYKHKMj70xUPItsOqgNHViAIWB/Zx/ZXIfnS9RGD2hC0wo6e9T9y8uipxraV/YNjOtudVwjYfHpdNk8foE0Wzgty+BCC9oMpjPmS1BNjWZPEEqKkcVsGXqZY0lDz3GTkHyTN71o0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fsZrsXbw; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZssPztoY"
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 524ED20B7171;
-	Thu,  1 Oct 2026 15:10:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 524ED20B7171
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790892642;
-	bh=qFQdVdooSZcP5uYUJo8WJDgVWEs1roO5BJFHiMbw/4c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZssPztoYw0prPqhe48Icws8j333qOTcJ2OEAAs/rmRitoD1HwqvWaSwkYCVAqLC0E
-	 ZpToPhogXl0XzSTjkLr9NV1KJiFBwscnqs0yspwOiMmBg4VpKXbs5dkjaLTNPUrHhW
-	 YBVAG85Y1hXa75nq/yOnsKk11uMsfGrg0RWjqKR0=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Michael Kelley <mikelley@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] Drivers: hv: vmbus: Keep the ring byte counts sane for a bad index
-Date: Thu,  1 Oct 2026 15:10:40 -0700
-Message-ID: <20261001221040.1794904-5-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261001221040.1794904-1-kameroncarr@linux.microsoft.com>
-References: <20261001221040.1794904-1-kameroncarr@linux.microsoft.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fsZrsXbw"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CC72640E03BE;
+	Fri,  2 Oct 2026 00:00:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id NaJ-HpYXBw58; Fri,  2 Oct 2026 00:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1790899233; bh=cG+cJ7mT22tNPHsFBNtxnr+VztjGQBeRNYYjS2dgVhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fsZrsXbwppxgBw+JMcEWeOik0QpmlmhwCehRdAUflP9fffOHurGmKV/miQIYLo7dl
+	 0rmH8plvSRduAlM1Cd30fXlLUrWE36VjiP69+bX8ezPP9y0QbxAOVhaCEx0jzOH/jB
+	 rbq7WEuRlaVjUgZjaf2IHhqfeNccFCrHykU19EBEhHgRybuf7w8mZIwFMlxAaVoZhO
+	 d2TAISGT5AW67hpOT2+/jKGEpfJKcUp197bqs0RU90atPixEZBAiKw5T0H5SO+reOd
+	 EKhLFW70iqospUTw4Dyczm2h7FZeU4EqpowkR1A0eD3A1FRbdrLcG+6aJe/+D9IRdV
+	 tQJEHyKX6/eVtDIEm/SyhgtBr+oDFW9stciSfKxFq8xv/2n4EL/3GPpQ9ysJWhWKGv
+	 EJe1QQMc1ogmeLVzWVENseeV0l5d75Gy1Xa55R0LUR5e33g7YK/bQKQ1dP0RKEw9+a
+	 Jsor6wKUbW+b/UYo8/4cNn/8j4dlu8Kj2n4pvaDvI/gnBKgFoBt5Ze9+Qnk9MvfLwP
+	 TI0lh7wmOTllPBTjS6DrcAv7FlotWP4MVY2v90qApdWiwDmhehK4G374oOCXyj+Abu
+	 tpvNncuvRIoCcb75sb/7GJWT8Aq2ohUS2oAwudDUNDQHqhjulshygMHoLW/6AOLKFB
+	 NJfQuVGfFyE0nXitzxJWJCqU=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D09C640E02A8;
+	Thu,  1 Oct 2026 23:59:53 +0000 (UTC)
+Date: Thu, 1 Oct 2026 16:59:50 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	Christoph Lameter <cl@gentwo.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
+Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest
+ setup
+Message-ID: <20261001235950.GHar7z9v3zfk8odoTh@fat_crate.local>
+References: <20260929040256.543767-1-zack.rusin@broadcom.com>
+ <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
+ <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
 
-The remaining users of the shared indices can't cause a bad memory
-access with the channels a CoCo VM accepts today, but an out-of-range
-index gives them a nonsense byte count. Give them defined behavior
-instead.
+On Tue, Sep 29, 2026 at 01:25:09PM -0400, Zack Rusin wrote:
+> Partly. So steal time tells Linux how much time a virtual CPU spent
+> ready to run but waiting for the hypervisor to schedule it.
+> 
+> For example, during a 100 ms interval, the vCPU might execute for 70
+> ms and wait for a physical CPU for 30 ms. Reporting those 30 ms helps
+> kernel:
+> - account for CPU usage accurately: avoid charging applications for
+> time when the hypervisor wasn't running their vCPU.
+> - make fairer scheduling decisions: base task execution accounting on
+> the CPU time tasks actually received.
+> - expose host contention: the st field in top and counters in
+> /proc/stat help explain why a VM is slow even though its applications
+> don't appear to consume all available CPU time.
 
-hv_pkt_iter_first() bounds its memcpy() by hv_pkt_iter_avail(), which
-is derived from write_index, and by pkt_buffer_size, which comes from
-max_pkt_size and can exceed ring_datasize. A bad write index can then
-make it read past the end of the ring. Only KVP has such a max_pkt_size
-(16K on a 12K ring with 4K pages), and vmbus_is_valid_offer() rejects
-it in isolated VMs, so this is latent. hv_pkt_iter_avail() now reports
-an empty ring for a bad write index and logs it, rate-limited like
-hv_ringbuffer_write(). It takes the channel instead of the ring so the
-message can include the relid.
+Aaaha, IOW, that's the "st" column here:
 
-hv_get_bytes_to_read() and hv_get_bytes_to_write() now return 0 for a
-bad index, so callers see nothing to read and no room to write. This
-also stops hv_end_read() from reporting data that hv_pkt_iter_first()
-won't return, which would keep a channel rescheduling its callback.
+$ vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+ 1  0      0 1714852   9748  85300    0    0  3793    51 1445    0  0  1 99  0  0  0
 
-hv_pkt_iter_close() only uses the indices to decide whether to signal
-the host, so skip the signal if either is out of range.
+In any case, you could keep that helpful explanation in yout 0th message. :)
 
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- drivers/hv/ring_buffer.c | 15 +++++++++++++--
- include/linux/hyperv.h   |  6 ++++++
- 2 files changed, 19 insertions(+), 2 deletions(-)
+> If options are binary then "no" :) It's not for monitoring tools, it's
+> for the kernel's own steal-time accounting above, which currently
+> doesn't work in confidential VMware guests. So the issue is that in a
+> confidential guest (AMD SEV SNP, Intel TDX) memory is private by
+> default, so the hypervisor can't read or write it. Any page the
+> hypervisor has to write must first be converted to shared by the
+> guest. Linux gives us the address of the steal-time buffer without
+> converting it. The hypervisor then tries to write into a private page,
+> which doesn't work. Currently ESXi deliberately powers off the VM when
+> that happens. That only affects VMs with the steal clock enabled,
+> which ESXi leaves off by default except for Photon guests. I'll
+> probably change ESXi to just disable steal time when a guest gives us
+> a private page, but that only avoids the power-off; steal time still
+> won't work in these guests without this series.
+> 
+> KVM has the same need for three of its per-CPU buffers (steal time,
+> async page faults and PV EOI). It already converts them, but only on
+> AMD and in its own loop. Kiryl asked on v1 for one common place that
+> converts all such per CPU buffers early, on both AMD and Intel,
 
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 29edab9..b54a7d3 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -408,8 +408,9 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
-  * This is similar to hv_get_bytes_to_read but with private
-  * read index instead.
-  */
--static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
-+static u32 hv_pkt_iter_avail(const struct vmbus_channel *channel)
- {
-+	const struct hv_ring_buffer_info *rbi = &channel->inbound;
- 	u32 priv_read_loc = rbi->priv_read_index;
- 	u32 write_loc;
- 
-@@ -421,6 +422,12 @@ static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
- 	 * stale data.
- 	 */
- 	write_loc = virt_load_acquire(&rbi->ring_buffer->write_index);
-+	if (unlikely(!hv_ringbuffer_index_valid(rbi, write_loc))) {
-+		pr_err_ratelimited("inbound write index out of range: relid %u write %u size %u\n",
-+				   channel->offermsg.child_relid, write_loc,
-+				   rbi->ring_datasize);
-+		return 0;
-+	}
- 
- 	if (write_loc >= priv_read_loc)
- 		return write_loc - priv_read_loc;
-@@ -441,7 +448,7 @@ struct vmpacket_descriptor *hv_pkt_iter_first(struct vmbus_channel *channel)
- 
- 	hv_debug_delay_test(channel, MESSAGE_DELAY);
- 
--	bytes_avail = hv_pkt_iter_avail(rbi);
-+	bytes_avail = hv_pkt_iter_avail(channel);
- 	if (bytes_avail < sizeof(struct vmpacket_descriptor))
- 		return NULL;
- 	bytes_avail = min(rbi->pkt_buffer_size, bytes_avail);
-@@ -590,6 +597,10 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
- 	 */
- 	virt_rmb();
- 	write_index = READ_ONCE(rbi->ring_buffer->write_index);
-+	if (unlikely(!hv_ringbuffer_index_valid(rbi, write_index) ||
-+		     !hv_ringbuffer_index_valid(rbi, start_read_index)))
-+		return;
-+
- 	curr_write_sz = hv_ringbuffer_avail_write(rbi, rbi->priv_read_index,
- 						  write_index);
- 	bytes_read = hv_pkt_iter_bytes_read(rbi, start_read_index);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 9d7d09c..fd61382 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -248,6 +248,9 @@ static inline u32 hv_get_bytes_to_read(const struct hv_ring_buffer_info *rbi)
- 
- 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
- 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
-+	if (unlikely(!hv_ringbuffer_index_valid(rbi, read_loc) ||
-+		     !hv_ringbuffer_index_valid(rbi, write_loc)))
-+		return 0;
- 
- 	return hv_ringbuffer_avail_read(rbi, read_loc, write_loc);
- }
-@@ -258,6 +261,9 @@ static inline u32 hv_get_bytes_to_write(const struct hv_ring_buffer_info *rbi)
- 
- 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
- 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
-+	if (unlikely(!hv_ringbuffer_index_valid(rbi, read_loc) ||
-+		     !hv_ringbuffer_index_valid(rbi, write_loc)))
-+		return 0;
- 
- 	return hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
- }
+Right, why early?
+
+I mean, I am still trying to see the justification for this diffstat
+
+ 14 files changed, 247 insertions(+), 51 deletions(-)
+
+and whether it is really worth it.
+
+> instead of each hypervisor driver doing it. That's patches 2-6.
+> 
+> Patch 1 fixes an old layout bug in uniprocessor kernels, where these
+> buffers can share a page with unrelated data. The series also fixes
+> SEV and SEV-SNP guests on KVM running kernels built with CONFIG_SMP=n,
+> which currently hang at boot (we reproduced the hang).
+
+That should tell you how much we care about UP. We would even love to make SMP
+the default.
+
+> Fair enough. I'll rework the cover letter and the commit messages so
+> each one starts with the problem. The series originally wasn't really
+> touching x86 core parts and I haven't updated it for a larger crowd.
+> Would you like an explanation of steal time, like the above, in the
+> cover as well?
+
+Yes please.
+
+Also, we have some blurb about how to write those:
+
+https://docs.kernel.org/process/maintainer-tip.html#patch-subject
+
+and
+
+https://docs.kernel.org/process/submitting-patches.html
+
+In talking to Peter about it, we were wondering whether this can be made
+simpler. Like do not touch perCPU but do a normal page for each CPU's steal
+time gunk and thus do not split the large page and then that early
+enc/decrypting of memory I don't like either.
+
+Perhaps we should start with the simplest approach first.
+
+Thx.
 
 -- 
-2.45.4
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
