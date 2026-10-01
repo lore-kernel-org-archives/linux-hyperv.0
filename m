@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF4E314B73;
-	Thu,  1 Oct 2026 01:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2AA36D9EB;
+	Thu,  1 Oct 2026 01:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790818894; cv=none; b=ZciuRWWiWZCDFgl6ZHe68nILLV2BTEkZasBjDeb03qPi4wJlavMA5jyv9UM5Ay83nChWk7VrErFMjD2k9T4gBf8SK+TRQJLm6LwUouQwKUOmzZdBPZ/9/w4ysBQW/ITn4hwWdymC9FXq4b6AFGbWLuK2GaxoZgu7QYjTQysSJUY=
+	t=1790818895; cv=none; b=Svcoje85Vi3lrdfntFhKv6rrw6he52BX6qlecJY/81ympx0epTLzLb2fdmv6p2NLZ2nKoobk2JlqttdDs5KmD8X4ynbDAoIElxY+aNPBfJrJJ9Mk6O6XZx8PjGYFq2b0ryW7AT44kcDDj/QJMO9Cm8dh7f6IhQL1DmeUlyqhbUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790818894; c=relaxed/simple;
-	bh=AMu5aylNXr2vffBZHRwSA5Tq0PF0yPy+hna7yQ5D0/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HK8XbVid5XyJbjHU5EAczJZaIa6wNOTrAxmf/EBr3O7e2XHgTcSsNBX8tocIF8V/zK3s7WK3xZuwOWDmedKkrIWYWlI/3ocap9oPgztGpLKqoVqF+/uZtP7Wmf8ThJ96D3Y6/LLMhIREFDr1Scd+1uCpGJe1MJSBk8xDy+SncOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZm91a0c; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790818895; c=relaxed/simple;
+	bh=yWSgJYMmNM26CbqbfyEiL8sgM4xmaqhfZAG7UozIqBs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lkqrvhuwnVbBeVox/ZYhJFArkfLp8qD2LqAf0akBBXnJU6Non3IF58z7KRv7QEKfW9jt93Y4SPtTJkJm20rfBRTfl71D5Zqu2b22OCRal/T9h0LVc3pr5gfKGwwM57uekhFEuJOKuirblQXQe1Y4rOA8gwn4k3OI2Z7IpR9Q6sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2rXIO+q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZm91a0c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67FE1F000FF;
-	Thu,  1 Oct 2026 01:41:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2rXIO+q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B017A1F00898;
+	Thu,  1 Oct 2026 01:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790818893;
-	bh=ipbRv8s/02qmR1TzPlsaXI2CUDRopggPwiBGwcHPXfw=;
-	h=From:To:Cc:Subject:Date;
-	b=JZm91a0cVP/VNmg6s9Vow8wv8g0O7Hl3byEQkNd+AIMnI93+dbEisiA0caUqSQQnb
-	 zdznyNrbdMc9zcx3dOwIxpzkCKkSV8q8QUuCX9Rw1bjJk1Gk30ydOM/MI3LlEqPTF2
-	 zvm6bleRDWFlmPNEbqUzvKs57nhbOVYGrk8lrSVEVci75m4Ut1qii6qB5xyvhrYMJe
-	 BbA0Erc6KaEvzCVU9oZZ6vaIozT+Pdss6yf8nbrrWArVsiMlVvDqq8zcEABR1ZjYJH
-	 XOBo1b7xL0mhCCbsXJk+hdQVqj+NLbwVsBRu6RE8MmN925CuhtvRXHSMOi8n0d7nuY
-	 ua9bxaoAtw/Gg==
+	s=k20260515; t=1790818894;
+	bh=U+h71nieCa2Y+wf83pJzbfGlJJQQlauxbW2ormLYBVw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=i2rXIO+qn0wDGr1WMbP+8Y7xDVxd+r9A9pxJFIqS2hcO19yhRyQ1d3o8CHDEm6gR1
+	 V/mnso8dOz7XT7bSEYIKpGankJPhe4qh6QVtZ6MMjLdDofyludGUG3W1dfdHR3xRZ0
+	 d6RpDmA8mxFplrSVKqHrVGRdGow6AkyGAI86bNBJqdnDxOp2a4P7VkwrAIy6SRBhNP
+	 pSudjfM06RC1DB14aNNqbadw8ruwaRW5Un9JN3rSoUZ4vVndmE8OvzLJ7gMvrNP1O/
+	 06pdIibAavLxcNMlVRcZ1zSHqZkHJrIzUW1A1Dy5id1QIhXC3BLcxcmGtwsqWS7Jva
+	 M1PhHjDqF+vBg==
 From: Jakub Kicinski <kuba@kernel.org>
 To: davem@davemloft.net
 Cc: netdev@vger.kernel.org,
@@ -39,11 +40,14 @@ Cc: netdev@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	hawk@kernel.org,
 	andriin@fb.com,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next 0/5] hv_netvsc: make XDP propagation act more like bonding
-Date: Wed, 30 Sep 2026 18:41:26 -0700
-Message-ID: <20261001014131.310771-1-kuba@kernel.org>
+	Jakub Kicinski <kuba@kernel.org>,
+	stable+noautosel@kernel.org
+Subject: [PATCH net-next 1/5] hv_netvsc: fix the program refcount when the VF refuses XDP
+Date: Wed, 30 Sep 2026 18:41:27 -0700
+Message-ID: <20261001014131.310771-2-kuba@kernel.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261001014131.310771-1-kuba@kernel.org>
+References: <20261001014131.310771-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -52,40 +56,46 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently XDP programs propagated from uppers are invisible
-to safety checks. I'm trying to fix that, but AI reviewer
-threw up a bunch of complaints about hv_netvsc. See previous
-series here:
+ndo_bpf() takes over the reference it is passed only on success, the
+caller puts it back itself on failure. netvsc_xdp_set() takes that one
+plus num_chn - 1 more for its channels, and the rollback after the VF
+refuses the program clears the channels again, putting all num_chn of
+them. dev_xdp_install() then puts the one it passed in a second time,
+and the program can be freed while the fd which loaded it still points
+at it.
 
-https://lore.kernel.org/20260928223648.2739371-1-kuba@kernel.org
+The VF refuses a program netvsc has already committed to when the
+program is single-buffer and the VF has header-data split enabled, when
+the VF has a memory provider bound, or when the VF's driver has
+conditions of its own.
 
-That series is now on hold, let's try to sanitize the hv_netvsc
-behavior. AFAIU the main use case is to catch the VF as it appears,
-and attach it to the netvsc SW interface. If we catch the VF
-as soon as it appears we shouldn't have to worry about the VF
-already having XDP attached. Let's do what bonding does and
-refuse to attach if VF already has XDP, also refuse to attach
-if nv_netvsc has XDP but the VF refuses the propagation.
+Reported by Sashiko during core rework. Unverified and untested.
 
-All patches are from LLM reviews and LLM generated. I do not
-have access to Hyper-V. I did 6 cycles of reviews and back
-and forth with the LLM over these, so I think they should
-be okay-ish. Let's be clear tho, that I do not care one bit
-about this driver and it's brokenness is blocking core work.
+Cc: stable+noautosel@kernel.org # untested fix to unlikely driver error path
+Fixes: 184367dce4f7 ("hv_netvsc: Fix XDP refcnt for synthetic and VF NICs")
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ drivers/net/hyperv/netvsc_bpf.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Jakub Kicinski (5):
-  hv_netvsc: fix the program refcount when the VF refuses XDP
-  hv_netvsc: hold the VF's instance lock when installing XDP on it
-  hv_netvsc: treat the VF's XDP program the way bonding treats a slave's
-  hv_netvsc: move a new VF to netvsc's netns from a work item
-  hv_netvsc: let the core take XDP off a netvsc device that is going
-    away
-
- drivers/net/hyperv/hyperv_net.h |  3 +
- drivers/net/hyperv/netvsc_bpf.c | 27 ++++++++-
- drivers/net/hyperv/netvsc_drv.c | 98 +++++++++++++++++++++++++--------
- 3 files changed, 103 insertions(+), 25 deletions(-)
-
+diff --git a/drivers/net/hyperv/netvsc_bpf.c b/drivers/net/hyperv/netvsc_bpf.c
+index 1dd3755d9e6d..731bb7721fe2 100644
+--- a/drivers/net/hyperv/netvsc_bpf.c
++++ b/drivers/net/hyperv/netvsc_bpf.c
+@@ -216,6 +216,13 @@ int netvsc_bpf(struct net_device *dev, struct netdev_bpf *bpf)
+ 			netdev_err(dev, "vf_setxdp failed:%d\n", ret);
+ 			NL_SET_ERR_MSG_MOD(extack, "vf_setxdp failed");
+ 
++			/* Since we haven't completed the installation
++			 * of bpf->prog the reference core implicitly
++			 * transfers to us on success isn't ours.
++			 * Take a reference to balance the accounting.
++			 */
++			if (bpf->prog)
++				bpf_prog_inc(bpf->prog);
+ 			netvsc_xdp_set(dev, NULL, extack, nvdev);
+ 		}
+ 
 -- 
 2.55.0
 
