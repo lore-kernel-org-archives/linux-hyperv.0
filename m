@@ -1,307 +1,158 @@
-Received: from sender5-of-o55.zoho.com (sender5-of-o55.zoho.com [165.173.182.55])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012043.outbound.protection.outlook.com [40.107.200.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402883D45C5;
-	Thu,  1 Oct 2026 11:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E8437A843;
+	Thu,  1 Oct 2026 12:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790854983; cv=pass; b=jicr3U9cYjF0kkCSfsVIovLEbt5rQ/Nj35O9d3EgP4t0Q2UB8GdtbOyazbreVew8kKwC2wXozeF3a3hlrInCjVE2RE53B+MNrgIb+rNER1FGSXNr/PmBCRD1kQDhh+7oXhGHv5UWbeVPr947GdQsDik63SxjXPUK1SxUPHhn9FA=
+	t=1790856467; cv=fail; b=QoyyEnln4Enm9XQ50nm4PGn0naiK8AGGH7gkFC1ReMW8w+ZSPeYiaNXOM4ofgfIFf6I9QRn+8lkyTgZJhRKsmSkwOlgVXkHPfSRjfFNJl1I6VeVy4WFIn/jd/o/Huu/+zRHyJO/HD4jVQj+In9rsq2kXbzPGqUGFWC+xuGN81+8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790854983; c=relaxed/simple;
-	bh=Nh0xk1TL6r5IrVYmqatbTkShmgbLIG0cqCk4iBTojgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbj7Teu1zMiNtyFp4mACPvi36hhJPCo0yNGzqV+JOlB+gyN0WxW5cKukaTaEp3BKeFcDuX1P1pCFkTf4vA4pu2Cq+eLwree5zJg1g93EP+zUpRcef+cs14xNlocndRm2o+Piz5kK6pO4V37XBt1g7m/yR+9+xZyXMmchtV0Mu60=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anirudhrb.com; spf=pass smtp.mailfrom=anirudhrb.com; dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b=Lu2zwi2t; arc=pass smtp.client-ip=165.173.182.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=anirudhrb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anirudhrb.com
+	s=arc-20240116; t=1790856467; c=relaxed/simple;
+	bh=pPyCah+mInsCakdsfxi2qG8f0Ad3K3t37OxvRuGeMjs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SZYtT9tan8NzqTxndKyKEaP+HjdSF8NnV2v88V5sgd3/dsiK+ucT0JI+ZKFVKIfH5gepC8hJjYMci0mgky17GkJ3TWyfvQWZwpS1x+44AhdcM4EwoOgCC+0fz+eX5IZY8V9l6g9dJjmc2z9KHDq1beDoYpulNbQs2q5vReryc24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PrWLU/J+; arc=fail smtp.client-ip=40.107.200.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b="Lu2zwi2t"
-ARC-Seal: i=1; a=rsa-sha256; t=1790854968; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=aY+KPdW11oQkaTpGDlBB5ujRvn8iQAHncnUot/0J6CCWHPRq8eFuMKvGnfziuZNTRSU5I2nAquhGtUWH0ulHtjV4zjSUiBmiRXRaOkAk0Gb9DqB0RPNJT+s6tOaquOBPNZ6ZyLaMFHJFrRUZKctC4irIC9saiBPF8N4NGtTWBkc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790854968; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GMScdZuE3khjmxnaBfP0hlaSK/ObWwj72tCYDROobPY=; 
-	b=Z1OnbJQH7nzf2GgsjvHtOIInjibSAg8/bbcW8ip7MY7jJi+NahA+6UcY5ilqMXdsG48ue0zuTStOIl0UPzWlFIO6gJiUNLzFXAybqnuDJYTjCQ4gZdH/8R5NZpxx12g2qu+V3GoGGPeyc0UQm758b0n3ah7ePge5sjipzqeodOg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=anirudhrb.com;
-	spf=pass  smtp.mailfrom=anirudh@anirudhrb.com;
-	dmarc=pass header.from=<anirudh@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790854968;
-	s=zoho; d=anirudhrb.com; i=anirudh@anirudhrb.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=GMScdZuE3khjmxnaBfP0hlaSK/ObWwj72tCYDROobPY=;
-	b=Lu2zwi2tJFXbMTKRe0CnZ4kLTyObxq7eMDHPIa7Kfle8n2mtBGyK7N9khL7R5e4y
-	RdJ/LAYUpqSSk2fn4A5bk+lUf1rUtg7lEdKvL4M6LUzEekdlpcMGU7niRX0LNinyxqG
-	VnXkmZ621w/CIU2dhY0RpBj821ChKY39/qpcJWCE=
-Received: by smtp.zohomail.com with SMTPS id 1790854965750652.7710486324092;
-	Thu, 1 Oct 2026 04:42:45 -0700 (PDT)
-Date: Thu, 1 Oct 2026 11:42:38 +0000
-From: Anirudh Rayabharam <anirudh@anirudhrb.com>
-To: Magnus Kulke <magnuskulke@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Magnus Kulke <magnuskulke@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <liuwe@microsoft.com>,
-	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>
-Subject: Re: [PATCH v4] drivers/hv: remove deposited pages from direct map
-Message-ID: <20261001-quizzical-cute-finch-c4e2cd@anirudhrb>
-References: <20260930121047.19993-1-magnuskulke@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PrWLU/J+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jwTe6anhhMXRmh4nohyH/qA/lw0JfHTN273NnRlsTjcFTcMD+VoApTsJNJ7ehHkzTNASeqbFWFsdMbVT+Ko0v9gEoRfv+184AXzWJ9ij294wBSYDTt66dThLdezon58zA/+ehrcM8FmkHEb7lFG15MaGB9d4PvMQaghhjap0+jSAOWMPtxmQa3BrNCXx2HRI5WYfsRbttPvyhQkovy4L37KOHC5zQw21DH1ej+fpLX+U80WkNSVvx+MpNsbG2zJ0RrLEGo9Q/8aaLUN+k4X6CvC5gZryI48P6/L9iIaDHjUXbox32/83yBVunfx9UM4vQXwxRsJb46pTB+ookiILGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KCabl5OXsvXGxdp3snxfOqxTNcEu2FkhNPhp1zWWWAA=;
+ b=Bd7Rh09oD5rpdq40/gtBjjbp5uEidu7Y85IaMK6yec0tAMqsaK6rUW6xmZ+G8aScs6N2eOC/m+0lHpfD+RnYPNo8wEUlsd1b8QFY9zgvoPS7DR4bewPCvO1Btgx14XuC5JDjzjsbgD02gYMjtY56lq5mG/hqXtA9S2HOXc2W9qyhRBkTPsDQAILD9gSysL6n1TWTvdBkYd/zI6Lk5zUVtlOSouZ1HnfXOrZ7wj42w4O5vAxZMjcR9d5z4bEx7B81z03u02hUAv7V4aW7mwnsushMlCOOFJ8BsemtGn3HZ0+gvB4p8IAXFI1xjbAaSwYq4iGrPDnH1u3aek3he9meBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KCabl5OXsvXGxdp3snxfOqxTNcEu2FkhNPhp1zWWWAA=;
+ b=PrWLU/J+VCuxDBED3sB7TNvZ4GsgKgLBJDiPePncc7wDUxblfUwzMisOd1VOtB8jO9jKKPRgORt1mtF8c1mw6GZEsqc/OAlmZRQS6Gd41xZHlpWNqn93MGnEg6wsDLWflQe/utGRMXR+7ZFOjcUgcZriJ/pxo6qnA9KlNsx5aWQ=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL4PR12MB9505.namprd12.prod.outlook.com (2603:10b6:208:591::16)
+ by CYYPR12MB8940.namprd12.prod.outlook.com (2603:10b6:930:bd::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
+ 2026 12:07:31 +0000
+Received: from BL4PR12MB9505.namprd12.prod.outlook.com
+ ([fe80::73aa:eb8c:a86b:5a83]) by BL4PR12MB9505.namprd12.prod.outlook.com
+ ([fe80::73aa:eb8c:a86b:5a83%5]) with mapi id 15.21.0451.022; Thu, 1 Oct 2026
+ 12:07:30 +0000
+Message-ID: <9b5088ad-da0c-4d25-bf9e-1c7ff657bf8e@amd.com>
+Date: Thu, 1 Oct 2026 17:37:18 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/5] iommu/x86: Add architectural MSI reserved region
+ helper
+To: Yu Zhang <zhangyu1@linux.microsoft.com>, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, iommu@lists.linux.dev,
+ linux-pci@vger.kernel.org, linux-arch@vger.kernel.org, x86@kernel.org
+Cc: wei.liu@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
+ decui@microsoft.com, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+ bhelgaas@google.com, kwilczynski@kernel.org, lpieralisi@kernel.org,
+ mani@kernel.org, robh@kernel.org, arnd@arndb.de, jgg@ziepe.ca,
+ mhklinux@outlook.com, jacob.pan@linux.microsoft.com,
+ tgopinath@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
+ mrathor@linux.microsoft.com, baolu.lu@linux.intel.com,
+ suravee.suthikulpanit@amd.com
+References: <20260930141409.437904-1-zhangyu1@linux.microsoft.com>
+ <20260930141409.437904-4-zhangyu1@linux.microsoft.com>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <20260930141409.437904-4-zhangyu1@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0076.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:23::21) To BL4PR12MB9505.namprd12.prod.outlook.com
+ (2603:10b6:208:591::16)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260930121047.19993-1-magnuskulke@linux.microsoft.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/290.845.86
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR12MB9505:EE_|CYYPR12MB8940:EE_
+X-MS-Office365-Filtering-Correlation-Id: df130ed2-4fd3-4fb9-725e-08df1fb4919e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|366016|7416014|1800799024|18002099003|22082099003|3023799007|4143699003|11063799006|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	omIRS6FPl0OSsqHBseAb14t1bmBx10J+U6b4V56Cc4lm+AgtmJ0oiYYQ1gO5lBwu7P46BB5k9oFO5D8GtQ/5gcPFjMVTcDNMZIa89FFvvVUjcVdMo3+KyTSGy3xRdK22/z/MmlhoXZq8SPBfM3BqDivIrsNJDgCsaTRHlm+7TdkU/5rKmLmkvwx7gpJh8ISG2SOyEHBqZt/B3Qs9LehjT7H0hvwfmTVDrucU+ve8oMhwyOcZ68cylT2MfcI4PzmSReb36FKtW3obo9hTfWpFJGpkjYZJDuVy5DGZ71gORmMtj02vKWMJLmnfnzCsucOMVGe1N/fKENnnADBMk+cogFKqELOudAzurBM4RT2Fj+6/wQ12oSZAAmbk+lUJ/bhqVTx8ZjxxixRYTLJhb9o5dPPAMeugVPNmc0cVv8aFmEY/8Pd1PPxBhos7DEfjJ7N38AgNwDMXP1i1mkirwB5DUUU/j7aiUbl2EA4yAmJqOTuK/mvR5MfkSKJJnM3qZxWf2/0Jlbikay0VFVGmy/c+X/T10TmNPEGeXolNLLZRByfYUsKHpPVimOkFU1so7Jfu77k9E/eJKFuFa7dAjPvlpW7L9WtZqcFKIur279f5mogamcBIzB0MsdkOa/mzGKvuyeNNjGW5TSDeEvHQckHNnIGNyTakCkke0zTEX9BD9sk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR12MB9505.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(7416014)(1800799024)(18002099003)(22082099003)(3023799007)(4143699003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V3dSU2JROHVWT1dNVXRsbFJiUC8vRjU0VTN0N2w1Z0hCV2syVTUva25wMkVs?=
+ =?utf-8?B?VURqVWZrY09QSUpqSXBaV3AzcmhUcVkxa0FQb3l3b3M5ZkJnS3l0dEx1TGVz?=
+ =?utf-8?B?MFNERG91SHBpSTNxdzJIdlZtbkdUWWZQUGVXSk5TeWt1L3B0ZnJEUlJMQmxJ?=
+ =?utf-8?B?blVhMFZRWVEyTzVUUEVXK2cvaVdTN1Qvd251SUltT1MzNTVIaUMvUGpMcmhN?=
+ =?utf-8?B?SnVtclNXamlKaXcrRHNPTE0yQlBGdHZCZ1BhRFlnNVZtWkp0cjkwejA2WFB0?=
+ =?utf-8?B?UDI2OFYzbkdGOHN6ZzNYMWdmVmRoRlBtUG4zNy92Ry80ay9ISmRpS1Bnc20x?=
+ =?utf-8?B?Wlh4dTNBSkxBQks0Z3E1Mk9MK1kxc0VFWVBSWWV3bEZiMkkwdDFSbGlLczJ5?=
+ =?utf-8?B?ZEdmZUNEWXF4LzdRdndxQXR3WU9lNlljYnpUOUtLTUhsbFlvV1g2TnY5Vlhq?=
+ =?utf-8?B?ano4Y0g0WFpmLzlGQVl0c2RnUUtsc2xYTmtmOWpScWptREhUNzhibDI2a3F6?=
+ =?utf-8?B?M25GNlgvbW4vN0xwT0lzWUJEaGQ3dk9HditYdjVKSVFCaE13UmUyOVhPMGh4?=
+ =?utf-8?B?Ry9wS0NDTG1iZEczaXNmSytGUE5oWTkwVlY2aXVaZSt0QkE2Y2Jkc21pK1pt?=
+ =?utf-8?B?SU5heWxXbWtlaWVrYmhvZGVjRTh0MXBUbGhPL0pDWituOW9mdzNnMFVQQ0h3?=
+ =?utf-8?B?Ui9rQkpBdmRxR2pHa0R6eXB6blRtcEZ3S1RnRHFHVlIvV0xhZ29RYUFsNllr?=
+ =?utf-8?B?SWFEZ0h1VGFXN2JZUXhZVXFlT2dCVVdBZ09VQUlxWGtyM0xEaGN0SEdpUDAx?=
+ =?utf-8?B?Zjd4TldFeE1VMXNpYlVlREtQUmpza25zdjNIZWw5SXh4eUFZQkNvRkdRYUQx?=
+ =?utf-8?B?bTFWeWJZb3JmdlVCVVkrQjNGV0tRWjY0SWFkUkdvdmhqN0wvb1VKSmZqZnRS?=
+ =?utf-8?B?ckx0SWdHNGc1U3BVOHhubDAvVlkzd0pqTFRjMGZYTjRyTEtJN2ozYTAvMlN0?=
+ =?utf-8?B?YTVxYUZkY0VJb09NcDU4SHA2V2I3MU82d21zbUZvTGxoZC9RWlo2bjM3QTlo?=
+ =?utf-8?B?cjU0cG5NQUZMVFQvaVRUS1d0d2ZGczU4VXY1VC9ENHBFbWEzbVR1a3JJWjRU?=
+ =?utf-8?B?S3J2S2dFV0tyMzhyMlZvVGd4Z0FaTUVjc2dpTEdqRE5UVmpHSjE4OU1HSFFh?=
+ =?utf-8?B?cldzcGpickpuWno4cGt3aEFJeDlDbVFWNGhLV2tuS3kwQ2ZzYjQzQzhwUkR3?=
+ =?utf-8?B?bXpSZHpBNmI4STBxSUhSTEY3ekpiSWRHUjNXMi92MkFpUDlncUprMnpLbVlu?=
+ =?utf-8?B?YVF4eXRlV3Y3cmU2YzhId0ZrdWF2N0VTd0c1R1FYN0RnM0xCY0dDTHZReW9o?=
+ =?utf-8?B?RXA2bXZHWDl5cVlQaWNNNnhCbkZYVUhNZGg0SUVkUXBxQ0dqMGU4aS9aSGJj?=
+ =?utf-8?B?Tmk1bUFCMk13T1pXL00wczk3dlpaRFBxK016Z3BaZjdZdlpNUmRBSit6NGtI?=
+ =?utf-8?B?R09MeDA5UVN1Y0dTdmVRTlhjNGxKWmt3ZVJGb0xLK2pDWXFPanpkTWJEQW01?=
+ =?utf-8?B?MDBpcGp4RDRBNk9Ka3VlZ3Rtd0xwVEFpTnczUnlUa1JGZmxia3RyWmRUOGxY?=
+ =?utf-8?B?SGp4OU9JZWFqdWZ3REdzSGpMTmJoSEk0aUJYSkRtNm45SHZzWGpCK3JrbkNy?=
+ =?utf-8?B?UWJiSzVRNmwxaVIwTjVmT2J5eTVZWmpsMWtwRlFlamo1OTBFeXM2T3MvK0lO?=
+ =?utf-8?B?aklLV3pORTdUNG85ZU1jdm1sQ2xBUndIVDh4b0pGOGVUdnNKTWx5VmxESHVS?=
+ =?utf-8?B?T3ZzN1RJYUt2TnRyYytFYWJackV0OTQ3OENCVExveDN1NVJ6QkFBZ2RwYjJV?=
+ =?utf-8?B?cVV0WjBqL0tORzcvdk1YbEFQSTM4bUN4b1Z4VUZwL1F1eFRxbElTRmZ6STN1?=
+ =?utf-8?B?VXlrKzN6QlFXVEtjL1ZqZDViODY0SU9vbTZOMHBWcnhaTEN1c3VRaWlvcVVh?=
+ =?utf-8?B?RmdzZmNncnpoRFpBMWVKZnRlckVNMUhyTEpIOHNQaTJValA1VCtCeEZnOWRV?=
+ =?utf-8?B?LzRIRlU1UzBValZwdysvYWQxdVcyVWM3VFZaRWR4RWJXSFhqbElodmRjZ0tJ?=
+ =?utf-8?B?QjBNTjZpVURIUVBNMUZyZHVTZm1HTFU5RFh2dm1rd0JLVFl1azNiTitFdGhl?=
+ =?utf-8?B?MnFYUWpPY2kvK05KVWZkSjBqbHNEZ3l3WHMwRE11d3c3K1lJYlBjb21NMmdR?=
+ =?utf-8?B?dDNVemFLRC9uY25IM21ZZzRUUlp6NzEwblJQZjFieTFiUk9LTGxURDk0NURP?=
+ =?utf-8?B?Zkh1RWhaUG1VbnpBRktJRTkzSXUzdUJnUFJjbU9SNmRBa3BWckY2UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df130ed2-4fd3-4fb9-725e-08df1fb4919e
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR12MB9505.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 12:07:30.8833
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PFi+HaCdlA/dQNYW+V4+OJe5VPoQlRwb5G0O8rNfhgcYuJcm/6DI1qOuszacVc9wlWATyLLUmnlmJLu/LaRCKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8940
 
-On Wed, Sep 30, 2026 at 02:10:47PM +0200, Magnus Kulke wrote:
-> hv_call_deposit_pages() donates pages (deposit) to hypervisor for L2
-> guest on L1VH systems via HVCALL_DEPOSIT_MEMORY. The hypervisor takes
-> ownership of those pages and per contract revokes root partition
-> access to them, raising a #GP on access from the L1VH root partition.
-> 
-> However, the pages remain mapped in the kernel direct map, so kernel
-> code may still access them even though the hypervisor has revoked
-> access.
-> 
-> Helpers such as "load_unaligned_zeropad()" deliberately read past the
-> end of a buffer and across page boundaries. A read into an unmapped
-> page is tolerated and triggers a #PF, for which the kernel executes
-> a fixup in the exception table.
-> 
-> If such a call steps into a page that has been deposited, the access
-> raises a #GP by the hypervisor from which the above handler cannot
-> recover and the kernel panics:
-> 
->   Oops: general protection fault, maybe for address 0xff1100941a3dfffc
->   RIP: 0010:csum_partial+0xe5/0x110
-> 
-> This condition will appear on L1VH system that have created L2
-> partitions (and hence deposited pages) and exercise networking code
-> paths such as csum_partial() can trigger this condition when a buffer
-> ends close to a page boundary (e.g fffc in the above example).
-> 
-> The fix is to remove the deposited pages from the direct map before
-> they are passed to the hypervisor, and restore them when the hypervisor
-> returns them again.
-> 
-> We want to avoid flushing the TLB in the loop, so we use the _noflush()
-> variant of set_direct_map_valid() when marking a deposited page invalid
-> and flush the affected page ranges in one go ourselves. In the opposite
-> direction this is not required:
-> 
->   > If a paging-structure entry is modified to change the P flag from
->   > 0 to 1, no invalidation is necessary. This is because no TLB entry
->   > or paging-structure cache entry is created with information from a
->   > paging-structure entry in which the P flag is 0.
-> 
-> (Intel SDM Vol. 3, 4.10.4.3)
-> 
-> Signed-off-by: Magnus Kulke <magnuskulke@linux.microsoft.com>
-> ---
-> Changes since v3:
-> - Batch contiguous pages in the restore path
-> - Adjusted comment about failure modes
-> 
-> Changes since v2:
-> - Checkpatch format fix
-> 
-> Changes since RFC:
-> - Handle direct-map restoration failures without returning unmapped
->   pages to the allocator.
-> - Move freeing of withdrawn pages into the restoration helper.
-> ---
->  drivers/hv/hv_proc.c           | 83 +++++++++++++++++++++++++++++++++-
->  drivers/hv/mshv_root_hv_call.c |  4 +-
->  include/asm-generic/mshyperv.h |  4 ++
->  3 files changed, 87 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> index 57b2c64197cb..b056051a5ac5 100644
-> --- a/drivers/hv/hv_proc.c
-> +++ b/drivers/hv/hv_proc.c
-> @@ -7,7 +7,9 @@
->  #include <linux/cpuhotplug.h>
->  #include <linux/minmax.h>
->  #include <linux/export.h>
-> +#include <linux/set_memory.h>
->  #include <asm/mshyperv.h>
-> +#include <asm/tlbflush.h>
->  
->  /*
->   * See struct hv_deposit_memory. The first u64 is partition ID, the rest
-> @@ -15,6 +17,35 @@
->   */
->  #define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
->  
-> +/*
-> + * Add or remove a set of physically contiguous page runs from the kernel
-> + * direct map. Once a page has been deposited the hypervisor owns it and
-> + * revokes root partition access to it.
-> + */
-> +static int hv_deposit_update_direct_map(struct page **pages, int *counts,
-> +					int num_allocations, bool valid)
-> +{
-> +	int i, err, ret = 0;
-> +
-> +	for (i = 0; i < num_allocations; ++i) {
-> +		err = set_direct_map_valid_noflush(pages[i], counts[i], valid);
-> +		if (err && !ret)
-> +			ret = err;
-> +	}
-> +
-> +	if (valid)
-> +		return ret;
-> +
-> +	for (i = 0; i < num_allocations; ++i) {
-> +		unsigned long addr = (unsigned long)page_address(pages[i]);
-> +		unsigned long size = (unsigned long)counts[i] << PAGE_SHIFT;
-> +
-> +		flush_tlb_kernel_range(addr, addr + size);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /* Deposits exact number of pages. Must be called with interrupts enabled.  */
->  int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
->  {
-> @@ -72,6 +103,10 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
->  	}
->  	num_allocations = i;
->  
-> +	ret = hv_deposit_update_direct_map(pages, counts, num_allocations, false);
-> +	if (ret)
-> +		goto err_restore_direct_map;
-> +
->  	local_irq_save(flags);
->  
->  	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> @@ -90,12 +125,23 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
->  	if (!hv_result_success(status)) {
->  		hv_status_err(status, "\n");
->  		ret = hv_result_to_errno(status);
-> -		goto err_free_allocations;
-> +		goto err_restore_direct_map;
->  	}
->  
->  	ret = 0;
->  	goto free_buf;
->  
-> +err_restore_direct_map:
-> +	/*
-> +	 * We don't want to return pages to the allocator if weren't able to
-> +	 * mark them valid in the direct map.
-> +	 */
-> +	if (hv_deposit_update_direct_map(pages, counts, num_allocations, true)) {
-> +		WARN(1, "leaking %d page block(s) that could not be set to valid\n",
-> +		     num_allocations);
-> +		goto free_buf;
-> +	}
-> +
->  err_free_allocations:
->  	for (i = 0; i < num_allocations; ++i) {
->  		base_pfn = page_to_pfn(pages[i]);
-> @@ -110,6 +156,41 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
->  }
->  EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
->  
-> +/*
-> + * Put withdrawn pages back in the direct map. Counterpart to the direct map
-> + * removal done by hv_call_deposit_pages().
-> + */
-> +void hv_restore_withdrawn_pages(const u64 *pfns, int count)
-> +{
-> +	int i, j, end, n, ret;
-> +	struct page *page;
-> +
-> +	for (i = 0; i < count; i = end) {
-> +		page = pfn_to_page(pfns[i]);
-> +		/* find consecutive runs of pfns */
-> +		for (end = i + 1; end < count; ++end) {
-> +			if (pfns[end] != pfns[end - 1] + 1)
-> +				break;
-> +		}
-> +		n = end - i;
-> +		ret = set_direct_map_valid_noflush(page, n, true);
-> +
-> +		for (j = i; j < end; ++j) {
-> +			page = pfn_to_page(pfns[j]);
-> +			/*
-> +			 * Retry individually on failed batch. We don't want
-> +			 * to return pages to the allocator that we couldn't mark
-> +			 * valid in the direct map.
-> +			 */
-> +			if (ret &&
-> +			    WARN_ON_ONCE(set_direct_map_valid_noflush(page, 1, true)))
-> +				continue;
-> +			__free_page(page);
-> +		}
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(hv_restore_withdrawn_pages);
-> +
->  int hv_deposit_memory_node(int node, u64 partition_id,
->  			   u64 hv_status)
->  {
-> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-> index cb55d4d4be2e..150a0c63ebc8 100644
-> --- a/drivers/hv/mshv_root_hv_call.c
-> +++ b/drivers/hv/mshv_root_hv_call.c
-> @@ -46,7 +46,6 @@ int hv_call_withdraw_memory(u64 count, int node, u64 partition_id)
->  	struct page *page;
->  	u16 completed;
->  	u64 status, withdrawn = 0;
-> -	int i;
->  	unsigned long flags;
->  
->  	page = alloc_page(GFP_KERNEL);
-> @@ -69,8 +68,7 @@ int hv_call_withdraw_memory(u64 count, int node, u64 partition_id)
->  
->  		completed = hv_repcomp(status);
->  
-> -		for (i = 0; i < completed; i++)
-> -			__free_page(pfn_to_page(output_page->gpa_page_list[i]));
-> +		hv_restore_withdrawn_pages(output_page->gpa_page_list, completed);
->  
->  		if (!hv_result_success(status)) {
->  			if (hv_result(status) == HV_STATUS_NO_RESOURCES)
-> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-> index bf601d67cecb..397c8ec0ce9a 100644
-> --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -346,6 +346,7 @@ static inline bool hv_parent_partition(void)
->  bool hv_result_needs_memory(u64 status);
->  int hv_deposit_memory_node(int node, u64 partition_id, u64 status);
->  int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
-> +void hv_restore_withdrawn_pages(const u64 *pfns, int count);
->  int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
->  int hv_call_notify_all_processors_started(void);
->  bool hv_lp_exists(u32 lp_index);
-> @@ -364,6 +365,9 @@ static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_page
->  {
->  	return -EOPNOTSUPP;
->  }
-> +
-> +static inline void hv_restore_withdrawn_pages(const u64 *pfns, int count) { }
-> +
->  static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id)
->  {
->  	return -EOPNOTSUPP;
-> -- 
-> 2.34.1
-> 
 
-Reviewed-by: Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
+
+On 9/30/2026 7:44 PM, Yu Zhang wrote:
+> Intel and AMD IOMMU drivers both reserve the x86 architectural MSI
+> address window from normal IOVA mappings, but each open-codes the range,
+> allocation attributes, and insertion into the reserved-region list.
+> 
+> Add iommu_add_resv_x86_msi_region() to encapsulate those operations, and
+> convert the Intel and AMD drivers to use it. Return an error on allocation
+> failure so callers can preserve their existing error paths.
+> 
+> Signed-off-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Reviewed-by: Vasant Hegde <vasant.hegde@amd.com>
+
+-Vasant
 
