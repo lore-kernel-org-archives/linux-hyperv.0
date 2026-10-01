@@ -1,123 +1,121 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D8D2BE034;
-	Thu,  1 Oct 2026 16:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7396423394A;
+	Thu,  1 Oct 2026 22:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790873625; cv=none; b=cgDHd98YI3+pUxCuTLe4ghl7nC4hNohclJw6aCNQ7rc05bMxivykbeUTeGxespssHTfBssLC5Ub9yYSq/V8AIa64f1ji/Tsh69DS5ftqMkx+v6SbQswfskg+3a88oz61axSu6OJx7JfyxBXEsrftd7iuhXJOB7bVRUHhaZ8CsCI=
+	t=1790892420; cv=none; b=tJ0qzdKsccI4Mv8sOMYdCbDwa7vw+B8dCl6C23s0Z4XdoDDuFv2qukX9d33ol7eGVMQ9d+iT7+x3Q/yHPpVYFgQVS2MVUNm8Z+zPsHvCXY6W2dylfOD6KtbNHQ5uGBSnCRek2uyXUsbc5m3ss7YWiZ38XtbbS+fcXUmR36OqRew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790873625; c=relaxed/simple;
-	bh=zklG5ImMiUx6eH5QTW0tdajVG9On698+5Dex3rHDNU0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=qD8IizMFthpNk3TfmxxA9yoKKnBAqTedAvXMtkEv6lhWDMi8rWC3WtvCV9Dol5Q2eUsiEmE4JiXmX3GHsstnotVdxd3JnSqmxxrJR9XNCMMZcgb9hoj4m/2MkvtrW8KcaPnZfSu/QBrfnKvfF70G0fP3WMSloMW3QepKdASij3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=bIVwCPuu; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=TLeS1x+0; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790892420; c=relaxed/simple;
+	bh=1Fx6byFm84lTKpkITxl4HcBprPmdGE/MtS8uGZU6fRY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KeURC4I5p4mx5nOgjTXTkemw9Mh8goh71uQewqxlt0iP+TG7J63LNXF1TiiYVRdtV+skVhh/XwrvmERLLZZo1hmqtOOpW9oHbEVWIpNWmKAahESHsYH7UIFDEZdSdMTlnn3LDQYhwvATnRDs0hRYZq/LsJwSAHBRzpMH4hHJoUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=tCkp9/sE; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="bIVwCPuu";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="TLeS1x+0"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790873577; bh=8F9+lpy3V1Yl1wcdKSphAEC
-	SLZz4osJu4uWhm9xA1GU=; b=bIVwCPuuR5boSqT4zIKAfC6BsNl7oH1RWhHSBOK51yxFYQHErm
-	9Ehah0eq1VmKR6s4aQvY7sEEj7dlnGTDPtRBtuJ/3K2QwAgk/th+4ZdmfCE6DVnvKs+vvRFLmoD
-	uFheuOsID8Vs25gZRqSVDX4UyTfLinUFmo8f5Y4k0sj5rnNRRCkXBTgXJgPs6pMgl2w0lvBjvhJ
-	nm6SYHRZp85w5Qf/SdpfUh2qnSunTXvFDDoLrkiGcuih6ICSZelp7rnDYembk0BUOfMz5UUesR3
-	1Ra52dxyoOuFEWQKJiQ+sG6IwWp3cjBGI52Tw8WrS6KBS/pdNCc4Ac+d0aPv/x31pVw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790873577; bh=8F9+lpy3V1Yl1wcdKSphAEC
-	SLZz4osJu4uWhm9xA1GU=; b=TLeS1x+07OKyp7Y41Bv59QHa1ZC5LyUP86OqeRf+MfKBRO8GoF
-	OpHXVuruAiHXRPQtJFqYym+Rej01xqkI2xBA==;
-Date: Thu, 01 Oct 2026 17:52:58 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: shradhagupta@linux.microsoft.com
-CC: akpm@linux-foundation.org, arnd@arndb.de, baoquan.he@linux.dev, bp@alien8.de,
- catalin.marinas@arm.com, dave.hansen@linux.intel.com, decui@microsoft.com,
- haiyangz@microsoft.com, kexec@lists.infradead.org, kys@microsoft.com,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- longli@microsoft.com, mhklinux@outlook.com, mingo@redhat.com,
- pasha.tatashin@soleen.com, pratyush@kernel.org, rppt@kernel.org,
- tglx@kernel.org, wei.liu@kernel.org, will@kernel.org, x86@kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_0/2=5D_hyperv=3A_Run_VMBus?=
- =?US-ASCII?Q?_kexec_cleanup_from_syscore_shutdown?=
-In-Reply-To: <20261001132128.1703511-1-shradhagupta@linux.microsoft.com>
-Message-ID: <C8205996-C913-487A-BB8A-E3DD018AF747@mainlining.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="tCkp9/sE"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 99C3620B7166;
+	Thu,  1 Oct 2026 15:06:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99C3620B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1790892365;
+	bh=0ZfNdmtpBctwNB7gcGUVJbd+WaNGSB4OdhLupMhtGUg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tCkp9/sEsXTy2leGHvmYWMXOT6vBCkEtlzwdPmEnrX2zGrVl1IrnJRxiLOqa5xJAy
+	 JnQZFp39NDRMENdA8pe5qr4Ne17qFqxxFfHh5bmWwXFKL8Fth2ugfjvg3fs3XsrLhp
+	 muyVeJL2R7BsMu6MrQFSWQR4S+9h9zmTECr5epM0=
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	mhklinux@outlook.com
+Cc: catalin.marinas@arm.com,
+	will@kernel.org,
+	mark.rutland@arm.com,
+	lpieralisi@kernel.org,
+	sudeep.holla@kernel.org,
+	arnd@arndb.de,
+	thuth@redhat.com,
+	linux-hyperv@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [PATCH v4 0/6] arm64: hyperv: Add Realm support for Hyper-V
+Date: Thu,  1 Oct 2026 15:05:46 -0700
+Message-ID: <20261001220552.1793471-1-kameroncarr@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 1 October 2026 14:21:25 BST, Shradha Gupta
-<shradhagupta@linux.microsoft.com> wrote:
->Kexec reboot fails on ARM64 Hyper-V guests because the VMBus
->connection and SynIC CPU hotplug state are not torn down before the
->secondary CPUs are stopped. The kexec kernel consequently starts with
->the previous kernel's VMBus state still active.
->
->The previous version added an ARM64-specific syscore shutdown
->implementation. This version follows Michael Kelley's review and moves
->the cleanup into the existing architecture-independent VMBus syscore
->operations. This removes the separate x86 handler dispatch and gives
->x86 and ARM64 the same ordering:
->
->  device_shutdown()
->  syscore_shutdown()
->    VMBus UNLOAD and SynIC CPU hotplug teardown
->  machine_shutdown()
->
->On x86, VMBus teardown now runs before hv_stimer_global_cleanup().
->This ordering is safe after commit be0cfab740e5 ("clocksource: hyper-v:
->Remove support for stimer interrupts in message mode") removed the
->VMBus dependency from synthetic timer handling.
->
->Patch 1 adds a read-only helper that reports whether a kexec reboot is
->in progress. The helper is exported because HYPERV_VMBUS is tristate
->and the common syscore callback must also link when VMBus is a module.
->Patch 2 moves the cleanup into the common callback and removes the
->obsolete architecture-specific setup/remove interface.
->
->For stable kernels that still support message-mode stimers, an
->ARM64-specific backport will be needed to preserve the existing x86
->ordering.
->
->Changes in v3:
->  - Use the existing common VMBus syscore operations on all
->    architectures, as suggested by Michael.
->  - Remove the x86 handler pointer and the weak setup/remove interface.
->  - Add an exported read-only helper for modular VMBus builds.
->  - Correct the Fixes tag to the commit that enabled Hyper-V on ARM64.
->
->Changes in v2:
->  - Use syscore shutdown instead of an ARM64 machine_shutdown() hook, as
->    suggested by Catalin.
->
->Shradha Gupta (2):
->  kexec: Add helper to report an active kexec reboot
->  Drivers: hv: Run VMBus kexec cleanup from syscore shutdown
->
-> arch/x86/kernel/cpu/mshyperv.c | 17 +----------------
-> drivers/hv/hv_common.c         | 10 ----------
-> drivers/hv/vmbus_drv.c         | 22 ++++++++++++++--------
-> include/asm-generic/mshyperv.h |  2 --
-> include/linux/kexec.h          |  2 ++
-> kernel/kexec_core.c            |  7 +++++++
-> 6 files changed, 24 insertions(+), 36 deletions(-)
->
->
->base-commit: be0cfab740e58b70047ef6e7e3d578f00ed5d258
->
+Realms (CoCo VMs on ARM) require host calls to be routed through the RMM
+(Realm Management Monitor) via the RSI (Realm Service Interface). This
+series implements most of the necessary changes to support Realms on
+Hyper-V.
 
-Wow! Great!!!
+One required change is not included in this series. The two buffers
+allocated via vzalloc() in netvsc_init_buf() cannot be decrypted in
+vmbus_establish_gpadl(). Currently only linearly mapped memory can be
+decrypted.
 
-Whole series:
+This patch series was tested by booting a Realm on Cobalt 200 running
+Windows. I tested 4KB and 64KB page size. I replaced vzalloc() in
+netvsc_init_buf() with alloc_pages_node() -> set_memory_decrypted() ->
+vmap() in my testing as a workaround for the issue mentioned above [1].
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+Changes since v1 [2]:
+  Patch 1: Add explicit padding to the RSI host call structure
+  Patch 3: Change from a per-cpu pointer lazily allocated to an array
+             of host call structs indexed by cpu id
+  Patch 4: Align input_page + output_page allocation to PAGE_SIZE since
+             that is the smallest unit of memory that can be decrypted
+           ~Remove KASAN tags before passing address to
+             set_memory_decrypted() since __is_lm_address() does pointer
+             arithmetic.~
+  Patch 5: Add a helper function to reduce repetition
+           Check for NULL before indexing into host call array
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+Changes since v2 [3]:
+  Patch 3: Remove hv_hostcall_free() and inline the logic for simplicity
+           Reorder edits to keep #include line at the end of the file
+  Patch 4: Remove kasan_reset_tag()
+
+Changes since v3 [4]:
+  Rebased onto arm64 for-next/smccc-bus which includes moving RSI header
+  files out of arch/arm64 [5]
+
+[1] https://lore.kernel.org/all/20260721195633.1438361-1-kameroncarr@linux.microsoft.com/
+[2] https://lore.kernel.org/all/20260609181030.2378391-1-kameroncarr@linux.microsoft.com/
+[3] https://lore.kernel.org/all/20260625173500.1995481-1-kameroncarr@linux.microsoft.com/
+[4] https://lore.kernel.org/all/20260721201148.1441143-1-kameroncarr@linux.microsoft.com/
+[5] https://lore.kernel.org/all/20260923140405.1111554-4-aneesh.kumar@kernel.org/
+
+Kameron Carr (6):
+  arm64: rsi: Add RSI host call structure and helper function
+  firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
+  arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
+  Drivers: hv: Mark shared memory as decrypted for CCA Realms
+  arm64: hyperv: Route hypercalls through RSI host call in CCA Realms
+  arm64: hyperv: Implement hv_is_isolation_supported() for CCA Realms
+
+ arch/arm64/hyperv/hv_core.c       | 156 +++++++++++++++++++++++-------
+ arch/arm64/hyperv/mshyperv.c      |  38 +++++++-
+ arch/arm64/include/asm/mshyperv.h |   4 +
+ drivers/firmware/smccc/smccc.c    |  41 +++++++-
+ drivers/hv/hv_common.c            |  17 +++-
+ include/asm-generic/mshyperv.h    |   1 +
+ include/linux/arm-rsi-cmds.h      |  22 +++++
+ include/linux/arm-smccc-rsi.h     |   7 ++
+ 8 files changed, 245 insertions(+), 41 deletions(-)
+
+
+base-commit: bce57945f5e7207960b2bd567a6e880f90258ffb
+-- 
+2.45.4
+
