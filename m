@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30B131D366;
-	Fri,  2 Oct 2026 21:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7221347532;
+	Fri,  2 Oct 2026 21:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790978334; cv=none; b=NOzTU599FD87OBa6aktenuYYRulIp7MUGeVfqSwJQsi/GuURAmo7lhm4rvM6dzyMgB8SK81alJlMZkj4P6QjuK5uYz6irim8SAC71gWB0ob5mOVCp7iQaOxwGF+eMNccD30RG4oJ/Ny5uecLw2YFWSvLQ4B7qu8gmMM0vBTYotM=
+	t=1790978335; cv=none; b=GGnp003pAEEsZEdB4KpdoPnVjAzFEGVihlULR+bydgPAXkgU1X2ebjnk4kwPMq9qp+gC+m5s/bSKhmdvgSVc7UypiQnxCKbGJiaIiBYSO0KKhmrr+jjjZ7vlBamcdAJYsspRhwKJYuQuQaBY/JJDSFMboZMj3yq9V/a1M16cgiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790978334; c=relaxed/simple;
-	bh=kb4nGcWIQYMIF/mSDF1BRQw9Lc65Mcc1UdLHBvxGxMw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdRBRB9PtBsnURrBEp/mGq1StmSg14M93vrFMLTadN/JKIPIZWYtKWEZTTItG/vqRAi/AEZsA7hMeQXD83+6TTq0tzGHVzl5O4fFJeOj602F50ITcsSJlD1mLW6NlsZH75AOeQXrEFbONJbOv+N+POPTwEUc3qrPhvrQM9Fhtjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=R1PdC9D/; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1790978335; c=relaxed/simple;
+	bh=NcSm62QL2a7N38s/PkT6XVxHWnG1B77dTXCMjFS8c3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kFv+8i4sJ/qO4M9Vv0G3T2Nrl/Ne7noWa2Lsh4snJqucxQ+FyGz3JYlY8O5O8Aj8WP0vmeVSbdGXUT0Y+oUypeTPUqXFs8a3E9wyWN9fsTl93UstIM96sZNCr2mpvKVAy6sld4sXGxUrvNbuDT5xL1q5P44LA37QTUCJvrS5yzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=L5cooXtF; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="R1PdC9D/"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="L5cooXtF"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3A1A120B7166;
-	Fri,  2 Oct 2026 14:57:58 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3A1A120B7166
+	by linux.microsoft.com (Postfix) with ESMTPSA id 266CF20B7167;
+	Fri,  2 Oct 2026 14:57:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 266CF20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790978278;
-	bh=fB8AWI5fN2ddbjjum5NsS8hnJ5Z4HHJhTGA5ByCK5bc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=R1PdC9D/o8T6DS0YoXLIkaCdWW1Sx0fM8Uzz0vRdaAdi45/xlRo0UOGnzwjb7n6mb
-	 ooK3ZYqUVnEHou65FCHOufxw1bUIPGBAJHPO49hEYa37mCAxwR/TXlzw0EQiSTskxq
-	 4Cy+P35X6WwrXvXuV1+fOcs1N4KOfRyFGbYP0/Pc=
+	s=default; t=1790978279;
+	bh=F0MO/r8a7BDsMhBk/mJgC+1OZlbLoLJX/Mq8zb5p8N0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=L5cooXtFHHEbx0Yq3pMULm2K0JV1BhknCj++bHbEg4W48WegjpitGnDYaVs1Y2YQ+
+	 bXUZPdIkr+2+LSULNM/AU4UizUUtWDRmXdrC6VeteAmgsxxH+WgFsR0DK6Uuw28aGQ
+	 0wgsrNiXoLw9IM7KbzyW+aEUswETZxugGtLnjKeg=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: haiyangz@microsoft.com,
 	wei.liu@kernel.org,
@@ -40,10 +41,12 @@ Cc: catalin.marinas@arm.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: [PATCH v5 0/6] arm64: hyperv: Add Realm support for Hyper-V
-Date: Fri,  2 Oct 2026 14:57:19 -0700
-Message-ID: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v5 1/6] arm64: rsi: Add RSI host call structure and helper function
+Date: Fri,  2 Oct 2026 14:57:20 -0700
+Message-ID: <20261002215725.2015959-2-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
+References: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -52,73 +55,73 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Realms (CoCo VMs on ARM) require host calls to be routed through the RMM
-(Realm Management Monitor) via the RSI (Realm Service Interface). This
-series implements most of the necessary changes to support Realms on
-Hyper-V.
+Add struct rsi_host_call to arm-smccc-rsi.h, which represents the host
+call data structure used by the Realm Management Monitor (RMM) for the
+RSI_HOST_CALL interface. The structure contains a 16-bit immediate field
+and 31 general-purpose register values, aligned to 256 bytes as required
+by the CCA RMM specification.
 
-One required change is not included in this series. The two buffers
-allocated via vzalloc() in netvsc_init_buf() cannot be decrypted in
-vmbus_establish_gpadl(). Currently only linearly mapped memory can be
-decrypted.
+Add rsi_host_call() static inline wrapper in arm-rsi-cmds.h that invokes
+SMC_RSI_HOST_CALL with the physical address of the host call structure.
+This will be used by Hyper-V guest code to route hypercalls through the
+RSI interface when running inside an Arm CCA Realm.
 
-This patch series was tested by booting a Realm on Cobalt 200 running
-Windows. I tested 4KB and 64KB page size. I replaced vzalloc() in
-netvsc_init_buf() with alloc_pages_node() -> set_memory_decrypted() ->
-vmap() in my testing as a workaround for the issue mentioned above [1].
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+---
+ include/linux/arm-rsi-cmds.h  | 22 ++++++++++++++++++++++
+ include/linux/arm-smccc-rsi.h |  7 +++++++
+ 2 files changed, 29 insertions(+)
 
-Changes since v1 [2]:
-  Patch 1: Add explicit padding to the RSI host call structure
-  Patch 3: Change from a per-cpu pointer lazily allocated to an array
-             of host call structs indexed by cpu id
-  Patch 4: Align input_page + output_page allocation to PAGE_SIZE since
-             that is the smallest unit of memory that can be decrypted
-           ~Remove KASAN tags before passing address to
-             set_memory_decrypted() since __is_lm_address() does pointer
-             arithmetic.~ (reverted in v3)
-  Patch 5: Add a helper function to reduce repetition
-           Check for NULL before indexing into host call array
-
-Changes since v2 [3]:
-  Patch 3: Remove hv_hostcall_free() and inline the logic for simplicity
-           Reorder edits to keep #include line at the end of the file
-  Patch 4: Remove kasan_reset_tag()
-
-Changes since v3 [4]:
-  Rebased onto arm64 for-next/smccc-bus which includes moving RSI header
-  files out of arch/arm64 [5]
-
-Changes since v4 [6]:
-  Patch 1, 2, 4: Fix commit message to reflect the new header file names
-  Patch 5: Remove extra blank line
-
-[1] https://lore.kernel.org/all/20260721195633.1438361-1-kameroncarr@linux.microsoft.com/
-[2] https://lore.kernel.org/all/20260609181030.2378391-1-kameroncarr@linux.microsoft.com/
-[3] https://lore.kernel.org/all/20260625173500.1995481-1-kameroncarr@linux.microsoft.com/
-[4] https://lore.kernel.org/all/20260721201148.1441143-1-kameroncarr@linux.microsoft.com/
-[5] https://lore.kernel.org/all/20260923140405.1111554-4-aneesh.kumar@kernel.org/
-[6] https://lore.kernel.org/all/20261001220552.1793471-1-kameroncarr@linux.microsoft.com/
-
-Kameron Carr (6):
-  arm64: rsi: Add RSI host call structure and helper function
-  firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
-  arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
-  Drivers: hv: Mark shared memory as decrypted for CCA Realms
-  arm64: hyperv: Route hypercalls through RSI host call in CCA Realms
-  arm64: hyperv: Implement hv_is_isolation_supported() for CCA Realms
-
- arch/arm64/hyperv/hv_core.c       | 155 +++++++++++++++++++++++-------
- arch/arm64/hyperv/mshyperv.c      |  38 +++++++-
- arch/arm64/include/asm/mshyperv.h |   4 +
- drivers/firmware/smccc/smccc.c    |  41 +++++++-
- drivers/hv/hv_common.c            |  17 +++-
- include/asm-generic/mshyperv.h    |   1 +
- include/linux/arm-rsi-cmds.h      |  22 +++++
- include/linux/arm-smccc-rsi.h     |   7 ++
- 8 files changed, 244 insertions(+), 41 deletions(-)
-
-
-base-commit: bce57945f5e7207960b2bd567a6e880f90258ffb
+diff --git a/include/linux/arm-rsi-cmds.h b/include/linux/arm-rsi-cmds.h
+index 3f7a6a8..01d292e 100644
+--- a/include/linux/arm-rsi-cmds.h
++++ b/include/linux/arm-rsi-cmds.h
+@@ -236,4 +236,26 @@ static inline unsigned long rsi_attestation_token_continue(phys_addr_t granule,
+ 	return res.a0;
+ }
+ 
++/**
++ * rsi_host_call - Make a Host call.
++ * @host_call_struct: IPA of host call structure
++ *
++ * This call will fail if the IPA of the host call structure:
++ * * is not aligned to 256 bytes,
++ * * is not protected / encrypted,
++ * * is RIPAS_EMPTY
++ *
++ * Returns:
++ *  On success, returns RSI_SUCCESS.
++ *  Otherwise, returns an error code.
++ */
++static inline unsigned long rsi_host_call(phys_addr_t host_call_struct)
++{
++	struct arm_smccc_res res;
++
++	arm_smccc_smc(SMC_RSI_HOST_CALL, host_call_struct, 0, 0, 0, 0, 0, 0,
++		      &res);
++	return res.a0;
++}
++
+ #endif /* __LINUX_ARM_RSI_CMDS_H_ */
+diff --git a/include/linux/arm-smccc-rsi.h b/include/linux/arm-smccc-rsi.h
+index fddb779..4c8530b 100644
+--- a/include/linux/arm-smccc-rsi.h
++++ b/include/linux/arm-smccc-rsi.h
+@@ -142,6 +142,13 @@ struct realm_config {
+ 	 */
+ } __aligned(0x1000);
+ 
++struct rsi_host_call {
++	u16 immediate;
++	u8 _padding[6];
++	u64 gprs[31];
++} __aligned(256);
++static_assert(sizeof(struct rsi_host_call) == 256);
++
+ #endif /* __ASSEMBLER__ */
+ 
+ /*
 -- 
 2.45.4
 
