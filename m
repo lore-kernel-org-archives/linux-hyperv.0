@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6324445AD0;
-	Fri,  2 Oct 2026 21:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8179346C4DF;
+	Fri,  2 Oct 2026 21:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790978336; cv=none; b=fwoBJCx8XupDKhGJ79Y8bkoYBNQ4GHzutLtsGdiwcyv5zd9rDy9WqtkWTLV723CU+ui1Mw5MI+y0ZquxAaG+JoUEF4f3MSBfJATCT236lcadI/k9GLO4Zx8FQQKkdkQmEYc5WqYkjmqJgl3flhKEA2YxrsPmLbI0aNTMIM8hfA0=
+	t=1790978337; cv=none; b=geawhPgRtWl+Xc74EicrfAQ0w8ef9V6A+K+BvaaGY9J3lp0uao8xKIa6cYgm9yAUS+RifAu8eSWyHd55xOjrFflzu4c3gQ8MCbKgCi0QeTsCmXu6vB95d/QCEqqFhkvXKE5AXpfcy7DHB2zMTURSku0lN5sf65YpL7zMemLI7FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790978336; c=relaxed/simple;
-	bh=WERPy1/jcpi+6P2j6CcERlwWMflcE90MmhPm8D5CaPM=;
+	s=arc-20240116; t=1790978337; c=relaxed/simple;
+	bh=tza3pDjQaY+rxJTemxwjSWMFD36ykVq6n44oBhjSFz8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QzOHzA7UvaMOJZsCuou8u6CSCxflhiWzKKSRghfhMfl22Md+TOxU9BVbfP/pYurjFdv9QSMoVFvc8CWkDG9d6vz6HYjNvdgdhjOtQzpTI3Qj9rS9cHeWhH0ttzj3PXETTkPhtuEqALorNrAoUKQw2+4GGS8MicMojdfH0X5Udpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XSZ3soDN; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=qLMvffRY8XXo+MXewYOLXW5F+oQRtrQizJ+qPgEedMNwHo4l1vux0+bFCMG9fpK79Qf+ChuIGlUcncwPGbtfGm12ndzEI5UZnuJDT57kbHvdCKnbnp1rXXBgbWcnNbU6I7y2eSGVQSsZp0hBZs+fVAC4cIJ++4fklaZjlvKb57c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bY/eCuPt; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XSZ3soDN"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bY/eCuPt"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 245BF20B7168;
-	Fri,  2 Oct 2026 14:58:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 245BF20B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2431820B7169;
+	Fri,  2 Oct 2026 14:58:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2431820B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1790978280;
-	bh=hEmHt3m10eoMgtvjPJXuMeA+sz+b1A4aGz4wGZrx/nk=;
+	s=default; t=1790978281;
+	bh=b2GtJHBzDcmYlbHghwmtxMILKeFIMO+Ff8lGch7jV0Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XSZ3soDNnbcKur+M3I4DJfeSKfPIoMNqlWld0861H2ry1jKugwmM03BnMSEdEo3WQ
-	 mg/C9eHVGtKXVi5fHJMEI50Jz4sKKVTL5gSEa4GEBn/UTKftty9LOUY3ecLL5+mpEW
-	 PgaiHfbasrfcMq5v1KPLW+GF/sZ8gwZKUBq1tm7g=
+	b=bY/eCuPtmV+/cl9lGxAHg9mVkeIqewu+FwiHuWbNU6TkRDLg0RCJPMYgsbXZb9yZp
+	 4roTg0N7pVxP5vzT5OM13fXad3Pj7EXUahyzKsH3VP8hc1VmmzPBaK+5db670FZy4p
+	 uPnx5WAkoFJIQIqLQPRQcDCGh4OYDFxdfbF01FHU=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: haiyangz@microsoft.com,
 	wei.liu@kernel.org,
@@ -41,9 +41,9 @@ Cc: catalin.marinas@arm.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-arch@vger.kernel.org
-Subject: [PATCH v5 2/6] firmware: smccc: Detect hypervisor via RSI host call in CCA Realms
-Date: Fri,  2 Oct 2026 14:57:21 -0700
-Message-ID: <20261002215725.2015959-3-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v5 3/6] arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
+Date: Fri,  2 Oct 2026 14:57:22 -0700
+Message-ID: <20261002215725.2015959-4-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
 References: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
@@ -55,89 +55,109 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Modify arm_smccc_hypervisor_has_uuid() to check is_realm_world() and
-use rsi_host_call() to query the hypervisor vendor UUID when inside a
-Realm. The realm path is factored into a helper,
-arm_smccc_realm_get_hypervisor_uuid(), that owns a file-static
-rsi_host_call buffer (uuid_hc) serialized by a spinlock.
+Arm CCA Realms cannot issue Hyper-V hypercalls via HVC; the guest must
+route them through the RSI_HOST_CALL interface, which takes the IPA of a
+per-CPU rsi_host_call structure as its argument.
 
-The RSI-specific includes, file-static state and helper are guarded with
-CONFIG_ARM64 because <linux/arm-rsi-cmds.h> does not build on 32-bit
-ARM.
-
-For non-Realm environments, the existing arm_smccc_1_1_invoke() path
-is unchanged.
+Add hv_hostcall_array as a per-CPU struct array and allocate it during
+hyperv_init(). The allocation is gated on is_realm_world() so non-Realm
+arm64 Hyper-V guests pay no memory cost.
 
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
- drivers/firmware/smccc/smccc.c | 41 +++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+ arch/arm64/hyperv/mshyperv.c      | 28 ++++++++++++++++++++++++++--
+ arch/arm64/include/asm/mshyperv.h |  4 ++++
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
-index afc2e4d..7e77170 100644
---- a/drivers/firmware/smccc/smccc.c
-+++ b/drivers/firmware/smccc/smccc.c
-@@ -14,6 +14,12 @@
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index 4fdc26a..b1657cf 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -11,14 +11,19 @@
  
- #include <asm/archrandom.h>
- 
-+#ifdef CONFIG_ARM64
+ #include <linux/types.h>
+ #include <linux/acpi.h>
 +#include <linux/arm-rsi-cmds.h>
-+#include <linux/cleanup.h>
-+#include <linux/spinlock.h>
-+#endif
-+
- static u32 smccc_version = ARM_SMCCC_VERSION_1_0;
- static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+ #include <linux/export.h>
+ #include <linux/errno.h>
++#include <linux/slab.h>
+ #include <linux/version.h>
+ #include <linux/cpuhotplug.h>
+ #include <asm/mshyperv.h>
  
-@@ -69,12 +75,45 @@ s32 arm_smccc_get_soc_id_revision(void)
- }
- EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+ static bool hyperv_initialized;
  
-+#ifdef CONFIG_ARM64
-+static struct rsi_host_call uuid_hc;
-+static DEFINE_SPINLOCK(uuid_hc_lock);
++struct rsi_host_call *hv_hostcall_array;
++EXPORT_SYMBOL_GPL(hv_hostcall_array);
 +
-+/*
-+ * Helper function to get the hypervisor UUID via an RsiHostCall.
-+ */
-+static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res *res)
-+{
-+	guard(spinlock_irqsave)(&uuid_hc_lock);
-+
-+	memset(&uuid_hc, 0, sizeof(uuid_hc));
-+	uuid_hc.gprs[0] = ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
-+
-+	if (rsi_host_call(__pa_symbol(&uuid_hc)) != RSI_SUCCESS) {
-+		res->a0 = SMCCC_RET_NOT_SUPPORTED;
-+		return;
+ int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
+ {
+ 	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION,
+@@ -85,6 +90,20 @@ static int __init hyperv_init(void)
+ 	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
+ 		return 0;
+ 
++	/*
++	 * The RSI host-call buffers are only ever used when
++	 * is_realm_world() is true. Skip the allocation on non-Realm
++	 * guests. A single contiguous array of nr_cpu_ids entries is
++	 * allocated; each CPU indexes into it by its processor ID.
++	 */
++	if (is_realm_world()) {
++		hv_hostcall_array = kcalloc(nr_cpu_ids,
++					    sizeof(struct rsi_host_call),
++					    GFP_KERNEL);
++		if (!hv_hostcall_array)
++			return -ENOMEM;
 +	}
 +
-+	res->a0 = uuid_hc.gprs[0];
-+	res->a1 = uuid_hc.gprs[1];
-+	res->a2 = uuid_hc.gprs[2];
-+	res->a3 = uuid_hc.gprs[3];
-+}
-+#endif
-+
- bool arm_smccc_hypervisor_has_uuid(const uuid_t *hyp_uuid)
- {
- 	struct arm_smccc_res res = {};
- 	uuid_t uuid;
+ 	/* Setup the guest ID */
+ 	guest_id = hv_generate_guest_id(LINUX_VERSION_CODE);
+ 	hv_set_vpreg(HV_REGISTER_GUEST_OS_ID, guest_id);
+@@ -106,13 +125,13 @@ static int __init hyperv_init(void)
  
--	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID, &res);
-+#ifdef CONFIG_ARM64
-+	if (is_realm_world())
-+		arm_smccc_realm_get_hypervisor_uuid(&res);
-+	else
-+#endif
-+		arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
-+				     &res);
-+
- 	if (res.a0 == SMCCC_RET_NOT_SUPPORTED)
- 		return false;
+ 	ret = hv_common_init();
+ 	if (ret)
+-		return ret;
++		goto free_hostcall_mem;
  
+ 	ret = cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE, "arm64/hyperv_init:online",
+ 				hv_common_cpu_init, hv_common_cpu_die);
+ 	if (ret < 0) {
+ 		hv_common_free();
+-		return ret;
++		goto free_hostcall_mem;
+ 	}
+ 
+ 	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
+@@ -125,6 +144,11 @@ static int __init hyperv_init(void)
+ 
+ 	hyperv_initialized = true;
+ 	return 0;
++
++free_hostcall_mem:
++	kfree(hv_hostcall_array);
++	hv_hostcall_array = NULL;
++	return ret;
+ }
+ 
+ early_initcall(hyperv_init);
+diff --git a/arch/arm64/include/asm/mshyperv.h b/arch/arm64/include/asm/mshyperv.h
+index b721d31..aed0aa5 100644
+--- a/arch/arm64/include/asm/mshyperv.h
++++ b/arch/arm64/include/asm/mshyperv.h
+@@ -61,6 +61,10 @@ static inline u64 hv_get_non_nested_msr(unsigned int reg)
+ 				ARM_SMCCC_OWNER_VENDOR_HYP,	\
+ 				HV_SMCCC_FUNC_NUMBER)
+ 
++/* Per-CPU-indexed RSI host call structures for CCA Realms */
++struct rsi_host_call;
++extern struct rsi_host_call *hv_hostcall_array;
++
+ #include <asm-generic/mshyperv.h>
+ 
+ #endif
 -- 
 2.45.4
 
