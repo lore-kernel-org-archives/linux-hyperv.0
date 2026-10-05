@@ -1,94 +1,110 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E10943E9FC;
-	Mon,  5 Oct 2026 10:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE92C43F8CB;
+	Mon,  5 Oct 2026 19:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.245.243.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791197935; cv=none; b=aHaFlZkTmKVDa5yLVLF8An64xDPuEZlr8X9gOSHLNmUCu8nWOLqbcfyX9ewUWfyi0OHDEZD97v8N8QvnsnRfxZtiKr+HFluhwtvu9vs2la+/7fv74V/cCvpNgWgRqniX2YLRth+SHlkYn3lm55k+87HrK4t/lQza9B6gP2gh1uQ=
+	t=1791228284; cv=none; b=ObnuEYc4CESXZl+Pu+Qh8n4Gwv/TGCseOfGSga8ytc1ryK0gEiKRzA0xcvnMdrYuLaPGtQw6tD7VfZs6A9MqXi2FdnxaO5yUVph3m1pln949No7/55HV9pCX01cbKMybEe7TblwYSdPOSEfryr2v59Gl5qnznzLnTAqB0CivkbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791197935; c=relaxed/simple;
-	bh=XKivEEfqJ1Loxg/zjvRlcQxbdujmDiM0i6o6RGWb0X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sy6oM5o478XnI4EZrKO1EHE3hYb6N4aG2PNOH9hI6L6Kdp3KIVP2OimPW2LYls8BDgVZWEbpJ7wvkivNm79fbs0b8Hy3lwLLbREyDdjhwyfgrcL1kBReRMcbedebIR2Xwv98tf67uQbqb8rwnj1hLH5qHs9Jwr+N+4BtzI34OmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Z7J/MNr0; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1791228284; c=relaxed/simple;
+	bh=ZDuxZkEDRudg2cgH0lUrTo3aWOvS7stWFQ5QI4bhfog=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=syHN3ZUSSteq9HP26C15n/71Q97YzI8A89nwd5QlhXy7nIpVfAgvXufhGuErTNYDlRV9Oy5tXYrOQ6hkSt5fGFgvxtC/Gda1kMOcXwGdftXSWA/PFZpswpz70VXxutSGuCGp8PKZ/+6S1SZtG7/HD1Caj9+5IvSJ5w/rDS6v2qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=RWNJGHd0; arc=none smtp.client-ip=44.245.243.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Z7J/MNr0"
-Received: from example.com (unknown [167.220.208.46])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C2BD820B7166;
-	Mon,  5 Oct 2026 03:48:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C2BD820B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791197340;
-	bh=bOV1KkbqIPodySJYR8HJdIIEeWJmHDi+JcH9/BuX10U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z7J/MNr0Z+/8N6JcXho3uzFWfTC8ak5iHhEr/WXHDfYyB7OKrmrNPjGig6cPjHQed
-	 wJf9dq0hEYjlpStr10GQg6Oes0mW9u2acxH7FP4SgWVzooYRdt2SAPWdVfSUalNj6j
-	 3J0I7gap/hd01KLpVeLYmG4C76lOBl3LFZ+0kwTs=
-Date: Mon, 5 Oct 2026 12:49:49 +0200
-From: Magnus Kulke <magnuskulke@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Wei Liu <liuwe@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Magnus Kulke <magnuskulke@microsoft.com>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH v3] drivers/hv: remove deposited pages from direct map
-Message-ID: <asOAzTuyT3XxeRK4@example.com>
-References: <20260917201052.2123701-1-magnuskulke@linux.microsoft.com>
- <SN6PR02MB4157B2D3C47289305C6E487CD4802@SN6PR02MB4157.namprd02.prod.outlook.com>
- <arzzghes/vN/1WSf@example.com>
- <SN6PR02MB41576BE36A94FC74D3C4687ED48A2@SN6PR02MB4157.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="RWNJGHd0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazoncorp2; t=1791228283; x=1822764283;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=acPACm7hsiGbc67MIkc1eWvek1PAKgg9FPPf+dpbngo=;
+  b=RWNJGHd0GMRHmRcOcz9xM9eSqBZBAIJPu8vkd5pZYHXUXbDB2zh44uOc
+   02m9loL0NLhJH/wSgqQcXv5h8kZfU8K9qAP95QBmfMSFoAEB2ipBBgiSd
+   SZDe+dyeDmfh9d0rmnu2VpnLyq0VEs7dPepQukha8XioTY9Bq9pwXvGuO
+   Pth8rqc9FLUrC1lhECpPGJDEqNbs33H143DWYi0TcBrr0MYuax0VL/fog
+   87reDmjmyR+4Pab/EqbJNb4HR9FS6vVYA/lAVK7gSDgskB1/r1D/13D6h
+   8yE/TPBFi3yN1cppg4sl+zLp0JN1e5Q4bsg5QoGcVoTPyRUvrUuc7tVBp
+   w==;
+X-CSE-ConnectionGUID: X7IWKMG+TFyRkEdIqZr2KA==
+X-CSE-MsgGUID: TSsnHHQxTwCGbQ7olK6dVQ==
+X-IronPort-AV: E=Sophos;i="6.27,142,1787011200"; 
+   d="scan'208";a="29977024"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:24:41 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:10471]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.52.137:2525] with esmtp (Farcaster)
+ id 7bb1d39c-d023-40bc-915d-8c6963cfb816; Mon, 5 Oct 2026 19:24:41 +0000 (UTC)
+X-Farcaster-Flow-ID: 7bb1d39c-d023-40bc-915d-8c6963cfb816
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
+ Mon, 5 Oct 2026 19:24:41 +0000
+Received: from dev-dsk-hmushi-1a-0c348132.eu-west-1.amazon.com
+ (172.19.124.218) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Mon, 5 Oct 2026
+ 19:24:38 +0000
+From: Mushahid Hussain <hmushi@amazon.co.uk>
+To: <kvm@vger.kernel.org>
+CC: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+	<pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, "K . Y .
+ Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, "Wei
+ Liu" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
+	<longli@microsoft.com>, <linux-hyperv@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nh-open-source@amazon.com>,
+	<mushi.shar@gmail.com>
+Subject: [PATCH 0/3] KVM: x86: Support hibernation of a nested Hyper-V
+Date: Mon, 5 Oct 2026 19:24:28 +0000
+Message-ID: <20261005192431.87317-1-hmushi@amazon.co.uk>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB41576BE36A94FC74D3C4687ED48A2@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D033UWC002.ant.amazon.com (10.13.139.196) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Thu, Oct 01, 2026 at 05:10:14AM +0000, Michael Kelley wrote:
-> From: Magnus Kulke <magnuskulke@linux.microsoft.com> Sent: Wednesday, September 30, 2026 4:33 AM
-> 
-> I went back and refreshed my memory on the discussion from July
-> 2023. At least on x86, the faulting address is used only as a sanity
-> check in ex_handler_zeropad(). The #GP exception handler already
-> calls fixup_exception(), but it calls with fault_addr set to zero, so
-> ex_handler_zeropad() always returns false (i.e., it says it can't do the
-> fixup). From looking at the code, it appears the deposited pages case
-> would "just work" if the sanity test against fault_addr was removed in
-> ex_handler_zeropad(). There was a past discussion about removing
-> the sanity test [1], but at the time there wasn't a strong reason for
-> or against, so it was left in (having been added relatively recently in
-> c4e34dd99f2e). An option for the deposited pages problem would
-> be to make the case now for removing the sanity test.
-> 
-> I haven't looked at the situation on arm64.
-> 
-> It's your call on how to proceed -- I just wanted to make sure the
-> full context is available to you.
-> 
-> Michael
-> 
+A Windows guest with the Hyper-V role enabled runs its own hypervisor
+(hvix64) nested under KVM. When KVM advertises the Hyper-V time and
+frequency MSRs, hvix64 lets KVM own the partition reference time. It
+then offers hibernation to Windows only if KVM also advertises CPUID
+0x40000004 EAX bit 20 (RestoreTimeOnResume), and on resume restores
+the saved TSC and reference time through HvCallRestorePartitionTime
+(0x103). Both are reserved in the TLFS and defined in Microsoft's
+hvdef crate.
 
-Thanks for the context, that's indeed helpful. I'll discuss this with
-the mshv team. I'm still leaning towards disabling deposited pages from
-the direct map because this seems semantically the right thing, but
-Linus' statement gives some confidence that we can make the fixup work
-for #GPs.
+Patch 1 fixes a stale nVMX sync flag that zeroed the vmcs12 segment
+state hvix64 reloads on resume. It stands alone and is tagged for
+stable. Patch 2 is a refactor with no functional change. Patch 3
+advertises the bit and implements the hypercall, restoring kvmclock
+and every vCPU's TSC inside one pvclock update.
 
-best,
+Tested on Windows Server 2025 with Hyper-V running, guest initiated
+hibernate and resume, under QEMU with a matching CPU property:
+https://github.com/hmushi/qemu/tree/hv-restore-time-on-resume
 
-magnus
+Mushahid Hussain (3):
+  KVM: nVMX: Clear stale vmcs02 sync flag in free_nested()
+  KVM: x86: Extract __kvm_set_clock() from kvm_vm_ioctl_set_clock()
+  KVM: x86: hyper-v: Implement HvCallRestorePartitionTime
 
-> [1] https://lore.kernel.org/lkml/CAHk-=wipev18s9sErt+iNO_rzgyvGTce38fr1CYO0U_hGVGy2Q@mail.gmail.com/
+ arch/x86/include/asm/kvm_host.h |   5 ++
+ arch/x86/kvm/hyperv.c           |  36 +++++++++
+ arch/x86/kvm/vmx/nested.c       |   1 +
+ arch/x86/kvm/x86.c              | 131 +++++++++++++++++++++++++++-----
+ arch/x86/kvm/x86.h              |   1 +
+ include/hyperv/hvgdk_mini.h     |  12 +++
+ 6 files changed, 168 insertions(+), 18 deletions(-)
+
+
+base-commit: 6bd2905303c58679e303941b7d8ae8c074cd95ce
+-- 
+2.47.3
+
