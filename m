@@ -1,231 +1,177 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302D1547040;
-	Tue,  6 Oct 2026 05:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2013CDBC3
+	for <linux-hyperv@vger.kernel.org>; Tue,  6 Oct 2026 08:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791263290; cv=none; b=R2hxVhzo4qYAQ/zQ3wHbqr/typJetLJeFdR5Zxi4w5ZM73GWZ28aD4FqjSRe5KrB6nTcrowWYNdrMktrmKETZ2GLrCG99RveSGaverYTem+N8VRN3GRASgzK+nDXUL6smqG8IRdjijtrdd9a7OY9Rz2UbhjkphefQDfzogxfhLI=
+	t=1791273899; cv=none; b=q5POFSWQ+dtlmlV2IF9UmSjixGhQgqsm+/IrCmAn2YAJ1eMe+pq2n+aRjLQhUM419xet3JPUFSwE1DIab013h6EJ3zJ7M490Hdi49OpkMM0WtujhIy+700h3WNrdqkqpROuyKlnhc3iUs3HDD0pCsFknOw59aYSii7AhV5Kb4jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791263290; c=relaxed/simple;
-	bh=j9boRD9HOk7MHq435o0NG2QvA3MBHsHTVU26ed9Bt44=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JH1OBOcZYoxa6M2a8RwV692T8AlGmJMMJsRh1IYFv6J49diRPDE/cese8pxVWLOi4/VbZN0FXJno/UARFJFDEO+WhlU0Ycaq5d0LDDbY/zz9MqFUyrv08BSSseueL/GoyZh9M4OIh5Jt3Q4qvUXXXUpMTYGl/7cbtlk9qsvdfzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TizHB8ue; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1791273899; c=relaxed/simple;
+	bh=M6drL/u6yWhMUVVk1gO9J8VEeaZKbIbpr3T31bltfNI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D7BIZNmq+1iptscGu6JR21T4D8T3wrp8A78uPE+Fke21qbG4pnunHrGAyGzcEKQBnFJ6Ir63fTE9YWfyw1OAXa4ts8KV5zvhXtrKCaQ+W7/JtoEMKJ3cr9+40JHvoKnK1+8otWG/wUfxdfmE1FsuRUPQPEnxniuLOHAGbH4iK6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CynL9t94; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TizHB8ue"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=j9boRD9HOk7MHq435o0NG2QvA3MBHsHTVU26ed9Bt44=; b=TizHB8ueO8bRHSzOKiKRRlKzsR
-	Nh28+74essl1rRlR9ky7fzcppu3eL9ZnybxvfHjNrqyMopFSKoSvHklaudDUwDNtV2/HVBu527KsL
-	z94xPL5hDjqGlgaTMF1HOzT8iaTGS6J35PXTaKWnKRZnCumdLwAz2A6F44pesYeQGSUvICMTkMdbL
-	Q/HiKzWuoorhpOdEbDLuKrKg41T/FfKoQzJq843SW4qan0b7fAZkIP5vIpI/EV9htKiioKkIsvcPO
-	2T906FcULasDuFXpyAYoFCJryp2uRM/jT0vUwYdFv65/693yUKpxSbhkxM4FHchuSgcJ6yjrVmJ+Q
-	gjYrdO0g==;
-Received: from [54.239.6.187] (helo=freeip.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDxPF-000000075Yk-2j41;
-	Tue, 06 Oct 2026 05:08:01 +0000
-Message-ID: <9405d5059486b587c5c7091bf9fa04766c650c1c.camel@infradead.org>
-Subject: Re: [PATCH 0/3] KVM: x86: Support hibernation of a nested Hyper-V
-From: David Woodhouse <dwmw2@infradead.org>
-To: Mushahid Hussain <hmushi@amazon.co.uk>, kvm@vger.kernel.org
-Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>,  Vitaly Kuznetsov <vkuznets@redhat.com>, "K . Y .
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang	 <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui	 <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, 	linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	nh-open-source@amazon.com,
- mushi.shar@gmail.com
-Date: Tue, 06 Oct 2026 07:08:00 +0200
-In-Reply-To: <20261005192431.87317-1-hmushi@amazon.co.uk>
-References: <20261005192431.87317-1-hmushi@amazon.co.uk>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-qW8W4r5ORFaDuWth8cw3"
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CynL9t94"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791273893;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qp2lJL9snYnEKuT235PoTU9jnDR3ji5fB4b56J7+nvA=;
+	b=CynL9t94b3GxrEDfZh7VUYAn3j8UmgW6EmBlrITp6T5gbune99b+PzNcgX1m/IB/50p+Qq
+	USQoUwXY9Cts5xvGU27f3o2GSaYIASxMWiECxQvE1DCySPQPqfax4US4Og7/4ba801FLhz
+	qvYRTvfopTgHAXIJqT68OpLShCdQVX8=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-255-YdLhlQb2PL2DJIgwqiN7Eg-1; Tue,
+ 06 Oct 2026 04:04:49 -0400
+X-MC-Unique: YdLhlQb2PL2DJIgwqiN7Eg-1
+X-Mimecast-MFC-AGG-ID: YdLhlQb2PL2DJIgwqiN7Eg_1791273888
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 174EC184B39D;
+	Tue,  6 Oct 2026 08:04:48 +0000 (UTC)
+Received: from vkuznets-thinkpadx1carbongen12.rmtcz.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 36BBB1956042;
+	Tue,  6 Oct 2026 08:04:45 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Mushahid Hussain <hmushi@amazon.co.uk>, qemu-devel@nongnu.org,
+ linux-hyperv@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Pierrick Bouvier <pierrick.bouvier@oss.qualcomm.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, kvm@vger.kernel.org, nh-open-source@amazon.com,
+ mushi.shar@gmail.com, Michael Kelley <mhkelley58@gmail.com>
+Subject: Re: [PATCH] i386: Hyper-V partition time restore feature
+In-Reply-To: <20261005194057.10910-1-hmushi@amazon.co.uk>
+References: <20261005194057.10910-1-hmushi@amazon.co.uk>
+Date: Tue, 06 Oct 2026 10:04:42 +0200
+Message-ID: <kupqzi35k6d.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+Mushahid Hussain <hmushi@amazon.co.uk> writes:
 
---=-qW8W4r5ORFaDuWth8cw3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 2026-10-05 at 19:24 +0000, Mushahid Hussain wrote:
-> A Windows guest with the Hyper-V role enabled runs its own hypervisor
-> (hvix64) nested under KVM. When KVM advertises the Hyper-V time and
-> frequency MSRs, hvix64 lets KVM own the partition reference time. It
-> then offers hibernation to Windows only if KVM also advertises CPUID
-> 0x40000004 EAX bit 20 (RestoreTimeOnResume), and on resume restores
-> the saved TSC and reference time through HvCallRestorePartitionTime
-> (0x103). Both are reserved in the TLFS and defined in Microsoft's
+> A nested Hyper-V that sees the frequency MSRs lets L0 own the
+> partition reference time. After a resume from hibernation it issues
+> HvCallRestorePartitionTime with the TSC and the reference counter it
+> saved. Hyper-V offers hibernation to its root partition only when L0
+> advertises CPUID 0x40000004 EAX bit 20 (RestoreTimeOnResume).
+>
+> Add 'hv-restore-time-on-resume' for the bit. It requires
+> 'hv-frequencies'. KVM reports the bit in KVM_GET_SUPPORTED_HV_CPUID
+> when it handles the hypercall.
+>
+> KVM side: https://lore.kernel.org/kvm/20261005192431.87317-4-hmushi@amazon.co.uk/
+>
+> The TLFS marks the bit as reserved. The name comes from Microsoft's
 > hvdef crate.
->=20
-> Patch 1 fixes a stale nVMX sync flag that zeroed the vmcs12 segment
-> state hvix64 reloads on resume. It stands alone and is tagged for
-> stable. Patch 2 is a refactor with no functional change. Patch 3
-> advertises the bit and implements the hypercall, restoring kvmclock
-> and every vCPU's TSC inside one pvclock update.
->=20
-> Tested on Windows Server 2025 with Hyper-V running, guest initiated
-> hibernate and resume, under QEMU with a matching CPU property:
-> https://github.com/hmushi/qemu/tree/hv-restore-time-on-resume
->=20
-> Mushahid Hussain (3):
-> =C2=A0 KVM: nVMX: Clear stale vmcs02 sync flag in free_nested()
-> =C2=A0 KVM: x86: Extract __kvm_set_clock() from kvm_vm_ioctl_set_clock()
-> =C2=A0 KVM: x86: hyper-v: Implement HvCallRestorePartitionTime
->=20
-> =C2=A0arch/x86/include/asm/kvm_host.h |=C2=A0=C2=A0 5 ++
-> =C2=A0arch/x86/kvm/hyperv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 36 +++++++++
-> =C2=A0arch/x86/kvm/vmx/nested.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 1 +
-> =C2=A0arch/x86/kvm/x86.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 131 +++++++++++++++++++++++++++-----
-> =C2=A0arch/x86/kvm/x86.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0include/hyperv/hvgdk_mini.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +++
-> =C2=A06 files changed, 168 insertions(+), 18 deletions(-)
->=20
->=20
-> base-commit: 6bd2905303c58679e303941b7d8ae8c074cd95ce
 
-Please test
+This won't be the first time we use side channels to implement Hyper-V
+features in KVM/QEMU but it's certainly better when feature bits are
+documented and thus backwards compatible.
 
-https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Drefs/=
-heads/kvmclock10-hmushi
+Cc: linux-hyperv list, maybe there's a chance to get TLFS amended.
 
-I kind of wish we didn't have to do this in the kernel at all, and
-could punt to userspace. But we don't have that plumbing for Hv
-hypercalls, do we? So we'd have to invent that, and then also a way for
-userspace to set the sequence in the TSC page (which I wired up to be
-restored as I think that's probably what should happen; can we
-confirm?).
+>
+> Signed-off-by: Mushahid Hussain <hmushi@amazon.co.uk>
+> ---
+>  docs/system/i386/hyperv.rst    | 9 +++++++++
+>  target/i386/cpu.c              | 2 ++
+>  target/i386/cpu.h              | 1 +
+>  target/i386/kvm/hyperv-proto.h | 1 +
+>  target/i386/kvm/kvm.c          | 8 ++++++++
+>  5 files changed, 21 insertions(+)
+>
+> diff --git a/docs/system/i386/hyperv.rst b/docs/system/i386/hyperv.rst
+> index e1babffb0f..2224dc2111 100644
+> --- a/docs/system/i386/hyperv.rst
+> +++ b/docs/system/i386/hyperv.rst
+> @@ -259,6 +259,15 @@ Existing enlightenments
+>  
+>    Recommended: ``hv-evmcs`` (Intel)
+>  
+> +``hv-restore-time-on-resume``
+> +  The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
+> +  enabled, Hyper-V lets L0 (KVM) own the partition reference time and issues
+> +  HvCallRestorePartitionTime after a resume from hibernation so that the TSC
+> +  and the reference counter continue from the values it saved. Hyper-V offers
+> +  hibernation to its root partition only when this enlightenment is present.
+> +
+> +  Requires: ``hv-frequencies``
+> +
+>  Supplementary features
+>  ----------------------
+>  
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index f3bc6911c1..9fa14f6fab 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -10769,6 +10769,8 @@ static const Property x86_cpu_properties[] = {
+>                        HYPERV_FEAT_TLBFLUSH_EXT, 0),
+>      DEFINE_PROP_BIT64("hv-tlbflush-direct", X86CPU, hyperv_features,
+>                        HYPERV_FEAT_TLBFLUSH_DIRECT, 0),
+> +    DEFINE_PROP_BIT64("hv-restore-time-on-resume", X86CPU, hyperv_features,
+> +                      HYPERV_FEAT_RESTORE_TIME_ON_RESUME, 0),
+>      DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
+>                              hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+>  #ifdef CONFIG_SYNDBG
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 786957fadd..dab559a3d8 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1487,6 +1487,7 @@ uint64_t x86_cpu_get_supported_feature_word(X86CPU *cpu, FeatureWord w);
+>  #define HYPERV_FEAT_XMM_INPUT           18
+>  #define HYPERV_FEAT_TLBFLUSH_EXT        19
+>  #define HYPERV_FEAT_TLBFLUSH_DIRECT     20
+> +#define HYPERV_FEAT_RESTORE_TIME_ON_RESUME 21
+>  
+>  #ifndef HYPERV_SPINLOCK_NEVER_NOTIFY
+>  #define HYPERV_SPINLOCK_NEVER_NOTIFY             0xFFFFFFFF
+> diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+> index a9f056f2f3..e420827a68 100644
+> --- a/target/i386/kvm/hyperv-proto.h
+> +++ b/target/i386/kvm/hyperv-proto.h
+> @@ -81,6 +81,7 @@
+>  #define HV_EX_PROCESSOR_MASKS_RECOMMENDED   (1u << 11)
+>  #define HV_ENLIGHTENED_VMCS_RECOMMENDED     (1u << 14)
+>  #define HV_NO_NONARCH_CORESHARING           (1u << 18)
+> +#define HV_RESTORE_TIME_ON_RESUME           (1u << 20)
+>  
+>  /*
+>   * HV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index a72b6e6b74..1b16af7cd4 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1137,6 +1137,14 @@ static struct {
+>          },
+>          .dependencies = BIT(HYPERV_FEAT_VAPIC)
+>      },
+> +    [HYPERV_FEAT_RESTORE_TIME_ON_RESUME] = {
+> +        .desc = "partition time restore (hv-restore-time-on-resume)",
+> +        .flags = {
+> +            {.func = HV_CPUID_ENLIGHTMENT_INFO, .reg = R_EAX,
+> +             .bits = HV_RESTORE_TIME_ON_RESUME}
+> +        },
+> +        .dependencies = BIT(HYPERV_FEAT_FREQUENCIES)
+> +    },
+>  };
+>  
+>  static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max,
 
---=-qW8W4r5ORFaDuWth8cw3
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+-- 
+Vitaly
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-mxyha66fNWNIJ9W1mc4fpToAAAAAAAA=
-
-
---=-qW8W4r5ORFaDuWth8cw3--
