@@ -1,135 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0AE3E49DE;
-	Tue,  6 Oct 2026 15:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EECF737269C;
+	Tue,  6 Oct 2026 19:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791299530; cv=none; b=DJJZHgcumlhk8eABD/zq8xUH7HoGsKLhHStVPONkvtJ4CSRwm8YZL4rn5/O27wJ+N8Ht07VXHl4kAzZJ7dYJP4FdDfbSP6ElospTphSTuTN2sOqdDaRfWyv96MgoI4totaC31YuxHPyhpfpzZxZ9SM8C+RJ07Pg46yzYwP2yVrg=
+	t=1791313521; cv=none; b=hs0VsjzEMKAiCW6UWcgax5oJqfdsYP2w+fhYvsWqyZooyJye3xr7NA1zTzRLWMcHcCiNtY/Uv1EdT/wbcI963+Q8Yv/r8BdhuN8y1p55VS9CLLHqREIXVKTbUODk3Ctm4MDMjFJLCHdr/9WvoPd1gnUTFTzKxIMg81j/eHUkSCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791299530; c=relaxed/simple;
-	bh=4PoOFwdcF6TQh98s/QAOnBeX4kFkGsObMkDq0NWdMhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p52qhQb/OAnsXkkftiVGReJDLTF29U0ne38f+t+BhJCDZtEGtp0Lq2nkslPsJZtEYZJedafCdg08FzaeuQrAs59ZzudgjOJ/saYghZesSFf2yg7psYs2USOxd+VAEwPBVdo1a9K3YV0qkyo+XPW3zEOtbN4PWAIJMz8Vrd6vvD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wa0nxPfV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791313521; c=relaxed/simple;
+	bh=zQtt7HxACahWkJMUND4HHPod4L2ogOPqrJdS/tbxGv8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uSieA6GGDWtvQ5raupAvhDt+fWLDGHfZdCL5eCD0ym+SvIsihmhwl4W98tHRnvUpA4HXoKbB2G3aQjdJ+ibNjayRuId66xixQjEOfdmUAcrwEu4PWep162fqz7+xBcYZbTWcxLVenlZrzu7dnsI9ixKVozepx3n1QIg1cdMgFjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=SxiU8jxc; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wa0nxPfV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B312D1F0089B;
-	Tue,  6 Oct 2026 15:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791299529;
-	bh=i2jarKs3ImpsaYpy+whlnmxkRVhLeakQjLDkSsWIYgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wa0nxPfVl5F2ksf8HiPecQy3ruTvq4+rKNTSBTiEd5xz5C+JlJnDX+iSMZdmwaTzR
-	 TOixpMgzVXXMrIWjrUYEZ29vwKB4qiUoSCQ1uP06habI64T666aEwsgcCFen5zMa6n
-	 qVM9sRxaOzUDpHH8gmidjUNFBf92DnglgtwIRaHH8927/YdWnXfVJVvgCAxdMueKgt
-	 C0zHbFlPBV65oXqc9cJ0EW4P0j3+CKLKMhcynpUPJ2VQZVzvn+Hr3srWv3XU5HyaqD
-	 2obMOibFpgKQZsrC3EjJV6XzNlLPAPgWKTBeF+OQgARvkKv6panIjoMflPzCXKR7vF
-	 k6XMYfzv6uVsQ==
-Date: Tue, 6 Oct 2026 16:12:02 +0100
-From: Simon Horman <horms@kernel.org>
-To: Manish Awasthi <mawasthi@linux.microsoft.com>
-Cc: netdev-bot+sashiko@kernel.org, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	longli@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	kotaranov@microsoft.com, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-	nipun.gupta@amd.com, nikhil.agarwal@amd.com,
-	gargaditya@linux.microsoft.com, ernis@linux.microsoft.com,
-	kees@kernel.org, paulros@microsoft.com, mawasthi@microsoft.com
-Subject: Re: [PATCH net-next 4/4] net: mana: Add support for CDX device ID
- 0x00C2
-Message-ID: <20261006151202.GK83879@horms.kernel.org>
-References: <20260924173054.589291-5-mawasthi@linux.microsoft.com>
- <179035761944.2160803.12943182451050438147@kernel.org>
- <20260928202555.617331-1-mawasthi@linux.microsoft.com>
- <20260929135738.GT13925@horms.kernel.org>
- <20260929234508.10647-1-mawasthi@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SxiU8jxc"
+Received: from [192.168.4.134] (unknown [52.172.102.222])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C976320B7175;
+	Tue,  6 Oct 2026 12:04:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C976320B7175
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791313463;
+	bh=FY9kI9KlSQjQKGGd5vqvSNeS2Onh88UrYVFTZP4peVM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SxiU8jxcp0IqHzLxwE3msYDGihbzf+zhfloAvVftai+u9P8KqDKDSIOXjxVk+4q/u
+	 cAwaQdKzuxhjnjWfEf8GjaO/zikd8DizimCFLWFHZOVJNDOUiN7/mW3UjZKx9Tc71s
+	 yy/kzoBg5TwATYQesNkSXLA1uz+rWu+Mkiq52/Mo=
+Message-ID: <2188ea84-8fb3-4170-a4b7-01dcab459ceb@linux.microsoft.com>
+Date: Tue, 6 Oct 2026 12:05:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260929234508.10647-1-mawasthi@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/5] hv_netvsc: fix the program refcount when the
+ VF refuses XDP
+To: Jakub Kicinski <kuba@kernel.org>, haiyangz@microsoft.com
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
+ wei.liu@kernel.org, decui@microsoft.com, linux-hyperv@vger.kernel.org,
+ hawk@kernel.org, andriin@fb.com, stable+noautosel@kernel.org
+References: <20261001014131.310771-1-kuba@kernel.org>
+ <20261001014131.310771-2-kuba@kernel.org>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <20261001014131.310771-2-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 29, 2026 at 11:45:08PM +0000, Manish Awasthi wrote:
-> > On Mon, Sep 28, 2026 at 08:25:55PM +0000, Manish Awasthi wrote:
-> > > thanks for review. Comments inline.
-> > > 
-> > > > Thank you for your contribution! Sashiko AI review found 3 potential
-> > > > issue(s) to consider.
-> > > > 
-> > > > Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
-> > > > 
-> > > > If you believe none of the issues are legitimate, please reply to each
-> > > > issue of Medium severity or higher and explain why the AI is wrong.
-> > > > If any of them are legitimate and you plan to respin, please let patchwork
-> > > > know by including "pw-bot: cr" as a separate line at the end of your reply
-> > > > (one such reply per series is enough).
-> > > > 
-> > > > - [Medium] The CDX transport installs `.dev_reset = mana_cdx_dev_reset`
-> > > >   (-> `cdx_dev_reset()`) but has no way to recover afterwards.
-> > > > - [Low] `mana_cdx_setup_hwc_irqs()` skips IRQ affinity hints.
-> > > > - [Low] The comment in `mana_gd_query_max_resources()` (gdma_main.c)
-> > > >   says: "Only reset on platforms that support dynamic MSI-X allocation;…
-> > > > 
-> > > > Pre-existing issues:
-> > > > - [High] This problem wasn't introduced by this patch, but the shared HWC
-> > > >   bootstrap path that the new CDX transport now reaches trusts a device-…
-> > > > 
-> > > > --
-> > > > 
-> > > > net: mana: Add support for CDX device ID 0x00C2
-> > > > 
-> > > > This adds a CDX bus transport for MANA, built as mana_cdx.ko on top of
-> > > > the shared gdma_core.ko, for device ID 0x00C2. It allocates the whole MSI
-> > > > pool at probe time, limits the queue count to the available vectors,
-> > > > restricts DMA to 32 bits, and adds a per-bus auxiliary device name prefix
-> > > > so the CDX auxiliary devices stay separate from the PCI ones.
-> > > > 
-> > > > > diff --git a/drivers/net/ethernet/microsoft/mana/gdma_cdx.c b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
-> > > > > new file mode 100644
-> > > > > index 0000000000000..0d01e3d2f0d96
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/net/ethernet/microsoft/mana/gdma_cdx.c
-> > > > > @@ -0,0 +1,340 @@
-> > > > 
-> > > > [ ... ]
-> > > > 
-> > > > > +static int mana_cdx_dev_reset(struct gdma_context *gc)
-> > > > > +{
-> > > > > +	return cdx_dev_reset(gc->dev);
-> > > > > +}
-> > > > 
-> > > > [Severity: Medium]
-> > > > Can this reset leave the whole function unusable, with no recovery short
-> > > > of a manual rebind?
-> > > > 
-> > > > mana_dealloc_queues() calls it when a TX queue still has pending_sends
-> > > > after the drain timeout:
-> > > > 
-> > > > mana_tx_timeout()
-> > > >   -> queue_reset_work
-> > > >     -> mana_per_port_queue_reset_work_handler()
-> > > >       -> mana_dealloc_queues()
-> > > >         -> mana_gd_dev_reset()
-> > > >           -> mana_cdx_dev_reset()
-> > > >             -> cdx_dev_reset()
-> > > > 
-> > > This version of the driver doesn't support recovery after mana_cdx_dev_reset.
-> > 
-> > I don't think it needs to delay progress of this patchset.
-> > But I am curious to know if there are plans to add such support.
-> > 
->     It is possible to have similar recovery support as the pci in this path
->     after cdx_dev_reset() and we do have plans to add it in future.
+On 9/30/2026 6:41 PM, Jakub Kicinski wrote:
+> ndo_bpf() takes over the reference it is passed only on success, the
+> caller puts it back itself on failure. netvsc_xdp_set() takes that one
+> plus num_chn - 1 more for its channels, and the rollback after the VF
+> refuses the program clears the channels again, putting all num_chn of
+> them. dev_xdp_install() then puts the one it passed in a second time,
+> and the program can be freed while the fd which loaded it still points
+> at it.
+> 
+> The VF refuses a program netvsc has already committed to when the
+> program is single-buffer and the VF has header-data split enabled, when
+> the VF has a memory provider bound, or when the VF's driver has
+> conditions of its own.
+> 
+> Reported by Sashiko during core rework. Unverified and untested.
+> 
+> Cc: stable+noautosel@kernel.org # untested fix to unlikely driver error path
+> Fixes: 184367dce4f7 ("hv_netvsc: Fix XDP refcnt for synthetic and VF NICs")
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  drivers/net/hyperv/netvsc_bpf.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/net/hyperv/netvsc_bpf.c b/drivers/net/hyperv/netvsc_bpf.c
+> index 1dd3755d9e6d..731bb7721fe2 100644
+> --- a/drivers/net/hyperv/netvsc_bpf.c
+> +++ b/drivers/net/hyperv/netvsc_bpf.c
+> @@ -216,6 +216,13 @@ int netvsc_bpf(struct net_device *dev, struct netdev_bpf *bpf)
+>  			netdev_err(dev, "vf_setxdp failed:%d\n", ret);
+>  			NL_SET_ERR_MSG_MOD(extack, "vf_setxdp failed");
+>  
+> +			/* Since we haven't completed the installation
+> +			 * of bpf->prog the reference core implicitly
+> +			 * transfers to us on success isn't ours.
+> +			 * Take a reference to balance the accounting.
+> +			 */
+> +			if (bpf->prog)
+> +				bpf_prog_inc(bpf->prog);
+>  			netvsc_xdp_set(dev, NULL, extack, nvdev);
+>  		}
+>  
 
-Nice. Thanks for the response.
+The refcount part looks right to me.
 
-> > ...
+Not new, but this rollback clears the channels rather than restoring
+them. If the VF refuses a replace (P1 -> P2), or refuses the NULL on
+detach (memory provider bound, mana failing to re-create its queues),
+the core keeps P1 in xdp_state and the VF keeps running P1, but the
+synthetic path is left with no program at all.
+
+Could we save a reference to the old program before netvsc_xdp_set() and
+restore it here instead of setting NULL? In patch 3/5
+netvsc_unregister_vf() decides the take-back based on the channels, so
+this matters there too.
+
+-- 
+Regards,
+Kameron
