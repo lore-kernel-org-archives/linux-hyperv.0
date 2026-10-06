@@ -1,177 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2013CDBC3
-	for <linux-hyperv@vger.kernel.org>; Tue,  6 Oct 2026 08:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B61B3911A2;
+	Tue,  6 Oct 2026 09:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791273899; cv=none; b=q5POFSWQ+dtlmlV2IF9UmSjixGhQgqsm+/IrCmAn2YAJ1eMe+pq2n+aRjLQhUM419xet3JPUFSwE1DIab013h6EJ3zJ7M490Hdi49OpkMM0WtujhIy+700h3WNrdqkqpROuyKlnhc3iUs3HDD0pCsFknOw59aYSii7AhV5Kb4jI=
+	t=1791278856; cv=none; b=NK2h8lS/6v80KWo/VRY5UrYB0Bza+XDHW7pZomc4vVh+Gl4H9qZDE6VgBDKI+c+euQz0PsF2PKs2ImFoWafcqHVtQoSjsP3OUjM+WaNLhIZpr+VRjYxtxKtFWoScBYMKLVRgYChXjZug0FVSHDf6FgcAplzSg7nCkkR9ieRO2M8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791273899; c=relaxed/simple;
-	bh=M6drL/u6yWhMUVVk1gO9J8VEeaZKbIbpr3T31bltfNI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D7BIZNmq+1iptscGu6JR21T4D8T3wrp8A78uPE+Fke21qbG4pnunHrGAyGzcEKQBnFJ6Ir63fTE9YWfyw1OAXa4ts8KV5zvhXtrKCaQ+W7/JtoEMKJ3cr9+40JHvoKnK1+8otWG/wUfxdfmE1FsuRUPQPEnxniuLOHAGbH4iK6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CynL9t94; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791278856; c=relaxed/simple;
+	bh=G3nFgPp0dY4DMkurPGHR7uMaTO7HS6BshA/t/4Xe1Bw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBYR6xGF5uB5Fw7F/5GJTIuH02sYX4XY0ccgW8cDc+blWD2gyWWU7yZ3GkvCi4RVyrkYa4bz/tYrdzmDan3gdmgYU7QaFGP7oiiye5ES9PqeVed7lESEBni3zhADhuCoFTsyXu4e04JlH9UiHr4TGL4zVNWHY5M82kp4jcklcPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TuNXtmZ1; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CynL9t94"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791273893;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qp2lJL9snYnEKuT235PoTU9jnDR3ji5fB4b56J7+nvA=;
-	b=CynL9t94b3GxrEDfZh7VUYAn3j8UmgW6EmBlrITp6T5gbune99b+PzNcgX1m/IB/50p+Qq
-	USQoUwXY9Cts5xvGU27f3o2GSaYIASxMWiECxQvE1DCySPQPqfax4US4Og7/4ba801FLhz
-	qvYRTvfopTgHAXIJqT68OpLShCdQVX8=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-255-YdLhlQb2PL2DJIgwqiN7Eg-1; Tue,
- 06 Oct 2026 04:04:49 -0400
-X-MC-Unique: YdLhlQb2PL2DJIgwqiN7Eg-1
-X-Mimecast-MFC-AGG-ID: YdLhlQb2PL2DJIgwqiN7Eg_1791273888
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 174EC184B39D;
-	Tue,  6 Oct 2026 08:04:48 +0000 (UTC)
-Received: from vkuznets-thinkpadx1carbongen12.rmtcz.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 36BBB1956042;
-	Tue,  6 Oct 2026 08:04:45 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Mushahid Hussain <hmushi@amazon.co.uk>, qemu-devel@nongnu.org,
- linux-hyperv@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Zhao Liu <zhao1.liu@intel.com>,
- Pierrick Bouvier <pierrick.bouvier@oss.qualcomm.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, kvm@vger.kernel.org, nh-open-source@amazon.com,
- mushi.shar@gmail.com, Michael Kelley <mhkelley58@gmail.com>
-Subject: Re: [PATCH] i386: Hyper-V partition time restore feature
-In-Reply-To: <20261005194057.10910-1-hmushi@amazon.co.uk>
-References: <20261005194057.10910-1-hmushi@amazon.co.uk>
-Date: Tue, 06 Oct 2026 10:04:42 +0200
-Message-ID: <kupqzi35k6d.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TuNXtmZ1"
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id 61EE920B7168; Tue,  6 Oct 2026 02:26:39 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 61EE920B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791278799;
+	bh=0HJbfqojCnyDCq67GdTQKqumiVu32qDFX6wYw2kJYng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TuNXtmZ1Fqfzj5XwTvOXRi1jAGQyvOSi23J8GQ1iWAU7FH+zLjWffU5SG6dIeMOL7
+	 eYpBG4SAHoh4gBAJnKOKOiRZaL/ENjCVn/fqfFiMAxmlAHsFM2eahcELTmWojgQOKZ
+	 Q4F17v1qfpqD7Uy88ym/UbkD9Sisd0dT2PkJo7wA=
+Date: Tue, 6 Oct 2026 02:26:39 -0700
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Wei Liu <wei.liu@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+	Baoquan He <baoquan.he@linux.dev>, Will Deacon <will@kernel.org>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH v3 0/2] hyperv: Run VMBus kexec cleanup from syscore
+ shutdown
+Message-ID: <asS+z+2H8iNfnHwW@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261001132128.1703511-1-shradhagupta@linux.microsoft.com>
+ <SN6PR02MB41578FDB019EE76576C612A8D48A2@SN6PR02MB4157.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR02MB41578FDB019EE76576C612A8D48A2@SN6PR02MB4157.namprd02.prod.outlook.com>
 
-Mushahid Hussain <hmushi@amazon.co.uk> writes:
+On Thu, Oct 01, 2026 at 04:14:22PM +0000, Michael Kelley wrote:
+> From: Shradha Gupta <shradhagupta@linux.microsoft.com> Sent: Thursday, October 1, 2026 6:21 AM
+> > 
+> > Kexec reboot fails on ARM64 Hyper-V guests because the VMBus
+> > connection and SynIC CPU hotplug state are not torn down before the
+> > secondary CPUs are stopped. The kexec kernel consequently starts with
+> > the previous kernel's VMBus state still active.
+> > 
+> > The previous version added an ARM64-specific syscore shutdown
+> > implementation. This version follows Michael Kelley's review and moves
+> > the cleanup into the existing architecture-independent VMBus syscore
+> > operations. This removes the separate x86 handler dispatch and gives
+> > x86 and ARM64 the same ordering:
+> > 
+> >   device_shutdown()
+> >   syscore_shutdown()
+> >     VMBus UNLOAD and SynIC CPU hotplug teardown
+> >   machine_shutdown()
+> > 
+> > On x86, VMBus teardown now runs before hv_stimer_global_cleanup().
+> > This ordering is safe after commit be0cfab740e5 ("clocksource: hyper-v:
+> > Remove support for stimer interrupts in message mode") removed the
+> > VMBus dependency from synthetic timer handling.
+> > 
+> > Patch 1 adds a read-only helper that reports whether a kexec reboot is
+> > in progress. The helper is exported because HYPERV_VMBUS is tristate
+> > and the common syscore callback must also link when VMBus is a module.
+> > Patch 2 moves the cleanup into the common callback and removes the
+> > obsolete architecture-specific setup/remove interface.
+> > 
+> > For stable kernels that still support message-mode stimers, an
+> > ARM64-specific backport will be needed to preserve the existing x86
+> > ordering.
+> > 
+> > Changes in v3:
+> >   - Use the existing common VMBus syscore operations on all
+> >     architectures, as suggested by Michael.
+> >   - Remove the x86 handler pointer and the weak setup/remove interface.
+> >   - Add an exported read-only helper for modular VMBus builds.
+> >   - Correct the Fixes tag to the commit that enabled Hyper-V on ARM64.
+> > 
+> > Changes in v2:
+> >   - Use syscore shutdown instead of an ARM64 machine_shutdown() hook, as
+> >     suggested by Catalin.
+> > 
+> > Shradha Gupta (2):
+> >   kexec: Add helper to report an active kexec reboot
+> >   Drivers: hv: Run VMBus kexec cleanup from syscore shutdown
+> > 
+> >  arch/x86/kernel/cpu/mshyperv.c | 17 +----------------
+> >  drivers/hv/hv_common.c         | 10 ----------
+> >  drivers/hv/vmbus_drv.c         | 22 ++++++++++++++--------
+> >  include/asm-generic/mshyperv.h |  2 --
+> >  include/linux/kexec.h          |  2 ++
+> >  kernel/kexec_core.c            |  7 +++++++
+> >  6 files changed, 24 insertions(+), 36 deletions(-)
+> > 
+> > 
+> > base-commit: be0cfab740e58b70047ef6e7e3d578f00ed5d258
+> > --
+> > 2.43.0
+> 
+> Nice! Net impact is to remove 12 lines of code, instead of
+> adding 40, which is great. And nothing under arch/arm64 is
+> modified.
+> 
+> One minor point: In hv_machine_shutdown(), we have two
+> sequential tests of kexec_in_progress. Given that you are
+> removing some code under the first test, I think it would be
+> fair game to do a very minor refactoring of existing code and
+> combine the two tests. It just looks a little funny to have the
+> same test twice in a row.
+> 
+> But regardless of whether you include that change, for
+> the series,
+> 
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 
-> A nested Hyper-V that sees the frequency MSRs lets L0 own the
-> partition reference time. After a resume from hibernation it issues
-> HvCallRestorePartitionTime with the TSC and the reference counter it
-> saved. Hyper-V offers hibernation to its root partition only when L0
-> advertises CPUID 0x40000004 EAX bit 20 (RestoreTimeOnResume).
->
-> Add 'hv-restore-time-on-resume' for the bit. It requires
-> 'hv-frequencies'. KVM reports the bit in KVM_GET_SUPPORTED_HV_CPUID
-> when it handles the hypercall.
->
-> KVM side: https://lore.kernel.org/kvm/20261005192431.87317-4-hmushi@amazon.co.uk/
->
-> The TLFS marks the bit as reserved. The name comes from Microsoft's
-> hvdef crate.
+Thank you Michael, I'll take up the refactoring in a seperate patch.
 
-This won't be the first time we use side channels to implement Hyper-V
-features in KVM/QEMU but it's certainly better when feature bits are
-documented and thus backwards compatible.
-
-Cc: linux-hyperv list, maybe there's a chance to get TLFS amended.
-
->
-> Signed-off-by: Mushahid Hussain <hmushi@amazon.co.uk>
-> ---
->  docs/system/i386/hyperv.rst    | 9 +++++++++
->  target/i386/cpu.c              | 2 ++
->  target/i386/cpu.h              | 1 +
->  target/i386/kvm/hyperv-proto.h | 1 +
->  target/i386/kvm/kvm.c          | 8 ++++++++
->  5 files changed, 21 insertions(+)
->
-> diff --git a/docs/system/i386/hyperv.rst b/docs/system/i386/hyperv.rst
-> index e1babffb0f..2224dc2111 100644
-> --- a/docs/system/i386/hyperv.rst
-> +++ b/docs/system/i386/hyperv.rst
-> @@ -259,6 +259,15 @@ Existing enlightenments
->  
->    Recommended: ``hv-evmcs`` (Intel)
->  
-> +``hv-restore-time-on-resume``
-> +  The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
-> +  enabled, Hyper-V lets L0 (KVM) own the partition reference time and issues
-> +  HvCallRestorePartitionTime after a resume from hibernation so that the TSC
-> +  and the reference counter continue from the values it saved. Hyper-V offers
-> +  hibernation to its root partition only when this enlightenment is present.
-> +
-> +  Requires: ``hv-frequencies``
-> +
->  Supplementary features
->  ----------------------
->  
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index f3bc6911c1..9fa14f6fab 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -10769,6 +10769,8 @@ static const Property x86_cpu_properties[] = {
->                        HYPERV_FEAT_TLBFLUSH_EXT, 0),
->      DEFINE_PROP_BIT64("hv-tlbflush-direct", X86CPU, hyperv_features,
->                        HYPERV_FEAT_TLBFLUSH_DIRECT, 0),
-> +    DEFINE_PROP_BIT64("hv-restore-time-on-resume", X86CPU, hyperv_features,
-> +                      HYPERV_FEAT_RESTORE_TIME_ON_RESUME, 0),
->      DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
->                              hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
->  #ifdef CONFIG_SYNDBG
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 786957fadd..dab559a3d8 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1487,6 +1487,7 @@ uint64_t x86_cpu_get_supported_feature_word(X86CPU *cpu, FeatureWord w);
->  #define HYPERV_FEAT_XMM_INPUT           18
->  #define HYPERV_FEAT_TLBFLUSH_EXT        19
->  #define HYPERV_FEAT_TLBFLUSH_DIRECT     20
-> +#define HYPERV_FEAT_RESTORE_TIME_ON_RESUME 21
->  
->  #ifndef HYPERV_SPINLOCK_NEVER_NOTIFY
->  #define HYPERV_SPINLOCK_NEVER_NOTIFY             0xFFFFFFFF
-> diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
-> index a9f056f2f3..e420827a68 100644
-> --- a/target/i386/kvm/hyperv-proto.h
-> +++ b/target/i386/kvm/hyperv-proto.h
-> @@ -81,6 +81,7 @@
->  #define HV_EX_PROCESSOR_MASKS_RECOMMENDED   (1u << 11)
->  #define HV_ENLIGHTENED_VMCS_RECOMMENDED     (1u << 14)
->  #define HV_NO_NONARCH_CORESHARING           (1u << 18)
-> +#define HV_RESTORE_TIME_ON_RESUME           (1u << 20)
->  
->  /*
->   * HV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index a72b6e6b74..1b16af7cd4 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -1137,6 +1137,14 @@ static struct {
->          },
->          .dependencies = BIT(HYPERV_FEAT_VAPIC)
->      },
-> +    [HYPERV_FEAT_RESTORE_TIME_ON_RESUME] = {
-> +        .desc = "partition time restore (hv-restore-time-on-resume)",
-> +        .flags = {
-> +            {.func = HV_CPUID_ENLIGHTMENT_INFO, .reg = R_EAX,
-> +             .bits = HV_RESTORE_TIME_ON_RESUME}
-> +        },
-> +        .dependencies = BIT(HYPERV_FEAT_FREQUENCIES)
-> +    },
->  };
->  
->  static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max,
-
--- 
-Vitaly
-
+regards,
+Shradha
