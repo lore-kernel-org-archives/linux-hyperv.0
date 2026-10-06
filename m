@@ -1,38 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF7C429803;
-	Mon,  5 Oct 2026 22:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302D1547040;
+	Tue,  6 Oct 2026 05:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791239444; cv=none; b=fh7vh5HPfOx4igI3538x4do/auJtLde2rC+1/fdTFl8SgmpOrYfRYlWctlBjStL7kL5k/utopmaX6Qs70DhxLlP8Gp9ej8832+eky3VzOzm7dKgK300yrguzyognzLhOAGPIQPqDFxmvrUJgriW/jSpyu+AZCdFP4YfjMYxTdDg=
+	t=1791263290; cv=none; b=R2hxVhzo4qYAQ/zQ3wHbqr/typJetLJeFdR5Zxi4w5ZM73GWZ28aD4FqjSRe5KrB6nTcrowWYNdrMktrmKETZ2GLrCG99RveSGaverYTem+N8VRN3GRASgzK+nDXUL6smqG8IRdjijtrdd9a7OY9Rz2UbhjkphefQDfzogxfhLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791239444; c=relaxed/simple;
-	bh=s+YY0U0HL0MztawNIQ0kXGq8MGybj2msROHyL159r3o=;
+	s=arc-20240116; t=1791263290; c=relaxed/simple;
+	bh=j9boRD9HOk7MHq435o0NG2QvA3MBHsHTVU26ed9Bt44=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bFXhqEAOB81kiWFZaY+XoC7DOdKQMBCoRvfX0vozQH9vGhfa/t3rwrcW0c0pg3jrTBYwAwfA1gs2YUZZSVODZqr7gza/IFrzj12GJjsA00gSNuroBhgTMp8LAvY4lwBbcJ3MiwZwl9jhGpiojuShn0OyCk+eocnmfGjWmuUxbaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f2bkEur4; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:MIME-Version; b=JH1OBOcZYoxa6M2a8RwV692T8AlGmJMMJsRh1IYFv6J49diRPDE/cese8pxVWLOi4/VbZN0FXJno/UARFJFDEO+WhlU0Ycaq5d0LDDbY/zz9MqFUyrv08BSSseueL/GoyZh9M4OIh5Jt3Q4qvUXXXUpMTYGl/7cbtlk9qsvdfzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TizHB8ue; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f2bkEur4"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TizHB8ue"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
 	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6G9J4+68cfekvHCCAkYkT4N9fdUJdU6hJ194oHSMuzY=; b=f2bkEur4jobaGw1XweYbtJm4Gb
-	LPfykX/bP+/il+9fr244GEim/w+d5uUmJfNWFiG4KAeCv49Wht94OiG/d90nbHK3dQWl8fYs9Vzz5
-	7bfATdOmg6gPyzj3FAa6446dzKb0QSSt4zulW6Y604VBzTFWlFBBId5vPfzLMeUV2QctORt5eKUKD
-	ipL7VtEdCdDWUoI/m98m+xY0D0PJozqeaf1U6CIBnL/3fTKuCR9oYpnAbuzZHrlkojt1F4nkc/w87
-	MNG6frI3AYkUXwZ5q/8HqE+2+d1fI/aYDVEp7Tv/YvLRmr01YonM3kcDNkju7SDbPIpQkE76pqO80
-	ELStKSpg==;
-Received: from [54.239.6.189] (helo=u09cd745991455d.ant.amazon.com)
+	bh=j9boRD9HOk7MHq435o0NG2QvA3MBHsHTVU26ed9Bt44=; b=TizHB8ueO8bRHSzOKiKRRlKzsR
+	Nh28+74essl1rRlR9ky7fzcppu3eL9ZnybxvfHjNrqyMopFSKoSvHklaudDUwDNtV2/HVBu527KsL
+	z94xPL5hDjqGlgaTMF1HOzT8iaTGS6J35PXTaKWnKRZnCumdLwAz2A6F44pesYeQGSUvICMTkMdbL
+	Q/HiKzWuoorhpOdEbDLuKrKg41T/FfKoQzJq843SW4qan0b7fAZkIP5vIpI/EV9htKiioKkIsvcPO
+	2T906FcULasDuFXpyAYoFCJryp2uRM/jT0vUwYdFv65/693yUKpxSbhkxM4FHchuSgcJ6yjrVmJ+Q
+	gjYrdO0g==;
+Received: from [54.239.6.187] (helo=freeip.amazon.com)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDrCV-00000005Ahu-1ln9;
-	Mon, 05 Oct 2026 22:30:27 +0000
-Message-ID: <28af91279c360774a03458860784772c24ad49ab.camel@infradead.org>
-Subject: Re: [PATCH 3/3] KVM: x86: hyper-v: Implement
- HvCallRestorePartitionTime
+	id 1xDxPF-000000075Yk-2j41;
+	Tue, 06 Oct 2026 05:08:01 +0000
+Message-ID: <9405d5059486b587c5c7091bf9fa04766c650c1c.camel@infradead.org>
+Subject: Re: [PATCH 0/3] KVM: x86: Support hibernation of a nested Hyper-V
 From: David Woodhouse <dwmw2@infradead.org>
 To: Mushahid Hussain <hmushi@amazon.co.uk>, kvm@vger.kernel.org
 Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
@@ -42,12 +41,11 @@ Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
  <longli@microsoft.com>, 	linux-hyperv@vger.kernel.org,
  linux-kernel@vger.kernel.org, 	nh-open-source@amazon.com,
  mushi.shar@gmail.com
-Date: Tue, 06 Oct 2026 00:30:26 +0200
-In-Reply-To: <20261005192431.87317-4-hmushi@amazon.co.uk>
+Date: Tue, 06 Oct 2026 07:08:00 +0200
+In-Reply-To: <20261005192431.87317-1-hmushi@amazon.co.uk>
 References: <20261005192431.87317-1-hmushi@amazon.co.uk>
-	 <20261005192431.87317-4-hmushi@amazon.co.uk>
 Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-p1x8seIsSlp3f5cK7XBY"
+	boundary="=-qW8W4r5ORFaDuWth8cw3"
 User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -58,60 +56,63 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 
---=-p1x8seIsSlp3f5cK7XBY
+--=-qW8W4r5ORFaDuWth8cw3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, 2026-10-05 at 19:24 +0000, Mushahid Hussain wrote:
+> A Windows guest with the Hyper-V role enabled runs its own hypervisor
+> (hvix64) nested under KVM. When KVM advertises the Hyper-V time and
+> frequency MSRs, hvix64 lets KVM own the partition reference time. It
+> then offers hibernation to Windows only if KVM also advertises CPUID
+> 0x40000004 EAX bit 20 (RestoreTimeOnResume), and on resume restores
+> the saved TSC and reference time through HvCallRestorePartitionTime
+> (0x103). Both are reserved in the TLFS and defined in Microsoft's
+> hvdef crate.
 >=20
-> -static void __kvm_set_clock(struct kvm *kvm, struct kvm_clock_data
-> *data)
-> +/* Must precede pvclock_update_vm_gtod_copy(), which reads the
-> matched count. */
-> +static void kvm_open_tsc_generation(struct kvm *kvm, u64 guest_tsc)
-> =C2=A0{
-> =C2=A0	struct kvm_arch *ka =3D &kvm->arch;
-> -	u64 now_raw_ns;
-> +	struct kvm_vcpu *vcpu;
-> +	unsigned long i;
-> +
-> +	lockdep_assert_held(&ka->tsc_write_lock);
-> +
-> +	ka->cur_tsc_generation++;
-> +	ka->cur_tsc_write =3D guest_tsc;
-> +	ka->last_tsc_write =3D guest_tsc;
-> +	ka->nr_vcpus_matched_tsc =3D atomic_read(&kvm->online_vcpus) -
-> 1;
-> +
-> +	kvm_for_each_vcpu(i, vcpu, kvm) {
-> +		if (vcpu->arch.guest_tsc_protected)
-> +			continue;
-> +		ka->last_tsc_khz =3D vcpu->arch.virtual_tsc_khz;
-> +		ka->last_tsc_scaling_ratio =3D vcpu-
-> >arch.l1_tsc_scaling_ratio;
-> +		break;
-> +	}
-> +}
-> +
-> +/* Every vCPU reads @guest_tsc at host TSC @host_tsc. */
-> +static void kvm_set_tsc_generation(struct kvm *kvm, u64 host_tsc,
-> +				=C2=A0=C2=A0 u64 guest_tsc, u64 ns)
+> Patch 1 fixes a stale nVMX sync flag that zeroed the vmcs12 segment
+> state hvix64 reloads on resume. It stands alone and is tagged for
+> stable. Patch 2 is a refactor with no functional change. Patch 3
+> advertises the bit and implements the hypercall, restoring kvmclock
+> and every vCPU's TSC inside one pvclock update.
+>=20
+> Tested on Windows Server 2025 with Hyper-V running, guest initiated
+> hibernate and resume, under QEMU with a matching CPU property:
+> https://github.com/hmushi/qemu/tree/hv-restore-time-on-resume
+>=20
+> Mushahid Hussain (3):
+> =C2=A0 KVM: nVMX: Clear stale vmcs02 sync flag in free_nested()
+> =C2=A0 KVM: x86: Extract __kvm_set_clock() from kvm_vm_ioctl_set_clock()
+> =C2=A0 KVM: x86: hyper-v: Implement HvCallRestorePartitionTime
+>=20
+> =C2=A0arch/x86/include/asm/kvm_host.h |=C2=A0=C2=A0 5 ++
+> =C2=A0arch/x86/kvm/hyperv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 36 +++++++++
+> =C2=A0arch/x86/kvm/vmx/nested.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 1 +
+> =C2=A0arch/x86/kvm/x86.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 131 +++++++++++++++++++++++++++-----
+> =C2=A0arch/x86/kvm/x86.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0include/hyperv/hvgdk_mini.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +++
+> =C2=A06 files changed, 168 insertions(+), 18 deletions(-)
+>=20
+>=20
+> base-commit: 6bd2905303c58679e303941b7d8ae8c074cd95ce
 
-This series doesn't add a KVM selftest. Please do.
+Please test
 
-And *if* you're going to do the rework I'm citing here, please do it in
-a preliminary patch, called out separately from the functional
-addition.
-
-And... *don't* do the rework I'm citing here. Or at least if you must,
-please do it on top of
 https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dshortlog;h=3Drefs/=
-heads/kvmclock10-part2
+heads/kvmclock10-hmushi
 
-But actually, I have a strong suspicion you just want to set the TSC
-and then use a version of KVM_SET_CLOCK_GUEST, *not* KVM_SET_CLOCK?
+I kind of wish we didn't have to do this in the kernel at all, and
+could punt to userspace. But we don't have that plumbing for Hv
+hypercalls, do we? So we'd have to invent that, and then also a way for
+userspace to set the sequence in the TSC page (which I wired up to be
+restored as I think that's probably what should happen; can we
+confirm?).
 
---=-p1x8seIsSlp3f5cK7XBY
+--=-qW8W4r5ORFaDuWth8cw3
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -209,22 +210,22 @@ vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
 MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
 c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
 MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjEwMDUyMjMwMjZaMC8GCSqGSIb3DQEJBDEiBCBvM4SoGEIDzQNhp8eNfyGS80T3/vtf
-sGA9vFxasfHT/zCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
+BTEPFw0yNjEwMDYwNTA4MDBaMC8GCSqGSIb3DQEJBDEiBCD5aYJ6Mzuvzcs/1v3HzdsMN9tg0BZw
+FjYBUvx4ygBdXzCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
 aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
 SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
 CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
 c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAoMBCw/GUaCm2tIGD95VJMV9yA6lr1LdVW7ayxBL4C77BKJqR1us/
-ulJPfYz3IXaTSo5NcoGHQkpzMx2sL/untOqH7kOMAKYbKZx98mCepR/Z60Wh0sOy26uugaHtp/XA
-fgKogD5xq6z7scgO/yR9C79bS2faUPK7h6ChqFZn7Ssg6cg+2b1UE/xEb43MYsGRQRkFUTML7oes
-oYLb02CtXLX1iEyuWGJL7J/G7DwqfPIByjKvjJRicSBXfIIbNx2j4cda9QSRvR2l2LeQHp55PDYn
-rcljGDBkak+I4vjqAIWQn02UXY03S8JxhpiZZiEJpXObgzVymt4BKpkn5Uj738CivcQ8NfVtFoHu
-Zoqqnc+AkgIrwsXIqFHNenBdJW8eTcjtoqFkOjy7DroYPap0X1NvZJxkdd6jzj8jPbcoakaCAON4
-6bjzVauvu1vCvrodUymvMVbkFPQiYy55PP+8LIM8QP9s8Yq8+q/iuL3O0o+Sy9IkKAHFMNLfFLtK
-McKmnHXLLgprd15nW7ED0+LH+cmFs0D81gX0FBuKsx4vHMmKkH50xeW9x99LRRWRu1U5yRr0bHO4
-isqOF6WrSvmwAoLf12D8/lJ0/89YFOTW36qavISc05AI4+Ch4rH8S2MYYYTokpqtdXmxkfYJdcGh
-ulQlfa0hnSB3YxNw3vDsoSQAAAAAAAA=
+DQYJKoZIhvcNAQEBBQAEggIAOeijWVA3/VuQrvUKeR5MHqkXwQvxgHnFgnNzpqq17HrYj+vmN893
+B7C3dSdZ8R+fQ3oY/E+b1d9mW0kXPYsURMKmHjI4jv5IPw13bbY1j4a+0oqX1MBDjCYVQpKOCJoT
+cdJAft+lIleVwdIVvp38z/f9HKVrUbeDFFJkVoVlevfqXIGy6DlkgykfbI4Ame+xXV02IFTQD6jP
+Po4rhIoQySPqwL8/JNA3ybj96JZ+PRkQLpBU1TVhHYW5Mh3Pck01Vk+viyFNhJEipuSJkqgEUyPP
+NOfkMoU+fXFJDA/3HG+YPQex2sjRIxuSrIuc7sEJwKR5uW0jGXapTfU3q89ahlILApugwT2en0Ww
+X34yWx8zGewhWC0qklQtTdR/7KFB8isX+m1ofSmQdBv3gkyeB4Ny5ecG/oScZ2+dJXetGiMYT/Yu
+5yz80PJnKUu2I4xmD2/onJfBH9CGOqY1HSUmUg9c7JOPhPMSG7xK9SPZZE6eMx/zpkWi4Ox2kYTh
+Ba67lf0ZGAqYFVAMzXgpHJPITBC8N2WCRPwVvGQe/gQXmF5V0tRf0woCX2xRJ18SH0l7PrrXb/an
+WdO0QaKujhDNJ3GrcVJImCIP3aYgHw5LLz+lCJbUlkYh2+9Iy3yBNz+fGohbludkFFZxpYT94vvQ
+mxyha66fNWNIJ9W1mc4fpToAAAAAAAA=
 
 
---=-p1x8seIsSlp3f5cK7XBY--
+--=-qW8W4r5ORFaDuWth8cw3--
