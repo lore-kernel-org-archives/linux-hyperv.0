@@ -1,64 +1,64 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A174E36E8
-	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D619E4E3ED4
+	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791400163; cv=none; b=oiE38TMX2dgDrmWU7g1QJD1XIqIk/7rLihfOBFIjmw2keiH4hMT5jr98rVPwxBUGSaeuZQ2Ho8AXMKBmVldshlf97cQj7GKK4BqgHnShPApK4Kq7NgnqDsxBgntIwcMbjNuhtataOcjuuUs5qiSyHZ8yKXiUTdT6a6bNsFzfh7I=
+	t=1791400167; cv=none; b=fxFKsUZjuoGWZj4uzDZ1BrGgzqqDz8XxiN9H5sZcMxaFWpGFA3vuT3TPmrYUZNXzNwoOlvRpvO0OcO3woPIQQU+37rUL7X1AvkhreyXfvTH7VtbSy/jrUgxLOqKje0nd7Z3zG6x+PPAltRmI4n6fDEzmJIzVVu4m26ECwRKYzd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791400163; c=relaxed/simple;
-	bh=mP1HxSl3oQSKLEObPuJLkXctpChm7tH357+2rUfZnDQ=;
+	s=arc-20240116; t=1791400167; c=relaxed/simple;
+	bh=vVSqOGp2wx/0qJVjAsSbH5oTy4Gpsm8b9+BCotcy5AA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bNdgj3g/PlIJfcwo4i9DtjxitpPBv5rFQZCtzJn47drWzwXmnuf2KA8ixouzXJpy3Sni+C791Xr3lEhyf8BAXptyZ4CSSCim32fHaXr6NaZg3uqMCvEt5ePUx/PB19oEicA6M1d3WRF06aUv1fX2XoE34WtS0OyJ4puC0RbKHdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KR26hX/Y; arc=none smtp.client-ip=209.85.221.173
+	 MIME-Version; b=EPfod6H9JlXtBKBHHj/jc5QrLurXBGDKNSJ/mz8LItiGRLkKhF8R+e3WcOblcyTXkncaWQrKHAq0x2mZk5kAfC0sSPSAXBCN7pBdS41nvaBbulnQmpYnC5+fJZKyJWxarWB3Bf0/gLMn+IF4Gsu2k93rd8fXA5tReeRNZtFtq1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyKU9oV/; arc=none smtp.client-ip=209.85.222.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KR26hX/Y"
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5e23be41cf8so892943e0c.2
-        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:09:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyKU9oV/"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-98febe968deso217371241.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791400159; x=1792004959; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791400165; x=1792004965; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tDpsoC4g8wWsvgOmcFm4F0zdKYSHV3Ex3/8x50n7wZM=;
-        b=KR26hX/Y0QiksJakcV9pwuxGmkIbm9rJBnCrN6rphk5iq1K/8uNo6Nw2nZywFvIPh7
-         81E+eGGPCRx7HxnEM4HiP7OCbOXaWoYW2ra9mmJOWvBmCvHlKLjA69shW18hJUIWy2Ut
-         R2shcOOVNyqq3eGLNhbY3jqu/fqjE6eZmS4Hu2zBJnYoxKhbDJE9cOLnTV8w7gqliY8t
-         QF3ctdBPvJooYMfIk/bl9prGIvgQJteYfXy/G1JVhj1T3SqAFg0CbMkcUk+vhpbUhAwc
-         cXtBVuAlJt2MQkIuDdq8EF9DeINEHTF9UC1Sp94UTSh5DFbJilSY7WOk4S9X7E78IdrK
-         ph+g==
+        bh=3XGvHahoLRouhu1JIBcDAOTwzFgHXehCkZsR1IWSJgU=;
+        b=UyKU9oV/Skj6omKIj79jVBpXFg+ATjDAhM9sqCUH9n7N5aK52iQU92wyj/ba8d5V4A
+         S0zg7dUjAV6GAyUZWdQJaly3O91FpSYaNiL+BIO05/eGEEU1aA0iY18E5QjhonwDRVqC
+         2RNfUEvuSB58m5AxmJlT2oIdzZXLYabSU8gb4OAgmFCwJ3cOcQjEnW9xeW5yhGJ6qk0+
+         NOkBOn7Yx6d87Vuen2T8VFNR1vRfvw0/OvpuXf8DIiOUgG0cn6v+5sW1logY/xmMAN7V
+         10Mza0jE1vixG8/LbiHHKSr3bqIH9aS6Ct27KVNk9TvCcFVJe3Houcp6+C9RQI+BqFKP
+         JEBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791400159; x=1792004959;
+        d=1e100.net; s=20260707; t=1791400165; x=1792004965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tDpsoC4g8wWsvgOmcFm4F0zdKYSHV3Ex3/8x50n7wZM=;
-        b=Z20axwLep82aYUYbw2CVdnG8pMsXFcitRf7vnOEpCb/wDyjdGBkHQ9P8w6FbAokMWA
-         j7f8rpcRno33hXxiD/rZMPHbi20Ydwumjy0aKLlBmPBry/MY/nXqG5o/5pD4uLuOrWFz
-         h/TH/CCPzLaGnB3DEtZsTbE69H4pK53URDqzAX39tuumYk5h3U1bR7UNhd+24YYAuEPD
-         HrSy54bybyplWwYxrfy32lX4UdJKf75X14HznvbABNzgVPX2HqczKgXAUhHsK0JsXsQ0
-         bVI8gU9xJDLmDU3O6+4FIN8tBkILdpJYRVckix6jVdeiDLMGJRkRNU+nYxn+jT2vIMsr
-         tKWQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz1XLr6aXo57f9mgbwrDKL84cl2sEi28H8PGHMaOGHRS9dre9fSv37N/e4o0fLRZbVeTom8rfTv19swo20=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJlchdB2Jx7H7wvfxwHBCnfMohZ4dkbltLWl63fnLoqf6VniCe2
-	z+IjIwCRojTTU0LVTAAL8Xv7D6Zo/Ux8JyuN2qIY2iGqng9uqHee+V63
-X-Gm-Gg: AYBFou2e3Y2Y2JdU0TGzmJ+qO0w3fiF2aFeDvIAM2AIv24EPLFoPe+hqtWNSz/WVOkT
-	tsEYS0FiLzCEm7g8dp2Kr+SW3GY+3UrQcksO7/bBc/FGwJTdBcQJQeJVCeSwpZIk+mgWHObHSVm
-	jlRcKoc2xvc5aKghjJUH9znbZi3pvNRWCzhTpNUJm1FQSIaG4XmqWNJUVem1YWmTN0EuYhJ3OfE
-	PqCyvvxk25O4Fytp8kD8LFcTqf0UXEqgX0z4T95CUMhLEW85QYp/XhsHrngAUDVQPG/EJp0ikVi
-	3+jj/vnMuJuP5+K0OcASmTGMMi3srkNZAKR94OMqd5XxgdoxxuM1Kaa4oPuCxzZeUu2zsPB4ayU
-	gM3AV7R/R/I9IZkl6SMbsRTjWbW5QUnpBM5lHJy5ZM7HEXAv3OOAO+yeJTXjaPbGcF/GX3ka45o
-	cFD0aWzY/jxIhD9WyASCLHWgUKUfUJAMzMKjrDIzXKtVTesdKT7xSyRjO1COr7ER3MJomzT/iGt
-	HGUBRupDETXsjkqpiM=
-X-Received: by 2002:a05:6102:2929:b0:7c3:9b8d:5124 with SMTP id ada2fe7eead31-7ca38dae2ecmr640888137.18.1791400159041;
-        Wed, 07 Oct 2026 12:09:19 -0700 (PDT)
+        bh=3XGvHahoLRouhu1JIBcDAOTwzFgHXehCkZsR1IWSJgU=;
+        b=V2sjgGuCNZhFcYgX5XQ2O+qTQEOw8a4lqUC+puQffsbq8BT8SDTntymr6AV806RHC1
+         0JPQRp35uJLCSiwZu5Ql8Gr7Xt21KiSCYLl7bnQ87S5tFXVRxzd0EYgABpeIstwOUo7P
+         u6uzDP/QF9qjkl9PVubsPfAATqXN8xstoIETB0Sed5e4yIBYewi1eP2PNydl8ofdHasl
+         0YCsXOf/6Wtqdzf3n1Qkl5tcPeotVgDhNw0D/B23RaLsKG+rhbwgqP+20nSBAKrbsZRR
+         /VW+/LWw9dz+SusxzVZWQuTTqsRNG16sF/yHnnl8aMpaPEBk+xamNm5RkM+TaJqtfxRe
+         XemQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzDqINOIuuDIG8IKKc4aNIcxvkBGyc98ZVwQKC9wo1M5Qs/jjwwXNlGrCLEww9c9kJrMsRU01FMicfOS2E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLPmdoY2of25XB/3vZOr8lOLIi5yIxIue9f7m8eVOG/RWolQVC3
+	5ztwP6N+FPq2vtpjRzdkEIpROCeulJC/RM9PybQOxdtf+o4etrP4OKpl
+X-Gm-Gg: AYBFou2V8sRUZJQLnzpPD31xs/6vlZFGr9GdfNV8BgXp1ikL5xNQJCqENpOmuG70ajv
+	sj6F6IvQCQA7Uh12IQeoXzxrsJPF+oU1jiWKwOC6rERFadxpiPPgiLwr9VpUDrWid5AU7PVkwRR
+	7NU2pRrelM3qcKWprecT2M98OVQLZ/KpY8iyFUYlGC7btXlGRqvSEKr2S7ZLj+3Txckh7P4RfGX
+	id4fLtPxsEtRluWlRdbCU2CuDJueTZHydwUYrDb+SFHCcabpqgz8ysFFZ0KlCrCP3zoF1gPYLfg
+	ohb+5edFVltKNJQb5b3RpT/R+1uOg/2CnGM5GvSn7JZsSbvkofXw/wma4BzPvRxwDms1DKirmG1
+	fP5GpLqYtc2c4hJd/NUwvEGE47g7uHW++Oo3AsWT+qx28zyodGXtZr5/StZquAg9fKof/Z07U+i
+	BoR1hSc/9oYb4ZiHBdXE3i3rBUlMrnijkFslUlmyyL3z2+K51/HLm6sAoM2Kd5IbRFYoz7HblwD
+	0wtsYkKUNzRHH+1/tI=
+X-Received: by 2002:a05:6102:688f:b0:7bc:1de3:39b0 with SMTP id ada2fe7eead31-7ca38f28c27mr1016377137.32.1791400164748;
+        Wed, 07 Oct 2026 12:09:24 -0700 (PDT)
 Received: from emedev.tailf75c28.ts.net ([74.244.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.09.13
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.09.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 12:09:18 -0700 (PDT)
+        Wed, 07 Oct 2026 12:09:24 -0700 (PDT)
 From: Emerson Busson <emersonbusson@gmail.com>
 To: mhklinux@outlook.com
 Cc: kys@microsoft.com,
@@ -74,9 +74,9 @@ Cc: kys@microsoft.com,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v2 13/14] hv: netvsc: handle a NULL request address on empty completions
-Date: Wed,  7 Oct 2026 16:07:51 -0300
-Message-ID: <20261007190752.336426-14-emersonbusson@gmail.com>
+Subject: [PATCH v2 14/14] hv: netvsc: use kvzalloc for device state
+Date: Wed,  7 Oct 2026 16:07:52 -0300
+Message-ID: <20261007190752.336426-15-emersonbusson@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261007190752.336426-1-emersonbusson@gmail.com>
 References: <20261007190752.336426-1-emersonbusson@gmail.com>
@@ -88,670 +88,47 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-netvsc_send_pkt() registers (ulong)skb as the VMBus request address.
-Control RNDIS sends carry no skb -- rndis_filter.c calls netvsc_send()
-with skb == NULL -- so the registered address is NULL. That is
-intentional: there is no guest object to hand back, and the request
-slot is still allocated so the completion can reclaim it.
+alloc_net_device() allocates the fixed-channel netvsc_device with
+kzalloc_obj(). The runtime fragmentation drill reaches this allocation
+from netvsc_device_add(): windows-2025 reports an order-7 allocation
+failure with about 99 MiB free, while windows-latest stalls at channel
+open until the guest timeout.
 
-netvsc_send_tx_complete() already tolerates that with if (likely(skb)).
-netvsc_send_completion()'s empty-payload branch does not. It casts the
-request address to struct nvsp_message * and reads hdr.msg_type
-unconditionally, so a completion that resolves to NULL is a fatal NULL
-dereference in NAPI/softirq context.
+This object is guest-private control-plane metadata, not DMA backing.
+Use kvzalloc_obj() so the allocation can fall back to vmalloc when a
+high-order kmalloc cannot be satisfied. Zero initialization is preserved.
+The RCU workqueue cleanup uses kvfree() to release either backing.
 
-The empty-payload branch exists for NVSP_MSG4_TYPE_SWITCH_DATA_PATH,
-which netvsc_switch_datapath() sends with a real nvsp_message address.
-A NULL request address is not that message and must not be
-dereferenced. Validate VMBUS_NO_RQSTOR alongside VMBUS_RQST_ERROR in
-both completion paths -- request_addr_callback() returns it when the
-channel has no requestor -- and account a NULL-address completion the
-same way the payload path accounts a NULL skb. The request id is
-consumed by the lookup, so that completion is the one that owns the
-queue_sends decrement and the possible queue wake.
+Rollback trigger: revert if channel setup fails with vmalloc capacity
+available or teardown leaves netvsc_device allocations outstanding.
 
-This is reached by the runtime drill in this series once channel open
-survives buddy fragmentation: control RNDIS traffic proceeds where it
-used to fail with -ENOMEM, and an empty completion for one of those
-requests takes the unguarded path.
-
-Revert this patch if an empty completion with a NULL request address
-dereferences again, if a netvsc TX stall or an "Invalid transaction
-ID" flood appears under this patch, or if a SWITCH_DATA_PATH
-completion is shown to be dropped instead of taken through its
-nvsp_message path.
-
-Adds eleven named netvsc completion KUnit cases covering the decision
-layer of the empty-payload branch: a NULL request address owning the
-queue_sends decrement, both invalid sentinels rejected without
-accounting, SWITCH_DATA_PATH completing channel_init_wait without
-accounting, an unexpected message type taking neither path, a
-replayed transaction id accounting exactly once, N completions
-decrementing the queue exactly N times, the destroy drain wait waking
-only at zero, and netvsc_send_tx_complete() applying the same
-sentinel rejection while still accounting a NULL skb. Two skb-backed
-payload cases exercise the production completion entry with success
-and error status, a published send slot and queue 1. They verify
-synchronous skb consumption, exact packet/byte statistics, selected
-queue accounting and duplicate transaction rejection. Confidential
-DMA unmapping remains platform-specific and is not exercised here.
-
-netvsc_send_acct() is extracted so a test can observe the decrement
-and the drain wake directly; it is not a behaviour change. The
-helpers lose static and are declared in hyperv_net.h so the cases
-reach them without a new EXPORT_SYMBOL_GPL, matching how the VMBus
-buffer tests are built into hv_vmbus.
-
-Fixes: 8b31f8c982b7 ("hv_netvsc: Wait for completion on request SWITCH_DATA_PATH")
 Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
 ---
- drivers/net/hyperv/Makefile                 |   1 +
- drivers/net/hyperv/hyperv_net.h             |  15 +
- drivers/net/hyperv/netvsc.c                 |  81 ++--
- drivers/net/hyperv/netvsc_completion_test.c | 439 ++++++++++++++++++++
- 4 files changed, 507 insertions(+), 29 deletions(-)
- create mode 100644 drivers/net/hyperv/netvsc_completion_test.c
+ drivers/net/hyperv/netvsc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/hyperv/Makefile b/drivers/net/hyperv/Makefile
-index 6f1abc756fde..b2d22855fd8a 100644
---- a/drivers/net/hyperv/Makefile
-+++ b/drivers/net/hyperv/Makefile
-@@ -2,4 +2,5 @@
- obj-$(CONFIG_HYPERV_NET) += hv_netvsc.o
- 
- hv_netvsc-y := netvsc_drv.o netvsc.o rndis_filter.o netvsc_trace.o netvsc_bpf.o
-+hv_netvsc-$(CONFIG_HYPERV_NET_KUNIT_TEST) += netvsc_completion_test.o
- hv_netvsc-$(CONFIG_HYPERV_NET_KUNIT_TEST) += rndis_request_test.o
-diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index 6492e7e93ded..be3a63a168cf 100644
---- a/drivers/net/hyperv/hyperv_net.h
-+++ b/drivers/net/hyperv/hyperv_net.h
-@@ -229,6 +229,21 @@ int rndis_build_page_buffers(const void *data, u32 len,
- 			     struct hv_page_buffer *page_bufs,
- 			     u32 *page_buf_cnt);
- 
-+void netvsc_send_acct(struct net_device *ndev,
-+		      struct netvsc_device *net_device,
-+		      struct vmbus_channel *channel,
-+		      u16 q_idx);
-+void netvsc_send_tx_complete(struct net_device *ndev,
-+			     struct netvsc_device *net_device,
-+			     struct vmbus_channel *channel,
-+			     const struct vmpacket_descriptor *desc,
-+			     int budget);
-+void netvsc_send_completion(struct net_device *ndev,
-+			    struct netvsc_device *net_device,
-+			    struct vmbus_channel *incoming_channel,
-+			    const struct vmpacket_descriptor *desc,
-+			    int budget);
-+
- extern u32 netvsc_ring_bytes;
- 
- int netvsc_workqueue_init(void);
 diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index fd8aa7a3dcb3..0d017f836b9e 100644
+index 0d017f836b9e..8ea7c993baac 100644
 --- a/drivers/net/hyperv/netvsc.c
 +++ b/drivers/net/hyperv/netvsc.c
-@@ -764,20 +764,45 @@ static inline void netvsc_free_send_slot(struct netvsc_device *net_device,
- 	sync_change_bit(index, net_device->send_section_map);
- }
- 
--static void netvsc_send_tx_complete(struct net_device *ndev,
--				    struct netvsc_device *net_device,
--				    struct vmbus_channel *channel,
--				    const struct vmpacket_descriptor *desc,
--				    int budget)
-+void netvsc_send_acct(struct net_device *ndev,
-+		      struct netvsc_device *net_device,
-+		      struct vmbus_channel *channel,
-+		      u16 q_idx)
-+{
-+	struct net_device_context *ndev_ctx = netdev_priv(ndev);
-+	int queue_sends;
-+
-+	queue_sends =
-+		atomic_dec_return(&net_device->chan_table[q_idx].queue_sends);
-+
-+	if (unlikely(net_device->destroy)) {
-+		if (queue_sends == 0)
-+			wake_up(&net_device->wait_drain);
-+	} else {
-+		struct netdev_queue *txq = netdev_get_tx_queue(ndev, q_idx);
-+
-+		if (netif_tx_queue_stopped(txq) && !net_device->tx_disable &&
-+		    (hv_get_avail_to_write_percent(&channel->outbound) >
-+		     RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) {
-+			netif_tx_wake_queue(txq);
-+			ndev_ctx->eth_stats.wake_queue++;
-+		}
-+	}
-+}
-+
-+void netvsc_send_tx_complete(struct net_device *ndev,
-+			     struct netvsc_device *net_device,
-+			     struct vmbus_channel *channel,
-+			     const struct vmpacket_descriptor *desc,
-+			     int budget)
- {
- 	struct net_device_context *ndev_ctx = netdev_priv(ndev);
- 	struct sk_buff *skb;
- 	u16 q_idx = 0;
--	int queue_sends;
- 	u64 cmd_rqst;
- 
- 	cmd_rqst = channel->request_addr_callback(channel, desc->trans_id);
--	if (cmd_rqst == VMBUS_RQST_ERROR) {
-+	if (cmd_rqst == VMBUS_RQST_ERROR || cmd_rqst == VMBUS_NO_RQSTOR) {
- 		netdev_err(ndev, "Invalid transaction ID %llx\n", desc->trans_id);
- 		return;
- 	}
-@@ -806,29 +831,14 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
- 		napi_consume_skb(skb, budget);
+@@ -144,7 +144,7 @@ static void __free_netvsc_device(struct netvsc_device *nvdev)
+ 		vfree(nvdev->chan_table[i].mrc.slots);
  	}
  
--	queue_sends =
--		atomic_dec_return(&net_device->chan_table[q_idx].queue_sends);
--
--	if (unlikely(net_device->destroy)) {
--		if (queue_sends == 0)
--			wake_up(&net_device->wait_drain);
--	} else {
--		struct netdev_queue *txq = netdev_get_tx_queue(ndev, q_idx);
--
--		if (netif_tx_queue_stopped(txq) && !net_device->tx_disable &&
--		    (hv_get_avail_to_write_percent(&channel->outbound) >
--		     RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) {
--			netif_tx_wake_queue(txq);
--			ndev_ctx->eth_stats.wake_queue++;
--		}
--	}
-+	netvsc_send_acct(ndev, net_device, channel, q_idx);
+-	kfree(nvdev);
++	kvfree(nvdev);
  }
  
--static void netvsc_send_completion(struct net_device *ndev,
--				   struct netvsc_device *net_device,
--				   struct vmbus_channel *incoming_channel,
--				   const struct vmpacket_descriptor *desc,
--				   int budget)
-+void netvsc_send_completion(struct net_device *ndev,
-+			    struct netvsc_device *net_device,
-+			    struct vmbus_channel *incoming_channel,
-+			    const struct vmpacket_descriptor *desc,
-+			    int budget)
+ static void free_netvsc_device(struct work_struct *w)
+@@ -171,7 +171,7 @@ static struct netvsc_device *alloc_net_device(void)
  {
- 	const struct nvsp_message *nvsp_packet;
- 	u32 msglen = hv_pkt_datalen(desc);
-@@ -840,11 +850,24 @@ static void netvsc_send_completion(struct net_device *ndev,
- 	if (!msglen) {
- 		cmd_rqst = incoming_channel->request_addr_callback(incoming_channel,
- 								   desc->trans_id);
--		if (cmd_rqst == VMBUS_RQST_ERROR) {
-+		if (cmd_rqst == VMBUS_RQST_ERROR || cmd_rqst == VMBUS_NO_RQSTOR) {
- 			netdev_err(ndev, "Invalid transaction ID %llx\n", desc->trans_id);
- 			return;
- 		}
+ 	struct netvsc_device *net_device;
  
-+		/*
-+		 * netvsc_send_pkt() registers (ulong)skb as the request
-+		 * address. Control RNDIS sends carry no skb, so the
-+		 * registered address is NULL and there is no nvsp_message
-+		 * to inspect. The request id is consumed above, so this
-+		 * completion owns the send accounting -- the same thing
-+		 * netvsc_send_tx_complete() does when it sees a NULL skb.
-+		 */
-+		if (!cmd_rqst) {
-+			netvsc_send_acct(ndev, net_device, incoming_channel, 0);
-+			return;
-+		}
-+
- 		pkt_rqst = (struct nvsp_message *)(uintptr_t)cmd_rqst;
- 		switch (pkt_rqst->hdr.msg_type) {
- 		case NVSP_MSG4_TYPE_SWITCH_DATA_PATH:
-diff --git a/drivers/net/hyperv/netvsc_completion_test.c b/drivers/net/hyperv/netvsc_completion_test.c
-new file mode 100644
-index 000000000000..2614b1ece232
---- /dev/null
-+++ b/drivers/net/hyperv/netvsc_completion_test.c
-@@ -0,0 +1,439 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * KUnit tests for empty and skb-backed netvsc completion handling.
-+ *
-+ * Built into the hv_netvsc object rather than a separate module so the
-+ * cases can reach the internal helpers declared in hyperv_net.h
-+ * without exporting them.
-+ */
-+#include <kunit/test.h>
-+#include <linux/etherdevice.h>
-+#include <linux/hyperv.h>
-+#include <linux/netdevice.h>
-+#include <linux/skbuff.h>
-+#include <linux/slab.h>
-+#include <linux/wait.h>
-+
-+#include "hyperv_net.h"
-+
-+/*
-+ * Scripted requestor. request_addr_callback() only receives the channel
-+ * and the transaction id, so the fixture is hung off a file-scope
-+ * pointer. KUnit runs suite cases serially; one active fixture is
-+ * enough and keeps the callback signature untouched.
-+ */
-+struct netvsc_completion_fixture {
-+	struct net_device *ndev;
-+	struct netvsc_device *nvdev;
-+	struct vmbus_channel *channel;
-+	/* Address returned on first use, then VMBUS_NO_RQSTOR: the id is
-+	 * consumed exactly once, as vmbus_request_addr_match() does.
-+	 */
-+	u64 once_addr;
-+	unsigned int calls;
-+	u64 seen_ids[8];
-+	unsigned int skb_frees;
-+};
-+
-+static struct netvsc_completion_fixture *active_fx;
-+
-+static u64 test_request_addr(struct vmbus_channel *channel, u64 rqst_id)
-+{
-+	struct netvsc_completion_fixture *fx = active_fx;
-+
-+	if (fx->calls < ARRAY_SIZE(fx->seen_ids))
-+		fx->seen_ids[fx->calls] = rqst_id;
-+	fx->calls++;
-+
-+	if (fx->calls == 1)
-+		return fx->once_addr;
-+	return VMBUS_NO_RQSTOR;
-+}
-+
-+/*
-+ * A completion carrying no payload: hv_pkt_datalen() == 0. The
-+ * empty-completion path looks the request up by trans_id and reads its
-+ * message type, so the request itself is a separate object the fixture
-+ * hands back through request_addr_callback().
-+ */
-+struct netvsc_empty_desc {
-+	struct vmpacket_descriptor desc;
-+} __packed;
-+
-+static void make_empty_desc(struct netvsc_empty_desc *pkt, u64 trans_id)
-+{
-+	memset(pkt, 0, sizeof(*pkt));
-+	pkt->desc.offset8 = sizeof(pkt->desc) / 8;
-+	pkt->desc.len8 = pkt->desc.offset8;
-+	pkt->desc.trans_id = trans_id;
-+}
-+
-+/*
-+ * The production path never dereferences a net_device queue while
-+ * tx_disable is set: netif_tx_queue_stopped() && !tx_disable
-+ * short-circuits before hv_get_avail_to_write_percent() reads the
-+ * ring. Set it here so a test needs no live outbound ring.
-+ */
-+static int netvsc_completion_fixture_init(struct netvsc_completion_fixture *fx)
-+{
-+	fx->ndev = alloc_netdev_mqs(sizeof(struct net_device_context),
-+				    "hvcompl%d", NET_NAME_UNKNOWN,
-+				    ether_setup, 2, 2);
-+	if (!fx->ndev)
-+		return -ENOMEM;
-+
-+	fx->nvdev = kzalloc_obj(*fx->nvdev, GFP_KERNEL);
-+	if (!fx->nvdev) {
-+		free_netdev(fx->ndev);
-+		return -ENOMEM;
-+	}
-+
-+	fx->channel = kzalloc_obj(*fx->channel, GFP_KERNEL);
-+	if (!fx->channel) {
-+		kfree(fx->nvdev);
-+		free_netdev(fx->ndev);
-+		return -ENOMEM;
-+	}
-+
-+	init_waitqueue_head(&fx->nvdev->wait_drain);
-+	init_completion(&fx->nvdev->channel_init_wait);
-+	fx->nvdev->tx_disable = true;
-+	fx->channel->request_addr_callback = test_request_addr;
-+	fx->once_addr = 0;
-+	fx->calls = 0;
-+	memset(fx->seen_ids, 0, sizeof(fx->seen_ids));
-+	active_fx = fx;
-+	return 0;
-+}
-+
-+static void netvsc_completion_fixture_exit(struct netvsc_completion_fixture *fx)
-+{
-+	active_fx = NULL;
-+	kfree(fx->channel);
-+	kfree(fx->nvdev);
-+	free_netdev(fx->ndev);
-+}
-+
-+static int netvsc_send_sends(struct netvsc_completion_fixture *fx, u16 q_idx)
-+{
-+	return atomic_read(&fx->nvdev->chan_table[q_idx].queue_sends);
-+}
-+
-+/* Empty completion, request address NULL: owns the send accounting. */
-+static void netvsc_completion_null_address_acct_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x11);
-+	/* once_addr = 0 is the control-path NULL skb case. */
-+	fx.once_addr = 0;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
-+	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
-+	KUNIT_EXPECT_EQ(test, fx.calls, 1U);
-+	KUNIT_EXPECT_EQ(test, fx.seen_ids[0], 0x11U);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/* VMBUS_RQST_ERROR is rejected: no accounting, no completion. */
-+static void netvsc_completion_rqst_error_sentinel_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x22);
-+	fx.once_addr = VMBUS_RQST_ERROR;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
-+	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/* VMBUS_NO_RQSTOR is rejected the same way. */
-+static void netvsc_completion_no_rqstor_sentinel_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x33);
-+	fx.once_addr = VMBUS_NO_RQSTOR;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
-+	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/*
-+ * A real request address whose message type is SWITCH_DATA_PATH
-+ * completes the channel-init wait. It is not send accounting: the
-+ * control request was not a send.
-+ */
-+static void netvsc_completion_switch_data_path_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+	struct nvsp_message req = {};
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x44);
-+	req.hdr.msg_type = NVSP_MSG4_TYPE_SWITCH_DATA_PATH;
-+	fx.once_addr = (u64)(unsigned long)&req;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+
-+	KUNIT_EXPECT_TRUE(test, completion_done(&fx.nvdev->channel_init_wait));
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/* An unexpected message type takes neither the complete nor the acct path. */
-+static void netvsc_completion_unknown_msg_type_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+	struct nvsp_message req = {};
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x55);
-+	req.hdr.msg_type = 0xdead;
-+	fx.once_addr = (u64)(unsigned long)&req;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+
-+	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/*
-+ * A repeated completion for an already-consumed transaction id must not
-+ * account twice. The requestor returns VMBUS_NO_RQSTOR on the second
-+ * use and the empty-completion path rejects it.
-+ */
-+static void netvsc_completion_duplicate_completion_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x66);
-+	fx.once_addr = 0;
-+
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
-+	KUNIT_EXPECT_EQ(test, fx.calls, 1U);
-+
-+	/* Second completion for the same id: already consumed. */
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
-+	KUNIT_EXPECT_EQ(test, fx.calls, 2U);
-+	KUNIT_EXPECT_EQ(test, fx.seen_ids[0], 0x66U);
-+	KUNIT_EXPECT_EQ(test, fx.seen_ids[1], 0x66U);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/* N completions decrement the queue exactly N times. */
-+static void netvsc_completion_single_decrement_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+	int i;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 5);
-+
-+	for (i = 0; i < 5; i++) {
-+		make_empty_desc(&pkt, 0x100 + i);
-+		fx.once_addr = 0;
-+		fx.calls = 0;
-+		netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel,
-+				       &pkt.desc, 0);
-+		KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 4 - i);
-+		KUNIT_EXPECT_EQ(test, fx.calls, 1U);
-+	}
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 0);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+static int netvsc_test_wake(struct wait_queue_entry *wq_entry,
-+			    unsigned int mode, int flags, void *key)
-+{
-+	unsigned int *woken = wq_entry->private;
-+
-+	(*woken)++;
-+	return 0;
-+}
-+
-+/* destroy + a decrement that reaches zero wakes the drain wait. */
-+static void netvsc_send_acct_drain_wake_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct wait_queue_entry entry;
-+	unsigned int woken = 0;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	fx.nvdev->destroy = true;
-+
-+	memset(&entry, 0, sizeof(entry));
-+	entry.func = netvsc_test_wake;
-+	entry.private = &woken;
-+	add_wait_queue(&fx.nvdev->wait_drain, &entry);
-+
-+	/* Non-zero remainder: the drain wait is not woken. */
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 2);
-+	netvsc_send_acct(fx.ndev, fx.nvdev, fx.channel, 0);
-+	KUNIT_EXPECT_EQ(test, woken, 0U);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 1);
-+
-+	/* Exactly zero: the drain wait is woken once. */
-+	netvsc_send_acct(fx.ndev, fx.nvdev, fx.channel, 0);
-+	KUNIT_EXPECT_EQ(test, woken, 1U);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 0);
-+
-+	remove_wait_queue(&fx.nvdev->wait_drain, &entry);
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+/*
-+ * netvsc_send_tx_complete() applies the same sentinel rejection and
-+ * still accounts a NULL skb.
-+ */
-+static void netvsc_tx_complete_null_skb_acct_test(struct kunit *test)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct netvsc_empty_desc pkt;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
-+	make_empty_desc(&pkt, 0x77);
-+	fx.once_addr = 0;
-+
-+	netvsc_send_tx_complete(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
-+
-+	/* The sentinel is rejected before any accounting. */
-+	make_empty_desc(&pkt, 0x78);
-+	fx.once_addr = VMBUS_RQST_ERROR;
-+	fx.calls = 0;
-+	netvsc_send_tx_complete(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
-+
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+static void netvsc_test_skb_destructor(struct sk_buff *skb)
-+{
-+	active_fx->skb_frees++;
-+}
-+
-+static void netvsc_tx_complete_skb(struct kunit *test, u32 status)
-+{
-+	struct netvsc_completion_fixture fx = {};
-+	struct {
-+		struct vmpacket_descriptor desc;
-+		struct nvsp_message message;
-+	} pkt = {};
-+	unsigned long send_slots = BIT(3);
-+	struct hv_netvsc_packet *packet;
-+	struct netvsc_stats_tx *stats;
-+	struct sk_buff *skb;
-+
-+	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
-+	skb = alloc_skb(64, GFP_KERNEL);
-+	if (!skb) {
-+		KUNIT_FAIL(test, "skb allocation failed");
-+		goto out;
-+	}
-+	skb->destructor = netvsc_test_skb_destructor;
-+	packet = (struct hv_netvsc_packet *)skb->cb;
-+	memset(packet, 0, sizeof(*packet));
-+	packet->send_buf_index = 3;
-+	packet->q_idx = 1;
-+	packet->total_packets = 2;
-+	packet->total_bytes = 64;
-+	fx.nvdev->send_section_map = &send_slots;
-+	stats = &fx.nvdev->chan_table[1].tx_stats;
-+	u64_stats_init(&stats->syncp);
-+	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 7);
-+	atomic_set(&fx.nvdev->chan_table[1].queue_sends, 3);
-+	fx.once_addr = (u64)(unsigned long)skb;
-+	pkt.desc.offset8 = sizeof(pkt.desc) / 8;
-+	pkt.desc.len8 = DIV_ROUND_UP(sizeof(pkt), 8);
-+	pkt.desc.trans_id = 0x79;
-+	pkt.message.hdr.msg_type = NVSP_MSG1_TYPE_SEND_RNDIS_PKT_COMPLETE;
-+	pkt.message.msg.v1_msg.send_rndis_pkt_complete.status = status;
-+
-+	/* Budget zero consumes the real skb synchronously, outside NAPI. */
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, send_slots, 0UL);
-+	KUNIT_EXPECT_EQ(test, fx.skb_frees, 1U);
-+	KUNIT_EXPECT_EQ(test, stats->packets, 2ULL);
-+	KUNIT_EXPECT_EQ(test, stats->bytes, 64ULL);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 7);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 1), 2);
-+
-+	/* The consumed transaction cannot free or account the skb twice. */
-+	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
-+	KUNIT_EXPECT_EQ(test, send_slots, 0UL);
-+	KUNIT_EXPECT_EQ(test, fx.skb_frees, 1U);
-+	KUNIT_EXPECT_EQ(test, stats->packets, 2ULL);
-+	KUNIT_EXPECT_EQ(test, stats->bytes, 64ULL);
-+	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 1), 2);
-+out:
-+	netvsc_completion_fixture_exit(&fx);
-+}
-+
-+static void netvsc_tx_complete_skb_success_test(struct kunit *test)
-+{
-+	netvsc_tx_complete_skb(test, NVSP_STAT_SUCCESS);
-+}
-+
-+static void netvsc_tx_complete_skb_error_test(struct kunit *test)
-+{
-+	netvsc_tx_complete_skb(test, NVSP_STAT_FAIL);
-+}
-+
-+static struct kunit_case netvsc_completion_test_cases[] = {
-+	KUNIT_CASE(netvsc_completion_null_address_acct_test),
-+	KUNIT_CASE(netvsc_completion_rqst_error_sentinel_test),
-+	KUNIT_CASE(netvsc_completion_no_rqstor_sentinel_test),
-+	KUNIT_CASE(netvsc_completion_switch_data_path_test),
-+	KUNIT_CASE(netvsc_completion_unknown_msg_type_test),
-+	KUNIT_CASE(netvsc_completion_duplicate_completion_test),
-+	KUNIT_CASE(netvsc_completion_single_decrement_test),
-+	KUNIT_CASE(netvsc_send_acct_drain_wake_test),
-+	KUNIT_CASE(netvsc_tx_complete_null_skb_acct_test),
-+	KUNIT_CASE(netvsc_tx_complete_skb_success_test),
-+	KUNIT_CASE(netvsc_tx_complete_skb_error_test),
-+	{}
-+};
-+
-+static struct kunit_suite netvsc_completion_test_suite = {
-+	.name = "hyperv-netvsc-completion",
-+	.test_cases = netvsc_completion_test_cases,
-+};
-+
-+kunit_test_suite(netvsc_completion_test_suite);
+-	net_device = kzalloc_obj(struct netvsc_device);
++	net_device = kvzalloc_obj(struct netvsc_device);
+ 	if (!net_device)
+ 		return NULL;
+ 
 -- 
 2.43.0
 
