@@ -1,64 +1,64 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11624E36D4
-	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A174E36E8
+	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791400157; cv=none; b=A5pWqsHn11k4ztdDrsZh5kbiTX9ulkjEqA91i25Qj6kDg8okHorgs1NOGG4KsAW0o8FktjTKrkyISx68sfTqgvX4FR2buNxQxALX5gv9ZHct9IEgpb1MzR0pDLy17NI9Ftq10329XQTDwV/Cwf8WTiEPdC0MTjvEeIQf1PaSII4=
+	t=1791400163; cv=none; b=oiE38TMX2dgDrmWU7g1QJD1XIqIk/7rLihfOBFIjmw2keiH4hMT5jr98rVPwxBUGSaeuZQ2Ho8AXMKBmVldshlf97cQj7GKK4BqgHnShPApK4Kq7NgnqDsxBgntIwcMbjNuhtataOcjuuUs5qiSyHZ8yKXiUTdT6a6bNsFzfh7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791400157; c=relaxed/simple;
-	bh=YvW9dw5fFHxAdlhk6wrXy+00S8Q5Vo/Aemaq0ZekxxU=;
+	s=arc-20240116; t=1791400163; c=relaxed/simple;
+	bh=mP1HxSl3oQSKLEObPuJLkXctpChm7tH357+2rUfZnDQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D/rE3NMdxWxe65ccXhOtvPjENzam+8+GG53LBRI7YLA9DUi3ysTTPF4Hk3vKZUHrobrVbOnWXeDqCQBY3teg4WuRREzEzCELJLHF8Uui5E49rVz1eKPPJ2CEf31s43Qrj0flpz0UduJ5CavlAZEKOWVVafIqMlCpEszPqBvgo5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G8do94Ma; arc=none smtp.client-ip=209.85.217.48
+	 MIME-Version; b=bNdgj3g/PlIJfcwo4i9DtjxitpPBv5rFQZCtzJn47drWzwXmnuf2KA8ixouzXJpy3Sni+C791Xr3lEhyf8BAXptyZ4CSSCim32fHaXr6NaZg3uqMCvEt5ePUx/PB19oEicA6M1d3WRF06aUv1fX2XoE34WtS0OyJ4puC0RbKHdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KR26hX/Y; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8do94Ma"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7ca917f9f52so357592137.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:09:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KR26hX/Y"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5e23be41cf8so892943e0c.2
+        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791400154; x=1792004954; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791400159; x=1792004959; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2ClTpzuXeB4RP4HWBkTbikHD8qrVDr9ORCmPMhJeh4g=;
-        b=G8do94MaZdilUyUD51DlgGeCdM4G3fuuQsgvkQxUrxBGiDBRTgvcVX8QA2gBc4zNge
-         wnrUQ0Td/qXUwijnKU4/1XqUkERmpVRoNnlIsN+NdyKnfF4iU7JPq0hWt/sVWbBTPC9u
-         nCzBsmUPoT9wtZIWjueQ4cDZ+jO/yiMAaLwVsemuU4hH3UxEtAKSnWMdB0PBdliVIx+H
-         7vOqOASg268GpV/NdA4bahGA+dPHlcMjM9NHxsBoLtn2HlV7bGemsN5tXpIXBCi72O+B
-         F/07+y1/Iy21IhimNFGyig0dtsYPxFKFYIvZAadxWyumtvxl7N8SEggpwua7CPFDyjJW
-         4vvA==
+        bh=tDpsoC4g8wWsvgOmcFm4F0zdKYSHV3Ex3/8x50n7wZM=;
+        b=KR26hX/Y0QiksJakcV9pwuxGmkIbm9rJBnCrN6rphk5iq1K/8uNo6Nw2nZywFvIPh7
+         81E+eGGPCRx7HxnEM4HiP7OCbOXaWoYW2ra9mmJOWvBmCvHlKLjA69shW18hJUIWy2Ut
+         R2shcOOVNyqq3eGLNhbY3jqu/fqjE6eZmS4Hu2zBJnYoxKhbDJE9cOLnTV8w7gqliY8t
+         QF3ctdBPvJooYMfIk/bl9prGIvgQJteYfXy/G1JVhj1T3SqAFg0CbMkcUk+vhpbUhAwc
+         cXtBVuAlJt2MQkIuDdq8EF9DeINEHTF9UC1Sp94UTSh5DFbJilSY7WOk4S9X7E78IdrK
+         ph+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791400154; x=1792004954;
+        d=1e100.net; s=20260707; t=1791400159; x=1792004959;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2ClTpzuXeB4RP4HWBkTbikHD8qrVDr9ORCmPMhJeh4g=;
-        b=Ti7zQse8X1SYrRAq7uCCIhlWzixfdc/q9pMKgOfiXxLCq5eJe5VW+njdi6HSFzCd1c
-         Ng3G7QSYcUJoj04pYtJ2m9eLCjQRNadYQm1aQ5GOiodfPIKsldeWbu4zOKio37r1l63M
-         2wBHLwTiMpXY1ReSXZqe23zXnrrAUwCo5nlmhorfKCVEx69Ml0UUmOyZ8osxAUfVJ6F4
-         7iMDi8VOwmtqOwOXpJnf7YoEhL2cvmuRa2RtS3uEoeSboWeD9VEqN+Li0+qQre1QLf+L
-         wELYoTCvT2PwnrnDq45FSdXcfT0uXRQZjcEswO23yaYrmQgcGpLSpArHKdci7IQ3Ly6L
-         jTuw==
-X-Forwarded-Encrypted: i=1; AKwUvBxSVJ7DL8oGTjK9ehunF9gJ0fn+W5oNewjeQJ0SH8Xcire2stNHCO0iarLN/OKmyeY8jevo0IkPYNqRuyk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLS8oPr4T0fQaNHyh8No8OoTmokwCScAMtczzKi9357xHyiL48J
-	xbkPQ5XqXudVtsdzS3g5u2ZtgvEXWU8CYPLeNnV+Ir2rK4XKe+VbhA8x
-X-Gm-Gg: AYBFou0FnnlJi7FmkFaEsGmGYLxwS8IR4Sro6ng4ggsFiGGdh8ZrCmw5ZVgzHhsec6k
-	cc+hp+wiZski4idwRxkwPLc3OVNZXqrFQXDrTPb5Mkq+1um3wlMv3folU6PkniJ4RX1ld148b9T
-	Er6mVHmS38+5vA6VzEHpJn6r2HU76DRe6gIdMOn7LXTKT21eo+p3RYjJu15rzKliN3qH0kEydIL
-	k0RMMPg/hBAwFueWoT4ANDHeyrJKoSCkFMaV0zUEv3zgfsYopNCk1EfG0qQjIMefStYl4nt4dEG
-	+2qlkhQIpV3CwndpNiAmTiAQp22HJd5VXUQ7dvlLWTuASQr1UkYis5bOtWNt3a+Lo/nI+EJ4qZf
-	8KZIWwr50RtEetiqx0OYPj0AlZz7FL7FmWdIRxNp8QFlhYxPbEYaqevdnUwsy2HoCZPh7ey+7nv
-	nr3Ybl7EcyrWJIjyDFvgz9TIqCc+r262swTudNIaiNhKkUoTgM7mijAO636msCZJ3Cs5uIU8hRH
-	8LSI+w/IzZDNFI+JDg=
-X-Received: by 2002:a05:6102:54ac:b0:7bc:696f:a5fb with SMTP id ada2fe7eead31-7ca38e1fda9mr1027964137.29.1791400153259;
-        Wed, 07 Oct 2026 12:09:13 -0700 (PDT)
+        bh=tDpsoC4g8wWsvgOmcFm4F0zdKYSHV3Ex3/8x50n7wZM=;
+        b=Z20axwLep82aYUYbw2CVdnG8pMsXFcitRf7vnOEpCb/wDyjdGBkHQ9P8w6FbAokMWA
+         j7f8rpcRno33hXxiD/rZMPHbi20Ydwumjy0aKLlBmPBry/MY/nXqG5o/5pD4uLuOrWFz
+         h/TH/CCPzLaGnB3DEtZsTbE69H4pK53URDqzAX39tuumYk5h3U1bR7UNhd+24YYAuEPD
+         HrSy54bybyplWwYxrfy32lX4UdJKf75X14HznvbABNzgVPX2HqczKgXAUhHsK0JsXsQ0
+         bVI8gU9xJDLmDU3O6+4FIN8tBkILdpJYRVckix6jVdeiDLMGJRkRNU+nYxn+jT2vIMsr
+         tKWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz1XLr6aXo57f9mgbwrDKL84cl2sEi28H8PGHMaOGHRS9dre9fSv37N/e4o0fLRZbVeTom8rfTv19swo20=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlchdB2Jx7H7wvfxwHBCnfMohZ4dkbltLWl63fnLoqf6VniCe2
+	z+IjIwCRojTTU0LVTAAL8Xv7D6Zo/Ux8JyuN2qIY2iGqng9uqHee+V63
+X-Gm-Gg: AYBFou2e3Y2Y2JdU0TGzmJ+qO0w3fiF2aFeDvIAM2AIv24EPLFoPe+hqtWNSz/WVOkT
+	tsEYS0FiLzCEm7g8dp2Kr+SW3GY+3UrQcksO7/bBc/FGwJTdBcQJQeJVCeSwpZIk+mgWHObHSVm
+	jlRcKoc2xvc5aKghjJUH9znbZi3pvNRWCzhTpNUJm1FQSIaG4XmqWNJUVem1YWmTN0EuYhJ3OfE
+	PqCyvvxk25O4Fytp8kD8LFcTqf0UXEqgX0z4T95CUMhLEW85QYp/XhsHrngAUDVQPG/EJp0ikVi
+	3+jj/vnMuJuP5+K0OcASmTGMMi3srkNZAKR94OMqd5XxgdoxxuM1Kaa4oPuCxzZeUu2zsPB4ayU
+	gM3AV7R/R/I9IZkl6SMbsRTjWbW5QUnpBM5lHJy5ZM7HEXAv3OOAO+yeJTXjaPbGcF/GX3ka45o
+	cFD0aWzY/jxIhD9WyASCLHWgUKUfUJAMzMKjrDIzXKtVTesdKT7xSyRjO1COr7ER3MJomzT/iGt
+	HGUBRupDETXsjkqpiM=
+X-Received: by 2002:a05:6102:2929:b0:7c3:9b8d:5124 with SMTP id ada2fe7eead31-7ca38dae2ecmr640888137.18.1791400159041;
+        Wed, 07 Oct 2026 12:09:19 -0700 (PDT)
 Received: from emedev.tailf75c28.ts.net ([74.244.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.09.07
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.09.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 12:09:12 -0700 (PDT)
+        Wed, 07 Oct 2026 12:09:18 -0700 (PDT)
 From: Emerson Busson <emersonbusson@gmail.com>
 To: mhklinux@outlook.com
 Cc: kys@microsoft.com,
@@ -74,9 +74,9 @@ Cc: kys@microsoft.com,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v2 12/14] hv: netvsc: allocate RNDIS request descriptors with kvzalloc_obj()
-Date: Wed,  7 Oct 2026 16:07:50 -0300
-Message-ID: <20261007190752.336426-13-emersonbusson@gmail.com>
+Subject: [PATCH v2 13/14] hv: netvsc: handle a NULL request address on empty completions
+Date: Wed,  7 Oct 2026 16:07:51 -0300
+Message-ID: <20261007190752.336426-14-emersonbusson@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261007190752.336426-1-emersonbusson@gmail.com>
 References: <20261007190752.336426-1-emersonbusson@gmail.com>
@@ -88,546 +88,670 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct rndis_request embeds two RNDIS_EXT_LEN protocol tails.
-RNDIS_EXT_LEN is HV_HYP_PAGE_SIZE, so the two tails alone are 8 KiB and
-the struct is just over KMALLOC_MAX_CACHE_SIZE. kzalloc_obj() therefore
-needs an order-2 compound page for every RNDIS control request, which can
-fail under buddy fragmentation.
+netvsc_send_pkt() registers (ulong)skb as the VMBus request address.
+Control RNDIS sends carry no skb -- rndis_filter.c calls netvsc_send()
+with skb == NULL -- so the registered address is NULL. That is
+intentional: there is no guest object to hand back, and the request
+slot is still allocated so the completion can reclaim it.
 
-Use kvzalloc_obj() and kvfree() so allocation can fall back to vmalloc.
-RNDIS control payloads are sent as GPA-direct page buffers, however, so a
-vmalloc-backed descriptor cannot be described by one virt_to_phys() PFN.
-Build one hv_page_buffer per Linux/Hyper-V page and resolve vmalloc backing
-with vmalloc_to_page(). Linear allocations use virt_to_page(). This keeps
-the GPA list valid and preserves the existing per-range DMA mapping for
-isolated guests.
+netvsc_send_tx_complete() already tolerates that with if (likely(skb)).
+netvsc_send_completion()'s empty-payload branch does not. It casts the
+request address to struct nvsp_message * and reads hdr.msg_type
+unconditionally, so a completion that resolves to NULL is a fatal NULL
+dereference in NAPI/softirq context.
 
-Keep both protocol tails unchanged. The response is copied after
-request->response_msg into response_ext, within the existing
-sizeof(struct rndis_message) + RNDIS_EXT_LEN bound.
+The empty-payload branch exists for NVSP_MSG4_TYPE_SWITCH_DATA_PATH,
+which netvsc_switch_datapath() sends with a real nvsp_message address.
+A NULL request address is not that message and must not be
+dereferenced. Validate VMBUS_NO_RQSTOR alongside VMBUS_RQST_ERROR in
+both completion paths -- request_addr_callback() returns it when the
+channel has no requestor -- and account a NULL-address completion the
+same way the payload path accounts a NULL skb. The request id is
+consumed by the lookup, so that completion is the one that owns the
+queue_sends decrement and the possible queue wake.
 
-Adds a fifth named RNDIS request KUnit case. It builds GPA descriptors from
-a vmalloc buffer that crosses a page boundary and checks every PFN, offset,
-and length against the backing pages. The existing cases retain the
-allocation-size, response-layout, zeroing, request-id, and cleanup checks.
+This is reached by the runtime drill in this series once channel open
+survives buddy fragmentation: control RNDIS traffic proceeds where it
+used to fail with -ENOMEM, and an empty completion for one of those
+requests takes the unguarded path.
 
-Rollback trigger: revert if the vmalloc page-buffer KUnit case fails or an
-exact-source fragmented rebind shows malformed GPA descriptors from this
-path.
+Revert this patch if an empty completion with a NULL request address
+dereferences again, if a netvsc TX stall or an "Invalid transaction
+ID" flood appears under this patch, or if a SWITCH_DATA_PATH
+completion is shown to be dropped instead of taken through its
+nvsp_message path.
 
-Fixes: 5b54dac856cb ("hyperv: Add support for virtual Receive Side Scaling (vRSS)")
+Adds eleven named netvsc completion KUnit cases covering the decision
+layer of the empty-payload branch: a NULL request address owning the
+queue_sends decrement, both invalid sentinels rejected without
+accounting, SWITCH_DATA_PATH completing channel_init_wait without
+accounting, an unexpected message type taking neither path, a
+replayed transaction id accounting exactly once, N completions
+decrementing the queue exactly N times, the destroy drain wait waking
+only at zero, and netvsc_send_tx_complete() applying the same
+sentinel rejection while still accounting a NULL skb. Two skb-backed
+payload cases exercise the production completion entry with success
+and error status, a published send slot and queue 1. They verify
+synchronous skb consumption, exact packet/byte statistics, selected
+queue accounting and duplicate transaction rejection. Confidential
+DMA unmapping remains platform-specific and is not exercised here.
+
+netvsc_send_acct() is extracted so a test can observe the decrement
+and the drain wake directly; it is not a behaviour change. The
+helpers lose static and are declared in hyperv_net.h so the cases
+reach them without a new EXPORT_SYMBOL_GPL, matching how the VMBus
+buffer tests are built into hv_vmbus.
+
+Fixes: 8b31f8c982b7 ("hv_netvsc: Wait for completion on request SWITCH_DATA_PATH")
 Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
 ---
- drivers/net/hyperv/Kconfig              |  12 ++
- drivers/net/hyperv/Makefile             |   1 +
- drivers/net/hyperv/hyperv_net.h         |  43 ++++-
- drivers/net/hyperv/rndis_filter.c       | 117 ++++++++-----
- drivers/net/hyperv/rndis_request_test.c | 216 ++++++++++++++++++++++++
- 5 files changed, 349 insertions(+), 40 deletions(-)
- create mode 100644 drivers/net/hyperv/rndis_request_test.c
+ drivers/net/hyperv/Makefile                 |   1 +
+ drivers/net/hyperv/hyperv_net.h             |  15 +
+ drivers/net/hyperv/netvsc.c                 |  81 ++--
+ drivers/net/hyperv/netvsc_completion_test.c | 439 ++++++++++++++++++++
+ 4 files changed, 507 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/net/hyperv/netvsc_completion_test.c
 
-diff --git a/drivers/net/hyperv/Kconfig b/drivers/net/hyperv/Kconfig
-index 982964c1a9fb..226728fd77d7 100644
---- a/drivers/net/hyperv/Kconfig
-+++ b/drivers/net/hyperv/Kconfig
-@@ -6,3 +6,15 @@ config HYPERV_NET
- 	select NLS
- 	help
- 	  Select this option to enable the Hyper-V virtual network driver.
-+
-+config HYPERV_NET_KUNIT_TEST
-+	bool "Build Hyper-V netvsc KUnit tests"
-+	depends on HYPERV_NET && KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Build the netvsc KUnit test suites into the hv_netvsc object.
-+	  Built into the module rather than as a separate one so the
-+	  cases can reach the internal helpers declared in hyperv_net.h
-+	  without exporting them.
-+
-+	  If unsure, say N.
 diff --git a/drivers/net/hyperv/Makefile b/drivers/net/hyperv/Makefile
-index 0db7ccaec4a4..6f1abc756fde 100644
+index 6f1abc756fde..b2d22855fd8a 100644
 --- a/drivers/net/hyperv/Makefile
 +++ b/drivers/net/hyperv/Makefile
-@@ -2,3 +2,4 @@
+@@ -2,4 +2,5 @@
  obj-$(CONFIG_HYPERV_NET) += hv_netvsc.o
  
  hv_netvsc-y := netvsc_drv.o netvsc.o rndis_filter.o netvsc_trace.o netvsc_bpf.o
-+hv_netvsc-$(CONFIG_HYPERV_NET_KUNIT_TEST) += rndis_request_test.o
++hv_netvsc-$(CONFIG_HYPERV_NET_KUNIT_TEST) += netvsc_completion_test.o
+ hv_netvsc-$(CONFIG_HYPERV_NET_KUNIT_TEST) += rndis_request_test.o
 diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index a15cb2460344..6492e7e93ded 100644
+index 6492e7e93ded..be3a63a168cf 100644
 --- a/drivers/net/hyperv/hyperv_net.h
 +++ b/drivers/net/hyperv/hyperv_net.h
-@@ -210,14 +210,25 @@ struct rndis_device {
- 	u8 rss_key[NETVSC_HASH_KEYLEN];
- };
+@@ -229,6 +229,21 @@ int rndis_build_page_buffers(const void *data, u32 len,
+ 			     struct hv_page_buffer *page_bufs,
+ 			     u32 *page_buf_cnt);
  
-+#define RNDIS_EXT_LEN HV_HYP_PAGE_SIZE
- 
--/* Interface */
-+/* Full definitions are below, after the RNDIS message format. */
-+struct rndis_request;
- struct rndis_message;
-+
-+/* Interface */
- struct ndis_offload_params;
- struct netvsc_device;
- struct netvsc_channel;
- struct net_device_context;
- 
-+struct rndis_request *get_rndis_request(struct rndis_device *dev,
-+					u32 msg_type, u32 msg_len);
-+void put_rndis_request(struct rndis_device *dev, struct rndis_request *req);
-+int rndis_build_page_buffers(const void *data, u32 len,
-+			     struct hv_page_buffer *page_bufs,
-+			     u32 *page_buf_cnt);
++void netvsc_send_acct(struct net_device *ndev,
++		      struct netvsc_device *net_device,
++		      struct vmbus_channel *channel,
++		      u16 q_idx);
++void netvsc_send_tx_complete(struct net_device *ndev,
++			     struct netvsc_device *net_device,
++			     struct vmbus_channel *channel,
++			     const struct vmpacket_descriptor *desc,
++			     int budget);
++void netvsc_send_completion(struct net_device *ndev,
++			    struct netvsc_device *net_device,
++			    struct vmbus_channel *incoming_channel,
++			    const struct vmpacket_descriptor *desc,
++			    int budget);
 +
  extern u32 netvsc_ring_bytes;
  
  int netvsc_workqueue_init(void);
-@@ -1779,6 +1790,36 @@ struct rndis_message {
- 	union rndis_message_container msg;
- };
- 
-+/*
-+ * RNDIS request descriptor. Declared here so the KUnit cases can reach
-+ * the layout the response-copy bound in rndis_filter_receive_resp()
-+ * relies on. The two RNDIS_EXT_LEN tails are what make the object
-+ * larger than KMALLOC_MAX_CACHE_SIZE.
-+ */
-+struct rndis_request {
-+	struct list_head list_ent;
-+	struct completion  wait_event;
-+
-+	struct rndis_message response_msg;
-+	/*
-+	 * The buffer for extended info after the RNDIS response message. It's
-+	 * referenced based on the data offset in the RNDIS message. Its size
-+	 * is enough for current needs, and should be sufficient for the near
-+	 * future.
-+	 */
-+	u8 response_ext[RNDIS_EXT_LEN];
-+
-+	/* Simplify allocation by having a netvsc packet inline */
-+	struct hv_netvsc_packet	pkt;
-+
-+	struct rndis_message request_msg;
-+	/*
-+	 * The buffer for the extended info after the RNDIS request message.
-+	 * It is referenced and sized in a similar way as response_ext.
-+	 */
-+	u8 request_ext[RNDIS_EXT_LEN];
-+};
-+
- 
- /* Handy macros */
- 
-diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
-index 9b6c44979b4e..1ce40baa2d23 100644
---- a/drivers/net/hyperv/rndis_filter.c
-+++ b/drivers/net/hyperv/rndis_filter.c
-@@ -16,6 +16,7 @@
- #include <linux/if_ether.h>
- #include <linux/netdevice.h>
- #include <linux/if_vlan.h>
-+#include <linux/mm.h>
- #include <linux/nls.h>
- #include <linux/vmalloc.h>
- #include <linux/rtnetlink.h>
-@@ -27,31 +28,6 @@
- 
- static void rndis_set_multicast(struct work_struct *w);
- 
--#define RNDIS_EXT_LEN HV_HYP_PAGE_SIZE
--struct rndis_request {
--	struct list_head list_ent;
--	struct completion  wait_event;
--
--	struct rndis_message response_msg;
--	/*
--	 * The buffer for extended info after the RNDIS response message. It's
--	 * referenced based on the data offset in the RNDIS message. Its size
--	 * is enough for current needs, and should be sufficient for the near
--	 * future.
--	 */
--	u8 response_ext[RNDIS_EXT_LEN];
--
--	/* Simplify allocation by having a netvsc packet inline */
--	struct hv_netvsc_packet	pkt;
--
--	struct rndis_message request_msg;
--	/*
--	 * The buffer for the extended info after the RNDIS request message.
--	 * It is referenced and sized in a similar way as response_ext.
--	 */
--	u8 request_ext[RNDIS_EXT_LEN];
--};
--
- static const u8 netvsc_hash_key[NETVSC_HASH_KEYLEN] = {
- 	0x6d, 0x5a, 0x56, 0xda, 0x25, 0x5b, 0x0e, 0xc2,
- 	0x41, 0x67, 0x25, 0x3d, 0x43, 0xa3, 0x8f, 0xb0,
-@@ -78,16 +54,27 @@ static struct rndis_device *get_rndis_device(void)
- 	return device;
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index fd8aa7a3dcb3..0d017f836b9e 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -764,20 +764,45 @@ static inline void netvsc_free_send_slot(struct netvsc_device *net_device,
+ 	sync_change_bit(index, net_device->send_section_map);
  }
  
--static struct rndis_request *get_rndis_request(struct rndis_device *dev,
--					     u32 msg_type,
--					     u32 msg_len)
-+struct rndis_request *get_rndis_request(struct rndis_device *dev,
-+					u32 msg_type,
-+					u32 msg_len)
- {
- 	struct rndis_request *request;
- 	struct rndis_message *rndis_msg;
- 	struct rndis_set_request *set;
- 	unsigned long flags;
- 
--	request = kzalloc_obj(struct rndis_request);
-+	/*
-+	 * struct rndis_request embeds two RNDIS_EXT_LEN (4 KiB) protocol
-+	 * tails and is larger than KMALLOC_MAX_CACHE_SIZE, so
-+	 * kzalloc_obj() needs an order-2 compound page. That high-order
-+	 * allocation can fail under buddy fragmentation. kvzalloc_obj()
-+	 * keeps the zeroing semantics while allowing vmalloc backing when
-+	 * a suitable kmalloc allocation is unavailable. The request payload
-+	 * is sent as GPADL-direct page buffers, so rndis_filter_send_request()
-+	 * must describe each backing page instead of assuming virt_to_phys()
-+	 * yields one contiguous physical range.
-+	 */
-+	request = kvzalloc_obj(struct rndis_request);
- 	if (!request)
- 		return NULL;
- 
-@@ -115,8 +102,8 @@ static struct rndis_request *get_rndis_request(struct rndis_device *dev,
- 	return request;
- }
- 
--static void put_rndis_request(struct rndis_device *dev,
--			    struct rndis_request *req)
-+void put_rndis_request(struct rndis_device *dev,
-+		       struct rndis_request *req)
- {
- 	unsigned long flags;
- 
-@@ -124,7 +111,8 @@ static void put_rndis_request(struct rndis_device *dev,
- 	list_del(&req->list_ent);
- 	spin_unlock_irqrestore(&dev->request_lock, flags);
- 
--	kfree(req);
-+	/* Paired with the kvzalloc_obj() in get_rndis_request(). */
-+	kvfree(req);
- }
- 
- static void dump_rndis_message(struct net_device *netdev,
-@@ -221,27 +209,78 @@ static void dump_rndis_message(struct net_device *netdev,
- 	}
- }
- 
-+int rndis_build_page_buffers(const void *data, u32 len,
-+			     struct hv_page_buffer *page_bufs,
-+			     u32 *page_buf_cnt)
+-static void netvsc_send_tx_complete(struct net_device *ndev,
+-				    struct netvsc_device *net_device,
+-				    struct vmbus_channel *channel,
+-				    const struct vmpacket_descriptor *desc,
+-				    int budget)
++void netvsc_send_acct(struct net_device *ndev,
++		      struct netvsc_device *net_device,
++		      struct vmbus_channel *channel,
++		      u16 q_idx)
 +{
-+	const u8 *addr = data;
-+	u32 count = 0;
++	struct net_device_context *ndev_ctx = netdev_priv(ndev);
++	int queue_sends;
 +
-+	if (!data || !len || !page_bufs || !page_buf_cnt)
-+		return -EINVAL;
++	queue_sends =
++		atomic_dec_return(&net_device->chan_table[q_idx].queue_sends);
 +
-+	*page_buf_cnt = 0;
++	if (unlikely(net_device->destroy)) {
++		if (queue_sends == 0)
++			wake_up(&net_device->wait_drain);
++	} else {
++		struct netdev_queue *txq = netdev_get_tx_queue(ndev, q_idx);
 +
-+	while (len) {
-+		struct page *page;
-+		phys_addr_t phys;
-+		u32 offset, chunk;
-+		unsigned long page_offset = offset_in_page(addr);
-+
-+		if (count == MAX_PAGE_BUFFER_COUNT)
-+			return -E2BIG;
-+
-+		if (is_vmalloc_addr(addr))
-+			page = vmalloc_to_page(addr);
-+		else if (virt_addr_valid(addr))
-+			page = virt_to_page(addr);
-+		else
-+			return -EFAULT;
-+
-+		if (!page)
-+			return -EFAULT;
-+
-+		phys = page_to_phys(page) + page_offset;
-+		offset = offset_in_hvpage(phys);
-+		chunk = min_t(u32, len, PAGE_SIZE - page_offset);
-+		chunk = min_t(u32, chunk, HV_HYP_PAGE_SIZE - offset);
-+
-+		page_bufs[count].pfn = phys >> HV_HYP_PAGE_SHIFT;
-+		page_bufs[count].offset = offset;
-+		page_bufs[count].len = chunk;
-+
-+		addr += chunk;
-+		len -= chunk;
-+		count++;
++		if (netif_tx_queue_stopped(txq) && !net_device->tx_disable &&
++		    (hv_get_avail_to_write_percent(&channel->outbound) >
++		     RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) {
++			netif_tx_wake_queue(txq);
++			ndev_ctx->eth_stats.wake_queue++;
++		}
 +	}
-+
-+	*page_buf_cnt = count;
-+	return 0;
 +}
 +
- static int rndis_filter_send_request(struct rndis_device *dev,
- 				  struct rndis_request *req)
++void netvsc_send_tx_complete(struct net_device *ndev,
++			     struct netvsc_device *net_device,
++			     struct vmbus_channel *channel,
++			     const struct vmpacket_descriptor *desc,
++			     int budget)
  {
- 	struct hv_netvsc_packet *packet;
--	struct hv_page_buffer pb;
-+	struct hv_page_buffer page_bufs[MAX_PAGE_BUFFER_COUNT];
-+	u32 page_buf_cnt;
- 	int ret;
+ 	struct net_device_context *ndev_ctx = netdev_priv(ndev);
+ 	struct sk_buff *skb;
+ 	u16 q_idx = 0;
+-	int queue_sends;
+ 	u64 cmd_rqst;
  
- 	/* Setup the packet to send it */
- 	packet = &req->pkt;
+ 	cmd_rqst = channel->request_addr_callback(channel, desc->trans_id);
+-	if (cmd_rqst == VMBUS_RQST_ERROR) {
++	if (cmd_rqst == VMBUS_RQST_ERROR || cmd_rqst == VMBUS_NO_RQSTOR) {
+ 		netdev_err(ndev, "Invalid transaction ID %llx\n", desc->trans_id);
+ 		return;
+ 	}
+@@ -806,29 +831,14 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
+ 		napi_consume_skb(skb, budget);
+ 	}
  
- 	packet->total_data_buflen = req->request_msg.msg_len;
--	packet->page_buf_cnt = 1;
+-	queue_sends =
+-		atomic_dec_return(&net_device->chan_table[q_idx].queue_sends);
 -
--	pb.pfn = virt_to_phys(&req->request_msg) >> HV_HYP_PAGE_SHIFT;
--	pb.len = req->request_msg.msg_len;
--	pb.offset = offset_in_hvpage(&req->request_msg);
-+	ret = rndis_build_page_buffers(&req->request_msg,
-+				       req->request_msg.msg_len,
-+				       page_bufs, &page_buf_cnt);
-+	if (ret)
-+		return ret;
-+	packet->page_buf_cnt = page_buf_cnt;
+-	if (unlikely(net_device->destroy)) {
+-		if (queue_sends == 0)
+-			wake_up(&net_device->wait_drain);
+-	} else {
+-		struct netdev_queue *txq = netdev_get_tx_queue(ndev, q_idx);
+-
+-		if (netif_tx_queue_stopped(txq) && !net_device->tx_disable &&
+-		    (hv_get_avail_to_write_percent(&channel->outbound) >
+-		     RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) {
+-			netif_tx_wake_queue(txq);
+-			ndev_ctx->eth_stats.wake_queue++;
+-		}
+-	}
++	netvsc_send_acct(ndev, net_device, channel, q_idx);
+ }
  
- 	trace_rndis_send(dev->ndev, 0, &req->request_msg);
+-static void netvsc_send_completion(struct net_device *ndev,
+-				   struct netvsc_device *net_device,
+-				   struct vmbus_channel *incoming_channel,
+-				   const struct vmpacket_descriptor *desc,
+-				   int budget)
++void netvsc_send_completion(struct net_device *ndev,
++			    struct netvsc_device *net_device,
++			    struct vmbus_channel *incoming_channel,
++			    const struct vmpacket_descriptor *desc,
++			    int budget)
+ {
+ 	const struct nvsp_message *nvsp_packet;
+ 	u32 msglen = hv_pkt_datalen(desc);
+@@ -840,11 +850,24 @@ static void netvsc_send_completion(struct net_device *ndev,
+ 	if (!msglen) {
+ 		cmd_rqst = incoming_channel->request_addr_callback(incoming_channel,
+ 								   desc->trans_id);
+-		if (cmd_rqst == VMBUS_RQST_ERROR) {
++		if (cmd_rqst == VMBUS_RQST_ERROR || cmd_rqst == VMBUS_NO_RQSTOR) {
+ 			netdev_err(ndev, "Invalid transaction ID %llx\n", desc->trans_id);
+ 			return;
+ 		}
  
- 	rcu_read_lock_bh();
--	ret = netvsc_send(dev->ndev, packet, NULL, &pb, NULL, false);
-+	ret = netvsc_send(dev->ndev, packet, NULL, page_bufs, NULL, false);
- 	rcu_read_unlock_bh();
- 
- 	return ret;
-diff --git a/drivers/net/hyperv/rndis_request_test.c b/drivers/net/hyperv/rndis_request_test.c
++		/*
++		 * netvsc_send_pkt() registers (ulong)skb as the request
++		 * address. Control RNDIS sends carry no skb, so the
++		 * registered address is NULL and there is no nvsp_message
++		 * to inspect. The request id is consumed above, so this
++		 * completion owns the send accounting -- the same thing
++		 * netvsc_send_tx_complete() does when it sees a NULL skb.
++		 */
++		if (!cmd_rqst) {
++			netvsc_send_acct(ndev, net_device, incoming_channel, 0);
++			return;
++		}
++
+ 		pkt_rqst = (struct nvsp_message *)(uintptr_t)cmd_rqst;
+ 		switch (pkt_rqst->hdr.msg_type) {
+ 		case NVSP_MSG4_TYPE_SWITCH_DATA_PATH:
+diff --git a/drivers/net/hyperv/netvsc_completion_test.c b/drivers/net/hyperv/netvsc_completion_test.c
 new file mode 100644
-index 000000000000..6affa916e74e
+index 000000000000..2614b1ece232
 --- /dev/null
-+++ b/drivers/net/hyperv/rndis_request_test.c
-@@ -0,0 +1,216 @@
++++ b/drivers/net/hyperv/netvsc_completion_test.c
+@@ -0,0 +1,439 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * KUnit tests for RNDIS request descriptor allocation.
++ * KUnit tests for empty and skb-backed netvsc completion handling.
 + *
 + * Built into the hv_netvsc object rather than a separate module so the
 + * cases can reach the internal helpers declared in hyperv_net.h
 + * without exporting them.
 + */
 +#include <kunit/test.h>
++#include <linux/etherdevice.h>
 +#include <linux/hyperv.h>
-+#include <linux/mm.h>
++#include <linux/netdevice.h>
++#include <linux/skbuff.h>
 +#include <linux/slab.h>
-+#include <linux/stddef.h>
-+#include <linux/vmalloc.h>
++#include <linux/wait.h>
 +
 +#include "hyperv_net.h"
 +
-+static int rndis_test_device_init(struct rndis_device *dev)
++/*
++ * Scripted requestor. request_addr_callback() only receives the channel
++ * and the transaction id, so the fixture is hung off a file-scope
++ * pointer. KUnit runs suite cases serially; one active fixture is
++ * enough and keeps the callback signature untouched.
++ */
++struct netvsc_completion_fixture {
++	struct net_device *ndev;
++	struct netvsc_device *nvdev;
++	struct vmbus_channel *channel;
++	/* Address returned on first use, then VMBUS_NO_RQSTOR: the id is
++	 * consumed exactly once, as vmbus_request_addr_match() does.
++	 */
++	u64 once_addr;
++	unsigned int calls;
++	u64 seen_ids[8];
++	unsigned int skb_frees;
++};
++
++static struct netvsc_completion_fixture *active_fx;
++
++static u64 test_request_addr(struct vmbus_channel *channel, u64 rqst_id)
 +{
-+	memset(dev, 0, sizeof(*dev));
-+	atomic_set(&dev->new_req_id, 0);
-+	spin_lock_init(&dev->request_lock);
-+	INIT_LIST_HEAD(&dev->req_list);
++	struct netvsc_completion_fixture *fx = active_fx;
++
++	if (fx->calls < ARRAY_SIZE(fx->seen_ids))
++		fx->seen_ids[fx->calls] = rqst_id;
++	fx->calls++;
++
++	if (fx->calls == 1)
++		return fx->once_addr;
++	return VMBUS_NO_RQSTOR;
++}
++
++/*
++ * A completion carrying no payload: hv_pkt_datalen() == 0. The
++ * empty-completion path looks the request up by trans_id and reads its
++ * message type, so the request itself is a separate object the fixture
++ * hands back through request_addr_callback().
++ */
++struct netvsc_empty_desc {
++	struct vmpacket_descriptor desc;
++} __packed;
++
++static void make_empty_desc(struct netvsc_empty_desc *pkt, u64 trans_id)
++{
++	memset(pkt, 0, sizeof(*pkt));
++	pkt->desc.offset8 = sizeof(pkt->desc) / 8;
++	pkt->desc.len8 = pkt->desc.offset8;
++	pkt->desc.trans_id = trans_id;
++}
++
++/*
++ * The production path never dereferences a net_device queue while
++ * tx_disable is set: netif_tx_queue_stopped() && !tx_disable
++ * short-circuits before hv_get_avail_to_write_percent() reads the
++ * ring. Set it here so a test needs no live outbound ring.
++ */
++static int netvsc_completion_fixture_init(struct netvsc_completion_fixture *fx)
++{
++	fx->ndev = alloc_netdev_mqs(sizeof(struct net_device_context),
++				    "hvcompl%d", NET_NAME_UNKNOWN,
++				    ether_setup, 2, 2);
++	if (!fx->ndev)
++		return -ENOMEM;
++
++	fx->nvdev = kzalloc_obj(*fx->nvdev, GFP_KERNEL);
++	if (!fx->nvdev) {
++		free_netdev(fx->ndev);
++		return -ENOMEM;
++	}
++
++	fx->channel = kzalloc_obj(*fx->channel, GFP_KERNEL);
++	if (!fx->channel) {
++		kfree(fx->nvdev);
++		free_netdev(fx->ndev);
++		return -ENOMEM;
++	}
++
++	init_waitqueue_head(&fx->nvdev->wait_drain);
++	init_completion(&fx->nvdev->channel_init_wait);
++	fx->nvdev->tx_disable = true;
++	fx->channel->request_addr_callback = test_request_addr;
++	fx->once_addr = 0;
++	fx->calls = 0;
++	memset(fx->seen_ids, 0, sizeof(fx->seen_ids));
++	active_fx = fx;
 +	return 0;
 +}
 +
-+/*
-+ * The premise of the kvzalloc_obj() conversion: the descriptor embeds
-+ * two RNDIS_EXT_LEN protocol tails and sits past
-+ * KMALLOC_MAX_CACHE_SIZE, so kzalloc_obj() reached kmalloc_large() and
-+ * took an order-2 compound page on the subchannel open path. If the
-+ * struct ever drops back inside the cache, the conversion stops being
-+ * about high-order allocation and this assertion is the reminder.
-+ */
-+static void rndis_request_size_premise_test(struct kunit *test)
++static void netvsc_completion_fixture_exit(struct netvsc_completion_fixture *fx)
 +{
-+	KUNIT_EXPECT_GT(test, sizeof(struct rndis_request),
-+			(size_t)KMALLOC_MAX_CACHE_SIZE);
-+	/*
-+	 * The copy bound in rndis_filter_receive_resp() is
-+	 * sizeof(struct rndis_message) + RNDIS_EXT_LEN. That is exactly
-+	 * the response_msg + response_ext tail of the object. A reorder
-+	 * or a resize of either member makes the bound lie.
-+	 */
-+	KUNIT_EXPECT_EQ(test,
-+			offsetofend(struct rndis_request, response_ext),
-+			offsetof(struct rndis_request, response_msg) +
-+				sizeof(struct rndis_message) + RNDIS_EXT_LEN);
-+	KUNIT_EXPECT_EQ(test,
-+			offsetofend(struct rndis_request, request_ext),
-+			offsetof(struct rndis_request, request_msg) +
-+				sizeof(struct rndis_message) + RNDIS_EXT_LEN);
++	active_fx = NULL;
++	kfree(fx->channel);
++	kfree(fx->nvdev);
++	free_netdev(fx->ndev);
++}
++
++static int netvsc_send_sends(struct netvsc_completion_fixture *fx, u16 q_idx)
++{
++	return atomic_read(&fx->nvdev->chan_table[q_idx].queue_sends);
++}
++
++/* Empty completion, request address NULL: owns the send accounting. */
++static void netvsc_completion_null_address_acct_test(struct kunit *test)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x11);
++	/* once_addr = 0 is the control-path NULL skb case. */
++	fx.once_addr = 0;
++
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
++	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
++	KUNIT_EXPECT_EQ(test, fx.calls, 1U);
++	KUNIT_EXPECT_EQ(test, fx.seen_ids[0], 0x11U);
++
++	netvsc_completion_fixture_exit(&fx);
++}
++
++/* VMBUS_RQST_ERROR is rejected: no accounting, no completion. */
++static void netvsc_completion_rqst_error_sentinel_test(struct kunit *test)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x22);
++	fx.once_addr = VMBUS_RQST_ERROR;
++
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
++	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
++
++	netvsc_completion_fixture_exit(&fx);
++}
++
++/* VMBUS_NO_RQSTOR is rejected the same way. */
++static void netvsc_completion_no_rqstor_sentinel_test(struct kunit *test)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x33);
++	fx.once_addr = VMBUS_NO_RQSTOR;
++
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
++	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
++
++	netvsc_completion_fixture_exit(&fx);
 +}
 +
 +/*
-+ * kvzalloc_obj() keeps the zeroing kzalloc_obj() provided. The two
-+ * protocol tails are the fields a response is copied into; a stale
-+ * tail is a stale response.
++ * A real request address whose message type is SWITCH_DATA_PATH
++ * completes the channel-init wait. It is not send accounting: the
++ * control request was not a send.
 + */
-+static void rndis_request_alloc_zeroed_test(struct kunit *test)
++static void netvsc_completion_switch_data_path_test(struct kunit *test)
 +{
-+	struct rndis_device dev;
-+	struct rndis_request *req;
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++	struct nvsp_message req = {};
 +
-+	KUNIT_ASSERT_EQ(test, rndis_test_device_init(&dev), 0);
-+	req = get_rndis_request(&dev, RNDIS_MSG_INIT, 0x20);
-+	KUNIT_ASSERT_NOT_NULL(test, req);
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x44);
++	req.hdr.msg_type = NVSP_MSG4_TYPE_SWITCH_DATA_PATH;
++	fx.once_addr = (u64)(unsigned long)&req;
 +
-+	KUNIT_EXPECT_EQ(test, req->response_ext[0], 0);
-+	KUNIT_EXPECT_EQ(test, req->response_ext[RNDIS_EXT_LEN - 1], 0);
-+	KUNIT_EXPECT_EQ(test, req->request_ext[0], 0);
-+	KUNIT_EXPECT_EQ(test, req->request_ext[RNDIS_EXT_LEN - 1], 0);
-+	KUNIT_EXPECT_EQ(test, req->response_msg.msg_len, 0U);
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
 +
-+	put_rndis_request(&dev, req);
++	KUNIT_EXPECT_TRUE(test, completion_done(&fx.nvdev->channel_init_wait));
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
++
++	netvsc_completion_fixture_exit(&fx);
 +}
 +
-+/* Request ids come from a per-device counter and the list tracks the live set. */
-+static void rndis_request_id_lifecycle_test(struct kunit *test)
++/* An unexpected message type takes neither the complete nor the acct path. */
++static void netvsc_completion_unknown_msg_type_test(struct kunit *test)
 +{
-+	struct rndis_device dev;
-+	struct rndis_request *req0, *req1;
-+	struct rndis_request *cursor;
-+	unsigned int n = 0;
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++	struct nvsp_message req = {};
 +
-+	KUNIT_ASSERT_EQ(test, rndis_test_device_init(&dev), 0);
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x55);
++	req.hdr.msg_type = 0xdead;
++	fx.once_addr = (u64)(unsigned long)&req;
 +
-+	req0 = get_rndis_request(&dev, RNDIS_MSG_INIT, 0x20);
-+	KUNIT_ASSERT_NOT_NULL(test, req0);
-+	req1 = get_rndis_request(&dev, RNDIS_MSG_QUERY, 0x20);
-+	KUNIT_ASSERT_NOT_NULL(test, req1);
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
 +
-+	/*
-+	 * get_rndis_request() stamps the id through the set_req template,
-+	 * which shares the union slot with every other request body. Read
-+	 * it back through the same member the producer used.
-+	 */
-+	KUNIT_EXPECT_EQ(test,
-+			req0->request_msg.msg.set_req.req_id, 1U);
-+	KUNIT_EXPECT_EQ(test,
-+			req1->request_msg.msg.set_req.req_id, 2U);
++	KUNIT_EXPECT_FALSE(test, completion_done(&fx.nvdev->channel_init_wait));
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 3);
 +
-+	list_for_each_entry(cursor, &dev.req_list, list_ent)
-+		n++;
-+	KUNIT_EXPECT_EQ(test, n, 2U);
-+
-+	/*
-+	 * put_rndis_request() is the cleanup path every error and
-+	 * timeout branch takes. It unlinks before it frees.
-+	 */
-+	put_rndis_request(&dev, req0);
-+	n = 0;
-+	list_for_each_entry(cursor, &dev.req_list, list_ent)
-+		n++;
-+	KUNIT_EXPECT_EQ(test, n, 1U);
-+	KUNIT_EXPECT_TRUE(test,
-+			  list_first_entry(&dev.req_list, struct rndis_request,
-+					   list_ent) == req1);
-+
-+	put_rndis_request(&dev, req1);
-+	KUNIT_EXPECT_TRUE(test, list_empty(&dev.req_list));
++	netvsc_completion_fixture_exit(&fx);
 +}
 +
 +/*
-+ * A request left on the list after a completed exchange is a leak of
-+ * the descriptor and of its slot in the outstanding set. Repeated
-+ * get/put cycles must return to the empty list every time.
++ * A repeated completion for an already-consumed transaction id must not
++ * account twice. The requestor returns VMBUS_NO_RQSTOR on the second
++ * use and the empty-completion path rejects it.
 + */
-+static void rndis_request_put_cleanup_test(struct kunit *test)
++static void netvsc_completion_duplicate_completion_test(struct kunit *test)
 +{
-+	struct rndis_device dev;
-+	struct rndis_request *req;
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x66);
++	fx.once_addr = 0;
++
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
++	KUNIT_EXPECT_EQ(test, fx.calls, 1U);
++
++	/* Second completion for the same id: already consumed. */
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
++	KUNIT_EXPECT_EQ(test, fx.calls, 2U);
++	KUNIT_EXPECT_EQ(test, fx.seen_ids[0], 0x66U);
++	KUNIT_EXPECT_EQ(test, fx.seen_ids[1], 0x66U);
++
++	netvsc_completion_fixture_exit(&fx);
++}
++
++/* N completions decrement the queue exactly N times. */
++static void netvsc_completion_single_decrement_test(struct kunit *test)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
 +	int i;
 +
-+	KUNIT_ASSERT_EQ(test, rndis_test_device_init(&dev), 0);
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 5);
 +
-+	for (i = 0; i < 4; i++) {
-+		req = get_rndis_request(&dev, RNDIS_MSG_INIT, 0x20);
-+		KUNIT_ASSERT_NOT_NULL(test, req);
-+		KUNIT_EXPECT_FALSE(test, list_empty(&dev.req_list));
-+		put_rndis_request(&dev, req);
-+		KUNIT_EXPECT_TRUE(test, list_empty(&dev.req_list));
++	for (i = 0; i < 5; i++) {
++		make_empty_desc(&pkt, 0x100 + i);
++		fx.once_addr = 0;
++		fx.calls = 0;
++		netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel,
++				       &pkt.desc, 0);
++		KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 4 - i);
++		KUNIT_EXPECT_EQ(test, fx.calls, 1U);
 +	}
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 0);
++
++	netvsc_completion_fixture_exit(&fx);
++}
++
++static int netvsc_test_wake(struct wait_queue_entry *wq_entry,
++			    unsigned int mode, int flags, void *key)
++{
++	unsigned int *woken = wq_entry->private;
++
++	(*woken)++;
++	return 0;
++}
++
++/* destroy + a decrement that reaches zero wakes the drain wait. */
++static void netvsc_send_acct_drain_wake_test(struct kunit *test)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct wait_queue_entry entry;
++	unsigned int woken = 0;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	fx.nvdev->destroy = true;
++
++	memset(&entry, 0, sizeof(entry));
++	entry.func = netvsc_test_wake;
++	entry.private = &woken;
++	add_wait_queue(&fx.nvdev->wait_drain, &entry);
++
++	/* Non-zero remainder: the drain wait is not woken. */
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 2);
++	netvsc_send_acct(fx.ndev, fx.nvdev, fx.channel, 0);
++	KUNIT_EXPECT_EQ(test, woken, 0U);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 1);
++
++	/* Exactly zero: the drain wait is woken once. */
++	netvsc_send_acct(fx.ndev, fx.nvdev, fx.channel, 0);
++	KUNIT_EXPECT_EQ(test, woken, 1U);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 0);
++
++	remove_wait_queue(&fx.nvdev->wait_drain, &entry);
++	netvsc_completion_fixture_exit(&fx);
 +}
 +
 +/*
-+ * kvzalloc_obj() may return a vmalloc address under fragmentation. RNDIS
-+ * requests are GPA-direct packets, so each backing page must be represented
-+ * explicitly instead of deriving a single PFN with virt_to_phys().
++ * netvsc_send_tx_complete() applies the same sentinel rejection and
++ * still accounts a NULL skb.
 + */
-+static void rndis_request_vmalloc_page_buffers_test(struct kunit *test)
++static void netvsc_tx_complete_null_skb_acct_test(struct kunit *test)
 +{
-+	struct hv_page_buffer page_bufs[MAX_PAGE_BUFFER_COUNT];
-+	const u32 data_len = 16;
-+	u8 *allocation = vzalloc(2 * PAGE_SIZE);
-+	const u8 *cursor;
-+	phys_addr_t phys;
-+	u32 count = 0, remaining = data_len, i;
-+	int ret;
++	struct netvsc_completion_fixture fx = {};
++	struct netvsc_empty_desc pkt;
 +
-+	if (!allocation) {
-+		KUNIT_FAIL(test, "could not allocate vmalloc test buffer");
-+		return;
-+	}
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 3);
++	make_empty_desc(&pkt, 0x77);
++	fx.once_addr = 0;
 +
-+	cursor = allocation + PAGE_SIZE - 8;
-+	ret = rndis_build_page_buffers(cursor, data_len, page_bufs, &count);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	if (ret)
-+		goto out;
++	netvsc_send_tx_complete(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
 +
-+	KUNIT_EXPECT_EQ(test, count, 2U);
-+	for (i = 0; i < count; i++) {
-+		struct page *page = vmalloc_to_page(cursor);
-+		unsigned long page_offset = offset_in_page(cursor);
-+		u32 offset, chunk;
++	/* The sentinel is rejected before any accounting. */
++	make_empty_desc(&pkt, 0x78);
++	fx.once_addr = VMBUS_RQST_ERROR;
++	fx.calls = 0;
++	netvsc_send_tx_complete(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 2);
 +
-+		if (!page) {
-+			KUNIT_FAIL(test, "vmalloc test buffer has no backing page");
-+			goto out;
-+		}
-+
-+		phys = page_to_phys(page) + page_offset;
-+		offset = offset_in_hvpage(phys);
-+		chunk = min_t(u32, remaining, PAGE_SIZE - page_offset);
-+		chunk = min_t(u32, chunk, HV_HYP_PAGE_SIZE - offset);
-+
-+		KUNIT_EXPECT_EQ(test, page_bufs[i].pfn,
-+				(u64)(phys >> HV_HYP_PAGE_SHIFT));
-+		KUNIT_EXPECT_EQ(test, page_bufs[i].offset, offset);
-+		KUNIT_EXPECT_EQ(test, page_bufs[i].len, chunk);
-+
-+		cursor += chunk;
-+		remaining -= chunk;
-+	}
-+	KUNIT_EXPECT_EQ(test, remaining, 0U);
-+
-+out:
-+	vfree(allocation);
++	netvsc_completion_fixture_exit(&fx);
 +}
 +
-+static struct kunit_case rndis_request_test_cases[] = {
-+	KUNIT_CASE(rndis_request_size_premise_test),
-+	KUNIT_CASE(rndis_request_alloc_zeroed_test),
-+	KUNIT_CASE(rndis_request_id_lifecycle_test),
-+	KUNIT_CASE(rndis_request_put_cleanup_test),
-+	KUNIT_CASE(rndis_request_vmalloc_page_buffers_test),
++static void netvsc_test_skb_destructor(struct sk_buff *skb)
++{
++	active_fx->skb_frees++;
++}
++
++static void netvsc_tx_complete_skb(struct kunit *test, u32 status)
++{
++	struct netvsc_completion_fixture fx = {};
++	struct {
++		struct vmpacket_descriptor desc;
++		struct nvsp_message message;
++	} pkt = {};
++	unsigned long send_slots = BIT(3);
++	struct hv_netvsc_packet *packet;
++	struct netvsc_stats_tx *stats;
++	struct sk_buff *skb;
++
++	KUNIT_ASSERT_EQ(test, netvsc_completion_fixture_init(&fx), 0);
++	skb = alloc_skb(64, GFP_KERNEL);
++	if (!skb) {
++		KUNIT_FAIL(test, "skb allocation failed");
++		goto out;
++	}
++	skb->destructor = netvsc_test_skb_destructor;
++	packet = (struct hv_netvsc_packet *)skb->cb;
++	memset(packet, 0, sizeof(*packet));
++	packet->send_buf_index = 3;
++	packet->q_idx = 1;
++	packet->total_packets = 2;
++	packet->total_bytes = 64;
++	fx.nvdev->send_section_map = &send_slots;
++	stats = &fx.nvdev->chan_table[1].tx_stats;
++	u64_stats_init(&stats->syncp);
++	atomic_set(&fx.nvdev->chan_table[0].queue_sends, 7);
++	atomic_set(&fx.nvdev->chan_table[1].queue_sends, 3);
++	fx.once_addr = (u64)(unsigned long)skb;
++	pkt.desc.offset8 = sizeof(pkt.desc) / 8;
++	pkt.desc.len8 = DIV_ROUND_UP(sizeof(pkt), 8);
++	pkt.desc.trans_id = 0x79;
++	pkt.message.hdr.msg_type = NVSP_MSG1_TYPE_SEND_RNDIS_PKT_COMPLETE;
++	pkt.message.msg.v1_msg.send_rndis_pkt_complete.status = status;
++
++	/* Budget zero consumes the real skb synchronously, outside NAPI. */
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, send_slots, 0UL);
++	KUNIT_EXPECT_EQ(test, fx.skb_frees, 1U);
++	KUNIT_EXPECT_EQ(test, stats->packets, 2ULL);
++	KUNIT_EXPECT_EQ(test, stats->bytes, 64ULL);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 0), 7);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 1), 2);
++
++	/* The consumed transaction cannot free or account the skb twice. */
++	netvsc_send_completion(fx.ndev, fx.nvdev, fx.channel, &pkt.desc, 0);
++	KUNIT_EXPECT_EQ(test, send_slots, 0UL);
++	KUNIT_EXPECT_EQ(test, fx.skb_frees, 1U);
++	KUNIT_EXPECT_EQ(test, stats->packets, 2ULL);
++	KUNIT_EXPECT_EQ(test, stats->bytes, 64ULL);
++	KUNIT_EXPECT_EQ(test, netvsc_send_sends(&fx, 1), 2);
++out:
++	netvsc_completion_fixture_exit(&fx);
++}
++
++static void netvsc_tx_complete_skb_success_test(struct kunit *test)
++{
++	netvsc_tx_complete_skb(test, NVSP_STAT_SUCCESS);
++}
++
++static void netvsc_tx_complete_skb_error_test(struct kunit *test)
++{
++	netvsc_tx_complete_skb(test, NVSP_STAT_FAIL);
++}
++
++static struct kunit_case netvsc_completion_test_cases[] = {
++	KUNIT_CASE(netvsc_completion_null_address_acct_test),
++	KUNIT_CASE(netvsc_completion_rqst_error_sentinel_test),
++	KUNIT_CASE(netvsc_completion_no_rqstor_sentinel_test),
++	KUNIT_CASE(netvsc_completion_switch_data_path_test),
++	KUNIT_CASE(netvsc_completion_unknown_msg_type_test),
++	KUNIT_CASE(netvsc_completion_duplicate_completion_test),
++	KUNIT_CASE(netvsc_completion_single_decrement_test),
++	KUNIT_CASE(netvsc_send_acct_drain_wake_test),
++	KUNIT_CASE(netvsc_tx_complete_null_skb_acct_test),
++	KUNIT_CASE(netvsc_tx_complete_skb_success_test),
++	KUNIT_CASE(netvsc_tx_complete_skb_error_test),
 +	{}
 +};
 +
-+static struct kunit_suite rndis_request_test_suite = {
-+	.name = "hyperv-rndis-request",
-+	.test_cases = rndis_request_test_cases,
++static struct kunit_suite netvsc_completion_test_suite = {
++	.name = "hyperv-netvsc-completion",
++	.test_cases = netvsc_completion_test_cases,
 +};
 +
-+kunit_test_suite(rndis_request_test_suite);
++kunit_test_suite(netvsc_completion_test_suite);
 -- 
 2.43.0
 
