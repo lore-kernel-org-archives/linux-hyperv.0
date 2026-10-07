@@ -1,64 +1,64 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221944B4058
-	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BFB4E1415
+	for <linux-hyperv@vger.kernel.org>; Wed,  7 Oct 2026 19:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791400091; cv=none; b=LCZQ38MPv0FukDJRWQ2eVfBrxH4iV77fl0JVYKE06HCg+K8cPtSlpTjTgoYXZPt9xAi2KfE9uVMYwgrHV61yPVHeG6YBB886fK0daCiHF8egvLj0wWZOpvYBlM/XIlQWGgfAySAHGXf+ToeQJFuMaV+D6MdH65MHg1ZY3sk98Q4=
+	t=1791400096; cv=none; b=SQwAY2SAYWH3XkwsK5mH3Cua6ZxqIwH20YRJFUm2xHOBieCAWwN5hljVEK2M1OG43J9tost2KXSZdmpT+y4uQK6aehRLP4QUAm2MnjAi4T32mrvh+6tkTg3fPsh0OnW4dlU311mY38LCIxh2vxAHgElCVM33IMrYTSQZZnFZgpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791400091; c=relaxed/simple;
-	bh=xrOKs6FY1qL5GGB22z0zh4tHPKrWlJIaKKZKs2LqT9E=;
+	s=arc-20240116; t=1791400096; c=relaxed/simple;
+	bh=f6hAYaWquotH6XzgQ1x/frvwgLxkKCCZuUjx5By3X4k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LLpn2xyKXVJD1Eau0RJJ4vDwdZ4qYxY8T2bwXUuHqCvRW4VCINARVUAHkeAc5r4YRbq4+Fe+0AcFFhgiVcJ8KHDFd2VV70oMF3wYKElPjE3RKQOURwZPEpN7V4jgOrTZqIln+bReCX9dgOpQOsGrp1UAsdCTQzJwJD63Kwho1is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMXCnSya; arc=none smtp.client-ip=209.85.217.45
+	 MIME-Version; b=hEjWykgkBLI04g00y8E8AUxuGqT5VC4RQZl4AuIrvs6+M/HqKqekHsbBVkBkBWnCS3CWRO+1uXfuQN9RY4ARPuZC1mQyl6+2i3iy8fR6ZgtkG+qNp0yMGq85SmInus0+ZKYDnUR+lXx+wgoCLPBhzgp6bu9Pw6/GtqUCfQF0+tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NfK4X1+6; arc=none smtp.client-ip=209.85.217.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMXCnSya"
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-7ca917f9f52so356425137.1
-        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:08:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NfK4X1+6"
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7bf5f3736d2so2728033137.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 07 Oct 2026 12:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791400088; x=1792004888; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791400094; x=1792004894; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8IHDrUY3udvVN0KofMRFmJaFg7LJxo7qetJUVc+lDLQ=;
-        b=OMXCnSya7gIRu5FjKnMIg6IC7GATwE9HCMVXfIqWTfqkh5wVI1I3QGOd6VKcYdUyhH
-         TcI6IemTDmn/MfkxMc1MIZC4GUjkp5UXPyps9OHhPyp354MqHtpquf4lDH5qHGNvJnHA
-         NLbFZNRwuTS7tqLpJ2c/Xgllnd7NQm+M0M9IVdWLoNIIb4MndWLfCfPB+PIYDHoUAhAY
-         mxunlnCaC5+sjvtuPh+bxV3ostt7cl4XoV56TniozQy58RramPoQ0jfUdNmJH5JfN99w
-         Li+w1PA2BHZU8WG5xeCyHni7QAkqvGq+s85x1yyYXoHllRzvrtN/uKWR3h0UBJBdecsc
-         ETug==
+        bh=+Vn0spk3ajwyij1jMAAvmsyWo8ulUmzZZ0Zz44T5uS8=;
+        b=NfK4X1+6dgRqwMFTLK1yUy/qXKiULZgORTpdG8+ZoD6uV8+gdKZtc3X0myEAETFU38
+         xwTN/mbyetAkLxwOlg/n4q9moFkZFUzHX0Xf35gGDzp7KFGLomng/+rmyB/O2Z2lWrl0
+         niHi0WxG+28CgxvITFproajrgWCtXdQ8MBn87fcw2GQk1ucKhnU1lUJDu8PyjIIE0CEa
+         PPFydPZjNVI1WXU+UQMHZAhlvFbqAgdJGlrcVf7sASO364PtgugIXbZUaT6eWKSFQa9U
+         IeAEDSLAfZwHQrI1R2jLDPffKiHaUnIwP3nAgSnWhBJoivzgMnXlpwit7Bz7kqtUN3el
+         W3ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791400088; x=1792004888;
+        d=1e100.net; s=20260707; t=1791400094; x=1792004894;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8IHDrUY3udvVN0KofMRFmJaFg7LJxo7qetJUVc+lDLQ=;
-        b=C5ZwWT05l3nv6UcS3XM6YrXvWgf9PgxuU04giW2yuUgMIb0B6Ppxs45jQzLMM+KwWO
-         C2Pvzn+yV87YA3lqsmZQS1+9V9KBPWBIKLd10ZtIjfSR2dDX8BNqJEy2++zpSis/3RCm
-         R3k1WFvI6WboGw+2p7fyc7o9qBBYjailqFWIkAyrEcZLy/FKvEs1xXbLQfwGNdi8xXUR
-         FMJe4QyUZO7/dc/PON3UNuE374Y7lYS0nov1K0AOIvWSIV+XrrfEjvCrJoDmEUCNCHTV
-         W8n9TW9SFstemTjeCFkEjWjGzw8f+0KsQfkJYEQwjHHqt1m8zYxThp8gTmahz/ZqQUjG
-         48VQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxG9DbZD/QVgp4iBlbB7JARuoE7N3nW5b0NuJEJvNc7QBzHbPbG89WZhMSsuaZdFqtadlvbDasLd0sr+YQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAcXlR8yerpUxoHJVyCUOMCno18ACVzrYey60rkJ4jTUJGv90O
-	hE5HlcVsC8rUexZRTcnG7qBv8k7869a98loWPJJ0AOlAHHH5a3MgwqVZ
-X-Gm-Gg: AYBFou0Drprvurl6nOd7TdRjvqOc6vE296pN2O3TKp4XK8EgLO7gi87WgC+wF7dTkjX
-	ORTuOK0gX9roAd3PoFhFV+tCSopRuDYuYCGS/wAcIzBjkZ3JO/JRQXxxJIbHCBKZpvCygpCdpbQ
-	nXewgydm8m9AOZPqdTUwuzGik/nEcohut56/XQJCgZTwxRIHVAWwgZxkzPjKNwt496bLqVcS+4V
-	1lqfCHOO6HdgYOt3H+qMVEKNAwtleKrsbUKuNGSN0hyGVJ3NvcCvyyRe4EeIt1DpcLr920DoD3z
-	mE5PeGOANUUBWcp89i2wbunOAPWwnR0wpmYcfp5gxlYjGQH0BAsobiPeI1IclkMJml3dleYakO6
-	/q4mP/Rp60msfbGmQrgADTGq1xdFtVGdyxlYWcQDBrRZkCrHmtJOqeHnHC+Q1wgEpQPY+cKaFuu
-	sdYy9h1vgkriFucKiPewvn7xCBEIOlbh3BE/uHUAz192rgxhMlbRTDVzrVES5h3O9aHhBvrL6vt
-	0SPcLHAygK4Vp8WE+4=
-X-Received: by 2002:a05:6102:160d:b0:7c3:2b19:62bb with SMTP id ada2fe7eead31-7ca38b89e49mr1071533137.17.1791400087858;
-        Wed, 07 Oct 2026 12:08:07 -0700 (PDT)
+        bh=+Vn0spk3ajwyij1jMAAvmsyWo8ulUmzZZ0Zz44T5uS8=;
+        b=LS8ga9vP8ZNc7YutPVvQY0ysoA+i1R5LWZYnlPIeR/TFhwpIWSkYlaReuxBnoCaWXu
+         wKfess7zz5SAIlsMfEmuFqq+yzlXZADDQTiwTnBAAn//AF4yR5H8Rb4lxSlYu3p+aZjW
+         Ff/Q8fCFfGPcm0nK74NFiRpMFpck5HzX1MwEmiCcU1CuxPHG4Rn/BPi5Pkmn4MtItip3
+         2R6P56rNeWeVmkGcepUQbNvxPaqT6dRJe+1Oi/SHJOq+yZIM2JrAY3xmWYMLFEXhVBEN
+         A8baBX7UxnHiXVKcwFaLvyn7rutX3ehtW9j/MEH5oeVkbbRZB9S7gfSMhvXCcCmHlC/P
+         jsTQ==
+X-Forwarded-Encrypted: i=1; AKwUvBySrJn/U2CSeRVtmHyPvKENH0Ss2fO5jcjiDBenox/GDlx6AZ8JfGOtvTxfXNjRkSFx4d9mNP4UmUbeK0Y=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKCX+A/oaZcXiTpMyqyLAlEuzENU0+cGW1k2eeW6y7lopbI2U3b
+	DkfjCE3XjdenqtkXCQruBS7T3De41OyGvPLJvl5B2rxTHhuG1dF/s434
+X-Gm-Gg: AYBFou3qriWftgy9o0o27T4br0tIfP4x6QkvPAbqtBJ36hDZnMJaV7rYOIWwsRdDvDo
+	z3+3SVbx9ATZW83GPwEZFeUkbDGXSMjtPqiwgpOhBr4ze0wOxKto8BajgTnm7ns/HIoqkUR4FiI
+	+NmZMfWUdKxI2R77micNG6H3Ox7Ru+XiwGK68ovSQ44VdVizIKtIQrFgXD8FH1LPToMQDY7IAgu
+	TrNAV8b5bXaYJQUG9jhFwqkPLo1vCN8cqN3Ivtjc5e6E8ZKmveSK67HVR3/CbDE1v8Z371RlNMR
+	TpIeIgtaelS0iukeBTlTLclEU+g5y55v1It65GcpcdZJPrauaQ94Fjc0ApS4ZHWliPnpmemS+rC
+	XcJu6N4X99xgyJhOvxEw6g35xjPZgmBXAViS/KcHKmIAPPtjgHMeTqkc92HIpjzM1MUz2LwG9iM
+	6So4SXZmZHHTJfQb8+wO5KcdrUkJR0QuZEFG/ePTYmpjoaZe/xCd1wkThXDVA4RwSTDnuEYe7aT
+	jqfdxKv8jw/nptQGI8=
+X-Received: by 2002:a05:6102:4490:b0:7c3:8ae6:d7ab with SMTP id ada2fe7eead31-7ca36e47759mr1089805137.5.1791400093596;
+        Wed, 07 Oct 2026 12:08:13 -0700 (PDT)
 Received: from emedev.tailf75c28.ts.net ([74.244.222.41])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.08.02
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ca218138c6sm2456787137.12.2026.10.07.12.08.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 12:08:07 -0700 (PDT)
+        Wed, 07 Oct 2026 12:08:13 -0700 (PDT)
 From: Emerson Busson <emersonbusson@gmail.com>
 To: mhklinux@outlook.com
 Cc: kys@microsoft.com,
@@ -74,9 +74,9 @@ Cc: kys@microsoft.com,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH v2 01/14] hv: vmbus: convert ring backing through the chunk allocator
-Date: Wed,  7 Oct 2026 16:07:39 -0300
-Message-ID: <20261007190752.336426-2-emersonbusson@gmail.com>
+Subject: [PATCH v2 02/14] hv: vmbus: validate chunk buffer allocation and cleanup
+Date: Wed,  7 Oct 2026 16:07:40 -0300
+Message-ID: <20261007190752.336426-3-emersonbusson@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261007190752.336426-1-emersonbusson@gmail.com>
 References: <20261007190752.336426-1-emersonbusson@gmail.com>
@@ -88,803 +88,352 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the existing virtually contiguous allocator for ring backing with
-the ring confidentiality policy. An internal helper keeps that choice
-distinct from the established external-buffer compatibility policy.
-Preserve the exported allocator and caller-decrypted GPADL signatures
-throughout the series; carry uncertain creation in the descriptor
-instead of widening an exported function. The independent
-guest-memory-encryption condition is present at the first ring consumer.
+Validate rounded sizes before storing them and preserve allocated
+chunks when cleanup or GPADL teardown has an uncertain outcome. Add
+focused KUnit coverage for buffer sizing, ownership decisions, and the
+ring fallback order descent.
+
+vmbus_alloc_buffer() rounds the requested size up to PAGE_SIZE before it
+computes nr_pages. A zero size, and a size within PAGE_SIZE of U32_MAX,
+both produce a rounded value that is wrong: zero allocates nothing, and
+the near-U32_MAX cases wrap to a small nr_pages, so a small chunk array
+is built for a buffer the host is told is large. Reject both before the
+rounded size is stored or used.
+
+vmbus_buffer_should_free() gathers the leak decision in one place. A
+cleanup whose GPADL create or teardown message may have reached the host
+cannot prove the host has released the pages. Handing those pages back
+to the allocator, or re-encrypting them, while the host may still map
+them is a use-after-free from the host's side and a Confidential
+Computing hazard. Such a buffer is marked leaked and its chunks are
+retained instead of freed.
+
+The new cases live in drivers/hv/vmbus_buffer_test.c, which is built
+into the hv_vmbus object rather than a separate module. That keeps the
+cases off the production sources while still letting them call the
+internal sizing, order-descent and free-decision helpers. Those helpers
+are therefore not static; nothing outside hv_vmbus links against them,
+and no symbol is exported for test purposes.
+
+The cases pin both rules, the partial-allocation rollback, and the
+order-descent fallback.
 
 Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
 ---
- drivers/hv/channel.c            | 176 +++++++++++++++++++++-----------
- drivers/hv/hyperv_vmbus.h       |   4 +-
- drivers/hv/ring_buffer.c        |   9 +-
- drivers/net/hyperv/hyperv_net.h |  10 +-
- drivers/net/hyperv/netvsc.c     |  58 ++++++-----
- drivers/uio/uio_hv_generic.c    |  37 ++++---
- include/linux/hyperv.h          |  18 +++-
- 7 files changed, 196 insertions(+), 116 deletions(-)
+ drivers/hv/Kconfig             |  11 ++++
+ drivers/hv/Makefile            |   1 +
+ drivers/hv/channel.c           |  67 ++++++++++++++++++----
+ drivers/hv/hyperv_vmbus.h      |  12 ++++
+ drivers/hv/vmbus_buffer_test.c | 102 +++++++++++++++++++++++++++++++++
+ 5 files changed, 181 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/hv/vmbus_buffer_test.c
 
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index aa11bcefddf2..d44dd60fbc23 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -65,6 +65,17 @@ config HYPERV_VMBUS
+ 	help
+ 	  Select this option to enable Hyper-V Vmbus driver.
+ 
++config HYPERV_VMBUS_KUNIT_TEST
++	bool "Build Hyper-V VMBus buffer KUnit tests"
++	depends on HYPERV_VMBUS && KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  Build the vmbus buffer sizing, GPADL lifetime and reclaim KUnit
++	  cases into the hv_vmbus object. The cases reach internal helpers
++	  that are not exported, so they cannot live in a separate module.
++
++	  If unsure, say N.
++
+ config MSHV_ROOT
+ 	tristate "Microsoft Hyper-V root partition support"
+ 	depends on HYPERV && (X86_64 || ARM64)
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 888a748cc7cb..80d33e9c0e57 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -12,6 +12,7 @@ hv_vmbus-y := vmbus_drv.o \
+ 		 hv.o connection.o channel.o \
+ 		 channel_mgmt.o ring_buffer.o hv_trace.o
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
++hv_vmbus-$(CONFIG_HYPERV_VMBUS_KUNIT_TEST) += vmbus_buffer_test.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
+ mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o mshv_irq.o \
+ 	       mshv_root_hv_call.o mshv_portid_table.o mshv_regions.o
 diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 7e4cc6f55237..f8feb2a0ec0a 100644
+index f8feb2a0ec0a..7d5b99281872 100644
 --- a/drivers/hv/channel.c
 +++ b/drivers/hv/channel.c
-@@ -12,6 +12,8 @@
- #include <linux/sched.h>
- #include <linux/wait.h>
- #include <linux/mm.h>
-+#include <linux/cc_platform.h>
-+#include <linux/overflow.h>
- #include <linux/slab.h>
- #include <linux/log2.h>
- #include <linux/module.h>
-@@ -26,6 +28,12 @@
+@@ -28,6 +28,44 @@
  
  #include "hyperv_vmbus.h"
  
-+static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
-+				  u32 size,
-+				  bool confidential,
-+				  struct page ***chunks_out,
-+				  u32 *chunk_cnt_out);
-+
- /*
-  * hv_gpadl_size - Return the real size of a gpadl, the size that Hyper-V uses
-  *
-@@ -42,7 +50,6 @@ static inline u32 hv_gpadl_size(enum hv_gpadl_type type, u32 size)
- {
- 	switch (type) {
- 	case HV_GPADL_BUFFER:
--	case HV_GPADL_BUFFER_DECRYPTED:
- 		return size;
- 	case HV_GPADL_RING:
- 		/* The size of a ringbuffer must be page-aligned */
-@@ -103,7 +110,6 @@ static inline u64 hv_gpadl_hvpfn(enum hv_gpadl_type type, void *kbuffer,
- 
- 	switch (type) {
- 	case HV_GPADL_BUFFER:
--	case HV_GPADL_BUFFER_DECRYPTED:
- 		break;
- 	case HV_GPADL_RING:
- 		if (i == 0)
-@@ -154,17 +160,15 @@ EXPORT_SYMBOL_GPL(vmbus_setevent);
- /* vmbus_free_ring - drop mapping of ring buffer */
- void vmbus_free_ring(struct vmbus_channel *channel)
- {
-+	struct vmbus_buffer *buffer = &channel->ringbuffer;
-+
- 	hv_ringbuffer_cleanup(&channel->outbound);
- 	hv_ringbuffer_cleanup(&channel->inbound);
- 
--	if (channel->ringbuffer_page) {
--		/* In a CoCo VM leak the memory if it didn't get re-encrypted */
--		if (!channel->ringbuffer_gpadlhandle.decrypted)
--			__free_pages(channel->ringbuffer_page,
--			     get_order(channel->ringbuffer_pagecount
--				       << PAGE_SHIFT));
--		channel->ringbuffer_page = NULL;
--	}
-+	if (!buffer->addr)
-+		return;
-+
-+	vmbus_release_buffer(buffer);
- }
- EXPORT_SYMBOL_GPL(vmbus_free_ring);
- 
-@@ -172,26 +176,32 @@ EXPORT_SYMBOL_GPL(vmbus_free_ring);
- int vmbus_alloc_ring(struct vmbus_channel *newchannel,
- 		     u32 send_size, u32 recv_size)
- {
--	struct page *page;
--	int order;
-+	struct vmbus_buffer *buffer = &newchannel->ringbuffer;
-+	u32 size;
-+	u32 i;
- 
--	if (send_size % PAGE_SIZE || recv_size % PAGE_SIZE)
-+	if (!send_size || !recv_size ||
-+	    send_size % PAGE_SIZE || recv_size % PAGE_SIZE ||
-+	    check_add_overflow(send_size, recv_size, &size))
- 		return -EINVAL;
- 
--	/* Allocate the ring buffer */
--	order = get_order(send_size + recv_size);
--	page = alloc_pages_node(cpu_to_node(newchannel->target_cpu),
--				GFP_KERNEL|__GFP_ZERO, order);
--
--	if (!page)
--		page = alloc_pages(GFP_KERNEL|__GFP_ZERO, order);
--
--	if (!page)
-+	buffer->addr = __vmbus_alloc_buffer(newchannel, size,
-+					    newchannel->co_ring_buffer,
-+					    &buffer->chunks, &buffer->chunk_cnt);
-+	if (!buffer->addr)
- 		return -ENOMEM;
- 
--	newchannel->ringbuffer_page = page;
--	newchannel->ringbuffer_pagecount = (send_size + recv_size) >> PAGE_SHIFT;
-+	newchannel->ringbuffer_pagecount = size >> PAGE_SHIFT;
- 	newchannel->ringbuffer_send_offset = send_size >> PAGE_SHIFT;
-+	buffer->pages = kvcalloc(newchannel->ringbuffer_pagecount,
-+				 sizeof(*buffer->pages), GFP_KERNEL);
-+	if (!buffer->pages) {
-+		vmbus_release_buffer(buffer);
-+		return -ENOMEM;
-+	}
-+
-+	for (i = 0; i < newchannel->ringbuffer_pagecount; i++)
-+		buffer->pages[i] = vmalloc_to_page(buffer->addr + (i << PAGE_SHIFT));
- 
- 	return 0;
- }
-@@ -442,7 +452,8 @@ static void vmbus_free_channel_msginfo(struct vmbus_channel_msginfo *msginfo)
-  */
- static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 				   enum hv_gpadl_type type, void *kbuffer,
--				   u32 size, u32 send_offset,
-+				   u32 size, u32 send_offset, bool memory_prepared,
-+				   bool *leak,
- 				   struct vmbus_gpadl *gpadl)
- {
- 	struct vmbus_channel_gpadl_header *gpadlmsg;
-@@ -452,8 +463,13 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	struct list_head *curr;
- 	u32 next_gpadl_handle;
- 	unsigned long flags;
-+	bool posted = false;
- 	int ret = 0;
- 
-+	if (leak)
-+		*leak = false;
-+	gpadl->leak = false;
-+
- 	next_gpadl_handle =
- 		(atomic_inc_return(&vmbus_connection.next_gpadl_handle) - 1);
- 
-@@ -463,9 +479,9 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 		return ret;
- 	}
- 
--	gpadl->decrypted = !((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
--		(channel->co_ring_buffer && type == HV_GPADL_RING) ||
--		(type == HV_GPADL_BUFFER_DECRYPTED));
-+	gpadl->decrypted = !memory_prepared &&
-+		!((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
-+		  (channel->co_ring_buffer && type == HV_GPADL_RING));
- 	if (gpadl->decrypted) {
- 		/*
- 		 * The "decrypted" flag being true assumes that set_memory_decrypted() succeeds.
-@@ -504,6 +520,8 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 		goto cleanup;
- 	}
- 
-+	/* A failed post may still have reached the host. */
-+	posted = true;
- 	ret = vmbus_post_msg(gpadlmsg, msginfo->msgsize -
- 			     sizeof(*msginfo), true);
- 
-@@ -534,6 +552,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	wait_for_completion(&msginfo->waitevent);
- 
- 	if (msginfo->response.gpadl_created.creation_status != 0) {
-+		posted = false;
- 		pr_err("Failed to establish GPADL: err = 0x%x\n",
- 		       msginfo->response.gpadl_created.creation_status);
- 
-@@ -542,6 +561,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	}
- 
- 	if (channel->rescind) {
-+		posted = false;
- 		ret = -ENODEV;
- 		goto cleanup;
- 	}
-@@ -550,6 +570,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	gpadl->gpadl_handle = gpadlmsg->gpadl;
- 	gpadl->buffer = kbuffer;
- 	gpadl->size = size;
-+	posted = false;
- 
- 
- cleanup:
-@@ -559,7 +580,13 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 
- 	vmbus_free_channel_msginfo(msginfo);
- 
--	if (ret) {
-+	if (ret && posted) {
-+		gpadl->leak = true;
-+		if (leak)
-+			*leak = true;
-+	}
-+
-+	if (ret && !posted) {
- 		/*
- 		 * If set_memory_encrypted() fails, the decrypted flag is
- 		 * left as true so the memory is leaked instead of being
-@@ -586,7 +613,7 @@ int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
- 			  u32 size, struct vmbus_gpadl *gpadl)
- {
- 	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER, kbuffer, size,
--				       0U, gpadl);
-+				       0U, false, &gpadl->leak, gpadl);
- }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
- 
-@@ -597,6 +624,8 @@ EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
-  * @channel: a channel
-  * @kbuffer: from kmalloc or vmalloc; must already be decrypted by the caller
-  * @size: page-size multiple
-+ * @leak: set when a GPADL message may have reached the host but completion is
-+ *        uncertain; the caller must retain the backing pages
-  * @gpadl: output gpadl
-  *
-  * The caller is responsible for re-encrypting the buffer before freeing it.
-@@ -605,8 +634,8 @@ int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
- 					   void *kbuffer, u32 size,
- 					   struct vmbus_gpadl *gpadl)
- {
--	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER_DECRYPTED,
--				       kbuffer, size, 0U, gpadl);
-+	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER,
-+				       kbuffer, size, 0U, true, &gpadl->leak, gpadl);
- }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
- 
-@@ -648,11 +677,26 @@ void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
- }
- EXPORT_SYMBOL_GPL(vmbus_free_buffer);
- 
-+void vmbus_release_buffer(struct vmbus_buffer *buffer)
++/*
++ * vmbus_buffer_round_size() and the order-descent helpers are also called
++ * from vmbus_buffer_test.c, which is built into this same object. They are
++ * therefore not static; nothing outside hv_vmbus links against them.
++ */
++int vmbus_buffer_round_size(u32 size, u32 *rounded_size)
 +{
-+	if (!buffer->addr)
-+		return;
++	if (!size)
++		return -EINVAL;
 +
-+	kvfree(buffer->pages);
-+	if (!buffer->leak && !buffer->gpadl.leak &&
-+	    !buffer->gpadl.gpadl_handle)
-+		vmbus_free_buffer(buffer->addr, buffer->chunks,
-+				  buffer->chunk_cnt);
-+	memset(buffer, 0, sizeof(*buffer));
++	if (size > U32_MAX - (u32)PAGE_SIZE + 1)
++		return -EOVERFLOW;
++
++	*rounded_size = round_up(size, (u32)PAGE_SIZE);
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(vmbus_release_buffer);
 +
- /**
-- * vmbus_alloc_buffer - allocate a host-visible, virtually-contiguous buffer.
-+ * __vmbus_alloc_buffer - allocate host-visible, virtually-contiguous backing.
-  *
-  * @channel: the channel the buffer will be attached to
-  * @size: requested buffer size in bytes (will be rounded up to PAGE_SIZE)
-+ * @confidential: keep the buffer private to the guest
-  * @chunks_out: on success, set to the array of underlying chunks, or NULL when
-  *              the buffer was allocated with vzalloc()
-  * @chunk_cnt_out: on success, set to the number of chunks
-@@ -667,10 +711,11 @@ EXPORT_SYMBOL_GPL(vmbus_free_buffer);
-  *
-  * Return: the buffer's virtual address, or NULL on failure.
-  */
--void *vmbus_alloc_buffer(struct vmbus_channel *channel,
--			 u32 size,
--			 struct page ***chunks_out,
--			 u32 *chunk_cnt_out)
-+static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
-+				  u32 size,
-+				  bool confidential,
-+				  struct page ***chunks_out,
-+				  u32 *chunk_cnt_out)
++unsigned int vmbus_buffer_order(unsigned long remaining,
++				unsigned int max_order)
++{
++	return min_t(unsigned int, max_order, ilog2(remaining));
++}
++
++bool vmbus_buffer_lower_order(unsigned int *order)
++{
++	if (!*order)
++		return false;
++
++	(*order)--;
++	return true;
++}
++
++bool vmbus_buffer_should_free(const struct vmbus_buffer *buffer)
++{
++	return !buffer->leak && !buffer->gpadl.leak &&
++	       !buffer->gpadl.gpadl_handle;
++}
++
+ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 				  u32 size,
+ 				  bool confidential,
+@@ -661,7 +699,8 @@ void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
+ 		return;
+ 	}
+ 
+-	vunmap(addr);
++	if (addr)
++		vunmap(addr);
+ 
+ 	for (i = 0; i < chunk_cnt; i++) {
+ 		unsigned long vaddr =
+@@ -683,8 +722,7 @@ void vmbus_release_buffer(struct vmbus_buffer *buffer)
+ 		return;
+ 
+ 	kvfree(buffer->pages);
+-	if (!buffer->leak && !buffer->gpadl.leak &&
+-	    !buffer->gpadl.gpadl_handle)
++	if (vmbus_buffer_should_free(buffer))
+ 		vmbus_free_buffer(buffer->addr, buffer->chunks,
+ 				  buffer->chunk_cnt);
+ 	memset(buffer, 0, sizeof(*buffer));
+@@ -717,12 +755,13 @@ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 				  struct page ***chunks_out,
+ 				  u32 *chunk_cnt_out)
  {
- 	unsigned long nr_pages = PFN_UP(size);
- 	unsigned long remaining = nr_pages;
-@@ -690,7 +735,8 @@ void *vmbus_alloc_buffer(struct vmbus_channel *channel,
+-	unsigned long nr_pages = PFN_UP(size);
+-	unsigned long remaining = nr_pages;
++	u32 rounded_size;
++	unsigned long nr_pages;
++	unsigned long remaining;
+ 	unsigned long page_idx = 0;
+ 	struct page **chunks = NULL;
+ 	struct page **pages = NULL;
+-	int order = MAX_PAGE_ORDER;
++	unsigned int order = MAX_PAGE_ORDER;
+ 	u32 chunk_cnt = 0;
+ 	void *addr;
+ 	u32 i;
+@@ -731,13 +770,15 @@ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 	*chunks_out = NULL;
+ 	*chunk_cnt_out = 0;
+ 
+-	if (!nr_pages)
++	if (vmbus_buffer_round_size(size, &rounded_size))
  		return NULL;
++	nr_pages = rounded_size >> PAGE_SHIFT;
++	remaining = nr_pages;
  
  	/* If the buffer does not need to be decrypted, just use vzalloc() */
--	if (!hv_is_isolation_supported() || channel->co_external_memory)
-+	if ((!hv_is_isolation_supported() &&
-+	     !cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) || confidential)
- 		return vzalloc(nr_pages << PAGE_SHIFT);
+ 	if ((!hv_is_isolation_supported() &&
+ 	     !cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) || confidential)
+-		return vzalloc(nr_pages << PAGE_SHIFT);
++		return vzalloc(rounded_size);
  
  	/* Worst case: every chunk is a single page. */
-@@ -760,6 +806,14 @@ void *vmbus_alloc_buffer(struct vmbus_channel *channel,
- 	vmbus_free_buffer(NULL, chunks, chunk_cnt);
- 	return NULL;
- }
-+
-+void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-+			 u32 size, struct page ***chunks_out,
-+			 u32 *chunk_cnt_out)
-+{
-+	return __vmbus_alloc_buffer(channel, size, channel->co_external_memory,
-+				    chunks_out, chunk_cnt_out);
-+}
- EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
+ 	chunks = kvmalloc_objs(*chunks, nr_pages, GFP_KERNEL | __GFP_ZERO);
+@@ -752,7 +793,7 @@ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 		struct page *page;
+ 		gfp_t gfp;
  
- /**
-@@ -832,7 +886,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- {
- 	struct vmbus_channel_open_channel *open_msg;
- 	struct vmbus_channel_msginfo *open_info = NULL;
--	struct page *page = newchannel->ringbuffer_page;
-+	struct vmbus_buffer *buffer = &newchannel->ringbuffer;
- 	u32 send_pages, recv_pages;
- 	unsigned long flags;
- 	int err;
-@@ -860,22 +914,24 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- 		newchannel->max_pkt_size = VMBUS_DEFAULT_MAX_PKT_SIZE;
+-		order = min(order, ilog2(remaining));
++		order = vmbus_buffer_order(remaining, order);
  
- 	/* Establish the gpadl for the ring buffer */
--	newchannel->ringbuffer_gpadlhandle.gpadl_handle = 0;
-+	buffer->gpadl.gpadl_handle = 0;
+ 		/*
+ 		 * Use __GFP_NORETRY | __GFP_NOWARN to avoid OOM-killing,
+@@ -767,7 +808,7 @@ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 		page = alloc_pages_node(cpu_to_node(channel->target_cpu),
+ 					gfp, order);
+ 		if (!page) {
+-			if (!order--)
++			if (!vmbus_buffer_lower_order(&order))
+ 				goto err;
+ 			continue;
+ 		}
+@@ -794,7 +835,7 @@ static void *__vmbus_alloc_buffer(struct vmbus_channel *channel,
+ 	if (!addr)
+ 		goto err;
  
- 	err = __vmbus_establish_gpadl(newchannel, HV_GPADL_RING,
--				      page_address(newchannel->ringbuffer_page),
-+				      buffer->addr,
- 				      (send_pages + recv_pages) << PAGE_SHIFT,
- 				      newchannel->ringbuffer_send_offset << PAGE_SHIFT,
--				      &newchannel->ringbuffer_gpadlhandle);
-+				      true, &buffer->leak, &buffer->gpadl);
- 	if (err)
- 		goto error_clean_ring;
+-	memset(addr, 0, nr_pages << PAGE_SHIFT);
++	memset(addr, 0, rounded_size);
  
- 	err = hv_ringbuffer_init(&newchannel->outbound,
--				 page, send_pages, 0, newchannel->co_ring_buffer);
-+				 buffer->addr, send_pages, 0,
-+				 newchannel->co_ring_buffer);
- 	if (err)
- 		goto error_free_gpadl;
+ 	kvfree(pages);
+ 	*chunks_out = chunks;
+@@ -1067,8 +1108,10 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
  
--	err = hv_ringbuffer_init(&newchannel->inbound, &page[send_pages],
-+	err = hv_ringbuffer_init(&newchannel->inbound,
-+				 buffer->addr + (send_pages << PAGE_SHIFT),
- 				 recv_pages, newchannel->max_pkt_size,
- 				 newchannel->co_ring_buffer);
- 	if (err)
-@@ -897,8 +953,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- 	open_msg->header.msgtype = CHANNELMSG_OPENCHANNEL;
- 	open_msg->openid = newchannel->offermsg.child_relid;
- 	open_msg->child_relid = newchannel->offermsg.child_relid;
--	open_msg->ringbuffer_gpadlhandle
--		= newchannel->ringbuffer_gpadlhandle.gpadl_handle;
-+	open_msg->ringbuffer_gpadlhandle = buffer->gpadl.gpadl_handle;
- 	/*
- 	 * The unit of ->downstream_ringbuffer_pageoffset is HV_HYP_PAGE and
- 	 * the unit of ->ringbuffer_send_offset (i.e. send_pages) is PAGE, so
-@@ -956,7 +1011,8 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- error_free_info:
- 	kfree(open_info);
- error_free_gpadl:
--	vmbus_teardown_gpadl(newchannel, &newchannel->ringbuffer_gpadlhandle);
-+	if (vmbus_teardown_gpadl(newchannel, &buffer->gpadl))
-+		buffer->leak = true;
- error_clean_ring:
- 	hv_ringbuffer_cleanup(&newchannel->outbound);
- 	hv_ringbuffer_cleanup(&newchannel->inbound);
-@@ -1058,15 +1114,20 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
- 
- 	kfree(info);
- 
--	if (gpadl->decrypted)
--		ret = set_memory_encrypted((unsigned long)gpadl->buffer,
--					PFN_UP(gpadl->size));
--	else
--		ret = 0;
--	if (ret)
--		pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
-+	if (!ret && gpadl->decrypted) {
-+		int encrypt_ret;
- 
--	gpadl->decrypted = ret;
-+		encrypt_ret = set_memory_encrypted((unsigned long)gpadl->buffer,
-+						   PFN_UP(gpadl->size));
-+		if (encrypt_ret) {
-+			pr_warn("Failed to re-encrypt GPADL buffer: %d\n",
-+				encrypt_ret);
-+			ret = encrypt_ret;
-+		}
-+		gpadl->decrypted = !!encrypt_ret;
-+	}
-+	if (ret)
+ 	info = kzalloc(sizeof(*info) +
+ 		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
+-	if (!info)
++	if (!info) {
 +		gpadl->leak = true;
+ 		return -ENOMEM;
++	}
  
- 	return ret;
- }
-@@ -1142,9 +1203,10 @@ static int vmbus_close_internal(struct vmbus_channel *channel)
- 	}
- 
- 	/* Tear down the gpadl for the channel's ring buffer */
--	else if (channel->ringbuffer_gpadlhandle.gpadl_handle) {
--		ret = vmbus_teardown_gpadl(channel, &channel->ringbuffer_gpadlhandle);
-+	else if (channel->ringbuffer.gpadl.gpadl_handle) {
-+		ret = vmbus_teardown_gpadl(channel, &channel->ringbuffer.gpadl);
- 		if (ret) {
-+			channel->ringbuffer.leak = true;
- 			pr_err("Close failed: teardown gpadl return %d\n", ret);
- 			/*
- 			 * If we failed to teardown gpadl,
+ 	init_completion(&info->waitevent);
+ 	info->waiting_channel = channel;
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 33923621a5a3..20d023c9735e 100644
+index 20d023c9735e..93df3b35cfd4 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
-@@ -204,8 +204,8 @@ extern int hv_synic_cleanup(unsigned int cpu);
- void hv_ringbuffer_pre_init(struct vmbus_channel *channel);
+@@ -551,4 +551,16 @@ int hv_create_ring_sysfs(struct vmbus_channel *channel,
+ 							    struct vm_area_desc *desc));
+ int hv_remove_ring_sysfs(struct vmbus_channel *channel);
  
- int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
--		       struct page *pages, u32 pagecnt, u32 max_pkt_size,
--			   bool confidential);
-+		       void *addr, u32 pagecnt, u32 max_pkt_size,
-+		       bool confidential);
- 
- void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info);
- 
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 592a9601faaa..16b1c2910789 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -184,8 +184,8 @@ void hv_ringbuffer_pre_init(struct vmbus_channel *channel)
- 
- /* Initialize the ring buffer. */
- int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
--		       struct page *pages, u32 page_cnt, u32 max_pkt_size,
--			   bool confidential)
-+		       void *addr, u32 page_cnt, u32 max_pkt_size,
-+		       bool confidential)
- {
- 	struct page **pages_wraparound;
- 	int i;
-@@ -200,10 +200,11 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
- 	if (!pages_wraparound)
- 		return -ENOMEM;
- 
--	pages_wraparound[0] = pages;
-+	pages_wraparound[0] = vmalloc_to_page(addr);
- 	for (i = 0; i < 2 * (page_cnt - 1); i++)
- 		pages_wraparound[i + 1] =
--			&pages[i % (page_cnt - 1) + 1];
-+			vmalloc_to_page(addr +
-+				((i % (page_cnt - 1) + 1) << PAGE_SHIFT));
- 
- 	ring_info->ring_buffer = (struct hv_ring_buffer *)
- 		vmap(pages_wraparound, page_cnt * 2 - 1, VM_MAP,
-diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index 4841367fdab2..a15cb2460344 100644
---- a/drivers/net/hyperv/hyperv_net.h
-+++ b/drivers/net/hyperv/hyperv_net.h
-@@ -1158,21 +1158,15 @@ struct netvsc_device {
- 	bool tx_disable; /* if true, do not wake up queue again */
- 
- 	/* Receive buffer allocated by us but manages by NetVSP */
--	void *recv_buf;
-+	struct vmbus_buffer recv_buffer;
- 	u32 recv_buf_size; /* allocated bytes */
--	struct page **recv_buf_chunks;
--	u32 recv_buf_chunk_cnt;
--	struct vmbus_gpadl recv_buf_gpadl_handle;
- 	u32 recv_section_cnt;
- 	u32 recv_section_size;
- 	u32 recv_completion_cnt;
- 
- 	/* Send buffer allocated by us */
--	void *send_buf;
-+	struct vmbus_buffer send_buffer;
- 	u32 send_buf_size;
--	struct page **send_buf_chunks;
--	u32 send_buf_chunk_cnt;
--	struct vmbus_gpadl send_buf_gpadl_handle;
- 	u32 send_section_cnt;
- 	u32 send_section_size;
- 	unsigned long *send_section_map;
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 5cd084e5696c..ffba1443396a 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -134,10 +134,8 @@ static void __free_netvsc_device(struct netvsc_device *nvdev)
- 
- 	kfree(nvdev->extension);
- 
--	vmbus_free_buffer(nvdev->recv_buf, nvdev->recv_buf_chunks,
--			  nvdev->recv_buf_chunk_cnt);
--	vmbus_free_buffer(nvdev->send_buf, nvdev->send_buf_chunks,
--			  nvdev->send_buf_chunk_cnt);
-+	vmbus_release_buffer(&nvdev->recv_buffer);
-+	vmbus_release_buffer(&nvdev->send_buffer);
- 	bitmap_free(nvdev->send_section_map);
- 
- 	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-@@ -245,6 +243,7 @@ static void netvsc_revoke_recv_buf(struct hv_device *device,
- 		if (ret != 0) {
- 			netdev_err(ndev, "unable to send "
- 				"revoke receive buffer to netvsp\n");
-+			net_device->recv_buffer.leak = true;
- 			return;
- 		}
- 		net_device->recv_section_cnt = 0;
-@@ -296,6 +295,7 @@ static void netvsc_revoke_send_buf(struct hv_device *device,
- 		if (ret != 0) {
- 			netdev_err(ndev, "unable to send "
- 				   "revoke send buffer to netvsp\n");
-+			net_device->send_buffer.leak = true;
- 			return;
- 		}
- 		net_device->send_section_cnt = 0;
-@@ -308,14 +308,18 @@ static void netvsc_teardown_recv_gpadl(struct hv_device *device,
- {
- 	int ret;
- 
--	if (net_device->recv_buf_gpadl_handle.gpadl_handle) {
-+	if (net_device->recv_buffer.leak)
-+		return;
++/*
++ * vmbus buffer sizing, order-descent and free-decision helpers.
++ *
++ * These are shared with vmbus_buffer_test.c, which is built into the
++ * hv_vmbus object alongside channel.c. They stay unexported.
++ */
++int vmbus_buffer_round_size(u32 size, u32 *rounded_size);
++unsigned int vmbus_buffer_order(unsigned long remaining,
++				unsigned int max_order);
++bool vmbus_buffer_lower_order(unsigned int *order);
++bool vmbus_buffer_should_free(const struct vmbus_buffer *buffer);
 +
-+	if (net_device->recv_buffer.gpadl.gpadl_handle) {
- 		ret = vmbus_teardown_gpadl(device->channel,
--					   &net_device->recv_buf_gpadl_handle);
-+					   &net_device->recv_buffer.gpadl);
- 
- 		/* If we failed here, we might as well return and have a leak
- 		 * rather than continue and a bugchk
- 		 */
- 		if (ret != 0) {
-+			net_device->recv_buffer.leak = true;
- 			netdev_err(ndev,
- 				   "unable to teardown receive buffer's gpadl\n");
- 			return;
-@@ -329,14 +333,18 @@ static void netvsc_teardown_send_gpadl(struct hv_device *device,
- {
- 	int ret;
- 
--	if (net_device->send_buf_gpadl_handle.gpadl_handle) {
-+	if (net_device->send_buffer.leak)
-+		return;
+ #endif /* _HYPERV_VMBUS_H */
+diff --git a/drivers/hv/vmbus_buffer_test.c b/drivers/hv/vmbus_buffer_test.c
+new file mode 100644
+index 000000000000..d0a927a46caf
+--- /dev/null
++++ b/drivers/hv/vmbus_buffer_test.c
+@@ -0,0 +1,102 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * KUnit tests for Hyper-V VMBus buffer allocation and GPADL lifetime.
++ *
++ * Built into the hv_vmbus object rather than a separate module so the
++ * cases can reach the internal helpers declared in hyperv_vmbus.h
++ * without exporting them.
++ */
++#include <kunit/test.h>
++#include <linux/hyperv.h>
++#include <linux/mm.h>
++#include <linux/slab.h>
++#include <linux/vmalloc.h>
 +
-+	if (net_device->send_buffer.gpadl.gpadl_handle) {
- 		ret = vmbus_teardown_gpadl(device->channel,
--					   &net_device->send_buf_gpadl_handle);
-+					   &net_device->send_buffer.gpadl);
- 
- 		/* If we failed here, we might as well return and have a leak
- 		 * rather than continue and a bugchk
- 		 */
- 		if (ret != 0) {
-+			net_device->send_buffer.leak = true;
- 			netdev_err(ndev,
- 				   "unable to teardown send buffer's gpadl\n");
- 			return;
-@@ -377,11 +385,11 @@ static int netvsc_init_buf(struct hv_device *device,
- 		buf_size = min_t(unsigned int, buf_size,
- 				 NETVSC_RECEIVE_BUFFER_SIZE_LEGACY);
- 
--	net_device->recv_buf =
-+	net_device->recv_buffer.addr =
- 		vmbus_alloc_buffer(device->channel, buf_size,
--				   &net_device->recv_buf_chunks,
--				   &net_device->recv_buf_chunk_cnt);
--	if (!net_device->recv_buf) {
-+				   &net_device->recv_buffer.chunks,
-+				   &net_device->recv_buffer.chunk_cnt);
-+	if (!net_device->recv_buffer.addr) {
- 		netdev_err(ndev,
- 			   "unable to allocate receive buffer of size %u\n",
- 			   buf_size);
-@@ -397,9 +405,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * than the channel to establish the gpadl handle.
- 	 */
- 	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
--						     net_device->recv_buf,
-+						     net_device->recv_buffer.addr,
- 						     buf_size,
--						     &net_device->recv_buf_gpadl_handle);
-+						     &net_device->recv_buffer.gpadl);
-+	net_device->recv_buffer.leak |= net_device->recv_buffer.gpadl.leak;
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			"unable to establish receive buffer's gpadl\n");
-@@ -411,7 +420,7 @@ static int netvsc_init_buf(struct hv_device *device,
- 	memset(init_packet, 0, sizeof(struct nvsp_message));
- 	init_packet->hdr.msg_type = NVSP_MSG1_TYPE_SEND_RECV_BUF;
- 	init_packet->msg.v1_msg.send_recv_buf.
--		gpadl_handle = net_device->recv_buf_gpadl_handle.gpadl_handle;
-+		gpadl_handle = net_device->recv_buffer.gpadl.gpadl_handle;
- 	init_packet->msg.v1_msg.
- 		send_recv_buf.id = NETVSC_RECEIVE_BUFFER_ID;
- 
-@@ -487,11 +496,11 @@ static int netvsc_init_buf(struct hv_device *device,
- 	buf_size = device_info->send_sections * device_info->send_section_size;
- 	buf_size = round_up(buf_size, PAGE_SIZE);
- 
--	net_device->send_buf =
-+	net_device->send_buffer.addr =
- 		vmbus_alloc_buffer(device->channel, buf_size,
--				   &net_device->send_buf_chunks,
--				   &net_device->send_buf_chunk_cnt);
--	if (!net_device->send_buf) {
-+				   &net_device->send_buffer.chunks,
-+				   &net_device->send_buffer.chunk_cnt);
-+	if (!net_device->send_buffer.addr) {
- 		netdev_err(ndev, "unable to allocate send buffer of size %u\n",
- 			   buf_size);
- 		ret = -ENOMEM;
-@@ -504,9 +513,10 @@ static int netvsc_init_buf(struct hv_device *device,
- 	 * than the channel to establish the gpadl handle.
- 	 */
- 	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
--						     net_device->send_buf,
-+						     net_device->send_buffer.addr,
- 						     buf_size,
--						     &net_device->send_buf_gpadl_handle);
-+						     &net_device->send_buffer.gpadl);
-+	net_device->send_buffer.leak |= net_device->send_buffer.gpadl.leak;
- 	if (ret != 0) {
- 		netdev_err(ndev,
- 			   "unable to establish send buffer's gpadl\n");
-@@ -518,7 +528,7 @@ static int netvsc_init_buf(struct hv_device *device,
- 	memset(init_packet, 0, sizeof(struct nvsp_message));
- 	init_packet->hdr.msg_type = NVSP_MSG1_TYPE_SEND_SEND_BUF;
- 	init_packet->msg.v1_msg.send_send_buf.gpadl_handle =
--		net_device->send_buf_gpadl_handle.gpadl_handle;
-+		net_device->send_buffer.gpadl.gpadl_handle;
- 	init_packet->msg.v1_msg.send_send_buf.id = NETVSC_SEND_BUFFER_ID;
- 
- 	trace_nvsp_send(ndev, init_packet);
-@@ -968,7 +978,7 @@ static void netvsc_copy_to_send_buf(struct netvsc_device *net_device,
- 				    struct hv_page_buffer *pb,
- 				    bool xmit_more)
- {
--	char *start = net_device->send_buf;
-+	char *start = net_device->send_buffer.addr;
- 	char *dest = start + (section_index * net_device->send_section_size)
- 		     + pend_size;
- 	int i;
-@@ -1475,7 +1485,7 @@ static int netvsc_receive(struct net_device *ndev,
- 	const struct nvsp_message *nvsp = hv_pkt_data(desc);
- 	u32 msglen = hv_pkt_datalen(desc);
- 	u16 q_idx = channel->offermsg.offer.sub_channel_index;
--	char *recv_buf = net_device->recv_buf;
-+	char *recv_buf = net_device->recv_buffer.addr;
- 	u32 status = NVSP_STAT_SUCCESS;
- 	int i;
- 	int count = 0;
-diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-index 7b4cc456c453..b3f41ffc74f8 100644
---- a/drivers/uio/uio_hv_generic.c
-+++ b/drivers/uio/uio_hv_generic.c
-@@ -150,19 +150,21 @@ static void hv_uio_rescind(struct vmbus_channel *channel)
- 	vmbus_device_unregister(channel->device_obj);
- }
- 
--/* Function used for mmap of ring buffer sysfs interface.
-- * The ring buffer is allocated as contiguous memory by vmbus_open
-- */
-+/* Function used for mmap of the ring buffer sysfs interface. */
- static int
- hv_uio_ring_mmap_prepare(struct vmbus_channel *channel, struct vm_area_desc *desc)
- {
--	void *ring_buffer = page_address(channel->ringbuffer_page);
-+	unsigned long pages = vma_desc_pages(desc);
-+	pgoff_t offset = desc->pgoff;
- 
- 	if (channel->state != CHANNEL_OPENED_STATE)
- 		return -ENODEV;
-+	if (offset >= channel->ringbuffer_pagecount ||
-+	    pages > channel->ringbuffer_pagecount - offset)
-+		return -EINVAL;
- 
--	mmap_action_simple_ioremap(desc, virt_to_phys(ring_buffer),
--			channel->ringbuffer_pagecount << PAGE_SHIFT);
-+	mmap_action_map_kernel_pages(desc, desc->start,
-+				     channel->ringbuffer.pages + offset, pages);
- 	return 0;
- }
- 
-@@ -196,14 +198,16 @@ static void
- hv_uio_cleanup(struct hv_device *dev, struct hv_uio_private_data *pdata)
- {
- 	if (pdata->send_gpadl.gpadl_handle) {
--		vmbus_teardown_gpadl(dev->channel, &pdata->send_gpadl);
--		if (!pdata->send_gpadl.decrypted)
-+		if (vmbus_teardown_gpadl(dev->channel, &pdata->send_gpadl))
-+			pdata->send_gpadl.leak = true;
-+		if (!pdata->send_gpadl.leak && !pdata->send_gpadl.decrypted)
- 			vfree(pdata->send_buf);
- 	}
- 
- 	if (pdata->recv_gpadl.gpadl_handle) {
--		vmbus_teardown_gpadl(dev->channel, &pdata->recv_gpadl);
--		if (!pdata->recv_gpadl.decrypted)
-+		if (vmbus_teardown_gpadl(dev->channel, &pdata->recv_gpadl))
-+			pdata->recv_gpadl.leak = true;
-+		if (!pdata->recv_gpadl.leak && !pdata->recv_gpadl.decrypted)
- 			vfree(pdata->recv_buf);
- 	}
- }
-@@ -283,12 +287,11 @@ hv_uio_probe(struct hv_device *dev,
- 
- 	/* mem resources */
- 	pdata->info.mem[TXRX_RING_MAP].name = "txrx_rings";
--	ring_buffer = page_address(channel->ringbuffer_page);
--	pdata->info.mem[TXRX_RING_MAP].addr
--		= (uintptr_t)virt_to_phys(ring_buffer);
-+	ring_buffer = channel->ringbuffer.addr;
-+	pdata->info.mem[TXRX_RING_MAP].addr = (uintptr_t)ring_buffer;
- 	pdata->info.mem[TXRX_RING_MAP].size
- 		= channel->ringbuffer_pagecount << PAGE_SHIFT;
--	pdata->info.mem[TXRX_RING_MAP].memtype = UIO_MEM_IOVA;
-+	pdata->info.mem[TXRX_RING_MAP].memtype = UIO_MEM_VIRTUAL;
- 
- 	pdata->info.mem[INT_PAGE_MAP].name = "int_page";
- 	pdata->info.mem[INT_PAGE_MAP].addr
-@@ -312,7 +315,8 @@ hv_uio_probe(struct hv_device *dev,
- 		ret = vmbus_establish_gpadl(channel, pdata->recv_buf,
- 					    RECV_BUFFER_SIZE, &pdata->recv_gpadl);
- 		if (ret) {
--			if (!pdata->recv_gpadl.decrypted)
-+			if (!pdata->recv_gpadl.leak &&
-+			    !pdata->recv_gpadl.decrypted)
- 				vfree(pdata->recv_buf);
- 			goto fail_close;
- 		}
-@@ -334,7 +338,8 @@ hv_uio_probe(struct hv_device *dev,
- 		ret = vmbus_establish_gpadl(channel, pdata->send_buf,
- 					    SEND_BUFFER_SIZE, &pdata->send_gpadl);
- 		if (ret) {
--			if (!pdata->send_gpadl.decrypted)
-+			if (!pdata->send_gpadl.leak &&
-+			    !pdata->send_gpadl.decrypted)
- 				vfree(pdata->send_buf);
- 			goto fail_close;
- 		}
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 9e109d91aa14..2878aed14c45 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -70,8 +70,7 @@
-  */
- enum hv_gpadl_type {
- 	HV_GPADL_BUFFER,
--	HV_GPADL_RING,
--	HV_GPADL_BUFFER_DECRYPTED
-+	HV_GPADL_RING
- };
- 
- /* Single-page buffer */
-@@ -782,6 +781,16 @@ struct vmbus_gpadl {
- 	u32 size;
- 	void *buffer;
- 	bool decrypted;
-+	bool leak;
++#include "hyperv_vmbus.h"
++
++static void vmbus_buffer_size_rounding_test(struct kunit *test)
++{
++	u32 rounded_size;
++
++	KUNIT_EXPECT_EQ(test, vmbus_buffer_round_size(1, &rounded_size), 0);
++	KUNIT_EXPECT_EQ(test, rounded_size, (u32)PAGE_SIZE);
++	KUNIT_EXPECT_EQ(test, vmbus_buffer_round_size(PAGE_SIZE, &rounded_size), 0);
++	KUNIT_EXPECT_EQ(test, rounded_size, (u32)PAGE_SIZE);
++}
++
++static void vmbus_buffer_size_overflow_test(struct kunit *test)
++{
++	u32 rounded_size = 0;
++	int ret;
++
++	KUNIT_EXPECT_EQ(test, vmbus_buffer_round_size(0, &rounded_size), -EINVAL);
++	ret = vmbus_buffer_round_size(U32_MAX, &rounded_size);
++	KUNIT_EXPECT_EQ(test, ret, -EOVERFLOW);
++	ret = vmbus_buffer_round_size(U32_MAX - PAGE_SIZE + 1, &rounded_size);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	KUNIT_EXPECT_EQ(test, rounded_size,
++			(u32)(U32_MAX - PAGE_SIZE + 1));
++}
++
++static void vmbus_ring_fallback_order_zero_test(struct kunit *test)
++{
++	unsigned int order;
++
++	order = vmbus_buffer_order(1UL << MAX_PAGE_ORDER, MAX_PAGE_ORDER);
++	KUNIT_EXPECT_EQ(test, order, (unsigned int)MAX_PAGE_ORDER);
++	while (order)
++		KUNIT_ASSERT_TRUE(test, vmbus_buffer_lower_order(&order));
++	KUNIT_EXPECT_FALSE(test, vmbus_buffer_lower_order(&order));
++	KUNIT_EXPECT_EQ(test, order, 0U);
++	KUNIT_EXPECT_EQ(test, vmbus_buffer_order(3, MAX_PAGE_ORDER), 1U);
++}
++
++static void vmbus_buffer_failed_teardown_leaks_test(struct kunit *test)
++{
++	struct vmbus_buffer buffer = {
++		.addr = (void *)1,
++		.gpadl.gpadl_handle = 1,
++	};
++
++	KUNIT_EXPECT_FALSE(test, vmbus_buffer_should_free(&buffer));
++	buffer.gpadl.gpadl_handle = 0;
++	buffer.gpadl.leak = true;
++	KUNIT_EXPECT_FALSE(test, vmbus_buffer_should_free(&buffer));
++	buffer.gpadl.leak = false;
++	buffer.leak = true;
++	KUNIT_EXPECT_FALSE(test, vmbus_buffer_should_free(&buffer));
++	buffer.leak = false;
++	KUNIT_EXPECT_TRUE(test, vmbus_buffer_should_free(&buffer));
++}
++
++static void vmbus_buffer_partial_allocation_cleanup_test(struct kunit *test)
++{
++	struct page **chunks;
++	struct vmbus_buffer buffer = {};
++
++	chunks = kmalloc_obj(*chunks, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, chunks);
++	vmbus_free_buffer(NULL, chunks, 0);
++
++	buffer.addr = vzalloc(PAGE_SIZE);
++	KUNIT_ASSERT_NOT_NULL(test, buffer.addr);
++	vmbus_release_buffer(&buffer);
++	KUNIT_EXPECT_PTR_EQ(test, buffer.addr, NULL);
++	vmbus_release_buffer(&buffer);
++}
++
++static struct kunit_case vmbus_buffer_test_cases[] = {
++	KUNIT_CASE(vmbus_buffer_size_rounding_test),
++	KUNIT_CASE(vmbus_buffer_size_overflow_test),
++	KUNIT_CASE(vmbus_ring_fallback_order_zero_test),
++	KUNIT_CASE(vmbus_buffer_failed_teardown_leaks_test),
++	KUNIT_CASE(vmbus_buffer_partial_allocation_cleanup_test),
++	{}
 +};
 +
-+struct vmbus_buffer {
-+	void *addr;
-+	struct page **chunks;
-+	struct page **pages;
-+	u32 chunk_cnt;
-+	struct vmbus_gpadl gpadl;
-+	bool leak;
- };
- 
- struct vmbus_channel {
-@@ -803,10 +812,8 @@ struct vmbus_channel {
- 	bool rescind_ref; /* got rescind msg, got channel reference */
- 	struct completion rescind_event;
- 
--	struct vmbus_gpadl ringbuffer_gpadlhandle;
--
- 	/* Allocated memory for ring buffer */
--	struct page *ringbuffer_page;
-+	struct vmbus_buffer ringbuffer;
- 	u32 ringbuffer_pagecount;
- 	u32 ringbuffer_send_offset;
- 	struct hv_ring_buffer_info outbound;	/* send to parent */
-@@ -1219,6 +1226,7 @@ extern void *vmbus_alloc_buffer(struct vmbus_channel *channel,
- 				u32 *chunk_cnt_out);
- 
- extern void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt);
-+void vmbus_release_buffer(struct vmbus_buffer *buffer);
- 
- void vmbus_reset_channel_cb(struct vmbus_channel *channel);
- 
++static struct kunit_suite vmbus_buffer_test_suite = {
++	.name = "hyperv-vmbus-buffer",
++	.test_cases = vmbus_buffer_test_cases,
++};
++
++kunit_test_suite(vmbus_buffer_test_suite);
 -- 
 2.43.0
 
