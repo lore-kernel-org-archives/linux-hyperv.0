@@ -1,65 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB82B44C65C;
-	Thu,  8 Oct 2026 21:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEF3444236C;
+	Thu,  8 Oct 2026 21:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791494317; cv=none; b=gYl0a2YqqHwUXkehXzQAbf74bfpmwim9uveWSJc7SKcNcn84KvLDJDt8VOjjcn3dzKAKMnv+mR91l7BoFCCbnLAPVKrMyDZh24R9q7gIeEx86zMPPjPreg41wVQvFUx340DrbHcQSxQiuumdHNRNa/pVtfyp5lJ1sdJJFvVfvUM=
+	t=1791494623; cv=none; b=pb9jUr7cH1Z/kuvSnxCbJmD612mRzKsljziCEPV5sq2qXcfQGzfXGbrM2i7YljD4iTIiebrCoGeGN2SDaC4x0+ewZCdcIPVOvghPTVNdRffUbk05VMD57oxZlpvhHuJ2ZZyq2GtQcmTfic50jh2t4HAS3ymdWI2e2KBUqlZWzow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791494317; c=relaxed/simple;
-	bh=O0xRsH1+GO6yWhQ5iXZ2vAKeNw+97F5kBSTCSn41Z/k=;
+	s=arc-20240116; t=1791494623; c=relaxed/simple;
+	bh=ptUqKgOgpbLaT8nxgI2JlGP+jUe+nInzMl0MYK4VVwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QtICxEIiETJq+w+B2Z3oP1FDXQcKM+RblJrt1QOcJG8OdaEsh+76Wh+qx66x5p5L9jNU6PFvhC39xX7Qewjl1TuVROsq9ESYf8dfywASwnEvlcRFf3RjQdCUlL9NDLe2VaQFqfm9G2mOCTmkUyQJbgU+KPf3/SFmzba/dEse6xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBVpopMu; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bUoA2OY+y1xZ3tzOpu2i+TcGWfkpIv96dE7Y34b3ix288vb87PFCCzwqwBzx5u89efZ75tAcRmYr9/wPM6oINop6igU84A8yLVRGgrMb8OkLaOquf0sfRONlsc3XJA4Onq2RnH5KJx1f+cQMaQU0WgkzWFImjGQy66OPiFqxRqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mkhhYmb3; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBVpopMu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791494312; x=1823030312;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O0xRsH1+GO6yWhQ5iXZ2vAKeNw+97F5kBSTCSn41Z/k=;
-  b=FBVpopMugj6wK50YlmOjPaEHaXWPgfFsqTrBx8fGkqxdOsAIRL7p/e6F
-   7IrzqItzDLESgH9jfNs2x/vTURLNLYFeT/+CY4uzMRovEtCvwWvzcvkBC
-   slvlLgyOxWMPS4qL+c6IzH9sM66nBfUOj4SvBPwajRiUNtbrEQmzEjPg8
-   WTdWqlNWhotPSZT6IwUSXf3ffQ59HGyGlnlxuYaDI6YRf+q9XIlXlMw88
-   xiwKMZ00nlH2tjyFlamK8CrC1bJud4tz0z3ZSIRSGzXYV9wJzLoCumOus
-   l9TDTRlNUxqnRu+3UT45ph/5z/yb9gJrfRKFuVTF+YoUqgw1feQg22qKG
-   Q==;
-X-CSE-ConnectionGUID: tG5cIJLqQYKyuOpJs4VdoA==
-X-CSE-MsgGUID: hywWNRGWS6y2lGDXFIz0pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="400590"
-X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="400590"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 14:18:32 -0700
-X-CSE-ConnectionGUID: 4Of94Tx2QvWMINYkF7txHw==
-X-CSE-MsgGUID: rN9904TAR1SK1l6dJmhGMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="144384"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Oct 2026 14:18:27 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xEvVQ-000000004tk-1vnJ;
-	Thu, 08 Oct 2026 21:18:24 +0000
-Date: Fri, 9 Oct 2026 05:17:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emerson Busson <emersonbusson@gmail.com>, mhklinux@outlook.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 02/14] hv: vmbus: validate chunk buffer allocation and
- cleanup
-Message-ID: <202610090551.ezkWePE5-lkp@intel.com>
-References: <20261007190752.336426-3-emersonbusson@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mkhhYmb3"
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id 6CA2F20B7166; Thu,  8 Oct 2026 14:22:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6CA2F20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791494563;
+	bh=cI0qlX8zziuWUO0srn3a5Nreq74pAkWgwV5PCjNaBmM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mkhhYmb3BcX+EJoXp1gMjoFBRbEcd0TavEMBoizpbujeytA7aadjBV9cSeeB0Fxcc
+	 PnUqcDew+LILnMJ1BZEar2VYZcAuYDh0hUcYdrix+SdZg1T0KZsPVcJIwTvnKBSqQz
+	 JqhKG28E4mmUn/Ob3VKyPNPfiQMP20CLAFiKQhLs=
+Date: Thu, 8 Oct 2026 14:22:43 -0700
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Dexuan Cui <DECUI@microsoft.com>,
+	"longli@microsoft.com" <longli@microsoft.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"hawk@kernel.org" <hawk@kernel.org>,
+	"andriin@fb.com" <andriin@fb.com>,
+	Saurabh Singh Sengar <ssengar@microsoft.com>
+Subject: Re: [EXTERNAL] [PATCH net-next 0/5] hv_netvsc: make XDP propagation
+ act more like bonding
+Message-ID: <asgJo+PasN8D+C/p@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261001014131.310771-1-kuba@kernel.org>
+ <LV5PR21MB4704E9960B2B82028F2FB51DCA892@LV5PR21MB4704.namprd21.prod.outlook.com>
+ <5636487a-31c7-43fb-8b27-a6a98b15200f@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -68,42 +56,79 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261007190752.336426-3-emersonbusson@gmail.com>
+In-Reply-To: <5636487a-31c7-43fb-8b27-a6a98b15200f@linux.microsoft.com>
 
-Hi Emerson,
+On Tue, Oct 06, 2026 at 01:59:05PM -0700, Kameron Carr wrote:
+> On 10/2/2026 12:38 PM, Haiyang Zhang wrote:
+> > 
+> > Thank you for making this patch set, looks good to me.
+> > I will find a teammate to test it.
+> > 
+> > - Haiyang
+> 
+> I ran LISA functional tests (T4) in Azure, including XDP related tests
+> [1], on the patch set based on v7.3-rc6.
+> 
+> I did not see any regressions in my testing, but my testing did not
+> cover:
+> 
+>   * Hibernation scenarios
+>   * Kdump tests (not super relevant but worth a note)
+>   * Performance (XDP or otherwise)
+>   * Scenarios trying to repro issues found in the patches
+> 
+Hi Kameron, Jakub,
 
-kernel test robot noticed the following build errors:
+I tested all five patches applied together on net-next base
+8b4e7209c842, with additional targeted lifecycle/error-path
+coverage on Azure MANA and mlx5 VFs.
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v7.3-rc6 next-20261008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Passing coverage includes:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Emerson-Busson/hv-vmbus-convert-ring-backing-through-the-chunk-allocator/20261007-160739
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20261007190752.336426-3-emersonbusson%40gmail.com
-patch subject: [PATCH v2 02/14] hv: vmbus: validate chunk buffer allocation and cleanup
-config: i386-randconfig-1005-20261008 (https://download.01.org/0day-ci/archive/20261009/202610090551.ezkWePE5-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090551.ezkWePE5-lkp@intel.com/reproduce)
+* VF removal/rejoin: without reattaching the parent program, three
+  cycles preserved its program ID. Exact-five synthetic XDP drops
+  passed while the VF was absent, and propagation plus exact-five
+  live VF XDP drops passed after each rejoin.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610090551.ezkWePE5-lkp@intel.com/
+* Initial attachment refusal: a program intended for netvsc survived
+  five VF-induced attachment failures, then attached and propagated
+  successfully after restoring the VF MTU. It was reclaimed after
+  detach and pin removal.
 
-All errors (new ones prefixed by >>):
+* Concurrent replacement/hotplug: while cycling VF availability,
+  68 parent-program replacements between PASS and DROP succeeded
+  without command errors (38 with the VF present, 30 absent).
+  Final PASS/DROP packet checks and program reclamation passed.
 
->> ld.lld: error: undefined symbol: kunit_unary_assert_format
-   >>> referenced by vmbus_buffer_test.c:48 (drivers/hv/vmbus_buffer_test.c:48)
-   >>>               drivers/hv/vmbus_buffer_test.o:(vmbus_ring_fallback_order_zero_test) in archive vmlinux.a
-   >>> referenced by vmbus_buffer_test.c:49 (drivers/hv/vmbus_buffer_test.c:49)
-   >>>               drivers/hv/vmbus_buffer_test.o:(vmbus_ring_fallback_order_zero_test) in archive vmlinux.a
-   >>> referenced by vmbus_buffer_test.c:61 (drivers/hv/vmbus_buffer_test.c:61)
-   >>>               drivers/hv/vmbus_buffer_test.o:(vmbus_buffer_failed_teardown_leaks_test) in archive vmlinux.a
-   >>> referenced 3 more times
+* Deferred namespace rejoin: the parent retained the same XDP program;
+  the worker moved the VF into its namespace, rejoined it and restored
+  propagation, with packet-processing checks.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+* Synthetic-device removal: the old program was reclaimed, the
+  surviving VF accepted an independent program, and rebinding netvsc
+  restored association and connectivity.
+
+* Actual Azure hibernation/resume on mlx5 passed with the VF present
+  and with it absent. The parent program and counter-map state survived
+  without reattachment; post-resume packet checks passed, including
+  propagation to the returning VF in the VF-present case.
+
+* Incompatible arriving VF on mlx5: a VF-only MTU of 9000 caused
+  propagation refusal. Netvsc kept the VF unjoined and its existing
+  XDP program active on the synthetic path. Restoring the VF MTU and
+  re-registering it allowed join, propagation and VF packet processing;
+  final reclamation and cleanup passed.
+
+* Join-failure rollback on mlx5: a bridge-induced -EBUSY after
+  successful propagation detached XDP from the unjoined VF while
+  preserving the parent's program and synthetic-path processing.
+  Removing the conflict allowed rejoin, propagation and VF packet
+  processing.
+
+I am continuing investigation of synthetic fallback with an
+independently programmed MANA VF and rejected-replacement restoration.
+
+Regards,
+Vennela
+
+Tested-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
