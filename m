@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC27836A34F
-	for <linux-hyperv@vger.kernel.org>; Thu,  8 Oct 2026 19:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB553644C4
+	for <linux-hyperv@vger.kernel.org>; Thu,  8 Oct 2026 19:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791486575; cv=none; b=W2OElEiDwHpxrJzlyMy78KqYlnWePR+vr8XwYQCI4fEsK/36tozJUXnitaXmoKH6+TWtjx0RFl8YA1lr4+ZXLr8JCYPS9ApIE43QdB6cwmwTXJ6vy4sskSajTKF05bSbnGYdBWY9GgLzAG0/Rp79gEJBWMk+260u9rdHw3CvNtk=
+	t=1791486576; cv=none; b=UXfoDZRCfjenzec5ZOU67zoIS/eOY2oNtX2vLdgXvrAw4UDl69NZywauVOZQM89uR5Q1nqbWSOYddpWJo63JlKyEw4n3s0qdYCY8LouPQo8FmPNf1O3sW2MKcrxbIp8ZZTMOdy/x2VFKuRhRdxnwwonRXH+v35quFtAyQsNGMk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791486575; c=relaxed/simple;
-	bh=2N6eSbzDxLAKel/MxKmlz7KTgCe3f8Y1d4WU2nj1U9Y=;
+	s=arc-20240116; t=1791486576; c=relaxed/simple;
+	bh=5E5mXuPlH5bwYUMsZ3gtwsa99obJvLOv06QeoRzbS9g=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=FNB9FmWhyeL5n1AKpo6gpJslwyVGibt2GxAkhJJTmG5DaucdjZ82+7aAyCj2lLFdQFm6uo4V91DvPiI/cq+pnTJvelaFIUOivebfXA01ItoyQEakQkTcN2FpIQFvsiOvaHQhxRhMqTHmkUU0YHjDbKW9pzWqSaXDr8tyN9FRpEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjmkHNIi; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=FiNAJnqajIAR2vFyKi9aD4z14oz0KroLWMmQ5NypU69n0QsKCqnwZ8Afz7DUMaKp5VRmwX4aU87IQeN7bBP0TSk37b/Bj4f3QxT6MUAZBxxmD1LPad6AtkA4DjRYIhu7z1t4vWS3+rgwhV6gyVL85FxnwUXHvXHzDIEhyEtCJLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YF08+keD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjmkHNIi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B05C1F000FF;
-	Thu,  8 Oct 2026 19:09:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YF08+keD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D611F00893;
+	Thu,  8 Oct 2026 19:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791486574;
-	bh=yXhuxRd8xwrFdY2h2Zmrx3L918Phc18u2MUlHJs4eMY=;
+	s=k20260515; t=1791486575;
+	bh=JjIUQgphjOMlDjN7rZ4smrrq13/3qhLq4+bh+9YRBKc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NjmkHNIizxzeb2JYiF1tYKpclZta5k95sv82iiwIHNNTl7iDLzLYsSGLkH2VNWidR
-	 Cdhncsrq1DvvVYQ57PeFJInTkT+amTP88q6M6y9BWxsZqbeK8Z77RG/g1NakQ+6SNb
-	 C0jSHzc/uTyxDjkCcWn2gUJYd5Tpk53EVMO1QOBVImgir7qY8KgVWeVkNJt2rE8Zrd
-	 sejWrOaq/+RnmdjYRTEMutVCxuQMoET/gtydZh8eyEipC2rKlYndM37qgQhlNdEqoU
-	 ISWMIHf066vrMigWuZtLaDCh7jniZuS8Vf4Bqf0m2NyGMcC7cQIqnLMb0S4iWjcVrS
-	 5hpfWDmX9CarQ==
-Message-ID: <sashiko-outbox-164493@kernel.org>
+	b=YF08+keD1x4+m1IYClCsirTlWx4D+1PlMtSr+G+7HAecQ777l2qNRw7QqcgTe7Gpz
+	 +PS3v0Ww4gSZ1CPR1LvCHN8JbPYR+jyjGKuuS1qBVMYhvVUplAQypuHWjOAsTXlV0y
+	 tIHEJPmZ6/g7M6dsOXbWK9P14qDukuP0htEnLys1S3aQfR02Bs+mQLNX5ILtyExPl9
+	 7hbsMTJm8F424oOU5MABdMt05eVCAtl4YpyJJEogSq3m+fWTPaw1I217BCijngD58q
+	 v5mM4IeDut37xOczMamuiqSjBcqmZZPgP6qGhGJhM9mhYM+YB0WK8+TLTbq85dYTN1
+	 qPFMIjlK9wk6w==
+Message-ID: <sashiko-outbox-164495@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 09/14] hv: use owned VMBus buffers in NetVSC and UIO
+Subject: Re: [PATCH v2 11/14] hv: vmbus: vmalloc requestor metadata
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Emerson Busson" <emersonbusson@gmail.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261007190752.336426-10-emersonbusson@gmail.com>
+In-Reply-To: <20261007190752.336426-12-emersonbusson@gmail.com>
 References: <20261007190752.336426-1-emersonbusson@gmail.com>
- <20261007190752.336426-10-emersonbusson@gmail.com>
+ <20261007190752.336426-12-emersonbusson@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Oct 2026 19:09:33 +0000
+Date: Thu, 08 Oct 2026 19:09:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,106 +46,61 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] hv_netvsc: host bugcheck DoS due to GPADL teardown after failed re=
-voke
+- [Low] hv: memory leak in vmbus KUnit tests on KUNIT_ASSERT_EQ failure
 --
 
-commit 418182ccc1e62bfbe8d59179d5fb1baf3aaa6d53
+commit 691cb947fd6eb3bbd5abcb1f0c1c8a97f9b7e21e
 Author: Emerson Busson <emersonbusson@gmail.com>
 
-    hv: use owned VMBus buffers in NetVSC and UIO
+hv: vmbus: vmalloc requestor metadata
 
-Move the remaining buffer consumers to the allocation, GPADL and release
-entry points that carry one descriptor throughout their lifetime. Preserve
-established exported signatures throughout the series.
+This commit changes the channel open requestor array and bitmap allocations
+from kvcalloc and bitmap_zalloc to vzalloc to avoid high-order allocations
+under memory fragmentation, and adds KUnit tests for these structures.
 
-> diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-> index ffba1443396ab..fd8aa7a3dcb32 100644
-> --- a/drivers/net/hyperv/netvsc.c
-> +++ b/drivers/net/hyperv/netvsc.c
-> @@ -243,7 +243,6 @@ static void netvsc_revoke_recv_buf(struct hv_device *=
-device,
->  		if (ret !=3D 0) {
->  			netdev_err(ndev, "unable to send "
->  				"revoke receive buffer to netvsp\n");
-> -			net_device->recv_buffer.leak =3D true;
->  			return;
->  		}
->  		net_device->recv_section_cnt =3D 0;
-> @@ -295,7 +294,6 @@ static void netvsc_revoke_send_buf(struct hv_device *=
-device,
->  		if (ret !=3D 0) {
->  			netdev_err(ndev, "unable to send "
->  				   "revoke send buffer to netvsp\n");
-> -			net_device->send_buffer.leak =3D true;
->  			return;
->  		}
->  		net_device->send_section_cnt =3D 0;
-> @@ -308,18 +306,14 @@ static void netvsc_teardown_recv_gpadl(struct hv_de=
-vice *device,
->  {
->  	int ret;
-> =20
-> -	if (net_device->recv_buffer.leak)
-> -		return;
-> -
->  	if (net_device->recv_buffer.gpadl.gpadl_handle) {
-> -		ret =3D vmbus_teardown_gpadl(device->channel,
-> -					   &net_device->recv_buffer.gpadl);
-> +		ret =3D vmbus_teardown_gpadl_owned(device->channel,
-> +						 &net_device->recv_buffer);
+> diff --git a/drivers/hv/vmbus_buffer_test.c b/drivers/hv/vmbus_buffer_tes=
+t.c
+> index 5c8e70d861adb..d0102dabef737 100644
+> --- a/drivers/hv/vmbus_buffer_test.c
+> +++ b/drivers/hv/vmbus_buffer_test.c
+[ ... ]
+> +static void vmbus_requestor_invalid_ids_test(struct kunit *test)
+> +{
+> +	struct vmbus_channel channel =3D { .rqstor_size =3D 4 };
+> +	struct vmbus_requestor *rqstor =3D &channel.requestor;
+> +	u64 id, addr;
+> +
+> +	KUNIT_ASSERT_EQ(test, vmbus_alloc_requestor(rqstor, 4), 0);
+> +
+> +	/* ID 0 is the unsolicited-message sentinel and is never in the set. */
+> +	KUNIT_EXPECT_EQ(test, vmbus_request_addr_match(&channel, 0, 0),
+> +			VMBUS_RQST_ERROR);
+> +
+> +	/* Out-of-range IDs are refused, not wrapped. */
+> +	KUNIT_EXPECT_EQ(test, vmbus_request_addr_match(&channel, 5, 0),
+> +			VMBUS_RQST_ERROR);
+> +	KUNIT_EXPECT_EQ(test, vmbus_request_addr_match(&channel, U64_MAX, 0),
+> +			VMBUS_RQST_ERROR);
+> +
+> +	id =3D vmbus_next_request_id(&channel, 0xABCD);
+> +	KUNIT_ASSERT_EQ(test, id, 1U);
 
-[Severity: High]
-With the removal of the leak check here and the manual assignment in
-netvsc_revoke_recv_buf(), is there a risk of a host bugcheck if the
-protocol-level revoke message fails?
+[Severity: Low]
+Does this abort the test and skip the cleanup on failure?
 
-If vmbus_sendpacket() returns an error (like -EAGAIN from a full ring) in
-netvsc_revoke_recv_buf(), the NetVSP layer won't receive the revoke message
-and might still actively map the GPADL. Unconditionally sending a VMBus GPA=
-DL
-teardown request in this scenario violates the protocol invariant. Could
-this lead to a Denial of Service via a host bugcheck or guest termination?
+In vmbus_requestor_invalid_ids_test(), vmbus_alloc_requestor() is called=20
+earlier to allocate the vmalloc-backed metadata arrays. If this=20
+KUNIT_ASSERT_EQ() fails, KUnit immediately aborts the execution of the test=
+=20
+function.
 
-> =20
->  		/* If we failed here, we might as well return and have a leak
->  		 * rather than continue and a bugchk
->  		 */
->  		if (ret !=3D 0) {
-> -			net_device->recv_buffer.leak =3D true;
->  			netdev_err(ndev,
->  				   "unable to teardown receive buffer's gpadl\n");
->  			return;
-> @@ -333,18 +327,14 @@ static void netvsc_teardown_send_gpadl(struct hv_de=
-vice *device,
->  {
->  	int ret;
-> =20
-> -	if (net_device->send_buffer.leak)
-> -		return;
-> -
->  	if (net_device->send_buffer.gpadl.gpadl_handle) {
-> -		ret =3D vmbus_teardown_gpadl(device->channel,
-> -					   &net_device->send_buffer.gpadl);
-> +		ret =3D vmbus_teardown_gpadl_owned(device->channel,
-> +						 &net_device->send_buffer);
+This would skip the manual cleanup call to vmbus_free_requestor() at the=20
+end of the function, resulting in a memory leak of the requestor arrays.
 
-[Severity: High]
-Similarly for the send buffer, does removing the leak check and flag tracki=
-ng
-in netvsc_revoke_send_buf() expose the host to the same bugcheck risk if
-the revoke message fails to send?
-
-> =20
->  		/* If we failed here, we might as well return and have a leak
->  		 * rather than continue and a bugchk
->  		 */
->  		if (ret !=3D 0) {
-> -			net_device->send_buffer.leak =3D true;
->  			netdev_err(ndev,
->  				   "unable to teardown send buffer's gpadl\n");
->  			return;
+Could this be changed to use KUNIT_EXPECT_EQ(), which reports the failure=20
+but continues execution, or could a deferred cleanup action be registered=20
+with KUnit?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261007190752.3364=
-26-1-emersonbusson@gmail.com?part=3D9
+26-1-emersonbusson@gmail.com?part=3D11
