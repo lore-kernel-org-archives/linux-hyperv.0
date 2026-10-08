@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52236A34F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9293395276
 	for <linux-hyperv@vger.kernel.org>; Thu,  8 Oct 2026 19:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791486579; cv=none; b=SS82h0oHmhzatkgRfCdJCQORUahzsOu1KI53HhNsbd0JQG7rbZZ2791WMKRVALLJUa+oVpVP4UlZA1BNvfhiCuYytS+PiLLtVFhJDHqhjBzYHbfo7oY24E+ia4jE6AXLA/L/XI5sp3wEOSdbTUot4Q/QFHTR+s7T860uvqSJCsA=
+	t=1791486579; cv=none; b=ZAgbefop4jE5vJWlgu0gIR4ivGSZOKMQMAYBYUBZqmbMTZYHT3868nAnEp3bUugRQv7ALI6bFIentM75qFsZHgRsNXuZwWKBdlb3JcamJ5qyWFVkmJw5QcyLR2dhzllqpkBx5OsCQiewxucbn2pUUSJ3gczOkw7hlNA64+u7+Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791486579; c=relaxed/simple;
-	bh=WYkdUN+AIlCj6gdNGKdc5juDgyb95GJPfZ8HVfUCeaQ=;
+	bh=7r9QJlR6bMx8Q4e7HCEBqkbv4vgj8ZE0+SBwfkoI1zQ=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=l+5nX3Za8FEcgRq0rNobuvuy+YfG8M/Zd8VP3AIJxoGoWD1+B/dfNU9UCdvMOsUJ+yDV/9dQXRF/2DSA4NLoJRZJ2XpCaL3le29u8PjIZstQWNkpFYuU1ddOKGu42SpAZPOIbpz5VEzDImqEFmTDbUEpSq7vJ7/GE9Y+bSGNxGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KB0rObPR; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=PnVw23vvJZDomQ57NY//13iS1BB4oDGjbaTgAYPFJATgLz4Fuq3HrzLM8njFQTYXEzt70mgAB1tTnPaF6fJscua/NelEah6VEWTWYAMegPluGxhh6c8T45IYD/uRhhYaUGvHWehQG4SL4eLjpBipgcQC/grvq4AIksglMOlMlVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZuIOO/E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KB0rObPR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77391F000FF;
-	Thu,  8 Oct 2026 19:09:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZuIOO/E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7188A1F00898;
+	Thu,  8 Oct 2026 19:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791486577;
-	bh=2L3hg+R1qjuJgTPlUBb6LAh1p8dFAxAVlD8eCBKn63o=;
+	s=k20260515; t=1791486578;
+	bh=H85Z+EdVy6wb14oGyqROD7LG+10DjUDfmV1mNgSM/4w=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KB0rObPRAicXNEH4JcvKzXqtEY2XKSyTkh4SJCeQDvDtwGqliMCkusvwY0KSMdoIj
-	 51WRbD8LoTzD6KaMGoIP12B27dJYYrtpRJe+c9RjOQdEFs4ock930osCC847GxbCkZ
-	 AmRLttr0DqeT6DT69WQBw9lOHUUyNmnf3cMnl0k2und28/vsfaVCp67h7+P8sEkUEd
-	 JU644so7etPoe802aAi5LIMIQOR2t9XXBjjkD/gDxrF4Xy+5qHiSfsxIGQVBI/cmE1
-	 YmleRB3kU7434UHSXJIZbWGDrlY1KeXowg9bk8jgpaFPra2ct3kPY+clU39+rO0gvV
-	 a8JlALsTjCSZg==
-Message-ID: <sashiko-outbox-164501@kernel.org>
+	b=NZuIOO/EuyQZEU1BrR0/hFI5OoycGlLlgNiuun4VERp/d4pkxkWN12ZOGZEHkwAMN
+	 L+vGQejyiIJe1I7BK5jah4N1tW3rGllIIWl3E0bDIe5O+XJvowG+I3R2PlTaZGo36C
+	 N177Oq6/i0rVCFlFN9JSNvYaJo+8YWYTl21A6JZM8jxP0+Qk6fOzm8rSe6nfe5t4QM
+	 9f8aeU4iLWzx8gl9fbBSxO5Spdc/zjgisIRNIKYtzScDgJ/9+zd4ol5GL+BsKTMBSJ
+	 O55vTL3rut+wq9mt60XkCI+b7+JQSf6jpHpp5J5ZjWjsmNLyUUmDsyXrTR4OCsyFtK
+	 THZHH7RPeaodA==
+Message-ID: <sashiko-outbox-164502@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 10/14] hv: vmbus: pin buffer pages across UIO mmap to
- close the reclaim race
+Subject: Re: [PATCH v2 14/14] hv: netvsc: use kvzalloc for device state
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Emerson Busson" <emersonbusson@gmail.com>
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261007190752.336426-11-emersonbusson@gmail.com>
+In-Reply-To: <20261007190752.336426-15-emersonbusson@gmail.com>
 References: <20261007190752.336426-1-emersonbusson@gmail.com>
- <20261007190752.336426-11-emersonbusson@gmail.com>
+ <20261007190752.336426-15-emersonbusson@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Oct 2026 19:09:37 +0000
+Date: Thu, 08 Oct 2026 19:09:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,111 +46,52 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] hv: vmbus_buffer_pin_pages UAF race on subchannel ringbuffers
+- [Medium] netvsc: unconditional xdp_rxq_info_unreg() on uninitialized stru=
+cts triggers WARN
 --
 
-commit 69d0c6246e4ab3d36e972718b31a04ff08d2eee9
+commit 961e2b6c1ed96f0ba554ff4b714af09658ea0cc8
 Author: Emerson Busson <emersonbusson@gmail.com>
-Subject: hv: vmbus: pin buffer pages across UIO mmap to close the reclaim r=
-ace
 
-This commit pins buffer pages across UIO mmap to prevent a race condition=20
-with the reclaim worker. It adds vmbus_buffer_pin_pages() and=20
-vmbus_buffer_unpin_pages() to safely take references on the pages. The sysf=
-s=20
-ring mmap wrapper is adjusted to handle the new pin lifecycle.
+hv: netvsc: use kvzalloc for device state
 
-> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-> index 7eb9ea814ef45..2793ca1b7f320 100644
-> --- a/drivers/hv/channel.c
-> +++ b/drivers/hv/channel.c
-[ ... ]
-> @@ -1145,6 +1145,98 @@ void vmbus_release_buffer(struct vmbus_buffer *buf=
-fer)
+This commit modifies alloc_net_device() to use kvzalloc_obj() instead of
+kzalloc_obj() for allocating the netvsc_device. It updates the cleanup path
+in __free_netvsc_device() to use kvfree() for releasing the memory, allowing
+allocations to safely fall back to vmalloc.
+
+> diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+> index 0d017f836b9eb..8ea7c993baac0 100644
+> --- a/drivers/net/hyperv/netvsc.c
+> +++ b/drivers/net/hyperv/netvsc.c
+> @@ -140,8 +140,8 @@ static void __free_netvsc_device(struct netvsc_device=
+ *nvdev)
+>  	for (i =3D 0; i < VRSS_CHANNEL_MAX; i++) {
+>  		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
+
+[Severity: Medium]
+Does this loop unconditionally call xdp_rxq_info_unreg() on uninitialized
+structs during error cleanup, triggering a warning splat?
+
+If channel setup fails after alloc_net_device() zero-initializes the device,
+__free_netvsc_device() loops over all channels and calls xdp_rxq_info_unreg=
+().
+
+Because the uninitialized structs have a state of REG_STATE_NEW (0), passing
+them to xdp_rxq_info_unreg() bypasses the registered state check and trigge=
+rs
+the following warning in xdp_rxq_info_unreg_mem_model() in net/core/xdp.c:
+
+WARN(1, "Missing register, driver bug");
+
+>  		kfree(nvdev->chan_table[i].recv_buf);
+>  		vfree(nvdev->chan_table[i].mrc.slots);
+>  	}
+> =20
+> -	kfree(nvdev);
+> +	kvfree(nvdev);
 >  }
->  EXPORT_SYMBOL_GPL(vmbus_release_buffer);
-> =20
-> +/**
-> + * vmbus_buffer_pin_pages - snapshot a buffer's pages and hold references
-[ ... ]
-> +int vmbus_buffer_pin_pages(struct vmbus_buffer *buffer,
-> +			   struct vmbus_buffer_pin *pin)
-> +{
-> +	struct vmbus_buffer_retained *owner;
-> +	u32 i;
-> +
-> +	/*
-> +	 * The owner and page array are published and cleared under
-> +	 * vmbus_buffer_owners_lock (see vmbus_release_buffer()). Reading
-> +	 * either outside that lock lets a concurrent release free the array
-> +	 * while this loop still walks it.
-> +	 */
-> +	mutex_lock(&vmbus_buffer_owners_lock);
-
-[Severity: High]
-Does this code still have a use-after-free race for subchannel ringbuffers?
-
-In vmbus_release_buffer(), if buffer->owner is NULL, the buffer is freed=20
-and zeroed without acquiring vmbus_buffer_owners_lock. Subchannel=20
-ringbuffers do not have an owner, so their release bypasses this lock.
-
-If a concurrent mmap() is called on a subchannel's sysfs ring file during=20
-device removal, this function will acquire the lock and start walking=20
-buffer->pages while vmbus_release_buffer() concurrently zeroes and frees=20
-it without the lock, causing a crash.
-
-> +	owner =3D buffer->owner;
-> +	if (!buffer->pages || !buffer->page_cnt) {
-> +		mutex_unlock(&vmbus_buffer_owners_lock);
-> +		return -ENODEV;
-> +	}
-[ ... ]
-> diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-> index b40e80e19c6c6..91cb25d019be9 100644
-> --- a/drivers/uio/uio_hv_generic.c
-> +++ b/drivers/uio/uio_hv_generic.c
-[ ... ]
-> @@ -372,12 +637,20 @@ static void
->  hv_uio_remove(struct hv_device *dev)
->  {
->  	struct hv_uio_private_data *pdata =3D hv_get_drvdata(dev);
-> +	int ret;
-> =20
->  	if (!pdata)
->  		return;
-> =20
->  	hv_remove_ring_sysfs(dev->channel);
-
-[Severity: High]
-Does this code leave subchannel sysfs files active and mapped?
-
-hv_remove_ring_sysfs() is only called on the primary channel, which leaves=
-=20
-any subchannel ring sysfs files active.=20
-
-> +	/* Keep event notification alive until channel callbacks are stopped. */
-> +	get_device(&pdata->info.uio_dev->dev);
->  	uio_unregister_device(&pdata->info);
-> +	/* unregister prevents the eventual fd close from calling .release. */
-> +	ret =3D hv_uio_disconnect_if_open(dev->channel, vmbus_disconnect_ring);
-
-vmbus_disconnect_ring() iterates over the subchannels and frees their=20
-ringbuffers directly. Because the subchannel sysfs ring files are still=20
-active, userspace can call mmap() concurrently on them. This triggers the=20
-lockless vmbus_release_buffer() vs vmbus_buffer_pin_pages() race described=
-=20
-above.
-
-Could hv_remove_ring_sysfs() be invoked on all subchannels before their=20
-ringbuffers are freed?
-
-> +	if (ret)
-> +		dev_err(&dev->device, "channel disconnect failed: %d\n", ret);
-> +	put_device(&pdata->info.uio_dev->dev);
->  	hv_uio_cleanup(dev, pdata);
-> =20
->  	vmbus_free_ring(dev->channel);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261007190752.3364=
-26-1-emersonbusson@gmail.com?part=3D10
+26-1-emersonbusson@gmail.com?part=3D14
