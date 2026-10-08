@@ -1,147 +1,140 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A35F4ACC93;
-	Thu,  8 Oct 2026 15:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F189D3ADBAC;
+	Thu,  8 Oct 2026 16:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791473094; cv=none; b=js3RLwWEeHoG1T7Iimekvr0zwIoUSvtiJcnU8bXatidDqOp/Y/eDM8rJ4Qz8R19MQ5aEKs1ktraW5t4RWNFSRBkvx626GuRNauNoE0ix67m7Lep6xczzEqANaoCrQ6oK8g8GFk6TbZxD63NY+SseEo6RpM3KzNpVviV/wB0tdTY=
+	t=1791478202; cv=none; b=JbxahD0c2Q6k0F2hqi2Oi2vtfktVQFllasgaeD8zFUyBEPOoxP8cgyB7iqJjRRDetdzTWQ0eFd/nj5PH2FgBP6Y3HT2Eo71LpDcz3KXg5e5xOrZmhex1DZBpf2e8GPJnlt0dWoMr6vDQ2piPfUPAa7jMjhfXmwt1fqJhG0UFs4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791473094; c=relaxed/simple;
-	bh=FUPMSkx953zcMOD6YfhawZkPGLVfzGd1LnQyAeM8RZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tgKP7a1uA7PcpaFnuIqiSJiq9T9dW8Ib337ilDVylxKGkPGA4yBEx1MZJtfkO4OQWVfzwgBx+WClIyrrOR3SkgB13Nq85QAZFxxGBaUm+vVjKRmpnlXeweamiqGF1Ul3iuYJdrGoPdudEZNwvvEpSYBS9r4Akan0jl7jzXyBPo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YOD6sPN6; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1791478202; c=relaxed/simple;
+	bh=wEpyQLioBMW4Ub+2PydT+0oLGLWVpaDngxSSXhXf2Oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WCxn66B0wgk6nnvZ9cChHuUBKccpb9b4D29Z7o2AZToxMO9WyDAqgzvNRmhN0TKnBKqtH2IVW+ikXW1kKWhu7ZRppYihL5kfeSxqqFEJALXU4QGBQ5weva+fziEZUNaOtD5mtYBz+aMEJH5lXpdfbfICYipLQ87+0wp2mw3MAVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JROKLuid; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YOD6sPN6"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 54A6F20B7166; Thu,  8 Oct 2026 08:23:53 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 54A6F20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791473033;
-	bh=GuE3fBNvvw/lypqoRPqiOAe7SHRjcBYe8FTnpFTNPYo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YOD6sPN6vrbVDjuMEyTeEeoL51dY4H5SOIjNsZR4p+OwnxywEzwptmwArbV+mJcMq
-	 SGpZ3ZMym7pzaU4dTXAxYqI+7gF5vWJ92cst1bc5pi+pBsNUEoCDXufwJLP1X9Qal9
-	 CJGowG8eco7rP5MIpqyiESHxqmcS7PRq0xw15XXk=
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: netdev@vger.kernel.org
-Cc: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Subject: [PATCH net-next] net: mana: add BQL support
-Date: Thu,  8 Oct 2026 11:23:02 -0400
-Message-ID: <20261008152302.3192778-1-hamzamahfooz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JROKLuid"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791478199; x=1823014199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wEpyQLioBMW4Ub+2PydT+0oLGLWVpaDngxSSXhXf2Oc=;
+  b=JROKLuidzgMny1H58WWMd6WB307kGWVM+my20yXrnKReLgz5athyAp/S
+   dWfhFE6uQPAgbrptVL/1+/QFn0gz4nZyi6SsXtZsONWVPB8dm3fALMEzD
+   Y4uTSJsHNEThySyDmU8TDm3ZlEDR1XqNLtFrkEMwt0xDgFJO0V1UXH0eu
+   b6FvRpk1D7ZCG8pmykGSMH8yG2iazgFmbdTYBZQrDiBNNrObOSgFTN26f
+   5Yv1ACO00hZtqgin7OzWBJRnbXycyAXun6fr3QWPjkZCtnQpj4AwEcLxb
+   +fZqOlFkufKBH9SEvf8oXq7sBb6CUMx5M3ZiJkuES/MZfI92kzh5UJbhe
+   Q==;
+X-CSE-ConnectionGUID: 4zunkUHjQUClrVJgvlvTKg==
+X-CSE-MsgGUID: mbYk6qzlROSWadx0qswPsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="267531"
+X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
+   d="scan'208";a="267531"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 09:49:58 -0700
+X-CSE-ConnectionGUID: yh4TIP33S8yrX2oYUrn73w==
+X-CSE-MsgGUID: 3VsiRZ6DRRSEr/VEVIds9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
+   d="scan'208";a="426295"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Oct 2026 09:49:55 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xErJX-000000004fS-0kVy;
+	Thu, 08 Oct 2026 16:49:51 +0000
+Date: Fri, 9 Oct 2026 00:49:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Emerson Busson <emersonbusson@gmail.com>, mhklinux@outlook.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 10/14] hv: vmbus: pin buffer pages across UIO mmap to
+ close the reclaim race
+Message-ID: <202610090058.hvXsWpoT-lkp@intel.com>
+References: <20261007190752.336426-11-emersonbusson@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007190752.336426-11-emersonbusson@gmail.com>
 
-MANA doesn't support byte queue limits, so each TX queue can hold 256
-WQEs by default, and up to 16384, of up to 64 KB TSO packets, before
-the qdisc layer sees any backpressure. This adds latency to all the
-flows sharing a queue, and defeats AQM qdiscs such as fq_codel, which
-rely on BQL to keep the driver queues short.
+Hi Emerson,
 
-Report the bytes queued and completed to BQL. XDP_TX and XDP_REDIRECT
-packets go through the same SQs, so they are accounted too. BQL doesn't
-drop or delay them, since the XDP paths send even when the queue is
-stopped; it only holds back the stack's packets.
+kernel test robot noticed the following build warnings:
 
-Reset the BQL state when destroying the queues, once their NAPI is
-disabled, since the SKBs still pending after a drain timeout are freed
-without being completed.
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v7.3-rc6 next-20261008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Lost TX completions can now stop a queue sooner: it also stops when the
-bytes in flight exceed the BQL limit, not only when the SQ is full. The
-TX watchdog covers the queues stopped by BQL, and its handler resets the
-queues along with their BQL state.
+url:    https://github.com/intel-lab-lkp/linux/commits/Emerson-Busson/hv-vmbus-convert-ring-backing-through-the-chunk-allocator/20261007-160739
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20261007190752.336426-11-emersonbusson%40gmail.com
+patch subject: [PATCH v2 10/14] hv: vmbus: pin buffer pages across UIO mmap to close the reclaim race
+config: i386-randconfig-1001-20261008 (https://download.01.org/0day-ci/archive/20261009/202610090058.hvXsWpoT-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090058.hvXsWpoT-lkp@intel.com/reproduce)
 
-Tested on two Standard_D16ds_v6 Azure VMs in a proximity placement
-group, where the throughput is capped at 10.6 Gbps, with the DUT
-alternately booting net-next (c1c1f0a31712) with and without this
-patch applied.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610090058.hvXsWpoT-lkp@intel.com/
 
-The throughput stays at the cap with 1, 8 and 64 TCP flows, and the
-idle TCP_RR latency doesn't change (p50 of 47 us with vs. without the
-patch). With 16 senders of 64-byte UDP packets, the DUT sends 3.7 to
-4.0 Mpps without the patch and 3.7 to 4.1 Mpps with it. With bulk TCP
-flows sharing the queues, the netperf TCP_RR latency drops (medians of
-6 runs):
+All warnings (new ones prefixed by >>):
 
-  16 queues, 64 flows: p50 4649 -> 2182 us, p99 5621 -> 2677 us
-  1 queue, 8 flows:    p50 2554 ->  418 us, p99 2723 ->  624 us
+   In file included from drivers/uio/uio_hv_generic.c:428:
+>> drivers/uio/uio_hv_generic_mmap_test.c:36:34: warning: implicit conversion from 'u64' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+      36 |                            hv_uio_mmap_range_valid(8, U64_MAX, 1));
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~    ^~~~~~~
+   include/linux/limits.h:25:19: note: expanded from macro 'U64_MAX'
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                          ^~~~~~~~~~
+   include/kunit/test.h:1014:31: note: expanded from macro 'KUNIT_EXPECT_FALSE'
+    1014 |         KUNIT_EXPECT_FALSE_MSG(test, condition, NULL)
+         |                                      ^~~~~~~~~
+   include/kunit/test.h:1019:7: note: expanded from macro 'KUNIT_EXPECT_FALSE_MSG'
+    1019 |                                   condition,                                   \
+         |                                   ^~~~~~~~~
+   include/kunit/test.h:812:10: note: expanded from macro 'KUNIT_FALSE_MSG_ASSERTION'
+     812 |                               condition,                                       \
+         |                               ^~~~~~~~~
+   include/kunit/test.h:788:16: note: expanded from macro 'KUNIT_UNARY_ASSERTION'
+     788 |         if (likely(!!(condition_) == !!expected_true_))                        \
+         |                       ^~~~~~~~~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   1 warning generated.
 
-The standing queue moves from the SQs to fq_codel, which now drops
-packets: about 2500 qdisc drops and 88K TCP retransmissions per 48 s
-run with 64 flows, against at most 29 retransmissions before. The
-retransmissions are about 0.2% of the segments sent. The TCP_RR flows
-lose no packets, and the packets of the bulk flows are dropped before
-they reach the wire, so the goodput changes by less than 0.01%.
 
-Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
----
- drivers/net/ethernet/microsoft/mana/mana_en.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+vim +36 drivers/uio/uio_hv_generic_mmap_test.c
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 2ba48a1c4b15..67048fe64d63 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -543,6 +543,11 @@ netdev_tx_t mana_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 	err = NETDEV_TX_OK;
- 	atomic_inc(&txq->pending_sends);
- 
-+	/* Account the skb in BQL before the doorbell lets the hardware
-+	 * complete it.
-+	 */
-+	netdev_tx_sent_queue(net_txq, len);
-+
- 	mana_gd_wq_ring_doorbell(gd->gdma_context, gdma_sq);
- 
- 	/* skb may be freed after mana_gd_post_work_request. Do not use it. */
-@@ -2009,10 +2014,12 @@ static void mana_poll_tx_cq(struct mana_cq *cq)
- 	gdma_wq = txq->gdma_sq;
- 	avail_space = mana_gd_wq_avail_space(gdma_wq);
- 
-+	net_txq = txq->net_txq;
-+	netdev_tx_completed_queue(net_txq, pkt_transmitted, tx_bytes);
-+
- 	/* Ensure tail updated before checking q stop */
- 	smp_mb();
- 
--	net_txq = txq->net_txq;
- 	txq_stopped = netif_tx_queue_stopped(net_txq);
- 
- 	/* Ensure checking txq_stopped before apc->port_is_up. */
-@@ -2665,6 +2672,13 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 			apc->tx_qp[i]->txq.napi_initialized = false;
- 		}
- 
-+		/* Forget the SKBs freed without being completed after a drain
-+		 * timeout, now that NAPI can't complete any. Doing it here also
-+		 * covers the queues that a lower channel count won't recreate,
-+		 * which could otherwise stay stopped.
-+		 */
-+		netdev_tx_reset_queue(apc->tx_qp[i]->txq.net_txq);
-+
- 		if (apc->tx_qp[i]->tx_object != INVALID_MANA_HANDLE)
- 			mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i]->tx_object);
- 
--- 
-2.56.0
+    27	
+    28	static void hv_uio_ring_mmap_range_test(struct kunit *test)
+    29	{
+    30		KUNIT_EXPECT_TRUE(test, hv_uio_mmap_range_valid(8, 0, 8));
+    31		KUNIT_EXPECT_TRUE(test, hv_uio_mmap_range_valid(8, 4, 4));
+    32		KUNIT_EXPECT_FALSE(test, hv_uio_mmap_range_valid(8, 8, 1));
+    33		KUNIT_EXPECT_FALSE(test, hv_uio_mmap_range_valid(8, 7, 2));
+    34		KUNIT_EXPECT_FALSE(test, hv_uio_mmap_range_valid(8, 0, 0));
+    35		KUNIT_EXPECT_FALSE(test,
+  > 36				   hv_uio_mmap_range_valid(8, U64_MAX, 1));
+    37	}
+    38	
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
