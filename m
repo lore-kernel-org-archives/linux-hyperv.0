@@ -1,265 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8EE357D12;
-	Fri,  9 Oct 2026 15:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3891F4EA38E;
+	Fri,  9 Oct 2026 15:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791559844; cv=none; b=Ju+kFsdvc5J0+Nqgutrrq7GV0IT6xi9zysYfliY1B949pvEv6bKVXYlftllwfeuIbZzv3rw87Qyl65gjVwCzJeX9ao1iki+akx6l1fW2am6oLhceKwqkidy1WMB8qDMhjjsjXq15djAAdsdIA3BJIzOk3pZlKe5E/Wkgsf26Brk=
+	t=1791560442; cv=none; b=tzN2ZU4TTyrBbSdNfNPlAhPB2W2sCnKlr0jplrWr/XuKlYOGf4BipHS+mLzP5P5jENU0CVtgw8ABnvDl+HtWrJbvgFsTz/APrzPC1gXx+849BeDuaEpZ4JMRXDTR9KDGyP2pbnbCrVTLiaSv3se4bvdSEcTxNyMJF3riYpTraO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791559844; c=relaxed/simple;
-	bh=eEJy9KhChJUFb+ZeUcA6hHLSY/lviOE0NI4PduGWKoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FY0cX4+J0pRupN4njup/hTmWF2AZ1wittRXldGylgmDDgSRkcI+GV4mdXYh9b8MZdxgMBpY3LfBFk4yrrL4/2M8Niww/R6mx4J6zHw7Xh8HX1eXVw78/H/5PbfwGfX4bOFW5ew9sjbIMIBgaUw+prRGH4fLLFAfcCe57dJgFQh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ICFtK/An; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791560442; c=relaxed/simple;
+	bh=5Vq6IrczwMUOvnUlXtS8IFHOzGnqSb2ysDfVsCAyk4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jkw5FtFX3PMsiGgMj5cMTIfNMYiarsvCjqs3hK4z8xFDhP/3gp10uKo7dZrHO9nt9uGh5SyNwRlRYywePYXMpjIiZIynMfcu4F/GMmOnUkXhbA3l5Tk4o4hGmGrEWujt44bmFVmqeeAXyWUJAmt4bIP22QCcGO7IYZoyWnlEm9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8ZUYKz1; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ICFtK/An"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A8421F000FF;
-	Fri,  9 Oct 2026 15:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791559842;
-	bh=SgWsZz5AlYvBRDKN8E6Dsq0TdSgrfowLNWfm0ObfdeI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ICFtK/An9+/0RXqBL51h3xD9xi/ggpTy+N2hPYKSQEHgCDT8e358TlEMxUm3dl7YB
-	 Dx/1IzD49YKJdl/ZM0VgzHPaAqtGxsNIH41ETB/FJ2MW7wCNMJRPx7dnhF0CibrC8U
-	 LdoOcjvjA+W14eIk/owf1JcHDVeF3uNT/1CUUV6Gvu7BZbNEgWVaU2AG02cSKa1DIi
-	 XML3DCwhlGINBV2mhfe0tOPs38Ab6wbnd4AADl5H/gwW0RFksCA+97yowAyP1vw335
-	 /fZM1uDXA5ElHwj/hkax4nuxuMZ9302/jbZgJqw6FV5/WOVMjkeXCWoNLbD0uU8Ieg
-	 hCRAYE83+/jiw==
-Date: Fri, 9 Oct 2026 09:30:40 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8ZUYKz1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791560438; x=1823096438;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5Vq6IrczwMUOvnUlXtS8IFHOzGnqSb2ysDfVsCAyk4M=;
+  b=A8ZUYKz1+9bnZ6VwvaywCtTTx2FJplkG1vlVJuiveyZbQyxtXt1UCgAk
+   N49A28++3JFhD0cgf2YtA1VIAI36zbaACXYV+8SmQbFFppVeJ0FJIuRTv
+   DXJAvehJJGRg03fvNFEwfUQ2dbI7NiK8pGHI+qzzKTXY1rS9ezINl/IfE
+   II9yGgAqBS+SuQq7LsTiMP+bFpi3N44DRGsYXb53mEB5Q2bes9kWn8FgP
+   HF947P0xJdYq/SMNDt0Kt/BJp6p41zKY3kHX4FGa99wJGHDO17s6L0xt9
+   NzmFZ91EFenrkZu4oCBNX1T+HbPyMoru9EtqHvCLe217HhGUC29jh2gdp
+   w==;
+X-CSE-ConnectionGUID: PSTrZqNGTpyhB4FfI26QSg==
+X-CSE-MsgGUID: xrUemD0GQg+NW7wDPZNMXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="255197"
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="255197"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:40:37 -0700
+X-CSE-ConnectionGUID: jrdAMVPYRl+JroZ+T3j0MA==
+X-CSE-MsgGUID: DvmFJIAEQ/Wlq1GF6Uzamg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="674637"
+Received: from pavel-dev.sc.intel.com (HELO pepopov-mobl2.amr.corp.intel.com) ([10.3.206.11])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Oct 2026 08:40:35 -0700
+From: Pavel Popov <pavel.e.popov@intel.com>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>
+Cc: pavel.e.popov@intel.com,
+	Jim Chow <jim.chow@broadcom.com>,
+	Radu Rugina <radu.rugina@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	virtualization@lists.linux.dev,
+	linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 3/3] nvme-pci: defer completions when rescheduling is
- needed
-Message-ID: <askIoNon8UVyNJiJ@kbusch-mbp>
-References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
- <20261009050556.2817978-4-namjain@linux.microsoft.com>
+Subject: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V guests on Intel hosts
+Date: Fri,  9 Oct 2026 08:40:32 -0700
+Message-ID: <20261009154034.82321-1-pavel.e.popov@intel.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261009050556.2817978-4-namjain@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 09, 2026 at 05:05:56AM +0000, Naman Jain wrote:
->  static irqreturn_t nvme_irq(int irq, void *data)
->  {
->  	struct nvme_queue *nvmeq = data;
->  	DEFINE_IO_COMP_BATCH(iob);
->  
-> +	if (unlikely(test_and_clear_bit(NVMEQ_IRQ_POLL_HANDOFF,
-> +					&nvmeq->flags))) {
-> +		if (!nvme_cqe_pending(nvmeq))
-> +			return IRQ_HANDLED;
-> +	}
-> +	if (unlikely(test_bit(NVMEQ_IRQ_POLL_PAUSED, &nvmeq->flags) &&
-> +		     (!test_bit(NVMEQ_IRQ_POLL_INIT, &nvmeq->flags) ||
-> +		      test_bit(NVMEQ_IRQ_POLL_MASKED, &nvmeq->flags) ||
-> +		      READ_ONCE(to_pci_dev(nvmeq->dev->dev)->error_state) !=
-> +				pci_channel_io_normal)))
-> +		return IRQ_HANDLED;
-> +
-> +	if (unlikely(in_hardirq() &&
-> +		     test_bit(NVMEQ_IRQ_POLL_INIT, &nvmeq->flags) &&
-> +		     !test_bit(NVMEQ_IRQ_POLL_PAUSED, &nvmeq->flags) &&
-> +		     need_resched() && nvme_cqe_pending(nvmeq) &&
-> +		     !test_and_set_bit_lock(NVMEQ_IRQ_POLL, &nvmeq->flags))) {
-> +		set_bit(NVMEQ_IRQ_POLL_MASKED, &nvmeq->flags);
-> +		disable_irq_nosync(irq);
-> +		irq_poll_sched(&nvmeq->iopoll);
-> +		return IRQ_HANDLED;
-> +	}
+VMware and Hyper-V expose passthrough devices to guest VMs without an
+explicit host bridge device. Consequently, host_bridge_whitelist()
+cannot automatically identify the underlying host bridge structure,
+causing Peer-to-Peer DMA (P2PDMA) requests to be rejected unless the
+device IDs are explicitly listed in pci_p2pdma_whitelist[]. To enable
+P2PDMA support in virtualized environments on Intel hosts, this series
+introduces hypervisor_supports_p2pdma().
 
-The disable_irq_nosync still does non-posted transactions for msi and
-msi-x. NVMe has a shortcut for msi, but there's currently nothing for
-msi-x. For that case, I have a prep patch I consulted with Thomas, and
-the result is below. I'm delayed sending it out while catching up from
-travel, but I think this will be even more efficient.
+Although alternative P2PDMA mechanisms are in development [1], their
+adoption timeline in hypervisors remains uncertain. This solution
+addresses the immediate need to support both new and existing
+hypervisor deployments.
 
----
-diff --git a/drivers/irqchip/irq-msi-lib.c b/drivers/irqchip/irq-msi-lib.c
-index 45e0ed3134ce1..bff622b4839aa 100644
---- a/drivers/irqchip/irq-msi-lib.c
-+++ b/drivers/irqchip/irq-msi-lib.c
-@@ -126,6 +126,7 @@ bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
- 	 */
- 	if (info->flags & MSI_FLAG_PCI_MSI_MASK_PARENT) {
- 		chip->irq_mask		= irq_chip_mask_parent;
-+		chip->irq_mask_nowait	= NULL;
- 		chip->irq_unmask	= irq_chip_unmask_parent;
- 	}
- 
-diff --git a/drivers/pci/msi/irqdomain.c b/drivers/pci/msi/irqdomain.c
-index 6e65f0f44112e..92a53c2772659 100644
---- a/drivers/pci/msi/irqdomain.c
-+++ b/drivers/pci/msi/irqdomain.c
-@@ -162,6 +162,11 @@ static void pci_irq_mask_msix(struct irq_data *data)
- 	pci_msix_mask(irq_data_get_msi_desc(data));
- }
- 
-+static void pci_irq_mask_nowait_msix(struct irq_data *data)
-+{
-+	pci_msix_mask_nowait(irq_data_get_msi_desc(data));
-+}
-+
- static void pci_irq_unmask_msix(struct irq_data *data)
- {
- 	pci_msix_unmask(irq_data_get_msi_desc(data));
-@@ -182,6 +187,7 @@ static const struct msi_domain_template pci_msix_template = {
- 		.irq_startup		= pci_irq_startup_msix,
- 		.irq_shutdown		= pci_irq_shutdown_msix,
- 		.irq_mask		= pci_irq_mask_msix,
-+		.irq_mask_nowait	= pci_irq_mask_nowait_msix,
- 		.irq_unmask		= pci_irq_unmask_msix,
- 		.irq_write_msi_msg	= pci_msi_domain_write_msg,
- 		.flags			= IRQCHIP_ONESHOT_SAFE,
-diff --git a/drivers/pci/msi/msi.h b/drivers/pci/msi/msi.h
-index 0b420b319f50f..337ff9d9da0ed 100644
---- a/drivers/pci/msi/msi.h
-+++ b/drivers/pci/msi/msi.h
-@@ -40,10 +40,16 @@ static inline void pci_msix_write_vector_ctrl(struct msi_desc *desc, u32 ctrl)
- 		writel(ctrl, desc_addr + PCI_MSIX_ENTRY_VECTOR_CTRL);
- }
- 
--static inline void pci_msix_mask(struct msi_desc *desc)
-+/* Posted write only: the device may still send an interrupt after return */
-+static inline void pci_msix_mask_nowait(struct msi_desc *desc)
- {
- 	desc->pci.msix_ctrl |= PCI_MSIX_ENTRY_CTRL_MASKBIT;
- 	pci_msix_write_vector_ctrl(desc, desc->pci.msix_ctrl);
-+}
-+
-+static inline void pci_msix_mask(struct msi_desc *desc)
-+{
-+	pci_msix_mask_nowait(desc);
- 	/* Flush write to device */
- 	readl(desc->pci.mask_base);
- }
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 3bf969ad8fe07..d40c992ddb8a1 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -231,6 +231,7 @@ extern void devm_free_irq(struct device *dev, unsigned int irq, void *dev_id);
- 
- bool irq_has_action(unsigned int irq);
- extern void disable_irq_nosync(unsigned int irq);
-+extern void disable_irq_nowait(unsigned int irq);
- extern bool disable_hardirq(unsigned int irq);
- extern void disable_irq(unsigned int irq);
- extern void disable_percpu_irq(unsigned int irq);
-diff --git a/include/linux/irq.h b/include/linux/irq.h
-index f485369b1b4f7..de095299f20ed 100644
---- a/include/linux/irq.h
-+++ b/include/linux/irq.h
-@@ -455,6 +455,9 @@ static inline irq_hw_number_t irqd_to_hwirq(struct irq_data *d)
-  * @irq_disable:	disable the interrupt
-  * @irq_ack:		start of a new interrupt
-  * @irq_mask:		mask an interrupt source
-+ * @irq_mask_nowait:	mask an interrupt source without waiting for the
-+ *			hardware to acknowledge it (optional, falls back to
-+ *			@irq_mask)
-  * @irq_mask_ack:	ack and mask an interrupt source
-  * @irq_unmask:		unmask an interrupt source
-  * @irq_eoi:		end of interrupt
-@@ -505,6 +508,7 @@ struct irq_chip {
- 
- 	void		(*irq_ack)(struct irq_data *data);
- 	void		(*irq_mask)(struct irq_data *data);
-+	void		(*irq_mask_nowait)(struct irq_data *data);
- 	void		(*irq_mask_ack)(struct irq_data *data);
- 	void		(*irq_unmask)(struct irq_data *data);
- 	void		(*irq_eoi)(struct irq_data *data);
-diff --git a/kernel/irq/chip.c b/kernel/irq/chip.c
-index de754db414d1d..4e76f025b5f68 100644
---- a/kernel/irq/chip.c
-+++ b/kernel/irq/chip.c
-@@ -399,6 +399,37 @@ void irq_disable(struct irq_desc *desc)
- 	__irq_disable(desc, irq_settings_disable_unlazy(desc));
- }
- 
-+static void mask_irq_nowait(struct irq_desc *desc)
-+{
-+	if (irqd_irq_masked(&desc->irq_data))
-+		return;
-+
-+	if (desc->irq_data.chip->irq_mask_nowait) {
-+		desc->irq_data.chip->irq_mask_nowait(&desc->irq_data);
-+		irq_state_set_masked(desc);
-+	} else {
-+		mask_irq(desc);
-+	}
-+}
-+
-+/**
-+ * irq_disable_nowait - Mark interrupt disabled and mask it without waiting
-+ * @desc:	irq descriptor which should be disabled
-+ *
-+ * Like irq_disable() with lazy disable turned off, but the hardware may
-+ * still deliver an interrupt after this returns. The flow handler deals
-+ * with that the same way it does for a lazily disabled interrupt.
-+ */
-+void irq_disable_nowait(struct irq_desc *desc)
-+{
-+	if (desc->irq_data.chip->irq_disable) {
-+		__irq_disable(desc, true);
-+		return;
-+	}
-+	irq_state_set_disabled(desc);
-+	mask_irq_nowait(desc);
-+}
-+
- void irq_percpu_enable(struct irq_desc *desc, unsigned int cpu)
- {
- 	if (desc->irq_data.chip->irq_enable)
-diff --git a/kernel/irq/internals.h b/kernel/irq/internals.h
-index 0ce21dd454047..3ba13932ba831 100644
---- a/kernel/irq/internals.h
-+++ b/kernel/irq/internals.h
-@@ -98,6 +98,7 @@ extern void irq_startup_managed(struct irq_desc *desc);
- extern void irq_shutdown(struct irq_desc *desc);
- extern void irq_shutdown_and_deactivate(struct irq_desc *desc);
- extern void irq_disable(struct irq_desc *desc);
-+extern void irq_disable_nowait(struct irq_desc *desc);
- extern void irq_percpu_enable(struct irq_desc *desc, unsigned int cpu);
- extern void irq_percpu_disable(struct irq_desc *desc, unsigned int cpu);
- extern void mask_irq(struct irq_desc *desc);
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 2fbff2618a1e2..ecb4d2144b9d5 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -705,6 +705,27 @@ void disable_irq_nosync(unsigned int irq)
- }
- EXPORT_SYMBOL(disable_irq_nosync);
- 
-+/**
-+ * disable_irq_nowait - mask an irq without waiting for the hardware
-+ * @irq: Interrupt to disable
-+ *
-+ * Like disable_irq_nosync(), but masks the interrupt at the chip right away
-+ * instead of lazily, and does not wait for the hardware to acknowledge the
-+ * mask. An interrupt that still arrives is held pending and replayed by
-+ * enable_irq(). Use this when an extra interrupt is cheaper than flushing
-+ * the mask, e.g. switching from interrupts to polling.
-+ *
-+ * This function may be called from IRQ context.
-+ */
-+void disable_irq_nowait(unsigned int irq)
-+{
-+	scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
-+		if (!scoped_irqdesc->depth++)
-+			irq_disable_nowait(scoped_irqdesc);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(disable_irq_nowait);
-+
- /**
-  * disable_irq - disable an irq and wait for completion
-  * @irq: Interrupt to disable
---
+The patches are organized by hypervisor for clarity. While the primary
+focus is VMware, a corresponding Hyper-V patch addresses the same
+pattern and is included for maintainer consideration.
+
+[1] https://lore.kernel.org/r/20260812-hmat-p2p-v1-0-75ac41380585@nvidia.com
+
+Pavel Popov (2):
+  PCI/P2PDMA: Allow P2PDMA in VMware guests on Intel hosts
+  PCI/P2PDMA: Allow P2PDMA in Hyper-V guests on Intel hosts
+
+ drivers/pci/p2pdma.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+
+base-commit: 6c377d19d4a5116d9bec5203aa3c6c11523e7898
+-- 
+2.53.0
+
