@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A4F29AAEA;
-	Fri,  9 Oct 2026 05:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8CBB3DC4B1;
+	Fri,  9 Oct 2026 05:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791522368; cv=none; b=H/H/TCI8JB+iKIcxx3+YaF4spdopfeGBm+BAwZu1m8HzUMVmvSR7hKOqYRoiN+/kDiWQTtcMzypKTltGcE+QJBUhA2zPswCWqfihthcM6P049t/digW+9XP0DccLPc0SnDIV5MBxpz+OwLZjyill60vVBr0fex8Bv/p0Djgn35k=
+	t=1791522371; cv=none; b=aRha9OtBsZH3E0TUpal9sjN9zd8QKxYjjUHBBZWeGHYutBAC2USewooNpyfg4OP3zBlMVnhgHi+yqe0z082I7W8lX5nwVtmeFgDR39/Gz0OEwzIlphXpsfH5NRKNIxrks28mpDwjRNdeOYrIoTyW6X96edDI0iuCV4dimhV0tZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791522368; c=relaxed/simple;
-	bh=I5I1a96iUXq92TXMrwLibYLvQ0pPbbUE7YE1153Ej4E=;
+	s=arc-20240116; t=1791522371; c=relaxed/simple;
+	bh=5xoZUjItqH6hoTTijoF5Y4qOu7Bm3FgIUfxBHooaQD8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fObrqTSY8HOwcvJcicwDdIhXLbsbwMgcp0tMVxYETLZnUxgVFyQBJznvcU4uKU21IbnBIEpWWvmjjOX1E7zIczmpXhSqsTC/Xq2s3JOytjbqlhUz9/ceoPH6kkPsfJHS8Rp05ek+EghjZQwt965+/LEcizKTlRCulokC9s0gCkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KLsXUZDP; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=kwBKfBU5TM1onJcpQ9R/eGODxRlNRjTWZwjvZsUg/CPJECHJK1eDiqnFdjBRgKhJtvZrXVVmLY7jyuMWVLi+RlJt2a8MfbHO/jcvh2E5JCYYp5XmpwdoWez2Ul0cXdWqcE+OxfLZz52js/FG8Nt3rP9ZrBE6AyuVDUESxXq+q8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bMMiWL4Z; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KLsXUZDP"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bMMiWL4Z"
 Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.18])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4B78620B7168;
-	Thu,  8 Oct 2026 22:06:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4B78620B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5205420B7167;
+	Thu,  8 Oct 2026 22:06:06 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5205420B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791522365;
-	bh=krzHIwcfibK7gOF4hb73/webqprmVFn/kkFH14YrjSI=;
+	s=default; t=1791522368;
+	bh=WdC4dJY/4vazVcvf5m0/8SEiRw+z1O4P8w3T6xgJfP4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KLsXUZDPoBCSEy8wG/u7gjXtLG2ECC5KTYBGZg0TxWdd03KBPFWXQHyxNys7PLSWG
-	 +wjGNPzIVNkkiUCDgNlAaHWYBP5pBXjUQvdZasP7wt78xwrZ0yuZm76GpK4tzfR/bO
-	 8nnshNNyrkdqeS2WejN6dJq8XdlKoJPQdMjEJUrw=
+	b=bMMiWL4Zq5oI8MeJURknwQaGOskkhOq8/PYImArYPOEnWpY9mZKEygOh3ktngbDy+
+	 6bfvlYTaF3j1d0YJzxkhDNqoNIJsX+XxyYEoPvtDBe8SeIC7X2bliDk0zpi+/xcsvv
+	 khK2rFtVIg2NBNNSzAAE8rdnpUqwBRXR947mDya8=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: linux-nvme@lists.infradead.org
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -34,9 +34,9 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Michael Kelley <mhklinux@outlook.com>,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/3] nvme-pci: select IRQ_POLL
-Date: Fri,  9 Oct 2026 05:05:54 +0000
-Message-ID: <20261009050556.2817978-2-namjain@linux.microsoft.com>
+Subject: [RFC PATCH 2/3] nvme-pci: make completion queue polling softirq-safe
+Date: Fri,  9 Oct 2026 05:05:55 +0000
+Message-ID: <20261009050556.2817978-3-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261009050556.2817978-1-namjain@linux.microsoft.com>
 References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
@@ -48,25 +48,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A later patch uses irq_poll to process NVMe completions in bounded
-batches. Select IRQ_POLL so that support is available when the NVMe PCI
-driver is built into the kernel or as a module.
+A following patch processes interrupt-driven completion queues from
+IRQ_POLL_SOFTIRQ. Ensure every task-context user disables bottom halves
+while holding cq_poll_lock so the softirq cannot interrupt the local
+owner.
+
+This includes explicit blk-mq polling. Those queues do not use irq_poll,
+but all cq_poll_lock instances share one lockdep class because they are
+initialized at the same call site. Keep that class consistently
+softirq-safe rather than reclassifying reused queue objects across reset.
 
 Assisted-by: LLM
 Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 ---
- drivers/nvme/host/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/pci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 31974c7dd20c9..22164b901da85 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -5,6 +5,7 @@ config NVME_CORE
- config BLK_DEV_NVME
- 	tristate "NVM Express block device"
- 	depends on PCI && BLOCK
-+	select IRQ_POLL
- 	select NVME_CORE
- 	help
- 	  The NVM Express driver is for solid state drives directly
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index dbcfc7ddb78aa..bd4a6461b620f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1673,9 +1673,9 @@ static void nvme_poll_irqdisable(struct nvme_queue *nvmeq)
+ 
+ 	irq = pci_irq_vector(pdev, nvmeq->cq_vector);
+ 	disable_irq(irq);
+-	spin_lock(&nvmeq->cq_poll_lock);
++	spin_lock_bh(&nvmeq->cq_poll_lock);
+ 	nvme_poll_cq(nvmeq, NULL);
+-	spin_unlock(&nvmeq->cq_poll_lock);
++	spin_unlock_bh(&nvmeq->cq_poll_lock);
+ 	enable_irq(irq);
+ }
+ 
+@@ -1688,9 +1688,9 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+ 	    !nvme_cqe_pending(nvmeq))
+ 		return 0;
+ 
+-	spin_lock(&nvmeq->cq_poll_lock);
++	spin_lock_bh(&nvmeq->cq_poll_lock);
+ 	found = nvme_poll_cq(nvmeq, iob);
+-	spin_unlock(&nvmeq->cq_poll_lock);
++	spin_unlock_bh(&nvmeq->cq_poll_lock);
+ 
+ 	return found;
+ }
+@@ -2086,9 +2086,9 @@ static void nvme_reap_pending_cqes(struct nvme_dev *dev)
+ 	int i;
+ 
+ 	for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
+-		spin_lock(&dev->queues[i].cq_poll_lock);
++		spin_lock_bh(&dev->queues[i].cq_poll_lock);
+ 		nvme_poll_cq(&dev->queues[i], NULL);
+-		spin_unlock(&dev->queues[i].cq_poll_lock);
++		spin_unlock_bh(&dev->queues[i].cq_poll_lock);
+ 	}
+ }
+ 
