@@ -1,365 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F4134A796;
-	Mon, 12 Oct 2026 09:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791796165; cv=none; b=P7duEue8QA2w1g3v1fIU4IgR0gnCnYsHQLMaYL2jcOaafubM0Rxv73RdhAhHKPds8v1yBF5D8kNj02Dg6WadPgJjqyPnfhfslWorTN4qNybfyKCUYF7aZgOkW7/b5g2h0z5KHkoDW4ctPppZ7v5M/HnYlP0KdtX8kHlMxitikSM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791796165; c=relaxed/simple;
-	bh=BFt9WOpTwhJytLb9LJj8wUAzI5IHqqJp2l0OH0qmLW0=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OzAUKaJpVgOH/4+0g1+/G1WLg+67fp/npKnwOKT13+StJxHIdNG9gwZs4zgG1Ag5VUR/Qso2JSC4DDYRpPbNlygvAQSQBZIjCS4QJbUDba38NUrzEjwNe+BwViaA2Mp9/IKWkeLcDi89dG8Gtd84x82Qa3vxiwm+6qqWCsX/9u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzsSFa/+; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D052745198A
+	for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 09:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791796677; cv=pass; b=cpxbDhzPgEUMCgpii35KzvCdZu82kEvNTdTgVjXJxZZqcEVGlN4S4diSthe3A1WfFzT1FeEduCt6sVoISRphvweStnvR8Eszc5K7oGG7XVZTu2ytF34HvB1+5UThuaCbvxY3FEG0qV2kx9ggmSbzCT3HajvEW1h5EpteWkpSR7w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791796677; c=relaxed/simple;
+	bh=zE/xMc3+fkme8U686WImZo7kXykoV74MS3mBMZEs2EI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b2pumt7e2/Sg+DmGvWUd0QXy4uNNQtWmldeeq+WNtv5Acql0XqkOc9t1BG7N5BfxAPfwNTzT5ty8AZHKOxfizMqfY/Ks2n8G7KsZEnzY0HiPpv/kpQaz7CX67lMXe98FFh+qOnFGj2yGGOZK27fWeWicgwcVIAzMPnu+eSZezXg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vPW450Z+; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzsSFa/+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F531F0089C;
-	Mon, 12 Oct 2026 09:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791796163;
-	bh=v5lcNo/PazK3YHWMiQ9Yp5JCGzYlveCJoSd5tKTCRMU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=OzsSFa/+1PgUETKqpKT6E4PcbCbA+X2Nc1wH4FvlCPJAk2mbmPZmg+7YWBbFuDh+s
-	 NE8uhJCnAOOSrXQ858bEGQjd22tavTy8apgyJ1729mn4wXIUeJrv0WF76XYPPe4H7Q
-	 DeW17OWleilcN+34Ftetsoc56+G3fQWxLL6y+3SIhRyuOJtfn59o8xALokVDLZYZy2
-	 ZRvcGt6NrCfFpegYyeIzDPqirDRHzsLJY4tdwfTxPGvhNIZzOumUGmGlrhUd0YZcAw
-	 qM/TlJh75xBStMWwxNQOaT1JynnqDKixYdyueHQm0ETxJUE30OS/cydi+GTRAzu5j/
-	 Aq7ezT39/CczA==
-Subject: Re: [PATCH net-next] net: mana: Add support to process throttled EQEs
-From: netdev-bot+sashiko@kernel.org
-To: sahilchandna@linux.microsoft.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, kotaranov@microsoft.com, horms@kernel.org,
- ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, leitao@debian.org, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Date: Mon, 12 Oct 2026 09:09:22 +0000
-Message-ID: <179179616248.434549.2649767157991099688@kernel.org>
-In-Reply-To: <20261008083315.306076-1-sahilchandna@linux.microsoft.com>
-References: <20261008083315.306076-1-sahilchandna@linux.microsoft.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vPW450Z+"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so20795ad.1
+        for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 02:17:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791796675; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WbELCZXlE+PSY0haepPBvfEqcmJZB5hnGbkgKPjgXzyASp0RNh8TjDR07dOz4xSEN3
+         Brg0ixMZabubqvHkL55zaKodkN9e5cPJBIxlInrbUiv79aoWw7BozMcVb77JelpkT0gk
+         Am12j5sVcC1BHiChZ3NI/KzWAYrP5tMXt9CjzdO3dzXtP4H4dUXFZ4hwGw3Wav3SMFnz
+         tH2FDrSUMpX7RSVc1lGs7DIEATenalp2C4WAOkr43nCYascH+2zBgXbPdaSVPrQlyKLJ
+         iAXuOrFfAwp2Prbm7qTOck+2Uhrc+T45o97etqOCIXkErHtydJ89T9xhmPjYfBHe2zkh
+         k1CQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
+        fh=7rmE5mRahtQDsnduhl/7pOxSZhSmc0slmWKyN2TcgP4=;
+        b=VX+ZkV0Ki/xtzmFPhPEoqFHpHUIply5myeUuVpD7YPe3kcdl+EwDU49/iMPS/UmFbb
+         GslDcofHA28pVM3gGbMbz5mESwWF9A8Cokx+dWDGHHVSwRtw7n6GdD/nIDfeya4N3a/A
+         aEpb75goPmxQa+T8ax0bdyz0t2QTL5BwS41uWso++Oaae0Pax+huu7gS++zG9wpEmVnW
+         fdeCtgziQKicHBnZHZZoKHke7ipbjQEDryrpCMfVITf6eFrW61Z7j6yoeqB+Z1iHGJVf
+         re6KSelzh093MegbEnP5e5c1J45sDtt1pWYkN+May6V11yuw2oLPQ+8MD0f8TvdWlcl1
+         0cqw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791796675; x=1792401475; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
+        b=vPW450Z+B9+CUnKihi+dAQJVTZ4Gu2pl1G0SHqsVLVKCWln8iNw1mnRTY4f8QS1Lti
+         50RR7wNTALtUf/UuP8O/pqpGsad4hajb36UpJgJLsNMiT9MYa1ipABiPtpx6iYq38rDH
+         C31I2MesMLr+ykMEDWlA5v3AQeSa8Kwl3NjoeOViFRSGTHCP4FVShbfIynTVr0wtMQh0
+         13eJHl/YeVDCOiv6ZH6aBaWzqwIdLKpcY0dEKyEl6iZj4TxGOfESBh5NX4v6vuax+vS7
+         v9BjviJ2SCfNxwGbzY3QV0jjK7iPG3tMYTNCLnbUNRgT+Xg4+mrfd9g/+STd+/7wKmnS
+         h5/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791796675; x=1792401475;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
+        b=cxe6gooA9M8SRDCBUs1UNgIcnwJ7AuzqtoM7VhOpnpIceeHDUHJgaKBQeqGn3cJXAL
+         JqK2qv+B8DmyRXcZAh5RGCGYCNwMALn6L0s12nNRKtXngk+G92rBxffeyOnJoIPlOg/1
+         74X9kjpWLvlT78tls8UK++37TquulOEbaAtOOT0HLGB4XXiFLcDRGLnjqeH8lIEuloPW
+         psHauY6UWn5rxeTgfg0DafyCvktZ7jnEBA11WQ6ZhUw0tr8wZpbhbnEueQVHa2j42S5S
+         rw1N/5ItfEfu3cv02I14BPOZUyHyBjnJJ4A1Rw3FkWIG3AIGhTmmNTsA2t76SGSO0ih5
+         US0w==
+X-Forwarded-Encrypted: i=1; AKwUvBxcljXEoXjkWx45iBsTrtYoazERr18tz4z2JUNEDN9JywNk2LEXPT60MFbNt0ld0wSpiM1Gb+hmQkNnt/A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK5xfGRCziEGFMQHBYLcWcxwyHwn7hm+0xyz4RQHDCNXNYS9UCF
+	Lkg1E5nYErR/RaliArn7yXQ/rUgQrMheaLZjaQd6qso9F5g90Y/QPb7umSkFIoJ/YRmcoKPgYCA
+	V0ZrQgUJKdC94ZtnW18Nhpwn+efsfTyzIeyAjeMy3
+X-Gm-Gg: AYBFou3f2GtjgYeKisNft1/092c1KdA8HY9pOqtdtEVhNmfiqyyTf1KhOW3nrqlPihH
+	K5Z3uQWcaEIv7wyu1I+/uspaZSiuTwKGyy1ZzzgcpLh3bSrUVA6U4TRwHUT21pN9JiDkyNGbMyb
+	9cyyxR/dE9vF1r3H+cHN/l6HxOF+LmqUQlYkmNdbJO7kr1z1ZNNw4GbmPuS9Bo3cdHNcOBv3JCA
+	bAHeMUClcbE7o0oyetkMPmwSj9Js915Sj1lQHhkotXSaSaRZb4XuGIEKRNvLsoSAQLXvPyQIgQK
+	zK6R4HfEvXUa93WZPMMi7t6MxFF0sK3to2ltHSbMqzq05Rbu3AkYpunb
+X-Received: by 2002:a17:902:cf0e:b0:2e6:f400:5655 with SMTP id
+ d9443c01a7336-2e87b9c037fmr5398945ad.3.1791796674314; Mon, 12 Oct 2026
+ 02:17:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
+ <MN2PR02MB6863FBC36CE4F1D6419F0E8BD4922@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com>
+ <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
+ <CAMOZA0Ljw-DueDP3WvmtYe4x9Y_fNaptAo+3Hv8xzYHOZi9vbQ@mail.gmail.com>
+ <CAMOZA0KJoS4GFrKmaGa7+qMCNktTUg-YpkzX_EoA2KfAW3iN_g@mail.gmail.com> <53b199f9-56f6-4b44-93a5-be6437fd3fc4@linux.microsoft.com>
+In-Reply-To: <53b199f9-56f6-4b44-93a5-be6437fd3fc4@linux.microsoft.com>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Mon, 12 Oct 2026 11:17:16 +0200
+X-Gm-Features: AclHuK8b7Ekjps9gFjWxZLvZacLyDyhJhw6UHMDi-KXrVX-gzw676mEw94bJiKQ
+Message-ID: <CAMOZA0JrxakyxxYPu72hk-jWQpW33-0BGFkZX-n_3D+28eDuGA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler pressure
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, changfengnan@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issue(s) to consider.
+On Mon, Oct 12, 2026 at 10:19=E2=80=AFAM Naman Jain <namjain@linux.microsof=
+t.com> wrote:
+>
+>
+>
+> On 10/9/2026 8:28 PM, Luigi Rizzo wrote:
+> > On Fri, Oct 9, 2026 at 1:27=E2=80=AFPM Luigi Rizzo <lrizzo@google.com> =
+wrote:
+> >>
+> >> On Fri, Oct 9, 2026 at 12:17=E2=80=AFPM Naman Jain <namjain@linux.micr=
+osoft.com> wrote:
+> >>>
+> >>>
+> >>>
+> >>> On 10/9/2026 12:21 PM, Naman Jain wrote:
+> >>>>
+> >>>>
+> >>>> On 10/9/2026 11:24 AM, Michael Kelley wrote:
+> >>>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, Octo=
+ber
+> >>>>> 8, 2026 10:06 PM
+> >>>>>>
+> >>>>>> On systems with several fast NVMe controllers, completion interrup=
+ts can
+> >>>>>> keep returning to the same CPUs faster than scheduled work can run=
+. Each
+> >>>>>> handler may drain only a small number of completions, but the comb=
+ined
+> >>>>>> interrupt stream can still prevent scheduler and watchdog progress=
+.
+> >>>>>
+> >>>>> See this recent proposal [1] that sounds like it is addressing the
+> >>>>> same or a
+> >>>>> similar issue. And there is this [2] more global approach. It's
+> >>>>> worthwhile to read
+> >>>>> through the discussion on both threads. I haven't done a detailed
+> >>>>> comparison
+> >>>>> of either vs. your proposal.
+> >>>>>
+> >>>>> Michael
+> >>>>>
+> >>>>> [1] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-
+> >>>>> changfengnan@bytedance.com/
+> >>>>> [2] https://lore.kernel.org/lkml/20260819124341.4185621-1-
+> >>>>> lrizzo@google.com/
+> >>>>>
+> >>>>
+> >>>>
+> >>>> Thanks for sharing these Michael. I'll check more on these, and try =
+it out.
+> >>>>
+> >>>> Regards,
+> >>>> Naman
+> >>>
+> >>> ++ authors of these two series, for awareness and if there is some
+> >>> configuration in their patches I should be trying to fix these lockup
+> >>> issues.
+> >>
+>
+> Hi Luigi,
+> Thanks for looking into it.
+...
+> GSIM was creating gaps for individual sources, but the other NVMe
+> sources sharing that CPU were filling most of them.
+>
+> I traced irq_handler_entry/irq_handler_exit with trace-cmd for the four
+> NVMe queue vectors routed to CPU0. The test used GSIM fixed at 10 us
+> with all 56 data-NVMe I/O vectors opted in.
+>
+> Without timer push, I recorded 37,218 NVMe handler invocations in three
+> seconds. The median handler duration was about 2 us, but the median gap
+> between NVMe handlers was only 4 us. The p99 gap was 872 us.
 
-Critical: 0 · High: 2 · Medium: 2 · Low: 1
+(medians are not a good metric in an environment where there might be
+a lot of idle runs because a previous, delayed run already consumed all CQs=
+.
+You may want to look at the full distribution, I expect to see a step at so=
+me
+point, the exact percentile depends on how many queues share the same CPU)
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Just a clarification, the pattern I expect on CPU0 is something like this
+NVME0 NVME1 NVME2 NVME3 TIMER_PUSH NVME0 ...
+what is "mediam gap between handlers", is it the time between NVME0 and
+the next NVME0, or between any two NVMEx and NVMEy ?
 
-- [High] The throttle-EQE fix only reaches CQs that mana_gd_create_cq()
-  registered in parent->eq.child_cq[], but the patch asks for throttled…
-- [High] During HWC teardown, the HWC CQ stays published in the HWC EQ's
-  RCU-protected child_cq[] after the state its callback uses has been…
-- [Medium] The commit message presents the change as a fix: hardware
-  sends type-4 throttle EQEs, the driver drops them, and CQs stall.
-- [Medium] mana_gd_destroy_cq() now calls synchronize_rcu() once for
-  every CQ that has a parent EQ.
-- [Low] eq->eq.throttle_count is incremented with a plain '++' in hardirq
-  context (mana_gd_intr -> mana_gd_process_eqe).
+> With timer push enabled, the same three-second CPU0 trace contained only
+> 531 NVMe handler invocations, and the median gap increased from 4 us to
+> 517 us. This confirms your diagnosis, adding one delay per additional
+> source restores a real CPU-wide gap.
+>
+> The full QD256 workload then completed without a soft lockup or kernel
+> taint. There was a significant cost, though. The delayed completions
+> accumulated into much larger CQ batches:
+>
+>    - median NVMe handler duration increased from 2 us to 3.1 ms
+>    - p99 handler duration increased from 106 us to 7.1 ms
+>
+> For comparison on the same workload:
+>
+>    fixed 10-us GSIM + timer push: 1.906M IOPS
+>    adaptive GSIM + timer push:    1.712M IOPS
+>    threaded NVMe IRQs:            3.165M IOPS
+>    NVMe IRQ-poll fallback:        4.986M IOPS
+>
+> So the timer-push idea does prevent the lockup, and the trace confirms
+> the multi-source gap issue. On this NVMe topology, however, delaying all
+> sources creates very large completion batches, and the NVMe handler
+> still drains each batch without a bound in hardirq context. That causes
+> the large throughput and tail-latency cost above.
 
---
+Yes, without touching the nvme handler to limit the number
+of entries processed in each run, there is only so much
+a generic solution like GSIM can do.
+This definitely warrants some NVME-specific changes
+such as those proposed by Fengnan, and they are in line
+with what NAPI already does by using a bounded batch
+and rescheduling the handler.
 
-net: mana: Add support to process throttled EQEs
+I am a bit surprised by your numbers regarding the differences with
+and without timer push, so I would like to understand
+the numbers better.
+(As an aside, 10us is really a bit too short for GSIM delay, because
+almost 50% of the time gets eaten by the context switching.
+At least for an initial assessment I would start testing with a fixed 30-50=
+us)
 
-This patch handles the type 4 throttle EQE. The hardware sends it in place
-of per-CQ completion notifications when an EQ nears full. Each EQ records
-up to two child CQs and schedules them when a throttle EQE arrives. The
-patch also advertises a new driver capability bit and adds an ethtool -S
-counter.
+Can you clarify the following, specifically for the "full QD256 workload"
+- how many vectors are sharing one interrupt CPU (the previous test says 4)=
+,
+  and how many interrupt CPUs are used in total ?
+- From my experience (different environments), I have measured
+  < 1 queue - 1 interrupt CPU - 1 user thread > saturating at 400-600KIOPS
+  (I don't remember whether the bottleneck is the user or interrupt CPU).
+  At those rates, 256 outstanding entries may take some 500us to be process=
+ed.
+  so it seems strange that the median NVME handler (per queue?) takes 3ms.
+- these times will be scaled down if each drive uses many queues so the
+  average throughput per queue will be lower, and such to keep the total
+  rate for each interrupt CPU below its 400K cap.
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index ae0ed700b3b93..b8e5ad2c6d312 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -747,6 +747,18 @@ void mana_gd_free_service_wq(struct gdma_context *gc)
->  	gc->service_wq = NULL;
->  }
->  
-> +static void mana_gd_schedule_eq_cqs(struct gdma_queue *eq)
-> +{
-> +	struct gdma_queue *cq;
-> +	u8 i;
-> +
-> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-> +		cq = rcu_dereference(eq->eq.child_cq[i]);
-> +		if (cq && cq->cq.callback)
-> +			cq->cq.callback(cq->cq.context, cq);
-> +	}
-> +}
+My expectations is something along these lines:
+- the outstanding CQ queue cannot exceed QD ie 256 in your test
+- worst case each handler should run at most some 500us
+- four queues will create a total QD=3D1024 so the interrupt CPU
+  will take at least 2ms to drain them
 
-[Severity: High]
-Can this path reach the HWC CQ callback after its state has been freed?
-
-Before this patch, the only way to reach the HWC CQ callback was the
-GDMA_EQE_COMPLETION case. That case is gated by gc->max_num_cqs and
-gc->cq_table[]. The throttle path walks child_cq[] directly and skips
-that gate.
-
-mana_hwc_destroy_channel() tears things down in this order:
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_destroy_channel() {
-    ...
-	if (gc->max_num_cqs > 0) {
-		mana_smc_teardown_hwc(&gc->shm_channel, false);
-		gc->max_num_cqs = 0;
-	}
-
-	if (hwc->txq)
-		mana_hwc_destroy_wq(hwc, hwc->txq);
-
-	if (hwc->rxq)
-		mana_hwc_destroy_wq(hwc, hwc->rxq);
-
-	if (hwc->cq)
-		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
-    ...
-}
-
-mana_hwc_destroy_cq() then frees comp_buf before the CQ is removed from
-child_cq[]:
-
-drivers/net/ethernet/microsoft/mana/hw_channel.c:mana_hwc_destroy_cq() {
-	kfree(hwc_cq->comp_buf);
-
-	if (hwc_cq->gdma_cq)
-		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
-    ...
-}
-
-The HWC EQ interrupt is still registered at that point. Suppose a throttle
-EQE arrives on the HWC EQ in this window:
-
-mana_gd_intr()
-  mana_gd_process_eqe()
-    mana_gd_schedule_eq_cqs()
-      mana_hwc_comp_event()
-        mana_gd_poll_cq(q_self, hwc_cq->comp_buf, ...)
-        mana_hwc_rx_event_handler() / mana_hwc_tx_event_handler()
-
-Wouldn't this write CQEs into the freed comp_buf, and then dereference the
-freed hwc->rxq and hwc->txq?
-
-A well-behaved device probably would not post a throttle EQE after SMC
-teardown. In confidential VMs, though, the driver treats the host as
-untrusted, and the max_num_cqs gate used to block this route.
-
-Should the CQ be removed from child_cq[], followed by a grace period,
-before the HWC teardown frees comp_buf, txq and rxq?
-
-> +
->  static void mana_gd_process_eqe(struct gdma_queue *eq)
->  {
->  	u32 head = eq->head % (eq->queue_size / GDMA_EQE_SIZE);
-> @@ -777,6 +789,11 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
->  
->  		break;
->  
-> +	case GDMA_EQE_THROTTLE:
-> +		eq->eq.throttle_count++;
-
-[Severity: Low]
-This counter is incremented with a plain ++ in hardirq context, via
-mana_gd_intr()->mana_gd_process_eqe(). mana_get_ethtool_stats() reads it
-with a plain load in process context, with no shared lock:
-
-	apc->eth_stats.eq_throttle_events +=
-		apc->eqs[q].eq->eq.throttle_count;
-
-The value can't tear because MANA only builds on 64-bit. Do these accesses
-still need READ_ONCE()/WRITE_ONCE() annotations? Without them KCSAN will
-report a data race, and the compiler is free to fuse or reload the
-accesses.
-
-> +		mana_gd_schedule_eq_cqs(eq);
-> +		break;
-> +
-
-[ ... ]
-
-> @@ -1063,17 +1080,41 @@ static void mana_gd_create_cq(const struct gdma_queue_spec *spec,
->  			      struct gdma_queue *queue)
->  {
->  	u32 log2_num_entries = ilog2(spec->queue_size / GDMA_CQE_SIZE);
-> +	struct gdma_queue *parent;
-> +	u8 i;
->  
->  	queue->head |= INITIALIZED_OWNER_BIT(log2_num_entries);
-> -	queue->cq.parent = spec->cq.parent_eq;
-> +	parent = spec->cq.parent_eq;
-> +	queue->cq.parent = parent;
->  	queue->cq.context = spec->cq.context;
->  	queue->cq.callback = spec->cq.callback;
-> +
-> +	if (!parent)
-> +		return;
-> +
-> +	/* For throttled EQE store the child CQ */
-> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++)
-> +		if (!rcu_access_pointer(parent->eq.child_cq[i])) {
-> +			rcu_assign_pointer(parent->eq.child_cq[i], queue);
-> +			return;
-> +		}
->  }
-
-[Severity: High]
-Does this registration cover every CQ the hardware can attach to an EQ?
-
-The capability bit added to GDMA_DRV_CAP_FLAGS1 requests throttled EQEs
-for the whole function. However, child_cq[] is only filled here. It is
-only filled when spec->cq.parent_eq is set, and only for the first two
-CQs.
-
-The mana_ib CQs never go through this path. RNIC CQs are bound in
-hardware to the mana_ib EQs:
-
-drivers/infiniband/hw/mana/main.c:mana_ib_gd_create_cq() {
-    ...
-	req.eq_id = mdev->eqs[cq->comp_vector]->id;
-    ...
-}
-
-RSS and raw QP CQs are attached to the Ethernet per-vPort EQs:
-
-drivers/infiniband/hw/mana/qp.c:mana_ib_create_qp_rss() {
-    ...
-	eq = &mpc->eqs[cq->comp_vector % mpc->num_queues];
-	cq_spec.attached_eq = eq->eq->id;
-    ...
-}
-
-mana_ib_create_qp_raw() does the same. Both kinds of CQ are published only
-through gc->cq_table[]:
-
-drivers/infiniband/hw/mana/cq.c:mana_ib_install_cq_cb() {
-    ...
-	gdma_cq->cq.callback = mana_ib_cq_handler;
-	gdma_cq->id = cq->queue.id;
-	gc->cq_table[cq->queue.id] = gdma_cq;
-    ...
-}
-
-Also, mana_ib_create_kernel_queue() builds its GDMA_CQ spec without
-spec.cq.parent_eq, so mana_gd_create_cq() returns before reaching this
-loop.
-
-On an RDMA EQ, a throttle EQE would find every child_cq[] slot NULL and
-only increment throttle_count. On an Ethernet EQ, the two slots already
-hold the Ethernet TX and RX CQs, so the loop silently skips the RDMA CQ.
-
-In both cases, wouldn't mana_ib_cq_handler() lose its only notification
-and the CQ stall? That is the stall the commit message says this patch
-fixes.
-
-Would it work to dispatch to every CQ bound to the EQ, or to scope the
-capability so it only covers EQs whose CQs are all tracked?
-
->  
->  static void mana_gd_destroy_cq(struct gdma_context *gc,
->  			       struct gdma_queue *queue)
->  {
-> +	struct gdma_queue *parent = queue->cq.parent;
->  	u32 id = queue->id;
-> +	u8 i;
-> +
-> +	if (parent) {
-> +		for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-> +			if (rcu_access_pointer(parent->eq.child_cq[i]) == queue)
-> +				RCU_INIT_POINTER(parent->eq.child_cq[i], NULL);
-> +		}
-> +
-> +		synchronize_rcu();
-> +	}
-
-[Severity: Medium]
-Does this add a full RCU grace period to every CQ destroy?
-
-synchronize_rcu() runs whenever the CQ has a parent, even when the CQ was
-never found in child_cq[]. mana_destroy_txq() and mana_destroy_rxq() loop
-over apc->num_queues and, for each queue, reach:
-
-mana_deinit_cq()
-  mana_gd_destroy_queue()
-    mana_gd_destroy_cq()
-
-These loops run under the netdev instance lock and RTNL. Ifdown,
-set_channels, ring size, MTU and XDP changes, and the reset/servicing
-paths would all wait for 2 * num_queues back-to-back grace periods while
-holding RTNL. With 64 queues that is 128 serialized grace periods.
-
-Could all child slots be cleared first and synchronize_rcu() called once?
-Alternatively, the free could be deferred with call_rcu() or kfree_rcu().
-
->  
->  	if (id >= gc->max_num_cqs)
->  		return;
-
-[ ... ]
-
-> diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-> index c610fc1067e0d..03fe9395604d6 100644
-> --- a/include/net/mana/gdma.h
-> +++ b/include/net/mana/gdma.h
-
-[ ... ]
-
-> @@ -752,6 +758,9 @@ enum {
->  /* Driver supports non-contiguous queue buffers */
->  #define GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS BIT(30)
->  
-> +/* Driver supports handling throttled EQEs */
-> +#define GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE BIT_ULL(32)
-> +
-
-[Severity: Medium]
-The commit message describes this as a fix:
-
-  The driver does not handle this event type, so
-  it falls through to the default case and is dropped. Any CQ whose
-  completion notification was replaced by the throttle EQE is then never
-  scheduled again and its queue stalls.
-
-It doesn't mention that the patch also advertises a new capability bit to
-the device. GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE is added to the
-common GDMA_DRV_CAP_FLAGS1, which mana_gd_verify_vf_version() sends
-unconditionally.
-
-If the device only sends type 4 EQEs after the driver sets this bit, can
-the described stall happen on current kernels at all? If not, this is a
-feature opt-in rather than a fix.
-
-If the stall can happen today, should the patch carry a Fixes: tag?
-
-The commit message also doesn't mention the new eq_throttle_events
-counter in ethtool -S. Could both changes be described in the commit
-message?
-
->  /* Capabilities in the PCI-only group below rely on dynamic MSI-X allocation
->   * and on the servicing and reset paths reached through
->   * mana_schedule_serv_work(). Transports that provide neither leave
-> @@ -776,7 +785,8 @@ enum {
->  	 GDMA_DRV_CAP_FLAG_1_HANDLE_STALL_SQ_RECOVERY | \
->  	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT | \
->  	 GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION | \
-> -	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS)
-> +	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS | \
-> +	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE)
->  
->  #define GDMA_DRV_CAP_FLAGS2 0
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261008083315.306076-1-sahilchandna%40linux.microsoft.com
+cheers
+luigi
