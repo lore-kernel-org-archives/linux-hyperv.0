@@ -1,114 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1962819E7F7;
-	Mon, 12 Oct 2026 16:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256884908CC;
+	Mon, 12 Oct 2026 16:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791822257; cv=none; b=Lg7Q7GfLggfqwKaKtH8dtIQ2WLMt+7nSoHcFpDWPcX/4iYcFN1PWIZT5lm3PAOc3+JVoxvm9SUYFJurVE7A5ZRJWNq5Z5sXgn9+mBilG5CYrzKCR2b75DjS2vuhrT1PAiA6MlN8qdqiSN4xz8nclrLyLKn482g7uWqeknCkg8Ew=
+	t=1791822290; cv=none; b=O1aPO5rGpbgZtWsPlHKZAV1vnEoLsWxw7v1Yjb5ivEXOQAz+8Qx6WyWpZOnCzwnJopkw2vt7ps8CeEtbhR7Zz7HXEaYVQ72ymsmyQ0P3P7dPHpIIIsYw/Sw/0wGX/2ZWwKJWLBpZOJ7GAlhF8DGJ+VdIaDoqRuafghck87A8Sg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791822257; c=relaxed/simple;
-	bh=oGJ9Mp8PbgTz6eQuoApeleJ8XpDy9AWwDY41Aa5LfvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S4i1kliXjr1Qh0omkfxGW5GzutJFfD9VsWoy8NrnbsDiMXnjblgtmnmB4QboAH1Nv/gxAcS1CEIj9QD/Uy8NthILNyN1wTdI3ALJj94pgoXvO0aJPWSq2WqOb8xDePB7AZbcTLBZMXfu9TbW2sJBbo0b/U3cxOglILi6tc52jdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERwhL2DQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791822290; c=relaxed/simple;
+	bh=ZblkjcOsAUDKA+9cW+EuQoxfC9eX1nfik4gAAhizYas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KS5ooRXkfp3A59tH18V00vjz8OWuAeZl6JiyEP9KcSalaHE5bv3okTz8QbVIb7Ebl322ro5c+Q9FiH24vZ7gmvvMomqYGWiHXmBJvKN3nRz8eN7g3jb9KbH9MLXTJ0xlQxhOkaEiHqs5bWzWPsM7QaqLc2JIC+vTdl0ayz25vpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=auFpsEqB; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERwhL2DQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9E41F0089B;
-	Mon, 12 Oct 2026 16:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791822255;
-	bh=OZXc+b8QduoClrqZoGh2Zs8gOJq04ekU4fB0vx32kyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ERwhL2DQXjfec0wseN3hHz/HMul1ygZKaEe1mgkKoiih/gtJVkr2djgv36sWBUUmb
-	 wOacCokvfwYZVcU2SRdAssQiOJaWsS+aqCbPnkwGHJGOyU169OGmUTspNBpJH6gMWO
-	 v32RHwGs8p/pFEZu7vddBZHz9TS8VL7V3/1a/6lkU/WuHWkauH35fs1T2On3eRw3w4
-	 S8+otQDyppyVsCrY3CVD24E2ZSJxv6G6wLMdK7uM2txpJCjYKooKYyNknZsrdtA8n+
-	 lBpYteOl5hPEOWtDwX4txI5vKCcnRWs6EzMEvuFCLMkXrFFK7Dk1xQcIFMJ0XzsSS8
-	 8RofCq3BXG3wQ==
-Date: Mon, 12 Oct 2026 19:24:10 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Popov, Pavel E" <pavel.e.popov@intel.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Jim Chow <jim.chow@broadcom.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Radu Rugina <radu.rugina@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
-	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
- guests on Intel hosts
-Message-ID: <20261012162410.GH219304@unreal>
-References: <20261009154034.82321-1-pavel.e.popov@intel.com>
- <20261009165833.GA991924@bhelgaas>
- <20261009180847.GD11438@unreal>
- <LV2PR11MB6070D3FCBC3EAED4FA0191EFB2922@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261009184923.GE11438@unreal>
- <LV2PR11MB60707DAD12BFBEAB681463B7B2922@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261011054700.GF11438@unreal>
- <LV2PR11MB60708F76EB7D6E5A40E82853B29F2@LV2PR11MB6070.namprd11.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="auFpsEqB"
+Received: from [192.168.1.70] (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9B36F20B7166;
+	Mon, 12 Oct 2026 09:24:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B36F20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791822285;
+	bh=gjubPOuxdvWHce9i4IPxOTkmVc5NCDr07T7TK4hmZvk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=auFpsEqBZP5CtAUsUXapXjiHxzL3yHdCBeIWvsSEpxJ2jaqJdVuHLgCmgl1tyBjlD
+	 SwbWsRo7ypCwS0Lmq4EEZ1t4IFLm4BXqUMVFJEY4vADjN8+IA/uluugycMCOwzoEWy
+	 GWLSXp/x4gR4qO5Ssazj8JKBL+6LCK30YpoKhci4=
+Message-ID: <b3f3b6fe-893c-4a24-b8c0-3a929cb581ac@linux.microsoft.com>
+Date: Mon, 12 Oct 2026 21:54:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <LV2PR11MB60708F76EB7D6E5A40E82853B29F2@LV2PR11MB6070.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/3] nvme-pci: defer completions when rescheduling is
+ needed
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
+ <20261009050556.2817978-4-namjain@linux.microsoft.com>
+ <askIoNon8UVyNJiJ@kbusch-mbp>
+ <8aba4809-6655-4bfd-a83a-25c5ab816645@linux.microsoft.com>
+ <aszuckZVkc2-kXM3@kbusch-mbp>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <aszuckZVkc2-kXM3@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 02:26:43PM +0000, Popov, Pavel E wrote:
-> To be clear about what is at stake: this series is what enables P2PDMA
-> in VMware and Hyper-V guests on Intel hosts. The assumption that the
-> hypervisor can simply be fixed to emit HMAT is Linux-centric. It holds
-> for KVM/QEMU, which is open source and where anyone can add HMAT support.
-> ESXi and Hyper-V are proprietary, so only VMware and Microsoft can add
-> it, and until they do, this series is the only path for guests on those
-> hypervisors.
 
-I'm not following your reasoning here. In the cover letter, you say that
-VMware reviewed your work. If VMware wants to provide P2P support to its
-users, it can add the necessary support itself. As for Microsoft, there's
-no need to worry; it can handle the ACPI changes just fine.
 
+On 10/12/2026 7:58 PM, Keith Busch wrote:
+> On Mon, Oct 12, 2026 at 12:17:38PM +0530, Naman Jain wrote:
+>>> The disable_irq_nosync still does non-posted transactions for msi and
+>>> msi-x. NVMe has a shortcut for msi, but there's currently nothing for
+>>> msi-x. For that case, I have a prep patch I consulted with Thomas, and
+>>> the result is below. I'm delayed sending it out while catching up from
+>>> travel, but I think this will be even more efficient.
+>>>
+>>
+>> Thanks for sharing. I'll give it a try. IIUC, after your patch goes in, I
+>> should be using disable_irq_nowait() in above and see better performance.
 > 
-> > This does not change the fact that the patch causes unpredictable
-> > behavior for P2P devices in the guest. Sometimes it works; other times,
-> > devices that previously worked may be classified as P2P-capable and
-> > will stop.
+> Yes, exactly. It should save hundreds of CPU cycles on every switch from
+> irq to polling.
 > 
-> Nothing "previously worked" here. Before this patch, P2PDMA was refused
-> for every passthrough device pair in VMware and Hyper-V guests on Intel
-> hosts, except Intel QAT/DSA/IAA, whose own Device IDs happen to be in
-> the allowlist. Those keep working unchanged, so there is no working
-> configuration that could regress. And the check is deterministic: it
-> depends on the CPU model and the hypervisor type, nothing else. The same
-> guest on the same host gets the same answer every time.
 
-Of course not. P2P operation depends on the hypervisor topology, which the
-proposed code does not account for.
+Understood.
 
+>> Please correct me if I am wrong. I'll monitor your patch in LKML for future
+>> versions.
 > 
-> > Help Lukas and Mahesh succeed in their work.
-> 
-> I'd like to, but the blocker for guests is on the hypervisor side. A
-> guest only benefits from HMAT once ESXi or Hyper-V emits it, and that is
-> VMware's and Microsoft's code, outside the control of Intel or the kernel
-> community. The kernel cannot make them ship it; what it can do is provide
-> this fallback. When your HMAT-based detection lands, it should be
-> consulted first and this check only when no HMAT is present, so on any
-> hypervisor that emits HMAT your code is what runs and this one is never
-> reached.
+> I need a user for the new API. NVMe is the only one I have in mind
+> right now, so this new irq disable would have to be tied to the series
+> that does the adaptive polling.
 
-The kernel community has no obligation to accommodate users of proprietary
-products who are unwilling to invest in a proper solution.
+Acked. For this series, there are couple of solutions floating around in 
+LKML, and we are trying to converge on the final approach. Once 
+finalized, if we still need to call disable_irq_sync(), we can make use 
+of this new API. In any case, if I happen to send the next version of 
+this, I can use the new APIs, creating dependency on your changes.
 
-Please keep these hacks out of tree.
-
-Thanks
+Regards,
+Naman
