@@ -1,119 +1,198 @@
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416A443CE58
-	for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 07:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.114
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12148457E4B;
+	Mon, 12 Oct 2026 08:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791788476; cv=none; b=e3xOTDh9DKzKfBUAZ2YzHZnOVY2v85N/cCvQ1YutsWSs7zh3IHudXed7ll/h3mZqqQjFHelCXMEPm7HWgeZrRzr23qz24ygWIylbpEen7EzHT6NS2dOi/Ar4//u9Y5wO4Jl6MnpLW2q8a5hkFi7GwPlU0WIZqBsuCZajbbxtorY=
+	t=1791793183; cv=none; b=tjrHjQj7l5XdGdlMI2b7g+ZW1ABpHu9Aaa0lPOoyDk3hJSs+RR9e+1WdNTfbZ5Iaid2F+kS3rbWoYzQYn2t1Aq9unHuQuluizLYl4XJa4JHymnb79GRTDqNNKNkuQAFG5e2hhzb2q9YShf5XF2SPp+BEnmnLfAySYpYtLqfao0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791788476; c=relaxed/simple;
-	bh=Xk3hbaaEMQ+lW6c3+RYQ4qvYM/R/WfCEOwoYIh/ZUfc=;
-	h=Date:To:Subject:Content-Type:References:Mime-Version:In-Reply-To:
-	 Cc:From:Message-Id; b=ZzLvQiiD1epeu5r1eE6wcEBzh3aASGNBaRJTVaQKLBQ/DFFpfzdJx0/c1seFPneErsPeOW5LTh/3+lOEWXdqRZLpN5tmgD0zWjrtA9mvVwAbnDTgFRmlcFDfzn4dBP+5cIwekprCHAf91dhPy/pYmoU6VIE3kByagkk6Hgj9m8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=WVjp/Aut; arc=none smtp.client-ip=209.127.230.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1791793183; c=relaxed/simple;
+	bh=lHgKIkAhoIDMyblSLgZ8oLYAXrpfO9AeAC9floakFZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SxAY1ZE3kdu1QKQywZ1wpTzC0fPhMMoimjH1FJPzr5i6UCYSttytU8oR3F8zgDd0AEAWONyKWb7XhFsFC8HHrZcarjIaJkn4ImuuOfqpz5DE8WEFsuA7/O0sMl2vabTt0skoli6q8LLF56OR41XC+OdFeS15cHPAyfmq3LYrzDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CwMzGL/1; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="WVjp/Aut"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791788469; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=Xk3hbaaEMQ+lW6c3+RYQ4qvYM/R/WfCEOwoYIh/ZUfc=;
- b=WVjp/Autx4bG5GFj2ZHkrZpk2KC/ZK4iFphjhhTztNAY++fAx41oYgyeR0gHbxDzR5l4St
- 2gBFrG/jLxVjOQx2v2tkXKjoOuxHTLImFB08Io1dsjjOMWdryTGfRweOy30VHhs0sAV2r2
- Ty/8tRrujPrqYN/5+KknoOr7chLgoU1mFkCz/odWCjybN0GHBS2XNdYlqfP5HDtrwHvjmG
- U/0alOxcRZxs99HlpWym6vrg+N8HEc3BIOu01UcfwmZ9FnoLH69G5M+EKNbak0SKPBBFqS
- E4RB1ppeRd2v0VCKHbNjYSsgD3ZG+pgB057+rX5e1cu90a9Z5McoMCFr/TCn+w==
-Date: Mon, 12 Oct 2026 15:00:49 +0800
-X-Original-From: Fengnan <changfengnan@bytedance.com>
-To: "Naman Jain" <namjain@linux.microsoft.com>, 
-	"Michael Kelley" <mhklinux@outlook.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler pressure
-Content-Type: text/plain; charset=UTF-8
-References: <20261009050556.2817978-1-namjain@linux.microsoft.com> <MN2PR02MB6863FBC36CE4F1D6419F0E8BD4922@MN2PR02MB6863.namprd02.prod.outlook.com> <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com> <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com> <1c7c7fd9-e2e6-41ac-ac97-9c4d71b1c2fc@bytedance.com> <8bff7953-a9df-4ede-b3de-a4df558946a9@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CwMzGL/1"
+Received: from [10.95.64.165] (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CF8DB20B7166;
+	Mon, 12 Oct 2026 01:19:35 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CF8DB20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791793178;
+	bh=VUZVPJ0UdIOFS6vc0OC+Ybkfy7MnJx9+quD+Spo+mMI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CwMzGL/13NGkEhXjsOKinbs1ElSPiR4S5DdiyGApYDuhels99yZBg6z+6WDJbFkJx
+	 okWtJavFo7CBsXu+eFAQMWntrgGVGT7/1sEaEcO27PQhMU8IVZZh3W0cXIa3/cbgF4
+	 tCdDKvBrbewabINGUTaMHoqOWYbE//DQVfriKBI4=
+Message-ID: <53b199f9-56f6-4b44-93a5-be6437fd3fc4@linux.microsoft.com>
+Date: Mon, 12 Oct 2026 13:49:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-In-Reply-To: <8bff7953-a9df-4ede-b3de-a4df558946a9@linux.microsoft.com>
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Transfer-Encoding: quoted-printable
-Cc: "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>, 
-	"Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>, 
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"Luigi Rizzo" <lrizzo@google.com>
-From: "Fengnan" <changfengnan@bytedance.com>
-Message-Id: <758e4c6b-1b1a-4191-baeb-3f9799783ee6@bytedance.com>
-X-Lms-Return-Path: <lba+26acc85b2+e076f0+vger.kernel.org+changfengnan@bytedance.com>
+Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler
+ pressure
+To: Luigi Rizzo <lrizzo@google.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ changfengnan@bytedance.com
+References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
+ <MN2PR02MB6863FBC36CE4F1D6419F0E8BD4922@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com>
+ <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
+ <CAMOZA0Ljw-DueDP3WvmtYe4x9Y_fNaptAo+3Hv8xzYHOZi9vbQ@mail.gmail.com>
+ <CAMOZA0KJoS4GFrKmaGa7+qMCNktTUg-YpkzX_EoA2KfAW3iN_g@mail.gmail.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <CAMOZA0KJoS4GFrKmaGa7+qMCNktTUg-YpkzX_EoA2KfAW3iN_g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2026/10/12 14:48, Naman Jain =E5=86=99=E9=81=93:
->=20
->=20
-> On 10/9/2026 5:06 PM, Fengnan wrote:
->> Hi Naman:
+
+
+On 10/9/2026 8:28 PM, Luigi Rizzo wrote:
+> On Fri, Oct 9, 2026 at 1:27 PM Luigi Rizzo <lrizzo@google.com> wrote:
 >>
->> This is an issue I hadn=E2=80=99t noticed before.
->> I'll take a closer look at this issue later.
+>> On Fri, Oct 9, 2026 at 12:17 PM Naman Jain <namjain@linux.microsoft.com> wrote:
+>>>
+>>>
+>>>
+>>> On 10/9/2026 12:21 PM, Naman Jain wrote:
+>>>>
+>>>>
+>>>> On 10/9/2026 11:24 AM, Michael Kelley wrote:
+>>>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, October
+>>>>> 8, 2026 10:06 PM
+>>>>>>
+>>>>>> On systems with several fast NVMe controllers, completion interrupts can
+>>>>>> keep returning to the same CPUs faster than scheduled work can run. Each
+>>>>>> handler may drain only a small number of completions, but the combined
+>>>>>> interrupt stream can still prevent scheduler and watchdog progress.
+>>>>>
+>>>>> See this recent proposal [1] that sounds like it is addressing the
+>>>>> same or a
+>>>>> similar issue. And there is this [2] more global approach. It's
+>>>>> worthwhile to read
+>>>>> through the discussion on both threads. I haven't done a detailed
+>>>>> comparison
+>>>>> of either vs. your proposal.
+>>>>>
+>>>>> Michael
+>>>>>
+>>>>> [1] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-
+>>>>> changfengnan@bytedance.com/
+>>>>> [2] https://lore.kernel.org/lkml/20260819124341.4185621-1-
+>>>>> lrizzo@google.com/
+>>>>>
+>>>>
+>>>>
+>>>> Thanks for sharing these Michael. I'll check more on these, and try it out.
+>>>>
+>>>> Regards,
+>>>> Naman
+>>>
+>>> ++ authors of these two series, for awareness and if there is some
+>>> configuration in their patches I should be trying to fix these lockup
+>>> issues.
 >>
->> Regarding testing, there are a few points to note:
->> 1. My patch has been updated to V2, https://lore.kernel.org/linux-nvme/2=
-0260826061546.56006-1-changfengnan@bytedance.com/
->> 2. In my experience, when do performance tests, it=E2=80=99s best to do =
-precondition
->> first and then execute an ABBA test; this ensures reliable results.
->> 3. IIRC, disabling interrupts in the QEMU kernel does not actually disab=
-le hardware
->> interrupts; QEMU still handles them, which has a significant impact on p=
-erformance testing.
->> Perhaps you could test this on a physical machine.
+
+Hi Luigi,
+Thanks for looking into it.
+
+>> I see your thorough analysis below, thanks for the details.
+>> Is there any reason why you used nvme.use_threaded_interrupts=0 ?
+>>>> Setting to 1 moves the work to a kernel thread and seems to be the
+>> best way to prevent too much work in the hardirq and the soft lockup.
 >>
->> Also, I=E2=80=99d like to ask: does this softlockup issue only occur on =
-QEMU+ARM?
->> or does it also occur on x86 physical machines?
->> Have you tried enabling the =E2=80=9CPosted Interrupt=E2=80=9D feature i=
-n VM? Maybe this will solve
->> this problem in VM.
+
+I used 0 because the goal was to preserve the existing hardirq fast path
+and avoid the throughput cost we had observed with threaded interrupts.
+
+I have both modes on the same kernel image. Threaded interrupts did
+prevent the lockup, but at QD256 they reached 3.165M IOPS versus 4.986M
+with the IRQ-poll fallback. At QD1 they reached 21.2K versus 25.0K IOPS.
+
+So threaded interrupts are a valid workaround, but on this system they
+cost about 15% at QD1 and 37% at QD256 compared with the fallback.
+
+More details in my initial cover letter.
+https://lore.kernel.org/all/20261009050556.2817978-1-namjain@linux.microsoft.com/
+
+>> I am surprised that GSIM fails to prevent the soft lockup, though:
+>> under high load the sequence of events (starting from unmoderated)
+>> should be the following:
 >>
->> Thanks.
->=20
-> Hi Fengnan,
-> Thanks for the suggestion.
->=20
-> I was using QEMU just for sanity, all the test results are based on exper=
-iments in an Azure ARM64 Hyper-V VM. I could not create enough load on my l=
-ocal QEMU VM to cause a lockup, so I am relying only on the Azure VM I have=
-. I would not rule out x86 for this issue, as we have seen spurious lockups=
- in the fleet, which are more common on certain SKUs, but my current experi=
-ments are limited to arm64. The proposed solution should solve it for both.
+>> 1. HW sends MSIx interrupt, not blocked by anything
+>> 2. SW calls handle_fasteoi_irq() --> handle_irq_event() --> ... -->
+>> action->handler() which starts processing
+>> 3. HW possibly sends another MSIx interrupt
+>> 4. SW handle_irq_event() completes
+>> 5. SW irq_start_moderation() starts the timer, __disable_irq() and
+>> sets IRQD_IRQ_INPROGRESS | IRQD_MODERATED
+>> 6. if #3 happened, or another HW interrupt comes before the timer expires:
+>>    SW handle_fasteoi_irq() finds IRQD_IRQ_INPROGRESS | IRQD_MODERATED both set,
+>>    and does not call handle_irq_event(), postponing the call
+>> 7. when the timer expires, the pending interrupt is reinjected.
+>>
+>> The above suggests that we should see some pauses between runs of
+>> action->handler(),
+>> at least for a single queue per CPU.
+>>
+>> Do you have any way to look with perf and bpftrace at the CPU
+>> processing interrupts,
+>> to see what keeps it busy (the pause between 6 and 7 should keep it
+>> well below 100%)
+>> and try to verify whether the calls to hndle_irq_event() are actually spaced
+>> as the sequence above describes?
+>>
+>> Having multiple interrupts on the same CPU mean that the gap
+>> between interrupts for one can be used by others, and that may
+>> definitely make the CPU 100% busy in hardirq.
+> 
 
-I set up a test environment on my own this morning.
-Although I wasn't able to reproduce the soft lockup issue, I did observe
-I/O latency of several hundred milliseconds.
+GSIM was creating gaps for individual sources, but the other NVMe 
+sources sharing that CPU were filling most of them.
 
->=20
-> The guest exposes a GICv3 CPU interface and Hyper-V vPCI maps the NVMe MS=
-I-X vectors as guest GIC SPIs. I do not see an ITS, LPIs/vLPIs, GICv4 VPEs,=
- or another direct virtual interrupt injection interface exposed to the gue=
-st. Also, posted/direct interrupts would reduce host-to-guest interrupt inj=
-ection overhead, but the lockup here occurs after delivery, while nvme_irq(=
-) repeatedly drains completion queues in guest hardirq context. So I would =
-not expect posted interrupts alone to provide the missing scheduling bounda=
-ry.
+I traced irq_handler_entry/irq_handler_exit with trace-cmd for the four 
+NVMe queue vectors routed to CPU0. The test used GSIM fixed at 10 us 
+with all 56 data-NVMe I/O vectors opted in.
 
-I'm thinking that adding a scheduling check to my patch should also resolve
-this issue.
-That would be simpler and more acceptable, we can work together to refine i=
-t.
+Without timer push, I recorded 37,218 NVMe handler invocations in three 
+seconds. The median handler duration was about 2 us, but the median gap 
+between NVMe handlers was only 4 us. The p99 gap was 872 us.
 
-Thanks.
+With timer push enabled, the same three-second CPU0 trace contained only 
+531 NVMe handler invocations, and the median gap increased from 4 us to 
+517 us. This confirms your diagnosis, adding one delay per additional 
+source restores a real CPU-wide gap.
 
+The full QD256 workload then completed without a soft lockup or kernel 
+taint. There was a significant cost, though. The delayed completions 
+accumulated into much larger CQ batches:
 
->=20
-> Thanks,
-> Naman
+   - median NVMe handler duration increased from 2 us to 3.1 ms
+   - p99 handler duration increased from 106 us to 7.1 ms
+
+For comparison on the same workload:
+
+   fixed 10-us GSIM + timer push: 1.906M IOPS
+   adaptive GSIM + timer push:    1.712M IOPS
+   threaded NVMe IRQs:            3.165M IOPS
+   NVMe IRQ-poll fallback:        4.986M IOPS
+
+So the timer-push idea does prevent the lockup, and the trace confirms 
+the multi-source gap issue. On this NVMe topology, however, delaying all 
+sources creates very large completion batches, and the NVMe handler 
+still drains each batch without a bound in hardirq context. That causes 
+the large throughput and tail-latency cost above.
+
+Regards,
+Naman
