@@ -1,253 +1,245 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D052745198A
-	for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 09:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E4E357D0D;
+	Mon, 12 Oct 2026 14:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791796677; cv=pass; b=cpxbDhzPgEUMCgpii35KzvCdZu82kEvNTdTgVjXJxZZqcEVGlN4S4diSthe3A1WfFzT1FeEduCt6sVoISRphvweStnvR8Eszc5K7oGG7XVZTu2ytF34HvB1+5UThuaCbvxY3FEG0qV2kx9ggmSbzCT3HajvEW1h5EpteWkpSR7w=
+	t=1791815212; cv=fail; b=qvcRQbON4GZkaWbbc/lYxmrqQ+NZnaeaRIhY6dFwUClK04pTI4/0kSz//zqsjYaa0/UyOVHzOYqQWhc+OPUsPudRe7GRITJ6SRpCXYMGLwpSTQK8DrMGaLJODvV9sbUsVpHPkjokJxKrZTK3/44OH7Xpa5fYGGAu1747nIrGCdM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791796677; c=relaxed/simple;
-	bh=zE/xMc3+fkme8U686WImZo7kXykoV74MS3mBMZEs2EI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b2pumt7e2/Sg+DmGvWUd0QXy4uNNQtWmldeeq+WNtv5Acql0XqkOc9t1BG7N5BfxAPfwNTzT5ty8AZHKOxfizMqfY/Ks2n8G7KsZEnzY0HiPpv/kpQaz7CX67lMXe98FFh+qOnFGj2yGGOZK27fWeWicgwcVIAzMPnu+eSZezXg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vPW450Z+; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1791815212; c=relaxed/simple;
+	bh=z12Qpmyp8Zr5Pfg4x04b4aVI32pqADyYABjcqkZfIKw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PML8RDFbT/WqKhd1VNz87dnLy0z+WiXWaBHDTSS5CJvKUqI5esPdMdnLSdxXcpOpmmEYlfaEEDyn8JvrBfc0QkmdCbIqunpef3ecDMoDgV6pfu5M5JvD8KgFLmaiWENfb86mr8DGjfvEoy8dneT+CbmAAzX4wPZVLqnoRY3T7XI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGNUk2a6; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vPW450Z+"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so20795ad.1
-        for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 02:17:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791796675; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WbELCZXlE+PSY0haepPBvfEqcmJZB5hnGbkgKPjgXzyASp0RNh8TjDR07dOz4xSEN3
-         Brg0ixMZabubqvHkL55zaKodkN9e5cPJBIxlInrbUiv79aoWw7BozMcVb77JelpkT0gk
-         Am12j5sVcC1BHiChZ3NI/KzWAYrP5tMXt9CjzdO3dzXtP4H4dUXFZ4hwGw3Wav3SMFnz
-         tH2FDrSUMpX7RSVc1lGs7DIEATenalp2C4WAOkr43nCYascH+2zBgXbPdaSVPrQlyKLJ
-         iAXuOrFfAwp2Prbm7qTOck+2Uhrc+T45o97etqOCIXkErHtydJ89T9xhmPjYfBHe2zkh
-         k1CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
-        fh=7rmE5mRahtQDsnduhl/7pOxSZhSmc0slmWKyN2TcgP4=;
-        b=VX+ZkV0Ki/xtzmFPhPEoqFHpHUIply5myeUuVpD7YPe3kcdl+EwDU49/iMPS/UmFbb
-         GslDcofHA28pVM3gGbMbz5mESwWF9A8Cokx+dWDGHHVSwRtw7n6GdD/nIDfeya4N3a/A
-         aEpb75goPmxQa+T8ax0bdyz0t2QTL5BwS41uWso++Oaae0Pax+huu7gS++zG9wpEmVnW
-         fdeCtgziQKicHBnZHZZoKHke7ipbjQEDryrpCMfVITf6eFrW61Z7j6yoeqB+Z1iHGJVf
-         re6KSelzh093MegbEnP5e5c1J45sDtt1pWYkN+May6V11yuw2oLPQ+8MD0f8TvdWlcl1
-         0cqw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791796675; x=1792401475; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
-        b=vPW450Z+B9+CUnKihi+dAQJVTZ4Gu2pl1G0SHqsVLVKCWln8iNw1mnRTY4f8QS1Lti
-         50RR7wNTALtUf/UuP8O/pqpGsad4hajb36UpJgJLsNMiT9MYa1ipABiPtpx6iYq38rDH
-         C31I2MesMLr+ykMEDWlA5v3AQeSa8Kwl3NjoeOViFRSGTHCP4FVShbfIynTVr0wtMQh0
-         13eJHl/YeVDCOiv6ZH6aBaWzqwIdLKpcY0dEKyEl6iZj4TxGOfESBh5NX4v6vuax+vS7
-         v9BjviJ2SCfNxwGbzY3QV0jjK7iPG3tMYTNCLnbUNRgT+Xg4+mrfd9g/+STd+/7wKmnS
-         h5/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791796675; x=1792401475;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bLXlg2Zl+SnMXYI2B0PTH2g6n6WahQOBn4X4k4dpYkc=;
-        b=cxe6gooA9M8SRDCBUs1UNgIcnwJ7AuzqtoM7VhOpnpIceeHDUHJgaKBQeqGn3cJXAL
-         JqK2qv+B8DmyRXcZAh5RGCGYCNwMALn6L0s12nNRKtXngk+G92rBxffeyOnJoIPlOg/1
-         74X9kjpWLvlT78tls8UK++37TquulOEbaAtOOT0HLGB4XXiFLcDRGLnjqeH8lIEuloPW
-         psHauY6UWn5rxeTgfg0DafyCvktZ7jnEBA11WQ6ZhUw0tr8wZpbhbnEueQVHa2j42S5S
-         rw1N/5ItfEfu3cv02I14BPOZUyHyBjnJJ4A1Rw3FkWIG3AIGhTmmNTsA2t76SGSO0ih5
-         US0w==
-X-Forwarded-Encrypted: i=1; AKwUvBxcljXEoXjkWx45iBsTrtYoazERr18tz4z2JUNEDN9JywNk2LEXPT60MFbNt0ld0wSpiM1Gb+hmQkNnt/A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5xfGRCziEGFMQHBYLcWcxwyHwn7hm+0xyz4RQHDCNXNYS9UCF
-	Lkg1E5nYErR/RaliArn7yXQ/rUgQrMheaLZjaQd6qso9F5g90Y/QPb7umSkFIoJ/YRmcoKPgYCA
-	V0ZrQgUJKdC94ZtnW18Nhpwn+efsfTyzIeyAjeMy3
-X-Gm-Gg: AYBFou3f2GtjgYeKisNft1/092c1KdA8HY9pOqtdtEVhNmfiqyyTf1KhOW3nrqlPihH
-	K5Z3uQWcaEIv7wyu1I+/uspaZSiuTwKGyy1ZzzgcpLh3bSrUVA6U4TRwHUT21pN9JiDkyNGbMyb
-	9cyyxR/dE9vF1r3H+cHN/l6HxOF+LmqUQlYkmNdbJO7kr1z1ZNNw4GbmPuS9Bo3cdHNcOBv3JCA
-	bAHeMUClcbE7o0oyetkMPmwSj9Js915Sj1lQHhkotXSaSaRZb4XuGIEKRNvLsoSAQLXvPyQIgQK
-	zK6R4HfEvXUa93WZPMMi7t6MxFF0sK3to2ltHSbMqzq05Rbu3AkYpunb
-X-Received: by 2002:a17:902:cf0e:b0:2e6:f400:5655 with SMTP id
- d9443c01a7336-2e87b9c037fmr5398945ad.3.1791796674314; Mon, 12 Oct 2026
- 02:17:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGNUk2a6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791815210; x=1823351210;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=z12Qpmyp8Zr5Pfg4x04b4aVI32pqADyYABjcqkZfIKw=;
+  b=HGNUk2a69ztUX1w/bP6Ket8J94n1Vj1srErptQH9DxY69dFONLK2HT7e
+   b/qu2jGTF9/lHBJLlXgPfVvgNr1cBKxQSg24EQ5gEN+DW8p1eEJfnDiw7
+   EdS8JnYvw1l8UEpErfONkeR1FXWJLuao6RH0bel+AvJNQyyz/Ivo2fSJp
+   o+PGuvBdUyn+EwZQtWvCywCAmXhnx0G4ZZiaRLI0OBAU4Blyk2d9hZjKE
+   8Dw5vk2Qc1MVZzwky32F0i7Ho2KfCv5BWpV/1iBZeeePFTGShRJH2AgU5
+   4HLIBxQ2ff9vLBJPCnfEpA/cOVpJSGXsWdOiDGQc+joTcThIUAFeaWjUE
+   A==;
+X-CSE-ConnectionGUID: 1Y/heTeUTuWU6wjg2hQaJA==
+X-CSE-MsgGUID: Dr5xBXjiRs2G+lokDSnb1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="537556"
+X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
+   d="scan'208";a="537556"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 07:26:49 -0700
+X-CSE-ConnectionGUID: GGFFkhVISaexfv5h7sMb6g==
+X-CSE-MsgGUID: GMHC6o5ER1aoK7lWzxiaOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
+   d="scan'208";a="1229299"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 07:26:49 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 12 Oct 2026 07:26:49 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Mon, 12 Oct 2026 07:26:49 -0700
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.42) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 12 Oct 2026 07:26:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ei1wsPIcd/ABt0wzhxla/UB1M4iw9i6Rmk6YMkCWr1Y49eBLqnS2054USp8urNz/FyWB7Y9ITksrJ2GX/PfoJ3RGqKYFHfawxq+RBwLq9iZGs3HrK3Cy4kx+AS7aUPqENDcKeWprNzcZFFyDbzy+Mp/qa74Zrzp0iPqGOOm2Hig9luiiUEIe6lzyYuCVnd2qn4avutL+XFQ3ki9u2uIunA3YaeAA4dS54O34BaKA1W3c+8IBqv/5PeEgtB6ya1f2l0ePoDNOxezofQLxwz7TPeleWBpj4QYaxUT23eKByDjRDZNrD9NHew2+ej4gZNNmNFdPhzs6ptov/b6eeXJWlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z12Qpmyp8Zr5Pfg4x04b4aVI32pqADyYABjcqkZfIKw=;
+ b=lkBtCsifwgjsfdH0sfRSluZwYoWAIRN02ciKZl/AI77ODTxdcmVnKxxCfoUJBwv3iAMgPvJr7LwsQPMt6bgGV1kJtVMpeVTDkHlziRbPr3PChwJCBEb4x9IqsoA2Gktlyc8WwgEqhOHolojX/JM27e1hRxWdfCcZ6n6Gq8qqFEJb5rp3uIkWUVZpjRfQeX0DUhIkIVIXHEIkkt4VLu/IOddpiGJjNo1ZwGQQKAPYpt06qD8mcCL2SgJSNGy6jAi0VZiJ3b5XJfB8NSm9f1oa6FNW0zPvjUJum7QAComarhz9GEl2xpHLgq/ZE/6dPHTIDtLgM9eI7mu2Od2x2XpteQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com (2603:10b6:408:179::22)
+ by LV1PR11MB8791.namprd11.prod.outlook.com (2603:10b6:408:2b2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.20; Mon, 12 Oct
+ 2026 14:26:46 +0000
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9]) by LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9%5]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 14:26:44 +0000
+From: "Popov, Pavel E" <pavel.e.popov@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: Bjorn Helgaas <helgaas@kernel.org>, Jim Chow <jim.chow@broadcom.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+	Radu Rugina <radu.rugina@broadcom.com>, Alexey Makhalov
+	<alexey.makhalov@broadcom.com>, Wei Liu <wei.liu@kernel.org>, Michael Kelley
+	<mhklinux@outlook.com>, Lukas Wunner <lukas@wunner.de>, Nathan Ciobanu
+	<nathan.d.ciobanu@linux.intel.com>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V guests
+ on Intel hosts
+Thread-Topic: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+ guests on Intel hosts
+Thread-Index: AQHdWASZkl/0se0hWEKzOo9DW5a5oLb1bsyAgAATn4CAAAJWMIAACQKAgAAB5iCAAkgrAIACGMTQ
+Date: Mon, 12 Oct 2026 14:26:43 +0000
+Message-ID: <LV2PR11MB60708F76EB7D6E5A40E82853B29F2@LV2PR11MB6070.namprd11.prod.outlook.com>
+References: <20261009154034.82321-1-pavel.e.popov@intel.com>
+ <20261009165833.GA991924@bhelgaas> <20261009180847.GD11438@unreal>
+ <LV2PR11MB6070D3FCBC3EAED4FA0191EFB2922@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261009184923.GE11438@unreal>
+ <LV2PR11MB60707DAD12BFBEAB681463B7B2922@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261011054700.GF11438@unreal>
+In-Reply-To: <20261011054700.GF11438@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR11MB6070:EE_|LV1PR11MB8791:EE_
+x-ms-office365-filtering-correlation-id: 461224f3-ecd9-4795-0775-08df286cd735
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|1800799024|7416014|376014|366016|6133799003|10067099003|22082099003|18002099003|38070700021|11063799006|4143699003|56012099006|5023799004;
+x-microsoft-antispam-message-info: 7k2TXzaTWE0Rrj/g9qtRAmhlhskjqTpYZDEesmPxb/uCPEj+9U8y1CmVfMqQj68FWUmsdS2465bVQFM88C/rtwgxOjcPzQjvabk+wRf5ilDrmejjsIESCud8ewM/3sJKxtsaFIfsIWBOPThvBEtZRQ1HzMt8RIpfYiKTmG1s4ptbKCe0HrLvX8rWhTpJgxaH9+JqtXYtWHP/5bjroYI3aO58jqys5BSwpjBZ3cVvTN181xyp4Kq4QlVtiESKo9ya5PZZ5v6BAItWEcA//Jk5FqXw3p6bIbonJttAHsXmLlNX06ZfWJ44tbobz+h0OPBqOWDCAlxXLlu7VIuc5Hi3CAqmBpGENmNsKC3zqx5/VgUBrswFxB/fpc+muXhVKu1yyl6nqlolTOWy8/h6SFzyPfe83+z5+b6kVbbKpnPkF0lhuB4up8LeRh3kB8sysMZduP7rgEvz+ZauHJCMukCZju9/E67MSbXc76Nyh102KTkdY0Xj1SVoouT/Jqy7h94I/pmpHrmZ3SmkjbmyiI3OSG5l1ARKg/ttjo0gL0sAHIOTVqJvDIBhEACLs3PLirplW8TGOLm5tMr5ZyzC84WFyI8CLuu3vPScYB6HVuIXO5iD+nYT3Kjyct4b4kDfWsJi20PxJrQrLT7d4kqNjGZifLkijQKHOvHb/3BCN4YBamnrw6U4hjDnMyYzlZi2pDhGyrBkwlgbBpmdcyp2md8nQw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB6070.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(376014)(366016)(6133799003)(10067099003)(22082099003)(18002099003)(38070700021)(11063799006)(4143699003)(56012099006)(5023799004);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?optuB7qXM/fVma+D5wfYW31DLeYTmoIA3M39Y8lKKyjxwEftRj3H7lk/wtew?=
+ =?us-ascii?Q?8HuPPOfkDVTVwUjmCafpOxjVy5To/aJ35BW9HPRxGqwHc5myZTjy+0ucdlCP?=
+ =?us-ascii?Q?5Uqm6UmSe+l58e1K4xQ27IjDgguEyssC4vhjknfOdReBQHuEcM6rWU2l5Lqw?=
+ =?us-ascii?Q?/TLg4pgcb9sqCOAbDicCY64j+NjUqkupryCqbtgEvR+THtwudECTKwDAwrL7?=
+ =?us-ascii?Q?IInWyM6s8WCI6XJUsFqigtccjeNfVpv2QHV7yHvBIOd2zVCS+EBFSbawFY/c?=
+ =?us-ascii?Q?5360qy1I53njXniMu8OJ1zJ0PIuwoydUM0d6dLfi+uDfoJrCBi3uvNUimLab?=
+ =?us-ascii?Q?2psoezhleERZ8ix1ib25G5BTVwbM6GzJPRqWBNyPbLMZV34ZaVlE/tb6TpgY?=
+ =?us-ascii?Q?4L48FusDDIz0pgNxRNkdxCaBN15JybtEDx7uFfhYqYNlgAWdixViEwVKQX41?=
+ =?us-ascii?Q?XXtwdZq52YWhzT45FfbWDJAxD/pBtVN3FWg/Fspa0DOXiEhi0VKaj6cTPOB1?=
+ =?us-ascii?Q?mXSAO9/M7SEXKLR1O3SGTFAQDv52fR13m0ko8fhPNowOj6NzZj2tjsg2nSyO?=
+ =?us-ascii?Q?bmr+JPKyo9Cs79LvWGs4bsIHKlJMqdKdaeakOWEADU6TLZzzY37AI4ikNwq/?=
+ =?us-ascii?Q?RR5GI6KTkcC8CEZezxX8MfPmWOQd46lgr1tELH2YRQVW/FafklakA5QpEvzv?=
+ =?us-ascii?Q?oMxCszc+o3ms+eptkggpEhqU0bwXfl456uPe6Ud+I2OSy5Z5j8qcUF2+ETBx?=
+ =?us-ascii?Q?j7iEbqhWZpjfkFsYMBiN1/bhJCzbLJg2QM3HOK2GV3lMr09zAjR1JCuorR/F?=
+ =?us-ascii?Q?rA6FdrewZnn00UyLWdSZx9RD9BtBTxpzs4aNWk+KPfVHHocptN2bqKWo4I9o?=
+ =?us-ascii?Q?KXyMsv9HH31pXM9g150ZOpr0lp3lmLszWyp1qAQkBxHYU7GdNU/3PSpDOrQD?=
+ =?us-ascii?Q?GI422dhg7jJlx8jV/P6/bk6THMeyzX0R/zLnpQ10Hoqsff4CW+TTsUe3+zY6?=
+ =?us-ascii?Q?vEpc1EbAExKTRoklG5GhpZcp3SZ5yedZaINamfi/2e3q6FESCK8WgBn4a3G0?=
+ =?us-ascii?Q?laaTiyK1LaS40dfBdGuyvar2FfFENa87k4xuYZ2U/x+pbXdtWQyWpaDLnj+h?=
+ =?us-ascii?Q?NUe/UR1WC6NUNSwRv5AzYnc8wlysqsrIGqQBzEjibmg6QCKnQ7te4SnAwWbO?=
+ =?us-ascii?Q?qHX9beSckp25aAmhZGqIhoXcDIim5/APVM5gpjZNEESzQsEjHkJTMRNu6eoH?=
+ =?us-ascii?Q?+3BznQA9dO+MmofO0O3213p7+iQ6UEDB0BwCsf2Np7OsUJ1KlzXTN+XaTdA+?=
+ =?us-ascii?Q?SyxbWoKAUY3nwLzShCQdd+gH2XF2qP4xu281prgtgkBHF6h6BcmP3LQLXVuU?=
+ =?us-ascii?Q?c9UiB+WXTS9vximMuEVS4hpvyDtjOc5cFieTqPELN6wr8XRaOfo8cuyN5ABf?=
+ =?us-ascii?Q?3ShnSTVdUk6JI0vmw0xpPzJSxXbTJzKu+7dX4Qwy140Tv0O44a8M4bVmdY08?=
+ =?us-ascii?Q?mswa69WC/vu0UKfOyJ36HejrvYPbu56rKjf/ip7DxqqxO5komrMl6IDK1sHz?=
+ =?us-ascii?Q?jz/zEUkob2M6W5OffQ+UK8U0I5WT1YxJ1XvSHvd0AGbpNudu5v3RbObHj0gc?=
+ =?us-ascii?Q?3UKlQN5SK+m9njdchU4sMphkJx7c1IPWtWw9UsFM9nRloX6WZZ9dLMLifQ5a?=
+ =?us-ascii?Q?csv5GPTYbCwytLAGY+8wAgQUF+RyldBZfzrtknifv+o0yVty5CmTwFOV2TSy?=
+ =?us-ascii?Q?Q+gI+wRVPA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261009050556.2817978-1-namjain@linux.microsoft.com>
- <MN2PR02MB6863FBC36CE4F1D6419F0E8BD4922@MN2PR02MB6863.namprd02.prod.outlook.com>
- <04d88297-1732-4761-ae82-d68c441a7156@linux.microsoft.com>
- <3f4a11ea-bbc0-4dc5-9720-3447346739cf@linux.microsoft.com>
- <CAMOZA0Ljw-DueDP3WvmtYe4x9Y_fNaptAo+3Hv8xzYHOZi9vbQ@mail.gmail.com>
- <CAMOZA0KJoS4GFrKmaGa7+qMCNktTUg-YpkzX_EoA2KfAW3iN_g@mail.gmail.com> <53b199f9-56f6-4b44-93a5-be6437fd3fc4@linux.microsoft.com>
-In-Reply-To: <53b199f9-56f6-4b44-93a5-be6437fd3fc4@linux.microsoft.com>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Mon, 12 Oct 2026 11:17:16 +0200
-X-Gm-Features: AclHuK8b7Ekjps9gFjWxZLvZacLyDyhJhw6UHMDi-KXrVX-gzw676mEw94bJiKQ
-Message-ID: <CAMOZA0JrxakyxxYPu72hk-jWQpW33-0BGFkZX-n_3D+28eDuGA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] nvme-pci: yield completions under scheduler pressure
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: Michael Kelley <mhklinux@outlook.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, changfengnan@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: AnQ4eTWxUsUn7yJY1To5lMz9dLmSgrzZu3ij2bQYafsPUK4FlAWcvWxzR+QkCnWWNyPqie916D86ViVyHsT5zXnPc+NurW4L9fN3UVE6rvNpmheaP3kqsvrCXH6wnjJS/5Ot6Vl/y/y2sM2oI4GkkBNq1OS17BeEsY5BJ3tm98u8Vo1g7nfq6Iuz8ZvknN1EfgUmQQHO0LOx1p2jBRFtYO8yCaEc97yp9VvOAkra7M/rsYmMaSc8gOi1SB7V1I3xDmXY61SRv/fWvJmZAlEDk96IggUMUJfEBC78aRs5bI41EKs7u1pI2YyWu8sGlOr5vP9WNGM3GSjABYBn2fZuvQ==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB6070.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 461224f3-ecd9-4795-0775-08df286cd735
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2026 14:26:44.1770
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: veHehkaH3OsJe3SoqhC4q5JUeHx5wZ8RM43n4dX0zBqnlfqZVHEvOeLkXDFg3fKYe2GZsUwUPPHlfcJ2Ac3bOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8791
+X-OriginatorOrg: intel.com
 
-On Mon, Oct 12, 2026 at 10:19=E2=80=AFAM Naman Jain <namjain@linux.microsof=
-t.com> wrote:
->
->
->
-> On 10/9/2026 8:28 PM, Luigi Rizzo wrote:
-> > On Fri, Oct 9, 2026 at 1:27=E2=80=AFPM Luigi Rizzo <lrizzo@google.com> =
-wrote:
-> >>
-> >> On Fri, Oct 9, 2026 at 12:17=E2=80=AFPM Naman Jain <namjain@linux.micr=
-osoft.com> wrote:
-> >>>
-> >>>
-> >>>
-> >>> On 10/9/2026 12:21 PM, Naman Jain wrote:
-> >>>>
-> >>>>
-> >>>> On 10/9/2026 11:24 AM, Michael Kelley wrote:
-> >>>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Thursday, Octo=
-ber
-> >>>>> 8, 2026 10:06 PM
-> >>>>>>
-> >>>>>> On systems with several fast NVMe controllers, completion interrup=
-ts can
-> >>>>>> keep returning to the same CPUs faster than scheduled work can run=
-. Each
-> >>>>>> handler may drain only a small number of completions, but the comb=
-ined
-> >>>>>> interrupt stream can still prevent scheduler and watchdog progress=
-.
-> >>>>>
-> >>>>> See this recent proposal [1] that sounds like it is addressing the
-> >>>>> same or a
-> >>>>> similar issue. And there is this [2] more global approach. It's
-> >>>>> worthwhile to read
-> >>>>> through the discussion on both threads. I haven't done a detailed
-> >>>>> comparison
-> >>>>> of either vs. your proposal.
-> >>>>>
-> >>>>> Michael
-> >>>>>
-> >>>>> [1] https://lore.kernel.org/linux-nvme/20260818033846.53790-1-
-> >>>>> changfengnan@bytedance.com/
-> >>>>> [2] https://lore.kernel.org/lkml/20260819124341.4185621-1-
-> >>>>> lrizzo@google.com/
-> >>>>>
-> >>>>
-> >>>>
-> >>>> Thanks for sharing these Michael. I'll check more on these, and try =
-it out.
-> >>>>
-> >>>> Regards,
-> >>>> Naman
-> >>>
-> >>> ++ authors of these two series, for awareness and if there is some
-> >>> configuration in their patches I should be trying to fix these lockup
-> >>> issues.
-> >>
->
-> Hi Luigi,
-> Thanks for looking into it.
-...
-> GSIM was creating gaps for individual sources, but the other NVMe
-> sources sharing that CPU were filling most of them.
->
-> I traced irq_handler_entry/irq_handler_exit with trace-cmd for the four
-> NVMe queue vectors routed to CPU0. The test used GSIM fixed at 10 us
-> with all 56 data-NVMe I/O vectors opted in.
->
-> Without timer push, I recorded 37,218 NVMe handler invocations in three
-> seconds. The median handler duration was about 2 us, but the median gap
-> between NVMe handlers was only 4 us. The p99 gap was 872 us.
+To be clear about what is at stake: this series is what enables P2PDMA
+in VMware and Hyper-V guests on Intel hosts. The assumption that the
+hypervisor can simply be fixed to emit HMAT is Linux-centric. It holds
+for KVM/QEMU, which is open source and where anyone can add HMAT support.
+ESXi and Hyper-V are proprietary, so only VMware and Microsoft can add
+it, and until they do, this series is the only path for guests on those
+hypervisors.
 
-(medians are not a good metric in an environment where there might be
-a lot of idle runs because a previous, delayed run already consumed all CQs=
-.
-You may want to look at the full distribution, I expect to see a step at so=
-me
-point, the exact percentile depends on how many queues share the same CPU)
+> This does not change the fact that the patch causes unpredictable
+> behavior for P2P devices in the guest. Sometimes it works; other times,
+> devices that previously worked may be classified as P2P-capable and
+> will stop.
 
-Just a clarification, the pattern I expect on CPU0 is something like this
-NVME0 NVME1 NVME2 NVME3 TIMER_PUSH NVME0 ...
-what is "mediam gap between handlers", is it the time between NVME0 and
-the next NVME0, or between any two NVMEx and NVMEy ?
+Nothing "previously worked" here. Before this patch, P2PDMA was refused
+for every passthrough device pair in VMware and Hyper-V guests on Intel
+hosts, except Intel QAT/DSA/IAA, whose own Device IDs happen to be in
+the allowlist. Those keep working unchanged, so there is no working
+configuration that could regress. And the check is deterministic: it
+depends on the CPU model and the hypervisor type, nothing else. The same
+guest on the same host gets the same answer every time.
 
-> With timer push enabled, the same three-second CPU0 trace contained only
-> 531 NVMe handler invocations, and the median gap increased from 4 us to
-> 517 us. This confirms your diagnosis, adding one delay per additional
-> source restores a real CPU-wide gap.
->
-> The full QD256 workload then completed without a soft lockup or kernel
-> taint. There was a significant cost, though. The delayed completions
-> accumulated into much larger CQ batches:
->
->    - median NVMe handler duration increased from 2 us to 3.1 ms
->    - p99 handler duration increased from 106 us to 7.1 ms
->
-> For comparison on the same workload:
->
->    fixed 10-us GSIM + timer push: 1.906M IOPS
->    adaptive GSIM + timer push:    1.712M IOPS
->    threaded NVMe IRQs:            3.165M IOPS
->    NVMe IRQ-poll fallback:        4.986M IOPS
->
-> So the timer-push idea does prevent the lockup, and the trace confirms
-> the multi-source gap issue. On this NVMe topology, however, delaying all
-> sources creates very large completion batches, and the NVMe handler
-> still drains each batch without a bound in hardirq context. That causes
-> the large throughput and tail-latency cost above.
+> Help Lukas and Mahesh succeed in their work.
 
-Yes, without touching the nvme handler to limit the number
-of entries processed in each run, there is only so much
-a generic solution like GSIM can do.
-This definitely warrants some NVME-specific changes
-such as those proposed by Fengnan, and they are in line
-with what NAPI already does by using a bounded batch
-and rescheduling the handler.
+I'd like to, but the blocker for guests is on the hypervisor side. A
+guest only benefits from HMAT once ESXi or Hyper-V emits it, and that is
+VMware's and Microsoft's code, outside the control of Intel or the kernel
+community. The kernel cannot make them ship it; what it can do is provide
+this fallback. When your HMAT-based detection lands, it should be
+consulted first and this check only when no HMAT is present, so on any
+hypervisor that emits HMAT your code is what runs and this one is never
+reached.
 
-I am a bit surprised by your numbers regarding the differences with
-and without timer push, so I would like to understand
-the numbers better.
-(As an aside, 10us is really a bit too short for GSIM delay, because
-almost 50% of the time gets eaten by the context switching.
-At least for an initial assessment I would start testing with a fixed 30-50=
-us)
-
-Can you clarify the following, specifically for the "full QD256 workload"
-- how many vectors are sharing one interrupt CPU (the previous test says 4)=
-,
-  and how many interrupt CPUs are used in total ?
-- From my experience (different environments), I have measured
-  < 1 queue - 1 interrupt CPU - 1 user thread > saturating at 400-600KIOPS
-  (I don't remember whether the bottleneck is the user or interrupt CPU).
-  At those rates, 256 outstanding entries may take some 500us to be process=
-ed.
-  so it seems strange that the median NVME handler (per queue?) takes 3ms.
-- these times will be scaled down if each drive uses many queues so the
-  average throughput per queue will be lower, and such to keep the total
-  rate for each interrupt CPU below its 400K cap.
-
-My expectations is something along these lines:
-- the outstanding CQ queue cannot exceed QD ie 256 in your test
-- worst case each handler should run at most some 500us
-- four queues will create a total QD=3D1024 so the interrupt CPU
-  will take at least 2ms to drain them
-
-cheers
-luigi
+> -----Original Message-----
+> From: Leon Romanovsky <leon@kernel.org>
+> Sent: Saturday, October 10, 2026 10:47 PM
+> To: Popov, Pavel E <pavel.e.popov@intel.com>
+> Cc: Bjorn Helgaas <helgaas@kernel.org>; Jim Chow <jim.chow@broadcom.com>;
+> Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
+> <logang@deltatee.com>; Radu Rugina <radu.rugina@broadcom.com>; Alexey
+> Makhalov <alexey.makhalov@broadcom.com>; Wei Liu <wei.liu@kernel.org>;
+> Michael Kelley <mhklinux@outlook.com>; Lukas Wunner <lukas@wunner.de>;
+> Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
+> list@broadcom.com; virtualization@lists.linux.dev; linux-hyperv@vger.kern=
+el.org;
+> linux-pci@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+> guests on Intel hosts
+>=20
+> On Fri, Oct 09, 2026 at 07:13:31PM +0000, Popov, Pavel E wrote:
+> > Leon,
+> >
+> > Understood on all points, and I agree HMAT is the proper fix. We
+> > discussed it with Lukas Wunner as well. Exposing HMAT is on the
+> > hypervisor side; Jim Chow from VMware can speak to their plans. Even
+> > once HMAT lands in Linux, it only helps guests after the hypervisors ad=
+d support
+> for it.
+> >
+> > The key point for us is that today there is no path at all for
+> > passthrough devices on VMware or Hyper-V, and that is what this patch
+> > addresses. We reviewed it with VMware and aligned on this approach for
+> > the guest in the meantime.
+>=20
+> This does not change the fact that the patch causes unpredictable behavio=
+r for
+> P2P devices in the guest. Sometimes it works; other times, devices that p=
+reviously
+> worked may be classified as P2P-capable and will stop.
+>=20
+> >
+> > Is there anything you would recommend to make the series acceptable as
+> > an interim?
+>=20
+> Help Lukas and Mahesh succeed in their work.
+>=20
+> Thanks
