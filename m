@@ -1,186 +1,130 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B714DAFAA;
-	Mon, 12 Oct 2026 18:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791830714; cv=none; b=qZEB49t9Irh6u1cgM8v0JKwKuC22kzN6H8XBtLQQH2+NmoK9rmUQeFIf9Kg8Fg4xsVRaeNPeHnDzXN2q5dqTL153x9uAf+HjLasBm2f8P1YcmaOdNa1xL9Bg+/0Zv4Jd9TY1ZDNiqdXVuhlKqVFs4R/HArL/VYWlm9Y2sjfuryc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791830714; c=relaxed/simple;
-	bh=moux0RdaQOg9oAn2omKHKdRwyFUKoL7usBjJzvOq3aI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=giqC91BnoRCgEMskejbQd9qFkO6pc00x9d+c6UdcvQ+Ho36ib+o3apRzDBpRA0DlI/kE0IyOZ7nOJqe5WPXpmclhRLNw1A0jU8LCgNgPNXUaeudo7757Erxe9X7Agatih2aGZMwn9VW2YIMBEmg6rtMOxgZexninWKp4p1OaylE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ofJTV+zA; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188453D25A2
+	for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 19:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791833379; cv=pass; b=HfZxQ0gN3fguM1yoP5qNBlQ8T+f4XT8oj+DC6KnvY9B1ONnluWabW2OsvjJYPj/ZYaDAsJ44gS/hQIOfOkgiI6TgUR8xVu37pYaOMnjrzkshq/P8E2Q+bw7BnFrHv3XfcirLON6oNPfGjcf6Rzh2WhIaMVWdRsrUc/Xqj2alG2o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791833379; c=relaxed/simple;
+	bh=aoPqNjug6jdHt00ush3qNX20F7lS1qZxd63aAzecos4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mhVwqJRnPZoWR2CdTiQ90MePR+kzx0px5Yb3clFJIKmzfEh2+dbGlMGn3bKxj2JVW7QeBUj+NZAYh1OeztZeIC9oX3DJzfP4GAj6nat7RbsqZs4qn71+EO9AjwPoEgxzYwRLXF8ZgBcahTFJ0DP0UI9OmmlI3X49+MEwOEvg9Zg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Afe/3Zr4; arc=pass smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ofJTV+zA"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 3D07120B7166; Mon, 12 Oct 2026 11:45:10 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3D07120B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791830710;
-	bh=aV/lGjTgFzjmi1GzusTJEogclUVFMsaWVMcBG2jRLsM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ofJTV+zAcILUHPvuxvsigZInR4BrwsNh2/ETsurQRBgkE83ooKEkswKTFlyT/g1hw
-	 lVxCFSIpfyq+LQ9B+DbJlakrftSOx/AUpY95xryMhhXntr0T8pZQ8eRzMa/rMOpZjr
-	 5Rassvh93Lw5h9P+EgbeeQ2DHY1P1nTsqIuZa5/U=
-Date: Mon, 12 Oct 2026 14:45:10 -0400
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: netdev@vger.kernel.org, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, ernis@linux.microsoft.com,
-	gargaditya@linux.microsoft.com, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] net: mana: add BQL support
-Message-ID: <as0qticPN9LPaaNU@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261008152302.3192778-1-hamzamahfooz@linux.microsoft.com>
- <179182066558.434549.8621824405062801385@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Afe/3Zr4"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6ae14cdc63aso15148a12.1
+        for <linux-hyperv@vger.kernel.org>; Mon, 12 Oct 2026 12:29:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791833376; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CRRpNhcrzh/vI08toNsWQVUBb8/nQg6ZxFYoK8HsWd75A9g6YGbCWORllDOuIXSu2Z
+         IFfyGtYmkAKdweg8Nvd0WRLhaE0i/1DWyTCaXo14u2zqNWShf2M62xDiE4bHetoFbzeh
+         wARI+5DinoTS9Zw5Pf6pcrOtY1Q2UsdbHbaoI/FmqhfPSzAW1dOiHfhlQ088mX9RK6XP
+         g310ma3CK/HJAk7O+MkpzIfCkbWnkV4rqpfhK2YwcMF5m+q4gK6jGJZ7Bgv84vvDQtIz
+         /mFGUs9ElVNuJXopScfiF7ui1JefhgemDqNhuOa5zw7UvmtN9YVn1VOL2tLYprdKsMEl
+         dq0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aoPqNjug6jdHt00ush3qNX20F7lS1qZxd63aAzecos4=;
+        fh=b2qyBkUt+5fsjsIFleLFMe2Dq5b6ThKBqvUeTo0kn6U=;
+        b=YFQkOMbGhbb84YYrFZ0FHRInyqThDA6CyYjK/mebjqMIyYatf78I3JT3CD6s8ZCk7h
+         JHmQxba+UTkpVnZYtOjD+ivHkOJKfYyv/4nBWTTDdIVD6Qp16YwEAfPmZ6y1CnhvEbZc
+         gCqMB4yaBttpEi0YNjm9FiLkZz5KLhocrkZ5/0Pn8zMusYK/XJte5h0/ZBro07wSJ2YS
+         brStfANJFrKmDpluliS7s9ff5IZY762vkepSVRnguNbUje/L0ZDoNr1H7DuprFt2KBtQ
+         YRMokN2FHhSs8LpGT+JGjBKKmKVL0alEDzUh1orDwmbNkfhrum9kTx2Vf1qvrAX+Sr+g
+         bZ9A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791833376; x=1792438176; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aoPqNjug6jdHt00ush3qNX20F7lS1qZxd63aAzecos4=;
+        b=Afe/3Zr4ZBhFeXjfVNJcs5SlL8kH9Hf4n+lQ9CVzyQqXgqdq27opBUFIMFZdn2VRCP
+         k7yVRUfPkGSbUSMqtxqRmmH8/OXpVZ4uXfJZAbeDOYPxQcJOEYAbB73gJxCGFQc8HJcs
+         FK3N9Kez/I5hywoERU+iTFa9YoLWPiLEKMdnQn5Jzx6f6sTgvP9YHszAr8PWKlbGftEl
+         s6RHPCMOr+ekjfOVGp3kfBSvmttbwYdICha4KSmjOVKRI2h34OQUMguffv7ogVewEae2
+         3YXkRZ13tctZ9CZ3Itwje+mrr3IUm8TnsJEmcTshBjWKi/P4GNtJ10EcSfCDQ/3JtCPy
+         HRUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791833376; x=1792438176;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aoPqNjug6jdHt00ush3qNX20F7lS1qZxd63aAzecos4=;
+        b=OmWkyh6nVMIzfOiB4lib8Yk09o9PteR9sWEssJ+rgwkxGBb7QKZZZwPwY/FJ8VRVje
+         8O6JI9To2FUEk3Jyx4VgJVrWucTeLp/IfSFVdt/f3JauJLgAhuFly9ZhgrJCGw8r0zxY
+         dHIBP60FUsKUNcdXx950o9Dm0BE+NqvZ74y/C1ufslehlN8PHMCTjtzCrJ8qBuswfl08
+         nQpFnXaJBZ0hDTq9sy1+Z2GaMDzdrjPBQkieyifBebMkw04YptYgeemSZwrynd8ucUUi
+         xRjvxVvMnC3QGzof8/dfKHtphNYLp0JvYyBsgFriBIR6ZSePEioEilG3WHrB4auxugNn
+         NwUw==
+X-Forwarded-Encrypted: i=1; AKwUvBx5b8za4K0lR5Osboe8nHwujsY1GcWWugX8ydM+gm40LhRlo4X/mrqVMrydJ8CAoMa58aQUproyYsxBQCk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKkGHYY0Qm+mePaiL9V0YPs4M155myTCBUZ35Dw1Xycslw28Z3T
+	zwwtXF6sz4tekTF4GZqw818BhaIJHEt2zvK9QItKCqGZ4f2lPv9C0R1RFJ8Y26WftrvSo3ObHIe
+	GsbZ1Ga2eFGGS3RebqSwTewD8iQRDGecnSrpWgS4k
+X-Gm-Gg: AYBFou2uQZz+tIjum4bFPiNAAt6e874O8ww+OV0c5DIfRSxUk3hJ1dGVdODjPU2exhO
+	Z8g/kpJTVa6abm9fjxGreSHxIWCWTGVQ2NRmJq8/MF2cxu/OqozoooU94WWvENkTEaytBPhVNKI
+	7pKX/gGFW8uTEKb7a9r2FhCtAmHpqxqlzYI2MJ7ggXh2TLIPV6GlXp4ynIISYFf+TyKzhkDduti
+	APsCNcQ5Xy41cYmc6HS3+7lTKnyPT7DLfu0OQi3M6d7cG/nHVIcrlQ/LNZKrRCXoT2BNNL+QIEG
+	7czb3DTB+7selBkq+iJTXbnYZvrs7MR/9SV5d9Chs/hODrCRmJ/RTSk=
+X-Received: by 2002:aa7:d58b:0:b0:6ae:188e:e119 with SMTP id
+ 4fb4d7f45d1cf-6b199a610c8mr109200a12.9.1791833375825; Mon, 12 Oct 2026
+ 12:29:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <179182066558.434549.8621824405062801385@kernel.org>
+References: <20261005192431.87317-1-hmushi@amazon.co.uk> <20261005192431.87317-2-hmushi@amazon.co.uk>
+In-Reply-To: <20261005192431.87317-2-hmushi@amazon.co.uk>
+From: Jim Mattson <jmattson@google.com>
+Date: Mon, 12 Oct 2026 12:29:24 -0700
+X-Gm-Features: AclHuK_hh2UTJ_clCzObOqLEy25Uk0BI6IitQI982CcGkWt3YHwLApApzuL7Il4
+Message-ID: <CALMp9eQB_FmUocuEf8hTYVVWoOTZCWzJ1LhHm__BaVoNX8wKMw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] KVM: nVMX: Clear stale vmcs02 sync flag in free_nested()
+To: Mushahid Hussain <hmushi@amazon.co.uk>
+Cc: kvm@vger.kernel.org, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nh-open-source@amazon.com, mushi.shar@gmail.com, 
+	stable@vger.kernel.org, Todd Frederick <tfred@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2026 at 03:57:45PM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue(s) to consider.
-> 
-> Critical: 0 � High: 0 � Medium: 1 � Low: 0
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [Medium] If TX completions are lost, XDP traffic can keep a BQL-stopped
->   MANA queue from ever being recovered by the TX watchdog.
-> 
-> --
-> 
-> net: mana: add BQL support
-> 
-> This patch adds byte queue limit accounting to MANA. Queued bytes are
-> reported in mana_start_xmit() and completed bytes in mana_poll_tx_cq().
-> XDP_TX and XDP_REDIRECT sends are counted through the same path, and the
-> BQL state is reset in mana_destroy_txq() after NAPI is disabled.
-> 
-> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > index 2ba48a1c4b15e..67048fe64d63e 100644
-> > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > @@ -543,6 +543,11 @@ netdev_tx_t mana_start_xmit(struct sk_buff *skb, struct net_device *ndev)
-> >  	err = NETDEV_TX_OK;
-> >  	atomic_inc(&txq->pending_sends);
-> >  
-> > +	/* Account the skb in BQL before the doorbell lets the hardware
-> > +	 * complete it.
-> > +	 */
-> > +	netdev_tx_sent_queue(net_txq, len);
-> > +
-> 
-> [Severity: Medium]
-> Can XDP traffic stop the TX watchdog from ever recovering a queue that
-> BQL has stopped? The commit message says:
-> 
->   The TX watchdog covers the queues stopped by BQL, and its handler resets
->   the queues along with their BQL state.
-> 
-> XDP_TX and XDP_REDIRECT (mana_xdp_xmit()->mana_xdp_xmit_fm()) both reach
-> mana_start_xmit() through mana_xdp_tx(). That function does not check
-> whether the queue is stopped:
-> 
-> drivers/net/ethernet/microsoft/mana/mana_bpf.c:mana_xdp_tx() {
->     ...
-> 	__netif_tx_lock(ndevtxq, smp_processor_id());
-> 
-> 	rc = mana_start_xmit(skb, ndev);
->     ...
-> }
-> 
-> With this patch, each of those sends now calls netdev_tx_sent_queue().
-> If the queue is over its limit, netdev_tx_sent_queue() always refreshes
-> trans_start, even when __QUEUE_STATE_STACK_XOFF is already set:
-> 
-> include/linux/netdevice.h:netdev_tx_sent_queue() {
->     ...
-> 	/* Paired with READ_ONCE() from dev_watchdog() */
-> 	WRITE_ONCE(dev_queue->trans_start, jiffies);
->     ...
-> 	set_bit(__QUEUE_STATE_STACK_XOFF, &dev_queue->state);
->     ...
-> }
-> 
-> dev_watchdog() only fires when trans_start is older than watchdog_timeo.
-> MANA sets watchdog_timeo to 15 * HZ. One XDP packet every 15 seconds on
-> that queue seems to be enough to stop mana_tx_timeout() from ever
-> running.
-> 
-> In that state, what clears STACK_XOFF? mana_poll_tx_cq() matches CQEs to
-> SKBs in FIFO order with skb_dequeue(). If completions are lost, the lost
-> bytes become a permanent debt D in num_queued - num_completed.
-> netdev_tx_completed_queue() only clears STACK_XOFF when dql_avail() >= 0,
-> so the limit would have to reach D.
-> 
-> In dql_completed(), the limit only grows here:
-> 
-> 	if ((ovlimit && !inprogress) ||
-> 	    (dql->prev_ovlimit && all_prev_completed)) {
-> 
-> The first condition can't be true while inprogress >= D. The second
-> needs one poll to complete at least the bytes that were in flight at the
-> previous poll. A low-rate XDP flow with one completion per poll won't
-> meet that.
-> 
-> For example, take equal R-byte packets, a learned limit of R, and two
-> lost completions (D = 2R). The limit never grows, and the decrease
-> branch can shrink it further.
-> 
-> netif_tx_wake_queue() only clears DRV_XOFF. The only
-> netdev_tx_reset_queue() call is in mana_destroy_txq().
-> 
-> Would stack traffic on that queue then stay blocked indefinitely while
-> XDP traffic keeps flowing?
-> 
-
-Ack, I'll spin up a v2 to address this.
-
-> Hardware faults are not the only source of lost completions. The early
-> returns in mana_poll_tx_cq() exit after some SKBs have already been
-> dequeued and freed, but before netdev_tx_completed_queue() runs:
-> 
-
-The early returns are all WARN_ON_ONCE() paths (for completions that
-shouldn't happen). mana_gd_poll_cq() has already consumed the rest of
-the batch (by the time we hit one of those paths), so the SKBs can't be
-matched back to completions anymore. Completing the SKBs already dequeued
-wouldn't avoid that, so I think it makes more sense to leave those paths
-as they are and rely on the watchdog reset to recover the queue.
-
-pw-bot: cr
-
-> drivers/net/ethernet/microsoft/mana/mana_en.c:mana_poll_tx_cq() {
->     ...
-> 		if (WARN_ON_ONCE(txq->gdma_txq_id != completions[i].wq_num))
-> 			return;
-> 
-> 		skb = skb_dequeue(&txq->pending_skbs);
-> 		if (WARN_ON_ONCE(!skb))
-> 			return;
->     ...
-> }
-> 
-> Before this patch, a few leaked WQEs did not block stack traffic on the
-> queue as long as the SQ was not full.
-> 
-> [ ... ]
-> 
-> -- 
-> Sashiko AI review � https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261008152302.3192778-1-hamzamahfooz%40linux.microsoft.com
+On Mon, Oct 5, 2026 at 12:25=E2=80=AFPM Mushahid Hussain <hmushi@amazon.co.=
+uk> wrote:
+>
+> free_nested() frees vmcs02 but leaves need_sync_vmcs02_to_vmcs12_rare
+> set. The flag means that the rare guest fields of vmcs12 are valid
+> only in vmcs02. After vmcs02 is freed the flag is wrong.
+>
+> L1 then executes VMXON and loads a vmcs12 with VMPTRLD. The flag is
+> still set, so the first sync copies the rare fields from the new,
+> never launched vmcs02 into vmcs12. This sets TR, LDTR, GDTR, IDTR,
+> the segment registers and the FS/GS bases to zero in guest memory.
+> set_current_vmptr() re-arms the other lazy flags at VMPTRLD. This
+> flag has no such point, so VMXOFF is the place to clear it.
+>
+> A nested Hyper-V follows this sequence when it resumes from
+> hibernation. It executes VMXOFF before hibernation. On resume, it
+> reloads the VMCS images that winresume restored from the hiberfile.
+> VM-entry fails with exit reason 0x80000021 (invalid guest state) and
+> the guest hypervisor resets the machine. vmx_leave_nested() also goes
+> through free_nested(), so KVM_SET_NESTED_STATE takes the same path.
+>
+> Clear the flag together with the other nested state.
+>
+> Fixes: 7952d769c29c ("KVM: nVMX: Sync rarely accessed guest fields only w=
+hen needed")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-fable-5.1
+> Signed-off-by: Mushahid Hussain <hmushi@amazon.co.uk>
+Reviewed-by: Jim Mattson <jmattson@google.com>
