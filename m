@@ -1,95 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCC9563FBF
-	for <linux-hyperv@vger.kernel.org>; Wed, 14 Oct 2026 17:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDB5190462;
+	Wed, 14 Oct 2026 21:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791998924; cv=none; b=IHKJOwgMGq+SLUnwua3e6sip+S6a0DIZ14OjqHB6vgvHkI8MYR0apzyHTA+52RovbZ6bCamamDqRe1eaxQGxbmcbDwWlb2nFsvHRMNs6dwwamKHyrE0xyHrdNnBLIJdrHfc/2/1MHJlohffAhx/5EVbDfB2NWnAo0C1otvPRn4Y=
+	t=1792014595; cv=none; b=i53uWDCO2cnwuvw74f2/6KLf0nyeqbNfrIZqp6TQMVotAyN38RVEYa+sSBzN+oiQ2SuDQWJoYrlnwKEAutPjEU4XFkZnKkbSWaSYf4wa5fdreRZYQhsKBdccInfgIeuZhtiYgb4WWcmBj5XCbCsDHkYgWMjOz57REH0CGO2Tdko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791998924; c=relaxed/simple;
-	bh=ugtlh+MIfLszXFGE6m0yvcym1HwdCOM9fcPrb9p7Ius=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j8KqGlbdcGwkgPZgKj7IUkIqInQEL2D8PgYvJAMijMsnO50S0Xl5aoAoN+ia6EmN40KavoSuonsEE0IuYwsKExw5bu0Qv3HSE/VFF9z6uM0q/A9Bbw2ea9DWtQzfbX6uoADdBkMzpXr2g0gCIS7bVwLBinVHwGvfdL/Tlcs/oDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m58xpQk0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792014595; c=relaxed/simple;
+	bh=FcAzgEWftwEGhdFlkl1X5UznVkEfO6u8HS6WESVFXgY=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=LkReTRFJzaBzU/4f+Eus0WkvzJLJm5Lkvhy+9oLkcKZqBHZ0W5g2ve+sr7Z7/k8JRtUWsNhIv4i2SkwXq2eVzwgJuGncfJBJcM+LyXnOlowpd2/bE5Zs4adhuwNUQ9GdL+pEzTdWwef6272o+Uf848+Mgy5V9R0KY6dqF4QJsiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCdS201q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m58xpQk0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D64C81F000C4;
-	Wed, 14 Oct 2026 17:28:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCdS201q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E541F000C4;
+	Wed, 14 Oct 2026 21:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791998919;
-	bh=cCixLrEpVO0ikUgNOqkoErMEMOZi2q4QJtVdxN1QvaY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=m58xpQk0cyYYcmvLGrLraD3mabCeZq8aOn885LAk+DXhfCr25tkS9Juej2ym5dkt1
-	 pnt4qw0HIDbZOHfhiPHZAAsC8EO8R94JXQWzmi5FwHeoy32MizYQbHIkCv6m0hsqac
-	 ECNQQgFcdh6e3bG8d/4nlIPIP3BkT12qNZ3M3EJS8Ex2VrQ9j4lzpumhhMiI4LfS3A
-	 h4sMSvBd5jxs4278402IeJPEktbGlW19aELxKUTwIPFrTysCWd20vZoQ0XAawTpOXl
-	 YDhqniVqLPyGs71f5Y9qOYBP+chW2ibFedDK/19IWHlaKqD89XZhoizkVlr7uVC3Yv
-	 o/rS30avSib/w==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 14 Oct 2026 19:26:47 +0200
-Subject: [PATCH 24/75] drm/hyperv: Switch to
- drm_atomic_helper_connector_create_state
+	s=k20260515; t=1792014594;
+	bh=44kLSpkPqQ2M5rJSUeF0/Z/StfM9XZgXXcVH8xX3Rvc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZCdS201qs4HIRA0rzvqUc8lT25OvqY5AMHo7hOyKRhrCAo/v6iZ2K/REF+kGOSUAV
+	 WJ8z6vJ8ytrqDV2388/e4jHg78yPDBzGmmg2f9NXYRM1lfRTl9jcLlKldrj2thO5OH
+	 JGC7TUolyxTXvsQusJk6zPI2fHvtWU+wNsck+O/cVRUzmqqvfOqLA4KCPnRSQEBTP/
+	 1hmWUKrJBE0NJcXEVPsYUiteUqFra55CUTDiUTBwx5HJSnSOmhbFzV3wXTGhsROgDe
+	 AGHO8Fn7BOLZWRnzRuzTOMpx2EH26cjLe0T7EpPGgfsC1laihqI7v6D9BgdbkALH8j
+	 qfRvBytgWHT3w==
+Message-ID: <sashiko-outbox-171939@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v3] net: mana: add BQL support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Hamza Mahfooz" <hamzamahfooz@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, bpf@vger.kernel.org
+In-Reply-To: <20261013214937.145312-1-hamzamahfooz@linux.microsoft.com>
+References: <20261013214937.145312-1-hamzamahfooz@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2026 21:49:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-drm-no-more-connector-reset-v1-24-586c9c026823@kernel.org>
-References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
-In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1368; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ugtlh+MIfLszXFGE6m0yvcym1HwdCOM9fcPrb9p7Ius=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFnnd4fKp29hipyqpXNFP6XCJCrolarPGmtl3yYeW+UpS
- s++us/tmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABOJOMLY8CBm0b3t5WxOBWdP
- /+mMNjxr4SDl9C1CnZlpTuFNVc3gGJvioK1n3twufblj1XO54KeujPWB9W9uf7py1sYjpG3156X
- ZmUYfJybua4n30U/blZa+Qdfh99nu7EMz2Fwc6+YrrjrndBUA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The hyperv connector implementation uses the deprecated
-drm_atomic_helper_connector_reset() as its reset hook.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] mana: unratelimited netdev_warn in __mana_start_xmit causes log sp=
+am under XDP load
+--
 
-Switch to drm_atomic_helper_connector_create_state() instead.
+commit a6a9466a25f553494605c439f140071b9b0b7068
+Author: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Long Li <longli@microsoft.com>
-Cc: Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
----
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+net: mana: add BQL support
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 523d1c7ea072..da399cb951a5 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -64,11 +64,11 @@ static const struct drm_connector_helper_funcs hv_drm_connector_helper_funcs = {
- };
- 
- static const struct drm_connector_funcs hv_drm_connector_funcs = {
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
--	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_create_state = drm_atomic_helper_connector_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
- static inline int hv_drm_conn_init(struct hv_drm_device *hv)
+MANA doesn't support byte queue limits, so each TX queue can hold 256
+WQEs by default, and up to 16384, of up to 64 KB TSO packets, before the
+qdisc layer sees any backpressure. This adds latency to all the flows
+sharing a queue, and defeats AQM qdiscs such as fq_codel. This patch
+adds BQL support by reporting the bytes queued and completed to BQL,
+except for XDP_TX and XDP_REDIRECT frames.
 
--- 
-2.55.0
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net=
+/ethernet/microsoft/mana/mana_bpf.c
+> index 484f061bc75e4..7c55f8724441d 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
+> @@ -21,7 +21,7 @@ void mana_xdp_tx(struct sk_buff *skb, struct net_device=
+ *ndev)
+>  	ndevtxq =3D netdev_get_tx_queue(ndev, txq_idx);
+>  	__netif_tx_lock(ndevtxq, smp_processor_id());
+> =20
+> -	rc =3D mana_start_xmit(skb, ndev);
+> +	rc =3D __mana_start_xmit(skb, ndev, true);
 
+[Severity: High]
+Does this allow unratelimited log spam under heavy XDP load?
+
+XDP traffic directly calls the transmit path here without checking or
+honoring the stopped queue state. If the Send Queue fills up,
+__mana_start_xmit() unconditionally calls mana_gd_post_work_request(),
+which can return -ENOSPC.
+
+When it fails, __mana_start_xmit() prints an unratelimited warning:
+
+	if (err) {
+		(void)skb_dequeue_tail(&txq->pending_skbs);
+		mana_unmap_skb(skb, apc);
+		netdev_warn(ndev, "Failed to post TX OOB: %d\n", err);
+		goto free_sgl_ptr;
+	}
+
+If XDP blasts packets into a full queue, could this print for every dropped
+packet and cause severe log spew?
+
+>  	__netif_tx_unlock(ndevtxq);
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013214937.1453=
+12-1-hamzamahfooz@linux.microsoft.com?part=3D1
