@@ -1,106 +1,63 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6770D4FDA60;
-	Thu, 15 Oct 2026 15:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F5B3CD8BD;
+	Thu, 15 Oct 2026 15:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792076798; cv=none; b=LngeJsd7YZPnon3PTRQ/pudVYOBk9WMNsdB+P3Vp+ln1IH9+1TYeyDPUE4KKnCoWtWGCyq0KY+anWvtWI6v36oaBjyq+RFTSyIE8QvA+DyV7GpvfqSO3BevZldipJ+XZgpvEWaNv5XimQb0HdNyovGzPctQBi8O6IyFASGKuv+M=
+	t=1792077467; cv=none; b=igLizOMj4LkuYOogmqqpowHSGZRWdDrKg/OaRDKrGC6slVjIPmUt0SkQrmDH01JEa5O0FIfKJUueYHt4ulTFQbNA/9skQ4J9kGNOl3/NHZknOAlj0LaduKG3Qgq4QmFWBxpOVvcvK1M2SouOndWDu3VXM4IRBrvpvHNl0rCd6/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792076798; c=relaxed/simple;
-	bh=Qy3XlC7H1RX5gRzf+kTtG4AQLQfNz26R9LxgVU51t6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaUByNfHLqB+e5vE7LAIqw5uPZTIz1P6ldveZ0DU+wRI/hI8+9WubVPgdgVO7hqYyF9nQHee8x6Cjy+Yfz0+EZrUW1nAiIGINMneywBuR2+RAKISHZDT3A5RZN865L/dZOioNlxYPnwxRf4A3JWqQHoJY8nOL3KU2t0dqFHlPNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YR9oiabI; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1792077467; c=relaxed/simple;
+	bh=h2Iy0R6vKuyK5VPkaxF8HNYsRF9dMgH1cP9pWNDUAW4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=oVMVY6Gj8XO1M0Be99zLVL30zD6zUyg1lwlc7PQX9eCiBCw7ZAl+DGr6Xc6Hl2v5I+VGL5aZvfzkoHIzfI4G/V5KJV5+mOs6r5g2tzNIzHU+KpDaP6BHG70E+QF09FZPmiPooFNiMQdTEhQHHzcuXuar6EzRf3gi7lTo9S94VY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bhJVDTGm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YR9oiabI"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id E98F520B7168; Thu, 15 Oct 2026 08:06:26 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E98F520B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792076786;
-	bh=t9yJuPZYOp7kfNBAAUzqrGwuy5HDp7aYaQvrx20rA4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YR9oiabIeBdQcgeISYzdhDrRZePemIBoXr1xdjINFrY5SqwpGZ0xtKHkYJiWL4poy
-	 zqfxhjvBUdDu70gaxQBdD0HQmB4kTDWe5oKV75MWjUWO2nwqTWETOqgla22xq2pFqF
-	 Vjw2nZ+/qsJ5eTOI4MNvEV9TqyLxMsHEjyCSdLcM=
-Date: Thu, 15 Oct 2026 11:06:26 -0400
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v3] net: mana: add BQL support
-Message-ID: <atDr8rbZuz97xCTo@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261013214937.145312-1-hamzamahfooz@linux.microsoft.com>
- <sashiko-outbox-171939@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bhJVDTGm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 090B81F000C4;
+	Thu, 15 Oct 2026 15:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792077466;
+	bh=2ln10caUd09K2ldjQWhf5+xEkYu/SuUHgH99g0J9LD4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=bhJVDTGm5nhM5ajAo4tA2WHQPrI+5u78lN9uePVLppdOG9uUrtK318R2m/DOPtyUD
+	 +WchZgtkuim2wFJJQZSvI1samxa/nhDS1KwFw3r63zn40IN/fIFulUdqIeSpqOfh85
+	 WDed4+tcIOAcLybcKJ9PzaaSCeLg1UvsuqTLdsHLdNGaTEuKRjxWO8KhflqfV3BJF7
+	 BAKStdmfXTfMRoZtN3xs/mOWk10tvcly5WdJIIhjK6AYD4mfzYReu7wVZ/vAOPhBA6
+	 O+pSEa/rag8zcgmaBAVzfVftgY8x58OAXKkCC8bC/NODsQ8eeEoJsMocLIPhcmN4wd
+	 BhLCAMIpTuJqg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F1508392EB21;
+	Thu, 15 Oct 2026 15:17:45 +0000 (UTC)
+Subject: Re: [GIT PULL] Hyper-V fixes for 7.3-rc8
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20261015081110.GD936897@liuwe-devbox-debian-v2.local>
+References: <20261015081110.GD936897@liuwe-devbox-debian-v2.local>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20261015081110.GD936897@liuwe-devbox-debian-v2.local>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20261015
+X-PR-Tracked-Commit-Id: dbc393f6f009a2bf7e4a22ef2d70b53f533f20f4
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6a66840a68683d9361a9b31faf3bd8104428ad29
+Message-Id: <179207746460.3496071.18038049043984104098.pr-tracker-bot@kernel.org>
+Date: Thu, 15 Oct 2026 15:17:44 +0000
+To: Wei Liu <wei.liu@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, decui@microsoft.com
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-171939@kernel.org>
 
-On Wed, Oct 14, 2026 at 09:49:54PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] mana: unratelimited netdev_warn in __mana_start_xmit causes log spam under XDP load
-> --
-> 
-> commit a6a9466a25f553494605c439f140071b9b0b7068
-> Author: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> 
-> net: mana: add BQL support
-> 
-> MANA doesn't support byte queue limits, so each TX queue can hold 256
-> WQEs by default, and up to 16384, of up to 64 KB TSO packets, before the
-> qdisc layer sees any backpressure. This adds latency to all the flows
-> sharing a queue, and defeats AQM qdiscs such as fq_codel. This patch
-> adds BQL support by reporting the bytes queued and completed to BQL,
-> except for XDP_TX and XDP_REDIRECT frames.
-> 
-> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> > index 484f061bc75e4..7c55f8724441d 100644
-> > --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> > +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> > @@ -21,7 +21,7 @@ void mana_xdp_tx(struct sk_buff *skb, struct net_device *ndev)
-> >  	ndevtxq = netdev_get_tx_queue(ndev, txq_idx);
-> >  	__netif_tx_lock(ndevtxq, smp_processor_id());
-> >  
-> > -	rc = mana_start_xmit(skb, ndev);
-> > +	rc = __mana_start_xmit(skb, ndev, true);
-> 
-> [Severity: High]
-> Does this allow unratelimited log spam under heavy XDP load?
-> 
-> XDP traffic directly calls the transmit path here without checking or
-> honoring the stopped queue state. If the Send Queue fills up,
-> __mana_start_xmit() unconditionally calls mana_gd_post_work_request(),
-> which can return -ENOSPC.
-> 
-> When it fails, __mana_start_xmit() prints an unratelimited warning:
-> 
-> 	if (err) {
-> 		(void)skb_dequeue_tail(&txq->pending_skbs);
-> 		mana_unmap_skb(skb, apc);
-> 		netdev_warn(ndev, "Failed to post TX OOB: %d\n", err);
-> 		goto free_sgl_ptr;
-> 	}
-> 
-> If XDP blasts packets into a full queue, could this print for every dropped
-> packet and cause severe log spew?
-> 
+The pull request you sent on Thu, 15 Oct 2026 01:11:10 -0700:
 
-This issue predates this patch (it was actually introduced when XDP
-support was first added with commit ed5356b53f07 ("net: mana: Add XDP
-support")), so it should be fixed as a seperate patch directed at the
-net tree.
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20261015
 
-> >  	__netif_tx_unlock(ndevtxq);
-> 
-> [ ... ]
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261013214937.145312-1-hamzamahfooz@linux.microsoft.com?part=1
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6a66840a68683d9361a9b31faf3bd8104428ad29
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
