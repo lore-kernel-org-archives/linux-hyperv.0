@@ -1,175 +1,178 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022106.outbound.protection.outlook.com [40.107.75.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E08383C96
-	for <linux-hyperv@vger.kernel.org>; Fri, 16 Oct 2026 06:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792131089; cv=none; b=C5vhW2rFsi8UStUizcxIVNSbyJ3LgfE7BbTiOnVHCoqc7V0XNGyuXzsAi/43H512Xur0nOkzPSpeVvZTDS9jviPtBKwil8uQVliHeU04E1SkCYogsTAkA649gYBwKxfX5uPsRNoNNwl2Lul0TZubOwinZ9PN8lBPQGVUjy07cUU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792131089; c=relaxed/simple;
-	bh=SsI4U9ZL+7Uo8HhhoT2Gu79p5AWbf+Tp7UQOH5gny+U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hfi0P4hP+RKwieJM8xPvzyBW/dwsg1COH3/KrXWWLO5qWL8zMMEDPcbLYDOmcnHgJeCewewXCEPxoyMBROw1m9K+Nib/vEIH1NREr6D2+CPR0x5ZlQRRso9FkvfKt0euKgsUqe9TSflMhF8NyfoXV/aSLU3Bo8qCJQWCRBXZWBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E9IeXBEv; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A0D26C385;
+	Fri, 16 Oct 2026 07:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.106
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792134845; cv=fail; b=q5xZIhTOVpJfYmnOHcKmyiUMz1Y1oKUko08OlaCo1AoPE2vCiBZMaTQcYQ/N2uRFJIXJ4omPi8ZkGOQzhaK/HW2w7SjmSapX4ZxvN8E6wWux6XVF1PYjByY0Q43EVAAX7uuF9GNtvOS+gVlTyNrYsnWoock331IDQJQPy/LB7mo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792134845; c=relaxed/simple;
+	bh=nCcN9sSsQAOkTi1V3Y3LwM/50I80L61sATf9wQ7RPZw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=SikmKujoT8n6xs0fkcZbrJY/HzjScl/dspoMjZ4VQxw9xB+NSq8vPGeE6uwDvEWdBOkF3G5C2E/NL/qM733BhGD81202T+Klsmyg12bvTaGFOl5fr40rpHgqGZer9KhdIn8A7KCUir7UkUC0RB3wdUtAVfuBPGnLsICRq3grRns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=MF9TK6vL; arc=fail smtp.client-ip=40.107.75.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E9IeXBEv"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e987b4a710so1579445ad.1
-        for <linux-hyperv@vger.kernel.org>; Thu, 15 Oct 2026 23:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792131086; x=1792735886; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=id/dYpmE9pWZImX6Xj6XFEbwxwZmT89xDoMqxLDgKrU=;
-        b=E9IeXBEvXZDk+SY08ZjvBwE+6+xVo9BL9PtlX1FGprDLeJJi4cRn3N7EgjQ9eFgNye
-         6dwDa3tUaHVks1KyZJZSexIX4GIfmeRxDbHBjl23PuEAoDeIwna4jrqHgl7ckH4W9/SX
-         Y8gDDuJP71yE+i/jgSwOUFsGUZSGYdplPtdbH8REQf7bQNf7WPmj6LDsEhKj1wHMkBKz
-         f0yahU11QigXzM/bGI+UaNy0SViQtwqaz3aLLVBlbE4N+9cTRqoLqmyzlfGlwDeKsGVh
-         cG0XgRFstB0j+2bsnRZB3nVQ+WgTNfHwbxQGPXhIB8k4J1Nz7h+nLQdKgYdSbPRFZsV1
-         Rh9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792131086; x=1792735886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=id/dYpmE9pWZImX6Xj6XFEbwxwZmT89xDoMqxLDgKrU=;
-        b=u0FmhlD4/LQZdweTcex1nHezUPSliLIUkfHpu0oAHasUFVpOHRn4V8JXg/knxmrljt
-         5ts0VC7OIRXzlr5qRWZqgXCgC7iNVlMq9zjO2QsqbC5eqBeSgs0RJrcog1F6wM1foIz8
-         yKdl9xeqy03UQYPRvhqEVjAMqwJLFppXO3KKJ0xRZwtfTfnfiH3+Lw1i81q0sgN0yHeD
-         jCFUyeN3e8fVFUcXQ8DcCprSLn+tJPOkQp5pL+MBfQs3SOLCYVBflCbGq9Qn606CF6DS
-         IzlZTu7VroU8Vcp19FcH/o/PberSbL7xGMkdRnHdWWKrrS6StbUJovGqiF16g8owpfTv
-         neqg==
-X-Forwarded-Encrypted: i=1; AKwUvBzg96a0APoSehHLJvuzaCyRzALzjwq0rNnFObWRcORU3QVGO2RKseeOMvF+FZ9Rl4lqFg5afMzVHCtZYAo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJZAg4JtpCiIe/6FSgjcq1HtG+6SDplFSOnu1OJRwVkbqVWI11m
-	dtcOuuJc/dppAdZpbgP813N7CJho53UuYerhadYgaABPcKkfvc1EHGJ0
-X-Gm-Gg: AYBFou3OXELhMsxTrCkYnWUUlcHgJpTv8RwAAwvRv/Kll/nRpGJAhsUKvl5VOD3Xa7F
-	Di0StdvrKa3dm9pV/07N9oTe8Gi5j0W5BwNqO3tChhiVWvjjF1TE8PYE9XTekIG2lvD+KSAARPU
-	nJQFpkCNIQ8uGXMaUKWszjA49q+X5IcxCNxGkJsP+hBssBypCWh66U6SqTFdXVZzl2xROEwGT/d
-	HLBL4PpAKPXUFnp1zreikcGKOqIHLoBlzQ4LIdhx4tKkLZR1JdRt08/+hJSqCrMptUYEtsRtL4l
-	YKCV80jSolR/sF5q1fJCB76u93FHQqRgsvBe+Wu5ldS1jxbA0ufr8KgZwm54FOXtNCdXr6NL35T
-	XHkh6N12/hzd8pK98/0MvU5/D+8K7XeN4PGkE0IaLY3OIhUoO3EMFwK8kjEvR+USIwkEzQKmWn4
-	IEsCoXx8dIPEiEV1ruzXz8rqAInLDYahL4DQGEn0xu0uu58Dirvitn60Kr4I80TPwhH1sy/hPKF
-	8fswNHYbRE=
-X-Received: by 2002:a17:90b:2ec3:b0:3ac:9d83:8858 with SMTP id 98e67ed59e1d1-3acbb933bbamr1924825a91.41.1792131086541;
-        Thu, 15 Oct 2026 23:11:26 -0700 (PDT)
-Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd654621dcbsm546633a12.0.2026.10.15.23.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 23:11:25 -0700 (PDT)
-From: Daehyeon Ko <4ncienth@gmail.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>
-Cc: Naman Jain <namjain@linux.microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Roman Kisel <romank@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mshv_vtl: reject poll files with multiple waitqueues
-Date: Fri, 16 Oct 2026 15:11:14 +0900
-Message-ID: <20261016061114.1686153-1-4ncienth@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="MF9TK6vL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SgovJESpLZ8WKnQOXEXGW8euBpYlrr5mY+iqCgZrSqOTLDS45uZqOE6W/L9H3ZzMNYxsSVSI7eMWfrBiOJDHX5nuypc6akZ3u0FPdoJfmwpBlhbIpgaeYUnl5Iand/8s5s6/Qs8jeK3fFeWqfTgT43Oea5EZMhzYHnu7ZjSnCpr3qJPthgroWji05CliTcIyvnZYtdmDYKRVo54vhSZc0ZNv2mjQC0bP1qnuVfLKLHp/+Sr83uXtJru1FPK/dWpyx01rRh5mCbqPwt055Xfvpf6jbWzDJ5Q8q/PCcFqSpWuHIzcTi4PoWhaDLapkb2B7XKSw2w7fErC4H2V9E5/MaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=nCcN9sSsQAOkTi1V3Y3LwM/50I80L61sATf9wQ7RPZw=;
+ b=ian0arpR6fmCAtXAfw2xbXG6bBi6jepMpdkh/obMbW1wUJYzI/sWJjinIRnmEO1CiyahFvOfRhtlKnYMV1SMjyhH1mcKIXqK2O4WI6QdTmb3m2qwW9K6/2BczFJLHOS8h1vMpRcOuNrW6T4R99PsNKU4kV3vYI56jP+4NUvP8HqmoF49LZH+ONaBbQJoZ1eIaBm5DNPmwt20oZ3UyVUR/SEQh8z7TfwrJLGqbhhhyp5UF5CM+4JGIFHgSvivCxMBLfPe5/JOCCENc0NE0KaGaXLEMTBOaKpCezV03kUMDwG42aFjAJ/WOSvPFsa84ms351/mE/aEOKyTelBYqkjHgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nCcN9sSsQAOkTi1V3Y3LwM/50I80L61sATf9wQ7RPZw=;
+ b=MF9TK6vLZnEIrG5uaxN4BCcJ01VJHraziGBmxLzrPjVWj/mjQIgobbdiHm1Rw0poalL59K4yt3ffDwPrhfio8AY53sCoRzixe9IBa4n/vs2TBFNeaPRO7tAYrB3EamC19k+WnkIl8XISxyxTVosMKPwUJEU3g1hjbGpMzNfuGkY=
+Received: from SE3P153MB1848.APCP153.PROD.OUTLOOK.COM (2603:1096:101:340::5)
+ by SI3P153MB1574.APCP153.PROD.OUTLOOK.COM (2603:1096:4:29f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.8; Fri, 16 Oct
+ 2026 07:13:42 +0000
+Received: from SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+ ([fe80::8f4e:575a:4706:a56e]) by SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+ ([fe80::8f4e:575a:4706:a56e%6]) with mapi id 15.21.0546.006; Fri, 16 Oct 2026
+ 07:13:42 +0000
+From: Wei Hu <weh@microsoft.com>
+To: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, Wei
+ Hu <weh@linux.microsoft.com>
+CC: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v7 1/4] net: mana: prepare HWC
+ ownership for safe reinitialization
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v7 1/4] net: mana: prepare HWC
+ ownership for safe reinitialization
+Thread-Index: AQHdWum3Mxfmd9EpNkaXqZjXFQKoi7b8r/2AgAMPnDA=
+Date: Fri, 16 Oct 2026 07:13:42 +0000
+Message-ID:
+ <SE3P153MB1848625E66EA6C21AA4CB7A8BB9B2@SE3P153MB1848.APCP153.PROD.OUTLOOK.COM>
+References: <cover.1791561995.git.weh@linux.microsoft.com>
+ <e6ef84d7481de34f259d2b244f7994e3f1d9ab6f.1791561995.git.weh@linux.microsoft.com>
+ <sashiko-outbox-170992@kernel.org>
+In-Reply-To: <sashiko-outbox-170992@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9301d43b-6341-44cb-bcdd-a93470e634b0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-10-16T06:51:03Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SE3P153MB1848:EE_|SI3P153MB1574:EE_
+x-ms-office365-filtering-correlation-id: 6b3c89f3-2fca-4e11-a9bc-08df2b550268
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|23010399003|42112799006|366016|38070700021|56012099006|4143699003|11063799006|10067099003|7146999003|22082099003|6133799003|3023799007|18002099003;
+x-microsoft-antispam-message-info:
+ cHkz2MUoU1/ljIKL6j4c/GhMv7cPXuGL78zsBg5KwlM1QAytjwzsyIi46OuA5QocFELuWpzxSGb6XpNZmZ8vivuaBoIUnO+o1DGpAGL/7jL8l/Xwtpdoiit8KqMWEpgJyMcNaLZedBUMdkFSgZH1yEkyVEgaqBppsSj/z49XnMUvDx2RqYkMgG4C3oEBStwqSkFOy9nBZ+tKfT4J5yljUu0kCfJPluEr6OGdCGtVu+w5uEwVSfI3aFZXxUDdoSl8k4lQFsL7N0s9gNTEt7K7Zi1hgUUXPmxKsC4GbDiIiQJ+tqaFASWEMup7coAVBS9gEDdC5U52+w8Uw+SmJzH962XjjYWInU/jx7Jhk9MtkwmRyPG8tTb3yWToRO6lXhGfq3nBT0vzcsBdvOlXY0yMTjePBApoqfSN3fGCQJhnkQaMvTANSCxzH+s/IT9uKLhlm1eAR4hsVwlkW+pvWPN8nDhsX1Lm5u0ia6x0Ta6VPwwaliDsf9HDBL/vnX2ovGAzn9QJeFWCIu26feeq32DDqIhoOAuWnCwdKN2Hte+XElLQ4KT1inWUpZatvgnOHc/b1vtyV6EJyMsUZ7lVxs4UJzEsqvxhLqCDXT+G84VqhhpcHwKigqRiDLJyXHtFFC3tSIe3erIN+KafOQA/xLhhrDyygwBOoKNE1vbcZtfCHkJZOm7261fsUOyDX8Ro6H+kqCq6LR1oL4EFAN42B2NDQDFYXSnJQEyGaH2a8lEj28Q=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE3P153MB1848.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(42112799006)(366016)(38070700021)(56012099006)(4143699003)(11063799006)(10067099003)(7146999003)(22082099003)(6133799003)(3023799007)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?cscd33BL2G46R+Zyb8a53JPD10LcuNGCDqy3ch+nWdhDXLnlRLRbnBN8OdMB?=
+ =?us-ascii?Q?3wAexktO2oTrTN3cUMazHcNHKWY7Ane8MOlun2JvQNRsa8dBJ5o6335PUPGJ?=
+ =?us-ascii?Q?nnuL0+pCGleL6IZdWHHKsqIQF6R7ukYf5C4Y4T3i6vvcf5TlkGZlAwsqTGSZ?=
+ =?us-ascii?Q?hRAu+xxand9ln2U1fBDGvergShuNpTbic+hWyobdv95w8FIZzsGXoM1I/IFQ?=
+ =?us-ascii?Q?FIU7XDzY9x5FOdnfh4631A3hT9wpxbuso9ZUy7qfa8kBm3pCHOuozu44DrbX?=
+ =?us-ascii?Q?gKjRBTaM6HFVFkfv6G43UWhpALQOqFKXi6QoBuTNQCW23eBfnNEmRTooBgjD?=
+ =?us-ascii?Q?FqIzOEPKYeeL4JFhaGjg5m8GqMOzU6P/Ad2Fs9t6oZbBNdpYb5/gD39VF6tV?=
+ =?us-ascii?Q?aONXLWE32ooTADitSBPl1/mzLHHA7sPsdibNXaI9Aq4Xx+Zltzojmk1sSdRr?=
+ =?us-ascii?Q?GbGDJACa5Eva8QStjAAw6CgSP72N6AMKmqjk4gP4jOTPq9VVdO3SeGsstl7N?=
+ =?us-ascii?Q?2emgmEr+OoP/zOp9t9maMwsKUUCnbs0Bctjamomi2fgBg83l5IWiMW52Uc4I?=
+ =?us-ascii?Q?jKHFeWAsATlqsUSxTrgdx1Tq8aEShaDRAAEE0UqRYAYKj6yk7PGXBSm9UAIm?=
+ =?us-ascii?Q?QKFxJZbQ3OXDtdrvAPrNeSYyI/gp6GHcQ+uBGS3n1XuVliUEJ2033TW2KB56?=
+ =?us-ascii?Q?4wZksbkvWBP8wxE6Aa61/hEJlRpTlp+kCvoBjr5sGKT29f3TWT2mXHzZBhVn?=
+ =?us-ascii?Q?bYzMCR+r/7VDlnSELo+anW3sr9c9fJR/vLUWzoTCXXGZfgo3HujhK3MKqlFA?=
+ =?us-ascii?Q?RutFnZRZabET3Xt8T6XUKZ7PC+gQOeo/JrPL2qjDwJ8h0Et/IJdjS7EWlY2/?=
+ =?us-ascii?Q?Oxmx/hMJuDDY9ogAYszugdi54HEM2Y/ZFIYbBont5H4j84/tZgJHAz83kaFv?=
+ =?us-ascii?Q?WGCYoW2jjUSYwq51mlvUwewc4xoDq4P6PI7n03iKO9ByGP4CjwZEsh3pdMO7?=
+ =?us-ascii?Q?D9jxpx4pXlNQDGMbdwdvktFCWIszSxSMnYssJ1y8YMqQ2mwdk1BVsSHdqOWj?=
+ =?us-ascii?Q?UR42VxCweMIvdokbFA+vvZcerudcDUeFIQjBJ9soQk3wpDlR8hAwdXDiIQ2q?=
+ =?us-ascii?Q?f/fb6ICyrACbMjrwX5oqPSt9R47jx3K9TbvGocBgMdaUgjMYr6tI7T7RwpJi?=
+ =?us-ascii?Q?Gfg2yhpFjeoHYfupHeg+3AcBK5TEclCJ1USZdKgCUNlBPUvPh8QwJUo4AYD+?=
+ =?us-ascii?Q?2p+vOYseZt6QFRfIZ/rnZEylJ4+jm4Ug2O3j5h8S/h7fBaZTSp0heH43xX2+?=
+ =?us-ascii?Q?hyR1ZnyllijShzjI5ks1DI0SUauSuBgmYqAeUp30Sj0gDp2HvxfTU1ukuzAr?=
+ =?us-ascii?Q?2iGGlCqpEcfNSr50eEEGL8lnBJyWcRlb2hY+i9jQsjHvhJkV2wKOAFzajYLD?=
+ =?us-ascii?Q?oD57BnDAOkgOCNMHbeAYtorasQNLLV6/X484ZarhVOKT4xkBLAroGElrBsUi?=
+ =?us-ascii?Q?uoaigmXnmI4y1LvH7Ti6xcXVU392WOGaK7YIn3ArqHkiHLgjgDyaSgamQL9f?=
+ =?us-ascii?Q?vTZXgBxlMRIiNGs1I2ZemHkPnPRKIACWinWnDnKnpRZvT8w8XM8l9jjXy8aG?=
+ =?us-ascii?Q?VTEEVWMqyjl5ZQWNNFzzU4d74xl1nTswpW/XQojjIj1Xc7jkf8Gjz1zCQ1HZ?=
+ =?us-ascii?Q?5q5tckE7Ksh+MwELNU7iccrpmvRKj+unOIha94XAlmwoVVKj?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b3c89f3-2fca-4e11-a9bc-08df2b550268
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2026 07:13:42.2245
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: THJasuZSjdUdgm0QKQoZiqzzR1cNZWa6yFyvL+sGzF9OQAhbhqywyVui3awCmyMV/nCBz6HERhsTiLMQ3OHyyQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI3P153MB1574
 
-MSHV_SET_POLL_FILE invokes a file descriptor poll callback with a poll
-table backed by a single embedded wait entry. A poll callback may,
-however, register the table with more than one waitqueue. pipe_poll()
-does this naturally for an O_RDWR FIFO.
+Thanks for the review. I have prepared a four-patch v8 based on net-next
+commit 05b5019b01fb, with the following dispositions.
 
-The second registration currently warns but then inserts the same list
-node into another list. The new insertion overwrites the entry links while
-the first waitqueue still points at it, corrupting the first waitqueue and
-causing an invalid callback traversal when that queue wakes.
+On Wed, 14 Oct 2026 08:06:25 +0000, sashiko-bot@kernel.org wrote:
 
-Reject a second distinct waitqueue, remove the first registration, and
-return -EINVAL from the ioctl. Repeated registration of the same waitqueue
-is treated as a no-op. A rejected replacement leaves the CPU slot
-unregistered, consistent with the existing remove-before-register ordering.
-Single-waitqueue users such as the OpenHCL io_uring poll file keep their
-existing behavior.
+> [Severity: High]
+> During HWC teardown, the dedicated HWC EQ is fenced (which includes a
+> synchronize_rcu() wait), and then the HWC CQ is destroyed. The CQ memory
+> is freed without a subsequent RCU grace period. Can a concurrently runnin=
+g
+> IRQ handler for a different active EQ (like an ENET EQ) read the CQ point=
+er
+> from cq_table just before it is cleared, and dereference it after it is f=
+reed here?
+>=20
+Addressed in v8 patch 1. The CQ table is withdrawn and existing IRQ-side
+RCU readers are drained BEFORE the HWC CQ, completion buffer and queue
+bundle are freed. Fencing only the dedicated HWC EQ is not used as proof
+that another EQ cannot hold this CQ. The ordering is in the owning first
+patch, not a later repair. This is HWC table/bundle protection, not a claim
+to repair every individual Ethernet or RDMA CQ lifetime
 
-Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
----
- drivers/hv/mshv_vtl_main.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+> [Severity: Low]
+> For normal networking queues, this happens before the EQ is fenced, so th=
+e
+> EQ handler may concurrently execute the READ_ONCE(cq_table[cq_id]).
+> Should this writer be updated to WRITE_ONCE() to prevent a formal data
+> race?
+Fixed in v8 patch 1: CQ-slot clearing uses WRITE_ONCE to pair with the
+annotated reader. This annotation does not by itself supply a grace period
+or solve individual CQ publication/lifetime.
 
-diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-index 6e3c11c681717..158409b67a046 100644
---- a/drivers/hv/mshv_vtl_main.c
-+++ b/drivers/hv/mshv_vtl_main.c
-@@ -72,6 +72,7 @@ struct mshv_vtl_poll_file {
- 	wait_queue_entry_t wait;
- 	wait_queue_head_t *wqh;
- 	poll_table pt;
-+	int error;
- 	int cpu;
- };
- 
-@@ -458,7 +459,19 @@ static void mshv_vtl_ptable_queue_proc(struct file *file, wait_queue_head_t *wqh
- {
- 	struct mshv_vtl_poll_file *poll_file = container_of(pt, struct mshv_vtl_poll_file, pt);
- 
--	WARN_ON(poll_file->wqh);
-+	if (poll_file->error)
-+		return;
-+
-+	if (poll_file->wqh) {
-+		if (poll_file->wqh == wqh)
-+			return;
-+
-+		remove_wait_queue(poll_file->wqh, &poll_file->wait);
-+		poll_file->wqh = NULL;
-+		poll_file->error = -EINVAL;
-+		return;
-+	}
-+
- 	poll_file->wqh = wqh;
- 	add_wait_queue(wqh, &poll_file->wait);
- }
-@@ -468,6 +481,7 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
- 	struct file *file, *old_file;
- 	struct mshv_vtl_poll_file *poll_file;
- 	struct mshv_vtl_set_poll_file input;
-+	int ret;
- 
- 	if (copy_from_user(&input, user_input, sizeof(input)))
- 		return -EFAULT;
-@@ -496,6 +510,7 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
- 
- 	old_file = poll_file->file;
- 	poll_file->file = file;
-+	poll_file->error = 0;
- 	poll_file->cpu = input.cpu;
- 
- 	if (file) {
-@@ -503,13 +518,18 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
- 		init_poll_funcptr(&poll_file->pt, mshv_vtl_ptable_queue_proc);
- 		vfs_poll(file, &poll_file->pt);
- 	}
-+	ret = poll_file->error;
-+	if (ret)
-+		poll_file->file = NULL;
- 
- 	mutex_unlock(&mshv_vtl_poll_file_lock);
- 
- 	if (old_file)
- 		fput(old_file);
-+	if (ret)
-+		fput(file);
- 
--	return 0;
-+	return ret;
- }
- 
- /* Static table mapping register names to their corresponding actions */
+> [Severity: Medium]
+> During driver unload (mana_gd_remove), vfree(gc) is eventually called, wh=
+ich
+> destroys the parent gdma_context and permanently leaks the retained
+> gc->hwc.driver_data (hwc) and gc->cq_table on this error path.
+>=20
+Fixed in v8 patch 1. A retained channel remains available for retry while
+its gdma_context survives. When a PCI or CDX path finally discards that
+context, a common final-disposal helper now releases software-only
+wrappers, caller state, the bitmap and CQ table after the required CPU
+users are quiesced. Coherent allocations are deliberately NOT freed without
+an acknowledged ownership transfer. This fixes the additional software
+leak; it does not claim that an unresponsive PF can be made to release DMA
+memory.
+
+Regards,
+Wei
