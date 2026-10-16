@@ -1,194 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C034EFFCA;
-	Thu, 15 Oct 2026 22:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E08383C96
+	for <linux-hyperv@vger.kernel.org>; Fri, 16 Oct 2026 06:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792104433; cv=none; b=DgbkAkbduuku9CJ4UdeXlsK5SsVmLNXWjhP2GlrVK5D5R25glp/LJIINhsTnDTon0dJ+nHlbfF5rfgpSwohCYTSoU4lkaJ833Bwpw8OizazxobtIzOoDG4BBKOJLbBlRYLwcnB0A0x8sFJ15wp/xtEDI11PHtAEQvODlmDB/wqo=
+	t=1792131089; cv=none; b=C5vhW2rFsi8UStUizcxIVNSbyJ3LgfE7BbTiOnVHCoqc7V0XNGyuXzsAi/43H512Xur0nOkzPSpeVvZTDS9jviPtBKwil8uQVliHeU04E1SkCYogsTAkA649gYBwKxfX5uPsRNoNNwl2Lul0TZubOwinZ9PN8lBPQGVUjy07cUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792104433; c=relaxed/simple;
-	bh=7VzyWhS0yiLiqhjJozM7MK0XGplhJcLRtNB0AJdHGWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=e4X2ICgc3jZsjchJ9F6dk9Dnt2LiKek0pfz4gIUGSLix4HNHkG+Qnwp4GQurG1aBSulLYNkdCNcUIA1JQUfeUv2FHH+1RJC9SaY+XoTjf2cSyss6v1X48Z49nJowQMTqCMVtFbHKzJugxxNsplycOJouvY8IqAGOFz2yaXpscPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frWiSVJb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792131089; c=relaxed/simple;
+	bh=SsI4U9ZL+7Uo8HhhoT2Gu79p5AWbf+Tp7UQOH5gny+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hfi0P4hP+RKwieJM8xPvzyBW/dwsg1COH3/KrXWWLO5qWL8zMMEDPcbLYDOmcnHgJeCewewXCEPxoyMBROw1m9K+Nib/vEIH1NREr6D2+CPR0x5ZlQRRso9FkvfKt0euKgsUqe9TSflMhF8NyfoXV/aSLU3Bo8qCJQWCRBXZWBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E9IeXBEv; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frWiSVJb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ECA71F000C4;
-	Thu, 15 Oct 2026 22:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792104430;
-	bh=EgeZyXP6AssGk+9sGtqMIvSOTxvKxWy2gMJ2hGDgcKE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=frWiSVJbt5aOK3+VC3/gyLircFrCXy1DAds2Xhs+iV5Ou6U8yfAECWUEb0qMVlist
-	 s+eyeHlp15yeTc0FhC5AsaRs3gtsCLfKnomPMDRwSSfo0fhQlW/gdnyeT1Fkru1gGf
-	 OGlpHpwb+vP9s5vkGrblUGuX8dK6AxLsi5Ri3JWxk+HPnfNM2SPsZNmFP2uOnK0V21
-	 9guIyf0rfunb7t/7gDnto0X//aJDrnaBCbx7imox00jv1ADS11buBhYhf3c6W+Qky/
-	 elHFGyjbcLdxdJ+hpQp1st6477Xa+oGpvBEUHrDo7t5pQIEgAdc/BK3QmNTAwkvjlW
-	 KTTP50YYAP3NA==
-Date: Thu, 15 Oct 2026 17:47:08 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Wei Liu <wei.liu@kernel.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E9IeXBEv"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e987b4a710so1579445ad.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 15 Oct 2026 23:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792131086; x=1792735886; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=id/dYpmE9pWZImX6Xj6XFEbwxwZmT89xDoMqxLDgKrU=;
+        b=E9IeXBEvXZDk+SY08ZjvBwE+6+xVo9BL9PtlX1FGprDLeJJi4cRn3N7EgjQ9eFgNye
+         6dwDa3tUaHVks1KyZJZSexIX4GIfmeRxDbHBjl23PuEAoDeIwna4jrqHgl7ckH4W9/SX
+         Y8gDDuJP71yE+i/jgSwOUFsGUZSGYdplPtdbH8REQf7bQNf7WPmj6LDsEhKj1wHMkBKz
+         f0yahU11QigXzM/bGI+UaNy0SViQtwqaz3aLLVBlbE4N+9cTRqoLqmyzlfGlwDeKsGVh
+         cG0XgRFstB0j+2bsnRZB3nVQ+WgTNfHwbxQGPXhIB8k4J1Nz7h+nLQdKgYdSbPRFZsV1
+         Rh9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792131086; x=1792735886;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=id/dYpmE9pWZImX6Xj6XFEbwxwZmT89xDoMqxLDgKrU=;
+        b=u0FmhlD4/LQZdweTcex1nHezUPSliLIUkfHpu0oAHasUFVpOHRn4V8JXg/knxmrljt
+         5ts0VC7OIRXzlr5qRWZqgXCgC7iNVlMq9zjO2QsqbC5eqBeSgs0RJrcog1F6wM1foIz8
+         yKdl9xeqy03UQYPRvhqEVjAMqwJLFppXO3KKJ0xRZwtfTfnfiH3+Lw1i81q0sgN0yHeD
+         jCFUyeN3e8fVFUcXQ8DcCprSLn+tJPOkQp5pL+MBfQs3SOLCYVBflCbGq9Qn606CF6DS
+         IzlZTu7VroU8Vcp19FcH/o/PberSbL7xGMkdRnHdWWKrrS6StbUJovGqiF16g8owpfTv
+         neqg==
+X-Forwarded-Encrypted: i=1; AKwUvBzg96a0APoSehHLJvuzaCyRzALzjwq0rNnFObWRcORU3QVGO2RKseeOMvF+FZ9Rl4lqFg5afMzVHCtZYAo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJZAg4JtpCiIe/6FSgjcq1HtG+6SDplFSOnu1OJRwVkbqVWI11m
+	dtcOuuJc/dppAdZpbgP813N7CJho53UuYerhadYgaABPcKkfvc1EHGJ0
+X-Gm-Gg: AYBFou3OXELhMsxTrCkYnWUUlcHgJpTv8RwAAwvRv/Kll/nRpGJAhsUKvl5VOD3Xa7F
+	Di0StdvrKa3dm9pV/07N9oTe8Gi5j0W5BwNqO3tChhiVWvjjF1TE8PYE9XTekIG2lvD+KSAARPU
+	nJQFpkCNIQ8uGXMaUKWszjA49q+X5IcxCNxGkJsP+hBssBypCWh66U6SqTFdXVZzl2xROEwGT/d
+	HLBL4PpAKPXUFnp1zreikcGKOqIHLoBlzQ4LIdhx4tKkLZR1JdRt08/+hJSqCrMptUYEtsRtL4l
+	YKCV80jSolR/sF5q1fJCB76u93FHQqRgsvBe+Wu5ldS1jxbA0ufr8KgZwm54FOXtNCdXr6NL35T
+	XHkh6N12/hzd8pK98/0MvU5/D+8K7XeN4PGkE0IaLY3OIhUoO3EMFwK8kjEvR+USIwkEzQKmWn4
+	IEsCoXx8dIPEiEV1ruzXz8rqAInLDYahL4DQGEn0xu0uu58Dirvitn60Kr4I80TPwhH1sy/hPKF
+	8fswNHYbRE=
+X-Received: by 2002:a17:90b:2ec3:b0:3ac:9d83:8858 with SMTP id 98e67ed59e1d1-3acbb933bbamr1924825a91.41.1792131086541;
+        Thu, 15 Oct 2026 23:11:26 -0700 (PDT)
+Received: from ancienth-X870E-Nova-WiFi ([125.186.72.2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd654621dcbsm546633a12.0.2026.10.15.23.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 23:11:25 -0700 (PDT)
+From: Daehyeon Ko <4ncienth@gmail.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>
+Cc: Naman Jain <namjain@linux.microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
 	Michael Kelley <mhklinux@outlook.com>,
-	Long Li <longli@microsoft.com>, Nam Cao <namcao@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Kees Cook <kees@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Radu Rendec <radu@rendec.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Kai Huang <kai.huang@intel.com>, Dmitry Ilvokhin <d@ilvokhin.com>,
-	Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Thierry Reding <treding@nvidia.com>,
-	Jiri Wiesner <jwiesner@suse.de>,
-	Daniel J Blueman <daniel@quora.org>, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] x86/irq, iommu/amd, x86/hyperv, PCI: Drop
- redundant irq_retrigger inits
-Message-ID: <20261015224708.GA1810637@bhelgaas>
+	Roman Kisel <romank@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mshv_vtl: reject poll files with multiple waitqueues
+Date: Fri, 16 Oct 2026 15:11:14 +0900
+Message-ID: <20261016061114.1686153-1-4ncienth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260923043023.3150498-5-namjain@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 04:30:23AM +0000, Naman Jain wrote:
-> With fixup_irqs() and msi_set_affinity() now using
-> irq_chip_retrigger_hierarchy(), the outermost domain chips no longer need
-> the helper as their irq_retrigger() callback. The generic resend path
-> already uses the hierarchy helper.
-> 
-> The hierarchy walk reaches the x86 vector domain's apic_retrigger_irq() for
-> all of these stacked domain chips.
-> 
-> Remove the now redundant irq_retrigger() initializations from the outermost
-> domain interrupt chips, including the Hyper-V root partition PCI/MSI chip.
-> 
-> No functional change intended.
-> 
-> Suggested-by: Thomas Gleixner <tglx@kernel.org>
-> Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
-> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
-> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+MSHV_SET_POLL_FILE invokes a file descriptor poll callback with a poll
+table backed by a single embedded wait entry. A poll callback may,
+however, register the table with more than one waitqueue. pipe_poll()
+does this naturally for an O_RDWR FIFO.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com> # pci-hyperv.c
+The second registration currently warns but then inserts the same list
+node into another list. The new insertion overwrites the entry links while
+the first waitqueue still points at it, corrupting the first waitqueue and
+causing an invalid callback traversal when that queue wakes.
 
-> ---
->  arch/x86/hyperv/irqdomain.c         | 1 -
->  arch/x86/kernel/apic/io_apic.c      | 2 --
->  arch/x86/kernel/apic/msi.c          | 2 --
->  arch/x86/kernel/hpet.c              | 1 -
->  drivers/iommu/amd/init.c            | 1 -
->  drivers/pci/controller/pci-hyperv.c | 1 -
->  6 files changed, 8 deletions(-)
-> 
-> diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-> index 6d790636c8b95..b3ad50a874dca 100644
-> --- a/arch/x86/hyperv/irqdomain.c
-> +++ b/arch/x86/hyperv/irqdomain.c
-> @@ -316,7 +316,6 @@ static bool hv_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
->  		return false;
->  
->  	chip->flags |= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED;
-> -	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
->  
->  	info->ops->msi_prepare = pci_msi_prepare;
->  
-> diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
-> index 7d7175d012288..18f49a251f23b 100644
-> --- a/arch/x86/kernel/apic/io_apic.c
-> +++ b/arch/x86/kernel/apic/io_apic.c
-> @@ -1857,7 +1857,6 @@ static struct irq_chip ioapic_chip __read_mostly = {
->  	.irq_ack		= irq_chip_ack_parent,
->  	.irq_eoi		= ioapic_ack_level,
->  	.irq_set_affinity	= ioapic_set_affinity,
-> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
->  	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
->  	.flags			= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED |
->  				  IRQCHIP_AFFINITY_PRE_STARTUP,
-> @@ -1871,7 +1870,6 @@ static struct irq_chip ioapic_ir_chip __read_mostly = {
->  	.irq_ack		= irq_chip_ack_parent,
->  	.irq_eoi		= ioapic_ir_ack_level,
->  	.irq_set_affinity	= ioapic_set_affinity,
-> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
->  	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
->  	.flags			= IRQCHIP_SKIP_SET_WAKE |
->  				  IRQCHIP_AFFINITY_PRE_STARTUP,
-> diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-> index 9160227b9b32a..aad2f15eb2176 100644
-> --- a/arch/x86/kernel/apic/msi.c
-> +++ b/arch/x86/kernel/apic/msi.c
-> @@ -246,7 +246,6 @@ static bool x86_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
->  	info->ops->msi_prepare		= x86_msi_prepare;
->  
->  	info->chip->irq_ack		= irq_chip_ack_parent;
-> -	info->chip->irq_retrigger	= irq_chip_retrigger_hierarchy;
->  	info->chip->flags		|= IRQCHIP_SKIP_SET_WAKE |
->  					   IRQCHIP_AFFINITY_PRE_STARTUP;
->  
-> @@ -313,7 +312,6 @@ static struct irq_chip dmar_msi_controller = {
->  	.irq_mask		= dmar_msi_mask,
->  	.irq_ack		= irq_chip_ack_parent,
->  	.irq_set_affinity	= msi_domain_set_affinity,
-> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
->  	.irq_compose_msi_msg	= dmar_msi_compose_msg,
->  	.irq_write_msi_msg	= dmar_msi_write_msg,
->  	.flags			= IRQCHIP_SKIP_SET_WAKE | IRQCHIP_MOVE_DEFERRED |
-> diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-> index 8dc7b710e1250..2bb7a6f466af3 100644
-> --- a/arch/x86/kernel/hpet.c
-> +++ b/arch/x86/kernel/hpet.c
-> @@ -509,7 +509,6 @@ static struct irq_chip hpet_msi_controller __ro_after_init = {
->  	.irq_mask = hpet_msi_mask,
->  	.irq_ack = irq_chip_ack_parent,
->  	.irq_set_affinity = msi_domain_set_affinity,
-> -	.irq_retrigger = irq_chip_retrigger_hierarchy,
->  	.irq_write_msi_msg = hpet_msi_write_msg,
->  	.flags = IRQCHIP_SKIP_SET_WAKE | IRQCHIP_AFFINITY_PRE_STARTUP,
->  };
-> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-> index 8a410d4aa3704..0d22324568911 100644
-> --- a/drivers/iommu/amd/init.c
-> +++ b/drivers/iommu/amd/init.c
-> @@ -2477,7 +2477,6 @@ static struct irq_chip intcapxt_controller = {
->  	.irq_unmask		= intcapxt_unmask_irq,
->  	.irq_mask		= intcapxt_mask_irq,
->  	.irq_ack		= irq_chip_ack_parent,
-> -	.irq_retrigger		= irq_chip_retrigger_hierarchy,
->  	.irq_set_affinity       = intcapxt_set_affinity,
->  	.irq_set_wake		= intcapxt_set_wake,
->  	.flags			= IRQCHIP_MASK_ON_SUSPEND | IRQCHIP_MOVE_DEFERRED,
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-> index 056d379b3cee4..a004b08d68fe9 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -2119,7 +2119,6 @@ static bool hv_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *dom
->  	info->ops->msi_prepare = hv_msi_prepare;
->  
->  	chip->irq_set_affinity = irq_chip_set_affinity_parent;
-> -	chip->irq_retrigger = irq_chip_retrigger_hierarchy;
->  
->  	if (IS_ENABLED(CONFIG_X86))
->  		chip->flags |= IRQCHIP_MOVE_DEFERRED;
-> -- 
-> 2.43.0
-> 
+Reject a second distinct waitqueue, remove the first registration, and
+return -EINVAL from the ioctl. Repeated registration of the same waitqueue
+is treated as a no-op. A rejected replacement leaves the CPU slot
+unregistered, consistent with the existing remove-before-register ordering.
+Single-waitqueue users such as the OpenHCL io_uring poll file keep their
+existing behavior.
+
+Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+---
+ drivers/hv/mshv_vtl_main.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+index 6e3c11c681717..158409b67a046 100644
+--- a/drivers/hv/mshv_vtl_main.c
++++ b/drivers/hv/mshv_vtl_main.c
+@@ -72,6 +72,7 @@ struct mshv_vtl_poll_file {
+ 	wait_queue_entry_t wait;
+ 	wait_queue_head_t *wqh;
+ 	poll_table pt;
++	int error;
+ 	int cpu;
+ };
+ 
+@@ -458,7 +459,19 @@ static void mshv_vtl_ptable_queue_proc(struct file *file, wait_queue_head_t *wqh
+ {
+ 	struct mshv_vtl_poll_file *poll_file = container_of(pt, struct mshv_vtl_poll_file, pt);
+ 
+-	WARN_ON(poll_file->wqh);
++	if (poll_file->error)
++		return;
++
++	if (poll_file->wqh) {
++		if (poll_file->wqh == wqh)
++			return;
++
++		remove_wait_queue(poll_file->wqh, &poll_file->wait);
++		poll_file->wqh = NULL;
++		poll_file->error = -EINVAL;
++		return;
++	}
++
+ 	poll_file->wqh = wqh;
+ 	add_wait_queue(wqh, &poll_file->wait);
+ }
+@@ -468,6 +481,7 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
+ 	struct file *file, *old_file;
+ 	struct mshv_vtl_poll_file *poll_file;
+ 	struct mshv_vtl_set_poll_file input;
++	int ret;
+ 
+ 	if (copy_from_user(&input, user_input, sizeof(input)))
+ 		return -EFAULT;
+@@ -496,6 +510,7 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
+ 
+ 	old_file = poll_file->file;
+ 	poll_file->file = file;
++	poll_file->error = 0;
+ 	poll_file->cpu = input.cpu;
+ 
+ 	if (file) {
+@@ -503,13 +518,18 @@ static int mshv_vtl_ioctl_set_poll_file(struct mshv_vtl_set_poll_file __user *us
+ 		init_poll_funcptr(&poll_file->pt, mshv_vtl_ptable_queue_proc);
+ 		vfs_poll(file, &poll_file->pt);
+ 	}
++	ret = poll_file->error;
++	if (ret)
++		poll_file->file = NULL;
+ 
+ 	mutex_unlock(&mshv_vtl_poll_file_lock);
+ 
+ 	if (old_file)
+ 		fput(old_file);
++	if (ret)
++		fput(file);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ /* Static table mapping register names to their corresponding actions */
