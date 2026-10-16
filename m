@@ -1,180 +1,186 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5ED4D2EDF;
-	Fri, 16 Oct 2026 15:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEAC4BFE9E;
+	Fri, 16 Oct 2026 15:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792163562; cv=none; b=QzWePHxITPuaQT2UqB5Az6EXWxzIf7bMHl3Ll22mBKUFgDQ3Z2TVUpUpUthG+D9hjXvXmxJ41KoJK6hiLhTSZdmJLbjZQZpAIXYmljjKQXZmMRcqQHoc7bHoMCRze3lTAZOdZ2TadiWdo1M2L3zcEyh6k9G/DXj6dYRBiGqDPjw=
+	t=1792164713; cv=none; b=KABo8M5MaO2y0+h61oiQH1FjTGyqnhvM6zSWOEdIeoMXwZ9DX+zNCDWSDNk2wa4PSLdMWRvkiBYMR3ZBQDMj9B+ZtlihdtNnw0ALQ27Egadq5vvBat2qkofBi7OAkVs8YDKCZieD9ZbCsZDdlBJWdWnb7GWBS3uvx90nERSA5Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792163562; c=relaxed/simple;
-	bh=wArVxH9jZInnASIQLwCgvMc3lzkEDaLjNnutL2oFwVA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EWkofqE05R6o0DFiTVm5+qXn4e9jvSpvs/e79Jf3Gxu44nQhNbXZL1Ndg7LvkYj40qU0bL/EVDypcE/twaEwBbaJGSDVaJ46a5l6Up8ItTindUMg93h7qsHvdJshBJktGlhGEkUJUD5ec+OoZwagCYj603S8yHQhRg4mI7XlPiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HeXH2eNd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792164713; c=relaxed/simple;
+	bh=WIg4HHnEjUHVsNSP6Ww9skvAZqJEB3it+BKgjcJjFnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQgWvYZPt8Cz/y0XeLY2uWc891at9j3gF6Y0OuTdEDTUmyALviTV723ZyiLuPPwCbC3t05zG5R2LKZPJ8kh85A6SKbSJW337KMTFbuc4RP1TyF61imE33aINdt51kwX8gJbawe31HgiCU11z4QfG1OIi0xORLvcM3YxfTp2v54I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAJMcmMZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HeXH2eNd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F291F000C4;
-	Fri, 16 Oct 2026 15:12:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAJMcmMZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CA71F000C5;
+	Fri, 16 Oct 2026 15:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792163561;
-	bh=zExOvzSfNAOGhWyHayoCJYIMW12XGItswYYl/21/DBA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HeXH2eNd0qTi1KJWMDpX2qurIIHfELGudDOFsBVj38SK5hgtwRmtRu++Y/B5kYqqd
-	 A4blc5Fp2xS9ugu94PJEByj6vIlDtKLwiWnVuaMsxRz0Ir4yLDMdWRBi4NsEDJfgYI
-	 dTCWHHQPHA4O4L72QOauM8WSJ4JjVCneqoIAwA1rVTR79Lh6W41DTt4LcokcrG/DS7
-	 QghFRktl0qmqBt0Q2454sV5etB2cRZSEkJVEe4jVB1iPvoqhJu/FGnl3nmWT7TfuCi
-	 kYiPGdYgWB0PP3fl0nc6yx6ZWW1MUxK7rfa2DXZnz9GRXCns4+n+2ph4Izy2R1nkwe
-	 CPOLN30xIOzMQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>,
-	Dave Airlie <airlied@redhat.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	Martyn Welch <martyn.welch@collabora.co.uk>,
-	Peter Senna Tschudin <peter.senna@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Alison Wang <alison.wang@nxp.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Yongbang Shi <shiyongbang@huawei.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	imx@lists.linux.dev,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Jianmin Lv <lvjianmin@loongson.cn>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Qianhai Wu <wuqianhai@loongson.cn>,
-	Xi Ruoyao <xry111@xry111.site>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	spice-devel@lists.freedesktop.org,
-	virtualization@lists.linux.dev,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Iker Pedrosa <ikerpedrosam@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-tegra@vger.kernel.org,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	LiangCheng Wang <zaq14760@gmail.com>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Louis Chauvet <louis.chauvet@bootlin.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-	Ruben Wauters <rubenru09@aol.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	nouveau@lists.freedesktop.org,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Aditya Garg <aditya.garg@linux.dev>
-Subject: Re: (subset) [PATCH 00/75] drm/connector: Convert all drivers to atomic_create_state and remove reset
-Date: Fri, 16 Oct 2026 17:12:34 +0200
-Message-ID: <179216354629.2387589.2597043397406887835.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
-References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+	s=k20260515; t=1792164712;
+	bh=O++lRaIEQRbUIBBM+fguL1DG4G6XujE0EDIskOJl7YE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RAJMcmMZB6D2PSQdNyM5K5a5nMW8gl6tEqgi1bPg+2E4Pc8MGPvf3QvuR/dbPAXIS
+	 mfpsKDzu0446eQsVk6Gqbln9NU1ogluBiOkRLb/Cnh2om9xSJoQ3C7d9Y9sJKuak7t
+	 A7UbaBFXB85c3uXYCTxTJaUNrfnRvsJY/YROoV10iKhcn6Z4iaCPIPglaVXF+JBz6c
+	 XNnsrqhgHrz+/miK661jCnkQUJdp9uPFXtl1ghA1kxjD5+/rubJrLX38PuFwyGiL5w
+	 9N/e4iYF6f/po9fzaFpkjzk+/v7C9H/8bKYseu0/Gfib7Pv/11lNGEdAfgbbyWpbHt
+	 ZGHS/7994etIQ==
+Date: Fri, 16 Oct 2026 18:31:47 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: "Popov, Pavel E" <pavel.e.popov@intel.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jim Chow <jim.chow@broadcom.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Radu Rugina <radu.rugina@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
+	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+ guests on Intel hosts
+Message-ID: <20261016153147.GC219304@unreal>
+References: <20261009184923.GE11438@unreal>
+ <LV2PR11MB60707DAD12BFBEAB681463B7B2922@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261011054700.GF11438@unreal>
+ <LV2PR11MB60708F76EB7D6E5A40E82853B29F2@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261012162410.GH219304@unreal>
+ <DS7PR11MB6064DA61339B9AB0F52EBED4B29F2@DS7PR11MB6064.namprd11.prod.outlook.com>
+ <20261012182120.GJ219304@unreal>
+ <DS7PR11MB60647FA80C6BE1029982222DB29F2@DS7PR11MB6064.namprd11.prod.outlook.com>
+ <20261013122002.GN219304@unreal>
+ <LV2PR11MB60704D89055FBC471FF81B31B29B2@LV2PR11MB6070.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <LV2PR11MB60704D89055FBC471FF81B31B29B2@LV2PR11MB6070.namprd11.prod.outlook.com>
 
-On Wed, 14 Oct 2026 19:26:23 +0200, Maxime Ripard wrote:
-> This is a follow-up to the plane and CRTC reset removal series, and
-> part of a larger effort to remove the reset hook from all KMS objects.
+On Fri, Oct 16, 2026 at 02:55:07PM +0000, Popov, Pavel E wrote:
+> Bjorn, Logan,
 > 
-> The connector reset hook is overloaded: it is called both at probe
-> time to create the initial software state and during suspend/resume to
-> reset hardware and software state. These two roles have different
-> requirements, and the reset hook is not fallible, making error
-> handling difficult for the initial state allocation path.
+> Could you consider taking this series despite the NAK, for two reasons:
 > 
-> [...]
+> - Parity: Linux gives AMD guests preferential treatment
 
-Applied to misc/kernel.git (drm-misc-next)
+This is misleading. You did not propose adding Intel processors to a whitelist,
+for example in `cpu_supports_p2pdma()`. Instead, you explicitly added a check
+for whether the system is running in a VM.
 
-[02/75] drm/adp: Switch to drm_atomic_helper_connector_create_state
-        commit: db1de27aca30ebaad04aea74ac21e4c4fb531a37
+> - No alternative: the HMAT solution doesn't exist in Linux yet
 
-Thanks!
-Maxime
+This is not how open-source development works. Let's work together to find a
+solution that works for everyone.
+
+Thanks
+
+> 
+> Thanks,
+> Pavel
+> 
+> > -----Original Message-----
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Tuesday, October 13, 2026 5:20 AM
+> > To: Popov, Pavel E <pavel.e.popov@intel.com>
+> > Cc: Bjorn Helgaas <helgaas@kernel.org>; Jim Chow <jim.chow@broadcom.com>;
+> > Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
+> > <logang@deltatee.com>; Radu Rugina <radu.rugina@broadcom.com>; Alexey
+> > Makhalov <alexey.makhalov@broadcom.com>; Wei Liu <wei.liu@kernel.org>;
+> > Michael Kelley <mhklinux@outlook.com>; Lukas Wunner <lukas@wunner.de>;
+> > Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
+> > list@broadcom.com; virtualization@lists.linux.dev; linux-hyperv@vger.kernel.org;
+> > linux-pci@vger.kernel.org; linux-kernel@vger.kernel.org
+> > Subject: Re: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+> > guests on Intel hosts
+> > 
+> > On Mon, Oct 12, 2026 at 08:01:40PM +0000, Popov, Pavel E wrote:
+> > > > Please read all of my responses. I was explicit about why the check
+> > > > inside the guest VM produces random results. However, your responses
+> > > > continue to focus on the guest, which is not the problem.
+> > >
+> > > Fair, my earlier replies were about the guest. Taking the host-side
+> > > points in turn:
+> > >
+> > > 1. Host topology decides P2P, the guest cannot see it, and the patch
+> > >    says "yes" for every pair regardless.
+> > >
+> > >    The topology is accounted for where the knowledge is: on the host.
+> > >    Which devices land in one VM is decided by the admin, from devices
+> > >    VMware has certified for passthrough in the Compatibility Guide,
+> > >    and on vSphere 8+ by Device Groups, which hands devices sharing a
+> > >    switch or interconnect to a VM as a topology-aware group. Hyper-V
+> > >    has no equivalent grouping; DDA is plain passthrough, each device
+> > >    assigned to the VM explicitly by the admin.
+> > >
+> > >    The blanket "yes" is not new either. On bare metal the flags = 0
+> > >    whitelist entries say "yes" for any pair of Xeon Scalable root
+> > >    buses, across sockets, with no knowledge of BIOS P2P settings. And
+> > >    cpu_supports_p2pdma() already bypasses the host bridge check for
+> > >    AMD Zen on CPUID alone, in guests included. This series gives Intel
+> > >    hosts what the tree already does for AMD; if that is unacceptable
+> > >    in principle, it is unacceptable for AMD guests today.
+> > 
+> > If you had simply added Intel CPUs to the list of supported P2P devices, I might
+> > have been willing to accept that. However, you added these two lines:
+> > 
+> > +	    (hypervisor_is_type(X86_HYPER_VMWARE) ||
+> > +	     hypervisor_is_type(X86_HYPER_MS_HYPERV)))
+> > 
+> > This makes your case quite different from AMD's. Their check was for hypervisor,
+> > which leaked to VMs. And, yes, AMD does not work reliably in guest VMs either.
+> > For our internal testing, we have carefully curated hypervisor configurations and
+> > test VMs, along with custom patches, to test P2P reliably.
+> > 
+> > >
+> > > 2. Regression: consumers that work today via a system-memory fallback
+> > >    will take the P2P path and break on hosts that cannot route it.
+> > >
+> > >    A wrong "yes" fails safely: without host-side P2P the request is
+> > >    stopped at the host IOMMU, nothing is corrupted, the same exposure
+> > >    an AMD guest has today. An unconditional "no" is worse: it blocks
+> > >    P2P on every host that does route it, and the guest's answer
+> > >    changes nothing about whether the host routes it.
+> > >
+> > >    Xeon Scalable routes P2P between any two root ports, which the
+> > >    whitelist already encodes. The only hypervisor-side requirement is
+> > >    mapping the peer's MMIO into the VM's IOMMU domain, and that is
+> > >    what passthrough P2P support means: on ESXi it was an explicit
+> > >    per-VM setting for years and is the default since 9.0; Hyper-V does
+> > >    it for devices assigned to the same VM, as tested on Windows Server
+> > >    2025. The decision is made on the host; the guest only has to stop
+> > >    vetoing it.
+> > >
+> > > 3. The hypervisor must describe it, HMAT is the way, NAK to anything
+> > >    that does not fix the hypervisor first.
+> > >
+> > >    Agreed HMAT is the right source and should take precedence: consult
+> > >    it first, this check only where no HMAT exists. The disagreement is
+> > >    on "first". Guests on already shipped ESXi and Hyper-V releases
+> > >    will never get HMAT, and those stay in production for years; the
+> > >    cover letter's note on the adoption timeline was written with
+> > >    VMware's input, and Jim can speak to it. Until a hypervisor emits
+> > >    HMAT, this fallback is the only path that works.
+> > 
+> > This is VMware's problem, not the upstream kernel community's. If VMware
+> > considers P2P important and its customers agree, VMware can upgrade.
+> > 
+> > It is no different from any other kernel feature.
+> > 
+> > Thanks
+> > 
+> > >
+> > > Thanks,
+> > > Pavel
+> > >
+> 
