@@ -1,28 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A33F3381B1C;
-	Sat, 17 Oct 2026 00:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51AB381B1C;
+	Sat, 17 Oct 2026 00:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792195209; cv=none; b=bEyIL47kUrxntjPURVAPKqeTKBpU3YdT7S6RKpOTlP/nrpJhZSAYLyMH6T3g+XPVY8qpAg2D++d2iRGMnZD+0iF/4seQqhTvKuJl7lOd+JyrhSfSgGgKN3RYpPfaESNOLNyKKwNWslx8WXSgwSfda8W0ShSFllu1j68L1XxZyXE=
+	t=1792195211; cv=none; b=IMSCGl7rt6D9IWIZ9h85oIJaeCSN6JB5kxX2keQucAVioenejRXXQOrc3H093c+Ud0c6lMXJKpN3fBf24hb0q0eJz+p+SKY2m0uXaa+lXfaRz3SSU3EoT495PJ4Y/DZdg79Q9Ya73+hR4xyYllG/pQZm4YMyX4xWJINOJNzLWhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792195209; c=relaxed/simple;
-	bh=s3e3vclUqMHCWeTSPseyjYzU8YzgptMgUxOyzOGGBj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lm1n7Pj9GdvDj27hdQRULXivU4rr2HHfo8a0mgVmGmgRsaOyhxlvGpseZrfHMMiVXq1qPGygMWsyQJiBb1xME790xbLJv2QGcsXBSGl7VF77wY/8/VxBXYPMfzQNdLyBG3quYMBSswlDml0Pv6Ovu0EINE3B7iQ81UyUCrjD1kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dbvJzdPI; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1792195211; c=relaxed/simple;
+	bh=9xDY8RJxMnbDzlivRKIo9yR1vRznPmY5J8sWs5iLWd4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LB7Wn8POr6t4+Rd0aGIYeqCtL1qUWZTiDkA/hoRw8nMZ6VDzxNpc+XU0RX7W6fzaqImCJtN7o2Gt6XjjgNeo75EEiz1eez9sxjafq3ZI+WqjXhE0tW27RPEtO4JGxOWFoy8vJIQ0kCfcTF68ukLMciA8c0rc2cj8W/FFshXP9x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ogijTMZc; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dbvJzdPI"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ogijTMZc"
 Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 4CC1220B7167; Fri, 16 Oct 2026 17:00:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4CC1220B7167
+	id 8A62720B7168; Fri, 16 Oct 2026 17:00:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8A62720B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792195202;
-	bh=moVtecY2Bt+NuCIdpO9sPe1Rj+Ksh5GzDLFLl3q1sQ8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dbvJzdPIuV9rPImu/MqwF8oP4X8uYWFvSaOSWx2lVIqyNnVLUnliPTc9/M8PAHoI0
-	 pnQlf3WOgchKIyXps2xaP3Rq+UuUkEw2q4yfo2e0FhLyGJfchlozJ82vtRqrd8QX8U
-	 SOgxO10DxO/4rx9zQeANaUuhJSYIh4cMekl/89DY=
+	s=default; t=1792195204;
+	bh=ibhrdaDiErzJvlxjxB5JJub8TppCWT7KleXCU2bg3eE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ogijTMZcO/0ALxKv13Ohj+MKuj45OFTZ0nU3H0mCwu8YSnLeZLFt1WaEkrUxdOo9C
+	 pKneCHDhuAq0xFa8Ki+qiXMJcLiYCAGAfWZAjmXPsAKXLny3xBf2s3eeepZdZocaTg
+	 k6WWRKSLPK9vFCrvmZZTqMJB8RNpT6s8+9S6glHg=
 From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org
 Cc: Haiyang Zhang <haiyangz@microsoft.com>,
@@ -38,10 +39,12 @@ Cc: Haiyang Zhang <haiyangz@microsoft.com>,
 	linux-doc@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Subject: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices on a root bus
-Date: Fri, 16 Oct 2026 19:59:39 -0400
-Message-ID: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+Subject: [PATCH 2/2] PCI: hv: add vPCI device reset support
+Date: Fri, 16 Oct 2026 19:59:40 -0400
+Message-ID: <20261016235940.942090-2-hamzamahfooz@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+References: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -50,81 +53,146 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The "bus" reset method resets a device by asserting Secondary Bus Reset
-on its upstream bridge, so it is not available for a device on a root
-bus, which has no upstream bridge.
+Hyper-V vPCI protocol version 1.5 adds a RESET_DEVICE request for
+projected PCI functions. Negotiate the new protocol version and, when it
+is in use, implement the pci_host_bridge::reset_root_port() callback by
+issuing the request through the vPCI VMBus channel.
 
-Some platforms have no Root Ports and expose PCI devices directly on a
-root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
-on the root bus of a virtual host bridge. Such a device has no reset
-method at all if it supports neither FLR nor PM reset, even if the
-platform is able to reset it.
+Hyper-V has no Root Ports and exposes projected functions directly on
+the root bus, so PCI core uses the callback for the "bus" reset method
+of a function that is the only one on its vPCI bus.
 
-pci_host_bridge::reset_root_port() already allows a host bridge to reset
-a device on a root bus in a platform-specific way, so far only in place
-of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
-method of a device that is the only device on a root bus, and wait for
-the device to become ready afterwards, as is done for other reset
-methods.
+Use the existing VMBus response path. Return -ENOTTY when the host
+reports STATUS_NOT_SUPPORTED so PCI core may try another reset method.
 
+Co-developed-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 ---
- drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+ Documentation/virt/hyperv/vpci.rst  |  2 +-
+ drivers/pci/controller/pci-hyperv.c | 54 +++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 8cc6a89130b5..fd4e958d6b99 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
- }
- EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
+diff --git a/Documentation/virt/hyperv/vpci.rst b/Documentation/virt/hyperv/vpci.rst
+index b65b2126ede3..6bfee7225c14 100644
+--- a/Documentation/virt/hyperv/vpci.rst
++++ b/Documentation/virt/hyperv/vpci.rst
+@@ -65,7 +65,7 @@ exchange messages with the vPCI VSP for the purpose of setting
+ up and configuring the vPCI device in Linux.  Once the device
+ is fully configured in Linux as a PCI device, the VMBus
+ channel is used only if Linux changes the vCPU to be interrupted
+-in the guest, or if the vPCI device is removed from
++in the guest, or if the vPCI device is reset or removed from
+ the VM while the VM is running.  The ongoing operation of the
+ device happens directly between the Linux device driver for
+ the device and the hardware, with VMBus and the VMBus channel
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 85d826f8f68d..790bf533a7e3 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -68,6 +68,7 @@ enum pci_protocol_version_t {
+ 	PCI_PROTOCOL_VERSION_1_2 = PCI_MAKE_VERSION(1, 2),	/* RS1 */
+ 	PCI_PROTOCOL_VERSION_1_3 = PCI_MAKE_VERSION(1, 3),	/* Vibranium */
+ 	PCI_PROTOCOL_VERSION_1_4 = PCI_MAKE_VERSION(1, 4),	/* WS2022 */
++	PCI_PROTOCOL_VERSION_1_5 = PCI_MAKE_VERSION(1, 5),	/* GE, device reset */
+ };
  
-+static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
+ #define CPU_AFFINITY_ALL	-1ULL
+@@ -77,6 +78,7 @@ enum pci_protocol_version_t {
+  * first.
+  */
+ static enum pci_protocol_version_t pci_protocol_versions[] = {
++	PCI_PROTOCOL_VERSION_1_5,
+ 	PCI_PROTOCOL_VERSION_1_4,
+ 	PCI_PROTOCOL_VERSION_1_3,
+ 	PCI_PROTOCOL_VERSION_1_2,
+@@ -90,6 +92,7 @@ static enum pci_protocol_version_t pci_protocol_versions[] = {
+ #define MAX_SUPPORTED_MSI_MESSAGES 0x400
+ 
+ #define STATUS_REVISION_MISMATCH 0xC0000059
++#define STATUS_NOT_SUPPORTED     0xC00000BB
+ 
+ /* space for 32bit serial number as string */
+ #define SLOT_NAME_SIZE 11
+@@ -136,6 +139,7 @@ enum pci_message_type {
+ 	PCI_BUS_RELATIONS2		= PCI_MESSAGE_BASE + 0x19,
+ 	PCI_RESOURCES_ASSIGNED3         = PCI_MESSAGE_BASE + 0x1A,
+ 	PCI_CREATE_INTERRUPT_MESSAGE3   = PCI_MESSAGE_BASE + 0x1B,
++	PCI_RESET_DEVICE                = PCI_MESSAGE_BASE + 0x1C,
+ 	PCI_MESSAGE_MAXIMUM
+ };
+ 
+@@ -1416,6 +1420,52 @@ static int hv_pcifront_write_config(struct pci_bus *bus, unsigned int devfn,
+ 	return PCIBIOS_SUCCESSFUL;
+ }
+ 
++static int hv_pci_reset_device(struct pci_host_bridge *bridge,
++			       struct pci_dev *pdev)
 +{
-+	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
-+	int rc;
++	struct hv_pcibus_device *hbus =
++		container_of(bridge->sysdata, struct hv_pcibus_device, sysdata);
++	struct pci_child_message reset = {};
++	struct hv_pci_compl comp_pkt;
++	struct pci_packet pkt = {
++		.completion_func = hv_pci_generic_compl,
++		.compl_ctxt = &comp_pkt,
++	};
++	enum hv_pcibus_state state;
++	int ret;
 +
-+	/*
-+	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
-+	 * because dev->subordinate is not set up yet when the reset methods
-+	 * are probed during enumeration.
-+	 */
-+	if (pci_is_bridge(dev) || !host->reset_root_port)
++	/* Do not take state_lock: eject holds it while removing/locking pdev. */
++	state = READ_ONCE(hbus->state);
++	if (state != hv_pcibus_probed && state != hv_pcibus_installed)
++		return -ENODEV;
++
++	init_completion(&comp_pkt.host_event);
++	reset.message_type.type = PCI_RESET_DEVICE;
++	reset.wslot.slot = devfn_to_wslot(pdev->devfn);
++
++	ret = vmbus_sendpacket(hbus->hdev->channel, &reset, sizeof(reset),
++			       (unsigned long)&pkt, VM_PKT_DATA_INBAND,
++			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
++	if (ret)
++		return ret;
++
++	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event,
++				"PCI_RESET_DEVICE");
++	if (ret)
++		return ret;
++
++	if (comp_pkt.completion_status == STATUS_NOT_SUPPORTED)
 +		return -ENOTTY;
 +
-+	if (probe)
-+		return 0;
++	if (comp_pkt.completion_status) {
++		pci_err(pdev, "Hyper-V device reset failed: %#x\n",
++			comp_pkt.completion_status);
++		return -EIO;
++	}
 +
-+	rc = host->reset_root_port(host, dev);
-+	if (rc)
-+		return rc;
-+
-+	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
++	return 0;
 +}
 +
- static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
- {
- 	struct pci_dev *pdev;
+ /* PCIe operations */
+ static struct pci_ops hv_pcifront_ops = {
+ 	.read  = hv_pcifront_read_config,
+@@ -2017,6 +2067,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ 		break;
  
--	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
--	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
-+	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
- 		return -ENOTTY;
+ 	case PCI_PROTOCOL_VERSION_1_4:
++	case PCI_PROTOCOL_VERSION_1_5:
+ 		size = hv_compose_msi_req_v3(&ctxt.int_pkts.v3,
+ 					cpu,
+ 					hpdev->desc.win_slot.slot,
+@@ -2546,6 +2597,9 @@ static int create_root_hv_pci_bus(struct hv_pcibus_device *hbus)
+ 	bridge->sysdata = &hbus->sysdata;
+ 	bridge->ops = &hv_pcifront_ops;
  
- 	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
- 		if (pdev != dev)
- 			return -ENOTTY;
- 
-+	if (pci_is_root_bus(dev->bus))
-+		return pci_root_bus_reset(dev, probe);
++	if (hbus->protocol_version >= PCI_PROTOCOL_VERSION_1_5)
++		bridge->reset_root_port = hv_pci_reset_device;
 +
-+	if (!dev->bus->self)
-+		return -ENOTTY;
-+
- 	if (probe)
- 		return 0;
- 
+ 	error = pci_scan_root_bus_bridge(bridge);
+ 	if (error)
+ 		return error;
 -- 
 2.56.0
 
