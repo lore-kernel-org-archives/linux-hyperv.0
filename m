@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672752F0673;
-	Fri, 16 Oct 2026 15:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5ED4D2EDF;
+	Fri, 16 Oct 2026 15:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792163221; cv=none; b=SHlb/HtVZBl+LC9wpLP8F3ZlU7F9dZAMOlDOe2WgaOfle/jU4vVtCsQGnGarY3uAh0y5hkoNQ4myTlQyHFEMpgVtZQ68UHO7D0ZQNjmqRmiRSwl1i5XXb1hIn5fFrJzLSRbQlq0g71I2K+1C4wVofG5whXUs2ZIyB1PwxToUpD0=
+	t=1792163562; cv=none; b=QzWePHxITPuaQT2UqB5Az6EXWxzIf7bMHl3Ll22mBKUFgDQ3Z2TVUpUpUthG+D9hjXvXmxJ41KoJK6hiLhTSZdmJLbjZQZpAIXYmljjKQXZmMRcqQHoc7bHoMCRze3lTAZOdZ2TadiWdo1M2L3zcEyh6k9G/DXj6dYRBiGqDPjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792163221; c=relaxed/simple;
-	bh=P+D1coLaWlUWcuOYCNhGprq5d7AjHHkdzoc1rc2e8A0=;
+	s=arc-20240116; t=1792163562; c=relaxed/simple;
+	bh=wArVxH9jZInnASIQLwCgvMc3lzkEDaLjNnutL2oFwVA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B8a2ugQ0yU0t7z310sNIKVvxgxLMcnjw7vkAGjMEu0MNuMjd9u5GGYbOR/th9vtTdguc6tOyWNSCBfedlXwr/4zxvpITEhEWIKsTe1C34n4ENvyYBB5KkDKd2M9qKXZ/Xk+NlMOe/98gBzmu9hfG+YLpb8lVs2AsWULopNm/mgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eV18hT0G; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=EWkofqE05R6o0DFiTVm5+qXn4e9jvSpvs/e79Jf3Gxu44nQhNbXZL1Ndg7LvkYj40qU0bL/EVDypcE/twaEwBbaJGSDVaJ46a5l6Up8ItTindUMg93h7qsHvdJshBJktGlhGEkUJUD5ec+OoZwagCYj603S8yHQhRg4mI7XlPiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HeXH2eNd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eV18hT0G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15781F000C4;
-	Fri, 16 Oct 2026 15:06:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HeXH2eNd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2F291F000C4;
+	Fri, 16 Oct 2026 15:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792163220;
-	bh=qgiGef4Ohy6VRaPUYC6AlFmNRyKjxhooP4OqvSap8is=;
+	s=k20260515; t=1792163561;
+	bh=zExOvzSfNAOGhWyHayoCJYIMW12XGItswYYl/21/DBA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eV18hT0GJUaQWHwp7Ud3PDO7D6hZRb8bZhmXgdps3B8BS6n8oNJ0JGllQiOIL5tDP
-	 Sm/steBjr2D+Yo32uchtTymDOoEIcPaq4VI6WSikDzpGouECjbWUVLW7w9yFeVcsgN
-	 02VFgdWQOgAJ5by5jdKCTaA2WhUV2wFYDSyfDULQTbvubLT8hniX199/Slm0vXbZR2
-	 IQZm0/IZz7DZlUj5ENSfYBHMLo8QtFx+/3Njn/IvMWTwBJYMk/0rkA4a76NRnaV3YZ
-	 uopDBKWTIAyxKjcdyOUu7Z1DGoMj7Z2ldUbBCAWjfTtDyVPCr1XX9oKF9XIN6QoIXc
-	 wR5wn+tLG2xuQ==
+	b=HeXH2eNd0qTi1KJWMDpX2qurIIHfELGudDOFsBVj38SK5hgtwRmtRu++Y/B5kYqqd
+	 A4blc5Fp2xS9ugu94PJEByj6vIlDtKLwiWnVuaMsxRz0Ir4yLDMdWRBi4NsEDJfgYI
+	 dTCWHHQPHA4O4L72QOauM8WSJ4JjVCneqoIAwA1rVTR79Lh6W41DTt4LcokcrG/DS7
+	 QghFRktl0qmqBt0Q2454sV5etB2cRZSEkJVEe4jVB1iPvoqhJu/FGnl3nmWT7TfuCi
+	 kYiPGdYgWB0PP3fl0nc6yx6ZWW1MUxK7rfa2DXZnz9GRXCns4+n+2ph4Izy2R1nkwe
+	 CPOLN30xIOzMQ==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
@@ -145,8 +145,8 @@ Cc: dri-devel@lists.freedesktop.org,
 	Zack Rusin <zack.rusin@broadcom.com>,
 	Aditya Garg <aditya.garg@linux.dev>
 Subject: Re: (subset) [PATCH 00/75] drm/connector: Convert all drivers to atomic_create_state and remove reset
-Date: Fri, 16 Oct 2026 17:06:53 +0200
-Message-ID: <179216309041.2383329.5085571920107795525.b4-ty@kernel.org>
+Date: Fri, 16 Oct 2026 17:12:34 +0200
+Message-ID: <179216354629.2387589.2597043397406887835.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
 References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
@@ -173,24 +173,8 @@ On Wed, 14 Oct 2026 19:26:23 +0200, Maxime Ripard wrote:
 
 Applied to misc/kernel.git (drm-misc-next)
 
-[05/75] drm/arm: komeda: Switch to drm_atomic_helper_connector_create_state
-        commit: 849b1119cb1f429667bf3e79cba86ad397087ab7
-[11/75] drm/bridge: lontium-lt8912b: Switch to drm_atomic_helper_connector_create_state
-        commit: 80512a4f295c52caf1394677d9c80738b68c8831
-[12/75] drm/bridge: megachips: Switch to drm_atomic_helper_connector_create_state
-        commit: 9a4a55df74880acf7c2b954d6011aab579db5f5e
-[24/75] drm/hyperv: Switch to drm_atomic_helper_connector_create_state
-        commit: 7b9c28149a291451ada4c3e9fc7fd2ae13f36bc5
-[25/75] drm/imx: ipuv3: Switch to drm_atomic_helper_connector_create_state
-        commit: 75da1ba5a3c36dca76206ec8e90bebcfc3641c64
-[35/75] drm/solomon: ssd130x: Switch to drm_atomic_helper_connector_create_state
-        commit: 9ec42580ccceb54bd8e0b044729a98e4f345b522
-[39/75] drm/sysfb: Switch to drm_atomic_helper_connector_create_state
-        commit: af36b2313c54e10b832298033b8be2fd50746c96
-[51/75] drm/vc4: Switch to drm_atomic_helper_connector_create_state
-        commit: c81e4d88c3ed73483a99a90f56cc80c80eebc863
-[67/75] drm/malidp: Convert to atomic_create_state
-        commit: 8b32d0652db9bb6b01055311e1cce5e3c4b70137
+[02/75] drm/adp: Switch to drm_atomic_helper_connector_create_state
+        commit: db1de27aca30ebaad04aea74ac21e4c4fb531a37
 
 Thanks!
 Maxime
