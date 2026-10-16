@@ -1,759 +1,283 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EADA47ECCB;
-	Fri, 16 Oct 2026 12:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792152409; cv=none; b=ahuBbl+kNzJE4OzYts6huiptUZI1ru1QH0+0ECStiL+Np/fsM2rq72SVDV5EyWyRpEjYQZivGPM7o5WY0kJjQQkddR8fqjoIiA6DmLovz7UPRQ80V9oWYwNuzswDnMO9K0oV2tA9XbJP2PEtaM/DD8DI1kjklTnDv7FrrNtJUsw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792152409; c=relaxed/simple;
-	bh=U6ZoHfxwETdlAKeYn7VIQOOvokGufImvGRpNbI+ES8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tPKehx/bhluXSJ/VRSrzlk+qgSTWyg0VMnqY5u1vZSeg+3Iync9O2DH5mQZXZ+RBr1zaK2G+Mpup4evLIsdG+83bSB7vtvGFowN62k3ukwKIPJjDyaNVC0nWqjkCWqwz1agENRH5grsEwLrHiRawITXjtsvpbKQirU8g2uQbh90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=r34183Pg; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9867A389115;
+	Fri, 16 Oct 2026 14:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792162515; cv=fail; b=g8Sb0xprl6fM4DfTazwKBTG4Kfn3r9iVzZu9LQZtlTrxvdeNgHGEXJW8BuP80bI+3fd/7TK5SkX/X/xGAn2eHiSZ0JwOjV6jV8cYgM52tbNumRk/4w4dcBWS1aPCDaSwCfxhEFTgQHsAJjhDu0G2LsX4rgmIz7ASuGJXYTXLbg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792162515; c=relaxed/simple;
+	bh=PP84QFxmxAezp6Ng2TRyStYqcvYhso67aBuL312Upng=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LaWGA2XufFOhKecfmzHbRKuGflSoU0Cbrucw5uu91ZUq2oRKM6sM7iTZqdJv9cCquth9mu6zjzRnckiwfKJagqvGOuDkkgMGHv43NOcrPBAQXcRhGtbyU8IxpVx3CXrUstMsMxdM6CHfsP6zA2kheo7zAybcJnH2a9Zh8fIrWhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHcAj0dg; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="r34183Pg"
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 863A020B716C;
-	Fri, 16 Oct 2026 05:06:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 863A020B716C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792152388;
-	bh=++ZJqiBDahp0uRbVtmcQxiz9AF3blRNaqMjEstBqA4U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r34183PgBmxzvqmbKyaA1HCV2VI0zUV1D/BKNNiJVqqfwQ5vLj99o8ka/U40D6G42
-	 AagW4bUx15DaeUiF0bEGFi4VPDlNSJsqkRkOXkFc5sEKdyuBH0bcX+tpkED4nJG+4t
-	 vKYkJkt3X+ZF4ybLCzc1hlkE60F0VA9/8kwdZoNo=
-From: Wei Hu <weh@linux.microsoft.com>
-To: longli@kernel.org,
-	kotaranov@microsoft.com,
-	kuba@kernel.org,
-	davem@davemloft.net,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	jgg@ziepe.ca,
-	leon@kernel.org,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	shradhagupta@linux.microsoft.com,
-	horms@kernel.org,
-	ernis@linux.microsoft.com,
-	stephen@networkplumber.org
-Cc: netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	gargaditya@linux.microsoft.com,
-	kees+treewide@kernel.org,
-	kees@kernel.org,
-	mawasthi@linux.microsoft.com,
-	weh@microsoft.com,
-	edumazet@kernel.org
-Subject: [PATCH net-next v8 4/4] net: mana: add dynamic HWC queue depth with reinit path
-Date: Fri, 16 Oct 2026 12:06:15 +0000
-Message-ID: <877e674c0255820b0517f863e535615b4028a48a.1791998462.git.weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1791998462.git.weh@linux.microsoft.com>
-References: <cover.1791998462.git.weh@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHcAj0dg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792162513; x=1823698513;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=PP84QFxmxAezp6Ng2TRyStYqcvYhso67aBuL312Upng=;
+  b=JHcAj0dg0INHtfgy3IZgvopYyk4c5FJsVhK9qUWQWGJza//ppbFsRvdc
+   b4VXZgdOtkdfvPKc4IrlYLa/9Ra/uk1dmzejW3wEU/ntIfxYLOLQqHRLa
+   odOTHLnzajV7Uph9czFVmt/modhtAGCr4kTgAOOKCahsbcOLlIVA8PbgC
+   lZQRFK0EoDYjrUFylHqlxxRNC4TozOqgpBh4SQlfq/2b/a6yEsJkqbnz8
+   HDnIt3h4nxVdohu31Gxc2d5gDO0KK9dOKrR2iJKMrt3MsZS9wHY+xOiK7
+   j141i5TRGsEVBTATyMUxHJtkyuXxx7J1Mp8koX+Zo1sS2ntpvaRJScq9E
+   Q==;
+X-CSE-ConnectionGUID: BF+WYVQ1TzCsk9E6+Lmtvw==
+X-CSE-MsgGUID: UTIF7msQR/uew1kz/FcviQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="930191"
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="930191"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 07:55:12 -0700
+X-CSE-ConnectionGUID: FP1TXN7SQf2tvZJ8xi+xFg==
+X-CSE-MsgGUID: Q0RZsOFDRc2by275OpA2pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="1939813"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 07:55:11 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Fri, 16 Oct 2026 07:55:11 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Fri, 16 Oct 2026 07:55:11 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.51) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Fri, 16 Oct 2026 07:55:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C/ieIR9nIIJcQxCTM/CI8pI4kgYXfbUKGAJt4MRbyV+MoOjeD8cjBiPbGwP5V7xoAWnR3zVfgrNqotXgJFNlDWoH2Aq8h1hUbw5slyCbaXm9y9rv83BQ2/5A0B9FpWoaBGySpct4cnpQAJXIwVZobOGl2sYp0syXb0vYaLEiFM5W0QVNixNzldKlGc4s4y3UTwBvRZoh7YWi11fWClpP5punuge3ExG0KM9xzaXIwjBuRAkJHZkwQRUeLsRJ9XFFjrJATRrMQIFcxAN+Y4cbZ0klMrxGi6NzQi3sl33AuBwnc6slPn2cR+4rTi4ddZp3tppyOpGidFpZzK/Qoyi+Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+IkQs+TyzLkUWZ0hh0yFmm02Frs1t2BjbpQXeOXplVk=;
+ b=qBY8alQn1GLHslXCZNy/mN0/ahHb0rubSBj8SfOeJBBDJ95TEZ2lzkxh3B+pDoHnkvlxRW21GM5d/FjcnjkoZArPGn0xU8VgN3KllQ16mvRYXFcfgtYl2WTKGbReb/Y7zQ8CneF98pz53/ofChhZ9ije0ffGFQSBUFfu/Nyj8+MGI+lxk4LrSGPnwn2X/9mOEulta0e+tFswdEcd0Ym31wNerigj6cKg+WX26z6xxevVVOF77Crn+T2AmokHo/VuPiYq7TWpqHSTxdOxVYVlZ2vpyrswf4+8vNNvDb0Lwr7DReT8rNQSOOgnGiX8SU20umi/gWSQv5Pj7IsakEQMuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com (2603:10b6:408:179::22)
+ by DSVPR11MB9695.namprd11.prod.outlook.com (2603:10b6:8:351::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Fri, 16 Oct
+ 2026 14:55:08 +0000
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9]) by LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 14:55:08 +0000
+From: "Popov, Pavel E" <pavel.e.popov@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Logan Gunthorpe <logang@deltatee.com>
+CC: Jim Chow <jim.chow@broadcom.com>, Bjorn Helgaas <bhelgaas@google.com>,
+	Radu Rugina <radu.rugina@broadcom.com>, Alexey Makhalov
+	<alexey.makhalov@broadcom.com>, Wei Liu <wei.liu@kernel.org>, Michael Kelley
+	<mhklinux@outlook.com>, Leon Romanovsky <leon@kernel.org>, Lukas Wunner
+	<lukas@wunner.de>, "Rafael J. Wysocki" <rafael@kernel.org>, Nathan Ciobanu
+	<nathan.d.ciobanu@linux.intel.com>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V guests
+ on Intel hosts
+Thread-Topic: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+ guests on Intel hosts
+Thread-Index: AQHdWASZkl/0se0hWEKzOo9DW5a5oLb1bsyAgAATn4CAAAJWMIAACQKAgAAB5iCAAkgrAIACGMTQgAArlwCAAACJAIAAIDMAgAAQuKCAARyrAIAE4THw
+Date: Fri, 16 Oct 2026 14:55:07 +0000
+Message-ID: <LV2PR11MB60704D89055FBC471FF81B31B29B2@LV2PR11MB6070.namprd11.prod.outlook.com>
+References: <20261009180847.GD11438@unreal>
+ <LV2PR11MB6070D3FCBC3EAED4FA0191EFB2922@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261009184923.GE11438@unreal>
+ <LV2PR11MB60707DAD12BFBEAB681463B7B2922@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261011054700.GF11438@unreal>
+ <LV2PR11MB60708F76EB7D6E5A40E82853B29F2@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261012162410.GH219304@unreal>
+ <DS7PR11MB6064DA61339B9AB0F52EBED4B29F2@DS7PR11MB6064.namprd11.prod.outlook.com>
+ <20261012182120.GJ219304@unreal>
+ <DS7PR11MB60647FA80C6BE1029982222DB29F2@DS7PR11MB6064.namprd11.prod.outlook.com>
+ <20261013122002.GN219304@unreal>
+In-Reply-To: <20261013122002.GN219304@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR11MB6070:EE_|DSVPR11MB9695:EE_
+x-ms-office365-filtering-correlation-id: d3ce050d-ca08-45a7-57a0-08df2b957871
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|11063799006|5023799004|4143699003|22082099003|56012099006|18002099003|6133799003|38070700021|10067099003;
+x-microsoft-antispam-message-info: 7+K+Jh91aweKx2u33CKu4pGo4p3QhEZLEXXTnser6LFB8YZO7ck00fOz51QFb2+Q5v3xX35Glw3s7a5q/KyXKyV+IMZDkNHp0YbFSV6bioWksnoLGVjO9kMiwa8Xh6/UnturXX7n9zWsmP789g4Ali0Xwe1fXGC5geeKx8jN6PlQ39P4+aCOQ1rVpgA4JzrRl0hxFCW7VK4oDV+loxOZToodqNPvegUdOajbYt+2dRHs9MY3nXbOYQVkWeNmk6lhlY6b7NOCyMfWaZIMwuXx6Q04q8WaHMhSNzIsZS9VnXQVoGGq6mXKCAXIU9oJNVN+BUC7zVSBkRdNjg2P7ygsga1VrOtTzzFAfw68Tn9qZid8EEaHMkAef75/MY4Eabs6jrZKb8ulizFIOp5Vn8ePXz7EmC2WXDBAuEC96Sn10CpNkvDiM4+fv2EFZIqGPa3cIFnI0OkHqwFfdkwiKTbzzPgAm+XgAEnSk7v6zQhmj3K/Mh3E+yjW8Q53zCJRFNXFxMhpRG81tvxjzN0yrtGyNGzKNk6Iq2hJ3xBGtkvz/ipR8AgG0BM+SQQzG0eCCDkYNxl9AaZhqav8w1F8f9D6EFv22smMRDdmxeg6YKwFOusDOipibHBvKtKR73fgbO5jL3EVGXPcLst4WfISQPhrxOSZNMgVbKFBOhbKt8rqOC5/nNH3OuvEYe3ZBjIKl36shAJQpo0ik3OFEmZ+Za+IC+Q7vO0LzmPvRjWtttS3AWU=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB6070.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(11063799006)(5023799004)(4143699003)(22082099003)(56012099006)(18002099003)(6133799003)(38070700021)(10067099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PrlFHFLe1f+0ZKclQGoVnRaDPEZ0cJUAr4MLlTTcALwjuHJKJhZWBbytv1ct?=
+ =?us-ascii?Q?BY/QoxzykqbOTlnW9CJrxnWpmHxrWvsLVkylwFHs27V2Ztk7KPp6pknNJL85?=
+ =?us-ascii?Q?4e7JkF5UeYHw4eZRTRChN3D2LBeQBqofXVHDzgOoEKWeGsCp489pZ7T79O1W?=
+ =?us-ascii?Q?BAqRPVtU3eIeEcIZ2HCIfVc5EcXZX4cYvjfqn6YbZaO6J9DK8LiC2I/21PJe?=
+ =?us-ascii?Q?O1IKTf9xATm+xNDrIx936Qh7+Bok4TO3Op/637NrcKiEpfJOSn1f2YZq9uLA?=
+ =?us-ascii?Q?mYQ0YDEAtyNVTDHKsQ5GrNRuo8thYiWnCDTfSh3s+DTOCRrC5+mmjFjTdAFE?=
+ =?us-ascii?Q?w0tCN+dIdDacbvEVLnx+e77MW5W/f2SEmevTLxLKV00uE0oXptySJUCA8i0M?=
+ =?us-ascii?Q?FKiSWF/oJQ0Tv/JCKN7xWId7QueSuPZtHYH1+o4dopbZkT5ta74sz0KoRi98?=
+ =?us-ascii?Q?XOg027tnX4XXZjusonDKTLGasfY/zAIqtFAPp3Cj+hIVd8jOlXUjkNONWQ9s?=
+ =?us-ascii?Q?U7C28XS+UikAqlYEDz/YSRBQlqqCUn9BTUQVwFJEMYb3+OcbZlcXExDTwsBc?=
+ =?us-ascii?Q?mvXgPFgOaO5d1ozy5X89YTSSSNJqusAy9AkbOTPKzK319e6sKk6FH3IvrrL/?=
+ =?us-ascii?Q?mGP7UkDO9jykb9JZomvayjiHl+QjbJLnBr+s+FUFGiHgcR2B+wo5CGXVUxbJ?=
+ =?us-ascii?Q?W/sKelDBbEst0vHUA870m5qYrIQgarbnKYKM1sHaLjAjh4as3Xaqvs4LtnLL?=
+ =?us-ascii?Q?IwHCV7wDTGo08XyldvY6kxcijQ5TemlyMh3+Rmjuq0EMnUfutG+K42VDPgOj?=
+ =?us-ascii?Q?a64+frKrv3BlmGIrSzJAXUeuk1s8M4H7dwCbo7zKIbQeZlrBwawYsfNYwarW?=
+ =?us-ascii?Q?vONPvD/jzxtkc9Pq+Suqjt8qCSPC8lKDxvEhhPWNGK21edYKt3x9U7UlmkLK?=
+ =?us-ascii?Q?8ZJj+mDtTRebOCta1vr95cWF4dYdsZ1hzwZzFtfrlfRYkwetuGU4RsvTnQJQ?=
+ =?us-ascii?Q?AFrBGPiQ0Bm5XgF1mLSHXShAK2mIZWXSv2lIlb3L9ngYtEzyv0xSm0FaqGjb?=
+ =?us-ascii?Q?sRg/IXm4E9LRZAmsTeJDgxa6c6v1Ra997JTL7qe4oWxpghvSdmFUNWJAQlg8?=
+ =?us-ascii?Q?LjOG3bjCCGs9yHy8YhZnMbgGWltNfYP/QLg8XPQKsCJWQwUkj63XA9ZBT1QG?=
+ =?us-ascii?Q?GfjHlMmc/6C52jPDDOyTIESR5OGQnqjWLsI/fHra4q7GeT8qJSYWkDgxaOiE?=
+ =?us-ascii?Q?hlGh+AlZHWyuWVUt8z78NrF/BAUgml0Aay7i1Aw62XUV803ZkpShrEvX/dlq?=
+ =?us-ascii?Q?qJXMnH40RW5V73pBvBphRpJ1TDO4SuEZFwqIYd4a7POzj5xuv74ogtVnfkwz?=
+ =?us-ascii?Q?Cg+mFbLUjKgJFIO40/d/kGT5/PiUAyfNlgSvVaU0xBHUWv3iyiKwmk/6mbRo?=
+ =?us-ascii?Q?4v/II/GwMYllxmDDxyabVlV686uK1G4AQUP58KaMtGQDMINkX3dtIiAMV74L?=
+ =?us-ascii?Q?5irwwfpKrbKnxRFJ7TaHFwlKCWzYWI25Tp9ZIfQay5CfNmZzkKctRjfUJVr6?=
+ =?us-ascii?Q?I5ZnPL7jruCiZfDx+kIwmZ1j6/+NoLQLQ51t2Dr+c3tWbRQQ22Ta2+IzFNxA?=
+ =?us-ascii?Q?X0q8Jl8qiBiOwQgd179XcI44M7PtPERSFVW9jN0AYuBJmDLMBjHPeaTJRUlu?=
+ =?us-ascii?Q?vcTrqsI4u5Wc6QDU+7MDNiiVzHqtIFCwtTElw7W7RO34ZmQOxx0Vj2UaIK+Y?=
+ =?us-ascii?Q?k9pOdInkZA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: qHERCpkdTuLAjIg48NN5Q9J8OtVPUkg8VNYO8jReH8mBHoj0ASmJAfMWgWZa5B/bfxjRy/IzwXzNuwvwNX1ZrT1M/MJjMZsdPrALOXfyn8/MVx0tjnjXkkjIIqH2VCRC4eREOHM9K8D8si81zDB4cCEZrCcDo0jpXxk8VTWwx6CHvRCWPxqXTudw7aPwVECppV5IOW8hCDjKOqH2ScmNE7rE95LT+CbH2KZAleYqixY/suYo3pLCNtgoRMKKdVAeZVzS8Nad5CSd3t/tGQ60ZbqyOkhgP/sPsXQXYKCaMjpMXDZ9Ku/vWE666YxrK7zbww+Hyfz8CuGzVp9nUujWiQ==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB6070.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3ce050d-ca08-45a7-57a0-08df2b957871
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2026 14:55:08.0212
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fagNfIsy3XkdBZ/X/P3m3jXQZ400IlSCcAxWjeZwncqWOJCy8Qa1JVvBuOVGzVE1kUX/hlbREGaLUu/ZrRvoGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR11MB9695
+X-OriginatorOrg: intel.com
 
-From: Long Li <longli@microsoft.com>
+Bjorn, Logan,
 
-The HWC starts with depth-one bootstrap queues. Treat the PF-reported depth
-as a maximum and rebuild the channel exactly for reports from 2 through
-128. Keep the untouched bootstrap queues for depth one and reports above
-128, and require a rebuilt channel to repeat the selected depth.
+Could you consider taking this series despite the NAK, for two reasons:
 
-Treat the reported request and response sizes as directional maxima.
-Rebuild only when both reports equal the 4096-byte bootstrap allocation.
-Keep allocation strides separate from these limits, and share the effective
-host-to-PF request budget with the GDMA and RDMA request builders. Bound
-RDMA CREATE and ADD_PAGES batches by that budget, checking that the headers
-and at least one page address fit before subtracting their sizes.
+- Parity: Linux gives AMD guests preferential treatment
+- No alternative: the HMAT solution doesn't exist in Linux yet
 
-Reject oversized messages before acquiring a slot or publishing caller
-storage. A retained, stopped channel still returns -ENODEV rather than
-reporting a size error against uninitialized negotiated limits.
+Thanks,
+Pavel
 
-Keep each candidate private through queue creation, establishment and the
-direct EQ test. Publish only the final tested channel. If a rebuild fails,
-including its functional test, tear it down and restore fresh, tested
-bootstrap queues. Stop if teardown is not acknowledged; never reuse
-PF-owned mappings. Restore the previous live timeout budget before the
-fallback so a failed test's fail-fast reduction does not poison the retry,
-without reviving terminal cancellation.
-
-Invalidate the previous HWC doorbell before every ESTABLISH_HWC. Validate
-the BAR0 page geometry and reported index before accepting a new doorbell,
-and suppress MMIO while it is invalid. This also hardens initial setup,
-which previously accepted an unchecked device-supplied index. A malformed
-doorbell completes initialization with -EPROTO without relying on later
-INIT_DONE events that might require re-arming through that doorbell.
-
-Use the initial PF report to select the queue geometry. Driver-version
-advertisement occurs after HWC establishment and cannot negotiate behavior
-needed while the channel is being created.
-
-Link: https://lore.kernel.org/r/20260908035201.402424-5-longli@microsoft.com
-Link: https://lore.kernel.org/r/179196575846.434549.7933818740976196422@kernel.org
-Signed-off-by: Long Li <longli@microsoft.com>
-Signed-off-by: Wei Hu <weh@microsoft.com>
----
- drivers/infiniband/hw/mana/main.c             |  19 +-
- .../net/ethernet/microsoft/mana/gdma_main.c   |  26 +-
- .../net/ethernet/microsoft/mana/hw_channel.c  | 313 +++++++++++++++---
- include/net/mana/gdma.h                       |   2 +
- include/net/mana/hw_channel.h                 |  18 +-
- 5 files changed, 313 insertions(+), 65 deletions(-)
-
-diff --git a/drivers/infiniband/hw/mana/main.c b/drivers/infiniband/hw/mana/main.c
-index e4414d208d4a..ce840cee42ca 100644
---- a/drivers/infiniband/hw/mana/main.c
-+++ b/drivers/infiniband/hw/mana/main.c
-@@ -406,28 +406,38 @@ static int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem
- 	unsigned int create_req_msg_size;
- 	struct hw_channel_context *hwc;
- 	struct ib_block_iter biter;
--	size_t max_pgs_add_cmd = 0;
-+	size_t max_pgs_add_cmd;
- 	size_t max_pgs_create_cmd;
- 	struct gdma_context *gc;
- 	size_t num_pages_total;
- 	unsigned int tail = 0;
-+	u32 req_limit;
- 	u64 *page_addr_list;
- 	void *request_buf;
- 	int err = 0;
- 
- 	gc = mdev_to_gc(dev);
- 	hwc = gc->hwc.driver_data;
-+	req_limit = mana_hwc_get_max_req_size(hwc);
-+	if (req_limit < struct_size(create_req, page_addr_list, 1) ||
-+	    req_limit < struct_size(add_req, page_addr_list, 1)) {
-+		ibdev_dbg(&dev->ib_dev,
-+			  "HWC request budget %u is too small for DMA region commands\n",
-+			  req_limit);
-+		return -EMSGSIZE;
-+	}
- 
- 	num_pages_total = ib_umem_num_dma_blocks(umem, page_sz);
- 
- 	max_pgs_create_cmd =
--		(hwc->max_req_msg_size - sizeof(*create_req)) / sizeof(u64);
-+		(req_limit - sizeof(*create_req)) / sizeof(u64);
-+	max_pgs_add_cmd = (req_limit - sizeof(*add_req)) / sizeof(u64);
- 	num_pages_to_handle =
- 		min_t(size_t, num_pages_total, max_pgs_create_cmd);
- 	create_req_msg_size =
- 		struct_size(create_req, page_addr_list, num_pages_to_handle);
- 
--	request_buf = kzalloc(hwc->max_req_msg_size, GFP_KERNEL);
-+	request_buf = kzalloc(req_limit, GFP_KERNEL);
- 	if (!request_buf)
- 		return -ENOMEM;
- 
-@@ -470,9 +480,6 @@ static int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem
- 			if (err)
- 				goto out;
- 
--			max_pgs_add_cmd = (hwc->max_req_msg_size -
--				sizeof(*add_req)) / sizeof(u64);
--
- 			add_req = request_buf;
- 			add_req->dma_region_handle = *gdma_region;
- 			add_req->reserved3 = 0;
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 429cf2b8e65c..8b08f28bfdb8 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -589,12 +589,26 @@ static int mana_gd_disable_queue(struct gdma_queue *queue)
- #define DOORBELL_OFFSET_EQ	0xFF8
- #define DOORBELL_OFFSET_DIM	0x820
- 
-+bool mana_gd_is_valid_doorbell(struct gdma_context *gc, u32 db_id)
-+{
-+	if (!gc->db_page_size || gc->db_page_off >= gc->bar0_size)
-+		return false;
-+
-+	return gc->db_page_off +
-+	       gc->db_page_size * ((u64)db_id + 1) <= gc->bar0_size;
-+}
-+
- static void mana_gd_ring_doorbell(struct gdma_context *gc, u32 db_index,
- 				  enum gdma_queue_type q_type, u32 qid,
- 				  u32 tail_ptr, u8 num_req)
- {
--	void __iomem *addr = gc->db_page_base + gc->db_page_size * db_index;
- 	union gdma_doorbell_entry e = {};
-+	void __iomem *addr;
-+
-+	if (unlikely(db_index == INVALID_DOORBELL))
-+		return;
-+
-+	addr = gc->db_page_base + gc->db_page_size * db_index;
- 
- 	switch (q_type) {
- 	case GDMA_EQ:
-@@ -1254,7 +1268,7 @@ static int mana_gd_create_dma_region(struct gdma_dev *gd,
- 	/* The caller must keep the HWC alive throughout queue creation. */
- 	hwc = gc->hwc.driver_data;
- 	req_msg_size = struct_size(req, page_addr_list, num_page);
--	if (req_msg_size > hwc->max_req_msg_size)
-+	if (req_msg_size > mana_hwc_get_max_req_size(hwc))
- 		return -EINVAL;
- 
- 	req = kzalloc(req_msg_size, GFP_KERNEL);
-@@ -1534,13 +1548,7 @@ int mana_gd_register_device(struct gdma_dev *gd)
- 		return err ? err : -EPROTO;
- 	}
- 
--	/* Validate that doorbell page for db_id is within the BAR0 region.
--	 * In mana_gd_ring_doorbell(), the address is calculated as:
--	 *   addr = db_page_base + db_page_size * db_id
--	 *        = (bar0_va + db_page_off) + (db_page_size * db_id)
--	 * So we need: db_page_off + db_page_size * (db_id + 1) <= bar0_size
--	 */
--	if (gc->db_page_off + gc->db_page_size * ((u64)resp.db_id + 1) > gc->bar0_size) {
-+	if (!mana_gd_is_valid_doorbell(gc, resp.db_id)) {
- 		dev_err(gc->dev, "Doorbell ID %u out of range\n", resp.db_id);
- 		return -EPROTO;
- 	}
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 9ea67c076ebd..c4cae1baaef4 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -38,17 +38,33 @@ static void mana_hwc_timeout_reduce(struct hw_channel_context *hwc)
- 		old_timeout = mana_hwc_timeout_read(hwc);
- }
- 
--static int mana_hwc_get_msg_index(struct hw_channel_context *hwc, void *resp,
--				  u32 resp_len,
-+static int mana_hwc_get_msg_index(struct hw_channel_context *hwc, u32 req_len,
-+				  void *resp, u32 resp_len,
- 				  struct hwc_caller_ctx **caller_ctx)
- {
- 	struct gdma_resource *r = &hwc->inflight_msg_res;
- 	struct hwc_caller_ctx *ctx;
- 	unsigned long flags;
-+	u32 req_limit;
-+	u32 resp_limit;
- 	u32 wait_ms;
- 	u32 index;
- 	int err;
- 
-+	req_limit = mana_hwc_get_max_req_size(hwc);
-+	resp_limit = min(hwc->rx_msg_size_limit, hwc->max_req_msg_size);
-+	if (req_len > req_limit || resp_len > resp_limit) {
-+		spin_lock_irqsave(&r->lock, flags);
-+		err = hwc->channel_up ? -EMSGSIZE : -ENODEV;
-+		spin_unlock_irqrestore(&r->lock, flags);
-+
-+		if (err == -EMSGSIZE)
-+			dev_err(hwc->dev,
-+				"HWC: message sizes req=%u/%u resp=%u/%u exceed channel maxima\n",
-+				req_len, req_limit, resp_len, resp_limit);
-+		return err;
-+	}
-+
- 	wait_ms = mana_hwc_timeout_read(hwc);
- 	if (down_timeout(&hwc->sema, msecs_to_jiffies(wait_ms))) {
- 		spin_lock_irqsave(&r->lock, flags);
-@@ -247,8 +263,18 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
- 	switch (event->type) {
- 	case GDMA_EQE_HWC_INIT_EQ_ID_DB:
- 		eq_db.as_uint32 = event->details[0];
-+		if (!mana_gd_is_valid_doorbell(gd->gdma_context,
-+					       eq_db.doorbell)) {
-+			dev_err(hwc->dev, "HWC: invalid doorbell %u\n",
-+				eq_db.doorbell);
-+			WRITE_ONCE(hwc->hwc_init_error, -EPROTO);
-+			complete(&hwc->hwc_init_eqe_comp);
-+			break;
-+		}
-+
- 		hwc->cq->gdma_eq->id = eq_db.eq_id;
- 		gd->doorbell = eq_db.doorbell;
-+		hwc->hwc_init_doorbell = true;
- 		break;
- 
- 	case GDMA_EQE_HWC_INIT_DATA:
-@@ -270,7 +296,8 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
- 			break;
- 
- 		case HWC_INIT_DATA_QUEUE_DEPTH:
--			hwc->hwc_init_q_depth_max = (u16)val;
-+			/* Preserve the full 24-bit report for validation. */
-+			hwc->hwc_init_q_depth_max = val;
- 			break;
- 
- 		case HWC_INIT_DATA_MAX_REQUEST:
-@@ -637,7 +664,8 @@ static int mana_hwc_alloc_dma_buf(struct hw_channel_context *hwc, u16 q_depth,
- 
- 	dma_buf->num_reqs = q_depth;
- 
--	buf_size = MANA_PAGE_ALIGN(q_depth * max_msg_size);
-+	/* mana_gd_alloc_memory() requires a power-of-two length. */
-+	buf_size = roundup_pow_of_two(MANA_PAGE_ALIGN(q_depth * max_msg_size));
- 
- 	gmi = &dma_buf->mem_info;
- 	err = mana_gd_alloc_memory(gc, buf_size, gmi, false);
-@@ -844,10 +872,15 @@ static int mana_hwc_test_channel(struct hw_channel_context *hwc)
- 	return err;
- }
- 
--static int mana_hwc_establish_channel(struct hw_channel_context *hwc,
--				      u16 *q_depth,
--				      u32 *max_req_msg_size,
--				      u32 *max_resp_msg_size)
-+struct mana_hwc_init_report {
-+	u32 queue_depth;
-+	u32 max_req_msg_size;
-+	u32 max_resp_msg_size;
-+};
-+
-+static int
-+mana_hwc_establish_channel(struct hw_channel_context *hwc,
-+			   struct mana_hwc_init_report *report)
- {
- 	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
- 	struct gdma_queue *rq = hwc->rxq->gdma_wq;
-@@ -859,6 +892,19 @@ static int mana_hwc_establish_channel(struct hw_channel_context *hwc,
- 	u32 cq_id;
- 	int err;
- 
-+	hwc->hwc_init_q_depth_max = 0;
-+	hwc->hwc_init_max_req_msg_size = 0;
-+	hwc->hwc_init_max_resp_msg_size = 0;
-+	hwc->hwc_init_max_num_cqs = 0;
-+	hwc->hwc_init_cq_id = 0;
-+	hwc->hwc_init_doorbell = false;
-+	WRITE_ONCE(hwc->hwc_init_error, 0);
-+	gc->hwc.pdid = INVALID_PDID;
-+	/* Re-establish must not rearm through the previous channel's doorbell. */
-+	gc->hwc.doorbell = INVALID_DOORBELL;
-+	hwc->dest_vrq_id = 0;
-+	hwc->dest_vrcq_id = 0;
-+
- 	init_completion(&hwc->hwc_init_eqe_comp);
- 
- 	err = mana_smc_setup_hwc(&gc->shm_channel, false,
-@@ -873,9 +919,18 @@ static int mana_hwc_establish_channel(struct hw_channel_context *hwc,
- 	if (!wait_for_completion_timeout(&hwc->hwc_init_eqe_comp, 60 * HZ))
- 		return -ETIMEDOUT;
- 
--	*q_depth = hwc->hwc_init_q_depth_max;
--	*max_req_msg_size = hwc->hwc_init_max_req_msg_size;
--	*max_resp_msg_size = hwc->hwc_init_max_resp_msg_size;
-+	err = READ_ONCE(hwc->hwc_init_error);
-+	if (err)
-+		return err;
-+
-+	if (!hwc->hwc_init_doorbell) {
-+		dev_err(hwc->dev, "HWC: missing valid doorbell in init data\n");
-+		return -EPROTO;
-+	}
-+
-+	report->queue_depth = hwc->hwc_init_q_depth_max;
-+	report->max_req_msg_size = hwc->hwc_init_max_req_msg_size;
-+	report->max_resp_msg_size = hwc->hwc_init_max_resp_msg_size;
- 
- 	/* Snapshot the device-reported count and id once, so the same value
- 	 * sizes, bounds and indexes cq_table even across the sleeping
-@@ -925,6 +980,9 @@ static int mana_hwc_init_queues(struct hw_channel_context *hwc, u16 q_depth,
- {
- 	int err;
- 
-+	if (q_depth > U16_MAX / 2)
-+		return -EINVAL;
-+
- 	err = mana_hwc_init_inflight_msg(hwc, q_depth);
- 	if (err)
- 		return err;
-@@ -957,10 +1015,11 @@ static int mana_hwc_init_queues(struct hw_channel_context *hwc, u16 q_depth,
- 
- 	hwc->num_inflight_msg = q_depth;
- 	hwc->max_req_msg_size = max_req_msg_size;
-+	hwc->max_resp_msg_size = max_resp_msg_size;
- 
- 	return 0;
- out:
--	/* mana_hwc_create_channel() will do the cleanup.*/
-+	/* The setup path tears down any partially initialized queues. */
- 	return err;
- }
- 
-@@ -976,6 +1035,33 @@ static void mana_hwc_clear_cq_table(struct gdma_context *gc)
- 	vfree(cq_table);
- }
- 
-+/* Setup is private; runtime teardown has unpublished and drained senders. */
-+static void mana_hwc_destroy_queues(struct hw_channel_context *hwc)
-+{
-+	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
-+
-+	mana_hwc_clear_cq_table(gc);
-+
-+	if (hwc->cq) {
-+		mana_hwc_destroy_cq(gc, hwc->cq);
-+		hwc->cq = NULL;
-+	}
-+
-+	if (hwc->txq) {
-+		mana_hwc_destroy_wq(hwc, hwc->txq);
-+		hwc->txq = NULL;
-+	}
-+	if (hwc->rxq) {
-+		mana_hwc_destroy_wq(hwc, hwc->rxq);
-+		hwc->rxq = NULL;
-+	}
-+
-+	kfree(hwc->caller_ctx);
-+	hwc->caller_ctx = NULL;
-+	mana_gd_free_res_map(&hwc->inflight_msg_res);
-+	hwc->num_inflight_msg = 0;
-+}
-+
- static int mana_hwc_publish_channel(struct hw_channel_context *hwc)
- {
- 	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
-@@ -1092,16 +1178,11 @@ static void mana_hwc_fence_channel(struct gdma_context *gc,
- 		mana_hwc_unpublish_cq(gc, hwc->cq->gdma_cq);
- }
- 
--static bool mana_hwc_release_channel(struct hw_channel_context *hwc)
-+static int mana_hwc_teardown_queues(struct hw_channel_context *hwc)
- {
- 	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
- 	int err;
- 
--	mana_hwc_stop_channel(hwc);
--
--	/* An unacknowledged destroy leaves the PF's mappings live.  Fence
--	 * software dispatch, but retain every PF-visible allocation.
--	 */
- 	err = mana_smc_teardown_hwc(&gc->shm_channel, false,
- 				    &hwc->setup_active);
- 	if (err) {
-@@ -1109,28 +1190,26 @@ static bool mana_hwc_release_channel(struct hw_channel_context *hwc)
- 			"HWC teardown failed: %d, retaining PF-visible resources\n",
- 			err);
- 		mana_hwc_fence_channel(gc, hwc);
--		mana_hwc_retain_channel(hwc);
--		return false;
-+		return err;
- 	}
- 
--	mana_hwc_clear_cq_table(gc);
--
--	/* Fence the EQ before releasing the remaining HWC state. */
--	if (hwc->cq)
--		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
-+	mana_hwc_destroy_queues(hwc);
- 
--	if (hwc->txq)
--		mana_hwc_destroy_wq(hwc, hwc->txq);
--
--	if (hwc->rxq)
--		mana_hwc_destroy_wq(hwc, hwc->rxq);
-+	return 0;
-+}
- 
--	kfree(hwc->caller_ctx);
--	hwc->caller_ctx = NULL;
-+static bool mana_hwc_release_channel(struct hw_channel_context *hwc)
-+{
-+	struct gdma_context *gc = hwc->gdma_dev->gdma_context;
-+	int err;
- 
--	mana_gd_free_res_map(&hwc->inflight_msg_res);
-+	mana_hwc_stop_channel(hwc);
- 
--	hwc->num_inflight_msg = 0;
-+	err = mana_hwc_teardown_queues(hwc);
-+	if (err) {
-+		mana_hwc_retain_channel(hwc);
-+		return false;
-+	}
- 
- 	hwc->gdma_dev->doorbell = INVALID_DOORBELL;
- 	hwc->gdma_dev->pdid = INVALID_PDID;
-@@ -1179,32 +1258,168 @@ void mana_hwc_free_retained_channel(struct gdma_context *gc)
- 	gc->hwc.gdma_context = NULL;
- }
- 
--static int mana_hwc_create_bootstrap_channel(struct hw_channel_context *hwc)
-+static int
-+mana_hwc_validate_report(struct hw_channel_context *hwc,
-+			 const struct mana_hwc_init_report *report,
-+			 u32 expected_depth, bool check_depth,
-+			 bool require_exact_msg_sizes)
-+{
-+	if (!report->queue_depth || !report->max_req_msg_size ||
-+	    !report->max_resp_msg_size) {
-+		dev_err(hwc->dev,
-+			"HWC: invalid maxima depth=%u req=%u resp=%u\n",
-+			report->queue_depth, report->max_req_msg_size,
-+			report->max_resp_msg_size);
-+		return -EPROTO;
-+	}
-+
-+	if (require_exact_msg_sizes &&
-+	    (report->max_req_msg_size != HW_CHANNEL_MAX_REQUEST_SIZE ||
-+	     report->max_resp_msg_size != HW_CHANNEL_MAX_RESPONSE_SIZE)) {
-+		dev_err(hwc->dev,
-+			"HWC: rebuilt message maxima req=%u resp=%u, expected %u/%u\n",
-+			report->max_req_msg_size, report->max_resp_msg_size,
-+			HW_CHANNEL_MAX_REQUEST_SIZE,
-+			HW_CHANNEL_MAX_RESPONSE_SIZE);
-+		return -EPROTO;
-+	}
-+
-+	if (check_depth && report->queue_depth != expected_depth) {
-+		dev_err(hwc->dev, "HWC: rebuilt depth %u, expected %u\n",
-+			report->queue_depth, expected_depth);
-+		return -EPROTO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mana_hwc_finish_channel(struct hw_channel_context *hwc,
-+				   const struct mana_hwc_init_report *report)
-+{
-+	int err;
-+
-+	/* MAX_REQUEST sizes the RQ; MAX_RESPONSE sizes the SQ. */
-+	hwc->rx_msg_size_limit = report->max_req_msg_size;
-+	hwc->tx_msg_size_limit = report->max_resp_msg_size;
-+
-+	err = mana_hwc_test_channel(hwc);
-+	if (err)
-+		dev_err(hwc->dev, "Failed to test HWC: %d\n", err);
-+
-+	return err;
-+}
-+
-+static int mana_hwc_build_channel(struct hw_channel_context *hwc, u16 q_depth,
-+				  struct mana_hwc_init_report *report)
- {
--	u32 max_req_msg_size, max_resp_msg_size;
--	u16 q_depth_max;
- 	int err;
- 
--	err = mana_hwc_init_queues(hwc, HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH,
-+	err = mana_hwc_init_queues(hwc, q_depth,
- 				   HW_CHANNEL_MAX_REQUEST_SIZE,
- 				   HW_CHANNEL_MAX_RESPONSE_SIZE);
- 	if (err) {
--		dev_err(hwc->dev, "Failed to initialize HWC: %d\n", err);
-+		dev_err(hwc->dev, "Failed to initialize HWC depth %u: %d\n",
-+			q_depth, err);
- 		return err;
- 	}
- 
--	err = mana_hwc_establish_channel(hwc, &q_depth_max, &max_req_msg_size,
--					 &max_resp_msg_size);
--	if (err) {
--		dev_err(hwc->dev, "Failed to establish HWC: %d\n", err);
-+	err = mana_hwc_establish_channel(hwc, report);
-+	if (err)
-+		dev_err(hwc->dev, "Failed to establish HWC depth %u: %d\n",
-+			q_depth, err);
-+
-+	return err;
-+}
-+
-+static int
-+mana_hwc_restore_bootstrap(struct hw_channel_context *hwc,
-+			   struct mana_hwc_init_report *report)
-+{
-+	int err;
-+
-+	err = mana_hwc_build_channel(hwc,
-+				     HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH,
-+				     report);
-+	if (err)
- 		return err;
--	}
- 
--	err = mana_hwc_test_channel(hwc);
-+	err = mana_hwc_validate_report(hwc, report, 0, false, false);
- 	if (err)
--		dev_err(hwc->dev, "Failed to test HWC: %d\n", err);
-+		return err;
- 
--	return err;
-+	return mana_hwc_finish_channel(hwc, report);
-+}
-+
-+static int mana_hwc_rebuild_channel(struct hw_channel_context *hwc,
-+				    u16 q_depth,
-+				    struct mana_hwc_init_report *report)
-+{
-+	u32 timeout_ms = mana_hwc_timeout_read(hwc);
-+	int cleanup_err;
-+	int err;
-+
-+	err = mana_hwc_teardown_queues(hwc);
-+	if (err)
-+		return err;
-+
-+	err = mana_hwc_build_channel(hwc, q_depth, report);
-+	if (!err)
-+		err = mana_hwc_validate_report(hwc, report, q_depth, true, true);
-+	if (!err)
-+		err = mana_hwc_finish_channel(hwc, report);
-+	if (!err)
-+		return 0;
-+
-+	dev_warn(hwc->dev,
-+		 "HWC depth %u rebuild failed, restoring bootstrap: %d\n",
-+		 q_depth, err);
-+
-+	cleanup_err = mana_hwc_teardown_queues(hwc);
-+	if (cleanup_err)
-+		return cleanup_err;
-+
-+	/* Do not carry the failed test's reduced wait into the retry. */
-+	mana_hwc_timeout_update(hwc, timeout_ms);
-+
-+	return mana_hwc_restore_bootstrap(hwc, report);
-+}
-+
-+static int mana_hwc_prepare_channel(struct hw_channel_context *hwc)
-+{
-+	struct mana_hwc_init_report report;
-+	u16 rebuild_depth;
-+	int err;
-+
-+	err = mana_hwc_build_channel(hwc,
-+				     HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH,
-+				     &report);
-+	if (err)
-+		return err;
-+
-+	err = mana_hwc_validate_report(hwc, &report, 0, false, false);
-+	if (err)
-+		return err;
-+
-+	if (report.queue_depth > HW_CHANNEL_MAX_QUEUE_DEPTH) {
-+		dev_warn(hwc->dev,
-+			 "HWC depth %u exceeds limit %u, keeping bootstrap\n",
-+			 report.queue_depth, HW_CHANNEL_MAX_QUEUE_DEPTH);
-+	} else if (report.queue_depth >
-+		   HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH &&
-+		   (report.max_req_msg_size != HW_CHANNEL_MAX_REQUEST_SIZE ||
-+		    report.max_resp_msg_size != HW_CHANNEL_MAX_RESPONSE_SIZE)) {
-+		dev_warn(hwc->dev,
-+			 "HWC maxima req=%u resp=%u differ from rebuild policy %u/%u, keeping bootstrap\n",
-+			 report.max_req_msg_size, report.max_resp_msg_size,
-+			 HW_CHANNEL_MAX_REQUEST_SIZE,
-+			 HW_CHANNEL_MAX_RESPONSE_SIZE);
-+	} else if (report.queue_depth >
-+		   HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH) {
-+		rebuild_depth = report.queue_depth;
-+		return mana_hwc_rebuild_channel(hwc, rebuild_depth, &report);
-+	}
-+
-+	return mana_hwc_finish_channel(hwc, &report);
- }
- 
- int mana_hwc_create_channel(struct gdma_context *gc)
-@@ -1237,7 +1452,7 @@ int mana_hwc_create_channel(struct gdma_context *gc)
- 	gd->pdid = INVALID_PDID;
- 	gd->doorbell = INVALID_DOORBELL;
- 
--	err = mana_hwc_create_bootstrap_channel(hwc);
-+	err = mana_hwc_prepare_channel(hwc);
- 	if (err) {
- 		mana_hwc_release_channel(hwc);
- 		return err;
-@@ -1391,7 +1606,7 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
- 	u32 command;
- 	int err;
- 
--	err = mana_hwc_get_msg_index(hwc, resp, resp_len, &ctx);
-+	err = mana_hwc_get_msg_index(hwc, req_len, resp, resp_len, &ctx);
- 	if (err)
- 		return err;
- 
-diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-index 67430faecc44..a2e5ad3543ae 100644
---- a/include/net/mana/gdma.h
-+++ b/include/net/mana/gdma.h
-@@ -594,6 +594,8 @@ void mana_gd_fence_eq(struct gdma_context *gc, struct gdma_queue *queue);
- 
- int mana_gd_poll_cq(struct gdma_queue *cq, struct gdma_comp *comp, int num_cqe);
- 
-+bool mana_gd_is_valid_doorbell(struct gdma_context *gc, u32 db_id);
-+
- void mana_gd_ring_cq(struct gdma_queue *cq, u8 arm_bit);
- 
- ssize_t mana_gd_read_ring(struct gdma_queue *q, char __user *buf,
-diff --git a/include/net/mana/hw_channel.h b/include/net/mana/hw_channel.h
-index 9d6a0a535e7a..73315aca2e00 100644
---- a/include/net/mana/hw_channel.h
-+++ b/include/net/mana/hw_channel.h
-@@ -5,6 +5,7 @@
- #define _HW_CHANNEL_H
- 
- #include <linux/atomic.h>
-+#include <linux/minmax.h>
- 
- #define DEFAULT_LOG2_THROTTLING_FOR_ERROR_EQ  4
- 
-@@ -13,6 +14,9 @@
- 
- #define HW_CHANNEL_VF_BOOTSTRAP_QUEUE_DEPTH 1
- 
-+/* Largest supported rebuild depth; larger reports retain bootstrap queues. */
-+#define HW_CHANNEL_MAX_QUEUE_DEPTH 128
-+
- #define HWC_INIT_DATA_CQID		1
- #define HWC_INIT_DATA_RQID		2
- #define HWC_INIT_DATA_SQID		3
-@@ -200,12 +204,18 @@ struct hw_channel_context {
- 
- 	u16 num_inflight_msg;
- 	u32 max_req_msg_size;
-+	u32 max_resp_msg_size;
-+	/* Immutable reported maxima for the final RQ and SQ directions. */
-+	u32 rx_msg_size_limit;
-+	u32 tx_msg_size_limit;
- 
--	u16 hwc_init_q_depth_max;
-+	u32 hwc_init_q_depth_max;
- 	u32 hwc_init_max_req_msg_size;
- 	u32 hwc_init_max_resp_msg_size;
- 	u32 hwc_init_max_num_cqs;
- 	u32 hwc_init_cq_id;
-+	bool hwc_init_doorbell;
-+	int hwc_init_error;
- 
- 	struct completion hwc_init_eqe_comp;
- 
-@@ -242,6 +252,12 @@ struct hw_channel_context {
- 	struct hwc_caller_ctx *caller_ctx;
- };
- 
-+/* Host-to-PF requests are bounded by the negotiated TX limit and SQ stride. */
-+static inline u32 mana_hwc_get_max_req_size(const struct hw_channel_context *hwc)
-+{
-+	return min(hwc->tx_msg_size_limit, hwc->max_resp_msg_size);
-+}
-+
- int mana_hwc_create_channel(struct gdma_context *gc);
- void mana_hwc_destroy_channel(struct gdma_context *gc);
- void mana_hwc_free_retained_channel(struct gdma_context *gc);
--- 
-2.43.0
-
+> -----Original Message-----
+> From: Leon Romanovsky <leon@kernel.org>
+> Sent: Tuesday, October 13, 2026 5:20 AM
+> To: Popov, Pavel E <pavel.e.popov@intel.com>
+> Cc: Bjorn Helgaas <helgaas@kernel.org>; Jim Chow <jim.chow@broadcom.com>;
+> Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
+> <logang@deltatee.com>; Radu Rugina <radu.rugina@broadcom.com>; Alexey
+> Makhalov <alexey.makhalov@broadcom.com>; Wei Liu <wei.liu@kernel.org>;
+> Michael Kelley <mhklinux@outlook.com>; Lukas Wunner <lukas@wunner.de>;
+> Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
+> list@broadcom.com; virtualization@lists.linux.dev; linux-hyperv@vger.kern=
+el.org;
+> linux-pci@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH 0/2] PCI/P2PDMA: Allow P2PDMA in VMware and Hyper-V
+> guests on Intel hosts
+>=20
+> On Mon, Oct 12, 2026 at 08:01:40PM +0000, Popov, Pavel E wrote:
+> > > Please read all of my responses. I was explicit about why the check
+> > > inside the guest VM produces random results. However, your responses
+> > > continue to focus on the guest, which is not the problem.
+> >
+> > Fair, my earlier replies were about the guest. Taking the host-side
+> > points in turn:
+> >
+> > 1. Host topology decides P2P, the guest cannot see it, and the patch
+> >    says "yes" for every pair regardless.
+> >
+> >    The topology is accounted for where the knowledge is: on the host.
+> >    Which devices land in one VM is decided by the admin, from devices
+> >    VMware has certified for passthrough in the Compatibility Guide,
+> >    and on vSphere 8+ by Device Groups, which hands devices sharing a
+> >    switch or interconnect to a VM as a topology-aware group. Hyper-V
+> >    has no equivalent grouping; DDA is plain passthrough, each device
+> >    assigned to the VM explicitly by the admin.
+> >
+> >    The blanket "yes" is not new either. On bare metal the flags =3D 0
+> >    whitelist entries say "yes" for any pair of Xeon Scalable root
+> >    buses, across sockets, with no knowledge of BIOS P2P settings. And
+> >    cpu_supports_p2pdma() already bypasses the host bridge check for
+> >    AMD Zen on CPUID alone, in guests included. This series gives Intel
+> >    hosts what the tree already does for AMD; if that is unacceptable
+> >    in principle, it is unacceptable for AMD guests today.
+>=20
+> If you had simply added Intel CPUs to the list of supported P2P devices, =
+I might
+> have been willing to accept that. However, you added these two lines:
+>=20
+> +	    (hypervisor_is_type(X86_HYPER_VMWARE) ||
+> +	     hypervisor_is_type(X86_HYPER_MS_HYPERV)))
+>=20
+> This makes your case quite different from AMD's. Their check was for hype=
+rvisor,
+> which leaked to VMs. And, yes, AMD does not work reliably in guest VMs ei=
+ther.
+> For our internal testing, we have carefully curated hypervisor configurat=
+ions and
+> test VMs, along with custom patches, to test P2P reliably.
+>=20
+> >
+> > 2. Regression: consumers that work today via a system-memory fallback
+> >    will take the P2P path and break on hosts that cannot route it.
+> >
+> >    A wrong "yes" fails safely: without host-side P2P the request is
+> >    stopped at the host IOMMU, nothing is corrupted, the same exposure
+> >    an AMD guest has today. An unconditional "no" is worse: it blocks
+> >    P2P on every host that does route it, and the guest's answer
+> >    changes nothing about whether the host routes it.
+> >
+> >    Xeon Scalable routes P2P between any two root ports, which the
+> >    whitelist already encodes. The only hypervisor-side requirement is
+> >    mapping the peer's MMIO into the VM's IOMMU domain, and that is
+> >    what passthrough P2P support means: on ESXi it was an explicit
+> >    per-VM setting for years and is the default since 9.0; Hyper-V does
+> >    it for devices assigned to the same VM, as tested on Windows Server
+> >    2025. The decision is made on the host; the guest only has to stop
+> >    vetoing it.
+> >
+> > 3. The hypervisor must describe it, HMAT is the way, NAK to anything
+> >    that does not fix the hypervisor first.
+> >
+> >    Agreed HMAT is the right source and should take precedence: consult
+> >    it first, this check only where no HMAT exists. The disagreement is
+> >    on "first". Guests on already shipped ESXi and Hyper-V releases
+> >    will never get HMAT, and those stay in production for years; the
+> >    cover letter's note on the adoption timeline was written with
+> >    VMware's input, and Jim can speak to it. Until a hypervisor emits
+> >    HMAT, this fallback is the only path that works.
+>=20
+> This is VMware's problem, not the upstream kernel community's. If VMware
+> considers P2P important and its customers agree, VMware can upgrade.
+>=20
+> It is no different from any other kernel feature.
+>=20
+> Thanks
+>=20
+> >
+> > Thanks,
+> > Pavel
+> >
