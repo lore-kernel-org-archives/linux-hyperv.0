@@ -1,100 +1,130 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1EE390CB7;
-	Fri, 16 Oct 2026 22:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A33F3381B1C;
+	Sat, 17 Oct 2026 00:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792191327; cv=none; b=bhN6nPKT+8J42sR9VsNXdD2CjKjHsJi2B0zV2DdxIOpizhOv9n6UUlQ8+5RXkIs0Cz04xnTBMmzwsuT/KqjeTbEVzLyqJFPFMj/+e7Zj62b4/hHGERNosg1WW2QvlFUVGHajWBdV9hjFqJyVymI+uTGWNTDs1HbMUz2Yjp83STc=
+	t=1792195209; cv=none; b=bEyIL47kUrxntjPURVAPKqeTKBpU3YdT7S6RKpOTlP/nrpJhZSAYLyMH6T3g+XPVY8qpAg2D++d2iRGMnZD+0iF/4seQqhTvKuJl7lOd+JyrhSfSgGgKN3RYpPfaESNOLNyKKwNWslx8WXSgwSfda8W0ShSFllu1j68L1XxZyXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792191327; c=relaxed/simple;
-	bh=eLcXstUGQpu+xrOJ8PeHGrIktdadao5yyHaVL34ACQ0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=fe8CAX4XRU2RJRk2BEX6Q+ktYlPWWdh1WwYsUZgbDgL1KCHMWDCh25Rr09FcuYfzVje7sKJFmMs8cLV1ctz4XDRVG2FIAu0spHbfazE0XVu33BNQs++NhigetjSBNdHOUfUOkHITmyHlCAOi61GzyZDLLadyX1OG59lapit0dig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=MrxFxZ1e; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1792195209; c=relaxed/simple;
+	bh=s3e3vclUqMHCWeTSPseyjYzU8YzgptMgUxOyzOGGBj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lm1n7Pj9GdvDj27hdQRULXivU4rr2HHfo8a0mgVmGmgRsaOyhxlvGpseZrfHMMiVXq1qPGygMWsyQJiBb1xME790xbLJv2QGcsXBSGl7VF77wY/8/VxBXYPMfzQNdLyBG3quYMBSswlDml0Pv6Ovu0EINE3B7iQ81UyUCrjD1kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dbvJzdPI; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="MrxFxZ1e"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=pkithiv798uVgMzxb5UwY/p9qnpe6saIvaiV4xnnvbM=; b=MrxFxZ1eCmPPTVkoO/7d402aFx
-	54n2ufNyF/N+ngkBlIuLiqbXr4QQbmPebkPoK+pbYNWVLdb6hxK6hgrv5fnv7pYBx/w3a/eslHbfG
-	qzp+xinSmAOEQkpFBse7CspNBt+Sp0bU5ssyL6kXNuDvGZLdo4MqbrFIDYnexNykjMm/aueV86NJC
-	uYuR178SBkOGSSzNliyes3CyvhEovU/0/xxg2dsiu0cxZPR5LJOOP8469PK4+YBp0LkhIO0N6e48c
-	Ciy4dq6hDVYn+/DoR9fs8BZt+U4CTd+bRanjKun1J4UEAv7rJ/5eqdHBJ80v/m5b3mBkVrNYWg5iS
-	VWLi5w5A==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1xHqpf-00000007pyk-0pWS;
-	Fri, 16 Oct 2026 16:55:24 -0600
-Message-ID: <8b01d643-f62d-4118-a700-8874341d953b@deltatee.com>
-Date: Fri, 16 Oct 2026 16:55:20 -0600
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dbvJzdPI"
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 4CC1220B7167; Fri, 16 Oct 2026 17:00:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4CC1220B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792195202;
+	bh=moVtecY2Bt+NuCIdpO9sPe1Rj+Ksh5GzDLFLl3q1sQ8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dbvJzdPIuV9rPImu/MqwF8oP4X8uYWFvSaOSWx2lVIqyNnVLUnliPTc9/M8PAHoI0
+	 pnQlf3WOgchKIyXps2xaP3Rq+UuUkEw2q4yfo2e0FhLyGJfchlozJ82vtRqrd8QX8U
+	 SOgxO10DxO/4rx9zQeANaUuhJSYIh4cMekl/89DY=
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org
+Cc: Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Subject: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices on a root bus
+Date: Fri, 16 Oct 2026 19:59:39 -0400
+Message-ID: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Pavel Popov <pavel.e.popov@intel.com>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Jim Chow <jim.chow@broadcom.com>, Radu Rugina <radu.rugina@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>, Wei Liu
- <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
- Lukas Wunner <lukas@wunner.de>, Leon Romanovsky <leonro@nvidia.com>,
- Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
- bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261016223402.19991-1-pavel.e.popov@intel.com>
- <20261016223402.19991-2-pavel.e.popov@intel.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20261016223402.19991-2-pavel.e.popov@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: pavel.e.popov@intel.com, bhelgaas@google.com, jim.chow@broadcom.com, radu.rugina@broadcom.com, alexey.makhalov@broadcom.com, wei.liu@kernel.org, mhklinux@outlook.com, lukas@wunner.de, leonro@nvidia.com, nathan.d.ciobanu@linux.intel.com, bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev, linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v2 1/2] PCI/P2PDMA: Allow P2PDMA in VMware guests on Intel
- hosts
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Transfer-Encoding: 8bit
 
+The "bus" reset method resets a device by asserting Secondary Bus Reset
+on its upstream bridge, so it is not available for a device on a root
+bus, which has no upstream bridge.
 
+Some platforms have no Root Ports and expose PCI devices directly on a
+root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
+on the root bus of a virtual host bridge. Such a device has no reset
+method at all if it supports neither FLR nor PM reset, even if the
+platform is able to reset it.
 
-On 2026-10-16 16:34, Pavel Popov wrote:
-> +#ifdef CONFIG_X86
-> +/* CPUs whose host bridges support p2pdma, see pci_p2pdma_whitelist[] */
-> +static const struct x86_cpu_id hypervisor_p2pdma_cpu_ids[] = {
-> +	X86_MATCH_VFM(INTEL_SKYLAKE_X, NULL),
-> +	X86_MATCH_VFM(INTEL_ICELAKE_X, NULL),
-> +	X86_MATCH_VFM(INTEL_ICELAKE_D, NULL),
-> +	X86_MATCH_VFM(INTEL_SAPPHIRERAPIDS_X, NULL),
-> +	X86_MATCH_VFM(INTEL_EMERALDRAPIDS_X, NULL),
-> +	X86_MATCH_VFM(INTEL_GRANITERAPIDS_X, NULL),
-> +	X86_MATCH_VFM(INTEL_GRANITERAPIDS_D, NULL),
-> +	X86_MATCH_VFM(INTEL_ATOM_CRESTMONT_X, NULL),
-> +	X86_MATCH_VFM(INTEL_ATOM_DARKMONT_X, NULL),
-> +	X86_MATCH_VFM(INTEL_DIAMONDRAPIDS_X, NULL),
-> +	{}
-> +};
-> +
-> +static bool hypervisor_supports_p2pdma(void)
-> +{
-> +	/* Hypervisor hides host topology, allow p2pdma on whitelisted CPUs */
-> +	if (hypervisor_is_type(X86_HYPER_VMWARE))
-> +		return x86_match_cpu(hypervisor_p2pdma_cpu_ids);
-> +
-> +	return false;
-> +}
-One quick thought, after a very quick pass at this:
+pci_host_bridge::reset_root_port() already allows a host bridge to reset
+a device on a root bus in a platform-specific way, so far only in place
+of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
+method of a device that is the only device on a root bus, and wait for
+the device to become ready afterwards, as is done for other reset
+methods.
 
-Why does this now need to be related to the hypervisor? Wouldn't it make
-sense to do this check regardless of whether VMWare is involved?
+Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+---
+ drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-Logan
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 8cc6a89130b5..fd4e958d6b99 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
+ }
+ EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
+ 
++static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
++{
++	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
++	int rc;
++
++	/*
++	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
++	 * because dev->subordinate is not set up yet when the reset methods
++	 * are probed during enumeration.
++	 */
++	if (pci_is_bridge(dev) || !host->reset_root_port)
++		return -ENOTTY;
++
++	if (probe)
++		return 0;
++
++	rc = host->reset_root_port(host, dev);
++	if (rc)
++		return rc;
++
++	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
++}
++
+ static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
+ {
+ 	struct pci_dev *pdev;
+ 
+-	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
+-	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
++	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
+ 		return -ENOTTY;
+ 
+ 	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
+ 		if (pdev != dev)
+ 			return -ENOTTY;
+ 
++	if (pci_is_root_bus(dev->bus))
++		return pci_root_bus_reset(dev, probe);
++
++	if (!dev->bus->self)
++		return -ENOTTY;
++
+ 	if (probe)
+ 		return 0;
+ 
+-- 
+2.56.0
+
