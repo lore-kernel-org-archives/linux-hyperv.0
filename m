@@ -1,144 +1,171 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B6B3563E1;
-	Sat, 17 Oct 2026 15:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF021891A9;
+	Sat, 17 Oct 2026 15:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792251567; cv=none; b=gILBzxnBgSiaKh+d1RWDGhiqYBccgl2dHp9lvAD8vJVFb2Uy4loQM7m6gzTNPQWYK6E8lsmyNKlWlJnH9fl/QTvsx5dXV9LD+g/2tWHR2Z128DJihaQASwP1t5quigvhXwXXlsN4z6HwkIU5xkpZC21DJA9bUTolSI5p580l108=
+	t=1792251569; cv=none; b=T0Afjv/Fh66cSvehr18dqH6SHJJpJnOKkEioU3/xkY/O1FCZLRZvfqCDv3tzd75Ml/uFk7yJdj1W8QJ1UReCWeHI3ReABqg5+LuXwkksLk/MhnbcgqUXQtxv5uXC2vE+wqcHjEFPTkXbr0jdLr8ukz9QqoSLro9cxnsJu82LmwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792251567; c=relaxed/simple;
-	bh=tmALeHcK0KPEf+il1XFk2vRPzdNQE4AjvIvXlyM3REU=;
+	s=arc-20240116; t=1792251569; c=relaxed/simple;
+	bh=PnM8Ax0YLDhYcBVp0J9WKMDuxfLuTMH9gUPeB6B3xF4=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Jn3ZkcWIpbR0Tbw5PMmJMNj6utehAmyOWJFZ7NVws5ne1hzxhw2u5Sr9Op3aOZ6AXrw9xaJUCF1uO2WD53d4oCbdTfK82hYBOkS442dbrcsJFX5ULjBeliTxmdk0Vq4SPKFRUl754IAVMQ3vMQL4pQkxn0n/oR15WOJD0YarBxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/C6LEK7; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=DZEsIe44JHxhqGGm46LZsCGlHzqwqOZww0/JASASHkoLPUbSqdlV4o+BJhUpTB9Czog1LhqYLqIbZk6zgnyh7BDMZ3bxgs2tvrWcYXTbLE9ntfAvYTw5utp7WYIQgeAfU3Gfgci12svK6/MMT0DtaDA3BRc0/Ccy0YFDvfuvARE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sa3ANbSd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/C6LEK7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27AEE1F000C6;
-	Sat, 17 Oct 2026 15:39:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sa3ANbSd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B53A1F000C5;
+	Sat, 17 Oct 2026 15:39:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792251566;
-	bh=JfSjsC1ZRTvX8XpcRipx1PJhuMWanUlD56R9jxPOl1A=;
+	s=k20260515; t=1792251567;
+	bh=Gl8WMeD+3oa4GnsVZ2ajE3Dwoj8yOdPyAM/79pPNeeE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=A/C6LEK7BdpxRW7gVtivr3Q/DT5ofXvz3TfS9Uro/FngJyuQTszmFjpS7g4JeauNs
-	 Ye1Zcq32B1p+/AYg6Tn+9mK0NgVo8bgiarHy1Ftt2sEIFKUsI2yG0aRNxggPr0iMLm
-	 r7Fn+pusnuavDJ9WK8HZ6QhDO6WH6wJDKBtCSX6PFUK29Vg0k8EwZWeqDLPsZgRZG3
-	 zAI27iBDJ6nxKapby8WxR5DYRs4KPcoVyyA0pWiwffEtYiBPnPkFZyOT2tjW6fS5zZ
-	 CLW/UgSSvx9ppu+mwHn39cawgxjrLSDoEnFMqKNi79yLa3NjzkZVh5KNqXtY0ZjlKm
-	 u/k4eo1JNiDlw==
-Message-ID: <sashiko-outbox-175604@kernel.org>
+	b=Sa3ANbSdiXI6wTcQIzy70/KioW76880zDQcqVfCIEo88uYX5UXxkRgteZ6edHNsTf
+	 1OgreDfAyzZBkwwSA+5eDSldKnqbEtCOb1BjJcTfqAAFJuEfK+YRdA+1s3xy3I6EZF
+	 3lMkDf3L7azu9iwJzbGx00iSakniQG91RFVodsDCiwF1rIpqlMwHAak0B9hvTo9x9q
+	 gWWf+y8QL345Bq2uGO1k7op6GC5ES1qUGo5xQCWURBKWiaHIf79jJUrHm7OSCSkuxN
+	 UimUw25h2AUmt9RQAUloNzu4Jx4v2J8DPlSk9P5GDi/q5p12kXITHEtykL5tZY1iR+
+	 doXL7APi4cD9Q==
+Message-ID: <sashiko-outbox-175606@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 04/13] net: mana: swap queue sets in
- mana_set_channels
+Subject: Re: [PATCH net-next v7 06/13] net: mana: swap queue sets in
+ mana_set_priv_flags
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Hu" <weh@linux.microsoft.com>
 Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-In-Reply-To: <ec57f3853ef344a7d5ec8907ba530313b0163bae.1791710735.git.weh@linux.microsoft.com>
+In-Reply-To: <c1a2032792858ac0234807bbb5b26b81af4d10b1.1791710735.git.weh@linux.microsoft.com>
 References: <cover.1791710735.git.weh@linux.microsoft.com>
- <ec57f3853ef344a7d5ec8907ba530313b0163bae.1791710735.git.weh@linux.microsoft.com>
+ <c1a2032792858ac0234807bbb5b26b81af4d10b1.1791710735.git.weh@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 17 Oct 2026 15:39:25 +0000
+Date: Sat, 17 Oct 2026 15:39:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] bpf: concurrent writers to tx_stats->syncp without mutual exclusion
-- [High] net: missing BH disable around u64_stats_update_begin() in mana_fo=
-ld_rxq_stats()
+- [Medium] net: mana: ad-hoc trylock using channel_changing flag
 --
 
-commit 347c8bd66ee5005e7aea875ed691f7a765b23452
+commit 1135b1db29f999b173b293508a85336e600ae80e
 Author: Long Li <longli@microsoft.com>
 
-net: mana: swap queue sets in mana_set_channels
+net: mana: swap queue sets in mana_set_priv_flags
 
-This patch introduces a replacement queue set building before quiescing TX.
-It drains the old TX queues and swaps pointers, handling statistics folding
-upon successful or failed rollback.
+Rebuild queues through the swap path when USE_FULL_PAGE_RXBUF changes
+the RX layout. Carry priv_flags with the queue set so allocation failure
+leaves the live configuration unchanged and rollback restores the flags.
 
-> --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> @@ -59,6 +59,11 @@ int mana_xdp_xmit(struct net_device *ndev, int n, stru=
-ct xdp_frame **frames,
->  	if (unlikely(!apc->port_is_up))
->  		return 0;
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers=
+/net/ethernet/microsoft/mana/mana_ethtool.c
+> index a643a8cc81e00..9c7c9879d0aa4 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+> @@ -891,54 +892,50 @@ static int mana_set_priv_flags(struct net_device *n=
+dev, u32 priv_flags)
+>  	if (priv_flags & ~GENMASK(MANA_PRIV_FLAG_MAX - 1, 0))
+>  		return -EINVAL;
 > =20
-> +	/* Pair with the smp_wmb() in mana_publish_qset() before reading queue
-> +	 * state.
+> -	apc->priv_flags =3D priv_flags;
+> -
+> -	if (changed & BIT(MANA_PRIV_FLAG_USE_FULL_PAGE_RXBUF)) {
+> -		if (!apc->port_is_up)
+> -			return 0;
+> -
+> -		/* If XDP is attached or the MTU already forces one buffer per
+> -		 * page, single-buffer-per-page is used regardless of this
+> -		 * flag. Skip the expensive detach/attach cycle since nothing
+> -		 * changes.
+> -		 */
+> -		if (mana_single_rxbuf_per_page_forced(apc, ndev->mtu))
+> -			return 0;
+> +	/* No rebuild is needed if the RX buffer flag is unchanged, the port is
+> +	 * down, or full-page RX buffers are already required by MTU or XDP.
 > +	 */
-> +	smp_rmb();
-> +
->  	q_idx =3D smp_processor_id() % ndev->real_num_tx_queues;
+> +	if (!(changed & BIT(MANA_PRIV_FLAG_USE_FULL_PAGE_RXBUF)) ||
+> +	    !apc->port_is_up ||
+> +	    mana_single_rxbuf_per_page_forced(apc, ndev->mtu)) {
+> +		apc->priv_flags =3D priv_flags;
+> +		return 0;
+> +	}
 > =20
->  	for (i =3D 0; i < n; i++) {
+> -		/* Block RDMA from grabbing the vport during detach/attach */
+> -		mutex_lock(&apc->vport_mutex);
+> -		apc->channel_changing =3D true;
+> +	mutex_lock(&apc->vport_mutex);
+> +	if (apc->channel_changing) {
+>  		mutex_unlock(&apc->vport_mutex);
+> +		return -EBUSY;
+> +	}
+> +	apc->channel_changing =3D true;
+> +	mutex_unlock(&apc->vport_mutex);
 
-[Severity: High]
-Does mana_xdp_xmit() require a lock when updating tx_stats->syncp further
-down in this function?
+[Severity: Medium]
+Does this code introduce an open-coded trylock pattern?
 
-This function acts as the ndo_xdp_xmit callback and maps CPUs to queues
-using smp_processor_id() % ndev->real_num_tx_queues. If multiple CPUs map
-to the same queue index, or if mana_start_xmit() runs concurrently on the
-same queue, multiple threads could concurrently invoke
-u64_stats_update_begin(&tx_stats->syncp).
+Setting a flag on entry and clearing it on exit to prevent concurrent execu=
+tion,
+and returning -EBUSY to skip the work, appears to act as an ad-hoc lock
+substitute for the queue rebuild section. Could a proper lock or synchroniz=
+ation
+primitive be used instead to guard this state?
 
-Since there isn't a per-queue mutual exclusion lock acquired here (unlike
-the core stack serialization in mana_start_xmit()), could this concurrency
-corrupt the sequence counter and cause readers to spin infinitely on 32-bit
-systems?
-
-[ ... ]
-
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-[ ... ]
-> @@ -1123,6 +1161,58 @@ static void mana_free_queue_stats(struct mana_port=
-_context *apc)
->  	apc->txq_stats =3D NULL;
+> =20
+> -		err =3D mana_pre_alloc_rxbufs(apc, ndev->mtu, apc->num_queues);
+> -		if (err) {
+> -			netdev_err(ndev,
+> -				   "Insufficient memory for new allocations\n");
+> -			apc->priv_flags =3D old_priv_flags;
+> -			goto clear_flag;
+> -		}
+> +	scratch =3D mana_qset_scratch_alloc(apc);
+> +	if (!scratch) {
+> +		err =3D -ENOMEM;
+> +		goto clear_flag;
+> +	}
+> =20
+> -		err =3D mana_detach(ndev, false);
+> -		if (err) {
+> -			netdev_err(ndev, "mana_detach failed: %d\n", err);
+> -			apc->priv_flags =3D old_priv_flags;
+> -			goto out;
+> -		}
+> +	err =3D mana_alloc_qset(apc, scratch, apc->num_queues, apc->rx_queue_si=
+ze,
+> +			      apc->tx_queue_size, priv_flags, &newq);
+> +	if (err)
+> +		goto free_scratch;
+> =20
+> -		err =3D mana_attach(ndev);
+> -		if (err) {
+> -			netdev_err(ndev, "mana_attach failed: %d\n", err);
+> -			apc->priv_flags =3D old_priv_flags;
+> -		}
+> +	err =3D mana_publish_qset(apc, &newq, &oldq);
+> +	if (err) {
+> +		mana_free_qset(scratch, &newq);
+> +		goto free_scratch;
+>  	}
+> =20
+> -out:
+> -	mana_pre_dealloc_rxbufs(apc);
+> +	mana_free_qset(scratch, &oldq);
+> +
+> +free_scratch:
+> +	mana_publish_close_if_needed(apc);
+> +	mana_qset_scratch_free(scratch);
+>  clear_flag:
+>  	mutex_lock(&apc->vport_mutex);
+>  	apc->channel_changing =3D false;
+>  	mutex_unlock(&apc->vport_mutex);
+> -
+>  	return err;
 >  }
-> =20
-> +/* Fold under RTNL after drain_stats writers quiesce. Clear drain_stats =
-to
-> + * prevent double counting on rollback.
-> + */
-> +static void mana_fold_rxq_stats(struct mana_port_context *apc,
-> +				struct mana_rxq *rxq)
-> +{
-> +	struct mana_stats_rx *src =3D &rxq->drain_stats;
-> +	struct mana_stats_rx *dst;
-> +	unsigned int i;
-> +
-> +	ASSERT_RTNL();
-> +
-> +	if (!apc->rxq_stats_ret || rxq->rxq_idx >=3D apc->max_queues)
-> +		return;
-> +
-> +	dst =3D &apc->rxq_stats_ret[rxq->rxq_idx];
-> +
-> +	u64_stats_update_begin(&dst->syncp);
-> +	dst->packets		+=3D src->packets;
-> +	dst->bytes		+=3D src->bytes;
-
-[Severity: High]
-Could this u64_stats_update_begin() call deadlock a preempting softirq
-reader?
-
-This function runs in process context under rtnl_lock(), which is a mutex
-and does not disable bottom halves. Readers of network statistics (like
-ndo_get_stats64) can be executed from softirq context.
-
-If a softirq interrupts mana_fold_rxq_stats() on the same CPU while the
-writer holds an odd sequence counter, the reader will loop forever in
-u64_stats_fetch_retry().
-
-Should this use local_bh_disable() or the _bh wrapper for the stats update
-to prevent this scenario?
+>
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1791710735.gi=
-t.weh@linux.microsoft.com?part=3D4
+t.weh@linux.microsoft.com?part=3D6
