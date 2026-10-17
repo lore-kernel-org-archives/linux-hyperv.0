@@ -1,38 +1,38 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3DC49BB59;
-	Sat, 17 Oct 2026 12:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1484B95BF;
+	Sat, 17 Oct 2026 12:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239922; cv=none; b=BTBJWgrihnnr9ClF0gq1vFkAhKPwV3CTLk4jsyMjzLmeH2Qx1bjhWd0YTCqgiKSKBjA+/FK06ZBTycT5UwoxcER3PCDFp38CeJKTFOxvGt5swFcj/LK9C2bjeGT7AzOjUrhpONIpXklsIePK9OjqCTWj3Uzh01JBL0I3uPdhJ70=
+	t=1792239932; cv=none; b=QW7Rg8v67zfiCMYaF4Fp9tjtuf96et01ae6XgHOpDFCMqL6q+iOahg2zI8EGmiDRdKWZUrsQwpiQ4ZwyJ71FptugJoYR4Hfch3fTWvqajhp2UjutI987SrAUlPg9B6WmpTWnp8uaGOpoywIpOJj/tuFLJ90QBirg7IYtz7Rsfl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792239922; c=relaxed/simple;
-	bh=f+s0TcF2rgcdhfqMxtlIt/rrYCzhR9bIrpDtS6bz1rw=;
+	s=arc-20240116; t=1792239932; c=relaxed/simple;
+	bh=Ix54dgrrrjDzfbyzVb23q1EZVYEi8mzWNOJ4L0CHj5o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kLGaMsKLF7hiuUalq02Gszyoibg4cGdMx4bFvOcpQmr36g6fo6Rdx8h/94QBxM88YTMihRNf3vp1rTixyj4v+gYhRuUN7cdAtDU4TSKHQZIJHpVJ6L8DuBCOhychXJIYB1ket0LjRLVx39uigDJVKcsFA7CtQDs9tQ0j4YtiyPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BB7ZQpyg; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version:Content-Type; b=TuwgbQSnFEuof44d1TI2dgVOHyvzO4dRE8Od+x+8TrYkVJ2qOuhSiCeRSVQ6eXsbJ8u9txQPKdElTxlsgrn0xFWXvAmMI/+hE8fkqHMhr1NDGJsQnaQ277n7f6JM1m4uYgBphjZbiYCh3RTiZTuVDhDQ1BBB5nQrXWFiRpvkdlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PHKJCPds; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BB7ZQpyg"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PHKJCPds"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=b84l7c+3APHc+R8gW+0cyDQpS7umyE+pPCwVc1HKzPw=; b=BB7ZQpyg00Ps5gcId6kR9qE/OI
-	CAIRlQcvQHfL+wro46vRqxDngRs16Ee/TAKUSH/vQrCjdEwZ8wz9VjbO7WTRG2u9DpkF0e4Lvk5Sa
-	MOA5xnsS9oyrZdjDKfPipY838OjHBwSLRvv5C3k5PExOGoT9mLrUb7L/J7Aq1+1L4Ptu9O9PtaNdt
-	nSUEK4w7wuqWbsoxcZBBSzGcbf6g39MeqF3QBWWhLJd4HcuPZUNGwgMmVmnkbi6sLvLk41FBUxyFY
-	EfgnYZ3JsA2xR9jBWTxDxxoGghyQeEmpAEN6G0M/rFXNbMARoTL/KYnp4PkSGIYlRbTz87bU3aOQE
-	r7+zzBXA==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description;
+	bh=LkaYA0NxGAqHXsGOuKUNiMJOYBmdONRvlzliqE6a0+I=; b=PHKJCPds6Byy4wJvn2ZFTx9qIG
+	u+4lEhFo1T1y1EgsQe2ReLNmz1T/pH7lKO6MjvSXKoUHlpFBC3sRj11BYbHXaLaZFBgX+4bLXq3UD
+	NS6kAZq3x3VNV2KJVvd8ghAvDu68yoUedsSSb6cmL25bQJb9NMzO+2+cjIU5XvaHwViMtUzaddaTB
+	H9FrVu5EcOl47LsfyzXgczjkWzINMfZvGGmA5vQHoKiOXeYMHRRUZmGFf1UB04bneLZFCQFwIt0TI
+	RpQ6/ECTH5VS8camyTcHRg0cTMZO3ngSEV3qJYPr7QjbpI2JjorwUBZK/f8tyqD8ANqhfCJIk9ehp
+	bEc4HfYQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TF-00000002LfQ-1xV5;
-	Sat, 17 Oct 2026 12:25:06 +0000
+	id 1xI3TE-00000002LfO-1ZpC;
+	Sat, 17 Oct 2026 12:25:15 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TD-00000002Yms-13LI;
-	Sat, 17 Oct 2026 13:25:03 +0100
+	id 1xI3TC-00000002YmS-47fA;
+	Sat, 17 Oct 2026 13:25:02 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 30/55] KVM: planes: Unwind published state on KVM_CREATE_PLANE failure
-Date: Sat, 17 Oct 2026 13:24:36 +0100
-Message-ID: <20261017122501.610248-31-dwmw2@infradead.org>
+Subject: [RFC PATCH 24/55] WIP: KVM: x86: deliver events to suspended higher planes
+Date: Sat, 17 Oct 2026 13:24:30 +0100
+Message-ID: <20261017122501.610248-25-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -65,133 +65,217 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-kvm_create_plane() publishes the new plane in kvm->planes[] and takes
-the APICV_INHIBIT_REASON_PLANES inhibit before
-kvm_vm_ioctl_create_plane() can still fail at anon_inode_getfile(),
-and the error path freed the plane without unpublishing it: a VMM
-retrying plane setup after such a failure wrote overlays through the
-freed plane via KVM_SET_PLANE_MEMORY_OVERLAY, and VM teardown
-destroyed the plane a second time. The VM also kept APICv inhibited
-with no nonzero plane left to justify it.
+A suspended plane's events must preempt the lower plane running on the
+same vCPU, but nothing told the running twin:
 
-Clear the kvm->planes[] slot before freeing, and drop the APICv
-inhibit in kvm_arch_plane_destroy() when the last nonzero plane of a
-live VM goes away (at VM teardown plane 0 is already gone, which skips
-the update). Make the overlay ioctl read kvm->planes[] under
-kvm->lock, which the create path holds across publish and unpublish,
-so a plane pointer it observes stays valid until VM teardown; publish
-with smp_store_release() for the remaining lock-free readers.
-
-Found by Sashiko review.
+- An interrupt, local-APIC timer or Hyper-V stimer landing on a
+  stopped twin only kicked the twin itself — a no-op while it is
+  parked. Kick the lower twins too, with KVM_REQ_UNBLOCK so a sibling
+  already past its event checks aborts the in-flight vmentry.
+- A parked plane's lapic timer rode the VMX preemption timer, which
+  only counts in guest mode, so it never fired while the plane was
+  suspended. Hand it to the hrtimer when a non-zero plane's KVM_RUN
+  ends.
+- KVM_REQ_HV_STIMER was a shared request, so the running plane
+  consumed the twin's request without processing the twin's stimers.
+  Make it per-plane.
+- kvm_higher_plane_with_event() now also reports a
+  pending-but-not-injected apic timer.
+- Suppress KVM_EXIT_HYPERV_SYNIC for non-zero planes: userspace's
+  SynIC device models plane 0 only, and treated a twin's SIMP move as
+  a plane-0 overlay relocation, carrying stale overlay contents to the
+  new GPA.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: LLM
 ---
- arch/x86/kvm/x86.c  | 32 ++++++++++++++++++++++++++++++++
- virt/kvm/kvm_main.c | 25 ++++++++++++++++++++++---
- 2 files changed, 54 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/kvm_host.h |  2 +-
+ arch/x86/kvm/hyperv.c           | 27 +++++++++++++++++++
+ arch/x86/kvm/lapic.c            | 46 ++++++++++++++++++++++++++++++++-
+ arch/x86/kvm/x86.c              | 19 ++++++++++++--
+ 4 files changed, 90 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index c5122e6f42bd..afd668c6db3f 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -14003,7 +14003,39 @@ int kvm_arch_plane_init(struct kvm *kvm, struct kvm_plane *plane,
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 74810e0e9ed7..c54f47c52a59 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -112,7 +112,7 @@
+ #define KVM_REQ_IOAPIC_EOI_EXIT		KVM_ARCH_PLANE_REQ(19)
+ #define KVM_REQ_HV_RESET		KVM_ARCH_REQ(20)
+ #define KVM_REQ_HV_EXIT			KVM_ARCH_REQ(21)
+-#define KVM_REQ_HV_STIMER		KVM_ARCH_REQ(22)
++#define KVM_REQ_HV_STIMER		KVM_ARCH_PLANE_REQ(22)
+ #define KVM_REQ_LOAD_EOI_EXITMAP	KVM_ARCH_REQ(23)
+ #define KVM_REQ_GET_NESTED_STATE_PAGES	KVM_ARCH_REQ(24)
+ #define KVM_REQ_APICV_UPDATE \
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index ca31054ed065..4551e011bf56 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -247,6 +247,15 @@ static void synic_exit(struct kvm_vcpu_hv_synic *synic, u32 msr)
+ 	struct kvm_vcpu *vcpu = hv_synic_to_vcpu(synic);
+ 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
  
- void kvm_arch_plane_destroy(struct kvm_plane *plane)
- {
-+	struct kvm *kvm = plane->kvm;
-+	int i;
-+
- 	kvfree(rcu_dereference_check(plane->arch.apic_map, 1));
-+
-+	if (plane->level == 0)
++	/*
++	 * Userspace's SynIC device models plane 0 only; a higher plane's
++	 * exit would be mistaken for a plane-0 page move and relocate the
++	 * overlay the VMM keeps for SIMP/SIEFP.  Higher-plane SynICs are
++	 * handled fully in-kernel.
++	 */
++	if (vcpu->plane_level)
 +		return;
 +
-+	/*
-+	 * Drop the APICv inhibit taken in kvm_arch_plane_init() when the
-+	 * last nonzero plane goes away.  Only the KVM_CREATE_PLANE error
-+	 * path destroys a nonzero plane while the VM is live; at VM
-+	 * teardown plane 0 is destroyed first and kvm->planes[0] is
-+	 * already NULL, which skips the update (the inhibit machinery
-+	 * needs plane 0 and SRCU, both gone by then).
-+	 */
-+	if (!kvm->planes[0])
-+		return;
+ 	hv_vcpu->exit.type = KVM_EXIT_HYPERV_SYNIC;
+ 	hv_vcpu->exit.u.synic.msr = msr;
+ 	hv_vcpu->exit.u.synic.control = synic->control;
+@@ -598,6 +607,24 @@ static void stimer_mark_pending(struct kvm_vcpu_hv_stimer *stimer,
+ 	kvm_make_request(KVM_REQ_HV_STIMER, vcpu);
+ 	if (vcpu_kick)
+ 		kvm_vcpu_kick(vcpu);
 +
 +	/*
-+	 * Reaching here means a nonzero plane died while the VM is live,
-+	 * which only the KVM_CREATE_PLANE error path does - under
-+	 * kvm->lock.  A future kvm_destroy_planes() reordered to tear
-+	 * nonzero planes down before plane 0 would get here locklessly;
-+	 * catch that instead of silently poking freed APICv state.
++	 * A pending stimer on a suspended higher plane is only processed
++	 * once that plane runs; kick the lower twins so the running one
++	 * re-evaluates pending higher-plane events and forces entry.
 +	 */
-+	lockdep_assert_held(&kvm->lock);
++	if (vcpu_kick && vcpu->plane_level) {
++		struct kvm_vcpu *twin;
++		int p;
 +
-+	for (i = 1; i < KVM_MAX_PLANES; i++)
-+		if (kvm->planes[i] && kvm->planes[i] != plane)
-+			return;
-+
-+	kvm_clear_apicv_inhibit(kvm, APICV_INHIBIT_REASON_PLANES);
++		for (p = 0; p < vcpu->plane_level; p++) {
++			twin = vcpu->common->vcpus[p];
++			if (twin) {
++				kvm_make_request(KVM_REQ_UNBLOCK, twin);
++				kvm_vcpu_kick(twin);
++			}
++		}
++	}
  }
  
- int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 3e021683c8a8..ae998cef3c36 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1259,7 +1259,12 @@ static struct kvm_plane *kvm_create_plane(struct kvm *kvm, unsigned plane_level)
- 	if (kvm_arch_plane_init(kvm, plane, plane_level))
- 		goto out_free_plane;
+ static void stimer_cleanup(struct kvm_vcpu_hv_stimer *stimer)
+diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+index dc7a08831a54..f89156c26972 100644
+--- a/arch/x86/kvm/lapic.c
++++ b/arch/x86/kvm/lapic.c
+@@ -1436,6 +1436,26 @@ static int __apic_accept_irq(struct kvm_lapic *apic, int delivery_mode,
  
--	kvm->planes[plane_level] = plane;
+ 		kvm_x86_call(deliver_interrupt)(apic, delivery_mode,
+ 						trig_mode, vector);
++
++		/*
++		 * An interrupt for a higher plane must preempt a lower
++		 * plane running on the same vCPU: kicking only the (stopped)
++		 * target twin wakes a blocked sibling via the shared wait,
++		 * but a sibling executing in guest mode needs an explicit
++		 * kick to re-evaluate pending higher-plane events.
++		 */
++		if (vcpu->plane_level) {
++			struct kvm_vcpu *twin;
++			int p;
++
++			for (p = 0; p < vcpu->plane_level; p++) {
++				twin = vcpu->common->vcpus[p];
++				if (twin) {
++					kvm_make_request(KVM_REQ_UNBLOCK, twin);
++					kvm_vcpu_kick(twin);
++				}
++			}
++		}
+ 		break;
+ 
+ 	case APIC_DM_REMRD:
+@@ -2060,6 +2080,24 @@ static void apic_timer_expired(struct kvm_lapic *apic, bool from_timer_fn)
+ 	kvm_make_request(KVM_REQ_UNBLOCK, vcpu);
+ 	if (from_timer_fn)
+ 		kvm_vcpu_kick(vcpu);
++
 +	/*
-+	 * Pairs with the lock-free readers of kvm->planes[] (MSI delivery,
-+	 * SEV VMPL targeting): the plane's fields must be visible before
-+	 * the pointer is.
++	 * A pending timer on a suspended higher plane only gets injected
++	 * once that plane runs again; kick the lower twins so the running
++	 * one re-evaluates pending higher-plane events and forces entry.
 +	 */
-+	smp_store_release(&kvm->planes[plane_level], plane);
++	if (vcpu->plane_level) {
++		struct kvm_vcpu *twin;
++		int p;
++
++		for (p = 0; p < vcpu->plane_level; p++) {
++			twin = vcpu->common->vcpus[p];
++			if (twin) {
++				kvm_make_request(KVM_REQ_UNBLOCK, twin);
++				kvm_vcpu_kick(twin);
++			}
++		}
++	}
+ }
  
- 	return plane;
- 
-@@ -5915,8 +5920,15 @@ static int kvm_vm_ioctl_create_plane(struct kvm *kvm, unsigned id)
- 	return fd;
- 
- put_kvm:
--	kvm_put_kvm(kvm);
+ static void start_sw_tscdeadline(struct kvm_lapic *apic)
+@@ -3107,7 +3145,13 @@ int kvm_create_lapic(struct kvm_vcpu *vcpu)
+ 	 * that vCPU creation is guaranteed to run with a deterministic value,
+ 	 * the request will ensure the vCPU gets the correct state before VM-Entry.
+ 	 */
+-	if (enable_apicv) {
 +	/*
-+	 * kvm_create_plane() published the plane; unpublish it before
-+	 * freeing (kvm->lock is held throughout, so readers who take it
-+	 * never observe the dead pointer) and so that VM teardown does
-+	 * not destroy it a second time.
++	 * Higher-plane twins are software-switched and mostly suspended;
++	 * hardware interrupt virtualization on them only leaves pending
++	 * vectors in the PIR where a suspended plane's state cannot be
++	 * reliably observed.  Keep them on the legacy delivery path.
 +	 */
-+	kvm->planes[id] = NULL;
- 	kvm_destroy_one_plane(plane);
-+	kvm_put_kvm(kvm);
- put_fd:
- 	put_unused_fd(fd);
++	if (enable_apicv && !vcpu->plane_level) {
+ 		apic->apicv_active = true;
+ 		kvm_make_request(KVM_REQ_APICV_UPDATE, vcpu);
+ 	}
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 374330f61eb2..4b12ec7ee100 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -11226,7 +11226,9 @@ static struct kvm_vcpu *kvm_higher_plane_with_event(struct kvm_vcpu *vcpu)
+ 		 */
+ 		if (kvm_cpu_has_extint(higher) ||
+ 		    kvm_apic_has_interrupt(higher) != -1 ||
+-		    kvm_test_request(KVM_REQ_HV_STIMER, higher))
++		    kvm_test_request(KVM_REQ_HV_STIMER, higher) ||
++		    (higher->arch.apic &&
++		     atomic_read(&higher->arch.apic->lapic_timer.pending)))
+ 			return higher;
+ 	}
+ 	return NULL;
+@@ -11336,8 +11338,12 @@ void __kvm_vcpu_update_apicv(struct kvm_vcpu *vcpu)
+ 	down_read(&vcpu->kvm->arch.apicv_update_lock);
+ 	preempt_disable();
+ 
+-	/* Do not activate APICV when APIC is disabled */
++	/*
++	 * Do not activate APICV when APIC is disabled, nor on higher-plane
++	 * twins (see kvm_create_lapic).
++	 */
+ 	activate = kvm_vcpu_apicv_activated(vcpu) &&
++		   !vcpu->plane_level &&
+ 		   (kvm_get_apic_mode(vcpu) != LAPIC_MODE_DISABLED);
+ 
+ 	if (apic->apicv_active == activate)
+@@ -12566,6 +12572,15 @@ static int __kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+ 	post_kvm_run_save(vcpu);
+ 	kvm_vcpu_srcu_read_unlock(vcpu);
+ 
++	/*
++	 * A non-zero plane may stay suspended indefinitely after this run
++	 * ends, and its hv timer only counts in VMX non-root mode.  Hand
++	 * the lapic timer to the hrtimer so it keeps firing while the
++	 * plane is parked; firing is what forces re-entry into the plane.
++	 */
++	if (vcpu->plane_level && kvm_lapic_hv_timer_in_use(vcpu))
++		kvm_lapic_switch_to_sw_timer(vcpu);
++
+ 	kvm_sigset_deactivate(vcpu);
+ 	vcpu_put(vcpu);
  	return r;
-@@ -6037,7 +6049,14 @@ static int kvm_vm_ioctl_set_plane_overlay(struct kvm *kvm,
- 		return -EINVAL;
- 	if (ov->uaddr & ~PAGE_MASK)
- 		return -EINVAL;
--	plane = kvm->planes[ov->plane];
-+	/*
-+	 * Read under kvm->lock: KVM_CREATE_PLANE publishes and, on its
-+	 * error path, unpublishes-and-frees the plane under that lock, so
-+	 * a pointer observed here is either NULL or a plane that lives
-+	 * until VM teardown.
-+	 */
-+	scoped_guard(mutex, &kvm->lock)
-+		plane = kvm->planes[ov->plane];
- 	if (!plane)
- 		return -EINVAL;
- 
 -- 
 2.50.1
 
