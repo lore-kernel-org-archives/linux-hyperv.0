@@ -1,140 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881DA3988E3;
-	Sat, 17 Oct 2026 12:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0C6383984;
+	Sat, 17 Oct 2026 12:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792238807; cv=none; b=s5YGHhHcWjbrUfYFnaaY2s2WKWn104Fx6tyBJIQKJxZ2sscA8K4SJb6CNOLlgxqdomjpewx7gjc9wNShhtnOTMwKldLxKUZBB1zuTM7+g/gYpcBlcqMBYCxWEevRYPyeVCGAcLW/dUNIhmJcrQmg6qPp0bkdrVJNCd4rlNKZVFQ=
+	t=1792239907; cv=none; b=LTAK2ecxZf1betdSiltrlKTBzZJNMZllqp8A5v4Ok7iamH1f5TQwPaTEpzrpLn81Or9WXhWobK7fmnBqjbDksyx3Pp1EiktLgtMinZ6ZY+6NFLYNWIz074VbeMACxMbhtALZMilFMGlOIaCF3br527P6TkwcDWRvAcaT3YFgxmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792238807; c=relaxed/simple;
-	bh=Uzv9jtNkcEK/5SIhZtqyRHnH0CiGKcCsgkjrLkY5s/w=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=jhZNDlbZWLj6z3NNbIiApf525s4eFDNuzyJ3+0zns41Dx75NwDHCF0gLxFDMLfc0yahmDPoBBCZ+JRSKx1KRCj2O9IMYv2yJrMb3F9dVutRKYqgQtahGi6CHfI/CdMQK8LCd5hHYJQE7fLw+AswVBf6F77Z0ZiTIa/lYqjYaW+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lma8zatA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792239907; c=relaxed/simple;
+	bh=d0lRRxmXLnUsJtatii7z2pOxUgVx3Rg6HZ2/8Trpm9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KNKd4dRRXtiZfANz8XS2KdHHYu6ndYE+dk30tsEKFMMlsQyHen4JzZ6HSM/Dl75vG2UlH6eMErKVSAi2FFBGy0usZjHgCzndd0XnwjZvomq0Xd8x4692M9jC5eSO1ptcApuoHi7K7xAUnl54cVm19RtStAtHH2meJidwmjTpy04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tr2xttvj; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lma8zatA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001921F000C4;
-	Sat, 17 Oct 2026 12:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792238806;
-	bh=FDeCkCWKQPRULcCEhWyC2+KaIJ/M/GnOZA11xsY3l6o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Lma8zatAwWGbWfEborMEG6+5nTe0QXwgoCKaQhqJyNMGzLGHcjSE9PrEJ/aKTVXir
-	 5I94Fut3kLgQC6pTJ4Q5iSYG61eTjKqt9cpGBv0D2WcvQSM0IoZvNe4lEzWLxngjZ+
-	 xoFRLuUCe3F0hACkRpR8iQTSaNRCVDqWaGTrQuoXqKLCJOE5H6SIK0uzOK+FRcNvpf
-	 RkNsjPWtzdg6SC7LWs83L6YzdFfGVP5Ul7Brk0dprp4/J+SoYO2SrBIjN6f8z8f6rK
-	 grxYS7Ig2rmb1nAP1unUeOgI+l2tZs5g4wtVqaZnJFGhSaliOASggmOz81MNr2Updx
-	 f0PH8c6GupiWQ==
-Message-ID: <sashiko-outbox-175499@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v8 1/4] net: mana: prepare HWC ownership for
- safe reinitialization
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Hu" <weh@linux.microsoft.com>
-Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <64987f49ea13b5ccdc9ef95f4a9baf23a479edc3.1791998462.git.weh@linux.microsoft.com>
-References: <cover.1791998462.git.weh@linux.microsoft.com>
- <64987f49ea13b5ccdc9ef95f4a9baf23a479edc3.1791998462.git.weh@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 17 Oct 2026 12:06:45 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tr2xttvj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=QBt9n5EhoF4ytefL+NqOdtVCXxj2E+IaiHKYLwHYwdQ=; b=tr2xttvjtFbuxnSu06mhWznsxe
+	eTga23DNzmSDqKHqOACNQeuc3kb6FlBYW6PqlNxmgQjOdd1p/4UBaWDWl0naljuBKNOuaQYr23sa0
+	qs3GFKWKpMd3gBLEAe63Zx1RT5CFZ7T2lLicEiLFT9salRDKb4Xvx4+JQ9fK3cG+IGP714sA8q2tS
+	twY+WhNxhvG77Ogwv1eHUJq/F7QYHpdUvU7XrkAYB+WdBER9oNRPPmU+Whnqly2kGnvVEKvZKkFan
+	npMS8FcWIafqsJP43iITbnGDDMO5lpF7JjEpocKb0kr+eZL+G7/075jgAR4/TcjCN5SDppxoHi2MS
+	EuUQGCOQ==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xI3TC-0000000CVCI-2BZw;
+	Sat, 17 Oct 2026 12:25:02 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xI3TC-00000002YlS-1Nvm;
+	Sat, 17 Oct 2026 13:25:02 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Thara Gopinath <tgopinath@linux.microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Nicolas Saenz Julienne <nsaenz@amazon.com>,
+	Nikolas Wipper <nik.wipper@gmx.de>,
+	Mushahid Hussain <hmushi@amazon.co.uk>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	nh-open-source@amazon.com
+Subject: [RFC PATCH 10/55] KVM: x86: Allow MP state ioctls on plane vCPU fds
+Date: Sat, 17 Oct 2026 13:24:16 +0100
+Message-ID: <20261017122501.610248-11-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
+References: <20261017122501.610248-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] net: mana: Use-after-free of CQ objects during teardown due to mis=
-sing RCU sync
---
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-commit 2740a958c23f5ddb6759715d592fec4a687478f3
-Author: Long Li <longli@microsoft.com>
+A new plane vCPU for an AP starts, like any non-boot x86 vCPU, in the
+uninitialised wait-for-INIT state, and nothing ever sends INIT/SIPI to
+the higher plane of an AP. The VMM placing an initial VTL context on
+it has to mark it runnable itself.
 
-net: mana: prepare HWC ownership for safe reinitialization
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Assisted-by: LLM
+---
+ arch/x86/kvm/x86.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Dynamic HWC queue sizing tears down the bootstrap queues and establishes a
-second channel before publishing it. Prepare the existing HWC ownership and
-teardown paths so that sequence cannot free or reuse state still reachable
-by either the PF or an EQ handler.
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index ca5d8e081fdc..970c738558f2 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -6278,6 +6278,8 @@ bool kvm_arch_is_vcpu_plane_ioctl(unsigned ioctl)
+ 	case KVM_SET_ONE_REG:
+ 	case KVM_GET_SREGS2:
+ 	case KVM_SET_SREGS2:
++	case KVM_GET_MP_STATE:
++	case KVM_SET_MP_STATE:
+ 	case KVM_GET_VCPU_EVENTS:
+ 	case KVM_SET_VCPU_EVENTS:
+ 	case KVM_GET_XCRS:
+-- 
+2.50.1
 
-Link: https://lore.kernel.org/r/20260908035201.402424-2-longli@microsoft.com
-Link: https://lore.kernel.org/r/20260908035201.402424-5-longli@microsoft.com
-Link: https://lore.kernel.org/r/178910960115.219967.13830871915506436112@ke=
-rnel.org
-Link: https://lore.kernel.org/r/179196575238.434549.10775387794024020898@ke=
-rnel.org
-Link: https://lore.kernel.org/r/sashiko-outbox-170992@kernel.org
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/ne=
-t/ethernet/microsoft/mana/gdma_main.c
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-
-[ ... ]
-
-> @@ -765,11 +767,16 @@ static void mana_gd_process_eqe(struct gdma_queue *=
-eq)
->  	switch (type) {
->  	case GDMA_EQE_COMPLETION:
->  		cq_id =3D eqe->details[0] & 0xFFFFFF;
-> -		if (WARN_ON_ONCE(cq_id >=3D gc->max_num_cqs))
-> +		/* The IRQ handler's RCU read-side section protects the table
-> +		 * until HWC teardown has fenced its EQ and waited for readers.
-> +		 */
-> +		cq_table =3D smp_load_acquire(&gc->cq_table);
-> +		if (!cq_table || cq_id >=3D READ_ONCE(gc->max_num_cqs))
->  			break;
-> =20
-> -		cq =3D gc->cq_table[cq_id];
-> -		if (WARN_ON_ONCE(!cq || cq->type !=3D GDMA_CQ || cq->id !=3D cq_id))
-> +		cq =3D READ_ONCE(cq_table[cq_id]);
-> +		if (!cq || WARN_ON_ONCE(cq->type !=3D GDMA_CQ ||
-> +					cq->id !=3D cq_id))
->  			break;
-> =20
->  		if (cq->cq.callback)
->  			cq->cq.callback(cq->cq.context, cq);
-
-[Severity: High]
-Does this sequence still leave a use-after-free regression for Ethernet and
-RDMA queues during teardown?
-
-While this patch adds RCU documentation and memory barriers for the hardware
-channel (HWC), it appears the teardown order issue remains for Ethernet
-queues. During teardown, mana_detach() destroys CQs before EQs:
-
-drivers/net/ethernet/microsoft/mana/mana_en.c:mana_detach() {
-    ...
-    mana_destroy_rxqs(apc);
-    mana_destroy_txq(apc);
-    mana_destroy_eq(apc);
-}
-
-When the CQ is destroyed, mana_gd_destroy_cq() unpublishes the CQ, and then
-mana_gd_destroy_queue() immediately frees the queue memory via kfree()
-without an RCU grace period:
-
-drivers/net/ethernet/microsoft/mana/gdma_main.c:mana_gd_destroy_queue() {
-    ...
-    case GDMA_CQ:
-        mana_gd_destroy_cq(gc, queue);
-        break;
-    ...
-    mana_gd_destroy_dma_region(gc, gmi->dma_region_handle);
-    mana_gd_free_memory(gmi);
-    kfree(queue);
-}
-
-Because the EQ hasn't been fenced yet, an in-flight EQ interrupt could
-execute mana_gd_process_eqe() concurrently. Since the RCU read-side
-critical section here does not protect against kfree(), could it
-dereference the freed memory when invoking cq->cq.callback() for these
-queues?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1791998462.gi=
-t.weh@linux.microsoft.com?part=3D1
