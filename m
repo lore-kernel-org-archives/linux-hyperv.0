@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F3D48F82C;
-	Sat, 17 Oct 2026 12:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F8F4908CD;
+	Sat, 17 Oct 2026 12:25:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239912; cv=none; b=L2o50g38dB/yEX1PXrCnmn6dr3983LpoZ94ILDCyaKJYOemCO4cVdt41EcNv1Z5CU/fIkCC/rpNL+lIfpwLMp1VcOYBpujyi2U/x3cYnx5kMykkhOzC3qveFPUHCNooTzYyS8Uoze0r8g8s3Dl5O/i6N4PWchM9IJjFGsF5jql4=
+	t=1792239913; cv=none; b=YdIYz9soQGoMtjCK3CUjpMF+zXNIfcqjZVFWjuzeLpvg2FOqQKk3lFWR/lh565FcMaQnWIP8DYMpiwZ2IhJ0Q+QxahLm8lBE0zSi5PSykTNdxnGKXva3b+XggGIoKmK30zDj80zIEsqSDGI/xjMQ/05P6QKJjiybIZeDiNRb2aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792239912; c=relaxed/simple;
-	bh=n4hcA6lLaoitjflRxS4WNE839VpbRoCICI78N7FE9DY=;
+	s=arc-20240116; t=1792239913; c=relaxed/simple;
+	bh=RVi6Ypb2sRHdkkT9sxlDqvx5LAZU/U7DtYQuWNHtvHg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JZRw7anjCn9x4rLNEwqBUGrhUP3CS8DpNm0x3JnPB8cHsyV/wkJZRLjoXD9UuGUaWbC+xdvgYXIps5pyokqF6UmVqwBOXT9Vtpbgvb6jpOKziDH/TLml9dpQoRmAw5GDhqjxkzstGRAcNOsNI5Zj5YCl3rd3CULJ0EOjjD76CuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jYZw/QE3; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=AtvGp0tTXok2o/RW9/r+UxFz4H2/B6F4orrG2Pyn9/q96gKpCXelKQaSc/1WWducArEj8dqBU9Rh4HZW9ukPTsnaafkBzGKjcobopDZX07LG7yZdY7uhBbKpvsY4evEREsHd5ICctVe0eYBxx+FrDKU0heDaZixQPwDOmWT6y9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Adm6Rauo; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jYZw/QE3"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Adm6Rauo"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=ZSHRhCMRhKiyZmDLW1NcJgrwq3GJtSMGS9fxauRrdiE=; b=jYZw/QE3YGGqMbjL3XQNOXXX2c
-	ByZFCMmX+9VGldIzjSLbY/gIxguhqUMUtvAlfyYjCh4zvEAdc50iXcbptlGJGdfe3DQE9ysqw2ALF
-	wBYAqO2YKkDNyJCDrD6/qzfdUr/dq3b/nUmX8U69e9e2ngLHu4SKwQ/8SBLIxNF4WZ7V9LPWZtNLf
-	j4o6bXq/NPZOZz71gOIt1n+CJpQljfdfjcwWKkgrXlWHfKwuh7jK+fbtr6vL4X8VnUfmllCCGslQ/
-	97ILsqaeP3hOnId0zS8nh18Q8w9LZJJzs9EP1PEafhGVfIX2RAc84GKj1+SzIBtgFZKyIoxccLfuM
-	xq44raYw==;
+	bh=oqD01cGmatq0R7KGfZBkSFOS1thsicsovcmsGvVc4zw=; b=Adm6Rauo0Ar5AIH+FLJCl2xdXO
+	K/Wq3MC+UoV3nH7uU2eYnFD1fDgZ02n9ztpDgO3Vt6DYHuzbP52VilQKlSgOoqO0U2PIBVhLh7Uar
+	CgElLx2NxPNwEPVBuu8bmwttOBkxF77FpLVpYVzEIofAhqsvXfchv+CZGvrSkWfGHKCtpcNkKWm4v
+	BZKOgZVIxsdbsiFUQPIvxqf8f7UTv3x7mynBVZQSRn88pKdIIiCmE6O+nhlw0R/UeVz7zga9d/k2e
+	zf1YsbRORHX+T1EmDfACUcBjBNdq8kML7nGSc8SnsqFkGwBnMoqHUhM+p3XT+8cI8TUOwm+QqurIL
+	Vg7FVbpg==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xI3TE-0000000CVDV-06hn;
+	id 1xI3TE-0000000CVE9-1V8H;
 	Sat, 17 Oct 2026 12:25:04 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TD-00000002Yne-3SEo;
-	Sat, 17 Oct 2026 13:25:03 +0100
+	id 1xI3TE-00000002YoA-0eTW;
+	Sat, 17 Oct 2026 13:25:04 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 41/55] KVM: x86: hyperv: Refuse a synthetic IPI to a higher VTL
-Date: Sat, 17 Oct 2026 13:24:47 +0100
-Message-ID: <20261017122501.610248-42-dwmw2@infradead.org>
+Subject: [RFC PATCH 48/55] KVM: x86: hyperv: Advertise XMM fast hypercall output
+Date: Sat, 17 Oct 2026 13:24:54 +0100
+Message-ID: <20261017122501.610248-49-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -71,57 +71,31 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-HvCallSendSyntheticClusterIpi(Ex) honours the target VTL in its input
-but does not check it against the caller's VTL. A guest running in a
-lower VTL can therefore assert any fixed interrupt in a higher VTL on
-any VP, which crosses the boundary that VTLs exist to enforce.
-
-Refuse a target VTL above the caller's with HV_STATUS_ACCESS_DENIED.
-A VTL may still interrupt its own level and lower ones.  The old
-upper-bound check on the target plane goes away: a target at or below
-the caller's level is below KVM_MAX_PLANES by construction.
-
-Matches the equivalent fix in the reference VSM implementation.  The
-production Nitro Hypervisor permits the injection; the conformance
-suite probes for either behaviour.
+The Hyper-V VSM register hypercalls return data in XMM registers when
+the guest uses their fast forms, and the userspace handler answering
+them writes those registers through the vCPU FPU state. Report
+HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE in KVM_GET_SUPPORTED_HV_CPUID so
+the VMM can expose it; the reference hypervisor advertises it, and the
+Windows secure kernel only uses the fast forms when it is present.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: LLM
 ---
- arch/x86/kvm/hyperv.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ arch/x86/kvm/hyperv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 0bc9435ea3b9..e3ac840c8e5e 100644
+index 02866b9b7e9b..dbe1b83c1f28 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -2710,13 +2710,21 @@ static int kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
- 		return HV_STATUS_INVALID_HYPERCALL_INPUT;
+@@ -3751,6 +3751,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 			ent->ebx |= HV_ENABLE_EXTENDED_HYPERCALLS;
  
--	/* TLFS: in_vtl bit 4 selects an explicit target VTL. */
--	if (in_vtl & 0x10)
-+	/*
-+	 * TLFS: in_vtl bit 4 selects an explicit target VTL.  A VTL may
-+	 * interrupt its own level and lower ones, never a higher one
-+	 * (TLFS 15.9, "VTL Interrupt Management": each VTL sends and
-+	 * receives interrupts without interference from a less secure
-+	 * VTL).  The reference host omits this check; the suite's
-+	 * SendIpi test probes for both behaviours.
-+	 */
-+	if (in_vtl & 0x10) {
- 		target_plane = in_vtl & 0xf;
--	else
-+		if (target_plane > vcpu->plane_level)
-+			return HV_STATUS_ACCESS_DENIED;
-+	} else {
- 		target_plane = vcpu->plane_level;
--	if (target_plane >= KVM_MAX_PLANES)
--		return HV_STATUS_INVALID_HYPERCALL_INPUT;
-+	}
+ 			ent->edx |= HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE;
++			ent->edx |= HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_FREQUENCY_MSRS_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
  
- 	if (all_cpus)
- 		kvm_hv_send_ipi_to_many(kvm, vector, NULL, 0, target_plane);
 -- 
 2.50.1
 
