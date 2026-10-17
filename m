@@ -1,38 +1,38 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A22B3E6394;
-	Sat, 17 Oct 2026 12:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE2B494298;
+	Sat, 17 Oct 2026 12:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239914; cv=none; b=Qh9HbrueVvduQVFFbFlUmLiI/o8dV6jw+dbADdqiY1+hDBIScWNteygLIbjtQ4GUqmDmycEDaSea6eF9bRVbtpRL+HdfwAQgwIcKUaVCskMtv7yH3tJBLvCalmeH27I2/AFXiBxZqOeS0afXWKUF0h6j3YVq+WSXEGujIRxJdGw=
+	t=1792239914; cv=none; b=ZymFE1lDGJkRoyldQCamPQ5Uz/6fJD2kiIRBV9FW/Xsw+gUNpaSO4II5RMBm+e3/ckApSXVGoQKlfestId7L59Y+sSUUPuvhJvZxtW2qpaQZygu4zFTxA0mEDpUpUFDYqEuVft60k5XKvoBtHYJr4t1HOQamRFNcCsyrGKCLJ9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792239914; c=relaxed/simple;
-	bh=LWpNYS2M4N7Sdbns/zrcHREtIf5zPxDmuIKyiHmQMDE=;
+	bh=kN2jO2ofGvwSN/NOSNtM9Q8PCQunXuMGA5ir6/XKexE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=auSGAvW+rUoUREfLn2HyUIgATKh3n5M+b+0OpZRPKGIk+X9AUdE8mlSjYfQxwFektDyPHC5EVdOvlYefmkXxQehd7sd2OCAFmYKOke8kq6c9zh77SNvQ9EdTDVAxJA8eGUGx8473SWjeVMpdcRID2JRzIIimXBMck0MXR2bjoug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T+DW5Jbp; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=KnhEWB1sGMGVYOQDUHJ91PLizDWfvsT2yJx64fWk6RYIj98T0liqhUM7a+HdKq6VVb2O44on/VoFmI478MaF2Clhg26D2W8wBttcm/V1byrsj57MzX+m/rTJ0ghcuSybzPBP4tnpGt1YEdrjEnbdflSOm1FCATz65otmDNgJrhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T30MJfuj; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T+DW5Jbp"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T30MJfuj"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=bJk1mYeRahTsqyuXM+Ax627QX1n7rFbufDIM/kdUrek=; b=T+DW5JbpWR4eFGzRXe10zD9t4K
-	Ja0FmuJQdraGXdyFxWUqfhKtPrT1kOqAj2wekp3UhTGy/0/g36JOP6jwjPVha94kaJ2YgXEJICGzN
-	VxobSKnmc/vET6NnH20L1j81mcGTg8+Firt5cKkUJuCbc+vxYHJTy+fwuidttWdEo3z7QRRWWpQKi
-	+A4m1lab+VP2JNbXN010igZDPrmw9mjVeEa0yzER5I4gNpwPcgl09Uxx+shxWWBMr4J+ilQ+L7XoH
-	dj3d+mw6ZdhMx4AZeNeFYdN75f7iLBi8Svj1zwKqmBlEIOnIctKOLIuHOHmDOoCky9Ao8zgMLUCv7
-	ONPSuphg==;
+	bh=PUE06KD80pNWd8TOutTZYi8qhSQaf8Ga2miXUzkADlY=; b=T30MJfujxRWJ/wv9sX5rkx/rbD
+	DqQtIi2OxwYddtaLgM0iMvK7iBMPhvrEN8PtyDqCTN6G7rFiTMZnR4No64AGxOnQY12BgCSjLVheD
+	HcSAWhtryo90oz6z002YZl7x4cZiMvcu71w7yAQpzqmsANJOyKLXEIa3wVsN6KWeUdhMJws9u8Lfv
+	Lqelj0JEwUdaB9SbBIgmosf4GL5dK9LSOXeOrdQ7tU3p7A7jfFis3RExVEbV7oD38vSzqrSbaebtw
+	qAFaMeJY8xnCBWnqwFHhT3E7Didbtv7c2qE/Z63cWCTdmFX+wSf2t3CjYUMdzEinGXsmqNESEzoq4
+	cVoh39/w==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xI3TC-0000000CVCB-0w53;
-	Sat, 17 Oct 2026 12:25:02 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xI3TF-00000002Lfa-1xJ1;
+	Sat, 17 Oct 2026 12:25:06 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TC-00000002Yl7-08RW;
-	Sat, 17 Oct 2026 13:25:02 +0100
+	id 1xI3TD-00000002Ynm-3ouj;
+	Sat, 17 Oct 2026 13:25:03 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 05/55] KVM: x86: hyper-v: Add KVM_CAP_HYPERV_FORWARD_HCALL
-Date: Sat, 17 Oct 2026 13:24:11 +0100
-Message-ID: <20261017122501.610248-6-dwmw2@infradead.org>
+Subject: [RFC PATCH 43/55] KVM: x86: Derive runtime CPUID bits from the executing plane
+Date: Sat, 17 Oct 2026 13:24:49 +0100
+Message-ID: <20261017122501.610248-44-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -67,144 +67,246 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Mushahid Hussain <hmushi@amazon.co.uk>
 
-A VMM implementing Hyper-V hypercalls that KVM does not know about,
-such as the VSM set, has no way to receive them: kvm_hv_hypercall()
-fails unknown codes with HV_STATUS_INVALID_HYPERCALL_CODE, and only
-syndbg and slow-form extended hypercalls ever exit to userspace.
+Some CPUID bits follow registers of the vCPU: CPUID.1:ECX.OSXSAVE
+follows CR4.OSXSAVE, CPUID.7:ECX.OSPKE follows CR4.PKE, CPUID.1:EDX.APIC
+follows the APIC enable, CPUID.1:ECX.MWAIT follows MISC_ENABLE, and the
+XSAVE area sizes in leaf 0xD follow XCR0 and XSS. KVM keeps the CPUID
+table of a vCPU in the state its planes share, and refreshes those bits
+into the table from the state of whichever vCPU runs when the table is
+dirty. The planes of a vCPU have their own control registers, so after
+one plane sets CR4.OSXSAVE, CPUID on every plane of that vCPU reports
+OSXSAVE until a plane with it clear refreshes the table, and the other
+way round. The architecture requires CPUID to describe the processor
+that executes it, and for a plane that is the plane's own registers.
 
-Add a VM capability which routes any hypercall KVM would have failed
-as unknown out through the existing KVM_EXIT_HYPERV_HCALL exit, fast
-forms included. The exit already carries the control value and both
-parameters (RDX and R8 for fast calls), and XMM state is reachable
-through the ordinary vCPU ioctls, so no new exit format is needed.
-A future in-kernel accelerator for a specific hypercall can still
-claim its code behind its own capability, with userspace handling as
-the fallback.
+A Windows guest with Virtual Secure Mode shows the leak. Its secure
+kernel runs on a plane whose CR4.OSXSAVE is clear while the normal
+kernel on the other plane has set it. The secure kernel executes the
+usual probe, CPUID.1 followed by a test of OSXSAVE, reads the bit set
+and executes XGETBV, which raises #UD because its own CR4 does not
+permit it.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Compute the bits that follow vCPU registers when CPUID is emulated,
+from the registers of the vCPU that executes it, and no longer refresh
+the shared table on that path. The table keeps the view of plane 0 for
+KVM_GET_CPUID2 and KVM_SET_CPUID2, which act on the plane 0 vCPU, and
+their refresh stays as it is.
+
 Assisted-by: LLM
+
+(re-done by hand from the reference VSM implementation)
+[dwmw2: dropped the plane selftest hunk; this branch has no
+ plane_x86_test.c.  The per-VTL OSXSAVE contract is pinned by the VSM
+ conformance suite instead.]
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- Documentation/virt/kvm/api.rst  | 26 ++++++++++++++++++++++++++
- arch/x86/include/asm/kvm_host.h |  1 +
- arch/x86/kvm/hyperv.c           |  5 ++++-
- arch/x86/kvm/x86.c              | 10 ++++++++++
- include/uapi/linux/kvm.h        |  1 +
- 5 files changed, 42 insertions(+), 1 deletion(-)
+ Documentation/virt/kvm/api.rst |   7 +++
+ arch/x86/kvm/cpuid.c           | 108 +++++++++++++++++++++++----------
+ arch/x86/kvm/cpuid.h           |   5 +-
+ 3 files changed, 87 insertions(+), 33 deletions(-)
 
 diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index bc63054ce7bd..ade8c91ef24b 100644
+index 215547802377..d75987c1d325 100644
 --- a/Documentation/virt/kvm/api.rst
 +++ b/Documentation/virt/kvm/api.rst
-@@ -8986,6 +8986,32 @@ This capability must be enabled before any vCPU or extra plane has been
- created, and the chosen count cannot be changed afterwards; otherwise
- -EEXIST is returned.
+@@ -370,6 +370,13 @@ cpu's hardware control block.
+ VCPUs for non-zero planes can only be created if the VCPU the same index has
+ already been created for plane zero.
  
-+7.48 KVM_CAP_HYPERV_FORWARD_HCALL
-+---------------------------------
++The planes of a vCPU share its CPUID model, set through the plane 0 fd with
++KVM_SET_CPUID2.  The CPUID bits that follow a vCPU's own registers (OSXSAVE
++from CR4.OSXSAVE, OSPKE from CR4.PKE, the APIC enable, MWAIT from
++MISC_ENABLE, and the XSAVE area sizes from XCR0 and XSS) reflect the plane
++that executes CPUID, since every plane has these registers of its own.
++KVM_GET_CPUID2 returns them as plane 0 sees them.
 +
-+:Architectures: x86
-+:Target: VM
-+:Parameters: args[0] is 1 to enable forwarding, 0 to disable it
-+
-+When enabled, a Hyper-V hypercall that KVM would otherwise have failed
-+with HV_STATUS_INVALID_HYPERCALL_CODE instead exits to userspace with
-+KVM_EXIT_HYPERV_HCALL, and extended hypercalls in fast form exit the
-+same way instead of failing with HV_STATUS_INVALID_PARAMETER.  This
-+lets a VMM implement hypercalls KVM does not know, such as the Hyper-V
-+VSM set.  The synthetic-debugger hypercalls (HvCallResetDebugSession,
-+HvCallPostDebugData, HvCallRetrieveDebugData) are an exception: while
-+the synthetic debugger is not enabled they still fail in KVM with
-+HV_STATUS_INVALID_HYPERCALL_CODE and are not forwarded.
-+
-+The exit carries the control value and the input and output parameters
-+(for fast hypercalls, RDX and R8 from a 64-bit caller, or the EBX:ECX
-+and EDI:ESI pairs from a 32-bit caller).  Register argument and
-+return state of fast hypercalls, such as the XMM registers, is read and
-+written with the ordinary vCPU state ioctls before resuming the vCPU
-+with ``hyperv.u.hcall.result`` set.  Hypercalls KVM implements itself,
-+and the ordering of CPUID-enforcement checks against hypercall
-+dispatch, are unaffected.
-+
- 7.49 KVM_CAP_HCALL_FAULT_EXIT
- ------------------------------------
+ 4.8 KVM_GET_DIRTY_LOG
+ ---------------------
  
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index e4c8691dc1e1..05670b5ae28a 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1204,6 +1204,7 @@ struct kvm_hv {
- 	struct mutex hv_lock;
- 	u64 hv_guest_os_id;
- 	u64 hv_hypercall;
-+	bool hv_forward_hcalls;
- 	u64 hv_tsc_page;
- 	enum hv_tsc_page_status hv_tsc_page_status;
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index f744e7845843..a71888749a29 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -171,6 +171,9 @@ static int kvm_check_cpuid(struct kvm_vcpu *vcpu)
  
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 98a3c2aefdcd..ec669dafda6e 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -2777,12 +2777,15 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 		return kvm_hv_hypercall_userspace_exit(vcpu, &hc);
+ static u32 kvm_apply_cpuid_pv_features_quirk(struct kvm_vcpu *vcpu);
+ static void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu);
++static void kvm_cpuid_apply_runtime(struct kvm_vcpu *vcpu, u32 function,
++				    u32 index, u32 *eax, u32 *ebx, u32 *ecx,
++				    u32 *edx);
+ 
+ /* Check whether the supplied CPUID data is equal to what is already set for the vCPU. */
+ static int kvm_cpuid_check_equal(struct kvm_vcpu *vcpu, struct kvm_cpuid_entry2 *e2,
+@@ -278,50 +281,51 @@ static u64 cpuid_get_supported_xss(struct kvm_vcpu *vcpu)
+ 	return (best->ecx | ((u64)best->edx << 32)) & kvm_caps.supported_xss;
+ }
+ 
+-static __always_inline void kvm_update_feature_runtime(struct kvm_vcpu *vcpu,
+-						       struct kvm_cpuid_entry2 *entry,
+-						       unsigned int x86_feature,
+-						       bool has_feature)
+-{
+-	cpuid_entry_change(entry, x86_feature, has_feature);
+-	guest_cpu_cap_change(vcpu->common, x86_feature, has_feature);
+-}
+-
++/* The table keeps plane 0's view of the runtime bits for KVM_GET_CPUID2. */
+ static void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu)
+ {
+ 	struct kvm_cpuid_entry2 *best;
+ 
++	/*
++	 * Compute from the plane-0 twin no matter which plane triggered
++	 * the refresh: KVM_SET_CPUID runs this for every plane in turn,
++	 * and KVM_GET_CPUID2 is reachable from any plane's fd.
++	 */
++	if (vcpu->common->vcpus[0])
++		vcpu = vcpu->common->vcpus[0];
++
+ 	vcpu->common->arch.cpuid_dynamic_bits_dirty = false;
+ 
+ 	best = kvm_find_cpuid_entry(vcpu, 1);
+ 	if (best) {
+-		kvm_update_feature_runtime(vcpu, best, X86_FEATURE_OSXSAVE,
+-					   kvm_is_cr4_bit_set(vcpu, X86_CR4_OSXSAVE));
+-
+-		kvm_update_feature_runtime(vcpu, best, X86_FEATURE_APIC,
+-					   vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE);
+-
++		kvm_cpuid_apply_runtime(vcpu, 1, 0, &best->eax, &best->ebx,
++					&best->ecx, &best->edx);
++		guest_cpu_cap_change(vcpu->common, X86_FEATURE_OSXSAVE,
++				     cpuid_entry_has(best, X86_FEATURE_OSXSAVE));
++		guest_cpu_cap_change(vcpu->common, X86_FEATURE_APIC,
++				     cpuid_entry_has(best, X86_FEATURE_APIC));
+ 		if (!kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_MISC_ENABLE_NO_MWAIT))
+-			kvm_update_feature_runtime(vcpu, best, X86_FEATURE_MWAIT,
+-						   vcpu->arch.ia32_misc_enable_msr &
+-						   MSR_IA32_MISC_ENABLE_MWAIT);
++			guest_cpu_cap_change(vcpu->common, X86_FEATURE_MWAIT,
++					     cpuid_entry_has(best, X86_FEATURE_MWAIT));
  	}
- 	case HV_EXT_CALL_QUERY_CAPABILITIES ... HV_EXT_CALL_MAX:
--		if (unlikely(hc.fast)) {
-+		if (unlikely(hc.fast) &&
-+		    !to_kvm_hv(vcpu->kvm)->hv_forward_hcalls) {
- 			ret = HV_STATUS_INVALID_PARAMETER;
- 			break;
- 		}
- 		return kvm_hv_hypercall_userspace_exit(vcpu, &hc);
- 	default:
-+		if (to_kvm_hv(vcpu->kvm)->hv_forward_hcalls)
-+			return kvm_hv_hypercall_userspace_exit(vcpu, &hc);
- 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
- 		break;
- 	}
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index a9073436c734..8de596e00441 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -4883,6 +4883,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_HYPERV_CPUID:
- 	case KVM_CAP_HYPERV_ENFORCE_CPUID:
- 	case KVM_CAP_SYS_HYPERV_CPUID:
-+	case KVM_CAP_HYPERV_FORWARD_HCALL:
- #endif
- 	case KVM_CAP_HCALL_FAULT_EXIT:
- 	case KVM_CAP_PCI_SEGMENT:
-@@ -6886,6 +6887,15 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		mutex_unlock(&kvm->lock);
- 		break;
- 	}
-+#ifdef CONFIG_KVM_HYPERV
-+	case KVM_CAP_HYPERV_FORWARD_HCALL:
-+		r = -EINVAL;
-+		if (cap->args[0] & ~1ULL)
-+			break;
-+		to_kvm_hv(kvm)->hv_forward_hcalls = !!cap->args[0];
-+		r = 0;
+ 
+ 	best = kvm_find_cpuid_entry_index(vcpu, 7, 0);
+-	if (best)
+-		kvm_update_feature_runtime(vcpu, best, X86_FEATURE_OSPKE,
+-					   kvm_is_cr4_bit_set(vcpu, X86_CR4_PKE));
+-
++	if (best) {
++		kvm_cpuid_apply_runtime(vcpu, 7, 0, &best->eax, &best->ebx,
++					&best->ecx, &best->edx);
++		guest_cpu_cap_change(vcpu->common, X86_FEATURE_OSPKE,
++				     cpuid_entry_has(best, X86_FEATURE_OSPKE));
++	}
+ 
+ 	best = kvm_find_cpuid_entry_index(vcpu, 0xD, 0);
+ 	if (best)
+-		best->ebx = xstate_required_size(vcpu->arch.xcr0, false);
++		kvm_cpuid_apply_runtime(vcpu, 0xd, 0, &best->eax, &best->ebx,
++					&best->ecx, &best->edx);
+ 
+ 	best = kvm_find_cpuid_entry_index(vcpu, 0xD, 1);
+-	if (best && (cpuid_entry_has(best, X86_FEATURE_XSAVES) ||
+-		     cpuid_entry_has(best, X86_FEATURE_XSAVEC)))
+-		best->ebx = xstate_required_size(vcpu->arch.xcr0 |
+-						 vcpu->arch.ia32_xss, true);
++	if (best)
++		kvm_cpuid_apply_runtime(vcpu, 0xd, 1, &best->eax, &best->ebx,
++					&best->ecx, &best->edx);
+ }
+ 
+ bool kvm_cpuid_has_hyperv(struct kvm_vcpu *vcpu)
+@@ -2121,17 +2125,58 @@ get_out_of_range_cpuid_entry(struct kvm_vcpu *vcpu, u32 *fn_ptr, u32 index)
+ 	return kvm_find_cpuid_entry_index(vcpu, basic->eax, index);
+ }
+ 
++/*
++ * The planes share the CPUID table but not CR4, the APIC enable, MISC_ENABLE
++ * or XCR0/XSS: the bits that follow those come from the executing plane.
++ */
++static void kvm_cpuid_apply_runtime(struct kvm_vcpu *vcpu, u32 function,
++				    u32 index, u32 *eax, u32 *ebx, u32 *ecx,
++				    u32 *edx)
++{
++	switch (function) {
++	case 1:
++		*ecx &= ~feature_bit(OSXSAVE);
++		if (kvm_is_cr4_bit_set(vcpu, X86_CR4_OSXSAVE))
++			*ecx |= feature_bit(OSXSAVE);
++
++		*edx &= ~feature_bit(APIC);
++		if (vcpu->arch.apic_base & MSR_IA32_APICBASE_ENABLE)
++			*edx |= feature_bit(APIC);
++
++		if (!kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_MISC_ENABLE_NO_MWAIT)) {
++			*ecx &= ~feature_bit(MWAIT);
++			if (vcpu->arch.ia32_misc_enable_msr &
++			    MSR_IA32_MISC_ENABLE_MWAIT)
++				*ecx |= feature_bit(MWAIT);
++		}
 +		break;
-+#endif
- 	case KVM_CAP_X2APIC_API:
- 		r = -EINVAL;
- 		if (cap->args[0] & ~KVM_X2APIC_API_VALID_FLAGS)
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 839e9e83d21d..5567cf352907 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1015,6 +1015,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_S390_KEYOP 247
- #define KVM_CAP_S390_VSIE_ESAMODE 248
- #define KVM_CAP_PLANES 249
-+#define KVM_CAP_HYPERV_FORWARD_HCALL 250
- #define KVM_CAP_HCALL_FAULT_EXIT 252
++	case 7:
++		if (index)
++			break;
++		*ecx &= ~feature_bit(OSPKE);
++		if (kvm_is_cr4_bit_set(vcpu, X86_CR4_PKE))
++			*ecx |= feature_bit(OSPKE);
++		break;
++	case 0xd:
++		if (index == 0)
++			*ebx = xstate_required_size(vcpu->arch.xcr0, false);
++		else if (index == 1 &&
++			 (*eax & (feature_bit(XSAVES) | feature_bit(XSAVEC))))
++			*ebx = xstate_required_size(vcpu->arch.xcr0 |
++						    vcpu->arch.ia32_xss, true);
++		break;
++	default:
++		break;
++	}
++}
++
+ bool kvm_cpuid(struct kvm_vcpu *vcpu, u32 *eax, u32 *ebx,
+ 	       u32 *ecx, u32 *edx, bool exact_only)
+ {
+ 	u32 orig_function = *eax, function = *eax, index = *ecx;
+-	struct kvm_vcpu_common *common = vcpu->common;
+ 	struct kvm_cpuid_entry2 *entry;
+ 	bool exact, used_max_basic = false;
  
- struct kvm_irq_routing_irqchip {
+-	if (common->arch.cpuid_dynamic_bits_dirty)
+-		kvm_update_cpuid_runtime(vcpu);
+-
+ 	entry = kvm_find_cpuid_entry_index(vcpu, function, index);
+ 	exact = !!entry;
+ 
+@@ -2145,6 +2190,7 @@ bool kvm_cpuid(struct kvm_vcpu *vcpu, u32 *eax, u32 *ebx,
+ 		*ebx = entry->ebx;
+ 		*ecx = entry->ecx;
+ 		*edx = entry->edx;
++		kvm_cpuid_apply_runtime(vcpu, function, index, eax, ebx, ecx, edx);
+ 		if (function == 7 && index == 0) {
+ 			u64 data;
+ 			if ((*ebx & (feature_bit(RTM) | feature_bit(HLE))) &&
+diff --git a/arch/x86/kvm/cpuid.h b/arch/x86/kvm/cpuid.h
+index 873377404899..2720e1820d7d 100644
+--- a/arch/x86/kvm/cpuid.h
++++ b/arch/x86/kvm/cpuid.h
+@@ -273,8 +273,9 @@ static __always_inline bool guest_cpu_cap_has(struct kvm_vcpu *vcpu,
+ 	struct kvm_vcpu_common *common = vcpu->common;
+ 
+ 	/*
+-	 * Except for MWAIT, querying dynamic feature bits is disallowed, so
+-	 * that KVM can defer runtime updates until the next CPUID emulation.
++	 * Except for MWAIT, querying dynamic feature bits is disallowed: the
++	 * guest gets them from the state of the plane that executes CPUID, and
++	 * the table copy is refreshed only for the CPUID ioctls.
+ 	 */
+ 	BUILD_BUG_ON(x86_feature == X86_FEATURE_APIC ||
+ 		     x86_feature == X86_FEATURE_OSXSAVE ||
 -- 
 2.50.1
 
