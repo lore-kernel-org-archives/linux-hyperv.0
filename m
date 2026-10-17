@@ -1,200 +1,180 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6B8258EE9
-	for <linux-hyperv@vger.kernel.org>; Sat, 17 Oct 2026 15:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C78C353A87;
+	Sat, 17 Oct 2026 15:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792251346; cv=none; b=mwdn7vBY9+mKGhl/3XOikynnxJwrheKx2YrrGZfcRnMetHp9nw9FPLA0Sb2GTy222e659G1ozec6GJrmvI657W43HCXOfMm0cSf3cRaz8pQdQRxOlrW2jCWPVWwoyEYoCJ+OKMfgKrW70HAd4FFutM3lo4JV3IxWoxWa187aSr0=
+	t=1792251566; cv=none; b=MM4ie7AQp/8JE4bnyvC/XB6n2CD3KNjT/pn4wmjbJ0ij2LMH5Xrw+4bbpBRgNvnkzL7ojQcFwNtAJeO77mIlsR9bRpC7X28Eq0SUGD7sgyvBp0Ed/DoOiiTFHGq3ak6VM52SdNd9FwU8+JkXsbLGjesNg2vBIcrWkpUAUidbNDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792251346; c=relaxed/simple;
-	bh=k3HCyPTxpXGvpKq4TRkpfHcOBtMlzvsEWWtmUiLQiuU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m/tzQ6PpjlErhTQ81aUd1pwRlEzEjrjngqoi0K0P4tZ6zGI59bThzpgbiAxOvwvlSV8OTgnWN9J5ZBXZqaBjexbFkJsXkEvAPlrh0ZnK23bGdZ5E+8Ji2r/kykBECvGMQuSJPJ5mm/z3eogDgK57Gqb/sDFIrbr3Gwh0oHN1JVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OzlH6ECx; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792251566; c=relaxed/simple;
+	bh=7boXGZZOqBs1QxdlmdTNCjgxYvKpgnwoLu8Dzs6hwOI=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=kkBjOkzr7cJkuPLeiufyqZvnieGA1+9YHshIyWWwr4jJeT0H7HAudi6ev8qnw6Fzh0pH1ZMXlxD2hGfX8uDyocMoRiQezNI9s03iVhGLGgO8GE0DXJcGdE8CearqzzNnw5rdS/41bIjJp+vC14Xx+2VRuTnxGWjYTv3CrnEpa+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSD6ulB3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OzlH6ECx"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so522150a91.2
-        for <linux-hyperv@vger.kernel.org>; Sat, 17 Oct 2026 08:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792251343; x=1792856143; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cSCIoQiIuzOVCfYEbcmwZdLYkQEpSik/mWoNdRkPnwc=;
-        b=OzlH6ECxqw9eLlizxl1He1AgStAeWoFfEb4YrhT61So534iqlytu36mbTOoabeLwai
-         7IHHvn4A14qHrOynJOsWwW2Yj+j3vzfe1nfuDuQtHBBNAeL9Xgtrxd79cb5Eg6qyxo78
-         nHVOlCVGgnHswL/3AcDdChkupt4pKC8JWhFYckPkmn8fopv7my9UUxVLvPlcse53FU5z
-         9UQarbxQEBI1W9BSjaPGRLFkfI6G6qkF7TFnhqPXNffb5HUbf+eh8mzFLlK+PB52m6G9
-         +05YVCWgrUKGH0AExqfkLuqbcayMA+gi6gLZwdQ9RTd+GwVQH/J9ZgR0AhIAyu8eenVU
-         b6ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792251343; x=1792856143;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cSCIoQiIuzOVCfYEbcmwZdLYkQEpSik/mWoNdRkPnwc=;
-        b=xGdWEMdwgyyTryBwMNuESqce3ICzYyIjwIBVFFiMQPb6iUe3gNGZ4Vn4KMEmDsDATR
-         e/Wlm4ScuUCusDw3OabtIAKYLhi43yP9XBDzAGaQT3xWBVClH1RHOFHrAkqAhHtxFNTh
-         bIel+CF71YdtTjz0bT0+hHJH6fiwHJ7XFH+8IrdW34Ckf2rH45XVAtwjhfRW3TRNd3vc
-         5mbRBC2jZ2ekiY1f8XLEensQ2qs5IlAbrErwxL2wn4wQRx4PzUPqL5YV5Y3kx98efhQA
-         lH8Kdc2TdO3QD2AGprzWkDEebU5Jvq6kkkEPi/bqu1/jt9+Zbx+1IbHr8gyzdZaQak0j
-         nr+A==
-X-Forwarded-Encrypted: i=1; AKwUvBwKi5RBgteSiyEHE6PSPI91ZmSBwMN+RDeUf7a1w6vybx/NPuJyB7NXXb1//ozbqYiKwniHEc1FoiZwVOI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIQVKFZB/X7i+GLMJ1maLWGgriDbTD+Hs6+MxkJ6xqmg7IxVOKH
-	MA2DBXKC+eYW9U/ugHNmIqcLsdLQu21ptRSqnLFl3pZKzTM0sbUsNnkx
-X-Gm-Gg: AYBFou2gTTKun6sdTq4VCTsV4tGqXl6a0nULiVqJwWtcn6xSqOKMsr4zeTkYY7j7M5H
-	iL5nRhiHebAM5GzhKA1HTF/nCXAYNP0mePp7bKrQ+i5ovWn9U0oH+7DWaJMrSgCJFH3/feSQ0hw
-	iN5F6d7t6bAOPzG6ZHhontImIq6ff6lj+Mko1Tsz7khh/pKAZbaLwTan4ygFUS8dSz/c/k55aGY
-	2+diFXJEaCSP/SzDXHt0TPvLhcB/9sXE4rWVFktVfUJH705Kq/ONlvyhJCKZkYuTEKxVg5tRWzG
-	Z7GHmS5TGUMQrrkY1s8YThNICDG+DqqtETGVDmIZrPvBb3xshUCK+RBFVimUO4Z8ArQ5Ey5i5r2
-	krmA+2EwKe3swGzRYNPlqUhsSFdUI7iGQ1QC+kLMxU9/2kRJ7D5GKX7vbxTZXTNi6QMsanubFvG
-	yvoKXpjdMDfvOOX/yfiVsGdiV4RUSvML59SZFexHkoca7FowRXK9bW2yjPQonISLZe09D3
-X-Received: by 2002:a17:90b:590c:b0:3ab:1b19:78f0 with SMTP id 98e67ed59e1d1-3acef2b52e6mr3075121a91.41.1792251343394;
-        Sat, 17 Oct 2026 08:35:43 -0700 (PDT)
-Received: from hachimi ([101.5.168.240])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac9474b52fsm15330221a91.9.2026.10.17.08.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 08:35:42 -0700 (PDT)
-From: Lanfeng Wei <xlfylawarthur@gmail.com>
-To: Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	linux-hyperv@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Lanfeng Wei <xlfylawarthur@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
-Date: Sat, 17 Oct 2026 23:34:30 +0800
-Message-ID: <20261017153524.8870-1-xlfylawarthur@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSD6ulB3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 951501F000C5;
+	Sat, 17 Oct 2026 15:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792251564;
+	bh=9qD/6IXOTdOzBSaIKQ8Ej0q671dPVWbgJ2yjtKtBXiw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SSD6ulB3YupXegdsql94e9ebU/5uYEoKuOgTe6+BGhBCLyLZ5bSCEQtkXjU4Y2QmO
+	 NPCODqKeAll8barsdf3pGwp/kIMb39u+zV0wwrUbVJpp6QLJhwyIT1lkOHWfLAB3Nd
+	 IgO8hDbboo4esv5IgVYo/Kxo2/Cuo6wfoPecj0SIXu/c4KGepWepWVT9DchQ2+zHHp
+	 /TvwuFz4UjcG7NTTA6P7vib+4CLt/Wq1jG9I0qZ2w8J2V1VbbaE7S4qtZniGp7j2Qr
+	 hvTFDzalAS7azMI07pmbXj9OXv9NuN3VpAJnIBvSGPX4ecMGDBEYKyWI/tBF0iK9v2
+	 dfOurhFumPGZg==
+Message-ID: <sashiko-outbox-175602@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v7 02/13] net: mana: share the EQ pool across a
+ queue-set swap
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>
+Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
+In-Reply-To: <9b7e62cc70138f8940a32869da44c1260748be14.1791710735.git.weh@linux.microsoft.com>
+References: <cover.1791710735.git.weh@linux.microsoft.com>
+ <9b7e62cc70138f8940a32869da44c1260748be14.1791710735.git.weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 17 Oct 2026 15:39:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-A performance regression has been observed on Hyper-V causing serious
-frame rate drops since commit 52e6b1988334 ("drm/hypervdrm: Use vblank
-timer").
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] mana_ib_remove_cq_cb: Use-After-Free due to missing RCU synchroniz=
+ation
+- [High] net: mana: Unbounded RTNL stall during queue teardown if EQ is dead
+- [High] mana: NULL pointer dereference in mana_gd_process_eqe()
+--
 
-The regression occurs when using Xorg with a software rendered cursor.
-The offending commit uses the DRM vblank hrtimer to pace atomic update
-completion events, making each event wait for the next simulated vblank.
-However, cursor damage invoked by mouse movement is unconstrained by
-screen refresh rate, and therefore consumes most of Xorg's update
-opportunities, starving normal graphical updates, resulting in
-plummeting frame rate.
+commit 5cede1970aed52e8e7cc0e961f84924a35708274
+Author: Long Li <longli@microsoft.com>
 
-Hyper-V virtual display framebuffer is able to accept multiple writes in
-one update window, so the commit broke this expected behavior.
+net: mana: share the EQ pool across a queue-set swap
 
-The regression is also reported by other users:
+This patch makes the EQ pool port-owned so overlapping queue sets share EQs
+instead of requiring new allocations. It initializes EQ callbacks and
+throttles before IRQ publication, introduces a lockless RCU pattern for
+CQ table publication, and modifies CQ teardown to flush events and wait
+for RCU readers.
 
-Link: https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg6302857.html
+> diff --git a/drivers/infiniband/hw/mana/cq.c b/drivers/infiniband/hw/mana=
+/cq.c
+> index d4e5e3f912689..0b6ad2547e0ef 100644
+> --- a/drivers/infiniband/hw/mana/cq.c
+> +++ b/drivers/infiniband/hw/mana/cq.c
+> @@ -155,7 +155,8 @@ int mana_ib_install_cq_cb(struct mana_ib_dev *mdev, s=
+truct mana_ib_cq *cq)
+>  	gdma_cq->type =3D GDMA_CQ;
+>  	gdma_cq->cq.callback =3D mana_ib_cq_handler;
+>  	gdma_cq->id =3D cq->queue.id;
+> -	gc->cq_table[cq->queue.id] =3D gdma_cq;
+> +	/* Pairs with the acquire load in mana_gd_process_eqe(). */
+> +	smp_store_release(&gc->cq_table[cq->queue.id], gdma_cq);
+>  	return 0;
+>  }
 
-Add a read-only module parameter hyperv_drm.vblank_timer, which is
-enabled by default. Disabling it prevents the timer's enable callback
-from starting the timer. The vblank framework and the existing atomic
-callbacks remain registered. When disabled, the first
-drm_crtc_vblank_get() fails through the callback, so the existing helper
-sends the atomic event immediately and skips the vblank wait, matching
-the behavior before the timer was introduced.
+[Severity: High]
+This patch converts the IB CQ table publication into a lockless RCU pattern,
+but does the teardown path in mana_ib_remove_cq_cb() also need to be update=
+d?
 
-This provides an opt-out for affected virtual display users.
+If a hardware EQ completion occurs concurrently while mana_ib_remove_cq_cb()
+is tearing down the CQ, it calls kfree(gc->cq_table[cq->queue.id]) directly
+without an RCU grace period. The hardirq handler (mana_gd_process_eqe)
+reads this via smp_load_acquire() and dereferences the freed pointer,
+leading to a use-after-free.
 
-Benchmark results:
+Should mana_ib_remove_cq_cb() use cmpxchg() and synchronize_rcu() for
+teardown, similar to what was added for Ethernet CQs in
+mana_gd_destroy_cq()?
 
-Workload: Inject mouse movement at 125 Hz against a flashing
-animation running at 60 Hz, matching the screen refresh rate, for 4
-seconds.
+[ ... ]
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/ne=
+t/ethernet/microsoft/mana/gdma_main.c
+> index ae0ed700b3b93..078b3666947a4 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> @@ -768,7 +768,8 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
+>  		if (WARN_ON_ONCE(cq_id >=3D gc->max_num_cqs))
+>  			break;
+> =20
+> -		cq =3D gc->cq_table[cq_id];
+> +		/* Match release publication of the CQ and its callback state. */
+> +		cq =3D smp_load_acquire(&gc->cq_table[cq_id]);
 
-Tested versions: 6.18 (the last major version before the offending
-commit), version 6.19 (the first major version containing that commit),
-version 7.1.8 (on which the patch is based), and its patched version.
+[Severity: High]
+Can gc->cq_table be NULL when this acquire load executes?
 
-Version  Anim. Hz            Mouse Hz         Max client-request gap
-====================================================================
-6.18     59.66-60.00        122.00-123.33     17.0 ms
-6.19     0-0.162            59.73-59.86       7.53 s
-7.1.8    0.133-0.162        59.83-59.86       6.16 s
-Patched  59.75-60.00        122.75-124.50     14.0 ms
+During channel initialization, mana_hwc_establish_channel() communicates
+with the hardware. The hardware begins executing and sends
+GDMA_EQE_HWC_INIT_DATA events to the EQ, including HWC_INIT_DATA_MAX_NUM_CQ=
+S,
+which populates gc->max_num_cqs.
 
-The patch restores both animation and mouse update rates, and reduces
-the maximum client-request gap from seconds to milliseconds.
+However, gc->cq_table is not allocated via vcalloc() until after the
+hardware initialization completes and mana_hwc_establish_channel() resumes.
+If the hardware sends a spurious or unexpected GDMA_EQE_COMPLETION event in
+this window, the bounds check passes because gc->max_num_cqs is already set.
+The handler then executes smp_load_acquire() before the table is actually
+allocated, which would result in a NULL pointer dereference.
 
-Fixes: 52e6b1988334 ("drm/hypervdrm: Use vblank timer")
-Cc: stable@vger.kernel.org
-Signed-off-by: Lanfeng Wei <xlfylawarthur@gmail.com>
----
-The parameter defaults to enabled to preserve the current kernel
-behavior. I do not know the full set of users who rely on the vblank
-timer, so changing the default could introduce a different regression.
-Affected users can set hyperv_drm.vblank_timer=0.
+[ ... ]
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 7586972e78e09..4b2c8039b8fa3 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+[ ... ]
+> @@ -2653,12 +2712,25 @@ static void mana_schedule_napi(void *context, str=
+uct gdma_queue *gdma_queue)
+> =20
+>  static void mana_deinit_cq(struct mana_port_context *apc, struct mana_cq=
+ *cq)
+>  {
+> -	struct gdma_dev *gd =3D apc->ac->gdma_dev;
+> +	struct gdma_context *gc =3D apc->ac->gdma_dev->gdma_context;
+> +	struct gdma_queue *gdma_cq =3D cq->gdma_cq;
+> +	struct gdma_queue *eq;
+> +	int err;
+> =20
+> -	if (!cq->gdma_cq)
+> +	if (!gdma_cq)
+>  		return;
+> =20
+> -	mana_gd_destroy_queue(gd->gdma_context, cq->gdma_cq);
+> +	eq =3D gdma_cq->cq.parent;
+> +	if (gdma_cq->id < gc->max_num_cqs && eq &&
+> +	    eq->id !=3D INVALID_QUEUE_ID) {
+> +		/* Flush queued events after WQ teardown, before removing this CQ. */
+> +		err =3D mana_gd_test_eq(gc, eq);
+> +		if (err && mana_en_need_log(apc, err))
+> +			netdev_err(apc->ndev, "Failed to flush EQ %u for CQ %u: %d\n",
+> +				   eq->id, gdma_cq->id, err);
+> +	}
+> +
+> +	mana_gd_destroy_queue(gc, gdma_cq);
+>  }
 
-If the maintainers prefer the parameter to default to disabled, or if
-there is a better way to detect the affected configuration
-automatically, I'm happy to send a v2.
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 23 ++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+[Severity: High]
+Could this sequential mana_gd_test_eq() call lead to an unbounded RTNL
+stall if an EQ stops delivering interrupts?
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index d48ca6c23..527385748 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/hyperv.h>
-+#include <linux/moduleparam.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_crtc_helper.h>
-@@ -25,6 +26,19 @@
- 
- #include "hyperv_drm.h"
- 
-+static bool vblank_timer = true;
-+module_param(vblank_timer, bool, 0444);
-+MODULE_PARM_DESC(vblank_timer,
-+		 "Enable the Hyper-V DRM vblank timer (default: true)");
-+
-+static int hyperv_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	if (!vblank_timer)
-+		return -EOPNOTSUPP;
-+
-+	return drm_crtc_vblank_helper_enable_vblank_timer(crtc);
-+}
-+
- static int hyperv_blit_to_vram_rect(struct drm_framebuffer *fb,
- 				    const struct iosys_map *vmap,
- 				    struct drm_rect *rect)
-@@ -132,7 +146,14 @@ static const struct drm_crtc_funcs hyperv_crtc_funcs = {
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
--	DRM_CRTC_VBLANK_TIMER_FUNCS,
-+	/*
-+	 * expanded DRM_CRTC_VBLANK_TIMER_FUNCS to override
-+	 * enable_vblank with hyperv_crtc_enable_vblank
-+	 */
-+	.enable_vblank = hyperv_crtc_enable_vblank,
-+	.disable_vblank = drm_crtc_vblank_helper_disable_vblank_timer,
-+	.get_vblank_timestamp =
-+		drm_crtc_vblank_helper_get_vblank_timestamp_from_timer,
- };
- 
- static int hyperv_plane_atomic_check(struct drm_plane *plane,
--- 
-2.55.0
+If an EQ is dead but the hardware channel remains responsive,
+mana_gd_test_eq() will wait its full 30-second timeout.
 
+Since mana_deinit_cq() is called sequentially for every single TX and RX
+queue during teardown (via mana_destroy_txq() and mana_destroy_rxqs()),
+a typical device with 64 queues would experience a 30-second timeout
+per queue. This could result in an unrecoverable stall of over an hour
+while holding the global RTNL lock, blocking all networking management.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1791710735.gi=
+t.weh@linux.microsoft.com?part=3D2
