@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB4E486436;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA934854EF;
 	Sat, 17 Oct 2026 12:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239908; cv=none; b=h49B89sOBu9M0LVTkHms2d2N6FGhRVLl6YJZ0iX0u7/eOVSVXdHv1LLlGdoiLkM2C6OttcwhSirL9qqWeoyFA+ny0IXyc0bfFziGzyKQcU4X/iMXMBmd1q6Tgw5/XBUbYn/KJ0VPloeUup2QFvE1XMKl7ghGHh7lPSqbOOx3cjY=
+	t=1792239908; cv=none; b=N/sqJtiW5Z8pbTGc8LHz7nzNIERgnanS22/v4c7xko6bAMrsg96HEbZdIzakvnaZaFTQ4fGgcRaVGacLTQzeoVhKsPrckjs/kIhJ2sRjaTDIvKkiKE83NqrxgMgepZwCobEomoOKeSvIQ8qJvmIycAQ2NgiOqWZu1wHZJskIPM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792239908; c=relaxed/simple;
-	bh=2uoQbAv+DaXiGxQeRUkZhozEiJhK+pbBFfAOP/l7NZU=;
+	bh=BejauQzFrld1ZMluPY+3eUfKhGly2e8eZ57+5gGNiog=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bOOaRryrJcoi611HSRw1HoiBqb/iJwfa1xwOkTTOm8uGp9dOdRcYpH6tcvJQJbIRWNzEujK7xY4pDaQfPpnwFNe6qvMtb7/Tlzsnc68nxnr2Ioruzauu93/ZpqRVqD5vmhYCqp+Mmt5D86HhpkkKL/nfoNMm51lDqe7TN2Mavd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LLbgP3g/; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=tO0A5xwuPQqC7usJtgCj5jIU9S4sIZfPETbu/bhQ+jG7Z1APWEdI/L30Ewfcf9vjecY5Lprncs3dvW8jICxPnmQMWEUm6W8XTWakaGye5MRZ0pzoDsmcYHO3FpuqM0H5TxaBxz2B/gStudqVxfkWYCpvxxXLRoizPHoyBrl0Tpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ghtflaVv; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LLbgP3g/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ghtflaVv"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=xWwOOO3NhypbaWB+e7snQOOTSSNKnh3+oRDenoBzvnU=; b=LLbgP3g/YuNKOobbtH6PdM8rO7
-	3cDaG3LpOfs+xhxa7OIWMhY5waKJI6Rgfh5VWuGaez4pKV/atdHSqK8QEmVmoua9pO5JOd1V91T2M
-	DTJdf2NTy50couFwVcV/A/k0vx8IUIGx+V8bFxOo9ZA7oP6dfcxEOQp2rfaZ46ZtrcGwnRzvi9h1d
-	Y10ZKW1S6sm2k9fpOSictqvh24HyAZ+9RSMy48GHnEZrY+b1vxSxyyO8xDvDWLBswYfAMRap+hAWq
-	zyB+LeOmXQ+aKnYZBgN1Vvt2CT3F49XNEo5s0pI0+JfiI6M1o6N7rU3gEEcI0C/+ZzAPAj+OA88pV
-	NhPNONsg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=gxAPZ7ZY0/3MPeaQ5DFZd+yjtQRD0c8y3nHEtC5jnIM=; b=ghtflaVvspBpLjoXh/TtuczVoR
+	xy6vRhAC76kO96kGvyZmzDc0Mu/sxg7VSKh88Sxl3UVQk7TxghABztVTM95HqtG+gx0/b6zRg1auz
+	+ApWCLN1ycY0lIx4eNZci1vOs6ppege33EHLIYq8N7Cim8SpTnIQnk08m8J7DTkpgng7L8n9dJiEk
+	c/xoyMoCOPJXrWVy1S/gXXhSv2F/UkmQPZ139nVsIPYqJkCTzdN3NzlJZq4LELQKlSmkV4DIX957r
+	wD7xj0tUwgfxEi1YGtOm2qHomaepSCwaic2QbkFpShWYtauvGPG61UZye4H7PXq2Eh+oIYYfm/TMr
+	d8I0daCQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xI3TC-0000000CVCD-1SBO;
+	id 1xI3TC-0000000CVCC-1Jrl;
 	Sat, 17 Oct 2026 12:25:02 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TC-00000002YlG-0eNO;
+	id 1xI3TC-00000002YlB-0HFg;
 	Sat, 17 Oct 2026 13:25:02 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 07/55] KVM: Add KVM_GET/SET_PLANE_RUN_STATE vCPU ioctls
-Date: Sat, 17 Oct 2026 13:24:13 +0100
-Message-ID: <20261017122501.610248-8-dwmw2@infradead.org>
+Subject: [RFC PATCH 06/55] KVM: selftests: Add Hyper-V hypercall forwarding test
+Date: Sat, 17 Oct 2026 13:24:12 +0100
+Message-ID: <20261017122501.610248-7-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -65,193 +65,205 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-A VMM doing VSM in userspace has to switch the executing plane when
-the guest asks for a privilege transition, but a vCPU's plane run
-state is kernel-internal — set only by the SEV-SNP VMPL switch,
-plane-0 event delivery, and vCPU creation. A VTL call forwarded to
-userspace is a dead end.
+Drive an unimplemented hypercall code through the three interesting
+shapes: forwarding disabled (the guest sees
+HV_STATUS_INVALID_HYPERCALL_CODE from KVM itself), a slow-form call
+(the exit carries the control value and GPAs, and the userspace-chosen
+result reaches the guest), and a fast-form call (RDX and R8 in the
+exit parameters, XMM0 visible through KVM_GET_FPU).
 
-Add ioctls to read and write the run state as stopped/runnable.
-KVM_RUN already executes the lowest-numbered runnable plane, so a
-userspace plane switch is just: mark the target plane's vCPU runnable,
-mark the current one stopped, re-enter KVM_RUN.
-
-A plane 0 stopped this way *stays* stopped. Forcing it runnable on a
-pending event fits the SEV-SNP model, but under a userspace privilege
-model plane 0 would preempt the higher VTL on any interrupt and resume
-mid-hypercall with whatever completion value the shared kvm_run last
-held; the events stay pending until the VMM switches back. In-kernel
-transitions never set the stopped-by-userspace flag, so SNP behaviour
-is unchanged.
-
-The ioctls return -EINVAL unless kvm_arch_max_planes() reports plane
-support, the same condition KVM_CREATE_PLANE enforces: only x86
-consumes KVM_REQ_PLANE_RESCHED, and on the other architectures a stray
-request bit would abort every subsequent entry attempt, leaving KVM_RUN
-spinning at 100% with no way for the VMM to recover the vCPU.
+The tools copy of linux/kvm.h picks up the KVM_CAP_HYPERV_FORWARD_HCALL
+capability number for the test.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: LLM
 ---
- Documentation/virt/kvm/api.rst | 26 ++++++++++++++++++++
- arch/x86/kvm/x86.c             |  3 ++-
- include/linux/kvm_host.h       |  6 +++++
- include/uapi/linux/kvm.h       |  4 ++++
- virt/kvm/kvm_main.c            | 44 ++++++++++++++++++++++++++++++++++
- 5 files changed, 82 insertions(+), 1 deletion(-)
+ tools/include/uapi/linux/kvm.h                |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/x86/hyperv_forward_hcall.c  | 144 ++++++++++++++++++
+ 3 files changed, 146 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index ade8c91ef24b..f8d9bca1baea 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6611,6 +6611,32 @@ in the future may use the plane id when planes are supported by hardware (as is
- the case for VMPLs in AMD), or if KVM supports accelerated plane switch
- operations (as might be the case for Hyper-V VTLs).
+diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+index dcd12f58186e..586c0d6c168c 100644
+--- a/tools/include/uapi/linux/kvm.h
++++ b/tools/include/uapi/linux/kvm.h
+@@ -1015,6 +1015,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_S390_KEYOP 247
+ #define KVM_CAP_S390_VSIE_ESAMODE 248
+ #define KVM_CAP_PLANES 249
++#define KVM_CAP_HYPERV_FORWARD_HCALL 250
  
-+4.146 KVM_GET_PLANE_RUN_STATE / KVM_SET_PLANE_RUN_STATE
-+--------------------------------------------------------
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
+index 5883359c1a5d..14e385750ed1 100644
+--- a/tools/testing/selftests/kvm/Makefile.kvm
++++ b/tools/testing/selftests/kvm/Makefile.kvm
+@@ -85,6 +85,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_cpuid
+ TEST_GEN_PROGS_x86 += x86/hyperv_evmcs
+ TEST_GEN_PROGS_x86 += x86/hyperv_extended_hypercalls
+ TEST_GEN_PROGS_x86 += x86/hyperv_features
++TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
+ TEST_GEN_PROGS_x86 += x86/hyperv_ipi
+ TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
+ TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
+diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+new file mode 100644
+index 000000000000..47f786ca3e4b
+--- /dev/null
++++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+@@ -0,0 +1,144 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Test KVM_CAP_HYPERV_FORWARD_HCALL: Hyper-V hypercalls that KVM does
++ * not implement exit to userspace instead of failing with
++ * HV_STATUS_INVALID_HYPERCALL_CODE, in both slow and fast form, and
++ * userspace supplies the result the guest observes.
++ */
++#include "test_util.h"
++#include "kvm_util.h"
++#include "processor.h"
++#include "hyperv.h"
 +
-+:Capability: KVM_CAP_PLANES
-+:Architectures: x86
-+:Type: vcpu ioctl
-+:Parameters: pointer to a __u32 run state
-+:Returns: 0 on success, <0 on error
++/* A hypercall code KVM does not implement: HvCallGetVpRegisters. */
++#define HVCALL_TEST_CODE	0x50
 +
-+Reads or sets the per-plane run state of a vCPU:
-+KVM_PLANE_RUN_STATE_STOPPED (0) or KVM_PLANE_RUN_STATE_RUNNABLE (1).
++#define FAST_PARAM0		0x1122334455667788ULL
++#define FAST_PARAM1		0x99aabbccddeeff00ULL
++#define XMM_MARKER		0x5157ca11c0ffee00ULL
++#define USERSPACE_STATUS	0x55AA
 +
-+When a vCPU thread calls KVM_RUN, KVM executes the lowest-numbered plane
-+whose vCPU is runnable, falling back to plane 0.  A VMM implementing a
-+software privilege model (such as Hyper-V VSM) switches planes by
-+marking the target plane's vCPU runnable and the current one stopped
-+before re-entering KVM_RUN.  Pending events for plane 0 make it runnable
-+again on their own only as long as userspace has not explicitly stopped
-+it with this ioctl; a VMM-stopped plane 0 keeps its events pending until
-+the VMM makes it runnable, so a software privilege model can keep a
-+higher plane running undisturbed.  The ioctl is accepted on any plane's
-+vCPU fd.
++static void guest_code(gpa_t pgs_gpa)
++{
++	__sse128_u marker;
++	u64 status;
++	u8 vector;
 +
-+The run state is distinct from KVM_GET/SET_MP_STATE, which describes
-+the architectural state of a vCPU within its plane.
++	marker.as_u64[0] = XMM_MARKER;
++	marker.as_u64[1] = XMM_MARKER + 1;
 +
- 5. The kvm_run structure
- ========================
- 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 8de596e00441..ca5d8e081fdc 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -11508,7 +11508,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
- 		}
- 	}
- 
--	if (kvm_check_plane0_events(vcpu)) {
-+	if (kvm_check_plane0_events(vcpu) &&
-+	    !vcpu->common->vcpus[0]->plane_user_stopped) {
- 		kvm_vcpu_set_plane_runnable(vcpu->common->vcpus[0]);
- 
- 		kvm_make_request(KVM_REQ_EVENT, vcpu);
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 7ed79479b4a1..5bdae2127578 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -413,6 +413,12 @@ struct kvm_vcpu {
- 
- 	u64 plane_requests;
- 	enum kvm_vcpu_state plane_state;
-+	/*
-+	 * Set when userspace stopped this plane with
-+	 * KVM_SET_PLANE_RUN_STATE: pending plane-0 events then no longer
-+	 * make plane 0 runnable on their own, the VMM owns the switch.
-+	 */
-+	bool plane_user_stopped;
- 
- 	/* S390 only */
- 	bool valid_wakeup;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 5567cf352907..2aeb8c5172cb 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1371,6 +1371,10 @@ struct kvm_s390_keyop {
- #define KVM_HAS_DEVICE_ATTR	  _IOW(KVMIO,  0xe3, struct kvm_device_attr)
- 
- #define KVM_CREATE_PLANE	  _IO(KVMIO, 0xe4)
-+#define KVM_GET_PLANE_RUN_STATE	  _IOR(KVMIO, 0xe5, __u32)
-+#define KVM_SET_PLANE_RUN_STATE	  _IOW(KVMIO, 0xe6, __u32)
-+#define   KVM_PLANE_RUN_STATE_STOPPED	0
-+#define   KVM_PLANE_RUN_STATE_RUNNABLE	1
- 
- /*
-  * ioctls for vcpu fds
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index c8b0722ac35c..2d2dc7828e1f 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -4788,6 +4788,8 @@ static inline bool kvm_is_vcpu_plane_ioctl(unsigned ioctl)
- 	case KVM_GET_SREGS:
- 	case KVM_SET_SREGS:
- 	case KVM_TRANSLATE:
-+	case KVM_GET_PLANE_RUN_STATE:
-+	case KVM_SET_PLANE_RUN_STATE:
- 		return true;
- 	default:
- 		return kvm_arch_is_vcpu_plane_ioctl(ioctl);
-@@ -4928,6 +4930,48 @@ static long kvm_vcpu_ioctl(struct file *filp,
- 		r = kvm_arch_vcpu_ioctl_set_sregs(vcpu, kvm_sregs);
- 		break;
- 	}
-+	case KVM_GET_PLANE_RUN_STATE: {
-+		u32 state = vcpu->plane_state == RUNNABLE ?
-+			    KVM_PLANE_RUN_STATE_RUNNABLE :
-+			    KVM_PLANE_RUN_STATE_STOPPED;
++	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
++	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
 +
-+		r = -EINVAL;
-+		if (kvm_arch_max_planes(vcpu->kvm) <= 1)
-+			goto out;
-+		r = -EFAULT;
-+		if (copy_to_user(argp, &state, sizeof(state)))
-+			goto out;
-+		r = 0;
-+		break;
-+	}
-+	case KVM_SET_PLANE_RUN_STATE: {
-+		u32 state;
++	/* Forwarding disabled: KVM itself fails the call. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa,
++				    pgs_gpa + PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
++	GUEST_SYNC(1);
 +
-+		/*
-+		 * KVM_SET_PLANE_RUN_STATE raises KVM_REQ_PLANE_RESCHED,
-+		 * which only plane-aware architecture code consumes; on a
-+		 * planes-less VM the stuck request would abort every guest
-+		 * entry and spin KVM_RUN at 100%.
-+		 */
-+		r = -EINVAL;
-+		if (kvm_arch_max_planes(vcpu->kvm) <= 1)
-+			goto out;
-+		r = -EFAULT;
-+		if (copy_from_user(&state, argp, sizeof(state)))
-+			goto out;
-+		r = -EINVAL;
-+		if (state > KVM_PLANE_RUN_STATE_RUNNABLE)
-+			goto out;
-+		if (state == KVM_PLANE_RUN_STATE_RUNNABLE) {
-+			vcpu->plane_user_stopped = false;
-+			kvm_vcpu_set_plane_runnable(vcpu);
-+		} else {
-+			vcpu->plane_user_stopped = true;
-+			kvm_vcpu_set_plane_stopped(vcpu);
++	/* Forwarding enabled: userspace supplies the status. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa,
++				    pgs_gpa + PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, 0);
++	GUEST_SYNC(2);
++
++	/* Fast form: register parameters reach userspace. */
++	write_sse_reg(0, &marker.vec);
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
++				    FAST_PARAM0, FAST_PARAM1, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, USERSPACE_STATUS);
++
++	GUEST_DONE();
++}
++
++static void handle_forwarded_hcall(struct kvm_vcpu *vcpu, u64 expect_control,
++				   u64 expect_in, u64 expect_out, u64 result)
++{
++	struct kvm_run *run = vcpu->run;
++
++	TEST_ASSERT_EQ(run->exit_reason, KVM_EXIT_HYPERV);
++	TEST_ASSERT_EQ(run->hyperv.type, KVM_EXIT_HYPERV_HCALL);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.input, expect_control);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[0], expect_in);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[1], expect_out);
++
++	run->hyperv.u.hcall.result = result;
++}
++
++int main(int argc, char *argv[])
++{
++	struct kvm_vcpu *vcpu;
++	struct kvm_vm *vm;
++	gva_t hcall_page;
++	gpa_t hcall_gpa;
++	struct kvm_fpu fpu;
++	struct ucall uc;
++	int stage;
++
++	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_FORWARD_HCALL));
++
++	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
++	vcpu_set_hv_cpuid(vcpu);
++
++	/* Hypercall page plus an input and an output page. */
++	hcall_page = vm_alloc_pages(vm, 3);
++	memset(addr_gva2hva(vm, hcall_page), 0x0, 3 * getpagesize());
++	hcall_gpa = addr_gva2gpa(vm, hcall_page);
++
++	vcpu_args_set(vcpu, 1, hcall_gpa);
++
++	for (stage = 1;; stage++) {
++		vcpu_run(vcpu);
++
++		if (vcpu->run->exit_reason == KVM_EXIT_HYPERV) {
++			switch (stage) {
++			case 2:
++				handle_forwarded_hcall(vcpu, HVCALL_TEST_CODE,
++						       hcall_gpa,
++						       hcall_gpa + getpagesize(),
++						       0);
++				break;
++			case 3:
++				handle_forwarded_hcall(vcpu,
++						       HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
++						       FAST_PARAM0, FAST_PARAM1,
++						       USERSPACE_STATUS);
++				/*
++				 * Fast-call register state is reachable with
++				 * the ordinary vCPU state ioctls.
++				 */
++				vcpu_fpu_get(vcpu, &fpu);
++				TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][0], XMM_MARKER);
++				TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][8], XMM_MARKER + 1);
++				break;
++			default:
++				TEST_FAIL("Unexpected hypercall exit in stage %d", stage);
++			}
++			stage--;	/* same guest stage continues */
++			continue;
 +		}
-+		r = 0;
-+		break;
++
++		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
++
++		switch (get_ucall(vcpu, &uc)) {
++		case UCALL_SYNC:
++			TEST_ASSERT_EQ(uc.args[1], stage);
++			if (stage == 1)
++				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 1);
++			break;
++		case UCALL_ABORT:
++			REPORT_GUEST_ASSERT(uc);
++		case UCALL_DONE:
++			goto done;
++		default:
++			TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
++		}
 +	}
- 	case KVM_GET_MP_STATE: {
- 		struct kvm_mp_state mp_state;
- 
++
++done:
++	kvm_vm_free(vm);
++	return 0;
++}
 -- 
 2.50.1
 
