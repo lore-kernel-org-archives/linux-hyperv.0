@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404A7490BF8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A684908D6;
 	Sat, 17 Oct 2026 12:25:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239911; cv=none; b=VauN8lE1YxxWbn3CuQh3mC8zTfvx0JSGyFG7OFyVTzcImaFBVPtB/k+Pz5ZVvMAohr4PBZwF0fsVopzhcQIkl0iwBBCgfQiyox/lEN4VgjsnbSvjQ3DgzSSL4P3yczU6M6sR9dVnRHKGYTFo8tnrsliNiOQYiKTQUNbIN7pbDts=
+	t=1792239912; cv=none; b=ITmluo7hAvZ5a9digzHVUeGBWsjce+BJfQ2+aqHdbCsquoZqEW6na1a1T9+XjlSPiXDKKXrWq17z6PNzN3i25PWz2UXMXZxMy3RrKr8HFj5uEy4+kHwRfxzuFEiF/HWyemFEOEb0K+TrwJuu0e1JvzwSpU9HgR+rksZE6UqBhYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792239911; c=relaxed/simple;
-	bh=vr814dPQ7m+H8Psfpz2S57tibOiNxzsQ2rMb10VDSfA=;
+	s=arc-20240116; t=1792239912; c=relaxed/simple;
+	bh=uRPp8koHKdjts/Q58qNLakJQ6itcFu3gFf9DQim1LAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tzloKt+q1Y62W2Du9DLN4jneJx0N06PZFAEGpZ2DAWXqTu34WtyoLSIcJkgT5+3fAP8BjO4Yd07VGhLmRARCyco/yFPrY+BUbi/db5mFIqSSIiTODBIH6dlPcJqlgDswT4LZNbipo1XELSV9m/66xyqrmdsSpaP685qBcv9UP9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rK7/yPkJ; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=FDiY2P3atKCP/CXx2qhOnm9VCmD2Djp+kRfArtrFkwJP7Lpbv7sflL0fgk64MoO2iQlh+SyvFuB4BY9fsayqXFu7g/MxnLor8uglOGZNRZwLPRtqoKpc5PVWrjQ6WKWFr720Z54KtA19gOJ+VxxkCSkb/cMnrzjqRzXUb8EzFxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mnfMFEwB; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rK7/yPkJ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mnfMFEwB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=a4CHpkcKk/utciFY5YQmuIJ361lOG35Qn0BJvjWEjlo=; b=rK7/yPkJmhRU1BF/WKlhP2FUB6
-	nKbcCjbDJMJMacaEwdDhkHkdY8hyXUfN/1GmyFO3F2xhB0FOz0pQqMiCPSiSlWkCQuDZS2cT9EkVi
-	Bw3I7rdyr4Kevdbsz4rOk+JEE0Ip72YK/W5Uqlgyr31EfRSaR4SbuT+qjhpq+aYV1St1Mz+BIQbZe
-	KjZLtZ/epZfJvE3h3m02vMC9gCZp0+L007TsqcKfYgoVKwPb917z6LnORLnwHJ7ls1xm0zCkUUeni
-	RVDCQaPN8g+BPlsDuaHi2cmr4B4umCkulpCmgQcH8mEeh+8Z4cn1EVtsYR0fB1EpnJShHAb/b4s6a
-	RuREs/Lg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=mv6hD5VZbXMLbFWDeSujUGk9u70wmEwN2+6LDT3MNZU=; b=mnfMFEwB1N0uhTJHDV5z+c+qTG
+	aRKFXgRHMT5Q+CeFZHx3flR5ipOwjIOCNXGsxaMw4348LRo8Bs4O5I/7QiKYqGnT1tknKMfoIAg9G
+	IUlSUFqe8bSy/x5imYGZBTcvn0aWVG/ISgad1nlOWsKa47aIVB4c34gHyCqA4W4NYS3Dg8XlLh5Cj
+	paQN782Lt484EjkP70xm1APVOzh/6kWobiEgZ3LThsE6EhuuyShkD3S9t3Lfce60GMUU7dJ2Wyham
+	dHrxFjPqImw2RINt5qcW0aHKCg/s8fZAQ/bgvCJZXjyG8Jg70zKSyvaqxzd9WNfYeMh28cIQpmzsl
+	MqgLJYRw==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xI3TE-0000000CVEV-2GHk;
+	id 1xI3TE-0000000CVEG-1e9v;
 	Sat, 17 Oct 2026 12:25:04 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TE-00000002YoW-1ONF;
+	id 1xI3TE-00000002YoG-0omF;
 	Sat, 17 Oct 2026 13:25:04 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 52/55] KVM: selftests: Add Hyper-V reference TSC page memory attribute test
-Date: Sat, 17 Oct 2026 13:24:58 +0100
-Message-ID: <20261017122501.610248-53-dwmw2@infradead.org>
+Subject: [RFC PATCH 49/55] KVM: SVM: Carry instruction state on reflected plane-protection faults
+Date: Sat, 17 Oct 2026 13:24:55 +0100
+Message-ID: <20261017122501.610248-50-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -65,176 +65,274 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The reference TSC page is written by the host, not by the guest, so
-the guest-side memory attribute tests never cover it.  Add a test
-that a page at an unprotected gfn is maintained as usual, that
-pointing HV_X64_MSR_REFERENCE_TSC at a gfn carrying
-KVM_MEMORY_ATTRIBUTE_NW leaves the page contents untouched — on the
-MSR write itself and on a subsequent KVM_SET_CLOCK-forced update —
-and that re-pointing the MSR at a writable page recovers.
+A plane-protection fault reflected to userspace becomes a TLFS GPA
+intercept message, which carries the faulting instruction's length,
+its bytes (for data accesses), and the fault-adjusted RFLAGS.  The
+VMX exit handler harvests all of that from the VMCS, but
+npf_interception() reflected the bare fault: on AMD the higher VTL
+received intercept messages with instruction length 0, no instruction
+bytes and RFLAGS.RF clear, failing the hyperv_vsm KUT
+intercept-message tests ("Seen an expected read/write intercept
+message").
+
+Decode assists stash the raw fetch window (up to 15 bytes, not the
+decoded length) in the VMCB for data accesses; run it through the
+instruction decoder and report the decoded length and that many
+bytes.  Set RFLAGS.RF before exiting: fault delivery gives the
+restarted instruction RF=1, and VMX saves that fault-adjusted value
+in guest RFLAGS on fault-type exits while SVM saves RF as it was
+during execution.
+
+An execute fault stores no bytes, and the length of the branch that
+fetched the faulting page is not architecturally available on SVM
+(VMX hardware reports it), so execute intercepts carry length 0.
+
+The validity of the harvested state gets its own flag,
+KVM_MEMORY_EXIT_FLAG_INSN_VALID, set by the VMX and SVM harvests only
+when they populated the fields: VM_EXIT_INSTRUCTION_LEN is undefined
+for EPT violations, all-zero insn_bytes is itself a valid x86
+encoding, and kvm_prepare_memory_fault_exit() now clears
+gva/insn_len/insn_bytes so no other memory-fault exit carries stale
+values.  The flag bit (and PLANE_PROT before it) is enumerated by the
+plane memory overlay capability, which also covers the extended
+memory_fault layout.  The memory_attributes selftest asserted strict
+equality on the exit flags; it now masks the informational flags out
+and compares only the access that faulted.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: LLM
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/hyperv_tsc_page_attrs.c | 129 ++++++++++++++++++
- 2 files changed, 130 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
+ arch/x86/kvm/mmu/mmu.c                        |  2 +
+ arch/x86/kvm/mmu/paging_tmpl.h                |  3 +
+ arch/x86/kvm/svm/svm.c                        | 66 +++++++++++++++++++
+ arch/x86/kvm/vmx/vmx.c                        | 13 ++--
+ include/linux/kvm_host.h                      | 12 ++++
+ include/uapi/linux/kvm.h                      | 17 ++++-
+ .../testing/selftests/kvm/memory_attributes.c |  6 +-
+ 7 files changed, 112 insertions(+), 7 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 47c7a4c732eb..6edeb6693375 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -89,6 +89,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
- TEST_GEN_PROGS_x86 += x86/hyperv_ipi
- TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
- TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
-+TEST_GEN_PROGS_x86 += x86/hyperv_tsc_page_attrs
- TEST_GEN_PROGS_x86 += x86/kvm_clock_test
- TEST_GEN_PROGS_x86 += x86/kvm_pv_test
- TEST_GEN_PROGS_x86 += x86/kvm_buslock_test
-diff --git a/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c b/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
-new file mode 100644
-index 000000000000..efa47ae69780
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
-@@ -0,0 +1,129 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Test that KVM honours plane memory attributes when it maintains the
-+ * Hyper-V reference TSC page.  A page whose gfn carries
-+ * KVM_MEMORY_ATTRIBUTE_NW in the owning plane's attributes must never
-+ * be written by the host, on the HV_X64_MSR_REFERENCE_TSC write or on
-+ * any later masterclock update; an unprotected page keeps working, and
-+ * re-pointing the MSR at a writable page recovers.
-+ */
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "hyperv.h"
-+
-+struct ms_hyperv_tsc_page {
-+	volatile u32 tsc_sequence;
-+	u32 reserved1;
-+	volatile u64 tsc_scale;
-+	volatile s64 tsc_offset;
-+} __packed;
-+
-+#define SENTINEL_SEQ	0xdeadbeef
-+#define SENTINEL_U64	0xcafef00dcafef00dULL
-+
-+static void guest_main(struct ms_hyperv_tsc_page *page_a, gpa_t page_a_gpa,
-+		       struct ms_hyperv_tsc_page *page_b, gpa_t page_b_gpa)
-+{
-+	/* Set Guest OS id to enable Hyper-V emulation */
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
-+
-+	/* An unprotected page is maintained by KVM as usual. */
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_a_gpa | 0x1);
-+	GUEST_ASSERT(page_a->tsc_sequence != 0);
-+
-+	/* Fill the page about to be protected, while it is still writable. */
-+	page_b->tsc_sequence = SENTINEL_SEQ;
-+	page_b->tsc_scale = SENTINEL_U64;
-+	page_b->tsc_offset = SENTINEL_U64;
-+
-+	GUEST_SYNC(1);	/* host sets KVM_MEMORY_ATTRIBUTE_NW on page_b */
-+
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 07a8de28c73d..9a0a5d3ad995 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -4787,6 +4787,8 @@ static int kvm_mmu_faultin_pfn(struct kvm_vcpu *vcpu,
+ 
+ 	if (kvm_faultin_memory_protections(vcpu, fault)) {
+ 		kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
++		if (kvm_arch_max_planes(kvm) > 1)
++			vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_PLANE_PROT;
+ 		return -EFAULT;
+ 	}
+ 
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 78d1e5c9fbe4..f56ed74d4228 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -795,6 +795,9 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+ 		if (walker.memory_attributes_fault) {
+ 			kvm_prepare_memory_fault_exit(vcpu, walker.gfn << PAGE_SHIFT,
+ 						      PAGE_SIZE, false, false, false);
++			if (kvm_arch_max_planes(vcpu->kvm) > 1)
++				vcpu->run->memory_fault.flags |=
++					KVM_MEMORY_EXIT_FLAG_PLANE_PROT;
+ 			return -EFAULT;
+ 		}
+ 
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 31e5b597c3b0..a30f6f888b51 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -2012,6 +2012,72 @@ static int npf_interception(struct kvm_vcpu *vcpu)
+ 				svm->vmcb->control.insn_bytes : NULL,
+ 				svm->vmcb->control.insn_len);
+ 
 +	/*
-+	 * Pointing the reference TSC MSR at the protected page must not
-+	 * have KVM write to it: not on the MSR write itself, and not on
-+	 * the masterclock update the write requests.
++	 * A plane-protection fault reflected to userspace becomes a TLFS
++	 * GPA intercept message carrying the faulting instruction's length
++	 * and bytes; see the equivalent harvest in handle_ept_violation().
++	 * Decode assists stash the raw fetch window (up to 15 bytes, not
++	 * the decoded length) in the VMCB for data accesses; run it
++	 * through the decoder to report the real length.  A fetch fault
++	 * stores no bytes, and the length of the branch that fetched the
++	 * faulting page is not architecturally available on SVM, so an
++	 * execute intercept reports length 0 (VMX hardware supplies the
++	 * fetching instruction's length there).
 +	 */
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_b_gpa | 0x1);
-+	GUEST_ASSERT(page_b->tsc_sequence == SENTINEL_SEQ);
-+	GUEST_ASSERT(page_b->tsc_scale == SENTINEL_U64);
-+	GUEST_ASSERT(page_b->tsc_offset == SENTINEL_U64);
++	if (rc == -EFAULT &&
++	    vcpu->run->exit_reason == KVM_EXIT_MEMORY_FAULT &&
++	    (vcpu->run->memory_fault.flags & KVM_MEMORY_EXIT_FLAG_PLANE_PROT)) {
++		unsigned int len = 0;
 +
-+	GUEST_SYNC(2);	/* host resets kvmclock, forcing a TSC page update */
++		if (static_cpu_has(X86_FEATURE_DECODEASSISTS) &&
++		    svm->vmcb->control.insn_len &&
++		    x86_decode_emulated_instruction(vcpu, 0,
++						    svm->vmcb->control.insn_bytes,
++						    svm->vmcb->control.insn_len) ==
++								EMULATION_OK) {
++			struct x86_emulate_ctxt *ctxt = vcpu->arch.emulate_ctxt;
 +
-+	GUEST_ASSERT(page_b->tsc_sequence == SENTINEL_SEQ);
-+	GUEST_ASSERT(page_b->tsc_scale == SENTINEL_U64);
-+	GUEST_ASSERT(page_b->tsc_offset == SENTINEL_U64);
-+
-+	/* Re-pointing the MSR at a writable page recovers. */
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_a_gpa | 0x1);
-+	GUEST_ASSERT(page_a->tsc_sequence != 0);
-+
-+	GUEST_DONE();
-+}
-+
-+int main(void)
-+{
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+	gva_t page_a_gva, page_b_gva;
-+	gpa_t page_b_gpa;
-+	int stage;
-+
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_TIME));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES) &
-+		     KVM_MEMORY_ATTRIBUTE_NW);
-+	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_main);
-+
-+	vcpu_set_hv_cpuid(vcpu);
-+
-+	page_a_gva = vm_alloc_page(vm);
-+	page_b_gva = vm_alloc_page(vm);
-+	memset(addr_gva2hva(vm, page_a_gva), 0x0, getpagesize());
-+	memset(addr_gva2hva(vm, page_b_gva), 0x0, getpagesize());
-+	page_b_gpa = addr_gva2gpa(vm, page_b_gva);
-+
-+	vcpu_args_set(vcpu, 4, page_a_gva, addr_gva2gpa(vm, page_a_gva),
-+		      page_b_gva, page_b_gpa);
-+
-+	for (stage = 1;; stage++) {
-+		vcpu_run(vcpu);
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+			/* NOT REACHED */
-+		case UCALL_SYNC:
-+			break;
-+		case UCALL_DONE:
-+			/* Keep in sync with guest_main() */
-+			TEST_ASSERT(stage == 3, "Testing ended prematurely, stage %d",
-+				    stage);
-+			goto out;
-+		default:
-+			TEST_FAIL("Unknown ucall %lu", uc.cmd);
++			len = min_t(unsigned int, ctxt->_eip - ctxt->eip,
++				    sizeof(vcpu->run->memory_fault.insn_bytes));
 +		}
 +
-+		TEST_ASSERT(uc.args[1] == stage,
-+			    "Stage %d: Unexpected sync, got %lx",
-+			    stage, (ulong)uc.args[1]);
-+
-+		if (stage == 1)
-+			vm_set_memory_attributes(vm, page_b_gpa, getpagesize(),
-+						 KVM_MEMORY_ATTRIBUTE_NW);
-+
-+		/* Reset kvmclock triggering TSC page update */
-+		if (stage == 2) {
-+			struct kvm_clock_data clock = {0};
-+
-+			vm_ioctl(vm, KVM_SET_CLOCK, &clock);
++		vcpu->run->memory_fault.insn_len = len;
++		if (len) {
++			/*
++			 * Copy from the decoder's fetch cache, not from the
++			 * VMCB window: the decoder fetches any bytes beyond
++			 * the window from guest memory, so the decoded
++			 * length can exceed control.insn_len, and the
++			 * VMCB-sourced tail would be whatever an earlier
++			 * intercept left behind.
++			 */
++			memcpy(vcpu->run->memory_fault.insn_bytes,
++			       vcpu->arch.emulate_ctxt->fetch.data, len);
++			vcpu->run->memory_fault.flags |=
++				KVM_MEMORY_EXIT_FLAG_INSN_VALID;
 +		}
++
++		/*
++		 * The reflected fault is delivered to the higher VTL like an
++		 * exception, and fault delivery gives the to-be-restarted
++		 * instruction RFLAGS.RF=1 (no instruction-breakpoint
++		 * re-trigger on the retry).  VMX saves the fault-adjusted RF
++		 * in guest RFLAGS on a fault-type exit and the TLFS message
++		 * carries that value; SVM saves RF as it was during
++		 * execution, so apply the fault adjustment by hand.
++		 *
++		 * Under NMI-window single-stepping the vmcb RFLAGS carries
++		 * KVM's own TF/RF, and the guest view lives in
++		 * nmi_singlestep_guest_rflags: set RF there too, or
++		 * svm_get_rflags() hides it from userspace and
++		 * disable_nmi_singlestep() wipes it from the vmcb when the
++		 * window closes.
++		 */
++		if (unlikely(svm->nmi_singlestep))
++			svm->nmi_singlestep_guest_rflags |= X86_EFLAGS_RF;
++		svm_set_rflags(vcpu, svm_get_rflags(vcpu) | X86_EFLAGS_RF);
 +	}
 +
-+out:
-+	kvm_vm_free(vm);
-+}
+ 	if (rc > 0 && error_code & PFERR_GUEST_RMP_MASK)
+ 		sev_handle_rmp_fault(vcpu, gpa, error_code);
+ 
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 248d799b46e9..ec50e46404af 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -5987,9 +5987,7 @@ static int handle_ept_violation(struct kvm_vcpu *vcpu)
+ 	 */
+ 	if (ret == -EFAULT &&
+ 	    vcpu->run->exit_reason == KVM_EXIT_MEMORY_FAULT &&
+-	    (vcpu->run->memory_fault.flags & (KVM_MEMORY_EXIT_FLAG_READ |
+-					      KVM_MEMORY_EXIT_FLAG_WRITE |
+-					      KVM_MEMORY_EXIT_FLAG_EXEC))) {
++	    (vcpu->run->memory_fault.flags & KVM_MEMORY_EXIT_FLAG_PLANE_PROT)) {
+ 		unsigned int len;
+ 
+ 		if (exit_qualification & EPT_VIOLATION_GVA_IS_VALID) {
+@@ -6007,7 +6005,6 @@ static int handle_ept_violation(struct kvm_vcpu *vcpu)
+ 		len = vmcs_read32(VM_EXIT_INSTRUCTION_LEN);
+ 		len = min_t(unsigned int, len,
+ 			    sizeof(vcpu->run->memory_fault.insn_bytes));
+-		vcpu->run->memory_fault.insn_len = len;
+ 		if (!(exit_qualification & EPT_VIOLATION_ACC_INSTR)) {
+ 			struct x86_exception e;
+ 
+@@ -6019,10 +6016,16 @@ static int handle_ept_violation(struct kvm_vcpu *vcpu)
+ 			 */
+ 			if (kvm_read_guest_virt(vcpu, kvm_get_linear_rip(vcpu),
+ 						vcpu->run->memory_fault.insn_bytes,
+-						len, &e))
++						len, &e)) {
+ 				memset(vcpu->run->memory_fault.insn_bytes, 0,
+ 				       sizeof(vcpu->run->memory_fault.insn_bytes));
++				len = 0;
++			}
+ 		}
++		vcpu->run->memory_fault.insn_len = len;
++		if (len)
++			vcpu->run->memory_fault.flags |=
++				KVM_MEMORY_EXIT_FLAG_INSN_VALID;
+ 	}
+ 	return ret;
+ }
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index bc576889c6f0..60923494eea5 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2755,6 +2755,18 @@ static inline void kvm_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
+ 	vcpu->run->memory_fault.gpa = gpa;
+ 	vcpu->run->memory_fault.size = size;
+ 
++	/*
++	 * Clear the extended fields: only the x86 plane-protection harvest
++	 * fills them in (with the matching validity flags), and a leftover
++	 * from an earlier exit would otherwise masquerade as this fault's
++	 * instruction.  All-zero insn_bytes is a valid x86 encoding, so
++	 * zeroing alone is not a distinguishable "not provided" marker.
++	 */
++	vcpu->run->memory_fault.gva = 0;
++	vcpu->run->memory_fault.insn_len = 0;
++	memset(vcpu->run->memory_fault.insn_bytes, 0,
++	       sizeof(vcpu->run->memory_fault.insn_bytes));
++
+ 	vcpu->run->memory_fault.flags = 0;
+ 
+ 	if (is_write)
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8224ef335ba1..76d7c87172fd 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -481,10 +481,25 @@ struct kvm_run {
+ #define KVM_MEMORY_EXIT_FLAG_EXEC       (1ULL << 2)
+ #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 3)
+ #define KVM_MEMORY_EXIT_FLAG_GVA_VALID	(1ULL << 4)
++/* The fault was caused by the vCPU's plane's memory protections. */
++#define KVM_MEMORY_EXIT_FLAG_PLANE_PROT	(1ULL << 5)
++/*
++ * insn_len/insn_bytes are valid.  For an EXEC fault the faulting
++ * instruction itself cannot be read: insn_bytes stays zero, and
++ * insn_len is the length of the instruction which performed the
++ * fetch (reported by VMX hardware; not available on SVM).
++ */
++#define KVM_MEMORY_EXIT_FLAG_INSN_VALID	(1ULL << 6)
+ 			__u64 flags;
+ 			__u64 gpa;
+ 			__u64 size;
+-			/* set on plane-protection faults when available */
++			/*
++			 * gva/insn_len/insn_bytes are set on plane-protection
++			 * faults when available, and are zero on every other
++			 * memory-fault exit.  They are enumerated, along with
++			 * the PLANE_PROT and INSN_VALID flags, by the plane
++			 * memory overlay capability.
++			 */
+ 			__u64 gva;
+ 			__u32 insn_len;
+ 			__u8  insn_bytes[16];
+diff --git a/tools/testing/selftests/kvm/memory_attributes.c b/tools/testing/selftests/kvm/memory_attributes.c
+index 63dec49c2888..17b5bc6bddda 100644
+--- a/tools/testing/selftests/kvm/memory_attributes.c
++++ b/tools/testing/selftests/kvm/memory_attributes.c
+@@ -198,7 +198,11 @@ static void test_page_restricted(struct kvm_vcpu *vcpu, int op,
+ 	TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_MEMORY_FAULT);
+ 	TEST_ASSERT_EQ(vcpu->run->memory_fault.gpa, fault_paddr);
+ 	if (fault_reason)
+-		TEST_ASSERT_EQ(vcpu->run->memory_fault.flags, fault_reason);
++		TEST_ASSERT_EQ(vcpu->run->memory_fault.flags &
++			       ~(KVM_MEMORY_EXIT_FLAG_GVA_VALID |
++				 KVM_MEMORY_EXIT_FLAG_PLANE_PROT |
++				 KVM_MEMORY_EXIT_FLAG_INSN_VALID),
++			       fault_reason);
+ 	TEST_ASSERT_EQ(vcpu->run->memory_fault.size, vm->page_size);
+ }
+ 
 -- 
 2.50.1
 
