@@ -1,38 +1,38 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD7A49BB6A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA67D49BB5E;
 	Sat, 17 Oct 2026 12:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239917; cv=none; b=H+lRK8LE2oZxc9FARP3QTcl7sSoFI3fgEDHVm6iUhQKmYFA34o/QrSJPsgc3RAr/sBvC/OPfSkWHxntm9K2bPQwU9FmyIxrSDHWvLUBgxWDS2Z38wv8tQ/tKmlZQ/iuwiEKMi8gCwXuVRav0mqwvt6FPq0f/yfpodAbAa3p6FkA=
+	t=1792239917; cv=none; b=eZhyZC4I62MMSZHOZU2mz3Y2A3B0WnIqG1MpbdiKGRHuPqivMDPY2sCpI9m7S8itAkp5I0fpxsQuOtkv75/iQJk4YNjhiZ0DPKNPtiv87aCqJcLl+wQ0ICIypYcnbFHbFuYfQ1rzgP/3OnUj2b+Szxegk13DE1SnU9CneAJWY8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792239917; c=relaxed/simple;
-	bh=9cwo/3fzzWZ5h09vQgPTYuV5TIhJFf1cwmM9zmUwAAc=;
+	bh=8dHDkYl4pvzcEHqywdJwvq3wSDzm1EVyT7972O+DpEs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KUwZ6thQD9be2pGmIt3PTiu6rh4SsX98IbH0IuNwgd4fwF0M+YSEUOqpxjC4ZSGckR35pyzrTbwBBTkbbGa3BdOkmevIo9oxZAScl8txEqSE85KwRQEw1saoRBCs0zdqTNpfCv/GeHEDvtyx+Oe05rs0HFdEThs3XBZmDdMINW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M9xuQc7w; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version; b=J42UaguoZ1US4E0b/o0jH13xZ/qRnxtzqX/C8ASXSqzEWRu0Vm/Semjy/V60aiIH0G+PjvOniksg5dPP77arOyrlUcMnsNSDkqXB0ekRtEEbtpsbo9zbYdPHuPKfTTzoCKWz7+9NxyfwTkyTDittpmR/frL/jhSELeET8h50AYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=X07MoKV9; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M9xuQc7w"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="X07MoKV9"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=2AbPDRvQ/GtfxSBHnwz72ekXy3Mtf1+Upt8OjMfxyP8=; b=M9xuQc7w2IzqzXRx/s+cPD7Mal
-	6pW169HQE5amHudek4o6498O2L/GZTVHKht3fM8VgR9ptDTbJGjQLV4Ua8Id7eo/8JPBMjA6Y+2Mg
-	49jhI7aq97i0EC0XEHewy1g2VSwDqhLDqXwM0wQqnnU+qC1Z0eYz8ESicDBfoPHCfJhG6F1OPc30s
-	ZUe2Fj5ycL8u7lBt7WhzqmMIO7FxEQoWChOde2J+m9teIuYrb3Eyalw0AncPKBw+HyzQVi6vuZprS
-	L15T4WQFkgy3a7dn+Lfa5+C2/YkBHRt+4ecl46xvYVfiUpXvYxEvXye0S4Ni9ZctTgyfZR7829bJd
-	MGkPQVwQ==;
+	bh=vTY+MmDWBfuu+ZZ765xgJwxV4ddQ/XQCQUMyD6Z95L0=; b=X07MoKV9IunB+zQC/nq32vx8iC
+	2/R4EyXRIenptqGgDxilTf7pFIfrLyxgs28A0iDg/BKi4SgXX8zNFSw1YnI1YHtOtPz4e4qOd6k89
+	pl3A/dBt3bLQjtesItWIlZzgwJDP99nGq0W2/aio9zp9AjMLEWlgaev2P0FC6SW9UzbwOA76Xbn+g
+	EsAQCXnuSeQtBMuV9rvDgmQK//ldipKGeVmBTBhGr3uMLwgYcoB++kK2NR6oDGUGrLA12YjwuPMHk
+	HwV6SFRWP4tFrTMb/UmmCX+9P+FUFYHWY9pG15hcX7r4zmDalYIYdIoNXMi9FYQZ8/zzPS35kCTmn
+	ExA4zAvQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TE-00000002LfA-1aAD;
-	Sat, 17 Oct 2026 12:25:05 +0000
+	id 1xI3TF-00000002LfR-1xxz;
+	Sat, 17 Oct 2026 12:25:06 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xI3TB-00000002Ykr-3V9D;
-	Sat, 17 Oct 2026 13:25:01 +0100
+	id 1xI3TD-00000002Yn2-1PIG;
+	Sat, 17 Oct 2026 13:25:03 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	David Woodhouse <dwmw@amazon.co.uk>,
 	nh-open-source@amazon.com
-Subject: [RFC PATCH 01/55] KVM: x86/mmu: Move ACC_* masks from spte.h to mmu.h
-Date: Sat, 17 Oct 2026 13:24:07 +0100
-Message-ID: <20261017122501.610248-2-dwmw2@infradead.org>
+Subject: [RFC PATCH 32/55] KVM: planes: Keep current_vcpu in sync in vcpu_load()
+Date: Sat, 17 Oct 2026 13:24:38 +0100
+Message-ID: <20261017122501.610248-33-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261017122501.610248-1-dwmw2@infradead.org>
 References: <20261017122501.610248-1-dwmw2@infradead.org>
@@ -71,72 +71,90 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The memory-attributes backport uses the ACC_* masks in mmu_internal.h,
-which cannot include spte.h because spte.h includes *it*. Anything
-pulling in mmu_internal.h without spte.h (debugfs.c, page_track.c) now
-fails to build.
+The preempt notifiers save and restore common->current_vcpu
+(kvm_sched_out()/kvm_sched_in()), but vcpu_load() does not update it.
+kvm_vcpu_ioctl_set_cpuid() swaps the loaded vCPU to each twin around
+kvm_vcpu_after_set_cpuid(), a window that is preemptible and sleeps
+(kvm_pmu_refresh, mmu_lock): a reschedule there arch-put the
+already-put caller a second time, never saved the twin, and reloaded
+the caller's VMCS, so the vendor callback wrote the twin's controls
+into the caller's VMCS and the trailing vcpu_put() unloaded a
+non-resident vCPU, corrupting the per-pCPU loaded_vmcs tracking. Any
+KVM_SET_CPUID2 on a multi-plane VM reaches this; ioctls taken on a
+plane-N fd while current_vcpu pointed at another plane had the same
+exposure, as do the kick paths that now read current_vcpu->cpu.
 
-Move the ACC_* definitions to mmu.h, next to the PT_WRITABLE_MASK and
-PT_USER_MASK definitions they are built from. Both headers already
-include it.
+Set common->current_vcpu in vcpu_load(), making every load path (run
+loop, vcpu ioctls, the cpuid twin swap) agree with what the preempt
+notifiers will operate on. kvm_vcpu_select_plane() keeps its own
+assignment; both stores use WRITE_ONCE to pair with the lock-free
+readers in the kick paths.
+
+Found by Sashiko review.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Assisted-by: LLM
 ---
- arch/x86/kvm/mmu.h      | 14 ++++++++++++++
- arch/x86/kvm/mmu/spte.h | 14 --------------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ virt/kvm/kvm_main.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
-index 830f46145692..ae1068169925 100644
---- a/arch/x86/kvm/mmu.h
-+++ b/arch/x86/kvm/mmu.h
-@@ -32,6 +32,20 @@ extern bool __read_mostly enable_mmio_caching;
- #define PT_DIR_PAT_SHIFT 12
- #define PT_DIR_PAT_MASK (1ULL << PT_DIR_PAT_SHIFT)
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index fa639a659138..d37961cc5235 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -165,6 +165,16 @@ void vcpu_load(struct kvm_vcpu *vcpu)
+ {
+ 	int cpu = get_cpu();
  
-+#define ACC_EXEC_MASK    1
-+#define ACC_WRITE_MASK   PT_WRITABLE_MASK
-+#define ACC_USER_MASK    PT_USER_MASK
-+#define ACC_ALL          (ACC_EXEC_MASK | ACC_WRITE_MASK | ACC_USER_MASK)
-+
-+/*
-+ * Read permission for a gfn's memory protection attributes.  Not part of
-+ * ACC_ALL and never set in a PTE's access mask: PTE formats cannot express
-+ * no-read, and x86 rejects protection attributes that forbid only read
-+ * (kvm_arch_mem_attributes_supported_prot()), so a no-read gfn always
-+ * takes a memory fault exit before any SPTE is created.
-+ */
-+#define ACC_READ_MASK    BIT(3)
-+
- #define PT64_ROOT_5LEVEL 5
- #define PT64_ROOT_4LEVEL 4
- #define PT32_ROOT_LEVEL 2
-diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
-index 217f6b40c50b..511aa0e0e222 100644
---- a/arch/x86/kvm/mmu/spte.h
-+++ b/arch/x86/kvm/mmu/spte.h
-@@ -45,20 +45,6 @@ static_assert(SPTE_TDP_AD_ENABLED == 0);
- #define SPTE_PERM_MASK (PT_PRESENT_MASK | PT_WRITABLE_MASK | shadow_user_mask \
- 			| shadow_x_mask | shadow_nx_mask | shadow_me_mask)
++	/*
++	 * The preempt notifiers operate on common->current_vcpu, so it
++	 * must name the plane vCPU being loaded here: an ioctl taken on
++	 * another plane's fd than the one that ran last would otherwise
++	 * have a preemption arch-put the stale twin (whose state is not
++	 * resident) and arch-load it back over the state this load makes
++	 * resident.  The kick paths also read it to find the running
++	 * twin's pCPU.
++	 */
++	WRITE_ONCE(vcpu->common->current_vcpu, vcpu);
+ 	__this_cpu_write(kvm_running_vcpu, vcpu->common);
+ 	preempt_notifier_register(&vcpu->common->preempt_notifier);
+ 	kvm_arch_vcpu_load(vcpu, cpu);
+@@ -4719,7 +4729,26 @@ static int kvm_plane_ioctl_create_vcpu(struct kvm_plane *plane, unsigned long id
  
--#define ACC_EXEC_MASK    1
--#define ACC_WRITE_MASK   PT_WRITABLE_MASK
--#define ACC_USER_MASK    PT_USER_MASK
--#define ACC_ALL          (ACC_EXEC_MASK | ACC_WRITE_MASK | ACC_USER_MASK)
--
--/*
-- * Read permission for a gfn's memory protection attributes.  Not part of
-- * ACC_ALL and never set in a PTE's access mask: PTE formats cannot express
-- * no-read, and x86 rejects protection attributes that forbid only read
-- * (kvm_arch_mem_attributes_supported_prot()), so a no-read gfn always
-- * takes a memory fault exit before any SPTE is created.
-- */
--#define ACC_READ_MASK    BIT(3)
--
- /* The mask for the R/X bits in EPT PTEs */
- #define SPTE_EPT_READABLE_MASK			0x1ull
- #define SPTE_EPT_EXECUTABLE_MASK		0x4ull
+ 	kvm_vcpu_init(vcpu, kvm, id);
+ 
++	/*
++	 * A non-zero plane shares 'common' with a plane-0 twin which may
++	 * already be running.  kvm_arch_vcpu_create() calls vcpu_load(),
++	 * which publishes the half-created vCPU through
++	 * common->current_vcpu and registers the shared preempt notifier,
++	 * so it must not run concurrently with a twin's KVM_RUN: hold the
++	 * shared vCPU mutex across it.  Drop it before kvm->lock is taken
++	 * below, to respect the kvm->lock -> vcpu mutex ordering.
++	 */
++	if (plane->level > 0) {
++		r = mutex_lock_killable(kvm_vcpu_mutex(vcpu));
++		if (r)
++			goto vcpu_free_common;
++	}
++
+ 	r = kvm_arch_vcpu_create(vcpu);
++
++	if (plane->level > 0)
++		kvm_vcpu_unlock(vcpu);
++
+ 	if (r)
+ 		goto vcpu_free_common;
+ 
+@@ -5427,7 +5456,7 @@ struct kvm_vcpu *kvm_vcpu_select_plane(struct kvm_vcpu *vcpu)
+ 		ret->plane_state = RUNNABLE;
+ 	}
+ 
+-	common->current_vcpu = ret;
++	WRITE_ONCE(common->current_vcpu, ret);
+ 
+ 	common->plane_switch = false;
+ 
 -- 
 2.50.1
 
