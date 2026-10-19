@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7FA466AE1;
-	Mon, 19 Oct 2026 05:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09055363C6F;
+	Mon, 19 Oct 2026 05:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792386130; cv=none; b=CRB4voK11ynerQIENe+m4v/K6HxNTigJxTYxQml5VMZT5ljjCkF1cKbAVbn+L/tb29WL3ga5iTemAxRPmUPgn8jNk+PqlOb2hnp+x27MAZ0yyshx9IOQbFkET9dp892VQo8Za+HvKh/3LW5xLEVs5DGi+uik8w4BysdzhLqPTs0=
+	t=1792386630; cv=none; b=PQI9ikIV/AlGnl/5tcCS/8+8Sk7AOLPSsebjzPgxzQfbPC9G1iFPpfCJzMY9XgB7hz+YSKzbTLgYdGncCkoO+RFAWj61CxW/yhZBVcBIms1JMutSTEblHAHnqCTCIDzyu7GbrGTW66RwZC27IchRnFIMYvsSoiOdDgCkUtISKSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792386130; c=relaxed/simple;
-	bh=N1VzElti/CRCZRJYBLV1ksRYvHO8FeD1zy1hb2rRzAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=V/q2zDb/RwH3agrd4D8O0p+HWVo9ALhEipYFa4MvIH/LkjR51JlLrkKmKAXy+nhvF8RfDJDr/4ov1YAbYxX8K9iiMHp6Zwl2hS0M10+kiSuVJ/Wo2iOHU93nCKOCXl9tiM9qBmo7tUAfYd7m2grk3gRsu2Nd80+K08StYe7FlAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=e48BnFDO; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1792386630; c=relaxed/simple;
+	bh=ZdBqok8rrBt2JcUhblYWiBRfSj38rVwAnuD3J5yeSMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R+RdAlUyqQSNtZav8/gh91qfgqAVJlMAttyRQm+ATscbUyYgZWBkmxOtHHlfu8AhQ5g/Pndxy4tb6Lf7Pf2ajx41NrD0ZH+eSGCogGFaEDdi3mL2xpIKjoxPoOzQeOs/QkBNL3Vo6X+0S4lDfnj7QnWmWb2xsJrTp9aOZm8kP5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=SUiSKX59; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="e48BnFDO"
-Received: from [10.95.64.89] (unknown [52.172.102.187])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5E9C220B7168;
-	Sun, 18 Oct 2026 22:01:55 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5E9C220B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SUiSKX59"
+Received: from [10.95.64.89] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C50A120B7168;
+	Sun, 18 Oct 2026 22:10:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C50A120B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792386117;
-	bh=YJcjyOk1+QqolzuhxWeZuoupRLUPtFnlqT1FVyfOllc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=e48BnFDO0qDkM/QFQmuoMkJdN8vlCw5rgPZZPodgSGGlB3fzN0o9LGT7+SAxSb/qf
-	 ELQ2zgXs54SuewWzYFnHELVBVCC1BIHs5SsBbR4Im7wedy/sHDUgkJLyaj2AR0aXUm
-	 UMUbD51DDD5u+TLnezk1I216vKxkcgQYA4+awj+0=
-Message-ID: <778a2d3c-19bd-43ec-bc72-26fc02bfea47@linux.microsoft.com>
-Date: Mon, 19 Oct 2026 10:31:59 +0530
+	s=default; t=1792386610;
+	bh=99zGf1UYeMzipFM7ppAzhWPhBXUh3NmiRWjzT7zkbPc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SUiSKX59v4tiWL1TL1YbR6clUagEM7Os6Z9nDT5mR4w0Wi81mX5NNq9+IAJoRRn82
+	 H5Ydazoc3uJqhwfpkb9Eu2MhOPsWeD8dDuZdradenAB3U7kCK/4gkiZKCGTirZ7svG
+	 6x2AE/9XwWzwptv3DtuHeQ89DhOJ35AG/oJmG+h0=
+Message-ID: <b88b0341-a732-41e1-87df-4f0503df39cc@linux.microsoft.com>
+Date: Mon, 19 Oct 2026 10:40:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,67 +34,53 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mshv_vtl: initialize poll file mutex before device
- registration
-To: Jiale Yao <yaojiale02@163.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>,
- Roman Kisel <romank@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+Subject: Re: [PATCH] mshv_vtl: reject poll files with multiple waitqueues
+To: Daehyeon Ko <4ncienth@gmail.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Cc: Saurabh Sengar <ssengar@linux.microsoft.com>,
+ Michael Kelley <mhklinux@outlook.com>,
+ Roman Kisel <romank@linux.microsoft.com>, linux-hyperv@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20261018034616.508850-1-yaojiale02@163.com>
+References: <20261016061114.1686153-1-4ncienth@gmail.com>
 Content-Language: en-US
 From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20261018034616.508850-1-yaojiale02@163.com>
+In-Reply-To: <20261016061114.1686153-1-4ncienth@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 10/18/2026 9:16 AM, Jiale Yao wrote:
-> mshv_vtl_init() registers /dev/mshv before initializing the poll file
-> mutex. A concurrent MSHV_SET_POLL_FILE ioctl can therefore attempt to lock
-> an uninitialized mutex while module initialization is still in progress.
+On 10/16/2026 11:41 AM, Daehyeon Ko wrote:
+> MSHV_SET_POLL_FILE invokes a file descriptor poll callback with a poll
+> table backed by a single embedded wait entry. A poll callback may,
+> however, register the table with more than one waitqueue. pipe_poll()
+> does this naturally for an O_RDWR FIFO.
 > 
-> Initialize the file-scope mutex statically so it is ready before the misc
-> device becomes visible.
+> The second registration currently warns but then inserts the same list
+> node into another list. The new insertion overwrites the entry links while
+> the first waitqueue still points at it, corrupting the first waitqueue and
+> causing an invalid callback traversal when that queue wakes.
+> 
+> Reject a second distinct waitqueue, remove the first registration, and
+> return -EINVAL from the ioctl. Repeated registration of the same waitqueue
+> is treated as a no-op. A rejected replacement leaves the CPU slot
+> unregistered, consistent with the existing remove-before-register ordering.
+> Single-waitqueue users such as the OpenHCL io_uring poll file keep their
+> existing behavior.
 > 
 > Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
-> Signed-off-by: Jiale Yao <yaojiale02@163.com>
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+
+This tag is no longer valid on latest linux-next tip and gives 
+checkpatch error.
+
+Code changes LGTM.
+
+> Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
 > ---
->   drivers/hv/mshv_vtl_main.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>   drivers/hv/mshv_vtl_main.c | 24 ++++++++++++++++++++++--
+>   1 file changed, 22 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-> index d8225242c73f..2b40c9e3bf88 100644
-> --- a/drivers/hv/mshv_vtl_main.c
-> +++ b/drivers/hv/mshv_vtl_main.c
-> @@ -95,7 +95,7 @@ union hv_synic_overlay_page_msr {
->   	} __packed;
->   };
->   
-> -static struct mutex mshv_vtl_poll_file_lock;
-> +static DEFINE_MUTEX(mshv_vtl_poll_file_lock);
->   static union hv_register_vsm_page_offsets mshv_vsm_page_offsets;
->   static union hv_register_vsm_capabilities mshv_vsm_capabilities;
->   
-> @@ -1370,8 +1370,6 @@ static int __init mshv_vtl_init(void)
->   		goto free_low;
->   	}
->   
-> -	mutex_init(&mshv_vtl_poll_file_lock);
-> -
->   	device_initialize(mem_dev);
->   	dev_set_name(mem_dev, "mshv vtl mem dev");
->   	ret = device_add(mem_dev);
-
-While this issue may not happen in practice, as OpenVMM userspace runs 
-much later than these init function invocations, but it is good to have 
-the potential race condition fixed.
-
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
-
 Regards,
 Naman
-
-
