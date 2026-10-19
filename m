@@ -1,66 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAE33DAAB9;
-	Sun, 18 Oct 2026 12:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0A742C4FC;
+	Mon, 19 Oct 2026 04:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792326922; cv=none; b=n94WwbhTibFDOr213OL7rF1YTgh3eS0rLcM3CVEKxVng9bF4czbCjGMN50t+FsxhSJjMEgnfT9x11krn+ympEIYQZ6KUbi07VpmS3Bl+21YkMTw3N/hXVZAUT//knXN60XI72r4HUvqaPrZ/VSgSRznCKCYLlih0pH52puC4Sz8=
+	t=1792382965; cv=none; b=LFwLFIRmM/e/6s5QigiYc05bMGg0Wi/C9/RCfqJlmj81JnfMi8lOklfFlsSDA/dkRv/wRkrWh2JkFUw+Bf3bP7FuQqmcI145/Et20S4Kbid74/cXLF/2q+SSNzo9GJjVYyxOrjMppkxlMo+XvqiVxjq36JTT0/T0gA1Lm6zo3Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792326922; c=relaxed/simple;
-	bh=Tk6fSf6VC//cgaYsAOTP5zu4p9jY1xX6q3jPZfcN20g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3mVOJOw7gGk3g7HLjaIQ68LPONuZeKrBovtUwinjfC0G2/NBggscx9e6d25gfDl7vHuVei8Z/YGRg9IndzNurLNjEdzJWZY2hxzy6RM4rLT29NQa4nb/song1R2scyC/dcu+r4Zgrjv4J2ai2KsJsBFmmkrgVC7LzB0OU6J/cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/TQNYXb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792382965; c=relaxed/simple;
+	bh=b3yN0+Sqbo+owN9vPmP5jDBhXYVkZHYesravJ0uaDIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=c3ZCGrAj5oyCXKvcDmuJSs02aFYND48CGybJ2AkhDdWPJ41d7TciJzFEeVLWrWKgz/cwSkLjW8D9w+IVYdbic/7iTtjotNVmFicTcLkipEuOdj2DQx/yQ5bHQZ2+R6hhjd7a2+VMgNXT/QCKfij3uYUsUEoDmrz9gbR8GkHTLgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ImAEDt4x; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/TQNYXb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E50A1F000C5;
-	Sun, 18 Oct 2026 12:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792326920;
-	bh=zxY+jnuszN6Gi8YXmVZRdY2Gy8q5uxVokWAXww2xgCk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=h/TQNYXb5k8QgXkB600ume6kDzxLI2G6CCbDG0dOFHcYv877vhsjDdTKxKXwXO889
-	 EmRgYpwlw7NY45XQ1MJMZW4qQI9upZgzyatvk/W30R/hnuUWrrPA48YX1QOT9Wzm9x
-	 FA986qgx1Ua3WBKh20EX6TBC1GtZem9V/AjuTb46llfCKEAycCInZkFexYeImtfZyo
-	 qM4MsPWwij5XlV6VjYHJ2zU6N/i6ydBwNHC5bAGGM5ZGdn4dqpTY5Ae5WEAyfzFJ3F
-	 NXYqiiXbqoOx2/7PPhJ2SQM+YWlFW8UlwbeZa7HpPcBtctZP7N5DxCnI9yby28woAc
-	 cFp9m5MYd1jyA==
-Date: Sun, 18 Oct 2026 15:35:17 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Wei Hu <weh@linux.microsoft.com>
-Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
-	davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
-	andrew+netdev@lunn.ch, jgg@ziepe.ca, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com,
-	shradhagupta@linux.microsoft.com, horms@kernel.org,
-	ernis@linux.microsoft.com, stephen@networkplumber.org,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, sdf@fomichev.me, daniel@iogearbox.net,
-	hawk@kernel.org, ast@kernel.org, john.fastabend@gmail.com,
-	weh@microsoft.com, edumazet@kernel.org
-Subject: Re: [PATCH net-next v7 00/13] net: mana: reconfigure by replacing
- the queue set
-Message-ID: <20261018123517.GD64621@unreal>
-References: <cover.1791710735.git.weh@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ImAEDt4x"
+Received: from [10.95.64.89] (unknown [52.172.102.253])
+	by linux.microsoft.com (Postfix) with ESMTPSA id EBDCD20B7168;
+	Sun, 18 Oct 2026 21:09:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EBDCD20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792382951;
+	bh=kD3aqbgMW82kfQTV55TBnU5yndyEktZgD20SrHfdxk8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ImAEDt4xzfR8mkkVyQ3hEKh3q+yUWvuTnYYGSpZir26oqkWFQkJ2gALjFDjhgay00
+	 BdINi+NDeWq4yBtBxGJu/KN83NdUCxYdiAvvS0kBROQFg2Wc9DXusN8LYfSrLkVNJT
+	 9k9rYyxmW+MDsXXAIlFXUKTEocpQTXtpXWuPn96c=
+Message-ID: <84c95503-b59a-457a-9225-0c746b0b6f44@linux.microsoft.com>
+Date: Mon, 19 Oct 2026 09:39:12 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1791710735.git.weh@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] Documentation: hyperv: Update information on guest
+ CPU offlining
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261017160848.14730-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20261017160848.14730-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2026 at 03:38:33PM +0000, Wei Hu wrote:
 
-<...>
 
->  drivers/infiniband/hw/mana/cq.c               |    3 +-
+On 10/17/2026 9:38 PM, Michael Kelley wrote:
+> In Hyper-V Overview documentation, remove the out-of-date reference
+> to explicitly reassigning VMBus channel interrupts before taking a
+> guest CPU offline. Instead, reference the VMBus documentation, which
+> is already up-to-date on this topic.
+> 
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> ---
+>   Documentation/virt/hyperv/overview.rst | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
+> index 77408a89d1a4..63489f73a299 100644
+> --- a/Documentation/virt/hyperv/overview.rst
+> +++ b/Documentation/virt/hyperv/overview.rst
+> @@ -132,11 +132,11 @@ Starting in Windows Server 2022 Hyper-V, the ACPI tables reflect
+>   only the CPUs actually present in the VM, so Linux does not report
+>   any hot-add CPUs.
+>   
+> -A Linux guest CPU may be taken offline using the normal Linux
+> -mechanisms, provided no VMBus channel interrupts are assigned to
+> -the CPU.  See the section on VMBus Interrupts for more details
+> -on how VMBus channel interrupts can be re-assigned to permit
+> -taking a CPU offline.
+> +A Linux guest CPU may be taken offline, and subsequently brought
+> +back online, using the normal Linux mechanisms. See the "VMBus
+> +Interrupts" section of Documentation/virt/hyperv/vmbus.rst
+> +documentation for how VMBus channel interrupts are automatically
+> +re-assigned if necessary when taking a CPU offline.
+>   
+>   32-bit and 64-bit
+>   -----------------
 
-The RDMA changes are negligible.
+LGTM.
 
-Thanks,
-Acked-by: Leon Romanovsky <leon@kernel.org>
+Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+
+Regards,
+Naman
