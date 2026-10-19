@@ -1,139 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792422957;
+	b=jHW0zORP5iA4+UEc5f6YJIS7ZLD8DK2yMd0+6CQ1q7slJGd8eXIGczdaIpXP5dBkzZK4
+	 suzgLKjTgGTvbe9jS2XqWCcFHBtaEAoivcF2NviJE2EOTorgQdCYvESa76RtFymgP6mn8
+	 VZhb3BHCc6vcRw0QM5oJXNEpGZemsduNfXUxKlqF73EUeniL92ZvNqJ1mFlDgs3ayKmjk
+	 k88+zg4LjGM6dwjqFjZ1BdOtTwzAbh0QJCf/zu8wvhoeU7d2tyDYkKq7w7PFAXT2RyW4Z
+	 qm43Qo4yMio2n8/yM7y6cXWkLBKnV10mhqBwaRukAbe3He9zZQKp3sWFvwDAFu83OOA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422957;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
+	b=LfprZZ+hHgUJwDXm+0KS8UOXDah5T4D73bKccUFteS+a45T7K/Lg5yg0xNa86gz/XbXT
+	 Q40udK7liYfEKHxUKKCYfH4t3qwYWMYl76A6tMaR6U5cjVbcPyNM/jsb4HWrCWGtRAI5A
+	 SGt1DSDV1zrAKgB4b/mrGOxD4FgTjgbAITi0XLCYS8CyTad+yzHu321V202WI9EpgJn/9
+	 dRcPfqggG1yc7uu5EhoYcT8vZH1TFeCyFAcfipK0Zr/3q6n0Z5icIcGycvgbJL8RNZIFF
+	 mKY2cSp88gOUY9uwmpl2sArQ7trKK9nNJIfPy/jmGFKRz8K4ffG/G8rBWhT6cPIEU/g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB514DEC3E;
-	Mon, 19 Oct 2026 13:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792416944; cv=none; b=pLRhIQjmwmuA6lvuqDLu0do9NkTrv0TEbgmjX1qFGQGQxIJTLJcRCFH/chUQ8J/b6XmRYhqPVKC6MMwKU/V8Q+0aaXOyGT0K11kxsNLSHb3TUzXo89PioQGYapxdkDnSJyQH+v2Zp7KCEsAt2cReadENSxXAMkUu7HkjTJRC82U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792416944; c=relaxed/simple;
-	bh=YYvE0sRBu1sVS+gOH/0QzLApX8jyXQUMwjo9mnz28FM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIibSEi/aZjtg39Ez0UswHwGmPthOaQjHkDp6I0TfHMD2W9WdPqG3i4Samz3tk/SIzRmjeZIUn213JiY+QloqCGPZ758lh0H71ucGkGZbis+2ugxxwYuvPSg/mKwWF30+ngRd0r06phZS1SNRouJ0w31wNuZTcc96t3pRRRGfX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iCaeoJzG; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA27609DCFA;
+	Mon, 19 Oct 2026 15:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iCaeoJzG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574731F000C4;
-	Mon, 19 Oct 2026 13:35:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792416942;
-	bh=rhfvYQElhBdedNKeQxhemvLQ7lZKA7SpMfLghyJzDlI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iCaeoJzGi32z7OgjNCpsdNbhFcUQB+3Gysu7sXHSnjpWSU6rdvcTEoHg5Irw6Yqfu
-	 cewqMZLrZQLa/Vq4S0HPTa6kyokuG74fQrWKMtkKZit/Rn/m9rrD04vJIte1asArN6
-	 DMYVExSCAbu+lEUWOkOr6DXrnTp8p6m1EIC3MBmU=
-Date: Mon, 19 Oct 2026 15:35:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jiale Yao <yaojiale02@163.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269E71F000C4;
+	Mon, 19 Oct 2026 15:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792422956;
+	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=CnpQzRLX3TYf8k0qu6IYpaMq62MrzgVnzWtCBEbdnX0IUPXFCp6FFVhb6e/W37EY7
+	 oQdkTxuZitFSXzUqh8YM+LI6hW4HWoVv72MiRtWfb/iuVaWOGKHt2j8Piy3XsHY4bv
+	 HfJH5x277Hg+W3vBh+BKJcUHigFzcPtKnByrkz6Qw0vZi1heWwAKuKjDH8y9RjWbAw
+	 ZWzbQHvwqs0XljbKJDetYNNwEqmAYS1SizYC8c9PQJ/+yV3C9kQ+UX6IhimWK6Szh4
+	 MliM2s0jWJxjgBc2N8LAVJSnUAeqxo/k14Kw0U606JcTDsTXyg4NEZpgxA/P9PGn8a
+	 a/NOnXhhwsAXA==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>,
+	Dave Airlie <airlied@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	Martyn Welch <martyn.welch@collabora.co.uk>,
+	Peter Senna Tschudin <peter.senna@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Alison Wang <alison.wang@nxp.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
 	Dexuan Cui <decui@microsoft.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
-Message-ID: <2026101936-livable-plug-8bc9@gregkh>
-References: <20261019085544.1834700-1-yaojiale02@163.com>
-Precedence: bulk
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	imx@lists.linux.dev,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Qianhai Wu <wuqianhai@loongson.cn>,
+	Xi Ruoyao <xry111@xry111.site>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	spice-devel@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	linux-tegra@vger.kernel.org,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+	Ruben Wauters <rubenru09@aol.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	nouveau@lists.freedesktop.org,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Aditya Garg <aditya.garg@linux.dev>
+Subject: Re: (subset) [PATCH 00/75] drm/connector: Convert all drivers to atomic_create_state and remove reset
+Date: Mon, 19 Oct 2026 17:15:50 +0200
+Message-ID: <179242294379.2822300.2839114266297465713.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
+List-Post: <mailto:linux-hyperv@vger.kernel.org>
+List-Help: <mailto:linux-hyperv+help@vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
+Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019085544.1834700-1-yaojiale02@163.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 04:55:44PM +0800, Jiale Yao wrote:
-> remove_id_store() can free a matching dynamic ID while VMBus is
-> preparing to invoke a driver probe.
-
-And how can that be triggered?
-
-> Copy the ID while holding the dynamic ID lock so probe never receives
-> a pointer into a freed list entry.
-
-Why is this driver allowed to handle dynamic ids at all?  Is it really
-required?  That will taint the kernel so no real workflow requires it,
-right?
-
-> Fixes: fc76936d3ea5 ("vmbus: add support for dynamic device id's")
-
-No cc: stable?
-
-> Signed-off-by: Jiale Yao <yaojiale02@163.com>
-> ---
->  drivers/hv/vmbus_drv.c | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
+On Wed, 14 Oct 2026 19:26:23 +0200, Maxime Ripard wrote:
+> This is a follow-up to the plane and CRTC reset removal series, and
+> part of a larger effort to remove the reset hook from all KMS objects.
 > 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 4692687cdbf3..96ad0dfaa50b 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -661,21 +661,22 @@ hv_vmbus_dev_match(const struct hv_vmbus_device_id *id, const guid_t *guid)
->  }
->  
->  static const struct hv_vmbus_device_id *
-> -hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid)
-> +hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid,
-> +		     struct hv_vmbus_device_id *id_copy)
->  {
-> -	const struct hv_vmbus_device_id *id = NULL;
->  	struct vmbus_dynid *dynid;
->  
->  	spin_lock(&drv->dynids.lock);
->  	list_for_each_entry(dynid, &drv->dynids.list, node) {
->  		if (guid_equal(&dynid->id.guid, guid)) {
-> -			id = &dynid->id;
-> -			break;
-> +			*id_copy = dynid->id;
+> The connector reset hook is overloaded: it is called both at probe
+> time to create the initial software state and during suspend/resume to
+> reset hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
+> 
+> [...]
 
-Shouldn't this be a memcpy() as that's what you are really doing?
+Applied to misc/kernel.git (drm-misc-next)
 
-> +			spin_unlock(&drv->dynids.lock);
+[73/75] drm/vmwgfx: Convert to atomic_create_state
+        commit: e6bb593b800813788dc16179d1305747ff974d00
 
-guard() usage instead?
-
-> +			return id_copy;
->  		}
->  	}
->  	spin_unlock(&drv->dynids.lock);
->  
-> -	return id;
-> +	return NULL;
->  }
->  
->  static const struct hv_vmbus_device_id vmbus_device_null;
-> @@ -685,7 +686,8 @@ static const struct hv_vmbus_device_id vmbus_device_null;
->   * If there is no match, return NULL.
->   */
->  static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *drv,
-> -							struct hv_device *dev)
-> +							struct hv_device *dev,
-> +							struct hv_vmbus_device_id *id_copy)
->  {
->  	const guid_t *guid = &dev->dev_type;
->  	const struct hv_vmbus_device_id *id;
-> @@ -697,7 +699,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
->  		return NULL;
->  
->  	/* Look at the dynamic ids first, before the static ones */
-> -	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid);
-> +	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid, id_copy);
->  	if (!id)
->  		id = hv_vmbus_dev_match(drv->id_table, guid);
->  
-> @@ -773,6 +775,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
->  			    size_t count)
->  {
->  	struct hv_driver *drv = drv_to_hv_drv(driver);
-> +	struct hv_vmbus_device_id id_copy;
-
-On the stack?
-
-Ok, I guess this would work, but it feels clunky, why doesn't all other
-busses have to do this too?
-
-thanks,
-
-greg k-h
+Thanks!
+Maxime
