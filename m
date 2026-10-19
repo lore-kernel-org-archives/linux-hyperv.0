@@ -1,163 +1,112 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC93647DD44;
-	Mon, 19 Oct 2026 08:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5B849A3AB;
+	Mon, 19 Oct 2026 09:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792400198; cv=none; b=fF1bxtibCKyffgdAcPRAWtVV/RVi/7bAM8YrIVYwoSwjw3G/y5Emg3zvyGuJcTAYknYS1lKE8iMLVleNLzE5MaHEMsyUt06FTr1n/qAPVrYw1J0V29ftPr1Xd0Ow4gmzIlObAlBqXq2YGoT2ib+WtrK45HHRPJB9W3IkfKv9ELw=
+	t=1792400866; cv=none; b=hK7GnPALigLiBDiJ34r61u7KlmRRi0tw5w56GtBJ/u6L3CtvuVDrB2eMTu+jRoqpCDeHgEyx/nqv46abIXsQYgAgzZVu5tdBpTRxmBL2QTQXcXs4FhSLVKFL8Fz/MNOyL5lcquOs4ZtsmviCWPcvOSO07RsChDRki/mXpM7CXCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792400198; c=relaxed/simple;
-	bh=rKpOMQQEd6Z7bgm3CSZSc0+K1Fh8KPupoldpLpN08xE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jLjqiH/KMPlOLHclOMz83DOS0+PmaoEuNjlM/nurweSSobniUgkMpgfdB746QovcZ1S98ncfBPJzlmzjkcRzkEEzw/DSDBfcaNuyJlEK4VORcI2xK+3Q0ruXGp2Kn2CvG8GybLltE6EHnXlTwyHvAmmJcjZ6BCQIxuCM1N+pybE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=H35eLjLv; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1792400866; c=relaxed/simple;
+	bh=+10VJtpyBQ72wzq5Nb9BBeqVR7geSvFh24503lC8YFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FpNQitEfBx9VON8mYvFTVoNOq0tCGpALGbMmB5k2FjHXOJoImrq+IUE+KlHRUqz4VlUQwr6SNrxbKl97Gddo4LlJjfg84dgHLYgWMtPzJIgKAOr/WfruIrkUni8TTxth0D8LMLEEgwZ/YUhLfEbfmhPg6G6OCTI6vLmQcH+wP4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fSjMWvQH; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="H35eLjLv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=CT
-	Cb3+Em6nXC8TfZ/SV0B+Ls5l2wrjMmaByxM+oo4yc=; b=H35eLjLvyNl5TLiz/y
-	20UJMWLlacG7xzM4ai81GzV+Y083RFzTzS9s+n5FtbzTKbtny5m3K2SjVGJ29pNq
-	os0C95HVv/rZBsOG3nZO3D5Y2M+s8vbG+roL0yz7i+vVPjIHSDh3QiHouxW3iWWl
-	WxF12IamlG9X0d3SlF3gdwrz0=
-Received: from pc.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3X7AS29VqSrmRAw--.58066S2;
-	Mon, 19 Oct 2026 16:55:47 +0800 (CST)
-From: Jiale Yao <yaojiale02@163.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jiale Yao <yaojiale02@163.com>
-Subject: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
-Date: Mon, 19 Oct 2026 16:55:44 +0800
-Message-Id: <20261019085544.1834700-1-yaojiale02@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fSjMWvQH"
+Received: from [10.95.64.89] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9BEF420B7168;
+	Mon, 19 Oct 2026 02:07:35 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9BEF420B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792400857;
+	bh=OH4vWuOgczp+V/xBT0eeZsAh2EAied0ct7EXt9CRiVU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fSjMWvQHItQ++eTpDTHVzd1dczhW4kF/wpVfWg6Ud5Ih3gYKoX7YWP/6z6yG9z7fW
+	 4m/DgBlUSXJPSDG8xj8GVhJ0KOcZIREM0RSeo+tU09k0ec5vOu7v4R8l5McZxjGeer
+	 D9ekdniR6EPWyiXPaqNB7xAjmOpJCVRJJnunj394=
+Message-ID: <61e6d816-7cd4-4124-960c-805f7689b568@linux.microsoft.com>
+Date: Mon, 19 Oct 2026 14:37:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3X7AS29VqSrmRAw--.58066S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuF17uw1kXrWUtrW7Aw4rAFb_yoWrJry3pa
-	1UZFWayrW7tF13W3s3Zry8AFyY9wnFqa4Y9rn5C3ZIgFyqyry5Xay8JFWjva4FyrWUG3W2
-	kr1Utr1rAFWDZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi_HU-UUUUU=
-X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8BMLRWrV2xMD0gAA3L
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] mshv_vtl: fix poll waitqueue handling
+To: Daehyeon Ko <4ncienth@gmail.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Cc: Saurabh Sengar <ssengar@linux.microsoft.com>,
+ Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1792398881.git.4ncienth@gmail.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <cover.1792398881.git.4ncienth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-remove_id_store() can free a matching dynamic ID while VMBus is
-preparing to invoke a driver probe. Copy the ID while holding the
-dynamic ID lock so probe never receives a pointer into a freed list
-entry.
 
-Fixes: fc76936d3ea5 ("vmbus: add support for dynamic device id's")
-Signed-off-by: Jiale Yao <yaojiale02@163.com>
----
- drivers/hv/vmbus_drv.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 4692687cdbf3..96ad0dfaa50b 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -661,21 +661,22 @@ hv_vmbus_dev_match(const struct hv_vmbus_device_id *id, const guid_t *guid)
- }
- 
- static const struct hv_vmbus_device_id *
--hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid)
-+hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid,
-+		     struct hv_vmbus_device_id *id_copy)
- {
--	const struct hv_vmbus_device_id *id = NULL;
- 	struct vmbus_dynid *dynid;
- 
- 	spin_lock(&drv->dynids.lock);
- 	list_for_each_entry(dynid, &drv->dynids.list, node) {
- 		if (guid_equal(&dynid->id.guid, guid)) {
--			id = &dynid->id;
--			break;
-+			*id_copy = dynid->id;
-+			spin_unlock(&drv->dynids.lock);
-+			return id_copy;
- 		}
- 	}
- 	spin_unlock(&drv->dynids.lock);
- 
--	return id;
-+	return NULL;
- }
- 
- static const struct hv_vmbus_device_id vmbus_device_null;
-@@ -685,7 +686,8 @@ static const struct hv_vmbus_device_id vmbus_device_null;
-  * If there is no match, return NULL.
-  */
- static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *drv,
--							struct hv_device *dev)
-+							struct hv_device *dev,
-+							struct hv_vmbus_device_id *id_copy)
- {
- 	const guid_t *guid = &dev->dev_type;
- 	const struct hv_vmbus_device_id *id;
-@@ -697,7 +699,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
- 		return NULL;
- 
- 	/* Look at the dynamic ids first, before the static ones */
--	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid);
-+	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid, id_copy);
- 	if (!id)
- 		id = hv_vmbus_dev_match(drv->id_table, guid);
- 
-@@ -773,6 +775,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
- 			    size_t count)
- {
- 	struct hv_driver *drv = drv_to_hv_drv(driver);
-+	struct hv_vmbus_device_id id_copy;
- 	guid_t guid;
- 	ssize_t retval;
- 
-@@ -780,7 +783,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
- 	if (retval)
- 		return retval;
- 
--	if (hv_vmbus_dynid_match(drv, &guid))
-+	if (hv_vmbus_dynid_match(drv, &guid, &id_copy))
- 		return -EEXIST;
- 
- 	retval = vmbus_add_dynid(drv, &guid);
-@@ -840,12 +843,13 @@ static int vmbus_match(struct device *device, const struct device_driver *driver
- {
- 	const struct hv_driver *drv = drv_to_hv_drv(driver);
- 	struct hv_device *hv_dev = device_to_hv_device(device);
-+	struct hv_vmbus_device_id id_copy;
- 
- 	/* The hv_sock driver handles all hv_sock offers. */
- 	if (is_hvsock_channel(hv_dev->channel))
- 		return drv->hvsock;
- 
--	if (hv_vmbus_get_id(drv, hv_dev))
-+	if (hv_vmbus_get_id(drv, hv_dev, &id_copy))
- 		return 1;
- 
- 	return 0;
-@@ -860,9 +864,10 @@ static int vmbus_probe(struct device *child_device)
- 	struct hv_driver *drv =
- 			drv_to_hv_drv(child_device->driver);
- 	struct hv_device *dev = device_to_hv_device(child_device);
-+	struct hv_vmbus_device_id dev_id_copy;
- 	const struct hv_vmbus_device_id *dev_id;
- 
--	dev_id = hv_vmbus_get_id(drv, dev);
-+	dev_id = hv_vmbus_get_id(drv, dev, &dev_id_copy);
- 	if (drv->probe) {
- 		ret = drv->probe(dev, dev_id);
- 		if (ret != 0)
--- 
-2.34.1
+On 10/19/2026 2:13 PM, Daehyeon Ko wrote:
+> MSHV_SET_POLL_FILE retains one embedded wait entry per CPU after vfs_poll()
+> returns. Two independent bugs affect that state.
+> 
+> First, a provider such as signalfd may retire a non-file-owned waitqueue
+> with POLLFREE. The MSHV callback leaves its entry linked and retains the
+> queue pointer, allowing a later replacement to access freed provider
+> memory. Patch 1 detaches on POLLFREE and introduces an RCU-safe removal
+> helper.
+> 
+> Second, a poll callback may register more than one waitqueue. MSHV inserts
+> the same embedded list node into each queue, corrupting the first list.
+> Patch 2 rejects a second distinct queue and uses the common helper to
+> unwind the first registration.
+> 
+> The roots, triggers, effects, and runtime oracles remain independent.
+> Source-equivalent KASAN/LOCKDEP tests reproduced both bugs and validated
+> the fixes. The local system is not a Hyper-V VTL2 environment, so the
+> series has not been exercised through the real MSHV ioctl. OpenVMM does
+> not exercise these paths in its current use of the interface.
+> 
+> An LLM assisted the source audits, fix development, and validation. Each
+> patch notes that assistance in its changelog.
+> 
+> Changes in v2:
+> - combine the two previously standalone fixes into one series;
+> - rebase onto current Torvalds master;
+> - introduce the removal helper in patch 1 and reuse it in patch 2;
+> - replace the obsolete Assisted-by trailer with changelog prose.
+> 
+> Previous standalone submissions:
+> - POLLFREE v1: <20261017141527.623376-1-4ncienth@gmail.com>
+> - multi-waitqueue v2, now withdrawn:
+>    <20261019070438.3732624-1-4ncienth@gmail.com>
+> 
+> Daehyeon Ko (2):
+>    mshv_vtl: detach poll waiter on POLLFREE
+>    mshv_vtl: reject poll files with multiple waitqueues
+> 
+>   drivers/hv/mshv_vtl_main.c | 51 ++++++++++++++++++++++++++++++++++----
+>   1 file changed, 46 insertions(+), 5 deletions(-)
+> 
+> 
+> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+
+I would suggest you to generally wait for a couple more days to collect 
+other reviewers feedback as well, in case someone is reviewing your 
+changes. You can then address them together in the next version.
+
+For the series,
+Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+
+Regards,
+Naman
+
+
+guidance: 
+https://docs.kernel.org/process/submitting-patches.html#don-t-get-discouraged-or-impatient
+
+
 
