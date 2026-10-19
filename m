@@ -1,58 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792444500;
-	b=VOSTpE1Joktl9LM3eiV5ECHdVFjP2xIvxskiKWLoH5jCMFNGUjMNWh+SrXcMyUCfwnHg
-	 LRgN1y1JaIkq3XiuOK2AG0TEkVz5bHQotY3i/krm8xi3mpk6d2EKt3yAIcbAx79g4ZfCg
-	 L6nmb+F5+d/LWadkmMMXgmIvjrih6ZgijeodAgU7iuGWTpGFur+oFmarAiJwyoaZdkJvV
-	 U29Tij0iT/Jmc+SOfrUifw+Pcg60zdKH0B3gKp2FpbHwXS51R/Teo/hQgh/4192/SD3nF
-	 LpT+nsq29T5fFxDGfgNxTbkCy3L4GpwSIVXEMZHu9HlqI1vwa/HfTj0HRfUCbX2N12Q==
+	t=1792451400;
+	b=jBY80UIPUCepIVLAXaqUkBF7vFZ54kGzsovOwzggfs/YQEwDOz5Pr1KngXvrVNLJVFV5
+	 xg8zbLPzPXERbab8FRIO594F1B6uqJEX0e3yUrh7253Ukz9Q9cfcXigK7UEKQFeOfGos0
+	 uauE9/gCazOBOjAyE5OaLqqtR/YajwFv+S8ockVJ2ZtkgWHzZeg0n4wx9h7vgORohO1lW
+	 urmhGz8H3FaNm6Mi6YAY0USTRU0mSyyZUOUFi6KFLBP8wE0iKRzEpigrNzTzdTL7ljQ8J
+	 jEZdmgOSsJ/rIT4ukjneqJa/s2tAFKviMIPoFgBvD4eyDXbqeDwRpIe83fHlcxLWAdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792444500;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-SA-Exim-Connect-IP:
-	 X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:Subject:X-SA-Exim-Version:
-	 X-SA-Exim-Scanned;
-	bh=UUZq94NQZVOOmLkYnr0O3jTydDL2EzwXIjitFjyB/co=;
-	b=s4HzL5WgwyO2S/BIxkUQl+HXp5VDOXAIM69UTArs3+TpMA0SRpcwrf3xxJ3v4P0pQGYO
-	 gJuNRKUvWT7JcZrrN10+AYbXGg1qxTk1UNbuHtsZySm89LJ42DxeXbHsC1oNo/D6hLxkI
-	 weCSWNMr8dhJfQ6H1Q48XX7VK5OCp4n/lAgXdeLap48/6SCMeQnXHfBqfk+dbsST1OaCh
-	 8LC2FcidOYsdTnjMBY+h1ooTGVdssAzET5GkImPOijCs5k0iCOEQEBqZ5jc7qkUpvVX6u
-	 o0SleaXA8x6FvfXyhzBrHqNB7OK3uHTo7TM1jRBeyKbxZY+HyFjtO6uNfqj/S9SGjIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792451400;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=qx8KJNJOi8moaasfyJXmWeZN1M18pHBM2JPzODhuEt0=;
+	b=mb3wDG5zBz/JYLUXt+dEtmWQcBlUFZFzfgtEJszI+El15lUZitWqxk8TB/BiXjsjgVTd
+	 YRbQv5mw5AB8Ty5QTLaFa8F1mB/y5iCehXc/8QPts7sfZ1tpX95cE1vFfN3sUcHISN+Mf
+	 1+TDJji3pfoM12km9XVtWjO+83AS3whILLZZrmug2KzjEQy+UsF0Ly2k8XhgjgyqeSlcu
+	 aM/ezssovSNw8ITJtbzjk9m/SAn7/exMCuB6dN23ieRgAnj6nUZcBfsFN/0Bgz0Mm0z+A
+	 A6KH36wJO/BTc7mgSqH56DpPjHXwPHunRCdtBSCac0msCglSZ4srJg1fKYlSTULfAdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=deltatee.com;
-	spf=pass smtp.mailfrom=deltatee.com;
-	dkim=pass header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=chlpUkYZ;
-	arc=none smtp.remote-ip=204.191.154.188
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19F2606A31B;
-	Mon, 19 Oct 2026 21:14:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F19F2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=h6S8t5y7;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F6E606A31A;
+	Mon, 19 Oct 2026 23:10:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F6E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=chlpUkYZ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=UUZq94NQZVOOmLkYnr0O3jTydDL2EzwXIjitFjyB/co=; b=chlpUkYZbGrbu3Dvkcaa+tIgM7
-	0dpzAXPvxd9GMjCGrBqksQzj44m5jWRM0yipgFrW+uW88Gu1Bm8+GTu4j2Vw0OtolWwPsGyC9rEQc
-	MK6dd7bxuKS6FBI4QtqLQOOQPGXUdMzxg3rD8eVmQ3cfkhqtUpcrJSRMpn+Uy1dBL7VOXKKrnuQtM
-	0sWvy+EXYwqAprB+jJpc4NpYJG9Q4bftwzBWMzb94W6s6iZxUbp9rbiCXNLysOWHh2xvFD6nbDi6L
-	ux3S7SaqxO47C5IlVRMpdM+viGCjZl3LnjMixfhi7ZOUWictm3usCr1rKO6P76ttloO3BzMc18R9/
-	MUL5Xeaw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1xIugz-00000000HUZ-2bSt;
-	Mon, 19 Oct 2026 15:14:50 -0600
-Message-ID: <fca6d815-519a-449d-a5b7-36bd3ad0c19f@deltatee.com>
-Date: Mon, 19 Oct 2026 15:14:38 -0600
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=h6S8t5y7
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C499D20B7168;
+	Mon, 19 Oct 2026 16:09:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C499D20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792451392;
+	bh=qx8KJNJOi8moaasfyJXmWeZN1M18pHBM2JPzODhuEt0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=h6S8t5y7p147aJh7ncsouE6mRcsUh2DuFxHxQHIxvMC7cWTAVOLJBs1yWD3G1FhsR
+	 ZV9r2vx2l7EDe2PwKCohEek20HCzcgO493tKbgRC66BE8B2/4/U+9fv4CtqFmUpfl+
+	 0eBXxCyn+lYfBZa6Bc9h+22rO2FG9WvAxeeXSC1w=
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>
+Cc: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] Drivers: hv: vmbus: Harden the ring buffer against a malicious host
+Date: Mon, 19 Oct 2026 16:09:45 -0700
+Message-ID: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -62,58 +61,57 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: "Popov, Pavel E" <pavel.e.popov@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Leon Romanovsky <leon@kernel.org>
-Cc: Jim Chow <jim.chow@broadcom.com>, Radu Rugina <radu.rugina@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>, Wei Liu
- <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
- Lukas Wunner <lukas@wunner.de>,
- Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20261016223402.19991-1-pavel.e.popov@intel.com>
- <20261016223402.19991-2-pavel.e.popov@intel.com>
- <8b01d643-f62d-4118-a700-8874341d953b@deltatee.com>
- <LV2PR11MB6070CE9CCA125C290C0F8209B29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261017074820.GD219304@unreal>
- <LV2PR11MB6070ABD61B46E9590C9B28ACB29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
- <LV2PR11MB607077BABF5643BD4FAF470FB2982@LV2PR11MB6070.namprd11.prod.outlook.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <LV2PR11MB607077BABF5643BD4FAF470FB2982@LV2PR11MB6070.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: pavel.e.popov@intel.com, bhelgaas@google.com, leon@kernel.org, jim.chow@broadcom.com, radu.rugina@broadcom.com, alexey.makhalov@broadcom.com, wei.liu@kernel.org, mhklinux@outlook.com, lukas@wunner.de, nathan.d.ciobanu@linux.intel.com, bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev, linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v2 1/2] PCI/P2PDMA: Allow P2PDMA in VMware guests on Intel
- hosts
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Transfer-Encoding: 8bit
 
+In a CoCo VM the host is untrusted. Since the VMBus ring buffer read and
+write indices live in shared memory, the guest has to treat both as
+potentially malicious and as changing at any time. This patch series
+adds bounds checking and reuses the validated indices instead of
+re-accessing them.
 
+Patch 1 contains the minimum security fix, and is the only patch in the
+series intended to be backported. hv_ringbuffer_write() copies into the
+ring at the write index, so a malicious host can make the guest write to
+memory outside the ring buffer. This is reachable on any channel a CoCo
+VM accepts.
 
-On 2026-10-19 13:48, Popov, Pavel E wrote:
-> Logan, Leon,
-> 
-> I kept the hypervisor check to avoid changing what the host bridge
-> whitelist refuses on bare metal. Looking at those cases again, on the
-> listed Xeon CPUs this is a limitation of the whitelist itself, not a
-> known hardware limit, and it is why Intel QAT/DSA/IAA had to be added
-> by ID. So I'd drop the hypervisor check.
-> 
-> Would a v3 that moves the Xeon list into cpu_supports_p2pdma(), the
-> same way as the AMD check, be acceptable to you both?
+Patches 2 and 3 add READ/WRITE_ONCE annotations and refactor the helper
+functions to allow the caller to work with a consistent snapshot of the
+ring buffer indices.
 
-Yes, that's essentially what I was suggesting before. That would be
-acceptable to me.
+Patch 4 adds the rest of the bounds checking. The memcopy() in
+hv_pkt_iter_avail() can only result in an out-of-bounds read if
+rbi->pkt_buffer_size exceeds the ring's data size. KVP is the only
+in-tree channel whose max_pkt_size exceeds its ring's data size (16K vs
+12K on a 4K page guest). CoCo VMs reject the KVP channel, so this bug is
+currently unreachable on CoCo VMs. The other paths patch 4 checks can't
+cause a bad access, only a nonsense byte count or a wrong signaling
+decision.
 
-Thanks,
+Patch 1 applies cleanly to v5.15 and later. The unchecked write goes
+back to the original driver, but the host is only untrusted in CoCo VMs,
+which Linux has supported since v5.12, so patch 1's Fixes tag points at
+the original driver while its stable tag starts at 5.15.x.
 
-Logan
+---
+v2:
+  - hv_ringbuffer_index_valid() -> hv_ringbuffer_indices_invalid()
+    combines read and write checks and reverses the polarity
+  - hv_pkt_iter_avail() reuses hv_ringbuffer_avail_read() arithmetic
+  - Document the need to validate ringbuffer indices
+
+v1: https://lore.kernel.org/all/20261001221040.1794904-1-kameroncarr@linux.microsoft.com/
+
+Kameron Carr (5):
+      Drivers: hv: vmbus: Bounds check the shared ring buffer indices
+      Drivers: hv: vmbus: Use *_ONCE() to access shared ring buffer indices
+      Drivers: hv: vmbus: Compute ring byte counts from a caller-held snapshot
+      Drivers: hv: vmbus: Keep the ring byte counts sane for a bad index
+      Documentation: hyperv: Describe validation of the ring buffer indices
+
+ Documentation/virt/hyperv/coco.rst |   5 +-
+ drivers/hv/ring_buffer.c           | 118 ++++++++++++++++---------------------
+ include/linux/hyperv.h             |  58 ++++++++++++++----
+ 3 files changed, 100 insertions(+), 81 deletions(-)
+---
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
