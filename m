@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A0A742C4FC;
-	Mon, 19 Oct 2026 04:09:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7FA466AE1;
+	Mon, 19 Oct 2026 05:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792382965; cv=none; b=LFwLFIRmM/e/6s5QigiYc05bMGg0Wi/C9/RCfqJlmj81JnfMi8lOklfFlsSDA/dkRv/wRkrWh2JkFUw+Bf3bP7FuQqmcI145/Et20S4Kbid74/cXLF/2q+SSNzo9GJjVYyxOrjMppkxlMo+XvqiVxjq36JTT0/T0gA1Lm6zo3Dg=
+	t=1792386130; cv=none; b=CRB4voK11ynerQIENe+m4v/K6HxNTigJxTYxQml5VMZT5ljjCkF1cKbAVbn+L/tb29WL3ga5iTemAxRPmUPgn8jNk+PqlOb2hnp+x27MAZ0yyshx9IOQbFkET9dp892VQo8Za+HvKh/3LW5xLEVs5DGi+uik8w4BysdzhLqPTs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792382965; c=relaxed/simple;
-	bh=b3yN0+Sqbo+owN9vPmP5jDBhXYVkZHYesravJ0uaDIc=;
+	s=arc-20240116; t=1792386130; c=relaxed/simple;
+	bh=N1VzElti/CRCZRJYBLV1ksRYvHO8FeD1zy1hb2rRzAI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=c3ZCGrAj5oyCXKvcDmuJSs02aFYND48CGybJ2AkhDdWPJ41d7TciJzFEeVLWrWKgz/cwSkLjW8D9w+IVYdbic/7iTtjotNVmFicTcLkipEuOdj2DQx/yQ5bHQZ2+R6hhjd7a2+VMgNXT/QCKfij3uYUsUEoDmrz9gbR8GkHTLgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ImAEDt4x; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=V/q2zDb/RwH3agrd4D8O0p+HWVo9ALhEipYFa4MvIH/LkjR51JlLrkKmKAXy+nhvF8RfDJDr/4ov1YAbYxX8K9iiMHp6Zwl2hS0M10+kiSuVJ/Wo2iOHU93nCKOCXl9tiM9qBmo7tUAfYd7m2grk3gRsu2Nd80+K08StYe7FlAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=e48BnFDO; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ImAEDt4x"
-Received: from [10.95.64.89] (unknown [52.172.102.253])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EBDCD20B7168;
-	Sun, 18 Oct 2026 21:09:08 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EBDCD20B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="e48BnFDO"
+Received: from [10.95.64.89] (unknown [52.172.102.187])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5E9C220B7168;
+	Sun, 18 Oct 2026 22:01:55 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5E9C220B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792382951;
-	bh=kD3aqbgMW82kfQTV55TBnU5yndyEktZgD20SrHfdxk8=;
+	s=default; t=1792386117;
+	bh=YJcjyOk1+QqolzuhxWeZuoupRLUPtFnlqT1FVyfOllc=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=ImAEDt4xzfR8mkkVyQ3hEKh3q+yUWvuTnYYGSpZir26oqkWFQkJ2gALjFDjhgay00
-	 BdINi+NDeWq4yBtBxGJu/KN83NdUCxYdiAvvS0kBROQFg2Wc9DXusN8LYfSrLkVNJT
-	 9k9rYyxmW+MDsXXAIlFXUKTEocpQTXtpXWuPn96c=
-Message-ID: <84c95503-b59a-457a-9225-0c746b0b6f44@linux.microsoft.com>
-Date: Mon, 19 Oct 2026 09:39:12 +0530
+	b=e48BnFDO0qDkM/QFQmuoMkJdN8vlCw5rgPZZPodgSGGlB3fzN0o9LGT7+SAxSb/qf
+	 ELQ2zgXs54SuewWzYFnHELVBVCC1BIHs5SsBbR4Im7wedy/sHDUgkJLyaj2AR0aXUm
+	 UMUbD51DDD5u+TLnezk1I216vKxkcgQYA4+awj+0=
+Message-ID: <778a2d3c-19bd-43ec-bc72-26fc02bfea47@linux.microsoft.com>
+Date: Mon, 19 Oct 2026 10:31:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -34,57 +34,67 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Documentation: hyperv: Update information on guest
- CPU offlining
-To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261017160848.14730-1-mhklinux@outlook.com>
+Subject: Re: [PATCH] mshv_vtl: initialize poll file mutex before device
+ registration
+To: Jiale Yao <yaojiale02@163.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Saurabh Sengar <ssengar@linux.microsoft.com>,
+ Roman Kisel <romank@linux.microsoft.com>,
+ Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261018034616.508850-1-yaojiale02@163.com>
 Content-Language: en-US
 From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20261017160848.14730-1-mhklinux@outlook.com>
+In-Reply-To: <20261018034616.508850-1-yaojiale02@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 10/17/2026 9:38 PM, Michael Kelley wrote:
-> In Hyper-V Overview documentation, remove the out-of-date reference
-> to explicitly reassigning VMBus channel interrupts before taking a
-> guest CPU offline. Instead, reference the VMBus documentation, which
-> is already up-to-date on this topic.
+On 10/18/2026 9:16 AM, Jiale Yao wrote:
+> mshv_vtl_init() registers /dev/mshv before initializing the poll file
+> mutex. A concurrent MSHV_SET_POLL_FILE ioctl can therefore attempt to lock
+> an uninitialized mutex while module initialization is still in progress.
 > 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> Initialize the file-scope mutex statically so it is ready before the misc
+> device becomes visible.
+> 
+> Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
+> Signed-off-by: Jiale Yao <yaojiale02@163.com>
 > ---
->   Documentation/virt/hyperv/overview.rst | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>   drivers/hv/mshv_vtl_main.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
-> index 77408a89d1a4..63489f73a299 100644
-> --- a/Documentation/virt/hyperv/overview.rst
-> +++ b/Documentation/virt/hyperv/overview.rst
-> @@ -132,11 +132,11 @@ Starting in Windows Server 2022 Hyper-V, the ACPI tables reflect
->   only the CPUs actually present in the VM, so Linux does not report
->   any hot-add CPUs.
+> diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+> index d8225242c73f..2b40c9e3bf88 100644
+> --- a/drivers/hv/mshv_vtl_main.c
+> +++ b/drivers/hv/mshv_vtl_main.c
+> @@ -95,7 +95,7 @@ union hv_synic_overlay_page_msr {
+>   	} __packed;
+>   };
 >   
-> -A Linux guest CPU may be taken offline using the normal Linux
-> -mechanisms, provided no VMBus channel interrupts are assigned to
-> -the CPU.  See the section on VMBus Interrupts for more details
-> -on how VMBus channel interrupts can be re-assigned to permit
-> -taking a CPU offline.
-> +A Linux guest CPU may be taken offline, and subsequently brought
-> +back online, using the normal Linux mechanisms. See the "VMBus
-> +Interrupts" section of Documentation/virt/hyperv/vmbus.rst
-> +documentation for how VMBus channel interrupts are automatically
-> +re-assigned if necessary when taking a CPU offline.
+> -static struct mutex mshv_vtl_poll_file_lock;
+> +static DEFINE_MUTEX(mshv_vtl_poll_file_lock);
+>   static union hv_register_vsm_page_offsets mshv_vsm_page_offsets;
+>   static union hv_register_vsm_capabilities mshv_vsm_capabilities;
 >   
->   32-bit and 64-bit
->   -----------------
+> @@ -1370,8 +1370,6 @@ static int __init mshv_vtl_init(void)
+>   		goto free_low;
+>   	}
+>   
+> -	mutex_init(&mshv_vtl_poll_file_lock);
+> -
+>   	device_initialize(mem_dev);
+>   	dev_set_name(mem_dev, "mshv vtl mem dev");
+>   	ret = device_add(mem_dev);
 
-LGTM.
+While this issue may not happen in practice, as OpenVMM userspace runs 
+much later than these init function invocations, but it is good to have 
+the potential race condition fixed.
 
 Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
 
 Regards,
 Naman
+
+
