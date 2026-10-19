@@ -1,53 +1,40 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8FD3D0BE5;
-	Mon, 19 Oct 2026 10:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61E004078F0;
+	Mon, 19 Oct 2026 12:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792406803; cv=none; b=Fp1g1bQCxaIjbXe/ASScqJodOqV9Z6JZBKggGzLSXkiEE0KvybeLWTk5Z0x1c7K11sbH7BGx/lcjheA56a4S7BZ0d8C+yJuIOXXnAYy/GUB1ANlJNL6m91sjVbGIsZV0sVvhzvnMMvkwtBIZBfRuvdTFCcw9mdw1kzKTmJ6QXro=
+	t=1792411785; cv=none; b=oICpN8MrKjnm1ZkC4DVYcVnqc5V6WVOvA5MA+z2xsnHTSaPwdeFCbzjxxp1ObQWT0DlmOA+8vGItpZdd6jBGzVC4vYYtWs37ed1lxJn+8eBtgg95NLlN/1FvXBB1sjlEic9K82xoJlBPKj5CZDuMQzKZCbzQ583MX+Fp0Bz60gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792406803; c=relaxed/simple;
-	bh=7EahbaIvSNoStgd3GuvS9Sej9J5K4CVxbTqbLWV91h0=;
+	s=arc-20240116; t=1792411785; c=relaxed/simple;
+	bh=66/kSXIZunIvMysX4NXfRh6x8iUihn5RIgQeItorBbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C6OqNCEfoaSnCmIxdJswzqqLUBnxSOGeby2/MatqsC+XJm/ShgR4iMe/fN5aAfP/c3SN6en1T3MJD1TzL8vWhkDMQd6oOe+vk7KYl+Whsq03OqfNGuoIofXpMoK3wMQBG/11qBUBZ5WNYkV9Ulg73UV3qHRM7ttMuDdI5rGaugA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EDQWET1g; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtE5KvpaxwFeCrSGhvVMNyJSHJiBaMrSm/a252oeEMBZx3x5D0yeco29yTHN/5OcQizZAeP3geyQeuYvoUz2sXuLoFoeBFWq99/Jaze6aLlH2LmonJwSN7N1ezffweG47bfPUBQIBEXJkmDf9GPoFrmJxTNBZ7dOlZR6tWVBnKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZAEyAWYv; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EDQWET1g"
-Received: by linux.microsoft.com (Postfix, from userid 1173)
-	id C8C9420B7168; Mon, 19 Oct 2026 03:46:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C8C9420B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZAEyAWYv"
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 9B7DC20B7188; Mon, 19 Oct 2026 05:09:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B7DC20B7188
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792406787;
-	bh=bpfPV1+6zKyTa71p4GD/3mudHiMgZCQ8hMtEVkuM3rA=;
+	s=default; t=1792411777;
+	bh=7srkqM2xefj9HVtBCkJOPVB1o5A3cjKerH/znl0Otwk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EDQWET1go83y0F2TuyoKEV+PWWR1qrPlaoZwR+BxPnlYzhOrynZLRoaWy8sfsE9hC
-	 Dt/0Nl/UJg4dLxi+wHViSO08agRvKCzi6Ms5la4TO9c2RyDbgz2Wi0fg0McQLnTe8C
-	 h68UzJEBBi1kBkb2w4rqUyyUJkXvpoVnelB4Oll4=
-Date: Mon, 19 Oct 2026 03:46:27 -0700
-From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>,
-	Dexuan Cui <DECUI@microsoft.com>,
-	"longli@microsoft.com" <longli@microsoft.com>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"hawk@kernel.org" <hawk@kernel.org>,
-	"andriin@fb.com" <andriin@fb.com>,
-	Saurabh Singh Sengar <ssengar@microsoft.com>
-Subject: Re: [EXTERNAL] [PATCH net-next 0/5] hv_netvsc: make XDP propagation
- act more like bonding
-Message-ID: <atX1A9+2R251mM1m@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261001014131.310771-1-kuba@kernel.org>
- <LV5PR21MB4704E9960B2B82028F2FB51DCA892@LV5PR21MB4704.namprd21.prod.outlook.com>
- <5636487a-31c7-43fb-8b27-a6a98b15200f@linux.microsoft.com>
- <asgJo+PasN8D+C/p@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+	b=ZAEyAWYvPJTNGxmIs2Wr/emJ/bVsFjprGvumEr9eZLulMzQk1L/KV9Pd8DmmGQ+y/
+	 Dh4IimOUPA8RXzTeNsOyKWSp7KVI0nG7km5W1hMiz5gbrHom+i4eh8B1mzvPBPVD97
+	 /cnUqEkpxBbYgagtiQvtNkDpEi7anXEg+fP9PpQY=
+Date: Mon, 19 Oct 2026 08:09:37 -0400
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: mhklinux@outlook.com
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/1] Documentation: hyperv: Update information on guest
+ CPU offlining
+Message-ID: <atYIgc2jsyh9u1Uy@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261017160848.14730-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -56,34 +43,43 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <asgJo+PasN8D+C/p@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20261017160848.14730-1-mhklinux@outlook.com>
 
-On Thu, Oct 08, 2026 at 02:22:43PM -0700, Erni Sri Satya Vennela wrote:
-> On Tue, Oct 06, 2026 at 01:59:05PM -0700, Kameron Carr wrote:
-> > On 10/2/2026 12:38 PM, Haiyang Zhang wrote:
-> > > 
- 
-> I am continuing investigation of synthetic fallback with an
-> independently programmed MANA VF and rejected-replacement restoration.
+On Sat, Oct 17, 2026 at 09:08:48AM -0700, Michael Kelley wrote:
+> In Hyper-V Overview documentation, remove the out-of-date reference
+> to explicitly reassigning VMBus channel interrupts before taking a
+> guest CPU offline. Instead, reference the VMBus documentation, which
+> is already up-to-date on this topic.
 > 
-> Regards,
-> Vennela
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+
+Reviewed-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+
+> ---
+>  Documentation/virt/hyperv/overview.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Tested-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-
-I tested an arriving VF with its own XDP program while netvsc already
-had a different program attached.
-
-On both MANA and mlx5, netvsc refused to join the VF and preserved
-both programs without overwriting the VF's program. With the
-unjoined VF independently brought UP, VF received traffic directly
-through it. Both drivers supported independent reception before this
-series and are unchanged by these patches. Ownership protection therefore
-passed on both, but refusal to join does not establish synthetic-only
-delivery for an independently UP VF.
-
-The commit message in [PATCH 3/5] says traffic stays on the synthetic
-path after refusal; does that assume the rejected VF remains down, or
-should it also hold when the VF is independently brought UP?
-
-- Vennela
+> diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
+> index 77408a89d1a4..63489f73a299 100644
+> --- a/Documentation/virt/hyperv/overview.rst
+> +++ b/Documentation/virt/hyperv/overview.rst
+> @@ -132,11 +132,11 @@ Starting in Windows Server 2022 Hyper-V, the ACPI tables reflect
+>  only the CPUs actually present in the VM, so Linux does not report
+>  any hot-add CPUs.
+>  
+> -A Linux guest CPU may be taken offline using the normal Linux
+> -mechanisms, provided no VMBus channel interrupts are assigned to
+> -the CPU.  See the section on VMBus Interrupts for more details
+> -on how VMBus channel interrupts can be re-assigned to permit
+> -taking a CPU offline.
+> +A Linux guest CPU may be taken offline, and subsequently brought
+> +back online, using the normal Linux mechanisms. See the "VMBus
+> +Interrupts" section of Documentation/virt/hyperv/vmbus.rst
+> +documentation for how VMBus channel interrupts are automatically
+> +re-assigned if necessary when taking a CPU offline.
+>  
+>  32-bit and 64-bit
+>  -----------------
+> -- 
+> 2.25.1
+> 
