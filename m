@@ -1,58 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792427533;
-	b=Y/xLsWw4NLcQsiomS1ygiVxFUmjoPeOb6pZg1seXdPoRwnene5OLg14y9tIYKY8y13TF
-	 1awLlsZW21RpFzqfDhJFMvz5aPQJw/h7ZSsavgCBD4YkIo7aOQ59Zis+bJLylgrTjuZOQ
-	 K8KejIb1EsqgHmceqjHINzQzQg1SXEYEMWVHT22RPQStR7SsdthaDZ31mkCaoa2cBknxR
-	 uWdtlMiZY4M8Wk27VXIYiwRHPEoTZifR0FEu+qx4bebG4zkwa7PzX23WqmZ1mh6ZvH2zA
-	 I5Mg5XSffm+Z8oYOkGdE9W2j4qdYguTmkZCGsY8T1VsfxLVreL5iE1Uc8FjyH99Flpg==
+	t=1792427577;
+	b=0cd523z7eawCZrdM8V3xvuXQ414+kE+kCOym7j/z9TC0G2XqPTAZI+1FjsgYkIXo5Wbx
+	 x0HVfxDkXtWduDjnSaZxWvl9OU8YT5QfLHQWQEs/chAwwQAWZ41dedW3RvfCJQuflpDVx
+	 bVWIR6aMwMHQYrB2qr9RuzpJVTYdHHGBP8k8pxY9b18BL90zcVlNCZr+f7OexXJJ2A4IS
+	 +C8H7fPettRTYINFVgHEZJ4fGEuXOi33MswoZRd5wtlIwYaBnXPy4DvFq2CISMoFCgDwz
+	 EubQv6gaiNjU6wDp95hrPZgOwG2ywDEyyK2NFtcCxAeysrLgIt4YTIxgsRQ4fh4I4LA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792427533;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=i255b40ZMmpIZGqcrOmg8txUse8R1k/KW0oaKIiX3bQ=;
-	b=HD7iI5xxIsx9RP0Uj/BSAmCk6Y8E8YRqVxU/wcCxSNUVGI/DdTs9TY1p2hLBylqWDDkh
-	 CuMeV0T49KMbbpt2tfTDlGPsNoxjzK3WP+oEFC0ZVMnfhh/qVNNYzOYloJJMSZpgsPL2H
-	 u+EqMPv0Pa07ZS0b9ScRa6D1OAtM6/y3JbJu9i42zgRQNGcXzMXmruZYS06kYYVM7PJOx
-	 1YyMHU3/qXhyeJ7Nt83wnwaQKrFOfJJfxfCccost5c/mkBHZeJLXzuHjNqXqObjy4/5Hs
-	 Gke9fu4YJApZ8wbObR9y0YrUYdGque0O7dXZuPu6amAnlyhQPYuyf5LYL2SajE8Pkvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792427577;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Server:
+	 X-Rspamd-Queue-Id:X-Rspamd-Action:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Flag:X-Spam-Score;
+	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
+	b=JcpuNj/x/81WBfNzKqDvvSpYhymSO2QyLXsLCID/D+YH43OmaqGilGeReki9ed8bW8bv
+	 kkVBUgrsJuSub5lBRk+LLbGG/G67WXbHdC37LJhpnOLzQMu+1GIFwDojGTefMVSm0MEyl
+	 tCkdTR4OCkZEI6UeprSH0dPbm2nU2FC0+6WjZ6vz4dNMhST115gXBLAOjJdapYcw1i4Cc
+	 Ruq8BctCLNWE96dIaO+TkJW6s7f7n6gTeH4sgi0/BCxuPE0iOS64mL2V39CA+81JvAdR1
+	 yvCS5HdPVV+R2cdwvYq/bstIyQSEide4vrwHJPQ+xvSN+ROsJOc0CDXgA427/9ORO/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BlvH+V41;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C54606A31F;
-	Mon, 19 Oct 2026 16:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1467C606A31D
+	for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 16:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1467C606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BlvH+V41
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0661F000C4;
-	Mon, 19 Oct 2026 16:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792427532;
-	bh=i255b40ZMmpIZGqcrOmg8txUse8R1k/KW0oaKIiX3bQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BlvH+V41S1/czwU7kzrqftcx3A5lvedV/70KmCHcuhRwytx9YxviG+nWM8sr8iVG5
-	 LFUP947xQb4BGOkSBqn/GK6zoXJV1RMAHMCLF2lwopCDit09Dz20zmGjAjUKt65jR9
-	 gZSCOnzHyou1MVk5ns3z21M0IKW6bkffc+7NnaO5CrTw2WZo3DhLNqoWGg2N9mpcaV
-	 D9mXb+9C2DUuwBKKVXsOFrzyHIdSTuyu+JjUifepvU+c0i8m5nH1xCRkj2+nku4CqS
-	 V8d89SyFNmRK3w3hejSmS9rIUGn0rs0RybaixqyR1GMqSnDyNw3O1hHYmUl3c/4v/J
-	 lU1sBTmo5zVdQ==
-Message-ID: <sashiko-outbox-177908@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/4] drm/pixel: Link draw helpers into
- drm_pixel_helper.ko
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org, imx@lists.linux.dev, virtualization@lists.linux.dev, Frank.Li@kernel.org, wsa+renesas@sang-engineering.com, "Michael
- S. Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
-In-Reply-To: <20261019154612.777074-5-tzimmermann@suse.de>
-References: <20261019154612.777074-1-tzimmermann@suse.de>
- <20261019154612.777074-5-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 16:32:11 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D74621C20;
+	Mon, 19 Oct 2026 16:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792427575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
+	b=IEv18a17/3KJqDEtJ4FSngYTj3bf77WTh8T024FZIz0miCpeCU+wv57ptKwXXXzv+Xa2Qn
+	TtUOhpJlroYh8l0L7EsEKcIZ0F3ELqDVtiXZC645yTmY+15wxeN7pHgzXKsXAg+TPoKTHQ
+	qUs/dAnYDNCqL7W7OCMOtqd0gN2y6EY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792427575;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
+	b=NU20AtNFudFpqxSUTQa8t9OuCNcdTvtxiTDvY4aTGYQpH1p6G2pz7ZZfnnL/Q4FECZyCE/
+	FOoB0oqNSxbQHlBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IEv18a17;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NU20AtNF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792427575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
+	b=IEv18a17/3KJqDEtJ4FSngYTj3bf77WTh8T024FZIz0miCpeCU+wv57ptKwXXXzv+Xa2Qn
+	TtUOhpJlroYh8l0L7EsEKcIZ0F3ELqDVtiXZC645yTmY+15wxeN7pHgzXKsXAg+TPoKTHQ
+	qUs/dAnYDNCqL7W7OCMOtqd0gN2y6EY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792427575;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
+	b=NU20AtNFudFpqxSUTQa8t9OuCNcdTvtxiTDvY4aTGYQpH1p6G2pz7ZZfnnL/Q4FECZyCE/
+	FOoB0oqNSxbQHlBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0194E136CC;
+	Mon, 19 Oct 2026 16:32:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VkahMjZG1morbQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 19 Oct 2026 16:32:54 +0000
+Message-ID: <4deb710d-ef64-4592-833d-ad1b84d715be@suse.de>
+Date: Mon, 19 Oct 2026 18:32:54 +0200
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -61,187 +107,219 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] drm/pixel: Link panic helpers into
+ drm_pixel_helper.ko
+To: sashiko-reviews@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, imx@lists.linux.dev,
+ virtualization@lists.linux.dev, Frank.Li@kernel.org,
+ wsa+renesas@sang-engineering.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eugenio Perez <eperezma@redhat.com>
+References: <20261019154612.777074-1-tzimmermann@suse.de>
+ <20261019154612.777074-4-tzimmermann@suse.de>
+ <sashiko-outbox-177862@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <sashiko-outbox-177862@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5D74621C20
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.00 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Score: -3.00
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] drm: missing DRM_PIXEL_HELPER dependency in DRM_KMS_HELPER
-- [Medium] drm/pixel: missing DRM_PIXEL_HELPER select in DRM_ST7920, DRM_XE=
-, and DRM_KMS_HELPER
-- [Low] drm/pixel: stale drm_draw.c reference in MAINTAINERS after rename
-- [Low] drm: drm_panic_helper.o omitted when DRM_KUNIT_TEST=3Dy and DRM_PAN=
-IC=3Dn
+
+
+Am 19.10.26 um 18:19 schrieb sashiko-bot@kernel.org:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+> - [Low] drm: missing DRM_PIXEL_HELPER select in DRM_KMS_HELPER for drm_crtc_init()
+
+I see this is still an issue. The fix here is to move drm_crtc_init() 
+into drivers. The only remaining callers of drm_crtc_init() are in 
+radeon and amdgpu. There was recently a patch to move the helper there, 
+[1] but the effort appears to have stalled.
+
+[1] 
+https://lore.kernel.org/dri-devel/20260903071409.427010-1-oushixiong1025@163.com/
+
+I'll do this before continuing with the pixel helpers.
+
+
+> - [Low] drm/tests: link failure in drm_panic_helper_test when CONFIG_DRM_PANIC=n
+> - [Low] drm/xe: missing DRM_PIXEL_HELPER dependency when DRM_PANIC=y
+> --
+>
+> commit d010f0f67d242682650aa0651dfd5a1e57612943
+> Author: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> drm/pixel: Link panic helpers into drm_pixel_helper.ko
+>
+> This commit moves the DRM panic helpers from drm_kms_helper into
+> drm_pixel_helper.ko, drops the DRM_PANIC_HELPER Kconfig option, and
+> selects DRM_PIXEL_HELPER in drivers using the panic helpers.
+>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index 8e4a588e9111d..bf7c599443403 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -46,13 +46,14 @@ config DRM_MIPI_DSI
+>>   config DRM_KMS_HELPER
+>>   	tristate
+>>   	depends on DRM
+>> -	select DRM_PANIC_HELPER if DRM_PANIC
+>>   	help
+>>   	  CRTC helpers for KMS drivers.
+> [Severity: Low]
+> Does DRM_KMS_HELPER also need to select DRM_PIXEL_HELPER if DRM_PANIC?
+>
+> drivers/gpu/drm/drm_modeset_helper.c is unconditionally compiled into
+> drm_kms_helper, and its primary_plane_funcs structure (used by
+> drm_crtc_init()) includes DRM_PANIC_PLANE_FUNCS:
+>
+> drivers/gpu/drm/drm_modeset_helper.c:
+>      static const struct drm_plane_funcs primary_plane_funcs = {
+>              DRM_PLANE_NON_ATOMIC_FUNCS,
+>              DRM_PANIC_PLANE_FUNCS,
+>      };
+>
+> When CONFIG_DRM_PANIC is enabled, DRM_PANIC_PLANE_FUNCS expands in
+> include/drm/drm_panic_helper.h to reference
+> drm_plane_helper_display_panic_screen, which is now built into
+> drm_pixel_helper. If CONFIG_DRM_PANIC=y and DRM_KMS_HELPER is enabled
+> without a matching built-in or modular DRM_PIXEL_HELPER, linking fails
+> with an undefined reference to drm_plane_helper_display_panic_screen.
+>
+> [ ... ]
+>
+>> diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
+>> index 1afb9cad850f6..4573cad368a28 100644
+>> --- a/drivers/gpu/drm/Kconfig.debug
+>> +++ b/drivers/gpu/drm/Kconfig.debug
+>> @@ -69,7 +69,6 @@ config DRM_KUNIT_TEST
+>>   	select DRM_EXPORT_FOR_TESTS if m
+>>   	select DRM_GEM_SHMEM_HELPER
+>>   	select DRM_KUNIT_TEST_HELPERS
+>> -	select DRM_PANIC_HELPER
+>>   	select DRM_PIXEL_HELPER
+>>   	select DRM_SYSFB_HELPER
+>>   	select PRIME_NUMBERS
+> [Severity: Low]
+> Can removing select DRM_PANIC_HELPER from DRM_KUNIT_TEST cause a link
+> failure when CONFIG_DRM_PANIC is disabled?
+>
+> With this change, drm_panic_helper.o is only built into drm_pixel_helper
+> when CONFIG_DRM_PANIC is enabled:
+>
+> drivers/gpu/drm/Makefile:
+>      drm_pixel_helper-$(CONFIG_DRM_PANIC) += drm_panic_helper.o
+>
+> However, drivers/gpu/drm/tests/Makefile still builds
+> drm_panic_helper_test.o unconditionally under obj-$(CONFIG_DRM_KUNIT_TEST),
+> and functions such as drm_panic_helper_draw_screen_user_default() in
+> drivers/gpu/drm/tests/drm_panic_helper_test.c call
+> drm_panic_helper_draw_screen_user(), drm_panic_helper_draw_screen_kmsg(),
+> drm_panic_helper_set_description(), and
+> drm_panic_helper_clear_description(). When CONFIG_DRM_KUNIT_TEST is enabled
+> and CONFIG_DRM_PANIC=n, linking fails with undefined references to those
+> symbols.
+>
+> [ ... ]
+>
+>> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+>> index 71426b9c91f00..f698d3c8daa9e 100644
+>> --- a/drivers/gpu/drm/i915/Kconfig
+>> +++ b/drivers/gpu/drm/i915/Kconfig
+>> @@ -19,6 +19,7 @@ config DRM_I915
+>>   	select DRM_KMS_HELPER
+>>   	select DRM_PANEL
+>>   	select DRM_MIPI_DSI
+>> +	select DRM_PIXEL_HELPER if DRM_PANIC
+>>   	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
+>>   	select RELAY
+>>   	select I2C
+> [Severity: Low]
+> Should DRM_XE or DRM_XE_DISPLAY in drivers/gpu/drm/xe/Kconfig also select
+> DRM_PIXEL_HELPER if DRM_PANIC?
+>
+> When CONFIG_DRM_XE_DISPLAY=y, drivers/gpu/drm/xe/Makefile compiles
+> drivers/gpu/drm/i915/display/skl_universal_plane.c into xe.ko, where
+> skl_plane_funcs, icl_plane_funcs, and tgl_plane_funcs use
+> DRM_PANIC_PLANE_FUNCS:
+>
+> drivers/gpu/drm/i915/display/skl_universal_plane.c:
+>      static const struct drm_plane_funcs skl_plane_funcs = {
+>              ...
+>              DRM_PANIC_PLANE_FUNCS,
+>      };
+>
+> If CONFIG_DRM_XE=m, CONFIG_DRM_XE_DISPLAY=y, and CONFIG_DRM_PANIC=y are
+> enabled while CONFIG_DRM_PIXEL_HELPER=n, modpost fails with an undefined
+> reference to drm_plane_helper_display_panic_screen in xe.ko.
+>
+> [ ... ]
+>
+
+-- 
 --
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
 
-commit 8f1149ac31f00f33aec39cba3d1477d5b9456a23
-Author: Thomas Zimmermann <tzimmermann@suse.de>
 
-drm/pixel: Link draw helpers into drm_pixel_helper.ko
-
-This commit moves drm_draw.c (renamed to drm_draw_helper.c) from the DRM
-core into drm_pixel_helper.ko, removes the DRM_DRAW Kconfig symbol, and
-updates DRM_CLIENT_LIB to select DRM_PIXEL_HELPER when DRM_CLIENT_LOG is
-enabled.
-
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index bf7c599443403..1b16e6101a53a 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -52,15 +52,10 @@ config DRM_KMS_HELPER
->  config DRM_PIXEL_HELPER
->  	tristate
->  	depends on DRM
-> -	select DRM_DRAW if DRM_PANIC
->  	select FONT_SUPPORT if DRM_PANIC
->  	help
->  	  Helpers for working with pixel data in DRM.
-> =20
-> -config DRM_DRAW
-> -	bool
-> -	depends on DRM
-> -
->  config DRM_PANIC
->  	bool "Display a user-friendly message when a kernel panic occurs"
->  	depends on DRM && PRINTK
-
-[Severity: High]
-With drm_format_helper.o and drm_panic_helper.o moved from drm_kms_helper.ko
-into drm_pixel_helper.ko in this series, does DRM_KMS_HELPER in
-drivers/gpu/drm/Kconfig also need to select DRM_PIXEL_HELPER?
-
-In drivers/gpu/drm/Makefile, drm_kms_helper.o unconditionally links in
-drm_gem_atomic_helper.o and drm_modeset_helper.o.
-
-In drivers/gpu/drm/drm_gem_atomic_helper.c, the shadow plane helpers call
-format conversion functions that are now in drm_pixel_helper.ko:
-
-drivers/gpu/drm/drm_gem_atomic_helper.c:__drm_gem_shadow_plane_state_init()=
- {
-	__drm_atomic_helper_plane_state_init(&shadow_plane_state->base, plane);
-	drm_format_conv_state_init(&shadow_plane_state->fmtcnv_state);
-}
-
-Along with drm_format_conv_state_copy() in
-__drm_gem_duplicate_shadow_plane_state() and
-drm_format_conv_state_release() in __drm_gem_destroy_shadow_plane_state().
-
-Similarly, in drivers/gpu/drm/drm_modeset_helper.c, primary_plane_funcs uses
-DRM_PANIC_PLANE_FUNCS:
-
-static const struct drm_plane_funcs primary_plane_funcs =3D {
-	DRM_PLANE_NON_ATOMIC_FUNCS,
-	DRM_PANIC_PLANE_FUNCS,
-};
-
-When CONFIG_DRM_PANIC=3Dy, DRM_PANIC_PLANE_FUNCS references
-drm_plane_helper_display_panic_screen(), which is now defined in
-drm_panic_helper.c inside drm_pixel_helper.ko.
-
-Without DRM_KMS_HELPER selecting DRM_PIXEL_HELPER, won't configurations with
-CONFIG_DRM_KMS_HELPER enabled and CONFIG_DRM_PIXEL_HELPER=3Dn (or
-CONFIG_DRM_KMS_HELPER=3Dy and CONFIG_DRM_PIXEL_HELPER=3Dm) fail to link with
-undefined references to drm_format_conv_state_init(),
-drm_format_conv_state_copy(), drm_format_conv_state_release(), and
-drm_plane_helper_display_panic_screen()?
-
-[Severity: Medium]
-Are there also a couple of drivers missing a select of DRM_PIXEL_HELPER
-after moving the format and panic helpers into drm_pixel_helper.ko?
-
-1. In drivers/gpu/drm/sitronix/Kconfig, DRM_ST7571 and DRM_ST7586 were
-updated to select DRM_PIXEL_HELPER, but DRM_ST7920 was not:
-
-config DRM_ST7920
-	tristate "DRM support for Sitronix ST7920 LCD displays"
-	depends on DRM && SPI && MMU
-	select DRM_GEM_SHMEM_HELPER
-	select DRM_KMS_HELPER
-	select REGMAP_SPI
-
-However, drivers/gpu/drm/sitronix/st7920.c calls drm_fb_xrgb8888_to_mono()
-in st7920_fb_blit_rect() and drm_format_conv_state_reserve() in
-st7920_primary_plane_atomic_check(), both of which are in
-drm_format_helper.c.
-
-2. In drivers/gpu/drm/xe/Kconfig, neither DRM_XE nor DRM_XE_DISPLAY selects
-DRM_PIXEL_HELPER if DRM_PANIC (unlike DRM_I915), even though
-drivers/gpu/drm/xe/Makefile compiles i915-display/skl_universal_plane.o
-into xe.ko when CONFIG_DRM_XE_DISPLAY=3Dy, which uses DRM_PANIC_PLANE_FUNCS
-and references drm_plane_helper_display_panic_screen().
-
-Could these cause link failures when building DRM_ST7920 or DRM_XE without
-DRM_PIXEL_HELPER enabled?
-
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 18a5a5baf0293..ab9eb4c212648 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -91,7 +91,6 @@ drm-$(CONFIG_DRM_PRIVACY_SCREEN) +=3D \
->  	drm_privacy_screen_x86.o
->  drm-$(CONFIG_DRM_ACCEL) +=3D ../../accel/drm_accel.o
->  drm-$(CONFIG_DRM_PANIC) +=3D drm_panic.o
-> -drm-$(CONFIG_DRM_DRAW) +=3D drm_draw.o
->  drm-$(CONFIG_DRM_RAS) +=3D drm_ras.o drm_ras_nl.o drm_ras_genl_family.o
->  obj-$(CONFIG_DRM)	+=3D drm.o
-> =20
-> @@ -100,6 +99,7 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) +=3D drm_pa=
-nel_orientation_quirks.o
->  obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) +=3D drm_panel_backlight_quirks=
-.o
-> =20
->  drm_pixel_helper-y :=3D \
-> +	drm_draw_helper.o \
->  	drm_format_helper.o \
->  	drm_pixel_helper_common.o
->  drm_pixel_helper-$(CONFIG_DRM_PANIC) +=3D drm_panic_helper.o
-
-[Severity: Low]
-What happens when CONFIG_DRM_KUNIT_TEST is enabled while CONFIG_DRM_PANIC=
-=3Dn
-(such as with the default drivers/gpu/drm/tests/.kunitconfig)?
-
-In drivers/gpu/drm/tests/Makefile, drm_panic_helper_test.o is built
-unconditionally under CONFIG_DRM_KUNIT_TEST, and
-drivers/gpu/drm/tests/drm_panic_helper_test.c calls
-drm_panic_helper_draw_screen_user(), drm_panic_helper_draw_screen_kmsg(),
-drm_panic_helper_set_description(), and
-drm_panic_helper_clear_description():
-
-static int drm_panic_helper_draw_screen_user_default(struct drm_scanout_buf=
-fer *sb)
-{
-	return drm_panic_helper_draw_screen_user(sb, 0x00ffffff, 0x00000000);
-}
-
-Previously, DRM_KUNIT_TEST selected DRM_PANIC_HELPER, which built
-drm_panic_helper.o and selected FONT_SUPPORT even when CONFIG_DRM_PANIC=3Dn.
-
-Now that DRM_KUNIT_TEST in drivers/gpu/drm/Kconfig.debug selects
-DRM_PIXEL_HELPER instead of DRM_PANIC_HELPER, and drm_panic_helper.o is only
-compiled into drm_pixel_helper when CONFIG_DRM_PANIC is enabled (and
-DRM_PIXEL_HELPER only selects FONT_SUPPORT if DRM_PANIC), won't building
-DRM_KUNIT_TEST with CONFIG_DRM_PANIC=3Dn fail at link time with undefined
-references to the drm_panic_helper_* functions?
-
-[ ... ]
-
-> diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw_helper=
-.c
-> similarity index 100%
-> rename from drivers/gpu/drm/drm_draw.c
-> rename to drivers/gpu/drm/drm_draw_helper.c
-
-[Severity: Low]
-Should theDRM PANIC entry in MAINTAINERS also be updated to reflect the
-rename from drivers/gpu/drm/drm_draw.c to drivers/gpu/drm/drm_draw_helper.c?
-
-DRM PANIC
-M:	Jocelyn Falempe <jfalempe@redhat.com>
-M:	Javier Martinez Canillas <javierm@redhat.com>
-L:	dri-devel@lists.freedesktop.org
-S:	Supported
-T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-F:	drivers/gpu/drm/drm_draw.c
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019154612.7770=
-74-1-tzimmermann@suse.de?part=3D4
