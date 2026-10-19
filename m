@@ -1,112 +1,137 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5B849A3AB;
-	Mon, 19 Oct 2026 09:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D160498E0E
+	for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 09:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792400866; cv=none; b=hK7GnPALigLiBDiJ34r61u7KlmRRi0tw5w56GtBJ/u6L3CtvuVDrB2eMTu+jRoqpCDeHgEyx/nqv46abIXsQYgAgzZVu5tdBpTRxmBL2QTQXcXs4FhSLVKFL8Fz/MNOyL5lcquOs4ZtsmviCWPcvOSO07RsChDRki/mXpM7CXCU=
+	t=1792401004; cv=none; b=F3Wwx7oGaaOaJgWKUPca6CesWnWMqjINOyJDHaA5TOFdU52Mhs7XUgdVF2ZiXcL0u2eMnWk7rGXmfGTuT/WzsztKsE3ZkS/PPy6XvHQW7IOwC5h7jz3wg5Lefs0lDa4OoAOUWQxZmu3dzIcsKufwYFqwag1a1Us/f30Al3+izSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792400866; c=relaxed/simple;
-	bh=+10VJtpyBQ72wzq5Nb9BBeqVR7geSvFh24503lC8YFU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FpNQitEfBx9VON8mYvFTVoNOq0tCGpALGbMmB5k2FjHXOJoImrq+IUE+KlHRUqz4VlUQwr6SNrxbKl97Gddo4LlJjfg84dgHLYgWMtPzJIgKAOr/WfruIrkUni8TTxth0D8LMLEEgwZ/YUhLfEbfmhPg6G6OCTI6vLmQcH+wP4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fSjMWvQH; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1792401004; c=relaxed/simple;
+	bh=JMVYcWp/D5ji6uUctFJe//825PK3O/g/2qFM+8O3108=;
+	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
+	 Date; b=sWIw5LQgj9CotlRJVqiW+9/hWf98c+n1PyM1e8Xi+zvHPZ6eBhGLIaxwGIRde++JC/bIY1ohxA/NoHE2UiJQ74C5AmJQMh6m0wEPn8WrTApGx/zMH+kstFZCgQfId9D8EqSInU4d/WSIxI3CCPX7koJoTQ9+B71AiaRw0zgiCx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n27aD4KU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fSjMWvQH"
-Received: from [10.95.64.89] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9BEF420B7168;
-	Mon, 19 Oct 2026 02:07:35 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9BEF420B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792400857;
-	bh=OH4vWuOgczp+V/xBT0eeZsAh2EAied0ct7EXt9CRiVU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fSjMWvQHItQ++eTpDTHVzd1dczhW4kF/wpVfWg6Ud5Ih3gYKoX7YWP/6z6yG9z7fW
-	 4m/DgBlUSXJPSDG8xj8GVhJ0KOcZIREM0RSeo+tU09k0ec5vOu7v4R8l5McZxjGeer
-	 D9ekdniR6EPWyiXPaqNB7xAjmOpJCVRJJnunj394=
-Message-ID: <61e6d816-7cd4-4124-960c-805f7689b568@linux.microsoft.com>
-Date: Mon, 19 Oct 2026 14:37:39 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n27aD4KU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE35C1F000C4;
+	Mon, 19 Oct 2026 09:10:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792401003;
+	bh=El7mK+lYY00X/HLu2UQHY62wqXpLF1dP2d/MSZtIoUs=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=n27aD4KUGkG4tf0JhEuXlq2CJomfAJvxqvfY14Lh8QpnhhoXMTw2uli4z5f1X9ycF
+	 ITdHXM+WNkZnge9RcvYa/0FIRNL62KD42sL0A4+aQF6JydgsGIkYO+PIGmN3Sfu48V
+	 WvuHb8xTMhufR6iXTY4JuxCkvY8djK0onKl/WhDiEVIQnIwoEBBBrsK7PqDMW7ub8m
+	 xBytgSJCk4W8kdTEXp9bHz5TC3A7BGBs1/OoxXBbXufnJ0KK/YdY6WsnIA7Sajmia2
+	 KgoXCB4NhspdbEsEolZ2nzhML7IgjLRjxNO3qZGa0280vxZzBgu/k/1kyhp1iAy7Js
+	 E3B7H5M+Wn1qA==
+Message-ID: <sashiko-outbox-176875@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jiale Yao" <yaojiale02@163.com>, linux-hyperv@vger.kernel.org
+In-Reply-To: <20261019085544.1834700-1-yaojiale02@163.com>
+References: <20261019085544.1834700-1-yaojiale02@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Oct 2026 09:10:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] mshv_vtl: fix poll waitqueue handling
-To: Daehyeon Ko <4ncienth@gmail.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-Cc: Saurabh Sengar <ssengar@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1792398881.git.4ncienth@gmail.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <cover.1792398881.git.4ncienth@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] hv/vmbus: NULL dev_id passed to drv->probe() in vmbus_probe() on d=
+ynid race
+--
 
+commit 3bc8de7f762094d04ea5ef5ada2811cd26424021
+Author: Jiale Yao <yaojiale02@163.com>
 
-On 10/19/2026 2:13 PM, Daehyeon Ko wrote:
-> MSHV_SET_POLL_FILE retains one embedded wait entry per CPU after vfs_poll()
-> returns. Two independent bugs affect that state.
-> 
-> First, a provider such as signalfd may retire a non-file-owned waitqueue
-> with POLLFREE. The MSHV callback leaves its entry linked and retains the
-> queue pointer, allowing a later replacement to access freed provider
-> memory. Patch 1 detaches on POLLFREE and introduces an RCU-safe removal
-> helper.
-> 
-> Second, a poll callback may register more than one waitqueue. MSHV inserts
-> the same embedded list node into each queue, corrupting the first list.
-> Patch 2 rejects a second distinct queue and uses the common helper to
-> unwind the first registration.
-> 
-> The roots, triggers, effects, and runtime oracles remain independent.
-> Source-equivalent KASAN/LOCKDEP tests reproduced both bugs and validated
-> the fixes. The local system is not a Hyper-V VTL2 environment, so the
-> series has not been exercised through the real MSHV ioctl. OpenVMM does
-> not exercise these paths in its current use of the interface.
-> 
-> An LLM assisted the source audits, fix development, and validation. Each
-> patch notes that assistance in its changelog.
-> 
-> Changes in v2:
-> - combine the two previously standalone fixes into one series;
-> - rebase onto current Torvalds master;
-> - introduce the removal helper in patch 1 and reuse it in patch 2;
-> - replace the obsolete Assisted-by trailer with changelog prose.
-> 
-> Previous standalone submissions:
-> - POLLFREE v1: <20261017141527.623376-1-4ncienth@gmail.com>
-> - multi-waitqueue v2, now withdrawn:
->    <20261019070438.3732624-1-4ncienth@gmail.com>
-> 
-> Daehyeon Ko (2):
->    mshv_vtl: detach poll waiter on POLLFREE
->    mshv_vtl: reject poll files with multiple waitqueues
-> 
->   drivers/hv/mshv_vtl_main.c | 51 ++++++++++++++++++++++++++++++++++----
->   1 file changed, 46 insertions(+), 5 deletions(-)
-> 
-> 
-> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+hv/vmbus: copy dynamic IDs before dropping the lock
 
-I would suggest you to generally wait for a couple more days to collect 
-other reviewers feedback as well, in case someone is reviewing your 
-changes. You can then address them together in the next version.
+This commit copies matching dynamic device IDs into a caller-provided stack
+variable while holding drv->dynids.lock so that driver probe callbacks do n=
+ot
+receive a pointer to a dynamic ID entry that was concurrently freed by
+remove_id_store().
 
-For the series,
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 4692687cdbf3b..96ad0dfaa50ba 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
 
-Regards,
-Naman
+[ ... ]
 
+> @@ -860,9 +864,10 @@ static int vmbus_probe(struct device *child_device)
+>  	struct hv_driver *drv =3D
+>  			drv_to_hv_drv(child_device->driver);
+>  	struct hv_device *dev =3D device_to_hv_device(child_device);
+> +	struct hv_vmbus_device_id dev_id_copy;
+>  	const struct hv_vmbus_device_id *dev_id;
+> =20
+> -	dev_id =3D hv_vmbus_get_id(drv, dev);
+> +	dev_id =3D hv_vmbus_get_id(drv, dev, &dev_id_copy);
+>  	if (drv->probe) {
+>  		ret =3D drv->probe(dev, dev_id);
+>  		if (ret !=3D 0)
 
-guidance: 
-https://docs.kernel.org/process/submitting-patches.html#don-t-get-discouraged-or-impatient
+[Severity: High]
+What happens if remove_id_store() removes the matching dynamic ID after
+vmbus_match() succeeds, but before vmbus_probe() calls hv_vmbus_get_id()?
 
+Since vmbus_match() and vmbus_probe() acquire and release drv->dynids.lock
+separately via hv_vmbus_get_id() -> hv_vmbus_dynid_match(), a concurrent
+remove_id_store() can delete the matching entry in between:
 
+drivers/hv/vmbus_drv.c:remove_id_store() {
+	...
+	spin_lock(&drv->dynids.lock);
+	list_for_each_entry_safe(dynid, n, &drv->dynids.list, node) {
+		struct hv_vmbus_device_id *id =3D &dynid->id;
 
+		if (guid_equal(&id->guid, &guid)) {
+			list_del(&dynid->node);
+			kfree(dynid);
+			retval =3D count;
+			break;
+		}
+	}
+	spin_unlock(&drv->dynids.lock);
+	...
+}
+
+When that happens (or if driver_override is cleared between vmbus_match()
+and vmbus_probe()), hv_vmbus_get_id() in vmbus_probe() returns NULL, and
+vmbus_probe() passes dev_id =3D NULL to drv->probe(dev, dev_id).
+
+Drivers such as storvsc and hv_util unconditionally dereference dev_id in
+their probe callbacks:
+
+drivers/scsi/storvsc_drv.c:storvsc_probe() {
+	...
+	bool dev_is_ide =3D dev_id->driver_data =3D=3D IDE_GUID;
+	bool is_fc =3D dev_id->driver_data =3D=3D SFC_GUID;
+	...
+}
+
+drivers/hv/hv_util.c:util_probe() {
+	struct hv_util_service *srv =3D
+		(struct hv_util_service *)dev_id->driver_data;
+	...
+}
+
+And for drivers that do not dereference dev_id (such as uio_hv_generic),
+probe will still succeed and bind the device even though the dynamic ID was
+already removed.
+
+Should vmbus_probe() check if (!dev_id && !is_hvsock_channel(dev->channel))
+and return -ENODEV before calling drv->probe(), similar to how
+__pci_device_probe() and usb_probe_interface() handle a removed dynamic ID?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019085544.1834=
+700-1-yaojiale02@163.com?part=3D1
