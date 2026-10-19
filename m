@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792451400;
-	b=jBY80UIPUCepIVLAXaqUkBF7vFZ54kGzsovOwzggfs/YQEwDOz5Pr1KngXvrVNLJVFV5
-	 xg8zbLPzPXERbab8FRIO594F1B6uqJEX0e3yUrh7253Ukz9Q9cfcXigK7UEKQFeOfGos0
-	 uauE9/gCazOBOjAyE5OaLqqtR/YajwFv+S8ockVJ2ZtkgWHzZeg0n4wx9h7vgORohO1lW
-	 urmhGz8H3FaNm6Mi6YAY0USTRU0mSyyZUOUFi6KFLBP8wE0iKRzEpigrNzTzdTL7ljQ8J
-	 jEZdmgOSsJ/rIT4ukjneqJa/s2tAFKviMIPoFgBvD4eyDXbqeDwRpIe83fHlcxLWAdA==
+	t=1792451402;
+	b=VV4eCGepXZqLTuiz8F1LgnB/XWcu8y5Flfp9tZh/4XdIKeIb1xWD9n92w9q72Cn2qBg9
+	 zEsXXipiRZwLhXnqR8Y5IIh3/Af8nUNK9KBvaS7/1NoPTXj3miv3uZh/UjnYG+mouPrXz
+	 XKN0Sm2VUyVqUuPEeAkrJK4FJODlZeX8CqvVflZhk/2aqtkaFUmQ3Y6jlY40HevwusuzZ
+	 tPQ6yvUuaxOUSDovws/MaXwfziUKAsnrlsmUxg/mL/EiUUacGE/kGHgKaTWTPcuJi+rWj
+	 JaOCdpTjPhc+4h6ZqzywRHdT6cGhKxVaZPHc3qxsfGJCAW9LvCWmKxmIAti0EBUGYgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792451400;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792451402;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=qx8KJNJOi8moaasfyJXmWeZN1M18pHBM2JPzODhuEt0=;
-	b=mb3wDG5zBz/JYLUXt+dEtmWQcBlUFZFzfgtEJszI+El15lUZitWqxk8TB/BiXjsjgVTd
-	 YRbQv5mw5AB8Ty5QTLaFa8F1mB/y5iCehXc/8QPts7sfZ1tpX95cE1vFfN3sUcHISN+Mf
-	 1+TDJji3pfoM12km9XVtWjO+83AS3whILLZZrmug2KzjEQy+UsF0Ly2k8XhgjgyqeSlcu
-	 aM/ezssovSNw8ITJtbzjk9m/SAn7/exMCuB6dN23ieRgAnj6nUZcBfsFN/0Bgz0Mm0z+A
-	 A6KH36wJO/BTc7mgSqH56DpPjHXwPHunRCdtBSCac0msCglSZ4srJg1fKYlSTULfAdg==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
+	bh=kq706Yw7r1M42zq8+pGBk6neyIEicB8NU3VHhTPTwPA=;
+	b=jGiQ6uN36IULcoq9U6vDFv1/tP9sWk+lig3NLvYdUsZMIzmwbVZ2Cb0AD4gWLRVXw86p
+	 mnvdSEquHIlAzOxjQLGW9yloX8QxjpiY1EO/nCyy4QY7SRoy2a0ZxMxElhH2QGoLuUvRy
+	 /nj7VSy3xjWCek9N2R86Ik47YrHAI75DR2XgnHfEDThUX6ZMeOs/KBCJFntmNQZOFHQRa
+	 YV1dKKbD1P+lWWWPdLtirqoCQSiKt9tJyOSB6F5CWla3g+G/BxgpioSIinZQMQpXMCn9V
+	 BbP67XJEf/bCsYAH7BRwX+0WWs1+UEl9RjdAaeoo2NfpCeuHr76aaxO9596/VMySN4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=h6S8t5y7;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=iZjJCzWh;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F6E606A31A;
-	Mon, 19 Oct 2026 23:10:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F6E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978DE606A32A;
+	Mon, 19 Oct 2026 23:10:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 978DE606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=h6S8t5y7
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=iZjJCzWh
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C499D20B7168;
-	Mon, 19 Oct 2026 16:09:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C499D20B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 90EFE20B716F;
+	Mon, 19 Oct 2026 16:09:54 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 90EFE20B716F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792451392;
-	bh=qx8KJNJOi8moaasfyJXmWeZN1M18pHBM2JPzODhuEt0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=h6S8t5y7p147aJh7ncsouE6mRcsUh2DuFxHxQHIxvMC7cWTAVOLJBs1yWD3G1FhsR
-	 ZV9r2vx2l7EDe2PwKCohEek20HCzcgO493tKbgRC66BE8B2/4/U+9fv4CtqFmUpfl+
-	 0eBXxCyn+lYfBZa6Bc9h+22rO2FG9WvAxeeXSC1w=
+	s=default; t=1792451394;
+	bh=kq706Yw7r1M42zq8+pGBk6neyIEicB8NU3VHhTPTwPA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iZjJCzWhUD6xAADLxA7jXsdP7AaBDrMOBa1DOv9Wyy3Hwts8OwQrO2pXYOOXQfaXm
+	 3fFkZ7XGvlq8dwt7GehW5RV3keFXSSz9q1oP0wefwH5l2KfUnnj0giTpLb/2LmjtNd
+	 S1TKlHC0TTHAlmPhSLZlaDpUfCSYatXhaRtlD/UI=
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
 To: Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
@@ -48,10 +48,12 @@ To: Haiyang Zhang <haiyangz@microsoft.com>,
 	Michael Kelley <mhklinux@outlook.com>
 Cc: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] Drivers: hv: vmbus: Harden the ring buffer against a malicious host
-Date: Mon, 19 Oct 2026 16:09:45 -0700
-Message-ID: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+Subject: [PATCH v2 4/5] Drivers: hv: vmbus: Keep the ring byte counts sane for a bad index
+Date: Mon, 19 Oct 2026 16:09:49 -0700
+Message-ID: <20261019230950.1573677-5-kameroncarr@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+References: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -63,55 +65,106 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In a CoCo VM the host is untrusted. Since the VMBus ring buffer read and
-write indices live in shared memory, the guest has to treat both as
-potentially malicious and as changing at any time. This patch series
-adds bounds checking and reuses the validated indices instead of
-re-accessing them.
+The remaining users of the shared indices can't cause a bad memory
+access with the channels a CoCo VM accepts today, but an out-of-range
+index gives them a nonsense byte count. Give them defined behavior
+instead.
 
-Patch 1 contains the minimum security fix, and is the only patch in the
-series intended to be backported. hv_ringbuffer_write() copies into the
-ring at the write index, so a malicious host can make the guest write to
-memory outside the ring buffer. This is reachable on any channel a CoCo
-VM accepts.
+hv_pkt_iter_first() bounds its memcpy() by hv_pkt_iter_avail(), which
+is derived from write_index, and by pkt_buffer_size, which comes from
+max_pkt_size and can exceed ring_datasize. A bad write index can then
+make it read past the end of the ring. Only KVP has such a max_pkt_size
+(16K on a 12K ring with 4K pages), and vmbus_is_valid_offer() rejects
+it in isolated VMs, so this is latent. hv_pkt_iter_avail() now reports
+an empty ring for a bad write index and logs it, rate-limited like
+hv_ringbuffer_write(). It takes the channel instead of the ring so the
+message can include the relid.
 
-Patches 2 and 3 add READ/WRITE_ONCE annotations and refactor the helper
-functions to allow the caller to work with a consistent snapshot of the
-ring buffer indices.
+hv_get_bytes_to_read() and hv_get_bytes_to_write() now return 0 for a
+bad index, so callers see nothing to read and no room to write. This
+also stops hv_end_read() from reporting data that hv_pkt_iter_first()
+won't return, which would keep a channel rescheduling its callback.
 
-Patch 4 adds the rest of the bounds checking. The memcopy() in
-hv_pkt_iter_avail() can only result in an out-of-bounds read if
-rbi->pkt_buffer_size exceeds the ring's data size. KVP is the only
-in-tree channel whose max_pkt_size exceeds its ring's data size (16K vs
-12K on a 4K page guest). CoCo VMs reject the KVP channel, so this bug is
-currently unreachable on CoCo VMs. The other paths patch 4 checks can't
-cause a bad access, only a nonsense byte count or a wrong signaling
-decision.
+hv_pkt_iter_close() only uses the indices to decide whether to signal
+the host, so skip the signal if either is out of range.
 
-Patch 1 applies cleanly to v5.15 and later. The unchecked write goes
-back to the original driver, but the host is only untrusted in CoCo VMs,
-which Linux has supported since v5.12, so patch 1's Fixes tag points at
-the original driver while its stable tag starts at 5.15.x.
-
+Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
-v2:
-  - hv_ringbuffer_index_valid() -> hv_ringbuffer_indices_invalid()
-    combines read and write checks and reverses the polarity
-  - hv_pkt_iter_avail() reuses hv_ringbuffer_avail_read() arithmetic
-  - Document the need to validate ringbuffer indices
+ drivers/hv/ring_buffer.c | 16 ++++++++++++++--
+ include/linux/hyperv.h   |  4 ++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-v1: https://lore.kernel.org/all/20261001221040.1794904-1-kameroncarr@linux.microsoft.com/
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index cda957d..72f30ab 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -408,8 +408,9 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
+  * This is similar to hv_get_bytes_to_read but with private
+  * read index instead.
+  */
+-static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
++static u32 hv_pkt_iter_avail(const struct vmbus_channel *channel)
+ {
++	const struct hv_ring_buffer_info *rbi = &channel->inbound;
+ 	u32 priv_read_loc = rbi->priv_read_index;
+ 	u32 write_loc;
+ 
+@@ -421,6 +422,13 @@ static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
+ 	 * stale data.
+ 	 */
+ 	write_loc = virt_load_acquire(&rbi->ring_buffer->write_index);
++	if (unlikely(hv_ringbuffer_indices_invalid(rbi, priv_read_loc,
++						   write_loc))) {
++		pr_err_ratelimited("inbound write index out of range: relid %u write %u size %u\n",
++				   channel->offermsg.child_relid, write_loc,
++				   rbi->ring_datasize);
++		return 0;
++	}
+ 
+ 	return hv_ringbuffer_avail_read(rbi, priv_read_loc, write_loc);
+ }
+@@ -438,7 +446,7 @@ struct vmpacket_descriptor *hv_pkt_iter_first(struct vmbus_channel *channel)
+ 
+ 	hv_debug_delay_test(channel, MESSAGE_DELAY);
+ 
+-	bytes_avail = hv_pkt_iter_avail(rbi);
++	bytes_avail = hv_pkt_iter_avail(channel);
+ 	if (bytes_avail < sizeof(struct vmpacket_descriptor))
+ 		return NULL;
+ 	bytes_avail = min(rbi->pkt_buffer_size, bytes_avail);
+@@ -587,6 +595,10 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
+ 	 */
+ 	virt_rmb();
+ 	write_index = READ_ONCE(rbi->ring_buffer->write_index);
++	if (unlikely(hv_ringbuffer_indices_invalid(rbi, start_read_index,
++						   write_index)))
++		return;
++
+ 	curr_write_sz = hv_ringbuffer_avail_write(rbi, rbi->priv_read_index,
+ 						  write_index);
+ 	bytes_read = hv_pkt_iter_bytes_read(rbi, start_read_index);
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 09f25ad..216c0b9 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -250,6 +250,8 @@ static inline u32 hv_get_bytes_to_read(const struct hv_ring_buffer_info *rbi)
+ 
+ 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
+ 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
++	if (unlikely(hv_ringbuffer_indices_invalid(rbi, read_loc, write_loc)))
++		return 0;
+ 
+ 	return hv_ringbuffer_avail_read(rbi, read_loc, write_loc);
+ }
+@@ -260,6 +262,8 @@ static inline u32 hv_get_bytes_to_write(const struct hv_ring_buffer_info *rbi)
+ 
+ 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
+ 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
++	if (unlikely(hv_ringbuffer_indices_invalid(rbi, read_loc, write_loc)))
++		return 0;
+ 
+ 	return hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
+ }
 
-Kameron Carr (5):
-      Drivers: hv: vmbus: Bounds check the shared ring buffer indices
-      Drivers: hv: vmbus: Use *_ONCE() to access shared ring buffer indices
-      Drivers: hv: vmbus: Compute ring byte counts from a caller-held snapshot
-      Drivers: hv: vmbus: Keep the ring byte counts sane for a bad index
-      Documentation: hyperv: Describe validation of the ring buffer indices
-
- Documentation/virt/hyperv/coco.rst |   5 +-
- drivers/hv/ring_buffer.c           | 118 ++++++++++++++++---------------------
- include/linux/hyperv.h             |  58 ++++++++++++++----
- 3 files changed, 100 insertions(+), 81 deletions(-)
----
-base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.45.4
