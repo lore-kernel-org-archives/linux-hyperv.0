@@ -1,169 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422957;
-	b=jHW0zORP5iA4+UEc5f6YJIS7ZLD8DK2yMd0+6CQ1q7slJGd8eXIGczdaIpXP5dBkzZK4
-	 suzgLKjTgGTvbe9jS2XqWCcFHBtaEAoivcF2NviJE2EOTorgQdCYvESa76RtFymgP6mn8
-	 VZhb3BHCc6vcRw0QM5oJXNEpGZemsduNfXUxKlqF73EUeniL92ZvNqJ1mFlDgs3ayKmjk
-	 k88+zg4LjGM6dwjqFjZ1BdOtTwzAbh0QJCf/zu8wvhoeU7d2tyDYkKq7w7PFAXT2RyW4Z
-	 qm43Qo4yMio2n8/yM7y6cXWkLBKnV10mhqBwaRukAbe3He9zZQKp3sWFvwDAFu83OOA==
+	t=1792424539;
+	b=L6ZjYHCSCwrvq04PrJRF9xsNcVno7GUR0hsewFbejyM1APsB4KRfAUEdcF0ColCsieBJ
+	 LOjhrYcvg+kpqJ+90NTTmmeXkWCDi+iL4gjUWaEb/Wq7+ijNcMiuDaELjMCodUg8QCEO0
+	 wilo9eEpRnjzoODlrz8Jx/46Rr33YvVyuMFrLgGnnm4PRekqEze2Hvt/91XkQfxQdmw57
+	 mXhgVoqhvhZGkAsf5GAHxSvLCS7MMLRFIeoYFSkOe7SsRGSOjiK0F9wMRfz52KrToVcqi
+	 0vE2bx5yHeEXkfbNcrg0TjuQpC6JHpYQwMWdDWvTXq+skVmkMKABKAmRdgZH3cE6hjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422957;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
-	b=LfprZZ+hHgUJwDXm+0KS8UOXDah5T4D73bKccUFteS+a45T7K/Lg5yg0xNa86gz/XbXT
-	 Q40udK7liYfEKHxUKKCYfH4t3qwYWMYl76A6tMaR6U5cjVbcPyNM/jsb4HWrCWGtRAI5A
-	 SGt1DSDV1zrAKgB4b/mrGOxD4FgTjgbAITi0XLCYS8CyTad+yzHu321V202WI9EpgJn/9
-	 dRcPfqggG1yc7uu5EhoYcT8vZH1TFeCyFAcfipK0Zr/3q6n0Z5icIcGycvgbJL8RNZIFF
-	 mKY2cSp88gOUY9uwmpl2sArQ7trKK9nNJIfPy/jmGFKRz8K4ffG/G8rBWhT6cPIEU/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792424539;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=iMgrhjGDM6hEQh8Aw9yzZbHzALMwxiGfaVEBL4NiDa0=;
+	b=qQek/FQK8JvA1x4cEL+c/z+9O8/MQMB3JfZUTFUa7qQqt9pUzJNR+OXbs61Lr1n9tfkN
+	 IdUP5s86t0nJ7O5kLtNY5B22fLA3bXbOn79isXKiI8U2ZYAil2nkEYTW6X50QY3Er6AhQ
+	 aqVFR3BaAlHsLtGelUg+H+I33Xiu+I0E1HH40/Yxf2Z2xqhYq6htfiGWh4CkRJZvCw6bd
+	 ABssTEePl9B26ZvxG85QoeU72Meqg66F+dIckTMjUGMZrWxGxgJN2LZxVsz4G6TCNwVzd
+	 1Jx/BMQBFI698pGj9BOyPWFKT++VneNCjxeXHW+8Me9SPEcFYpQVZ7x93b/70yiNRtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mtrAjbZ7;
+	arc=none smtp.remote-ip=209.85.215.177
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA27609DCFA;
-	Mon, 19 Oct 2026 15:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49567606EFEB
+	for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 15:42:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49567606EFEB
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269E71F000C4;
-	Mon, 19 Oct 2026 15:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792422956;
-	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CnpQzRLX3TYf8k0qu6IYpaMq62MrzgVnzWtCBEbdnX0IUPXFCp6FFVhb6e/W37EY7
-	 oQdkTxuZitFSXzUqh8YM+LI6hW4HWoVv72MiRtWfb/iuVaWOGKHt2j8Piy3XsHY4bv
-	 HfJH5x277Hg+W3vBh+BKJcUHigFzcPtKnByrkz6Qw0vZi1heWwAKuKjDH8y9RjWbAw
-	 ZWzbQHvwqs0XljbKJDetYNNwEqmAYS1SizYC8c9PQJ/+yV3C9kQ+UX6IhimWK6Szh4
-	 MliM2s0jWJxjgBc2N8LAVJSnUAeqxo/k14Kw0U606JcTDsTXyg4NEZpgxA/P9PGn8a
-	 a/NOnXhhwsAXA==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>,
-	Dave Airlie <airlied@redhat.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Ian Ray <ian.ray@gehealthcare.com>,
-	Martyn Welch <martyn.welch@collabora.co.uk>,
-	Peter Senna Tschudin <peter.senna@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Alison Wang <alison.wang@nxp.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Yongbang Shi <shiyongbang@huawei.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mtrAjbZ7
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cd623dfe420so1700709a12.0
+        for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 08:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792424539; x=1793029339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iMgrhjGDM6hEQh8Aw9yzZbHzALMwxiGfaVEBL4NiDa0=;
+        b=mtrAjbZ7SAOmcOlZpgZxkhF3asxHxfJiQO3A09sNBNjc7sZcnqZ8/tI8OPhNsV76aL
+         icwHtvXRU8zBKnGPZBb8g8/atROCdBAspRO3AOnTaGDloW5UL1AOKpaCJgfFA0w61vUt
+         Wb6OWovFSxtr/1+hN3+q3+/ImDqABvueQrSaunej4SdbfvoDodpzUp3Osj1Qw9PdvBY3
+         Fd1GKV2p+YYThzzjPGaZ+cjSiaCCN9iUM+Yz95vkA71FreJNIZ1JM+VsZ1kT44ehlZy2
+         hgfjd37pjAxY6+EaGK0TzqFpaiZIvSdFGjXfbDIrCMGIkDkngyQji0Dmd7OkpBImGojh
+         pUwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792424539; x=1793029339;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iMgrhjGDM6hEQh8Aw9yzZbHzALMwxiGfaVEBL4NiDa0=;
+        b=yO5kjpmGSLI92irXGNj9YLdKzekuXDPDKw/JvTMMBv7nRZmE63zm1+IvvNTCD38hi8
+         L7sIpo6jBdS7adnEodG8KA6pTJIL3mhRZNzUcSasvO1NhdPTmTE/VPK5n318rcE18hfu
+         i13CVnp17vD9ZS046zDA9/vVLC2XxG3PeusXK7r7WR578OnSEOr+VY+zDoFcZbm+78le
+         /6auK3y9D+XWfI3SIF/ovKNVTQB2fgFfwOw69DBYz6GWFI86L3mbWMG12R5836iZesv1
+         PYHaEDx9/6IBF6Wv2KCfAjFd5+YqL8lLTf6TV8+V+IZjYb0bNQTxLHcF0e+vY5fHI4xv
+         WeIA==
+X-Forwarded-Encrypted: i=1; AKwUvBwPPEFyy8RtOznRneUw09hdMJFLyWqSZ97Ki3AO4AjNaGlqGvzy1bG3kTkFxxBOBs0nBSY0kt+tEoO16Ug=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIilsLtEeQxmZ96dkaAbtZJxGmJlfjZHpH4t0wolWGNYrXKCLzb
+	rgSmzU6NzU1zNnvdgm2KcR9LIvsL0LEfwyM5nWpgJMCpO95/BBRd+sA8
+X-Gm-Gg: AYBFou2OT/VDDUh5uqslV3oGoROpiWu5lE3iiEvwG+X47iKULd2ZEtQc2atrjbvjyjy
+	fOQk6Kae0jbz4Im37wa95k7ZS2/hUxf9aisaZvlZjGxUXTVz9kD9vHbfcnhbKvtgbdrtt5lpga7
+	xfQJnjOHqW7tTCnxdd/ffuQMTXQiYV5hEaIXbB3cMvOVFiAG1Hk1rPbKQfn3Km1L61xA3qgKxkP
+	prCACrEnHt/PAYt2436mo2nXSaFcBUBOIGqYzgbRg/cl0RMdIeSyRekULI5agQ/65n/rII6DDXU
+	gx/nFl6LLtHJGTuPPCGzbTpZC03fb6GbF30a1eLGmuscZ9olblMXmw7cFc8NVBk3IJKBuB189A6
+	HZQ31Az3fAAR8T9hckAgNL+mewhR5Fz73D7YeOG8XhuOceFvHX1XtCBRSUZMh1azoW8+pAz2XgJ
+	2Rl7QLZ3lTga/hwAgiKHlfbflJKWRZxOCYksD/T05Cx9DOuUeUdnF/dYQcRpbNC4P18UCz
+X-Received: by 2002:a17:90b:3d4e:b0:3ab:2c2b:1026 with SMTP id 98e67ed59e1d1-3acef0c8911mr6398917a91.34.1792424538542;
+        Mon, 19 Oct 2026 08:42:18 -0700 (PDT)
+Received: from hachimi ([101.5.170.156])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd6549ee946sm3926364a12.20.2026.10.19.08.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 08:42:18 -0700 (PDT)
+From: Lanfeng Wei <xlfylawarthur@gmail.com>
+To: tzimmermann@suse.de
+Cc: airlied@gmail.com,
+	decui@microsoft.com,
+	dri-devel@lists.freedesktop.org,
 	linux-hyperv@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	imx@lists.linux.dev,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Jianmin Lv <lvjianmin@loongson.cn>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Qianhai Wu <wuqianhai@loongson.cn>,
-	Xi Ruoyao <xry111@xry111.site>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	spice-devel@lists.freedesktop.org,
-	virtualization@lists.linux.dev,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Iker Pedrosa <ikerpedrosam@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-tegra@vger.kernel.org,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	LiangCheng Wang <zaq14760@gmail.com>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Louis Chauvet <louis.chauvet@bootlin.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-	Ruben Wauters <rubenru09@aol.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	nouveau@lists.freedesktop.org,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Aditya Garg <aditya.garg@linux.dev>
-Subject: Re: (subset) [PATCH 00/75] drm/connector: Convert all drivers to atomic_create_state and remove reset
-Date: Mon, 19 Oct 2026 17:15:50 +0200
-Message-ID: <179242294379.2822300.2839114266297465713.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org,
+	longli@microsoft.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	regressions@lists.linux.dev,
+	simona@ffwll.ch,
+	ssengar@linux.microsoft.com,
+	stable@vger.kernel.org,
+	xlfylawarthur@gmail.com
+Subject: Re: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
+Date: Mon, 19 Oct 2026 23:40:43 +0800
+Message-ID: <20261019154121.6257-1-xlfylawarthur@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
-References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+In-Reply-To: <c238f4ff-d5d8-4a9a-8773-793bd9056c9b@suse.de>
+References: <c238f4ff-d5d8-4a9a-8773-793bd9056c9b@suse.de>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -173,25 +106,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 14 Oct 2026 19:26:23 +0200, Maxime Ripard wrote:
-> This is a follow-up to the plane and CRTC reset removal series, and
-> part of a larger effort to remove the reset hook from all KMS objects.
-> 
-> The connector reset hook is overloaded: it is called both at probe
-> time to create the initial software state and during suspend/resume to
-> reset hardware and software state. These two roles have different
-> requirements, and the reset hook is not fallible, making error
-> handling difficult for the initial state allocation path.
-> 
-> [...]
+Hi Thomas, 
 
-Applied to misc/kernel.git (drm-misc-next)
+> Yeah, what's the cause of it? Switching off features does not fix any
+> bugs or improve the status quo.
 
-[73/75] drm/vmwgfx: Convert to atomic_create_state
-        commit: e6bb593b800813788dc16179d1305747ff974d00
+You are right that the module parameter is only a workaround for users
+affected; it does not fix the underlying scheduling problem.
 
-Thanks!
-Maxime
+The cause is that the synthetic vblank timer is used to pace completion
+of atomic updates triggered by dirtyfb, in addition to providing
+synthetic vblank events. In Xorg's software-cursor path, pointer motion
+damages the primary framebuffer and the damage is instantly submitted
+via DRM_IOCTL_MODE_DIRTYFB. The Hyper-V dirtyfb path performs a
+synchronous atomic commit, and with the vblank timer enabled that commit
+can wait for the next simulated vblank. Under continuous pointer motion,
+these commits dominate the update path and delay normal client updates,
+resulting in sever frame-rate drops. 
+
+This particular regression results from the combination of the blocking
+dirtyfb path, synthetic vblank pacing, and the absence of a Linux DRM
+cursor plane in Hyper-V. While the Hyper-V video protocol does have a
+hardware-cursor command path, the upstream hyperv_drm driver currently
+exposes only a primary plane. Cursor plane support was deferred during
+the initial upstreaming [1]. Without a cursor plane, Xorg has to fall
+back to software cursor-rendering path and it competes with periodic
+graphical updates on the primary plane.
+
+So the proper long-term fix could be adding cursor plane support in the
+Hyper-V DRM driver, which may take some time. Providing that the stated
+purpose of the offending commit is to rate-limit display updates, while
+its current implementation regresses the existing software-cursor path,
+I think adding a switch or reverting the commit until the requested
+features in the driver is ready, is a reasonable short-term fix. 
+
+> We had another fix for a problem with vblank timers:
+>
+> https://lore.kernel.org/dri-devel/20260914110004.211027-1-tzimmermann@suse.de/
+>
+> Did you validate that this fix is unrelated?
+
+Yes I tested that fix and confirmed that it is irrelevant. It solves
+issues with excessively long frame durations, however this problem is
+found in normal frame updates (in my case 60Hz / 16.7 ms per frame, way
+below INT_MAX).
+
+Best regards,
+
+Lanfeng Wei
+
+[1] https://lore.kernel.org/dri-devel/20200622110623.113546-1-drawat.floss@gmail.com/ 
