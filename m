@@ -1,102 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CD9503901;
-	Mon, 19 Oct 2026 13:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB514DEC3E;
+	Mon, 19 Oct 2026 13:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792415456; cv=none; b=muOHP8hoDny6jX9p3n84am83MAWaR/zx6nntDwHeom9gtpIWNOeNs/VtvicutyeBSAMuKqCxJyan8NUmggDkI9muahzD7SW2t/gB2JtbZNntttB7SaBgTJPSPMKHAQD8vIQEDEAV29heyvarmwZ5c3TE8A7tTH+arGWUEnFAA6k=
+	t=1792416944; cv=none; b=pLRhIQjmwmuA6lvuqDLu0do9NkTrv0TEbgmjX1qFGQGQxIJTLJcRCFH/chUQ8J/b6XmRYhqPVKC6MMwKU/V8Q+0aaXOyGT0K11kxsNLSHb3TUzXo89PioQGYapxdkDnSJyQH+v2Zp7KCEsAt2cReadENSxXAMkUu7HkjTJRC82U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792415456; c=relaxed/simple;
-	bh=lUZ+7o4IvIylvesoUyVJ/wi61PbGA9hsUNj4GeSiLIQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GgT7xfzf5R9c+qU74SMZpDPLpHeZN8eWVkdNs2k7j8ICWUXpQaKsy4D4PESIw57Q1/CpwoWngyYYg1J9y9od9htt2g6wBHQFA7NyFq8QpuUX7M6/Oa4Hb+5R4AqZGJOJPyuXjbyoVBKGtaKKueaQRM1ImiWtCx4e2oEi5DiOmkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1eIbydz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792416944; c=relaxed/simple;
+	bh=YYvE0sRBu1sVS+gOH/0QzLApX8jyXQUMwjo9mnz28FM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BIibSEi/aZjtg39Ez0UswHwGmPthOaQjHkDp6I0TfHMD2W9WdPqG3i4Samz3tk/SIzRmjeZIUn213JiY+QloqCGPZ758lh0H71ucGkGZbis+2ugxxwYuvPSg/mKwWF30+ngRd0r06phZS1SNRouJ0w31wNuZTcc96t3pRRRGfX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iCaeoJzG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1eIbydz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F10A1F000C5;
-	Mon, 19 Oct 2026 13:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792415454;
-	bh=iSjc97XJqMkqUxUMHAerf2M/VZgcfuK41nnK8KYqs2Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=n1eIbydzTKmb/UU6BWdkbLVP2xuF47+8Ac5br6WjGWTQa6TF+0Mh97g+mCx4lv0Fd
-	 rI5uC9hHWXiARpigep3bTcMsUK8feaXrnn0FyAi31IDVUvQ2q6S6us6HUo/xr+vN01
-	 qhSg42HjcznzefxXLnzGwSL+fMUrXhsUgL+0W3yIRSJU/kH8lyqSUcJSZg8LjmPb89
-	 WZl1dbbNAIjlxaoL6n/1PcA1tVrHKI1afGClka6McPOO7huDSHwrQ1FGXmX0iaZRcj
-	 UD9dIZ7WUQNVgiom/ibOSnZxxVQtxCHhlwRbJaXoO4frJwdTQiffvSu6H+RdhxYZJZ
-	 LHr7GzHXwpk9w==
-From: Frederic Weisbecker <frederic@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iCaeoJzG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574731F000C4;
+	Mon, 19 Oct 2026 13:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792416942;
+	bh=rhfvYQElhBdedNKeQxhemvLQ7lZKA7SpMfLghyJzDlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iCaeoJzGi32z7OgjNCpsdNbhFcUQB+3Gysu7sXHSnjpWSU6rdvcTEoHg5Irw6Yqfu
+	 cewqMZLrZQLa/Vq4S0HPTa6kyokuG74fQrWKMtkKZit/Rn/m9rrD04vJIte1asArN6
+	 DMYVExSCAbu+lEUWOkOr6DXrnTp8p6m1EIC3MBmU=
+Date: Mon, 19 Oct 2026 15:35:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jiale Yao <yaojiale02@163.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Phil Auld <pauld@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	linux-hyperv@vger.kernel.org
-Subject: [RFC PATCH 39/49] clocksource: hyper-v: Move CPUHP_AP_HYPERV_TIMER_STARTING post stop_machine()
-Date: Mon, 19 Oct 2026 15:08:46 +0200
-Message-ID: <20261019130856.49711-40-frederic@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261019130856.49711-1-frederic@kernel.org>
-References: <20261019130856.49711-1-frederic@kernel.org>
+	Stephen Hemminger <stephen@networkplumber.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
+Message-ID: <2026101936-livable-plug-8bc9@gregkh>
+References: <20261019085544.1834700-1-yaojiale02@163.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019085544.1834700-1-yaojiale02@163.com>
 
-Between CPUHP_TEARDOWN_CPU and CPUHP_AP_OFFLINE, stop_machine executes
-all the teardown callbacks while stopping all CPUs in the system. This
-doesn't mix-up well with running RT or isolated tasks.
+On Mon, Oct 19, 2026 at 04:55:44PM +0800, Jiale Yao wrote:
+> remove_id_store() can free a matching dynamic ID while VMBus is
+> preparing to invoke a driver probe.
 
-In order to transition smoothly from global stop_machine to finer
-grained synchronization between teardown callbacks and the other CPUs,
-a new stop machine post function has been introduced to be executed
-after the main one with IRQs still disabled while other CPUs can exit
-stop_machine().
+And how can that be triggered?
 
-The teardown callback here simply performs timer and IRQ disablement,
-both of which can run concurrently with other CPUs.
+> Copy the ID while holding the dynamic ID lock so probe never receives
+> a pointer into a freed list entry.
 
-Move it to post stop_machine() accordingly.
+Why is this driver allowed to handle dynamic ids at all?  Is it really
+required?  That will taint the kernel so no real workflow requires it,
+right?
 
-Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
----
- kernel/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Fixes: fc76936d3ea5 ("vmbus: add support for dynamic device id's")
 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index c2356a36d345..c37fe84baaa8 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -1275,7 +1275,7 @@ void clear_tasks_mm_cpumask(int cpu)
- static int take_cpu_down(void *_param)
- {
- 	struct cpuhp_cpu_state *st = this_cpu_ptr(&cpuhp_state);
--	enum cpuhp_state target = max((int)st->target, CPUHP_AP_TI_GP_TIMER_STARTING);
-+	enum cpuhp_state target = max((int)st->target, CPUHP_AP_HYPERV_TIMER_STARTING);
- 	int err, cpu = smp_processor_id();
- 
- 	/* Ensure this CPU doesn't handle any more interrupts. */
-@@ -1303,7 +1303,7 @@ static int take_cpu_down_post(void *_param)
- 	enum cpuhp_state target = max((int)st->target, CPUHP_AP_OFFLINE);
- 	int cpu = smp_processor_id();
- 
--	WARN_ON(st->state != CPUHP_AP_TI_GP_TIMER_STARTING);
-+	WARN_ON(st->state != CPUHP_AP_HYPERV_TIMER_STARTING);
- 	/*
- 	 * Invoke the former CPU_DYING callbacks. DYING must not fail!
- 	 */
--- 
-2.53.0
+No cc: stable?
 
+> Signed-off-by: Jiale Yao <yaojiale02@163.com>
+> ---
+>  drivers/hv/vmbus_drv.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 4692687cdbf3..96ad0dfaa50b 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -661,21 +661,22 @@ hv_vmbus_dev_match(const struct hv_vmbus_device_id *id, const guid_t *guid)
+>  }
+>  
+>  static const struct hv_vmbus_device_id *
+> -hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid)
+> +hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid,
+> +		     struct hv_vmbus_device_id *id_copy)
+>  {
+> -	const struct hv_vmbus_device_id *id = NULL;
+>  	struct vmbus_dynid *dynid;
+>  
+>  	spin_lock(&drv->dynids.lock);
+>  	list_for_each_entry(dynid, &drv->dynids.list, node) {
+>  		if (guid_equal(&dynid->id.guid, guid)) {
+> -			id = &dynid->id;
+> -			break;
+> +			*id_copy = dynid->id;
+
+Shouldn't this be a memcpy() as that's what you are really doing?
+
+> +			spin_unlock(&drv->dynids.lock);
+
+guard() usage instead?
+
+> +			return id_copy;
+>  		}
+>  	}
+>  	spin_unlock(&drv->dynids.lock);
+>  
+> -	return id;
+> +	return NULL;
+>  }
+>  
+>  static const struct hv_vmbus_device_id vmbus_device_null;
+> @@ -685,7 +686,8 @@ static const struct hv_vmbus_device_id vmbus_device_null;
+>   * If there is no match, return NULL.
+>   */
+>  static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *drv,
+> -							struct hv_device *dev)
+> +							struct hv_device *dev,
+> +							struct hv_vmbus_device_id *id_copy)
+>  {
+>  	const guid_t *guid = &dev->dev_type;
+>  	const struct hv_vmbus_device_id *id;
+> @@ -697,7 +699,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
+>  		return NULL;
+>  
+>  	/* Look at the dynamic ids first, before the static ones */
+> -	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid);
+> +	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid, id_copy);
+>  	if (!id)
+>  		id = hv_vmbus_dev_match(drv->id_table, guid);
+>  
+> @@ -773,6 +775,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+>  			    size_t count)
+>  {
+>  	struct hv_driver *drv = drv_to_hv_drv(driver);
+> +	struct hv_vmbus_device_id id_copy;
+
+On the stack?
+
+Ok, I guess this would work, but it feels clunky, why doesn't all other
+busses have to do this too?
+
+thanks,
+
+greg k-h
