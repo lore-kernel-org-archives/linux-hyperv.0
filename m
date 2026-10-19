@@ -1,104 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792427577;
-	b=0cd523z7eawCZrdM8V3xvuXQ414+kE+kCOym7j/z9TC0G2XqPTAZI+1FjsgYkIXo5Wbx
-	 x0HVfxDkXtWduDjnSaZxWvl9OU8YT5QfLHQWQEs/chAwwQAWZ41dedW3RvfCJQuflpDVx
-	 bVWIR6aMwMHQYrB2qr9RuzpJVTYdHHGBP8k8pxY9b18BL90zcVlNCZr+f7OexXJJ2A4IS
-	 +C8H7fPettRTYINFVgHEZJ4fGEuXOi33MswoZRd5wtlIwYaBnXPy4DvFq2CISMoFCgDwz
-	 EubQv6gaiNjU6wDp95hrPZgOwG2ywDEyyK2NFtcCxAeysrLgIt4YTIxgsRQ4fh4I4LA==
+	t=1792435138;
+	b=TugL7OxI57Ei2GgguX9hxPuTNuN63+Twz26VXDtyIf+fvuNj01C6oAj/onc1470eTXUm
+	 mz9WtGBYrQdufEGbPLJtAIvyl+dZ//8F1cuMyHpGwXA+jCN6XtDpwYBIEiqpezTZU98mn
+	 0JCkdR8kouAQs+qJG0pvSi3zQQ4WXTf2Dkw59uSufTnsf7h2GQoBSwHIokO14b8ass+Le
+	 Um3nbHgGoiUmpMBua3BsPScob0+/jnWer2fn3AmYa+wHh9qrkD+xZxV5CnA8MliX3yoz6
+	 +dyZ6rHoVip2Hvw/1SMazJ0AugQSmJKghsvF3GKeeqBQVoznkZbQBDcRu4drtQZJsOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792427577;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-Rspamd-Action:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Flag:X-Spam-Score;
-	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
-	b=JcpuNj/x/81WBfNzKqDvvSpYhymSO2QyLXsLCID/D+YH43OmaqGilGeReki9ed8bW8bv
-	 kkVBUgrsJuSub5lBRk+LLbGG/G67WXbHdC37LJhpnOLzQMu+1GIFwDojGTefMVSm0MEyl
-	 tCkdTR4OCkZEI6UeprSH0dPbm2nU2FC0+6WjZ6vz4dNMhST115gXBLAOjJdapYcw1i4Cc
-	 Ruq8BctCLNWE96dIaO+TkJW6s7f7n6gTeH4sgi0/BCxuPE0iOS64mL2V39CA+81JvAdR1
-	 yvCS5HdPVV+R2cdwvYq/bstIyQSEide4vrwHJPQ+xvSN+ROsJOc0CDXgA427/9ORO/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792435138;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=WD0sxxOEa2MH/26Of97hfhUgNRTbd2CMOIAfQQomIVQ=;
+	b=LkSMO0IP4YXqvVJKAgUnJq07n+OSaQ19vXbroYj08H9b9wVmWnDHsRYmR1RIaOWJgbHQ
+	 eWPFCfMdhDAHWN2od1G2+K4TlVClq+TZkYJBb5g3Li3TnSSBXSSonMNu8BfvTNMv3TkI+
+	 2m8TFed/WvcE0EzDvyAXMhO4cJ1NNzybxyojUFGfZjCCHgxrK5finnZuFwNy3rEjZt/jQ
+	 uZI/bQo7CU3dXKpdMYJiK+OlLcfTcIFt5zxu/eSQzVU+WbVmNxMgolRf0uIIhg3dbHNGk
+	 YonBm6K+6IK8Z+XKUiB29QWw5d34V7UEGjPHM83znEIJyQiGuy76RZdrD8upo7r6/NQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1467C606A31D
-	for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 16:32:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1467C606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=QFrIhmZz;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44749606A31C;
+	Mon, 19 Oct 2026 18:38:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44749606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IEv18a17;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NU20AtNF
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D74621C20;
-	Mon, 19 Oct 2026 16:32:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792427575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
-	b=IEv18a17/3KJqDEtJ4FSngYTj3bf77WTh8T024FZIz0miCpeCU+wv57ptKwXXXzv+Xa2Qn
-	TtUOhpJlroYh8l0L7EsEKcIZ0F3ELqDVtiXZC645yTmY+15wxeN7pHgzXKsXAg+TPoKTHQ
-	qUs/dAnYDNCqL7W7OCMOtqd0gN2y6EY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792427575;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
-	b=NU20AtNFudFpqxSUTQa8t9OuCNcdTvtxiTDvY4aTGYQpH1p6G2pz7ZZfnnL/Q4FECZyCE/
-	FOoB0oqNSxbQHlBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IEv18a17;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NU20AtNF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792427575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
-	b=IEv18a17/3KJqDEtJ4FSngYTj3bf77WTh8T024FZIz0miCpeCU+wv57ptKwXXXzv+Xa2Qn
-	TtUOhpJlroYh8l0L7EsEKcIZ0F3ELqDVtiXZC645yTmY+15wxeN7pHgzXKsXAg+TPoKTHQ
-	qUs/dAnYDNCqL7W7OCMOtqd0gN2y6EY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792427575;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oxmu7stfRu9F1nID7OH4tHkwJ+6MmriNypobbE12Aic=;
-	b=NU20AtNFudFpqxSUTQa8t9OuCNcdTvtxiTDvY4aTGYQpH1p6G2pz7ZZfnnL/Q4FECZyCE/
-	FOoB0oqNSxbQHlBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0194E136CC;
-	Mon, 19 Oct 2026 16:32:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VkahMjZG1morbQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 19 Oct 2026 16:32:54 +0000
-Message-ID: <4deb710d-ef64-4592-833d-ad1b84d715be@suse.de>
-Date: Mon, 19 Oct 2026 18:32:54 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=QFrIhmZz
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id D835B20B7168; Mon, 19 Oct 2026 11:38:45 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D835B20B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792435125;
+	bh=WD0sxxOEa2MH/26Of97hfhUgNRTbd2CMOIAfQQomIVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QFrIhmZzIMPBGY64mWtf+3NR6uH3EB3JlBXo0QXV3jvxAbbI/E8UzVwejCDOw51Ds
+	 Ptxp6sbnElE7JeLGl2miDRdYvO86EHm6Sex4sdjtioZBWUPfamKuxts5v/WOf17DtV
+	 kUm/cFm1sltOW4+7i4jss/HN3HB4VwG2cqkj7fdg=
+Date: Mon, 19 Oct 2026 14:38:45 -0400
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lanfeng Wei <xlfylawarthur@gmail.com>, airlied@gmail.com,
+	decui@microsoft.com, dri-devel@lists.freedesktop.org,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	longli@microsoft.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, regressions@lists.linux.dev, simona@ffwll.ch,
+	ssengar@linux.microsoft.com, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
+Message-ID: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <c238f4ff-d5d8-4a9a-8773-793bd9056c9b@suse.de>
+ <20261019154121.6257-1-xlfylawarthur@gmail.com>
+ <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -108,218 +63,98 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] drm/pixel: Link panic helpers into
- drm_pixel_helper.ko
-To: sashiko-reviews@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, imx@lists.linux.dev,
- virtualization@lists.linux.dev, Frank.Li@kernel.org,
- wsa+renesas@sang-engineering.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Eugenio Perez <eperezma@redhat.com>
-References: <20261019154612.777074-1-tzimmermann@suse.de>
- <20261019154612.777074-4-tzimmermann@suse.de>
- <sashiko-outbox-177862@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <sashiko-outbox-177862@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5D74621C20
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Score: -3.00
+In-Reply-To: <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
 
+On Mon, Oct 19, 2026 at 06:03:55PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 19.10.26 um 17:40 schrieb Lanfeng Wei:
+> > Hi Thomas,
+> > 
+> > > Yeah, what's the cause of it? Switching off features does not fix any
+> > > bugs or improve the status quo.
+> > You are right that the module parameter is only a workaround for users
+> > affected; it does not fix the underlying scheduling problem.
+> > 
+> > The cause is that the synthetic vblank timer is used to pace completion
+> > of atomic updates triggered by dirtyfb, in addition to providing
+> > synthetic vblank events. In Xorg's software-cursor path, pointer motion
+> > damages the primary framebuffer and the damage is instantly submitted
+> > via DRM_IOCTL_MODE_DIRTYFB. The Hyper-V dirtyfb path performs a
+> > synchronous atomic commit, and with the vblank timer enabled that commit
+> > can wait for the next simulated vblank. Under continuous pointer motion,
+> > these commits dominate the update path and delay normal client updates,
+> > resulting in sever frame-rate drops.
+> > 
+> > This particular regression results from the combination of the blocking
+> > dirtyfb path, synthetic vblank pacing, and the absence of a Linux DRM
+> > cursor plane in Hyper-V. While the Hyper-V video protocol does have a
+> > hardware-cursor command path, the upstream hyperv_drm driver currently
+> > exposes only a primary plane. Cursor plane support was deferred during
+> > the initial upstreaming [1]. Without a cursor plane, Xorg has to fall
+> > back to software cursor-rendering path and it competes with periodic
+> > graphical updates on the primary plane.
+> > 
+> > So the proper long-term fix could be adding cursor plane support in the
+> > Hyper-V DRM driver, which may take some time. Providing that the stated
+> > purpose of the offending commit is to rate-limit display updates, while
+> > its current implementation regresses the existing software-cursor path,
+> > I think adding a switch or reverting the commit until the requested
+> > features in the driver is ready, is a reasonable short-term fix.
+> 
+> The problem is that module parameters are impossible to remove in practice.
+> Once in place, someone always depends on it. They also increase the number
+> of states to test.  Avoiding them is usually a good idea. Especially as
+> workarounds for bug or regressions.
+> 
+> 
+> I'm not familiar with the Hyper-V protocol, so I have a question. Why is it
+> hard to implement cursors? From the link at [1], I assume that cursor
+> support was left out because the simple-kms pipeline did not support cursor
+> planes. This has long been resolved: the simple-kms pipeline is gone and
+> hyperv_drm runs on the regular DRM framework.  Unless there's anything
+> special with the Hyper-V protocol, cursor-plane support should be do-able in
+> a single patch. [^1]
+> 
 
+I actually have been working on cursor plane support for hyperv-drm.
+I'll post a patch soon.
 
-Am 19.10.26 um 18:19 schrieb sashiko-bot@kernel.org:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [Low] drm: missing DRM_PIXEL_HELPER select in DRM_KMS_HELPER for drm_crtc_init()
+Hamza
 
-I see this is still an issue. The fix here is to move drm_crtc_init() 
-into drivers. The only remaining callers of drm_crtc_init() are in 
-radeon and amdgpu. There was recently a patch to move the helper there, 
-[1] but the effort appears to have stalled.
-
-[1] 
-https://lore.kernel.org/dri-devel/20260903071409.427010-1-oushixiong1025@163.com/
-
-I'll do this before continuing with the pixel helpers.
-
-
-> - [Low] drm/tests: link failure in drm_panic_helper_test when CONFIG_DRM_PANIC=n
-> - [Low] drm/xe: missing DRM_PIXEL_HELPER dependency when DRM_PANIC=y
+> Best regards
+> Thomas
+> 
+> [^1] See https://elixir.bootlin.com/linux/v7.2.11/source/drivers/gpu/drm/ast/ast_cursor.c
+> for an example of how this looks. Most of it is hardware-related, but hyperv
+> would likely be similar in concept.
+> 
+> > 
+> > > We had another fix for a problem with vblank timers:
+> > > 
+> > > https://lore.kernel.org/dri-devel/20260914110004.211027-1-tzimmermann@suse.de/
+> > > 
+> > > Did you validate that this fix is unrelated?
+> > Yes I tested that fix and confirmed that it is irrelevant. It solves
+> > issues with excessively long frame durations, however this problem is
+> > found in normal frame updates (in my case 60Hz / 16.7 ms per frame, way
+> > below INT_MAX).
+> > 
+> > Best regards,
+> > 
+> > Lanfeng Wei
+> > 
+> > [1] https://lore.kernel.org/dri-devel/20200622110623.113546-1-drawat.floss@gmail.com/
+> 
+> -- 
 > --
->
-> commit d010f0f67d242682650aa0651dfd5a1e57612943
-> Author: Thomas Zimmermann <tzimmermann@suse.de>
->
-> drm/pixel: Link panic helpers into drm_pixel_helper.ko
->
-> This commit moves the DRM panic helpers from drm_kms_helper into
-> drm_pixel_helper.ko, drops the DRM_PANIC_HELPER Kconfig option, and
-> selects DRM_PIXEL_HELPER in drivers using the panic helpers.
->
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 8e4a588e9111d..bf7c599443403 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -46,13 +46,14 @@ config DRM_MIPI_DSI
->>   config DRM_KMS_HELPER
->>   	tristate
->>   	depends on DRM
->> -	select DRM_PANIC_HELPER if DRM_PANIC
->>   	help
->>   	  CRTC helpers for KMS drivers.
-> [Severity: Low]
-> Does DRM_KMS_HELPER also need to select DRM_PIXEL_HELPER if DRM_PANIC?
->
-> drivers/gpu/drm/drm_modeset_helper.c is unconditionally compiled into
-> drm_kms_helper, and its primary_plane_funcs structure (used by
-> drm_crtc_init()) includes DRM_PANIC_PLANE_FUNCS:
->
-> drivers/gpu/drm/drm_modeset_helper.c:
->      static const struct drm_plane_funcs primary_plane_funcs = {
->              DRM_PLANE_NON_ATOMIC_FUNCS,
->              DRM_PANIC_PLANE_FUNCS,
->      };
->
-> When CONFIG_DRM_PANIC is enabled, DRM_PANIC_PLANE_FUNCS expands in
-> include/drm/drm_panic_helper.h to reference
-> drm_plane_helper_display_panic_screen, which is now built into
-> drm_pixel_helper. If CONFIG_DRM_PANIC=y and DRM_KMS_HELPER is enabled
-> without a matching built-in or modular DRM_PIXEL_HELPER, linking fails
-> with an undefined reference to drm_plane_helper_display_panic_screen.
->
-> [ ... ]
->
->> diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
->> index 1afb9cad850f6..4573cad368a28 100644
->> --- a/drivers/gpu/drm/Kconfig.debug
->> +++ b/drivers/gpu/drm/Kconfig.debug
->> @@ -69,7 +69,6 @@ config DRM_KUNIT_TEST
->>   	select DRM_EXPORT_FOR_TESTS if m
->>   	select DRM_GEM_SHMEM_HELPER
->>   	select DRM_KUNIT_TEST_HELPERS
->> -	select DRM_PANIC_HELPER
->>   	select DRM_PIXEL_HELPER
->>   	select DRM_SYSFB_HELPER
->>   	select PRIME_NUMBERS
-> [Severity: Low]
-> Can removing select DRM_PANIC_HELPER from DRM_KUNIT_TEST cause a link
-> failure when CONFIG_DRM_PANIC is disabled?
->
-> With this change, drm_panic_helper.o is only built into drm_pixel_helper
-> when CONFIG_DRM_PANIC is enabled:
->
-> drivers/gpu/drm/Makefile:
->      drm_pixel_helper-$(CONFIG_DRM_PANIC) += drm_panic_helper.o
->
-> However, drivers/gpu/drm/tests/Makefile still builds
-> drm_panic_helper_test.o unconditionally under obj-$(CONFIG_DRM_KUNIT_TEST),
-> and functions such as drm_panic_helper_draw_screen_user_default() in
-> drivers/gpu/drm/tests/drm_panic_helper_test.c call
-> drm_panic_helper_draw_screen_user(), drm_panic_helper_draw_screen_kmsg(),
-> drm_panic_helper_set_description(), and
-> drm_panic_helper_clear_description(). When CONFIG_DRM_KUNIT_TEST is enabled
-> and CONFIG_DRM_PANIC=n, linking fails with undefined references to those
-> symbols.
->
-> [ ... ]
->
->> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
->> index 71426b9c91f00..f698d3c8daa9e 100644
->> --- a/drivers/gpu/drm/i915/Kconfig
->> +++ b/drivers/gpu/drm/i915/Kconfig
->> @@ -19,6 +19,7 @@ config DRM_I915
->>   	select DRM_KMS_HELPER
->>   	select DRM_PANEL
->>   	select DRM_MIPI_DSI
->> +	select DRM_PIXEL_HELPER if DRM_PANIC
->>   	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
->>   	select RELAY
->>   	select I2C
-> [Severity: Low]
-> Should DRM_XE or DRM_XE_DISPLAY in drivers/gpu/drm/xe/Kconfig also select
-> DRM_PIXEL_HELPER if DRM_PANIC?
->
-> When CONFIG_DRM_XE_DISPLAY=y, drivers/gpu/drm/xe/Makefile compiles
-> drivers/gpu/drm/i915/display/skl_universal_plane.c into xe.ko, where
-> skl_plane_funcs, icl_plane_funcs, and tgl_plane_funcs use
-> DRM_PANIC_PLANE_FUNCS:
->
-> drivers/gpu/drm/i915/display/skl_universal_plane.c:
->      static const struct drm_plane_funcs skl_plane_funcs = {
->              ...
->              DRM_PANIC_PLANE_FUNCS,
->      };
->
-> If CONFIG_DRM_XE=m, CONFIG_DRM_XE_DISPLAY=y, and CONFIG_DRM_PANIC=y are
-> enabled while CONFIG_DRM_PIXEL_HELPER=n, modpost fails with an undefined
-> reference to drm_plane_helper_display_panic_screen in xe.ko.
->
-> [ ... ]
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 NÃ¼rnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG NÃ¼rnberg)
-
-
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+> GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+> 
+> 
