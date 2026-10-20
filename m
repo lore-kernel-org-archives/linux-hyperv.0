@@ -1,151 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.7.83
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792519580;
-	b=4II/dHsYnYj1mQ0X9uRcVtIEZ/h6hsYLM9qQCANu5BB28wtQ56cavNmoEIdJamGiFgOd
-	 2uNneW8cvGAVzsk7nuAqAJAT5L+yneQixbNJ28WiZ+Ey04dbZQWleINDHPuUf/C/TJYtF
-	 SyDSVI8VySDGGw6XENZnkDnk4xsPS4EAtsIUhXQGnCsYPM+vbZPl3ac8aNXIyRK4tLflZ
-	 mGGXoy075wVwmDT5QZqTR2JmlhehaFo/Gcy0BuSyHys9mOf3XBfllN3578U3jFPSi4EwI
-	 pRv+NXnotVjf+91n/9/CjuvDyeOFTF4cWt5ga2Y5Ur5fofGS56lLUlVWCaKd7Wnrbkg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792519580;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=DiJMhRCrfDaacw3dIifFDZrjGWdBDDeK3LfuR3NRnks=;
-	b=qgSoZ/POuBd3HSaqSWmJEsE1KLI8afHnruI9lupiFmHRQc820Q4HT86boylRJcBpof1d
-	 rvbRcvTLWrWFDT+0q15M3UWccjDzVODjqzqlqoOWLbVneXzpI8bp3v+tlSS1rOLNSfD9K
-	 RmU8gGQofOXQFvy+Bhb02UZxAikgdJLKX+lzKcyV3J8DNKe5YTHGOL9+4x9Pd8snAP+v9
-	 xe5jJaioEXTHLgbgaz4jvfJ911IiRSfIccMLNm1+/p+WJBzqJXfiURS/leUjcmzSSV3wU
-	 k46xEihQ5e1T5HITzvgL3tFfo93YVWmE6OdmsaLB594P0qDdlmssEhwlPtcjghLrX2A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=fkPPrCCi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.7.83
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazolkn19013083.outbound.protection.outlook.com [52.103.7.83])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792520685;
+	b=xMFtwE2SEPbnL1I1xBySAgTBXMiLqFGwNaJQuB4LifxOeeCgiwK/Eip8D+sgMt/1iYjf
+	 YEzGMs8GdGtcm+2i+J+9/oxNZPMIb0eYOSfQLPpntHwVZpWE/m7NksDnTfSUWUdsGvXCs
+	 1UUndFfeepFElpxMh324gxchaoVRtRccVE1MfSe3IFH2BIR2CS0nTavxPIbfCtbk9A31T
+	 3eajbw1tff2wA+d/L8IRLOS2uQ4AIt5kaclCTpWKcVi8PNaGR2vjWkv2wkyAaP8fLdoKY
+	 N/HJXtELO7M5oIwXSqnNwL1Y6/viDxgDUoiy1un6Gr+GB8dYafA5+cgKMheBrLgyIQw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792520685;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 Reply-To:MIME-Version:Content-Transfer-Encoding;
+	bh=X9IgOVKkLpQ1ZKnnSNRsmikwcvRAYdkY+NKhG4LXiUE=;
+	b=mfztr7Tfa8J1iPbhnXDW+SsqsdR2TmMyyRpt7bG0zDJmKMy11aSRRj5iB9vdhKXXYQg+
+	 BWYm5fv9/gP0a3HYufILJxD5p3cEEyls2ZnLxTCiS8mb4iTrlDRKoeV2iMYTqSwfPPU5h
+	 hnfetNn5IhNLsOT1qKGXVQfx0Uah4PuwL/R+VsJH9umBaq35easdlJ6gPsNQy+KTJbawk
+	 ZeW6eMcy/8qrpEjO2Bt4T3zeaez1Diao6BuS26kaO4/Nw4HF61gYyJW2xMrxjVo7hC7Ff
+	 PqehTyq4mYOMwCUj0Q3Rbdmzp20fwGKBx6oQAUYY+Z/IO+T0txtTNEtKP7Mvo2/VQmA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bIYqeafH;
+	arc=none smtp.remote-ip=209.85.216.49
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662A2606A319;
-	Tue, 20 Oct 2026 18:06:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 662A2606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74428606A31D
+	for <linux-hyperv@vger.kernel.org>; Tue, 20 Oct 2026 18:24:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74428606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=fkPPrCCi
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C759RP5e+SBbVs8LLxsVjBWk7MKTbd+/VgCl+hHMDeEMAhUml4vdyoyZx9bJYcompMQX71rc2eOBIME2dhFpMqzpWtzE+LfbqdwbPKpgLfGHqRK4aAGLdZRFkoGtXFkRpmq6SMndqJPOEGlUNYiHNrG7u9KUdgz4oyXt71McAAkQGKn+SK4i4UPq1mxfj8Nx1u/7uU/nnHOMRFUP6FtwJ3am3pfCNsycnFRKz+jVS7YQIA8poJxw+v1pg/JYCg8PMldsDnuqegOwfYWqXGfGaGQ8vEQKFEc+bfxCkQwFMys3gKsh2wXFqcqDzn9T1DM7QK6maiYHNSgmuay9r5wPQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DiJMhRCrfDaacw3dIifFDZrjGWdBDDeK3LfuR3NRnks=;
- b=olG5x/EDu5l/RQ+2VvprF7uuSytfNSr50Pp5EsIQpu/W5T+emIgeaqsSDMm9jMOFv9Ifd8IJAFcnuCUd6zC0VKOzsS1+FjFDnrmfNnUMR47uDyqg4nxkkWL/GPoTQUSp9/CNUHrku2Ep6AjZ/eYjs3TeGNMuNaufuNxyZfZLO/sc3xwG2lWSeKYaPsw6yZNbiyQpBdjHkuZ3lCE2fwtImrpbqC0IJtTm2ru0t2I3OKUULHR4cpZJn5SGb2w/cQ4gzgRoRFT4BRKK0TdOIokwr3kK/6wyhhG8UdRgxFdsFC9+IY2QkDaNwvWqLzMRlXizUeRP/124xW76TbBcaXKkPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DiJMhRCrfDaacw3dIifFDZrjGWdBDDeK3LfuR3NRnks=;
- b=fkPPrCCiwo2EHduzar85ohCAXCsZuERcUfm4cOmAiPOsaCBgGXWH/oRzcXZOiPWahCrkCR3dUqLoEoAfZK1d4tfjcfB2hHNmWueMx2lJ5nSG+3H73TKU995Ibw0D7JdtgDeYBCtvxH1xzP0mnUoVj50N5rJ0U1uPBf084+hk0UHnIpmAZ4b7zYyo1zS7CFkLQf3wPVPrHtSfi2y7jGtJzzSj9TFAsFl7h+kk1r4rBhvXAVoOJTyuiVxJiOWdUKPK3B+cYCPHeJE8XlOeONkhdTnZfx1PxmJtup6+HQs8pHslyZUS/P9FFOU5m4yWnluJP9k+DJZaxXliUc206fbVYg==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by MN2PR02MB6928.namprd02.prod.outlook.com (2603:10b6:208:205::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Tue, 20 Oct
- 2026 18:04:11 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0522.017; Tue, 20 Oct 2026
- 18:04:10 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>, Haiyang Zhang
-	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
-	<decui@microsoft.com>, Michael Kelley <mhklinux@outlook.com>
-CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 3/5] Drivers: hv: vmbus: Compute ring byte counts from
- a caller-held snapshot
-Thread-Topic: [PATCH v2 3/5] Drivers: hv: vmbus: Compute ring byte counts from
- a caller-held snapshot
-Thread-Index: AQHdYB762f4L4uaOX0uJste68Gd8rbcGupBg
-Date: Tue, 20 Oct 2026 18:04:10 +0000
-Message-ID:
- <MN2PR02MB6863B5BB274EC29FB15862A5D4672@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
- <20261019230950.1573677-4-kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261019230950.1573677-4-kameroncarr@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|MN2PR02MB6928:EE_
-x-ms-office365-filtering-correlation-id: 63660497-e22e-44d6-cdaf-08df2ed48ada
-x-microsoft-antispam:
- BCL:0;ARA:14566002|12121999013|51005399006|37011999003|15080799012|13091999003|8062599012|8060799015|19110799012|55001999006|24021099003|31061999003|25010399006|41001999006|56899033|19061999003|440099028|3412199025|102099032|40105399003|12091999003|1710799026;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?dC94RUJ8I8to+oMhMZJ7WSEvUqLFrwIJaaPbYQai1ZvXwSoL67RFdjtvHKIl?=
- =?us-ascii?Q?ahHa+f36omHrGFk/0i0kWk/pcPmjsOBdi3th1kQW4n1BiC4xEDsrCWVzsaRE?=
- =?us-ascii?Q?P4Y6dW5dwaI/AC180cHdekGt1FpvKhme6IvRcq/Be+7Wx1JxXySXf+uUtRig?=
- =?us-ascii?Q?e9GEceZprX12rzK6JEBXdYajIDIO5QIq7go3xwdKj5bxlEODL1gfMU87qyyu?=
- =?us-ascii?Q?2v98o1r1iGVmsMvQs1BjHFtAbWY8+1FgSf5gXITo0LjJg+h3Hq2v2OXIyKaC?=
- =?us-ascii?Q?tYycfhXuKs+6Kis4NKoEHhjDBvCISwmEv9r4Zs3hvNY0aYlMoiOgdlpDhZx9?=
- =?us-ascii?Q?IwJ3NzHh+gR3NDxDyP6hvlWPhkjdSR/E1oaGRVBRAIHrtMIGn9ca0age3AeS?=
- =?us-ascii?Q?zSC+5wgk5ijt1/Kb74WzBb7LZwzeP5As6dGObHdccwIPIX/fhkZEnKzNnlDE?=
- =?us-ascii?Q?mCc2fQhp2oMe8Wr11WbZFL5sy0xkBwT6Y/6wWkROoKq/Yw/sjwZeoeLVaO1j?=
- =?us-ascii?Q?+WT6y+LU279KcJM31O3LHaCgbPcbxVEEriETDmr1ryVrDYfysAZnNRFXdGjf?=
- =?us-ascii?Q?4YbWXcscRkqVKUXf6krCEl866BoV8g46PGdYVbhkdrgu6CBeUbJtnEZmxQ3S?=
- =?us-ascii?Q?y7Kpa5Up9mx+Gm+eS7Zdfp4yDz8VliVNqtibeKIUMdMf+Od+KNbUzkhegkWO?=
- =?us-ascii?Q?4pNFFED40a8n2eQjGc/Z3Bij8GgLno1oSFyOzmE2WLX60OCbW2dge7mos85Y?=
- =?us-ascii?Q?Z+JXXo1u44hjQhq3S8h9AQGtyxudKZR3vsxR63etmvHDHjsMFLKnI8+K9/Iy?=
- =?us-ascii?Q?0cLpH+U7fJsyfUfbzhvVpDBKRW3SZQeWGpc53QvdgTqEiv41JmuZ+rvPaeR5?=
- =?us-ascii?Q?PEtJ26/uNUWkLyjxLLA9hhSjK7TDSqEqG3KTDjKOGa6QYPeB1DODCwksKOVX?=
- =?us-ascii?Q?nW6dvmNxsV4JaBu3U/IyWX+XqPWRI/r85XL6x5s7r0aaoz2dTtUH2ykMNow5?=
- =?us-ascii?Q?1ifdZ+HVIYwtTddswpZYIwAV6dvQArbE3tcz/ZudjDfLbBFLjYtrTWHg3Xuy?=
- =?us-ascii?Q?2jS8dREyjCiPKGFa+0WoSNbBAkQM1z4ijLfuaHzXf8F3YS0rQpn26rZLQNrL?=
- =?us-ascii?Q?fZtRj1s778HciNrEJMmYbq1YHQBVVgORJhtuiwVRlPSoHG2XWfMW8+9w2wR1?=
- =?us-ascii?Q?LfSOrfm95hJ9w8cC?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?u1WHoogcLnlddPXG0F7oyxbBcRFE2wp3HctnDKRvHLeQEhptwhReJXNXhxRW?=
- =?us-ascii?Q?Jt96qgUNCdhmCc53IY7JXP1LlK6cGTWP1otF3hbg7FLlumY3+PU+DZIBGt+w?=
- =?us-ascii?Q?k5EhjEibuRBIFZzqQ7FmsalLzOY96jkORHmpYz2QM3dJxuXSa+z9PwtyxXrU?=
- =?us-ascii?Q?+csJf6MbuLYBMcWqDKbWTnVRO+JZTNB0ws4c9S+979osa4K1UfTqSAnDvti1?=
- =?us-ascii?Q?dB1pf2yqZGpf4ITEOEQaRQMWYV2jIfTmnj9aSsCJS3Iap2jVEzwgLNrx8W9A?=
- =?us-ascii?Q?f28IFuPnMsCSzcTrHe9AdZhCgSt2tsPHFvqikbj0mMZsM24H93w++iVekWi3?=
- =?us-ascii?Q?TmGhVDephirVwFCFFcmlGMPyB9ZD5XlmWde9gvTd6J5cvqmem830gpfLnVww?=
- =?us-ascii?Q?6um7iKJU8laBEOxdrEbRjKl5dySrydY0UbjkiNGb+L1XkSCZ07BZr54zWtwV?=
- =?us-ascii?Q?sEYqpgN+ptD6AkPknSoH72YLbCKShIxiX36LFM/eVV3DP3dSsNuA2i9JBDeQ?=
- =?us-ascii?Q?kkUrneXIlYo064OMIw3PUl4Qz7Eu/Ceo+4HL4j1Hb7xm0PlGSby4yPtjiZ7H?=
- =?us-ascii?Q?tPP1Htp2pCs20Dgax+Qy2gpTz6b94bsfH6Q65EHn/gBqPTvwr3bU0ba+ZEEY?=
- =?us-ascii?Q?Hx6AK/rkv9pCy5wC3ucSq0AOnGY2mWFBVfoyEwOFfFt0DY2GIMl44JVxI4ht?=
- =?us-ascii?Q?fI/yWpXjSRcD8HpT6xGEZD7cO76180WU1toTDgmDodrjWOoVjQoXCx3Hu/lW?=
- =?us-ascii?Q?nIvDoQg3kIFF1HNd5MuYSvojvN0ivWbKCv0a4cjq1IT9LUULW8YSY8AjLUGm?=
- =?us-ascii?Q?ggdbSYx7p1v+A39FLmM7Szvg1Opc3NGimcY0Pgos4102xUnHJvsDlsUbviJB?=
- =?us-ascii?Q?Tndab+4xfEEcSBXs3jTVh/al1RpLTAbdXSOhZXs6n/uIoBgyKvs0Gk9Wk31e?=
- =?us-ascii?Q?SbjnbaT/+UwUFpkgrhJoRowui21ywEXkCNnanyotnUpOw5Qz4TDIUYgZMurL?=
- =?us-ascii?Q?WgHEzIfEyKw7ADY20zOqmWrCXMsXN/N/e6e63B1aBV1l7agkN3HHq2tJiLpH?=
- =?us-ascii?Q?MREiLImltXS6vtJ3IPS0iZv3GlMI0hnB80CSnfX5q0fUASJBtYa8JvINKu2K?=
- =?us-ascii?Q?o0W68p8CZygN4p4zTqn0EAlSadvjR7y3bfGF7XUH1IUFFlqXK24PVHzHKAwl?=
- =?us-ascii?Q?EV1Q26f/7+GPibDIPFoly2QB67gjm/KkN2IvgpacjAJqoyhaPfI+J3WPnU5M?=
- =?us-ascii?Q?Yke8RhYRKbNbC9pUcSnWIEWpPUM5JYAqNDGdgKQY7jv7XWZukS81KTM7Q68i?=
- =?us-ascii?Q?J86ighdTqeY1gF2U9zRhqe8bI6LFnsjXxUmRlbCW66//x5yBkrECiiAB61CS?=
- =?us-ascii?Q?kMnPm48=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bIYqeafH
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ac7c7b3a90so1677369a91.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 20 Oct 2026 11:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792520684; x=1793125484; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=X9IgOVKkLpQ1ZKnnSNRsmikwcvRAYdkY+NKhG4LXiUE=;
+        b=bIYqeafHaX8PX++2LHb1j07gXXgFIeJcbT9Bi7cK64iwIj2rPqq4AE+TcNn9cN3OPP
+         evaUU6idlsW4MkJX5vHfhD8FbJRd2GPrEwmsm4QqxKa5TF3eNQQ9T3KCJ38trkv7Rmw1
+         x3IvoKO4PkrfrmiKM4UowPDAC7FPmBQk09DQLDI8rf2A6Cp07Krn1C3o68wncKGHbtyb
+         Jz94vWUAXQ9LjeOB3XLQhXhFKskNOsaXkcs438BkIzgmCnB03gwf4sWd6pDM/EG021lx
+         sY+BDr9o52pZ77PiP6N9tpzzN4kmXa2Fw+OZwO91quZXgUUlK5Z60nbewAryqKfWLbo8
+         YcfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792520684; x=1793125484;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=X9IgOVKkLpQ1ZKnnSNRsmikwcvRAYdkY+NKhG4LXiUE=;
+        b=FBHIbUWdaOsjOfsQqS8e3uTQs7Dipxl7xOkGTveCwBGvtRptbajL7AGgKkId3eCtnf
+         fjFR4l09yqeSI1YxFzmkgFcAxmGBygHi+UADOH1Rw3oYKHrNcYmPpDSaqvtg/Rws4+Zt
+         i5cPijbOHfxs12OeyMFSLOp3aSz30sWcxp9va7a8/dMAHbOTraK7FA7cuyhhoT4szIpG
+         F/9KCgAv1+pJm/Kxt1rUpD+LzUDEoQ+ltNgbAnTpN899bIMyQo3DToN85mj2obhUtJyH
+         jgKHJ2g8xeIJGQ11hp19X86ZXLQOe9pTeZuRxjl1b8n2udWKmoC63KldT606AdiKZuMz
+         h7Ew==
+X-Forwarded-Encrypted: i=1; AKwUvBy0j270pqKuc0/NHsZXo2WQlQdq3RQMt7qo8HCq6uqBcaV5jCkLNS8I8nTG5l1nLQENcg564/pFkOe9RUs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIyzmjawjQg7i/79bA+4ly5MFze9jsySkTEE52Di74dy4TWb/BU
+	kzdTe3fDQJApC1DHYT0r0oXqfIl/dRy/Pg36QDXFfkFgPi1CWgNGrH3R
+X-Gm-Gg: AYBFou0o1154SZDE93M98MSCKeMl8+/7JunlUhR2DtSg3HbTQhJlzcBE9umEGGAJlhH
+	qaZOgDEfmOc+XsrugJRrcP6M23SgB6bYiuNu3PibkyY81cfaE7Q7RfBJmGmFsH/UuVlK2B8hhHu
+	oj3MkuhK28G2eEHRkbItMqVmGL0ipR9pJgA/AWJUttJhc+9UfUiahcOlyTK2M8KaLo1hVZmFQqN
+	BGM8tlgw35eMkGU3x9xAa8CJmE4Bepa+4uPA0TXBMJGeAjqMCWTO0RIu+ro14h7OnHZmB4vQxZs
+	x7sCh6EvC6ADZCq+1SCm3UvIPAq2DoFpMPvrVL9OIb2t1KagWXEYNNITmzJIP1U5p0ddwLUn12x
+	H1k3Y0e88rVVgHkmeWw9CnEquHi4InPfHt8c5JfUwNR61ORDVzgmf3QGlovslGgVlz/VIbETTJS
+	/4RD/FPSoZx5sfT7DFyZuzswoKtsDDGWlgUFW6tDiXdpAwgal+104a+9Rhq4vn0PMY0WPdz+8Ce
+	fl2hB341ihZYF3BPKXRWvmus4fihCsUS3xuyPyE9k6ySGiVCe+13+r1jKoSEmOTOmBYI7QT30s=
+X-Received: by 2002:a17:90a:d010:b0:3aa:ff61:9504 with SMTP id 98e67ed59e1d1-3acef134b64mr9721601a91.20.1792520683712;
+        Tue, 20 Oct 2026 11:24:43 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea3b464dd7sm2159985ad.52.2026.10.20.11.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 11:24:43 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	lpieralisi@kernel.org,
+	kwilczynski@kernel.org,
+	mani@kernel.org,
+	robh@kernel.org,
+	bhelgaas@google.com
+Cc: linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org
+Subject: [PATCH 1/1] PCI: hv: Spread load across CPUs when selecting effective affinity CPU
+Date: Tue, 20 Oct 2026 11:24:33 -0700
+Message-Id: <20261020182433.336637-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -155,281 +104,242 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63660497-e22e-44d6-cdaf-08df2ed48ada
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2026 18:04:10.6895
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6928
+Content-Transfer-Encoding: 8bit
 
-From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Monday, October =
-19, 2026 4:10 PM
->=20
-> hv_get_ringbuffer_availbytes() reads the indices directly, so a caller
-> that also wants the index values has to read them a second time. The
-> host can change them in between, resulting in the byte counts and the
-> indices reflecting two different states of the ring.
->=20
-> Replace it with hv_ringbuffer_avail_write() and
-> hv_ringbuffer_avail_read(), which take the indices as arguments and
-> return a single count. They are separate because most callers want only
-> one of the two values. Use them in hv_ringbuffer_write() in place of the
-> open-coded equivalent. hv_get_bytes_to_read(), hv_get_bytes_to_write()
-> and hv_pkt_iter_avail() duplicated the same arithmetic, so put the
-> helpers in include/linux/hyperv.h and use them there too.
->=20
-> Add a hv_ringbuffer_indices_invalid() helper that bounds checks a pair
-> of read and write indices, and use it for the check in
-> hv_ringbuffer_write(). Convert the remaining callers to use a single
-> snapshot:
->=20
->   - hv_ringbuffer_get_debuginfo() now reports the indices and the
->     computed byte counts from the same snapshot.
->=20
->   - hv_pkt_iter_close() computes the free space from priv_read_index
->     instead of re-reading the shared read index. The two agree unless a
->     misbehaving host has rewritten the value.
->=20
-> No functional change intended for a well-behaved host.
->=20
-> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+In a system with multiple devices with the same configuration (such as
+NVMe controllers), the affinity masks are the same for all such devices.
+Linux typicaly must select a single CPU from each mask to be the effective
+affinity. If a fixed algorithm is used, such as picking the first CPU
+in the mask, interrupts from multiple devices are assigned to the same
+CPUs, while other CPUs are not assigned any interrupts, producing an
+interrupt load imbalance.
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+On x86, the "APIC" IRQ chip avoids this problem by spreading the
+interrupts across the CPUs in an affinity mask. It tracks the number
+of IRQs assigned to each CPU, and chooses the CPU in the mask that
+has the fewest assignments. Because Hyper-V vPCI device IRQs eventually
+parent to APIC, the spreading done by APIC accrues to Hyper-V vPCI
+devices, so all is good in x86 systems.
 
-> ---
->  drivers/hv/ring_buffer.c | 68 ++++++++++++++++--------------------------=
-------
->  include/linux/hyperv.h   | 50 +++++++++++++++++++++++++++--------
->  2 files changed, 61 insertions(+), 57 deletions(-)
->=20
-> diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-> index 7f466c5..cda957d 100644
-> --- a/drivers/hv/ring_buffer.c
-> +++ b/drivers/hv/ring_buffer.c
-> @@ -107,35 +107,12 @@ static u32 hv_copyto_ringbuffer(
->  	return start_write_offset;
->  }
->=20
-> -/*
-> - *
-> - * hv_get_ringbuffer_availbytes()
-> - *
-> - * Get number of bytes available to read and to write to
-> - * for the specified ring buffer
-> - */
-> -static void
-> -hv_get_ringbuffer_availbytes(const struct hv_ring_buffer_info *rbi,
-> -			     u32 *read, u32 *write)
-> -{
-> -	u32 read_loc, write_loc, dsize;
-> -
-> -	/* Capture the read/write indices before they changed */
-> -	read_loc =3D READ_ONCE(rbi->ring_buffer->read_index);
-> -	write_loc =3D READ_ONCE(rbi->ring_buffer->write_index);
-> -	dsize =3D rbi->ring_datasize;
-> -
-> -	*write =3D write_loc >=3D read_loc ? dsize - (write_loc - read_loc) :
-> -		read_loc - write_loc;
-> -	*read =3D dsize - *write;
-> -}
-> -
->  /* Get various debug metrics for the specified ring buffer. */
->  int hv_ringbuffer_get_debuginfo(struct hv_ring_buffer_info *ring_info,
->  				struct hv_ring_buffer_debug_info *debug_info)
->  {
-> -	u32 bytes_avail_towrite;
-> -	u32 bytes_avail_toread;
-> +	u32 read_index;
-> +	u32 write_index;
->=20
->  	mutex_lock(&ring_info->ring_buffer_mutex);
->=20
-> @@ -144,13 +121,14 @@ int hv_ringbuffer_get_debuginfo(struct hv_ring_buff=
-er_info *ring_info,
->  		return -EINVAL;
->  	}
->=20
-> -	hv_get_ringbuffer_availbytes(ring_info,
-> -				     &bytes_avail_toread,
-> -				     &bytes_avail_towrite);
-> -	debug_info->bytes_avail_toread =3D bytes_avail_toread;
-> -	debug_info->bytes_avail_towrite =3D bytes_avail_towrite;
-> -	debug_info->current_read_index =3D ring_info->ring_buffer->read_index;
-> -	debug_info->current_write_index =3D ring_info->ring_buffer->write_index=
-;
-> +	read_index =3D READ_ONCE(ring_info->ring_buffer->read_index);
-> +	write_index =3D READ_ONCE(ring_info->ring_buffer->write_index);
-> +	debug_info->bytes_avail_toread =3D
-> +		hv_ringbuffer_avail_read(ring_info, read_index, write_index);
-> +	debug_info->bytes_avail_towrite =3D
-> +		hv_ringbuffer_avail_write(ring_info, read_index, write_index);
-> +	debug_info->current_read_index =3D read_index;
-> +	debug_info->current_write_index =3D write_index;
->  	debug_info->current_interrupt_mask
->  		=3D ring_info->ring_buffer->interrupt_mask;
->  	mutex_unlock(&ring_info->ring_buffer_mutex);
-> @@ -282,8 +260,8 @@ int hv_ringbuffer_write(struct vmbus_channel *channel=
-,
->=20
->  	read_index =3D READ_ONCE(outring_info->ring_buffer->read_index);
->  	old_write =3D READ_ONCE(outring_info->ring_buffer->write_index);
-> -	if (unlikely(read_index >=3D outring_info->ring_datasize ||
-> -		     old_write >=3D outring_info->ring_datasize)) {
-> +	if (unlikely(hv_ringbuffer_indices_invalid(outring_info, read_index,
-> +						   old_write))) {
->  		spin_unlock_irqrestore(&outring_info->ring_lock, flags);
->  		pr_err_ratelimited("outbound ring indices out of range: relid %u read =
-%u write %u size %u\n",
->  				   channel->offermsg.child_relid, read_index,
-> @@ -291,9 +269,8 @@ int hv_ringbuffer_write(struct vmbus_channel *channel=
-,
->  		return -EIO;
->  	}
->=20
-> -	bytes_avail_towrite =3D old_write >=3D read_index ?
-> -		outring_info->ring_datasize - (old_write - read_index) :
-> -		read_index - old_write;
-> +	bytes_avail_towrite =3D hv_ringbuffer_avail_write(outring_info, read_in=
-dex,
-> +							old_write);
->=20
->  	/*
->  	 * If there is only room for the packet, assume it is full.
-> @@ -445,10 +422,7 @@ static u32 hv_pkt_iter_avail(const struct hv_ring_bu=
-ffer_info *rbi)
->  	 */
->  	write_loc =3D virt_load_acquire(&rbi->ring_buffer->write_index);
->=20
-> -	if (write_loc >=3D priv_read_loc)
-> -		return write_loc - priv_read_loc;
-> -	else
-> -		return (rbi->ring_datasize - priv_read_loc) + write_loc;
-> +	return hv_ringbuffer_avail_read(rbi, priv_read_loc, write_loc);
->  }
->=20
->  /*
-> @@ -568,6 +542,7 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
->  {
->  	struct hv_ring_buffer_info *rbi =3D &channel->inbound;
->  	u32 curr_write_sz, pending_sz, bytes_read, start_read_index;
-> +	u32 write_index;
->=20
->  	/*
->  	 * Make sure all reads are done before we update the read index since
-> @@ -607,11 +582,13 @@ void hv_pkt_iter_close(struct vmbus_channel *channe=
-l)
->  		return;
->=20
->  	/*
-> -	 * Ensure the read of write_index in hv_get_bytes_to_write()
-> -	 * happens after the read of pending_send_sz.
-> +	 * Ensure the read of write_index happens after the read of
-> +	 * pending_send_sz.
->  	 */
->  	virt_rmb();
-> -	curr_write_sz =3D hv_get_bytes_to_write(rbi);
-> +	write_index =3D READ_ONCE(rbi->ring_buffer->write_index);
-> +	curr_write_sz =3D hv_ringbuffer_avail_write(rbi, rbi->priv_read_index,
-> +						  write_index);
->  	bytes_read =3D hv_pkt_iter_bytes_read(rbi, start_read_index);
->=20
->  	/*
-> @@ -627,8 +604,7 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
->  	 * Exactly filling the ring buffer is treated as "not enough
->  	 * space". The ring buffer always must have at least one byte
->  	 * empty so the empty and full conditions are distinguishable.
-> -	 * hv_get_bytes_to_write() doesn't fully tell the truth in
-> -	 * this regard.
-> +	 * curr_write_sz doesn't fully tell the truth in this regard.
->  	 *
->  	 * So first check if we were in the "enough free space" state
->  	 * before we began the iteration. If so, the host was not
-> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index 5c65820..09f25ad 100644
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -209,31 +209,59 @@ struct hv_ring_buffer_info {
->  };
->=20
->=20
-> +/*
-> + * The indices live in memory shared with the untrusted host, so check a
-> + * snapshot of them before using it as an offset or to compute a byte co=
-unt.
-> + */
-> +static inline bool
-> +hv_ringbuffer_indices_invalid(const struct hv_ring_buffer_info *rbi,
-> +			      u32 read_loc, u32 write_loc)
-> +{
-> +	return read_loc >=3D rbi->ring_datasize ||
-> +	       write_loc >=3D rbi->ring_datasize;
-> +}
-> +
-> +/*
-> + * Byte counts for a caller-supplied snapshot of the indices, so that th=
-e
-> + * counts and the indices the caller goes on to use describe one state o=
-f the
-> + * ring.
-> + */
-> +static inline u32
-> +hv_ringbuffer_avail_write(const struct hv_ring_buffer_info *rbi,
-> +			  u32 read_loc, u32 write_loc)
-> +{
-> +	u32 dsize =3D rbi->ring_datasize;
-> +
-> +	return write_loc >=3D read_loc ? dsize - (write_loc - read_loc) :
-> +		read_loc - write_loc;
-> +}
-> +
-> +static inline u32
-> +hv_ringbuffer_avail_read(const struct hv_ring_buffer_info *rbi,
-> +			 u32 read_loc, u32 write_loc)
-> +{
-> +	return rbi->ring_datasize -
-> +		hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
-> +}
-> +
->  static inline u32 hv_get_bytes_to_read(const struct hv_ring_buffer_info =
-*rbi)
->  {
-> -	u32 read_loc, write_loc, dsize, read;
-> +	u32 read_loc, write_loc;
->=20
-> -	dsize =3D rbi->ring_datasize;
->  	read_loc =3D READ_ONCE(rbi->ring_buffer->read_index);
->  	write_loc =3D READ_ONCE(rbi->ring_buffer->write_index);
->=20
-> -	read =3D write_loc >=3D read_loc ? (write_loc - read_loc) :
-> -		(dsize - read_loc) + write_loc;
-> -
-> -	return read;
-> +	return hv_ringbuffer_avail_read(rbi, read_loc, write_loc);
->  }
->=20
->  static inline u32 hv_get_bytes_to_write(const struct hv_ring_buffer_info=
- *rbi)
->  {
-> -	u32 read_loc, write_loc, dsize, write;
-> +	u32 read_loc, write_loc;
->=20
-> -	dsize =3D rbi->ring_datasize;
->  	read_loc =3D READ_ONCE(rbi->ring_buffer->read_index);
->  	write_loc =3D READ_ONCE(rbi->ring_buffer->write_index);
->=20
-> -	write =3D write_loc >=3D read_loc ? dsize - (write_loc - read_loc) :
-> -		read_loc - write_loc;
-> -	return write;
-> +	return hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
->  }
->=20
->  static inline u32 hv_get_avail_to_write_percent(
->=20
-> --
-> 2.45.4
+On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind of
+spreading for LPI interrupts. But Hyper-V provides guest VMs only with
+a virtual GICv3, not including an ITS or LPI support. IRQs for vPCI
+devices on arm64 are mapped to SPIs and parented to the "GICv3" IRQ
+chip. The GICv3 IRQ chip always chooses the first CPU in the affinity
+mask as the effective affinity, producing an interrupt load imbalance
+for Hyper-V vPCI devices in arm64 systems.
+
+The Hyper-V vPCI driver already has an arm64-specific IRQ chip to
+allocate and managed SPIs for use by vPCI devices. Solve the imbalance
+problem by extending this IRQ chip to implement a "set affinity"
+function that tracks SPIs assigned to each CPU, and chooses the
+least-loaded CPU as the effective affinity. Then invoke the parent
+IRQ chip (GICv3) to actually set that single CPU as the effective
+affinity in the virtual GICv3 hardware. As a result, IRQs are spread
+across CPUs like on x86 and interrupt load imbalances are avoided.
+
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+As an alternative, this spreading functionality could be implemented
+for SPIs directly in the GICv3 IRQ chip, similar to what the ITS IRQ
+chip already has for LPIs. While Hyper-V's scheme of using SPIs for
+vPCI interrupts is allowed by the arm64 architecture, it's atypical.
+So the original decision was for the Hyper-V vPCI driver to handle
+the allocation and management of SPIs for this purpose rather than do
+it in generic GIC code. That led of the introduction of the "MSI" IRQ
+chip in the Hyper-V vPCI driver. This implementation of the spreading
+functionality follows that original decision by extending the "MSI"
+IRQ chip. If reviewers have reasons to prefer enhancing the GICv3 IRQ
+chip driver instead, I'm open to doing that.
+
+I have not added any documentation to Documentation/virt/hyperv/vpci.rst.
+That documentation needs an entirely new section on the IRQ domains
+and chips, and their hierarchy differences on x86 and arm64. I'm
+working on a separate patch to add that documentation. But I don't
+want to hold up this improvement for that larger documentation task.
+
+ drivers/pci/controller/pci-hyperv.c | 144 +++++++++++++++++++++++++++-
+ 1 file changed, 142 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 85d826f8f68d..1706090cebeb 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -746,10 +746,132 @@ struct hv_pci_chip_data {
+ /* Hyper-V vPCI MSI GIC IRQ domain */
+ static struct irq_domain *hv_msi_gic_irq_domain;
+ 
++/*
++ * Data structures and helper functions for spreading the CPU in the
++ * affinity mask that is picked for the effective affinity. Such
++ * spreading is done by the "APIC" IRQ chip on x86 and by the
++ * "ITS" chip for LPIs with GICv3+ITS on arm64. But Hyper-V provides
++ * only a GICv3 with SPIs (no ITS or LPIs) to arm64 guests. For SPIs
++ * the "GICv3" IRQ chip always picks the first CPU in the affinity mask,
++ * which can overload that CPU and reduce parallelism in processing
++ * interrupts.
++ *
++ * While the Hyper-V configuration is architecturally allowed, it's not
++ * typical, so the spreading is done here in pci-hyperv.c with the "MSI"
++ * IRQ chip parented to "GICv3". Track how many SPIs have been assigned
++ * to each CPU, and use that data to spread the IRQ load evenly across
++ * the CPUs instead of just picking the first CPU. The code follows a
++ * pattern similar to the spreading logic for the "ITS" IRQ chip.
++ */
++
++struct cpu_spi_count {
++	/* Index 0 is unmanaged. Index 1 is managed. */
++	atomic_t	count[2];
++};
++
++static DEFINE_PER_CPU(struct cpu_spi_count, cpu_spi_count);
++
++static void hv_pci_inc_spi_count(struct irq_data *d, int cpu)
++{
++	int idx = irqd_affinity_is_managed(d);
++
++	atomic_inc(&per_cpu_ptr(&cpu_spi_count, cpu)->count[idx]);
++}
++
++static void hv_pci_dec_spi_count(struct irq_data *d, int cpu)
++{
++	int idx = irqd_affinity_is_managed(d);
++
++	atomic_dec(&per_cpu_ptr(&cpu_spi_count, cpu)->count[idx]);
++}
++
++static unsigned int hv_pci_arm64_get_min_load_and(struct irq_data *d,
++					   const struct cpumask *cpu_mask1,
++					   const struct cpumask *cpu_mask2)
++{
++	unsigned int cpu = nr_cpu_ids, tmp;
++	int count = S32_MAX, this_count;
++	int idx = irqd_affinity_is_managed(d);
++
++	for_each_cpu_and(tmp, cpu_mask1, cpu_mask2) {
++		this_count = atomic_read(
++				&per_cpu_ptr(&cpu_spi_count, tmp)->count[idx]);
++		if (this_count < count) {
++			cpu = tmp;
++			count = this_count;
++		}
++	}
++
++	return cpu;
++}
++
++static unsigned int hv_pci_arm64_get_min_load(struct irq_data *d,
++				       const struct cpumask *cpu_mask)
++{
++	return hv_pci_arm64_get_min_load_and(d, cpu_mask, cpu_possible_mask);
++}
++
++static int hv_pci_arm64_select_cpu(struct irq_data *d,
++			  const struct cpumask *aff_mask)
++{
++	int cpu;
++
++	if (irqd_affinity_is_managed(d))
++		cpu = hv_pci_arm64_get_min_load(d, aff_mask);
++
++	else if (cpumask_intersects(aff_mask, cpu_online_mask))
++		/* Try the intersection of the affinity and online masks */
++		cpu = hv_pci_arm64_get_min_load_and(d, aff_mask, cpu_online_mask);
++
++	else
++		/* If that doesn't fly, the online mask is the last resort */
++		cpu = hv_pci_arm64_get_min_load(d, cpu_online_mask);
++
++	pr_debug("IRQ%d -> %*pbl CPU%d\n", d->irq, cpumask_pr_args(aff_mask), cpu);
++	return cpu;
++}
++
++/*
++ * Track the count of SPIs assigned to each CPU. Pick a single CPU from the
++ * affinity mask based on the SPI loading data, and have the parent IRQ
++ * chip (should be "GICv3") set the effective affinity to that single CPU.
++ */
++static int hv_pci_arm64_set_affinity(struct irq_data *d,
++				     const struct cpumask *mask_val,
++				     bool force)
++{
++	unsigned int cpu, prev_cpu;
++	int ret;
++
++	prev_cpu = cpumask_first(irq_data_get_effective_affinity_mask(d));
++	if (prev_cpu < nr_cpu_ids)
++		hv_pci_dec_spi_count(d, prev_cpu);
++
++	if (force)
++		cpu = hv_pci_arm64_get_min_load(d, mask_val);
++	else
++		cpu = hv_pci_arm64_select_cpu(d, mask_val);
++
++	if (cpu >= nr_cpu_ids)
++		goto err;
++
++	ret = irq_chip_set_affinity_parent(d, cpumask_of(cpu), force);
++	if (ret < 0)
++		goto err;
++
++	hv_pci_inc_spi_count(d, cpu);
++	return ret;
++
++err:
++	if (prev_cpu < nr_cpu_ids)
++		hv_pci_inc_spi_count(d, prev_cpu);
++	return -EINVAL;
++}
++
+ /* Hyper-V PCI MSI IRQ chip */
+ static struct irq_chip hv_arm64_msi_irq_chip = {
+ 	.name = "MSI",
+-	.irq_set_affinity = irq_chip_set_affinity_parent,
++	.irq_set_affinity = hv_pci_arm64_set_affinity,
+ 	.irq_eoi = irq_chip_eoi_parent,
+ 	.irq_mask = irq_chip_mask_parent,
+ 	.irq_unmask = irq_chip_unmask_parent
+@@ -888,21 +1010,39 @@ static int hv_pci_vec_irq_domain_alloc(struct irq_domain *domain,
+  * composing MSI from the hypervisor. GIC will eventually set the right
+  * affinity for the irq and the 'unmask' will retarget the interrupt to that
+  * cpu.
++ *
++ * The first cpu is always used for initial activation because spreading the
++ * initial CPU would have to be done without information about affinity groups
++ * that may exist. The resulting assignments would pollute the "least loaded"
++ * data for making the final assignments. Everything would still work, but
++ * the spreading would be less even than it could be.
+  */
+ static int hv_pci_vec_irq_domain_activate(struct irq_domain *domain,
+ 					  struct irq_data *irqd, bool reserve)
+ {
+-	int cpu = cpumask_first(cpu_present_mask);
++	int cpu = cpumask_first(cpu_online_mask);
+ 
++	hv_pci_inc_spi_count(irqd, cpu);
+ 	irq_data_update_effective_affinity(irqd, cpumask_of(cpu));
+ 
+ 	return 0;
+ }
+ 
++static void hv_pci_vec_irq_domain_deactivate(struct irq_domain *domain,
++					     struct irq_data *irqd)
++{
++	int cpu;
++
++	cpu = cpumask_first(irq_data_get_effective_affinity_mask(irqd));
++	if (cpu < nr_cpu_ids)
++		hv_pci_dec_spi_count(irqd, cpu);
++}
++
+ static const struct irq_domain_ops hv_pci_domain_ops = {
+ 	.alloc	= hv_pci_vec_irq_domain_alloc,
+ 	.free	= hv_pci_vec_irq_domain_free,
+ 	.activate = hv_pci_vec_irq_domain_activate,
++	.deactivate = hv_pci_vec_irq_domain_deactivate,
+ };
+ 
+ #ifdef CONFIG_OF
+-- 
+2.25.1
 
