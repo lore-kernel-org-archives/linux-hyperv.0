@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792470649;
-	b=FYtbxGdRGc1VrBj9lDcou459fV0Q20ZFaQzcqr+1ldN1lw7TrvqbndLBNQxA8SZRIbCl
-	 qxtUWkvwnmA2Sg5dxgCimGNXROdB1wSJCywmABFrz0eBZO1P/K9zGhxTI5KXnDo4DclO5
-	 udt0S8Y2Cnqzgeqv4l+rMbi0USCNu2vFEbFgMzaROWJusDR3GdCvmJqjpXxvg8Ghu1CXl
-	 xbVsrKPDx4KY+yTN+85ZYeGbb05gdRWCOfiGSIE+OMO0mrTL4MzLDMj8xQxS23V08G4lg
-	 t8R6X2W4Itc+k8aY0/GDZODojc10pbfmQnRDJeF/cMq0+bRYpyo78034WtYhs6rvQqw==
+	b=ecDM6WE4He8N3D8NK7Zsd6tOqOA2gQILPSJaCtWwQhggKPYrwYgkYmFrhGt6n7F+8hRa
+	 EJOzEg5pW1U7kiite0J1O+k+TPHBvMQhnGNdfApA3XXL2YmT4d6NXofF0L7m9TI/39oK0
+	 xsLdBQs5bYixcDgfT08lCqIDnAwPj3uyTR61t3a+spkSGpKPVP/KOLlIUZqzJGgb444zD
+	 sCmkri0CyUhvLZBNMz9vj3ejRv5ZW7HFSS8apf5rlH9Dm2azfzic0izmUIBI5ReqIt07G
+	 x1iROypn9ou4lBJeEsRIbooT2CXGbVWAb606F2DssMuAkNhwFhPr5g6eksHU6BDRomQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792470649;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:Content-Type:
 	 MIME-Version:Content-Transfer-Encoding:X-Spam-Status:
 	 X-Spam-Checker-Version;
-	bh=6DcGGOOFdce5ERyHzgW3XUEmRU7KpMeHrpytV7uK3CA=;
-	b=WetTRKpso9GQ8MEIHY8TSdYQeOpd5NK5EYAwbDQD0gYEsACXilZS+CEI7Sq7cEauzwXT
-	 38k424Eybo29z5gOPrmtzJOON2o09NatO9bZS0uZCN8MCeZ2uR9+d8RX7SkOVy06wTQ/L
-	 xH3yaXsI0zxdrbMWhZLGXNyyYqhOBZAWSOS/cbWwaVS49+6gsgPegflWAbd4gicCJE2Qp
-	 +64n7fHH5S7NHVr3iGCgFbICyny59isMpn/fCrx8nYImUxXQth/2+HB4uhcwsZocESg1V
-	 UOif0Lfsx8cCbgPvayYqothEjLsKGxQTXBtIJ61iCb87nrkLzURTTL5T1ydnIhxJbgA==
+	bh=Zk31WB9hWO6u3WrXVB/NaCBT17Dt1bBOz+6YIxm/s7Q=;
+	b=qNM0hmaUH3eDwlsdan77BVH/kZ+lgwrZmOyM9/sWrAlSict9Dlx90CxCI69Q8mm/BlCD
+	 mH0HYs41t0niJKwwpC4/we3C7YrosQm5lljidNft/E/st7vNg37Z+/jauSOCJmn/5kZHL
+	 JKvv7L6TQKScL0wy2ofz2t0bax2en/g/wzkbyUODlNsLXTadCCmhaxybTt8kycuN9V872
+	 hWYP5kPzRcp2JVF2Wg00KVlVQhJ92b30pY8Uzo+nGSBUI98QY/gQ2fvizqUaA3rFIqHqU
+	 LNmKqRXw4lwiBudNgnv1xxMUYT/a+/9mVE2gj3T0MHvgYDe+IvGkVSptpN8Lh9Ozb8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CS0kzJ6V;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=IgKhvKyx;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1C33606A31A;
-	Tue, 20 Oct 2026 04:30:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1C33606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81502606A322;
+	Tue, 20 Oct 2026 04:30:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81502606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CS0kzJ6V
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=IgKhvKyx
 Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E211520B7168;
-	Mon, 19 Oct 2026 21:30:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E211520B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id DA91320B716C;
+	Mon, 19 Oct 2026 21:30:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DA91320B716C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792470641;
-	bh=6DcGGOOFdce5ERyHzgW3XUEmRU7KpMeHrpytV7uK3CA=;
+	s=default; t=1792470642;
+	bh=Zk31WB9hWO6u3WrXVB/NaCBT17Dt1bBOz+6YIxm/s7Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CS0kzJ6V5exZC/Oxw4HGYd9bVsqvkL/H90ftXt8pcPBtqIQ/M8Qx/lifmZM9Qdi/q
-	 xxwLBbuH0aNiFGPq/S6kd98PZOel5zGnpeo6z/GqHRhatqm9oOKRMqBRZRpB7uWQIY
-	 TKAgolw/uS086DhAngF5p05mv7pACCn6hSsEgEyU=
+	b=IgKhvKyxc5KLCUSw7mgVUncddKva54C4YGP7Dn6+XzJycpo2iJCJDezXQruS5pb15
+	 7Y5DFZTbecNVQpUjn5KTn6OczPjo1nIVbWaKkV7CBfg6GxktMZY0CS0codeVcDLiJW
+	 +wqX2jPNAJf9DMcZEsYRUCNKhZV5xkWZtUhnf5MU=
 From: Wei Hu <weh@linux.microsoft.com>
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-rdma@vger.kernel.org,
@@ -50,12 +50,12 @@ Cc: linux-rdma@vger.kernel.org,
 	netdev@vger.kernel.org,
 	weh@microsoft.com,
 	kuba@kernel.org
-Subject: Re: [PATCH net-next v7 02/13] net: mana: share the EQ pool across a queue-set swap
-Date: Tue, 20 Oct 2026 04:30:38 +0000
-Message-ID: <qset-v7-sashiko-02-v8-plan.20261018.weh@linux.microsoft.com>
+Subject: Re: [PATCH net-next v7 03/13] net: mana: keep per-queue statistics in the port context
+Date: Tue, 20 Oct 2026 04:30:39 +0000
+Message-ID: <qset-v7-sashiko-03-v8-plan.20261018.weh@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <sashiko-outbox-175602@kernel.org>
-References: <cover.1791710735.git.weh@linux.microsoft.com> <9b7e62cc70138f8940a32869da44c1260748be14.1791710735.git.weh@linux.microsoft.com> <sashiko-outbox-175602@kernel.org>
+In-Reply-To: <sashiko-outbox-175603@kernel.org>
+References: <cover.1791710735.git.weh@linux.microsoft.com> <b27034466c0db8228409db5473e747db7c3177c5.1791710735.git.weh@linux.microsoft.com> <sashiko-outbox-175603@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -70,55 +70,22 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-> Should mana_ib_remove_cq_cb() use cmpxchg() and synchronize_rcu() for
-> teardown, similar to what was added for Ethernet CQs in
-> mana_gd_destroy_cq()?
+> In mana_remove(), unregister_netdevice() unlists the device but does not
+> synchronously wait for existing RCU grace periods to finish.
 
-I will leave the RDMA teardown path unchanged in v8. The callback-wrapper
-lifetime issue is real, but mana_ib_remove_cq_cb() and mana_ib_destroy_cq()
-already have this ordering in both unmodified upstream bases used for v6
-and v7. The acquire/release publication change does not introduce that
-reader/free race or resolve it. An independent RDMA lifetime fix should
-cover the hardware CQ and pending events as well as the software readers;
-I am not including that separate change in this queue-set revision.
+I will leave this ordering unchanged in v8. The premise does not match
+the unregister path in the target tree.
 
-> Can gc->cq_table be NULL when this acquire load executes?
+unregister_netdevice() uses the NULL-head path, which performs unregister
+work immediately. Before returning, that path unlists the device and
+calls synchronize_net(), removes its sysfs exposure, and performs another
+network grace period. mana_free_queue_stats() runs after that call.
 
-I will also leave this initialization path unchanged in v8. There is a
-window after max_num_cqs is populated and before cq_table is allocated.
-A spurious or premature completion in that window could hit the missing
-table-root check. That window and the unguarded lookup already exist in
-both upstream bases, before this series.
-
-For normal HWC startup, WQEs are posted only after channel establishment
-returns and the CQ table is installed. I have not identified a normal
-completion producer in the window described here. This is a conditional
-hardware-protocol hardening issue, not a demonstrated new startup failure
-caused by the publication change.
-
-> Could this sequential mana_gd_test_eq() call lead to an unbounded RTNL
-> stall if an EQ stops delivering interrupts?
-
-I will address the additional per-CQ timeout amplification in v8. These
-extra waits are introduced by the queue-set series and are already in v6.
-
-The correction will stop the retiring WQs, keep their CQ callbacks alive,
-and issue all required parent-EQ markers before waiting. Per-EQ
-completions will allow one shared 30-second completion budget per RX or TX
-cleanup batch. CQ withdrawal and the existing RCU reader wait remain
-after the batch, including the partial-allocation cleanup paths.
-
-One detail of the reported bound needs qualification: each TX/RX pair has
-its own parent EQ. One stalled parent normally adds two CQ waits, about
-60 seconds. The 128 * 30-second case requires all 64 parents to stall
-while the hardware channel remains responsive. The cumulative delay is
-finite, but it is still a real problem introduced by these extra waits.
-
-The correction bounds the added CQ-marker completion waits, not all RTNL
-hold time. Existing per-EQ destruction waits and hardware-channel request
-time remain separate. It also preserves the existing best-effort cleanup
-policy after a failed marker, rather than claiming new hardware recovery
-guarantees.
+Some final netdev processing is deferred to netdev_run_todo(), but the
+grace periods relevant to the identified proc/sysfs readers are not all
+deferred until rtnl_unlock(). The same ordering is present in the v6
+counterpart and both upstream bases. The reported reader/free interleaving
+therefore does not establish a UAF requiring a statistics-lifetime change.
 
 Thanks,
 Wei
