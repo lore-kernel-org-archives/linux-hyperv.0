@@ -1,55 +1,181 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514840;
-	b=11qoCKYhN6k3dQ2GNI5kdGUCClpJKCS1ZcpvgVGAVkE8vQNqwcQPsIIm4drFs9a0TqyA
-	 hdwYq6lV6b2josCbRJKAk4320YEcqWE2sTI4u8KTm2WxdhVAAaDO5A+XwNN9G3qAGptiO
-	 csSPjc3Jb+vYzbT5n2pKmhlWpweQtSLEMU73g+8GfwALvHYERjOIcvaJB6zAK+6+HP+Y3
-	 Rotjy9xFL0w8lsGaTk9+7Pt/zhh5j/hC+t5jBW92un13/xt4RMj1+ivtaiPV0+BIWrqc0
-	 OPEU2xY1XgwQfg/5/zWgtVzE7lnOGo0382Sxp8COCYUp/zy73a9gNp0+18YSf4JkEAA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514840;
-	h=Received:Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 X-sashiko-severity:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version;
-	bh=n+oKGk1imSqXHlpcQPQgdWOn1hEEDsQt0rvGO+83lJA=;
-	b=cpIvgSnAr9j+m5VKsxaoJa57KaLp664NTBch3waYNG7GVJo+3mUhG6KgE1sbc/8Y3Drj
-	 Eparvv9/5URO1zSiwJDss3dGLEfcebQ9Kfr368cuLXH6lcdybR1EffRHv6P6XyyuoLH6E
-	 smL4pg/0N+z1BxGydZ7Zfj/FaLawpEwDAIf4SsMqRMf0fsyV8i0VTqI4oO84Z66Lvr1ln
-	 eYJBQmmjEUouARuu0eXvvQOkBOn2W1bAhLx30BY5QgW6yITD5VjgKjjgbAd+KPoxAJ3oW
-	 WMIzp0MywUXegTsSwigwpc15acoLYQLA0V6XkCzBdJOEPYScjXiGpzfqKm9OOK6Rr4Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.17
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792514836;
+	b=no7vFlqIZrOnpdI101Xab3elXijgQpx3igSdMTv3g2QaL3+mRg8P4BBQ0gJVX6cRap2d
+	 EWsf2KNScxBbCXtg40VAUxFMt2R8o4OJHaOTMnArBEYgBVNdMt9rEa5LqAbJdoxrT8pgC
+	 SJWVCYyIhTPg/WvEg9K/gSA0xBYgPpgTHD7+zHKjP2FuiNnKrYfaz+bJIdW3RriEkjXpi
+	 dwsX24pYF5TRo5SNFNUcMMDfqj9iSnbkqsiwhvLyT2wcmYUtMaLwSUxAa6T4RVaJOzJIZ
+	 PbNjJidtTpTVecjkNX6YJWRU/i7fU08NYZapfzsYNzjLjnw28/vBHw98W1Q3zvoHFwQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792514836;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=IYeU5yL7lDjYrUbdNHrs+eNBykpNEWnh656Psmfu0Zk=;
+	b=RNi9tdy6yr3MvbLvpje8RC2ke3TZ5HDMP4g+oitOJa2xNdPSGwaNvw1sqhd6/Tx4CVQ3
+	 31jC6dMKLf6lQpJzRsZ0YlgFNbMxhKYnYyL+uL28i4yG8PCliyqdvD4C1OxlAJHUOQbLD
+	 ND/ty0lBC3SFf7bqgbLQIjyg7Vc8wpZ1nRuTniBtu7/TdMPkhHOm0S7y70OMQBtEOTeM9
+	 UwMhSQcnfZiMCmsCS2UGLUh8RmSVbTnlHl8Ck7IwPOTSig6bCXE24uYAwJ6E/nEzFSDtA
+	 U5GKmIMadz2al2YwHlAZsVPvtQZLwGUJTRYjf9sRz7qkTs8mgXfphkb5aaxjyiK9KGw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T+U917eK;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00E606A325;
-	Tue, 20 Oct 2026 16:47:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552A91F000CB;
-	Tue, 20 Oct 2026 16:47:18 +0000 (UTC)
-Subject: Re: [PATCH net-next v7 03/13] net: mana: keep per-queue statistics in
- the port context
-From: netdev-bot+sashiko@kernel.org
-To: weh@linux.microsoft.com
-Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
- davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- andrew+netdev@lunn.ch, jgg@ziepe.ca, leon@kernel.org, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, sdf@fomichev.me, daniel@iogearbox.net, hawk@kernel.org,
- ast@kernel.org, john.fastabend@gmail.com, weh@microsoft.com,
- edumazet@kernel.org
-Date: Tue, 20 Oct 2026 16:46:47 +0000
-Message-ID: <179251480798.3135.10568539204327471791@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cb27034466c0db8228409db5473e747db7c3177c5=2E1791710?=
- =?utf-8?q?735=2Egit=2Eweh=40linux=2Emicrosoft=2Ecom=3E?=
-References: =?utf-8?q?=3Cb27034466c0db8228409db5473e747db7c3177c5=2E17917107?=
- =?utf-8?q?35=2Egit=2Eweh=40linux=2Emicrosoft=2Ecom=3E?=
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D93606A31D;
+	Tue, 20 Oct 2026 16:47:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8D93606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T+U917eK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792514836; x=1824050836;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=in8gMTwPepLu3QCSRdK8ygHPopGlBVBMzaac1PD+9jo=;
+  b=T+U917eKWdfMSuuaV/KKCSv2cyt/I6w1hAdAAlTFLJZmoSIx3ZN/Cedo
+   wEzgTzIY/4C+sXB2pnRW9oiBXw99DQp2xa4x8bre0xOcPsVQaEf7w/dAE
+   cT39ePMs4t4OR5CAM53YkBN3fWrvBxe4gbm7P700H9dVxPZavu7+aqUDI
+   DaVGQGGI0BOmG5WHX5ZO53Yu6DxzxfYLsebiwnHj0TbCk7GQXIzTMZLrY
+   h7q2NUeTJPSzvinQG/JTMW4KymDgm6Bef2fa+7AWcKebuk6GAcrqr19+2
+   pkJ/t+Wu8yk/fqJzUI2NUoubqh9GiEqIvf99tZ5HWAOqIB+wS5WjdFKBN
+   A==;
+X-CSE-ConnectionGUID: fvAKAJpEQeuSmMi2UTZBeQ==
+X-CSE-MsgGUID: SZp9/Qb5R1qdwPsstmQ3ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1222598"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1222598"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 09:47:15 -0700
+X-CSE-ConnectionGUID: db4LOUOWTbu5vfNrLdfJ8Q==
+X-CSE-MsgGUID: mpr/n3MuQU2Yy5cvWRjKgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="3325231"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 09:47:15 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 20 Oct 2026 09:47:14 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Tue, 20 Oct 2026 09:47:14 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.1) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 20 Oct 2026 09:47:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CP8eAwAmiqY0v7giUtyTM1ih9zzpPCJCmTRI3pp6H68naSBlFi6qPG2w1+KQupDz8FqsaiN+JJzX6wgNVlTQVi2ae+GtUU5MXaP13UlweKgBhQvSgxTc6dBFG1XbMsfP3BK/IssIrIoNt0SwNp6R6/zLBIGShOPaKcoH1THIHQoiehmPcAjQ18iMCLZNA3l5Lopsbjngj8asxRCEDjGoSeSXR0b/V/yfWjr/3HzdwEjUhho11B6vhEaGzjFX+LDyrMRTqBXbsqRDSWWC8Zrwql3HHz1b5MvYThNdOzhTJnOgU3DkEl7/PEveEkGj8FrO4xEPkoiurQRV5snOFQpFNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IYeU5yL7lDjYrUbdNHrs+eNBykpNEWnh656Psmfu0Zk=;
+ b=NGz3/cm2A7LKGGLQsZRsnTITabbPZnxNRUdZpAIICJz4gXfizHeq4paPjkI6j9jbVNpnQBbFZT2ERKat6BOHA1TTSNJuygcE9v6MQPUN7jdJdYIc9lmdYGmvFejltLWtJVSs8yEoHisA39IdM40pYEDHJdpkWnp5KH3tPhg76EzYv99vzctaSI6u/5ENSvREPPERFIG/CFZ4BdX6mCeTThOhCtOaoe6VHFVnzSftcIheIneDhzlUDeg05D+gGTgsGwFbsnQbhmACzcMv0Eah51ZSVUS243FPMKDGpqLR/yK5fux+njQF3yhlnhB9Ph56nM/wMvGfWwO+9NqdEs7JsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com (2603:10b6:408:179::22)
+ by CYXPR11MB8711.namprd11.prod.outlook.com (2603:10b6:930:d7::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Tue, 20 Oct
+ 2026 16:47:04 +0000
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9]) by LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9%5]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
+ 16:47:04 +0000
+From: "Popov, Pavel E" <pavel.e.popov@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>
+CC: Bjorn Helgaas <bhelgaas@google.com>, Lukas Wunner <lukas@wunner.de>, "Jim
+ Chow" <jim.chow@broadcom.com>, Radu Rugina <radu.rugina@broadcom.com>, Alexey
+ Makhalov <alexey.makhalov@broadcom.com>, Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>, Nathan Ciobanu
+	<nathan.d.ciobanu@linux.intel.com>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+Thread-Topic: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+Thread-Index: AQHdYKWLVAc6/QYzDUyrQI/sNculNrcGmvWAgAAGegCAAADHUA==
+Date: Tue, 20 Oct 2026 16:47:04 +0000
+Message-ID: <LV2PR11MB6070444E927B9AA891B8180FB2672@LV2PR11MB6070.namprd11.prod.outlook.com>
+References: <20261020161447.GN64621@unreal>
+ <20261020163758.GA2342476@bhelgaas>
+In-Reply-To: <20261020163758.GA2342476@bhelgaas>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR11MB6070:EE_|CYXPR11MB8711:EE_
+x-ms-office365-filtering-correlation-id: 24977e51-f754-4af4-e4d0-08df2ec9c589
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|3023799007|10067099003|18002099003|22082099003|38070700021|4143699003|11063799006|261009220027099003|261009223327099003|261009223027099003|261009221227099003|261009221727099003|56012099006;
+x-microsoft-antispam-message-info: yZcpfaHnFOG9aGml6ko211s7Wd8zQETr4+KglycbZKc6aQ29IDXs24nSUL+kpcTsw1tVymbAbCAw8xJvia01DG2wZlHtfQlJlb7D8BVP1rT17nmfg8bMLJz48OyTMosm28vKJ3I601UrYNSr9+uNwURGs4n7XGDwoZ41tDUYIoh4c2bh1DqyRrG4tkbaxZ+8xPfa+W8wC3mtJO4bnRqyJdr9rHvyPGA4DCuXJ7MTrT4496YUdjWPY9/ickwTwpYA//+XsTM9hOOgD5pAAZWDghW540i1JiBYi38RvFQt+B48qVk1EbjCF/9P1zRShhc8DZDkZfKI1EckrAsgtb80SXXdlc/eZWO1ZA/QUksVEHzda/YTugC/Lyd97JeGfHtQ91YYV7Be3QSVOXqUVUGzI3BGno59rkPvlWiHu8XjAko7fC05b3bYfLhVrOHUWMoEA6++57t4Foujc/V57cG7eb823yO2IOzViVv2pZivuxb1SIDIqOItmcVFyEcJiOvxqza6o09lBBTbKgTSnNncfrmQagkbe5LDdDBaex8/YXp3ekWECadNX75A/F882l/dUUrZBBXiF/qm/8UcqQzxi69MEuALr7YiFP4NijSw3slO3FAEVCcVQFRUYCtiI9ieyCE8u8lrKmwS+cFcc5JCrKKHIrmkcYKV1rLJ+X+fwkmKzmIA+RGAQw/fXFMDpvaA
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB6070.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(3023799007)(10067099003)(18002099003)(22082099003)(38070700021)(4143699003)(11063799006)(261009220027099003)(261009223327099003)(261009223027099003)(261009221227099003)(261009221727099003)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cx2Xy7TXI01bU7qd9HXKQwX1i2pizMi88Cskcdj8b8q81+3tZHqcdQG3sI3v?=
+ =?us-ascii?Q?m2oP1l00MpVfOSjcx1jcawPw3RwGksf4GO8PPy8H8G0dCHSoNjvrE7dhQiru?=
+ =?us-ascii?Q?fX4sHG1agW3oc28KvgYBGIlll2mTXUr2Ta3OQ0+Gt7L2MUwrx4mkqldwUcl5?=
+ =?us-ascii?Q?1tYVY8Gr8JzXOq16B4k5rvFetmClaCG5KZ9gx0uZZOmS7qdZ7IoVdtZDDlEp?=
+ =?us-ascii?Q?87JbwkH0zGKRpwHcXL7VWLPlDwuLjYeXDvxUBzVucGiUyD3V7txjS4apdXig?=
+ =?us-ascii?Q?K3VO/50SQVvz6qG8Xzz8dEfA4ZCe1CieZWLqN1USIqZJoRyJlaSDgeTgTBtN?=
+ =?us-ascii?Q?qiJZRFgYsppRNDqtzLzaaqgZjw8P+OVaqeTIFh22DmwRD9/eeFjiTCVWXcb7?=
+ =?us-ascii?Q?X4+A1yq+Wv/w9bReS7Ej6Xr5bhgDE66PQ4odcZiKLOcc19G/LAC4Xb2YRa7G?=
+ =?us-ascii?Q?7wNB6l2nA0bJiafq7mNYxZ9Za0A2+CBXhUp0rHVwSb2aloJeunXsyImeaCNl?=
+ =?us-ascii?Q?9Fw5n+DWwcQKJLVTqWrOUHjGBCfL72l/zEXdfvnIvrDwX8UKBeWAUQEwlEVe?=
+ =?us-ascii?Q?+MfN1oe6xjcjNU3HQOUba0TwoitX+FqOC6pp4F9oKvsXRZx2z69XANqJoebr?=
+ =?us-ascii?Q?puUIrx410y4Bpft2gQioaUQ0xWOtDsd3ml2GNI79SFkq36lSLxzTN2tVOAcE?=
+ =?us-ascii?Q?H9fet2jFtq9wbMmZ1SNlyshoNEgzjOFIHzdQ5SGZJS6uEFuNfaF1A6neTwxv?=
+ =?us-ascii?Q?jPbptHflm4tHY89k4FRFQE9fHGE6r9qaNdZclTvFHsWAFScUq/MykkxFKJoZ?=
+ =?us-ascii?Q?+HDIzF3dovzZHX2otlcR6scWoLrXzprr2A41Ot3wfq9/rUHXjL9dzGwkh61o?=
+ =?us-ascii?Q?q1bIBE8e7Wg+i9a1oQnNl6zZkGJ/wHHw3da2g8ZHw6cfzaEFANeBxWfsQN+O?=
+ =?us-ascii?Q?Bcir6N4MKrJbXpN4coVDPKQVtBt+vzMNW8To5GBS/4GmYzMJ+3/6LhWCt3pu?=
+ =?us-ascii?Q?T2Ars8cmklzcbxyYE4RGABL4b4lJwABVp4uiSnEItM4aGPAbBGgBBJ9/9X1l?=
+ =?us-ascii?Q?S+0mnpUDQIC0TA/jrBay5BNRSDvC0m1B2/2jIDb0l4jlOYhTFV5NTmFzGwaQ?=
+ =?us-ascii?Q?6y+xPvwUQR+c42AVM1rvBwh8CKYzdlslyVC6ocBuBOhxH5AAh8zECb+qqw6M?=
+ =?us-ascii?Q?5bqCV+pMfXAfwgm8A5rHh6+Ul+EwY8I4TBxkPEr8FVWb08oIOpMfR8HM8pNv?=
+ =?us-ascii?Q?EiBffXtfBCCtL0uMXe6pxiCmMSNEcPw2k6O92JH2B3O1VR60XuvsTz0l9GVo?=
+ =?us-ascii?Q?PpSD0guqTIUd6kcUZW8nj10HaBJtDWxFTa8YM4dm5VdB+hfGSggfG3dispsU?=
+ =?us-ascii?Q?RVRznJLyXjEz6GadJ2U2bOGDeB1X1uwu2McCnrMu7fX+aRjMcnJKWIZB5Zor?=
+ =?us-ascii?Q?olcaoszRQ0YJhfxyE3p9Fhs/ErNxpGi8ylM0UP+oRx8eNFpTGmoZ35rtPrTi?=
+ =?us-ascii?Q?MaW/McPxi2omz9BJwaFj/T1Ff+gjO9pMDZ/1cvPEXt//3WPSl9BvvmHBdj+C?=
+ =?us-ascii?Q?6yYiAkmkqPSv/MIHxETnxX/ruIm0MbpesHQOQz7oopkEXHVM9bD5P2I1IxPh?=
+ =?us-ascii?Q?8P4ICIz2XPvtQAlHeINxGGAe5Bx9lzM+Het8CgTaT2lunC/jR4HfOwVx98AX?=
+ =?us-ascii?Q?sDUFkFRYnqlWOn5KX7cw8EFNCZrYrxpSKZVAoEXu5FDW/kE8UI43mipk2Hky?=
+ =?us-ascii?Q?WYkuV0ZgFQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -59,171 +185,130 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: DpgWnEeXnIRS4abCfLCoyrNjl3SbwN7WjpITz0wjIE5GxaF7rzJTdRlHA0mRts8v3OM6+bTwAnDcyyAMCD7xO+37Xz8vx0g1HEgdPzNKecWTrSQWt3U2QjjAeLWgVPseHjvpmyk2LAmWBRcpbd+EcexS0+RT6/0Eua/WJ24XmPgwKKuxCjvPbjWoPF2RcZ/muIJ+gLBstCcXrcmmVfPsVlWDOtpykO3jRLsktMHVptgQDSss4Dg6dbW6u93KtBuMr3nB9Ps6GAzQEwwSz8UVuYQIpCVpvs0RbD+/ek7ynynOYywzH8qyKY0UE8ATDroAgUiyYgu82YwwcGgS1v/Hcw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB6070.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24977e51-f754-4af4-e4d0-08df2ec9c589
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2026 16:47:04.7262
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7mpZqrQRrRvFlMEXBkxiMc1zNB1Wuf2R36gbTgttGfUIlbVK4b4idLxz0iXYTkIM+wL9l7q/kjEySyWwoJJlgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8711
+X-OriginatorOrg: intel.com
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+If preferred, we could use for cpu_supports_p2pdma() the pattern Logan
+suggested for hypervisor_supports_p2pdma() in v1: the whole function
+under #ifdef CONFIG_X86 with a stub returning false for !CONFIG_X86.
+The Intel CPU list then moves into the same #ifdef block, which saves
+one #ifdef, at the cost of also touching the existing AMD part.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1 (1)
+Thanks,
+Pavel
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+> -----Original Message-----
+> From: Bjorn Helgaas <helgaas@kernel.org>
+> Sent: Tuesday, October 20, 2026 9:38 AM
+> To: Leon Romanovsky <leon@kernel.org>
+> Cc: Popov, Pavel E <pavel.e.popov@intel.com>; Bjorn Helgaas
+> <bhelgaas@google.com>; Logan Gunthorpe <logang@deltatee.com>; Lukas
+> Wunner <lukas@wunner.de>; Jim Chow <jim.chow@broadcom.com>; Radu
+> Rugina <radu.rugina@broadcom.com>; Alexey Makhalov
+> <alexey.makhalov@broadcom.com>; Wei Liu <wei.liu@kernel.org>; Michael
+> Kelley <mhklinux@outlook.com>; Nathan Ciobanu
+> <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-list@broadcom.com=
+;
+> virtualization@lists.linux.dev; linux-hyperv@vger.kernel.org; linux-
+> pci@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPU=
+s
+>=20
+> On Tue, Oct 20, 2026 at 07:14:47PM +0300, Leon Romanovsky wrote:
+> > On Tue, Oct 20, 2026 at 08:13:05AM -0700, Pavel Popov wrote:
+> > > Peer-to-Peer DMA (P2PDMA) between two devices requires either a
+> > > shared upstream bridge or a host bridge matching
+> > > pci_p2pdma_whitelist[]. In VMware guests, passthrough devices appear
+> > > directly on virtual root buses without host bridge devices. In
+> > > Hyper-V guests, each passthrough device appears in a PCI domain of
+> > > its own without a host bridge device. Consequently, P2PDMA checks
+> > > evaluate endpoint Device IDs against the host bridge whitelist,
+> > > causing P2PDMA requests to fail regardless of host support.
+> > >
+> > > This affects discrete devices such as GPUs, NICs and NVMe drives.
+> > >
+> > > Add an explicit list of the Intel Xeon server generations from
+> > > Skylake-SP to Diamond Rapids to cpu_supports_p2pdma(). These are the
+> > > CPUs whose host bridges are in pci_p2pdma_whitelist[] without
+> > > restrictions. AMD Zen and newer are already covered by
+> > > cpu_supports_p2pdma(), so only Intel entries are needed.
+> > >
+> > > Tested with the Intel Level Zero P2P benchmark (ze_peer) on Arc Pro
+> > > B60 cards in a Linux guest on VMware ESXi 9.0 (Emerald Rapids host).
+> > >
+> > > Signed-off-by: Pavel Popov <pavel.e.popov@intel.com>
+> > > ---
+> > > Changes in v3:
+> > > - Drop the hypervisor check and move the Xeon list into
+> > >   cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
+> > >   Gunthorpe and Leon Romanovsky [1]
+> > > - Fold the VMware and Hyper-V patches into one, as the check no longe=
+r
+> > >   depends on the hypervisor
+> > >
+> > > Changes in v2:
+> > > - Replace the Skylake-and-newer threshold with an explicit list of In=
+tel
+> > >   Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
+> > >   Gunthorpe)
+> > > - Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
+> > >   (Logan Gunthorpe)
+> > > - Rebased on current mainline
+> > >
+> > > [1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
+> > >
+> > > v2:
+> > > https://lore.kernel.org/r/20261016223402.19991-1-pavel.e.popov@intel
+> > > .com
+> > > v1:
+> > > https://lore.kernel.org/r/20261009154034.82321-1-pavel.e.popov@intel
+> > > .com
+> > >
+> > >  drivers/pci/p2pdma.c | 26 ++++++++++++++++++++++++++
+> > >  1 file changed, 26 insertions(+)
+> > >
+> > > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c index
+> > > 9334eb314663..2650d605d87d 100644
+> > > --- a/drivers/pci/p2pdma.c
+> > > +++ b/drivers/pci/p2pdma.c
+> > > @@ -21,6 +21,11 @@
+> > >  #include <linux/seq_buf.h>
+> > >  #include <linux/xarray.h>
+> > >
+> > > +#ifdef CONFIG_X86
+> > > +#include <asm/cpu_device_id.h>
+> > > +#include <asm/intel-family.h>
+> > > +#endif
+> > > +
+> > >  struct pci_p2pdma {
+> > >  	struct gen_pool *pool;
+> > >  	bool p2pmem_published;
+> > > @@ -519,6 +524,23 @@ static void seq_buf_print_bus_devfn(struct seq_b=
+uf
+> *buf, struct pci_dev *pdev)
+> > >  	seq_buf_printf(buf, "%s;", pci_name(pdev));  }
+> > >
+> > > +#ifdef CONFIG_X86
+> >
+> > Do we really need all these #ifdefs? I'm pretty sure they're not
+> > needed for the includes.
+>=20
+> Apparently we do.  I experimentally removed them and cross-compiled for
+> arm64:
+>=20
+>   drivers/pci/p2pdma.c:24:10: fatal error: asm/cpu_device_id.h: No such f=
+ile or
+> directory
+>      24 | #include <asm/cpu_device_id.h>
+> 	|          ^~~~~~~~~~~~~~~~~~~~~
 
-- [Medium] mana_get_stats64()
-  (drivers/net/ethernet/microsoft/mana/mana_en.c:608) bounds its RX/TX…
-- [Low] Commit message / metadata concern for commit "net: mana: keep
-  per-queue statistics in the port context".
-
-Pre-existing issues:
-- [Low] This problem wasn't introduced by this patch, but mana_xdp_xmit()
-  (drivers/net/ethernet/microsoft/mana/mana_bpf.c:74) updates…
-
---
-
-net: mana: keep per-queue statistics in the port context
-
-This commit moves the per-queue RX/TX statistics out of the mana_rxq and
-mana_txq objects and into port-lifetime arrays sized by max_queues. The
-arrays are allocated at probe and freed after the netdev is unregistered.
-ndo_get_stats64 and the ethtool stats now read from these arrays and keep
-reporting while the port is down.
-
-> Prepare port-lifetime RX/TX statistics before introducing live queue
-> replacement. Allocate max_queues slots before netdev registration,
-
-[ ... ]
-
-> Make ndo_get_stats64 and ethtool statistics independent of replaceable
-> queue objects. Preserve counters while down, gating only the PHY
-> query.
-
-[Severity: Low]
-The message presents this as preparation for live queue replacement. Does
-it also change behaviour that users can already see today?
-
-Before this patch the RX/TX counters lived in mana_rxq and mana_txq. Those
-are freed and reallocated on every mana_detach()/mana_attach(): ifdown/ifup,
-MTU change, ethtool -L/-G, XDP install/remove, TX timeout reset and
-suspend/resume. So the counters were reset each time. mana_get_stats64()
-also returned early when !port_is_up.
-
-After this patch the counters persist across all of those paths, and
-mana_get_stats64() sums over max_queues instead of num_queues.
-
-"Preserve counters while down" does hint at this. Could the message state
-the change for the existing paths more explicitly?
-
-Documentation/networking/statistics.rst asks for statistics to persist
-across down/up. Would it make sense to split that part out as a separate
-fix with a Fixes: tag?
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> index ec708f3401a05..2008c17416543 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-> @@ -68,7 +68,7 @@ int mana_xdp_xmit(struct net_device *ndev, int n, struct xdp_frame **frames,
->  		count++;
->  	}
->  
-> -	tx_stats = &apc->tx_qp[q_idx]->txq.stats;
-> +	tx_stats = apc->tx_qp[q_idx]->txq.stats;
->  
->  	u64_stats_update_begin(&tx_stats->syncp);
->  	tx_stats->xdp_xmit += count;
-
-[Severity: Low]
-This isn't a bug introduced by this patch, but can two CPUs update the
-same xdp_xmit counter at the same time here?
-
-mana_xdp_xmit() picks the slot with:
-
-	q_idx = smp_processor_id() % ndev->real_num_tx_queues;
-
-mana_xdp_tx() holds the TX queue lock only around mana_start_xmit():
-
-	__netif_tx_lock(ndevtxq, smp_processor_id());
-	rc = mana_start_xmit(skb, ndev);
-	__netif_tx_unlock(ndevtxq);
-
-So the xdp_xmit update after the loop runs without that lock.
-
-Devmap bulk queues are per-CPU (bq_enqueue() in kernel/bpf/devmap.c). With
-more CPUs than TX queues, two CPUs can flush to the same q_idx and run the
-+= on the same counter concurrently. Doesn't that break the u64_stats rule
-that writers of a given syncp must be mutually exclusive?
-
-MANA depends on X86_64 || ARM64, so the seqcount compiles away and the only
-effect is lost xdp_xmit counts. The baseline code has the same pattern,
-and it is still there at the end of the series.
-
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 4b2c8039b8fa3..744d5ebe8dbbb 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-
-[ ... ]
-
-> @@ -597,15 +597,15 @@ static void mana_get_stats64(struct net_device *ndev,
->  			     struct rtnl_link_stats64 *st)
->  {
->  	struct mana_port_context *apc = netdev_priv(ndev);
-> -	unsigned int num_queues = apc->num_queues;
->  	struct mana_stats_rx *rx_stats;
->  	struct mana_stats_tx *tx_stats;
-> +	unsigned int num_queues;
->  	unsigned int start;
->  	u64 packets, bytes;
->  	int q;
->  
-> -	if (!apc->port_is_up)
-> -		return;
-> +	/* Report even while down; dev_get_stats() zeroes its output. */
-> +	num_queues = apc->max_queues;
-
-[Severity: Medium]
-Is apc->max_queues stable enough to use as the bound here?
-
-mana_alloc_queue_stats() sizes rxq_stats, rxq_stats_ret and txq_stats from
-apc->max_queues at probe time, and that capacity is not stored anywhere
-else.
-
-mana_init_port() runs again on every mana_attach(), including the resume
-path in mana_probe(), and it can lower max_queues:
-
-	max_queues = min_t(u32, max_txq, max_rxq);
-	if (apc->max_queues > max_queues)
-		apc->max_queues = max_queues;
-	if (apc->max_queues > gc->max_num_queues_vport)
-		apc->max_queues = gc->max_num_queues_vport;
-
-On resume, mana_gd_query_max_resources() recomputes the limits from:
-
-	gc->max_num_queues = num_online_cpus();
-
-So fewer online CPUs, or a smaller vPort max_txq/max_rxq, can shrink
-max_queues, for example from 16 to 8. Slots 8..15 still hold accumulated
-counts, but this loop stops summing them. The rtnl_link_stats64 RX/TX
-totals would then go backwards, against the persistence rule in
-Documentation/networking/statistics.rst.
-
-Indexing stays in bounds because max_queues only shrinks after probe.
-
-Would it be better to record the allocated slot count separately, or to
-fold the excluded slots into a lifetime aggregate?
-
-There is a related effect. mana_get_ethtool_stats(), along with the
-sset_count and strings callbacks, still iterates over apc->num_queues.
-After ethtool -L reduces the channel count, the ip -s link totals include
-slots in [num_queues, max_queues) that ethtool -S never shows. The
-per-queue values then no longer add up to the totals. Is that intended?
-
-This code is still the same at the end of the series.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1791710735.git.weh%40linux.microsoft.com
