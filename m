@@ -1,73 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792516832;
-	b=GWJc9w+uTzuCTus6iWedl8zPv1b6Oj/XALsH9ITLOODzRbcnmPrNmIiJH1G9V3UOwLZz
-	 GZUt4xMRdmXoJFSvvfNG07falqJm6gr5MGVWtc3ExVYKGR/OzI6kFn6GbSYfE2qAXgzrT
-	 rVw8xPBwhzljGloKFueN62c7+4/LZaE0qxts0TarMrCzsFPmBbAbgUnp0CmESsfwu+IqS
-	 k3aRpkm54ff7mLZZKohS0xUb96Sr/V8USZ6EmTfoOdqKjqYq6ZQVPs/KUXiC6wa89b/PC
-	 Vrza8kj66bzvSPAWW2ZEZI++s51xqth2K8a0CwpNuyrldHYf9k/SIw7BEfEMV6F6GfA==
+	t=1792517859;
+	b=1X1CuS0IOolVyLjGVzIUYNYL2UKUlgOBA5BI908Cuk4q2yDQt8AgpVZePDwPiTaNQgpu
+	 3p+aqy8vJwDStMXH74KWm0KL2y0bT68Fu5Itd11BxRXdyhG2O5+7hS9Lan2uejWqd46xZ
+	 ld+XH7Y57Xl77SbORiVrKYHGflRor2PWq3/5GtKT6Yyivxv3RlgNnOva6Mo3EOaCmg4Fe
+	 93+dMdxowhpU2yOPDtVmLzNoU5eDrvubxUb60isERUzaA7QiF9xfLHLerVccH+vyQGa8j
+	 H7CJbXBmi4p02StQ4eu00hb66CEFX87N1pkc4iVlj1Ab0YORv17MLCaMVIVTAyNPe/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792516832;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type:Content-Transfer-Encoding;
-	bh=5kyu4r+trzHwvD7p12rdlnbQGjA0zLCDieMzvIJkdu0=;
-	b=f8Kfcax5Er0r7HIdv3Qxuf6ryWEeIX33MmnjNUTLd5s71W2doSRQwktZws2qr42/DXTz
-	 3OAKqYOW9T22oPTCMSIbWQuJL3gRyZdj4l6OWPyQBetys/lRpTiUYs627S6XU58OIGYUR
-	 iiZF7xqEmKncGRiqYr8wnjfHzemz1RnA8RNdFEo3vyT7NWi30IR6ksE3mdxsX/o2ZjVqX
-	 5sEx6uj5T6n5YtHybIG44mwqaKx08phF1X00U8ztCrSLsFh4tSiHb/+Ncqtjc4MChmwpM
-	 5RtFX6qZHK0dDZ/cbq06XT+v0bnZ/lTP8H5JSEXUfY2UGFlcR9VnlGX50ggHW3Dmyxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792517859;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=aWpvGCBjv6cbyfecm3gUFBX3cE1gs/duG1Fz5GDSBvk=;
+	b=3DU5NklN09xQFLtw+G77j04+cO9neXayNOEdlryEa7Y6g7V9p31C00u8wmaM/3Oc/6wG
+	 q3Lxb4KD4A5rsue3JzEVmK82+C+fM8NoMaVF65EMlRz2s4K/y9aTUuGt6AXKYWKeY2TpZ
+	 V9sTytniS9AEjgURBqdyiIRc+fMRJf9w6rPQo3teQUQ/tKfAQz+Y5g55tyYKvAidZ2K/q
+	 Kz3Yl+42/J2eppntPHBbkxcULjPE9Ja3urBuxvlkn5iyz9E2jGpSAA1lw6S7gk2hYuTq2
+	 AF7/Iu5pwABJ+cOABFQvU7I709Vm+c4borpdUdXuEcHEDA+xVYX6gHR5OPVx6tbd7Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gKx+5wax;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UINqjWPe;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70E7606A319;
-	Tue, 20 Oct 2026 17:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB5960A380B;
+	Tue, 20 Oct 2026 17:37:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDB5960A380B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gKx+5wax
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47D9F1F000CB;
-	Tue, 20 Oct 2026 17:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792516831;
-	bh=5kyu4r+trzHwvD7p12rdlnbQGjA0zLCDieMzvIJkdu0=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=gKx+5waxPuqlhl8jZpKcfSqZveNJ2Ir4Rj+LxZDi+r5Wz46E/+vv80XXEL4SbfX1F
-	 9sLlbGGJmzchCQ/GuwpqrN/OwurXGmOBHM7tbtqk2fdLVvxgg+cLFEkrCKFv1y/uNe
-	 4FiEqIkcC6IwwijeUeJGyDk9IbdeQOzXQg4qGpDkhD/SNNulLbDpntnWjNwYCl/Iqb
-	 7N+buAtkkQXrxXJHb+re/M7G7ivbPEmlGJJV8f/T4F4oyAa/0WmpBMDfsUdkTTC3x1
-	 AO7b2P5GuZ7QphvfgISXs7Td1YBlvAln5Lg9jMmlXyCdi8xTAvKzMgSRUhNoQN+uhW
-	 QQRjETUgnlltA==
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfauth.stl.internal (Postfix) with ESMTP id 9461D780043;
-	Tue, 20 Oct 2026 13:20:10 -0400 (EDT)
-Received: from stl-imap-11 ([10.204.2.102])
-  by stl-compute-04.internal (MEProxy); Tue, 20 Oct 2026 13:20:10 -0400
-X-ME-Sender: <xms:yqLXakIQlpx2zqtcVasZwEsyrdYJlP_GEq4__MrOKmffMcgyAJ7btw>
-    <xme:yqLXau8L55JVe0GXMaZ4e7gFfL7ShasEFEyX7rrTYp9v3DI-jDodcBOWLDQzCQpGf
-    ypN4Tp26-BKv6IqmuWutBpBpzU75Ozz29LMZUmR-IW9pic7TOBNinWSyA>
-X-ME-Proxy-Cause: dmFkZTFJ7RDuL5dRtxtmkk5SMosrItJAfwc4oWufk3SNc6DNr0MzPpyXFeOgDOj+SC+7VG
-    gDLmdcIGAMEy6SvPVLwR38A8EYjj971zEN/qd49lsQrDDzn8eWCFTF95iK1+Ayhjk6th5V
-    cDBGTDJGbrdbdSYt3UfnKI/gXe9H5O/0P1uKE+rxe3bi8TaGAEGDuVAUP6vYwe9+YhqYwj
-    OGGF3miId6HKbWrZMpK3Hf9J69Lm6bIo1KuDJ0lb+P3dNdT6FGwDr7lclnzR0aHBhsrV63
-    vJCddi5wXFWggnHNRcxD4AJa7oivP6OBG0aH6On2UXumY8nu03YmMmbsxnVqrSxyDZ9gB4
-    o80/epZ2oayIgXsZpD0wSyUaBvSr+AKMD7BMY+zjUWRXOD2sisBN26oUvMv7eXjfR60vnv
-    Ar/fAsdTW2xfQd8pnIV8xG8XCRrxQUOC74RWIgTjjagr7UeCac24X0IbCVN8y+A2s/2xEt
-    egLCAMzNr4qWhlWd+7Xl24sy0eOo/KHuZ4zeyDGXcLggM4OXiS2ywzmtkMtneHWw4Hkfrw
-    JbWWxsyrqDj94TPJC3h0JiikBtrxveEl98a7kytV+DxFBKcX3ndg/SZWdut1QMRjpujd41
-    P2ZsbFeCFJt8kcK5NcOWfI90w8HPS90vQFibZfMHtFzk+GU7nEcByqQQjhGg
-X-ME-Proxy: <xmx:yqLXagQccDo_S7ryEbLCaZWLxSyp662epkFvYvNhfSxe2-zKfX4m6A>
-    <xmx:yqLXausD0CLxtJsei4gMROOrmLnpLaIPKXk2r11MuW2NBzvthf6FHg>
-    <xmx:yqLXauLSZ_sFNy_EBVFYnavhbc10jMp6EnkqB0P3aKI4p7RLdE7lkQ>
-    <xmx:yqLXaieghWR6EWicJsg5qVElq_xnlixX55C40nT5j87Brj7ubyAUIw>
-    <xmx:yqLXagXdsQpqdX_nl0_rQ9KibsgmMPk7R2Y7x00Ta8QCLQd2ogVNkgig>
-Feedback-ID: i927946fb:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id 2E82E19C0067; Tue, 20 Oct 2026 13:20:10 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UINqjWPe
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792517857; x=1824053857;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d0uxtmac76n5lDX6EvHTzDit2NJCHOZnoAdKI+C/xLI=;
+  b=UINqjWPeErrncO+c6yeBVVoPprLcEeX19Ofcf9WBJk9ODuNxYTd0pNH8
+   fSYsxMbU7J+u7b7dlgebYHrHP2Qllme8Cx/gEry368DHgz2IJCYEKCU2a
+   fZPYUice9+Zj1CINikg1L4DdFL1ZV52F1vdZVMOuNINt4afWPSTk8ZYtl
+   djOzKq5tUvHaSSl95qUaWhL8Qeo6XRX27Nku6Tzkku1u4Su64IlRQ6ez9
+   v6133izjGE1jxvdrXfX2f+TYdGI6/yLk8WO1x/LRjbACRnkiYzRNWWEsa
+   wCshmXFQ+TUs5xfkOWz+N4VFKnqaxNrxLuzQbUHLAS9FtvgFoXIeroKbF
+   Q==;
+X-CSE-ConnectionGUID: yr6BnLlZTiez+MhaxeBssQ==
+X-CSE-MsgGUID: NhCjUaEZS/mwarWkP0A6lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1240967"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1240967"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 10:37:37 -0700
+X-CSE-ConnectionGUID: iaeqaN3ASWqnnElD8NQGsQ==
+X-CSE-MsgGUID: d0kpV3bFQoO7qtRKs5ajkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="2875807"
+Received: from pavel-dev.sc.intel.com (HELO pepopov-mobl2.amr.corp.intel.com) ([10.3.206.11])
+  by orviesa009.jf.intel.com with ESMTP; 20 Oct 2026 10:37:36 -0700
+From: Pavel Popov <pavel.e.popov@intel.com>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>
+Cc: Pavel Popov <pavel.e.popov@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>,
+	Jim Chow <jim.chow@broadcom.com>,
+	Radu Rugina <radu.rugina@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	virtualization@lists.linux.dev,
+	linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+Date: Tue, 20 Oct 2026 10:37:34 -0700
+Message-ID: <20261020173736.81755-1-pavel.e.popov@intel.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -77,112 +90,57 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 20:19:49 +0300
-From: "Leon Romanovsky" <leon@kernel.org>
-To: "Bjorn Helgaas" <helgaas@kernel.org>
-Cc: "Pavel E Popov" <pavel.e.popov@intel.com>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- "Logan Gunthorpe" <logang@deltatee.com>, "Lukas Wunner" <lukas@wunner.de>,
- "Jim Chow" <jim.chow@broadcom.com>, "Radu Rugina" <radu.rugina@broadcom.com>,
- "Alexey Makhalov" <alexey.makhalov@broadcom.com>,
- "Wei Liu" <wei.liu@kernel.org>, "Michael Kelley" <mhklinux@outlook.com>,
- "Nathan Ciobanu" <nathan.d.ciobanu@linux.intel.com>,
- "bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
- virtualization@lists.linux.dev,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <25a0cdb4-9c4f-4531-bdf2-8d09eedd0883@app.fastmail.com>
-In-Reply-To: <20261020163758.GA2342476@bhelgaas>
-References: <20261020163758.GA2342476@bhelgaas>
-Subject: Re: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+VMware and Hyper-V expose passthrough devices to guest VMs without an
+explicit host bridge device. Consequently, host_bridge_whitelist()
+cannot automatically identify the underlying host bridge structure,
+causing Peer-to-Peer DMA (P2PDMA) requests to be rejected unless the
+device IDs are explicitly listed in pci_p2pdma_whitelist[]. To enable
+P2PDMA on Intel hosts, this series extends cpu_supports_p2pdma(), which
+so far covers AMD Zen and newer, with an explicit list of Intel Xeon
+server generations.
+
+Patch 1 moves the CONFIG_X86 #ifdef out of cpu_supports_p2pdma().
+Patch 2 is the v3 patch rebased on it, with Logan's Reviewed-by carried
+over; the Xeon list and the check are unchanged.
+
+Changes in v4:
+- Add 1/2, moving the CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
+  (Logan Gunthorpe, Leon Romanovsky)
+- Keep the #ifdef around the asm/ includes, as these headers exist
+  only on x86 (Bjorn Helgaas)
+
+Changes in v3:
+- Drop the hypervisor check and move the Xeon list into
+  cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
+  Gunthorpe and Leon Romanovsky [1]
+- Fold the VMware and Hyper-V patches into one, as the check no longer
+  depends on the hypervisor
+
+Changes in v2:
+- Replace the Skylake-and-newer threshold with an explicit list of Intel
+  Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
+  Gunthorpe)
+- Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
+  (Logan Gunthorpe)
+- Rebased on current mainline
+
+[1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
+
+v3: https://lore.kernel.org/r/20261020151305.65218-1-pavel.e.popov@intel.com
+v2: https://lore.kernel.org/r/20261016223402.19991-1-pavel.e.popov@intel.com
+v1: https://lore.kernel.org/r/20261009154034.82321-1-pavel.e.popov@intel.com
+
+Pavel Popov (2):
+  PCI/P2PDMA: Move CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
+  PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+
+ drivers/pci/p2pdma.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
 
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.53.0
 
-On Tue, Oct 20, 2026, at 19:37, Bjorn Helgaas wrote:
-> On Tue, Oct 20, 2026 at 07:14:47PM +0300, Leon Romanovsky wrote:
->> On Tue, Oct 20, 2026 at 08:13:05AM -0700, Pavel Popov wrote:
->> > Peer-to-Peer DMA (P2PDMA) between two devices requires either a shared
->> > upstream bridge or a host bridge matching pci_p2pdma_whitelist[]. In
->> > VMware guests, passthrough devices appear directly on virtual root
->> > buses without host bridge devices. In Hyper-V guests, each passthrough
->> > device appears in a PCI domain of its own without a host bridge
->> > device. Consequently, P2PDMA checks evaluate endpoint Device IDs
->> > against the host bridge whitelist, causing P2PDMA requests to fail
->> > regardless of host support.
->> > 
->> > This affects discrete devices such as GPUs, NICs and NVMe drives.
->> > 
->> > Add an explicit list of the Intel Xeon server generations from
->> > Skylake-SP to Diamond Rapids to cpu_supports_p2pdma(). These are the
->> > CPUs whose host bridges are in pci_p2pdma_whitelist[] without
->> > restrictions. AMD Zen and newer are already covered by
->> > cpu_supports_p2pdma(), so only Intel entries are needed.
->> > 
->> > Tested with the Intel Level Zero P2P benchmark (ze_peer) on Arc Pro B60
->> > cards in a Linux guest on VMware ESXi 9.0 (Emerald Rapids host).
->> > 
->> > Signed-off-by: Pavel Popov <pavel.e.popov@intel.com>
->> > ---
->> > Changes in v3:
->> > - Drop the hypervisor check and move the Xeon list into
->> >   cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
->> >   Gunthorpe and Leon Romanovsky [1]
->> > - Fold the VMware and Hyper-V patches into one, as the check no longer
->> >   depends on the hypervisor
->> > 
->> > Changes in v2:
->> > - Replace the Skylake-and-newer threshold with an explicit list of Intel
->> >   Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
->> >   Gunthorpe)
->> > - Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
->> >   (Logan Gunthorpe)
->> > - Rebased on current mainline
->> > 
->> > [1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
->> > 
->> > v2: https://lore.kernel.org/r/20261016223402.19991-1-pavel.e.popov@intel.com
->> > v1: https://lore.kernel.org/r/20261009154034.82321-1-pavel.e.popov@intel.com
->> > 
->> >  drivers/pci/p2pdma.c | 26 ++++++++++++++++++++++++++
->> >  1 file changed, 26 insertions(+)
->> > 
->> > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> > index 9334eb314663..2650d605d87d 100644
->> > --- a/drivers/pci/p2pdma.c
->> > +++ b/drivers/pci/p2pdma.c
->> > @@ -21,6 +21,11 @@
->> >  #include <linux/seq_buf.h>
->> >  #include <linux/xarray.h>
->> >  
->> > +#ifdef CONFIG_X86
->> > +#include <asm/cpu_device_id.h>
->> > +#include <asm/intel-family.h>
->> > +#endif
->> > +
->> >  struct pci_p2pdma {
->> >  	struct gen_pool *pool;
->> >  	bool p2pmem_published;
->> > @@ -519,6 +524,23 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
->> >  	seq_buf_printf(buf, "%s;", pci_name(pdev));
->> >  }
->> >  
->> > +#ifdef CONFIG_X86
->> 
->> Do we really need all these #ifdefs? I'm pretty sure they're not
->> needed for the includes.
->
-> Apparently we do.  I experimentally removed them and cross-compiled
-> for arm64:
-
-I'm pretty sure that it's not how asm headers are expected to be consumed.
-There are general asm stubs for code outside of arch. Probably general code shouldn't include ifdefs to access these includes.
-
-Thanks 
-
->
->   drivers/pci/p2pdma.c:24:10: fatal error: asm/cpu_device_id.h: No such 
-> file or directory
->      24 | #include <asm/cpu_device_id.h>
-> 	|          ^~~~~~~~~~~~~~~~~~~~~
