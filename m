@@ -1,61 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792538505;
-	b=gzJzOGRZJXoEu6lsAVSwactCW+i7luPJ1dXFpHap6S4OY22Y/0sGmJwVigOE/uswK+3S
-	 qanehjj+ghxEjsdK7TXugIL6lNy/6OycWVWYn9VprUIDnOza5fIw4JiHOhenXYZfbMTYd
-	 u2BXFlUCqVHXxWjPPKzPHK7STAm2Y0juC8QU6qQlWTNYRa36Eb8l3tpcpStqP3elh2XVB
-	 34ysQnQytTfZCs23h97HPrZrPH9C91vsKqlZLJm6IGrKFtl8dQ9PsOrrGVv93EquAPaP/
-	 q8C3m9/jKapyvBsTd8G4rqYkwJgQBiCMa6EL4kpYttzG9Y0SuQoc3Ep1fiUpyA9Mbjg==
+	t=1792539082;
+	b=Lz8rZL2Sgu3bpRt0TZGP3RHaiL1fLqiKv+pjIXwQZDbOFz/GXtnHS7U8X3B8S0A5/wEa
+	 Yn/25eYsfWF7Pf98JJuf1hW4f/Fbv+QuR4aB6+LWc/joN/cB+fO9GDlK7qA7eMN3SwYm7
+	 o7z85/tB8g8BKRrEHejYnC5ciWLIdCU/sS2IbhtaRRFhhIOXA4FH4+GICS+G9L2HwVpXD
+	 aNB8VhLbllvzv6/NEY2xbJn9CI1gwQsW2yiLZWYwgywpsRJuYseeQQW3+fXlh7IalENaz
+	 QELP27uLvlbwn7zFi0gw8uUZyzE3fbWaKdZFD9xbo+pEHu+T2DhNcf6P1A7QMArHebg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792538505;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=wxAh+Ne1jASQiYLIaGgyMvhKyKgjJ2FMW5Pt3awzq1Q=;
-	b=uvUNzQ8vIregNMoUghLF3rvjtn2Sf41SDW0cHjoYion+P2hoiUnqZhMLxhjGI/d0AqEe
-	 OqMHzzDsLYQA5yoqdOQgY8dJZbYjBT//tX3G8WTfngkMEu6F5CXGN4zgkmVbJUbd+hn+t
-	 rgLjDhJBwCoLDBZabNJaALBsxpmOmLSSlvSmwu8rhQzRwNdSuHNzpcDzFk1X7nrtjNkva
-	 L6eKkg2iWSba9Of+Jb3/BV/PRvLcReZsTvAzql/WoHbw2GcjXEa31E6GLCpEjlG/bJSSN
-	 bR0DmZDX1cvRq+EuJzEe+jnfaqHP3tYA9lE/G3NTFiarMZGB5MbrD+Z7x21QLOsPlKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792539082;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:Cc:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=fgNej84WTt4OS++7vi1hUcNO4v+lufgORZL9i9nk4VQ=;
+	b=pinaJnnW0ExAtuokY3FV3onrA4vOXz1DkT254v4BUH9uWpVKy/2ZElKbRnq2d3nPtmuA
+	 x2QhSWOznXbnPvqywTBocWTbW1IMD9pjGmSobOPiP80/LOBGOmsw97XDo4iUK4TvvMGnE
+	 5HrcBpEj8e4qClxdhKIIZI1BlOV8fvfYzfFgnEC9Q8drpdPg0KZH3D5zzDGdBMug8uRjT
+	 1fOHjMcViVTpdtYvIOGOwXkI0jTbqDHLIuefaNVpUyAkbZGNrhXId3sI+3suRM6UKIEPu
+	 jA/dBF1GWwpl29vtS/hDuFZR3ynwxgeospLoovxNPAemheMyxEOci46DkNsbryUax4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S7pM44aL;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="MZj/iwTj";
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD746606A319;
-	Tue, 20 Oct 2026 23:21:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD746606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91E31606A31E;
+	Tue, 20 Oct 2026 23:31:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91E31606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S7pM44aL
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 3A3C420B7168; Tue, 20 Oct 2026 16:21:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3A3C420B7168
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=MZj/iwTj
+Received: from [172.20.10.2] (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 116C420B7168;
+	Tue, 20 Oct 2026 16:31:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 116C420B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792538497;
-	bh=wxAh+Ne1jASQiYLIaGgyMvhKyKgjJ2FMW5Pt3awzq1Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S7pM44aLB3gZK2JI34fkHNHluJMXfyOhL4k1popVUMJN10/rYmyemLKkba6xsKjuz
-	 pBDky1QGicbwDIQGKuSA5Wp5k72iQDcIJBnV4TbGA3EfrLgHKjG01Y+JUSSIc88Soc
-	 Mzv3rX0/KWisgbPOceaPU0c5LbFWOJIyz6uGAFfY=
-Date: Tue, 20 Oct 2026 19:21:37 -0400
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Lanfeng Wei <xlfylawarthur@gmail.com>, airlied@gmail.com,
-	decui@microsoft.com, dri-devel@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	longli@microsoft.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, regressions@lists.linux.dev, simona@ffwll.ch,
-	ssengar@linux.microsoft.com, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
-Message-ID: <atf3gfQlW+46PzRG@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <c238f4ff-d5d8-4a9a-8773-793bd9056c9b@suse.de>
- <20261019154121.6257-1-xlfylawarthur@gmail.com>
- <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
- <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <3a4c4a4d-6ab4-42b6-8ae6-7ca0730b8069@suse.de>
+	s=default; t=1792539071;
+	bh=fgNej84WTt4OS++7vi1hUcNO4v+lufgORZL9i9nk4VQ=;
+	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+	b=MZj/iwTjaCHa98xIkbLSAmcImRmEmLR++DLkTQgg5i5o1WRny6fziE2wg+xWuMY28
+	 bwRE7BdYE7Olu5v9nUMuHd9R9zIiqc/sEHJS4FcgPS/OK4o6h3yHnzXf3lJE7OlWjP
+	 IoK7lMBot8zd6ZplFGzCKXLd87aDEDBbb7JmukG8=
+Message-ID: <7d9f70d0-1856-4424-89d9-c9f3552a8469@linux.microsoft.com>
+Date: Tue, 20 Oct 2026 16:30:55 -0700
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -65,129 +53,157 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3a4c4a4d-6ab4-42b6-8ae6-7ca0730b8069@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
+To: Jiale Yao <yaojiale02@163.com>
+References: <20261019085544.1834700-1-yaojiale02@163.com>
+Content-Language: en-US
+Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <20261019085544.1834700-1-yaojiale02@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 20, 2026 at 01:48:58PM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 19.10.26 um 20:38 schrieb Hamza Mahfooz:
-> > On Mon, Oct 19, 2026 at 06:03:55PM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > > 
-> > > Am 19.10.26 um 17:40 schrieb Lanfeng Wei:
-> > > > Hi Thomas,
-> > > > 
-> > > > > Yeah, what's the cause of it? Switching off features does not fix any
-> > > > > bugs or improve the status quo.
-> > > > You are right that the module parameter is only a workaround for users
-> > > > affected; it does not fix the underlying scheduling problem.
-> > > > 
-> > > > The cause is that the synthetic vblank timer is used to pace completion
-> > > > of atomic updates triggered by dirtyfb, in addition to providing
-> > > > synthetic vblank events. In Xorg's software-cursor path, pointer motion
-> > > > damages the primary framebuffer and the damage is instantly submitted
-> > > > via DRM_IOCTL_MODE_DIRTYFB. The Hyper-V dirtyfb path performs a
-> > > > synchronous atomic commit, and with the vblank timer enabled that commit
-> > > > can wait for the next simulated vblank. Under continuous pointer motion,
-> > > > these commits dominate the update path and delay normal client updates,
-> > > > resulting in sever frame-rate drops.
-> > > > 
-> > > > This particular regression results from the combination of the blocking
-> > > > dirtyfb path, synthetic vblank pacing, and the absence of a Linux DRM
-> > > > cursor plane in Hyper-V. While the Hyper-V video protocol does have a
-> > > > hardware-cursor command path, the upstream hyperv_drm driver currently
-> > > > exposes only a primary plane. Cursor plane support was deferred during
-> > > > the initial upstreaming [1]. Without a cursor plane, Xorg has to fall
-> > > > back to software cursor-rendering path and it competes with periodic
-> > > > graphical updates on the primary plane.
-> > > > 
-> > > > So the proper long-term fix could be adding cursor plane support in the
-> > > > Hyper-V DRM driver, which may take some time. Providing that the stated
-> > > > purpose of the offending commit is to rate-limit display updates, while
-> > > > its current implementation regresses the existing software-cursor path,
-> > > > I think adding a switch or reverting the commit until the requested
-> > > > features in the driver is ready, is a reasonable short-term fix.
-> > > The problem is that module parameters are impossible to remove in practice.
-> > > Once in place, someone always depends on it. They also increase the number
-> > > of states to test.  Avoiding them is usually a good idea. Especially as
-> > > workarounds for bug or regressions.
-> > > 
-> > > 
-> > > I'm not familiar with the Hyper-V protocol, so I have a question. Why is it
-> > > hard to implement cursors? From the link at [1], I assume that cursor
-> > > support was left out because the simple-kms pipeline did not support cursor
-> > > planes. This has long been resolved: the simple-kms pipeline is gone and
-> > > hyperv_drm runs on the regular DRM framework.  Unless there's anything
-> > > special with the Hyper-V protocol, cursor-plane support should be do-able in
-> > > a single patch. [^1]
-> > > 
-> > I actually have been working on cursor plane support for hyperv-drm.
-> > I'll post a patch soon.
-> 
-> Awesome! Even if it doesn't fix the reported bug, it is still an improvement
-> for everyone.
-> 
-> To fix the bug, you *might* have to implement atomic_async_update. [1]  It
-> allows legacy cursor updates to jump ahead of the commits and change the
-> cursor without vblank synchronization. It's a little-used feature and
-> semi-deprecated, but maybe necessary in case.  (Make it a separate patch,
-> I'd say.)  There's existing support in other drivers to see how it works.
-> 
-> [1] https://elixir.bootlin.com/linux/v7.3/source/include/drm/drm_modeset_helper_vtables.h#L1406
-> 
+On 10/19/2026 1:55 AM, Jiale Yao wrote:
+> remove_id_store() can free a matching dynamic ID while VMBus is
+> preparing to invoke a driver probe. Copy the ID while holding the
+> dynamic ID lock so probe never receives a pointer into a freed list
+> entry.
 
-From my testing it seems that the cursor plane support on it's own is
-sufficient to deal with the reported issue. So, I'll hold off on this
-for now.
+Is this the same fix as:
 
-Hamza
+  3ffc4c9690c3 ("PCI: Fix UAF when probe runs concurrent to dyn ID
+  removal")
+  ef8154d8b52d ("usb: fix UAF when probe runs concurrent to
+  dyn ID removal")
 
-> Best regards
-> Thomas
+If so, consider citing them in the commit message. Also, consider taking
+inspiration from their implementation.
+
+Nit: this subsystem typically uses "Drivers: hv: vmbus:" for the subject
+prefix.
+
+
+> Fixes: fc76936d3ea5 ("vmbus: add support for dynamic device id's")
+> Signed-off-by: Jiale Yao <yaojiale02@163.com>
+> ---
+>  drivers/hv/vmbus_drv.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
 > 
-> > 
-> > Hamza
-> > 
-> > > Best regards
-> > > Thomas
-> > > 
-> > > [^1] See https://elixir.bootlin.com/linux/v7.2.11/source/drivers/gpu/drm/ast/ast_cursor.c
-> > > for an example of how this looks. Most of it is hardware-related, but hyperv
-> > > would likely be similar in concept.
-> > > 
-> > > > > We had another fix for a problem with vblank timers:
-> > > > > 
-> > > > > https://lore.kernel.org/dri-devel/20260914110004.211027-1-tzimmermann@suse.de/
-> > > > > 
-> > > > > Did you validate that this fix is unrelated?
-> > > > Yes I tested that fix and confirmed that it is irrelevant. It solves
-> > > > issues with excessively long frame durations, however this problem is
-> > > > found in normal frame updates (in my case 60Hz / 16.7 ms per frame, way
-> > > > below INT_MAX).
-> > > > 
-> > > > Best regards,
-> > > > 
-> > > > Lanfeng Wei
-> > > > 
-> > > > [1] https://lore.kernel.org/dri-devel/20200622110623.113546-1-drawat.floss@gmail.com/
-> > > -- 
-> > > --
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-> > > GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-> > > 
-> > > 
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-> GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-> 
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 4692687cdbf3..96ad0dfaa50b 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -661,21 +661,22 @@ hv_vmbus_dev_match(const struct hv_vmbus_device_id *id, const guid_t *guid)
+>  }
+>  
+>  static const struct hv_vmbus_device_id *
+> -hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid)
+> +hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid,
+> +		     struct hv_vmbus_device_id *id_copy)
+>  {
+> -	const struct hv_vmbus_device_id *id = NULL;
+>  	struct vmbus_dynid *dynid;
+>  
+>  	spin_lock(&drv->dynids.lock);
+>  	list_for_each_entry(dynid, &drv->dynids.list, node) {
+>  		if (guid_equal(&dynid->id.guid, guid)) {
+> -			id = &dynid->id;
+> -			break;
+> +			*id_copy = dynid->id;
+> +			spin_unlock(&drv->dynids.lock);
+> +			return id_copy;
+>  		}
+>  	}
+>  	spin_unlock(&drv->dynids.lock);
+>  
+> -	return id;
+> +	return NULL;
+>  }
+>  
+>  static const struct hv_vmbus_device_id vmbus_device_null;
+> @@ -685,7 +686,8 @@ static const struct hv_vmbus_device_id vmbus_device_null;
+>   * If there is no match, return NULL.
+>   */
+>  static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *drv,
+> -							struct hv_device *dev)
+> +							struct hv_device *dev,
+> +							struct hv_vmbus_device_id *id_copy)
+>  {
+>  	const guid_t *guid = &dev->dev_type;
+>  	const struct hv_vmbus_device_id *id;
+> @@ -697,7 +699,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
+>  		return NULL;
+>  
+>  	/* Look at the dynamic ids first, before the static ones */
+> -	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid);
+> +	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid, id_copy);
+>  	if (!id)
+>  		id = hv_vmbus_dev_match(drv->id_table, guid);
+>  
+> @@ -773,6 +775,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+>  			    size_t count)
+>  {
+>  	struct hv_driver *drv = drv_to_hv_drv(driver);
+> +	struct hv_vmbus_device_id id_copy;
+>  	guid_t guid;
+>  	ssize_t retval;
+>  
+> @@ -780,7 +783,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+>  	if (retval)
+>  		return retval;
+>  
+> -	if (hv_vmbus_dynid_match(drv, &guid))
+> +	if (hv_vmbus_dynid_match(drv, &guid, &id_copy))
+>  		return -EEXIST;
+>  
+>  	retval = vmbus_add_dynid(drv, &guid);
+
+This check and the list_add_tail() in vmbus_add_dynid() run in separate
+critical sections, so two concurrent writers can both add the same GUID.
+Consider a preparatory patch that moves the check into vmbus_add_dynid()
+under the same dynids.lock; see 04fde70f782b ("PCI: Fix dyn_id add
+TOCTOU"). new_id_store() then no longer needs hv_vmbus_dynid_match() or
+id_copy at all.
+
+> @@ -840,12 +843,13 @@ static int vmbus_match(struct device *device, const struct device_driver *driver
+>  {
+>  	const struct hv_driver *drv = drv_to_hv_drv(driver);
+>  	struct hv_device *hv_dev = device_to_hv_device(device);
+> +	struct hv_vmbus_device_id id_copy;
+>  
+>  	/* The hv_sock driver handles all hv_sock offers. */
+>  	if (is_hvsock_channel(hv_dev->channel))
+>  		return drv->hvsock;
+>  
+> -	if (hv_vmbus_get_id(drv, hv_dev))
+> +	if (hv_vmbus_get_id(drv, hv_dev, &id_copy))
+>  		return 1;
+>  
+>  	return 0;
+> @@ -860,9 +864,10 @@ static int vmbus_probe(struct device *child_device)
+>  	struct hv_driver *drv =
+>  			drv_to_hv_drv(child_device->driver);
+>  	struct hv_device *dev = device_to_hv_device(child_device);
+> +	struct hv_vmbus_device_id dev_id_copy;
+>  	const struct hv_vmbus_device_id *dev_id;
+>  
+> -	dev_id = hv_vmbus_get_id(drv, dev);
+> +	dev_id = hv_vmbus_get_id(drv, dev, &dev_id_copy);
+
+Consider documenting in include/linux/hyperv.h that the
+hv_vmbus_device_id is only valid during probe so future drivers don't
+save the pointer (see what PCI and USB fixes did in pci.h and usb.h).
+
+>  	if (drv->probe) {
+>  		ret = drv->probe(dev, dev_id);
+>  		if (ret != 0)
+
+Please review the Sashiko comment.
+
+Regards,
+Kameron
