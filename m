@@ -1,84 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792474154;
-	b=H2SgYzL7LF9EVoYY6xsAlvs9tzeSV9Ab8ZmU6trgV7Qp6mqbCGT+b/nhGV1zkTl233pD
-	 R9n/nR+NQbMplG0BM5Kz67uZbruURMPIJ+t3Ut4dew+83rlhClDfa3cKJ3hS3YEbomqWe
-	 BH63gP5CH0Uz7TMV1/TztTFkIE0qKe0ZyG2i1x114htJfG8zuXX+XQew4e/+XZock5sbc
-	 DQhsrAH57kyI4m/TsGH8prtIQzeNEJtTTPe0iclLX9i/HUJ8rI7kjK1k6yKmrh2E2Z14v
-	 Qqn0ophoZ3iV9RgLGdyOI8ADUaTfAOi2qT97KVNl4pxziQhK03fa764tUpwwl6KJATw==
+	t=1792474491;
+	b=OgiXrntVdVS611jDKhwVJFgS08Irmm896QgVAsK91mshun7Bq68Kqk8woufoykIRYy1s
+	 dsAz1IewzRnjLOjjKDpmRJVn0XrfWEb6D/RLMaBJRrZmg2PblrQZOFkBq8Vqa+V+FcpWu
+	 ocCrKkxtU6gvIz/A80WAKSW5eIrVN5Oy6lLCuq8bQetGhhLDCyaogRgco5jjQvofzLeKg
+	 FNMldWDycnyv7DnV+NkLWX2fBTaiRM75HzxmvoPbyadgv1L7iht/M0N5HnU0jiFUufjCd
+	 JBIcTsrxZvtbGTLpVZY3F9gA1aKkiacpc46bxghP039wbkXeHM9/gsMyorqnLAFsSyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792474154;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792474491;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
-	b=uXw7J8fh1CUPwQMmwABwr08W0G7jtzFZ6ij2sd/QWLcNec00mYEHNqD9VzWvqv1PLe9k
-	 isJJ5ftWdd+oBaP4CdM2LlcdP/AVEwWXN+vHATArJnH1+7PwmAhNW9CpwfudXcA/CjhIp
-	 JZftj4ZxCV2VNPLCogZadKquH2yi55vHK6eTwWXgCI6CzQVIf/8v7OYf1h9K3vCuUbvJg
-	 3bBrvK2D3uAtk61gGRuLlHDjQfWafG+oZmlUcfDhwphv5eacy7lUkSMTIKLyZbDGTJtXk
-	 K3qGoI2Dd28Sb0/AE6AngkZa8BGa/es18MSK+CdBlh6/Ax+iKMR8cggUmX56Rys6gQw==
+	bh=aQfHHrXMXLY2j/M6I94/T8E0vvM8q6x0cxn+YnCDD4k=;
+	b=JCQbNwXGyCMZog2T7eAU9IK6GTEzr6oDTFaG+G8MajhpGtt5tECHhmSXzuDo4akE3V8G
+	 6r0J7wbUcVb5MXscrWb8x8oakHUgWq0oo3LiTzYfnDepOi4RWZD42qy8bVVeqfVC2u4bn
+	 4+MZ4vGiZGRO0xO+ipIvWm+TU0Al98qtpeDp7hWhIekT9dnRHIfdSBhp/T2exTKfp5pUG
+	 yJ8SC/Q6Lb4YFoUgWtFUIlZyRXtjb9hOoQ7r3WKZkkZ032VxBo3cfc4rMEYW5UjfLQj9T
+	 rOPJM+Gcv3TTCaDiwFtc2+Y0fmJVLkaJkfJ+XC0ut1904qK6fWkAcj4eRlLLjrGB9/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IQBUBur3;
-	arc=none smtp.remote-ip=209.85.210.182
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Fs5p+QqU;
+	arc=none smtp.remote-ip=209.85.216.42
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD664606A31B
-	for <linux-hyperv@vger.kernel.org>; Tue, 20 Oct 2026 05:29:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD664606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E0F606A331
+	for <linux-hyperv@vger.kernel.org>; Tue, 20 Oct 2026 05:34:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4E0F606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IQBUBur3
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-881269371acso153990b3a.0
-        for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 22:29:13 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Fs5p+QqU
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ac7c7b3a90so1331020a91.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 22:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792474153; x=1793078953; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792474490; x=1793079290; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
-        b=IQBUBur3C3ooYTg5kvhTecuHSB1BGpjp7yAA0mIKn1KXQvvi8yjEcRmkxmKnWdeE7E
-         0wnTYdvYGnwAqgAO0varwi/dIYQYYwS3hLf3CcXVW5HdtDxHqnKocb23lWaeCrUyzVkJ
-         V9ibknii+z+WI7x7BKoDF/F29SvU+LcIdoAmsK8L7WcmZWt1ZJB/VGooD2EisfUsIgbL
-         XmWCcBxoRhup+qP1okUxUbtANYOkhCdiB1wdmC4hnz7h0xaFqxHtmI5p13UXlGNVD8R1
-         P6ePeijdS59iYgsFsWSMB8pgwiovwod371lTewAs2HI3HiUZMDA7nQOeT12z8cOB757r
-         9ONQ==
+        bh=aQfHHrXMXLY2j/M6I94/T8E0vvM8q6x0cxn+YnCDD4k=;
+        b=Fs5p+QqUCKPcdPkITuqn2vGo9SkU7aHtyOKb5qh0D2/mN6+uLCmUXq+UbtxKt+kpT8
+         /y/IRsdvzo7lZneeJbbqB80oks+9KC4Tt3+RfSEL/5jCNS5zJJ882fDri/zAEP4c6V4b
+         18U5Hx12o6dO5vfmMnuijVlFHKfI3XiFsJ+yqmEM5bonPPOW1YU7l5t/TD8MN3pH95Vq
+         /pguadP4d5v/I/pQKKuuwevLO/et+ZlVlDR90StAShUGfSfscvpcPoKVzIpZcq8B8Wp5
+         pbfHenTBqUpwDJPqE6OM3QWreyjDqqQAustBE69mnwZYGvGG1KhQVMqD9zt7uJAftN1x
+         qo7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792474153; x=1793078953;
+        d=1e100.net; s=20260707; t=1792474490; x=1793079290;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
-        b=tQqGY75dlykmhHYI+5LwbmRhHfuzsgFtJaV7+7mEHhxQwk0CTwnvFvUZPCti/e+uqw
-         gdz0euGuH9LffaRUJnZbircQJwr2slbuYXqqHldfzOdc+5LA0aqRyXWOohz9t5ektT9t
-         VsoxVyuUnwIlSa27APHuVAsysZbp2dr+AJB9cM2bum5f9YiWjuLQeCqopqRRcf2TZKmw
-         nSYCjCJsITmtC6B+Fb8Kfw5SWCO8Modpbe9WtSKoFisnM0vhVV++PSqBntoBbpAux5n3
-         JLRX2uwRwXR8yrFRW80DDymmIk6Dw/cehURdiCJk9eKFFZYLtNP7r+zlc5s0euH5uxNh
-         bhlw==
-X-Forwarded-Encrypted: i=1; AKwUvBzBDdJGw7QB4b8OvrUXbKnPlZSwfjecz5fRBa7C1GSySOGSrsRUYzuOgKzv0hov0QENmefK0oZtCG8+Xh8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ9v0s5x52/b22xEEsIwf0qEQXnAcYMOUcUjk69ZpsILUdFSuJK
-	XAVYZt9xihPJkaUetptpAuFfrIi6uJIHVZRsXqVcoECovTzwQmVWXo8R
-X-Gm-Gg: AYBFou1kkvv9LtpJWQoZ1ygCUQivhgR/9yHE96+uYeWI0UVc59XEg6buisSHEWu6+4d
-	ZemoFybzqJSv8jRuqo4+gc29EyAA0nvyBvdJllWgOYvjsFYj2YtOG6iTQpKjp3KR9BTD6/hGfLY
-	qrea10eeLtgeMkGDkJMoLpM6O0Km/KXnYgLTuZ3ESO3IBnvw0WPDXBc6IeECPucfPgfsABNrvBg
-	zr5mlSAWaBGAOVjnGQhKI0Ge7aDYEDkLvsJlA/gjTacN2lUuJilzuwpYhHNLFVRLcheKhvzxEbI
-	VoVl0Mbz4XLVHa924nHx4QQqJ6c1LWkDGHCP1H1wnpuwcGr/VQXeN21FGdjHlOfflIsxDN4oyb5
-	i613+FaYQ1Zzujj5CTGzyUYNshv/YLx/8X2i3Vuhyz2SPgqZVl+FlhOm0GbXtyivfKmcYdmqU37
-	+MeX6SdsxUzu7QjVXnZfqXT6O6RouiuJtVADcu4LICROtoVljT/ZFkK8EPPjEMuqv2aHTYkq48g
-	qfj
-X-Received: by 2002:a05:6a20:c885:b0:3de:57da:7fa6 with SMTP id adf61e73a8af0-3e26fb93cc3mr773371637.39.1792474152912;
-        Mon, 19 Oct 2026 22:29:12 -0700 (PDT)
+        bh=aQfHHrXMXLY2j/M6I94/T8E0vvM8q6x0cxn+YnCDD4k=;
+        b=M5nP7Ap81MbWC9i1+bhmz/4IRbDJ4AmDMZaAdEBnZy3+uUlNx3mgpg7GJ/Cqlbei83
+         x2JMG+UbyVMEjGa6o9TgXONam277TMiEXVKJYD6YMA5A6jDZa7lB3g/k98TYK84eBNbl
+         vtdw2o9/iiTzKK3hI9QycQqx4i4QzfJVgSObQLwa+SO4f/BWzHmbimxscEITismPzCTP
+         hzKpnn+eZ2y3HD4lvLYtZVifO9nwfyDWc+FWRZPMVnryZzcmLvZXzmp9AwADF9GwIPCH
+         A93vx9Hvxl03AVldfyERMxN4KlhWdL+ulcryynpisW3NfvLDhKD8JV/diYzfaHH9F6+Z
+         l9dA==
+X-Forwarded-Encrypted: i=1; AKwUvBzzUUwu4ilSprqlpV3zxpkXHsjPJG++Nfc1Nn4viWLxTg4EL+GEEHQ6oJvBaUeTH2ZC+OoxQFYFBcwjU/k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIHd/UUbmcEfBMvu4vim+bFTLkFHPXH2PU80WGjIxD1ABA/25xP
+	bSYw2u3JoJN+PG/h6DOEZt1SgaU0tPWLwk8k+S6Zn4eCMIZ0mHg8XS/A
+X-Gm-Gg: AYBFou1vUadP7dhgBn5EsfcbxLzGrqAJwEo23KZphJ0ZT4q8pnKBpV1rkvSme3V3p+F
+	XCLm/NEfs77cqrUHpdYmyfc34gdoY4ADXFV9my7Z5mO+kcIiSkDubLLWllkhfz9dODUWPc6IrYp
+	vjQSMOTN1cm+v6oRRjgtNQ5DFl2IXOISDsf3HiawMzrCoN5aiIBrmfKGJQnMANw6sQsL8hMEr6k
+	09Uexy0YOmtnjreWFwPwCs/whMQxKlDo23w4LoNQVofHA6HymikiH/9LcatGdaaFtDZ3m6/T2dG
+	eMo9SsV7aigeR7JP0AW4een7WRZkYycaPyrHRbg2vx3ZpGDZoMI6NPNeZ5ornngZgYgdmR6aSkj
+	ZcADQR+YhdZjUAnVwGPkIkFcQlFPHBVtOtuXgaQkDqiihcQHMK1cdXmmuV6zTwFLh4EyJ3G6BhC
+	enRU/2lrQj21sn5Y15/PGaQzstf7O2EXIz38uign6gFEhzOsImd/I9PDFhOLIQnY90mQ==
+X-Received: by 2002:a17:90b:582f:b0:3aa:f4af:1e0b with SMTP id 98e67ed59e1d1-3acee98d90emr8576204a91.8.1792474489983;
+        Mon, 19 Oct 2026 22:34:49 -0700 (PDT)
 Received: from hachimi ([101.5.175.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd654eaf4e3sm4406759a12.26.2026.10.19.22.29.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad60102ebdsm2216041a91.1.2026.10.19.22.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 22:29:12 -0700 (PDT)
+        Mon, 19 Oct 2026 22:34:49 -0700 (PDT)
 From: Lanfeng Wei <xlfylawarthur@gmail.com>
-To: hamzamahfooz@linux.microsoft.com
+To: tzimmermann@suse.de
 Cc: airlied@gmail.com,
 	decui@microsoft.com,
 	dri-devel@lists.freedesktop.org,
@@ -91,14 +90,13 @@ Cc: airlied@gmail.com,
 	simona@ffwll.ch,
 	ssengar@linux.microsoft.com,
 	stable@vger.kernel.org,
-	tzimmermann@suse.de,
 	xlfylawarthur@gmail.com
 Subject: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
-Date: Tue, 20 Oct 2026 13:28:47 +0800
-Message-ID: <20261020052849.9241-1-xlfylawarthur@gmail.com>
+Date: Tue, 20 Oct 2026 13:34:09 +0800
+Message-ID: <20261020053433.9419-1-xlfylawarthur@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
+References: <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -110,9 +108,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Oct 2026 14:38:45 -0400, Hamza Mahfooz wrote:
-> I actually have been working on cursor plane support for hyperv-drm.
-> I'll post a patch soon.
+On Mon, 19 Oct 2026 18:03:55 +0200, Thomas Zimmermann wrote:
+> The problem is that module parameters are impossible to remove in 
+> practice. Once in place, someone always depends on it. They also 
+> increase the number of states to test.  Avoiding them is usually a good 
+> idea. Especially as workarounds for bug or regressions.
 
-That will be great. When the patch is ready I'll validate that the
-problem at hand is settled.
+Understood. Since Hamza is working on an implementation of cursor plane,
+I think this patch can be dropped for now.
