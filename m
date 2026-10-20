@@ -1,71 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792473736;
-	b=1UcGLFskRt4NOY/eAy7XohO5oZbM6XF1hEzP1DJL9oUH63thEoYzE2GhnbDurBAcNQcb
-	 4HWSOiz9DkIXv30PzKZjtSbN+l0ovJtIxHHZmTKzb6vgVy6Nc18X7qWLPEgnqx0+jzoCP
-	 YLnGuj7oFKq1ryWbewnuhAZ00ruXepcn7gAG/hBiQ/JUa2jKeIkvjmCan/o+UFm2bc8k2
-	 uqQYWA2lVuECF07I9aN2kWD53QDOH1sZwXw3MIkmwW9rS1NFeFJ6UYn4q0u11P68tmnEl
-	 OnwIZ08eLgkVsR9Pc9mRU5mGunqzHcxQPU3mkixboMivnvUqBoDWROQmNIzcwuHwekA==
+	t=1792474154;
+	b=H2SgYzL7LF9EVoYY6xsAlvs9tzeSV9Ab8ZmU6trgV7Qp6mqbCGT+b/nhGV1zkTl233pD
+	 R9n/nR+NQbMplG0BM5Kz67uZbruURMPIJ+t3Ut4dew+83rlhClDfa3cKJ3hS3YEbomqWe
+	 BH63gP5CH0Uz7TMV1/TztTFkIE0qKe0ZyG2i1x114htJfG8zuXX+XQew4e/+XZock5sbc
+	 DQhsrAH57kyI4m/TsGH8prtIQzeNEJtTTPe0iclLX9i/HUJ8rI7kjK1k6yKmrh2E2Z14v
+	 Qqn0ophoZ3iV9RgLGdyOI8ADUaTfAOi2qT97KVNl4pxziQhK03fa764tUpwwl6KJATw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792473736;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XqdedUL9j1kYoCsVgoGHr/AMA1g1btCDEN8xHec8Krs=;
-	b=ebVJGHea443rBHjrm8ymZkvxYUkWK7J4OqIR7fNeuEYWG0Z3beBTFVAZy9d75/OAd7jg
-	 zgy3HPW0oZaXNDxIVt7pmgxmlkIxnFFoU2HW42CxzH0gaqXxr4FrMMwsT/T6oBHIFw1cz
-	 Wh7QkEUJwVdFeTXMH+DIg08ZYJTyzUFwBJSaUDlgV+uuc7Cv5uLsHE+Xd5KfmSilqwh98
-	 y9Nb+0mmmeaqq/pRm6wjR9gPqK4e9shC6vDc+olP9tSWb4E+6f31JhnedQWD6pW5t8tJs
-	 CncegyMPIefm/xyX5ByK6v7UUGR0vVco0SHp05sTHqCaNxjii2r2rFrsIvf/KFIT6hQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792474154;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
+	b=uXw7J8fh1CUPwQMmwABwr08W0G7jtzFZ6ij2sd/QWLcNec00mYEHNqD9VzWvqv1PLe9k
+	 isJJ5ftWdd+oBaP4CdM2LlcdP/AVEwWXN+vHATArJnH1+7PwmAhNW9CpwfudXcA/CjhIp
+	 JZftj4ZxCV2VNPLCogZadKquH2yi55vHK6eTwWXgCI6CzQVIf/8v7OYf1h9K3vCuUbvJg
+	 3bBrvK2D3uAtk61gGRuLlHDjQfWafG+oZmlUcfDhwphv5eacy7lUkSMTIKLyZbDGTJtXk
+	 K3qGoI2Dd28Sb0/AE6AngkZa8BGa/es18MSK+CdBlh6/Ax+iKMR8cggUmX56Rys6gQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=atnR+WAo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IQBUBur3;
+	arc=none smtp.remote-ip=209.85.210.182
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749A8606A319;
-	Tue, 20 Oct 2026 05:22:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD664606A31B
+	for <linux-hyperv@vger.kernel.org>; Tue, 20 Oct 2026 05:29:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD664606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=atnR+WAo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797861F000C4;
-	Tue, 20 Oct 2026 05:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792473736;
-	bh=XqdedUL9j1kYoCsVgoGHr/AMA1g1btCDEN8xHec8Krs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=atnR+WAoKxIzMdNNh8969UQH9W/45n1AXtUjCFyka03176J4zi9OzLj5bFc+1AsU2
-	 sEfS3EwqWvPNIM7zjbYiM9LsvIITj2a6aGz30Fef1JTUMraetGY9xG/9DhK+P1JgGa
-	 H9HoBTWHssuBVriaJ6gmk5pLX/Q0XpV8cSocP2Fss5pDXlenGqKMPtcH1H0xFkN0gx
-	 xS5YGBKzZQXkwLct+MlHqJDBh5o2AxGmHv0w8zwj07gKYQ/gGeWKeDr3LFP8egDwWP
-	 EKIwYFsLpQ5GGPb69D/mvRXDuh9gGtR9IXRJ/njbVUbe2vIcVxwvVQhFuhm82GLwV8
-	 9uIjCDXsf0CRw==
-Date: Tue, 20 Oct 2026 08:22:11 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: "Popov, Pavel E" <pavel.e.popov@intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jim Chow <jim.chow@broadcom.com>,
-	Radu Rugina <radu.rugina@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
-	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] PCI/P2PDMA: Allow P2PDMA in VMware guests on
- Intel hosts
-Message-ID: <20261020052211.GJ64621@unreal>
-References: <20261016223402.19991-1-pavel.e.popov@intel.com>
- <20261016223402.19991-2-pavel.e.popov@intel.com>
- <8b01d643-f62d-4118-a700-8874341d953b@deltatee.com>
- <LV2PR11MB6070CE9CCA125C290C0F8209B29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261017074820.GD219304@unreal>
- <LV2PR11MB6070ABD61B46E9590C9B28ACB29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
- <LV2PR11MB607077BABF5643BD4FAF470FB2982@LV2PR11MB6070.namprd11.prod.outlook.com>
- <fca6d815-519a-449d-a5b7-36bd3ad0c19f@deltatee.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IQBUBur3
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-881269371acso153990b3a.0
+        for <linux-hyperv@vger.kernel.org>; Mon, 19 Oct 2026 22:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792474153; x=1793078953; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
+        b=IQBUBur3C3ooYTg5kvhTecuHSB1BGpjp7yAA0mIKn1KXQvvi8yjEcRmkxmKnWdeE7E
+         0wnTYdvYGnwAqgAO0varwi/dIYQYYwS3hLf3CcXVW5HdtDxHqnKocb23lWaeCrUyzVkJ
+         V9ibknii+z+WI7x7BKoDF/F29SvU+LcIdoAmsK8L7WcmZWt1ZJB/VGooD2EisfUsIgbL
+         XmWCcBxoRhup+qP1okUxUbtANYOkhCdiB1wdmC4hnz7h0xaFqxHtmI5p13UXlGNVD8R1
+         P6ePeijdS59iYgsFsWSMB8pgwiovwod371lTewAs2HI3HiUZMDA7nQOeT12z8cOB757r
+         9ONQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792474153; x=1793078953;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c9R77y7CmEav0rC77XG2mhErQJ4vnSWiNFq8rafLmTg=;
+        b=tQqGY75dlykmhHYI+5LwbmRhHfuzsgFtJaV7+7mEHhxQwk0CTwnvFvUZPCti/e+uqw
+         gdz0euGuH9LffaRUJnZbircQJwr2slbuYXqqHldfzOdc+5LA0aqRyXWOohz9t5ektT9t
+         VsoxVyuUnwIlSa27APHuVAsysZbp2dr+AJB9cM2bum5f9YiWjuLQeCqopqRRcf2TZKmw
+         nSYCjCJsITmtC6B+Fb8Kfw5SWCO8Modpbe9WtSKoFisnM0vhVV++PSqBntoBbpAux5n3
+         JLRX2uwRwXR8yrFRW80DDymmIk6Dw/cehURdiCJk9eKFFZYLtNP7r+zlc5s0euH5uxNh
+         bhlw==
+X-Forwarded-Encrypted: i=1; AKwUvBzBDdJGw7QB4b8OvrUXbKnPlZSwfjecz5fRBa7C1GSySOGSrsRUYzuOgKzv0hov0QENmefK0oZtCG8+Xh8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ9v0s5x52/b22xEEsIwf0qEQXnAcYMOUcUjk69ZpsILUdFSuJK
+	XAVYZt9xihPJkaUetptpAuFfrIi6uJIHVZRsXqVcoECovTzwQmVWXo8R
+X-Gm-Gg: AYBFou1kkvv9LtpJWQoZ1ygCUQivhgR/9yHE96+uYeWI0UVc59XEg6buisSHEWu6+4d
+	ZemoFybzqJSv8jRuqo4+gc29EyAA0nvyBvdJllWgOYvjsFYj2YtOG6iTQpKjp3KR9BTD6/hGfLY
+	qrea10eeLtgeMkGDkJMoLpM6O0Km/KXnYgLTuZ3ESO3IBnvw0WPDXBc6IeECPucfPgfsABNrvBg
+	zr5mlSAWaBGAOVjnGQhKI0Ge7aDYEDkLvsJlA/gjTacN2lUuJilzuwpYhHNLFVRLcheKhvzxEbI
+	VoVl0Mbz4XLVHa924nHx4QQqJ6c1LWkDGHCP1H1wnpuwcGr/VQXeN21FGdjHlOfflIsxDN4oyb5
+	i613+FaYQ1Zzujj5CTGzyUYNshv/YLx/8X2i3Vuhyz2SPgqZVl+FlhOm0GbXtyivfKmcYdmqU37
+	+MeX6SdsxUzu7QjVXnZfqXT6O6RouiuJtVADcu4LICROtoVljT/ZFkK8EPPjEMuqv2aHTYkq48g
+	qfj
+X-Received: by 2002:a05:6a20:c885:b0:3de:57da:7fa6 with SMTP id adf61e73a8af0-3e26fb93cc3mr773371637.39.1792474152912;
+        Mon, 19 Oct 2026 22:29:12 -0700 (PDT)
+Received: from hachimi ([101.5.175.4])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd654eaf4e3sm4406759a12.26.2026.10.19.22.29.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 22:29:12 -0700 (PDT)
+From: Lanfeng Wei <xlfylawarthur@gmail.com>
+To: hamzamahfooz@linux.microsoft.com
+Cc: airlied@gmail.com,
+	decui@microsoft.com,
+	dri-devel@lists.freedesktop.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	longli@microsoft.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	regressions@lists.linux.dev,
+	simona@ffwll.ch,
+	ssengar@linux.microsoft.com,
+	stable@vger.kernel.org,
+	tzimmermann@suse.de,
+	xlfylawarthur@gmail.com
+Subject: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
+Date: Tue, 20 Oct 2026 13:28:47 +0800
+Message-ID: <20261020052849.9241-1-xlfylawarthur@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -75,34 +108,11 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fca6d815-519a-449d-a5b7-36bd3ad0c19f@deltatee.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 03:14:38PM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2026-10-19 13:48, Popov, Pavel E wrote:
-> > Logan, Leon,
-> > 
-> > I kept the hypervisor check to avoid changing what the host bridge
-> > whitelist refuses on bare metal. Looking at those cases again, on the
-> > listed Xeon CPUs this is a limitation of the whitelist itself, not a
-> > known hardware limit, and it is why Intel QAT/DSA/IAA had to be added
-> > by ID. So I'd drop the hypervisor check.
-> > 
-> > Would a v3 that moves the Xeon list into cpu_supports_p2pdma(), the
-> > same way as the AMD check, be acceptable to you both?
-> 
-> Yes, that's essentially what I was suggesting before. That would be
-> acceptable to me.
+On Mon, 19 Oct 2026 14:38:45 -0400, Hamza Mahfooz wrote:
+> I actually have been working on cursor plane support for hyperv-drm.
+> I'll post a patch soon.
 
-Right, I also wrote the same thing in my summary "We agreed ...".
-
-Thanks
-
-> 
-> Thanks,
-> 
-> Logan
-> 
+That will be great. When the patch is ready I'll validate that the
+problem at hand is settled.
