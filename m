@@ -1,62 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792470655;
-	b=LbzX9l4eJDorRXv8I8T/DIL+hLG25fqEAt/ipKt98BVSEHLh1yAPpR+2M5z2VHjq8SYm
-	 QAqlnG+neXKMeKPYtOjeEXZgWK3clWy9mIK+a7EDYvpoyDdK2OqJxcMSiI5qT5kxwJh0T
-	 GjiW0NyQ03DLWGmj3DfFUekAZr1Sio9VZkpipMJl9YyJKE0VjwEoaMWNPctCZxcp5UhFW
-	 JCYXAdSOKcxgUNNldyuy8QYT9L3R5eGDzldAYxeyZPEpwkwBpeBlJ2UkKgu7lHAvjmXvG
-	 LGMC3+wl0WGsC7kMeRddUDgAcZ9HwyhJNWZdobvzkbx9JwD26mC3nig4TlqIHodFYJA==
+	t=1792473736;
+	b=1UcGLFskRt4NOY/eAy7XohO5oZbM6XF1hEzP1DJL9oUH63thEoYzE2GhnbDurBAcNQcb
+	 4HWSOiz9DkIXv30PzKZjtSbN+l0ovJtIxHHZmTKzb6vgVy6Nc18X7qWLPEgnqx0+jzoCP
+	 YLnGuj7oFKq1ryWbewnuhAZ00ruXepcn7gAG/hBiQ/JUa2jKeIkvjmCan/o+UFm2bc8k2
+	 uqQYWA2lVuECF07I9aN2kWD53QDOH1sZwXw3MIkmwW9rS1NFeFJ6UYn4q0u11P68tmnEl
+	 OnwIZ08eLgkVsR9Pc9mRU5mGunqzHcxQPU3mkixboMivnvUqBoDWROQmNIzcwuHwekA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792470655;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:Content-Type:
-	 MIME-Version:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=evJDRcYvjGByMN0JJryLMQYDG6jXpQjI7EC08Okq49w=;
-	b=NDaaekWH4HfUuhRt6wRtpwho1ajgvOI3lg30a9RiyTG3pgeFJCrSylMB20hdCwpgjunD
-	 z09bDykC+k3iNO8VrVluHyMP8nt/zhnA/8ic7JrQkTq+OYTFowtvqhbiFLP2l1WRANjOk
-	 /ayQ2wtkI+xl22FR0hXvjQ1bPyHpBXF4y+xQeut1o7eEao3PBRM1nhxAhOCOkKtmihYeJ
-	 yxDQE6tA9Af+2gVOYX4Bfx1k3t3k2cvQq2jFoNpiVghwWpndi3a/m2yHNbFYqoE98zNv8
-	 2BfRUQ6NzcNrjm9Lc+fc/LO8G2cLyrKz1NCspClwKW+q+PTBz7jmDguYtsVtm61ZpQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792473736;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=XqdedUL9j1kYoCsVgoGHr/AMA1g1btCDEN8xHec8Krs=;
+	b=ebVJGHea443rBHjrm8ymZkvxYUkWK7J4OqIR7fNeuEYWG0Z3beBTFVAZy9d75/OAd7jg
+	 zgy3HPW0oZaXNDxIVt7pmgxmlkIxnFFoU2HW42CxzH0gaqXxr4FrMMwsT/T6oBHIFw1cz
+	 Wh7QkEUJwVdFeTXMH+DIg08ZYJTyzUFwBJSaUDlgV+uuc7Cv5uLsHE+Xd5KfmSilqwh98
+	 y9Nb+0mmmeaqq/pRm6wjR9gPqK4e9shC6vDc+olP9tSWb4E+6f31JhnedQWD6pW5t8tJs
+	 CncegyMPIefm/xyX5ByK6v7UUGR0vVco0SHp05sTHqCaNxjii2r2rFrsIvf/KFIT6hQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=A08xQoTB;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE4B606A336;
-	Tue, 20 Oct 2026 04:30:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AE4B606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=atnR+WAo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749A8606A319;
+	Tue, 20 Oct 2026 05:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=A08xQoTB
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8859E20B716C;
-	Mon, 19 Oct 2026 21:30:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8859E20B716C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792470647;
-	bh=evJDRcYvjGByMN0JJryLMQYDG6jXpQjI7EC08Okq49w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A08xQoTBJFq7cC3uV60u/3C9wwIBY6UZVn+LNe0QfSxTYzlDvAUsDDMThUh+Uv+ar
-	 qIdoY2f+fDcLXSBteW/+zwFWPbQJwatyE7cPfziexiy0gQ7xA2hIwCs9/QFW1m2gso
-	 NkJUBwpvx+h7ZBj6E/DE0m+VaWlpuRBeW00vkNmw=
-From: Wei Hu <weh@linux.microsoft.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	weh@microsoft.com,
-	kuba@kernel.org
-Subject: Re: [PATCH net-next v7 11/13] net: mana: keep a user-configured RSS table across a queue rebuild
-Date: Tue, 20 Oct 2026 04:30:43 +0000
-Message-ID: <qset-v7-sashiko-11-v8-plan.20261018.weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <sashiko-outbox-175611@kernel.org>
-References: <cover.1791710735.git.weh@linux.microsoft.com> <e3a74aa4b30eb004c9a9f16168b734c563f27a15.1791710735.git.weh@linux.microsoft.com> <sashiko-outbox-175611@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=atnR+WAo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797861F000C4;
+	Tue, 20 Oct 2026 05:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792473736;
+	bh=XqdedUL9j1kYoCsVgoGHr/AMA1g1btCDEN8xHec8Krs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=atnR+WAoKxIzMdNNh8969UQH9W/45n1AXtUjCFyka03176J4zi9OzLj5bFc+1AsU2
+	 sEfS3EwqWvPNIM7zjbYiM9LsvIITj2a6aGz30Fef1JTUMraetGY9xG/9DhK+P1JgGa
+	 H9HoBTWHssuBVriaJ6gmk5pLX/Q0XpV8cSocP2Fss5pDXlenGqKMPtcH1H0xFkN0gx
+	 xS5YGBKzZQXkwLct+MlHqJDBh5o2AxGmHv0w8zwj07gKYQ/gGeWKeDr3LFP8egDwWP
+	 EKIwYFsLpQ5GGPb69D/mvRXDuh9gGtR9IXRJ/njbVUbe2vIcVxwvVQhFuhm82GLwV8
+	 9uIjCDXsf0CRw==
+Date: Tue, 20 Oct 2026 08:22:11 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: "Popov, Pavel E" <pavel.e.popov@intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jim Chow <jim.chow@broadcom.com>,
+	Radu Rugina <radu.rugina@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
+	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] PCI/P2PDMA: Allow P2PDMA in VMware guests on
+ Intel hosts
+Message-ID: <20261020052211.GJ64621@unreal>
+References: <20261016223402.19991-1-pavel.e.popov@intel.com>
+ <20261016223402.19991-2-pavel.e.popov@intel.com>
+ <8b01d643-f62d-4118-a700-8874341d953b@deltatee.com>
+ <LV2PR11MB6070CE9CCA125C290C0F8209B29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <20261017074820.GD219304@unreal>
+ <LV2PR11MB6070ABD61B46E9590C9B28ACB29A2@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <LV2PR11MB607077BABF5643BD4FAF470FB2982@LV2PR11MB6070.namprd11.prod.outlook.com>
+ <fca6d815-519a-449d-a5b7-36bd3ad0c19f@deltatee.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -66,39 +75,34 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fca6d815-519a-449d-a5b7-36bd3ad0c19f@deltatee.com>
 
-Hi,
+On Mon, Oct 19, 2026 at 03:14:38PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 2026-10-19 13:48, Popov, Pavel E wrote:
+> > Logan, Leon,
+> > 
+> > I kept the hypervisor check to avoid changing what the host bridge
+> > whitelist refuses on bare metal. Looking at those cases again, on the
+> > listed Xeon CPUs this is a limitation of the whitelist itself, not a
+> > known hardware limit, and it is why Intel QAT/DSA/IAA had to be added
+> > by ID. So I'd drop the hypervisor check.
+> > 
+> > Would a v3 that moves the Xeon list into cpu_supports_p2pdma(), the
+> > same way as the AMD check, be acceptable to you both?
+> 
+> Yes, that's essentially what I was suggesting before. That would be
+> acceptable to me.
 
-> Does this silent reset desynchronize the driver from the ethtool core?
+Right, I also wrote the same thing in my summary "We agreed ...".
 
-I will leave the ordinary allocation path unchanged in v8. The stale
-user-indirection metadata is a real gap, but both upstream bases already
-reinitialize the RSS table in mana_alloc_queues() without clearing the
-ethtool core's user-table state. It is not introduced by this series.
+Thanks
 
-A hardware queue-limit reduction during reattach can make a saved user
-table invalid. Rebuilding a default table without reporting the loss can
-then leave the core describing a user configuration that no longer
-exists. I am treating this as an independent baseline issue, not claiming
-that documenting the silent reset makes it correct.
-
-The specific later-growth scenario also needs qualification because the
-inspected reattach path monotonically clamps apc->max_queues. The stale
-metadata and missing loss notification are the more direct issues.
-
-> Can we safely call ethtool_rxfh_indir_lost() here to keep the states
-> synchronized?
-
-Not solely on the basis of its initial RTNL assertion. The notification
-call chain also reaches netdev_assert_locked_ops_compat(). MANA registers
-net_shaper_ops, so that check requires the netdev operations lock. The
-reset worker holds RTNL but not that lock.
-
-A separate correction needs to account for the notification context and
-locking of every ordinary allocation caller; an unconditional helper
-call at this location is not sufficient. That broader baseline fix is
-outside this queue-set revision.
-
-Thanks,
-Wei
+> 
+> Thanks,
+> 
+> Logan
+> 
