@@ -1,56 +1,181 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792521927;
-	b=w1nVr8CGI0zS6legsHs1drl1kSDbmlZg7dVzn9AmwFpo7Pz8CSVvqMUkeZsebFVxYUH5
-	 GV+Lik+xSD3vZwVGKQpLn256SQCSeEbHNCCVYEJCvMSECf0YGIpyF/0nR9AQLx1wcO82e
-	 sziTwGiNAoBG0A6BFZFEcq+5iz7zDfFCpfr88h3X9ucDJA8DVgGWfUivuKWdUqFP+TwLq
-	 iAB7ZQp15Z5DAK4271e2gbv4le3QeOltSo81Hw/UShu6MJSFTXIZV0krIElhqdPeY4u+w
-	 D8+p4LTPUbzXEL/Nem5TmO453AhuiodogLt3H2rBGCArDHO6Y3fgtDEjm09F1ONuQJw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792521927;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ykXZkGntS8u8RrEn/iLcc+w49SUGVewQTVjWJ9WDz/M=;
-	b=c2B84bclEFEyKs0IbsHUwVpcaDL4kEdfkW/SKORmM4FQ7FHO7jzO4VSqhoNjAYoinaTZ
-	 xCqX5+eAIolfrP+uQkZrFIh4h+OzQ1YVz6jOSEf978wvJX/qhxGktKy15fR8krb52WEnc
-	 sxPwm80SHls9y43RKeQ4SCPz1I/CpS9iEnAGf/xSI8n23A9aRgs7qpgt4ezhFLaz4DvG8
-	 BkJXv//Qazu4qyHAYooTWgd5Or4pYhBBEQBlADIawBBAfevCx5XiivZIkW1foPOxnMNPr
-	 uBPd0ZomtjJOZWJKSEWQ/r92DKLwlCngrSlTJpdtgYGtH+KoImhGnvU1KsmVTmaX21Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f6ylAD9w;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.19
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792525060;
+	b=Ok1Y55G843rlJy11qY6Gzdyqg8aECKqgPeCfBOe+soTFMrZNF+ZhyYkWCEaXR9uAM8qw
+	 gikWlyyWez4XtqwihV3ywhrDps0GDqGCARLS3rBLdesVWWX1eJfQh+YL/COpP+Hb7AG0U
+	 nopR9ru+8GvNkcwAXILGx88goUwKqyb4MIguh/hnhW52ffqaw170VuMbsH9kctpGbezhL
+	 m8YW2AVLpAR74JcMFUzRqILt3urg+rUvgDfXjB/3j7SKRmHuA591NIzzPumI/WmOx4nsh
+	 a1LtUMEYyxxgbkOHrWbcM2RQUbCI8O+MemTi+oH5GqqX8c5BhAK3ZICLg67wqiY79ew==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792525060;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=xF2bTCNOWyRHCTeizHdWdN/Y3rWAt33qthuE69XMTV4=;
+	b=xSnw9J5jDTFi+OF/A07TVEVpTrCR4nb17ig92Hwiiy5mhdn4n9U2Y2hSDmTlMyMSLOqy
+	 w2l8BJR/FsAzomma8ceFhShdLgHienKVkcsGkWPS/Ol1zILIOfiNCsncgxtyv00JBBdIy
+	 5VyQRd2+BGmXpCu7v9qSofq6cm4UveaEKYmfc4z6MchuzNCZWFrkWsIEsxUFUcqzVHRN+
+	 ppbDJAooBM1gj5FrGAcg2T9c52/MVbuAlXwIYk69d4I6+DVTnkRqnWGvk0BVRCdx4d0Vf
+	 Yly0eO3T0L6VEb96y7mHk1iQT2xOTkO1rCqmjrteQKfI/4EHzbFoqXEBtM4ttP57ajQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Iz8x8JxH;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB490606A31B;
-	Tue, 20 Oct 2026 18:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DF2606A31A;
+	Tue, 20 Oct 2026 19:37:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64DF2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f6ylAD9w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E4D11F000C9;
-	Tue, 20 Oct 2026 18:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792521926;
-	bh=ykXZkGntS8u8RrEn/iLcc+w49SUGVewQTVjWJ9WDz/M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=f6ylAD9w3YIqD4a4e8/D4V/n3+KlKDu60Pg3esvogSHL0LhHTarzIn3Xssi6S7qZy
-	 YWCVgOBY3YEZ7eEZoS7zWkMnsN4imMqE4fuieRlzcAxs80exq4Vf2anyRJirewCUbD
-	 LWaJpfMrnZr+hUpdPmYtYoLORaibvLnRqA5E94YyRXYJ5aBcxSct1OwTwXmEpHq7Iw
-	 +bkQ1kaGAqwq2YVfb9CKTg9BJVQIcSsqHbP+EPjmXkPX4EzLirp1LiF6D0+m5Px+gj
-	 YOS8mk/78+/ye/ZOLBkrqNxxN3/vStWI6Lhp8e+lOtBmsu0skan9I9jyVMBLf0NjEQ
-	 ZQ4+4wsG3+vLg==
-Message-ID: <sashiko-outbox-179492@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/1] PCI: hv: Spread load across CPUs when selecting
- effective affinity CPU
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michael Kelley" <mhkelley58@gmail.com>
-Cc: linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20261020182433.336637-1-mhklinux@outlook.com>
-References: <20261020182433.336637-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Iz8x8JxH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792525058; x=1824061058;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=y+gBAuHDIHWKdv8wm5XcIcYZAZsU2GmYrGj2uf3yV+k=;
+  b=Iz8x8JxH5mx1FfrCaOLkMxtxWUSMJZjiglOzyQnO1okWXAUdoqpbD+ae
+   59N0CjEAHRU/IxqJjV10D18N0EwnXxBb1HV6F1CiTO6BqDWlr3lqR/AeV
+   GjQou7l6pLbYL/EEY1FmXRAYfKs7whAnldG6Ie+G3QhHMjOaAXxLE7cFS
+   EBM6EKlyXToRMXDn4I/LftrbVGHOZAyJwg2QI2WZGsEhH75j554AJEryY
+   Y43EeFpD3r8XO3/nsedG/iz9lcjVU4DH3Sh4VV1Bvx49ednydNJ2u+1ww
+   k9/QNPoIrPfp2+0yS6RKKftf/hAJ9/eCz//7gG/LETZFXOjd8mbA4xGMk
+   Q==;
+X-CSE-ConnectionGUID: 28pyyDM5SEaZhFMgQWnc+g==
+X-CSE-MsgGUID: tAWdfHY5Rx+mX7dO9AV5Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1343445"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1343445"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 12:37:37 -0700
+X-CSE-ConnectionGUID: sZEQjHNTTB2j1i0Ts7oXvA==
+X-CSE-MsgGUID: bogf4KVRSja0qBGOnwD1gQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="3259784"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 12:37:38 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 20 Oct 2026 12:37:37 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Tue, 20 Oct 2026 12:37:37 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.56) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 20 Oct 2026 12:37:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AoYF2Ux02wRRnYYUfNpqufE8Bm02PcVsNIRcHTU/HMUfpeRv1QH9FKnn/qhB0yp9KmCfKq0B2YVWL3RgfBjo7YAUGPKj5PzmccUgHGAB61x9WWqT9ask7lPqF/ICib2lf50JPjSL/ZNJ7nJOCN+cS033N/mbYFLG3ZRVJ1EdkIyoP9jb5k2jeVeWpc0+jO28sLVDvIwKhoJ1dR2nLoaKc8gVXiBY0BCyTCOVmDcNXSs7YBknUtV4GoNEwwGO8qkmF79FlJupdAzOjWyWAMlXh5CuvpHy+q7PaUP+LJDAgvoXulb7Ixgkv0hnKPwhcbkhSirCI23aoI2xmqkTDgMe/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xF2bTCNOWyRHCTeizHdWdN/Y3rWAt33qthuE69XMTV4=;
+ b=HwT2898JKj+iEf0AwQ4Q+STXz2yaaddARXHQFBo41TDdiYiqCoxwhuOEKm8CE7ktrDJMv21CTQpfVkv1pulCEsCefnsSiESCSkqIRVbIqdFrqIh+mc68eYMv5P5Ovi8/uIw3cMFn7C4eg702EmtjIBYcd1XJeQn9ldWcUtyZfgrPbwDbY9IzWNjtyXt941Z4rMiOcDlqUlJ9k4ED331A11GEJtD3hDXiVW27Gvok0ZLVnEp/87Tdm+Kbb3hnhnlsllah9dovnYgU4rvtOPdlxm2OlBIIYRK39kqZxDHwIdiKy3Xm7mpB3Ni1Z2pX/3ov9e+WgbuN+yq1/6DNViybyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com (2603:10b6:408:179::22)
+ by DS7PR11MB6224.namprd11.prod.outlook.com (2603:10b6:8:97::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.496.23; Tue, 20 Oct 2026 19:37:32 +0000
+Received: from LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9]) by LV2PR11MB6070.namprd11.prod.outlook.com
+ ([fe80::4c84:af62:dc60:fd9%5]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
+ 19:37:32 +0000
+From: "Popov, Pavel E" <pavel.e.popov@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
+	<logang@deltatee.com>, Lukas Wunner <lukas@wunner.de>, Jim Chow
+	<jim.chow@broadcom.com>, Radu Rugina <radu.rugina@broadcom.com>, "Alexey
+ Makhalov" <alexey.makhalov@broadcom.com>, Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>, Nathan Ciobanu
+	<nathan.d.ciobanu@linux.intel.com>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+Thread-Topic: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server
+ CPUs
+Thread-Index: AQHdYLm3Eu3+F6ITg0+VFiHnE2F7qrcGw2EAgAAN8iA=
+Date: Tue, 20 Oct 2026 19:37:32 +0000
+Message-ID: <LV2PR11MB6070E19D3A0CCA50943D7499B2672@LV2PR11MB6070.namprd11.prod.outlook.com>
+References: <20261020173736.81755-1-pavel.e.popov@intel.com>
+ <20261020184002.GO64621@unreal>
+In-Reply-To: <20261020184002.GO64621@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR11MB6070:EE_|DS7PR11MB6224:EE_
+x-ms-office365-filtering-correlation-id: 0c12b0d1-28fc-4aef-7640-08df2ee195a2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|4143699003|38070700021|56012099006|11063799006|261009221227099003|261009223327099003|261009223027099003|261009221727099003|261009220027099003|22082099003|18002099003|10067099003|6133799003;
+x-microsoft-antispam-message-info: 3FZo20mXabnfZU1wkNNhNRUsBKP/oqS6Ow8f7qqDRc5HJJNYI9XYi8GlGLVswDYegQS6gGpHdgBO0H9m6vLGrirUoxhIkBAOmEC2tfhRgISXI9rakaJk5NxSSSwev+yFkpmqvsbRx8/pU5wRssPnfI387iEQgsmQ4oxMiBylHL3hvamYPiD5x2KVhYShF2WYv8N3vjJhcVKsMQ0comKJXnP2Tktx1L4pNd3m7qToIYGV0m5sPIbpOXrIUyRj1CyWBi0zVOjhJ2M6XruRAyzvNUqbRBqjgrqm8E0rPOi3MkMKU2oodlY5aJGwZfIgveOAEqoi30I90wnmdqgQGVsnuQU6Dm9Z7X6Y/4Rsxrfjb45OfiYFo0sSKGFGsCKvYI/HyBNWw7YauCtbA/5Te/ztR8RwefihMNw/pU8m1RXVlKJSrK3Rt9FGvNx2rJG6OezkZWRnoIJ7KUxIwwU2d+IIaV6G7/nwiIEIoLBSI7so2tdnAzb/8wDsVZxLw9UILFrXVdMOIuWhk1o4SfSHHBebyLgBWpDbkdcLlIffi6hEjmHu4RDBO9SQBbVOSlGZOOL5cXaPnMinc2LDP9OHcvZ/GJbea5tRJxtSydae8aqqnrgV5+6xDoM7JuZx/NylySFvg49EDq32Vfq8J55WvNXOZNc0VAtENjrP0wYgYO5x+AQ=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB6070.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(4143699003)(38070700021)(56012099006)(11063799006)(261009221227099003)(261009223327099003)(261009223027099003)(261009221727099003)(261009220027099003)(22082099003)(18002099003)(10067099003)(6133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QI030bvzDBsD8iRPnYgtlsvrS9AIlfGRRQji1MqzrA0Bh9CUuU5YD4PZ54b+?=
+ =?us-ascii?Q?22GesLGeXB5Ok8nKWa9Sy4uxPNychfx8xsFeluWdtIEGrYdxNvLIL2hPgWGv?=
+ =?us-ascii?Q?a2L47GcTAZkzLrnqztloaZLIImzZrtsfI0VRiP0hqbvepB2+2QXR0kuVQh/V?=
+ =?us-ascii?Q?8Xs/oFkpyH4w/sM3t1YJCaIuKkUYYB8OSAam2/ulIRrgTUWmFCQMdGokXZq+?=
+ =?us-ascii?Q?lZercdX9bysLeSCvZMfbCT4l8wrACgdf0tgxnfxhRzrLGdicwLeh823/th6V?=
+ =?us-ascii?Q?19IosjldEQK1g5BTEttnBbQ9YXxNYuJe63ylOSpiev3yXmr5q8G6DiBmshCl?=
+ =?us-ascii?Q?K0CTI7j95u4L9ZdZjKn06G147ZjPNNoh/Ji3HqIT0j8F16wAc2nC6YgKJcbI?=
+ =?us-ascii?Q?SzfqaWH26iDwXCIH0hdJXfYujXdNhJA+iPd3xbphbqysw/WWbOTu1DXWMnn4?=
+ =?us-ascii?Q?KvC2s0fhlrNpBErswEtfA5hAIAb+fqaH0fBK/uEBTZidoIhYTB2uWW/w+ZSb?=
+ =?us-ascii?Q?e+1XH91/791KePvCjfr/N7zvdI4YaCDJBBqS53d+yylCeuJPS2LUueUhRxPp?=
+ =?us-ascii?Q?gW5rENw9tpemBPZrG+Ur0FYZ2bAz9LwyD9+i/2oS5noo0d+bliCqi2WvRTvD?=
+ =?us-ascii?Q?B0QUCaX1cLYsmYuv+sSnn9ifKTKuiExGuSuhsSzLaVZFLdHj5WkP5pi4Ddre?=
+ =?us-ascii?Q?dKDm54X1XAWDokRYCQMXhHFdcBHyqnNStNb35Yv49Ymw9b8VPyoJXYV3qsfD?=
+ =?us-ascii?Q?lANIpYar8yXNk40qBFjmEDyA8WnOfyckGKuhIdVanxHqznNRndoWUR7OwDjd?=
+ =?us-ascii?Q?UcgV2jI5DFPXuI8/UFw9B6ZWxva1i8rfkGiLan6yyvNIAmezLzk7s8izbv9S?=
+ =?us-ascii?Q?8nEc5nuP+P2wU6/6cRp1L+ZZU3r4YQJymdeYfTC42PSOYxdTmPvlzBZgsYFi?=
+ =?us-ascii?Q?FIrNCnzuJvB7+nAg/YlBnS2d1bv/uuXGwuROXA3sHdy+2IElgA3vM0EMaGXE?=
+ =?us-ascii?Q?kaFhKc6cAPduQfpzjsv2iF8tTPXDEO7UKZ0cF5VP9SlmPh8azjeXHCBpDOX8?=
+ =?us-ascii?Q?BFKvpzpDwq7+cjXA4j92a53yfD4kJOi23LgzSraM/BcpmOgrvXzmP8338S/n?=
+ =?us-ascii?Q?lato34toFdk3xWSTv95aG0yR5KReP+ujlH9jrHoqXAaZ05v5cnk/TIYrNNSh?=
+ =?us-ascii?Q?DJpMjBJcPzeQG658QRBt+U5MsciY26ZM904YA8yLl/JlVESVXr8d9FBykuh6?=
+ =?us-ascii?Q?KBk0gVAZrQ0qZ2Gl0W8m38Oa4dfOUlc8h1s8HaYxLqx5CR4xbAIAlCz27HPM?=
+ =?us-ascii?Q?kjsBNEM6/Aur7nS7Chs3WUiNfDydO+f/eTjh9PgrvYrGgWS/nLqwJ01vH7vn?=
+ =?us-ascii?Q?h+gem19b9f0yR8FmSXIjq731Im4ZWNnelD/YL2yJi4WtoIoMg7JsjtQmOE+Y?=
+ =?us-ascii?Q?aCKMMsp43f1o8thLTS/xMaP5fp4jj5gzsi7b9Yk+JPT7OY7zLoNtyamAejvD?=
+ =?us-ascii?Q?sactb27c9aEuXIeUEfgPujRHGRuTfIJEjVpB2eHn1Rx3iJ9rd4dzrziv+/yz?=
+ =?us-ascii?Q?5F+YoE2RyGOIwKYUQMgQY2uAmfi7OhbdC1WKc4R/vRKGVGJAAyv/NEMDGwju?=
+ =?us-ascii?Q?5dfVdg6uRN/WGTL+JoeaPUXAtU95hTzpsC+TtDAsXu0UjQqIqAcYvOpfKWLK?=
+ =?us-ascii?Q?bp9l+sJTKoVLfbslmb2LcZYAyETGK9+RXXDY0DIgjuhcgiplwdiBK9/gxyGp?=
+ =?us-ascii?Q?AfsYp3QXfA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 18:45:25 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -59,202 +184,71 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: vrK8EZ+ldr0gm78iKxmYO9hBIfq7vfw/djmanfcdWtJTs0ZJi4JqySCA01IboJrQ6ZWYB0iVEVTqBpLXSLZecp1nI/DAR+MjG55MaNQAN+7vynEIaRmB7IX0fyc0PusThgG+VdNnR9frwBNcehJDPzk0aN6Ajzk3oYzE7fPUfnv6AJ08JtlIj0PTdeq4RpOe/YbqugxJDbxj0iIHcy2wB7YgRyjEtdsISbXlRFNjA44tcssG82au4uBlmzqxM17nYWCUS8gnQfJENZbU9EBQD7qQGBIy/Jdz7dC8/3c+a9JllZkKXL7hmm3b1LFZXwbP4wwIfG02Z5No4fphNprpsw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB6070.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c12b0d1-28fc-4aef-7640-08df2ee195a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2026 19:37:32.2610
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: //C6gSL9iBQhgCQ9cZl8e5YAYW5SOZGZZDIe9SHKbwgBxQtqRsZf3GHWYyOwkF9gLrJlNq5OPkGYMaC44drQog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6224
+X-OriginatorOrg: intel.com
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] PCI: hv: early activation in hv_pci_vec_irq_domain_activate() sk=
-ews CPU0 load
-- [Medium] PCI: hv: cpu_spi_count corruption in hv_pci_arm64_set_affinity()=
- when inactive
---
+Leon,
 
-commit 9d112d599453572154cd3fbc90e3b6ea7dedf0e3
-Author: Michael Kelley <mhkelley58@gmail.com>
+The #ifdef CONFIG_X86 in cpu_supports_p2pdma() came with the AMD check.
 
-PCI: hv: Spread load across CPUs when selecting effective affinity CPU
+Would it work for you if I move the includes into that single #ifdef
+block, next to the CPU check? Some multi-arch code does the same:
 
-This patch extends the arm64 Hyper-V vPCI MSI irq chip to track per-CPU
-SPI assignments and select the least-loaded CPU from the affinity mask
-before forwarding the single-CPU effective affinity to the parent GICv3
-chip. It also updates the domain activate and deactivate callbacks to
-increment and decrement the per-CPU SPI counters.
+  https://git.kernel.org/torvalds/c/c7be64355fcc (drivers/acpi/mipi-disco-i=
+mg.c)
+  https://git.kernel.org/torvalds/c/7f3cfb7943d2 (drivers/cpufreq/cpufreq_o=
+ndemand.h)
 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
-/pci-hyperv.c
-> index 824cf27e85e67..7c293e39c9208 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
+Thanks,
+Pavel
 
-[ ... ]
-
-> +/*
-> + * Track the count of SPIs assigned to each CPU. Pick a single CPU from =
-the
-> + * affinity mask based on the SPI loading data, and have the parent IRQ
-> + * chip (should be "GICv3") set the effective affinity to that single CP=
-U.
-> + */
-> +static int hv_pci_arm64_set_affinity(struct irq_data *d,
-> +				     const struct cpumask *mask_val,
-> +				     bool force)
-> +{
-> +	unsigned int cpu, prev_cpu;
-> +	int ret;
-> +
-> +	prev_cpu =3D cpumask_first(irq_data_get_effective_affinity_mask(d));
-> +	if (prev_cpu < nr_cpu_ids)
-> +		hv_pci_dec_spi_count(d, prev_cpu);
-> +
-> +	if (force)
-> +		cpu =3D hv_pci_arm64_get_min_load(d, mask_val);
-> +	else
-> +		cpu =3D hv_pci_arm64_select_cpu(d, mask_val);
-> +
-> +	if (cpu >=3D nr_cpu_ids)
-> +		goto err;
-> +
-> +	ret =3D irq_chip_set_affinity_parent(d, cpumask_of(cpu), force);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	hv_pci_inc_spi_count(d, cpu);
-> +	return ret;
-> +
-> +err:
-> +	if (prev_cpu < nr_cpu_ids)
-> +		hv_pci_inc_spi_count(d, prev_cpu);
-> +	return -EINVAL;
-> +}
-
-[Severity: Medium]
-Can hv_pci_arm64_set_affinity() corrupt cpu_spi_count when affinity is
-changed on a deactivated interrupt?
-
-When an allocated MSI or MSI-X interrupt is deactivated (for example, when
-free_irq() -> __free_irq() calls irq_domain_deactivate_irq() while MSI
-vectors remain allocated across ndo_stop/ndo_open or queue reconfiguration,
-or when migrate_one_irq() calls irq_shutdown_and_deactivate()),
-hv_pci_vec_irq_domain_deactivate() decrements cpu_spi_count for the CPU in
-effective_affinity and IRQD_ACTIVATED is cleared, but the old CPU remains
-set in the effective_affinity mask:
-
-drivers/pci/controller/pci-hyperv.c:hv_pci_vec_irq_domain_deactivate() {
-	cpu =3D cpumask_first(irq_data_get_effective_affinity_mask(irqd));
-	if (cpu < nr_cpu_ids)
-		hv_pci_dec_spi_count(irqd, cpu);
-}
-
-Because hv_pci_vec_irq_domain_alloc() does not set IRQD_AFFINITY_ON_ACTIVATE
-(unlike its_irq_domain_alloc() in drivers/irqchip/irq-gic-v3-its.c),
-irq_set_affinity_deactivated() does not defer affinity changes on a
-deactivated interrupt:
-
-kernel/irq/manage.c:irq_set_affinity_deactivated() {
-	if (!IS_ENABLED(CONFIG_IRQ_DOMAIN_HIERARCHY) ||
-	    irqd_is_activated(data) || !irqd_affinity_on_activate(data))
-		return false;
-	...
-}
-
-If irq_set_affinity() or irq_force_affinity() is called while the interrupt
-is deactivated (for example, via /proc/irq/<irq>/smp_affinity,
-irq_set_affinity_hint(), or irq_restore_affinity_of_irq()),
-irq_set_affinity_locked() -> irq_do_set_affinity() invokes
-hv_pci_arm64_set_affinity(). That reads the stale prev_cpu from
-irq_data_get_effective_affinity_mask(d), decrements prev_cpu's
-cpu_spi_count a second time, and increments the newly selected cpu's
-cpu_spi_count while IRQD_ACTIVATED remains false.
-
-If the vector is later freed via pci_free_irq_vectors() ->
-__msi_domain_free_irqs() in kernel/irq/msi.c, irq_domain_deactivate_irq()
-is skipped because !irqd_is_activated(irqd), leaking the count on the new
-CPU; or if the vector is re-activated via request_irq() -> irq_activate()
--> hv_pci_vec_irq_domain_activate(), effective_affinity is overwritten
-with cpumask_first(cpu_online_mask) without decrementing the CPU selected
-while deactivated.
-
-Should hv_pci_vec_irq_domain_alloc() set IRQD_AFFINITY_ON_ACTIVATE, or
-should hv_pci_vec_irq_domain_deactivate() clear effective_affinity?
-
-[ ... ]
-
-> @@ -885,21 +1007,39 @@ static int hv_pci_vec_irq_domain_alloc(struct irq_=
-domain *domain,
->   * composing MSI from the hypervisor. GIC will eventually set the right
->   * affinity for the irq and the 'unmask' will retarget the interrupt to =
-that
->   * cpu.
-> + *
-> + * The first cpu is always used for initial activation because spreading=
- the
-> + * initial CPU would have to be done without information about affinity =
-groups
-> + * that may exist. The resulting assignments would pollute the "least lo=
-aded"
-> + * data for making the final assignments. Everything would still work, b=
-ut
-> + * the spreading would be less even than it could be.
->   */
->  static int hv_pci_vec_irq_domain_activate(struct irq_domain *domain,
->  					  struct irq_data *irqd, bool reserve)
->  {
-> -	int cpu =3D cpumask_first(cpu_present_mask);
-> +	int cpu =3D cpumask_first(cpu_online_mask);
-> =20
-> +	hv_pci_inc_spi_count(irqd, cpu);
->  	irq_data_update_effective_affinity(irqd, cpumask_of(cpu));
-> =20
->  	return 0;
->  }
-
-[Severity: Medium]
-Won't incrementing cpu_spi_count in hv_pci_vec_irq_domain_activate() skew
-the load calculation away from the first online CPU during multi-vector
-MSI/MSI-X setup?
-
-Because pci_msi_template and pci_msix_template in
-drivers/pci/msi/irqdomain.c set MSI_FLAG_ACTIVATE_EARLY, allocating N
-vectors via pci_alloc_irq_vectors() or pci_alloc_irq_vectors_affinity()
-causes __msi_domain_alloc_irqs() to activate all N vectors in a batch via
-msi_init_virq() -> irq_domain_activate_irq() ->
-hv_pci_vec_irq_domain_activate() before returning and before request_irq()
-is called on any vector:
-
-kernel/irq/msi.c:__msi_domain_alloc_irqs() {
-	...
-	for (i =3D 0; i < desc->nvec_used; i++) {
-		irq_set_msi_desc_off(virq, i, desc);
-		irq_debugfs_copy_devname(virq + i, dev);
-		ret =3D msi_init_virq(domain, virq + i, vflags);
-		if (ret)
-			return ret;
-	}
-}
-
-This increments cpu_spi_count on cpumask_first(cpu_online_mask) (typically
-CPU 0) for all N vectors up front, inflating CPU 0's count by N.
-
-When the driver then calls request_irq() for each vector i =3D 0..N-1 in
-sequence (such as in nvme_setup_io_queues()), irq_startup() ->
-irq_do_set_affinity() -> hv_pci_arm64_set_affinity() decrements CPU 0's
-cpu_spi_count by only 1 for vector i, leaving CPU 0's count inflated by
-N - 1 - i from the remaining unstarted vectors of the same device still
-parked on CPU 0. When hv_pci_arm64_select_cpu() selects a CPU for the first
-queue (whose affinity mask includes CPU 0), it sees CPU 0's load inflated
-by N - 1 and avoids assigning interrupts to CPU 0 for the first N - 1
-devices probed.
-
-Furthermore, if a driver allocates M vectors and only calls request_irq()
-on K < M of them (or defers request_irq() until queues or network ports are
-opened), the M - K unrequested vectors remain activated on CPU 0 and keep
-its cpu_spi_count inflated by M - K.
-
-Could hv_pci_vec_irq_domain_activate() leave effective_affinity empty and
-avoid incrementing cpu_spi_count until hv_pci_arm64_set_affinity() selects
-the actual target CPU?
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020182433.3366=
-37-1-mhklinux@outlook.com?part=3D1
+> -----Original Message-----
+> From: Leon Romanovsky <leon@kernel.org>
+> Sent: Tuesday, October 20, 2026 11:40 AM
+> To: Popov, Pavel E <pavel.e.popov@intel.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
+> <logang@deltatee.com>; Lukas Wunner <lukas@wunner.de>; Jim Chow
+> <jim.chow@broadcom.com>; Radu Rugina <radu.rugina@broadcom.com>;
+> Alexey Makhalov <alexey.makhalov@broadcom.com>; Wei Liu
+> <wei.liu@kernel.org>; Michael Kelley <mhklinux@outlook.com>; Nathan
+> Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
+> list@broadcom.com; virtualization@lists.linux.dev; linux-
+> hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
+> kernel@vger.kernel.org
+> Subject: Re: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon
+> server CPUs
+>=20
+> On Tue, Oct 20, 2026 at 10:37:34AM -0700, Pavel Popov wrote:
+> > VMware and Hyper-V expose passthrough devices to guest VMs without an
+> > explicit host bridge device. Consequently, host_bridge_whitelist()
+> > cannot automatically identify the underlying host bridge structure,
+> > causing Peer-to-Peer DMA (P2PDMA) requests to be rejected unless the
+> > device IDs are explicitly listed in pci_p2pdma_whitelist[]. To enable
+> > P2PDMA on Intel hosts, this series extends cpu_supports_p2pdma(),
+> > which so far covers AMD Zen and newer, with an explicit list of Intel
+> > Xeon server generations.
+> >
+> > Patch 1 moves the CONFIG_X86 #ifdef out of cpu_supports_p2pdma().
+> > Patch 2 is the v3 patch rebased on it, with Logan's Reviewed-by
+> > carried over; the Xeon list and the check are unchanged.
+> >
+> > Changes in v4:
+> > - Add 1/2, moving the CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
+> >   (Logan Gunthorpe, Leon Romanovsky)
+> > - Keep the #ifdef around the asm/ includes, as these headers exist
+> >   only on x86 (Bjorn Helgaas)
+>=20
+> I'm confident that this is wrong usage of asm headers.
+>=20
+> Thanks
