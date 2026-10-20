@@ -1,58 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792512524;
-	b=M9s3DBmCkfu4U5pYeyQ/82TTqlURuZ9z+YxnAnwSAdj7J5R5vOQv5M3mfvR5IHew8do9
-	 rRAjpVbcq6ij4KxK5ayncLZNu3tUN1oMTb/ML1A/uPWmQ9Ui0qHVUiA8Zbswp2dszTezP
-	 DysdiBNhtgehkdvCxyPk/7akz8LbUC92gNkhLliBENyC5OZh4wDks8sHaSs1qEIwUxU3Q
-	 hCWgmAlqZpCnGkXaG8ZnDHcrBW5zESNhBGoXeTvoww4totKZ/g/I6SY9yh049ufQuGy3e
-	 lxG9f0VqxxovcEVfXAucPu+ZcPXUIHfC4RtrZobgtrFGASvibiqcHu46najoKz9JUpw==
+	t=1792512892;
+	b=4x3oy9DUD1wjQMQ7aQQ6kEMm3Kegsitp2C8LazGg0uYeT9GrMYqGyOs2zLr7trXDA9qY
+	 YgVA6USBkHJ6k/5LyY8iB2knjC82jerDtl5V+bzrjQKi6n1ntPTomaGkJxEA1L4eaAZjY
+	 BwBlKTPjst+9/I9bYdfAMmoCd/5uK22Im3bJqyNCK2A1OaMWMAiJIKF7h8tAMY0MX9JYf
+	 SGwN31jBmVIabOdo2A9zZ0BrVA9bRdE1jZsh5FrG4BndMtuoq5ce6r4oIQbnQlcYK0zMw
+	 H/y+zibzd88LW0RTiQ2WZqeS2WHMY/tVcQ3F1VDZy7G4j3xvJ0ybYTuBibi3Dj4HNwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792512524;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-SA-Exim-Connect-IP:
-	 X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:Subject:X-SA-Exim-Version:
-	 X-SA-Exim-Scanned;
-	bh=vSmY4qK6N+zSMZ80Cf1TxZDK1xNA32Q6d6vGxmq/3Bo=;
-	b=3pXZhzs9gJFCR+ZvBRrrfbSAS0LgZ4otvWB8NEXMuQyzHXj9JOJTcRxPiJsdvdzFoif3
-	 esHJitocV5/gAJBGz3ZMTEd5rRJyEgBMfdujzmC3Ne5ciyB1lRmVIeN18kBMSRPBZaggN
-	 YsVX+wv2OYPAb29DX3rxqPgqWjzrV43iSvQTUnSGpFWKxT+uGNkCW+oSp6h7F1UdLYkcI
-	 +gAC1UpupOCkp2J+xyK/B1SoRCjA0aK1KQ6Zjox+TVQBrNGcZhV9h1FhMGLzbM27nzeEv
-	 s7FDCn81CTH03jL9Scnw/AqZ34VfDIrJ51PzPX66wXsmO8vZIBSvW9MDLqUYMHHkV8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792512892;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=xs2pqe5hXzhzx21X55pZ2haP8v6flwPOkwvfqfrxxrI=;
+	b=bLJ/pBK6S2ZVaH92pwlWSHkuG9SVwVY1W1No3kJ0jAIjG37GYodI91vKMsD5dKDLYG60
+	 bYEfEkDLiYWGLytaGwBn2GR3gY9D25tQKWwjAJkiHMN8rmEUU1/UJt8bEl9ZccoUUwl+0
+	 QEzbXwoj8m/1o3Ofcpm2lbX0ZkRcnKA3nVCfq6Z52oEpjsfq0oCS/Zs5XP6vqyAj1AQMr
+	 mFSik+Y+qLZAZ0RKs+kXk3NHaGkBsZAir/3Vym11fByBPDokvn84c/9mV+lij7PlAQekA
+	 hnH8avavZAFmWjaCFEyN2sCVNcDqm9C+iKEuj6R3dBTskG2e+YbdzPAV/Nsgbfapqmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=deltatee.com;
-	spf=pass smtp.mailfrom=deltatee.com;
-	dkim=pass header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=tkEQj0Yq;
-	arc=none smtp.remote-ip=204.191.154.188
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I4YjE0UG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EEC606A31B;
-	Tue, 20 Oct 2026 16:08:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3EEC606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36B5606A31A;
+	Tue, 20 Oct 2026 16:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=tkEQj0Yq
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=vSmY4qK6N+zSMZ80Cf1TxZDK1xNA32Q6d6vGxmq/3Bo=; b=tkEQj0YqLNCzeuJ7e90by1/ejx
-	MPy9nsYQzQmcjFTIV+C6f6aBgtHgMgvIMS4GfHLd+Eaduuw7TOQHjvRkWgLKoiM1f/phLJ/NaZY00
-	XBKTCN7RcaBJp5ipa2Y7+GllvU5Teeq64N6B2zi+dOUoTJbM85SmKeozviqHjm8b1JDDxPcN16edE
-	TWF9A9oOzxjCNcgt7zJ9yXWR60PrhWLRK01ckX3i3OWlXmMqUrGmSkIgh10E7LTfMF+sgSe+c5J1h
-	qQ0XwXn6u7BX9Pveu/AQvM/Vhfx5zwZN5dOzDGVf69wMk8qlRcGSRvP0wnLbRU4XC/asPqnMO5Pyb
-	h9xs0RkQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1xJCOE-00000000yyj-0mXr;
-	Tue, 20 Oct 2026 10:08:38 -0600
-Message-ID: <e915bdd0-edd4-447d-8b87-6aadad6004bd@deltatee.com>
-Date: Tue, 20 Oct 2026 10:08:30 -0600
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I4YjE0UG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD48F1F000C4;
+	Tue, 20 Oct 2026 16:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792512891;
+	bh=xs2pqe5hXzhzx21X55pZ2haP8v6flwPOkwvfqfrxxrI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=I4YjE0UGkuwzD9IUz/cqTsH8+DwG89zJ41e4MGgKI+H+rbf1dGZbVH8AQF+nmIh9R
+	 M+t/GZA8ZOMrtx9Td0YLoaHUyB1uvq3u8TuLLm7NVB0a9mx3DY8y0NH68FU/DSQPbN
+	 Yya3xxZSDEIrI59xhSn7bMUVgq/3SrQSlHwH5AyLxrDcjV/KQVeYWF8J4Q7IEC8x1A
+	 IUO41k1i6Di4uB++0+kqHRRElpQjaPxZanJQm9DrB+HMHJGcTvhsCn1AYwFkHJz55q
+	 qtLb51bh/zHI/fcc89oZVnJL1QyfmsPYt6cyISyDtoIIlT6bE23mS2LDMuctKqOdJY
+	 p84Z3HWOeJpeQ==
+Date: Tue, 20 Oct 2026 19:14:47 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Pavel Popov <pavel.e.popov@intel.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Lukas Wunner <lukas@wunner.de>, Jim Chow <jim.chow@broadcom.com>,
+	Radu Rugina <radu.rugina@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
+	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	virtualization@lists.linux.dev, linux-hyperv@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
+Message-ID: <20261020161447.GN64621@unreal>
+References: <20261020151305.65218-1-pavel.e.popov@intel.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -62,33 +64,11 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Pavel Popov <pavel.e.popov@intel.com>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Lukas Wunner <lukas@wunner.de>,
- Jim Chow <jim.chow@broadcom.com>, Radu Rugina <radu.rugina@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>, Wei Liu
- <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
- Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
- bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261020151305.65218-1-pavel.e.popov@intel.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20261020151305.65218-1-pavel.e.popov@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: pavel.e.popov@intel.com, bhelgaas@google.com, leon@kernel.org, lukas@wunner.de, jim.chow@broadcom.com, radu.rugina@broadcom.com, alexey.makhalov@broadcom.com, wei.liu@kernel.org, mhklinux@outlook.com, nathan.d.ciobanu@linux.intel.com, bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev, linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v3] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-
-
-On 2026-10-20 09:13, Pavel Popov wrote:
+On Tue, Oct 20, 2026 at 08:13:05AM -0700, Pavel Popov wrote:
 > Peer-to-Peer DMA (P2PDMA) between two devices requires either a shared
 > upstream bridge or a host bridge matching pci_p2pdma_whitelist[]. In
 > VMware guests, passthrough devices appear directly on virtual root
@@ -110,11 +90,90 @@ On 2026-10-20 09:13, Pavel Popov wrote:
 > cards in a Linux guest on VMware ESXi 9.0 (Emerald Rapids host).
 > 
 > Signed-off-by: Pavel Popov <pavel.e.popov@intel.com>
+> ---
+> Changes in v3:
+> - Drop the hypervisor check and move the Xeon list into
+>   cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
+>   Gunthorpe and Leon Romanovsky [1]
+> - Fold the VMware and Hyper-V patches into one, as the check no longer
+>   depends on the hypervisor
+> 
+> Changes in v2:
+> - Replace the Skylake-and-newer threshold with an explicit list of Intel
+>   Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
+>   Gunthorpe)
+> - Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
+>   (Logan Gunthorpe)
+> - Rebased on current mainline
+> 
+> [1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
+> 
+> v2: https://lore.kernel.org/r/20261016223402.19991-1-pavel.e.popov@intel.com
+> v1: https://lore.kernel.org/r/20261009154034.82321-1-pavel.e.popov@intel.com
+> 
+>  drivers/pci/p2pdma.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 9334eb314663..2650d605d87d 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -21,6 +21,11 @@
+>  #include <linux/seq_buf.h>
+>  #include <linux/xarray.h>
+>  
+> +#ifdef CONFIG_X86
+> +#include <asm/cpu_device_id.h>
+> +#include <asm/intel-family.h>
+> +#endif
+> +
+>  struct pci_p2pdma {
+>  	struct gen_pool *pool;
+>  	bool p2pmem_published;
+> @@ -519,6 +524,23 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
+>  	seq_buf_printf(buf, "%s;", pci_name(pdev));
+>  }
+>  
+> +#ifdef CONFIG_X86
 
-I can get behind this:
+Do we really need all these #ifdefs? I'm pretty sure they're not needed for the
+includes.
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Thanks
 
-Thanks,
-
-Logan
+> +/* Intel Xeon CPUs whose host bridges support p2pdma */
+> +static const struct x86_cpu_id p2pdma_intel_cpu_ids[] = {
+> +	X86_MATCH_VFM(INTEL_SKYLAKE_X, NULL),
+> +	X86_MATCH_VFM(INTEL_ICELAKE_X, NULL),
+> +	X86_MATCH_VFM(INTEL_ICELAKE_D, NULL),
+> +	X86_MATCH_VFM(INTEL_SAPPHIRERAPIDS_X, NULL),
+> +	X86_MATCH_VFM(INTEL_EMERALDRAPIDS_X, NULL),
+> +	X86_MATCH_VFM(INTEL_GRANITERAPIDS_X, NULL),
+> +	X86_MATCH_VFM(INTEL_GRANITERAPIDS_D, NULL),
+> +	X86_MATCH_VFM(INTEL_ATOM_CRESTMONT_X, NULL),
+> +	X86_MATCH_VFM(INTEL_ATOM_DARKMONT_X, NULL),
+> +	X86_MATCH_VFM(INTEL_DIAMONDRAPIDS_X, NULL),
+> +	{}
+> +};
+> +#endif
+> +
+>  static bool cpu_supports_p2pdma(void)
+>  {
+>  #ifdef CONFIG_X86
+> @@ -527,6 +549,10 @@ static bool cpu_supports_p2pdma(void)
+>  	/* Any AMD CPU whose family ID is Zen or newer supports p2pdma */
+>  	if (c->x86_vendor == X86_VENDOR_AMD && c->x86 >= 0x17)
+>  		return true;
+> +
+> +	/* Listed Intel Xeon CPUs support p2pdma */
+> +	if (x86_match_cpu(p2pdma_intel_cpu_ids))
+> +		return true;
+>  #endif
+>  
+>  	return false;
+> 
+> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+> -- 
+> 2.53.0
+> 
+> 
