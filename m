@@ -1,59 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792451406;
-	b=3rWYtCz76m2LMREoN8uAIAbiqVsxylIIOD3NllMXESI/+xUK2aMp1h2xsiew9I8M81RB
-	 LiXXYKdRO1n3fvKNodOCLwW0GSgUM0o8YfvfVmcCFaPI9VAQ6o/tYlntpel/ew7S+b4lD
-	 XFLgecBKfkuJo6R8QCcDU+FUZkDcbD5JctA389u1IIztny7HHMj5mvW97kGrOr9uG5aTe
-	 /SpK8B6Y559tCQ/6Mg/qtHnsPg9kZZHuS0ynmZCRguXfGafCp0RYoufAw6s015kOEhSJu
-	 tIGhG+mlQ3iNIZw/rXwiIzZR7R6lKDqOp54Rfko/xlRwpk0RgAlCh+C0r9YYx5wBjWQ==
+	t=1792470649;
+	b=FYtbxGdRGc1VrBj9lDcou459fV0Q20ZFaQzcqr+1ldN1lw7TrvqbndLBNQxA8SZRIbCl
+	 qxtUWkvwnmA2Sg5dxgCimGNXROdB1wSJCywmABFrz0eBZO1P/K9zGhxTI5KXnDo4DclO5
+	 udt0S8Y2Cnqzgeqv4l+rMbi0USCNu2vFEbFgMzaROWJusDR3GdCvmJqjpXxvg8Ghu1CXl
+	 xbVsrKPDx4KY+yTN+85ZYeGbb05gdRWCOfiGSIE+OMO0mrTL4MzLDMj8xQxS23V08G4lg
+	 t8R6X2W4Itc+k8aY0/GDZODojc10pbfmQnRDJeF/cMq0+bRYpyo78034WtYhs6rvQqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792451406;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792470649;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=JIntPpTmyFyrUz+tKxCFK19TA+Voo41AkbZbpi4onV4=;
-	b=Ba1o7gkaC2HhkQSnQhyW6IARPC5kSweJWIzpRXZkFfKErvM3I++frb6ow7WHKxvqUGEN
-	 tjQjP2mlhQDgbNhhJ3WnRxFIULdV4cVA4nEaJZsZNYcDCK/y4jWqSK3ynwSgaJ2m+gFf0
-	 3NTwXRoRL5s7XUERtJ2BLvZZvONehGo70LRQDJY537mZZjthm19m4sUfMWnvzGFfYPyxw
-	 1Dp+uujjRJ7DWwOZkJ1iqbtOOnLyu5uHBuEIxhETwVW22QpupmuG3KIhR4FUoTonoD5Wi
-	 Qnk9z/FxQwAdHiJiWJrfm2LkRzJ4DahOo5wgpvt1pvGva3AnskZgYWxvvREVkl6zAJw==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:Content-Type:
+	 MIME-Version:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=6DcGGOOFdce5ERyHzgW3XUEmRU7KpMeHrpytV7uK3CA=;
+	b=WetTRKpso9GQ8MEIHY8TSdYQeOpd5NK5EYAwbDQD0gYEsACXilZS+CEI7Sq7cEauzwXT
+	 38k424Eybo29z5gOPrmtzJOON2o09NatO9bZS0uZCN8MCeZ2uR9+d8RX7SkOVy06wTQ/L
+	 xH3yaXsI0zxdrbMWhZLGXNyyYqhOBZAWSOS/cbWwaVS49+6gsgPegflWAbd4gicCJE2Qp
+	 +64n7fHH5S7NHVr3iGCgFbICyny59isMpn/fCrx8nYImUxXQth/2+HB4uhcwsZocESg1V
+	 UOif0Lfsx8cCbgPvayYqothEjLsKGxQTXBtIJ61iCb87nrkLzURTTL5T1ydnIhxJbgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=JC8GASkQ;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CS0kzJ6V;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582D4606A326;
-	Mon, 19 Oct 2026 23:10:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 582D4606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1C33606A31A;
+	Tue, 20 Oct 2026 04:30:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1C33606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=JC8GASkQ
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0A09820B716E;
-	Mon, 19 Oct 2026 16:09:54 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0A09820B716E
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CS0kzJ6V
+Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E211520B7168;
+	Mon, 19 Oct 2026 21:30:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E211520B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792451394;
-	bh=JIntPpTmyFyrUz+tKxCFK19TA+Voo41AkbZbpi4onV4=;
+	s=default; t=1792470641;
+	bh=6DcGGOOFdce5ERyHzgW3XUEmRU7KpMeHrpytV7uK3CA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JC8GASkQFODjyb2ITECY1CceTtFQ5Q4VFiKVJNO8lXdkBCSeh1NjKN0P9yO8uuhXo
-	 oq8cN0azM/KBVmNqH+j+AvMJoLiDL8DsEzfgEk2tb7GTvOzj061DkeFnUGkvqBNd0v
-	 HUvpoCgZG0VVc/Mjptmyk3zKWd5PTMBQCJzKMGo4=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>
-Cc: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] Drivers: hv: vmbus: Compute ring byte counts from a caller-held snapshot
-Date: Mon, 19 Oct 2026 16:09:48 -0700
-Message-ID: <20261019230950.1573677-4-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
-References: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+	b=CS0kzJ6V5exZC/Oxw4HGYd9bVsqvkL/H90ftXt8pcPBtqIQ/M8Qx/lifmZM9Qdi/q
+	 xxwLBbuH0aNiFGPq/S6kd98PZOel5zGnpeo6z/GqHRhatqm9oOKRMqBRZRpB7uWQIY
+	 TKAgolw/uS086DhAngF5p05mv7pACCn6hSsEgEyU=
+From: Wei Hu <weh@linux.microsoft.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-rdma@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	weh@microsoft.com,
+	kuba@kernel.org
+Subject: Re: [PATCH net-next v7 02/13] net: mana: share the EQ pool across a queue-set swap
+Date: Tue, 20 Oct 2026 04:30:38 +0000
+Message-ID: <qset-v7-sashiko-02-v8-plan.20261018.weh@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <sashiko-outbox-175602@kernel.org>
+References: <cover.1791710735.git.weh@linux.microsoft.com> <9b7e62cc70138f8940a32869da44c1260748be14.1791710735.git.weh@linux.microsoft.com> <sashiko-outbox-175602@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -65,248 +68,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hv_get_ringbuffer_availbytes() reads the indices directly, so a caller
-that also wants the index values has to read them a second time. The
-host can change them in between, resulting in the byte counts and the
-indices reflecting two different states of the ring.
+Hi,
 
-Replace it with hv_ringbuffer_avail_write() and
-hv_ringbuffer_avail_read(), which take the indices as arguments and
-return a single count. They are separate because most callers want only
-one of the two values. Use them in hv_ringbuffer_write() in place of the
-open-coded equivalent. hv_get_bytes_to_read(), hv_get_bytes_to_write()
-and hv_pkt_iter_avail() duplicated the same arithmetic, so put the
-helpers in include/linux/hyperv.h and use them there too.
+> Should mana_ib_remove_cq_cb() use cmpxchg() and synchronize_rcu() for
+> teardown, similar to what was added for Ethernet CQs in
+> mana_gd_destroy_cq()?
 
-Add a hv_ringbuffer_indices_invalid() helper that bounds checks a pair
-of read and write indices, and use it for the check in
-hv_ringbuffer_write(). Convert the remaining callers to use a single
-snapshot:
+I will leave the RDMA teardown path unchanged in v8. The callback-wrapper
+lifetime issue is real, but mana_ib_remove_cq_cb() and mana_ib_destroy_cq()
+already have this ordering in both unmodified upstream bases used for v6
+and v7. The acquire/release publication change does not introduce that
+reader/free race or resolve it. An independent RDMA lifetime fix should
+cover the hardware CQ and pending events as well as the software readers;
+I am not including that separate change in this queue-set revision.
 
-  - hv_ringbuffer_get_debuginfo() now reports the indices and the
-    computed byte counts from the same snapshot.
+> Can gc->cq_table be NULL when this acquire load executes?
 
-  - hv_pkt_iter_close() computes the free space from priv_read_index
-    instead of re-reading the shared read index. The two agree unless a
-    misbehaving host has rewritten the value.
+I will also leave this initialization path unchanged in v8. There is a
+window after max_num_cqs is populated and before cq_table is allocated.
+A spurious or premature completion in that window could hit the missing
+table-root check. That window and the unguarded lookup already exist in
+both upstream bases, before this series.
 
-No functional change intended for a well-behaved host.
+For normal HWC startup, WQEs are posted only after channel establishment
+returns and the CQ table is installed. I have not identified a normal
+completion producer in the window described here. This is a conditional
+hardware-protocol hardening issue, not a demonstrated new startup failure
+caused by the publication change.
 
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- drivers/hv/ring_buffer.c | 68 ++++++++++++++++--------------------------------
- include/linux/hyperv.h   | 50 +++++++++++++++++++++++++++--------
- 2 files changed, 61 insertions(+), 57 deletions(-)
+> Could this sequential mana_gd_test_eq() call lead to an unbounded RTNL
+> stall if an EQ stops delivering interrupts?
 
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 7f466c5..cda957d 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -107,35 +107,12 @@ static u32 hv_copyto_ringbuffer(
- 	return start_write_offset;
- }
- 
--/*
-- *
-- * hv_get_ringbuffer_availbytes()
-- *
-- * Get number of bytes available to read and to write to
-- * for the specified ring buffer
-- */
--static void
--hv_get_ringbuffer_availbytes(const struct hv_ring_buffer_info *rbi,
--			     u32 *read, u32 *write)
--{
--	u32 read_loc, write_loc, dsize;
--
--	/* Capture the read/write indices before they changed */
--	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
--	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
--	dsize = rbi->ring_datasize;
--
--	*write = write_loc >= read_loc ? dsize - (write_loc - read_loc) :
--		read_loc - write_loc;
--	*read = dsize - *write;
--}
--
- /* Get various debug metrics for the specified ring buffer. */
- int hv_ringbuffer_get_debuginfo(struct hv_ring_buffer_info *ring_info,
- 				struct hv_ring_buffer_debug_info *debug_info)
- {
--	u32 bytes_avail_towrite;
--	u32 bytes_avail_toread;
-+	u32 read_index;
-+	u32 write_index;
- 
- 	mutex_lock(&ring_info->ring_buffer_mutex);
- 
-@@ -144,13 +121,14 @@ int hv_ringbuffer_get_debuginfo(struct hv_ring_buffer_info *ring_info,
- 		return -EINVAL;
- 	}
- 
--	hv_get_ringbuffer_availbytes(ring_info,
--				     &bytes_avail_toread,
--				     &bytes_avail_towrite);
--	debug_info->bytes_avail_toread = bytes_avail_toread;
--	debug_info->bytes_avail_towrite = bytes_avail_towrite;
--	debug_info->current_read_index = ring_info->ring_buffer->read_index;
--	debug_info->current_write_index = ring_info->ring_buffer->write_index;
-+	read_index = READ_ONCE(ring_info->ring_buffer->read_index);
-+	write_index = READ_ONCE(ring_info->ring_buffer->write_index);
-+	debug_info->bytes_avail_toread =
-+		hv_ringbuffer_avail_read(ring_info, read_index, write_index);
-+	debug_info->bytes_avail_towrite =
-+		hv_ringbuffer_avail_write(ring_info, read_index, write_index);
-+	debug_info->current_read_index = read_index;
-+	debug_info->current_write_index = write_index;
- 	debug_info->current_interrupt_mask
- 		= ring_info->ring_buffer->interrupt_mask;
- 	mutex_unlock(&ring_info->ring_buffer_mutex);
-@@ -282,8 +260,8 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
- 
- 	read_index = READ_ONCE(outring_info->ring_buffer->read_index);
- 	old_write = READ_ONCE(outring_info->ring_buffer->write_index);
--	if (unlikely(read_index >= outring_info->ring_datasize ||
--		     old_write >= outring_info->ring_datasize)) {
-+	if (unlikely(hv_ringbuffer_indices_invalid(outring_info, read_index,
-+						   old_write))) {
- 		spin_unlock_irqrestore(&outring_info->ring_lock, flags);
- 		pr_err_ratelimited("outbound ring indices out of range: relid %u read %u write %u size %u\n",
- 				   channel->offermsg.child_relid, read_index,
-@@ -291,9 +269,8 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
- 		return -EIO;
- 	}
- 
--	bytes_avail_towrite = old_write >= read_index ?
--		outring_info->ring_datasize - (old_write - read_index) :
--		read_index - old_write;
-+	bytes_avail_towrite = hv_ringbuffer_avail_write(outring_info, read_index,
-+							old_write);
- 
- 	/*
- 	 * If there is only room for the packet, assume it is full.
-@@ -445,10 +422,7 @@ static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
- 	 */
- 	write_loc = virt_load_acquire(&rbi->ring_buffer->write_index);
- 
--	if (write_loc >= priv_read_loc)
--		return write_loc - priv_read_loc;
--	else
--		return (rbi->ring_datasize - priv_read_loc) + write_loc;
-+	return hv_ringbuffer_avail_read(rbi, priv_read_loc, write_loc);
- }
- 
- /*
-@@ -568,6 +542,7 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
- {
- 	struct hv_ring_buffer_info *rbi = &channel->inbound;
- 	u32 curr_write_sz, pending_sz, bytes_read, start_read_index;
-+	u32 write_index;
- 
- 	/*
- 	 * Make sure all reads are done before we update the read index since
-@@ -607,11 +582,13 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
- 		return;
- 
- 	/*
--	 * Ensure the read of write_index in hv_get_bytes_to_write()
--	 * happens after the read of pending_send_sz.
-+	 * Ensure the read of write_index happens after the read of
-+	 * pending_send_sz.
- 	 */
- 	virt_rmb();
--	curr_write_sz = hv_get_bytes_to_write(rbi);
-+	write_index = READ_ONCE(rbi->ring_buffer->write_index);
-+	curr_write_sz = hv_ringbuffer_avail_write(rbi, rbi->priv_read_index,
-+						  write_index);
- 	bytes_read = hv_pkt_iter_bytes_read(rbi, start_read_index);
- 
- 	/*
-@@ -627,8 +604,7 @@ void hv_pkt_iter_close(struct vmbus_channel *channel)
- 	 * Exactly filling the ring buffer is treated as "not enough
- 	 * space". The ring buffer always must have at least one byte
- 	 * empty so the empty and full conditions are distinguishable.
--	 * hv_get_bytes_to_write() doesn't fully tell the truth in
--	 * this regard.
-+	 * curr_write_sz doesn't fully tell the truth in this regard.
- 	 *
- 	 * So first check if we were in the "enough free space" state
- 	 * before we began the iteration. If so, the host was not
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 5c65820..09f25ad 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -209,31 +209,59 @@ struct hv_ring_buffer_info {
- };
- 
- 
-+/*
-+ * The indices live in memory shared with the untrusted host, so check a
-+ * snapshot of them before using it as an offset or to compute a byte count.
-+ */
-+static inline bool
-+hv_ringbuffer_indices_invalid(const struct hv_ring_buffer_info *rbi,
-+			      u32 read_loc, u32 write_loc)
-+{
-+	return read_loc >= rbi->ring_datasize ||
-+	       write_loc >= rbi->ring_datasize;
-+}
-+
-+/*
-+ * Byte counts for a caller-supplied snapshot of the indices, so that the
-+ * counts and the indices the caller goes on to use describe one state of the
-+ * ring.
-+ */
-+static inline u32
-+hv_ringbuffer_avail_write(const struct hv_ring_buffer_info *rbi,
-+			  u32 read_loc, u32 write_loc)
-+{
-+	u32 dsize = rbi->ring_datasize;
-+
-+	return write_loc >= read_loc ? dsize - (write_loc - read_loc) :
-+		read_loc - write_loc;
-+}
-+
-+static inline u32
-+hv_ringbuffer_avail_read(const struct hv_ring_buffer_info *rbi,
-+			 u32 read_loc, u32 write_loc)
-+{
-+	return rbi->ring_datasize -
-+		hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
-+}
-+
- static inline u32 hv_get_bytes_to_read(const struct hv_ring_buffer_info *rbi)
- {
--	u32 read_loc, write_loc, dsize, read;
-+	u32 read_loc, write_loc;
- 
--	dsize = rbi->ring_datasize;
- 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
- 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
- 
--	read = write_loc >= read_loc ? (write_loc - read_loc) :
--		(dsize - read_loc) + write_loc;
--
--	return read;
-+	return hv_ringbuffer_avail_read(rbi, read_loc, write_loc);
- }
- 
- static inline u32 hv_get_bytes_to_write(const struct hv_ring_buffer_info *rbi)
- {
--	u32 read_loc, write_loc, dsize, write;
-+	u32 read_loc, write_loc;
- 
--	dsize = rbi->ring_datasize;
- 	read_loc = READ_ONCE(rbi->ring_buffer->read_index);
- 	write_loc = READ_ONCE(rbi->ring_buffer->write_index);
- 
--	write = write_loc >= read_loc ? dsize - (write_loc - read_loc) :
--		read_loc - write_loc;
--	return write;
-+	return hv_ringbuffer_avail_write(rbi, read_loc, write_loc);
- }
- 
- static inline u32 hv_get_avail_to_write_percent(
+I will address the additional per-CQ timeout amplification in v8. These
+extra waits are introduced by the queue-set series and are already in v6.
 
--- 
-2.45.4
+The correction will stop the retiring WQs, keep their CQ callbacks alive,
+and issue all required parent-EQ markers before waiting. Per-EQ
+completions will allow one shared 30-second completion budget per RX or TX
+cleanup batch. CQ withdrawal and the existing RCU reader wait remain
+after the batch, including the partial-allocation cleanup paths.
+
+One detail of the reported bound needs qualification: each TX/RX pair has
+its own parent EQ. One stalled parent normally adds two CQ waits, about
+60 seconds. The 128 * 30-second case requires all 64 parents to stall
+while the hardware channel remains responsive. The cumulative delay is
+finite, but it is still a real problem introduced by these extra waits.
+
+The correction bounds the added CQ-marker completion waits, not all RTNL
+hold time. Existing per-EQ destruction waits and hardware-channel request
+time remain separate. It also preserves the existing best-effort cleanup
+policy after a failed marker, rather than claiming new hardware recovery
+guarantees.
+
+Thanks,
+Wei
