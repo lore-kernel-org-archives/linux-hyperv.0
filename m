@@ -1,104 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792496942;
-	b=bJfZB/60+LqwsB0hEMGqtNW75+476iLxEEvZhFmFUGiiuxhOrfb0Q+0cvb0TgG6Je9Vt
-	 /JgIivEGutR6fmRcLG2wJy3B3Ggbjbh8fFnZUJz0CTRnL1Al3axxVR9u1C+mKAOr4pbuw
-	 uHxMsvAkAmVziTv8AJU87RCUM0utFB3e7MiZAgZn/RtoVRWiwMz8FbPRg9iZ9wY4QqFbO
-	 L1yaORX51uF29gJ+C4xv0hgUglHA78IGv/j7zzKesfWXxn0+KMkUNyi085/uMUjLoZHOS
-	 iTvYEHNShWl2EE2yL+QQJBmlwEHvnZ3RHtdaZG7GphXS/yG8lToxeJ6xsE8F6cCJzuQ==
+	t=1792503391;
+	b=HJRgn1cbPZYf0VRYm2xyzn1kCFzGw173EP6pZkKQkpLlBv0bj65Q1QX3H1hoMCbGX1Eq
+	 J2B7rO+bia+oQwXktjrzjvDMsu9AzZgf6CukrqlLv8FxkpMD03k1QrdneuN0KOaUKVW9t
+	 7etIqku1oDvxPfy2Luue+0Y2bTcW3NKJjUqYT98R3AbxSRIImB+AlIOLsmt69QNq2Plc3
+	 jkR/TnEdP+fIhfm+/c56yHttH16/ZhX72IPSnXbwN7HSADJnyJataECUBAAwFX0nX2oZ/
+	 TQ3nGU6WBigYKE0hvSrzHZPG/TXeeGsNHP+fihkq3/nxDMqnNO24dTbilTCS2P3HBxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792496942;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Action:
-	 X-Spam-Score:X-Spam-Flag:X-Spamd-Result:X-Spam-Level:
-	 X-Rspamd-Queue-Id:X-Rspamd-Server;
-	bh=BOrAALLZoUH5TBAvtzXGTVCs0YUIrfQziVPbeH0AYZk=;
-	b=03FPPXRDdgDCkbZ12Jh0RTzdXLTcxrU3VjFS5UtRx3PAPnVItTB5Ggu0dmgbWRGmRmFO
-	 KP2dnhZH+GMHTg3PSLV0fjB0taHPq5wMQXMJvZD91EpXOnR3Fa8rsO8RbmWtYSwfX3E21
-	 cvIZx+d2i6C7QN9ENU4hbv/7bNXqRdWrFsXAyShFEXJYE/L6CLBIX80OhH4H65Tc4yGEW
-	 a1CNsDTayNR9pe85bXv6JQEJpdbzi6+mSMIjdnfG4gt5st7D56/tm6d/cwfunY7ZT82lY
-	 W4L3QC7N6llwIwYXPYDOyTMDQZ3okpmqF7+Pmenrv0Q8TYtvfAL2mXufGC79ZXMjSTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792503391;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=7jqSFBI+hkejNeRR/cQHY482qWcy5UbBBf92Mi07d98=;
+	b=3IBVitXUqCda/C8L4BiFu2xZzO0s4yz7Nr8I2I2DumOLATXMTLnjOnGLSabyLmLZMGlO
+	 Y86KuwkwUaPygh0wuaIzx/CxYwe71Qzlu2ITPeUtkXGAeP9DSa7AlrznnJLfLnXsv+r6c
+	 Qx/HIsmGw0sxEzCf/hlhLI8ixFwxv2D0DGqaaa6/USl0ibv5v3o9hDcAAOfMxIooc2pX1
+	 NIdCksflmKrjU5iCBbXn7tEltzb/EPPEdmIzcycatsmDzHiQM0Tn3PTxr0DfmN+r6r+DJ
+	 zGK8C6tykOEelMSReCwkNs5D3oivSiYoCzBU/0RVjOEArQhue43HI8kwIh32/BiIjsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QWbpmRRS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NWsxM4Sg;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QWbpmRRS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NWsxM4Sg;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Xg9/+FlP";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303E0606A31A;
-	Tue, 20 Oct 2026 11:49:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 303E0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D95660A262D;
+	Tue, 20 Oct 2026 13:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QWbpmRRS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NWsxM4Sg;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=QWbpmRRS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NWsxM4Sg
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 41E931F7B4;
-	Tue, 20 Oct 2026 11:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792496939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BOrAALLZoUH5TBAvtzXGTVCs0YUIrfQziVPbeH0AYZk=;
-	b=QWbpmRRS6AZN1XbgMF67CO6zRLIGk3FbX838PcCZJheIReioFfgmBNG/5MkLUMPrXrh2Ms
-	GZl2mnT6WaCXzggpy06xuCg/siK5UYxPgejnZ8d6M3vrmT35H3KJJ6oziBWJUz5AaKxgrO
-	4mAR9HiRp08IAB5bApN3XiW4A/0eNTI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792496939;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BOrAALLZoUH5TBAvtzXGTVCs0YUIrfQziVPbeH0AYZk=;
-	b=NWsxM4SgtbiWEMavfVNSLcG5rXgAfzcsgVlokyXN6tDVPccsyhRnL3H4IuapXZ6RNovIUS
-	6tY+GkdltGbMS0Dw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QWbpmRRS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NWsxM4Sg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792496939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BOrAALLZoUH5TBAvtzXGTVCs0YUIrfQziVPbeH0AYZk=;
-	b=QWbpmRRS6AZN1XbgMF67CO6zRLIGk3FbX838PcCZJheIReioFfgmBNG/5MkLUMPrXrh2Ms
-	GZl2mnT6WaCXzggpy06xuCg/siK5UYxPgejnZ8d6M3vrmT35H3KJJ6oziBWJUz5AaKxgrO
-	4mAR9HiRp08IAB5bApN3XiW4A/0eNTI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792496939;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BOrAALLZoUH5TBAvtzXGTVCs0YUIrfQziVPbeH0AYZk=;
-	b=NWsxM4SgtbiWEMavfVNSLcG5rXgAfzcsgVlokyXN6tDVPccsyhRnL3H4IuapXZ6RNovIUS
-	6tY+GkdltGbMS0Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CDF39136C6;
-	Tue, 20 Oct 2026 11:48:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jLRhKipV12rCFQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 11:48:58 +0000
-Message-ID: <3a4c4a4d-6ab4-42b6-8ae6-7ca0730b8069@suse.de>
-Date: Tue, 20 Oct 2026 13:48:58 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xg9/+FlP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E5E1F000CD;
+	Tue, 20 Oct 2026 13:36:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792503390;
+	bh=7jqSFBI+hkejNeRR/cQHY482qWcy5UbBBf92Mi07d98=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Xg9/+FlPDSbIpNqcZT9UKF94nAjIczCTzECRcl9Zzaaq1pbdST0KBBKSEYwD+nfA8
+	 mVHYrmuStcZ9x202Tu9teSQWDMUqMg7TrLdwSQhvsM6A1HH0/PSagQh6U2DzSvYg3q
+	 BT4drjNQAGgXuOkPkyBy677fU8e0WWz9MRTXPWSaxdakalV23aphKgw0vpbr4NA1YJ
+	 cXFosDc+hTEqmxm1Kp3018wGXAZQWpd1+IY0MQaKaXNAywSipJNH6/3A3IrGCBIddv
+	 8Y8wsBlG64nv7UzD4/7xZvr+Je/J0uKRkAbevgxR9ovKu8bq0vycls6tV5G0di+6gT
+	 uYyMCTlVNJzLQ==
+Subject: Re: [PATCH net-next v8 1/4] net: mana: prepare HWC ownership for safe
+ reinitialization
+From: netdev-bot+sashiko@kernel.org
+To: weh@linux.microsoft.com
+Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
+ davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ andrew+netdev@lunn.ch, jgg@ziepe.ca, leon@kernel.org, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ gargaditya@linux.microsoft.com, kees+treewide@kernel.org, kees@kernel.org,
+ mawasthi@linux.microsoft.com, weh@microsoft.com, edumazet@kernel.org
+Date: Tue, 20 Oct 2026 13:36:28 +0000
+Message-ID: <179250338816.3135.13276488357316939732@kernel.org>
+In-Reply-To: =?utf-8?q?=3C64987f49ea13b5ccdc9ef95f4a9baf23a479edc3=2E1791998?=
+ =?utf-8?q?462=2Egit=2Eweh=40linux=2Emicrosoft=2Ecom=3E?=
+References: =?utf-8?q?=3C64987f49ea13b5ccdc9ef95f4a9baf23a479edc3=2E17919984?=
+ =?utf-8?q?62=2Egit=2Eweh=40linux=2Emicrosoft=2Ecom=3E?=
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -108,193 +71,185 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/hyperv: add a parameter to disable the vblank timer
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: Lanfeng Wei <xlfylawarthur@gmail.com>, airlied@gmail.com,
- decui@microsoft.com, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- longli@microsoft.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- regressions@lists.linux.dev, simona@ffwll.ch, ssengar@linux.microsoft.com,
- stable@vger.kernel.org
-References: <c238f4ff-d5d8-4a9a-8773-793bd9056c9b@suse.de>
- <20261019154121.6257-1-xlfylawarthur@gmail.com>
- <8e91baa4-1ca5-43b8-bb04-9b5e3630bc2b@suse.de>
- <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <atZjtSlZAocUWYBS@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Score: -4.50
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,microsoft.com,lists.freedesktop.org,vger.kernel.org,linux.intel.com,kernel.org,lists.linux.dev,ffwll.ch,linux.microsoft.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,bootlin.com:url];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 41E931F7B4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-Hi
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Am 19.10.26 um 20:38 schrieb Hamza Mahfooz:
-> On Mon, Oct 19, 2026 at 06:03:55PM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 19.10.26 um 17:40 schrieb Lanfeng Wei:
->>> Hi Thomas,
->>>
->>>> Yeah, what's the cause of it? Switching off features does not fix any
->>>> bugs or improve the status quo.
->>> You are right that the module parameter is only a workaround for users
->>> affected; it does not fix the underlying scheduling problem.
->>>
->>> The cause is that the synthetic vblank timer is used to pace completion
->>> of atomic updates triggered by dirtyfb, in addition to providing
->>> synthetic vblank events. In Xorg's software-cursor path, pointer motion
->>> damages the primary framebuffer and the damage is instantly submitted
->>> via DRM_IOCTL_MODE_DIRTYFB. The Hyper-V dirtyfb path performs a
->>> synchronous atomic commit, and with the vblank timer enabled that commit
->>> can wait for the next simulated vblank. Under continuous pointer motion,
->>> these commits dominate the update path and delay normal client updates,
->>> resulting in sever frame-rate drops.
->>>
->>> This particular regression results from the combination of the blocking
->>> dirtyfb path, synthetic vblank pacing, and the absence of a Linux DRM
->>> cursor plane in Hyper-V. While the Hyper-V video protocol does have a
->>> hardware-cursor command path, the upstream hyperv_drm driver currently
->>> exposes only a primary plane. Cursor plane support was deferred during
->>> the initial upstreaming [1]. Without a cursor plane, Xorg has to fall
->>> back to software cursor-rendering path and it competes with periodic
->>> graphical updates on the primary plane.
->>>
->>> So the proper long-term fix could be adding cursor plane support in the
->>> Hyper-V DRM driver, which may take some time. Providing that the stated
->>> purpose of the offending commit is to rate-limit display updates, while
->>> its current implementation regresses the existing software-cursor path,
->>> I think adding a switch or reverting the commit until the requested
->>> features in the driver is ready, is a reasonable short-term fix.
->> The problem is that module parameters are impossible to remove in practice.
->> Once in place, someone always depends on it. They also increase the number
->> of states to test.  Avoiding them is usually a good idea. Especially as
->> workarounds for bug or regressions.
->>
->>
->> I'm not familiar with the Hyper-V protocol, so I have a question. Why is it
->> hard to implement cursors? From the link at [1], I assume that cursor
->> support was left out because the simple-kms pipeline did not support cursor
->> planes. This has long been resolved: the simple-kms pipeline is gone and
->> hyperv_drm runs on the regular DRM framework.  Unless there's anything
->> special with the Hyper-V protocol, cursor-plane support should be do-able in
->> a single patch. [^1]
->>
-> I actually have been working on cursor plane support for hyperv-drm.
-> I'll post a patch soon.
+Low priority / nit picks for your consideration:
 
-Awesome! Even if it doesn't fix the reported bug, it is still an 
-improvement for everyone.
+- [Low] The commit message presents this patch only as preparation for
+  dynamic HWC queue sizing.
 
-To fix the bug, you *might* have to implement atomic_async_update. [1]  
-It allows legacy cursor updates to jump ahead of the commits and change 
-the cursor without vblank synchronization. It's a little-used feature 
-and semi-deprecated, but maybe necessary in case.  (Make it a separate 
-patch, I'd say.)  There's existing support in other drivers to see how 
-it works.
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch
+  documents mana_gd_process_eqe() as an RCU-protected lockless reader of…
 
-[1] 
-https://elixir.bootlin.com/linux/v7.3/source/include/drm/drm_modeset_helper_vtables.h#L1406
+--
 
-Best regards
-Thomas
+net: mana: prepare HWC ownership for safe reinitialization
 
->
-> Hamza
->
->> Best regards
->> Thomas
->>
->> [^1] See https://elixir.bootlin.com/linux/v7.2.11/source/drivers/gpu/drm/ast/ast_cursor.c
->> for an example of how this looks. Most of it is hardware-related, but hyperv
->> would likely be similar in concept.
->>
->>>> We had another fix for a problem with vblank timers:
->>>>
->>>> https://lore.kernel.org/dri-devel/20260914110004.211027-1-tzimmermann@suse.de/
->>>>
->>>> Did you validate that this fix is unrelated?
->>> Yes I tested that fix and confirmed that it is irrelevant. It solves
->>> issues with excessively long frame durations, however this problem is
->>> found in normal frame updates (in my case 60Hz / 16.7 ms per frame, way
->>> below INT_MAX).
->>>
->>> Best regards,
->>>
->>> Lanfeng Wei
->>>
->>> [1] https://lore.kernel.org/dri-devel/20200622110623.113546-1-drawat.floss@gmail.com/
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
->> GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
->>
->>
+This commit serializes the shared-memory ESTABLISH_HWC and DESTROY_HWC
+transactions. When DESTROY_HWC is not acknowledged, it keeps the
+PF-visible HWC resources, and it adds a final-disposal helper for when
+the gdma_context is discarded. It also snapshots the bootstrap CQ count
+and ID, publishes cq_table with release/acquire ordering, and waits for
+RCU readers before freeing the HWC queues.
+
+Link: https://lore.kernel.org/r/20260908035201.402424-2-longli@microsoft.com
+Link: https://lore.kernel.org/r/20260908035201.402424-5-longli@microsoft.com
+Link: https://lore.kernel.org/r/178910960115.219967.13830871915506436112@kernel.org
+Link: https://lore.kernel.org/r/179196575238.434549.10775387794024020898@kernel.org
+Link: https://lore.kernel.org/r/sashiko-outbox-170992@kernel.org
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> index ae0ed700b3b93..d11068f1dc05f 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+
+[ ... ]
+
+> @@ -765,11 +767,16 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
+>  	switch (type) {
+>  	case GDMA_EQE_COMPLETION:
+>  		cq_id = eqe->details[0] & 0xFFFFFF;
+> -		if (WARN_ON_ONCE(cq_id >= gc->max_num_cqs))
+> +		/* The IRQ handler's RCU read-side section protects the table
+> +		 * until HWC teardown has fenced its EQ and waited for readers.
+> +		 */
+> +		cq_table = smp_load_acquire(&gc->cq_table);
+> +		if (!cq_table || cq_id >= READ_ONCE(gc->max_num_cqs))
+>  			break;
+>  
+> -		cq = gc->cq_table[cq_id];
+> -		if (WARN_ON_ONCE(!cq || cq->type != GDMA_CQ || cq->id != cq_id))
+> +		cq = READ_ONCE(cq_table[cq_id]);
+> +		if (!cq || WARN_ON_ONCE(cq->type != GDMA_CQ ||
+> +					cq->id != cq_id))
+>  			break;
+>  
+>  		if (cq->cq.callback)
+
+[Severity: High]
+This is a pre-existing issue and was not introduced by this patch. This
+hunk now documents mana_gd_process_eqe() as an RCU-protected lockless
+reader of gc->cq_table, though. Do the Ethernet and RDMA writers of the
+same slots follow that model?
+
+The reader loads cq from the slot, dereferences cq->type and cq->id,
+and then calls cq->cq.callback(cq->cq.context, cq).
+
+In drivers/infiniband/hw/mana/cq.c, mana_ib_remove_cq_cb() frees the
+queue before it clears the slot, and it never waits for a grace period:
+
+drivers/infiniband/hw/mana/cq.c:mana_ib_remove_cq_cb() {
+    ...
+	kfree(gc->cq_table[cq->queue.id]);
+	gc->cq_table[cq->queue.id] = NULL;
+}
+
+mana_ib_destroy_cq() calls this before mana_ib_gd_destroy_cq(), so the
+hardware CQ is still live at that point.
+
+Ethernet CQs have a similar problem. In mana_gd_destroy_queue(),
+mana_gd_destroy_cq() does WRITE_ONCE(gc->cq_table[id], NULL), and then
+kfree(queue) runs straight away with no synchronize_rcu() in between.
+
+Could an IRQ on another CPU that has already loaded the slot in
+mana_gd_process_eqe() then read freed memory and call through a freed
+cq->cq.callback?
+
+The publish side looks similar. mana_ib_install_cq_cb() initializes
+gdma_cq and then publishes it with a plain store:
+
+	gdma_cq->id = cq->queue.id;
+	gc->cq_table[cq->queue.id] = gdma_cq;
+
+The txq and rxq creation paths in mana_en.c do the same:
+
+	gc->cq_table[cq->gdma_id] = cq->gdma_cq;
+
+Neither store has release ordering. Could a reader on a weakly ordered
+CPU such as arm64 see a partly initialized CQ?
+
+The commit message says "Individual Ethernet and RDMA CQ lifetime
+handling remains separate". drivers/infiniband/hw/mana/cq.c is still
+unchanged at the end of the series.
+
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> index 3bca4b683134b..a1c1c6f32cafa 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+
+[ ... ]
+
+> @@ -382,16 +386,49 @@ static void mana_hwc_comp_event(void *ctx, struct gdma_queue *q_self)
+>  	mana_gd_ring_cq(q_self, SET_ARM_BIT);
+>  }
+>  
+> -static void mana_hwc_destroy_cq(struct gdma_context *gc, struct hwc_cq *hwc_cq)
+> +static int mana_hwc_publish_cq(struct gdma_context *gc,
+> +			       struct gdma_queue *cq)
+>  {
+> -	kfree(hwc_cq->comp_buf);
+> +	struct gdma_queue **cq_table = READ_ONCE(gc->cq_table);
+> +	u32 id = READ_ONCE(cq->id);
+>  
+> -	if (hwc_cq->gdma_cq)
+> -		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
+
+[ ... ]
+
+> +static void mana_hwc_destroy_cq(struct gdma_context *gc, struct hwc_cq *hwc_cq)
+> +{
+> +	/* Destroy the EQ first: it deregisters the IRQ and drains in-flight
+> +	 * handlers, so none can touch the CQ after it is freed.
+> +	 */
+>  	if (hwc_cq->gdma_eq)
+>  		mana_gd_destroy_queue(gc, hwc_cq->gdma_eq);
+>  
+> +	/* Safe to free now that the EQ handler is fenced. */
+> +	if (hwc_cq->gdma_cq)
+> +		mana_gd_destroy_queue(gc, hwc_cq->gdma_cq);
+> +
+> +	kfree(hwc_cq->comp_buf);
+>  	kfree(hwc_cq);
+>  }
+
+[Severity: Low]
+This isn't a bug in the code, but the commit message describes the
+patch only as preparation for dynamic HWC queue sizing. Several of the
+changes appear to fix problems in the existing driver. There is no
+Fixes: tag and no stable Cc, so stable kernels will not pick these
+fixes up.
+
+The baseline mana_hwc_destroy_cq() freed comp_buf and destroyed the CQ
+before destroying the EQ, and destroying the EQ is what deregisters the
+IRQ and runs synchronize_rcu(). The baseline mana_hwc_destroy_channel()
+also destroyed txq and rxq before the CQ and EQ. A concurrent
+mana_hwc_comp_event() or rx handler could therefore touch freed memory.
+
+The baseline mana_hwc_destroy_channel() ignored the return value of
+mana_smc_teardown_hwc(). It freed the HWC DMA memory even when
+DESTROY_HWC was not acknowledged.
+
+The baseline mana_hwc_init_event_handler() did:
+
+	case HWC_INIT_DATA_MAX_NUM_CQS:
+		gd->gdma_context->max_num_cqs = val;
+
+on any such event. That handler stays installed for the life of the
+channel. A later event could raise the bound above the vcalloc() size,
+and mana_gd_process_eqe() would then read gc->cq_table out of bounds
+in hardirq context.
+
+The baseline also vfree()d gc->cq_table without waiting a grace period
+for IRQ-side readers on other EQs.
+
+Would it make sense to send these fixes separately, with Fixes: tags,
+so they can be backported?
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1791998462.git.weh%40linux.microsoft.com
