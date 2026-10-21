@@ -1,60 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543200;
-	b=jDXb8pEfMC6oLHNunVX9muSpze+yvsFbLoLTZsqEqeyCyiYBrN5QU6y+gzd287DXfp9o
-	 BZDUxjwYiRhCt8nb2rrQSgMtXBNOSYj9WtL4zKkWpikMXiotgDO+9Z44p2m7KJLZgB2UV
-	 V9vVbaJK5qZNCMSCoyPUV5O+Xxp7AM6XbuZiRz+27WG17Z40xrIHVhbaWhh6czoSDsZT9
-	 aZ67+Idqj/YWka1RioE2aVtbd1KpLO6D/TMqodpD6c2dF7t0nxIiLV3y8NbQC2yRUm8AT
-	 h28+WlDNhcgvfgm0qPpnKZsMw09EbUXt+LV7cHWyGkgeeGIptbY8NMdmqk24An/e4DA==
+	t=1792566291;
+	b=udKLnmkSyrWGs6UGFftolGIe/R22I/qrTucbAbkmfIlanqlOVfu0cPkfhgXsPivJn7Mr
+	 2SUNFNpQOk/q+PQ9Ft6C1H0sXkGYyzkN91lfr1fKrRoqzBqz3MZ7PiT0IQ4iXzhRp+KHu
+	 hPGjYI23MyAjgqH2X9hZTR7hG//KgaRrUksjB5uGDb5YsJ0V8WHqAakgtfzioJ9l43YhR
+	 nvmWjvONLau6hIJdE21UKtzSz28IoGeYbRp+XnEkhSylXORLvE6wH13LhxoKMFTwXe5kF
+	 NWuwJLS6ziMqt+R8Yw+rRj9bJm2LaZ4DAL67ppHlahFo1RQJHqGU01LWZf39h8tIYCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543200;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792566291;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=5XczBISy9Plu4tToBmWZIMbL1M66Nrl1Ew2vxOyeA7Y=;
-	b=qmFfppdJ/Oavz45i6MJpKpYbbra3SgLfuQbHxc+wrG17DRJoNkYgA6Hv+WdwDk4Isk0A
-	 6sRLOz79dJ9coHvUDcpvDp2VDh3WGbIK1bmZ4Gei9e7vzQg5HpJ+z+QrJOIzGrLPF2S1N
-	 Z5lNnESC976bd8AOGiAPL+1mxuszlk78v9f1LblACaovcBQURdM5aQThs3GyopPMO+NHX
-	 gOuBmDOiZKalNl4RYlI8vsnH6+Je63VC44VxUFCDnq8nHaT6Xj3KMHqoUHfCA3Ydna4jL
-	 cMWAVb2V4jZrP4lQ0DANmnvsypMkiPxBEI89CdumpYHk00bMThKI1plZrYKahM6hwEg==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zDjpm/149iKkzGXPRUz3PfYm6wk52G43lilXI+OIJ0k=;
+	b=sBnT+xuHCgxXtDqjwGFnwxPyrvg1C1LvI/S9pvaoSnbGEaahZgJ5N5D6d6BgyGRmMTZj
+	 SHNh2V7zEf2Y1wVIsAVP0Q+UAiaVpH/E7JX9/XR5kYtEtkAuRBhi0DX503PraNc78ytKC
+	 6y/uU1QJPnHWIww+xGtiPV2b2k8O2nkAWeIUww0tPabsxpnQagoSFZZjc9ZcRqlEgo3XW
+	 a1DZBY2npQpHiA8giXjM6KQ6b6cUPOJWW/ORtEen03g6gpR5yLURiML+06nSFpJZaaNGq
+	 BGCBW1zPZo2NdZI2uYLjI0yHQJqOzmLS58D66Lsu1XcQ/DJ/KngvRhMnV0SOydkjC2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBkFdLlA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B2UsvbCt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109F7606A321;
-	Wed, 21 Oct 2026 00:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B44606A319;
+	Wed, 21 Oct 2026 07:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBkFdLlA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDA61F000CB;
-	Wed, 21 Oct 2026 00:39:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B2UsvbCt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9031F000C9;
+	Wed, 21 Oct 2026 07:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543199;
-	bh=5XczBISy9Plu4tToBmWZIMbL1M66Nrl1Ew2vxOyeA7Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=kBkFdLlATgM85ug8lkBWCZ/nFQeE10a7ZE6mq+CkFQHVxsy9eNXu7BKWd9vKwnZ3Q
-	 bnrTGP+FzArWdcvChcZb6MRQ9tIKOw9jZA6rCIBhAuIJu70t+Pj73zlalcUkuB3oI7
-	 RfRdgi2uqXi+BAsA8vG+FxGaX60SlpGIY6gxk5fYYsyXoqJo9k2IOk4ZZ2Qj2/5yKQ
-	 oRD1aCDdnoFZtLmT0Q6lIoj7lsSQYcPRvZuVrrS2rtsuVnLrus7c9nssie/OE08Tzv
-	 3+dhZVG6zcGTA2ASvCjmZus7NFVfg0G2U5DiTIe5fP4Xho/uKro5gYssR0nwr2kXw3
-	 0a8Qbtm4v0Ebw==
-Date: Tue, 20 Oct 2026 17:39:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sahil Chandna <sahilchandna@linux.microsoft.com>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- pabeni@redhat.com, kotaranov@microsoft.com, horms@kernel.org,
- ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, leitao@debian.org,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH net v2] net: mana: Add support to process throttled EQEs
-Message-ID: <20261020173958.3262308d@kernel.org>
-In-Reply-To: <20261014134304.4177657-1-sahilchandna@linux.microsoft.com>
-References: <20261014134304.4177657-1-sahilchandna@linux.microsoft.com>
+	s=k20260515; t=1792566290;
+	bh=zDjpm/149iKkzGXPRUz3PfYm6wk52G43lilXI+OIJ0k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=B2UsvbCtnwmrpkgD4PNMKuakLy4+xvxTrNhmi+xxtjfKv6caIl7bQpqZR07m9Y1V9
+	 vI5HcXRSen1yzeu7PnKh9wSIlDF3Vs3y0Gb5/LbDEliYcTTP22d7r96kPCCl1w6kVm
+	 bY39LbNdO3U/I3niOch95KB2m6XrdwXDkzm+s+xvoTXu0KOIv7/MIazR+GkGIxau+i
+	 4G2AVt8CPrWJPbPhCGeY0TOLstm1VbFNOAl4Utwr7Qh0H8dFV1rESIQ8MsMILQJbdh
+	 nZJsTTBPj1K1bxFc/CQlLs+Q/9O6SzjeAfKKgLfKOuCUhLmvbpXA97w/EOhKtabsOm
+	 mqN14lIYItK6A==
+Date: Wed, 21 Oct 2026 00:04:49 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Jiale Yao <yaojiale02@163.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Drivers: hv: vmbus: Check ACPI companion before use
+Message-ID: <20261021070449.GA851443@liuwe-devbox-debian-v2.local>
+References: <20261017064313.3816553-1-yaojiale02@163.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,19 +57,18 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261017064313.3816553-1-yaojiale02@163.com>
 
-On Wed, 14 Oct 2026 08:43:01 -0500 Sahil Chandna wrote:
-> When an event queue nears full, the hardware coalesces the per-CQ
-> GDMA_EQE_COMPLETION notifications into a single throttle EQE (type 4)
-> that carries no cq_id. The driver does not handle this event type, so
-> it falls through to the default case and is dropped. Any CQ whose
-> completion notification was replaced by the throttle EQE can remain
-> unserviced, causing its queue to stall.
-> The issue was observed internally and following Tx stall logs were
-> seen:
+On Sat, Oct 17, 2026 at 02:43:13PM +0800, Jiale Yao wrote:
+> Platform drivers can be forced to bind to devices outside their match
+> tables through driver_override. vmbus_acpi_add() assumes that every bound
+> device has an ACPI companion and dereferences it without checking.
+> 
+> Return -ENODEV when the companion is absent to avoid a NULL pointer
+> dereference.
+> 
+> Signed-off-by: Jiale Yao <yaojiale02@163.com>
 
-Does not apply, please rebase & repost.
--- 
-pw-bot: cr
+Applied. Thanks.
