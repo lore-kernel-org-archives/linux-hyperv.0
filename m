@@ -1,60 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792593252;
-	b=ydulV2j5/W3eI1xxHpPyaHT+dQiMbT5WznCAz03rnF3pjRWKu4V82lhvXQr/CFCwwR9U
-	 YTWuyenMcL76a/Bor2KUCyjZUquvqKI7510bdcq+uKj5/oACNbOMLo9Tu8Hj9x7WPhcD9
-	 M+95oys0lVY0RPBEa9rDP7ap2kkBEBeSK7i6NC3IQf7vZIQ9zA3mEf4uXjSnK/xCCVzE9
-	 DNIbnq4/u/HBUp7BsakCYyne9eIfhuTuI6LbUIx1L6yr1XF0FsF3LHT5LZSHkozanGgeO
-	 RQLe9GsI2JJpiakaPWyswyKhOwHTIzlv38pYAmF6e4MfypHf2gfYG4kjuZWDN2ZX8eA==
+	t=1792593523;
+	b=cWNV2FMC1xxmLCitgOnYwr01ruA2qcMG9SxKeFmpSSAQpE+66tJAcK3n7yoH0RMSc2CH
+	 JB0+1g/VTQgu5KVNa4UA0odONXfJb9jhCBfrFiJ1ioftFi44WY1ylWepPWnoK+1S5qv3t
+	 7XPU32Y85uAD+6yrPZfppcnF5C6q4NLIwoDafuILkr5xGVjzPnUzUyQuJjCxrxbTTWeyu
+	 +at8yhA6j2wFMrCHVMXOXW4DpCeuV5dweJpr/AF4GTjbnYDbRixok6afUTpQOcqICj/44
+	 tXAK3gTC1A4rCfgSnzzWu/k8ll8IogNI4j/F8xj39NMsjZNt8kDGJqIXyW+0A1UNIdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792593252;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Subject:Date:Message-Id:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=Nx0qgkybsNE9yscBKO0SArCQmcvq4TeybQ4JjP3eo/k=;
-	b=LSrjrugmXybmV6gGs9hRCrWQcmSPYnz2BFCF5OfSTE+6gjzYKoUHGnn6x52rzl5UMySP
-	 iKzPFd+/MVxEN/GtjKRKPNuM3RIdFeUwSkEpkO5W5YfsilnhnOfYL8ZYmx8HsGM1MPffU
-	 hLSQAsS+hBfVwLgJcvsnuora38xFNOidRyArCibDO7Edtn1vCa3JKVJpOcp9nog0q85H+
-	 4tfzZbow7w0gMCyvazaLqofrQoWq4UE/dmV3OS8tdWtLUwkl0aP5v0rxK0zhlywOAiq8Y
-	 NjDQeIqvxi3Oq0iucs55aPqvdiHTTLqkXq1arXeUs4ac90d0yCTE3jhU2GA0B0LEtLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792593523;
+	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:X-Priority:
+	 X-Mailer:In-Reply-To:References:X-NTES-SC:Content-Transfer-Encoding:
+	 Content-Type:MIME-Version:Message-ID:X-Coremail-Locale:X-CM-TRANSID:
+	 X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=KoL7GRKqrRuEvjWhaorUa6GwE3B2CHX/zoowq8ecWdk=;
+	b=tcQL4c6/NHipFzIxGJFEtnqD8/kg6KF5O6UGYFT19mDtidLD3Zsz4UuhMhjdKL3tnBo3
+	 QZ2pgqRxmr1DUlPQakQCKyZGlcu5UFXfGrtUKJcCset6rq5kDxijUqXUxtFdSq+03M3t2
+	 XAThecRp7D9VSNx4R/kS8Xek0OnLW9BKvVEQDWWprAYbZZ5VtWzoEsc+ecqQUuV/PjHnK
+	 Pb40uSiLgEeWwapBcZtlLWIX09WLwH+hGOSZN1nrGMS/LO2QPA4N5KZVC3WSWAL9XvkgY
+	 emxhvtdzFk003Q9Fldby1gMjJm91RkNQgshtT8gOpA2Y5iO6yf/HdfZ+BivRTXioiLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=163.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Yj4k43eR;
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EzldkBFc;
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE47A606A31E;
-	Wed, 21 Oct 2026 14:34:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE47A606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442BE606A31B;
+	Wed, 21 Oct 2026 14:38:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 442BE606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Yj4k43eR
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EzldkBFc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Nx
-	0qgkybsNE9yscBKO0SArCQmcvq4TeybQ4JjP3eo/k=; b=Yj4k43eR/MlvxD/9oX
-	tZOIcoANaG2nTTdf2s4XxyTZ+vzHT4lwdnREOg32iWUijZ75RZbjtBm7NjSFRp6G
-	Skv1sEwEUd3nR3ta77HIXlgIdMy5U32+P0FQn5WWBWtlDsPFHsd5MBCEEGCAAB8/
-	nFAjlhAt3AZC0D0kkXnRygaZQ=
-Received: from pc.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDHt6Uzzdhqp3_gBA--.20120S2;
-	Wed, 21 Oct 2026 22:33:25 +0800 (CST)
-From: Jiale Yao <yaojiale02@163.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] Drivers: hv: vmbus: fix dynamic ID races
-Date: Wed, 21 Oct 2026 22:33:21 +0800
-Message-Id: <20261021143323.338146-1-yaojiale02@163.com>
-X-Mailer: git-send-email 2.34.1
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=KoL7GRKqrRuEvjWhaorUa6GwE3B2CHX/zoowq8ecWdk=; b=E
+	zldkBFcYUfmB7nEe6h6Nt+8kfwVm0srWOBQON5BByYwwnVHP51GgkCeuFf5Dt1Xz
+	Nrr/PUg4rg2iWz5sUfOqct1JGnxmBTvZ+LKofoobD0qizLNxYxmTOjiGMxAAO83U
+	FRTdUQdFeWAZ7DhvYRbO0djlJhZkdQh0EpSMNAHow4=
+Date: Wed, 21 Oct 2026 22:37:58 +0800 (CST)
+From: "jiale yao" <19888972804@163.com>
+To: "Kameron Carr" <kameroncarr@linux.microsoft.com>
+Cc: "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>,
+	"Dexuan Cui" <decui@microsoft.com>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Stephen Hemminger" <stephen@networkplumber.org>,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: [PATCH] hv/vmbus: copy dynamic IDs before dropping the lock
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <7d9f70d0-1856-4424-89d9-c9f3552a8469@linux.microsoft.com>
+References: <20261019085544.1834700-1-yaojiale02@163.com>
+ <7d9f70d0-1856-4424-89d9-c9f3552a8469@linux.microsoft.com>
+X-NTES-SC: AL_Qu2SAPmSvEws7iSfZ+kcn08ShO49XMOyvfoi2YFTc+AEnyzt4CYNekNFJlbR4NixDT6PtCCIYido2OlHUoR6m7aMhGa3PcNajq7P9qcyOg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,51 +67,101 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgDHt6Uzzdhqp3_gBA--.20120S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uryfKFyDAw13Jw4kZFW8JFb_yoW8WrWDpF
-	saga43ur1kJryxuanxur10gFyruFZ7JF47XF97W34xWryUZF13XrWIvr40vryrJ39a9anr
-	XF40qFZ5WayYyFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UpKZAUUUUU=
-X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbCzhdRi2rYzTcWEgAA3P
+Message-ID: <7b506cdc.9bbf.1a15ee5c351.Coremail.19888972804@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:aygvCgD3H+tGzthqW4ZdAA--.979W
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbCzgaVz2rYzkYtswAA32
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-VMBus dynamic IDs have two races with their sysfs add and remove paths.
-
-First, new_id_store() checks for an existing ID separately from inserting
-the new entry, allowing concurrent writers to add duplicate GUIDs. Move the
-check and insertion into one critical section.
-
-Second, matching returns a pointer into the dynamic ID list after dropping
-the lock. A concurrent remove_id write can free that entry before probe uses
-it. Copy the ID while holding the lock and reject probe when a dynamic ID is
-removed between matching and probing.
-
-The series was found by static analysis and checked with checkpatch.pl. Each
-patch was also checked individually and in series for application to the
-base commit below.
-
-Jiale Yao (2):
-  Drivers: hv: vmbus: prevent duplicate dynamic IDs
-  Drivers: hv: vmbus: copy dynamic IDs before dropping the lock
-
----
-Changes in v2:
-- Split the dynamic ID insertion TOCTOU into a preparatory patch.
-- Reject probe when the matching ID disappears before the second lookup.
-- Preserve the ID-less hvsock probe path.
-- Use scoped locking and memcpy() for the dynamic ID copy.
-- Document that the device ID is valid only during probe.
-- Cite the corresponding PCI and USB dynamic ID lifetime fixes.
-- Add Cc: stable@vger.kernel.org and use the VMBus subject prefix.
-
-Link: https://lore.kernel.org/r/20261019085544.1834700-1-yaojiale02@163.com
-
- drivers/hv/vmbus_drv.c | 56 +++++++++++++++++++++++++-----------------
- include/linux/hyperv.h |  1 +
- 2 files changed, 34 insertions(+), 23 deletions(-)
-
-
-base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
--- 
-2.34.1
-
+SGkgS2FtZXJvbiwKCkF0IDIwMjYtMTAtMjEgMDc6MzA6NTUsICJLYW1lcm9uIENhcnIiIDxrYW1l
+cm9uY2FyckBsaW51eC5taWNyb3NvZnQuY29tPiB3cm90ZToKPk9uIDEwLzE5LzIwMjYgMTo1NSBB
+TSwgSmlhbGUgWWFvIHdyb3RlOgo+PiByZW1vdmVfaWRfc3RvcmUoKSBjYW4gZnJlZSBhIG1hdGNo
+aW5nIGR5bmFtaWMgSUQgd2hpbGUgVk1CdXMgaXMKPj4gcHJlcGFyaW5nIHRvIGludm9rZSBhIGRy
+aXZlciBwcm9iZS4gQ29weSB0aGUgSUQgd2hpbGUgaG9sZGluZyB0aGUKPj4gZHluYW1pYyBJRCBs
+b2NrIHNvIHByb2JlIG5ldmVyIHJlY2VpdmVzIGEgcG9pbnRlciBpbnRvIGEgZnJlZWQgbGlzdAo+
+PiBlbnRyeS4KPgo+SXMgdGhpcyB0aGUgc2FtZSBmaXggYXM6Cj4KPiAgM2ZmYzRjOTY5MGMzICgi
+UENJOiBGaXggVUFGIHdoZW4gcHJvYmUgcnVucyBjb25jdXJyZW50IHRvIGR5biBJRAo+ICByZW1v
+dmFsIikKPiAgZWY4MTU0ZDhiNTJkICgidXNiOiBmaXggVUFGIHdoZW4gcHJvYmUgcnVucyBjb25j
+dXJyZW50IHRvCj4gIGR5biBJRCByZW1vdmFsIikKPgo+SWYgc28sIGNvbnNpZGVyIGNpdGluZyB0
+aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZS4gQWxzbywgY29uc2lkZXIgdGFraW5nCj5pbnNwaXJh
+dGlvbiBmcm9tIHRoZWlyIGltcGxlbWVudGF0aW9uLgoKWWVzIQoKPgo+Tml0OiB0aGlzIHN1YnN5
+c3RlbSB0eXBpY2FsbHkgdXNlcyAiRHJpdmVyczogaHY6IHZtYnVzOiIgZm9yIHRoZSBzdWJqZWN0
+Cj5wcmVmaXguClRoYW5rcyBmb3IgeW91ciByZXZpZXcsIGhvdyBhYm91dCB0aGlzIG9uZQpodHRw
+czovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjEwMjExNDMzMjMuMzM4MTQ2LTEteWFvamlhbGUw
+MkAxNjMuY29tLwoKPgo+Cj4+IEZpeGVzOiBmYzc2OTM2ZDNlYTUgKCJ2bWJ1czogYWRkIHN1cHBv
+cnQgZm9yIGR5bmFtaWMgZGV2aWNlIGlkJ3MiKQo+PiBTaWduZWQtb2ZmLWJ5OiBKaWFsZSBZYW8g
+PHlhb2ppYWxlMDJAMTYzLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL2h2L3ZtYnVzX2Rydi5jIHwg
+MjUgKysrKysrKysrKysrKysrLS0tLS0tLS0tLQo+PiAgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2Vy
+dGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaHYv
+dm1idXNfZHJ2LmMgYi9kcml2ZXJzL2h2L3ZtYnVzX2Rydi5jCj4+IGluZGV4IDQ2OTI2ODdjZGJm
+My4uOTZhZDBkZmFhNTBiIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2h2L3ZtYnVzX2Rydi5jCj4+
+ICsrKyBiL2RyaXZlcnMvaHYvdm1idXNfZHJ2LmMKPj4gQEAgLTY2MSwyMSArNjYxLDIyIEBAIGh2
+X3ZtYnVzX2Rldl9tYXRjaChjb25zdCBzdHJ1Y3QgaHZfdm1idXNfZGV2aWNlX2lkICppZCwgY29u
+c3QgZ3VpZF90ICpndWlkKQo+PiAgfQo+PiAgCj4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGh2X3Zt
+YnVzX2RldmljZV9pZCAqCj4+IC1odl92bWJ1c19keW5pZF9tYXRjaChzdHJ1Y3QgaHZfZHJpdmVy
+ICpkcnYsIGNvbnN0IGd1aWRfdCAqZ3VpZCkKPj4gK2h2X3ZtYnVzX2R5bmlkX21hdGNoKHN0cnVj
+dCBodl9kcml2ZXIgKmRydiwgY29uc3QgZ3VpZF90ICpndWlkLAo+PiArCQkgICAgIHN0cnVjdCBo
+dl92bWJ1c19kZXZpY2VfaWQgKmlkX2NvcHkpCj4+ICB7Cj4+IC0JY29uc3Qgc3RydWN0IGh2X3Zt
+YnVzX2RldmljZV9pZCAqaWQgPSBOVUxMOwo+PiAgCXN0cnVjdCB2bWJ1c19keW5pZCAqZHluaWQ7
+Cj4+ICAKPj4gIAlzcGluX2xvY2soJmRydi0+ZHluaWRzLmxvY2spOwo+PiAgCWxpc3RfZm9yX2Vh
+Y2hfZW50cnkoZHluaWQsICZkcnYtPmR5bmlkcy5saXN0LCBub2RlKSB7Cj4+ICAJCWlmIChndWlk
+X2VxdWFsKCZkeW5pZC0+aWQuZ3VpZCwgZ3VpZCkpIHsKPj4gLQkJCWlkID0gJmR5bmlkLT5pZDsK
+Pj4gLQkJCWJyZWFrOwo+PiArCQkJKmlkX2NvcHkgPSBkeW5pZC0+aWQ7Cj4+ICsJCQlzcGluX3Vu
+bG9jaygmZHJ2LT5keW5pZHMubG9jayk7Cj4+ICsJCQlyZXR1cm4gaWRfY29weTsKPj4gIAkJfQo+
+PiAgCX0KPj4gIAlzcGluX3VubG9jaygmZHJ2LT5keW5pZHMubG9jayk7Cj4+ICAKPj4gLQlyZXR1
+cm4gaWQ7Cj4+ICsJcmV0dXJuIE5VTEw7Cj4+ICB9Cj4+ICAKPj4gIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgaHZfdm1idXNfZGV2aWNlX2lkIHZtYnVzX2RldmljZV9udWxsOwo+PiBAQCAtNjg1LDcgKzY4
+Niw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaHZfdm1idXNfZGV2aWNlX2lkIHZtYnVzX2Rldmlj
+ZV9udWxsOwo+PiAgICogSWYgdGhlcmUgaXMgbm8gbWF0Y2gsIHJldHVybiBOVUxMLgo+PiAgICov
+Cj4+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGh2X3ZtYnVzX2RldmljZV9pZCAqaHZfdm1idXNfZ2V0
+X2lkKGNvbnN0IHN0cnVjdCBodl9kcml2ZXIgKmRydiwKPj4gLQkJCQkJCQlzdHJ1Y3QgaHZfZGV2
+aWNlICpkZXYpCj4+ICsJCQkJCQkJc3RydWN0IGh2X2RldmljZSAqZGV2LAo+PiArCQkJCQkJCXN0
+cnVjdCBodl92bWJ1c19kZXZpY2VfaWQgKmlkX2NvcHkpCj4+ICB7Cj4+ICAJY29uc3QgZ3VpZF90
+ICpndWlkID0gJmRldi0+ZGV2X3R5cGU7Cj4+ICAJY29uc3Qgc3RydWN0IGh2X3ZtYnVzX2Rldmlj
+ZV9pZCAqaWQ7Cj4+IEBAIC02OTcsNyArNjk5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBodl92
+bWJ1c19kZXZpY2VfaWQgKmh2X3ZtYnVzX2dldF9pZChjb25zdCBzdHJ1Y3QgaHZfZHJpdmVyICoK
+Pj4gIAkJcmV0dXJuIE5VTEw7Cj4+ICAKPj4gIAkvKiBMb29rIGF0IHRoZSBkeW5hbWljIGlkcyBm
+aXJzdCwgYmVmb3JlIHRoZSBzdGF0aWMgb25lcyAqLwo+PiAtCWlkID0gaHZfdm1idXNfZHluaWRf
+bWF0Y2goKHN0cnVjdCBodl9kcml2ZXIgKilkcnYsIGd1aWQpOwo+PiArCWlkID0gaHZfdm1idXNf
+ZHluaWRfbWF0Y2goKHN0cnVjdCBodl9kcml2ZXIgKilkcnYsIGd1aWQsIGlkX2NvcHkpOwo+PiAg
+CWlmICghaWQpCj4+ICAJCWlkID0gaHZfdm1idXNfZGV2X21hdGNoKGRydi0+aWRfdGFibGUsIGd1
+aWQpOwo+PiAgCj4+IEBAIC03NzMsNiArNzc1LDcgQEAgc3RhdGljIHNzaXplX3QgbmV3X2lkX3N0
+b3JlKHN0cnVjdCBkZXZpY2VfZHJpdmVyICpkcml2ZXIsIGNvbnN0IGNoYXIgKmJ1ZiwKPj4gIAkJ
+CSAgICBzaXplX3QgY291bnQpCj4+ICB7Cj4+ICAJc3RydWN0IGh2X2RyaXZlciAqZHJ2ID0gZHJ2
+X3RvX2h2X2Rydihkcml2ZXIpOwo+PiArCXN0cnVjdCBodl92bWJ1c19kZXZpY2VfaWQgaWRfY29w
+eTsKPj4gIAlndWlkX3QgZ3VpZDsKPj4gIAlzc2l6ZV90IHJldHZhbDsKPj4gIAo+PiBAQCAtNzgw
+LDcgKzc4Myw3IEBAIHN0YXRpYyBzc2l6ZV90IG5ld19pZF9zdG9yZShzdHJ1Y3QgZGV2aWNlX2Ry
+aXZlciAqZHJpdmVyLCBjb25zdCBjaGFyICpidWYsCj4+ICAJaWYgKHJldHZhbCkKPj4gIAkJcmV0
+dXJuIHJldHZhbDsKPj4gIAo+PiAtCWlmIChodl92bWJ1c19keW5pZF9tYXRjaChkcnYsICZndWlk
+KSkKPj4gKwlpZiAoaHZfdm1idXNfZHluaWRfbWF0Y2goZHJ2LCAmZ3VpZCwgJmlkX2NvcHkpKQo+
+PiAgCQlyZXR1cm4gLUVFWElTVDsKPj4gIAo+PiAgCXJldHZhbCA9IHZtYnVzX2FkZF9keW5pZChk
+cnYsICZndWlkKTsKPgo+VGhpcyBjaGVjayBhbmQgdGhlIGxpc3RfYWRkX3RhaWwoKSBpbiB2bWJ1
+c19hZGRfZHluaWQoKSBydW4gaW4gc2VwYXJhdGUKPmNyaXRpY2FsIHNlY3Rpb25zLCBzbyB0d28g
+Y29uY3VycmVudCB3cml0ZXJzIGNhbiBib3RoIGFkZCB0aGUgc2FtZSBHVUlELgo+Q29uc2lkZXIg
+YSBwcmVwYXJhdG9yeSBwYXRjaCB0aGF0IG1vdmVzIHRoZSBjaGVjayBpbnRvIHZtYnVzX2FkZF9k
+eW5pZCgpCj51bmRlciB0aGUgc2FtZSBkeW5pZHMubG9jazsgc2VlIDA0ZmRlNzBmNzgyYiAoIlBD
+STogRml4IGR5bl9pZCBhZGQKPlRPQ1RPVSIpLiBuZXdfaWRfc3RvcmUoKSB0aGVuIG5vIGxvbmdl
+ciBuZWVkcyBodl92bWJ1c19keW5pZF9tYXRjaCgpIG9yCj5pZF9jb3B5IGF0IGFsbC4KPgo+PiBA
+QCAtODQwLDEyICs4NDMsMTMgQEAgc3RhdGljIGludCB2bWJ1c19tYXRjaChzdHJ1Y3QgZGV2aWNl
+ICpkZXZpY2UsIGNvbnN0IHN0cnVjdCBkZXZpY2VfZHJpdmVyICpkcml2ZXIKPj4gIHsKPj4gIAlj
+b25zdCBzdHJ1Y3QgaHZfZHJpdmVyICpkcnYgPSBkcnZfdG9faHZfZHJ2KGRyaXZlcik7Cj4+ICAJ
+c3RydWN0IGh2X2RldmljZSAqaHZfZGV2ID0gZGV2aWNlX3RvX2h2X2RldmljZShkZXZpY2UpOwo+
+PiArCXN0cnVjdCBodl92bWJ1c19kZXZpY2VfaWQgaWRfY29weTsKPj4gIAo+PiAgCS8qIFRoZSBo
+dl9zb2NrIGRyaXZlciBoYW5kbGVzIGFsbCBodl9zb2NrIG9mZmVycy4gKi8KPj4gIAlpZiAoaXNf
+aHZzb2NrX2NoYW5uZWwoaHZfZGV2LT5jaGFubmVsKSkKPj4gIAkJcmV0dXJuIGRydi0+aHZzb2Nr
+Owo+PiAgCj4+IC0JaWYgKGh2X3ZtYnVzX2dldF9pZChkcnYsIGh2X2RldikpCj4+ICsJaWYgKGh2
+X3ZtYnVzX2dldF9pZChkcnYsIGh2X2RldiwgJmlkX2NvcHkpKQo+PiAgCQlyZXR1cm4gMTsKPj4g
+IAo+PiAgCXJldHVybiAwOwo+PiBAQCAtODYwLDkgKzg2NCwxMCBAQCBzdGF0aWMgaW50IHZtYnVz
+X3Byb2JlKHN0cnVjdCBkZXZpY2UgKmNoaWxkX2RldmljZSkKPj4gIAlzdHJ1Y3QgaHZfZHJpdmVy
+ICpkcnYgPQo+PiAgCQkJZHJ2X3RvX2h2X2RydihjaGlsZF9kZXZpY2UtPmRyaXZlcik7Cj4+ICAJ
+c3RydWN0IGh2X2RldmljZSAqZGV2ID0gZGV2aWNlX3RvX2h2X2RldmljZShjaGlsZF9kZXZpY2Up
+Owo+PiArCXN0cnVjdCBodl92bWJ1c19kZXZpY2VfaWQgZGV2X2lkX2NvcHk7Cj4+ICAJY29uc3Qg
+c3RydWN0IGh2X3ZtYnVzX2RldmljZV9pZCAqZGV2X2lkOwo+PiAgCj4+IC0JZGV2X2lkID0gaHZf
+dm1idXNfZ2V0X2lkKGRydiwgZGV2KTsKPj4gKwlkZXZfaWQgPSBodl92bWJ1c19nZXRfaWQoZHJ2
+LCBkZXYsICZkZXZfaWRfY29weSk7Cj4KPkNvbnNpZGVyIGRvY3VtZW50aW5nIGluIGluY2x1ZGUv
+bGludXgvaHlwZXJ2LmggdGhhdCB0aGUKPmh2X3ZtYnVzX2RldmljZV9pZCBpcyBvbmx5IHZhbGlk
+IGR1cmluZyBwcm9iZSBzbyBmdXR1cmUgZHJpdmVycyBkb24ndAo+c2F2ZSB0aGUgcG9pbnRlciAo
+c2VlIHdoYXQgUENJIGFuZCBVU0IgZml4ZXMgZGlkIGluIHBjaS5oIGFuZCB1c2IuaCkuCj4KPj4g
+IAlpZiAoZHJ2LT5wcm9iZSkgewo+PiAgCQlyZXQgPSBkcnYtPnByb2JlKGRldiwgZGV2X2lkKTsK
+Pj4gIAkJaWYgKHJldCAhPSAwKQo+Cj5QbGVhc2UgcmV2aWV3IHRoZSBTYXNoaWtvIGNvbW1lbnQu
+Cj4KPlJlZ2FyZHMsCj5LYW1lcm9uCg==
