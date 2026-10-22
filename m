@@ -1,100 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792624861;
-	b=0N2aikn/u+NSLGh+YhPe8aATZabjblfWiE2+KbHFSbwOttlK0PZmLbYwZAvnT7HTMgj5
-	 KFucoudm0B1oAdUrXKyUkxRLTFS5BtnXBzRXIdKYmdOi0GU2Zi0IPVEx90JcKI7BnxFTp
-	 xx204SI110pGZ15KbBhGSIkczbdPiZ3PjPY2VGzlvzl96azVh4MqD20knT2tYwJqJgRxw
-	 9RTTnpNLKtsHTIB49VTz+JhVeh0ACcoEwQo30cp1TluemojeOkfWeouznb/6i+SbNBGD3
-	 NCP9KLvYJkNtaoX+AXMbwHMV3oj5MwILMP5caRGtbfZxta4CFhGUQ7lKqixwm2KREVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792624861;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=tji9BpzfPpnGONOeoFM3l/SmwLFDtU7X5SHPN1igR+4=;
-	b=HXzWFkxnfkQVcx6lQnoyrVya7FQL/LgsfF5G3AIUJ5lQ/9rs9HZD3lJh+Q+6bGaRbazw
-	 wSfUkwx5PZUSQSMwZfUCB9sCZrnCEq12Y2M5yeXj7K5q9wVK9s83dP4Bz8SepHsKpMQQx
-	 IxjLoKmNQEf7Uu125mFGTOiOnxwM66vLVx/NgPE25hi11bCrwrvbcM5aaCkCPqQtw3ldb
-	 nfGmaZg0mb9cbWWXb02rcS+P6/WOEXmBNKsNumUlBTQaCfuAtEkmPNvBaNehXXJ+7w9EU
-	 NIAs4N8hu21GG1j0auMrSahpitnQ1X0PvRBjf5vm6w8IonBK/jhU89srWw41HmUBwsg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=NlIPjgJY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.25
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010025.outbound.protection.outlook.com [52.101.61.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F169606A319;
-	Wed, 21 Oct 2026 23:21:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F169606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792651259;
+	b=T8STbFL2nS9sNKM88ucSsEKlPALxkdSCN4Tbo8n3sEclulBvmDbXf8iur61hytIaBeFr
+	 re24Xzp6+5j/rq3iX8X345hdwppjSzdmJvz/LRCWfgyxcHkYxSPVyFwd1qDbGVKzDDB7+
+	 rhw8ct53Gnj4aRMV4LKAXD3uyVlHpBj8Me+mvhYAJbHn7v/84ajX7cCabG+tspb4PAFDA
+	 6xyOjfMYcZq81tMPtq27l52wHisthhELop9ZVu4yh0DWMqFRwIJNO9d8fMksfQE8JVKVD
+	 P9WAx2yxVAFcpeXnjpuicuCLc4PXwTUkl0klo55Kaq2wHqAQ1HSliBuwzMUYqxJrE7g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792651259;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=Ak39HYGsVbjQ81liEI2M4HumUVWbf64V9toCPOlMMmU=;
+	b=zWUJ+YgYQpQJKkHCduf/CJDX5QkRj3X8R5v0OZTedmcS2JULTnIx/0LpoAD7LeeGlDhN
+	 5+ZhNFdKLx4meBas08xKHSYjMvOkVYhgpwRPJCGJpwaImqgHYlvYaJQMRLp713popjhcX
+	 r74mdwk61Bkr2BRHwk+kPtLuREQ0Lq70/O5PCkLhjZbmRtkQmEcxVuXWGRg0EGyQFD4O9
+	 ce1kqXCY+8OyC1PkUAxbvZkmLpfK1dww2pnJvAUfmg4R3dQ+9Y4X8MJuDe6eQouM3EAGY
+	 eUKfI63jiWyXXQtGrmYrBWI0OlUbDhHSS1P+m3+MIkzovWDpIhxY3ikhOQcxxkNs/Ng==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=aOqxDhdQ;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8B46606A31A;
+	Thu, 22 Oct 2026 06:40:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8B46606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=NlIPjgJY
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xuJBM9TvgXsIf3Ka7oJ1CMkL+Qwy/tmoOxiaIN/+KUqttZeW9phdfnUflB5P7i9BrHR4eO8scP2Hw5EhhyR21bAb85Uw4xvXsuY4uU8s9P+SK1vFLINcpoNAu7RviPOcr9KTSyOnYrreMwxMk6hSgIhqUFl5NlpjwnQl9/RLEKomPi6YpE1SZsSWVLTZuKBkeH2A0/OYAe3DN1PuMpE9Nd8p2wGvI6em6WuPgeqiIiuW2SzNApFGdjIKHzwjzWfgL3+9xXustIXEZCTX/HmAlSRvvT6ojcCx6IKKtmrgWEms/ZAI8G4cqv0RAlTZAmVu24on4P49kxt1U9kTLJd+zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tji9BpzfPpnGONOeoFM3l/SmwLFDtU7X5SHPN1igR+4=;
- b=l0TKXfPPr5rKfTmo7PpV2U17EBxhJ1O4A7/9KfjtySrIaLtuJcX9J1AElnElsIkjNJxvMCkksKOGt6gk23kh+2zmPy7fqX739WTpZz4qC3s/9ZKokhyilZ/XVUmgionVGr35h/F+jY4M7uSwE5iEYymrGDXGGb0VPQNr/CfrNVkJhcQxFkxSNd8j+gv1Br3irSDM+17w9SRgbXTwwpoQRQPdBO+oKQQMSetvrKKJ/Fl0QPv9PLLAZOEvlnanrcw+pjrgTUxEeCG8PcRW9h0OTjmzMZhwn1J7XTmAUtHHIkWJGKoXTRoWFV84ATC9No7T1uS4x6JyhiurYI709FHzJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tji9BpzfPpnGONOeoFM3l/SmwLFDtU7X5SHPN1igR+4=;
- b=NlIPjgJYT6gfpjhWZ3TcLVr+3XOYkZTrC7ROQhePiVt9RhX5ZFJ3D/cEDpYH+YxIaPdVFOQzecjqi9Wfz8T+tLw/VYa+Uh+NewC+fR9Ij/7Kg/U+TpCjBYn28qbKN0ZODFXpZNCcTOn9FD/SMaE1EUPlHR3RtoqbvukFF4eYdKxPaL3BkpPf1MV/4CeBarPVahdnBkNQ+cRaECckj7xkYCN2kbW2U2mm6H4PW+1wvA1fUASyC8Sv1hiSs+1kM4AC45YAmCiyeOWX7g5RMZJo9bibBJgxjrDMvVWOdeCX9EG3+9U3q2ymAeWBo3Z4uhMapHfX9cDvi3wy9EkadYBS7Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by PH7PR12MB6696.namprd12.prod.outlook.com
- (2603:10b6:510:1b3::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 23:20:02 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
- 23:20:01 +0000
-Date: Wed, 21 Oct 2026 20:20:00 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	jacob.pan@linux.microsoft.com, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-	arnd@arndb.de
-Subject: Re: [PATCH V2 4/4] x86/hyperv: Implement root partition IOMMU kernel
- only driver
-Message-ID: <20261021232000.GW3008132@nvidia.com>
-References: <20260929223622.778617-1-mrathor@linux.microsoft.com>
- <20260929223622.778617-5-mrathor@linux.microsoft.com>
- <c01d422c-5277-010b-ff14-dfe5fec6a7bb@linux.microsoft.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c01d422c-5277-010b-ff14-dfe5fec6a7bb@linux.microsoft.com>
-X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::8) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=aOqxDhdQ
+Received: from [10.95.64.178] (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0D5A920B7166;
+	Wed, 21 Oct 2026 23:40:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D5A920B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792651249;
+	bh=Ak39HYGsVbjQ81liEI2M4HumUVWbf64V9toCPOlMMmU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aOqxDhdQcgsNSOufTKSffimOkjuZFAgoNtYb79wHFSwD2JIib5/Z+6FS2gBpTKK7w
+	 o/FXWlQlWw3VoX9z8pXILgRSd6vCD04gt2LboSV66Y9JOFdY87eSVtqSlxBJORQmk7
+	 XX+gdIU5LGvpprc1qxCa7Oi9Z5nL8VfnY1SpUkZk=
+Message-ID: <7da0011b-b51e-4181-961e-fb6b177b7691@linux.microsoft.com>
+Date: Thu, 22 Oct 2026 12:10:52 +0530
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -104,68 +53,277 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|PH7PR12MB6696:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00640d30-3cb5-43d9-16e3-08df2fc9d47b
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|10067099003|56012099006|18002099003|22082099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	kSSeT8vDX9I6F99uF7wu0ZfGz4qRSnans6JzZ6v6QZDzpxmeQ5vV9s8D01O9U1Z4SQ+oQtLFKp6E22v6AFjhsrry+3G+SELTor3AjsUHEYzgLBiK4PZosMHTYE33uEBfcu8W6lwJUvbA2VEW2ss0/M40bo1zm3HBLpAcmFl/lHV31F5gwJ4/2h+Ekpf8zjRO5ot8aM6Kwfv6LGW6QpObTlQkjg+ZRnpR4XnLX4n/iD9fIuuXzvAxL6QTbYPiEOiDmBVB2en+JXZKvh2MdIRYkN/gxalaET09tHvWrPu6/L0I4htXKlnhep2UgzS/tQvtR3e0HIng9Dtl8NIe7CXygs3Dtl27GYjRL5RJnoT2XPkdVjtqfuuNVdqZynGHdTuoCl5+nwOUFamjLcvJdfa1O39VRkvL5tVtj5pKiJmCTELZzhAQWJdKN4TLfzHSfJd0QZqjnW/KT1C4N9iA5KZYLKLQMqtcCERkJIaQf+3G5bAalEGdZHYRW3DzSXMhPy+Nsvqzywuyle2L3AWoh1Wffh5F1tRBc5Zx3yzpqZGhiY14QNh4XWXdBFqK5EWE5jL206qIhka+lr2rBbgH1sZvpo1BCzuioC29JHv3mSFT1adIdgve0FTaPm8mq7UI1sJIX6o4iF0K1wmHSe1sQGk2stZ9mjN0npULuymVjPUpYJk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(10067099003)(56012099006)(18002099003)(22082099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7HFlbFaCix7a/5aTskLdOT+0BLpUbYduRQ91YoGv57ZVFqlCkiXufVRV6C/U?=
- =?us-ascii?Q?gdys8ws6lFH5ITz9sTd2eIWA1t2DNw9+1UVdEY3UYpxT/prZBrUEQJDBAAGO?=
- =?us-ascii?Q?43ll+/HSprDE+DWxAYhZf6Ih9B6S0m15BZrPfBhEpWJrRFUXU92KkcypmGaN?=
- =?us-ascii?Q?5Tt6iBJVcRFLN8SIM6Nnpil2Rqpdu4xEUEIQ9x7ZcfJEeuxNYTwhZe5Ox8ER?=
- =?us-ascii?Q?GjSpczobtvtBrm5ukIvKkE0toEfFzz1TS2Y6A+1lj75TVMkuTZwyDOUK8Pnj?=
- =?us-ascii?Q?R+34zWzw6NOaNTZCSOr6N9ai0CTlgRGc1oGY9OrlS5fO4O4PbciIAa61hMf7?=
- =?us-ascii?Q?gCInn10GTwC55xUf4WtG/hzh9oBQRMYHAGeibVQB+k0Eg1vDyjPrunxjvVSl?=
- =?us-ascii?Q?ZJOUose+v5Ujq4f6x0rbpXJrkyMnkZTqX7iqMzSOzuD+fCLF3ld83qPnnLYp?=
- =?us-ascii?Q?eFhjdr2yiSCJmjUEeu20RI0qdZGqeGNl6C2KCBP9rKVNjWHRV/qHrC6t2Gnz?=
- =?us-ascii?Q?0exOJ7J780LAUAkTAePu9bHJmPYG7di5WN/AuGrvoFJ0OV3K0vSVTztqFENc?=
- =?us-ascii?Q?TN6Q4qKDYJMlvgzCt6YhxTvC8piBmIu0tUrA5qWoyN/cYJQb4C3SvtJVKiTF?=
- =?us-ascii?Q?8ZTsQdOZQ23EmQT+T720t4fRrNRjW1ZU1MeqodeJHLXM8YNOF/XoeyOz7pSS?=
- =?us-ascii?Q?9jWke7CteZgFJdLLHlGFV2zd/KPzUnqbX8jNVF6V1axKrbQcPPX2Il4x2b3+?=
- =?us-ascii?Q?ZJS0J7piah4t8iH9lfQbRllFehRE5PUVa8ND6t5fERMFT4P5t0ZUfep1sdCY?=
- =?us-ascii?Q?ELyx4c5J5L1n2hEBpfyBMefmoXiDFLbiG27RxBwcKmwhZdmh1yrveynCURxr?=
- =?us-ascii?Q?uxu6dZz8isVPtgc2vWi1EmOyQ3xKiOvLXagbH5Rzc1ig9P/WGiDAxxgLa03g?=
- =?us-ascii?Q?09dw1tZDXIVn6Vlg1L+qzsBUe0Yap3eMlGIlk+Y0HmAMoRSueUHzZd2PhbfU?=
- =?us-ascii?Q?Bh4Rq9rfceMEQxclIrSzS37PV+zJHuMhU+wUni33GqLJ4IYAjJk22MUB55vZ?=
- =?us-ascii?Q?FsOCVA0KfT9X3a1+hhMu7giru94JQPKu1dOBmSq6DBPfbIHrEoNCHazHizYJ?=
- =?us-ascii?Q?L4Amx39e9vPE+1IumokM7o1zPiJ/34Z2Behs2V643OFkUvE4ZgZYmm6A1Wnq?=
- =?us-ascii?Q?5Yb5GomJvT3x1Kdm9PFaa3ftvbGeS4vwn4OzN8JoKlKTf+F5Y9k9kZ0R4Qs0?=
- =?us-ascii?Q?tRJ6uxOaHfjRxmXSSNpknmj5AgIRaxvkFut4cHJmKsJtjTsWNH0NAyOarBdc?=
- =?us-ascii?Q?wAAcgPKffNPhKzhb+4ewAs50TOCawm46FJWNTFTHpqG2W9tHR5Yo1YMV2dnU?=
- =?us-ascii?Q?Kbnk8VHVYfZqrrr65LIXVzewuAcxdd8kS9OjF1v4JkVP5ZGHBjeAtEhomc/S?=
- =?us-ascii?Q?DmJD25mtBaU6kJjullGVck35M3yBvJkqUqPV6lvSBZVRbHnzYEO8Ix1UmbC4?=
- =?us-ascii?Q?Flba9tB6ewsWD4i1s/1eORbqAARqPllwdx3/C7/Cm2NQ31gs4kvNpUQ4+y2i?=
- =?us-ascii?Q?9qIq2Wj4vhZoE40gqGenqwD+kvkxSTEA9BPZFsw+CgCqCcVYQTyBEIcrdhbR?=
- =?us-ascii?Q?WV0fWKoLhzIQIBXoFiFXcj9mcesz27V0nES85izijTamtkpAj4oqjKhFYu4Z?=
- =?us-ascii?Q?jgy5XNGaikSa0eEFQ0FDpx9jE/MaeFOS8g/vw/wUfYFlviNW?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00640d30-3cb5-43d9-16e3-08df2fc9d47b
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 23:20:01.0618
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ax3yk9n/sXVbi5mafITIr4C9/vDVh3ZifqJqNPy21UiJJcuaz29Ye8HcsRR/Zxoi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6696
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] PCI: hv: Spread load across CPUs when selecting
+ effective affinity CPU
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
+ mani@kernel.org, robh@kernel.org, bhelgaas@google.com
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org
+References: <20261020182433.336637-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20261020182433.336637-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 21, 2026 at 02:36:53PM -0700, Mukesh R wrote:
-> Hi Jason and Joerg,
+
+
+On 10/20/2026 11:54 PM, Michael Kelley wrote:
+> In a system with multiple devices with the same configuration (such as
+> NVMe controllers), the affinity masks are the same for all such devices.
+> Linux typicaly must select a single CPU from each mask to be the effective
+> affinity. If a fixed algorithm is used, such as picking the first CPU
+> in the mask, interrupts from multiple devices are assigned to the same
+> CPUs, while other CPUs are not assigned any interrupts, producing an
+> interrupt load imbalance.
 > 
-> I am going to rebase due to all the patches that went it and crank
-> out a new version. Do you have any more comments/concerns, I think I have
-> addressed all your concerns. Pl lmk.
+> On x86, the "APIC" IRQ chip avoids this problem by spreading the
+> interrupts across the CPUs in an affinity mask. It tracks the number
+> of IRQs assigned to each CPU, and chooses the CPU in the mask that
+> has the fewest assignments. Because Hyper-V vPCI device IRQs eventually
+> parent to APIC, the spreading done by APIC accrues to Hyper-V vPCI
+> devices, so all is good in x86 systems.
+> 
+> On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind of
+> spreading for LPI interrupts. But Hyper-V provides guest VMs only with
+> a virtual GICv3, not including an ITS or LPI support. IRQs for vPCI
+> devices on arm64 are mapped to SPIs and parented to the "GICv3" IRQ
+> chip. The GICv3 IRQ chip always chooses the first CPU in the affinity
+> mask as the effective affinity, producing an interrupt load imbalance
+> for Hyper-V vPCI devices in arm64 systems.
+> 
+> The Hyper-V vPCI driver already has an arm64-specific IRQ chip to
+> allocate and managed SPIs for use by vPCI devices. Solve the imbalance
+> problem by extending this IRQ chip to implement a "set affinity"
+> function that tracks SPIs assigned to each CPU, and chooses the
+> least-loaded CPU as the effective affinity. Then invoke the parent
+> IRQ chip (GICv3) to actually set that single CPU as the effective
+> affinity in the virtual GICv3 hardware. As a result, IRQs are spread
+> across CPUs like on x86 and interrupt load imbalances are avoided.
+> 
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 
-You should wait two or three weeks till rc1 comes out at least
+The overall changes are well explained and LGTM. I saw your comment 
+about Sashiko review, so that is covered.
+Mentioning some minor nits and review comments inline.
 
-Jason
+You may also want to look at some of the checkpatch "strict" warnings 
+with these changes. Since you sent it from a different email id than 
+what is signed-off by, you may not have seen that mismatch warning in 
+local run.
+
+> ---
+> As an alternative, this spreading functionality could be implemented
+> for SPIs directly in the GICv3 IRQ chip, similar to what the ITS IRQ
+> chip already has for LPIs. While Hyper-V's scheme of using SPIs for
+> vPCI interrupts is allowed by the arm64 architecture, it's atypical.
+> So the original decision was for the Hyper-V vPCI driver to handle
+> the allocation and management of SPIs for this purpose rather than do
+> it in generic GIC code. That led of the introduction of the "MSI" IRQ
+> chip in the Hyper-V vPCI driver. This implementation of the spreading
+> functionality follows that original decision by extending the "MSI"
+> IRQ chip. If reviewers have reasons to prefer enhancing the GICv3 IRQ
+> chip driver instead, I'm open to doing that.
+> 
+> I have not added any documentation to Documentation/virt/hyperv/vpci.rst.
+> That documentation needs an entirely new section on the IRQ domains
+> and chips, and their hierarchy differences on x86 and arm64. I'm
+> working on a separate patch to add that documentation. But I don't
+> want to hold up this improvement for that larger documentation task.
+> 
+>   drivers/pci/controller/pci-hyperv.c | 144 +++++++++++++++++++++++++++-
+>   1 file changed, 142 insertions(+), 2 deletions(-)
+> 
+
+IRQ-affinity comparison with and without your changes:
+
+System:
+   Azure Standard_D64plds_v6
+   64 ARM Neoverse-N2 vCPUs, no SMT, one NUMA node.
+   Four independent Microsoft NVMe Direct Disk v2 controllers,
+   approximately 945 GB each, with 14 I/O queues/controller.
+   Hyper-V GICv3 SPI routing; no ITS/LPIs.
+
+Both kernels use next-20261021.
+
+                              Vanilla       With patch
+   Data IRQ vectors              56              56
+   Effective target CPUs         14              56
+   Maximum data IRQs/CPU         4               1
+
+The requested affinity masks remain unchanged. Entries below are
+measured effective target CPUs. Columns identify the four controllers
+by stable serial suffix, not their boot-dependent nvmeX names.
+
+              Vanilla                    With patch
+Queue   0001 0002 0003 0004        0001 0002 0003 0004
+q1         0    0    0    0           4    2    1    3
+q2         5    5    5    5           8    7    5    6
+q3        10   10   10   10          13   10   12   11
+q4        15   15   15   15          18   15   17   16
+q5        20   20   20   20          23   20   22   21
+q6        25   25   25   25          28   25   27   26
+q7        30   30   30   30          33   30   31   32
+q8        35   35   35   35          38   35   36   37
+q9        40   40   40   40          43   41   42   40
+q10       44   44   44   44          47   45   44   46
+q11       48   48   48   48          51   48   49   50
+q12       52   52   52   52          55   52   53   54
+q13       56   56   56   56          59   58   56   57
+q14       60   60   60   60          63   62   61   60
+
+This distribution could effectively prevent soft lockups from happening 
+on this ARM VM when sufficiently high FIO workload was run, focussed on 
+4 CPU group (cpu 5-9 for example). I verified this by testing on the 
+same VM as mentioned above.
+
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+> index 85d826f8f68d..1706090cebeb 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+
+<snip>
+
+> +
+> +static unsigned int hv_pci_arm64_get_min_load(struct irq_data *d,
+> +				       const struct cpumask *cpu_mask)
+> +{
+> +	return hv_pci_arm64_get_min_load_and(d, cpu_mask, cpu_possible_mask);
+> +}
+> +
+> +static int hv_pci_arm64_select_cpu(struct irq_data *d,
+> +			  const struct cpumask *aff_mask)
+> +{
+> +	int cpu;
+> +
+> +	if (irqd_affinity_is_managed(d))
+> +		cpu = hv_pci_arm64_get_min_load(d, aff_mask);
+> +
+
+You can remove the empty lines here, if these are not intentional.
+
+> +	else if (cpumask_intersects(aff_mask, cpu_online_mask))
+> +		/* Try the intersection of the affinity and online masks */
+> +		cpu = hv_pci_arm64_get_min_load_and(d, aff_mask, cpu_online_mask);
+> +
+
+Ditto
+
+> +	else
+> +		/* If that doesn't fly, the online mask is the last resort */
+> +		cpu = hv_pci_arm64_get_min_load(d, cpu_online_mask);
+> +
+> +	pr_debug("IRQ%d -> %*pbl CPU%d\n", d->irq, cpumask_pr_args(aff_mask), cpu);
+
+Add an empty line here instead.
+
+> +	return cpu;
+> +}
+> +
+> +/*
+> + * Track the count of SPIs assigned to each CPU. Pick a single CPU from the
+> + * affinity mask based on the SPI loading data, and have the parent IRQ
+> + * chip (should be "GICv3") set the effective affinity to that single CPU.
+> + */
+
+Could concurrent affinity updates for different IRQs select the same 
+stale minimum here?
+
+Each update holds only its own IRQ descriptor lock, so two callbacks can 
+both decrement their old counts, observe the same CPU as least loaded, 
+program both SPIs to it, and only then increment its count. Could the 
+selection and count reservation be serialized across these IRQs, or 
+could the selected CPU be reserved atomically before programming the parent?
+
+> +static int hv_pci_arm64_set_affinity(struct irq_data *d,
+> +				     const struct cpumask *mask_val,
+> +				     bool force)
+> +{
+> +	unsigned int cpu, prev_cpu;
+> +	int ret;
+> +
+> +	prev_cpu = cpumask_first(irq_data_get_effective_affinity_mask(d));
+> +	if (prev_cpu < nr_cpu_ids)
+> +		hv_pci_dec_spi_count(d, prev_cpu);
+> +
+> +	if (force)
+> +		cpu = hv_pci_arm64_get_min_load(d, mask_val);
+> +	else
+> +		cpu = hv_pci_arm64_select_cpu(d, mask_val);
+> +
+> +	if (cpu >= nr_cpu_ids)
+> +		goto err;
+> +
+> +	ret = irq_chip_set_affinity_parent(d, cpumask_of(cpu), force);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	hv_pci_inc_spi_count(d, cpu);
+> +	return ret;
+> +
+> +err:
+> +	if (prev_cpu < nr_cpu_ids)
+> +		hv_pci_inc_spi_count(d, prev_cpu);
+> +	return -EINVAL;
+> +}
+> +
+>   /* Hyper-V PCI MSI IRQ chip */
+>   static struct irq_chip hv_arm64_msi_irq_chip = {
+>   	.name = "MSI",
+> -	.irq_set_affinity = irq_chip_set_affinity_parent,
+> +	.irq_set_affinity = hv_pci_arm64_set_affinity,
+>   	.irq_eoi = irq_chip_eoi_parent,
+>   	.irq_mask = irq_chip_mask_parent,
+>   	.irq_unmask = irq_chip_unmask_parent
+> @@ -888,21 +1010,39 @@ static int hv_pci_vec_irq_domain_alloc(struct irq_domain *domain,
+>    * composing MSI from the hypervisor. GIC will eventually set the right
+>    * affinity for the irq and the 'unmask' will retarget the interrupt to that
+>    * cpu.
+> + *
+> + * The first cpu is always used for initial activation because spreading the
+> + * initial CPU would have to be done without information about affinity groups
+> + * that may exist. The resulting assignments would pollute the "least loaded"
+> + * data for making the final assignments. Everything would still work, but
+> + * the spreading would be less even than it could be.
+>    */
+>   static int hv_pci_vec_irq_domain_activate(struct irq_domain *domain,
+>   					  struct irq_data *irqd, bool reserve)
+>   {
+> -	int cpu = cpumask_first(cpu_present_mask);
+> +	int cpu = cpumask_first(cpu_online_mask);
+
+This should be harmless, but I am wondering if this is actually required 
+for your changes or this is a separate independent change, addressing 
+some other issue.
+
+>   
+> +	hv_pci_inc_spi_count(irqd, cpu);
+>   	irq_data_update_effective_affinity(irqd, cpumask_of(cpu));
+>   
+>   	return 0;
+>   }
+>   
+> +static void hv_pci_vec_irq_domain_deactivate(struct irq_domain *domain,
+> +					     struct irq_data *irqd)
+> +{
+> +	int cpu;
+> +
+> +	cpu = cpumask_first(irq_data_get_effective_affinity_mask(irqd));
+> +	if (cpu < nr_cpu_ids)
+> +		hv_pci_dec_spi_count(irqd, cpu);
+> +}
+> +
+>   static const struct irq_domain_ops hv_pci_domain_ops = {
+>   	.alloc	= hv_pci_vec_irq_domain_alloc,
+>   	.free	= hv_pci_vec_irq_domain_free,
+>   	.activate = hv_pci_vec_irq_domain_activate,
+> +	.deactivate = hv_pci_vec_irq_domain_deactivate,
+>   };
+>   
+>   #ifdef CONFIG_OF
+
+Regards,
+Naman
+
