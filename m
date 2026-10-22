@@ -1,70 +1,160 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792681669;
-	b=v9Vz5mB5WZNSryaKbogXu0l6Z6Lmxn2exNPRK5Xfr3B6JmjZAiVRRwtcyuE2B5hB/Aqq
-	 jDHHaLsHxbmlGdgQmAtVVaJR/h+2ZaA0/Daz1g8PIcKfVuBbtEbEwbMRc27ijJImJTt01
-	 0GjY0X+dIs2jNUTVEl2ue0qoI/htKFukxXGyX6phE5onL7S6a7WCgPl5G4cvHp+r2bkvg
-	 kCuGgbYiafEZ3E8KfvpYghXw4m6c/cJll+UgK1AvMnkTecyNiKgalCO14cQwklgY0enrm
-	 C6lARo8NpEVAiU8YGJFPqwLzg41ALiZ0GrXwR1P5sCf9ycuSMJNRDDXLnvNC0RzLrrQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792681669;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=w/1ZDXXkIBM/3ZYouuZsLSD1ylLvPW/z0hYF/2h5GOw=;
-	b=2XPIxygXxdCY3oxBI/TVQMQY1n+fkUN/sDcaWdZmgR13OvlRsPK2/17zESEMwgEUfb6a
-	 MLsBiRmf8d3pN/V04KDuyn9eglsiqnua/uved7CHtWfoPp68fim606vRVNehljN9nL7CM
-	 gpscOBTeDHNmNDdY/T0DxupauhcepNsDFUw9iYK+U5SpOylILayKorgPh1TdDxQu0YnQu
-	 g7wKdMtqfhlLbcocRn3vw1UCnDBhz7sE+0WzPjHl1inu5obNsuH9GMx4MX2W5q3QL0jDq
-	 uKay+H552uKnXZeeTb8JSjRrwEJ7RErSnIKqXJnNw0U2CCQ//06diucosBdLKICrxAw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="a/mI2oSH";
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2380360A4ADB;
-	Thu, 22 Oct 2026 15:07:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2380360A4ADB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.104
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792682258;
+	b=LdKFPwqvjs9ywTE+whHeJ/wp5z83mg69GzEsmjgYEUE50Twwn2QEgdpMMr4Mth/XvpCX
+	 v/SYL+nVCNEitg/ZK4dNJVvKUEsVwkKy/8zcaAdBWw/OetnGxKQ2CMUnwHNH5rkuV2Xmw
+	 JmN54RBcQ3a5s4IGQxrqyiqHZxYUFifxJf9EtZf8xxZ1Z12/HUk5U1/1vHPEtov/B/eAn
+	 w+l6kHknZe2xgfrGwMxkhf+JxiXOpMryA69JJZsTnEb8z/ttGAlvLg4ONs8sp2Nw8brM8
+	 wxLRnymzddmBriOM7aoblJaxH5LqmsNEmaIhsPxpSlv39eGjAklpYE50ZMvuAH9Sjww==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792682258;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 msip_labels:x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=q0SzshWkpXXO/leWbVWvWeTivhJ7U7mAksjNjSlle6c=;
+	b=NjS3JrWkb2KhFtUF6cCOrcbHHxbaI9fZaziLGAEilLSyx6ffsl6XhAV/D/VIsisu6i8S
+	 RCn48ZF8RpT0mLKgT+Yv1oplnt+wqdDiWpuWOiIhzhDBCG7/lu21H0vRUWc+jEehRSDHB
+	 iicBBKmLkoNX0i92kaLx4wHqEcMuHictwj2xYHe+Wrkq/73F+IT2hdCGoEyrlzT5TRdap
+	 Jqe1PmLrox9tRSOvvDwzNM8NQ1df51TQheXn3sFqLg2OMREoE2+Mf1ZVE2C3lZJPmeZHz
+	 bfwIsUjFVyRInxbhm20oUGNLCv+Q+7Bvvj/KEqNZvaOaI7OdRoo3g5v091fbaxAsJvg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=microsoft.com;
+	spf=pass smtp.mailfrom=microsoft.com;
+	dkim=pass header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=KrBFHr3Z;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.104
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023104.outbound.protection.outlook.com [52.101.127.104])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD58F60A6F7C;
+	Thu, 22 Oct 2026 15:17:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD58F60A6F7C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=a/mI2oSH
-Received: from kali.mshome.net (unknown [4.213.232.18])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 580FD20B7166;
-	Thu, 22 Oct 2026 08:07:35 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 580FD20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792681659;
-	bh=w/1ZDXXkIBM/3ZYouuZsLSD1ylLvPW/z0hYF/2h5GOw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=a/mI2oSHtnU3u+PsBooNAh3umM62UELD3FgmsNZvzbnAJzU6oBYv2nobHrR1K5cvb
-	 rNyMhVUMItW2NJw7ZmGaue1WOg0FZtrcbdeHeCtBIpfvSk4dno1oNe+FvGeCm/b329
-	 yzy7QsXZtaMxVaSmkJGRy2NA+YSXi/fGjFSljpF4=
-From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kotaranov@microsoft.com,
-	horms@kernel.org,
-	ernis@linux.microsoft.com,
-	gargaditya@linux.microsoft.com,
-	mawasthi@linux.microsoft.com,
-	leitao@debian.org,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH net v3] net: mana: Add support to process throttled EQEs
-Date: Thu, 22 Oct 2026 09:53:32 -0500
-Message-ID: <20261022145428.323576-1-sahilchandna@linux.microsoft.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=KrBFHr3Z
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cggM62Mxz08JI58AP0TOHSVSal7lBix32/6sdm3H5D6XtEx2GbWa/ue+fSSR3Z5090rmg5Y3iZEfstm2smjk0bFRgrnqQMiri2Plywm5WFk9H+20EeKbf/0OU8jZlgiZAkXaK5HA+UcKkZlbgDKmFxF4VHmOLuSG6NtUimSvYwWJ8GqWlCBC4/lM3Dd7+T8osdRYt9CdDJBPW0Inq084EpmPhbe4VTtex5UnUBrkjDxexd4pdpnDaWAUxlb1aXO8nM8mMLkjxTxSJtRvIrYPSQN0/dcJmnKUkag5uEVE3bXg7adz08AmzW0wqBvaIH7/6pI2MyFkvtrXjyM4zVBHXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=q0SzshWkpXXO/leWbVWvWeTivhJ7U7mAksjNjSlle6c=;
+ b=VZZpkcPg+EqYxBq/+9ETdhwv/UnxeGykJhctSXfplmPLPTPqZ5+Y1Qp0/8Kwci4M0SK5d0+EbgSNk1auR5zQxJ/CrG6EDcSN1exOtsG8OiYxkY+bbyLl+XKkX51m5i+m6W7OKkTHuvwTni9DLiwif407jtXN6W/Gsfs2EOdcJaGwjDGjxaVhkgoTWJO1B/AaKX/M1tS2AAYdBxdV1VKHFeFXWE2L9cAZXuI+N7h8VSQ9D0PAEHaBtq/8hTrygDg9Y8lPtXuVzvOT2K9X+XxHFW5boSB8dWiPHekA1VsROnODOhzYYwfBEcGjuj6M5gNEsZgNSVrr9Ih2MG5YKy33tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q0SzshWkpXXO/leWbVWvWeTivhJ7U7mAksjNjSlle6c=;
+ b=KrBFHr3ZxRE2R9p3n5vPw51Ps3bvMQsIudjVagJSXuybtqHG0SxkPiTFMa3nSs/5yiMGeJ538JYtJg8I0hzRZZAQsxtn6scA1Ft2Z903jRIXYfEUENzcJt7UGXdn0XDoIyE7qaJmvj9iv62pB8t46gHPIWexWBbUTz8P2RgojRE=
+Received: from SE3P153MB1848.APCP153.PROD.OUTLOOK.COM (2603:1096:101:340::5)
+ by KL1P153MB1032.APCP153.PROD.OUTLOOK.COM (2603:1096:820:125::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.3; Thu, 22 Oct
+ 2026 15:17:28 +0000
+Received: from SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+ ([fe80::8f4e:575a:4706:a56e]) by SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+ ([fe80::8f4e:575a:4706:a56e%6]) with mapi id 15.21.0569.000; Thu, 22 Oct 2026
+ 15:17:27 +0000
+From: Wei Hu <weh@microsoft.com>
+To: Jakub Kicinski <kuba@kernel.org>, Wei Hu <weh@linux.microsoft.com>
+CC: "longli@kernel.org" <longli@kernel.org>, Konstantin Taranov
+	<kotaranov@microsoft.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
+	<edumazet@google.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "leon@kernel.org" <leon@kernel.org>, Haiyang
+ Zhang <haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Dexuan Cui <DECUI@microsoft.com>, "shradhagupta@linux.microsoft.com"
+	<shradhagupta@linux.microsoft.com>, "horms@kernel.org" <horms@kernel.org>,
+	"ernis@linux.microsoft.com" <ernis@linux.microsoft.com>,
+	"stephen@networkplumber.org" <stephen@networkplumber.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "sdf@fomichev.me"
+	<sdf@fomichev.me>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"hawk@kernel.org" <hawk@kernel.org>, "ast@kernel.org" <ast@kernel.org>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "edumazet@kernel.org"
+	<edumazet@kernel.org>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v7 00/13] net: mana: reconfigure
+ by replacing the queue set
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v7 00/13] net: mana: reconfigure
+ by replacing the queue set
+Thread-Index: AQHdXYR3tisjI+eJx0SwkRFHTKT7ubcIkBsAgAEiViA=
+Date: Thu, 22 Oct 2026 15:17:27 +0000
+Message-ID:
+ <SE3P153MB1848038C8DA6E7AE7A446F87BB652@SE3P153MB1848.APCP153.PROD.OUTLOOK.COM>
+References: <cover.1791710735.git.weh@linux.microsoft.com>
+ <20261021144604.5a56a096@kernel.org>
+In-Reply-To: <20261021144604.5a56a096@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8b1d6c87-8232-4581-8d7c-4db0b129f1e1;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-10-22T15:05:13Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SE3P153MB1848:EE_|KL1P153MB1032:EE_
+x-ms-office365-filtering-correlation-id: b173be8e-5d86-48d1-7158-08df304f9538
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|42112799006|23010399003|38070700021|4143699003|56012099006|11063799006|261021121427099003|10067099003|7146999003|18002099003|22082099003|6133799003;
+x-microsoft-antispam-message-info:
+ 7UYcV0MI13ZiZ+rGldHH70oDbV8PDHulIxlrNYqpTQ4FS8RhfdvrnvoA5iFlZNpLTtup1CTUnMvt/85Nym+O59egruGLVHnnALeT3muPr732gNu9QxHWMICtAikT2MwzJrIieTBoM9sYw1DMpo75JzyJThr3ztr/67mYxmGw72xC7In2P3fcHd11RqlZK0grWqY0X2emJCRr+MPYpHJ6BXsAyv1DaIN+rbZhNTjOAX8EUgdQrB3WCGIQnO6ReTR7XzKcb6ImpQmaF1t7sgQi9GSmXwlGaiWprwcKuJlfbpi8J/++Ltk6LcBQpxJd+fi4Voe3rrB5GYBP+HlPMuFabtkfvbvINb6+Vn892I3qNTkKbpD2jNwEMAAZm5opjy8qwz7Vb/k2XbJ2YUj0qmqLnj6sGy5MlB9QCghlZzj8wM0Bq4T4cjDmjjuyZzVfTF6FYsibs8viwswoUOi+7ICTVGRgtPOryQdXhf7zxVJQNeMfw9X/upeS2hxN32Jt6/3tG+SyqVG1bCV82ACdEaJe9sygH0OCM6Rl6WsdOh3trnr7zCVW65eh2ELsqx/Qf1KgFtujeGfXV3gXrpxkw8Se2LkHiI1s5naIMlNRbLmLwXLowg9cwbG+sqlkNCKwbQocgnZoDPh9QPER84iXGgScUz3PDQ/iZ2mIB93K0F2Wa8QnMkqOqWs3r0VP7ntHM8HL9Yuv7Zq+UCOsZk+9RWGpcsNSiI3tK14hoqzPSGqNOgA=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE3P153MB1848.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(42112799006)(23010399003)(38070700021)(4143699003)(56012099006)(11063799006)(261021121427099003)(10067099003)(7146999003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?S1eywrHzirDDARTP0/QBLTo2ZpJGqKOBT5Z2zb8rNsK+mk2zj7J9kYq2a0NT?=
+ =?us-ascii?Q?Fhss1FepPswHcNMH7Lw1g+V8qeolyFqICmmovozL44VNVkEvy1NZInN7vcWm?=
+ =?us-ascii?Q?/fudOuw/a+hkL3vbCSR11LUcvZcMLC/B4S2qFGYTW7WeTEDWcsIGgWtHXL9i?=
+ =?us-ascii?Q?rLkL59+EyRUXCHodweJjD6Hu7iRdnnWBcVN/D/CgDqwyjtHxocQOBIFIhTxG?=
+ =?us-ascii?Q?2zDa4jm0XZEw7kka5aWHTXKwMUqntGEW6SyliDK/Fedc9Wki7+cHkZF9xDGy?=
+ =?us-ascii?Q?rFRzuf+Sf9KzvY2Te8/yi5RFt/i3XQItMIVMQcd+xI8CH7s4oVotXQKpd+pO?=
+ =?us-ascii?Q?a5E6DwpA193UMKHTCzWtRiOG2YYKaJGPN2JQH66MdxG0eSRroQ2Eoonxium9?=
+ =?us-ascii?Q?0bq6abzruEnTpvkBNn1XbPhWC8V90ppEF0povcFbzYuqh/OvPgZFm0FnbrjE?=
+ =?us-ascii?Q?tNMRRTrOJFpPuNvEfNpDXMLKv1FeOKA2Xm+XEaHy8undq9QVkYVkUIh2Ue5M?=
+ =?us-ascii?Q?n1wn8SG7Pz1j823w3rwH3lIH09V2DJ08OBUxsBfOzSnMynfYVlLQagOxRhWm?=
+ =?us-ascii?Q?PRSo62Dkv+3hJhrfiGNwr6kvmz/CHIhf6Z8rTG9/Qw2N/Lmv+oUmPPRUubnk?=
+ =?us-ascii?Q?sdEnW77UyjOw+2tL4HC5+jLf3p9AVFAIDyCj4hkogWpdhBK06OrDCWDZpEvO?=
+ =?us-ascii?Q?1cbz5pkKeXbiAUmDs7XJRV8x49YDlisJgkgkVT6FTP+B643nfJtFsADU8nh4?=
+ =?us-ascii?Q?IOZhLLqpUXtgs1JNkr9WlfgaYzut9rzYGarLZ3mcTOh/Oz52549oBpDqig0o?=
+ =?us-ascii?Q?MToUlKx4pUOx7RaHcF35vBHLyI8rut0TSJmTh/pZug9b4617w8H9PmqZetLW?=
+ =?us-ascii?Q?c5iTkvtxFALbULX6jlMcpH4sU1Z3w4HcjOS8Hp6xzx599mi9+TO7oqPXWwGk?=
+ =?us-ascii?Q?xaU7q3SjvGkwS24j3TZ9U1oW09eEMGOfHqcjQVFlTipgCUPcb7tkb/38Jhyg?=
+ =?us-ascii?Q?MYGBLGlxuAkX3+0dJzGdqvr67/gh9ca6Mcj5NpHtjBNGUpPufXbNAv6RoCKU?=
+ =?us-ascii?Q?MORr0L4CMRqjiG3lOdqcSwhoVpeRTFcAPum0E7BZWvxYNiDMWNFxZNMdmynr?=
+ =?us-ascii?Q?6y+sx7MkX61fkEZI7gC+gTxPT5uJtwnaX2Mohccet0jwxG3dw7iPkvso0rG2?=
+ =?us-ascii?Q?UiRDgXlHdczPYnNK/UkZBRyMFi2vg5i2KdLazO+3oJN6xxgkw+A8e+j8ubf+?=
+ =?us-ascii?Q?3L8YJahkhw47hIwkGTtcEQ+5bcnvbQQfwQJ/3MXkXrwZcujeSX2P/EQdQVF2?=
+ =?us-ascii?Q?IuJqFKRejivZHsxn9wGSwejWdOqWIDjZjrlTOpdwO0tDKtAwOyI7LKAJgce3?=
+ =?us-ascii?Q?EA8QLaqM9NYIIiT1SPP1IX8akgqJusvLmy0Q3dGB6NYHMZ+gJnNo0RuKHYng?=
+ =?us-ascii?Q?rcuhv7/GFazgYlfQ/h80hW9JvA0Xo0nGFnFy8Z72O0AiluFKl/W4tpSWe2L/?=
+ =?us-ascii?Q?pwqQBATi1ZziMW4TcN//Bhkgw/icyx+sZPX0zlS9GM+Rm6SPRie8F38aVazX?=
+ =?us-ascii?Q?WqTZ4VQrd6m4W5Bxw1Gu9MxxggjRhQCQkg4WJZeQN1Y9hA30n5X/PEJjGNu2?=
+ =?us-ascii?Q?fHs6ohToCFDzP/+AaQBy1Ik5iepuY4k8ybhKkzKzaoq6NXFH5CULaiXBA/Fo?=
+ =?us-ascii?Q?Qr5B0DNaE1O8qxq0RK7+k2LiXWHhetIXn3ZKpH1b/YP40v10?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -74,284 +164,40 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SE3P153MB1848.APCP153.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: b173be8e-5d86-48d1-7158-08df304f9538
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2026 15:17:27.3543
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: av86Z7vG9K+7bvDrOSc+fNfLM+aOTvW+JvzsimqRWtv/6zPMTST/v80NqdpeF2w24cFQ6j11zunOmoKjbcqgyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1P153MB1032
 
-When an event queue nears full, the hardware coalesces the per-CQ
-GDMA_EQE_COMPLETION notifications into a single throttle EQE (type 4)
-that carries no cq_id. The driver does not handle this event type, so
-it falls through to the default case and is dropped. Any CQ whose
-completion notification was replaced by the throttle EQE can remain
-unserviced, causing its queue to stall.
-The issue was observed internally and following Tx stall logs were
-seen:
+Hi Jakub,
 
-2026-10-03T05:29:01 hv_netvsc eth0: VF slot 0 removed
-2026-10-03T05:29:23 mana 7870:00:00.0 ens1: NETDEV WATCHDOG: CPU: 45:
-                    transmit queue 1 timed out 15133 ms
-2026-10-03T05:31:05 mana 7870:00:00.0: HWC: Request timed out: 60000 ms
-2026-10-03T05:31:05 mana 7870:00:00.0: Gf stats wk handler: gf stats
-query timed out.
-2026-10-03T05:31:21 ens1: NETDEV WATCHDOG: CPU: 20: transmit queue 0
-timed out 15859 ms
-2026-10-03T05:31:37 ens1: NETDEV WATCHDOG: CPU: 15: transmit queue 0
-timed out 31731 ms
-2026-10-03T05:31:53 ens1: NETDEV WATCHDOG: CPU: 21: transmit queue 0
-timed out 47603 ms
-2026-10-03T05:32:08 ens1: NETDEV WATCHDOG: CPU: 42: transmit queue 0
-timed out 62451 ms
+> -----Original Message-----
+> From: Jakub Kicinski <kuba@kernel.org>
+> Sent: Thursday, October 22, 2026 5:46 AM
+>=20
+> On Fri, 16 Oct 2026 15:38:33 +0000 Wei Hu wrote:
+> > I am carrying Long Li's queue-set reconfiguration series forward for
+> > this revision. Long remains the author of twelve patches, and Dipayaan
+> > Roy remains the author of the detach change. Their authorship and
+> > signoffs are retained; I have added my signoff for this revision.
+>=20
+> The BQL support went in and this series no longer applies, sorry :( Pleas=
+e
+> rebase & repost after the merge window.
+> --
+> pw-bot: cr
 
-Add support to process the CQs which belong to a throttled EQE of type 4
-advertise the capability bit, also add a counter to store the throttled
-EQEs count.
+I will rebase and address the netdev-bot findings. It also has conflict
+with my pending HWC series. I just posted the v9 HWC patch-set. Hopefully
+it could get accepted first. Then I can rebase this on both BQL and=20
+HWC patches.=20
 
-Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
----
-Changes in v3:
-- Resolve race for cq in mana_gd_destroy_cq and irq handler using cq.
-- Rebase to net branch
-Link to v2: https://lore.kernel.org/all/20261014134304.4177657-1-sahilchandna@linux.microsoft.com/
-
-Changes in v2:
-- Use WRITE_ONCE() when clearing max_num_cqs and add RCU
-  grace period wait during HWC teardown.
-- Use synchronize_net() during CQ destroy only when the CQ was
-  attached to its parent EQ.
-- Use WRITE_ONCE() and READ_ONCE() for the throttle-event counter.
-- Add Fixes tag and net instead of net-next.
-- Fix commit message to describe capability bit and counter.
-Link to v1: https://lore.kernel.org/all/20261008083315.306076-1-sahilchandna@linux.microsoft.com/
-
- .../net/ethernet/microsoft/mana/gdma_main.c   | 62 +++++++++++++++++--
- .../net/ethernet/microsoft/mana/hw_channel.c  |  6 +-
- .../ethernet/microsoft/mana/mana_ethtool.c    |  9 +++
- include/net/mana/gdma.h                       | 12 +++-
- include/net/mana/mana.h                       |  1 +
- 5 files changed, 81 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 8e9bfc1d6a2a..d74ed00bb783 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -904,6 +904,27 @@ ssize_t mana_gd_read_ring(struct gdma_queue *q, char __user *buf,
- 	return copied;
- }
-
-+static void mana_gd_schedule_eq_cqs(struct gdma_queue *eq)
-+{
-+	struct gdma_context *gc = eq->gdma_dev->gdma_context;
-+	struct gdma_queue *cq;
-+	u8 i;
-+
-+	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-+		cq = rcu_dereference(eq->eq.child_cq[i]);
-+
-+		if (!cq)
-+			continue;
-+
-+		if (cq->id >= READ_ONCE(gc->max_num_cqs) ||
-+		    !gc->cq_table || gc->cq_table[cq->id] != cq)
-+			continue;
-+
-+		if (cq->cq.callback)
-+			cq->cq.callback(cq->cq.context, cq);
-+	}
-+}
-+
- static void mana_gd_process_eqe(struct gdma_queue *eq)
- {
- 	u32 head = eq->head % (eq->queue_size / GDMA_EQE_SIZE);
-@@ -934,6 +955,11 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
-
- 		break;
-
-+	case GDMA_EQE_THROTTLE:
-+		WRITE_ONCE(eq->eq.throttle_count, eq->eq.throttle_count + 1);
-+		mana_gd_schedule_eq_cqs(eq);
-+		break;
-+
- 	case GDMA_EQE_TEST_EVENT:
- 		gc->test_event_eq_id = eq->id;
- 		complete(&gc->eq_test_event);
-@@ -1220,25 +1246,49 @@ static void mana_gd_create_cq(const struct gdma_queue_spec *spec,
- 			      struct gdma_queue *queue)
- {
- 	u32 log2_num_entries = ilog2(spec->queue_size / GDMA_CQE_SIZE);
-+	struct gdma_queue *parent;
-+	u8 i;
-
- 	queue->head |= INITIALIZED_OWNER_BIT(log2_num_entries);
--	queue->cq.parent = spec->cq.parent_eq;
-+	parent = spec->cq.parent_eq;
-+	queue->cq.parent = parent;
- 	queue->cq.context = spec->cq.context;
- 	queue->cq.callback = spec->cq.callback;
-+
-+	if (!parent)
-+		return;
-+
-+	/* For throttled EQE store the child CQ */
-+	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++)
-+		if (!rcu_access_pointer(parent->eq.child_cq[i])) {
-+			rcu_assign_pointer(parent->eq.child_cq[i], queue);
-+			return;
-+		}
- }
-
- static void mana_gd_destroy_cq(struct gdma_context *gc,
- 			       struct gdma_queue *queue)
- {
-+	struct gdma_queue *eq = queue->cq.parent;
-+	bool attached = false;
- 	u32 id = queue->id;
-+	u8 i;
-
--	if (id >= gc->max_num_cqs)
--		return;
-+	if (eq) {
-+		for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-+			if (rcu_access_pointer(eq->eq.child_cq[i]) == queue) {
-+				RCU_INIT_POINTER(eq->eq.child_cq[i], NULL);
-+				attached = true;
-+			}
-+		}
-+	}
-
--	if (!gc->cq_table[id])
--		return;
-+	if (id < gc->max_num_cqs && READ_ONCE(gc->cq_table[id]))
-+		WRITE_ONCE(gc->cq_table[id], NULL);
-
--	gc->cq_table[id] = NULL;
-+	/* Wait for irq reader holding the cq */
-+	if (attached)
-+		synchronize_net();
- }
-
- int mana_gd_create_hwc_queue(struct gdma_dev *gd,
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 263e7c4e2934..10eeaa40dc5f 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -364,7 +364,7 @@ static void mana_hwc_comp_event(void *ctx, struct gdma_queue *q_self)
-
- 	completions = hwc_cq->comp_buf;
- 	comp_read = mana_gd_poll_cq(q_self, completions, hwc_cq->queue_depth);
--	WARN_ON_ONCE(comp_read <= 0 || comp_read > hwc_cq->queue_depth);
-+	WARN_ON_ONCE(comp_read < 0 || comp_read > hwc_cq->queue_depth);
-
- 	for (i = 0; i < comp_read; ++i) {
- 		comp_data = *(struct hwc_rx_oob *)completions[i].cqe_data;
-@@ -820,9 +820,11 @@ void mana_hwc_destroy_channel(struct gdma_context *gc)
- 	 */
- 	if (gc->max_num_cqs > 0) {
- 		mana_smc_teardown_hwc(&gc->shm_channel, false);
--		gc->max_num_cqs = 0;
-+		WRITE_ONCE(gc->max_num_cqs, 0);
- 	}
-
-+	synchronize_rcu();
-+
- 	if (hwc->txq)
- 		mana_hwc_destroy_wq(hwc, hwc->txq);
-
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index 33db79569d3b..bc1db86acf64 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -22,6 +22,8 @@ static const struct mana_stats_desc mana_eth_stats[] = {
- 				       tx_linear_pkt_cnt)},
- 	{"rx_cqe_unknown_type", offsetof(struct mana_ethtool_stats,
- 					rx_cqe_unknown_type)},
-+	{"eq_throttle_events", offsetof(struct mana_ethtool_stats,
-+					eq_throttle_events)},
- };
-
- static const struct mana_stats_desc mana_hc_stats[] = {
-@@ -250,6 +252,7 @@ static void mana_get_ethtool_stats(struct net_device *ndev,
- 	u64 short_pkt_fmt;
- 	u64 csum_partial;
- 	u64 mana_map_err;
-+	u64 throttle_events;
- 	int q, i = 0, j;
-
- 	if (!apc->port_is_up)
-@@ -261,6 +264,12 @@ static void mana_get_ethtool_stats(struct net_device *ndev,
- 	 */
- 	mana_query_phy_stats(apc);
-
-+	throttle_events = 0;
-+	for (q = 0; q < num_queues; q++)
-+		throttle_events += READ_ONCE(apc->eqs[q].eq->eq.throttle_count);
-+
-+	apc->eth_stats.eq_throttle_events = throttle_events;
-+
- 	for (q = 0; q < ARRAY_SIZE(mana_eth_stats); q++)
- 		data[i++] = *(u64 *)(eth_stats + mana_eth_stats[q].offset);
-
-diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-index 308950f9b54b..50eae2aac64e 100644
---- a/include/net/mana/gdma.h
-+++ b/include/net/mana/gdma.h
-@@ -58,6 +58,7 @@ enum gdma_work_request_flags {
-
- enum gdma_eqe_type {
- 	GDMA_EQE_COMPLETION		= 3,
-+	GDMA_EQE_THROTTLE		= 4,
- 	GDMA_EQE_TEST_EVENT		= 64,
- 	GDMA_EQE_HWC_INIT_EQ_ID_DB	= 129,
- 	GDMA_EQE_HWC_INIT_DATA		= 130,
-@@ -286,6 +287,7 @@ struct gdma_dev {
- #define GDMA_EQE_SIZE 16
- #define GDMA_MAX_SQE_SIZE 512
- #define GDMA_MAX_RQE_SIZE 256
-+#define GDMA_EQ_MAX_CHILD_CQ 2
-
- #define GDMA_COMP_DATA_SIZE 0x3C
-
-@@ -366,6 +368,10 @@ struct gdma_queue {
- 			unsigned int irq;
-
- 			u32 log2_throttle_limit;
-+
-+			u64 throttle_count;
-+
-+			struct gdma_queue __rcu *child_cq[GDMA_EQ_MAX_CHILD_CQ];
- 		} eq;
-
- 		struct {
-@@ -686,6 +692,9 @@ enum {
- /* Driver supports non-contiguous queue buffers */
- #define GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS BIT(30)
-
-+/* Driver supports handling throttled EQEs */
-+#define GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE BIT_ULL(32)
-+
- #define GDMA_DRV_CAP_FLAGS1 \
- 	(GDMA_DRV_CAP_FLAG_1_EQ_SHARING_MULTI_VPORT | \
- 	 GDMA_DRV_CAP_FLAG_1_NAPI_WKDONE_FIX | \
-@@ -703,7 +712,8 @@ enum {
- 	 GDMA_DRV_CAP_FLAG_1_HWC_TIMEOUT_RECOVERY | \
- 	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT | \
- 	 GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION | \
--	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS)
-+	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS | \
-+	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE)
-
- #define GDMA_DRV_CAP_FLAGS2 0
-
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 8c3dc9d0b299..1d4be069f869 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -450,6 +450,7 @@ struct mana_ethtool_stats {
- 	u64 tx_cqe_unknown_type;
- 	u64 tx_linear_pkt_cnt;
- 	u64 rx_cqe_unknown_type;
-+	u64 eq_throttle_events;
- };
-
- struct mana_ethtool_hc_stats {
---
-2.53.0
+Thanks,
+Wei
