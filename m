@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792802483;
-	b=KcZVWJSvVLqgI7A9qa4HnaPc4WPxKIFytdE06dUJoX18f9HSrHx3cuxvoCB0jqlSJEwj
-	 cf6qR58OKuuhiQfsTWvvDSZ0nprmw3bonly4r7gENx4PbdwE/NgEINmcr6ZeR8qwKyf8e
-	 fCOJbpvUK+coduQfD5+3lhNRqesaGzpsYop1DZSgBspk1TYpfUFfOcHSeDbmLcFfd1F63
-	 5l8MizopF+d8kzB2paQB9qlWBSyDF64+57A8cf9p9vbG3qbeoE4kM8L1tKlTxkaVcZNjW
-	 CjYDRq0AHbAkVkZN87gL3uMDOMI+BiUPiC4oAVddMARV5Q1HEDLoT8+e9OVd2qW5acg==
+	t=1792802560;
+	b=2ZVjphVHKcIPRMRa1J6EGi44Sk1zhIkW00Fe0zfBJzFcGadp8jQ9jZudmD1cWZXwnIk8
+	 phtToZAw+iXcpKLZ2ArLG8Gv/n1Q2s9KGtr10JEQQyc6XiVhXM7NPPFoVtu+RIra0i/Nj
+	 CyDXz4ydDEq5jZ0uPXFDOvkie8xy1Z2LQlQb73ab6Uhf2GfmzcgcD3HxNauUgCQu3+pJ6
+	 2HGO6lXeFij4LDygWqtrt1InHQQDA288LPbiFgs2MzbXSsz68b91hFHfezF2TOewSo9RI
+	 j8Q0jGsyVTBmg41ol4hLCHaFb8l1z2C1lSodPLoXPv3uqlRfxM9I5+Kdqhwx2WX4B1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792802483;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792802560;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:Cc:
 	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
 	 X-Spam-Checker-Version;
-	bh=e+3yikLRyd25QVAHi64GlaMAtZSjYf4vQyOD0JTh6mg=;
-	b=I3cViTkALPyp3QbetbJr1h+aQ/lh2Eica283a38TnUs+tIvvZ/pAURiuSug2CSWgjxd+
-	 7WbDVhMAZyUuR/xbLQqiC2ri/Bx5Vwjtlfg3v8Q9+egr9dR0AmaMP/eT4g5ScVSVkLtxD
-	 DhMb6q/enObIpYj5dR/Rf0e2BG0cqXyoFBtHkhYJ/UFkpvsndUUvOqlf+KTWu1chsbbxt
-	 fZYOZY0S0kl8o3z0d59LDegBZG7nh4Z32nP04aR2amv/5goTSaD46Eda+Mhj1RbxO26xU
-	 eLdFvAVlV3ZzeCI3uXINGNa9gzMCzdBfPCv1z2QJlO6wT6S1G50to6BHsHfRadC4wAg==
+	bh=08pP9XbCtAK7nKt18DAVCDTlNsddbkO/GF53sPocWPo=;
+	b=l7ipfqwM/hh48TiHYEvGP+ROHt2G7Q6XIEuxV+i1b61AMeNQXxAxdkou5lO3pPy1mdGJ
+	 Z5Ld1zLff/OrT26GwMQLsifzc6oPSX336Gu1mSx8mO9+hMcK5rKxZwTtoVheSpmgfdlLe
+	 53rsrzXqNZAYNtLvKR/CN/oarzGKkXECZGIAWdTPIWGMx7TmsFLe0S4ifYTZrbkvKEr86
+	 /3En/yQKmpiGzu71F/I91o3fvHQjkXlmscRBfXMSGl7Ycf6Fplg1fgZstOOTw7a0irJlf
+	 57WTBABEu1nfxexTsoakxHAyxAywb2hdoFlIfDOUuzK1R30JN110aNWZYstSqh7EDLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=gT1G1TGx;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ExbPoxRp;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B37D606A31A;
-	Sat, 24 Oct 2026 00:41:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B37D606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB94606A31A;
+	Sat, 24 Oct 2026 00:42:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FB94606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=gT1G1TGx
-Received: from [192.168.0.15] (unknown [52.172.102.219])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 955D920B7166;
-	Fri, 23 Oct 2026 17:41:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 955D920B7166
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ExbPoxRp
+Received: from [192.168.0.15] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8E0D120B7166;
+	Fri, 23 Oct 2026 17:42:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8E0D120B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792802473;
-	bh=e+3yikLRyd25QVAHi64GlaMAtZSjYf4vQyOD0JTh6mg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gT1G1TGxFQnd4QjMonPQ+AeRk2ZwkG8kKkaQH3fpXPjjn6phe0rje9VOZZu9u7DMe
-	 ufZK32KTmHQeB1RA0ciGkkACNsXlIHLt0IhvPURlQgRm0mYuTru9HrX0VxY+PtFk1E
-	 YNgzclldBzkqbTzNk8NbbwgxGttA5lLW60JMlDdE=
-Message-ID: <d04125b1-1228-4322-a455-3b8970167239@linux.microsoft.com>
-Date: Fri, 23 Oct 2026 17:41:17 -0700
+	s=default; t=1792802550;
+	bh=08pP9XbCtAK7nKt18DAVCDTlNsddbkO/GF53sPocWPo=;
+	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+	b=ExbPoxRpsqJ8WvksGtX7m/oEI2jfdb0KkDdzTIhebHAStaT37MbdjHsl1VyTN+Ar2
+	 cRRgUnkKpeubrIPysU9j5vEGIEdkz7d+Ax7K4AoCj1G4+oymLugPgK4F2/eeLY781h
+	 9jhTpP2R7TLlIZ0yuGfHbNtCIcu4nQL/iT6vViuE=
+Message-ID: <ca9da220-cf8e-4458-8109-5182f240c078@linux.microsoft.com>
+Date: Fri, 23 Oct 2026 17:42:35 -0700
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -54,65 +54,67 @@ List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: copy dynamic IDs before
- dropping the lock
-To: Jiale Yao <yaojiale02@163.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Subject: Re: [PATCH v2 0/2] Drivers: hv: vmbus: fix dynamic ID races
+To: Jiale Yao <yaojiale02@163.com>, Wei Liu <wei.liu@kernel.org>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>
+References: <20261021143323.338146-1-yaojiale02@163.com>
+Content-Language: en-US
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Stephen Hemminger <stephen@networkplumber.org>,
  linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261021143323.338146-1-yaojiale02@163.com>
- <20261021143323.338146-3-yaojiale02@163.com>
-Content-Language: en-US
 From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261021143323.338146-3-yaojiale02@163.com>
+In-Reply-To: <20261021143323.338146-1-yaojiale02@163.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/21/2026 7:33 AM, Jiale Yao wrote:
-[...]
-> @@ -860,13 +862,17 @@ static int vmbus_match(struct device *device, const struct device_driver *driver
->   */
->  static int vmbus_probe(struct device *child_device)
->  {
-> -	int ret = 0;
-> +	const struct hv_vmbus_device_id *dev_id;
-> +	struct hv_vmbus_device_id dev_id_copy;
->  	struct hv_driver *drv =
->  			drv_to_hv_drv(child_device->driver);
->  	struct hv_device *dev = device_to_hv_device(child_device);
-> -	const struct hv_vmbus_device_id *dev_id;
-> +	int ret = 0;
+> VMBus dynamic IDs have two races with their sysfs add and remove paths.
+> 
+> First, new_id_store() checks for an existing ID separately from inserting
+> the new entry, allowing concurrent writers to add duplicate GUIDs. Move the
+> check and insertion into one critical section.
+> 
+> Second, matching returns a pointer into the dynamic ID list after dropping
+> the lock. A concurrent remove_id write can free that entry before probe uses
+> it. Copy the ID while holding the lock and reject probe when a dynamic ID is
+> removed between matching and probing.
+> 
+> The series was found by static analysis and checked with checkpatch.pl. Each
+> patch was also checked individually and in series for application to the
+> base commit below.
+> 
+> Jiale Yao (2):
+>   Drivers: hv: vmbus: prevent duplicate dynamic IDs
+>   Drivers: hv: vmbus: copy dynamic IDs before dropping the lock
+> 
+> ---
+> Changes in v2:
+> - Split the dynamic ID insertion TOCTOU into a preparatory patch.
+> - Reject probe when the matching ID disappears before the second lookup.
+> - Preserve the ID-less hvsock probe path.
+> - Use scoped locking and memcpy() for the dynamic ID copy.
+> - Document that the device ID is valid only during probe.
+> - Cite the corresponding PCI and USB dynamic ID lifetime fixes.
+> - Add Cc: stable@vger.kernel.org and use the VMBus subject prefix.
+> 
+> Link: https://lore.kernel.org/r/20261019085544.1834700-1-yaojiale02@163.com
+> 
+>  drivers/hv/vmbus_drv.c | 56 +++++++++++++++++++++++++-----------------
+>  include/linux/hyperv.h |  1 +
+>  2 files changed, 34 insertions(+), 23 deletions(-)
+> 
+> 
+> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
 
-Nit: the reordering of these declarations is unnecessary.
-In a stable patch, we shouldn't include any purely style changes.
+Performed regression testing in Azure. No issues detected.
+
+Tested-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+
+
+Besides the one NIT in PATCH 2/2, for the full series,
+
+Reviewed-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 
 -- 
 Regards,
 Kameron
-
-> +
-> +	dev_id = hv_vmbus_get_id(drv, dev, &dev_id_copy);
-> +	if (!dev_id && !is_hvsock_channel(dev->channel))
-> +		return -ENODEV;
->  
-> -	dev_id = hv_vmbus_get_id(drv, dev);
->  	if (drv->probe) {
->  		ret = drv->probe(dev, dev_id);
->  		if (ret != 0)
-> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index 9e109d91aa14..0f0423e8a184 100644
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -1264,6 +1264,7 @@ struct hv_driver {
->  		struct list_head list;
->  	} dynids;
->  
-> +	/* The device ID pointer is only valid during the probe callback. */
->  	int (*probe)(struct hv_device *, const struct hv_vmbus_device_id *);
->  	void (*remove)(struct hv_device *dev);
->  	void (*shutdown)(struct hv_device *);
-
-
-
