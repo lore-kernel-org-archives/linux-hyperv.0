@@ -1,96 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792779795;
-	b=2B4GKnIyExGjtUYPrhSpGYskWcZBzpABbfgw8T+q3Qr+wXDVNlR3eA357xW7jJB+gBbv
-	 jSG15ZlSWi0Alw5iSNqq58nSfZp5A4G2/u6O0Q+ERXw8Pw5xri4ub7aGn92I3cDOBnYFZ
-	 qY0FK9W8u5A3XQ7E7QdoNXXKeWKBFvnBz9UyNogBBm17PNc+48n5tbZ0bWM6Q2fJxZ5i0
-	 cNje3OLwHd5VpdRmflmc3rv6r08VI8VhWcHoCGfw4yjczIgUBqBG0mqFD976Tah1H25z+
-	 m+65TaXN6G+N/XuWjbBX3An3vZGDgjbuwyoiopXnOTFC0p6sK0wHKkT8eJd+oNHKJOQ==
+	t=1792802483;
+	b=KcZVWJSvVLqgI7A9qa4HnaPc4WPxKIFytdE06dUJoX18f9HSrHx3cuxvoCB0jqlSJEwj
+	 cf6qR58OKuuhiQfsTWvvDSZ0nprmw3bonly4r7gENx4PbdwE/NgEINmcr6ZeR8qwKyf8e
+	 fCOJbpvUK+coduQfD5+3lhNRqesaGzpsYop1DZSgBspk1TYpfUFfOcHSeDbmLcFfd1F63
+	 5l8MizopF+d8kzB2paQB9qlWBSyDF64+57A8cf9p9vbG3qbeoE4kM8L1tKlTxkaVcZNjW
+	 CjYDRq0AHbAkVkZN87gL3uMDOMI+BiUPiC4oAVddMARV5Q1HEDLoT8+e9OVd2qW5acg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792779795;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=S8Q9NS04qLtTkf7TWNPkkhniIW2aieZgQ7tV7biAQBg=;
-	b=Wf1xHSBpdmroZLhP3c9Z9N0geBqdepI6+ueHXXdefFbT8qY6jqk51bOn4J8DiMFHn9mc
-	 EOyIhyUtoL4xCOnzLefs/tzojI/RWKM6MaAebS9pKz0sU1qVN27e9RC6C59RxgoUaghC8
-	 9Cmn9q/PUCnhgKaVVOM75ite3/8gQzflessV5dtbQnmfv85q1mchlJ7b5e7RoEI1zI8Un
-	 EAg8TNxWSWeHnMVBoL/HvMv1V2x7CnJFY0MVoycd7xVGnhT9z8BJv6FH1CRcTucn1wSCT
-	 XERblH2XFdRvN0OK3If7rR7DxJ9UZd2s9/fsX/evh4cFYPUSSyQQWF6jLqN8DTBswLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792802483;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=e+3yikLRyd25QVAHi64GlaMAtZSjYf4vQyOD0JTh6mg=;
+	b=I3cViTkALPyp3QbetbJr1h+aQ/lh2Eica283a38TnUs+tIvvZ/pAURiuSug2CSWgjxd+
+	 7WbDVhMAZyUuR/xbLQqiC2ri/Bx5Vwjtlfg3v8Q9+egr9dR0AmaMP/eT4g5ScVSVkLtxD
+	 DhMb6q/enObIpYj5dR/Rf0e2BG0cqXyoFBtHkhYJ/UFkpvsndUUvOqlf+KTWu1chsbbxt
+	 fZYOZY0S0kl8o3z0d59LDegBZG7nh4Z32nP04aR2amv/5goTSaD46Eda+Mhj1RbxO26xU
+	 eLdFvAVlV3ZzeCI3uXINGNa9gzMCzdBfPCv1z2QJlO6wT6S1G50to6BHsHfRadC4wAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TKo2Kbxu;
-	arc=none smtp.remote-ip=209.85.210.180
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A699606A31E
-	for <linux-hyperv@vger.kernel.org>; Fri, 23 Oct 2026 18:23:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A699606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=gT1G1TGx;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B37D606A31A;
+	Sat, 24 Oct 2026 00:41:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B37D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TKo2Kbxu
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-89f639ba307so488515b3a.3
-        for <linux-hyperv@vger.kernel.org>; Fri, 23 Oct 2026 11:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792779794; x=1793384594; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=S8Q9NS04qLtTkf7TWNPkkhniIW2aieZgQ7tV7biAQBg=;
-        b=TKo2KbxuRmSutF9rShpMagljlVsMPFu4Xlwyn2VTuQmRvKYQFBwxN0MeDYHrp3yq5/
-         ojbLLAjnYGMbsHWu9ypkjowJaEdfcPGDC/tf5UvdyaeWc6c57lU1IKC6eJviHa0BcfFb
-         RZvZ00H5iTxNccfW7wN/7TrLMhlJ/B6L4y8VAtHbRcLuMAh9zMRd1hXeTNATbnmiPdch
-         n/ubuZrny5I6HPAUUsRMJEY92nCDgIJvMswl3VHY94VrnXjoiLIx69EeASE/lS27x0zD
-         lMtNEC3uN0RE8OsnthfZYzmx1o6GwvXmq/FAHFl6fwTQzcHR9dTXWqaAj9eh/T4XUHbL
-         WF2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792779795; x=1793384595;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S8Q9NS04qLtTkf7TWNPkkhniIW2aieZgQ7tV7biAQBg=;
-        b=aF0v8EU6aZhIRn4+4VnFL+vkU4ZgLGl0/fFnLxl2k1LnWbONfS1mQfgKSY+9Hv/RE/
-         pfHm2ItR2nrkmmR3V5wmMA4gCQBaZV7aJMm2hdc6kQFPdqstUlSwpsqPr6Cm/JiqRWy3
-         u9kfQR868TVy3L5NwUg/HuR8wpdWx72KRaeV/XAsp5jFpqoi/WEhh1wVIMRkmycOlmRE
-         b1uFeEQ5u/pa21Sir5gu0Px0GhpMi1Hf/bw3ulxTzDoHxuX/ICdGkAJ1hvGUQTsb/ZLr
-         YxrSpNeg5JjFsPfxUSmrpis/v5IIPCWeKrGdoOmUJVVtm72Dy320EEm5Gj/dnWw3QWaZ
-         uYGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxdWl4cueNFX8ux/YMor+cnUkSljfCsqNpcRu7P93WGDMhyC+Myghq8cBzjnsD22xa1VSBZ0BHb11NNl+U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLy3TQ8x1wRe6+XZ8cbESqyiyX/Tnmmxqx9MGdtxXIXDNiCX2Qo
-	OXAaBXULqN9GmL6IB43soCYkLVPqtDkf30uko/JSnpR7FtjTmH5/s2Dp
-X-Gm-Gg: AYBFou142iIRSRfEdIrpI9Y+LQdJdsomi8UqEoulTkNQdIAOodw6P/csvQWqWo8jAOZ
-	codRHGh79ER54GuPaiO9taCaJ1VtKcrqndGV5bIv2VXXux7Vx8o+zumr8xELE8BOxaxCEfvhPL5
-	Jaigl2cH2uyVwZ65kjzo/aXWPLoqa8i0xGHwg8GJU2VsqF3oxmBR0dQwauB+wvS8u5fjrWWE2Vu
-	O8S/Hu8cbCXsBKdfGictML7sXFGeWQROqCqLCJS3xOFQGEUQy58sxy8jHeTeVNgfq2sQFcHTOq8
-	SDuqjetoF/PlDx+f0/hHfbC9Tybju6O8REmSFh8NY8sP3AetJ7dzjxTUldOEaozYg046omi4mfC
-	P/09KZA7Ucsdr0VZnoMR2IswO5B13Er09Hzt2isv054dEss9Sr7rlw19scJOYxCMQD5H9Ht7aCl
-	C5a0bJnqviSOXvy9rZ9/gKkbK4Sd2Pok+OSKRKJ9ACoOqztrqVOQUvmfh+UYKZwKGMGugcVW2Ru
-	6lT1mxaOUX0ut+1sxJftba8O//j/O+LcGWU4yFMDruTiQWScIYm/b17OIqCpupiVIfEOWXCJefe
-	kcnvEiqu2IXlvwqzolrTh3+dWkfM/o/GN0lLC/zMiiGssd5mpeulyWG2SCThuPucB9lhLppPP7g
-	SVRwhpTML0AcI22YJ51nWvd6I/YWpaubU
-X-Received: by 2002:a05:6a00:b4c:b0:882:2b16:c314 with SMTP id d2e1a72fcca58-8a367a2f8famr67193b3a.52.1792779794464;
-        Fri, 23 Oct 2026 11:23:14 -0700 (PDT)
-Received: from mitchelllevy.localdomain ([131.107.1.234])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a36c0fefa3sm32030b3a.51.2026.10.23.11.23.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 11:23:14 -0700 (PDT)
-Date: Fri, 23 Oct 2026 11:23:12 -0700
-From: Mitchell Levy <levymitchell0@gmail.com>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Drivers: hv: vmbus: Harden the ring buffer
- against a malicious host
-Message-ID: <20261023182312.2znaexe6rspsonod@mitchelllevy.localdomain>
-References: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=gT1G1TGx
+Received: from [192.168.0.15] (unknown [52.172.102.219])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 955D920B7166;
+	Fri, 23 Oct 2026 17:41:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 955D920B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792802473;
+	bh=e+3yikLRyd25QVAHi64GlaMAtZSjYf4vQyOD0JTh6mg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gT1G1TGxFQnd4QjMonPQ+AeRk2ZwkG8kKkaQH3fpXPjjn6phe0rje9VOZZu9u7DMe
+	 ufZK32KTmHQeB1RA0ciGkkACNsXlIHLt0IhvPURlQgRm0mYuTru9HrX0VxY+PtFk1E
+	 YNgzclldBzkqbTzNk8NbbwgxGttA5lLW60JMlDdE=
+Message-ID: <d04125b1-1228-4322-a455-3b8970167239@linux.microsoft.com>
+Date: Fri, 23 Oct 2026 17:41:17 -0700
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -100,37 +53,66 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019230950.1573677-1-kameroncarr@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: copy dynamic IDs before
+ dropping the lock
+To: Jiale Yao <yaojiale02@163.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Hemminger <stephen@networkplumber.org>,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261021143323.338146-1-yaojiale02@163.com>
+ <20261021143323.338146-3-yaojiale02@163.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <20261021143323.338146-3-yaojiale02@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 19, 2026 at 04:09:45PM -0700, Kameron Carr wrote:
-> In a CoCo VM the host is untrusted. Since the VMBus ring buffer read and
-> write indices live in shared memory, the guest has to treat both as
-> potentially malicious and as changing at any time. This patch series
-> adds bounds checking and reuses the validated indices instead of
-> re-accessing them.
-> 
-> Patch 1 contains the minimum security fix, and is the only patch in the
-> series intended to be backported. hv_ringbuffer_write() copies into the
-> ring at the write index, so a malicious host can make the guest write to
-> memory outside the ring buffer. This is reachable on any channel a CoCo
-> VM accepts.
-> 
-> Patches 2 and 3 add READ/WRITE_ONCE annotations and refactor the helper
-> functions to allow the caller to work with a consistent snapshot of the
-> ring buffer indices.
-> 
-> Patch 4 adds the rest of the bounds checking. The memcopy() in
-> hv_pkt_iter_avail() can only result in an out-of-bounds read if
-> rbi->pkt_buffer_size exceeds the ring's data size. KVP is the only
-> in-tree channel whose max_pkt_size exceeds its ring's data size (16K vs
-> 12K on a 4K page guest). CoCo VMs reject the KVP channel, so this bug is
-> currently unreachable on CoCo VMs. The other paths patch 4 checks can't
-> cause a bad access, only a nonsense byte count or a wrong signaling
-> decision.
+On 10/21/2026 7:33 AM, Jiale Yao wrote:
+[...]
+> @@ -860,13 +862,17 @@ static int vmbus_match(struct device *device, const struct device_driver *driver
+>   */
+>  static int vmbus_probe(struct device *child_device)
+>  {
+> -	int ret = 0;
+> +	const struct hv_vmbus_device_id *dev_id;
+> +	struct hv_vmbus_device_id dev_id_copy;
+>  	struct hv_driver *drv =
+>  			drv_to_hv_drv(child_device->driver);
+>  	struct hv_device *dev = device_to_hv_device(child_device);
+> -	const struct hv_vmbus_device_id *dev_id;
+> +	int ret = 0;
 
-Thanks for the fix! For the series,
+Nit: the reordering of these declarations is unnecessary.
+In a stable patch, we shouldn't include any purely style changes.
 
-Reviewed-by: Mitchell Levy (Microsoft) <levymitchell0@gmail.com>
+-- 
+Regards,
+Kameron
+
+> +
+> +	dev_id = hv_vmbus_get_id(drv, dev, &dev_id_copy);
+> +	if (!dev_id && !is_hvsock_channel(dev->channel))
+> +		return -ENODEV;
+>  
+> -	dev_id = hv_vmbus_get_id(drv, dev);
+>  	if (drv->probe) {
+>  		ret = drv->probe(dev, dev_id);
+>  		if (ret != 0)
+> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+> index 9e109d91aa14..0f0423e8a184 100644
+> --- a/include/linux/hyperv.h
+> +++ b/include/linux/hyperv.h
+> @@ -1264,6 +1264,7 @@ struct hv_driver {
+>  		struct list_head list;
+>  	} dynids;
+>  
+> +	/* The device ID pointer is only valid during the probe callback. */
+>  	int (*probe)(struct hv_device *, const struct hv_vmbus_device_id *);
+>  	void (*remove)(struct hv_device *dev);
+>  	void (*shutdown)(struct hv_device *);
+
+
 
