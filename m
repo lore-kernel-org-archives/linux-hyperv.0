@@ -1,60 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793024131;
-	b=f4Byjo8k6i183HPtvcKJYTAZcW4LjFYBxelDXvaWXRqlvQRy2SrXDwjBTdoa7NrnzdX2
-	 YS5M8z7ydsdAtgus6jzicuo067S1EQtS73PYOwza7HMBQmEM2f5iO8NWJjg9P2ZJyDTkQ
-	 ObdwM4+ENZvGXDVVAZrqvVVxZHmJ5TU9+yTRsR2aPHUm9Kbzw5BdSII+nCPxAfVX7BuhL
-	 PwhPje3O6xRSVQ8ZM6AKjdTgSLsuzEHnhMLDt2EPqFtg5Yri4AcU2uxjoFYUTDpRdxhll
-	 J3iRYoaA4XiHPePfziobMIEHgVZHPGbCig63ZA7GU1OHJqzY4FBqZechZ8SKQRBaGxA==
+	t=1793025212;
+	b=hVkdoRdd+2WlU0z9UG83SDHqPAjJn+jY1NC7A0581x9Dwi51w/YDjHJ5exFOwRg8J2+n
+	 o77d3oh+mXDCibJBLi/dNDWqByiOlTf9bDSeQLYMV4UvzOr9ugP1DGY+pJAafEFtVLlYP
+	 TvepTo7WaEYZLPipMUeJloTWZMUsvU9kgSKk1QTFM1oiT2mRxY54+UahSKx3DtpuUFrVr
+	 9uyKr95MLCrVoxNnCcGBxgbBVsw75r+HmtWPdptOW58mgYnDcnv+C5yJ6brgv9ODF2a5l
+	 41yspago8VSy9NqBYb0ovmLSUpoovV4RysrbUFPyCLeQP7rO7k4zV6lTJEu+FZwvnKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793024131;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=sCip3hofAAP42Q0Wm5DgfTWDFW8sAnzLDl2a/CT8Fu4=;
-	b=yRUE9cPFLbYNyjg+VQrLyYm4+4QztA9Q4qFRf3rwi7tZtRTBfIEw2Z5Q9qDNzVMw8cXC
-	 UXpu1PHT0RpxmbuHrbEWu+u58DFkrgxyJ5bg914nJs+o+oKDNYhwSI5YbYTMmAUIOV6rP
-	 50sm346rYn1woUSzAUlBsKSOzSYI6w7Wpd8pBx2LzTLmf2GGTpn6jx0rQ5FO016cR5+rD
-	 FhyPgoNfRdKZLdCAafZzb4J1Qu87IWJf9r/2iWZMhVjV4TNgrCjQ5mGd3G4d2RVngwG/1
-	 FuJVp5AMVrgTQjzfiYfE5nq84ZLlx8wsKMqp0g5FSEfK1fWInrlih4ezZ+vX0pp0pFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793025212;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=xIT6S5d1HDCmugC7oHxfMVvXkqjGEY1sxeALS9PXA/Q=;
+	b=K8RgUywkZPGNYvrAJjeU08sbkPg0Vah8w5ZRsCLAhhlevoCyuyM9qkelbSZTH9PXqaf1
+	 fIY/gWfn3qIpG947oQTBVR6ITSikheBaYQGX9NfNK3r5KBAdFr3FquXX49z4ZTaTWRxpi
+	 QjNf27V7i5XRBW9LRdWs2tiVyv8K6OJROOH3JmpxsCT1+13fQKRV0jqxfmzMKmYkn2l1q
+	 eMkW7W8JI9r+dwEvP9LlU3RfLnDt8IeIKKSRzxe4veXDNLDI3te5qtagq16HSTPdJbspo
+	 N7Yeg+3f/THwqMZS6Q08bIC/kt1VN9J7hmWYHZLB73w8KwGmXnZlibXs0T3KfqT8T9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=TBZi61mK;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EBE460A2604;
-	Mon, 26 Oct 2026 14:15:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EBE460A2604
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K6bqmgig;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E12E606A31B
+	for <linux-hyperv@vger.kernel.org>; Mon, 26 Oct 2026 14:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=TBZi61mK
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 67EC120B7167;
-	Mon, 26 Oct 2026 07:15:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 67EC120B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793024120;
-	bh=sCip3hofAAP42Q0Wm5DgfTWDFW8sAnzLDl2a/CT8Fu4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TBZi61mKbaTCwQWstYQ1vxxghYdHVH6T3jXZ9TpIi+KM35Is2WjihHvZ3cgRlASHS
-	 nRmJbo9Lh/cFd7yyULgyaAJWTij2qKbfrGPzySxXjNCv6SAITSN0faEMLqbr6VGewu
-	 pfzzKJBWjq8OHMRCJuEuk+Kzp3/IokSbCFwJUPuc=
-From: Wei Hu <weh@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	weh@microsoft.com,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v8 9/9] mshv: set up own SynIC registers on a nested root partition
-Date: Mon, 26 Oct 2026 14:14:56 +0000
-Message-ID: <20261026141512.2987985-10-weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026141512.2987985-1-weh@linux.microsoft.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K6bqmgig
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F4F1F01828;
+	Mon, 26 Oct 2026 14:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793025212;
+	bh=xIT6S5d1HDCmugC7oHxfMVvXkqjGEY1sxeALS9PXA/Q=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=K6bqmgigWl/6NMfF5s7JFbFbSg6uHNizFRW+rn1OKwJ9BSxvj1nQ23HSzqe8BquN2
+	 uNEZATBfL1g9/5ZKCyWEHKUCBZ5l0H8Kbr2QisO24vRJXdZtLJjFgvwjxdvqulCSyY
+	 HFtMBHAK8mt7D6Lt66jkP8eAcjaEHwrHYWjhSUF9gZQFxWpTGlE78e0VynCJnkEOPo
+	 kDRyn8BYIjRK04zORnw8hE7oSsDVOjLiBvHX7nmeaoAW1fKmr/IZgGIznvXBi7DLii
+	 H+ggu9Z/qSs4Gm2EQbXa85dkMNCyCV2fFIKNbF0bnnpAXBoCSzK9MDMy9T4Gbu0SPQ
+	 piL/DTC8TTUmw==
+Message-ID: <sashiko-outbox-185406@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v8 6/9] mshv: wire SEV-SNP partition ioctls
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>, linux-hyperv@vger.kernel.org
+In-Reply-To: <20261026141512.2987985-7-weh@linux.microsoft.com>
 References: <20260922041043.171543-1-weh@linux.microsoft.com>
  <20261026141512.2987985-1-weh@linux.microsoft.com>
+ <20261026141512.2987985-7-weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2026 14:33:31 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -63,119 +59,276 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Wei Hu <weh@microsoft.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] mshv: NULL pointer dereference of vp->vp_register_page in mshv_vp_=
+dispatch()
+- [Medium] mshv: inconsistent HV_SUPPORTS_SEV_SNP_GUESTS guards in SNP paths
+--
 
-Upstream mshv_synic_cpu_init()/_exit() skip programming the SynIC
-SIMP/SIEFP/SCONTROL registers when VMBus is active (hv_vmbus_exists()),
-assuming VMBus's hv_hyp_synic_enable_regs() already provisioned them.
+commit f7de1a4b156916782dca3e11c51b478fa7c24bc8
+Author: Wei Liu <wei.liu@kernel.org>
 
-That assumption is wrong for a nested root partition. There, VMBus
-programs the nested SynIC MSRs (HV_X64_MSR_NESTED_SIMP, ...) through
-hv_set_msr()'s nested remap, while mshv_synic reads and writes the
-non-nested SynIC MSRs. As a result MSHV maps the wrong message page and
-never receives the async hypercall completion, hanging guest creation.
+mshv: wire SEV-SNP partition ioctls
 
-Gate the "VMBus owns the SynIC registers" optimization on !hv_nested so
-a nested root partition programs its own non-nested SynIC registers.
-There is no behavior change for a non-nested root.
+This commit wires the SEV-SNP UAPI into partition creation, memory ownership
+tracking, isolated-page import, launch completion, PSP guest requests, AP
+creation, and partition teardown. It tracks per-page host access permissions
+and ownership state in bitmaps on each pinned memory region and restores
+host access on failure or teardown.
 
-Map hypervisor-provided SIMP, SIEFP, and root SIRBP pages with the shared
-GPA boundary removed and MEMREMAP_DEC, matching drivers/hv/hv.c for
-confidential hosts. The L1VH SIRBP remains locally allocated.
+> diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
+> index 78508b57b5ad4..40fd775d8d9df 100644
+> --- a/drivers/hv/mshv_root.h
+> +++ b/drivers/hv/mshv_root.h
+[ ... ]
+> @@ -376,6 +444,24 @@ extern u8 * __percpu *hv_synic_eventring_tail;
+> =20
+>  struct mshv_mem_region *mshv_region_create(u64 guest_pfn, u64 nr_pages,
+>  					   u64 uaddr, u32 flags);
+> +int mshv_region_host_access_init(struct mshv_mem_region *region);
+> +int mshv_region_check_duplicate_pfns(struct mshv_mem_region *region);
+> +u8 mshv_region_host_access_get(const struct mshv_mem_region *region, u64=
+ index);
+> +void mshv_region_host_access_set(struct mshv_mem_region *region, u64 ind=
+ex,
+> +				 u8 state);
+> +u8 mshv_make_host_access_state(u8 old_state, u32 host_access, u32 flags);
+> +int mshv_apply_region_host_access(struct mshv_mem_region *region,
+> +				  u64 index, u64 count, u32 host_access,
+> +				  u32 flags,
+> +				  struct mshv_host_access_result *result);
+> +int mshv_apply_host_access(struct mshv_host_access_page *host_pages,
+> +			   u64 count, u32 host_access, u32 flags,
+> +			   struct mshv_host_access_result *result);
+> +bool mshv_region_host_access_is_baseline(const struct mshv_mem_region *r=
+egion);
+> +int mshv_validate_modify_gpa_page_count(u64 page_count);
+> +bool mshv_u64_array_has_duplicates(u64 *values, u64 count);
+> +int mshv_run_snp_teardown(const struct mshv_snp_teardown_ops *ops, void =
+*data,
+> +			  enum mshv_snp_teardown_phase *failed_phase);
+>  int mshv_region_share(struct mshv_mem_region *region);
+>  int mshv_region_unshare(struct mshv_mem_region *region);
+>  int mshv_region_map(struct mshv_mem_region *region);
+> @@ -388,6 +474,11 @@ bool mshv_region_handle_gfn_fault(struct mshv_mem_re=
+gion *region, u64 gfn);
+>  void mshv_region_movable_fini(struct mshv_mem_region *region);
+>  bool mshv_region_movable_init(struct mshv_mem_region *region);
+> =20
+> +int hv_call_set_partition_property(u64 partition_id, u64 property_code,
+> +				   u64 property_value,
+> +				   void (*completion_handler)(void *, u64 *),
+> +				   void *completion_data);
+> +
+>  #ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+>  int hv_call_import_isolated_pages(u64 partition_id, u64 *pages,
+>  				  u64 num_pages, u64 *completed_pages,
+[ ... ]
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index 751cbf8d4e824..2bc834767e01f 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+[ ... ]
+> @@ -1297,69 +1362,82 @@ static int mshv_prepare_pinned_region(struct mshv=
+_mem_region *region)
+> =20
+>  	ret =3D mshv_region_pin(region);
+>  	if (ret) {
+> -		pt_err(partition, "Failed to pin memory region: %d\n",
+> -		       ret);
+> -		goto err_out;
+> +		pt_err(partition, "Failed to pin memory region: %d\n", ret);
+> +		return ret;
+>  	}
+> =20
+> -	/*
+> -	 * For an SNP partition it is a requirement that for every memory region
+> -	 * that we are going to map for this partition we should make sure that
+> -	 * host access to that region is released. This is ensured by doing an
+> -	 * additional hypercall which will update the SLAT to release host
+> -	 * access to guest memory regions.
+> -	 */
+>  	if (mshv_partition_encrypted(partition)) {
+> -		ret =3D mshv_region_unshare(region);
+> +		int recovery_ret;
+> +
+> +		ret =3D mshv_region_host_access_init(region);
+> +		if (ret)
+> +			goto invalidate_region;
+> +
+> +		ret =3D mshv_region_check_duplicate_pfns(region);
+>  		if (ret) {
+> -			pt_err(partition,
+> -			       "Failed to unshare memory region (guest_pfn: %llu): %d\n",
+> -			       region->start_gfn, ret);
+> +			if (ret =3D=3D -EEXIST)
+> +				pt_err_ratelimited(partition,
+> +						   "Duplicate pinned PFN\n");
+> +			else
+> +				pt_err_ratelimited(partition,
+> +						   "Pinned PFN audit failed: %d\n",
+> +						   ret);
+>  			goto invalidate_region;
+>  		}
+> -	}
+> -
+> -	ret =3D mshv_region_map(region);
+> -	if (ret) {
+> -		int shrc;
+> -
+> -		/*
+> -		 * A partial map must be removed before host access is
+> -		 * restored.
+> -		 */
+> -		if (region->mapping_may_exist) {
+> -			int cleanup_ret =3D mshv_region_unmap(region);
+> =20
+> -			if (cleanup_ret || region->mapping_may_exist) {
+> +		ret =3D mshv_region_unshare(region);
+[ ... ]
+> @@ -1940,6 +2730,92 @@ static void destroy_partition(struct mshv_partitio=
+n *partition)
+[ ... ]
+> +static void destroy_partition(struct mshv_partition *partition)
+> +{
+> +	struct mshv_vp *vp;
+> +	struct mshv_mem_region *region;
+> +	struct hlist_node *n;
+> +	bool memory_torn_down =3D false;
+> +	int ret;
+> +	int i;
+> +
+> +	if (refcount_read(&partition->pt_ref_count)) {
+> +		pt_err(partition,
+> +		       "Attempt to destroy partition but refcount > 0\n");
+> +		return;
+> +	}
+> +
+> +	trace_mshv_destroy_partition(partition->pt_id);
+> +
+> +#ifdef HV_SUPPORTS_SEV_SNP_GUESTS
+> +	if (mshv_partition_encrypted(partition)) {
+> +		enum mshv_snp_teardown_phase failed_phase;
+> +
+> +		ret =3D mshv_run_snp_teardown(&mshv_snp_teardown_ops, partition,
+> +					    &failed_phase);
+> +		if (ret) {
+> +			if (failed_phase =3D=3D MSHV_SNP_TEARDOWN_ISOLATION)
+> +				pt_err(partition,
+> +				       "Failed to destroy SNP isolation: %d\n",
+> +				       ret);
+> +			mshv_quarantine_partition(partition);
+> +			return;
+> +		}
+> +		memory_torn_down =3D true;
+> +	}
+> +#endif
 
-Signed-off-by: Wei Hu <weh@microsoft.com>
----
- drivers/hv/mshv_synic.c | 39 ++++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+[Severity: Medium]
+Are the HV_SUPPORTS_SEV_SNP_GUESTS guards consistent across the SNP setup,
+teardown, and helper declarations?
 
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index da842c21156a..c7467d301623 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -458,6 +458,27 @@ void mshv_isr(void)
- 	}
- }
- 
-+static bool mshv_synic_vmbus_owns_registers(void)
-+{
-+	/*
-+	 * Nested VMBus programs nested MSRs, while MSHV uses non-nested MSRs.
-+	 */
-+	return hv_vmbus_exists() && !hv_nested;
-+}
-+
-+static void *mshv_synic_map_shared_page(u64 pfn)
-+{
-+	u64 base;
-+
-+	if (!pfn)
-+		return NULL;
-+
-+	/* Match Hyper-V's established confidential SynIC mapping convention. */
-+	base = (pfn << HV_HYP_PAGE_SHIFT) &
-+		~ms_hyperv.shared_gpa_boundary;
-+	return memremap(base, HV_HYP_PAGE_SIZE, MEMREMAP_WB | MEMREMAP_DEC);
-+}
-+
- static int mshv_synic_cpu_init(unsigned int cpu)
- {
- 	union hv_synic_simp simp;
-@@ -468,11 +489,7 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 	struct hv_message_page *msg_page;
- 	struct hv_synic_event_flags_page *event_flags_page;
- 	struct hv_synic_event_ring_page *event_ring_page;
--	/*
--	 * VMBus owns SIMP/SIEFP/SCONTROL when it is active.
--	 * See hv_hyp_synic_enable_regs() for that initialization.
--	 */
--	bool vmbus_active = hv_vmbus_exists();
-+	bool vmbus_active = mshv_synic_vmbus_owns_registers();
- 
- 	/*
- 	 * Map the SYNIC message page. When VMBus is not active the
-@@ -484,8 +501,7 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 		simp.simp_enabled = true;
- 		hv_set_non_nested_msr(HV_MSR_SIMP, simp.as_uint64);
- 	}
--	msg_page = memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
--			    HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+	msg_page = mshv_synic_map_shared_page(simp.base_simp_gpa);
- 	WRITE_ONCE(spages->hyp_synic_message_page, msg_page);
- 
- 	if (!msg_page)
-@@ -500,8 +516,7 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 		siefp.siefp_enabled = true;
- 		hv_set_non_nested_msr(HV_MSR_SIEFP, siefp.as_uint64);
- 	}
--	event_flags_page = memremap(siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT,
--				    HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+	event_flags_page = mshv_synic_map_shared_page(siefp.base_siefp_gpa);
- 	WRITE_ONCE(spages->synic_event_flags_page, event_flags_page);
- 
- 	if (!event_flags_page)
-@@ -512,8 +527,7 @@ static int mshv_synic_cpu_init(unsigned int cpu)
- 
- 	if (hv_root_partition()) {
- 		event_ring_page =
--			memremap(sirbp.base_sirbp_gpa << HV_HYP_PAGE_SHIFT,
--				 HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-+			mshv_synic_map_shared_page(sirbp.base_sirbp_gpa);
- 
- 		if (!event_ring_page)
- 			goto cleanup_siefp;
-@@ -596,8 +610,7 @@ static int mshv_synic_cpu_exit(unsigned int cpu)
- 	struct hv_message_page *msg_page;
- 	struct hv_synic_event_flags_page *event_flags_page;
- 	struct hv_synic_event_ring_page *event_ring_page;
--	/* VMBus owns SIMP/SIEFP/SCONTROL when it is active */
--	bool vmbus_active = hv_vmbus_exists();
-+	bool vmbus_active = mshv_synic_vmbus_owns_registers();
- 
- 	msg_page = READ_ONCE(spages->hyp_synic_message_page);
- 	event_flags_page = READ_ONCE(spages->synic_event_flags_page);
--- 
-2.43.0
+In include/hyperv/hvgdk_mini.h, HV_SUPPORTS_SEV_SNP_GUESTS is only defined
+under CONFIG_X86, whereas CONFIG_MSHV_ROOT is built on both X86_64 and ARM6=
+4.
 
+When HV_SUPPORTS_SEV_SNP_GUESTS is not defined:
+
+1. mshv_ioctl_process_pt_flags() still accepts MSHV_PT_ISOLATION_SNP and se=
+ts
+   HV_PARTITION_ISOLATION_TYPE_SNP, and mshv_prepare_pinned_region() still
+   initializes the host-access bitmaps and unshares pages out of baseline
+   when mshv_partition_encrypted(partition) is true. However, the SNP ioctls
+   and the mshv_run_snp_teardown() path in destroy_partition() are compiled
+   out under #ifdef HV_SUPPORTS_SEV_SNP_GUESTS, leaving no teardown path to
+   restore baseline host access before mshv_region_destroy() checks
+   WARN_ON_ONCE(!mshv_region_host_access_is_baseline(region)).
+
+2. In drivers/hv/mshv_root.h, mshv_validate_modify_gpa_page_count(),
+   mshv_u64_array_has_duplicates(), and hv_call_set_partition_property() are
+   declared outside #ifdef HV_SUPPORTS_SEV_SNP_GUESTS (alongside
+   mshv_run_snp_teardown()), but their definitions in
+   drivers/hv/mshv_root_main.c and drivers/hv/mshv_root_hv_call.c are wrapp=
+ed
+   inside #ifdef HV_SUPPORTS_SEV_SNP_GUESTS, which will cause link errors on
+   ARM64 if KUnit tests or other callers reference them.
+
+Should MSHV_PT_ISOLATION_SNP be rejected in mshv_ioctl_process_pt_flags() w=
+hen
+HV_SUPPORTS_SEV_SNP_GUESTS is not defined, and should those helper definiti=
+ons
+and declarations share the same guard?
+
+[ ... ]
+> @@ -2167,6 +3045,9 @@ static long mshv_ioctl_process_pt_flags(void __user=
+ *user_arg, u64 *pt_flags,
+>  	case MSHV_PT_ISOLATION_NONE:
+>  		isol_props->isolation_type =3D HV_PARTITION_ISOLATION_TYPE_NONE;
+>  		break;
+> +	case MSHV_PT_ISOLATION_SNP:
+> +		isol_props->isolation_type =3D HV_PARTITION_ISOLATION_TYPE_SNP;
+> +		break;
+>  	}
+
+[Severity: High]
+With MSHV_PT_ISOLATION_SNP now enabled here, can running a VP on an SEV-SNP
+partition with the root scheduler dereference a NULL vp->vp_register_page in
+mshv_vp_dispatch() when trace_mshv_hvcall_dispatch_vp() is enabled on
+CONFIG_X86_64?
+
+When mshv_partition_encrypted(partition) is true,
+mshv_partition_ioctl_create_vp() skips mapping HV_VP_STATE_PAGE_REGISTERS a=
+nd
+leaves vp->vp_register_page as NULL:
+
+drivers/hv/mshv_root_main.c:mshv_partition_ioctl_create_vp() {
+    ...
+	if (!mshv_partition_encrypted(partition)) {
+		ret =3D hv_map_vp_state_page(partition->pt_id, args.vp_index,
+					   HV_VP_STATE_PAGE_REGISTERS,
+					   input_vtl_zero, &register_page);
+		if (ret)
+			goto unmap_intercept_message_page;
+	}
+    ...
+	if (!mshv_partition_encrypted(partition))
+		vp->vp_register_page =3D page_to_virt(register_page);
+    ...
+}
+
+The other root-scheduler paths use mshv_vp_interrupt_pending(), which checks
+for a NULL vp->vp_register_page before reading interrupt_vectors:
+
+drivers/hv/mshv_root_main.c:mshv_vp_interrupt_pending() {
+	if (!vp->vp_register_page)
+		return 0;
+	return vp->vp_register_page->interrupt_vectors.as_uint64;
+}
+
+However, in mshv_vp_ioctl_run_vp() -> mshv_run_vp_with_root_scheduler() ->
+mshv_vp_dispatch(), the tracepoint call dereferences vp->vp_register_page
+directly with preemption disabled:
+
+drivers/hv/mshv_root_main.c:mshv_vp_dispatch() {
+    ...
+	trace_mshv_hvcall_dispatch_vp(vp->vp_partition->pt_id,
+				      vp->vp_index, flags,
+				      output->dispatch_state,
+				      output->dispatch_event,
+#if defined(CONFIG_X86_64)
+				      vp->vp_register_page->interrupt_vectors.as_uint64,
+#else
+				      0,
+#endif
+				      status);
+    ...
+}
+
+Should mshv_vp_dispatch() pass mshv_vp_interrupt_pending(vp) to
+trace_mshv_hvcall_dispatch_vp() instead?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026141512.2987=
+985-1-weh@linux.microsoft.com?part=3D6
