@@ -1,170 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.21
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793030374;
-	b=Oqs89hAyhda8ypqeq6tYz0S4ZJmYYS/bKQR0tMTSkpV3PXIf0IeAsZTgkB/goQCogohR
-	 xbpndk/hm+LuAZjIKCYvri3QzJfw6BStxuVamLJiji6bQ2lPDcsb3K22xnga/L5MhWnnK
-	 D1GdRh2rJXKlmetlcaAxJ3b/2u8vxceO1gU/q5mLVjXgVpraLNKe07px3/vvqvmj/BDUa
-	 dJwQjosm3uLngptnrcZ9WDU4CsMPlrh5CjdGczx5kl5zQlF3WVHkfdTRsEFXFOiblpXag
-	 AX3kt2KOZ560sdMei8tSXkDRLgOC6Wvo+nM4nOwMNGKjJEJDZXG6Mv+HcLZlmE9pEng==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793030374;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=G/EHHSstRFnyDBbdeTHQV/e+a9jM+MsAFMLDSQfwuJw=;
-	b=x3X4Bfa0xQOHWLdb3YjIpO6z2ZixQtkiwTpQX8T3Stw2mL997zQDNHSKjyrj5mdpdrpN
-	 eCsxPCe1MdNCPjANzCTdlY6MPAaUacXC/Q/MFziejTstY8Oy0A4qJyy8Ica/XkdPX8pNT
-	 paf0rMjWG7ifeOaObuj7K532Ft8bUNHNVbILxiO6WPKl9BeI938Jxv0R7LwoDSwMLvUns
-	 s04suL+1/eOWqj1UpIIRuCT8IIlDhDmvNtQr1Ke3LY2jHHb4yBMPsAJOd8rprbcwTPV0z
-	 RRMwrATVRxOBlzod2zCls44RoILH/QmOoZPQOSIO7QVOxdMDRV8LzpYetDK5xRnJl7A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=qaqA+zoC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.21
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazolkn19010021.outbound.protection.outlook.com [52.103.2.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE33606A331;
-	Mon, 26 Oct 2026 15:59:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EE33606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793040575;
+	b=uINL0vWGu8xgUlBNCpajIINLUN91UiLuWHRRZpBrQE1P3jiWj/WREofeAo0hjcIN1OjU
+	 6HSdQh5JKpfHZnHrKS8mSLvhG64yqhBOTgFShZ1h2DhTR98s1BYulEopnGigfZvBQFWC1
+	 MISkeWR2d+s09BA6uMzOmF6ScoW80s0dzOb7U8TlYDrfHq4tD084PonqZe0dvGTncZQot
+	 h6zwsA7zgEVOHObUNZIJUcOLP64o3qGq+ctc44x8vuMLzdPOjWtrfGaFzD3QYwGSsOeKt
+	 e2PBt0z/Nt4xxH6dNIUgiHBid+dsnjgsb52jm7oACWDMgUJ3bJ+/q6yc4CWRi48n4EA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793040575;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=4dt1xmC/kJ/KXvN83L6cc6N8cVNFR6PyDZ36K2y98RM=;
+	b=i5MoSe/p6jU3WMP/tJ8tjS/ejr0QaH7D9/ApgHUG4Qc6VEFpfZxqOkvm6uhfM7glKFPw
+	 laS7ZXwbNeIgdgvCL2o7bENoqAr2CL9f3qdvAsbpBcSJX6HIbv9YZdPPSVOWK1sL0IjsY
+	 2D/sxKEAgLPchqvTV8v6zvdkcDT4lobPj5z8N2UMkxihE9RPDLVUsYDxuCDtqLTM2Qhzp
+	 EvoedQUkuKvrVtjsCZ5n9GbaC3fjkd0+Lc7Elo+rGIzJU07WHxFDpGkob9G3ug51Jtqq+
+	 4Myuq8pPMlUByMewhmJ9axqo0dHo/Mg1N1o6OiAh/DZd9Y8P4IZc55DlEA9298T9F3A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ozlL8E0a;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0ACF606A31D;
+	Mon, 26 Oct 2026 18:49:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0ACF606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=qaqA+zoC
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JmUD50tzIbD5dfyxHxM43tWmsolYvQ6m9Jsmlj599U29aJZF4pAVlLKOUaX2CZ8GqsRabE1PAjhiR1Dvk8cUf4XgNQTJEfUGqHqX8EcTlsLtTgYdWO9RuhPu5cRZT7nSTPzND4g2XhlKsI8AtYV4qnDCzeqpYVA0beHlVCE/ayZui7Ebu/t86CWuLEQgFIkq15v0ZQMgcsvZRXtgJcj/ikHeIMs88P9AIJTs0+XVTC9Ekp8jMa1pu2hgcNttd9yqg0GrxBJ1VYA3H7ZYaOCaEMdyzLCPN1DkmAL8zKAmOcoX8+DClalIkRDe6qFBp76wk94cDUwiJoZtVo9KAjtgAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G/EHHSstRFnyDBbdeTHQV/e+a9jM+MsAFMLDSQfwuJw=;
- b=IBsJNoZSn0dqvtA2nDWrzVf4BEePHCU1rwU9okZlrXeeuodQ6kHZjqV5s3objPcWXFN9kwWm52Ur/u/t37LL3vNWU1DPlV+UFY57aaJWpyXTo4SH2UkdvCfu8AVZ+TaTUdV5f0Cl0CZrPl5SyVVSQrfEBKna9qVJ7wcyC6ZxI7Lfp3zwE3IL5TQkNMFk4Xgsds8ZliFHQr0wUs+KVhJw5ffT2zl3dSk1DsuYFlpXYtSR9t390g0aAZJuIF45hi6JWzLkoeFGF73P/TfIYUGopmCUFsdihLDtiqwVUdtIOIE/61JQ6OzgnltUPIeh8mpDUZtFoB97ffin6LgcOhYlIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G/EHHSstRFnyDBbdeTHQV/e+a9jM+MsAFMLDSQfwuJw=;
- b=qaqA+zoC77zrnKQdVIc1RiDjNKsGrecRMYQfRztNt4VidpTu9tx1stiZNMtbKZAg7e5K0Lek0e9RH3KmhVhgny2PUpUQ4f2OzT3Kzj2EqadRqZzjlJ2MNSFklZRqCZGsjVsgBm07dXxLvBWGLl9lbNnOPpq6IhSMUKRQ40Qi8HotLO2TAkC+MrymXLMi9r5g5kKuhqatnIkxHYy3Mn/8EdPrbxOqp4lKnO2FQjtACdIK1+PXa3lwYsJ6DUvs+hJixUirBTgYy6tFgn5XW1D+BNQmhbMJHgs9GWQQ70UcQgp1TlmpwlZiJG3M8K6GpYkBtOpLkwzmM2tB/mUyzm8+aw==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by MN2PR02MB6989.namprd02.prod.outlook.com (2603:10b6:208:20f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Mon, 26 Oct
- 2026 15:59:32 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
- 15:59:32 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Naman Jain <namjain@linux.microsoft.com>, "haiyangz@microsoft.com"
-	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
-	"decui@microsoft.com" <decui@microsoft.com>, "lpieralisi@kernel.org"
-	<lpieralisi@kernel.org>, "kwilczynski@kernel.org" <kwilczynski@kernel.org>,
-	"mani@kernel.org" <mani@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>
-CC: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v2 1/1] PCI: hv: Spread load across CPUs when selecting
- effective affinity CPU
-Thread-Topic: [PATCH v2 1/1] PCI: hv: Spread load across CPUs when selecting
- effective affinity CPU
-Thread-Index: AQHdRoSgfDLr0VgjEcqpOP6cAwhLsrcPwn2AgAB2caA=
-Date: Mon, 26 Oct 2026 15:59:32 +0000
-Message-ID:
- <MN2PR02MB6863DF1BDE302493DCF5D65BD4612@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261026045930.129874-1-mhklinux@outlook.com>
- <53f73450-7eaa-4f0c-90be-ffcfe1116e73@linux.microsoft.com>
-In-Reply-To: <53f73450-7eaa-4f0c-90be-ffcfe1116e73@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|MN2PR02MB6989:EE_
-x-ms-office365-filtering-correlation-id: 82a84ace-d8ff-45ea-c0d8-08df337a1fbf
-x-ms-exchange-slblob-mailprops:
- WaIXnCbdHrO+2YmbT5jW+WUSUt4IT5vRA7LKchzwkq+WDdZuQWRD6TRGqehjb4HZMckyfc0jRX/5DzS4psEUo8bIGr123rF96vVNa8LIFgy1vKLXyXOkWDy21lgEYjc1iwIgqvlqqnYB519tgLRrTlWXRGnYJO4s58o8fKz4x69zK1hjPIGEwaOzH/1cLfKYJotFkh71NGLAlqTuUMQzBFJiWCjrb22h9EpAdyCoERO4HctI5el23qjKqcGctgn5gssXXxamBKx08vHDpQ2hIBI8efV24pAhxJKa1WJ/M6QBSKeUAWo3LMIsisZ38HxnoebcGgAbne69+Hj1PL6kAVnr49QQIwnWJgNpFr/f6rmqyybU2n9dp20O3bNyTw/P1znRhKODYKkEVpynyNBxx4G3j7pRHLLId3Y8Bt6003ztptj8huNs+nW64sm0d5FuA4opRhsfI8oHMGs++6VAl51Ez9UonnlsmZYZi4aK/qYcm/ToWm48iNajUhPi2nP34aeCkscD1S3rmP2B5Q6bYuZK+iFLo7YGl97bWG7mUQwOWHocgKzYzaQSoEv03GEDak/1FUQGPf/mTOdIssGFx7+hTVgbQrtDxqCYC9bTDT3CSUeErv43wLcTMO2VJyG02YghJsd7kMLLWfjXVpC6cbvEzqL8KnE4+Huztu9vj6cJWh/B4UfFBhzL1ry2/K87nvF4qXXBDo6oS5qiKCgVwiTP8uQzAn9ShIydwd4+jdKB7y+geINqnY5vGlxMeBj4efqgJmw82GY=
-x-microsoft-antispam:
- BCL:0;ARA:14566002|12121999013|24021099003|8062599012|8060799015|41001999006|13091999003|31061999003|25010399006|19110799012|55001999006|37011999003|15080799012|51005399006|40105399003|102099032|3412199025|440099028;
-x-microsoft-antispam-message-info:
- =?utf-8?B?cGx2S00vRmNmMmgwUTZ4eUYxU1lXZjdKZDQ0Y3QyT3BDQUZwYzJ3dXFFbkRD?=
- =?utf-8?B?QUtqUG5KUUxXSXNSWnNCaHEzYVhqdS90TzVlbitBaGROdFh4bjhzZFkzeXEr?=
- =?utf-8?B?NTNMM0tkWmp6TklaNHVmY3J6SmNkT3AzRHJCM2VRdHZLQWE3NzBway9ha09Q?=
- =?utf-8?B?bE1xc0pBamc1cEVKRFB1MXp2bzJSQ3VtTWNSMkxRRHcxS3NIcEpJQ2hUakxE?=
- =?utf-8?B?MnJ1OGJ1VUVkZHB4ZlFKeGtEVUIyWnoyOTVwamJYTExNSUk3OXFFTG5Od0k1?=
- =?utf-8?B?cVprRjUxNExJL25YRm02TWJUQ213M1JHYVl4MTVIZm5kRzNyQSs4MXh2dVR2?=
- =?utf-8?B?TlpTSXpmVnB1azJjTGJJbzlyZjBNUisyb0JmcFFjS1Q0YzRkVUZrNFVWY1hL?=
- =?utf-8?B?eHM3YXdsTERFbFhoenhXdGRMR1k4QldwS0RaekxBQjVETGJnUjdnU0RNeXB4?=
- =?utf-8?B?cDBxbWs4dHlRYVlrTTdOUU9ManRtb3hzaDQrUktCSHNnWW5BdEp1QWY3S2tC?=
- =?utf-8?B?WXhGUXdnbS9sVHlMQllLN1hjKzNHK2dQNHR3MUNaM1hiOWh5MUFDNWdOR2Vw?=
- =?utf-8?B?THlMTmZYTG5LN0x2Z3ZidHRSUG42NVVaWE5ubUNLVzRETVFYR25qcXVoUUFW?=
- =?utf-8?B?dGZpQ0YycXBkUS9TVy9wMDAwWEprUUJncUFBZWZaSk1mbEJPTGZHOXZQTTNK?=
- =?utf-8?B?cElpcWRDVjY3RnZwc3VOa0VPRnI5cThDb3R4WUJrUVM2MUNnKzBDNlBPMmwz?=
- =?utf-8?B?NExpUUhIZUNMVCswRERoaUdiSEgyWTBja3hXbGIrM2ZldjFwOUdyc2g2Yitp?=
- =?utf-8?B?RUpPc0Vpdi82WnltcGs0RktLV2swQ3RPT0t6VzBsdEdZR0s4Vmp0Q21Qcm9J?=
- =?utf-8?B?czc5MjdRazlkYSs4amtoT3N2cU45eWdNVSt2S0xSbzVRQW1EV3BrZXFvOFNU?=
- =?utf-8?B?Wmo5MkpJS3F3ZEtTdzZOUEk0SjZtNGtFVGd6U2VvS0lvMTRTOVZHUm9SWlg0?=
- =?utf-8?B?dlBNZU04NWN0cDkrTStlRlAzZFg5TnhLTW9qZFN2RUxHTDNsZFdKampNWStJ?=
- =?utf-8?B?dVN0Ly8zdlI4K2NYTWdzRkJQUjd5ZHN2Qk9RYUVXdkdJOTNLZGlHTHYreVEx?=
- =?utf-8?B?ZlVxT0RuYUY1L1VKOG4rMGtMcEgyeEdMYVdGaTNVYTV0TnJFVjJVTThoNWxl?=
- =?utf-8?B?Qm1wcWFjZm5YaHNWWEw4QzE3WE8xVGVLOG9laHljL3o1cjhjVWFBNWFFM0ZN?=
- =?utf-8?B?aytrbUJUN0FtUTgya3AyMUYxcDltTFBJaVp0YVp1SmltZDhHbGRMR3lUTUNT?=
- =?utf-8?B?a2JOTEI2Wmh2RFMzWFdpVFh5bURLWGRZWSszcU0rVklicHk4SUNFbnJZdThU?=
- =?utf-8?B?RFpQeFBHL2Fid21EVEhpclVNV2pUdGRIaUx1ZlpvOXdBaHEvQXl6aGo5MTNw?=
- =?utf-8?B?VzJEYVJobHA0MnlZQ1NXZEdTeG9RTitkenYvUzl5c3BTTVFBWVltSjhDMHUr?=
- =?utf-8?Q?QYZSQg=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?dEFMODY1M0ZWRUVTN2lwVEFLVjVDc2Z2UGxWYmREbmE2aW8yTzVtVzhOc0xM?=
- =?utf-8?B?ZTJ1TFRRMkFRRTA3cEgwcFVrN0djdW9iQVFTQ0V4THdkQlhRM0YrQW40MFpZ?=
- =?utf-8?B?Y0xLdDRzREZseS9VblhoZ096aGsyMTlwMFZwUXNsak5wcjR2aEcwaVhnb2JR?=
- =?utf-8?B?TnFyOUdjVnVneVlEcjNYUUJndDRsNWx4RGVYY2RPcWQyam5XZVhyWVlCeG9H?=
- =?utf-8?B?OCtaaUphYVRYZlJSRmxrTC84NkNEdEZvT0dHcE0vay9meGRmdUlWNFh1QkNq?=
- =?utf-8?B?eTJOT3BpNEx1bGZmc1g1czZDMGJXRUpOU2RrS0pwMFZ1aEZQbW1UVWliRkZ6?=
- =?utf-8?B?R25WYVV3WFdSYS9DcVRNbGhUdWdueDBBZ1BxVG9jaGM2Z0hKNnNpSDRYMEhp?=
- =?utf-8?B?MFZRbThDcUliMjBtVDdPdXBabjlYeURQanpwak9iYnpOcEI5RUhnamRvUFVx?=
- =?utf-8?B?d0ZnbkRYcTZCZ3orVVROK090MFFBNlp4MmhRZldKOW9kZDNyYTVybmlOTGlN?=
- =?utf-8?B?c1JoZUs3dmVCaVN5eklRWUhMbXNYc3FKVVQ2bFVBbW12QVV0blowd01ZTlRW?=
- =?utf-8?B?QkhnTy9sWDlRUDJvQ3M0U1N1NE4zUTNFL0o3Mlg2RzhFV2VyUHNpRjRMK0ls?=
- =?utf-8?B?ZWpMQVY0RW90dVlHZ1RPamppampqRjdEYVBiZGVLSVd6RnQ1UWJtbDBrS3Zw?=
- =?utf-8?B?K05LbHJmeXRoUHhYUmFFQmpPWk1JbUU2QzRNMTcxNzB5Q0lnLzdWbDZMaGVN?=
- =?utf-8?B?aHUvVU5keTBJUEJhQjR5U2RRd3J3ekZRaHFHTG4rSW1ybEYvcHlSd2ZpWkYy?=
- =?utf-8?B?cUVaZEFNYVdtV1FOaEg4bmZlcHYySzNzKzcvZ1U0VjM4ZjU3TUpDWWlIWlNh?=
- =?utf-8?B?OG9ta3RhMG9KTDJDbllaeFowZDlxc2l1TFhvZlVEVVlJODRENzR4QXU1aCtQ?=
- =?utf-8?B?a21FYlZocUZKbE5HeVNvTkdkaXFqK0NON0ZzRWgzc29UekdWeHRlRnlMbUd5?=
- =?utf-8?B?YVJEVE1zY09vOE1jL1BvemQyRGxDZU5DMmRWcE8vVUdrZThZdUxuVWJ0QWhX?=
- =?utf-8?B?MURIVGdxam5EbDE1ekRYTXdnN0c5K1htN1N4K3ZrYzE0TGY2WTM2WUVoRnA3?=
- =?utf-8?B?WmlOVzhlTUwrTVZPWXhLQ1BYTE9mTWl3TXdWbE5rSmhEQk9RckhZMEpBR0Yw?=
- =?utf-8?B?MEJhV05scTZzN2d2QThnMEdkZ2czZXZYMU1hYm16K210d1ZWRlp1YnJ5Wndi?=
- =?utf-8?B?K0dhUFF3aDUya0xxYS9rS3VPSmtTMTdVd09YMThQOUlVL0pESFpoTFRWVjVN?=
- =?utf-8?B?Y1o0SUFIZnEvbDRPY1MvckJBSHVyeXIxYkNzK2hmVzhtQ0pXUVFqTjh4RU8x?=
- =?utf-8?B?eFJ1Z29oTFNVZUFMQ0lhcXdpZ1dWQVFTSlVoTkc5L1c1MUJGMEgxTjVsUmd4?=
- =?utf-8?B?RUt1Y0pqc3VyalB6aWVEZ0N2VjRVbkY5QXhwME1wWjd5UWhDNGhSSVVGNzcx?=
- =?utf-8?B?Q2Vob2F6SDFjYUkvbWhDNWFVd1dMckpvRjJyM1BEa2hIeUtZa2UzeVZaeEZo?=
- =?utf-8?B?b3JHdWJoVW92MExOZXFRT1NnK29oY2w2U0RWdmYrV2tmdkt6WW9KVkxnUnAr?=
- =?utf-8?B?c1loenc1UktFWXUyR1g1MGNQdU5RMUlmUTgrU0pmYnNjRUF1TkJ6REZrOHZV?=
- =?utf-8?B?VUV4U080Z0xuR2tnM2JuTkV5WTZGRis1TlE5R2ZoYzBDVHRrdWhweXRhQ1ZZ?=
- =?utf-8?B?VW1xR3A4bnVxWlZZaXp1aDdydVljL1kvTEZNd1VWZzVZc0Nsb2kxN2RFL1ZU?=
- =?utf-8?Q?oi04KoZuJC5ddQomKSagh6nYnEE1E5V6VcEzU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ozlL8E0a
+Received: from localhost (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 50F2020B7166;
+	Mon, 26 Oct 2026 11:49:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 50F2020B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793040562;
+	bh=4dt1xmC/kJ/KXvN83L6cc6N8cVNFR6PyDZ36K2y98RM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ozlL8E0a2g/Tzw+hpBeP1ygLuEbJptmMR0+LDAFUXc4msLy47NBPF/e9nYSV766Ta
+	 0PJcqqinbpnRR/P9Ih2TnusORQmhJjpJpUMoHCJnhi18Al1ecE7S46hZmRtS4iIwyT
+	 Hh0tJ1vdhuR7IIMWGzxKIUNQXEnnH6NGc6i8JiDY=
+Date: Mon, 26 Oct 2026 11:49:17 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen
+ <nicolinc@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Wei Liu
+ <wei.liu@kernel.org>, "K . Y . Srinivasan" <kys@microsoft.com>, Haiyang
+ Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Long Li
+ <longli@microsoft.com>, linux-hyperv@vger.kernel.org, Joerg Roedel
+ <joro@8bytes.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, "Aneesh Kumar K .
+ V" <aneesh.kumar@kernel.org>, Mukesh Rathor <mukeshrathor@microsoft.com>,
+ John Starks <John.Starks@microsoft.com>, Souradeep Chakrabarti
+ <schakrabarti@microsoft.com>, Yu Zhang <zhangyu1@linux.microsoft.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>, Alex Williamson
+ <alex@shazbot.org>, jacob.pan@linux.microsoft.com
+Subject: Re: [RFC PATCH 0/9] iommu/iommufd: Add hypervisor external attach
+Message-ID: <20261026114917.00005a22@linux.microsoft.com>
+In-Reply-To: <atiaKG86qcifKzBT@google.com>
+References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
+	<atiaKG86qcifKzBT@google.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -174,60 +75,328 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82a84ace-d8ff-45ea-c0d8-08df337a1fbf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2026 15:59:32.1231
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6989
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-RnJvbTogTmFtYW4gSmFpbiA8bmFtamFpbkBsaW51eC5taWNyb3NvZnQuY29tPiBTZW50OiBNb25k
-YXksIE9jdG9iZXIgMjYsIDIwMjYgMTo1NiBBTQ0KPiANCj4gT24gMTAvMjYvMjAyNiAxMDoyOSBB
-TSwgTWljaGFlbCBLZWxsZXkgd3JvdGU6DQo+IA0KPiA8c25pcD4NCj4gDQo+ID4gKy8qDQo+ID4g
-KyAqIFRyYWNrIHRoZSBjb3VudCBvZiBTUElzIGFzc2lnbmVkIHRvIGVhY2ggQ1BVLiBQaWNrIGEg
-c2luZ2xlIENQVSBmcm9tIHRoZQ0KPiA+ICsgKiBhZmZpbml0eSBtYXNrIGJhc2VkIG9uIHRoZSBT
-UEkgbG9hZGluZyBkYXRhLCBhbmQgaGF2ZSB0aGUgcGFyZW50IElSUQ0KPiA+ICsgKiBjaGlwIChz
-aG91bGQgYmUgIkdJQ3YzIikgc2V0IHRoZSBlZmZlY3RpdmUgYWZmaW5pdHkgdG8gdGhhdCBzaW5n
-bGUgQ1BVLg0KPiA+ICsgKi8NCj4gPiArc3RhdGljIGludCBodl9wY2lfYXJtNjRfc2V0X2FmZmlu
-aXR5KHN0cnVjdCBpcnFfZGF0YSAqZCwNCj4gPiArCQkJCSAgICAgY29uc3Qgc3RydWN0IGNwdW1h
-c2sgKm1hc2tfdmFsLA0KPiA+ICsJCQkJICAgICBib29sIGZvcmNlKQ0KPiA+ICt7DQo+ID4gKwl1
-bnNpZ25lZCBpbnQgY3B1LCBwcmV2X2NwdTsNCj4gPiArCWludCByZXQ7DQo+ID4gKw0KPiA+ICsJ
-cHJldl9jcHUgPSBjcHVtYXNrX2ZpcnN0KGlycV9kYXRhX2dldF9lZmZlY3RpdmVfYWZmaW5pdHlf
-bWFzayhkKSk7DQo+ID4gKw0KPiA+ICsJc2NvcGVkX2d1YXJkKHJhd19zcGlubG9ja19pcnFzYXZl
-LCAmY3B1X3NwaV9jb3VudF9sb2NrKSB7DQo+ID4gKwkJaWYgKHByZXZfY3B1IDwgbnJfY3B1X2lk
-cykNCj4gPiArCQkJaHZfcGNpX2RlY19zcGlfY291bnQoZCwgcHJldl9jcHUpOw0KPiANCj4gTml0
-OiBXb3VsZCBpdCBiZSBiZXR0ZXIgdG8gYWRkIHRoaXMgbnJfY3B1X2lkcyBjaGVjayBpbg0KPiBo
-dl9wY2lfZGVjX3NwaV9jb3VudCgpL2h2X3BjaV9pbmNfc3BpX2NvdW50KCkgaW5zdGVhZD8gSSBk
-b24ndCBoYXZlIGENCj4gc3Ryb25nIG9waW5pb24gb24gaXQuDQoNCkkgbGlrZSB0aGF0IHN1Z2dl
-c3Rpb24uIEl0IGRyb3BzIDUgbGluZXMgb2YgY29kZSBmcm9tIHRoZSBwYXRjaCBhbmQNCnJlZHVj
-ZXMgY2x1dHRlciBpbiB0aGUgbWFpbiBjb2RlIHBhdGhzLiBJJ2xsIHdhaXQgYSBjb3VwbGUgb2Yg
-ZGF5cyB0bw0Kc2VlIGlmIHRoZXJlIGFyZSBhbnkgb3RoZXIgY29tbWVudHMsIHRoZW4gc3BpbiBh
-IHYzIHdpdGggdGhlIGNoYW5nZS4NCg0KTWljaGFlbA0KDQo+IA0KPiA+ICsNCj4gPiArCQlpZiAo
-Zm9yY2UpDQo+ID4gKwkJCWNwdSA9IGh2X3BjaV9hcm02NF9nZXRfbWluX2xvYWQoZCwgbWFza192
-YWwpOw0KPiA+ICsJCWVsc2UNCj4gPiArCQkJY3B1ID0gaHZfcGNpX2FybTY0X3NlbGVjdF9jcHUo
-ZCwgbWFza192YWwpOw0KPiA+ICsNCj4gPiArCQlpZiAoY3B1ID49IG5yX2NwdV9pZHMpIHsNCj4g
-DQo+IEF0IHNvbWUgcGxhY2VzIGxpa2UgdGhpcywgeW91IG1heSBzdGlsbCBuZWVkIHRvIHJldGFp
-biBpdC4NCj4gDQo+ID4gKwkJCWlmIChwcmV2X2NwdSA8IG5yX2NwdV9pZHMpDQo+ID4gKwkJCQlo
-dl9wY2lfaW5jX3NwaV9jb3VudChkLCBwcmV2X2NwdSk7DQo+ID4gKwkJCXJldHVybiAtRUlOVkFM
-Ow0KPiA+ICsJCX0NCj4gPiArDQo+ID4gKwkJaHZfcGNpX2luY19zcGlfY291bnQoZCwgY3B1KTsN
-Cj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXQgPSBpcnFfY2hpcF9zZXRfYWZmaW5pdHlfcGFyZW50
-KGQsIGNwdW1hc2tfb2YoY3B1KSwgZm9yY2UpOw0KPiA+ICsJaWYgKHJldCA8IDApIHsNCj4gPiAr
-CQlndWFyZChyYXdfc3BpbmxvY2tfaXJxc2F2ZSkoJmNwdV9zcGlfY291bnRfbG9jayk7DQo+ID4g
-Kw0KPiA+ICsJCWlmIChwcmV2X2NwdSA8IG5yX2NwdV9pZHMpDQo+ID4gKwkJCWh2X3BjaV9pbmNf
-c3BpX2NvdW50KGQsIHByZXZfY3B1KTsNCj4gPiArCQlpZiAoY3B1IDwgbnJfY3B1X2lkcykNCj4g
-PiArCQkJaHZfcGNpX2RlY19zcGlfY291bnQoZCwgY3B1KTsNCj4gPiArCX0NCj4gPiArDQo+ID4g
-KwlyZXR1cm4gcmV0Ow0KPiANCj4gPHNuaXA+DQo+IA0KPiBXaXRoIG9yIHdpdGhvdXQgYWJvdmUg
-bml0IGNoYW5nZXMsIGZvciB0aGUgcGF0Y2ggLQ0KPiANCj4gUmV2aWV3ZWQtYnk6IE5hbWFuIEph
-aW4gPG5hbWphaW5AbGludXgubWljcm9zb2Z0LmNvbT4NCj4gVGVzdGVkLWJ5OiBOYW1hbiBKYWlu
-IDxuYW1qYWluQGxpbnV4Lm1pY3Jvc29mdC5jb20+DQo+IA0KPiBUZXN0ZWQgdGhlIHBhdGNoIG9u
-IEF6dXJlIEFSTTY0IFZNIGFuZCB2ZXJpZmllZCB0aGUgaW50ZXJydXB0DQo+IGRpc3RyaWJ1dGlv
-biBhbmQgYWxzbyBzYXcgc29mdCBsb2NrdXBzIGRpc2FwcGVhcmluZyBhZnRlciBvcHRpbWFsDQo+
-IGRpc3RyaWJ1dGlvbiBvZiBOVk1FIC0gUENJIGludGVycnVwdHMgcHJvZHVjZWQgYnkgdGhpcyBw
-YXRjaC4NCj4gTm90IHJlcGVhdGluZyBoZXJlLCBvYnNlcnZhdGlvbnMgYXJlIHNpbWlsYXIgdG8g
-d2hhdCBJIG1lbnRpb25lZCBpbiB0aGUNCj4gcmV2aWV3IG9mIHYxLg0KPiANCj4gUmVnYXJkcywN
-Cj4gTmFtYW4NCg0K
+Hi Mostafa,
+
+On Wed, 21 Oct 2026 10:55:36 +0000
+Mostafa Saleh <smostafa@google.com> wrote:
+
+> On Fri, Sep 25, 2026 at 12:07:33PM -0700, Jacob Pan wrote:
+> > Hi,
+> > 
+> > This RFC supports guest VM device assignment from a Linux host
+> > using the Microsoft Hypervisor (MSHV). The goal is that a common
+> > set of flows and infrastructure can be applied for Xen and other
+> > type 1 hypervisors.
+> > 
+> > Background:
+> > 
+> > The IOMMUFD/VFIO stack used for device assignment has largely
+> > evolved around the KVM/QEMU model, at least as the first enabling
+> > target. In that model, the Linux host owns the host-side physical
+> > IOMMU programming as well as the physical PCI devices.
+> > 
+> > Architecturally, MSHV and Xen differ from this KVM/QEMU ownership
+> > model. At a high level:
+> > 
+> >   +------------------+
+> >   | Guest VM         |
+> >   | virtual IOMMU    |
+> >   +--------+---------+
+> >            | vIOMMU ops
+> >            v
+> >   +------------------+    external attach     +------------------+
+> >   | MSHV             |<-----------------------| Linux host       |
+> >   +--------+---------+                        +--------+---------+
+> >            | programs                                  | owns
+> >            v                                           v
+> >   +------------------+                        +------------------+
+> >   | HW IOMMU         |<---------------------->| PCI dev          |
+> >   +------------------+          DMA           +------------------+
+> > 
+> > For MSHV, the specific ownership model is as follows:
+> >   1. The Linux host OS owns the physical device and exposes it
+> > through VFIO/IOMMUFD, but it does not directly own any of the IOMMU
+> > hardware. 2. The device node (/dev/mshv) owns the VM partition file
+> > used by userspace. 3. MSHV owns most of the physical IOMMU
+> > programming, including stage-2 I/O page tables.
+> >   4. The Linux MSHV root pvIOMMU driver bridges IOMMUFD/VFIO UAPIs
+> > to hardware IOMMU programming through MSHV hypercalls.
+> >   5. Guest virtual IOMMU emulation is done in MSHV rather than the
+> > userspace VMM.
+> >   6. Stage-2 IOPT may be shared between CPU and IOMMU. It is
+> > managed by MSHV and abstracted from the Linux host, including TLB
+> > synchronization.
+> > 
+> > These structural differences from the KVM/QEMU model create several
+> > needs for IOMMUFD support:
+> >   1. Move a device to a guest whose I/O page table is externally
+> > managed. This patchset refers to that operation as external attach.
+> > Unlike conventional IOMMU vendor drivers, where translation is
+> > managed within the driver through paging domains, external attach
+> > means that translation is managed outside the driver, such as by
+> > the hypervisor. 2. Identify the guest-visible device across VMM,
+> > host pvIOMMU driver, and hypervisor namespaces.
+> >   3. Identify the guest partition in the host pvIOMMU driver for
+> > device attach hypercalls.
+> >   4. Tie the device-attachment lifetime to the hypervisor partition.
+> >   5. Coordinate guest-memory pinning and mapping for DMA between
+> > MSHV and the external IOMMU domain attachment.
+> > 
+> > External attach has a few caveats compared with KVM/QEMU, where
+> > nesting is typically handled by the host IOMMU driver in one
+> > transaction after the userspace VMM uses IOMMUFD to form nested
+> > domains:
+> > 
+> >   1. MSHV creates a temporal split between host and guest
+> > device-domain attach. The host first attaches S2 through a
+> > hypercall; later, if virtual IOMMU is present, the guest
+> >      allocates S1 and establishes nesting with MSHV directly
+> > through a pvIOMMU or emulated vIOMMU.
+> >   2. Guest-memory pinning before mapping is covered by the
+> > MSHV/userspace VMM contract, not by the VFIO/IOMMUFD pin-and-map
+> > DMA flow. 3. Device capabilities such as ATS and PASID need a
+> > contract among MSHV, the userspace VMM, and the host pvIOMMU
+> > driver. At the time of host external attach, only S2 is attached,
+> > so the guest's later ATS/PASID usage is not yet known. For example,
+> > whether to expose and enable PASID in the device could depend on
+> > whether the userspace VMM creates a guest virtual IOMMU.
+> > 
+> > This RFC proposes an IOMMUFD external attach model for those cases.
+> > The normal Linux-managed paging or nested domain is not the object
+> > that ultimately owns the translation context. Instead, userspace
+> > identifies a VM/domain object, binds a physical device to a
+> > VM-visible device identity, and asks the host pvIOMMU driver to
+> > attach the device to an externally managed address space.
+> > 
+> > The series makes that relationship explicit in IOMMUFD. The model
+> > is anchored around a hypervisor vIOMMU object that represents the
+> > per-VM partition abstraction. It introduces:
+> > 
+> >   1. IOMMU_DOMAIN_EXTERNAL for externally managed translation
+> > domains. 2. IOMMU_VIOMMU_TYPE_HYPERVISOR for the file-backed VM
+> > partition. 3. IOMMU_HWPT_EXTERNAL for user-visible external type
+> > IOMMU domains.
+> > 
+> > It reuses the IOMMUFD vDEVICE object to carry the guest-VM-scoped
+> > logical device ID visible to the hypervisor.
+> >   
+> 
+> This is very similar to pKVM on arm64 also, where the IOMMU is managed
+> by the hypervisor, and for device assignment, the host doesn't control
+> it for the guest, but the hypervisor (in EL2), and there will be a
+> channel between the guest and pKVM directly after the guest runs. 
+> 
+> The host only sets the virtual to physical topology (how many vIOMMUs,
+> vSID -> SID mappings) and describes that for the hypervisor through
+> hypercalls.
+> In Android, we have an out of tree uAPI through KVM/VFIO bridge
+> IOCTLs that proxies those hypercalls.
+> 
+> In that case, the host just creates a virtual IOMMU and the guest sees
+> a paravirtual one which runs with single stage collapsed translation,
+> although I don't see a difference on the host side if nested
+> translation was used beyond an argument change to the hypercalls.
+> 
+By "argument change", do you mean that the host would pass the guest S1
+context in the device-attach hypercall for nested translation? 
+
+IMHO, I don't see any change needed for the host-side attach between hw
+nested and collapsed single stage, if guest and host attach are
+split. I think it is up to pKVM or MSHV to handle guest virtual iommu
+mapping for both cases.
+
+> My goal is to converge to IOMMUFD and I believe this series is the way
+> forward, By relying on the vDEVICE virtual toplogy uAPI and the
+> external attach introduced here.
+> 
+> I will try to prototype something based on that to prove that it
+> works. However that work has a dependency on the host SMMUv3 support
+> [1] which needs to land first.
+> 
+> [1] https://lore.kernel.org/all/20261015200903.2735565-1-smostafa@google.com/
+> 
+Same here, our pviommu root driver must land first.
+https://lore.kernel.org/linux-iommu/20260929223622.778617-5-mrathor@linux.microsoft.com/
+
+My next step is to rebase on Aneesh's v7 such that we have a converged
+iommufd viommu layer, i will remove mshv specific helper registration
+in this series.
+https://lore.kernel.org/linux-iommu/20261008055955.4014342-1-aneesh.kumar@kernel.org/
+
+> Thanks,
+> Mostafa
+> 
+> 
+> > Roughly, the VMM flow is as follows:
+> >   1. iommufd = open("/dev/iommu")
+> >   2. vfio_fd = open("/dev/vfio/devices/vfioN")
+> >   3. dev_id = bind_vfio_device(vfio_fd, iommufd)
+> >   4. create_mshv_partition(&mshv_fd, &vm_fd)
+> >      // Creates the guest vIOMMU and configures guest-memory
+> > pinning policy. 5. alloc_hypervisor_viommu(iommufd, &viommu_id,
+> > dev_id, vm_fd) // Uses the hypervisor vIOMMU type.
+> >   6. alloc_vdevice(iommufd, viommu_id, dev_id, vm_device_id,
+> > &vdevice_id) 7. alloc_external_hwpt(iommufd, dev_id, viommu_id,
+> > &external_hwpt_id) 8. attach_external_hwpt(vfio_fd,
+> > external_hwpt_id)
+> > 
+> > Step 4 may be completed before steps 1-3, but it must precede step
+> > 5 because the partition file is required to allocate the hypervisor
+> > vIOMMU.
+> > 
+> > The attach_external_hwpt() operation enters the MSHV root pvIOMMU
+> > driver's external-HWPT device_attach path:  
+> >   -> resolve partition ID from hypervisor vIOMMU
+> >   -> resolve logical device ID from vDEVICE
+> >   -> invoke the partition prepare_attach callback to force pinning
+> > if policy requires  
+> >   -> MSHV attach-device hypercall  
+> > 
+> > Object lifetime:
+> >   - The hypervisor vIOMMU takes a reference on the MSHV partition
+> > file and holds it until the vIOMMU is destroyed. Closing the
+> > userspace copy of the partition fd therefore does not destroy the
+> > partition while the vIOMMU still exists.
+> >   - Each vDEVICE and external HWPT holds a reference on its parent
+> > vIOMMU. The vIOMMU cannot be destroyed until these child objects
+> > are removed.
+> >   - An attached device holds a reference on the external HWPT, so
+> > userspace cannot destroy the HWPT while the device is attached.
+> >   - Closing the IOMMUFD fd destroys the object graph from the
+> > leaves upward. Once the child objects are gone, destroying the
+> > vIOMMU drops its partition file reference and allows the MSHV
+> > partition to be released.
+> > 
+> > Thus, the external-attach lifetime is anchored directly by IOMMUFD
+> > object references and the partition file. It does not require a
+> > separate VFIO-hypervisor bridge, such as kvm-vfio: the MSHV root
+> > IOMMU driver's detach operation directly tears down the
+> > hypervisor-visible external-attach state.
+> > 
+> > The root pvIOMMU driver changes in this RFC address the following
+> > concerns received from the older version[1]:
+> >   1. The target partition comes from the fd-backed hypervisor
+> > vIOMMU created by userspace, not from the thread issuing the attach.
+> >   2. External attach is represented explicitly, avoiding
+> > paging-domain hacks. 3. Guest memory is pinned exactly once. In the
+> > older model, the same memory could be pinned once by /dev/mshv and
+> > again by the VFIO DMA map ioctl.
+> > 
+> > This RFC builds on the MSHV PCI passthrough/root pvIOMMU base work
+> > [2]. The mergeable MSHV driver changes should be added on top of a
+> > future version of that base root pvIOMMU driver.
+> > 
+> > Feedback would be especially useful on:
+> > 
+> >   1. Whether IOMMU_DOMAIN_EXTERNAL is the right IOMMU core
+> > representation for an externally managed translation (Xen, perhaps
+> > TSM [4]). 2. Whether IOMMU_VIOMMU_TYPE_HYPERVISOR/VDEVICE can be
+> > common to MSHV, Xen, and similar type-1 hypervisor flows, and
+> > whether it can cover the semantics in CoCo TDISP that would
+> > otherwise require tsm_bind() [3]. 3. Whether a file-backed
+> > VM/domain reference is the right way to anchor the external attach
+> > lifetime. 4. Whether vDEVICE virt_id is the right generic source
+> > for the hypervisor-assigned logical device ID.
+> > 
+> > At LPC 2026, I will be presenting this work and have open
+> > discussions. https://lpc.events/event/20/contributions/2520/
+> > 
+> > Future work:
+> > 1. ATS/PASID policy integration with the root pvIOMMU driver.
+> > ATS/PASID policy is intentionally left as a separate contract
+> > issue. I do not think the root pvIOMMU driver should blindly enable
+> > or disable PASID/ATS on a device without knowing the guest
+> > configuration or receiving acknowledgment from MSHV, which owns the
+> > device-TLB flush for S2 changes.
+> > 
+> > 2. Live update support
+> > The current LUO proposal preserves DMA mappings through
+> > IOMMUFD-owned state. External attach requires a different
+> > preservation model because the S2 IOPT is managed by MSHV rather
+> > than IOMMUFD.
+> > 
+> > 3. vDEVICE lifetime during external attachment
+> > An attached external HWPT does not currently retain the vDEVICE
+> > used by MSHV to resolve the guest logical device ID. We can either
+> > let the core retain the vDEVICE identity for external attach, or
+> > provide an opt-in mechanism to the vendor IOMMU drivers as needed.
+> > I am not sure if all type 1 hypervisors require a vDEVICE identity.
+> > 
+> > 4. Revokable dma-buf support for P2PDMA
+> > Now that MSHV, instead of IOMMUFD, manages the S2 IOPT, we need to
+> > reconsider how revokable dma-bufs are handled. Perhaps MSHV can be
+> > the importer of revokable dma-bufs for P2PDMA and unmap them when
+> > the dma-buf is revoked.
+> > 
+> > [1] https://lore.kernel.org/linux-iommu/20260731223427.2554388-1-mrathor@linux.microsoft.com/
+> > [2] https://lore.kernel.org/all/20260902235609.GG2890729@ziepe.ca/
+> > [3] https://lore.kernel.org/all/20260921225028.4007330-1-mrathor@linux.microsoft.com/T/#t
+> > [4] https://lore.kernel.org/linux-iommu/yq5a33uxka2g.fsf@kernel.org/
+> > 
+> > Patch groups:
+> > 
+> > IOMMUFD core and selftest:
+> > 
+> >   1. iommu: Introduce external attach domain type
+> >   2. iommufd: Introduce hypervisor vIOMMU type
+> >   3. iommufd: Add external HWPT support
+> >   4. iommufd/selftest: Add hypervisor external attach backend
+> > 
+> > MSHV:
+> > 
+> >   5. mshv: Add partition file identity helper
+> >   6. mshv: Add prepare callback for external device attach
+> > 
+> > MSHV root pIOMMU driver:
+> > 
+> >   7. iommu/hyperv: Split root IOMMU declarations
+> >   8. iommu/hyperv: Add fd-backed vIOMMU support
+> >   9. iommu/hyperv: Add IOMMUFD external domains
+> > 
+> > 
+> > Thanks,
+> > Jacob
+> > 
+> > Jacob Pan (9):
+> >   iommu: Introduce external attach domain type
+> >   iommufd: Introduce hypervisor vIOMMU type
+> >   iommufd: Add external HWPT support
+> >   iommufd/selftest: Add hypervisor external attach backend
+> >   mshv: Add partition file identity helper
+> >   mshv: Add prepare callback for external device attach
+> >   iommu/hyperv: Split root IOMMU declarations
+> >   iommu/hyperv: Add fd-backed vIOMMU support
+> >   iommu/hyperv: Add IOMMUFD external domains
+> > 
+> >  drivers/hv/hv_common.c                  |  91 ++++++++++++++++
+> >  drivers/hv/mshv_regions.c               |   6 ++
+> >  drivers/hv/mshv_root.h                  |   1 +
+> >  drivers/hv/mshv_root_main.c             |  71 ++++++++++++-
+> >  drivers/iommu/amd/iommufd.c             |  10 +-
+> >  drivers/iommu/hyperv/Makefile           |   2 +-
+> >  drivers/iommu/hyperv/hv-iommu-iommufd.c | 135
+> > ++++++++++++++++++++++++ drivers/iommu/hyperv/hv-iommu-root.c    |
+> > 102 ++++++++++++++++-- drivers/iommu/hyperv/hv-iommu.h         |
+> > 40 +++++++ drivers/iommu/iommu.c                   |   2 +
+> >  drivers/iommu/iommufd/device.c          |   9 +-
+> >  drivers/iommu/iommufd/hw_pagetable.c    |  88 +++++++++++++--
+> >  drivers/iommu/iommufd/iommufd_private.h |   7 ++
+> >  drivers/iommu/iommufd/main.c            |   4 +
+> >  drivers/iommu/iommufd/selftest.c        | 120 +++++++++++++++++++--
+> >  drivers/iommu/iommufd/viommu.c          |  37 ++++---
+> >  include/asm-generic/mshyperv.h          |  42 ++++++++
+> >  include/linux/iommu.h                   |  17 ++-
+> >  include/linux/iommufd.h                 |  11 ++
+> >  include/uapi/linux/iommufd.h            |  42 +++++++-
+> >  20 files changed, 790 insertions(+), 47 deletions(-)
+> >  create mode 100644 drivers/iommu/hyperv/hv-iommu-iommufd.c
+> >  create mode 100644 drivers/iommu/hyperv/hv-iommu.h
+> > 
+> > -- 
+> > 2.43.0
+> > 
+> >   
+
