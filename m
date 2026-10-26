@@ -1,49 +1,173 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793004948;
-	b=v/46hix1Iv2AQIIQf6I61Cg0sTI7hZtuTAE499dw0q+HJXgOH+YpdjmeM8Y/pgkRAZfO
-	 /Q0xIOkzUzrncp19s9Eh8Pp+04ggWBetOrbpcoANh9aAzwf19mixr/3kkhPwn8DhbuO+r
-	 LXq9uZUUstolx7g4UK1H5EQAv/B2fBDxskKEzp1Ms9wenEtmbBocRlVevsIBnoQbvunYs
-	 3UwSw7VZNZUimwUevM3M5tuaWKC1AQ/iG8DtxIoJMmyQ5fGQgFv4vtzA88bPDplOXn70L
-	 HKh9Hq8oNIyml1KIgwiIDt1W8YMPrlurBl+WeM1xCO9RZjVQGgZvec2eX0y1KzbhNlQ==
+	t=1793019751;
+	b=HDy544LZNNR7TwcC4mLQzyh37UvJeJSp3HDccg2AdQHWYIgveNdXkAdxlF8/40s87adl
+	 FR4NBf9XtWDFhjJm9D4X/jyhAt3E5p+uEdhShKpOSevoNvMMT507xf8mlVZyxx7pM0moF
+	 bAz+45JhKZHBB4wiL58EvlmKxrLTBkd+f4wcY9ps16G3ZA2k74BdPVOg4M4igEQHe7lj7
+	 UW5ral5jLr/2P5IYAJCqPIFdrSnDO0DL7kM2Z4v3vvDKYf8tLcuPSAsi4HKCWGD8f5UWU
+	 6Biq25PqvUFZJGm/UAusdzjKqd2ymiOIj9xezw41ZZ2bXhtOPmH1tGm/Qfxd4ucbtDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793004948;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=eMaUrds+x9DLxiS8cPn4zLFLc/nlUkgskqEyT+lNW8Q=;
-	b=mtiWLAh8kEBB8yRtJuLYOWEH04/psgZC1OKZOAcBXT7TrE6TWQLEoYKC8G3bpidcLnzW
-	 Kv5gj+5qBxQ2yKnrczJo/lfalqQKb/A1OeBoSh26LTrqi4Gl8ylo5W5PkeN8tYmaUKP4z
-	 rI/tKSfgLim+pcL/Mj988I7KWUd/t0aDuVzvhQdpFEkBaODQoyr2DNHJ0kNu161xfL5zt
-	 oWmKliZulHfm2r0vfFHtx6AFpnLQLB4LK9iIjYMwsUe49NCXApk/iOS/9mdvWBqGVhUOf
-	 IQR4cY68pFTaiNIgmCGFADIlbX4GpElLPcY5qX10UhJMt4RhmqFOeYdG8U+BZUWOlOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793019751;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=VgucDQGlpzyRpthc04g7/oRg6NX1oBAdxDc/UgjwdQw=;
+	b=PrVX+rPfO5cvX8uSbs9VvHef0iXUvBT3d0ou7UxsQsVGYcu0SFSQ4vOpC4v9zSfv9Wlk
+	 QFleIYfpe34F+gemZmSuv2SeIjvczxl8S1VOd1pm8tgyckCX1apjhvAkDM3HfbcdvdRnI
+	 5d8MaKhDs2iBzNdN6aWDW/CMIflF1hGjgInNVarGFjPP9uDV6+21o5sc4MoRHRa8/xvQ4
+	 Y0ZlVy+ERQnz5syxvxHT8sr5nF167MiVRLjBv6PbbaTpTAyuf74CQRE7VsTg1F+jJhPvj
+	 nGnbilhPllwaXhG45KFr8SJIOKpIO21AfVajztxqlA254MWNckKnfKe6DXLE++oX3zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=IVwYsHYN;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89706606A31B;
-	Mon, 26 Oct 2026 08:55:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89706606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=JJ17nvYM;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=JJ17nvYM;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADFF606A325;
+	Mon, 26 Oct 2026 13:02:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4ADFF606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=IVwYsHYN
-Received: from [10.95.64.230] (unknown [52.172.102.222])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 32B8C20B7166;
-	Mon, 26 Oct 2026 01:55:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 32B8C20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793004931;
-	bh=eMaUrds+x9DLxiS8cPn4zLFLc/nlUkgskqEyT+lNW8Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IVwYsHYNTO2McQS4l7TasR8d9aFlwkFmbISbn1/KcS/tQptbkBU93Ol58ROQTk8qE
-	 G/vk+hZSR26vlli3Lt+u8KAQ9kyuvnDfZk1LRF+YIKFkFOqnK/nXmjmSGauJMe+IDW
-	 +imkngZAt/hE5YBtbMIc3058kd86B8Mi1p6FIyUY=
-Message-ID: <53f73450-7eaa-4f0c-90be-ffcfe1116e73@linux.microsoft.com>
-Date: Mon, 26 Oct 2026 14:25:35 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=JJ17nvYM;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=JJ17nvYM
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 491121F461;
+	Mon, 26 Oct 2026 13:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1793019748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VgucDQGlpzyRpthc04g7/oRg6NX1oBAdxDc/UgjwdQw=;
+	b=JJ17nvYMH3Y9kIckqy6Y5tJHT+fxv7TDUxcVfKccWHoD50mqQbH+hNM2c2hvMMjr/kBmMY
+	oXpu9UOTuwrkToNMxTLQys1MhXYd4kAzwIqHxFz3hF3W+PS7xhIKY4h/VKbLYDyripnlMG
+	GSL+hGu0ouKDyR1+nDCWhv1EumU3ogE=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1793019748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VgucDQGlpzyRpthc04g7/oRg6NX1oBAdxDc/UgjwdQw=;
+	b=JJ17nvYMH3Y9kIckqy6Y5tJHT+fxv7TDUxcVfKccWHoD50mqQbH+hNM2c2hvMMjr/kBmMY
+	oXpu9UOTuwrkToNMxTLQys1MhXYd4kAzwIqHxFz3hF3W+PS7xhIKY4h/VKbLYDyripnlMG
+	GSL+hGu0ouKDyR1+nDCWhv1EumU3ogE=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E928313408;
+	Mon, 26 Oct 2026 13:02:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4jNRLWFP32puWgAAD6G6ig
+	(envelope-from <jgross@suse.com>); Mon, 26 Oct 2026 13:02:25 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	virtualization@lists.linux.dev,
+	linux-ide@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	David Airlie <airlied@redhat.com>,
+	Helge Deller <deller@gmx.de>,
+	linux-geode@lists.infradead.org,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Pu Wen <puwen@hygon.cn>,
+	Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Babu Moger <babu.moger@amd.com>,
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Len Brown <lenb@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	Xi Pardee <xi.pardee@linux.intel.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v5 00/12] x86/msr: Drop 32-bit MSR interfaces
+Date: Mon, 26 Oct 2026 14:02:11 +0100
+Message-ID: <20261026130223.773129-1-jgross@suse.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,124 +177,242 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] PCI: hv: Spread load across CPUs when selecting
- effective affinity CPU
-To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, lpieralisi@kernel.org, kwilczynski@kernel.org,
- mani@kernel.org, robh@kernel.org, bhelgaas@google.com
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-References: <20261026045930.129874-1-mhklinux@outlook.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20261026045930.129874-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-10.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,broadcom.com,gmx.de,lists.infradead.org,selenic.com,gondor.apana.org.au,infradead.org,arm.com,google.com,intel.com,linaro.org,microsoft.com,hygon.cn,amd.com,zhaoxin.com,oracle.com,roeck-us.net,gmail.com,arndb.de,linuxfoundation.org,bootlin.com,nod.at,ti.com,lists.xenproject.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLbixyxwsf3a5i7e4ez64ejni4)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[93];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -10.80
 
+For accessing the MSR registers on the local CPU, there are 2 types of
+interfaces: the "modern" 64-bit ones (rdmsrq() etc.) and the 32-bit
+ones (rdmsr() etc.) which are using the upper and lower 32-bit halves
+of the 64-bit wide MSR register values.
 
+The 32-bit interfaces are not optimal for 3 reasons:
 
-On 10/26/2026 10:29 AM, Michael Kelley wrote:
-> In a system with multiple devices with the same configuration (such as
-> NVMe controllers), the affinity masks are the same for all such devices.
-> Linux typicaly must select a single CPU from each mask to be the effective
-> affinity. If a fixed algorithm is used, such as picking the first CPU
-> in the mask, interrupts from multiple devices are assigned to the same
-> CPUs, while other CPUs are not assigned any interrupts, producing an
-> interrupt load imbalance.
-> 
-> On x86, the "APIC" IRQ chip avoids this problem by spreading the
-> interrupts across the CPUs in an affinity mask. It tracks the number
-> of IRQs assigned to each CPU, and chooses the CPU in the mask that
-> has the fewest assignments. Because Hyper-V vPCI device IRQs eventually
-> parent to APIC, the spreading done by APIC accrues to Hyper-V vPCI
-> devices, so all is good in x86 systems.
-> 
-> On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind of
-> spreading for LPI interrupts. But Hyper-V provides guest VMs only with
-> a virtual GICv3, not including an ITS or LPI support. IRQs for vPCI
-> devices on arm64 are mapped to SPIs and parented to the "GICv3" IRQ
-> chip. The GICv3 IRQ chip always chooses the first CPU in the affinity
-> mask as the effective affinity, producing an interrupt load imbalance
-> for Hyper-V vPCI devices in arm64 systems.
-> 
-> The Hyper-V vPCI driver already has an arm64-specific IRQ chip to
-> allocate and managed SPIs for use by vPCI devices. Solve the imbalance
-> problem by extending this IRQ chip to implement a "set affinity"
-> function that tracks SPIs assigned to each CPU, and chooses the
-> least-loaded CPU as the effective affinity. Then invoke the parent
-> IRQ chip (GICv3) to actually set that single CPU as the effective
-> affinity in the virtual GICv3 hardware. As a result, IRQs are spread
-> across CPUs like on x86 and interrupt load imbalances are avoided.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+- They are based on primitives using 64-bit sized values anyway.
 
-<snip>
+- Modern x86 CPUs have added support for MSR access instructions using
+  an immediate value instead of a register for addressing the MSR,
+  while the value is in a 64-bit register.
 
-> +/*
-> + * Track the count of SPIs assigned to each CPU. Pick a single CPU from the
-> + * affinity mask based on the SPI loading data, and have the parent IRQ
-> + * chip (should be "GICv3") set the effective affinity to that single CPU.
-> + */
-> +static int hv_pci_arm64_set_affinity(struct irq_data *d,
-> +				     const struct cpumask *mask_val,
-> +				     bool force)
-> +{
-> +	unsigned int cpu, prev_cpu;
-> +	int ret;
-> +
-> +	prev_cpu = cpumask_first(irq_data_get_effective_affinity_mask(d));
-> +
-> +	scoped_guard(raw_spinlock_irqsave, &cpu_spi_count_lock) {
-> +		if (prev_cpu < nr_cpu_ids)
-> +			hv_pci_dec_spi_count(d, prev_cpu);
+- rdmsr() is a macro storing the upper and lower 32-bit halves in
+  variables specified as macro parameters. This is obscuring variable
+  assignment through a macro. Additionally rdmsrq() is mimicking this
+  pattern by being a macro, too, with the target variable specified as
+  a parameter as well.
 
-Nit: Would it be better to add this nr_cpu_ids check in 
-hv_pci_dec_spi_count()/hv_pci_inc_spi_count() instead? I don't have a 
-strong opinion on it.
+For those reasons drop the 32-bit interfaces for accessing the x86 MSR
+registers completely and only use the 64-bit variants.
 
-> +
-> +		if (force)
-> +			cpu = hv_pci_arm64_get_min_load(d, mask_val);
-> +		else
-> +			cpu = hv_pci_arm64_select_cpu(d, mask_val);
-> +
-> +		if (cpu >= nr_cpu_ids) {
+This allows to switch all "high-level" MSR access macros to inline
+functions in the end.
 
-At some places like this, you may still need to retain it.
+This series will be used as the base for further reorganisation of the
+MSR access functions, especially for completely inlining the MSR
+access instructions even with paravirtualization being active.
 
-> +			if (prev_cpu < nr_cpu_ids)
-> +				hv_pci_inc_spi_count(d, prev_cpu);
-> +			return -EINVAL;
-> +		}
-> +
-> +		hv_pci_inc_spi_count(d, cpu);
-> +	}
-> +
-> +	ret = irq_chip_set_affinity_parent(d, cpumask_of(cpu), force);
-> +	if (ret < 0) {
-> +		guard(raw_spinlock_irqsave)(&cpu_spi_count_lock);
-> +
-> +		if (prev_cpu < nr_cpu_ids)
-> +			hv_pci_inc_spi_count(d, prev_cpu);
-> +		if (cpu < nr_cpu_ids)
-> +			hv_pci_dec_spi_count(d, cpu);
-> +	}
-> +
-> +	return ret;
+Based on kernel 7.4 as of 2026-10-26.
 
-<snip>
+IMHO at least patches 2 and 3 should be applied rather sooner than later
+in order to avoid new instances of the 32-bit variants of the *_safe()
+functions creeping in again.
 
-With or without above nit changes, for the patch -
+Changes in V2:
+- dropped already applied patches
+- added patch 1
+- rebased
 
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
-Tested-by: Naman Jain <namjain@linux.microsoft.com>
+Changes in V3:
+- small fixes in patches 4 and 13
+- rebased
 
-Tested the patch on Azure ARM64 VM and verified the interrupt 
-distribution and also saw soft lockups disappearing after optimal 
-distribution of NVME - PCI interrupts produced by this patch.
-Not repeating here, observations are similar to what I mentioned in the 
-review of v1.
+Changes in V4:
+- rebased
 
-Regards,
-Naman
+Changes in V5:
+- patch 9 of V4 has been applied
+- rebased
+
+Juergen Gross (12):
+  x86/cpu: Fix coding style violation
+  x86/msr: Remove wrmsr_safe()
+  x86/msr: Remove rdmsr_safe()
+  drivers/ata: Stop using 32-bit MSR interfaces
+  agp/nvidia: Stop using 32-bit MSR interfaces
+  fbdev/geode: Stop using 32-bit MSR interfaces
+  hw_random/via-rng: Stop using 32-bit MSR interfaces
+  drivers/gpio: Stop using 32-bit MSR interfaces
+  x86/msr: Remove wrmsr()
+  x86/msr: Remove rdmsr()
+  treewide: convert rdmsrq() from a macro to an inline function
+  x86/msr: Simplify some rdmsrq() use cases
+
+ arch/x86/coco/sev/core.c                      |  2 +-
+ arch/x86/events/amd/brs.c                     |  4 +-
+ arch/x86/events/amd/core.c                    |  8 +--
+ arch/x86/events/amd/ibs.c                     | 18 +++----
+ arch/x86/events/amd/lbr.c                     | 16 ++----
+ arch/x86/events/amd/power.c                   |  8 +--
+ arch/x86/events/amd/uncore.c                  |  4 +-
+ arch/x86/events/core.c                        | 20 ++++----
+ arch/x86/events/intel/core.c                  | 15 ++----
+ arch/x86/events/intel/cstate.c                |  5 +-
+ arch/x86/events/intel/ds.c                    |  2 +-
+ arch/x86/events/intel/knc.c                   | 10 ++--
+ arch/x86/events/intel/lbr.c                   | 25 +++-------
+ arch/x86/events/intel/p4.c                    |  6 +--
+ arch/x86/events/intel/p6.c                    |  4 +-
+ arch/x86/events/intel/pt.c                    | 12 ++---
+ arch/x86/events/intel/uncore.c                |  6 +--
+ arch/x86/events/intel/uncore_nhmex.c          |  4 +-
+ arch/x86/events/intel/uncore_snb.c            |  2 +-
+ arch/x86/events/intel/uncore_snbep.c          |  6 +--
+ arch/x86/events/msr.c                         |  2 +-
+ arch/x86/events/perf_event.h                  |  6 +--
+ arch/x86/events/rapl.c                        |  6 +--
+ arch/x86/events/zhaoxin/core.c                | 10 ++--
+ arch/x86/hyperv/hv_apic.c                     |  9 ++--
+ arch/x86/hyperv/hv_init.c                     | 26 +++++-----
+ arch/x86/hyperv/hv_spinlock.c                 |  2 +-
+ arch/x86/include/asm/apic.h                   |  7 +--
+ arch/x86/include/asm/debugreg.h               |  6 +--
+ arch/x86/include/asm/fsgsbase.h               |  2 +-
+ arch/x86/include/asm/kvm_host.h               | 10 ----
+ arch/x86/include/asm/msr.h                    | 39 ++-------------
+ arch/x86/include/asm/paravirt.h               | 26 +---------
+ arch/x86/kernel/apic/apic.c                   | 14 +++---
+ arch/x86/kernel/apic/apic_numachip.c          |  6 +--
+ arch/x86/kernel/cet.c                         |  2 +-
+ arch/x86/kernel/cpu/amd.c                     | 14 +++---
+ arch/x86/kernel/cpu/aperfmperf.c              |  8 +--
+ arch/x86/kernel/cpu/bugs.c                    | 12 ++---
+ arch/x86/kernel/cpu/bus_lock.c                |  8 +--
+ arch/x86/kernel/cpu/centaur.c                 |  8 +--
+ arch/x86/kernel/cpu/common.c                  | 12 ++---
+ arch/x86/kernel/cpu/feat_ctl.c                |  4 +-
+ arch/x86/kernel/cpu/hygon.c                   |  4 +-
+ arch/x86/kernel/cpu/intel.c                   |  6 +--
+ arch/x86/kernel/cpu/intel_epb.c               |  4 +-
+ arch/x86/kernel/cpu/mce/amd.c                 |  4 +-
+ arch/x86/kernel/cpu/mce/core.c                |  8 +--
+ arch/x86/kernel/cpu/mce/inject.c              |  2 +-
+ arch/x86/kernel/cpu/mce/intel.c               | 18 +++----
+ arch/x86/kernel/cpu/mce/p5.c                  |  8 +--
+ arch/x86/kernel/cpu/mce/winchip.c             |  2 +-
+ arch/x86/kernel/cpu/microcode/intel.c         |  2 +-
+ arch/x86/kernel/cpu/mshyperv.c                |  6 +--
+ arch/x86/kernel/cpu/mtrr/amd.c                |  4 +-
+ arch/x86/kernel/cpu/mtrr/cleanup.c            |  4 +-
+ arch/x86/kernel/cpu/mtrr/generic.c            | 32 ++++++------
+ arch/x86/kernel/cpu/mtrr/mtrr.c               |  2 +-
+ arch/x86/kernel/cpu/resctrl/core.c            |  2 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c         |  4 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c     |  4 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |  2 +-
+ arch/x86/kernel/cpu/topology.c                |  2 +-
+ arch/x86/kernel/cpu/topology_amd.c            |  4 +-
+ arch/x86/kernel/cpu/transmeta.c               |  8 +--
+ arch/x86/kernel/cpu/tsx.c                     | 10 ++--
+ arch/x86/kernel/cpu/umwait.c                  |  2 +-
+ arch/x86/kernel/cpu/zhaoxin.c                 |  4 +-
+ arch/x86/kernel/fpu/core.c                    |  2 +-
+ arch/x86/kernel/hpet.c                        |  2 +-
+ arch/x86/kernel/kvm.c                         |  2 +-
+ arch/x86/kernel/mmconf-fam10h_64.c            |  6 +--
+ arch/x86/kernel/process.c                     |  4 +-
+ arch/x86/kernel/process_64.c                  | 14 +++---
+ arch/x86/kernel/shstk.c                       |  8 +--
+ arch/x86/kernel/traps.c                       |  4 +-
+ arch/x86/kernel/tsc.c                         |  2 +-
+ arch/x86/kernel/tsc_msr.c                     |  6 +--
+ arch/x86/kernel/tsc_sync.c                    |  6 +--
+ arch/x86/kvm/msrs.c                           |  2 +-
+ arch/x86/kvm/svm/pmu.c                        |  4 +-
+ arch/x86/kvm/svm/svm.c                        |  6 +--
+ arch/x86/kvm/vmx/main.c                       |  2 +-
+ arch/x86/kvm/vmx/nested.c                     |  4 +-
+ arch/x86/kvm/vmx/pmu_intel.c                  |  8 +--
+ arch/x86/kvm/vmx/sgx.c                        |  6 +--
+ arch/x86/kvm/vmx/tdx.c                        |  2 +-
+ arch/x86/kvm/vmx/vmx.c                        | 40 +++++++--------
+ arch/x86/kvm/x86.c                            |  6 +--
+ arch/x86/lib/insn-eval.c                      |  6 +--
+ arch/x86/lib/msr-smp.c                        |  2 +-
+ arch/x86/mm/pat/memtype.c                     |  2 +-
+ arch/x86/pci/amd_bus.c                        |  8 +--
+ arch/x86/platform/olpc/olpc-xo1-rtc.c         |  6 +--
+ arch/x86/platform/olpc/olpc-xo1-sci.c         |  2 +-
+ arch/x86/power/cpu.c                          | 10 ++--
+ arch/x86/realmode/init.c                      |  2 +-
+ arch/x86/virt/hw.c                            |  8 +--
+ arch/x86/virt/svm/sev.c                       | 22 ++++----
+ arch/x86/virt/vmx/tdx/tdx.c                   |  2 +-
+ arch/x86/xen/suspend.c                        |  2 +-
+ drivers/acpi/processor_perflib.c              |  2 +-
+ drivers/ata/pata_cs5535.c                     | 24 ++++-----
+ drivers/ata/pata_cs5536.c                     | 17 +++----
+ drivers/char/agp/nvidia-agp.c                 | 32 ++++++------
+ drivers/char/hw_random/via-rng.c              | 29 +++++------
+ drivers/cpufreq/acpi-cpufreq.c                |  8 +--
+ drivers/cpufreq/amd-pstate.c                  |  4 +-
+ drivers/cpufreq/e_powersaver.c                | 20 ++++----
+ drivers/cpufreq/intel_pstate.c                | 28 +++++------
+ drivers/cpufreq/longhaul.c                    | 12 ++---
+ drivers/cpufreq/longrun.c                     | 16 +++---
+ drivers/cpufreq/powernow-k7.c                 | 10 ++--
+ drivers/cpufreq/powernow-k8.c                 |  8 +--
+ drivers/cpufreq/speedstep-centrino.c          |  4 +-
+ drivers/cpufreq/speedstep-lib.c               | 14 +++---
+ drivers/edac/amd64_edac.c                     |  6 +--
+ drivers/edac/intel-bff.c                      |  4 +-
+ drivers/gpio/gpio-cs5535.c                    | 10 ++--
+ drivers/hv/mshv_vtl_main.c                    |  2 +-
+ drivers/hwmon/hwmon-vid.c                     |  4 +-
+ drivers/idle/intel_idle.c                     | 26 +++++-----
+ drivers/misc/cs5535-mfgpt.c                   |  6 +--
+ drivers/mtd/nand/raw/cs553x_nand.c            |  6 +--
+ drivers/platform/x86/intel/ifs/load.c         | 10 ++--
+ drivers/platform/x86/intel/ifs/runtest.c      |  8 +--
+ drivers/platform/x86/intel/pmc/cnp.c          |  2 +-
+ .../intel/speed_select_if/isst_if_mbox_msr.c  |  6 +--
+ .../intel/speed_select_if/isst_tpmi_core.c    |  2 +-
+ drivers/platform/x86/intel_ips.c              | 20 ++++----
+ drivers/powercap/intel_rapl_msr.c             |  2 +-
+ drivers/thermal/intel/intel_hfi.c             |  8 +--
+ drivers/thermal/intel/therm_throt.c           | 22 ++++----
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  6 +--
+ drivers/video/fbdev/geode/display_gx.c        |  8 +--
+ drivers/video/fbdev/geode/gxfb_core.c         |  2 +-
+ drivers/video/fbdev/geode/lxfb_ops.c          | 50 +++++++++----------
+ drivers/video/fbdev/geode/suspend_gx.c        | 24 +++++----
+ drivers/video/fbdev/geode/video_gx.c          |  8 +--
+ include/linux/cs5535.h                        | 10 ++--
+ 140 files changed, 567 insertions(+), 685 deletions(-)
+
+-- 
+2.56.0
+
