@@ -1,72 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793056223;
-	b=ncVsrraSqcK7mxIqeSLUThZ6npnRfBZCE6mUj68eur/bbRCAgjx/O0PGTVqIQgt7fL5e
-	 BmUciAi6iLVMS+0rRdx/a2R7ZpyCsEt2w3PT7nyx8fiMtEavYlY8yeklTQIbYp9vrF0AJ
-	 UgnG2YIn3sIbGRp4V51IfdbPl4EkxAxeVoKWGrJkM6r7VVhhP+7CVvcqGKiRY1iHJK9Mg
-	 D1jPFdOqTZuZGdsl0rcpSfQnWAvaNXsTqZeEWD4hpZMzj9FSFwR62S68a5VmzVZ8V5Mv4
-	 8NIBjgfv6qvF+P9dtZd0UkZXoKij1Hl1UPeZoqpt9WnhstCZSJVL0uXorDw8AYorT6w==
+	t=1793084239;
+	b=Ppm5jkqpVaboXdcdW610XFVEXFjTy+YdBacbTEf4oMcNC/DUU3kPNQ2wZ+24/oYalT7C
+	 V58DEWr7CNnkhdKExq+eRkn97xNRawhYTdX/P7MQSDym6aSknV4vNaDeh1YPrmsrwCyj5
+	 MWS3KhYJWf//I0icnMQPSScai1tG6KvIJ8Uqfs+jBsIl6TPnmkLJxUmbhRYkMPCKO7y46
+	 klYLsBfEWDKRgy2+fj76vHBnBdCMg0W+Qu15Ju5p+eB3lOkRYBd+5ipBCnyTOA3XMQE8q
+	 lb/eX27pYNkSJeJMT2pZvxO4izJuUvotq2Mo5YS12dPnLq2KUx5l81SRWE8dyqW+f7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793056223;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=vAGCvmTxy6ZtJGt5CSWzyoyAFqmQYDKuR0TIL8Beruw=;
-	b=Ic5Zac+Wn+x5HM/W/CmpxCtLTt6EUjXismTTTSB/noSaNpYwMuclaDnJrXrtrH4tTOeE
-	 63RLOyCgBNEjmPziiD2TUAZuCJJrsWU9h00jjPR3yDjRn4PtlrXjl3vEXUNqpXJSq7Sbv
-	 Vpf4jnVH7Gyoj5hP3A930wbh3ervI7o0hD6Lt3XGVSLYMd5rRSjaymELBc83KO2ujim+z
-	 NctxOxElOKZD+e6hvmjMNqR9sFNw+iWnB60r+sogSGGMHgvECRDs4N/UyNf4qsLowdtZl
-	 GYNjxMQY1HoGG60v9W3ZsG4q0svN1MQBSdIZPEVd7QizXwGNmXR74EVFoZlC8G6DdQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793084239;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=pRNMKUxHBHa2Apv5r1Y7542NpZLiiBP519/s4FlUMAw=;
+	b=dlaXmtAa02RqMlXPPiY7QeXT4kJ64fhRiU8m7CvdX1x9wUBbHai4f9jLRzXOiqqpc48b
+	 BC7dKlcVRVGagygEXcYxOYMpl9YEWzizkKCrUB/zMEyjfDRitjmM+BVRn+nHuG5ll4kHN
+	 QVlVU5372med+ZdTi50s5M93hNGDQ85a6U3aheSWfrJ2j1SxtGIVyrYTw6KjAIgd4hi7Z
+	 /2cPSSe9LTmth3NOoXbcpGn1hK8ZcPU+oJDNqa6szxgsqD/Hruubab1NNpA8HGJlJiEDb
+	 VrIW/dT6d9FH7MoyzAtUmZ0RlFlrZKd5BG0l+s1SxfSGrk+XSDGAU0aW3wsiHsE9ElQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PVDMz7B0;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C33A606A31B;
-	Mon, 26 Oct 2026 23:10:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C33A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=bwAsvIEp;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9D6606A323;
+	Tue, 27 Oct 2026 06:57:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA9D6606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PVDMz7B0
-Received: from localhost (unknown [52.172.102.253])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0D73620B7166;
-	Mon, 26 Oct 2026 16:09:58 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0D73620B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793056210;
-	bh=vAGCvmTxy6ZtJGt5CSWzyoyAFqmQYDKuR0TIL8Beruw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PVDMz7B0B4a18dyvgGY3eNUXdDo+pa0ROA5K1YlbuS11AmFFTVQ8CFHU/xby58w2M
-	 RE/O+ag02r/o5RZXrQ8sy4FjeQV3vJd2zb/5bchD3HDWL0ioOhN0mxdawBGcmmhMoP
-	 09eGcAPAWkN6VNvU4g3vuUsiRpefrI4WZamVd3JQ=
-Date: Mon, 26 Oct 2026 16:10:03 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen
- <nicolinc@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Wei Liu
- <wei.liu@kernel.org>, "K . Y . Srinivasan" <kys@microsoft.com>, Haiyang
- Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, linux-hyperv@vger.kernel.org, Joerg Roedel
- <joro@8bytes.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, "Aneesh Kumar K .
- V" <aneesh.kumar@kernel.org>, Mukesh Rathor <mukeshrathor@microsoft.com>,
- John Starks <John.Starks@microsoft.com>, Souradeep Chakrabarti
- <schakrabarti@microsoft.com>, Yu Zhang <zhangyu1@linux.microsoft.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>, Alex Williamson
- <alex@shazbot.org>, jacob.pan@linux.microsoft.com
-Subject: Re: [PATCH RFC 1/9] iommu: Introduce external attach domain type
-Message-ID: <20261026161003.00003b71@linux.microsoft.com>
-In-Reply-To: <atiakDqtuED2cTM5@google.com>
-References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
-	<20260925190742.1575380-2-jacob.pan@linux.microsoft.com>
-	<atiakDqtuED2cTM5@google.com>
-Organization: LSG
-X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=bwAsvIEp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=pR
+	NMKUxHBHa2Apv5r1Y7542NpZLiiBP519/s4FlUMAw=; b=bwAsvIEpMwavS2NKX5
+	3UsiiKbg8MFRRa2K0YYrg07O0irRjyG8BHRNuquZ0etUJuGRq5t9DrNpINm3CToC
+	lu/lIW84LVXfvG6uae5Vhjs225SBmnUeyTem19UBZr8GzAR6ztabP+lR/s+7cKfB
+	JbCWO0OLtpXNPXOS6mgnK9pX4=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3f3srS+BqJPR6DA--.54486S4;
+	Tue, 27 Oct 2026 14:56:46 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	Kameron Carr <kameroncarr@linux.microsoft.com>
+Subject: [PATCH v3 2/2] Drivers: hv: vmbus: copy dynamic IDs before dropping the lock
+Date: Tue, 27 Oct 2026 14:56:42 +0800
+Message-Id: <20261027065642.2280297-3-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261027065642.2280297-1-yaojiale02@163.com>
+References: <20261027065642.2280297-1-yaojiale02@163.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -76,122 +69,142 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3f3srS+BqJPR6DA--.54486S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GFWxKFWxtFWrKFWxZr4Utwb_yoW7Gryfpa
+	1DWFWYyrW7GF1fW3s3Zr18AFyY9wnFq3WY9rnYk3ZxKF9IyryUXayxtFWjvasYyrWUGF12
+	yF1UtryrAFWDZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7DG5UUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8A6w6mrgSy4PSAAA3M
 
-Hi Mostafa,
+Dynamic IDs are freed by remove_id_store() while holding dynids.lock, so a
+pointer into a dynamic ID entry is valid only while that lock is held.
+hv_vmbus_dynid_match() currently returns such a pointer after unlocking. A
+concurrent remove_id write can therefore free the entry before a driver
+probe dereferences it.
 
-On Wed, 21 Oct 2026 10:57:20 +0000
-Mostafa Saleh <smostafa@google.com> wrote:
+Copy a matching dynamic ID under the lock and pass the caller-owned copy to
+the probe callback. This follows the lifetime handling added for PCI by
+commit 3ffc4c9690c3 ("PCI: Fix UAF when probe runs concurrent to dyn ID
+removal") and for USB by commit ef8154d8b52d ("usb: fix UAF when probe runs
+concurrent to dyn ID removal"). Document that the ID is valid only for the
+duration of probe.
 
-> On Fri, Sep 25, 2026 at 12:07:34PM -0700, Jacob Pan wrote:
-> > Add IOMMU_DOMAIN_EXTERNAL for externally managed domains that move
-> > or attach devices to another VM address space provisioned by an
-> > external owner, such as a type 1 hypervisor.
-> > 
-> > This is not a paging domain and is not sysfs-selectable as a default
-> > domain type. It requires external owner context, such as a vIOMMU.
-> >   
-> 
-> Can't we use a IOMMU_DOMAIN_BLOCKED domain for that, AFAIU, the host
-> never inserts any mapping?
-Right, the host does not own or install any mappings.
+Because matching and probing perform separate lookups, removal can also
+happen between them. Reject the probe if the second lookup no longer finds
+an ID instead of passing NULL to drivers which dereference it. Keep the
+hvsock exception because it does not use an ID table or inspect the ID.
 
-The external domain type is nevertheless useful for two reasons:
+This issue was found by static analysis of the dynamic ID lifetime.
 
-1. It allows the pvIOMMU driver's domain ops to do the MSHV & Xen attach
-and detach hypercalls 
-2. It allows an externally managed device to leverage the normal IOMMUFD
-device-to-HWPT attachment interface: VFIO_DEVICE_ATTACH_IOMMUFD_PT
-No new ioctls.
+Fixes: fc76936d3ea5 ("vmbus: add support for dynamic device id's")
+Cc: stable@vger.kernel.org
+Tested-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+Reviewed-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
+---
+ drivers/hv/vmbus_drv.c | 34 ++++++++++++++++++++--------------
+ include/linux/hyperv.h |  1 +
+ 2 files changed, 21 insertions(+), 14 deletions(-)
 
-It also makes the lifetime and ownership clear for IOMMUFD and
-hypervisor, the device can be returned back to host iommufd owned
-domains once detached.
-
-In pKVM case, my understanding is that you have a emulated root SMMU
-which does not do hypercalls obviously. Then the external attach
-is done via an "out of tree uAPI through KVM/VFIO bridge IOCTLs that
-proxies those hypercalls."
-
-Therefore, if we were to park the device in blocking domain while doing
-external attach (as you suggested), this requires a new PV only uAPI
-that must support pkvm, MSHV, and Xen. So it does not fit in the flow
-supported by PV IOMMU root driver.
-
-I don't have a better solution for both pv and emulated root IOMMU
-drivers. Perhaps others do?
-
-> Thanks,
-> Mostafa
-> 
-> > PV IOMMU drivers are expected to use it when moving a device to a
-> > guest VM with an already-created S2 IOPT.
-> > 
-> > Assisted-by: GPT-5.6 Sol
-> > Signed-off-by: Jacob Pan <jacob.pan@linux.microsoft.com>
-> > ---
-> >  drivers/iommu/iommu.c | 2 ++
-> >  include/linux/iommu.h | 9 +++++++++
-> >  2 files changed, 11 insertions(+)
-> > 
-> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> > index cd1bca7ede9a..d0bd3ef00379 100644
-> > --- a/drivers/iommu/iommu.c
-> > +++ b/drivers/iommu/iommu.c
-> > @@ -220,6 +220,8 @@ static const char
-> > *iommu_domain_type_str(unsigned int t) return "Translated";
-> >  	case IOMMU_DOMAIN_PLATFORM:
-> >  		return "Platform";
-> > +	case IOMMU_DOMAIN_EXTERNAL:
-> > +		return "External";
-> >  	default:
-> >  		return "Unknown";
-> >  	}
-> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > index ac43b8b93f14..ede77b90f0fd 100644
-> > --- a/include/linux/iommu.h
-> > +++ b/include/linux/iommu.h
-> > @@ -188,6 +188,7 @@ enum iommu_domain_cookie_type {
-> >  
-> >  #define __IOMMU_DOMAIN_NESTED	(1U << 6)  /* User-managed
-> > address space nested on a stage-2 translation        */
-> > +#define __IOMMU_DOMAIN_EXTERNAL	(1U << 7)  /* Externally
-> > managed translation */ 
-> >  #define IOMMU_DOMAIN_ALLOC_FLAGS ~__IOMMU_DOMAIN_DMA_FQ
-> >  /*
-> > @@ -207,6 +208,13 @@ enum iommu_domain_cookie_type {
-> >   *				  represented by mm_struct's.
-> >   *	IOMMU_DOMAIN_PLATFORM	- Legacy domain for drivers
-> > that do their own
-> >   *				  dma_api stuff. Do not use in
-> > new drivers.
-> > + *	IOMMU_DOMAIN_EXTERNAL	- Externally managed domain
-> > for moving/attaching
-> > + *				  devices to another VM address
-> > space
-> > + *				  provisioned by the external
-> > owner, such as
-> > + *				  a type 1 hypervisor. This is
-> > not a
-> > + *				  sysfs-selectable default
-> > domain type; it
-> > + *				  requires external owner
-> > context such as a
-> > + *				  vIOMMU.
-> >   */
-> >  #define IOMMU_DOMAIN_BLOCKED	(0U)
-> >  #define IOMMU_DOMAIN_IDENTITY	(__IOMMU_DOMAIN_PT)
-> > @@ -219,6 +227,7 @@ enum iommu_domain_cookie_type {
-> >  #define IOMMU_DOMAIN_SVA	(__IOMMU_DOMAIN_SVA)
-> >  #define IOMMU_DOMAIN_PLATFORM	(__IOMMU_DOMAIN_PLATFORM)
-> >  #define IOMMU_DOMAIN_NESTED	(__IOMMU_DOMAIN_NESTED)
-> > +#define IOMMU_DOMAIN_EXTERNAL	(__IOMMU_DOMAIN_EXTERNAL)
-> >  
-> >  struct iommu_domain {
-> >  	unsigned type;
-> > -- 
-> > 2.43.0
-> > 
-> >   
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 1037117e2d81..1cacbc71266f 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -661,21 +661,21 @@ hv_vmbus_dev_match(const struct hv_vmbus_device_id *id, const guid_t *guid)
+ }
+ 
+ static const struct hv_vmbus_device_id *
+-hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid)
++hv_vmbus_dynid_match(struct hv_driver *drv, const guid_t *guid,
++		     struct hv_vmbus_device_id *id_copy)
+ {
+-	const struct hv_vmbus_device_id *id = NULL;
+-	struct vmbus_dynid *dynid;
++	scoped_guard(spinlock, &drv->dynids.lock) {
++		struct vmbus_dynid *dynid;
+ 
+-	spin_lock(&drv->dynids.lock);
+-	list_for_each_entry(dynid, &drv->dynids.list, node) {
+-		if (guid_equal(&dynid->id.guid, guid)) {
+-			id = &dynid->id;
+-			break;
++		list_for_each_entry(dynid, &drv->dynids.list, node) {
++			if (guid_equal(&dynid->id.guid, guid)) {
++				memcpy(id_copy, &dynid->id, sizeof(*id_copy));
++				return id_copy;
++			}
+ 		}
+ 	}
+-	spin_unlock(&drv->dynids.lock);
+ 
+-	return id;
++	return NULL;
+ }
+ 
+ static const struct hv_vmbus_device_id vmbus_device_null;
+@@ -685,7 +685,8 @@ static const struct hv_vmbus_device_id vmbus_device_null;
+  * If there is no match, return NULL.
+  */
+ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *drv,
+-							struct hv_device *dev)
++							struct hv_device *dev,
++							struct hv_vmbus_device_id *id_copy)
+ {
+ 	const guid_t *guid = &dev->dev_type;
+ 	const struct hv_vmbus_device_id *id;
+@@ -697,7 +698,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
+ 		return NULL;
+ 
+ 	/* Look at the dynamic ids first, before the static ones */
+-	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid);
++	id = hv_vmbus_dynid_match((struct hv_driver *)drv, guid, id_copy);
+ 	if (!id)
+ 		id = hv_vmbus_dev_match(drv->id_table, guid);
+ 
+@@ -843,13 +844,14 @@ ATTRIBUTE_GROUPS(vmbus_drv);
+ static int vmbus_match(struct device *device, const struct device_driver *driver)
+ {
+ 	const struct hv_driver *drv = drv_to_hv_drv(driver);
++	struct hv_vmbus_device_id id_copy;
+ 	struct hv_device *hv_dev = device_to_hv_device(device);
+ 
+ 	/* The hv_sock driver handles all hv_sock offers. */
+ 	if (is_hvsock_channel(hv_dev->channel))
+ 		return drv->hvsock;
+ 
+-	if (hv_vmbus_get_id(drv, hv_dev))
++	if (hv_vmbus_get_id(drv, hv_dev, &id_copy))
+ 		return 1;
+ 
+ 	return 0;
+@@ -864,9 +866,13 @@ static int vmbus_probe(struct device *child_device)
+ 	struct hv_driver *drv =
+ 			drv_to_hv_drv(child_device->driver);
+ 	struct hv_device *dev = device_to_hv_device(child_device);
++	struct hv_vmbus_device_id dev_id_copy;
+ 	const struct hv_vmbus_device_id *dev_id;
+ 
+-	dev_id = hv_vmbus_get_id(drv, dev);
++	dev_id = hv_vmbus_get_id(drv, dev, &dev_id_copy);
++	if (!dev_id && !is_hvsock_channel(dev->channel))
++		return -ENODEV;
++
+ 	if (drv->probe) {
+ 		ret = drv->probe(dev, dev_id);
+ 		if (ret != 0)
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index e61f9a4cb7c3..1d5862725f24 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1264,6 +1264,7 @@ struct hv_driver {
+ 		struct list_head list;
+ 	} dynids;
+ 
++	/* The device ID pointer is only valid during the probe callback. */
+ 	int (*probe)(struct hv_device *, const struct hv_vmbus_device_id *);
+ 	void (*remove)(struct hv_device *dev);
+ 	void (*shutdown)(struct hv_device *);
+-- 
+2.34.1
 
