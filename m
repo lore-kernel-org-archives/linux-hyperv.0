@@ -1,57 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793203944;
-	b=eaN1YqccSLDxkxZpGghRfMqBoZ9dN9MJxdgZUzdcyM5YfL9ZllSdYbW8f1/Y52K09sLt
-	 Zs9Cf8dU6b0fjYh0jcOaztkXZUiEEC9Fj5hSKSSIE/ei54KajpAgJFbuueuEA7Mbl4V5V
-	 t7xksFOQyyjxr554nkFrqW4tqU+qDaknndfrEycU8oRmG8A1qbj5hGPWw5MVgslV1caeY
-	 AJ6XMeeivGapKKYPAT7hxj0XInQYXFWCUM444RKSrXqbnxp0X4dlKEYLmcIYZCtdlcrlI
-	 btSYtA3HqdM09Xkunt89I0IBSGQhuRBopmpdgF0iXA5Ba/WZ/Ak8V6WOfrfHp33v4gA==
+	t=1793204456;
+	b=vnOxCkgi8/QiPyIefzAd4lPbRSr7N2ROu3g1RUIM40PH7A9PEqDE5xQkoxhcxt2C9uvm
+	 czED4cXzViq/6H3rIt0xxpMwIGDObKQybTOPsP8gLWzTqY2qRbmXlWxvCbp/fqK+Fr7F2
+	 fsrDeAr0zS38PFfsHpsVGAxKXwsq3L8wW2kxI4EfsxX5Mp0ihVNloGS94t+/mPKy6cy8s
+	 +zVLKkwv+xjdU4GOssJ0RTyYPP8C0Papvm55ET6Cr0rBTsqddDN+Ve8gZrZ762I+dnr0T
+	 7B85F0XKM/Civu1CyTF1nDQ0GHrsSw8jpBQpEaL4S4K+uN5XUytiHl4TydhuIQWtDfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793203944;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793204456;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=m0w+H9ri4/QR5iS0jHJ5XKqn/LJH5Dn3U0BXDvYkf6o=;
-	b=J9kKxVMykcn7Pd/Zoo5iZZjXu6DUAYyg61rAiZG81Zocnidz/XztV+fSqp+i+hboXW/f
-	 d/rp6cZSPmZOWlMRjkcQtnLoIi9c0m6zGMihaFjDwJGjgZSvGVwrk0m2aJJjN3xbhnGtn
-	 8kRtE5X+LlrAhk2fArSHMu9AmfE9mpDS+vLSfEXvfUSWKQPZJs5/HLYAtx1tKjFh3WfLT
-	 AGCWrk2VUy+b8bJdD+yvNSSlkeyjhft2F5lWn+jYhZD0izFIYJk5Zu4yfN1F3Vq7Tm33z
-	 Bo5iM0t3bgT+cvfOuV/KSMnFJlzwEBOGle6RMGbioskaDf0RLq8DbNbH1hGv8/xWGFw==
+	bh=Zhr/tHkDJQkZfq7AsFcRymMgMcTsHiAv1mGITq5gBXc=;
+	b=HLHYdX+Di8214IoiPNHJyyg/uAHMx9KzzZxLiSnhKfnfSTn2tU8Mpy7ezIcT32h8GRSo
+	 Xa6dGZscCHq0FyftX6sKATdKpUXte+GBPdu109gpL+VKjspdKqMp5uGQO9MOPXLeczTmq
+	 PJZXU5G8HikSSwZCdicVeYpUZhRcfdXBgNPnENRpqN5WwEJrC0Nq7+3fJ2bFGjv/2UbuV
+	 Iqp9oCmfEkH6GPsNoqtTsqwzdos1mhQjdQ8sOmGqMIYZTTAd8I2eBXLr44r43WlRqxqnR
+	 Gi0e3b5BMOgztZSlHGbcQ1ZTQX4b1gudne3yTtE4vPvcK+/kBuoXKrA3eXEQ0PUps3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LlpIHqX8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jTkouKGt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D385606A31F;
-	Wed, 28 Oct 2026 16:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B74606A327;
+	Wed, 28 Oct 2026 16:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LlpIHqX8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7882B1F01825;
-	Wed, 28 Oct 2026 16:12:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jTkouKGt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ECF1F01825;
+	Wed, 28 Oct 2026 16:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793203943;
-	bh=m0w+H9ri4/QR5iS0jHJ5XKqn/LJH5Dn3U0BXDvYkf6o=;
+	s=k20260515; t=1793204455;
+	bh=Zhr/tHkDJQkZfq7AsFcRymMgMcTsHiAv1mGITq5gBXc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LlpIHqX8epKl6KT7s0ykAhklS936gT5waqvqbDERoIHCigfRZVJswLvecz9uMAcBo
-	 cH5JGBUfqZ1Dry+CNlE+2c3Sh1OmUi69syD2XadSM0tovWXf18CpQvPwxfxKKea5TL
-	 uxvyze90UfGUkba42Mp+Aqa6h96fkzdYkzlWphuWFZ5MjTgex3qReSqi3VAfQf7dFj
-	 o5bTsuYIM7vv7el2MTE0qxGjEgs6RB+1F/dn9blbAmQPyOXwfbXk0rgv94YU5GCL0I
-	 +9iMYq0TIJRfQlkB7e5469Xc3fUzcv9Xa8JPBp56lESR91YqddlIpFi8nZ5j0wBLdg
-	 P66CxctDN7mpg==
-Message-ID: <sashiko-outbox-188128@kernel.org>
+	b=jTkouKGtMzl6QkKX8lYJFy+YQW6SzYXd3a0urKEJCz5BZgT7ypkH8Gtn55iMQPdGu
+	 c26sJeUrg/sMeGW4QVPfmIuVuatyaDB1/ww5thGvSnzrkeJuVy2cOHkoC6cvgT4g5W
+	 p24jUZE86JKTN5+bODmcA355kTJLTQnYMpV3Ftin4Deh5DtjL+0M57ZFovYFhJtDt7
+	 7k1IQSulRkBq6jHvtB9eWcCFFcGxJBgOccft/D80T8J/dkJ78U3pATHORyd22I+F5F
+	 hyuS+eMajnA5tyGMg2ac3UudVVDRoQ6NBv6Q38s5WbFEi1/5K1raVZaQydZfsHF4Hi
+	 Zy72ms1PGhk9g==
+Message-ID: <sashiko-outbox-188158@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 8/8] vsock: add datagram tests to vsock_test
+Subject: Re: [PATCH RFC 5/8] vhost/vsock: negotiate datagram support with
+ guests
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sergio Lopez" <slp@redhat.com>
 Cc: virtualization@lists.linux.dev, kvm@vger.kernel.org, bpf@vger.kernel.org, linux-hyperv@vger.kernel.org, "Michael
  S. Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
-In-Reply-To: <20261028-vsock-dgram-support-v1-8-e457cf7cee78@sinrega.org>
+In-Reply-To: <20261028-vsock-dgram-support-v1-5-e457cf7cee78@sinrega.org>
 References: <20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org>
- <20261028-vsock-dgram-support-v1-8-e457cf7cee78@sinrega.org>
+ <20261028-vsock-dgram-support-v1-5-e457cf7cee78@sinrega.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 16:12:23 +0000
+Date: Wed, 28 Oct 2026 16:20:54 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -61,97 +62,117 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] vsock/test: missing opening brace in test_cases[] breaks compilation
-- [Low] vsock/test: outdated datagram test IDs documented in README
+- [Medium] vhost/vsock: missing dgram_allow check in vhost_vsock_handle_tx_=
+kick()
 --
 
-commit f2fbe86b3992eecc82537eceffe22f137e4055d3
+commit 635912e90dc603f9b7384d44cf174e18056f799d
 Author: Sergio Lopez <slp@redhat.com>
 
-vsock: add datagram tests to vsock_test
+vhost/vsock: negotiate datagram support with guests
 
-This commit adds datagram test cases to vsock_test covering local semantics,
-host/guest transfers, routing, and queue accounting, along with capability
-checks and documentation updates.
+This commit exposes VIRTIO_VSOCK_F_DGRAM in the vhost feature bitmap and
+tracks whether datagram support was negotiated per guest via
+vsock->dgram_allow. It also wires up vhost_transport_dgram_allow() to check
+the negotiated feature on the target guest for outbound datagrams.
 
-> diff --git a/tools/testing/vsock/README b/tools/testing/vsock/README
-> index 680ce666ceb56..be34b032ef135 100644
-> --- a/tools/testing/vsock/README
-> +++ b/tools/testing/vsock/README
-
-[ ... ]
-
-> @@ -51,6 +51,25 @@ suite run, e.g.
-> =20
->  For more information see Documentation/dev-tools/kmemleak.rst.
-> =20
-> +Datagram tests
-> +--------------
-> +vsock_test includes datagram cases in the client/server runs above. Unsu=
-pported
-> +cases print a skip reason.
-> +
-> +Virtio/vhost datagrams require kernel support on both sides and a VMM th=
-at
-> +negotiates VIRTIO_VSOCK_F_DGRAM. Load vsock_loopback on both host and gu=
-est for
-> +the local cases, and make /dev/vsock available. VMCI's dedicated datagram
-> +transport takes priority when loaded, causing virtio/vhost cases to skip.
-> +
-> +Run only the local datagram cases without a peer or TCP control connecti=
-on:
-> +
-> +  ./vsock_test --local
-> +
-> +Use --list and --pick <test_id> to select individual cases. The BPF admi=
-ssion
-> +test (48, requiring BPF privileges) and nested routing test (49, requiri=
-ng both
-> +virtio and vhost transports) need explicit selection. The VMCI queue-len=
-gth
-> +test (53) runs only with VMCI.
-
-[Severity: Low]
-Are these test IDs off by 3?
-
-In tools/testing/vsock/vsock_test.c, there are 44 existing entries in
-test_cases[] before the new datagram tests (indices 0 through 43, ending wi=
-th
-the three SO_INQ test cases). That places test_dgram_sockmap() at index 51,
-test_dgram_nested_source() at index 52, and test_dgram_vmci_inq() at index =
-56,
-while indices 48, 49, and 53 correspond to test_dgram_connect(),
-test_dgram_source_cid(), and test_dgram_sizes().
-
-> diff --git a/tools/testing/vsock/vsock_test.c b/tools/testing/vsock/vsock=
-_test.c
-> index 10b9074fb87f7..f4ff6a42a9cb1 100644
-> --- a/tools/testing/vsock/vsock_test.c
-> +++ b/tools/testing/vsock/vsock_test.c
+> diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+> index 0cb87971d7491..eb2fbdb721aa9 100644
+> --- a/drivers/vhost/vsock.c
+> +++ b/drivers/vhost/vsock.c
 
 [ ... ]
 
-> @@ -2911,6 +2912,95 @@ static struct test_case test_cases[] =3D {
->  	{
->  		.name =3D "SO_INQ option validation",
->  		.run_client =3D test_so_inq_validation_client,
-> +	},
-> +		.name =3D "SOCK_DGRAM autobind, duplicate bind and wildcard destinatio=
-n",
-> +		.run_client =3D test_dgram_bind,
-> +		.run_server =3D test_dgram_bind,
-> +		.check =3D vsock_dgram_check_local,
-> +		.local =3D true,
->  	},
+> @@ -516,6 +520,24 @@ static bool vhost_transport_seqpacket_allow(struct v=
+sock_sock *vsk,
+>  	return seqpacket_allow;
+>  }
+> =20
+> +static bool vhost_transport_dgram_allow(struct vsock_sock *vsk,
+> +					u32 cid, u32 port)
+> +{
+> +	struct net *net =3D sock_net(sk_vsock(vsk));
+> +	struct vhost_vsock *vsock;
+> +	bool dgram_allow =3D false;
+> +
+> +	rcu_read_lock();
+> +	vsock =3D vhost_vsock_get(cid, net);
+> +
+> +	if (vsock)
+> +		dgram_allow =3D vsock->dgram_allow;
+> +
+> +	rcu_read_unlock();
+> +
+> +	return dgram_allow;
+> +}
+> +
+>  static void vhost_vsock_handle_tx_kick(struct vhost_work *work)
+>  {
+>  	struct vhost_virtqueue *vq =3D container_of(work, struct vhost_virtqueu=
+e,
 
-[Severity: Low]
-Is there a missing opening brace before the first SOCK_DGRAM entry in
-test_cases[]? Without it, compiling tools/testing/vsock/vsock_test.c fails
-with a syntax error because .name is parsed at the top level of the array
-initializer and the following closing brace terminates test_cases[] early.
+[Severity: Medium]
+Can a guest that has not negotiated VIRTIO_VSOCK_F_DGRAM still send
+VIRTIO_VSOCK_TYPE_DGRAM packets to unconnected bound SOCK_DGRAM sockets on
+the host?
+
+vhost_transport_dgram_allow() checks vsock->dgram_allow on outbound host
+connect() and sendmsg() paths, but on the guest-to-host path in
+drivers/vhost/vsock.c:vhost_vsock_handle_tx_kick(), incoming packets are
+passed to virtio_transport_recv_pkt() without checking vsock->dgram_allow:
+
+drivers/vhost/vsock.c:vhost_vsock_handle_tx_kick() {
+	...
+		/* Only accept correctly addressed packets */
+		if (le64_to_cpu(hdr->src_cid) =3D=3D vsock->guest_cid &&
+		    le64_to_cpu(hdr->dst_cid) =3D=3D
+		    vhost_transport_get_local_cid())
+			virtio_transport_recv_pkt(&vhost_transport, skb,
+						  vsock->net);
+		else
+			kfree_skb(skb);
+	...
+}
+
+Unlike VIRTIO_VSOCK_TYPE_SEQPACKET, where inbound connection requests go
+through virtio_transport_recv_listen() -> vsock_assign_transport() ->
+vhost_transport_seqpacket_allow(), inbound VIRTIO_VSOCK_TYPE_DGRAM packets
+in net/vmw_vsock/virtio_transport_common.c:virtio_transport_recv_pkt() are
+queued directly onto bound unconnected SOCK_DGRAM sockets without calling
+dgram_allow():
+
+net/vmw_vsock/virtio_transport_common.c:virtio_transport_recv_pkt() {
+	...
+	if (le16_to_cpu(hdr->type) =3D=3D VIRTIO_VSOCK_TYPE_DGRAM) {
+		if (le16_to_cpu(hdr->op) !=3D VIRTIO_VSOCK_OP_RW)
+			goto free_pkt;
+
+		sk =3D vsock_find_bound_socket_net(&dst, net);
+		...
+		if (sock_flag(sk, SOCK_DEAD) ||
+		    vsk->transport !=3D &t->transport ||
+		    (sk->sk_socket->state !=3D SS_UNCONNECTED &&
+		     !vsock_check_source(vsk, &t->transport, &src))) {
+			release_sock(sk);
+			sock_put(sk);
+			goto free_pkt;
+		}
+
+		if (sock_queue_rcv_skb(sk, skb))
+			kfree_skb(skb);
+	...
+}
+
+Even with the later virtio_transport_dgram_source_allow() check, unconnected
+bound SOCK_DGRAM sockets return true before consulting dgram_allow().
+
+Should vhost_vsock_handle_tx_kick() drop VIRTIO_VSOCK_TYPE_DGRAM packets
+when !vsock->dgram_allow, or should virtio_transport_recv_pkt() validate
+dgram_allow() for incoming datagrams regardless of whether the receiving
+socket is connected?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028-vsock-dgra=
-m-support-v1-0-e457cf7cee78@sinrega.org?part=3D8
+m-support-v1-0-e457cf7cee78@sinrega.org?part=3D5
