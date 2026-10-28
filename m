@@ -1,87 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793163020;
-	b=IDcQ/k9EkAAgmd2TCMyPQyoHuGkdwluihWBoDbDwxX32hO20CKy4WeQoJFeFQSBQ5koB
-	 1yKhGjH/KkIIapwGGINTrUCbAVG0TqhDEtNoNpzg8XMOtCwGP3KPM2ml+ozLY5d5RKJ+g
-	 Z3DWrB+H+PKYvmd4zSmA95cbAIAi56svDO14XI/7WGqxzSCOr5tBGGMaMNF3gUSdk5k9d
-	 m+rzMiEw4OLobSjkbvV8e0X2RCT4cxb54Vnt3hrIFGTO/7lqWd51V1sFt1oKIQRsPhjlI
-	 wM8Lri45yIezpBQj/iO7ztuvjo0A+An74Xx9miExKhAbZAmarPyDWZm1g5+89VH+/Jg==
+	t=1793163449;
+	b=FnfDbyx9hfWtmxE1VcL+DZ0JRr+GJsL8yuZhyHpZFS/u+sdl3I7gQDkOC/ROKVlDQsxn
+	 8594Kc7lC3gyABV6Z1FsrKTe0vbpof2YZ9exXqFMegG6EF636dg7K3hTGqGWzJ/bw+udq
+	 IuD8ICNDSFvERMouJ42AkAbYLXEYXq1D+VKT8OXv6qRa+ZJ9K9nY38TEks/E4yN8igxE7
+	 lBSy1so7x1vSpRa1RqNwGTMxrudYppqoie+DGTTBjJMtWv4+NFKDwryGDq7+VmoNC+C3i
+	 /oc4KIuGBWmdwFx8BC6QdgArILUEHQQmGfKU0YwySSUw/JLwJVXQdK4pvErVogE667A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793163020;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Subject:Date:Message-Id:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=5eX6ZERtxMma6IIiwk4zjHSJGCnTW5TdkQ89tZL/8dM=;
-	b=GmxtOGfyUj5pCCr4aqR0JioNiimFurOzK9YRtRlglGWJpfIKgJ987Fj/+EPj6frdd9VP
-	 OZi/sW3bgP5+u7xP42PaGohspt/uhERJLLeUnmU1uCOl/iF/OncY2YOXrpolVUiLlUQNX
-	 sdCCAsSxP59wd1Oijbf1kLiQCoaWfiXQG4qBJSJLiXFuQeDbYIPebH8EEJCDaOnQddyK0
-	 BNkZWC2k1pO4PBlyfYn8Ehs4n6td59E9NlJznKUNJzsd4kuZxhZ2ZKXVnVbw8+NhiaAKc
-	 /pfL8u6VwErNkSObK6xg+cXK4YUkG0C/5WC6ErYXtsjiNjocnfvZDc8ozUKTQQr4oYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793163449;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/uaTlwkWh7QBrF1ZrgywNg7sl0YTXSfsaGEGo87T7Vg=;
+	b=sz9bs4JbYAA6XEJ0r6w35fu4w36/xhf2bg5p0/3MpeW5nMiH9m4fOR63Fgxs0t0sWvC5
+	 HdlZ7gH+JWYHG6Jlr2dLJPlmP1j9eugQSMby49A/qK5rNBs8edRPAKggK7ZvG/52HKEzH
+	 qpxA4DaTdZblAZh2r24ADFzXXoybNJH1XeHj7DgVAKVTf90Wy3VzsyxC6ZqoQXMBDgYCU
+	 3GsKY6Ls6QvLnCcpApVf42OoB459aCI+9N0Hci+t2jVtUDAnB7mNH0PGe4gpw5WSZQOvV
+	 QHQ6t5BbXngmmzj9BObHrPgEbpT4ttsfxMl1FbZvMpqeGODa5d4jvby9Ncg5xaP6PDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="Pmoe/AMv";
-	arc=none smtp.remote-ip=220.197.31.5
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N6Ly8Fmx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD134606A31A;
-	Wed, 28 Oct 2026 04:50:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD134606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79008606A31A
+	for <linux-hyperv@vger.kernel.org>; Wed, 28 Oct 2026 04:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Pmoe/AMv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=5e
-	X6ZERtxMma6IIiwk4zjHSJGCnTW5TdkQ89tZL/8dM=; b=Pmoe/AMv61DOoUS7hw
-	fJtrZ1OMVnBesqPe6v4a8+oGDtdeJ3Kmtf4tf4a4NHv6eHPXLarg1WgKZ5yBzh2D
-	sCKfYqy6c0tdGZ0XZrY36teHjocwbfTitnmOp/cu5Kq9/4MNwk/sKJvQ7YHsj4rp
-	O2kCYpKzGX/5HwlY9DZzq6lCs=
-Received: from pc.localdomain (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDXXyGcfuFqI22BCQ--.35298S2;
-	Wed, 28 Oct 2026 12:48:30 +0800 (CST)
-From: Jiale Yao <yaojiale02@163.com>
-To: Justin Sanders <justin@coraid.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Brad Warrum <bwarrum@linux.ibm.com>,
-	Ritu Agarwal <rituagar@linux.ibm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-	Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
-	Mukesh Rathor <mrathor@linux.microsoft.com>,
-	Muminul Islam <muislam@microsoft.com>,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	Steven Royer <seroyer@linux.vnet.ibm.com>,
-	Adam Reznechek <adreznec@linux.vnet.ibm.com>,
-	"Bryant G. Ly" <bryantly@linux.vnet.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Martin Schwidefsky <schwidefsky@de.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Florian Fainelli <florian.fainelli@telecomint.eu>,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-hyperv@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Subject: [PATCH 0/6] Initialize device state before userspace registration
-Date: Wed, 28 Oct 2026 12:48:20 +0800
-Message-Id: <20261028044828.96177-1-yaojiale02@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N6Ly8Fmx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4A71F01825;
+	Wed, 28 Oct 2026 04:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793163449;
+	bh=/uaTlwkWh7QBrF1ZrgywNg7sl0YTXSfsaGEGo87T7Vg=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=N6Ly8FmxX4aBgc8BatMlavW3F31LrHpH2WXgEc/mcQqxBNH+96Ic+GRtphVKIxz95
+	 nZZWx/v4xbfwGsliY7hPvcPQF8K5cih1AP6Uagnsod61Ix92ToTdqHg3a5UVDAvkhi
+	 ACJsw9xlRObGAPIqtwpbGJx0AVzVHaUi/a1fdRGHFkeYJUUsCHAR+KbNDOdTz1YNvw
+	 guK034NDtI1luCzNSv5pA6PYaxWREPkh4I4XKx6xc2JhYfBi1cEoksHQL+QhduKqOO
+	 1bB838n0jda69FyUuRJGQsh4N8rEJAnPfWfZDYrQcbHI/4QIEhhtlPSN3QZ/ibB81n
+	 8GAplrPTesaSQ==
+Message-ID: <sashiko-outbox-187498@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/6] Drivers: hv: initialize partition table before
+ device registration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jiale Yao" <yaojiale02@163.com>, linux-hyperv@vger.kernel.org
+In-Reply-To: <20261028044828.96177-4-yaojiale02@163.com>
+References: <20261028044828.96177-1-yaojiale02@163.com>
+ <20261028044828.96177-4-yaojiale02@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 04:57:28 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -90,40 +59,112 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDXXyGcfuFqI22BCQ--.35298S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7XFWfGw4fZr1kWFy5Xry5Jwb_yoW8Jry3pa
-	1Sg3sYy392krW7Xr43Zay7Ga4Fga48uayUCF90kw1FgFs5CFyvqFW0qay8tFWDJFWxA3W0
-	qF10vrWxGFWUCrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UpE_NUUUUU=
-X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7x7ZFGrhfp6IQwAA3c
 
-Several drivers register character devices or sysfs attributes before
-initializing synchronization objects and related state used by their
-userspace entry points. Registration makes those entry points immediately
-available, so a concurrent access can reach partially initialized state.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] hv: mshv: premature misc_register() in mshv_parent_partition_init()
+--
 
-Move each initialization ahead of the corresponding registration. The
-patches are independent and cover AoE, fsl-mc, MSHV, IBM VMC, DCSSBLK,
-and the RDC321x watchdog.
+commit c189d106f4a7c8456e535fcfffc6e71d86c62b6d
+Author: Jiale Yao <yaojiale02@163.com>
 
-Jiale Yao (6):
-  aoe: initialize error message synchronization before registration
-  bus: fsl-mc: initialize UAPI state before device registration
-  Drivers: hv: initialize partition table before device registration
-  misc: ibmvmc: initialize HMC state before device registration
-  s390/dcssblk: initialize device semaphore before sysfs registration
-  watchdog: rdc321x: initialize device state before registration
+Drivers: hv: initialize partition table before device registration
 
- drivers/block/aoe/aoechr.c       |  6 +++---
- drivers/bus/fsl-mc/fsl-mc-uapi.c |  6 ++----
- drivers/hv/mshv_root_main.c      |  6 +++---
- drivers/misc/ibmvmc.c            | 16 ++++++++--------
- drivers/s390/block/dcssblk.c     |  3 ++-
- drivers/watchdog/rdc321x_wdt.c   | 12 ++++++------
- 6 files changed, 24 insertions(+), 25 deletions(-)
+This commit moves the initialization of mshv_root.pt_ht_lock and
+mshv_root.pt_htable ahead of misc_register(&mshv_dev) in
+mshv_parent_partition_init() so that concurrent partition ioctls do not
+access an uninitialized spinlock or hash table.
 
--- 
-2.34.1
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index cc2cfce2aefdb..ce26320035b6f 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+> @@ -2369,6 +2369,9 @@ static int __init mshv_parent_partition_init(void)
+>  	if (hv_get_hypervisor_version(&version_info))
+>  		return -ENODEV;
+> =20
+> +	spin_lock_init(&mshv_root.pt_ht_lock);
+> +	hash_init(mshv_root.pt_htable);
+> +
+>  	ret =3D misc_register(&mshv_dev);
+>  	if (ret)
+>  		return ret;
+> @@ -2407,9 +2410,6 @@ static int __init mshv_parent_partition_init(void)
+>  	if (ret)
+>  		goto exit_debugfs;
+> =20
+> -	spin_lock_init(&mshv_root.pt_ht_lock);
+> -	hash_init(mshv_root.pt_htable);
+> -
+>  	hv_setup_mshv_handler(mshv_isr);
+> =20
+>  	return 0;
 
+[Severity: High]
+Does moving only pt_ht_lock and pt_htable initialization ahead of
+misc_register(&mshv_dev) leave /dev/mshv exposed while the rest of the
+subsystem is still uninitialized?
+
+In drivers/hv/mshv_root_main.c:mshv_parent_partition_init(),
+misc_register(&mshv_dev) is still called before mshv_synic_init(),
+mshv_init_vmm_caps(), mshv_retrieve_scheduler_type(), root_scheduler_init(),
+mshv_debugfs_init(), mshv_irqfd_wq_init(), and hv_setup_mshv_handler().
+
+If userspace opens /dev/mshv and issues MSHV_CREATE_PARTITION via
+mshv_dev_ioctl() -> mshv_ioctl_create_partition() during this window,
+partition creation now succeeds, which can trigger several issues before
+mshv_parent_partition_init() finishes:
+
+1. If the partition fd is closed before mshv_irqfd_wq_init() runs,
+mshv_partition_release() -> mshv_eventfd_release() -> mshv_irqfd_release() =
+in
+drivers/hv/mshv_eventfd.c calls:
+
+	flush_workqueue(irqfd_cleanup_wq);
+
+while irqfd_cleanup_wq is still NULL.
+
+2. If MSHV_INITIALIZE_PARTITION or MSHV_CREATE_VP runs before
+mshv_debugfs_init() sets mshv_debugfs, mshv_debugfs_partition_create() and
+mshv_debugfs_vp_create() return early and leave partition->pt_stats_dentry
+and vp->vp_stats_dentry as NULL. When the partition is later destroyed after
+mshv_debugfs_init() completes, destroy_partition() calls
+mshv_debugfs_partition_remove() in drivers/hv/mshv_debugfs.c:
+
+	if (!mshv_debugfs)
+		return;
+
+	partition_debugfs_remove(partition->pt_id,
+				 partition->pt_stats_dentry);
+
+which dereferences the NULL dentry pointer.
+
+3. If MSHV_RUN_VP runs after mshv_retrieve_scheduler_type() sets
+hv_scheduler_type to HV_SCHEDULER_TYPE_ROOT, but before root_scheduler_init=
+()
+allocates the per-CPU buffers, mshv_vp_dispatch() in
+drivers/hv/mshv_root_main.c dereferences NULL per-CPU pointers:
+
+	preempt_disable();
+	input =3D *this_cpu_ptr(root_scheduler_input);
+	output =3D *this_cpu_ptr(root_scheduler_output);
+
+	memset(input, 0, sizeof(*input));
+
+4. In mshv_ioctl_create_partition(), the partition file descriptor is creat=
+ed
+with anon_inode_getfile("mshv_partition", &mshv_partition_fops, partition,
+O_RDWR), which does not take a module reference. If a subsequent init step =
+in
+mshv_parent_partition_init() fails and triggers misc_deregister(&mshv_dev),
+module initialization fails while the hypervisor partition remains allocated
+and userspace retains an open file descriptor referencing unloaded module
+fops.
+
+Could misc_register(&mshv_dev) instead be moved to the end of
+mshv_parent_partition_init() (or after all subsystem state is initialized,
+passing NULL or a dedicated device pointer to the early init helpers)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028044828.9617=
+7-2-yaojiale02@163.com?part=3D3
