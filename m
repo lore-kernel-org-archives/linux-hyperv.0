@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793204456;
-	b=vnOxCkgi8/QiPyIefzAd4lPbRSr7N2ROu3g1RUIM40PH7A9PEqDE5xQkoxhcxt2C9uvm
-	 czED4cXzViq/6H3rIt0xxpMwIGDObKQybTOPsP8gLWzTqY2qRbmXlWxvCbp/fqK+Fr7F2
-	 fsrDeAr0zS38PFfsHpsVGAxKXwsq3L8wW2kxI4EfsxX5Mp0ihVNloGS94t+/mPKy6cy8s
-	 +zVLKkwv+xjdU4GOssJ0RTyYPP8C0Papvm55ET6Cr0rBTsqddDN+Ve8gZrZ762I+dnr0T
-	 7B85F0XKM/Civu1CyTF1nDQ0GHrsSw8jpBQpEaL4S4K+uN5XUytiHl4TydhuIQWtDfA==
+	t=1793204603;
+	b=vDeB+P691oAzPxtpZMeBogQRQUOvBsR6mr0s86icB/qq/9vw/dOrfVQMUdv6AcRJP3zL
+	 qC4cmPjZRmVdJkMevWMbNKAowwJ3maR2k/vDL0RSIQ8NdtMj2sphK76bLWzgrV9ttVeBO
+	 1J5fKoZKCl0jbP1gbA7MIN3xRocr/TDmLSKfUUU0ZMOeF29HDeAaAtGI3SHzeR0e6LQ6M
+	 2xWisE1dzoLrfbZQduvXe8sRRAtDSKOc2clyWowVlLkY3BOzI87NCvErGuXtkme2uwHrT
+	 XvCx9IV7imZxv1F6ptyK/CYc/dfiQiBGiB8rn0jaDl2MV5VTbFTC+Yb8g9ZOEcQGCEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793204456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793204603;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Zhr/tHkDJQkZfq7AsFcRymMgMcTsHiAv1mGITq5gBXc=;
-	b=HLHYdX+Di8214IoiPNHJyyg/uAHMx9KzzZxLiSnhKfnfSTn2tU8Mpy7ezIcT32h8GRSo
-	 Xa6dGZscCHq0FyftX6sKATdKpUXte+GBPdu109gpL+VKjspdKqMp5uGQO9MOPXLeczTmq
-	 PJZXU5G8HikSSwZCdicVeYpUZhRcfdXBgNPnENRpqN5WwEJrC0Nq7+3fJ2bFGjv/2UbuV
-	 Iqp9oCmfEkH6GPsNoqtTsqwzdos1mhQjdQ8sOmGqMIYZTTAd8I2eBXLr44r43WlRqxqnR
-	 Gi0e3b5BMOgztZSlHGbcQ1ZTQX4b1gudne3yTtE4vPvcK+/kBuoXKrA3eXEQ0PUps3A==
+	bh=BLQUsnwHtniwhgkkbsnGlPT6RDNadmyHf+RyveJ60AI=;
+	b=K/wj3tnR+YiTnPkYs7FKlxqcWG486lfhRhuiXHQrMl5+ZIoHf5bcAP9Ss1XciLsgFfi8
+	 +nMS3QK1lY4WN89fY1FzBA6Chzegile8napNtZW7B9vhREhdZj2Bdm/oYr6MQTSoKsm1u
+	 wFrtntabmQnZ6cGz37UR+OZBbyArRGC/6J5lb4aM7drwDIkSf7rIlhZRq0mDFSrTyL5+9
+	 E5f+/m8SUTy6kSGtz7bzLg5rrCX8GA+ey9T7SqW+rjnicTaQFF9KSCJ9p11mTs4zNLXfX
+	 Ix2/7jNHQrVYZmRLk+GQ71Vq4QAIdua4xqwWiT6DDm/lxQy4VP9jtZauw7p8FPD7taw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jTkouKGt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeoKmsgG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B74606A327;
-	Wed, 28 Oct 2026 16:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB158606A31A;
+	Wed, 28 Oct 2026 16:23:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jTkouKGt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ECF1F01825;
-	Wed, 28 Oct 2026 16:20:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeoKmsgG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F238B1F01825;
+	Wed, 28 Oct 2026 16:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793204455;
-	bh=Zhr/tHkDJQkZfq7AsFcRymMgMcTsHiAv1mGITq5gBXc=;
+	s=k20260515; t=1793204602;
+	bh=BLQUsnwHtniwhgkkbsnGlPT6RDNadmyHf+RyveJ60AI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jTkouKGtMzl6QkKX8lYJFy+YQW6SzYXd3a0urKEJCz5BZgT7ypkH8Gtn55iMQPdGu
-	 c26sJeUrg/sMeGW4QVPfmIuVuatyaDB1/ww5thGvSnzrkeJuVy2cOHkoC6cvgT4g5W
-	 p24jUZE86JKTN5+bODmcA355kTJLTQnYMpV3Ftin4Deh5DtjL+0M57ZFovYFhJtDt7
-	 7k1IQSulRkBq6jHvtB9eWcCFFcGxJBgOccft/D80T8J/dkJ78U3pATHORyd22I+F5F
-	 hyuS+eMajnA5tyGMg2ac3UudVVDRoQ6NBv6Q38s5WbFEi1/5K1raVZaQydZfsHF4Hi
-	 Zy72ms1PGhk9g==
-Message-ID: <sashiko-outbox-188158@kernel.org>
+	b=DeoKmsgG9cwEUqsHpxEW3mICIOC0LvEi9+yaXn/YGH9vLb5aAV5cDt17SPgV1YCVb
+	 a5cL/Istkmxl0SORcz/GrsBK6JUZtDWbPyg6QyFrhvGWN9qNfyXPKgPSJu29z/B6wq
+	 MAxEG39pGRXWoTKj2Z63AurElOD5PwSe8n8A8CsgfasG5yxJqYgAZr8vBaxnzWeWSP
+	 bnh+AHJxlzLQc34kT5sgpMqVpcLcaU3Y42qnly8TP96RA4W8U5W+aQpE0+cXFdujSY
+	 UoonfxRuf9u/WOK7nzcSvNQUbCus/h/kfUSXUc2k/sHBGGBLp3FyoqbI2VY45YkMyP
+	 zPBZecwBgdrIw==
+Message-ID: <sashiko-outbox-188160@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 5/8] vhost/vsock: negotiate datagram support with
- guests
+Subject: Re: [PATCH RFC 7/8] vsock: preserve host-to-guest datagram
+ boundaries
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sergio Lopez" <slp@redhat.com>
 Cc: virtualization@lists.linux.dev, kvm@vger.kernel.org, bpf@vger.kernel.org, linux-hyperv@vger.kernel.org, "Michael
  S. Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
-In-Reply-To: <20261028-vsock-dgram-support-v1-5-e457cf7cee78@sinrega.org>
+In-Reply-To: <20261028-vsock-dgram-support-v1-7-e457cf7cee78@sinrega.org>
 References: <20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org>
- <20261028-vsock-dgram-support-v1-5-e457cf7cee78@sinrega.org>
+ <20261028-vsock-dgram-support-v1-7-e457cf7cee78@sinrega.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 16:20:54 +0000
+Date: Wed, 28 Oct 2026 16:23:21 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,115 +64,142 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] vhost/vsock: missing dgram_allow check in vhost_vsock_handle_tx_=
-kick()
+- [Medium] vsock/virtio: uncondensed 64 KiB rx skbs exhaust sk_rcvbuf on sm=
+all packets
 --
 
-commit 635912e90dc603f9b7384d44cf174e18056f799d
+commit 7675c425557daffdbb774353bcdf90cea6ee4417
 Author: Sergio Lopez <slp@redhat.com>
 
-vhost/vsock: negotiate datagram support with guests
+vsock: preserve host-to-guest datagram boundaries
 
-This commit exposes VIRTIO_VSOCK_F_DGRAM in the vhost feature bitmap and
-tracks whether datagram support was negotiated per guest via
-vsock->dgram_allow. It also wires up vhost_transport_dgram_allow() to check
-the negotiated feature on the target guest for outbound datagrams.
+This patch preserves host-to-guest datagram boundaries by dropping
+oversized datagrams in vhost and allocating full-size paged RX buffers
+in virtio_transport when datagrams are negotiated.
 
-> diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
-> index 0cb87971d7491..eb2fbdb721aa9 100644
-> --- a/drivers/vhost/vsock.c
-> +++ b/drivers/vhost/vsock.c
+> diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_tran=
+sport.c
+> index 14ce0836bc395..d256274088b38 100644
+> --- a/net/vmw_vsock/virtio_transport.c
+> +++ b/net/vmw_vsock/virtio_transport.c
 
 [ ... ]
 
-> @@ -516,6 +520,24 @@ static bool vhost_transport_seqpacket_allow(struct v=
-sock_sock *vsk,
->  	return seqpacket_allow;
->  }
-> =20
-> +static bool vhost_transport_dgram_allow(struct vsock_sock *vsk,
-> +					u32 cid, u32 port)
-> +{
-> +	struct net *net =3D sock_net(sk_vsock(vsk));
-> +	struct vhost_vsock *vsock;
-> +	bool dgram_allow =3D false;
-> +
-> +	rcu_read_lock();
-> +	vsock =3D vhost_vsock_get(cid, net);
-> +
-> +	if (vsock)
-> +		dgram_allow =3D vsock->dgram_allow;
-> +
-> +	rcu_read_unlock();
-> +
-> +	return dgram_allow;
-> +}
-> +
->  static void vhost_vsock_handle_tx_kick(struct vhost_work *work)
+> @@ -312,22 +313,31 @@ virtio_transport_cancel_pkt(struct vsock_sock *vsk)
+>  static void virtio_vsock_rx_fill(struct virtio_vsock *vsock)
 >  {
->  	struct vhost_virtqueue *vq =3D container_of(work, struct vhost_virtqueu=
-e,
+>  	int total_len =3D VIRTIO_VSOCK_DEFAULT_RX_BUF_SIZE;
+> -	struct scatterlist pkt, *p;
+>  	struct virtqueue *vq;
+>  	struct sk_buff *skb;
+>  	int ret;
+> =20
+>  	vq =3D vsock->vqs[VSOCK_VQ_RX];
+> +	/* A datagram must fit in one RX buffer, including its header. */
+> +	if (vsock->dgram_allow)
+> +		total_len =3D VIRTIO_VSOCK_SKB_HEADROOM +
+> +			    VIRTIO_VSOCK_MAX_PKT_BUF_SIZE;
+> =20
+>  	do {
+> -		skb =3D virtio_vsock_alloc_linear_skb(total_len, GFP_KERNEL);
+> +		skb =3D virtio_vsock_alloc_skb(total_len, GFP_KERNEL);
+>  		if (!skb)
+>  			break;
+> =20
+>  		memset(skb->head, 0, VIRTIO_VSOCK_SKB_HEADROOM);
+> -		sg_init_one(&pkt, virtio_vsock_hdr(skb), total_len);
+> -		p =3D &pkt;
+> -		ret =3D virtqueue_add_sgs(vq, &p, 0, 1, skb, GFP_KERNEL);
+> +		/* Post the header and the entire payload as one RX buffer. */
+> +		virtio_vsock_skb_put(skb, total_len - VIRTIO_VSOCK_SKB_HEADROOM);
+> +		skb_push(skb, VIRTIO_VSOCK_SKB_HEADROOM);
+> +		sg_init_table(vsock->in_bufs, ARRAY_SIZE(vsock->in_bufs));
+> +		ret =3D skb_to_sgvec(skb, vsock->in_bufs, 0, total_len);
+> +		skb_pull(skb, VIRTIO_VSOCK_SKB_HEADROOM);
+> +		if (ret >=3D 0)
+> +			ret =3D virtqueue_add_inbuf(vq, vsock->in_bufs, ret, skb,
+> +						  GFP_KERNEL);
+>  		if (ret < 0) {
+>  			kfree_skb(skb);
+>  			break;
+> @@ -698,7 +708,7 @@ static void virtio_transport_rx_work(struct work_stru=
+ct *work)
+> =20
+>  			/* Drop short/long packets */
+>  			if (unlikely(len < sizeof(*hdr) ||
+> -				     len > virtio_vsock_skb_len(skb))) {
+> +				     len > sizeof(*hdr) + skb->len)) {
+>  				kfree_skb(skb);
+>  				continue;
+>  			}
+> @@ -710,8 +720,7 @@ static void virtio_transport_rx_work(struct work_stru=
+ct *work)
+>  				continue;
+>  			}
+> =20
+> -			if (payload_len)
+> -				virtio_vsock_skb_put(skb, payload_len);
+> +			pskb_trim_unique(skb, payload_len);
 
 [Severity: Medium]
-Can a guest that has not negotiated VIRTIO_VSOCK_F_DGRAM still send
-VIRTIO_VSOCK_TYPE_DGRAM packets to unconnected bound SOCK_DGRAM sockets on
-the host?
+Can allocating 64 KiB nonlinear RX buffers here leave skb->truesize at ~66 =
+KiB
+after pskb_trim_unique() and prematurely exhaust sk->sk_rcvbuf on small
+packets?
 
-vhost_transport_dgram_allow() checks vsock->dgram_allow on outbound host
-connect() and sendmsg() paths, but on the guest-to-host path in
-drivers/vhost/vsock.c:vhost_vsock_handle_tx_kick(), incoming packets are
-passed to virtio_transport_recv_pkt() without checking vsock->dgram_allow:
+When vsock->dgram_allow is true, virtio_vsock_rx_fill() calls
+virtio_vsock_alloc_skb() with total_len =3D VIRTIO_VSOCK_SKB_HEADROOM +
+VIRTIO_VSOCK_MAX_PKT_BUF_SIZE (44 + 65536 bytes):
 
-drivers/vhost/vsock.c:vhost_vsock_handle_tx_kick() {
-	...
-		/* Only accept correctly addressed packets */
-		if (le64_to_cpu(hdr->src_cid) =3D=3D vsock->guest_cid &&
-		    le64_to_cpu(hdr->dst_cid) =3D=3D
-		    vhost_transport_get_local_cid())
-			virtio_transport_recv_pkt(&vhost_transport, skb,
-						  vsock->net);
-		else
-			kfree_skb(skb);
-	...
+include/linux/virtio_vsock.h:virtio_vsock_alloc_skb() {
+	if (size <=3D SKB_WITH_OVERHEAD(PAGE_SIZE << PAGE_ALLOC_COSTLY_ORDER))
+		return virtio_vsock_alloc_linear_skb(size, mask);
+
+	size -=3D VIRTIO_VSOCK_SKB_HEADROOM;
+	return __virtio_vsock_alloc_skb_with_frags(VIRTIO_VSOCK_SKB_HEADROOM,
+						   size, mask);
 }
 
-Unlike VIRTIO_VSOCK_TYPE_SEQPACKET, where inbound connection requests go
-through virtio_transport_recv_listen() -> vsock_assign_transport() ->
-vhost_transport_seqpacket_allow(), inbound VIRTIO_VSOCK_TYPE_DGRAM packets
-in net/vmw_vsock/virtio_transport_common.c:virtio_transport_recv_pkt() are
-queued directly onto bound unconnected SOCK_DGRAM sockets without calling
-dgram_allow():
+On 4 KiB and 16 KiB page systems, this calls alloc_skb_with_frags() with a
+44-byte linear header request and 65536 bytes in page fragments. Because
+skb->head comes from skb_small_head_cache, reserving 44 bytes leaves only
+about 276 bytes of linear tailroom (skb->end - skb->tail), while all 64 KiB=
+ of
+payload capacity is placed in page fragments with skb->truesize set to ~66 =
+KiB.
 
-net/vmw_vsock/virtio_transport_common.c:virtio_transport_recv_pkt() {
-	...
-	if (le16_to_cpu(hdr->type) =3D=3D VIRTIO_VSOCK_TYPE_DGRAM) {
-		if (le16_to_cpu(hdr->op) !=3D VIRTIO_VSOCK_OP_RW)
-			goto free_pkt;
+When virtio_transport_rx_work() receives a packet and calls
+pskb_trim_unique(skb, payload_len) -> pskb_trim() -> ___pskb_trim(), traili=
+ng
+unused fragments are unreferenced without reducing skb->truesize, and
+skb_condense() is called:
 
-		sk =3D vsock_find_bound_socket_net(&dst, net);
-		...
-		if (sock_flag(sk, SOCK_DEAD) ||
-		    vsk->transport !=3D &t->transport ||
-		    (sk->sk_socket->state !=3D SS_UNCONNECTED &&
-		     !vsock_check_source(vsk, &t->transport, &src))) {
-			release_sock(sk);
-			sock_put(sk);
-			goto free_pkt;
-		}
+net/core/skbuff.c:skb_condense() {
+	if (skb->data_len) {
+		if (skb->data_len > skb->end - skb->tail ||
+		    skb_cloned(skb) || !skb_frags_readable(skb))
+			return;
 
-		if (sock_queue_rcv_skb(sk, skb))
-			kfree_skb(skb);
-	...
+		/* Nice, we can free page frag(s) right now */
+		__pskb_pull_tail(skb, skb->data_len);
+	}
+	skb->truesize =3D SKB_TRUESIZE(skb_end_offset(skb));
 }
 
-Even with the later virtio_transport_dgram_source_allow() check, unconnected
-bound SOCK_DGRAM sockets return true before consulting dgram_allow().
+Whenever payload_len exceeds skb->end - skb->tail (~276 bytes), skb_condens=
+e()
+returns early without pulling data into skb->head, freeing the first 32 KiB
+page fragment, or updating skb->truesize.
 
-Should vhost_vsock_handle_tx_kick() drop VIRTIO_VSOCK_TYPE_DGRAM packets
-when !vsock->dgram_allow, or should virtio_transport_recv_pkt() validate
-dgram_allow() for incoming datagrams regardless of whether the receiving
-socket is connected?
+In virtio_transport_recv_pkt(), sock_queue_rcv_skb(sk, skb) then charges the
+full ~66 KiB skb->truesize against sk->sk_rcvbuf (212992 bytes by default),=
+ so
+queuing just 4 datagrams of ~300 bytes will fill sk_rcvbuf and drop subsequ=
+ent
+datagrams, while also pinning 32 KiB page fragments per packet across
+SOCK_DGRAM, SOCK_STREAM, and SOCK_SEQPACKET receive queues sharing the RX
+virtqueue.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028-vsock-dgra=
-m-support-v1-0-e457cf7cee78@sinrega.org?part=3D5
+m-support-v1-0-e457cf7cee78@sinrega.org?part=3D7
