@@ -1,63 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793255304;
-	b=3lnDYQ9/sf2GoENsyiTAw2p/sfYFzwqzfZZmEP3l2Nt8sCzO10qAnvY1HQKmBC/DQ+ui
-	 uQbYs3Phfa+Am6EjQUnxTS0QH3E7ulGAMb4L7HB9RgEEjUV28iuugXiQfXInNeiPTNMFs
-	 l8w8M+XLb4nR2uCR03cKm/2qhBLWodOllGAb/lS7Pk4gUDQU6/o/IKv9NpoWdnW/euGZ0
-	 Q/0KVJHyyMh8vhGomqpwLssxnu6mp2F0qNlUfgvacIi8h+sbABzU7tbZ27d/puA4LVfcu
-	 Kcawv2q7tKcNyoyVi73oyNgj5HSNBNrDBUN8wynyahWc/oSxd50aqAxPQR0gFEiqofg==
+	t=1793255980;
+	b=JKbvdLdhEUrW6PTBoLEd4cj6cJpSAJ1Uw9/zoQAhfQJMNuyTP3WErHMUXQ1qilV946Dv
+	 8Tg+LAklyjwFzT9gd8o7zQb/yqu4e5ipCu/M6KVaIDwV9LTvg2jnJPTOeaZEGy6pwLnCL
+	 mvRLxOVx3588El1q8NECAbEBZk72s/B3tHNeQEy8ZM3HQs5A/XMMAspEwa0xyQMas8puk
+	 5IJNRubAOjXaOD9of1WIcEOKoCGbLKiCbsfDyJb+lzPDJTndC6OO3F4TDIKcssKemt/sn
+	 JU/a+ENq3myZSHRcYTic+pfCPwIwcp8f3Q0bY1VvA0jSRFHHz1oifgNfpcIcpjV9dWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793255304;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=O9z+VTdTqEa82imXMe709oq11pFPy29dib7ICq/Ie40=;
-	b=IAwNStBbBzEzIJdxH57zUNwd8i6rNYOJ0Dgz7a4Rf8JzJr6Mu4d2ALOKvT8naobQkXbI
-	 YxWD/XxJNFSN1IySTXgCooDxho1mKogyS2pAOE1BsaTCZtwdadBHB11I2e4KwdXNcd/Jy
-	 A/vvAr0hXhMS88NmpYPFsDgENpC8WN7lamNPUdA4Zv0/ckdoif4m026qXWiv1nQrOpGYH
-	 CznEMjdIlU044behaRfb2RKssLO8YFsFM6L64xUr8gFczJTNIzax8HAKCOSuiVHxB0omU
-	 NNU7rPQG2gkgovCWPmPuaGXFQmYYASTyyecjdG4nXEnXB4DjxOk+Z9iGsFCzAFkPaPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793255980;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=6oVC6TlSW49evvo/kbKCUsTSKF4CkZi4bQpeFDkkmaI=;
+	b=RNJzc3ypgPTqb3F/j8s53Df3nP3IF4+Uk5ys1FxhvHREfornxwMmJOSbRaca5It1oVBO
+	 Ewuwb67uq3I635UxNyMXUdQ3NqgJncnpjGL1OLoIZSm/MqGxDnQiKulDuIQkfF96d9AdK
+	 aTJ0Gc1I/F4ExG5mVyOBUEhHglf0kfm69HTO/1faKxniCpq8hiEKaV5XUiZ+kEv3l6tnn
+	 rO3fLH3AOH0QIMi4OGe/4TIo0fOV/avUMYwmPxByR7QMUppbd1+wdhfJNCrdAEhjIh1Oa
+	 y3mzzlcyGS7PGbS7nLQ2AWhoycMrrUMi1s7fz7J0zXeetxNGBzBR73qUv9oFTSLkv4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W6tIJOKK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="H/8vrOeJ";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C22F606A320;
-	Thu, 29 Oct 2026 06:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46358606A31A
+	for <linux-hyperv@vger.kernel.org>; Thu, 29 Oct 2026 06:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W6tIJOKK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2896B1F01825;
-	Thu, 29 Oct 2026 06:28:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H/8vrOeJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC5FF1F01825;
+	Thu, 29 Oct 2026 06:39:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793255304;
-	bh=O9z+VTdTqEa82imXMe709oq11pFPy29dib7ICq/Ie40=;
-	h=From:To:Cc:Subject:Date;
-	b=W6tIJOKKCEe7K1cQtw50GoVo4KV2wGtZUcqq/AnMlk7mNPXTS/sYWP2XUb3FGsDwZ
-	 wi0j5VrMK/pdUtFPjtqmLB7nBXiqhe2GhBDcZEkH0rTtpRZqdYVdn7ipNF1WzGNhOS
-	 0GV/SgjIDNSH7YTAnujDNeAbtCWrEoiY2mVtB5kutX/eqkMyrkSk83dsAE/Gy3y+dE
-	 d5leBP7KMOJehnhnR1IIxRcPC2Q2e0TiSuEbppu++VRZyrBwlevB80d/6+ANVWg747
-	 3MnS3eWrhbL3Zrrtw3yFXBshd0yks1cv0mxvIITWIGJlM2CW6NkmGLzTAWATjdZnWZ
-	 BUPRlXrZo3boQ==
-From: wei.liu@kernel.org
-To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Cc: mukeshrathor@linux.microsoft.com,
-	magnuskulke@linux.microsoft.com,
-	dblanzeanu@linux.microsoft.com,
-	John Starks <jostarks@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Naman Jain <namjain@linux.microsoft.com>,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	Muminul Islam <muislam@microsoft.com>,
-	Anatol Belski <anbelski@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] mshv: Add an ioctl to scrub partition state
-Date: Wed, 28 Oct 2026 23:27:54 -0700
-Message-ID: <20261029062801.28598-2-wei.liu@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	s=k20260515; t=1793255980;
+	bh=6oVC6TlSW49evvo/kbKCUsTSKF4CkZi4bQpeFDkkmaI=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=H/8vrOeJqWyU/vyhRSX4zQ0kljPrS4rKyOJvKbRe7X3x3tu4byojgT+9WtKlBOYFy
+	 tkxLDWgKgn7iJOwp2ZUdAXBg4q6A3PPq+28VWmwV/1No/NavuGy6ZLoeGODqW66uh0
+	 iUiKbfo0j3ls47UkhJeA/rwjPwrzJ8qMjNN1MuQOZoNvipWW0Zo1jfPERZHjFor9Sx
+	 cTsWYlUDHj5ROvT3TsZJcCtsJ89yX+6lX6R7B3t0C0esBA46hxXQuNHzK9zdFFG8g2
+	 F3XRfuyw5PJuOuq8WQvvPsF6jtnVPPL77GZPsb18//vpYUBqOFcALu1LuWxAF9reH4
+	 E+t8a3VSLZdTw==
+Message-ID: <sashiko-outbox-188826@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] mshv: Add an ioctl to scrub partition state
+Reply-To: sashiko-reviews@lists.linux.dev
+To: wei.liu@kernel.org, "Linux on Hyper-V List" <linux-hyperv@vger.kernel.org>
+In-Reply-To: <20261029062801.28598-2-wei.liu@kernel.org>
+References: <20261029062801.28598-2-wei.liu@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 06:39:39 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -66,240 +57,112 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: John Starks <jostarks@microsoft.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] mshv: false WARN_ONCE() in mshv_run_vp_with_root_scheduler() aft=
+er scrub
+--
 
-Userspace VMMs need to reset a child partition's hypervisor-managed state
-without destroying its VPs or rebuilding its memory and eventfd
-registrations. Exposing HvCallScrubPartition through generic hypercall
-passthrough would bypass the synchronization and cached-state updates
-needed by the driver.
+commit 1f05bee845772dade9b43bed66085850115eb2ca
+Author: John Starks <jostarks@microsoft.com>
 
-Add MSHV_SCRUB_PARTITION as a no-argument partition-fd ioctl. Hold the
-partition mutex and try-lock each populated VP mutex in index order,
-using the partition mutex as the lockdep nesting lock. Return -EBUSY
-without issuing the hypercall if a VP is busy. This excludes VP ioctls
-without waiting indefinitely for a running VP; userspace must stop its
-run threads before requesting scrub.
+mshv: Add an ioctl to scrub partition state
 
-After a successful scrub, clear cached intercept suspend so the next run
-clears explicit suspend rather than trying to consume a stale intercept.
-Preserve deferred blocked waits and notification accounting: a VP becoming
-dispatchable does not imply its host notification has already arrived.
-Keep the locks through this update and unwind them on every exit.
+This commit adds the MSHV_SCRUB_PARTITION partition-fd ioctl to invoke
+HvCallScrubPartition while holding the partition and VP mutexes, and clears
+cached intercept_suspend state on all VPs so the next run clears explicit
+suspend.
 
-Scrub is nonallocating, so issue one fast hypercall, trace its status and
-return the existing errno translation. Let the hypervisor determine which
-partition configurations support scrub. Device quiescing and restoring
-guest execution state remain userspace responsibilities.
+> diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+> index cc2cfce2aefdb..9f21855b8518b 100644
+> --- a/drivers/hv/mshv_root_main.c
+> +++ b/drivers/hv/mshv_root_main.c
+> @@ -1648,6 +1648,53 @@ mshv_partition_ioctl_initialize(struct mshv_partit=
+ion *partition)
+>  	return ret;
+>  }
+> =20
+> +static int mshv_partition_ioctl_scrub(struct mshv_partition *partition)
+> +{
+> +	unsigned int i, vps_locked =3D 0;
+> +	int ret;
+> +
+> +	lockdep_assert_held(&partition->pt_mutex);
+> +
+> +	/*
+> +	 * Run ioctls may wait indefinitely. Userspace must stop its run
+> +	 * threads; never wait for a VP while holding the others. The
+> +	 * partition mutex stabilizes even a sparse VP array.
+> +	 */
+> +	for (; vps_locked < MSHV_MAX_VPS; vps_locked++) {
+> +		struct mshv_vp *vp =3D partition->pt_vp_array[vps_locked];
+> +
+> +		if (vp && !mutex_trylock_nest_lock(&vp->vp_mutex,
+> +						  &partition->pt_mutex)) {
+> +			ret =3D -EBUSY;
+> +			goto unlock;
+> +		}
+> +	}
+> +
+> +	ret =3D hv_call_scrub_partition(partition->pt_id);
+> +	if (ret)
+> +		goto unlock;
+> +
+> +	/*
+> +	 * Scrub clears intercept suspend and sets explicit suspend.
+> +	 * Retain deferred waits and lifetime notification accounting.
+> +	 */
+> +	for (i =3D 0; i < MSHV_MAX_VPS; i++) {
+> +		struct mshv_vp *vp =3D partition->pt_vp_array[i];
+> +
+> +		if (vp)
+> +			vp->run.flags.intercept_suspend =3D 0;
+> +	}
 
-Signed-off-by: John Starks <jostarks@microsoft.com>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
+[Severity: Medium]
+When a previously dispatched VP is run again under HV_SCHEDULER_TYPE_ROOT
+after MSHV_SCRUB_PARTITION, will mshv_run_vp_with_root_scheduler() trigger
+its WARN_ONCE()?
 
----
-Tested repeated scrub/run, sparse and 64-VP locking, busy unwinding,
-interrupted blocked runs, concurrent memory invalidation and irqfd
-activity on x86-64, and delayed notifications with separate diagnostic
-instrumentation. The affected ARM64 objects compile. ARM64 runtime and
-hypervisor scheduling remain untested. Doorbell delivery across scrub
-works, but exposes an existing eventfd hardirq wait-context warning under
-lockdep, separate from this change.
+During the first MSHV_RUN_VP before scrub, clearing the initial explicit
+suspend causes the hypervisor to signal the VP via kick_vp() in
+drivers/hv/mshv_synic.c:
 
-GitHub Copilot generated the implementation and test probes, investigated
-locking and notification handling, ran builds and Incubator tests, and
-drafted this description. Human review selected the dedicated ioctl and
-try-lock policy and corrected the nonallocating hypercall contract.
----
- drivers/hv/mshv_root.h         |  1 +
- drivers/hv/mshv_root_hv_call.c | 11 ++++++++
- drivers/hv/mshv_root_main.c    | 50 ++++++++++++++++++++++++++++++++++
- drivers/hv/mshv_trace.h        | 17 ++++++++++++
- include/hyperv/hvgdk_mini.h    |  1 +
- include/hyperv/hvhdk.h         |  4 +++
- include/uapi/linux/mshv.h      | 11 ++++++++
- 7 files changed, 95 insertions(+)
+static void kick_vp(struct mshv_vp *vp)
+{
+	atomic64_inc(&vp->run.vp_signaled_count);
+	vp->run.kicked_by_hv =3D 1;
+	wake_up(&vp->run.vp_suspend_queue);
+}
 
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 1f086dcb7aa1..0c89d47c3ab5 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -279,6 +279,7 @@ int hv_call_create_partition(u64 flags,
- 			     union hv_partition_isolation_properties isolation_properties,
- 			     u64 *partition_id);
- int hv_call_initialize_partition(u64 partition_id);
-+int hv_call_scrub_partition(u64 partition_id);
- int hv_call_finalize_partition(u64 partition_id);
- int hv_call_delete_partition(u64 partition_id);
- int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa, u64 numpgs);
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index cb55d4d4be2e..8ab99f1afeed 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -161,6 +161,17 @@ int hv_call_initialize_partition(u64 partition_id)
- 	return ret;
- }
- 
-+int hv_call_scrub_partition(u64 partition_id)
-+{
-+	u64 status;
-+
-+	status = hv_do_fast_hypercall8(HVCALL_SCRUB_PARTITION, partition_id);
-+
-+	trace_mshv_hvcall_scrub_partition(partition_id, status);
-+
-+	return hv_result_to_errno(status);
-+}
-+
- int hv_call_finalize_partition(u64 partition_id)
- {
- 	struct hv_input_finalize_partition input;
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index cc2cfce2aefd..9f21855b8518 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -1648,6 +1648,53 @@ mshv_partition_ioctl_initialize(struct mshv_partition *partition)
- 	return ret;
- }
- 
-+static int mshv_partition_ioctl_scrub(struct mshv_partition *partition)
-+{
-+	unsigned int i, vps_locked = 0;
-+	int ret;
-+
-+	lockdep_assert_held(&partition->pt_mutex);
-+
-+	/*
-+	 * Run ioctls may wait indefinitely. Userspace must stop its run
-+	 * threads; never wait for a VP while holding the others. The
-+	 * partition mutex stabilizes even a sparse VP array.
-+	 */
-+	for (; vps_locked < MSHV_MAX_VPS; vps_locked++) {
-+		struct mshv_vp *vp = partition->pt_vp_array[vps_locked];
-+
-+		if (vp && !mutex_trylock_nest_lock(&vp->vp_mutex,
-+						  &partition->pt_mutex)) {
-+			ret = -EBUSY;
-+			goto unlock;
-+		}
-+	}
-+
-+	ret = hv_call_scrub_partition(partition->pt_id);
-+	if (ret)
-+		goto unlock;
-+
-+	/*
-+	 * Scrub clears intercept suspend and sets explicit suspend.
-+	 * Retain deferred waits and lifetime notification accounting.
-+	 */
-+	for (i = 0; i < MSHV_MAX_VPS; i++) {
-+		struct mshv_vp *vp = partition->pt_vp_array[i];
-+
-+		if (vp)
-+			vp->run.flags.intercept_suspend = 0;
-+	}
-+
-+unlock:
-+	while (vps_locked) {
-+		struct mshv_vp *vp = partition->pt_vp_array[--vps_locked];
-+
-+		if (vp)
-+			mutex_unlock(&vp->vp_mutex);
-+	}
-+	return ret;
-+}
-+
- static long
- mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- {
-@@ -1662,6 +1709,9 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 	case MSHV_INITIALIZE_PARTITION:
- 		ret = mshv_partition_ioctl_initialize(partition);
- 		break;
-+	case MSHV_SCRUB_PARTITION:
-+		ret = mshv_partition_ioctl_scrub(partition);
-+		break;
- 	case MSHV_SET_GUEST_MEMORY:
- 		ret = mshv_partition_ioctl_set_memory(partition, uarg);
- 		break;
-diff --git a/drivers/hv/mshv_trace.h b/drivers/hv/mshv_trace.h
-index e7280c47e579..9f6d9e67d987 100644
---- a/drivers/hv/mshv_trace.h
-+++ b/drivers/hv/mshv_trace.h
-@@ -71,6 +71,23 @@ TRACE_EVENT(mshv_hvcall_initialize_partition,
- 	    )
- );
- 
-+TRACE_EVENT(mshv_hvcall_scrub_partition,
-+	    TP_PROTO(u64 partition_id, u64 status),
-+	    TP_ARGS(partition_id, status),
-+	    TP_STRUCT__entry(
-+		    __field(u64, partition_id)
-+		    __field(u64, status)
-+	    ),
-+	    TP_fast_assign(
-+		    __entry->partition_id = partition_id;
-+		    __entry->status = status;
-+	    ),
-+	    TP_printk("partition_id=%llu status=%#llx",
-+		    __entry->partition_id,
-+		    __entry->status
-+	    )
-+);
-+
- TRACE_EVENT(mshv_partition_release,
- 	    TP_PROTO(u64 partition_id),
- 	    TP_ARGS(partition_id),
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index 6a4e8b9d570f..c0172699b145 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -478,6 +478,7 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
- #define HVCALL_NOTIFY_PARTITION_EVENT                   0x0087
- #define HVCALL_ENTER_SLEEP_STATE			0x0084
- #define HVCALL_NOTIFY_PORT_RING_EMPTY			0x008b
-+#define HVCALL_SCRUB_PARTITION				0x008d
- #define HVCALL_REGISTER_INTERCEPT_RESULT		0x0091
- #define HVCALL_ASSERT_VIRTUAL_INTERRUPT			0x0094
- #define HVCALL_CREATE_PORT				0x0095
-diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
-index 0c89c62c9706..d0043860693c 100644
---- a/include/hyperv/hvhdk.h
-+++ b/include/hyperv/hvhdk.h
-@@ -369,6 +369,10 @@ struct hv_input_delete_partition {
- 	u64 partition_id;
- } __packed;
- 
-+struct hv_input_scrub_partition {
-+	u64 partition_id;
-+} __packed;
-+
- struct hv_input_get_partition_property {
- 	u64 partition_id;
- 	u32 property_code; /* enum hv_partition_property_code */
-diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 32ff92b6342b..7681e3c73a7a 100644
---- a/include/uapi/linux/mshv.h
-+++ b/include/uapi/linux/mshv.h
-@@ -255,6 +255,17 @@ struct mshv_root_hvcall {
- /* Generic hypercall */
- #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07, struct mshv_root_hvcall)
- 
-+/*
-+ * Scrub a partition's guest state; takes no arguments.
-+ * Stop all VP run threads first: a busy VP causes -EBUSY without issuing
-+ * the hypercall. On success, the VPs are explicitly suspended.
-+ *
-+ * Kernel resource registrations and VP fd/mmap lifetimes are preserved.
-+ * Userspace must quiesce its devices and restore guest execution state.
-+ * Failure does not imply successful reset or guaranteed rollback.
-+ */
-+#define MSHV_SCRUB_PARTITION	_IO(MSHV_IOCTL, 0x0B)
-+
- /*
-  ********************************
-  * VP APIs for child partitions *
--- 
-2.53.0
+This increments vp->run.vp_signaled_count to a non-zero value, which
+mshv_partition_ioctl_scrub() retains across the scrub while resetting
+vp->run.flags.intercept_suspend =3D 0 and leaving the VP in explicit suspen=
+d.
 
+On the next MSHV_RUN_VP call after scrub, mshv_run_vp_with_root_scheduler()
+in drivers/hv/mshv_root_main.c dispatches the VP and enters the
+HV_VP_DISPATCH_EVENT_SUSPEND branch to clear explicit suspend:
+
+		if (output.dispatch_state =3D=3D HV_VP_DISPATCH_STATE_BLOCKED) {
+			if (output.dispatch_event =3D=3D
+						HV_VP_DISPATCH_EVENT_SUSPEND) {
+				/*
+				 * TODO: remove the warning once VP canceling
+				 *	 is supported
+				 */
+				WARN_ONCE(atomic64_read(&vp->run.vp_signaled_count),
+					  "%s: vp#%d: unexpected explicit suspend\n",
+					  __func__, vp->vp_index);
+				...
+				ret =3D mshv_vp_clear_explicit_suspend(vp);
+
+Because vp->run.vp_signaled_count is already non-zero from the pre-scrub ru=
+n,
+doesn't resuming a VP after MSHV_SCRUB_PARTITION unconditionally hit this
+WARN_ONCE()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029062801.2859=
+8-2-wei.liu@kernel.org?part=3D1
