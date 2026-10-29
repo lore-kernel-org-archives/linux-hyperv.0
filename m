@@ -1,60 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793309664;
-	b=VCpRy9FUW3W0C7suqx4OEIclvf16dY13MEcZUEVqHSZLhkf1MwmdTfw1UoLolQtX/iC4
-	 rEsRPq0xhqMAs/NLsY3z3+JXSwWLpr9VdV+M+IZcSuC/z7l0vK14fXH6XiQuQv40w+squ
-	 qaZ64I1CLl7LRk1Y1GFklh9BG95zDrG+zWAliCU5Co8tnaazqebki37AWhN7paGgZvaue
-	 vjR2pucbsOX0CHvJq9tKLAC7vd5+H1dgr33FGVDxwxA1jIo3znBLtZdkCm23sIizmk/FP
-	 YRGE6Ky6eH3PJmdQV5ScMHHxk8uaqzA1yNBoS/3HD/eDe2vFrpYH8OA105vYtmTUvTg==
+	t=1793313965;
+	b=vdjJqeYyRlVkYi/bPTn6Om+YvCDVT3QFSPwhjOG83RaO8qHKnPC9m00OJJJNHfXDp0ge
+	 iFqUSjsfvZzKti60WIxIxlHMzNc93ixLhTUHrXDLqQvw9373LwZm6xzulsO/Qh1AbcsKh
+	 /Vmpy6hyRiQCcKqyjZIKyLBzTq8FWlUjWlWGF0qT6qBIx7yaVcUIAPDrewQCZsYEcmxHK
+	 0lt/zfzMNDdozRkY446UtVaCNjIbdBTK5/UcM2NZkVSqC6KyutsVZZ182giNnamK+lvFh
+	 v7CFVk6JnA6TrW9gCMIePlluSXRe69lTd2/8+QRWjU5GV9M6wzazVOzQvPM7gPl/N2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793309664;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=vsTgvTJ67UmXZNnV62IYb7BaAYlbsR7gCdAiI5k6ouI=;
-	b=3qbFo05R8jN8SY27oBIgmUMLG8h9ZmtuTbuIh1u4Qh1Tg1sYH9laOgo91Yf+9AikGSNf
-	 vQJkIoRoL9q+XJHi0AELuGgHOKzSwuvzg1tns5VNk9tVzLrSqccW6EJa+VbO0oCeDgfrn
-	 Ln8+u60g4A9gw+53RrzLt5bNus8lywowT/qDSCgNG6/0lCp5k4iMasomfVuQevdndG/UC
-	 UK31HWZ/gr64q8xSu8wVMSBIlVA8F1tdNPBbyis8/ChnbsN8n2G6as705gjsTLsSEJQTp
-	 mtrPT+FFjYK8h1V66vfHGcpbYrK4sQDGEiSe9SX+Gq4lKaKtA4ESBvaxrUJFaBoRr0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793313965;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=6wI4m1WVmIVYbP7G0/24p1ugWFdmcHn5gpgD1WpwHkE=;
+	b=lsmqg7e4zORdhx4aFuDZTciAatR8GGnXBvoD3XyNk1rC6hoPl+Lpvk/BDfnycqAibwVx
+	 x67VcUbeL/u0oH6Tt8JxP/92H9NvQNh5HzuoHdGrIO9N/Yswwn+E5X1VhdoLs9h9mEuIX
+	 h6sxSJ+L97C+8gSLhUim0KrfEGxT8Yks5VxDOUpPv8+X5EispCeVdiLzAbu+6SjZckdLi
+	 oNmEjw0V6oG2ytkIsg2JDXPswuv8aIKYKvqNsau8gH9T/YX+1ARfNpaCy+AHll7dVItqT
+	 R0pAc99Ddk6o0CPVBKYMDEJ+hNA4eKT9vqjEMIMV+XEnPivDIpVq+ov+jv2Mw2iFw5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rzKAgOP2;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A05606A31A;
-	Thu, 29 Oct 2026 21:34:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62A05606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeErXzHC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3494606A322;
+	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rzKAgOP2
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 7774320B7166; Thu, 29 Oct 2026 14:34:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7774320B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793309646;
-	bh=vsTgvTJ67UmXZNnV62IYb7BaAYlbsR7gCdAiI5k6ouI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rzKAgOP2FOkAwxZEUfZYjZPjAEnIHtrWND4Oli8t+mGeEtpAThpOf+ogdeif4bBMW
-	 qkOlIHJ42ZjllZreQPUIoknfukvcFfD0YZNRKWsp2QCruCud1JOjb/HaaTpEJQxt7l
-	 3T5nTRckT7elrDuand5sHNL1B3a9RztdeKx7W2V8=
-Date: Thu, 29 Oct 2026 17:34:06 -0400
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices
- on a root bus
-Message-ID: <auO7zt6EtXiNUZP3@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeErXzHC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1ECA1F01824;
+	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793313964;
+	bh=6wI4m1WVmIVYbP7G0/24p1ugWFdmcHn5gpgD1WpwHkE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=DeErXzHCyHwFWAOkUX9RhxeWvcXEaVWNZfLdpq1c0Tq3/yXlXqSUD4n5f8f4w53Ex
+	 1S1ervF4T7KYQ3M3V9NBX52GiHwUnf/Vt0r5RXv7oUZT5Qt0un+4LxAn1IUDNWnebQ
+	 FWxeXs7CorZ04kcAuf/sy3RJPoT5HRFUgIW6oHDK09DUd52pkrNi+Bfk6DWahlkDYM
+	 0bC+MN8SPFd3FuXIt8L6Lfr6XIsyYBtdWyzfRD5oKadh06GnS0Rj+vS08AC66or23E
+	 SFZGFD/sQkqKZrylRGqQMLcIe+IDAyYUO8yRW9kUEH6TFh0NQfJqegWKEh9sMWVZfy
+	 NBZ/8wbkvieeQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA2D638007D2;
+	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
+Subject: Re: [GIT PULL] Hyper-V next for 7.4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
+References: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20261028
+X-PR-Tracked-Commit-Id: 33b28f3b313353f11fc939e9a268605e66290d0b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9c7e3d59107e2daf204bf6bf87b6c448ca89defe
+Message-Id: <179331396323.734384.13955158115992451525.pr-tracker-bot@kernel.org>
+Date: Thu, 29 Oct 2026 22:46:03 +0000
+To: Wei Liu <wei.liu@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, decui@microsoft.com
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -63,92 +67,16 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
 
-Hi Bjorn,
+The pull request you sent on Wed, 28 Oct 2026 22:55:27 -0700:
 
-On Fri, Oct 16, 2026 at 07:59:39PM -0400, Hamza Mahfooz wrote:
-> The "bus" reset method resets a device by asserting Secondary Bus Reset
-> on its upstream bridge, so it is not available for a device on a root
-> bus, which has no upstream bridge.
-> 
-> Some platforms have no Root Ports and expose PCI devices directly on a
-> root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
-> on the root bus of a virtual host bridge. Such a device has no reset
-> method at all if it supports neither FLR nor PM reset, even if the
-> platform is able to reset it.
-> 
-> pci_host_bridge::reset_root_port() already allows a host bridge to reset
-> a device on a root bus in a platform-specific way, so far only in place
-> of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
-> method of a device that is the only device on a root bus, and wait for
-> the device to become ready afterwards, as is done for other reset
-> methods.
-> 
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20261028
 
-Do you have any comments regarding this patch? If not, do you mind if we
-take it though the hyperv tree?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9c7e3d59107e2daf204bf6bf87b6c448ca89defe
 
-> Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> ---
->  drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 8cc6a89130b5..fd4e958d6b99 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
->  }
->  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
->  
-> +static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
-> +{
-> +	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
-> +	int rc;
-> +
-> +	/*
-> +	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
-> +	 * because dev->subordinate is not set up yet when the reset methods
-> +	 * are probed during enumeration.
-> +	 */
-> +	if (pci_is_bridge(dev) || !host->reset_root_port)
-> +		return -ENOTTY;
-> +
-> +	if (probe)
-> +		return 0;
-> +
-> +	rc = host->reset_root_port(host, dev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
-> +}
-> +
->  static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
->  {
->  	struct pci_dev *pdev;
->  
-> -	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
-> -	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
-> +	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
->  		return -ENOTTY;
->  
->  	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
->  		if (pdev != dev)
->  			return -ENOTTY;
->  
-> +	if (pci_is_root_bus(dev->bus))
-> +		return pci_root_bus_reset(dev, probe);
-> +
-> +	if (!dev->bus->self)
-> +		return -ENOTTY;
-> +
->  	if (probe)
->  		return 0;
->  
-> -- 
-> 2.56.0
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
