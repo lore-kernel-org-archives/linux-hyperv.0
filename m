@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793313965;
-	b=vdjJqeYyRlVkYi/bPTn6Om+YvCDVT3QFSPwhjOG83RaO8qHKnPC9m00OJJJNHfXDp0ge
-	 iFqUSjsfvZzKti60WIxIxlHMzNc93ixLhTUHrXDLqQvw9373LwZm6xzulsO/Qh1AbcsKh
-	 /Vmpy6hyRiQCcKqyjZIKyLBzTq8FWlUjWlWGF0qT6qBIx7yaVcUIAPDrewQCZsYEcmxHK
-	 0lt/zfzMNDdozRkY446UtVaCNjIbdBTK5/UcM2NZkVSqC6KyutsVZZ182giNnamK+lvFh
-	 v7CFVk6JnA6TrW9gCMIePlluSXRe69lTd2/8+QRWjU5GV9M6wzazVOzQvPM7gPl/N2w==
+	t=1793314468;
+	b=ewtJOlQLDgU5+WkMqBPcITixeEB2vu0dwSANTKsxMS0Optjx7Vm0fDMu+QYDr/FEuGQo
+	 J4ETftNLpdYh3r1sMxII/WP/ZvLmklpFxHUcfcLBmoP17fSvUAeRY7IECdRWcvdqKv1fQ
+	 3l5ZftPsBIzn0ch43/So8+bVjvbnz/kn3Ld9tdoto8SQggDdwQEhzMZldaZXVc/sQ9Gei
+	 PYGmgVIGWzBbwoB0lV1flMS5e+s3Ism8aHrRQwjR/BgV7TZC8UM/uX3FsjSRRr9Um0VXE
+	 NfuJCB4EAmgtyQHU0VrIj0uRMnUGHuWcY6/VhDNWiqKFMesKEyeDKZ/JyteDdHNi9pg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793313965;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=6wI4m1WVmIVYbP7G0/24p1ugWFdmcHn5gpgD1WpwHkE=;
-	b=lsmqg7e4zORdhx4aFuDZTciAatR8GGnXBvoD3XyNk1rC6hoPl+Lpvk/BDfnycqAibwVx
-	 x67VcUbeL/u0oH6Tt8JxP/92H9NvQNh5HzuoHdGrIO9N/Yswwn+E5X1VhdoLs9h9mEuIX
-	 h6sxSJ+L97C+8gSLhUim0KrfEGxT8Yks5VxDOUpPv8+X5EispCeVdiLzAbu+6SjZckdLi
-	 oNmEjw0V6oG2ytkIsg2JDXPswuv8aIKYKvqNsau8gH9T/YX+1ARfNpaCy+AHll7dVItqT
-	 R0pAc99Ddk6o0CPVBKYMDEJ+hNA4eKT9vqjEMIMV+XEnPivDIpVq+ov+jv2Mw2iFw5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793314468;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=POwY9K3wYZjvJPalx+6QkgsqJfGo8QCv3p3v7iSCx8U=;
+	b=JdMSqXO38UzMSQQTR14okUwdbH0qmidLz/5q3ykk6eLilNOLQAmExMwK+EA7zXPn2kjX
+	 NSx/cVAwZXLsVrximWzmoh3yXcSx87tSyje2DjxrlHDFqrGDgd+qXCwZgRhHXVDtzMs8T
+	 otkRhSnfWPUX1Zs1hr6sHBZ9n6gB0JiQtAFce9hmv9hfIJaY2O/sd6paNhg0OXQiujmZX
+	 mx3pzM8dkRHfYv73J6ti3CA8x4M2NjC2jcGM9VseLwLhoepl0DWIqyIwEgGv4BzX3DAB4
+	 W+OOjnTSEnQ/2bOplSqE0KiTH/5JRpUEFQMLeu2dmlJcZRWCAVqU8waenB2bH8rfVUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeErXzHC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3494606A322;
-	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=BDH0irSJ;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86144606A31A;
+	Thu, 29 Oct 2026 22:54:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86144606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeErXzHC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1ECA1F01824;
-	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793313964;
-	bh=6wI4m1WVmIVYbP7G0/24p1ugWFdmcHn5gpgD1WpwHkE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=DeErXzHCyHwFWAOkUX9RhxeWvcXEaVWNZfLdpq1c0Tq3/yXlXqSUD4n5f8f4w53Ex
-	 1S1ervF4T7KYQ3M3V9NBX52GiHwUnf/Vt0r5RXv7oUZT5Qt0un+4LxAn1IUDNWnebQ
-	 FWxeXs7CorZ04kcAuf/sy3RJPoT5HRFUgIW6oHDK09DUd52pkrNi+Bfk6DWahlkDYM
-	 0bC+MN8SPFd3FuXIt8L6Lfr6XIsyYBtdWyzfRD5oKadh06GnS0Rj+vS08AC66or23E
-	 SFZGFD/sQkqKZrylRGqQMLcIe+IDAyYUO8yRW9kUEH6TFh0NQfJqegWKEh9sMWVZfy
-	 NBZ/8wbkvieeQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA2D638007D2;
-	Thu, 29 Oct 2026 22:46:04 +0000 (UTC)
-Subject: Re: [GIT PULL] Hyper-V next for 7.4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
-References: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20261028
-X-PR-Tracked-Commit-Id: 33b28f3b313353f11fc939e9a268605e66290d0b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9c7e3d59107e2daf204bf6bf87b6c448ca89defe
-Message-Id: <179331396323.734384.13955158115992451525.pr-tracker-bot@kernel.org>
-Date: Thu, 29 Oct 2026 22:46:03 +0000
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, decui@microsoft.com
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=BDH0irSJ
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 352FB169E;
+	Thu, 29 Oct 2026 15:54:23 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E2043F673;
+	Thu, 29 Oct 2026 15:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793314466; bh=+W+VoreRqIYQsjm9ZjQdyC40IddCPxH6b0QBB2g7Y3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BDH0irSJKsIvF3lVyzTr15otTHYjyscFtzzcK2NHYxOvYzxveHXWqaGMjHHgVZHsG
+	 vINIrvUOSDsQkpU5VyXbVZL4KrLZwF7+8VuyhowwNaKNjHX4P5VdHXfIxAUioo+gm9
+	 Ho9ljIJqirq4qnv/E8nsInssKH/ncXUu8miviacQ=
+Date: Thu, 29 Oct 2026 22:54:21 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	mhklinux@outlook.com, will@kernel.org, mark.rutland@arm.com,
+	lpieralisi@kernel.org, sudeep.holla@kernel.org, arnd@arndb.de,
+	thuth@redhat.com, linux-hyperv@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	Suzuki K Poulose <Suzuki.Poulose@arm.com>
+Subject: Re: [PATCH v5 2/6] firmware: smccc: Detect hypervisor via RSI host
+ call in CCA Realms
+Message-ID: <auPOnb_9Jfzh-oQE@arm.com>
+References: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
+ <20261002215725.2015959-3-kameroncarr@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -67,16 +65,104 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002215725.2015959-3-kameroncarr@linux.microsoft.com>
 
-The pull request you sent on Wed, 28 Oct 2026 22:55:27 -0700:
++ Suzuki
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20261028
+On Fri, Oct 02, 2026 at 02:57:21PM -0700, Kameron Carr wrote:
+> Modify arm_smccc_hypervisor_has_uuid() to check is_realm_world() and
+> use rsi_host_call() to query the hypervisor vendor UUID when inside a
+> Realm. The realm path is factored into a helper,
+> arm_smccc_realm_get_hypervisor_uuid(), that owns a file-static
+> rsi_host_call buffer (uuid_hc) serialized by a spinlock.
+> 
+> The RSI-specific includes, file-static state and helper are guarded with
+> CONFIG_ARM64 because <linux/arm-rsi-cmds.h> does not build on 32-bit
+> ARM.
+> 
+> For non-Realm environments, the existing arm_smccc_1_1_invoke() path
+> is unchanged.
+> 
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+> ---
+>  drivers/firmware/smccc/smccc.c | 41 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/smccc/smccc.c b/drivers/firmware/smccc/smccc.c
+> index afc2e4d..7e77170 100644
+> --- a/drivers/firmware/smccc/smccc.c
+> +++ b/drivers/firmware/smccc/smccc.c
+> @@ -14,6 +14,12 @@
+>  
+>  #include <asm/archrandom.h>
+>  
+> +#ifdef CONFIG_ARM64
+> +#include <linux/arm-rsi-cmds.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/spinlock.h>
+> +#endif
+> +
+>  static u32 smccc_version = ARM_SMCCC_VERSION_1_0;
+>  static enum arm_smccc_conduit smccc_conduit = SMCCC_CONDUIT_NONE;
+>  
+> @@ -69,12 +75,45 @@ s32 arm_smccc_get_soc_id_revision(void)
+>  }
+>  EXPORT_SYMBOL_GPL(arm_smccc_get_soc_id_revision);
+>  
+> +#ifdef CONFIG_ARM64
+> +static struct rsi_host_call uuid_hc;
+> +static DEFINE_SPINLOCK(uuid_hc_lock);
+> +
+> +/*
+> + * Helper function to get the hypervisor UUID via an RsiHostCall.
+> + */
+> +static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res *res)
+> +{
+> +	guard(spinlock_irqsave)(&uuid_hc_lock);
+> +
+> +	memset(&uuid_hc, 0, sizeof(uuid_hc));
+> +	uuid_hc.gprs[0] = ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
+> +
+> +	if (rsi_host_call(__pa_symbol(&uuid_hc)) != RSI_SUCCESS) {
+> +		res->a0 = SMCCC_RET_NOT_SUPPORTED;
+> +		return;
+> +	}
+> +
+> +	res->a0 = uuid_hc.gprs[0];
+> +	res->a1 = uuid_hc.gprs[1];
+> +	res->a2 = uuid_hc.gprs[2];
+> +	res->a3 = uuid_hc.gprs[3];
+> +}
+> +#endif
+> +
+>  bool arm_smccc_hypervisor_has_uuid(const uuid_t *hyp_uuid)
+>  {
+>  	struct arm_smccc_res res = {};
+>  	uuid_t uuid;
+>  
+> -	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID, &res);
+> +#ifdef CONFIG_ARM64
+> +	if (is_realm_world())
+> +		arm_smccc_realm_get_hypervisor_uuid(&res);
+> +	else
+> +#endif
+> +		arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
+> +				     &res);
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9c7e3d59107e2daf204bf6bf87b6c448ca89defe
+Is this meant to be generic? I'm not sure the trick to pass
+ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID in gprs[0] and forward it to the
+host is a documented ABI. I think it even confuses other realm guests
+that don't expect this (e.g. kvm_init_hyp_services()).
 
-Thank you!
+I thought realms should stick to the RSI interface and not try to guess
+the host hypervisor. But if you do need this, a better fit would be in
+hyperv_detect_via_smccc() (if realms don't boot with ACPI).
+
+I'll leave it to Sudeep or Suzuki to comment further.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Catalin
