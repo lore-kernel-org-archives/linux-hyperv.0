@@ -1,53 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793253329;
-	b=VNe9fXCIzJw9XhEQ9fl6DZjhaPwgvG0CDWSfo8OFf+OniSRpylrzuAbmc3DXK5bQbrKg
-	 c7CHh17cYnOgFvK4KqtOunuI5udeEcffV3YvqJabdOJX9pvb6EETw/cRjaXYWhN569F2G
-	 PkOYbMW/Lasx6Xd/hCMtlgnqj5gukCJX8qaJ2d3qnidy9BlIgfevlx+t6PqwTucKA6q3d
-	 iId6uoQdca3zmQFeh/GFhLJVG/OVilmihrCfWbN4idmg9afKC3CRwOrk34P6hC2iyhsMS
-	 VLA5Watfuan2hEnGbIM6yLEs/uIbKuyChqvXWuxrMc1PUH3Pb5xBNOJrNyO9kvxKELA==
+	t=1793255304;
+	b=3lnDYQ9/sf2GoENsyiTAw2p/sfYFzwqzfZZmEP3l2Nt8sCzO10qAnvY1HQKmBC/DQ+ui
+	 uQbYs3Phfa+Am6EjQUnxTS0QH3E7ulGAMb4L7HB9RgEEjUV28iuugXiQfXInNeiPTNMFs
+	 l8w8M+XLb4nR2uCR03cKm/2qhBLWodOllGAb/lS7Pk4gUDQU6/o/IKv9NpoWdnW/euGZ0
+	 Q/0KVJHyyMh8vhGomqpwLssxnu6mp2F0qNlUfgvacIi8h+sbABzU7tbZ27d/puA4LVfcu
+	 Kcawv2q7tKcNyoyVi73oyNgj5HSNBNrDBUN8wynyahWc/oSxd50aqAxPQR0gFEiqofg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793253329;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=3vNZfiAYI6xKq/0IcrERSHIUn9ezzeWckOVCf4JOl9A=;
-	b=mbNxgFNKb09mqq9ZOV/3tT427l84JwkpIg74GpAFBl2fXZGCYgYCf2Zj6fMkWYEKhdP8
-	 Eu8mrjs0UGcg8K+lLkowNmtimml5h1RvfEbu/ALa1XLGfCTtvv0xC9CwmxSNj0IgWQU3c
-	 QGc8j5Nuo3kfGT6Fo5bolJU7tBMWCucXnMBkXY7QiKXQOn28BUqMRHx17c0AFvVnLDU98
-	 4kQ9zDgMr1MnGBcpe8d1qHy/fqg8arJz6evzIt4b7vh5zehKwE31J/Hb3Y+/M3qOjiZh1
-	 v1ZU46Kc3UNrk0ed5ZsKpdgU2SzQP+olLfR2GYwmvrzRqlQE0hx7RkPEkiQSIhdV34g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793255304;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=O9z+VTdTqEa82imXMe709oq11pFPy29dib7ICq/Ie40=;
+	b=IAwNStBbBzEzIJdxH57zUNwd8i6rNYOJ0Dgz7a4Rf8JzJr6Mu4d2ALOKvT8naobQkXbI
+	 YxWD/XxJNFSN1IySTXgCooDxho1mKogyS2pAOE1BsaTCZtwdadBHB11I2e4KwdXNcd/Jy
+	 A/vvAr0hXhMS88NmpYPFsDgENpC8WN7lamNPUdA4Zv0/ckdoif4m026qXWiv1nQrOpGYH
+	 CznEMjdIlU044behaRfb2RKssLO8YFsFM6L64xUr8gFczJTNIzax8HAKCOSuiVHxB0omU
+	 NNU7rPQG2gkgovCWPmPuaGXFQmYYASTyyecjdG4nXEnXB4DjxOk+Z9iGsFCzAFkPaPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I5JpeMkX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W6tIJOKK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048DD606A320;
-	Thu, 29 Oct 2026 05:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C22F606A320;
+	Thu, 29 Oct 2026 06:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I5JpeMkX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 820E01F031E1;
-	Thu, 29 Oct 2026 05:55:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W6tIJOKK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2896B1F01825;
+	Thu, 29 Oct 2026 06:28:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793253328;
-	bh=3vNZfiAYI6xKq/0IcrERSHIUn9ezzeWckOVCf4JOl9A=;
-	h=Date:From:To:Cc:Subject;
-	b=I5JpeMkXhCXUzIwzWxVEsKjt2kCNkNpLY9Mwkt1MaHVPidPNeyBb5/UVS9yP3rfA1
-	 YamPqGFVNKiLORxVHqtzRVIScAPUDoodHCujv64HKgt0FfA1wn2HhEfi6wh6g+dROo
-	 78FLdGXGRFod3X3QXp/0rOuBXMvr1cjwczfjwpfYr1TTVJTq1TKXNcTtBzgDHKI+fM
-	 9ZFILr/wamQq+uyEVfAN/KOmk4gB5n3duh5wxPqyd/lzJVveDgdh5mf2xCs0HtF9ad
-	 6y88GvECfAXqGhyagleHybIW0H04tzQqBodCdR9fVtq06Bbs/cra8j/seGsxp66qmN
-	 KJPEsx7OmF+fQ==
-Date: Wed, 28 Oct 2026 22:55:27 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Wei Liu <wei.liu@kernel.org>,
-	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-	Linux Kernel List <linux-kernel@vger.kernel.org>,
-	decui@microsoft.com
-Subject: [GIT PULL] Hyper-V next for 7.4
-Message-ID: <20261029055527.GC3595008@liuwe-devbox-debian-v2.local>
+	s=k20260515; t=1793255304;
+	bh=O9z+VTdTqEa82imXMe709oq11pFPy29dib7ICq/Ie40=;
+	h=From:To:Cc:Subject:Date;
+	b=W6tIJOKKCEe7K1cQtw50GoVo4KV2wGtZUcqq/AnMlk7mNPXTS/sYWP2XUb3FGsDwZ
+	 wi0j5VrMK/pdUtFPjtqmLB7nBXiqhe2GhBDcZEkH0rTtpRZqdYVdn7ipNF1WzGNhOS
+	 0GV/SgjIDNSH7YTAnujDNeAbtCWrEoiY2mVtB5kutX/eqkMyrkSk83dsAE/Gy3y+dE
+	 d5leBP7KMOJehnhnR1IIxRcPC2Q2e0TiSuEbppu++VRZyrBwlevB80d/6+ANVWg747
+	 3MnS3eWrhbL3Zrrtw3yFXBshd0yks1cv0mxvIITWIGJlM2CW6NkmGLzTAWATjdZnWZ
+	 BUPRlXrZo3boQ==
+From: wei.liu@kernel.org
+To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc: mukeshrathor@linux.microsoft.com,
+	magnuskulke@linux.microsoft.com,
+	dblanzeanu@linux.microsoft.com,
+	John Starks <jostarks@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Naman Jain <namjain@linux.microsoft.com>,
+	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Muminul Islam <muislam@microsoft.com>,
+	Anatol Belski <anbelski@linux.microsoft.com>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] mshv: Add an ioctl to scrub partition state
+Date: Wed, 28 Oct 2026 23:27:54 -0700
+Message-ID: <20261029062801.28598-2-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -57,79 +67,239 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+From: John Starks <jostarks@microsoft.com>
 
-The following changes since commit c03c1a14507dfaf8b856c2608f9ac216021fc222:
+Userspace VMMs need to reset a child partition's hypervisor-managed state
+without destroying its VPs or rebuilding its memory and eventfd
+registrations. Exposing HvCallScrubPartition through generic hypercall
+passthrough would bypass the synchronization and cached-state updates
+needed by the driver.
 
-  Linux 7.3 (2026-10-18 13:14:58 -1000)
+Add MSHV_SCRUB_PARTITION as a no-argument partition-fd ioctl. Hold the
+partition mutex and try-lock each populated VP mutex in index order,
+using the partition mutex as the lockdep nesting lock. Return -EBUSY
+without issuing the hypercall if a VP is busy. This excludes VP ioctls
+without waiting indefinitely for a running VP; userspace must stop its
+run threads before requesting scrub.
 
-are available in the Git repository at:
+After a successful scrub, clear cached intercept suspend so the next run
+clears explicit suspend rather than trying to consume a stale intercept.
+Preserve deferred blocked waits and notification accounting: a VP becoming
+dispatchable does not imply its host notification has already arrived.
+Keep the locks through this update and unwind them on every exit.
 
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20261028
+Scrub is nonallocating, so issue one fast hypercall, trace its status and
+return the existing errno translation. Let the hypervisor determine which
+partition configurations support scrub. Device quiescing and restoring
+guest execution state remain userspace responsibilities.
 
-for you to fetch changes up to 33b28f3b313353f11fc939e9a268605e66290d0b:
+Signed-off-by: John Starks <jostarks@microsoft.com>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 
-  Drivers: hv: Remove leftover support for old Hyper-V versions (2026-10-25 15:11:09 -0700)
+---
+Tested repeated scrub/run, sparse and 64-VP locking, busy unwinding,
+interrupted blocked runs, concurrent memory invalidation and irqfd
+activity on x86-64, and delayed notifications with separate diagnostic
+instrumentation. The affected ARM64 objects compile. ARM64 runtime and
+hypervisor scheduling remain untested. Doorbell delivery across scrub
+works, but exposes an existing eventfd hardirq wait-context warning under
+lockdep, separate from this change.
 
-----------------------------------------------------------------
-hyperv-next for v7.4-rc1
- - Update to documents and code comments (Michael Kelley)
- - Harden Vmbus (Kameron Carr)
- - Rework MSHV driver page deposit logic (Mukesh Rathor)
- - Vmbus kexec bug fix (Shradha Gupta)
- - Miscellaneous bug fixes (Daehyeon Ko, Jiale Yao, Sasha Levin)
-----------------------------------------------------------------
-Daehyeon Ko (2):
-      mshv_vtl: detach poll waiter on POLLFREE
-      mshv_vtl: reject poll files with multiple waitqueues
+GitHub Copilot generated the implementation and test probes, investigated
+locking and notification handling, ran builds and Incubator tests, and
+drafted this description. Human review selected the dedicated ioctl and
+try-lock policy and corrected the nonallocating hypercall contract.
+---
+ drivers/hv/mshv_root.h         |  1 +
+ drivers/hv/mshv_root_hv_call.c | 11 ++++++++
+ drivers/hv/mshv_root_main.c    | 50 ++++++++++++++++++++++++++++++++++
+ drivers/hv/mshv_trace.h        | 17 ++++++++++++
+ include/hyperv/hvgdk_mini.h    |  1 +
+ include/hyperv/hvhdk.h         |  4 +++
+ include/uapi/linux/mshv.h      | 11 ++++++++
+ 7 files changed, 95 insertions(+)
 
-Jiale Yao (2):
-      Drivers: hv: vmbus: Check ACPI companion before use
-      mshv_vtl: initialize poll file mutex before device registration
+diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
+index 1f086dcb7aa1..0c89d47c3ab5 100644
+--- a/drivers/hv/mshv_root.h
++++ b/drivers/hv/mshv_root.h
+@@ -279,6 +279,7 @@ int hv_call_create_partition(u64 flags,
+ 			     union hv_partition_isolation_properties isolation_properties,
+ 			     u64 *partition_id);
+ int hv_call_initialize_partition(u64 partition_id);
++int hv_call_scrub_partition(u64 partition_id);
+ int hv_call_finalize_partition(u64 partition_id);
+ int hv_call_delete_partition(u64 partition_id);
+ int hv_call_map_mmio_pages(u64 partition_id, u64 gfn, u64 mmio_spa, u64 numpgs);
+diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
+index cb55d4d4be2e..8ab99f1afeed 100644
+--- a/drivers/hv/mshv_root_hv_call.c
++++ b/drivers/hv/mshv_root_hv_call.c
+@@ -161,6 +161,17 @@ int hv_call_initialize_partition(u64 partition_id)
+ 	return ret;
+ }
+ 
++int hv_call_scrub_partition(u64 partition_id)
++{
++	u64 status;
++
++	status = hv_do_fast_hypercall8(HVCALL_SCRUB_PARTITION, partition_id);
++
++	trace_mshv_hvcall_scrub_partition(partition_id, status);
++
++	return hv_result_to_errno(status);
++}
++
+ int hv_call_finalize_partition(u64 partition_id)
+ {
+ 	struct hv_input_finalize_partition input;
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index cc2cfce2aefd..9f21855b8518 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -1648,6 +1648,53 @@ mshv_partition_ioctl_initialize(struct mshv_partition *partition)
+ 	return ret;
+ }
+ 
++static int mshv_partition_ioctl_scrub(struct mshv_partition *partition)
++{
++	unsigned int i, vps_locked = 0;
++	int ret;
++
++	lockdep_assert_held(&partition->pt_mutex);
++
++	/*
++	 * Run ioctls may wait indefinitely. Userspace must stop its run
++	 * threads; never wait for a VP while holding the others. The
++	 * partition mutex stabilizes even a sparse VP array.
++	 */
++	for (; vps_locked < MSHV_MAX_VPS; vps_locked++) {
++		struct mshv_vp *vp = partition->pt_vp_array[vps_locked];
++
++		if (vp && !mutex_trylock_nest_lock(&vp->vp_mutex,
++						  &partition->pt_mutex)) {
++			ret = -EBUSY;
++			goto unlock;
++		}
++	}
++
++	ret = hv_call_scrub_partition(partition->pt_id);
++	if (ret)
++		goto unlock;
++
++	/*
++	 * Scrub clears intercept suspend and sets explicit suspend.
++	 * Retain deferred waits and lifetime notification accounting.
++	 */
++	for (i = 0; i < MSHV_MAX_VPS; i++) {
++		struct mshv_vp *vp = partition->pt_vp_array[i];
++
++		if (vp)
++			vp->run.flags.intercept_suspend = 0;
++	}
++
++unlock:
++	while (vps_locked) {
++		struct mshv_vp *vp = partition->pt_vp_array[--vps_locked];
++
++		if (vp)
++			mutex_unlock(&vp->vp_mutex);
++	}
++	return ret;
++}
++
+ static long
+ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -1662,6 +1709,9 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_INITIALIZE_PARTITION:
+ 		ret = mshv_partition_ioctl_initialize(partition);
+ 		break;
++	case MSHV_SCRUB_PARTITION:
++		ret = mshv_partition_ioctl_scrub(partition);
++		break;
+ 	case MSHV_SET_GUEST_MEMORY:
+ 		ret = mshv_partition_ioctl_set_memory(partition, uarg);
+ 		break;
+diff --git a/drivers/hv/mshv_trace.h b/drivers/hv/mshv_trace.h
+index e7280c47e579..9f6d9e67d987 100644
+--- a/drivers/hv/mshv_trace.h
++++ b/drivers/hv/mshv_trace.h
+@@ -71,6 +71,23 @@ TRACE_EVENT(mshv_hvcall_initialize_partition,
+ 	    )
+ );
+ 
++TRACE_EVENT(mshv_hvcall_scrub_partition,
++	    TP_PROTO(u64 partition_id, u64 status),
++	    TP_ARGS(partition_id, status),
++	    TP_STRUCT__entry(
++		    __field(u64, partition_id)
++		    __field(u64, status)
++	    ),
++	    TP_fast_assign(
++		    __entry->partition_id = partition_id;
++		    __entry->status = status;
++	    ),
++	    TP_printk("partition_id=%llu status=%#llx",
++		    __entry->partition_id,
++		    __entry->status
++	    )
++);
++
+ TRACE_EVENT(mshv_partition_release,
+ 	    TP_PROTO(u64 partition_id),
+ 	    TP_ARGS(partition_id),
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 6a4e8b9d570f..c0172699b145 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -478,6 +478,7 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_NOTIFY_PARTITION_EVENT                   0x0087
+ #define HVCALL_ENTER_SLEEP_STATE			0x0084
+ #define HVCALL_NOTIFY_PORT_RING_EMPTY			0x008b
++#define HVCALL_SCRUB_PARTITION				0x008d
+ #define HVCALL_REGISTER_INTERCEPT_RESULT		0x0091
+ #define HVCALL_ASSERT_VIRTUAL_INTERRUPT			0x0094
+ #define HVCALL_CREATE_PORT				0x0095
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 0c89c62c9706..d0043860693c 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -369,6 +369,10 @@ struct hv_input_delete_partition {
+ 	u64 partition_id;
+ } __packed;
+ 
++struct hv_input_scrub_partition {
++	u64 partition_id;
++} __packed;
++
+ struct hv_input_get_partition_property {
+ 	u64 partition_id;
+ 	u32 property_code; /* enum hv_partition_property_code */
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 32ff92b6342b..7681e3c73a7a 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -255,6 +255,17 @@ struct mshv_root_hvcall {
+ /* Generic hypercall */
+ #define MSHV_ROOT_HVCALL		_IOWR(MSHV_IOCTL, 0x07, struct mshv_root_hvcall)
+ 
++/*
++ * Scrub a partition's guest state; takes no arguments.
++ * Stop all VP run threads first: a busy VP causes -EBUSY without issuing
++ * the hypercall. On success, the VPs are explicitly suspended.
++ *
++ * Kernel resource registrations and VP fd/mmap lifetimes are preserved.
++ * Userspace must quiesce its devices and restore guest execution state.
++ * Failure does not imply successful reset or guaranteed rollback.
++ */
++#define MSHV_SCRUB_PARTITION	_IO(MSHV_IOCTL, 0x0B)
++
+ /*
+  ********************************
+  * VP APIs for child partitions *
+-- 
+2.53.0
 
-Kameron Carr (5):
-      Drivers: hv: vmbus: Bounds check the shared ring buffer indices
-      Drivers: hv: vmbus: Use *_ONCE() to access shared ring buffer indices
-      Drivers: hv: vmbus: Compute ring byte counts from a caller-held snapshot
-      Drivers: hv: vmbus: Keep the ring byte counts sane for a bad index
-      Documentation: hyperv: Describe validation of the ring buffer indices
-
-Michael Kelley (4):
-      Documentation: hyperv: Update documentation for sending VMBus packets
-      Documentation: hyperv: Remove support for guests on Hyper-V 2012/2012R2
-      Documentation: hyperv: Update information on guest CPU offlining
-      Drivers: hv: Remove leftover support for old Hyper-V versions
-
-Mukesh R (3):
-      mshv: Rename memory deposit memory functions to _old
-      mshv: Redesign hypervisor memory deposit logic
-      mshv: Remove unused *_old memory deposit functions
-
-Sasha Levin (1):
-      tools: hv: remove unused rte_smp_mb()
-
-Shradha Gupta (2):
-      kexec: Add helper to report an active kexec reboot
-      Drivers: hv: Run VMBus kexec cleanup from syscore shutdown
-
- .../device_drivers/ethernet/microsoft/netvsc.rst   |  14 +-
- Documentation/virt/hyperv/clocks.rst               |   8 +-
- Documentation/virt/hyperv/coco.rst                 |   5 +-
- Documentation/virt/hyperv/overview.rst             |  28 +--
- Documentation/virt/hyperv/vmbus.rst                |  17 +-
- arch/x86/kernel/cpu/mshyperv.c                     |  27 +--
- drivers/hv/hv_common.c                             |  10 -
- drivers/hv/hv_proc.c                               | 260 ++++++++++++---------
- drivers/hv/mshv_root_hv_call.c                     |  10 +-
- drivers/hv/mshv_vtl_main.c                         |  55 ++++-
- drivers/hv/ring_buffer.c                           | 126 ++++------
- drivers/hv/vmbus_drv.c                             |  30 ++-
- include/asm-generic/mshyperv.h                     |   7 -
- include/linux/hyperv.h                             |  58 +++--
- include/linux/kexec.h                              |   2 +
- kernel/kexec_core.c                                |   7 +
- tools/hv/vmbus_bufring.c                           |   6 -
- 17 files changed, 363 insertions(+), 307 deletions(-)
