@@ -1,49 +1,172 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793332849;
-	b=QGtJwhIJckAzAXDVpvqOs1c1N5NIu/TJ66ti6fZkpjweOhFPTjjn3fVEXJ/s/koh+x70
-	 XumOfDh4+E3rlW5LNvE5og14Sm6fBb8p+PTC46pgjgOKSoAd0L76C8wKDUe1ZvXE8e/ud
-	 HdAUqizgoH3muApufZnht9sw3f59DiUL/EFhzgU+JCau4qtPnjPyVSxq4G86abr6/yYG7
-	 QP107VWTmNyqeTeQXSl4Bx+oANVHBVqDopl7EvTwPlk3gyZFOe0VnbPC4xI2Gpd1ciHxl
-	 hZ4bEL7FDCm1+AjHsqJf+CaEXeu+o3AqSvZqKzWpEz7iU9vXWHUxKVHFTqHRCG7YwVQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793332849;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=ZymhCZv4QhfyzB3ebHwIZug3V/c78mQ4jnj3xtengqc=;
-	b=HJw6FWvDkV0ys4K0XIe8KDJ3vSlOKQUJor6mLol3bkGay1nnlge5waeK94qS6AAYuj4d
-	 d4QyLarwAqkj+MIOUlVYKzzJvxVEI6w41XGIsjYLPT66uMZN4GShPrDNRTdX6Yf1gWTdB
-	 sq6smKjTNUlMcsUz0GVH8oTzQ5mXs5mDON9VGpOjTxHXyMhISsgVQr+XFRa3ywuQ2bMwV
-	 5KYQBeM34fkNAm+D2qnOMyBWCNtVZNYkKtbUal/t9IA2/E47PYo2ejnNORAO/6pvrQrm2
-	 hBaqUoAF8eWXo1RLJlqR+j+0zxHJZjvqvPXZfwpZbgZBm8ORr64D2FVp9zrv8sIB9Sg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S3gXzT7n;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18DFC606A31A;
-	Fri, 30 Oct 2026 04:00:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18DFC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.27
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793333403;
+	b=ZZBERtzzmF2HuzyifYEk5/yokIwBziTQwrscxBnbeNGpxNW+ODodVIwn8P3VXRlkAAf0
+	 oQW3OH86miJWllms7h/f/GuaWjETByXfMKa1pfrNGpIgQjUP5mYznMFqSy4BWa4nATCYb
+	 tTvRrd0vtK5Zs2koZeI9DMXxu541SGZsQ+OXC35xmK8J+ObMJgrGCh+5FmTEJrirbtr5h
+	 a2zr/k3I5TjH80dOasZw0VqZ87MB1zWIrWilZNRjLjc9J564q1C4odTueRJaOdqgjH+BT
+	 6O5qHHswV0KQY3ZOQaMHc0QwlrJWvhyjQZuxT/xNxRYClfkouOgQpugtevXgN/EVR2w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793333403;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=xwG9ti42pSvdPK62jPI37V6+xPimomhHPJMQUyLG4ko=;
+	b=eiGngQHAvhBzotHCizobnnCO9avswKSk9qkkfelVQvH4zWVnvuZW6shbOIRou0IZxWJX
+	 lK8WhKjxOXVa5wTlay85rkVBHKY4NqIaNeE6wI+lmK5C/YcdhfYEzw1DxETuQPX72g3r+
+	 bkIcw0wfstB21SKL3acJQSA7glmOPY/5qKGPM4tsfBINlv2kMAzSjf9VzI/i8sfldiaUg
+	 sbCA6sZ5Y2e8ATDOQvMC+TJqHibs9CH63FaZZQHijYnvhv6l7qoMtW9wTia+U+14XY9ib
+	 ARPssaOc7vRpbicOjSsYy3EarJ8JGIazivQkJQqaLFCXGMthbt8WxDkhe4ZWm0POQDQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=aWaw9frs;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.27
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazolkn19011027.outbound.protection.outlook.com [52.103.14.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3F2606A31D;
+	Fri, 30 Oct 2026 04:10:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC3F2606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S3gXzT7n
-Received: from [192.168.1.70] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0049020B7166;
-	Thu, 29 Oct 2026 21:00:31 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0049020B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793332835;
-	bh=ZymhCZv4QhfyzB3ebHwIZug3V/c78mQ4jnj3xtengqc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=S3gXzT7ngOUpeWZ+y63S1dUQvRyR16J3LxH6MTy95tnmo8SQKb3ehM2z9bU5cZxXA
-	 0slBa0D3pONNwxsFuxTqCq7rKts4woRooKbcFoeUy1wLIpZasZIj3G9GI2vIZlZAYY
-	 b/gkDO3Vd+g1uGujfjVirzeUXQLZl+13tL0UYtKI=
-Message-ID: <474b50db-438e-4ab5-8e8e-cf4dd713885a@linux.microsoft.com>
-Date: Fri, 30 Oct 2026 09:30:46 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=aWaw9frs
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WolUqhKMbby1RH/K94/lml1e3g1f8AJOkboSjyJCncZFYX/1Cu2iNMoH2FxGrWbwpd3DPFX3vgkrLJWC1aVzbSxqdQgKQz5rhjaPHKMjt/5ArJk/sIUcvgUHuMqhWSo32TJptU27I5xYww/bAm5D2x/9u1HJm72ZK5c55m6uQ0jwhhmJOEknXLv1e30lrI0GT9UcL4G/fvlSPFKCxXm1t5tpmjjU+MoE6TCLo6tilCBFuGl2+hFoURdG8+R7kY6+3e0suGXdINIWRjEzc2oVUSCxAVVZA1tfZ9NYmuKYS5ko9ftuVQ872qxyzo0GTCKP0dqUt6uza3AsLCeBvoINhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xwG9ti42pSvdPK62jPI37V6+xPimomhHPJMQUyLG4ko=;
+ b=J0KHmTwmroCAE3c1NoCdkLH5mdDvoC1p1gfMz8n6BxH/YdgVYmoTOK6gCcZPq8ZEXy1+d/Rf1iH2XXLR+63InljOim2uqdjP54u2Lf8xCCWuclCYEOFKfFdTCCkeQlTionaOTBOcMnTbfkaDkyMca4W9rtxWNoS3YAUEM6Oi4scOrJlfT8teAqUSCysb/igzLEyJM7n8ANpl6watZYUUWMuGt+5wCMyvSG78VU5Zes0k/qSXFfXsR7Jzo7m5he/B04FgvZirHoAJWZIa0iM+eQs4TedUS4F0cTqfRwjXQdLQcbl5LrB1QF+nwR1NUulhUSHivL10aQEQpOJrUPcR4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xwG9ti42pSvdPK62jPI37V6+xPimomhHPJMQUyLG4ko=;
+ b=aWaw9frsdyaL/UhnMhC6dwYiggevRq9kPh4PX6UJjX0Ru9+IPsHYwBscG/grfpv5isaulwvfBhLxJC0kLVDgi7bB6RwXuU/ibc1mTuTp2m7r+13qaQOO2hKK3CxnAul6CtmX/9NS91U6lkZY4yr1+UUAGQ+fydJMR+0quYOYf+HtkdOXQZjB6H8L1aLVD8w95CIoCoojvV2h4wSqhQ2bbVaLg4iOW+Sk4bvjVbXdfZrTNN4CRVVG7Rxda3NZTlJSdbByRdFbQFBS6XUr18MN0ES+Qmi/jqkf1XH8i+qOLgmTfbpMdsqsQoUtjKcus5C5guYqqoZqwQL9K8ZDq+6YhQ==
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
+ by CH3PR02MB9561.namprd02.prod.outlook.com (2603:10b6:610:123::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Fri, 30 Oct
+ 2026 04:10:00 +0000
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0569.008; Fri, 30 Oct 2026
+ 04:10:00 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Naman Jain <namjain@linux.microsoft.com>, Michael Kelley
+	<mhklinux@outlook.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
+	<decui@microsoft.com>, "tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "luto@kernel.org" <luto@kernel.org>, "peterz@infradead.org"
+	<peterz@infradead.org>
+CC: "hpa@zytor.com" <hpa@zytor.com>, "riel@surriel.com" <riel@surriel.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] x86/hyperv: Account for lazy mm_cpumask maintenance
+Thread-Topic: [PATCH] x86/hyperv: Account for lazy mm_cpumask maintenance
+Thread-Index: AQHdZ3C2Be7Y2HjmoE+0hlCk1ld9dbcVYQBggAAWmgCAAAKS4A==
+Date: Fri, 30 Oct 2026 04:09:59 +0000
+Message-ID:
+ <MN2PR02MB6863A7998D308F09CB560103D46D2@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <20261029064234.362385-1-namjain@linux.microsoft.com>
+ <MN2PR02MB686397041FA339BEC423FBB3D46D2@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <474b50db-438e-4ab5-8e8e-cf4dd713885a@linux.microsoft.com>
+In-Reply-To: <474b50db-438e-4ab5-8e8e-cf4dd713885a@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CH3PR02MB9561:EE_
+x-ms-office365-filtering-correlation-id: e7767a48-3aa5-4595-9397-08df363baa6b
+x-ms-exchange-slblob-mailprops:
+ znQPCv1HvwUXBahuwteIkQeW30lJPuxOdJvhEM5X11Z4r7pvI86XbVz/X6k4miRiaBh/qSqlksK/S7QSLx+sNR+AfwHs60SPq6dmiPbdohDkFbCtDoiXtKqLYJrvYtbz6JZFIG7tcNOUa+88fxdVYq/bmhpkn3bM/BHVD40azlR3VTpo510lZVDoNesvLV7s5l2r3SLepunO1dMU9rlZi8dxX16BeAukuj2UhCdItnKCSOEQcF9v2BiKVpwIKTRh3mWT9uNhQETR68VskgbD9qSXPdtQ3NUZrR7eLmElVs4hlk9CbZLgmmEHcdSMPbO/2m1Yz8W6PPCCF/VqOWCk2vc1kteLFP/MjmHHtbrsIFaTTmRxAj39dZBbnMuTP/P6o96h8HRgZ9Fw5bA4ENeEE5mrKQW4SxRe/gjlIT83mnwSaymOV7CEELeEfJnjC0ouxe+rejoYsOisUZoAhQ3eThCX4HJN7ifIPOvSfjbA5m/TdzEHzQu4XwiJ08Oc06575eGrJYUqAEbC4H15xsgdWF2heuuywcvHgCSMdF8NJFPcTeOyynZjIbVfec9lB0adsYiQCsaVvn2UAVMMqZFo2YSiIDAatG3tXLmgPnc/ZEDv/XycYOprS0Ms3muiqvgjzU1zjM6cB3gzgya3FInsE3TjHlq3ri6wVrrEJzS6cdelqLXF2zG5B+NxZtQmCQ1mgb2blInqP0qOyTnjgWJIPq8Mk9rlBEa3SCpsWEXEZMZI3JAUn/swYou+fdMAqEjf98jBMlF0yiw=
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|25010399006|13091999003|31061999003|8062599012|8060799015|55001999006|12121999013|24021099003|19110799012|15080799012|11091999009|41001999006|21061999006|51005399006|37011999003|40105399003|102099032|440099028|3412199025|1710799026;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?TzRhUXF1RzZZdkVwd1JzUEZvSWFWQk9rU2tsekJCS0ZQY3I5bkFDSlVtWEtD?=
+ =?utf-8?B?d3l4WXJ6UFgwYjJFenNua2g3K1J2OEd0WGRzUyt6MmFZblp3c2xJdFRwWkFh?=
+ =?utf-8?B?dU93OWZ1dEMxV0IveHBQeGtYV2dIdkg1aW9xbStnU0M2dExuWTVFbm1BcHZo?=
+ =?utf-8?B?Q2VYRExuLzNoL1VCMytHSkUwNmpiWUNxbzdVa1NvVlQ4V3ZSRWk3NHZ1ekhR?=
+ =?utf-8?B?VXNFKzlka1RxRjFLaW1OUFJXdW1IelBBS1g3RWF1bFRVYTVEcStVWUNPQU9n?=
+ =?utf-8?B?R2JhMjJqNVY1bWJqZGs2akt6Y3prTkxJcmVrUXlUL0cvL1oyblIyUVJMdUJV?=
+ =?utf-8?B?UHFIeEF5RTVpclN0TG10MUtpK2ZaenV1YlBkVm1OSW9Lejh6NXVodU0rUkJH?=
+ =?utf-8?B?TjQyL2RrNmNqamdpRzZBU0RlQVZadDVRdDkySTBMUmk4RWpmVitXeGRMNFJx?=
+ =?utf-8?B?Vm1nZWZtVW9GTk4xU2F5OFprNElGRVh5OENXM0xjb2JRcWxqalN1VUZuYW9x?=
+ =?utf-8?B?N1FaTGRZNVBiMDRWNTlpeVVJVjVrYktPRHkwS0FJeGdSRkcyc3hvdGFwSHVH?=
+ =?utf-8?B?QkVMeVJaaDN0Kzk3NEZYaXVDVjZzY0tTYmt2bGwrOWVDNS9hMFhlc2ZITWlK?=
+ =?utf-8?B?TG85cXpWV3FuV21xek1xOTFtV2lIcWlTdU56N3NjcXdMNkFxblBjVGdjNHBS?=
+ =?utf-8?B?czlFWWozQzQyYnFUOWE4SWVEMDRVT3d3YzVCS2dhNC9LOUZEcDdoZDJ2bzlo?=
+ =?utf-8?B?SklvQUEwclhnVnpVL01IbXllZmxYMDJoK2tWUXI0TTN1SXYrbG1qY3FGR25P?=
+ =?utf-8?B?dGFGSFJDYk5hRnlSdHRucExDWGZMUGNCeUVVdDlBbTJpd2gvYnlLZDB2d0N1?=
+ =?utf-8?B?VndhSzU1eGRXSG1WWlUyVFIzREVhRXd6NjhEM1hiQ1lQaGg2TUJNWmNUVW52?=
+ =?utf-8?B?cEdRa0l5OHlPS2JZWEo0UE42QzZkZzBwMC9jSlR6eHd2UG9BSDVBcEZsMzBu?=
+ =?utf-8?B?U0ozcGVNT0RJVkJTK3pUbGN6YWNFRG5JODFYa2FqK1NldmtmazVpRnJCcmtr?=
+ =?utf-8?B?UXJISkptOUtmaFVodkYzREIxNzZOWTVoOERiSmZQT3FEZ0RpV3BRaHdCRkk4?=
+ =?utf-8?B?ZDNWWnl3MURVWVhIZVpjMHVTaFBDY0JvdUNRUml2M3F0Uk80WHdNN3hzWGdP?=
+ =?utf-8?B?QTZzdFVRb1lDZXNSNFM2aFdMMVZucXVOcGlvelF3dFJLU1FnTXhsL1ZJNVhv?=
+ =?utf-8?B?TEFtU1BZY2c5aUFwTFoyMWRoNFh6NVZnSjBBN2QvdllKdXZxRzhJSmRpY21S?=
+ =?utf-8?B?Q0FGckMvTzVJcDdCVXBjeWxhNTFIRTJoeHA0a0h6TkNrRFBNSng4RHpHWDA2?=
+ =?utf-8?B?Vi85ejBJeGJ3eWFOZHdYeFR6RmZjVXRReDBvRUlydWRJbDZMY1J3Qys2eXpI?=
+ =?utf-8?B?b0NKeVoyVWhkbzJ2RGpEbi9xVEhVMGIrUHF0R3FUWmlVQUtlMnhLRExycDU5?=
+ =?utf-8?B?MFp1Mm83bi9QRXZMUEdMVzVlZW9qTWFSMHJPdjRSMWhiMGZwREdCWWVjNkM4?=
+ =?utf-8?Q?vTD2Li2PJSyNGz53BzVn9em34W1oRxdxb8QdpkKiRke9Ya?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?N1pMdldqLzJrREpXSEprSmZPejQxTnN2eVB2UUJ1MDd4SXZ0bDRRYThyYkZn?=
+ =?utf-8?B?dERGRktaRksyYUl2dGNBcWxOQVZReFZaNVJrLytZaFNRWUxTZWZmQTlzYnF5?=
+ =?utf-8?B?YjMwN0Vvci9LUXpIbGZLQ2l5NTRPRnpORUpHTm5PdFRjbW1UOHRyNE1LNWJq?=
+ =?utf-8?B?ZEhEaERPeEY4aVZLc2dXdnNHZTlaQWduRmJDZDc2TTVYK2IyclM1eGJlRDNR?=
+ =?utf-8?B?M0ZWMk5oSU5nUWxKTFQ3ZWRJNGdvNjdTd1RFZ2xJOUtKbWJUa1RqM2F1TTFh?=
+ =?utf-8?B?VmkxRjhNU3BOZXh0VVhwNUdSUStqOVhzaW5wQndZLzdFZkpDdmwydi93RFlF?=
+ =?utf-8?B?dVZPdythekwwaDY1eGs2dTY3QjU0OHp5M2ZzTXYvYzFjblpvRWxxVlpsWkxS?=
+ =?utf-8?B?MnVFeVF2UEpWUUVNcXAzSVV2ZGRqQ1lSdGJNVHhoRUp5bnY4WHhsU3BEZkRQ?=
+ =?utf-8?B?NTBVdHdzN3NvZ1U5U1ZIOXhMQWxmaXFwTUlHOU0vaVRFV1U5dmhoZ05IbnIz?=
+ =?utf-8?B?YVRDNnBUaEF2WEU0Ymo2NWtVd2Y5RjR1cUpib2t4ekg0OWJjeXVWWlhLMnZH?=
+ =?utf-8?B?NEFwYWdzSGFEdm1LK1laZyt2TldWTWIwSmEwajY2WUxna2lpTnFQbERyVlkw?=
+ =?utf-8?B?dTBYbDB5LzhxSkFva29zL0hxUTBHSjN3ejU4ZFg0bXE1RHp3TC9nUk1oMVl2?=
+ =?utf-8?B?YkQ0T29mamlnY0F2bVlEUWQxTlYwVjV1bEg2Q2RRTi9TeW45cmtFVmRGcENL?=
+ =?utf-8?B?SjJRT1ZyZzNSUmlWbEY4SWN5b1h5Q3R4M2kwWGM5ZlFGWkdvZ29ZQSsrR3Jz?=
+ =?utf-8?B?RkZoVmMralQzUDh1SUV3b0ttaDhsYnRHb1liMC9UYzFuZVdJY2Izc2EzeWtv?=
+ =?utf-8?B?R3RXTXVBS0dCTHNoeDNSZjg4cmVlMWtFSHdINk1HZzZFakdjcHlFMnlOVVBp?=
+ =?utf-8?B?aUE4V1M2Q0ozUUU4OGptRk9iZHd0YUFyZGpUdEkxQzlzaDgvT3BYMUxxdVcy?=
+ =?utf-8?B?NVVyZFF6My9JeHZjaUcvb28vSUY1UXMxdEM4K1ZMU2hxL3dQemlkSTZBczhC?=
+ =?utf-8?B?eWFUQms5Z0VBYWFXZW1QaXdzL2dTc1dzekxtQ1MrWmM3bm5hYmJ6aXh2cXQ5?=
+ =?utf-8?B?Zk1xcXYvQTlISENuaDJkRXYrTHFBTU9PVTk4eld6aHh3Z0hQcExkbUg2R1Nq?=
+ =?utf-8?B?eGJqK0tyTjZEM3pNUHBqcGV4ck96L1FRWnVsREN0eDYreW9rNTZ2YjExSjk4?=
+ =?utf-8?B?OW5GU0Y5WDRZMWxZNkxkUzU4TXQ0cDNkTkdkNkhuM1N3RStKRmduM2lQL2sr?=
+ =?utf-8?B?THpPVFBIdjdncUEzVzYycmJMT0I4YlpsRVl0QTAzNnV0MUNPOC92V0I2N1Mw?=
+ =?utf-8?B?enhxNFZRRDE5clJuL0ZEWmFBN05zM2dlSXdIVmY2MTNJWW9INXFVNHJSMm1k?=
+ =?utf-8?B?eDNiZ0w4LzFaeVhrRThpU1Btb09nQ2FFc0o4NWFEU2NPeTVZQkp5WlJIRWtG?=
+ =?utf-8?B?NTJlWHlydzJLcnJSZ1N1YVpIOTBrY00zYWdYMzR5cW14Y2ZmTzdkUW5kSXhL?=
+ =?utf-8?B?bGx3L2FhQVdWTlBPNi83akd2bGpQMWZtcC9ZVUxEV1ZYYlN5ckozM0RZSkxl?=
+ =?utf-8?B?U1pCanV6ODNEeUN5S2lNVnovNSs0RWVmcDlWVVozZzhBOUFaSlpBRG10OEt1?=
+ =?utf-8?B?a3hFM2ZNMm1MaVdEMjNKVGlpMjFxSFgvd3RsOVN1TWJxRVdMSkZBZ25MNWNq?=
+ =?utf-8?B?QnA0ZjhsNWZ6d1prZUFjaHRSZWE2ZWlkVUNkT25pNlNUOTJTZ0pzWXdJRmRI?=
+ =?utf-8?Q?/3XV4a4VIuu+Bb0OeVSEW7NmDYZfWFKHP7egc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,142 +176,127 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] x86/hyperv: Account for lazy mm_cpumask maintenance
-To: Michael Kelley <mhklinux@outlook.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "luto@kernel.org" <luto@kernel.org>,
- "peterz@infradead.org" <peterz@infradead.org>
-Cc: "hpa@zytor.com" <hpa@zytor.com>, "riel@surriel.com" <riel@surriel.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20261029064234.362385-1-namjain@linux.microsoft.com>
- <MN2PR02MB686397041FA339BEC423FBB3D46D2@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <MN2PR02MB686397041FA339BEC423FBB3D46D2@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7767a48-3aa5-4595-9397-08df363baa6b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2026 04:09:59.9746
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9561
 
-
-
-On 10/30/2026 8:09 AM, Michael Kelley wrote:
-> From: Naman Jain <namjain@linux.microsoft.com> Sent: Wednesday, October 28, 2026 11:43 PM
->>
->> CPUs no longer running an mm may remain in mm_cpumask(). Hyper-V treats
->> these CPUs as flush targets and bypasses the native callbacks that trim
->> the mask. A single-threaded process can therefore keep issuing
->> all-processor flushes after visiting all CPUs and returning to one CPU.
->>
->> Share the native target predicate and filter the mask before building
->> either hypercall format or selecting HV_FLUSH_ALL_PROCESSORS. Preserve
->> lazy-TLB exclusion and unfiltered page-table-freeing flushes, and use
->> native callbacks for periodic trimming and ASID transitions.
->>
->> When no remote targets remain, request immediate trimming through native
->> callbacks so stale memberships do not unnecessarily prevent later
->> invalidations from using the local fast path. Leave lazy CPU-mask
->> maintenance during context switches unchanged.
->>
->> Fixes: 209954cbc7d0 ("x86/mm/tlb: Update mm_cpumask lazily")
->> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
-> 
-> I've read the commit message but haven't yet delved into the code for
-> this patch. But the commit message feels like it is missing some context,
-> particularly with the "Fixes:" tag.
-> 
-> I recall the last significant change to hyperv_flush_tlb_multi(), which takes
-> CPUs in lazy tlb mode into account, and thereby avoids unnecessary flushing
-> (commit 493cc07385cf, made in March 2023). It was a case where the
-> native x86 flush code had gotten smarter, and the Hyper-V PV flush
-> functions had not been updated to be smarter in the same way. Against
-> that context, what is the situation here? Commit 209954cbc7d0 came a
-> year and a half later in November 2024. Did it make things worse for the
-> Hyper-V PV flush functions, and hence is deemed to have "broken"
-> them? Or is it another native flush improvement that the Hyper-V PV
-> flush functions just don't take advantage of?
-> 
-> I'm also curious how the issue was noticed. Was there a real-world
-> performance problem, or is it a case of looking at the code and
-> noticing a native improvement that hadn't been applied to the
-> Hyper-V PV flush functions? The scenario of a single-threaded process
-> visiting all CPUs and then returning to one CPU seems contrived,
-> particularly as CPU counts get large. It may illustrate the improvement
-> that is possible, but to me seems unlikely to be how the problem was
-> originally noticed.
-> 
-> I intended to review the code carefully, but the additional context
-> would be helpful in doing that review.
-> 
-> Michael
-> 
-
-Thanks Michael for looking into this.
-
-We first observed a performance regression between Linux 6.8 and 7.0
-on Azure MI300X VMs running SuperBench's eight-GPU PyTorch LSTM training
-benchmark, using distributed data parallelism in FP32 and FP16.
-Recreating DataLoader workers each epoch triggered long host-to-GPU
-copy stalls and timeouts. We bisected the regression to commit being
-fixed and then developed the reduced reproducer to isolate the excessive
-Hyper-V TLB flushes. The CPU-visiting test came out of that
-investigation, it was not how the problem was originally noticed.
-
-209954cbc7d0 ("x86/mm/tlb: Update mm_cpumask lazily") changed where
-stale mm_cpumask entries are removed. Previously, switching a CPU from
-mm A to mm B cleared its bit in A's mask. After that change, the bit is
-left set for removal by the native TLB flush callback when it finds a
-different mm loaded.
-
-The Hyper-V hypercall path bypasses that callback, so historical
-memberships can persist. The lazy-TLB check from 493cc07385cf does not
-cover this case: a CPU actively running B can have is_lazy == false
-while still appearing in A's mask. Hyper-V then unnecessarily targets
-it when flushing A. If the historical memberships cover all present
-CPUs, the all-processors shortcut is selected before the per-CPU
-lazy-TLB checks.
-
-So the later change did make the Hyper-V path worse for affected
-workloads, rather than merely adding a native optimization that
-Hyper-V could also benefit from. That is the reason for the Fixes tag.
-This is a performance regression, not a stale-translation correctness
-failure.
-
-The reporter has also tested the patch on a 96-vCPU MI300X VM. The
-unpatched SuperBench workload hit the 600-second timeout; two patched
-runs completed in 424 and 436 seconds, with all eight ranks validated.
-The kernel configurations matched apart from kernel identity, and
-the GPU driver source and executable text were unchanged.
-
-For the reduced reproducer, the 96-CPU-history case dropped from
-109.196 us per iteration to 1.594 and 1.616 us in the two patched runs,
-about a 98.5% reduction. Each iteration contains two mprotect() calls
-and a write, these are not individual hypercall timings.
-
-The patch preserves your lazy-TLB exclusion and lazy CPU-mask
-maintenance during context switches. It filters the targets before
-selecting the hypercall format or the all-processors shortcut, and
-uses native callbacks for mask trimming.
-
-I restricted the commit msg to the mentioned 32 vCPU VM because that was
-the one I got my hands on. I'll try to update the commit message or the
-comments to explain the real workload, bisection, and distinction
-between lazy TLB mode and lazy CPU-mask maintenance. But I'll wait for
-any review comments to address them together.
-
-Thanks,
-Naman
-
->> ---
->> On a 32-vCPU Hyper-V guest, after a single-threaded process visited all
->> CPUs and returned to one CPU, the reproducer's median time per iteration
->> (two mprotect() calls and a write) dropped from 17.235 us to 1.622 us,
->> a 90.6% reduction. This could be more on higher vCPU VMs.
->>
-<snip>
-
+RnJvbTogTmFtYW4gSmFpbiA8bmFtamFpbkBsaW51eC5taWNyb3NvZnQuY29tPiBTZW50OiBUaHVy
+c2RheSwgT2N0b2JlciAyOSwgMjAyNiA5OjAxIFBNDQo+IA0KPiBPbiAxMC8zMC8yMDI2IDg6MDkg
+QU0sIE1pY2hhZWwgS2VsbGV5IHdyb3RlOg0KPiA+IEZyb206IE5hbWFuIEphaW4gPG5hbWphaW5A
+bGludXgubWljcm9zb2Z0LmNvbT4gU2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDI4LCAyMDI2IDEx
+OjQzIFBNDQo+ID4+DQo+ID4+IENQVXMgbm8gbG9uZ2VyIHJ1bm5pbmcgYW4gbW0gbWF5IHJlbWFp
+biBpbiBtbV9jcHVtYXNrKCkuIEh5cGVyLVYgdHJlYXRzDQo+ID4+IHRoZXNlIENQVXMgYXMgZmx1
+c2ggdGFyZ2V0cyBhbmQgYnlwYXNzZXMgdGhlIG5hdGl2ZSBjYWxsYmFja3MgdGhhdCB0cmltDQo+
+ID4+IHRoZSBtYXNrLiBBIHNpbmdsZS10aHJlYWRlZCBwcm9jZXNzIGNhbiB0aGVyZWZvcmUga2Vl
+cCBpc3N1aW5nDQo+ID4+IGFsbC1wcm9jZXNzb3IgZmx1c2hlcyBhZnRlciB2aXNpdGluZyBhbGwg
+Q1BVcyBhbmQgcmV0dXJuaW5nIHRvIG9uZSBDUFUuDQo+ID4+DQo+ID4+IFNoYXJlIHRoZSBuYXRp
+dmUgdGFyZ2V0IHByZWRpY2F0ZSBhbmQgZmlsdGVyIHRoZSBtYXNrIGJlZm9yZSBidWlsZGluZw0K
+PiA+PiBlaXRoZXIgaHlwZXJjYWxsIGZvcm1hdCBvciBzZWxlY3RpbmcgSFZfRkxVU0hfQUxMX1BS
+T0NFU1NPUlMuIFByZXNlcnZlDQo+ID4+IGxhenktVExCIGV4Y2x1c2lvbiBhbmQgdW5maWx0ZXJl
+ZCBwYWdlLXRhYmxlLWZyZWVpbmcgZmx1c2hlcywgYW5kIHVzZQ0KPiA+PiBuYXRpdmUgY2FsbGJh
+Y2tzIGZvciBwZXJpb2RpYyB0cmltbWluZyBhbmQgQVNJRCB0cmFuc2l0aW9ucy4NCj4gPj4NCj4g
+Pj4gV2hlbiBubyByZW1vdGUgdGFyZ2V0cyByZW1haW4sIHJlcXVlc3QgaW1tZWRpYXRlIHRyaW1t
+aW5nIHRocm91Z2ggbmF0aXZlDQo+ID4+IGNhbGxiYWNrcyBzbyBzdGFsZSBtZW1iZXJzaGlwcyBk
+byBub3QgdW5uZWNlc3NhcmlseSBwcmV2ZW50IGxhdGVyDQo+ID4+IGludmFsaWRhdGlvbnMgZnJv
+bSB1c2luZyB0aGUgbG9jYWwgZmFzdCBwYXRoLiBMZWF2ZSBsYXp5IENQVS1tYXNrDQo+ID4+IG1h
+aW50ZW5hbmNlIGR1cmluZyBjb250ZXh0IHN3aXRjaGVzIHVuY2hhbmdlZC4NCj4gPj4NCj4gPj4g
+Rml4ZXM6IDIwOTk1NGNiYzdkMCAoIng4Ni9tbS90bGI6IFVwZGF0ZSBtbV9jcHVtYXNrIGxhemls
+eSIpDQo+ID4+IFNpZ25lZC1vZmYtYnk6IE5hbWFuIEphaW4gPG5hbWphaW5AbGludXgubWljcm9z
+b2Z0LmNvbT4NCj4gPg0KPiA+IEkndmUgcmVhZCB0aGUgY29tbWl0IG1lc3NhZ2UgYnV0IGhhdmVu
+J3QgeWV0IGRlbHZlZCBpbnRvIHRoZSBjb2RlIGZvcg0KPiA+IHRoaXMgcGF0Y2guIEJ1dCB0aGUg
+Y29tbWl0IG1lc3NhZ2UgZmVlbHMgbGlrZSBpdCBpcyBtaXNzaW5nIHNvbWUgY29udGV4dCwNCj4g
+PiBwYXJ0aWN1bGFybHkgd2l0aCB0aGUgIkZpeGVzOiIgdGFnLg0KPiA+DQo+ID4gSSByZWNhbGwg
+dGhlIGxhc3Qgc2lnbmlmaWNhbnQgY2hhbmdlIHRvIGh5cGVydl9mbHVzaF90bGJfbXVsdGkoKSwg
+d2hpY2ggdGFrZXMNCj4gPiBDUFVzIGluIGxhenkgdGxiIG1vZGUgaW50byBhY2NvdW50LCBhbmQg
+dGhlcmVieSBhdm9pZHMgdW5uZWNlc3NhcnkgZmx1c2hpbmcNCj4gPiAoY29tbWl0IDQ5M2NjMDcz
+ODVjZiwgbWFkZSBpbiBNYXJjaCAyMDIzKS4gSXQgd2FzIGEgY2FzZSB3aGVyZSB0aGUNCj4gPiBu
+YXRpdmUgeDg2IGZsdXNoIGNvZGUgaGFkIGdvdHRlbiBzbWFydGVyLCBhbmQgdGhlIEh5cGVyLVYg
+UFYgZmx1c2gNCj4gPiBmdW5jdGlvbnMgaGFkIG5vdCBiZWVuIHVwZGF0ZWQgdG8gYmUgc21hcnRl
+ciBpbiB0aGUgc2FtZSB3YXkuIEFnYWluc3QNCj4gPiB0aGF0IGNvbnRleHQsIHdoYXQgaXMgdGhl
+IHNpdHVhdGlvbiBoZXJlPyBDb21taXQgMjA5OTU0Y2JjN2QwIGNhbWUgYQ0KPiA+IHllYXIgYW5k
+IGEgaGFsZiBsYXRlciBpbiBOb3ZlbWJlciAyMDI0LiBEaWQgaXQgbWFrZSB0aGluZ3Mgd29yc2Ug
+Zm9yIHRoZQ0KPiA+IEh5cGVyLVYgUFYgZmx1c2ggZnVuY3Rpb25zLCBhbmQgaGVuY2UgaXMgZGVl
+bWVkIHRvIGhhdmUgImJyb2tlbiINCj4gPiB0aGVtPyBPciBpcyBpdCBhbm90aGVyIG5hdGl2ZSBm
+bHVzaCBpbXByb3ZlbWVudCB0aGF0IHRoZSBIeXBlci1WIFBWDQo+ID4gZmx1c2ggZnVuY3Rpb25z
+IGp1c3QgZG9uJ3QgdGFrZSBhZHZhbnRhZ2Ugb2Y/DQo+ID4NCj4gPiBJJ20gYWxzbyBjdXJpb3Vz
+IGhvdyB0aGUgaXNzdWUgd2FzIG5vdGljZWQuIFdhcyB0aGVyZSBhIHJlYWwtd29ybGQNCj4gPiBw
+ZXJmb3JtYW5jZSBwcm9ibGVtLCBvciBpcyBpdCBhIGNhc2Ugb2YgbG9va2luZyBhdCB0aGUgY29k
+ZSBhbmQNCj4gPiBub3RpY2luZyBhIG5hdGl2ZSBpbXByb3ZlbWVudCB0aGF0IGhhZG4ndCBiZWVu
+IGFwcGxpZWQgdG8gdGhlDQo+ID4gSHlwZXItViBQViBmbHVzaCBmdW5jdGlvbnM/IFRoZSBzY2Vu
+YXJpbyBvZiBhIHNpbmdsZS10aHJlYWRlZCBwcm9jZXNzDQo+ID4gdmlzaXRpbmcgYWxsIENQVXMg
+YW5kIHRoZW4gcmV0dXJuaW5nIHRvIG9uZSBDUFUgc2VlbXMgY29udHJpdmVkLA0KPiA+IHBhcnRp
+Y3VsYXJseSBhcyBDUFUgY291bnRzIGdldCBsYXJnZS4gSXQgbWF5IGlsbHVzdHJhdGUgdGhlIGlt
+cHJvdmVtZW50DQo+ID4gdGhhdCBpcyBwb3NzaWJsZSwgYnV0IHRvIG1lIHNlZW1zIHVubGlrZWx5
+IHRvIGJlIGhvdyB0aGUgcHJvYmxlbSB3YXMNCj4gPiBvcmlnaW5hbGx5IG5vdGljZWQuDQo+ID4N
+Cj4gPiBJIGludGVuZGVkIHRvIHJldmlldyB0aGUgY29kZSBjYXJlZnVsbHksIGJ1dCB0aGUgYWRk
+aXRpb25hbCBjb250ZXh0DQo+ID4gd291bGQgYmUgaGVscGZ1bCBpbiBkb2luZyB0aGF0IHJldmll
+dy4NCj4gPg0KPiA+IE1pY2hhZWwNCj4gPg0KPiANCj4gVGhhbmtzIE1pY2hhZWwgZm9yIGxvb2tp
+bmcgaW50byB0aGlzLg0KPiANCj4gV2UgZmlyc3Qgb2JzZXJ2ZWQgYSBwZXJmb3JtYW5jZSByZWdy
+ZXNzaW9uIGJldHdlZW4gTGludXggNi44IGFuZCA3LjANCj4gb24gQXp1cmUgTUkzMDBYIFZNcyBy
+dW5uaW5nIFN1cGVyQmVuY2gncyBlaWdodC1HUFUgUHlUb3JjaCBMU1RNIHRyYWluaW5nDQo+IGJl
+bmNobWFyaywgdXNpbmcgZGlzdHJpYnV0ZWQgZGF0YSBwYXJhbGxlbGlzbSBpbiBGUDMyIGFuZCBG
+UDE2Lg0KPiBSZWNyZWF0aW5nIERhdGFMb2FkZXIgd29ya2VycyBlYWNoIGVwb2NoIHRyaWdnZXJl
+ZCBsb25nIGhvc3QtdG8tR1BVDQo+IGNvcHkgc3RhbGxzIGFuZCB0aW1lb3V0cy4gV2UgYmlzZWN0
+ZWQgdGhlIHJlZ3Jlc3Npb24gdG8gY29tbWl0IGJlaW5nDQo+IGZpeGVkIGFuZCB0aGVuIGRldmVs
+b3BlZCB0aGUgcmVkdWNlZCByZXByb2R1Y2VyIHRvIGlzb2xhdGUgdGhlIGV4Y2Vzc2l2ZQ0KPiBI
+eXBlci1WIFRMQiBmbHVzaGVzLiBUaGUgQ1BVLXZpc2l0aW5nIHRlc3QgY2FtZSBvdXQgb2YgdGhh
+dA0KPiBpbnZlc3RpZ2F0aW9uLCBpdCB3YXMgbm90IGhvdyB0aGUgcHJvYmxlbSB3YXMgb3JpZ2lu
+YWxseSBub3RpY2VkLg0KPiANCj4gMjA5OTU0Y2JjN2QwICgieDg2L21tL3RsYjogVXBkYXRlIG1t
+X2NwdW1hc2sgbGF6aWx5IikgY2hhbmdlZCB3aGVyZQ0KPiBzdGFsZSBtbV9jcHVtYXNrIGVudHJp
+ZXMgYXJlIHJlbW92ZWQuIFByZXZpb3VzbHksIHN3aXRjaGluZyBhIENQVSBmcm9tDQo+IG1tIEEg
+dG8gbW0gQiBjbGVhcmVkIGl0cyBiaXQgaW4gQSdzIG1hc2suIEFmdGVyIHRoYXQgY2hhbmdlLCB0
+aGUgYml0IGlzDQo+IGxlZnQgc2V0IGZvciByZW1vdmFsIGJ5IHRoZSBuYXRpdmUgVExCIGZsdXNo
+IGNhbGxiYWNrIHdoZW4gaXQgZmluZHMgYQ0KPiBkaWZmZXJlbnQgbW0gbG9hZGVkLg0KPiANCj4g
+VGhlIEh5cGVyLVYgaHlwZXJjYWxsIHBhdGggYnlwYXNzZXMgdGhhdCBjYWxsYmFjaywgc28gaGlz
+dG9yaWNhbA0KPiBtZW1iZXJzaGlwcyBjYW4gcGVyc2lzdC4gVGhlIGxhenktVExCIGNoZWNrIGZy
+b20gNDkzY2MwNzM4NWNmIGRvZXMgbm90DQo+IGNvdmVyIHRoaXMgY2FzZTogYSBDUFUgYWN0aXZl
+bHkgcnVubmluZyBCIGNhbiBoYXZlIGlzX2xhenkgPT0gZmFsc2UNCj4gd2hpbGUgc3RpbGwgYXBw
+ZWFyaW5nIGluIEEncyBtYXNrLiBIeXBlci1WIHRoZW4gdW5uZWNlc3NhcmlseSB0YXJnZXRzDQo+
+IGl0IHdoZW4gZmx1c2hpbmcgQS4gSWYgdGhlIGhpc3RvcmljYWwgbWVtYmVyc2hpcHMgY292ZXIg
+YWxsIHByZXNlbnQNCj4gQ1BVcywgdGhlIGFsbC1wcm9jZXNzb3JzIHNob3J0Y3V0IGlzIHNlbGVj
+dGVkIGJlZm9yZSB0aGUgcGVyLUNQVQ0KPiBsYXp5LVRMQiBjaGVja3MuDQo+IA0KPiBTbyB0aGUg
+bGF0ZXIgY2hhbmdlIGRpZCBtYWtlIHRoZSBIeXBlci1WIHBhdGggd29yc2UgZm9yIGFmZmVjdGVk
+DQo+IHdvcmtsb2FkcywgcmF0aGVyIHRoYW4gbWVyZWx5IGFkZGluZyBhIG5hdGl2ZSBvcHRpbWl6
+YXRpb24gdGhhdA0KPiBIeXBlci1WIGNvdWxkIGFsc28gYmVuZWZpdCBmcm9tLiBUaGF0IGlzIHRo
+ZSByZWFzb24gZm9yIHRoZSBGaXhlcyB0YWcuDQo+IFRoaXMgaXMgYSBwZXJmb3JtYW5jZSByZWdy
+ZXNzaW9uLCBub3QgYSBzdGFsZS10cmFuc2xhdGlvbiBjb3JyZWN0bmVzcw0KPiBmYWlsdXJlLg0K
+DQpUaGFua3MuIFRoYXQncyBleGFjdGx5IHdoYXQgSSB3YW50ZWQgdG8ga25vdyBhcyBiYWNrZ3Jv
+dW5kDQppbmZvcm1hdGlvbi4gSXQgd2lsbCBoZWxwIGEgbG90IHdoZW4gcmV2aWV3aW5nIHlvdXIg
+cGF0Y2guDQoNCj4gDQo+IFRoZSByZXBvcnRlciBoYXMgYWxzbyB0ZXN0ZWQgdGhlIHBhdGNoIG9u
+IGEgOTYtdkNQVSBNSTMwMFggVk0uIFRoZQ0KPiB1bnBhdGNoZWQgU3VwZXJCZW5jaCB3b3JrbG9h
+ZCBoaXQgdGhlIDYwMC1zZWNvbmQgdGltZW91dDsgdHdvIHBhdGNoZWQNCj4gcnVucyBjb21wbGV0
+ZWQgaW4gNDI0IGFuZCA0MzYgc2Vjb25kcywgd2l0aCBhbGwgZWlnaHQgcmFua3MgdmFsaWRhdGVk
+Lg0KPiBUaGUga2VybmVsIGNvbmZpZ3VyYXRpb25zIG1hdGNoZWQgYXBhcnQgZnJvbSBrZXJuZWwg
+aWRlbnRpdHksIGFuZA0KPiB0aGUgR1BVIGRyaXZlciBzb3VyY2UgYW5kIGV4ZWN1dGFibGUgdGV4
+dCB3ZXJlIHVuY2hhbmdlZC4NCg0KR29vZCBpbmZvLiBUaGF0J3MgYSBwcmV0dHkgc2lnbmlmaWNh
+bnQgZGlmZmVyZW5jZSBpbiBhIG1hY3JvLWxldmVsDQpiZW5jaG1hcmtpbmcgdG9vbC4NCg0KTWlj
+aGFlbA0KDQo+IA0KPiBGb3IgdGhlIHJlZHVjZWQgcmVwcm9kdWNlciwgdGhlIDk2LUNQVS1oaXN0
+b3J5IGNhc2UgZHJvcHBlZCBmcm9tDQo+IDEwOS4xOTYgdXMgcGVyIGl0ZXJhdGlvbiB0byAxLjU5
+NCBhbmQgMS42MTYgdXMgaW4gdGhlIHR3byBwYXRjaGVkIHJ1bnMsDQo+IGFib3V0IGEgOTguNSUg
+cmVkdWN0aW9uLiBFYWNoIGl0ZXJhdGlvbiBjb250YWlucyB0d28gbXByb3RlY3QoKSBjYWxscw0K
+PiBhbmQgYSB3cml0ZSwgdGhlc2UgYXJlIG5vdCBpbmRpdmlkdWFsIGh5cGVyY2FsbCB0aW1pbmdz
+Lg0KPiANCj4gVGhlIHBhdGNoIHByZXNlcnZlcyB5b3VyIGxhenktVExCIGV4Y2x1c2lvbiBhbmQg
+bGF6eSBDUFUtbWFzaw0KPiBtYWludGVuYW5jZSBkdXJpbmcgY29udGV4dCBzd2l0Y2hlcy4gSXQg
+ZmlsdGVycyB0aGUgdGFyZ2V0cyBiZWZvcmUNCj4gc2VsZWN0aW5nIHRoZSBoeXBlcmNhbGwgZm9y
+bWF0IG9yIHRoZSBhbGwtcHJvY2Vzc29ycyBzaG9ydGN1dCwgYW5kDQo+IHVzZXMgbmF0aXZlIGNh
+bGxiYWNrcyBmb3IgbWFzayB0cmltbWluZy4NCj4gDQo+IEkgcmVzdHJpY3RlZCB0aGUgY29tbWl0
+IG1zZyB0byB0aGUgbWVudGlvbmVkIDMyIHZDUFUgVk0gYmVjYXVzZSB0aGF0IHdhcw0KPiB0aGUg
+b25lIEkgZ290IG15IGhhbmRzIG9uLiBJJ2xsIHRyeSB0byB1cGRhdGUgdGhlIGNvbW1pdCBtZXNz
+YWdlIG9yIHRoZQ0KPiBjb21tZW50cyB0byBleHBsYWluIHRoZSByZWFsIHdvcmtsb2FkLCBiaXNl
+Y3Rpb24sIGFuZCBkaXN0aW5jdGlvbg0KPiBiZXR3ZWVuIGxhenkgVExCIG1vZGUgYW5kIGxhenkg
+Q1BVLW1hc2sgbWFpbnRlbmFuY2UuIEJ1dCBJJ2xsIHdhaXQgZm9yDQo+IGFueSByZXZpZXcgY29t
+bWVudHMgdG8gYWRkcmVzcyB0aGVtIHRvZ2V0aGVyLg0KPiANCj4gVGhhbmtzLA0KPiBOYW1hbg0K
+PiANCj4gPj4gLS0tDQo+ID4+IE9uIGEgMzItdkNQVSBIeXBlci1WIGd1ZXN0LCBhZnRlciBhIHNp
+bmdsZS10aHJlYWRlZCBwcm9jZXNzIHZpc2l0ZWQgYWxsDQo+ID4+IENQVXMgYW5kIHJldHVybmVk
+IHRvIG9uZSBDUFUsIHRoZSByZXByb2R1Y2VyJ3MgbWVkaWFuIHRpbWUgcGVyIGl0ZXJhdGlvbg0K
+PiA+PiAodHdvIG1wcm90ZWN0KCkgY2FsbHMgYW5kIGEgd3JpdGUpIGRyb3BwZWQgZnJvbSAxNy4y
+MzUgdXMgdG8gMS42MjIgdXMsDQo+ID4+IGEgOTAuNiUgcmVkdWN0aW9uLiBUaGlzIGNvdWxkIGJl
+IG1vcmUgb24gaGlnaGVyIHZDUFUgVk1zLg0KPiA+Pg0KPiA8c25pcD4NCj4gDQoNCg==
