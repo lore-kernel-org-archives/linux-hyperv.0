@@ -1,56 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793336048;
-	b=ijIBlLYr1Ke9FGjYm+sbvHlHhXXE+Wv6GytK0WQWDh6uAS26/t/+OYUtp1OQVSoZdo77
-	 AWx2xUK2S01B61Fd46oTXcLhNbXhIkM7rcDP810LWi2wTEEJQRx4I7IEU0/PYwt/gFuAz
-	 OONK8CE1/3Vi8bkdtgC/00Sf8C9Pqwdf7xisrZasXy9QIq3tcBzitxa98SsAsDbwmFyrs
-	 LVzcz5sfDwhoogOWVDgI5iUs5RgCgUGmhyBkwQ2a+0pOtl2ZtCv1ZY1ih/fm34xorj650
-	 OkdbKvY2B9DH8dfVddIJCXCunaGeZh2NY1GSstGXL78BRAYZBbmoeyEy+gLRZKTzXjw==
+	t=1793352914;
+	b=vzcxD4l37iez6mHBbqSTe5km20FVG1hYWfHFCc85m6lojxTvp5xh5A/rAeciFhFGPhA4
+	 jGVML8uo00ewptRhMJ7SzaYjMVMw4zbipbqsx5F4+OhhskD+HAyVr6Bii2f8Djd9eXOG2
+	 4e6TyalVcbh4UCLwcgAGp2X+zcaacAKRhDpWDMro+dtx1FlaZPbR2Uk6wEtDqmVP4iDO3
+	 faR5XKHdWWBINXQK/8u9Q+Z4YlRmLN5YR9rUXck/dB+2c2IT7djPbGKWew9+L99u15Dli
+	 1zrImCDrYbGxUV3lz/C/IbD9O82sLuYTWIUOc9pk29Zs6DQkG2scnC1hraszFLwbCWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793336048;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zTBQkrIXpCkeRxirv2Y5dvubaVq3mE3e/p+vnM3L570=;
-	b=TCH3/BjLGxw8iZuRHNnTnBIJwWaWPgJXSva3bF0JK7yBuiz11kiif2SsZEhExOgIXGVi
-	 6YF1QefhjWZMHhgIEd/ongvlFKSmsHTXl0+T3HQkBaeyiZixQU7nW1bFyD2AkvSiSwuK/
-	 UFGtH/1K0RguihV91++XO59BbAWYvDapY/mwhjTWvb00fLzyUexKOkHLl6vwbzFK5ZONE
-	 /XdOLfzT3IlMz305jIa1sHi92ZfLkJHTcaA924rq+XyPstOBOqsDMqW4yux7xjY8ezVVw
-	 nFucpYEPLhWxL587whTN2nFCaeTjSRW7TnYYF0QLsXFa6DK1+OFjsUCaLRnOHxjPOLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793352914;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=a4DxPzJFq+Xx+85XSsmDtCfWeMHzGVT6RmNuzkGCqK0=;
+	b=o8knVLg22SWKp8DP2jWjCLiaxx/7XkSIIEJq35iuNqa02qTu2m8VCHflxKz2i+rj35Ca
+	 ng8gOOCMp6mYhr/5mVsc+NLqwKeiw+/OxBuw7UJIn9B6+cokQHi5lrBJ3q8YRguyqyFN6
+	 DfN0rUFs1r493V+kLeWFvCqpALvKgFOiUUe8V1HKIJb+pRo7bM+baFJLSSku5UESlwhop
+	 MldnX2AFhyuNZiiyeIHvk/NNrpmHm9MoF70fwkJnSLcVAMxCmclnUa0uxY2v2J4RuxApW
+	 PK/FcIaiy21PDaBHeAzgAjyQTpP2lWF7EKsMdxDGQSauKzrqa0hQDxGc1MhGk3X64zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CbxnFdVo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54507606A321;
-	Fri, 30 Oct 2026 04:54:08 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ajaNKjdF;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E08606A323;
+	Fri, 30 Oct 2026 09:35:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87E08606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CbxnFdVo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F561F000C1;
-	Fri, 30 Oct 2026 04:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793336048;
-	bh=zTBQkrIXpCkeRxirv2Y5dvubaVq3mE3e/p+vnM3L570=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CbxnFdVofaO3n4paFLTbjhTBZ3CQYtzT3Ipf15gfHvecZnGzpxoTZvw3N6bOkTkQT
-	 oQY4iyC6uSKEsURkvu7BsgXhotDlnnjKIfuHlkWuroheDXUUMKJYXJxwYWVwNXSh9d
-	 X5LTMOLwLY9ncL8JVkTg5oIDoF2GUfWhbnqK+k4Joeh1itmyQgU+BolwNmjsmJkwoz
-	 5zMXxDEncSCBqhyc5dNCqYyEbFJA/Xu9DpfzHWUaqAoJN/JhhXGf0QOT4WHOP4si/O
-	 17Q53EZzSZO8NDdCplootE7YW+IZLCGXsFV6SbWKptWMEbTy1rcUfeEqsBmyo11oOy
-	 1qHIzBwJArCjg==
-Message-ID: <sashiko-outbox-190412@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v8 1/6] net: mana: Create separate EQs for each
- vPort
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Long Li" <longli@microsoft.com>
-Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
-In-Reply-To: <20260508221202.15725-2-longli@microsoft.com>
-References: <20260508221202.15725-2-longli@microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 04:54:07 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ajaNKjdF
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id D9FCB20B7166; Fri, 30 Oct 2026 02:35:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D9FCB20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793352900;
+	bh=a4DxPzJFq+Xx+85XSsmDtCfWeMHzGVT6RmNuzkGCqK0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ajaNKjdFDer3GAXHkQRPDDp0vU1Y1zBVj4/NV6ni/hmVLcfMCP31SHP5r3yQnUp3E
+	 BrRWxi9kM+dxbliMh8/GwSK+80jgfBtRLQmmHMrhRT2L3HdGj2Y3l8xtbZCewP1GC2
+	 cDE90UPGdoh3/IpirKeDkyNGrUnwh7UdXa2Kt+fU=
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	lkmlabelt@gmail.com,
+	parri.andrea@gmail.com,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	stable@vger.kernel.org,
+	Wei Liu <liuwe@microsoft.com>
+Subject: [PATCH net v2] hv_netvsc: Stop PPI parsing on invalid metadata
+Date: Fri, 30 Oct 2026 02:34:59 -0700
+Message-ID: <20261030093459.4004663-1-ernis@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -59,86 +68,67 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [Critical] Missing reference counting for EQs in RSS QP leads to Use-Afte=
-r-Free and DMA corruption.
-- [High] An off-by-one error in the `mana_ib_create_qp_rss` error handling =
-path causes a memory leak of previously allocated WQ objects.
-- [High] Lockless access to `mpc->eqs` causes TOCTOU races resulting in NUL=
-L pointer dereferences or Use-After-Free.
---
+rndis_get_ppi() uses continue when a per-packet information entry has an
+invalid size or offset, or cannot hold the requested metadata. However,
+the remaining length and entry pointer are only updated at the bottom
+of the loop. Each error path therefore retries the same invalid entry
+indefinitely, repeatedly logging the error and preventing receive
+processing from completing.
 
-commit e7e0da70dd7f308d1d04d77e17767cbeb27d8fb9
-Author: Long Li <longli@microsoft.com>
+Return NULL on these validation failures instead of continuing. This
+terminates the lookup when malformed metadata is encountered while
+preserving the existing behavior for valid entries.
 
-net: mana: Create separate EQs for each vPort
+The issue was reported through an internal bug-tracking system and
+confirmed by manual code inspection. The pre-fix hang has not been
+reproduced locally.
 
-To prepare for assigning vPorts to dedicated MSI-X vectors, remove EQ
-sharing among the vPorts and create dedicated EQs for each vPort.
+Fixes: 44144185951a ("hv_netvsc: Add validation for untrusted Hyper-V values")
+Cc: stable@vger.kernel.org
+Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+Reviewed-by: Wei Liu <liuwe@microsoft.com>
+---
+Changes in v2:
+* Add Cc: stable@vger.kernel.org
+* Clarify how the issue was reported and confirmed in commit message.
+---
+ drivers/net/hyperv/rndis_filter.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> diff --git a/drivers/infiniband/hw/mana/qp.c b/drivers/infiniband/hw/mana=
-/qp.c
-> index 0fbcf449c134b..6167742df9d29 100644
-> --- a/drivers/infiniband/hw/mana/qp.c
-> +++ b/drivers/infiniband/hw/mana/qp.c
-> @@ -171,7 +171,15 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp,=
- struct ib_pd *pd,
->  		cq_spec.gdma_region =3D cq->queue.gdma_region;
->  		cq_spec.queue_size =3D cq->cqe * COMP_ENTRY_SIZE;
->  		cq_spec.modr_ctx_id =3D 0;
-> -		eq =3D &mpc->ac->eqs[cq->comp_vector];
-> +		/* EQs are created when a raw QP configures the vport.
-> +		 * A raw QP must be created before creating rwq_ind_tbl.
-> +		 */
-> +		if (!mpc->eqs) {
-> +			ret =3D -EINVAL;
-> +			i--;
+diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
+index 9b6c44979b4e..2c30abf9faf8 100644
+--- a/drivers/net/hyperv/rndis_filter.c
++++ b/drivers/net/hyperv/rndis_filter.c
+@@ -401,12 +401,12 @@ static inline void *rndis_get_ppi(struct net_device *ndev,
+ 		/* Validate ppi_offset and ppi_size */
+ 		if (ppi->size > len) {
+ 			netdev_err(ndev, "Invalid ppi size: %u\n", ppi->size);
+-			continue;
++			return NULL;
+ 		}
+ 
+ 		if (ppi->ppi_offset >= ppi->size) {
+ 			netdev_err(ndev, "Invalid ppi_offset: %u\n", ppi->ppi_offset);
+-			continue;
++			return NULL;
+ 		}
+ 
+ 		if (ppi->type == type && ppi->internal == internal) {
+@@ -414,7 +414,7 @@ static inline void *rndis_get_ppi(struct net_device *ndev,
+ 			if (ppi->size - ppi->ppi_offset < ppi_size) {
+ 				netdev_err(ndev, "Invalid ppi: size %u ppi_offset %u\n",
+ 					   ppi->size, ppi->ppi_offset);
+-				continue;
++				return NULL;
+ 			}
+ 			return (void *)((ulong)ppi + ppi->ppi_offset);
+ 		}
 
-Does this double decrement leak the WQ object?
+base-commit: f71ff7d406523748bfb8236830c7eaa6a308aaa1
+-- 
+2.34.1
 
-If the failure occurs at index i=3D1, the explicit i-- makes it 0. The
-while (i-- > 0) in the fail: block then evaluates to 0-- > 0 (false), skipp=
-ing
-the cleanup of index 0 and leaking the WQ resource from the previous
-iteration.
-
-> +			goto fail;
-> +		}
-
-Does this access to mpc->eqs need synchronization?
-
-If this races with mana_create_eq(), mana_create_eq() publishes the apc->eqs
-array via kzalloc_objs() before actually initializing the inner queue point=
-ers
-(apc->eqs[i].eq) in a subsequent loop. The RDMA thread could observe
-mpc->eqs !=3D NULL, read a NULL eq->eq pointer, and panic when dereferencing
-eq->eq->id.
-
-Similarly, could a race with mana_destroy_eq() lead to a use-after-free on
-the mpc->eqs array?
-
-> +		eq =3D &mpc->eqs[cq->comp_vector % mpc->num_queues];
->  		cq_spec.attached_eq =3D eq->eq->id;
-
-Does this code need to hold a reference to the vport?
-
-This binds the Completion Queue to the port's Event Queues, but it does not
-appear to increment pd->vport_use_count or otherwise hold a reference to
-the EQs.
-
-If the EQs were created by a raw QP and that raw QP is destroyed,
-pd->vport_use_count drops to 0, which triggers mana_destroy_eq(). The EQs
-can also be destroyed unconditionally by the Ethernet driver if the interfa=
-ce
-is brought down.
-
-Could the DMA memory and the mpc->eqs array be freed while the RSS QP remai=
-ns
-active, leading to a use-after-free and DMA corruption when hardware events
-occur?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260508221202.1572=
-5-1-longli@microsoft.com?part=3D1
