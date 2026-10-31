@@ -1,49 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793436174;
-	b=HApfUtFunoWyCnGu8+Iq4WLaFAuVZjUU54vZu7MI7A8Fu5oyxpxvaf/4TnqkxR2FCVu/
-	 6PBwjUY6pXMtZZJJVUF2xwvTjkBQPnUf2RZGRX9sVulE3czywoLKmXWL482GFrxQlVmJM
-	 xw5O70ogf46xrtoKv+UrDhitzpNfio6FYivJUJMT4teksEyZdPiJUzmXUjIEPNPsku691
-	 6MkLNLr5CY7dO1ufoljCBZ4Z/acVMi7w3DSP34hpXUwiO9puHxDNcIENzljoLqAgwf7LB
-	 OjRjYY9GkwxLauYoFwsBukS9cpUZKETMJ140bjtcqn5UyKlZcgjVhJPI/h3h3xI2U4Q==
+	t=1793451029;
+	b=MIEBY2IwOw7ypnsMdLxYJppJYf76qhx5/+h90Hjcc2WRN3CO48gn86Z5YAiAjly5FgMr
+	 DyevTaTOr3tQ6Qev8wFDfZVr5YpdsLWLI/YjoAeOoH4GP+uopinDfKOWONdQI9JKZtj3u
+	 jjm45vtuxl2xxye1weHTZka25/1wXloQblx77UuTN/bzxJsKR3gZKqd2gC6YF1IiaJjfN
+	 2SiBwndYZJiv2993ErKOaK3N+jCs2iUfDpQT+QvF53IP8FoFpfBa1zawb6R7GEh/yg1Je
+	 nKdXUghizG9mplkDeHAj0HoSD3ZlHnZSgHG7fKkC0UtsRIKy4bIFfiw9LHW4ay+1AxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793436174;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=zyM541AR7ZZE38ApRIgXfw9vU7L1IaJEwloMzTLw3Ig=;
-	b=3sp4Z6ekbn2LcGzMrls9H4x37gI7DvYp892X72S15GaqmiIMx0Fsc1DdyKixWPIWWBkJ
-	 HhPqlbBAn1if8XKgMKQJxEgrekBvSDw/g3ezYmknxPhzd3D/fJBkL5XxRGDmNEYW9+vUR
-	 6INr8kwujrv30u+jCDjrk90fYbOnSRyc9SAEZXi5o4lKBZGsFd5DIV3Z+mi5FY4NaPvuU
-	 2C0OQ7SsJQ9rVd7qiXp4SMlqXBXWOt7Jxxt/2xaEhO2mnKOVlEOxzpnDN/b71PoLE568z
-	 uYH7Olhc4Lw6wkb/T55O+/lWQjrkoBvD0kGT3OXuqUOHktJvygFmujFOQS4fRsuAwHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793451029;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=855nSihgJxWPmK/GjrHlfXOpPZnhxUNNchV+utP1W5U=;
+	b=PbG01IiaaqgK+0OQg2nt5QjD3t8Ismh7YjnosoJVktwvwlHKCFUazgQhpiM2lpUSgoPr
+	 q239yMdiHPboal1PefqTmv5JBFz/2//eTvuEcUMvXoBAudPW/LTOGIzaOd663efIBAfPb
+	 kj101Nov5LFivUyO6nG+pXxyxOkdmT5S+akfvq6FmjM7+v9eWWJTCebaP+kcYv6cn/qNQ
+	 NFrxrod1bzwDD8DN2uwjEUQqdsFmGfpfGiC/Iftjtm9WeLRYMttvw+ITFIB/8cgdtKqXu
+	 Uw/ZAtWS4vmqRkHpRoWsitiirGxv7FLRiWC3V6zHXwTZgQyTksjkIVOP4dGnv9S9p6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fencjVNn;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 369DB606A31A;
-	Sat, 31 Oct 2026 08:42:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 369DB606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NHN+0jiR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653C6606A31C;
+	Sat, 31 Oct 2026 12:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fencjVNn
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D2171595;
-	Sat, 31 Oct 2026 01:42:48 -0700 (PDT)
-Received: from [10.57.13.152] (unknown [10.57.13.152])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B38B3F59E;
-	Sat, 31 Oct 2026 01:42:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793436171; bh=avExJZ8pIb5Ca/dscv5M6k88MfirFVDBlv6ja+R8bbw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fencjVNnt00wM0wda3KJv3WoRmZ8GoSQNWWxyQRTkf7seFOhLkY2VnuWG+597t0Ez
-	 +itFgbGaU/suCHgpoFnAbgN+AQ4E3wUGbwU9OaVV8jDvTTym1FhRUmtTgNedvKgBUS
-	 uz1DkVoVayYJVDZ+51JRhGrKSIrbf6I74AdaRYLo=
-Message-ID: <a1d9608c-8169-49c5-b843-ed9d304136ed@arm.com>
-Date: Sat, 31 Oct 2026 08:42:46 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NHN+0jiR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2C391F000C1;
+	Sat, 31 Oct 2026 12:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793451028;
+	bh=855nSihgJxWPmK/GjrHlfXOpPZnhxUNNchV+utP1W5U=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=NHN+0jiR/hvhURG6dSdCdv/WkC1d7eFQENt7ZIo06gKiGDK/BKsaRiCWs/qJq7Dxq
+	 25m1y1s2gaGjXcPo5JN2wqKZ8Zu78p2sulEnbk5VKAxjn88QV3vEOSLscfmXwHhC7e
+	 fq7kvmNowOarsuTKkxKwhIL+cJ5WWzQu5Ah1kHflkyG87u+NZ0UFZCO7m25FDEqYDX
+	 wkxMJcLJ6UtgQOvpoKImIbJllFu+9is9zYOQDOcqBww1Mp7YrQYd1NknOvBfOufp6W
+	 uE5QhvCAlwX7oeNxqzc5Ns3PAWLieL1/24E7gDRTAG7LklvcYiTsQ5BNK+Y36MVK8k
+	 Mv8i0oAGkAYfg==
+Message-ID: <sashiko-outbox-191945@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v2] net: mana: Avoid waiting on dead HWC after
+ device reset
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sahil Chandna" <sahilchandna@linux.microsoft.com>, linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org
+In-Reply-To: <20261030125009.3758592-1-sahilchandna@linux.microsoft.com>
+References: <20261030125009.3758592-1-sahilchandna@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 31 Oct 2026 12:50:28 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -52,171 +58,232 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v5 2/6] firmware: smccc: Detect hypervisor
- via RSI host call in CCA Realms
-Content-Language: en-GB
-To: Dexuan Cui <DECUI@microsoft.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kameron Carr <kameroncarr@linux.microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "mhklinux@outlook.com" <mhklinux@outlook.com>,
- "will@kernel.org" <will@kernel.org>, "Mark.Rutland" <Mark.Rutland@arm.com>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "arnd@arndb.de" <arnd@arndb.de>, "thuth@redhat.com" <thuth@redhat.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-References: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
- <20261002215725.2015959-3-kameroncarr@linux.microsoft.com>
- <auPOnb_9Jfzh-oQE@arm.com>
- <CH4PPF0966F22FCAF3D8C6535743902930DBF6C2@CH4PPF0966F22FC.namprd21.prod.outlook.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <CH4PPF0966F22FCAF3D8C6535743902930DBF6C2@CH4PPF0966F22FC.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] net: mana: missing TX CQ poll after final sleep in mana_dealloc_qu=
+eues()
+- [Medium] net: mana: incomplete dead HWC checks in mana_dealloc_queues()
+--
 
-On 31/10/2026 04:47, Dexuan Cui wrote:
->> From: Catalin Marinas <catalin.marinas@arm.com>
->> Sent: Thursday, October 29, 2026 3:54 PM
->>   ...
->> + Suzuki
->>   ...
->>> +static void arm_smccc_realm_get_hypervisor_uuid(struct arm_smccc_res
->> *res)
->>> +{
->>> +	guard(spinlock_irqsave)(&uuid_hc_lock);
->>> +
->>> +	memset(&uuid_hc, 0, sizeof(uuid_hc));
->>> +	uuid_hc.gprs[0] = ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID;
->>> +
->>> +	if (rsi_host_call(__pa_symbol(&uuid_hc)) != RSI_SUCCESS) {
->>> +		res->a0 = SMCCC_RET_NOT_SUPPORTED;
->>> +		return;
->>> +	}
->>> +
->>> +	res->a0 = uuid_hc.gprs[0];
->>> +	res->a1 = uuid_hc.gprs[1];
->>> +	res->a2 = uuid_hc.gprs[2];
->>> +	res->a3 = uuid_hc.gprs[3];
->>> +}
->>> +#endif
->>> +
->>>   bool arm_smccc_hypervisor_has_uuid(const uuid_t *hyp_uuid)
->>>   {
->>>   	struct arm_smccc_res res = {};
->>>   	uuid_t uuid;
->>>
->>> -
->> 	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC
->> _ID, &res);
->>> +#ifdef CONFIG_ARM64
->>> +	if (is_realm_world())
->>> +		arm_smccc_realm_get_hypervisor_uuid(&res);
->>> +	else
->>> +#endif
->>> +
->> 	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC
->> _ID,
->>> +				     &res);
->>
->> Is this meant to be generic? I'm not sure the trick to pass
->> ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID in gprs[0] and forward it to
->> the host is a documented ABI. I think it even confuses other realm guests
->> that don't expect this (e.g. kvm_init_hyp_services()).
+commit 4704079fb73cc77fdb1cc7581dd8e498b290c328
+Author: Sahil Chandna <sahilchandna@linux.microsoft.com>
 
-Yes, this is how a Realm can talk to the Host hypervisor, i.e, 
-RSI_HOST_CALL. In simpler terms, HVC is routed to Realm world for
-Realms (e.g., a Paravisor running in Realm world Plane-0).
-A Realm must always use RSI_HOST_CALL to reach the non-secure
-hypervisor. RSI_HOST_CALL expects the arguments to be passed
-in a "memory" area to preserve forward compatibility with
-the SMCCC standards to allow for using the full argument/result
-list.
+net: mana: Avoid waiting on dead HWC after device reset
 
-The RMM does the job of copying the arguments from the Realm memory
-to the rec_exit.gprs for consumption by the Host. The host can then
-return the results in rec_entr.gprs, which then gets copied over
-to the Realm memory area.
+This commit replaces the 120s sleep-based TX drain in mana_dealloc_queues()
+with synchronous CQ polling and marks the hardware channel dead after a
+device reset so subsequent HWC commands fail fast instead of waiting for a
+timeout.
 
-> 
-> Hi Catalin,
-> Regarding the concern about passing ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID
-> In gprs and forwarding it to the host via an RSI Host Call: if I read the code correctly,
-> this pattern actually aligns seamlessly with the current KVM host-side
-> implementation for ARM CCA (e.g., in the v16 patchset [1]).
-> 
-> In arch/arm64/kvm/rmi-exit.c, when a Realm guest triggers an
-> RMI_EXIT_HOST_CALL, KVM intercepts it and invokes rec_exit_hvc():
-> 
-> case RMI_EXIT_HOST_CALL:
-> 	rec_exit_hvc(vcpu);
-> 	kvm_make_request(KVM_REQ_RMI, vcpu);
-> 	return ARM_EXCEPTION_TRAP;
-> 
-> Inside rec_exit_hvc(), KVM copies the GPRs from the rec run structure
-> into the vCPU registers and explicitly emulates a standard HVC
-> exception by populating esr_el2:
-> 
-> static void rec_exit_hvc(struct kvm_vcpu *vcpu)
-> {
->          struct realm_rec *rec = &vcpu->arch.rec;
->          int i;
-> 
->          for (i = 0; i < REC_RUN_GPRS; i++)
->                  vcpu_set_reg(vcpu, i, rec->run->exit.gprs[i]);
-> 
->          vcpu->arch.fault.esr_el2 = (ESR_ELx_EC_HVC64 << ESR_ELx_EC_SHIFT) |
->                                       ESR_ELx_IL;
-> }
-> 
-> After doing so, it returns ARM_EXCEPTION_TRAP, causing KVM's generic
-> exception handling loop (kvm_arch_vcpu_ioctl_run() -> handle_exit()) to
-> route it straight into the standard handle_hvc() ->
-> kvm_smccc_call_handler() path.
-> 
-> Because KVM deliberately unpacks the RSI Host Call structure and pushes
-> it down the traditional non-CVM HVC servicing pipeline, the guest passing
-> standard SMCCC Function IDs inside the gprs array of an RSI Host Call is
-> exactly how the host expects to handle hypervisor services. It shouldn't
-> break or confuse other standard realm implementations since this exact
-> emulation block translates the RSI exception back into a generic HVC
-> abstraction for the hypervisor layer.
->   
->> I thought realms should stick to the RSI interface and not try to guess
->> the host hypervisor. But if you do need this, a better fit would be in
->> hyperv_detect_via_smccc() (if realms don't boot with ACPI).
->>
->> I'll leave it to Sudeep or Suzuki to comment further.
->>
->> --
->> Catalin
-> 
-> As I described above, this patch from Kameron should work fine.
-> 
-> BTW, as Kameron mentioned in another reply, he better organized the
-> code by moving the code in this patch into
-> arch/arm64/hyperv/mshyperv.c: hyperv_detect_via_smccc().
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 6b7c027e497ed..2bf17fdcfa2bd 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
 
-Any Realm specific stuff must be handled accordingly in the 
-"enlightened" path, not in the common code like this patch.
+[ ... ]
 
-Cheers
-Suzuki
+> @@ -3774,42 +3784,104 @@ static int mana_dealloc_queues(struct net_device=
+ *ndev)
+>  	 * a txq because it may not timely see apc->port_is_up being cleared
+>  	 * to false, but it doesn't matter since mana_start_xmit() drops any
+>  	 * new packets due to apc->port_is_up being false.
+> -	 *
+> -	 * Drain all the in-flight TX packets.
+> -	 * A timeout of 120 seconds for all the queues is used.
+> -	 * This will break the while loop when h/w is not responding.
+> -	 * This value of 120 has been decided here considering max
+> -	 * number of queues.
+> +	 * Drain the in-flight TX completions for each queue. TX is already
+> +	 * stopped, so pending_sends can no longer grow. For each queue,
+> +	 * disable NAPI so it cannot run at the same time as this drain,
+> +	 * then process all completions still in the CQ. If some are still
+> +	 * missing after that, the hardware is not responding: reset device
+> +	 * and stop waiting on the now-unavailable HWC.
+>  	 */
+> =20
+>  	if (apc->tx_qp) {
+>  		for (i =3D 0; i < apc->num_queues; i++) {
+> +			struct napi_struct *napi;
+> +			struct mana_cq *tx_cq;
+> +			int pending;
+> +
+> +			if (!apc->tx_qp[i])
+> +				continue;
+> +
+> +			tx_cq =3D &apc->tx_qp[i]->tx_cq;
+>  			txq =3D &apc->tx_qp[i]->txq;
+> -			tsleep =3D 1000;
+> -			while (atomic_read(&txq->pending_sends) > 0 &&
+> -			       time_before(jiffies, timeout)) {
+> -				usleep_range(tsleep, tsleep + 1000);
+> -				tsleep <<=3D 1;
+> -			}
+> -			if (atomic_read(&txq->pending_sends)) {
+> -				err =3D mana_gd_dev_reset(gd->gdma_context);
+> -				if (err) {
+> -					netdev_err(ndev, "device reset failed %d with %d pkts pending in tx=
+q %u\n",
+> -						   err,
+> -					    atomic_read(&txq->pending_sends),
+> -					    txq->gdma_txq_id);
+> +			napi =3D &tx_cq->napi;
+> +
+> +			if (txq->napi_initialized) {
+> +				/* Stop the NAPI poll so it cannot run
+> +				 * concurrently with the synchronous drain.
+> +				 */
+> +				napi_synchronize(napi);
+> +				napi_disable_locked(napi);
+> +				cancel_work_sync(&tx_cq->dim.work);
+> +
+> +				/* Reap all TX completions currently in the CQ.
+> +				 * For completion which have still not arrived
+> +				 * allow time to settle.
+> +				 * A zero budget frees skbs via the non-NAPI
+> +				 * path, which is required outside softirq.
+> +				 */
+> +				tx_cq->budget =3D 0;
+> +				for (retry =3D 0; retry < MANA_TX_DRAIN_RETRIES;
+> +				     retry++) {
+> +					do {
+> +						tx_cq->work_done =3D 0;
+> +						mana_poll_tx_cq(tx_cq);
+> +					} while (tx_cq->work_done);
+> +
+> +					if (!atomic_read(&txq->pending_sends) ||
+> +					    trigger_flr)
+> +						break;
+> +
+> +					msleep(100);
+>  				}
+> -				break;
+>  			}
+> +
+> +			pending =3D atomic_read(&txq->pending_sends);
+> +
+> +			if (!trigger_flr && pending > 0) {
+> +				trigger_flr =3D true;
+> +				flr_txq_id =3D txq->gdma_txq_id;
+> +				flr_pending =3D pending;
+> +			}
+> +		}
 
+[Severity: High]
+In mana_dealloc_queues(), NAPI is disabled on tx_cq via napi_disable_locked=
+()
+before entering the MANA_TX_DRAIN_RETRIES loop, so only mana_poll_tx_cq()
+inside this loop can reap CQEs and decrement txq->pending_sends.
 
-> (technically, IMO this change is unnecessary)
-> 
-> Thanks,
-> Dexuan
-> 
-> [1] https://gitlab.arm.com/linux-arm/linux-cca/-/tree/cca-host/v16
-> [2] https://lore.kernel.org/all/20261031001412.4150488-3-kameroncarr@linux.microsoft.com/
+On the last iteration (retry =3D=3D MANA_TX_DRAIN_RETRIES - 1), if
+txq->pending_sends is still non-zero after polling, the loop calls
+msleep(100) and then exits without calling mana_poll_tx_cq(tx_cq) again.
 
+Because NAPI is disabled, any TX completions that arrive during that final
+100 ms sleep remain unpolled in the CQ when pending =3D
+atomic_read(&txq->pending_sends) is checked right after the loop. Can this
+cause mana_dealloc_queues() to miss completions that arrived during the fin=
+al
+sleep and trigger an unnecessary mana_gd_dev_reset() and hwc->hwc_dead =3D =
+true?
+
+> +
+> +		if (trigger_flr && !(hwc && hwc->hwc_dead)) {
+> +			/* Completions never arrived: the device is
+> +			 * unresponsive. Issue device reset and
+> +			 * mark the HWC dead so subsequent HWC commands
+> +			 * fail fast instead of each waiting the full
+> +			 * hwc_timeout.
+> +			 */
+> +			err =3D mana_gd_dev_reset(gd->gdma_context);
+> +			if (err)
+> +				netdev_err(ndev, "device reset failed %d with %d pkts pending in txq=
+ %u\n",
+> +					   err,
+> +					   flr_pending,
+> +					   flr_txq_id);
+> +			else if (hwc)
+> +				WRITE_ONCE(hwc->hwc_dead, true);
+>  		}
+> =20
+>  		for (i =3D 0; i < apc->num_queues; i++) {
+> +			struct napi_struct *napi;
+> +			struct mana_cq *tx_cq;
+> +
+> +			if (!apc->tx_qp[i])
+> +				continue;
+> +
+> +			tx_cq =3D &apc->tx_qp[i]->tx_cq;
+> +			napi =3D &tx_cq->napi;
+> +
+>  			txq =3D &apc->tx_qp[i]->txq;
+>  			while ((skb =3D skb_dequeue(&txq->pending_skbs))) {
+>  				mana_unmap_skb(skb, apc);
+>  				dev_kfree_skb_any(skb);
+>  			}
+>  			atomic_set(&txq->pending_sends, 0);
+> +
+> +			if (txq->napi_initialized) {
+> +				netif_napi_del_locked(napi);
+> +				txq->napi_initialized =3D false;
+> +			}
+>  		}
+>  	}
+> =20
+> @@ -3822,7 +3894,8 @@ static int mana_dealloc_queues(struct net_device *n=
+dev)
+>  	if (err && mana_en_need_log(apc, err))
+>  		netdev_err(ndev, "Failed to disable vPort: %d\n", err);
+> =20
+> -	mana_fence_rqs(apc);
+> +	if (!(hwc && hwc->hwc_dead))
+> +		mana_fence_rqs(apc);
+
+[Severity: Medium]
+Should the dead-HWC checks in mana_dealloc_queues() also account for
+hwc->hwc_timeout =3D=3D 0 (or mana_disable_vport_rx() timing out) and check
+whether the HWC is already dead inside the TX drain retry loop?
+
+Specifically:
+
+1. In mana_serv_reset(), an unresponsive HWC is marked by setting
+   WRITE_ONCE(hwc->hwc_timeout, 0) before calling
+   mana_gd_suspend() -> mana_remove() -> mana_detach() ->
+   mana_dealloc_queues():
+
+   drivers/net/ethernet/microsoft/mana/gdma_pci.c:mana_serv_reset() {
+       ...
+       WRITE_ONCE(hwc->hwc_timeout, 0);
+       dev_info(&pdev->dev, "MANA reset cycle start\n");
+       mana_gd_suspend(pdev, PMSG_SUSPEND);
+   }
+
+   If no TX packets are pending (so trigger_flr is false and hwc->hwc_dead
+   stays false), or if the HWC dies while TX is idle and
+   mana_disable_vport_rx() fails with -ETIMEDOUT (reducing hwc->hwc_timeout
+   to 1 without setting hwc->hwc_dead), checking only !(hwc && hwc->hwc_dea=
+d)
+   still calls mana_fence_rqs(apc), which logs an error and sleeps 100 ms p=
+er
+   RX queue while holding rtnl_lock.
+
+2. In the TX drain retry loop above, the early break only checks the local
+   variable trigger_flr:
+
+       if (!atomic_read(&txq->pending_sends) ||
+           trigger_flr)
+           break;
+
+   On a multi-port device during mana_remove(), after the first port resets
+   the device and sets hwc->hwc_dead =3D true (or when hwc->hwc_timeout =3D=
+=3D 0),
+   subsequent calls to mana_dealloc_queues() start with trigger_flr =3D=3D =
+false
+   and will still sleep through MANA_TX_DRAIN_RETRIES on the first queue wi=
+th
+   pending sends.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030125009.3758=
+592-1-sahilchandna@linux.microsoft.com?part=3D1
