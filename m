@@ -1,62 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793384306;
-	b=RKkQIXHJ1L6noecZFupK3Zjm3CYviALLEwLELaAkTtb9hDryQgz4A38XVEMxq+he/MP7
-	 5i5HmKnkGphO+WgV8pafRr/qr3pj4zj5d8r5qvCBOOp9HBdXMibvqTWGKHt0kiB/QGEZb
-	 yCChdk1oUwncQ36kIPu9abPl9yqrFcTW9IpN7iO1QuxJlkhyQ1wFwzIjJFrKUjG7v0dbl
-	 88Jtq/+rFFOHV2NCCYc1nLLoJrJ5pg7W7mwhWyboDGPmy853GIppDDj+fX9qkOPrfkisw
-	 S+oo/95ap4SCo+MX7fqlpgUveKmPs0oqGQoHuEB7Fyz3inWXkJH7uvDQgCnTkgq+JgQ==
+	t=1793405678;
+	b=0Pi/6bomPQcreD0364tQJ0xs42Ho+lTmCCS+Q/7svheNYx9hjlOym8Xl3uzajW9aXIuG
+	 K/XutxFvnYUmMvn/tMDjIuW2qeuF9fzBkx/GNcLKnWtCpd6oWdLUqrnYRnbkSZ9ta1MYO
+	 2NvGqmEMHAKEYokXm5Xwg9x7ExXBkVKpQbVd2eapj8BEQhEayD5eCE3iS3IrUczyxjOFL
+	 o96iCje+ZqHbNVEkuNXOMjX2pUBMQdoAnyOR8c3azNMd1f3wJCeVkTLOsJ/BTMQKmg8uP
+	 qU6DnRVM2/8t2li+W8DX6owqmtjVrzeGmpvGUUwUM34PUHwSB3XvwgfEfeEe6QUcjdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793384306;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=8d1kof1zznXy7nm6rro4noakwVC/Inb4KYV1cw83zlo=;
-	b=YsF9JJFD7yUTiTVVN0+iedTRyswKUNzQlZd42F20x/MKObsjH963w0lF18dUaxQSSAGY
-	 bC30Yc+RcqFJWW4oNuPHHkcxAQl+Po2kKgqMya4w69KuMtjKtoEZEI4odEUf/No55PEso
-	 cIQHY9tUZu+EInR0k1AHZhn1q/iPqDV2eskMJdct4VNsVBmKLetTcZLwTsoHLbAjalIwo
-	 llbjWQ582ubC7Mn4bRKMxULc5EM58m2+G+ZxH3CMW/QIHYZv8m3ot19kXpsy+futuQ2Hy
-	 aYjAo5Q26tO8DhK2LYASOZYxov3F6BagyI5WMxwhU7sBgnkUGsRDQi163CSEN7RtkDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793405678;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=Hq3qHGQR7nv/3NC9Br2iwzyPeeGRgGD2fYTnbPgW0qA=;
+	b=GBmBTHhLmXjecq6qQ+IucSs0tr3J9FBktiEgz7EAVLA7ZZMksOFHp7WET5jceLqP0Pbm
+	 8qHunN4Q6SNAMuI6/mFeDwwebr4TDB0RBJ9e1myKUemiuqkVWSQGlVR+I0bKZHdVi6iO1
+	 uMP/0En/h3tvJ5J73c2wjZDxgMAzjBXvKcvJjIJTWUg8+X5a0U3n+XX9UdqbkKS9IIhRi
+	 +T76jwPheRwvYeGRcIGEKr0d5kzZetwQYJGxYUIhrH1+9YoKjckd4QlXOlkcENyvvrHAI
+	 3TNH7rlOS38Qvgr8M3PTzRIlFjmQMRXwB1ifI0DL5lW3UJV6Ppg1uEtUoBDcJbbiMiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KmGAAVIM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DEF606A31A;
-	Fri, 30 Oct 2026 18:18:25 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=C2NnhdMq;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A2F6606A31D;
+	Sat, 31 Oct 2026 00:14:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A2F6606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KmGAAVIM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0432A1F0093A;
-	Fri, 30 Oct 2026 18:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793384305;
-	bh=8d1kof1zznXy7nm6rro4noakwVC/Inb4KYV1cw83zlo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KmGAAVIMGJXSXx/3b3QNzONz5+wuJo1adqcBUHn5OoVfETlskqSdntIljapoHGe8Z
-	 6WOyzjatNMZb/PIIqs0UzOFSmRudqEAgmz3ftczMpjPJNgPwmBzXbbWFxRnR/xAi/a
-	 NvaIzVxpTihCf9XCCs7cegxI+Mq8OYgxeWrY3swaq+kJXLy4mSCmHiHxui8WHa85B6
-	 xzblXzZFINQd1rBk0RXz+XuMmYVTdnd17e5x0ZtfK9aNQe8GXwp/krWjdDnYAhWhK2
-	 7NDujZY0Z4fB27it6WvoXNKVdBQ16gNtN3gyEJaPSqGYQ+bu9Gk0Z/RlXFQw5T6HmL
-	 peMzfwRGvVeTg==
-Date: Fri, 30 Oct 2026 11:18:23 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: Magnus Kulke <magnuskulke@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Magnus Kulke <magnuskulke@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <liuwe@microsoft.com>,
-	Anirudh Rayabharam <Anirudh.Rayabharam@microsoft.com>
-Subject: Re: [PATCH v4] drivers/hv: remove deposited pages from direct map
-Message-ID: <20261030181823.GA581409@liuwe-devbox-debian-v2.local>
-References: <20260930121047.19993-1-magnuskulke@linux.microsoft.com>
- <49a7b3b0-5314-c028-d0e6-a46e65ed880d@linux.microsoft.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=C2NnhdMq
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A7DBB20B7166;
+	Fri, 30 Oct 2026 17:14:24 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7DBB20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793405664;
+	bh=Hq3qHGQR7nv/3NC9Br2iwzyPeeGRgGD2fYTnbPgW0qA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=C2NnhdMqxNXKrhhx7bh6/zGSQFCn3+/nXNbYbSrYButfurlnwkMWud2lCo4z8xymU
+	 qPmhm7y/OIZzFYRjW7k1GW6xKJ8+f2IulBwlX4qXf4n9umohAyHjrjIzMsKVGzkr7e
+	 CFz5R50xGAeDo374L0bYFcQIEniU4NIYWYj+6jmo=
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+To: decui@microsoft.com,
+	haiyangz@microsoft.com,
+	mhklinux@outlook.com,
+	wei.liu@kernel.org
+Cc: arnd@arndb.de,
+	catalin.marinas@arm.com,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lpieralisi@kernel.org,
+	mark.rutland@arm.com,
+	sudeep.holla@kernel.org,
+	thuth@redhat.com,
+	will@kernel.org
+Subject: [PATCH v6 0/6] arm64: hyperv: Add Realm support for Hyper-V
+Date: Fri, 30 Oct 2026 17:14:06 -0700
+Message-ID: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -66,115 +70,81 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49a7b3b0-5314-c028-d0e6-a46e65ed880d@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 03:54:30PM -0700, Mukesh R wrote:
-> On 9/30/26 05:10, Magnus Kulke wrote:
-> > hv_call_deposit_pages() donates pages (deposit) to hypervisor for L2
-> > guest on L1VH systems via HVCALL_DEPOSIT_MEMORY. The hypervisor takes
-> > ownership of those pages and per contract revokes root partition
-> > access to them, raising a #GP on access from the L1VH root partition.
-> > 
-> > However, the pages remain mapped in the kernel direct map, so kernel
-> > code may still access them even though the hypervisor has revoked
-> > access.
-> > 
-> > Helpers such as "load_unaligned_zeropad()" deliberately read past the
-> > end of a buffer and across page boundaries. A read into an unmapped
-> > page is tolerated and triggers a #PF, for which the kernel executes
-> > a fixup in the exception table.
-> > 
-> > If such a call steps into a page that has been deposited, the access
-> > raises a #GP by the hypervisor from which the above handler cannot
-> > recover and the kernel panics:
-> > 
-> >    Oops: general protection fault, maybe for address 0xff1100941a3dfffc
-> >    RIP: 0010:csum_partial+0xe5/0x110
-> > 
-> > This condition will appear on L1VH system that have created L2
-> > partitions (and hence deposited pages) and exercise networking code
-> > paths such as csum_partial() can trigger this condition when a buffer
-> > ends close to a page boundary (e.g fffc in the above example).
-> > 
-> > The fix is to remove the deposited pages from the direct map before
-> > they are passed to the hypervisor, and restore them when the hypervisor
-> > returns them again.
-> > 
-> > We want to avoid flushing the TLB in the loop, so we use the _noflush()
-> > variant of set_direct_map_valid() when marking a deposited page invalid
-> > and flush the affected page ranges in one go ourselves. In the opposite
-> > direction this is not required:
-> > 
-> >    > If a paging-structure entry is modified to change the P flag from
-> >    > 0 to 1, no invalidation is necessary. This is because no TLB entry
-> >    > or paging-structure cache entry is created with information from a
-> >    > paging-structure entry in which the P flag is 0.
-> > 
-> > (Intel SDM Vol. 3, 4.10.4.3)
-> > 
-> > Signed-off-by: Magnus Kulke <magnuskulke@linux.microsoft.com>
-> > ---
-> > Changes since v3:
-> > - Batch contiguous pages in the restore path
-> > - Adjusted comment about failure modes
-> > 
-> > Changes since v2:
-> > - Checkpatch format fix
-> > 
-> > Changes since RFC:
-> > - Handle direct-map restoration failures without returning unmapped
-> >    pages to the allocator.
-> > - Move freeing of withdrawn pages into the restoration helper.
-> > ---
-> >   drivers/hv/hv_proc.c           | 83 +++++++++++++++++++++++++++++++++-
-> >   drivers/hv/mshv_root_hv_call.c |  4 +-
-> >   include/asm-generic/mshyperv.h |  4 ++
-> >   3 files changed, 87 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-> > index 57b2c64197cb..b056051a5ac5 100644
-> > --- a/drivers/hv/hv_proc.c
-> > +++ b/drivers/hv/hv_proc.c
-> > @@ -7,7 +7,9 @@
-> >   #include <linux/cpuhotplug.h>
-> >   #include <linux/minmax.h>
-> >   #include <linux/export.h>
-> > +#include <linux/set_memory.h>
-> >   #include <asm/mshyperv.h>
-> > +#include <asm/tlbflush.h>
-> >   /*
-> >    * See struct hv_deposit_memory. The first u64 is partition ID, the rest
-> > @@ -15,6 +17,35 @@
-> >    */
-> >   #define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
-> > +/*
-> > + * Add or remove a set of physically contiguous page runs from the kernel
-> > + * direct map. Once a page has been deposited the hypervisor owns it and
-> > + * revokes root partition access to it.
-> > + */
-> > +static int hv_deposit_update_direct_map(struct page **pages, int *counts,
-> > +					int num_allocations, bool valid)
-> > +{
-> > +	int i, err, ret = 0;
-> > +
-> > +	for (i = 0; i < num_allocations; ++i) {
-> > +		err = set_direct_map_valid_noflush(pages[i], counts[i], valid);
-> > +		if (err && !ret)
-> > +			ret = err;
-> > +	}
-> 
-> I realize I am late to the review, so if too late, please ignore.
-> If the caller is going to not continue on error but will revert,
-> what is the reason to keep going on error then?
-> 
-> And this function should undo it itself if there is error instead
-> of forcing the caller to do it imo. It could just undo the part which
-> is done.
-> 
+Realms (CoCo VMs on ARM) require host calls to be routed through the RMM
+(Realm Management Monitor) via the RSI (Realm Service Interface). This
+series implements most of the necessary changes to support Realms on
+Hyper-V.
 
-Magnus, while you work on rebasing the patch, perhaps you can also
-address this.
+One required change is not included in this series. The two buffers
+allocated via vzalloc() in netvsc_init_buf() cannot be decrypted in
+vmbus_establish_gpadl(). Currently only linearly mapped memory can be
+decrypted.
 
-Wei
+This patch series was tested by booting a Realm on Cobalt 200 running
+Windows. I tested 4KB and 64KB page size. I replaced vzalloc() in
+netvsc_init_buf() with alloc_pages_node() -> set_memory_decrypted() ->
+vmap() in my testing as a workaround for the issue mentioned above [1].
+
+Changes since v1 [2]:
+  Patch 1: Add explicit padding to the RSI host call structure
+  Patch 3: Change from a per-cpu pointer lazily allocated to an array
+             of host call structs indexed by cpu id
+  Patch 4: Align input_page + output_page allocation to PAGE_SIZE since
+             that is the smallest unit of memory that can be decrypted
+           ~Remove KASAN tags before passing address to
+             set_memory_decrypted() since __is_lm_address() does pointer
+             arithmetic.~ (reverted in v3)
+  Patch 5: Add a helper function to reduce repetition
+           Check for NULL before indexing into host call array
+
+Changes since v2 [3]:
+  Patch 3: Remove hv_hostcall_free() and inline the logic for simplicity
+           Reorder edits to keep #include line at the end of the file
+  Patch 4: Remove kasan_reset_tag()
+
+Changes since v3 [4]:
+  Rebased onto arm64 for-next/smccc-bus which includes moving RSI header
+  files out of arch/arm64 [5]
+
+Changes since v4 [6]:
+  Patch 1, 2, 4: Fix commit message to reflect the new header file names
+  Patch 5: Remove extra blank line
+
+Changes since v5 [7]:
+  Patch 2: Move Realm hypervisor detection out of the generic
+           arm_smccc_hypervisor_has_uuid() into hyperv_detect_via_smccc()
+           so other SMCCC users are unaffected
+  Patch 3: Drop the <linux/arm-rsi-cmds.h> include, now added in patch 2
+
+[1] https://lore.kernel.org/all/20260721195633.1438361-1-kameroncarr@linux.microsoft.com/
+[2] https://lore.kernel.org/all/20260609181030.2378391-1-kameroncarr@linux.microsoft.com/
+[3] https://lore.kernel.org/all/20260625173500.1995481-1-kameroncarr@linux.microsoft.com/
+[4] https://lore.kernel.org/all/20260721201148.1441143-1-kameroncarr@linux.microsoft.com/
+[5] https://lore.kernel.org/all/20260923140405.1111554-4-aneesh.kumar@kernel.org/
+[6] https://lore.kernel.org/all/20261001220552.1793471-1-kameroncarr@linux.microsoft.com/
+[7] https://lore.kernel.org/all/20261002215725.2015959-1-kameroncarr@linux.microsoft.com/
+
+Kameron Carr (6):
+  arm64: rsi: Add RSI host call structure and helper function
+  arm64: hyperv: Detect Hyper-V via RSI host call in CCA Realms
+  arm64: hyperv: Add per-CPU RSI host call infrastructure for CCA Realms
+  Drivers: hv: Mark shared memory as decrypted for CCA Realms
+  arm64: hyperv: Route hypercalls through RSI host call in CCA Realms
+  arm64: hyperv: Implement hv_is_isolation_supported() for CCA Realms
+
+ arch/arm64/hyperv/hv_core.c       | 155 +++++++++++++++++++++++-------
+ arch/arm64/hyperv/mshyperv.c      |  62 +++++++++++-
+ arch/arm64/include/asm/mshyperv.h |   4 +
+ drivers/hv/hv_common.c            |  17 +++-
+ include/asm-generic/mshyperv.h    |   1 +
+ include/linux/arm-rsi-cmds.h      |  22 +++++
+ include/linux/arm-smccc-rsi.h     |   7 ++
+ 7 files changed, 228 insertions(+), 40 deletions(-)
+
+
+base-commit: bce57945f5e7207960b2bd567a6e880f90258ffb
+-- 
+2.45.4
+
