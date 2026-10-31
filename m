@@ -1,68 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793405687;
-	b=yTDrc810/Zxro3urYUGvBHt+gnDFnYk9IirWCd8MYnD5h92Dtq93gJK+ubPDabFaewGD
-	 kaVZhxOn+YTwDqZZ3RFyIYPGmOa/rCgquCWCR9ABIHcGnl1bhEPCHRILVdY0tYNgcstRy
-	 rXFbWCyDIbJahq13Um4VWZEQeHmsZeEORT4dmrZ1eIiNV96YxqPSg0c93Pe4zVrXYGkkJ
-	 3MzXqWAN9+mhKJyHeD4NiBhXyYNw0DYnO5I2NwnADAvTRJzA6wPZMM6Ltn9m4vnxixHHv
-	 cau3J2YvxHwpixIaGgj7N5kBEgmu7E4RBG0b05rayEaaab8Aoa1fEde815j5dz/dXPg==
+	t=1793406464;
+	b=XqMqyev5R3V4yKoPaUi01C8KXBJtZO4JBJ+EaFHy4JDHARgsDxuS56U+LL2oqls1jXd0
+	 YTh/9e55HJYhp2NGAm2SCQeRCmFXkm0/Yx3MoOGcm6NKJtQLQCqGm5wQgxkK9mApAUGFL
+	 Wyu3QaXAOrSYIAb9Yk3dhLOIQL22ZVQSl6VE/Lwq75HawoPfXqK/KVWJb2J6k1axOSJps
+	 jTBESVWACqJz/Cc+YYPauo2ySM+iSZLD8miozebVSaNjpiiciRjpje3Z8K3WNDQxtDJ/g
+	 5Ei7y+OZlk5bStng3CmqdZZQVdyzuW5Nb7RdRWbcIkb08PhITQ0As57NoNq+lCDZ6XA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793405687;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=UZaxZ3Xj6BQMasztnzAo4Ozc8Pd1UX24Y0xc+tKwRzc=;
-	b=5BxkvwB7NJOy9sVnh6NzyIc3iDJnvwUkpS+r2K7rrEyI6ADGlEEuTYR5z+ofPZ4gsU3p
-	 /cWrp3Ie4RA9zo4WeaWr1uzxGajggc1AGbl9RyaERTmxFwP23WszkdOdGqibaISpNRJJc
-	 yf81D+55BQve6uyEUh2CpdhjeQbSa9WoTfTUjl2Vz5rQErdYtH1adot2n2hXD/IMYPJOc
-	 U/6ynDg+3vOXHDTfvVV9yjv9gMWWy2b8BTejOzOGpHA0/ulPeDRtffCU5pNDVfsHx/Qwc
-	 +fcknwjJqTYHiDt4VyShpgU11IHr6AxwvWmn+qunuvcdVnv0PVVQqeHnyd8B1NW9yOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793406464;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=cv+JWitwttEO03ALofpCJiDyXTLOG25yqR/oF++s0HE=;
+	b=h5/zAylYja09bjbKiGYSLpbk6LIdoAcr9wIYDk2zTkWQyPL5TgGwckGdRe6b5mm7HmyN
+	 0PBhH4DvpCw4h1j8P6jyuvMzn8jWVag/eE7TRTD6k5wYlzLS7dPHMGT9TgJugHXtoMyxO
+	 hz7McVa5zT8P2RDo17Qh9+/m5ZID0CifbvzPosvk0llsf5PmTY4/Tvwu+cm/rDEVS0hbi
+	 dFhtTM2n7xIBkVBEKxmh3eM/RIjwrWjK77JEvLoeB9A5JU3BRUUjyQpxYTwjXcRQ7pe+Y
+	 PvHAq4c3pJMKMLl1NYgwp9wFcxqcUh2B/Q7Jiushdgef9jEVtCXqxNPV+oNdtrDG0JA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y65z0RwT;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FD9C606A33A;
-	Sat, 31 Oct 2026 00:14:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FD9C606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=INmROvAI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593C6606A31A
+	for <linux-hyperv@vger.kernel.org>; Sat, 31 Oct 2026 00:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y65z0RwT
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6E5F720B7166;
-	Fri, 30 Oct 2026 17:14:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6E5F720B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793405668;
-	bh=UZaxZ3Xj6BQMasztnzAo4Ozc8Pd1UX24Y0xc+tKwRzc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y65z0RwTxcPxIGklvi2ejn+smW3Rp1xeaXpQyWkxTFkLcb85HhS+tBgPn5stYbQ/J
-	 1ug8CxZ0WZJKd3v+W3BbqdnQpTLCtLbVvo9sdZ9Tgik64XiAaGbHfLyDMxm125r9Zj
-	 aimCJDo+Lov4J+yZ8WboIWok1h3IWqG4/xzk0zlY=
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-To: decui@microsoft.com,
-	haiyangz@microsoft.com,
-	mhklinux@outlook.com,
-	wei.liu@kernel.org
-Cc: arnd@arndb.de,
-	catalin.marinas@arm.com,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lpieralisi@kernel.org,
-	mark.rutland@arm.com,
-	sudeep.holla@kernel.org,
-	thuth@redhat.com,
-	will@kernel.org
-Subject: [PATCH v6 6/6] arm64: hyperv: Implement hv_is_isolation_supported() for CCA Realms
-Date: Fri, 30 Oct 2026 17:14:12 -0700
-Message-ID: <20261031001412.4150488-7-kameroncarr@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=INmROvAI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FD51F000C1;
+	Sat, 31 Oct 2026 00:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793406463;
+	bh=cv+JWitwttEO03ALofpCJiDyXTLOG25yqR/oF++s0HE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=INmROvAI18rqjBvAZvfk9iz9sdygyIVYWuIjXv8hEQo/XVU8MmGfBkNeFTxU+3les
+	 j5GgZiaztN3VsTSfmoAZYq0DJqYMdKWiQA7b+dGrbYT4OY9j3zeGRpnauCoFwQuIx+
+	 mmdI6yX8+2YXIsJmxqzhiGEPXGm+CNO3hvaVAsdM09m48R5mxMSWuZqm5JpOzYMGI2
+	 k4DWdSogEyeJOZNQo2yNzbYCHghOx9a257NfXPzqBJg6RR11CehT3sw7350JYWaWpf
+	 qhzyZC/r3fPvSgGI/QrCiEWYXcaJ0k8tPnuzq/xDCrOTzaztswBhpT5hJOAFTeRIZ+
+	 l6fdjGobGpI8A==
+Message-ID: <sashiko-outbox-191675@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Kameron Carr" <kameroncarr@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
 References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 31 Oct 2026 00:27:43 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -71,35 +60,129 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Provide an arm64 implementation of hv_is_isolation_supported() that
-overrides the __weak default in drivers/hv/hv_common.c.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] hv: arm64: set_memory_decrypted() in hv_common_cpu_init() hits BBM=
+L3 -EBUSY
+--
 
-The implementation deliberately does not depend on
-hv_is_hyperv_initialized() because hv_common_init() consults
-hv_is_isolation_supported() before hyperv_initialized is set.
+commit 8d15e623ca43bf983a70fccbb187c60423dd18ef
+Author: Kameron Carr <kameroncarr@linux.microsoft.com>
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
----
- arch/arm64/hyperv/mshyperv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Drivers: hv: Mark shared memory as decrypted for CCA Realms
 
-diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-index da6c3aa0..8a2c446 100644
---- a/arch/arm64/hyperv/mshyperv.c
-+++ b/arch/arm64/hyperv/mshyperv.c
-@@ -187,3 +187,8 @@ bool hv_isolation_type_cca(void)
- {
- 	return is_realm_world();
- }
-+
-+bool hv_is_isolation_supported(void)
-+{
-+	return is_realm_world();
-+}
--- 
-2.45.4
+This commit introduces hv_isolation_type_cca() and extends
+hv_common_cpu_init() to mark the per-CPU hypercall input and output pages as
+decrypted on Arm CCA Realm guests. It also aligns the hypercall buffer
+allocation size to PAGE_SIZE when calling set_memory_decrypted().
 
+> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+> index 31256cb22b39e..a60c92cd83eac 100644
+> --- a/drivers/hv/hv_common.c
+> +++ b/drivers/hv/hv_common.c
+> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>  	u64 msr_vp_index;
+>  	gfp_t flags;
+>  	const int pgcount =3D hv_output_page_exists() ? 2 : 1;
+> +	const size_t alloc_size =3D ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, P=
+AGE_SIZE);
+>  	void *mem;
+>  	int ret =3D 0;
+> =20
+> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>  	 * online and then taken offline
+>  	 */
+>  	if (!*inputarg) {
+> -		mem =3D kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+> +		mem =3D kmalloc(alloc_size, flags);
+>  		if (!mem)
+>  			return -ENOMEM;
+> =20
+> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>  		}
+> =20
+>  		if (!ms_hyperv.paravisor_present &&
+> -		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+> -			ret =3D set_memory_decrypted((unsigned long)mem, pgcount);
+> +		    (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+> +		     hv_isolation_type_cca())) {
+> +			ret =3D set_memory_decrypted((unsigned long)mem,
+> +						   alloc_size >> PAGE_SHIFT);
+>  			if (ret) {
+>  				/* It may be unsafe to free 'mem' */\
+>  				return ret;
+>  			}
+
+[Severity: High]
+Can calling set_memory_decrypted() from hv_common_cpu_init() fail with -EBU=
+SY
+and prevent secondary CPUs from coming online on BBML3-capable arm64 system=
+s?
+
+On arm64, when the boot CPU supports BBML3 and debug_pagealloc is disabled,
+paging_init() -> map_mem() sets linear_map_requires_bbml3 =3D true and maps=
+ the
+linear region with block/contiguous descriptors because is_realm_world()
+makes can_set_direct_map() return true.
+
+In arch/arm64/hyperv/mshyperv.c, hyperv_init() runs as an early_initcall()
+during do_pre_smp_initcalls() and registers hv_common_cpu_init() for
+CPUHP_AP_HYPERV_ONLINE:
+
+	ret =3D cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE, "arm64/hyperv_init:onlin=
+e",
+				hv_common_cpu_init, hv_common_cpu_die);
+
+Next, smp_init() calls bringup_nonboot_cpus() before smp_cpus_done() ->
+setup_system_features() -> setup_system_capabilities() finalizes the
+ARM64_HAS_BBML3 capability. During bringup_nonboot_cpus(), each secondary C=
+PU
+is marked online in secondary_start_kernel() (making num_online_cpus() > 1)
+and then executes CPUHP_AP_HYPERV_ONLINE -> hv_common_cpu_init() while
+system_supports_bbml3() and system_capabilities_finalized() are still false.
+
+That leads to the following call chain on the secondary CPU:
+
+  hv_common_cpu_init()
+    set_memory_decrypted()
+      realm_set_memory_decrypted()
+        __set_memory_enc_dec()
+          __change_memory_common()
+            update_range_prot()
+              split_kernel_leaf_mapping()
+
+In arch/arm64/mm/mmu.c:split_kernel_leaf_mapping(), splitting the linear map
+in this window triggers a warning and returns -EBUSY:
+
+	if (!linear_map_requires_bbml3 || is_kfence_address((void *)start))
+		return 0;
+
+	if (!system_supports_bbml3()) {
+		if (system_capabilities_finalized())
+			return 0;
+
+		if (WARN_ON(!page_alloc_available))
+			return -EBUSY;
+
+		/*
+		 * Boot-time: Started secondary cpus but don't know if they
+		 * support BBML3 yet. Can't allow splitting in this window
+		 * in case they don't.
+		 */
+		if (WARN_ON(num_online_cpus() > 1))
+			return -EBUSY;
+	}
+
+When split_kernel_leaf_mapping() returns -EBUSY, hv_common_cpu_init() leaks
+the mem buffer and returns -EBUSY from the CPUHP_AP_HYPERV_ONLINE callback,
+aborting secondary CPU bringup.
+
+Should the per-CPU hypercall buffers for possible CPUs be allocated and
+decrypted earlier on the boot CPU (for example in hv_common_init() while
+num_online_cpus() =3D=3D 1), or after system capabilities have been finaliz=
+ed?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031001412.4150=
+488-1-kameroncarr@linux.microsoft.com?part=3D4
