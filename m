@@ -1,62 +1,152 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793523500;
-	b=U3fFkqnZJSkXN1H3yk+qLhORdc6A1iwiP6l2rdgSrB7TlWepx44FF0AXyWcddODTRBRx
-	 /vK5zdmezHQpwWdZPj2grmjI2cTUaeMIKytjyadxcXZIBr/T3rFyU57kuxn0ewRlgfEwk
-	 Bp6IQe7rMGWBcjSgB8O8/zxnR4zKd64HW7J4Wew8I4MdmOL/Y4JahpJaH7drl+P31tdbw
-	 OOf7TIivEC+XvxM9rx4EMOYGLRFtitlF/7rO7Nfc8KIShfeQ7h1blpmVcD5jzW5L9hQuM
-	 d8dm+KcL59fSiR2rDDOt3u/FfmFhQ/USCodPvb5RGhyfR5dCxrk6c7KJLPrtuK2mJ5Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793523500;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=JzfMxPDvE/DIfgZOvqLJqehfO8uVrWrYGcmJs14Haks=;
-	b=1iVchcHc59QjK7KP4WMPbV7ZP3B9vXWShDIFgCe9IdkNWqHgn8NoE1txHNx4U6LKFgb9
-	 W5BuGGoFLj1p5AENI0uecrglRvMECVfK4I80J5vvLsD/YtsiCqVLuxd/G/h71BVUzwo6f
-	 ZiD6U5ceo0YCLYVENfoR0OZKQkKvIkTSqReveqNAxtJ6LXOm5/aHImzzdUe3swktjGnHi
-	 hZkPCYGiSmT4N2nfNbHifclYhoxGaDk4vbGlBN16cHLTFAWU9UnE0c+bLuKeuC3jyy1N2
-	 fprCYrlQ/XiDnMvbF2bqKkqZRHQA8f4jwMnb7abTa9yz6pGtAvqK8e1uYNht3euwIJQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKMPRrqU;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.20
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793572867;
+	b=IbNgm0qvqXxLyGVpqD5rTbDpN7ISjCmHQLxqzLaMQsOg1fiTKfOKFzjV9bHa0cq1bDrL
+	 t38WThq77O1Ay5lK8h0YbKYLSMFcWJZSH00ltUVLOxR7kKC5fmqO0Kx7Yf7Y4UWEEi6UN
+	 OX+t7hYawfNXlaH3c1AX+bUIKe3NiMLxt35S4+Q3xMc9p7w+tinmc8jQfBeQYnLAFk+89
+	 rSJ2zligh7Wj7ehot7RK0kKP1pP8hTVu0wz7zXCzfdQeYDKYx8UpA59Nv7B9tL+INv14M
+	 rYSEtZBE9uGGar4UKs/5BaRl7dc/XCSrX9cNqi+jdfGgpRX2+Jm9WWvb02lmTN/tJGQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793572867;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=CkIFuBCRT5z30ZXvbH55l1JjMrh44ta/XGfVW8+GRG0=;
+	b=UJ/VZK5lBre1pb4jULIf9+Eha8ibIpH6L5sxXJPUgWkQ/SOTFQuJuvdDFWsc3BJ1JbKs
+	 iVMYj07N+YeAUzWfZl5RCaiuJ/IbQBlP9j5IlIylh3SgCmMhFqI43ls23Gwu7vV5U6uYk
+	 85JpHdh0ZIuVgfN1KWhz9pp2ugtLtMHXjpqtx8lNPCu/jd9MZHmNKgu4w2lUeE09RWBmZ
+	 Gj+QCSE3gpqvEOaJdhyVVIzBixkZe4w6sLJcBB5nZD9FfX+7iXlukMiykAqvJANXQ9+uZ
+	 lMiEj5sZj6shIk+Bg6gsIznLBzQCasedWopmmvlQsZmg1cIKUwhHaR6WxJSETstqV0w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=NWzKKPQj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.20
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010020.outbound.protection.outlook.com [52.103.23.20])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF49E606A326;
-	Sun,  1 Nov 2026 08:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED64606A327;
+	Sun,  1 Nov 2026 22:41:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5ED64606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aKMPRrqU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8310D1F00919;
-	Sun,  1 Nov 2026 08:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793523499;
-	bh=JzfMxPDvE/DIfgZOvqLJqehfO8uVrWrYGcmJs14Haks=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=aKMPRrqUmhJt1IWZyFOV4k1FzZ8WraSrl/hCNeazZ6gTYhkCbp1COjUZ/GhlID1dl
-	 U5e+jt5CTrvo0yJmj+6QZkhQcUVVLYhRk6y7g6VCkp/zwEtnMqrJXDcD7tT/ta9LM8
-	 r6wQ1D+w6/8uuReoTfUm2lAJVcFCUn7hmcCNkWaiTM0rV7vJZ1b3ICFIPd8Erx8zOg
-	 5wBR76d6OhjWdZReAOywjUGljHNDmShji+/KsKwOdD0ri8eT7Cxq0/cgL1Nr6jOoRO
-	 CZId+FzNcJ/N/rIJpk/hDu7hn75gxWjdyC+JMGc+wya4EDIXQwvhssnB1LiTOh2ZsE
-	 9bh78NKslQ6AA==
-Subject: Re: [PATCH net v4] net: mana: Add support to process throttled EQEs
-From: netdev-bot+sashiko@kernel.org
-To: sahilchandna@linux.microsoft.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, kotaranov@microsoft.com, horms@kernel.org,
- ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, leitao@debian.org, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, stable@vger.kernel.org
-Date: Sun, 01 Nov 2026 08:58:18 +0000
-Message-ID: <179352349805.3131.9139142774275348324@kernel.org>
-In-Reply-To: <20261028084020.2051254-1-sahilchandna@linux.microsoft.com>
-References: <20261028084020.2051254-1-sahilchandna@linux.microsoft.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=NWzKKPQj
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bZ5PhQ8EMwph0A9BMmE5jNVq2RspSyPHnYw86NdlJheTFMa4U47wQK+XX59sioRMCpi1jKO4md04P/IQpj3F3RZ/iai1PztZot55ZRrWaqXpzw8mTBOC6A9NQIcr2bmxzo40FqzAp3FkRc95i6+aUoElIbmPteRtzHcMD1oC0/lzhO7422p0E82Z76ahhJcrXvFVCB/zAr/4ACFySDvgGZl4n0+MiYD3r1AxldvRaGVt9hZoR0idq8qsC2+tNSC/tR8p0Q0UmTKYGJURsw3E+zstoc/yJtopaBjbgdR66v4YSxAyE0I8sELxSA7lVFYhJBwHUnslHvh6zujof+LnUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CkIFuBCRT5z30ZXvbH55l1JjMrh44ta/XGfVW8+GRG0=;
+ b=QFnP+MkSO4H9/YCj5ya8gDixCozXe/V27ETpy3CoteZJXOmpHnw7T/jg2p67oifWtDeQX9RW3tz4le7249iEqwOVbP00RiIRfvzLP6UD56cpB59gSfvja4JABr8KhiSQDaJWg5Mc1FxdyRmCbmraYX+XJR0jfX4CflrNyTnOWbyGsMTXQx6bWZRIMC0VM18AgFfELpUJnaiCAFW7//tR+/8B/+QzHNuenuVujSeQozzPufjuhqm1oZ4/ICxYS8H7r7RaiuxaYuF3rxvFVy7hfFQ2K744ir+LpvGeutlgJ+CLi3WAw88bxjTJE09Nc/LMdKAE5ZwUYh93hSM4fNnCeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CkIFuBCRT5z30ZXvbH55l1JjMrh44ta/XGfVW8+GRG0=;
+ b=NWzKKPQjANYtqSQqB/sB1UFBFofm3fVxj1rZlQoyF83SWyOQzcTcwzxcHkfcZBdeinsx9ZpwR0+bKo4+De406/JM35iidXxyDTGDeH5eemMSMA4p3OX4wHjL7msHt16X1fNNolPxNmqiYrqDIwK5EtZfqFKY64AKtriGWA1fIx9goplacCVZ0JS3ThKkajLoBO9gji4IiDpMXUSYtrfxnhLTAhyLAy+McvS7rCByDdqjPax8tFKKe1416Lv0Dm5Bcx9Nsh5YL2aY3LpTJLXOSTirQWj/gNF/SyuKRMlKXQKF1spixlqhSJIB6J6jZ1idfdmF7+UXQ0KrNfHatHocMw==
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
+ by SA1PR02MB11338.namprd02.prod.outlook.com (2603:10b6:806:4db::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Sun, 1 Nov
+ 2026 22:41:05 +0000
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0569.011; Sun, 1 Nov 2026
+ 22:41:05 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: "mdshahid03@gmail.com" <mdshahid03@gmail.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>
+CC: "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com"
+	<hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] x86/hyperv: use pointed-to type size for page table
+ offsets
+Thread-Topic: [PATCH] x86/hyperv: use pointed-to type size for page table
+ offsets
+Thread-Index: AQMEA58+vUfz9CyU12gsRpaliji9ybTMmnng
+Date: Sun, 1 Nov 2026 22:41:05 +0000
+Message-ID:
+ <MN2PR02MB6863DEE71E0B43A5850ED6C1D46B2@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <20261101082034.134583-1-mdshahid03@gmail.com>
+In-Reply-To: <20261101082034.134583-1-mdshahid03@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|SA1PR02MB11338:EE_
+x-ms-office365-filtering-correlation-id: a9d2b805-dfa6-490c-5272-08df386936c8
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|31061999003|15080799012|8022599003|8062599012|19110799012|37011999003|8060799015|55001999006|24021099003|13091999003|25010399006|102099032|440099028|4302099013|3412199025|1602099012|3071699003|10035399007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?uW0h2KR7bDcIectj32ZIwFJNL6FkfVW/c2Dd0lt9CJwM85DjjKyMkmXP6cuI?=
+ =?us-ascii?Q?btwrk8jqM2QN3ebToTt+1/B4Z/mlcjswdS7QpP8ElAMFJUe3raLheeqcmzNO?=
+ =?us-ascii?Q?XuiLr04dMzJiHsvfduVzXOIKOQHCGwL8nEPFw4Ukk+TNXXO2wUu4mrPBXPEu?=
+ =?us-ascii?Q?VDy3uJAQThBlhrHduKD0TQYaEi2Bp2kryoVD4uFpwj1rDXoRRKj1P2TF+cKK?=
+ =?us-ascii?Q?Sh00emSGfc1+1CLvzXhXV1bwZWLCcpexMZhfnErlHbHwbXNWJdHXIrjwxgxQ?=
+ =?us-ascii?Q?lYgouSnJF0rzU+1JNQfwI/pYvMR+T9K7mTqsdGkLW7JR8Dgsy9Xqa5E6w9rx?=
+ =?us-ascii?Q?oKumf8ZFpNM+QL9aW/F9V361LaIHhmdr5JJFtWs6wbU4W4gD8754A2vkgIDS?=
+ =?us-ascii?Q?8jirrAvNYZLZd77NdFV71p1K/rlbozBVRWBUospKz79hB3CwZT4tj+/xmrPO?=
+ =?us-ascii?Q?TxWdnDNIOeZOCzIClHuEnADouvs1Jxm82TUWBX7/ISaVr0rCQ1Mp0msP49Q3?=
+ =?us-ascii?Q?IIbVMPEyYpsa+7b9uAd7rrcUChHl9nZlH2f65UE9BZVWG6J+CToB/N9fExq/?=
+ =?us-ascii?Q?rG7+4FaBDUYyV0Bcaz547BTaBPZaFyHGUVVoBcKurLDuyGQQp8VcWR5hSMvo?=
+ =?us-ascii?Q?vyfVxAk4MNNmFB6UUt5H7gUomk+TqcB7Sv+26H6HPva6GRH/fAX1Yo0O0JBe?=
+ =?us-ascii?Q?LHE7sUn9NG/jInYFm2tU2e7EuSledLVNJ3wPeL3TKU/FL7gSIrn2sRGseJrz?=
+ =?us-ascii?Q?Z0A9IRY8h4JqyDDW+NyLe5KTtrrtVb5qUZq4uabXb7cBPTVIlN/qLTiDCQuV?=
+ =?us-ascii?Q?9NOlNB96qFuMaSqiL3VqjWMfCKDk0ywoNurcvhy1bs+4kT6DFl0GQHJvc48u?=
+ =?us-ascii?Q?Tm/LcZNtcvB2HL6xzMtQwaSJslOz2Et+nTLvn1nyyBMTjTQxwdecKfbSrSfF?=
+ =?us-ascii?Q?6KyhgYP4ST5VXvh9XrvxmuPvhRvQ8c6bML0Itav2jSGv4qcrAwynCQ+08wIJ?=
+ =?us-ascii?Q?j7gHn3KPQVImEA/+jUpomFRXcCJpQ0KshdxIaw2yRxqiCYBAKpXOiBcYwlcw?=
+ =?us-ascii?Q?hUvMyyyN?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Cs+zljgr0v18jvUrtUJBSUIMkj5u7Qr/u+fEyjbSkh6j8Gsb2AXWhr3mg2VS?=
+ =?us-ascii?Q?s9jzoSfvGIVcK7ihywB71CBTw86X/EgPyMslJzEI2gky/G4cidwDUiV0X+f4?=
+ =?us-ascii?Q?LjGQw7kD4oHywt3OqJtVmjgokLVBus2mDduHlgeZGE1QYAe1T27QWS9AImc9?=
+ =?us-ascii?Q?/e4nUwSWhbB994EkZoJx+NxxqyPSwQEds6VzgjiC5N1Vzp8aPS7qdjNrgZmv?=
+ =?us-ascii?Q?QvI1vzH7K0vZ+SDDxsFN3uogIBImRjVXQVsrJlhfYAeR7vw/qdQECfIR3bCR?=
+ =?us-ascii?Q?xzcHH2YJqMQWoggHUEu3AGj3jZp93FWJovIsa+h8CMqzTUHlCuLVPnetobD3?=
+ =?us-ascii?Q?9pmBBEBuNZguaP1Fman7+5SrWGxysPK+kyNR+Fd5qOZ4Q/cmRF1ro5YvwBTV?=
+ =?us-ascii?Q?Ss0DRMdJ2PG5jEChVD8woRgm2wwt0IjSsjWknDov5/fk/DClvsRHEUG7Qrzm?=
+ =?us-ascii?Q?dEa7xWuL8EfQcmRYx9Jvet0ml6BJXAcALJPDaKv2x9uD6LrwxsGlxjfptJnj?=
+ =?us-ascii?Q?cg1x9MiXNVGsiMTQp9l/1LfDo+wMONg1KwJ360KAK5ukP9XeaOdzljD67cc9?=
+ =?us-ascii?Q?+CIRlzWHVdbS3uWmYNc+CLvBsTuc2u/ludhfSiiv6MU+VxjS1cTRrDq39vUf?=
+ =?us-ascii?Q?EoEfsQHnE2TnGsHgI9oH9JQN29sM8C+l5VIodDQyV+NA0dMz/Bgsh1NWpRa3?=
+ =?us-ascii?Q?377OjjugQ0d78aLmP/B+ww1lXJjwFxFI16cI/Zm+xboIf4QXpGEavRYDkqcD?=
+ =?us-ascii?Q?NQNlyWBSDuhl9iOuzUbONeLy5/VIFG8EX6q+FX1AHN20eTYow4CP5Wva7y4v?=
+ =?us-ascii?Q?L/21+EaqlWRpVgnZMA4V2Z3KjJO3IGLMfYpJ1BF86KuLMCuBNcimHN7Nomoj?=
+ =?us-ascii?Q?RgQkfLzyUCx9JVA+WZlMnTYrttqqtVnGfzSgLM4Gvnsz71oLNxWcUNg2glLH?=
+ =?us-ascii?Q?fDx14g789C73Wkt4KKz1u46nV49iE7zhfGEAA14RnoCzfQqJHkIlcVsUuUjs?=
+ =?us-ascii?Q?GQX7iNwXuhIXYF+d4EYfwNsg62P/5/UsEDIkyMForoyakfU0XgQ/FGSsukUA?=
+ =?us-ascii?Q?PIknVq0SaI1hw17OKanODXEA8HfdKBSxZIiwCG+xS5+YUj84ksGfA8yvKIGX?=
+ =?us-ascii?Q?19IwlQGfKR/+qhBEFzFeGauyxKfWa8PwTvFF1dvaxzvVIuiydVsByKR9f+hU?=
+ =?us-ascii?Q?HXgx9Vb0RYu2Pwn+tQsr72hATKSPGRHC9dP56FwDfeJ79zg5uziEvWzyyIed?=
+ =?us-ascii?Q?cb+Y8VfWaCImMOPEhUjqqc1OeNnTAzNFQcLCkbNTFNKlDIbd2g7gZXUg0doU?=
+ =?us-ascii?Q?F9TXsAJZCb3GwQXuibZRgKmwT/V2v3HI087jFaKoFnd8Qc0uFlZb8IobKYyz?=
+ =?us-ascii?Q?HWbQGY0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -66,245 +156,79 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9d2b805-dfa6-490c-5272-08df386936c8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2026 22:41:05.1609
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB11338
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+From: mdshahid03@gmail.com <mdshahid03@gmail.com> Sent: Sunday, November 1,=
+ 2026 1:21 AM
+>=20
+> The Hyper-V crash trampoline code calculated page table entry
+> offsets using sizeof() on pointer variables.
+>=20
+> Use sizeof(*ptr) instead to calculates the size of the
+> pointed-to page table entry.
+>=20
+> This makes entry size explicit and avoids relying on the
+> pointer size matching the page table entry size.
+>=20
+> This issue was reported by Coccinelle script noderef.cocci.
 
-Critical: 0 · High: 1 (1) · Medium: 0 · Low: 1
+FWIW, this issue was also reported by the kernel test robot.
+See [1] & [2]. So you should probably add "Reported-by:" and
+"Closes: " tags for those reports.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+In any case, the fix looks good to me.
 
-- [High] The patch tells firmware that every EQ on the function handles
-  throttled EQEs.
-- [Low] The patch marks only one side of the concurrent accesses.
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 
-Pre-existing issues:
-- [High] mana_gd_destroy_cq() waits for a grace period
-  (synchronize_net()) only when mana_gd_detach_cq() returns true,…
+[1] https://lore.kernel.org/lkml/202603101143.qUL1R1iy-lkp@intel.com/
+[2] https://lore.kernel.org/lkml/202610080503.ivDF5iYX-lkp@intel.com/
 
---
-
-net: mana: Add support to process throttled EQEs
-
-This commit handles GDMA_EQE_THROTTLE events. It records up to two child
-CQs per EQ and calls their callbacks when a throttle EQE arrives. CQ
-teardown now detaches the CQ from its parent EQ and from cq_table[]
-before a grace period. The patch also advertises a new capability bit and
-adds a per-EQ throttle counter to ethtool stats.
-
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index 8c915e0087846..ab942d5bfe058 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -757,6 +757,27 @@ void mana_gd_free_service_wq(struct gdma_context *gc)
->  	gc->service_wq = NULL;
+>=20
+> Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+> ---
+>  arch/x86/hyperv/hv_crash.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/arch/x86/hyperv/hv_crash.c b/arch/x86/hyperv/hv_crash.c
+> index 5ffcc23255de..810eb1a4a0a2 100644
+> --- a/arch/x86/hyperv/hv_crash.c
+> +++ b/arch/x86/hyperv/hv_crash.c
+> @@ -512,20 +512,20 @@ static void hv_crash_build_tramp_pt(void)
+>  	pte_t *pte;
+>  	u64 pa, addr =3D trampoline_pa;
+>=20
+> -	p4d =3D hv_crash_ptpgs[0] + pgd_index(addr) * sizeof(p4d);
+> +	p4d =3D hv_crash_ptpgs[0] + pgd_index(addr) * sizeof(*p4d);
+>  	pa =3D virt_to_phys(hv_crash_ptpgs[1]);
+>  	set_p4d(p4d, __p4d(_PAGE_TABLE | pa));
+>  	p4d->p4d &=3D ~(_PAGE_NX);	/* enable execute */
+>=20
+> -	pud =3D hv_crash_ptpgs[1] + pud_index(addr) * sizeof(pud);
+> +	pud =3D hv_crash_ptpgs[1] + pud_index(addr) * sizeof(*pud);
+>  	pa =3D virt_to_phys(hv_crash_ptpgs[2]);
+>  	set_pud(pud, __pud(_PAGE_TABLE | pa));
+>=20
+> -	pmd =3D hv_crash_ptpgs[2] + pmd_index(addr) * sizeof(pmd);
+> +	pmd =3D hv_crash_ptpgs[2] + pmd_index(addr) * sizeof(*pmd);
+>  	pa =3D virt_to_phys(hv_crash_ptpgs[3]);
+>  	set_pmd(pmd, __pmd(_PAGE_TABLE | pa));
+>=20
+> -	pte =3D hv_crash_ptpgs[3] + pte_index(addr) * sizeof(pte);
+> +	pte =3D hv_crash_ptpgs[3] + pte_index(addr) * sizeof(*pte);
+>  	set_pte(pte, pfn_pte(addr >> PAGE_SHIFT, PAGE_KERNEL_EXEC));
 >  }
->  
-> +static void mana_gd_schedule_eq_cqs(struct gdma_queue *eq)
-> +{
-> +	struct gdma_context *gc = eq->gdma_dev->gdma_context;
-> +	struct gdma_queue *cq;
-> +	u8 i;
-> +
-> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-> +		cq = rcu_dereference(eq->eq.child_cq[i]);
-> +
-> +		if (!cq)
-> +			continue;
-> +
-> +		if (cq->id >= READ_ONCE(gc->max_num_cqs) ||
-> +		    !gc->cq_table || gc->cq_table[cq->id] != cq)
-> +			continue;
+>=20
+> --
+> 2.43.0
+>=20
 
-[Severity: Low]
-This patch marks only the write side. mana_gd_detach_cq() clears
-gc->cq_table[id] with WRITE_ONCE(), and mana_hwc_destroy_channel() now
-sets gc->max_num_cqs with WRITE_ONCE().
-
-The readers still use plain loads. Here that means gc->cq_table and
-gc->cq_table[cq->id]. The GDMA_EQE_COMPLETION branch of
-mana_gd_process_eqe() also reads both fields without READ_ONCE():
-
-	if (WARN_ON_ONCE(cq_id >= gc->max_num_cqs))
-		break;
-
-	cq = gc->cq_table[cq_id];
-
-Could KCSAN report these as data races? Should the readers use
-READ_ONCE() to pair with the marked writers?
-
-This is mostly an annotation issue. The completion-path race was already
-there before this patch, and the loads in mana_gd_schedule_eq_cqs() only
-compare the pointer value.
-
-> +
-> +		if (cq->cq.callback)
-> +			cq->cq.callback(cq->cq.context, cq);
-> +	}
-> +}
-
-[ ... ]
-
-> @@ -1073,25 +1104,66 @@ static void mana_gd_create_cq(const struct gdma_queue_spec *spec,
->  			      struct gdma_queue *queue)
->  {
->  	u32 log2_num_entries = ilog2(spec->queue_size / GDMA_CQE_SIZE);
-> +	struct gdma_queue *parent;
-> +	u8 i;
->  
->  	queue->head |= INITIALIZED_OWNER_BIT(log2_num_entries);
-> -	queue->cq.parent = spec->cq.parent_eq;
-> +	parent = spec->cq.parent_eq;
-> +	queue->cq.parent = parent;
->  	queue->cq.context = spec->cq.context;
->  	queue->cq.callback = spec->cq.callback;
-> +
-> +	if (!parent)
-> +		return;
-> +
-> +	/* For throttled EQE store the child CQ */
-> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
-> +		if (!rcu_access_pointer(parent->eq.child_cq[i])) {
-> +			rcu_assign_pointer(parent->eq.child_cq[i], queue);
-> +			return;
-> +		}
-> +	}
-> +
-> +	WARN_ONCE(1, "mana: EQ %u has no free child CQ slot\n", parent->id);
->  }
-
-[Severity: High]
-Do mana_ib CQs ever end up in child_cq[]?
-
-This is the only place that writes child_cq[], and it returns early when
-spec->cq.parent_eq is NULL. mana_ib_create_kernel_queue() uses a zeroed
-spec:
-
-drivers/infiniband/hw/mana/main.c:mana_ib_create_kernel_queue() {
-	struct gdma_queue_spec spec = {};
-	...
-	err = mana_gd_create_mana_wq_cq(mdev->gdma_dev, &spec, &queue->kmem);
-	...
-}
-
-mana_ib_gd_create_cq() then binds the RNIC CQ in hardware to an mana_ib
-EQ:
-
-	req.eq_id = mdev->eqs[cq->comp_vector]->id;
-
-mana_ib_install_cq_cb() adds it only to gc->cq_table[].
-
-mana_ib_create_qp_rss() and mana_ib_create_qp_raw() attach raw and RSS
-QP CQs to the per-vPort mana_en EQs:
-
-	eq = &mpc->eqs[cq->comp_vector % mpc->num_queues];
-	cq_spec.attached_eq = eq->eq->id;
-
-These CQs are also registered only through mana_ib_install_cq_cb().
-
-The patch also adds GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE to
-GDMA_DRV_CAP_FLAGS1, which mana_gd_verify_vf_version() sends for the
-whole function.
-
-Suppose hardware folds one of these CQs' completions into a
-GDMA_EQE_THROTTLE. mana_gd_schedule_eq_cqs() walks child_cq[], which is
-empty on mdev->eqs and holds only the mana_en TX and RX CQs on mpc->eqs.
-mana_ib_cq_handler() never runs, and nothing polls or re-arms the CQ.
-
-Wouldn't that stall the RDMA CQ the same way the commit message
-describes for TX?
-
-A fixed two-entry child_cq[] also cannot represent an EQ shared by many
-RDMA CQs on the same comp_vector.
-
-The commit message says:
-
-  "A mana_en EQ serves one TX CQ and one RX CQ, and the HWC EQ serves
-  the HWC CQ."
-
-Is that still true once raw QPs attach CQs to mpc->eqs?
-
-If advertising the bit is what turns on throttle EQEs, this patch adds a
-new RDMA stall. If it is not, the RDMA case stays unfixed. Could the
-commit message cover mana_ib in either case?
-
-> -static void mana_gd_destroy_cq(struct gdma_context *gc,
-> -			       struct gdma_queue *queue)
-> +/* Unlink queue from its parent EQ's child_cq[] and from gc->cq_table[].
-> + *
-> + * Return: true if queue was in the parent EQ's child_cq[]. In that case the
-> + * caller must wait for an RCU grace period before freeing queue, because
-> + * mana_gd_intr() may still be handling a throttle EQE for it.
-> + */
-> +bool mana_gd_detach_cq(struct gdma_context *gc, struct gdma_queue *queue)
->  {
-
-[ ... ]
-
-> +	/* Check if CQ might have been detached already, only clear if
-> +	 * it still points to same queue .
-> +	 */
-> +	if (id < gc->max_num_cqs && READ_ONCE(gc->cq_table[id]) == queue)
-> +		WRITE_ONCE(gc->cq_table[id], NULL);
->  
-> -	if (!gc->cq_table[id])
-> -		return;
-> +	return attached;
-> +}
->  
-> -	gc->cq_table[id] = NULL;
-> +static void mana_gd_destroy_cq(struct gdma_context *gc,
-> +			       struct gdma_queue *queue)
-> +{
-> +	/* Wait for irq reader holding the cq */
-> +	if (mana_gd_detach_cq(gc, queue))
-> +		synchronize_net();
->  }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but mana_gd_detach_cq() also
-clears gc->cq_table[id]. The GDMA_EQE_COMPLETION branch of
-mana_gd_process_eqe() reads that table and calls the callback under the
-rcu_read_lock() in mana_gd_intr():
-
-	cq = gc->cq_table[cq_id];
-	...
-	if (cq->cq.callback)
-		cq->cq.callback(cq->cq.context, cq);
-
-mana_gd_destroy_cq() only waits when the CQ was in child_cq[]. An
-mana_ib kernel (kmem) CQ has parent_eq NULL, so detach returns false and
-no grace period runs:
-
-mana_ib_destroy_cq()
-  mana_ib_remove_cq_cb()       <- returns early for kmem
-  mana_ib_gd_destroy_cq()
-  mana_ib_destroy_queue()
-    mana_gd_destroy_queue(kmem)
-      mana_gd_destroy_cq()     <- clears cq_table[id], no wait
-
-Suppose an IRQ on another CPU has already loaded the pointer from
-cq_table[]. Can it then call mana_ib_cq_handler() on a freed gdma_queue
-and mana_ib_cq?
-
-The old mana_gd_destroy_cq() also cleared the slot without a grace
-period, and drivers/infiniband/hw/mana has no synchronize_rcu() or
-call_rcu(). However, the new kernel-doc and the "Wait for irq reader
-holding the cq" comment now describe a rule that leaves out the
-cq_table[] reader.
-
-User CQs look similar. mana_ib_remove_cq_cb() frees the entry before it
-clears the slot:
-
-	kfree(gc->cq_table[cq->queue.id]);
-	gc->cq_table[cq->queue.id] = NULL;
-
-Should the grace period depend on removal from cq_table[] instead of
-child_cq[] membership?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261028084020.2051254-1-sahilchandna%40linux.microsoft.com
