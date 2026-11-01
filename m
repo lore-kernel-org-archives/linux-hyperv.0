@@ -1,100 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793499576;
-	b=TZcNT6KfCWn0pTJDrDKxgeE1oCqwFeq7yBqVW4ceK/evJ8uq9r5XplaWnXbdbjcuSpCg
-	 JbHFWZNGiOx8dU3U6B06aP4Ov/2bzpFSY+9xaMFgQ23loF+I8XRNKqFrY4tUvBOLcmUbL
-	 pOO41lHKQUBiP+psTaaD1iXnOiaH8emh7Qm+Rf6eC7Te2whr5dMcLynz2otqo0oN0toks
-	 HlAln+wpaXYPwfWm2Y7nGJnc2vnaC9QlLiVaCY/UcfTKaZMLTKgzqcPXGvFk418coY9w9
-	 HH+1INXIqTA4BGoTt1wsIjiYpW6r5tg9vCsWsx+EGDPpDV/jNDyc65lIpKfh50Zv9Mw==
+	t=1793499782;
+	b=rSPFKEup0ljBRyAXIM/rFf8HkD8QPz/KI3OVr1OsfuGlSH14jqTAhnfZgjCr+o66pExF
+	 oHQGZHLQrOY0XVptQefekUt3zCgUz7LFcCf27jMrWKMOR6bJDTs+sHPwE2OXNKQ2n3hTh
+	 ICkOx+7lclx6FZ0Z82Y2kkld3mZXDjmv4TbbF/STsrseAWFUHFS+1NAzX0I7+xivLYDPg
+	 NS8MRuve4b9YeAz3+Vfe4o43MWV+ywM8x3ut3a/Lj5bL6ni/8NcjMV/mki/w+sJ2tKtXX
+	 GB529sh3IZ4IbKitBBxwaj4a1G7hcNF0Epck16PXgvU3j1mv3oUnuK81KL2ZADYQDUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793499576;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793499782;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 From:X-Google-Original-From:To:Subject:Date:Message-Id:X-Mailer:
 	 Reply-To:MIME-Version:Content-Transfer-Encoding;
-	bh=k88BwvWfLq76BrlD5YhgEnAxSNEPIp86CwFeIKzS1es=;
-	b=Q+ZiXwSE11Xy1i0jB12p0Ap5VDkjf7r47CYg2QBS6wHaqs/Hy3/eGxrazM8r76G/axhQ
-	 /nQAil7vUJCgnYEQNi9/v5LcqIP85q4FD2q/jstVOV70TycGxrmwoEd04iHs1tHuI1vCr
-	 DtylphzGRHnkwqALDLhpKNLYXl3Fr87MsoohjQWmPWMrczqQTRbrY8taIittuNkhy+bCQ
-	 Sw7MkULNhX+FgP0Rv0W7oA6Qu0ZaDCjcaw9y/MxwzI+pI8Rmcr9v8QnRPgQdhV0riCu3Z
-	 zBjpyF80d3XhJxUrobJx+cBuUQ57b5WOZTvd1XLWR+Qw6CwgipWlL77K1CsReo/svjA==
+	bh=SfvhkL24xvl3PAjJXRntjTxag9TSeggpKFFCCl9d1tM=;
+	b=J2bgJxwQWRDlWMNtRcFMcpyjIbPfbH4wGdzUS8GPXuNVy26AkW2ouFDj7zJUpJxCT72E
+	 ms6ru69CMFRwO5ep1tQ5kwVRrRGCYlQlvNyZsKs1Jy7j796XjK+742zz+dyPVsK3KmBt1
+	 FLYdeiiAFsVmJODoSuyX3yd4ZyP3c/PRAkkFXkJ0gRD94609h3XJ28utlQsuzFP7rI1KQ
+	 Z9Em4RAo7OR/hFadTnVllnnQeW6WeoHX5dVRI9oYO2++kByLK2HzNVeVWuFbX/XzxDq6R
+	 khU8p1mv0q1PQdyWJpcxdtkUQNmLgwMuxOMhPlMqkedwB+KNlPWcrizfS9Mg23DFqjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z97J2tn9;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NT34Dq13;
+	arc=none smtp.remote-ip=209.85.215.179
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5E7606A325
-	for <linux-hyperv@vger.kernel.org>; Sun,  1 Nov 2026 02:19:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A5E7606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7045606A32E
+	for <linux-hyperv@vger.kernel.org>; Sun,  1 Nov 2026 02:23:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7045606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z97J2tn9
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e99b1e5b4cso11784125ad.0
-        for <linux-hyperv@vger.kernel.org>; Sat, 31 Oct 2026 19:19:34 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NT34Dq13
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so1018447a12.1
+        for <linux-hyperv@vger.kernel.org>; Sat, 31 Oct 2026 19:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793499574; x=1794104374; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793499781; x=1794104581; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=k88BwvWfLq76BrlD5YhgEnAxSNEPIp86CwFeIKzS1es=;
-        b=z97J2tn9YP4OKliBOZ02sjkxl4EO3e/wYvz7OQKXhmp2W96sSz6NXrjz5s8sEjTjQQ
-         a7NzEynEyHUC/R+tCCiYFYe4v2Gp32HGT51HWB7wCe3mydhJ+zp+z7iJihd9cyAcfFjG
-         gAMzTXFs1g8zTWquA8WCh9UgJrazcoSklwV1Up7OhrPytSrdw7shhzcmJAskFWwa0mdv
-         Zz+CkdtGJjVV4+uUOAxMVZYMFi5FjXT7FqL4+hjWAz2okWEWSdLnlD2e8Wn9e61J2KCk
-         5zS7AS9jVc4RqahiC4bFgnCd4tJRay3AXgQnod9pszQxY5Od0yLvj+WG1nZQTllgCeMC
-         2NhA==
+        bh=SfvhkL24xvl3PAjJXRntjTxag9TSeggpKFFCCl9d1tM=;
+        b=NT34Dq13h8P1lVENiORQWK95jgkDeGPsgUJin8Nlh7dUAiTnOn7P2pXOaiyE1VHhBT
+         fCGDKIkbDB+nwhXuBi/1NK+fIS4ZQeq7f1M9ZKjDDSg9OYYUCU377/Lp/d9IHn5XmcaW
+         SDXVacVetTcN93dn49E4d0EYku28LMmjrTv/ORlUMSKs5ep8eyxBmyZdNwbHbxhLtUOo
+         k/vluJmNvotukMLN2BY7rEI07fHPG80tne/T/lp/LDr7GGOYSpD3KElwsafLErCwDar2
+         G+KdCX+uINQTht1d3H7X0tNGj5dHuutvvo1RuiW9NjuRNAoccEqTvshlAbZ3CnRlV/pK
+         W2Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793499574; x=1794104374;
+        d=1e100.net; s=20260707; t=1793499781; x=1794104581;
         h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=k88BwvWfLq76BrlD5YhgEnAxSNEPIp86CwFeIKzS1es=;
-        b=TtCPo1pFzIyNIM0TNjIjr111HVdr4H/atiVHq8cr8M/SzSBXf23NQhefTTNyr8etZs
-         em0SNdJZ3krBFv+a6NZ9vO6FHXhB0QBCPR0m9uqk2U0zk1TciazXEC6kI7ZuJoMF0kZA
-         P9pYx/mKPOgila8t91LnQ/Ib7BaYMFxoIRCSTA+aZShIairJFi3660pmdAm+fev9uqkV
-         ccyPbDvroBxq5tkEl+imG5DQougbzWb6dGmSxKVSZidlxROUz32VxHuIYzOtYJi/Cp9X
-         bbRWzDjh5xYioaUqlYYVLdvN4UzTPcFZbi7keH7qMZHmbPNs9r5JuAvrcTHufeaRzB54
-         qBSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxEKVusE09tuKOa46c43EWEuo5e6fC3c+FJZPlK8fEa1Y2VTWo5ZDMLDJchnJlcTHU/IcQr0TjBhdQSuNE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9S3lPByEo5nX2IGGSt28Z9eV/rlMHb4lZeaFuki18hCsfhMTZB
-	bzsQqEVqe3XtjFNJmgukDJAL1ZZm8Lgo0MJkH5oh0hcDFhFK5u5ueSxoVX/ipA==
-X-Gm-Gg: AYBFou1/rjs1hA6Wh/Cq4IkDM6Y+ngQhFHs4puk7lBXfSXujbkXolL2Z7QfPY5/HGnv
-	dOeJ7lk90Vs36Ofq/b3nZOtU/z23EAH9//4KqtdWY1CAhDPBJfeD0AzLKd9NvlgEQFHHsbJ92Wt
-	xCVX8VVUJUZx/1bAA23r7Ff808STcbNWcKfHN/RQmNm3qm+ECcT+COMy6DGIhqxEwaaT07B8wiD
-	FlkWDdxXf7kU+0B/dzaRW9RhZPyI9hGqj93K7AAgkAteSUWVFIn+EvGL7Xt06qvW8LO/QhDFX72
-	qIhS95mqROG9MqTq7WFuHBmZWnrlmvuaR1t7TelJnO86BBbXHFKTmlklr1ebhFyWIkYAU0RP8S3
-	Nw72T3iza4VGAHf4reZBy37/0rfPIl73vbBLfvX5mRX5bOIoEebfrdMx1e4oC+yzBgdAq00g3UJ
-	9fxTgsFQRpEEN5LOw6micJU6l0oqXPU5vTnDsiLggMdvKrRqLPuBQ2DNB/ikN3eHVPMVCBdstWt
-	tIicaAAu1FgKI22W9aQM0Wvlg7pJWXwOILgST114UEW26pjuwawzZ5VG1Xef0EuoNKDwMlh7us0
-	8DlH1GRkPYrhu4XFwJxWKIAEf8Wg+JjkVI7uV41wZC5JZduynhQSutCVy3cZYYn6v35A0b6Utts
-	vy2oAo2ATGjs/86ysuNteiINqyTDIC6Aung==
-X-Received: by 2002:a17:90b:574e:b0:3aa:ff61:9504 with SMTP id 98e67ed59e1d1-3ae897c94f6mr4877395a91.20.1793499574282;
-        Sat, 31 Oct 2026 19:19:34 -0700 (PDT)
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SfvhkL24xvl3PAjJXRntjTxag9TSeggpKFFCCl9d1tM=;
+        b=OKNReRlfOMECBACpcRA5ETkRH6i7ZZ83W/ISnCSyYMt03rJznMpkFht8ceGLL2Kdo6
+         mzf2ObS4rvz9TbPgHGFAziVgyp3LGN6XXvMzpEenLZph1GyyMA1rY0UFHlpkX9pU/c8k
+         p3eD9hPaUk/Ej5ZDdIdbRu5jjSfHuoFpffXUWOynBBLNwSkENhQ4JgEy5WVrlhQZ1+5d
+         XFnt1D+I2KrCvtWTm9cAsQ/so5rg7NPm8ezOikGCTiL0gl5JQVsBIKe00U4T2BEKZpA8
+         uiskjWJ3toNuiLO25Y+CFnPoapUX5v3lYtx0V2I055XGLiGal00X+rk7M9LnKj3x5jho
+         EHZw==
+X-Forwarded-Encrypted: i=1; AKwUvBzJuHkSylqgCGK3i2csuCb43q0pPIILwFta8Fbqsiz/pohxWvCAyL5ouhylC27rbYoqAXU4ySn4JEEefOM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/I+H/4sgpyNLA/iiQLCAkGKLVnC6BrPvG4tu5mPvKAvTAVFst5
+	L696e+sbCYsUCHv6UhaatuKGhO6lHLkVInabmMAby4m3rpG3I6fg3lNT
+X-Gm-Gg: AYBFou2L0Kq81pXCkwf1S2F/R1pOV5/iSGz+b05uakYoTxqt3iCgV2x7/VqMNqE1Xiq
+	0iOJs4jgcdZKc6SAbfvAEfgPwEhKH4CnklfuDUggdUWwYfR2sO9m3RgbTRQ7R8t/AwPFHADgc8g
+	v82SLNCns9b0t9dOUh2IBpwKzfKkyGHxjQxxOJTBtn9spHmgQqzgM5BLxNSg46I4BrGT8nWLZs2
+	eoGsQZPf6ggCVh5DdY3GDJdkjKNIqZCholYHEQ1O8M1p+/eAsP4BIV/eSvrNmj3SkjXy2CJkGtn
+	3KjLNzTrqgZurcxPWHC6U5BQq+LkMZsahM3XfQ2/f0WpbzyPdNj2rYvTFqxFfaFmOhhZHvhPtbo
+	GDp7aOqVVUkPt/aj331GYpYLJWSif7oEd8iIOoakvfljf5rtQYtkLOKCwe5IHhl1xK895TG7S9c
+	0tlffJGrJRGFsTL8RD8hu3aM5lMthyDF8xphjpR59YpGsVZ/jiXR3IfVsMPwZLkXBl9hgL0hjQz
+	BQxiYptQfnKiUGnBE2+Zh8DPtPWZCA98VVajGoYVCrXln4m/1qtqMvZ1pMtUGR1BeaTOG/b3l/t
+	QHBuEKX0v+LqDOLFFscC0s4wqjO9MMQoFFQun51Kz6aRBKAoEeogxPlo9bwo9Niz9wQ5C8pxqb/
+	beavuFtp+WLpF8VK4+vaz8T8fpYfiQy/D1w==
+X-Received: by 2002:a17:90b:5250:b0:3a8:786a:cfed with SMTP id 98e67ed59e1d1-3ae897bfdd8mr3327794a91.37.1793499780877;
+        Sat, 31 Oct 2026 19:23:00 -0700 (PDT)
 Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae880b1f71sm4875120a91.4.2026.10.31.19.19.32
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae85e4ff4csm5452542a91.1.2026.10.31.19.23.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 19:19:33 -0700 (PDT)
+        Sat, 31 Oct 2026 19:23:00 -0700 (PDT)
 From: Michael Kelley <mhkelley58@gmail.com>
 X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: haiyangz@microsoft.com,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
-	lpieralisi@kernel.org,
-	kwilczynski@kernel.org,
-	mani@kernel.org,
-	robh@kernel.org,
-	bhelgaas@google.com
-Cc: linux-pci@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org
-Subject: [PATCH v4 1/1] PCI: hv: Spread load across CPUs when selecting effective affinity CPU
-Date: Sat, 31 Oct 2026 19:19:28 -0700
-Message-Id: <20261101021928.52649-1-mhklinux@outlook.com>
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/1] Documentation: hyperv: Update docs for PCI pass-thru device support
+Date: Sat, 31 Oct 2026 19:22:57 -0700
+Message-Id: <20261101022257.52819-1-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 Reply-To: mhklinux@outlook.com
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -108,296 +106,209 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In a system with multiple devices with the same configuration (such as
-NVMe controllers), the affinity masks are the same for all such devices.
-Linux typically must select a single CPU from each mask to be the effective
-affinity. If a fixed algorithm is used, such as picking the first CPU
-in the mask, interrupts from multiple devices are assigned to the same
-CPUs, while other CPUs are not assigned any interrupts, producing an
-interrupt load imbalance.
+Add a section to the documentation describing the IRQ domain and IRQ chip
+hierarchy that is created for virtual PCI devices, including the
+differences on x86 and arm64, and the reasons for those differences.
 
-On x86, the "APIC" IRQ chip avoids this problem by spreading the
-interrupts across the CPUs in an affinity mask. It tracks the number
-of IRQs assigned to each CPU, and chooses the CPU in the mask that
-has the fewest assignments. Because Hyper-V vPCI device IRQs eventually
-parent to APIC, the spreading done by APIC accrues to Hyper-V vPCI
-devices, so all is good in x86 systems.
+In the context of the IRQ domain and chip hierarchies, describe how the
+CPU selected for effective affinity is spread across CPUs in the affinity
+masks. Again, account for the differences in x86 and arm64.
 
-On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind of
-spreading for LPI interrupts. But Hyper-V provides guest VMs only with
-a virtual GICv3, not including an ITS or LPI support. IRQs for vPCI
-devices on arm64 are mapped to SPIs and parented to the "GICv3" IRQ
-chip. The GICv3 IRQ chip always chooses the first CPU in the affinity
-mask as the effective affinity, producing an interrupt load imbalance
-for Hyper-V vPCI devices in arm64 systems.
-
-The Hyper-V vPCI driver already has an arm64-specific IRQ chip to
-allocate and managed SPIs for use by vPCI devices. Solve the imbalance
-problem by extending this IRQ chip to implement a "set affinity"
-function that tracks SPIs assigned to each CPU, and chooses the
-least-loaded CPU as the effective affinity. Then invoke the parent
-IRQ chip (GICv3) to actually set that single CPU as the effective
-affinity in the virtual GICv3 hardware. As a result, IRQs are spread
-across CPUs like on x86 and interrupt load imbalances are avoided.
+Finally, rework existing text on how MSI messages are composed. Provide
+an expanded section on the overall approach that Hyper-V takes to MSI
+messages. The section provides more context on the handling of MSI messages
+in the Hyper-V vPCI driver, and why it is structured the way it is.
 
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
-Tested-by: Naman Jain <namjain@linux.microsoft.com>
 ---
-As an alternative, this spreading functionality could be implementedi
-for SPIs directly in the GICv3 IRQ chip, similar to what the ITS IRQ
-chip already has for LPIs. While Hyper-V's scheme of using SPIs for
-vPCI interrupts is allowed by the arm64 architecture, it's atypical.
-So the original decision was for the Hyper-V vPCI driver to handle
-the allocation and management of SPIs for this purpose rather than do
-it in generic GIC code. That led of the introduction of the "MSI" IRQ
-chip in the Hyper-V vPCI driver. This implementation of the spreading
-functionality follows that original decision by extending the "MSI"
-IRQ chip. If reviewers have reasons to prefer enhancing the GICv3 IRQ
-chip driver instead, I'm open to doing that.
+This doc update assumes that the patch to implement effective
+affinity spreading for arm64 SPIs [1] is accepted.
 
-I have not added any documentation to Documentation/virt/hyperv/vpci.rst.
-That documentation needs an entirely new section on the IRQ domains
-and chips, and their hierarchy differences on x86 and arm64. I'm
-working on a separate patch to add that documentation. But I don't
-want to hold up this improvement for that larger documentation task.
+[1] https://lore.kernel.org/linux-hyperv/20261101021928.52649-1-mhklinux@outlook.com/
 
-Changes in v4:
-* Fixed a typo in the commit message [Bjorn Helgass]
-* Capitalized "IRQ" in code comments [Bjorn Helgass]
+ Documentation/virt/hyperv/vpci.rst | 148 +++++++++++++++++++++++++----
+ 1 file changed, 131 insertions(+), 17 deletions(-)
 
-Changes in v3:
-* Moved checks for cpu < nr_cpu_ids inside hv_pci_inc/dec_spi_count()
-  to reduce duplication and code clutter. [Naman Jain]
-
-Changes in v2:
-* Added call to irqd_set_affinity_no_activate() so cpu_spi_count is
-  not corrupted by affinity changes to inactive IRQs [Sashiko]
-* Added comment for hv_pci_vec_irq_domain_activate about why it's
-  OK for always choose the initial CPU even though that biases
-  the spreading algorithm against that CPU [Sashiko]
-* In hv_pci_arm64_set_affinity(), updates to the SPI counts and the
-  selection of a new CPU are made atomic via a raw spin lock, like the
-  x86 "VECTOR" IRQ chip (though not the arm64 "ITS" IRQ chip). As a
-  result, struct cpu_spi_count no longer needs atomic_t. [Naman Jain]
-* Changed back to using cpu_present_mask instead of cpu_online_mask
-  in hv_pci_vec_irq_domain_activate() since the change wasn't
-  necessary. [Naman Jain]
-* Minor formatting changes to meet checkpatch --strict requirements.
-  [Naman Jain]
- drivers/pci/controller/pci-hyperv.c | 166 +++++++++++++++++++++++++++-
- 1 file changed, 162 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 824cf27e85e6..ddc5d70dbe78 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -743,10 +743,139 @@ struct hv_pci_chip_data {
- /* Hyper-V vPCI MSI GIC IRQ domain */
- static struct irq_domain *hv_msi_gic_irq_domain;
+diff --git a/Documentation/virt/hyperv/vpci.rst b/Documentation/virt/hyperv/vpci.rst
+index b65b2126ede3..881016781c74 100644
+--- a/Documentation/virt/hyperv/vpci.rst
++++ b/Documentation/virt/hyperv/vpci.rst
+@@ -159,6 +159,62 @@ ejections happen at inopportune times. Care must be taken when
+ modifying this code to prevent re-introducing such problems.
+ See comments in the code.
  
-+/*
-+ * Data structures and helper functions for spreading the CPU in the
-+ * affinity mask that is picked for the effective affinity. Such
-+ * spreading is done by the "APIC" IRQ chip on x86 and by the
-+ * "ITS" chip for LPIs with GICv3+ITS on arm64. But Hyper-V provides
-+ * only a GICv3 with SPIs (no ITS or LPIs) to arm64 guests. For SPIs
-+ * the "GICv3" IRQ chip always picks the first CPU in the affinity mask,
-+ * which can overload that CPU and reduce parallelism in processing
-+ * interrupts.
-+ *
-+ * While the Hyper-V configuration is architecturally allowed, it's not
-+ * typical, so the spreading is done here in pci-hyperv.c with the "MSI"
-+ * IRQ chip parented to "GICv3". Track how many SPIs have been assigned
-+ * to each CPU, and use that data to spread the IRQ load evenly across
-+ * the CPUs instead of just picking the first CPU. The code follows a
-+ * pattern similar to the spreading logic for the "ITS" IRQ chip.
-+ */
++IRQ Domains and Chips
++---------------------
++Early in the process of setting up a new vPCI device,
++hv_pci_probe() calls hv_pcie_init_irq_domain() to create an MSI
++parent IRQ domain for the device. This domain has IRQ chip functions
++to interact with Hyper-V to compose an MSI message and to mask
++and unmask interrupts. It becomes the parent domain for the per
++device IRQ domain created by the normal Linux driver for the
++device when it sets up its IRQs -- e.g., the NVMe driver function
++nvme_setup_irqs() calling pci_alloc_irq_vectors_affinity().
 +
-+struct cpu_spi_count {
-+	/* Index 0 is unmanaged. Index 1 is managed. */
-+	unsigned int	count[2];
-+};
++This MSI parent domain is parented to what the Hyper-V vPCI
++driver calls the "root" IRQ domain. On x86, the root IRQ domain
++is the VECTOR domain for the APIC. On arm64, the root IRQ domain
++is a domain created by the Hyper-V vPCI driver to overlay the
++"irqchip@<paddr>" domain created by the GICv3 driver when it
++initiaizes the virtual GICv3 hardware provided to the guest
++by Hyper-V. This overlay domain is named "hv_vpci_arm64", and it
++handles the limitation that Hyper-V provides only a GICv3 to the
++guest, not a GICv3 with ITS. As such, there are no LPIs available
++in the guest, so it must use SPIs for vPCI devices. While this
++is valid in the arm64 architecture, it is atypical. The Hyper-V
++vPCI driver glues things together by having hv_vpci_arm64
++allocate and manage the SPIs.
 +
-+static DEFINE_PER_CPU(struct cpu_spi_count, cpu_spi_count);
-+static DEFINE_RAW_SPINLOCK(cpu_spi_count_lock);
++**x86 IRQ domains and chips**
 +
-+static void hv_pci_inc_spi_count(struct irq_data *d, int cpu)
-+{
-+	int idx = irqd_affinity_is_managed(d);
+++-----------------------+-----------------------+------------------------------------------------------+
++| Domain Name           | Chip Name             | Notes                                                |
+++=======================+=======================+======================================================+
++| VECTOR                | APIC                  | Spreads effective affinity                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| <vPCI device GUID>    | Hyper-V PCIe MSI      | MSI parent. Per vPCI device. Created in              |
++|                       |                       | hv_pcie_init_irq_domain().                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| HV-PCI-MSIX-<PCIaddr> | HV-PCI-MSIX-<PCIaddr> | Per vPCI device. Created when driver sets up IRQs.   |
+++-----------------------+-----------------------+------------------------------------------------------+
 +
-+	if (cpu < nr_cpu_ids)
-+		per_cpu_ptr(&cpu_spi_count, cpu)->count[idx]++;
-+}
 +
-+static void hv_pci_dec_spi_count(struct irq_data *d, int cpu)
-+{
-+	int idx = irqd_affinity_is_managed(d);
++**arm64 IRQ domains and chips**
 +
-+	if (cpu < nr_cpu_ids)
-+		per_cpu_ptr(&cpu_spi_count, cpu)->count[idx]--;
-+}
+++-----------------------+-----------------------+------------------------------------------------------+
++| Domain Name           | Chip Name             | Notes                                                |
+++=======================+=======================+======================================================+
++| irqchip@<paddr>       | GICv3                 | Picks 1st CPU for effective affinity.                |
++|                       |                       | Created in gic_init_bases().                         |
+++-----------------------+-----------------------+------------------------------------------------------+
++| hv_vpci_arm64         | MSI                   | Spreads effective affinity. Created in               |
++|                       |                       | hv_pci_irqchip_init().                               |
+++-----------------------+-----------------------+------------------------------------------------------+
++| <vPCI device GUID>    | Hyper-V PCIe MSI      | MSI parent. Per vPCI device. Created in              |
++|                       |                       | hv_pcie_init_irq_domain().                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| HV-PCI-MSIX-<PCIaddr> | HV-PCI-MSIX-<PCIaddr> | Per vPCI device. Created when driver sets up IRQs.   |
+++-----------------------+-----------------------+------------------------------------------------------+
 +
-+static unsigned int
-+hv_pci_arm64_get_min_load_and(struct irq_data *d,
-+			      const struct cpumask *cpu_mask1,
-+			      const struct cpumask *cpu_mask2)
-+{
-+	unsigned int cpu = nr_cpu_ids, tmp;
-+	int count = S32_MAX, this_count;
-+	int idx = irqd_affinity_is_managed(d);
-+
-+	for_each_cpu_and(tmp, cpu_mask1, cpu_mask2) {
-+		this_count = per_cpu_ptr(&cpu_spi_count, tmp)->count[idx];
-+		if (this_count < count) {
-+			cpu = tmp;
-+			count = this_count;
-+		}
-+	}
-+
-+	return cpu;
-+}
-+
-+static unsigned int hv_pci_arm64_get_min_load(struct irq_data *d,
-+					      const struct cpumask *cpu_mask)
-+{
-+	return hv_pci_arm64_get_min_load_and(d, cpu_mask, cpu_possible_mask);
-+}
-+
-+static int hv_pci_arm64_select_cpu(struct irq_data *d,
-+				   const struct cpumask *aff_mask)
-+{
-+	int cpu;
-+
-+	if (irqd_affinity_is_managed(d))
-+		cpu = hv_pci_arm64_get_min_load(d, aff_mask);
-+
-+	else if (cpumask_intersects(aff_mask, cpu_online_mask))
-+		/* Try the intersection of the affinity and online masks */
-+		cpu = hv_pci_arm64_get_min_load_and(d, aff_mask, cpu_online_mask);
-+
-+	else
-+		/* If that doesn't fly, the online mask is the last resort */
-+		cpu = hv_pci_arm64_get_min_load(d, cpu_online_mask);
-+
-+	pr_debug("IRQ%d -> %*pbl CPU%d\n", d->irq, cpumask_pr_args(aff_mask), cpu);
-+
-+	return cpu;
-+}
-+
-+/*
-+ * Track the count of SPIs assigned to each CPU. Pick a single CPU from the
-+ * affinity mask based on the SPI loading data, and have the parent IRQ
-+ * chip (should be "GICv3") set the effective affinity to that single CPU.
-+ */
-+static int hv_pci_arm64_set_affinity(struct irq_data *d,
-+				     const struct cpumask *mask_val,
-+				     bool force)
-+{
-+	unsigned int cpu, prev_cpu;
-+	int ret;
-+
-+	prev_cpu = cpumask_first(irq_data_get_effective_affinity_mask(d));
-+
-+	scoped_guard(raw_spinlock_irqsave, &cpu_spi_count_lock) {
-+		hv_pci_dec_spi_count(d, prev_cpu);
-+
-+		if (force)
-+			cpu = hv_pci_arm64_get_min_load(d, mask_val);
-+		else
-+			cpu = hv_pci_arm64_select_cpu(d, mask_val);
-+
-+		if (cpu >= nr_cpu_ids) {
-+			hv_pci_inc_spi_count(d, prev_cpu);
-+			return -EINVAL;
-+		}
-+
-+		hv_pci_inc_spi_count(d, cpu);
-+	}
-+
-+	ret = irq_chip_set_affinity_parent(d, cpumask_of(cpu), force);
-+	if (ret < 0) {
-+		guard(raw_spinlock_irqsave)(&cpu_spi_count_lock);
-+		hv_pci_inc_spi_count(d, prev_cpu);
-+		hv_pci_dec_spi_count(d, cpu);
-+	}
-+
-+	return ret;
-+}
-+
- /* Hyper-V PCI MSI IRQ chip */
- static struct irq_chip hv_arm64_msi_irq_chip = {
- 	.name = "MSI",
--	.irq_set_affinity = irq_chip_set_affinity_parent,
-+	.irq_set_affinity = hv_pci_arm64_set_affinity,
- 	.irq_eoi = irq_chip_eoi_parent,
- 	.irq_mask = irq_chip_mask_parent,
- 	.irq_unmask = irq_chip_unmask_parent
-@@ -874,6 +1003,12 @@ static int hv_pci_vec_irq_domain_alloc(struct irq_domain *domain,
- 					      hwirq + i,
- 					      &hv_arm64_msi_irq_chip,
- 					      domain->host_data);
-+		/*
-+		 * Defer affinity changes on inactive IRQs so the cpu_spi_count
-+		 * can be maintained for spreading purposes.
-+		 */
-+		irqd_set_affinity_on_activate(irq_get_irq_data(virq + i));
-+
- 		pr_debug("pID:%d vID:%u\n", (int)(hwirq + i), virq + i);
- 	}
+ Interrupt Assignment
+ --------------------
+ The Hyper-V virtual PCI driver supports vPCI devices using
+@@ -166,7 +222,7 @@ MSI, multi-MSI, or MSI-X.  Assigning the guest vCPU that will
+ receive the interrupt for a particular MSI or MSI-X message is
+ complex because of the way the Linux setup of IRQs maps onto
+ the Hyper-V interfaces.  For the single-MSI and MSI-X cases,
+-Linux calls hv_compse_msi_msg() twice, with the first call
++Linux calls hv_compose_msi_msg() twice, with the first call
+ containing a dummy vCPU and the second call containing the
+ real vCPU.  Furthermore, hv_irq_unmask() is finally called
+ (on x86) or the GICD registers are set (on arm64) to specify
+@@ -179,22 +235,8 @@ interrupts on a single CPU, causing a performance bottleneck.
+ See details about how this is resolved in the extensive
+ comment above the function hv_compose_msi_req_get_cpu().
  
-@@ -881,25 +1016,48 @@ static int hv_pci_vec_irq_domain_alloc(struct irq_domain *domain,
- }
+-The Hyper-V virtual PCI driver implements the
+-irq_chip.irq_compose_msi_msg function as hv_compose_msi_msg().
+-Unfortunately, on Hyper-V the implementation requires sending
+-a VMBus message to the Hyper-V host and awaiting an interrupt
+-indicating receipt of a reply message.  Since
+-irq_chip.irq_compose_msi_msg can be called with IRQ locks
+-held, it doesn't work to do the normal sleep until awakened by
+-the interrupt. Instead hv_compose_msi_msg() must send the
+-VMBus message, and then poll for the completion message. As
+-further complexity, the vPCI device could be ejected/rescinded
+-while the polling is in progress, so this scenario must be
+-detected as well.  See comments in the code regarding this
+-very tricky area.
+-
+-Most of the code in the Hyper-V virtual PCI driver (pci-
+-hyperv.c) applies to Hyper-V and Linux guests running on x86
++Most of the code in the Hyper-V virtual PCI driver
++applies to Hyper-V and Linux guests running on x86
+ and on arm64 architectures.  But there are differences in how
+ interrupt assignments are managed.  On x86, the Hyper-V
+ virtual PCI driver in the guest must make a hypercall to tell
+@@ -223,6 +265,78 @@ using all the vectors on a CPU doesn't happen. Since such a
+ problem is only a theoretical concern rather than a practical
+ concern, it has been left unaddressed.
  
- /*
-- * Pick the first cpu as the irq affinity that can be temporarily used for
-+ * Pick the first CPU as the IRQ affinity that can be temporarily used for
-  * composing MSI from the hypervisor. GIC will eventually set the right
-- * affinity for the irq and the 'unmask' will retarget the interrupt to that
-- * cpu.
-+ * affinity for the IRQ and the 'unmask' will retarget the interrupt to that
-+ * CPU.
-+ *
-+ * The first CPU is always used for initial activation because spreading the
-+ * initial CPU would have to be done without information about affinity groups
-+ * that may exist. The resulting assignments would pollute the "least loaded"
-+ * data for making the final assignments. Everything would still work, but the
-+ * spreading would be less even than it could be. This approach typically
-+ * produces a large count on the initial CPU until the final affinity
-+ * assignments are made, and hence biases the spreading against that initial
-+ * CPU. But that's OK because that initial CPU is used for interrupts not
-+ * tracked here, such as VMBus slow-speed devices and the PL011 console UART.
-  */
- static int hv_pci_vec_irq_domain_activate(struct irq_domain *domain,
- 					  struct irq_data *irqd, bool reserve)
- {
- 	int cpu = cpumask_first(cpu_present_mask);
- 
-+	scoped_guard(raw_spinlock_irqsave, &cpu_spi_count_lock)
-+		hv_pci_inc_spi_count(irqd, cpu);
- 	irq_data_update_effective_affinity(irqd, cpumask_of(cpu));
- 
- 	return 0;
- }
- 
-+static void hv_pci_vec_irq_domain_deactivate(struct irq_domain *domain,
-+					     struct irq_data *irqd)
-+{
-+	int cpu;
++Effective Affinity Interrupt Spreading
++--------------------------------------
++For the APIC and GICv3 interrupt controllers, Linux must select a
++single CPU from the affinity mask to be the effective affinity CPU.
++While Linux is free to choose any CPU in the mask, a fixed algorithm,
++such as always choosing the first CPU, can be problematic in
++configurations with multiple identical devices (such as NVMe
++controllers). Each device has the same set of affinity masks, so
++the same CPU gets chosen for all the devices. Better performance
++is usually achieved for multiple devices by spreading the assignment
++among the CPUs in the affinity mask. No one CPU is overloaded
++and interrupts from multiple devices can be processed in parallel.
 +
-+	cpu = cpumask_first(irq_data_get_effective_affinity_mask(irqd));
-+	guard(raw_spinlock_irqsave)(&cpu_spi_count_lock);
-+	hv_pci_dec_spi_count(irqd, cpu);
-+}
++On x86, the VECTOR domain and APIC IRQ chip do the spreading by
++tracking the number of IRQs assigned to each CPU, and choosing
++the CPU in the affinity mask that has the fewest assignments.
++Because Hyper-V vPCI device IRQs eventually parent to VECTOR,
++the spreading it does accrues to the IRQs for Hyper-V vPCI devices.
 +
- static const struct irq_domain_ops hv_pci_domain_ops = {
- 	.alloc	= hv_pci_vec_irq_domain_alloc,
- 	.free	= hv_pci_vec_irq_domain_free,
- 	.activate = hv_pci_vec_irq_domain_activate,
-+	.deactivate = hv_pci_vec_irq_domain_deactivate,
- };
- 
- #ifdef CONFIG_OF
++On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind
++of spreading for LPI interrupts. But IRQs for vPCI devices on
++arm64 use SPIs and are parented to the "GICv3" IRQ chip, which always
++chooses the first CPU in the affinity mask as the effective affinity.
++That CPU can get overloaded in handling interrupts. So on arm64,
++the hv_vpci_arm64 IRQ domain and associated IRQ chip provide the
++spreading functionality. They track the SPIs assigned to each CPU
++and choose the least-loaded CPU as the effective affinity. Then
++the parent IRQ chip (GICv3) is invoked to actually set the effective
++affinity in the virtual GICv3 hardware.
++
++MSI Messages
++------------
++In a typical guest on KVM, the VMM traps guest writes to a vPCI
++device's MSI/MSI-X registers/tables. The guest writes a virutal
++message (with a guest APIC address and a guest vector), and VMM
++emulation translates the message to program the physical device and
++physical device interrupt remapping (IR) tables on the guest's
++behalf. The guest never sees or handles the host-level MSI message.
++
++Hyper-V takes a different approach in which MSI/MSI-X register or
++table writes are not trapped. The guest writes the device's MSI/MSI-X
++registers/tables directly with a host-valid MSI message. The physical
++IOMMU and its remapping table are still owned by the host, so the
++guest must ask the host for the proper message.
++
++The "asking" is done by the .irq_compose_msi_msg function for the
++"Hyper-V PCIe MSI" chip, which is hv_compose_msi_msg(). The
++implementation requires sending a VMBus message to the Hyper-V host
++and awaiting an interrupt indicating receipt of a reply message.
++Since .irq_compose_msi_msg can be called with IRQ spin locks held, it
++doesn't work to do the normal sleep until awakened by the interrupt.
++Instead hv_compose_msi_msg() must send the VMBus message, and
++poll for the completion message. As further complexity, the vPCI
++device could be ejected/rescinded while the polling is in progress,
++so this scenario must be detected as well. See comments in the code
++regarding this very tricky area. A synchronous hypercall to get the
++MSI message would be a much nicer interface, but the code makes do
++with what's available.
++
++Once the host-valid MSI message is obtained, the guest must treat it
++as a black-box that the guest does not interpret or modify. The only
++valid guest action is to write it to the MSI/MSI-X registers/tables
++using the .irq_chip_write_msi_msg function on the HV-PCI-MSIX-<PCIaddr>
++chip. That function is pci_msi_domain_write_msg(), which calls
++__pci_write_msi_msg().
++
++If the affinity of an IRQ changes, the steps must be
++repeated. A new host-valid MSI message is requested via the
++.irq_compose_msi_msg function and that message is written
++to the MSI/MSI-X registers using the .irq_chip_write_msi_msg
++function.
++
+ DMA
+ ---
+ By default, Hyper-V pins all guest VM memory in the host
 -- 
 2.25.1
 
