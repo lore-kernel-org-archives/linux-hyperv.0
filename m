@@ -1,99 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793612854;
-	b=U6+IjAySUkolHRFOKbv1Kwb4G2FaY2obN5fnn1jd+U6eqdH8o4C/5GgwX31l5LyMQi/B
-	 up8cZElGzKjtF5sdPrM3BLAAmWtPFHKqEbstmnatvQybRK8Tt+CR3Zge5IzFv73xHwKTB
-	 oNHcbMAAHhewTDq31UiHfrIdVyyBFteOaksOssxLSOEZd/oslfLgpbnQ9DkuKj4tJqNf3
-	 Q2RC4rezAuKEpHy+3InECQfC0JHyjMFSncE6lIxAZUZCyxL2MjcSG1tYLa2s3R7hUynA2
-	 RxSwd6j6BqiVvaCQzwQm+rZfNaRs6CREjRlS1Y8LfC7qK+EKlPslPmozi4YUhAbQCSQ==
+	t=1793614012;
+	b=sQas1aGP4wSlreCwMPF0uJ1DpCWmpua1A/la0vLCw0Kvljh2Kd8kxyLNtWmM2aXPMgyL
+	 AUwvWP4XQmUMdz98Q3rTX68hv8r+ZusZqp0yvFbor2uTRSylvHvu1DcBszdkDUPNEfxzM
+	 KrnF+BSlubNsEXNIC2TfFdy1Pd7GS3fsyN+Tp5kT2inZyhmW75/GDN5ugti1FJuXu3jPl
+	 OdDL/JI9leynVjGunlj4YcRi6BP63EKIIIOmBOrz0CdVHJPtPTPfYptoqHZ7cU1bLdhrL
+	 QS0cq2fxCxntJQZ/sU6P43u0GuNWf0pFH/uMZedSDfUPP4KS+krW191sKx8GDmMI1tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793612854;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=it6Vu4qt3zaK7MGxxtPRg8P0zTaXMG2Fc9lz6FZfK90=;
-	b=mGm8vZMtrOki/7YPRc2PqzQtW9R3uiPVH8vw4Nnmi2qCk2+ajQ4G3wMsBLSDLQbQ2h+D
-	 0vr6IpmygMZnX/xeAIq4wOa2CAKhLyUi5rIOGkX9CVJsq6APU7X6QRtG8ytrH5lqIk+zW
-	 4qEHwFNy62dUS9LlEuEYRaOYpxpiSP50yECw598tMw6gqAwvdEA1uxIO2oiJXvbXbPb8n
-	 ixFWLZjSWlfjxQMFmEZdbkxq0EwFD/OuUWiPABLniKfZOd9bjFTMukxC9KfH+awB3R5yr
-	 K1V1okrONbERVaPe26BtGySd/7ldDbN1WiwrlKxJxRgQk2CJT2rhpk0kHfVo/lHswYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793614012;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=DnwQUn0NizH38YcALtR1dtCEgebPZ9psHaxumsb/QSw=;
+	b=c2jQdlzQAJxk9d2RgUL3bjYAfauGrlrVeWcdqp5CfyfREqooQuVK37p3HpjEMk4tDp4q
+	 z9CwlVObePzj1TzRgMsb8HO7YGLjxx7YOtvYUg/tRBIcc5wRzxQXX9y/Zt1kGFlE7GFO7
+	 uxXZe/EptHW6j6yunVs1EmlyYTkdmpv3AJUHfh8UeDljBBeXA+UDo/Bmr0Afr0utbhIzv
+	 8rl7mRnr6PUoGdeFVxDcBmi8O4ccVv6AW8guazgpBVF9Fgku78IdR5HbWlWuGnWhae6bR
+	 L2+Nu/PWgfMBOx7lIl3o3LIuqA19t+rYV5hWLJHiTI8l5dvxN1/lwp9un4wyEumlF1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K0NFfgmA;
-	arc=none smtp.remote-ip=209.85.210.171
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dSo89aQz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8DD606A32C
-	for <linux-hyperv@vger.kernel.org>; Mon,  2 Nov 2026 09:47:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED8DD606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93CF606A332
+	for <linux-hyperv@vger.kernel.org>; Mon,  2 Nov 2026 10:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K0NFfgmA
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a06454116eso1102784b3a.1
-        for <linux-hyperv@vger.kernel.org>; Mon, 02 Nov 2026 01:47:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793612853; x=1794217653; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=it6Vu4qt3zaK7MGxxtPRg8P0zTaXMG2Fc9lz6FZfK90=;
-        b=K0NFfgmAD1BkLg8Vt/1M9Vxej+O0L822wWuMB4YB4Y1hQQRNjtgQcrsP58wumtCELx
-         SpieaXvvYyuxNDJEGYbpN7EyvRifFgu0dKpJ0pjVLHLFDBy9RfAhvTtnTAlvhXgkFNCF
-         M+rCjjH572pyOW7iatpV+x5NgSO3sWLEqBthReSwYWQMH2k9NV0hV6SopvX2MVlfCqPm
-         5sUEd87mQHEV0JN+mNP8yspBh1t1yg4TA4JxyGhqTK3tt7up252c3aRkxPAwh5VEdJN3
-         m82Rw+PVNSFxv3kCIk0oFLkiBdwvSjx1Av2b5OVnPhD+uvZ3Z+pxFDaUTZm7Cg/CM2EH
-         0Aag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793612853; x=1794217653;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=it6Vu4qt3zaK7MGxxtPRg8P0zTaXMG2Fc9lz6FZfK90=;
-        b=eDDxEpNnLt18ha9MObLH5PNiT8nwUxNdlTLPdAbf6HiR2Dz12zzcl+5keH+oexca15
-         5SpUdMEO7zhzxv3X71q5QlczJvd0Qas5eERpA+8ueyqxTPtIveMmZ16ba68B4cO2sNH/
-         PYc14KzfzeQ1zXhRHqpOrd89fclvFuEYuZH9ZUgtuf2UicnWNG1wtNnhOOeaqVf0g0FI
-         eDX2EFVsYd/YoxUcb244tm8tbYLxAzFV4+fpgMmgJnrcnm74R9c16V8bnP4prrxUcVEn
-         aXnsEfsNT1sQeWAxqN2WC2ArtaCvKHhoAbIY7o8PWstqSUFNUeewwrIfcLnNDBKfTDhh
-         5ZDg==
-X-Forwarded-Encrypted: i=1; AKwUvByhFMO7SX9H5uxb455/pSBy908YzrUuwMaUimBo9tY1XnG/hun+hHbtEzcUSwbH9sxFiGndMzpKF44Pp+w=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ZXaiw/ICnUMWvGbGoanYKrfU+ya/HpDcod+yDvZT9M8x053l4
-	CRZB0q+9D0NlCwtQFXJNVz93CsASq/P/BSjoQzAcdoGEVjEVbXmFFI33
-X-Gm-Gg: AYBFou3RbZmqkUnrJupllQEkBAvGViBKTNFfvi8nJxlWv9tEXydEB7pxdkKM3dFL7lg
-	5ve6xz5UOEVnLoGG7TX3vipjhPgI6qlrRiJltsNcHJxlN1Ha9ojWkg/xzKIiHVxMAFVIYvZzKUI
-	AyGehQnmB3Xe5JJ5N4q9C8aCOOjTSHHY7crXPkXk0liahVq6mYk7dew94nCjcUVbemkAphdn8gU
-	w6P9lV3+9XkrDhRiMKA6FwrWPGYUrmtgmRP1jEizShebUFpUtljaXlT0xbt1z3KqO7NRWFIJIni
-	9pMIDJGBvIqSoM6EUDBYHaq69S9Rhw6H1EIPn1Kngr5hxlZKLTaO4hG2UVZWAcf2yOoxfUc0uyk
-	HZePRqsXprpRQ8jyNubcz85K24OIip/q99oTFI4nixCEF2oiid+NrZkwx8B5VkFMOB0Wc0mMisA
-	orfjLHzj7JJdp37+dJSljS+1JPrNYkJYEUgzNHIkeltNW5vq38JsVg6InlT6kO5Hkp+DFFQxO8p
-	0tr6VHxBwm4qBzgO9KmyM8+FzuZCM1Boyw+C6r+qtBNjijJjlWdgpFRYyGcLV2mGCYfPom/aD4j
-	VpjK+bA2V3ekke6A0Tj51xX87nYhJadK9rScyLLEAgmQsDi+fu++upQ=
-X-Received: by 2002:a05:6a00:3a21:b0:8a0:7677:c8c9 with SMTP id d2e1a72fcca58-8a9bfde052fmr8075185b3a.51.1793612853308;
-        Mon, 02 Nov 2026 01:47:33 -0800 (PST)
-Received: from localhost.localdomain ([155.69.168.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8aada3d479dsm1802116b3a.39.2026.11.02.01.47.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 02 Nov 2026 01:47:32 -0800 (PST)
-From: Yuqiang Sun <izaiahsun@gmail.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com
-Cc: mhklinux@outlook.com,
-	stephen@networkplumber.org,
-	linmq006@gmail.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] Drivers: hv: vmbus: Do not remove the channel when device registration fails
-Date: Mon,  2 Nov 2026 17:47:19 +0800
-Message-ID: <20261102094719.35760-3-izaiahsun@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261102094719.35760-1-izaiahsun@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dSo89aQz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E641F0093A;
+	Mon,  2 Nov 2026 10:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793614011;
+	bh=DnwQUn0NizH38YcALtR1dtCEgebPZ9psHaxumsb/QSw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dSo89aQzDpOs3wIEN+Txng9XJni2pnZGX2kLOFofsFLVFBHt2ymb5TDGfg1Qy6tdX
+	 zWFgi64S9Hgi4E0gurc3+VFHTyl1seLLZM8tqWhhciPfCrdY9wVCRAYQcojFFz3qyK
+	 uuR1vQI7glQh8j6zibnccp176eGuCgBJ/I+1VOAON4tNamYFmLkg1ljeBsHF3o9tuo
+	 ozt8ux+OL6mT0/1R19i662tDB7R6/DzMkDQl+rKIILgV2dAu4Kp0XE1vpaYWmdN/vt
+	 vveEco/L4MB/w/8Rw0uJEX9LnkcXl5ynNlJlR1waP1RJNRGDAhvBsIS9/2NS5lWCgo
+	 /Oo5Lf6jqx4Kg==
+Message-ID: <sashiko-outbox-193234@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] Drivers: hv: vmbus: Do not remove the channel when
+ device registration fails
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yuqiang Sun" <izaiahsun@gmail.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20261102094719.35760-3-izaiahsun@gmail.com>
 References: <20261102094719.35760-1-izaiahsun@gmail.com>
+ <20261102094719.35760-3-izaiahsun@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Nov 2026 10:06:50 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -102,81 +60,156 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When vmbus_device_register() fails, it drops the device it was setting
-up, and the device's release, vmbus_device_release(), calls
-hv_process_channel_removal() on the channel. That function is for
-channels the host has rescinded and starts with
-BUG_ON(!channel->rescind), so the kernel stops there. Without the
-BUG_ON, it would unmap and release the relid, unlink the channel and
-free it, and then the error path of vmbus_add_channel_work() would do
-all of that again.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Critical] Drivers: hv: vmbus: channel UAF after device_del() in vmbus_de=
+vice_register()
+- [High] Drivers: hv: vmbus: NULL channel dereference in vmbus_match() on r=
+eg failure
+--
 
-Leave the channel to vmbus_add_channel_work(): clear the device's
-channel pointer before dropping the device on the error paths of
-vmbus_device_register(), and only remove the channel in
-vmbus_device_release() if there is one. If a driver was bound, its
-remove callback runs in device_del() and still sees the channel.
+commit 1b8392611b72249068d7b640dddf153a43c0780f
+Author: Yuqiang Sun <izaiahsun@gmail.com>
 
-Fixes: c2e5df616e1a ("vmbus: add per-channel sysfs info")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuqiang Sun <izaiahsun@gmail.com>
----
+Drivers: hv: vmbus: Do not remove the channel when device registration fails
 
-Notes:
-    The bug was found with kbound, a research static analysis prototype.
-    The patch, the changelog and the test setup were written with the help
-    of an AI coding assistant (Claude); I have reviewed them and tested them
-    as described in the cover letter.
+This commit clears child_device_obj->channel before dropping the device on
+the error paths of vmbus_device_register(), and updates
+vmbus_device_release() to only call hv_process_channel_removal() if the
+channel pointer is non-NULL, leaving channel cleanup on registration failure
+to vmbus_add_channel_work().
 
- drivers/hv/vmbus_drv.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index fc0f16f512669..e8fb0c4c4f5ea 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index fc0f16f51266..e8fb0c4c4f5e 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -979,9 +979,15 @@ static void vmbus_device_release(struct device *device)
- 
- 	hv_debug_rm_dev_dir(hv_dev);
- 
--	mutex_lock(&vmbus_connection.channel_mutex);
--	hv_process_channel_removal(channel);
--	mutex_unlock(&vmbus_connection.channel_mutex);
-+	/*
-+	 * No channel if vmbus_device_register() failed: the channel was not
-+	 * rescinded, and vmbus_add_channel_work() cleans it up.
-+	 */
-+	if (channel) {
-+		mutex_lock(&vmbus_connection.channel_mutex);
-+		hv_process_channel_removal(channel);
-+		mutex_unlock(&vmbus_connection.channel_mutex);
-+	}
- 	kfree(hv_dev);
- }
- 
-@@ -2189,6 +2195,7 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	ret = device_register(&child_device_obj->device);
- 	if (ret) {
- 		pr_err("Unable to register child device\n");
-+		child_device_obj->channel = NULL;
- 		put_device(&child_device_obj->device);
- 		return ret;
- 	}
-@@ -2228,7 +2235,10 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	kset_unregister(child_device_obj->channels_kset);
- 
- err_dev_unregister:
--	device_unregister(&child_device_obj->device);
-+	/* The driver's remove, if one was bound, still needs the channel */
-+	device_del(&child_device_obj->device);
-+	child_device_obj->channel = NULL;
-+	put_device(&child_device_obj->device);
- 	return ret;
- }
- 
--- 
-2.53.0
+[ ... ]
 
+> @@ -2189,6 +2195,7 @@ int vmbus_device_register(struct hv_device *child_d=
+evice_obj)
+>  	ret =3D device_register(&child_device_obj->device);
+>  	if (ret) {
+>  		pr_err("Unable to register child device\n");
+> +		child_device_obj->channel =3D NULL;
+>  		put_device(&child_device_obj->device);
+>  		return ret;
+>  	}
+
+[Severity: High]
+Can clearing child_device_obj->channel here (and in err_dev_unregister belo=
+w)
+cause a NULL pointer dereference in vmbus_match() if a concurrent
+driver_attach() is iterating over hv_bus?
+
+Once device_register() -> device_add() -> bus_add_device() adds
+child_device_obj->device.p->knode_bus to hv_bus's klist_devices, a concurre=
+nt
+driver_attach() (for example from __vmbus_driver_register() or userspace
+writing to new_id_store() -> vmbus_add_dynid()) can iterate over
+klist_devices via bus_for_each_dev() while holding an active klist node
+reference on child_device_obj->device.
+
+If device_add() subsequently fails at its DPMError label (or if
+vmbus_device_register() fails later and calls device_del() at
+err_dev_unregister), bus_remove_device() calls klist_del(&dev->p->knode_bus=
+).
+Unlike klist_remove(), klist_del() does not wait for active klist_iter
+readers in bus_for_each_dev() to finish before vmbus_device_register() sets
+child_device_obj->channel =3D NULL.
+
+On the concurrent bus_for_each_dev() thread, __driver_attach() calls
+driver_match_device() -> vmbus_match() before acquiring device_lock(dev) or
+checking dev->p->dead:
+
+drivers/hv/vmbus_drv.c:vmbus_match() {
+	...
+	/* The hv_sock driver handles all hv_sock offers. */
+	if (is_hvsock_channel(hv_dev->channel))
+		return drv->hvsock;
+	...
+}
+
+Unlike the sysfs attribute callbacks in drivers/hv/vmbus_drv.c which check
+for !hv_dev->channel, vmbus_match() unconditionally passes hv_dev->channel =
+to
+is_hvsock_channel(), dereferencing hv_dev->channel->offermsg when
+hv_dev->channel is NULL.
+
+> @@ -2228,7 +2235,10 @@ int vmbus_device_register(struct hv_device *child_=
+device_obj)
+>  	kset_unregister(child_device_obj->channels_kset);
+> =20
+>  err_dev_unregister:
+> -	device_unregister(&child_device_obj->device);
+> +	/* The driver's remove, if one was bound, still needs the channel */
+> +	device_del(&child_device_obj->device);
+> +	child_device_obj->channel =3D NULL;
+> +	put_device(&child_device_obj->device);
+>  	return ret;
+>  }
+
+[Severity: Critical]
+When vmbus_device_register() fails after device_register() has already
+probed and bound a driver, does device_del() followed by freeing newchannel
+in vmbus_add_channel_work()'s err_deq_chan path leave dangling channel
+pointers when the channel has not been rescinded?
+
+There appear to be two cases where drv->remove() does not sever all
+references created during drv->probe() unless the channel was rescinded:
+
+1. For hv_sock channels, hvs_probe() -> hvs_open_connection() in
+net/vmw_vsock/hyperv_transport.c sets hvs->chan =3D chan (or
+hvs_new->chan =3D chan) on the vsock_sock, takes a socket reference via
+sock_hold(), and inserts the socket into the vsock connected table and acce=
+pt
+queue. When device_del() invokes vmbus_remove() -> hvs_remove():
+
+net/vmw_vsock/hyperv_transport.c:hvs_remove() {
+	struct vmbus_channel *chan =3D hdev->channel;
+
+	vmbus_close(chan);
+}
+
+hvs_remove() only closes the ring buffer because in normal operation it is
+only called from hvs_destruct() -> vmbus_hvsock_device_unregister() after
+hvs_close_connection() has already run on channel rescind. When
+err_dev_unregister runs without a rescind, hvs_close_connection() is never
+called, so the live vsock_sock retains hvs->chan pointing to newchannel
+after vmbus_add_channel_work() frees it via free_channel(newchannel), leadi=
+ng
+to a use-after-free in socket operations or in hvs_destruct() ->
+vmbus_hvsock_device_unregister(chan).
+
+2. For multichannel drivers that open sub-channels during probe,
+vmbus_process_offer() links offered sub-channels onto newchannel->sc_list
+with sc->primary_channel =3D newchannel and queues vmbus_add_channel_work()
+onto handle_sub_chan_wq. When device_del() runs drv->remove() ->
+vmbus_close() -> vmbus_disconnect_ring():
+
+drivers/hv/channel.c:vmbus_disconnect_ring() {
+	...
+	list_for_each_entry_safe(cur_channel, tmp, &channel->sc_list, sc_list) {
+		if (cur_channel->rescind)
+			wait_for_completion(&cur_channel->rescind_event);
+
+		mutex_lock(&vmbus_connection.channel_mutex);
+		if (vmbus_close_internal(cur_channel) =3D=3D 0) {
+			vmbus_free_ring(cur_channel);
+
+			if (cur_channel->rescind)
+				hv_process_channel_removal(cur_channel);
+		}
+		mutex_unlock(&vmbus_connection.channel_mutex);
+	}
+	...
+}
+
+vmbus_disconnect_ring() only removes cur_channel if cur_channel->rescind is
+true, leaving non-rescinded sub-channels on sc_list and handle_sub_chan_wq
+referencing the freed primary channel.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102094719.3576=
+0-1-izaiahsun@gmail.com?part=3D2
