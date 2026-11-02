@@ -1,57 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793614012;
-	b=sQas1aGP4wSlreCwMPF0uJ1DpCWmpua1A/la0vLCw0Kvljh2Kd8kxyLNtWmM2aXPMgyL
-	 AUwvWP4XQmUMdz98Q3rTX68hv8r+ZusZqp0yvFbor2uTRSylvHvu1DcBszdkDUPNEfxzM
-	 KrnF+BSlubNsEXNIC2TfFdy1Pd7GS3fsyN+Tp5kT2inZyhmW75/GDN5ugti1FJuXu3jPl
-	 OdDL/JI9leynVjGunlj4YcRi6BP63EKIIIOmBOrz0CdVHJPtPTPfYptoqHZ7cU1bLdhrL
-	 QS0cq2fxCxntJQZ/sU6P43u0GuNWf0pFH/uMZedSDfUPP4KS+krW191sKx8GDmMI1tw==
+	t=1793615408;
+	b=OLeud3XX/LNDlgSPT8TqCyXGvKlHi10ZHsoy/+jabZLgY9O/eyWPYSObRYtH5VKfRdHV
+	 wVRAOUxPif8swa5WUxSdrHsZMOjfiD7yNF/h8vis8OHY1hwouZ76F/dolv2FUqWxTsC/s
+	 88qJoAWbGFI9bzK3P2POc3/3+3EyUzHdQorp8E5IMSiukI5oplMeN5D+H3DrNlm4heDm0
+	 MZyxSsJFdbCvWfdHNSmJWUyAoYmxS0GN5QEHTftMvmNm2/o1/oUyfEcqqDGt3EyRIJiF6
+	 Pej834gpqgNI449lRovtMejhPMCWzHrI+wwzyV9J6ptUYCeis10A0SN/HkqVskM5IdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793614012;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=DnwQUn0NizH38YcALtR1dtCEgebPZ9psHaxumsb/QSw=;
-	b=c2jQdlzQAJxk9d2RgUL3bjYAfauGrlrVeWcdqp5CfyfREqooQuVK37p3HpjEMk4tDp4q
-	 z9CwlVObePzj1TzRgMsb8HO7YGLjxx7YOtvYUg/tRBIcc5wRzxQXX9y/Zt1kGFlE7GFO7
-	 uxXZe/EptHW6j6yunVs1EmlyYTkdmpv3AJUHfh8UeDljBBeXA+UDo/Bmr0Afr0utbhIzv
-	 8rl7mRnr6PUoGdeFVxDcBmi8O4ccVv6AW8guazgpBVF9Fgku78IdR5HbWlWuGnWhae6bR
-	 L2+Nu/PWgfMBOx7lIl3o3LIuqA19t+rYV5hWLJHiTI8l5dvxN1/lwp9un4wyEumlF1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793615408;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=o2bpD85tsnT2T76md1ExYJeC96wBq6X2UEhk7idFylQ=;
+	b=yerXx+KDy0SoM2uL4nf1WC7RDy6fhvewG0sg3lSbBftoLY0dV/J8vgQH0A7fcgHgTvJo
+	 t9ne3JT3eT3B4yO/ttUR/jwlX73LvRF8yyG117E82QlvF03kLttwHjpmsUOjfLN2ue/R7
+	 HBF0AhlF81KOKIU+pxgG4SnzK/CBhAA0ao/jC4FQr8IsgiZT1RY6rB+M3hyzce6D5L1Pd
+	 x0jIhUcf53jqsfb9ui8hSR8dXFnWdnKFDslSB21AA1K+cutdrglrlBMF/J7IoL/JGW8Z9
+	 FWJSTW+0a8blwD51y4hhb2Vd7WMxTjE3CTUOwocYzEdBjqQeHVcBs1rDgaPqBI9LaOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dSo89aQz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93CF606A332
-	for <linux-hyperv@vger.kernel.org>; Mon,  2 Nov 2026 10:06:51 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=OUo7McLT;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C32606A32E;
+	Mon,  2 Nov 2026 10:30:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51C32606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dSo89aQz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E641F0093A;
-	Mon,  2 Nov 2026 10:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793614011;
-	bh=DnwQUn0NizH38YcALtR1dtCEgebPZ9psHaxumsb/QSw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dSo89aQzDpOs3wIEN+Txng9XJni2pnZGX2kLOFofsFLVFBHt2ymb5TDGfg1Qy6tdX
-	 zWFgi64S9Hgi4E0gurc3+VFHTyl1seLLZM8tqWhhciPfCrdY9wVCRAYQcojFFz3qyK
-	 uuR1vQI7glQh8j6zibnccp176eGuCgBJ/I+1VOAON4tNamYFmLkg1ljeBsHF3o9tuo
-	 ozt8ux+OL6mT0/1R19i662tDB7R6/DzMkDQl+rKIILgV2dAu4Kp0XE1vpaYWmdN/vt
-	 vveEco/L4MB/w/8Rw0uJEX9LnkcXl5ynNlJlR1waP1RJNRGDAhvBsIS9/2NS5lWCgo
-	 /Oo5Lf6jqx4Kg==
-Message-ID: <sashiko-outbox-193234@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] Drivers: hv: vmbus: Do not remove the channel when
- device registration fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yuqiang Sun" <izaiahsun@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261102094719.35760-3-izaiahsun@gmail.com>
-References: <20261102094719.35760-1-izaiahsun@gmail.com>
- <20261102094719.35760-3-izaiahsun@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 10:06:50 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=OUo7McLT
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+	id F11E420B7166; Mon,  2 Nov 2026 02:29:53 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F11E420B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793615393;
+	bh=o2bpD85tsnT2T76md1ExYJeC96wBq6X2UEhk7idFylQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OUo7McLTSw1yjHqy1dzYT9czgdtVOzBw0ezp/2whQh8TLjF5bZVN68nhM3D9qbOef
+	 xgU9xu2Q/GrNe8N5k5DFeqvmyCRMdCACDHxlSltzTdqUVknNZh5YsPQwy/pPCJuGhw
+	 lqFEOmzfPMrM5C08Z9HM/m23iH4ZeoNOUhtZCec8=
+From: Shradha Gupta <shradhagupta@linux.microsoft.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>
+Cc: Shradha Gupta <shradhagupta@microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] tools: hv: Zero unused bytes in KVP pool records
+Date: Mon,  2 Nov 2026 02:29:51 -0800
+Message-ID: <20261102102953.432924-1-shradhagupta@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,156 +61,89 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] Drivers: hv: vmbus: channel UAF after device_del() in vmbus_de=
-vice_register()
-- [High] Drivers: hv: vmbus: NULL channel dereference in vmbus_match() on r=
-eg failure
---
+From: Shradha Gupta <shradhagupta@microsoft.com>
 
-commit 1b8392611b72249068d7b640dddf153a43c0780f
-Author: Yuqiang Sun <izaiahsun@gmail.com>
+KVP pool files store fixed-size key and value arrays. New records copy only
+the supplied key and value lengths into uninitialized storage, but the
+daemon writes each record in full. This can persist uninitialized heap
+bytes in the unused array tails. Shorter value replacements and
+string-based deletion compaction can also leave stale data in those tails.
 
-Drivers: hv: vmbus: Do not remove the channel when device registration fails
+Zero new records before populating them, clear values before replacement,
+and copy complete records when compacting a pool after deletion.
 
-This commit clears child_device_obj->channel before dropping the device on
-the error paths of vmbus_device_register(), and updates
-vmbus_device_release() to only call hv_process_channel_removal() if the
-channel pointer is non-NULL, leaving channel cleanup on registration failure
-to vmbus_add_channel_work().
+Also clear unused tails when loading existing records so GET and
+enumeration do not return legacy residual bytes. These sanitized records
+reach disk on the next successful update to that pool; loading alone does
+not rewrite the file.
 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index fc0f16f512669..e8fb0c4c4f5ea 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
+The record layout and logical key/value strings are unchanged.
 
-[ ... ]
+Fixes: db425334e5bb ("Tools: hv: Fully support the new KVP verbs in the user level daemon")
+Signed-off-by: Shradha Gupta <shradhagupta@microsoft.com>
+---
+ tools/hv/hv_kvp_daemon.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-> @@ -2189,6 +2195,7 @@ int vmbus_device_register(struct hv_device *child_d=
-evice_obj)
->  	ret =3D device_register(&child_device_obj->device);
->  	if (ret) {
->  		pr_err("Unable to register child device\n");
-> +		child_device_obj->channel =3D NULL;
->  		put_device(&child_device_obj->device);
->  		return ret;
->  	}
+diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
+index 1f64c680b..d57729f60 100644
+--- a/tools/hv/hv_kvp_daemon.c
++++ b/tools/hv/hv_kvp_daemon.c
+@@ -203,6 +203,7 @@ static void kvp_update_mem_state(int pool)
+ {
+ 	FILE *filep;
+ 	size_t records_read = 0;
++	size_t i, len;
+ 	struct kvp_record *record = kvp_file_info[pool].records;
+ 	struct kvp_record *readp;
+ 	int num_blocks = kvp_file_info[pool].num_blocks;
+@@ -248,6 +249,15 @@ static void kvp_update_mem_state(int pool)
+ 		break;
+ 	}
+ 
++	/* Discard stale bytes after strings in existing pool records. */
++	for (i = 0; i < records_read; i++) {
++		len = strnlen(record[i].key, sizeof(record[i].key));
++		memset(record[i].key + len, 0, sizeof(record[i].key) - len);
++		len = strnlen(record[i].value, sizeof(record[i].value));
++		memset(record[i].value + len, 0,
++		       sizeof(record[i].value) - len);
++	}
++
+ 	kvp_file_info[pool].num_blocks = num_blocks;
+ 	kvp_file_info[pool].records = record;
+ 	kvp_file_info[pool].num_records = records_read;
+@@ -327,8 +337,7 @@ static int kvp_key_delete(int pool, const __u8 *key, int key_size)
+ 		j = i;
+ 		k = j + 1;
+ 		for (; k < num_records; k++) {
+-			strcpy(record[j].key, record[k].key);
+-			strcpy(record[j].value, record[k].value);
++			memcpy(&record[j], &record[k], sizeof(record[j]));
+ 			j++;
+ 		}
+ 
+@@ -383,6 +392,7 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
+ 		 * Found a match; just update the value -
+ 		 * this is the modify case.
+ 		 */
++		memset(record[i].value, 0, sizeof(record[i].value));
+ 		memcpy(record[i].value, value, value_size);
+ 		kvp_update_file(pool);
+ 		if (debug)
+@@ -406,6 +416,7 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
+ 		kvp_file_info[pool].num_blocks++;
+ 
+ 	}
++	memset(&record[i], 0, sizeof(record[i]));
+ 	memcpy(record[i].value, value, value_size);
+ 	memcpy(record[i].key, key, key_size);
+ 	kvp_file_info[pool].records = record;
 
-[Severity: High]
-Can clearing child_device_obj->channel here (and in err_dev_unregister belo=
-w)
-cause a NULL pointer dereference in vmbus_match() if a concurrent
-driver_attach() is iterating over hv_bus?
+base-commit: 20a33c6b6cbe7e4805dfb6cd68816937443aa148
+-- 
+2.43.0
 
-Once device_register() -> device_add() -> bus_add_device() adds
-child_device_obj->device.p->knode_bus to hv_bus's klist_devices, a concurre=
-nt
-driver_attach() (for example from __vmbus_driver_register() or userspace
-writing to new_id_store() -> vmbus_add_dynid()) can iterate over
-klist_devices via bus_for_each_dev() while holding an active klist node
-reference on child_device_obj->device.
-
-If device_add() subsequently fails at its DPMError label (or if
-vmbus_device_register() fails later and calls device_del() at
-err_dev_unregister), bus_remove_device() calls klist_del(&dev->p->knode_bus=
-).
-Unlike klist_remove(), klist_del() does not wait for active klist_iter
-readers in bus_for_each_dev() to finish before vmbus_device_register() sets
-child_device_obj->channel =3D NULL.
-
-On the concurrent bus_for_each_dev() thread, __driver_attach() calls
-driver_match_device() -> vmbus_match() before acquiring device_lock(dev) or
-checking dev->p->dead:
-
-drivers/hv/vmbus_drv.c:vmbus_match() {
-	...
-	/* The hv_sock driver handles all hv_sock offers. */
-	if (is_hvsock_channel(hv_dev->channel))
-		return drv->hvsock;
-	...
-}
-
-Unlike the sysfs attribute callbacks in drivers/hv/vmbus_drv.c which check
-for !hv_dev->channel, vmbus_match() unconditionally passes hv_dev->channel =
-to
-is_hvsock_channel(), dereferencing hv_dev->channel->offermsg when
-hv_dev->channel is NULL.
-
-> @@ -2228,7 +2235,10 @@ int vmbus_device_register(struct hv_device *child_=
-device_obj)
->  	kset_unregister(child_device_obj->channels_kset);
-> =20
->  err_dev_unregister:
-> -	device_unregister(&child_device_obj->device);
-> +	/* The driver's remove, if one was bound, still needs the channel */
-> +	device_del(&child_device_obj->device);
-> +	child_device_obj->channel =3D NULL;
-> +	put_device(&child_device_obj->device);
->  	return ret;
->  }
-
-[Severity: Critical]
-When vmbus_device_register() fails after device_register() has already
-probed and bound a driver, does device_del() followed by freeing newchannel
-in vmbus_add_channel_work()'s err_deq_chan path leave dangling channel
-pointers when the channel has not been rescinded?
-
-There appear to be two cases where drv->remove() does not sever all
-references created during drv->probe() unless the channel was rescinded:
-
-1. For hv_sock channels, hvs_probe() -> hvs_open_connection() in
-net/vmw_vsock/hyperv_transport.c sets hvs->chan =3D chan (or
-hvs_new->chan =3D chan) on the vsock_sock, takes a socket reference via
-sock_hold(), and inserts the socket into the vsock connected table and acce=
-pt
-queue. When device_del() invokes vmbus_remove() -> hvs_remove():
-
-net/vmw_vsock/hyperv_transport.c:hvs_remove() {
-	struct vmbus_channel *chan =3D hdev->channel;
-
-	vmbus_close(chan);
-}
-
-hvs_remove() only closes the ring buffer because in normal operation it is
-only called from hvs_destruct() -> vmbus_hvsock_device_unregister() after
-hvs_close_connection() has already run on channel rescind. When
-err_dev_unregister runs without a rescind, hvs_close_connection() is never
-called, so the live vsock_sock retains hvs->chan pointing to newchannel
-after vmbus_add_channel_work() frees it via free_channel(newchannel), leadi=
-ng
-to a use-after-free in socket operations or in hvs_destruct() ->
-vmbus_hvsock_device_unregister(chan).
-
-2. For multichannel drivers that open sub-channels during probe,
-vmbus_process_offer() links offered sub-channels onto newchannel->sc_list
-with sc->primary_channel =3D newchannel and queues vmbus_add_channel_work()
-onto handle_sub_chan_wq. When device_del() runs drv->remove() ->
-vmbus_close() -> vmbus_disconnect_ring():
-
-drivers/hv/channel.c:vmbus_disconnect_ring() {
-	...
-	list_for_each_entry_safe(cur_channel, tmp, &channel->sc_list, sc_list) {
-		if (cur_channel->rescind)
-			wait_for_completion(&cur_channel->rescind_event);
-
-		mutex_lock(&vmbus_connection.channel_mutex);
-		if (vmbus_close_internal(cur_channel) =3D=3D 0) {
-			vmbus_free_ring(cur_channel);
-
-			if (cur_channel->rescind)
-				hv_process_channel_removal(cur_channel);
-		}
-		mutex_unlock(&vmbus_connection.channel_mutex);
-	}
-	...
-}
-
-vmbus_disconnect_ring() only removes cur_channel if cur_channel->rescind is
-true, leaving non-rescinded sub-channels on sc_list and handle_sub_chan_wq
-referencing the freed primary channel.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102094719.3576=
-0-1-izaiahsun@gmail.com?part=3D2
