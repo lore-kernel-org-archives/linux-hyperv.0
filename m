@@ -1,97 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793588282;
-	b=4n3zcgMq8JZEMVBznTHVHY7g77e4lnbDYDGDgx8bl9LTVguOaY+BqvHQEGmEit2fdJUR
-	 wI0klLzhrKdCcYcOVCDqayriBk0AlheGA1MtIpmqxEG1KP66uc1U7jZUoXZQC0h3thuR2
-	 VRjQin/tRVP0Vz50/hBTQP0BVnfCWiL0vfpNzroiipWMI9h+hIgfJ7x/u+1n/0B2Q9BAn
-	 +qIGTttdHSjFqJW3P1PEMxJ4PTyzqBhNXM6UWJCV7K224TUJOdUFtAwWenVdb6dvMeiCE
-	 RxKpCoGEPBnCdbjtvhEq0ZLiOZS47YUac4zXOjGqGas+CryUBm6GnD77+pJqyo9jOAw==
+	t=1793592393;
+	b=MLX512VAsIpwGN5NXfWPskljmFTeP1EFlyERAcojzhnfsyC4K0Iq1+ILRyErSTAg4dH1
+	 0KkcoqH0U0d94l5ljzNhVe4imXNa/BnGBOek0eaAUxEWbk6jGa+Le03drjsCRtEYdHY1j
+	 pFUYWgEYpG7smjn6vrQ3Q/ZseWbBNotHY1xWbj9Y7d0WLXKCUGfZu/uQdDA+8l17ccy2d
+	 iIB3hqX2EfR9V5QdyhGWCsZXfZ8gOsT7RTZSCmv8v/fS2qFB2qfizu8JMGnkQsPL2qPOL
+	 oT/hC0kLEgOUOq1PzWx/yiNrJYUzx3ibftaEcONtA/b9nasPxL46zbzeDYaqXvqjL0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793588282;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793592393;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=i6tZUO8XBhTDjKD1jpOy09iINxG2kNUDkhNJoZ9/I2c=;
-	b=3Ii4HItTFEaY/fw5OBmTeUqCzYkqC20voeHPIr8t7uRmah7ko9a69oZ1+l8LI//ga+mM
-	 8dx7TNP0kmLfhzR00Cl4D2BuXz0MwmYseLzrXNojd7MBUqOMOBgGanTqUabzFE+nbeMKL
-	 A2fFB/NhlGKBh4woZr4R8UKZ0Kgzim4PLSZloUQGiMyzNjlmJSUD4PU2yVQdotcUj/QO8
-	 qTCss58Y6ahqSv0Yhw1JxSL7d4Fi0Sm9b0o6KUEhq004jTSzoT/Hd29JroPDD/fPhEpUP
-	 fc+P5g1QJLjU+3JjEh+nSDKksBr/+RSngoJi5SajW4GlqXMEQTiJnet7xOQUkRSeRsg==
+	bh=AbAfqOiSmjkr5zT5Z7ymwEcuZe5nRrpvvhFQphOc1AI=;
+	b=JzOSfQtXoqYh9H1dTx2Q0MXPSLgrFLRz+jLLcuMEbdM2B8bhp70374c4DNgjJNXdmAXE
+	 t4iMRtHUQD0kfRyOEsIXWpAGvxWPWW3ZJH/7/amqv0goDwzg6zSbVYUjbkB9nTH2l1nfD
+	 lVadpOKkJP7t40fvs7ARpTgcDwtDetXr/DwILplClHsLsTarqMsqdyeR2+Ue1JYosUOmK
+	 AVubdG/XCILm1JkvuRTOmiPxQ5u4Iz5favCqi+1BF3NGnroLw6nZtMm08ONtUSre58ct8
+	 ioLAlm9jaN0iYvrGdJ4/EVSrn7iCnF28ZsB2rmvA6xqvGmLjcEPe/SRSZe7GEe4HWhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=obRqk5EW;
-	arc=none smtp.remote-ip=209.85.219.53
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JWLQCKFB;
+	arc=none smtp.remote-ip=209.85.160.172
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912F2606A324
-	for <linux-hyperv@vger.kernel.org>; Mon,  2 Nov 2026 02:58:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 912F2606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC93606A324
+	for <linux-hyperv@vger.kernel.org>; Mon,  2 Nov 2026 04:06:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CC93606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=obRqk5EW
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-91c19fc50abso33848046d6.1
-        for <linux-hyperv@vger.kernel.org>; Sun, 01 Nov 2026 18:58:01 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JWLQCKFB
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-533797e72e8so15981921cf.2
+        for <linux-hyperv@vger.kernel.org>; Sun, 01 Nov 2026 20:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793588280; x=1794193080; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793592392; x=1794197192; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=i6tZUO8XBhTDjKD1jpOy09iINxG2kNUDkhNJoZ9/I2c=;
-        b=obRqk5EW6Wtir5YMHsX/clzkm0ln5rDOJ+L5AfkfafhprKqOqK091VJRtrJHJlhVVq
-         mocUZDz4cI4cQ4xyC0vlfk7XwbypEeD6urqi6o9SygIhqvZeeY39lVUr9WGoWuY44DfH
-         jWBU+qN4NfeZImUJOCYCr1Hq8KQTNOvP+9nKXeYKjm6jJ9jVyDFACcXD0316tsQ7tPrd
-         hnOHh2d6nEHzhFPvwTTJZzkSSUXtSNrQaznb86CaXgDJ2PsjdxAzLITv6vxgYLDd2D/h
-         2UaGZ0Psp/jlZlRanm8+M2sGO2k8OZBTMD2Qj7OKrws6gGohs6eFwRRPbhM5WPc3XSSu
-         VhPg==
+        bh=AbAfqOiSmjkr5zT5Z7ymwEcuZe5nRrpvvhFQphOc1AI=;
+        b=JWLQCKFBXrllvFnSHpX2xu3Q1JLga4oXPWOdDsC+1pPEh+PVFIuffrO4vQyrA+e7FC
+         scf+IEjssWijwOf+f4k5IRf82opwvRhQZ1xZdIxqrNGChwYZz63krFqcotclwavSj8z4
+         zflPbXMxNvYG+PUcG2bMBmymE3E4PNnuARcfUT3a6BD6G/erD1TXRWWZEtJDHmXzoW2i
+         3Hpw/aAVNp/yt2k+ghkysIYsJPjfW5+7SmneCkIwqElziwmIdUyWiswDSTMrOM1R5SNk
+         v6rmjMLMWqXim8hlNCQ7rYDJQ1wf+uPxe9HfHOc68OkQaU2UKJjKQdc4Tr5V44hCuP/r
+         RJzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793588280; x=1794193080;
+        d=1e100.net; s=20260707; t=1793592392; x=1794197192;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=i6tZUO8XBhTDjKD1jpOy09iINxG2kNUDkhNJoZ9/I2c=;
-        b=xGt+UC07uSLQI7mWgadDgFz9yBdRmnm9aiaOGr9e6t/T8hejxTPM4WoJe6YOPXMZZG
-         HpY4kknE77kd8Bb2FpMPfOL1Auxu0TOUSkM/PuOXt28r3uoiJ6l78ndG5RHlcn3YVpoD
-         coshtD62H1rzOeiFkqkt43oOvsd3cEhzKL4f4QJPeHCi2lv1abbctPiefrsnPYL+J5Dg
-         fCbk9g2w2JLwYblQdlo8YUrXWxmdcbB+QsE+Nb/aPftfCLMFIwBVuRKKbyzH1AcuuPOA
-         f3LQBselNCZ5+jQis1jeiwyOmOQfu5gSgGtpbOz0lBnKBng+kR1fdSJQI0VmO1zmyA4m
-         pJ9Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz6nr5GO0q4HDlIvMt6B69HDhihHCpAXsAxRDBQ51ibkSuy0mXaIai4LpaKfisn6Vk44iElYDowQdDsDNE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Z2RYuqAj1sfcC8Fz4cAvgm6VAe8aiTC3kESnHwDyZUEA5/sf6
-	NSYiLyrXm30eMxcCIde14XzL201R0y02zlBKX6GrPHp479uACyFNd4Jc
-X-Gm-Gg: AYBFou0FR+kiHYVQloKfo0Te/JFu7NMTz0ebZGTX9XNje6oKS6s9S9roN3G/Ua2gqJD
-	GopfccIKsRmRSrtCYsNRboIfK9F+7j+KQbm3deAgDWSTJCcIm/o0FMpcgpaM2nTmW5my2a24Q91
-	HLqAfUAs2RvsvVtfpPzihJrx8N4xAiHp1eXdC41Y2yVC4CskfS5cVxiE3Ve4ieOh6EuJfzp6fr6
-	DNc3ZeQ1Rnz2McCpryW2uQ9azBC/IPUg8J2d9lmm9GvOwi2x1pnXBqG42VtBBlPiZZksHYmPHt+
-	W57wP2vB5aT6wg/li7EjxdTFchu9gJPpW585SY1XqBwc2yvcUtFOfnZbfJT3Y/mGa+hA3w8BdHJ
-	82gtBuNv4z2rPM+/mb+FpaMn0pE5THdUw+Mym1meZbVCQj/a6EtVNn5mITo98z6pDDA+tr3JPOB
-	obqLb95tuJ5ZP/4BQxbugYl39z5m5hWe14bJhGe6T1fcPBg41hmAy3k1fhwJCBUg3cBdpuxUMo7
-	72WUbAFicMBa+ZZNMqD6NfN4lfZJsk4Sp/26i9vIpjdXqYoXbOYLtl72NLkco+oNrAgmNo4HYZW
-	phfR7Sgg0+QSQt25ZYP7PfL2R0p6g64FD4NLEhnshlByrir4CQTp
-X-Received: by 2002:a05:6214:40f:b0:91c:5f4b:d2d7 with SMTP id 6a1803df08f44-91ca4b6d8eamr145818826d6.47.1793588280310;
-        Sun, 01 Nov 2026 18:58:00 -0800 (PST)
+        bh=AbAfqOiSmjkr5zT5Z7ymwEcuZe5nRrpvvhFQphOc1AI=;
+        b=xr4y1NoxKjwvDZABlg5zRcQYu3F2nmMDFuJktV+8XelEc47HT94PZf5DW6TbcA1S0J
+         3cn8fMGMo1tnGetqTW8qvPnmk3GH+ghGStfUEbc/zlL+SFpJoN10u98U2ovPrd3bpKSd
+         gVBCcA2IjusKcc6N1/W0rfiX7xt/X8KeOh0HZXDH7NyQ1oMP62SCveQRbArzolVuK4Ot
+         SXEAcIp+1zWV9htbSruh/ZRiEtSUdMz90wtodTur5TPatYtxDBlkqybr7aiKUv6dmk49
+         WhqIn3aTehcLdEcGAlhouwxsFgdPGtgFKqbL0sSHySeKy/6JmzhxOxJzNl84OrBh8YFN
+         C4lQ==
+X-Forwarded-Encrypted: i=1; AKwUvByOfY10Vso8M3OV5XJbnAsMDpRmXViFppk/zayjiMiKHxYwHSWox3vAtiPKRo7j2XSQk/UGz6nxPEFyLJI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Fcs2rpBXUo7B29JEsRrIcbifdQSfDQ3JGzjBvTdK+atLQfCPO
+	YNX6kOkDBfCmCRZ8hT0O7mbjHNQCL3vqRTELN4dEH4al76/0E1UAepMyIob2Aw==
+X-Gm-Gg: AYBFou32IOwN2nXIlhl0z9XTJSKtDHJ5/QeAVFqOvodeWPxKVNRVKa+AqgSFnAuqMLI
+	YnTwfgZbmqISwlbD9kmgLhMidBjqj6CDdbk329o1K3o5q7AGt7AojrCl6wWCGNGPw5C+KVF6CHi
+	r/bTwuE0AKYQht5Vr00KK11Z6UpYv68UkZjJ2YPnmE6YaRiqQk1SbplMPO+iAGmXxRkFZTepnl9
+	e668LN8OcWtOyUC01mTfMjJZsH+49BCA9h1K7UEbr1MeIPq7TEeV/nPyQTAkJtPBBXBsviE02pI
+	c83JKAnTO3TGJGT9+cpiNSNmLCD5TzmTL4t0NKIbVgk4hIYjLydBt0Z3b3FbFUEzRPdvRmtdoRm
+	/pIXH/XOLYsjZkwKRSdDkEU0keYWqJA4f2unht4UqtQj/hiGuCseAN1Bbk/N87V5VLkoE6v7NdP
+	eoeozt3hTXOvydvpwu9Q9C9QZdf8ULqc6I0AM3fs43oTvyFdyRIX5ppnZ/yZ0MUfzRFVHk5EJX1
+	dvl2iNtJ3PDaeeNPyzfA7LR4n3PNCh82hjy5s//g1wd3PiqW4auOBXhmEsk4r1NolDYbwmfK0r/
+	EswzFXhQm1ANvtV6qsfbMqFVjmAKRf1UN4SWncJ8E9OHAaqpYMhhuXxZxPpXJ3QdF0hUJ5uW0w=
+	=
+X-Received: by 2002:a05:622a:4ce:b0:532:f0a2:ef4 with SMTP id d75a77b69052e-542b62a466dmr143441661cf.26.1793592391864;
+        Sun, 01 Nov 2026 20:06:31 -0800 (PST)
 Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca7e23b0bsm79658866d6.2.2026.11.01.18.57.59
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54311f75ff5sm75790931cf.10.2026.11.01.20.06.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 18:57:59 -0800 (PST)
+        Sun, 01 Nov 2026 20:06:31 -0800 (PST)
 From: Yuho Choi <oss.patchbox@gmail.com>
-To: Wei Liu <wei.liu@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
+To: Haiyang Zhang <haiyangz@microsoft.com>,
 	Dexuan Cui <decui@microsoft.com>
-Cc: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
-	Praveen K Paladugu <prapal@linux.microsoft.com>,
-	Tianyu Lan <tiala@microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <oss.patchbox@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] mshv: Don't free overlay pages after a failed unmap
-Date: Sun,  1 Nov 2026 21:57:42 -0500
-Message-ID: <20261102025754.257856-2-oss.patchbox@gmail.com>
+Cc: Wei Liu <wei.liu@kernel.org>,
+	linux-hyperv@vger.kernel.org
+Subject: net: mana: HWC memory after a failed DESTROY_HWC
+Date: Sun,  1 Nov 2026 23:06:26 -0500
+Message-ID: <20261102040629.368393-2-oss.patchbox@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -104,90 +98,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On L1VH partitions where the VMM can provide overlay GPFNs, the kernel
-allocates the VP state and stats pages and supplies them to the
-hypervisor as overlay locations through hv_map_vp_state_page() and
-hv_map_stats_page(). The hypervisor may write intercept messages,
-register state, and statistics to these pages. Only a successful
-HVCALL_UNMAP_VP_STATE_PAGE or HVCALL_UNMAP_STATS_PAGE confirms that the
-corresponding overlay has been revoked.
+Hi Haiyang, Dexuan,
 
-hv_unmap_vp_state_page() and hv_unmap_stats_page() free the overlay
-page regardless of the hypercall result. If the unmap fails, revocation
-is unconfirmed, but dropping the driver's page reference may still
-allow the page to be returned to the allocator and reused. A subsequent
-hypervisor write through a retained overlay could then corrupt an
-unrelated kernel or user allocation.
+I have a question about the HWC teardown in mana_hwc_destroy_channel()
+(drivers/net/ethernet/microsoft/mana/hw_channel.c, v7.4-rc1).
 
-Free an overlay page only after the unmap hypercall succeeds. On failure,
-leak the page rather than return memory that the hypervisor may still be
-able to access. This matches how the rest of drivers/hv handles pages
-whose state is unknown after a failed hypervisor operation; for example,
-hv_free_page() leaks a page that could not be re-encrypted. Log the
-leaked page in both helpers, as some of their callers discard the
-return value.
+The function sends DESTROY_HWC but does not check the result, and then
+frees the HWC queues and message buffers:
 
-Fixes: 19c515c27cee ("mshv: Allocate vp state page for HVCALL_MAP_VP_STATE_PAGE on L1VH")
-Fixes: d62313bdf596 ("mshv: Introduce new hypercall to map stats page for L1VH partitions")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
----
-v2:
-- Also log a failed stats page unmap before leaking the page (Wei Liu).
-- Rebased on v7.4-rc1.
+	if (gc->max_num_cqs > 0) {
+		mana_smc_teardown_hwc(&gc->shm_channel, false);
+		gc->max_num_cqs = 0;
+	}
 
-Compile-tested with x86_64 defconfig, CONFIG_HYPERV=y,
-CONFIG_MSHV_ROOT=m, and W=1. Not tested on an L1VH system.
+	if (hwc->txq)
+		mana_hwc_destroy_wq(hwc, hwc->txq);
+	...
 
- drivers/hv/mshv_root_hv_call.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+mana_smc_teardown_hwc() itself says that waiting for the response "is
+required to ensure hardware invalidates MST entries before software
+frees memory". So I wonder what happens when the teardown fails, i.e.
+when the PF returns an error (-EPROTO) or does not answer in time
+(-ETIMEDOUT):
 
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index b8d199f95299..e761addda50e 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -643,8 +643,18 @@ int hv_unmap_vp_state_page(u64 partition_id, u32 vp_index, u32 type,
- {
- 	int ret = hv_call_unmap_vp_state_page(partition_id, vp_index, type, input_vtl);
- 
--	if (mshv_use_overlay_gpfn() && state_page)
--		__free_page(state_page);
-+	if (mshv_use_overlay_gpfn() && state_page) {
-+		/*
-+		 * If the unmap failed, the hypervisor may still be using the
-+		 * page as an overlay. Leak it rather than handing it back to
-+		 * the page allocator.
-+		 */
-+		if (ret)
-+			pr_err("%s: failed to unmap partition %llu vp %u state page type %u, leaking page: %d\n",
-+			       __func__, partition_id, vp_index, type, ret);
-+		else
-+			__free_page(state_page);
-+	}
- 
- 	return ret;
- }
-@@ -995,8 +1005,18 @@ int hv_unmap_stats_page(enum hv_stats_object_type type,
- 
- 	ret = hv_call_unmap_stats_page(type, identity);
- 
--	if (mshv_use_overlay_gpfn() && page_addr)
--		__free_page(virt_to_page(page_addr));
-+	if (mshv_use_overlay_gpfn() && page_addr) {
-+		/*
-+		 * If the unmap failed, the hypervisor may still be updating the
-+		 * overlay page. Leak it rather than handing it back to the page
-+		 * allocator.
-+		 */
-+		if (ret)
-+			pr_err("%s: failed to unmap stats page type %u, leaking page: %d\n",
-+			       __func__, type, ret);
-+		else
-+			__free_page(virt_to_page(page_addr));
-+	}
- 
- 	return ret;
- }
--- 
-2.43.0
+1. Can the hardware still write EQEs, CQEs or HWC responses to these
+   pages after the driver has freed them?
 
+2. Or is the function always reset in that case, so that nothing can
+   reach the memory anymore? One case I have in mind is
+   mana_serv_reset(), which calls mana_gd_suspend() while the HWC is
+   not responding, so the teardown there may often fail.
+
+If (1) is possible, I have a patch ready that keeps the HWC rings and
+message buffers allocated when the teardown fails, leaking a few pages
+instead of freeing memory the hardware may still use, and I would be
+glad to send it. If (2) always holds, there is nothing to fix and I
+will drop it.
+
+This came from code inspection as part of ongoing, not yet published
+research, and I have not reproduced it. I used an LLM to help with the
+analysis and this mail.
+
+Thanks,
+Yuho
