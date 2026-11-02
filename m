@@ -1,58 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793615408;
-	b=OLeud3XX/LNDlgSPT8TqCyXGvKlHi10ZHsoy/+jabZLgY9O/eyWPYSObRYtH5VKfRdHV
-	 wVRAOUxPif8swa5WUxSdrHsZMOjfiD7yNF/h8vis8OHY1hwouZ76F/dolv2FUqWxTsC/s
-	 88qJoAWbGFI9bzK3P2POc3/3+3EyUzHdQorp8E5IMSiukI5oplMeN5D+H3DrNlm4heDm0
-	 MZyxSsJFdbCvWfdHNSmJWUyAoYmxS0GN5QEHTftMvmNm2/o1/oUyfEcqqDGt3EyRIJiF6
-	 Pej834gpqgNI449lRovtMejhPMCWzHrI+wwzyV9J6ptUYCeis10A0SN/HkqVskM5IdA==
+	t=1793620666;
+	b=qOk6xEP2NHTBmxRjINmGJHtPCRGmNylJvR2Gb+DZ0hH0d0leDF4Mh1zFNk9w77tPUXy2
+	 +k3sT8rthTRPhBwkR+bKatBbQnK3EDQuHqDu1Srw/ARAWkgAU8SG4AhXL06OPF5uDu7PE
+	 j7K9MJIBUk9KH3rlXQUkGlCsmxgH2qWco6qSnqivf1lB8wSfQlSfVpfj+JnjQVvMHX3KT
+	 rvenKHUlxO/9i4XRkF7nnDPsSRg+BNBWgJxvc5ouBqHoysLiH/JtjIeRtPxZiEuxT0MZk
+	 Byf3Fa9iIChO3Sz54O9txj58kHYJGmzM5ACyeJmlVwjzO2fDnovNrB8/eCUCUAnlg1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793615408;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=o2bpD85tsnT2T76md1ExYJeC96wBq6X2UEhk7idFylQ=;
-	b=yerXx+KDy0SoM2uL4nf1WC7RDy6fhvewG0sg3lSbBftoLY0dV/J8vgQH0A7fcgHgTvJo
-	 t9ne3JT3eT3B4yO/ttUR/jwlX73LvRF8yyG117E82QlvF03kLttwHjpmsUOjfLN2ue/R7
-	 HBF0AhlF81KOKIU+pxgG4SnzK/CBhAA0ao/jC4FQr8IsgiZT1RY6rB+M3hyzce6D5L1Pd
-	 x0jIhUcf53jqsfb9ui8hSR8dXFnWdnKFDslSB21AA1K+cutdrglrlBMF/J7IoL/JGW8Z9
-	 FWJSTW+0a8blwD51y4hhb2Vd7WMxTjE3CTUOwocYzEdBjqQeHVcBs1rDgaPqBI9LaOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793620666;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=a+lxVdcflxyH59Md6E2MblMjFZPkYamJmvZNqoXT46o=;
+	b=TNtDb8Tf8yE0jDS3nRbzQW3oSHj33bvN9OXtkywxLp1r8sEb901D0w8UMa0DzNEg77Lu
+	 uqtG3Yc/VPtyNFpmtOCJUkvldtfKyM9rqDt6UcOUUVtnWEz/9cqzdRpgBslZ9SRmYUngA
+	 +bLoqVWkb7iHI58LlN46ETYHAlWhxyLr7KvoCf43kg/hIFZNHp6Dem7YpOT81/5sK31Ui
+	 yq6IWDEg1XeBrGyYAi9p+z7/cBu2l4QJjkfrgyrQisb1RfhVRu3YrcOMAJRe2CI402pdX
+	 IL6Ib2AYFeNJC+ODz0GeJS6kto7JPOgQNyEXxRXLQtOurX3RvKNcTNBWhdcXpG3F/0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=OUo7McLT;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C32606A32E;
-	Mon,  2 Nov 2026 10:30:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51C32606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=a45A7YzR;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 505D7606A332;
+	Mon,  2 Nov 2026 11:57:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 505D7606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=OUo7McLT
-Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id F11E420B7166; Mon,  2 Nov 2026 02:29:53 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F11E420B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793615393;
-	bh=o2bpD85tsnT2T76md1ExYJeC96wBq6X2UEhk7idFylQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=OUo7McLTSw1yjHqy1dzYT9czgdtVOzBw0ezp/2whQh8TLjF5bZVN68nhM3D9qbOef
-	 xgU9xu2Q/GrNe8N5k5DFeqvmyCRMdCACDHxlSltzTdqUVknNZh5YsPQwy/pPCJuGhw
-	 lqFEOmzfPMrM5C08Z9HM/m23iH4ZeoNOUhtZCec8=
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>
-Cc: Shradha Gupta <shradhagupta@microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] tools: hv: Zero unused bytes in KVP pool records
-Date: Mon,  2 Nov 2026 02:29:51 -0800
-Message-ID: <20261102102953.432924-1-shradhagupta@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=a45A7YzR
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7ACC11FC4;
+	Mon,  2 Nov 2026 03:57:42 -0800 (PST)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D6C93F632;
+	Mon,  2 Nov 2026 03:57:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793620665; bh=YqQ0EI1oDh/HUj0/mvZSV2WfYlpip86rcsjzSKEAyQo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a45A7YzRxXii7hkUN4U13CFuVd5h+Xv32KParPswsRdTy/3XNv4Mo5BbONhCRZsLV
+	 3pjKnI8wTLHf1EMVmfa9yvsFbTLbVtY/WusJlGGmwshkQkkh/qCiaFmxs15vf9XElP
+	 2hzbFxeijAot2yJ6elFOUEkpRxLMpGtrYIBfMV8s=
+Date: Mon, 2 Nov 2026 11:57:41 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Dexuan Cui <DECUI@microsoft.com>
+Cc: Kameron Carr <kameroncarr@linux.microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"mhklinux@outlook.com" <mhklinux@outlook.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"Mark.Rutland" <Mark.Rutland@arm.com>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>,
+	"thuth@redhat.com" <thuth@redhat.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	Suzuki K Poulose <Suzuki.Poulose@arm.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v5 2/6] firmware: smccc: Detect hypervisor
+ via RSI host call in CCA Realms
+Message-ID: <auh6tWHyMU15QbRC@arm.com>
+References: <20261002215725.2015959-1-kameroncarr@linux.microsoft.com>
+ <20261002215725.2015959-3-kameroncarr@linux.microsoft.com>
+ <auPOnb_9Jfzh-oQE@arm.com>
+ <CH4PPF0966F22FCAF3D8C6535743902930DBF6C2@CH4PPF0966F22FC.namprd21.prod.outlook.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -62,88 +76,56 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CH4PPF0966F22FCAF3D8C6535743902930DBF6C2@CH4PPF0966F22FC.namprd21.prod.outlook.com>
 
-From: Shradha Gupta <shradhagupta@microsoft.com>
+Hi Dexuan,
 
-KVP pool files store fixed-size key and value arrays. New records copy only
-the supplied key and value lengths into uninitialized storage, but the
-daemon writes each record in full. This can persist uninitialized heap
-bytes in the unused array tails. Shorter value replacements and
-string-based deletion compaction can also leave stale data in those tails.
+On Sat, Oct 31, 2026 at 04:47:32AM +0000, Dexuan Cui wrote:
+> > From: Catalin Marinas <catalin.marinas@arm.com>
+> > Sent: Thursday, October 29, 2026 3:54 PM
+> > > +#ifdef CONFIG_ARM64
+> > > +	if (is_realm_world())
+> > > +		arm_smccc_realm_get_hypervisor_uuid(&res);
+> > > +	else
+> > > +#endif
+> > > + 	arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
+> > > +				     &res);
+> > 
+> > Is this meant to be generic? I'm not sure the trick to pass
+> > ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID in gprs[0] and forward it to
+> > the host is a documented ABI. I think it even confuses other realm guests
+> > that don't expect this (e.g. kvm_init_hyp_services()).
+> 
+> Regarding the concern about passing ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID
+> In gprs and forwarding it to the host via an RSI Host Call: if I read the code correctly,
+> this pattern actually aligns seamlessly with the current KVM host-side
+> implementation for ARM CCA (e.g., in the v16 patchset [1]).
 
-Zero new records before populating them, clear values before replacement,
-and copy complete records when compacting a pool after deletion.
+[...]
 
-Also clear unused tails when loading existing records so GET and
-enumeration do not return legacy residual bytes. These sanitized records
-reach disk on the next successful update to that pool; loading alone does
-not rewrite the file.
+> Because KVM deliberately unpacks the RSI Host Call structure and pushes
+> it down the traditional non-CVM HVC servicing pipeline, the guest passing
+> standard SMCCC Function IDs inside the gprs array of an RSI Host Call is
+> exactly how the host expects to handle hypervisor services. It shouldn't
+> break or confuse other standard realm implementations since this exact
+> emulation block translates the RSI exception back into a generic HVC
+> abstraction for the hypervisor layer.
 
-The record layout and logical key/value strings are unchanged.
+My point is not the RSI host call itself to query the UUID but what the
+Realm does afterwards. kvm_init_hyp_services() gets a positive answer
+for the KVM UUID and continues with an SMCCC 1.1 invocation to query the
+supported KVM features. The latter is not an RSI host call but an
+ordinary SMC call, to which the RMM responds with -1 in res.a0 (all
+lower 32 bits set). So we end up treating KVM hyp services as available
+in a Realm but their calls still use the SMC conduit and are rejected by
+the RMM.
 
-Fixes: db425334e5bb ("Tools: hv: Fully support the new KVP verbs in the user level daemon")
-Signed-off-by: Shradha Gupta <shradhagupta@microsoft.com>
----
- tools/hv/hv_kvp_daemon.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Supporting such hyp services (e.g. KVM PTP) in a Realm would need a
+separate hypervisor-service conduit using RSI_HOST_CALL. Both discovery
+and subsequent calls would use the same transport without adding
+Realm-specific checks to each caller. Not sure how feasible this is.
 
-diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
-index 1f64c680b..d57729f60 100644
---- a/tools/hv/hv_kvp_daemon.c
-+++ b/tools/hv/hv_kvp_daemon.c
-@@ -203,6 +203,7 @@ static void kvp_update_mem_state(int pool)
- {
- 	FILE *filep;
- 	size_t records_read = 0;
-+	size_t i, len;
- 	struct kvp_record *record = kvp_file_info[pool].records;
- 	struct kvp_record *readp;
- 	int num_blocks = kvp_file_info[pool].num_blocks;
-@@ -248,6 +249,15 @@ static void kvp_update_mem_state(int pool)
- 		break;
- 	}
- 
-+	/* Discard stale bytes after strings in existing pool records. */
-+	for (i = 0; i < records_read; i++) {
-+		len = strnlen(record[i].key, sizeof(record[i].key));
-+		memset(record[i].key + len, 0, sizeof(record[i].key) - len);
-+		len = strnlen(record[i].value, sizeof(record[i].value));
-+		memset(record[i].value + len, 0,
-+		       sizeof(record[i].value) - len);
-+	}
-+
- 	kvp_file_info[pool].num_blocks = num_blocks;
- 	kvp_file_info[pool].records = record;
- 	kvp_file_info[pool].num_records = records_read;
-@@ -327,8 +337,7 @@ static int kvp_key_delete(int pool, const __u8 *key, int key_size)
- 		j = i;
- 		k = j + 1;
- 		for (; k < num_records; k++) {
--			strcpy(record[j].key, record[k].key);
--			strcpy(record[j].value, record[k].value);
-+			memcpy(&record[j], &record[k], sizeof(record[j]));
- 			j++;
- 		}
- 
-@@ -383,6 +392,7 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 		 * Found a match; just update the value -
- 		 * this is the modify case.
- 		 */
-+		memset(record[i].value, 0, sizeof(record[i].value));
- 		memcpy(record[i].value, value, value_size);
- 		kvp_update_file(pool);
- 		if (debug)
-@@ -406,6 +416,7 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 		kvp_file_info[pool].num_blocks++;
- 
- 	}
-+	memset(&record[i], 0, sizeof(record[i]));
- 	memcpy(record[i].value, value, value_size);
- 	memcpy(record[i].key, key, key_size);
- 	kvp_file_info[pool].records = record;
-
-base-commit: 20a33c6b6cbe7e4805dfb6cd68816937443aa148
 -- 
-2.43.0
-
+Catalin
