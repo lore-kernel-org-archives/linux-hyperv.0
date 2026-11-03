@@ -1,56 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793674673;
-	b=x1YRK5IkNqYHKp++NrUYimmfcUozZs/3sSVMNE1JrjoBr/0UvsvarQjzBmKJfhdpcB02
-	 MgifD9fSI0nDnuZxXOYAqyGYCXlGI0gPHoJp3q66QKYJhqlvu+nSk5X9MV0sukf6JUUmg
-	 wOXIWaVOBIEiw/ajFzVKU9oaXkafsW14lva+kRF9s6Ug3Hlo9eHM6bmyLfDp2l0plxHqi
-	 aaVdqjWO6DRfQsJm7Z3d7n8qXMHSPm+ReqC7shKjXQADSl/kqCfCIaLs74QvLsn1e0ppD
-	 mUHDa6rJj2Iq2qY+l21zlr4N5Ezo26Y/zFgp+VsGscaLEOVHOA+b09dl8DSzkoqiBNQ==
+	t=1793675876;
+	b=PG4wptiCAqLIQKIBmLg5ajxiRfqdjyAxFvAu88DEO9syv7hDsk+9Om/fMsYNihvuREqJ
+	 DQGhlEekiH3+za6w7pZurVdftxEQuzarijl9HfZM8lihHpPjTKKYWEBwBQ6V1PBRYc/Co
+	 SR2yccuSqrwQ6JEiZOR3L/hdErZWaOwfqQZRR3SyI2XraHCs7Bs0uLf74sZcMu3sFzmn+
+	 5ogkHvoH9ZOrGjsi/gmVx/30R9V4YMpHsu3gNtpMtL3WgnHWUyPs31/xSXA1RJncMp292
+	 fY4qSyTmxcRnNfOHfOPIEBwm89nEXLZKwgl1UGF1GdQ9L2tzistub/Kod2LDoozG2uQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793674673;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=a5vUcGwKZonRH4GXpm79rv5WQsZkPrGydxWz1lVW+bY=;
-	b=Jf3vqUApY4L9JLrFhN4Q8yzphms0ZR7Fk4EYeGAULhNhokxtKojqFCZSXBYrfmiKUcso
-	 Q4PwOU5bq5kJnVq9PZLzRr76YudNsHzds49vDhc0yzBdmtHUZr+ZqG5waGmkPJak8idNP
-	 Z0fu5Rbda+wN7GW0hPXFTkxiKc1/lN6lEpWVCZFHhtfSNrIw1bYrS6RrMyHetDjhoJni5
-	 FFNWoDmWGuKADowFfEMVI7mBcjyBRoT3sBpZ+VlkNeb/v/bBUznLoT0YHdnpDm3Et1Z/w
-	 L5wFIVaWwe+vQeBoA6XNkAs8hWR8xcD1O4XYF8i+pP9+fRxv0kWLHPSWDezr5QJfRsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793675876;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Cc:Subject:To:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=Bq8RxOjp221zCtPe1b7ySNgeViySYgXEXgz3pYeX0SQ=;
+	b=z/ZbWGJnp8H0LX5pTg9ory/VIg/QfX7NNTVHL6xgospdzfeMQdTqSgBd65afE8xPoX0g
+	 oXRlz7tz6z980Ow9FKVYL9nDzNaxNextFb/HirIhO6Ibitb5AYXN90tbVG6ci7xCFWvxz
+	 slnooWV4cGODVYLgAh6BvXglSbqSEb2y/JG5AMfx9wCdXLeGMY4qXZgr0MwN0wKtHHmez
+	 w2rsy+TZ9Htby8zhtQtbp4VmpbM9Q+hAu7+jfmO50LkOp1QfAOWvnjox5ThlhdrSUxUnj
+	 NyOVIvEj1quNBNPAmRcSbu8oPFi76A8FYWLV2K8O0QfpLvTrGf9T0Q+IRb2wjB1BcSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fr2EBKez;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5640F606A326
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 02:57:53 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=RyF6tFSs;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31378606A324;
+	Tue,  3 Nov 2026 03:17:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31378606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fr2EBKez
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06AD1F0093A;
-	Tue,  3 Nov 2026 02:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793674672;
-	bh=a5vUcGwKZonRH4GXpm79rv5WQsZkPrGydxWz1lVW+bY=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=fr2EBKezIH3YJ4vMxXWc23Rb33ebozGLThnz3RCQH5Nvp9mWITqIokBNFNysEK1+o
-	 PI54jJ1qN8JfnpEYbcWGXF7F22dp0S3QVP9ZtHbmso/Rp8a7XWYJwYJ6mxzXCMybYz
-	 WxkHHQDdCFj8gZHrYRNA2sDDibzo9/Pqc5QtcJcHEkW7oF1KoMGAmPOWmDSlWtx+z3
-	 jZ2+2le+TT7mWuIH6OJO23XE2ondIDRlWGi4QHyqo/SgpccXFDIMrLCO/tjgNQBvCJ
-	 abtitcAmgCwo8zKvjlVWYcD0uOG2MZtpXbaNmpwZ+zRXJlJs7tSNMleYLWFPw7GCsF
-	 BcL0Fq50rO+Ug==
-Message-ID: <sashiko-outbox-194478@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V3 4/5] iommu/hyperv: Only call pviommu init on non-root
- VMs
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh R" <mrathor@linux.microsoft.com>, linux-hyperv@vger.kernel.org
-In-Reply-To: <20261103025150.3192119-5-mrathor@linux.microsoft.com>
-References: <20261103025150.3192119-1-mrathor@linux.microsoft.com>
- <20261103025150.3192119-5-mrathor@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 02:57:52 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=RyF6tFSs
+Received: from [192.168.166.159] (unknown [67.168.101.66])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8037E20B7166;
+	Mon,  2 Nov 2026 19:17:40 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8037E20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793675861;
+	bh=Bq8RxOjp221zCtPe1b7ySNgeViySYgXEXgz3pYeX0SQ=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=RyF6tFSsYqXm9Tp4+4N/XOnFIwW2lrHGXaHlZIlq4MPN0j0IplShWpzIYBlPy5MeV
+	 oQMB05jEY1RJ1LDQ/KzVf+VSv0kRgouPv9xpRLvjldr4wQyiXc/XmqIP+RzmhWXX8J
+	 onuVe6gt7rrUN7PgRRsxwVrTk6FI+cNaV5ZOY9Ds=
+Message-ID: <dc41f6b6-413f-4340-9579-6853f2d5d565@linux.microsoft.com>
+Date: Mon, 2 Nov 2026 19:17:55 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -59,60 +52,94 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ easwar.hariharan@linux.microsoft.com, jgg@nvidia.com,
+ jacob.pan@linux.microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, joro@8bytes.org,
+ will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
+Subject: Re: [PATCH V3 3/5] mshv: Import data structs around device domains
+ from hyperv headers
+To: Mukesh R <mrathor@linux.microsoft.com>
+References: <20261103025150.3192119-1-mrathor@linux.microsoft.com>
+ <20261103025150.3192119-4-mrathor@linux.microsoft.com>
+From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20261103025150.3192119-4-mrathor@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] iommu/hyperv: always-false NULL check on iommu_init in hyperv_init=
-()
---
+On 11/2/2026 18:51, Mukesh R wrote:
+> Copy/import from Hyper-V public headers, definitions and hypercalls that
+> are related to checking for device domain availibility, and mapping and
+> unmapping of device pages.
+> 
+> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+> Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+> ---
+>  include/hyperv/hvgdk_mini.h |  4 ++++
+>  include/hyperv/hvhdk_mini.h | 15 +++++++++++++++
+>  2 files changed, 19 insertions(+)
+> 
+> diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+> index 966945f0504f..606b16f43e16 100644
+> --- a/include/hyperv/hvgdk_mini.h
+> +++ b/include/hyperv/hvgdk_mini.h
+> @@ -327,6 +327,8 @@ union hv_hypervisor_version_info {
+>  /* stimer Direct Mode is available */
+>  #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+>  
+> +#define HV_DEVICE_DOMAIN_AVAILABLE			BIT(24)
+> +
+>  /*
+>   * Implementation recommendations. Indicates which behaviors the hypervisor
+>   * recommends the OS implement for optimal performance.
+> @@ -489,6 +491,8 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+>  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
+>  #define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
+>  #define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
+> +#define HVCALL_MAP_DEVICE_GPA_PAGES			0x00b3
+> +#define HVCALL_UNMAP_DEVICE_GPA_PAGES			0x00b4
+>  #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
+>  #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
+>  #define HVCALL_DISPATCH_VP				0x00c2
+> diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
+> index 57b70efe60d4..2bb757e00d86 100644
+> --- a/include/hyperv/hvhdk_mini.h
+> +++ b/include/hyperv/hvhdk_mini.h
+> @@ -549,6 +549,7 @@ union hv_device_id {		/* HV_DEVICE_ID */
+>  } __packed;
+>  
+>  /* Device domain types */
+> +#define HV_DEVICE_DOMAIN_TYPE_S2	0 /* HV_DEVICE_DOMAIN_ID_TYPE_S2 */
+>  #define HV_DEVICE_DOMAIN_TYPE_S1	1 /* HV_DEVICE_DOMAIN_ID_TYPE_S1 */
+>  
+>  /* ID for default domain and NULL domain */
+> @@ -657,6 +658,20 @@ struct hv_output_get_iommu_capabilities {
+>  	u64 pgsize_bitmap;
+>  } __packed;
+>  
+> +struct hv_input_map_device_gpa_pages { /* HV_INPUT_MAP_DEVICE_GPA_PAGES */
+> +struct hv_input_device_domain device_domain;
 
-commit 4f2b2cb5f11d745054ce781b3dfdb1a7f85d3560
-Author: Mukesh R <mrathor@linux.microsoft.com>
+Nit: Needs whitespace
 
-iommu/hyperv: Only call pviommu init on non-root VMs
+> +	union hv_input_vtl target_vtl;
+> +	u8 padding[3];
+> +	u32 map_flags;
+> +	u64 target_device_va_base;
+> +	u64 gpa_page_list[];
+> +} __packed;
+> +
+> +struct hv_input_unmap_device_gpa_pages {  /* HV_INPUT_UNMAP_DEVICE_GPA_PAGES */
+> +	struct hv_input_device_domain device_domain;
+> +	u64 target_device_va_base;
+> +} __packed;
+> +
+>  /* HV_LOGICAL_DEVICE_PROPERTY_CODE */
+>  enum hv_logical_device_property_code {
+>  	HV_LOGICAL_DEVICE_PROPERTY_PVIOMMU = 10,
 
-This commit renames hv_iommu_init() to hv_pviommu_init() and updates
-hyperv_init() so that x86_init.iommu.iommu_init is only assigned on non-root
-Hyper-V VMs when x86_init.iommu.iommu_init is not already set.
-
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index b90e6f4875335..18651c38dba3e 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -580,7 +580,8 @@ void __init hyperv_init(void)
->  	x86_init.timers.setup_percpu_clockev =3D hv_stimer_setup_percpu_clockev;
-> =20
->  #ifdef CONFIG_HYPERV_PVIOMMU
-> -	x86_init.iommu.iommu_init =3D hv_iommu_init;
-> +	if (!hv_root_partition() && x86_init.iommu.iommu_init =3D=3D NULL)
-> +		x86_init.iommu.iommu_init =3D hv_pviommu_init;
-
-[Severity: High]
-Can x86_init.iommu.iommu_init =3D=3D NULL ever evaluate to true here?
-
-In arch/x86/kernel/x86_init.c, x86_init.iommu.iommu_init is statically
-initialized to iommu_init_noop rather than NULL:
-
-    static int __init iommu_init_noop(void) { return 0; }
-    ...
-    struct x86_init_ops x86_init __initdata =3D {
-        ...
-        .iommu =3D {
-            .iommu_init		=3D iommu_init_noop,
-        },
-        ...
-    };
-
-And in arch/x86/kernel/pci-dma.c, pci_iommu_init() invokes
-x86_init.iommu.iommu_init() unconditionally without a NULL check.
-
-Because x86_init.iommu.iommu_init defaults to iommu_init_noop (or is
-overwritten by an earlier hardware IOMMU detector in pci_iommu_alloc()) and
-is never set to NULL, doesn't checking x86_init.iommu.iommu_init =3D=3D NUL=
-L in
-hyperv_init() prevent hv_pviommu_init from ever being registered on non-root
-guest VMs?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103025150.3192=
-119-1-mrathor@linux.microsoft.com?part=3D4
