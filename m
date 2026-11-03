@@ -1,100 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793716821;
-	b=2suHIWS6BJ7xXCX4zBuBPzjzMGh+Na1X5ifiaP2r6OwL/+TUhYefHDDe6N+WCpMrq8+A
-	 qYuPoj7qRRduYgtgjR5oLY2jZtdevlye51vyUYZf//ugABaex9QgLCwwo4LFQKCYfMxcO
-	 m6gkEOOayvXRNBiKpFLFg6u7kDs3lzzDHgBX/vpoiLEFVo4oyS2HTc7gyz0k8KzJBTX7O
-	 YXN9ik6a9VrLmaji8Uhth3lWr3AM/t9YGw4NVYQETAmZK9w70ZF32FQEYnA6tszd/xx4z
-	 QY/PBdm/wGqxd696klKL0u6Zl+c0qG/x1chgs0QC3lJvL8ceRu9dpiVCE7eavNkS7/Q==
+	t=1793718493;
+	b=kBK7ABXdbRqQBhohI5gY48P8K/VdGczE7FDyqb2NNrgrjiOXtOELiJ2aWF3VwT6KMTaw
+	 KqK0iJ0m0BhY15I1HJ/mTikY4bdEoAg+235Mt5uIGyQDoxNMyyc3dyeqKhcwJysrYF1bY
+	 eFAZZoxxWCJvXlSY1iRGS1lgQwZjV3GEBVPrp/axGfuxGtkem4ASRDpO/ZBXEvD0kqSDJ
+	 6ZwFXBBk4FE5qETX5Y+ZVCwZHsTHLrGpGue3MrpDRFD2le1dWVR7vrbu9cMRscttdYOKe
+	 eNmjDN46sIWic8crAspPk1OAUmJXcgP6KVeMeBaD+Jn0m8JVoxhLO/FL98xkElfog1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793716821;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=71SHQM+JBAqWOZSxiB0ywBj+k1TZQiMc0kbJjW0dEBE=;
-	b=FTvFj/K6CimYBlsp/xJUXEpE75295DCpIlgKWe57SLi392nX2vslJ/xEByUgbC/DGxoN
-	 hY6Qr3wUMLxyoMdNRQcT71wykMByoqAffi47UpB1I1KVCk/bFigysEgVEfElPgzUSPKyn
-	 d5XrpD+ocKK/DzoPRXTi+Kgol4Tcna+2DV/V2Xz7l2hzdXLvZU+GW9a3OoWH1I5wI7sXj
-	 kELT9kjayofQAUpBKsvTmjdpCkUz+zessmoak6uqOXX1QkLX6PpEU/KgyZqR5fxfZ4DQA
-	 8ZB4TTaWxfC01NCRACXkScUyUe50AX7OofnfydMYZMCOfHeTDuvg2z3uGIA9LQr/mBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718493;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=CJWkTRTUbBiT8jHcxjcF/lmpYuRyURbUPnGPT1HsQcc=;
+	b=mPiyWt9lZ03UbfcJMLkA32R7yCPwiCuy4yObfIuP8USBsaFAwQ3kqgmAMX+xpz5ovGvL
+	 qXwiBx49eS3m7h9UaoVafSzdSn6Sg/wOX0EatN8cyCHD7krxqkXTj5TXqVWhX3xdLKyIH
+	 w9j3tWx+TXMHrXywOvIxdmypDzCWW7AficG/AEqbhUjjTBS0f8XqQ52jCLL6yKpJXtont
+	 A67Focj9LjkQ6ASLb1AHVabWTgr11JE+3J47EuinG+bKMCgoJwNxqea6Qzik/9RWGtGQ8
+	 wD6mD7k5UwHrCwepIZmgeAyjdBBawrpkBemKvu47QOEDBYlfs/2gR+R+pdZB3dhG3VQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LcCqzwTz;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NLoRCzKh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E836C606D80A
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 14:40:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E836C606D80A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0409606A32F
+	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 15:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LcCqzwTz
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e9eb579c0eso22471765ad.3
-        for <linux-hyperv@vger.kernel.org>; Tue, 03 Nov 2026 06:40:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793716820; x=1794321620; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=71SHQM+JBAqWOZSxiB0ywBj+k1TZQiMc0kbJjW0dEBE=;
-        b=LcCqzwTz/1nC1P2gl8UvDIGdEOpBDVyofXQ6G76dY7JcuDUhvtGrKpsm6EC4ZSTzbV
-         OCRFT21vWE5ODkpMuUsfPG3NWbmHglT4KUFDfgaTAt63ZnFYHFeh9EIf95PGeRytnymr
-         G2aSUv6zHiYmL8ftc+ggTP26etrF42Qizko+MwXSjqpOfEpdJwIXUG1ez2vTcYtewNLE
-         WJhSIgowsOaOMiY6yVCaQXqf3pNDhWpv28ncmhinn4I1q34RQ67LeqHAkuAGQr9BWiBF
-         LGv1HLQ0lXOmGVIXQIEXtS2Ia/ESuHQpwZNLeoGzbwxqZSJSQ9/yNHzngJP9y0HLItEb
-         Hp9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793716820; x=1794321620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=71SHQM+JBAqWOZSxiB0ywBj+k1TZQiMc0kbJjW0dEBE=;
-        b=KCAoYwMnmIXu7eobJyVsTQrd4R9qc6p3eg6fo0+ZhBQKENuS0CRDXW+qx1zftcF6sr
-         ybrqJydHSmdjJi8C+NrCdDJRjLXr8lIAicvzLZW8qVHRibp8UyFOs25ywWa4woX12DtE
-         53fKMDcWG7kcHG5dLZp2+VQ9o1+SS+862+PKzZiMEjz8TteRhAVX2fo1iYCOJq1bgJKY
-         PVa9JVirs42gwo65OTDzK44S/1VSw1V5I0Hbt+0HiMXFLjyxPgDOavT5sD04/pDaOqtZ
-         SoxwZtqnLtUVAhjiOYFXuw6HB2GXNShcvUTdiDG6gBGUKfe+felPiOW3fHk1pFEtMHwp
-         8aHg==
-X-Forwarded-Encrypted: i=1; AKwUvBzKqHA6gTM+jGSJ3crIjM0Q+rgBrgEcAV93HJ6TR4d4dkJ1zvxhg0Zu1fKim/4a+OxIrsO/eSnLtGY3Pzw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9p56/9QbXiVXET/TuBpbJbOvpzO51zWJLsgJ1eqaq3ENG2K2fz
-	Zq0ZRZeQ+srIXLtY4673+9m+8Yj3BW/0bz6wyvOuEUEAq5WxXr81zpW3
-X-Gm-Gg: AYBFou3xlBGQqhtRdHgl0pRwoMlJJn2NEG6ziazVZjBjTbN5fYORNXo952zKQMKu24c
-	fjd9BkHJiV4DsTVgAf6AGylzo++Ke1okkSJrWodK5d2rx9GBEbP+wY7hGT5szSxo7D40fO0JuW/
-	tzdDabM9u2Ul/W0EF0Nke9srPHMpVh5kfQVqxB1mRRIGOePZSsTUyprbqPKpSvglbRlkhfGXVYe
-	w0lM+IVJRN9bnsUxCNZstocu0s1/msdQAtRxjrKAUNNmtMx1+9IkTam9iJUyEjUuHNQ5Cq1yRJm
-	zAncK4gbf0as6UY+vF08t8FPAvmibk/fixdeTLUqKaWnWlNBh5lNoLn48JKzcKvTE+SRxhpSuoW
-	60GleveGeIDoVjEygiJFMrPMZ8OlsEmLR+86wI2Urs5ng9xELwSN1kdrZmn/BF84vBt2i7uYJvM
-	EWxoLBN7WrwAmgbrOWOrirD5Y1BC9t9YgOJqxGj/glnKfLlW27nT5wMM1vHp9Xj46MURIqRLdfv
-	ZdHPdfKXX6mscsQDso4hx4Snmfi2yfSN/b283QzLP6doe+d6jZjlaEnITqpxvJsUL4NWbu0TV9G
-	yPRsNUAc4qv6vyigyz6BEygWHh3WgRvmOj3LiAF3MXLiSlgRif6x8q/72fYrDgTHxkTlyq6bvTZ
-	gUr4ofk6wkyY=
-X-Received: by 2002:a17:902:f688:b0:2ec:ed9d:bfbf with SMTP id d9443c01a7336-2eced9dbffdmr20393835ad.57.1793716820092;
-        Tue, 03 Nov 2026 06:40:20 -0800 (PST)
-Received: from localhost.localdomain ([2400:d802:dd7:8000:314f:4575:be3:a064])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052edasm42898465ad.4.2026.11.03.06.40.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Nov 2026 06:40:19 -0800 (PST)
-From: Yuqiang Sun <izaiahsun@gmail.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com
-Cc: mhklinux@outlook.com,
-	stephen@networkplumber.org,
-	linmq006@gmail.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3 2/2] Drivers: hv: vmbus: Do not remove the channel when device registration fails
-Date: Tue,  3 Nov 2026 22:40:06 +0800
-Message-ID: <20261103144006.69857-3-izaiahsun@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261103144006.69857-1-izaiahsun@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NLoRCzKh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 604371F000C1;
+	Tue,  3 Nov 2026 15:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793718492;
+	bh=CJWkTRTUbBiT8jHcxjcF/lmpYuRyURbUPnGPT1HsQcc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NLoRCzKh8P4trEfvER32HD3JZ3FX+u0La2E/OawckIWSmhkvLeSnKLaMoqz74OZT1
+	 8o89BfJleGPaCNYTZ3tQMEVzM6pax+Yo9afQrjFeywgkwti/O9DI3gkKBsqaYy0ciJ
+	 YiCqfSpeZ6M7xgzPITPP2NA2kORec61Ar8yCyx04t90SZTyRIBWZdfYnNJa7cNvXym
+	 J9K2VVE3prW1t1w4x+DzwhLvc6+EfoF8jYuf8jKWtm40hhMyR0+nRXZDFEPzM+Otf1
+	 lCll1xth+2bsQ1HFUIRaB7EdJaFQqUVMZxw/a/4AAZaHfryH3SetunbzJapfgfOOqi
+	 z94IPIk9XOBWQ==
+Message-ID: <sashiko-outbox-195557@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 2/2] Drivers: hv: vmbus: Do not remove the channel
+ when device registration fails
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yuqiang Sun" <izaiahsun@gmail.com>
+Cc: linux-hyperv@vger.kernel.org
+In-Reply-To: <20261103144006.69857-3-izaiahsun@gmail.com>
 References: <20261103144006.69857-1-izaiahsun@gmail.com>
+ <20261103144006.69857-3-izaiahsun@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 15:08:12 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -103,219 +60,191 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When vmbus_device_register() fails, it drops the device it was setting
-up, and the device's release, vmbus_device_release(), calls
-hv_process_channel_removal() on the channel. That function is for
-channels the host has rescinded and starts with
-BUG_ON(!channel->rescind), so the kernel stops there. Without the
-BUG_ON, it would unmap and release the relid, unlink the channel and
-free it, and then the error path of vmbus_add_channel_work() would do
-all of that again.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] hv: vmbus: channel UAF and double removal on vmbus_add_channel_wor=
+k() error
+- [High] hv: vmbus: leaked CPU mask and suspend counter in vmbus_add_channe=
+l_work()
+--
 
-When device_register() fails, clear the device's channel pointer before
-dropping the device, and only remove the channel in
-vmbus_device_release() if there is one: vmbus_add_channel_work() cleans
-it up, after clearing the channel's pointer to the freed device. A
-concurrent driver_attach() can still match the device while it is being
-removed, so make vmbus_match() skip a device without a channel, and
-look at the channel under rcu_read_lock(), as it is freed with
-kfree_rcu().
+commit 99d3a552529c5941e934071a1f2968acea94e54e
+Author: Yuqiang Sun <izaiahsun@gmail.com>
 
-The later failures, creating the channels directory or the primary
-channel's kobject, come after device_register() may have bound a driver,
-and a driver can hold on to the channel past its remove callback unless
-the channel was rescinded (hv_sock's connection, or the sub-channels it
-opened). So do not unregister the device for them: its channel is then
-just missing from sysfs, as it is while the device is being set up. A
-sub-channel of a device without a channels directory is left out of
-sysfs too. This also applies to a sub-channel offered while its device
-is still being registered, before the directory is created, which was
-added to the top of /sys until now.
+Drivers: hv: vmbus: Do not remove the channel when device registration fails
 
-Fixes: c2e5df616e1a ("vmbus: add per-channel sysfs info")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuqiang Sun <izaiahsun@gmail.com>
----
+This commit avoids calling hv_process_channel_removal() from
+vmbus_device_release() when device_register() fails by clearing the
+device's channel pointer and letting vmbus_add_channel_work() clean up
+the channel. It also keeps the device registered if sysfs channel
+setup fails after device_register() succeeds.
 
-Notes:
-    The bug was found with kbound, a research static analysis prototype.
-    The patch, the changelog and the test setup were written with the help
-    of an AI coding assistant (Claude); I have reviewed them and tested them
-    as described in the cover letter.
-    
-    Changes in v3: vmbus_match() reads the channel under rcu_read_lock(),
-    the channel no longer points to the freed device, and a sub-channel of
-    a device without a channels directory is left out of sysfs instead of
-    being refused (Sashiko review of v2).
-    
-    Changes in v2: vmbus_match() skips a device without a channel, and the
-    failures after device_register() keep the device instead of
-    unregistering it (Sashiko review of v1).
+> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+> index cb1d8d76928ff..1fa232e86fce2 100644
+> --- a/drivers/hv/channel_mgmt.c
+> +++ b/drivers/hv/channel_mgmt.c
+> @@ -554,15 +554,16 @@ static void vmbus_add_channel_work(struct work_stru=
+ct *work)
+>  	 * method.
+>  	 *
+>  	 * If vmbus_device_register() fails, the 'device_obj' is freed in
+> -	 * vmbus_device_release() as called by device_unregister() in the
+> -	 * error path of vmbus_device_register(). In the outside error
+> -	 * path, there's no need to free it.
+> +	 * vmbus_device_release() as called by put_device() in the error
+> +	 * path of vmbus_device_register(). In the outside error path,
+> +	 * there's no need to free it, but the channel must not point to it.
+>  	 */
+>  	ret =3D vmbus_device_register(newchannel->device_obj);
+> =20
+>  	if (ret !=3D 0) {
+>  		pr_err("unable to add child device object (relid %d)\n",
+>  			newchannel->offermsg.child_relid);
+> +		newchannel->device_obj =3D NULL;
+>  		goto err_deq_chan;
+>  	}
 
- drivers/hv/channel_mgmt.c |  7 ++--
- drivers/hv/vmbus_drv.c    | 72 ++++++++++++++++++++++++---------------
- 2 files changed, 49 insertions(+), 30 deletions(-)
+[Severity: High]
+As reported by Sashiko on v2 [1], can jumping to err_deq_chan in
+vmbus_add_channel_work() race with a concurrent vmbus_onoffer_rescind()
+and cause a use-after-free on channel or a double channel removal?
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index cb1d8d76928f..1fa232e86fce 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -554,15 +554,16 @@ static void vmbus_add_channel_work(struct work_struct *work)
- 	 * method.
- 	 *
- 	 * If vmbus_device_register() fails, the 'device_obj' is freed in
--	 * vmbus_device_release() as called by device_unregister() in the
--	 * error path of vmbus_device_register(). In the outside error
--	 * path, there's no need to free it.
-+	 * vmbus_device_release() as called by put_device() in the error
-+	 * path of vmbus_device_register(). In the outside error path,
-+	 * there's no need to free it, but the channel must not point to it.
- 	 */
- 	ret = vmbus_device_register(newchannel->device_obj);
- 
- 	if (ret != 0) {
- 		pr_err("unable to add child device object (relid %d)\n",
- 			newchannel->offermsg.child_relid);
-+		newchannel->device_obj = NULL;
- 		goto err_deq_chan;
- 	}
- 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index fc0f16f51266..b41ce24e200c 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -840,9 +840,24 @@ static int vmbus_match(struct device *device, const struct device_driver *driver
- {
- 	const struct hv_driver *drv = drv_to_hv_drv(driver);
- 	struct hv_device *hv_dev = device_to_hv_device(device);
-+	struct vmbus_channel *channel;
-+	bool hvsock = false;
-+
-+	/*
-+	 * No channel if vmbus_device_register() failed. The channel is then
-+	 * freed after an RCU grace period.
-+	 */
-+	rcu_read_lock();
-+	channel = READ_ONCE(hv_dev->channel);
-+	if (channel)
-+		hvsock = is_hvsock_channel(channel);
-+	rcu_read_unlock();
-+
-+	if (!channel)
-+		return 0;
- 
- 	/* The hv_sock driver handles all hv_sock offers. */
--	if (is_hvsock_channel(hv_dev->channel))
-+	if (hvsock)
- 		return drv->hvsock;
- 
- 	if (hv_vmbus_get_id(drv, hv_dev))
-@@ -979,9 +994,15 @@ static void vmbus_device_release(struct device *device)
- 
- 	hv_debug_rm_dev_dir(hv_dev);
- 
--	mutex_lock(&vmbus_connection.channel_mutex);
--	hv_process_channel_removal(channel);
--	mutex_unlock(&vmbus_connection.channel_mutex);
-+	/*
-+	 * No channel if vmbus_device_register() failed: the channel was not
-+	 * rescinded, and vmbus_add_channel_work() cleans it up.
-+	 */
-+	if (channel) {
-+		mutex_lock(&vmbus_connection.channel_mutex);
-+		hv_process_channel_removal(channel);
-+		mutex_unlock(&vmbus_connection.channel_mutex);
-+	}
- 	kfree(hv_dev);
- }
- 
-@@ -2099,15 +2120,24 @@ void vmbus_init_channel_kobj(struct vmbus_channel *channel)
- int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
- {
- 	const struct device *device = &dev->device;
-+	struct kset *kset = READ_ONCE(dev->channels_kset);
- 	struct kobject *kobj = &channel->kobj;
- 	u32 relid = channel->offermsg.child_relid;
- 	int ret;
- 
-+	/*
-+	 * The device has no channels directory if creating it failed, or not
-+	 * yet while vmbus_device_register() is still running: leave the
-+	 * channel out of sysfs.
-+	 */
-+	if (!kset)
-+		return 0;
-+
- 	/*
- 	 * On failure the kobject keeps its reference: the callers' error
- 	 * paths drop it in free_channel(), which also frees the channel.
- 	 */
--	kobj->kset = dev->channels_kset;
-+	kobj->kset = kset;
- 	ret = kobject_add(kobj, NULL, "%u", relid);
- 	if (ret)
- 		return ret;
-@@ -2116,8 +2146,9 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
- 
- 	if (ret) {
- 		/*
--		 * The calling functions' error handling paths will cleanup the
--		 * empty channel directory.
-+		 * The empty channel directory goes away with the kobject: in
-+		 * the error path of vmbus_add_channel_work() for a sub-channel,
-+		 * and when its device is removed for a primary channel.
- 		 */
- 		dev_err(device, "Unable to set up channel sysfs files\n");
- 		return ret;
-@@ -2189,6 +2220,7 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	ret = device_register(&child_device_obj->device);
- 	if (ret) {
- 		pr_err("Unable to register child device\n");
-+		WRITE_ONCE(child_device_obj->channel, NULL);
- 		put_device(&child_device_obj->device);
- 		return ret;
- 	}
-@@ -2205,31 +2237,17 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	 * here. The race can't result in a kernel failure, but the user space
- 	 * program may get an error in accessing "channels" or its
- 	 * subdirectories. See also comments with vmbus_add_dynid() about a
--	 * related race condition.
-+	 * related race condition. For the same reason, the device stays
-+	 * registered if its channel cannot be shown in sysfs.
- 	 */
--	child_device_obj->channels_kset = kset_create_and_add("channels",
--							      NULL, kobj);
--	if (!child_device_obj->channels_kset) {
--		ret = -ENOMEM;
--		goto err_dev_unregister;
--	}
--
--	ret = vmbus_add_channel_kobj(child_device_obj,
--				     child_device_obj->channel);
--	if (ret) {
-+	WRITE_ONCE(child_device_obj->channels_kset,
-+		   kset_create_and_add("channels", NULL, kobj));
-+	if (!child_device_obj->channels_kset ||
-+	    vmbus_add_channel_kobj(child_device_obj, child_device_obj->channel))
- 		pr_err("Unable to register primary channel\n");
--		goto err_kset_unregister;
--	}
- 	hv_debug_add_dev_dir(child_device_obj);
- 
- 	return 0;
--
--err_kset_unregister:
--	kset_unregister(child_device_obj->channels_kset);
--
--err_dev_unregister:
--	device_unregister(&child_device_obj->device);
--	return ret;
- }
- 
- /*
--- 
-2.53.0
+In vmbus_process_offer(), newchannel is linked onto chn_list or sc_list,
+mapped via vmbus_channel_map_relid(), and offer_in_progress is decremented
+before vmbus_add_channel_work() is queued. If a rescind offer arrives
+while vmbus_add_channel_work() is running, vmbus_onoffer_rescind() looks
+up the channel, sets channel->rescind_ref =3D true and channel->rescind =3D=
+ true,
+and waits for probe_done without holding a kobject reference or an RCU
+read lock:
 
+drivers/hv/channel_mgmt.c:vmbus_onoffer_rescind() {
+	...
+	while (READ_ONCE(channel->probe_done) =3D=3D false) {
+		msleep(1);
+	}
+
+	if (channel->device_obj) {
+		...
+	} else if (channel->primary_channel !=3D NULL) {
+		mutex_lock(&vmbus_connection.channel_mutex);
+		if (channel->state =3D=3D CHANNEL_OPEN_STATE) {
+			hv_process_channel_removal(channel);
+		}
+		...
+}
+
+When vmbus_device_register() fails (or when vmbus_device_create() or
+vmbus_add_channel_kobj() fails), err_deq_chan sets
+newchannel->probe_done =3D true, unlinks and unmaps newchannel, and calls
+free_channel(newchannel) -> kobject_put() -> vmbus_chan_release() ->
+kfree_rcu(channel, rcu):
+
+drivers/hv/channel_mgmt.c:vmbus_add_channel_work() {
+	...
+err_deq_chan:
+	mutex_lock(&vmbus_connection.channel_mutex);
+	newchannel->probe_done =3D true;
+
+	if (primary_channel =3D=3D NULL)
+		list_del(&newchannel->listentry);
+	else
+		list_del(&newchannel->sc_list);
+
+	vmbus_channel_unmap_relid(newchannel);
+	mutex_unlock(&vmbus_connection.channel_mutex);
+
+	vmbus_release_relid(newchannel->offermsg.child_relid);
+	free_channel(newchannel);
+}
+
+Because vmbus_onoffer_rescind() is sleeping in msleep(1), the RCU grace
+period can finish before vmbus_onoffer_rescind() wakes up and dereferences
+channel->probe_done, channel->device_obj, and channel->primary_channel.
+
+In addition, on weakly ordered architectures, newchannel->device_obj =3D NU=
+LL
+and newchannel->probe_done =3D true are plain stores separated only by
+mutex_lock(&vmbus_connection.channel_mutex) (an acquire barrier, not a
+release barrier), while vmbus_onoffer_rescind() reads
+READ_ONCE(channel->probe_done) and channel->device_obj without holding
+channel_mutex or using load-acquire. Could vmbus_onoffer_rescind() observe
+probe_done =3D=3D true while still seeing the stale non-NULL channel->devic=
+e_obj
+pointer to the freed hv_device?
+
+Finally, for a sub-channel failing in vmbus_add_channel_kobj(),
+newchannel->state was already set to CHANNEL_OPEN_STATE at the start of
+vmbus_add_channel_work(). When vmbus_onoffer_rescind() wakes up and enters
+the channel->primary_channel !=3D NULL branch, wouldn't it see
+channel->state =3D=3D CHANNEL_OPEN_STATE and call
+hv_process_channel_removal(channel) a second time after err_deq_chan has
+already unlinked, unmapped, and freed it?
+
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index fc0f16f512669..b41ce24e200c8 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+
+[ ... ]
+
+> @@ -979,9 +994,15 @@ static void vmbus_device_release(struct device *devi=
+ce)
+> =20
+>  	hv_debug_rm_dev_dir(hv_dev);
+> =20
+> -	mutex_lock(&vmbus_connection.channel_mutex);
+> -	hv_process_channel_removal(channel);
+> -	mutex_unlock(&vmbus_connection.channel_mutex);
+> +	/*
+> +	 * No channel if vmbus_device_register() failed: the channel was not
+> +	 * rescinded, and vmbus_add_channel_work() cleans it up.
+> +	 */
+> +	if (channel) {
+> +		mutex_lock(&vmbus_connection.channel_mutex);
+> +		hv_process_channel_removal(channel);
+> +		mutex_unlock(&vmbus_connection.channel_mutex);
+> +	}
+>  	kfree(hv_dev);
+>  }
+
+[Severity: High]
+As reported by Sashiko on v2 [1], when vmbus_device_release() skips
+hv_process_channel_removal() and leaves cleanup to err_deq_chan in
+vmbus_add_channel_work(), does err_deq_chan leak the allocated CPU bit in
+hv_numa_map and the nr_chan_close_on_suspend counter?
+
+Before queuing vmbus_add_channel_work(), vmbus_process_offer() allocates
+target_cpu and increments nr_chan_close_on_suspend:
+
+drivers/hv/channel_mgmt.c:vmbus_process_offer() {
+	...
+	init_vp_index(newchannel);
+
+	/* Remember the channels that should be cleaned up upon suspend. */
+	if (is_hvsock_channel(newchannel) || is_sub_channel(newchannel))
+		atomic_inc(&vmbus_connection.nr_chan_close_on_suspend);
+	...
+}
+
+Unlike hv_process_channel_removal(), err_deq_chan in
+vmbus_add_channel_work() does not call
+hv_clear_allocated_cpu(newchannel->target_cpu) when
+hv_is_perf_channel(newchannel) is true.
+
+It also unmaps the channel's relid via vmbus_channel_unmap_relid(newchannel)
+without decrementing vmbus_connection.nr_chan_close_on_suspend (via
+check_ready_for_suspend_event()) when is_hvsock_channel(newchannel) or
+is_sub_channel(newchannel) is true. Because the relid is unmapped, even a
+later rescind from the host will see relid2channel() =3D=3D NULL in
+vmbus_onoffer_rescind() and return early. Wouldn't that leave
+nr_chan_close_on_suspend permanently elevated and cause a subsequent
+vmbus_bus_suspend() to hang indefinitely in
+wait_for_completion(&vmbus_connection.ready_for_suspend_event)?
+
+[1] https://lore.kernel.org/r/20261103080347.90310-3-izaiahsun@gmail.com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103144006.6985=
+7-1-izaiahsun@gmail.com?part=3D2
