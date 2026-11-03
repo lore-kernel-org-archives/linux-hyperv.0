@@ -1,49 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695806;
-	b=XzPZMvWzooUadZjaGcGCWa23zLzTAXbdNlHcSRFnVfu9sf7lZgEr/xJJ5kiVbk54cnj8
-	 72Ja+GGm1N3dVPMNXj4V301ZpoHa3ph3/P2EZpnmFjM0FadHNNCB2mQS3mvDy9kT16shC
-	 pI/vsVjHGLg5VXOdJBOb7x3M8FajbWb5Jn5/Xl3W7wKyrXdI1oVqAK4oQWKsdRbMLE3Ef
-	 8+cuCPktfjZYjMEJhdw7pyBQidDtO8nBZRKY0RqaKavlfH3smceZ/DTkPgJiiV4oNdd/W
-	 4SV9zDE0nNPtr4Q5zkdxMFLYf/i3r0ptQkf5XMx1XWf2s0Br5ycxLaiPJGU5i8hBLrg==
+	t=1793706221;
+	b=gzXCAifuj+sV9jnBSQ7jvJXnXStQw/XaSkBah7af6W1eSQ6fD7p1IigdHGup6ELMwyWg
+	 ESYmcXP4gCoG1KOWzS3gLzNeRihw5Gv3Eb4yBqkYRQdv+5kIG92HlWrE4hqtRnc5YSc2G
+	 kD4hWCJ/kE1Cyl2P9DItba+cE5kC5zQ8Rm9iE2PX3JuOPrWt0x1ZF6YTu7LHdvbkG9gxr
+	 9nybjzovwP90xDS+WGBEHozVJD9TaMS6jASBCj8Ui47ru1EPGXd1H5mRabvVp30fyjB0s
+	 MACm//WUAUw9uJF+213l34hKWUmUzoddwwjSeNGPX9WvabIid6qakhvB7FW1JRGCVsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695806;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=GyQHYJt0q/Kn7YL2+GIJ0OLYBR8UxcA/Z+QiexveRco=;
-	b=O2NqfdxFORbqDlzg4WOVUi2APlHcIvYlAFV8y5hAh3t06g1HD21buNoXqtWpfwX3GSFJ
-	 OCNYmkKGZPbNldjdAacyPDRxZe/fgD41NVqvpLc+zSgGWqJnNu++Kz/Dybx0qm5Hv+FJO
-	 O0IuBrk0M33UadMn5aW64KLjS/Fcfg/3Udyit9iOokPO7RxGQD64EEfiFgCpi0S6IE2ej
-	 wLRSkuSY+bRtsFjiBzMPsyDCST0067sgqg/mgrGnwRJmiHm1kgpuBjvyR+uNRaV4G9GEC
-	 RzBYCv1Z8WCHJXf5VCVHwCljRHpE5apowcG6C0+qY3e44kkk10aU8G1pLw6tu870e5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793706221;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZKSEP3+/PcST9o58HFuWpOsPhP57g1jdoiPcpSylqH0=;
+	b=1yuNv+vxSvc7wVFWbNWG45/v1HkXTa1sFbMpkgOjcmVzeXjUn3X6ile05LYvqfjgEBLy
+	 XNlT/hTymH9PlgK9wWIh97az3Pvo+s8Lf9NNuk/6gKkiUExdl74KhETcYNb87/rDSQ5Ya
+	 HG50bpJSU3V5UwLVNEUzOnq1b/t+SAawqEg116udKVVrCJu43kSNYwYSPGtnYuZGYsmQ7
+	 EPde8peIxS2QiciSnIwMrUXsTgZ4SGNvE9jYaLpbf5VOUoSh2SaUGcmEOeqlN7hCHGSbf
+	 Db2A/ajf4Nki1nueOJ5u3KgfiBiQo8f+k4qBw+q+Qc86XyloPd9hDqqvFh+B5hHdq+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mVKtc025;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZfp1Nvg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54434606A33B;
-	Tue,  3 Nov 2026 08:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952F26083608;
+	Tue,  3 Nov 2026 11:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mVKtc025
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A6501F000C1;
-	Tue,  3 Nov 2026 08:50:05 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZfp1Nvg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C671F000C1;
+	Tue,  3 Nov 2026 11:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793695805;
-	bh=GyQHYJt0q/Kn7YL2+GIJ0OLYBR8UxcA/Z+QiexveRco=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=mVKtc025k0rxhpVk5WpC8vQbLe8lMH83f2/LqFBAM7xQxIBUFfTiVfAPqiE059Z82
-	 n8k+i1P1ghT6eVoGB47NXhrvUFN8dyWOYmCyHHYm7of5cy/mA739Gk7prRSWpq+Nej
-	 atAiozgY8Vl/kXau/Tc4JT1fJf/QpZMkpD7P/7Zednc66mdQ4Ew3BBTlcPM37wD1Nr
-	 b6M5daRMeE4ZflFox3Vx8WeaiB77q8AlMwHIcgio81kJiIbXAm4Xp7kjxRmvnQdKxK
-	 z0AIBWpql09XFTKIjgCrcvP9E47OWhm6Uy4yHzH2IX1jd97U8vQw3VyBe8tnA/fS7W
-	 IvQWONdIN3TCw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7D20338068DA;
-	Tue,  3 Nov 2026 08:50:05 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1793706221;
+	bh=ZKSEP3+/PcST9o58HFuWpOsPhP57g1jdoiPcpSylqH0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RZfp1NvgntwSxvPaNI+cFq/sI2rMD1VCnCQTTpZmIPiSbkJm3yj/HWbv8TQGPIePI
+	 btnGiLXOvb4gGwItG+UDHZFugtQA2CJeFHbXO99tXq7XX3X52el8BK4TqtBLRkR0hq
+	 i3UH1xdjsy7U2M+d379DSIKrNzSccQ/uSPm46YZnuFXJ5Lg1n3xCYarV69oT4KeHZi
+	 Y/fL7RLvkvuwP7DCBRVjzaZJCDWfNeteLWepasM2sAoJSz1GQHvOftLYfNFnVtQfqI
+	 QdX+On8gH4yf5FL/jt7Wf1005lU1NoFeO7d3dbvhWMvHJDyR6YvcgnAc7qTJUrHbwZ
+	 pEgmCcYDLj5kA==
+Date: Tue, 3 Nov 2026 11:43:35 +0000
+From: Simon Horman <horms@kernel.org>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com, lkmlabelt@gmail.com,
+	parri.andrea@gmail.com, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Wei Liu <liuwe@microsoft.com>
+Subject: Re: [PATCH net v2] hv_netvsc: Stop PPI parsing on invalid metadata
+Message-ID: <20261103114335.GI865646@horms.kernel.org>
+References: <20261030093459.4004663-1-ernis@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,46 +60,35 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v4] net: mana: Add support to process throttled EQEs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179369580430.954311.1075997352976469360.git-patchwork-notify@kernel.org>
-Date: Tue, 03 Nov 2026 08:50:04 +0000
-References: <20261028084020.2051254-1-sahilchandna@linux.microsoft.com>
-In-Reply-To: <20261028084020.2051254-1-sahilchandna@linux.microsoft.com>
-To: Sahil Chandna <sahilchandna@linux.microsoft.com>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, kotaranov@microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, leitao@debian.org,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- stable@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261030093459.4004663-1-ernis@linux.microsoft.com>
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Wed, 28 Oct 2026 03:40:17 -0500 you wrote:
-> When an event queue nears full, the hardware coalesces the per-CQ
-> GDMA_EQE_COMPLETION notifications into a single throttle EQE (type 4)
-> that carries no cq_id. The driver does not handle this event type, so
-> it falls through to the default case and is dropped. Any CQ whose
-> completion notification was replaced by the throttle EQE can remain
-> unserviced, causing its queue to stall.
+On Fri, Oct 30, 2026 at 02:34:59AM -0700, Erni Sri Satya Vennela wrote:
+> rndis_get_ppi() uses continue when a per-packet information entry has an
+> invalid size or offset, or cannot hold the requested metadata. However,
+> the remaining length and entry pointer are only updated at the bottom
+> of the loop. Each error path therefore retries the same invalid entry
+> indefinitely, repeatedly logging the error and preventing receive
+> processing from completing.
 > 
-> [...]
+> Return NULL on these validation failures instead of continuing. This
+> terminates the lookup when malformed metadata is encountered while
+> preserving the existing behavior for valid entries.
+> 
+> The issue was reported through an internal bug-tracking system and
+> confirmed by manual code inspection. The pre-fix hang has not been
+> reproduced locally.
+> 
+> Fixes: 44144185951a ("hv_netvsc: Add validation for untrusted Hyper-V values")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+> Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+> Reviewed-by: Wei Liu <liuwe@microsoft.com>
+> ---
+> Changes in v2:
+> * Add Cc: stable@vger.kernel.org
+> * Clarify how the issue was reported and confirmed in commit message.
 
-Here is the summary with links:
-  - [net,v4] net: mana: Add support to process throttled EQEs
-    https://git.kernel.org/netdev/net/c/684603842b78
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Reviewed-by: Simon Horman <horms@kernel.org>
 
