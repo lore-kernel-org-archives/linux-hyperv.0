@@ -1,49 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793674466;
-	b=PsKVYEfY2cKhO8IFo0iLICbSQUWLGCkab39W4nTimQRu+pWiRTlimBEflkD7v+YRHbMU
-	 ZVMHmFeMEKa3OPPqDyk1C43mcWyAIVkGfG50hiAk2mFlTn+5pzZNMP/pN2M1dDYHxS6AC
-	 lOsAOHJ7UWIBlQCQj1x7MP4fEOSPbjzs2ugu7wRXe0QLkabpdpefbXUm46wfWF3QMO+8E
-	 hARnBZRo2OGATtBZaKGRnADHOZDipXwW+PnYi9UpRkk3+/eyhKrzYHG5V055F4uXoCjF/
-	 Y9g8v1K+itH3EeGZiglmgE632hn6EvC9PuuP1PJqQ5p9S56v52kMCqVTaSM7izWagPw==
+	t=1793674673;
+	b=x1YRK5IkNqYHKp++NrUYimmfcUozZs/3sSVMNE1JrjoBr/0UvsvarQjzBmKJfhdpcB02
+	 MgifD9fSI0nDnuZxXOYAqyGYCXlGI0gPHoJp3q66QKYJhqlvu+nSk5X9MV0sukf6JUUmg
+	 wOXIWaVOBIEiw/ajFzVKU9oaXkafsW14lva+kRF9s6Ug3Hlo9eHM6bmyLfDp2l0plxHqi
+	 aaVdqjWO6DRfQsJm7Z3d7n8qXMHSPm+ReqC7shKjXQADSl/kqCfCIaLs74QvLsn1e0ppD
+	 mUHDa6rJj2Iq2qY+l21zlr4N5Ezo26Y/zFgp+VsGscaLEOVHOA+b09dl8DSzkoqiBNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793674466;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=3mEZ6r4DuMod8ALHHWcJ1ipvuJ0fm+r6+wtOXPIOWo0=;
-	b=Aiv6eNFdZhMeWXlnH9Lq0T+K7U8ciY4DC3Uz1Ha2ikFhnu9DaQpsq5zy1t7Xy2D2Y4E2
-	 FPjgI7K5X32MEP8Nft9PE421kK14NLG27w1keefGtunbyJF+iCOQa2cwUnvSTARKC+jgz
-	 4FRWg7v/opiIeGExFwUIiPm5D5siZBPYDr2MvOfwN4ZBNrgvqpplGlWyVFHk+AtUNOLvM
-	 rR6u/FGxXsal9TgThmm/1OvtmNR1W6Rjhi3KpXJKeVkMfTPkxZsM3hTIixJI7D8Myxly1
-	 aoJC9R4DqIOD6IVjUTekWClf3kiVzu4fpHmkW5M4boCgOcOFpV5rHkSPJYJHu4jfFNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793674673;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=a5vUcGwKZonRH4GXpm79rv5WQsZkPrGydxWz1lVW+bY=;
+	b=Jf3vqUApY4L9JLrFhN4Q8yzphms0ZR7Fk4EYeGAULhNhokxtKojqFCZSXBYrfmiKUcso
+	 Q4PwOU5bq5kJnVq9PZLzRr76YudNsHzds49vDhc0yzBdmtHUZr+ZqG5waGmkPJak8idNP
+	 Z0fu5Rbda+wN7GW0hPXFTkxiKc1/lN6lEpWVCZFHhtfSNrIw1bYrS6RrMyHetDjhoJni5
+	 FFNWoDmWGuKADowFfEMVI7mBcjyBRoT3sBpZ+VlkNeb/v/bBUznLoT0YHdnpDm3Et1Z/w
+	 L5wFIVaWwe+vQeBoA6XNkAs8hWR8xcD1O4XYF8i+pP9+fRxv0kWLHPSWDezr5QJfRsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Q+COE4FG;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB45606A327;
-	Tue,  3 Nov 2026 02:54:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FB45606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fr2EBKez;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5640F606A326
+	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 02:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Q+COE4FG
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3AA1D20B7166;
-	Mon,  2 Nov 2026 18:54:10 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3AA1D20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793674450;
-	bh=3mEZ6r4DuMod8ALHHWcJ1ipvuJ0fm+r6+wtOXPIOWo0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q+COE4FGgrozfHlhXCSRaB6pt7mVWZ539RWqSvJUtwfyY/urNsPtrf9lML94V40Pl
-	 gERI3+rDya5psPYeLTvH31Fq/FdeMQZ+rCNjYTgYPHOKfcNYS+QHRP7vepQkQMcOkP
-	 cuLo5v+uNONKutTactMRslPs7YGE7un6lif/oEug=
-Message-ID: <69d99439-8d60-79c6-36a8-662210bb0dc4@linux.microsoft.com>
-Date: Mon, 2 Nov 2026 18:54:23 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fr2EBKez
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06AD1F0093A;
+	Tue,  3 Nov 2026 02:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793674672;
+	bh=a5vUcGwKZonRH4GXpm79rv5WQsZkPrGydxWz1lVW+bY=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=fr2EBKezIH3YJ4vMxXWc23Rb33ebozGLThnz3RCQH5Nvp9mWITqIokBNFNysEK1+o
+	 PI54jJ1qN8JfnpEYbcWGXF7F22dp0S3QVP9ZtHbmso/Rp8a7XWYJwYJ6mxzXCMybYz
+	 WxkHHQDdCFj8gZHrYRNA2sDDibzo9/Pqc5QtcJcHEkW7oF1KoMGAmPOWmDSlWtx+z3
+	 jZ2+2le+TT7mWuIH6OJO23XE2ondIDRlWGi4QHyqo/SgpccXFDIMrLCO/tjgNQBvCJ
+	 abtitcAmgCwo8zKvjlVWYcD0uOG2MZtpXbaNmpwZ+zRXJlJs7tSNMleYLWFPw7GCsF
+	 BcL0Fq50rO+Ug==
+Message-ID: <sashiko-outbox-194478@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH V3 4/5] iommu/hyperv: Only call pviommu init on non-root
+ VMs
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mukesh R" <mrathor@linux.microsoft.com>, linux-hyperv@vger.kernel.org
+In-Reply-To: <20261103025150.3192119-5-mrathor@linux.microsoft.com>
+References: <20261103025150.3192119-1-mrathor@linux.microsoft.com>
+ <20261103025150.3192119-5-mrathor@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 02:57:52 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -52,43 +59,60 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH V2 4/4] x86/hyperv: Implement root partition IOMMU kernel
- only driver
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- jacob.pan@linux.microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, tglx@kernel.org, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, arnd@arndb.de
-References: <20260929223622.778617-1-mrathor@linux.microsoft.com>
- <20260929223622.778617-5-mrathor@linux.microsoft.com>
- <c01d422c-5277-010b-ff14-dfe5fec6a7bb@linux.microsoft.com>
- <20261021232000.GW3008132@nvidia.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <20261021232000.GW3008132@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 10/21/26 16:20, Jason Gunthorpe wrote:
-> On Wed, Oct 21, 2026 at 02:36:53PM -0700, Mukesh R wrote:
->> Hi Jason and Joerg,
->>
->> I am going to rebase due to all the patches that went it and crank
->> out a new version. Do you have any more comments/concerns, I think I have
->> addressed all your concerns. Pl lmk.
-> 
-> You should wait two or three weeks till rc1 comes out at least
-> 
-> Jason
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] iommu/hyperv: always-false NULL check on iommu_init in hyperv_init=
+()
+--
 
-Done. Please check V3:
+commit 4f2b2cb5f11d745054ce781b3dfdb1a7f85d3560
+Author: Mukesh R <mrathor@linux.microsoft.com>
 
-https://lore.kernel.org/linux-hyperv/20261103025150.3192119-1-mrathor@linux.microsoft.com/T/#t
+iommu/hyperv: Only call pviommu init on non-root VMs
 
-Thanks,
--Mukesh
+This commit renames hv_iommu_init() to hv_pviommu_init() and updates
+hyperv_init() so that x86_init.iommu.iommu_init is only assigned on non-root
+Hyper-V VMs when x86_init.iommu.iommu_init is not already set.
+
+> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+> index b90e6f4875335..18651c38dba3e 100644
+> --- a/arch/x86/hyperv/hv_init.c
+> +++ b/arch/x86/hyperv/hv_init.c
+> @@ -580,7 +580,8 @@ void __init hyperv_init(void)
+>  	x86_init.timers.setup_percpu_clockev =3D hv_stimer_setup_percpu_clockev;
+> =20
+>  #ifdef CONFIG_HYPERV_PVIOMMU
+> -	x86_init.iommu.iommu_init =3D hv_iommu_init;
+> +	if (!hv_root_partition() && x86_init.iommu.iommu_init =3D=3D NULL)
+> +		x86_init.iommu.iommu_init =3D hv_pviommu_init;
+
+[Severity: High]
+Can x86_init.iommu.iommu_init =3D=3D NULL ever evaluate to true here?
+
+In arch/x86/kernel/x86_init.c, x86_init.iommu.iommu_init is statically
+initialized to iommu_init_noop rather than NULL:
+
+    static int __init iommu_init_noop(void) { return 0; }
+    ...
+    struct x86_init_ops x86_init __initdata =3D {
+        ...
+        .iommu =3D {
+            .iommu_init		=3D iommu_init_noop,
+        },
+        ...
+    };
+
+And in arch/x86/kernel/pci-dma.c, pci_iommu_init() invokes
+x86_init.iommu.iommu_init() unconditionally without a NULL check.
+
+Because x86_init.iommu.iommu_init defaults to iommu_init_noop (or is
+overwritten by an earlier hardware IOMMU detector in pci_iommu_alloc()) and
+is never set to NULL, doesn't checking x86_init.iommu.iommu_init =3D=3D NUL=
+L in
+hyperv_init() prevent hv_pviommu_init from ever being registered on non-root
+guest VMs?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103025150.3192=
+119-1-mrathor@linux.microsoft.com?part=3D4
