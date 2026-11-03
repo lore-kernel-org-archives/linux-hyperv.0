@@ -1,57 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695038;
-	b=d0IY5dXfdeMZcs23KXs0Dd+RZkQLcTTND3Ub3wy+hAiJGFZQVzPEaiXO/S74/XQ72AEu
-	 fxJPg4UJfE51WFZW0RVcRGV07wnMcPU87zJg+X3IIATPDZhO54kwdWR6+1Mf6EfHzI+jH
-	 C+hA7TBksPqdcf0UHCZpM6mU662xO1ssyTHEpiaycjLP2sdMmCskMxNlpCn98EEuQ6aQi
-	 yB99fI/e0DCANDuZf3LSHrnsOeZOaQb192h0JwS1j6ebBuGbOaIRkBo3ftW4j7NI/u7u+
-	 NDfK2g9tE8VYaALlFRMlSuhKXCLxRg+ZdDOi1LJhultNUlsE0Ylk8UBQvESBEswZ6Fg==
+	t=1793695385;
+	b=paTS3MiUcSKbMQvbnxyQT8hQIdOBnwBZLO6YumnUf4xLI2OSgkwsbl6fvD/eaQ6XrCRb
+	 TRcWLOeJ7Yz3M4ezuJnyPxwEoOJI1GJ4MFC6RErW2XdVKY9s7NVHymAJEoAIRtrij3uad
+	 vcWhl2Y8DVFtyVmlBOVa5KvSZsICNuzQALJw17I5ifd7foeTi7Fn/uyOwQvVN/aNhEPmA
+	 hiA1ZoBCep+LBWXHyUIXBdAf56fkCLkF2+sTbO1xAaoygf1UPKc9u15jC86uNCAi8V8IF
+	 3IgAOxdLDBidsM253ohqrQM7KJroCR7OACTsl361qnMjIo9hitAweEFXinElCDJ3hRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695038;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n9WTYU338IezZqzy03h15q5mRFjYcqzBe1vRNkisTDU=;
-	b=3nA9UPWn4kvOAuwIJ22l1+5e+9h2AN7JkxJi62tx55LMwgRWkrAJVjsM8qgcIt1KvIA9
-	 1Lv1RlCAIRZeDE/Vhpxw0fsQwB0ymKp0/ixI8a81izBYb5G/Ux1zDXf0XC10jnguEmWf1
-	 lpaOSKWYh7lA2bZ6sielOF/+iEZlzWGPpDnnPLMqepN2ry8hTqdbfPKcvazy6vAtcYOsl
-	 MXYJHsgQloPsGMRe9UAtwoBRBQlGCbbFFuHHnPkH+fXN0dqZyTMxwGC03YloT9C/GUe6i
-	 GB3riQnhH0KOXx3M57tCMm6my8hYPbbx/NJtqsSBHnYcg0L2GvLfeAP4VlED2Ikivtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793695385;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=R3G95yWaf+sWcTEm63d9FXQfK/5a79F3ruZBzma63A8=;
+	b=yEfq3wLnrsFPcsstQdLGCvWfu7+0eqpQFx4iQn0NRmRjn1Wd3/jJHYfZjlFQY0gOo633
+	 eob1HNRtMr2kpOoun7S8henqq5B7QTa4XvM0nV4mPEo7kFLqOcC6lnHOJP5nwviDsnAx4
+	 mJ6F9Q80K9I3ZigBs5VmNQv85bgdpeXgaGBF+eHVX9Y+Ur+OPl0y6+yit77M25FNSKOvE
+	 H9YvEhFVaqHPmIwIMKq3moV7sMPSZePzkskfQyGBFYQ9YyZA22ACOIVaZ+zUKMvxbK9Zj
+	 UzljZ2F7ve6RIVRzylLz2/WmPWXoxTz+uPijPcxObwIuo5EVg5V9dCpew1vgt4+m6Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lz81gsyf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7E5606A336
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 08:37:18 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=DXJPWLzn;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF5D606A95E;
+	Tue,  3 Nov 2026 08:43:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AF5D606A95E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lz81gsyf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBBB1F000C1;
-	Tue,  3 Nov 2026 08:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793695038;
-	bh=n9WTYU338IezZqzy03h15q5mRFjYcqzBe1vRNkisTDU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Lz81gsyf8F7F1wQrl1mqAPWRYZwU8jWnPU7WkVns7NCa38NqU0SpuU1f0PSexHhVW
-	 qJqgZGZxWX05/zDALXstpO8fmSMDVr/heWQrG+Q909WJxI9pD69zAYHx/epM4WVQjW
-	 L+dhLzxrQQ6c6aZB2v8fCuCwjtG1js66NHJAXWSQL4d+QMFb1qhhF4g1Jtlcc/byl2
-	 nS4b+Xu9tKVvhfXipEtsgaBXmDtxbwvLev4XZ3lBKhE2gvJrMc62P9cFwgCsmr/Pd4
-	 6x/0keSFnofOsn7h1qQfN070Tp3HQ0hrkMMvzNTz96UUU9NM8Eux3re7r8EA2zNtpn
-	 /3tJSafEFl32w==
-Message-ID: <sashiko-outbox-194840@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: Do not remove the channel
- when device registration fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yuqiang Sun" <izaiahsun@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261103080347.90310-3-izaiahsun@gmail.com>
-References: <20261103080347.90310-1-izaiahsun@gmail.com>
- <20261103080347.90310-3-izaiahsun@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:37:17 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=DXJPWLzn
+Received: from [10.95.64.190] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 87A4A20B7166;
+	Tue,  3 Nov 2026 00:42:47 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 87A4A20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793695370;
+	bh=R3G95yWaf+sWcTEm63d9FXQfK/5a79F3ruZBzma63A8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=DXJPWLznZPYVXr3OmPYzZcQG1HlwtFfSG+/+kJHkWVF9KBIh8nLsRrdttdQlAdfcM
+	 YrcqZmod/F1py7b2yxaEtICrqh3jba6UjP71iSIv/9FQqSK+oTSNUQxFDEQ9t6OZYs
+	 G7sLeIYyi2a4f6h1I1R58pUHBgc2+6FMl+Ko4pxk=
+Message-ID: <e7eacfc8-7bf1-4dde-b62a-607a490fdd06@linux.microsoft.com>
+Date: Tue, 3 Nov 2026 14:12:59 +0530
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,262 +52,123 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] Documentation: hyperv: Update docs for PCI pass-thru
+ device support
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261101022257.52819-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20261101022257.52819-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [Critical] hv: vmbus: dangling channel->device_obj on vmbus_device_regist=
-er() failure
-- [High] hv: vmbus: sub-channel refusal in vmbus_add_channel_kobj() causes =
-deadlock
-- [High] hv: vmbus: unlocked channel dereference in vmbus_match() without R=
-CU
-- [Medium] hv: vmbus: leaked sysfs state when primary vmbus_add_channel_kob=
-j() fails
---
 
-commit 1c2eec91c8b747f69eceb0c4ce1f5ab28e5429b8
-Author: Yuqiang Sun <izaiahsun@gmail.com>
 
-Drivers: hv: vmbus: Do not remove the channel when device registration fails
+On 11/1/2026 7:52 AM, Michael Kelley wrote:
+> Add a section to the documentation describing the IRQ domain and IRQ chip
+> hierarchy that is created for virtual PCI devices, including the
+> differences on x86 and arm64, and the reasons for those differences.
+> 
+> In the context of the IRQ domain and chip hierarchies, describe how the
+> CPU selected for effective affinity is spread across CPUs in the affinity
+> masks. Again, account for the differences in x86 and arm64.
+> 
+> Finally, rework existing text on how MSI messages are composed. Provide
+> an expanded section on the overall approach that Hyper-V takes to MSI
+> messages. The section provides more context on the handling of MSI messages
+> in the Hyper-V vPCI driver, and why it is structured the way it is.
+> 
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> ---
 
-This commit avoids calling hv_process_channel_removal() in
-vmbus_device_release() when device_register() fails by clearing the
-device's channel pointer beforehand, and keeps the device registered if
-creating the channels kset or primary channel kobject fails.
+<snip>
 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index fc0f16f512669..1b9bc82bebd06 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -840,9 +840,14 @@ static int vmbus_match(struct device *device, const =
-struct device_driver *driver
->  {
->  	const struct hv_driver *drv =3D drv_to_hv_drv(driver);
->  	struct hv_device *hv_dev =3D device_to_hv_device(device);
-> +	struct vmbus_channel *channel =3D READ_ONCE(hv_dev->channel);
+> +MSI Messages
+> +------------
+> +In a typical guest on KVM, the VMM traps guest writes to a vPCI
+> +device's MSI/MSI-X registers/tables. The guest writes a virutal
+> +message (with a guest APIC address and a guest vector), and VMM
+> +emulation translates the message to program the physical device and
+> +physical device interrupt remapping (IR) tables on the guest's
+> +behalf. The guest never sees or handles the host-level MSI message.
 > +
-> +	/* None if vmbus_device_register() failed */
-> +	if (!channel)
-> +		return 0;
-> =20
->  	/* The hv_sock driver handles all hv_sock offers. */
-> -	if (is_hvsock_channel(hv_dev->channel))
-> +	if (is_hvsock_channel(channel))
->  		return drv->hvsock;
-
-[Severity: High]
-As reported by Sashiko on v1 [1], can channel be freed before
-is_hvsock_channel(channel) dereferences it here?
-
-During device_register() -> device_add(), bus_add_device() links the
-device onto the bus klist_devices before later steps in device_add()
-(such as dpm_sysfs_add()) can fail. On failure, bus_remove_device() calls
-klist_del(), which does not wait for a concurrent __driver_attach() (for
-example via vmbus_add_dynid()) that already took a device reference in
-bus_for_each_dev() and runs driver_match_device() -> vmbus_match() before
-acquiring device_lock(dev).
-
-If vmbus_match() loads hv_dev->channel with READ_ONCE() just before
-vmbus_device_register() clears child_device_obj->channel to NULL, the
-registering thread returns to vmbus_add_channel_work(), which runs
-err_deq_chan and calls free_channel() -> kobject_put() ->
-vmbus_chan_release() -> kfree_rcu(channel, rcu).
-
-Because vmbus_match() runs in preemptible process context without
-rcu_read_lock(), if the matching thread is preempted after loading
-channel, could the RCU grace period complete and free channel before
-is_hvsock_channel(channel) reads channel->offermsg.offer.chn_flags?
-
-[ ... ]
-
-> @@ -2103,6 +2114,10 @@ int vmbus_add_channel_kobj(struct hv_device *dev, =
-struct vmbus_channel *channel)
->  	u32 relid =3D channel->offermsg.child_relid;
->  	int ret;
-> =20
-> +	/* The device has no channels directory if creating it failed */
-> +	if (!dev->channels_kset)
-> +		return -ENOENT;
+> +Hyper-V takes a different approach in which MSI/MSI-X register or
+> +table writes are not trapped. The guest writes the device's MSI/MSI-X
+> +registers/tables directly with a host-valid MSI message. The physical
+> +IOMMU and its remapping table are still owned by the host, so the
+> +guest must ask the host for the proper message.
 > +
->  	/*
->  	 * On failure the kobject keeps its reference: the callers' error
->  	 * paths drop it in free_channel(), which also frees the channel.
 
-[Severity: High]
-Does returning -ENOENT when !dev->channels_kset cause sub-channel setup
-to deadlock or hang system suspend?
+Could we distinguish MSI-X table writes from MSI configuration-space
+writes here?
 
-In vmbus_device_register(), device_register() runs before
-kset_create_and_add("channels", ...) assigns child_device_obj->channels_kse=
-t,
-and if kset_create_and_add() fails, the device now stays registered and
-bound to its driver with channels_kset =3D=3D NULL.
+pci_write_msg_msi() programs the MSI address/data through
+pci_write_config_*(), which goes through the Hyper-V config-space
+access mechanism. As described in the existing "PCI Device Setup"
+and "PCI config space access in a CoCo VM" sections, those accesses
+trap to Hyper-V in normal VMs, or use explicit hypercalls in CoCo VMs.
 
-During device_register() -> device_add() -> bus_probe_device(), drivers
-such as hv_storvsc and hv_netvsc request sub-channels from Hyper-V before
-device_register() returns. Because vmbus_process_offer() queues
-sub-channel work onto handle_sub_chan_wq concurrently with
-handle_primary_chan_wq, vmbus_add_channel_work() for an offered
-sub-channel can call vmbus_add_channel_kobj() either before
-kset_create_and_add() sets dev->channels_kset or after
-kset_create_and_add() fails:
+The distinction seems to be that Hyper-V requires the guest to obtain
+a host-valid MSI message explicitly over VMBus, rather than relying
+on interception of guest MSI programming to establish the interrupt
+mapping. That is separate from whether the programming accesses
+themselves are trapped. We should probably make that distinction instead
+of saying that both MSI and MSI-X writes are untrapped?
 
-drivers/hv/channel_mgmt.c:vmbus_add_channel_work() {
-    ...
-		if (vmbus_add_channel_kobj(dev, newchannel))
-			goto err_deq_chan;
+> +The "asking" is done by the .irq_compose_msi_msg function for the
+> +"Hyper-V PCIe MSI" chip, which is hv_compose_msi_msg(). The
+> +implementation requires sending a VMBus message to the Hyper-V host
+> +and awaiting an interrupt indicating receipt of a reply message.
+> +Since .irq_compose_msi_msg can be called with IRQ spin locks held, it
+> +doesn't work to do the normal sleep until awakened by the interrupt.
+> +Instead hv_compose_msi_msg() must send the VMBus message, and
+> +poll for the completion message. As further complexity, the vPCI
+> +device could be ejected/rescinded while the polling is in progress,
+> +so this scenario must be detected as well. See comments in the code
+> +regarding this very tricky area. A synchronous hypercall to get the
+> +MSI message would be a much nicer interface, but the code makes do
+> +with what's available.
+> +
+> +Once the host-valid MSI message is obtained, the guest must treat it
+> +as a black-box that the guest does not interpret or modify. The only
+> +valid guest action is to write it to the MSI/MSI-X registers/tables
+> +using the .irq_chip_write_msi_msg function on the HV-PCI-MSIX-<PCIaddr>
+> +chip. That function is pci_msi_domain_write_msg(), which calls
+> +__pci_write_msi_msg().
+> +
+> +If the affinity of an IRQ changes, the steps must be
+> +repeated. A new host-valid MSI message is requested via the
+> +.irq_compose_msi_msg function and that message is written
+> +to the MSI/MSI-X registers using the .irq_chip_write_msi_msg
+> +function.
 
-		if (primary_channel->sc_creation_callback !=3D NULL)
-			primary_channel->sc_creation_callback(newchannel);
-    ...
-}
+I don't think ordinary affinity changes require a new MSI message,
+including with the companion arm64 spreading patch applied.
 
-When vmbus_add_channel_kobj() fails and jumps to err_deq_chan,
-sc_creation_callback is skipped. In hv_netvsc, netvsc_subchan_work() ->
-rndis_set_subchannel() holds rtnl_lock() and waits uninterruptibly for
-netvsc_sc_open() to increment nvdev->open_chn for each requested
-sub-channel:
+hv_pcie_init_dev_msi_info() installs irq_chip_set_affinity_parent
+instead of the generic compose-and-write affinity handler.
 
-drivers/net/hyperv/rndis_filter.c:rndis_set_subchannel() {
-    ...
-	/* wait for all sub channels to open */
-	wait_event(nvdev->subchan_open,
-		   atomic_read(&nvdev->open_chn) =3D=3D nvdev->num_chn);
-}
+On arm64, the new hv_pci_arm64_set_affinity() selects a CPU and passes
+a single-CPU mask to the parent. gic_set_affinity() then updates the
+SPI's GICD_IROUTER and effective affinity, without recomposing or
+rewriting the device's MSI message.
 
-In addition, vmbus_process_offer() increments
-vmbus_connection.nr_chan_close_on_suspend for every sub-channel and
-allocates a target CPU in init_vp_index(), but err_deq_chan in
-vmbus_add_channel_work() frees newchannel without decrementing
-nr_chan_close_on_suspend or calling hv_clear_allocated_cpu(). Wouldn't
-this leave rndis_set_subchannel() deadlocked holding rtnl_lock(), and
-cause vmbus_bus_suspend() to hang forever in
-wait_for_completion(&vmbus_connection.ready_for_suspend_event)?
+Similarly, on x86, the new CPU/vector is communicated through the
+Hyper-V unmask/retarget path using the existing MSI descriptor.
 
-> @@ -2189,6 +2204,7 @@ int vmbus_device_register(struct hv_device *child_d=
-evice_obj)
->  	ret =3D device_register(&child_device_obj->device);
->  	if (ret) {
->  		pr_err("Unable to register child device\n");
-> +		WRITE_ONCE(child_device_obj->channel, NULL);
->  		put_device(&child_device_obj->device);
->  		return ret;
->  	}
+Could this paragraph describe updating the routing of the existing
+message, rather than obtaining and programming a new one?
 
-[Severity: Critical]
-When device_register() fails here and put_device() frees
-child_device_obj via vmbus_device_release(), does newchannel->device_obj
-remain a dangling pointer to the freed struct hv_device?
+Regards,
+Naman
 
-In vmbus_add_channel_work(), newchannel->device_obj is assigned before
-calling vmbus_device_register(newchannel->device_obj), and on failure it
-jumps to err_deq_chan without clearing newchannel->device_obj:
+> +
+>   DMA
+>   ---
+>   By default, Hyper-V pins all guest VM memory in the host
 
-drivers/hv/channel_mgmt.c:vmbus_add_channel_work() {
-    ...
-	ret =3D vmbus_device_register(newchannel->device_obj);
-
-	if (ret !=3D 0) {
-		pr_err("unable to add child device object (relid %d)\n",
-			newchannel->offermsg.child_relid);
-		goto err_deq_chan;
-	}
-    ...
-err_deq_chan:
-	mutex_lock(&vmbus_connection.channel_mutex);
-    ...
-	WRITE_ONCE(newchannel->probe_done, true);
-}
-
-If the host rescinds the channel before err_deq_chan unmaps the relid,
-vmbus_onoffer_rescind() looks up the channel via relid2channel(), waits
-for channel->probe_done to become true, and then checks
-channel->device_obj:
-
-drivers/hv/channel_mgmt.c:vmbus_onoffer_rescind() {
-    ...
-	if (channel->device_obj) {
-		if (channel->chn_rescind_callback) {
-			channel->chn_rescind_callback(channel);
-            ...
-			return;
-		}
-		dev =3D get_device(&channel->device_obj->device);
-		if (dev) {
-			vmbus_device_unregister(channel->device_obj);
-			put_device(dev);
-		}
-	}
-}
-
-Once err_deq_chan sets probe_done =3D true and frees newchannel, wouldn't
-vmbus_onoffer_rescind() dereference the already-freed
-channel->device_obj (and access channel while err_deq_chan is freeing
-it)?
-
-> @@ -2205,31 +2221,17 @@ int vmbus_device_register(struct hv_device *child=
-_device_obj)
->  	 * here. The race can't result in a kernel failure, but the user space
->  	 * program may get an error in accessing "channels" or its
->  	 * subdirectories. See also comments with vmbus_add_dynid() about a
-> -	 * related race condition.
-> +	 * related race condition. For the same reason, the device stays
-> +	 * registered if its channel cannot be shown in sysfs.
->  	 */
->  	child_device_obj->channels_kset =3D kset_create_and_add("channels",
->  							      NULL, kobj);
-> -	if (!child_device_obj->channels_kset) {
-> -		ret =3D -ENOMEM;
-> -		goto err_dev_unregister;
-> -	}
-> -
-> -	ret =3D vmbus_add_channel_kobj(child_device_obj,
-> -				     child_device_obj->channel);
-> -	if (ret) {
-> +	if (!child_device_obj->channels_kset ||
-> +	    vmbus_add_channel_kobj(child_device_obj, child_device_obj->channel))
->  		pr_err("Unable to register primary channel\n");
-
-[Severity: Medium]
-What happens to child_device_obj->channel->kobj and
-child_device_obj->channels_kset if kset_create_and_add() succeeds,
-kobject_add() inside vmbus_add_channel_kobj() succeeds, and then
-sysfs_create_group() fails?
-
-In vmbus_add_channel_kobj(), if sysfs_create_group() fails, kobj is not
-removed from sysfs because the function relies on the caller's error
-path to clean up the channel:
-
-drivers/hv/vmbus_drv.c:vmbus_add_channel_kobj() {
-    ...
-	kobj->kset =3D dev->channels_kset;
-	ret =3D kobject_add(kobj, NULL, "%u", relid);
-	if (ret)
-		return ret;
-
-	ret =3D sysfs_create_group(kobj, &vmbus_chan_group);
-
-	if (ret) {
-		/*
-		 * The calling functions' error handling paths will cleanup the
-		 * empty channel directory.
-		 */
-		dev_err(device, "Unable to set up channel sysfs files\n");
-		return ret;
-	}
-    ...
-}
-
-Because vmbus_device_register() no longer unwinds on
-vmbus_add_channel_kobj() failure, doesn't this leave an empty
-/sys/bus/vmbus/devices/<dev>/channels/<relid> directory in sysfs with
-kobj->state_in_sysfs =3D=3D 1 (causing vmbus_remove_channel_attr_group() to
-later call sysfs_remove_group() on a group that failed creation), while
-also leaving child_device_obj->channels_kset non-NULL so sub-channels
-are not refused as described in the commit message?
-
-[1] https://lore.kernel.org/r/20261102094719.35760-3-izaiahsun@gmail.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103080347.9031=
-0-1-izaiahsun@gmail.com?part=3D2
