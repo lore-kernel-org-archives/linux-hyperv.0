@@ -1,57 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718493;
-	b=kBK7ABXdbRqQBhohI5gY48P8K/VdGczE7FDyqb2NNrgrjiOXtOELiJ2aWF3VwT6KMTaw
-	 KqK0iJ0m0BhY15I1HJ/mTikY4bdEoAg+235Mt5uIGyQDoxNMyyc3dyeqKhcwJysrYF1bY
-	 eFAZZoxxWCJvXlSY1iRGS1lgQwZjV3GEBVPrp/axGfuxGtkem4ASRDpO/ZBXEvD0kqSDJ
-	 6ZwFXBBk4FE5qETX5Y+ZVCwZHsTHLrGpGue3MrpDRFD2le1dWVR7vrbu9cMRscttdYOKe
-	 eNmjDN46sIWic8crAspPk1OAUmJXcgP6KVeMeBaD+Jn0m8JVoxhLO/FL98xkElfog1w==
+	t=1793718949;
+	b=Bd0pTxJ+SyitDYnyRsv14irxfjYSluXSOBUuV9FmSdUOsO2y1oVPnX295+hrR6pLqa6M
+	 VIJb+M3wcS3khJYQiA8Psurb+lSoyojO/yNc2P84Xbz31GQY5efLtrfOQEpH1T8NvlNhW
+	 qHammzg9XQv5eTRP0WWN27F1qbP9tJ15NlXqXXHD5LpbJQDxvlvB3A35gzSJI1CsXyhEX
+	 ZgvTPLjWAdAzjHonTLJ9ZcgE2G8MbbO0W3PCRXTrRrhmj2tKon0IHsNB+ke/JVWzYvTQf
+	 W27xTdWKE2GG9h/ODMQx8J0NOw0Wt0D3L+iMPh8fcBj1F1EmKzNOqMVbm65rufJJgng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718493;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CJWkTRTUbBiT8jHcxjcF/lmpYuRyURbUPnGPT1HsQcc=;
-	b=mPiyWt9lZ03UbfcJMLkA32R7yCPwiCuy4yObfIuP8USBsaFAwQ3kqgmAMX+xpz5ovGvL
-	 qXwiBx49eS3m7h9UaoVafSzdSn6Sg/wOX0EatN8cyCHD7krxqkXTj5TXqVWhX3xdLKyIH
-	 w9j3tWx+TXMHrXywOvIxdmypDzCWW7AficG/AEqbhUjjTBS0f8XqQ52jCLL6yKpJXtont
-	 A67Focj9LjkQ6ASLb1AHVabWTgr11JE+3J47EuinG+bKMCgoJwNxqea6Qzik/9RWGtGQ8
-	 wD6mD7k5UwHrCwepIZmgeAyjdBBawrpkBemKvu47QOEDBYlfs/2gR+R+pdZB3dhG3VQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718949;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=W0s7ZEWF8co8VYOGI85E38Dt868T5tqn4KMr7YPDLx4=;
+	b=rfty5BZ36Y3jHjquGTMO1ZoFx3wEFGCs3qBaW3WV9EEK5vqMMdQIKsGOgrMdUQGBcRsl
+	 xxuKdtdkkKGcnhASaftQoHsR46FIym/jFH5+e6LtsE613lpzdWTswpQM5D5G0bChPQpIy
+	 Iroj/BrWl135rwm6fUlqRZH9e39WhpyVe48yTKn7d714qilP9edRFSkp4XgCZ1u7MbThy
+	 96M6Yj2JNXxPzXo0NYJCpY+sMp+8UOX941eLdzMJlUnw4wByBdTy54QfzMRXbuDJczKS0
+	 O3yA18XbL1kQeICSQnECaWoo8YS4ig0wwjVrjUehRYjFyRDgvILNH7S9PuSeLyszTmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NLoRCzKh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0409606A32F
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Nov 2026 15:08:12 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=fb2BBPzZ;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98CAE6071A06;
+	Tue,  3 Nov 2026 15:15:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98CAE6071A06
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NLoRCzKh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 604371F000C1;
-	Tue,  3 Nov 2026 15:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793718492;
-	bh=CJWkTRTUbBiT8jHcxjcF/lmpYuRyURbUPnGPT1HsQcc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NLoRCzKh8P4trEfvER32HD3JZ3FX+u0La2E/OawckIWSmhkvLeSnKLaMoqz74OZT1
-	 8o89BfJleGPaCNYTZ3tQMEVzM6pax+Yo9afQrjFeywgkwti/O9DI3gkKBsqaYy0ciJ
-	 YiCqfSpeZ6M7xgzPITPP2NA2kORec61Ar8yCyx04t90SZTyRIBWZdfYnNJa7cNvXym
-	 J9K2VVE3prW1t1w4x+DzwhLvc6+EfoF8jYuf8jKWtm40hhMyR0+nRXZDFEPzM+Otf1
-	 lCll1xth+2bsQ1HFUIRaB7EdJaFQqUVMZxw/a/4AAZaHfryH3SetunbzJapfgfOOqi
-	 z94IPIk9XOBWQ==
-Message-ID: <sashiko-outbox-195557@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/2] Drivers: hv: vmbus: Do not remove the channel
- when device registration fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yuqiang Sun" <izaiahsun@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261103144006.69857-3-izaiahsun@gmail.com>
-References: <20261103144006.69857-1-izaiahsun@gmail.com>
- <20261103144006.69857-3-izaiahsun@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 15:08:12 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=fb2BBPzZ
+Received: from [10.26.7.43] (unknown [4.213.232.16])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8D0D620B7166;
+	Tue,  3 Nov 2026 07:15:28 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8D0D620B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793718933;
+	bh=W0s7ZEWF8co8VYOGI85E38Dt868T5tqn4KMr7YPDLx4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fb2BBPzZx0r364zjrBTyixV4UjCX9yqZab3TgOEp+I7KXTPdkLhH/d1Xh0WkpXyZj
+	 2MOn5TigDJl4bxbuLWsQAALsgAva5eG1udYtFVcfDv+qYm+h57iZ/OUiOyNiDase4x
+	 ZhqpG/21G6UdYzqMpkZ77Y8Q2m++FpWpsoQJYQeg=
+Message-ID: <d8a49b6a-36b9-4ebb-9d26-b6ce58248ed7@linux.microsoft.com>
+Date: Tue, 3 Nov 2026 20:45:40 +0530
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,191 +52,200 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v4] net: mana: Add support to process throttled EQEs
+To: Paolo Abeni <pabeni@redhat.com>, netdev-bot+sashiko@kernel.org
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, kotaranov@microsoft.com, horms@kernel.org,
+ ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
+ mawasthi@linux.microsoft.com, leitao@debian.org,
+ linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ stable@vger.kernel.org, weh@linux.microsoft.com
+References: <20261028084020.2051254-1-sahilchandna@linux.microsoft.com>
+ <179352349805.3131.9139142774275348324@kernel.org>
+ <07a21553-8ab1-4478-8a22-b1a13e70faba@redhat.com>
+Content-Language: en-US
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+In-Reply-To: <07a21553-8ab1-4478-8a22-b1a13e70faba@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] hv: vmbus: channel UAF and double removal on vmbus_add_channel_wor=
-k() error
-- [High] hv: vmbus: leaked CPU mask and suspend counter in vmbus_add_channe=
-l_work()
---
+On 03-11-2026 03:16, Paolo Abeni wrote:
+> On 11/1/26 09:58, netdev-bot+sashiko@kernel.org wrote:
+>> Thank you for your contribution! Sashiko AI review found 2 potential
+>> issue(s) to consider.
+>>
+>> Critical: 0 · High: 1 (1) · Medium: 0 · Low: 1
+>>
+>> If you believe none of the issues are legitimate, please reply to each
+>> issue of Medium severity or higher and explain why the AI is wrong.
+>> If any of them are legitimate and you plan to respin, please let patchwork
+>> know by including "pw-bot: cr" as a separate line at the end of your reply
+>> (one such reply per series is enough).
+>>
+>> - [High] The patch tells firmware that every EQ on the function handles
+>>    throttled EQEs.
+>> - [Low] The patch marks only one side of the concurrent accesses.
+>>
+>> Pre-existing issues:
+>> - [High] mana_gd_destroy_cq() waits for a grace period
+>>    (synchronize_net()) only when mana_gd_detach_cq() returns true,…
+>>
+>> --
+>>
+>> net: mana: Add support to process throttled EQEs
+>>
+>> This commit handles GDMA_EQE_THROTTLE events. It records up to two child
+>> CQs per EQ and calls their callbacks when a throttle EQE arrives. CQ
+>> teardown now detaches the CQ from its parent EQ and from cq_table[]
+>> before a grace period. The patch also advertises a new capability bit and
+>> adds a per-EQ throttle counter to ethtool stats.
+>>
+>>> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+>>> index 8c915e0087846..ab942d5bfe058 100644
+>>> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+>>> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+>>> @@ -757,6 +757,27 @@ void mana_gd_free_service_wq(struct gdma_context *gc)
+>>>   	gc->service_wq = NULL;
+>>>   }
+>>>   
+>>> +static void mana_gd_schedule_eq_cqs(struct gdma_queue *eq)
+>>> +{
+>>> +	struct gdma_context *gc = eq->gdma_dev->gdma_context;
+>>> +	struct gdma_queue *cq;
+>>> +	u8 i;
+>>> +
+>>> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
+>>> +		cq = rcu_dereference(eq->eq.child_cq[i]);
+>>> +
+>>> +		if (!cq)
+>>> +			continue;
+>>> +
+>>> +		if (cq->id >= READ_ONCE(gc->max_num_cqs) ||
+>>> +		    !gc->cq_table || gc->cq_table[cq->id] != cq)
+>>> +			continue;
+>>
+>> [Severity: Low]
+>> This patch marks only the write side. mana_gd_detach_cq() clears
+>> gc->cq_table[id] with WRITE_ONCE(), and mana_hwc_destroy_channel() now
+>> sets gc->max_num_cqs with WRITE_ONCE().
+>>
+>> The readers still use plain loads. Here that means gc->cq_table and
+>> gc->cq_table[cq->id]. The GDMA_EQE_COMPLETION branch of
+>> mana_gd_process_eqe() also reads both fields without READ_ONCE():
+>>
+>> 	if (WARN_ON_ONCE(cq_id >= gc->max_num_cqs))
+>> 		break;
+>>
+>> 	cq = gc->cq_table[cq_id];
+>>
+>> Could KCSAN report these as data races? Should the readers use
+>> READ_ONCE() to pair with the marked writers?
+>>
+>> This is mostly an annotation issue. The completion-path race was already
+>> there before this patch, and the loads in mana_gd_schedule_eq_cqs() only
+>> compare the pointer value.
+>>
+>>> +
+>>> +		if (cq->cq.callback)
+>>> +			cq->cq.callback(cq->cq.context, cq);
+>>> +	}
+>>> +}
+>>
+>> [ ... ]
+>>
+>>> @@ -1073,25 +1104,66 @@ static void mana_gd_create_cq(const struct gdma_queue_spec *spec,
+>>>   			      struct gdma_queue *queue)
+>>>   {
+>>>   	u32 log2_num_entries = ilog2(spec->queue_size / GDMA_CQE_SIZE);
+>>> +	struct gdma_queue *parent;
+>>> +	u8 i;
+>>>   
+>>>   	queue->head |= INITIALIZED_OWNER_BIT(log2_num_entries);
+>>> -	queue->cq.parent = spec->cq.parent_eq;
+>>> +	parent = spec->cq.parent_eq;
+>>> +	queue->cq.parent = parent;
+>>>   	queue->cq.context = spec->cq.context;
+>>>   	queue->cq.callback = spec->cq.callback;
+>>> +
+>>> +	if (!parent)
+>>> +		return;
+>>> +
+>>> +	/* For throttled EQE store the child CQ */
+>>> +	for (i = 0; i < GDMA_EQ_MAX_CHILD_CQ; i++) {
+>>> +		if (!rcu_access_pointer(parent->eq.child_cq[i])) {
+>>> +			rcu_assign_pointer(parent->eq.child_cq[i], queue);
+>>> +			return;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	WARN_ONCE(1, "mana: EQ %u has no free child CQ slot\n", parent->id);
+>>>   }
+>>
+>> [Severity: High]
+>> Do mana_ib CQs ever end up in child_cq[]?
+>>
+>> This is the only place that writes child_cq[], and it returns early when
+>> spec->cq.parent_eq is NULL. mana_ib_create_kernel_queue() uses a zeroed
+>> spec:
+>>
+>> drivers/infiniband/hw/mana/main.c:mana_ib_create_kernel_queue() {
+>> 	struct gdma_queue_spec spec = {};
+>> 	...
+>> 	err = mana_gd_create_mana_wq_cq(mdev->gdma_dev, &spec, &queue->kmem);
+>> 	...
+>> }
+>>
+>> mana_ib_gd_create_cq() then binds the RNIC CQ in hardware to an mana_ib
+>> EQ:
+>>
+>> 	req.eq_id = mdev->eqs[cq->comp_vector]->id;
+>>
+>> mana_ib_install_cq_cb() adds it only to gc->cq_table[].
+>>
+>> mana_ib_create_qp_rss() and mana_ib_create_qp_raw() attach raw and RSS
+>> QP CQs to the per-vPort mana_en EQs:
+>>
+>> 	eq = &mpc->eqs[cq->comp_vector % mpc->num_queues];
+>> 	cq_spec.attached_eq = eq->eq->id;
+>>
+>> These CQs are also registered only through mana_ib_install_cq_cb().
+>>
+>> The patch also adds GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE to
+>> GDMA_DRV_CAP_FLAGS1, which mana_gd_verify_vf_version() sends for the
+>> whole function.
+>>
+>> Suppose hardware folds one of these CQs' completions into a
+>> GDMA_EQE_THROTTLE. mana_gd_schedule_eq_cqs() walks child_cq[], which is
+>> empty on mdev->eqs and holds only the mana_en TX and RX CQs on mpc->eqs.
+>> mana_ib_cq_handler() never runs, and nothing polls or re-arms the CQ.
+>>
+>> Wouldn't that stall the RDMA CQ the same way the commit message
+>> describes for TX?
+>>
+>> A fixed two-entry child_cq[] also cannot represent an EQ shared by many
+>> RDMA CQs on the same comp_vector.
+>>
+>> The commit message says:
+>>
+>>    "A mana_en EQ serves one TX CQ and one RX CQ, and the HWC EQ serves
+>>    the HWC CQ."
+>>
+>> Is that still true once raw QPs attach CQs to mpc->eqs?
+>>
+>> If advertising the bit is what turns on throttle EQEs, this patch adds a
+>> new RDMA stall. If it is not, the RDMA case stays unfixed. Could the
+>> commit message cover mana_ib in either case?
+> I understand from discussion on v3 that this will be handled separately,
+> am I correct?
+> 
+Yes, that is correct. I have discussed this already with Wei Hu for RDMA
+CQ handling.
 
-commit 99d3a552529c5941e934071a1f2968acea94e54e
-Author: Yuqiang Sun <izaiahsun@gmail.com>
+Regards,
+Sahil
+> /P
 
-Drivers: hv: vmbus: Do not remove the channel when device registration fails
-
-This commit avoids calling hv_process_channel_removal() from
-vmbus_device_release() when device_register() fails by clearing the
-device's channel pointer and letting vmbus_add_channel_work() clean up
-the channel. It also keeps the device registered if sysfs channel
-setup fails after device_register() succeeds.
-
-> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index cb1d8d76928ff..1fa232e86fce2 100644
-> --- a/drivers/hv/channel_mgmt.c
-> +++ b/drivers/hv/channel_mgmt.c
-> @@ -554,15 +554,16 @@ static void vmbus_add_channel_work(struct work_stru=
-ct *work)
->  	 * method.
->  	 *
->  	 * If vmbus_device_register() fails, the 'device_obj' is freed in
-> -	 * vmbus_device_release() as called by device_unregister() in the
-> -	 * error path of vmbus_device_register(). In the outside error
-> -	 * path, there's no need to free it.
-> +	 * vmbus_device_release() as called by put_device() in the error
-> +	 * path of vmbus_device_register(). In the outside error path,
-> +	 * there's no need to free it, but the channel must not point to it.
->  	 */
->  	ret =3D vmbus_device_register(newchannel->device_obj);
-> =20
->  	if (ret !=3D 0) {
->  		pr_err("unable to add child device object (relid %d)\n",
->  			newchannel->offermsg.child_relid);
-> +		newchannel->device_obj =3D NULL;
->  		goto err_deq_chan;
->  	}
-
-[Severity: High]
-As reported by Sashiko on v2 [1], can jumping to err_deq_chan in
-vmbus_add_channel_work() race with a concurrent vmbus_onoffer_rescind()
-and cause a use-after-free on channel or a double channel removal?
-
-In vmbus_process_offer(), newchannel is linked onto chn_list or sc_list,
-mapped via vmbus_channel_map_relid(), and offer_in_progress is decremented
-before vmbus_add_channel_work() is queued. If a rescind offer arrives
-while vmbus_add_channel_work() is running, vmbus_onoffer_rescind() looks
-up the channel, sets channel->rescind_ref =3D true and channel->rescind =3D=
- true,
-and waits for probe_done without holding a kobject reference or an RCU
-read lock:
-
-drivers/hv/channel_mgmt.c:vmbus_onoffer_rescind() {
-	...
-	while (READ_ONCE(channel->probe_done) =3D=3D false) {
-		msleep(1);
-	}
-
-	if (channel->device_obj) {
-		...
-	} else if (channel->primary_channel !=3D NULL) {
-		mutex_lock(&vmbus_connection.channel_mutex);
-		if (channel->state =3D=3D CHANNEL_OPEN_STATE) {
-			hv_process_channel_removal(channel);
-		}
-		...
-}
-
-When vmbus_device_register() fails (or when vmbus_device_create() or
-vmbus_add_channel_kobj() fails), err_deq_chan sets
-newchannel->probe_done =3D true, unlinks and unmaps newchannel, and calls
-free_channel(newchannel) -> kobject_put() -> vmbus_chan_release() ->
-kfree_rcu(channel, rcu):
-
-drivers/hv/channel_mgmt.c:vmbus_add_channel_work() {
-	...
-err_deq_chan:
-	mutex_lock(&vmbus_connection.channel_mutex);
-	newchannel->probe_done =3D true;
-
-	if (primary_channel =3D=3D NULL)
-		list_del(&newchannel->listentry);
-	else
-		list_del(&newchannel->sc_list);
-
-	vmbus_channel_unmap_relid(newchannel);
-	mutex_unlock(&vmbus_connection.channel_mutex);
-
-	vmbus_release_relid(newchannel->offermsg.child_relid);
-	free_channel(newchannel);
-}
-
-Because vmbus_onoffer_rescind() is sleeping in msleep(1), the RCU grace
-period can finish before vmbus_onoffer_rescind() wakes up and dereferences
-channel->probe_done, channel->device_obj, and channel->primary_channel.
-
-In addition, on weakly ordered architectures, newchannel->device_obj =3D NU=
-LL
-and newchannel->probe_done =3D true are plain stores separated only by
-mutex_lock(&vmbus_connection.channel_mutex) (an acquire barrier, not a
-release barrier), while vmbus_onoffer_rescind() reads
-READ_ONCE(channel->probe_done) and channel->device_obj without holding
-channel_mutex or using load-acquire. Could vmbus_onoffer_rescind() observe
-probe_done =3D=3D true while still seeing the stale non-NULL channel->devic=
-e_obj
-pointer to the freed hv_device?
-
-Finally, for a sub-channel failing in vmbus_add_channel_kobj(),
-newchannel->state was already set to CHANNEL_OPEN_STATE at the start of
-vmbus_add_channel_work(). When vmbus_onoffer_rescind() wakes up and enters
-the channel->primary_channel !=3D NULL branch, wouldn't it see
-channel->state =3D=3D CHANNEL_OPEN_STATE and call
-hv_process_channel_removal(channel) a second time after err_deq_chan has
-already unlinked, unmapped, and freed it?
-
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index fc0f16f512669..b41ce24e200c8 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-
-[ ... ]
-
-> @@ -979,9 +994,15 @@ static void vmbus_device_release(struct device *devi=
-ce)
-> =20
->  	hv_debug_rm_dev_dir(hv_dev);
-> =20
-> -	mutex_lock(&vmbus_connection.channel_mutex);
-> -	hv_process_channel_removal(channel);
-> -	mutex_unlock(&vmbus_connection.channel_mutex);
-> +	/*
-> +	 * No channel if vmbus_device_register() failed: the channel was not
-> +	 * rescinded, and vmbus_add_channel_work() cleans it up.
-> +	 */
-> +	if (channel) {
-> +		mutex_lock(&vmbus_connection.channel_mutex);
-> +		hv_process_channel_removal(channel);
-> +		mutex_unlock(&vmbus_connection.channel_mutex);
-> +	}
->  	kfree(hv_dev);
->  }
-
-[Severity: High]
-As reported by Sashiko on v2 [1], when vmbus_device_release() skips
-hv_process_channel_removal() and leaves cleanup to err_deq_chan in
-vmbus_add_channel_work(), does err_deq_chan leak the allocated CPU bit in
-hv_numa_map and the nr_chan_close_on_suspend counter?
-
-Before queuing vmbus_add_channel_work(), vmbus_process_offer() allocates
-target_cpu and increments nr_chan_close_on_suspend:
-
-drivers/hv/channel_mgmt.c:vmbus_process_offer() {
-	...
-	init_vp_index(newchannel);
-
-	/* Remember the channels that should be cleaned up upon suspend. */
-	if (is_hvsock_channel(newchannel) || is_sub_channel(newchannel))
-		atomic_inc(&vmbus_connection.nr_chan_close_on_suspend);
-	...
-}
-
-Unlike hv_process_channel_removal(), err_deq_chan in
-vmbus_add_channel_work() does not call
-hv_clear_allocated_cpu(newchannel->target_cpu) when
-hv_is_perf_channel(newchannel) is true.
-
-It also unmaps the channel's relid via vmbus_channel_unmap_relid(newchannel)
-without decrementing vmbus_connection.nr_chan_close_on_suspend (via
-check_ready_for_suspend_event()) when is_hvsock_channel(newchannel) or
-is_sub_channel(newchannel) is true. Because the relid is unmapped, even a
-later rescind from the host will see relid2channel() =3D=3D NULL in
-vmbus_onoffer_rescind() and return early. Wouldn't that leave
-nr_chan_close_on_suspend permanently elevated and cause a subsequent
-vmbus_bus_suspend() to hang indefinitely in
-wait_for_completion(&vmbus_connection.ready_for_suspend_event)?
-
-[1] https://lore.kernel.org/r/20261103080347.90310-3-izaiahsun@gmail.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103144006.6985=
-7-1-izaiahsun@gmail.com?part=3D2
