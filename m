@@ -1,114 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793826899;
-	b=wSUTaaekXXQvczXEh4dAGtfaW15yFOOQfhqttQqauNoPSbTc5MpQYDY8TxosJgkIvb8S
-	 d89QK9Yq6Ny/cezHRE55ICQSeGhJTpGKYSu8oJwYssNajoL/UZKR9LXpqja/DRV2+gzmt
-	 XrzW3J5kKNEsMGCjfLpjNHurKVffKb+EMGzFKM+/VuhPtQj9gpA4uILMYcoR4knLpQtx9
-	 j8/FPTX4+kqGUESgCVfuAtMY32aQAXoZmTi1GG34cT3R8MESnrSOeWB08cASoFDWNepW/
-	 Tcsfd1WuGBHQ7+1Bt4Xz6tsyknLiOSJ6ntP3jsu9Wug32t7iLmR1U8v7TB8PbLfEiDA==
+	t=1793831159;
+	b=ZAhi4mCoFko39HxnD+97B/f4gsDSHYbLX8zTjP/VhavrZRHryfIzHcBMyq8JuGRpUzHu
+	 9IxTUZMmOcVfBLquMKQTXWceRxS848WEwbNKuqWLtjtHZGHTwIIdedOQwd/SpAq3Fk8fy
+	 dOAf5IBpohQvPfwO0rbqr0HasKgdYzEG/DQQFOj6GZ0fKTMZ9LR3yTM2YBwYlJwuhmDOZ
+	 JTEygHFqVymK37XIppm4IfwPwDTY/1qwf/2WeGGeNbPkZpl7h1Dj0bMs03DsjHjCWWRls
+	 QtmP9H4VU63b8QWAqtUx+z9dX4MylF/KcrqyV3WhmGGnUV1ZL017EUaa1GFzA8wyAqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793826899;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZSU3GOYdTAyJi2/mATr7CvuZmk6mn8CBculz3Nu+aGM=;
-	b=naJQAR3T2jvy92QJXHs1c9Vb9iD1tmdzfKyWcUIwjzg5hpr/toandMBPWHF4lEUHSR97
-	 GjQB5BDlz2w2v2zc4rligjHaPJkbjH+jcoLu7ysJjWsR9UIBx38i/4DPmVGD2i9GFOEqJ
-	 yDI+1Imwh1Whmp+8DGUG6kgtxV8Mv1PWaJkZpxjgHntaOHQaNvPXQ+T30D8hhVdadPpqK
-	 OHi+VbjbZiztqVWwoEmGNzSYwCfM36I3n5+QL/sdJlnQm+9pXrqq/3LAlBhH8lU2L/4Py
-	 Y1IwPskuE0gEyRODKmj5Gw80BXnt0gUVzQ58vfhgwi0CLz4PejUOCwasSSq3RoSDw5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793831159;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
+	bh=RqrFAViIXrjiourMrnhARQFUmFJOsUN3fk+kD/PpH0c=;
+	b=PfTDFWE/078VSnUevDpmodAR1WTbawJ8fsMCOczFdAHjOK5Ig+VjL4UBjA6qZdO//o4V
+	 X7JJKIVtBtP30Q0M3U8+BusAm9XuGjJkMGEgXdI4cz+hT5b4sS6LI/SjY2y0haC5nMfto
+	 cQYNaI5SsgKdLvFNJ5AB6WudDaJaALIr7XVsuXIQng2s6a0mU3K5kHHHT0o1TeobCs+TG
+	 jRS0tI/U7sIdfd6L1p75naKr/txEHkLAIAxn9slizIizQGTiQ9j+iMqm+Gmov6bWmH237
+	 vHGD0FyRIwxybWz1sF2WZWZNPD2MAZ2AHMsT2bFV4VbvHz76SJZc0OZrPurmsb63bDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J4PDKc61;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bEsZzgE7;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699626070770;
-	Wed,  4 Nov 2026 21:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA96606E810
+	for <linux-hyperv@vger.kernel.org>; Wed,  4 Nov 2026 22:25:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDA96606E810
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J4PDKc61
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F651F00A1B;
-	Wed,  4 Nov 2026 21:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793826899;
-	bh=ZSU3GOYdTAyJi2/mATr7CvuZmk6mn8CBculz3Nu+aGM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=J4PDKc61N4keOuWERS5aSp2N8PhMwFXfTttZoQJiP/6NFecDNKxntuxYU8KTP2IT7
-	 sQ+GOcnfzHxpPduzw8Axquz0pjikWlDPK+6jysaxaPcTRzpniWRwRSDwYgsjVZQiME
-	 hp3SeDPadj5e64beejkKHFIYy6SzK8G6J/Ivl+w7Iz9N+JKw69zq/NWwIz+1PKkFj3
-	 p2kJqCpbq5WMmk5HtP2egnpm593A8p3vnMr/TAyo/agIT9R93ZTR+grCkgKrUY7n+0
-	 n8Gt29lLuVYq4blAgu2BoulYRKgefmxLu/vNeABBXSsxdBqqzdg25OSU2PVbLwjUrf
-	 QlZgT2rzKPq2g==
-Message-ID: <sashiko-outbox-198073@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v1 4/5] net: remove skb->pp_recycle and
- consolidate netmem refcounting
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mina Almasry" <almasrymina@google.com>, virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com, imx@lists.linux.dev, linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@kernel.org>, "Jakub
- Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
- Horman" <horms@kernel.org>, "Steffen Klassert" <steffen.klassert@secunet.com>, "Herbert
- Xu" <herbert@gondor.apana.org.au>, "Willem de Bruijn" <willemb@google.com>, "Stanislav
- Fomichev" <sdf@fomichev.me>, "Pavel Begunkov" <asml.silence@gmail.com>, "Bobby
- Eshleman" <bobbyeshleman@meta.com>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "Michael
- S. Tsirkin" <mst@redhat.com>, "Jason Wang" <jasowangio@gmail.com>,
- =?utf-8?b?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, "Xuan Zhuo" <xuanzhuo@linux.alibaba.com>, "Andrew
- Morton" <akpm@linux-foundation.org>, "David Hildenbrand" <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Vlastimil
- Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jesper
- Dangaard Brouer" <hawk@kernel.org>, "Ilias Apalodimas" <ilias.apalodimas@linaro.org>, "Alexei
- Starovoitov" <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>, "John
- Fastabend" <john.fastabend@gmail.com>, "Sabrina Dubroca" <sd@queasysnail.net>, "Johannes
- Berg" <johannes@sipsolutions.net>, "Byungchul Park" <byungchul@sk.com>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Lorenzo Bianconi" <lorenzo@kernel.org>, "Wen
- Gu" <guwen@linux.alibaba.com>, "Philo Lu" <lulie@linux.alibaba.com>, "Justin
- Chen" <justin.chen@broadcom.com>, "Florian Fainelli" <florian.fainelli@broadcom.com>, "Vikas
- Gupta" <vikas.gupta@broadcom.com>, "Michael Chan" <michael.chan@broadcom.com>, "Pavan
- Chebbi" <pavan.chebbi@broadcom.com>, "Doug Berger" <opendmb@gmail.com>, "Nicolai
- Buchwitz" <nb@tipi-net.de>, "Satish Kharat" <satishkh@cisco.com>, "Wei Fang" <wei.fang@nxp.com>, "Frank
- Li" <frank.li@nxp.com>, "Shenwei Wang" <shenwei.wang@nxp.com>, "Joshua
- Washington" <joshwash@google.com>, "Harshitha Ramamurthy" <hramamurthy@google.com>, "Jijie
- Shao" <shaojijie@huawei.com>, "Jian Shen" <shenjian15@huawei.com>, "Fan
- Gong" <gongfan1@huawei.com>, "Tony Nguyen" <anthony.l.nguyen@intel.com>, "Przemek
- Kitszel" <przemyslaw.kitszel@intel.com>, "Marcin Wojtas" <marcin.s.wojtas@gmail.com>, "Russell
- King" <linux@armlinux.org.uk>, "Sunil Goutham" <sgoutham@marvell.com>, "Geetha
- sowjanya" <gakula@marvell.com>, "Ratheesh Kannoth" <rkannoth@marvell.com>, "Subbaraya
- Sundeep" <sbhatta@marvell.com>, "Bharat Bhushan" <bbhushan2@marvell.com>, "Felix
- Fietkau" <nbd@nbd.name>, "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino
- Del Regno" <angelogioacchino.delregno@collabora.com>, "Tariq Toukan" <tariqt@nvidia.com>, "Saeed
- Mahameed" <saeedm@nvidia.com>, "Mark Bloch" <mbloch@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, "Ido Schimmel" <idosch@nvidia.com>, "Petr
- Machata" <petrm@nvidia.com>, "Horatiu Vultur" <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, "Daniel
- Machon" <daniel.machon@microchip.com>, "Steen Hegelund" <Steen.Hegelund@microchip.com>, "Haiyang
- Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan
- Cui" <decui@microsoft.com>, "Yibo Dong" <dong100@mucse.com>, "Brett Creeley" <brett.creeley@amd.com>, "Justin
- Lai" <justinlai0215@realtek.com>, "Larry Chiu" <larry.chiu@realtek.com>,
- =?utf-8?b?TmlrbGFzIFPDtmRlcmx1bmQ=?= <niklas.soderlund@ragnatech.se>, "Paul
- Barker" <paul@pbarker.dev>, "Masahisa Kojima" <kojima.masahisa@socionext.com>, "Maxime
- Chevallier" <maxime.chevallier@bootlin.com>, "Maxime Coquelin" <mcoquelin.stm32@gmail.com>, "Alexandre
- Torgue" <alexandre.torgue@foss.st.com>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>, "Siddharth
- Vadapalli" <s-vadapalli@ti.com>, "Roger Quadros" <rogerq@kernel.org>, "MD
- Danish Anwar" <danishanwar@ti.com>, "Jiawen Wu" <jiawenwu@trustnetic.com>, "Mengyuan
- Lou" <mengyuanlou@net-swift.com>, "Ronak Doshi" <ronak.doshi@broadcom.com>, "Ryder
- Lee" <ryder.lee@mediatek.com>, "Shayne Chen" <shayne.chen@mediatek.com>, "Sean
- Wang" <sean.wang@mediatek.com>, "Juergen Gross" <jgross@suse.com>, "Stefano
- Stabellini" <sstabellini@kernel.org>, "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>, "Jordan
- Rhee" <jordanrhee@google.com>, "Ankit Garg" <nktgrg@google.com>, "Tim
- Hostetler" <thostet@google.com>, "Erni Sri Satya Vennela" <ernis@linux.microsoft.com>, "Eric
- Joyner" <eric.joyner@amd.com>, "Mohammad Heib" <mheib@redhat.com>, "Prabu
- Thayalan" <prabu.ponrajthayalan@amd.com>, "Chintan Vankar" <c-vankar@ti.com>, "Nora
- Schiffer" <nora.schiffer@ew.tq-group.com>, "Alexander Sverdlin" <alex@sverdlin.org>, "Kevin
- Hao" <haokexin@gmail.com>, "Karl Mehltretter" <kmehltretter@gmail.com>, "Aleksandr
- Loktionov" <aleksandr.loktionov@intel.com>, "Meghana Malladi" <m-malladi@ti.com>, "Jacob
- Keller" <jacob.e.keller@intel.com>, "StanleyYP Wang" <StanleyYP.Wang@mediatek.com>, Frank.Li@kernel.org, wsa+renesas@sang-engineering.com
-In-Reply-To: <20261103211424.127627-5-almasrymina@google.com>
-References: <20261103211424.127627-1-almasrymina@google.com>
- <20261103211424.127627-5-almasrymina@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 21:14:53 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bEsZzgE7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793831157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RqrFAViIXrjiourMrnhARQFUmFJOsUN3fk+kD/PpH0c=;
+	b=bEsZzgE7aeELB3dJMWKHWgsMUHUjltDchQePKi3dx17NctKupaU4lmKyGgpNHPrbyOjaxN
+	JF/fql3VMJ4wnJiCj9ND1SkyfvbBq6xqA4qRwEPdhofTBLno7H27oh2DSCjjxJwDp/1emi
+	/EpMBTVYzvGGxITpFQQKbKW4l+XghI8=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-463-ty3QX41dNgqrG3pXvAa2xg-1; Wed,
+ 04 Nov 2026 17:25:51 -0500
+X-MC-Unique: ty3QX41dNgqrG3pXvAa2xg-1
+X-Mimecast-MFC-AGG-ID: ty3QX41dNgqrG3pXvAa2xg_1793831149
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C26C41956041;
+	Wed,  4 Nov 2026 22:25:48 +0000 (UTC)
+Received: from loberman-thinkpadp16gen3.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 904451956087;
+	Wed,  4 Nov 2026 22:25:46 +0000 (UTC)
+From: Laurence Oberman <loberman@redhat.com>
+To: njavali@marvell.com,
+	martin.petersen@oracle.com
+Cc: GR-QLogic-Storage-Upstream@marvell.com,
+	James.Bottomley@HansenPartnership.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	mhklinux@outlook.com,
+	sbhat@linux.ibm.com,
+	kmahlkuc@linux.ibm.com,
+	linux-scsi@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] scsi: qla2xxx: Use the real INTx pin for the port number on Hyper-V guests
+Date: Wed,  4 Nov 2026 17:25:41 -0500
+Message-ID: <20261104222541.2675051-1-loberman@redhat.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -117,231 +85,141 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] page_pool: TOCTOU race in page_pool_unref_netmem() non-RMW fas=
-t path
-- [High] tls: page leak between netmem kTLS records and mlx5 tx_sync_info_g=
-et()
---
+qla2x00_set_isp_flags() derives the physical port number from
+PCI_INTERRUPT_PIN, and the port number selects the per-port VPD, NVRAM,
+NPIV and FCP priority flash regions.
 
-commit 874363fccb05e0d08d430f57bfdafc048dfc73e0
-Author: Mina Almasry <almasrymina@google.com>
+On Hyper-V guests, pci-hyperv returns 0 for byte and word reads of
+PCI_INTERRUPT_PIN since commit fea93a3e5d5e ("PCI: hv: Return zero, not
+garbage, when reading PCI_INTERRUPT_PIN"). Commit 7268e509b43a ("scsi:
+qla2xxx: Handle INTx not connected while passing through") then falls
+back to PCI_FUNC(). With Discrete Device Assignment (DDA), each function
+of a multi-port HBA is presented as function 0 in its own PCI domain, so
+every port gets port_no 0. All ports read port 0's NVRAM, pass the
+checksum and register the same WWPN, and nothing is logged.
 
-net: remove skb->pp_recycle and consolidate netmem refcounting
+Without that commit, port_no underflows to 255, no flash region is
+selected and every port fails with "Inconsistent NVRAM checksum" and
+falls back to the default WWPN.
 
-This commit removes the per-SKB pp_recycle bitfield and updates
-netmem_inc_ref(), netmem_dec_ref(), and skb_pp_recycle() to check page_pool
-membership directly via netmem_is_pp(). It also updates page_pool_unref_net=
-mem()
-and napi_pp_get_page() to coordinate pp_ref_count with external struct page
-references, and converts TLS and wireless fragment refcounting to netmem
-helpers.
+pci-hyperv only zeroes byte and word accesses within 0x3c-0x3d. A dword
+read at PCI_INTERRUPT_LINE reaches the device's config space and returns
+the real pin in bits 15:8. On Hyper-V guests, use that when the byte
+read returns 0, and warn if the pin is still 0 so that duplicate WWPNs
+are not silent. Bare metal, KVM/vfio and other hypervisors are
+unchanged.
 
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/help=
-ers.h
-> index 28635ce9454e8..af3cb65c30416 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -242,6 +242,11 @@ page_pool_get_dma_dir(const struct page_pool *pool)
->  	return pool->p.dma_dir;
->  }
-> =20
-> +static inline long page_pool_ref_count(netmem_ref netmem)
-> +{
-> +	return atomic_long_read(netmem_get_pp_ref_count_ref(netmem));
-> +}
-> +
->  static inline void page_pool_fragment_netmem(netmem_ref netmem, long nr)
->  {
->  	atomic_long_set(netmem_get_pp_ref_count_ref(netmem), nr);
-> @@ -270,13 +275,22 @@ static inline void page_pool_fragment_page(struct p=
-age *page, long nr)
->  	page_pool_fragment_netmem(page_to_netmem(page), nr);
->  }
-> =20
-> +static inline bool page_pool_netmem_is_exclusively_owned(netmem_ref netm=
-em)
-> +{
-> +	if (netmem_is_net_iov(netmem))
-> +		return true;
-> +
-> +	return page_ref_count(__netmem_to_page(netmem)) =3D=3D 1;
-> +}
-> +
->  static inline long page_pool_unref_netmem(netmem_ref netmem, long nr)
->  {
->  	atomic_long_t *pp_ref_count =3D netmem_get_pp_ref_count_ref(netmem);
->  	long ret;
-> =20
-> -	/* If nr =3D=3D pp_ref_count then we have cleared all remaining
-> -	 * references to the page:
-> +	/* If nr =3D=3D pp_ref_count and the page_pool holds the sole page
-> +	 * reference, then we have cleared all remaining references to the
-> +	 * page:
->  	 * 1. 'n =3D=3D 1': no need to actually overwrite it.
->  	 * 2. 'n !=3D 1': overwrite it with one, which is the rare case
->  	 *              for pp_ref_count draining.
-> @@ -288,8 +302,15 @@ static inline long page_pool_unref_netmem(netmem_ref=
- netmem, long nr)
->  	 * handling by ensuring all pages have partitioned into only 1 piece
->  	 * initially, and only overwrite it when the page is partitioned into
->  	 * more than one piece.
-> +	 *
-> +	 * If an external page reference exists (page_ref_count > 1), a
-> +	 * concurrent napi_pp_get_page() caller holding only a page reference
-> +	 * may attempt atomic_long_inc_not_zero(pp_ref_count), so we must
-> +	 * perform an atomic RMW subtraction to 0 and leave pp_ref_count at 0
-> +	 * while the page is released from the pool.
->  	 */
-> -	if (atomic_long_read(pp_ref_count) =3D=3D nr) {
-> +	if (atomic_long_read(pp_ref_count) =3D=3D nr &&
-> +	    likely(page_pool_netmem_is_exclusively_owned(netmem))) {
->  		/* As we have ensured nr is always one for constant case using
->  		 * the BUILD_BUG_ON(), only need to handle the non-constant case
->  		 * here for pp_ref_count draining, which is a rare case.
+Tested with an equivalent change on a RHEL 9 (5.14-based) guest with a
+dual-port QLE2692 (ISP2261) assigned through DDA (Hyper-V host
+10.0.17763):
 
-[Severity: Critical]
-Can the non-RMW fast path in page_pool_unref_netmem() race with a caller
-that converts a struct page reference into a pp_ref_count reference, causing
-an in-use page to be recycled into the pool?
+  before: both ports "Inconsistent NVRAM checksum=0xffffffc0 id=NGKP",
+          both WWPN 0x210000e08b1c5586
+  after:  port_no 1 and 0, NVRAM valid, WWPN 0x210034800d7065bd and
+          0x210034800d7065bc, fabric login and FC-NVMe localport
+          registration on both ports
 
-With netmem_inc_ref() now calling napi_pp_get_page(), callers holding a
-struct page reference such as zerocopy_fill_skb_from_iter() convert their
-page_ref_count into a pp_ref_count:
+Also tested on bare metal (ISP2031): the new path is not taken and port
+numbers and WWPNs are unchanged.
 
-net/core/datagram.c:zerocopy_fill_skb_from_iter() {
-	...
-			skb_fill_page_desc_noacc(skb, frag++, head, start, size);
-			netmem_inc_ref(page_to_netmem(head));
-			last_head =3D head;
-			refs++;
-		}
-		if (refs)
-			page_ref_sub(last_head, refs);
-}
+Signed-off-by: Laurence Oberman <loberman@redhat.com>
+---
+RFC: this relies on pci-hyperv not virtualizing dword reads at 0x3c,
+which is an implementation detail rather than an interface. It is posted
+as the smallest working fix and to start the discussion. Feedback wanted
+on cleaner alternatives:
 
-Consider a page_pool page with pp_ref_count =3D=3D 1 (held by an SKB being =
-freed
-on CPU 0) and page_ref_count =3D=3D 2 (1 held by the page_pool, 1 held by G=
-UP in
-zerocopy_fill_skb_from_iter() on CPU 1):
+ - Hyper-V (linux-hyperv): could pci-hyperv expose the real
+   PCI_INTERRUPT_PIN, or provide the physical function number, for DDA
+   devices? Some drivers use the pin for port identity, not only for
+   interrupt routing.
 
-CPU 0                                   CPU 1
-napi_pp_put_page()
-  page_pool_put_full_netmem()
-    page_pool_unref_netmem(netmem, 1)
-      atomic_long_read(pp_ref_count) =3D=3D 1
-      (true; pp_ref_count stays 1)
-                                        zerocopy_fill_skb_from_iter()
-                                          netmem_inc_ref()
-                                            napi_pp_get_page()
-                                              atomic_long_inc_not_zero(pp_r=
-ef_count)
-                                              (pp_ref_count: 1 -> 2)
-                                          page_ref_sub(last_head, 1)
-                                            (page_ref_count: 2 -> 1)
-      page_pool_netmem_is_exclusively_owned()
-        page_ref_count(page) =3D=3D 1 (true!)
-      returns 0 (leaving pp_ref_count =3D=3D 2)
-    __page_pool_put_page()
-      __page_pool_page_can_be_recycled() (true)
-      recycles page into pool while CPU 1's TX SKB still references it!
+ - Marvell: is there a firmware or register source for the physical
+   port that does not depend on PCI config space? CSRX_FUNCTION in
+   ctrl_status is a single bit and would not cover quad-port
+   27xx/28xx/29xx.
 
-Similarly, on weakly ordered architectures, because atomic_long_read() and
-page_ref_count() are both relaxed loads with no barrier between them, when
-pp_ref_count =3D=3D 2 and page_ref_count =3D=3D 1, CPU 0 can speculatively =
-load
-page_ref_count =3D=3D 1 before CPU 1 maps the page via tcp_zerocopy_receive=
-() ->
-vm_insert_pages() (page_ref_count: 1 -> 2) and drops its pp_ref_count
-(2 -> 1). CPU 0 then reads pp_ref_count =3D=3D 1 and returns 0 with pp_ref_=
-count
-left at 1 instead of 0 while __page_pool_put_page() ->
-page_pool_return_netmem() releases the page from the pool.
+ - The check is x86-only (hypervisor_is_type()). pci-hyperv also
+   supports arm64 guests; a better way to detect a pci-hyperv bus is
+   welcome.
 
-[ ... ]
+This has not yet been tested on a 7.3 kernel in the DDA guest; testing
+was on a RHEL 9.8 backport. The upstream behaviour without this patch
+(duplicate WWPNs with no warning) follows from the code and has not yet
+been reproduced on 7.3.
 
-> diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-> index 4cdfbb57ecff0..670fdeeeae567 100644
-> --- a/net/tls/tls_device.c
-> +++ b/net/tls/tls_device.c
+ drivers/scsi/qla2xxx/qla_os.c | 40 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-[ ... ]
+diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+index 3c412c7fb6fe..4180d3f15231 100644
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -24,6 +24,10 @@
+ #include <scsi/scsi_transport.h>
+ #include <scsi/scsi_transport_fc.h>
+ 
++#ifdef CONFIG_X86
++#include <asm/hypervisor.h>
++#endif
++
+ #include "qla_target.h"
+ 
+ /*
+@@ -2704,6 +2708,40 @@ static struct isp_operations qla29xx_isp_ops = {
+ 	.initialize_adapter	= qla2x00_initialize_adapter,
+ };
+ 
++/*
++ * Read the INTx pin used to derive the physical port number.
++ *
++ * pci-hyperv hard-wires byte and word reads of PCI_INTERRUPT_PIN to zero.
++ * With Hyper-V Discrete Device Assignment every function is also presented
++ * as function 0 in its own PCI domain, so the PCI_FUNC() fallback gives
++ * port 0 for every port and they all report port 0's WWPN. A dword read at
++ * PCI_INTERRUPT_LINE is not virtualized by pci-hyperv and returns the
++ * device's pin in bits 15:8, so use that on Hyper-V guests.
++ */
++static u8
++qla2x00_get_intx_pin(struct qla_hw_data *ha)
++{
++	u8 pin;
++
++	pci_read_config_byte(ha->pdev, PCI_INTERRUPT_PIN, &pin);
++#ifdef CONFIG_X86
++	if (!pin && hypervisor_is_type(X86_HYPER_MS_HYPERV)) {
++		u32 val = 0;
++
++		pci_read_config_dword(ha->pdev, PCI_INTERRUPT_LINE, &val);
++		pin = (val >> 8) & 0xff;
++		if (pin)
++			ql_log_pci(ql_log_info, ha->pdev, 0xffff,
++				   "Hyper-V: INTx pin reads 0, config dword 0x%08x gives pin %u.\n",
++				   val, pin);
++		else
++			ql_log_pci(ql_log_warn, ha->pdev, 0xffff,
++				   "Hyper-V: unable to determine physical port, ports may report duplicate WWPNs.\n");
++	}
++#endif
++	return pin;
++}
++
+ static inline void
+ qla2x00_set_isp_flags(struct qla_hw_data *ha)
+ {
+@@ -2887,7 +2925,7 @@ qla2x00_set_isp_flags(struct qla_hw_data *ha)
+ 		ha->port_no = ha->portnum & 1;
+ 	else {
+ 		/* Get adapter physical port no from interrupt pin register. */
+-		pci_read_config_byte(ha->pdev, PCI_INTERRUPT_PIN, &ha->port_no);
++		ha->port_no = qla2x00_get_intx_pin(ha);
+ 		if (ha->port_no == 0) {
+ 			/* None of INT[A|B|C|D] may be virtualized by vfio */
+ 			ha->port_no = PCI_FUNC(ha->pdev->devfn);
+-- 
+2.56.0
 
-> @@ -269,7 +271,7 @@ static void tls_append_frag(struct tls_record_info *r=
-ecord,
->  		skb_frag_fill_page_desc(frag, pfrag->page, pfrag->offset,
->  					size);
->  		++record->num_frags;
-> -		get_page(pfrag->page);
-> +		netmem_inc_ref(page_to_netmem(pfrag->page));
->  	}
-> =20
->  	pfrag->offset +=3D size;
-> @@ -302,7 +304,7 @@ static int tls_push_record(struct sock *sk,
->  		sg_set_page(&offload_ctx->sg_tx_data[i], skb_frag_page(frag),
->  			    skb_frag_size(frag), skb_frag_off(frag));
->  		sk_mem_charge(sk, skb_frag_size(frag));
-> -		get_page(skb_frag_page(frag));
-> +		netmem_inc_ref(skb_frag_netmem(frag));
->  	}
->  	sg_mark_end(&offload_ctx->sg_tx_data[record->num_frags - 1]);
-
-[Severity: High]
-Does switching tls_append_frag() and tls_push_record() to netmem_inc_ref()
-cause a page leak during mlx5 kTLS TX resync when page_pool pages are
-spliced into a hardware-offloaded TLS socket?
-
-When a page_pool page is appended to a kTLS record (for example via
-MSG_SPLICE_PAGES in tls_device_sendmsg() -> tls_push_data()),
-tls_append_frag() and tls_push_record() now increment pp_ref_count via
-netmem_inc_ref() -> napi_pp_get_page() instead of incrementing struct page
-_refcount, leaving page_ref_count(page) =3D=3D 1.
-
-However, the mlx5 kTLS TX resync path in
-drivers/net/ethernet/mellanox/mlx5/core/en_accel/ktls_tx.c still manipulates
-raw struct page _refcount on record->frags[i]:
-
-tx_sync_info_get() {
-	...
-	while (remaining > 0) {
-		skb_frag_t *frag =3D &record->frags[i];
-
-		page_ref_inc(skb_frag_page(frag));
-		remaining -=3D skb_frag_size(frag);
-		info->frags[i++] =3D *frag;
-	}
-}
-
-and in mlx5e_ktls_tx_handle_ooo() and mlx5e_ktls_tx_handle_resync_dump_comp=
-():
-
-void mlx5e_ktls_tx_handle_resync_dump_comp(struct mlx5e_txqsq *sq,
-					   struct mlx5e_tx_wqe_info *wi,
-					   u32 *dma_fifo_cc)
-{
-	...
-	mlx5e_tx_dma_unmap(sq->pdev, dma);
-	page_ref_dec(wi->resync_dump_frag_page);
-	stats->tls_dump_packets++;
-	stats->tls_dump_bytes +=3D wi->num_bytes;
-}
-
-If the TCP ACK for the record arrives while the resync DUMP WQE is in
-flight, tls_tcp_clean_acked() -> destroy_record() -> netmem_dec_ref() ->
-napi_pp_put_page() runs while page_ref_count(page) > 1 (elevated by
-page_ref_inc() / page_ref_add() in mlx5). Because page_ref_count(page) > 1,
-__page_pool_page_can_be_recycled() returns false and __page_pool_put_page()
-calls page_pool_return_netmem(), which unmaps the page from the pool, clears
-pp_magic, and drops the page_pool's _refcount via put_page().
-
-When the DUMP WQE later completes in mlx5e_ktls_tx_handle_resync_dump_comp()
-(or unwinds at err_out in mlx5e_ktls_tx_handle_ooo()), page_ref_dec()
-decrements page->_refcount to 0 without freeing the page to the page
-allocator, leaking the page.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103211424.1276=
-27-1-almasrymina@google.com?part=3D4
