@@ -1,117 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793812099;
-	b=xSJbD5uQ8f65BGHItgQzEqxBA8bveaT2PEgvyJh04ewgpvtoy1H/NOyO4scZRgaSFn8k
-	 hXYOQ6FI3KdP5XZda1qqMWzYgBReJo9tpSd28Et6ZESXs+/hWfqRRfoKSD6hq9j9pDHXW
-	 lDUeGyhiJviU/5e8iSxcL/fhvz1p44dVEehqTIxaVb58YldbLUWuN2XZl6X1ewwWcUx7b
-	 neTktZYBhO8eRbY8/fJknXghXSuJYUzoBCfz9WTNz/7ZABytsHKPtImWCMsInCuYbEtl7
-	 X56SFml0Cyo4H5FuVwylljd7gXRBPykhOkp/KFbhc7TeOG6FLFTmWrzPczMUpk9pL+g==
+	t=1793821072;
+	b=ZlX3Nt4mzaaweLKBKoDp1KSLpZkDFufdw2jqkGgkQB6LKOp613YmA3J8oqMtagUE7d0z
+	 kKIr9xnplvYGWCoANKrqXbZez4sE68loIzSplYLJfLpHbI9O6fP0sOxnfclqCiwPI9gtp
+	 fwlD7vuYx6/91NCwFCnoGy2qp1S61GSZuzL+GMSMMgakxe6p/+7Xm8EBBmNkg7tZVZs6/
+	 GuaXq/ZDH+RxxU1FueF6l0kvsplsfV/LagEo8JQWONKLD/xals6+GOiqJ/tT8BXl20cMA
+	 e27RhIDgg2qw1e3Nm1Ww8STFFqiKtuKpkF/1O0txx/NE+CEl4ZS1+/nz4bOY8XqYg7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793812099;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793821072;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Cd/4uVL9g1Nhrnk0AsW+3azM4Op/nEC3bPpOibZ+Gdk=;
-	b=oaTp+S48l7cI3WBTuBJLE8LfajWJP+DmmgYSdb9/0EPQAOPnAbzRiMP+vpA1Xfu1xpgL
-	 XhWnBLSsuOpIC5khTvepNh/ZwffVde/J8RQGCmL1HfO+Wy4QQHg4kg1cwz8o5S18ADJbR
-	 MvIeUygpuwoa6w9UrGkmNTZqnbqwlmXvkSCAEd/M/nV7BKpuAH8ZaPbSnrlbLAIqbq98o
-	 HYcJ4VfscjoyMW8YWawwXERacuSidd6Pofc5H7Zzv2rmKCGa4emWglxwAwt9zaFy+FL5B
-	 PizF1Xt7dioH5gIYRDmK1SE4aWHpXpw96/+hMNaeMfyv8ZDsjBYnbtq7Wd8fAY07maQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=/5MszlfJHB7Xr7Xp5GjEvhWx25u5UBjAyc2/c9bnue0=;
+	b=Pz16BsnbAwdLwNENHoxjn1trPhHJnCnd17/EGSwGlKueqB60YAU0jJ4TPhAn9NyJGBjG
+	 tumlxcXFIiy6rAS3lxC90Ed917LRddg6Q7ef7p3hinsAlUAQxRUxpugoc/unSiRVNpVYy
+	 ajYFHvkIs0IXBzCN9FABsa3BEIjhtaIVxP2xqXh108Doy2IdO/gnN7T9iB+61DF3Xxy/v
+	 mgkM943GPtYsnx9WhrlXdRXjqvmsEmSTuXlQ32PuGKm+V5DR8XG7rW6CY1nvhKQ5Ouzem
+	 QlgH/yNUoRqNR/b1W5bEYsLlsJGYwyyBavDZV5vmSklpJ4l5nbkft7vaHB3d5KTCogA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=eGRuSzim;
-	arc=none smtp.remote-ip=209.85.222.175
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gJSq+Ubr;
+	arc=none smtp.remote-ip=209.85.214.198
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A7E606A330
-	for <linux-hyperv@vger.kernel.org>; Wed,  4 Nov 2026 17:08:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3A7E606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01092607F294
+	for <linux-hyperv@vger.kernel.org>; Wed,  4 Nov 2026 19:37:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01092607F294
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=eGRuSzim
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-93f269e335eso106081785a.3
-        for <linux-hyperv@vger.kernel.org>; Wed, 04 Nov 2026 09:08:18 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gJSq+Ubr
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2eb2437d752so15698075ad.0
+        for <linux-hyperv@vger.kernel.org>; Wed, 04 Nov 2026 11:37:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793812097; x=1794416897; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Cd/4uVL9g1Nhrnk0AsW+3azM4Op/nEC3bPpOibZ+Gdk=;
-        b=eGRuSzimVkRdthVIwZ8j4V5/X1jU2H86/SOE6oD6/Q7NP4cLiSqGfJgp7mTdA8poXQ
-         Ts8BLSn06r486J2kiI3LSH2Su7b7ls9A7Xd9I4I/5dgh7f99Vftn1ES0gg+KDm5HAu3m
-         8qhGzCV9GbR6gt+jqkZJdyvBGGVnepD7TLWBpWnWovNEPiKSh9jtwTPXzFEUmU2s5ynn
-         bgHm8kXq77T/HGgjG6aK4vEYlDsp29ORryNE8bv5wmogxGrWwLnqHfJKYZ61HgXLfO+U
-         bsKNswZ80FHq12CBn1lO1iQEpBkx8eF0adXetWs1C2BDIRRqw4Rb/pLyja83jYGYb5wc
-         117Q==
+        d=google.com; s=20260707; t=1793821071; x=1794425871; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/5MszlfJHB7Xr7Xp5GjEvhWx25u5UBjAyc2/c9bnue0=;
+        b=gJSq+Ubr/frgSSD/tMBcT+f/kIR/X/CwpTlD2bbtEwjhhi/+7hJcvCLXB4IDL5V/qy
+         0+bqsQxIR/t3oEcE59hSTJ+W72qYXOOEgW2ZEriC6BJrsT25yqSEtIMBN47ZOPwQwFWG
+         F09buADkQ/trjIAMVNHiW4Q15+CfcFtOoR9LnDt5A+X0L0eFj1vmhP+XBx/Xdw5jIJe3
+         bUJna5nkRV02U3UPBg8vELTNy1bogwnSGNgalHMSLWcpVlAKsOwLSREX1jesGpUwlHV9
+         0ZQ/YrbnQFOhvhaTw+uAJCPwi+9GbI2gBvYy2qC2s+UpLpC9HaizJLtW6AlznPEGfb7w
+         YaHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793812097; x=1794416897;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793821071; x=1794425871;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Cd/4uVL9g1Nhrnk0AsW+3azM4Op/nEC3bPpOibZ+Gdk=;
-        b=ePwj8oO5cXyvguQR+FG2iIPhExbrUS3113YAbc7ysopIIVvdVNOoi0QgmunADDxEWt
-         GPcw5d+YXiw3nsg1+yl5SCotIZxcU9ML6Z8TfMVpk5PWFnLA+LeJZUj2CbB9wUuekAVL
-         Xlf0KhSeacC+uqamKKG1Mn9zjnj4Gmyy1r+Qc96CCYe1GKyBYrqqTKzQClbR/wd7Lm7M
-         IXO++Lmr6fokZnH+ugW5HF0WxyB+zl617evzw3wdFzEbVpkjQaaKH0hQg18pHqiN9hfb
-         kz5TIQEms4WsDjLz79eHoHpnBGbbddaFxTOpiORz4spkybU5O0hHMASpepEwIV3o+e28
-         J+qw==
-X-Forwarded-Encrypted: i=1; AKwUvBwj84uHm2VQL6moMZgVgyzLP55RiOmCmdWYpJ9D5Reh6ftJBrjOrtgCKSvPWvko7BS3IRLJMs8wjX0yaBA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/+omZp+Mqb9z9vGIK2kOMTSLxkZHPN+7WHG9AJaYKwzmFSbx6n
-	hfU3nUB3ISgbIhhc0mmlleTvH0flsX54XJ7IrWnfMVuP1gpgUdDzbTFHtmZAV3lRjZY=
-X-Gm-Gg: AYBFou3uxa2UHZSLWQgl9pAHstfKmriri1nGZItzBCCrug8xG9eX8X4+4WB8aHJr9Zf
-	MYo8L7QGlD5m3mDePcd5ao3LZKZETSoksqCYiUzC4D6+rs5M0ChG+NL0ieWpg2qsgvoykxsTIjm
-	l9EJhalYDs7rQZ2wXOcvs3vQbWiJTOqdHDWLGdzam7yUQ0dcsZYQFho+Qv3TzU9i4MKA16s2KLR
-	hsE0e1TY5aE+fRRjDQ2kytdHCe/LnCl6qDW8TI5LSbwZ041ufqjK0r5fBvzoGoDtS00D4UReaR7
-	BEsONGFUoy/8FGH+c0GNGAy0qC/jLuleIwY5gQEWwuPceN7qTdHBItwoZJuheTo9Qea0hO0M8Wa
-	Oeymjb3n82kG6rYBMliaimuKVg0a8zm1zdFVt7sFyMnQELz+/ycMd4FvFwNTof/9RoFPJ3DB5kW
-	kA3pH5sFMrj7pLUdtZdBn1R/j2bkPWIDTd7/l54rcE7BuhTCeGoJfcP1HeH4ejMpbQ/jaNLnwbs
-	uyYDN7lxGUUh2om8HkR/q4ngkP3o4tlhfyCJsSBhY2ytYknn41IWl+tD9eNsNZ4WMPwsuJvimo8
-	OC+ZmZDRTvldZUGIsHtNuIE0teojfoITNw5fQrzw2Lk5UupbUw3MCzKv97YivlLvj9T7Vntl5h7
-	NFC4/+mYYyg==
-X-Received: by 2002:a05:620a:4014:b0:944:dbd:831b with SMTP id af79cd13be357-944216dbfc3mr2925762185a.51.1793812097533;
-        Wed, 04 Nov 2026 09:08:17 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d482eb96sm247450485a.23.2026.11.04.09.08.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 09:08:16 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xOeTA-0000000GghE-1hbL;
-	Wed, 04 Nov 2026 13:08:16 -0400
-Date: Wed, 4 Nov 2026 13:08:16 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: Jacob Pan <jacob.pan@linux.microsoft.com>, iommu@lists.linux.dev,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Wei Liu <wei.liu@kernel.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	linux-hyperv@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Arnd Bergmann <arnd@arndb.de>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Mukesh Rathor <mukeshrathor@microsoft.com>,
-	John Starks <John.Starks@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Alex Williamson <alex@shazbot.org>
-Subject: Re: [PATCH RFC 1/9] iommu: Introduce external attach domain type
-Message-ID: <20261104170816.GS3889730@ziepe.ca>
-References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
- <20260925190742.1575380-2-jacob.pan@linux.microsoft.com>
- <atiakDqtuED2cTM5@google.com>
- <20261026161003.00003b71@linux.microsoft.com>
- <ausIn5Txiy1uRjkY@google.com>
+        bh=/5MszlfJHB7Xr7Xp5GjEvhWx25u5UBjAyc2/c9bnue0=;
+        b=EizZMHIGwyekozmixGpKIWqr04aWPkRR/0WioXYv8115CsHTyKNgiV8EY7eJ20dZ5C
+         yhDOof5u4lWvUmqxrBK1NsLRYvhNjEXTW6M0f1Hu3CAKolNUJBuU3w/kFSkT96aeQTBN
+         bvLILzZjMQonsBYNogNHO/kbdw5qGGTZdXbpLnFIfmDzkkrddWdXaqH+gS/xoEyF2vkD
+         /DFJz9/9LIEBdWIT8ealfRIKkTDgPN66MXKgdCRjck0I+TUVyYsVnVelO6vMG9eS7Y0L
+         OVc5BmN9+MbIdXo4nnXTqmVtg83n4WZ8ScbPARJ8UUIDZprtKoCDMtCzOJlCKfmE15Dv
+         Gb4w==
+X-Forwarded-Encrypted: i=1; AKwUvByRGD52RFnL3gJCGYnpSZ9GrhB/Cj2xDB3DPc4WMOLi1aUak4TZqEpHGrHyezZygSuvENrbbf0JI2cwO98=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Q8d+4HjWPIfu9FJPcJMaziYcQ8Uhek8nxkvDRk8kfUK67N+T8
+	1i1nVszxibq6y2R7n+aDJMaED21iVCJEVkW4YJSOARKQG5tSqV/cpPVd+6aIAHpy6aWCoj+idOh
+	XaIKP9Q==
+X-Received: from plww1.prod.google.com ([2002:a17:902:d101:b0:2e9:4a78:9294])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1986:b0:2e9:4d9f:a65b
+ with SMTP id d9443c01a7336-2eb3651d564mr160599195ad.53.1793821071087; Wed, 04
+ Nov 2026 11:37:51 -0800 (PST)
+Date: Wed, 4 Nov 2026 11:37:50 -0800
+In-Reply-To: <c9a6455eb88c24d4271b7a7c86f7a4e90799e40a.camel@infradead.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -120,64 +79,78 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ausIn5Txiy1uRjkY@google.com>
+Mime-Version: 1.0
+References: <20260806233609.212337-1-seanjc@google.com> <aqLv9GwBNymyHs8q@google.com>
+ <c9a6455eb88c24d4271b7a7c86f7a4e90799e40a.camel@infradead.org>
+Message-ID: <auuJjiowddGlysWI@google.com>
+Subject: Re: [PATCH v6 00/51] x86: Try to wrangle PV clocks vs. TSC
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Juergen Gross <jgross@suse.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	John Stultz <jstultz@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Miroslav Lichvar <mlichvar@redhat.com>, x86@kernel.org, linux-coco@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, Michael Kelley <mhklinux@outlook.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, 
+	Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 04, 2026 at 10:27:43AM +0000, Mostafa Saleh wrote:
-> On Mon, Oct 26, 2026 at 04:10:03PM -0700, Jacob Pan wrote:
-> > Hi Mostafa,
-> > 
-> > On Wed, 21 Oct 2026 10:57:20 +0000
-> > Mostafa Saleh <smostafa@google.com> wrote:
-> > 
-> > > On Fri, Sep 25, 2026 at 12:07:34PM -0700, Jacob Pan wrote:
-> > > > Add IOMMU_DOMAIN_EXTERNAL for externally managed domains that move
-> > > > or attach devices to another VM address space provisioned by an
-> > > > external owner, such as a type 1 hypervisor.
-> > > > 
-> > > > This is not a paging domain and is not sysfs-selectable as a default
-> > > > domain type. It requires external owner context, such as a vIOMMU.
-> > > >   
-> > > 
-> > > Can't we use a IOMMU_DOMAIN_BLOCKED domain for that, AFAIU, the host
-> > > never inserts any mapping?
-> > Right, the host does not own or install any mappings.
-> > 
-> > The external domain type is nevertheless useful for two reasons:
-> > 
-> > 1. It allows the pvIOMMU driver's domain ops to do the MSHV & Xen attach
-> > and detach hypercalls 
-> > 2. It allows an externally managed device to leverage the normal IOMMUFD
-> > device-to-HWPT attachment interface: VFIO_DEVICE_ATTACH_IOMMUFD_PT
-> > No new ioctls.
-> > 
-> > It also makes the lifetime and ownership clear for IOMMUFD and
-> > hypervisor, the device can be returned back to host iommufd owned
-> > domains once detached.
-> > 
-> > In pKVM case, my understanding is that you have a emulated root SMMU
-> > which does not do hypercalls obviously. Then the external attach
-> > is done via an "out of tree uAPI through KVM/VFIO bridge IOCTLs that
-> > proxies those hypercalls."
-> > 
-> > Therefore, if we were to park the device in blocking domain while doing
-> > external attach (as you suggested), this requires a new PV only uAPI
-> > that must support pkvm, MSHV, and Xen. So it does not fit in the flow
-> > supported by PV IOMMU root driver.
-> 
-> I am not sure I understand this, how can the domain type change the
-> uAPI? can you please point to what breaks in the code if a blocking
-> domain was used?
+On Thu, Sep 10, 2026, David Woodhouse wrote:
+> On Thu, 2026-09-10 at 10:59 -0700, Sean Christopherson wrote:
+> > On Thu, Aug 06, 2026, Sean Christopherson wrote:
+> > > The primary goal of this series to fix flaws with SNP and TDX guests =
+where a
+> > > PV clock provided by the untrusted hypervisor is used instead of the =
+secure
+> > > TSC that is controlled by trusted firmware.
+> > >=20
+> > > The secondary goal is modernize running under KVM.=C2=A0 Currently, K=
+VM guests will
+> > > use TSC for clocksource, but not sched_clock.=C2=A0 And Linux-as-a-KV=
+M-guest doesn't
+> > > support paravirt enumeration of the TSC/APIC frequencies, even though=
+ QEMU
+> > > provides that information by default.
+> > >=20
+> > > The tertiary goal is to clean up the PV clock code to deduplicate log=
+ic across
+> > > hypervisors, and to hopefully make it all easier to maintain going fo=
+rward.
+> > >=20
+> > > The quaternary goal is to clean up the TSC calibration code, which wa=
+s made
+> > > stupidly hard to follow by hypervisor code mixing in with the native
+> > > calibration routines, instead of being implemented as a pure alternat=
+ive.
+> > >=20
+> > > Note, the VMware and Xen changes still probably should get acks from =
+those
+> > > maintainers, as my understanding of what they're trying to do may be =
+flawed.
+> >=20
+> > This (thankfully) still applies cleanly.=C2=A0 What can I do to help mo=
+ve this forward?
+>=20
+> Nudge Thomas to spot that this is guest-side and we want him to pick it u=
+p, I guess?
 
-Yeah me too.. The plan for the CC side with TDX/RMM is to not have a
-S2 domain in the viommu side at all. It should not be uapi brealing in
-the sense that nothing using mshv viommu exists today.
+Amazingly, still applies cleanly on 7.4-rc1 and tip/master.  I know we're s=
+hortly
+after the merge window, but this has been sitting idle for months and addre=
+sses
+issues that are impacting a variety of end users.
 
-In mshv case the iommu drivers are telling the hypervisor what to do,
-so they have to effectively see a change in translation. But maybe
-this can be managed internally to the driver by annotating the
-blocking domain attachment?
-
-Jason
+Note, this also provides meaningful hardening for SNP and TDX.  /me stares =
+intently
+in the direction of Dave and Boris.
