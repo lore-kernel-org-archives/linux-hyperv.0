@@ -1,119 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793823006;
-	b=vs0P3A/+YfZA2KeI+DSmj9GSoyJOfBy6rPQ7tJybkgMarA3HpfSdo/0Kc2wsy+Th9Kx+
-	 fv5mJLNdeL1G6zAWs60UzCCxIhu8Wf0gdR6vZ3YmHAiC7LNCH0E6Lcz0teZ9r0G8uskWw
-	 OWg8u5BF0V9UbxiPPe4Ke9V+N0Ui6ytCh/ifv7wgx7StGvvXMqGQWKdmtjOAkPlfwtcXY
-	 RDLKdOq30233MjBIEoQiF3153/XGiay7x4qXhZ+L2InwbS3zIFgIyOE+GeGkShye+b8RV
-	 //tiz2zshrurf3hbgEyw/rK0oRu5kifzvlB+396t5b+DiKkNE01s/7fdruShF6b2QZQ==
+	t=1793824258;
+	b=EILUoJMiRf8cQWHgDbfQQT+AUPuXIOX4QA/FZxQE/uOivjqXicJuxRvmm35ab9lsQxE+
+	 OM1GZMjAtU43dL9iK+VFKkcVQ4DNNlVfzczuFZQrQdZ2PTY1RCWKhkf8lLxhFLSWCE1Ud
+	 LSwpZWWSaLCpTBymGsDM7n20h1wjOxHFvmNLxSca8xtNPIwPWpCCNUz2LwGAF4tjVDeFc
+	 fIZdQR2LE2dL+ZeFD8vjaSECaol4TnZ0Ja7Voq9oAJXeNKjJIgtKQ0ss1oTT4j4SrE3kC
+	 LP5yAeaxWEXPYc7FtGJ+rh0xm+iZ0htoTCEL0ntRBrkPkCtywPxu/tvS7vX/vhZ5AWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793823006;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793824258;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pbB/h7OcDLTENZAMlqrgPHDqleGuLS+XSh/+4bmYjVo=;
-	b=W3zh5Qo2NNu1Flh61LTx5N7oyOD3VDIv1qLMllZpLKYcQL16FdGLghUqICRvIYRZsVEr
-	 9ZNZV5ZEnRI49d+rjzlwd0dED3JxzKhdQ7/ljQHvcTLOjMCBB7ICp9+5GiwoynCPlFkVh
-	 T2zIWD3C37+nczofkMhzlGeUsibUTvzCPq2jYeUfciGi/IRDzlCpOSZEl2766SdYj+KCC
-	 UoO5Q4c8KN+tQ4xr1bEBB7pboAADO/BATvFFqn0GlLPogDiwqeZBoaDIpxCLPTozrF4+n
-	 W6s3zmPKn8sWzuZV3JLmHO4D7342xc09SipsvL2+OySXo3YvpUmKddH7svZgmUvrrLg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=huPVslj+kM9c+WtCioU3Ljzu+t0gbVdPL3W1oxXh1oM=;
+	b=uS+eFHQRaNAdOoDbHlUUi9j2s2fgQVoVZcXr1LFyMcXA9ew0rwKE6HbpNEOCkLbLJfTF
+	 1F5Y1J39gaWTn34Lt+GVAhRtta8hPp0VF0MPw5kOx2o3+QOo6qvQOfTudn3KGXFTDqMNO
+	 txwSP+1VbJ55hYmWAvwukp841QAv0AA0lPF3kdqe/t/1qG+/gVoCN4nEBu5vYnXR3bM1j
+	 M9oSuJIJQNNzvTI36+t23ET5excqb9Pn7ZNsQlgARL0wiGksPVM8OjWbah1fZ9ZEtDi99
+	 /E8ZxolO0XAo3ZC3GDeBk59XoO4GB8cRixJMKbfyg5AM4BvZBzWNV9TTCLs8SUGbNEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pAmB6tB5;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dmarc=pass header.from=cloudlinux.com;
+	spf=pass smtp.mailfrom=cloudlinux.com;
+	dkim=pass header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=LXvS2106;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F8607E709
-	for <linux-hyperv@vger.kernel.org>; Wed,  4 Nov 2026 20:10:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 549F8607E709
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E17606AE10
+	for <linux-hyperv@vger.kernel.org>; Wed,  4 Nov 2026 20:30:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98E17606AE10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cloudlinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudlinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pAmB6tB5
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so12224995e9.2
-        for <linux-hyperv@vger.kernel.org>; Wed, 04 Nov 2026 12:10:06 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=LXvS2106
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-490a0e72588so457288f8f.3
+        for <linux-hyperv@vger.kernel.org>; Wed, 04 Nov 2026 12:30:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793823005; x=1794427805; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pbB/h7OcDLTENZAMlqrgPHDqleGuLS+XSh/+4bmYjVo=;
-        b=pAmB6tB5L5Q0sXbpgw5MAvTI4uEVXOApuJPbfWOIyoio0S+Pk3ev+Xx+LtSaVDmZTb
-         UtFs6xBq+HXY5ygUQ+qI7ayP+uN7rCJtM8Qo9UVtZesPJVPeKvFlcvws5jR2/iHFxv8Y
-         veQ4oIX5N8YmBuVrhiXgkHYskpbffM0MwfPIRXC7NJyGDG5PAu/N2qWJVRrIBA6aDEf6
-         liZndmGbC429jfE5e+Md/TpWVIyFUGja7Frb7Z1IKMKT4ruePVenI36Bw6OzDbXmKqlY
-         AfTex7dzu322hFIm/ozi7mn3h55E6OP8ewbasszG/05oRQBr6/fSrgczdbozEEt+dWBj
-         iLGQ==
+        d=cloudlinux.com; s=google; t=1793824256; x=1794429056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=huPVslj+kM9c+WtCioU3Ljzu+t0gbVdPL3W1oxXh1oM=;
+        b=LXvS2106f7G3x7PVtW2Uc/j2I076hzP3YOxsuP76p3ihKo81neXfgxoLSaWA0vp3h+
+         gWSdTzowhKTy6g5f0gIpElccxgYx8aRj2B7hEl6SVWOIyxPO6u5Ad1bTjKJlSelVHU3x
+         1uO7bI2o6Nsw4ANPDdQX3Utt9eLr9hwcEl5g0+AKoOGU69CtkbHqDU5D+jJBkGGTtpAx
+         jJz6OKIqx8DHqGm+vI1zjxRND6y1mwn9cbbb1xshHUv9acUPbjeh3EfMqM+CoXQS45ie
+         H1fqZgQhvXZRz6rU7Y0Ib9iPzdGBJJ+Q+Oz4BD1ENFyvEXZi26Ji2irgcfO8yioZbvnt
+         FtVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793823005; x=1794427805;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pbB/h7OcDLTENZAMlqrgPHDqleGuLS+XSh/+4bmYjVo=;
-        b=kVmtcoC/l1D7obVDadcwCwea9HzixwJPS0bcTodd/16g+oT2Q30ovaZyuWsPXmCPJ0
-         1Bmlc6q/oCfbN1Ud0DzLfnYwZALusd3w68VKtONWR9gfylzOpQHsvj+EUOXNWqzXQ888
-         w8TEaQGdP4FFR8hXSX7nE8vxayD2nVZxxTl3XqSLvWQMrl+vdiSKe/f38HwKxUthnBrP
-         YOZtkJ3b31R/ymTLPoqAoy6kU/JOVzcsdgdkDKmKX09p9k87ekLAejnkI3YBNJ8IjJ46
-         R6DqrMZhOwggaKPeB72ok+4y6x2C7KQ2DBRqJA1eYeWl9TW+mTIjCCgQMoeOMAdWtCCE
-         +9Ow==
-X-Forwarded-Encrypted: i=1; AKwUvByDZcwznLdcUTOXBCpJkEW6eKERhLU+83N6qjgELNuSDBsoSrq2lslEwLuGmqD9l9ws3PKmKzHnACBKUWs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9xlJOzfcnSTl69qbvfJnmzCJv8kaSIk8uC8wnvfwHzxAufapzD
-	2F0SWo6utQ/hL0H5rX0Ol6GkTheNthWZWLzmTpGS1VKr78bl1CRjwded
-X-Gm-Gg: AYBFou2xPvJamtS609nDILQGSTSy5U/57LQjGDDsuldcuUTWWwk3EmkNLW3vEnS+cq5
-	WGvwXl9BhKHfFE2+fKVs9V/DBfvLF4gXftaWPxtG7KMhGWJOLLQJSXFvsSROjKr5Yc8C7bi1rKY
-	yOfaBkixch0HQh2TTNV8n7rmGza7K6bNGuV+YCsOPZQ44GXny6DHDxV7PGpKA7nR5drpRRSm7oE
-	pGUC06XOaIAQ73e/tTekPybp+kkP7xGLLlluQnF7dK6KXG8jkk0cEl/7E1lkHlX1YjxqdU1spvR
-	CBFJY/1uPCFvsYB23PxtSlJGZuFWBIYUxaS9dwvFnfl+Y+LgTJYEH26+ppkfxoIsSWZ1YPEeRHB
-	/aAM3U/vYn2kwnvErJZgqKxxQ5jyE6dpW7WLOGwkqq160tVRXA13+0XXO3c0JJk3P7pWmaPtdRc
-	uAELWC+3oJSXiTw8U/9N1NzKsNaXi2yRqix9WCfgEpduLTIjUgUH968iuCP+A+xPnkfuYNNXdLv
-	SSYl/tGBfKWCGQkWEiatBOxyBr7nXQa3T8R5OfB13vjL8KuJELI99H01oXBqnbkkYmOpSF9gMA2
-	FxPQNwi/1Ugcj/yIYQ5MwJPdMx2Fz/Mh+q9mz2iVrGuVKA5VaH6RoIv37t/ugag3Hyk9kVku2ZX
-	BIbVIX5MPaJjzEHOp9ZanntohKLJ//q4uyBg4A6hIuHVs0Os=
-X-Received: by 2002:a05:600c:6216:b0:4a3:5aea:21e5 with SMTP id 5b1f17b1804b1-4ac1737c533mr377961885e9.9.1793823004484;
-        Wed, 04 Nov 2026 12:10:04 -0800 (PST)
-Received: from center.jhjvjihww5qejoy14qwv1cc4td.frax.internal.cloudapp.net ([131.189.143.225])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56eb4da1esm15954045e9.6.2026.11.04.12.10.03
+        d=1e100.net; s=20260707; t=1793824256; x=1794429056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=huPVslj+kM9c+WtCioU3Ljzu+t0gbVdPL3W1oxXh1oM=;
+        b=qZfgJfNNBzReDIIZ+qmIFzQ2Gl6VQi5G7OELOj3yfCJCm/kfNRLsMfg+bpQe6iVnqI
+         MzGAcZAIhjvBGCAWBniZ0J4dQLsvsulN0Ka/6fC+/eTHqlbEsPW1n5Hfsw1y56ep4h0Y
+         yj3ia6yPVS5TtRgpr6SxAimek0loS+DKfkPwkFnlpp6yCSZPmH51bDgjCXP5Uj5iorDc
+         1Rtx7+/4kHE63fobbDGGbD//J3oCXaabcosC7wrHuZP+CapVwrnT1SaL0CWv1zpcAQt7
+         VQ07+6XyO+3HVvvLdQsHlB4ubVK5JexJatmbfKUKCB0i39OjG+URHwjewtd2FTRIwMKp
+         p+Dg==
+X-Forwarded-Encrypted: i=1; AKwUvBwiu1fYFygtQ3Mosr855ZWjKI8hZF+/qta9+mto8D62ifF+ZBiGINzj6CILSCxTp30Gl77umxIPTRGGf4I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/LVtwtdqE8khp/GEp/2PX5lTz5m1gfUpm4yOQLjwsiUk9cRTqq
+	B94MOjKVW7/hIPmncTrGDWOeLssMFEFq+rzOQaIJZw+E2mZehkm0DrHJGf8PD3L+LY4=
+X-Gm-Gg: AYBFou37YZEET1F6SWfAnihjKYzFkzlXOHwxXMt8qQWFaWGIUyszsGKAUxvdCb88fyf
+	r7EEKnvhr1YeGHZVwxIgeD7tHy1chQ87T61+9JuewKuyZefWmalniC+gfp0vilBsoD7hAIYHW/K
+	ep7lL6knWtQkylGgSQureuwWN2jGYRcFoSiFbLvyzvznIk2BNdCoVV/Pe/cJ9ZIsE8stYdRx+DQ
+	diK41K10qJ1rfJqTmC4pRCiFi7H/qay3v90sbqZWBca2PpjIKexGpx8me5xtHT6sdRS5ddvO0tH
+	zsWNIzTMcd1gpbqpCBkujrk2lrqjr8bWTkPlfSW8xS4jnu2J76oKXKHUezSoWKK130jHLpjUrOn
+	AxJUAwx0TvZSGzjIWH1bqT2PoOfDxujUyhtD7UnOqNgVdM2aE1pZMoy7NWNdHhDSlBU3V9Y5Iq5
+	WGdc8AEOuelJ32HF++fjiu3zI+H+eifbti28YLWzbM0wBggiNdWal5++GEiuEEWiz8MN5++o3dU
+	X0bKK8hGWzwvvUcn15I7zedmXYRNWgoYDgM3TlCFVE+o/A2CEk1osezbgyyQYj2Yyqjj8HXkGLR
+	NoogaeLAO/3jxaFUp0QjtIsr
+X-Received: by 2002:a05:6000:40ca:b0:48c:5304:5e50 with SMTP id ffacd0b85a97d-48e6e2620d8mr39868997f8f.0.1793824256006;
+        Wed, 04 Nov 2026 12:30:56 -0800 (PST)
+Received: from dev1.kernelcare.com ([2a01:4f8:172:1c85::2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda207d8sm5431164f8f.52.2026.11.04.12.30.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 12:10:03 -0800 (PST)
-From: Orgad Shaneh <orgads@gmail.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>,
+        Wed, 04 Nov 2026 12:30:54 -0800 (PST)
+From: Andrey Misiurov <amisiurov@cloudlinux.com>
+To: Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
+	Dexuan Cui <decui@microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
 	linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Wei Hu <weh@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Simon Horman <horms@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
-	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Muhammad Falak R Wani <falakreyaz@gmail.com>,
-	Jesse Brandeburg <jbrandeb@kernel.org>
-Subject: Re: [PATCH net] net: mana: fix XDP_REDIRECT of pre-allocated RX buffers
-Date: Wed,  4 Nov 2026 20:10:02 +0000
-Message-ID: <20261104201002.2215474-1-orgads@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <autbwKmZPPWEj0Dq@boxer>
-References: <20261102064324.806414-1-orgads@gmail.com> <autbwKmZPPWEj0Dq@boxer>
+	stable@vger.kernel.org
+Subject: [PATCH] Drivers: hv: util: Fix transport teardown on util_probe() failure
+Date: Wed,  4 Nov 2026 21:30:49 +0100
+Message-ID: <20261104203049.1031148-1-amisiurov@cloudlinux.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -125,45 +100,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 05:22:24PM +0100, Maciej Fijalkowski wrote:
-> On Mon, Nov 02, 2026 at 06:43:24AM +0000, Orgad Shaneh wrote:
-[...]
-> > -	act = mana_run_xdp(ndev, rxq, &xdp, buf_va, pkt_len);
-> > +	act = mana_run_xdp(ndev, rxq, &xdp, buf_va, from_pool, pkt_len);
->
-> I wonder if it wouldn't be better to work with rxoob objects which seem to
-> carry the from_pool setting?
+Commit 07a756a49f4b ("Drivers: hv: util: Avoid accessing a ringbuffer
+not initialized yet") moved the creation of the KVP and VSS transports
+after vmbus_open(). util_probe() still calls srv->util_deinit() when
+vmbus_open() or util_init_transport() fails, and hv_kvp_deinit() and
+hv_vss_deinit() destroy hvt unconditionally.
 
-Thanks for the review.
+On the first probe, or when hvutil_transport_init() has failed, hvt is
+NULL and hvutil_transport_destroy() dereferences it.  After an unbind,
+hvt still points to the transport freed by util_remove(), so a failed
+re-probe frees it a second time.
 
-The rxoob no longer describes this buffer when XDP runs.
-mana_process_one_rx_pkt() calls mana_refill_rx_oob() before
-mana_rx_skb(), and the refill puts the new buffer into the same rxoob:
+Skip the destroy when there is no transport and clear hvt after it.
 
-	*old_buf = rxoob->buf_va;
-	*old_fp = rxoob->from_pool;
+Found while reviewing a backport of commit 07a756a49f4b.
+Not reproduced at runtime.
 
-	rxoob->buf_va = va;
-	...
-	rxoob->from_pool = from_pool;
+Fixes: 07a756a49f4b ("Drivers: hv: util: Avoid accessing a ringbuffer not initialized yet")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrey Misiurov <amisiurov@cloudlinux.com>
+---
+ drivers/hv/hv_kvp.c      | 5 ++++-
+ drivers/hv/hv_snapshot.c | 5 ++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-So by the time mana_run_xdp() runs, rxoob->from_pool is the flag of the
-replacement buffer. The flag of the received buffer survives only as
-old_fp, which is what mana_rx_skb() already gets as its from_pool
-argument and uses to free the buffer on PASS/TX/DROP. The patch passes
-that same value one call further down, to mana_run_xdp().
+diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
+index 336b278..813bec5 100644
+--- a/drivers/hv/hv_kvp.c
++++ b/drivers/hv/hv_kvp.c
+@@ -825,5 +825,8 @@ void hv_kvp_deinit(void)
+ 
+ 	hv_kvp_cancel_work();
+ 
+-	hvutil_transport_destroy(hvt);
++	if (hvt) {
++		hvutil_transport_destroy(hvt);
++		hvt = NULL;
++	}
+ }
+diff --git a/drivers/hv/hv_snapshot.c b/drivers/hv/hv_snapshot.c
+index 847dc69..a827cef 100644
+--- a/drivers/hv/hv_snapshot.c
++++ b/drivers/hv/hv_snapshot.c
+@@ -456,5 +456,8 @@ void hv_vss_deinit(void)
+ 
+ 	hv_vss_cancel_work();
+ 
+-	hvutil_transport_destroy(hvt);
++	if (hvt) {
++		hvutil_transport_destroy(hvt);
++		hvt = NULL;
++	}
+ }
+-- 
+2.43.7
 
-The two can differ. Refills come from the page pool (or from
-xdp_save_va, which only holds non-pool buffers), so on the first pass
-over a ring of pre-allocated buffers XDP gets a buffer with
-from_pool == false while its rxoob already says true. That first pass
-is exactly where the bug shows.
-
-Using the rxoob would mean moving the refill after XDP, which changes
-what happens when a refill fails: today the packet is dropped and its
-buffer stays in the ring. I preferred not to touch that in a fix.
-
-If you would rather mana_run_xdp() take something other than a bool,
-I can pass the xdp_rxq_info to use instead, chosen in mana_rx_skb().
-
-Orgad
