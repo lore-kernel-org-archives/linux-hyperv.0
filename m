@@ -1,49 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793768924;
-	b=IJdv3YrWNpdIYv7OM398L0pFhqMKhhtQ49uT0pOMXGrYTmewMB8BfDnFB0KEDX6OcoFL
-	 73XFcYxdxYU70WaWhsGsOyhOBQqwYA+weUKkWQHBLaESSfxzXWGbLEnz4OEDEBaiw908/
-	 qa7KNOJlQwvEIF0Jkj4QhVuFeDoX4Iq6+aYeiVLlBBH6PEVDwTk2qn01+hbrHctpn3f/5
-	 3Fh8UD/gdCXGBOvy5LxEIJipaZRGqBP4Bzet7NX61dfKXrYKIQHvXiUQ/lwZSLzBrzxGn
-	 tERbt6Mrtqgt0JtQr3CZY73AADw+9T3NxiMAO/FwHJsbQMRonU7eFCvKqLX8la/0a8g==
+	t=1793775348;
+	b=nuarpRsvR4dmSDuObPMx3LTDAcOIlnXYBri3CycLvluEXHJsZ4yFl3hlbrDT6gZASRUz
+	 nwAcZ5bCbRpokIGRU8LD8qZ9qN5h36VZ6/FYUhA2YWS055NrwQl8vUaa5z+mwh4B5/WV3
+	 /2hcLv6NIAXX1epPDyb7WC78qkgpR/hkmyfzez5FSGDRqrXQG8HBYC+GrdDptmDXRLjA2
+	 w/9ZjiVWRwiFidHWqLq2lvGmCjD5S/qcYYYInDfJPvPmRQI3rK2qAaWmxTYhTFuzGl+64
+	 LckvQvPAvzh4hgkBDzMjRwXCafO4xzUP4N4CF1947mapElVC9CERZUWPlVFBs4j6Q0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793768924;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793775348;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Spam-Status:
 	 X-Spam-Checker-Version;
-	bh=n0Xywr94Vk3WtL8YoWlzK4ISWgOH/R1JCv5dLFPIkIM=;
-	b=nPwVNTPGdb32M13LHZfB4jN0EIkPMEssOkqVLUOIoc6/KqN6sZYS4r7rVBnvN0/oMOdQ
-	 E0oor+IKouu3LhAnNRmai2Aa8IadfvuF3BJl7Pmayi7Xre/mcvP+Ge8sshzteDxnvhZ5u
-	 qp55AppODLpy2kIXULnJUOtWV/G8jITDcUL/mARSbm8a92aqEEz1s1cksF3Vz4yIqWkAN
-	 rLrCwPuf1Fv8FNjgpfl4es/wgzZsG60ftlTlTzrJP0wN9Ue9kHX1FHdGXyiksIygwhWEJ
-	 oUCPlXrrxM/rBMrfnHy28CinDHDsEzYWtHqBzVJkA3mGY5R1Se8yWvoA/4pawvFwqSw==
+	bh=c6k2qUJ9gF1rzwHJ7gl52fstK0/Ilon2GwxyI9YSI3w=;
+	b=eK7OY5u/cUE4fZ2LAqG2ICf7flr1BaO9ft03qz3JjLmdLe0/IRrg2LYYyytSQVgPqvC8
+	 kvklXPPp/e1dqZ6l+yHYx5yNbsnHlpGRucnb2eu76x7QDxMMbBkyDD5NsyOqKjBN3FvVV
+	 kz6aNLoj2+9aBzzyO7aurPK2rBgLjd20ZiI912XaamDs95MQYtZBgH8L3h6Hr0jMkhrL5
+	 ELiajsObjTDbPJ1LgedQvzeqOS7VmvKme+pv9Wn1loJF9TDv6tXRy8QIcHNXctNlz3Ekb
+	 aF7R3RRxAxVaB49q48xz2MTinTxZ5E3WlvckTzqP9IXn2A5okz1puMp0dfzjfhat2tA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=sBtyhiUk;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="IHmV/fD+";
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84C37606A326;
-	Wed,  4 Nov 2026 05:08:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84C37606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34061606A338;
+	Wed,  4 Nov 2026 06:55:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34061606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=sBtyhiUk
-Received: from [192.168.1.7] (unknown [103.212.145.77])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 88CC920B7166;
-	Tue,  3 Nov 2026 21:08:27 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 88CC920B7166
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=IHmV/fD+
+Received: from fedora.hsd1.wa.comcast.net (unknown [52.148.171.5])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DDC1420B7167;
+	Tue,  3 Nov 2026 22:55:25 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DDC1420B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793768908;
-	bh=n0Xywr94Vk3WtL8YoWlzK4ISWgOH/R1JCv5dLFPIkIM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sBtyhiUkjSOC/y4YU7Q21hwoxP7b2bPy3yWUAXMGrspoYU6r5YJoWUxbiU4IRvLbk
-	 /tZfk/4PiSP0xw10D+e45eGHP/iBPIXSq3nwkE0Ldk18NG74S4XnxOMi5T10kFk22t
-	 E2t3gAlfocgO7RXnyG7s3rJ2BFSso9F36oI52sXQ=
-Message-ID: <c3ec0e88-5077-4eee-8ed8-9b2f71f00b0a@linux.microsoft.com>
-Date: Wed, 4 Nov 2026 10:38:39 +0530
+	s=default; t=1793775326;
+	bh=c6k2qUJ9gF1rzwHJ7gl52fstK0/Ilon2GwxyI9YSI3w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IHmV/fD+oya8ZMjsh5MqpvPpWdpcX7XqPMfjGsr2WmN0N0SbNvUtEANUd2xXfvAZd
+	 s0PmgUm2a7Vkb8Y54BXQajp6txMuP4mWhVbq4H9ziMhio9uSjd7gxLeEtyApPUzAAV
+	 LcRQYU3YU/igvpIl/GBhpzKNFifblVE+o+5AP2DQ=
+From: Sriram Nambakam <snambakam@linux.microsoft.com>
+To: dwmw2@infradead.org
+Cc: kvm@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	seanjc@google.com,
+	pbonzini@redhat.com
+Subject: Re: [RFC PATCH 23/55] WIP: userspace VTL interrupt entry and register intercepts
+Date: Tue,  3 Nov 2026 22:55:39 -0800
+Message-ID: <20261104065539.15281-1-snambakam@linux.microsoft.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261017122501.610248-24-dwmw2@infradead.org>
+References: <20261017122501.610248-1-dwmw2@infradead.org> <20261017122501.610248-24-dwmw2@infradead.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,74 +63,42 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: hv_netvsc: user-configured RSS indirection table is zeroed on MTU
- change
-To: Amir Boussejra <amir@boussejra.com>, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: amir.boussejra@gatewatcher.com
-References: <40fb2352-4859-4334-849b-f6a4229605a1@boussejra.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya@linux.microsoft.com>
-In-Reply-To: <40fb2352-4859-4334-849b-f6a4229605a1@boussejra.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 29-10-2026 14:40, Amir Boussejra wrote:
-> Hi,
-> 
-> On Azure/Hyper-V, any MTU change on an hv_netvsc interface silently 
-> zeroes a
-> user-configured RSS indirection table, so all RX traffic lands on ring 0.
-> 
-> Reproducer in our case (any multi-queue hv_netvsc NIC, ethtool and ip 
-> only):
-> 
-> ```
->   ethtool -X eth0 hkey $SOME_KEY equal 4
->      ethtool -x eth0             # See conf
->      ip link set eth0 mtu 1600     # must differ from the current MTU
->      ethtool -x eth0               # all zeros in indirection table
-> ```
-> 
-> With the table left to the driver (ethtool -X eth0 default) the same MTU
-> change is harmless: the table comes back correctly spread.
-> 
-> Confirmed with kprobes on 6.12.90 - these all fire on the MTU write:
-> 
-> ```
->      netvsc_change_mtu
->      netvsc_detach
->      rndis_filter_device_remove
->      netvsc_attach
->      rndis_filter_device_add
-> ```
-> 
-> [`netvsc_change_mtu()`](https://github.com/torvalds/linux/blob/v6.12/ 
-> drivers/net/hyperv/netvsc_drv.c#L1209)
-> 
-> An MTU change re-creates the device:
-> [detach](https://github.com/torvalds/linux/blob/v6.12/drivers/net/ 
-> hyperv/netvsc_drv.c#L1233), then
-> [attach](https://github.com/torvalds/linux/blob/v6.12/drivers/net/ 
-> hyperv/netvsc_drv.c#L1239).
-> 
-> The detach [frees the RSS indirection table](https://github.com/ 
-> torvalds/linux/blob/v6.12/drivers/net/hyperv/rndis_filter.c#L1622)
-> (`rndis_filter_device_remove()`), and the attach
-> [allocates it zeroed](https://github.com/torvalds/linux/blob/v6.12/ 
-> drivers/net/hyperv/rndis_filter.c#L1557)
-> with `kcalloc()` and refills it only if
-> [`(!netif_is_rxfh_configured(net))`](https://github.com/torvalds/linux/ 
-> blob/v6.12/drivers/net/hyperv/rndis_filter.c#L1572)
-> (`rndis_filter_device_add()`).
-> 
-> 
+Hi David,
 
+I hit a Windows VBS boot failure involving hv_divert_dt_write() when OVMF
+was executing in SMM.
 
-Hi Amir,
-Thanks for reporting this bug
-I'll post a fix for this and notify here as well
+The helper was diverting firmware descriptor-table writes into the VTL
+register-intercept path. The failure trace showed a reflected #GP being
+delivered in an SMM context with IDT base and limit both zero, followed
+by a triple fault and guest reset.
 
-Regards,
-Aditya
+Excluding SMM from this helper lets those firmware descriptor-table
+updates proceed normally, without changing interception for ordinary
+VTL0 execution:
+
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -5884,7 +5884,7 @@ static bool hv_divert_dt_write(struct x86_emulate_ctxt *ctxt, u32 hv_reg,
+ 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+ 
+ 	if (!hv_vcpu || vcpu->plane_level || is_guest_mode(vcpu) ||
+-	    !(hv_vcpu->reg_intercept_control & ctl_bit))
++	    is_smm(vcpu) || !(hv_vcpu->reg_intercept_control & ctl_bit))
+ 		return false;
+ 
+ 	hv_vcpu->reg_intercept.reg = hv_reg;
+
+The context above includes the is_guest_mode() check added later in the
+series by patch 50.
+
+With this and the accompanying integration/QEMU fixes, msinfo32 reports
+VBS running. This was an integrated v7.3-based tree, not a test of patch
+23 in isolation.
+
+Thanks,
+Sriram
