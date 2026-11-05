@@ -1,98 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793915008;
-	b=YC2d3lxZ+xdYtYVIQ1Gets1P9uEhzTnPPB4autnz0zXaiZsBRWKpwzSz76fcHih0kKeA
-	 k6m1g18KWEU9FDJU1zbGXX0qZa2MPOWVujCYHiS10v025y4od05xwl9A9oD2FfDpSvki0
-	 A6hTXBQzLnDEmAmDaGoaQIUfnEP8T7vc+qw/pzoEDhfdGROi9cjzFKvmpNF91CyGgVs1u
-	 lf1v/w2SflXEohOkjNNrySEyswUOymoCZBzJVTkJn+9pOqtYqD19kTdS81sP5YUnjhd2Y
-	 WkGBfxccMBXSjxaen0vlxUHMRqWF0Sy6ywPUFQfcywo1pN4ASzSdU/dyYCmDo+OwOGw==
+	t=1793916879;
+	b=g/1cKVW9/wNmAUq0DxFoP9m3TjGdPVeQXCh0ucy95VKECxc3F/cOIUjBR/NZPAkCbvBO
+	 ONA6hRYiqidr9a5wz2waMJN+3JeRPf9zt5cc8iLRIYWSDi6rT2HcFBtVJHW3CHh4k8pZu
+	 EbowM7DEO5Q9pIaCKPmzEQYAVvBTcKnvU2aMKo0iwjkg4HvmH2jhaQjheuSHf523zSO1X
+	 uoo7CU8jrgPY+BTNqDRr603MjllUyRdfVbL1PZDm7QlrNMJCL5qLXEjpNBQv/uGD9w5Q+
+	 uSto0mNSM0EW11MZtHJQoRKEbeJhdKYl9VWgdLr3GY9cLSRnTivgpItG6ITqDlhXMlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793915008;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nnsNMtUi8B/PfO4GG0OW4lr6jLs4u50NUe2xEiA6RC0=;
-	b=eaXvzoqyiCBoR+f0jPBzGX9KQ428npqD2s7gfoAAZby0+JDtyN2kU3Nbw30MXUwutcHa
-	 biy23HSyPb2qDXtCAX2avu5V0EA5FKzY74A3dle++4ESh/2WOwr+3PpGuC+rCNO0nJqzh
-	 InQVF724oMGidILBy1+lzYWigoS4qW438260I/YDRUpSzbsFHWrUFsUDzaGMb+Hl/l20K
-	 aCDKFjuqdNXVpKbrdJAouL4igPR9fk5yOJ9TQIHIxzGCIIKUbvMoVn6tzrcxGL9IHf/0S
-	 6Nlg7wVbN+qZy9tc7vf4cLfMvFXwMovd0xKTKcxgroc09y9YNHKrpLIe+8XTCYLgp5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916879;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=08xVfqwoODhdy7Z5d43JBdvRsvLM4il+VNHhvskDFF0=;
+	b=SLbLGWm1OfpIdzzxf5KyeA7vKoM+57n/qfmfHpqcxjTIoV2JBYYBan5ttOfnF0jaJ7BP
+	 3k5l/IdiAiUv8emtKOxiqdSUnW4Q6mIc6z3EX3kzXz4TnkxphtG1LP3f6cJzZnyWPxm+y
+	 6XgwUOQBwrbHdh6GQfp5wCn8EJt6/ZVh9wsE8frkClkyyEiAp04BlMBNLZbpWDaLnALUW
+	 dVbU86z1HCyV8rlL/iPR8Ga6PlFzhpLgcuoUXeDLiQddrQa713VLdQDTZS2hOkjEaveJl
+	 CJ4DdrnCxI1uc7Y8ZIvco7708H98WT4Sg6lbzkfRW3s03RNiwIjRmD8IQ1Kz1hwF7jA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KFA+ZicK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0B1DC606A326;
-	Thu,  5 Nov 2026 21:43:27 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="Aa/Ir+WX";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B24606A329;
+	Thu,  5 Nov 2026 22:14:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10B24606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KFA+ZicK
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0AE881F0089F;
-	Thu,  5 Nov 2026 21:43:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793915007;
-	bh=nnsNMtUi8B/PfO4GG0OW4lr6jLs4u50NUe2xEiA6RC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KFA+ZicKHpTxqbxZeNU9rKNH0zDIw+G9WkxRcTelADPJIyDG9z+SV38MG0CjPlcEC
-	 1gjbq2m9ysrv8pBHAJrvqPnMERLZq6W4rxcogl2DlIDB44RylaSdblCTSEXNnxfcbK
-	 l3RbrI5Oxv1bkdw/nOHwLpMlw6rPe3TmPXrqXYMaHNImuFIqgFREHKoGTzOn5W2eUw
-	 HnogndejHth27NGEbdc3qPN/i0WWKweuYdEdmiZr5RDjCfk6/mEdy1F9Yu6XlveCU2
-	 QfoEW83U8XIbYRbkOdJsXHQEOAAPFI6k6EpuBWa/BFfpmagRIXSu+HdiZvkzWIUa8b
-	 kW/HsHhM4i4og==
-Date: Thu, 5 Nov 2026 23:43:23 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, Jens Wiklander <jenswi@kernel.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Scott Branden <scott.branden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-sgx@vger.kernel.org, selinux@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 05/14] x86/sgx: convert vepc mmap hook to mmap_prepare
-Message-ID: <auz4e81zm0mTMknq@kernel.org>
-References: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org>
- <20261105-late-2026-mmap_prepare-v1-5-c56aadfbab8a@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Aa/Ir+WX
+Received: from localhost (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id AB48120B7167;
+	Thu,  5 Nov 2026 14:14:16 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AB48120B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793916862;
+	bh=08xVfqwoODhdy7Z5d43JBdvRsvLM4il+VNHhvskDFF0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Aa/Ir+WX1H0Ko9TPtatYspe0gu2F5PzZuWlQLEQ2FqIVIXJDN9GaWZzINB55qH9km
+	 oiujQMpQQ5V3HVkeokWtV9BxZqhzNzSCyqZikhFHzL29NmMHWiJy2opEgOgd/mHMjJ
+	 02rR1s9YNBcScvDQ9JSz+bI81jMPBdlZN/zK5aO0=
+Date: Thu, 5 Nov 2026 14:14:27 -0800
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Yuho Choi <oss.patchbox@gmail.com>
+Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Haiyang
+ Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, Yu Zhang
+ <zhangyu1@linux.microsoft.com>, Easwar Hariharan
+ <easwar.hariharan@linux.microsoft.com>, Michael Kelley
+ <mhklinux@outlook.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ iommu@lists.linux.dev, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v1] iommu/hyperv: Don't free a paging domain the
+ hypervisor did not delete
+Message-ID: <20261105141427.00005946@linux.microsoft.com>
+In-Reply-To: <20261105192738.70664-2-oss.patchbox@gmail.com>
+References: <20261105192738.70664-2-oss.patchbox@gmail.com>
+Organization: LSG
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -102,63 +69,115 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-late-2026-mmap_prepare-v1-5-c56aadfbab8a@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 05, 2026 at 09:05:36PM +0000, Lorenzo Stoakes (ARM) wrote:
-> Move from the deprecated mmap hook to the new mmap_prepare hook. The hook
-> only checks that the mapping is shared and sets VMA flags, operations and
-> private data.
+Hi Yuho,
+
+On Thu,  5 Nov 2026 14:27:08 -0500
+Yuho Choi <oss.patchbox@gmail.com> wrote:
+
+> hv_iommu_paging_domain_free() frees all page-table pages with
+> pt_iommu_deinit() and only then asks the hypervisor to delete the
+> device domain that points at them. If HVCALL_DELETE_DEVICE_DOMAIN
+> fails, hv_delete_device_domain() only logs the error, returns the
+> domain ID to the IDA, and the domain is freed anyway.
 > 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  arch/x86/kernel/cpu/sgx/virt.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+> The hypervisor then keeps a device domain whose page tables have been
+> freed and can be reused for anything. The ID is also handed out again
+> by the next paging domain allocation, while the hypervisor still has a
+> domain with that ID.
 > 
-> diff --git a/arch/x86/kernel/cpu/sgx/virt.c b/arch/x86/kernel/cpu/sgx/virt.c
-> index 6a1933ddc6fc..850990519ca5 100644
-> --- a/arch/x86/kernel/cpu/sgx/virt.c
-> +++ b/arch/x86/kernel/cpu/sgx/virt.c
-> @@ -98,17 +98,18 @@ static const struct vm_operations_struct sgx_vepc_vm_ops = {
->  	.fault = sgx_vepc_fault,
->  };
+> Delete the domain before freeing its page tables, and keep the ID, the
+> page tables and the domain if the hypervisor fails to delete it.
+> 
+> Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU
+> support for Hyper-V guest") Signed-off-by: Yuho Choi
+> <oss.patchbox@gmail.com> ---
+> Compile-tested only (x86_64 with HYPERV and HYPERV_PVIOMMU,
+> W=1); I have no Hyper-V guest with the para-virtualized IOMMU to test
+> it on.
+> 
+>  drivers/iommu/hyperv/hv-iommu-guest.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c
+> b/drivers/iommu/hyperv/hv-iommu-guest.c index
+> 876a22f21f1e..205c642c8d40 100644 ---
+> a/drivers/iommu/hyperv/hv-iommu-guest.c +++
+> b/drivers/iommu/hyperv/hv-iommu-guest.c @@ -107,7 +107,7 @@ static
+> int hv_create_device_domain(struct hv_iommu_domain *hv_domain) return
+> hv_result_to_errno(status); }
 >  
-> -static int sgx_vepc_mmap(struct file *file, struct vm_area_struct *vma)
-> +static int sgx_vepc_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	struct sgx_vepc *vepc = file->private_data;
-> +	struct sgx_vepc *vepc = desc->file->private_data;
+> -static void hv_delete_device_domain(struct hv_iommu_domain
+> *hv_domain) +static int hv_delete_device_domain(struct
+> hv_iommu_domain *hv_domain) {
+>  	u64 status;
+>  	unsigned long flags;
+> @@ -122,11 +122,15 @@ static void hv_delete_device_domain(struct
+> hv_iommu_domain *hv_domain) 
+>  	local_irq_restore(flags);
 >  
-> -	if (!(vma->vm_flags & VM_SHARED))
-> +	if (!vma_desc_test(desc, VMA_SHARED_BIT))
->  		return -EINVAL;
+> -	if (!hv_result_success(status))
+> +	if (!hv_result_success(status)) {
+> +		/* The domain still exists, so its ID cannot be
+> reused */ hv_status_err(status, "HVCALL_DELETE_DEVICE_DOMAIN
+> failed\n");
+> +		return hv_result_to_errno(status);
+> +	}
 >  
-> -	vma->vm_ops = &sgx_vepc_vm_ops;
-> +	desc->vm_ops = &sgx_vepc_vm_ops;
->  	/* Don't copy VMA in fork() */
-> -	vm_flags_set(vma, VM_PFNMAP | VM_IO | VM_DONTDUMP | VM_DONTCOPY);
-> -	vma->vm_private_data = vepc;
-> +	vma_desc_set_flags(desc, VMA_PFNMAP_BIT, VMA_IO_BIT, VMA_DONTDUMP_BIT,
-> +			   VMA_DONTCOPY_BIT);
-> +	desc->private_data = vepc;
->  
->  	return 0;
+>  	ida_free(&hv_domain->hv_iommu->domain_ids,
+>  		 hv_domain->device_domain.domain_id.id);
+> +	return 0;
 >  }
-> @@ -315,7 +316,7 @@ static const struct file_operations sgx_vepc_fops = {
->  	.unlocked_ioctl	= sgx_vepc_ioctl,
->  	.compat_ioctl	= sgx_vepc_ioctl,
->  	.release	= sgx_vepc_release,
-> -	.mmap		= sgx_vepc_mmap,
-> +	.mmap_prepare	= sgx_vepc_mmap_prepare,
->  };
 >  
->  static struct miscdevice sgx_vepc_dev = {
-> 
-> -- 
-> 2.56.0
-> 
+>  static int
+> @@ -466,11 +470,16 @@ static void hv_iommu_paging_domain_free(struct
+> iommu_domain *domain) {
+>  	struct hv_iommu_domain *hv_domain =
+> to_hv_iommu_domain(domain); 
+> +	/*
+> +	 * If the hypervisor still has the domain, it may still use
+> its page
+> +	 * tables, so leak them.
+> +	 */
+> +	if (hv_delete_device_domain(hv_domain))
+> +		return;
+> +
+>  	/* Free all remaining mappings */
+>  	pt_iommu_deinit(&hv_domain->pt_iommu);
+>  
+> -	hv_delete_device_domain(hv_domain);
+> -
+>  	kfree(hv_domain);
+>  }
+Looks good but I think it is incomplete.
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+if both hv_configure_device_domain and hv_delete_device_domain both
+fails in hv_create_configure_device_domain, then unwind code will do
+pt_iommu_deinit thus have the same UAF problem.
 
-Br, Jarkko
+        ret = hv_create_configure_device_domain(hv_domain, &settings);
+        if (ret)
+                goto err_pt_deinit;
+
+        return &hv_domain->domain;
+
+err_pt_deinit:
+        pt_iommu_deinit(&hv_domain->pt_iommu); 
+
+hv_create_configure_device_domain(struct hv_iommu_domain
+*hv_domain, const struct hv_device_domain_settings *settings)
+{
+        int ret;
+
+        ret = hv_create_device_domain(hv_domain);
+        if (ret)
+                return ret;
+
+        ret = hv_configure_device_domain(hv_domain, settings);
+        if (ret)
+                hv_delete_device_domain(hv_domain);//fails here
+
+        return ret;
+}
