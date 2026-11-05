@@ -1,49 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892672;
-	b=T1HeRL3LKJjgH9OWWK2zICG5wBXuvyGrJYEzOP3iUv9Hsrnbs/XXgQsAHoB4xorZhGpE
-	 H3gg3MtfDxZuXI8fIjcMHXfBJxVxmjl3flVHpveDzuTgUObvglIsyA9E5PYixnLt/Rhew
-	 mx7DQST8RjKwH/YLg9xa4q4/65rAOWMhsDomQiwf0EataUyOIpynZfnsJE3QKUkkhKVvv
-	 2/xPK6LcBrMpvglEQVKPjqsC/JVPzQPV69z+BEAa16FbDE58pLViuzW4tDUlQFvmraTra
-	 KzGY1xNzRHsE9HEOVtSfmpXjUWgU4mLFzxQPeOkWMNOtZeTdoaxsSmA2Ne5Q1YHLQiw==
+	t=1793896375;
+	b=VUebB5CwybO8ULf8jYNv3Vnf4cnG1Il+2wKITooDlrFVPLm8piuHcGgd6p1V+O0VuQky
+	 sQWt2wB3BMEh3d+nj2gnPNDgWjax5BjSExvCd4nNicqVFZLdXljT9xvck0IZ4ylwfsSPQ
+	 5vTa2gJzkHrVdgbhIOcrPCJ0mlcPgKP/L1YpXC07sUn8rhQNK+LR2ehGM70HahlfzESp9
+	 tDRfsawzV180yA0OPy5StcpDu4docCVLQpjeg5L8ytlV1X5V2Ubr9GrS0zfD0U63R2iZ4
+	 PpNeIztdLv4PANCK8CZ0t5zKoiwjnQQv0TgvgJn4deuifwiHaGegF/Ua5ABnXXug5tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892672;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=VpzTf44uanY82JK5gvkIQ8PHjT9V0UkQpItWXOxArwQ=;
-	b=JRx+gGbcq9nNMlIqr7BOKJJdb2wP02PoypJt/Hmna54BvarQ7C7+BJJ9biZeU3SKIx//
-	 +GYMQVc5uGE3nqP8qfyFdVEgYwwPySb0itnGsi2dXhWtcEw6ek2RNX90wnB/Ehji6MPwG
-	 XI5P6+54NQ+A2c9PuNMf/cS/zhms0H+EwGtNsChUPoPYumvEm0WpybjeNRRT2nH8uI3sV
-	 /AbBXGEWKv2Vzqw9CV8IhPfgwNfEMh3htleeSLgbVM1lc+whRlQIGO2GmmuXal7xK7KTF
-	 Eg4lKYHBDV4soz6BOG93GzWOiaq8l1V+VL1i04bpq98rEjNjcz4xy+Q4kVNV3G9VZ9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793896375;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=kg5bErG9AdTDiRitVVVlJkekm9pYQshPoKcKiS8xeto=;
+	b=zpTnt6hxcF81V1WUNyt+FTRNuG4W6dP1oGZfPy+2dg0C68NC5kg2/1WzKkogcrmG0ssS
+	 9R/Wx1RHFRnS01y9wb0G68r8YlkYw6WyOA7LCZvnGqYW0Z7/FMe3MlD/PSnDH7aCVNkc8
+	 MObD+RDlQb5LBzfjcrF6+NBg2gD26f2bWbIs1Ivc6z2/Kn7JyP6BVovbLbh66ejsysp13
+	 HP0dBjbO8b389mO1tuhFte44+lch+CrQsGeR0JlfIEndaK9FLwYlQNUOmjDeaFublWprP
+	 zBs4lNQ76pwIh7s+QvJn3gItep/DSB0K7RSjwLPBRYvf1MO2z4oSZPiwD9exod9jtcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U9xgt9wx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R1rSf1o7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2D2606EE82
-	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 15:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2777F606D735;
+	Thu,  5 Nov 2026 16:32:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U9xgt9wx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA5E1F00A17;
-	Thu,  5 Nov 2026 15:31:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R1rSf1o7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CD21F0093A;
+	Thu,  5 Nov 2026 16:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793892671;
-	bh=VpzTf44uanY82JK5gvkIQ8PHjT9V0UkQpItWXOxArwQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=U9xgt9wxphPkAOQgwdIc5hEcxo981ESwIJtUr8qCybOHBu/MSOcREOzhMTNEWoop1
-	 wGoM405Vql0vxNnKCrDEQXS9Fs7EQFZ4TxOLX5XzI2AA4lVIfB8aZPn69FF4lluWe1
-	 /0R8Ctan3Up0OqIhIxWxq3+ZpVe56HauiRiwcbxfGtXr0jH3AGYPtlvlDVD8167g9R
-	 48f/esr+g9R9NcFmBeRkBDcbFi4E3dFPvfLmOnXuOBOUqj40AeKS3Pv1BjZ9J5qdM1
-	 NSTsx3cg9NDPglsgEPghsQ0YWCPn1qfHuSX2QeYyFORk655JvqG/KVlOZ1RKi2J3Cg
-	 KtWdIqaUk9vcA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Nov 2026 16:29:25 +0100
-Subject: [PATCH RESEND 16/83] drm/hyperv: Switch to
- drm_mode_config_create_initial_state
+	s=k20260515; t=1793896374;
+	bh=kg5bErG9AdTDiRitVVVlJkekm9pYQshPoKcKiS8xeto=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=R1rSf1o7yeWlzS7LhIqvjlNIs4Rf6OhQO6DI8S0nmWJ7whO3aE1NptEDEgSV9C92V
+	 I9ZAF0EjAIhUhLqiygNPwIZEzGDRa8+/IHevpDgNQI0LoKdEIdPd+sDmM5HOFcRJGo
+	 JaPkRvCaLdq918Q9xHuWEVFC11mdis1HrX0dFJvLxPOMsWBnVIhyTCMxbgHRbPRCNa
+	 1Rw4G+6+RIglH98Mw9WAUa2QIkEojlI1dlAlYJNAOkwUnhwfjXM6SShddDf2sOhWis
+	 +wEKsa1vTQlc8FAQsWqkyiOijqCjBPcJYsrl8w88wU9VesHMkkeA/rSYNLlaClXs0p
+	 TPfEaKTT02bqQ==
+From: Frederic Weisbecker <frederic@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Phil Auld <pauld@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	linux-hyperv@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: [PATCH 39/47] clocksource: hyper-v: Move CPUHP_AP_HYPERV_TIMER_STARTING post stop_machine()
+Date: Thu,  5 Nov 2026 17:30:37 +0100
+Message-ID: <20261105163045.38862-40-frederic@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261105163045.38862-1-frederic@kernel.org>
+References: <20261105163045.38862-1-frederic@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,61 +70,50 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-drm-no-more-config-reset-v1-16-1f58d1e33380@kernel.org>
-References: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
-In-Reply-To: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
-To: David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1247; i=mripard@kernel.org;
- h=from:subject:message-id; bh=NEEQ2MFcdUzJbtJIPNNe+JcYh9p147t0lW/gPI3Zxuw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlvFjzJyuedIVFiFB+/szb2n5jXlJmPuP84OWakvKqXN
- H65KHNtx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI/03Ghl8dk2xYFzTNYau/
- Lb909fW0zIeFW/Oq7/7Q8Uo7IcnB++JG8LzjdioChiIFQku3CnVsYqxTyPN90WmRXMtq6XjGoPz
- 9Lhn1uRIFsfe/sxhOVai+9rZcYN+GrWs/WuqtEonKFl/x6woA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
 
-drm_mode_config_reset() has a dual role: it creates the initial KMS
-state at probe time, and resets hardware and software state during
-suspend/resume cycles.
+Between CPUHP_TEARDOWN_CPU and CPUHP_AP_OFFLINE, stop_machine executes
+all the teardown callbacks while stopping all CPUs in the system. This
+doesn't mix-up well with running RT or isolated tasks.
 
-Since the two roles need different behaviors (notably for objects like
-drm_private_obj that must persist across suspend/resume),
-drm_mode_config_create_initial_state() was introduced to handle only
-the initial state creation at probe time.
+In order to transition smoothly from global stop_machine to finer
+grained synchronization between teardown callbacks and the other CPUs,
+a new stop machine post function has been introduced to be executed
+after the main one with IRQs still disabled while other CPUs can exit
+stop_machine().
 
-Switch to drm_mode_config_create_initial_state().
+The teardown callback here simply performs timer and IRQ disablement,
+both of which can run concurrently with other CPUs.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Move it to post stop_machine() accordingly.
+
+Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
 ---
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Long Li <longli@microsoft.com>
-Cc: Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
----
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ kernel/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index da399cb951a5..64715cc8bdee 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -337,6 +337,4 @@ int hv_drm_mode_config_init(struct hv_drm_device *hv)
- 		return ret;
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index 93b8498e26c4..b49b67ef5ecb 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -1275,7 +1275,7 @@ void clear_tasks_mm_cpumask(int cpu)
+ static int take_cpu_down(void *_param)
+ {
+ 	struct cpuhp_cpu_state *st = this_cpu_ptr(&cpuhp_state);
+-	enum cpuhp_state target = max((int)st->target, CPUHP_AP_TI_GP_TIMER_STARTING);
++	enum cpuhp_state target = max((int)st->target, CPUHP_AP_HYPERV_TIMER_STARTING);
+ 	int err, cpu = smp_processor_id();
  
--	drm_mode_config_reset(dev);
--
--	return 0;
-+	return drm_mode_config_create_initial_state(dev);
- }
-
+ 	/* Ensure this CPU doesn't handle any more interrupts. */
+@@ -1303,7 +1303,7 @@ static int take_cpu_down_post(void *_param)
+ 	enum cpuhp_state target = max((int)st->target, CPUHP_AP_OFFLINE);
+ 	int cpu = smp_processor_id();
+ 
+-	WARN_ON(st->state != CPUHP_AP_TI_GP_TIMER_STARTING);
++	WARN_ON(st->state != CPUHP_AP_HYPERV_TIMER_STARTING);
+ 	/*
+ 	 * Invoke the former CPU_DYING callbacks. DYING must not fail!
+ 	 */
 -- 
-2.55.0
+2.53.0
 
