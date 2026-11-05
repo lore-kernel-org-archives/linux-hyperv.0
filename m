@@ -1,49 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908383;
-	b=N14PPXqkUTiTvoBJ5oJAXf+0Dcy0Wjl+XFE4aeAScbtYKhCtqZpn+/rouzV+gqO6fXLQ
-	 QLlVSb/FrJJJ/l3YPJ164opxKru6MxGHUJ8gFNNdRvUAZYL8ROF+33Giiq94oUmZQQUU2
-	 oEFKj2FLr6hDTKTqGX/XRtiScXKZffee7LTXc17vsKsaMKIEYIA7juvi1M4VuywOHRqJx
-	 FVCC6Out93geXqRrd6VtxtgwIAcKvaQUoQa4BguESv+FuZy8b0LF2IE9KupatYQHZcWiV
-	 BRRveUPf+jE0ukVcGaSIIDPj9uWoPMrknADqBOrja40wSwOvnabEPoLq+NFKQV6YOmA==
+	t=1793910663;
+	b=C2LOb6fM03DyHKBDen4qpcjvtM00aErBuywkRg5UJpqc4ueNkqDtbG2fsskCDbJgSd+P
+	 fpUVsQxeSR3hRpEfKxWZkkcWQfOvhDPtM0FXtaJuldUfYClf/3hXuEkzv39Hr0asV+S+C
+	 JrObXzO8GlUVkPO/ae4SBIRBHa3sdGi1mWMgM7gPx7fsVDyK1nQga4+3kzUHp5pKDdwXR
+	 IugjD1INqs4k7UQGdW1VAHCo8bEcN5DhE/XuvjimoBUjI0A6eRFTnMoeDbNqnoF7WOih1
+	 vcFNAOd2gfT4G6zkL+EFD3qc7BS81tI7k2mIbWuAFGW0cR8Ys0gvszgqN8ya3kRlu5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908383;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Cc:Subject:To:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=U1Jdue00BGFqywykSunZ46/p5KrmDrwoufmlu4fOFFU=;
-	b=hxWXnPcaj3jd2FBFmNQfnLw9qxyMdwLuNMIr9TxWSJ/hWbl6Rwtdr5YkI1FAZgHqs00t
-	 +LgP60OAJnROtZvCJw9tb6twmp1glfnkXVZ028C9bzh74LV60SyFbSqtDXSInsmuDKVFg
-	 qx0zkhhGa6MMz09xJt2wz6ygu1F/rS8ujH5U/AmLoXSrurZwjyNXQKdWNegMOEqr1IHKV
-	 uZS7zuuFzJVPN0mI8JYpppx2VtkYNdIIwml78paxG8mRCAByDoDEu7Dq3rOk7Ip/qO1vu
-	 krPsljAhNnw9sUeOV1hMUgY4VrSHkXjTVdea4RncXGRpvaXLxqjCrEzfGA1yF4v2KZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910663;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
+	b=GtBoNTlEs145OmR3AySYEDeDn6KnNh0lk7rjoQUd9MXBXDg/dy7d3hNGk9vRcRNlK77P
+	 cs1yaKKq0GCWG4lYAVxKsEQur9L49YSufnj7QPxuH+OFmRgrOxdsOcbCmCM4TtDa2u/q1
+	 +q1YBMdj0hJ73fIyTH53SKb2kZHyT9jXv6zr2TwLVUlDnl4QjbVpb51rHOE9GUjnDXLF8
+	 HklXmwwkEU+p5FrO3sL8d/DyA9RSo8cv65yzXFEpZNO6hMqr6EvovONcN4yClwAg63JME
+	 ydLUSglJh04YdtO+H080tifZqfHRQcOg0pNEQPSxxKfM5HxiKD+WzQ7vRnyLJq+uDvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="U/9eZprh";
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C3A606A329;
-	Thu,  5 Nov 2026 19:53:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71C3A606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=GB4Vyiwt;
+	arc=none smtp.remote-ip=209.85.222.51
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6E606A32C
+	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 20:31:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0D6E606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=U/9eZprh
-Received: from [192.168.166.159] (unknown [67.168.101.66])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 925BD20B7166;
-	Thu,  5 Nov 2026 11:52:46 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 925BD20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793908367;
-	bh=U1Jdue00BGFqywykSunZ46/p5KrmDrwoufmlu4fOFFU=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=U/9eZprh3TcyRNg4Qz70hF5sZLajLC0+MZyi0iUbPi1OEgI6Ni78c8p9K2x5Qpt70
-	 v2E1kImuwPrbu2NlKO8zFkXcDcDInrH2PDLWiita7wac4SZgag23Z4i5AjhE0nx7uW
-	 ZWWRNpvFT1m4IpYqqmKA6TG2Kc+HRbe8Wpjedcck=
-Message-ID: <b321af97-a39e-4b26-9dfb-e47e5d1dc044@linux.microsoft.com>
-Date: Thu, 5 Nov 2026 11:53:01 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=GB4Vyiwt
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-99071945aa7so1215720241.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 05 Nov 2026 12:31:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793910661; x=1794515461; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
+        b=GB4Vyiwt5uW0V8lse1c3JVTIcjdYwCfzDi7ms6JirgIiV1XZ5xmCWALwaQI+Z5DkVl
+         zqeI8t7tQbjcHdnzqj81OD38fGa0tJr/VDd51xozJWTYgz2a6kpRKU39Z7j5tFWNdr3h
+         IlWW6rRHz35ntWDyTUhWHU80NWcqVivyAFXGbTt/s/XKSQp1WCy0b7a/t95WoCEvr32Z
+         mBeL4GCHxWyznYCdN1cGfUJXo94un7iR8QgFQYTetODBOB+6GZkK2m9qjnyBHlZnnYQ5
+         OCppFK1fTM3uS6RN/r6T0SWssQMIrs7tA5bt9YnfILWKR2UTcTHFIuyOTD1gwFZuhUxt
+         Mt8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793910661; x=1794515461;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
+        b=2X2J9PEC+UYB6Lry7rlEMLFRnZF6fkgSJeqfpKul+d6/0BDHSlkFCyEa4bgVNa30Yy
+         RsEPx/YXQmcjzeBYn+zU9N2WsNj3qxfcSdtXnD2EBEhdcdgEKH8U2EFAvlQ1wf2GfiDk
+         tEcZpQvRt2e+IIsIhVm7tpzaGC9STrqIRvJHERB+CEefdqNNrGuDpDWvZsgdt4c1XXon
+         qL1YIIFfG84BOeSmS3Pj40Bh0ntKT3krz7PmJtsijNUKQzC+/cDLv14FwBsDUeiZbipS
+         KYFsE3Fwq8bAdO4qxXoIjlPwOmFmX7bTksL+0NovkzwfCMhseSZSUxhYXo7MmdR1J2Rr
+         WLrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxWJ/6nxl4hb3F3OSHen/v26xDbVyL2eGM9+HeRBjWqXMbeOUIpaIzhycBoe/eaiINJgKDuaGhUtCy27dk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+UDAoQklVUv/PPuJEvdhN7wr8vClYCht9ayBZ0Eb79qSwjOeHN
+	Hf7Dfhs7gwFS4ep8O6xePGH7N8CQJYrwGdf425DUeXwemCHM4VeYu+r11WADjS5WnFOUVxnpedj
+	tiXLr
+X-Gm-Gg: AYBFou2UblqrMC2ItD3mn2CzbDOOOsQnerFXvQQSZPx153hQYEA00/dMc02VSbgtrbx
+	YTx5woN0zgD39kj93BGhVNDzV3rLoRndedt38XqEvOgOFBe31RLtQyDCNJRFiQxh54ellRclhay
+	abh7csBhvuj/ePzV39ZWk+H6YiKtLgnxRKNrGsd1lK6KYr5lF8rg6C+XBH+wsRpvMeUoZLYMlnw
+	CQh+J5D2+5YBVbIOy4qWKgc/E+DL4LW/0OKDJhhzxMKuDia6ual0ZiZ96a+qJOztSWHqDcUiBYW
+	ov8wnJhzIHd9T6MJylZIGB6JogH4/94Psh3FRIQhOElLgbzEvs3COWsbpLWPVk+pYdXloJrqtu9
+	VvG57ZM33rsalQ00r1NTs1Fj8PuHWoTXKA1cVi4ikDVDWiLtpHkm/164vln1FF68N4QbEpJFYT6
+	cnGILcTI70S1t6j1LUTqkiNxQSlv6ebXDIWuX2eYuKDfN4J3PeW21JtXk2oDW9LiHWa266951b0
+	qeRZDOlggharhh8YnbLSsnNDOiN3+51o/pfKaDT+dEA1YTDOvN0jjVfNI1gsjNt8LOwlukXhtA5
+	UmV8CTVvVxnpdq+aZ1o3jbN1LUCaXKH97RLTbah4W5K5Oz8pF1/X2lRFOJH60qyenRrlOBb8Kkw
+	dBIutDOALpA==
+X-Received: by 2002:a05:6102:e0b:b0:7d2:7266:2c8a with SMTP id ada2fe7eead31-7d2a165f989mr692943137.32.1793910661522;
+        Thu, 05 Nov 2026 12:31:01 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fd3e101sm5070410137.3.2026.11.05.12.31.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 12:31:01 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xP46u-00000003hoW-1qsZ;
+	Thu, 05 Nov 2026 16:31:00 -0400
+Date: Thu, 5 Nov 2026 16:31:00 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Yuho Choi <oss.patchbox@gmail.com>
+Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Yu Zhang <zhangyu1@linux.microsoft.com>,
+	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>, iommu@lists.linux.dev,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] iommu/hyperv: Don't free a paging domain the
+ hypervisor did not delete
+Message-ID: <20261105203100.GG663069@ziepe.ca>
+References: <20261105192738.70664-2-oss.patchbox@gmail.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,50 +110,19 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, easwar.hariharan@linux.microsoft.com,
- Robin Murphy <robin.murphy@arm.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Dexuan Cui <decui@microsoft.com>, Yu Zhang <zhangyu1@linux.microsoft.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- iommu@lists.linux.dev, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] iommu/hyperv: Don't free a paging domain the
- hypervisor did not delete
-To: Yuho Choi <oss.patchbox@gmail.com>
-References: <20261105192738.70664-2-oss.patchbox@gmail.com>
-From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20261105192738.70664-2-oss.patchbox@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 11/5/2026 11:27, Yuho Choi wrote:
+On Thu, Nov 05, 2026 at 02:27:08PM -0500, Yuho Choi wrote:
 > hv_iommu_paging_domain_free() frees all page-table pages with
 > pt_iommu_deinit() and only then asks the hypervisor to delete the
 > device domain that points at them. If HVCALL_DELETE_DEVICE_DOMAIN
 > fails, hv_delete_device_domain() only logs the error, returns the
 > domain ID to the IDA, and the domain is freed anyway.
-> 
-> The hypervisor then keeps a device domain whose page tables have been
-> freed and can be reused for anything. The ID is also handed out again
-> by the next paging domain allocation, while the hypervisor still has a
-> domain with that ID.
-> 
-> Delete the domain before freeing its page tables, and keep the ID, the
-> page tables and the domain if the hypervisor fails to delete it.
-> 
-> Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest")
-> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
-> ---
-> Compile-tested only (x86_64 with HYPERV and HYPERV_PVIOMMU,
-> W=1); I have no Hyper-V guest with the para-virtualized IOMMU to test
-> it on.
-> 
->  drivers/iommu/hyperv/hv-iommu-guest.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-Good catch!
 
-Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Isn't there a WARN_ON on this path? I recall asking for one ..
+
+So long as that is there this is the right way to continue
+
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
