@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.43
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793920342;
-	b=U7SLvuvVp1San5Ks76zNQG9p/lBBRjiQYfsnilk7sxG9VR+EltJN9FISzs1fK5PszTv7
-	 FgzxwBCQxsjIHpFQ3lvggzPjJua70066NoJfFwQiTQZ+YmVi9SJfuxQEH9DKE6x9/nogO
-	 tlL5BRlwFzY7WZeWGH3fuheslKUSsoDIa362pJbrbgRLuQOWH1vuYebVbOEMGYl5NiDcR
-	 5IXHJPTPiKBamNV3AXWt2MmJhLOiuod7ne8+FTvJqsZyih4gfhkORnOEytrj3VriVzI6c
-	 6aKwaQzY+hPipu8B43ZIL17dLcut8e8aStghwHJ849zIYpWRQAZlns+gF1mlz0S+AnQ==
+	t=1793920457;
+	b=f7owtNzji+wtfEBFO41GalUDDAv4IDvuG1p1amulPAMz4QmY6XkQWWU+IZ9K4EXMan1I
+	 pN9EISdZZp4o3T8Azu/tojdlGGq0OlMEVMHLVvls8nwv7YaqPHLeJOEpVuCAG+ZL04n5o
+	 fwj/33U1ZMHaFzkJfDHYZKJ+g5CQHDgP2d6oYES7oQR4+7CC2GSwfBSFlCfHp0qaFLG63
+	 QFs+TJEewqllQRHo4G4dfji4E5BTLfNF3GtUsW5HtLU6cQP4yRDL0yBSQx+L9w5d7jkRx
+	 WPvatvygY4lewy3AdIf/Mt095v/mN9VhzKEA/3RZL6LwSFmAn4wku5L7DulPWzxadsw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793920342;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793920457;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=w+g0xKR97zcXC//9XGcArRTzIRGbaLo0LA3je3jFgFY=;
-	b=qTR9QVRggDl+OOmYEmkMjMTGjUzQRZoY7wQjCksqrV5Vo0DgnuFNBl+rXINmin8KVEqb
-	 tBawecdV+BXRuDtjao5aePRUSDxNfch3/f0pbw7+UM/mnzmNRyDETVgfiCdiFhKK7iroS
-	 mrr0vPuTvLfKWDBPtPfvvkPwsyDDcWX3JM6G5d8O7UDSYrFO2Jv4xjwdGdPzBm9KfpRe2
-	 1xCavCFc6bdfnWq3dUS60LjARnKicXIiIi9uEJ7RC/8Ln59FYWvcHgfqWT44WaMbir/rg
-	 vNjPlPZGpjovCIyx/uBHUZ7UC5P5pn2ReMckMjzVknZXHQkAyessecObgFsggatBvoA==
+	bh=mGiD8zQqMuzCkGXAZBtgumh8HlT9rNPiWNa35MXqkeQ=;
+	b=eS8NoT2Z+OmAZj/8FeBrdBO8baJ/1xPEl2KowXe9XoItlUDgGauHs//+NPSxYAvp7JUz
+	 aTMfgzo8GNwRC383Fi+6PKjOeg8ZxhHgv5sTKonpgYIal1OFL0Qbu0bgV1+8WOfB1u8H/
+	 sszGtvPWzb5+gGdtJfBpHGVHzWXDUFPBl1gtOukZVG5Uvx3Nek11fs25sRUP5ADwN9Xyi
+	 Ltotq6WYoglDrwXqsdpeF4z0N54RMTo1XnWORITuoc8eR16fmoILO+cOHlXoi+k38zFZq
+	 2Z5uMeyiu4HI2FLWTPSqphgBIFXcx19TQ2DM95ya683/B5aBNt++K8WVNCazSSZZneg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paul-moore.com;
 	spf=pass smtp.mailfrom=paul-moore.com;
-	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=ePSbskAw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.179
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=IU6i1Fwv;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.43
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E13606A326
-	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 23:12:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8E13606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A81C606A31B
+	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 23:14:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A81C606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=ePSbskAw
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cd6a7e1f4e4so14534a12.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 05 Nov 2026 15:12:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793920341; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=IU6i1Fwv
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3acdcfa2bd3so60762a91.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 05 Nov 2026 15:14:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793920456; cv=none;
         d=google.com; s=arc-20260327;
-        b=NultXg6v1r6V2hw8sy4iHEQFlY5xYgk26kvIdVGSAscNObKLY3zVNCeDP+3JDRM0qO
-         N+zfXz5+a9tueXnF/DnW4EtaK10nv+sIcWQtGbG2/IskrbqCKhhDUytljaorwiqpkqTJ
-         SBknfueAfE+Quky3mWcghCHvfoZ/6extfWjoI9VYZSMPOSZQt8kKCwqp5YZSg+LF99A1
-         XytFQJzh+EFlUyyvBj5ecXAWloQp+PnoMr+BF7EM63XRp9d7HcXfr68WJyYvRzSN3Kxw
-         UBxk/XYQYF6s+vcr6L2muAntyVU98ABX5CaL9A+Q3h5FKDRqV+NSA0tMkXaFgEnU35Iy
-         AU5Q==
+        b=Eb8XYQ+zyjEg9uskvhtuOEixFDSRtwUvnQvA1TahMjIp3lNX0QyzrQCKx0dg4W7Mpy
+         SppWmv3q/3bUOHCmAoaVhy/o09WeA/3O4oSQFzFgWj+58qmkMKobStadZ/EDs0xyXsPv
+         oZJKgYCWU8akGGFOkA0789WGNWnT77YY8VkzfsQZswnoGq7c1vOf2ICArx2jPfckYXnS
+         PkrWBBIAzpxInJjdKZMmnplwZNMWPhUzPXhZ3dkCZynnHRTijoHEZvyAI7EmwCnnu53p
+         5wEPZBiEkV+m5kYJ2TfIj9SoGoY59NaHpv62pU1iWvHKn1V4DxtH2DgFTnAQGQ+csjQi
+         RvJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=w+g0xKR97zcXC//9XGcArRTzIRGbaLo0LA3je3jFgFY=;
-        fh=UL8CbqutwsvatXIX9xDDlzP2QPRkbD75Yw52sn/dB04=;
-        b=qEeUvwdcQxJN+vKapV5WCfSxp0E4uOvSETtT+fGpAZYYsQtfQ6Vf+eHwT7tPE0nPzX
-         /DM/FZpuEY3WPmHsruuBXPca3F5tqBrm2AMbiFp+8t9mTMe2otWPZ4mLvirFlemrexNQ
-         yBRt/tLJJmC/gbaqFUXpyV39x1bsQNngwrUZZtqV2gksrjSuIZD1Bp32rSBFq4M9D2jv
-         b0Edgqvapr4uy7MmaWd9yKRvlcV9bcJB2dP/llcbgSRY6n0NfR9PKNZTJF7VVmyd2ZY6
-         jy+JX8ob3xl8uekKwtrlDzuCpqSRQ/+MFqJ+KmckB7UMYLMrrnnBkwhxu+0fmVxjDMnb
-         BxaQ==;
+        bh=mGiD8zQqMuzCkGXAZBtgumh8HlT9rNPiWNa35MXqkeQ=;
+        fh=SSFPm0QKQiqwtwSnKvpBLw8qk0qadieZEpc2t3DFQRg=;
+        b=XWBCo2Dyad/L29Bt2XiXHVxtwfeY59Jw7vfkIohhcfH8RFA+ILiPrj3BOtpOeHZrCo
+         RBSCd2i0w44ivDPpf/CM0BQ9B8jmzQv/EJrTfDPOUt7f0fM2hiShds5fir3q7Z40tpiW
+         ASR7kVtq/oL7+ww/QaygO5ii9ydWaH9DUvTg5kJLIShth/n221efTiVNhZfsYHqQCYzn
+         RlDCr3pvJCO53v4reOcAncTIwkOtkrbMdPyia+3YVINXtwyzyFvl2PvURJC/k+fVdWYC
+         r1hohIyN44HLxauy0DHmTMQsKyb9KV6medUY0rdseKBr/x5PLJthBsCON0U10uRfJLU6
+         gagQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1793920341; x=1794525141; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1793920456; x=1794525256; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=w+g0xKR97zcXC//9XGcArRTzIRGbaLo0LA3je3jFgFY=;
-        b=ePSbskAwea0d9B6NpBdXuFYsWvLDCToKGcxFrN9C/fQLJKxAOsbctr8qBrrZUslJXJ
-         9CLcMCSIkKD7ZW5JSZB/FlpnXL7wVvbFlxAaV35NsJbH9Ct+Vj1AE0PSCxPZMXuxmspf
-         S8DzKorUUKYgddL+oYJfDiSPHAXfQ8DdRb1gIJCpXWqjafW5TeuSLk2tBK8Xu5u2Toof
-         wmqoUSerZIxxVmbDxgyvtDxt3hKRgQ27SfmnssLj7BFyrZUgbmKG7qeTDPokQzsw8F3e
-         sMOi8Cm8Fp7SxcfGGOrWu3vbz980QOeeJXGWbY7zrPoyxcb1MpuMc94aw2AmHxsi0GQi
-         jm0A==
+        bh=mGiD8zQqMuzCkGXAZBtgumh8HlT9rNPiWNa35MXqkeQ=;
+        b=IU6i1Fwv/0w/cks1e2nfs6t6sk022zL/8GvQwys2lPo33xKyfU4+rlcYd/DQAZEHG/
+         pOKIazGTVuNB5nr366kMh62Z8mKuK+0wykvjpk6nMnF62dQEPqXhVYv3AiAUQh2yheQg
+         Wv57SCnVaPWXfP0Spf5ZrgQ+6Qros/0dGKzT5Ct8KPvTnGxmERS9srU07KlGSKT3u7rc
+         WSDGWK1HJ7ZHGpFoQ0kLcdKEj3NsCe6oNqECA6Dmye2YgKsYtmlI/U8g/CwAwltsgKHy
+         7lk6f9CpVk0uzXD9qAsG8lDByv90XfisBUHNR3hzhw22DDDhGO8biMGoTBxSg1pPVUNx
+         pPJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793920341; x=1794525141;
+        d=1e100.net; s=20260707; t=1793920456; x=1794525256;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=w+g0xKR97zcXC//9XGcArRTzIRGbaLo0LA3je3jFgFY=;
-        b=PYUsewDBqxzra5LUYmMt0G2+jwWLTQC7UgxGPFsDpHHlU2keBAeQN0dPq+Ysw1b535
-         RBcKQXjGMvft8PdGNLdx2A5jV6q55bOeqVNngj9qWncOy9IQY1+RE/aTEJm9J4DtgjRp
-         307N6BfDH/8Shl8lJ5HB7fu3quW/qgNhyNl48BvdOPeAkUoKqtiZryFdXUeqaz4K9tyB
-         GuaohvDkUiBoG1shTalAenLF0XyFEhu1Enhc/EyLJFJa0YQf3CmpqX5WecnRtb+lS0Nt
-         8rfEJvyNRXZXfB46L/HR2PHaLf/ZLd/fN19D825VAAR+BIVGqgPCa0L2D2CD79Advcvn
-         0h6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxi6fP64t7r29anl20Tbqolk+aDwaTxUFaOrhQipjLfle1dMKYOXSvfZg+X5RCrSK7Z+ZHdfzPFGBPRInM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Mx4YY+9kJM0TG38grlnV+3czuyU0ScFURGFXmnsBR6Wwmb5uJ
-	yUWBNFUhhv8IDlFLYy4LbKOA6weTo9i9PMNpUoLIXKII8yxRaUhf7yQz3ra3QjCyJlqEERSqNBi
-	53emOZSC94RfgMQC9wOv9fNxQujfMgCwr1CtTxDHW
-X-Gm-Gg: AYBFou25uqVU3ZJ4kQRMNw0Y/4tE0wBdj0pvDwzA4PjEXsB5LwZexvlUJsbLoOVJY59
-	j+CWX7wTmFOCSslaD4RwuKOFfUjsxg/8wQHCSo5suVVHqp2Y8Tg7S01kMx+biMC4mF2BzElwzyZ
-	oSHYA5OrhkYN6WTtW8vRCr4N2v7kiZRjiVBfILVq5DmZ/hDb67k5l9J6oTxCVGwuj/rcMH+wOLp
-	dH9J09gXi4K2zKWIoZVshHTtbHwXw1jtAx5ye29caHBIyZlAxfk/M82ml21gRnrekEDU6z6uZGn
-	V9WW1M4R6M6dcGzYiuLmdJG1uvR88V/9MHdoWlCivb/hMy0KmPeMDdyeFTZrKT64CwOlfKGC2+u
-	RVmWF6t18yCrc6iCYf6/+MRxJwAp8MSbnswnrGU2aepQoyV4QLCannnOjXWqiT9vsjApj
-X-Received: by 2002:a17:90a:d88f:b0:3ac:b867:81df with SMTP id
- 98e67ed59e1d1-3b0db6fbe69mr555739a91.39.1793920341210; Thu, 05 Nov 2026
- 15:12:21 -0800 (PST)
+        bh=mGiD8zQqMuzCkGXAZBtgumh8HlT9rNPiWNa35MXqkeQ=;
+        b=XPkh+xzcrIzlbWYA/i0tZA1eu2284l3WyEH7SIEKFcanWIsotG7YVyIx8mALctgwOR
+         YANRKda5lmPxKnjy8nyLTS9y+O4If4CtYxfkZL+KrS41Z4HK1QApzOiFrj4r2lJFAgTd
+         Th9Hb/+dN3+iBCWslNN6cAcg7CxOAa+Cg+57nI0TH/veVuNAxc6Hwcv2MBZGXIwXvyLC
+         cyyHNplxBgkOcj5/EX7/H4ooUYY/ldDi9xwJMK5aulamTvKLmm2KiAFv6nApcJh8K/rW
+         3iUXVPLNGv8V9IU2nXXZ0JJ4JIolRuOekkSFW7TEB/yYvI+9MpbOjKn8XQrH8g+QNgmc
+         toIg==
+X-Forwarded-Encrypted: i=1; AKwUvBwu9/yDppU356JWDUl4DSxcLZqyVh6zAYTtx8UX9D9wyQ4nMOqvkCdRf/vkGL/wegmDSARINblRusJ6BrE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/yVUbMeDwI8y3POtPqnyjHFUguW96uineOPVkxByuGwwBL/MRq
+	AOHBS+K0Gjyg/CA3OHm9+3+cBkPs2NKwo12Ow4StECIjWGyyhmDlAJnX5St+Ij9VrFe1CaPGzhG
+	nKHrWC6GTSpRLgvPyinl9Q4AMaSOUwrxlFlZ1VbXW
+X-Gm-Gg: AYBFou13m8OGwCYxXgfjBP9EulmNLIo5g7WRiwB02xwV+ati+vGMW1LYpnIzfhGMpR/
+	AGmmA65ryScA2qg3U7J7knka+nWhppqWKAkOuwpRD+ZeQr1vFMuNXa4VYm0hQ2AMmMkYlr26cGx
+	BLKDZ7Jd2LmfbhjmArRlzDrjgBTxu6uOcHjmTpuWTa5y69wVSVgtnpgc/bfnt1Rn40PZM9uoS3z
+	zNVJ1Z/gBVMGIhFu0bywLnvw6OCvfQmSmojL+Cfq/9APjEW3CXbPJogrGhmwR7beSLIFs6eJXjw
+	azgfBqivSsfi0QY7cW4X1rDxXpUXsval24j5B8dKdQ6LIH2iSfH0A7+FuyR7k4iisFRw/DA6GO6
+	A1LT7god/RQknd87POUAd2k66ZyR7+1zNsUzqSaf/K6WEffgcSvRlssahatm3ct1iw80O
+X-Received: by 2002:a17:90b:48cf:b0:3ad:a462:f07f with SMTP id
+ 98e67ed59e1d1-3b0db6e8ca3mr534231a91.45.1793920456567; Thu, 05 Nov 2026
+ 15:14:16 -0800 (PST)
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org>
-In-Reply-To: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org>
+References: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org> <20261105-late-2026-mmap_prepare-v1-7-c56aadfbab8a@kernel.org>
+In-Reply-To: <20261105-late-2026-mmap_prepare-v1-7-c56aadfbab8a@kernel.org>
 From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 5 Nov 2026 18:12:09 -0500
-X-Gm-Features: AclHuK9SAmQ1s59IzUj_GoyUW49QmobrDei9zDR78OY4d10Tcv8mWs8d-l1JUg8
-Message-ID: <CAHC9VhQvpFeEJaEyPDaqj8_S752puSaNe0Rn-hxjh=ugCoFsxA@mail.gmail.com>
-Subject: Re: [PATCH 00/14] mm: convert further simple mmap hooks to mmap_prepare
+Date: Thu, 5 Nov 2026 18:14:04 -0500
+X-Gm-Features: AclHuK-Yq9Ya_gmjsTlhf760be1vg51BQVbAOtNinoyo6VpZvAmG2k73A1wV2Mc
+Message-ID: <CAHC9VhQcmX09Do8BmY-HYJEWKiw7Tf-ZB=EEr9K6t5dBzk0SSQ@mail.gmail.com>
+Subject: Re: [PATCH 07/14] selinuxfs: convert mmap hooks to mmap_prepare
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
 	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
@@ -144,64 +144,27 @@ Cc: Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 5, 2026 at 4:06=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
+On Thu, Nov 5, 2026 at 4:07=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
 g> wrote:
 >
-> Continue the conversion of users of the deprecated f_op->mmap callback to
-> f_op->mmap_prepare. Keep things gentle this cycle by targeting simple
-> cases.
+> Move from the deprecated mmap hook to the new mmap_prepare hook for the
+> policy and status files.
 >
-> No functional change intended.
+> The policy file only sets VMA flags and operations. The status file remap=
+s
+> a single page, so use the PFN remap mmap action to do so.
 >
-> Build tested on x86-64 (allmodconfig, each patch individually), i386,
-> arm64 and ppc64le.
->
-> <<>>
->
-> David, Andrew - I wonder whether one of you guys could take this series
-> through your tree? Since it's kernel-wide it seems sensible to take it
-> through an mm tree.
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  security/selinux/selinuxfs.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
 
-Granted I've only properly looked at the SELinux patch (7/14), the
-rest I've just skimmed through, but these are all independent patches,
-right?  Is there any reason why individual subsystem maintainers
-shouldn't just pick up their associated patch?  Yes, perhaps chasing
-down individual maintainers is a bit more work, but isn't that the way
-this should work?
+See my comment in the cover letter.  I'd prefer to take this via the
+SELinux tree so it can be included in all of our SELinux testing for
+v7.5, but if this has to go through a single tree with the rest of the
+changes, here is my ACK.
 
-> Lorenzo Stoakes (ARM) (14):
->       xen/privcmd: convert mmap hook to mmap_prepare
->       KVM: PPC: Book3S: convert spapr TCE mmap hook to mmap_prepare
->       mshv_vtl: convert mmap hooks to mmap_prepare
->       vduse: convert IOVA domain mmap hook to mmap_prepare
->       x86/sgx: convert vepc mmap hook to mmap_prepare
->       udf: convert mmap hook to mmap_prepare
->       selinuxfs: convert mmap hooks to mmap_prepare
->       xen: convert xenstore interface mmap hooks to mmap_prepare
->       soc: aspeed: convert LPC and P2A control mmap hooks to mmap_prepare
->       soc: qcom: rmtfs_mem: convert mmap hook to mmap_prepare
->       tee: convert shm mmap hook to mmap_prepare
->       misc: bcm-vk: convert mmap hook to mmap_prepare
->       ptp: vmclock: convert mmap hook to mmap_prepare
->       vhost-vdpa: convert mmap hook to mmap_prepare
->
->  arch/powerpc/kvm/book3s_64_vio.c        |  6 +++---
->  arch/x86/kernel/cpu/sgx/virt.c          | 15 ++++++++-------
->  drivers/hv/mshv_vtl_main.c              | 14 +++++++-------
->  drivers/misc/bcm-vk/bcm_vk_dev.c        | 20 ++++++++++----------
->  drivers/ptp/ptp_vmclock.c               | 19 +++++++++----------
->  drivers/soc/aspeed/aspeed-lpc-ctrl.c    | 20 +++++++++-----------
->  drivers/soc/aspeed/aspeed-p2a-ctrl.c    | 22 ++++++++--------------
->  drivers/soc/qcom/rmtfs_mem.c            | 22 ++++++++++------------
->  drivers/tee/tee_shm.c                   | 14 +++++++-------
->  drivers/vdpa/vdpa_user/iova_domain.c    | 12 ++++++------
->  drivers/vhost/vdpa.c                    | 23 ++++++++++++-----------
->  drivers/xen/privcmd.c                   | 11 +++++------
->  drivers/xen/xenbus/xenbus_dev_backend.c | 14 ++++++--------
->  drivers/xen/xenfs/xenstored.c           | 14 ++++++--------
->  fs/udf/file.c                           |  8 ++++----
->  security/selinux/selinuxfs.c            | 24 +++++++++++-------------
->  16 files changed, 121 insertions(+), 137 deletions(-)
+Acked-by: Paul Moore <paul@paul-moore.com>
 
 --=20
 paul-moore.com
