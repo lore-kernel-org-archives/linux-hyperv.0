@@ -1,106 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793910663;
-	b=C2LOb6fM03DyHKBDen4qpcjvtM00aErBuywkRg5UJpqc4ueNkqDtbG2fsskCDbJgSd+P
-	 fpUVsQxeSR3hRpEfKxWZkkcWQfOvhDPtM0FXtaJuldUfYClf/3hXuEkzv39Hr0asV+S+C
-	 JrObXzO8GlUVkPO/ae4SBIRBHa3sdGi1mWMgM7gPx7fsVDyK1nQga4+3kzUHp5pKDdwXR
-	 IugjD1INqs4k7UQGdW1VAHCo8bEcN5DhE/XuvjimoBUjI0A6eRFTnMoeDbNqnoF7WOih1
-	 vcFNAOd2gfT4G6zkL+EFD3qc7BS81tI7k2mIbWuAFGW0cR8Ys0gvszgqN8ya3kRlu5A==
+	t=1793912762;
+	b=eIFvOmD50+bHbXC8za8CgL3Oaaqb89XRnfCubynQH0AT6wMT7VWHHLl6B6lAxXscbj1b
+	 qp2J31SpqX1bgYBVBNoc51MIj8BXmj6laUrj7p9gkvMrC7nwe/uTHkzOtZzu5WJ9Qwp8W
+	 zqA9CxQDQEMVmawpbVsA4CB+SEc2fgVjEOkSPraSl231YGCZ+b3vg8WYy+WQglbicXj3O
+	 N/YkVNqBwRDT7cqqYWTsOa7XPet7G6Dzw91Em41nXETyfMjrW1VD8rRLBfYp48msavVNs
+	 YDUBnhcaQ/buVRjFcqAPou/R7H1JG4JK9E0GZ7GnCGlYF4P6Phey5eifcRyojf3/Zjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793910663;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
-	b=GtBoNTlEs145OmR3AySYEDeDn6KnNh0lk7rjoQUd9MXBXDg/dy7d3hNGk9vRcRNlK77P
-	 cs1yaKKq0GCWG4lYAVxKsEQur9L49YSufnj7QPxuH+OFmRgrOxdsOcbCmCM4TtDa2u/q1
-	 +q1YBMdj0hJ73fIyTH53SKb2kZHyT9jXv6zr2TwLVUlDnl4QjbVpb51rHOE9GUjnDXLF8
-	 HklXmwwkEU+p5FrO3sL8d/DyA9RSo8cv65yzXFEpZNO6hMqr6EvovONcN4yClwAg63JME
-	 ydLUSglJh04YdtO+H080tifZqfHRQcOg0pNEQPSxxKfM5HxiKD+WzQ7vRnyLJq+uDvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793912762;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=r1JpUn64UzzrZcFRUjQyI0S3ynWk5u6y/MaberysBgo=;
+	b=i6pqCzK0ZWdwsXCWHfzhwisuGfuf2kji0oOj8bF1EnfUDlH+NNUorOXkV2Ya1vwz4gP3
+	 3wCApOVtrHlKpRVGakYzaydwOFJzJiQRlWwTSNsB7xVTZ4IdqBmfTU7PiMGcSn/IUboxD
+	 MMg/ln0DADY9bgjedRdQK7E0WzsFEjjrXwTX4rPVs2pv3VtlUs45zStiKDRWCmrDxvRnW
+	 8TouM1+WXlDEEQ8gskUsj4byMy1RpRJ8GUEOypwrIQmCy4VzLsru/ua43smsifOYKe1c+
+	 jl+QoM5yu+3L2cWpOLg32/EO/QgN3PTh3N0QpJZrvl7CwfuK9lta6F9IMsywDxY0wgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=GB4Vyiwt;
-	arc=none smtp.remote-ip=209.85.222.51
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5OND3Bx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6E606A32C
-	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 20:31:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0D6E606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0772B606A328;
+	Thu,  5 Nov 2026 21:06:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=GB4Vyiwt
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-99071945aa7so1215720241.3
-        for <linux-hyperv@vger.kernel.org>; Thu, 05 Nov 2026 12:31:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793910661; x=1794515461; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
-        b=GB4Vyiwt5uW0V8lse1c3JVTIcjdYwCfzDi7ms6JirgIiV1XZ5xmCWALwaQI+Z5DkVl
-         zqeI8t7tQbjcHdnzqj81OD38fGa0tJr/VDd51xozJWTYgz2a6kpRKU39Z7j5tFWNdr3h
-         IlWW6rRHz35ntWDyTUhWHU80NWcqVivyAFXGbTt/s/XKSQp1WCy0b7a/t95WoCEvr32Z
-         mBeL4GCHxWyznYCdN1cGfUJXo94un7iR8QgFQYTetODBOB+6GZkK2m9qjnyBHlZnnYQ5
-         OCppFK1fTM3uS6RN/r6T0SWssQMIrs7tA5bt9YnfILWKR2UTcTHFIuyOTD1gwFZuhUxt
-         Mt8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793910661; x=1794515461;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vn/nQy7tt6P3ngQqcb52WlxWUAoV6PqlWG/Vx0RkwMM=;
-        b=2X2J9PEC+UYB6Lry7rlEMLFRnZF6fkgSJeqfpKul+d6/0BDHSlkFCyEa4bgVNa30Yy
-         RsEPx/YXQmcjzeBYn+zU9N2WsNj3qxfcSdtXnD2EBEhdcdgEKH8U2EFAvlQ1wf2GfiDk
-         tEcZpQvRt2e+IIsIhVm7tpzaGC9STrqIRvJHERB+CEefdqNNrGuDpDWvZsgdt4c1XXon
-         qL1YIIFfG84BOeSmS3Pj40Bh0ntKT3krz7PmJtsijNUKQzC+/cDLv14FwBsDUeiZbipS
-         KYFsE3Fwq8bAdO4qxXoIjlPwOmFmX7bTksL+0NovkzwfCMhseSZSUxhYXo7MmdR1J2Rr
-         WLrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxWJ/6nxl4hb3F3OSHen/v26xDbVyL2eGM9+HeRBjWqXMbeOUIpaIzhycBoe/eaiINJgKDuaGhUtCy27dk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+UDAoQklVUv/PPuJEvdhN7wr8vClYCht9ayBZ0Eb79qSwjOeHN
-	Hf7Dfhs7gwFS4ep8O6xePGH7N8CQJYrwGdf425DUeXwemCHM4VeYu+r11WADjS5WnFOUVxnpedj
-	tiXLr
-X-Gm-Gg: AYBFou2UblqrMC2ItD3mn2CzbDOOOsQnerFXvQQSZPx153hQYEA00/dMc02VSbgtrbx
-	YTx5woN0zgD39kj93BGhVNDzV3rLoRndedt38XqEvOgOFBe31RLtQyDCNJRFiQxh54ellRclhay
-	abh7csBhvuj/ePzV39ZWk+H6YiKtLgnxRKNrGsd1lK6KYr5lF8rg6C+XBH+wsRpvMeUoZLYMlnw
-	CQh+J5D2+5YBVbIOy4qWKgc/E+DL4LW/0OKDJhhzxMKuDia6ual0ZiZ96a+qJOztSWHqDcUiBYW
-	ov8wnJhzIHd9T6MJylZIGB6JogH4/94Psh3FRIQhOElLgbzEvs3COWsbpLWPVk+pYdXloJrqtu9
-	VvG57ZM33rsalQ00r1NTs1Fj8PuHWoTXKA1cVi4ikDVDWiLtpHkm/164vln1FF68N4QbEpJFYT6
-	cnGILcTI70S1t6j1LUTqkiNxQSlv6ebXDIWuX2eYuKDfN4J3PeW21JtXk2oDW9LiHWa266951b0
-	qeRZDOlggharhh8YnbLSsnNDOiN3+51o/pfKaDT+dEA1YTDOvN0jjVfNI1gsjNt8LOwlukXhtA5
-	UmV8CTVvVxnpdq+aZ1o3jbN1LUCaXKH97RLTbah4W5K5Oz8pF1/X2lRFOJH60qyenRrlOBb8Kkw
-	dBIutDOALpA==
-X-Received: by 2002:a05:6102:e0b:b0:7d2:7266:2c8a with SMTP id ada2fe7eead31-7d2a165f989mr692943137.32.1793910661522;
-        Thu, 05 Nov 2026 12:31:01 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fd3e101sm5070410137.3.2026.11.05.12.31.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:31:01 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xP46u-00000003hoW-1qsZ;
-	Thu, 05 Nov 2026 16:31:00 -0400
-Date: Thu, 5 Nov 2026 16:31:00 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yuho Choi <oss.patchbox@gmail.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>, iommu@lists.linux.dev,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] iommu/hyperv: Don't free a paging domain the
- hypervisor did not delete
-Message-ID: <20261105203100.GG663069@ziepe.ca>
-References: <20261105192738.70664-2-oss.patchbox@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5OND3Bx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB99D1F0089F;
+	Thu,  5 Nov 2026 21:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793912761;
+	bh=r1JpUn64UzzrZcFRUjQyI0S3ynWk5u6y/MaberysBgo=;
+	h=From:Subject:Date:To:Cc;
+	b=n5OND3BxSSsOe8W9Zhi3cBnfi6d7KzMyxkuyo5/trkHHVydx/yyOeQwXqKCdDUFcT
+	 m0c7eQ5D+U2buHxE7rSfcgJl5cMehkqtS+hpW9IxvuXOMi55EMjADBA8fn4bKVqGbY
+	 QpdNhrT0rU9HdBZA+CuDfrevb5VT/Sx+nUsDraIAPhBmT6/yt6g6bda0HLCJEF8Rbm
+	 u4rk8HUwvqrwddVG/k8amH7FQhV89FGy1AgFqoqMKw9DPQswpB9EwKW20G2YExJRhk
+	 9nSCRJkbQMXNq6KKP+CtmuUzVVPRlageLXK7RVKP4WcD+F7KQux77Q7qE1lDODIcT6
+	 zYdrWy6DfJfSw==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH 00/14] mm: convert further simple mmap hooks to
+ mmap_prepare
+Date: Thu, 05 Nov 2026 21:05:31 +0000
+Message-Id: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -110,19 +54,120 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105192738.70664-2-oss.patchbox@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MXQqAIBAE4KvIPregBhVdJSJEt1roRzQiiO7e1
+ uM3zMwNmRJThlbdkOjkzPsmMIUCP7ttIuQgBqttZYw2uLiD8BOuq4tDTBRdItTWN3WwpVQIZCz
+ 5yNd/3PXP8wJmgP8laAAAAA==
+X-Change-ID: 20261101-late-2026-mmap_prepare-02c87d23101e
+To: Juergen Gross <jgross@suse.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Shrikanth Hegde <sshegde@linux.ibm.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowangio@gmail.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.com>, 
+ Paul Moore <paul@paul-moore.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Billy Tsai <billy_tsai@aspeedtech.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
+ Jens Wiklander <jenswi@kernel.org>, Sumit Garg <sumit.garg@kernel.org>, 
+ Scott Branden <scott.branden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ David Woodhouse <dwmw2@infradead.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: ljs@kernel.org, xen-devel@lists.xenproject.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+ virtualization@lists.linux.dev, linux-sgx@vger.kernel.org, 
+ selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-arm-msm@vger.kernel.org, 
+ op-tee@lists.trustedfirmware.org, netdev@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2622; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=bTkwJYolGBPtNOiPTfj3hFZfQ60rxzsNf5rIq+CvvT4=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLevF/tK9xtdq7Cd9m+05LfHinP2t1rLvjzsfyV5AfsU
+ /zCH+pydZSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiX68x/GI6KjBdv8dWvKl/
+ o4fajxstEyfeVrhs6VhWqdT9b1lOzElGhhMsTpzms2K+v4ia9+OlpuvFLR9T93vz6S/zZZ6pzvr
+ 6EAsA
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Thu, Nov 05, 2026 at 02:27:08PM -0500, Yuho Choi wrote:
-> hv_iommu_paging_domain_free() frees all page-table pages with
-> pt_iommu_deinit() and only then asks the hypervisor to delete the
-> device domain that points at them. If HVCALL_DELETE_DEVICE_DOMAIN
-> fails, hv_delete_device_domain() only logs the error, returns the
-> domain ID to the IDA, and the domain is freed anyway.
+Continue the conversion of users of the deprecated f_op->mmap callback to
+f_op->mmap_prepare. Keep things gentle this cycle by targeting simple
+cases.
 
-Isn't there a WARN_ON on this path? I recall asking for one ..
+No functional change intended.
 
-So long as that is there this is the right way to continue
+Build tested on x86-64 (allmodconfig, each patch individually), i386,
+arm64 and ppc64le.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+<<>>
+
+David, Andrew - I wonder whether one of you guys could take this series
+through your tree? Since it's kernel-wide it seems sensible to take it
+through an mm tree.
+
+Thanks!
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+Lorenzo Stoakes (ARM) (14):
+      xen/privcmd: convert mmap hook to mmap_prepare
+      KVM: PPC: Book3S: convert spapr TCE mmap hook to mmap_prepare
+      mshv_vtl: convert mmap hooks to mmap_prepare
+      vduse: convert IOVA domain mmap hook to mmap_prepare
+      x86/sgx: convert vepc mmap hook to mmap_prepare
+      udf: convert mmap hook to mmap_prepare
+      selinuxfs: convert mmap hooks to mmap_prepare
+      xen: convert xenstore interface mmap hooks to mmap_prepare
+      soc: aspeed: convert LPC and P2A control mmap hooks to mmap_prepare
+      soc: qcom: rmtfs_mem: convert mmap hook to mmap_prepare
+      tee: convert shm mmap hook to mmap_prepare
+      misc: bcm-vk: convert mmap hook to mmap_prepare
+      ptp: vmclock: convert mmap hook to mmap_prepare
+      vhost-vdpa: convert mmap hook to mmap_prepare
+
+ arch/powerpc/kvm/book3s_64_vio.c        |  6 +++---
+ arch/x86/kernel/cpu/sgx/virt.c          | 15 ++++++++-------
+ drivers/hv/mshv_vtl_main.c              | 14 +++++++-------
+ drivers/misc/bcm-vk/bcm_vk_dev.c        | 20 ++++++++++----------
+ drivers/ptp/ptp_vmclock.c               | 19 +++++++++----------
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c    | 20 +++++++++-----------
+ drivers/soc/aspeed/aspeed-p2a-ctrl.c    | 22 ++++++++--------------
+ drivers/soc/qcom/rmtfs_mem.c            | 22 ++++++++++------------
+ drivers/tee/tee_shm.c                   | 14 +++++++-------
+ drivers/vdpa/vdpa_user/iova_domain.c    | 12 ++++++------
+ drivers/vhost/vdpa.c                    | 23 ++++++++++++-----------
+ drivers/xen/privcmd.c                   | 11 +++++------
+ drivers/xen/xenbus/xenbus_dev_backend.c | 14 ++++++--------
+ drivers/xen/xenfs/xenstored.c           | 14 ++++++--------
+ fs/udf/file.c                           |  8 ++++----
+ security/selinux/selinuxfs.c            | 24 +++++++++++-------------
+ 16 files changed, 121 insertions(+), 137 deletions(-)
+---
+base-commit: b61fa14ce6bcbba2cb9a96feea31b760226d6b43
+change-id: 20261101-late-2026-mmap_prepare-02c87d23101e
+
+Cheers,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
