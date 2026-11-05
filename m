@@ -1,215 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=2 smtp.remote-ip=40.107.159.18
-ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793900023;
-	b=0gxEYyHIc3wLuINZ+WiKx1TQ6XMGfap8A3MlDIZ77Xvg0JpmqE1fBduVGZHiTWV/PHwQ
-	 D3nOJqQ/LNVdbHsuGB4YNKKAXjioo9F5Kt+wBHUiNoTQ3L6R5V4whwRyXIiMNTC4V3wRQ
-	 CkE4rue1+YAgDmYSq5ttZE4+1uSA/YUmfweU+H6n58Ji236wVbd0ti/1K09hCVkAE2/DC
-	 VZPFBi2IlndSmdQXkMR2uMw+4WnTOq08o2P/boU6wl6U9UKeSZZAfuk6IQ/sAlV4ri1Lc
-	 S1rNO+DFaf9YQGTf8vGCFpjDOGdwqKY+ZsDNFGE2cjRDAbawYqkJuO7oLK4wN+h5WTA==
-ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793900023;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
-	 DKIM-Signature:Authentication-Results-Original:Received:Received:From:
-	 Subject:Date:Message-Id:Content-Type:Content-Transfer-Encoding:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-ClientProxiedBy:
-	 MIME-Version:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:x-checkrecipientrouted:
-	 NoDisclaimer:X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam-Untrusted:
-	 X-Microsoft-Antispam-Message-Info-Original:
-	 X-Forefront-Antispam-Report-Untrusted:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-EOPAttributedMessage:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
-	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=eTpVa0KXLbeyN7w0naRmQVXV/ayHx+u2by3c7Xc6o7k=;
-	b=N6hL9VhoGLs/6q6V8yc9qz6e99X6QHRziGOtn/MVqY9O5qFStoXaWie/buw9GcCM5JuV
-	 loLnYrE7eOXg903SfBVY3ueVYPrdeMPMdoy+siZey27frauqctr7bTZg1o9UnObs+aDZA
-	 GaRjdxiWhUYdOqMAeh40y1+ic2OkP+H3H52rCkg4hN3xEY5iKvTMHx6eFrNrlBQq+f44/
-	 czo+07whVgTUsxyFroV9wZT0VoPprVufyP18aQUuPA17X3nnFz1e3ugRJSICeTzTPOFOI
-	 GL3RUOvY4v7H1ritEwfLGL0/Fs8aE36Vap7Fjh8OZAUGsNYOlenE/HcwKROzk+vD9oQ==
-ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=CaIAN5N4;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=CaIAN5N4;
-	arc=pass header.oldest-pass=2 smtp.remote-ip=40.107.159.18
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013018.outbound.protection.outlook.com [40.107.159.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793902172;
+	b=3sW+FLC+DikSLVCttDESLPGbzhWwXTpR8p2gQm6D+W9rvCXywXNgC0NhRFd9ZDexf2jW
+	 WKDdzBhKMNghkI+fI/f5qTXZ22n0rJ5T1E7GxtFc6ag9Y2bptveh5ivIKgvnGvYJrhYrf
+	 bRTMEG7stlPwpKclezEze4oXrrVbypgMKVGFNGSNPwUFaPMh0l7UlzWqmcbLChghol48F
+	 gnvVcHTWWVYT9qfZvV87N3Zf8ovtumXDXyLDo6T0Tch8ENa2YALTRtOYU9SDoP6u/Mecy
+	 vabNOQ6+eM+xJ5OIzCWEJ4dzlknikY/+CCir+XtgaBbjiqFbjoNP81gnYfwR5rCINjg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793902172;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Subject:Date:Message-Id:X-Mailer:
+	 Reply-To:MIME-Version:Content-Transfer-Encoding;
+	bh=5GceAxTvgoZumHd09mtdaNlgWlGDTHfFRc56YtOlEpg=;
+	b=CdvE3me84aetGOJDQQWo/7gl4I9z2vEbdQffJJpLyWZ9qyi1x+GImOiXBeH3T1paEk3t
+	 Eq/7aleaMh7jo1uJvJzWBgfiOci/QJj/wVMS7MnRXWL3cPYO48XLelCcNVouyQgUlPEIm
+	 PWUrhYAsyYQ6yvA/5jiG4clDzf8oMAIcVDpf/RhtDEfNFmKan2rJMY+fNWMyXfnRCQnKZ
+	 POiB+g6Z2AB5TDxS3DkbBEhjEQKFfNEHYaoMXXEflz0le0kVWUJkE/MdF/KY3KhozKV1y
+	 3fVYaGMUYd9ifxx2XtpAbuHA/THM1xnE//JvySo781sLPBt9VckExKE174902shEE2g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U7WahdAo;
+	arc=none smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A847D606A328;
-	Thu,  5 Nov 2026 17:33:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A847D606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8EF606A31B
+	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 18:09:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B8EF606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=CaIAN5N4;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=CaIAN5N4
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=mXG4kSQGTEH3swGQhEJHb0f/ckEq8/ezy6NyWb8GXpfA+ibROciibs4IE7E1Tqg7Qiut088qRoSY51ySVHf+2amyP6Mmrz1VI/V6QKxkslFOO9tqRbNhErH+N3fTw0RiAVCFJd1dnSRU/SbcFdplJkQAjeozkWKolIoAtrBFNJ+rIV+fuQ7pzuQv9XhPATTCBSqmwBchDEIjZfC7FVfAk/ZokPYP4KwfWmHkhD/xQuEKb2PkEjedu34cWaSbFARP5S7s1H7mGmHLqc5oXPYc5hKgKTJcc6frSQJRjK7Q3cuaM1LxRW/CeW7XiIUCUVfsoCl1xDDAHvJTtEBmPXX0fw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eTpVa0KXLbeyN7w0naRmQVXV/ayHx+u2by3c7Xc6o7k=;
- b=fqH+9bIB0/hpHdoOW0P0ve8UTPUib9sKojWkiU9RBP2wqPHLzjakihr0rM8mLsbHGmuCptriNGgodn06NaMMuThiozxcqd06yqMh6EbnR5B78/Fm2RlAmkSWONeAhhcIBQfQjrqaFAdYyv5/CV1rrslIu1VVRhUwWhFy6qBlyjCkWEatVMPiuijCRsKNqkWHlG6mmTpDdka7OfsUViiajjCAfWe88VfcNTMn3pLIKiUABgWfYJCKXvPEWZ5yenenBvP0odwlOEEVAzPH15T+Ny1/KsB84SLFDZ2z7gVpWM3pczZ3IY4UxHWWF1Jm81AL3PSAnursQNwetZmsbLyeUQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eTpVa0KXLbeyN7w0naRmQVXV/ayHx+u2by3c7Xc6o7k=;
- b=CaIAN5N4KxHcigNOYRbk45xUO2LtjBwP1RcO6UocUwkLmLngtuH1PFm1W9qK070H8wGK+EAIvCMy1FmK+zskIqBAKkq1NYRD5QCr8KNA3xlgrYx00+WqKHZJ58CIKLbEGAkmo8kXeQNKaP/QVgTyeLDwpYmBJ5kP9HAUZ3Gm4Ds=
-Received: from AS9PR06CA0263.eurprd06.prod.outlook.com (2603:10a6:20b:45f::17)
- by GV1PR08MB10838.eurprd08.prod.outlook.com (2603:10a6:150:16a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Thu, 5 Nov 2026
- 17:33:30 +0000
-Received: from AMS0EPF00000569.eurprd02.prod.outlook.com
- (2603:10a6:20b:45f:cafe::a7) by AS9PR06CA0263.outlook.office365.com
- (2603:10a6:20b:45f::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
- Nov 2026 17:33:30 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000569.mail.protection.outlook.com (10.167.242.119) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.5
- via Frontend Transport; Thu, 5 Nov 2026 17:33:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VEZqCzho2/q+WM4A/n/O5lZPad5M03fWy6PydBnZ+pgD8xakqpjqKQ6yzLSqS9y1voz9C507lcDMwxeFMrZqYVA9Y4uxrld5ti01yE8ZMNkbbCd22kFKAy8CQbf0RXVo2BwPcwBX6ddkjgNINH3xiS3fhu7+Y4BnGPKZ61ukK31rrhDPeStjlKxEd5wwfYIZdto9ZqhnuyeKaZA/75PveSmb2cxOuRXr7L7sTPtX5kMapSYQ1d1BVkF8oOKJ5MVvk6ZvdWpLly4n6t8b5mu9U/Inzq06hBTh00rOMrwCa2/IhYypvdQ3fCeO0lchqdGchcHNya0LH1g14nFz+cQSBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eTpVa0KXLbeyN7w0naRmQVXV/ayHx+u2by3c7Xc6o7k=;
- b=cKmvEXKhg2kB4cgWM1cpqYzakFjRONndSFcXHpgnMGuwnfzUv/M2tx4fHwtGpMYEQrc1CJaVjdLszML62Xnh7RioTbXTZg3WfmVbj5+FYwXAiy6VBLWdKMWKlt7diBrXfStOI1+aLZAXIQBwl82A0KCpj6hA3RHcbX2tA3tZFGGijFRAoEbBypnHobn4JE6+bb+fOF9WRg6ssIspwaDJn/b2WUTKNOEeW/X3u5taONOZIeJlq66U4NQDi+Ru80g4kX6odBHezS/tEVY9iEn3A3srZlTIWpWv+r1k8GguIkQBUEU5cZVI9EOFNdngJ9r/+nf9Mysywjxr1kl/jfTTgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eTpVa0KXLbeyN7w0naRmQVXV/ayHx+u2by3c7Xc6o7k=;
- b=CaIAN5N4KxHcigNOYRbk45xUO2LtjBwP1RcO6UocUwkLmLngtuH1PFm1W9qK070H8wGK+EAIvCMy1FmK+zskIqBAKkq1NYRD5QCr8KNA3xlgrYx00+WqKHZJ58CIKLbEGAkmo8kXeQNKaP/QVgTyeLDwpYmBJ5kP9HAUZ3Gm4Ds=
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
- (2603:10a6:20b:629::15) by PAWPR08MB11487.eurprd08.prod.outlook.com
- (2603:10a6:102:509::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 17:17:02 +0000
-Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
- ([fe80::9f01:508:17aa:279c]) by AS8PR08MB10291.eurprd08.prod.outlook.com
- ([fe80::9f01:508:17aa:279c%6]) with mapi id 15.21.0592.007; Thu, 5 Nov 2026
- 17:17:02 +0000
-From: Bence Csokas <bence.csokas@arm.com>
-Subject: [PATCH 0/3] Add offsetofp() and offsetofendp() for pointer
- arithmetic
-Date: Thu, 05 Nov 2026 18:16:15 +0100
-Message-Id: <20261105-offsetof-v1-0-4153f5c10edc@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN+57GoC/yWM0QoCIRBFf2WZ5wS1kuhXoofRnWknSMOxCJb99
- 7Qez+Wcu4JSFVI4TytUeotKyR3cboK0YL6RkbkzeOuDc/ZoCrNSK2w4eMSwP5zYztD1ZyWWz+/
- qcv2zvuKdUhv9MCIqmVgxp2VMD9RGFbbtC8SiO6aFAAAA
-X-Change-ID: 20261105-offsetof-f62aa6348f0d
-To: Chengchang Tang <tangchengchang@huawei.com>, 
- Junxian Huang <huangjunxian6@hisilicon.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Leon Romanovsky <leon@kernel.org>, 
- Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
- Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
- Emil Tsalapatis <emil@etsalapatis.com>, 
- Ihor Solodrai <ihor.solodrai@linux.dev>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Steffen Klassert <steffen.klassert@secunet.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Vineet Gupta <vgupta@kernel.org>, 
- Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Philipp Stanner <phasta@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Guenter Roeck <groeck@chromium.org>, Nilesh Javali <njavali@marvell.com>, 
- GR-QLogic-Storage-Upstream@marvell.com, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
- Bharath SM <bharathsm@microsoft.com>, Carlos Maiolino <cem@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
- Davidlohr Bueso <dave@stgolabs.net>, 
- =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- "Geoffrey D. Bennett" <g@b4.vu>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- linux-wireless@vger.kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
- linux-bluetooth@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-hyperv@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
- linux-xfs@vger.kernel.org, linux-sound@vger.kernel.org, 
- Bence Csokas <bence.csokas@arm.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: PA7P264CA0148.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:377::20) To AS8PR08MB10291.eurprd08.prod.outlook.com
- (2603:10a6:20b:629::15)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U7WahdAo
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8b29b83fdf1so399331b3a.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 05 Nov 2026 10:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793902171; x=1794506971; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5GceAxTvgoZumHd09mtdaNlgWlGDTHfFRc56YtOlEpg=;
+        b=U7WahdAo+LA7Aq7qSeMehkEnvfKNbF+6fWy4qIOQ+vP9oC7vEn2tBC75c3C3JflwUF
+         zMq5v1OojcKx5SEi7X8weJIlYXANhizZtZm3E9+Pduh60tdUQlR46iW+e2qKGRSDqpbA
+         ZwCGLPYl/7vM2RVVVXZx7Kd/37/GVw6LgWi5vhcQHn7ZzbDgDjT7EzL+lkT52Ud9oDnt
+         0KiLnj4/1qW3We+kMu11ouHGKBbYpjBVBjkLfEvhpuhVlkrXuNv6aUFQ8aWyO4TXCMZO
+         YJ4BFpWrypLOvsa8RxuAnCHlhZDKmZzJEMEi5d9CVG7HtxJP+AW55PFOucfKL5eHpNUX
+         jdog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793902171; x=1794506971;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5GceAxTvgoZumHd09mtdaNlgWlGDTHfFRc56YtOlEpg=;
+        b=urS5IY38Urg/IngrW2rpXVufgids/W4k78c9f6Z4NIG1E+xGAGUCoRzOYrbPGni8js
+         XMrJO0UQv29UFZ5rWzhWUh3TtMOMDGTsgC6YC2nzp8E9YOU6nvnW4jPUkJD4dJIDLcps
+         dRRA4H5Yh6DHTRf1LRJmq+KZBvQQm0veMsTub2a2tfOiH9VuRlHFGc84P2+mMD0C3yB/
+         8dHKR5Me1RntFoOK4mGp7pnsE5NV/9jFVQvNfIQOJqVgUlHwHV8CPf1FGilEd/xdOByC
+         0T/JHxY6mn3wAm7B9PwMDmxNNYBJ6Eiw6kq8BO//yYeawyZG6/QPh7MvkDHLqWqmIpps
+         VjXA==
+X-Forwarded-Encrypted: i=1; AKwUvBxFAkQyxPT0PKVVJwcOz/1ollXg2uDbOmJA17tGqtfi6JBDSgC4YVfmmQPW/ARsiHOLaxzV7tN3f3gBkdU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+7ZGI/9huqEU+bVrFgai60m6UOQeclGz9g2Y1jdpehM3ERYcZz
+	/GIItNMK+Xd66QO8TwjmnSLhc4gpMnfps8PL6NDIC5PcA0xX1uoqztyb
+X-Gm-Gg: AYBFou27cy7/QH0avvTFLJrp5/jnXGNTAPNQ64P5HLNMvq2Zhpz8Tq4pcWgRkqXzbpV
+	te/Qel3iHpzWJp4n2nLzjUEXR6f+KCLsjQNcExCu1ffCARJjKAWAoeUVbEV0AQceRXlQ3qij+rF
+	l4XzeRQIumezJgsYWaQM3+7VoC+t9Z+QUtgtD9qZaCN/h0VP0Up1YJRTU9utzTZcg3aKSTcvcKN
+	984xV+N/Z5Ch3IuLS0jUxeo7e9n61hE8i8kGYn1c9BTtK57lT/MqEdp6t8+lyzgS7JxXllgSL2l
+	9OFNM2e5Vuu6z/jX/npnY1qPyshuOOkH0ip4qtqqljIodBR1n1gsnAFjaBPD8SJw8QKsoVBy3kL
+	JWHVCqYg+KpijG2G16riL0Biu3LOxmpgUL1swVC2iWutoQsR/eTBvuUeBsM9+F7XhR4fWuH57nc
+	HDUl0H+cBospqwzzoyn0ejCIoQ+TLXNAW48el9c2K+9HtcncUPg5qfBUMzkJ7RBmzcc2OvDeP6H
+	flV7itsmtb0LLeQUxFmM3BuIElt233dGhMf68BrGEM4MkDFxkODPjZyv6YNW0dPrUTRqUgY9f2t
+	vSk7NSn+4tFiFRwA0eSPIFoKWOkyoZKpjv++xZYxS172HKtnfHNqpvoDNbUI6hILvyloCUc/qcP
+	Uj0tL8S5e4YOxuMF/lgSzWcDLLXR219YFaw==
+X-Received: by 2002:a05:6a21:8984:b0:3e2:95fb:8d03 with SMTP id adf61e73a8af0-3ebb2a58cbamr262300637.69.1793902171182;
+        Thu, 05 Nov 2026 10:09:31 -0800 (PST)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb467f798esm2497170a12.10.2026.11.05.10.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 10:09:30 -0800 (PST)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/1] Documentation: hyperv: Update docs for PCI pass-thru device support
+Date: Thu,  5 Nov 2026 10:09:22 -0800
+Message-Id: <20261105180922.69256-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -219,121 +104,246 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	AS8PR08MB10291:EE_|PAWPR08MB11487:EE_|AMS0EPF00000569:EE_|GV1PR08MB10838:EE_
-X-MS-Office365-Filtering-Correlation-Id: faa86ff3-27f0-4743-2be9-08df3b62e851
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|921020|11063799006|261022105027099003|56012099006|261026140227099003|261021123027099003|261009221727099003|261009223027099003|261009220027099003|261102123227099003|261009223327099003|261009221227099003|261021121427099003|261028144727099003|18002099003|10067099003|3023799007;
-X-Microsoft-Antispam-Message-Info-Original:
- VVFJelSxgClgHU9Gtoq4Np58blMsVJiYNVkaIgBD3Kda8p7uFES7uDdvskqBfhvNllgGw/qAtW12NPqaBVdvk4ZYFfnQe8laSo4WN2wZcLuV+6Ls+MvKPlHwMhcfL1RbKgblJo4i2rUS4jjtMhyz9qo2xvragkBFn34kbxM0iTHnsaN+gPhD67b/IcF3r6HVLcTNOnHRFMUpcf0+iLjkpRnYRUbrab/PHeOmbGtNro95TN9UsPvdhO6PldzlHPKf7ZZNJlpOSOh7OwLdtD0zysxFHY/C+b+ylXuYjsxqMQp9b+9BaEY0xf0L/3c4iA24o34oyh+UQi6dBvRJrDf6sW65Bz+VcdQqeUAkV0fGA6G10BtY8jy14IU1qHwZRGJm81pK4CX/E/o/7Amv2GxssrvtcJxbffPt37eOt+KSCMhp2CiUH5XN1+ZBilitXmoJivb5+2OWAoS6HLj95IdkmifoK+ovvckzuZXk/tavkwbXj5IakXLNZKy0L0r8lbrSQHC1Jy7nsmCQzJ2YWOamUbE8RA1sTgFPOpaCWWY5f1bL+jIPUHlEJpp791vLT/aQpcpVxHyR3vrpDYKvtgzfMu9aQaV+owbl9mB/ToTaBlQPYyEwiDcHLU+UHpbFGGdh/O1LYM9NItuCQfFZYumxpmoXSIDncDmWCUStHnEWJgFdqQxNQg1EcyeceAdb8xthdWSjR5qTTNbbstdKE8Al0w==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB10291.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(921020)(11063799006)(261022105027099003)(56012099006)(261026140227099003)(261021123027099003)(261009221727099003)(261009223027099003)(261009220027099003)(261102123227099003)(261009223327099003)(261009221227099003)(261021121427099003)(261028144727099003)(18002099003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- i5Kdf4NVZB3qcEAKDEN8z3u/rEwYL5shrfrJ1u4X4MdMG+lv2DetnqLTnq31fZAnRYwiGzTgsf1oSpi6saZ75HkcUyx/3h98hXWOJlEPjrXUxg3OOBcysY7P3N55lMhG1Z2fNqG6Lak8blwYov+ix693fusE9l2kYOOApblXSbjK2x9WPTbcqM3wNFzOHQdk7H40neNVxiHnw60Ipx4+wODymJasqclub/qBHqK5Ml65fFKx36twCtDVU8LAtOt18dKbnZ0OUi7tvrv1F/Lty2sqVckwZdsOrP3RcW2owtVjVO0adkKnEIafdOw9MKYaTfJCIErf6dFsSeTV9WbIGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB11487
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS0EPF00000569.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	3915e4d8-3158-4aa3-5d0f-08df3b609ba5
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|14060799003|1800799024|35042699022|23010399003|7416014|376014|82310400026|36860700016|261102123227099003|11063799006|56012099006|261009221727099003|261009220027099003|261009223327099003|261021121427099003|261009223027099003|261009221227099003|261021123027099003|261026140227099003|261028144727099003|261022105027099003|10067099003|18002099003|921020|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	TiC57Jp1OiF7musqhydqmi8Oi2+2zKmDGjKLJetYzaPgbv+lD43Rn1mjloNe6QgPqzmVjl8hXEUT3JlaI2ggAHBjD3xM+Xoy7dhTJduw9FEPbO3MvfVvSXQA6RXLfUvrnUZ7a7MQVJaz6TxnheumbdO0yIBy/vKyC7Jd/PowNBazkK7xHm/hg4nOHLZu5G3LX11VVqHxWjDxhUm0mXIQ8b5lr7QUUEXah7ktfF/yCS/PuKNlmAsqXf+qRUn2JugMEfFg6zhbjbBKPDMJplm+jLGgoRFw8lHMxWymVAWJ0zURkEOF3aXWsYR4nJML0g61Boe7No6xW/Y+ZCdkTS27xZ+fHZRmVomeq98cQmYH1S8VaTHlnvA77db9QMNzKmhA/GbPCxPZ3wAiS3KobkO+esOsOMgMrPOjJXJK1mBuBwFtcB69d4jiXa7QdKhfLGsbzMcNILh0XXI16CPQ/8XOROt4AQk4n5KeEse6TpJxZpSXfI56aDxYt0psG4IVDBBfAsM+Cx5/+uDOxNJNFhpNBTz6gdvP5+6PVjN0RGNMjRZ2V9dGpdE9qtVXQ2ND43hqrZ9Q/WvWDjFrWER7xCJgx8aOuVG//x5J6SoyrWmc7zT8eBV84ldU1VNbKwgwy1A934KUTPG0dqSnNNszKO/EmaQc3ZbUAF4ORosrHtYh5ioAhr2qnpb5H5dnEdKL6L57luOMTnsWqX5Jzxl98z9ZKArZB1II3R7qibwJUTEIisY71N4QWx39BSCxJR2sE5uk
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(35042699022)(23010399003)(7416014)(376014)(82310400026)(36860700016)(261102123227099003)(11063799006)(56012099006)(261009221727099003)(261009220027099003)(261009223327099003)(261021121427099003)(261009223027099003)(261009221227099003)(261021123027099003)(261026140227099003)(261028144727099003)(261022105027099003)(10067099003)(18002099003)(921020)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	FjljGvFdDw2Jwzqeu1MA55V9hP8p5UO5QuV5ikByrZ4os2BxZ9QEbok/YJzGlwzo7P2IuLEpttPoE3ollD0qdkhopi0VUe3VLBHiDGiKR3lExI4NlS5cCtoKYDV3/WzXX2pEkq80o/VefEUBV/5So0MjPreGe1Wb41EylLdI1jjVRmPMWx10B2NuyHOawNWkqWikVsfyCdQWaas+o+fVUElVI+pwOSaSFmcp+cVG3nrgseqhKF3C4LVcOZzTkd7XlD8xv4EMBsAhWmpKnuaapHaYDERZ5dHBoJtXFW4UO44Mx/jVGHfphNehP/Sh5Eoqkns1mBa8PFTkALCyb/1vqkVB5+iagPQ/p7eqaaQV6gPWkgQTqDp/M1YDeEpoY+mi3TQNQMZ/iVZWnqqOu2PK9P2jyljbnthWCmSvZXheYdoa2oS0r98jRzMAMF1qLXMt
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 17:33:29.9334
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: faa86ff3-27f0-4743-2be9-08df3b62e851
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000569.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10838
+Content-Transfer-Encoding: 8bit
 
-A common usage pattern for offsetof() is the following:
+Add a section to the documentation describing the IRQ domain and IRQ chip
+hierarchy that is created for virtual PCI devices, including the
+differences on x86 and arm64, and the reasons for those differences.
 
-  offsetof(typeof(*ptr), member)
+In the context of the IRQ domain and chip hierarchies, describe how the
+CPU selected for effective affinity is spread across CPUs in the affinity
+masks. Again, account for the differences in x86 and arm64.
 
-Condense this operation to one macro for a more maintainable code base.
+Finally, rework existing text on how MSI messages are composed. Provide
+an expanded section on the overall approach that Hyper-V takes to MSI
+messages. The section provides more context on the handling of MSI messages
+in the Hyper-V vPCI driver, and why it is structured the way it is.
 
-Signed-off-by: Bence Csokas <bence.csokas@arm.com>
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
-Bence Csokas (3):
-      stddef: Add offsetofp() and offsetofendp() for pointer arithmetic
-      treewide: Use offsetofendp()
-      treewide: Use offsetofp()
+This doc update assumes that the patch to implement effective
+affinity spreading for arm64 SPIs [1] is accepted.
 
- arch/arc/kernel/unwind.c                           |  4 ++--
- drivers/bluetooth/btmrvl_main.c                    | 12 +++++-----
- drivers/dma-buf/dma-resv.c                         |  2 +-
- drivers/firmware/arm_scmi/base.c                   |  2 +-
- drivers/gpu/drm/drm_edid.c                         | 26 +++++++++++-----------
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |  4 ++--
- drivers/gpu/drm/i915/i915_active.c                 |  2 +-
- drivers/gpu/drm/i915/i915_sw_fence_work.c          |  2 +-
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            | 12 +++++-----
- drivers/infiniband/hw/bnxt_re/qplib_fp.c           |  2 +-
- drivers/infiniband/hw/hns/hns_roce_cq.c            |  4 ++--
- drivers/infiniband/hw/hns/hns_roce_qp.c            |  6 ++---
- drivers/media/usb/uvc/uvc_v4l2.c                   |  4 ++--
- drivers/net/hyperv/rndis_filter.c                  |  2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-drv.c       |  2 +-
- drivers/net/wireless/intel/iwlwifi/mvm/rs-fw.c     |  2 +-
- drivers/net/wireless/intel/iwlwifi/mvm/rs.c        |  2 +-
- .../net/wireless/intel/iwlwifi/pcie/ctxt-info-v2.c |  5 ++---
- drivers/net/wireless/realtek/rtl8xxxu/core.c       |  2 +-
- drivers/net/wireless/realtek/rtw88/fw.c            |  2 +-
- drivers/net/wireless/realtek/rtw89/core.c          |  2 +-
- drivers/net/wireless/realtek/rtw89/fw.c            |  8 +++----
- drivers/net/wireless/virtual/mac80211_hwsim_main.c |  4 ++--
- drivers/platform/chrome/cros_ec_lightbar.c         |  4 ++--
- drivers/scsi/qla2xxx/qla_gs.c                      |  2 +-
- drivers/scsi/qla2xxx/qla_mbx.c                     |  2 +-
- drivers/scsi/qla2xxx/qla_os.c                      |  2 +-
- drivers/scsi/qla2xxx/qla_tmpl.c                    |  4 ++--
- drivers/scsi/scsi_transport_fc.c                   |  2 +-
- fs/readdir.c                                       |  2 +-
- fs/smb/client/cifssmb.c                            |  4 ++--
- fs/smb/client/reparse.c                            |  2 +-
- fs/xfs/scrub/attr.c                                |  4 ++--
- fs/xfs/scrub/attr_repair.c                         |  4 ++--
- fs/xfs/scrub/dir.c                                 |  4 ++--
- fs/xfs/scrub/dir_repair.c                          |  4 ++--
- include/linux/stddef.h                             | 16 +++++++++++++
- kernel/futex/core.c                                |  2 +-
- net/bpf/test_run.c                                 |  2 +-
- net/ipv4/ip_output.c                               |  4 ++--
- net/ipv4/udp.c                                     |  4 ++--
- net/ipv6/udp.c                                     |  4 ++--
- net/key/af_key.c                                   |  2 +-
- net/mac80211/agg-rx.c                              |  3 +--
- net/mac80211/agg-tx.c                              |  3 +--
- net/mac80211/parse.c                               |  2 +-
- net/mac80211/tdls.c                                |  4 ++--
- net/wireless/nl80211.c                             |  2 +-
- net/wireless/reg.c                                 |  2 +-
- net/wireless/scan.c                                |  2 +-
- security/landlock/net.c                            |  4 ++--
- sound/usb/mixer_scarlett2.c                        |  2 +-
- 53 files changed, 113 insertions(+), 100 deletions(-)
----
-base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
-change-id: 20261105-offsetof-f62aa6348f0d
+[1] https://lore.kernel.org/linux-hyperv/20261101021928.52649-1-mhklinux@outlook.com/
 
-Best regards,
---  
-Bence Csokas <bence.csokas@arm.com>
+Changes in v2:
+* Fixed typos [Daniel Pereira]
+* Fixed incorrect function pointer name that should have been
+  .irq_write_msi_msg [Daniel Pereira]
+* Clarified that only MSI-X table writes are not trapped to the
+  hypervisor. MSI entries are in PCI config space, so are trapped.
+  [Naman Jain]
+* Corrected statement that all affinity changes result in a new
+  MSI message being composed and written. No new MSI message is
+  needed. An affinity change is communicated to Hyper-V via other
+  mechanisms. [Naman Jain]
+
+ Documentation/virt/hyperv/vpci.rst | 164 +++++++++++++++++++++++++----
+ 1 file changed, 145 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/virt/hyperv/vpci.rst b/Documentation/virt/hyperv/vpci.rst
+index b65b2126ede3..5355871c8c04 100644
+--- a/Documentation/virt/hyperv/vpci.rst
++++ b/Documentation/virt/hyperv/vpci.rst
+@@ -97,8 +97,10 @@ config space for the device.  This MMIO range is communicated
+ to the Hyper-V host over the VMBus channel as part of telling
+ the host that the device is ready to enter d0.  See
+ hv_pci_enter_d0().  When the guest subsequently accesses this
+-MMIO range, the Hyper-V host intercepts the accesses and maps
+-them to the physical device PCI config space.
++MMIO range, the Hyper-V host traps the accesses and maps
++them to the physical device PCI config space. In CoCo VMs,
++an explicit hypercall must be used to access PCI config space
++rather than depending on a trap to the hypervisor.
+ 
+ hv_pci_probe() also gets BAR information for the device from
+ the Hyper-V host, and uses this information to allocate MMIO
+@@ -159,6 +161,62 @@ ejections happen at inopportune times. Care must be taken when
+ modifying this code to prevent re-introducing such problems.
+ See comments in the code.
+ 
++IRQ Domains and Chips
++---------------------
++Early in the process of setting up a new vPCI device,
++hv_pci_probe() calls hv_pcie_init_irq_domain() to create an MSI
++parent IRQ domain for the device. This domain has IRQ chip functions
++to interact with Hyper-V to compose an MSI message and to mask
++and unmask interrupts. It becomes the parent domain for the
++per-device IRQ domain created by the normal Linux driver for the
++device when it sets up its IRQs -- e.g., the NVMe driver function
++nvme_setup_irqs() calling pci_alloc_irq_vectors_affinity().
++
++This MSI parent domain is parented to what the Hyper-V vPCI
++driver calls the "root" IRQ domain. On x86, the root IRQ domain
++is the VECTOR domain for the APIC. On arm64, the root IRQ domain
++is a domain created by the Hyper-V vPCI driver to overlay the
++"irqchip@<paddr>" domain created by the GICv3 driver when it
++initializes the virtual GICv3 hardware provided to the guest
++by Hyper-V. This overlay domain is named "hv_vpci_arm64", and it
++handles the limitation that Hyper-V provides only a GICv3 to the
++guest, not a GICv3 with ITS. As such, there are no LPIs available
++in the guest, so it must use SPIs for vPCI devices. While this
++is valid in the arm64 architecture, it is atypical. The Hyper-V
++vPCI driver glues things together by having hv_vpci_arm64
++allocate and manage the SPIs.
++
++**x86 IRQ domains and chips**
++
+++-----------------------+-----------------------+------------------------------------------------------+
++| Domain Name           | Chip Name             | Notes                                                |
+++=======================+=======================+======================================================+
++| VECTOR                | APIC                  | Spreads effective affinity                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| <vPCI device GUID>    | Hyper-V PCIe MSI      | MSI parent. Per vPCI device. Created in              |
++|                       |                       | hv_pcie_init_irq_domain().                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| HV-PCI-MSIX-<PCIaddr> | HV-PCI-MSIX-<PCIaddr> | Per vPCI device. Created when driver sets up IRQs.   |
+++-----------------------+-----------------------+------------------------------------------------------+
++
++
++**arm64 IRQ domains and chips**
++
+++-----------------------+-----------------------+------------------------------------------------------+
++| Domain Name           | Chip Name             | Notes                                                |
+++=======================+=======================+======================================================+
++| irqchip@<paddr>       | GICv3                 | Picks 1st CPU for effective affinity.                |
++|                       |                       | Created in gic_init_bases().                         |
+++-----------------------+-----------------------+------------------------------------------------------+
++| hv_vpci_arm64         | MSI                   | Spreads effective affinity. Created in               |
++|                       |                       | hv_pci_irqchip_init().                               |
+++-----------------------+-----------------------+------------------------------------------------------+
++| <vPCI device GUID>    | Hyper-V PCIe MSI      | MSI parent. Per vPCI device. Created in              |
++|                       |                       | hv_pcie_init_irq_domain().                           |
+++-----------------------+-----------------------+------------------------------------------------------+
++| HV-PCI-MSIX-<PCIaddr> | HV-PCI-MSIX-<PCIaddr> | Per vPCI device. Created when driver sets up IRQs.   |
+++-----------------------+-----------------------+------------------------------------------------------+
++
+ Interrupt Assignment
+ --------------------
+ The Hyper-V virtual PCI driver supports vPCI devices using
+@@ -166,7 +224,7 @@ MSI, multi-MSI, or MSI-X.  Assigning the guest vCPU that will
+ receive the interrupt for a particular MSI or MSI-X message is
+ complex because of the way the Linux setup of IRQs maps onto
+ the Hyper-V interfaces.  For the single-MSI and MSI-X cases,
+-Linux calls hv_compse_msi_msg() twice, with the first call
++Linux calls hv_compose_msi_msg() twice, with the first call
+ containing a dummy vCPU and the second call containing the
+ real vCPU.  Furthermore, hv_irq_unmask() is finally called
+ (on x86) or the GICD registers are set (on arm64) to specify
+@@ -179,22 +237,8 @@ interrupts on a single CPU, causing a performance bottleneck.
+ See details about how this is resolved in the extensive
+ comment above the function hv_compose_msi_req_get_cpu().
+ 
+-The Hyper-V virtual PCI driver implements the
+-irq_chip.irq_compose_msi_msg function as hv_compose_msi_msg().
+-Unfortunately, on Hyper-V the implementation requires sending
+-a VMBus message to the Hyper-V host and awaiting an interrupt
+-indicating receipt of a reply message.  Since
+-irq_chip.irq_compose_msi_msg can be called with IRQ locks
+-held, it doesn't work to do the normal sleep until awakened by
+-the interrupt. Instead hv_compose_msi_msg() must send the
+-VMBus message, and then poll for the completion message. As
+-further complexity, the vPCI device could be ejected/rescinded
+-while the polling is in progress, so this scenario must be
+-detected as well.  See comments in the code regarding this
+-very tricky area.
+-
+-Most of the code in the Hyper-V virtual PCI driver (pci-
+-hyperv.c) applies to Hyper-V and Linux guests running on x86
++Most of the code in the Hyper-V virtual PCI driver
++applies to Hyper-V and Linux guests running on x86
+ and on arm64 architectures.  But there are differences in how
+ interrupt assignments are managed.  On x86, the Hyper-V
+ virtual PCI driver in the guest must make a hypercall to tell
+@@ -223,6 +267,88 @@ using all the vectors on a CPU doesn't happen. Since such a
+ problem is only a theoretical concern rather than a practical
+ concern, it has been left unaddressed.
+ 
++Effective Affinity Interrupt Spreading
++--------------------------------------
++For the APIC and GICv3 interrupt controllers, Linux must select a
++single CPU from the affinity mask to be the effective affinity CPU.
++While Linux is free to choose any CPU in the mask, a fixed algorithm,
++such as always choosing the first CPU, can be problematic in
++configurations with multiple identical devices (such as NVMe
++controllers). Each device has the same set of affinity masks, so
++the same CPU gets chosen for all the devices. Better performance
++is usually achieved for multiple devices by spreading the assignment
++among the CPUs in the affinity mask. No one CPU is overloaded
++and interrupts from multiple devices can be processed in parallel.
++
++On x86, the VECTOR domain and APIC IRQ chip do the spreading by
++tracking the number of IRQs assigned to each CPU, and choosing
++the CPU in the affinity mask that has the fewest assignments.
++Because Hyper-V vPCI device IRQs eventually parent to VECTOR,
++the spreading it does accrues to the IRQs for Hyper-V vPCI devices.
++
++On arm64, the "ITS" IRQ chip for the GICv3+ITS does the same kind
++of spreading for LPI interrupts. But IRQs for vPCI devices on
++arm64 use SPIs and are parented to the "GICv3" IRQ chip, which always
++chooses the first CPU in the affinity mask as the effective affinity.
++That CPU can get overloaded in handling interrupts. So on arm64,
++the hv_vpci_arm64 IRQ domain and associated IRQ chip provide the
++spreading functionality. They track the SPIs assigned to each CPU
++and choose the least-loaded CPU as the effective affinity. Then
++the parent IRQ chip (GICv3) is invoked to actually set the effective
++affinity in the virtual GICv3 hardware.
++
++MSI Messages
++------------
++In a typical guest on KVM, the VMM traps guest writes to a vPCI
++device's MSI/MSI-X registers/tables. The guest writes a virtual
++message (with a guest APIC address and a guest vector), and VMM
++emulation translates the message to program the physical device and
++physical device interrupt remapping (IR) tables on the guest's
++behalf. The guest never sees or handles the host-level MSI message.
++
++Hyper-V takes a different approach in which writes to MSI-X table
++entries are not trapped. The guest writes the device's MSI-X table
++directly with a host-valid MSI message. By contrast, MSI entries
++are in PCI config space, so writes to MSI entries are trapped to
++Hyper-V (or are done with an explicit hypercall in CoCo VMs),
++which allows for the possibility of using virtual messages. But
++for simplicity, Hyper-V treats the two cases the same and requires
++a host-valid message for both MSI and MSI-X.
++
++The physical IOMMU and its remapping table are owned by the host,
++so the guest must ask the host for the proper message. The
++"asking" is done by the .irq_compose_msi_msg function for the
++"Hyper-V PCIe MSI" chip, which is hv_compose_msi_msg(). The
++implementation requires sending a VMBus message to the Hyper-V host
++and awaiting an interrupt indicating receipt of a reply message.
++Since .irq_compose_msi_msg can be called with IRQ spin locks held, it
++doesn't work to do the normal sleep until awakened by the interrupt.
++Instead hv_compose_msi_msg() must send the VMBus message, and
++poll for the completion message. As further complexity, the vPCI
++device could be ejected/rescinded while the polling is in progress,
++so this scenario must be detected as well. See comments in the code
++regarding this very tricky area. A synchronous hypercall to get the
++MSI message would be a much nicer interface, but the code makes do
++with what's available.
++
++Once the host-valid MSI message is obtained, the guest must treat it
++as a black box that the guest does not interpret or modify. The only
++valid guest action is to write it to the MSI/MSI-X registers/tables
++using the .irq_write_msi_msg function on the HV-PCI-MSIX-<PCIaddr>
++chip. That function is pci_msi_domain_write_msg(), which calls
++__pci_write_msi_msg().
++
++Changing the affinity of an MSI or MSI-X IRQ does not require a
++new MSI message. The new effective affinity CPU is communicated to
++Hyper-V via hv_irq_retarget_interrupt() as called by hv_irq_unmask()
++on x86, or by the GICv3 gic_set_affinity() function writing the
++emulated GICD registers on arm64. Because a new MSI message is
++not needed, the default msi_domain_set_affinity() function is
++not used on the HV-PCI-MSIX-<PCIaddr> chip. Instead, the
++.irq_set_affinity function is set to irq_chip_set_affinity_parent()
++by hv_pcie_init_dev_msi_info() when the per-PCI-device IRQ domain
++is created.
++
+ DMA
+ ---
+ By default, Hyper-V pins all guest VM memory in the host
+-- 
+2.25.1
 
