@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793844993;
-	b=JYkZ7CRnWD7QabuD+6feHhf0OGnwMaw/NU8gR2yBG99TIqqi0+a3tgWq8EIASGu2tWWs
-	 Y4mn0b8wT1Cpg3JVxTRaOj+VIx/p6NzBwfM0uCVUjdwIQVaHynKitWx7cJhMfOLmt9GaC
-	 iDL+wElKtUKgkWfIdkUrZ645RsNSGmEzkH1YJfDWfwjDne7nuMbUwsd6TQsv8bxCU5Q1d
-	 Fw8HxdrQnUMOUAyaTCPSoiDLmxlVO0NRDAQQ0L+4DFy1Xd8WRIM0cxMaZWDz5LJ17pSYc
-	 dwTXCXx1LZAc2Nf0AAYnZAPnQAW3zvIbpSbgmjYhEQi6Pz6macnj9spWabiAL+t2gyA==
+	t=1793846281;
+	b=K5qNTqhLIdZQ4DJEWMZIfxhHaOHrkAAUzv3zSqm/aJv8t70a9ORNqO0X13VwgDCUAeC4
+	 D6pCfhDAAOmaT9MKrnyHsAy0PnKRFlWN6FroLMjX+QDKiT1I/ZMdIdfSYu7TEMRzRuyat
+	 Q/+5J4MwOJ6WvHOXRlmLaOsb5n16nPXUbtcbmDjWfbtAXYCNKX2iLnhdxocdYclKo/qQ0
+	 U8W/Nyb5MSOt0mrZvHCotK0Ta5PQtmLAtDLPslTHcUP7XL/Sw5VXx20Tjjiu/7UX+Bpzh
+	 r+MkKUA/NTvE2mNahctxStOAMA4a3F6+QkR76IAYr9r7Zw/dJjGZXvrbIm3qoi6Xx7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793844993;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793846281;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qZeSeIWR9U/BTun87nqGA1sXByCWhPJI9Wz4QWGwg1U=;
-	b=dj4SxkixHte/oJNY2KslGiXq9kuqd/gFvjl622XNCsPYFrw7/kUty7K7wmORRAlw7Gcm
-	 L6LGD3R/LxmUT6GiIQhr2sCMPUvcfy05lZ8bwTTsML1IBnIaVqWDlNmlWFq/ALQHRDVhu
-	 ukVUCX3aXr13cOwFlzuqDKBkvJiWe5HzJdm5bsXcR7Jaqtdgo0M2XAiS9ltwLy9ygZ4O/
-	 aDyQOlvChDessSk/Cz974y9EdTxKIg0IMJbd7n8MBbErESyg0F6zSciHcsWK6Jzi8+bdP
-	 CQwHfWiw0gFAEdMiZbbrNkcdZrt862xL/OZn200BMMsV8Gd4cTbiVCIsdUJ/btPwPYw==
+	bh=tt4xF5mPgF83WC9mN28G2woeInnN7/5ECFp+kHN4yfM=;
+	b=nJcqSK5G8/5z8Ea3RPuQRUIaXrh+vFehpZPI92Uhv9rdSuONA6WwpsuiUuHcb+6i0GL8
+	 rjgrEoqpM+JmZ5G18bv4sNQaBj6+OJXx7XjadbUjR4QmZdQxHfOqjXKmu0yKNHWnnBONs
+	 7xXvttbG42Skw3TSFm3BVShuh1KgrhUgmjKxLrZ82ws7zP4YlDEoFJldLicp5+hDwOvuk
+	 tXtA6rM3BV9DCJuHKFiCeBhvpsWBhscppXAQ0LV+b+zhGyOiYRGGdgBVV0gV4u+ZD+8g+
+	 DEScCYP3pzl4ljDEXvyjXkZfeLp4bZmKjcdHUEHhWIpS6HtvGHy0E4BVi+bLAIaqIMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXCZ+fJq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nSMD+mGq;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836E0606A31B
-	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 02:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8921A606A32C
+	for <linux-hyperv@vger.kernel.org>; Thu,  5 Nov 2026 02:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXCZ+fJq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58121F000C1;
-	Thu,  5 Nov 2026 02:16:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nSMD+mGq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01AD71F00919;
+	Thu,  5 Nov 2026 02:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793844992;
-	bh=qZeSeIWR9U/BTun87nqGA1sXByCWhPJI9Wz4QWGwg1U=;
+	s=k20260515; t=1793846281;
+	bh=tt4xF5mPgF83WC9mN28G2woeInnN7/5ECFp+kHN4yfM=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=BXCZ+fJq5aCL2ovI9UF++IZ2o/pLfhJa3hK6vxOhC5bbzgZtlKVsNKtx0OHhOXMpH
-	 z57xSiE6efLm7YK87SEa/90eCaHjCLcxNJqDGbihdobAwAPUf44xwfAWetx6Fgo/y0
-	 4P5TCKzdrMX8kVqVeptqj+FGhuKE9wEukSEicl0IMK/reCTRqoeUdwMqTMdckXNIZY
-	 iJYhY2RiquWnC1zoNC1ondOW+cR/t4m+cdx8tnbiwIbat+dE14E7lz/SK2e6RXZ4Vg
-	 VEAaq+mAKL5366HjsDWfpkNWMS6vgqRDFwx0ezyIOGOM9YRpHsnO5sNK33gX/YSXxC
-	 3zwZ0lM2srB8A==
-Message-ID: <sashiko-outbox-198443@kernel.org>
+	b=nSMD+mGqedpWz1O6KMw1wuwFhmjnbl7PeGf+sPYarUqIeow4M6ruHi1c3CxC5suxM
+	 8xWQNKo3E/7gz3zo2Ueq57fDK8Ql6x0UGow1iCZDaskiX9DnnT0gCMiG/+2ib9Fzxc
+	 1J4A7OGj9GCg7fo0qORWW6KEqaw76fPSDWLtEYUtuAL5Sy6j5k4o/N2hs9ZMS9cmQG
+	 C3V0ZTGIqWzIXfv8+SCUnT4OCFOk8aBDbUbdfpH5qUQv7OmkIJc1O+NvGE3JeEkUfY
+	 P6W2UDu9rUm7GP12ZlzlU/UhBJhqby1S1npcOXlalME1DfGQIiAcC1IgC8uujfGtYI
+	 FmFu/eS795VxA==
+Message-ID: <sashiko-outbox-198471@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V4 4/5] iommu/hyperv: Only call pviommu init on non-root
- VMs
+Subject: Re: [PATCH V4 5/5] x86/hyperv: Implement root partition IOMMU
+ kernel only driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mukesh R" <mrathor@linux.microsoft.com>, linux-hyperv@vger.kernel.org
-In-Reply-To: <20261105020106.3496339-5-mrathor@linux.microsoft.com>
+In-Reply-To: <20261105020106.3496339-6-mrathor@linux.microsoft.com>
 References: <20261105020106.3496339-1-mrathor@linux.microsoft.com>
- <20261105020106.3496339-5-mrathor@linux.microsoft.com>
+ <20261105020106.3496339-6-mrathor@linux.microsoft.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 02:16:32 +0000
+Date: Thu, 05 Nov 2026 02:38:00 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -62,85 +62,138 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] iommu/hyperv: hyperv_init() overwrites iommu_init without prior ch=
-eck
+- [High] iommu/hyperv: missing !hv_root_partition() check in hv_root_iommu_=
+detect()
 --
 
-commit ea2b425f9f0c2f00b3af04374abd0211b8229429
+commit c89a0e9d0fe34e767bd4527e0d99839504bcbea1
 Author: Mukesh R <mrathor@linux.microsoft.com>
 
-iommu/hyperv: Only call pviommu init on non-root VMs
+x86/hyperv: Implement root partition IOMMU kernel only driver
 
-This commit restricts setting x86_init.iommu.iommu_init to the Hyper-V
-PVIOMMU initialization callback to non-root partitions and renames
-hv_iommu_init() to hv_pviommu_init().
+This commit implements a kernel-only virtual IOMMU driver for baremetal
+Microsoft Hyper-V root partitions, handling paging domain management, device
+attachment, and IOVA page mapping via hypercalls.
 
->     iommu/hyperv: Only call pviommu init on non-root VMs
->    =20
->     Next patch introduces root iommu init. Since both can co-exist, set
->     x86 iommu_init to pviommu init only on non-root VMs. Also, rename
->     hv_iommu_init() to hv_pviommu_init(). Lastly, check for null iommu_in=
-it
->     before assignement as suggested by one of the pviommu authors.
->    =20
->     Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/=
+hv-iommu-root.c
+> new file mode 100644
+> index 0000000000000..e0e3e9d4385e2
+> --- /dev/null
+> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
 
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index b90e6f4875335..ea50708c3ae60 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -580,7 +580,8 @@ void __init hyperv_init(void)
->  	x86_init.timers.setup_percpu_clockev =3D hv_stimer_setup_percpu_clockev;
-> =20
->  #ifdef CONFIG_HYPERV_PVIOMMU
-> -	x86_init.iommu.iommu_init =3D hv_iommu_init;
-> +	if (!hv_root_partition())
-> +		x86_init.iommu.iommu_init =3D hv_pviommu_init;
+[ ... ]
+
+> +static int hv_iommu_get_caps(struct hv_output_get_iommu_capabilities *ca=
+ps)
+> +{
+> +	u64 status;
+> +	unsigned long flags;
+> +	struct hv_input_get_iommu_capabilities *input;
+> +	struct hv_output_get_iommu_capabilities *output;
+> +
+> +	local_irq_save(flags);
+> +
+> +	input =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+> +	output =3D *this_cpu_ptr(hyperv_pcpu_output_arg);
+> +	memset(input, 0, sizeof(*input));
+> +	input->partition_id =3D HV_PARTITION_ID_SELF;
+> +	status =3D hv_do_hypercall(HVCALL_GET_IOMMU_CAPABILITIES, input, output=
+);
+> +	*caps =3D *output;
+> +
+> +	local_irq_restore(flags);
+> +
+> +	if (!hv_result_success(status))
+> +		hv_status_err(status, "\n");
+> +
+> +	return hv_result_to_errno(status);
+> +}
+> +
+> +static int __init hv_root_iommu_init(void)
+> +{
+> +	int rc;
+> +	struct iommu_device *iommup =3D &hv_virt_iommu;
+> +	struct hv_output_get_iommu_capabilities caps;
+> +
+> +	if (!hv_is_hyperv_initialized())
+> +		return -ENODEV;
+> +
+> +	rc =3D hv_iommu_get_caps(&caps);
+
+[ ... ]
+
+> +void __init hv_root_iommu_detect(void)
+> +{
+> +	if (no_iommu || iommu_detected || hv_l1vh_partition())
+> +		return;
+> +
+> +	/* This is set for root partitions only, it is never set for non-root */
+> +	if (!(ms_hyperv.misc_features & HV_DEVICE_DOMAIN_AVAILABLE))
+> +		return;
+> +
+> +	iommu_detected =3D 1;
+> +	x86_init.iommu.iommu_init =3D hv_root_iommu_init;
+> +
+> +	pci_request_acs();
+> +}
 
 [Severity: High]
-The commit message states:
+As reported by Sashiko on v3 [1], should hv_root_iommu_detect() check
+!hv_root_partition() instead of hv_l1vh_partition()?
 
-  "Lastly, check for null iommu_init before assignement as suggested by one
-  of the pviommu authors."
+During x86 boot, ms_hyperv_init_platform() calls hv_identify_partition_type=
+()
+in drivers/hv/hv_common.c, which forces hv_curr_partition_type to
+HV_PARTITION_TYPE_GUEST whenever HV_ISOLATION is set so that Confidential V=
+Ms
+do not execute root partition paths:
 
-However, hyperv_init() in arch/x86/hyperv/hv_init.c only checks
-!hv_root_partition() before overwriting x86_init.iommu.iommu_init. Was the
-check accidentally omitted from this patch?
+drivers/hv/hv_common.c:hv_identify_partition_type() {
+	hv_curr_partition_type =3D HV_PARTITION_TYPE_GUEST;
+	...
+	if ((ms_hyperv.priv_high & HV_CREATE_PARTITIONS) &&
+	    !(ms_hyperv.priv_high & HV_ISOLATION)) {
+		...
+	}
+}
 
-Also, x86_init.iommu.iommu_init is initialized to iommu_init_noop rather
-than NULL in arch/x86/kernel/x86_init.c:
+Later in boot, pci_iommu_alloc() calls hv_root_iommu_detect(). Because
+hv_root_iommu_detect() only checks hv_l1vh_partition(), a guest partition
+where HV_DEVICE_DOMAIN_AVAILABLE is set in ms_hyperv.misc_features will set
+iommu_detected =3D 1 and x86_init.iommu.iommu_init =3D hv_root_iommu_init.
 
-    .iommu =3D {
-        .iommu_init =3D iommu_init_noop,
-    },
+When hyperv_init() then calls hv_common_init() in drivers/hv/hv_common.c,
+hyperv_pcpu_output_arg is only allocated if hv_output_page_exists() is true:
 
-During x86 boot, start_kernel() -> mm_core_init() -> arch_mm_preinit() ->
-pci_iommu_alloc() runs before init_IRQ() -> apic_intr_mode_init() ->
-x86_platform.apic_post_init() -> hyperv_init(). If an ACPI DMAR or IVRS
-table is present on a non-root partition (such as a guest VM with an
-emulated Intel VT-d or AMD-Vi vIOMMU, or an L1VH partition where
-hv_root_partition() returns false), detect_intel_iommu() in
-drivers/iommu/intel/dmar.c or amd_iommu_detect() in
-drivers/iommu/amd/init.c sets iommu_detected =3D 1 and sets
-x86_init.iommu.iommu_init to intel_iommu_init or amd_iommu_init.
+drivers/hv/hv_common.c:hv_common_init() {
+	...
+	if (hv_output_page_exists()) {
+		hyperv_pcpu_output_arg =3D alloc_percpu(void *);
+		BUG_ON(!hyperv_pcpu_output_arg);
+	}
+}
 
-When hyperv_init() subsequently overwrites x86_init.iommu.iommu_init with
-hv_pviommu_init, apic_bsp_setup() -> enable_IR_x2apic() ->
-irq_remapping_prepare() still allocates early DMAR/IVRS structures
-(dmar_drhd_unit and intel_iommu, or amd_iommu instances, device tables, and
-command buffers). Later, when pci_iommu_init() invokes
-x86_init.iommu.iommu_init(), hv_pviommu_init() in
-drivers/iommu/hyperv/hv-iommu-guest.c sees iommu_detected set:
+For HV_PARTITION_TYPE_GUEST (with CONFIG_MSHV_ROOT depending on
+!HYPERV_VTL_MODE), hv_output_page_exists() is false and hyperv_pcpu_output_=
+arg
+remains NULL.
 
-    if (no_iommu || iommu_detected)
-        return -ENODEV;
+If CONFIG_HYPERV_PVIOMMU is disabled, pci_iommu_init() invokes
+hv_root_iommu_init() -> hv_iommu_get_caps(), which dereferences
+*this_cpu_ptr(hyperv_pcpu_output_arg) while hyperv_pcpu_output_arg is NULL.=
+ If
+CONFIG_HYPERV_PVIOMMU is enabled, hyperv_init() overwrites
+x86_init.iommu.iommu_init with hv_pviommu_init, which then fails with -ENOD=
+EV
+because hv_root_iommu_detect() already set iommu_detected =3D 1.
 
-and returns -ENODEV without running intel_iommu_init() or amd_iommu_init().
-Could this leave neither IOMMU initialized while leaking the early-allocated
-DMAR/IVRS structures, and should hyperv_init() check !iommu_detected (or
-x86_init.iommu.iommu_init =3D=3D iommu_init_noop) before assigning
-hv_pviommu_init?
+Would checking !hv_root_partition() in hv_root_iommu_detect() avoid this by
+excluding both L1VH and guest partitions?
+
+[1] https://lore.kernel.org/r/20261103025150.3192119-6-mrathor@linux.micros=
+oft.com
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105020106.3496=
-339-1-mrathor@linux.microsoft.com?part=3D4
+339-1-mrathor@linux.microsoft.com?part=3D5
