@@ -1,105 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793968769;
-	b=VCJU1Hp8SCztnDTjHZBZTTHXCg3gsMK2jXoPv3XZ6g4hDj1nWi3JTTezbOJrARdZ1RKv
-	 W+xmM8siOPfWQogDLFMw5DvUdAxkmjd/6XDp+jBLOKwUVVb1qZ6znOYgZMr/UYPEtwEfk
-	 iIjRMc1tEGS4AlcdVu/8hrjadOJmH+B/re9lSG+Uc+dC5gA0j7+/0K2XGhRYOO1JvOb+1
-	 WIbkzeSZpjOg4C4XYftGK4sUTaSHqofK+wHc9FHh4aC47Y7eUb2jFCFfdfUp2gD5owVjp
-	 inh/V2MwNsDFiw9P39+CoMbQnV6HsRo8wqsxtCOsVjw/R12CUByZYnMIslpQtScnRpw==
+	t=1793973062;
+	b=s5KKLhBnlTaZabKbUY/D3ADQhwyzGXMCTf/PIaSv4ob6Kto/Gqppwk6vB5doMNYjHSDy
+	 OjUy70NCLNrpCMpAW+fsGWYFR+Pn+Yzbm8B2RMsnQDWppqe32/8PeYZfilhL9iGd4NVv+
+	 codbvzOl6HaBEELpa/98AfS8wnxkGddJD170OYnjsh+0mCwDbgtvejgfwUmiybA4c9r+C
+	 8I7H0DCcRqAI8W6j6LiXHEz+HqGDjABwa7PMTOhYWCHLx2034UueL5g/pjmDJhLr7nq15
+	 xo5F2EY4MqJvHtGzFcZdWlBt7iqGIVUxkvWkSAQ7tmtaPAcw1w4A2dbcpna63MTqoXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793968769;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=V/kcDgdJ3DHGubMyO4u6UCH7vslZXXrvBf4tKHWtNGM=;
-	b=VQIVfPu+6qbhCrjP0kePmI194s4+xERjjHAjw3imWnzOMbBNuhJQZmizAUg8lvMWov7l
-	 TbqwoaAKFnK72osvX7M6AhglWCHtkgx4FhMEV+x5UbymVVvzMIMkx5rpVBwwFl5NYNRHu
-	 rhBXY82tlxh5axaaZxY93rkk/kg2LK4JkL4OEbHI9RRHhuGiNC5ZJL0UuvU0+n9Rj84fj
-	 sTp0Zv5s1pVDuh8WJBZW2Nv/z3+XQOtUyxt6TEWPqPdoPpOfd9KJSWzHoO/3sdZwcoMkz
-	 xGvYoJumPaQoHYlvie2IwhC6EAK6Sq4ysB8RyTMu1YVoh4zPbUqoedCvm8gZNLV63ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793973062;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=SvbdRNqL/8qCTDSGCTb8M0taIrstvBniNfZYFufgM5Y=;
+	b=t/3kMgbIUXtvUXjpUxyV+DzKhmgg+cN3lpB298/6+lZtoGk2wCCmjmpgExTludiOvNJy
+	 rf35bbBfBMcshbo8ZtFBMqVvWAaaexR9mC/wBpaN1JevPLx+LlJLfs96S+ET2j4aIuv/c
+	 mmb/8Jbo7zh/dT/XrRVsMahPRmybxZprWzts2IIOcAvxiPr9EOqmjqIhlb8DW4uw1d/FG
+	 KqxMtMtJwvM/u6JsTm9WZybBdLj/5P7KjrhDKcL/d5ReQ4avFyTCoSa74+elxKCLUHYph
+	 P6gM+aiLudKlY5r8YjGFCmDRo5qt70ZDIdu43dXH1hw5KMa6yUqSoDFBcEBYPRISg4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JVGE5zOO;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L33pwgZS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08766606A32F
-	for <linux-hyperv@vger.kernel.org>; Fri,  6 Nov 2026 12:39:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08766606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id EFC62606A329;
+	Fri,  6 Nov 2026 13:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JVGE5zOO
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48b001cd92bso326685f8f.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 06 Nov 2026 04:39:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793968767; x=1794573567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V/kcDgdJ3DHGubMyO4u6UCH7vslZXXrvBf4tKHWtNGM=;
-        b=JVGE5zOOaEbByQQGxTsCgkBcDpIMcDkVsz3ghCKe7umPhL/lyJaKBzWW1nwTf6Eb6m
-         jjSJvEW40hyae6cFqUnsV4Vo5dk2Tl4gNQaK7GriRjkdT++TwgmvWYFHpTxmz7aj5f3R
-         Ep82Pk+GfGvCGJ0r7mz4fwcigklpdpSq0MINTv3vxhrDLbfrYOvKwTsIdMbHB4B4h3eY
-         RNN7ajH95YjGwhf1wlivpaTlYy3/pqe+QJC5hQDUAfN/uaUJLef/vrmRan5VyIWO5Ue9
-         ZA9RhzjNvOB0/wvp3NEKC7Fb3Tk/qjSqBWhmobAUeGybhl5RD/P3UOWvJiFch14OyJd5
-         cwjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793968767; x=1794573567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V/kcDgdJ3DHGubMyO4u6UCH7vslZXXrvBf4tKHWtNGM=;
-        b=UQyvCny59Nqcm5tHE9ILlroRD/TuofbfpahEFQ6vSbAcGcQNtJcXUJ7t4DNIc24bLz
-         dHs5cC3buXRy2gPz/9NczCj2KZGoxeWjZEdK4CSiLLtjbg+c/kXF3LAkGAkjBu3gZgyd
-         ScGL27t9BtquaXNS5WVeEsxhIznFvY1FCzekyBQVJBVj79Nf7pU1nT5XFwqk4W+we3UD
-         SPsU8fh5FJAUdku1BuPFW3RSkz+QbFwOJQYRuz4EcXGlCcrozkOERtgdkndfGB9zaB9f
-         OgnDAJILihzqHqwbo6f7Ao3U6yvnGPh+apA4FovwE8Mk2NhQUxaDXyXCWsbzsciTZn4s
-         Qkfw==
-X-Forwarded-Encrypted: i=1; AL+hErHcQy9782xMLGcocKTYE/AWOYOWfu4MS+cfhkrf/3j6vJP7RUKwU0keK4V/cPcMHjtO/PTiMEgD0bymEm0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Fx9nPi/pbTUsSJOXh8LKTTx4OozvB1vyrkyBa0qku+0Lo3wU8
-	4+YIlThBXT+xXVdLyI0x3DERKInsklxoH9PHOA7a3bYgXIMKAps5vQlW
-X-Gm-Gg: AYBFou2JtaIhfOc62kEJKG21XO6TdtctTRFl2VdE6IV/K5bpo7EGSPsqJbTAoEAJY1t
-	l4mteSZiE30wp2LBb79v4DLg86OXlc4mXby0vkFnsgrVtP49iQIF0HEGyI6Wl7lYMWN/jFeD/VN
-	QDdC1rdnlXfoOr5CILw9+RYGDfhh6EtrjxTHHhErNOCX2POtuDbBh3E3qSHMPCWctZiWHNb6GrC
-	fSfoOoEM/APywB524snXsGN+r1A56wJTvErf8635whKmJfQjqtWsimIZ23Vpxa7lqZHYwAEr8aG
-	Tjk3izk+w8igAxNVF8RrFDhOoOioLAnfXyVenmrbDGRMB3cXToMSfEkXyR1e+DidUWOLg6bMj1B
-	1ZXNY6JmZUQwICyLeAxmgJ+HzZMii73vYO1eyL3H2wd6r0MvJ44fDj3yZRLT5d8fOEDoKW/jAm3
-	NQIcGAj7AMBKhz1ulSmJRAFlNlofpni2H3yFVWNA8mOrbomJOarISHm+OhYsTd45iKj9uMFQVpo
-	JxIuY1/2PHC4YrH5GJX0HrgKv4DM0N7tNZBnP868zMyBUKlgc/32nBihIWF2JNj2NZwfCW4pqnM
-	Um24Jhmv7JfdU6V05aH9GHc0D/WNvpWDTon79waAQsyt5u/qhSrCDDQBErWrWurgSOZgNbARpvv
-	xVgBhgcyzOb1TMDkffClqCxuc/+1e
-X-Received: by 2002:a5d:59c1:0:b0:48e:3df8:74cb with SMTP id ffacd0b85a97d-49273e5b29fmr5340663f8f.6.1793968767067;
-        Fri, 06 Nov 2026 04:39:27 -0800 (PST)
-Received: from andreayoga.localdomain ([151.37.255.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d63ae2sm3776938f8f.11.2026.11.06.04.39.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 04:39:26 -0800 (PST)
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L33pwgZS
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 257841F0089F;
+	Fri,  6 Nov 2026 13:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793973061;
+	bh=SvbdRNqL/8qCTDSGCTb8M0taIrstvBniNfZYFufgM5Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L33pwgZSVggirArZ13tgig1B1UCQKbjbxP46ClHAA2P14xrsBYu6ITrSuDWxD75nm
+	 951iQE/lYInSkLK7zdv01x692IZ8EISZoenRxG8xR7Tk2E4p6mjAl59/Ld/fabYaci
+	 0O0y4X0ZqJB89xAkdhFcg47FJX/vGN9YxDmynA2wfSj58zxVe28UDKojH8xPKB9pkm
+	 JrmLw6sGmd3K1zoXLZ0badUqpxNhCbLlgu742muYZwUmimGIDQRTbhteYmZgvMqpeS
+	 Vw7E7CJ3LK4waVWLimdiYEbfq546n85vZyX7ijnIUWr58UPgYMuJVskiiDeWqRCa4Y
+	 8e/9k+FsTIHQw==
+Date: Fri, 6 Nov 2026 15:50:57 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, Jens Wiklander <jenswi@kernel.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Scott Branden <scott.branden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Andrea Parri <parri.andrea@gmail.com>,
-	Bobby Eshleman <bobbyeshleman@meta.com>,
-	Simon Horman <horms@kernel.org>,
-	Luigi Leonardi <leonardi@redhat.com>,
-	Xuewei Niu <niuxuewei.nxw@antgroup.com>,
-	linux-hyperv@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net] hv_sock: Report no unread data before a channel is available
-Date: Fri,  6 Nov 2026 13:39:18 +0100
-Message-ID: <20261106123920.162131-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-sgx@vger.kernel.org, selinux@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH 00/14] mm: convert further simple mmap hooks to
+ mmap_prepare
+Message-ID: <au3bQYYHRxR9VRfh@kernel.org>
+References: <20261105-late-2026-mmap_prepare-v1-0-c56aadfbab8a@kernel.org>
+ <CAHC9VhQvpFeEJaEyPDaqj8_S752puSaNe0Rn-hxjh=ugCoFsxA@mail.gmail.com>
+ <au2odtvEhpLJY4eD@gremlin>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -109,75 +103,26 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <au2odtvEhpLJY4eD@gremlin>
 
-The Hyper-V transport is assigned before the asynchronous VMBus channel
-offer completes.  Its zero-initialized hvsock therefore has a NULL chan
-until hvs_open_connection() associates the channel with the socket.
+On Fri, Nov 06, 2026 at 10:18:06AM +0000, Lorenzo Stoakes (ARM) wrote:
+> > Granted I've only properly looked at the SELinux patch (7/14), the
+> > rest I've just skimmed through, but these are all independent patches,
+> > right?  Is there any reason why individual subsystem maintainers
+> > shouldn't just pick up their associated patch?  Yes, perhaps chasing
+> > down individual maintainers is a bit more work, but isn't that the way
+> > this should work?
+> 
+> I've no objection to people taking patches independently, the concern is people
+> lagging on that and holding up a key conversion which is entirely mechanical, +
+> generally tree-wide stuff like this has been via the mm tree.
 
-SIOCINQ can query the assigned transport while the socket is connecting,
-or after connect() fails once the transport has been assigned.  Unlike
-poll(), that path does not check stream_is_active() before calling the
-transport's stream_has_data callback.  hvs_stream_has_data() then passes
-the NULL channel to hvs_channel_readable_payload(), and any user in the
-guest can trigger an oops:
+This is probably the best way forward, as for a subsystem this is just a
+different API for doing the exact same thing (and that way "idempotent").
 
-  BUG: kernel NULL pointer dereference, address: 0000000000000178
-  RIP: 0010:hvs_stream_has_data+0x23/0x120
-  Call Trace:
-   <TASK>
-   ? vsock_ioctl+0x74/0xf0
-   sock_do_ioctl+0x42/0xf0
-   sock_ioctl+0x27d/0x310
-   do_vfs_ioctl+0x700/0x810
-   __x64_sys_ioctl+0x7d/0xf0
+And looking at the intersection points overall, the changes are neither
+likely to cause any major merge conflicts...
 
-Return zero unread bytes when no channel is available, before accessing
-the receive state or ring.  Leave the existing channel-backed receive
-handling unchanged.
-
-The oops was reproduced on an unmodified v7.4-rc1 kernel in a WSL2
-guest with a small user-space program, available on request.  With this
-patch, the program reports zero unread bytes and the kernel logs nothing.
-Other vsock_test cases were not run, as most of them need a host-side
-peer.
-
-AI assistance was used to identify the issue and develop the fix.
-
-Fixes: f7c722659275 ("vsock: Add support for SIOCINQ ioctl")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
----
-An alternative is to check stream_is_active() in vsock_do_ioctl(), as
-vsock_poll() does.  That would also change SIOCINQ on VMCI sockets that
-are not connected yet, from -ENOENT to 0.  I kept this fix in hv_sock to
-limit it to the crash, and can send the generic check separately for
-net-next.
-
-The reproducer is a new vsock_test case.  I have not posted it, as
-Documentation/process/security-bugs.rst asks for reproducers of bugs
-found with AI assistance.  I can send it privately, and will post it
-once this fix is merged.
-
- net/vmw_vsock/hyperv_transport.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index 855b15971c359..551eabe690144 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -697,6 +697,9 @@ static s64 hvs_stream_has_data(struct vsock_sock *vsk)
- 	struct hvsock *hvs = vsk->trans;
- 	s64 ret;
- 
-+	if (!hvs->chan)
-+		return 0;
-+
- 	if (hvs->recv_data_len > 0)
- 		return hvs->recv_data_len;
- 
-
-base-commit: 475ff14ba558bb8857bca878f1d593784ccc4f0f
--- 
-2.53.0
-
+Br, Jarkko
