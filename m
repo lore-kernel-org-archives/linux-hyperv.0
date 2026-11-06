@@ -1,49 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793960406;
-	b=ZQHsSAbSgi1nA4c95d7DwuBJZU+n7TDFmmfFS9E2kugykMcZ/vjj6hv6O9gl+qTxOotw
-	 SzTXIqak5gcG9GMV5gnyb45zYB5b2ROXp44Z32KecAdRyWdibbeWyW512/5UMQeGU0Z7i
-	 Eqm4QfQ34BDJoTSqWBzmqa5fPjUe4MKc88VA9gwDfRlzwUjM7ZBuQIBTkbyItGC8P+p5p
-	 qHm/5dCiKOV2Z+ywPCoKsiRUjU1q/4M80U3Ot11P8SIkAQafcO+Ly1Y/+KAX2XDnf5/uL
-	 aubszEpDXyby1ydvecnTJC9vAoinRsEwm4s/p6iTsh2L59Bm4iHZOEV7WgAAbJXPNYQ==
+	t=1793968694;
+	b=eoR0e53VBwszrBJBfXIwyQa1LIL583uzUjYOC0jVT2om8NYf1/muagnoWQoYyUzdZJE9
+	 G+6vfIySfcsBUNGr0QaZXZV+KKgc5XMoN3LiTnsJgPZ4cEL1aQ59tNbF6FwhGmxJxm+WW
+	 yd1Os3JBEpuUZSvI1swIA+H03JpcCH5p3pkuNi3kzHHgNTj5ZqAFi56dRQPfLVqxZmPb6
+	 6v4h2G1uUJbg2kx6iHtwHISSR4mwv5vQMMdW6lfuXRxCYiCsIRlJAyVAIXP1BJGGvQ61i
+	 UvzE+AouohH4hDrZk8CaGwygt+LeChNwdWs0qBq4RLWNTVRj7dOLHUOJ9OWw9WxhcnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793960406;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=JNl5Xakwn7jLlETiJBK8Gnvf3fDOngSL4R4QB3bVpzo=;
-	b=u+ng2VtF5dzvpyeZErIQvGk+B0Gz23Y+R3/kbDVIQGhm/WnQTVhcqlS/XNd5g8jf26Cx
-	 2QtBKJyPbUgtYgng9jIEJUZx0WUKfnDoxbY0YsMKXUzX47eDAcGAGKDC9EzZKeL8q5oiu
-	 4bcZc9r/WTxIG+9YeXHhfBo7wYxcw4gJsl9CDGKVOKq7j29EbKSyr3HLhxncc/a0vz9pp
-	 OUB+cbV67bKm9atC6AOzaoTp39G5zw3ASIyn6YfHxyFMoRBO1OxKEu+HqviOhfFu3XBfs
-	 r9Rh7G/HCdX0jjJpkfU5B+Ue9nEOy9I1xVqaersL+FC0t/1EWRhrZxuxmIgpkOCVTHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793968694;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=IUiGCier333Hz09PdeW6j76Dwlflwlp2lMcssnAzTuQ=;
+	b=uz55+lKFTGAeiT4MPYoaYDPrq7xjHEHg7bEu+aPomDuVYBTAqghrgROhk4nnhVvx6KZe
+	 NuEY1tbYA3VcYCT90C25GkGUz/b8840bjXVKCLFceSVzLWB7iUEM/9vsulkhmQd2MlKAy
+	 Or5eIMVo14wGEM2Gw5ippxc5p4z/d8+8c4I3f5x/eZksa4Sl+HUz01R41++ZBgSFYpO7t
+	 5X5wFOz+LWlg3+040uJSBQu+GfLAXHUSIOSjgRH2wOTXY+iELH7cIA+CNHaPp5L4N8thr
+	 E19PGglcD/uD9RqGHaLEh52gkFpKudhrvRYs8LJdtZducY596I5C7dLBNCBWgUnQA9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMlhxpE7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VIo4FhS3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C33C6082BD7;
-	Fri,  6 Nov 2026 10:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD525606A326;
+	Fri,  6 Nov 2026 12:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMlhxpE7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FE91F008A3;
-	Fri,  6 Nov 2026 10:20:05 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VIo4FhS3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDFD61F0089F;
+	Fri,  6 Nov 2026 12:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793960405;
-	bh=JNl5Xakwn7jLlETiJBK8Gnvf3fDOngSL4R4QB3bVpzo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=AMlhxpE7ccDf9aq0sq4DRpa/AYB94KUdxbV0HQFIp5A/p7i9xlKmcwto1X/DXyluF
-	 scxzMWYViSbOjAujSQa5aWF9eaWvu3NLp1YMXOj54XeJEe2UPRNpkSrMRCPeCKnV74
-	 v2ax4OqKZ86wlK/Cnh5/Npbevnd60UuXxUqiWAXr42BNqqMGBVE+93Ux4IVzpSZ8wR
-	 mp7vit4xYDMmT96dmcU7kzWvkkGmBmpPrBeCCtzrVUgt+AMndCUvInKL2I3fSbEgnu
-	 1ZX1bTGrRBDy9+E9aJ1ncyd+99YcczBtn9XRX5Kwv1WiJy+zxFwh4cIadUuutizotX
-	 FmADaxTr4vv0Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 9B0503924A54;
-	Fri,  6 Nov 2026 10:20:05 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1793968693;
+	bh=IUiGCier333Hz09PdeW6j76Dwlflwlp2lMcssnAzTuQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VIo4FhS3PG8yGjv8w7BUwZ9r+AF5M4M8k8kQsXCAQvczJVcmNHj36plfKWlPmr2Zx
+	 k0aHR3fYtfDiWBAscKWUNaHbEQ0a4WaEHhFh2QQgFDqPH2v3dqL22f1RP8cT3zBQBN
+	 vea9aykHPzqadQgV5YwCc09/45yAAChGDHyYoGlQLjMEW2eyFUwl7K92ZCLe4w7y87
+	 svudE7/onGOUbjQ3GHFl8qKeMCtQ2peixq5KOdxk4yWqz9EFcXMsKF9p4ZA5o8eT0s
+	 /nFxufqx+VWDkjWf55i6xcuuqx2hwrz8DPfsKznWspjB8/Qyqc3nv1cnVZe5dDCS1n
+	 1oxKjv0STGpXQ==
+Date: Fri, 6 Nov 2026 13:38:10 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 39/47] clocksource: hyper-v: Move
+ CPUHP_AP_HYPERV_TIMER_STARTING post stop_machine()
+Message-ID: <au3KMiLqclDsVESx@pavilion.home>
+References: <20261105163045.38862-1-frederic@kernel.org>
+ <20261105163045.38862-40-frederic@kernel.org>
+ <da4937bd-542e-4a46-a5a5-35596572f5df@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,43 +69,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] hv_netvsc: Stop PPI parsing on invalid metadata
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179396040443.513493.15670101315738233771.git-patchwork-notify@kernel.org>
-Date: Fri, 06 Nov 2026 10:20:04 +0000
-References: <20261030093459.4004663-1-ernis@linux.microsoft.com>
-In-Reply-To: <20261030093459.4004663-1-ernis@linux.microsoft.com>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, lkmlabelt@gmail.com,
- parri.andrea@gmail.com, linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, liuwe@microsoft.com
+In-Reply-To: <da4937bd-542e-4a46-a5a5-35596572f5df@linux.microsoft.com>
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Dave Miller <davem@davem-thinkpadp1gen8.ibmlond.csb>:
-
-On Fri, 30 Oct 2026 02:34:59 -0700 you wrote:
-> rndis_get_ppi() uses continue when a per-packet information entry has an
-> invalid size or offset, or cannot hold the requested metadata. However,
-> the remaining length and entry pointer are only updated at the bottom
-> of the loop. Each error path therefore retries the same invalid entry
-> indefinitely, repeatedly logging the error and preventing receive
-> processing from completing.
+Le Fri, Nov 06, 2026 at 03:37:26PM +0530, Naman Jain a écrit :
 > 
-> [...]
+> 
+> On 11/5/2026 10:00 PM, Frederic Weisbecker wrote:
+> > Between CPUHP_TEARDOWN_CPU and CPUHP_AP_OFFLINE, stop_machine executes
+> > all the teardown callbacks while stopping all CPUs in the system. This
+> > doesn't mix-up well with running RT or isolated tasks.
+> > 
+> > In order to transition smoothly from global stop_machine to finer
+> > grained synchronization between teardown callbacks and the other CPUs,
+> > a new stop machine post function has been introduced to be executed
+> > after the main one with IRQs still disabled while other CPUs can exit
+> > stop_machine().
+> > 
+> > The teardown callback here simply performs timer and IRQ disablement,
+> > both of which can run concurrently with other CPUs.
+> > 
+> > Move it to post stop_machine() accordingly.
+> > 
+> > Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
+> > ---
+> >   kernel/cpu.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/kernel/cpu.c b/kernel/cpu.c
+> > index 93b8498e26c4..b49b67ef5ecb 100644
+> 
+> I am unable to correlate the commit message with the change and could not
+> find the rest of the series on lore to get more context.
 
-Here is the summary with links:
-  - [net,v2] hv_netvsc: Stop PPI parsing on invalid metadata
-    https://git.kernel.org/netdev/net/c/19a227903e65
+Sorry about that. I couldn't CC everyone to the motherpatch so I tried
+to bring as much context as I could to each individual follow-up's changelog.
+Probably that wasn't enough.
 
-You are awesome, thank you!
+So here is the cover letter that explains the whole intent:
+
+https://lore.kernel.org/lkml/20261105163045.38862-1-frederic@kernel.org/
+
+And the patch that does the initial infrastructure change to stop machine:
+
+https://lore.kernel.org/lkml/20261105163045.38862-2-frederic@kernel.org/
+
+Thanks.
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Frederic Weisbecker
+SUSE Labs
