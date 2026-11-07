@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794011594;
-	b=TXRBNYgItnIowWN9J5f8yu9P/B6uGlQEMn6BjEZgFmavj90kL7I2NjjwYw74bZEMb9qb
-	 zYnM5Mt36Ltmkh5HfuB+VwpQ/2UCl5NYgxZL2ZcW+g3K3ZHrOQ0oiFKB85sPEmXyxP5Dp
-	 841WfT2nP3YZJZB4eFhCNj7v3mrXKpyXK9Ntv2uWBbrfrejAIQSNyNjdbNKX6d0T+kVAW
-	 97F4F4RjzKhdYqpj2sQ1PiC+3Dq/wUVC1KkH7swVXyZYXkdd0JO3aYCfFMfVKrSlol/Y5
-	 PhHiqblH0C2q+h5P/HnR1GvQRuwClVCgYY5hjcRinXX8P4khGctbvrmar9Dsa/ueiUA==
+	t=1794019725;
+	b=rhLPbKSSCZfzmT6XUolw6YgBKpI1j9EnWGwlukIAc0WDtQhTx9VtrhUmCrl/qB4LOnYg
+	 YondDP5edGKsWHwmBbwvnXVxEZhRJ/937tg9K4JhD05BPYxS5guRH+ikTa85DoZxQ97Oa
+	 XvFf0jbbGO8W6vM/aGWngYtZRv8jyiBxOyBtkCQng1KBEnBerJN1vZH2fiia1xTE9wBtn
+	 j4EJ82ainqsnlUI7+ihah9UkCl6CKrmetn8WvbSr83eiEJzfCwhbj5TlNzdPKeIy1l26V
+	 0c2eV6tE0wYXgCQOXucjYVJsLSysO46TJDEaa4l8no6fokaLwwPESop2l+1Gw1aYdsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011594;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794019725;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
 	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=4AIzCiT9zAqiM5GA6FV2ih9/wZbuPRRZ3Er6s+GSRAA=;
-	b=hNYJ7NIKfF9t2kwyqh7VQBOn7Bcbl9VnKWE29LW0JiIlH85uNbO/6DzJocSasBeSq2dK
-	 ToSz/Jtupx7Z948zITEwylfJUIiA4bcQLPkbHl7uCtkLTzyNyNjAkjdFayBfNaP0xtRXZ
-	 3nJ6Ltkc7GAKdKWYIt0vblH5rKgy70jqyqd81MnGsELBdvCZvOsrrJsqNragJCS4VF5af
-	 QVPX2MmJcuCIpr3L5qTBKSDzoJSbTGWU4b3dSeGRcsWCsT7UpYuW3FqVpMbLQ768NYVcX
-	 imQyA5twheHAzsP589iw12oeg0ReRyw4H7J44TSsKewH3EREdot6/Edf3TxJqqA7v2Q==
+	bh=fBwqy9R61SqvFjj6f4NiY/zITihotHz0FIoS201eK7I=;
+	b=EjV6y2YLJakpOgU9olb1yah4jsIwCrwKTQLnsWEGLW3HSM1UlDC+GTVhRE9ZGgF9Y5NU
+	 hRMvGr8LnOfg0cr1hpAHyV6nQmw0OL9Sd9ZKxdh3JSdAhf1wxigdxZRhtXmO0uWTVWVyR
+	 DJ11nfqDqIx4HevXxX2EsM8pBOT5ZWm45UxjZQQkCdn5YvjUsVGYjJy0hUodG2qrGfGdS
+	 FOEMofZ9FRSPl6S+Fc6hGNcY+PLYJRrqjfeKfqiKf1wvoI/w/yry2ruT7RZ3B6jXM+KB7
+	 7BwI9Ecf2lpbM0uTfi/o2b6UD+Fl4BkqVaq2u3AqdhtyYxhamzlqz8VXLz562wwSx+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="W2kf/BGR";
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=hrTbHXNt;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0FDC606A326;
-	Sat,  7 Nov 2026 00:33:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0FDC606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B54C606A32E;
+	Sat,  7 Nov 2026 02:48:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B54C606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=W2kf/BGR
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=hrTbHXNt
 Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 751D520B7167;
-	Fri,  6 Nov 2026 16:33:12 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 751D520B7167
+	by linux.microsoft.com (Postfix) with ESMTPSA id D322120B7168;
+	Fri,  6 Nov 2026 18:48:43 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D322120B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794011592;
-	bh=4AIzCiT9zAqiM5GA6FV2ih9/wZbuPRRZ3Er6s+GSRAA=;
+	s=default; t=1794019724;
+	bh=fBwqy9R61SqvFjj6f4NiY/zITihotHz0FIoS201eK7I=;
 	h=From:To:Cc:Subject:Date:From;
-	b=W2kf/BGROQlVkPNDhxVqdvuhzsdAaTigHkEXAsHvT1mi/n9vfuv38OKTLHitQVza4
-	 LTrE7E9aJGMT+Nvfh/B6ANh98pIGk6I+buWC0xAK1/yJ9DMIMQ/o6cPqhKRPELgMM2
-	 lq1iGzkAeA26uB9Ohk8+3tBt/hp1+Hiz++Qy9a30=
+	b=hrTbHXNt9ndcF1CGr7damsN1KsIduTRZhj3fqmoi8zjdcLh678dPeENCZgnCjN/WX
+	 XmgOvhSKhnlPCHPetwiJ1bxgIj82cofwDfM5U8640LWsxTyDX6r231VZjiTXGwnsPW
+	 UPCE0RrEL0nl460CV8kOFmC0mX0LXIHhdiQrTfyo=
 From: Mukesh R <mrathor@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -48,9 +48,9 @@ Cc: haiyangz@microsoft.com,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
 	mhkelley58@gmail.com
-Subject: [PATCH] mshv: Change parameter passing to hv_call_create_partition()
-Date: Fri,  6 Nov 2026 16:33:03 -0800
-Message-ID: <20261107003303.3897039-1-mrathor@linux.microsoft.com>
+Subject: [PATCH] mshv: Do pre-commit before mapping a guest VM GPA
+Date: Fri,  6 Nov 2026 18:48:42 -0800
+Message-ID: <20261107024842.3929415-1-mrathor@linux.microsoft.com>
 X-Mailer: git-send-email 2.51.2.vfs.0.1
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -63,79 +63,134 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At present, mshv_ioctl_create_partition() for unknown reasons passes two
-aggregate parameters by value to hv_call_create_partition(). Change that
-to pass them by reference.
+Pre commit reduces TLB flush overheads in the hypervisor. On systems
+with large number of CPUs, there is signficant advantage to doing
+this. Pre-commit allows the hypervisor to build all data structs needed
+in anticipation of the map gpa hypercall, thus reducing or eliminating
+deposit page returns from the map gpa hypercall, and as a result reducing
+TLB flushes. In some performance benchmarks, it made the maps of large
+ranges almost 30% faster.
 
 Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 ---
- drivers/hv/mshv_root.h         |  4 ++--
- drivers/hv/mshv_root_hv_call.c | 12 ++++++------
- drivers/hv/mshv_root_main.c    |  5 ++---
- 3 files changed, 10 insertions(+), 11 deletions(-)
+ drivers/hv/mshv_root_hv_call.c | 52 ++++++++++++++++++++++++++++++++++
+ include/asm-generic/mshyperv.h |  3 ++
+ include/hyperv/hvgdk_mini.h    |  1 +
+ include/hyperv/hvhdk.h         |  7 +++++
+ 4 files changed, 63 insertions(+)
 
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 1f086dcb7aa1..c61b52db7f00 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -275,8 +275,8 @@ void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
- 
- int hv_call_withdraw_memory(u64 count, int node, u64 partition_id);
- int hv_call_create_partition(u64 flags,
--			     struct hv_partition_creation_properties creation_properties,
--			     union hv_partition_isolation_properties isolation_properties,
-+			     struct hv_partition_creation_properties *cr_prop,
-+			     union hv_partition_isolation_properties *isol_prop,
- 			     u64 *partition_id);
- int hv_call_initialize_partition(u64 partition_id);
- int hv_call_finalize_partition(u64 partition_id);
 diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index e761addda50e..bf0f90515dad 100644
+index bf0f90515dad..5c44ba8f72b0 100644
 --- a/drivers/hv/mshv_root_hv_call.c
 +++ b/drivers/hv/mshv_root_hv_call.c
-@@ -86,8 +86,8 @@ int hv_call_withdraw_memory(u64 count, int node, u64 partition_id)
+@@ -181,6 +181,54 @@ int hv_call_delete_partition(u64 partition_id)
+ 	return hv_result_to_errno(status);
  }
  
- int hv_call_create_partition(u64 flags,
--			     struct hv_partition_creation_properties creation_properties,
--			     union hv_partition_isolation_properties isolation_properties,
-+			     struct hv_partition_creation_properties *cr_prop,
-+			     union hv_partition_isolation_properties *isol_prop,
- 			     u64 *partition_id)
- {
- 	struct hv_input_create_partition *input;
-@@ -105,11 +105,11 @@ int hv_call_create_partition(u64 flags,
- 		input->flags = flags;
- 		input->compatibility_version = HV_COMPATIBILITY_21_H2;
++/*
++ * Pre commit to reduce TLB flush overheads in the hypervisor. On systems with
++ * large CPUs, there is signficant advantage to doing this. Pre-commit allows
++ * the hypervisor to build all data structs needed in anticipation of the map
++ * gpa hypercall, thus reducing or eliminating deposit page returns from the
++ * map gpa hypercall, and as a result reducing TLB flushes.
++ */
++static int hv_pre_commit_gpa(u64 pt_id, u64 gfn, u64 num_pages)
++{
++	ulong irq_flags;
++	struct hv_input_precommit_gpa_pages *input_page;
++	int rc = 0;
++	u64 status, done = 0;
++
++	while (done < num_pages) {
++		u16 rep_count = min(num_pages - done, HV_REP_COUNT_MAX);
++
++		local_irq_save(irq_flags);
++		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
++		memset(input_page, 0, sizeof(*input_page));
++
++		input_page->partition_id = pt_id;
++		input_page->target_gpa_base = gfn;
++
++		status = hv_do_rep_hypercall(HVCALL_PRECOMMIT_GPA_PAGES,
++					     rep_count, 0, input_page, NULL);
++		local_irq_restore(irq_flags);
++
++		done += hv_repcomp(status);
++		gfn += hv_repcomp(status);
++
++		if (hv_result_needs_memory(status)) {
++			rc = hv_deposit_memory(pt_id, status);
++			if (rc)
++				break;
++
++		} else if (!hv_result_success(status)) {
++			pr_err("%s: failed to pre commit for gfn %#llx done %llu/%llu, status=%#llx (%s)\n",
++			       __func__, gfn, done, num_pages, status,
++			       hv_result_to_string(hv_result(status)));
++			rc = hv_result_to_errno(status);
++			break;
++		}
++	}
++
++	return rc;
++}
++
+ /* Ask the hypervisor to map guest ram pages or the guest mmio space */
+ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+ 			       u32 flags, struct page **pages, u64 mmio_spa)
+@@ -205,6 +253,10 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
+ 		page_count >>= large_shift;
+ 	}
  
--		memcpy(&input->partition_creation_properties, &creation_properties,
--		       sizeof(creation_properties));
-+		memcpy(&input->partition_creation_properties, cr_prop,
-+		       sizeof(*cr_prop));
++	ret = hv_pre_commit_gpa(partition_id, gfn, page_struct_count);
++	if (ret)
++		return ret;
++
+ 	while (done < page_count) {
+ 		ulong i, completed, remain = page_count - done;
+ 		int rep_count = min(remain, HV_MAP_GPA_BATCH_SIZE);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 4c9f3353074a..a3d497d99b0b 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -28,6 +28,9 @@
  
--		memcpy(&input->isolation_properties, &isolation_properties,
--		       sizeof(isolation_properties));
-+		memcpy(&input->isolation_properties, isol_prop,
-+		       sizeof(*isol_prop));
+ #define VTPM_BASE_ADDRESS 0xfed40000
  
- 		status = hv_do_hypercall(HVCALL_CREATE_PARTITION,
- 					 input, output);
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index cc2cfce2aefd..89fe6fb9244a 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -2088,9 +2088,8 @@ mshv_ioctl_create_partition(void __user *user_arg, struct device *module_dev)
- 	if (ret)
- 		goto free_partition;
++#define HV_REP_COUNT_MAX        \
++	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
++
+ enum hv_partition_type {
+ 	HV_PARTITION_TYPE_GUEST,
+ 	HV_PARTITION_TYPE_ROOT,
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index 966945f0504f..16c41ee5079a 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -489,6 +489,7 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
+ #define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
+ #define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
++#define HVCALL_PRECOMMIT_GPA_PAGES			0x00be
+ #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
+ #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
+ #define HVCALL_DISPATCH_VP				0x00c2
+diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
+index 0c89c62c9706..3944e51d0a2d 100644
+--- a/include/hyperv/hvhdk.h
++++ b/include/hyperv/hvhdk.h
+@@ -953,4 +953,11 @@ struct hv_input_modify_sparse_spa_page_host_access {
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_LARGE_PAGE      0x4
+ #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_HUGE_PAGE       0x8
  
--	ret = hv_call_create_partition(creation_flags,
--				       creation_properties,
--				       isolation_properties,
-+	ret = hv_call_create_partition(creation_flags, &creation_properties,
-+				       &isolation_properties,
- 				       &pt_id);
- 	if (ret)
- 		goto cleanup_irq_srcu;
++struct hv_input_precommit_gpa_pages {	/* HV_INPUT_PRECOMMIT_GPA_PAGES */
++	u64 partition_id;
++	u32 flags;
++	u32 reserved;
++	u64 target_gpa_base;
++} __packed;
++
+ #endif /* _HV_HVHDK_H */
 -- 
 2.51.2.vfs.0.1
 
