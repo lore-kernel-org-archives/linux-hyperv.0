@@ -1,131 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794064447;
-	b=LYqknk1pIIEq/yOR/EECbs4xUSm5DM8tr1YD7TY2TcjuZ9S1AlGVorzS3PJPodQgMT8m
-	 SaNgf7XJHse6ArsvatO57YwOGi75B4gvHYev83xQSIrugg6P31rqj7bHyZF/H3e7NKjub
-	 pEDEBjvlkt1UsD1h9aWpMYpjdpouJ1b+dxI0BZytlbAPnEtFVwuKz2UwCURiV5v4c9aoP
-	 3xtZSZ++nNQ/vt16WS/nlRKf5440ExUCtuO1Zu1ao0jZ6oMgtsMp7GhmBkJT4zFGwdgbb
-	 1UlC4qht7snlED9zHNhHeFl4ohe6DXdmrcEdqIgk21FSy3yK30p5bf6apbM1R6Bp1qw==
+	t=1794117623;
+	b=PMZPffbJebuI2Nmhj4BoAy0FUy8N9v8vZVDDHKq6USuNM9kMQQli/LAJRVESReH9Xa22
+	 OU41VRgHPE9ej69rtkwyDY2WXsa3ESQaCK310hE5vUpfqiDK75XzWsGiOw+QJqjpH7eZj
+	 NRyc5IlNR22XnSupBqrQC9sZCgQaMN8NJJ7hrLKw4ecvCjH42L3cZzzYM2niOwlKSBUGs
+	 tVSNhYeZLGJOPBUyWtJV0MoSidxJluX1efybruzlhAq4t76cJJoJzVnWJpCxn4nkX05nw
+	 G9GQnbA07y8rqOdK5N+Y3o0BzPwdUbUpseA14Wo8NUvpHBmUEGZUK4Q4JN2FgKQjlkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794064447;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=cbWwAcQq4uRDikoBSCyhCaJCcw0pytPybYrMp+gi6BY=;
-	b=oEJFthCWwz7hIZRKhkVHUxLxs4dUzbuZlT6wwGS7w981O5CL4r4/2vl/uTqieclAy6Zg
-	 pDvWfCoSFLR9rRPsh58eEwrLkmSu9dIPMxmouXm9kd0Z3mg3xhYPraB9qk/diKEvfrf0b
-	 AhhJVvzIqJO8nLtVyqPUVkC1LUXcm7TluE29Y/24TwVVG9qdm7adxxw8hT21Uo7Mhyepb
-	 2MwizeUKuQGpwyJXUBzn9+hD54TsaXyEOjOJvjhmdEcdhmB35ZBoV73qVmMIzY2e8m+Oy
-	 lb6HodjWphl2YPxKEmrkq/dkG4rO3Eu7AH2UzHB0kLpQ6KMARkZbD7KHnCZ6He/jwCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794117623;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=v2y1yaggoH6p1mGRTKD+i49Hl5+O8T2kFeVCtW/lYKQ=;
+	b=txTPUN82zcA+X2nPGlAshKxP9N10DFwDPt+2UcV/M9uP4gJYPXhWl4yeSpnD8gvSKkSq
+	 VojBVIpG8QdJBD1CZwW/EaVEif6qvmWpSw1rcZcnU90K5NJfW6/hJM2T8s0IYIcmszCEQ
+	 omgWXnHYLf/0QIZwuszuIUT9U/HZ9xN1OSmojlx9hcQIlaFQvazMwq+zAEwoG7aj9anFD
+	 +I8ByHcrl6JagcfDFGlWBXqvN/OSZKq9oCKHwPhVges1Di+VU08aywaZN8yXybE4znIj9
+	 b4okgOBl/1YnnPBmnQtk744L1OIeMtZsr4nuewB/1Wt5RSXw/e2wGVO/pVqohiPcBJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="isoiA/1M";
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=BNGhKGvB;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oOPv0hkU;
+	arc=none smtp.remote-ip=74.125.82.199
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F986606EEAC
-	for <linux-hyperv@vger.kernel.org>; Sat,  7 Nov 2026 15:14:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F986606EEAC
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9FD606D827
+	for <linux-hyperv@vger.kernel.org>; Sun,  8 Nov 2026 06:00:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D9FD606D827
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=isoiA/1M;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=BNGhKGvB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794064445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cbWwAcQq4uRDikoBSCyhCaJCcw0pytPybYrMp+gi6BY=;
-	b=isoiA/1MqNm7NIIxWctRGfrrIp2yFjOXgZ/eql11LDg7cvACtO0LYoo2kfq9hFgZ9HjsrB
-	wrfsF7L7UXJFXd3U8gpPNAQtFTXsTHOJDL/v1uDjM3tR8RckoTvT0LbMN2MHYWkBZGmAdi
-	zEd589+3+C9XKc7/8OYisBTtW/e2pgc=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-447-f_xEmIzhOPK_azeKdKraGA-1; Sat, 07 Nov 2026 10:14:04 -0500
-X-MC-Unique: f_xEmIzhOPK_azeKdKraGA-1
-X-Mimecast-MFC-AGG-ID: f_xEmIzhOPK_azeKdKraGA_1794064444
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5338974c0ceso35757711cf.0
-        for <linux-hyperv@vger.kernel.org>; Sat, 07 Nov 2026 07:14:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oOPv0hkU
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-37158b53d06so712378eec.1
+        for <linux-hyperv@vger.kernel.org>; Sat, 07 Nov 2026 22:00:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794064443; x=1794669243; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=cbWwAcQq4uRDikoBSCyhCaJCcw0pytPybYrMp+gi6BY=;
-        b=BNGhKGvBDH/eOwWGXi7JOM7zNagjpt537akmEhO87/lJZ72KDbFlCMkAhV0gSDbtAl
-         MF390plYheI3/LFt86NbYLD1Gi6di/f9Ph/WkZGyeVCNHe1LGQ9ON0tMrDxoPc8zV6XT
-         HIvf688FdFvydUO9ePGNSh09XzNrryrrz9Snb0saqBX9Wt5xFZ275qtRFxSfH1MuRP2r
-         bn/0RTXTA3HpizEcTN/H8XwuDg/zw0PhWK8qvnn6xFG5qxU58/fJZJQqPYRvXfb9l8/N
-         vM/OYjVOXKUq+E04GrQrfmNEDkaqNEC5FLbrUwQxrcE0HhtpkKZmq31luGUmeLz6bOIQ
-         9L9w==
+        d=google.com; s=20260707; t=1794117622; x=1794722422; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v2y1yaggoH6p1mGRTKD+i49Hl5+O8T2kFeVCtW/lYKQ=;
+        b=oOPv0hkUFAUSi2nG7TM5E1wDeDTsRg3G3uimlaKRt5nZsFQzW7LvXIYPYaJYsRAYGe
+         fEiNN0QaPsBq/j/IVFpO9ALP8zmKqD2lWOzBQMz0RR/zr2xRU8k6GxfcYcngZozADQcQ
+         nhEiyaKxZIKDl6vzGzF+Lx8jY4z4QPCiIaJESiycNOfAn0h5I7L757HMhAwctuFf7JQP
+         DhPrSTOfBZwlEQzCl/u6gZ0Uqc8HIXOtw/04liErnrrQiHK5A0aEz4GUYVOTSBfwUcgo
+         Ggu5lps2AjqpXvb5dB+ayUPh/A8+fNwroHdyGuMByVLSNCOYciz1tHyLx4CNxTIyQDg4
+         AFIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794064443; x=1794669243;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1794117622; x=1794722422;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cbWwAcQq4uRDikoBSCyhCaJCcw0pytPybYrMp+gi6BY=;
-        b=2j0faJOPjVXfh0/FmZaxjmQ7KHF7wuZrbwWSB3US82ZAZlX217Gmyij8F45zVv0Paj
-         KtvRAtTN+nkzwf2WKwFjZRiiPI6AJ0z7oXURxw+EFBvqIp0kewq7SS1l+Ml38fiLwayf
-         W7nASRij7QbYfRyZGg1hrR70yGCn8OGQlTUcs5JN7Rxvo3zdPJwXpQAn3SqUZtWk2pQs
-         wfKctPvn3/K+Ldl21+fmh+pynRlbMjtlGNOxdIfsciXCF63hdN4rm1HqdsZ5JNfyNjuO
-         R0WxeG40UgB2iLzjZGAXTH3yQ3oPm2ZfUqhza2MV1vu0k6yTn1VfPfkLpsxyZkxtXVjT
-         ad1A==
-X-Forwarded-Encrypted: i=1; AKwUvBxK9losZSyk1sSfoJ560Gy8XgiSJ2v7p1ziKBOBYqcBj92w5Od9WS+n1BTS0XuWmkDqAc2HRe/ev4AQdDE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9a7xSk5ZYaem3rJ0UkLfqJpD8DmMTtg1JTMcwJ93DYxPfNHozK
-	e5RWQRdL+kOAR6w1JAPlR4ZF0bN6HzX9MaOenMR1erwicWUOL7jjjS0MVBNa+lf4QXSbIvvcQkz
-	pyWcRKhuS6Mk8ZldnOxBwltNuL0o08YpeiI03+jvRKKUk3lsVJmtVAz+A7GOY3U5ICw==
-X-Gm-Gg: AYBFou3tdUX3ZgLsxD5TLancMPOGxBXoBrFnvACcZXUw4GD0DS7ZGo/Ii9rvYrTkX22
-	opb/4/tjhXFOBexkLXRfgjVoF7ILFCnSdcuIdGLpo6h4hnxbE8spPvUhfrZ5RaYA83RUpWAD3mk
-	LDdpm9DNvQc9LkRrmY5YhyedInkuHk8HIdg73ZPRitlPJoaBa+isrkAmUHL+vQ/9p3Au3sqc/j0
-	84xMnqNS6Z1Q/9scByLt/NZyM9uIvSaJorFmM4ZVcc405pJaTxUwQ6TTe4n6gnHt3k3Z10lHdhr
-	By1ZY/iTq4KEfzJwnYp0CTq+c2g0V/DLifbSLjlWSHqdR4ghXmZtCHGMIMSv/WTZ/vzY5XwrDkd
-	5KbjcpBSkQxzbex7p9hN3mxcKKVOk5PCeD7FZTviHTLU4NcCubsbPFVc0OuU7IzZXSFhIsyvmZq
-	knvOTgV0wR9nWybhKl0AHZtkXMBKl49dOvgR75+Hy/b7DJrqSNO/lrxD+QvFkWkIRLZ85+KA==
-X-Received: by 2002:a05:622a:9017:b0:54f:863d:92c0 with SMTP id d75a77b69052e-54f863d9456mr34737141cf.65.1794064443286;
-        Sat, 07 Nov 2026 07:14:03 -0800 (PST)
-X-Received: by 2002:a05:622a:9017:b0:54f:863d:92c0 with SMTP id d75a77b69052e-54f863d9456mr34736571cf.65.1794064442628;
-        Sat, 07 Nov 2026 07:14:02 -0800 (PST)
-Received: from loberman-thinkpadp1gen5.rmtusma.csb ([2600:6c65:2440:d8c:929c:b769:6def:faa3])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54e25d65a9csm48127661cf.11.2026.11.07.07.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 07:14:01 -0800 (PST)
-Message-ID: <080f3cc7097c9a8191e4fa2f03ff2d67d0640f40.camel@redhat.com>
-Subject: Re: [RFC PATCH] scsi: qla2xxx: Use the real INTx pin for the port
- number on Hyper-V guests
-From: Laurence Oberman <loberman@redhat.com>
-To: Michael Kelley <mhklinux@outlook.com>, "njavali@marvell.com"	
- <njavali@marvell.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>,  "wei.liu@kernel.org"	 <wei.liu@kernel.org>,
- Mukesh R <mrathor@linux.microsoft.com>
-Cc: "GR-QLogic-Storage-Upstream@marvell.com"
-	 <GR-QLogic-Storage-Upstream@marvell.com>, 
- "James.Bottomley@HansenPartnership.com"
-	 <James.Bottomley@HansenPartnership.com>, "haiyangz@microsoft.com"
-	 <haiyangz@microsoft.com>, "decui@microsoft.com" <decui@microsoft.com>, 
- "sbhat@linux.ibm.com"
-	 <sbhat@linux.ibm.com>, "kmahlkuc@linux.ibm.com" <kmahlkuc@linux.ibm.com>, 
- "linux-scsi@vger.kernel.org"
-	 <linux-scsi@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
-	 <linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>
-Date: Sat, 07 Nov 2026 10:14:00 -0500
-In-Reply-To: <MN2PR02MB68634FAAFE0BA7C4DB3153D9D4772@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261104222541.2675051-1-loberman@redhat.com>
-	 <MN2PR02MB68634FAAFE0BA7C4DB3153D9D4772@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+        bh=v2y1yaggoH6p1mGRTKD+i49Hl5+O8T2kFeVCtW/lYKQ=;
+        b=A47M4jUnS1SEvMTkySy/THh2QKMeLPt9jaf27GTZAaQPLXHZMprpzQ/PhgML/SSOlG
+         TAYJIA/2oUHlWcSwjQj+6QGyQJQEfv/R5f01YQvuC292koX3cnR4UjN+u2Wm6Aoz+T9b
+         QeMkxSyFmQS/AB6Vg7MLMjb07RxJSynzBq8w5i4XJStozFIvZwetJqHMeoIGr5yZVLP4
+         2h4I2333dul5Lrpk5i4fENW7edPdL2KnclGvfY033vqf6SKw4k4SJTWhonJqtWnAdxUl
+         dCQ9wFzgin13dqO42A6WC/IXvIZr5X/033qPzbhPZ3A8ZugaxDHs6HV4e2u49RQKgkzr
+         LYFA==
+X-Forwarded-Encrypted: i=1; AKwUvBx39BcRGgP3oTeVfhO0alNTY0A3LSvi2frXMRtCFxbgzR2wGdWGrE894sK0Vl5dFr8vRqoSfdWF3r1Qp9c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9+NnJwNeClS3iU/mVEZCsxWR8TFKBGe+ZoU99yhzyC/W1Nm7ap
+	k4gaBDAMYZgFrE+rxMvjBN9T0aeHyxmKDsllhPr4ZnnHUzwn3xHrWcglknOCpaFeYlSCPpKXk+Z
+	/KXHm3A5S/9LRdX22GiSnoPtheA==
+X-Received: from dycoy13.prod.google.com ([2002:a05:7301:fc0d:b0:35c:eb2a:8c31])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:264b:b0:13c:f65c:d5b5 with SMTP id a92af1059eb24-1b269a6631dmr4891275c88.3.1794117617306;
+ Sat, 07 Nov 2026 22:00:17 -0800 (PST)
+Date: Sun,  8 Nov 2026 06:00:11 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -134,215 +75,233 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
+Message-ID: <20261108060016.2131509-1-almasrymina@google.com>
+Subject: [PATCH net-next v2 0/5] net: deprecate skb->pp_recycle and skb_mark_for_recycle()
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Willem de Bruijn <willemb@google.com>, John Fastabend <john.fastabend@gmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Johannes Berg <johannes@sipsolutions.net>, Byungchul Park <byungchul@sk.com>, Zi Yan <ziy@nvidia.com>, 
+	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Wen Gu <guwen@linux.alibaba.com>, 
+	Philo Lu <lulie@linux.alibaba.com>, Justin Chen <justin.chen@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Vikas Gupta <vikas.gupta@broadcom.com>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	Doug Berger <opendmb@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Satish Kharat <satishkh@cisco.com>, 
+	Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
+	Fan Gong <gongfan1@huawei.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Sunil Goutham <sgoutham@marvell.com>, 
+	Geetha sowjanya <gakula@marvell.com>, Ratheesh Kannoth <rkannoth@marvell.com>, 
+	Subbaraya Sundeep <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
+	Felix Fietkau <nbd@nbd.name>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Yibo Dong <dong100@mucse.com>, 
+	Brett Creeley <brett.creeley@amd.com>, Justin Lai <justinlai0215@realtek.com>, 
+	Larry Chiu <larry.chiu@realtek.com>, 
+	"=?UTF-8?q?Niklas=20S=C3=B6derlund?=" <niklas.soderlund@ragnatech.se>, Paul Barker <paul@pbarker.dev>, 
+	Masahisa Kojima <kojima.masahisa@socionext.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+	MD Danish Anwar <danishanwar@ti.com>, Jiawen Wu <jiawenwu@trustnetic.com>, 
+	Mengyuan Lou <mengyuanlou@net-swift.com>, Ronak Doshi <ronak.doshi@broadcom.com>, 
+	Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen <shayne.chen@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Jordan Rhee <jordanrhee@google.com>, 
+	Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, 
+	Eric Joyner <eric.joyner@amd.com>, Prabu Thayalan <prabu.ponrajthayalan@amd.com>, 
+	"Nikhil P. Rao" <nikhil.rao@amd.com>, Chintan Vankar <c-vankar@ti.com>, 
+	Nora Schiffer <nora.schiffer@ew.tq-group.com>, Alexander Sverdlin <alex@sverdlin.org>, 
+	Kevin Hao <haokexin@gmail.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
+	Jacob Keller <jacob.e.keller@intel.com>, StanleyYP Wang <StanleyYP.Wang@mediatek.com>, 
+	linux-doc@vger.kernel.org, imx@lists.linux.dev, linux-rdma@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 2026-11-05 at 00:46 +0000, Michael Kelley wrote:
-> From: Laurence Oberman <loberman@redhat.com> Sent: Wednesday,
-> November 4, 2026 2:26 PM
-> >=20
-> > qla2x00_set_isp_flags() derives the physical port number from
-> > PCI_INTERRUPT_PIN, and the port number selects the per-port VPD,
-> > NVRAM,
-> > NPIV and FCP priority flash regions.
-> >=20
-> > On Hyper-V guests, pci-hyperv returns 0 for byte and word reads of
-> > PCI_INTERRUPT_PIN since commit fea93a3e5d5e ("PCI: hv: Return zero,
-> > not
-> > garbage, when reading PCI_INTERRUPT_PIN"). Commit 7268e509b43a
-> > ("scsi:
-> > qla2xxx: Handle INTx not connected while passing through") then
-> > falls
-> > back to PCI_FUNC(). With Discrete Device Assignment (DDA), each
-> > function
-> > of a multi-port HBA is presented as function 0 in its own PCI
-> > domain, so
-> > every port gets port_no 0. All ports read port 0's NVRAM, pass the
-> > checksum and register the same WWPN, and nothing is logged.
-> >=20
-> > Without that commit, port_no underflows to 255, no flash region is
-> > selected and every port fails with "Inconsistent NVRAM checksum"
-> > and
-> > falls back to the default WWPN.
-> >=20
-> > pci-hyperv only zeroes byte and word accesses within 0x3c-0x3d. A
-> > dword
-> > read at PCI_INTERRUPT_LINE reaches the device's config space and
-> > returns
-> > the real pin in bits 15:8. On Hyper-V guests, use that when the
-> > byte
-> > read returns 0, and warn if the pin is still 0 so that duplicate
-> > WWPNs
-> > are not silent. Bare metal, KVM/vfio and other hypervisors are
-> > unchanged.
->=20
-> There's a patch in flight [1] that kills the behavior that your patch
-> takes
-> advantage of. I don't have knowledge of the full details that
-> motivated [1],
-> so maybe Mukesh Rathor or Wei Liu can add some info, as well as
-> comment on the validity of what you are observing as a possible
-> work-around to the qla2xxx problem.
->=20
-> Michael
->=20
-> [1]
-> https://lore.kernel.org/linux-hyperv/20260913232255.2801797-1-wei.liu@ker=
-nel.org/
->=20
-> >=20
-> > Tested with an equivalent change on a RHEL 9 (5.14-based) guest
-> > with a
-> > dual-port QLE2692 (ISP2261) assigned through DDA (Hyper-V host
-> > 10.0.17763):
-> >=20
-> > =C2=A0 before: both ports "Inconsistent NVRAM checksum=3D0xffffffc0
-> > id=3DNGKP",
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 both WWPN 0x2100=
-00e08b1c5586
-> > =C2=A0 after:=C2=A0 port_no 1 and 0, NVRAM valid, WWPN 0x210034800d7065=
-bd and
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x210034800d7065=
-bc, fabric login and FC-NVMe localport
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 registration on =
-both ports
-> >=20
-> > Also tested on bare metal (ISP2031): the new path is not taken and
-> > port
-> > numbers and WWPNs are unchanged.
-> >=20
-> > Signed-off-by: Laurence Oberman <loberman@redhat.com>
-> > ---
-> > RFC: this relies on pci-hyperv not virtualizing dword reads at
-> > 0x3c,
-> > which is an implementation detail rather than an interface. It is
-> > posted
-> > as the smallest working fix and to start the discussion. Feedback
-> > wanted
-> > on cleaner alternatives:
-> >=20
-> > =C2=A0- Hyper-V (linux-hyperv): could pci-hyperv expose the real
-> > =C2=A0=C2=A0 PCI_INTERRUPT_PIN, or provide the physical function number=
-, for
-> > DDA
-> > =C2=A0=C2=A0 devices? Some drivers use the pin for port identity, not o=
-nly
-> > for
-> > =C2=A0=C2=A0 interrupt routing.
-> >=20
-> > =C2=A0- Marvell: is there a firmware or register source for the physica=
-l
-> > =C2=A0=C2=A0 port that does not depend on PCI config space? CSRX_FUNCTI=
-ON in
-> > =C2=A0=C2=A0 ctrl_status is a single bit and would not cover quad-port
-> > =C2=A0=C2=A0 27xx/28xx/29xx.
-> >=20
-> > =C2=A0- The check is x86-only (hypervisor_is_type()). pci-hyperv also
-> > =C2=A0=C2=A0 supports arm64 guests; a better way to detect a pci-hyperv=
- bus
-> > is
-> > =C2=A0=C2=A0 welcome.
-> >=20
-> > This has not yet been tested on a 7.3 kernel in the DDA guest;
-> > testing
-> > was on a RHEL 9.8 backport. The upstream behaviour without this
-> > patch
-> > (duplicate WWPNs with no warning) follows from the code and has not
-> > yet
-> > been reproduced on 7.3.
-> >=20
-> > =C2=A0drivers/scsi/qla2xxx/qla_os.c | 40
-> > ++++++++++++++++++++++++++++++++++-
-> > =C2=A01 file changed, 39 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/scsi/qla2xxx/qla_os.c
-> > b/drivers/scsi/qla2xxx/qla_os.c
-> > index 3c412c7fb6fe..4180d3f15231 100644
-> > --- a/drivers/scsi/qla2xxx/qla_os.c
-> > +++ b/drivers/scsi/qla2xxx/qla_os.c
-> > @@ -24,6 +24,10 @@
-> > =C2=A0#include <scsi/scsi_transport.h>
-> > =C2=A0#include <scsi/scsi_transport_fc.h>
-> >=20
-> > +#ifdef CONFIG_X86
-> > +#include <asm/hypervisor.h>
-> > +#endif
-> > +
-> > =C2=A0#include "qla_target.h"
-> >=20
-> > =C2=A0/*
-> > @@ -2704,6 +2708,40 @@ static struct isp_operations qla29xx_isp_ops
-> > =3D {
-> > =C2=A0	.initialize_adapter	=3D qla2x00_initialize_adapter,
-> > =C2=A0};
-> >=20
-> > +/*
-> > + * Read the INTx pin used to derive the physical port number.
-> > + *
-> > + * pci-hyperv hard-wires byte and word reads of PCI_INTERRUPT_PIN
-> > to zero.
-> > + * With Hyper-V Discrete Device Assignment every function is also
-> > presented
-> > + * as function 0 in its own PCI domain, so the PCI_FUNC() fallback
-> > gives
-> > + * port 0 for every port and they all report port 0's WWPN. A
-> > dword read at
-> > + * PCI_INTERRUPT_LINE is not virtualized by pci-hyperv and returns
-> > the
-> > + * device's pin in bits 15:8, so use that on Hyper-V guests.
-> > + */
-> > +static u8
-> > +qla2x00_get_intx_pin(struct qla_hw_data *ha)
-> > +{
-> > +	u8 pin;
-> > +
-> > +	pci_read_config_byte(ha->pdev, PCI_INTERRUPT_PIN, &pin);
-> > +#ifdef CONFIG_X86
-> > +	if (!pin && hypervisor_is_type(X86_HYPER_MS_HYPERV)) {
-> > +		u32 val =3D 0;
-> > +
-> > +		pci_read_config_dword(ha->pdev,
-> > PCI_INTERRUPT_LINE, &val);
-> > +		pin =3D (val >> 8) & 0xff;
-> > +		if (pin)
-> > +			ql_log_pci(ql_log_info, ha->pdev, 0xffff,
-> > +				=C2=A0=C2=A0 "Hyper-V: INTx pin reads 0,
-> > config dword 0x%08x
-> > gives pin %u.\n",
-> > +				=C2=A0=C2=A0 val, pin);
-> > +		else
-> > +			ql_log_pci(ql_log_warn, ha->pdev, 0xffff,
-> > +				=C2=A0=C2=A0 "Hyper-V: unable to determine
-> > physical port, ports
-> > may report duplicate WWPNs.\n");
-> > +	}
-> > +#endif
-> > +	return pin;
-> > +}
-> > +
-> > =C2=A0static inline void
-> > =C2=A0qla2x00_set_isp_flags(struct qla_hw_data *ha)
-> > =C2=A0{
-> > @@ -2887,7 +2925,7 @@ qla2x00_set_isp_flags(struct qla_hw_data *ha)
-> > =C2=A0		ha->port_no =3D ha->portnum & 1;
-> > =C2=A0	else {
-> > =C2=A0		/* Get adapter physical port no from interrupt pin
-> > register. */
-> > -		pci_read_config_byte(ha->pdev, PCI_INTERRUPT_PIN,
-> > &ha->port_no);
-> > +		ha->port_no =3D qla2x00_get_intx_pin(ha);
-> > =C2=A0		if (ha->port_no =3D=3D 0) {
-> > =C2=A0			/* None of INT[A|B|C|D] may be virtualized
-> > by vfio */
-> > =C2=A0			ha->port_no =3D PCI_FUNC(ha->pdev->devfn);
-> > --
-> > 2.56.0
-> >=20
-Hello Michael,
+Remove the per-SKB skb->pp_recycle bitfield and skb_mark_for_recycle()
+helper, and reference-count netmems directly by their underlying type
+via netmem_is_pp() inside netmem_inc_ref() and netmem_dec_ref().
 
-Thanks very much for the information. I will follow the thread.=C2=A0
-Our main pressing issue is any guest on HYPER-V with DDA moving to
-RHEL9 from RHEL8 loses functionality for the pass-through qla2xxx ports
+Establish the invariant that pp_ref_count is only incremented by callers
+that already hold an active pp_ref_count (>= 1) on that netmem, and a
+raw page_ref_count is never converted into a pp_ref_count:
+- Detach page_pool pages in tcp_zerocopy_receive() before mapping them
+  into userspace via vm_insert_pages(), so userspace VMAs and subsequent
+  GUP callers (such as MSG_ZEROCOPY or vmsplice()) never observe an
+  active page_pool page.
+- Fall back to copying in tls_push_data() when MSG_SPLICE_PAGES
+  encounters a page_pool page, since kTLS device offload record->frags[]
+  tracks pages via raw struct page references.
+- Keep page_pool_unref_netmem(), napi_pp_get_page(), napi_pp_put_page(),
+  and __page_pool_put_page() free of 0 -> 1 pp_ref_count conversion
+  workarounds or extra barriers, preserving the non-atomic
+  page_pool_unref_netmem() fast path unchanged.
 
-Regards
-Laurence
+bench_page_pool_simple results (5-iteration interleaved UML runs):
+- no-softirq-page_pool01 (fast-path cache recycle): 40 cycles (20.3 ns)
+  baseline vs 30-31 cycles (15.3 ns) patched (~9-10 cycles / -24.7%
+  improvement over baseline: using __netmem_to_page() in
+  page_pool_netmem_is_exclusively_owned() and
+  __page_pool_page_can_be_recycled() after checking netmem_is_net_iov()
+  eliminates two redundant WARN_ON_ONCE() expansions and out-of-line
+  netmem_to_page() calls per recycle).
+- no-softirq-page_pool02 (ptr_ring recycle): 81 cycles (40.7 ns)
+  baseline vs 74 cycles (37.2 ns) patched (~7 cycles / -8.6%
+  improvement over baseline).
+- no-softirq-page_pool03 (slow page-allocator path with elevated
+  page_ref_count): 458-461 cycles (230.0 ns) baseline vs 454-455 cycles
+  (227.6 ns) patched (~5 cycles / -1.0% improvement over baseline).
+
+This series simplifies SKB and netmem reference counting:
+- Reclaims 1 bit from struct sk_buff (skb->pp_recycle).
+- Unifies reference counting of SKB fragment netmems and regular netmems
+  under netmem_inc_ref() and netmem_dec_ref(), eliminating the separate
+  skb_netmem_ref(), skb_netmem_unref(), and skb_mark_for_recycle() APIs.
+- Removes 95 net lines across 65 files (339 insertions, 434 deletions).
+
+1/5: net: skbuff: skip managed zerocopy frags in skb_frag_ref()
+2/5: net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
+3/5: tcp: detach page_pool pages before mapping in tcp_zerocopy_receive()
+4/5: net: remove skb->pp_recycle and consolidate netmem refcounting
+5/5: net: remove skb_mark_for_recycle()
+
+v1 -> v2:
+- Patch 2/5: Check page_ref_count(compound_head(buf->page)) <= 0 with
+  WARN_ON_ONCE() in skb_pipe_buf_get() to guard against refcount
+  overflow, and fall back to copying in tls_push_data() when
+  MSG_SPLICE_PAGES encounters a page_pool page so kTLS device offload
+  never converts a raw page_ref_count into a pp_ref_count.
+- Patch 3/5: Replace zerocopy_fill_skb_from_iter() refcount conversion
+  with detaching page_pool pages up front in tcp_zerocopy_receive()
+  before vm_insert_pages().
+- Patch 4/5: Keep net/tls/ record->frags[] and fallback scatterlists on
+  get_page()/put_page() to match mlx5 tx_sync_info_get(), and restore
+  page_pool_unref_netmem(), napi_pp_get_page(), napi_pp_put_page(), and
+  __page_pool_put_page() to their clean baseline non-RMW fast paths.
+- v1:
+  https://lore.kernel.org/netdev/20261103211424.127627-1-almasrymina@google.com/
+
+Notes on Medium/Low Sashiko findings intentionally skipped:
+- Patch 1/5 (Low): iptfs_output_queued() skb_zcopy_managed() check does
+  not carry a separate Fixes: tag as it is part of this net-next
+  refactoring series.
+- Patch 3/5 (Medium): can_map_frag() requires page_pool_ref_count == 1,
+  so drivers holding an undrained fragment bias (e.g. mlx5 mpwqe, fbnic)
+  fall back to copying in tcp_zerocopy_receive() (documented in commit
+  message; detaching requires holding the sole pp_ref_count).
+- Patch 3/5 (Low): page_pool_ref_count() naming kept to mirror
+  page_ref_count().
+- Patch 4/5 (Medium): skb_irq_freeable() in netpoll_zap_completion_queue()
+  does not check netmem_is_pp() (pre-existing for forwarded pp_recycle=1
+  RX SKBs; documented in commit message Caveats).
+- Patch 4/5 (Low): napi_pp_get_page() and napi_pp_put_page() remain
+  out-of-line exported functions in net/core/skbuff.c.
+
+Mina Almasry (5):
+  net: skbuff: skip managed zerocopy frags in skb_frag_ref()
+  net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
+  tcp: detach page_pool pages before mapping in tcp_zerocopy_receive()
+  net: remove skb->pp_recycle and consolidate netmem refcounting
+  net: remove skb_mark_for_recycle()
+
+ Documentation/networking/page_pool.rst        |   1 -
+ drivers/net/ethernet/airoha/airoha_eth.c      |   1 -
+ drivers/net/ethernet/alibaba/eea/eea_rx.c     |   3 -
+ .../net/ethernet/broadcom/asp2/bcmasp_intf.c  |   1 -
+ .../net/ethernet/broadcom/bnge/bnge_txrx.c    |   5 -
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |   8 -
+ .../net/ethernet/broadcom/genet/bcmgenet.c    |   2 -
+ drivers/net/ethernet/cisco/enic/enic_rq.c     |   1 -
+ drivers/net/ethernet/engleder/tsnep_main.c    |   2 -
+ drivers/net/ethernet/freescale/fec_main.c     |   1 -
+ drivers/net/ethernet/google/gve/gve_rx_dqo.c  |   9 -
+ .../net/ethernet/hisilicon/hibmcge/hbg_txrx.c |   1 -
+ .../net/ethernet/hisilicon/hns3/hns3_enet.c   |   6 -
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   1 -
+ drivers/net/ethernet/intel/iavf/iavf_txrx.c   |   2 -
+ drivers/net/ethernet/marvell/mvneta.c         |   2 -
+ .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |   2 -
+ .../marvell/octeontx2/nic/otx2_txrx.c         |   1 -
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c   |   1 -
+ drivers/net/ethernet/mellanox/mlx4/en_rx.c    |   1 -
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   8 -
+ drivers/net/ethernet/mellanox/mlxsw/pci.c     |   2 -
+ .../ethernet/microchip/lan966x/lan966x_fdma.c |   2 -
+ .../microchip/sparx5/lan969x/lan969x_fdma.c   |   1 -
+ drivers/net/ethernet/microsoft/mana/mana_en.c |   3 -
+ .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.c    |   1 -
+ .../net/ethernet/pensando/ionic/ionic_txrx.c  |   2 -
+ .../net/ethernet/realtek/rtase/rtase_main.c   |   1 -
+ drivers/net/ethernet/renesas/ravb_main.c      |   2 -
+ drivers/net/ethernet/socionext/netsec.c       |   1 -
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   1 -
+ drivers/net/ethernet/tehuti/tn40.c            |   1 -
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   1 -
+ drivers/net/ethernet/ti/cpsw.c                |   2 -
+ drivers/net/ethernet/ti/cpsw_new.c            |   2 -
+ drivers/net/ethernet/ti/icssg/icssg_common.c  |   1 -
+ drivers/net/ethernet/wangxun/libwx/wx_lib.c   |   2 -
+ drivers/net/veth.c                            |   3 +-
+ drivers/net/virtio_net.c                      |  16 +-
+ drivers/net/vmxnet3/vmxnet3_xdp.c             |   1 -
+ drivers/net/wireless/mediatek/mt76/dma.c      |   1 -
+ .../net/wireless/mediatek/mt76/mt7996/mac.c   |   1 -
+ drivers/net/wireless/mediatek/mt76/npu.c      |   1 -
+ drivers/net/wireless/mediatek/mt76/usb.c      |   1 -
+ drivers/net/xen-netfront.c                    |   1 -
+ include/linux/mm.h                            |   2 +-
+ include/linux/skbuff.h                        |  12 +-
+ include/linux/skbuff_ref.h                    |  60 +---
+ include/net/netmem.h                          |  37 ++-
+ include/net/page_pool/helpers.h               |  25 +-
+ net/core/datagram.c                           |   2 +
+ net/core/gro.c                                |   9 -
+ net/core/net_test.c                           | 274 ++++++++----------
+ net/core/netmem_priv.h                        |  21 +-
+ net/core/page_pool.c                          |   6 +-
+ net/core/skbuff.c                             |  74 ++---
+ net/core/xdp.c                                |  13 +-
+ net/ipv4/esp4.c                               |  11 +-
+ net/ipv4/tcp.c                                |  44 ++-
+ net/ipv6/esp6.c                               |  11 +-
+ net/tls/tls_device.c                          |   8 +-
+ net/tls/tls_device_fallback.c                 |   2 +-
+ net/wireless/util.c                           |  31 +-
+ net/xfrm/trace_iptfs.h                        |   6 +-
+ net/xfrm/xfrm_iptfs.c                         |  16 +-
+ 65 files changed, 339 insertions(+), 434 deletions(-)
+
+
+base-commit: 7b6ab4dbc156e2f96419715130b3d5738a306c93
+-- 
+2.56.0.455.g6c5a503b38-goog
 
