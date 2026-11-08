@@ -1,75 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794117629;
-	b=mkOVgY3jm+TIFlCse8W/P0AW5MCXD4KzQcesvb/jlBpqEL+NrNOT/18o8M/1n0hLLTbY
-	 qacGm6by1URdDPfFJFdl3p4DUW8RPUs6x22D96dsTFRXBXt4Qf644+pda0g9w9JFsojyf
-	 B2ZWl/pUitU4SEtARf23QdVN39b2EdsX7sKzSRJ4axrVg2pF7e5DoMll5KaYLcGZRChLt
-	 HGv1X4gojGqKVNVl4sGJ5poZALfcAwX03chN8ALfJT3vKhEixi5jDQwbg1orBsjFh1ybG
-	 qY2WBMYyxKDNH1vFKdHJhWys8HLI/PLh8teMS/G4fYFYF+iE3syl94BoaLU8P47HiPg==
+	t=1794156955;
+	b=zMRtxUkDmB1TBZI4nhVncV39ghE1WwKMDAiMm55yeoT5Oy/G7wqUMz8au73bS4mbZh1W
+	 AjPEcvZaq4SWkx3obCosdtzH5kCbrE5VoL69hZWbdshr/6IxN5kk/f5x2ncB4pf7j2T3D
+	 URvl37UXlmjco2lIje8e7gvLQwl2Ic1Uj4dfEJa2RQp3jvzTTv+yXq7JeonxIerigJ2ip
+	 MbqqxBzG/5RYPkMeNEKtMkfbn6XoG895v03c8KEw3xUziPnWX7soIC65Me2ZAvrpHzYXt
+	 1WCm6O0K1AjjMLcXy7AtrIqLQGGURUV6OJTcQlGKmabjodXmFgf3ybQxZxjf7nNF2Jw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794117629;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=/plQtWpSk4i1ifkffscFm5qmNRG+wEflh2kNj6Gtncc=;
-	b=ezywLVGx8pGEpV2uEIfIM4opiY5DC9M8pj7OoJHtEtVQmm13jad8DtKtCWC8q9eAqFnQ
-	 RhDci6sdToyiGUbGsO5nWEtiArvz+zjhybqTZ+I/+8VvoU4uPY7/8Dd6v8F+k9o/whAKs
-	 6lGpi89u9haDWYOekreBuhuKI5OP1UBOWHHDTrgiIE2C719r0vGVjk5tmVKN5Rl11yDNq
-	 PXmEs4fzKvkZ9sbdw8672TjF6V42yNicgoGbH/1gOp2U596pnUBBfzE3KHQGIacPVE1Lr
-	 /PUgbyGv76ZtxHYsTc36IF2WeA1qO8D4hlq1pWb4J866JWDl+MWq78RZOWYaPRcw9AA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794156955;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version;
+	bh=5clIn+ab69f599ujad42Koar5tkf18xn+pTKzRnZxkc=;
+	b=WSDPqh2oVlOsdYZtf2YIIMUOf0L3ggBF5EizPxO5qEd5NZabTO5KlRVIqLnegbYkCwRU
+	 45R65TS5+NLnmpPOKDNZmVsFZdqAX81TZao8estrMPfI262D6VPYun79sjiKCQy4lQgl8
+	 c7Qf4g4qdxNZrD4loW/HKDX5hoygvj+yiTLJEBRtE/iVFYkD7N3WbYUWDuutFlnT8Go9X
+	 JaJJA8LeBhdXCbEjzH89vm0WUi/LF93SnYoa/fxmFGMZR3DabWO2Y14mNuLeufAcAPK/5
+	 4BgQvm+bQEmoP5U2G5ZNPcyGZbABfxsjrmgPvkwBkXYTibWUgO5FCEiwtxBEhmpYY2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HC5RfZqk;
-	arc=none smtp.remote-ip=74.125.82.69
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NsqPxGrV;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=hbCm5wxD;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988986083611
-	for <linux-hyperv@vger.kernel.org>; Sun,  8 Nov 2026 06:00:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 988986083611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9085A606A31C
+	for <linux-hyperv@vger.kernel.org>; Sun,  8 Nov 2026 16:55:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9085A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HC5RfZqk
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1b0d864826cso459695c88.1
-        for <linux-hyperv@vger.kernel.org>; Sat, 07 Nov 2026 22:00:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NsqPxGrV;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=hbCm5wxD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794156952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5clIn+ab69f599ujad42Koar5tkf18xn+pTKzRnZxkc=;
+	b=NsqPxGrVQJsYLfFXHR9KSa8uhJNA17swjEhsNA1CCPBbXMBO0Kt0V6EHAv9zU1dFifl8KH
+	xvzy8GjxfuJbMdWoNc2Lp2UYAaJsdvyG79qJM2QeN029X9eYFV5u2MIcVvUKad1x2b2jpi
+	fwhcWkQbbe3auJo7cfGqtYU4wLah06A=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-654-fm38rydyOF2bzP7FZiMz3g-1; Sun, 08 Nov 2026 11:55:51 -0500
+X-MC-Unique: fm38rydyOF2bzP7FZiMz3g-1
+X-Mimecast-MFC-AGG-ID: fm38rydyOF2bzP7FZiMz3g_1794156951
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93f37c94ceeso45270585a.1
+        for <linux-hyperv@vger.kernel.org>; Sun, 08 Nov 2026 08:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794117627; x=1794722427; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/plQtWpSk4i1ifkffscFm5qmNRG+wEflh2kNj6Gtncc=;
-        b=HC5RfZqkTAg6nRIYHVcvKyVvp7Y7RM5tkvk+psCDcWvrq5sMOkKVLSyGIluWb56SZL
-         etnAdL8gvsj3DriNtYtLVj5beBjZnSrCFMcqGvHOGau5muZey2jdbzzDrlszJGPqwsBR
-         Rst1Iwis1aPAXcz7EutkBKFgbDxc9h/u88nm3Vjd5IZ9InDb2sGDoQrkUHVnPra1UcNX
-         RfTBXHrBHSZS3iMca28JrBM3cHP5O1zj3w3grPLab4IR/G82ZAGrXNOto2HlONoUhuT3
-         l+QR7JflTAJ6wu8SJA4BIsMcxdCRaG2KtFtNpxpo67PrB/6sU7BYj5vON7ZFXKEO1Y52
-         yDWg==
+        d=redhat.com; s=google; t=1794156951; x=1794761751; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=5clIn+ab69f599ujad42Koar5tkf18xn+pTKzRnZxkc=;
+        b=hbCm5wxDrXfgqKa/QGGbAD1Qh4yBpwoRN64DpO4NVqJuHJ37RMZ7hwhnwHznKIFoGN
+         dGWC96rX4gO9cjy4Ir/IoPDkS7fviQvS91g3nROM8W5uH1dwBWkqn8b2TSu5ZdnEdC/H
+         SgVk58mU+awxkC4GAUDfVamnbBfQ+x9+LZ5lBI7AHE7s+faNvrlzgsaOE8RiyhCiZRaL
+         7xyW1hVETqvC9Q1hPkrn+9fD2cPH+z8REN8K1bnt75CNniVaEm9cFTjBZVwtAfdjpfSN
+         i0Mdz/U9DFu/15BzcXjFijypIRZpRmpe1KXh3ggLcT+Tj8W2GlFBsvTNdkusO25w8EvZ
+         Jepw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794117627; x=1794722427;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/plQtWpSk4i1ifkffscFm5qmNRG+wEflh2kNj6Gtncc=;
-        b=NwTDGO0q0R6M6FLZQTikexk7M377kLkjpnS6HsBLbgByNCKNKyc+W/XRySc5ujPzCf
-         l8eRHyFuJMXut3VtcC25P/n5ywjxotEc3tECKw6WHu3SgY7tIPJoVsMdZkO36OMwbjox
-         oVdPF17zsDQAF3KVSPDroeTjG+K1zFLz2bLpkmIv8NM+09qADWsHV/67TxyVOB6tIZPx
-         sNHUoUygncdac3Jv/vpSLvJFs3+ZBBtWfeNkLfUw3hnsto5WKWbdt4VrQKBGulFcROcq
-         QHKagopbgquX6L6Lv2DFLUTofPhn72BSub2OXLjtX6jZJCvSD2KdZhou3BwBLnvXmUS/
-         JDig==
-X-Forwarded-Encrypted: i=1; AKwUvBzBQxyI1EEqwseiU5zuKfKrjbB63cGCpMQfrZn4iOAF2jf2KStb880k7l/oHVVSvBYi8wMcZd4lbrgtAT4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9H5qfjIt29HWTS7wQ32JS8glXzhVdUCoFY6ztuo4/tFnC0vd7R
-	NWsVFR27HgQl7N5RSd2QIGchxK4DWpB/2qJ29ZjF+6cDusASsZ7KC66EqOIMmx8C3rsd047Y8Zb
-	O5H50hqf1gAo6lR8Oj10xW8nHPg==
-X-Received: from dldz2-n1.prod.google.com ([2002:a05:701b:4182:10b0:1a7:3390:92b0])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7022:1716:b0:166:862b:9bcc with SMTP id a92af1059eb24-1b39fed8a52mr1047759c88.18.1794117625021;
- Sat, 07 Nov 2026 22:00:25 -0800 (PST)
-Date: Sun,  8 Nov 2026 06:00:16 +0000
-In-Reply-To: <20261108060016.2131509-1-almasrymina@google.com>
+        d=1e100.net; s=20260707; t=1794156951; x=1794761751;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5clIn+ab69f599ujad42Koar5tkf18xn+pTKzRnZxkc=;
+        b=ninEKmrpnL3XFOYQpcolZ8X9t/LzoT7yVXdCGFUJ0VC7Y+frzFJ03+5cMtpHwKJHNi
+         cm1Eke1FIaLOMslwjkKRcGQW9ZwVAX9jyOvogttE3clsvc7Z0wFD2pLF9t4xkKDTIjgG
+         7UqlYXMzNgCXB9H1pAHgZ9hS4wl7HQItpjrwrKjMwMDO4hOBEyncFYivBP8xabzCLQN2
+         mEYqBeXqfaL0oOwMnDKj43bl9O6ne8hhbA09OqabFeVyzPunzKSGOSTk0GdRkKOkIKcY
+         0+Znpixp366xMPgYrjt3JjUK8HlPn5Z+yhCmAMkiuqqrADpUNMQnIPJzk+t0Jw5LYTsn
+         9yFQ==
+X-Forwarded-Encrypted: i=1; AL+hErFe5NhPJTQMs2cRiDN5iKuWTMU5DdUMIl0O4TaqAM4kgEPz2vCBd23dm8wQHqU6v2xvNG+GTQZVEeCYpuA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+3oJ8GyXHEq6/OZ0bcDLpUdn/qSGttEW4K2cmYEccmP39elGvR
+	+m34mrl7veYLunOu0hS7BWnGNHARz29Oxe7mdsjwUVIfJ17gYAzpRHtLXtRRi+NYa3GysSTUcXV
+	S994PeFWuVJLJyb7FQoYB5+jAK7c8UQ2JFmIktbgCiW0LzsoxS9IUK4qu4ka14lXAGQ==
+X-Gm-Gg: AYBFou3eN690Wgx96/9+qH8m5sE3p5wej3yPX5uINOSyqM2QIIkYqmsllHTolAG9aPy
+	i9M0ybDHAdMrxGGSWVAFgQAVVLrZ8uFxzvLbIfXdMlTBJUnZeEGdZeJ6v0fdRZLHcSsK2jbjwSY
+	TE85zNBdnGnhl08q50nrTr6HN4rm1dX/62bXYDJzUbjJqOFwDFcOVlCZHkB0Nsv4/fsISz9VsLi
+	EH/iKA5s+OvgxVRmeC0vMOmNRJMJ9OJ35YEB4c5lzyyysogg0vGuPWp0HyWlvWNh9mY/UGFnNOa
+	CWRDaJTw/16UHjIkYIUR5+t3GAv0gLobdi1zAxtg84/kp4loYZz76BPQbuYieueo5SkLvfCT/yp
+	+HBEg8OefiqcaBW3fHjq2a3eYhvS0aOzG8SxCuzl9WLSpfH8ky8nE8wd2fAqajX+XEkl9hJfjrP
+	uNKeEwtso9mXtTGJEl5fqgeo2nlwqXLSRYa3YZ9khy659D607QNj9yk8XspZ7hqxP7rYC8OA==
+X-Received: by 2002:a05:620a:1724:b0:93f:1789:8359 with SMTP id af79cd13be357-94604dd4bc2mr725762585a.31.1794156950616;
+        Sun, 08 Nov 2026 08:55:50 -0800 (PST)
+X-Received: by 2002:a05:620a:1724:b0:93f:1789:8359 with SMTP id af79cd13be357-94604dd4bc2mr725760485a.31.1794156950063;
+        Sun, 08 Nov 2026 08:55:50 -0800 (PST)
+Received: from loberman-thinkpadp1gen5.rmtusma.csb ([2600:6c65:2440:d8c:929c:b769:6def:faa3])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94782ccaea3sm250464985a.4.2026.11.08.08.55.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 08:55:49 -0800 (PST)
+Message-ID: <b6b39c415514de821d8a71cefda41f3d4f53405a.camel@redhat.com>
+Subject: Re: [RFC PATCH] scsi: qla2xxx: Use the real INTx pin for the port
+ number on Hyper-V guests
+From: Laurence Oberman <loberman@redhat.com>
+To: Michael Kelley <mhklinux@outlook.com>, "njavali@marvell.com"	
+ <njavali@marvell.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>,  "wei.liu@kernel.org"	 <wei.liu@kernel.org>,
+ Mukesh R <mrathor@linux.microsoft.com>
+Cc: "GR-QLogic-Storage-Upstream@marvell.com"
+	 <GR-QLogic-Storage-Upstream@marvell.com>, 
+ "James.Bottomley@HansenPartnership.com"
+	 <James.Bottomley@HansenPartnership.com>, "haiyangz@microsoft.com"
+	 <haiyangz@microsoft.com>, "decui@microsoft.com" <decui@microsoft.com>, 
+ "sbhat@linux.ibm.com"
+	 <sbhat@linux.ibm.com>, "kmahlkuc@linux.ibm.com" <kmahlkuc@linux.ibm.com>, 
+ "linux-scsi@vger.kernel.org"
+	 <linux-scsi@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+	 <linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>
+Date: Sun, 08 Nov 2026 11:55:47 -0500
+In-Reply-To: <080f3cc7097c9a8191e4fa2f03ff2d67d0640f40.camel@redhat.com>
+References: <20261104222541.2675051-1-loberman@redhat.com>
+		 <MN2PR02MB68634FAAFE0BA7C4DB3153D9D4772@MN2PR02MB6863.namprd02.prod.outlook.com>
+	 <080f3cc7097c9a8191e4fa2f03ff2d67d0640f40.camel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -78,982 +135,275 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261108060016.2131509-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108060016.2131509-6-almasrymina@google.com>
-Subject: [PATCH net-next v2 5/5] net: remove skb_mark_for_recycle()
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Bobby Eshleman <bobbyeshleman@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemb@google.com>, John Fastabend <john.fastabend@gmail.com>, 
-	Sabrina Dubroca <sd@queasysnail.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
-	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Johannes Berg <johannes@sipsolutions.net>, Byungchul Park <byungchul@sk.com>, Zi Yan <ziy@nvidia.com>, 
-	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Wen Gu <guwen@linux.alibaba.com>, 
-	Philo Lu <lulie@linux.alibaba.com>, Justin Chen <justin.chen@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Vikas Gupta <vikas.gupta@broadcom.com>, 
-	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
-	Doug Berger <opendmb@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Satish Kharat <satishkh@cisco.com>, 
-	Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
-	Fan Gong <gongfan1@huawei.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Sunil Goutham <sgoutham@marvell.com>, 
-	Geetha sowjanya <gakula@marvell.com>, Ratheesh Kannoth <rkannoth@marvell.com>, 
-	Subbaraya Sundeep <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
-	Felix Fietkau <nbd@nbd.name>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Yibo Dong <dong100@mucse.com>, 
-	Brett Creeley <brett.creeley@amd.com>, Justin Lai <justinlai0215@realtek.com>, 
-	Larry Chiu <larry.chiu@realtek.com>, 
-	"=?UTF-8?q?Niklas=20S=C3=B6derlund?=" <niklas.soderlund@ragnatech.se>, Paul Barker <paul@pbarker.dev>, 
-	Masahisa Kojima <kojima.masahisa@socionext.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
-	MD Danish Anwar <danishanwar@ti.com>, Jiawen Wu <jiawenwu@trustnetic.com>, 
-	Mengyuan Lou <mengyuanlou@net-swift.com>, Ronak Doshi <ronak.doshi@broadcom.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen <shayne.chen@mediatek.com>, 
-	Sean Wang <sean.wang@mediatek.com>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, 
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Jordan Rhee <jordanrhee@google.com>, 
-	Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, 
-	Eric Joyner <eric.joyner@amd.com>, Prabu Thayalan <prabu.ponrajthayalan@amd.com>, 
-	"Nikhil P. Rao" <nikhil.rao@amd.com>, Chintan Vankar <c-vankar@ti.com>, 
-	Nora Schiffer <nora.schiffer@ew.tq-group.com>, Alexander Sverdlin <alex@sverdlin.org>, 
-	Kevin Hao <haokexin@gmail.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
-	Jacob Keller <jacob.e.keller@intel.com>, StanleyYP Wang <StanleyYP.Wang@mediatek.com>, 
-	linux-doc@vger.kernel.org, imx@lists.linux.dev, linux-rdma@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
 
-Now that page_pool reference counting is dispatched directly from each
-netmem's type and skb->pp_recycle has been removed, skb_mark_for_recycle()
-is a no-op stub with no remaining purpose. Remove its definition, all
-in-tree callers, and its reference in
-Documentation/networking/page_pool.rst.
+On Sat, 2026-11-07 at 10:14 -0500, Laurence Oberman wrote:
+> On Thu, 2026-11-05 at 00:46 +0000, Michael Kelley wrote:
+> > From: Laurence Oberman <loberman@redhat.com> Sent: Wednesday,
+> > November 4, 2026 2:26 PM
+> > >=20
+> > > qla2x00_set_isp_flags() derives the physical port number from
+> > > PCI_INTERRUPT_PIN, and the port number selects the per-port VPD,
+> > > NVRAM,
+> > > NPIV and FCP priority flash regions.
+> > >=20
+> > > On Hyper-V guests, pci-hyperv returns 0 for byte and word reads
+> > > of
+> > > PCI_INTERRUPT_PIN since commit fea93a3e5d5e ("PCI: hv: Return
+> > > zero,
+> > > not
+> > > garbage, when reading PCI_INTERRUPT_PIN"). Commit 7268e509b43a
+> > > ("scsi:
+> > > qla2xxx: Handle INTx not connected while passing through") then
+> > > falls
+> > > back to PCI_FUNC(). With Discrete Device Assignment (DDA), each
+> > > function
+> > > of a multi-port HBA is presented as function 0 in its own PCI
+> > > domain, so
+> > > every port gets port_no 0. All ports read port 0's NVRAM, pass
+> > > the
+> > > checksum and register the same WWPN, and nothing is logged.
+> > >=20
+> > > Without that commit, port_no underflows to 255, no flash region
+> > > is
+> > > selected and every port fails with "Inconsistent NVRAM checksum"
+> > > and
+> > > falls back to the default WWPN.
+> > >=20
+> > > pci-hyperv only zeroes byte and word accesses within 0x3c-0x3d. A
+> > > dword
+> > > read at PCI_INTERRUPT_LINE reaches the device's config space and
+> > > returns
+> > > the real pin in bits 15:8. On Hyper-V guests, use that when the
+> > > byte
+> > > read returns 0, and warn if the pin is still 0 so that duplicate
+> > > WWPNs
+> > > are not silent. Bare metal, KVM/vfio and other hypervisors are
+> > > unchanged.
+> >=20
+> > There's a patch in flight [1] that kills the behavior that your
+> > patch
+> > takes
+> > advantage of. I don't have knowledge of the full details that
+> > motivated [1],
+> > so maybe Mukesh Rathor or Wei Liu can add some info, as well as
+> > comment on the validity of what you are observing as a possible
+> > work-around to the qla2xxx problem.
+> >=20
+> > Michael
+> >=20
+> > [1]
+> > https://lore.kernel.org/linux-hyperv/20260913232255.2801797-1-wei.liu@k=
+ernel.org/
+> >=20
+> > >=20
+> > > Tested with an equivalent change on a RHEL 9 (5.14-based) guest
+> > > with a
+> > > dual-port QLE2692 (ISP2261) assigned through DDA (Hyper-V host
+> > > 10.0.17763):
+> > >=20
+> > > =C2=A0 before: both ports "Inconsistent NVRAM checksum=3D0xffffffc0
+> > > id=3DNGKP",
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 both WWPN 0x21=
+0000e08b1c5586
+> > > =C2=A0 after:=C2=A0 port_no 1 and 0, NVRAM valid, WWPN 0x210034800d70=
+65bd
+> > > and
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x210034800d70=
+65bc, fabric login and FC-NVMe localport
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 registration o=
+n both ports
+> > >=20
+> > > Also tested on bare metal (ISP2031): the new path is not taken
+> > > and
+> > > port
+> > > numbers and WWPNs are unchanged.
+> > >=20
+> > > Signed-off-by: Laurence Oberman <loberman@redhat.com>
+> > > ---
+> > > RFC: this relies on pci-hyperv not virtualizing dword reads at
+> > > 0x3c,
+> > > which is an implementation detail rather than an interface. It is
+> > > posted
+> > > as the smallest working fix and to start the discussion. Feedback
+> > > wanted
+> > > on cleaner alternatives:
+> > >=20
+> > > =C2=A0- Hyper-V (linux-hyperv): could pci-hyperv expose the real
+> > > =C2=A0=C2=A0 PCI_INTERRUPT_PIN, or provide the physical function numb=
+er,
+> > > for
+> > > DDA
+> > > =C2=A0=C2=A0 devices? Some drivers use the pin for port identity, not=
+ only
+> > > for
+> > > =C2=A0=C2=A0 interrupt routing.
+> > >=20
+> > > =C2=A0- Marvell: is there a firmware or register source for the
+> > > physical
+> > > =C2=A0=C2=A0 port that does not depend on PCI config space? CSRX_FUNC=
+TION
+> > > in
+> > > =C2=A0=C2=A0 ctrl_status is a single bit and would not cover quad-por=
+t
+> > > =C2=A0=C2=A0 27xx/28xx/29xx.
+> > >=20
+> > > =C2=A0- The check is x86-only (hypervisor_is_type()). pci-hyperv also
+> > > =C2=A0=C2=A0 supports arm64 guests; a better way to detect a pci-hype=
+rv bus
+> > > is
+> > > =C2=A0=C2=A0 welcome.
+> > >=20
+> > > This has not yet been tested on a 7.3 kernel in the DDA guest;
+> > > testing
+> > > was on a RHEL 9.8 backport. The upstream behaviour without this
+> > > patch
+> > > (duplicate WWPNs with no warning) follows from the code and has
+> > > not
+> > > yet
+> > > been reproduced on 7.3.
+> > >=20
+> > > =C2=A0drivers/scsi/qla2xxx/qla_os.c | 40
+> > > ++++++++++++++++++++++++++++++++++-
+> > > =C2=A01 file changed, 39 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/scsi/qla2xxx/qla_os.c
+> > > b/drivers/scsi/qla2xxx/qla_os.c
+> > > index 3c412c7fb6fe..4180d3f15231 100644
+> > > --- a/drivers/scsi/qla2xxx/qla_os.c
+> > > +++ b/drivers/scsi/qla2xxx/qla_os.c
+> > > @@ -24,6 +24,10 @@
+> > > =C2=A0#include <scsi/scsi_transport.h>
+> > > =C2=A0#include <scsi/scsi_transport_fc.h>
+> > >=20
+> > > +#ifdef CONFIG_X86
+> > > +#include <asm/hypervisor.h>
+> > > +#endif
+> > > +
+> > > =C2=A0#include "qla_target.h"
+> > >=20
+> > > =C2=A0/*
+> > > @@ -2704,6 +2708,40 @@ static struct isp_operations
+> > > qla29xx_isp_ops
+> > > =3D {
+> > > =C2=A0	.initialize_adapter	=3D qla2x00_initialize_adapter,
+> > > =C2=A0};
+> > >=20
+> > > +/*
+> > > + * Read the INTx pin used to derive the physical port number.
+> > > + *
+> > > + * pci-hyperv hard-wires byte and word reads of
+> > > PCI_INTERRUPT_PIN
+> > > to zero.
+> > > + * With Hyper-V Discrete Device Assignment every function is
+> > > also
+> > > presented
+> > > + * as function 0 in its own PCI domain, so the PCI_FUNC()
+> > > fallback
+> > > gives
+> > > + * port 0 for every port and they all report port 0's WWPN. A
+> > > dword read at
+> > > + * PCI_INTERRUPT_LINE is not virtualized by pci-hyperv and
+> > > returns
+> > > the
+> > > + * device's pin in bits 15:8, so use that on Hyper-V guests.
+> > > + */
+> > > +static u8
+> > > +qla2x00_get_intx_pin(struct qla_hw_data *ha)
+> > > +{
+> > > +	u8 pin;
+> > > +
+> > > +	pci_read_config_byte(ha->pdev, PCI_INTERRUPT_PIN, &pin);
+> > > +#ifdef CONFIG_X86
+> > > +	if (!pin && hypervisor_is_type(X86_HYPER_MS_HYPERV)) {
+> > > +		u32 val =3D 0;
+> > > +
+> > > +		pci_read_config_dword(ha->pdev,
+> > > PCI_INTERRUPT_LINE, &val);
+> > > +		pin =3D (val >> 8) & 0xff;
+> > > +		if (pin)
+> > > +			ql_log_pci(ql_log_info, ha->pdev,
+> > > 0xffff,
+> > > +				=C2=A0=C2=A0 "Hyper-V: INTx pin reads 0,
+> > > config dword 0x%08x
+> > > gives pin %u.\n",
+> > > +				=C2=A0=C2=A0 val, pin);
+> > > +		else
+> > > +			ql_log_pci(ql_log_warn, ha->pdev,
+> > > 0xffff,
+> > > +				=C2=A0=C2=A0 "Hyper-V: unable to determine
+> > > physical port, ports
+> > > may report duplicate WWPNs.\n");
+> > > +	}
+> > > +#endif
+> > > +	return pin;
+> > > +}
+> > > +
+> > > =C2=A0static inline void
+> > > =C2=A0qla2x00_set_isp_flags(struct qla_hw_data *ha)
+> > > =C2=A0{
+> > > @@ -2887,7 +2925,7 @@ qla2x00_set_isp_flags(struct qla_hw_data
+> > > *ha)
+> > > =C2=A0		ha->port_no =3D ha->portnum & 1;
+> > > =C2=A0	else {
+> > > =C2=A0		/* Get adapter physical port no from interrupt
+> > > pin
+> > > register. */
+> > > -		pci_read_config_byte(ha->pdev,
+> > > PCI_INTERRUPT_PIN,
+> > > &ha->port_no);
+> > > +		ha->port_no =3D qla2x00_get_intx_pin(ha);
+> > > =C2=A0		if (ha->port_no =3D=3D 0) {
+> > > =C2=A0			/* None of INT[A|B|C|D] may be
+> > > virtualized
+> > > by vfio */
+> > > =C2=A0			ha->port_no =3D PCI_FUNC(ha->pdev->devfn);
+> > > --
+> > > 2.56.0
+> > >=20
+> Hello Michael,
+>=20
+> Thanks very much for the information. I will follow the thread.=C2=A0
+> Our main pressing issue is any guest on HYPER-V with DDA moving to
+> RHEL9 from RHEL8 loses functionality for the pass-through qla2xxx
+> ports
+>=20
+> Regards
+> Laurence
+Hi Michael,
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
----
- Documentation/networking/page_pool.rst                |  1 -
- drivers/net/ethernet/airoha/airoha_eth.c              |  1 -
- drivers/net/ethernet/alibaba/eea/eea_rx.c             |  3 ---
- drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c      |  1 -
- drivers/net/ethernet/broadcom/bnge/bnge_txrx.c        |  5 -----
- drivers/net/ethernet/broadcom/bnxt/bnxt.c             |  8 --------
- drivers/net/ethernet/broadcom/genet/bcmgenet.c        |  2 --
- drivers/net/ethernet/cisco/enic/enic_rq.c             |  1 -
- drivers/net/ethernet/engleder/tsnep_main.c            |  2 --
- drivers/net/ethernet/freescale/fec_main.c             |  1 -
- drivers/net/ethernet/google/gve/gve_rx_dqo.c          |  9 ---------
- drivers/net/ethernet/hisilicon/hibmcge/hbg_txrx.c     |  1 -
- drivers/net/ethernet/hisilicon/hns3/hns3_enet.c       |  6 ------
- drivers/net/ethernet/huawei/hinic3/hinic3_rx.c        |  1 -
- drivers/net/ethernet/intel/iavf/iavf_txrx.c           |  2 --
- drivers/net/ethernet/marvell/mvneta.c                 |  2 --
- drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c       |  2 --
- .../net/ethernet/marvell/octeontx2/nic/otx2_txrx.c    |  1 -
- drivers/net/ethernet/mediatek/mtk_eth_soc.c           |  1 -
- drivers/net/ethernet/mellanox/mlx4/en_rx.c            |  1 -
- drivers/net/ethernet/mellanox/mlx5/core/en_rx.c       |  8 --------
- drivers/net/ethernet/mellanox/mlxsw/pci.c             |  2 --
- drivers/net/ethernet/microchip/lan966x/lan966x_fdma.c |  2 --
- .../ethernet/microchip/sparx5/lan969x/lan969x_fdma.c  |  1 -
- drivers/net/ethernet/microsoft/mana/mana_en.c         |  3 ---
- drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c        |  1 -
- drivers/net/ethernet/pensando/ionic/ionic_txrx.c      |  2 --
- drivers/net/ethernet/realtek/rtase/rtase_main.c       |  1 -
- drivers/net/ethernet/renesas/ravb_main.c              |  2 --
- drivers/net/ethernet/socionext/netsec.c               |  1 -
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c     |  1 -
- drivers/net/ethernet/tehuti/tn40.c                    |  1 -
- drivers/net/ethernet/ti/am65-cpsw-nuss.c              |  1 -
- drivers/net/ethernet/ti/cpsw.c                        |  2 --
- drivers/net/ethernet/ti/cpsw_new.c                    |  2 --
- drivers/net/ethernet/ti/icssg/icssg_common.c          |  1 -
- drivers/net/ethernet/wangxun/libwx/wx_lib.c           |  2 --
- drivers/net/virtio_net.c                              |  8 +-------
- drivers/net/vmxnet3/vmxnet3_xdp.c                     |  1 -
- drivers/net/wireless/mediatek/mt76/dma.c              |  1 -
- drivers/net/wireless/mediatek/mt76/mt7996/mac.c       |  1 -
- drivers/net/wireless/mediatek/mt76/npu.c              |  1 -
- drivers/net/wireless/mediatek/mt76/usb.c              |  1 -
- drivers/net/xen-netfront.c                            |  1 -
- include/linux/skbuff.h                                |  5 -----
- include/net/page_pool/helpers.h                       |  5 ++---
- net/core/skbuff.c                                     |  1 -
- net/core/xdp.c                                        | 11 ++---------
- 48 files changed, 5 insertions(+), 115 deletions(-)
+Thanks, that settles it. With "PCI: hv: hardwire PCI_INTERRUPT_PIN to
+0"
+any read covering 0x3d returns 0, so qla2xxx cannot use the pin under
+DDA at all. Please consider this RFC withdrawn.
 
-diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
-index d0be2b800a060..5b2d6d011fc1b 100644
---- a/Documentation/networking/page_pool.rst
-+++ b/Documentation/networking/page_pool.rst
-@@ -166,7 +166,6 @@ NAPI poller
-             if XDP_DROP:
-                 page_pool_recycle_direct(page_pool, page);
-         } else (packet_is_skb) {
--            skb_mark_for_recycle(skb);
-             new_page = page_pool_dev_alloc_pages(page_pool);
-         }
-     }
-diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
-index b164a78ddac9d..980b8c1d0dc49 100644
---- a/drivers/net/ethernet/airoha/airoha_eth.c
-+++ b/drivers/net/ethernet/airoha/airoha_eth.c
-@@ -925,7 +925,6 @@ static int airoha_qdma_rx_process(struct airoha_queue *q, int budget)
- 
- 			skb_reserve(q->skb, AIROHA_RX_HEADROOM);
- 			__skb_put(q->skb, len);
--			skb_mark_for_recycle(q->skb);
- 			q->skb->dev = netdev;
- 			q->skb->ip_summed = CHECKSUM_UNNECESSARY;
- 			skb_record_rx_queue(q->skb, qid);
-diff --git a/drivers/net/ethernet/alibaba/eea/eea_rx.c b/drivers/net/ethernet/alibaba/eea/eea_rx.c
-index 5dfb7cb2ba6d2..27feb9cdedd7e 100644
---- a/drivers/net/ethernet/alibaba/eea/eea_rx.c
-+++ b/drivers/net/ethernet/alibaba/eea/eea_rx.c
-@@ -319,8 +319,6 @@ static struct sk_buff *eea_rx_build_split_hdr_skb(struct eea_net_rx *rx,
- 		skb_add_rx_frag(skb, 0, page, offset, ctx->len, truesize);
- 	}
- 
--	skb_mark_for_recycle(skb);
--
- 	return skb;
- }
- 
-@@ -345,7 +343,6 @@ static struct sk_buff *eea_rx_build_skb(struct eea_net_rx *rx,
- 		return NULL;
- 
- 	truesize = eea_consume_rx_buffer(rx, meta, bufsize);
--	skb_mark_for_recycle(skb);
- 
- 	skb->truesize += truesize - bufsize;
- 
-diff --git a/drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c b/drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
-index f09054a02feb6..005476e150710 100644
---- a/drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
-+++ b/drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
-@@ -576,7 +576,6 @@ static int bcmasp_rx_poll(struct napi_struct *napi, int budget)
- 		skb_reserve(skb, NET_SKB_PAD);
- 		skb_put(skb, len);
- 		memcpy(skb->data, data, len);
--		skb_mark_for_recycle(skb);
- 
- 		/* Skip the 2-byte hardware alignment pad. */
- 		skb_pull(skb, 2);
-diff --git a/drivers/net/ethernet/broadcom/bnge/bnge_txrx.c b/drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
-index 472b02cc43b3c..de352d53628c9 100644
---- a/drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
-+++ b/drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
-@@ -240,7 +240,6 @@ static struct sk_buff *bnge_rx_agg_netmems_skb(struct bnge_net *bn,
- 	total_frag_len = __bnge_rx_agg_netmems(bn, cpr, idx, agg_bufs,
- 					       tpa, skb);
- 	if (!total_frag_len) {
--		skb_mark_for_recycle(skb);
- 		dev_kfree_skb(skb);
- 		return NULL;
- 	}
-@@ -468,7 +467,6 @@ void bnge_reuse_rx_data(struct bnge_rx_ring_info *rxr, u16 cons, void *data)
- static void bnge_deliver_skb(struct bnge_net *bn, struct bnge_napi *bnapi,
- 			     struct sk_buff *skb)
- {
--	skb_mark_for_recycle(skb);
- 	skb_record_rx_queue(skb, bnapi->index);
- 	napi_gro_receive(&bnapi->napi, skb);
- }
-@@ -659,7 +657,6 @@ static struct sk_buff *bnge_tpa_end(struct bnge_net *bn,
- 			bnge_abort_tpa(cpr, idx, agg_bufs);
- 			return NULL;
- 		}
--		skb_mark_for_recycle(skb);
- 		skb_reserve(skb, bn->rx_offset);
- 		skb_put(skb, len);
- 	}
-@@ -761,7 +758,6 @@ static struct sk_buff *bnge_rx_vlan(struct sk_buff *skb, u8 cmp_type,
- 	return skb;
- 
- vlan_err:
--	skb_mark_for_recycle(skb);
- 	dev_kfree_skb(skb);
- 	return NULL;
- }
-@@ -790,7 +786,6 @@ static struct sk_buff *bnge_rx_skb(struct bnge_net *bn,
- 		return NULL;
- 	}
- 
--	skb_mark_for_recycle(skb);
- 	skb_reserve(skb, bn->rx_offset);
- 	skb_put(skb, len);
- 	return skb;
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 757c7266ce15d..af385c0c43b6e 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -1226,7 +1226,6 @@ static struct sk_buff *bnxt_rx_multi_page_skb(struct bnxt *bp,
- 		bnxt_reuse_rx_data(rxr, cons, data);
- 		return NULL;
- 	}
--	skb_mark_for_recycle(skb);
- 	skb_reserve(skb, data_ptr - (u8 *)frag_start);
- 	__skb_put(skb, len);
- 
-@@ -1265,7 +1264,6 @@ static struct sk_buff *bnxt_rx_page_skb(struct bnxt *bp,
- 		return NULL;
- 	}
- 
--	skb_mark_for_recycle(skb);
- 	off = (void *)data_ptr - page_address(page);
- 	skb_add_rx_frag(skb, 0, page, off, len, rxr->rx_page_size);
- 	memcpy(skb->data - NET_IP_ALIGN, data_ptr - NET_IP_ALIGN,
-@@ -1304,7 +1302,6 @@ static struct sk_buff *bnxt_rx_skb(struct bnxt *bp,
- 		return NULL;
- 	}
- 
--	skb_mark_for_recycle(skb);
- 	skb_reserve(skb, bp->rx_offset);
- 	skb_put(skb, offset_and_len & 0xffff);
- 	return skb;
-@@ -1411,7 +1408,6 @@ static struct sk_buff *bnxt_rx_agg_netmems_skb(struct bnxt *bp,
- 	total_frag_len = __bnxt_rx_agg_netmems(bp, cpr, idx, agg_bufs, tpa,
- 					       skb, NULL);
- 	if (!total_frag_len) {
--		skb_mark_for_recycle(skb);
- 		dev_kfree_skb(skb);
- 		return NULL;
- 	}
-@@ -2023,7 +2019,6 @@ static inline struct sk_buff *bnxt_tpa_end(struct bnxt *bp,
- 			cpr->sw_stats->rx.rx_oom_discards += 1;
- 			return NULL;
- 		}
--		skb_mark_for_recycle(skb);
- 		skb_reserve(skb, bp->rx_offset);
- 		skb_put(skb, len);
- 	}
-@@ -2088,8 +2083,6 @@ static void bnxt_tpa_agg(struct bnxt *bp, struct bnxt_rx_ring_info *rxr,
- static void bnxt_deliver_skb(struct bnxt *bp, struct bnxt_napi *bnapi,
- 			     struct sk_buff *skb)
- {
--	skb_mark_for_recycle(skb);
--
- 	if (skb->dev != bp->dev) {
- 		/* this packet belongs to a vf-rep */
- 		bnxt_vf_rep_rx(bp, skb);
-@@ -2151,7 +2144,6 @@ static struct sk_buff *bnxt_rx_vlan(struct sk_buff *skb, u8 cmp_type,
- 	}
- 	return skb;
- vlan_err:
--	skb_mark_for_recycle(skb);
- 	dev_kfree_skb(skb);
- 	return NULL;
- }
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-index 4d2be2a21ed1b..240d2d5e4f5fe 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-@@ -2437,8 +2437,6 @@ static unsigned int bcmgenet_desc_rx(struct bcmgenet_rx_ring *ring,
- 			goto next;
- 		}
- 
--		skb_mark_for_recycle(skb);
--
- 		/* Reserve the RSB + pad, then set the data length */
- 		skb_reserve(skb, GENET_RSB_PAD);
- 		__skb_put(skb, len - GENET_RSB_PAD);
-diff --git a/drivers/net/ethernet/cisco/enic/enic_rq.c b/drivers/net/ethernet/cisco/enic/enic_rq.c
-index ccbf5c9a21d0f..1221a4a289294 100644
---- a/drivers/net/ethernet/cisco/enic/enic_rq.c
-+++ b/drivers/net/ethernet/cisco/enic/enic_rq.c
-@@ -369,7 +369,6 @@ static void enic_rq_indicate_buf(struct enic *enic, struct vnic_rq *rq,
- 				      fcoe_fc_crc_ok, vlan_stripped,
- 				      csum_not_calc, tcp_udp_csum_ok, ipv6,
- 				      ipv4_csum_ok, vlan_tci, skb);
--		skb_mark_for_recycle(skb);
- 		napi_gro_frags(napi);
- 		if (enic->rx_coalesce_setting.use_adaptive_rx_coalesce)
- 			enic_intr_update_pkt_size(&cq->pkt_size_counter,
-diff --git a/drivers/net/ethernet/engleder/tsnep_main.c b/drivers/net/ethernet/engleder/tsnep_main.c
-index 5db04e209dc67..e0881dd53912d 100644
---- a/drivers/net/ethernet/engleder/tsnep_main.c
-+++ b/drivers/net/ethernet/engleder/tsnep_main.c
-@@ -1416,8 +1416,6 @@ static void tsnep_rx_page(struct tsnep_rx *rx, struct napi_struct *napi,
- 
- 	skb = tsnep_build_skb(rx, page, length);
- 	if (skb) {
--		skb_mark_for_recycle(skb);
--
- 		rx->packets++;
- 		rx->bytes += length;
- 		if (skb->pkt_type == PACKET_MULTICAST)
-diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
-index f7636f23d1ebb..42499a269ad6c 100644
---- a/drivers/net/ethernet/freescale/fec_main.c
-+++ b/drivers/net/ethernet/freescale/fec_main.c
-@@ -1855,7 +1855,6 @@ static struct sk_buff *fec_build_skb(struct fec_enet_private *fep,
- 
- 	skb_reserve(skb, FEC_ENET_XDP_HEADROOM + fep->rx_shift);
- 	skb_put(skb, len);
--	skb_mark_for_recycle(skb);
- 
- 	/* Get offloads from the enhanced buffer descriptor */
- 	if (fep->bufdesc_ex) {
-diff --git a/drivers/net/ethernet/google/gve/gve_rx_dqo.c b/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-index 82ed5e48b00ab..3942e5d117c14 100644
---- a/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-+++ b/drivers/net/ethernet/google/gve/gve_rx_dqo.c
-@@ -622,9 +622,6 @@ static int gve_rx_append_frags(struct napi_struct *napi,
- 		if (!skb)
- 			return -1;
- 
--		if (rx->dqo.page_pool)
--			skb_mark_for_recycle(skb);
--
- 		if (rx->ctx.skb_tail == rx->ctx.skb_head)
- 			skb_shinfo(rx->ctx.skb_head)->frag_list = skb;
- 		else
-@@ -883,9 +880,6 @@ static int gve_rx_dqo(struct napi_struct *napi, struct gve_rx_ring *rx,
- 			if (unlikely(!rx->ctx.skb_head))
- 				goto error;
- 			rx->ctx.skb_tail = rx->ctx.skb_head;
--
--			if (rx->dqo.page_pool)
--				skb_mark_for_recycle(rx->ctx.skb_head);
- 		} else {
- 			unsplit = 1;
- 		}
-@@ -988,9 +982,6 @@ static int gve_rx_dqo(struct napi_struct *napi, struct gve_rx_ring *rx,
- 		return 0;
- 	}
- 
--	if (rx->dqo.page_pool)
--		skb_mark_for_recycle(rx->ctx.skb_head);
--
- 	gve_skb_add_rx_frag(rx, buf_state, 0, buf_len);
- 	gve_reuse_buffer(rx, buf_state);
- 	return 0;
-diff --git a/drivers/net/ethernet/hisilicon/hibmcge/hbg_txrx.c b/drivers/net/ethernet/hisilicon/hibmcge/hbg_txrx.c
-index 2ea025fd964fd..3204203230795 100644
---- a/drivers/net/ethernet/hisilicon/hibmcge/hbg_txrx.c
-+++ b/drivers/net/ethernet/hisilicon/hibmcge/hbg_txrx.c
-@@ -471,7 +471,6 @@ static int hbg_build_skb(struct hbg_priv *priv,
- 	buffer->skb = napi_build_skb(buffer->page_addr, buffer->page_size);
- 	if (unlikely(!buffer->skb))
- 		return -ENOMEM;
--	skb_mark_for_recycle(buffer->skb);
- 
- 	/* page will be freed together with the skb */
- 	buffer->page = NULL;
-diff --git a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-index 47788be64be68..ed6e75b45c25e 100644
---- a/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-+++ b/drivers/net/ethernet/hisilicon/hns3/hns3_enet.c
-@@ -4125,9 +4125,6 @@ static int hns3_alloc_skb(struct hns3_enet_ring *ring, unsigned int length,
- 		return 0;
- 	}
- 
--	if (ring->page_pool)
--		skb_mark_for_recycle(skb);
--
- 	hns3_ring_stats_update(ring, seg_pkt_cnt);
- 
- 	ring->pull_len = eth_get_headlen(netdev, va, HNS3_RX_HEAD_SIZE);
-@@ -4165,9 +4162,6 @@ static int hns3_add_frag(struct hns3_enet_ring *ring)
- 				return -ENXIO;
- 			}
- 
--			if (ring->page_pool)
--				skb_mark_for_recycle(new_skb);
--
- 			ring->frag_num = 0;
- 
- 			if (ring->tail_skb) {
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-index 309ab59013797..4f94c13eedf3f 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-@@ -234,7 +234,6 @@ static void hinic3_add_rx_frag(struct hinic3_rxq *rxq,
- 
- 	skb_add_rx_frag(skb, skb_shinfo(skb)->nr_frags, page,
- 			rx_info->page_offset, size, rxq->buf_len);
--	skb_mark_for_recycle(skb);
- }
- 
- static void packaging_skb(struct hinic3_rxq *rxq, struct sk_buff *skb,
-diff --git a/drivers/net/ethernet/intel/iavf/iavf_txrx.c b/drivers/net/ethernet/intel/iavf/iavf_txrx.c
-index 8982cf75466fa..6b863035d3ae9 100644
---- a/drivers/net/ethernet/intel/iavf/iavf_txrx.c
-+++ b/drivers/net/ethernet/intel/iavf/iavf_txrx.c
-@@ -1229,8 +1229,6 @@ static struct sk_buff *iavf_build_skb(const struct libeth_fqe *rx_buffer,
- 	if (unlikely(!skb))
- 		return NULL;
- 
--	skb_mark_for_recycle(skb);
--
- 	/* update pointers within the skb to store the data */
- 	skb_reserve(skb, hr);
- 	__skb_put(skb, size);
-diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
-index ea755cf05b9ef..0554595fbd143 100644
---- a/drivers/net/ethernet/marvell/mvneta.c
-+++ b/drivers/net/ethernet/marvell/mvneta.c
-@@ -2407,8 +2407,6 @@ mvneta_swbm_build_skb(struct mvneta_port *pp, struct page_pool *pool,
- 	if (!skb)
- 		return ERR_PTR(-ENOMEM);
- 
--	skb_mark_for_recycle(skb);
--
- 	skb_reserve(skb, xdp->data - xdp->data_hard_start);
- 	skb_put(skb, xdp->data_end - xdp->data);
- 	if (metasize)
-diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-index 317af54369cfe..7d4c6ce505697 100644
---- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-+++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-@@ -4030,8 +4030,6 @@ static int mvpp2_rx(struct mvpp2_port *port, struct napi_struct *napi,
- 			}
- 			goto err_drop_frame_retired;
- 		}
--		if (pp)
--			skb_mark_for_recycle(skb);
- 
- 		/* If we have RX hardware timestamping enabled, grab the
- 		 * timestamp from the queue and convert.
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c
-index 90af9b9044aa0..8869e9f1d6b5a 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c
-@@ -383,7 +383,6 @@ static void otx2_rcv_pkt_handler(struct otx2_nic *pfvf,
- 	if (pfvf->flags & OTX2_FLAG_TC_MARK_ENABLED)
- 		skb->mark = parse->match_id;
- 
--	skb_mark_for_recycle(skb);
- 	if (metasize)
- 		skb_metadata_set(skb, metasize);
- 
-diff --git a/drivers/net/ethernet/mediatek/mtk_eth_soc.c b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-index ad0fdc4133fb6..51105efb0ed6f 100644
---- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-+++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-@@ -2305,7 +2305,6 @@ static int mtk_poll_rx(struct napi_struct *napi, int budget,
- 			metasize = xdp.data - xdp.data_meta;
- 			if (metasize)
- 				skb_metadata_set(skb, metasize);
--			skb_mark_for_recycle(skb);
- 		} else {
- 			if (ring->frag_size <= PAGE_SIZE)
- 				new_data = napi_alloc_frag(ring->frag_size);
-diff --git a/drivers/net/ethernet/mellanox/mlx4/en_rx.c b/drivers/net/ethernet/mellanox/mlx4/en_rx.c
-index fe18606c2ab55..6c59761b903b0 100644
---- a/drivers/net/ethernet/mellanox/mlx4/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx4/en_rx.c
-@@ -856,7 +856,6 @@ int mlx4_en_process_rx_cq(struct net_device *dev, struct mlx4_en_cq *cq, int bud
- 		skb = napi_get_frags(&cq->napi);
- 		if (unlikely(!skb))
- 			goto next;
--		skb_mark_for_recycle(skb);
- 
- 		if (unlikely(ring->hwtstamp_rx_filter == HWTSTAMP_FILTER_ALL)) {
- 			u64 timestamp = mlx4_en_get_cqe_ts(cqe);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 22fea4739a2c9..f2b5ab014d549 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -1614,7 +1614,6 @@ mlx5e_skb_from_cqe_linear(struct mlx5e_rq *rq, struct mlx5e_wqe_frag_info *wi,
- 		return NULL;
- 
- 	/* queue up for recycling/reuse */
--	skb_mark_for_recycle(skb);
- 	frag_page->frags++;
- 
- 	return skb;
-@@ -1701,7 +1700,6 @@ mlx5e_skb_from_cqe_nonlinear(struct mlx5e_rq *rq, struct mlx5e_wqe_frag_info *wi
- 	if (unlikely(!skb))
- 		return NULL;
- 
--	skb_mark_for_recycle(skb);
- 	head_wi->frag_page->frags++;
- 
- 	if (xdp_buff_has_frags(&mxbuf->xdp)) {
-@@ -1966,7 +1964,6 @@ mlx5e_skb_from_cqe_mpwrq_nonlinear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *w
- 			rq->stats->buff_alloc_err++;
- 			return NULL;
- 		}
--		skb_mark_for_recycle(skb);
- 		va = skb->head;
- 		net_prefetchw(va); /* xdp_frame data area */
- 		net_prefetchw(skb->data);
-@@ -2046,7 +2043,6 @@ mlx5e_skb_from_cqe_mpwrq_nonlinear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *w
- 		if (unlikely(!skb))
- 			return NULL;
- 
--		skb_mark_for_recycle(skb);
- 		linear_page->frags++;
- 
- 		if (xdp_buff_has_frags(&mxbuf->xdp)) {
-@@ -2146,7 +2142,6 @@ mlx5e_skb_from_cqe_mpwrq_linear(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
- 		return NULL;
- 
- 	/* queue up for recycling/reuse */
--	skb_mark_for_recycle(skb);
- 	frag_page->frags++;
- 
- 	return skb;
-@@ -2176,9 +2171,6 @@ mlx5e_skb_from_cqe_shampo(struct mlx5e_rq *rq, struct mlx5e_mpw_info *wi,
- 			      head_offset, head_offset, len);
- 	__skb_put(skb, head_size);
- 
--	/* queue up for recycling/reuse */
--	skb_mark_for_recycle(skb);
--
- 	return skb;
- }
- 
-diff --git a/drivers/net/ethernet/mellanox/mlxsw/pci.c b/drivers/net/ethernet/mellanox/mlxsw/pci.c
-index dceb69945d26e..a81cff6a6b7b8 100644
---- a/drivers/net/ethernet/mellanox/mlxsw/pci.c
-+++ b/drivers/net/ethernet/mellanox/mlxsw/pci.c
-@@ -776,8 +776,6 @@ static void mlxsw_pci_cqe_rdq_handle(struct mlxsw_pci *mlxsw_pci,
- 		goto out;
- 	}
- 
--	skb_mark_for_recycle(skb);
--
- 	if (mlxsw_pci_cqe_lag_get(cqe_v, cqe)) {
- 		rx_info.is_lag = true;
- 		rx_info.u.lag_id = mlxsw_pci_cqe_lag_id_get(cqe_v, cqe);
-diff --git a/drivers/net/ethernet/microchip/lan966x/lan966x_fdma.c b/drivers/net/ethernet/microchip/lan966x/lan966x_fdma.c
-index 21668bbcc9063..e4f091fd7956c 100644
---- a/drivers/net/ethernet/microchip/lan966x/lan966x_fdma.c
-+++ b/drivers/net/ethernet/microchip/lan966x/lan966x_fdma.c
-@@ -439,8 +439,6 @@ static struct sk_buff *lan966x_fdma_rx_get_frame(struct lan966x_rx *rx,
- 	if (unlikely(!skb))
- 		goto free_page;
- 
--	skb_mark_for_recycle(skb);
--
- 	skb_reserve(skb, XDP_PACKET_HEADROOM);
- 	skb_put(skb, fdma_db_len_get(db));
- 
-diff --git a/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_fdma.c b/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_fdma.c
-index 053d125eda658..f9c610c18b2c3 100644
---- a/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_fdma.c
-+++ b/drivers/net/ethernet/microchip/sparx5/lan969x/lan969x_fdma.c
-@@ -120,7 +120,6 @@ static struct sk_buff *lan969x_fdma_rx_get_frame(struct sparx5 *sparx5,
- 	if (unlikely(!skb))
- 		goto free_page;
- 
--	skb_mark_for_recycle(skb);
- 	skb_put(skb, fdma_db_len_get(db));
- 	skb_pull(skb, IFH_LEN * sizeof(u32));
- 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 6b7c027e497ed..2f670e3c61d80 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -2170,9 +2170,6 @@ static void mana_rx_skb(void *buf_va, bool from_pool,
- 	if (!skb)
- 		goto drop;
- 
--	if (from_pool)
--		skb_mark_for_recycle(skb);
--
- 	skb->dev = napi->dev;
- 
- 	skb->protocol = eth_type_trans(skb, ndev);
-diff --git a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c
-index b7b0c45a0f664..03ba794d6d727 100644
---- a/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c
-+++ b/drivers/net/ethernet/mucse/rnpgbe/rnpgbe_lib.c
-@@ -332,7 +332,6 @@ static struct sk_buff *rnpgbe_build_skb(struct mucse_rx_buffer *rx_buffer,
- 	/* update pointers within the skb to store the data */
- 	skb_reserve(skb, RNPGBE_SKB_PAD);
- 	__skb_put(skb, size);
--	skb_mark_for_recycle(skb);
- 
- 	return skb;
- }
-diff --git a/drivers/net/ethernet/pensando/ionic/ionic_txrx.c b/drivers/net/ethernet/pensando/ionic/ionic_txrx.c
-index 2543a8ff85476..8b85bb7effdd5 100644
---- a/drivers/net/ethernet/pensando/ionic/ionic_txrx.c
-+++ b/drivers/net/ethernet/pensando/ionic/ionic_txrx.c
-@@ -198,7 +198,6 @@ static struct sk_buff *ionic_rx_build_skb(struct ionic_queue *q,
- 		q_to_rx_stats(q)->alloc_err++;
- 		return NULL;
- 	}
--	skb_mark_for_recycle(skb);
- 
- 	if (headroom)
- 		frag_len = min_t(u16, len,
-@@ -249,7 +248,6 @@ static struct sk_buff *ionic_rx_copybreak(struct net_device *netdev,
- 		q_to_rx_stats(q)->alloc_err++;
- 		return NULL;
- 	}
--	skb_mark_for_recycle(skb);
- 
- 	if (!synced)
- 		page_pool_dma_sync_for_cpu(q->page_pool,
-diff --git a/drivers/net/ethernet/realtek/rtase/rtase_main.c b/drivers/net/ethernet/realtek/rtase/rtase_main.c
-index e3cd4f7c13804..4d1cd4f8c2d07 100644
---- a/drivers/net/ethernet/realtek/rtase/rtase_main.c
-+++ b/drivers/net/ethernet/realtek/rtase/rtase_main.c
-@@ -562,7 +562,6 @@ static int rx_handler(struct rtase_ring *ring, int budget)
- 			rtase_rx_csum(tp, skb, desc);
- 
- 		skb_put(skb, pkt_size);
--		skb_mark_for_recycle(skb);
- 		skb->protocol = eth_type_trans(skb, dev);
- 
- 		if (skb->pkt_type == PACKET_MULTICAST)
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 5a07cc0180d8b..135081fce0bbd 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -877,7 +877,6 @@ static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
- 							   true);
- 					goto refill;
- 				}
--				skb_mark_for_recycle(skb);
- 				skb_put(skb, desc_len);
- 
- 				/* Save this skb if the packet spans multiple
-@@ -1041,7 +1040,6 @@ static int ravb_rx_rcar(struct net_device *ndev, int budget, int q)
- 						   rx_buff->page, 0, true);
- 				break;
- 			}
--			skb_mark_for_recycle(skb);
- 
- 			ravb_rx_rcar_hwstamp(priv, q, desc, skb);
- 
-diff --git a/drivers/net/ethernet/socionext/netsec.c b/drivers/net/ethernet/socionext/netsec.c
-index 79a0a324c921d..95da134dc847a 100644
---- a/drivers/net/ethernet/socionext/netsec.c
-+++ b/drivers/net/ethernet/socionext/netsec.c
-@@ -1044,7 +1044,6 @@ static int netsec_process_rx(struct netsec_priv *priv, int budget)
- 				  "rx failed to build skb\n");
- 			break;
- 		}
--		skb_mark_for_recycle(skb);
- 
- 		skb_reserve(skb, xdp.data - xdp.data_hard_start);
- 		skb_put(skb, xdp.data_end - xdp.data);
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 9ded31150fbe6..5ce03aec41024 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -6010,7 +6010,6 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
- 			head_pad_len = ctx.xdp.data - ctx.xdp.data_hard_start;
- 			skb_reserve(skb, head_pad_len);
- 			skb_put(skb, buf1_len);
--			skb_mark_for_recycle(skb);
- 			buf->page = NULL;
- 		} else if (buf1_len) {
- 			dma_sync_single_for_cpu(priv->device, buf->addr,
-diff --git a/drivers/net/ethernet/tehuti/tn40.c b/drivers/net/ethernet/tehuti/tn40.c
-index 558b791a97edd..c1fcc28e44322 100644
---- a/drivers/net/ethernet/tehuti/tn40.c
-+++ b/drivers/net/ethernet/tehuti/tn40.c
-@@ -384,7 +384,6 @@ static int tn40_rx_receive(struct tn40_priv *priv, int budget)
- 			tn40_recycle_rx_buffer(priv, rxdd);
- 			break;
- 		}
--		skb_mark_for_recycle(skb);
- 		skb_put(skb, len);
- 		skb->protocol = eth_type_trans(skb, priv->ndev);
- 		skb->ip_summed =
-diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-index 2551554add17a..48be2ba48a7f5 100644
---- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-+++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-@@ -1353,7 +1353,6 @@ static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_rx_flow *flow,
- 	skb_put(skb, pkt_len);
- 	if (port->rx_ts_filter)
- 		am65_cpts_rx_timestamp(common->cpts, port_id, skb);
--	skb_mark_for_recycle(skb);
- 	skb->protocol = eth_type_trans(skb, ndev);
- 	am65_cpsw_nuss_rx_csum(skb, csum_info);
- 	napi_gro_receive(&flow->napi_rx, skb);
-diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-index 8d36124520ad3..2ffdd8086b45b 100644
---- a/drivers/net/ethernet/ti/cpsw.c
-+++ b/drivers/net/ethernet/ti/cpsw.c
-@@ -453,8 +453,6 @@ static void cpsw_rx_handler(void *token, int len, int status)
- 		cpts_rx_timestamp(cpsw->cpts, skb);
- 	skb->protocol = eth_type_trans(skb, ndev);
- 
--	/* mark skb for recycling */
--	skb_mark_for_recycle(skb);
- 	netif_receive_skb(skb);
- 
- 	ndev->stats.rx_bytes += len;
-diff --git a/drivers/net/ethernet/ti/cpsw_new.c b/drivers/net/ethernet/ti/cpsw_new.c
-index 07832cad5e3c2..996b513f349f1 100644
---- a/drivers/net/ethernet/ti/cpsw_new.c
-+++ b/drivers/net/ethernet/ti/cpsw_new.c
-@@ -397,8 +397,6 @@ static void cpsw_rx_handler(void *token, int len, int status)
- 		cpts_rx_timestamp(cpsw->cpts, skb);
- 	skb->protocol = eth_type_trans(skb, ndev);
- 
--	/* mark skb for recycling */
--	skb_mark_for_recycle(skb);
- 	netif_receive_skb(skb);
- 
- 	ndev->stats.rx_bytes += len;
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_common.c b/drivers/net/ethernet/ti/icssg/icssg_common.c
-index 4a7d1a6f470b1..20c5f44df2578 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_common.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_common.c
-@@ -1131,7 +1131,6 @@ static int emac_rx_packet(struct prueth_emac *emac, u32 flow_id, u32 *xdp_state)
- 		skb->offload_fwd_mark = emac->offload_fwd_mark;
- 	skb->protocol = eth_type_trans(skb, ndev);
- 
--	skb_mark_for_recycle(skb);
- 	napi_gro_receive(&emac->napi_rx, skb);
- 	ndev->stats.rx_bytes += pkt_len;
- 	ndev->stats.rx_packets++;
-diff --git a/drivers/net/ethernet/wangxun/libwx/wx_lib.c b/drivers/net/ethernet/wangxun/libwx/wx_lib.c
-index dcbf5811046e9..8de18c10de99b 100644
---- a/drivers/net/ethernet/wangxun/libwx/wx_lib.c
-+++ b/drivers/net/ethernet/wangxun/libwx/wx_lib.c
-@@ -259,8 +259,6 @@ static struct sk_buff *wx_build_skb(struct wx_ring *rx_ring,
- 			return skb;
- 		}
- 
--		skb_mark_for_recycle(skb);
--
- 		if (!wx_test_staterr(rx_desc, WX_RXD_STAT_EOP))
- 			WX_CB(skb)->dma = rx_buffer->dma;
- 
-diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-index 3453689bfd341..9fa7b1a40624f 100644
---- a/drivers/net/virtio_net.c
-+++ b/drivers/net/virtio_net.c
-@@ -1930,8 +1930,6 @@ static struct sk_buff *receive_small_xdp(struct net_device *dev,
- 	if (metasize)
- 		skb_metadata_set(skb, metasize);
- 
--	skb_mark_for_recycle(skb);
--
- 	return skb;
- 
- err_xdp:
-@@ -1987,10 +1985,8 @@ static struct sk_buff *receive_small(struct net_device *dev,
- 	}
- 
- 	skb = receive_small_build_skb(vi, xdp_headroom, buf, len, buflen);
--	if (likely(skb)) {
--		skb_mark_for_recycle(skb);
-+	if (likely(skb))
- 		return skb;
--	}
- 
- 	u64_stats_inc(&stats->alloc_fail);
- err:
-@@ -2313,7 +2309,6 @@ static struct sk_buff *receive_mergeable_xdp(struct net_device *dev,
- 			break;
- 		}
- 
--		skb_mark_for_recycle(head_skb);
- 		return head_skb;
- 
- 	case XDP_TX:
-@@ -2425,7 +2420,6 @@ static struct sk_buff *receive_mergeable(struct net_device *dev,
- 		goto err_skb;
- 	}
- 
--	skb_mark_for_recycle(head_skb);
- 	while (--num_buf) {
- 		buf = virtnet_rq_get_buf(rq, &len, &ctx);
- 		if (unlikely(!buf)) {
-diff --git a/drivers/net/vmxnet3/vmxnet3_xdp.c b/drivers/net/vmxnet3/vmxnet3_xdp.c
-index 5f470499e6002..9d1da8809501a 100644
---- a/drivers/net/vmxnet3/vmxnet3_xdp.c
-+++ b/drivers/net/vmxnet3/vmxnet3_xdp.c
-@@ -325,7 +325,6 @@ vmxnet3_build_skb(struct vmxnet3_rx_queue *rq, struct page *page,
- 	/* bpf prog might change len and data position. */
- 	skb_reserve(skb, xdp->data - xdp->data_hard_start);
- 	skb_put(skb, xdp->data_end - xdp->data);
--	skb_mark_for_recycle(skb);
- 
- 	return skb;
- }
-diff --git a/drivers/net/wireless/mediatek/mt76/dma.c b/drivers/net/wireless/mediatek/mt76/dma.c
-index a67880a9281c5..2ba62421c5ae0 100644
---- a/drivers/net/wireless/mediatek/mt76/dma.c
-+++ b/drivers/net/wireless/mediatek/mt76/dma.c
-@@ -1075,7 +1075,6 @@ mt76_dma_rx_process(struct mt76_dev *dev, struct mt76_queue *q, int budget)
- 			goto free_frag;
- 
- 		skb_reserve(skb, q->buf_offset);
--		skb_mark_for_recycle(skb);
- 
- 		*(u32 *)skb->cb = info;
- 
-diff --git a/drivers/net/wireless/mediatek/mt76/mt7996/mac.c b/drivers/net/wireless/mediatek/mt76/mt7996/mac.c
-index f36da545045b8..7a3fccc74dcce 100644
---- a/drivers/net/wireless/mediatek/mt76/mt7996/mac.c
-+++ b/drivers/net/wireless/mediatek/mt76/mt7996/mac.c
-@@ -2041,7 +2041,6 @@ void mt7996_rro_rx_process(struct mt76_dev *mdev, void *data)
- 				goto next_page;
- 
- 			skb_reserve(skb, q->buf_offset);
--			skb_mark_for_recycle(skb);
- 			__skb_put(skb, len);
- 
- 			if (ind_reason == 1 || ind_reason == 2) {
-diff --git a/drivers/net/wireless/mediatek/mt76/npu.c b/drivers/net/wireless/mediatek/mt76/npu.c
-index c4c7c0af63217..2e018d7116f33 100644
---- a/drivers/net/wireless/mediatek/mt76/npu.c
-+++ b/drivers/net/wireless/mediatek/mt76/npu.c
-@@ -91,7 +91,6 @@ static struct sk_buff *mt76_npu_dequeue(struct mt76_dev *dev,
- 
- 			__skb_put(skb, len);
- 			skb_reset_mac_header(skb);
--			skb_mark_for_recycle(skb);
- 		} else {
- 			struct skb_shared_info *shinfo = skb_shinfo(skb);
- 			struct page *page = virt_to_head_page(e->buf);
-diff --git a/drivers/net/wireless/mediatek/mt76/usb.c b/drivers/net/wireless/mediatek/mt76/usb.c
-index be48a88a3ad02..f91f773ddcd68 100644
---- a/drivers/net/wireless/mediatek/mt76/usb.c
-+++ b/drivers/net/wireless/mediatek/mt76/usb.c
-@@ -563,7 +563,6 @@ mt76u_process_rx_entry(struct mt76_dev *dev, struct urb *urb,
- 		nsgs++;
- 	}
- 
--	skb_mark_for_recycle(skb);
- 	dev->drv->rx_skb(dev, MT_RXQ_MAIN, skb, NULL);
- 
- 	return nsgs;
-diff --git a/drivers/net/xen-netfront.c b/drivers/net/xen-netfront.c
-index fdcb91042f290..82bef245d6d25 100644
---- a/drivers/net/xen-netfront.c
-+++ b/drivers/net/xen-netfront.c
-@@ -286,7 +286,6 @@ static struct sk_buff *xennet_alloc_one_rx_buffer(struct netfront_queue *queue)
- 		return NULL;
- 	}
- 	skb_add_rx_frag(skb, 0, page, 0, 0, PAGE_SIZE);
--	skb_mark_for_recycle(skb);
- 
- 	/* Align ip header to a 16 bytes boundary */
- 	skb_reserve(skb, NET_IP_ALIGN);
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 4eaf4da1f7dad..3dc77734c80a3 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -5473,11 +5473,6 @@ static inline struct kcov_common_handle_id skb_get_kcov_handle(struct sk_buff *s
- 	return skb->kcov_handle;
- }
- 
--/* Deprecated: page_pool recycling is now determined per netmem. */
--static inline void skb_mark_for_recycle(struct sk_buff *skb)
--{
--}
--
- ssize_t skb_splice_from_iter(struct sk_buff *skb, struct iov_iter *iter,
- 			     ssize_t maxsize);
- 
-diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-index fdbb1a4fe11f5..ff005fbace84d 100644
---- a/include/net/page_pool/helpers.h
-+++ b/include/net/page_pool/helpers.h
-@@ -42,8 +42,7 @@
-  * The API keeps track of in-flight pages, in order to let API users know when
-  * it is safe to free a page_pool object, the API users must call
-  * page_pool_put_page() or page_pool_free_va() to free the page_pool object, or
-- * attach the page_pool object to a page_pool-aware object like skbs marked with
-- * skb_mark_for_recycle().
-+ * attach the page_pool object to a page_pool-aware object like an skb.
-  *
-  * page_pool_put_page() may be called multiple times on the same page if a page
-  * is split into multiple fragments. For the last fragment, it will either
-@@ -260,7 +259,7 @@ static inline void page_pool_fragment_netmem(netmem_ref netmem, long nr)
-  * pp_ref_count represents the number of outstanding references to the page,
-  * which will be freed using page_pool APIs (rather than page allocator APIs
-  * like put_page()). Such references are usually held by page_pool-aware
-- * objects like skbs marked for page pool recycling.
-+ * objects like skbs.
-  *
-  * This helper allows the caller to take (set) multiple references to a
-  * freshly allocated page. The page must be freshly allocated (have a
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index a695c3f64dfd9..6519380c713df 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -967,7 +967,6 @@ int skb_pp_cow_data(struct page_pool *pool, struct sk_buff **pskb,
- 
- 	skb_reserve(nskb, headroom);
- 	skb_copy_header(nskb, skb);
--	skb_mark_for_recycle(nskb);
- 
- 	err = skb_copy_bits(skb, 0, nskb->data, size);
- 	if (err) {
-diff --git a/net/core/xdp.c b/net/core/xdp.c
-index 6f2b9191af9ec..513a51484ecd1 100644
---- a/net/core/xdp.c
-+++ b/net/core/xdp.c
-@@ -625,8 +625,8 @@ EXPORT_SYMBOL_GPL(xdp_warn);
-  *
-  * Perform common operations to create a new skb to pass up the stack from
-  * &xdp_buff: allocate an skb head from the NAPI percpu cache, initialize
-- * skb data pointers and offsets, set the recycle bit if the buff is
-- * PP-backed, Rx queue index, protocol and update frags info.
-+ * skb data pointers and offsets, Rx queue index, protocol and update frags
-+ * info.
-  *
-  * Return: new &sk_buff on success, %NULL on error.
-  */
-@@ -654,9 +654,6 @@ struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp)
- 	if (metalen > 0)
- 		skb_metadata_set(skb, metalen);
- 
--	if (rxq->mem.type == MEM_TYPE_PAGE_POOL)
--		skb_mark_for_recycle(skb);
--
- 	skb_record_rx_queue(skb, rxq->queue_index);
- 
- 	if (unlikely(nr_frags)) {
-@@ -761,7 +758,6 @@ struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp)
- 		goto out;
- 	}
- 
--	skb_mark_for_recycle(skb);
- 	skb_reserve(skb, xdp->data_meta - xdp->data_hard_start);
- 
- 	memcpy(__skb_put(skb, len), xdp->data_meta, LARGEST_ALIGN(len));
-@@ -836,9 +832,6 @@ struct sk_buff *__xdp_build_skb_from_frame(struct xdp_frame *xdpf,
- 	 * - RX ring dev queue index	(skb_record_rx_queue)
- 	 */
- 
--	if (xdpf->mem_type == MEM_TYPE_PAGE_POOL)
--		skb_mark_for_recycle(skb);
--
- 	/* Allow SKB to reuse area used by xdp_frame */
- 	xdp_scrub_frame(xdpf);
- 
--- 
-2.56.0.455.g6c5a503b38-goog
+The qla2xxx problem itself remains. The driver uses the pin, not for
+interrupts, but as its only indication of which physical port a
+function
+is on. That selects the per-port VPD, NVRAM, NPIV and FCP priority
+flash
+regions. Under DDA each function is presented as function 0 in its own
+domain, so PCI_FUNC() cannot tell the ports apart either, and every
+port
+of a dual-port QLE2692 comes up with port 0's WWPN.
+
+Wei, Mukesh: if there is a supported way for a guest to learn the
+physical function of a DDA-assigned device, qla2xxx could use it.
+Otherwise I think this has to be solved in the driver.
+
+Nilesh: on the same guest, the -1015 mailbox dump logged by the Marvell
+out-of-tree driver at init differs between the two ports only in
+mb[15]:
+
+  pin A port: mb[8-15] 0003h 0001h 0001h 0001h f080h 0000h 0008h 0000h
+  pin B port: mb[8-15] 0003h 0001h 0001h 0001h f080h 0000h 0008h 4001h
+
+Is that firmware reporting the physical function? If so, and if it is
+available on ISP25xx/27xx/28xx/29xx before the flash regions are
+selected, it would give qla2xxx a port number that does not depend on
+PCI config space, under any hypervisor. I am happy to test a patch on
+the customer's DDA guest.
+
+Thanks,
+Laurence
 
