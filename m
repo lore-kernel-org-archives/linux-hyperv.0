@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794256299;
-	b=ER0Gf+5vTZej0A0aFYkDvdl5YRg4UZfZzDpjbGz4A7cjkUi6gYnRCzPCz0er4dTUkijr
-	 eshOPGG/8lw0vEIiRG5XDE93R5CE+F81dD89Whbw6C/DJ1/m0DP5+Hw+7wP75uBiK5g2d
-	 iTrli9L3/nLE1C8mQmTWcBclaZjKfgLkHRczuTlhVTyAMhLg4lcpavb0iV6IFhPC4Pup5
-	 JO/i6MNinKHTj/lrL6mTYdqFmcJcn0RaieqDZ9QR+rTxXxkAaA+jPkUCZY6+/z0ANgOAb
-	 pTJcY9dwM2VHueIQLpnVCJgV9GBltJ8nXenw2vU0HcYKU9xXZCqhqKrMpgmKFmeqveg==
+	t=1794262025;
+	b=fu5KpeXPgIXfebTgklwuKhsk1WQib0M68F1Dn4eag5gbacCrOMWzbqwUzvZuTxGrRK45
+	 oT3X4K17qwlyND+35jcfKEBewiEYgXEdg0OYl/0vpk25v9Ttm5lfHthfOftK8GovnEHaC
+	 ql3wClyV9sJv2VrFQkbaLbzdW/0zF9BBmE4sSKTYgb6O3I2+bca+y5Dogrj6R0hFCHVDT
+	 n641ELsCBd0v/1c354it7SgFia3YaDOHJucywRtmhj6crSQD+oJSN0e0yzQy04PEkFOe+
+	 iQRLTMQoFoTc7ulRaR2mxoB1Yl3mptQzVeaO5H4Ma9TisFhlFZhZvFxpTbfCaV1wUXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794256299;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=FJoDa9wz9XzvY9w6y77OOd0io38jmhgmSiRUcMxPUUo=;
-	b=SC0Mq9If8BS2lmeE9P2nfTikANjTpfR8yAxgw1U4lF194r6+uGOLxXIbzmBDcuA2xZ2e
-	 k1/JcqhUhm9pqs4uwYdxPxH8cf4XokfPTpQAhOwjRWru2MilK3A0oefVx4q/W4Ny/Yryv
-	 6ahz4cDbxsq7ClIfkySmBn8h2TV5fWEkd8lQ0ynZOIQ5ZfheaLt2QIi3MN+RVkxduJjPe
-	 stboEblfy4Od+o3YCxv5WOTqVSee463OP5gol1pOGDlypE+0esU6dKLROokYYMz1tAZGd
-	 +O60wNw9dBGDwfdU28qa6c+pTqF3SWzNbNbh3yvQ0JPx992qpJncINe23P55+OlRT5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794262025;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=FojzXsTv6Y+YEm4k8gUu4cy3Bf4RRdBAAG4ubxfrbl0=;
+	b=gAfAzFGyY6q7slB902AeXfOxwVnxy2S87L6DwgcZ/QvbBhBSk9kWaJDOT8eQeTissukj
+	 Lt94XlaO1LSrILNS+NWvxA341cbSlGokSTCnmkxjNTaakdFM4bbV8wiQ7v6/2tZGOCFIj
+	 92QfZmHZZ27IsZHB7+2ADLksJeOEobfiNimUtXJekRXakvYm+BmlDCKz5QFyfykwgwp9b
+	 aW3D507d3/iAMujKYS/wp3SVcOTFFnLRd4ns5qbm4U+ZZAAB97c/SHEFADYSYDt3qtL6L
+	 2aJtQI8Q7Y4Rbmi3f95DHWgTFAPFFD18oGEZWgDRAMrwE3WEWew1evSNly07yIQ8dwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jr5XONFw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4464E606A31C
-	for <linux-hyperv@vger.kernel.org>; Mon,  9 Nov 2026 20:31:39 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=doiwQeqe;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AB3606A330
+	for <linux-hyperv@vger.kernel.org>; Mon,  9 Nov 2026 22:07:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43AB3606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jr5XONFw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF6B1F0089F;
-	Mon,  9 Nov 2026 20:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794256298;
-	bh=FJoDa9wz9XzvY9w6y77OOd0io38jmhgmSiRUcMxPUUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jr5XONFwCUzkmlIfk1tGPq41PP5kMdJKEcsd73aBOIH7sEOTaXUOFw3iWWxg7Rn32
-	 kL45OcMazcOP6EMUv903X+5K5X4Fxk40lPUitQabxyCB6JpwZSDPiQljDDpM9pidFO
-	 t0sr+CwajdaBkm+ys927mntXTnchvjPXqUZUlaD+O33nK+UlCpoisHCNmbujvsZoAh
-	 P9LHWRT1UC4d0//bDhAhYXlXmC0IFoPoO8fw37Z3YacE8olu6ZfMt/KUZp6m0+D3tt
-	 gxN9/3QZl/2Ky399S+l0azfToosGZuSd39oMCHBEk1EJ6EzLep5impwlPwwmuMmcc3
-	 tvtscAX4O7L4g==
-Date: Mon, 9 Nov 2026 12:31:37 -0800
-From: Wei Liu <wei.liu@kernel.org>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Dexuan Cui <decui@microsoft.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=doiwQeqe
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id B9B2320B7168; Mon,  9 Nov 2026 14:07:02 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B9B2320B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794262022;
+	bh=FojzXsTv6Y+YEm4k8gUu4cy3Bf4RRdBAAG4ubxfrbl0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=doiwQeqeLPJqIJkCZ2pVLmC0DW83f7uvmFT+mjYcgt3T48qzdze2TzuzAg0SnbFwI
+	 0bIdQ681waPkCSynG7aF80Vp3SJ3CgMaTJkBPQQRlrvAFDlF4hnfVBEOQQPF11E1+4
+	 5iN//JTDKNSCe7m0H7OAhvXPFntms35Xawuh510I=
+Date: Mon, 9 Nov 2026 17:07:02 -0500
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dexuan Cui <decui@microsoft.com>,
 	Saurabh Sengar <ssengar@linux.microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>
 Subject: Re: [PATCH] MAINTAINERS: add myself as a maintainer for the Hyper-V
  DRM driver
-Message-ID: <20261109203137.GA3536171@liuwe-devbox-debian-v2.local>
+Message-ID: <avJEBr2OsZLpsB1s@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 References: <20261109160004.796790-1-hamzamahfooz@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -69,9 +69,7 @@ On Mon, Nov 09, 2026 at 11:00:04AM -0500, Hamza Mahfooz wrote:
 > 
 > Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
-
-Please take it via your tree.
+Applied.
 
 > ---
 >  MAINTAINERS | 1 +
@@ -91,5 +89,3 @@ Please take it via your tree.
 >  L:	dri-devel@lists.freedesktop.org
 > -- 
 > 2.56.0
-> 
-> 
