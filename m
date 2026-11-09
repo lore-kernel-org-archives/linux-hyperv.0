@@ -1,66 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794242359;
-	b=oaoSvqDV6A2oXadkCECfisSXCQAlHAwk7KGkqAvAyAoLUPxNGrfzvhVxqGg+ZXe04vGq
-	 s6LpsH/W6BtepJGGMrRyfhCx5G5Ig1L+dN9LACjrN62ELd8bTtD/W6icOE1nN2G3zPesn
-	 DwxWDGoc763kU0aBIeLgRn5jc80OjuD7UN+0sCYm/4NnpPeow+tZwWrdEoohIQ+/mcMa0
-	 goDnzFVe1u/o08xTXNE1ZqzgfcjYuRybpy0jmvmKCvLmybEMEJadljQaL+EWWZtavoKmF
-	 JQZRqy6lBVgijfCR0TZemfSc6Pxp3KCciD0TZKvVdndoqLntuO91mhH2U5QM20T9Bng==
+	t=1794244670;
+	b=CAAlhVdsj70PF9F9USU8nTOc6PB6+TOg0VEjIMeioFgPK7Bjltn601I19X43hNKobTR3
+	 l7dI4CZN1T3gQ0BGEL8kCsY+QNjTgGqXbWI4Xes2zqdmv+rQ/75bMJG/sZ41f5DF2lwCa
+	 juzGjQl+51uYAHuROMn2MblWtpPUnh+OFWAbrm1ocwAjHH2c4lkPs0VqEbTn1V5Ia1GT8
+	 2lU1TZwzVOetjL/pH9Of9kA68XsicGX5CB5iJAIYsxIn7s0xA/JPNb/fpgyjqkZXaiq44
+	 BfssAKVY+1YyggMHjv8Nnj0Hk7H9/ImUBHQUzjLlETsuKdFEO6HjmPknqw3gsmHegkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794242359;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:User-Agent:MIME-Version:
-	 X-SRS-Rewrite;
-	bh=iN3G8mAIeg3/vhBhifQLL1BpRWPbmCDkvMnN8wMYRe4=;
-	b=LicEL6Pi9z/JrD0LLCQrqUy8DSAtcv08nCaUOFHnSqWH6rDksXc7aAlS+0XMoavFKnaI
-	 9PzRwSTBYkgOs+d0JowWN1rWqZ4/5eVob684QkTeDD7SsZvj5wkdyZmGdlRcyDUwwO5P0
-	 J8AUSdm3iRMCGA7qlqjke0ib+0vHMcguwGF9d4QYk5ixtA7DGp96J9NAS+JUJGxngOScJ
-	 MCZGUobt4xT0ffn8doNDC17LVvAHnjYz5Ng6haViUL524lAXt7+5b7kUE1rzf1c9x7jgg
-	 TR2FnnTp56L0+QBqVw7wNCMYvDHzqd2MoS6QXqQEi1Eoael5S08dv+9esPOQWxNwZKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794244670;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Cc:Subject:To:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=BADVZ41G8xtkqHq/JNe15jN9JsvXsYZ8vIL7NioPmMk=;
+	b=VYx8887MI23NAQm3xMRBzzjEk5WCEp8qPGS5cSW1olowfn9Az38AFgaehTKOQ/v5adsU
+	 nZJ31k3XXrL4eOixrgifQM0QQMIjks/3sSjIMKYolqI6/h6/AdlbedljeDY9fGiCWBrFf
+	 tTKb7k9tzXCGr4xEtxWX/zgHwwS7C/wTkben8W6l8fgMKCZJpDU0ujRv2htEN+tyMgGzx
+	 AnecPvZuO85sdBQNURQv24exV23tzO/i8/I0rnocRgqYzlMBRZl5myQxEbYYbaRQzDEkn
+	 LDOQDqjQ/9o1qYKLu1CM5+1BvMtSvsasMDF7t/6VPAPierPE5Vk+VNjopZu4yBTlVsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=EkWpgotm;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE5F606A7A9;
-	Mon,  9 Nov 2026 16:39:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CE5F606A7A9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="QU/gJxUo";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A281606EEB3
+	for <linux-hyperv@vger.kernel.org>; Mon,  9 Nov 2026 17:17:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A281606EEB3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=EkWpgotm
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=iN3G8mAIeg3/vhBhifQLL1BpRWPbmCDkvMnN8wMYRe4=; b=EkWpgotmTjtlEUN1FnIKaPKRho
-	40c3f10iEo+uitWC1+UCdmIN5mWqNT03CEQKOS5brmj/rAT6Ur/F+a7KEOZgf4uYODUJ3TKMfPcPZ
-	tSR53U1fv2iv7FlXcTaH7z95Fkp4Fs6IWaGP8xb319B7MCWAFs/b+wLjnnGIv3x8KmwWbj9k8Uss7
-	Rptr2kFj4nXiapfSKytCXuB1bpXuzdvJMWRD2eATxa94B3ThLVUMlNvcPQRL+LZddXkGs6oW3kYPT
-	T1v3DSvDSc8FIrwzp2aLNwVxqjRstpPcsMvqxWs4sdBOdMjbrOC2YgkfYnw911aGaPwOR9NhoMRXr
-	hDiCz8Rg==;
-Received: from [205.251.233.232] (helo=freeip.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQSOn-0000000GQyO-1WWu;
-	Mon, 09 Nov 2026 16:39:13 +0000
-Message-ID: <9ae548901809fe87b4529e65bda361162583a6a0.camel@infradead.org>
-Subject: Re: [RFC PATCH 00/55] KVM: x86: Hyper-V VSM (Virtual Trust Levels)
- on VM planes
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sriram Nambakam <snambakam@linux.microsoft.com>
-Cc: kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, pbonzini@redhat.com, 
-	seanjc@google.com, joro@8bytes.org, tgopinath@linux.microsoft.com
-Date: Mon, 09 Nov 2026 08:39:08 -0800
-In-Reply-To: <20261104065536.15232-1-snambakam@linux.microsoft.com>
-References: <20261017122501.610248-1-dwmw2@infradead.org>
-	 <20261104065536.15232-1-snambakam@linux.microsoft.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-DAtmD/Ii7Tv2eG0sZH9+"
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=QU/gJxUo
+Received: from [100.64.200.213] (unknown [52.148.138.235])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5607520B7168;
+	Mon,  9 Nov 2026 09:17:47 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5607520B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794244667;
+	bh=BADVZ41G8xtkqHq/JNe15jN9JsvXsYZ8vIL7NioPmMk=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=QU/gJxUoSOa+5RryJ9u99LtTMu7Rq/hpiDnhejXwGzVYqv/C0JB7dguLDhGNCGdTV
+	 7fGMHlt4pWjmAmp3WKkTnSv7yQyPBSNrf06NRQLIJJQDFReFJBNVba7x3GZhdqad3q
+	 ZOrU42tVmxKU5gYPT91vc+24SukMYKsY+uGG2LdE=
+Message-ID: <60ae4af7-e191-4d89-ac02-336b2ca2212c@linux.microsoft.com>
+Date: Mon, 9 Nov 2026 09:17:52 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -70,205 +53,312 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Cc: easwar.hariharan@linux.microsoft.com
+Subject: Re: [PATCH V4 5/5] x86/hyperv: Implement root partition IOMMU kernel
+ only driver
+To: linux-hyperv@vger.kernel.org
+References: <20261105020106.3496339-1-mrathor@linux.microsoft.com>
+ <20261105020106.3496339-6-mrathor@linux.microsoft.com>
+ <f2579646-7f77-4dd2-b7ce-ccf702828610@linux.microsoft.com>
+ <9d010202-39e4-c424-3a40-0d37b62b17fd@linux.microsoft.com>
+From: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <9d010202-39e4-c424-3a40-0d37b62b17fd@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 11/6/2026 15:39, Mukesh R wrote:
+> On 11/6/26 13:54, Easwar Hariharan wrote:
+>> On 11/4/2026 18:01, Mukesh R wrote:
+>>> Add a new file to implement a kernel only virtual IOMMU that works
+>>> on Microsoft Hyper-V hypervisor (aka MSHV) in privileged VMs aka
+>>> root VMs. The hypervisor claims the IOMMU upon boot, and this driver
+>>> communicates with it for creating and deleting paging domains, attaching
+>>> of devices, mapping and unmapping of pages, etc. During boot, hypervisor
+>>> automatically creates identity and blocked domains, so there is no need
+>>> to do hypercalls to create them. This is a kernel only driver and only
+>>> supported on baremetal root (and not L1VH root) without any guest passthru
+>>> support. Support for guest device passthru will be added incrementally.
+>>>
+>>> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+>>> ---
+>>>   arch/x86/kernel/pci-dma.c            |   2 +
+>>>   drivers/iommu/hyperv/Kconfig         |  13 +
+>>>   drivers/iommu/hyperv/Makefile        |   1 +
+>>>   drivers/iommu/hyperv/hv-iommu-root.c | 613 +++++++++++++++++++++++++++
+>>>   include/asm-generic/mshyperv.h       |   3 +
+>>>   include/linux/hyperv.h               |   6 +
+>>>   6 files changed, 638 insertions(+)
+>>>   create mode 100644 drivers/iommu/hyperv/hv-iommu-root.c
+>>>
+>>
+>> <snip>
+>>
+>>>   obj-$(CONFIG_HYPERV_PVIOMMU) += hv-iommu-guest.o
+>>> +obj-$(CONFIG_HYPERV_ROOT_IOMMU) += hv-iommu-root.o
+>>> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/hv-iommu-root.c
+>>> new file mode 100644
+>>> index 000000000000..e0e3e9d4385e
+>>> --- /dev/null
+>>> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
+>>> @@ -0,0 +1,613 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Hyper-V root vIOMMU driver.
+>>> + * Copyright (C) 2026, Microsoft, Inc.
+>>> + */
+>>> +#include <linux/pci.h>
+>>> +#include <linux/dma-map-ops.h>
+>>> +#include <linux/interval_tree.h>
+>>> +#include <linux/hyperv.h>
+>>> +#include <asm/iommu.h>
+>>> +#include <asm/mshyperv.h>
+>>> +#include "../dma-iommu.h"
+>>> +
+>>> +static dma_addr_t hv_iommu_max_iova;
+>>> +static struct iommu_domain_ops hv_paging_domain_ops;
+>>> +
+>>> +/* IOMMU device that we export to the world. MSHV supports max of one */
+>>> +static struct iommu_device hv_virt_iommu;
+>>> +
+>>> +struct hv_iommu_domain {
+>>> +    struct iommu_domain iommu_dom;
+>>> +    u32 domid_num;                  /* as opposed to domain_id.type */
+>>> +    spinlock_t mappings_lock;          /* protects mappings_tree */
+>>> +    struct rb_root_cached mappings_tree;  /* iova to pa lookup tree */
+>>> +};
+>>> +
+>>> +#define to_hv_domain(d) container_of(d, struct hv_iommu_domain, iommu_dom)
+>>> +
+>>> +struct hv_iommu_mapping {
+>>> +    phys_addr_t paddr;
+>>> +    struct interval_tree_node iova;
+>>> +    u32 flags;
+>>> +};
+>>> +
+>>> +/*
+>>> + * By default, during boot the hypervisor creates one Stage 2 (S2) default
+>>> + * domain. It has two types:
+>>> + *   S2 default: access to entire root partition memory. This for the host
+>>> + *         maps to IOMMU_DOMAIN_IDENTITY in the iommu subsystem, and
+>>> + *         is called HV_DEVICE_DOMAIN_ID_S2_DEFAULT in the hypervisor.
+>>> + *         (Linux renamed to : HV_DEVICE_DOMAIN_ID_DEFAULT)
+>>> + *   S2 NULL: Blocks everything, ie, IOMMU_DOMAIN_BLOCKED in linux.
+>>> + */
+>>> +
+>>> +/*
+>>> + * Create dummy domains to correspond to hypervisor prebuilt default identity
+>>> + * and null domains (dummy because we do not make hypercalls to create them).
+>>> + */
+>>> +static struct hv_iommu_domain hv_def_identity_dom;
+>>> +static struct hv_iommu_domain hv_def_blocked_dom;
+>>> +
+>>> +/*
+>>> + * The hypervisor owns the IOMMU. As such it will choose the best page size
+>>> + * and whenever possible use larger page sizes automatically. The map gpa
+>>> + * hypercall to map the iova however currently uses only 4K pfns as input.
+>>> + * So we specify 4K as the IOMMU PAGE_SIZE.
+>>> + */
+>>> +#define HV_IOMMU_PGSIZES SZ_4K
+>>> +
+>>> +static DEFINE_IDA(hv_iommu_domids);   /* unique numeric ids for new domains */
+>>> +
+>>> +static bool hv_iommu_capable(struct device *dev, enum iommu_cap cap)
+>>> +{
+>>> +    switch (cap) {
+>>> +    case IOMMU_CAP_CACHE_COHERENCY:
+>>> +        return true;
+>>> +    default:
+>>> +        return false;
+>>> +    }
+>>> +}
+>>
+>> Seems like this could match the guest driver and just be: return cap == IOMMU_CAP_CACHE_COHERENCY.
+>>
+>> <snip>
+>>
+>>> +
+>>> +static struct iommu_domain_ops hv_paging_domain_ops = {
+>>> +    .attach_dev = hv_iommu_attach_dev,
+>>> +    .map_pages = hv_iommu_map_pages,
+>>> +    .unmap_pages = hv_iommu_unmap_pages,
+>>> +    .iova_to_phys = hv_iommu_iova_to_phys,
+>>> +    .free = hv_iommu_domain_free,
+>>> +};
+>>> +
+>>> +static struct iommu_ops hv_iommu_ops = {
+>>> +    .capable        = hv_iommu_capable,
+>>> +    .domain_alloc_paging    = hv_iommu_domain_alloc_paging,
+>>> +    .probe_device        = hv_iommu_probe_device,
+>>> +    .device_group        = pci_device_group,
+>>> +    .get_resv_regions   = hv_iommu_get_resv_regions,
+>>> +    .owner            = THIS_MODULE,
+>>> +    .identity_domain    = &hv_def_identity_dom.iommu_dom,
+>>> +    .blocked_domain     = &hv_def_blocked_dom.iommu_dom,
+>>> +    .release_domain     = &hv_def_blocked_dom.iommu_dom,
+>>> +};
+>>> +
+>>> +static const struct iommu_domain_ops hv_special_domain_ops = {
+>>> +    .attach_dev = hv_iommu_attach_dev,
+>>> +};
+>>> +
+>>> +static void __init hv_initialize_special_domains(void)
+>>> +{
+>>> +    hv_def_identity_dom.iommu_dom.type = IOMMU_DOMAIN_IDENTITY;
+>>> +    hv_def_identity_dom.iommu_dom.ops = &hv_special_domain_ops;
+>>> +    hv_def_identity_dom.iommu_dom.owner = &hv_iommu_ops;
+>>> +    hv_def_identity_dom.domid_num = HV_DEVICE_DOMAIN_ID_DEFAULT; /* 0 */
+>>> +
+>>> +    hv_def_blocked_dom.iommu_dom.type = IOMMU_DOMAIN_BLOCKED;
+>>> +    hv_def_blocked_dom.iommu_dom.ops = &hv_special_domain_ops;
+>>> +    hv_def_blocked_dom.iommu_dom.owner = &hv_iommu_ops;
+>>> +    hv_def_blocked_dom.domid_num = HV_DEVICE_DOMAIN_ID_NULL;    /* INTMAX */
+>>> +}
+>>> +
+>>
+>> A net negative 9 lines to initialize these with .field notation, as suggested in v0: https://lore.kernel.org/all/4f7cadc5-817c-4163-bac8-1c02a7c6a862@linux.microsoft.com/
+> 
+> Huh! which are the 9 lines you are claiming to have removed? are you saying
+> the definition part is not a "line"?
 
---=-DAtmD/Ii7Tv2eG0sZH9+
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It was the diffstat of the diff I pasted below.
 
-On Tue, 2026-11-03 at 22:55 -0800, Sriram Nambakam wrote:
-> Hi David,
->=20
-> Thanks for posting this. I've been trying the series and the QEMU VSM
-> implementation in my local integration trees. With the fixes below,
-> Windows now reports "Virtualization-based security: Running" in msinfo32.
+ drivers/iommu/hyperv/hv-iommu-root.c | 69 ++++++++++++++++++++++++++++++---------------------------------------
+ 1 file changed, 30 insertions(+), 39 deletions(-)
 
-Great, thanks for testing!
+> 
+>> Wasn't super hard to do the 1 forward declaration needed...
+> 
+> Not a question of hard or not.
 
-> This was on a v7.3-based kernel tree with existing local VM-planes/LVBS
-> changes, rather than an otherwise unmodified copy of your v7.1-rc7-based
-> tree. I don't want to imply that all of the integration changes were
-> defects in the posted series.
->
-> The main runtime issue I found was descriptor-table interception while
-> OVMF was executing in SMM. hv_divert_dt_write() was diverting firmware
-> descriptor-table writes through the VTL register-intercept path. The
-> failure trace showed a reflected #GP delivered in SMM with IDT base and
-> limit both zero, followed by a triple fault/reset. Adding an is_smm()
-> exclusion to the helper fixed that boot failure. I'll reply to patch 23
-> with the change.
+I was referencing your response to v0:
 
-Thanks. I'll add OVMF with Secure Boot (hence SMM) to the test matrix,
-and pull in your fixes. Could I trouble you for a Signed-off-by: for
-each of those please?=20
+"it has dependencies on things declared above it, so not worth forward
+declarations etc.."
 
-> On the QEMU side, I also changed vsm_glue_reset() to make plane 0 runnabl=
-e
-> when stopping plane 1. Otherwise a reset following a VTL switch can leave
-> the normal-world vCPU userspace-stopped. I'll send that change separately
-> in this thread, since the QEMU glue isn't part of the kernel posting.
->=20
-> Two build/header items from the newer kernel integration:
->=20
-> =C2=A0 - In patch 49, I used cpu_feature_enabled(X86_FEATURE_DECODEASSIST=
-S)
-> =C2=A0=C2=A0=C2=A0 instead of static_cpu_has(), matching the current SVM =
-code.
-> =C2=A0 - I synchronized the tools UAPI header with the PLANE_PROT/INSN_VA=
-LID
-> =C2=A0=C2=A0=C2=A0 flags and their field-validity comments, and the capab=
-ility-version
-> =C2=A0=C2=A0=C2=A0 requirement for KVM_HV_HCALL_RESULT_RAISE_UD.
+ Having that upfront in the module provides
+> good introduction to a reader, specially since hyperv is all new around
+> here and internals are not readily available. Moreover, imo, generally
+> just embedding definitions in code abrupts the flow often, and historically
+> hasn't been a common practice.
+ 
+I'm having difficulty parsing this, but I *think* you're saying that putting data structure
+definitions in between functions hasn't been a common practice, and that may be true,
+but I'd just ask you to look at the intel/, amd/, and arm-smmu-v3/ drivers, it's a
+well-established pattern in this subsystem.
 
-I'm playing with the HV_HCALL stuff to make the capability into a
-bitmask, like the Xen one, which says which calls are handled in-
-kernel. That means the basic support can be submitted first, before
-anything else.
+Thanks,
+Easwar (he/him)
 
-> I also encountered an issue in the underlying planes dependency:
-> "kvm: Make KVM_SIGNAL_MSI per plane" guards the VM-fd and plane-fd ioctl
-> dispatch with CONFIG_HAVE_KVM_MSI. Those guards need to use __KVM_HAVE_MS=
-I;
-> otherwise KVM_SIGNAL_MSI is compiled out and returns ENOTTY. The existing
-> test_plane_msi case exposed this in my tree. This isn't introduced by one
-> of the 55 patches here.
+> 
+> 
+>> diff --git a/drivers/iommu/hyperv/hv-iommu-root.c b/drivers/iommu/hyperv/hv-iommu-root.c
+>> index e0e3e9d4385e2..4e6bf94413458 100644
+>> --- a/drivers/iommu/hyperv/hv-iommu-root.c
+>> +++ b/drivers/iommu/hyperv/hv-iommu-root.c
+>> @@ -12,6 +12,7 @@
+>>   #include "../dma-iommu.h"
+>>     static dma_addr_t hv_iommu_max_iova;
+>> +static struct iommu_ops hv_iommu_ops;
+>>   static struct iommu_domain_ops hv_paging_domain_ops;
+>>     /* IOMMU device that we export to the world. MSHV supports max of one */
+>> @@ -32,23 +33,6 @@ struct hv_iommu_mapping {
+>>       u32 flags;
+>>   };
+>>   -/*
+>> - * By default, during boot the hypervisor creates one Stage 2 (S2) default
+>> - * domain. It has two types:
+>> - *   S2 default: access to entire root partition memory. This for the host
+>> - *         maps to IOMMU_DOMAIN_IDENTITY in the iommu subsystem, and
+>> - *         is called HV_DEVICE_DOMAIN_ID_S2_DEFAULT in the hypervisor.
+>> - *         (Linux renamed to : HV_DEVICE_DOMAIN_ID_DEFAULT)
+>> - *   S2 NULL: Blocks everything, ie, IOMMU_DOMAIN_BLOCKED in linux.
+>> - */
+>> -
+>> -/*
+>> - * Create dummy domains to correspond to hypervisor prebuilt default identity
+>> - * and null domains (dummy because we do not make hypercalls to create them).
+>> - */
+>> -static struct hv_iommu_domain hv_def_identity_dom;
+>> -static struct hv_iommu_domain hv_def_blocked_dom;
+>> -
+>>   /*
+>>    * The hypervisor owns the IOMMU. As such it will choose the best page size
+>>    * and whenever possible use larger page sizes automatically. The map gpa
+>> @@ -488,6 +472,35 @@ static void hv_iommu_get_resv_regions(struct device *dev,
+>>       iommu_add_resv_x86_msi_region(head);
+>>   }
+>>   +static const struct iommu_domain_ops hv_special_domain_ops = {
+>> +    .attach_dev = hv_iommu_attach_dev,
+>> +};
+>> +
+>> +/*
+>> + * By default, during boot the hypervisor creates one Stage 2 (S2) default
+>> + * domain. It has two types:
+>> + *   S2 default: access to entire root partition memory. This for the host
+>> + *         maps to IOMMU_DOMAIN_IDENTITY in the iommu subsystem, and
+>> + *         is called HV_DEVICE_DOMAIN_ID_S2_DEFAULT in the hypervisor.
+>> + *         (Linux renamed to : HV_DEVICE_DOMAIN_ID_DEFAULT)
+>> + *   S2 NULL: Blocks everything, ie, IOMMU_DOMAIN_BLOCKED in linux.
+>> + * Create dummy domains to correspond to hypervisor prebuilt default identity
+>> + * and null domains (dummy because we do not make hypercalls to create them).
+>> + */
+>> +static struct hv_iommu_domain hv_def_identity_dom = {
+>> +    .iommu_dom.type = IOMMU_DOMAIN_IDENTITY,
+>> +    .iommu_dom.ops = &hv_special_domain_ops,
+>> +    .iommu_dom.owner = &hv_iommu_ops,
+>> +    .domid_num = HV_DEVICE_DOMAIN_ID_DEFAULT, /* 0 */
+>> +};
+>> +
+>> +static struct hv_iommu_domain hv_def_blocked_dom = {
+>> +    .iommu_dom.type = IOMMU_DOMAIN_BLOCKED,
+>> +    .iommu_dom.ops = &hv_special_domain_ops,
+>> +    .iommu_dom.owner = &hv_iommu_ops,
+>> +    .domid_num = HV_DEVICE_DOMAIN_ID_NULL,    /* INTMAX */
+>> +};
+>> +
+>>   static struct iommu_domain_ops hv_paging_domain_ops = {
+>>       .attach_dev = hv_iommu_attach_dev,
+>>       .map_pages = hv_iommu_map_pages,
+>> @@ -508,23 +521,6 @@ static struct iommu_ops hv_iommu_ops = {
+>>       .release_domain     = &hv_def_blocked_dom.iommu_dom,
+>>   };
+>>   -static const struct iommu_domain_ops hv_special_domain_ops = {
+>> -    .attach_dev = hv_iommu_attach_dev,
+>> -};
+>> -
+>> -static void __init hv_initialize_special_domains(void)
+>> -{
+>> -    hv_def_identity_dom.iommu_dom.type = IOMMU_DOMAIN_IDENTITY;
+>> -    hv_def_identity_dom.iommu_dom.ops = &hv_special_domain_ops;
+>> -    hv_def_identity_dom.iommu_dom.owner = &hv_iommu_ops;
+>> -    hv_def_identity_dom.domid_num = HV_DEVICE_DOMAIN_ID_DEFAULT; /* 0 */
+>> -
+>> -    hv_def_blocked_dom.iommu_dom.type = IOMMU_DOMAIN_BLOCKED;
+>> -    hv_def_blocked_dom.iommu_dom.ops = &hv_special_domain_ops;
+>> -    hv_def_blocked_dom.iommu_dom.owner = &hv_iommu_ops;
+>> -    hv_def_blocked_dom.domid_num = HV_DEVICE_DOMAIN_ID_NULL;    /* INTMAX */
+>> -}
+>> -
+>>   /*
+>>    * In general, the hypervisor does not support the capabilities hypercall for
+>>    * root partitions, an exception was made for max_iova_width. For IOMMU cap,
+>> @@ -571,11 +567,6 @@ static int __init hv_root_iommu_init(void)
+>>         hv_iommu_max_iova = DMA_BIT_MASK(caps.max_iova_width);
+>>   -    /* This must come before iommu_device_register() because the latter
+>> -     * calls into the hooks.
+>> -     */
+>> -    hv_initialize_special_domains();
+>> -
+>>       rc = iommu_device_sysfs_add(iommup, NULL, NULL, "%s", "hyperv-iommu");
+>>       if (rc) {
+>>           pr_err("Hyper-V: iommu_device_sysfs_add failed: %d\n", rc);
+>>
+>>
+>> <snip>
+>>
+>> Thanks,
+>> Easwar (he/him)
+> 
 
-Yeah, I have a few more fixes for the underlying Planes series, which
-I'll try to split out for J=C3=B6rg too.
-
-> Finally, my older LVBS tree had raised the default plane count to two.
-> I reverted that local change to respect the KVM_CAP_PLANES opt-in contrac=
-t
-> and added early opt-in for my LVBS userspace path. Your QEMU VSM path
-> already has its own opt-in, so I am not reporting that as a missing VSM
-> change.
-
-There are going to be a lot of intersecting details like that as the
-various trees come together and the dust settles. I'm trying to get
-things in some semblance of a mergeable order and form a plan for what
-could be posted immediately (the basic hv hypercall exit to userspace),
-what could follow on as soon as Planes/memattrs land, and then what
-needs more thought.
-
-I'd like to get the *minimum* kernel functionality landed, and then
-follow on with "optimisations" like the in-kernel VTL switching and
-extra features like VINA etc.
-
---=-DAtmD/Ii7Tv2eG0sZH9+
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-gtEhp7+Bb8rhdn2KFe/MK4wAAAAAAAA=
-
-
---=-DAtmD/Ii7Tv2eG0sZH9+--
