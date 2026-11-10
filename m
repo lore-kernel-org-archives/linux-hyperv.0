@@ -1,121 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794316946;
-	b=ZQXCXSSGeNnyv+65TLh0bA0wk7e/mdd+UACbjrOqcFIHk2miqB8834oVPHm3+6bYNdWY
-	 fsb8AVJOdDQUJAPKln0/g2a26UCGDKJG+rA1kBD1vi9nkDWa3Si2vBIXD9VZUdYTfxoqk
-	 Gj8x+tI9UOCjBjOHROEomm066r69UcvhHe8Km/wkdHyW1aBP+AO6cAR7pfCYolcI10Zz+
-	 Y94UeLK/SizQiuhCBoR2pA1JOObMs0I/9ckO0clBRjG79o9hS0AabaM85+EL2pHyj94Hw
-	 +KQWZ95Lad/PXk2ryRQNWx2Aj/vWtixcIR62VoxNmR+Mq3VK74PlE4YWVzWwfdyujxw==
+	t=1794320117;
+	b=KWI6dPAsYj90xdaYDdh9rpfPCuuBTm0q9WnGN3xOhsIRzb2hFJaLwJ9iHZlQp5gNPk3q
+	 yb12eTUFRkHlEwNvhsWalxf9vzhbE1Gbp4yv4CJjNTQR1k947vPJXdFzQYvgCC1UBgGPA
+	 pUCoJZ0xjg+Fck5e0wLlo3QhlJmYNMdRoV3OMiq+WzGGWhMKvD05t2mARA7u6ZSg5Nd1/
+	 tUZMnoF+Xhrx8IIxoHeYfvfuAA0PbnItD+rDhDDkFfkWLHGeSxpY1/iFbl0Eom3qWQYy2
+	 pu2tnq6q8LoYqN1JeM6TM8PMSlCfwXaClhMcBlkCNAcJh/zfcofAgh9u/cLIGXn1X0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794316946;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=g75W/bT+6sBq3ZuteoFUFS+Co7pEE7nkrsl0KkNU8Gs=;
-	b=P/UVT7SqbEV4nUyCbGUaAClA/1lzH6mh2EhXbjYCE0LAKeExSchuKiItV22D84DyFNTY
-	 XiQXLcyYTQ2z6Ds+mTsw5t0v+HHbgNTyCNMkwj1MIdMcas+vCHbE8L+qL5LK4Md6kgmiR
-	 wsMRD+wfA4u7EwMOrSuTzk7VGUqUvv+tWM/7s3lrp6kdhHGXaZz9D+nybmFP5HZhmBaoB
-	 HBZVF/BbQlz24qWPAwsNl4P8FDrt2F9nkEMz0fXy81e/jrAZ0BSe2V9ncsmYi6KVYT5kM
-	 fPsWLuYHX5btjNT0YovyoyXcWq3vKhgP3pX0Ax1r6wOiELg8zlxejKzkTYfuAFupqWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320117;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=0Dm18Q21uzLDa+SFjO/50zAfSfPVF6OnzYSb94gMBS0=;
+	b=eoVfHk2pyFJyb2bQ5XhLdBlOxDv4XoCt8vNW0Xuqc6nEWOpScKUlgUDc08BZDjXbSH2v
+	 3AEAH8HnTXESVvdI05SbhKzal/6BYTWJmIftFrAE5HdHsEfxKXtSgYWpelydGogHIm1dK
+	 6b9I7KreJyHPvAKz2DPhL3oPa1FKwo/ZiUC/63Su2kUW/mMxvSBiJ4aLSEplaxo28P8DY
+	 WqS9rSs4qnYCumM9/kTnQiGGeUoelJ3SyKcOI2qvg4mByL7QlL8a4PqG1iAY35XYvx3BT
+	 1X8TI8UA4Kqltn+KIvqaxc04N2I/mFBUqWrVUdBfCYjlmkf5GTEK5rvLLlT3kZD977A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=FHvsNgog;
-	arc=none smtp.remote-ip=209.85.222.172
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MynuSu+X;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0355606A7D3
-	for <linux-hyperv@vger.kernel.org>; Tue, 10 Nov 2026 13:22:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0355606A7D3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4EB606A32E;
+	Tue, 10 Nov 2026 14:15:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=FHvsNgog
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93e515769d3so199527585a.3
-        for <linux-hyperv@vger.kernel.org>; Tue, 10 Nov 2026 05:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794316945; x=1794921745; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=g75W/bT+6sBq3ZuteoFUFS+Co7pEE7nkrsl0KkNU8Gs=;
-        b=FHvsNgogAjEacq7zoQCQutH3H2rY/Mp6nn0PQAx6XhH7dqAsY4gCPt7R9BdbuXPKAi
-         wxpxDLfikqVcN5xM1VY/H/v/NFQ6nTNQYbBjTB9Y+X54YQTUKZWiCbPrue0kUPKLvs0B
-         SWItP2scQqWO4gEug+/zO85bmIDyfB5gy06RbKUkHIRG6Td26af+dAAfFxPpJhtVkzxI
-         RTY8q4wfOVoj8Mo0U14wRoJwsgbjTWIxlmNGak378mVQpNEb8y5wGLQ5tkNTHEct8BTD
-         2QLJqKjtduDf7mQ4NLfWes8q0X9CZ1SxAGlG6dddpQmRt2wbHKc2ucYJzj5kuQNmJupi
-         3xxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794316945; x=1794921745;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g75W/bT+6sBq3ZuteoFUFS+Co7pEE7nkrsl0KkNU8Gs=;
-        b=jUReCordyjaNKFfGjteJBZr9acb90NWCuB59ODXpnlEKC1jhhmOTAehw1/xIRQk/8P
-         8teT9Dzw3RTcGa066OekIxvKfASvpa0aj9AlTYNxNilCdFiYdkmtHiGXg8jhkVr8JTBF
-         XhAe1zYICPApEjOU5qy1VQQ743TX/XZhgBgsdSQZA7/VxeTqAjYWtiJ9mk96N+m+/w8v
-         SULUOsgg1El7YmWv8cjSbbaEp/OBkstM1WsA/58Ar4XbyhJEq5CDJpX2jrfyjuIi9Lj1
-         13rk3yRsO+g3zaggk1R9ZuHb3Z3JeJDIWlygNp+xWPtHzt2+uDcgBtH4u0P25UuK68xX
-         jesA==
-X-Forwarded-Encrypted: i=1; AL+hErFGjbtIKf2G8jKtqMBrAeWdROMGsaJTBuZcthFPlvVz+sGnbYQ11D68mLfs+s54jV9hokV+yrXclrlWFqs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8xfWDsF2domVGTKtci6ISEB9OFdwaPPHEsoZDvh/tuex19olSE
-	cclO9K6YLmKHOPbRdr67UVeBTVNphKSaqHVzoO8CyFv/p8TmDLX5WJlEV73ypBzRJ/Y=
-X-Gm-Gg: AYBFou0Tdn9WrB1D1Ovr+R326QuUuKESKj62bTEJJFnw/B0mpwvGMWR3CRPGTsBiQyM
-	2hZPO4inlEkGEAMm7A/6cegaqORDv/WW/UcS9s/WlWS2a48OVK/C55i64fbRHi6qIVppneBfWr0
-	tJ4ozIr9sxCFeKLfCTxZ1TX65/QLX221IpzWqdeme+TEAC5Rte1VBRgcWcTvDiXAT8PlPpKKmBR
-	nAYnb9cQVhmrrMaLOIJTl1JcHw4z0la7UF8m5YgHWXsLu8h9jbMdBIRZpOjUZWdEIKkD6PI7ULb
-	sIKkW0RneYXiI+h6pSjJkSh1zGP9QFw0u2GXbCvULRsBwPYmdy6xsSZrJNVae6vDZXQLrM1luBe
-	yWCRQheCG7xUDo1psX4Pf5OuKfs/i7suTi9lEudkH5L2FHtnN+mEP8tU29UPBHEGSxTuqFTKi6I
-	5I0Y/dPqhTdv1s+yMPEuMDy/358i9c81PFm/AZng57JRCDg446UVrGvbzoQkUb7no3vbM/pUYV5
-	Vsm3og0rMQISaC4KnZHZ6+ig+qqjZID3w/woqaXXrW2AuCX9WOAKoDT2TT9d1bAm7T/bMcLdHHU
-	UJxkvQ3zmLMdJIiFW8nOqRwrYJJvIsuB70vLWtVO/07YHPKqJZm5MttYLRdOsu6WGNOdeT7exVi
-	W1L+DG4qpDqQ=
-X-Received: by 2002:a05:620a:1a21:b0:93e:c12c:43fd with SMTP id af79cd13be357-9479f373debmr404603885a.74.1794316944696;
-        Tue, 10 Nov 2026 05:22:24 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7915e2sm220546385a.23.2026.11.10.05.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:22:24 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xQlnr-00000005hfb-1yLA;
-	Tue, 10 Nov 2026 09:22:23 -0400
-Date: Tue, 10 Nov 2026 09:22:23 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jacob Pan <jacob.pan@linux.microsoft.com>
-Cc: Mostafa Saleh <smostafa@google.com>, iommu@lists.linux.dev,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Wei Liu <wei.liu@kernel.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	linux-hyperv@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Arnd Bergmann <arnd@arndb.de>,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Mukesh Rathor <mukeshrathor@microsoft.com>,
-	John Starks <John.Starks@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Alex Williamson <alex@shazbot.org>
-Subject: Re: [PATCH RFC 1/9] iommu: Introduce external attach domain type
-Message-ID: <20261110132223.GX663069@ziepe.ca>
-References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
- <20260925190742.1575380-2-jacob.pan@linux.microsoft.com>
- <atiakDqtuED2cTM5@google.com>
- <20261026161003.00003b71@linux.microsoft.com>
- <ausIn5Txiy1uRjkY@google.com>
- <20261104170816.GS3889730@ziepe.ca>
- <20261106130352.0000638d@linux.microsoft.com>
- <20261110005259.GU663069@ziepe.ca>
- <20261109224200.000033c6@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MynuSu+X
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE3D1F0089F;
+	Tue, 10 Nov 2026 14:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794320116;
+	bh=0Dm18Q21uzLDa+SFjO/50zAfSfPVF6OnzYSb94gMBS0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=MynuSu+XZH3Q4eOVY7S4T5PVbNgRYFMIkCeZWYQMC1VE/yXYovnpp1v0OZxhMsWjc
+	 Y1F/ZRuROcTmrJSSfcmxaeYWXRuCXfKw2zmqjoOtt7g4TyYYYgF9zWiuj46rMJRO7X
+	 reMXto7MBsvKeKEv6LsCWe4tkMZ4TRABYTrcBloWPo+SHDMw9TKFTbePqUT5rugeiq
+	 PFgbCzwJTSUsQ1Zbyzqh+zNY5rgRfG5DgYBvnzNtmfnYvgHvKYcYHqyKnBgZBIvAif
+	 MzgeNerEEScbbV6vtF8p5TWRaGgdbkKypjO0pJdV7vl3A6TCLrUdAdHKrIluAlaZMM
+	 MjcB0zVQUxmwg==
+Subject:
+ Re: [PATCH net-next] net: mana: Allocate queue MSI-X vectors on demand
+From: netdev-bot+sashiko@kernel.org
+To: ernis@linux.microsoft.com
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, weh@microsoft.com,
+ kotaranov@microsoft.com, horms@kernel.org, gargaditya@linux.microsoft.com,
+ mawasthi@linux.microsoft.com, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, shradhagupta@linux.microsoft.com,
+ sahilchandna@linux.microsoft.com
+Date: Tue, 10 Nov 2026 14:15:15 +0000
+Message-ID: <179432011525.994134.8778782846611490815@kernel.org>
+In-Reply-To: <20261106063011.43293-1-ernis@linux.microsoft.com>
+References: <20261106063011.43293-1-ernis@linux.microsoft.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -125,65 +68,197 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109224200.000033c6@linux.microsoft.com>
 
-On Mon, Nov 09, 2026 at 10:42:00PM -0800, Jacob Pan wrote:
-> Hi Jason,
-> 
-> On Mon, 9 Nov 2026 20:52:59 -0400
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> 
-> > On Fri, Nov 06, 2026 at 01:03:52PM -0800, Jacob Pan wrote:
-> > > I am not stating that it will break UAPI because of blocking domain
-> > > is used. What I am trying to say is that with the blocking domain ->
-> > > external transition, we do not need a new UAPI for external attach
-> > > for non-CC. It will just reuse the existing UAPI.
-> > > VMM:
-> > > 	do_ioctl(vfio_cdev_fd, VFIO_DEVICE_ATTACH_IOMMUFD_PT,
-> > > &attach, "VFIO_DEVICE_ATTACH_IOMMUFD_PT");
-> > > hv-iommu-root: external_domain.attach_dev() will do the hypercall.  
-> > 
-> > You've basically described a wonky NESTING domain.
-> > 
-> > I think you should just use nested domains for this. Even though there
-> > is no S2 make it possible to create a nested domain through the
-> > viommu..
-> I didn't use nested domain since the current parent hwpt is a paging
-> domain which cannot be used to express the external attach semantics.
-> 
-> Are you saying that we create a parent-less VIOMMU (in Aneesh's patchset
-> and my RFC), and modify the iommufd core code to allow nested domains
-> to be formed with an externally managed parent? or we expose a
-> opague parent S2 that is not paging domain?
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider.
 
-Just use a null S2 for this. If the viommu was created without a S2
-then the nesting domains should be created that way too.
+Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
-Once you do that you have a normal HWPT representing the S1
-translation in the guest (identity to start) and everything works the
-normal way.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-The only wrinkle in your setup is you don't have a S2 at all. Not even
-a placeholder.
+- [Medium] On PCI devices with dynamic MSI-X, queue MSI-X vectors used to
+  be created at probe and kept for the life of the device.
+- [Low] The kernel-doc for struct gdma_bus_ops in include/net/mana/gdma.h
+  is now wrong for the PCI bus.
+- [Low] mana_gd_remove_irqs() now calls mana_gd_put_gic(gc, false, msi)
+  once for every entry in gc->irq_contexts, under a new comment, "Only…
 
-> But if we go with the nested domain route and let hyperv iommu driver
-> handle the nested domain attach, it still would not work for pKVM.
-> pKVM's root SMMU is emulated, so it cannot do the external attach
-> hypercall in the unmodified SMMU driver.
+--
 
-Yeah, I think it is fine that the hypercall is not part of the smmu
-driver..
+net: mana: Allocate queue MSI-X vectors on demand
 
-> So I am willing to entertain Mostafa's approach to park the device in
-> blocking domain, then use hypervisor provided viommu/vdevice ops to
-> invoke device external attach hypercall. Basically, move the
-> attach_device to external S2 operation out of iommu driver to the
-> hypervisor code. It does not need domain ID or anything IOMMU specific.
+This commit stops allocating every queue MSI-X vector at probe time on PCI
+devices with dynamic MSI-X. Vectors are now allocated by mana_gd_get_gic()
+when an EQ needs one. A new setup_dyn_affinity bus op sets affinity for
+each vector as it is created, and PCI teardown now walks the irq_contexts
+xarray.
 
-Right, though in your case some co-ordination is probably helpful
-since things might go strange if the hypervisor side and iommu driver
-side disagree on what the translation is
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_pci.c b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
+> index ed8925296c8a7..5aebf57eb4125 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_pci.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
 
-Jason
+[ ... ]
+
+> @@ -564,17 +485,12 @@ static int mana_gd_setup_remaining_irqs(struct pci_dev *pdev)
+>  static void mana_gd_remove_irqs(struct pci_dev *pdev)
+>  {
+>  	struct gdma_context *gc = pci_get_drvdata(pdev);
+> -	int i;
+> -
+> -	if (gc->max_num_msix < 1)
+> -		return;
+> -
+> -	for (i = 0; i < gc->max_num_msix; i++) {
+> -		if (!xa_load(&gc->irq_contexts, i))
+> -			continue;
+> +	struct gdma_irq_context *gic;
+> +	unsigned long msi;
+>  
+> -		mana_gd_put_gic(gc, false, i);
+> -	}
+> +	/* Only the vectors an EQ asked for were ever created */
+> +	xa_for_each(&gc->irq_contexts, msi, gic)
+> +		mana_gd_put_gic(gc, false, msi);
+>  
+>  	WARN_ON(!xa_empty(&gc->irq_contexts));
+>  
+
+[Severity: Low]
+Is this comment accurate? mana_gd_setup_irqs() still creates a gic with a
+setup reference for every vector it allocates, before any EQ asks for one.
+In dynamic mode that is the HWC vector 0. In msi_sharing mode it is the
+whole 0..nvec-1 pool:
+
+mana_gd_setup_irqs() {
+    ...
+	for (i = 0; i < nvec; i++) {
+		msi = i;
+		gic = mana_gd_get_gic(gc, false, &msi);
+    ...
+}
+
+This loop also drops one reference per entry. For a dynamically created
+vector at index > 0, the only references now belong to EQ owners
+(mana_create_eq() in mana_en, and the comp/fatal EQs in mana_ib). So this
+put drops a reference the PCI layer never took.
+
+Every current teardown path runs mana_rdma_remove() and mana_remove()
+before mana_gd_cleanup(), so I don't think this can cause a use-after-free
+today.
+
+Before this patch, a single leaked EQ reference on a dynamic vector left
+the refcount above zero after this put, and the WARN_ON(!xa_empty()) below
+fired. Now that reference is consumed without a warning and the vector is
+freed. The leaking owner's later put would then hit WARN_ON(!gic) in
+mana_gd_put_gic(). After a resume or reset it could instead drop a
+reference on a new gic at the same index.
+
+Could this put only the references the PCI layer itself took, so the
+WARN_ON still catches such leaks?
+
+[ ... ]
+
+> @@ -593,14 +508,6 @@ static int mana_pci_setup_hwc_irqs(struct gdma_context *gc)
+>  
+>  static int mana_pci_setup_remaining_irqs(struct gdma_context *gc)
+>  {
+> -	int err;
+> -
+> -	err = mana_gd_setup_remaining_irqs(to_pci_dev(gc->dev));
+> -	if (err) {
+> -		dev_err(gc->dev, "Failed to setup remaining IRQs: %d", err);
+> -		return err;
+> -	}
+> -
+
+[Severity: Medium]
+With the probe-time allocation gone, are the queue MSI-X vectors on
+dynamic MSI-X PCI devices now freed and re-created on every queue
+reconfiguration?
+
+Before this patch, mana_gd_setup_dyn_irqs() took a base reference on each
+gic at indices 1..num_msix_usable-1. The EQ put in mana_destroy_eq() then
+only decremented the refcount. Now the EQ holds the only reference:
+
+mana_detach()
+  mana_dealloc_queues()
+    mana_destroy_eq()
+      mana_gd_put_gic(gc, !gc->msi_sharing, msi)
+        refcount_dec_and_test() returns true
+        irq_update_affinity_hint(irq, NULL)
+        free_irq(irq, gic)
+        ops->msix_free()          /* pci_msix_free_irq() */
+
+and on the way back up:
+
+mana_attach()
+  mana_alloc_queues()
+    mana_create_eq()
+      mana_gd_get_gic()
+        ops->msix_virq() returns -EINVAL
+        ops->msix_alloc_at()      /* pci_msix_alloc_irq_at() */
+        ops->setup_dyn_affinity()
+
+This path runs on ifdown/ifup, MTU and channel changes, XDP attach/detach,
+and any other mana_detach()/mana_attach() cycle.
+
+mana_pci_setup_dyn_affinity() puts the driver's default placement back on
+each new vector. Does that mean affinity set through
+/proc/irq/N/smp_affinity, by an admin or by irqbalance, is lost on each of
+these operations?
+
+pci_msix_alloc_irq_at() can also return a different Linux IRQ number, which
+affects tools that pin IRQs by number.
+
+That allocation can also fail at runtime with -ENOSPC or -ENOMEM. Could an
+MTU change or an ifdown/ifup then leave the interface unable to come back
+up? Before this patch the vectors were reserved once at probe.
+
+The commit message only describes the lower steady-state IRQ count. Should
+it also say that vectors are now torn down and rebuilt on every queue
+reconfiguration?
+
+>  	if (!gc->msi_sharing) {
+>  		gc->msi_bitmap = bitmap_zalloc(gc->num_msix_usable, GFP_KERNEL);
+>  		if (!gc->msi_bitmap)
+
+[ ... ]
+
+> diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
+> index c610fc1067e0d..fc8a0ef6c74e4 100644
+> --- a/include/net/mana/gdma.h
+> +++ b/include/net/mana/gdma.h
+> @@ -443,6 +443,8 @@ struct gdma_context;
+>   *	allocate their whole pool up front leave this NULL.
+>   * @msix_free: Release a vector obtained from @msix_alloc_at. Only needed
+>   *	by buses that implement @msix_alloc_at.
+> + * @setup_dyn_affinity: Place a vector obtained from @msix_alloc_at on a
+> + *	CPU. Only needed by buses that implement @msix_alloc_at.
+>   * @msix_vec_count: Return the number of entries in the device MSI-X table,
+>   *	used to clamp the vector count the core asks for. Buses that cannot
+>   *	report a table size leave this NULL and the clamp is skipped.
+
+[Severity: Low]
+This isn't a bug, but this patch already edits this kernel-doc block.
+Should the @setup_remaining_irqs and @remove_irqs entries be updated too?
+They still say:
+
+ * @setup_remaining_irqs: Set up the remaining interrupts once the device
+ *	resource limits are known.
+ * @remove_irqs: Release the interrupts set up by @setup_hwc_irqs and
+ *	@setup_remaining_irqs.
+
+After this patch, mana_pci_setup_remaining_irqs() sets up no interrupts.
+It only allocates msi_bitmap and sets bit 0.
+
+Queue vectors are now created in mana_gd_get_gic() through @msix_alloc_at
+and @setup_dyn_affinity. They are freed by mana_gd_put_gic() when the last
+EQ reference is dropped.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261106063011.43293-1-ernis%40linux.microsoft.com
