@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794334982;
-	b=3Gz30Szllv/fWBzsmL7+VIdQSKnRkpzDZVZxHM/m4HXf3T/P3h0nreCfQvhfeYS246jI
-	 6xMcxtyNKEVKmzunA/IpFM2PbPYbex46wtVSUyZJhcJ0U25e/1Ju1ZPt5z6R7yMmTJ8iN
-	 z0I4PZx3l0pc0RNWGgR3RLmMzPn/lbo9sB3NznZgBfozc39lq/R7h0fpJuLeYfXX5sCUQ
-	 z2ES7xYW4oUxRssjQIa4Pb2Qh0nMpflxfc2tqM4u3uim3KrcHdh6Ctj8pZY/y5Bifpy28
-	 OaPnWL4iRJStgl8NwTt5k0BYBI08skhtMq/ytRRhTmadRTwLlcRBQOPjOR309z7APhw==
+	t=1794349808;
+	b=aBs0l39+5VnJQamG43Zb6XyBy6jLr9tvL8oWQCtVPFKvIilTwQPl8Dihsa7l+RoPTtk7
+	 +VAi/4sBsVnz1WU6VcsKDG0wfkmE3f+kofjz1YJ6rUXAojjTUnBOSRSeT7+xfweR652kv
+	 r0Gyo42MENUWxcjGDjU5GtmJIdw2OY9AGchGeCDn2lMPMkRcRd56nmVN0M9BSMT+gmZm+
+	 VaUe/ImrxUfXZHQSmPDwWEzL7Cd1v97On28CpWF+EbPnRT5WuSps04Jcs6x+sMx0KyhOt
+	 kscAjJaSj0tZpT1/h/zxFU8WIDhSm2gc26GQT7RsXxvQSOKq3F+UVNm5g5zWDuXvbjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794334982;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794349808;
 	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
 	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
 	 In-Reply-To:To:Cc;
-	bh=nM4EMErCeXJNQs+7ozPXWBVLaYZr0fUdSK86cNZxul0=;
-	b=Tk/9dfRsFnR2LJEYJHm+cFzV1z3MH60mHPODDX/gUZm9748FCLBHrWGiPXtWK0VYWPUn
-	 IMonKva487P5wcz+szZ5McUAAKYvvb13HFrme5HzutBD5ebk5iY/ZHqcwViG+uud6P60p
-	 zDQ/cBS9DI4enXk3py/9ivYQwsMtQ+VC19phtuUR4gpM7e2wpAvq53K1f5n7fVNk91v1D
-	 +PiHVy5ZVgdcho5KehsMh1P5jPVPzGkuxnHY6vQIDqbN56NItzoBScpQ+H8PH8cd8I5Lb
-	 MQwgo9NIiSpBD2SX7IhjWz2YYwhNLxI6JCtgQbcvksyFtXdNlHJJc3l858s3TI/I8gg==
+	bh=TQmL7gJJVDnf6A3aKnu179UsnBqP05f0Vw0xrhHXlVs=;
+	b=xcdpgxFC4cqCSJygTHRDI1MN9ImcpUrarn5Du9vLTT1l+NDnkViOa5Hv6mrGb+xPeATb
+	 p6+tZ/ZgU1NxtXOq+vojOzEf/TB6DFKp2PYRlnE2sPrEGZrAIeryhWY0scoJY+V02LsPB
+	 t/XAYgyYM8NZgwcVLXRdEroHzuByJFCK0CyVpzMcc/7mPd285p/W5ISpjJIRq7pFUOowF
+	 1LegQOhSijfYFbdNMHMxINcXaIO4sKVj4zVfo0O03NWgF7Mvi2OgKqxC/i/E4FZMQ9AkT
+	 a85F1/TJDfhhn+X1L0wnFhXC6O9KnxPuHuV54B8/jubxTaLQFEr19M5we143tBv1zbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FuHErv1g;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UOFvkVat;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D542606A320;
-	Tue, 10 Nov 2026 18:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D419606A33B;
+	Tue, 10 Nov 2026 22:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FuHErv1g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04A31F008A1;
-	Tue, 10 Nov 2026 18:23:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UOFvkVat
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9BE1F008A2;
+	Tue, 10 Nov 2026 22:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794334981;
-	bh=nM4EMErCeXJNQs+7ozPXWBVLaYZr0fUdSK86cNZxul0=;
+	s=k20260515; t=1794349808;
+	bh=TQmL7gJJVDnf6A3aKnu179UsnBqP05f0Vw0xrhHXlVs=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=FuHErv1guC8Yh9nbEeBWMhChLKI+Kefs48Hz19+LPzcu7/KuyXGDfceKcbxYfCUB2
-	 YzPF84dwM/0ETHxVlsN3B1hyoucuFatp395mjRAZprR1DDh99pOiBTjx2z1WcfjnDW
-	 W9br8BLBLUq5QpBcpGfEszxaGHTk+2cEquZfjeC3WxA29gv630zWxEaIEGwIZ0uxOh
-	 Gqk8Yv1x3vLKgDJTQdQGiXYM7uCksrDaXcazPVOoNykR+kFXJ6anV9IcLLjp49bzE1
-	 Ej/Ztev/qtfqqdGGlewMLgEpAhiUssepi6NNs1my4/ADfUEEhRgXj8dA8HT8Z3cfuv
-	 /JUWGlBnLbNIA==
+	b=UOFvkVatJh7uJAKpoARxS2NDCGtBPaJVyI8wOUg63qOv5ulqQoelLgEctluLmO+6Q
+	 V60y3UeyvtG3QZc1wuGIECzjcH8ephq3RsaZJ1eDVDiWZkWjRhLS9FbdwopLd4x5O8
+	 3+nSQVJexkQVoH/7ciTiqGduFHaK+CBByT0V1g65Qg9PiiAbuGpzOZgHa16uMvWzDU
+	 lk1OHa8cMWRcK223t5n2wYcHNsJbsXB+yaz70s2//7/P/nr3YZoBDeSnGsfLTDWGha
+	 nZnubx+iVpFmEz0I2h9wk2Ya0iUqtSDlZsZRsjh1VC1kGUjSvuVqb/Dqexl3Sf1l5D
+	 f2g4+LjTcicLw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 9B31439D608B;
-	Tue, 10 Nov 2026 18:23:01 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5E17339E8A40;
+	Tue, 10 Nov 2026 22:30:08 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -54,47 +54,44 @@ List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: mana: fix XDP_REDIRECT of pre-allocated RX
- buffers
+Subject: Re: [PATCH net] hv_sock: Report no unread data before a channel is
+ available
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <179433498045.4118637.10096653969989484640.git-patchwork-notify@kernel.org>
-Date: Tue, 10 Nov 2026 18:23:00 +0000
-References: <20261102064324.806414-1-orgads@gmail.com>
-In-Reply-To: <20261102064324.806414-1-orgads@gmail.com>
-To: Orgad Shaneh <orgads@gmail.com>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org, weh@microsoft.com,
- kotaranov@microsoft.com, horms@kernel.org, ast@kernel.org,
- daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
- sdf@fomichev.me, longli@microsoft.com, dipayanroy@linux.microsoft.com,
- hamzamahfooz@linux.microsoft.com, gargaditya@linux.microsoft.com,
- ernis@linux.microsoft.com, falakreyaz@gmail.com, jbrandeb@kernel.org
+ <179434980692.92301.5684137736887990228.git-patchwork-notify@kernel.org>
+Date: Tue, 10 Nov 2026 22:30:06 +0000
+References: <20261106123920.162131-1-parri.andrea@gmail.com>
+In-Reply-To: <20261106123920.162131-1-parri.andrea@gmail.com>
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: sgarzare@redhat.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, bobbyeshleman@meta.com, horms@kernel.org,
+ leonardi@redhat.com, niuxuewei.nxw@antgroup.com,
+ linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
 Hello:
 
 This patch was applied to netdev/net.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Mon,  2 Nov 2026 06:43:24 +0000 you wrote:
-> mana_pre_alloc_rxbufs() fills the RX rings with plain pages from
-> dev_alloc_pages() (from_pool == false), but the rxq is registered with
-> MEM_TYPE_PAGE_POOL and mana_run_xdp() builds every xdp_buff with that
-> rxq info. mana_rx_skb() frees a !from_pool buffer correctly on
-> XDP_PASS, XDP_TX and XDP_DROP, but a redirected buffer is freed through
-> its memory model: __xdp_return() hands the plain page to
-> page_pool_put_full_netmem(). This triggers the WARN in
-> include/net/page_pool/helpers.h, breaks the page refcount, RX refills
-> fail and the queue stops receiving.
+On Fri,  6 Nov 2026 13:39:18 +0100 you wrote:
+> The Hyper-V transport is assigned before the asynchronous VMBus channel
+> offer completes.  Its zero-initialized hvsock therefore has a NULL chan
+> until hvs_open_connection() associates the channel with the socket.
+> 
+> SIOCINQ can query the assigned transport while the socket is connecting,
+> or after connect() fails once the transport has been assigned.  Unlike
+> poll(), that path does not check stream_is_active() before calling the
+> transport's stream_has_data callback.  hvs_stream_has_data() then passes
+> the NULL channel to hvs_channel_readable_payload(), and any user in the
+> guest can trigger an oops:
 > 
 > [...]
 
 Here is the summary with links:
-  - [net] net: mana: fix XDP_REDIRECT of pre-allocated RX buffers
-    https://git.kernel.org/netdev/net/c/67869597fab0
+  - [net] hv_sock: Report no unread data before a channel is available
+    https://git.kernel.org/netdev/net/c/71b06766b7c4
 
 You are awesome, thank you!
 -- 
