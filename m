@@ -1,49 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794269306;
-	b=ThzVa7rEpC6mvFcPBtycw7TWCx9+qzGWkWhCHwCKky45VRDiKQvMPduDn/6wZN+rNqTk
-	 8nU/qnnLc9+H8NslJPuqPu2bIlvi1/GfLyt566+5HgW56Oq2oDZkrj6gyMia8nRATxhLW
-	 UWEIpfq7Ta7d2saNChA3myd2kqTH/MTb8FqwKVkUj00lcYbSVcQS5P0V72wUy63FiF/zP
-	 OXl1KNj5eX56LhlA7++hzioNjg8BdWFk76XGUDYK567aHado226tXlD4BSSRgJyfXa9ER
-	 AqzB4Y7M/s/eX1QcjpskZ8pPvZzK552/RcQZmWblwCVPYkFodt+W5bNmDJ7RqxmfcdQ==
+	t=1794271982;
+	b=zqXrAKjwtGr9A+uNT6Lp3op7w1XmTzduvvqKhgLD18AiIEF9xggImVv/F2UOi23k52ad
+	 JWtED3/RbNl+TbtmPeU1SHI5xYgImN/6XtNlNTaM7GnBu+trDEe5OMa9r9SmDk5vYLqQj
+	 1yUyt7d6ek/12z67OIRxZB2uffyAXd8QeV9o5NBJ8B2PZqDmMbccq+xGDoiKXbXFBYeA+
+	 7irP5x+b/aoPcgE4IarjN5sQiaQWqaPTuH+xbUDY/x4wxpz9H8CWyl9uzhN5f/F4yA/XT
+	 Ct3+a/BZMdUyZdm6xlLz2rO4IO603DyGs5FkTZVAhZIgOLqk3wiF+z4n2aAz9hwyv/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794269306;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:To:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=ZAlmiMbCs5Fxt/OX69COOKdAVsxWJrbxSKZq5I1sz6M=;
-	b=4ks55z7AiLF0euiF9dfBULoCigxo9ys2y/5wrWNiplHlw31V28KgvnBWMpb7tpOMK/Qv
-	 qhtm2BKrKPNDQzc6Bai7FfhACsHEqdvXgjfGZ1VuH/ivHZHFeUBjVJsC7k1Yu3WUOQJOC
-	 FVObGV51vbG9wnqtsUJ7ZVAkkk8FowZWew2gQ51ttOdXzbxOfuR01FStF95Fjl4zq6yH5
-	 Pgo2WqxXjN2RfRJ/y1ylL1nkydRPG5oEsq3yDlhWCUhR/UfC5WPEx3vHrposcyhzsiNmH
-	 1QSOeQcN9n2yVkBHpkUIpWiXH8W7baNFahaWub6Ee3Ghub1GrQLiOlRYhmhxXvONyog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794271982;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=JyWOo/pOtk62GRS0TgSKLCUeZbYObiIcnLDqhYuX4P0=;
+	b=aXkF9dx5lVNK32STrZOSgqZxDfyI0Ol2pwlIa1VUg09r1ozxjTU1QVm8mG2F+wWW80ZX
+	 B3QGV1+DfykKyan3cf0+NJu7QvKWxpjVztJFompv/p/9y/XeeGNKPIs8CcbxeYYAbQ7Z6
+	 zL9ZmUFW6+5K+B2LrrWD6oYFhaVnw/xEUtA3InQrcQMxlX7oI8N5mOZ5AlEJbP+8Qx+5N
+	 kdH9SeTfFuFa6PJnRt2npgcF11Wor/ryVQ2+WQT15bI5CJYBVk0ECPEdNiKPeSznDsa+L
+	 /Nao299eTKa3flYoScyzmcA4m2zoY12lh2fEmcmmbliQNMKJeynB/4NPGPXnNwHxkFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=W3mBhVmc;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E12606A335
-	for <linux-hyperv@vger.kernel.org>; Tue, 10 Nov 2026 00:08:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45E12606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=UI0lGOzP;
+	arc=none smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9A4606A332
+	for <linux-hyperv@vger.kernel.org>; Tue, 10 Nov 2026 00:53:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE9A4606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=W3mBhVmc
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7A6FB20B7169;
-	Mon,  9 Nov 2026 16:08:23 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7A6FB20B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794269303;
-	bh=ZAlmiMbCs5Fxt/OX69COOKdAVsxWJrbxSKZq5I1sz6M=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=W3mBhVmczKwT2hIXaXm9J6i+d+EfIroi2E6ePq3guXRBSuLA98TUZHgxQE273Ivl3
-	 pbpJwWVly/0bIzjOQ8ocqLrnAMtyLWYYwQoxBUFdXeIf2lMrv7pQ8aPeDdjwd2qB6u
-	 cpWgadfKQAxcjLqjoBZv2ln9vvObbflSFOy5SNVg=
-Message-ID: <15b3d0f2-fb44-c1cd-0a77-9c286e97a745@linux.microsoft.com>
-Date: Mon, 9 Nov 2026 16:08:25 -0800
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=UI0lGOzP
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91ea2e29d90so15602066d6.1
+        for <linux-hyperv@vger.kernel.org>; Mon, 09 Nov 2026 16:53:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1794271981; x=1794876781; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JyWOo/pOtk62GRS0TgSKLCUeZbYObiIcnLDqhYuX4P0=;
+        b=UI0lGOzPtjGGCWSl7C0++xvsyw4k27fssP2LH8P51PpkthjkaHj5KRci44EFlllRA2
+         22mb0xN7sJ21C61B8NklSQ49XXlif29hkmARn6nYF7ZTHmI2dGgaI2OVUU89vCT4eFP5
+         5LRJCqwTtBD6CfuWQsVz9x2+d/i+0bWwCFTQYtukBdoRFozTXPcKkrE92YIokJW3IncK
+         GGkMlIDvhWpv5fU5ST0icLmUqNHsc7ncipYaVB16Nj5PkFTFvA5JpSp2xVQ429NppEbO
+         5Cth1s0167K9uRdROxWZQJQiE0pbL9Pumg/2EUhQIg3Xg7iKMPVZ3xgsqRirOQTNWFqX
+         eFRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794271981; x=1794876781;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JyWOo/pOtk62GRS0TgSKLCUeZbYObiIcnLDqhYuX4P0=;
+        b=NtxdCaIPg9osvpJq91CZdG1ZDjBA3dE5IqwyydhH9vfsyUOZl5DXzAUYJGHnikFQ+n
+         mPvab0nkr5KaUX2+wmtSdaq13oZQhfXroCSl3/mqGAAfC7k3FJk+RANnOGvT8LAHM/1q
+         jr0ylrsxERRQLhc+EHXu9O/j589/xFikPp6Z4CDi5bZnOGu925QdIEcYJaY921iDusLx
+         iLcy3zHTTHIuNLR7O3JzOf6+nGqZKU3IcDL2WAkTkBRIMShEanqam/zkLO0Avndq3PH8
+         D5638AP9SNlPdKA9R/fjdLPArozOfoH/HjcUax4Dc2LNz8cg97QikrJn52jhdulY8s/0
+         e1zA==
+X-Forwarded-Encrypted: i=1; AL+hErFbZUmVcF+C6YUfpgIJZgJRpRzbI/OmDJbQGu91Ssacj2hm6E9w/4NBeHJN/O6ClVpyIzAqIu9M0oHVsOI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8z0wqmnTcCe/lghgCNcbbC/w2aurvmMsNYSqC3rmOT2qhPg4Qn
+	xh1EzUV6419hsJdwyxb0bHDw/48WFJZzPtCZS6+zxsOqWkBWLs7TM+4uwk70j7AwmOwoS9WLHZj
+	MKsO6
+X-Gm-Gg: AYBFou2MTY/bw0OU/3eKW7WB5wYa3SbmQHMmp7W+jsVw2tYXBw8T/VPj/rQtKnhZ2mf
+	Lc3Zvq7cspXuX69LWtB7QtnIXLVQG/4tp22f42Y5Ufad7yJ+8kuKEMxsrjbiA536dg85zJWu5zJ
+	kloN2T3FHNrmHzEFbkYcX+F+Yn5+H2VcZfjQU5jAfUf+Cf1PUxQrKuXz4PVIKaJKAO6xeVhi64u
+	SuUvbsraqL2sbf7/GMF5Fh7/fb607kwtVXssjLurqrZIeNDgbrusu4f47goSUly/u+cCwLr4vDu
+	vYLBEnOmeyZXR1RQ/W+Pc2F8kWol3cGQSe5rIWxLVXT3BBbk9uepFxHbCm0RuTi7BCl5tv2rJ5o
+	NkLud1XTB+3UVqlPSV+9+dqI08AyPI58mNkNgn4Cv5QVtG//K4YNsxU/0YeArUjnWYkrqp3GXxv
+	8+N+I7SAPx7n+0+IrM1+hnxZz2OTqMsZmDjNVUjZd0xQcPl7MgRjXlnD2LS+kIMF2TK+C8Q9+nD
+	3YHDoS3Eondwk8Rt09cg93TWZ9Bs5VFNJIaXdtiSyimJxnrXmRIt/q7UPE2dlaz+4DV9IRlZqST
+	4tEsAUPrhmBz3UVXu4VytY38K9r5UIMlcIBils9v9mdWWaN/714Rj2vEVy4K+/12ShdzEtorV0b
+	MRHOfmMAUMA==
+X-Received: by 2002:a05:6214:411e:b0:91e:972b:ad99 with SMTP id 6a1803df08f44-91ef027a678mr17759746d6.25.1794271980522;
+        Mon, 09 Nov 2026 16:53:00 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef0543c8esm8667106d6.40.2026.11.09.16.52.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 16:52:59 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xQa6d-00000003NZr-1IKz;
+	Mon, 09 Nov 2026 20:52:59 -0400
+Date: Mon, 9 Nov 2026 20:52:59 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: Mostafa Saleh <smostafa@google.com>, iommu@lists.linux.dev,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Wei Liu <wei.liu@kernel.org>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	linux-hyperv@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+	Mukesh Rathor <mukeshrathor@microsoft.com>,
+	John Starks <John.Starks@microsoft.com>,
+	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
+	Yu Zhang <zhangyu1@linux.microsoft.com>,
+	Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Alex Williamson <alex@shazbot.org>
+Subject: Re: [PATCH RFC 1/9] iommu: Introduce external attach domain type
+Message-ID: <20261110005259.GU663069@ziepe.ca>
+References: <20260925190742.1575380-1-jacob.pan@linux.microsoft.com>
+ <20260925190742.1575380-2-jacob.pan@linux.microsoft.com>
+ <atiakDqtuED2cTM5@google.com>
+ <20261026161003.00003b71@linux.microsoft.com>
+ <ausIn5Txiy1uRjkY@google.com>
+ <20261104170816.GS3889730@ziepe.ca>
+ <20261106130352.0000638d@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,142 +124,30 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] mshv: Do pre-commit before mapping a guest VM GPA
-Content-Language: en-US
-To: sashiko-reviews@lists.linux.dev, linux-hyperv@vger.kernel.org
-References: <20261107024842.3929415-1-mrathor@linux.microsoft.com>
- <sashiko-outbox-202522@kernel.org>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <sashiko-outbox-202522@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106130352.0000638d@linux.microsoft.com>
 
-On 11/6/26 19:11, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [High] mshv: GFP_KERNEL allocation in hv_pre_commit_gpa() during MMU
->    invalidation
-> --
-> 
-> commit 326d99247cfb889e00e7b24f8217bcbc574b15e8
-> Author: Mukesh R <mrathor@linux.microsoft.com>
-> 
-> mshv: Do pre-commit before mapping a guest VM GPA
-> 
-> This commit adds an HVCALL_PRECOMMIT_GPA_PAGES step before mapping guest
-> GPAs in hv_do_map_gpa_hcall() to pre-allocate hypervisor data structures
-> and reduce TLB flushes.
-> 
->> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
->> index e761addda50e1..595d044fb9264 100644
->> --- a/drivers/hv/mshv_root_hv_call.c
->> +++ b/drivers/hv/mshv_root_hv_call.c
->> @@ -181,6 +181,54 @@ int hv_call_delete_partition(u64 partition_id)
->>   	return hv_result_to_errno(status);
->>   }
->>   
->> +/*
->> + * Pre commit to reduce TLB flush overheads in the hypervisor. On systems with
->> + * large CPUs, there is signficant advantage to doing this. Pre-commit allows
->> + * the hypervisor to build all data structs needed in anticipation of the map
->> + * gpa hypercall, thus reducing or eliminating deposit page returns from the
->> + * map gpa hypercall, and as a result reducing TLB flushes.
->> + */
->> +static int hv_pre_commit_gpa(u64 pt_id, u64 gfn, u64 num_pages)
->> +{
->> +	ulong irq_flags;
->> +	struct hv_input_precommit_gpa_pages *input_page;
->> +	int rc = 0;
->> +	u64 status, done = 0;
->> +
->> +	while (done < num_pages) {
->> +		u16 rep_count = min(num_pages - done, HV_REP_COUNT_MAX);
->> +
->> +		local_irq_save(irq_flags);
->> +		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
->> +		memset(input_page, 0, sizeof(*input_page));
->> +
->> +		input_page->partition_id = pt_id;
->> +		input_page->target_gpa_base = gfn;
->> +
->> +		status = hv_do_rep_hypercall(HVCALL_PRECOMMIT_GPA_PAGES,
->> +					     rep_count, 0, input_page, NULL);
->> +		local_irq_restore(irq_flags);
->> +
->> +		done += hv_repcomp(status);
->> +		gfn += hv_repcomp(status);
->> +
->> +		if (hv_result_needs_memory(status)) {
->> +			rc = hv_deposit_memory(pt_id, status);
->> +			if (rc)
->> +				break;
->> +
->> +		} else if (!hv_result_success(status)) {
->> +			pr_err("%s: failed to pre commit for gfn %#llx done %llu/%llu, status=%#llx (%s)\n",
->> +			       __func__, gfn, done, num_pages, status,
->> +			       hv_result_to_string(hv_result(status)));
->> +			rc = hv_result_to_errno(status);
->> +			break;
->> +		}
->> +	}
->> +
->> +	return rc;
->> +}
->> +
->>   /* Ask the hypervisor to map guest ram pages or the guest mmio space */
->>   static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
->>   			       u32 flags, struct page **pages, u64 mmio_spa)
->> @@ -205,6 +253,10 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
->>   		page_count >>= large_shift;
->>   	}
->>   
->> +	ret = hv_pre_commit_gpa(partition_id, gfn, page_struct_count);
->> +	if (ret)
->> +		return ret;
-> 
-> [Severity: High]
-> Can calling hv_pre_commit_gpa() unconditionally here sleep and enter
-> direct reclaim from an MMU notifier invalidation callback?
-> 
-> mshv_region_interval_invalidate() calls mshv_region_remap_pages() with
-> HV_MAP_GPA_NO_ACCESS while holding region->mreg_mutex inside
-> mmu_notifier_invalidate_range_start(), including when
-> !mmu_notifier_range_blockable(range):
-> 
-> drivers/hv/mshv_regions.c:mshv_region_interval_invalidate() {
-> 	...
-> 	if (mmu_notifier_range_blockable(range))
-> 		mutex_lock(&region->mreg_mutex);
-> 	else if (!mutex_trylock(&region->mreg_mutex))
-> 		goto out_fail;
-> 
-> 	mmu_interval_set_seq(mni, cur_seq);
-> 
-> 	ret = mshv_region_remap_pages(region, HV_MAP_GPA_NO_ACCESS,
-> 				      page_offset, page_count);
-> 	...
-> }
-> 
-> That reaches hv_do_map_gpa_hcall(), which now calls hv_pre_commit_gpa()
-> with page_struct_count (4K pages, with input_page->flags = 0 even when the
-> region was mapped with HV_MAP_GPA_LARGE_PAGE).  If the hypervisor asks for
-> more memory (for example to shatter a 2M SLAT entry into 4K entries),
-> hv_deposit_memory() -> hv_call_deposit_pages() allocates pages with
-> GFP_KERNEL.  This sleeps in non-blockable MMU notifier context, triggers a
-> lockdep splat on __mmu_notifier_invalidate_range_start_map in
-> fs_reclaim_acquire(), and can deadlock if direct reclaim re-enters
-> mshv_region_interval_invalidate() on region->mreg_mutex.
-> 
+On Fri, Nov 06, 2026 at 01:03:52PM -0800, Jacob Pan wrote:
+> I am not stating that it will break UAPI because of blocking domain is
+> used. What I am trying to say is that with the blocking domain ->
+> external transition, we do not need a new UAPI for external attach for
+> non-CC. It will just reuse the existing UAPI.
+> VMM:
+> 	do_ioctl(vfio_cdev_fd, VFIO_DEVICE_ATTACH_IOMMUFD_PT, &attach,
+> 			"VFIO_DEVICE_ATTACH_IOMMUFD_PT");
+> hv-iommu-root: external_domain.attach_dev() will do the hypercall.
 
-All pre-commit does is pre-deposit pages, so map hypercall right below
-doesn't keep coming back with insufficient memory. So there is no
-regression here... As for the reclaim notifier issue, it needs to
-be addressed for movable pages, or rather, movable pages needs to
-be re-assessed to resolve such issues.
+You've basically described a wonky NESTING domain.
 
-Thanks,
--Mukesh
+I think you should just use nested domains for this. Even though there
+is no S2 make it possible to create a nested domain through the
+viommu..
 
+If hyperv ever learns to support VIOMMU you will need this anyhow to
+pass vSTE/vDTE/etc to hyperv.
 
+For now the nesting domain creation can just accept an empty struct or
+something which means identity?
+
+Jason
