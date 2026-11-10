@@ -1,53 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794325280;
-	b=S+3ZPvuULhD1CAoFIZqeDZdjl/NVzXQBg1Gymzr1ZMToGK2dmHrviY67NLS23hW/kq7i
-	 TSSTw0jAGYd+1Q5B5s5VdWeoAwtX+3A5y+885znGyvpX2KpURZ5byMXDFaUNOxStikqF+
-	 MrFFpdMCiuBgvU/L30Zn9Z/EoYGUHlBXtBezIwOZQ0kiXjtGgrifBn3r07PpVUWFZfVRs
-	 P1FgTOAkaKWqGcGYK2/1e4u92vUWTOinfu6SIZBYB2LA54vivU4ATrSEh8dEypimgCl/P
-	 Np2kUYRqkA+USNqevkxvUTrzCOcJtidsJf0cgiRi52DlaQk9dcJFS8T5/xxSJWemXRw==
+	t=1794325532;
+	b=5beXgqoswThpauSRQszXageVkNN/8s5iyqM/Dmr2hCeVOguHPp8gAzqr5aVWsHAv2kZn
+	 1ybc4hTYjcHCIbIBeqUK3nd49EphnSi2lbdJRdd/XJB6P4HN/Y3kXtDWngeB1zMscy7Zc
+	 xVsTkZWuTRXi6pPSVHx4DbSWlqeXw9FATPRU6ocW8ZW46DJyqfFEPE0NjyETdTo1IgoUA
+	 gbInVNFW7qLqSiXAilq7J4gjwQ7xnOUEjIiN8Lzx9Nj3FXphbgDvxnrFPU8Q2E6nmjR7F
+	 lAMvsxYXr82gXJSPMyk22yl/QxZ+MR/XPBJakFCGcdxsenSyCg8bgnj1KnCFlqEFSnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794325280;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=QHx7C/AerpPhdwsuFtDPfcaly8BfFFQVyiFbTns4uE8=;
-	b=CzyMnqR1XJsF2XAW4HzXWXhg0IW0xZ1rqlBdM1oe2IME82GrImEnAwVJLom9fMjhWR4v
-	 XBMWcPUJsY7Lxh3+Z7SNRHc9I19eWlLuLoKZmwQ4WrWD5NXOL95/OxUzzYJFocAKkz2si
-	 zpNy5Qk4/Uxb3YxazR8zttZ96R4sY4Ej7GXWXw62tpEIi1tDkFS6Re1Cdo3fPdl1/d+Ui
-	 wjLweQKbOsDoTF+q+6tFpxn5qrFQ0C8CT1nnboxkGje48D4GQlLbih+hKu7p1TU6x8Kkh
-	 K4JSvx9q/wy8Hx9VrhpItjqY4qcyIfa5ALix8QIWhBB6xxAnPMx4MjsS3CcG9qE0t/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794325532;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Zi6WCbs8dDpk4wSHpXkNFzq/USs9PEONAl6YpI0LRU4=;
+	b=O/cTU/DZtJxZXlrq35cGkjcWQVFGulaOf2LZFcFzJSeUFejV0eimaX5dg8sTfgG9wLl5
+	 GYhAv/DWxtCqaGoC4rHp43yPNtOXCNa0+3DWm3hF72C++wrU7RIVX/FnWGSRmfYZrX3gX
+	 6bw0kL6p0XXe1fPtl6kjZf7GxZ7dtbZKKXMUKchP5zw+pVjpzWYy9UsIfSBZ9UruzMwPk
+	 KYSnSEFTyxdJ+xYlXmAtnX1aRSPsJrqqWNO+pIC6R39cf34cTqxpgj0kFUg99nreUCKDS
+	 o1VnH8jfIwOvJQMt+lnNtBfNH95UMIigXzSklon3IpWI1IfHecPgmwIetZ7Y65H74CQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=b5mRhHJu;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F20560A261B
-	for <linux-hyperv@vger.kernel.org>; Tue, 10 Nov 2026 15:41:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F20560A261B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M3CAhHm4;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74920606C439;
+	Tue, 10 Nov 2026 15:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=b5mRhHJu
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id E091020B7168; Tue, 10 Nov 2026 07:41:09 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E091020B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794325269;
-	bh=QHx7C/AerpPhdwsuFtDPfcaly8BfFFQVyiFbTns4uE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b5mRhHJubjI7FLZIOHtOvKCOdufAiqKmhGC15RsGRKNWkiwH7lLDbXpAG3MzKLkFM
-	 hUuXZmyzqtIGTDoj0dRdSQo+iO1qMvjV663S7ZN4wRI8MRdWGWvFO0a6xy9EAHXaWG
-	 Hl0xp9r/NLdwO1M9b2pd/xonQjxJPB+nf4i/uyaQ=
-Date: Tue, 10 Nov 2026 10:41:09 -0500
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH net] net: mana: report RX checksum offload for IPv6
-Message-ID: <avM7FRuRZaod1wqk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261109142856.779955-1-hamzamahfooz@linux.microsoft.com>
- <sashiko-outbox-207192@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M3CAhHm4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C151F008A2;
+	Tue, 10 Nov 2026 15:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794325532;
+	bh=Zi6WCbs8dDpk4wSHpXkNFzq/USs9PEONAl6YpI0LRU4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=M3CAhHm4gmQjLcexSklE32zlBB4jzpGrdmQoJSKZYceyMftotpgsUahbge8JJDX8O
+	 T1rAJwXTHr9DV49crZhzAinGx2J0nAb5oZ8HGVnNr/i1rcNIu0yDSv5i91WgRSzDY9
+	 rwuneZeDcc2K6lzDsHhEnOFWrlvQn6vjWKoRXhjGI/HUomEWce0x1XQr5Vknx5FO7K
+	 LNzbp0jX3iU+UB3y/IgQsOkNUPatA08AByYZ8adXc3KRHRVslUb6ohRFfRMUs7+deb
+	 2ZYeiqRCHo6G3Aj7gUb3gvzddYtY5qBJKsciGi0tLzMdT7ilvzd4/MAbkqmp5nA4RN
+	 JilEaQi+7x4mA==
+Message-ID: <sashiko-outbox-207290@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v10 4/4] net: mana: add dynamic HWC queue depth
+ with reinit path
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>
+Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <aa4e08e8bc9a7139778b11875e41921d2d813712.1794208055.git.weh@linux.microsoft.com>
+References: <cover.1794208055.git.weh@linux.microsoft.com>
+ <aa4e08e8bc9a7139778b11875e41921d2d813712.1794208055.git.weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 15:45:31 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -56,91 +60,156 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-207192@kernel.org>
 
-On Tue, Nov 10, 2026 at 02:29:17PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found no new issues
-> in this patch, but noticed 1 related pre-existing issue it does not
-> introduce:
-> - [High] net: mana: memory leak on XDP drop path in mana_rx_skb() [1]
-> --
-> 
-> commit 44321b6481b9b9f9a70166beb9fc63a817e238f6
-> Author: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-> 
-> net: mana: report RX checksum offload for IPv6
-> 
-> This commit removes the rx_iphdr_csum_succeed check in mana_rx_skb() so
-> that IPv6 TCP and UDP packets with validated L4 checksums receive
-> CHECKSUM_UNNECESSARY.
-> 
-> > diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > index e6d494df22e4d..05bd4b4b8349e 100644
-> > --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> > @@ -2179,10 +2179,9 @@ static void mana_rx_skb(void *buf_va, bool from_pool,
-> >  	skb_checksum_none_assert(skb);
-> >  	skb_record_rx_queue(skb, rxq_idx);
-> >  
-> > -	if ((ndev->features & NETIF_F_RXCSUM) && cqe->rx_iphdr_csum_succeed) {
-> > -		if (cqe->rx_tcp_csum_succeed || cqe->rx_udp_csum_succeed)
-> > -			skb->ip_summed = CHECKSUM_UNNECESSARY;
-> > -	}
-> > +	if ((ndev->features & NETIF_F_RXCSUM) &&
-> > +	    (cqe->rx_tcp_csum_succeed || cqe->rx_udp_csum_succeed))
-> > +		skb->ip_summed = CHECKSUM_UNNECESSARY;
-> 
-> [Severity: High]
-> This problem wasn't introduced by this patch, but can mana_rx_skb() leak
-> rxq->xdp_save_va [1] on its drop path when rxq->frag_count > 1?
-> 
-> When a pre-allocated buffer (from_pool == false) is dropped, mana_rx_skb()
-> stores buf_va in rxq->xdp_save_va for reuse:
-> 
-> drivers/net/ethernet/microsoft/mana/mana_en.c:mana_rx_skb() {
-> 	...
-> drop:
-> 	if (from_pool) {
-> 		...
-> 	} else {
-> 		WARN_ON_ONCE(rxq->xdp_save_va);
-> 		/* Save for reuse */
-> 		rxq->xdp_save_va = buf_va;
-> 	}
-> }
-> 
-> However, mana_get_rxfrag() only checks and reclaims rxq->xdp_save_va when
-> rxq->frag_count == 1:
-> 
-> drivers/net/ethernet/microsoft/mana/mana_en.c:mana_get_rxfrag() {
-> 	...
-> 	if (rxq->frag_count == 1) {
-> 		/* Reuse XDP dropped page if available */
-> 		if (rxq->xdp_save_va) {
-> 			va = rxq->xdp_save_va;
-> 			page = virt_to_head_page(va);
-> 			rxq->xdp_save_va = NULL;
-> 		...
-> 		return va;
-> 	}
-> 
-> 	page =  page_pool_dev_alloc_frag(rxq->page_pool, &offset,
-> 					 rxq->alloc_size);
-> }
-> 
-> When rxq->frag_count > 1, mana_get_rxfrag() ignores rxq->xdp_save_va and
-> allocates a new fragment from the page pool, so a subsequent drop of a
-> pre-allocated buffer triggers the WARN_ON_ONCE() and overwrites
-> rxq->xdp_save_va, leaking the saved page.
-> 
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] net: mana: duplicate mana_hwc_teardown_queues() on HWC
+  rebuild failure
+--
 
-Since, this is an existing issue, I will fix it in it's own patch.
+commit 63009cdb17b7f248623a5c752d26416fb4226096
+Author: Long Li <longli@microsoft.com>
 
-> [1] https://sashiko.dev/#/bug/linux-2ba39e78-7dc4-4027-a76e-f2d315147bad
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261109142856.779955-1-hamzamahfooz@linux.microsoft.com?part=1
+net: mana: add dynamic HWC queue depth with reinit path
+
+This commit adds dynamic HWC queue depth negotiation by rebuilding the
+bootstrap hardware channel when the PF reports a supported queue depth
+between 2 and 128, with fallback to fresh bootstrap queues if the rebuild
+fails.
+
+Link: https://lore.kernel.org/r/20260908035201.402424-5-longli@microsoft.com
+Link: https://lore.kernel.org/r/179196575846.434549.7933818740976196422@ker=
+nel.org
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/n=
+et/ethernet/microsoft/mana/hw_channel.c
+> index 8bc00001d20e5..867f8dd3ea547 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+
+[ ... ]
+
+> @@ -1088,16 +1176,11 @@ static void mana_hwc_fence_channel(struct gdma_co=
+ntext *gc,
+>  		mana_hwc_unpublish_cq(gc, hwc->cq->gdma_cq);
+>  }
+> =20
+> -static bool mana_hwc_release_channel(struct hw_channel_context *hwc)
+> +static int mana_hwc_teardown_queues(struct hw_channel_context *hwc)
+>  {
+>  	struct gdma_context *gc =3D hwc->gdma_dev->gdma_context;
+>  	int err;
+> =20
+> -	mana_hwc_stop_channel(hwc);
+> -
+> -	/* An unacknowledged destroy leaves the PF's mappings live.  Fence
+> -	 * software dispatch, but retain every PF-visible allocation.
+> -	 */
+>  	err =3D mana_smc_teardown_hwc(&gc->shm_channel, false,
+>  				    &hwc->setup_active);
+>  	if (err) {
+> @@ -1105,28 +1188,26 @@ static bool mana_hwc_release_channel(struct hw_ch=
+annel_context *hwc)
+>  			"HWC teardown failed: %d, retaining PF-visible resources\n",
+>  			err);
+>  		mana_hwc_fence_channel(gc, hwc);
+> -		mana_hwc_retain_channel(hwc);
+> -		return false;
+> +		return err;
+>  	}
+> =20
+> -	mana_hwc_clear_cq_table(gc);
+> -
+> -	/* Fence the EQ before releasing the remaining HWC state. */
+> -	if (hwc->cq)
+> -		mana_hwc_destroy_cq(hwc->gdma_dev->gdma_context, hwc->cq);
+> -
+> -	if (hwc->txq)
+> -		mana_hwc_destroy_wq(hwc, hwc->txq);
+> +	mana_hwc_destroy_queues(hwc);
+> =20
+> -	if (hwc->rxq)
+> -		mana_hwc_destroy_wq(hwc, hwc->rxq);
+> +	return 0;
+> +}
+> =20
+> -	kfree(hwc->caller_ctx);
+> -	hwc->caller_ctx =3D NULL;
+> +static bool mana_hwc_release_channel(struct hw_channel_context *hwc)
+> +{
+> +	struct gdma_context *gc =3D hwc->gdma_dev->gdma_context;
+> +	int err;
+> =20
+> -	mana_gd_free_res_map(&hwc->inflight_msg_res);
+> +	mana_hwc_stop_channel(hwc);
+> =20
+> -	hwc->num_inflight_msg =3D 0;
+> +	err =3D mana_hwc_teardown_queues(hwc);
+> +	if (err) {
+> +		mana_hwc_retain_channel(hwc);
+> +		return false;
+> +	}
+
+[ ... ]
+
+> +static int mana_hwc_rebuild_channel(struct hw_channel_context *hwc,
+> +				    u16 q_depth,
+> +				    struct mana_hwc_init_report *report)
+> +{
+> +	u32 timeout_ms =3D mana_hwc_timeout_read(hwc);
+> +	int cleanup_err;
+> +	int err;
+> +
+> +	err =3D mana_hwc_teardown_queues(hwc);
+> +	if (err)
+> +		return err;
+> +
+> +	err =3D mana_hwc_build_channel(hwc, q_depth, report);
+> +	if (!err)
+> +		err =3D mana_hwc_validate_report(hwc, report, q_depth,
+> +					       true, true);
+> +	if (!err)
+> +		err =3D mana_hwc_finish_channel(hwc, report);
+> +	if (!err)
+> +		return 0;
+> +
+> +	dev_warn(hwc->dev,
+> +		 "HWC depth %u rebuild failed, restoring bootstrap: %d\n",
+> +		 q_depth, err);
+> +
+> +	cleanup_err =3D mana_hwc_teardown_queues(hwc);
+> +	if (cleanup_err)
+> +		return cleanup_err;
+
+[ ... ]
+
+> @@ -1234,7 +1452,7 @@ int mana_hwc_create_channel(struct gdma_context *gc)
+>  	gd->pdid =3D INVALID_PDID;
+>  	gd->doorbell =3D INVALID_DOORBELL;
+> =20
+> -	err =3D mana_hwc_create_bootstrap_channel(hwc);
+> +	err =3D mana_hwc_prepare_channel(hwc);
+>  	if (err) {
+>  		mana_hwc_release_channel(hwc);
+>  		return err;
+
+[Severity: Medium]
+Does mana_hwc_release_channel() issue a duplicate mana_hwc_teardown_queues()
+when mana_hwc_rebuild_channel() fails inside mana_hwc_teardown_queues()?
+
+mana_smc_teardown_hwc_locked() only clears hwc->setup_active when the SMC
+teardown transaction succeeds.  If mana_hwc_teardown_queues() fails in
+mana_hwc_rebuild_channel(), it fences the channel and returns the error with
+hwc->setup_active still true, and the error path in mana_hwc_create_channel=
+()
+then calls mana_hwc_release_channel() -> mana_hwc_teardown_queues() a second
+time on the same channel.  On an unresponsive shared-memory channel this
+stalls for a second 20-40s poll timeout; if the PF completes the first
+SMC_MSG_TYPE_DESTROY_HWC right after the first read times out and rejects t=
+he
+second destroy with a status error, mana_hwc_release_channel() retains the
+already-destroyed channel.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794208055.gi=
+t.weh@linux.microsoft.com?part=3D4
