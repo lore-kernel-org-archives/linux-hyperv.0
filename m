@@ -1,49 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794426057;
-	b=DO3JhH9Vixx8HMd67MqAE/3jykh9axaBgSSEBbTOu0zolg/eXBLS7afI8URCHgre+r+d
-	 Y1ZDagX9+huBGU3oUw0EYMV1ThnDQ11obiCyZHQqKbCMPEje6Fc38Fqd7QGGGk+C5UMdZ
-	 qAKj1XdRFFdLlgbq87ngm63EKCW3uEMt3uE0oQv3p3fSTEkdA9R+gWxo3t/mN7tJCWpb1
-	 8jcvRwhahGmgISglo0zfhtMazYMSWDwN8CozWLENRUL2QXFgjUyBqP4S+DJzYFdftyC8X
-	 nB5t8VQrS6Oq5Y8ATQmGghJO3hgGkjruwSvwSOmFwhImFwk7wzFHqLbkiZigCki7ttw==
+	t=1794430720;
+	b=gTVnLcDcyyXlp8bNTG1gZBBDSQTPfWGxvEz6OLeyNJRC5l+sPyKBMwO52cjuS1br1uBX
+	 4aH/xRkcAdofyH4bntR9IgF0zfq7Ya2z/43aND05JKpZeTQY+PJ7mpqtYSogP+RAKNJAK
+	 lroJCELsEeqxVWyMQ3LlYv0eboKo5Qa2dhYllBqNrmOHhKX++dHHzbEs+YE2STkeNneAS
+	 hfzk48BjFPL+vuXKQioAK6OvvSKk7RwAP1NryiRWfH2+LFEM4YsKrnOb/AZHVvNpfU6sB
+	 COhOQ9xxRdlHcUO4R92dCR9nin/r7w01bvPfPuiQCHd389J2MKSFg1AuMQNRAkbU+sQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794426057;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=0yA9h3rkrGWUwNZM2GbnX6IgS2NUA31EDSsvcPpVQ64=;
-	b=N31REdtGVD7Bo2T/bIszyuZAdUyM1g6BuXJnFTFnQaTBAMNxUiVjvO4F6x8LLXbAss+/
-	 3OTQd1j3yRBSTYL5Bnn9Vq1r1nJtlJT8H7lXW51EJqJRz+zNDkiiGFrr3MuAooHmH74NU
-	 qmM/atJCVZgfYhCmC23ZqOaD0ygBH6JHxmTHHct4E8E0Er1QalgmLH9XTikPOyCYBF91F
-	 W59WinEXs748jdjjgkl+rEXQFWQwHpVNo3VRPNJBRAH6wVhs7qyRfpIVFnp9BS7pK7GUr
-	 99THkpORyBXjoaUwpStLDhyXGb79VxFDU2bgLdd2BssqQrRCcOiVfy62k3TaToIw5Zg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794430720;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Sender:X-SRS-Rewrite;
+	bh=YUFQ0BzuROj7vKv1gEx2DSIYXCVTpEtb08fn/aq/i9g=;
+	b=GeuFDTAl0cT3P7khb19Uz+hKkDPwMXJYx2I3bGHIiuQUo2UMBM3fgvliYtsg8x+JXsac
+	 dFr0k+mZzZoXdS1kQIZVHlL2AhfAQjiTdhA0Aki/8b3KxSNp6mRvDkKl7IWFQGL8YNl2Z
+	 YJy5B+Pp/opguZ2QW7rHY9ErJ75q29FMvSjFOj3v9dlz2Tty+v8JL7axJNMGie2NYC4IX
+	 QT3vjZWCzoTJjD0FazqXJ+gbMMSJpqsrJC9BLOoV60tn/JEE9HqrqTeMIj93W+jZfu+SR
+	 45QSMIeKzhtB1b207othSHe6cyBqIFeLtenlfW1szYLI/Rj8UgwxkZHW32coufxqQnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="G+/va11U";
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D93F8606A327;
-	Wed, 11 Nov 2026 19:40:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D93F8606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=casper.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BYRXdC+e;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F6F606A31C;
+	Wed, 11 Nov 2026 20:58:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6F6F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=G+/va11U
-Received: from [10.4.158.9] (unknown [52.172.102.222])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 54CAD20B7166;
-	Wed, 11 Nov 2026 11:40:45 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 54CAD20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794426052;
-	bh=0yA9h3rkrGWUwNZM2GbnX6IgS2NUA31EDSsvcPpVQ64=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=G+/va11Uca+TJlQut2gfWo97vYuAIr4he/rj5Ckgh4c6vYKyd1cQMXUDy1zs31kaC
-	 VZJ8MwQwAd9070qO/iFTXd8Qg1jWxu5gz6WoO1/0+6RzAENz1AI7crUTS2hKzewFwT
-	 C2xvP4kfRLjDFNZuoUPWXciq0bs3mDglDDWDiesU=
-Message-ID: <fe67b6bd-c2e9-47f7-8a11-f99c010dc479@linux.microsoft.com>
-Date: Wed, 11 Nov 2026 11:40:47 -0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BYRXdC+e
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=YUFQ0BzuROj7vKv1gEx2DSIYXCVTpEtb08fn/aq/i9g=; b=BYRXdC+eNh2MLKCFHYtHOlfJ7x
+	z0WWYh4ivfCNrvP1yonwgAV9TfOEeQGWAunQ4KkAWk5oawGTBATJXrNIIsUjbki8DTlnbbCMnNBZ1
+	xQmY4VFdEtau8ifckcdm3GOhnw6LtTT8mK5znOGEaJRFyfWBO4vxDlIk1/zjfNeB3ybwSwZGf6kfC
+	GVAmpEsPglkv1Bi3filNDXrol1TLz4CcE7zaZ6GB1ABadukinFf2NYrMXGKJ/95aw8xI7lDS2x7mF
+	MSnxXPE/5ZFivEjWfpXuZm6DmKvHYDKpWe7msuJoKyE0Fzvhqy/p5hnBTIoY8QDt1HdbcqbEAUw0L
+	yS3nQQMA==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRFOu-0000000Ea66-3PGx;
+	Wed, 11 Nov 2026 20:58:36 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xRFOu-0000000HZ7e-2DQI;
+	Wed, 11 Nov 2026 20:58:36 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Thara Gopinath <tgopinath@linux.microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Nicolas Saenz Julienne <nsaenz@amazon.com>,
+	Nikolas Wipper <nik.wipper@gmx.de>,
+	Mushahid Hussain <hmushi@amazon.co.uk>,
+	Sriram Nambakam <snambakam@linux.microsoft.com>,
+	David Woodhouse <dwmw@amazon.co.uk>
+Subject: [PATCH 0/4] KVM: x86: hyper-v: Forward unimplemented hypercalls to userspace
+Date: Wed, 11 Nov 2026 12:58:32 -0800
+Message-ID: <20261111205836.4186584-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,156 +83,86 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/6] arm64: hyperv: Add per-CPU RSI host call
- infrastructure for CCA Realms
-To: Michael Kelley <mhklinux@outlook.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>
-Cc: "arnd@arndb.de" <arnd@arndb.de>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-4-kameroncarr@linux.microsoft.com>
- <MN2PR02MB686375CB482F6EEA9D00F806D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <MN2PR02MB686375CB482F6EEA9D00F806D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 11/11/2026 10:00 AM, Michael Kelley wrote:
-> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
->>
->> Arm CCA Realms cannot issue Hyper-V hypercalls via HVC; the guest must
->> route them through the RSI_HOST_CALL interface, which takes the IPA of a
->> per-CPU rsi_host_call structure as its argument.
->>
->> Add hv_hostcall_array as a per-CPU struct array and allocate it during
->> hyperv_init().
-> 
-> A quibble: This statement is a bit misleading. I think you mean it is a
-> global array with an entry for each CPU.  The term "per-CPU" typically
-> means something allocated out of the per-CPU area.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-I agree. Earlier versions of the patch did use a per-CPU struct but it
-was changed to a global array because the structure was small enough.
+KVM implements a fixed set of Hyper-V hypercalls and fails every other
+code with HV_STATUS_INVALID_HYPERCALL_CODE. A VMM that wants to
+implement more of the TLFS, such as the VSM hypercalls Windows uses for
+Virtualization Based Security, never sees them.
 
-This series has already been applied to hyperv-next, but I can reach out
-to Wei about editing the commit messages.
+This series adds KVM_CAP_HYPERV_FORWARD_HCALL. As with KVM_CAP_XEN_HVM
+and KVM_CAP_EXIT_HYPERCALL, KVM_CHECK_EXTENSION returns a bitmask of
+features and KVM_ENABLE_CAP takes the subset to enable, rejecting any
+bit the kernel does not report:
 
+ - KVM_HYPERV_HCALL_FORWARD_UNKNOWN (bit 0) sends the hypercalls KVM
+   does not implement, and extended hypercalls in fast form, out
+   through the existing KVM_EXIT_HYPERV_HCALL exit.
+
+ - KVM_HYPERV_HCALL_RAISE_UD (bit 1) lets userspace complete such an
+   exit by raising #UD at the hypercall instruction, which the TLFS
+   specifies for some invalid uses, instead of returning a status.
+   Userspace asks for that with KVM_HYPERV_HCALL_UD in a new 'flags'
+   field after the hypercall parameters; KVM zeroes it on every exit,
+   and refuses bits it does not know. The field fits in the existing
+   union, so struct kvm_run does not grow.
+
+Further mask bits will follow for HvCallVtlCall and HvCallVtlReturn on
+VMs with planes, so that KVM can handle VTL transitions in the kernel.
+
+Patch 3 reports HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE, since a VMM
+handling a forwarded fast hypercall can write the XMM output itself.
+Patch 4 adds a selftest.
+
+This is orthogonal to KVM_CAP_HCALL_FAULT_EXIT in the memory attributes
+series, which Vitaly asked about on v3 [2]. That one is about a memory
+fault *during* the processing of a hypercall KVM does implement, which
+it turns into KVM_EXIT_MEMORY_FAULT. This one is about the hypercalls
+KVM does not implement at all. A forwarded hypercall goes out to
+userspace before KVM touches any guest memory on its behalf, so the two
+never meet, and a VMM can use either without the other.
+
+This is the first part of the VSM work posted as an RFC [1] that does
+not depend on planes or memory attributes.
+
+The series is based on v7.4-rc2 and also applies cleanly to
+kvm-x86/next (cbe54fc3462b). It has been compile-tested on x86_64 with
+and without CONFIG_KVM_HYPERV.
+
+Tested on v7.4-rc2 with this series and the KVM_TRANSLATE fix posted
+alongside it, on an Intel Xeon 6 system (itself a KVM guest, so VMX
+there is nested) and on a bare-metal AMD EPYC (Zen 4) system. The new
+hyperv_forward_hcall selftest passes on both, as do hyperv_clock,
+hyperv_cpuid, hyperv_extended_hypercalls, hyperv_features, hyperv_ipi
+and hyperv_tlb_flush. hyperv_evmcs passes on Intel and hyperv_svm_test
+on AMD, each skipping on the other vendor.
+
+[1] https://lore.kernel.org/kvm/20261017122501.610248-1-dwmw2@infradead.org/
+[2] https://lore.kernel.org/kvm/kupv77y5yrc.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb/
+
+David Woodhouse (4):
+  KVM: x86: hyper-v: Add KVM_CAP_HYPERV_FORWARD_HCALL
+  KVM: x86: hyper-v: Let userspace fault a forwarded hypercall
+  KVM: x86: hyper-v: Advertise XMM fast hypercall output
+  KVM: selftests: Add Hyper-V hypercall forwarding test
+
+ Documentation/virt/kvm/api.rst                |  65 +++++
+ arch/x86/include/asm/kvm_host.h               |   2 +
+ arch/x86/kvm/hyperv.c                         |  38 ++-
+ arch/x86/kvm/hyperv.h                         |   9 +
+ arch/x86/kvm/x86.c                            |  14 +
+ include/uapi/linux/kvm.h                      |   7 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/x86/hyperv_forward_hcall.c  | 268 ++++++++++++++++++
+ 8 files changed, 402 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+
+
+base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
 -- 
-Regards,
-Kameron
+2.50.1
 
-> Michael
->  
->> The allocation is gated on is_realm_world() so non-Realm
->> arm64 Hyper-V guests pay no memory cost.
->>
->> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
->> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
->> ---
->>  arch/arm64/hyperv/mshyperv.c      | 27 +++++++++++++++++++++++++--
->>  arch/arm64/include/asm/mshyperv.h |  4 ++++
->>  2 files changed, 29 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->> index 82572c5..46ab2da 100644
->> --- a/arch/arm64/hyperv/mshyperv.c
->> +++ b/arch/arm64/hyperv/mshyperv.c
->> @@ -14,12 +14,16 @@
->>  #include <linux/arm-rsi-cmds.h>
->>  #include <linux/export.h>
->>  #include <linux/errno.h>
->> +#include <linux/slab.h>
->>  #include <linux/version.h>
->>  #include <linux/cpuhotplug.h>
->>  #include <asm/mshyperv.h>
->>
->>  static bool hyperv_initialized;
->>
->> +struct rsi_host_call *hv_hostcall_array;
->> +EXPORT_SYMBOL_GPL(hv_hostcall_array);
->> +
->>  int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
->>  {
->>  	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION,
->> @@ -110,6 +114,20 @@ static int __init hyperv_init(void)
->>  	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
->>  		return 0;
->>
->> +	/*
->> +	 * The RSI host-call buffers are only ever used when
->> +	 * is_realm_world() is true. Skip the allocation on non-Realm
->> +	 * guests. A single contiguous array of nr_cpu_ids entries is
->> +	 * allocated; each CPU indexes into it by its processor ID.
->> +	 */
->> +	if (is_realm_world()) {
->> +		hv_hostcall_array = kcalloc(nr_cpu_ids,
->> +					    sizeof(struct rsi_host_call),
->> +					    GFP_KERNEL);
->> +		if (!hv_hostcall_array)
->> +			return -ENOMEM;
->> +	}
->> +
->>  	/* Setup the guest ID */
->>  	guest_id = hv_generate_guest_id(LINUX_VERSION_CODE);
->>  	hv_set_vpreg(HV_REGISTER_GUEST_OS_ID, guest_id);
->> @@ -131,13 +149,13 @@ static int __init hyperv_init(void)
->>
->>  	ret = hv_common_init();
->>  	if (ret)
->> -		return ret;
->> +		goto free_hostcall_mem;
->>
->>  	ret = cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE,
->> "arm64/hyperv_init:online",
->>  				hv_common_cpu_init, hv_common_cpu_die);
->>  	if (ret < 0) {
->>  		hv_common_free();
->> -		return ret;
->> +		goto free_hostcall_mem;
->>  	}
->>
->>  	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
->> @@ -150,6 +168,11 @@ static int __init hyperv_init(void)
->>
->>  	hyperv_initialized = true;
->>  	return 0;
->> +
->> +free_hostcall_mem:
->> +	kfree(hv_hostcall_array);
->> +	hv_hostcall_array = NULL;
->> +	return ret;
->>  }
->>
->>  early_initcall(hyperv_init);
->> diff --git a/arch/arm64/include/asm/mshyperv.h
->> b/arch/arm64/include/asm/mshyperv.h
->> index b721d31..aed0aa5 100644
->> --- a/arch/arm64/include/asm/mshyperv.h
->> +++ b/arch/arm64/include/asm/mshyperv.h
->> @@ -61,6 +61,10 @@ static inline u64 hv_get_non_nested_msr(unsigned int reg)
->>  				ARM_SMCCC_OWNER_VENDOR_HYP,	\
->>  				HV_SMCCC_FUNC_NUMBER)
->>
->> +/* Per-CPU-indexed RSI host call structures for CCA Realms */
->> +struct rsi_host_call;
->> +extern struct rsi_host_call *hv_hostcall_array;
->> +
->>  #include <asm-generic/mshyperv.h>
->>
->>  #endif
->> --
->> 2.45.4
->>
