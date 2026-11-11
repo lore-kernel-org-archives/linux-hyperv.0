@@ -1,183 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794411441;
-	b=dq5l5atpWgANVaVOARZdlmu3U4RiuAFKAG5XoEUyOKl5MaaR5pKQeHPoEaJPy246zVOx
-	 2Ozqya76CgiC2akfZF2zlc6uHhzHRqr86d80D8dFM6LE84jTKVbc9EdR05obFka/hCM3W
-	 nnj0EMEFQlE9SDcxUKeWiPvjL8/VKTszxIy+boeqmzSgjYhlkP55nOAZoLqPYp7oQYhSj
-	 3PHL1xR/v5P0/tu6Iu3GyrDxihpcbX1yEfmZn46mRg6s8anUkJirmD7shgKJqpYbqAn9+
-	 0skwPPX/o3f1ClfBE55zpcOe90Nh0AsSQ5r3jbprT74vWWw52OOCbP5d/SSNlOsUPHw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794411441;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=FpzDRhDWdTKAeB+tOYxD+5HRX0oo7aJP8K1eewJyEE0=;
-	b=ivrZSLTZcYfVEowOF7jv/oygb8A+FGSCxA2qPDCQIZlSrK3PFwi303uup7GJTXpiEkAA
-	 bbeYkTH/T2JF964JfTnU+jn6IYlmB6bNStbqjyUjxL6ynNwaRJ1PgqvXBokAIAGRsh24G
-	 4lv9mkeM4d8z2iAx9qSUkC/OCGkXNGHpooPGJsm47LefTyaJJjtGA9Zauj9iFHot7hDv0
-	 a5IafQV22p7r1ge2JYMpKsQJnTZf0rfGHP6TehDKZXyuz5GZFohA36Bl2g2OlffPcNvbc
-	 piYUcBMqQJzo0pp1R1CKDceER05PTkYB+apUNxx75l0iNtSSGlOFb6T9FGMutSXszuw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EWWHf9sh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDB0606A335;
-	Wed, 11 Nov 2026 15:37:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DDB0606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794412210;
+	b=g02RQySJOQOe/JZ8Vxr9V+C/nocVvUHvnpAZK0+JxePZXeBsdrIieesB+qXxqK/AzUta
+	 hRKon20wU4ThB4cRLypMb48oO6m8pZ9HYuQXx5ggs7F6UgCtTPNi7xMDMHP67KOO4ajgy
+	 1A9LXwA5qSfTTccTgIksOFd7Rfx6u1T4gOrwRmDUcvGxySK5Vv4j4B4t/Qg3H3K3ZgBHt
+	 17SEnF9Dk2ZQiy/BLHj5YgUf08COAtv0I7PkD4alFdedua6Ehzoioo6aucLRQANBwEx7c
+	 KDofwz98NpgQX17uYmKnkN/xOS71F3rEkIv8QSXF4PEHfh9J3ZEo5pyiUIr1JHl2wlg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794412210;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=BCZygwn1PPbhkXIP1l+DPPSlAg0jRf8SrJfgrIBYsww=;
+	b=MHGSYfuYEnRHy5WT/AM9f4vpcPSVQe4TIIa12YLNkV9thlnlywWY8i6/ir5DC0pUg1IN
+	 8Y9HP9JoThm1yrFXd4Hq0MQL2TBuHPgF19ipcqIaBzjkzyv2FJAujEsZOMhFy+ZagIDZB
+	 7StpPQJXJ4jNV2SnRxJ9gZKtck1OEqbYNc17ytfEooGUq4xnXcuUkAxR7ouG3s+6JHhAN
+	 g+ure90c8idd9wsJ8hXTfWt+bMGIQV88LTyiVJuJBqgSh8eOMIekhD96iw47O0zMUMzqB
+	 7AbvOGBVVe48WtL/SRsDLWTU0H7T7JbIGzK2YOT7iZ2FHUKuDFt3r7etWNMjPYwkl3A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=nTAjNr3T;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 702FE606A8A1
+	for <linux-hyperv@vger.kernel.org>; Wed, 11 Nov 2026 15:50:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 702FE606A8A1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EWWHf9sh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794411439; x=1825947439;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=TKNh57U5yGZJsZZQJ2AIYukssVnRgY0e3EDOGi1Jdzg=;
-  b=EWWHf9shWV6UTW1KPdR+NurS9P+EL1m4LhgHCTshwwSTHwLzQu+HV1nR
-   kGAm9ybJ6FNguMguCu/oG2OQFmYlcpjmDKCeb/tNUYhKjKunp6cW7ng9l
-   1+UPYKQ/dRmOWi9VvVM6Yk+awtt/pO/5alarQxs6SOPgZcFqKsf+dzh7M
-   eyOYaBsLse0lrcQoR0V6yKt9UkEBFs8O7B9Ngyp+KxL68vh7SLAYedx7/
-   136CgTCVJNLA31icJES9o4y9W4F1mywrZBvAOAP2TyP+T1nHWhPtAnpZv
-   tsXsuRAfpZ3g8t5un9X1zW6aqY6qaDTAXyR/jcpPuwb1tEnwlpb/Z7+1m
-   w==;
-X-CSE-ConnectionGUID: Nu7wblShSpKehtriVFlpeA==
-X-CSE-MsgGUID: HN/ThTvASSKhodkDFDr9mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3189539"
-X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3189539"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 07:37:18 -0800
-X-CSE-ConnectionGUID: wVGpTUKfRmyn23wgblR8mw==
-X-CSE-MsgGUID: iCWsoianRnipK0gohuAo8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="10164013"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa012.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 07:37:19 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 11 Nov 2026 07:37:18 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Wed, 11 Nov 2026 07:37:18 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.57) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 11 Nov 2026 07:37:17 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rnLOFEFWVaZGV3ecjPGnrlNaI35Fhsf4FINR1bjFUBb9kgTVxxpe3+aF8eT2x/tPJ3xPfsFbKU6oVg+Ako4ZOCDtfF4n5+S6/S62KYDGG9iD/BvpN4QK5bIw9KTt6H3k61wLnqnuvAEYraUkhP7qoclZSLr36BeHcpR9alX/8RSpYrBugjUdIdOB0vW0EDUvZAClSll3FXfcHKDtUWRK+7tBqGhJYzAMP5BHqM1dmVDCa/Kcvb/M4Gk4E2FnNz2O7GRfnX0GEJOkmOBLGGw0Q0kiXHXU/apL86tR7TYRbnvOA5GmTepkgeutOAVRWF7VJa+yqhY6C6XLM5/MmS9h6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FpzDRhDWdTKAeB+tOYxD+5HRX0oo7aJP8K1eewJyEE0=;
- b=Ivt52bI2M2yXNza+hw+aJsvOTPMZ7kAReIAFJOyOJhu85s0aVJ9sl29wg5/A6+zl67VDfldeQDSogzlaJqP3nweghhsTXLnLQPeJfa7TS95bDezIMD+7VGpIfBDoTNf+DbJTs1NMZPOMUnvLgDz+io0HUOyV/ShwW2HkkrQ2s5JTg4b4Y/hUMgWOBRZzhZ/HXkCWsx1fE6OW6K0YTjSREl/nu6fTEWZnfF/DK51tbBHh94W2yGOaTWXOc2xXQSBTdhmJPGo6Tkfh8W6fQN6x58cZWb6kkCy/IU2Z70dUgeE6316I1yNY0+nGipm0aJnr2s2+VQ9ZdWP/HECtC3lXUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from LV2PR11MB6070.namprd11.prod.outlook.com (2603:10b6:408:179::22)
- by SN7PR11MB6900.namprd11.prod.outlook.com (2603:10b6:806:2a8::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
- 2026 15:37:13 +0000
-Received: from LV2PR11MB6070.namprd11.prod.outlook.com
- ([fe80::4c84:af62:dc60:fd9]) by LV2PR11MB6070.namprd11.prod.outlook.com
- ([fe80::4c84:af62:dc60:fd9%5]) with mapi id 15.21.0615.008; Wed, 11 Nov 2026
- 15:37:13 +0000
-From: "Popov, Pavel E" <pavel.e.popov@intel.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
-	<logang@deltatee.com>, Leon Romanovsky <leon@kernel.org>
-CC: Lukas Wunner <lukas@wunner.de>, Jim Chow <jim.chow@broadcom.com>, "Radu
- Rugina" <radu.rugina@broadcom.com>, Alexey Makhalov
-	<alexey.makhalov@broadcom.com>, Wei Liu <wei.liu@kernel.org>, Michael Kelley
-	<mhklinux@outlook.com>, Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
-	"bcm-kernel-feedback-list@broadcom.com"
-	<bcm-kernel-feedback-list@broadcom.com>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-Thread-Topic: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server
- CPUs
-Thread-Index: AQHdYLm3Eu3+F6ITg0+VFiHnE2F7qrcoXBEQgABK14CAAG7WMA==
-Date: Wed, 11 Nov 2026 15:37:13 +0000
-Message-ID: <LV2PR11MB6070A8BA690DEA91D6675682B2712@LV2PR11MB6070.namprd11.prod.outlook.com>
-References: <20261020173736.81755-1-pavel.e.popov@intel.com>
- <LV2PR11MB6070064A9E674EBDFB1A3B20B2712@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261111081057.GP8635@unreal>
-In-Reply-To: <20261111081057.GP8635@unreal>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV2PR11MB6070:EE_|SN7PR11MB6900:EE_
-x-ms-office365-filtering-correlation-id: 6d9a5208-0906-4337-f084-08df4009a85a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|7416014|22082099003|18002099003|6133799003|261009221227099003|261009221727099003|261009220027099003|11063799006|56012099006|261009223327099003|261102123227099003|261009223027099003|261026121527099003|261021121427099003|261021123027099003|261022075727099003|261022105027099003|10067099003|261028144727099003|38070700021|4143699003|261026140227099003;
-x-microsoft-antispam-message-info: fUq5FrXqQzTzrXXxcjb/QM8g/UdIq5/HEahv78LJgjAHFMy/dfJ9n7xsALLRIbGTpvs7y7WrjApyryxoczdAwE+mqSuHsjHsuwY0eciPoYuJemZcPua6dYJAvXh8w7bfdwP2OqW6oVViIMbg1ibGD7ny4pXiMo/9H9h740/GGSKtjI6bfbbk3z24+GYDScOIJY8z79ChNqGqGlw0/9NjlIBuSi9djn2QOh79JaHD02SnNakvfUaWAMZDHZ+5+5gF4pd+GSmgq9is+Q4Jf/H3M6Y+JaKAgBv94D2SmvigQYMg4kAKuo3ca/ONqHZk8RXAlBJi+7ro0aj8a7Y8yDpYOQdsxhNjL452GjAcL4PaNyc9f4Lu4u+EmJ/7hfNAToeD11OkcIA7VISLVVolyBLj4uRRSO/qIdtrbV/mTxQsYoiE/ymBCxW57q0XloKqzGPoIwesfiR/Pqw8N21VBD40sH5mWmLnP/aH2mAbPomkgegz77D9YL6HeCEeiADdoPZQaHz2OZi9HWi5YTN8HcUC+c053LPtNCselaR2VD3S+od/incr9T9qN7UpeE1sE06DNWnbxiGNaJB5FQJNipA8D0qj5xjMd/S+Autq2/20ylwc/CaUd/vdfVKQwNzAQmc2IbIWFCB7V6WVUKUZbkUSm1nxw0ugqD8S7uq1FU4/75M=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB6070.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(7416014)(22082099003)(18002099003)(6133799003)(261009221227099003)(261009221727099003)(261009220027099003)(11063799006)(56012099006)(261009223327099003)(261102123227099003)(261009223027099003)(261026121527099003)(261021121427099003)(261021123027099003)(261022075727099003)(261022105027099003)(10067099003)(261028144727099003)(38070700021)(4143699003)(261026140227099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?J11chx1tMkt+IHMFyhdYR25Df0yQbDwPqSXb41+SU5YS1otzt/WL8b2lnyB2?=
- =?us-ascii?Q?auE0k4b/RjPWm/KWfjMS5IwZuwGnpN5UpmOdt6c2PBx47m9RK6OuLeukpa8W?=
- =?us-ascii?Q?5nXFFoIqM6EiupE4a7Dfg+hv2I3z//bvIIen3d8Kof8r6bLIyug0azmkWgYP?=
- =?us-ascii?Q?BHcccwXmTtn3YS1EtUGtEOaG/MQeJ21HrrhPquO4f+kdjm99mAVXua51Ze5a?=
- =?us-ascii?Q?QI7TakanquNSKjiPOcS0vLgti0adqWqZndYK6qzem+8eBGHU1GCP0oW70erH?=
- =?us-ascii?Q?OQ2zNc2JWXloZ2s9Fi4Tg9IvrpjcXjRFPPuHGEWoeZnwEnjvfD/lj2LjuBJC?=
- =?us-ascii?Q?StzqYfmCO8MkYUzsuFPB/x2xlLbJaiA5lkIWcq6ReXivpoKtHrzpz7q8yr2J?=
- =?us-ascii?Q?UACsVnWJe1uGeHmzaHxVK0adb4w267SuLgaWtr0QpV+Fy0Ng8OZPH1pCoeNy?=
- =?us-ascii?Q?Gf1cOJxCgmBrP0BqMsNEVMoNttGgK/IXqg2wkcJWYOUPu89QNK2UezocZCYc?=
- =?us-ascii?Q?Mj7uZFBsI8O3uMqg5A5ecpPqtkAcq0rc/5FMvoGvfxkSTrrbjQnWnj/ddMxK?=
- =?us-ascii?Q?vBc7k2P5jDCRKP6nHJSs0sjLdSFaWOewxXPEEO5cWzeHkMa57Vyz7Ck5Q8qb?=
- =?us-ascii?Q?mDcm9i8LzqHjiKIM35GN84b1D/+kuhHiVHeBuA34TmNzrI6MZInrKi8r3x/V?=
- =?us-ascii?Q?Ub1pWc6Tp3o3D+/UqXhMDFZt88Tc+JoisPGR5fIORbvLqu0qKpzTYvYmM5gT?=
- =?us-ascii?Q?OvfJufZxWGq5VmgMIfSFdi5GRudk30GmjvMcp7WgB3OyD3Xzx0sg4FfR5pkA?=
- =?us-ascii?Q?yUAkhhQPge4DMhw8+D4rSpbOjfnpq3m25LeoIKZiq6zFZs9HyuvLi81QkjSH?=
- =?us-ascii?Q?m8YmwxiLnSTbh8XYKDAYdHXd0vdKBR4BQ5AYKDly0o96z3zu06bLoKBdgzMw?=
- =?us-ascii?Q?Q+dou7a9Cj9QB4rG36MWStKXzUaAdYsA1M5qVm345rrpPAAZl2ZzqutudExb?=
- =?us-ascii?Q?Rp1e5oKC2LguxaMm4o33bnLHbsEXW2wforjMtBKiA6QsDkxafHrVx4Zynedn?=
- =?us-ascii?Q?G78FDNwjber3xPmQ7E90ll6pEsg/fucW81dRN4+H+k1m0oRwSdjBkFxSzX2f?=
- =?us-ascii?Q?M459JxIUtpvZlM9+LTs32tXcqIXwLuGARzCoEOKWtreqTxW7/JXBDZmAObRU?=
- =?us-ascii?Q?i0EdQk7GNUyf/gPzrNVAazpmNt4Yq9fz3JVzc/qZ6Iq2xsvf0IeITkC2A0k2?=
- =?us-ascii?Q?CWk78xoRUqL1U1Ln3pnUMYI4z1/l5ID0or0+CPT2Nq/Hjyw27oZYY48J5UmP?=
- =?us-ascii?Q?dNqIGQVpsURwNimwH++lOQm3Sz1XpdO/9QU0DksoIb09E7D/wCp2uVEo34Ap?=
- =?us-ascii?Q?GquDOjd/2U/Bhg5+apGkUQ2LJs+UnLP0A+sehOI/j52gZWNXbFjr459m4AsL?=
- =?us-ascii?Q?tQ2+GZkm5qwA1osn8h68Ej2VfpffKILDlZFhmxeO0J2W6pPxlhHFMGMElJbh?=
- =?us-ascii?Q?HLyqZMZrZ28qA9xjkPEfvbjwQ1ym95/e05E2Qu7e/+FY2DexLO9FIJgJzLCv?=
- =?us-ascii?Q?aPM39XOGB4HJXV9wgCMbhiB09YLK5t5yk+zTNeNns9LAXInuul7Ju+dAVPDG?=
- =?us-ascii?Q?0L9lvP8oD+C38242fOvl17KUiGXOfmtFHHB/P7kvQmv6Yhs4vAP5rQlYTwAG?=
- =?us-ascii?Q?kp21Rn02dLMROXY5ZzhzbEqlyhln92l1bA1WjccNxeRoupBuWSVDI7wwwvOp?=
- =?us-ascii?Q?Yh1kYWumKg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=nTAjNr3T
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 7768B20B7166; Wed, 11 Nov 2026 07:50:00 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7768B20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794412200;
+	bh=BCZygwn1PPbhkXIP1l+DPPSlAg0jRf8SrJfgrIBYsww=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nTAjNr3TVdqvCBvFXvw21QoCcSJKnJiOU1T7WJhpo0KZGnxJbfB6JlsmAzzBQtZ/q
+	 DSt0yid5CwqquQ5xMVTGntVeMZYViDPmdDNKqiyhd2PaJN9DVjFpIQcBwNkz2bbNiK
+	 1KDzIZ9gNc6DZN/RUSz3DlOYpzT31dP/Cv1WTq1M=
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Dexuan Cui <decui@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-hyperv@vger.kernel.org,
+	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Subject: [PATCH v2] drm/hyperv: add cursor plane support
+Date: Wed, 11 Nov 2026 10:49:50 -0500
+Message-ID: <20261111154950.1304813-1-hamzamahfooz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -187,152 +63,664 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: f7qyUs0dQpxPGmh5m9s1VxrVLpqrZla34j6pu+XkMZCBT2RxaBKI+BjTAWKpGicfwkkE4wDPBtFLa3ZZQKVaCioK1icsS1Ehk0iryoOoNIDv3XBsT+LVe3PMvpacqAZHOnLlNqkhRcLXziTDtK+TiED2poxAxWt0FxbAUt3KRxu4r66Dwd7UYUmZWj0CawbIuRyFO/VQS/o/RFH6k3hlDK4/u2xMoWaKIn8qNkcn5ywhQQbJEcB5OfDZsFs+BtUdP8N5EMFSXWYnx2/bfjXpwiNjl1pT4aDhA2DSV7KpbiijomabGJAhLXiblGZ35lPdDztnjRktqsSe5XdLi1z8kQ==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB6070.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d9a5208-0906-4337-f084-08df4009a85a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2026 15:37:13.3077
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AF6hVwqjLGMaQaNrs3t1INouw2OYftqSx0U6JIA2WhTtk5s9pVLL/WrdaMuY0p9U0WnpT0zeeggUWAdKXOe4tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6900
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 11, 2026 at 10:10:57AM +0200, Leon Romanovsky wrote:
-> Peer-to-peer is a general concept, and the code should reflect that. It i=
-s
-> reasonable to expect you to join the effort and help clean it up.
+The Hyper-V synthetic video device lets the guest set the image and the
+position of the mouse pointer, which RDP clients like the VM Connection
+window then draw on their own, wherever their local mouse is. The driver
+only used this to hide the pointer so far, leaving the cursor to be
+drawn into the framebuffer, where it lags behind the mouse.
 
-I'm in. My proposal is to do it after this series, since this one
-unblocks P2PDMA in guests and the cleanup is out of PCI scope: even
-the minimal fix for p2pdma.c alone means changes under arch/x86, so it
-would no longer be a P2PDMA patch but an x86 header series with its
-own maintainers and review. That x86 header series is also the right
-place to drop the same guard from six other files, and I'm ready to
-do it:
+Add a cursor plane that hands its image to the host instead. As the
+clients draw the pointer at their mouse position, the hotspot needs to
+be known, so set DRIVER_CURSOR_HOTSPOT.
 
-  drivers/acpi/mipi-disco-img.c
-  drivers/cpufreq/cpufreq_ondemand.h
-  drivers/gpu/drm/i915/intel_cpu_info.c
-  drivers/char/tpm/tpm.h
-  drivers/crypto/ccp/ccp-dev.c
-  include/linux/platform_data/x86/soc.h
+The host takes ARGB8888 images of up to 96x96 pixels, stored bottom-up
+and sent in parts of at most 8 KiB. Fully transparent columns and rows
+at the right and bottom, like the padding of a cursor buffer of the
+maximum size, are left out to keep the messages small. RDP clients use
+straight alpha for pointer images, so only advertise the "Coverage"
+pixel blend mode.
 
-Bjorn, is v4 OK for v7.5 as is? The x86 header series will follow on
-top.
+The host shows a small dot for a pointer marked invisible, so a hidden
+cursor is sent as a single, almost transparent pixel instead, like
+hv_drm_hide_hw_ptr() did, which this replaces. An image without any
+visible pixel is sent likewise, as clients may draw it as an opaque box
+otherwise.
 
-Thanks,
-Pavel
+Clients connecting to the VM show a default pointer until they are sent
+one, so keep a copy of the cursor and send it again when the host
+reports a feature change as a client connects, and when the CRTC gets
+enabled.
 
-> -----Original Message-----
-> From: Leon Romanovsky <leon@kernel.org>
-> Sent: Wednesday, November 11, 2026 1:11 AM
-> To: Popov, Pavel E <pavel.e.popov@intel.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
-> <logang@deltatee.com>; Lukas Wunner <lukas@wunner.de>; Jim Chow
-> <jim.chow@broadcom.com>; Radu Rugina <radu.rugina@broadcom.com>;
-> Alexey Makhalov <alexey.makhalov@broadcom.com>; Wei Liu
-> <wei.liu@kernel.org>; Michael Kelley <mhklinux@outlook.com>; Nathan
-> Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
-> list@broadcom.com; virtualization@lists.linux.dev; linux-
-> hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Subject: Re: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon
-> server CPUs
->=20
-> On Wed, Nov 11, 2026 at 03:48:07AM +0000, Popov, Pavel E wrote:
-> > Hi Bjorn,
-> >
-> > Gentle ping on this series. Is this OK for v7.5?
->=20
-> I would say no. An Intel employee was asked to clean up an Intel-created =
-mess
-> while upstreaming an Intel-specific patch.
->=20
-> Peer-to-peer is a general concept, and the code should reflect that. It i=
-s
-> reasonable to expect you to join the effort and help clean it up.
->=20
-> Thanks
->=20
-> >
-> > Thanks,
-> > Pavel
-> >
-> > > -----Original Message-----
-> > > From: Popov, Pavel E <pavel.e.popov@intel.com>
-> > > Sent: Tuesday, October 20, 2026 10:38 AM
-> > > To: Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
-> > > <logang@deltatee.com>
-> > > Cc: Popov, Pavel E <pavel.e.popov@intel.com>; Leon Romanovsky
-> > > <leon@kernel.org>; Lukas Wunner <lukas@wunner.de>; Jim Chow
-> > > <jim.chow@broadcom.com>; Radu Rugina
-> <radu.rugina@broadcom.com>;
-> > > Alexey Makhalov <alexey.makhalov@broadcom.com>; Wei Liu
-> > > <wei.liu@kernel.org>; Michael Kelley <mhklinux@outlook.com>; Nathan
-> > > Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
-> > > list@broadcom.com; virtualization@lists.linux.dev; linux-
-> > > hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
-> > > kernel@vger.kernel.org
-> > > Subject: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon
-> > > server CPUs
-> > >
-> > > VMware and Hyper-V expose passthrough devices to guest VMs without
-> > > an explicit host bridge device. Consequently,
-> > > host_bridge_whitelist() cannot automatically identify the underlying
-> > > host bridge structure, causing Peer-to- Peer DMA (P2PDMA) requests
-> > > to be rejected unless the device IDs are explicitly listed in
-> > > pci_p2pdma_whitelist[]. To enable P2PDMA on Intel hosts, this series
-> > > extends cpu_supports_p2pdma(), which so far covers AMD Zen and
-> newer, with an explicit list of Intel Xeon server generations.
-> > >
-> > > Patch 1 moves the CONFIG_X86 #ifdef out of cpu_supports_p2pdma().
-> > > Patch 2 is the v3 patch rebased on it, with Logan's Reviewed-by
-> > > carried over; the Xeon list and the check are unchanged.
-> > >
-> > > Changes in v4:
-> > > - Add 1/2, moving the CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
-> > >   (Logan Gunthorpe, Leon Romanovsky)
-> > > - Keep the #ifdef around the asm/ includes, as these headers exist
-> > >   only on x86 (Bjorn Helgaas)
-> > >
-> > > Changes in v3:
-> > > - Drop the hypervisor check and move the Xeon list into
-> > >   cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
-> > >   Gunthorpe and Leon Romanovsky [1]
-> > > - Fold the VMware and Hyper-V patches into one, as the check no longe=
-r
-> > >   depends on the hypervisor
-> > >
-> > > Changes in v2:
-> > > - Replace the Skylake-and-newer threshold with an explicit list of In=
-tel
-> > >   Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
-> > >   Gunthorpe)
-> > > - Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
-> > >   (Logan Gunthorpe)
-> > > - Rebased on current mainline
-> > >
-> > > [1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
-> > >
-> > > v3: https://lore.kernel.org/r/20261020151305.65218-1-
-> > > pavel.e.popov@intel.com
-> > > v2: https://lore.kernel.org/r/20261016223402.19991-1-
-> > > pavel.e.popov@intel.com
-> > > v1: https://lore.kernel.org/r/20261009154034.82321-1-
-> > > pavel.e.popov@intel.com
-> > >
-> > > Pavel Popov (2):
-> > >   PCI/P2PDMA: Move CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
-> > >   PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-> > >
-> > >  drivers/pci/p2pdma.c | 33 +++++++++++++++++++++++++++++++--
-> > >  1 file changed, 31 insertions(+), 2 deletions(-)
-> > >
-> > >
-> > > base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-> > > --
-> > > 2.53.0
-> >
+NOTE: The predominant client (i.e. VMConnect) draws translucent pixels
+as opaque ones blended onto black, this is a limitation of the client.
+
+Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+---
+v2:
+- Test for !plane_state->visible in the cursor's atomic_check().
+  (Thomas)
+- Use drm_dbg() instead of drm_dbg_atomic(). (Thomas)
+- Add a note as to why the hidden cursor pixel's alpha is 1 rather than
+  0. (Thomas)
+- Add a comment to explain why the cursor is sent again from a work
+  item.
+---
+ drivers/gpu/drm/hyperv/hyperv_drm.h         |  37 +++-
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c     |  13 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 170 ++++++++++++++-
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 217 ++++++++++++++++----
+ 4 files changed, 388 insertions(+), 49 deletions(-)
+
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
+index f4262a37a..df03185a2 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm.h
++++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
+@@ -13,10 +13,38 @@
+ 
+ #define VMBUS_MAX_PACKET_SIZE 0x4000
+ 
++#define SYNTHVID_CURSOR_MAX_X 96
++#define SYNTHVID_CURSOR_MAX_Y 96
++#define SYNTHVID_CURSOR_ARGB_PIXEL_SIZE 4
++#define SYNTHVID_CURSOR_MAX_SIZE (SYNTHVID_CURSOR_MAX_X * \
++	SYNTHVID_CURSOR_MAX_Y * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE)
++
++/*
++ * Copy of the cursor last handed to the host, so that it can be sent again
++ * when needed, e.g. after a VM Connection window was opened.
++ */
++struct hv_drm_cursor {
++	/* Serializes pointer messages and protects the fields below */
++	struct mutex lock;
++	/* The host may not have the cached shape, e.g. after a failed send */
++	bool shape_stale;
++	u32 width;
++	u32 height;
++	u32 hot_x;
++	u32 hot_y;
++	s32 x;
++	s32 y;
++	/* ARGB8888, rows of width pixels, stored bottom-up as the host wants */
++	u8 image[SYNTHVID_CURSOR_MAX_SIZE];
++	/* Scratch space for building pointer shape messages */
++	u8 msg_buf[VMBUS_MAX_PACKET_SIZE];
++};
++
+ struct hv_drm_device {
+ 	/* drm */
+ 	struct drm_device dev;
+ 	struct drm_plane plane;
++	struct drm_plane cursor_plane;
+ 	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
+ 	struct drm_connector connector;
+@@ -40,6 +68,9 @@ struct hv_drm_device {
+ 	u8 init_buf[VMBUS_MAX_PACKET_SIZE];
+ 	u8 recv_buf[VMBUS_MAX_PACKET_SIZE];
+ 
++	struct hv_drm_cursor *cursor;
++	struct work_struct cursor_work;
++
+ 	struct hv_device *hdev;
+ };
+ 
+@@ -52,8 +83,12 @@ int hv_drm_mode_config_init(struct hv_drm_device *hv);
+ int hv_drm_update_vram_location(struct hv_device *hdev, phys_addr_t vram_pp);
+ int hv_drm_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
+ 			    u32 w, u32 h, u32 pitch);
+-int hv_drm_hide_hw_ptr(struct hv_device *hdev);
++int hv_drm_cursor_init(struct hv_drm_device *hv);
++void hv_drm_cursor_set_hidden(struct hv_drm_cursor *cursor);
++void hv_drm_update_cursor(struct hv_drm_device *hv, bool shape);
++void hv_drm_restore_cursor(struct hv_drm_device *hv);
+ int hv_drm_update_dirt(struct hv_device *hdev, struct drm_rect *rect);
+ int hv_drm_connect_vsp(struct hv_device *hdev);
++void hv_drm_disconnect_vsp(struct hv_device *hdev);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index 031206a5b..21e5fcc3e 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -26,7 +26,8 @@
+ DEFINE_DRM_GEM_FOPS(hv_drm_fops);
+ 
+ static struct drm_driver hv_drm_driver = {
+-	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
++	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC |
++			   DRIVER_CURSOR_HOTSPOT,
+ 
+ 	.name		 = DRIVER_NAME,
+ 	.desc		 = DRIVER_DESC,
+@@ -119,6 +120,10 @@ static int hv_drm_vmbus_probe(struct hv_device *hdev,
+ 	hv_set_drvdata(hdev, hv);
+ 	hv->hdev = hdev;
+ 
++	ret = hv_drm_cursor_init(hv);
++	if (ret)
++		goto err_hv_set_drv_data;
++
+ 	ret = hv_drm_connect_vsp(hdev);
+ 	if (ret) {
+ 		drm_err(dev, "Failed to connect to vmbus.\n");
+@@ -162,7 +167,7 @@ static int hv_drm_vmbus_probe(struct hv_device *hdev,
+ 	iounmap(hv->vram);
+ 	vmbus_free_mmio(hv->mem->start, hv->fb_size);
+ err_vmbus_close:
+-	vmbus_close(hdev->channel);
++	hv_drm_disconnect_vsp(hdev);
+ err_hv_set_drv_data:
+ 	hv_set_drvdata(hdev, NULL);
+ 	return ret;
+@@ -176,7 +181,7 @@ static void hv_drm_vmbus_remove(struct hv_device *hdev)
+ 	vmbus_set_skip_unload(false);
+ 	drm_dev_unplug(dev);
+ 	drm_atomic_helper_shutdown(dev);
+-	vmbus_close(hdev->channel);
++	hv_drm_disconnect_vsp(hdev);
+ 	hv_set_drvdata(hdev, NULL);
+ 
+ 	iounmap(hv->vram);
+@@ -197,7 +202,7 @@ static int hv_drm_vmbus_suspend(struct hv_device *hdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	vmbus_close(hdev->channel);
++	hv_drm_disconnect_vsp(hdev);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index da399cb95..759952f4f 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -6,6 +6,7 @@
+ #include <linux/hyperv.h>
+ 
+ #include <drm/drm_atomic.h>
++#include <drm/drm_blend.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+ #include <drm/drm_drv.h>
+@@ -110,7 +111,7 @@ static void hv_drm_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 	struct drm_plane_state *plane_state = plane->state;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 
+-	hv_drm_hide_hw_ptr(hv->hdev);
++	hv_drm_restore_cursor(hv);
+ 	hv_drm_update_situation(hv->hdev, 1,  hv->screen_depth,
+ 				crtc_state->mode.hdisplay,
+ 				crtc_state->mode.vdisplay,
+@@ -241,6 +242,152 @@ static const struct drm_plane_funcs hv_drm_plane_funcs = {
+ 	DRM_PANIC_PLANE_FUNCS,
+ };
+ 
++static const u32 hv_drm_cursor_formats[] = {
++	DRM_FORMAT_ARGB8888,
++};
++
++static int hv_drm_cursor_atomic_check(struct drm_plane *plane,
++				      struct drm_atomic_commit *state)
++{
++	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc = plane_state->crtc;
++	struct drm_crtc_state *crtc_state = NULL;
++	int ret;
++
++	if (crtc)
++		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
++						  DRM_PLANE_NO_SCALING,
++						  DRM_PLANE_NO_SCALING,
++						  true, true);
++	if (ret)
++		return ret;
++
++	if (!plane_state->visible)
++		return 0;
++
++	if (plane_state->crtc_w > SYNTHVID_CURSOR_MAX_X ||
++	    plane_state->crtc_h > SYNTHVID_CURSOR_MAX_Y) {
++		drm_dbg(plane->dev, "Invalid cursor size %ux%u\n",
++			plane_state->crtc_w, plane_state->crtc_h);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/*
++ * Copy the cursor image to the cache, bottom-up as the host wants it. Fully
++ * transparent columns and rows at the right and bottom, like the padding of
++ * a cursor buffer of the maximum size, are left out.
++ */
++static void hv_drm_cursor_load(struct hv_drm_cursor *cursor,
++			       const struct drm_plane_state *state,
++			       const struct iosys_map *map)
++{
++	size_t pitch = state->fb->pitches[0];
++	size_t offset = (state->src_y >> 16) * pitch + (state->src_x >> 16) *
++		SYNTHVID_CURSOR_ARGB_PIXEL_SIZE;
++	u32 hot_x = clamp_t(s32, state->hotspot_x, 0, state->crtc_w - 1);
++	u32 hot_y = clamp_t(s32, state->hotspot_y, 0, state->crtc_h - 1);
++	u32 width = 0, height = 0;
++	u32 x, y;
++
++	for (y = 0; y < state->crtc_h; y++) {
++		for (x = state->crtc_w; x; x--) {
++			if (iosys_map_rd(map,
++					 (offset + y * pitch + x *
++					  SYNTHVID_CURSOR_ARGB_PIXEL_SIZE - 1),
++					 u8))
++				break;
++		}
++
++		if (x) {
++			width = max(width, x);
++			height = y + 1;
++		}
++	}
++
++	if (!width) {
++		hv_drm_cursor_set_hidden(cursor);
++		return;
++	}
++
++	/* Keep the hotspot within the image */
++	width = max(width, hot_x + 1);
++	height = max(height, hot_y + 1);
++
++	for (y = 0; y < height; y++)
++		iosys_map_memcpy_from((cursor->image + (height - 1 - y) *
++				       width * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE),
++				      map, offset + y * pitch,
++				      width * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE);
++
++	cursor->width = width;
++	cursor->height = height;
++	cursor->hot_x = hot_x;
++	cursor->hot_y = hot_y;
++}
++
++static void hv_drm_cursor_hide(struct hv_drm_device *hv)
++{
++	struct hv_drm_cursor *cursor = hv->cursor;
++
++	scoped_guard(mutex, &cursor->lock) {
++		hv_drm_cursor_set_hidden(cursor);
++		hv_drm_update_cursor(hv, true);
++	}
++}
++
++static void hv_drm_cursor_atomic_update(struct drm_plane *plane,
++					struct drm_atomic_commit *state)
++{
++	struct hv_drm_device *hv = to_hv_drm(plane->dev);
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
++	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(new_state);
++	struct hv_drm_cursor *cursor = hv->cursor;
++	bool shape;
++
++	if (!new_state->visible) {
++		if (old_state->visible)
++			hv_drm_cursor_hide(hv);
++		return;
++	}
++
++	shape = !old_state->visible || old_state->fb != new_state->fb ||
++		old_state->src_x != new_state->src_x ||
++		old_state->src_y != new_state->src_y ||
++		old_state->src_w != new_state->src_w ||
++		old_state->src_h != new_state->src_h ||
++		old_state->hotspot_x != new_state->hotspot_x ||
++		old_state->hotspot_y != new_state->hotspot_y;
++
++	scoped_guard(mutex, &cursor->lock) {
++		if (shape)
++			hv_drm_cursor_load(cursor, new_state,
++					   &shadow_plane_state->data[0]);
++
++		cursor->x = new_state->crtc_x;
++		cursor->y = new_state->crtc_y;
++		hv_drm_update_cursor(hv, shape);
++	}
++}
++
++static void hv_drm_cursor_atomic_disable(struct drm_plane *plane,
++					 struct drm_atomic_commit *state)
++{
++	hv_drm_cursor_hide(to_hv_drm(plane->dev));
++}
++
++static const struct drm_plane_helper_funcs hv_drm_cursor_helper_funcs = {
++	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
++	.atomic_check = hv_drm_cursor_atomic_check,
++	.atomic_update = hv_drm_cursor_atomic_update,
++	.atomic_disable = hv_drm_cursor_atomic_disable,
++};
++
+ static const struct drm_encoder_funcs hv_drm_simple_encoder_funcs_cleanup = {
+ 	.destroy = drm_encoder_cleanup,
+ };
+@@ -250,6 +397,7 @@ static inline int hv_drm_pipe_init(struct hv_drm_device *hv)
+ 	struct drm_device *dev = &hv->dev;
+ 	struct drm_encoder *encoder = &hv->encoder;
+ 	struct drm_plane *plane = &hv->plane;
++	struct drm_plane *cursor = &hv->cursor_plane;
+ 	struct drm_crtc *crtc = &hv->crtc;
+ 	struct drm_connector *connector = &hv->connector;
+ 	int ret;
+@@ -264,7 +412,23 @@ static inline int hv_drm_pipe_init(struct hv_drm_device *hv)
+ 	drm_plane_helper_add(plane, &hv_drm_plane_helper_funcs);
+ 	drm_plane_enable_fb_damage_clips(plane);
+ 
+-	ret = drm_crtc_init_with_planes(dev, crtc, plane, NULL,
++	ret = drm_universal_plane_init(dev, cursor, 0,
++				       &hv_drm_plane_funcs,
++				       hv_drm_cursor_formats,
++				       ARRAY_SIZE(hv_drm_cursor_formats),
++				       hv_drm_modifiers,
++				       DRM_PLANE_TYPE_CURSOR, NULL);
++	if (ret)
++		return ret;
++	drm_plane_helper_add(cursor, &hv_drm_cursor_helper_funcs);
++
++	/* The cursor image reaches the host's clients with straight alpha */
++	ret = drm_plane_create_blend_mode_property(cursor,
++						   BIT(DRM_MODE_BLEND_COVERAGE));
++	if (ret)
++		return ret;
++
++	ret = drm_crtc_init_with_planes(dev, crtc, plane, cursor,
+ 					&hv_drm_crtc_funcs, NULL);
+ 	if (ret)
+ 		return ret;
+@@ -320,6 +484,8 @@ int hv_drm_mode_config_init(struct hv_drm_device *hv)
+ 	dev->mode_config.min_height = 0;
+ 	dev->mode_config.max_width = hv->screen_width_max;
+ 	dev->mode_config.max_height = hv->screen_height_max;
++	dev->mode_config.cursor_width = SYNTHVID_CURSOR_MAX_X;
++	dev->mode_config.cursor_height = SYNTHVID_CURSOR_MAX_Y;
+ 
+ 	dev->mode_config.preferred_depth = hv->screen_depth;
+ 	dev->mode_config.prefer_shadow = 0;
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+index 8ddd34833..99e036576 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/hyperv.h>
+ 
++#include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ 
+ #include "hyperv_drm.h"
+@@ -111,12 +112,9 @@ struct synthvid_pointer_position {
+ 	s32 image_y;
+ } __packed;
+ 
+-#define SYNTHVID_CURSOR_MAX_X 96
+-#define SYNTHVID_CURSOR_MAX_Y 96
+-#define SYNTHVID_CURSOR_ARGB_PIXEL_SIZE 4
+-#define SYNTHVID_CURSOR_MAX_SIZE (SYNTHVID_CURSOR_MAX_X * \
+-	SYNTHVID_CURSOR_MAX_Y * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE)
+ #define SYNTHVID_CURSOR_COMPLETE (-1)
++/* Most pixel data the host accepts in one pointer shape message */
++#define SYNTHVID_CURSOR_MAX_PAYLOAD 8192
+ 
+ struct synthvid_pointer_shape {
+ 	u8 part_idx;
+@@ -286,47 +284,166 @@ int hv_drm_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
+ }
+ 
+ /*
+- * Hyper-V supports a hardware cursor feature. It's not used by Linux VM,
+- * but the Hyper-V host still draws a point as an extra mouse pointer,
+- * which is unwanted, especially when Xorg is running.
++ * The host always shows a mouse pointer: the one set with the pointer shape
++ * and position messages, or else a small dot, which is also what it shows
++ * for a pointer marked invisible. A hidden cursor is therefore a single,
++ * almost transparent pixel.
+  *
+- * Hide the unwanted pointer, by setting msg.ptr_pos.is_visible = 1 and setting
+- * the msg.ptr_shape.data. Note: setting msg.ptr_pos.is_visible to 0 doesn't
+- * work in tests.
+- *
+- * The hv_drm_hide_hw_ptr() is also called in the handler of the
+- * SYNTHVID_FEATURE_CHANGE event, otherwise the host still draws an extra
+- * unwanted mouse pointer after the VM Connection window is closed and reopened.
++ * NOTE: Its alpha, the last byte, is 1 rather than 0, as clients may draw an
++ *       image whose alpha values are all 0 as an opaque one.
+  */
+-int hv_drm_hide_hw_ptr(struct hv_device *hdev)
++static const u8 hv_drm_cursor_hidden_pixel[SYNTHVID_CURSOR_ARGB_PIXEL_SIZE] = {
++	0x00, 0x01, 0x01, 0x01
++};
++
++void hv_drm_cursor_set_hidden(struct hv_drm_cursor *cursor)
+ {
+-	struct synthvid_msg msg;
++	memcpy(cursor->image, hv_drm_cursor_hidden_pixel,
++	       sizeof(hv_drm_cursor_hidden_pixel));
++	cursor->width = 1;
++	cursor->height = 1;
++	cursor->hot_x = 0;
++	cursor->hot_y = 0;
++	cursor->x = 0;
++	cursor->y = 0;
++}
+ 
+-	memset(&msg, 0, sizeof(struct synthvid_msg));
+-	msg.vid_hdr.type = SYNTHVID_POINTER_POSITION;
+-	msg.vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
++/*
++ * Pointer shapes too large for one message are sent in parts numbered from
++ * 0, with SYNTHVID_CURSOR_COMPLETE marking the last part. A shape that fits
++ * in one message is sent as a lone SYNTHVID_CURSOR_COMPLETE part.
++ */
++static int hv_drm_send_ptr_shape(struct hv_drm_device *hv, u32 width,
++				 u32 height, u32 hot_x, u32 hot_y,
++				 const u8 *image)
++{
++	const size_t data_offset = offsetof(struct synthvid_msg,
++					    ptr_shape.data);
++	size_t size = width * height * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE;
++	u8 *buf = hv->cursor->msg_buf;
++	struct synthvid_msg *msg;
++	size_t offset = 0;
++	u8 part = 0;
++	size_t len;
++	int ret;
++
++	BUILD_BUG_ON((offsetof(struct synthvid_msg, ptr_shape.data) +
++		     SYNTHVID_CURSOR_MAX_PAYLOAD) >
++		     sizeof_field(struct hv_drm_cursor, msg_buf));
++
++	msg = (struct synthvid_msg *)buf;
++
++	do {
++		len = min(size - offset, SYNTHVID_CURSOR_MAX_PAYLOAD);
++
++		memset(buf, 0, data_offset);
++		msg->vid_hdr.type = SYNTHVID_POINTER_SHAPE;
++		msg->vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
++			offsetof(struct synthvid_pointer_shape, data) + len;
++		if (offset + len < size)
++			msg->ptr_shape.part_idx = part++;
++		else
++			msg->ptr_shape.part_idx = SYNTHVID_CURSOR_COMPLETE;
++		msg->ptr_shape.is_argb = 1;
++		msg->ptr_shape.width = width;
++		msg->ptr_shape.height = height;
++		msg->ptr_shape.hot_x = hot_x;
++		msg->ptr_shape.hot_y = hot_y;
++		memcpy(buf + data_offset, image + offset, len);
++
++		ret = hv_drm_sendpacket(hv->hdev, msg);
++		if (ret)
++			return ret;
++
++		offset += len;
++	} while (offset < size);
++
++	return 0;
++}
++
++static int hv_drm_send_ptr_position(struct hv_drm_device *hv, s32 x, s32 y)
++{
++	struct synthvid_msg *msg = (struct synthvid_msg *)hv->cursor->msg_buf;
++
++	memset(msg, 0, sizeof(struct synthvid_msg));
++	msg->vid_hdr.type = SYNTHVID_POINTER_POSITION;
++	msg->vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
+ 		sizeof(struct synthvid_pointer_position);
+-	msg.ptr_pos.is_visible = 1;
+-	msg.ptr_pos.video_output = 0;
+-	msg.ptr_pos.image_x = 0;
+-	msg.ptr_pos.image_y = 0;
+-	hv_drm_sendpacket(hdev, &msg);
++	msg->ptr_pos.is_visible = 1;
++	msg->ptr_pos.video_output = 0;
++	msg->ptr_pos.image_x = x;
++	msg->ptr_pos.image_y = y;
+ 
+-	memset(&msg, 0, sizeof(struct synthvid_msg));
+-	msg.vid_hdr.type = SYNTHVID_POINTER_SHAPE;
+-	msg.vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
+-		sizeof(struct synthvid_pointer_shape);
+-	msg.ptr_shape.part_idx = SYNTHVID_CURSOR_COMPLETE;
+-	msg.ptr_shape.is_argb = 1;
+-	msg.ptr_shape.width = 1;
+-	msg.ptr_shape.height = 1;
+-	msg.ptr_shape.hot_x = 0;
+-	msg.ptr_shape.hot_y = 0;
+-	msg.ptr_shape.data[0] = 0;
+-	msg.ptr_shape.data[1] = 1;
+-	msg.ptr_shape.data[2] = 1;
+-	msg.ptr_shape.data[3] = 1;
+-	hv_drm_sendpacket(hdev, &msg);
++	return hv_drm_sendpacket(hv->hdev, msg);
++}
++
++/*
++ * Send the cached cursor to the host: the shape if @shape is set or the host
++ * may lack it, then the position. The position goes last as the host applies
++ * the hotspot of its current shape to it.
++ */
++void hv_drm_update_cursor(struct hv_drm_device *hv, bool shape)
++{
++	struct hv_drm_cursor *cursor = hv->cursor;
++	int ret = 0;
++
++	lockdep_assert_held(&cursor->lock);
++
++	if (shape || cursor->shape_stale) {
++		/*
++		 * The host may still be waiting for the rest of a multi-part
++		 * shape, and rejects new shapes until it gets a final part.
++		 * A one pixel shape completes any such shape, and is a valid
++		 * shape of its own otherwise.
++		 */
++		if (cursor->shape_stale)
++			ret = hv_drm_send_ptr_shape(hv, 1, 1, 0, 0,
++						    hv_drm_cursor_hidden_pixel);
++		if (!ret)
++			ret = hv_drm_send_ptr_shape(hv, cursor->width,
++						    cursor->height,
++						    cursor->hot_x,
++						    cursor->hot_y,
++						    cursor->image);
++		cursor->shape_stale = ret;
++	}
++
++	hv_drm_send_ptr_position(hv, cursor->x, cursor->y);
++}
++
++void hv_drm_restore_cursor(struct hv_drm_device *hv)
++{
++	scoped_guard(mutex, &hv->cursor->lock)
++		hv_drm_update_cursor(hv, true);
++}
++
++static void hv_drm_restore_cursor_work(struct work_struct *work)
++{
++	struct hv_drm_device *hv = container_of(work, struct hv_drm_device,
++						cursor_work);
++
++	hv_drm_restore_cursor(hv);
++}
++
++int hv_drm_cursor_init(struct hv_drm_device *hv)
++{
++	struct hv_drm_cursor *cursor;
++	int ret;
++
++	cursor = drmm_kzalloc(&hv->dev, sizeof(*cursor), GFP_KERNEL);
++	if (!cursor)
++		return -ENOMEM;
++
++	ret = drmm_mutex_init(&hv->dev, &cursor->lock);
++	if (ret)
++		return ret;
++
++	hv_drm_cursor_set_hidden(cursor);
++	cursor->shape_stale = true;
++	hv->cursor = cursor;
++
++	INIT_WORK(&hv->cursor_work, hv_drm_restore_cursor_work);
++	disable_work(&hv->cursor_work);
+ 
+ 	return 0;
+ }
+@@ -473,8 +590,13 @@ static void hv_drm_receive_sub(struct hv_device *hdev, u32 bytes_recvd)
+ 			return;
+ 		}
+ 		hv->dirt_needed = msg->feature_chg.is_dirt_needed;
++		/*
++		 * Send the cursor to clients that may have just connected, from
++		 * a work item, as that takes the cursor's mutex and the channel
++		 * callback runs in atomic context.
++		 */
+ 		if (hv->dirt_needed)
+-			hv_drm_hide_hw_ptr(hv->hdev);
++			schedule_work(&hv->cursor_work);
+ 		return;
+ 	default:
+ 		return;
+@@ -538,9 +660,11 @@ int hv_drm_connect_vsp(struct hv_device *hdev)
+ 	struct drm_device *dev = &hv->dev;
+ 	int ret;
+ 
++	enable_work(&hv->cursor_work);
+ 	ret = vmbus_open(hdev->channel, VMBUS_RING_BUFSIZE, VMBUS_RING_BUFSIZE,
+ 			 NULL, 0, hv_drm_receive, hdev);
+ 	if (ret) {
++		disable_work_sync(&hv->cursor_work);
+ 		drm_err(dev, "Unable to open vmbus channel\n");
+ 		return ret;
+ 	}
+@@ -574,6 +698,15 @@ int hv_drm_connect_vsp(struct hv_device *hdev)
+ 	return 0;
+ 
+ error:
+-	vmbus_close(hdev->channel);
++	hv_drm_disconnect_vsp(hdev);
+ 	return ret;
+ }
++
++void hv_drm_disconnect_vsp(struct hv_device *hdev)
++{
++	struct hv_drm_device *hv = hv_get_drvdata(hdev);
++
++	/* Stop the work before vmbus_close() frees the ring buffers */
++	disable_work_sync(&hv->cursor_work);
++	vmbus_close(hdev->channel);
++}
+-- 
+2.56.0
+
