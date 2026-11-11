@@ -1,65 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794424188;
-	b=Gw3ZmTBURt76F8PvkpweS+JqonrTUtVS7t0oweTnv0l6dAjXafsCkuA8ZPzPedyd9j+9
-	 dZKNRTXewmuULBF0ZppCd+t8P2bsAUBtwHEHuLgpMLuPoTYdO+UaqxvLLSvAffr/EB1K/
-	 hZUscPII6oMEhOlZtEsULe06EFgD/ULXgyjyVgCJVf/rsh6Y9pfIEGXrWyl/XQxeywntS
-	 bwDlQj79Qql+/v/12s7DrU5agLBnn4ZHFMjpGang2TKpObmW3GqNdtPIKrqDdYfKyoNnw
-	 kCXbFldVQs3eVyq8e8EAVrQYm++hth99qsBtCGt4TGjJKsI2oaXefFjCHtzOapfUYRg==
+	t=1794425596;
+	b=BboVWl2rdl3jscMhoJQ/hfxGDtQCMzm8uZAYemZPSCXvVTqDs1qKmr0ns3kuI87AMMEa
+	 +SF5qonoQyT0JZDuM6x/vpBTkFYf7SvEkbAC3lFozuGwA0+IZ1CfVZ83D1tM15hGE3smf
+	 RGQyM4edzrZNUlTqlfYJUmYQOycmIMOX71LTTgeL5DdFp+fHQj/hz7yzDmb3ZoHRSK6nW
+	 QtOl1rfPJpii1IwfOxJsf0xeiZygZ3kce8BTFkMySFnyOaIddf/dNm8INR90wO0/ak+PN
+	 01wG8ioJoDISXeZwJZBY4IaZZBfSI6krRhQCTCLU4GWOUdJgZl1KEF1fHCIiWG+potQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794424188;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=9nXz4XsFyxf6p/xbkIeQCjsAjClLO9LnUnA+aL97b8k=;
-	b=GeQPvfCVVQftNZifYkVVlyNaDTga95F9K2IuxtjcPuvR1hRSixLybwKqmx5gMLKzMGL7
-	 rp1m2iqsdbtCV1TekH4w/rgB9gRbEGfqR+pQcewnT5WAwxdsOGwTU0Ux9aJ6Y9JowFqEz
-	 144JKh4/F2z/7fLyzh8N93IRsapeVV3ySgeLZbuU2Er9yM80CqrzapjrPQ8Ro3n6greRk
-	 SOh2/aVWGAG8fkbvkseGElSrXsecolGhbUY3DazwXxUysjw4P/0R3HQCjwRjg/UQyJHhT
-	 W1Y8MHpqZeBLUKxZhXf+QLhU9e4Il3EmFChrEhZ+vJpr9JkjMFsztqfBDLJpCI+S+gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794425596;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=XkYzj1wDxfAIpCaHTXRvZeY0rPBL7U7tgJ6A5K+XKXc=;
+	b=mHuvR5+uPsttkqJnwpV0grAiobF23AaEifYaMI0lq6Y/EBrnblEH5jpQbLiQHyhs0LhP
+	 nxY2Ic/LXpm/5XEoIw3y+PsCUMrXrM6vmyCQA2I+a/3w/njp4GXxxOQ7baCs66hsn7zru
+	 12F7E+Enm8i01sv9BrkOvqd0mqYo0bndwdM2kGnd5P10qu+JBImcJV+5NhRSf97dRhnxX
+	 RFMjWuu859L8RjZR3B5pCMF7FMuPULeeVqzwFT6JgaunIjT78US2CtMm2bucqw0RtWB5N
+	 kJaljFTLQGc/OY290QhDgS0npf19I02py92nUpfaDlGqE15LF8RtipYPYiuQk/Q5CbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFzKR564;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BE7606A339;
-	Wed, 11 Nov 2026 19:09:48 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=sdAuBVV1;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2150B606A31C;
+	Wed, 11 Nov 2026 19:33:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2150B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WFzKR564
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46EBD1F00A06;
-	Wed, 11 Nov 2026 19:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794424187;
-	bh=9nXz4XsFyxf6p/xbkIeQCjsAjClLO9LnUnA+aL97b8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WFzKR564G0UiQUdYOgmFp64Zc7kQghLq8rSQs9/kVQoM9daXgTwgHOIJBA4tmvZrP
-	 pl6NoDuycNPmuZKQC+tzUKJ2vWwXQC8zrvj43OVZP4oWYZL0WyxpI2BufbHbJlKfq4
-	 bRR+95WaVEV3bPIzkVBgR7D0CKAjDBkeQVBHCeXQOgYJMybl3r3qHb/DPBqfzrvX05
-	 H0X7U6M4JViBLSxAaSrZ1etmocb0hrvAPh0WYJUIMVJu6D4nAtCFOLHOKh5QBJk04L
-	 R3LUfJh51xF61ypZxQbgdKSrvD7fx1TIlT+f7bxfa8TknOwtlBSn1q/knjPjUE/X5U
-	 d6pzS9gcNa1iQ==
-Date: Wed, 11 Nov 2026 21:09:42 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Popov, Pavel E" <pavel.e.popov@intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Lukas Wunner <lukas@wunner.de>, Jim Chow <jim.chow@broadcom.com>,
-	Radu Rugina <radu.rugina@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Wei Liu <wei.liu@kernel.org>, Michael Kelley <mhklinux@outlook.com>,
-	Nathan Ciobanu <nathan.d.ciobanu@linux.intel.com>,
-	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-Message-ID: <20261111190942.GT8635@unreal>
-References: <20261020173736.81755-1-pavel.e.popov@intel.com>
- <LV2PR11MB6070064A9E674EBDFB1A3B20B2712@LV2PR11MB6070.namprd11.prod.outlook.com>
- <20261111081057.GP8635@unreal>
- <LV2PR11MB6070A8BA690DEA91D6675682B2712@LV2PR11MB6070.namprd11.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=sdAuBVV1
+Received: from [10.4.158.9] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5AE6F20B7166;
+	Wed, 11 Nov 2026 11:33:06 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5AE6F20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794425592;
+	bh=XkYzj1wDxfAIpCaHTXRvZeY0rPBL7U7tgJ6A5K+XKXc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sdAuBVV1iYh6ALVSvPbbuS3kbrw9KywjuIwbdoNJ4kCMluqCCr9IIpLf4ZHHsd+fk
+	 RZva/j1N6fubwMR+Za3nW+nlFP8Q2wV28gYJu7ByeOqCWqU0vZlxG6Y3VEfv+yvEkQ
+	 7xQ31zo5ASqixU32rt2PhC2x/T6EuAn9cAHue3bM=
+Message-ID: <4d5ff278-bd47-4304-967c-92313dbd4fd7@linux.microsoft.com>
+Date: Wed, 11 Nov 2026 11:33:07 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -69,163 +53,94 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <LV2PR11MB6070A8BA690DEA91D6675682B2712@LV2PR11MB6070.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 6/6] arm64: hyperv: Implement
+ hv_is_isolation_supported() for CCA Realms
+To: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>
+Cc: "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-7-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863D42CE499C3D423EDBC10D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <MN2PR02MB6863D42CE499C3D423EDBC10D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 11, 2026 at 03:37:13PM +0000, Popov, Pavel E wrote:
-> On Wed, Nov 11, 2026 at 10:10:57AM +0200, Leon Romanovsky wrote:
-> > Peer-to-peer is a general concept, and the code should reflect that. It is
-> > reasonable to expect you to join the effort and help clean it up.
+On 11/11/2026 10:01 AM, Michael Kelley wrote:
+> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>
+>> Provide an arm64 implementation of hv_is_isolation_supported() that
+>> overrides the __weak default in drivers/hv/hv_common.c.
+>>
+>> The implementation deliberately does not depend on
+>> hv_is_hyperv_initialized() because hv_common_init() consults
+>> hv_is_isolation_supported() before hyperv_initialized is set.
 > 
-> I'm in. My proposal is to do it after this series, since this one
-> unblocks P2PDMA in guests and the cleanup is out of PCI scope: even
-> the minimal fix for p2pdma.c alone means changes under arch/x86, so it
-> would no longer be a P2PDMA patch but an x86 header series with its
-> own maintainers and review. That x86 header series is also the right
-> place to drop the same guard from six other files, and I'm ready to
-> do it:
+> Quibble: What's the genesis of this statement about
+> hv_is_hyperv_initialized()? On the x86 side, hv_is_isolation_supported()
+> doesn't depend on hv_is_hyperv_initialized(), so I don't think you
+> are making a distinction vs. what x86 does. The statement seems
+> like it might be a leftover from an early version of this patch set.
 
-If you are ready, why hasn't it been done until now?
+From what I recall, I wrote this line after going down a long rabbit
+hole attempting to have functional parity with x86
+hv_is_isolation_supported(). I agree that is doesn't make sense without
+context.
 
-The claims of urgency are hard to take seriously: `SKYLAKE_X` was added to
-`arch/x86/include/asm/intel-family.h` in 2016, and now, ten years later,
-you are asking us to "do it urgently." I strongly suspect that if I don't
-bring up P2P at LPC, we won't see this patch for another ten years.
+I couldn't find equivalent methods for checking if the Realm is running
+on Hyper-V. I initially considered using hv_is_hyperv_initialized(), but
+that ran into ordering issue described above. I eventually concluded
+that just returning is_realm_world() is sufficient, since
+hv_is_isolation_supported() is never used to determine whether the VM is
+running on Hyper-V.
 
-Even now, despite being asked to clean this up before the merge
-window, you still haven't done so. Trust is built by following
-through, not by making promises.
+The comment would be more clear if it simply pointed out that
+hv_is_isolation_supported() functionally differs on ARM64 vs. x86
+because it does not check whether it is running on Hyper-V.
 
+I believe Wei already applied this series to hyperv-next, but perhaps he
+can remove this line from the commit message.
+
+-- 
+Regards,
+Kameron
+
+> Michael
 > 
->   drivers/acpi/mipi-disco-img.c
->   drivers/cpufreq/cpufreq_ondemand.h
->   drivers/gpu/drm/i915/intel_cpu_info.c
->   drivers/char/tpm/tpm.h
->   drivers/crypto/ccp/ccp-dev.c
->   include/linux/platform_data/x86/soc.h
-> 
-> Bjorn, is v4 OK for v7.5 as is? The x86 header series will follow on
-> top.
-
-I disagree. You can't build this on top, as it would need to go through
-different trees and would likely cause merge conflicts. The cleanup series
-would have to touch the same lines in the PCI subsystem that you are
-changing now.
-
-The only sane approach is to do the cleanup first and then build the p2p
-changes on top of it.
-
-Thanks
-
-> 
-> Thanks,
-> Pavel
-> 
-> > -----Original Message-----
-> > From: Leon Romanovsky <leon@kernel.org>
-> > Sent: Wednesday, November 11, 2026 1:11 AM
-> > To: Popov, Pavel E <pavel.e.popov@intel.com>
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
-> > <logang@deltatee.com>; Lukas Wunner <lukas@wunner.de>; Jim Chow
-> > <jim.chow@broadcom.com>; Radu Rugina <radu.rugina@broadcom.com>;
-> > Alexey Makhalov <alexey.makhalov@broadcom.com>; Wei Liu
-> > <wei.liu@kernel.org>; Michael Kelley <mhklinux@outlook.com>; Nathan
-> > Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
-> > list@broadcom.com; virtualization@lists.linux.dev; linux-
-> > hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon
-> > server CPUs
-> > 
-> > On Wed, Nov 11, 2026 at 03:48:07AM +0000, Popov, Pavel E wrote:
-> > > Hi Bjorn,
-> > >
-> > > Gentle ping on this series. Is this OK for v7.5?
-> > 
-> > I would say no. An Intel employee was asked to clean up an Intel-created mess
-> > while upstreaming an Intel-specific patch.
-> > 
-> > Peer-to-peer is a general concept, and the code should reflect that. It is
-> > reasonable to expect you to join the effort and help clean it up.
-> > 
-> > Thanks
-> > 
-> > >
-> > > Thanks,
-> > > Pavel
-> > >
-> > > > -----Original Message-----
-> > > > From: Popov, Pavel E <pavel.e.popov@intel.com>
-> > > > Sent: Tuesday, October 20, 2026 10:38 AM
-> > > > To: Bjorn Helgaas <bhelgaas@google.com>; Logan Gunthorpe
-> > > > <logang@deltatee.com>
-> > > > Cc: Popov, Pavel E <pavel.e.popov@intel.com>; Leon Romanovsky
-> > > > <leon@kernel.org>; Lukas Wunner <lukas@wunner.de>; Jim Chow
-> > > > <jim.chow@broadcom.com>; Radu Rugina
-> > <radu.rugina@broadcom.com>;
-> > > > Alexey Makhalov <alexey.makhalov@broadcom.com>; Wei Liu
-> > > > <wei.liu@kernel.org>; Michael Kelley <mhklinux@outlook.com>; Nathan
-> > > > Ciobanu <nathan.d.ciobanu@linux.intel.com>; bcm-kernel-feedback-
-> > > > list@broadcom.com; virtualization@lists.linux.dev; linux-
-> > > > hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
-> > > > kernel@vger.kernel.org
-> > > > Subject: [PATCH v4 0/2] PCI/P2PDMA: Allow P2PDMA on Intel Xeon
-> > > > server CPUs
-> > > >
-> > > > VMware and Hyper-V expose passthrough devices to guest VMs without
-> > > > an explicit host bridge device. Consequently,
-> > > > host_bridge_whitelist() cannot automatically identify the underlying
-> > > > host bridge structure, causing Peer-to- Peer DMA (P2PDMA) requests
-> > > > to be rejected unless the device IDs are explicitly listed in
-> > > > pci_p2pdma_whitelist[]. To enable P2PDMA on Intel hosts, this series
-> > > > extends cpu_supports_p2pdma(), which so far covers AMD Zen and
-> > newer, with an explicit list of Intel Xeon server generations.
-> > > >
-> > > > Patch 1 moves the CONFIG_X86 #ifdef out of cpu_supports_p2pdma().
-> > > > Patch 2 is the v3 patch rebased on it, with Logan's Reviewed-by
-> > > > carried over; the Xeon list and the check are unchanged.
-> > > >
-> > > > Changes in v4:
-> > > > - Add 1/2, moving the CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
-> > > >   (Logan Gunthorpe, Leon Romanovsky)
-> > > > - Keep the #ifdef around the asm/ includes, as these headers exist
-> > > >   only on x86 (Bjorn Helgaas)
-> > > >
-> > > > Changes in v3:
-> > > > - Drop the hypervisor check and move the Xeon list into
-> > > >   cpu_supports_p2pdma(), next to the AMD check, as suggested by Logan
-> > > >   Gunthorpe and Leon Romanovsky [1]
-> > > > - Fold the VMware and Hyper-V patches into one, as the check no longer
-> > > >   depends on the hypervisor
-> > > >
-> > > > Changes in v2:
-> > > > - Replace the Skylake-and-newer threshold with an explicit list of Intel
-> > > >   Xeon server generations, from Skylake-SP to Diamond Rapids (Logan
-> > > >   Gunthorpe)
-> > > > - Move the CONFIG_X86 #ifdef out of hypervisor_supports_p2pdma()
-> > > >   (Logan Gunthorpe)
-> > > > - Rebased on current mainline
-> > > >
-> > > > [1] https://lore.kernel.org/r/20261016153147.GC219304@unreal
-> > > >
-> > > > v3: https://lore.kernel.org/r/20261020151305.65218-1-
-> > > > pavel.e.popov@intel.com
-> > > > v2: https://lore.kernel.org/r/20261016223402.19991-1-
-> > > > pavel.e.popov@intel.com
-> > > > v1: https://lore.kernel.org/r/20261009154034.82321-1-
-> > > > pavel.e.popov@intel.com
-> > > >
-> > > > Pavel Popov (2):
-> > > >   PCI/P2PDMA: Move CONFIG_X86 #ifdef out of cpu_supports_p2pdma()
-> > > >   PCI/P2PDMA: Allow P2PDMA on Intel Xeon server CPUs
-> > > >
-> > > >  drivers/pci/p2pdma.c | 33 +++++++++++++++++++++++++++++++--
-> > > >  1 file changed, 31 insertions(+), 2 deletions(-)
-> > > >
-> > > >
-> > > > base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-> > > > --
-> > > > 2.53.0
-> > >
-> 
+>>
+>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>> ---
+>>  arch/arm64/hyperv/mshyperv.c | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>> index da6c3aa0..8a2c446 100644
+>> --- a/arch/arm64/hyperv/mshyperv.c
+>> +++ b/arch/arm64/hyperv/mshyperv.c
+>> @@ -187,3 +187,8 @@ bool hv_isolation_type_cca(void)
+>>  {
+>>  	return is_realm_world();
+>>  }
+>> +
+>> +bool hv_is_isolation_supported(void)
+>> +{
+>> +	return is_realm_world();
+>> +}
+>> --
+>> 2.45.4
+>>
