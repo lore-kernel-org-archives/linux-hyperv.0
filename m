@@ -1,57 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794435808;
-	b=aYNwaUEOKJ1C7XBkMY35h1ZdWMKr5tdnK7EtesH30ULq1B801m53F3fu/AMbIiV1pghX
-	 3TlxHK/QK+SKg9DVFN1AKRQYs/PErAuXcNv7Y1vwOkiNiRKJAE0D7EwChNd4JmjFNZ8Xb
-	 ToFdh4siFPvUoqDNkFvX7y0+/AIDAO0hyDN1ZrJHJki1cytns3cnKNyx+GzvZaQsubH8S
-	 TEvTrW/B2NCvQH1vSkkGtjcY1ES7415anj0W9fKMbagL2f0oJKC/eKYmpG894hAzQMJlk
-	 PAoJ1+BzOoiKQYMfyBuoxf9bvbsN0wzgc3oZbkbG2LTd0A3OMgObvHOVwDNzeg301UA==
+	t=1794436653;
+	b=VPWekMVhcLPtIYB9cuYBC0WYxiKKJiTfzaf4eNxxWIUBZrtR9njCVNZS6Imhmb+ln0Zb
+	 UV2go754jU3dHvHJ7Vb7AFI4olE7qRZR918GU6uNfuT5BkrEpZ6Cr1zebJI+WH8d958Cb
+	 o2XMKlcQsx825TPBWM1iUGm/Z7sxJKj9ZTs42lHwE+zRcV9zRso693yXX47YP6Lqq2ztQ
+	 qNslgOK2fUCAUFhF4JQ/kcPtj0ehHuD5u15bvLDeIbKolSl+fMMM3IO+HhKickkP5docZ
+	 i+RSmv//6sszwcgA7C59OJHtrwUt+t/5ia6yok/9zm66xMQhKrRO5BKiABN4fv7ODgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794435808;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=hvquHGNKpZYfNxNT5iFeEwYz9fPyaoA22FVHTaUGTG4=;
-	b=YtKAtnwl3XtvPPdM005Fx70JGDxNnP41ZcM4x3xeogCrAz/QDB/gtBCg2oc5a8KvRiW4
-	 qIA5On+n2YYbyd2gDzDMMC02OLG/XDZB1AvqJ4jC1Z6FlIlbN4q1ZrhulKo4rwCkSdzgg
-	 pXXNMpjoivGpj3ytIPCkPj9J2OcqWoynoIOisHHKHExDTRb9EPdJyu2flqgpzSSAGfBIr
-	 9t9f+btHfeBAmZPNifsPwZ1Y7orNhCMq07pIqp1EaeL/ML7stDABIx6MgAw/+jl0lC4qk
-	 fYb0XIauaMlxbBWuA7pmjVZFgclzivFv1/YRvVG+/lwoUnwO9rLZwuL4UPo3pbj5G3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436653;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=iJrORkTKZetlPYnGNZA/pkmKUZubavEmrWi57SbUmv4=;
+	b=CIKfTR/4+ZxsucHp6et7ZqU/1EV4jX0uXfSPIGdBXAmc2sDV/lTf1h6K8LQZdS+UJJwV
+	 F2vP1xl6kcbJdK7sZCTR7MpRLk3ON+NgS/lRAeXCxjwCzlgxOpa6r+mBi/6ibQ/nCymKy
+	 KGMpuCp6VY961fqZaBzyihgUXASrTbmUMGzxOqo/9z3F1hAtMcy7vITNtBPHrlEEriDQH
+	 V6EZQ+KxBP+TaJfouu9xNI1AJQjGPnyVfwdQKZpU/E9hBTYXDArq/7JgeOHxBkldeXYoB
+	 aDnJAAH7NnDyzmvB0orrzuwehzKuRn1PBIYDZuv0gjB+85sYCb6aqzx24ajNaLF6V2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="I/45b0sT";
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=dPZKH9zM;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 453B2606A326
-	for <linux-hyperv@vger.kernel.org>; Wed, 11 Nov 2026 22:23:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 453B2606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7C2A606A324;
+	Wed, 11 Nov 2026 22:37:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7C2A606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=I/45b0sT
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id AEEC820B7166; Wed, 11 Nov 2026 14:23:24 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AEEC820B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=dPZKH9zM
+Received: from [10.4.158.9] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 53D8220B7166;
+	Wed, 11 Nov 2026 14:37:05 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 53D8220B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794435804;
-	bh=hvquHGNKpZYfNxNT5iFeEwYz9fPyaoA22FVHTaUGTG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I/45b0sT+f3CpRcZ69BhwRgNTQZb7Eec337vNPbndQRHZX/FCLuNEicDzqpWw6bs8
-	 OTacXMsc0MfvZnFmCtZwlenF1oS85ebs20BKLr8wC9i4Hoqyf208wWlcd/zMdKIcyV
-	 1RCTStcfN4eWHmax+wP5pY6lgwHPdMw0MPYsBfDc=
-Date: Wed, 11 Nov 2026 17:23:24 -0500
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: sascha@eder.earth
-Cc: Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: drm/hyperv: pointer lag on desktop guests - host cursor is
- supported by the protocol but hidden
-Message-ID: <avTq3OCNdDeyn/La@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261111121316.Horde.3cW0nxv09zUHPZiYh0D0t3G@webmail.your-server.de>
- <avRlw+MtVNtwojJk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20261111220506.Horde.EkRyYI2MJXvhgTT5Ojgh9r0@webmail.your-server.de>
+	s=default; t=1794436648;
+	bh=iJrORkTKZetlPYnGNZA/pkmKUZubavEmrWi57SbUmv4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dPZKH9zMDVcGATZlXDqvy/tVc2lf0uR4VyrTZtKpNH5QXkZiZQLnP/VcBimx5FE3T
+	 uImY8EV0e5m9I7fZIdCYLSIXQM4O815KVDGahs5UYll1dCfNWKY1zQIbJjL/uWjHQl
+	 mGkTB7JbsR3zeb+Wah0rI/ZBmKHIEKUd84s8Hqpg=
+Message-ID: <5d9dccba-61b0-4fac-8dc2-f09ce630157e@linux.microsoft.com>
+Date: Wed, 11 Nov 2026 14:36:57 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -61,141 +53,177 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111220506.Horde.EkRyYI2MJXvhgTT5Ojgh9r0@webmail.your-server.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
+To: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ Mukesh R <mrathor@linux.microsoft.com>
+Cc: "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 11, 2026 at 10:05:06PM +0100, sascha@eder.earth wrote:
-> Hi,
+On 11/11/2026 10:01 AM, Michael Kelley wrote:
+> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>
+>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
+>> to be marked as decrypted (shared) for confidential VM isolation types.
+>> This is already done for SNP and TDX isolation; extend the same handling
+>> to Arm CCA Realm guests so that the host hypervisor can access the
+>> shared hypercall buffers.
+>>
+>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
+>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
+>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
+>> Introduce a Hyper-V-specific helper following the established
+>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
+>>
+>> On architectures other than arm64 the weak default keeps the existing
+>> behaviour.
+>>
+>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>> ---
+>>  arch/arm64/hyperv/mshyperv.c   |  5 +++++
+>>  drivers/hv/hv_common.c         | 17 +++++++++++++----
+>>  include/asm-generic/mshyperv.h |  1 +
+>>  3 files changed, 19 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>> index 46ab2da..da6c3aa0 100644
+>> --- a/arch/arm64/hyperv/mshyperv.c
+>> +++ b/arch/arm64/hyperv/mshyperv.c
+>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
+>>  	return hyperv_initialized;
+>>  }
+>>  EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>> +
+>> +bool hv_isolation_type_cca(void)
+>> +{
+>> +	return is_realm_world();
+>> +}
+>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+>> index 31256cb..a60c92c 100644
+>> --- a/drivers/hv/hv_common.c
+>> +++ b/drivers/hv/hv_common.c
+>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>  	u64 msr_vp_index;
+>>  	gfp_t flags;
+>>  	const int pgcount = hv_output_page_exists() ? 2 : 1;
+>> +	const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
+>>  	void *mem;
+>>  	int ret = 0;
+>>
+>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>  	 * online and then taken offline
+>>  	 */
+>>  	if (!*inputarg) {
+>> -		mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+>> +		mem = kmalloc(alloc_size, flags);
+>>  		if (!mem)
+>>  			return -ENOMEM;
+>>
+>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>>  		}
+>>
+>>  		if (!ms_hyperv.paravisor_present &&
+>> -		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+>> -			ret = set_memory_decrypted((unsigned long)mem, pgcount);
+>> +		    (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>> +		     hv_isolation_type_cca())) {
 > 
-> thank you for the speedy reply :)
+> Could this big "if" statement use "hv_is_isolation_supported()" instead
+> of explicitly testing for each CoCo VM type? I ask partly because
+> Mukesh Rathor has just submitted a patch [1] that introduces a new
+> function that does something almost exactly the same as
+> hv_is_isolation_supported() and uses it here.
 > 
-> > Cursor plane support is a WIP, you can test out [1] on your end.
-> 
-> That is exactly the fix I was hoping for.
-> 
-> Which tree and commit does the patch apply to?
-> 
-> My guest runs Debian 13 with kernel 6.12, where the driver still has the
-> hyperv_ prefix and the simple display pipe,
-> so I would build the tree you name with the patch on top and report back.
-> 
+> You don't provide the non-stub hv_is_isolation_supported() until
+> Patch 6 of this series, but the weak stub should allow everything to
+> build if a bisection splits this patch series.
 
-Development for the driver is done on drm-misc-next[1], so I would
-suggest testing it on there.
+Including your response to Mukesh for context:
+> Any reason not to use hv_is_isolation_supported()? Your
+> new function seems conceptually equivalent, though at a
+> detailed level it handles VBS isolation differently from
+> hv_is_isolation_supported(). But I don't think including
+> VBS isolation here is a problem since set_memory_decrypted()
+> is a no-op with VBS isolation.
 
-[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
+I'm not fully convinced that calling set_memory_decrypted() is always a
+no-op for VBS.
 
-> If you happen to have a version for 6.12, I can test that as well.
-> 
+I see that on VBS VMs, ms_hyperv_init_platform() calls hv_vtom_init().
+If set_memory_decrypted() calls hv_mark_gpa_visibility(), you will try
+to use the inputarg before it has been initialized.
 
-Quite a lot has changed in the DRM subsystem since then so I doubt my patch
-applies cleanly there or works as expected.
+Please let me know if my understanding is incorrect.
 
-Hamza
+-- 
+Regards,
+Kameron
 
-> regards
+> Michael
 > 
-> Sascha
+> [1] https://lore.kernel.org/linux-hyperv/20261111022036.351231-2-mrathor@linux.microsoft.com/
 > 
-> 
-> 
-> Quoting Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>:
-> 
-> > Hi,
-> > 
-> > On Wed, Nov 11, 2026 at 12:13:16PM +0100, sascha@eder.earth wrote:
-> > > Hi,
-> > > 
-> > > I am a Windows developer porting some of my own desktop tools to Linux, and
-> > > I use a Debian guest on Hyper-V to judge how they look and feel there.
-> > > 
-> > > The static picture is good, the mouse pointer is not, and I think the cause
-> > > is small and fixable in hyperv_drm. I am writing because this is the first
-> > > thing a Windows developer notices when trying Linux on their own machine: as
-> > > long as a Linux VM feels sluggish next to a Windows VM on the same host, few
-> > > of us will move a repo over and be happy about it.
-> > > 
-> > > Setup
-> > > - Host: [Windows 11/26H2], Hyper-V, Generation 2 VM, basic session
-> > > (vmconnect), 3840x2160 display
-> > > - Guest: Debian 13, kernel 6.12.113+deb13-amd64, hyperv_drm (Synthvid 3.5),
-> > > KDE Plasma 6.3.6 on Wayland (KWin 6.3.6, libwayland 1.23.1)
-> > > - 4 vCPUs, about 7 GB RAM
-> > > 
-> > > What I saw so far:
-> > > 
-> > > - The pointer trails the hand by a small constant delay. Fast, long
-> > > movements (taskbar to top of the screen) are visibly laggy, not just
-> > > slightly off.
-> > > 
-> > > - A Windows guest on the same host, same viewer, same mouse is smooth -
-> > > directly, and even when the host itself is reached through RDP. The Debian
-> > > guest lags in both cases.
-> > > 
-> > > - While moving the pointer: kwin_wayland uses 35-50 % of one core, a kworker
-> > > (events_unbound) 13-21 %, and the VM is about 80 % idle. Adding vCPUs
-> > > changes nothing, so it is not a lack of CPU.
-> > > 
-> > > - A smaller cursor and disabling KDE's shake-to-enlarge effect helped a
-> > > little. A plain color desktop did not.
-> > > 
-> > > What I think the cause is (from reading the driver, I have not patched it)
-> > > 
-> > > 1. hyperv_drm exposes only the primary plane. There is no cursor plane, so
-> > > the compositor has to paint the pointer into the framebuffer, and every
-> > > movement goes through compositing, the "blit to VRAM" and the dirt message.
-> > > 
-> > > 2. hyperv_pipe_update() uses drm_atomic_helper_damage_merged(), so the old
-> > > and the new pointer position become one bounding rectangle. For a long or
-> > > diagonal move at 4K that is a large part of the screen per pointer step,
-> > > which matches the more noticable lag (much worse) on big movements.
-> > > 
-> > > 3. The protocol already has what is needed. hyperv_hide_hw_ptr() exists
-> > > because, as its commit message says, "Hyper-V supports a hardware cursor
-> > > feature. It is not used by Linux VM, but the Hyper-V host still draws" a
-> > > pointer; the driver hides it by sending a 1x1 transparent ARGB shape with
-> > > SYNTHVID_POINTER_SHAPE. So the host does accept a shape from a Linux guest
-> > > and does draw the pointer itself.
-> > > 
-> > > Proposal:
-> > > 
-> > > Add a cursor plane to hyperv_drm (up to SYNTHVID_CURSOR_MAX_X/Y, 96x96,
-> > > ARGB) that sends the compositor's cursor image and hot spot through
-> > > SYNTHVID_POINTER_SHAPE instead of the transparent pixel, and re-sends it on
-> > > SYNTHVID_FEATURE_CHANGE where the hide call is made today.
-> > > 
-> > 
-> > Cursor plane support is a WIP, you can test out [1] on your end.
-> > 
-> > [1] https://patchwork.freedesktop.org/patch/761562/
-> > 
-> > Hamza
-> > 
-> > > With cursor hot-spot support for virtualized drivers, compositors would then
-> > > leave the pointer to the host, as Windows guests do, and pointer movement
-> > > would cause no framebuffer damage at all.
-> > > 
-> > > Independently of that, handling damage clips individually instead of merged
-> > > would reduce the cost of the software-cursor fallback (cursors larger than
-> > > 96x96).
-> > > 
-> > > A second, smaller item found on the way:
-> > > 
-> > > With Set-VMVideo set to 3840x2160 (Maximum), the guest offers modes only up
-> > > to 2560x1600. The connector's modes come from drm_add_modes_noedid(), and
-> > > 3840x2160 is not in that table, so it only appears with
-> > > video=Virtual-1:3840x2160 on the kernel command line. Adding the host's
-> > > maximum (or preferred) resolution as an explicit mode would make 4K hosts
-> > > work without that step.
-> > > 
-> > > I can test patches on this setup and report back. I am not in a position to
-> > > write the kernel change myself (drivers are not my field of work at all).
-> > > 
-> > > Thanks for maintaining the driver.
-> > > 
-> > > Sascha Eder
-> > > 
-> > > 
-> 
-> 
+>> +			ret = set_memory_decrypted((unsigned long)mem,
+>> +						   alloc_size >> PAGE_SHIFT);
+>>  			if (ret) {
+>>  				/* It may be unsafe to free 'mem' */
+>>  				return ret;
+>>  			}
+>>
+>> -			memset(mem, 0x00, pgcount * HV_HYP_PAGE_SIZE);
+>> +			memset(mem, 0x00, alloc_size);
+>>  		}
+>>
+>>  		/*
+>> @@ -666,6 +669,12 @@ bool __weak hv_isolation_type_tdx(void)
+>>  }
+>>  EXPORT_SYMBOL_GPL(hv_isolation_type_tdx);
+>>
+>> +bool __weak hv_isolation_type_cca(void)
+>> +{
+>> +	return false;
+>> +}
+>> +EXPORT_SYMBOL_GPL(hv_isolation_type_cca);
+>> +
+>>  void __weak hv_setup_vmbus_handler(void (*handler)(void))
+>>  {
+>>  }
+>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+>> index bf601d6..1fa79ab 100644
+>> --- a/include/asm-generic/mshyperv.h
+>> +++ b/include/asm-generic/mshyperv.h
+>> @@ -79,6 +79,7 @@ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64
+>> input2);
+>>
+>>  bool hv_isolation_type_snp(void);
+>>  bool hv_isolation_type_tdx(void);
+>> +bool hv_isolation_type_cca(void);
+>>
+>>  /*
+>>   * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
+>> --
+>> 2.45.4
+>>
+
