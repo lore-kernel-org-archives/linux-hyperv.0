@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794433786;
-	b=KXlUSXtvswK4tKAUqcJjoMyTm1GlhBXJhkZy3R7WwjI2F4v3DXlZ3n7ZH4v58UGRnNPg
-	 rjktJbV0NBXRud63RdN1qmWlB7oY4btPRDVFsjHj8+OFhDVjwNB4ifBhRGDAIF9m2HlYO
-	 9wKJlV5UnT25YPbWiBGwmKwiNkdytgau3BQSWNXeDxTIBCWnWAF35I3BkMFagZa0ndB4V
-	 Bzgz+oFR95jnHXy1HfJp8E+bYdvkoSVpYgxT4C9MzmrW4J7PnIy8NGYO8Sdp2M0ahfwjY
-	 DzD0DMyYX3VHzGhzqX7/Fh/L7frRTORLqPVHLqDRKAtfAhCl4EGpOqpUPAbbfyu4Njw==
+	t=1794435808;
+	b=aYNwaUEOKJ1C7XBkMY35h1ZdWMKr5tdnK7EtesH30ULq1B801m53F3fu/AMbIiV1pghX
+	 3TlxHK/QK+SKg9DVFN1AKRQYs/PErAuXcNv7Y1vwOkiNiRKJAE0D7EwChNd4JmjFNZ8Xb
+	 ToFdh4siFPvUoqDNkFvX7y0+/AIDAO0hyDN1ZrJHJki1cytns3cnKNyx+GzvZaQsubH8S
+	 TEvTrW/B2NCvQH1vSkkGtjcY1ES7415anj0W9fKMbagL2f0oJKC/eKYmpG894hAzQMJlk
+	 PAoJ1+BzOoiKQYMfyBuoxf9bvbsN0wzgc3oZbkbG2LTd0A3OMgObvHOVwDNzeg301UA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794433786;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rk/CBjYjLf7zZ4GcPg89td12CIO5508/QyBpAj9r7oQ=;
-	b=D08x2lA6Kmfx2SuPx1+MIjS7egMpzlk/cKk+tVpCEVkFMS6zFev2Te31k9BqgYcHDRXT
-	 fMHOBinDfInKbIAch1JA4ga3ufr3oO4Bg/J6Puu0kQ/kQCWr7J+GVHs/hfZoJcvk7c7l5
-	 Bq1Z6N3YTxSZnC3qaCYSkYzUAtU78bl9qL93gtxWaroXqbTCvvaAJyWD245XJ9Bu9cAFd
-	 zQjczAELu08NWBBhuTkTdHF40DscqoVGPx1+zje2H8TGGpry4VqgWvztRZi2gYtAmiQzl
-	 DOsdsHGbOHbMKHrj1+eGWVQRwz8joS3w8G2zuw9pAzH+9f+ENecq5ACGzDf/IAQZu8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794435808;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=hvquHGNKpZYfNxNT5iFeEwYz9fPyaoA22FVHTaUGTG4=;
+	b=YtKAtnwl3XtvPPdM005Fx70JGDxNnP41ZcM4x3xeogCrAz/QDB/gtBCg2oc5a8KvRiW4
+	 qIA5On+n2YYbyd2gDzDMMC02OLG/XDZB1AvqJ4jC1Z6FlIlbN4q1ZrhulKo4rwCkSdzgg
+	 pXXNMpjoivGpj3ytIPCkPj9J2OcqWoynoIOisHHKHExDTRb9EPdJyu2flqgpzSSAGfBIr
+	 9t9f+btHfeBAmZPNifsPwZ1Y7orNhCMq07pIqp1EaeL/ML7stDABIx6MgAw/+jl0lC4qk
+	 fYb0XIauaMlxbBWuA7pmjVZFgclzivFv1/YRvVG+/lwoUnwO9rLZwuL4UPo3pbj5G3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsT8YemS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EBC606A321;
-	Wed, 11 Nov 2026 21:49:45 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="I/45b0sT";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 453B2606A326
+	for <linux-hyperv@vger.kernel.org>; Wed, 11 Nov 2026 22:23:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 453B2606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OsT8YemS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 683F01F00A05;
-	Wed, 11 Nov 2026 21:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794433785;
-	bh=rk/CBjYjLf7zZ4GcPg89td12CIO5508/QyBpAj9r7oQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OsT8YemSXRS2jViqx7kOVKJwMe0A6jKMij01GPXzSvzOnkgsfcpFSPuRnQa4m1Yyi
-	 IL4KEz0N9NRGghWFECR4is5QPQXSo+gjvdKcsXMbGSQAmy08RQnzPrmlfChIVVWUvI
-	 +bOHGc+3rGlqYJnNOCkJV6d47e3rMhOKwkuvWClYSHv1T+jOeqVgKqxuLthkzkUTJR
-	 ck4bKIeklb7wWi62ChPKK250i2IyzOrGeQYH4XJN4B+j4RltJV3RfnHRixzjYbhNEh
-	 yDNYhYXeNVSqGmbRWalix8WT1DCCPlhZKjeLi+ljrXYX7c4acKCd3kXIG1Uuwf4U+F
-	 dT/vl+K5tGUEg==
-Message-ID: <sashiko-outbox-209724@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/4] KVM: selftests: Add Hyper-V hypercall forwarding
- test
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "David Woodhouse" <dwmw2@infradead.org>, kvm@vger.kernel.org
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261111205836.4186584-5-dwmw2@infradead.org>
-References: <20261111205836.4186584-1-dwmw2@infradead.org>
- <20261111205836.4186584-5-dwmw2@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 21:49:44 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=I/45b0sT
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id AEEC820B7166; Wed, 11 Nov 2026 14:23:24 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AEEC820B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794435804;
+	bh=hvquHGNKpZYfNxNT5iFeEwYz9fPyaoA22FVHTaUGTG4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I/45b0sT+f3CpRcZ69BhwRgNTQZb7Eec337vNPbndQRHZX/FCLuNEicDzqpWw6bs8
+	 OTacXMsc0MfvZnFmCtZwlenF1oS85ebs20BKLr8wC9i4Hoqyf208wWlcd/zMdKIcyV
+	 1RCTStcfN4eWHmax+wP5pY6lgwHPdMw0MPYsBfDc=
+Date: Wed, 11 Nov 2026 17:23:24 -0500
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: sascha@eder.earth
+Cc: Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: drm/hyperv: pointer lag on desktop guests - host cursor is
+ supported by the protocol but hidden
+Message-ID: <avTq3OCNdDeyn/La@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261111121316.Horde.3cW0nxv09zUHPZiYh0D0t3G@webmail.your-server.de>
+ <avRlw+MtVNtwojJk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <20261111220506.Horde.EkRyYI2MJXvhgTT5Ojgh9r0@webmail.your-server.de>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,96 +60,142 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111220506.Horde.EkRyYI2MJXvhgTT5Ojgh9r0@webmail.your-server.de>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] KVM: selftests: missing volatile and XMM constraints in
-  guest_code()
---
+On Wed, Nov 11, 2026 at 10:05:06PM +0100, sascha@eder.earth wrote:
+> Hi,
+> 
+> thank you for the speedy reply :)
+> 
+> > Cursor plane support is a WIP, you can test out [1] on your end.
+> 
+> That is exactly the fix I was hoping for.
+> 
+> Which tree and commit does the patch apply to?
+> 
+> My guest runs Debian 13 with kernel 6.12, where the driver still has the
+> hyperv_ prefix and the simple display pipe,
+> so I would build the tree you name with the patch on top and report back.
+> 
 
-commit 10757ad97814a547a0e0ce57f22b5e41e1c14071
-Author: David Woodhouse <dwmw@amazon.co.uk>
+Development for the driver is done on drm-misc-next[1], so I would
+suggest testing it on there.
 
-KVM: selftests: Add Hyper-V hypercall forwarding test
+[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
 
-This commit adds a kselftest for KVM_CAP_HYPERV_FORWARD_HCALL covering feat=
-ure
-mask validation, memory-based and fast hypercall exits to userspace, XMM
-register output, 64-bit result handling, and KVM_HYPERV_HCALL_UD fault
-injection.
+> If you happen to have a version for 6.12, I can test that as well.
+> 
 
-> diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/too=
-ls/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-> new file mode 100644
-> index 0000000000000..5afc99ed533c8
-> --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-> @@ -0,0 +1,268 @@
-[ ... ]
-> +static void guest_code(gpa_t pgs_gpa)
-> +{
-> +	__sse128_u in, out;
-> +	u64 status;
-> +	u8 vector;
-[ ... ]
-> +	/*
-> +	 * Fast form: the register parameters and XMM0 reach userspace, and
-> +	 * the XMM1 value userspace writes reaches the guest.
-> +	 */
-> +	in.as_u64[0] =3D XMM_IN_MARKER;
-> +	in.as_u64[1] =3D XMM_IN_MARKER + 1;
-> +	out.as_u64[0] =3D 0;
-> +	out.as_u64[1] =3D 0;
-> +	write_sse_reg(0, &in.vec);
-> +	write_sse_reg(1, &out.vec);
-> +	vector =3D __hyperv_hypercall(HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
-> +				    FAST_PARAM0, FAST_PARAM1, &status);
-> +	read_sse_reg(1, &out.vec);
-> +	GUEST_ASSERT(!vector);
-> +	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-> +	GUEST_ASSERT_EQ(out.as_u64[0], XMM_OUT_MARKER);
-> +	GUEST_ASSERT_EQ(out.as_u64[1], XMM_OUT_MARKER + 1);
-> +	GUEST_SYNC(STAGE_FAST);
+Quite a lot has changed in the DRM subsystem since then so I doubt my patch
+applies cleanly there or works as expected.
 
-[Severity: Low]
-Can compiler instruction scheduling or XMM register allocation reorder
-read_sse_reg() or clobber xmm0 across __hyperv_hypercall()?
+Hamza
 
-x86 KVM selftests are built with -O2 -march=3Dx86-64-v2 (with SSE enabled),=
- and
-read_sse_reg() and write_sse_reg() omit both volatile and XMM register
-constraints:
-
-tools/testing/selftests/kvm/include/x86/processor.h:read_sse_reg() {
-	switch (reg) {
-    ...
-	case 1:
-		asm("movdqa %%xmm1, %0" : "=3Dm"(*data));
-		break;
-    ...
-}
-
-tools/testing/selftests/kvm/include/x86/processor.h:write_sse_reg() {
-	switch (reg) {
-	case 0:
-		asm("movdqa %0, %%xmm0" : : "m"(*data));
-		break;
-    ...
-}
-
-Because read_sse_reg() has an output operand, no input operands, and no
-volatile qualifier, the compiler treats it as a movable computation with no
-side effects, and the memory clobber in __hyperv_hypercall() does not preve=
-nt
-hoisting read_sse_reg(1, &out.vec) ahead of the hypercall since out is a
-non-escaping local variable.  In addition, because neither write_sse_reg() =
-nor
-__hyperv_hypercall() declares XMM register operands or clobbers, the compil=
-er
-can use xmm0 when zero-initializing out after write_sse_reg(0, &in.vec),
-causing spurious test assertion failures in handle_fast_hcall() or
-guest_code().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111205836.4186=
-584-1-dwmw2@infradead.org?part=3D4
+> regards
+> 
+> Sascha
+> 
+> 
+> 
+> Quoting Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>:
+> 
+> > Hi,
+> > 
+> > On Wed, Nov 11, 2026 at 12:13:16PM +0100, sascha@eder.earth wrote:
+> > > Hi,
+> > > 
+> > > I am a Windows developer porting some of my own desktop tools to Linux, and
+> > > I use a Debian guest on Hyper-V to judge how they look and feel there.
+> > > 
+> > > The static picture is good, the mouse pointer is not, and I think the cause
+> > > is small and fixable in hyperv_drm. I am writing because this is the first
+> > > thing a Windows developer notices when trying Linux on their own machine: as
+> > > long as a Linux VM feels sluggish next to a Windows VM on the same host, few
+> > > of us will move a repo over and be happy about it.
+> > > 
+> > > Setup
+> > > - Host: [Windows 11/26H2], Hyper-V, Generation 2 VM, basic session
+> > > (vmconnect), 3840x2160 display
+> > > - Guest: Debian 13, kernel 6.12.113+deb13-amd64, hyperv_drm (Synthvid 3.5),
+> > > KDE Plasma 6.3.6 on Wayland (KWin 6.3.6, libwayland 1.23.1)
+> > > - 4 vCPUs, about 7 GB RAM
+> > > 
+> > > What I saw so far:
+> > > 
+> > > - The pointer trails the hand by a small constant delay. Fast, long
+> > > movements (taskbar to top of the screen) are visibly laggy, not just
+> > > slightly off.
+> > > 
+> > > - A Windows guest on the same host, same viewer, same mouse is smooth -
+> > > directly, and even when the host itself is reached through RDP. The Debian
+> > > guest lags in both cases.
+> > > 
+> > > - While moving the pointer: kwin_wayland uses 35-50 % of one core, a kworker
+> > > (events_unbound) 13-21 %, and the VM is about 80 % idle. Adding vCPUs
+> > > changes nothing, so it is not a lack of CPU.
+> > > 
+> > > - A smaller cursor and disabling KDE's shake-to-enlarge effect helped a
+> > > little. A plain color desktop did not.
+> > > 
+> > > What I think the cause is (from reading the driver, I have not patched it)
+> > > 
+> > > 1. hyperv_drm exposes only the primary plane. There is no cursor plane, so
+> > > the compositor has to paint the pointer into the framebuffer, and every
+> > > movement goes through compositing, the "blit to VRAM" and the dirt message.
+> > > 
+> > > 2. hyperv_pipe_update() uses drm_atomic_helper_damage_merged(), so the old
+> > > and the new pointer position become one bounding rectangle. For a long or
+> > > diagonal move at 4K that is a large part of the screen per pointer step,
+> > > which matches the more noticable lag (much worse) on big movements.
+> > > 
+> > > 3. The protocol already has what is needed. hyperv_hide_hw_ptr() exists
+> > > because, as its commit message says, "Hyper-V supports a hardware cursor
+> > > feature. It is not used by Linux VM, but the Hyper-V host still draws" a
+> > > pointer; the driver hides it by sending a 1x1 transparent ARGB shape with
+> > > SYNTHVID_POINTER_SHAPE. So the host does accept a shape from a Linux guest
+> > > and does draw the pointer itself.
+> > > 
+> > > Proposal:
+> > > 
+> > > Add a cursor plane to hyperv_drm (up to SYNTHVID_CURSOR_MAX_X/Y, 96x96,
+> > > ARGB) that sends the compositor's cursor image and hot spot through
+> > > SYNTHVID_POINTER_SHAPE instead of the transparent pixel, and re-sends it on
+> > > SYNTHVID_FEATURE_CHANGE where the hide call is made today.
+> > > 
+> > 
+> > Cursor plane support is a WIP, you can test out [1] on your end.
+> > 
+> > [1] https://patchwork.freedesktop.org/patch/761562/
+> > 
+> > Hamza
+> > 
+> > > With cursor hot-spot support for virtualized drivers, compositors would then
+> > > leave the pointer to the host, as Windows guests do, and pointer movement
+> > > would cause no framebuffer damage at all.
+> > > 
+> > > Independently of that, handling damage clips individually instead of merged
+> > > would reduce the cost of the software-cursor fallback (cursors larger than
+> > > 96x96).
+> > > 
+> > > A second, smaller item found on the way:
+> > > 
+> > > With Set-VMVideo set to 3840x2160 (Maximum), the guest offers modes only up
+> > > to 2560x1600. The connector's modes come from drm_add_modes_noedid(), and
+> > > 3840x2160 is not in that table, so it only appears with
+> > > video=Virtual-1:3840x2160 on the kernel command line. Adding the host's
+> > > maximum (or preferred) resolution as an explicit mode would make 4K hosts
+> > > work without that step.
+> > > 
+> > > I can test patches on this setup and report back. I am not in a position to
+> > > write the kernel change myself (drivers are not my field of work at all).
+> > > 
+> > > Thanks for maintaining the driver.
+> > > 
+> > > Sascha Eder
+> > > 
+> > > 
+> 
+> 
