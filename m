@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.80
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.52
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794420183;
-	b=fMJPRxaDdaYh5tXdniekwCTK+KXQO7W+uYNPrzZXi0UTZ2qF0g/MDl3I5UZKE7MCm4kL
-	 kokMB6EtambkvcSHRUigKnjEg6nqRmbwyLK+aw6nui7Pf3pJf1hV4mHnwSFXakieJ0qoJ
-	 VkRzXGlKCja0TlqFG/z3de8LnB6fouj/r3UqgFqNChBiehr33yvlaU2FR4dbcxlNeqcvm
-	 oxy0/MFPRtm09CT4cDUH1SvrxxKm/x4cDcFN36oteyvF4+pUyKhPpfxEE9iZ6sGNPGlkB
-	 28i9T82c7ExThzyJEWViWJvQoY6zPQw7LBYc/UbzsDQvjJm4ZdoHIUzgHIsW18iILmA==
+	t=1794420666;
+	b=qvN9S20D+pZcDi1kOD+8hmdwhRRy7WjvXzGlc/Vd+pGMZa5ZWxHckhSsFLjt0ZtPPVQd
+	 IYMCOr0PIEmgxZIVviToTGERJv/Xbxt41ZeGzhQAm+k9tfMBpb3/UGzmv6L9ZK79GMKjE
+	 5m/ibLnKJE2UTOczj1mmY6rqQe8iYiDIlgaGjPbo/5iWx6pqjp5l6xbYZDwRdtCdvui3B
+	 zvMaCanfXkv/4C4JArUozEpC/j/UmGnrqVVJs5SsSs8UOoA6AUB+HbPt5vsKU4c+DMeh4
+	 wDNKDc6UFGCfMSvUlLk8m8kqIAeojKuzp+toMXCxG2ISyGug6cfSMspOBqEVDKVcfww==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794420183;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794420666;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
 	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
 	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
@@ -25,131 +25,125 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:
 	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=HiOw3LdF1JN3zT4AciHve3DOdwEMwZOqZoL2IhKD2i0=;
-	b=eh8zTaKl4Ay2RS2ohBxz0Q774NHfLCq2RQDuZtBMG3/4iBp2rRfmDKB+H3aSAeuZCKOa
-	 +rHtFy7eWfmLn86x/aXhhLK9it6h5EqSnlbDRsIXwwQwGKtA7bXf0CF1T/tONzd3r0EX4
-	 Eip7xMLtbGcb4zSfwx8pjzU+StN5ucx2o2yf/UkDzVqn6cyjWI8etAwIOLlJ3yReM9li2
-	 CIDPvvfjsmDW6V9UNRyr7aW2NdYaXObth2PjKHJBlfDmd9u5IMgVKAFl1v66l1a94X31T
-	 X37R4a4EA9fHTyEUof7MzS1ftQLMqRp7Cm6EAP7/KK9qd8XCWs3ThxDK8thbSkcmojA==
+	bh=cnsidapds3rbDziHl2JuGhJZG4kvqSlTUlYS4EJow9o=;
+	b=vlyPFO6OJnFlpBF1eicNZ83WYtBIqu7+kXhPTnyxkpsDKGHXYf8IN1Gy8IvI3/ZKgSyt
+	 L8khJ8zmBgW+LuC+0wdl2dsd+44bHDmfq+hHoetHibe8v7v7upkW7PF4T7kyJClyG/UNa
+	 ZTjNXBEUIWrU5vv2HM92tHN1H7kDcZ2HmoI9pkAMm+hCbh0MQ1y1YQJiloMqC94cnQqIp
+	 sQuc8FkStWzkxW4XF1eTEsAaGrCRZEjrI8mOyYTw398a6jhfRdk3HtblHB3MKNri61G9X
+	 S8+fMoI7PIiQlftN7kf8wtyOXWoc7DAK46F/ppewQDDcYk4XojraBe4Y4cJNPktSSLw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=outlook.com;
 	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=tdKVU2Zi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.80
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19011080.outbound.protection.outlook.com [52.103.23.80])
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=mdipFx0o;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.52
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azolkn19012052.outbound.protection.outlook.com [52.103.10.52])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F14606A31C;
-	Wed, 11 Nov 2026 18:03:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5F14606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1E2606A332;
+	Wed, 11 Nov 2026 18:11:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C1E2606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=tdKVU2Zi
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=mdipFx0o
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KZ0atUfiF1grk2yeslh41nlYMGDUt92V+sagUKv4/nFrHsWC2F8rZl3jC/EgrPCSXXFj87kR3SEpEX6fF4xeX26QrCnl86/4kRID9RFaw4Iw/UmKMDUFWFUo/5vPnlLAx8JJPe8tH4oTxuXUYcHrCsqh0OEbK8Sn9SznZdON276p77krevuI3PCyKBTaA3thRtiXnGSXvD738Xx+Q+0R4lL/scT174r3UhXm3zaMyPTFOi7W/rHV9cs3d0XAB6TPtWyJ7VTOIhbdWWLKWL+WWbiPefOxMejhT0A2iqEQIpYOe62dEmCABR75rm0fUSoBu2nr2FKIcV7WVpDJoeRhJw==
+ b=XBHqExPTdLNU/mqpiyS3/QTwR1CA8Z4nMvt7TjrY+yPeGSmmOBEnIVnyMjk9I7oPnnZEU00TGWuKcsYHS/a7GDqI7Pv0AYYlSl78RF6j4HvvAh+am/ZFloTzeMFFj4CiI63vpf9APlqlKupy9psZwsDrS9skb+nRRR+8jsHbRLpEV0GYwJHpHJ6g+bIrrtTMDSJRGdyGlbFxv13nkwURGW3Re0uak2oL0TQRb+tnBLB2tU9yodf4m3Cgh0H0vCZ/pEj1xCxJ10+5gFyPw3goDklQ1NeUSe7iJjYhJCkGUnrSeSWNLpUiQS3Wk/IoSYrAqoyBJjtGayUaMEa34uFGig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HiOw3LdF1JN3zT4AciHve3DOdwEMwZOqZoL2IhKD2i0=;
- b=YrOXnioxflaZUhFCDkBIHtY3hsd3PL1+wFcktTt0ucuDVyoAgeMrWbKXPlQphXZtvx0deTyioVCh0FjJ7MMXT2uodWCNc++jkCY298k/MN/zGbN/nw5nc6h9reOx9pObst2ITXDyVIqCIelTrg+FMvepHworfc3frN4ItlCJXyjn/8Sv+JIxXBWGFIr06hc4zI/BOjFx1YrQqjUfuiQxN/IMWVqZweq7kpHDzZILBMJJ8bo/aUdSaPspyxKYT2ixa9afySLta6TzcnrAawb5oyWuAcg8eG3OkIkXBKo9fTaDcoXcX+3jm0zMTg2bAYW3iYaVjuvq9LZzAcsOoSfxXA==
+ bh=cnsidapds3rbDziHl2JuGhJZG4kvqSlTUlYS4EJow9o=;
+ b=qTSdtdvvuansckgvAAZ5FKO0pW6EaE48fynCj/vWNv8lH9CC70w5T1nlxScMnBwLaD6ZT8VIyMz0jyNqwOSdHfPa618Az11hETl5kuy/uQ6aqqXSAa81XKl0wkYa6yMlUHtRfhFwZp+S32IeHArBsWWmaPkSoejz/ETMc3tFxLjdyghiSMpjDuexhBgQuuVRpuL5b3NhhdVcOJPP8ET+VcSSwec6SxrntEmfZgdx9cwNz6I5nZfaXhDxiZNS11Zncemt+oOKo9yJlk1O7DCydAM3XtSfIyDg9RGD+fr5dOgE70R92xEl2S9Cx+JL2YP+lugRmi+wZF95F5RCcyX5ZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HiOw3LdF1JN3zT4AciHve3DOdwEMwZOqZoL2IhKD2i0=;
- b=tdKVU2ZiCKGd03AYAgEtusE2hu94djj+HZdwGYhHsXCfz7SYT4wiTBZVBnztpmu5fqY781tFXQVOqolxnG0L4WoTdJU5NohPJ7Uy2j9s2EAHOqVocbEQ+j8CHaZDiLJ/0/FiS3HPOXnOUICV6sExmfb3N+BBW+IscNBzcdEh67ELV8P3UVM64IOETrwPE3tGBoXRUDmhKsizurtbtcTeqIbi7CwIV3DEF6FSoPrnQxnvAmK2O6fZKcKmDThXLUehbBWLuCB71rBN6bRGWwH06pQCf2VXiHOEMVtobpEY+kwYgD9VsvY772gKaETJsxUJn30ZD5E3tiiIG8rUP3jjWg==
+ bh=cnsidapds3rbDziHl2JuGhJZG4kvqSlTUlYS4EJow9o=;
+ b=mdipFx0oB2LnBI1JdsxX44AKpFO0I2RFpzx8anDdhi8uEd1Ock4SZglUdS4n/ljeyzuEYbXlw5vxP8v9brZbS6CD0eQppoGdVaGNVtSz4uJjfNZhcVIIZZC/np2boBhAsNq1TusV3/fSoUhZxf4jM16d00zfmQirLgGqjpatPJp+egSYuA9wBM4qZyoHwRxN9RiyqS55HukZ6ltghYUyTN176CPLw/ucReHQiLjjPnz83RiSm4VQv5p/1OGF8fHa/bCrPMw5KdDoNl6RJwZ2W/ykxmCMXCAzP/Jejpdlm2BzCc08qhDqQhJy/9b5lzf2qf2oSqeuiB4fc1OwOt6meg==
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by CH3PR02MB9714.namprd02.prod.outlook.com (2603:10b6:610:173::6) with
+ by CH0PR02MB7947.namprd02.prod.outlook.com (2603:10b6:610:104::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Wed, 11 Nov
- 2026 18:00:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 18:09:03 +0000
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
- 18:00:59 +0000
+ 18:09:03 +0000
 From: Michael Kelley <mhklinux@outlook.com>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>, "decui@microsoft.com"
-	<decui@microsoft.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>
-CC: "arnd@arndb.de" <arnd@arndb.de>, "catalin.marinas@arm.com"
-	<catalin.marinas@arm.com>, "linux-arch@vger.kernel.org"
-	<linux-arch@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-hyperv@vger.kernel.org"
+To: Mukesh R <mrathor@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
 	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "lpieralisi@kernel.org"
-	<lpieralisi@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>, "thuth@redhat.com"
-	<thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-Subject: RE: [PATCH v6 3/6] arm64: hyperv: Add per-CPU RSI host call
- infrastructure for CCA Realms
-Thread-Topic: [PATCH v6 3/6] arm64: hyperv: Add per-CPU RSI host call
- infrastructure for CCA Realms
-Thread-Index: AQHdaMzTk5/lTQAdtkW0DiK1+GVhibcpO5kQ
-Date: Wed, 11 Nov 2026 18:00:58 +0000
+	<linux-kernel@vger.kernel.org>
+CC: "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
+	<wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>,
+	"mhkelley58@gmail.com" <mhkelley58@gmail.com>
+Subject: RE: [PATCH V0 1/2] Drivers: hv: Add new function
+ hv_isolation_hw_cvm()
+Thread-Topic: [PATCH V0 1/2] Drivers: hv: Add new function
+ hv_isolation_hw_cvm()
+Thread-Index: AQHdcYNITCzXCeM9FkG7osdZddDNR7cpLG/w
+Date: Wed, 11 Nov 2026 18:09:03 +0000
 Message-ID:
- <MN2PR02MB686375CB482F6EEA9D00F806D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-4-kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261031001412.4150488-4-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB68638A29ED39B5D77EF34616D4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <20261111022036.351231-1-mrathor@linux.microsoft.com>
+ <20261111022036.351231-2-mrathor@linux.microsoft.com>
+In-Reply-To: <20261111022036.351231-2-mrathor@linux.microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CH3PR02MB9714:EE_
-x-ms-office365-filtering-correlation-id: 9597c95f-c796-4c21-dcd8-08df401dbdaa
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CH0PR02MB7947:EE_
+x-ms-office365-filtering-correlation-id: 0d8274cd-97e6-4c6a-d85c-08df401ede45
 x-microsoft-antispam:
- BCL:0;ARA:14566002|13091999003|24021099003|31061999003|25010399006|55001999006|41001999006|19110799012|8060799015|12121999013|8062599012|37011999003|51005399006|15080799012|12091999003|40105399003|102099032|440099028|3412199025;
+ BCL:0;ARA:14566002|13091999003|24021099003|25010399006|55001999006|31061999003|12121999013|15080799012|19110799012|8060799015|8062599012|37011999003|41001999006|51005399006|12091999003|1602099012|10035399007|40105399003|102099032|4302099013|3412199025|440099028;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?TBJU6N0Hg/UtsYVB+8Y+f0zzzQxnLkYrmoOMXLHnVllBaHyaRQsFRbM+7+Rx?=
- =?us-ascii?Q?i7zBT8TAEGAWsJbYCWsAbcbYKxw/2GfP95QHEnd+0eiWOZww9QIupz0NOwfS?=
- =?us-ascii?Q?TPjrOR/uLA/Ou7NSXoMURgUVRVWIyYZYBGwvcAYEuK+7bI7ccFV9NPuM7oZd?=
- =?us-ascii?Q?LYEMrTLFRyOkcPjCVok8SbHqAk/Ru08RpnwQv6dIobv/J8Daqt1EOocuCHdL?=
- =?us-ascii?Q?ImJjnLAS8weZt2/Zl6JIsD5fJOb1i/Q62pDu6g6xW7UH5WNtyK/wKg9zreAw?=
- =?us-ascii?Q?JMKyP+hj0wF1x7RMAoUk997reaRbGTJn9MvaRon73EDXn+S59yloZN6tak2W?=
- =?us-ascii?Q?sZ2MWBM46mjYZUC7/c9/CUconVoOx7+3kyc6aPMlajaZX1pqMi/o5MdDjnxh?=
- =?us-ascii?Q?MEPqMgB9lDCSK44xUr5fKPN8Eu1y27KFFXCkERayjTTj+1fNq0WX3meG9KNh?=
- =?us-ascii?Q?ZTl6xbbFCLG1fyh4FT6hSpxapxChaNETnoHlx61IY7bRFdIg5Eaju9GWkY5B?=
- =?us-ascii?Q?dGdXlSWwAlQK0jzXfSVK5rKidl5IcVTtlGVUYlinUBhV1gzTwh/Z//hET4Ve?=
- =?us-ascii?Q?RaJf6uJq5B2EjTK4XhDkZpWDko0ewIH06SgaVcG0YZ+MBzTmTUlP8k9gbXzF?=
- =?us-ascii?Q?F7KKzQfOv57PpRxCQgCAmMU8wCe8vB8wirUS52Wcd1/f8YTiBV+M8gJFlZMY?=
- =?us-ascii?Q?I/c69tWFS5mPCM4qWs6PzQTyhpWbEtMzuLH79PqqgnJwsmdk7gNexyJhkdEI?=
- =?us-ascii?Q?dP8zAFtonFKPadMP+2biW7d6wePa8zRE2kyv9sAbfBNQEW/oIvMi1AzG7yT+?=
- =?us-ascii?Q?2DysMVSJcnfF9Gz97bXyMelPVOoZ7cF2f+9v2KJSB7Cu93Cxs6jNydJS2Quk?=
- =?us-ascii?Q?OfChn2d4bKnKMSUGyfnS6biG/q1n+gQ3Qxz83++3f8FfcX9aJDF6r6LpJ+NP?=
- =?us-ascii?Q?Tqfz5MszkqVCQcLDfGUVLgzfXRGltqCWhEhgMfy5bkkfAs8nsZgG/bOMVDjj?=
- =?us-ascii?Q?+rYio3Xqgucgjrg3KKQ5yRS8snpIui/yD7yfcVmCMTmfZME9/ldjl2Lf8/+Y?=
- =?us-ascii?Q?aTPKosV/XpBeQJCi+EjMaPuz0Zb5Sf3aJxLJw4D0xU70scPG+DjRgOobWL/o?=
- =?us-ascii?Q?y1bvEjy6Y00A?=
+ =?us-ascii?Q?+TLugt3884cDLnSgnGJVTRaCZHODllEfXRFRvkzykDfK8kPw7HbkoHUOYiH2?=
+ =?us-ascii?Q?/zfLL4Rd6M0XGQs2vpJ8CUZIPfvyl43LTygRU4Od++Q752pwa/AyoioI3pDx?=
+ =?us-ascii?Q?q5Ot1Tzmuf0+VAO2POYfOuN1tw0D7S1WLsfpuWvVj/dJxILBmK6Xu70lQOVW?=
+ =?us-ascii?Q?AZikHJflhl6RwUZ0w0ChiwMxJ/1F6aFbCai6rwrRUMBqAos3xV+B6jV4PZJF?=
+ =?us-ascii?Q?8XCFCmmTguw3vWQjbJzcQ0zgB4dLuUfwsgTZoTWXstQVsfeMMdRG0enRvCGm?=
+ =?us-ascii?Q?GRLrRnjMQkjNFlmUo4fqOnSUoh6hbkjFnhzbPEeGk6UD9hdW5W3+hFnoTowl?=
+ =?us-ascii?Q?0G/jm2kyPin0yHCnwnNTbfF+GsBigabiAaPNWYBOpmuRzWrB8RtGWi6FiPBz?=
+ =?us-ascii?Q?1ux29063kEO8xYEwoYP8HwJOH2n2Yj9l3dTABiUV13r3NQTdQ0FNQxeDgnvl?=
+ =?us-ascii?Q?NMkPGXT4/JPT1LWM43Ega31F1nyKlmFjzqj50EJC1XCmnsG1fckBSRqkCAD6?=
+ =?us-ascii?Q?OwR7Fwy5NJELIzhGIZoEW1goPESf045lqT/VMXDBO3eu49RaUM0Sp+BagN44?=
+ =?us-ascii?Q?/AwR6iCk1aNwsbYUFV79jjF954UJ4rsg1BPNWTMZ2vcBI5bTwRKrJwZiHFJd?=
+ =?us-ascii?Q?myPul/1Guw+sHpw3CjCSTmTL8MA74mEZfXWurPYXWP0JHjgMttZCJm56carO?=
+ =?us-ascii?Q?KdvfNIfr4byf5W2lVTa+jkYRIDhhjqjQGaWA6CU7v9XkJvR1wivAM9Uaq1Sl?=
+ =?us-ascii?Q?V1UtZPRAGWP0WFwgTysUwNqcwtyqnljtP+1ianC4QB2vG8vJIwLTzwpUpFfI?=
+ =?us-ascii?Q?DPwboHTUKO5pAxTNKJ/YTASjfq6l/ZIi+Vz0CAlPlhaS5MNLfoYTZm8+1W/2?=
+ =?us-ascii?Q?2bcK22E5urq8utegf0hcSgX8rtgDLOryVFqnDP5PHHMgKpo46ckezUOS1q9Z?=
+ =?us-ascii?Q?6FTdRNtbWoiscTBqDJbW7LG+Q2ilDrg2K5gVyYAtlwMfSP8NIDjv1kYJpILJ?=
+ =?us-ascii?Q?CUrvvuOxUrYdYmHZnBZKxemeHTSgRe2Clj6orzTJjQK4gQ3kFjr4lSj48KyW?=
+ =?us-ascii?Q?n9llvHCujTmwGSc0jztNLkTeG2DEcXaKHH9xdko2ywBd+PNNDTeyDQdgYIzf?=
+ =?us-ascii?Q?/iqKfqfw8+d1EqrjnXYHoYEw7ELlBB0GeIzcH654CABMQPiKxaN2VfY=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?8613EuhF0qBEIG32khtXATXyUwe7UVRnltGSzM1RaEBkn08ElKXU+6R2baeb?=
- =?us-ascii?Q?uJ5L3QLnykf4QWnOago0TSo4kJXdwU2/wDOn42LmHv9h9ae6h0I702sp67PV?=
- =?us-ascii?Q?T4wuMeCo+WeiYx5bVMdiSIQNRKuzxfuPv0UfzT+wLzKXEAW+BCTAOhaWSp7c?=
- =?us-ascii?Q?F33GMm6jvl/aNRobJat4f4kpclkQNgHr/uGxciDl51No3DiDpW4G5iPaommu?=
- =?us-ascii?Q?4wPswZVEXquCPvbQ8Wz4FY2/VutBLvujl2LsVbJMXT5lkbUk6/2V413Rh3aH?=
- =?us-ascii?Q?M/7b8kDKlmtRn1DMbMaAmXG3ZZI16ITL2ycAljBATu1nN3X4IIS8PA1wjT02?=
- =?us-ascii?Q?p+E426vQeyiknczmFHKNXNqOISk79OKhgb85HuhH5+9xqD5Gd+SHudduO457?=
- =?us-ascii?Q?kpDl7TLGk5pYVGg5eXRRaw5r4F0EdwqvNm35/Bqt68v0iK20U+BbJaqNDD0G?=
- =?us-ascii?Q?3ojGd5qh1cKLxs+6UuzPFC0de0eNDrnIDMQfqnSP6u9XiX12xtecSP9x7mcf?=
- =?us-ascii?Q?T6sl2FyVexZTPUm4ec9vQbvRNLvv5iKQ+LJJ6Yld3/e3VdcNs21ZC84Ey2FH?=
- =?us-ascii?Q?By152Mp3nF0aj2PN+eH9kabwMrCnlPGs0njEhuKMhitKzHszS15NSb1xLac6?=
- =?us-ascii?Q?aHr1/I3ZmmUpzjGBBtnPpaku6yD8PLtqYozhhmtIAhsausnLIrg7Wynsvh4y?=
- =?us-ascii?Q?wGAU83RFN8eOqETGq0+UhmOqrizocXErMxzTe+XLye53I5YLZT+pQb/GXeHd?=
- =?us-ascii?Q?c0vSVrTqU2ptDe4crQFr2VW5mz99WTAIIOHz/HuSLkrVRM9u/eu59U1fKPTn?=
- =?us-ascii?Q?NgL73rNHzKdrY19t79EWNuoYFekIZZ61ogekH9OogMFqjVpi32cKgeRhYMJy?=
- =?us-ascii?Q?8IyaRRy8tfhOUHrPxpnJYNgy2zCUV6A+A0EsW9ydglWMbItgwkN3biNCr/Aw?=
- =?us-ascii?Q?QfgRe2q9GsOUPa7UOdL0hHSL52r7z26IIYASzgkv2E4s0d8vRFtfRujUrqBt?=
- =?us-ascii?Q?0mlBOk5SRsHx3R710uqrolR9DFnU6KmpJNL8TrmDQdeprBGea1gTpF0Deimk?=
- =?us-ascii?Q?0a7k6SvLf/S4Ti/SyaNXKew3qZsDwuMmBLPfwEXkByDoj16RQocBYaPKxs2S?=
- =?us-ascii?Q?h5qrs8GV/olzTz6gFzJjoeCgnbWEEc+rsky0nQ/Mj69wYpnShKv6qqSwa9Oy?=
- =?us-ascii?Q?lAmSz/74GTenVYUwYlLnpSf9zxUd2IPQE0+kNjK5svDbBXUHcCpdt3HfMfHq?=
- =?us-ascii?Q?kfjkv0bocD7bkcpw6CyeEE3HvfyIHBX+qG/impQG5TRkNiAihCXPAhRlbjph?=
- =?us-ascii?Q?YPpKk1ieS35FUfdV2vGq7Mhd3ApRrG3D1Cqf5MIuoe6gt3AM4SuH+jIj/qg9?=
- =?us-ascii?Q?0bAFMIc=3D?=
+ =?us-ascii?Q?jIBNkw9RyvVRr6oXC9KtBlBO1BmwKEtxYNpuMbH9GpIbBFi0XRnTk+/VxHBB?=
+ =?us-ascii?Q?dxSy+qG1N6psYq6fP/UIlF8BP4SGBP+7jEvmRHdeOptrdeoxJHIYgMeg7p93?=
+ =?us-ascii?Q?rEUYOEDe+g52xsj87evV0sQRNXc2BVY47fICi15ItEU1bV+jKZdXkGaq4sYd?=
+ =?us-ascii?Q?qgIHPILSIZpzX3kcQKkz3o+7s7tK+JnhMBMEtiGowMX2J09EGkcme7Ib9EgK?=
+ =?us-ascii?Q?i/cEyojW6XxDFGTClPziGRQPZ1ICbUOrE8YYn2itsreIxFRWE6/wQXB630vv?=
+ =?us-ascii?Q?D/aRUQJhZNoZMzUwauFaru9HSWoi10TIdGrDeh1zlLHomAha91EVD26CWtFE?=
+ =?us-ascii?Q?F/fXz2zZGnrkECfoOEJVk8I51B5CaaHqO+oyBS0iEnb4NCukZd3iVuUhiVoc?=
+ =?us-ascii?Q?0Wa3nvPDGkTYNQwdqHTEYhLe/ppibmZ0W7/bAPANo6b3HAL8+ISSncBCMDJz?=
+ =?us-ascii?Q?yT1ECgrFHTbU/DKDv/Oxmt1jBsEci8un6bKqgdhXTILm9GIoSMVopkgZn9UZ?=
+ =?us-ascii?Q?lwl2EwgdBFLIQsJ7ZB/3lnNlhF0UxWFu4feeG9NFsAqhTtgjg2rZXnq93C5r?=
+ =?us-ascii?Q?4oDRw6HB2bxKN5jixjglTnyL3CuWI23yUnu5uNoeeJ+8EaHv33GFUnLMfNlH?=
+ =?us-ascii?Q?/9z5XA15NMMLMysAjjnfVEI94TFeSm40gDunQ/GGcTw8dNAPPYVUhnC+y9Dh?=
+ =?us-ascii?Q?bZaTEpvkuZEICl4XRrzyGgStFZS4zys1kTWhU6ryPJ+IUizZny8kHCX6nEAa?=
+ =?us-ascii?Q?QdGxcM7JAjdsGLIcDzXdwcVFtUp0rMb45kEDdUPBCRZA3wQiRN9cObRBGHe1?=
+ =?us-ascii?Q?8JWcj4Qowm9irP+Mlp612VYxe6jK+wCc0cbXREu9/orQ6u6r++6ne7uBq1Oj?=
+ =?us-ascii?Q?bdtOS6/We3oYqfB2ng6RjpTI01i+8OcDHtQxuq4QzzqOSajhnp8Jbg/rSUHF?=
+ =?us-ascii?Q?IQi4wrpXPAHVEZipCIiadZGqy5laAXWFJOPt/b9Rmeu5O1n9tRFmQYustVqp?=
+ =?us-ascii?Q?NcE5/ohwCwRRcKw7aEl0UHH51W62EhPs2RcywuGrA301zZMaLgueof6MaRtg?=
+ =?us-ascii?Q?/kxD98c3REnCBwllfucfwB1chzMd3N0TGdVsiyGjCBl/A5nOmyFWxSb5mFzq?=
+ =?us-ascii?Q?TmQp7cyu7nxnKZG+RTe+l4EtVLLcXL/oYj9WHHIxG1/bGBnoDCeAYwyWI2QE?=
+ =?us-ascii?Q?PAvCTdQuam0wWoqq9wOf0D5B+3tRED6srG8yImHZXAQaRuKgI5o0xHh/YyLU?=
+ =?us-ascii?Q?MkU15ARYZtnIuLxyFCeEvaNCpVFmgO3Gs3Z3SzmCMvl3IgVTN3sZS1ytKPM1?=
+ =?us-ascii?Q?Vl37WDq8K/sXHMPjnrGrD551b44PNkzLErINpOMIPTozk/98xyok6hlI2elU?=
+ =?us-ascii?Q?tGWa3h0=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -165,129 +159,106 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9597c95f-c796-4c21-dcd8-08df401dbdaa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2026 18:00:58.8919
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d8274cd-97e6-4c6a-d85c-08df401ede45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2026 18:09:03.2075
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9714
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB7947
 
-From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October =
-30, 2026 5:14 PM
+From: Mukesh R <mrathor@linux.microsoft.com> Sent: Tuesday, November 10, 20=
+26 6:21 PM
 >=20
-> Arm CCA Realms cannot issue Hyper-V hypercalls via HVC; the guest must
-> route them through the RSI_HOST_CALL interface, which takes the IPA of a
-> per-CPU rsi_host_call structure as its argument.
+> Add a new function hv_isolation_hw_cvm() for convenient check
+> if a VM is running in HW confidential mode, ie, TDX or SNP.
 >=20
-> Add hv_hostcall_array as a per-CPU struct array and allocate it during
-> hyperv_init().
+> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+> ---
+>  arch/x86/hyperv/ivm.c          | 5 +++++
+>  drivers/hv/hv_common.c         | 9 +++++++--
+>  include/asm-generic/mshyperv.h | 7 +++++++
+>  3 files changed, 19 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+> index 2ce4dfe53472..b3340be0c43a 100644
+> --- a/arch/x86/hyperv/ivm.c
+> +++ b/arch/x86/hyperv/ivm.c
+> @@ -944,3 +944,8 @@ bool hv_isolation_type_tdx(void)
+>  {
+>  	return static_branch_unlikely(&isolation_type_tdx);
+>  }
+> +
+> +bool hv_isolation_hw_cvm(void)
+> +{
+> +	return hv_isolation_type_snp() || hv_isolation_type_tdx();
+> +}
+> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+> index 27b9b79d4f4c..62b52855ae69 100644
+> --- a/drivers/hv/hv_common.c
+> +++ b/drivers/hv/hv_common.c
+> @@ -528,8 +528,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>  			*outputarg =3D (char *)mem + HV_HYP_PAGE_SIZE;
+>  		}
+>=20
+> -		if (!ms_hyperv.paravisor_present &&
+> -		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+> +		if (!ms_hyperv.paravisor_present && hv_isolation_hw_cvm()) {
 
-A quibble: This statement is a bit misleading. I think you mean it is a
-global array with an entry for each CPU.  The term "per-CPU" typically
-means something allocated out of the per-CPU area.
+Any reason not to use hv_is_isolation_supported()? Your
+new function seems conceptually equivalent, though at a
+detailed level it handles VBS isolation differently from
+hv_is_isolation_supported(). But I don't think including
+VBS isolation here is a problem since set_memory_decrypted()
+is a no-op with VBS isolation.
+
+Also, Kameron Carr has a patch set in flight that collides
+on exactly this code.  See [1] for the patch and my comments.
 
 Michael
-=20
-> The allocation is gated on is_realm_world() so non-Realm
-> arm64 Hyper-V guests pay no memory cost.
->=20
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
-> ---
->  arch/arm64/hyperv/mshyperv.c      | 27 +++++++++++++++++++++++++--
->  arch/arm64/include/asm/mshyperv.h |  4 ++++
->  2 files changed, 29 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-> index 82572c5..46ab2da 100644
-> --- a/arch/arm64/hyperv/mshyperv.c
-> +++ b/arch/arm64/hyperv/mshyperv.c
-> @@ -14,12 +14,16 @@
->  #include <linux/arm-rsi-cmds.h>
->  #include <linux/export.h>
->  #include <linux/errno.h>
-> +#include <linux/slab.h>
->  #include <linux/version.h>
->  #include <linux/cpuhotplug.h>
->  #include <asm/mshyperv.h>
->=20
->  static bool hyperv_initialized;
->=20
-> +struct rsi_host_call *hv_hostcall_array;
-> +EXPORT_SYMBOL_GPL(hv_hostcall_array);
-> +
->  int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
->  {
->  	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION,
-> @@ -110,6 +114,20 @@ static int __init hyperv_init(void)
->  	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
->  		return 0;
->=20
-> +	/*
-> +	 * The RSI host-call buffers are only ever used when
-> +	 * is_realm_world() is true. Skip the allocation on non-Realm
-> +	 * guests. A single contiguous array of nr_cpu_ids entries is
-> +	 * allocated; each CPU indexes into it by its processor ID.
-> +	 */
-> +	if (is_realm_world()) {
-> +		hv_hostcall_array =3D kcalloc(nr_cpu_ids,
-> +					    sizeof(struct rsi_host_call),
-> +					    GFP_KERNEL);
-> +		if (!hv_hostcall_array)
-> +			return -ENOMEM;
-> +	}
-> +
->  	/* Setup the guest ID */
->  	guest_id =3D hv_generate_guest_id(LINUX_VERSION_CODE);
->  	hv_set_vpreg(HV_REGISTER_GUEST_OS_ID, guest_id);
-> @@ -131,13 +149,13 @@ static int __init hyperv_init(void)
->=20
->  	ret =3D hv_common_init();
->  	if (ret)
-> -		return ret;
-> +		goto free_hostcall_mem;
->=20
->  	ret =3D cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE,
-> "arm64/hyperv_init:online",
->  				hv_common_cpu_init, hv_common_cpu_die);
->  	if (ret < 0) {
->  		hv_common_free();
-> -		return ret;
-> +		goto free_hostcall_mem;
->  	}
->=20
->  	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
-> @@ -150,6 +168,11 @@ static int __init hyperv_init(void)
->=20
->  	hyperv_initialized =3D true;
->  	return 0;
-> +
-> +free_hostcall_mem:
-> +	kfree(hv_hostcall_array);
-> +	hv_hostcall_array =3D NULL;
-> +	return ret;
+
+[1] https://lore.kernel.org/linux-hyperv/MN2PR02MB6863AA6357C8E0D4881F5FEAD=
+4712@MN2PR02MB6863.namprd02.prod.outlook.com/
+
+
+>  			ret =3D set_memory_decrypted((unsigned long)mem, pgcount);
+>  			if (ret) {
+>  				/* It may be unsafe to free 'mem' */
+> @@ -696,6 +695,12 @@ bool __weak hv_isolation_type_tdx(void)
 >  }
+>  EXPORT_SYMBOL_GPL(hv_isolation_type_tdx);
 >=20
->  early_initcall(hyperv_init);
-> diff --git a/arch/arm64/include/asm/mshyperv.h
-> b/arch/arm64/include/asm/mshyperv.h
-> index b721d31..aed0aa5 100644
-> --- a/arch/arm64/include/asm/mshyperv.h
-> +++ b/arch/arm64/include/asm/mshyperv.h
-> @@ -61,6 +61,10 @@ static inline u64 hv_get_non_nested_msr(unsigned int r=
-eg)
->  				ARM_SMCCC_OWNER_VENDOR_HYP,	\
->  				HV_SMCCC_FUNC_NUMBER)
->=20
-> +/* Per-CPU-indexed RSI host call structures for CCA Realms */
-> +struct rsi_host_call;
-> +extern struct rsi_host_call *hv_hostcall_array;
+> +bool __weak hv_isolation_hw_cvm(void)
+> +{
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(hv_isolation_hw_cvm);
 > +
->  #include <asm-generic/mshyperv.h>
+>  void __weak hv_setup_vmbus_handler(void (*handler)(void))
+>  {
+>  }
+> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyper=
+v.h
+> index a3d497d99b0b..440c599784eb 100644
+> --- a/include/asm-generic/mshyperv.h
+> +++ b/include/asm-generic/mshyperv.h
+> @@ -87,6 +87,13 @@ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u6=
+4
+> input2);
+>  bool hv_isolation_type_snp(void);
+>  bool hv_isolation_type_tdx(void);
 >=20
->  #endif
+> +/* This needs to be before hv_do_rep_hypercall() below */
+> +#if IS_ENABLED(CONFIG_HYPERV)
+> +bool hv_isolation_hw_cvm(void);
+> +#else
+> +static inline bool hv_isolation_hw_cvm(void) { return false; }
+> +#endif
+> +
+>  /*
+>   * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
+>   * it doesn't provide a recommendation flag and AEOI must be disabled.
 > --
-> 2.45.4
+> 2.51.2.vfs.0.1
 >=20
 
