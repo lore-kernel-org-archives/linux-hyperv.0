@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794430720;
-	b=gTVnLcDcyyXlp8bNTG1gZBBDSQTPfWGxvEz6OLeyNJRC5l+sPyKBMwO52cjuS1br1uBX
-	 4aH/xRkcAdofyH4bntR9IgF0zfq7Ya2z/43aND05JKpZeTQY+PJ7mpqtYSogP+RAKNJAK
-	 lroJCELsEeqxVWyMQ3LlYv0eboKo5Qa2dhYllBqNrmOHhKX++dHHzbEs+YE2STkeNneAS
-	 hfzk48BjFPL+vuXKQioAK6OvvSKk7RwAP1NryiRWfH2+LFEM4YsKrnOb/AZHVvNpfU6sB
-	 COhOQ9xxRdlHcUO4R92dCR9nin/r7w01bvPfPuiQCHd389J2MKSFg1AuMQNRAkbU+sQ==
+	b=pxZ98RPL0Y7Fq/2Y89HVM/nMQAoGieVD2EJALl88gcZMdo/ZhxVR8tewI2JtIwSYV6Ly
+	 +ikW6OzqirOi7VjyOA22+VtriVaAchmnkbVrz/wvfSChxfOy+YYyB/vzgSDj23pW42BF5
+	 332UTkk2jOWjI0+f7MUUZ6WhMOv1ciOqRJyxagtF5XgL6IYOTWeU4IjA5xzsWfE2J5kEA
+	 IzXLs8cLeiEc21K8EaPlw2vbbGuOy5lpc1ASRgA8/lF7t2ynDjcRX80SK5v32eryybGzp
+	 stkW1zDkeAqghjMTtqtBVOeaZJ8LFge7va0c7nj8YStuUeq8+EbT81GGFEW5ddpd43A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794430720;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 Sender:X-SRS-Rewrite;
-	bh=YUFQ0BzuROj7vKv1gEx2DSIYXCVTpEtb08fn/aq/i9g=;
-	b=GeuFDTAl0cT3P7khb19Uz+hKkDPwMXJYx2I3bGHIiuQUo2UMBM3fgvliYtsg8x+JXsac
-	 dFr0k+mZzZoXdS1kQIZVHlL2AhfAQjiTdhA0Aki/8b3KxSNp6mRvDkKl7IWFQGL8YNl2Z
-	 YJy5B+Pp/opguZ2QW7rHY9ErJ75q29FMvSjFOj3v9dlz2Tty+v8JL7axJNMGie2NYC4IX
-	 QT3vjZWCzoTJjD0FazqXJ+gbMMSJpqsrJC9BLOoV60tn/JEE9HqrqTeMIj93W+jZfu+SR
-	 45QSMIeKzhtB1b207othSHe6cyBqIFeLtenlfW1szYLI/Rj8UgwxkZHW32coufxqQnA==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=BcsL0t8ZQN1z8JR0BC0PFQ+tjj2UXrV0eDXs9RKNGc8=;
+	b=oIFaCw5Kl+ZLxXvgZ5ZxQMUlpJ2eIGXzJyLI8iyqtoQ2UrMqUejURf6MpE1pbMyXn2Hy
+	 0aM24y1wk1Bit/IVKIRQzQxzGI03HJEDiKWMQ5tnXDTX/p1B0wlVrpQOMo8pIapmS237c
+	 ldtUDEi7Ex16hi16Lkdt/loattQ97oqOYWwG+qfnX+BRNUlRW3JhniGqLELIGiBd6xT/w
+	 rcD9YtyW7DsGapJWtLDhQzkaqA2aULzsKTLfL4DNGCGAXuOq0RSUumC+TFtaWF2Ld0enT
+	 4/s8VE3Woc+GkTQhcAINx681/ngb2uroJGp4eDkoApH+guZjd4dHGH+8+4umBEdt/4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BYRXdC+e;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZcdPyNZp;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F6F606A31C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F7C606A321;
 	Wed, 11 Nov 2026 20:58:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6F6F606A31C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6F7C606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BYRXdC+e
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZcdPyNZp
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=YUFQ0BzuROj7vKv1gEx2DSIYXCVTpEtb08fn/aq/i9g=; b=BYRXdC+eNh2MLKCFHYtHOlfJ7x
-	z0WWYh4ivfCNrvP1yonwgAV9TfOEeQGWAunQ4KkAWk5oawGTBATJXrNIIsUjbki8DTlnbbCMnNBZ1
-	xQmY4VFdEtau8ifckcdm3GOhnw6LtTT8mK5znOGEaJRFyfWBO4vxDlIk1/zjfNeB3ybwSwZGf6kfC
-	GVAmpEsPglkv1Bi3filNDXrol1TLz4CcE7zaZ6GB1ABadukinFf2NYrMXGKJ/95aw8xI7lDS2x7mF
-	MSnxXPE/5ZFivEjWfpXuZm6DmKvHYDKpWe7msuJoKyE0Fzvhqy/p5hnBTIoY8QDt1HdbcqbEAUw0L
-	yS3nQQMA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=BcsL0t8ZQN1z8JR0BC0PFQ+tjj2UXrV0eDXs9RKNGc8=; b=ZcdPyNZpclwPCzWD9xuqxnzlde
+	2nPEX2WYVJtFhbSJ7EXwLHr3xTrZ8Lo7uxug6YH9WCPHj2KvGR6d4bUYOaUQ7nVEqI1eWU8ASYOq3
+	meJtcrxr6GXOztm1G6knj94eGQgra+mGh7mvzSZdJTpmW/Q6dpKYXcPciNjYCEsAxWu8td029yfYY
+	0b4FGLW2hGrvjkHbnJF5m7iLlZG7Pal79s1/FQAL2pXy43ozoi1n8htd8m5PNClRwJXq83AlR4ClC
+	rY3dxb8LUTm2ED+fM8zcVhAJMGenqj2fgeAcGsr9HqSF6g/hbpWDEr1KZaRtbHmqwXeq6iiI2oGe/
+	Xsb9AfxQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRFOu-0000000Ea66-3PGx;
+	id 1xRFOu-0000000Ea67-3kAu;
 	Wed, 11 Nov 2026 20:58:36 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRFOu-0000000HZ7e-2DQI;
+	id 1xRFOu-0000000HZ7n-2lt6;
 	Wed, 11 Nov 2026 20:58:36 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -70,10 +70,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH 0/4] KVM: x86: hyper-v: Forward unimplemented hypercalls to userspace
-Date: Wed, 11 Nov 2026 12:58:32 -0800
-Message-ID: <20261111205836.4186584-1-dwmw2@infradead.org>
+Subject: [PATCH 3/4] KVM: x86: hyper-v: Advertise XMM fast hypercall output
+Date: Wed, 11 Nov 2026 12:58:35 -0800
+Message-ID: <20261111205836.4186584-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261111205836.4186584-1-dwmw2@infradead.org>
+References: <20261111205836.4186584-1-dwmw2@infradead.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -89,80 +91,34 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-KVM implements a fixed set of Hyper-V hypercalls and fails every other
-code with HV_STATUS_INVALID_HYPERCALL_CODE. A VMM that wants to
-implement more of the TLFS, such as the VSM hypercalls Windows uses for
-Virtualization Based Security, never sees them.
+A fast hypercall may return its output in XMM registers when the
+hypervisor reports HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE, and Windows
+only uses those forms when the bit is set. KVM does not report it in
+KVM_GET_SUPPORTED_HV_CPUID, although nothing stops a VMM handling a
+forwarded fast hypercall from writing its output through the vCPU FPU
+state before resuming the vCPU.
 
-This series adds KVM_CAP_HYPERV_FORWARD_HCALL. As with KVM_CAP_XEN_HVM
-and KVM_CAP_EXIT_HYPERCALL, KVM_CHECK_EXTENSION returns a bitmask of
-features and KVM_ENABLE_CAP takes the subset to enable, rejecting any
-bit the kernel does not report:
+Report the bit. None of the hypercalls KVM implements itself returns
+output, so it only matters for hypercalls the VMM handles, where the
+VMM writes the output registers.
 
- - KVM_HYPERV_HCALL_FORWARD_UNKNOWN (bit 0) sends the hypercalls KVM
-   does not implement, and extended hypercalls in fast form, out
-   through the existing KVM_EXIT_HYPERV_HCALL exit.
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ arch/x86/kvm/hyperv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- - KVM_HYPERV_HCALL_RAISE_UD (bit 1) lets userspace complete such an
-   exit by raising #UD at the hypercall instruction, which the TLFS
-   specifies for some invalid uses, instead of returning a status.
-   Userspace asks for that with KVM_HYPERV_HCALL_UD in a new 'flags'
-   field after the hypercall parameters; KVM zeroes it on every exit,
-   and refuses bits it does not know. The field fits in the existing
-   union, so struct kvm_run does not grow.
-
-Further mask bits will follow for HvCallVtlCall and HvCallVtlReturn on
-VMs with planes, so that KVM can handle VTL transitions in the kernel.
-
-Patch 3 reports HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE, since a VMM
-handling a forwarded fast hypercall can write the XMM output itself.
-Patch 4 adds a selftest.
-
-This is orthogonal to KVM_CAP_HCALL_FAULT_EXIT in the memory attributes
-series, which Vitaly asked about on v3 [2]. That one is about a memory
-fault *during* the processing of a hypercall KVM does implement, which
-it turns into KVM_EXIT_MEMORY_FAULT. This one is about the hypercalls
-KVM does not implement at all. A forwarded hypercall goes out to
-userspace before KVM touches any guest memory on its behalf, so the two
-never meet, and a VMM can use either without the other.
-
-This is the first part of the VSM work posted as an RFC [1] that does
-not depend on planes or memory attributes.
-
-The series is based on v7.4-rc2 and also applies cleanly to
-kvm-x86/next (cbe54fc3462b). It has been compile-tested on x86_64 with
-and without CONFIG_KVM_HYPERV.
-
-Tested on v7.4-rc2 with this series and the KVM_TRANSLATE fix posted
-alongside it, on an Intel Xeon 6 system (itself a KVM guest, so VMX
-there is nested) and on a bare-metal AMD EPYC (Zen 4) system. The new
-hyperv_forward_hcall selftest passes on both, as do hyperv_clock,
-hyperv_cpuid, hyperv_extended_hypercalls, hyperv_features, hyperv_ipi
-and hyperv_tlb_flush. hyperv_evmcs passes on Intel and hyperv_svm_test
-on AMD, each skipping on the other vendor.
-
-[1] https://lore.kernel.org/kvm/20261017122501.610248-1-dwmw2@infradead.org/
-[2] https://lore.kernel.org/kvm/kupv77y5yrc.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb/
-
-David Woodhouse (4):
-  KVM: x86: hyper-v: Add KVM_CAP_HYPERV_FORWARD_HCALL
-  KVM: x86: hyper-v: Let userspace fault a forwarded hypercall
-  KVM: x86: hyper-v: Advertise XMM fast hypercall output
-  KVM: selftests: Add Hyper-V hypercall forwarding test
-
- Documentation/virt/kvm/api.rst                |  65 +++++
- arch/x86/include/asm/kvm_host.h               |   2 +
- arch/x86/kvm/hyperv.c                         |  38 ++-
- arch/x86/kvm/hyperv.h                         |   9 +
- arch/x86/kvm/x86.c                            |  14 +
- include/uapi/linux/kvm.h                      |   7 +
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/hyperv_forward_hcall.c  | 268 ++++++++++++++++++
- 8 files changed, 402 insertions(+), 2 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-
-
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 2a2bc54775fe..0e1d40cf37a9 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -2892,6 +2892,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 			ent->ebx |= HV_ENABLE_EXTENDED_HYPERCALLS;
+ 
+ 			ent->edx |= HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE;
++			ent->edx |= HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_FREQUENCY_MSRS_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
+ 
 -- 
 2.50.1
 
