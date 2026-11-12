@@ -1,123 +1,122 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.129.124
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794502641;
-	b=F0sRmks1x6+xdQWcSagihSIg0+1rgRBZriMOqoiQ8baTluJZo6tHenzrEnhtXFY4PT0E
-	 LDO5W1K/XIQA6jUXDHSPaeLodX+32IKOXBcKopUr66wIXmhnbAcKxSsGV+4j8m8Ri5JBg
-	 vjqZ8tnTECFWBOiUhpvN6j0PTNjbhWS1lndksJ6oEe2VQ0N2MSDVDovHKfICv13YU4Hl3
-	 Hp11UvNJYFBuZzDKU65QILC7YLBc2wV+BJfu5Oy34XN+ypxO1NUhNi5lXIJtEvRNUkyce
-	 yBEt2MtuCykg/K0KnLF3iJfcR0I1+yzDPVKAh6uHlAzNquxMkfwb3zzQmAm3t3ev2Cg==
+	t=1794503068;
+	b=c6ztpmpBw0+f/IN6PPt5A72VYKN+FKXSfi6s7QxbK2Te+DNAgbko7Vs+VOmquW4Y0K7u
+	 mvbkf8VOqFfl0xe0RImAaCAMpqwK6liAGAQ7+tBI/xkqXrdi5UjqN1LQJ0r3AZKnQCzvW
+	 banVuZ2+SgzZjPBsS6rZolMxo4Wb9DyhXLivWuwtSQ+YdKJCGA2DOgEBmBeukpvlWV1tM
+	 P6X4NOofDtHNZoj18JhwdneI/n34lSkD2VNB6HSLm0iLyxwHWfB3vlqOoPRNAb+/f8Omx
+	 w6NLekoOvACLeFhrfC8a7U5NGDLHwndXQrhfcHAf26uXiTM/NbyLwfnAsnwocHm7/yA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794502641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794503068;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 X-Received:Received:From:In-Reply-To:References:MIME-Version:Date:
 	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=darN4TpL7cuu3l7AdV450Bjk03MaXBNxXOy+eZ4zU7o=;
-	b=BN9CzZMRWLfccKtzG52M0tyc0JnEYOhCwVDjxbs3t0u+ekSSGZPJNjR8yNTCYZAVg9br
-	 rHu4yWHK3DLGY2TDP49RzQ0KUUjdVYwom20MyWoxfhdrgSBU5Z3o099Cuu7zq79cDa0Ij
-	 mvxghiTzwWWB1y3vZ4l+kc1Xx95M4grdvxbKEh62oC6LnZ9VG8bzQsFGhuGPzTQYiVoeD
-	 ySXAGseKGDT/QoF/ji3s71L5OMSDn/lYW+HTpcSfTyQULjZLTZ/t4wc9/EIJ32E8GvvlX
-	 s0d6/gXVYLFV+VKX03b8hy2z5/iL66xF9/UZlScwLNR0k9wA1PVtRbj2V9WnJOfA1bg==
+	bh=snSHFcywNjYaU+V8VNJTtf/b2PyC3xXSLz2Yl9hABOc=;
+	b=lxXTR5+oUT965jibFIP7/sddWeIDdk1v3c1Ky4Z/No4gzNcEDhVdVbO0Ra/R0T2N2cFj
+	 xazfjGfz3hwACiI9zzmfj0l+gH0K7U3peQibC41oNvQTJjPFOq/mwiQpZEvWWcWSg5eJ1
+	 nC+OQG3BvPHcO7gEsEnVzwroZ3lfWvRvDpfNLgaB3TXMfPmBYuuJ5PuLnbhrxMkTWtMR6
+	 kd9N7a61ULJTfNz1Be+QjsNq7oAdG8pdRsHQmIJ6FPPtQC3fXFav2XISQOxNbBQXcsx/Y
+	 KOuOdOa65KaDw1a+TFOnWIY5M1TSZ3QzGA1tZlzPnZwgootgggSxWkLs83lXXeLlFsQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WR0iSL7E;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=mfphcUTJ;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RSM4jfOy;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=e5txvaix;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFE6606A33F
-	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 16:57:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DFE6606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8340F606A327
+	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 17:04:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8340F606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WR0iSL7E;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=mfphcUTJ
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RSM4jfOy;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=e5txvaix
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794502640;
+	s=mimecast20190719; t=1794503066;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=darN4TpL7cuu3l7AdV450Bjk03MaXBNxXOy+eZ4zU7o=;
-	b=WR0iSL7ERJdv15vokbc34Ew1ggE2lIS9qgOjc2zhvCdoFhuBftBHZtUl8icwUUpw7ytzMC
-	oOr+18BDQiYijHq6PtcpItyuYo35cPmk2z5GFLDrdubrAJ/JKeIDKfBGolvWEnRm1GXiwl
-	Ghsuq+8o91RragwwPPTh65OyuOcWvWs=
+	bh=snSHFcywNjYaU+V8VNJTtf/b2PyC3xXSLz2Yl9hABOc=;
+	b=RSM4jfOySxzjJPJjdouIzY7aahn6xYwmwQ426+YBqQwkDoWHGLgeqj8QRmvU57NPACXmsh
+	zlikkXlCu202+ypjIEik6t9BI6oNtWjvXMqD6ktYDAPqn115ugNa+3Ye+Ves2Fl+fDHFmo
+	IiZSu2po3bI721tRDFzdUrROBgpMv/E=
 Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
  [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-523-o-L_GYu8Ok2SKUeo2fb3Kw-1; Thu, 12 Nov 2026 11:57:16 -0500
-X-MC-Unique: o-L_GYu8Ok2SKUeo2fb3Kw-1
-X-Mimecast-MFC-AGG-ID: o-L_GYu8Ok2SKUeo2fb3Kw_1794502636
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91e9a0eae11so318466d6.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 08:57:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794502636; cv=none;
+ us-mta-635-qXwLOC_8MaSxcIgQlDtVAQ-1; Thu, 12 Nov 2026 12:04:25 -0500
+X-MC-Unique: qXwLOC_8MaSxcIgQlDtVAQ-1
+X-Mimecast-MFC-AGG-ID: qXwLOC_8MaSxcIgQlDtVAQ_1794503064
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91f0938c499so353256d6.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 09:04:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794503064; cv=none;
         d=google.com; s=arc-20260327;
-        b=q+XFpq623twgWpdi+KcPJKYrkCudq+FQgMqmcQvUg+27FrnFMZB3S9RZreuFvFUKnS
-         e5rXGWwUq6BVSn3a8T95KZnBJf8JyBwpylGDDKor0pU6BUv4BXCPtymhyQt9sLKgZvWc
-         gF6X1ZasUMKKpgna1bQZ4XadfhSvbe1PXSB0JHTwbiD/Ut55Vyr7u9cl2cPsGUafWOWD
-         I0nAcCnN4SbUj9lI67CTR1+19Wph0eEioQrW7kRbhGzapl4Glfu6+fuuTIewcoYf3sIb
-         Sv8Eqsy/MmPjRIAg9KNtLan8/Pi7YjHydXDauBwrBtjYXCEHbV+tPUp6sLPbk2adVS3E
-         fCoA==
+        b=nAk/XMwRP0BMNJC44/OsDMZnc6gb/4WiZHh3PPyVC/FETj+qqDbxTdL68Ev57vn0vi
+         1pk6yGfv/sOkJZ5Tl/N8iyh8baR7vMPPftvHQqTs3BMzSyBHDdE01D7WC5WRgV30ZLqY
+         MAuhFO1MA6QWiBcaH0bQckle4MKoSCkjkodCq8T5vewCWJ95xktkpTC5yWu2WcParlb8
+         wvPbf69cEwQlLLOGjhDrZ900mvFKNfAKQjsgSRAx6iasiiIXaUI2Mq/2LLijjnMFCw30
+         YKlT3AlWKsSsnAqqU2nHbrPpPF3JDy4Zl93HjRVpJ1JLIBHHVmIVEQW9Lu3NEDPB7g22
+         AUQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
          :from:dkim-signature;
-        bh=darN4TpL7cuu3l7AdV450Bjk03MaXBNxXOy+eZ4zU7o=;
-        fh=Nm1f7n/j41/ftL9j3ySWqFTjd0NvzkFVqpSCmm1WobU=;
-        b=Wb7eV8Z6A1wmD5kwaUfw0pl07nM8cf5fNypUNHP2rg7kPbDkOmiJW1Bm0Q5UUWutB7
-         aPmPrnhxqW2sggGuGLGxXuqUgyUXE/4wTXmAh2anwWvtXUQLw11lNYShlEjJP1ioWd5x
-         p/ONtLBAPzOjxzwlA3klYVrg8dBff/Mg+w1AJhNznXMQDThqdSYMsUeoGoXjyTLq9eO8
-         n6sIWLGJS1+5RZd229SklHxE9pkaXv0kdoJsrK8yMqxHJqXr5viV3I7np0Rz17pbfIn/
-         z0kwO50d/kFOZhZd/mecOP/gQYuc9MEqOOZzhgbdWHcHLbv/u0QP6ww9ReyuWEkwn+7l
-         vvMw==;
+        bh=snSHFcywNjYaU+V8VNJTtf/b2PyC3xXSLz2Yl9hABOc=;
+        fh=iQMg/0KfKXBGvtD+xf7FLAzBwghqqVpUaVJoVZhqmPc=;
+        b=B/sB3JCCWBMGm6pFl+k5u45f8Vh/jDQxhMG3iTS0NkIPxwMuiT7l/QjK3Yd/dlD7AJ
+         4XF2Qo//XE57FlV3qsxxSnfvgrvU5xBKfIqvIXnWJkUjic2JZEQ0LMUR46KYmkxLE9G7
+         HFsvmq2iDreiNKLDjoaHfQxHsIG0nAJdwscdn0mglcx2e6cLp5aRw+FMcpaw4JNLov/C
+         qckLyen6xt92Sgly7bbbQQmBDQMu9bLbCjtzw4SD5e00RluxuTP1uV3W0r9207e0hQdA
+         CItSqbTE8CWlg9BGycvuU6WUGdGcRHfwPavS6WO5MLy2TXn/pWE4DMGmwXDSAKSed/Lg
+         CqoQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794502636; x=1795107436; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1794503064; x=1795107864; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=darN4TpL7cuu3l7AdV450Bjk03MaXBNxXOy+eZ4zU7o=;
-        b=mfphcUTJmKpNNjKE/vba8sbrm2GA7Y+gcHku8cTk1a+y2dk3EloihtRyKAQeirIvDp
-         wvg8gkhJ5lC1AkaK6heaVC6iCZhP3qCeGnLlBSZBpeyaU5rKFLySsduaBj+RJQrdj/E/
-         IvWZE44ZUGb6gMSkTITxuIkeJPwmU9i14CTY5gqBw8ihusdtAVkW8q/898LYixqHhZYX
-         YqpsLL6HWprFGBwF9Jr3IbUomVpiAGiwrOGlg3zjzrZwjD5T5QVv8bgZRv4HjYSAOgZf
-         YjJaZhabEjQq3VWp4hxuQIFQlsqsnhAkHF8n3rCUYqLL+Up6ZKGZVhESekpKQ0IoL+2B
-         u0fg==
+        bh=snSHFcywNjYaU+V8VNJTtf/b2PyC3xXSLz2Yl9hABOc=;
+        b=e5txvaixuvNHqul+AWOdRXYydV2CRIOdF+h3W7bH/p7/mu/wQV+rRR0AggOfVeMj4b
+         SYjy34d8t6Gk73gu2hks5YczKaU441O1G0I6qOpMQ+pKV6jRstxCEKCKICdZnTCkpgAL
+         UYcH8Upb6118IKl5V62rqD5IHgK4RD4M/mthR0jOmsytXYOR//aQJ6A+IU30mlHHNeyC
+         IhcNpD4JUQfFcvabxt9cYStBIpHAr7tTXKsN2dScD3Jg2z7IhCQ46YOOAM6jbDzz+RFx
+         76MiizwYlDCNbPRCUT2uApQDm1x9dbQ/0zTEweG/KVhO72XTi+fpp0LfHQCWdcDZ1gQL
+         Qpvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794502636; x=1795107436;
+        d=1e100.net; s=20260707; t=1794503064; x=1795107864;
         h=content-type:cc:to:subject:message-id:date:mime-version:references
          :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=darN4TpL7cuu3l7AdV450Bjk03MaXBNxXOy+eZ4zU7o=;
-        b=nehYig8Y0nb0sldFJykTs2D4aIagKCyPgGCUqJti/V/d2ZubhiDrgq6gExO767n5iQ
-         hmVD5/6rz3UldRHeDZxC0u4/m3U7DiifLgKfM6tzjdpCPeR0YShm4HQZs7R1gg3WW56E
-         Q/cfdJjxldFOCrhgzuCU3MgKVVGiea3CJ0G/8cn2Wbn3hRCbJaZjR8OAGAIONBjPueDc
-         dI6r6BdIzjue0qV7W87A41VpuUS0M6vdV5fEof2Wqx+5/G0MqCmPYnkP92t1lhxVmxm6
-         4QkyWjlJ7G0qxoAgAky1OLFBL9SiQHVvFuSgMCNi6hjNFuSRu3HU9qS6EJmzpVoGaz0F
-         lPSQ==
-X-Forwarded-Encrypted: i=1; AL+hErHTfYKoGvaYn2gSEX9KPP3MJOVSmR+CnrNUFcvTZIqnBYBBY9qA1JkY5aGlkiQqz/WLeG57s/4VVwNrDfE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Tj95/a+QPGtiSa93tMJfE+ePObtAN1x7LE6i7iMhYEBu085xX
-	HNYCSooj3/5dnchNceLMtwkE+Gun5o9dqIH4fc3S9Qlvt10lq0mjpvdRpL+ncLLJtC7yiRwRxBg
-	3p+abcL5hFmrzyckpThN42GSP/ZCh423mb6NSxak9ytpHCDmESS8ewlfE3igUDQ4PDKSbAdpT/G
-	gYaUVYpm+tY82T28YLBfeaRVj5XIxz2uNp40xkZDQW
-X-Gm-Gg: AYBFou2PybbwS3bgKuTgJ4368L/0zdzKt3nXSlbMVr7Fho2QDCqroENUx/4s6qlDwHY
-	nwgje8WL4OV/j9rfc/k/frKUQmXUFUSMM8DAl6It/yFc/8KjrriQqlODyhqTUFrOR5jvWyvk7uT
-	LP5H/b6Rjc5yftWj2fRFcZ3HUmdcSN8KeZ8NXBhHXmqaEDbEqINl4r5uc=
-X-Received: by 2002:a05:6214:4907:b0:917:af36:df30 with SMTP id 6a1803df08f44-91f04024a36mr108416466d6.16.1794502636088;
-        Thu, 12 Nov 2026 08:57:16 -0800 (PST)
-X-Received: by 2002:a05:6214:4907:b0:917:af36:df30 with SMTP id
- 6a1803df08f44-91f04024a36mr108415966d6.16.1794502635425; Thu, 12 Nov 2026
- 08:57:15 -0800 (PST)
+        bh=snSHFcywNjYaU+V8VNJTtf/b2PyC3xXSLz2Yl9hABOc=;
+        b=Ul0C7LcVzIX5Hd/qCBCat/4u47Xq0kevKhc8zE22PqUzelqfZ6zPRxhMVQ8jwh47Kr
+         Bw44QivbgrGLKuCX/M29ajCm6t2uIRZzIC511Biv9RLhC/xPPNp11Vquq4iOWlKRZySH
+         cJWYD0vwyr5R+e3rdRj1pQvGSD+gDc9xPpGGm5iDldl69hASvGnjyw8XpRE/+ZJ1142l
+         kmlWaSazTGqajc1ZaJevSNC40CDRnGgz8WCyP75R4m/8Z7NSWMfc+QjbxDRpIJaCqUVN
+         KVOtuNMMSI0lmuDQSitv5uchNoi+6akBU/iCTci2EaZVpJs2WR8Dz6N03RTCSvzlbCeY
+         ltEw==
+X-Forwarded-Encrypted: i=1; AL+hErHy57p+31Mz/J9ICsQGpJ8xsuMoXnG00NsZ6fpIeBo9eDAPTKE3MCebK6KU303ly1fL5H8rRECQmV5c9VE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+XNhGcp5XhIzQHNzcHGIXxyd9vpgGhBPGO0uJPJ4wcC91KJvD4
+	/QNz57gjY/o3Cyckc1gDSttTmg8QWN2gpC0Q2L3QBYaYSolnQn4MoL9yjoRQh4CeQkvnOTXmUlv
+	hi6GlQEmHXHzAwOsCattTaZ5bSKbtYSBJC3ZNBLt8xMxsEpJQ4cpAAs473Js5aUm/mvq+xvDHnA
+	bY8+Dn6dN/2lF24jWsQNpK9xShkIyZZS/tdku/6/4F
+X-Gm-Gg: AYBFou1yMqsL1FnDGyUZki9jr5edKz7xtUqd0iTjBlzpQBaC5EnqoUxviXtl3TCTTOC
+	hcEyTsrveAEPphGnUKR+aitx4KYM8FEirG9xD7giXNo2bKUqtdp2t5CXHGnnKPCpd2L7b8HCoJS
+	Xhjrme7jPGdFJx5U0XDEdwMnBMUMxnJyE9xYZpCIP93sr9wEhrlMT3aLc=
+X-Received: by 2002:a05:6214:3d11:b0:91c:79eb:ea55 with SMTP id 6a1803df08f44-91f040c0da4mr105357516d6.28.1794503064080;
+        Thu, 12 Nov 2026 09:04:24 -0800 (PST)
+X-Received: by 2002:a05:6214:3d11:b0:91c:79eb:ea55 with SMTP id
+ 6a1803df08f44-91f040c0da4mr105356616d6.28.1794503063345; Thu, 12 Nov 2026
+ 09:04:23 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 12 Nov 2026 10:57:14 -0600
+ HTTPREST; Thu, 12 Nov 2026 11:04:22 -0600
 From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <aukO0YEZmiMIISaP@devvm29614.prn0.facebook.com>
-References: <20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org>
- <20261028-vsock-dgram-support-v1-7-e457cf7cee78@sinrega.org> <aukO0YEZmiMIISaP@devvm29614.prn0.facebook.com>
+In-Reply-To: <DMGNAV67LK3F.2FNLTD5NVHDEA@gmail.com>
+References: <20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org> <DMGNAV67LK3F.2FNLTD5NVHDEA@gmail.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -127,12 +126,12 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Thu, 12 Nov 2026 10:57:14 -0600
-X-Gm-Features: AclHuK97Vbt87h1PiWp1yuLFdgsXXBfxSod9rL7qWx7O4MzdkcMf0Vg2mTyClE4
-Message-ID: <CAAiTLFV5g4XV7ZU+TYFboAi3n535murgSjh4SBw_PMnp=oQyww@mail.gmail.com>
-Subject: Re: [PATCH RFC 7/8] vsock: preserve host-to-guest datagram boundaries
-To: Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+Date: Thu, 12 Nov 2026 11:04:22 -0600
+X-Gm-Features: AclHuK8-kXlDfbY9EpdjADOfLMjXVcZNZptS66ye_0dxL9--qQit5gRpAYjKWyc
+Message-ID: <CAAiTLFVrvmrLoFxAdJ+ObY5trjgKvNJW5im7XaRQ+K1PG-_M-Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/8] vsock: add datagram support to virtio and vhost
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, "David S. Miller" <davem@davemloft.net>, 
 	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	Simon Horman <horms@kernel.org>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
 	Vishnu Dasa <vishnu.dasa@broadcom.com>, 
@@ -140,28 +139,87 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>, "David S. Miller" <davem@davemloft
 	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
 	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
 	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, virtualization@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-hyperv@vger.kernel.org
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Cc: virtualization@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Bobby Eshleman <bobbyeshleman@meta.com> writes:
+"Alexei Starovoitov" <alexei.starovoitov@gmail.com> writes:
 
-> On Wed, Oct 28, 2026 at 05:04:36PM +0100, Sergio Lopez wrote:
->> Vhost splits large datagrams across guest RX buffers, delivering each
->> fragment as a separate message. Allocate full-size RX buffers with
->> page fragments when datagrams are negotiated, and drop whole datagrams
->> if a guest buffer is too small. Refill empty RX queues even when only
->> one full-size buffer fits in the ring.
+> On Wed, Oct 28, 2026 at 09:04 AM Sergio Lopez <slp@redhat.com> wrote:
+>> This series implements SOCK_DGRAM support for virtio-vsock and
+>> vhost-vsock, allowing applications to exchange connectionless messages
+>> through the existing AF_VSOCK datagram API.
 >
-> I wonder if it might be better to do what seqpacket does, and just split
-> the datagram across the buffers (for seqpacket, until the EOM flag is
-> seen)? I'd expect that we will get better utilization of our vq buffers
-> this way?
+> The cover doesn't say who needs it.
 >
+> Bobby and Amery took the same feature to v6:
+> https://lore.kernel.org/all/20240710212555.1617795-1-amery.hung@bytedance.com/
+> Stefano said there that it can work well and that the virtio spec change
+> is the next step. The last mails of the thread have Amery's v7 WIP and a
+> short list of what is left.
+> The cover doesn't mention it. The spec change is still missing.
+>
+> Why not finish v7 instead ?
 
-Yeah, I do like that approach better. I'm going to implement it for v2.
+The previous series is more that two years old, and vsock has changed
+significantly since then. I thought this deserved a complete refresh.
 
-Thanks!
+I should have linked the old series in the cover, though. I'll do that
+in v2.
+
+As for the spec, I asked Stefano and we agreed it'd be better to have a
+series that's pretty close to be merged before sending the spec change,
+and I agree that's a good idea. In fact, adopting SEQPACKET's strategy
+for splitting up packets in the vq would have an impact on the spec.
+
+> This RFC goes the other way in these places:
+>
+>   what               v6                        this RFC
+>   -----------------  ------------------------  ----------------------------
+>   (cid, port) space  own bind table for dgram  shared with stream. The 2nd
+>                                                bind() gets EADDRINUSE
+>   vsk->transport     empty until connect(),    g2h or h2g, picked in
+>                      lookup per packet         socket(). -ENODEV with
+>                                                vsock_loopback only
+>   routing            one helper for stream     2nd copy of the chain in
+>                      and dgram                 vsock_assign_transport()
+>   recvmsg()          in af_vsock.c,            dgram_dequeue() stays,
+>                      no dgram_dequeue()        dgram_payload_len() is new
+>   VMCI               fallback                  first. No virtio dgram when
+>                                                its module is loaded
+>   dgram > RX buffer  drop, EHOSTUNREACH in     every RX buffer is 64K
+>                      the error queue
+>
+>> Datagrams use destination-based routing across guest-to-host,
+>> host-to-guest and loopback transports while retaining the socket's
+>> transport state. VMCI keeps priority as the dedicated datagram
+>
+> A dgram socket uses two members of struct virtio_vsock_sock: tx_lock and
+> bytes_unsent. They serve SIOCOUTQ only.
+> virtio_transport_alloc_skb() does skb_set_owner_w() already.
+> udp_ioctl() returns sk_wmem_alloc_get() for SIOCOUTQ.
+>
+> Without them a dgram socket has no transport state, like in v6.
+> Then no need for the owner transport, dgram_transport_match(),
+> fallback_transport, tx_accounted, the skb destructor, etc.
+>
+>> transport.  Guest RX buffers accommodate complete messages when
+>> datagrams are negotiated, preserving message boundaries.
+>
+> That's 64K per RX buffer instead of 4K, for stream and seqpacket too.
+> It undoes commit 03a92f036a04 ("vsock/virtio: Resize receive buffers so
+> that each SKB fits in a 4K page").
+>
+> pskb_trim_unique() doesn't reduce skb->truesize. So a datagram of 1 byte
+> charges more than 64K to sk_rmem_alloc of the guest socket.
+> The default sk_rcvbuf is about 208K on x86-64. The 5th datagram in the
+> queue is dropped.
+
+Thanks for the review, I'm putting together a v2 addressing these
+concerns.
+
+Cheers,
 Sergio.
 
