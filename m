@@ -1,72 +1,183 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794473560;
-	b=qiIbr+N9/jO1vwqtTQpV8xTVaD11qEzuKr6xIXjEOafIMJ+NA0+Ydowr6boSGUgMX3bL
-	 fLEoS1UN/ALIdOL1NqUP1PQtUsEGO/zh6xPOpJU7MHFdIw7yMukNs3fC6QxiyHELncDit
-	 lZRDhef3JHo97SUePSHTjRv0gea+FZ+qOZ0VbIWBRN/w+8MloZ1Z3X5uGmcnD3x0Frr9d
-	 sQoMFuDB33fJxsjQ3lVCnZOJjL2L5g9l8pARe5bc9lLNRLszSGDJ0KLt5tgcdeaJUTlQX
-	 g+ACyBqG30WYI1en0jSIA2xBNjlyfmaFqK0VEzUKJk6cArXvPrq8CxmUUB/m8qTyBcg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473560;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=+kiwRl0+gV2C2BP7bzttjinUFnQGPefVbMAuYlBgons=;
-	b=RNRj1yUSqDEMYtii/EpgIaBgV2HwgNTohLU1c+HrHRn5Dlzr73kpsh2uguNS0s9nMeLf
-	 pwCi/jNaXSoSgdF9vingk/xRcCd6A0egY51As7k9zzQVpS/eTzLZpuRr7X+/xE/y7YxRF
-	 WNYxGEIrYGXy0IRfbi7cg2bPoqjQiQL3Q5WJJCE+QS2b3HVahuhGES+VvyCFawTrVy2fb
-	 9B9VAi93tIwf+JJnthiArzbO/VMAKaCupP6CO3DTz+u0YtlQxXnxCnymZWwH3VePS6XpA
-	 y3a3AJP+gaJExbPQeSHPZmJMy+ardluc/OZv7KFSPcWmxs71YK2PY/8RuM22HXO06yw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=emYsPyM7;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2795A606A31C;
-	Thu, 12 Nov 2026 08:52:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2795A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.69.42
+ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794475860;
+	b=t6cdNIBrEyuzaIFcnE63dnm9c4QIRio3VudbUKpf7W03UqiLB4dzUr5EveMZJM9Vj0w9
+	 BCUOKPV04ekU+VFkgUkH0dXaAq1ookUSYQoh3J2hBa3aj76sO6y6HINyGYPmWBsvIiDhq
+	 AUeYUOVGCD3G2Zm6nzTFUhuLu6fWi4GEeLG2Gu6mn6HD9YhfKl/U2lsZqY7hcdwEcC6IT
+	 qdoLHrQLizWWdG6u+Nyf2bUnbg12vkrt5qm+oOgJxaFCLafN+VPuGRkrrErDMXKNDwBGk
+	 Ls11Vf2xCtwBv4iYDfWzD8OQw3uC5XR02Lw6L+jecuew6DwIFLoFNki+BBmCfIbo2WQ==
+ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794475860;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
+	 DKIM-Signature:Authentication-Results-Original:Received:Received:From:
+	 Date:Subject:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 x-checkrecipientrouted:NoDisclaimer:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam-Untrusted:
+	 X-Microsoft-Antispam-Message-Info-Original:
+	 X-Forefront-Antispam-Report-Untrusted:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-EOPAttributedMessage:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=jZE7IhtX1NmUiFMMT6bvC9A/apAk2w/Gp6I00CiyWq0=;
+	b=B/S6buKgU/BZuHPoI35iI9N//Gk+wealdrFEdx4LNgT2XqK8szdtVeLa5+cxb9XVRrDX
+	 HGqjsq+Gdi9XeFDvAyLGA0hNkM3AUcWtqyMJX+rhDl6720gRaJttrOTMNmcfg4auouVIR
+	 h6boPkTXLO3y1JsX2lWoCyHvavMuxmXw1IzkCKmAoednXmtsPzFd5P6rf4IudiZAgVgad
+	 AdxckI6rJ3x01iCsVoxzpShITm4r1q7nBLkO8YEhQWJ7nDjNRtn9/0EHvlZ0K+j2VuaaA
+	 MUwIsAFCg0hNOuc82rt3H+hyYiqHWjIm2iJGuLK+IOYCVz4G/CEXlwammw9w5CquLjQ==
+ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Ez6XqCrV;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Ez6XqCrV;
+	arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.69.42
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010042.outbound.protection.outlook.com [52.101.69.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0989606A31C;
+	Thu, 12 Nov 2026 09:30:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0989606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=emYsPyM7
-Received: from kali.mshome.net (unknown [4.213.232.20])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7426C20B7168;
-	Thu, 12 Nov 2026 00:52:30 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7426C20B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794473555;
-	bh=+kiwRl0+gV2C2BP7bzttjinUFnQGPefVbMAuYlBgons=;
-	h=From:To:Cc:Subject:Date:From;
-	b=emYsPyM70mF2jwcgtbABlYPz5B4rtl7BH54jsTZwaTJXpd8jpLiSQZsidiEOXgELY
-	 RGzOcCuudwkujzdEz2jvQeqSaAHyosek0vksDrG9kIa4RuWWWhqaZsaWCE2DoaNOkM
-	 kUjysovfz7qIilo3YKgejWM17QUcCuO0KFctQczY=
-From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kotaranov@microsoft.com,
-	horms@kernel.org,
-	ernis@linux.microsoft.com,
-	gargaditya@linux.microsoft.com,
-	mawasthi@linux.microsoft.com,
-	kees+treewide@kernel.org,
-	schakrabarti@linux.microsoft.com,
-	leitao@debian.org,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH net v3] net: mana: Avoid waiting on dead HWC after device reset
-Date: Thu, 12 Nov 2026 02:52:10 -0600
-Message-ID: <20261112085226.878780-1-sahilchandna@linux.microsoft.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Ez6XqCrV;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Ez6XqCrV
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=TvOwNqFpRRPCiD8tX69pr41Wfa6NaQHesLhh8/x0GBH+jGztrsTPmuAU2S+s901QqTqO3YVIQu2ukBd9Catu0svgwIWxlSGnM/Qvv5+rVBferqVQNRDR7U57IOoh85RcsKfYE1ptO/HNef0lTZb/BtNRIkj6crN6xIWnIUcX46wlIifaJKCwPsWBcC5/QsOG47LAYDfgv9zsb0KK6qaAd1J3SfCCYJB2LiclTEGgw0ZUQJEDZP+b5Toz/zEyvBwOI/9oWbO5qtQQwHP6DNVu0NbFftw0ioI9ucsG6PaQXE1eUHZqSl2zINW0eZ4X5Yri7nReUCGo7M7WWs0JjwmYdg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jZE7IhtX1NmUiFMMT6bvC9A/apAk2w/Gp6I00CiyWq0=;
+ b=GBykGHRuRi1WGOUvImgchNb3AdrzKUSYfDg7Ak82MSOGcJnoT6vTRmcFcIRe13KKzskI+AKpmf+roRN+sAWqL8EOQ5Fl5hnKrYwp5yc/U9COVEmgoVfSd31x4hSFXuCJOmZnHALSQHXtfk6fGyhxNsbRGdiPFi5NTa/VJSy62aRvCrG7UPtXcT9uH880L/OIEntFmzX1COjmFmtFhwkUpGQlc2cPMDJLsvKal0gb85aG/24MwLff5lHVNvYhZrkZsjD4m+uwdKI0HLZ2WaXOHq391Ad1i0pumlsQVMZ43e72KGIqAtdUiqmVx7sD3lSmRsnEWJQgmC9FjdJ/YEZ4AA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=davemloft.net smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jZE7IhtX1NmUiFMMT6bvC9A/apAk2w/Gp6I00CiyWq0=;
+ b=Ez6XqCrVkAIrs3uf/Pvphnn80ty437AGFP0mArLZLa7WvoiPlPadRJ3yvQc100KNfCA4UljxBVKbMNLDOJdNNfNJUnI/3afHQC4vNImwu0AHKLqocTTRx2l8IdkZKPObdJv0cne3NMQMOciePvzh+hJyIhuQfKGZY6Y1bmn9awo=
+Received: from DU6P191CA0016.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::10)
+ by AMDPR08MB999845.eurprd08.prod.outlook.com (2603:10a6:20b:70c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
+ 2026 09:30:52 +0000
+Received: from DB3PEPF0000885B.eurprd02.prod.outlook.com
+ (2603:10a6:10:540:cafe::7c) by DU6P191CA0016.outlook.office365.com
+ (2603:10a6:10:540::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.10 via Frontend Transport; Thu,
+ 12 Nov 2026 09:30:52 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB3PEPF0000885B.mail.protection.outlook.com (10.167.242.6) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Thu, 12 Nov 2026 09:30:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YAMNLFUf51JW1Pr8evq98Jpt/X0t5lmajKOVqo77sabRBdepWj7409IvXxLc2RSXBN8lC0PS1s57yFzU0p0RJv/QgvDTdWKPk63VfFeEk+Q6/vK0wGj27EiUlRw6TEJWITnvalmx3bVcVqML/EgxfGg6DyY56UiaFjOWq2zcEl1FhkOXQbMiei4xf8Cj0AEIN+nKEZ57Aj5dZcsD6ROp2Ah86771vNeouYtqZUYIOWEjZPCSAXPOhVQjpTEm/n1pMetL/zV5v2OU5/OcaHgnWzrC5wcgW8Q5ochAL5biTBQiWl2k6BuAfmcNIk5yT+NiJSTtRYrBZJ2eO1SgZKppvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jZE7IhtX1NmUiFMMT6bvC9A/apAk2w/Gp6I00CiyWq0=;
+ b=eRGA+XXe7aCNm4fArp6lYrQ7QxjQW2DwT31Vw7pXkV2UoxI+OzuEhy7MsNblIaCKT3k+HodTy0n0vRWWecOaxDKVHXVesOxMFGpkdN+6VzvrenOiFCmN8f5TEAgMhyia/JjFji0y2pZp1TVnWq9zYeZHBxZVAVpi5zlNLvy8g7YbJC31R6IuRPhtxWR2EAItD7lBsLhDUJLdqhZxOL9ldS4exMARA3qiPPAwTDGjbQx7lZyQGFVyIHmxm+MjP2Q9r1KL8FIWLK32A8YwPwxNAKl+mKRnyKlQ8jmcSuBXaYzCwmngv9xxNOGSULKRYwBTq4T6I4mS3CNVk8Mc81G7sQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jZE7IhtX1NmUiFMMT6bvC9A/apAk2w/Gp6I00CiyWq0=;
+ b=Ez6XqCrVkAIrs3uf/Pvphnn80ty437AGFP0mArLZLa7WvoiPlPadRJ3yvQc100KNfCA4UljxBVKbMNLDOJdNNfNJUnI/3afHQC4vNImwu0AHKLqocTTRx2l8IdkZKPObdJv0cne3NMQMOciePvzh+hJyIhuQfKGZY6Y1bmn9awo=
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
+ (2603:10a6:20b:629::15) by GV1PR08MB10402.eurprd08.prod.outlook.com
+ (2603:10a6:150:15d::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 12 Nov
+ 2026 09:30:16 +0000
+Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
+ ([fe80::9f01:508:17aa:279c]) by AS8PR08MB10291.eurprd08.prod.outlook.com
+ ([fe80::9f01:508:17aa:279c%6]) with mapi id 15.21.0615.008; Thu, 12 Nov 2026
+ 09:30:15 +0000
+From: Bence Csokas <bence.csokas@arm.com>
+Date: Thu, 12 Nov 2026 10:29:33 +0100
+Subject: [PATCH v2 1/2] stddef: Add offsetofend() variant of
+ struct_offset()
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261112-offsetof-v2-1-276ede839967@arm.com>
+References: <20261112-offsetof-v2-0-276ede839967@arm.com>
+In-Reply-To: <20261112-offsetof-v2-0-276ede839967@arm.com>
+To: Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Philipp Stanner <phasta@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ Chengchang Tang <tangchengchang@huawei.com>, 
+ Junxian Huang <huangjunxian6@hisilicon.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+ Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>, Nilesh Javali <njavali@marvell.com>, 
+ GR-QLogic-Storage-Upstream@marvell.com, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <mkp@kernel.org>
+Cc: Bence Csokas <bence.csokas@arm.com>, linux-hardening@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, arm-scmi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+ linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ linux-scsi@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: PR1P264CA0162.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:347::16) To AS8PR08MB10291.eurprd08.prod.outlook.com
+ (2603:10a6:20b:629::15)
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -76,423 +187,90 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic:
+	AS8PR08MB10291:EE_|GV1PR08MB10402:EE_|DB3PEPF0000885B:EE_|AMDPR08MB999845:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae20ab5a-52ec-49b3-1d47-08df409fa438
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|921020|10067099003|11063799006|56012099006|261022105027099003|261026140227099003|261028144727099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ LYrzVCPn8lc0cEz0ZiK1qU8q5Fm7Terg3KHUapkHS3OcyhinZhvC5qly16dLoJ6tll/GU3mQIGyHrm4UEH+G+NnA5mhS+URwDRJSWAv6yWBZJ61q8oa+w+qMWMlRgvnaP/CsipLHMBCKF38X2HBAxaAJ2EouAmgjKRMQ1PagdixempUC8NEoeZx3pmguAss3Fx6nnhp1pBUlDP58RMSQUg9L99SfNZQV1bxDfO1jyYapb7Khwif400DjsrYX+vuIVQ+QW59F8ZJCfsY9sRkNpDTh9TM3HH8ts8MpAGtA3Ch3QwnyOqb6ZjYe58G+LSowOhR/nGIYB6o+DOUwschlUKP4q92zUtRfIX7ox9v4KD/VtrYv7dcK0BZhGfMpyOyBTEcsM5jofJNJU1XrjylfhP/5ePVcWQsz86vXvXR2y565adBt6ojq4tap3FRKd2Jhbq2wKFpD5wOAXE3LV8EhnEFzhld/Fe1S+Af9AgE7zz8b+1ygmF9Ht4aZa2gnjRoA9Nd7uxifeoyVhxcGHHcSjbgqQr9kE0Mc7HNBQ6rJCkMQWT2hfqZudYe9niZ3i2hi5Ot7fpKfQBWhjmAZ8QGd7K/59ZlU7T6srPgKVP84/a6oBG8q77mA3xhHJBKh8xSYCmYIzWFxpVIspANW1UwAM3Mf9Usra0pOwq8m8GEHvPJ+uLaJlt4P5LLAB7ZU78rna8Hi7VGpZy4qWwqyIUIIzQ==
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB10291.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(921020)(10067099003)(11063799006)(56012099006)(261022105027099003)(261026140227099003)(261028144727099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ R/rlwNVpSEeJejiroqsZAyJowDGmRSfl1BEpUU8snN4aklEhgAFEWXUI+5XRZwcv6SA/hnas+52SOpCoweJJwsCpvFsyX9IlbVFcyZkJOk1AFg6QFLPJMToP/KIp8YAMkIFLg00lVKn7147Mwar3R7IPNEQXee9jEH/4GvWCguOWcK0fjHwoELkkbSWz5BJ8V2uLHkHVdTNBZFDLp/wI65B7MvdG94k5bbaRoSDGdevz4gQBKe9E7hXN/PTwQubn1OlphMDwljo9UW/arA5vxMKHVvTdA59Q+hpk1d2pTDJ4QIILbs94/NkZKgrrlHmWa5jKiLZwmTIG1BMPYZGHeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10402
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB3PEPF0000885B.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	3cf24f41-17f3-434b-b2c1-08df409f8f06
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|14060799003|7416014|376014|36860700016|35042699022|23010399003|1800799024|22082099003|18002099003|921020|261026140227099003|11063799006|261028144727099003|261021121427099003|261022105027099003|261009223027099003|261102123227099003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	Mi41iVFS42Y4ijkOcEdLtduh04au3Ctaa8x11V1VAXo32pknKPcTPMXzQN/o4py2b56J567tAvY36cKtKiSNKmw1eQAxzXh80NyTLMkY7f3vTtM+KQtBzVeq3bs8ZV6Tvkkx2pOBBmqkKr3pffW0nCNarP1oKy9OPO3Cx0OQUHdn1Sa2YWwuEq0+NQVD2uQtaD3ANeAIRVAQwrH3gex+vnpMjZSC0aTC20d7tyXTZ5iGV6Ui3mKVhSv1jQ8XsPDDnE9L2vBxMZs6RixJJkW9nNUehwmoxSKx1WrUtqgslZ85TETQBPUZAMpLYnL+DEI5z9V3FZOhMNA4gvd+LhPY7w3MF4KWKEegAwq46G9JbnUz+Dbr8L40kwb0LNY8LNTk/PzHETrUPgYCw6OQfmIgj8I0UjZEUj5n2nxdygwiMmrY4lFvmph+msDELQH2uVAK0lOiSGlU7ErNvbgj56MPB7XjGWZYLoDTMAbfiWNoeW6jDlz5C5xktqhyO9WCbsHzcQXnzCuwHc639HiwrGelyia7jV85VvGEt0gaIYiAqnQdI6Oygr5ioZq3+pcv1mXxF1aV+NG9Cl+Q3k/i3Ki03cHOTVAFWY3G9vu+s4rLFIKdbgpGwlQIgV4wjToBGrLmyrXcMqx2y5O9maAdDDXd/WzgC9aPbRxn2nSaCpGaYOk6arD6tK8p117qDScXXeK/gN0Wtjk74Ktr3yKJ09G50vs5GvDDaFee30P2qopyx7MCTUG/kKjrItPLjuoIkgOZ
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(14060799003)(7416014)(376014)(36860700016)(35042699022)(23010399003)(1800799024)(22082099003)(18002099003)(921020)(261026140227099003)(11063799006)(261028144727099003)(261021121427099003)(261022105027099003)(261009223027099003)(261102123227099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	yGup8012UgHlLQucFmNHZW0exhtlj1DSp5MlK8/Ce4QkOttAbtsrlBHoV8+WhYgIbjBvYmBXJNrfw9lBh3KQPoKtJbp17e2D65f/Gh3wjPlOn+E0vZxD8Kq1LRVfpihWQwMF/4gHPlg1j/hE/MSZS+odm/N6AtpkTQC9IELnSQDu7TvQ7L2PuOdihLbaGO4XRMxB2aKcywhG2KlwZsn8vZ8Z17E+Bivtlxq8aYuhSTCvWOoUnsqUqG3VVB3aZUFrTzbJ6mzP2laDoRU7ycUgx5/hy2TT+mxdm26r8/EQz0u80qMQusMcyC/w6XRhAP1xbRtjyMtkS3LT/8b2UOTnYDjw6MgBAtYcP1ENnCn+U1QjADggbHsEh7S32MFxGO5QvQAOzd8CzTypAZRqEwE0INSbJEcwvADf7nbiuX152tn7WPHSiAQp4AxIXWQjPfXw
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 09:30:50.8346
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae20ab5a-52ec-49b3-1d47-08df409fa438
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB3PEPF0000885B.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR08MB999845
 
-After device reset is issued due to TX drain timeout in
-mana_dealloc_queues(), hardware channel (HWC) state is non-functional.
-However, the driver continues to issue HWC commands (mana_disable_vport_rx,
-mana_fence_rqs, mana_destroy_wq_obj) which will each wait for a
-completion that never arrives.
+Many call sites of offsetofend() use it for the purpose of pointer
+artihmetic. Thus, a common usage pattern is:
 
-The first such command (MANA_CONFIG_VPORT_RX) blocks for the full
-hwc_timeout (60s as set by the firmware on the tested system), after
-which the timeout is reduced to 1 ms for subsequent commands. This
-causes the calling thread to hold the RTNL lock for over 180 seconds
-(120s TX drain + 60s HWC timeout), triggering hung task warnings and
-blocking all other networking operations on the system.
+  offsetofend(typeof(*ptr), member)
 
-Fix this by:
-1. Replacing the sleep-based TX drain with a CQE polling approach:
-   disable NAPI per queue and poll its CQ synchronously, with up to 3
-   more polls 100 ms apart to collect late completions. Reset the
-   device only if sends remain unacknowledged after that, then free
-   uncompleted SKBs. The device is reset at most once per call, and
-   not at all if an earlier reset already marked the HWC dead. Once a
-   queue is found stuck or the HWC is dead, the remaining queues are
-   polled only once. This replaces the 120s drain timeout with at most
-   300 ms of sleep per queue.
-2. Setting the hwc_dead flag after a successful device reset. If the
-   reset fails, the device may not have been reset and may still access
-   memory, so teardown commands are still posted, but hwc_timeout is
-   lowered to 1 ms so that they do not each wait the full timeout.
-3. Checking the hwc_dead flag in mana_hwc_send_request() before taking
-   an HWC message slot and again before posting the WQE, and returning
-   -ETIMEDOUT immediately without submitting commands to hardware that
-   cannot respond. A request that was already posted, or that passed
-   these checks just before hwc_dead was set (for example from the
-   gf_stats worker, which do not hold RTNL), still waits for
-   its own timeout, as before this patch.
-4. Skipping mana_fence_rqs() and the SHM channel teardown handshake
-   once hwc_dead is set.
+Capturing this in one macro helps keep lines short and terse, while
+still making the purpose clear. It also helps discourage spelling out
+the type name on every callsite, leading to more maintainable code.
 
-Fixes: a7dfeda6fdec ("net: mana: Fix MANA VF unload when hardware is unresponsive")
-Cc: stable@vger.kernel.org
-Co-developed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+A similar struct_offset() macro already exists, so add an offsetof()
+variant in the same spirit.
+
+Signed-off-by: Bence Csokas <bence.csokas@arm.com>
 ---
-Changes in v3:
-- Resolve sashiko comments, poll last 100 ms before device reset.
-- Stop the drain retries once the HWC is dead.
-- Fail fast in mana_hwc_send_request() only when hwc_dead is set, not
-  when hwc_timeout is 0, so requests made after mana_serv_reset() are
-  still posted as before this patch.
-- When the device reset fails, do not set hwc_dead, so teardown
-  commands are still posted, but lower hwc_timeout to 1 ms so they do
-  not each wait the full timeout
-- Read hwc_timeout once with READ_ONCE() and lower it with cmpxchg(),
-  so a concurrent 0 from mana_serv_reset() is not overwritten.
-- Use READ_ONCE() for all hwc_dead reads.
-Link to v2: https://lore.kernel.org/all/20261030125009.3758592-1-sahilchandna@linux.microsoft.com/
+ include/linux/overflow.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Changes in v2:
-- Add bounded wait for late TX completions before deciding that a
-  queue is stuck, poll the CQ up to 3 times, 100 ms apart.
-- check hwc_timeout and hwc_dead before taking an HWC message slot,
-  not only before posting the WQE.
-Link to v1: https://lore.kernel.org/all/20261025072838.1991785-1-sahilchandna@linux.microsoft.com/
-
- .../net/ethernet/microsoft/mana/gdma_main.c   |   4 +-
- .../net/ethernet/microsoft/mana/gdma_pci.c    |   2 +-
- .../net/ethernet/microsoft/mana/hw_channel.c  |  36 ++++-
- drivers/net/ethernet/microsoft/mana/mana_en.c | 137 ++++++++++++++----
- include/net/mana/hw_channel.h                 |   1 +
- include/net/mana/mana.h                       |   2 +
- 6 files changed, 144 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index ab942d5bfe05..94ee3b61527d 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -153,7 +153,9 @@ bool mana_need_log(struct gdma_context *gc, int err)
- 		return true;
-
- 	hwc = gc->hwc.driver_data;
--	if (hwc && hwc->hwc_timeout == 0)
-+	if (hwc &&
-+	    (READ_ONCE(hwc->hwc_timeout) == 0 ||
-+	     READ_ONCE(hwc->hwc_dead)))
- 		return false;
-
- 	return true;
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_pci.c b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
-index ed8925296c8a..3995e4ab4c96 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_pci.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
-@@ -102,7 +102,7 @@ static void mana_serv_reset(struct pci_dev *pdev)
- 	}
-
- 	/* HWC is not responding in this case, so don't wait */
--	hwc->hwc_timeout = 0;
-+	WRITE_ONCE(hwc->hwc_timeout, 0);
-
- 	dev_info(&pdev->dev, "MANA reset cycle start\n");
-
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index fb9f38f65911..ca9dcbfea9e4 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -192,7 +192,7 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
-
- 		switch (type) {
- 		case HWC_DATA_CFG_HWC_TIMEOUT:
--			hwc->hwc_timeout = val;
-+			WRITE_ONCE(hwc->hwc_timeout, val);
- 			break;
-
- 		case HWC_DATA_HW_LINK_CONNECT:
-@@ -819,7 +819,11 @@ void mana_hwc_destroy_channel(struct gdma_context *gc)
- 	 * non-zero, the HWC worked and we should tear down the HWC here.
- 	 */
- 	if (gc->max_num_cqs > 0) {
--		mana_smc_teardown_hwc(&gc->shm_channel, false);
-+		if (READ_ONCE(hwc->hwc_dead))
-+			dev_warn(hwc->dev,
-+				 "HWC unavailable, skip SHM teardown handshake\n");
-+		else
-+			mana_smc_teardown_hwc(&gc->shm_channel, false);
- 		WRITE_ONCE(gc->max_num_cqs, 0);
- 	}
-
-@@ -867,9 +871,17 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
- 	u32 dest_vrcq;
- 	u32 dest_vrq;
- 	u32 command;
-+	u32 timeout;
- 	u16 msg_id;
- 	int err;
-
-+	/* Fail fast before taking the HWC slot, after a device reset, a
-+	 * request already holding slots will release them once their own
-+	 * timeout expires.
-+	 */
-+	if (READ_ONCE(hwc->hwc_dead))
-+		return -ETIMEDOUT;
+diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+index d0f04436343e..060dad4b6f3e 100644
+--- a/include/linux/overflow.h
++++ b/include/linux/overflow.h
+@@ -464,6 +464,18 @@ static __always_inline size_t __must_check size_sub(size_t minuend, size_t subtr
+  */
+ #define struct_offset(p, member) (offsetof(typeof(*(p)), member))
+ 
++/**
++ * struct_offsetofend() - Calculate the end of a member within a struct
++ * @p: Pointer to the struct
++ * @member: Name of the member to get the end offset of
++ *
++ * Calculates the offset of the end of a particular @member of the structure
++ * pointed to by @p.
++ *
++ * Return: number of bytes to the location of @member.
++ */
++#define struct_offsetofend(p, member) (offsetofend(typeof(*(p)), member))
 +
- 	mana_hwc_get_msg_index(hwc, &msg_id);
+ /**
+  * __DEFINE_FLEX() - helper macro for DEFINE_FLEX() family.
+  * Enables caller macro to pass arbitrary trailing expressions
 
- 	tx_wr = &txq->msg_buf->reqs[msg_id];
-@@ -902,21 +914,31 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
- 	dest_vrq = hwc->dest_vrq_id;
- 	dest_vrcq = hwc->dest_vrcq_id;
-
-+	/* If the HWC is unavailable after device reset, do not post the WQE,
-+	 * the hardware cannot respond, so fail fast instead of waiting for
-+	 * the full timeout.
-+	 */
-+	if (READ_ONCE(hwc->hwc_dead)) {
-+		err = -ETIMEDOUT;
-+		goto out;
-+	}
-+
- 	err = mana_hwc_post_tx_wqe(txq, tx_wr, dest_vrq, dest_vrcq, false);
- 	if (err) {
- 		dev_err(hwc->dev, "HWC: Failed to post send WQE: %d\n", err);
- 		goto out;
- 	}
-
-+	timeout = READ_ONCE(hwc->hwc_timeout);
- 	if (!wait_for_completion_timeout(&ctx->comp_event,
--					 (msecs_to_jiffies(hwc->hwc_timeout)))) {
--		if (hwc->hwc_timeout != 0)
-+					 (msecs_to_jiffies(timeout)))) {
-+		if (timeout)
- 			dev_err(hwc->dev, "Command 0x%x timed out: %u ms\n",
--				command, hwc->hwc_timeout);
-+				command, timeout);
-
- 		/* Reduce further waiting if HWC no response */
--		if (hwc->hwc_timeout > 1)
--			hwc->hwc_timeout = 1;
-+		if (timeout > 1)
-+			cmpxchg(&hwc->hwc_timeout, timeout, 1);
-
- 		err = -ETIMEDOUT;
- 		goto out;
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 38249e092090..739021aa09b3 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -2086,7 +2086,9 @@ static void mana_poll_tx_cq(struct mana_cq *cq)
- 	if (atomic_sub_return(pkt_transmitted, &txq->pending_sends) < 0)
- 		WARN_ON_ONCE(1);
-
--	/* Feed DIM with the completion rate observed here, in NAPI context. */
-+	/* Feed DIM with the completion rate observed here, in NAPI context
-+	 * or in the TX drain of mana_dealloc_queues() after NAPI is disabled.
-+	 */
- 	cq->tx_dim_pkts += pkt_transmitted;
- 	cq->tx_dim_bytes += tx_bytes;
-
-@@ -2612,6 +2614,8 @@ static void mana_update_tx_dim(struct mana_cq *cq)
- 	/* cq->tx_dim_pkts/bytes are accumulated in mana_poll_tx_cq(), in the
- 	 * same NAPI context as this read, so they track the hardware
- 	 * completion rate and need no u64_stats_sync protection.
-+	 * The TX drain in mana_dealloc_queues() also adds to them,
-+	 * but only after NAPI is disabled, so not concurrently with this read.
- 	 */
- 	dim_update_sample(READ_ONCE(cq->dim_event_ctr), cq->tx_dim_pkts,
- 			  cq->tx_dim_bytes, &dim_sample);
-@@ -2724,10 +2728,10 @@ static void mana_destroy_txq(struct mana_port_context *apc)
- 			cancel_work_sync(&apc->tx_qp[i]->tx_cq.dim.work);
- 		}
-
--		/* Forget the SKBs freed without being completed after a drain
--		 * timeout, now that NAPI can't complete any. Doing it here also
--		 * covers the queues that a lower channel count won't recreate,
--		 * which could otherwise stay stopped.
-+		/* Forget the SKBs freed in mana_dealloc_queues() without
-+		 * completion, now that NAPI can't complete any. Doing it
-+		 * here also covers the queues that a lower channel count
-+		 * won't recreate, which could otherwise stay stopped.
- 		 */
- 		netdev_tx_reset_queue(apc->tx_qp[i]->txq.net_txq);
-
-@@ -3775,19 +3779,25 @@ int mana_attach(struct net_device *ndev)
- 	return 0;
- }
-
-+#define MANA_TX_DRAIN_RETRIES	3
-+
- static int mana_dealloc_queues(struct net_device *ndev)
- {
- 	struct mana_port_context *apc = netdev_priv(ndev);
--	unsigned long timeout = jiffies + 120 * HZ;
- 	struct gdma_dev *gd = apc->ac->gdma_dev;
-+	struct hw_channel_context *hwc;
-+	int flr_pending, i, err, retry;
-+	bool trigger_flr = false;
- 	struct mana_txq *txq;
- 	struct sk_buff *skb;
--	int i, err;
--	u32 tsleep;
-+	u32 flr_txq_id = 0;
-+	u32 timeout;
-
- 	if (apc->port_is_up)
- 		return -EINVAL;
-
-+	hwc = gd->gdma_context->hwc.driver_data;
-+
- 	if (apc->rxqs)
- 		mana_chn_setxdp(apc, NULL);
-
-@@ -3799,42 +3809,110 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	 * a txq because it may not timely see apc->port_is_up being cleared
- 	 * to false, but it doesn't matter since mana_start_xmit() drops any
- 	 * new packets due to apc->port_is_up being false.
--	 *
--	 * Drain all the in-flight TX packets.
--	 * A timeout of 120 seconds for all the queues is used.
--	 * This will break the while loop when h/w is not responding.
--	 * This value of 120 has been decided here considering max
--	 * number of queues.
-+	 * Drain the in-flight TX completions for each queue. TX is already
-+	 * stopped, so pending_sends can no longer grow. For each queue,
-+	 * disable NAPI so it cannot run at the same time as this drain,
-+	 * then poll its CQ for up to 300 ms. If sends are still missing,
-+	 * the hardware is not responding: reset the device and mark the
-+	 * HWC dead so that later HWC commands fail fast.
- 	 */
-
- 	if (apc->tx_qp) {
- 		for (i = 0; i < apc->num_queues; i++) {
-+			struct napi_struct *napi;
-+			struct mana_cq *tx_cq;
-+			int pending;
-+
-+			if (!apc->tx_qp[i])
-+				continue;
-+
-+			tx_cq = &apc->tx_qp[i]->tx_cq;
- 			txq = &apc->tx_qp[i]->txq;
--			tsleep = 1000;
--			while (atomic_read(&txq->pending_sends) > 0 &&
--			       time_before(jiffies, timeout)) {
--				usleep_range(tsleep, tsleep + 1000);
--				tsleep <<= 1;
--			}
--			if (atomic_read(&txq->pending_sends)) {
--				err = mana_gd_dev_reset(gd->gdma_context);
--				if (err) {
--					netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
--						   err,
--					    atomic_read(&txq->pending_sends),
--					    txq->gdma_txq_id);
-+			napi = &tx_cq->napi;
-+
-+			if (txq->napi_initialized) {
-+				/* Stop the NAPI poll so it cannot run
-+				 * concurrently with the synchronous drain.
-+				 */
-+				napi_synchronize(napi);
-+				napi_disable_locked(napi);
-+				cancel_work_sync(&tx_cq->dim.work);
-+
-+				/* Poll the CQ until no sends are outstanding,
-+				 * sleeping 100 ms between polls. Poll once
-+				 * if earlier queue was stuck or device
-+				 * has already been reset.
-+				 * A zero budget frees skbs via the non-NAPI
-+				 * path, which is required outside softirq.
-+				 */
-+				tx_cq->budget = 0;
-+				for (retry = 0; retry <= MANA_TX_DRAIN_RETRIES;
-+				     retry++) {
-+					do {
-+						tx_cq->work_done = 0;
-+						mana_poll_tx_cq(tx_cq);
-+					} while (tx_cq->work_done);
-+
-+					if (!atomic_read(&txq->pending_sends) ||
-+					    trigger_flr ||
-+					    READ_ONCE(hwc->hwc_dead))
-+						break;
-+					if (retry < MANA_TX_DRAIN_RETRIES)
-+						msleep(100);
- 				}
--				break;
-+			}
-+
-+			pending = atomic_read(&txq->pending_sends);
-+
-+			if (!trigger_flr && pending > 0) {
-+				trigger_flr = true;
-+				flr_txq_id = txq->gdma_txq_id;
-+				flr_pending = pending;
-+			}
-+		}
-+
-+		if (trigger_flr && !READ_ONCE(hwc->hwc_dead)) {
-+			/* Completions never arrived: the device is
-+			 * unresponsive. Issue device reset and
-+			 * mark the HWC dead so subsequent HWC commands
-+			 * fail fast instead of each waiting the full
-+			 * hwc_timeout.
-+			 */
-+			err = mana_gd_dev_reset(gd->gdma_context);
-+			if (err) {
-+				netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
-+					   err, flr_pending, flr_txq_id);
-+
-+				/* reduce timeout if device reset failed */
-+				timeout = READ_ONCE(hwc->hwc_timeout);
-+				if (timeout > 1)
-+					cmpxchg(&hwc->hwc_timeout, timeout, 1);
-+			} else {
-+				WRITE_ONCE(hwc->hwc_dead, true);
- 			}
- 		}
-
- 		for (i = 0; i < apc->num_queues; i++) {
-+			struct napi_struct *napi;
-+			struct mana_cq *tx_cq;
-+
-+			if (!apc->tx_qp[i])
-+				continue;
-+
-+			tx_cq = &apc->tx_qp[i]->tx_cq;
-+			napi = &tx_cq->napi;
-+
- 			txq = &apc->tx_qp[i]->txq;
- 			while ((skb = skb_dequeue(&txq->pending_skbs))) {
- 				mana_unmap_skb(skb, apc);
- 				dev_kfree_skb_any(skb);
- 			}
- 			atomic_set(&txq->pending_sends, 0);
-+
-+			if (txq->napi_initialized) {
-+				netif_napi_del_locked(napi);
-+				txq->napi_initialized = false;
-+			}
- 		}
- 	}
-
-@@ -3847,7 +3925,8 @@ static int mana_dealloc_queues(struct net_device *ndev)
- 	if (err && mana_en_need_log(apc, err))
- 		netdev_err(ndev, "Failed to disable vPort: %d\n", err);
-
--	mana_fence_rqs(apc);
-+	if (!READ_ONCE(hwc->hwc_dead))
-+		mana_fence_rqs(apc);
-
- 	/* Even in err case, still need to cleanup the vPort */
- 	mana_destroy_rxqs(apc);
-diff --git a/include/net/mana/hw_channel.h b/include/net/mana/hw_channel.h
-index 1ab2d66c891e..0bc222c32244 100644
---- a/include/net/mana/hw_channel.h
-+++ b/include/net/mana/hw_channel.h
-@@ -179,6 +179,7 @@ struct hw_channel_context {
- 	struct gdma_dev *gdma_dev;
- 	struct device *dev;
-
-+	bool hwc_dead;
- 	u16 num_inflight_msg;
- 	u32 max_req_msg_size;
-
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 218d540bc994..1da76e7d6950 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -344,6 +344,8 @@ struct mana_cq {
- 	/* Cumulative TX completions fed to DIM. Updated and read only in
- 	 * NAPI context (mana_poll_tx_cq() / mana_update_tx_dim()), so they
- 	 * measure the hardware completion rate and need no u64_stats_sync.
-+	 * The TX drain in mana_dealloc_queues() also updates them, but only
-+	 * after NAPI is disabled and the DIM work is cancelled.
- 	 */
- 	u64 tx_dim_pkts;
- 	u64 tx_dim_bytes;
---
-2.53.0
+-- 
+2.56.1
 
