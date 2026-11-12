@@ -1,94 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794511425;
-	b=fz5j65U6os4j5/bzY4OB12mG/qvcF/64vvefeC+AyPL1h0+RiGTLmJrJ4qAm1W4beN1N
-	 HnZmjIsj09vhV4TtJMC0Ng3DNXBcbSoOd3CmWqTZx21NgFRCP0IFem+PkW+OJbWnukba/
-	 hIuZv1WU9YPrOdbDP6+wXXUsUd69pDj1m2KhLRPJA1vipAe5bGpIiaON1GbrHXqGY57Hz
-	 B6HqnPf92JOVfr5hbRgJfXiTROai87sVclU/FbAVCpx88p20DOs/FHHC+i/7MVp5WO8tV
-	 kbSBpoXKecZr7rnQMAFyaI45K/pFv2I3oVr8teg32uhwQ4OuGQ0FvilJ/91/FdctUcQ==
+	t=1794513436;
+	b=NkZ0T2ebMuvncUgYNHtQ4Lu8/h5fVX/sHiwP4yLpqVR2TS2kkG+TdGX6otkbuX6PrfNH
+	 7lL0nzMh6L/1JppTPXtCXmCswrDqLRz8X/LVxWVgmD7ba63UzbEj+i2v5aK+4YICAe1Ew
+	 bIRFhAyr8FKpHjkOYJbpFxToZgIYSxTGYlEUDGxwZHerK4dE4OSSo8X08QJB09sVMhgaw
+	 GfmTuqABy+8UEahc88HCH99gQ1W/UoZqo7D/vHvECkBe/UZ0eaGG9zfFPVonCBBm4zCTa
+	 fi61FfA1MUQjGKVE8ID2RMwN5gZE/vQG9h8sckSsYnc8UhMfi4rb/ZS2LoQSEADGOHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794511425;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794513436;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=/4AacCwXyjEM4aiyhOWViwFiZiWmZmzTtz1jPZz02aw=;
-	b=eiLpUcC/b0GmXK8VSjAPkzhqiUswvnh0ayVxszmP8K2ATk/I2ihM3o7tZhgLirD7MKHQ
-	 YDDCxkiG4pP2ynncw5J1JF8xdzEohmU45dBp5ExKOb/foVb7HkYBQ0JMK+XOr9hHivLtz
-	 x9GP7DcdhWXmer82crTKH8LarxEude7FwICuLjJSi420PQoHf7xrEGt4uRszdZfeLW47U
-	 B1nwB7ay1++yo5kt/Nw+zh0dKbmCurNx7njwn7WM2+5KBqbkxKZKWW11sfx84iGJGyv14
-	 aC9gMDAxAwHRzjNQmWBZRFJEhnzrjEhzgxWTkXj58zbesinXO5XS2ZtrdOoV7ZOlPcw==
+	bh=CzDxUF6io59AUzkKBaAU66gKnCGGQN9HKIMVkGQr1fQ=;
+	b=PgdZnH2UEPEAq1Sx79pflJN6O3q2Ix4xRMPAcUSzBQSomTTUkzfiEh8UEtICme7tkXd0
+	 lNww1A2quI4pM+gPhI+bUkQm34d0A0y61PnAwV03W8jSVbm2PKCwRuNcLYN5AWpccecrK
+	 u5Ypr93yS4Otq8WF9iKNPN3ctAVJLjNYnUoKryeqzYUD0y9/VfxlK7bmElU85DowLJX4W
+	 cJcBMGH4zlaWjgmL/8deBki21EWx7+wp2xhRziZh8pzK5G3G6xYW0X9RAAYyuJ+KEegna
+	 zIzyFAGQv3kUp755bH3GJk3PWIwqgDXXAgUvQhg4BcwmMclC6NKkHguUEcDDc7K1bdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D9B5TVgz;
-	arc=none smtp.remote-ip=209.85.219.50
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vuqN8AiL;
+	arc=none smtp.remote-ip=209.85.160.181
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B4A606A321
-	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 19:23:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71B4A606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F0E606A323
+	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 19:57:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53F0E606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D9B5TVgz
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91ea3f6a506so1719756d6.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 11:23:45 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vuqN8AiL
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-536c8f958d7so790321cf.1
+        for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 11:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794511424; x=1795116224; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794513435; x=1795118235; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/4AacCwXyjEM4aiyhOWViwFiZiWmZmzTtz1jPZz02aw=;
-        b=D9B5TVgz8Jd7oaBGVGeBqm0Wg/G+OfkjJ8YALUnsRwbRAt5U+uv5wEdAMiTvt6CF0d
-         mcCPF5k5JqUAnI/J0BhG4kgJpHFXRfLv4BxyqETtnkNMEedoezAkeaeSyyDBS5J4Jqex
-         U97CVjR7Pmg503v72rDM7fn0E98SABlEgwocDhw6Iv4vUswSYANH44HatL2S8NlQQqcV
-         q0uSvMBAZj6qut3wYcY8dwx1xCUscO7erZgHbcLDYtFZcG4s1Vpa1szP0a0jlskbMRV9
-         Xrnlgohyq7Aj9U9pTgh64EvslpuDD3V0EzFWFZSfVuDaDy/j4hF2ZUyAnMjc1UUJ05pK
-         Igyw==
+        bh=CzDxUF6io59AUzkKBaAU66gKnCGGQN9HKIMVkGQr1fQ=;
+        b=vuqN8AiLpAawFUwEbsflV39EWisNA7pPWcQPclrwWh/dzQgpYKnMgG7+Mh9504+EPp
+         91Ld3TSaarfjoNBWrJvJcFIq7fhFbuHkRgG7QWlbrZ+DNsoAg11KnqygrP8xPHO5axIy
+         w5BN20XTw0j3LA75J2jEtV2Q7GDCQgaQMp1hQevrWCDcbHpjLlN9umNXv+VbNsnCcnrK
+         /l54kA9c145dl8URjgScHlFuVO4450jaL4ZK7q/KBtbTLDLoIUz1fGIhMJP9TBqDMCTC
+         kLN+VAimubs6M5FHI4r+RNv+fFFUi750h5rJ4FyBE7CKyIWejDn4iXmM5T1/Ka80olCx
+         5N+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794511424; x=1795116224;
+        d=1e100.net; s=20260707; t=1794513435; x=1795118235;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/4AacCwXyjEM4aiyhOWViwFiZiWmZmzTtz1jPZz02aw=;
-        b=dpsBb3ldF7u4GfssI+tZBwhkeZd5MKXRALQauigqEPeGDwj7X2OaaYWO2l+w0Rmbek
-         O+IWaOs2wwefhyrzehhyUqT6uXCBErvtR67enh6CiGycusMQSvkYNa9veMN4pylIL8Zc
-         9ixi2bLXmMChq53k6IBQnZKNajtn+2zOA9hC+QkQmtfR5Ow3g1dJHoFZR0N4pg60Deia
-         CArwDBYFBtA858mDqY0f94Zh2tBwyi3v1Ju3Zq07KEsjuJOVdfCz3CPNjFVxMgJuNqam
-         cW3Fx1hjnttmTd+xSmnhiBBhwnBPh8d+6Woi2zTbXAecBy0hxovcmR4VRzWVSdCaqFd4
-         9QYw==
-X-Forwarded-Encrypted: i=1; AL+hErGqkSFUBaPkko91wAV0J59xDksH+VQyzSbD4a5+UCqQJVqefksAP/BwKvww7wfiYSJemOfzhvjh7HhN40s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/3tNeL2lpLRic6q+/Hp+0SFndBiQUo7QTKaIPeRtMm+O+hCpOO
-	3w3bJ/uMvVYO2zDjqgXWEju14a5iEnkj4rZe6vpUYSNZfpsJ7idVJjPx
-X-Gm-Gg: AYBFou25yem5fWg1XoADswrANiKtSBVIP4JdG+MeW0evIQmqB494We6o6l/zGF1MOr+
-	Ge+uWEspo5wxW/EeC2Hd1/CpBQYx/Dv7wIX4HP4Z8xsHRrCFN+aNWbM+7fZXYDr3hseix8bSBFd
-	UvV3u3QMeMeuF8O/vxw/r7nkcXjxV8p3vMXFsAQUscpF6iB5ER0FmPpr/EUzLUcWn20j5gMlPEr
-	TDMxdDMfds0Jm3Kn9f4rOPpHIameeQUexW8rfszw6eN6/9fSCEOCfLDi3WjTPoRL6+ZCO+zSFdr
-	+rnxmG1Vn4qDZB2QuNDwzMhtjvUKOlDWVDmFfF2KvvAFTLKnDuO+c8Ef7AC8FlBkaBxoccFVjkH
-	p1JkuhqNAWJyV1UDOLEa5nqdA4qaF8XhXM8dk7PeVX2/gqDSUJFAczz1dllIXlb38OYvIQW9O57
-	zVkiPolA2ADl9NqCjXrftCHhMdtAb/r3IfmCojM1Sc4V7b6bL8ZiUxMI61Qx7CThCH4fqCBPGHv
-	b18PcdcSN/zvyTl9p/Ip7bxuIXG0pcxSO0uZczUT7R6Acv//2X8U/1YDvUnGg+spJZCNFByRCtD
-	mgDt+OvVH7xMIf+ymetK2EcJLRxM/szplUtgyHPKmVTGU+sg+guk
-X-Received: by 2002:a05:6214:1c4e:b0:91f:1544:3eff with SMTP id 6a1803df08f44-91f24256486mr4682686d6.51.1794511424421;
-        Thu, 12 Nov 2026 11:23:44 -0800 (PST)
+        bh=CzDxUF6io59AUzkKBaAU66gKnCGGQN9HKIMVkGQr1fQ=;
+        b=Va0x9+pXydMU2zsAub5/aKMa+sjgIaLCGNdfA5caRmqqbA/7Y7MPi9sgtM5la1R+9U
+         cnINelLKTXVzRYKSVr6fHNvTBZ9ege105pPBTmnAAvQSJstYJtGSMHOqLILMW0HjCDo5
+         DgX9HyUUE4fv/GpTeisi5BpDkB7Zol2qb01gYp+fx44LF4nMAiFQ2C/AeRK4VT136tj/
+         f9z6VHsi7BmRhWIQ1ZyPIV0Yhw3SE0PkYeg2YhmtQY9374PwWtyYjQ9DnvVRnIKJHOWG
+         wFfriwCZopDq2Js8SYeCYaJTP/HTyAxhgFYz6jPEwKWlQRIqEw5yhjPUBsFcs3N/PjLm
+         We8g==
+X-Forwarded-Encrypted: i=1; AL+hErEuKWJVEIjC5egCXG+6Ee835nAozN6Ugwr9BGt/n6pMpLvoShphQshkjb3KDeo88+vQvRfnRuojz9KNe7w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/RH+lV7afhPL0oeTB1nRcBy8LDTU7K/0fyysn3Vr7PFiuHiU1G
+	4tVipYtTXWcRNvXd2m7NKdAL59sD41h88fHSNCw9YQ3euDTgJjG+v151
+X-Gm-Gg: AYBFou2fsdqT1Pgl5JM0gWw33dEW1Evb0dHJQhY4VPa98FPRIOFShkkEWvezCF8eZ4j
+	0TuihulKnfRwOt79n6uNCNfxfznD7qDj+2OJLdlVHdyjSfOKzQ7D9bupPflvlR8dTQvk21Y/ZlT
+	AMKvzmhLHCZcrwdU1BeOumS5Row/wfZqObot6MJrJRsQMEZvWcyjzPvCYhSrjFEksy9wrUxNqC+
+	5AQyE2TvH0MuFuRT1HL5n+yEIvq4j5XQcctqEpk+heIXi7i5x2eKYiZVg9VPwbxjGu97xJAeovx
+	v4dKv4igSApH52ZrP+YfXPLyFa4DBikbJSBJugBTWJ/FQnGTM8P0MUk6VMtAw8d25IdKv+vBEEs
+	uWd4a3ObrAjzOLR9tGzEDqXHMumh7hk7qJtG5DQeK1AW2PyTm03Y3HSGsoH1rBK2t1UuF9L+8Sx
+	y7H+he9a8ZY4OQ7iB89tWyd3Vtw0IVMRSXDB26t9rtyB2IMoTsg3q812mo/a7WBDwN89Zr3L3AC
+	UO3mWAmmAm3VZX7qgf9VfAIS2K8c/EZ3jzzH+d2IxD2LUtOc3XRBCFsAYmrjEzynZU58uYhekHm
+	rdDHLOjOwYtLnP4R7XYc1vS1zbVz1IRW8NRzBiQKcDpJi2SvDQMh
+X-Received: by 2002:a05:622a:8586:b0:55a:e65b:d959 with SMTP id d75a77b69052e-55ae65be1eamr2000351cf.8.1794513435248;
+        Thu, 12 Nov 2026 11:57:15 -0800 (PST)
 Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d780e8sm2938026d6.27.2026.11.12.11.23.43
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55ad034918fsm2504851cf.4.2026.11.12.11.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 11:23:43 -0800 (PST)
+        Thu, 12 Nov 2026 11:57:14 -0800 (PST)
 From: Yuho Choi <oss.patchbox@gmail.com>
-To: Wei Liu <wei.liu@kernel.org>,
+To: "Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Wei Liu <wei.liu@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Dexuan Cui <decui@microsoft.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Cc: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Yu Zhang <zhangyu1@linux.microsoft.com>,
+	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	iommu@lists.linux.dev,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yuho Choi <oss.patchbox@gmail.com>
-Subject: [Question] mshv: unpopulated parts of a movable region after removal
-Date: Thu, 12 Nov 2026 14:23:38 -0500
-Message-ID: <20261112192341.1412177-2-oss.patchbox@gmail.com>
+Subject: [PATCH v2 0/2] iommu/hyperv: Don't free a paging domain the hypervisor did not delete
+Date: Thu, 12 Nov 2026 14:56:58 -0500
+Message-ID: <20261112195710.1417744-4-oss.patchbox@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -101,38 +108,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The Hyper-V IOMMU driver frees a paging domain's page tables even when
+HVCALL_DELETE_DEVICE_DOMAIN fails and the hypervisor still has the
+domain. Patch 1 fixes this when a domain is freed, and patch 2 when the
+allocation of a new domain fails after the domain has been created.
 
-I have a question about how a movable memory region is unmapped when it
-is removed (mainline 067c5c24cef2), and would appreciate your view.
+Changes since v1:
+- Patch 1: WARN when HVCALL_DELETE_DEVICE_DOMAIN fails (Jason). Kept
+  the Reviewed-by tags from Easwar and Jason. Rebased on current
+  mainline (067c5c24cef2).
+- Patch 2: new. Handle the same failure in the error path of
+  hv_iommu_domain_alloc_paging() (Jacob).
 
-When a movable region is created, mshv_map_user_memory() maps its whole
-GPA range with HV_MAP_GPA_NO_ACCESS. mshv_region_range_fault() later
-fills in the page array and remaps the faulted pages with access, and
-mshv_region_interval_invalidate() remaps invalidated pages with no
-access again and clears their entries in the page array.
+Both are compile-tested only (x86_64 with HYPERV and HYPERV_PVIOMMU,
+W=1). I have no Hyper-V guest with the para-virtualized IOMMU to test
+them on.
 
-When the region is destroyed, mshv_region_destroy() calls
-mshv_region_unmap(), which goes through mshv_region_process_range().
-That walk skips the entries that have no page, so only the parts that
-currently have pages are unmapped. The parts that were never faulted in,
-or were invalidated, are not unmapped. Before commit abceb4297bf8
-("mshv: Fix huge page handling in memory region traversal"), the whole
-GPA range was unmapped with one hv_call_unmap_gpa_pages() call.
+v1: https://lore.kernel.org/all/20261105192738.70664-2-oss.patchbox@gmail.com/
 
-If I read this correctly, the hypervisor keeps those GPAs mapped with no
-access after the region is removed. A guest access to them would then
-come back as HVMSG_GPA_INTERCEPT rather than HVMSG_UNMAPPED_GPA, and the
-mappings would stay until the GPAs are mapped again or the partition is
-destroyed.
+Yuho Choi (2):
+  iommu/hyperv: Don't free a paging domain the hypervisor did not delete
+  iommu/hyperv: Keep a new domain's page tables if it cannot be deleted
 
-Is this intended, for example because the hypervisor treats a no-access
-mapping like an unmapped GPA? Or should mshv_region_destroy() unmap
-these parts as well? If so, does the unmap need to follow how they were
-mapped: 4K pages when the region is created, and large pages when an
-invalidated range covered a huge page?
+ drivers/iommu/hyperv/hv-iommu-guest.c | 29 +++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-I found this during in-house security research and have not reproduced it.
 
-Thanks,
-Yuho
+base-commit: 067c5c24cef23d913b67eaaf71ae67e7169a6620
+-- 
+2.43.0
+
