@@ -1,192 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.144
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794490338;
-	b=dBbTQVg9FKf32B9WLZbZzJkJgNMA/1JgsqOpcf/dAoPjELJ5Zde8PYUXj7cnN4CFkQHn
-	 WIDutEH5+3/IDbxCu/8vprSm4kOl2X3F7IWXo/csz8q9fjxH/pK07bLm5hp50IYItjmIM
-	 jeuC0vDZKeHwbi4FUa4lGpHeV2QYgQfAsqZepA6vmDbWas4X7n0gH8tdri/D3z1lhxwSN
-	 J1r4PJDu0s82fuJYcs1HGe7y0m1ykckIPmq6VKwHhPW0UZ4tY0U1X1DEyfWG8QlLPF9CO
-	 hCHjOVUbzInGXzuapCpnzNd8JGVg/LQjyfunkLqUCnBVxyBRO+X8f8QJEraI8oVo85w==
+	t=1794491878;
+	b=BiMVUCLvJyPmoiHZ8PW3Xs2MPUySDh3Ren+Rggb4bz02cmqNv/34dGOUv+DBgt4yvcsJ
+	 tU4afVE031njJDicOoUeOY4llExnEnWpobLFL6PtyrwiTqJwFl9ba/XaztCMr10qNfWD5
+	 tQDS46rso6Nv96JLRYBH1ovpYA35QgshqIVG48diNsVsx3zokcU1KYE54+EBQga9zmXv5
+	 1qkfkssGceX4ktYxfKJUzPlPXNYDU/GO3dGsxTcFmZFRjOE4/lqyQX5M22hy1g+6gs2Qs
+	 MB+qgXCv3WfuysuaRinuF2ud1L6m8ccHKD72cB+QyEXiGq6xfVLs9BlqbXPZnDapMVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794490338;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=r6ZiRY3FXltBOTurpbapfkXrVhZHo2axQtDyRtG/+Kg=;
-	b=eDwvbQvHfU7MNUk/ZOEuXN9ow8WA+f6iaHSQRBFsDq0Ypw+GnSCN8PcBX9jvLYVvYLGX
-	 NprXp1LdFV4ZgaVwyd3NIJyJYkwgL7qHpP0Bc4e8peh3i/XM94KMb9I5pSx2pUpxFcT57
-	 RySAjV6QyOebRnmgM4mtrT/VEVLfeAwyynvY5HOs7iPXuGGvx16jC9uBMNodXB7O7Thb4
-	 oaXKvfBUOuZ+wBzhMouGsWvK6MDAmKRlgwVXbrPx2K5OumlhQsPYG5BGeWQh5CJfi++1z
-	 4a+C1bRrSE/Tcr8U3EgEkQsN9g3nCa6hQqldMXszP1p2R+hZIW5FHjg7g7qhZI8AVYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491878;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=eoVPrBJ4tURN+QM6vq2ZTCOjSmSxNf9fZYcJKAVOqpU=;
+	b=sHPPm0c9nPqqKEDxl5wEI1om7nB0ZcZlLoaVh0HstqVPCP3yS1wFQObZVdq/fuZrTxym
+	 30zIAfyS511BLays8lK41ytfWc0O8T39Txe7RGBX8iNIfkWuQTFqT2GP2794J1ON8ViK/
+	 l0jW4TFwFTsFoYbOA71rzifx+1UL/jTQtlCqwF0Xdh/SX2XP0zTYjPhZ31ZZQw2gEofjr
+	 iG2HEmENs3H91VfV0QwEbQeIqTdQHn/xWaD78RQdiAJQl4gIcWh/fBMVU5/bWmr2aJI1b
+	 eFyv7WxcZsuR8Dov6Rk4BKpdsmZ30pboQqR+SXO+XTcKV/kPk3RYnlrvO9tM1fb9FQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wy8GlGPy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=UZHTSMBm;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="w3I/NPyn";
+	arc=none smtp.remote-ip=202.12.124.144
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C5C606A334;
-	Thu, 12 Nov 2026 13:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F9606A886
+	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 13:57:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 119F9606A886
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wy8GlGPy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227E61F00A06;
-	Thu, 12 Nov 2026 13:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794490338;
-	bh=r6ZiRY3FXltBOTurpbapfkXrVhZHo2axQtDyRtG/+Kg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Wy8GlGPynbdgDuFWN722xaQwNevNtmZMEu0BUn6KzojIS2khSDKExmF3/xNVEdtLl
-	 eg+MrKwjSLQKSwX6KGIm3YdAvMrdpehkw2SEwXk5ITkqGQcbqHO3TpHS2uV2Am897/
-	 10/dPietBwB77+JGc07RnvIwJDQCioeWxjJS5APKr5zv02KG/1GvxTvI2xPg8l2nj9
-	 8rVb9kzBJiR4zpdkhL90XWtOFJlNgS29gDuGDeXDl5g8bz1BkEPEanNxu3FAmYKlIF
-	 uvbMxLrCr7ffOATZvlIHAx+q1QfPvgRNTBbsvWHfJ7CKtkZD92nfbknljW1KTrGL27
-	 2KvO5+WPab9Vw==
-From: Maxime Ripard <mripard@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Janne Grunau <j@jannau.net>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	asahi@lists.linux.dev,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>,
-	Dave Airlie <airlied@redhat.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Dharma Balasubiramani <dharma.b@microchip.com>,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Alison Wang <alison.wang@nxp.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Ruben Wauters <rubenru09@aol.com>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Yongbang Shi <shiyongbang@huawei.com>,
-	John Stultz <jstultz@google.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Yongqin Liu <yongqin.liu@linaro.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Liu Ying <victor.liu@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	imx@lists.linux.dev,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Jianmin Lv <lvjianmin@loongson.cn>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Qianhai Wu <wuqianhai@loongson.cn>,
-	Xi Ruoyao <xry111@xry111.site>,
-	Linus Walleij <linusw@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Marek Vasut <marex@denx.de>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	nouveau@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	spice-devel@lists.freedesktop.org,
-	virtualization@lists.linux.dev,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Sandy Huang <hjc@rock-chips.com>,
-	linux-rockchip@lists.infradead.org,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	David Lechner <david@lechnology.com>,
-	Iker Pedrosa <ikerpedrosam@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-tegra@vger.kernel.org,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	LiangCheng Wang <zaq14760@gmail.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Louis Chauvet <louis.chauvet@bootlin.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Aditya Garg <aditya.garg@linux.dev>,
-	Andy Yan <andyshrk@163.com>
-Subject: Re: (subset) [PATCH RESEND 00/83] drm: Switch drivers to drm_mode_config_create_initial_state
-Date: Thu, 12 Nov 2026 14:32:12 +0100
-Message-ID: <179449030440.677082.2648325087165275258.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
-References: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=UZHTSMBm;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=w3I/NPyn
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.stl.internal (Postfix) with ESMTP id 4D97B1D00095
+	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 08:57:57 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 08:57:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794491864;
+	 x=1794578264; bh=eoVPrBJ4tURN+QM6vq2ZTCOjSmSxNf9fZYcJKAVOqpU=; b=
+	UZHTSMBmiNlLbeyzJSM31bww8ECg7DYP3ME/gIcumSkeq4tA+lhhl/mI191u5LRo
+	l0vTQsRmmnZp0mgNoXwv1bx+Tk/L8WLAvkF7YJ5q4i/qNLgqeWU0cQIkN+LtMIQd
+	GZ6jDNI5x87tcxUATqr6xe4hfQkbgzUOtAjJqwS54TnRRosu1tc/9auKlOAsoObg
+	BwB+9W/80/pIaHjBi+nk2zqVyd9ghALWfQAGTOCbRuo5UirR5ztH/mpRo1WsM1PV
+	JXE62YUDioTj3nV6fzAQhDsIWF+MfqOL2scFNDzErj1ZB/p1KoeTKHsoV+zY3X6V
+	lGUHJ9mVecGcJV4LYIuErA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794491864; x=
+	1794578264; bh=eoVPrBJ4tURN+QM6vq2ZTCOjSmSxNf9fZYcJKAVOqpU=; b=w
+	3I/NPyn+0b9ox+whIlNKVZfmVgXjZSFlgoy2pipfU9rRluX6oUSlOqvOAv25QGws
+	F62OpHF1qc8cKKxSSReVPv+tg/jXh6jQu8zPOqIfqUfrA70bwowX8G13ex3RC802
+	UbUnotIhhPa63ZADYTv9R19vyTf4IeHywI0+YOVE7RNBdGZbibmgwZQ+gFyM5oJ8
+	9FNW+1TUbTQXvEgtwRId2tZEO0BoLaFWCbbxVqGM4sr+kmOUiQoPk8Lp6wP+aPTT
+	0+AVHMoQ3oRc3gHRLJy+OxYjKNldYotlz2Hm+jo8C4Luz5uI5RTkECva6Yya8o9N
+	b0gud2jh5WTA3JFMxFvPw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794491864; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWh5cGVydkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:GDlLvBaznQ5iehXLrj+Hs8aVr4e9OEJRmSBwTkB90UNhiqK
+	+CfpKmV4d7NK/5izTE7Ws0PwugqvK2Ubww6nEHrh0eoE6RhxvIrxyv+6kthA9ipj
+	9uvAGnDcHHPB51VYMFJuPbUXoBKSkPOl3EB6ZEINkLdPaLej37zo6RmBKYkFTaQg
+	RGF95chZbXYu6VURJ8uh2Sxa4o6it66fJfyIBeUc6ipjLwfMRJDVD9X2hmYig3gW
+	Po+idoU/b/MJ8fJJP/YXJhvM6wrL9nn9jOsIt0iUos055pyIsjGUv6LDOQSRJzq0
+	1+t4/D5suVOGrYj2RmLALzSqB4msDmJTCeKiXLg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:zEYnVMaStdy6u3NueFvbJ+hBxgS6XKa9u1fwlhczQCc=:R0gQaAeNfKNVjeBHZqL7VomuTg+ilakhZNJ0xy34LrI=;
+X-ME-Sender: <xms:0cX1ajusonkUhQR5zeGCA3kQeL7A-s496JdRBeES9UIUvmns2OBZwQ>
+    <xme:0cX1avQq87z7x13sx9_SKrij6gto_cwSMOwV-gFxTo9iK0uOcUpCbLKf1A2dVhc_k
+    Ku2mUSK8GyRJVOI7e_9bOXkckT1oLKi8BGFa1lIm3M0e2YrKtX_zal3>
+X-ME-Proxy-Cause: dmFkZTFkk1Kn+8HkXIkYEVOWC2vGr84s9l8C7UUlnEQK82Pov3hCQjBNV4gV/2kHXje/xF
+    em831/oDMuGjB5BvUfbioDeZuMzP5CZK6SAUDxx1eKP9wUvlfp6n7WKOnUuOTge4jUhnbn
+    DaFpTNPfUdbFCKrLNqGPMRoSndsW8LSwRyx8TUMwRXNkHAyCpdnt4ImpjItux89MDxMkuV
+    Ega1unt3VaZIUGsXdNdfHhNga9r1qIulZox9WeX03gXCFey6N0WrxScWyQ3uKFMAxw5KF1
+    Y6P0JH00ghD+EKLiHE0Ta+Zd6hZJb6FNlBYaBaIzfyiD/gkOtc+faMgm1mAVhvZV/6R3Ah
+    xh+eZKGyD3yA+Ez77/LZmBvsAtYHXQceM1Vw/PRlVSIqakVszggLyrOOGUOjmaKHlgJpIw
+    FRIiGyAHMvWBQfmnqIZAFjnyvH+kFAr+AZRid3wtNzWZWMc5JtwyqaDr0JjHkZu+c4k9Hy
+    y/xh/sgkHLnlzEauUt/2TiV9nIIUYoACKofvCDhcuIRVj322eW3F6IcU2Ndf6adVJQ0MN+
+    e5/RNLLOlbn9e12r713Gga/YIn8fhKC7qLyjh3MKEJ5F0zTxNkPtErrUs0QUJDt++ZwrsN
+    wrASM8q/LqDC/Fl71D3jGC5I1D3erHB5RXIwZKZesXpHtvK865GOxTxel8Gw
+X-ME-Proxy: <xmx:1MX1aqUZUaL-Ydv-DegnjcfAxiOO-clYJAHH5eY3nMkpbd_M7SReKg>
+    <xmx:1MX1ahU62gurVb_82o1ijP1q8WRzUN-GEVnw9-wg4s7VP5nNQIh6GA>
+    <xmx:1MX1atRoGOo5GzeZZ4eMNKQjgkcLiaS2Vs2BEEEKOpzdVDbJOimGSQ>
+    <xmx:1MX1aoFzS7LESg3xr2W8MuuBYHtQ3Gqzt9fGuk_3zOtHNB_8bebanA>
+    <xmx:2MX1aoNzcLMo3NB5fp3IXUNAnriKVDrt02NuKOldRNBm1YXVNTkcWe6s>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 1062A32A009C; Thu, 12 Nov 2026 08:57:37 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -196,69 +115,43 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Al4kXH1AuRa-
+Date: Thu, 12 Nov 2026 14:56:46 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Pavel Popov" <pavel.e.popov@intel.com>,
+ "Bjorn Helgaas" <bhelgaas@google.com>,
+ "Logan Gunthorpe" <logang@deltatee.com>
+Cc: "Leon Romanovsky" <leon@kernel.org>, "Lukas Wunner" <lukas@wunner.de>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Jim Chow" <jim.chow@broadcom.com>, "Radu Rugina" <radu.rugina@broadcom.com>,
+ "Alexey Makhalov" <alexey.makhalov@broadcom.com>,
+ "Wei Liu" <wei.liu@kernel.org>, "Michael Kelley" <mhklinux@outlook.com>,
+ "Nathan Ciobanu" <nathan.d.ciobanu@linux.intel.com>,
+ bcm-kernel-feedback-list@broadcom.com, virtualization@lists.linux.dev,
+ linux-hyperv@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <61d483e3-d1e0-41ed-9210-081a4ce60382@app.fastmail.com>
+In-Reply-To: <20261111234439.4098-2-pavel.e.popov@intel.com>
+References: <20261111234439.4098-1-pavel.e.popov@intel.com>
+ <20261111234439.4098-2-pavel.e.popov@intel.com>
+Subject: Re: [PATCH v5 1/3] asm-generic: Add <asm-generic/cpu_device_id.h>
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, 05 Nov 2026 16:29:09 +0100, Maxime Ripard wrote:
-> drm_mode_config_reset() has a dual role: it creates the initial KMS
-> state at probe time, and resets hardware and software state during
-> suspend/resume cycles. However, the two roles need different
-> behaviors, notably for objects like drm_private_obj that must persist
-> across suspend/resume and are excluded from drm_mode_config_reset()
-> by design.
-> 
-> [...]
+On Thu, Nov 12, 2026, at 00:44, Pavel Popov wrote:
+> <asm/cpu_device_id.h> exists only on x86, so generic code that
+> matches on x86 CPU models has to wrap the include in #ifdef
+> CONFIG_X86.
+>
+> Add an empty generic version, so the header can be included
+> unconditionally. The CPU match tables themselves still need
+> CONFIG_X86 for the model defines.
+>
+> Suggested-by: Leon Romanovsky <leon@kernel.org>
+> Link: 
+> https://lore.kernel.org/r/25a0cdb4-9c4f-4531-bdf2-8d09eedd0883@app.fastmail.com
+> Signed-off-by: Pavel Popov <pavel.e.popov@intel.com>
 
-Applied to misc/kernel.git (drm-misc-next)
-
-[03/83] drm/appletbdrm: Switch to drm_mode_config_create_initial_state
-        commit: 24f5141d0266b391fda87dd3458aad31c26e28df
-[04/83] drm/komeda: Switch to drm_mode_config_create_initial_state
-        commit: 95b07f6f1f820601f9bc4f9dd8cb01e008c4441d
-[06/83] drm/malidp: Switch to drm_mode_config_create_initial_state
-        commit: b0507da85fdd7060decd29d35f5819259718f741
-[08/83] drm/aspeed: Switch to drm_mode_config_create_initial_state
-        commit: fe87bfb1dfa04dd73bb89e60820ced02967faee8
-[10/83] drm/atmel-hlcdc: Switch to drm_mode_config_create_initial_state
-        commit: b36f26eb85d8032b458fab7c6912650c0e5b5561
-[13/83] drm/gud: Switch to drm_mode_config_create_initial_state
-        commit: a53dc66784822a101541c54e1e7e471bbad3e8ee
-[15/83] drm/hisilicon/kirin: Switch to drm_mode_config_create_initial_state
-        commit: 1e8db0d2a2383ce3fb96ea1db26180350d972786
-[17/83] drm/imx/dc: Switch to drm_mode_config_create_initial_state
-        commit: 39283d6d8fbaca8d7bb7e98f7406dad5286bfc6e
-[18/83] drm/imx/dcss: Switch to drm_mode_config_create_initial_state
-        commit: dc54c1bc909873caf0f910677f3de899cdf3b62d
-[24/83] drm/mcde: Switch to drm_mode_config_create_initial_state
-        commit: 046b692dc7d3910b6a85d71e5e941c712bad30ee
-[26/83] drm/meson: Switch to drm_mode_config_create_initial_state
-        commit: a26760da1f8bebdcc7fe6fdcb5df5c6ca007e4cc
-[29/83] drm/lcdif: Switch to drm_mode_config_create_initial_state
-        commit: 0f3e257909538e9cce0213c2d1b9d3a7edf8f348
-[30/83] drm/mxsfb: Switch to drm_mode_config_create_initial_state
-        commit: 99da25e15ccbfb1d0717de28d3b6f45f72958127
-[33/83] drm/pl111: Switch to drm_mode_config_create_initial_state
-        commit: 4b9008133a7b14dbb1eeab84266926062d126ba7
-[38/83] drm/rockchip: Switch to drm_mode_config_create_initial_state
-        commit: c07d0dfba08808c90ab8ccc23a1f0ce9aafae536
-[43/83] drm/ssd130x: Switch to drm_mode_config_create_initial_state
-        commit: d7938a168f56608626d62a7015b448da1cee4dba
-[48/83] drm/corebootdrm: Switch to drm_mode_config_create_initial_state
-        commit: 207a0f90ce3953131806ead64bb512364de260c4
-[49/83] drm/efidrm: Switch to drm_mode_config_create_initial_state
-        commit: 8fa2e7e1b3642113677a6a77f81aa186f3b16293
-[50/83] drm/ofdrm: Switch to drm_mode_config_create_initial_state
-        commit: 1fd3ed4c330b8f56bbcd7d2684e1dae5961ee8ab
-[51/83] drm/simpledrm: Switch to drm_mode_config_create_initial_state
-        commit: cde728838797cdce3bc488acb1338c1dc20c24d2
-[52/83] drm/vesadrm: Switch to drm_mode_config_create_initial_state
-        commit: 705557cddfcbea6c6ee2e50057394c6c6fc2ab8b
-[74/83] drm/tve200: Switch to drm_mode_config_create_initial_state
-        commit: 4b40cfa3178f00188314a1da55dd899e635d2d73
-[77/83] drm/vc4: Switch to drm_mode_config_create_initial_state
-        commit: 6d8d9311bc9daac0e5acc3e5d34ca067abdd1fe4
-[80/83] drm/vkms: Switch to drm_mode_config_create_initial_state
-        commit: 63a80293361bc276fb07cd68511b5f887ff5fa41
-
-Thanks!
-Maxime
+Acked-by: Arnd Bergmann <arnd@arndb.de>
