@@ -1,78 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794477864;
-	b=cDcA3z9Hh2s2ZfG6ML1mOiApYK1Bd29LgvMySk+ySBQQo9xKvgUsDAJ/CdtjTtjllh2N
-	 6lKtU4Ex8bt8mJJJV4+X41CCGWMlzGjBt5pbIN0f627yfN014j1FT8t4zWBprEApT1keL
-	 zr6vsbFc0lANTWieriSmd9J6Y3pZcqYtlkl02i/Rgp+BHhHHF7n9XMCIp1MuS69Pi2fAa
-	 rcwEkq53XJ0Q/iZQFkXXq+jeQxqLEn0CQZh4Fmx6ROvqnnSIQhyLa2uof1SVzL2Ia7mYY
-	 OcQcTG1Jf5+ZGcqbsEGK29KJZbkyIhQqJYSjTQhygUHtoOPnuGyI+zdKCDuCsP6yWGw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794477864;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=HtuOLru1xJlLWQAB+8xJt0wpPE+TJSHN0z/mx/ydS8M=;
-	b=oix5ORsiKqnbkO1SUV40tugqh+xy8zr9xehJbCYDWkkzDUrD1RFLzFN7X+Nx4ACUHA77
-	 A3QnTCiZyhrh8Ml/sKvSRDnHaz27+Yf9WqUWP4WBJQQS4Q5xSu5n3o2XQFa3vaozGvGRr
-	 8TaOoqZf6dTtaDLRzvEkKMegtPCOz33RmtFxfwnnrgY97ac2xKRTU15lpQsSB3Vilw3X5
-	 +jT1R6VhJzOzL0ICVN60qwkky28mIIXstTlTykCuinaIr4VbirQ5idoBc0oCLqONefGQb
-	 2jhgoLU9LgfDeDjCDdoIFVnZDhYabycGlksyYIG5N1O4+oYMKcGCSCLiDhZYYo+l0dA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MGkX4002;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794480473;
+	b=zUmpa+z1DMZiWVvj8MXVBeEZaYDN46WF+Iev8PT1tdI8Bnu0oIXlv9tlPhSC4lGlC9zZ
+	 tl2b1rRe8Srdn63B9FGcuDqaiAPI/Wr1X9hSb0naJeXEh92wCy00ceW6oKUr8cV5yo0EE
+	 H+gHO2H0lhvDgEb+DzhY0r+Dk0AkH5Q2+RuA/+Tl3jj7l0vbGSK1kPFnma3ihxtQWVwoq
+	 Y8ffu8XTpVsflWY9xfU4bm3o+tcXQmSOWej1w5aIVUo37rqgNY2auR2/HcRh8ncYiIEUY
+	 AtBmJOi6l/cg9AzDWCXNR4KJtHBpd2KQu+TxrHPVV+btO6rAm55EUXuW4EpjopiMlyA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794480473;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=LaAKKhAngwkFxDGEu7glsCDhQDKP6or5IXQD5q9C6lk=;
+	b=OFcbvIjbOzHGNtCHG4HXx0ddP1wgbt/3Y/+r4tWI7i36QpRA3TGP0QsB2bseewFlcLCS
+	 8I4tTQUplDSzJVrhdpMpR0IPnJtPlzQeXnXCJHIuJdi76Lsr5SF1+BD+TFKCEaPbbO/s6
+	 5RrHs6wJ+YP4kvKLu1McTyGz84P2VIYLHaSHB0/Jvz52Lmq3vffGz/sCSYW9ThnJAB2uW
+	 wLDOrhRz5qCp/OgUEPfDJD+H/xDPh2Fyy0xck4E6UXLMLJnSFGtJH9n25BHQRvUXCdzYu
+	 /2xSs4cwMFQuddCM4BELRVLokR3ISqVgFmbrCOJfCSf3kiFteblPsdztAfgfHSwhG4A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bhRW52/O";
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A912606A31C;
-	Thu, 12 Nov 2026 10:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505CF606A32D;
+	Thu, 12 Nov 2026 10:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MGkX4002
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794477864;
-	b=ujXKuXdyMqbrPxcfvgT9k4hnQqIZOGuRiej9VSzZpBalTOSzpyPW4rwmkD+k5NNgQIZK
-	 9oDsGUMIaEk8xO0oNpsWwNoNV5XoIaWIYaK0xfr3Edc5ksR1I/+/MKtrJj+VRwZijMRO6
-	 Na/3nbTZUEPlicpTr1ujJZ66fdxNz4Xp+lmC0TZhtHpRl+BhhHQshYCV4V9MO/F50XhJo
-	 Gu93eyhqrQrUuYGjEkh7YIcW5qyIAaHp5o3kiB8HZ3TCH+l0kBqD5vqLmYgg+Pk+HcvDw
-	 Q1KR0Jt9yhrx70gVxgj4v17kzHs4zIIxPrdFy+RjWswuQB0M4KwxwvBNLvgsizOpReA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794477864;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=HtuOLru1xJlLWQAB+8xJt0wpPE+TJSHN0z/mx/ydS8M=;
-	b=Z56O2l9WubKjMVIiH3guK2vEPxN4mJR/CvZRWN78Asa1DblF90Dr6e99rI8TXmsZ1lyl
-	 MB9V1PkayKm/2TtMxSIuTU7hLU9u5l+6LBKnxUFp7orYHJWcDSxHN7u9iB990XRGwn9WK
-	 ck0aprzkfaMJeaVDmU56J1w/t061WpZErVm4iOV1IrHYdJv0BZoe6knf+KXP/xlcMLHbz
-	 UC7ZDiUP6pWjpkifzBQxNV5nGSbaL9nj4vusiKfFySqNZ2SF1Gzd8bxtOsLAZuEcM9eXJ
-	 0Q/dszkSIoxiKJf8QfA6WEss9L5IgiSEnRLvh44B19NHC1vw3BootxHCUXrAWIZEHCQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BB9E71F00A05;
-	Thu, 12 Nov 2026 10:04:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bhRW52/O
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85FD1F00A05;
+	Thu, 12 Nov 2026 10:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794477864;
-	bh=HtuOLru1xJlLWQAB+8xJt0wpPE+TJSHN0z/mx/ydS8M=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=MGkX4002eDMdzvi02fAsUCul3fU4kG36dViyL5rTaIVUFxv9cHD1AB6wEKelMo0qu
-	 u9zUywbc9YWipv85QZCV8ZeWrbP5fMRX+7Qlc8oyGxUqkkm9Eo3vQWjiOxP8aFdJOw
-	 0Vc1brnbr3LDH56YSiyrlvMCUoCgeIOc67vhJE50fSZ5PIT+972naK9KhC7UBthb4r
-	 kaVgqDOzJdOMDDdCExpJ7IWmAem0PcXZWGP+z1RttpZzGCf1FaNXET5IVANMx1IPr+
-	 NrOlUmLiNac+WimTwIyE5ljlcclNtsMx+5hIbG6SLdEhmWM18NN2Q5MGUlnvlUZD06
-	 7hO0GjBfPjESw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 1DFA249450;
-	Thu, 12 Nov 2026 10:04:23 +0000 (UTC)
-From: Suyuan Wang via B4 Relay <devnull+shyckless.gmail.com@kernel.org>
-Date: Thu, 12 Nov 2026 10:04:18 +0000
-Subject: [PATCH] mshv_vtl: Release mem_dev through put_device()
+	s=k20260515; t=1794480472;
+	bh=LaAKKhAngwkFxDGEu7glsCDhQDKP6or5IXQD5q9C6lk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bhRW52/OaiERqOjVo+YsX7WenTAM+RkUSYdDbFFgDeELIFl5MCvdrQ4/lrfg3PaBP
+	 OJEvlXHrGI0KP6Sf7isOdA90CQUC1tSnbnlL7KMlGmOGy1uOT4Tps4k2NALfzc5lt4
+	 GBKdaLdl6Hn4QG7D1jOt3xg+R2SbDhwXqrQ5QTOpBVzV6PCDTf9sB1jcXxmSVYEwEX
+	 9k1ve7B7mHoKt9f85FezBUXVhvbLCq9DZT0dTEHtWXQsiFKFjjwdYqhwDGS2C9B8hk
+	 PMIxYSXrd0qwW336ZZGtXr/22P+Xd17f+e0rYlMLg9nZUtItJXlZjgdtGYx+r60Y9l
+	 +6iWNMqoSTUaQ==
+Date: Thu, 12 Nov 2026 11:47:38 +0100
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bence Csokas <bence.csokas@arm.com>
+Cc: Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Selvin Xavier <selvin.xavier@broadcom.com>, 
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Chengchang Tang <tangchengchang@huawei.com>, 
+	Junxian Huang <huangjunxian6@hisilicon.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] stddef: Add offsetofend() variant of
+ struct_offset()
+Message-ID: <avWY8kNFlkLyxIrX@devuan>
+References: <20261112-offsetof-v2-0-276ede839967@arm.com>
+ <20261112-offsetof-v2-1-276ede839967@arm.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -82,120 +87,139 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-hyperv-v1-1-67144d71878c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACGP9WoC/yXMQQ5AMBCF4avIrDXRVi1cRSwYg7GopqUh4u6K5
- Zf8710QyDMFqLMLPEUOvNoEmWeAc2cnEjwkgypUJaVUYj4d+SiMQaO1RqpMCSl2nkY+vqOm/R3
- 2fiHc3jXc9wMq+w0pagAAAA==
-X-Change-ID: 20261112-hyperv-55c5333ce654
-To: haiyangz@microsoft.com, decui@microsoft.com, wei.liu@kernel.org
-Cc: romank@linux.microsoft.com, ssengar@linux.microsoft.com, 
- namjain@linux.microsoft.com, linux-kernel@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, mhklinux@outlook.com
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794477862; l=2707;
- i=shyckless@gmail.com; s=default; h=from:subject:message-id;
- bh=BjfU+Rbjqy4Z7JxZoJTtVEHtxruhAGS1/m1B8KB8IlY=;
- b=WvAWhy9NDI3g+BAZA+frvhYpMFqdzLiDMXxRQ7QKq5MhBchStdcOIhAKz72CkCOwFTwVwG9vm
- c62ncDw5JjvClk1l1pIw1oC5EIn73N+AJmoAfCP4m4UFfhQyhPiSZtW
-X-Developer-Key: i=shyckless@gmail.com; a=ed25519;
- pk=pMtccVGiWES3bV+7YBFuBclkvq2n2HBHQ5azaBrK2lY=
-X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
- auth_id=1498
-X-Original-From: Suyuan Wang <shyckless@gmail.com>
-Reply-To: shyckless@gmail.com
-
-From: Suyuan Wang <stevewong@hust.edu.cn>
-
-mem_dev is set up with device_initialize() and device_add(), but it is
-freed with a plain kfree(), both on the device_add() error path and on
-module exit:
-
-    device_del(mem_dev);
-    kfree(mem_dev);
-
-It has no release() callback either. Freeing an initialized device with
-kfree() skips the final put_device() and device_release(). On module
-unload this leaks the device name and the device_private allocated by
-device_add(), and on the device_add() error path at least the name is
-leaked. The leak is small, and the fix is to free the device the way
-the driver core expects.
-
-Give mem_dev a release() callback that frees it, and use put_device()
-on the error path and device_unregister() in mshv_vtl_exit(). Nothing
-else changes: the devm_memremap_pages() mapping is still torn down by
-device_del() as before.
-
-Found with a static analysis tool and checked by hand.
-
-Fixes: 7bfe3b8ea6e3 ("Drivers: hv: Introduce mshv_vtl driver")
-Cc: stable@vger.kernel.org
-Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
----
-Compile tested with CONFIG_MSHV_VTL=y only, I don't have an OpenHCL
-setup to run it.
----
- drivers/hv/mshv_vtl_main.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-index 2d4fe24cecbf..bbf43330e129 100644
---- a/drivers/hv/mshv_vtl_main.c
-+++ b/drivers/hv/mshv_vtl_main.c
-@@ -1346,6 +1346,11 @@ static struct miscdevice mshv_vtl_low = {
- 	.minor = MISC_DYNAMIC_MINOR,
- };
- 
-+static void mshv_vtl_mem_dev_release(struct device *dev)
-+{
-+	kfree(dev);
-+}
-+
- static int __init mshv_vtl_init(void)
- {
- 	int ret;
-@@ -1412,17 +1417,18 @@ static int __init mshv_vtl_init(void)
- 	}
- 
- 	device_initialize(mem_dev);
-+	mem_dev->release = mshv_vtl_mem_dev_release;
- 	dev_set_name(mem_dev, "mshv vtl mem dev");
- 	ret = device_add(mem_dev);
- 	if (ret) {
- 		dev_err(dev, "mshv vtl mem dev add: %d\n", ret);
--		goto free_mem;
-+		goto put_mem;
- 	}
- 
- 	return 0;
- 
--free_mem:
--	kfree(mem_dev);
-+put_mem:
-+	put_device(mem_dev);
- free_low:
- 	misc_deregister(&mshv_vtl_low);
- free_hvcall:
-@@ -1439,8 +1445,7 @@ static int __init mshv_vtl_init(void)
- 
- static void __exit mshv_vtl_exit(void)
- {
--	device_del(mem_dev);
--	kfree(mem_dev);
-+	device_unregister(mem_dev);
- 	misc_deregister(&mshv_vtl_low);
- 	misc_deregister(&mshv_vtl_hvcall_dev);
- 	misc_deregister(&mshv_vtl_sint_dev);
-
----
-base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
-change-id: 20261112-hyperv-55c5333ce654
-
-Best regards,
---  
-Suyuan Wang <shyckless@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hmbonzz4lyxux25l"
+Content-Disposition: inline
+In-Reply-To: <20261112-offsetof-v2-1-276ede839967@arm.com>
 
 
+--hmbonzz4lyxux25l
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bence Csokas <bence.csokas@arm.com>
+Cc: Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Selvin Xavier <selvin.xavier@broadcom.com>, 
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Chengchang Tang <tangchengchang@huawei.com>, 
+	Junxian Huang <huangjunxian6@hisilicon.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] stddef: Add offsetofend() variant of
+ struct_offset()
+Message-ID: <avWY8kNFlkLyxIrX@devuan>
+References: <20261112-offsetof-v2-0-276ede839967@arm.com>
+ <20261112-offsetof-v2-1-276ede839967@arm.com>
+MIME-Version: 1.0
+In-Reply-To: <20261112-offsetof-v2-1-276ede839967@arm.com>
+
+Hi Bence,
+
+> Date: 2026-11-12 10:29:33+0100
+> From: Bence Csokas <bence.csokas@arm.com>
+>
+> Many call sites of offsetofend() use it for the purpose of pointer
+> artihmetic. Thus, a common usage pattern is:
+>=20
+>   offsetofend(typeof(*ptr), member)
+>=20
+> Capturing this in one macro helps keep lines short and terse, while
+> still making the purpose clear. It also helps discourage spelling out
+> the type name on every callsite, leading to more maintainable code.
+>=20
+> A similar struct_offset() macro already exists, so add an offsetof()
+> variant in the same spirit.
+>=20
+> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
+> ---
+>  include/linux/overflow.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+> index d0f04436343e..060dad4b6f3e 100644
+> --- a/include/linux/overflow.h
+> +++ b/include/linux/overflow.h
+> @@ -464,6 +464,18 @@ static __always_inline size_t __must_check size_sub(=
+size_t minuend, size_t subtr
+>   */
+>  #define struct_offset(p, member) (offsetof(typeof(*(p)), member))
+> =20
+> +/**
+> + * struct_offsetofend() - Calculate the end of a member within a struct
+> + * @p: Pointer to the struct
+> + * @member: Name of the member to get the end offset of
+> + *
+> + * Calculates the offset of the end of a particular @member of the struc=
+ture
+> + * pointed to by @p.
+> + *
+> + * Return: number of bytes to the location of @member.
+> + */
+> +#define struct_offsetofend(p, member) (offsetofend(typeof(*(p)), member))
+
+The outer parentheses are unnecessary (they are unnecessary in
+struct_offset() too, but that already exists).
+
+
+Have a lovely day!
+Alex
+
+> +
+>  /**
+>   * __DEFINE_FLEX() - helper macro for DEFINE_FLEX() family.
+>   * Enables caller macro to pass arbitrary trailing expressions
+>=20
+> --=20
+> 2.56.1
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--hmbonzz4lyxux25l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr1mUAACgkQ64mZXMKQ
+wqniCg//WgRXXz7luTnHUaMXrHNthttFpY3wBO557jzGIfLwMa+0tJqYgSh8MGS8
+7F44pQ7lX8E0qC+aMkDd3ItqdrKeD3McIbqqgpr8iU1VT0ljohr8pnTU7UIyIP/u
+bX/o22pWYohJFt/xcJcLxQ63rHmjcfjH2ug2i8ZgZHh/YGX+Biah79nfkcAB+uYX
+NI+43mSTP1aHvUK3Jf/z7PJF/v1/vyv1zJ/nsoN74w3JhlYGMggMcXHSu+dp0jmX
+qJUkyYJ5SQEzMdU/n2pSgOJFIZl6YS957I6fhU3GxEPXSldcnd/VIH/QRKMpSyjM
+jWzBsyjyyink+9RSw7AcmU46DJ28GeWMW5jZdg7jXq6ZGjO0/AKleOtMrevQLN4s
+hB7CzUrtofXBv5Oa5javphhfKIEoawgDsDch5eXFQW/Rm9rSflWysbPTCST5n/h0
+GfKbUEzD+COFj6I+Y8COEceKp4Xv8Y08A3r6CyyNIPzPwcc0CulK6xAmHbsMxIXZ
+c6uz3LLfqukMfbuquIZE4KhlNt+ZLRtnxL6rFfFkvLYdz4KwIsljmiPqoyPQxp9A
+OX5vOdZ9ulzmuuNoTY5OeJWSlsI6edzNc17hE6jjR1+wFfJSzVF2cvvv6mRGnpY/
+bGpmsQZFuH/KWJutZlHbsMGYEKF7lo42UH0Tqx57oaglMss89x4=
+=8quq
+-----END PGP SIGNATURE-----
+
+--hmbonzz4lyxux25l--
