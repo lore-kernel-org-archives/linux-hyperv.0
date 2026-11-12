@@ -1,70 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794481085;
-	b=AVKgaQV1cOkotsv40MiEK9lcHJrcSJtD1Gx+gQ0bhFoLlEb1FTI6X8S7faOBYgban4Qn
-	 XmL7lgb/lKIL5nwOZ7ouT4j68h5oLSPHOyifuA4cuiTT+7DOF0IwMYMKy1nb23SmG5wDt
-	 r0GdhYnD8HDS0uhbnM1xBZESpnzEVFxDEIzyCey8mq34I7ws/T+S4mpt/30JvXhFydNRz
-	 pXfvK6XLktowh9siP50HjD0Y0nr3nC89fIeJWDImtMWT15LpoQGqBeRg+XedSwxRiWHZW
-	 V6Bcv/BS7BnO3YfkPGQpPmWqlMPbE6lyR61rGcL3AALs6ItaMob0dvEY/U7YHikbdQw==
+	t=1794485242;
+	b=ZSXxm0MlCWglxt1XLcB+kCvW5MoK/0HK/cGjOtx0E0RjzKG5VUIcntkvOD/m6awmYFbR
+	 VLv/EMGcif0H32kl5L1w7bs0vB2JfMaVL99Hp2mqVc8IlU7pEmZtX1ecvgzIlMK+/Gped
+	 ztbyr57D5xC0gVVatGVnmGg+p6SIYz5yu1/ha8dBuXaYcWq2p4YktaZfDpWUv5JO64SZa
+	 k8WJZ3hyLqZGRv1SNAYfrFRLqmitzUCa+ylgs+3HU52ltCWhq5OsvgeDLNuqPhFASVhV5
+	 mA3I2vTqhE3EuH8sd9rnNbZ3RiK6pva3qO7afKBN8sdx1X6Hp0Zd378tdVg/H+ObgpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794481085;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=GUeyCkWJ30TKeXscHAtkA+LtWzqmgJiXCIh4pQZpiKI=;
-	b=YEE2GMd/acZWOIrOBCVP+36IO47YM+crwR6Iw7dWiYWT8LUBnQct6A5HsFOVTu1GRpfR
-	 ZVVuy7W4zrcEhY+eXXha12T0NjVGW2rb8IupMZlElbcWMtk51F1jtDE+NshQ4bjUOjpns
-	 78Y07ReyhTByjcSyI6fCijbU1OvgFwGXnT2T/kxV4LnnrHQTrCRz04YH8IjWioDE9UBCl
-	 A6GdKqFO23A/RLSJSVeRj9Ql7/AP1ExN5V+WZYknDWmc04TCJ+aXP2pjR3dkfI+DfC440
-	 vRN/l/yTU+TWGobfJjWwFSEUdlltrzBynAfQl1lI54meFwLX1ubSIedM4lkyXKOjPQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794485242;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=s2BpDYD2o1GF2JbXETSuauSs2W5dCUgUiyPoNy/wkj4=;
+	b=WpFb5A9ihYwQTcoJdYKsdqRz11yDy8ov6YrSV1/OIDIrQlPUaR1Uu6vsZsNapWDHTNyb
+	 hu8jTssMD+szFj1ERoq9b3RXr+nZWUJ4XYSWtQgo8RVOBg6DNl79ljiMwCdukO6BN+0Pe
+	 OJOhwNEgBQssRf9VTM7AzGQV5pZMbWdNMsTZ9dIBUi76ZO+hZJOf6/gGIacSQnBUtgZSV
+	 OWiY0+GczFd3/xj+O8DORY3pcOzeNny5XtC+d+pXLh4T2V/buQHbXfaYRQ7ilcWvSMSaa
+	 cnR+py8PgnM6maSzc2pomn5jufEksHaLZVTGpn2kdLuIpGWMKuXwnryvIr3H/IZcyCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=lCZb3yKc;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB8A6606A321;
-	Thu, 12 Nov 2026 10:58:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB8A6606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=BpRKMxcR;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8656B606A321;
+	Thu, 12 Nov 2026 12:07:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8656B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=lCZb3yKc
-Received: from kali.mshome.net (unknown [4.213.232.19])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 34F3020B7168;
-	Thu, 12 Nov 2026 02:57:56 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 34F3020B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794481080;
-	bh=GUeyCkWJ30TKeXscHAtkA+LtWzqmgJiXCIh4pQZpiKI=;
-	h=From:To:Subject:Date:From;
-	b=lCZb3yKcup/JAsYlNeFlSW7d8PXVj2Hz/MSwDVQN83kwTfhXK4AgpLDhCRvCQmtV5
-	 jKnNe7tRd8nqH/f1Qoa26wo0vROkUk1j6GCz25y9uAGir9TTMa1bsnIQ+1qPvZblgQ
-	 Kqd4VjLwW5bfz5eZmTtahbJXAdUt5la0EerHLRag=
-From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	weh@microsoft.com,
-	kotaranov@microsoft.com,
-	horms@kernel.org,
-	ernis@linux.microsoft.com,
-	gargaditya@linux.microsoft.com,
-	leitao@debian.org,
-	sahilchandna@linux.microsoft.com,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next] net: mana: Add CQE polling as first-level TX timeout recovery
-Date: Thu, 12 Nov 2026 04:57:18 -0600
-Message-ID: <20261112105752.978446-1-sahilchandna@linux.microsoft.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=BpRKMxcR
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=s2BpDYD2o1GF2JbXETSuauSs2W5dCUgUiyPoNy/wkj4=; b=BpRKMxcRXfYulH9zjS1/Las0Qn
+	Vz6W2pTFE7YPudUcr7Wi342UTBCrxBS6IqrgsJoKnw/OOFCYXQIkCFkBHx+Pcc7komjSR6a33X0W3
+	ATVgRVK9pXUqVZ0x+hremsXIUCgVYFULM7Gl+XlWxAbu5QNjyJpwgNl0C79CMRCPaTRd3TQYr1ile
+	+UNGAJuzD0xSQ/2RRNU+1qS/PLRHFUuyddgZ0Ynzv4XGgQEJMOq2DD7RFvMfxLvrEitlxUwO8HYiH
+	Gn/Z9Tacg8sZtfs5E1H85VfCbCu7SvTnXCulTKYifaCyIhiasOt4WyK6mXSwbp7stl+K7EW+3dQeW
+	vt5slk/g==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xRTaC-00DxPw-09;
+	Thu, 12 Nov 2026 12:07:12 +0000
+Date: Thu, 12 Nov 2026 04:07:06 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Sahil Chandna <sahilchandna@linux.microsoft.com>
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, 
+	pabeni@redhat.com, weh@microsoft.com, kotaranov@microsoft.com, horms@kernel.org, 
+	ernis@linux.microsoft.com, gargaditya@linux.microsoft.com, linux-hyperv@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next] net: mana: Add CQE polling as first-level TX
+ timeout recovery
+Message-ID: <avWrMQK_DuZ1hAwD@gmail.com>
+References: <20261112105752.978446-1-sahilchandna@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -74,138 +70,25 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112105752.978446-1-sahilchandna@linux.microsoft.com>
+X-Debian-User: leitao
 
-The current mana_tx_timeout() handler unconditionally schedules a full
-port queue reset (detach/attach) whenever the TX watchdog fires.
-This is unnecessary for transient stalls where completions are
-simply delayed or an interrupt was missed.
+Hello Sahil,
 
-Implement a graduated recovery approach: on the first TX timeout (or
-when the previous timeout was more than 2 minutes ago), schedule NAPI on
-the stalled queue's TX CQ via napi_schedule(). This triggers
-mana_poll_tx_cq() through the normal NAPI path, processing any pending
-completions without relying on the interrupt and recovering
-missed-interrupt scenarios without queue reset.
+On Thu, Nov 12, 2026 at 04:57:18AM -0600, Sahil Chandna wrote:
+> Implement a graduated recovery approach: on the first TX timeout (or
+> when the previous timeout was more than 2 minutes ago), schedule NAPI on
+> the stalled queue's TX CQ via napi_schedule(). This triggers
+> mana_poll_tx_cq() through the normal NAPI path, processing any pending
+> completions without relying on the interrupt and recovering
+> missed-interrupt scenarios without queue reset.
 
-If any subsequent TX timeout fires on any queue, within 2 minutes of
-the previous one, escalate to the existing port-level detach/attach
-reset, as the CQE poll did not recover the queue.
+Which interrupt is being missed here?
 
-This makes the TX timeout recovery three-tiered:
+> If any subsequent TX timeout fires on any queue, within 2 minutes of
+> the previous one, escalate to the existing port-level detach/attach
+> reset, as the CQE poll did not recover the queue.
 
-  Level 1: CQE poll via napi_schedule() (this patch)
-  Level 2: Port queue reset (detach/attach)
-  Level 3: device reset(FLR)
-
-Co-developed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
----
- drivers/net/ethernet/microsoft/mana/mana_en.c | 31 ++++++++++++++++---
- .../ethernet/microsoft/mana/mana_ethtool.c    |  2 ++
- include/net/mana/mana.h                       |  4 +++
- 3 files changed, 33 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index e6d494df22e4..0d8c8b8fbc83 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -336,6 +336,9 @@ static void mana_per_port_queue_reset_work_handler(struct work_struct *work)
- 	if (err)
- 		netdev_err(ndev, "mana_attach failed: %d\n", err);
-
-+	/* Let the next TX timeout try a CQE poll recovery first */
-+	WRITE_ONCE(apc->last_tx_timeout, 0);
-+
- dealloc_pre_rxbufs:
- 	mana_pre_dealloc_rxbufs(apc);
- clear_flag:
-@@ -964,6 +967,7 @@ static void mana_tx_timeout(struct net_device *netdev, unsigned int txqueue)
- 	struct mana_port_context *apc = netdev_priv(netdev);
- 	struct mana_context *ac = apc->ac;
- 	struct gdma_context *gc = ac->gdma_dev->gdma_context;
-+	unsigned long last = READ_ONCE(apc->last_tx_timeout);
-
- 	/* Debug knob for bringup/qualification: when set, log the timeout and
- 	 * skip the reset so the failing state is preserved for telemetry.
-@@ -980,11 +984,30 @@ static void mana_tx_timeout(struct net_device *netdev, unsigned int txqueue)
- 	if (test_bit(GC_IN_SERVICE, &gc->flags))
- 		return;
-
--	/* Note: If there are pending queue reset work for this port(apc),
--	 * subsequent request queued up from here are ignored. This is because
--	 * we are using the same work instance per port(apc).
-+	if (!apc->port_is_up)
-+		return;
-+
-+	/* If the previous timeout fired less than
-+	 * MANA_TX_TIMEOUT_RESET_THRESHOLD ago, the earlier CQE poll did not
-+	 * help and queue stalled again	: escalate to a port reset.
-+	 * Note: If there is pending queue reset work for this port (apc),
-+	 * subsequent requests queued up from here are ignored, because the
-+	 * same work instance is used per port (apc).
- 	 */
--	queue_work(ac->per_port_queue_reset_wq, &apc->queue_reset_work);
-+	if (last &&
-+	    time_after(last, jiffies - MANA_TX_TIMEOUT_RESET_THRESHOLD)) {
-+		queue_work(ac->per_port_queue_reset_wq, &apc->queue_reset_work);
-+		return;
-+	}
-+
-+	/* First timeout, or the previous one was long ago: try to recover by
-+	 * polling the TX CQ for completions before escalating to a reset.
-+	 */
-+	if (txqueue < apc->num_queues && apc->tx_qp && apc->tx_qp[txqueue]) {
-+		WRITE_ONCE(apc->last_tx_timeout, jiffies);
-+		apc->eth_stats.tx_cqe_poll_recovery++;
-+		napi_schedule(&apc->tx_qp[txqueue]->tx_cq.napi);
-+	}
- }
-
- static int mana_shaper_set(struct net_shaper_binding *binding,
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index a91eb12badca..ff4799c61a6c 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -22,6 +22,8 @@ static const struct mana_stats_desc mana_eth_stats[] = {
- 				       tx_linear_pkt_cnt)},
- 	{"rx_cqe_unknown_type", offsetof(struct mana_ethtool_stats,
- 					rx_cqe_unknown_type)},
-+	{"tx_cqe_poll_recovery", offsetof(struct mana_ethtool_stats,
-+					tx_cqe_poll_recovery)},
- };
-
- static const struct mana_stats_desc mana_hc_stats[] = {
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 09725e3256fa..5de6eaa02102 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -94,6 +94,8 @@ enum mana_priv_flag_bits {
-
- #define MANA_RX_FRAG_ALIGNMENT 64
-
-+#define MANA_TX_TIMEOUT_RESET_THRESHOLD (2 * 60 * HZ)
-+
- struct mana_stats_rx {
- 	u64 packets;
- 	u64 bytes;
-@@ -447,6 +449,7 @@ struct mana_tx_qp {
- struct mana_ethtool_stats {
- 	u64 stop_queue;
- 	u64 wake_queue;
-+	u64 tx_cqe_poll_recovery;
- 	u64 tx_cqe_err;
- 	u64 tx_cqe_unknown_type;
- 	u64 tx_linear_pkt_cnt;
-@@ -566,6 +569,7 @@ struct mana_port_context {
- 	struct net_device *ndev;
- 	struct work_struct queue_reset_work;
-
-+	unsigned long last_tx_timeout;
- 	/* Debug knob to log TX timeout but skip recovery reset */
- 	bool tx_timeout_skip_reset;
-
---
-2.53.0
-
+How was 2 minutes chosen? mana sets watchdog_timeo to 15 * HZ, no?
