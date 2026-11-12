@@ -1,49 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794451409;
-	b=PtXlLiySDl6977BxXQ7oNFdUH+VHdl+Xb+o1ZUU+lBIoL+GTFJx5z65KR908xH6ZIZa8
-	 njTjGO3o9hJtjnTWMqpZjBYr8IeAn7momKwMw/TgdT0kWUFxKB5lq5erlzUsVYtfEboDf
-	 5inRHSgGufhjg1O4yrYtblcgHUq6eXybTxtO3lF1XnUZs+LJKA6ex3rquTaYMfKDsk78V
-	 yuaBiWcxVWdUd2LFmvtL2Z3P2kVI/ct34p+Ko5iYyNJpc0b3UFcUfLXxhIg5/ghBQ8n1U
-	 rGHiq8dslDgVpvCoHKt/OrlGHqqno0GHx6IDuzSMjuAARn8QlRB8mIWU/gP0E1O0neQ==
+	t=1794473560;
+	b=qiIbr+N9/jO1vwqtTQpV8xTVaD11qEzuKr6xIXjEOafIMJ+NA0+Ydowr6boSGUgMX3bL
+	 fLEoS1UN/ALIdOL1NqUP1PQtUsEGO/zh6xPOpJU7MHFdIw7yMukNs3fC6QxiyHELncDit
+	 lZRDhef3JHo97SUePSHTjRv0gea+FZ+qOZ0VbIWBRN/w+8MloZ1Z3X5uGmcnD3x0Frr9d
+	 sQoMFuDB33fJxsjQ3lVCnZOJjL2L5g9l8pARe5bc9lLNRLszSGDJ0KLt5tgcdeaJUTlQX
+	 g+ACyBqG30WYI1en0jSIA2xBNjlyfmaFqK0VEzUKJk6cArXvPrq8CxmUUB/m8qTyBcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794451409;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=XdkaBsBaFVJPPurgDNIn6T1G0WeNJH9pMqVBcKCihf8=;
-	b=uIHVi3eo9C2jqwntVBQoC6iKBP6XyzYGcPdA4KL+IAyL5q48/X3aeOxszSzJpklH9IbP
-	 VT4iUAWc2rYIR2jr68fkbqFvk4uNXZ1FfWW8p6IE3uBd+sRD/QtXpXnYztW1m9qJeaNU8
-	 JQ5vU6GVzGgmCCBEFIhTSNwA+S4loODAC5njsYui8nWghqLQdJEb3PAlw1ymerZrhKgF8
-	 Phq2Q6TPhhFos3gQZqbcUK4GBuVk8LGsNdp9ybO1lGM5bB6hkE9WlMXyEpqgoNObbEBw5
-	 JmzcQG4rvwubs02E1S79TPCcRSgdPbJKRJCs1ioKCliX2tFHY/nRVhJFS7do1IonBjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473560;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=+kiwRl0+gV2C2BP7bzttjinUFnQGPefVbMAuYlBgons=;
+	b=RNRj1yUSqDEMYtii/EpgIaBgV2HwgNTohLU1c+HrHRn5Dlzr73kpsh2uguNS0s9nMeLf
+	 pwCi/jNaXSoSgdF9vingk/xRcCd6A0egY51As7k9zzQVpS/eTzLZpuRr7X+/xE/y7YxRF
+	 WNYxGEIrYGXy0IRfbi7cg2bPoqjQiQL3Q5WJJCE+QS2b3HVahuhGES+VvyCFawTrVy2fb
+	 9B9VAi93tIwf+JJnthiArzbO/VMAKaCupP6CO3DTz+u0YtlQxXnxCnymZWwH3VePS6XpA
+	 y3a3AJP+gaJExbPQeSHPZmJMy+ardluc/OZv7KFSPcWmxs71YK2PY/8RuM22HXO06yw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=SlzSn2Z+;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=emYsPyM7;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00345606A326;
-	Thu, 12 Nov 2026 02:43:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00345606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2795A606A31C;
+	Thu, 12 Nov 2026 08:52:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2795A606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=SlzSn2Z+
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0ACFE20B7166;
-	Wed, 11 Nov 2026 18:43:24 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0ACFE20B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=emYsPyM7
+Received: from kali.mshome.net (unknown [4.213.232.20])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7426C20B7168;
+	Thu, 12 Nov 2026 00:52:30 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7426C20B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794451404;
-	bh=XdkaBsBaFVJPPurgDNIn6T1G0WeNJH9pMqVBcKCihf8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SlzSn2Z+Gl7kJcsX9wJLqJ90/vk2fEkxrE+wu5+JYE1DqzF0i4hmLIYUxC2bTTM9u
-	 E6Gmvo27MKj5KArH76fYvRbG97Iw6gByVN8EqGGz3Rs1ThL8ZwqSC8n8NxB+TXjeGw
-	 K3q9NMitLOhAYSiq1vFLg45YHdeyROGC134yrgQk=
-Message-ID: <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
-Date: Wed, 11 Nov 2026 18:43:26 -0800
+	s=default; t=1794473555;
+	bh=+kiwRl0+gV2C2BP7bzttjinUFnQGPefVbMAuYlBgons=;
+	h=From:To:Cc:Subject:Date:From;
+	b=emYsPyM70mF2jwcgtbABlYPz5B4rtl7BH54jsTZwaTJXpd8jpLiSQZsidiEOXgELY
+	 RGzOcCuudwkujzdEz2jvQeqSaAHyosek0vksDrG9kIa4RuWWWhqaZsaWCE2DoaNOkM
+	 kUjysovfz7qIilo3YKgejWM17QUcCuO0KFctQczY=
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	kotaranov@microsoft.com,
+	horms@kernel.org,
+	ernis@linux.microsoft.com,
+	gargaditya@linux.microsoft.com,
+	mawasthi@linux.microsoft.com,
+	kees+treewide@kernel.org,
+	schakrabarti@linux.microsoft.com,
+	leitao@debian.org,
+	linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH net v3] net: mana: Avoid waiting on dead HWC after device reset
+Date: Thu, 12 Nov 2026 02:52:10 -0600
+Message-ID: <20261112085226.878780-1-sahilchandna@linux.microsoft.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,169 +76,423 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
- CCA Realms
-Content-Language: en-US
-To: Michael Kelley <mhklinux@outlook.com>,
- Kameron Carr <kameroncarr@linux.microsoft.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>
-Cc: "arnd@arndb.de" <arnd@arndb.de>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
- <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/11/26 10:01, Michael Kelley wrote:
-> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
->>
->> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
->> to be marked as decrypted (shared) for confidential VM isolation types.
->> This is already done for SNP and TDX isolation; extend the same handling
->> to Arm CCA Realm guests so that the host hypervisor can access the
->> shared hypercall buffers.
->>
->> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
->> builds on arm64 (it includes <asm/memory.h>), so using it directly in
->> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
->> Introduce a Hyper-V-specific helper following the established
->> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
->>
->> On architectures other than arm64 the weak default keeps the existing
->> behaviour.
->>
->> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
->> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
->> ---
->>   arch/arm64/hyperv/mshyperv.c   |  5 +++++
->>   drivers/hv/hv_common.c         | 17 +++++++++++++----
->>   include/asm-generic/mshyperv.h |  1 +
->>   3 files changed, 19 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->> index 46ab2da..da6c3aa0 100644
->> --- a/arch/arm64/hyperv/mshyperv.c
->> +++ b/arch/arm64/hyperv/mshyperv.c
->> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
->>   	return hyperv_initialized;
->>   }
->>   EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
->> +
->> +bool hv_isolation_type_cca(void)
->> +{
->> +	return is_realm_world();
->> +}
->> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
->> index 31256cb..a60c92c 100644
->> --- a/drivers/hv/hv_common.c
->> +++ b/drivers/hv/hv_common.c
->> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>   	u64 msr_vp_index;
->>   	gfp_t flags;
->>   	const int pgcount = hv_output_page_exists() ? 2 : 1;
->> +	const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
->>   	void *mem;
->>   	int ret = 0;
->>
->> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>   	 * online and then taken offline
->>   	 */
->>   	if (!*inputarg) {
->> -		mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
->> +		mem = kmalloc(alloc_size, flags);
->>   		if (!mem)
->>   			return -ENOMEM;
->>
->> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
->>   		}
->>
->>   		if (!ms_hyperv.paravisor_present &&
->> -		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
->> -			ret = set_memory_decrypted((unsigned long)mem, pgcount);
->> +		    (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->> +		     hv_isolation_type_cca())) {
-> 
-> Could this big "if" statement use "hv_is_isolation_supported()" instead
-> of explicitly testing for each CoCo VM type? I ask partly because
-> Mukesh Rathor has just submitted a patch [1] that introduces a new
-> function that does something almost exactly the same as
-> hv_is_isolation_supported() and uses it here.
+After device reset is issued due to TX drain timeout in
+mana_dealloc_queues(), hardware channel (HWC) state is non-functional.
+However, the driver continues to issue HWC commands (mana_disable_vport_rx,
+mana_fence_rqs, mana_destroy_wq_obj) which will each wait for a
+completion that never arrives.
 
->> +		    (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->> +		     hv_isolation_type_cca())) {
+The first such command (MANA_CONFIG_VPORT_RX) blocks for the full
+hwc_timeout (60s as set by the firmware on the tested system), after
+which the timeout is reduced to 1 ms for subsequent commands. This
+causes the calling thread to hold the RTNL lock for over 180 seconds
+(120s TX drain + 60s HWC timeout), triggering hung task warnings and
+blocking all other networking operations on the system.
 
-With my change, this will become:
+Fix this by:
+1. Replacing the sleep-based TX drain with a CQE polling approach:
+   disable NAPI per queue and poll its CQ synchronously, with up to 3
+   more polls 100 ms apart to collect late completions. Reset the
+   device only if sends remain unacknowledged after that, then free
+   uncompleted SKBs. The device is reset at most once per call, and
+   not at all if an earlier reset already marked the HWC dead. Once a
+   queue is found stuck or the HWC is dead, the remaining queues are
+   polled only once. This replaces the 120s drain timeout with at most
+   300 ms of sleep per queue.
+2. Setting the hwc_dead flag after a successful device reset. If the
+   reset fails, the device may not have been reset and may still access
+   memory, so teardown commands are still posted, but hwc_timeout is
+   lowered to 1 ms so that they do not each wait the full timeout.
+3. Checking the hwc_dead flag in mana_hwc_send_request() before taking
+   an HWC message slot and again before posting the WQE, and returning
+   -ETIMEDOUT immediately without submitting commands to hardware that
+   cannot respond. A request that was already posted, or that passed
+   these checks just before hwc_dead was set (for example from the
+   gf_stats worker, which do not hold RTNL), still waits for
+   its own timeout, as before this patch.
+4. Skipping mana_fence_rqs() and the SHM channel teardown handshake
+   once hwc_dead is set.
 
-         (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+Fixes: a7dfeda6fdec ("net: mana: Fix MANA VF unload when hardware is unresponsive")
+Cc: stable@vger.kernel.org
+Co-developed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
+Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
+---
+Changes in v3:
+- Resolve sashiko comments, poll last 100 ms before device reset.
+- Stop the drain retries once the HWC is dead.
+- Fail fast in mana_hwc_send_request() only when hwc_dead is set, not
+  when hwc_timeout is 0, so requests made after mana_serv_reset() are
+  still posted as before this patch.
+- When the device reset fails, do not set hwc_dead, so teardown
+  commands are still posted, but lower hwc_timeout to 1 ms so they do
+  not each wait the full timeout
+- Read hwc_timeout once with READ_ONCE() and lower it with cmpxchg(),
+  so a concurrent 0 from mana_serv_reset() is not overwritten.
+- Use READ_ONCE() for all hwc_dead reads.
+Link to v2: https://lore.kernel.org/all/20261030125009.3758592-1-sahilchandna@linux.microsoft.com/
 
+Changes in v2:
+- Add bounded wait for late TX completions before deciding that a
+  queue is stuck, poll the CQ up to 3 times, 100 ms apart.
+- check hwc_timeout and hwc_dead before taking an HWC message slot,
+  not only before posting the WQE.
+Link to v1: https://lore.kernel.org/all/20261025072838.1991785-1-sahilchandna@linux.microsoft.com/
 
-Thanks,
--Mukesh
+ .../net/ethernet/microsoft/mana/gdma_main.c   |   4 +-
+ .../net/ethernet/microsoft/mana/gdma_pci.c    |   2 +-
+ .../net/ethernet/microsoft/mana/hw_channel.c  |  36 ++++-
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 137 ++++++++++++++----
+ include/net/mana/hw_channel.h                 |   1 +
+ include/net/mana/mana.h                       |   2 +
+ 6 files changed, 144 insertions(+), 38 deletions(-)
 
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index ab942d5bfe05..94ee3b61527d 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -153,7 +153,9 @@ bool mana_need_log(struct gdma_context *gc, int err)
+ 		return true;
 
-> You don't provide the non-stub hv_is_isolation_supported() until
-> Patch 6 of this series, but the weak stub should allow everything to
-> build if a bisection splits this patch series.
-> 
-> Michael
-> 
-> [1] https://lore.kernel.org/linux-hyperv/20261111022036.351231-2-mrathor@linux.microsoft.com/
-> 
->> +			ret = set_memory_decrypted((unsigned long)mem,
->> +						   alloc_size >> PAGE_SHIFT);
->>   			if (ret) {
->>   				/* It may be unsafe to free 'mem' */
->>   				return ret;
->>   			}
->>
->> -			memset(mem, 0x00, pgcount * HV_HYP_PAGE_SIZE);
->> +			memset(mem, 0x00, alloc_size);
->>   		}
->>
->>   		/*
->> @@ -666,6 +669,12 @@ bool __weak hv_isolation_type_tdx(void)
->>   }
->>   EXPORT_SYMBOL_GPL(hv_isolation_type_tdx);
->>
->> +bool __weak hv_isolation_type_cca(void)
->> +{
->> +	return false;
->> +}
->> +EXPORT_SYMBOL_GPL(hv_isolation_type_cca);
->> +
->>   void __weak hv_setup_vmbus_handler(void (*handler)(void))
->>   {
->>   }
->> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
->> index bf601d6..1fa79ab 100644
->> --- a/include/asm-generic/mshyperv.h
->> +++ b/include/asm-generic/mshyperv.h
->> @@ -79,6 +79,7 @@ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64
->> input2);
->>
->>   bool hv_isolation_type_snp(void);
->>   bool hv_isolation_type_tdx(void);
->> +bool hv_isolation_type_cca(void);
->>
->>   /*
->>    * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
->> --
->> 2.45.4
->>
+ 	hwc = gc->hwc.driver_data;
+-	if (hwc && hwc->hwc_timeout == 0)
++	if (hwc &&
++	    (READ_ONCE(hwc->hwc_timeout) == 0 ||
++	     READ_ONCE(hwc->hwc_dead)))
+ 		return false;
+
+ 	return true;
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_pci.c b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
+index ed8925296c8a..3995e4ab4c96 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_pci.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_pci.c
+@@ -102,7 +102,7 @@ static void mana_serv_reset(struct pci_dev *pdev)
+ 	}
+
+ 	/* HWC is not responding in this case, so don't wait */
+-	hwc->hwc_timeout = 0;
++	WRITE_ONCE(hwc->hwc_timeout, 0);
+
+ 	dev_info(&pdev->dev, "MANA reset cycle start\n");
+
+diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+index fb9f38f65911..ca9dcbfea9e4 100644
+--- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
++++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+@@ -192,7 +192,7 @@ static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue *q_self,
+
+ 		switch (type) {
+ 		case HWC_DATA_CFG_HWC_TIMEOUT:
+-			hwc->hwc_timeout = val;
++			WRITE_ONCE(hwc->hwc_timeout, val);
+ 			break;
+
+ 		case HWC_DATA_HW_LINK_CONNECT:
+@@ -819,7 +819,11 @@ void mana_hwc_destroy_channel(struct gdma_context *gc)
+ 	 * non-zero, the HWC worked and we should tear down the HWC here.
+ 	 */
+ 	if (gc->max_num_cqs > 0) {
+-		mana_smc_teardown_hwc(&gc->shm_channel, false);
++		if (READ_ONCE(hwc->hwc_dead))
++			dev_warn(hwc->dev,
++				 "HWC unavailable, skip SHM teardown handshake\n");
++		else
++			mana_smc_teardown_hwc(&gc->shm_channel, false);
+ 		WRITE_ONCE(gc->max_num_cqs, 0);
+ 	}
+
+@@ -867,9 +871,17 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
+ 	u32 dest_vrcq;
+ 	u32 dest_vrq;
+ 	u32 command;
++	u32 timeout;
+ 	u16 msg_id;
+ 	int err;
+
++	/* Fail fast before taking the HWC slot, after a device reset, a
++	 * request already holding slots will release them once their own
++	 * timeout expires.
++	 */
++	if (READ_ONCE(hwc->hwc_dead))
++		return -ETIMEDOUT;
++
+ 	mana_hwc_get_msg_index(hwc, &msg_id);
+
+ 	tx_wr = &txq->msg_buf->reqs[msg_id];
+@@ -902,21 +914,31 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
+ 	dest_vrq = hwc->dest_vrq_id;
+ 	dest_vrcq = hwc->dest_vrcq_id;
+
++	/* If the HWC is unavailable after device reset, do not post the WQE,
++	 * the hardware cannot respond, so fail fast instead of waiting for
++	 * the full timeout.
++	 */
++	if (READ_ONCE(hwc->hwc_dead)) {
++		err = -ETIMEDOUT;
++		goto out;
++	}
++
+ 	err = mana_hwc_post_tx_wqe(txq, tx_wr, dest_vrq, dest_vrcq, false);
+ 	if (err) {
+ 		dev_err(hwc->dev, "HWC: Failed to post send WQE: %d\n", err);
+ 		goto out;
+ 	}
+
++	timeout = READ_ONCE(hwc->hwc_timeout);
+ 	if (!wait_for_completion_timeout(&ctx->comp_event,
+-					 (msecs_to_jiffies(hwc->hwc_timeout)))) {
+-		if (hwc->hwc_timeout != 0)
++					 (msecs_to_jiffies(timeout)))) {
++		if (timeout)
+ 			dev_err(hwc->dev, "Command 0x%x timed out: %u ms\n",
+-				command, hwc->hwc_timeout);
++				command, timeout);
+
+ 		/* Reduce further waiting if HWC no response */
+-		if (hwc->hwc_timeout > 1)
+-			hwc->hwc_timeout = 1;
++		if (timeout > 1)
++			cmpxchg(&hwc->hwc_timeout, timeout, 1);
+
+ 		err = -ETIMEDOUT;
+ 		goto out;
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index 38249e092090..739021aa09b3 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -2086,7 +2086,9 @@ static void mana_poll_tx_cq(struct mana_cq *cq)
+ 	if (atomic_sub_return(pkt_transmitted, &txq->pending_sends) < 0)
+ 		WARN_ON_ONCE(1);
+
+-	/* Feed DIM with the completion rate observed here, in NAPI context. */
++	/* Feed DIM with the completion rate observed here, in NAPI context
++	 * or in the TX drain of mana_dealloc_queues() after NAPI is disabled.
++	 */
+ 	cq->tx_dim_pkts += pkt_transmitted;
+ 	cq->tx_dim_bytes += tx_bytes;
+
+@@ -2612,6 +2614,8 @@ static void mana_update_tx_dim(struct mana_cq *cq)
+ 	/* cq->tx_dim_pkts/bytes are accumulated in mana_poll_tx_cq(), in the
+ 	 * same NAPI context as this read, so they track the hardware
+ 	 * completion rate and need no u64_stats_sync protection.
++	 * The TX drain in mana_dealloc_queues() also adds to them,
++	 * but only after NAPI is disabled, so not concurrently with this read.
+ 	 */
+ 	dim_update_sample(READ_ONCE(cq->dim_event_ctr), cq->tx_dim_pkts,
+ 			  cq->tx_dim_bytes, &dim_sample);
+@@ -2724,10 +2728,10 @@ static void mana_destroy_txq(struct mana_port_context *apc)
+ 			cancel_work_sync(&apc->tx_qp[i]->tx_cq.dim.work);
+ 		}
+
+-		/* Forget the SKBs freed without being completed after a drain
+-		 * timeout, now that NAPI can't complete any. Doing it here also
+-		 * covers the queues that a lower channel count won't recreate,
+-		 * which could otherwise stay stopped.
++		/* Forget the SKBs freed in mana_dealloc_queues() without
++		 * completion, now that NAPI can't complete any. Doing it
++		 * here also covers the queues that a lower channel count
++		 * won't recreate, which could otherwise stay stopped.
+ 		 */
+ 		netdev_tx_reset_queue(apc->tx_qp[i]->txq.net_txq);
+
+@@ -3775,19 +3779,25 @@ int mana_attach(struct net_device *ndev)
+ 	return 0;
+ }
+
++#define MANA_TX_DRAIN_RETRIES	3
++
+ static int mana_dealloc_queues(struct net_device *ndev)
+ {
+ 	struct mana_port_context *apc = netdev_priv(ndev);
+-	unsigned long timeout = jiffies + 120 * HZ;
+ 	struct gdma_dev *gd = apc->ac->gdma_dev;
++	struct hw_channel_context *hwc;
++	int flr_pending, i, err, retry;
++	bool trigger_flr = false;
+ 	struct mana_txq *txq;
+ 	struct sk_buff *skb;
+-	int i, err;
+-	u32 tsleep;
++	u32 flr_txq_id = 0;
++	u32 timeout;
+
+ 	if (apc->port_is_up)
+ 		return -EINVAL;
+
++	hwc = gd->gdma_context->hwc.driver_data;
++
+ 	if (apc->rxqs)
+ 		mana_chn_setxdp(apc, NULL);
+
+@@ -3799,42 +3809,110 @@ static int mana_dealloc_queues(struct net_device *ndev)
+ 	 * a txq because it may not timely see apc->port_is_up being cleared
+ 	 * to false, but it doesn't matter since mana_start_xmit() drops any
+ 	 * new packets due to apc->port_is_up being false.
+-	 *
+-	 * Drain all the in-flight TX packets.
+-	 * A timeout of 120 seconds for all the queues is used.
+-	 * This will break the while loop when h/w is not responding.
+-	 * This value of 120 has been decided here considering max
+-	 * number of queues.
++	 * Drain the in-flight TX completions for each queue. TX is already
++	 * stopped, so pending_sends can no longer grow. For each queue,
++	 * disable NAPI so it cannot run at the same time as this drain,
++	 * then poll its CQ for up to 300 ms. If sends are still missing,
++	 * the hardware is not responding: reset the device and mark the
++	 * HWC dead so that later HWC commands fail fast.
+ 	 */
+
+ 	if (apc->tx_qp) {
+ 		for (i = 0; i < apc->num_queues; i++) {
++			struct napi_struct *napi;
++			struct mana_cq *tx_cq;
++			int pending;
++
++			if (!apc->tx_qp[i])
++				continue;
++
++			tx_cq = &apc->tx_qp[i]->tx_cq;
+ 			txq = &apc->tx_qp[i]->txq;
+-			tsleep = 1000;
+-			while (atomic_read(&txq->pending_sends) > 0 &&
+-			       time_before(jiffies, timeout)) {
+-				usleep_range(tsleep, tsleep + 1000);
+-				tsleep <<= 1;
+-			}
+-			if (atomic_read(&txq->pending_sends)) {
+-				err = mana_gd_dev_reset(gd->gdma_context);
+-				if (err) {
+-					netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
+-						   err,
+-					    atomic_read(&txq->pending_sends),
+-					    txq->gdma_txq_id);
++			napi = &tx_cq->napi;
++
++			if (txq->napi_initialized) {
++				/* Stop the NAPI poll so it cannot run
++				 * concurrently with the synchronous drain.
++				 */
++				napi_synchronize(napi);
++				napi_disable_locked(napi);
++				cancel_work_sync(&tx_cq->dim.work);
++
++				/* Poll the CQ until no sends are outstanding,
++				 * sleeping 100 ms between polls. Poll once
++				 * if earlier queue was stuck or device
++				 * has already been reset.
++				 * A zero budget frees skbs via the non-NAPI
++				 * path, which is required outside softirq.
++				 */
++				tx_cq->budget = 0;
++				for (retry = 0; retry <= MANA_TX_DRAIN_RETRIES;
++				     retry++) {
++					do {
++						tx_cq->work_done = 0;
++						mana_poll_tx_cq(tx_cq);
++					} while (tx_cq->work_done);
++
++					if (!atomic_read(&txq->pending_sends) ||
++					    trigger_flr ||
++					    READ_ONCE(hwc->hwc_dead))
++						break;
++					if (retry < MANA_TX_DRAIN_RETRIES)
++						msleep(100);
+ 				}
+-				break;
++			}
++
++			pending = atomic_read(&txq->pending_sends);
++
++			if (!trigger_flr && pending > 0) {
++				trigger_flr = true;
++				flr_txq_id = txq->gdma_txq_id;
++				flr_pending = pending;
++			}
++		}
++
++		if (trigger_flr && !READ_ONCE(hwc->hwc_dead)) {
++			/* Completions never arrived: the device is
++			 * unresponsive. Issue device reset and
++			 * mark the HWC dead so subsequent HWC commands
++			 * fail fast instead of each waiting the full
++			 * hwc_timeout.
++			 */
++			err = mana_gd_dev_reset(gd->gdma_context);
++			if (err) {
++				netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
++					   err, flr_pending, flr_txq_id);
++
++				/* reduce timeout if device reset failed */
++				timeout = READ_ONCE(hwc->hwc_timeout);
++				if (timeout > 1)
++					cmpxchg(&hwc->hwc_timeout, timeout, 1);
++			} else {
++				WRITE_ONCE(hwc->hwc_dead, true);
+ 			}
+ 		}
+
+ 		for (i = 0; i < apc->num_queues; i++) {
++			struct napi_struct *napi;
++			struct mana_cq *tx_cq;
++
++			if (!apc->tx_qp[i])
++				continue;
++
++			tx_cq = &apc->tx_qp[i]->tx_cq;
++			napi = &tx_cq->napi;
++
+ 			txq = &apc->tx_qp[i]->txq;
+ 			while ((skb = skb_dequeue(&txq->pending_skbs))) {
+ 				mana_unmap_skb(skb, apc);
+ 				dev_kfree_skb_any(skb);
+ 			}
+ 			atomic_set(&txq->pending_sends, 0);
++
++			if (txq->napi_initialized) {
++				netif_napi_del_locked(napi);
++				txq->napi_initialized = false;
++			}
+ 		}
+ 	}
+
+@@ -3847,7 +3925,8 @@ static int mana_dealloc_queues(struct net_device *ndev)
+ 	if (err && mana_en_need_log(apc, err))
+ 		netdev_err(ndev, "Failed to disable vPort: %d\n", err);
+
+-	mana_fence_rqs(apc);
++	if (!READ_ONCE(hwc->hwc_dead))
++		mana_fence_rqs(apc);
+
+ 	/* Even in err case, still need to cleanup the vPort */
+ 	mana_destroy_rxqs(apc);
+diff --git a/include/net/mana/hw_channel.h b/include/net/mana/hw_channel.h
+index 1ab2d66c891e..0bc222c32244 100644
+--- a/include/net/mana/hw_channel.h
++++ b/include/net/mana/hw_channel.h
+@@ -179,6 +179,7 @@ struct hw_channel_context {
+ 	struct gdma_dev *gdma_dev;
+ 	struct device *dev;
+
++	bool hwc_dead;
+ 	u16 num_inflight_msg;
+ 	u32 max_req_msg_size;
+
+diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+index 218d540bc994..1da76e7d6950 100644
+--- a/include/net/mana/mana.h
++++ b/include/net/mana/mana.h
+@@ -344,6 +344,8 @@ struct mana_cq {
+ 	/* Cumulative TX completions fed to DIM. Updated and read only in
+ 	 * NAPI context (mana_poll_tx_cq() / mana_update_tx_dim()), so they
+ 	 * measure the hardware completion rate and need no u64_stats_sync.
++	 * The TX drain in mana_dealloc_queues() also updates them, but only
++	 * after NAPI is disabled and the DIM work is cancelled.
+ 	 */
+ 	u64 tx_dim_pkts;
+ 	u64 tx_dim_bytes;
+--
+2.53.0
 
