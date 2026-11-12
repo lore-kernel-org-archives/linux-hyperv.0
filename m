@@ -1,49 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794505815;
-	b=YogsgIcud5FYSOHUBOo4Yoh7+u/Q6uyldPodSaXLW2OjPWn9hXGkiuv+xMcEPWQEBmMR
-	 WifwbQY+lK7WNPgqK6knQbS6EtxYoLkFBcDQkZtExu9ljBgVBYIAdXvTb0BNkGuhmCtdb
-	 Z1zHgPNzmnYTDqQfI+ZGUqkzkOsceGdx7gHsYtY2L0CfX2ZGoj7M/BKVODFKWNEZrcTeg
-	 XX4UHLqepRf0M8Km4HwOnNw3/JGa4ojZkvS4BhsCZdVksIWUxrYBjRzQASnOk7VJG5XSz
-	 zeTBP5t1LrHlsCT/Lfz4Xn9kFj4TgO71N+5X5vZxKul8KR0blEhB+/ML4sooDN+Jy2w==
+	t=1794509173;
+	b=holjaadYJ95+y+NwomNCq7co1xOGI1bJ+e5NkZ7HkB7uT6lly0+eTaMsz08oVl/KcfiA
+	 SwqYpD8tKF1KKj9Wd9XDkFxosu6iQIelnE6dlsSmPlJUnRV8dnz0kMwZQ0O6MRiktNfFC
+	 6ybhrEPW5fARkXSa/3BGw3LtS6YjrsDR5th76AAnhPUp/xRBa2yXFbLPDoIsiQh1mYJQO
+	 oif1xQVCHbRyTsgQhUIKlGqJflYLK8UEeK8YDEcy5DXqqjx5qHysdd0FFWqRjH3SDpzAV
+	 VqppzCl4eRNyW8cgBCLFMxj5tAp2NI+hk7Naqzhix+/Uc+dR6zXSifUGRI9IDXdHyVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794505815;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=FOHX458T5nlJ4b9+AlmECqof587GCWew+NK4zoiJyAE=;
-	b=UuFM14i+QKHcqgZjD19ada3dUs3Ce9Yqn9pPm0ncz70vvXUZ1Zg8UVpqxnuknhY0rukH
-	 ml1xUtqRTxx5Y8SAt/jpygvj8PRZQcwbu/uL6wt3S93WZevE03YSpw4nOyusybJ0H8qZW
-	 9jkTleLQzpd9JR0qRbZEKpRZh/9kpKFhoR0D8BiSqgb1ESaHIBQ0JU1jPc1mU7KtATz68
-	 WpZKLtn1ItRy/rMvjFDj4pAVZQYdVefFDyDKhVL8+71o6wPMKpwkt9iFBXxmlQN5vVnjG
-	 K9TuT/qfyrwc/yZpshuq+mYdNR+QU81R4ICzg08KctdGU1LsBP8knvitnyjnqWBqydQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794509173;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=dSW5Stw32iWcEj4GcRrtOc37CAGFHwzbxNsYprtjcwA=;
+	b=KQ0r8KKtZa/krEp7sbL07R8YkBeFT9OopmnKBYDgri+OoqoU9cGF4qrE/EtiU7wvcu63
+	 WBRinooU1VZ1j5N0xF+xWNb3O+VPKOEHCO6tI7d5sVZdL5Zx35SHe3L06euXdsT+BoycP
+	 f1MJBAtNMo0iWkI61kn0OfmT64mJryPGobnD9nwj2lIypBLQWS1tRy6tZYYjoAR70pq/6
+	 zyPsyc1drRbDc2rOVTKH9dC8kNOlFKDpAl1eHjraJbIyYh0CS541rcngwYNkK1IYPvFbi
+	 PFBNH2XNncd/BUwMt4terDYhpiCZsGsln0rVlSs7Xaaq9ApVMjbmqE5ar6Y1Glg4SUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=paozY693;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="TOpQ1/ss";
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F4EB606A339;
-	Thu, 12 Nov 2026 17:50:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F4EB606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8983606A31C;
+	Thu, 12 Nov 2026 18:46:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8983606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=paozY693
-Received: from [10.4.158.9] (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5BBD520B7166;
-	Thu, 12 Nov 2026 09:49:54 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5BBD520B7166
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=TOpQ1/ss
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 92B3F20B7166; Thu, 12 Nov 2026 10:46:08 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 92B3F20B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794505805;
-	bh=FOHX458T5nlJ4b9+AlmECqof587GCWew+NK4zoiJyAE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=paozY693cvLDuf4U/crDEhukiZGU+ENNK3akzY0Z75lnrf/hk6O4Biq9Pjs6VA36O
-	 VvLZLX2Q5xAFWYNNkEEf80GOPTs8m23Qnbp1U10U+ZMk0anGkAotQVek9ACBl8Qr7/
-	 4ViVDBAcFE+Bz8si1aupeZORaBNIHjnWF9wigGQo=
-Message-ID: <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
-Date: Thu, 12 Nov 2026 09:49:54 -0800
+	s=default; t=1794509168;
+	bh=dSW5Stw32iWcEj4GcRrtOc37CAGFHwzbxNsYprtjcwA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TOpQ1/ssBy7asZeNf9N2/X6/Gb5WYd9LK9Qz+7N9uu9A3A4jSbvUNYzxz0eysAvO8
+	 ccoujDHCw9+QbHr6pxhFVTrMI5i/goBoNagh3LCoNu3Pi0RHrnfmSoJzOGC9Ov9LFj
+	 MG25fthjWn0sX993ifgkM6xI89AppnJVARkV4hwg=
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Dexuan Cui <decui@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-hyperv@vger.kernel.org,
+	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/hyperv: wait for flip_done instead of vblanks in commit tail
+Date: Thu, 12 Nov 2026 13:45:53 -0500
+Message-ID: <20261112184553.1595055-1-hamzamahfooz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,178 +64,92 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
- CCA Realms
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: Michael Kelley <mhklinux@outlook.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
- <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
- <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
-Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/11/2026 6:43 PM, Mukesh R wrote:
-> On 11/11/26 10:01, Michael Kelley wrote:
->> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
->>>
->>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
->>> to be marked as decrypted (shared) for confidential VM isolation types.
->>> This is already done for SNP and TDX isolation; extend the same handling
->>> to Arm CCA Realm guests so that the host hypervisor can access the
->>> shared hypercall buffers.
->>>
->>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
->>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
->>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
->>> Introduce a Hyper-V-specific helper following the established
->>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
->>>
->>> On architectures other than arm64 the weak default keeps the existing
->>> behaviour.
->>>
->>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
->>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
->>> ---
->>>   arch/arm64/hyperv/mshyperv.c   |  5 +++++
->>>   drivers/hv/hv_common.c         | 17 +++++++++++++----
->>>   include/asm-generic/mshyperv.h |  1 +
->>>   3 files changed, 19 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->>> index 46ab2da..da6c3aa0 100644
->>> --- a/arch/arm64/hyperv/mshyperv.c
->>> +++ b/arch/arm64/hyperv/mshyperv.c
->>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
->>>       return hyperv_initialized;
->>>   }
->>>   EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
->>> +
->>> +bool hv_isolation_type_cca(void)
->>> +{
->>> +    return is_realm_world();
->>> +}
->>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
->>> index 31256cb..a60c92c 100644
->>> --- a/drivers/hv/hv_common.c
->>> +++ b/drivers/hv/hv_common.c
->>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>       u64 msr_vp_index;
->>>       gfp_t flags;
->>>       const int pgcount = hv_output_page_exists() ? 2 : 1;
->>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
->>>       void *mem;
->>>       int ret = 0;
->>>
->>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>        * online and then taken offline
->>>        */
->>>       if (!*inputarg) {
->>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
->>> +        mem = kmalloc(alloc_size, flags);
->>>           if (!mem)
->>>               return -ENOMEM;
->>>
->>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
->>>           }
->>>
->>>           if (!ms_hyperv.paravisor_present &&
->>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
->>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
->>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>> +             hv_isolation_type_cca())) {
->>
->> Could this big "if" statement use "hv_is_isolation_supported()" instead
->> of explicitly testing for each CoCo VM type? I ask partly because
->> Mukesh Rathor has just submitted a patch [1] that introduces a new
->> function that does something almost exactly the same as
->> hv_is_isolation_supported() and uses it here.
-> 
->>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>> +             hv_isolation_type_cca())) {
-> 
-> With my change, this will become:
-> 
->         (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+Since commit 52e6b1988334 ("drm/hypervdrm: Use vblank timer"), the
+driver's vblanks are generated by an hrtimer, and the default commit
+tail waits in drm_atomic_helper_wait_for_vblanks() for that timer to
+fire. In a VM, a timer can fire arbitrarily late, for instance when the
+host does not run the vCPU that the timer is queued on while the
+committing task keeps running on another vCPU. If the delay exceeds the
+helper's timeout, it warns, even though the display works fine:
 
-Any reason you wouldn't change hv_isolation_hw_cvm() to
+  [CRTC:35:crtc-0] vblank wait timed out
+  WARNING: drivers/gpu/drm/drm_atomic_helper.c:1921 at drm_atomic_helper_wait_for_vblanks.part.0+0x212/0x230, CPU#30: setfont/559
+  Call Trace:
+   drm_atomic_helper_commit_tail
+   commit_tail
+   drm_atomic_helper_commit
+   drm_atomic_commit
+   drm_client_modeset_commit_atomic
+   drm_client_modeset_commit_locked
+   drm_fb_helper_pan_display
+   fb_pan_display
+   bit_update_start
+   fbcon_switch
+   redraw_screen
+   fbcon_do_set_font
+   fbcon_set_font
+   con_font_op
+   vt_ioctl
 
-  return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
-    hv_isolation_type_cca()
+This was seen intermittently on Azure VMs during boot, when setfont
+redraws the console right after hyperv_drm has taken it over.
 
-That would seem more logical to me.
+Cc: stable@vger.kernel.org
+Fixes: 52e6b1988334 ("drm/hypervdrm: Use vblank timer")
+Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+---
+This is inspired by VKMS (which also uses DRM's vblank timer), wait for
+the commit's flip_done instead. It completes once the vblank event that
+drm_crtc_vblank_atomic_flush() armed has been sent on the next timer
+tick.
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 24 +++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index cc5c5fbc8..8e5036051 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -504,6 +504,29 @@ static const struct drm_mode_config_funcs hv_drm_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
++/*
++ * Like drm_atomic_helper_commit_tail(), but wait for the commit's vblank
++ * events rather than for the vblank counter to advance. The host can delay
++ * the vblank timer for longer than drm_atomic_helper_wait_for_vblanks()
++ * waits before warning.
++ */
++static void hv_drm_atomic_commit_tail(struct drm_atomic_commit *state)
++{
++	struct drm_device *dev = state->dev;
++
++	drm_atomic_helper_commit_modeset_disables(dev, state);
++	drm_atomic_helper_commit_planes(dev, state, 0);
++	drm_atomic_helper_commit_modeset_enables(dev, state);
++	drm_atomic_helper_fake_vblank(state);
++	drm_atomic_helper_commit_hw_done(state);
++	drm_atomic_helper_wait_for_flip_done(dev, state);
++	drm_atomic_helper_cleanup_planes(dev, state);
++}
++
++static const struct drm_mode_config_helper_funcs hv_drm_mode_config_helper_funcs = {
++	.atomic_commit_tail = hv_drm_atomic_commit_tail,
++};
++
+ int hv_drm_mode_config_init(struct hv_drm_device *hv)
+ {
+ 	struct drm_device *dev = &hv->dev;
+@@ -526,6 +549,7 @@ int hv_drm_mode_config_init(struct hv_drm_device *hv)
+ 	dev->mode_config.prefer_shadow = 0;
+ 
+ 	dev->mode_config.funcs = &hv_drm_mode_config_funcs;
++	dev->mode_config.helper_private = &hv_drm_mode_config_helper_funcs;
+ 
+ 	ret = hv_drm_pipe_init(hv);
+ 	if (ret) {
 -- 
-Regards,
-Kameron
-> 
-> Thanks,
-> -Mukesh
-> 
-> 
->> You don't provide the non-stub hv_is_isolation_supported() until
->> Patch 6 of this series, but the weak stub should allow everything to
->> build if a bisection splits this patch series.
->>
->> Michael
->>
->> [1] https://lore.kernel.org/linux-hyperv/20261111022036.351231-2-mrathor@linux.microsoft.com/
->>
->>> +            ret = set_memory_decrypted((unsigned long)mem,
->>> +                           alloc_size >> PAGE_SHIFT);
->>>               if (ret) {
->>>                   /* It may be unsafe to free 'mem' */
->>>                   return ret;
->>>               }
->>>
->>> -            memset(mem, 0x00, pgcount * HV_HYP_PAGE_SIZE);
->>> +            memset(mem, 0x00, alloc_size);
->>>           }
->>>
->>>           /*
->>> @@ -666,6 +669,12 @@ bool __weak hv_isolation_type_tdx(void)
->>>   }
->>>   EXPORT_SYMBOL_GPL(hv_isolation_type_tdx);
->>>
->>> +bool __weak hv_isolation_type_cca(void)
->>> +{
->>> +    return false;
->>> +}
->>> +EXPORT_SYMBOL_GPL(hv_isolation_type_cca);
->>> +
->>>   void __weak hv_setup_vmbus_handler(void (*handler)(void))
->>>   {
->>>   }
->>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
->>> index bf601d6..1fa79ab 100644
->>> --- a/include/asm-generic/mshyperv.h
->>> +++ b/include/asm-generic/mshyperv.h
->>> @@ -79,6 +79,7 @@ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64
->>> input2);
->>>
->>>   bool hv_isolation_type_snp(void);
->>>   bool hv_isolation_type_tdx(void);
->>> +bool hv_isolation_type_cca(void);
->>>
->>>   /*
->>>    * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
->>> -- 
->>> 2.45.4
->>>
+2.56.0
+
