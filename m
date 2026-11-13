@@ -1,59 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794575004;
-	b=29k9CLTNWIf+hTZRrN8m/blIH6sgF2VxCX6k/WeDYtT76nxDxaddtOav/3aLWvE3NDJB
-	 jFG0j4wqMMuYW+9jXtzNFxVDJVlucVkMu8kTfBH4zFl7qxG/U+t3F9RAyimBj9zd3ItMZ
-	 ZA6QmE1iD90zFrQUtD+j7YJsL510+Y3hMNDm1Ky1MwUF5wfMIYIyjSnyqPi3s64c17MYf
-	 Emkky/2LkT5rOvasPZDSywXX28RKDJK3ce1ldbP7jY6z66+k4e/NwNwdzYmYMYtXndzUH
-	 UkTecFBX8Y2w5nN6J/wenf+nwTQjn+NcvS1SXLlKwhAlPMBrDBhDt5EUSuccz79DCsw==
+	t=1794575142;
+	b=F4/RR1GaXYBKb2NNgAw/o5W+IHtvWgHZij9V30E0rMxMljj7tcxaLzXnBVyUD2pigScd
+	 AczevnSSEBd99kkwHRwpHyNGsAfWamPnzRFh1751jz4l9u6u88AjxVEwrMni2yEdBINL1
+	 LD476EUnRGtdehDs2+oBIJj033KZt/kYVzUcLue2n+ELhROtt9K3YuI134oOJTirU+mdt
+	 DTEbVHFA+BLIxVAY1KG5heo2Itfd9bHx5u34cAtMJeeO4jL2dA245rSkfGlevs9LzeDsl
+	 BmRBsVHyD4+uojhuaLvPq3e8vePj2zvgZsRhujmFcDFwx8UEoPvIpz0hZSu1epnfi5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794575004;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=CZfrB28noCKrynN8sjAuUhowFeJ+ztoGVKLKgDROBJg=;
-	b=LyijhnNXz7ydOyIp7Ljkfds0QBmpQ1uzBQnyqkQoP7TCtp3J5ss7TNGLM6j5tI7EqKPy
-	 kjM2fbh7xGvsItf3aeQSIKXLWY8bF8m65ivZtki3CBfJdZT8+WAyy/CidZjThv6yaWTrB
-	 yR1QFgV9Q1baIh5cYUgr+VolzRYF6t/Tqat4uPabyad1CzSor3F3DOnICXvM5rx4Pp/7P
-	 SBhOjm0rv64GgWnH4d2HRefO/Y/VLrwMeyclMG18ZIlyYT19yeuJlo/94eG2bTJNBh0Nf
-	 2XQG5q1OaUDbjdJkPIxlE6Tw/7SnQQNzL4b4PqTNpnJ4BxlXsaLD1n0k40+P5FfIo6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794575142;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+	b=Hgo3hYY2EtPwgyNbJ+ixkpaKF5Z8FUjxs3hcv9fQsBkAljd3o+qxX5NZ6D09d+TW2yoj
+	 +8k7iQSnqeHsEC4co61u/2igBl+993suRJ/SGODcqworCbLgIB8pFXNnyKhH5DlUjsVdq
+	 cPxMuvLPjTUPU76D9opdk79iU+Y4TP+FJ+j9feV2/XbJP8lR8FVrVqldsg/j2F9tuFa2A
+	 1CApTGuDH++MKCRYQRcoihVPRG7O+n7ty/TKNsqeKne6tyBpUEGfe7wGBsAIby37MMb3W
+	 b6Z/ih6xBH8yY3dXl1IAgrWOo1XfxtiPSKy4u81do3dDhHvDnERxwJLFAGTCe1jj4sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=nI9WpNPf;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 773B1606A32D
-	for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 13:03:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 773B1606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BW39gR3F;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OBz9MajD;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD03606A8AC
+	for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 13:05:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DD03606A8AC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=nI9WpNPf
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 16D1A20B7166; Fri, 13 Nov 2026 05:03:20 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 16D1A20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794575000;
-	bh=CZfrB28noCKrynN8sjAuUhowFeJ+ztoGVKLKgDROBJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nI9WpNPfVBd5dz0ZbBzL0kcLAIsoNXpnoJQ3o0e3J5dq5D/oeZkpxnbPibyWSn7Xq
-	 iTVeOL1EgF5HUp8sy6j69AOu1kDTVihm0xqUFs+5keXjF6RmUQXPhi4cxtOipm2JmR
-	 5MEecFrDJ8zeJ3J1eVTqg5mIolbUD5jywyhiPN4s=
-Date: Fri, 13 Nov 2026 08:03:20 -0500
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: sascha@eder.earth
-Cc: Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: drm/hyperv: pointer lag on desktop guests - host cursor is
- supported by the protocol but hidden
-Message-ID: <avcKmFO2yzYIzbpF@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261111121316.Horde.3cW0nxv09zUHPZiYh0D0t3G@webmail.your-server.de>
- <avRlw+MtVNtwojJk@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20261111220506.Horde.EkRyYI2MJXvhgTT5Ojgh9r0@webmail.your-server.de>
- <avTq3OCNdDeyn/La@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <20261113021854.Horde.oyp74rgk0-Wh2hQXybP5yVq@webmail.your-server.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BW39gR3F;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OBz9MajD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794575141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+	b=BW39gR3Fg/kezsAVGKvDXsYxfzqF0QHATEwKDPkJqNqr/QWxfk+dcxVMEcu3YwNIOB2aqr
+	mkkDS9nWCasm/fFkT5l4ek15CNGfGKFiFAamdUDN2vQF/pMHjxRSrb+lPpqyGe+LBSUJqS
+	wugR76fjwkMTLCroYDR6WYQaj59gqJk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-654-1zjRVRTxOvGL5D-12ehJSQ-1; Fri, 13 Nov 2026 08:05:39 -0500
+X-MC-Unique: 1zjRVRTxOvGL5D-12ehJSQ-1
+X-Mimecast-MFC-AGG-ID: 1zjRVRTxOvGL5D-12ehJSQ_1794575138
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48e0389d6f9so514690f8f.1
+        for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 05:05:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1794575138; x=1795179938; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+        b=OBz9MajDYVenCm8MUwg+HL9hyy/hjg7gXdoLfpQDTEBvcKFk4YaX7Tl44/rlnKnb5v
+         srBQjbdSbBWBZPcxn1PCvXeu/Ks6Gvy2Titlk2bQEM78XcpFYAgC/2KkHvwx0b1eMl16
+         fJqEP8wyrSh+PTfT8Q5vAzO/lPfDDbIdHdZPyVOUh5NF9jOK5LDk9hPIq/iH9JpeAkue
+         raBwYvhyGwVeeSEq4hAtrs8tbzv0KpfcO77sH0pmSsQulx+UF9ep+lWXV/u+w78kH28r
+         qz2J8dRVuL5lFl9EeQ8JjcRWpC9ounCRfBmSYjbhUwAFIjJ84CwdJl8oncnERZAetmJ2
+         932w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794575138; x=1795179938;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+        b=1faVt10Zqnf7uMf//Si3HpFZn+PJ2TT3YXQl7gR50SqCS8JfxuXlj0JxaXpQJJUI6p
+         GneF3wT1DG5y653YFJ5k3Mzoz2TdFYrE/cXaxHuvfxTFFpGUOt3fFv+dfGEscgvT2fuL
+         V68S4yHa8KDcrqv644Evf3ECSkbmAhHWqR5Elh40aA3uZFopgIwwIpa0QX7x+xayAm7S
+         THbHApZONavjVD8Adn0/w0Z5e9cSGM2no4FTpJ9cUxgo1TbDeihikMGUs7ryO9j11kmf
+         CKmqzqhOsKRl2ocP219ouGp5q7nY8W3dS2zBF2GnoMFUA2U1TSGUlOAhoWSJCmAB4oJ2
+         R1HQ==
+X-Forwarded-Encrypted: i=1; AL+hErGZmvAhrM1nUx2ibKUkRkQFOjGYmZ6TTwJx3q+/Z56+b8hD/bh10DlCMAL8UH8HF2Gkpke5TdJd9wTsJ1k=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Lb5B6cEa6flYwBJg4y8I3xJ7Rh1c5N/WBGwaetLAYGfQTBQ3s
+	pcXIdEoZSZD61VtLyjYOVM9Pb2Zs2z1pA2N/tEpQanbNlyZKWOdGFOyKohvQEytV4URifGRVLRc
+	DS5BedFy2AxA0sxeHu45stCOmtT0D09Xvl/ejcHt8UVqA7OzaCLZ22JQzTgLymEYGnw==
+X-Gm-Gg: AYBFou2A+y9Vzj+Pgfxk3Uy9XX7mBY3kfRKA8ehc63BSWltT+OARJ73q2MZL2b+8Z+4
+	nh0kkHS7ZBr5tph7EFUyv5is8KTzIBxGPjiIIUXYaoH5JXykzeD4J9pVrKjDupkNx+TsZ676D0K
+	a0OAHGBhvgC6LjlGWuaWVQn2rikP7LUF3V5sB7sg77Ydli63+w1kAJsToCmdLzVJDZBGkdIONJD
+	uIvAPWaK6KPX+lgd7sNDecux4uF1j8z2jRNK9AIsqmZjXYkF1WQy+ifoJzrMUojnr8f76EL8GMu
+	B3yZzYVUkr/Po5M9r8LCYs17V16Rus4VQSK2gjI6eL1bOTKc5AME6QKhTxUDy/3LsYGq3HoQr1i
+	lBC5M+J6WjQO2qkuy3yMfbziO3mD4Re3rEKHVR5ApRw==
+X-Received: by 2002:a05:600c:3487:b0:4a2:526b:d410 with SMTP id 5b1f17b1804b1-4bb55a4f1b4mr53874765e9.13.1794575137647;
+        Fri, 13 Nov 2026 05:05:37 -0800 (PST)
+X-Received: by 2002:a05:600c:3487:b0:4a2:526b:d410 with SMTP id 5b1f17b1804b1-4bb55a4f1b4mr53873365e9.13.1794575136910;
+        Fri, 13 Nov 2026 05:05:36 -0800 (PST)
+Received: from redhat.com ([2a0d:6fc0:1511:2900:ff37:b35c:a97:952d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb56680ea9sm39056695e9.0.2026.11.13.05.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 05:05:35 -0800 (PST)
+Date: Fri, 13 Nov 2026 08:05:30 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+	Bobby Eshleman <bobbyeshleman@meta.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Bryan Tan <bryan-bt.tan@broadcom.com>,
+	Vishnu Dasa <vishnu.dasa@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	bpf@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/8] vsock: add datagram support to virtio and
+ vhost
+Message-ID: <20261113080506-mutt-send-email-mst@kernel.org>
+References: <20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -65,251 +137,132 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113021854.Horde.oyp74rgk0-Wh2hQXybP5yVq@webmail.your-server.de>
+In-Reply-To: <20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com>
 
-On Fri, Nov 13, 2026 at 02:18:54AM +0100, sascha@eder.earth wrote:
-> Hi,
+On Fri, Nov 13, 2026 at 01:47:33PM +0100, Sergio Lopez wrote:
+> This RFC adds SOCK_DGRAM support to virtio-vsock and vhost-vsock through
+> the existing AF_VSOCK API. It is intended for guest and host services
+> that exchange independent requests, responses, or events and need message
+> boundaries and sender addresses without a stream connection or application
+> framing.
 > 
-> > Development for the driver is done on drm-misc-next[1], so I would
-> > suggest testing it on there.
-> 
-> Done. Short version: the pointer is smooth now, the lag is gone,
-> but the host-drawn pointer shows up three times side by side.
-> 
+> VIRTIO_VSOCK_F_DGRAM gates virtio traffic in both directions. Each virtio
+> send carries zero to 64 KiB of payload in one VIRTIO_VSOCK_TYPE_DGRAM
+> packet. On the RX virtqueue, the device may split a datagram across
+> page-sized guest buffers.
+> START and EOM delimit the message; the guest reassembles at most 64
+> fragments and 64 KiB before delivering it to a socket.
 
-> What I built
-> - drm-misc-next at c88084027d0e ("drm: Discard
->   pm_runtime_put_autosuspend() return values"), 7.4.0-rc2
-> 
-> - The tree already contains the cursor plane code: git am of your
->   patch failed and patch(1) reported it as previously applied, so I
->   built the tree as it is. Please tell me if that is not the version
->   you want tested.
-> 
-> - Config: Debian 13's 6.12 config through localmodconfig, with
->   HYPERV=y, HYPERV_VMBUS=m, DRM_HYPERV=m
-> 
-> 
-> Setup
-> - Host: Windows 11 Pro 26H2 (build 26300.9711), Hyper-V, Generation 2
->   VM, basic session (vmconnect), 3840x2160
-> - Guest: Debian 13 userland, KDE Plasma 6.3.6 on Wayland (KWin 6.3.6),
->   3840x2160 at 200 % scale, 4 vCPUs
-> 
-> 
-> What works
-> - The pointer follows the hand without delay, also on long fast moves.
->   KWin picked up the cursor plane without any configuration.
-> 
-> - Cursors too large for the plane fall back to the software cursor
->   correctly: one pointer, drawn right, with the old lag.
-> 
-> 
-> What does not
-> - Whenever the host draws the pointer, I see it three times: the real
->   pointer, and two extra copies of it to its right. All three have the
->   same shape, are evenly spaced in a row and move together. Clicks land
->   under the leftmost one; the other two are only images. In phone
->   photos of the screen the three look striped, as if only some of
->   their lines were drawn or those "ghosts" were meant to render as one pointer
-> 
-> - This is the same for every size that uses the plane and for every theme I
-> tried:
-> 
->     Breeze, 200 % scale   size 12, 18, 24, 30, 36   plane, three pointers
->                           size 42 and larger        software, one pointer
-> 
->     Breeze Light          same as Breeze
-> 
->     DMZ White, DMZ Black  three pointers
-> 
-> - The count is always the same: one real pointer plus two copies,
->   whatever the cursor size.
-> 
+where do these limits come from? how does peer know not to send more?
 
-I wasn't able to repro that issue but it seems like KWin maintains a
-hardcoded list of driver names [1] which it uses to determine if it
-should enable hotspot support on it's atomic path. Seems like you can
-use KWIN_DRM_NO_AMS=1 as a workaround in the meantime until they add
-hyperv_drm support on their end.
+Thanks!
 
-[1] https://invent.kde.org/plasma/kwin/-/blob/75175b104504748aacd3d6a955a79d19751f8310/src/core/drmdevice.cpp#L48
+> Invalid or
+> incomplete messages are discarded. Datagram delivery is best effort:
+> there are no peer credits, acknowledgements, or retransmissions. Send
+> admission uses the socket send-memory limit, and SIOCOUTQ reports charged
+> send memory.
+> 
+> Datagram sockets have a separate port space from stream and seqpacket
+> sockets. The latter two continue to share their port space. Datagram
+> routes are chosen per destination among guest-to-host, host-to-guest, and
+> loopback transports, with VMCI as a fallback. VMCI still owns its socket
+> handle when it is present; loopback works without a directional transport.
+> Hyper-V continues to reject datagram sockets.
+> 
+> Bobby Eshleman and Amery Hung explored this feature in their v6 series
+> and v7 work-in-progress branch. This series is a fresh implementation
+> against the current vsock code. It follows the separate datagram port
+> space, per-destination routing, and VMCI fallback requirements discussed
+> there. For guest receive buffers, it uses bounded fragmentation and
+> reassembly rather than full-message buffers or the earlier drop/error
+> queue approach:
+> 
+> https://lore.kernel.org/r/20240710212555.1617795-1-amery.hung@bytedance.com
+> https://github.com/ameryhung/linux/tree/vsock-dgram-v7
+> 
+> A corresponding virtio specification update has been drafted separately.
+> The wire format and feature negotiation still need specification review
+> before this series can be considered for merging.
+> 
+> The first patches expose the core port allocator and add datagram queue
+> reporting, then implement the common data path, guest and host feature
+> negotiation, routing, and RX fragmentation. The last patch extends
+> vsock_test with local and peer tests for message boundaries, routing,
+> connected peers, port sharing, queue accounting, and delayed reads.
+> 
+> Testing used QEMU with the F_DGRAM property patch below, an x86-64
+> KASAN/lockdep kernel, paired guest tests, and a nested Linux vhost-vsock
+> backend. The tested paths include 64 KiB messages, delayed-read bursts,
+> feature-disabled ingress, stream and seqpacket controls, and header-only
+> guest RX buffers. A temporary userspace backend still fails stream test
+> 21 on both the series base and tip; that case passes with Linux vhost.
+> Real VMCI and Hyper-V hardware were not exercised.
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2026-10/msg08074.html
+> 
+> Code was written and reviewed both manually and assisted by Codex
+> (GPT-6.1-Sol) and Claude (Opus 4.6).
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+> Changes in v2:
+> - Keep guest RX buffers page-sized; add START/EOM framing and bounded
+>   datagram reassembly (thanks to Alexei Starovoitov and Bobby Eshleman).
+> - Preserve stream and seqpacket data when an RX buffer has no payload
+>   room.
+> - Separate datagram and connection-oriented port spaces, and share
+>   receive metadata and queueing (thanks to Alexei Starovoitov).
+> - Check negotiated support and destination CID on ingress, and require
+>   an exact connected peer CID and port (thanks to Sashiko AI bot).
+> - Select a capable route for each destination, retain VMCI as fallback,
+>   and support loopback-only sockets (thanks to Alexei Starovoitov).
+> - Preserve the connected peer address across temporary parent fallback
+>   (thanks to Sashiko AI bot).
+> - Use socket write-memory accounting for datagram SIOCOUTQ instead of
+>   separate transport counters (thanks to Alexei Starovoitov).
+> - Extend selftests for fragmentation, delayed reads, port sharing,
+>   connected peers, and capability-based skips; fix the test build and
+>   README entries (thanks to Alexei Starovoitov, Bobby Eshleman,
+>   and Sashiko AI bot).
+> - Link to v1: https://lore.kernel.org/r/20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org
+> 
+> ---
+> Sergio Lopez (8):
+>       vsock: expose the core port allocator to transports
+>       vsock: report datagram receive and send queue state
+>       vsock/virtio: implement the datagram data path
+>       vsock/virtio: negotiate datagram support on the guest
+>       vhost/vsock: negotiate datagram support with guests
+>       vsock: allow datagrams to use directional transports
+>       vsock: fragment datagrams across receive buffers
+>       vsock: add datagram tests to vsock_test
+> 
+>  Documentation/admin-guide/sysctl/net.rst |    8 +-
+>  drivers/vhost/vsock.c                    |   51 +-
+>  include/linux/virtio_vsock.h             |    9 +-
+>  include/net/af_vsock.h                   |   30 +-
+>  include/uapi/linux/virtio_vsock.h        |   10 +
+>  net/vmw_vsock/af_vsock.c                 |  459 +++++++++++---
+>  net/vmw_vsock/hyperv_transport.c         |   11 +-
+>  net/vmw_vsock/virtio_transport.c         |  167 ++++-
+>  net/vmw_vsock/virtio_transport_common.c  |  164 ++++-
+>  net/vmw_vsock/vmci_transport.c           |  115 ++--
+>  net/vmw_vsock/vsock_bpf.c                |    3 +-
+>  net/vmw_vsock/vsock_loopback.c           |    2 +-
+>  tools/testing/vsock/Makefile             |    3 +-
+>  tools/testing/vsock/README               |   31 +-
+>  tools/testing/vsock/util.c               |   62 +-
+>  tools/testing/vsock/util.h               |   10 +
+>  tools/testing/vsock/vsock_test.c         |  175 +++++-
+>  tools/testing/vsock/vsock_test_dgram.c   | 1000 ++++++++++++++++++++++++++++++
+>  tools/testing/vsock/vsock_test_dgram.h   |   29 +
+>  19 files changed, 2066 insertions(+), 273 deletions(-)
+> ---
+> base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+> change-id: 20261027-vsock-dgram-support-683a4e0aebe7
+> 
+> Best regards,
+> -- 
+> Sergio Lopez <slp@redhat.com>
 
-> - Host is on build 26300.9711 (the 2026-10 security update);
->   the November update is not offered for this edition yet, so I could not
->   check whether a newer host build behaves differently.
->   I will retest when it arrives.
-> 
-> I have photos of the screen and could send them off-list or put them
-> somewhere, since the list likely does not take jpg attachments.
-> 
-> Tested on the setup above; I would hold a Tested-by until the copies are gone.
-> 
-> regards
-> Sascha
-> 
-> 
-> 
-> Quoting Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>:
-> 
-> > On Wed, Nov 11, 2026 at 10:05:06PM +0100, sascha@eder.earth wrote:
-> > > Hi,
-> > > 
-> > > thank you for the speedy reply :)
-> > > 
-> > > > Cursor plane support is a WIP, you can test out [1] on your end.
-> > > 
-> > > That is exactly the fix I was hoping for.
-> > > 
-> > > Which tree and commit does the patch apply to?
-> > > 
-> > > My guest runs Debian 13 with kernel 6.12, where the driver still has the
-> > > hyperv_ prefix and the simple display pipe,
-> > > so I would build the tree you name with the patch on top and report back.
-> > > 
-> > 
-> > Development for the driver is done on drm-misc-next[1], so I would
-> > suggest testing it on there.
-> > 
-> > [1] https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
-> > 
-> > > If you happen to have a version for 6.12, I can test that as well.
-> > > 
-> > 
-> > Quite a lot has changed in the DRM subsystem since then so I doubt my patch
-> > applies cleanly there or works as expected.
-> > 
-> > Hamza
-> > 
-> > > regards
-> > > 
-> > > Sascha
-> > > 
-> > > 
-> > > 
-> > > Quoting Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>:
-> > > 
-> > > > Hi,
-> > > >
-> > > > On Wed, Nov 11, 2026 at 12:13:16PM +0100, sascha@eder.earth wrote:
-> > > > > Hi,
-> > > > >
-> > > > > I am a Windows developer porting some of my own desktop tools to
-> > > Linux, and
-> > > > > I use a Debian guest on Hyper-V to judge how they look and feel there.
-> > > > >
-> > > > > The static picture is good, the mouse pointer is not, and I
-> > > think the cause
-> > > > > is small and fixable in hyperv_drm. I am writing because this is
-> > > the first
-> > > > > thing a Windows developer notices when trying Linux on their own
-> > > machine: as
-> > > > > long as a Linux VM feels sluggish next to a Windows VM on the
-> > > same host, few
-> > > > > of us will move a repo over and be happy about it.
-> > > > >
-> > > > > Setup
-> > > > > - Host: [Windows 11/26H2], Hyper-V, Generation 2 VM, basic session
-> > > > > (vmconnect), 3840x2160 display
-> > > > > - Guest: Debian 13, kernel 6.12.113+deb13-amd64, hyperv_drm
-> > > (Synthvid 3.5),
-> > > > > KDE Plasma 6.3.6 on Wayland (KWin 6.3.6, libwayland 1.23.1)
-> > > > > - 4 vCPUs, about 7 GB RAM
-> > > > >
-> > > > > What I saw so far:
-> > > > >
-> > > > > - The pointer trails the hand by a small constant delay. Fast, long
-> > > > > movements (taskbar to top of the screen) are visibly laggy, not just
-> > > > > slightly off.
-> > > > >
-> > > > > - A Windows guest on the same host, same viewer, same mouse is smooth -
-> > > > > directly, and even when the host itself is reached through RDP.
-> > > The Debian
-> > > > > guest lags in both cases.
-> > > > >
-> > > > > - While moving the pointer: kwin_wayland uses 35-50 % of one
-> > > core, a kworker
-> > > > > (events_unbound) 13-21 %, and the VM is about 80 % idle. Adding vCPUs
-> > > > > changes nothing, so it is not a lack of CPU.
-> > > > >
-> > > > > - A smaller cursor and disabling KDE's shake-to-enlarge effect helped a
-> > > > > little. A plain color desktop did not.
-> > > > >
-> > > > > What I think the cause is (from reading the driver, I have not
-> > > patched it)
-> > > > >
-> > > > > 1. hyperv_drm exposes only the primary plane. There is no cursor
-> > > plane, so
-> > > > > the compositor has to paint the pointer into the framebuffer, and every
-> > > > > movement goes through compositing, the "blit to VRAM" and the
-> > > dirt message.
-> > > > >
-> > > > > 2. hyperv_pipe_update() uses drm_atomic_helper_damage_merged(),
-> > > so the old
-> > > > > and the new pointer position become one bounding rectangle. For
-> > > a long or
-> > > > > diagonal move at 4K that is a large part of the screen per pointer step,
-> > > > > which matches the more noticable lag (much worse) on big movements.
-> > > > >
-> > > > > 3. The protocol already has what is needed. hyperv_hide_hw_ptr() exists
-> > > > > because, as its commit message says, "Hyper-V supports a hardware cursor
-> > > > > feature. It is not used by Linux VM, but the Hyper-V host still draws" a
-> > > > > pointer; the driver hides it by sending a 1x1 transparent ARGB
-> > > shape with
-> > > > > SYNTHVID_POINTER_SHAPE. So the host does accept a shape from a
-> > > Linux guest
-> > > > > and does draw the pointer itself.
-> > > > >
-> > > > > Proposal:
-> > > > >
-> > > > > Add a cursor plane to hyperv_drm (up to SYNTHVID_CURSOR_MAX_X/Y, 96x96,
-> > > > > ARGB) that sends the compositor's cursor image and hot spot through
-> > > > > SYNTHVID_POINTER_SHAPE instead of the transparent pixel, and
-> > > re-sends it on
-> > > > > SYNTHVID_FEATURE_CHANGE where the hide call is made today.
-> > > > >
-> > > >
-> > > > Cursor plane support is a WIP, you can test out [1] on your end.
-> > > >
-> > > > [1] https://patchwork.freedesktop.org/patch/761562/
-> > > >
-> > > > Hamza
-> > > >
-> > > > > With cursor hot-spot support for virtualized drivers,
-> > > compositors would then
-> > > > > leave the pointer to the host, as Windows guests do, and pointer
-> > > movement
-> > > > > would cause no framebuffer damage at all.
-> > > > >
-> > > > > Independently of that, handling damage clips individually
-> > > instead of merged
-> > > > > would reduce the cost of the software-cursor fallback (cursors
-> > > larger than
-> > > > > 96x96).
-> > > > >
-> > > > > A second, smaller item found on the way:
-> > > > >
-> > > > > With Set-VMVideo set to 3840x2160 (Maximum), the guest offers
-> > > modes only up
-> > > > > to 2560x1600. The connector's modes come from
-> > > drm_add_modes_noedid(), and
-> > > > > 3840x2160 is not in that table, so it only appears with
-> > > > > video=Virtual-1:3840x2160 on the kernel command line. Adding the host's
-> > > > > maximum (or preferred) resolution as an explicit mode would make
-> > > 4K hosts
-> > > > > work without that step.
-> > > > >
-> > > > > I can test patches on this setup and report back. I am not in a
-> > > position to
-> > > > > write the kernel change myself (drivers are not my field of work
-> > > at all).
-> > > > >
-> > > > > Thanks for maintaining the driver.
-> > > > >
-> > > > > Sascha Eder
-> > > > >
-> > > > >
-> > > 
-> > > 
-> 
-> 
