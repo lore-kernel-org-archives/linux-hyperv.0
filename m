@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794592038;
-	b=UyGh4cYE3zm98nKTM8fmTNqnQP9A3oL0OY20QWvortXoytUPV7+4sx51o+qqxKp8VrS+
-	 t2Zq9+7fPpE9rFgIpUMQ+Gkog9f/RxKM/YGIoqCPNGBitIDCERRqrQzMXvUl5UxmukZI9
-	 AErop079rDyO8A7k+XzNNPyFjcgYh8ZDzUafxfNPOFkMrOtnKVCuToaziPLc0G+kMdpdC
-	 aFU9cB1ytMzvU/RJbZtPZdzWCVkT0eXsP1yJGU/LAf4Pye9FcNquIthdcPzSBrd0fk0nW
-	 VjJm8LJZZLg4+3jLIAuTPMFRBF1sxS96I+XTddHoDyLK4/JyoSxEiuZ+xd9l40LulMg==
+	t=1794592272;
+	b=Yzy/+wWWoZ/kqQ/VR2eLGgRNmn/GAr4TbpbL5gXQ7P/BSs3PtvZDa7Lrg8g9rQf8zFjb
+	 /DCo5BSfnzn4eaDQGh+H4LtCoOw0nQB5LISBr9og5iU+e6fxD9scmyN/p3dn+gDinKmqe
+	 i6K8ah8y9aECnlC92nCJGKnCgUbW/NbKFcPtb2ACQ1NqbBMZs68xGsB9I8fNC9yAHMZfa
+	 ia56suSS0NlNlxoQ5iaxVc5kV8HpMKwvH+UGSr0Z2pTj72KNeq0pR+RuiKZgVLis6g4q4
+	 A3t256uBnIfiGIw5VfhQKi8IwMXHYF1Vn8VQ5EXxpR47J2K1dQcqY6AM05He5d/oPTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794592038;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794592272;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vkI2kpbBTjq1G+vLnjeYQ9WTuUYVL/E+GPeIv8+PO/Q=;
-	b=t701toxag+xPnFNP+VOnyF+ndcm68bCfiLM8989IxBq6OoDg6cWaoYzj+DlaGZOOtRHx
-	 LNXDCbZCKv+9xPe0O0DkR4XhB4q/oDa155aTNpgn61mHYUwfJWTKCUw1dhnE+BUleALWh
-	 MOqZlUDSlC9GmpxDo6820bXUUekV3QMemmU8zTT2RK/90tuRlaWDF76dvbGRcRoSKr9FR
-	 IRk+Yw3/3wb8fZWtDyNriaM2sollhC5j0Na5YO4z04vi2IWAlNHhmbb2ZSRDoGmtuwiKl
-	 xrWyQLjM9zzzvRpLhiVHtZmR+nLsz5pnXFGpLdgm5wzs+QJi5ahUzRr8N1Uejqg/RLw==
+	bh=kp6LJYO7FBDq9cnPH8XB/SVlMIwHKZGH99cpSp4Ussw=;
+	b=xlOpaHuKUlUNM/KQqZfddMIrDEHVsVBbgsfL5lFSmVhz37lwZxB8fYoW7X3rxU3RVDQk
+	 QWDjLWiQv8rUDoH9wjKXuQdiH2+5LMd7JQLDoQaP3hwtp6aQOdJbbjuCwekUe6ijY4SH3
+	 8qfMQzeS9Q1/a8hvOnGBCYB9q4vltXgwCPw5Gtge8YxD0k+PXDWABbJ3yGkD8gD5BfF4B
+	 cu+XV2EhWmSFcGm8W2w2OV0NXAJePEFsdsB1R/MlQc1j/Xt2wGSMe4RKeyt74mpVZ0906
+	 uhHGFhwYUt4tvRlqJEKEx6iLnsEAMkZyUHhbwdAZbxw1+6wSoV7zuqKVEU5Re7/xuyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iKeNKKE8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YSeDKEr3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51E7606BD34;
-	Fri, 13 Nov 2026 17:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF324606A8BC;
+	Fri, 13 Nov 2026 17:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iKeNKKE8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2DA1F00ADF;
-	Fri, 13 Nov 2026 17:47:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YSeDKEr3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468EA1F000C4;
+	Fri, 13 Nov 2026 17:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794592038;
-	bh=vkI2kpbBTjq1G+vLnjeYQ9WTuUYVL/E+GPeIv8+PO/Q=;
+	s=k20260515; t=1794592272;
+	bh=kp6LJYO7FBDq9cnPH8XB/SVlMIwHKZGH99cpSp4Ussw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iKeNKKE8yqXNHHQjsuwa5zFMDBuSuRJxhgJApUpc32E8KTU56YQaFyoJLIMIxLmET
-	 /uRTqIZ2zb6N5G+nONAB+FmTNhT5e5dnn+HfbuQPjg8D5qUe1DtY3D3bOdzoj4j999
-	 oASbNNI3Ip28aDuu1b5N6+XWK2LXV2bC5fj/gKW6VZ+6AN91GaF8N6hOFrqSm23WWs
-	 JN2V8SSM/T5ueFVIU1acXUTOrgQQ3nnN/YDDTngWYIv0Ic7qLFYBHGT43OoQyON8rP
-	 xXhptVaeVEsOtqjEZZs22ARcqRbVRuEBdmDiDqeCgjIjpJD/dHY1nd0aEAERpmI3V5
-	 RYwmAkIT6AkiQ==
-Message-ID: <sashiko-outbox-213362@kernel.org>
+	b=YSeDKEr3kFtMIpdz7r3PWKfVNvQX6p0qQiyINauVJ5retsHiYWHGjiufaCBVwu7Ny
+	 fNYIyA4DNmrFJGE3+YsgKar7WWSpDsu+W14mSyYobg2Tg3qnGrQZXbaX5ZR/XwbZfH
+	 AV3jfmYpNFTQsv2btO8jUeHZ0iWcM8FF13mO2owXMTlvM5TobEflTPQkB0vg2Z0jaB
+	 OqncOFBAgQuHy1TiZFMIhqV0t0MyM6xVuKyIhwcmRCkGVYCScQ3Z7W960mL6IdveMJ
+	 PJIY/Ybx3IIXyZj0M+zxvPblRYD8XPgsVcihFNIBAjHGkkDX0LJknkOtzmiaXucGox
+	 OapjjdKphZbZA==
+Message-ID: <sashiko-outbox-213365@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC v3 3/8] vsock/virtio: implement the datagram data
- path
+Subject: Re: [PATCH RFC v3 8/8] vsock: add datagram tests to vsock_test
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sergio Lopez" <slp@redhat.com>
 Cc: virtualization@lists.linux.dev, kvm@vger.kernel.org, bpf@vger.kernel.org, linux-hyperv@vger.kernel.org, "Michael
  S. Tsirkin" <mst@redhat.com>, "Eugenio Perez" <eperezma@redhat.com>
-In-Reply-To: <20261113-vsock-dgram-support-v3-3-1523c8e9b27e@redhat.com>
+In-Reply-To: <20261113-vsock-dgram-support-v3-8-1523c8e9b27e@redhat.com>
 References: <20261113-vsock-dgram-support-v3-0-1523c8e9b27e@redhat.com>
- <20261113-vsock-dgram-support-v3-3-1523c8e9b27e@redhat.com>
+ <20261113-vsock-dgram-support-v3-8-1523c8e9b27e@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 17:47:17 +0000
+Date: Fri, 13 Nov 2026 17:51:11 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,145 +63,124 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] vsock/virtio: OOB read on filtered nonlinear vhost dgram skb
-- [Medium] vsock/virtio: empty datagrams skipped on repeated MSG_PEEK
+- [Medium] selftests/vsock: unguarded loopback SOCK_SEQPACKET connect in
+  local netns
+- [Low] vsock/test: incomplete DGRAM_VMCI probe in dgram_capabilities()
 --
 
-commit 7bb89ea8d31712feb1c6f76854206e10a5fd07b5
+commit 75f8685914783d3ed99f76000f4d13a1f1c04ea3
 Author: Sergio Lopez <slp@redhat.com>
 
-vsock/virtio: implement the datagram data path
+vsock: add datagram tests to vsock_test
 
-This commit adds the VIRTIO_VSOCK_F_DGRAM feature bit and
-VIRTIO_VSOCK_TYPE_DGRAM packet type, and implements the common virtio
-transport operations to bind, send, and receive datagrams.
+This commit adds AF_VSOCK datagram tests to vsock_test covering local
+semantics, peer transfers, routing, queue accounting, and capability-based
+skips, along with a --local mode for running local test cases standalone.
 
-> diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virt=
-io_transport_common.c
-> index 1e762a480df49..08baa1181ba6d 100644
-> --- a/net/vmw_vsock/virtio_transport_common.c
-> +++ b/net/vmw_vsock/virtio_transport_common.c
+> diff --git a/tools/testing/vsock/vsock_test_dgram.c b/tools/testing/vsock=
+/vsock_test_dgram.c
+> new file mode 100644
+> index 0000000000000..4b45dcf2a15cc
+> --- /dev/null
+> +++ b/tools/testing/vsock/vsock_test_dgram.c
+> @@ -0,0 +1,1061 @@
 
 [ ... ]
 
-> @@ -999,7 +1018,47 @@ virtio_transport_dgram_dequeue(struct vsock_sock *v=
-sk,
->  			       struct msghdr *msg,
->  			       size_t len, int flags)
->  {
-> -	return -EOPNOTSUPP;
-> +	struct sock *sk =3D sk_vsock(vsk);
-> +	struct virtio_vsock_hdr *hdr;
-> +	struct sk_buff *skb;
-> +	size_t payload_len;
-> +	int err;
+> +static unsigned int dgram_capabilities(const struct test_opts *opts,
+> +				       unsigned int needs)
+> +{
+> +	unsigned int caps =3D DGRAM_SOCKET;
+> +	struct sockaddr_vm peer;
+> +	int fd, local_fd;
 > +
-> +	if (flags & (MSG_OOB | MSG_ERRQUEUE))
-> +		return -EOPNOTSUPP;
+> +	fd =3D socket(AF_VSOCK, SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC, 0);
+> +	if (fd < 0) {
+> +		if (dgram_unavailable(errno))
+> +			return 0;
+> +		check(fd, "probe datagram socket");
+> +	}
+> +	/* VMCI may own the socket while a directional transport serves peers.
+> +	 * A nested guest can have both virtio and vhost registered. Probe the
+> +	 * requested direction so vhost registration cannot mask a virtio device
+> +	 * that did not negotiate datagrams.
+> +	 */
+> +	if (!access("/sys/module/vmw_vsock_vmci_transport", F_OK))
+> +		caps |=3D DGRAM_VMCI;
+
+[Severity: Low]
+Does checking only for /sys/module/vmw_vsock_vmci_transport leave
+test_dgram_vmci_inq() unskipped when VMCI cannot route datagrams to
+itself?
+
+When vmw_vsock_vmci_transport is loaded without vsock_loopback, running in
+a local-mode vsock network namespace causes vmci_transport_dgram_allow()
+to return false and sendto() in test_dgram_vmci_inq() to fail with EINVAL
+(or EADDRNOTAVAIL when VMCI has no active context ID), aborting the test
+run instead of skipping.
+
+[ ... ]
+
+> +	if (needs & DGRAM_LOOPBACK) {
+> +		/* Binding a stream socket to CID_LOCAL probes registration of
+> +		 * the loopback transport without sending a packet to the host.
+> +		 */
+> +		local_fd =3D vsock_bind_try(VMADDR_CID_LOCAL, VMADDR_PORT_ANY, SOCK_ST=
+REAM);
+> +		if (local_fd >=3D 0) {
+> +			caps |=3D DGRAM_LOOPBACK;
+> +			close(local_fd);
+> +		} else if (errno !=3D EADDRNOTAVAIL) {
+> +			check(local_fd, "probe loopback transport");
+> +		}
+> +	}
+> +	return caps;
+> +}
+
+[ ... ]
+
+> +void test_dgram_bound_lookup(const struct test_opts *opts)
+> +{
+> +	const int types[] =3D { SOCK_STREAM, SOCK_SEQPACKET };
+> +	unsigned int cid =3D local_cid();
+> +	size_t i;
 > +
-> +	skb =3D skb_recv_datagram(sk, flags, &err);
-> +	if (!skb)
-> +		return err;
+> +	for (i =3D 0; i < ARRAY_SIZE(types); i++) {
+> +		int listener =3D vsock_bind(VMADDR_CID_ANY, VMADDR_PORT_ANY, types[i]);
+> +		int stream =3D vsock_bind(VMADDR_CID_LOCAL, VMADDR_PORT_ANY, types[i]);
+> +		struct sockaddr_vm listen_addr =3D local_address(listener);
+> +		struct sockaddr_vm src =3D sock_name(stream, false);
+> +		struct sockaddr_vm dest;
+> +		int accepted, tx, rx;
+> +		char byte;
+> +
+> +		check(listen(listener, 1), "listen");
+> +		if (vsock_connect_fd(stream, listen_addr.svm_cid, listen_addr.svm_port=
+))
+> +			fail("%s loopback connect: %s",
+> +			     types[i] =3D=3D SOCK_STREAM ? "stream" : "seqpacket", strerror(e=
+rrno));
 
 [Severity: Medium]
-Does calling skb_recv_datagram() skip an unread empty datagram when
-userspace calls recvmsg() with MSG_PEEK more than once?
+Will the SOCK_SEQPACKET iteration in test_dgram_bound_lookup() and
+test_dgram_port_space() fail with ESOCKTNOSUPPORT when vsock_test runs in
+a local-mode vsock network namespace?
 
-Because virtio_vsock_hdr lives in skb headroom, an empty datagram has
-skb->len =3D=3D 0.  skb_recv_datagram() passes off =3D 0 to
-__skb_recv_datagram(), which sets peek_at_off =3D true in
-__skb_try_recv_from_queue():
+dgram_capabilities() probes DGRAM_LOOPBACK with SOCK_STREAM, which is
+allowed in both global and local namespace modes, whereas
+vsock_loopback_seqpacket_allow() rejects SOCK_SEQPACKET when the socket is
+not in global mode:
 
-net/core/datagram.c:__skb_try_recv_from_queue() {
-	...
-		if (flags & MSG_PEEK) {
-			if (peek_at_off && _off >=3D skb->len &&
-			    (_off || skb->peeked)) {
-				_off -=3D skb->len;
-				continue;
-			}
-			if (!skb->len) {
-				skb =3D skb_set_peeked(skb);
-				if (unlikely(!skb)) {
-					*err =3D -ENOMEM;
-					return NULL;
-				}
-			}
-			*peeked =3D 1;
-			refcount_inc(&skb->users);
-		} else
-	...
+net/vmw_vsock/vsock_loopback.c:vsock_loopback_seqpacket_allow() {
+	return vsock_net_mode_global(vsk);
 }
 
-The first MSG_PEEK sets skb->peeked =3D 1 on the 0-length skb, and the next
-MSG_PEEK sees _off >=3D skb->len && skb->peeked and skips the unread empty
-datagram, returning the following datagram out of order or failing with
--EAGAIN.  Calling __skb_recv_datagram() with sk_peek_offset(sk, flags)
-avoids this, as in commit a0917e0bc6ef ("datagram: When peeking datagrams
-with offset < 0 don't skip empty skbs").
-
-[ ... ]
-
-> @@ -1805,6 +1875,38 @@ void virtio_transport_recv_pkt(struct virtio_trans=
-port *t,
->  		goto free_pkt;
->  	}
-> =20
-> +	/* Dgram packets are delivered directly to bound sockets without
-> +	 * going through the connection state machine. Undeliverable
-> +	 * datagrams are silently dropped (no RST).
-> +	 */
-> +	if (le16_to_cpu(hdr->type) =3D=3D VIRTIO_VSOCK_TYPE_DGRAM) {
-> +		if (le16_to_cpu(hdr->op) !=3D VIRTIO_VSOCK_OP_RW)
-> +			goto free_pkt;
-> +
-> +		sk =3D vsock_find_bound_dgram_socket_net(&dst, net);
-> +
-> +		if (!sk)
-> +			goto free_pkt;
-> +
-> +		vsk =3D vsock_sk(sk);
-> +		lock_sock(sk);
-> +		if (sock_flag(sk, SOCK_DEAD) ||
-> +		    vsk->transport !=3D &t->transport ||
-> +		    (sk->sk_socket->state !=3D SS_UNCONNECTED &&
-> +		     !vsock_check_source(vsk, &t->transport, &src))) {
-> +			release_sock(sk);
-> +			sock_put(sk);
-> +			goto free_pkt;
-> +		}
-> +
-> +		if (sock_queue_rcv_skb(sk, skb))
-> +			kfree_skb(skb);
-
-[Severity: High]
-Can sock_queue_rcv_skb() corrupt a nonlinear vhost-vsock skb when a socket
-filter trims the packet, leading to an out-of-bounds read in
-virtio_transport_dgram_dequeue()?
-
-In vhost_vsock_alloc_skb(), the skb is allocated from the guest TX
-descriptor chain length before hdr->len is inspected, and
-virtio_vsock_skb_put() then sets skb->len =3D payload_len without adjusting
-skb->data_len:
-
-include/linux/virtio_vsock.h:virtio_vsock_skb_put() {
-	if (skb_is_nonlinear(skb))
-		skb->len =3D len;
-	else
-		skb_put(skb, len);
-}
-
-When a guest sends a TX descriptor chain larger than 32 KiB with hdr->len
-smaller than the descriptor payload space, the resulting nonlinear skb has
-skb->len < skb->data_len and a negative skb_headlen(skb).  If the receiving
-host datagram socket has a filter attached, sock_queue_rcv_skb() ->
-sk_filter_trim_cap() -> pskb_trim() -> ___pskb_trim() treats the negative
-skb_headlen(skb) as a large unsigned offset, drops all page frags, zeroes
-skb->data_len, and sets skb->tail past skb->end.  The subsequent
-skb_copy_datagram_iter() in virtio_transport_dgram_dequeue() then copies
-skb_shared_info and out-of-bounds kernel heap memory after skb->end to
-userspace.
+As a result, running vsock_test in a local-mode namespace (such as the
+local-namespace cases in tools/testing/selftests/vsock/vmtest.sh) will
+pass the capability check and then abort in test_dgram_bound_lookup() and
+test_dgram_port_space() when connecting the SOCK_SEQPACKET socket to
+VMADDR_CID_LOCAL.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-vsock-dgra=
-m-support-v3-0-1523c8e9b27e@redhat.com?part=3D3
+m-support-v3-0-1523c8e9b27e@redhat.com?part=3D8
