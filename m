@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794589547;
-	b=G8+QJI7xVFJsl4z77M77aCkYB9LbDdWtaNIY7YPjsjx3v8fbc1Dc59KyQKjQ5E7508Dv
-	 faXFiUKAXJKZ1a+daGfl4N/COP4EOplPtaNBRoYLsMEroJ4Psg0JzhGTAHm/09nSxP1c2
-	 Pm5IZta/+1WJSxfRvXXup7/TAzkUpLmwPoTJ2gPDWmtYw1knnQAYMX0y3Y+M8NQwHgNuT
-	 POVeqVgIHzGsZga9/zwndQumFffLE3r64ElkqyxKhjcQZU719moc7uSVx488CHipsejuL
-	 rqt4/mURcDdROCyvLqFXOxroFmiCbKg/FvvrJRzPJArRj9Gf6AGj3E0kfIofmX+L5dA==
+	b=O/u7NLpYsrRwI9FcraOud1ll9d2WRQGOor3QuUg0Fmv37uEkzLoCxYzrTqGRatNmrErH
+	 iv15OKaj9dFZf7p3tp1/LN8P3gqYB/93EqFvvwloeyNz3GJCIpuIr7lmh1UemZqLdvTNB
+	 ss+Hz1zdCpaAidm79IlLXncwVZMKzfBCfjxvpevs2li8ANhKJ5guF88Z6nE1zIFTxqO+k
+	 eS2Ij1RUF/HuUv8AowL8wB4gBvPSvAUwQJu7X3H/RUKoVKhId4hKur25LcAiF91VEkl+6
+	 zfHImUH4xWnnEWYQT/05QXNdd2X58cmD4GwR+4lKswPJmz8Wu4EnldAS8b6n1h3QOuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794589547;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=kD+k376dF5CzmJ+PBfXNBW4wFZFtiWBoTErzmU1dBPA=;
-	b=CpSjIEZg4QpX0ae6lm7hG281RvCRwsxWotphAp7aDSm8yLDpm1s6bwVP1Rf1SmgMgtlC
-	 i+yS7RndL1+rWapvglL5ow7OWXZezobOpWFNiCdX0zVuRbdFRhJjdICdVeCTyIxHvrSvz
-	 AooVGBV+EdFyAspZXXfnrK4GqAScZ7fsQc9hW6QiwO/QfeNUeKEsGyqtWTxidT0+thx8d
-	 VD72grCIdaOVABJgQNTDQVZfL+eZQABrFo7tXfqJ5TXZRS9jc6+WQ2lLoosvLdBpk6hTM
-	 umrZOnMw69jByRCjdY2Ys1XqQzl9dX9FJ6BFSEZ/hxmnqxbGK1gMRD5WdLmElV+os8Q==
+	bh=rtFUrJztFGFbta851mkuXzZ/23JIXnRd/M7360eizCU=;
+	b=Bk0ksUIRMOesaTmfR67LD1csH0l5J0Hf5oHktboxa1ovWpR5YbG7NJjnZOFhB2CgVLlX
+	 rQ3PU4RxH251TYAI92yCQwx9nXx4yhfYoLDeQ5alzp1PcqMXjzkp0lrMFcTZz06zEOyoA
+	 OLAIo3DlkNjUen0+EpGfZGCveRQm9C4NohwnlBN4zjkZMSef2DBBLnmnAyyNBEkcRrTkt
+	 MjAleUmmysFss7OEMkYJV2CDN2UoM7lHMIekv3svfKXhAEVpt1ZAFT5JgcWxkAb7c3lu6
+	 cApZ3Af+HX6TgVuIo6zskEiEwTJOC+NgLCFYKwLSB2qTmPsJgVtHGC2MzmsuZi/cP4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=H6dQNxeF;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=utaNzrrc;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90C606A339;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF864606A338;
 	Fri, 13 Nov 2026 17:05:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF90C606A339
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF864606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=H6dQNxeF
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=utaNzrrc
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=kD+k376dF5CzmJ+PBfXNBW4wFZFtiWBoTErzmU1dBPA=; b=H6dQNxeFJndlqqSGqyGkw+GCgZ
-	vf9XCdOJShWEvU16qKisJ1fBnwiEhAFQ8L3KQdvmAZt3ZDDSAEsBgytpyXkFfNgETL51Lmkeksn5v
-	Wc/fWnMInNIQ/bJlrj2s0NFQqfbcTsi16aeikDo2wYoRQjNOuBxH79NRkz7asdCUbUkVnjoVDOFJ0
-	lPuWn8U4anItx4OOMl9s21msiqxLmq/2LPXAJrohHvtH0KmC2yB0tEwKox+9qOu2G2qNvl1vFeWQW
-	kvYcs1LAWG+NGyhL1HLB3QSphzR/CoYX4ffoW3cAd0m2yOMTL3nFrm4oNXGiqsEP6+XJf93DBSVXu
-	nktVJlpg==;
+	bh=rtFUrJztFGFbta851mkuXzZ/23JIXnRd/M7360eizCU=; b=utaNzrrciPIVMUBAoT3ELtmMrj
+	z4+oDOSotU7pndS6hZ1LCkc3Tm5vuVeuWXxR4PHs4eFjBxphRMzakEup8xMQ3QbYzgx5f2kqmRHZF
+	tMhqiQUG8bV7JkUtD6WQp7CZBYtKvslnjdkxQ2FP6xWAmujH3Y3kl8t08xU7AxarjirDNeRw2E2N3
+	hwSzi4V95T3DVJ05/XydrmJudqlBmvMvOB2MCBAbSRomfGWAKFqt5v8QCHvXW8gYEgu39utetd1UN
+	X3IfzWuQ1Re8+kmojFNUwOXsZi3vKRj5LVSvZxjpy/r25lEr1HVRHaDMwvV/jwg+MpzPJUj0DKM+w
+	Nt5kv0tQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRuiW-00000003oWI-0ox4;
+	id 1xRuiW-00000003oWH-0f7x;
 	Fri, 13 Nov 2026 17:05:36 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRuiV-00000000KcV-4BNB;
+	id 1xRuiV-00000000KcR-3xJ7;
 	Fri, 13 Nov 2026 17:05:35 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -88,9 +88,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Liran Alon <liran.alon@oracle.com>,
 	Arbel Moshe <arbel.moshe@oracle.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v2 4/4] KVM: selftests: Add Hyper-V hypercall forwarding test
-Date: Fri, 13 Nov 2026 10:05:35 -0700
-Message-ID: <20261113170535.79246-5-dwmw2@infradead.org>
+Subject: [PATCH v2 3/4] KVM: x86: hyper-v: Advertise XMM fast hypercall output
+Date: Fri, 13 Nov 2026 10:05:34 -0700
+Message-ID: <20261113170535.79246-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113170535.79246-1-dwmw2@infradead.org>
 References: <20261113170535.79246-1-dwmw2@infradead.org>
@@ -109,388 +109,34 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Cover KVM_CAP_HYPERV_FORWARD_HCALL and the completion cancel:
+A fast hypercall may return its output in XMM registers when the
+hypervisor reports HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE, and Windows
+only uses those forms when the bit is set. KVM does not report it in
+KVM_GET_SUPPORTED_HV_CPUID, although nothing stops a VMM handling a
+forwarded fast hypercall from writing its output through the vCPU FPU
+state before resuming the vCPU.
 
- - the feature mask reports forwarding, and rejects bits it does not
-   report;
- - with nothing enabled, an unknown hypercall fails in KVM;
- - with forwarding enabled, it exits to userspace in memory-based and
-   fast form with the control value and parameters, and the guest
-   sees the status userspace supplies (and, for the fast form, the XMM
-   output userspace writes through KVM_SET_FPU);
- - the result reaches the guest as the full 64-bit value userspace
-   wrote, bit 63 included;
- - a cancel with a queued #UD faults the hypercall, leaving RIP and
-   RAX untouched;
- - a cancel alone makes the same hypercall exit a second time, and
-   completing the second exit works;
- - the cancel fails with EBUSY at a hypercall-less ucall exit, whose
-   PIO completion is not cancellable, and leaves the vCPU's events
-   unchanged;
- - disabling everything restores the in-kernel failure.
+Report the bit. None of the hypercalls KVM implements itself returns
+output, so it only matters for hypercalls the VMM handles, where the
+VMM writes the output registers.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/hyperv_forward_hcall.c  | 337 ++++++++++++++++++
- 2 files changed, 338 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+ arch/x86/kvm/hyperv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 7a51ff975cfa..ca68943f99d4 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -89,6 +89,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_cpuid
- TEST_GEN_PROGS_x86 += x86/hyperv_evmcs
- TEST_GEN_PROGS_x86 += x86/hyperv_extended_hypercalls
- TEST_GEN_PROGS_x86 += x86/hyperv_features
-+TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
- TEST_GEN_PROGS_x86 += x86/hyperv_ipi
- TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
- TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
-diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-new file mode 100644
-index 000000000000..4c290b6a1012
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-@@ -0,0 +1,337 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Test KVM_CAP_HYPERV_FORWARD_HCALL: the feature mask KVM reports and
-+ * accepts, Hyper-V hypercalls that KVM does not implement exiting to
-+ * userspace in memory-based and fast form, with userspace supplying the
-+ * result and the XMM output, and a pending completion cancelled through
-+ * KVM_SET_VCPU_EVENTS - alone, so that the guest re-executes the
-+ * hypercall, and together with a queued #UD, so that the hypercall
-+ * faults instead.
-+ */
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "hyperv.h"
-+
-+/* A hypercall code KVM does not implement (HvCallGetVpRegisters). */
-+#define HVCALL_TEST_CODE	0x50
-+
-+#define FAST_PARAM0		0x1122334455667788ULL
-+#define FAST_PARAM1		0x99aabbccddeeff00ULL
-+#define XMM_IN_MARKER		0x5157ca11c0ffee00ULL
-+#define XMM_OUT_MARKER		0x0de1ba5eba5eba11ULL
-+#define USERSPACE_STATUS	0x55AA
-+#define FULL_RESULT		(BIT_ULL(63) | USERSPACE_STATUS)
-+
-+enum {
-+	STAGE_DISABLED = 1,
-+	STAGE_MEMORY,
-+	STAGE_FAST,
-+	STAGE_RESULT_FULL,
-+	STAGE_CANCEL_UD,
-+	STAGE_CANCEL_RETRY,
-+	STAGE_AFTER_CANCEL,
-+	STAGE_REDISABLED,
-+};
-+
-+static void guest_code(gpa_t pgs_gpa)
-+{
-+	__sse128_u in, out;
-+	u64 status;
-+	u8 vector;
-+
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
-+	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
-+
-+	/* Nothing enabled: KVM fails the call itself. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
-+	GUEST_SYNC(STAGE_DISABLED);
-+
-+	/* Forwarding enabled: userspace supplies the status. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_MEMORY);
-+
-+	/*
-+	 * Fast form: the register parameters and XMM0 reach userspace, and
-+	 * the XMM1 value userspace writes reaches the guest.
-+	 */
-+	in.as_u64[0] = XMM_IN_MARKER;
-+	in.as_u64[1] = XMM_IN_MARKER + 1;
-+	out.as_u64[0] = 0;
-+	out.as_u64[1] = 0;
-+	write_sse_reg(0, &in.vec);
-+	write_sse_reg(1, &out.vec);
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
-+				    FAST_PARAM0, FAST_PARAM1, &status);
-+	read_sse_reg(1, &out.vec);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_ASSERT_EQ(out.as_u64[0], XMM_OUT_MARKER);
-+	GUEST_ASSERT_EQ(out.as_u64[1], XMM_OUT_MARKER + 1);
-+	GUEST_SYNC(STAGE_FAST);
-+
-+	/* The result reaches the guest as all 64 bits userspace wrote. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, FULL_RESULT);
-+	GUEST_SYNC(STAGE_RESULT_FULL);
-+
-+	/* Userspace cancels the completion and queues #UD: the call faults. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT_EQ(vector, UD_VECTOR);
-+	GUEST_SYNC(STAGE_CANCEL_UD);
-+
-+	/*
-+	 * Userspace cancels the completion without queueing anything: this
-+	 * one hypercall re-executes and exits to userspace a second time,
-+	 * which then completes it.
-+	 */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_CANCEL_RETRY);
-+
-+	/* An ordinary completion still works after the cancels. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_AFTER_CANCEL);
-+
-+	/* Everything disabled again. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
-+	GUEST_SYNC(STAGE_REDISABLED);
-+
-+	GUEST_DONE();
-+}
-+
-+static void check_hcall_exit(struct kvm_vcpu *vcpu, u64 expect_control,
-+			     u64 expect_in, u64 expect_out)
-+{
-+	struct kvm_run *run = vcpu->run;
-+
-+	TEST_ASSERT_EQ(run->exit_reason, KVM_EXIT_HYPERV);
-+	TEST_ASSERT_EQ(run->hyperv.type, KVM_EXIT_HYPERV_HCALL);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.input, expect_control);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[0], expect_in);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[1], expect_out);
-+}
-+
-+/*
-+ * Cancel the pending hypercall completion, optionally queueing a #UD to
-+ * be delivered at the (unadvanced) hypercall instruction.  The cancel
-+ * must leave RIP and RAX alone.
-+ */
-+static void cancel_hcall(struct kvm_vcpu *vcpu, bool queue_ud)
-+{
-+	struct kvm_vcpu_events events;
-+	struct kvm_regs before, after;
-+
-+	vcpu_events_get(vcpu, &events);
-+	events.flags |= KVM_VCPUEVENT_CANCEL_HCALL;
-+	if (queue_ud) {
-+		events.flags |= KVM_VCPUEVENT_VALID_PAYLOAD;
-+		events.exception.pending = 1;
-+		events.exception.injected = 0;
-+		events.exception.nr = UD_VECTOR;
-+		events.exception.has_error_code = 0;
-+		events.exception_has_payload = 0;
-+	}
-+
-+	vcpu_regs_get(vcpu, &before);
-+	vcpu_events_set(vcpu, &events);
-+	vcpu_regs_get(vcpu, &after);
-+	TEST_ASSERT_EQ(before.rip, after.rip);
-+	TEST_ASSERT_EQ(before.rax, after.rax);
-+}
-+
-+/*
-+ * With no cancellable completion pending (nothing pending at all, or a
-+ * non-cancellable completion such as the ucall PIO's), the cancel must
-+ * fail with EBUSY and leave the vCPU's event state as
-+ * KVM_GET_VCPU_EVENTS reported it.
-+ */
-+static void check_cancel_refused(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_vcpu_events events, after;
-+	int r;
-+
-+	vcpu_events_get(vcpu, &events);
-+	events.flags |= KVM_VCPUEVENT_CANCEL_HCALL;
-+	r = __vcpu_ioctl(vcpu, KVM_SET_VCPU_EVENTS, &events);
-+	TEST_ASSERT(r == -1 && errno == EBUSY,
-+		    "Cancel with nothing to cancel: r = %d, errno = %d",
-+		    r, errno);
-+
-+	events.flags &= ~KVM_VCPUEVENT_CANCEL_HCALL;
-+	vcpu_events_get(vcpu, &after);
-+	TEST_ASSERT(!memcmp(&events, &after, sizeof(events)),
-+		    "Failed cancel changed the vCPU's events");
-+}
-+
-+static void handle_fast_hcall(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_fpu fpu;
-+
-+	check_hcall_exit(vcpu, HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
-+			 FAST_PARAM0, FAST_PARAM1);
-+
-+	vcpu_fpu_get(vcpu, &fpu);
-+	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][0], XMM_IN_MARKER);
-+	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][8], XMM_IN_MARKER + 1);
-+	*(u64 *)&fpu.xmm[1][0] = XMM_OUT_MARKER;
-+	*(u64 *)&fpu.xmm[1][8] = XMM_OUT_MARKER + 1;
-+	vcpu_fpu_set(vcpu, &fpu);
-+
-+	vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+}
-+
-+static void test_feature_mask(struct kvm_vm *vm)
-+{
-+	u64 supported = kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL);
-+	int r;
-+
-+	TEST_ASSERT(supported & KVM_HYPERV_HCALL_FORWARD_UNKNOWN,
-+		    "KVM_HYPERV_HCALL_FORWARD_UNKNOWN not reported");
-+	r = __vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, BIT_ULL(63));
-+	TEST_ASSERT(r && errno == EINVAL,
-+		    "Enabling an undefined feature should fail with EINVAL");
-+
-+	/* Enabling nothing is allowed. */
-+	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	gva_t hcall_page;
-+	gpa_t hcall_gpa;
-+	struct ucall uc;
-+	int stage = STAGE_DISABLED;
-+	bool retried = false;
-+
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_FORWARD_HCALL));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VCPU_EVENTS) &
-+		     KVM_VCPU_EVENTS_CANCEL_HCALL);
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXCEPTION_PAYLOAD));
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-+	vcpu_set_hv_cpuid(vcpu);
-+	vm_enable_cap(vm, KVM_CAP_EXCEPTION_PAYLOAD, 1);
-+
-+	test_feature_mask(vm);
-+
-+	/* Hypercall page plus an input and an output page. */
-+	hcall_page = vm_alloc_pages(vm, 3);
-+	memset(addr_gva2hva(vm, hcall_page), 0x0, 3 * getpagesize());
-+	hcall_gpa = addr_gva2gpa(vm, hcall_page);
-+
-+	vcpu_args_set(vcpu, 1, hcall_gpa);
-+
-+	for (;;) {
-+		vcpu_run(vcpu);
-+
-+		if (vcpu->run->exit_reason == KVM_EXIT_HYPERV) {
-+			switch (stage) {
-+			case STAGE_MEMORY:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			case STAGE_FAST:
-+				handle_fast_hcall(vcpu);
-+				break;
-+			case STAGE_RESULT_FULL:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = FULL_RESULT;
-+				break;
-+			case STAGE_CANCEL_UD:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				cancel_hcall(vcpu, true);
-+				/* Cancelled: the result must never reach the guest. */
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			case STAGE_CANCEL_RETRY:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				if (!retried) {
-+					/*
-+					 * Cancel with nothing queued: the same
-+					 * hypercall must exit a second time.
-+					 */
-+					cancel_hcall(vcpu, false);
-+					vcpu->run->hyperv.u.hcall.result = 0;
-+					retried = true;
-+				} else {
-+					vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				}
-+				break;
-+			case STAGE_AFTER_CANCEL:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			default:
-+				TEST_FAIL("Unexpected hypercall exit in stage %d", stage);
-+			}
-+			continue;
-+		}
-+
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_SYNC:
-+			TEST_ASSERT_EQ(uc.args[1], stage);
-+			switch (stage) {
-+			case STAGE_DISABLED:
-+				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
-+					      KVM_HYPERV_HCALL_FORWARD_UNKNOWN);
-+				break;
-+			case STAGE_CANCEL_RETRY:
-+				/*
-+				 * The ucall PIO's own completion is pending
-+				 * here: not cancellable, even with the
-+				 * feature enabled.
-+				 */
-+				check_cancel_refused(vcpu);
-+				break;
-+			case STAGE_AFTER_CANCEL:
-+				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
-+				break;
-+			}
-+			stage++;
-+			break;
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+		case UCALL_DONE:
-+			goto done;
-+		default:
-+			TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+		}
-+	}
-+
-+done:
-+	TEST_ASSERT_EQ(stage, STAGE_REDISABLED + 1);
-+	kvm_vm_free(vm);
-+	return 0;
-+}
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 858ee0f374e5..e0d9b2b1302d 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -2870,6 +2870,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 			ent->ebx |= HV_ENABLE_EXTENDED_HYPERCALLS;
+ 
+ 			ent->edx |= HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE;
++			ent->edx |= HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_FREQUENCY_MSRS_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
+ 
 -- 
 2.50.1
 
