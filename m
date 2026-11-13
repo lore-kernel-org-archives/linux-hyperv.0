@@ -1,106 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794513441;
-	b=Jw2GLaeb7/2pdEe6EH3hjTl+0BALUbHOR3XOi+70jiuqbeT1znl6oZ6YvE/0L7Ogkp5p
-	 EfUOz7ybI7WdvXnmoYRyR1gTBNLcrj5T799gpCap/KDplAqOr6B62qqBVnpKMgYGnQ6f+
-	 8R8GhiEWDXx+eTeN0gp86erASa2otRyvJMBKs/+oFJyWNR8kRyRvimJyc8xBUN7Htdrhp
-	 IQ0JmXDw9t6TqWb03aq69fE9e5hQAmxa+JdZivZuGD9O1YSWfFoCIQMso++awGQT5xzxD
-	 RsjKXeim0R/SCkb150PdbDhsELh7Lg0PuN+RLywCrJtG/oUZO/NeW5fxXrrqog892Fg==
+	t=1794530783;
+	b=1zWF+LGGuviBR5LZKOcRmmUIh+L+mR5I4Bip2SYwHOOQh9aKYsAOGmXOe3hrvHMx7Tj6
+	 YzywAnIeee0J7Sl2Fn1ReUWabcq66ZC5ZvajQOnUlCGn4nil7Wcu7yrCpMbtWBzyNnUv4
+	 Ap0ju1z09BU9f5FwDsrWWxSmiGS4ack4wL8/wGe1UGpQ0xPCXS9CkDrw5Ic0RCnm7vrtV
+	 VnqjnHStvSUmbtfmZC+wZ8BAu1PXy+RNUeulipn9uH4lcDWwQn4NCo2DTBOFejTOiXqjL
+	 oM0vkfxeJSpYjlsJCf8V0OzwI+gFIuNmzBlkw3tA5GyYYXfXa+Q30mEG0H8Sny9C4tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794513441;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=q+1maoVYXsme0lgtuSeqWJeLS/nWjgJUmUKBjOiIOqU=;
-	b=ac4bEvwm56o6PhMM/JmSBl6TrogceQWdEeQzal8UP9h/DfCJZR1MUqaLcHi0y5iwh3Wk
-	 CMjfskQjzJmBDJ2gTgoRgli1jfUMPqbYGcTb1XsVEOCzFnOeuhaf9sgBsKH8qO0z9mHjd
-	 thgiFJUJ9w83zoQo9kbjk7FZulyqtLmxKY5S9mQ+KdcidX5Al+4eYCa21BRDIdgZNyFKA
-	 e8dDVfQ+z4LFmtR3RnG9/31WlhXgAZ5+w+q682lNV1uaT4ehLYy+omEOP+zSlgW3L7TA6
-	 SToSAqZohp0H72ugJ5hSsG23XzlGgbILCllLPvbDXnfdx/g5QsSqg+ZW1UXrxmbk1MQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794530783;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=1vBgOZighXGOllRdyE42732n3hMUT8k/mfbvblMTQQA=;
+	b=ca+FuSWGHEfFOEW1OT0M7fiMPEPOi5mkWJ9WCY/CXL/MVEKI8NH6i6sHnheDeYkCC9t7
+	 p7vnqZ8tPHDtalhF4pvbFVu784gN8y/Ou5gMCOXdR0hkYAOOCDmRVb/qddJ8Z8K4EVqK6
+	 cUYuihL5NzdDDY4HVE+UUInGBCx7oBCAdVFMszVPChxTJdha0nDiJ00e/3EGZHY9At/la
+	 /io6V0cFijzMEDM5ZiHXzX/q8kp50PFwIrZ08t2RYv9f3p8B3PLnjLSL1mh2yAexye8NX
+	 W3V6KTF5JokINB/VY5piuiGd3BWQqhfhmUD5+aT/Tp9jZZtllymu0jTkzzZEiAxdswA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G3cE7ulL;
-	arc=none smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC0E606A888
-	for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 19:57:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CC0E606A888
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="Dt/E76kI";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F61E606A330;
+	Fri, 13 Nov 2026 00:46:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F61E606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G3cE7ulL
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5364d86f7f0so1743231cf.1
-        for <linux-hyperv@vger.kernel.org>; Thu, 12 Nov 2026 11:57:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794513440; x=1795118240; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=q+1maoVYXsme0lgtuSeqWJeLS/nWjgJUmUKBjOiIOqU=;
-        b=G3cE7ulLNr4Jgu83chYtqgfXpNsyyI81lhQZuA3nuJhrVpBMXInFGTYy1OdtZsWCFG
-         21HOlo8+7naSJH4r9C453aCSzXYlWKYZlbktnXB46RS9b7qzkp9iDBmqLC5zNCzMGWP5
-         8KiLhy/aRG3CKDa7tFYkQ+Fr5pRyFLmihyjgwqhGX/lT9w+mGf3PtRyVRsGG+xNTtXE8
-         LtLkmBMqTC/573fvX2x5kbGa7tIkxTDq32PK44ofJvuhUfrCjjsK1jr+FL7xSYudT9g9
-         FwvqF3YcdrzL9OsSgU88Pedr+YbDt3ob+qMMIEQbHo5aKcf4H7ZG+5qEhbJMFxQJCy9X
-         pG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794513440; x=1795118240;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=q+1maoVYXsme0lgtuSeqWJeLS/nWjgJUmUKBjOiIOqU=;
-        b=QhiQj8J7YCfnDEHi98Nhkdv97Z6UjLAqOKNxb/LhVxkjhvJZ6wQATUDZtD3FWboPOk
-         MQCh7+fDbhNsRQZO+fF79iPNEf1zoJf8SPQojRnkmzbOxew8eRYE6YOKbtXov1w3fvPq
-         tzNUP/7Yes1rNTtlRy4xpTpsvdkXLprJK7KPAkdRmcnJgwMzlYmsmxqyKWts9FNQ5UJe
-         DRdRg5tihDfSKT3YmCE9hglFoUn3bXN1MbK0IAhvTS260/bkqo/HcVNKrB1Ogw0CtszB
-         e2IJvz/Vy2feqmzwaGjWtIXkpDQQrn4mXYw3OrMl7wf3FILOYLCDdLStwHTmXYITlhVa
-         Om8Q==
-X-Forwarded-Encrypted: i=1; AL+hErEDghLqMD4dEii2N9SjjrTykXC8fWnvSZISelO0WDDpFWSyhIDJfijy/Xy11L6s+018+ZmHmnwyyFsXCrM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/baz1evpK92BOgm6Y78ve8sYt4aQU2gOqGNaULOZ5jJN1sqlCk
-	Wur/22zFhhQiqEGMaIxoE6FvLn6tBRmMwJ+knul+Z8BSAsJcrG+2O7ci
-X-Gm-Gg: AYBFou35fxt/lfJGOWQagvb8yOMf7gxZF2uXWYu2nAn5VYdrHuBo/s0ihOwS+QShrLi
-	HCVyNEPdKzNpHArmysvyeJH9kfCMXIbsM3CQrSuuVc7YV89azdlOluBUcL4EmJGpoh+oM5OKt1u
-	FXNebRbzSs1oiLfvRGEvk6Q/DMdPXto+3I5iUeKxn+OJOiX17GYfF2zVDebJdBPVuaLMDj0ejbe
-	zkaW6mopZ3mtYhSQHmJ+E3mEnIeN7rajvg5uQJomAM7Kb8Zj3KpbQZyORFiS6VLcF6WnVWaAOq3
-	vw7bfvrpzetRco4lC69cU1f3jRBa4lf4aS3hrf1PA7jwQjWmJzJc61UGdgq1ZWSIBNeNR8Zo0GU
-	3LonPYS+FeTu3dCBQ3jWBPAX1VOeZF6eitNsN5sQRSdebc+c2j3DaqxCIqnCOKYJF+J4LlvqhRh
-	YmhrHWRF//0lrJqWjm0NUiwo5Zuh5y9aKzpWVZ+ET1oGJHuZLLfjnrOQ9jHqEn/1fGn21MY2LuX
-	K5XpB3Q52Y/tSQH3xh52GM8aXjmsupKmnpiSA5pPre/h68DCVAKeIG+I/u8hYk4GZtWi4eYd9YP
-	Dv/Gj8YIyH1vcXEtWzUVhdqxCTDqSFJLAxxnsC9huWtdZHzRUg9fevm/94xEVi2npkZ9Haa8Pgc
-	=
-X-Received: by 2002:ac8:5c92:0:b0:535:8607:d2e2 with SMTP id d75a77b69052e-55ac8b905f0mr8030011cf.56.1794513440241;
-        Thu, 12 Nov 2026 11:57:20 -0800 (PST)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55ad034918fsm2504851cf.4.2026.11.12.11.57.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 11:57:19 -0800 (PST)
-From: Yuho Choi <oss.patchbox@gmail.com>
-To: "Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	iommu@lists.linux.dev,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <oss.patchbox@gmail.com>
-Subject: [PATCH v2 2/2] iommu/hyperv: Keep a new domain's page tables if it cannot be deleted
-Date: Thu, 12 Nov 2026 14:57:00 -0500
-Message-ID: <20261112195710.1417744-6-oss.patchbox@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261112195710.1417744-4-oss.patchbox@gmail.com>
-References: <20261112195710.1417744-4-oss.patchbox@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Dt/E76kI
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 040C620B7166;
+	Thu, 12 Nov 2026 16:46:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 040C620B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794530778;
+	bh=1vBgOZighXGOllRdyE42732n3hMUT8k/mfbvblMTQQA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Dt/E76kI/3MFpUYYHZOURgy6EkuaTi8S8z5ncW2I/9sTmvxARptIu+vmDL6Tjc4IN
+	 5gSmEOJ0Q1EPS7g1x//7jcGiliU1FVjk8KiQarz3eBVAdpjIXlT/6b+rBBy3Gmi2m7
+	 yhwafN52I0kemUkmW8gkwXEyUvkufDSSAKcNQa9U=
+Message-ID: <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
+Date: Thu, 12 Nov 2026 16:46:21 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -110,50 +53,131 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
+Content-Language: en-US
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
+ <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When hv_iommu_domain_alloc_paging() fails to configure a new device
-domain, hv_create_configure_device_domain() deletes the domain again,
-and the caller then frees the page tables with pt_iommu_deinit(). If
-the delete fails as well, the hypervisor still has the domain, which
-may already point at the page tables, and they are freed anyway.
+On 11/12/26 09:49, Kameron Carr wrote:
+> On 11/11/2026 6:43 PM, Mukesh R wrote:
+>> On 11/11/26 10:01, Michael Kelley wrote:
+>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>>>
+>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
+>>>> to be marked as decrypted (shared) for confidential VM isolation types.
+>>>> This is already done for SNP and TDX isolation; extend the same handling
+>>>> to Arm CCA Realm guests so that the host hypervisor can access the
+>>>> shared hypercall buffers.
+>>>>
+>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
+>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
+>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
+>>>> Introduce a Hyper-V-specific helper following the established
+>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
+>>>>
+>>>> On architectures other than arm64 the weak default keeps the existing
+>>>> behaviour.
+>>>>
+>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>>>> ---
+>>>>    arch/arm64/hyperv/mshyperv.c   |  5 +++++
+>>>>    drivers/hv/hv_common.c         | 17 +++++++++++++----
+>>>>    include/asm-generic/mshyperv.h |  1 +
+>>>>    3 files changed, 19 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>>>> index 46ab2da..da6c3aa0 100644
+>>>> --- a/arch/arm64/hyperv/mshyperv.c
+>>>> +++ b/arch/arm64/hyperv/mshyperv.c
+>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
+>>>>        return hyperv_initialized;
+>>>>    }
+>>>>    EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>>>> +
+>>>> +bool hv_isolation_type_cca(void)
+>>>> +{
+>>>> +    return is_realm_world();
+>>>> +}
+>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+>>>> index 31256cb..a60c92c 100644
+>>>> --- a/drivers/hv/hv_common.c
+>>>> +++ b/drivers/hv/hv_common.c
+>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>        u64 msr_vp_index;
+>>>>        gfp_t flags;
+>>>>        const int pgcount = hv_output_page_exists() ? 2 : 1;
+>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
+>>>>        void *mem;
+>>>>        int ret = 0;
+>>>>
+>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>         * online and then taken offline
+>>>>         */
+>>>>        if (!*inputarg) {
+>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+>>>> +        mem = kmalloc(alloc_size, flags);
+>>>>            if (!mem)
+>>>>                return -ENOMEM;
+>>>>
+>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>            }
+>>>>
+>>>>            if (!ms_hyperv.paravisor_present &&
+>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
+>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>> +             hv_isolation_type_cca())) {
+>>>
+>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
+>>> of explicitly testing for each CoCo VM type? I ask partly because
+>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
+>>> function that does something almost exactly the same as
+>>> hv_is_isolation_supported() and uses it here.
+>>
+>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>> +             hv_isolation_type_cca())) {
+>>
+>> With my change, this will become:
+>>
+>>          (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+> 
+> Any reason you wouldn't change hv_isolation_hw_cvm() to
+> 
+>    return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>      hv_isolation_type_cca()
+> 
+> That would seem more logical to me.
+> 
 
-Create and configure the domain in hv_iommu_domain_alloc_paging()
-itself, and leak the page tables and the domain when the delete fails,
-as hv_iommu_paging_domain_free() does.
+We could, I just don't know if on cca, the repeat hypercall has same
+behavior. I was leaving that for the arm team. Anyways, I sent question
+to the hyp team, if they say yes, i can update my patch to include that.
 
-Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest")
-Reported-by: Jacob Pan <jacob.pan@linux.microsoft.com>
-Closes: https://lore.kernel.org/all/20261105141427.00005946@linux.microsoft.com/
-Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
----
- drivers/iommu/hyperv/hv-iommu-guest.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c b/drivers/iommu/hyperv/hv-iommu-guest.c
-index aa1db9db1e97..ef486ffa0be4 100644
---- a/drivers/iommu/hyperv/hv-iommu-guest.c
-+++ b/drivers/iommu/hyperv/hv-iommu-guest.c
-@@ -540,10 +540,18 @@ static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
- 	settings.page_table_root = pt_info.gcr3_pt;
- 	settings.flags.first_stage_paging_mode = pt_info.levels == 5;
- 
--	ret = hv_create_configure_device_domain(hv_domain, &settings);
-+	ret = hv_create_device_domain(hv_domain);
- 	if (ret)
- 		goto err_pt_deinit;
- 
-+	ret = hv_configure_device_domain(hv_domain, &settings);
-+	if (ret) {
-+		/* See hv_iommu_paging_domain_free() */
-+		if (hv_delete_device_domain(hv_domain))
-+			return ERR_PTR(ret);
-+		goto err_pt_deinit;
-+	}
-+
- 	return &hv_domain->domain;
- 
- err_pt_deinit:
--- 
-2.43.0
-
+Thanks,
+-Mukesh
