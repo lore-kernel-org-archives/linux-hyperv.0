@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794594895;
-	b=mqYWNwMfX5IBavrKCIgSieBnuvwUDGbzEkkxaIAezWmyM/AGtgV/mzpGmKw9b42+WzPs
-	 9rtm8PY/GUa95GqI63FqeP+dzq2prUkflRDBtcrDT+i54exUQK/ThF5WwhYRzwB5PCBdp
-	 kEGKTl/uNwXXTFU6erS/lsL8TfULZqj24I1F6gE3zoIexIr7oNg9B0CxI9oWeLs5HNo+j
-	 a7mKPw3/RDxNY6HHSGTStqAxv5x7sZU4ma6YNvw83evdRTnJ31EkqmgI6mKGIZddf9xWE
-	 OL3CgteCJLNDlozzK55kPiVGHejYGAe+L82DrYOZGcDEoLxWPp6ctuzDPs0Mqbxg5oA==
+	b=NuFiCZLaB/Xz9NRV/dr9vEuzd1DL/O4tDXzS2xVxUiETXlNzPImUYEBVsii7V2ZQ1aFr
+	 Yd0POQnELp0D1W7Yce6jMKNIyJUZOaMVGI8qktqCct9imq7xFcIxmHZaz1uKwK9syqP4k
+	 EuQKT3RZioCT8TxHPf23RgSTL/+BnNaF+a0ypzsws0SEKgaNDJ5TQMIPp1Mjv9HW/hTQq
+	 iRwqNgq//iH0CjO994UNqB4CGZjwltbEKIKZEUZLeERlM9lOESocwjpTz6aiHkdTimup0
+	 vkbHBf9Z2ArW5kBWSupDwB23CbcHZvArmsWB101nV2pZLxrMgpC4CPaavg5ooXn/R6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794594895;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=e0QjDoSDOqtjXi/aRoGP666o2KHiNjjVlepe5JNaymU=;
-	b=A/CcGzLclqIB4DOZYEUzVj5tcIpZPLvSvqXd/hT5U/PMKpqaGmjhHfF4vZvjCQoPvrmP
-	 oWbpxcVhQY8pPgxp6X63jM73Ucp3dDF6tQ9sCpGmaSRz1Hq8DwPv4P4O/1mw4pO4aGLtG
-	 pYb/cvGNfVGe6U+6h7bggieEUsYs2uXqyONBcbv/Cyl8CJwWRhPJff0cXBSLllyAi6H8R
-	 QiBA9ALaY0cGJrk99qWREGEGEUKAPf8yemM2LnEKM1LmlT+JssmJIu46PKam+6AzPFqup
-	 y/oawkICfrrXjIaMOtp5hkiOnbEEt7BZr63XbLgDdNozo7NpBkGn22xUrx4ra3JHOUQ==
+	bh=+aLCPDLIUPibFI5ustQLgv0SbezMrfQuPxUL6p09Xls=;
+	b=GN66aqF7MAwdWkSDi3OXxzoFA7nN/gfiZEm/+9fzTmXmsMGdr1atVd0hY+jLK77B5ZGz
+	 4V7kgdOEpvxGI9nQaj/QTgqlG/eetSaSfePOuCCCA6G+dcLUhn5bOR0BIU22JLA1RH70f
+	 n6zcbgxnEFJRFtCBSrLqmFzE4oGeVutruzG7PL6lVKlH5YnaUc4Cypy0MKAEF4Hp8EUgX
+	 bzH0tBLik8FcyygdhkYtQGzli6toYJTxnjMINl/YJ6Cg7IgEpdQyRCpniqla0miI1sgWp
+	 Ihilk/Hj+ciO8vETr9GaPUZV/cChNygfBSy6XgQxwyY3iDNEHjo2gGUX3W9cWLUPyuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=R4c9Wc5k;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b="geNsEB/B";
 	arc=none smtp.remote-ip=90.155.92.199
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEEC60A383F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1999606A33F;
 	Fri, 13 Nov 2026 18:34:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEEEC60A383F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1999606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=R4c9Wc5k
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=geNsEB/B
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=e0QjDoSDOqtjXi/aRoGP666o2KHiNjjVlepe5JNaymU=; b=R4c9Wc5kaf4dtb12GOu7/i2wR3
-	Vzf1j82Ld0ZPYVKP65TcpO/83QyHkCaX8aN1FLXsiO/XtyUaSfCqH+RIVUJfgGFC06E0gtIYrn1Hv
-	D3CQKbvuxGIm5pw2gl81Oo34BnsYRVcUiGKCheBmpkSfqXZkUC7SazHHB5U8paEmTqjPtnaqJEo6Y
-	LXYSBB3Tjjbtq5vp4FCwmTwNf6mfJlPaalDmBKqphosYcRi/cCUh/Njz031IUF77EMuPxZzP7dhlF
-	W0fhycYJcJYVuf3g+VQZuPr4yMll5uIqZD+Zk00sD4CRzsCDjmNz2V10o6yVIQITTUA5Ige2omnpt
-	VuUp8kbg==;
+	bh=+aLCPDLIUPibFI5ustQLgv0SbezMrfQuPxUL6p09Xls=; b=geNsEB/BJbnX0LYlRmL0QiLgnt
+	o75I/wAxObk2BCGvDdL6dqXADMbDo0W5RjfB78NDiwjrwYBQbTATAuWgcgEjEZnfCnhyyu+wENlqW
+	ePEqLy/DRcti7XSSvyYjvL3KRGxWK2V7XR0tWyIjLF/S94TryFPQVB3g7vIVq+GAYPPk7YUdl8A6u
+	/FlZ1/wdV6Nsl6zBT3fTLBgX9e4bdPEykzAkpoj24eX40WDtveXeZjzzXXn4PycoVixilmkLIsoV5
+	Db+hZzr7RM59VGswmcNa/MBEy8n03Hlosp2UxaRwBp/jeDVS0l+j4z2MLqfSuNAjb/XGdcDwmEk43
+	O9Ps6kWA==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6v-0000000Bf05-0Ueo;
-	Fri, 13 Nov 2026 18:34:53 +0000
+	id 1xRw6t-0000000Bezz-3A5d;
+	Fri, 13 Nov 2026 18:34:51 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000Lu9-1P8S;
-	Fri, 13 Nov 2026 18:34:50 +0000
+	id 1xRw6r-00000000Lsv-26Wl;
+	Fri, 13 Nov 2026 18:34:49 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 24/31] KVM: selftests: Check that a restored higher-plane interrupt forces an exit
-Date: Fri, 13 Nov 2026 18:34:40 +0000
-Message-ID: <20261113183448.84094-25-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 07/31] KVM: selftests: Cover single-step over a forwarded VTL call
+Date: Fri, 13 Nov 2026 18:34:23 +0000
+Message-ID: <20261113183448.84094-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
 References: <20261113183448.84094-1-dwmw2@infradead.org>
@@ -92,164 +92,192 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-A migration destination restores a higher plane's IRR with
-KVM_SET_LAPIC, which does not go through __apic_accept_irq() and so
-sets no forced-entry marker, and its plane vCPUs have never entered the
-guest on that host. KVM must re-derive the marker from the restored
-IRR, or an interrupt posted to a suspended VTL1 just before the save is
-never delivered.
+A forwarded HvCallVtlCall retires the vmcall before the exit is
+delivered, and under KVM_GUESTDBG_SINGLESTEP the deferred skip used to
+overwrite the KVM_EXIT_HYPERV exit with KVM_EXIT_DEBUG, silently
+dropping the switch.
 
-Model the destination: give a plane-1 twin that has never run an IRR
-bit through KVM_SET_LAPIC, leave it held, and require plane 0 to
-exit with KVM_EXIT_HYPERV_VTL_INTERRUPT for plane 1. Run it with the
-LAPIC restored before and after KVM_SET_PLANE_RUN_STATE.
+Single-step across a VTL call in the forwarding test, with
+KVM_HYPERV_HCALL_VTL_CALLS enabled alongside forwarding: the hypercall
+exit must still arrive, hcall.result must be ignored, and the guest
+must resume past the vmcall with the RAX value userspace wrote
+directly with KVM_SET_REGS, as a failed switch does.
+
+The stage runs only where KVM reports KVM_HYPERV_HCALL_VTL_CALLS;
+elsewhere the test skips it.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../kvm/x86/planes_vtl_restore_test.c         | 121 ++++++++++++++++++
- 2 files changed, 122 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
+ .../selftests/kvm/x86/hyperv_forward_hcall.c  | 78 ++++++++++++++++++-
+ 1 file changed, 75 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index c6ad866a0b0d..446a526750e0 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -116,6 +116,7 @@ TEST_GEN_PROGS_x86 += x86/plane_x86_test
- TEST_GEN_PROGS_x86 += x86/planes_test
- TEST_GEN_PROGS_x86 += x86/planes_vtl_entry_test
- TEST_GEN_PROGS_x86 += x86/planes_vtl_timer_mask_test
-+TEST_GEN_PROGS_x86 += x86/planes_vtl_restore_test
- TEST_GEN_PROGS_x86 += x86/pmu_counters_test
- TEST_GEN_PROGS_x86 += x86/pmu_event_filter_test
- TEST_GEN_PROGS_x86 += x86/private_mem_conversions_test
-diff --git a/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c b/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
-new file mode 100644
-index 000000000000..186a9338627d
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
-@@ -0,0 +1,121 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Test that a restored higher plane with a latched interrupt still forces
-+ * a VTL interrupt exit.
+diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+index 3c23479e60ce..0e5ac99d2985 100644
+--- a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
++++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+@@ -5,6 +5,11 @@
+  * userspace in memory-based and fast form, with userspace supplying the
+  * result and the XMM output, and a userspace completion raising #UD
+  * through the exit's flags.
 + *
-+ * Forced entry is triggered by the posting of an interrupt to a higher
-+ * plane, through a marker __apic_accept_irq() sets.  A migration
-+ * destination restores the IRR with KVM_SET_LAPIC instead, which posts
-+ * nothing, and its plane vCPUs have never entered the guest on that host.
-+ * KVM must re-derive the marker from the restored IRR, whichever of
-+ * KVM_SET_LAPIC and KVM_SET_PLANE_RUN_STATE the VMM issues last, or a
-+ * one-shot cross-VTL interrupt sent just before the save is lost.
-+ *
-+ * Each run models a destination: a plane-1 twin that has never run gets
-+ * an IRR bit through KVM_SET_LAPIC and is left held, and running plane
-+ * 0 must report a KVM_EXIT_HYPERV_VTL_INTERRUPT exit for plane 1.
-+ */
-+#include <errno.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <unistd.h>
++ * A forwarded VTL call is retired eagerly: the exit must survive the
++ * KVM_EXIT_DEBUG that single-stepping prepares for the retired vmcall,
++ * and the result the VMM writes must be ignored in favour of the RAX
++ * value userspace sets directly.
+  */
+ #include "test_util.h"
+ #include "kvm_util.h"
+@@ -14,12 +19,16 @@
+ /* A hypercall code KVM does not implement (HvCallGetVpRegisters). */
+ #define HVCALL_TEST_CODE	0x50
+ 
++/* HvCallVtlCall: forwarded with the vmcall already retired. */
++#define HVCALL_VTL_CALL		0x11
 +
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "apic.h"
+ #define FAST_PARAM0		0x1122334455667788ULL
+ #define FAST_PARAM1		0x99aabbccddeeff00ULL
+ #define XMM_IN_MARKER		0x5157ca11c0ffee00ULL
+ #define XMM_OUT_MARKER		0x0de1ba5eba5eba11ULL
+ #define USERSPACE_STATUS	0x55AA
+ #define FULL_RESULT		(BIT_ULL(63) | USERSPACE_STATUS)
++#define VTL_RESULT_MARKER	0x1234567890abcdefULL
+ 
+ enum {
+ 	STAGE_DISABLED = 1,
+@@ -29,9 +38,10 @@ enum {
+ 	STAGE_RAISE_UD,
+ 	STAGE_FLAGS_CLEARED,
+ 	STAGE_REDISABLED,
++	STAGE_VTL_CALL,
+ };
+ 
+-static void guest_code(gpa_t pgs_gpa)
++static void guest_code(gpa_t pgs_gpa, bool vtl_calls)
+ {
+ 	__sse128_u in, out;
+ 	u64 status;
+@@ -100,6 +110,19 @@ static void guest_code(gpa_t pgs_gpa)
+ 	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
+ 	GUEST_SYNC(STAGE_REDISABLED);
+ 
++	if (!vtl_calls)
++		GUEST_DONE();
 +
-+#ifndef KVM_EXIT_HYPERV_VTL_INTERRUPT
-+#define KVM_EXIT_HYPERV_VTL_INTERRUPT  4
-+#endif
++	/*
++	 * Single-step over a forwarded VTL call.  The vmcall is retired
++	 * before the exit, so hcall.result is ignored and the resume RAX
++	 * is whatever userspace wrote with KVM_SET_REGS.
++	 */
++	vector = __hyperv_hypercall(HVCALL_VTL_CALL, 0, 0, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, VTL_RESULT_MARKER);
++	GUEST_SYNC(STAGE_VTL_CALL);
 +
-+#define TEST_VECTOR	0xe0
-+
-+static void plane0_guest_code(void)
+ 	GUEST_DONE();
+ }
+ 
+@@ -181,16 +204,47 @@ static void test_feature_mask(struct kvm_vm *vm)
+ 	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
+ }
+ 
++static void handle_vtl_call(struct kvm_vcpu *vcpu, int debug_exits)
 +{
-+	GUEST_SYNC(0);
-+	GUEST_DONE();
++	struct kvm_guest_debug debug = {};
++	struct kvm_regs regs;
++
++	/*
++	 * The forwarded VTL call must arrive even though retiring the
++	 * vmcall prepared a KVM_EXIT_DEBUG in the same run union.
++	 */
++	check_hcall_exit(vcpu, HVCALL_VTL_CALL, 0, 0);
++	TEST_ASSERT(debug_exits > 0, "Single-step was not active");
++
++	/*
++	 * The instruction is retired; the result must be ignored.  A failed
++	 * switch writes the status straight into the guest's RAX.
++	 */
++	vcpu->run->hyperv.u.hcall.result = 0;
++	vcpu_regs_get(vcpu, &regs);
++	regs.rax = VTL_RESULT_MARKER;
++	vcpu_regs_set(vcpu, &regs);
++
++	vcpu_guest_debug_set(vcpu, &debug);
 +}
 +
-+static void set_plane_run_state(int vcpu_fd, u64 state)
-+{
-+	int r = ioctl(vcpu_fd, KVM_SET_PLANE_RUN_STATE, &state);
+ int main(int argc, char *argv[])
+ {
++	struct kvm_guest_debug debug = {};
+ 	struct kvm_vcpu *vcpu;
+ 	struct kvm_vm *vm;
+ 	gva_t hcall_page;
+ 	gpa_t hcall_gpa;
+ 	struct ucall uc;
+ 	int stage = STAGE_DISABLED;
++	int debug_exits = 0;
++	bool vtl_calls;
+ 
+ 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_FORWARD_HCALL));
++	vtl_calls = kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL) &
++		    KVM_HYPERV_HCALL_VTL_CALLS;
++	if (!vtl_calls)
++		pr_info("KVM_HYPERV_HCALL_VTL_CALLS not supported, skipping the VTL call stage\n");
+ 
+ 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
+ 	vcpu_set_hv_cpuid(vcpu);
+@@ -202,11 +256,16 @@ int main(int argc, char *argv[])
+ 	memset(addr_gva2hva(vm, hcall_page), 0x0, 3 * getpagesize());
+ 	hcall_gpa = addr_gva2gpa(vm, hcall_page);
+ 
+-	vcpu_args_set(vcpu, 1, hcall_gpa);
++	vcpu_args_set(vcpu, 2, hcall_gpa, vtl_calls);
+ 
+ 	for (;;) {
+ 		vcpu_run(vcpu);
+ 
++		if (vcpu->run->exit_reason == KVM_EXIT_DEBUG) {
++			debug_exits++;
++			continue;
++		}
 +
-+	TEST_ASSERT(!r, "KVM_SET_PLANE_RUN_STATE(0x%lx) failed: errno %d",
-+		    state, errno);
-+}
-+
-+/* Enable the twin's APIC in software and latch TEST_VECTOR in its IRR. */
-+static void restore_twin_lapic(int twin_fd)
-+{
-+	struct kvm_lapic_state lapic;
-+	u32 *reg;
-+	int r;
-+
-+	r = ioctl(twin_fd, KVM_GET_LAPIC, &lapic);
-+	TEST_ASSERT(!r, "KVM_GET_LAPIC on twin failed: errno %d", errno);
-+
-+	reg = (u32 *)&lapic.regs[APIC_SPIV];
-+	*reg |= APIC_SPIV_APIC_ENABLED;
-+	reg = (u32 *)&lapic.regs[APIC_IRR + (TEST_VECTOR / 32) * 0x10];
-+	*reg |= 1u << (TEST_VECTOR % 32);
-+
-+	r = ioctl(twin_fd, KVM_SET_LAPIC, &lapic);
-+	TEST_ASSERT(!r, "KVM_SET_LAPIC on twin failed: errno %d", errno);
-+}
-+
-+static void run_test(bool lapic_first)
-+{
-+	struct kvm_vcpu *vcpu0;
-+	struct kvm_vm *vm;
-+	int plane_fd, twin_fd, r;
-+
-+	kvm_force_split_irqchip = true;
-+	vm = __vm_create(VM_SHAPE_DEFAULT, 1, 0);
-+	kvm_force_split_irqchip = false;
-+
-+	TEST_REQUIRE(__vm_enable_cap(vm, KVM_CAP_PLANES, 2) == 0);
-+	/* VTL interrupt exits belong to the userspace-switch VTL contract. */
-+	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
-+		      KVM_HYPERV_HCALL_VTL_CALLS);
-+
-+	vcpu0 = vm_vcpu_add(vm, 0, plane0_guest_code);
-+
-+	plane_fd = __vm_ioctl(vm, KVM_CREATE_PLANE, (void *)1UL);
-+	TEST_ASSERT(plane_fd >= 0, "KVM_CREATE_PLANE failed: errno %d", errno);
-+	twin_fd = __kvm_ioctl(plane_fd, KVM_CREATE_VCPU, NULL);
-+	TEST_ASSERT(twin_fd >= 0, "KVM_CREATE_VCPU on plane 1 failed: errno %d",
-+		    errno);
-+
-+	if (lapic_first)
-+		restore_twin_lapic(twin_fd);
-+	set_plane_run_state(twin_fd, KVM_PLANE_RUN_STATE_USER_HOLD);
-+	set_plane_run_state(vcpu0->fd, 0);
-+	if (!lapic_first)
-+		restore_twin_lapic(twin_fd);
-+
-+	r = ioctl(vcpu0->fd, KVM_RUN, NULL);
-+	TEST_ASSERT(!r, "KVM_RUN (plane 0) failed: errno %d", errno);
-+	TEST_ASSERT(vcpu0->run->exit_reason == KVM_EXIT_HYPERV,
-+		    "Expected KVM_EXIT_HYPERV, got %u (%s), LAPIC restored %s",
-+		    vcpu0->run->exit_reason,
-+		    exit_reason_str(vcpu0->run->exit_reason),
-+		    lapic_first ? "first" : "last");
-+	TEST_ASSERT_EQ(vcpu0->run->hyperv.type, KVM_EXIT_HYPERV_VTL_INTERRUPT);
-+	TEST_ASSERT_EQ(vcpu0->run->hyperv.plane, 1);
-+
-+	close(twin_fd);
-+	close(plane_fd);
-+	kvm_vm_free(vm);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_PLANES));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL) &
-+		     KVM_HYPERV_HCALL_VTL_CALLS);
-+
-+	run_test(true);
-+	run_test(false);
-+	return 0;
-+}
+ 		if (vcpu->run->exit_reason == KVM_EXIT_HYPERV) {
+ 			switch (stage) {
+ 			case STAGE_MEMORY:
+@@ -239,6 +298,9 @@ int main(int argc, char *argv[])
+ 						 hcall_gpa + 2 * getpagesize());
+ 				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
+ 				break;
++			case STAGE_VTL_CALL:
++				handle_vtl_call(vcpu, debug_exits);
++				break;
+ 			default:
+ 				TEST_FAIL("Unexpected hypercall exit in stage %d", stage);
+ 			}
+@@ -263,6 +325,16 @@ int main(int argc, char *argv[])
+ 			case STAGE_FLAGS_CLEARED:
+ 				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
+ 				break;
++			case STAGE_REDISABLED:
++				if (!vtl_calls)
++					break;
++				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
++					      KVM_HYPERV_HCALL_FORWARD_UNKNOWN |
++					      KVM_HYPERV_HCALL_VTL_CALLS);
++				debug.control = KVM_GUESTDBG_ENABLE |
++						KVM_GUESTDBG_SINGLESTEP;
++				vcpu_guest_debug_set(vcpu, &debug);
++				break;
+ 			}
+ 			stage++;
+ 			break;
+@@ -276,7 +348,7 @@ int main(int argc, char *argv[])
+ 	}
+ 
+ done:
+-	TEST_ASSERT_EQ(stage, STAGE_REDISABLED + 1);
++	TEST_ASSERT_EQ(stage, (vtl_calls ? STAGE_VTL_CALL : STAGE_REDISABLED) + 1);
+ 	kvm_vm_free(vm);
+ 	return 0;
+ }
 -- 
 2.50.1
 
