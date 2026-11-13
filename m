@@ -1,82 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794594893;
-	b=MYsS53zV56/YLXDh3sEFyxli9wiiG9hCZ9QKkSShjjd5BRhzC4F80NNCoC2+agdObXU7
-	 1/EL49i2sannbHYrLCogWGvGkuMVJ1O7zWNVao+/7K/jk01p4U+3m2oonwMDkiSrTX/hS
-	 Euc+hhgHuQQiMJJieXUr8NfxSxV2tClEfL0Hm5uY31q4zfttWlVsxtCGHhXGZ+ntnQgwF
-	 55b7L3OeA4pEjlMUIEBXE7JMnFXXuEMCcXBYJH/E72YhWjg2rs5VGDKuaPdVwn6OmVzjj
-	 F86wn0yLTxuw8ylgfjdNTpPg0e/jhhGYQhfjWvLbnn6EBFI0aybGGGnLSiEcHfBEGgA==
+	t=1794602790;
+	b=H0SLvFBPTu88Q9dFY+hOeIbl3HK47HmlkH3+jGqft0nhuWf3EzddStNcX0ETP7/1aPMR
+	 suMZ1ovKoIC4Sj7cI9Huc0g8ItvYaVIaM/y2O51VlpTro5IxZLPVrMj0QcZ5GdaEl3tov
+	 sEkWHeCfBuI89ZfVE0ihGL7m5xe2YgKKsyFoQPXXd9lEK+XbGOrrxe+0GU7K050lLHtOd
+	 USUOnfJr58+QNkbQyR0zVMB45fs/JlGZ1mriFwyQDhJJ6O49L/UwcHduyuho4VQtxlv9T
+	 qprVO0NzOzcrzfkmEHAwCPWGreC2cRr0ljAbSXIU2Wp2lVP0sGB8e+Dres7zXflswZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794594893;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=EY1jAy9xqxdqlTDEIZOP/6uxD2DtesdtQKnPvIrypYY=;
-	b=h1PqargWLn6x/AgEVUAHFvi0TIOBde9MCSE7jE5PiVb6Gt3PDKIxvI/ygdVL8yzQiLE4
-	 KsQJEq4OPcO/wTR753hVcOymGmdkDfIvjRC0B4r92CB6N1VmRieG3nttWT2lzMweROUva
-	 960rDMsqdRG6INhhyWi1UmEH4BVzJmQbUGRi+6mHbig8njGf3Zeh0vA2f7bJtvP4PKv8Z
-	 lRyj59OqFicwqbngz/8hzV2EwZ8KhrptqgHJWZ4LvxqQ/+00GvOpPgeB7J1Zd/4n4KuTw
-	 Lx/tEcCSoatu89eysjcSSG13FJbO+tp0KVmN1PuNxdpxXd/hxVryR7PIuniTYV7b2Yg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794602790;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=u0kNAvCspH9EaUBvP1pTOUH586X9hQ4TYzWVN7ycUbQ=;
+	b=K8bIeY8TO9J8FiiE4apgRzTaHL5540jFUD9zkHC4m+HRuuEawwjOVkU7bfNd2S/zC2qk
+	 VKgdKGf3B2/Pg45Fb6wU8HEl+nia2WQZi+nUuA2UU406fuvlkz30oa3UuW93LYbH1rf5d
+	 Rc95awDhlnltqzFz6Pe1V7lFmNL0SZ7eWwiOR24jt16hcvmsRWTMA8Ab//iz5oMEYn+sP
+	 Xhl1UFz5aogDTR0TArYa4C7HE2/XIcsDw/lq2kjGVgDTT4839QkCNM9sfWMkHrnUS/8up
+	 3Ei/BAVZ+0mNGilDp67/B9mUEoeICAvMLR4d8zgoiossQkmnbotwo8sw5Uos1zHVg+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=gePMfFXl;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D55606A885;
-	Fri, 13 Nov 2026 18:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24D55606A885
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S9tH+J5k;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 412CD606A323;
+	Fri, 13 Nov 2026 20:46:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 412CD606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=gePMfFXl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=EY1jAy9xqxdqlTDEIZOP/6uxD2DtesdtQKnPvIrypYY=; b=gePMfFXlM5uUyVVex2S8XUiIZT
-	zlvQtIL8aI7Ed+EwmxwqEP9X3bsGQMB6O85z3W4+giuynHYckAF0cLOA1+GrgtVt7JrkVUWUGHwN0
-	OEJ9NK6LICTLB3dZQ7/NqNqjFXc3BtVFeN3tMwSsgcoK5CDGdw+IvucDRzNJ6Drh83BYeVhg74Pct
-	OyiMfzf0K9hazbu5ZzPvVtD/wUWY6oPi9Pug5lLQOPviiNDQaxmJpCYPeYs/YdTDyhHIFEowccKut
-	5tFjmNMpi6bADMWVpqw9/emo1autHpujpMNN0FdFGQxKvQqaHhwNEVbiFWmJnKcYbZ6peGyQf7fYJ
-	3ae9lC+A==;
-Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6s-00000004gQi-1U9A;
-	Fri, 13 Nov 2026 18:34:50 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000Ltn-0TS6;
-	Fri, 13 Nov 2026 18:34:50 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	=?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>,
-	joerg.roedel@amd.com,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Thara Gopinath <tgopinath@linux.microsoft.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S9tH+J5k
+Received: by linux.microsoft.com (Postfix, from userid 1006)
+	id D022120B7166; Fri, 13 Nov 2026 12:46:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D022120B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794602779;
+	bh=u0kNAvCspH9EaUBvP1pTOUH586X9hQ4TYzWVN7ycUbQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=S9tH+J5ksPnvLvzRTVNhlRJDHh23jDnIbZ5YZnisyRpXaDLUJvuok9p0X1BYaF6JK
+	 9oy3rIfbPb5G6c18bwDsvTrQXDjnLj5CfsvLtC2X5tRfK1mdwFllxwkV4OdTrshZio
+	 Prmwgq78eJar8BvIL8O+qCcxC1bJfyYL4bCMiKPU=
+From: Haiyang Zhang <haiyangz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Nicolas Saenz Julienne <nsaenz@amazon.com>,
-	Nikolas Wipper <nik.wipper@gmx.de>,
-	Mushahid Hussain <hmushi@amazon.co.uk>,
-	Sriram Nambakam <snambakam@linux.microsoft.com>,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 19/31] KVM: x86: Fold an NMI for a higher plane back to plane 0
-Date: Fri, 13 Nov 2026 18:34:35 +0000
-Message-ID: <20261113183448.84094-20-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
-References: <20261113183448.84094-1-dwmw2@infradead.org>
+	Dexuan Cui <decui@microsoft.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Wei Hu <weh@microsoft.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	Simon Horman <horms@kernel.org>,
+	Long Li <longli@microsoft.com>,
+	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
+	Aditya Garg <gargaditya@linux.microsoft.com>,
+	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
+	Manish Awasthi <mawasthi@linux.microsoft.com>,
+	Breno Leitao <leitao@debian.org>,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Cc: paulros@microsoft.com,
+	stable@vger.kernel.org
+Subject: [PATCH net] net: mana: Set 1 usec / 1 comp as default and minimum interrupt moderation
+Date: Fri, 13 Nov 2026 12:44:04 -0800
+Message-ID: <20261113204427.1922848-1-haiyangz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -87,169 +77,289 @@ List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
-An NMI aimed at a higher plane is injected into that plane, so the
-secure kernel takes a real NMI inside VTL1 and bugchecks (0x18B).
+The existing code sets interrupt moderation defaults to 0 usec and 0
+completions, which may cause CQ starvation of our NIC HW, and TX time
+out error like:
+mana 7870:00:00.0 ens1: NETDEV WATCHDOG: CPU: 14: transmit queue 4 timed out 63434 ms
 
-For a non-zero plane, inject the NMI into the plane-0 twin instead, to
-be delivered once the VTL returns. Set the higher plane's
-hv_apic_event_pending marker so the NMI still forces one entry into
-it, and kick through __kvm_kick_lower_twins(), the ungated half of
-kvm_kick_lower_twins(), since plane 0 takes the NMI whether or not
-anything consumes the higher plane's event.
-kvm_higher_plane_with_event() counts a higher plane's pending NMI state
-(KVM_REQ_NMI, nmi_queued, nmi_pending) as an event as well: the fold
-never leaves NMI state there, but KVM_SET_VCPU_EVENTS on the plane's
-own fd can.
+To fix, change the default and minimal rx/tx usecs and frames to 1.
+When the HW supports interrupt moderation, reject ethtool rx/tx usecs
+and frames below 1.
+Also clamp the values written by mana_gd_ring_dim() to [1, max], so
+no caller, including the DIM work, programs a zero value.
+On the HW without interrupt moderation support, do not request CQ
+moderation, the usecs and frames stay at 0, and cannot be modified by
+ethtool.
+The PF capability is queried again when the device resumes from a
+reset or suspend, so re-initialize these settings before re-attaching
+the vPorts.
 
-When the targeted plane is the selected one and halted, the fold must
-still break its HLT, as an NMI would on hardware. Its own event checks
-see no NMI and plane 0's events are only examined on guest entry, so
-kvm_arch_vcpu_runnable() counts the posting marker the fold leaves on
-a non-zero plane, and kvm_check_plane0_events() counts plane 0's
-nmi_queued, where the folded NMI waits until it is processed.
+Advertise this change to the PF with the new driver capability flag
+GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE.
 
-Plane 0 is looked up without the locks that serialise twin creation,
-so its slot is read once, with READ_ONCE(), to pair with its
-publication.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Cc: stable@vger.kernel.org
+Fixes: 433f482add31 ("net: mana: Add Interrupt Moderation support")
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
 ---
- arch/x86/kvm/lapic.c | 26 ++++++++++++++++++++++++--
- arch/x86/kvm/x86.c   | 35 ++++++++++++++++++++++++++++++-----
- arch/x86/kvm/x86.h   |  1 +
- 3 files changed, 55 insertions(+), 7 deletions(-)
+ .../net/ethernet/microsoft/mana/gdma_main.c   |  5 ++
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 76 +++++++++++++------
+ .../ethernet/microsoft/mana/mana_ethtool.c    | 26 +++++--
+ include/net/mana/gdma.h                       |  6 +-
+ include/net/mana/mana.h                       |  9 ++-
+ 5 files changed, 88 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
-index 81bf72e83e8c..d33226c44488 100644
---- a/arch/x86/kvm/lapic.c
-+++ b/arch/x86/kvm/lapic.c
-@@ -1476,8 +1476,30 @@ static int __apic_accept_irq(struct kvm_lapic *apic, int delivery_mode,
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index ab942d5bfe05..10be69e97ceb 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -646,6 +646,11 @@ void mana_gd_ring_dim(struct gdma_queue *cq, u32 mod_usec, bool mod_usec_vld,
+ 	struct gdma_context *gc = cq->gdma_dev->gdma_context;
+ 	u32 dim_val;
  
- 	case APIC_DM_NMI:
- 		result = 1;
--		kvm_inject_nmi(vcpu);
--		kvm_vcpu_kick(vcpu);
-+		/*
-+		 * An NMI aimed at a higher plane forces entry into that
-+		 * plane (reason INTERRUPT, below) but the NMI itself is
-+		 * folded back to plane 0 and delivered there after the VTL
-+		 * returns.  Matches the Nitro VSM implementation, which never
-+		 * delivers an NMI inside a higher VTL.
++	mod_usec = clamp_t(u32, mod_usec, MANA_INTR_MODR_USEC_MIN,
++			   MANA_INTR_MODR_USEC_MAX);
++	mod_comps = clamp_t(u32, mod_comps, MANA_INTR_MODR_COMP_MIN,
++			    MANA_INTR_MODR_COMP_MAX);
++
+ 	/* Convert the DIM values to doorbell parameters */
+ 	dim_val = FIELD_PREP(MANA_INTR_MODR_USEC_MAX, mod_usec) |
+ 		  FIELD_PREP(MANA_INTR_MODR_COMP_MASK, mod_comps);
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index 7e9223143fc7..95bf153c3e1a 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -2515,9 +2515,6 @@ static void mana_rx_dim_work(struct work_struct *work)
+ 	cur_moder = net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
+ 	cq = container_of(dim, struct mana_cq, dim);
+ 
+-	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
+-	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
+-
+ 	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
+ 			 cur_moder.pkts, true);
+ 
+@@ -2533,9 +2530,6 @@ static void mana_tx_dim_work(struct work_struct *work)
+ 	cur_moder = net_dim_get_tx_moderation(dim->mode, dim->profile_ix);
+ 	cq = container_of(dim, struct mana_cq, dim);
+ 
+-	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
+-	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
+-
+ 	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
+ 			 cur_moder.pkts, true);
+ 
+@@ -2871,10 +2865,15 @@ static int mana_create_txq(struct mana_port_context *apc,
+ 		cq_spec.modr_ctx_id = 0;
+ 		cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
+ 
+-		/* DIM setting can be changed at runtime */
+-		cq_spec.req_cq_moderation = true;
+-		cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
+-		cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
++		/* Request CQ moderation only if HW supports it.
++		 * DIM setting can be changed at runtime.
 +		 */
-+		if (vcpu->plane_level) {
-+			struct kvm_vcpu *twin;
-+
-+			WRITE_ONCE(vcpu->arch.hv_apic_event_pending, true);
-+			twin = READ_ONCE(vcpu->common->vcpus[0]);
-+			if (twin)
-+				kvm_inject_nmi(twin);
-+			/*
-+			 * Plane 0 takes the NMI whether or not VTL semantics
-+			 * are on, so don't gate this kick the way
-+			 * kvm_kick_lower_twins() does.
-+			 */
-+			__kvm_kick_lower_twins(vcpu);
-+		} else {
-+			kvm_inject_nmi(vcpu);
-+			kvm_vcpu_kick(vcpu);
++		if (gc->pf_cap_flags1 &
++		    GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
++			cq_spec.req_cq_moderation = true;
++			cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
++			cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
 +		}
- 		break;
  
- 	case APIC_DM_INIT:
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 165eb105e112..c2c9b5a181b9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -8301,16 +8301,22 @@ bool kvm_higher_plane_event_consumable(struct kvm_vcpu *higher)
-  * including when it is already past its event checks on the way into the
-  * guest.  KVM_REQ_UNBLOCK lives in the request word the twins share, so
-  * it aborts that twin's vmentry, and the kick reaches whichever twin is
-- * running (or waiting).  Nothing is kicked for an event that cannot be
-- * consumed.
-+ * running (or waiting).  kvm_kick_lower_twins() kicks nothing for an
-+ * event that cannot be consumed; __kvm_kick_lower_twins() is the ungated
-+ * kick, for an event that a lower plane takes itself.
-  */
-+void __kvm_kick_lower_twins(struct kvm_vcpu *vcpu)
-+{
-+	kvm_make_request(KVM_REQ_UNBLOCK, vcpu);
-+	kvm_vcpu_kick(vcpu);
-+}
-+
- void kvm_kick_lower_twins(struct kvm_vcpu *vcpu)
- {
- 	if (!vcpu->plane_level || !kvm_higher_plane_event_consumable(vcpu))
- 		return;
+ 		err = mana_create_wq_obj(apc, apc->port_handle, GDMA_SQ,
+ 					 &wq_spec, &cq_spec,
+@@ -3206,10 +3205,14 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 	cq_spec.modr_ctx_id = 0;
+ 	cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
  
--	kvm_make_request(KVM_REQ_UNBLOCK, vcpu);
--	kvm_vcpu_kick(vcpu);
-+	__kvm_kick_lower_twins(vcpu);
+-	/* DIM setting can be changed at runtime */
+-	cq_spec.req_cq_moderation = true;
+-	cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
+-	cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
++	/* Request CQ moderation only if HW supports it.
++	 * DIM setting can be changed at runtime.
++	 */
++	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
++		cq_spec.req_cq_moderation = true;
++		cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
++		cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
++	}
+ 
+ 	err = mana_create_wq_obj(apc, apc->port_handle, GDMA_RQ,
+ 				 &wq_spec, &cq_spec, &rxq->rxobj);
+@@ -3894,6 +3897,40 @@ int mana_detach(struct net_device *ndev, bool from_close)
+ 	return 0;
  }
  
- /*
-@@ -8353,6 +8359,9 @@ static struct kvm_vcpu *kvm_higher_plane_with_event(struct kvm_vcpu *vcpu)
- 		if (READ_ONCE(higher->arch.hv_apic_event_pending) ||
- 		    kvm_cpu_has_extint(higher) ||
- 		    kvm_test_request(KVM_REQ_HV_STIMER, higher) ||
-+		    kvm_test_request(KVM_REQ_NMI, higher) ||
-+		    atomic_read(&higher->arch.nmi_queued) ||
-+		    higher->arch.nmi_pending ||
- 		    kvm_cpu_has_pending_timer(higher))
- 			return higher;
- 	}
-@@ -8403,6 +8412,7 @@ static inline bool kvm_check_plane0_events(struct kvm_vcpu *vcpu)
- 
- 	return kvm_cpu_has_injectable_intr(vcpu_plane0) ||
- 		vcpu_plane0->arch.nmi_pending ||
-+		atomic_read(&vcpu_plane0->arch.nmi_queued) ||
- 		vcpu_plane0->arch.smi_pending;
- }
- 
-@@ -9254,11 +9264,26 @@ bool kvm_vcpu_has_events(struct kvm_vcpu *vcpu)
- }
- EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_vcpu_has_events);
- 
-+/*
-+ * An NMI aimed at a higher plane is folded to plane 0 and leaves only the
-+ * plane's own posting marker behind (see __apic_accept_irq()).  When that
-+ * plane is the selected one and sits in HLT, nothing else wakes it: its
-+ * own event checks see no NMI, and plane 0's events are only examined
-+ * when the plane enters the guest.  The marker is consumed on that entry,
-+ * so the NMI breaks the HLT once, as it would on hardware.
++/* Match the interrupt moderation settings to the PF capability, which is
++ * queried again when the device resumes from a reset or suspend. Must be
++ * called before the queues are created.
 + */
-+static bool kvm_plane_nmi_folded(struct kvm_vcpu *vcpu)
++static void mana_init_intr_modr(struct mana_port_context *apc)
 +{
-+	return vcpu->plane_level &&
-+	       READ_ONCE(vcpu->arch.hv_apic_event_pending);
++	struct gdma_context *gc = apc->ac->gdma_dev->gdma_context;
++
++	if (!(gc->pf_cap_flags1 &
++	      GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
++		apc->intr_modr_rx_usec = 0;
++		apc->intr_modr_rx_comp = 0;
++		apc->intr_modr_tx_usec = 0;
++		apc->intr_modr_tx_comp = 0;
++		apc->rx_dim_enabled = false;
++		apc->tx_dim_enabled = false;
++		return;
++	}
++
++	/* Keep the current settings, unless they were never initialized
++	 * because the port was probed without the capability.
++	 */
++	if (apc->intr_modr_rx_usec && apc->intr_modr_rx_comp &&
++	    apc->intr_modr_tx_usec && apc->intr_modr_tx_comp)
++		return;
++
++	apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
++	apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
++	apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
++	apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
++	apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
++	apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
 +}
 +
- int kvm_arch_vcpu_runnable(struct kvm_vcpu *vcpu)
+ static int mana_probe_port(struct mana_context *ac, int port_idx,
+ 			   struct net_device **ndev_storage)
  {
- 	return kvm_vcpu_running(vcpu) || vcpu->arch.pv.pv_unhalted ||
- 	       kvm_vcpu_has_events(vcpu) ||
--	       kvm_higher_plane_with_event(vcpu);
-+	       kvm_higher_plane_with_event(vcpu) ||
-+	       kvm_plane_nmi_folded(vcpu);
- }
+@@ -3924,15 +3961,7 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
+ 	apc->cqe_coalescing_enable = 0;
+ 	apc->cqe8_coalescing_enable = 0;
  
- /* Called within kvm->srcu read side.  */
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index 649d4b8ac2d4..00dc866c08c3 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -534,6 +534,7 @@ void __user *__x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
- int memslot_rmap_alloc(struct kvm_memory_slot *slot, unsigned long npages);
+-	/* Initialize interrupt moderation settings if supported by HW */
+-	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
+-		apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
+-		apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
+-		apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
+-		apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
+-		apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
+-		apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
+-	}
++	mana_init_intr_modr(apc);
  
- bool kvm_higher_plane_event_consumable(struct kvm_vcpu *higher);
-+void __kvm_kick_lower_twins(struct kvm_vcpu *vcpu);
- void kvm_kick_lower_twins(struct kvm_vcpu *vcpu);
- bool kvm_vcpu_is_reset_bsp(struct kvm_vcpu *vcpu);
- bool kvm_vcpu_is_bsp(struct kvm_vcpu *vcpu);
+ 	mutex_init(&apc->vport_mutex);
+ 	apc->vport_use_count = 0;
+@@ -4256,6 +4285,7 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
+ 			enable_work(&apc->queue_reset_work);
+ 			netdev_lock(ac->ports[i]);
+ 			apc->link_cfg_error = 1;
++			mana_init_intr_modr(apc);
+ 			netdev_unlock(ac->ports[i]);
+ 			err = mana_attach(ac->ports[i]);
+ 			rtnl_unlock();
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+index 4068e08acb16..96aabf7a8f08 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+@@ -505,9 +505,12 @@ static int mana_set_coalesce(struct net_device *ndev,
+ 	bool dim_changed = false;
+ 	struct gdma_context *gc;
+ 	u32 max_cqe_frames;
++	bool modr_sup;
+ 	int err;
+ 
+ 	gc = apc->ac->gdma_dev->gdma_context;
++	modr_sup = gc->pf_cap_flags1 &
++		   GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION;
+ 	max_cqe_frames = gc->cqe8_coalescing_sup ? MANA_CQE_COAL_PKTS_8 :
+ 						   MANA_RXCOMP_OOB_NUM_PPI;
+ 
+@@ -517,7 +520,7 @@ static int mana_set_coalesce(struct net_device *ndev,
+ 	if ((ec->use_adaptive_rx_coalesce || ec->use_adaptive_tx_coalesce ||
+ 	     ec->rx_coalesce_usecs || ec->tx_coalesce_usecs ||
+ 	     ec->rx_max_coalesced_frames || ec->tx_max_coalesced_frames) &&
+-	    !(gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
++	    !modr_sup) {
+ 		NL_SET_ERR_MSG(extack,
+ 			       "Interrupt Moderation is not supported by HW");
+ 		return -EOPNOTSUPP;
+@@ -534,18 +537,27 @@ static int mana_set_coalesce(struct net_device *ndev,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
+-	    ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX) {
++	/* Without the HW capability, only zero values pass the check above */
++	if (modr_sup &&
++	    (ec->rx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
++	     ec->tx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
++	     ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
++	     ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX)) {
+ 		NL_SET_ERR_MSG_FMT(extack,
+-				   "coalesce usecs must be <= %lu",
++				   "coalesce usecs must be between %d and %lu",
++				   MANA_INTR_MODR_USEC_MIN,
+ 				   MANA_INTR_MODR_USEC_MAX);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
+-	    ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX) {
++	if (modr_sup &&
++	    (ec->rx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
++	     ec->tx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
++	     ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
++	     ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX)) {
+ 		NL_SET_ERR_MSG_FMT(extack,
+-				   "coalesce frames must be <= %lu",
++				   "coalesce frames must be between %d and %lu",
++				   MANA_INTR_MODR_COMP_MIN,
+ 				   MANA_INTR_MODR_COMP_MAX);
+ 		return -EINVAL;
+ 	}
+diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
+index 29d152e18596..6191ddddc27f 100644
+--- a/include/net/mana/gdma.h
++++ b/include/net/mana/gdma.h
+@@ -776,6 +776,9 @@ enum {
+ /* Driver supports handling throttled EQEs */
+ #define GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE BIT_ULL(32)
+ 
++/* Enforce min 1 usec, 1 frames for Interrupt Moderation */
++#define GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE BIT_ULL(33)
++
+ /* Capabilities in the PCI-only group below rely on dynamic MSI-X allocation
+  * and on the servicing and reset paths reached through
+  * mana_schedule_serv_work(). Transports that provide neither leave
+@@ -801,7 +804,8 @@ enum {
+ 	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT | \
+ 	 GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION | \
+ 	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS | \
+-	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE)
++	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE | \
++	 GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE)
+ 
+ #define GDMA_DRV_CAP_FLAGS2 0
+ 
+diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+index 218d540bc994..84afc4199e87 100644
+--- a/include/net/mana/mana.h
++++ b/include/net/mana/mana.h
+@@ -74,9 +74,12 @@ enum mana_priv_flag_bits {
+ /* 8-pkt mode packs up to 2 packets per PPI entry */
+ #define MANA_CQE_COAL_PKTS_8 8
+ 
+-/* Default/max interrupt moderation settings */
+-#define MANA_INTR_MODR_USEC_DEF 0
+-#define MANA_INTR_MODR_COMP_DEF 0
++/* Default/min interrupt moderation settings */
++#define MANA_INTR_MODR_USEC_DEF 1
++#define MANA_INTR_MODR_COMP_DEF 1
++
++#define MANA_INTR_MODR_USEC_MIN 1
++#define MANA_INTR_MODR_COMP_MIN 1
+ 
+ #define MANA_ADAPTIVE_RX_DEF true
+ #define MANA_ADAPTIVE_TX_DEF true
 -- 
-2.50.1
+2.53.0
 
