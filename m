@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794594892;
-	b=kNzY3Zx2nAZp+78khF2Y54TccyEjBfa7bUXYPmNO37PTzeUCriXbIc9WZwzoiDfeUYUf
-	 obqhoSZC2yERjC+wEbrxyKMjAgnfbG6xKHSE36OIB7U5PGd10s0oUpLoy4Eyv6uDxmUOh
-	 byfckPNU5vkvk8gd0IubLreo2Fm4FVzFSIMdDN9Loo9wDuxcpAxOWzfIaFZU5UTzhMz4L
-	 cNm93x210iyrYemxIzSBi6vaD0A5A0MBO39touFMdWwDWQipSILSrRvqllaeU69ONFJZT
-	 OktK/izbFYwWOHfxa+vqP3wHGz+lk5E0SjEI0PNgDiI+LfGWAce//3mNFX5EnEklXXg==
+	b=3wgeRFK4TB03Oe0O3GxU9wpp21ClEgvau3JD8Ao3Q36VY0T5Xad6OATRs1pzLR9bwoIn
+	 8yRaHYcwBvGPDXuLW2m1CrtqEiA7vbGofG6PQ37PnMWfHXNcMLTBULM1qclcQKtjD9zZA
+	 hkUNA2mPeuImSfzrWCcknsL8B5dyKi5tMHZq+QOHk70jWnLcJdPIeG8FKV04YaNnSnKXb
+	 Xkx3jTUg5PkslgK2tl6rVw4xk7fa1oiFO8SckJsAxqivuZpxtEitR01D1KWRxHlmh3ona
+	 ViJ2LIkJ01Eej4zPhtVqvcFTMZKSmg9Hx5JxyWaKTSwVuW3IkhbZKu6XPXTAerRDKRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794594892;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=RFjZrZyzRZHYPexghm1fB/dAz6WRQaGXQodRS4ebBdk=;
-	b=PzRRxPd9Qof3PHgvHbYT4xbatKM5BOakFLgX3hRI50iuGvAcVblsfRFx6D2QS1iz7J4o
-	 B8uVC1SXhleIfccliQuJ3YgJwuHDjz3Dqbpw+wr/+2WuwygJEtFGifjtgdO0JwWuHQzQO
-	 K/Ltrjg9udlrMi2QlRfqhbKe+7qGY+6s1uF4v96IvXp7rqk5V4wSf/3AJPkkQz6K88u8z
-	 Yoil6NtiS62mBk28+Ih9k/B/2FdgaNbxIGDwSpKm6x9N8w75fvUQF54e57iYWEDAdkDXM
-	 70b6+aFnuYZBv7gmMt4WOteabuTzJx8XfTh+1g6EUtI7cPiWBrSJD8RLNna69lwMO8Q==
+	bh=pBZ+CnC3hUbxw26tE/js7VOagY0qf7uRdqzEN36xmto=;
+	b=l1PmbPrifyas6OHrCV2tpF3lt5WkFHE0HUcfDNA+mg2EsdZZhdaAQJJPjOx446af/KaH
+	 YzPNJOAPdIDxwHMGoNX9TxUkabwjhe4kwXmkV+zkHs0Wrzz4TEe9fi62OzsxKIQw5L2uT
+	 K0hB1vXZ9G8M9asGhgTmZ/26C0AmPFdUHdek4mVvGMYoTwsByouuFC+NSd/ZFIFErmCSp
+	 sF8acamLiPsZEBd3rkYFB3Vi3ORI5O5/4jhz5GD6uG3JAN+48RLr2/huy8jVtd6FMmGgW
+	 EMCzW8kZwiwEZwJtFNtQIYxPlBmL9FlPZD3ClngSzUb+GdTkWJKWNYwd1Kp3cF9hmkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=L2seJnyB;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=bFbO6Fb+;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73006606A896;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F95606A897;
 	Fri, 13 Nov 2026 18:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73006606A896
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76F95606A897
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=L2seJnyB
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=bFbO6Fb+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=RFjZrZyzRZHYPexghm1fB/dAz6WRQaGXQodRS4ebBdk=; b=L2seJnyBdJ/ExdzRQZKgTFiKqB
-	hbFYFM6t03vH9Cw7U/UZwqkVKq59Fv2j95fEKgnUzkemXcH5jrSIq3fToAJRTJPYEO+gX4MfdQmF2
-	8nyItFsPP3tkuTxMKIegs5Ok3Zjo3xJSqrUHn+PlJikD4TCG1iuGBFjvSGJP0QlMpIIpoxyTIlfQr
-	B9NG+kN6tApq+vfAo86wq8IfwvpgHYr7p7MzbOWuOmX9dxb2McwZB4SW409TMs/H8xTvwANl4kaLy
-	s1STTb9OMHyYrNlrYnUFAlG78FiLtHH5XDWmgBQVO+jBT5DiIIMjwT3qaA4qmA9xYvvfk/hkZJztr
-	s8iJu8HQ==;
+	bh=pBZ+CnC3hUbxw26tE/js7VOagY0qf7uRdqzEN36xmto=; b=bFbO6Fb+H0AOE5YwunPbU0/elQ
+	hncDX2690I4xzl5oLtMzrouUr9OCgDKRrsbvqb7LuIn2REM5uu2cPx61vPYFhPw6WqAsq9EbOO+Dj
+	poZyuU6VuAw7xc7ri5u0NXRbScm09VlMclyOzmIywN1xPKaQJkQ4dytQpLivU9lCHfq6TzCerLPEM
+	aohhu/iC/7zzkYqS0DM3LdCMsykpBD/bbYy2pK5HCN9LsFTWpL60aQnQ98XpO6q/wfZdOYLBii877
+	KLFLjhxYSvtvluybm9gpnYQACUkXczMd3nL/iDzUahB//cNexh+3K0XtstRK+fi8P2yb3Ho2HwY22
+	ZuTyu9QQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6s-00000004gRC-31JA;
+	id 1xRw6s-00000004gRI-3PvL;
 	Fri, 13 Nov 2026 18:34:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000LuQ-23tN;
+	id 1xRw6s-00000000Luc-2ZvH;
 	Fri, 13 Nov 2026 18:34:50 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 28/31] KVM: SVM: Keep TPR[3:0] across exits without a guest CR8 write
-Date: Fri, 13 Nov 2026 18:34:44 +0000
-Message-ID: <20261113183448.84094-29-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 31/31] KVM: x86: hyperv: Do not divert descriptor-table writes in SMM
+Date: Fri, 13 Nov 2026 18:34:47 +0000
+Message-ID: <20261113183448.84094-32-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
 References: <20261113183448.84094-1-dwmw2@infradead.org>
@@ -90,86 +90,39 @@ Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Sriram Nambakam <snambakam@linux.microsoft.com>
 
-V_TPR holds only TPR[7:4]. While KVM does not intercept CR8 writes,
-sync_cr8_to_lapic() pushes V_TPR back into the local APIC after every
-VMRUN, whether or not the guest touched CR8. A guest that sets the TPR
-through the APIC page or the x2APIC MSR therefore loses TPR[3:0] at the
-next exit: it writes 0xff, reads back 0xf0, and interrupts in the
-priority sub-class it meant to mask are delivered. VMX keeps all eight
-TPR bits in the virtual-APIC page and does not have this problem.
+Windows VBS boot fails when OVMF executes in SMM. The
+hv_divert_dt_write() helper was diverting firmware descriptor-table
+writes into the VTL register-intercept path. The failure trace showed a
+reflected #GP delivered in an SMM context with IDT base and limit both
+zero, followed by a triple fault and guest reset.
 
-Hardware changes V_TPR only on a guest CR8 write. Record the value
-sync_lapic_to_cr8() loads on entry and push V_TPR back into the APIC
-only when it differs, which only a guest CR8 write can make it do. A
-CR8 write whose value matches the loaded TPR[7:4] is indistinguishable
-from no write and now preserves TPR[3:0], where architecturally it
-would clear it; the previous behaviour cleared TPR[3:0] on every exit
-regardless.
+Exclude SMM from this helper so those firmware descriptor-table updates
+proceed normally, without changing interception for ordinary VTL0
+execution.
 
-Found while implementing Hyper-V VSM on KVM planes.
-
-Fixes: d7bf8221a303 ("KVM: SVM: sync V_TPR with LAPIC.TPR if CR8 write intercept is disabled")
+[dwmw2: applied from the mail; subject ours.]
+Link: https://lore.kernel.org/all/20261104065539.15281-1-snambakam@linux.microsoft.com/
+Not-signed-off-by: Sriram Nambakam <snambakam@linux.microsoft.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kvm/svm/svm.c | 11 ++++++++++-
- arch/x86/kvm/svm/svm.h | 13 +++++++++++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ arch/x86/kvm/x86.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index cf049367523c..9bfcc7684504 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -4622,7 +4622,15 @@ static inline void sync_cr8_to_lapic(struct kvm_vcpu *vcpu)
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 27317077f519..4ad8be64166f 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -5939,7 +5939,7 @@ static bool hv_divert_dt_write(struct x86_emulate_ctxt *ctxt, u32 hv_reg,
+ 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
  
- 	if (!svm_is_intercept(svm, INTERCEPT_CR8_WRITE)) {
- 		int cr8 = svm->vmcb->control.int_ctl & V_TPR_MASK;
--		kvm_set_cr8(vcpu, cr8);
-+
-+		/*
-+		 * Hardware changes V_TPR only on a guest CR8 write.  Pushing
-+		 * an unchanged value into the APIC would zero TPR[3:0] (CR8
-+		 * maps TPR[7:4] alone), wiping the low nibble of a TASKPRI
-+		 * value the guest set through the APIC page or MSR.
-+		 */
-+		if (cr8 != svm->v_tpr_entry)
-+			kvm_set_cr8(vcpu, cr8);
- 	}
- }
+ 	if (!hv_vcpu || vcpu->plane_level || is_guest_mode(vcpu) ||
+-	    !(hv_vcpu->reg_intercept_control & ctl_bit))
++	    is_smm(vcpu) || !(hv_vcpu->reg_intercept_control & ctl_bit))
+ 		return false;
  
-@@ -4637,6 +4645,7 @@ static inline void sync_lapic_to_cr8(struct kvm_vcpu *vcpu)
- 	cr8 = kvm_get_cr8(vcpu);
- 	svm->vmcb->control.int_ctl &= ~V_TPR_MASK;
- 	svm->vmcb->control.int_ctl |= cr8 & V_TPR_MASK;
-+	svm->v_tpr_entry = cr8 & V_TPR_MASK;
- }
- 
- static void svm_complete_soft_interrupt(struct kvm_vcpu *vcpu, u8 vector,
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index e7fced399e05..3dfa8b20152b 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -323,6 +323,19 @@ struct vcpu_svm {
- 
- 	void *msrpm;
- 
-+	/*
-+	 * V_TPR value written by sync_lapic_to_cr8() on the last entry.
-+	 * sync_cr8_to_lapic() pushes V_TPR back into the APIC only when it
-+	 * differs: V_TPR holds TPR[7:4] only, so an unconditional back-sync
-+	 * would zero TPR[3:0] after every exit, losing the low nibble of an
-+	 * APIC TASKPRI write.  A differing V_TPR implies a guest CR8 write,
-+	 * but not the converse: a CR8 write of the same value is
-+	 * indistinguishable from no write, so TPR[3:0] survives it where
-+	 * the architectural write (and the intercepted path through
-+	 * kvm_lapic_set_tpr()) would clear it.
-+	 */
-+	u8 v_tpr_entry;
-+
- 	ulong nmi_iret_rip;
- 
- 	struct svm_nested_state nested;
+ 	hv_vcpu->reg_intercept.reg = hv_reg;
 -- 
 2.50.1
 
