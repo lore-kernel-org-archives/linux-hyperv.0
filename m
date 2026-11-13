@@ -1,72 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794602790;
-	b=H0SLvFBPTu88Q9dFY+hOeIbl3HK47HmlkH3+jGqft0nhuWf3EzddStNcX0ETP7/1aPMR
-	 suMZ1ovKoIC4Sj7cI9Huc0g8ItvYaVIaM/y2O51VlpTro5IxZLPVrMj0QcZ5GdaEl3tov
-	 sEkWHeCfBuI89ZfVE0ihGL7m5xe2YgKKsyFoQPXXd9lEK+XbGOrrxe+0GU7K050lLHtOd
-	 USUOnfJr58+QNkbQyR0zVMB45fs/JlGZ1mriFwyQDhJJ6O49L/UwcHduyuho4VQtxlv9T
-	 qprVO0NzOzcrzfkmEHAwCPWGreC2cRr0ljAbSXIU2Wp2lVP0sGB8e+Dres7zXflswZQ==
+	t=1794607159;
+	b=ftzZRrS7kyLzHxkgmos49aIGPuhpOvxax18/+/rgeRI3VuLP5p9dDklkdvBjmBinOC79
+	 3NHCtxWxzLTOZ0bwcp80WzzwBf93LiNNbCRs4AzoX/ybPlMUrCpb0ynNJnPLUnEfOKioR
+	 Z1ZO8bsjPY017Uu7PyNxk09nRyokozGaGkw3L29WIkQHucPn2MEWwZTodfuSJfuGq4wuK
+	 1TZgYNtRvRQnMKrjLML7F2sKqbiooFtQgRfhn8VEquqOnhI0FVtqeMSi2/2GGZbnYzcKG
+	 1NxsnYpWxQVSDU6LL/pKCcRIEem7zkJMrir5o6Rsalg9Z+OvG8tSp7DPeyhhumFxCTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794602790;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794607159;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=u0kNAvCspH9EaUBvP1pTOUH586X9hQ4TYzWVN7ycUbQ=;
-	b=K8bIeY8TO9J8FiiE4apgRzTaHL5540jFUD9zkHC4m+HRuuEawwjOVkU7bfNd2S/zC2qk
-	 VKgdKGf3B2/Pg45Fb6wU8HEl+nia2WQZi+nUuA2UU406fuvlkz30oa3UuW93LYbH1rf5d
-	 Rc95awDhlnltqzFz6Pe1V7lFmNL0SZ7eWwiOR24jt16hcvmsRWTMA8Ab//iz5oMEYn+sP
-	 Xhl1UFz5aogDTR0TArYa4C7HE2/XIcsDw/lq2kjGVgDTT4839QkCNM9sfWMkHrnUS/8up
-	 3Ei/BAVZ+0mNGilDp67/B9mUEoeICAvMLR4d8zgoiossQkmnbotwo8sw5Uos1zHVg+Q==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=yo5/Ludd3iLfDJ3kwnz1BM7dzhexiWbvw29sP6ti3hQ=;
+	b=j4BbzSvD3r2DE534oGXbYv+TmZ74M5B0u9oClSK3nXloDhcCxpY4mMAyH53COmfx1t+K
+	 4NdAzAMofvQ56Fx9nh0GzJPwArcIitz/bw+5VbZDGDi/YezdGq5uuvNz5M3pIsPn9wcfx
+	 thIg8JXbhJjYpWl1m9rWm70RgHFpebDgDunO/3+6rj6o0UFwOpZYnLaHHnhAHuU82xsb9
+	 REmYrq8bsdI3CM0SvpxxdDibKYesc8QKu3vJrDkjlaHNahqx7Rx2v7soXbHsLCrbMqYNM
+	 9mR8UaaHFekAqrW9U5+ZCiCAKuf+4dJpwdJxWY3B4wP5UXYIqJ9noEt+W7Wmyx1q50g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S9tH+J5k;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rUVCn+6l;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 412CD606A323;
-	Fri, 13 Nov 2026 20:46:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 412CD606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 239BA606A334;
+	Fri, 13 Nov 2026 21:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 239BA606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=S9tH+J5k
-Received: by linux.microsoft.com (Postfix, from userid 1006)
-	id D022120B7166; Fri, 13 Nov 2026 12:46:19 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D022120B7166
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rUVCn+6l
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 6DB7020B7167; Fri, 13 Nov 2026 13:59:14 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6DB7020B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794602779;
-	bh=u0kNAvCspH9EaUBvP1pTOUH586X9hQ4TYzWVN7ycUbQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=S9tH+J5ksPnvLvzRTVNhlRJDHh23jDnIbZ5YZnisyRpXaDLUJvuok9p0X1BYaF6JK
-	 9oy3rIfbPb5G6c18bwDsvTrQXDjnLj5CfsvLtC2X5tRfK1mdwFllxwkV4OdTrshZio
-	 Prmwgq78eJar8BvIL8O+qCcxC1bJfyYL4bCMiKPU=
-From: Haiyang Zhang <haiyangz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Wei Hu <weh@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Simon Horman <horms@kernel.org>,
-	Long Li <longli@microsoft.com>,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>,
-	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
-	Manish Awasthi <mawasthi@linux.microsoft.com>,
-	Breno Leitao <leitao@debian.org>,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: paulros@microsoft.com,
-	stable@vger.kernel.org
-Subject: [PATCH net] net: mana: Set 1 usec / 1 comp as default and minimum interrupt moderation
-Date: Fri, 13 Nov 2026 12:44:04 -0800
-Message-ID: <20261113204427.1922848-1-haiyangz@linux.microsoft.com>
+	s=default; t=1794607154;
+	bh=yo5/Ludd3iLfDJ3kwnz1BM7dzhexiWbvw29sP6ti3hQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rUVCn+6lNK3oVHmaku2a7i3GYzbTlCoBbDU3fmTyF6u+LcB5lhBhWuUDWSOlHSPz0
+	 8nioCI4VjwTE5mqBv+JSYFA4wCl535D9Jn5ldOyCO2DfpH+/YVQ5Dx7rFqNXw5/K5f
+	 OlgjIMMqkgt/vtVGEr3XXkD8nOT+Nyaqff5lASjk=
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Dexuan Cui <decui@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hyperv@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Michael Kelley <mhklinux@outlook.com>,
+	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Subject: [PATCH 1/2] drm/hyperv: add modes for all resolutions offered by the host
+Date: Fri, 13 Nov 2026 16:58:42 -0500
+Message-ID: <20261113215843.1939889-2-hamzamahfooz@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20261113215843.1939889-1-hamzamahfooz@linux.microsoft.com>
+References: <20261113215843.1939889-1-hamzamahfooz@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -78,288 +72,137 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
+The host reports the resolutions it supports, which depend on the VM's
+configuration: a list of standard resolutions by default, those up to a
+maximum plus the maximum itself, or a single resolution. The driver
+only takes the largest and the default resolution from the list, and
+offers the DMT modes of up to 60 Hz that fit. Resolutions without such
+a mode are thus missing (e.g. 1152x864, for which DMT only has a 75 Hz
+mode). A VM set to 2560x1440 even ends up without a preferred mode, as
+DMT has no 2560x1440 mode at all.
 
-The existing code sets interrupt moderation defaults to 0 usec and 0
-completions, which may cause CQ starvation of our NIC HW, and TX time
-out error like:
-mana 7870:00:00.0 ens1: NETDEV WATCHDOG: CPU: 14: transmit queue 4 timed out 63434 ms
+So, keep the list and add a 60 Hz CVT mode for every resolution in it
+that lacks a mode of its size, so that all of them can be used. CVT
+rounds the width down to a multiple of 8 while the host only requires an
+even width (e.g. 1366x768), so restore the width afterwards.
 
-To fix, change the default and minimal rx/tx usecs and frames to 1.
-When the HW supports interrupt moderation, reject ethtool rx/tx usecs
-and frames below 1.
-Also clamp the values written by mana_gd_ring_dim() to [1, max], so
-no caller, including the DIM work, programs a zero value.
-On the HW without interrupt moderation support, do not request CQ
-moderation, the usecs and frames stay at 0, and cannot be modified by
-ethtool.
-The PF capability is queried again when the device resumes from a
-reset or suspend, so re-initialize these settings before re-attaching
-the vPorts.
-
-Advertise this change to the PF with the new driver capability flag
-GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE.
-
-Cc: stable@vger.kernel.org
-Fixes: 433f482add31 ("net: mana: Add Interrupt Moderation support")
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 ---
- .../net/ethernet/microsoft/mana/gdma_main.c   |  5 ++
- drivers/net/ethernet/microsoft/mana/mana_en.c | 76 +++++++++++++------
- .../ethernet/microsoft/mana/mana_ethtool.c    | 26 +++++--
- include/net/mana/gdma.h                       |  6 +-
- include/net/mana/mana.h                       |  9 ++-
- 5 files changed, 88 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/hyperv/hyperv_drm.h         |  9 +++++++
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 29 +++++++++++++++++++++
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 10 +++----
+ 3 files changed, 42 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index ab942d5bfe05..10be69e97ceb 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -646,6 +646,11 @@ void mana_gd_ring_dim(struct gdma_queue *cq, u32 mod_usec, bool mod_usec_vld,
- 	struct gdma_context *gc = cq->gdma_dev->gdma_context;
- 	u32 dim_val;
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
+index df03185a2e19..6006d665343b 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm.h
++++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
+@@ -19,6 +19,13 @@
+ #define SYNTHVID_CURSOR_MAX_SIZE (SYNTHVID_CURSOR_MAX_X * \
+ 	SYNTHVID_CURSOR_MAX_Y * SYNTHVID_CURSOR_ARGB_PIXEL_SIZE)
  
-+	mod_usec = clamp_t(u32, mod_usec, MANA_INTR_MODR_USEC_MIN,
-+			   MANA_INTR_MODR_USEC_MAX);
-+	mod_comps = clamp_t(u32, mod_comps, MANA_INTR_MODR_COMP_MIN,
-+			    MANA_INTR_MODR_COMP_MAX);
++#define SYNTHVID_MAX_RESOLUTION_COUNT 64
 +
- 	/* Convert the DIM values to doorbell parameters */
- 	dim_val = FIELD_PREP(MANA_INTR_MODR_USEC_MAX, mod_usec) |
- 		  FIELD_PREP(MANA_INTR_MODR_COMP_MASK, mod_comps);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 7e9223143fc7..95bf153c3e1a 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -2515,9 +2515,6 @@ static void mana_rx_dim_work(struct work_struct *work)
- 	cur_moder = net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
- 	cq = container_of(dim, struct mana_cq, dim);
++struct hvd_screen_info {
++	u16 width;
++	u16 height;
++} __packed;
++
+ /*
+  * Copy of the cursor last handed to the host, so that it can be sent again
+  * when needed, e.g. after a VM Connection window was opened.
+@@ -55,6 +62,8 @@ struct hv_drm_device {
+ 	u32 preferred_width;
+ 	u32 preferred_height;
+ 	u32 screen_depth;
++	struct hvd_screen_info resolutions[SYNTHVID_MAX_RESOLUTION_COUNT];
++	unsigned int resolution_count;
  
--	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
--	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
--
- 	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
- 			 cur_moder.pkts, true);
- 
-@@ -2533,9 +2530,6 @@ static void mana_tx_dim_work(struct work_struct *work)
- 	cur_moder = net_dim_get_tx_moderation(dim->mode, dim->profile_ix);
- 	cq = container_of(dim, struct mana_cq, dim);
- 
--	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
--	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
--
- 	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
- 			 cur_moder.pkts, true);
- 
-@@ -2871,10 +2865,15 @@ static int mana_create_txq(struct mana_port_context *apc,
- 		cq_spec.modr_ctx_id = 0;
- 		cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
- 
--		/* DIM setting can be changed at runtime */
--		cq_spec.req_cq_moderation = true;
--		cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
--		cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
-+		/* Request CQ moderation only if HW supports it.
-+		 * DIM setting can be changed at runtime.
-+		 */
-+		if (gc->pf_cap_flags1 &
-+		    GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
-+			cq_spec.req_cq_moderation = true;
-+			cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
-+			cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
-+		}
- 
- 		err = mana_create_wq_obj(apc, apc->port_handle, GDMA_SQ,
- 					 &wq_spec, &cq_spec,
-@@ -3206,10 +3205,14 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
- 	cq_spec.modr_ctx_id = 0;
- 	cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
- 
--	/* DIM setting can be changed at runtime */
--	cq_spec.req_cq_moderation = true;
--	cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
--	cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
-+	/* Request CQ moderation only if HW supports it.
-+	 * DIM setting can be changed at runtime.
-+	 */
-+	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
-+		cq_spec.req_cq_moderation = true;
-+		cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
-+		cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
-+	}
- 
- 	err = mana_create_wq_obj(apc, apc->port_handle, GDMA_RQ,
- 				 &wq_spec, &cq_spec, &rxq->rxobj);
-@@ -3894,6 +3897,40 @@ int mana_detach(struct net_device *ndev, bool from_close)
+ 	/* hw */
+ 	struct resource *mem;
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index 48d7751c0bdd..177f804dca0c 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -46,14 +46,43 @@ static int hv_drm_blit_to_vram_rect(struct drm_framebuffer *fb,
  	return 0;
  }
  
-+/* Match the interrupt moderation settings to the PF capability, which is
-+ * queried again when the device resumes from a reset or suspend. Must be
-+ * called before the queues are created.
-+ */
-+static void mana_init_intr_modr(struct mana_port_context *apc)
++static int hv_drm_connector_add_mode(struct drm_connector *connector,
++				     u16 width, u16 height)
 +{
-+	struct gdma_context *gc = apc->ac->gdma_dev->gdma_context;
++	struct drm_display_mode *mode;
 +
-+	if (!(gc->pf_cap_flags1 &
-+	      GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
-+		apc->intr_modr_rx_usec = 0;
-+		apc->intr_modr_rx_comp = 0;
-+		apc->intr_modr_tx_usec = 0;
-+		apc->intr_modr_tx_comp = 0;
-+		apc->rx_dim_enabled = false;
-+		apc->tx_dim_enabled = false;
-+		return;
++	list_for_each_entry(mode, &connector->probed_modes, head) {
++		if (mode->hdisplay == width && mode->vdisplay == height)
++			return 0;
 +	}
 +
-+	/* Keep the current settings, unless they were never initialized
-+	 * because the port was probed without the capability.
-+	 */
-+	if (apc->intr_modr_rx_usec && apc->intr_modr_rx_comp &&
-+	    apc->intr_modr_tx_usec && apc->intr_modr_tx_comp)
-+		return;
++	mode = drm_cvt_mode(connector->dev, width, height, 60, false, false,
++			    false);
++	if (!mode)
++		return 0;
 +
-+	apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
-+	apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
-+	apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
-+	apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
-+	apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
-+	apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
++	/* CVT rounds the width down to a multiple of 8, the host does not */
++	mode->hdisplay = width;
++	mode->type |= DRM_MODE_TYPE_DRIVER;
++	drm_mode_set_name(mode);
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
 +}
 +
- static int mana_probe_port(struct mana_context *ac, int port_idx,
- 			   struct net_device **ndev_storage)
+ static int hv_drm_connector_get_modes(struct drm_connector *connector)
  {
-@@ -3924,15 +3961,7 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
- 	apc->cqe_coalescing_enable = 0;
- 	apc->cqe8_coalescing_enable = 0;
+ 	struct hv_drm_device *hv = to_hv_drm(connector->dev);
++	unsigned int i;
+ 	int count;
  
--	/* Initialize interrupt moderation settings if supported by HW */
--	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
--		apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
--		apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
--		apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
--		apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
--		apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
--		apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
--	}
-+	mana_init_intr_modr(apc);
+ 	count = drm_add_modes_noedid(connector,
+ 				     connector->dev->mode_config.max_width,
+ 				     connector->dev->mode_config.max_height);
++	for (i = 0; i < hv->resolution_count; i++)
++		count += hv_drm_connector_add_mode(connector,
++						   hv->resolutions[i].width,
++						   hv->resolutions[i].height);
+ 	drm_set_preferred_mode(connector, hv->preferred_width,
+ 			       hv->preferred_height);
  
- 	mutex_init(&apc->vport_mutex);
- 	apc->vport_use_count = 0;
-@@ -4256,6 +4285,7 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
- 			enable_work(&apc->queue_reset_work);
- 			netdev_lock(ac->ports[i]);
- 			apc->link_cfg_error = 1;
-+			mana_init_intr_modr(apc);
- 			netdev_unlock(ac->ports[i]);
- 			err = mana_attach(ac->ports[i]);
- 			rtnl_unlock();
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index 4068e08acb16..96aabf7a8f08 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -505,9 +505,12 @@ static int mana_set_coalesce(struct net_device *ndev,
- 	bool dim_changed = false;
- 	struct gdma_context *gc;
- 	u32 max_cqe_frames;
-+	bool modr_sup;
- 	int err;
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+index 99e036576929..81ffb88ba6a1 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+@@ -56,11 +56,6 @@ struct pipe_msg_hdr {
+ 	u32 size; /* size of message after this field */
+ } __packed;
  
- 	gc = apc->ac->gdma_dev->gdma_context;
-+	modr_sup = gc->pf_cap_flags1 &
-+		   GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION;
- 	max_cqe_frames = gc->cqe8_coalescing_sup ? MANA_CQE_COAL_PKTS_8 :
- 						   MANA_RXCOMP_OOB_NUM_PPI;
+-struct hvd_screen_info {
+-	u16 width;
+-	u16 height;
+-} __packed;
+-
+ struct synthvid_msg_hdr {
+ 	u32 type;
+ 	u32 size;  /* size of this header + payload after this field */
+@@ -145,7 +140,6 @@ struct synthvid_dirt {
+ } __packed;
  
-@@ -517,7 +520,7 @@ static int mana_set_coalesce(struct net_device *ndev,
- 	if ((ec->use_adaptive_rx_coalesce || ec->use_adaptive_tx_coalesce ||
- 	     ec->rx_coalesce_usecs || ec->tx_coalesce_usecs ||
- 	     ec->rx_max_coalesced_frames || ec->tx_max_coalesced_frames) &&
--	    !(gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
-+	    !modr_sup) {
- 		NL_SET_ERR_MSG(extack,
- 			       "Interrupt Moderation is not supported by HW");
- 		return -EOPNOTSUPP;
-@@ -534,18 +537,27 @@ static int mana_set_coalesce(struct net_device *ndev,
- 		return -EINVAL;
- 	}
+ #define SYNTHVID_EDID_BLOCK_SIZE	128
+-#define	SYNTHVID_MAX_RESOLUTION_COUNT	64
  
--	if (ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
--	    ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX) {
-+	/* Without the HW capability, only zero values pass the check above */
-+	if (modr_sup &&
-+	    (ec->rx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
-+	     ec->tx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
-+	     ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
-+	     ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX)) {
- 		NL_SET_ERR_MSG_FMT(extack,
--				   "coalesce usecs must be <= %lu",
-+				   "coalesce usecs must be between %d and %lu",
-+				   MANA_INTR_MODR_USEC_MIN,
- 				   MANA_INTR_MODR_USEC_MAX);
- 		return -EINVAL;
- 	}
+ struct synthvid_supported_resolution_req {
+ 	u8 maximum_resolution_count;
+@@ -522,6 +516,10 @@ static int hv_drm_get_supported_resolution(struct hv_device *hdev)
+ 	hv->preferred_height =
+ 		msg->resolution_resp.supported_resolution[index].height;
  
--	if (ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
--	    ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX) {
-+	if (modr_sup &&
-+	    (ec->rx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
-+	     ec->tx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
-+	     ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
-+	     ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX)) {
- 		NL_SET_ERR_MSG_FMT(extack,
--				   "coalesce frames must be <= %lu",
-+				   "coalesce frames must be between %d and %lu",
-+				   MANA_INTR_MODR_COMP_MIN,
- 				   MANA_INTR_MODR_COMP_MAX);
- 		return -EINVAL;
- 	}
-diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-index 29d152e18596..6191ddddc27f 100644
---- a/include/net/mana/gdma.h
-+++ b/include/net/mana/gdma.h
-@@ -776,6 +776,9 @@ enum {
- /* Driver supports handling throttled EQEs */
- #define GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE BIT_ULL(32)
- 
-+/* Enforce min 1 usec, 1 frames for Interrupt Moderation */
-+#define GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE BIT_ULL(33)
++	hv->resolution_count = msg->resolution_resp.resolution_count;
++	memcpy(hv->resolutions, msg->resolution_resp.supported_resolution,
++	       hv->resolution_count * sizeof(hv->resolutions[0]));
 +
- /* Capabilities in the PCI-only group below rely on dynamic MSI-X allocation
-  * and on the servicing and reset paths reached through
-  * mana_schedule_serv_work(). Transports that provide neither leave
-@@ -801,7 +804,8 @@ enum {
- 	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT | \
- 	 GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION | \
- 	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS | \
--	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE)
-+	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE | \
-+	 GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE)
+ 	return 0;
+ }
  
- #define GDMA_DRV_CAP_FLAGS2 0
- 
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index 218d540bc994..84afc4199e87 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -74,9 +74,12 @@ enum mana_priv_flag_bits {
- /* 8-pkt mode packs up to 2 packets per PPI entry */
- #define MANA_CQE_COAL_PKTS_8 8
- 
--/* Default/max interrupt moderation settings */
--#define MANA_INTR_MODR_USEC_DEF 0
--#define MANA_INTR_MODR_COMP_DEF 0
-+/* Default/min interrupt moderation settings */
-+#define MANA_INTR_MODR_USEC_DEF 1
-+#define MANA_INTR_MODR_COMP_DEF 1
-+
-+#define MANA_INTR_MODR_USEC_MIN 1
-+#define MANA_INTR_MODR_COMP_MIN 1
- 
- #define MANA_ADAPTIVE_RX_DEF true
- #define MANA_ADAPTIVE_TX_DEF true
 -- 
-2.53.0
+2.56.0
 
