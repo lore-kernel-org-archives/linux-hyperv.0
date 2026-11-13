@@ -1,49 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794558856;
-	b=RHH4VzGX4fyefTjlX+xQc39WOxvgI68N1ndBVlpgAxa0ZAl3zUSbuzoI7gsW/notAArK
-	 ByXBbapP0HUFdH3E7MmffH4QqC8RW/x9FJ8aRVCwybBalwvqi+xZpc5OGui0AE9JLMoBu
-	 e/SysPrOtbG0fsk7d21JnbgWcdevDpm3rVWd8DhHlJF6I3h/RAqTPOK+2RAupO/83nhRo
-	 6Yxk9dwgU+VsuZ4N/f3hEviquzWFyols4/5WAprAPuPXB7hhzAp4z/oAKGGfm9yqIjvOK
-	 kls8aMM6zBG90pJynmHCTKv4HKibLr4nSzukoyNAa2h0aApQQXOEcgoBfO21mK+p04w==
+	t=1794559974;
+	b=XP7omQNBSHdRuc+Xq2ZjdxdfGpC9idflDdVCYT8S4clztuTrt5kpdw7tTLIoAC2JeFRm
+	 wmhY8F99GwJ9udvKQri/02TNJKJLrIKDNgl7DzDB+wd8fHVZpJmeto8KE+KgHIZCruKUh
+	 xSlhiHSAt6OjlP7c/lf3fuFWXGnK6sqZqIzxlMguxsF56BUeuUY8DfmH1zK8ftZUc4dR1
+	 sD5zkAHM7yr95Lf9DKumh6PELed1WURxbU0lXuc6XQrRGSdpai2x0TTreg/tqY3aKx/mY
+	 l3y91vL225oovQte7yNw2OMaR0/Zb9z9uHboQE0sv7mVwsGJGnog0KXNx3V2jYAFUqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794558856;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=PqlGlQac1A9N90ytvOpZM4/ZXGtYzdUrvraQxFDjpTI=;
-	b=x0H/ji7syxnAKfLbHCnHcvkSUrGB6xcyuqMsm1d4Abd/ukPSsOaCRuCT2Lr5YB7xZR2I
-	 n2k1kvYMyZhwCYgnAi/P/Lrwla5JSofqER6heZyyiDq1eealbKrD/frTBKuOOYD5EuCGu
-	 lbQnT8aCYX7iWur1kr06IMe5/Grr+cNOTHUJJWAe9nl8P6xxgMKHIsT5i4ku3Ut/FsCl0
-	 byH3ruBh5GD+SVdnY5tmtxKQzonbtXTI1jcEcKGjOqhUkgH79kiGPLghXmE3CCwsYAs5i
-	 WOOdDaIiqqysqcFv82PFHTEZF59KiBlV2Cjz6KePHUTys1OVSu/f3u+AcNMrDNSjjCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794559974;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=OkDaAoi/EIO3hdXCojocOr/5XtidjiwgmGepMahiVm4=;
+	b=euYRYJz3CW4hM4lRi4EucGt/7BkEHxF5V5mWv/OAdmttJLrX7KJsStcB1RBW4pNKnDxM
+	 0bfp/jcSYgZKb5K/twTWLwj8RqwE04t8YZEHP5AWDkyPobYVfzFje5sB1+bUfDIyfF9Ap
+	 04vo51g+T31hq5UUBNeaX6rLhKya4UlVM5bI/ogcoZQibqz3sQ12ZcycHsqP//31Xefet
+	 /2jse/RE3UEwjaG3LUxna9xPk+58DQqcgeBw4qsRDknJtRBIqBxuAdb8CUXUFZ/3cREWU
+	 ScsJXZjxNVUXG9iLsrFmdt6NfyJIlC4Lv0rd5GM6qWuOAOCXL5Fd2AQGlQRDQnBvPmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="mr1FJ/U1";
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE9B606A338;
-	Fri, 13 Nov 2026 08:34:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BE9B606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i8Je1Ja6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FD8606A896;
+	Fri, 13 Nov 2026 08:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=mr1FJ/U1
-Received: from [10.26.7.43] (unknown [4.213.232.19])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 465FB20B7166;
-	Fri, 13 Nov 2026 00:34:07 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 465FB20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794558851;
-	bh=PqlGlQac1A9N90ytvOpZM4/ZXGtYzdUrvraQxFDjpTI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mr1FJ/U11L6/0Syh44CR6HPl52bAyo6Kzg9D/BAgOx8zTtJ/Np5/GAG5d3yn2hkHH
-	 vHLqLD0hEm1yc/MPMObiiwtrhFt9xg07aceKwWJ7ap8whlTdQNo6LeWf1uhpO1uoIQ
-	 /i+Og+wxX61FJ5loIU0qmLjvUekpu3h6PNvFjUkQ=
-Message-ID: <fc2ae552-86ee-40af-a997-454c2d3b176d@linux.microsoft.com>
-Date: Fri, 13 Nov 2026 14:04:08 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i8Je1Ja6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E779B1F000C4;
+	Fri, 13 Nov 2026 08:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794559974;
+	bh=OkDaAoi/EIO3hdXCojocOr/5XtidjiwgmGepMahiVm4=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=i8Je1Ja6fo2rixfWShhRVRyR8nZVBvWOUOYad2GPmNouZWCVF6fRMqsX7J5u78EkZ
+	 ot7rDQeuzOni154H/2rhLJrj1Y6gPTK1u7xlxPWj7WMrupSHFH7H02G679cI1Pykr+
+	 5JE0Wd0qMJx0TKsxCOsB8EKrs0FAghbyCevoKOFVZb1vOA0aU4lcFVTTNpRtQfAjWY
+	 ziutDuMmIDphp5ckdIw1YItDRYdN/VvDGG+DzVmExFKRvsaa4v5s/aXD2lKD4SEFiJ
+	 8FAn/8f4SNjoxTjAlTfGYdPaKOCIuD0QYS7rOzzosAuzWvMOCJzR12GqaplH0YM9tp
+	 pGOegJtAPb2bQ==
+Message-ID: <sashiko-outbox-212474@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v3] net: mana: Avoid waiting on dead HWC after
+ device reset
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sahil Chandna" <sahilchandna@linux.microsoft.com>, linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org
+In-Reply-To: <20261112085226.878780-1-sahilchandna@linux.microsoft.com>
+References: <20261112085226.878780-1-sahilchandna@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 08:52:53 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -52,64 +58,103 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] net: mana: Add CQE polling as first-level TX
- timeout recovery
-To: Breno Leitao <leitao@debian.org>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, weh@microsoft.com,
- kotaranov@microsoft.com, horms@kernel.org, ernis@linux.microsoft.com,
- gargaditya@linux.microsoft.com, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org
-References: <20261112105752.978446-1-sahilchandna@linux.microsoft.com>
- <avWrMQK_DuZ1hAwD@gmail.com>
-Content-Language: en-US
-From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-In-Reply-To: <avWrMQK_DuZ1hAwD@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 12-11-2026 17:37, Breno Leitao wrote:
-> Hello Sahil,
-> 
-> On Thu, Nov 12, 2026 at 04:57:18AM -0600, Sahil Chandna wrote:
->> Implement a graduated recovery approach: on the first TX timeout (or
->> when the previous timeout was more than 2 minutes ago), schedule NAPI on
->> the stalled queue's TX CQ via napi_schedule(). This triggers
->> mana_poll_tx_cq() through the normal NAPI path, processing any pending
->> completions without relying on the interrupt and recovering
->> missed-interrupt scenarios without queue reset.
-> 
-> Which interrupt is being missed here?
-> 
-Hi Breno,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] net: mana: premature TX NAPI deletion in
+  mana_dealloc_queues()
+--
 
-It is the TX CQ completion interrupt. After NAPI finishes, it re-arms
-the TX CQ. When a new CQE arrives, the hardware post EQE, which raises
-the MSI-X and schedules NAPI. If that notification for the TX CQ is lost
-, NAPI never runs for the TX CQ and pending_sends never drains and the
-queue stays stopped,  so napi_schedule() polls the CQ, reaps the CQEs
-and re-arms it.
->> If any subsequent TX timeout fires on any queue, within 2 minutes of
->> the previous one, escalate to the existing port-level detach/attach
->> reset, as the CQE poll did not recover the queue.
-> 
-> How was 2 minutes chosen? mana sets watchdog_timeo to 15 * HZ, no?
-The watchdog_timeo is TX stall timeout setting i.e if a queue remains
-stalled for this much time, it trigger watchdog timeout. Here, 2 minute
-is not timeout/wait. The 2 minutes here is for deciding whether a new
-queue stall event is a repeat of the previous incident or a new,
-unrelated one that should get the cheap poll first. For e.g. if a queue
-gets stalled, 15 * HZ sec later, timeout occurs and this patch trigger
-manual NAPI, if another stall occurs (it can be on any queue) within 2
-minutes of last one, the existing recovery mechanism of mana
-detach/attach will be tried.The patch is adding a first level less
-destructive recovery first.
-For selecting 2 minutes, I do not have any hardware basis for it afaik,
-but I can confirm and check with our host team as well.
-Hope this helps !
-Regards,
-Sahil
+commit d359cd9ade3de8d4713c17d8d3e7c311b5d6d28c
+Author: Sahil Chandna <sahilchandna@linux.microsoft.com>
+
+net: mana: Avoid waiting on dead HWC after device reset
+
+This commit replaces the sleep-based TX drain in mana_dealloc_queues()
+with synchronous CQ polling and marks the hardware channel dead after a
+device reset so subsequent HWC commands fail fast.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 38249e092090a..739021aa09b38 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -3799,42 +3809,110 @@ static int mana_dealloc_queues(struct net_device=
+ *ndev)
+
+[ ... ]
+
+>  		for (i =3D 0; i < apc->num_queues; i++) {
+> +			struct napi_struct *napi;
+> +			struct mana_cq *tx_cq;
+> +
+> +			if (!apc->tx_qp[i])
+> +				continue;
+> +
+> +			tx_cq =3D &apc->tx_qp[i]->tx_cq;
+> +			napi =3D &tx_cq->napi;
+> +
+>  			txq =3D &apc->tx_qp[i]->txq;
+>  			while ((skb =3D skb_dequeue(&txq->pending_skbs))) {
+>  				mana_unmap_skb(skb, apc);
+>  				dev_kfree_skb_any(skb);
+>  			}
+>  			atomic_set(&txq->pending_sends, 0);
+> +
+> +			if (txq->napi_initialized) {
+> +				netif_napi_del_locked(napi);
+> +				txq->napi_initialized =3D false;
+> +			}
+>  		}
+>  	}
+
+[Severity: Medium]
+Does deleting the TX NAPI and clearing txq->napi_initialized here run too
+early, before mana_destroy_txq() destroys the SQ object and detaches the
+TX CQ?
+
+At this point in mana_dealloc_queues(), the SQ object is still alive and
+tx_cq.gdma_cq remains published in gc->cq_table[] and eq->eq.child_cq[]
+while mana_disable_vport_rx(), mana_fence_rqs(), mana_destroy_rxqs() and
+mana_destroy_wq_obj() run, so a completion or GDMA_EQE_THROTTLE event on
+the shared EQ can still call mana_schedule_napi() on the deleted
+napi_struct.
+
+Clearing txq->napi_initialized here also causes mana_destroy_txq() to skip
+its post-mana_destroy_wq_obj() detach block:
+
+drivers/net/ethernet/microsoft/mana/mana_en.c:mana_destroy_txq() {
+    ...
+		if (apc->tx_qp[i]->tx_object !=3D INVALID_MANA_HANDLE)
+			mana_destroy_wq_obj(apc, GDMA_SQ, apc->tx_qp[i]->tx_object);
+
+		if (apc->tx_qp[i]->txq.napi_initialized) {
+			/* Detach the CQ only after the WQ object is destroyed,
+			 * so a completion EQE that arrives before then still
+			 * finds the CQ in cq_table[] rather than hitting the
+			 * WARN in mana_gd_process_eqe(). One grace period then
+			 * covers both mana_gd_intr() and NAPI users.
+			 */
+			mana_gd_detach_cq(gc, apc->tx_qp[i]->tx_cq.gdma_cq);
+			netif_napi_del_locked(napi);
+			apc->tx_qp[i]->txq.napi_initialized =3D false;
+		}
+
+		mana_deinit_cq(apc, &apc->tx_qp[i]->tx_cq);
+    ...
+}
+
+Because mana_gd_detach_cq() is skipped there, mana_deinit_cq() ->
+mana_gd_destroy_queue() -> mana_gd_destroy_cq() has to detach the CQ and
+wait for a second synchronize_net() grace period for every TX queue under
+rtnl_lock.  Leaving netif_napi_del_locked() and txq->napi_initialized =3D
+false to mana_destroy_txq() (and guarding the redundant napi_disable_locked=
+()
+in mana_destroy_txq()) would avoid both issues.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112085226.8787=
+80-1-sahilchandna@linux.microsoft.com?part=3D1
