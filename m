@@ -1,122 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794577796;
-	b=IUXgJqI/K+Ly2dJmMZJIZ7et44Xz017YBflV4gYSidfXuevVxGVCKCjEjAGIBlNyp3v7
-	 BfcA5+eHu5Vw8IkhqCcXYgonJAq5d3XGjVu7wCq2TWEUYcFl9crAcfRsJEYgYL2UvEoNJ
-	 CWuIk1JCCiCFB9Uuxn7GdeDhxqQa8OizDac92bEts1rN/+xciVAYXJmq8aEM6BlD5znML
-	 d8M59PRVzOU8cwSF6XceaW4aknMM0vZEYaJ8dABnZMSqKWYkUFKCndy7197aCvY4AhQEZ
-	 Ms43rHUcgztWBYsIhKVYnLtrBe4rR/gYkVTpRgkPNWaAD/DOSJTjFueSYaahOWN+gFQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794577796;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:From:In-Reply-To:References:MIME-Version:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=8e2MXnw38pYzH1XVs1yXJtejPbQN6bZltGajv/NaWc0=;
-	b=WVHVBCJ1EPpZUT4iKdTwHz5we9hqTbLevnxmzmaAFGnCxwZ3SHvhNfTcLcJnr0DX4Sp1
-	 xVVpWrpcIUoTh0O2FcGW5H6X/eC4TC2G45xkwghe4sUxNacr8zYaYuZ+NXX0+7fCgMjZQ
-	 fvnOr8vfpYQbsBaY3li5I9JhJZYDCrNGwBZu3/ixakFA8WapU2KxB2oqZPBE+1hyAMhbS
-	 gXfiXIcfGIacOLfdnN6q2qztY+MORV/3JFMs2xKzDT3VHPxGjiC2mb0W4kUIASr28+DRd
-	 nQihC9WenMcCZVBJICUY66vf4wegxlFwq5Z85P+mB7e8GLjX9ngBOQfjxUA9fNKB8Kg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dnr4bWaa;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Ga5oluTv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794577934;
+	b=W7zXGk2wZAwq7D3nO42CbI91OezImwhE+I/CF1b0WG0USdC66oCpzAgJOL0qneYEVaXJ
+	 JUCZABOLUXIs6iOrEe/CzvAwfnuFBk2xMK6PuGTueJJekdTURJkCKdhdMZiSccpHvpXmy
+	 uJN7qsKDtxPHG0MGJpK3VpwiIQRGJlthgkFHWg73TEXUdVllpVp2UwDiSRO6LDFkt3G5h
+	 iuBC2s+BHhhQAqBghbzdCiQQVUa5c10Or3C/fOnKsk94rpjxaHXdimICEWMn+x0U9GPDn
+	 0+Tx0QeOihCiIWGffb7kcimNP8KO6REDmqJMAhWKfB29S5TFYp3YlT4kQb4uiSBhhRQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794577934;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=MlPSuCq58e3P4npzO9nCJTYzKVXM26Cp2n+6yfohh6Y=;
+	b=wZGJNVX080c+SvKHCFhUdQoQDjpljOP0kW5Udee2yG14VAu0KHOYxT+25mViWDXBPWZA
+	 WVforDFC5OR3hVTClv170qLZg1Eqc89XwFiC1G0DrLjsZUijQUs9SpNXZDU83LrmAn010
+	 iEx9PfwAhh2hVcFCPQuJsOplFwHKPbMi5YvS8QcbSTiWJ3wb6hHafXO0GXoe2FHO/yY/f
+	 k0snC0uYks5qMf7NAAijrsj00UFOjORsJqwerIF95xRIDyxqds5jFrYkFp2YjFU0uAtog
+	 CVMcefAGfSL2t4wyQTEWx8YU6puJSxdeevJESFql2ct2TsHQA0/G0MSgwtGOS0XHZmg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TKl1Fpo0;
+	arc=none smtp.remote-ip=209.85.214.200
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AA460A2635
-	for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 13:49:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00AA460A2635
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814BB606A89A
+	for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 13:52:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 814BB606A89A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dnr4bWaa;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Ga5oluTv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794577795;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8e2MXnw38pYzH1XVs1yXJtejPbQN6bZltGajv/NaWc0=;
-	b=dnr4bWaah9/wySNrHe71UxG7yxYO1hP4OJsDO4UuONplGfOBRiaQICVPWXH0a5xAfClVPc
-	t+VpNg58eHK3YP5XWW59CAcUzV5E/GfH9p/c18EmHQRz6zpg7GqxOWWu1kW44oqkX5txvm
-	zu2Lk64sIPPATltWgXHym6Mxatxh5HU=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-VX56JTloM7yVmi4Sdn6pLQ-1; Fri, 13 Nov 2026 08:49:53 -0500
-X-MC-Unique: VX56JTloM7yVmi4Sdn6pLQ-1
-X-Mimecast-MFC-AGG-ID: VX56JTloM7yVmi4Sdn6pLQ_1794577793
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-91eb0610cb9so12621086d6.3
-        for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 05:49:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794577793; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aZGTBufMf/8OatSrnQSVfA5o04WrPOe1SkH0EOYuWG9PaxnzO0oA+D/8qa6Gi+wfV3
-         apybu47HWKfuFjOw2XxwSbxQmel9L/tjx/o0fBzaTIduj8ZvN5DcW2rFF6P648mqTuns
-         SuUEc7dya6lcfTTRClvg87q6k5fsdkMxWEVxLZjBC7ixXXuMTyz2dDRU+7De7bkE+11i
-         AD8Pb/7vz/G23oogK/hGEWe5JU6lfO5UwC3f2CCWw898RUtK8c4bLvqKZEEb86D+VX2k
-         6r4Wb5fMGtxGLckd966fgldR6mwZw7wC2534TUg6f+L6sEKu/+qqkHWjMrRsuaXkhgPT
-         3eBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=8e2MXnw38pYzH1XVs1yXJtejPbQN6bZltGajv/NaWc0=;
-        fh=Z5q/mlemRw0dGjga99KoXrD3cS6ukO7PUL1JxBVgkCM=;
-        b=KAHof+BoVwgXEClUpYtM5eQKHp8CSukwp/V6kZTNOw067POgnurnCc07KwshBHu67O
-         GNMkd41tuGzL3npy+MtxNYiQfTKP+U19aO7Ovv8bIK3Tgn3+OC0Hc9OL3CoRzCWjreWV
-         Dy2Z2ZxGbjNF1+Yq4eqPdfy0ezSDcX/u0BIgsS4k15uBqBHvzC6Jyv/PPA3OYdfMTaUV
-         Nc80HO4GqKwQCmTdWPm7V40MqkezD50MPYtFop/yqRyUVEQOx0dxvgJFoeHp65vmm1/l
-         J+K95N7pANjAjT1zxZqBvSKQfz4vpbJDjm3G2kYL1cNhOuD80nHYZPV146+AsS6iJ5Zk
-         WX9g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TKl1Fpo0
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ed077a15c3so8454105ad.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 05:52:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794577793; x=1795182593; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1794577934; x=1795182734; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8e2MXnw38pYzH1XVs1yXJtejPbQN6bZltGajv/NaWc0=;
-        b=Ga5oluTv2VoCAk4tJJMwd4DcHxnzZN8P5RMMfsYuwHSiMT40x247pqXYZppw40aUfp
-         AgXHj7O5P5EGzLh4fIFmrS2LDUH+QEQZYT3NfXESJ7+2AAzl/5iG4ssuum/lz5MnkbiY
-         FEWaupRQi3hJm3DKU1Rj2ZQVesMwID+ZlD3yg4Dcq13ucBIA2y5CuZZ0qDg+hag5pCQ2
-         rQ5GzjunzI61xrZyS6U/SOWzCL5dpAMnK6H42AAF/0so3HDc8I1e5CduBSEcu1Nj+iKT
-         Na7YqNXXzrX2iDdPop6PnLFczlm8s6Y4c3Y6Takf75DT2e9wYXuz0ZE7I3UrxJfbFVUJ
-         fD0Q==
+        bh=MlPSuCq58e3P4npzO9nCJTYzKVXM26Cp2n+6yfohh6Y=;
+        b=TKl1Fpo09aGy2X/6g4rqWMCDe6yRsGaCn4ziqqMCt/0BCllTEK/txyF3L+0dqyNWoz
+         5Od1dnzxNCQwBS8yxStc6Dq1GcvuI6UEk4Hz/hDG8HdhemvzD2ZpS2Ahjaz5Ct1n9uYy
+         eo4xcF+LWNWzWMMKinYUDIT2hG4FZ6FYvdm9oc8mK62op1pxfBXjX7tfJk8krceQYyXI
+         iMCjPO15xuUmL4/iZvf8rvSS3pp2FMKWpSOEPzGx6/w5ODk7vyIO0siRPUcts7X+6Wv0
+         2pLEokDE8n1HY+Mj0PuxRg1JqaDpKeeG67RL5mUYgtVa7vLJRD34hMsFZmZ0KhkgSAnK
+         qi5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794577793; x=1795182593;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1794577934; x=1795182734;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8e2MXnw38pYzH1XVs1yXJtejPbQN6bZltGajv/NaWc0=;
-        b=BGBSe+/IWbWGTt27MgdDFWcYZoGqHRpIPvl6PtBkqvEqlZzEwq+9vJTHxu2aUm1kTg
-         Gtyh9LUX2TXeR0Ls2ou3aRTerBwK8M/xzlSZ6seX2EEdBhRpB6+I6XE9C6G6LX2iBGcB
-         W6Cpbx+Oyl6EL68cXQe5crpm4fBCr5oYARjZjJvK+dyirkcHfRQOgeB5zKeqCWNOoWwy
-         TdIDULUoG9zkIRTMum59bu6CZHyTQZzO0J2UkMbJu8DiS22DQajlQyMCuVKuxtjheOC2
-         aP13y0Cjvb7M5uUZE2GAfBvxfiHWJNT9av4AyzB/kxiIgUy5xEp3dPCp9qxEzXJBlDYe
-         WtKA==
-X-Forwarded-Encrypted: i=1; AL+hErEVQJICjiI7M5eT/7kNZek9v4YwTFjEhVQ9sQmHzlY7I2rJ8Cq+XJUUMpmplzn3+yOB5twEmKi/WLGgaK0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+MwxSA0u+f/pDXJaqmvXGZTFq9+HahpNZtyhbzgJfawRayJK2/
-	RjgkFKDm/jzxMsE7IzeIuJyS29wh9j7vvhTGiNrywdWTM5JYPDNhxdEiZg5AjMaLpullDSMt4e0
-	Kj/A4MCpK07g/8T2Cue7DgfJ7Ii1raunjI+H02UXBjNvKwY0n/1ZwknoJMz8YRH9NNdORyA/YUn
-	ji0ONNjBRDtE0hTYnxAC+ewy5TAnd2hIrLU6wk+cUh
-X-Gm-Gg: AYBFou1SSwF81uDy4YSqIM+BbAArQD+XfPN3fVVcMQRHNCllDMZ24jmglzO5eAcA552
-	P7G+3C/gXWm0NT3LGteYUXUyIY187CLuK0B7Y4v/gQYq6rirD/s3CI4ntvdh2qPVnqGJe2/fvYn
-	fi7GlMcjgoMZdW7e1/V3HjcQShP1vk1izemZ+Q8Ah+6oPb7+HrBH2CIfM=
-X-Received: by 2002:a05:6214:85cd:20b0:91e:89d8:a330 with SMTP id 6a1803df08f44-91f241f6d2bmr27649296d6.25.1794577793137;
-        Fri, 13 Nov 2026 05:49:53 -0800 (PST)
-X-Received: by 2002:a05:6214:85cd:20b0:91e:89d8:a330 with SMTP id
- 6a1803df08f44-91f241f6d2bmr27648836d6.25.1794577792581; Fri, 13 Nov 2026
- 05:49:52 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 13 Nov 2026 07:49:50 -0600
-From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <20261113080506-mutt-send-email-mst@kernel.org>
-References: <20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com> <20261113080506-mutt-send-email-mst@kernel.org>
+        bh=MlPSuCq58e3P4npzO9nCJTYzKVXM26Cp2n+6yfohh6Y=;
+        b=Hu5Uq1mrX3GFs2dc1D+5OD+Xfi2E0Ixi3UBr6v7YSRio8iSSN8hRq1HsinS7pAsClt
+         waSbH1kyP6ok9HsFjBdJoX8qsn3PAoRphp8Hq+DF/W8U/peX1M6DG6X4AkeT/axknC1+
+         mvxPDGz7nU86nTxAYYcWe6dDU67MIJ9ceTzKLU5ZyX1I+bWdfvMk8718Ym0/MIeTwcjC
+         YGF9z6d8zGBSw7lHDNjuMhcARUqZ39uOYoKfWFHHyAmC6BPEwCABk/xXVFcCAWNqx7c0
+         LHXNGQUeHq0/cq8/zl099MEijYV7z3wOzqCbeOwtbSjpIM4C92g1ottF+1D1rcLPmZJB
+         CuqQ==
+X-Forwarded-Encrypted: i=1; AL+hErHPeL91F3ds3/YKcaThHdzRgR/AswtygCPfIDKunUBRoGdHpvE9hGOmMr/s4OYpbFh2k26T3cHTcdEw9wI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9rulDHQcHytF51/mnu1RIFT2kPZmMFKUxeApEuw29PdBPIadp6
+	Ipc06Vm/P3+8TzZyj9tJhNU8DcQJ5aKuxvd/J6alxaX0KF7JJ2D64m7prslmSfprhkhAnenOz55
+	3WlRr5g==
+X-Received: from plly20.prod.google.com ([2002:a17:902:7c94:b0:2e9:4ce7:154a])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:da86:b0:2ed:1fb0:7784
+ with SMTP id d9443c01a7336-2ee0da7bd5fmr24791955ad.10.1794577933550; Fri, 13
+ Nov 2026 05:52:13 -0800 (PST)
+Date: Fri, 13 Nov 2026 05:47:27 -0800
+In-Reply-To: <20261005192431.87317-1-hmushi@amazon.co.uk>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -125,64 +78,36 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Date: Fri, 13 Nov 2026 07:49:50 -0600
-X-Gm-Features: AclHuK9yYj2AE7jCL2Q7aluEqsTHouql9M7zvOo0Tu9GOsA54iFCZqauW8Q06G4
-Message-ID: <CAAiTLFXvuHY=r8FPM7TFNTAO1oyco-brcc6YAc=YN432h87RSw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 0/8] vsock: add datagram support to virtio and vhost
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>, Bobby Eshleman <bobbyeshleman@meta.com>, 
-	Alexei Starovoitov <ast@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20261005192431.87317-1-hmushi@amazon.co.uk>
+X-Mailer: git-send-email 2.56.1.703.gf848ed807c-goog
+Message-ID: <179441831766.81610.17390734527567827315.b4-ty@b4>
+Subject: Re: [PATCH 0/3] KVM: x86: Support hibernation of a nested Hyper-V
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
+	Mushahid Hussain <hmushi@amazon.co.uk>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, linux-hyperv@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nh-open-source@amazon.com, mushi.shar@gmail.com
+Content-Type: text/plain; charset="utf-8"
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+On Mon, 05 Oct 2026 19:24:28 +0000, Mushahid Hussain wrote:
+> A Windows guest with the Hyper-V role enabled runs its own hypervisor
+> (hvix64) nested under KVM. When KVM advertises the Hyper-V time and
+> frequency MSRs, hvix64 lets KVM own the partition reference time. It
+> then offers hibernation to Windows only if KVM also advertises CPUID
+> 0x40000004 EAX bit 20 (RestoreTimeOnResume), and on resume restores
+> the saved TSC and reference time through HvCallRestorePartitionTime
+> (0x103). Both are reserved in the TLFS and defined in Microsoft's
+> hvdef crate.
+> 
+> [...]
 
-> On Fri, Nov 13, 2026 at 01:47:33PM +0100, Sergio Lopez wrote:
->> This RFC adds SOCK_DGRAM support to virtio-vsock and vhost-vsock through
->> the existing AF_VSOCK API. It is intended for guest and host services
->> that exchange independent requests, responses, or events and need message
->> boundaries and sender addresses without a stream connection or application
->> framing.
->>
->> VIRTIO_VSOCK_F_DGRAM gates virtio traffic in both directions. Each virtio
->> send carries zero to 64 KiB of payload in one VIRTIO_VSOCK_TYPE_DGRAM
->> packet. On the RX virtqueue, the device may split a datagram across
->> page-sized guest buffers.
->> START and EOM delimit the message; the guest reassembles at most 64
->> fragments and 64 KiB before delivering it to a socket.
->
-> where do these limits come from? how does peer know not to send more?
->
+Applied patch 1 to kvm-x86 vmx, thanks!
 
-The 64 KiB limit comes from VIRTIO_VSOCK_MAX_PKT_BUF_SIZE. The number of
-fragments is a reasonable number to prevent the driver from putting too
-much strain on the device.
+[1/3] KVM: nVMX: Clear stale vmcs02 sync flag in free_nested()
+      https://github.com/kvm-x86/linux/commit/ef289f270c59
 
-Both limits should be part of the spec. This is the relevant part from
-the draft I have put together so far:
-
-+When VIRTIO_VSOCK_F_DGRAM is negotiated, each rx virtqueue buffer supplied
-+by the driver MUST have room for the header and at least 1024 payload bytes.
-+The driver MUST discard a received datagram packet whose \field{dst_cid}
-+differs from the current \field{guest_cid} configuration value.
-+The driver MUST reassemble consecutive fragments with matching address
-+fields and MUST NOT deliver a partial datagram. It MUST discard an orphaned
-+fragment, a fragment with an unsupported flag or operation, and any
-+incomplete datagram interrupted by a new START or an unrelated packet. It
-+MUST discard a datagram if its total length exceeds 65536 bytes or it has
-+more than 64 fragments.
-
-Thanks!
-Sergio.
-
+--
+https://github.com/kvm-x86/linux/tree/next
