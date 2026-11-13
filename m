@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794594896;
-	b=Q2KCp7NQmfnjYRtuPQ9ygMHTTnrOcFf2a4ZS9mCeQcvtwdXDmGviDcfHIopNQsfHcwhB
-	 JAEXg6cwbDH4SSEDeYEc9v6VbKNs2QNGUMnKDkNzv1v0Wb2R92lhhdNAKMKlRximaEgM5
-	 +kMfswnudyCqSxbfmBmMC8+5Ust/RP3Jo0dMpL0qFE7dwoz7KRVbKOZjZ/Lzawbgm4V+N
-	 9mBJt1uWY5kPZL8qXHRl4wDyg6Sj8vNiER3+3qfaHo4MzUSIvE49neHFMVEwBrNvEQ7eU
-	 tH7Rpiq08hxQA8tjDiQGauq/2Hn7l02ixCsGFNY+dnGmOjuOk53DCF7gE1mexBy48IA==
+	b=z2Snkjcs97I0tCY3ayq5+wTwuS/9tk043A7uDAdT6vkkT3OW7FCzi0NbDyGQa9FLFdFj
+	 mtYFGa0Y0KIkcEyaVivbuoAfL/qURQh276hhWTXTTsS2jHFrHV0i12yg2ARuEGnkdXQYs
+	 uOmubQ5be+dRKX1OS/3i7SW/vbBELE8eZycyf6t9ltkRnSRnysWeFR7+2Q+ltd/zfRIet
+	 2i84izY4+Hb+fX1Lpn8a6Gb6sp47vftkXPF8DEbT5vZa6wedAxtwkTzLBzvxiAcdUZ52l
+	 x9VoI0qEgG5S7AuGbNUj1RcFHxb1VyWO0o/lUcK5M/74toX/eQZ3cIIKju+D4yhO+Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794594896;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=2VNgpoVKZjclgpW10JbzOiy3naqOHzafryfAc0JfXDU=;
-	b=yvmaT1vehwKjYXQNQlk6Uk93/Slk9wNChJlfNd1JpmXfEHvl6IYw5CqRZujAx0RbRWH4
-	 lQl4bvcXqwj2MlpA5agGNMvJdl9lcm1lXIqoiB4qqR9X+RrjDWle24Zq33N0mprEgygEr
-	 VSsY9TCVEFsV69Ib11LPSB9ZgebfJRIjWjyeTs0uad29WsAjBjEksZvrag8cCGUYH0lw9
-	 8nlruPY5l0E205yFgDoYNgGA9+TY95h5ktv8UVaWKkOb3XBS5B+8jKH6zCWiuQKO96076
-	 4fDpe7lI5PT75NFlnM/JvFAI1RzTzXT+txjlI1UpcIH8F1lyM43JawjaCQdUdY1SyHw==
+	bh=VBOpqTxN3vlF8ZFojc7vZzpPompRvlLqN47cSb7Z1Mo=;
+	b=hZD2CshmpXRJ1unwL8qF1L8SCSZf+/96zCYZuP1hIRRfRU1ZIlSMCQdpaQlW1eL5sxAd
+	 owBD/x+xU4+O3a5EWaY9x5DggUXqH07IwsoQnUNY7+Uxsb4TDno2+jjv4Xj0FK3xDSeSC
+	 DIL1IjizZWBv/RA2A3lrWFu3mqLjJ84zyryocbJv1NkaUX4pLvZxKk75tTYIH4H9/JGIp
+	 DLWwUy1UeodEATjIT/tRBQ1RE70pNOUB6c0JmlQ3R1tItVOIl2wvIFWFDTj+yCXr2nsdq
+	 IovV3EGCDVBPfyVC78RmGSW0QjG76mUMfzorKoKD0ydcLw5vW53D7KYt9ym7FL+kvHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=IJt5TwTO;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=EkUh3Ox+;
 	arc=none smtp.remote-ip=90.155.92.199
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72E760A5BCA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C3F60A5BC2;
 	Fri, 13 Nov 2026 18:34:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B72E760A5BCA
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0C3F60A5BC2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=IJt5TwTO
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=EkUh3Ox+
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=2VNgpoVKZjclgpW10JbzOiy3naqOHzafryfAc0JfXDU=; b=IJt5TwTOpkaqAUsn3u0mErKz7v
-	NdnnKFx4ZsGZOplwVTdTWUkqdkIque1K1hc9eDn/yF0n/FBeJh69DfVKXAPHlWZRZ5ZBK6xGN8rqL
-	pLwD/jueJFTknI4KMDxtUImUD0e1K1EabpdDGxKhbwKGRKkVj2xLHgtUb+rIySWMiNUK53v+4YX6u
-	b+JIDSzNIvBhbNBLVr4Ks2dy/mnOjSHvIpPRtPWE+m8022Zp6Tl7SFrMorXlVg1MIEQUl8EUVzdhl
-	1mb1beJesHitCKRDNthb2tUH9bd0s7mVcRLQXAr0+/8aEG0OO8It0K0umKmQAZvaJYJw0OueKiC6Z
-	tIMVlHig==;
+	bh=VBOpqTxN3vlF8ZFojc7vZzpPompRvlLqN47cSb7Z1Mo=; b=EkUh3Ox+9gjuy1D2h+lJNM3Y4Y
+	AzrVTi5FSKpEj6RiCHLvCy08N83NrN2eLQQ4/g390AITZ056JBklS0REtE35+HXcjjxX25o3YkPqE
+	xg9niULaGmlIsg6uApQrOt39bxV26hDDOApOOpsLOw50Zo2MrW2lBC2xUbz+tLbZToscvkr+15Z4e
+	vcupmSVSEPD1vx/D6DO8f8yMVVF2CulaUEUNHUiU8jDUK4LBxy+a2qLc5tCu3+T9jzzHAI5P64biI
+	2m8fzDD9FedKCda8zQkqaEhZQ/703YZtOl7nRsc+NWtYPn5O8hsUSq5cdlafljIQHBzo2NhkfgFKf
+	oqxO8avg==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6t-0000000Bf04-39Qm;
+	id 1xRw6t-0000000Bf03-3AOi;
 	Fri, 13 Nov 2026 18:34:52 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000Lte-09WY;
-	Fri, 13 Nov 2026 18:34:50 +0000
+	id 1xRw6r-00000000LtW-41Ro;
+	Fri, 13 Nov 2026 18:34:49 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 17/31] KVM: x86: hyperv: Deliver higher-plane SynIC messages through overlays
-Date: Fri, 13 Nov 2026 18:34:33 +0000
-Message-ID: <20261113183448.84094-18-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 15/31] KVM: x86: hyperv: Divert LLDT and LTR into register intercepts
+Date: Fri, 13 Nov 2026 18:34:31 +0000
+Message-ID: <20261113183448.84094-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
 References: <20261113183448.84094-1-dwmw2@infradead.org>
@@ -92,146 +92,170 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-SynIC message delivery reads and writes a plane's SIMP page in guest
-RAM. For a higher plane that page is a per-plane overlay, and the RAM
-underneath belongs to plane 0: delivering a higher VTL's message there
-corrupts memory plane 0 owns, and judging deliverability from
-plane-0-writable bytes lets a lower VTL plant a non-HVMSG_NONE type
-and swallow a no_retry (periodic stimer) message.
+HvRegisterCrInterceptControl has LDTR and TR write intercept bits next
+to the GDTR and IDTR ones, but only LGDT and LIDT are diverted into
+KVM_EXIT_HYPERV_REG_INTERCEPT. An armed LLDT or LTR in the lower VTL
+is applied, and the higher VTL never sees the write it asked to
+intercept.
 
-Read and write the message page through the plane's overlay when one
-is installed. A higher plane without an overlay fails the delivery
-with -EFAULT instead of falling through to kvm_vcpu_write_guest_page(),
-and the sender retries once the overlay appears.
+Add a divert_seg_write(ctxt, selector, seg) emulator op and call it
+from em_lldt() and em_ltr() before load_segment_descriptor(). It goes
+through hv_divert_dt_write() with HV_X64_REGISTER_LDTR_ID or
+HV_X64_REGISTER_TR_ID; the intercept message carries the written
+selector, so the exit reports it in 'base' with a zero 'limit', as
+api.rst now says.
 
-With that, a higher plane's SynIC no longer needs hiding from the VMM.
-KVM_EXIT_HYPERV_SYNIC is reported for non-zero planes again, and it and
-KVM_EXIT_HYPERV_SYNDBG carry the plane, so the VMM can keep its plane-0
-device state separate.
+Divert from the instruction handlers, before any architectural effect,
+rather than from emulator_set_segment(). Task-switch emulation also
+loads LDTR through __load_segment_descriptor(), and the TLFS intercepts
+cover the LLDT and LTR instructions only; a divert there would drop
+the LDTR load of a protected-mode task switch (reachable by a malicious
+lower VTL, even though 64-bit Windows takes no task switches) and send
+the higher VTL a mid-task-switch intercept with the wrong RIP and
+instruction length. For LTR the order also matters because
+__load_segment_descriptor() marks the TSS descriptor busy in the GDT,
+and a busy descriptor would #GP the LTR when it re-executes after a
+cooperative VTL return.
+
+No vmx change is needed: SECONDARY_EXEC_DESC already exits on LTR
+(handle_desc covers EXIT_REASON_LDTR_TR) whenever any
+reg_intercept_control bit is set.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kvm/hyperv.c | 81 +++++++++++++++++++++++++++++++------------
- 1 file changed, 58 insertions(+), 23 deletions(-)
+ Documentation/virt/kvm/api.rst |  6 ++++--
+ arch/x86/kvm/emulate.c         | 21 +++++++++++++++++++++
+ arch/x86/kvm/kvm_emulate.h     | 10 ++++++++++
+ arch/x86/kvm/x86.c             | 23 +++++++++++++++++++++++
+ 4 files changed, 58 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 5a42d479e936..3494f3b29809 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -253,15 +253,6 @@ static void synic_exit(struct kvm_vcpu_hv_synic *synic, u32 msr)
- 	struct kvm_vcpu *vcpu = hv_synic_to_vcpu(synic);
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index f1c64d721570..b742ca327130 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -7551,8 +7551,10 @@ higher plane intercepted (KVM_CAP_HYPERV_REG_INTERCEPT) has been
+ diverted to userspace instead of being applied.  'reg_intercept'
+ carries the HV_X64_REGISTER_* id of the written register, the
+ descriptor-table base and limit the guest tried to load, and the RIP
+-and length of the writing instruction.  The vCPU's RIP has been
+-rewound to that instruction; the higher plane owns its completion.
++and length of the writing instruction.  For HV_X64_REGISTER_LDTR_ID
++and HV_X64_REGISTER_TR_ID (LLDT and LTR) 'base' carries the written
++selector and 'limit' is 0.  The vCPU's RIP has been rewound to that
++instruction; the higher plane owns its completion.
  
--	/*
--	 * Userspace's SynIC device models plane 0 only; a higher plane's
--	 * exit would be mistaken for a plane-0 page move and relocate the
--	 * overlay the VMM keeps for SIMP/SIEFP.  Higher-plane SynICs are
--	 * handled fully in-kernel.
--	 */
--	if (vcpu->plane_level)
--		return;
--
- 	hv_vcpu->exit.type = KVM_EXIT_HYPERV_SYNIC;
- 	hv_vcpu->exit.plane = vcpu->plane_level;
- 	hv_vcpu->exit.u.synic.msr = msr;
-@@ -795,6 +786,51 @@ static int stimer_get_count(struct kvm_vcpu_hv_stimer *stimer, u64 *pcount)
- 	return 0;
+ ::
+ 
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index 93596cf6aa3d..187047bf1005 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -3394,6 +3394,16 @@ static int em_lldt(struct x86_emulate_ctxt *ctxt)
+ 
+ 	/* Disable writeback. */
+ 	ctxt->dst.type = OP_NONE;
++
++	/*
++	 * A higher VTL's LDTR-write intercept suspends the LLDT before any
++	 * architectural effect.  Diverting here rather than in
++	 * emulator_set_segment() keeps task switches, which load LDTR
++	 * through set_segment as well, out of the intercept.
++	 */
++	if (ctxt->ops->divert_seg_write(ctxt, sel, VCPU_SREG_LDTR))
++		return X86EMUL_CONTINUE;
++
+ 	return load_segment_descriptor(ctxt, sel, VCPU_SREG_LDTR);
  }
  
-+/*
-+ * SIMP accessors: a plane overlay page, when installed by userspace,
-+ * carries the live message page for this plane; the memslot holds only
-+ * the underlay the other planes see.
-+ */
-+static int synic_msg_page_read(struct kvm_vcpu *vcpu, gfn_t gfn, void *data,
-+			       int offset, int len)
-+{
-+	unsigned long uaddr = kvm_plane_overlay_uaddr(vcpu->plane, gfn);
+@@ -3408,6 +3418,17 @@ static int em_ltr(struct x86_emulate_ctxt *ctxt)
+ 
+ 	/* Disable writeback. */
+ 	ctxt->dst.type = OP_NONE;
 +
-+	if (uaddr)
-+		return copy_from_user(data, (void __user *)(uaddr + offset),
-+				      len) ? -EFAULT : 0;
 +	/*
-+	 * Mirror the write side: without an overlay a higher plane's
-+	 * message page is backed by underlay memory that plane 0 controls.
-+	 * Deciding deliverability from plane-0-writable bytes would let a
-+	 * lower VTL plant a non-HVMSG_NONE type and silently swallow a
-+	 * no_retry (periodic stimer) message; fail so the delivery is
-+	 * retried once the overlay appears.
++	 * A higher VTL's TR-write intercept suspends the LTR before any
++	 * architectural effect.  The divert must precede
++	 * load_segment_descriptor(): that path marks the TSS descriptor
++	 * busy in the GDT, and a busy descriptor would #GP the re-executed
++	 * LTR after a cooperative VTL return.
 +	 */
-+	if (vcpu->plane_level)
-+		return -EFAULT;
-+	return kvm_vcpu_read_guest_page(vcpu, gfn, data, offset, len);
-+}
++	if (ctxt->ops->divert_seg_write(ctxt, sel, VCPU_SREG_TR))
++		return X86EMUL_CONTINUE;
 +
-+static int synic_msg_page_write(struct kvm_vcpu *vcpu, gfn_t gfn,
-+				const void *data, int offset, int len)
-+{
-+	unsigned long uaddr = kvm_plane_overlay_uaddr(vcpu->plane, gfn);
-+
-+	if (uaddr)
-+		return copy_to_user((void __user *)(uaddr + offset), data,
-+				    len) ? -EFAULT : 0;
+ 	return load_segment_descriptor(ctxt, sel, VCPU_SREG_TR);
+ }
+ 
+diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+index 488738794bb6..a810d099782b 100644
+--- a/arch/x86/kvm/kvm_emulate.h
++++ b/arch/x86/kvm/kvm_emulate.h
+@@ -208,6 +208,16 @@ struct x86_emulate_ops {
+ 			    struct desc_struct *desc, u32 *base3, int seg);
+ 	void (*set_segment)(struct x86_emulate_ctxt *ctxt, u16 selector,
+ 			    struct desc_struct *desc, u32 base3, int seg);
 +	/*
-+	 * Never write a higher plane's messages into guest RAM: without an
-+	 * overlay installed that memory is the underlay every other plane
-+	 * sees, and silently corrupting plane-0-owned pages is far worse
-+	 * than retrying the message once the overlay appears.
++	 * Divert an LTR or LLDT into a Hyper-V VSM register-intercept exit
++	 * when the higher VTL armed one.  Returns true when the write was
++	 * diverted: the instruction must then have no architectural effect,
++	 * so this is checked before descriptor validation (and, for LTR,
++	 * the busy-bit write).  Only the instructions divert; task-switch
++	 * loads of LDTR/TR are not covered by the TLFS intercepts.
 +	 */
-+	if (vcpu->plane_level)
-+		return -EFAULT;
-+	return kvm_vcpu_write_guest_page(vcpu, gfn, data, offset, len);
-+}
-+
- static int synic_deliver_msg(struct kvm_vcpu_hv_synic *synic, u32 sint,
- 			     struct hv_message *src_msg, bool no_retry)
++	bool (*divert_seg_write)(struct x86_emulate_ctxt *ctxt, u16 selector,
++				 int seg);
+ 	unsigned long (*get_cached_segment_base)(struct x86_emulate_ctxt *ctxt,
+ 						 int seg);
+ 	void (*get_gdt)(struct x86_emulate_ctxt *ctxt, struct desc_ptr *dt);
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 99a18f9da769..165eb105e112 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -5933,8 +5933,12 @@ static bool hv_divert_dt_write(struct x86_emulate_ctxt *ctxt, u32 hv_reg,
+ 
+ #define HV_CR_INTERCEPT_GDTR_WRITE	BIT_ULL(15)
+ #define HV_CR_INTERCEPT_IDTR_WRITE	BIT_ULL(16)
++#define HV_CR_INTERCEPT_LDTR_WRITE	BIT_ULL(17)
++#define HV_CR_INTERCEPT_TR_WRITE	BIT_ULL(18)
+ #define HV_X64_REGISTER_IDTR_ID		0x00070000
+ #define HV_X64_REGISTER_GDTR_ID		0x00070001
++#define HV_X64_REGISTER_LDTR_ID		0x00060006
++#define HV_X64_REGISTER_TR_ID		0x00060007
+ 
+ static void emulator_set_gdt(struct x86_emulate_ctxt *ctxt, struct desc_ptr *dt)
  {
-@@ -815,10 +851,10 @@ static int synic_deliver_msg(struct kvm_vcpu_hv_synic *synic, u32 sint,
- 	 * is only called in vcpu context so the entire update is atomic from
- 	 * guest POV and thus the exact order here doesn't matter.
- 	 */
--	r = kvm_vcpu_read_guest_page(vcpu, msg_page_gfn, &hv_hdr.message_type,
--				     msg_off + offsetof(struct hv_message,
--							header.message_type),
--				     sizeof(hv_hdr.message_type));
-+	r = synic_msg_page_read(vcpu, msg_page_gfn, &hv_hdr.message_type,
-+				msg_off + offsetof(struct hv_message,
-+						   header.message_type),
-+				sizeof(hv_hdr.message_type));
- 	if (r < 0)
- 		return r;
+@@ -6026,6 +6030,24 @@ static void emulator_set_segment(struct x86_emulate_ctxt *ctxt, u16 selector,
+ 	return;
+ }
  
-@@ -828,21 +864,20 @@ static int synic_deliver_msg(struct kvm_vcpu_hv_synic *synic, u32 sint,
- 
- 		hv_hdr.message_flags.asu8 = 0;
- 		hv_hdr.message_flags.msg_pending = 1;
--
--		r = kvm_vcpu_write_guest_page(vcpu, msg_page_gfn,
--					      &hv_hdr.message_flags,
--					      msg_off +
--					      offsetof(struct hv_message,
--						       header.message_flags),
--					      sizeof(hv_hdr.message_flags));
-+		r = synic_msg_page_write(vcpu, msg_page_gfn,
-+					 &hv_hdr.message_flags,
-+					 msg_off +
-+					 offsetof(struct hv_message,
-+						  header.message_flags),
-+					 sizeof(hv_hdr.message_flags));
- 		if (r < 0)
- 			return r;
- 		return -EAGAIN;
- 	}
- 
--	r = kvm_vcpu_write_guest_page(vcpu, msg_page_gfn, src_msg, msg_off,
--				      sizeof(src_msg->header) +
--				      src_msg->header.payload_size);
-+	r = synic_msg_page_write(vcpu, msg_page_gfn, src_msg, msg_off,
-+				 sizeof(src_msg->header) +
-+				 src_msg->header.payload_size);
- 	if (r < 0)
- 		return r;
- 
++static bool emulator_divert_seg_write(struct x86_emulate_ctxt *ctxt,
++				      u16 selector, int seg)
++{
++	struct desc_ptr sel_as_dt = {
++		.address = selector,
++		.size = 0,
++	};
++
++	/* The intercept message carries the written selector. */
++	if (seg == VCPU_SREG_LDTR)
++		return hv_divert_dt_write(ctxt, HV_X64_REGISTER_LDTR_ID,
++					  &sel_as_dt,
++					  HV_CR_INTERCEPT_LDTR_WRITE);
++
++	return hv_divert_dt_write(ctxt, HV_X64_REGISTER_TR_ID, &sel_as_dt,
++				  HV_CR_INTERCEPT_TR_WRITE);
++}
++
+ static int emulator_get_msr_with_filter(struct x86_emulate_ctxt *ctxt,
+ 					u32 msr_index, u64 *pdata)
+ {
+@@ -6194,6 +6216,7 @@ static const struct x86_emulate_ops emulate_ops = {
+ 	.pio_out_emulated    = emulator_pio_out_emulated,
+ 	.get_segment         = emulator_get_segment,
+ 	.set_segment         = emulator_set_segment,
++	.divert_seg_write    = emulator_divert_seg_write,
+ 	.get_cached_segment_base = emulator_get_cached_segment_base,
+ 	.get_gdt             = emulator_get_gdt,
+ 	.get_idt	     = emulator_get_idt,
 -- 
 2.50.1
 
