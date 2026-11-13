@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794594893;
-	b=hNsM/+/DJEJltNfRjyrUbw6xpWWoA82ekF11hRhrBZ1eTGCSUVuqKhJHXOxo3N00dADk
-	 vbsXFKSk5ty9Aomh7iM5mOokV84Y3UX+h6gllxclEbdUYGvqZhayp72sie4IIEOZhBrrA
-	 BYsJS6OKUb9eu5KvCZIjgenqAQsU7HkogvZuxHLquah2JvXU6vb1ftnwCfMwfH5Uq+is8
-	 /WIIHH09C0gSr+Mx8XV39XoFE7a8f4DioTxLm3A8t+4JGZUnNVaMxfHHwddcLQtxFAzLW
-	 B92MuvurTTwJFWSfUa+qtuE5m5S9Gbt9zIyTwJu5+smlnZmPAizE+HiVkMY8keyWOyA==
+	t=1794594895;
+	b=mqYWNwMfX5IBavrKCIgSieBnuvwUDGbzEkkxaIAezWmyM/AGtgV/mzpGmKw9b42+WzPs
+	 9rtm8PY/GUa95GqI63FqeP+dzq2prUkflRDBtcrDT+i54exUQK/ThF5WwhYRzwB5PCBdp
+	 kEGKTl/uNwXXTFU6erS/lsL8TfULZqj24I1F6gE3zoIexIr7oNg9B0CxI9oWeLs5HNo+j
+	 a7mKPw3/RDxNY6HHSGTStqAxv5x7sZU4ma6YNvw83evdRTnJ31EkqmgI6mKGIZddf9xWE
+	 OL3CgteCJLNDlozzK55kPiVGHejYGAe+L82DrYOZGcDEoLxWPp6ctuzDPs0Mqbxg5oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794594893;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594895;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=8UBIrCp1doq9/Q9DjRxsAJhTIftKS7tyh/VYFp/ZxXU=;
-	b=ZIDtPs9uYxE70szayh2cKIuiqQjVT1nyH7wiEczXMm+eVsIL1eZwQHiRkA/ZFLgwP9jn
-	 pLXFb6uGZTAAIs/2N4hgmVMfvp3YHY5e3Krejenfe1iEo3nPN8sJKeZ3Gur8TwjQOhlvF
-	 ENk9NbPW7oF/RyEw8xq+W0VG6/oPeVH8CByVJT3TB+QeO05ylcDBPNAIS7at9NNj45v2P
-	 OtcekUvZhkhWP7AjpEsMPjMmxBoucWJnhjI8hG/1pqPaihJ/hRNu+EgKB7I1okFsV9cXk
-	 1yH1s7WX4AKD52Jx+7KHbZghrKiCxFMr3NMAkk8fwJgfTvwfkZ/3wPKYtR5jM1FGYmg==
+	bh=e0QjDoSDOqtjXi/aRoGP666o2KHiNjjVlepe5JNaymU=;
+	b=A/CcGzLclqIB4DOZYEUzVj5tcIpZPLvSvqXd/hT5U/PMKpqaGmjhHfF4vZvjCQoPvrmP
+	 oWbpxcVhQY8pPgxp6X63jM73Ucp3dDF6tQ9sCpGmaSRz1Hq8DwPv4P4O/1mw4pO4aGLtG
+	 pYb/cvGNfVGe6U+6h7bggieEUsYs2uXqyONBcbv/Cyl8CJwWRhPJff0cXBSLllyAi6H8R
+	 QiBA9ALaY0cGJrk99qWREGEGEUKAPf8yemM2LnEKM1LmlT+JssmJIu46PKam+6AzPFqup
+	 y/oawkICfrrXjIaMOtp5hkiOnbEEt7BZr63XbLgDdNozo7NpBkGn22xUrx4ra3JHOUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZjrICK7x;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	spf=none smtp.mailfrom=desiato.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=R4c9Wc5k;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E93606A898;
-	Fri, 13 Nov 2026 18:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78E93606A898
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEEC60A383F;
+	Fri, 13 Nov 2026 18:34:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEEEC60A383F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZjrICK7x
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=R4c9Wc5k
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=8UBIrCp1doq9/Q9DjRxsAJhTIftKS7tyh/VYFp/ZxXU=; b=ZjrICK7x2DQjHM1FpykNzIq6x4
-	NUJmQ439YvNTlMYpC4vMG8hvY8x6PqBrVUw3Kjrh1/8O9bYP/rfuwo7rEcJ6HNJ/k9e8Jd0vQNShl
-	G6Nu52j4rbWcA7Ht3CkSc8D6RWNEMx2gCn65bCvAqx4vTA9juNfdJ0nDx6h/RRLIgOTRRtsAIjjge
-	plwen2x9xyPxtZ2vm95kJY2fXbhE6g5S9HZlmX60nBXn6rC4AVHVDNGSck7X8jmWsJEfCbdcccagY
-	0L7ryB4a+Zg3hvptWP2w2ksb325aOaaXoOyBz5EELa8GiJHBhf9XZCF22/VPAU5cXXw6yWEp63qb5
-	4BOhOl2A==;
+	bh=e0QjDoSDOqtjXi/aRoGP666o2KHiNjjVlepe5JNaymU=; b=R4c9Wc5kaf4dtb12GOu7/i2wR3
+	Vzf1j82Ld0ZPYVKP65TcpO/83QyHkCaX8aN1FLXsiO/XtyUaSfCqH+RIVUJfgGFC06E0gtIYrn1Hv
+	D3CQKbvuxGIm5pw2gl81Oo34BnsYRVcUiGKCheBmpkSfqXZkUC7SazHHB5U8paEmTqjPtnaqJEo6Y
+	LXYSBB3Tjjbtq5vp4FCwmTwNf6mfJlPaalDmBKqphosYcRi/cCUh/Njz031IUF77EMuPxZzP7dhlF
+	W0fhycYJcJYVuf3g+VQZuPr4yMll5uIqZD+Zk00sD4CRzsCDjmNz2V10o6yVIQITTUA5Ige2omnpt
+	VuUp8kbg==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6s-00000004gRD-3E6Y;
-	Fri, 13 Nov 2026 18:34:50 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRw6v-0000000Bf05-0Ueo;
+	Fri, 13 Nov 2026 18:34:53 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000LuU-2EA1;
+	id 1xRw6s-00000000Lu9-1P8S;
 	Fri, 13 Nov 2026 18:34:50 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 29/31] KVM: selftests: Add Hyper-V reference TSC page memory attribute test
-Date: Fri, 13 Nov 2026 18:34:45 +0000
-Message-ID: <20261113183448.84094-30-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 24/31] KVM: selftests: Check that a restored higher-plane interrupt forces an exit
+Date: Fri, 13 Nov 2026 18:34:40 +0000
+Message-ID: <20261113183448.84094-25-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
 References: <20261113183448.84094-1-dwmw2@infradead.org>
@@ -88,217 +88,167 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The reference TSC page is written by the host, not by the guest, so
-the guest-side memory attribute tests never cover it.  Add a test
-that a page at an unprotected gfn is maintained as usual, that
-pointing HV_X64_MSR_REFERENCE_TSC at a gfn carrying
-KVM_MEMORY_ATTRIBUTE_NW leaves the page contents untouched, both on
-the MSR write itself and on a subsequent KVM_SET_CLOCK-forced update,
-and that re-pointing the MSR at a writable page recovers.  The guest
-overwrites that page before the recovery, so only a fresh publish
-passes.
+A migration destination restores a higher plane's IRR with
+KVM_SET_LAPIC, which does not go through __apic_accept_irq() and so
+sets no forced-entry marker, and its plane vCPUs have never entered the
+guest on that host. KVM must re-derive the marker from the restored
+IRR, or an interrupt posted to a suspended VTL1 just before the save is
+never delivered.
 
-It stays a test of its own rather than a case in memory_attributes.c:
-it follows the Hyper-V MSR flow and needs Hyper-V CPUID.  struct
-ms_hyperv_tsc_page moves from hyperv_clock.c into include/x86/hyperv.h
-for both tests to use.
+Model the destination: give a plane-1 twin that has never run an IRR
+bit through KVM_SET_LAPIC, leave it held, and require plane 0 to
+exit with KVM_EXIT_HYPERV_VTL_INTERRUPT for plane 1. Run it with the
+LAPIC restored before and after KVM_SET_PLANE_RUN_STATE.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
  tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/include/x86/hyperv.h        |   8 ++
- .../testing/selftests/kvm/x86/hyperv_clock.c  |   7 -
- .../selftests/kvm/x86/hyperv_tsc_page_attrs.c | 131 ++++++++++++++++++
- 4 files changed, 140 insertions(+), 7 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
+ .../kvm/x86/planes_vtl_restore_test.c         | 121 ++++++++++++++++++
+ 2 files changed, 122 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
 
 diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 2b8a238c32e8..5f58fff2d543 100644
+index c6ad866a0b0d..446a526750e0 100644
 --- a/tools/testing/selftests/kvm/Makefile.kvm
 +++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -95,6 +95,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
- TEST_GEN_PROGS_x86 += x86/hyperv_ipi
- TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
- TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
-+TEST_GEN_PROGS_x86 += x86/hyperv_tsc_page_attrs
- TEST_GEN_PROGS_x86 += x86/kvm_clock_test
- TEST_GEN_PROGS_x86 += x86/kvm_pv_test
- TEST_GEN_PROGS_x86 += x86/kvm_buslock_test
-diff --git a/tools/testing/selftests/kvm/include/x86/hyperv.h b/tools/testing/selftests/kvm/include/x86/hyperv.h
-index 78003f5a22f3..c1d13a35fc0e 100644
---- a/tools/testing/selftests/kvm/include/x86/hyperv.h
-+++ b/tools/testing/selftests/kvm/include/x86/hyperv.h
-@@ -358,4 +358,12 @@ void vcpu_set_hv_cpuid(struct kvm_vcpu *vcpu);
- 
- bool kvm_hv_cpu_has(struct kvm_x86_cpu_feature feature);
- 
-+/* HV_REFERENCE_TSC_PAGE */
-+struct ms_hyperv_tsc_page {
-+	volatile u32 tsc_sequence;
-+	u32 reserved1;
-+	volatile u64 tsc_scale;
-+	volatile s64 tsc_offset;
-+} __packed;
-+
- #endif /* !SELFTEST_KVM_HYPERV_H */
-diff --git a/tools/testing/selftests/kvm/x86/hyperv_clock.c b/tools/testing/selftests/kvm/x86/hyperv_clock.c
-index 7a1b3b5d1e62..0db068af0863 100644
---- a/tools/testing/selftests/kvm/x86/hyperv_clock.c
-+++ b/tools/testing/selftests/kvm/x86/hyperv_clock.c
-@@ -9,13 +9,6 @@
- #include "processor.h"
- #include "hyperv.h"
- 
--struct ms_hyperv_tsc_page {
--	volatile u32 tsc_sequence;
--	u32 reserved1;
--	volatile u64 tsc_scale;
--	volatile s64 tsc_offset;
--} __packed;
--
- /* Simplified mul_u64_u64_shr() */
- static inline u64 mul_u64_u64_shr64(u64 a, u64 b)
- {
-diff --git a/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c b/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
+@@ -116,6 +116,7 @@ TEST_GEN_PROGS_x86 += x86/plane_x86_test
+ TEST_GEN_PROGS_x86 += x86/planes_test
+ TEST_GEN_PROGS_x86 += x86/planes_vtl_entry_test
+ TEST_GEN_PROGS_x86 += x86/planes_vtl_timer_mask_test
++TEST_GEN_PROGS_x86 += x86/planes_vtl_restore_test
+ TEST_GEN_PROGS_x86 += x86/pmu_counters_test
+ TEST_GEN_PROGS_x86 += x86/pmu_event_filter_test
+ TEST_GEN_PROGS_x86 += x86/private_mem_conversions_test
+diff --git a/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c b/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
 new file mode 100644
-index 000000000000..7e618ffec6a6
+index 000000000000..186a9338627d
 --- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/hyperv_tsc_page_attrs.c
-@@ -0,0 +1,131 @@
++++ b/tools/testing/selftests/kvm/x86/planes_vtl_restore_test.c
+@@ -0,0 +1,121 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Test that KVM honours plane memory attributes when it maintains the
-+ * Hyper-V reference TSC page.  A page whose gfn carries
-+ * KVM_MEMORY_ATTRIBUTE_NW in the owning plane's attributes must never
-+ * be written by the host, on the HV_X64_MSR_REFERENCE_TSC write or on
-+ * any later masterclock update; an unprotected page keeps working, and
-+ * re-pointing the MSR at a writable page recovers.
++ * Test that a restored higher plane with a latched interrupt still forces
++ * a VTL interrupt exit.
++ *
++ * Forced entry is triggered by the posting of an interrupt to a higher
++ * plane, through a marker __apic_accept_irq() sets.  A migration
++ * destination restores the IRR with KVM_SET_LAPIC instead, which posts
++ * nothing, and its plane vCPUs have never entered the guest on that host.
++ * KVM must re-derive the marker from the restored IRR, whichever of
++ * KVM_SET_LAPIC and KVM_SET_PLANE_RUN_STATE the VMM issues last, or a
++ * one-shot cross-VTL interrupt sent just before the save is lost.
++ *
++ * Each run models a destination: a plane-1 twin that has never run gets
++ * an IRR bit through KVM_SET_LAPIC and is left held, and running plane
++ * 0 must report a KVM_EXIT_HYPERV_VTL_INTERRUPT exit for plane 1.
 + */
++#include <errno.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
 +#include "test_util.h"
 +#include "kvm_util.h"
 +#include "processor.h"
-+#include "hyperv.h"
++#include "apic.h"
 +
-+#define SENTINEL_SEQ	0xdeadbeef
-+#define SENTINEL_U64	0xcafef00dcafef00dULL
++#ifndef KVM_EXIT_HYPERV_VTL_INTERRUPT
++#define KVM_EXIT_HYPERV_VTL_INTERRUPT  4
++#endif
 +
-+static void guest_main(struct ms_hyperv_tsc_page *page_a, gpa_t page_a_gpa,
-+		       struct ms_hyperv_tsc_page *page_b, gpa_t page_b_gpa)
++#define TEST_VECTOR	0xe0
++
++static void plane0_guest_code(void)
 +{
-+	/* Set Guest OS id to enable Hyper-V emulation */
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
-+
-+	/* An unprotected page is maintained by KVM as usual. */
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_a_gpa | 0x1);
-+	GUEST_ASSERT(page_a->tsc_sequence != 0);
-+
-+	/* Fill the page about to be protected, while it is still writable. */
-+	page_b->tsc_sequence = SENTINEL_SEQ;
-+	page_b->tsc_scale = SENTINEL_U64;
-+	page_b->tsc_offset = SENTINEL_U64;
-+
-+	GUEST_SYNC(1);	/* host sets KVM_MEMORY_ATTRIBUTE_NW on page_b */
-+
-+	/*
-+	 * Pointing the reference TSC MSR at the protected page must not
-+	 * have KVM write to it: not on the MSR write itself, and not on
-+	 * the masterclock update the write requests.
-+	 */
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_b_gpa | 0x1);
-+	GUEST_ASSERT(page_b->tsc_sequence == SENTINEL_SEQ);
-+	GUEST_ASSERT(page_b->tsc_scale == SENTINEL_U64);
-+	GUEST_ASSERT(page_b->tsc_offset == SENTINEL_U64);
-+
-+	GUEST_SYNC(2);	/* host resets kvmclock, forcing a TSC page update */
-+
-+	GUEST_ASSERT(page_b->tsc_sequence == SENTINEL_SEQ);
-+	GUEST_ASSERT(page_b->tsc_scale == SENTINEL_U64);
-+	GUEST_ASSERT(page_b->tsc_offset == SENTINEL_U64);
-+
-+	/*
-+	 * Re-pointing the MSR at a writable page recovers.  Overwrite the
-+	 * page first, so that only a fresh publish can pass the checks.
-+	 */
-+	page_a->tsc_sequence = SENTINEL_SEQ;
-+	page_a->tsc_scale = SENTINEL_U64;
-+	page_a->tsc_offset = SENTINEL_U64;
-+	wrmsr(HV_X64_MSR_REFERENCE_TSC, page_a_gpa | 0x1);
-+	GUEST_ASSERT(page_a->tsc_sequence != 0);
-+	GUEST_ASSERT(page_a->tsc_sequence != SENTINEL_SEQ);
-+	GUEST_ASSERT(page_a->tsc_scale != SENTINEL_U64);
-+	GUEST_ASSERT(page_a->tsc_offset != SENTINEL_U64);
-+
++	GUEST_SYNC(0);
 +	GUEST_DONE();
 +}
 +
-+int main(void)
++static void set_plane_run_state(int vcpu_fd, u64 state)
 +{
-+	struct kvm_vcpu *vcpu;
++	int r = ioctl(vcpu_fd, KVM_SET_PLANE_RUN_STATE, &state);
++
++	TEST_ASSERT(!r, "KVM_SET_PLANE_RUN_STATE(0x%lx) failed: errno %d",
++		    state, errno);
++}
++
++/* Enable the twin's APIC in software and latch TEST_VECTOR in its IRR. */
++static void restore_twin_lapic(int twin_fd)
++{
++	struct kvm_lapic_state lapic;
++	u32 *reg;
++	int r;
++
++	r = ioctl(twin_fd, KVM_GET_LAPIC, &lapic);
++	TEST_ASSERT(!r, "KVM_GET_LAPIC on twin failed: errno %d", errno);
++
++	reg = (u32 *)&lapic.regs[APIC_SPIV];
++	*reg |= APIC_SPIV_APIC_ENABLED;
++	reg = (u32 *)&lapic.regs[APIC_IRR + (TEST_VECTOR / 32) * 0x10];
++	*reg |= 1u << (TEST_VECTOR % 32);
++
++	r = ioctl(twin_fd, KVM_SET_LAPIC, &lapic);
++	TEST_ASSERT(!r, "KVM_SET_LAPIC on twin failed: errno %d", errno);
++}
++
++static void run_test(bool lapic_first)
++{
++	struct kvm_vcpu *vcpu0;
 +	struct kvm_vm *vm;
-+	struct ucall uc;
-+	gva_t page_a_gva, page_b_gva;
-+	gpa_t page_b_gpa;
-+	int stage;
++	int plane_fd, twin_fd, r;
 +
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_TIME));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_MEMORY_ATTRIBUTES) &
-+		     KVM_MEMORY_ATTRIBUTE_NW);
-+	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
++	kvm_force_split_irqchip = true;
++	vm = __vm_create(VM_SHAPE_DEFAULT, 1, 0);
++	kvm_force_split_irqchip = false;
 +
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_main);
++	TEST_REQUIRE(__vm_enable_cap(vm, KVM_CAP_PLANES, 2) == 0);
++	/* VTL interrupt exits belong to the userspace-switch VTL contract. */
++	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
++		      KVM_HYPERV_HCALL_VTL_CALLS);
 +
-+	vcpu_set_hv_cpuid(vcpu);
++	vcpu0 = vm_vcpu_add(vm, 0, plane0_guest_code);
 +
-+	page_a_gva = vm_alloc_page(vm);
-+	page_b_gva = vm_alloc_page(vm);
-+	memset(addr_gva2hva(vm, page_a_gva), 0x0, getpagesize());
-+	memset(addr_gva2hva(vm, page_b_gva), 0x0, getpagesize());
-+	page_b_gpa = addr_gva2gpa(vm, page_b_gva);
++	plane_fd = __vm_ioctl(vm, KVM_CREATE_PLANE, (void *)1UL);
++	TEST_ASSERT(plane_fd >= 0, "KVM_CREATE_PLANE failed: errno %d", errno);
++	twin_fd = __kvm_ioctl(plane_fd, KVM_CREATE_VCPU, NULL);
++	TEST_ASSERT(twin_fd >= 0, "KVM_CREATE_VCPU on plane 1 failed: errno %d",
++		    errno);
 +
-+	vcpu_args_set(vcpu, 4, page_a_gva, addr_gva2gpa(vm, page_a_gva),
-+		      page_b_gva, page_b_gpa);
++	if (lapic_first)
++		restore_twin_lapic(twin_fd);
++	set_plane_run_state(twin_fd, KVM_PLANE_RUN_STATE_USER_HOLD);
++	set_plane_run_state(vcpu0->fd, 0);
++	if (!lapic_first)
++		restore_twin_lapic(twin_fd);
 +
-+	for (stage = 1;; stage++) {
-+		vcpu_run(vcpu);
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
++	r = ioctl(vcpu0->fd, KVM_RUN, NULL);
++	TEST_ASSERT(!r, "KVM_RUN (plane 0) failed: errno %d", errno);
++	TEST_ASSERT(vcpu0->run->exit_reason == KVM_EXIT_HYPERV,
++		    "Expected KVM_EXIT_HYPERV, got %u (%s), LAPIC restored %s",
++		    vcpu0->run->exit_reason,
++		    exit_reason_str(vcpu0->run->exit_reason),
++		    lapic_first ? "first" : "last");
++	TEST_ASSERT_EQ(vcpu0->run->hyperv.type, KVM_EXIT_HYPERV_VTL_INTERRUPT);
++	TEST_ASSERT_EQ(vcpu0->run->hyperv.plane, 1);
 +
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+			/* NOT REACHED */
-+		case UCALL_SYNC:
-+			break;
-+		case UCALL_DONE:
-+			/* Keep in sync with guest_main() */
-+			TEST_ASSERT(stage == 3, "Testing ended prematurely, stage %d",
-+				    stage);
-+			goto out;
-+		default:
-+			TEST_FAIL("Unknown ucall %lu", uc.cmd);
-+		}
-+
-+		TEST_ASSERT(uc.args[1] == stage,
-+			    "Stage %d: Unexpected sync, got %lx",
-+			    stage, (ulong)uc.args[1]);
-+
-+		if (stage == 1)
-+			vm_set_memory_attributes(vm, page_b_gpa, getpagesize(),
-+						 KVM_MEMORY_ATTRIBUTE_NW);
-+
-+		/* Reset kvmclock triggering TSC page update */
-+		if (stage == 2) {
-+			struct kvm_clock_data clock = {0};
-+
-+			vm_ioctl(vm, KVM_SET_CLOCK, &clock);
-+		}
-+	}
-+
-+out:
++	close(twin_fd);
++	close(plane_fd);
 +	kvm_vm_free(vm);
++}
++
++int main(int argc, char *argv[])
++{
++	TEST_REQUIRE(kvm_has_cap(KVM_CAP_PLANES));
++	TEST_REQUIRE(kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL) &
++		     KVM_HYPERV_HCALL_VTL_CALLS);
++
++	run_test(true);
++	run_test(false);
++	return 0;
 +}
 -- 
 2.50.1
