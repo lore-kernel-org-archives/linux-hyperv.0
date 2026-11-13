@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794594892;
-	b=HgCRgue0JI4l2nzXRSNAIpDS+EJkaiRVz6USnTEqq/qmllmPW5hA/NMi7YlSTFdKl6FZ
-	 9EhibOM/jT7z8nZLsM4CFk1x+w6Gnt8iLEXpulTZEhe22UMplBX8kBQGW1NTU43EqVbvl
-	 bv2/HD2ugZmL2AECj+MubUFafDGJYYMZp+WePB8PpKeRs6AkD5TbskiVyIwTtJj1sNadv
-	 9ladDI5xecMU3OCJ18rrCtP2WSTDXUfjfel3aj0hSSYy5GDyK7GW1rwZPzGWPAR7LZzmi
-	 wnbE58Pf1htO98wyu5rn56PmOXVWnTPK1AjyRV3eqs4IXPFLhAeOJyP+cfQFspqDLgw==
+	b=kNzY3Zx2nAZp+78khF2Y54TccyEjBfa7bUXYPmNO37PTzeUCriXbIc9WZwzoiDfeUYUf
+	 obqhoSZC2yERjC+wEbrxyKMjAgnfbG6xKHSE36OIB7U5PGd10s0oUpLoy4Eyv6uDxmUOh
+	 byfckPNU5vkvk8gd0IubLreo2Fm4FVzFSIMdDN9Loo9wDuxcpAxOWzfIaFZU5UTzhMz4L
+	 cNm93x210iyrYemxIzSBi6vaD0A5A0MBO39touFMdWwDWQipSILSrRvqllaeU69ONFJZT
+	 OktK/izbFYwWOHfxa+vqP3wHGz+lk5E0SjEI0PNgDiI+LfGWAce//3mNFX5EnEklXXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794594892;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=VeAdZMo7xKei4b/LovaFZ4bIRHRhU7+BzLiziNXX27s=;
-	b=hSzQ+u7s54VRYu6pi6Y1Ag01JY45f7woPyEizr1MZ7nG9npGdnBktWaIfz60n4+TOZVX
-	 6v94uRnQJJUIjX2WIhIYtLiRJGbTYAfjyI2+63+A9trV4vq99HsAT7+mnao/D7WC3TRoW
-	 b3cfee5UZj73DAP8UqsoWCuUvLPdQF6P2cqrquK9dAz3IGNdM9WTLdAv42MZ6+GeosQsR
-	 /35kVm4DG96HOf/tJGoS/U4dYgbDTnJLLyQG+XqPEoDGZbty8b8x1Tjp9yYkPR5iEsZVr
-	 7AA2ZiAyKQaWzYL0W2vBRQMTMyrY0+PjduQYkX8XyY937tP2H8kxPXNJScsVYI9s/aw==
+	bh=RFjZrZyzRZHYPexghm1fB/dAz6WRQaGXQodRS4ebBdk=;
+	b=PzRRxPd9Qof3PHgvHbYT4xbatKM5BOakFLgX3hRI50iuGvAcVblsfRFx6D2QS1iz7J4o
+	 B8uVC1SXhleIfccliQuJ3YgJwuHDjz3Dqbpw+wr/+2WuwygJEtFGifjtgdO0JwWuHQzQO
+	 K/Ltrjg9udlrMi2QlRfqhbKe+7qGY+6s1uF4v96IvXp7rqk5V4wSf/3AJPkkQz6K88u8z
+	 Yoil6NtiS62mBk28+Ih9k/B/2FdgaNbxIGDwSpKm6x9N8w75fvUQF54e57iYWEDAdkDXM
+	 70b6+aFnuYZBv7gmMt4WOteabuTzJx8XfTh+1g6EUtI7cPiWBrSJD8RLNna69lwMO8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=OXsoNUQa;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=L2seJnyB;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC12606A887;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73006606A896;
 	Fri, 13 Nov 2026 18:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BC12606A887
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73006606A896
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=OXsoNUQa
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=L2seJnyB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=VeAdZMo7xKei4b/LovaFZ4bIRHRhU7+BzLiziNXX27s=; b=OXsoNUQaEtNaj1AD6vpQI/dV6g
-	XsHHeKxjw3pH/RoSeqGPhGfRghtX/iisH4a29bbs/sckVZiffyiUlxAPqaTJNVW2ST7qfV815sN2e
-	SWflnUaV3bD+Haao+XaBA2O1JqOy1ADZiISxXHMLW8ZA8ajnE0O5qYjN5a1tQjRnLolz+WVQK36hW
-	r0jr9YlmkyhXaWNhZ9nGlc33n2cUtI79KKgSQheIm/kLLwKVJyvVbfn/7j7H0f+he8cpO5vtJ96ek
-	hZPi50nPrciDgY8NEbYuY54juWL/sp5l5cQPcj8CXycIqbPp+qYqvYSJClaAZU8+o2nHkN418/Cpz
-	++Od+FLA==;
+	bh=RFjZrZyzRZHYPexghm1fB/dAz6WRQaGXQodRS4ebBdk=; b=L2seJnyBdJ/ExdzRQZKgTFiKqB
+	hbFYFM6t03vH9Cw7U/UZwqkVKq59Fv2j95fEKgnUzkemXcH5jrSIq3fToAJRTJPYEO+gX4MfdQmF2
+	8nyItFsPP3tkuTxMKIegs5Ok3Zjo3xJSqrUHn+PlJikD4TCG1iuGBFjvSGJP0QlMpIIpoxyTIlfQr
+	B9NG+kN6tApq+vfAo86wq8IfwvpgHYr7p7MzbOWuOmX9dxb2McwZB4SW409TMs/H8xTvwANl4kaLy
+	s1STTb9OMHyYrNlrYnUFAlG78FiLtHH5XDWmgBQVO+jBT5DiIIMjwT3qaA4qmA9xYvvfk/hkZJztr
+	s8iJu8HQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRw6s-00000004gQx-2EoI;
+	id 1xRw6s-00000004gRC-31JA;
 	Fri, 13 Nov 2026 18:34:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRw6s-00000000Lu5-1FFP;
+	id 1xRw6s-00000000LuQ-23tN;
 	Fri, 13 Nov 2026 18:34:50 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Mushahid Hussain <hmushi@amazon.co.uk>,
 	Sriram Nambakam <snambakam@linux.microsoft.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [RFC PATCH v2 23/31] KVM: selftests: Check that a masked higher-plane timer is no event
-Date: Fri, 13 Nov 2026 18:34:39 +0000
-Message-ID: <20261113183448.84094-24-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 28/31] KVM: SVM: Keep TPR[3:0] across exits without a guest CR8 write
+Date: Fri, 13 Nov 2026 18:34:44 +0000
+Message-ID: <20261113183448.84094-29-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261113183448.84094-1-dwmw2@infradead.org>
 References: <20261113183448.84094-1-dwmw2@infradead.org>
@@ -92,218 +92,84 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-A LAPIC timer that expires under a masked LVTT latches the expiry but
-is never injected. A higher plane that arms its timer and then masks
-LVTT must therefore not count as having a pending event, or every run
-of the lower plane ends in a KVM_EXIT_HYPERV_VTL_INTERRUPT exit (or a
-forced entry) with nothing for the higher plane to take.
+V_TPR holds only TPR[7:4]. While KVM does not intercept CR8 writes,
+sync_cr8_to_lapic() pushes V_TPR back into the local APIC after every
+VMRUN, whether or not the guest touched CR8. A guest that sets the TPR
+through the APIC page or the x2APIC MSR therefore loses TPR[3:0] at the
+next exit: it writes 0xff, reads back 0xf0, and interrupts in the
+priority sub-class it meant to mask are delivered. VMX keeps all eight
+TPR bits in the virtual-APIC page and does not have this problem.
 
-The plane-1 twin arms a 50ms one-shot timer, masks LVTT and is
-suspended like a userspace VTL switch. Once KVM_GET_LAPIC shows the
-timer expired, plane 0 must run its guest code to GUEST_DONE.
+Hardware changes V_TPR only on a guest CR8 write. Record the value
+sync_lapic_to_cr8() loads on entry and push V_TPR back into the APIC
+only when it differs, which only a guest CR8 write can make it do. A
+CR8 write whose value matches the loaded TPR[7:4] is indistinguishable
+from no write and now preserves TPR[3:0], where architecturally it
+would clear it; the previous behaviour cleared TPR[3:0] on every exit
+regardless.
 
+Found while implementing Hyper-V VSM on KVM planes.
+
+Fixes: d7bf8221a303 ("KVM: SVM: sync V_TPR with LAPIC.TPR if CR8 write intercept is disabled")
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../kvm/x86/planes_vtl_timer_mask_test.c      | 177 ++++++++++++++++++
- 2 files changed, 178 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/planes_vtl_timer_mask_test.c
+ arch/x86/kvm/svm/svm.c | 11 ++++++++++-
+ arch/x86/kvm/svm/svm.h | 13 +++++++++++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 250b324d0881..c6ad866a0b0d 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -115,6 +115,7 @@ TEST_GEN_PROGS_x86 += x86/platform_info_test
- TEST_GEN_PROGS_x86 += x86/plane_x86_test
- TEST_GEN_PROGS_x86 += x86/planes_test
- TEST_GEN_PROGS_x86 += x86/planes_vtl_entry_test
-+TEST_GEN_PROGS_x86 += x86/planes_vtl_timer_mask_test
- TEST_GEN_PROGS_x86 += x86/pmu_counters_test
- TEST_GEN_PROGS_x86 += x86/pmu_event_filter_test
- TEST_GEN_PROGS_x86 += x86/private_mem_conversions_test
-diff --git a/tools/testing/selftests/kvm/x86/planes_vtl_timer_mask_test.c b/tools/testing/selftests/kvm/x86/planes_vtl_timer_mask_test.c
-new file mode 100644
-index 000000000000..e6b2b9eaa9c6
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/planes_vtl_timer_mask_test.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Test that a higher plane's masked LAPIC timer does not hold the lower
-+ * plane hostage.
-+ *
-+ * A LAPIC timer that expires while LVTT is masked still latches its
-+ * expiry, but the interrupt is never injected.  If the latched expiry
-+ * counted as a pending higher-plane event, the lower plane would exit
-+ * with KVM_EXIT_HYPERV_VTL_INTERRUPT on every run, and a VMM that enters
-+ * the higher plane in response would find nothing to deliver.
-+ *
-+ * The plane-1 twin arms a one-shot timer, masks LVTT before it can fire,
-+ * and is then suspended exactly like a userspace VTL switch.  Once the
-+ * timer has expired, plane 0 must run its guest code.
-+ */
-+#include <errno.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <unistd.h>
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index cf049367523c..9bfcc7684504 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -4622,7 +4622,15 @@ static inline void sync_cr8_to_lapic(struct kvm_vcpu *vcpu)
+ 
+ 	if (!svm_is_intercept(svm, INTERCEPT_CR8_WRITE)) {
+ 		int cr8 = svm->vmcb->control.int_ctl & V_TPR_MASK;
+-		kvm_set_cr8(vcpu, cr8);
 +
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "apic.h"
-+
-+#ifndef KVM_EXIT_HYPERV_VTL_INTERRUPT
-+#define KVM_EXIT_HYPERV_VTL_INTERRUPT  4
-+#endif
-+
-+#define TEST_VECTOR		0xe0
-+#define TWIN_SYNC_PORT		0x7e
-+#define TWIN_STACK_PAGES	4
-+#define TDCR_DIVIDE_BY_1	0xb
-+/* 50ms at KVM's default 1GHz APIC bus: long enough to mask LVTT first. */
-+#define TIMER_COUNT		50000000u
-+
-+static void twin_sync(uint8_t stage)
-+{
-+	asm volatile("outb %0, %1" :: "a"(stage), "Nd"((uint16_t)TWIN_SYNC_PORT));
-+}
-+
-+/* Runs with IF clear; the masked timer must never interrupt it anyway. */
-+static void twin_guest_code(void)
-+{
-+	x2apic_enable();
-+	x2apic_write_reg(APIC_TDCR, TDCR_DIVIDE_BY_1);
-+	x2apic_write_reg(APIC_LVTT, APIC_LVT_TIMER_ONESHOT | TEST_VECTOR);
-+	x2apic_write_reg(APIC_TMICT, TIMER_COUNT);
-+	x2apic_write_reg(APIC_LVTT, APIC_LVT_MASKED | APIC_LVT_TIMER_ONESHOT |
-+				    TEST_VECTOR);
-+	for (;;)
-+		twin_sync(1);
-+}
-+
-+static void plane0_guest_code(void)
-+{
-+	GUEST_SYNC(0);
-+	GUEST_SYNC(1);
-+	GUEST_DONE();
-+}
-+
-+static void set_plane_run_state(int vcpu_fd, u64 state)
-+{
-+	int r = ioctl(vcpu_fd, KVM_SET_PLANE_RUN_STATE, &state);
-+
-+	TEST_ASSERT(!r, "KVM_SET_PLANE_RUN_STATE(0x%lx) failed: errno %d",
-+		    state, errno);
-+}
-+
-+static u32 twin_tmcct(int twin_fd)
-+{
-+	struct kvm_lapic_state lapic;
-+	int r = ioctl(twin_fd, KVM_GET_LAPIC, &lapic);
-+
-+	TEST_ASSERT(!r, "KVM_GET_LAPIC on twin failed: errno %d", errno);
-+	return *(u32 *)&lapic.regs[APIC_TMCCT];
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct kvm_sregs sregs;
-+	struct kvm_regs regs;
-+	struct kvm_run *twin_run;
-+	struct kvm_vcpu *vcpu0;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+	int plane_fd, twin_fd, mmap_sz, r, i;
-+
-+	kvm_force_split_irqchip = true;
-+	vm = __vm_create(VM_SHAPE_DEFAULT, 1, 0);
-+	kvm_force_split_irqchip = false;
-+
-+	TEST_REQUIRE(vm_check_cap(vm, KVM_CAP_PLANES) >= 1);
-+	TEST_REQUIRE(__vm_enable_cap(vm, KVM_CAP_PLANES, 2) == 0);
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL) &
-+		     KVM_HYPERV_HCALL_VTL_CALLS);
-+	/* VTL interrupt exits belong to the userspace-switch VTL contract. */
-+	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
-+		      KVM_HYPERV_HCALL_VTL_CALLS);
-+
-+	vcpu0 = vm_vcpu_add(vm, 0, plane0_guest_code);
-+
-+	plane_fd = __vm_ioctl(vm, KVM_CREATE_PLANE, (void *)1UL);
-+	TEST_ASSERT(plane_fd >= 0, "KVM_CREATE_PLANE failed: errno %d", errno);
-+	twin_fd = __kvm_ioctl(plane_fd, KVM_CREATE_VCPU, NULL);
-+	TEST_ASSERT(twin_fd >= 0, "KVM_CREATE_VCPU on plane 1 failed: errno %d",
-+		    errno);
-+
-+	mmap_sz = ioctl(vm->kvm_fd, KVM_GET_VCPU_MMAP_SIZE, NULL);
-+	TEST_ASSERT(mmap_sz >= (int)sizeof(*twin_run),
-+		    "KVM_GET_VCPU_MMAP_SIZE failed");
-+	twin_run = mmap(NULL, mmap_sz, PROT_READ | PROT_WRITE, MAP_SHARED,
-+			twin_fd, 0);
-+	TEST_ASSERT(twin_run != MAP_FAILED, "mmap of twin kvm_run failed");
-+
-+	/* Same mode and page tables as plane 0, own code and stack, IF clear. */
-+	vcpu_sregs_get(vcpu0, &sregs);
-+	r = ioctl(twin_fd, KVM_SET_SREGS, &sregs);
-+	TEST_ASSERT(!r, "KVM_SET_SREGS on twin failed: errno %d", errno);
-+
-+	r = ioctl(twin_fd, KVM_GET_REGS, &regs);
-+	TEST_ASSERT(!r, "KVM_GET_REGS on twin failed: errno %d", errno);
-+	regs.rip = (unsigned long)twin_guest_code;
-+	regs.rsp = vm_alloc_stack(vm, TWIN_STACK_PAGES);
-+	regs.rflags = 0x2;
-+	r = ioctl(twin_fd, KVM_SET_REGS, &regs);
-+	TEST_ASSERT(!r, "KVM_SET_REGS on twin failed: errno %d", errno);
-+
-+	/* Run the twin until it has armed and masked its timer. */
-+	set_plane_run_state(twin_fd, 0);
-+	set_plane_run_state(vcpu0->fd, KVM_PLANE_RUN_STATE_USER_HOLD);
-+	r = ioctl(vcpu0->fd, KVM_RUN, NULL);
-+	TEST_ASSERT(!r, "KVM_RUN (twin runnable) failed: errno %d", errno);
-+	TEST_ASSERT_EQ(twin_run->exit_reason, KVM_EXIT_IO);
-+	TEST_ASSERT_EQ(twin_run->io.port, TWIN_SYNC_PORT);
-+
-+	/* Suspend the twin and let its masked timer expire. */
-+	set_plane_run_state(twin_fd, KVM_PLANE_RUN_STATE_USER_HOLD);
-+	set_plane_run_state(vcpu0->fd, 0);
-+	for (i = 0; i < 100 && twin_tmcct(twin_fd); i++)
-+		usleep(10000);
-+	TEST_ASSERT(!twin_tmcct(twin_fd), "The twin's timer did not expire");
-+
++		/*
++		 * Hardware changes V_TPR only on a guest CR8 write.  Pushing
++		 * an unchanged value into the APIC would zero TPR[3:0] (CR8
++		 * maps TPR[7:4] alone), wiping the low nibble of a TASKPRI
++		 * value the guest set through the APIC page or MSR.
++		 */
++		if (cr8 != svm->v_tpr_entry)
++			kvm_set_cr8(vcpu, cr8);
+ 	}
+ }
+ 
+@@ -4637,6 +4645,7 @@ static inline void sync_lapic_to_cr8(struct kvm_vcpu *vcpu)
+ 	cr8 = kvm_get_cr8(vcpu);
+ 	svm->vmcb->control.int_ctl &= ~V_TPR_MASK;
+ 	svm->vmcb->control.int_ctl |= cr8 & V_TPR_MASK;
++	svm->v_tpr_entry = cr8 & V_TPR_MASK;
+ }
+ 
+ static void svm_complete_soft_interrupt(struct kvm_vcpu *vcpu, u8 vector,
+diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+index e7fced399e05..3dfa8b20152b 100644
+--- a/arch/x86/kvm/svm/svm.h
++++ b/arch/x86/kvm/svm/svm.h
+@@ -323,6 +323,19 @@ struct vcpu_svm {
+ 
+ 	void *msrpm;
+ 
 +	/*
-+	 * Plane 0 must make progress: the latched expiry of a masked timer
-+	 * is not an event of the twin's.
++	 * V_TPR value written by sync_lapic_to_cr8() on the last entry.
++	 * sync_cr8_to_lapic() pushes V_TPR back into the APIC only when it
++	 * differs: V_TPR holds TPR[7:4] only, so an unconditional back-sync
++	 * would zero TPR[3:0] after every exit, losing the low nibble of an
++	 * APIC TASKPRI write.  A differing V_TPR implies a guest CR8 write,
++	 * but not the converse: a CR8 write of the same value is
++	 * indistinguishable from no write, so TPR[3:0] survives it where
++	 * the architectural write (and the intercepted path through
++	 * kvm_lapic_set_tpr()) would clear it.
 +	 */
-+	for (i = 0; i < 3; i++) {
-+		vcpu_run(vcpu0);
-+		/* A masked higher-plane timer must not count as an event. */
-+		TEST_ASSERT(vcpu0->run->exit_reason == KVM_EXIT_IO,
-+			    "Plane 0 did not run: exit %u (%s), hyperv type %u",
-+			    vcpu0->run->exit_reason,
-+			    exit_reason_str(vcpu0->run->exit_reason),
-+			    vcpu0->run->exit_reason == KVM_EXIT_HYPERV ?
-+			    vcpu0->run->hyperv.type : 0);
-+		switch (get_ucall(vcpu0, &uc)) {
-+		case UCALL_SYNC:
-+			TEST_ASSERT_EQ(uc.args[1], i);
-+			break;
-+		case UCALL_DONE:
-+			TEST_ASSERT_EQ(i, 2);
-+			break;
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+		default:
-+			TEST_FAIL("Unexpected ucall %lu", uc.cmd);
-+		}
-+	}
++	u8 v_tpr_entry;
 +
-+	kvm_munmap(twin_run, mmap_sz);
-+	close(twin_fd);
-+	close(plane_fd);
-+	kvm_vm_free(vm);
-+	return 0;
-+}
+ 	ulong nmi_iret_rip;
+ 
+ 	struct svm_nested_state nested;
 -- 
 2.50.1
 
