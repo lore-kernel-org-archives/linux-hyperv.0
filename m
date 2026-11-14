@@ -1,105 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794617238;
-	b=QYuJgbKgagys/eYPMQwuDWLO5lk8v/67NB4rINFfHgXsQtRBTISDFUgiPI8aAkuecs04
-	 xJpyKsN3H7du6dDqRcnECgKz7KSzuEk+gv2TPPGykVkWzHsR3hDlOq3EHT0FPU5J05Jca
-	 Gwd1jX4faiBIAUFWO9oFG2Q2z0kAZMFwpPcAdGC1KqxKBOXOJgaqlzEqa4uR81zLNium7
-	 HuSwaWJc+scnjaKG0nAxiOrDsGytXa2OQGA+vZX/VBD/PkxDWs9+YUbqzc8zrRojT6ohv
-	 zI4MTqYUagJ3H78z0zSu2RkgYX89YBv1+qZxOxY2x7GS0NT6D/AVQg6QPEgGTaokCLQ==
+	t=1794624797;
+	b=rLtxeytUcn0xHQeSYwrDoPDFUo3MxIUJTiSU9KDy5lubwiZinRiLRMdEa3yMSWkuXLOk
+	 7F8ulp2lznpGoac572qoYQSubCEbIv975qM++mmCXCcwptMmJGnFLOyX7tpXltn9zGiZ6
+	 f0mzn7EhALrKmBJpoDNT3opVpsoUZT2c04kDU5biBL3+X7W+0JrpetRj5Y7ssHOrUXWoe
+	 gkjuxHIykHrwufBA3HsI9GhxPwFec8l9DAVSlaOd5xJ5KUjttRXaiQYZtvn05DxHmFb9f
+	 g8RcPohLppv3Xl3zFGefvW/i6ShGLjEPgXY8/0wGVBiSs5W8TeUTIcCco7f+n32nALg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794617238;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=sFWoksDl/YSxzzEgBxVNVr0WRDbY63H/etkwcboJjXc=;
-	b=IfP7+6QEIiQ3Q6hAgjXbE6h4zrjNAFAV8ISyDYPmUMi8wSbwWAIbPpTY02YX4/DqGGaY
-	 UzvRx3A0pzLVuJJNyYS8yU5mUggEZ/f4hZXDSUSeOSqWABOEbNq7dnCTDDOQsIlTLkKkv
-	 E+otGhEXtzUUa9dAjMcYZd+YEORE/L4sye+ku5xoVSrqlH1GUHIykJ6IQvlthU6guEt2Z
-	 TNzSH1XjVZgNSfi8U6xlNvXmdZFxzgAKnmSE0K3wPh8c/fpe+Kjrk0s5JYWToMB0kednv
-	 23/0CUSAUjBmUQjjsnUuxxB43arRno4BhazOpIzsjiEbGPURUydtL4HRDDzSP/kJxhA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794624797;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=YscMcYma1QZFpH9GQZJsPKho/D/g0TKycRL1zJFLFnA=;
+	b=2m47E9zA6R7pkX6LVNbY4ART2sH3qKQCkcbE8fZVTn8sTl+khgWCN9ZzSuxs9qahDQbU
+	 fkU2r48SLb+T4Tl98q+XhW+4bmTnVUvFKnmsaC5wQP5jkpiF4N9T6+GDuwFndPWCnHPP7
+	 6dVKcDTtd51nUWcmtnfmLm/QRb88pvPNfRWU6R6yh1tbMm79PwMhX9zo0+5Vg/buRTsPZ
+	 ypftp9WiL4L1Ots2lF84pEgWLMUg40c8r9E4nNOLTaVuZY6AFF/CJ/SSb4azVTaBDPf7T
+	 GCcpPknc37fewbX53jPhfS6zwTiCdstyU3eWq85VwbEkX18tiq3xDF65QAqWcXATiAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="XyVZZ/6K";
-	arc=none smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD95606A335
-	for <linux-hyperv@vger.kernel.org>; Sat, 14 Nov 2026 00:47:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BD95606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=TXhODVBl;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7DA606A32E;
+	Sat, 14 Nov 2026 02:53:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC7DA606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=XyVZZ/6K
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-55c38cdd5b7so5963461cf.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 13 Nov 2026 16:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794617236; x=1795222036; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sFWoksDl/YSxzzEgBxVNVr0WRDbY63H/etkwcboJjXc=;
-        b=XyVZZ/6KHgc0SnAGhE+nOZT3P9/3caLv1SztSB6O2DhyUct31m2H81KeZbaxWc+Zmn
-         7k2OwX/Ma+HdJuszhMMdNkJXat+n16COGEcTCx5bNb1ZQrZSWmlWpiBt8f5dVsvt1JMF
-         tunVJ1m2XvNvp15U1ckHW6TCWGKpedOGLJdky4LUtYG2x2h+tccel23tRwpLLr5JvhFK
-         8laFbFmYY73/CBmJAehfl6Wqj+aqqeeUoi6AFJejktEiRZpmcfF0NBTZgluDudl4AC/E
-         KLNkmLxCqYLfhelws3lYkG9uTfja/letfAbABE5f0F4PDFyCxdFWN0IpjTzmeqNHC3v1
-         qTvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794617236; x=1795222036;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sFWoksDl/YSxzzEgBxVNVr0WRDbY63H/etkwcboJjXc=;
-        b=hHgLVyt+vmWMcoC8NBE8sVagpSYvdG6xAufD2adE0PU1wHcPUP+Y3asS2ue7hyShq/
-         NqMDES7lEtEjx/h61bS67+UccFV8snFNBrtxOeRXNYIYFEiRn2I5V4FPpdzmHTDwHDUi
-         CBWChcgpCX6R410ZZyk5ZS+OmBa3Yv0mY9Spn0P6wXGsVROOB0FiYvgAqIxs5os3FGkP
-         ExEdg7ehTpM97GiBij2IAOLqEN76JVyl8FM6XkJGJGKYptbvpA1coaSjVvnjLUmzkaCF
-         eLiAWLmElSu2DOexr13lL/GelnHWvgkJR3E41jLubNM2BOPTBL4nfqsld5aI/7jV10rl
-         Q0NQ==
-X-Forwarded-Encrypted: i=1; AL+hErHFidQdhPUq2+hXHYAJ90XAxBF349I9tiLkhtt4SuqxSgdraHRvA0JDwC+4L6K00Sb872RhS5q0xsPAPmk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9EVx7S2L8scAmYGpi+WOJO/vJ79+QSglQ/upMP4VP29NrQcGZQ
-	7YKdpneIff3osKYfc4OUlvroJBNC3EBvK2uLmZf+sftAH6eV53mJtj6W4TICXcXfoj8=
-X-Gm-Gg: AYBFou1yJcuY6Tbx6lywSrBGMw54ESQJTa0YgHIO4dH0o7nnjh1pEMYAOIKeLIr5lK8
-	N3mYUkj5sjjY7Ii7/PR6sXUotApD7a9vhTl0n6Gk8hu/fn6sANtY+Z/BaFIoBYYX5HAz2pFo18d
-	hZ/kLPCY2ql52rdU51bJIYWW+7uosgqifnl8uOxKu2O+JtE4HfHCLSWZJ5ROpRTdMjA9kDbzYby
-	e8yiEf1mbvyg6vyca0ZZq7zFt5GSf9Wjwqvnws/ddMh17BIXg4puJOzH7ANaugg2bM7KRmCXs2z
-	X6ZHLYYUm/Gj3K7nEIk7nDqKjoqBovFyMB+Z2PgkHWHqNf9H8EF4j4pykShBnhf0goJ59h7UZ6o
-	nBYTkqT/DwUzgGkP8/OMAiTlsYP3ctL73bAE21MvA4kEpX5g6fFqZo6xREaFXMrrexeNl6njPkb
-	e/pu0LyHLXQYW7J6r+yTgI7r0XrVpU2HCQN8LtwdtsevzXU611zyZoVw8h2cFOmbqXmOBbWHZrG
-	fklhZ6TxsVni1N39J1lxQN+H7aak7ckW0jb2aQ7RPO0qPZUNHti3mUSqhrMlVDb/2IkksCZtWVZ
-	wY8KUg==
-X-Received: by 2002:ac8:5c85:0:b0:535:a5f8:a5c1 with SMTP id d75a77b69052e-55aca875ecemr64665691cf.65.1794617236082;
-        Fri, 13 Nov 2026 16:47:16 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55ad0a2006csm30002301cf.10.2026.11.13.16.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 16:47:15 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xS1vG-00000002SDe-0c1E;
-	Fri, 13 Nov 2026 20:47:14 -0400
-Date: Fri, 13 Nov 2026 20:47:14 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yuho Choi <oss.patchbox@gmail.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Yu Zhang <zhangyu1@linux.microsoft.com>,
-	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>, iommu@lists.linux.dev,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] iommu/hyperv: Keep a new domain's page tables if
- it cannot be deleted
-Message-ID: <20261114004714.GF2532299@ziepe.ca>
-References: <20261112195710.1417744-4-oss.patchbox@gmail.com>
- <20261112195710.1417744-6-oss.patchbox@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=TXhODVBl
+Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9240220B7166;
+	Fri, 13 Nov 2026 18:53:11 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9240220B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794624791;
+	bh=YscMcYma1QZFpH9GQZJsPKho/D/g0TKycRL1zJFLFnA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TXhODVBljrGdn2HqssTgPbsi4RSavkharjOoT+piZjWQ6WS4wcEOPO/9x8x5TPq/O
+	 sP8UtYFbb3KEK7SoBlw6hiN7tlKRAb/iSmdPadyMe0F/J4oWMYAaJde4hG7vUXb4ev
+	 yaEmdNP/t+CEfaBn3VagvyRS6+ZFSfGjdiOAk+s4=
+From: Mukesh R <mrathor@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	mhkelley58@gmail.com,
+	kameroncarr@linux.microsoft.com
+Subject: [PATCH V1 0/2] Hyper-V: Fix bugs and issues around repeat hypercall
+Date: Fri, 13 Nov 2026 18:53:11 -0800
+Message-ID: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
+X-Mailer: git-send-email 2.51.2.vfs.0.1
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -109,29 +62,30 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112195710.1417744-6-oss.patchbox@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 02:57:00PM -0500, Yuho Choi wrote:
-> When hv_iommu_domain_alloc_paging() fails to configure a new device
-> domain, hv_create_configure_device_domain() deletes the domain again,
-> and the caller then frees the page tables with pt_iommu_deinit(). If
-> the delete fails as well, the hypervisor still has the domain, which
-> may already point at the page tables, and they are freed anyway.
-> 
-> Create and configure the domain in hv_iommu_domain_alloc_paging()
-> itself, and leak the page tables and the domain when the delete fails,
-> as hv_iommu_paging_domain_free() does.
-> 
-> Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest")
-> Reported-by: Jacob Pan <jacob.pan@linux.microsoft.com>
-> Closes: https://lore.kernel.org/all/20261105141427.00005946@linux.microsoft.com/
-> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
-> ---
->  drivers/iommu/hyperv/hv-iommu-guest.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+This short series addresses few issues around repeat hypercall, most
+importantly the bug around not checking completed entries in case of
+failure.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+V1:
+ o Rename hv_isolation_hw_cvm() to hv_isolation_type_hw()
+ o Add HV_REP_COUNT_MAX in case this goes in before the pre-commit
+   patch that adds it.
 
-Jason
+Mukesh R (2):
+  Drivers: hv: Add new function hv_isolation_type_hw()
+  Drivers: hv: Fix bugs and issues around repeat hypercall
+
+ arch/x86/hyperv/ivm.c          |  7 +++-
+ drivers/hv/hv_common.c         | 11 ++++--
+ drivers/hv/mshv_common.c       | 19 +++++++---
+ drivers/hv/mshv_root_hv_call.c | 21 +++++++----
+ drivers/hv/mshv_root_main.c    |  6 +--
+ include/asm-generic/mshyperv.h | 67 +++++++++++++++++++++++++---------
+ include/hyperv/hvgdk_mini.h    |  2 +-
+ 7 files changed, 94 insertions(+), 39 deletions(-)
+
+-- 
+2.51.2.vfs.0.1
+
