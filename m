@@ -1,151 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.6
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794678267;
-	b=S41bJpuJ4EeikOjqZW9GSrLCC9+11bMJFYZ6wIEofyL47QcFmIbw+rRXbg5uuxYaNsfx
-	 RQSwuKc4fJd0h9FRfHYjzDVAFgzUE+Ug8jqYcL/+E4ZMNe65OzHOGkXLa6BsYUbQi1kX2
-	 VHAhlaRa5YsOjctlokJIP1ePjVg71AF7upcYR+dAxHtWbVM4zatDax/QAoa6ozXvMscy5
-	 hG2ZM7WFuRZvhvGtqdBSyrMd5AJjaQo7t76u4GwMZ1ycdG4pUdcQQKqdjUSQWX/jJj9BV
-	 pl9vPVxWYwY3hfWTmfaE62deMZiiKRLdXszM3UPCaGaz135oqX/gHagb6r/jsCNT+/Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794678267;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=zz5olvuFexPdZO1PVksgLnOlKQHTbdVTsIR4z1/+B4M=;
-	b=kQAEcghTqgGOLijVswg6lZ6j4HaVLI7ZclxxNfc0REGE5cQnZ4rCa5D9H080+yAZBNXM
-	 38SSXJ02LUA865G2b/jim306A3wm4wSv4BUsLMixpDTrtA2uN6FIf4cDfdvMF2fjdKkt0
-	 jIxq1hyDOtszuTerB40Qpy/1T/II7kT/eddUUAdjbLrgwUUVvGUZh6zS/VwFNn3+GIrT1
-	 fiUuheq/pDM2bT07G6RqteeMIt7YU1/O0h1JLsgX/xvdLpWZSCeKCVwxAkJgvkYcpj47x
-	 sLNbvas5n64nEmPPZRZSkjyfXle4jx/LKnhQQsfbpcJDCiH4p/tItBP4Yw5Wz0WE1XA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=ElsYiA9x;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.6
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazolkn19010006.outbound.protection.outlook.com [52.103.20.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794693844;
+	b=yEzwq8Vv4OlqpXMcy2Oe7N1Gq49GYknCmhN6o4q4G5WFfEWWLgCINna3pkcYDWLUIX3H
+	 bjZJmcuBOeBCJFyZ5KMrr+I5xq46JUqkKQG+gweC3tPf4aDL/C/EBTxJ1M+InShPH6/iP
+	 2rBIOxijTtINj4Va1gzopOIE8IZVfsAmCU+wWFxvz3Av0cuq9g/FNpeF5Kid4VK5JTwsK
+	 aw9ze5TjePC9HSUNZibPbxlBsONK6A2BAwmcQ1b/6QKW9PVdKmjcY7Hn6Rd52NPwMxDI+
+	 Zr9K9/yqhhn5mqupl4shIoIlH4fZxCwDlbZHJtXmfa4Z1oiB+uOOKqNvECL/OOve4dg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794693844;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vh5zy+jAqMHm/c0Wtk9LMwZdvGBT6DeyQEytCGNCC3Y=;
+	b=5Oc4pjvxg0Z0yg151kODOuxqv43hKz3lZZk87IZBMy0UVNW6XVe9gPgNSJ008RBZnz9B
+	 aoyeu1XufWEHHAJbaol/rDnIEquxR23GKbefVM+5SgL1lqE8GCfeey/XVgtHEINQfKN2Q
+	 jGgjbf9uD5AkmkCMd8xM04gx2719xG5WhPNh5SISJ/HEme8nobU07XmTK9BCbtJyTwB8/
+	 wDoRYQW1Vq1rYoiy/DyS09b7JWVorAG1O7SkAemxcuLoTsfEGm8tti44JN+BwUT9FhEW0
+	 yaDNUFzSx/bZAaYhbE4W9OhxInIKIH8AUPhcBd/mp6uJH2HJQyG4XjVny54Pkryshyw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=bairaktaris.de;
+	spf=pass smtp.mailfrom=bairaktaris.de;
+	dkim=pass header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=hStfYJU3;
+	arc=none smtp.remote-ip=209.85.218.50
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69951606A32E;
-	Sat, 14 Nov 2026 17:44:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69951606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC52606A32E
+	for <linux-hyperv@vger.kernel.org>; Sat, 14 Nov 2026 22:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AC52606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=ElsYiA9x
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JrH1lny/xcARJll2wUz7CnAftKr6qjgNKgysf/+A0+FWZ9LqUxlz78z1g9lKhjQKG6baYWncr+dyI8fnA431GkbEUa65EdBJstORb417BjAJu02NBB/LcNG/FoFV72XwuZ3Ny7Lq6UHmmYUN8/Y8xL4paFqXlxYdJ/2rwhsFMkZLwwfiDyc7cLwO5TlvvyPRX1cimH9eWGGzty1nJoQWWsMGVTFP5+LBTsyshyzvM6Sol5r0CZ3/LS+knWw7DQRV/7iEC3vn1UjkCKkXoYbOlOm8VO5hzrXS73z4jRzktT03RrhNEaaVgVuXS9LwS93rcrqPYcTtgMmHPLnDgCbjdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zz5olvuFexPdZO1PVksgLnOlKQHTbdVTsIR4z1/+B4M=;
- b=eYhFUsqOExvSxVmQLenUBTBjBj4z3v6jFeZW0q3cSuW9D6W+cUeS+ngq8CUo4gLpcIUyihCFnRVdVCT27ONxx4MGLczxG4XbRUd0iRZFx9W91pmFFE3jaq+k09czP0UwpTAxK5E1AipYUwbhSss2B5AeSw1WGQapz36W0yNQ4KyXCIqOlzrExjQoLS/nyA0Gl/q0oOi5BPTDwbXwoHXLaD7SUlcbqMKiA8j1mfvH1wAmIZgXzkNCHXH/lv2SCmTxQiDa8B8ExZ5/o+esOk/mmTL4QYiqHlf23WF079egr6tHoksLCkpjYhO8FcegBuSzN5yMDVEO9Oz8UyPcuMWzhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zz5olvuFexPdZO1PVksgLnOlKQHTbdVTsIR4z1/+B4M=;
- b=ElsYiA9xbc0fPrnxYGkxW/jAlTzdh99yr90HKg4upoPYs14mPAxtisphObKXJmsGlf2A3Z5ZayEOa1Z5PxdVvGvwqJM4uY3fmVF7wKilx3lEEOB7JJyBuNR00KmLWWhNhWR6chVI8YJhtrJ77EADpZVaip1T0T3ZtDyFSPsEr+teau8COyftJ3bZawrjKqKkz6IjErVWBFp21uxVoyRumY4DHQEHnfLRDJVtzp+lszq8eo02qitIwL3OpZmp3hlE5UsZ0+v4i+jPgoNFUD+tiQh7CdWewViYViGycm/2c9UOU7AtLkWuadpue8ug/eGzUGoWTIWuBC6FaG/OcAowVw==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by CO6PR02MB7507.namprd02.prod.outlook.com (2603:10b6:303:a1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.13; Sat, 14 Nov
- 2026 17:43:07 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0615.009; Sat, 14 Nov 2026
- 17:43:07 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: Dexuan Cui <decui@microsoft.com>, Saurabh Sengar
-	<ssengar@linux.microsoft.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-hardening@vger.kernel.org"
-	<linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH 0/2] drm/hyperv: address worthwhile gaps
-Thread-Topic: [PATCH 0/2] drm/hyperv: address worthwhile gaps
-Thread-Index: AQHdc7o9SPo9iNf6wUKOy98JYWtdm7ct1Bpw
-Date: Sat, 14 Nov 2026 17:43:06 +0000
-Message-ID:
- <MN2PR02MB68638ED8E06516AFFAE4B218D47E2@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261113215843.1939889-1-hamzamahfooz@linux.microsoft.com>
-In-Reply-To: <20261113215843.1939889-1-hamzamahfooz@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CO6PR02MB7507:EE_
-x-ms-office365-filtering-correlation-id: 61acd8d1-4c8a-4e32-e2ba-08df4276bdfa
-x-microsoft-antispam:
- BCL:0;ARA:14566002|51005399006|25010399006|19110799012|41001999006|8062599012|8060799015|55001999006|24021099003|15080799012|13091999003|37011999003|31061999003|40105399003|102099032|56899033|440099028|3412199025;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?sgfLdWUsz8RiyWc4GePv4cNP6DHSZV4AVrGb9E3l+HhGDAXLQiwDaqqPAR4m?=
- =?us-ascii?Q?QipKud2cvz8AK5OzSHac7Dz5TJDN35idlKNLMNJ6AyRWfoVMn7ugRNP24htg?=
- =?us-ascii?Q?LPFWygyhlhpQtj4zmLgD91+2Y/7pHgMQjSALjdZplTlgraQipjCdBHRgQ+DT?=
- =?us-ascii?Q?c5BLm9ywBbMOBhmDO0Dlkzfwlxs4GZKVXm0H1tuute8QiNetzdbggF9uA7Ak?=
- =?us-ascii?Q?DCUGD10GTGtI3ylKT889Rn8YvnNDqJJwRV7fPrmRBKxO5Jny55yj21emzhqB?=
- =?us-ascii?Q?879ZO5NKJPpKhPrZk1ocAjH2YaiSSqs2YWePA5NN4Th/faflOFDVKJhzUNDl?=
- =?us-ascii?Q?1WGaGU4kwphyjT71ACbTuRmp0tFcUUP3IZxiuzQFcUPeKL+iKBL/k7KkNlX0?=
- =?us-ascii?Q?4f5dtftViS+N3UId+73wr1dUhLDITKL6/OVVRKGVZpCFilMG71fggHFUFJ49?=
- =?us-ascii?Q?plsD0loMJ7RJUne9k+NiBnmKr7g6bK7T4PyBHJu2PGWItqMrFqiBb0BsPUti?=
- =?us-ascii?Q?afY6dnvB3jgnjRuE7C1fBM8oWdc/yEXMVL2bezL8xjohKelQWX2cGbHc2utg?=
- =?us-ascii?Q?/S9UshkoUOVcNSTLm5SyVE1Lq1F2+uTx1z6AbdtkTT3B/qxeDeULJotmxVE3?=
- =?us-ascii?Q?P2rGDbCprvVx1EZbhajm8gfkC1Eb1YX45Mlsx1k+8lF38xi0BWY9Cg82QLzZ?=
- =?us-ascii?Q?yUcC8iSrco4pkdHPoSK7ABgwFN76qDIFPFpdEzVXziWwbiEX8JZsbL3aJd9F?=
- =?us-ascii?Q?GzFhVdtUSLaZeAsgBiOmYYpZ6uHP4DZi5NuBJRkK/mUHRaxTF69OQNsFYega?=
- =?us-ascii?Q?OCbi4PAuj1HraCJxFCQ8a0y7ufY2Y9D6BaApV0tqMlA+7HmSUPeFqUreO6Xx?=
- =?us-ascii?Q?nRvjq4tbjsnItfK7R7tdUJRFppcDdIz7+quXD/7+3f6y3NBxiTpxcUzO8CLu?=
- =?us-ascii?Q?K3lEedU4tdIhSkdzqqKhejIvlc9QkXjayUq9i6m0p3/tSN8+gOq5mXaawoYm?=
- =?us-ascii?Q?CM9AZHhI9ggKUr8kQdf0YGAylKOUUcaAGqsO25ktSrIwjT6aMAZnMnR013T6?=
- =?us-ascii?Q?I3xQ9EFZ?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?BIoNs81b6E3tUxuKl3lFqioN+o9oEwqfF7i/Zn8l3ufcPsNvrfGkzIIYHBtJ?=
- =?us-ascii?Q?Pl7h3vf2hwAG8/74hRbH1sJHvlA9S8VYzFAbdSCws/pryGqbxjQ5u3v7E5mv?=
- =?us-ascii?Q?XHNKAST3qTKgVm6jD96hMFxTQg8Gcxo3FHCleLBB+rZ+rv78clHrlpcrVeMG?=
- =?us-ascii?Q?pT0y/M1ITvB/nblEx2yvGlZk9o6wcO4Os+0xTPvb8hbTbV11LmhfIQ+Lsn0S?=
- =?us-ascii?Q?0lXguOQMYc9x1gYSwsoBcIF3DteiOL2Qm/kYcHheBn2t4NtVnDTxIdYELon1?=
- =?us-ascii?Q?BmXqTuC4qqlClD3TMBawmd5jpzMtvcphGIrg60ycLjd0UX/zSkuI0DX8Mgqc?=
- =?us-ascii?Q?0ItUxexUg+2dU9pYClTUgEqVgTbBrUsYHOBhQtZhiljxTPP/S1Pfy6cZZgKw?=
- =?us-ascii?Q?DL51a9xbE79iauf18czG5GqvvX6Dtfe5nzbYUGAjbcJjcQ9ji3MxXxribYcD?=
- =?us-ascii?Q?D0tjX/EAvNaBpRopvAPxJNcEtF25N/rW0YSOzmE5uHk9QXltiMuyqiKHDqG2?=
- =?us-ascii?Q?vEjl1srYG4TjqkD5E7CkiYLIB4sTr1oQPfHEPnTHtbWZIUM5ie7ZlbHyanaL?=
- =?us-ascii?Q?tyPYqKdfINxzCMIiOgS64ZSZtxVGtyogL4U8DqYgbJKqWywjmCRVVhkoLQsr?=
- =?us-ascii?Q?F1RbAeN5yAa8OHZU2pW/hk7/rF2NyIw7cAbG3wj05SNv0rfpoLvguZHp8N0M?=
- =?us-ascii?Q?4oWSo2nD18+hqvWL/j36G1HzbjQjLyx6YChCzgcWsy3YlBFELkGO7o+Q1IoQ?=
- =?us-ascii?Q?RLWHZdU/7MuzKPxKTzwR4RciMIYlhA3Mr4QXoiexy4F1p+KPQTPmE1joEgfw?=
- =?us-ascii?Q?19IqDgVWZLcRxduCTpfxudfuoU+TWH7xSTMSmT5Lgf57o5v67oCyrpLPUaTe?=
- =?us-ascii?Q?8S3tCfvuJLyWdr4xBWvIpIzFyA62IZ4b/Js+Vu1Yvwvd1bIPPfuIfqFjj4dl?=
- =?us-ascii?Q?6lrnTHDJYbzzCSvxyvP9yJrLxXjLLL9D5FxPnG8WpAc4r8MAwvq+iCeM95N4?=
- =?us-ascii?Q?mPRSCIybyHgQDAQK8xAzSs+oPQ2OZ8G5MYMMA6AADU4sCcfYKtkz3MrEXtEe?=
- =?us-ascii?Q?Rv+FrmH2MAWQ0b65iL6uwMkkiNOXTE/mkVxjNvtn3hZZagZpD29odpwFw2bp?=
- =?us-ascii?Q?IBgzauyXEJ91wgHOSjwlQNDqh1R1tj53vS9qs/EBApBnrjGZg8mah4T3556V?=
- =?us-ascii?Q?x5ANCqu1fAiusR0om+1yXzrp2l1iw8EtgzCDR4dhyWJ5ghZBfPwWMDphuDUm?=
- =?us-ascii?Q?U6a1GNoWP7b0DTdeO3nM8szsKymOf8Q2Epxxg2nbpM/GqOnMXskeburFV7t9?=
- =?us-ascii?Q?4YwQbbELPQUcpJV+9oYZuaMlRRoVqMIBJENnicBsyEkyXkjw+r2CMlQqyAvT?=
- =?us-ascii?Q?AD6EHDk=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=hStfYJU3
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c50ac25cdd4so166788366b.1
+        for <linux-hyperv@vger.kernel.org>; Sat, 14 Nov 2026 14:04:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bairaktaris.de; s=google; t=1794693841; x=1795298641; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vh5zy+jAqMHm/c0Wtk9LMwZdvGBT6DeyQEytCGNCC3Y=;
+        b=hStfYJU3y7r+9Yp9LBu18f5vh08zZEsVnRNn67+kGftdxVojSk7EtgSPs9zUtV4TOo
+         dzhs5VIIHB8+sPKLVM20OeuAg/mVLj0yKd0n4eib/kYQaZDb25P05NJJGyNHTZtMThsl
+         +XwQ/ps6BLQFWtexS9TZ2FvmxUEEwkvcA6X7L0kpwND+pAxiiMtXGnnyOfuHnhALdY3u
+         OH5b/nvatdrlyrCQ5RD6qaFg/wl+5YdMMKTbED28+HMFqarDogbWg6gsl1vjo0QiX9dA
+         3S6qvzL/ejK1BEVZJKqhbo4ijx1cLDvnXZUjq6tnhnBJRd/MaD+v6AYzGPgzbsvi7tMf
+         179A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794693841; x=1795298641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vh5zy+jAqMHm/c0Wtk9LMwZdvGBT6DeyQEytCGNCC3Y=;
+        b=mF6OsV/jQ4UlpmT64yRfAYZ1YoMs75EN6+gUo2UWy4vxTueKPQ+5GrkoW0JJ3azYWT
+         f+RaPT4L04WkD8HlObxKr6KboGkCCl2F9ctnRx5PUtUjmO4Nb2WHyIz8fGLrevhFoXtd
+         b+yc2OYGgXwLx6Wix/EhRa3xg6qaENq/l+AW6gXh8HYBky+qY5yetSRLHSt7qBX7zfvU
+         f91UEXFbe9KM0rptAhcGoAJgdKAuC7NKrLpyJmTfn5uB1iOtKSF9qIcj19wdAUk3BTgR
+         YsuRK+DQmxPP8R2shKM0aIc6wn+ejZZoA6+805ZMFFKtYd10vaXrC5LaX3pUfFPOZJyi
+         rpxw==
+X-Forwarded-Encrypted: i=1; AL+hErEhO1gFFeCRiL8vGK0bgKOqm94w/sOBuopkUDxvvT+RJXTq0ArcKwGIFqOZgP1zbCqZ5QoCGuyLgGvxVfU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8X8f3t10nq9+lkhsEieYm2+dMbU8dSYHg6bNuxwxqOWOoVL8Xe
+	wIG6hzXAYb/y0TuudVcCmH7tMb34kSTzJ5zNfegrZIfNf131JuCRGEW7jJ37sAzgwg==
+X-Gm-Gg: AYBFou2a7q8aqkjblAXUKGHDX0wM+vRvZp9Ru6ub4I6xbAbXRCilAgtOk5J1dk/uAi2
+	0I8GxYg0ENFedbVenSt0ydnWm42PqjV+1fNzJmJOzyfu3OrKamhY2JMNpBNzbNT+BWRQTlAawWI
+	UhkuR1/dsY0Q1XMXduIoEKRFpjgKIFP0PM7yc9VeTVOO6FV0urW/cP+HL50SXYeqQWhBiu3d/WH
+	PbDInZrVZgXIj4icm9331joakTiTOgg78plFT0sd/d32FXU/5TWiNoMHRBRblD7DJ0COgdm9Bxy
+	sStM/JD5EVlTu7FwGClE4d34DYlmEBjF+U+NssLdgheYSjy+cy0+1VibbJ458lveOKA0fg+9JHm
+	UcTkRSc81ZJd4Vyco3Zm3RTIZcBZU/iNOxtDEJ9Tdq1Nolmpxnp1EK88c1Au8eaLIJupQ2r5Zc4
+	vONusRxJAANmj3hDCPJnXu8Cf7PlbTzaRQhW+m34h49YNDYlkhnc6oTz475fkwG/0Gh3qOR1GCq
+	sLHWgHkBMOjKIVDOTRJuA+fuwkn5N/0fdUdMcEriusJEYQS2lkGAoIavi5oMk+jCX66372Chmt8
+	tqxnC2cgi7vrHb5v2jC6m//uyGyZgIIw+fiK8iuOtKWRVnvIEF58FlysiJRnn9tDBwqWV45xywf
+	GRpv/PVdF7QpdwnB1G2C0v+20OC3tlaLGjdOu+Tai+B/ae9nLwUdmlwu62SxL33BgAxRb9UBCgp
+	GOtADUxS+gBaHTR6aa7U3WTkLh7Ph6l/uUd/obxsGq4080Hmnyb+lvCalV77a3BPCmuUErlkEFj
+	PzYhye84DwDshvCUEcB6+rK05aPnI+yF4ltpiuJD9QNYZ+JMiO2i0jPVAmYoLsfqK3PiN5oG3si
+	gwk=
+X-Received: by 2002:a17:907:6e87:b0:c41:1750:59a2 with SMTP id a640c23a62f3a-c50963778efmr537828166b.12.1794693841497;
+        Sat, 14 Nov 2026 14:04:01 -0800 (PST)
+Received: from Desktop.fritz.box ([185.181.130.189])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b236edsm255946566b.23.2026.11.14.14.03.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 14:04:00 -0800 (PST)
+From: Julius Bairaktaris <julius@bairaktaris.de>
+To: netdev@vger.kernel.org,
+	linux-hyperv@vger.kernel.org
+Cc: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	ernis@linux.microsoft.com,
+	stephen@networkplumber.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] hv_netvsc: fall back to one queue when a sub channel fails to open
+Date: Sat, 14 Nov 2026 23:03:58 +0100
+Message-ID: <20261114220358.5429-1-julius@bairaktaris.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -155,61 +109,141 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61acd8d1-4c8a-4e32-e2ba-08df4276bdfa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2026 17:43:07.0307
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7507
+Content-Transfer-Encoding: 8bit
 
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com> Sent: Friday, Novemb=
-er 13, 2026 1:59 PM
->=20
-> I was doing a deep dive into the host spec and noticed some gaps. So,
-> I went ahead and hacked together the patches in this series for items
-> that seemed worthwhile to address.
+netvsc_sc_open() counts a sub channel in open_chn even when vmbus_open()
+fails, for example when the order-8 ring buffer allocation fails in a
+guest with fragmented memory. The channel stays in chan_table with no
+ring buffer and a disabled NAPI, and rndis_set_subchannel() goes on as if
+it had opened.
 
-Are you (or someone on the Microsoft side) testing these changes
-in a Generation 1 VM, as well as on back revs of the Hyper-V host?
-Testing should go back to Windows Server 2016/Windows 10 for
-both Gen1 and Gen2.
+The next netvsc_detach() or netvsc_close() then hangs in
+netvsc_wait_until_empty(), with RTNL held: napi_synchronize() waits for
+NAPI_STATE_SCHED to clear, and a disabled NAPI keeps it set.
 
-Same questions apply to your earlier cursor plane support. I just
-did basic smoke testing of the cursor plane support on both Gen1
-and Gen2 VMs using vmconnect.exe on an up-to-date Windows 11
-host -- no obvious problems. But I don't have access to older hosts
-like WS2016/Win10 to do the back rev testing.
+  hv_netvsc ... eth0: sub channel open failed: -12
+  task:GnsEngine state:D
+   msleep+0x38/0x60
+   netvsc_wait_until_empty+0x49/0x100
+   netvsc_detach+0x135/0x1b0
+   netvsc_change_mtu+0xb9/0x120
 
-There are multiple frame buffer differences in Gen1 and Gen2 VMs,
-but most (or all?) are in the lowest layer in how the frame buffer is
-allocated and mapped. Hopefully these higher-level changes you are
-making are agnostic of the VM generation, but thoroughness would
-dictate testing both.
+netvsc_device_remove() would also call napi_disable() on it a second
+time, which never returns either.
 
-I'm less sure about what might have changed in current Hyper-V
-versions and WS2016 from 10 years ago. My general impression is
-that very little, if anything, has changed in the Hyper-V frame buffer
-support, but again it would be better to not get a bad surprise after
-the code has gone in.
+Check after the wait that every sub channel opened. If one did not,
+disable the NAPI of those that did and return an error, so that both
+callers fall back to the primary channel. The fallback in
+netvsc_attach() did not delete the sub channel NAPIs and left the real
+queue counts of the previous device in place; do both, as
+netvsc_subchan_work() and netvsc_probe() do.
 
-Michael
+The device keeps one queue after the fallback, also across later
+reconfiguration, until the channel count is raised with ethtool -L.
 
->=20
-> Hamza Mahfooz (2):
->   drm/hyperv: add modes for all resolutions offered by the host
->   drm/hyperv: batch dirty rectangles
->=20
->  drivers/gpu/drm/hyperv/hyperv_drm.h         | 15 ++++
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c     |  4 ++
->  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 32 ++++++++-
->  drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 79 ++++++++++++++++-----
->  4 files changed, 110 insertions(+), 20 deletions(-)
->=20
-> --
-> 2.56.0
+Fixes: 7b2ee50c0cd5 ("hv_netvsc: common detach logic")
+Link: https://github.com/microsoft/WSL/issues/41622
+Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+---
+Tested in a Hyper-V guest (WSL 2, mirrored networking, 16 vCPUs) on net
+aa40afa831ebf, with fail_page_alloc limited to vmbus_alloc_ring() so that
+6 of the 15 sub channels of a netvsc device failed to open during an MTU
+change. Without this patch, the next MTU change hung in
+netvsc_wait_until_empty() with RTNL held. With it, the device fell back
+to one queue; a further MTU change, down/up, ping over the device and
+ethtool -L back to 16 queues all worked, with no warnings.
+
+I used Claude (Anthropic) to help write these patches.
+
+ drivers/net/hyperv/netvsc_drv.c   |  7 +++++-
+ drivers/net/hyperv/rndis_filter.c | 38 +++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index 1d43c73fd73f1..ffa5999dc576c 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -1023,7 +1023,7 @@ static int netvsc_attach(struct net_device *ndev,
+ 	struct netvsc_device *nvdev;
+ 	struct rndis_device *rdev;
+ 	struct bpf_prog *prog;
+-	int ret = 0;
++	int i, ret = 0;
+ 
+ 	nvdev = rndis_filter_device_add(hdev, dev_info);
+ 	if (IS_ERR(nvdev))
+@@ -1034,8 +1034,13 @@ static int netvsc_attach(struct net_device *ndev,
+ 
+ 		/* if unavailable, just proceed with one queue */
+ 		if (ret) {
++			for (i = 1; i < nvdev->num_chn; i++)
++				netif_napi_del(&nvdev->chan_table[i].napi);
++
+ 			nvdev->max_chn = 1;
+ 			nvdev->num_chn = 1;
++			netif_set_real_num_tx_queues(ndev, 1);
++			netif_set_real_num_rx_queues(ndev, 1);
+ 		}
+ 	}
+ 
+diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
+index 9622513275069..fe5acce0bb06b 100644
+--- a/drivers/net/hyperv/rndis_filter.c
++++ b/drivers/net/hyperv/rndis_filter.c
+@@ -1278,6 +1278,31 @@ static void netvsc_sc_open(struct vmbus_channel *new_sc)
+ 		wake_up(&nvscdev->subchan_open);
+ }
+ 
++static bool rndis_subchannel_opened(struct netvsc_device *nvdev, int i)
++{
++	struct vmbus_channel *chn = nvdev->chan_table[i].channel;
++
++	return chn && chn->state == CHANNEL_OPENED_STATE;
++}
++
++/* Disable the NAPI of the sub channels that opened. netvsc_sc_open()
++ * already disabled it on the others.
++ */
++static void rndis_disable_subchannels(struct net_device *ndev,
++				      struct netvsc_device *nvdev)
++{
++	int i;
++
++	for (i = 1; i < nvdev->num_chn; i++) {
++		if (!rndis_subchannel_opened(nvdev, i))
++			continue;
++
++		netif_queue_set_napi(ndev, i, NETDEV_QUEUE_TYPE_TX, NULL);
++		netif_queue_set_napi(ndev, i, NETDEV_QUEUE_TYPE_RX, NULL);
++		napi_disable(&nvdev->chan_table[i].napi);
++	}
++}
++
+ /* Open sub-channels after completing the handling of the device probe.
+  * This breaks overlap of processing the host message for the
+  * new primary channel with the initialization of sub-channels.
+@@ -1329,6 +1354,19 @@ int rndis_set_subchannel(struct net_device *ndev,
+ 	wait_event(nvdev->subchan_open,
+ 		   atomic_read(&nvdev->open_chn) == nvdev->num_chn);
+ 
++	/* open_chn also counts the sub channels that failed to open. They
++	 * have no ring buffer and a disabled NAPI, so fall back to the
++	 * primary channel.
++	 */
++	for (i = 1; i < nvdev->num_chn; i++) {
++		if (!rndis_subchannel_opened(nvdev, i)) {
++			netdev_warn(ndev, "sub channel %d is not open, using one queue\n",
++				    i);
++			rndis_disable_subchannels(ndev, nvdev);
++			return -EIO;
++		}
++	}
++
+ 	for (i = 0; i < VRSS_SEND_TAB_SIZE; i++)
+ 		ndev_ctx->tx_table[i] = i % nvdev->num_chn;
+ 
+
+base-commit: aa40afa831ebfe45e40a23721711059f2ac584d4
+-- 
+2.53.0
 
