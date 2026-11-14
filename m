@@ -1,60 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794624799;
-	b=2BSDkmHr5nRva6yQnxiMtLo1Pd8SRaS+Td3U9qG2F54RSe1M0Ve6XPAV1PtJj9cBtFgB
-	 yfced6Cmf6bYs7YyPxGk5RY+dMFEpWvXH/Rqs+IcYY+L9MeePV55DReuXeAg13i6BCz51
-	 uyw9/hatBQLp3pURopTPuuNwDYDUag49XMEqUyAx62U9aL+Q7anpe2yzdCcA4lAtvLe64
-	 j6gLACHwA63vfVlMeAMJePdqkL+KyQ6IFhmbfAaO826MgRY3oqlPfTe22FEFBXljqlAZI
-	 aZ45/OWpJWfQ4Zq8TRrBI1UQLRfMnPKk3a74cGuSMRszbDjRUIet1ozFVn/q2+IRRow==
+	t=1794625168;
+	b=HQP3ECwQKFDzs0ch36cAjqEeMuxFtyl0TuKcwAVXNmzEpZPYEsv9e4ONwn11lVQ9X8BZ
+	 oMe4GA7Xm9BovUVNG+rNMrjiuPoADgUk6nnlWGgOZv8LgAYeWWbG/cgMZcM6e+VRu4H4M
+	 hg20XnmWV5AifQ0gkeGg4Vgex/TgGOcT2KKmEYv8EXbFj06t47JiPJIz4ykLwI7o4f1Ym
+	 nGwPbjRIbsC9MNLWhTf1Sqw/iXsu73gmx5OaAGssBcakth1YvhSlqccvwynXedLZ4lveg
+	 mmo2kr2lRUSL50bha2X8OGNc39o4gRuEANg8lMqk9tN35eXiaQkgJG4IfZf21cbc/AA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794624799;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=hV36Y+azplbaXTUBqR29nhOhm4MXiHGNJvyhVmF2NiE=;
-	b=PmmMw1gViKm+NQTHunrqgAMd9SvMlPRRRRZ046WfO5ECsqsXVh+18UPw97j8dcgWqg6i
-	 8Dmiu5VBTntWnZU9SWkbItJMhAIyTovWnTOGwKPOIX1HZV1RzTJ9phrNeCDdShnv6slP5
-	 g/3HHRFATwqSmQTwHklpoUI/rp3BP/gv96FGznxedP9DNFI8UiiJtCiUh0GF8NVSw8Q13
-	 Fb4tyItGsD1HeLzxQki6pg8dR5pZLyVDrTNnKDhiXF9YLDxN0IdhJ32CUo0yiZS+G0WXH
-	 a9i7GGaah8NyxGlj32dOesxtScKD545NS6lQv+Nr5X/oUstNr8rhlyw/Fu5lnsB7unQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794625168;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:From:To:Cc:
+	 References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=NFb5ad8hqnTsa2E6F7F8LTT0h034t3fTlgBrnOuiBrM=;
+	b=mZ0AsyGw1rRvLZgL9VFVzsOu/K/7ACn9QW0hzSGpIbBF0ionN0IlGQzuD/0Z3ATZXcW7
+	 Etyg+voHrxG4w8VvpiCQV3VYxtoMGNSHOUH+tokrSbe/+ryJSResQ6OM4HP+o8Na6B2pq
+	 j4jAD4kJ2li+S/FoQQFpwpCBfxdwG2RNlR8JHO4y0xwyFW/MnT1kwtuP+hZxDaT2vbXee
+	 6hSoyG4nEhPswEMG0v379Tg/iNd4pYFFMKasKs0kFOQiOULxTdcSIeM/SV16MBgofkEbX
+	 QeYFu8G4VPqmhWpHfYzhPyD9AC6bzTqmeXeedrQ2DX2LvhZXHzztf7ni1U5e6BoAulA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PLkTgGxk;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=QKdw25zN;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF73606A333;
-	Sat, 14 Nov 2026 02:53:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AF73606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22058606A323;
+	Sat, 14 Nov 2026 02:59:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22058606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PLkTgGxk
-Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D3AAB20B7168;
-	Fri, 13 Nov 2026 18:53:12 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D3AAB20B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=QKdw25zN
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4E87620B7166;
+	Fri, 13 Nov 2026 18:59:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4E87620B7166
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794624793;
-	bh=hV36Y+azplbaXTUBqR29nhOhm4MXiHGNJvyhVmF2NiE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PLkTgGxk1uExq8Dwow2eLCtj7lgSOPWXQthI75g61jKh2KKxQYj0KlfZM+fNlr55i
-	 fnKLJTDoKUyvgcMxuUq4cr6+vMjz+XIZTqn230nfIVl5bC6I16xrjAIdLyhjxlxLpG
-	 dUc+rbbXMzZHuN8dvyOuVOotrvSSvP2jvbVfRhac=
-From: Mukesh R <mrathor@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	mhkelley58@gmail.com,
-	kameroncarr@linux.microsoft.com
-Subject: [PATCH V1 2/2] Drivers: hv: Fix bugs and issues around repeat hypercall
-Date: Fri, 13 Nov 2026 18:53:13 -0800
-Message-ID: <20261114025313.1257042-3-mrathor@linux.microsoft.com>
-X-Mailer: git-send-email 2.51.2.vfs.0.1
-In-Reply-To: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
-References: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
+	s=default; t=1794625162;
+	bh=NFb5ad8hqnTsa2E6F7F8LTT0h034t3fTlgBrnOuiBrM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=QKdw25zNLEF8biGlipcQuqc/Hf1v1XGVvzmujIgi4qbe3v2Bp/stJfgVpyyz1S0n+
+	 5dqCxUmzoCa1rvBmYCH5orTcGYkqe3PYhlJk/aDZTQz9e/RxEPIFdByDG+wvr4jY0+
+	 gs1ssnMjFukTLsx9LHA1LY2agRF4FzOuDcZbn8bw=
+Message-ID: <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
+Date: Fri, 13 Nov 2026 18:59:26 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,304 +53,163 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
+Content-Language: en-US
+From: Mukesh R <mrathor@linux.microsoft.com>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
+ <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
+ <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
+In-Reply-To: <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There are few issues/bugs around repeat hypercall:
- o If the hypercall fails, it could still have processed some entries.
-   Fix places where it assumes none of the entries were processed and will
-   try to undo entries already processed or print incorrect completions.
+On 11/12/26 16:46, Mukesh R wrote:
+> On 11/12/26 09:49, Kameron Carr wrote:
+>> On 11/11/2026 6:43 PM, Mukesh R wrote:
+>>> On 11/11/26 10:01, Michael Kelley wrote:
+>>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>>>>
+>>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
+>>>>> to be marked as decrypted (shared) for confidential VM isolation types.
+>>>>> This is already done for SNP and TDX isolation; extend the same handling
+>>>>> to Arm CCA Realm guests so that the host hypervisor can access the
+>>>>> shared hypercall buffers.
+>>>>>
+>>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
+>>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
+>>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
+>>>>> Introduce a Hyper-V-specific helper following the established
+>>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
+>>>>>
+>>>>> On architectures other than arm64 the weak default keeps the existing
+>>>>> behaviour.
+>>>>>
+>>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>>>>> ---
+>>>>>    arch/arm64/hyperv/mshyperv.c   |  5 +++++
+>>>>>    drivers/hv/hv_common.c         | 17 +++++++++++++----
+>>>>>    include/asm-generic/mshyperv.h |  1 +
+>>>>>    3 files changed, 19 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>>>>> index 46ab2da..da6c3aa0 100644
+>>>>> --- a/arch/arm64/hyperv/mshyperv.c
+>>>>> +++ b/arch/arm64/hyperv/mshyperv.c
+>>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
+>>>>>        return hyperv_initialized;
+>>>>>    }
+>>>>>    EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>>>>> +
+>>>>> +bool hv_isolation_type_cca(void)
+>>>>> +{
+>>>>> +    return is_realm_world();
+>>>>> +}
+>>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+>>>>> index 31256cb..a60c92c 100644
+>>>>> --- a/drivers/hv/hv_common.c
+>>>>> +++ b/drivers/hv/hv_common.c
+>>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>        u64 msr_vp_index;
+>>>>>        gfp_t flags;
+>>>>>        const int pgcount = hv_output_page_exists() ? 2 : 1;
+>>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
+>>>>>        void *mem;
+>>>>>        int ret = 0;
+>>>>>
+>>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>         * online and then taken offline
+>>>>>         */
+>>>>>        if (!*inputarg) {
+>>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+>>>>> +        mem = kmalloc(alloc_size, flags);
+>>>>>            if (!mem)
+>>>>>                return -ENOMEM;
+>>>>>
+>>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>            }
+>>>>>
+>>>>>            if (!ms_hyperv.paravisor_present &&
+>>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+>>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
+>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>> +             hv_isolation_type_cca())) {
+>>>>
+>>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
+>>>> of explicitly testing for each CoCo VM type? I ask partly because
+>>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
+>>>> function that does something almost exactly the same as
+>>>> hv_is_isolation_supported() and uses it here.
+>>>
+>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>> +             hv_isolation_type_cca())) {
+>>>
+>>> With my change, this will become:
+>>>
+>>>          (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+>>
+>> Any reason you wouldn't change hv_isolation_hw_cvm() to
+>>
+>>    return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>      hv_isolation_type_cca()
+>>
+>> That would seem more logical to me.
+>>
+> 
+> We could, I just don't know if on cca, the repeat hypercall has same
+> behavior. I was leaving that for the arm team. Anyways, I sent question
+> to the hyp team, if they say yes, i can update my patch to include that.
+> 
+> Thanks,
+> -Mukesh
 
- o Hypercall returns back with timeouts only for HW confidential VMs. In
-   that case it should be retried instead of returning back. Returning back
-   results in error conditions and take down of VMs in most cases.
 
- o For non confidential VMs, the hypercall could be streamlined as it will
-   never return back with timeouts.
+Confirming, arm has same behavior and needs the fix also. So, we can def
+expand the check to include _cca.
 
- o Rename HV_STATUS_TIME_OUT to HV_STATUS_TIMEOUT to match hypervisor
-   public header file. There is no reason for it to be different.
+I just sent V1, renaming hv_isolation_hw_cvm() to hv_isolation_type_hw().
+If your patch goes after mine, you just need to add to your 0004*:
 
- o Minor formatting fix for checkpatch. Error printing missing in couple
-   places when rep hypercall fails.
-
-Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
----
- arch/x86/hyperv/ivm.c          |  2 +-
- drivers/hv/hv_common.c         |  2 +-
- drivers/hv/mshv_common.c       | 19 +++++++----
- drivers/hv/mshv_root_hv_call.c | 21 +++++++-----
- drivers/hv/mshv_root_main.c    |  6 ++--
- include/asm-generic/mshyperv.h | 60 ++++++++++++++++++++++++----------
- include/hyperv/hvgdk_mini.h    |  2 +-
- 7 files changed, 75 insertions(+), 37 deletions(-)
-
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 26e570cf77be..742f6399ecf6 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -365,7 +365,7 @@ int hv_snp_boot_ap(u32 apic_id, unsigned long start_ip, unsigned int cpu)
- 	do {
- 		ret = hv_do_hypercall(HVCALL_START_VP,
- 				      start_vp_input, NULL);
--	} while (hv_result(ret) == HV_STATUS_TIME_OUT && retry--);
-+	} while (hv_result(ret) == HV_STATUS_TIMEOUT && retry--);
- 
- 	local_irq_restore(flags);
- 
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index b537cafdc2a2..db3c0c571e9e 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -835,7 +835,7 @@ static const struct hv_status_info hv_status_infos[] = {
- 	_STATUS_INFO(HV_STATUS_INVALID_REGISTER_VALUE,		-EINVAL),
- 	_STATUS_INFO(HV_STATUS_DEVICE_ALREADY_IN_DOMAIN,	-EEXIST),
- 	_STATUS_INFO(HV_STATUS_OPERATION_FAILED,		-EIO),
--	_STATUS_INFO(HV_STATUS_TIME_OUT,			-EIO),
-+	_STATUS_INFO(HV_STATUS_TIMEOUT,				-EIO),
- 	_STATUS_INFO(HV_STATUS_CALL_PENDING,			-EIO),
- 	_STATUS_INFO(HV_STATUS_VTL_ALREADY_ENABLED,		-EIO),
- #undef _STATUS_INFO
-diff --git a/drivers/hv/mshv_common.c b/drivers/hv/mshv_common.c
-index 63f09bb5136e..606f86673d51 100644
---- a/drivers/hv/mshv_common.c
-+++ b/drivers/hv/mshv_common.c
-@@ -56,16 +56,20 @@ int hv_call_get_vp_registers(u32 vp_index, u64 partition_id, u16 count,
- 
- 		status = hv_do_rep_hypercall(HVCALL_GET_VP_REGISTERS, rep_count,
- 					     0, input_page, output_page);
--		if (!hv_result_success(status))
--			break;
--
- 		completed = hv_repcomp(status);
- 		for (i = 0; i < completed; ++i)
- 			registers[i].value = output_page[i];
- 
- 		registers += completed;
- 		remaining -= completed;
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index 4fdc26ade1d7..67a16b4d2235 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -134,3 +134,8 @@ bool hv_is_hyperv_initialized(void)
+         return hyperv_initialized;
+  }
+  EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
 +
-+		if (!hv_result_success(status)) {
-+			pr_err("%s: count:%d comp:%d st:0x%llx\n", __func__,
-+			       count, completed, status);
-+			break;
-+		}
- 	}
-+
- 	local_irq_restore(flags);
- 
- 	return hv_result_to_errno(status);
-@@ -99,12 +103,15 @@ int hv_call_set_vp_registers(u32 vp_index, u64 partition_id, u16 count,
- 
- 		status = hv_do_rep_hypercall(HVCALL_SET_VP_REGISTERS, rep_count,
- 					     0, input_page, NULL);
--		if (!hv_result_success(status))
--			break;
--
- 		completed = hv_repcomp(status);
- 		registers += completed;
- 		remaining -= completed;
-+
-+		if (!hv_result_success(status)) {
-+			pr_err("%s: count:%d comp:%d st:0x%llx\n", __func__,
-+			       count, completed, status);
-+			break;
-+		}
- 	}
- 
- 	local_irq_restore(flags);
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index e761addda50e..010b5060b272 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -239,6 +239,7 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 		local_irq_restore(irq_flags);
- 
- 		completed = hv_repcomp(status);
-+		done += completed;
- 
- 		if (hv_result_needs_memory(status)) {
- 			ret = hv_deposit_memory(partition_id, status);
-@@ -246,11 +247,13 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
- 				break;
- 
- 		} else if (!hv_result_success(status)) {
-+			pr_err("%s: failed to map pages at gfn %#llx: done %u/%llu, flags=%#x, status=%#llx (%s)\n",
-+			       __func__, gfn, done, page_count, flags, status,
-+			       hv_result_to_string(hv_result(status)));
-+
- 			ret = hv_result_to_errno(status);
- 			break;
- 		}
--
--		done += completed;
- 	}
- 
- 	if (ret && done) {
-@@ -356,20 +359,22 @@ int hv_call_get_gpa_access_states(u64 partition_id, u32 count, u64 gpa_base_pfn,
- 		input_page->flags = state_flags;
- 		rep_count = min(remaining, HV_GET_GPA_ACCESS_STATES_BATCH_SIZE);
- 
--		status = hv_do_rep_hypercall(HVCALL_GET_GPA_PAGES_ACCESS_STATES, rep_count,
--					     0, input_page, output_page);
--		if (!hv_result_success(status)) {
--			local_irq_restore(flags);
--			break;
--		}
-+		status = hv_do_rep_hypercall(HVCALL_GET_GPA_PAGES_ACCESS_STATES,
-+					     rep_count, 0, input_page,
-+					     output_page);
-+
- 		completed = hv_repcomp(status);
- 		for (i = 0; i < completed; ++i)
- 			states[i].as_uint8 = output_page[i].as_uint8;
- 
- 		local_irq_restore(flags);
-+
- 		states += completed;
- 		*written_total += completed;
- 		remaining -= completed;
-+
-+		if (!hv_result_success(status))
-+			break;
- 	}
- 
- 	return hv_result_to_errno(status);
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index cc2cfce2aefd..dfb24599c257 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -231,9 +231,9 @@ static int mshv_ioctl_passthru_hvcall(struct mshv_partition *partition,
- 	reps_completed = 0;
- 	do {
- 		if (args.reps) {
--			status = hv_do_rep_hypercall_ex(args.code, args.reps,
--							0, reps_completed,
--							input_pg, output_pg);
-+			status = hv_do_rep_hypercall_reg(args.code, args.reps,
-+							 0, reps_completed,
-+							 input_pg, output_pg);
- 			reps_completed = hv_repcomp(status);
- 		} else {
- 			status = hv_do_hypercall(args.code, input_pg, output_pg);
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index 396bcb3db0bc..87c784b9daa6 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -28,6 +28,9 @@
- 
- #define VTPM_BASE_ADDRESS 0xfed40000
- 
-+#define HV_REP_COUNT_MAX	\
-+	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
-+
- enum hv_partition_type {
- 	HV_PARTITION_TYPE_GUEST,
- 	HV_PARTITION_TYPE_ROOT,
-@@ -128,6 +131,11 @@ static inline bool hv_result_success(u64 status)
- 	return hv_result(status) == HV_STATUS_SUCCESS;
- }
- 
-+static inline bool hv_result_timeout(u64 status)
++bool hv_isolation_type_hw(void)
 +{
-+	return hv_result(status) == HV_STATUS_TIMEOUT;
++       return is_realm_world();
 +}
-+
- static inline unsigned int hv_repcomp(u64 status)
- {
- 	/* Bits [43:32] of status have 'Reps completed' data. */
-@@ -135,45 +143,63 @@ static inline unsigned int hv_repcomp(u64 status)
- 			 HV_HYPERCALL_REP_COMP_OFFSET;
- }
- 
--/*
-- * Rep hypercalls. Callers of this functions are supposed to ensure that
-- * rep_count, varhead_size, and rep_start comply with Hyper-V hypercall
-- * definition.
-- */
--static inline u64 hv_do_rep_hypercall_ex(u16 code, u16 rep_count,
--					 u16 varhead_size, u16 rep_start,
--					 void *input, void *output)
-+static inline u64 hv_do_rep_hypercall_reg(u16 code, u16 rep_count,
-+					  u16 varhead_size, u16 rep_start,
-+					  void *input, void *output)
- {
- 	u64 control = code;
--	u64 status;
--	u16 rep_comp;
- 
- 	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
- 	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
- 	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
- 
--	do {
-+	return hv_do_hypercall(control, input, output);
-+}
-+
-+static inline u64 hv_do_rep_hypercall_cvm(u16 code, u16 rep_count,
-+					  u16 varhead_size, u16 rep_start,
-+					  void *input, void *output)
-+{
-+	u64 status, control = code;
-+	u16 rep_comp = 0;
-+
-+	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
-+	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
-+	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
-+
-+	for (;;) {
- 		status = hv_do_hypercall(control, input, output);
--		if (!hv_result_success(status))
-+
-+		if (!hv_result_timeout(status))
- 			return status;
- 
- 		rep_comp = hv_repcomp(status);
--
- 		control &= ~HV_HYPERCALL_REP_START_MASK;
- 		control |= (u64)rep_comp << HV_HYPERCALL_REP_START_OFFSET;
- 
- 		touch_nmi_watchdog();
--	} while (rep_comp < rep_count);
-+	}
- 
- 	return status;
- }
- 
--/* For the typical case where rep_start is 0 */
-+/*
-+ * Rep hypercalls for HW confidential VMs return back when timeouts occur,
-+ * whereas for regular VMs they return only on success or failure. In case
-+ * of successful completion, entire rep_count is done. But a hypercall could
-+ * fail with partial completions, hence callers must always check that
-+ * in case of failure. Lastly, a rep_count value of 0 is allowed for some
-+ * hypercalls.
-+ */
- static inline u64 hv_do_rep_hypercall(u16 code, u16 rep_count, u16 varhead_size,
- 				      void *input, void *output)
- {
--	return hv_do_rep_hypercall_ex(code, rep_count, varhead_size, 0,
--				      input, output);
-+	if (hv_isolation_type_hw())
-+		return hv_do_rep_hypercall_cvm(code, rep_count, varhead_size, 0,
-+					       input, output);
-+	else
-+		return hv_do_rep_hypercall_reg(code, rep_count, varhead_size, 0,
-+					       input, output);
- }
- 
- /* Generate the guest OS identifier as described in the Hyper-V TLFS */
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index 966945f0504f..bec4e633e381 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -41,7 +41,7 @@ struct hv_u128 {
- #define HV_STATUS_OPERATION_FAILED			0x71
- #define HV_STATUS_INSUFFICIENT_ROOT_MEMORY		0x73
- #define HV_STATUS_INSUFFICIENT_CONTIGUOUS_MEMORY	0x75
--#define HV_STATUS_TIME_OUT				0x78
-+#define HV_STATUS_TIMEOUT				0x78
- #define HV_STATUS_CALL_PENDING				0x79
- #define HV_STATUS_INSUFFICIENT_CONTIGUOUS_ROOT_MEMORY	0x83
- #define HV_STATUS_VTL_ALREADY_ENABLED			0x86
--- 
-2.51.2.vfs.0.1
+
+
+OR, you could pick mine 0001-* and make it part of your series, and I
+can drop it from mine and make it dependent on yours. But mine is small
+enough that it has higher chances of going in first.....
+
+Thanks,
+-Mukesh
 
