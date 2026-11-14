@@ -1,49 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794627006;
-	b=fETr9+0t2EU6rkn7JggyrCoORZMcn66sMzeRLXWizf9C28VXyQ93ThfcY2dNT+bYWFb1
-	 Du1xxQc70WWH/TTVA+vnDDhTibirdnPr6nVayzdwtq8tESFbs27LBNSY6itdmSWVqq24D
-	 Mz5fF/F/DUJ58ObgifaanbD9IXpVNCqXi2cAAMXtDWK4xQqCKMtJCK+a4EK85Yw5WaHax
-	 60uB1Ig01pyX0hbc1k+bK7EZEIa/MzQhHrnDVwW+MQvEiWUgtevNGF9gVXGmzPr9QE4xa
-	 +3hPs2cc1U5LhzAZX4mKhrJwb6RXriIYHfyImw2v19oLHIdEOs9hpNPBptVHsesaaaw==
+	t=1794672563;
+	b=faeNdxZTxLNqcP9ghoAHauxNB4RvnhkDryAkzSp93f57mFCThLtjC1o+Mkq8Vj8vCOJK
+	 gKo53cmnU5Oy7fkCklgIG7SRa8m8dge693BIRRzeN0zcMrIylSHfcRTvuVLhkIq+jnOkr
+	 SfEE0uhHpGt/i+IHGfqptPX/ImpaZRproEAtVHCF3UHb3ql+CmrP9UOYuSSBp3rLTpL2x
+	 48togeWlrgwzv5zHJZHZCzGCj1GYIoMS/qoZSF5N2jtX/Q4a18e0bCWPKhLyRutAVLM1+
+	 VIzto3p0Yul5ABGgf3haVKVzwdZOupzsXhPStgw+1qffGWeQ73pbV3ZmxWydh7r4GOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794627006;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=ehDqbXkEBYDPCAc2yGAMtgdfuga34nmWnL94tsXLJ0w=;
-	b=ynjQ6Ut30FB5O8Mh6UrE/7dbAquQBmmGzOmaYwq8CR5gxj4+/7p7m0BjgQJOwxmhzuVg
-	 GcXkVkT4r/DHaBYbiVyb7xzPpAgXjFLcMGtPBOjIvBM5YDe/zBUWqIK+pwmTa3qGLeoHa
-	 UfyOPYjH5TumrBYm3h7n0x6jQoQ9o/g7IdXozslXo1RhsXWF95+SUQsV9WK0PKGht0FJP
-	 mkneKBjGOCPdK5EbnCwwAi/BVq80wlqahIjprCBUuKxVS/n1tufpur5HZgdoemrNKWs0/
-	 hjexoRTAyu0/pfuMMxltGQsrsaqtjEVaoQXBDmP4p4J/T/vcOwmNJdBFhJznV0xrVkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794672563;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=g2mwoviM3gWZDsBgYq6cZVNpjcLJdB0d4Fk6H1RcDHY=;
+	b=1VLsdIhksdezJzQN6VHCPj3uDBtnw3WpgVoYgdsqA7zAZcY7vi0cSKJD5MFLWozbMIp6
+	 53cHsu0ZwXaoXMl1gwQnlDLZET8hyktwXLdlIw8Znx6Rc5HieCrawjcMymC1o1saTeQCw
+	 iCbdkZQreULoRMREeYEGmyqpJKJ55rcEFJQH7uVZv1StCT6VdMkKva9LC+UibQeMVRf/W
+	 D5Z/BJf+5eNt/42YYwqqKy2WAFnW7w1X/UZxH74o1vuZ8x3asWAv6Lugc7V7cOLosWuVI
+	 fUR/MsjeRoy1WIxEjnaq5tbY1O6THs4yw3zBpd539w+4kUHgSZmsXbuokYi5AOX4Fgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k11hvWfV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bg6k+3qH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC03606A8BB;
-	Sat, 14 Nov 2026 03:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBC1606A323;
+	Sat, 14 Nov 2026 16:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k11hvWfV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB231F000C8;
-	Sat, 14 Nov 2026 03:30:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bg6k+3qH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 823BE1F000C4;
+	Sat, 14 Nov 2026 16:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794627005;
-	bh=ehDqbXkEBYDPCAc2yGAMtgdfuga34nmWnL94tsXLJ0w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=k11hvWfV/pEZhIJfACKh6bVZJWcJ9c1V9hYiN2Q/wQ8JJolk5hNpMY+aMx4CyShAm
-	 YXIeduDpidI0wnUtpoTyg90eHAk3GRvckcvwaqN66NXTM0oeJUun94jqS2XqQPSKvK
-	 S7OD8CUSJF1tGSyRd3WFyM40TyLOP/cHR+X+ejgXeSVnHbGV1i7+7i99/amMxhpzjK
-	 jhVhfAlB1mSBi8jZ/uPp1cWeqGZiQO5By5Q1YcCqirhu1R6svNspjujQr3J5429awd
-	 wREWuZOCQDOR+3nqslzxybXsI2R4zZIxMi47un6MIUoqyWJNhKbsMfEa3BJJMb9jNy
-	 vqOWYlcdhRQqg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B459E380821F;
-	Sat, 14 Nov 2026 03:30:05 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1794672562;
+	bh=g2mwoviM3gWZDsBgYq6cZVNpjcLJdB0d4Fk6H1RcDHY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Bg6k+3qHXBlLMrYh4GUg3XfgETcgAtGlji0dQqvLgA6j3n5MFqgfVDEP+n5bD/EJk
+	 8V8feVaVyqAMNBde/Hl0keLqm2WtO/yqfxAjNbgtGV6CUutaPwVBOrz2bAdxD158f1
+	 UOzxUuwdDRyYBpLv1dhQcAKeURpFwCXJ6oa10GG0kGJAW1Tby9vRNNQ6DfUc60mHJ8
+	 7H/lOKluSRBaFzh5oLKJ29wrlGRyAq6MsWk8ca7pfSoMJvAubSJVxsDJe1TgE5t5gM
+	 r80zeltItkwuqHKMASZEOTKS28d0jge440Jlwnxz215llHPiOwyS3i/i9E1KZe4XIQ
+	 ofDy67AOvWqGA==
+Message-ID: <sashiko-outbox-214737@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/2] overflow: Add offsetofend() variant of
+ struct_offset()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Bence Csokas" <bence.csokas@arm.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org, media-ci@linuxtv.org
+In-Reply-To: <20261113-offsetof-v3-1-714df7053893@arm.com>
+References: <20261113-offsetof-v3-0-714df7053893@arm.com>
+ <20261113-offsetof-v3-1-714df7053893@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 14 Nov 2026 16:09:22 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -52,50 +60,77 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: mana: Allocate queue MSI-X vectors on
- demand
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179462700464.1971357.5494475799168934446.git-patchwork-notify@kernel.org>
-Date: Sat, 14 Nov 2026 03:30:04 +0000
-References: <20261106063011.43293-1-ernis@linux.microsoft.com>
-In-Reply-To: <20261106063011.43293-1-ernis@linux.microsoft.com>
-To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, weh@microsoft.com,
- kotaranov@microsoft.com, horms@kernel.org, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, shradhagupta@linux.microsoft.com,
- sahilchandna@linux.microsoft.com
 
-Hello:
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] coccinelle: struct_offsetof.cocci lacks virtual mode
+  declarations and guards
+- [Low] coccinelle: struct_offsetof.cocci lacks tools/ and overflow.h
+  exclusions
+--
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+commit c626ce371da764dd2d49c4588f1e87be178e9327
+Author: Bence Csokas <bence.csokas@arm.com>
 
-On Thu,  5 Nov 2026 22:30:11 -0800 you wrote:
-> MANA allocates its entire MSI-X budget at probe time, even when the
-> active event queues (EQs) use only a small part of it. With dynamic
-> MSI-X, this budget can be num_online_cpus() + 1, leaving unused vectors
-> that consume interrupt resources.
-> 
-> Remove eager allocation of queue vectors and use mana_gd_get_gic(),
-> which already allocates a vector when an EQ needs one. Keep the HWC
-> interrupt available during device initialization.
-> 
-> [...]
+overflow: Add offsetofend() variant of struct_offset()
 
-Here is the summary with links:
-  - [net-next] net: mana: Allocate queue MSI-X vectors on demand
-    https://git.kernel.org/netdev/net-next/c/6964ff21c5d8
+This commit adds a struct_offsetofend() helper macro to
+include/linux/overflow.h and a Coccinelle semantic patch to convert
+offsetof() and offsetofend() calls using typeof(*ptr).
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> diff --git a/scripts/coccinelle/api/struct_offsetof.cocci b/scripts/cocci=
+nelle/api/struct_offsetof.cocci
+> new file mode 100644
+> index 0000000000000..6cbc5596d673d
+> --- /dev/null
+> +++ b/scripts/coccinelle/api/struct_offsetof.cocci
+> @@ -0,0 +1,14 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/// Use struct_offsetof() family of macros
+> +///
+> +// Confidence: High
+> +@@
+> +expression ptr, member;
+> +@@
+> +- offsetof(typeof(*ptr), member)
+> ++ struct_offset(ptr, member)
 
+[Severity: Low]
+Does struct_offsetof.cocci need virtual mode declarations and mode guards
+on its rules?
 
+scripts/coccicheck checks each script for "virtual $MODE" before running
+spatch, so without declarations such as "virtual patch", make coccicheck
+skips this file with a warning in every mode.  When invoked directly with
+COCCI=3Dscripts/coccinelle/api/struct_offsetof.cocci, the unguarded patch
+rules also produce no output in the default report mode and emit raw
+replacement diffs in context mode.
+
+> +@@
+> +expression ptr, member;
+> +@@
+> +- offsetofend(typeof(*ptr), member)
+> ++ struct_offsetofend(ptr, member)
+
+[Severity: Low]
+Will applying these rules across the tree break builds under tools/ or
+rewrite the macro definitions in include/linux/overflow.h?
+
+tools/include/linux/overflow.h does not define struct_offset() or
+struct_offsetofend(), so converting matches in files such as
+tools/perf/util/header.c and
+tools/testing/selftests/bpf/progs/test_cls_redirect.c introduces calls to
+undeclared macros unless tools/ and samples/ are excluded via rule
+dependencies like other scripts in scripts/coccinelle/api/.  Running spatch
+with --include-headers or on include/linux/overflow.h also rewrites the
+struct_offset() and struct_offsetofend() definitions themselves into
+recursive self-references.
+
+In addition, matching typeof(*ptr) instead of typeof(*(ptr)) leaves
+redundant parentheses on parenthesized expressions such as
+offsetof(typeof(*(reg)), iobase_addr) in drivers/scsi/qla2xxx/qla_tmpl.c,
+and the "///" header comment names a nonexistent struct_offsetof() macro.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-offsetof-v=
+3-0-714df7053893@arm.com?part=3D1
