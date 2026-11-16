@@ -1,97 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794854379;
-	b=03JiXKHxQjSDS0BhriNDpDYZr2M+/hBd2xnesQCjKEYFYfw5+ZAGDGUC0a4Sr7kp+Sc1
-	 SXpfxRIrKBlSs70bRNWuGqnG95iuTvDKs+ii9FVo9w0T629wbnGUxxrtPlcIgaQhGES0R
-	 4yznGtYXGDSyjqY6iJoz2XMIVd6kBw4C1JBy7Ju4OUVPtQlQsjuo6BoAf1bkUC5HfJZtf
-	 QpM23zAtxzc3+eDSJHAMDRERuIwzCq2qWbjs1yf30b3571mJyZfpkTzd87biZbXVy0HPe
-	 LDSw1vAkQUh9hZlCiSrJyX0m3INou+hCJIVQX5y4zE5TxNAza8I/gx9HmxZzp7ezarw==
+	t=1794858805;
+	b=Zp+WToN2T3Cfk6z6uDfdXWLmNDvs5gazMXNkJXChTGZfSW/MXg3UJxRhd9iESTzY05rW
+	 RtXSyR+ZMHJR5T6ivJHvtT7tLjeF61U+4X5jnA8FN4H49Ex2jdUf2KyJd+fd9+FU0vTUF
+	 mL4NVS7/HdiJkK648yWnBmAOPR4Qzn1du8zeBL4Yomevlt2CkygTbzED0Of8b27pzKw8E
+	 GV0hDs0z6l+pb+vxa3gY9iT4/OawcUbBs9xORfRQek7BCo4Z3f5l3QyITin4C5KywFAZ6
+	 uisGV0GJmE+VJparNqT0qZ4tXofxtnFTG283az5esqsf/9xgqTeIUA2rR6GEQjhHMlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794854379;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:X-Spam-Flag:
-	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=bI98jE4ZYQJp9Otfps+VYEldIz/18aujxstmdyqsy7U=;
-	b=flRun5EP6BM/7SccnswNrZy669/Qs5xtgpPWCUAAWehl41eiCW/1QfF0DMeqJxdIdtui
-	 5B1PNAxNz2l1m5PNALWUL8zO4b0tA6cLUimPC0vdewUd3ooY87/Zk9811gxxJBKkvhlaa
-	 0kJ9FQt5Ax8+fm+7hKaSP8QYConjHKfHGe7D2fPNmZEbwOlHsv2o//nFwP8N74X5jzABp
-	 ORs/MDSzbUzNeyfZBRJDt7IFvkyrKfAZpowjSR5AK0CV17/RhlZtHXUUAmfHt5r6wnzB2
-	 nxeEZLgeOrj940/e4ouccQYskduOW29paYAv8VAPRHuUOKKTB0Ff1h972hBB1Nz5ZZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858805;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=0W0YD2zGg/Ir8R1RY7KNc850yXIwuHO/SFxtm7fh/Lg=;
+	b=WgzmvX9EO9VLi7vmfZFjqkHzLOGSnF+k3bFLpmNDrKf+6Xh1uqamiWZ0vxSdie+6AMYS
+	 ZLe28OuRyn8W0My7qTMc1vmkuxJ3/iO5NHKw8CTQYJbJ+6X0vugNlX82Nl4lvcILC7fml
+	 erVdAD9vh+4BkrEOzXn+RiDZkylWgjJ6ha+J02rpQkY6PzwRMLuFuy7kfHeBVPEfUMcz1
+	 /yQA2bWcJ8cog2RU9S3mPcAZN7luJhrYYhDYeWqpDdUlwe4p04YdFeGUYOH0Wic/Uaeza
+	 p2+6nWZt4bTHz0iIWuLsLUFn3R2ZdcJW6Req4Hyegl18W0KuBbi0rK0qYLZVDQFN68g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=hGKSXQCO;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=hGKSXQCO;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33433606A31C;
-	Mon, 16 Nov 2026 18:39:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33433606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=F3foXHRS;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D85E606A322;
+	Mon, 16 Nov 2026 19:53:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D85E606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=hGKSXQCO;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=hGKSXQCO
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ACAE522321;
-	Mon, 16 Nov 2026 18:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794854377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bI98jE4ZYQJp9Otfps+VYEldIz/18aujxstmdyqsy7U=;
-	b=hGKSXQCORo2Lb/lhy1tPOxg7MOLBO8uikvbvpuaG/zmbg/Q5pvXdfsjpg4uwA2lsX4Kf+B
-	VU8+A7sAbjPekBgiGhrn0t+Kq/g5KKLyeXDzhsGwW89FofanEjDGR8e7SwFGDnvcir7hhp
-	4DIUz78cd3yQGuRY1h/IQ+6VB4LA1fg=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794854377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bI98jE4ZYQJp9Otfps+VYEldIz/18aujxstmdyqsy7U=;
-	b=hGKSXQCORo2Lb/lhy1tPOxg7MOLBO8uikvbvpuaG/zmbg/Q5pvXdfsjpg4uwA2lsX4Kf+B
-	VU8+A7sAbjPekBgiGhrn0t+Kq/g5KKLyeXDzhsGwW89FofanEjDGR8e7SwFGDnvcir7hhp
-	4DIUz78cd3yQGuRY1h/IQ+6VB4LA1fg=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 308231334C;
-	Mon, 16 Nov 2026 18:39:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rRH9AelN+2qrdwAAD6G6ig
-	(envelope-from <jgross@suse.com>); Mon, 16 Nov 2026 18:39:37 +0000
-From: Juergen Gross <jgross@suse.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-hyperv@vger.kernel.org
-Cc: Juergen Gross <jgross@suse.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v6 05/17] x86/hyperv: Switch from __rdmsr() to native_rdmsrq()
-Date: Mon, 16 Nov 2026 19:38:53 +0100
-Message-ID: <20261116183905.1591611-6-jgross@suse.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261116183905.1591611-1-jgross@suse.com>
-References: <20261116183905.1591611-1-jgross@suse.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=F3foXHRS
+Received: from [10.4.158.9] (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C262320B7168;
+	Mon, 16 Nov 2026 11:53:12 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C262320B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794858798;
+	bh=0W0YD2zGg/Ir8R1RY7KNc850yXIwuHO/SFxtm7fh/Lg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=F3foXHRSxF5RNkQ01Sjp4sDx88NP636u+exqnQWyx0deiwJr7eKILGLpYi6AQEdDP
+	 0PN5yj35zupNu981dy5mblCBWCSFBpPmPxMgXPnjIadfqSJcPkp9KhuBJyXp2/3pqS
+	 2i+uUGkyMkmBAmenMLPx18lg7lSZyufy1vcUoc3w=
+Message-ID: <5fddb57c-8805-4fbd-9e27-1c8654f29436@linux.microsoft.com>
+Date: Mon, 16 Nov 2026 11:53:15 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -101,62 +53,168 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
+To: Mukesh R <mrathor@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
+ <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
+ <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
+ <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	URIBL_BLOCKED(0.00)[suse.com:email,intel.com:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -11.80
 
-The __rdmsr() helper will be changed soon, so don't use it directly
-outside of msr.h. Switch to native_rdmsrq() in HyperV related code.
+On 11/13/2026 6:59 PM, Mukesh R wrote:
+> On 11/12/26 16:46, Mukesh R wrote:
+>> On 11/12/26 09:49, Kameron Carr wrote:
+>>> On 11/11/2026 6:43 PM, Mukesh R wrote:
+>>>> On 11/11/26 10:01, Michael Kelley wrote:
+>>>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>>>>>
+>>>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
+>>>>>> to be marked as decrypted (shared) for confidential VM isolation types.
+>>>>>> This is already done for SNP and TDX isolation; extend the same handling
+>>>>>> to Arm CCA Realm guests so that the host hypervisor can access the
+>>>>>> shared hypercall buffers.
+>>>>>>
+>>>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
+>>>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
+>>>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
+>>>>>> Introduce a Hyper-V-specific helper following the established
+>>>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
+>>>>>>
+>>>>>> On architectures other than arm64 the weak default keeps the existing
+>>>>>> behaviour.
+>>>>>>
+>>>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>>>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>>>>>> ---
+>>>>>>    arch/arm64/hyperv/mshyperv.c   |  5 +++++
+>>>>>>    drivers/hv/hv_common.c         | 17 +++++++++++++----
+>>>>>>    include/asm-generic/mshyperv.h |  1 +
+>>>>>>    3 files changed, 19 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>>>>>> index 46ab2da..da6c3aa0 100644
+>>>>>> --- a/arch/arm64/hyperv/mshyperv.c
+>>>>>> +++ b/arch/arm64/hyperv/mshyperv.c
+>>>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
+>>>>>>        return hyperv_initialized;
+>>>>>>    }
+>>>>>>    EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>>>>>> +
+>>>>>> +bool hv_isolation_type_cca(void)
+>>>>>> +{
+>>>>>> +    return is_realm_world();
+>>>>>> +}
+>>>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+>>>>>> index 31256cb..a60c92c 100644
+>>>>>> --- a/drivers/hv/hv_common.c
+>>>>>> +++ b/drivers/hv/hv_common.c
+>>>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>        u64 msr_vp_index;
+>>>>>>        gfp_t flags;
+>>>>>>        const int pgcount = hv_output_page_exists() ? 2 : 1;
+>>>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
+>>>>>>        void *mem;
+>>>>>>        int ret = 0;
+>>>>>>
+>>>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>         * online and then taken offline
+>>>>>>         */
+>>>>>>        if (!*inputarg) {
+>>>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+>>>>>> +        mem = kmalloc(alloc_size, flags);
+>>>>>>            if (!mem)
+>>>>>>                return -ENOMEM;
+>>>>>>
+>>>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>            }
+>>>>>>
+>>>>>>            if (!ms_hyperv.paravisor_present &&
+>>>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+>>>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
+>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>>> +             hv_isolation_type_cca())) {
+>>>>>
+>>>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
+>>>>> of explicitly testing for each CoCo VM type? I ask partly because
+>>>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
+>>>>> function that does something almost exactly the same as
+>>>>> hv_is_isolation_supported() and uses it here.
+>>>>
+>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>>> +             hv_isolation_type_cca())) {
+>>>>
+>>>> With my change, this will become:
+>>>>
+>>>>          (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+>>>
+>>> Any reason you wouldn't change hv_isolation_hw_cvm() to
+>>>
+>>>    return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>      hv_isolation_type_cca()
+>>>
+>>> That would seem more logical to me.
+>>>
+>>
+>> We could, I just don't know if on cca, the repeat hypercall has same
+>> behavior. I was leaving that for the arm team. Anyways, I sent question
+>> to the hyp team, if they say yes, i can update my patch to include that.
+>>
+>> Thanks,
+>> -Mukesh
+> 
+> 
+> Confirming, arm has same behavior and needs the fix also. So, we can def
+> expand the check to include _cca.
+> 
+> I just sent V1, renaming hv_isolation_hw_cvm() to hv_isolation_type_hw().
+> If your patch goes after mine, you just need to add to your 0004*:
+> 
+> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+> index 4fdc26ade1d7..67a16b4d2235 100644
+> --- a/arch/arm64/hyperv/mshyperv.c
+> +++ b/arch/arm64/hyperv/mshyperv.c
+> @@ -134,3 +134,8 @@ bool hv_is_hyperv_initialized(void)
+>         return hyperv_initialized;
+>  }
+>  EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+> +
+> +bool hv_isolation_type_hw(void)
+> +{
+> +       return is_realm_world();
+> +}
+> 
+> 
+> OR, you could pick mine 0001-* and make it part of your series, and I
+> can drop it from mine and make it dependent on yours. But mine is small
+> enough that it has higher chances of going in first.....
+> 
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202602182222.WEBLSQRj-lkp@intel.com/
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
-V4:
-- new patch (kernel test robot)
----
- arch/x86/hyperv/hv_crash.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch set has already been applied to hyperv-next, so maybe you can
+rebase off that.
 
-diff --git a/arch/x86/hyperv/hv_crash.c b/arch/x86/hyperv/hv_crash.c
-index 5ffcc23255de..28ee76e18d9b 100644
---- a/arch/x86/hyperv/hv_crash.c
-+++ b/arch/x86/hyperv/hv_crash.c
-@@ -217,9 +217,9 @@ static void hv_hvcrash_ctxt_save(void)
- 	native_store_gdt(&ctxt->gdtr);
- 	store_idt(&ctxt->idtr);
- 
--	ctxt->gsbase = __rdmsr(MSR_GS_BASE);
--	ctxt->efer = __rdmsr(MSR_EFER);
--	ctxt->pat = __rdmsr(MSR_IA32_CR_PAT);
-+	ctxt->gsbase = native_rdmsrq(MSR_GS_BASE);
-+	ctxt->efer = native_rdmsrq(MSR_EFER);
-+	ctxt->pat = native_rdmsrq(MSR_IA32_CR_PAT);
- }
- 
- /* Add trampoline page to the kernel pagetable for transition to kernel PT */
 -- 
-2.56.0
-
+Regards,
+Kameron
