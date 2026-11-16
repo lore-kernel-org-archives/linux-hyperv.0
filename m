@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794844705;
-	b=SEVVFG1HlYdMGzzRH6e1zR803R9ccrgXImoQ+ChfmIj7+r0zC7KsE8KVZ55U6092CWJ4
-	 mVl3AkWenCILcLzBkMhP96wDS2h86U80LBcMgbf6FC/2eA3r1aPFUWAGNT42tiHWPQZRu
-	 Ry5vR22SLbya4/01GXwDkoOyR0IS/5q7muEptKSsktNYcvGYwmkdk+M6W6TnbEQEgrz7h
-	 VXBizV2VOQnEitDTl2KptewrGAQczngzgrv4IaAL6X0lghnu4jvP5Dq8wqX7bu7hVCVhC
-	 KwhPfIiAyatfOnwuAJsX6nll9NtzQS9PVn0uDWdxtTWmlUAGNXCnAZAvotPkHxw2bSg==
+	t=1794845704;
+	b=zQl/PlYatqkozFcP7QYHiIcU9LSgNEgsnKTzyZdxBTt/a/PwZ8L/I0uveG+PUzEcD39O
+	 VYWapGTMOMzs87RKVRpbL9If7O13RdsApb3KRQghV4FiLpw9sSEd6VdaoMO18PaBZPoFZ
+	 B38bpnElO6A5+G3ryX6/Uo+kNrkPtVho9BNkNKqP/aX3x1XUuuyXSqclpIxLYmA9Ym/lz
+	 nDc8XfxC0wsNX5IbRrwtIivwEDh1bmk1hMr3K1vqGAyHTcCMvFwJM1ICSvT9OZysswqwi
+	 EPFqUymFF4V0D6iB0KmAwP240bM2WNGnfonZJMs9AlSo1Y2ws3Zo1V6ZjhPD+cfs+VQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794844705;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794845704;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:X-Spam-Status:X-Spam-Checker-Version;
-	bh=u4SFVD7jxf9RuHxTJCNcwPNhfgv8lj7Sm/PppY2wowY=;
-	b=rqFukH+4p02RvjZC1WVo2be9GHIIIB4EW1DGKvQWLjAb59xMs+EiZLoIUBZWgxs7z9I/
-	 0cvRqJGuov04Xa0JN46g7Hb6EqRBPL51OufeeKmuIO0DelQD2AOq1Ca5NLMCK14pHr/sU
-	 5nNhs8ZI6Iqrjow/hksgkOANM3PqOdwpBxgx2MY3epomeEumoCjHYgr1dFKVmblIQi0Xz
-	 BDNPTxlo4i3lD3GfXuBv1MhApNk7Z0jMzEDaAMxGWoiMYxpwARzb7TU3tqy6JEihrjh6w
-	 jqySDBsOhhA+cmUhbey6aj3wUBF6X0E+3kjCh91rbHMs+HgNQ0RfcW5Y+BJYhDSJysw==
+	bh=FmmXWVdRKlPeYvexviwuw46I9mYN5w7ULuP4BQ7wPos=;
+	b=3OScXO5limReP/aJ3W4Ynk1Ow5QvUP2chqIXEdlkcHdLpjJut3KCaAtpq2hnC/tsNz1a
+	 qvYnLvj5SQyXiNIflWBUx4kClw8Xo/l3UeNUqA6utitjQNeNbdITSmABg8t6J+2FVWGVk
+	 d7UXhCPOi6kp1TGkWpgR5Qwu+uu7GMFwSK14edqlhlgw9ftkdeXtO4P134Hq5FVTzLT/3
+	 J1oNZL3ZA0xCAp2dmSLNXWiYFZ/ghIiyOFUazmno7XWwVvPYhF0g0srmEPvjCMYa4umD8
+	 guaUO9hSXO/wmBaPG/oFblje5o+I3s4wkuiyf6owi5YzPq3dIjDkg08IqgICC9KCB7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=loQEIcb2;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=BMwjrUJ8;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B503606A323;
-	Mon, 16 Nov 2026 15:58:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B503606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60037606A31C;
+	Mon, 16 Nov 2026 16:15:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60037606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=loQEIcb2
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=BMwjrUJ8
 Received: from localhost (unknown [167.220.233.38])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 301BC20B7168;
-	Mon, 16 Nov 2026 07:58:17 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 301BC20B7168
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0C0E620B716A;
+	Mon, 16 Nov 2026 08:14:55 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0C0E620B716A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794844697;
-	bh=u4SFVD7jxf9RuHxTJCNcwPNhfgv8lj7Sm/PppY2wowY=;
+	s=default; t=1794845696;
+	bh=FmmXWVdRKlPeYvexviwuw46I9mYN5w7ULuP4BQ7wPos=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=loQEIcb2c0PH3xTtaO4N/BcjSBsGzV+Qn6Ka1RCJcvrh7+BEXzpo2pMvSn3dmAkuy
-	 qgBv1BzG2UuVC5gmT0+vIeqk6ktzLeNYnq3t+I8LB3Rcka/nc1e4Z2F37YYy93qlC0
-	 JXQbiR6a3R++PzfiSIbtihHj/U9Il5T2Ujwm/zX8=
-Date: Mon, 16 Nov 2026 23:58:21 +0800
+	b=BMwjrUJ8gREvhRz6TqItstvkqCYyX88nhBpGsvhwPxOyFbv3LfPodU67TrXzZlRlb
+	 NKuDoRcxpoWH2sxURRQKNjRtojtj2qUmZVL1/wu4FYKNSds1wy37ii13K5vjO8S4tT
+	 nrwtk5aGg2V3ivpvQTcL5u8g96GhH/55fnPafd8s=
+Date: Tue, 17 Nov 2026 00:14:59 +0800
 From: Yu Zhang <zhangyu1@linux.microsoft.com>
 To: Yuho Choi <oss.patchbox@gmail.com>
 Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
@@ -49,12 +49,12 @@ Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, 
 	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
 	Michael Kelley <mhklinux@outlook.com>, Jason Gunthorpe <jgg@ziepe.ca>, iommu@lists.linux.dev, 
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 1/2] iommu/hyperv: Don't free a paging domain the
- hypervisor did not delete
-Message-ID: <wvvoqqavra5lvqi3hnvcgl4y3jzbk3b2f6h7vlkwpksjuqgoqm@rhzwlj2ieozi>
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iommu/hyperv: Keep a new domain's page tables if
+ it cannot be deleted
+Message-ID: <3gb5f2c2v3tkpuggzybek5nhmcv3zjgjjyaxtohsdjujrb5gbw@oki5fmryytxf>
 References: <20261112195710.1417744-4-oss.patchbox@gmail.com>
- <20261112195710.1417744-5-oss.patchbox@gmail.com>
+ <20261112195710.1417744-6-oss.patchbox@gmail.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -66,88 +66,65 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261112195710.1417744-5-oss.patchbox@gmail.com>
+In-Reply-To: <20261112195710.1417744-6-oss.patchbox@gmail.com>
 
-On Thu, Nov 12, 2026 at 02:56:59PM -0500, Yuho Choi wrote:
-> hv_iommu_paging_domain_free() frees all page-table pages with
-> pt_iommu_deinit() and only then asks the hypervisor to delete the
-> device domain that points at them. If HVCALL_DELETE_DEVICE_DOMAIN
-> fails, hv_delete_device_domain() only logs the error, returns the
-> domain ID to the IDA, and the domain is freed anyway.
+On Thu, Nov 12, 2026 at 02:57:00PM -0500, Yuho Choi wrote:
+> When hv_iommu_domain_alloc_paging() fails to configure a new device
+> domain, hv_create_configure_device_domain() deletes the domain again,
+> and the caller then frees the page tables with pt_iommu_deinit(). If
+> the delete fails as well, the hypervisor still has the domain, which
+> may already point at the page tables, and they are freed anyway.
 > 
-> The hypervisor then keeps a device domain whose page tables have been
-> freed and can be reused for anything. The ID is also handed out again
-> by the next paging domain allocation, while the hypervisor still has a
-> domain with that ID.
-> 
-> Delete the domain before freeing its page tables, and keep the ID, the
-> page tables and the domain if the hypervisor fails to delete it. WARN
-> when the delete fails, as the domain is then leaked.
-> 
-> Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest")
-> Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
-> ---
->  drivers/iommu/hyperv/hv-iommu-guest.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c b/drivers/iommu/hyperv/hv-iommu-guest.c
-> index 9f4fa4315091..aa1db9db1e97 100644
-> --- a/drivers/iommu/hyperv/hv-iommu-guest.c
-> +++ b/drivers/iommu/hyperv/hv-iommu-guest.c
-> @@ -107,7 +107,7 @@ static int hv_create_device_domain(struct hv_iommu_domain *hv_domain)
->  	return hv_result_to_errno(status);
->  }
->  
-> -static void hv_delete_device_domain(struct hv_iommu_domain *hv_domain)
-> +static int hv_delete_device_domain(struct hv_iommu_domain *hv_domain)
->  {
->  	u64 status;
->  	unsigned long flags;
-> @@ -122,11 +122,15 @@ static void hv_delete_device_domain(struct hv_iommu_domain *hv_domain)
->  
->  	local_irq_restore(flags);
->  
-> -	if (!hv_result_success(status))
-> -		hv_status_err(status, "HVCALL_DELETE_DEVICE_DOMAIN failed\n");
-> +	/* If the domain still exists, its ID cannot be reused */
-> +	if (WARN(!hv_result_success(status),
-> +		 "HVCALL_DELETE_DEVICE_DOMAIN failed: %#llx (%s)\n",
-> +		 status, hv_result_to_string(status)))
-> +		return hv_result_to_errno(status);
->  
->  	ida_free(&hv_domain->hv_iommu->domain_ids,
->  		 hv_domain->device_domain.domain_id.id);
-> +	return 0;
->  }
->  
->  static int
-> @@ -466,11 +470,16 @@ static void hv_iommu_paging_domain_free(struct iommu_domain *domain)
->  {
->  	struct hv_iommu_domain *hv_domain = to_hv_iommu_domain(domain);
->  
-> +	/*
-> +	 * If the hypervisor still has the domain, it may still use its page
-> +	 * tables, so leak them.
-> +	 */
-> +	if (hv_delete_device_domain(hv_domain))
-> +		return;
-> +
->  	/* Free all remaining mappings */
->  	pt_iommu_deinit(&hv_domain->pt_iommu);
->  
-> -	hv_delete_device_domain(hv_domain);
-> -
->  	kfree(hv_domain);
->  }
->  
-> -- 
-> 2.43.0
+> Create and configure the domain in hv_iommu_domain_alloc_paging()
+> itself, and leak the page tables and the domain when the delete fails,
+> as hv_iommu_paging_domain_free() does.
 > 
 
-Reviewed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
+My understanding is that, for the newly created domain, current Hyper-V
+implementation does not adopt the supplied stage-1 page table root if
+HVCALL_CONFIGURE_DEVICE_DOMAIN fails. Therefore, a failed configuration
+does not leave these page tables referenced. It is different than the
+hv_iommu_paging_domain_free() case.
+
+But I'm OK with keeping this as defensive error handling. Could you update
+the commit message(the comment above hv_delete_device_domain() as well) to
+distinguish that motivation from the behavior of the current implementation?
 
 B.R.
 Yu
 
+> Fixes: 2690d4156b51 ("iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest")
+> Reported-by: Jacob Pan <jacob.pan@linux.microsoft.com>
+> Closes: https://lore.kernel.org/all/20261105141427.00005946@linux.microsoft.com/
+> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+> ---
+>  drivers/iommu/hyperv/hv-iommu-guest.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c b/drivers/iommu/hyperv/hv-iommu-guest.c
+> index aa1db9db1e97..ef486ffa0be4 100644
+> --- a/drivers/iommu/hyperv/hv-iommu-guest.c
+> +++ b/drivers/iommu/hyperv/hv-iommu-guest.c
+> @@ -540,10 +540,18 @@ static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
+>  	settings.page_table_root = pt_info.gcr3_pt;
+>  	settings.flags.first_stage_paging_mode = pt_info.levels == 5;
+>  
+> -	ret = hv_create_configure_device_domain(hv_domain, &settings);
+> +	ret = hv_create_device_domain(hv_domain);
+>  	if (ret)
+>  		goto err_pt_deinit;
+>  
+> +	ret = hv_configure_device_domain(hv_domain, &settings);
+> +	if (ret) {
+> +		/* See hv_iommu_paging_domain_free() */
+> +		if (hv_delete_device_domain(hv_domain))
+> +			return ERR_PTR(ret);
+> +		goto err_pt_deinit;
+> +	}
+> +
+>  	return &hv_domain->domain;
+>  
+>  err_pt_deinit:
+> -- 
+> 2.43.0
+> 
