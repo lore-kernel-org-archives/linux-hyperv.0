@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858805;
-	b=Zp+WToN2T3Cfk6z6uDfdXWLmNDvs5gazMXNkJXChTGZfSW/MXg3UJxRhd9iESTzY05rW
-	 RtXSyR+ZMHJR5T6ivJHvtT7tLjeF61U+4X5jnA8FN4H49Ex2jdUf2KyJd+fd9+FU0vTUF
-	 mL4NVS7/HdiJkK648yWnBmAOPR4Qzn1du8zeBL4Yomevlt2CkygTbzED0Of8b27pzKw8E
-	 GV0hDs0z6l+pb+vxa3gY9iT4/OawcUbBs9xORfRQek7BCo4Z3f5l3QyITin4C5KywFAZ6
-	 uisGV0GJmE+VJparNqT0qZ4tXofxtnFTG283az5esqsf/9xgqTeIUA2rR6GEQjhHMlg==
+	t=1794882565;
+	b=BZJo8jNnHJVGd9xmgQbHMI1tR0AsBQAy97+7t3q0ldBfm6FEaishNBwwLEkOFXL+WGpD
+	 M66AGOfANaZRSGj2O3jggz+O95wy3pL4KHOvkd289NQ3AlRaU6zAr8kyOGhkCgZ0Ro5Dx
+	 0YfB+d1PzL9/EIhBVtyeR26J6jcLBOOcxELf+QHEKVOx/2Ij2q207yIWKe3klnH0vBinF
+	 ZJcwrGFwJMHOViGUzRt4nR4OAcmcTmCeZ4PJntWgxg21z+ha1cj3M9DCTeywmNww5eHX9
+	 rEVYqi7lIDgAWaDLk76dJukhwxz2TdQZ9PmRW0UAxk/zzvjOMYooWkz+eR1NYN9gn5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858805;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794882565;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
 	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
 	 X-Spam-Checker-Version;
-	bh=0W0YD2zGg/Ir8R1RY7KNc850yXIwuHO/SFxtm7fh/Lg=;
-	b=WgzmvX9EO9VLi7vmfZFjqkHzLOGSnF+k3bFLpmNDrKf+6Xh1uqamiWZ0vxSdie+6AMYS
-	 ZLe28OuRyn8W0My7qTMc1vmkuxJ3/iO5NHKw8CTQYJbJ+6X0vugNlX82Nl4lvcILC7fml
-	 erVdAD9vh+4BkrEOzXn+RiDZkylWgjJ6ha+J02rpQkY6PzwRMLuFuy7kfHeBVPEfUMcz1
-	 /yQA2bWcJ8cog2RU9S3mPcAZN7luJhrYYhDYeWqpDdUlwe4p04YdFeGUYOH0Wic/Uaeza
-	 p2+6nWZt4bTHz0iIWuLsLUFn3R2ZdcJW6Req4Hyegl18W0KuBbi0rK0qYLZVDQFN68g==
+	bh=et1Cfwppqhe2gESCp1fUau0tu1068IrztG9UL03830I=;
+	b=hY+z3As0OjQ/ABDNqduazgdfbSbwDeILna3KJTKikVJNJlvDaVmHwu3fUsg2UvscGfBo
+	 BH7nnEv7iIf384847dZ7iry+Z9xe/tkoPrdug4cJMP2Op69ny/l01NfhYdBB6IXXA+WCJ
+	 FvFLwPCxea61xgk2lbvfY9gjnJAZEQeUrixeV2zoQGZTCYOeGZkjim7R7xNCHVjXGKCBA
+	 WV9TcNhb3DEp6lIPzyjt+GHUQQdxZb2sCYgVtX6u+JkA4HhSHotBqbLXi+4Vy5YM/cu7C
+	 F6V0OaFQkatHYHXSaM2D9lRMrr0PL6gZ3FBp/FN1hTliVasen98dVty4ipgKasJM1bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=F3foXHRS;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PagRPIIx;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D85E606A322;
-	Mon, 16 Nov 2026 19:53:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D85E606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7194F606A31C;
+	Tue, 17 Nov 2026 02:29:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7194F606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=F3foXHRS
-Received: from [10.4.158.9] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C262320B7168;
-	Mon, 16 Nov 2026 11:53:12 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C262320B7168
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=PagRPIIx
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 174B120B7169;
+	Mon, 16 Nov 2026 18:29:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 174B120B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794858798;
-	bh=0W0YD2zGg/Ir8R1RY7KNc850yXIwuHO/SFxtm7fh/Lg=;
+	s=default; t=1794882557;
+	bh=et1Cfwppqhe2gESCp1fUau0tu1068IrztG9UL03830I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F3foXHRSxF5RNkQ01Sjp4sDx88NP636u+exqnQWyx0deiwJr7eKILGLpYi6AQEdDP
-	 0PN5yj35zupNu981dy5mblCBWCSFBpPmPxMgXPnjIadfqSJcPkp9KhuBJyXp2/3pqS
-	 2i+uUGkyMkmBAmenMLPx18lg7lSZyufy1vcUoc3w=
-Message-ID: <5fddb57c-8805-4fbd-9e27-1c8654f29436@linux.microsoft.com>
-Date: Mon, 16 Nov 2026 11:53:15 -0800
+	b=PagRPIIxxbTMHgDFbZ91wWZxI2DLyKpe3dsF3VdecEC46oHKFHJXcYu+PxDnnDjRZ
+	 HDXCKY9+TqH6koscFkhbdgl+YAbgKjIclm6OT1HisH+spBlSLxpU9Nk/NrNpcZCD2a
+	 B5fXg1HDdz4ZOQLq3vWomvM8WCQ5fVIGXq9lZiFM=
+Message-ID: <fd130973-25d6-e706-6822-793f12ba2015@linux.microsoft.com>
+Date: Mon, 16 Nov 2026 18:29:22 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,168 +53,290 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
- CCA Realms
-To: Mukesh R <mrathor@linux.microsoft.com>
-Cc: Michael Kelley <mhklinux@outlook.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V1 2/2] Drivers: hv: Fix bugs and issues around repeat
+ hypercall
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
  "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
- <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
- <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
- <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
- <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
- <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
-Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "kameroncarr@linux.microsoft.com" <kameroncarr@linux.microsoft.com>
+References: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
+ <20261114025313.1257042-3-mrathor@linux.microsoft.com>
+ <MN2PR02MB6863E6C4F59864B7833681FCD47D2@MN2PR02MB6863.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <MN2PR02MB6863E6C4F59864B7833681FCD47D2@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 11/13/2026 6:59 PM, Mukesh R wrote:
-> On 11/12/26 16:46, Mukesh R wrote:
->> On 11/12/26 09:49, Kameron Carr wrote:
->>> On 11/11/2026 6:43 PM, Mukesh R wrote:
->>>> On 11/11/26 10:01, Michael Kelley wrote:
->>>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
->>>>>>
->>>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
->>>>>> to be marked as decrypted (shared) for confidential VM isolation types.
->>>>>> This is already done for SNP and TDX isolation; extend the same handling
->>>>>> to Arm CCA Realm guests so that the host hypervisor can access the
->>>>>> shared hypercall buffers.
->>>>>>
->>>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
->>>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
->>>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
->>>>>> Introduce a Hyper-V-specific helper following the established
->>>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
->>>>>>
->>>>>> On architectures other than arm64 the weak default keeps the existing
->>>>>> behaviour.
->>>>>>
->>>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
->>>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
->>>>>> ---
->>>>>>    arch/arm64/hyperv/mshyperv.c   |  5 +++++
->>>>>>    drivers/hv/hv_common.c         | 17 +++++++++++++----
->>>>>>    include/asm-generic/mshyperv.h |  1 +
->>>>>>    3 files changed, 19 insertions(+), 4 deletions(-)
->>>>>>
->>>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->>>>>> index 46ab2da..da6c3aa0 100644
->>>>>> --- a/arch/arm64/hyperv/mshyperv.c
->>>>>> +++ b/arch/arm64/hyperv/mshyperv.c
->>>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
->>>>>>        return hyperv_initialized;
->>>>>>    }
->>>>>>    EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
->>>>>> +
->>>>>> +bool hv_isolation_type_cca(void)
->>>>>> +{
->>>>>> +    return is_realm_world();
->>>>>> +}
->>>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
->>>>>> index 31256cb..a60c92c 100644
->>>>>> --- a/drivers/hv/hv_common.c
->>>>>> +++ b/drivers/hv/hv_common.c
->>>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>        u64 msr_vp_index;
->>>>>>        gfp_t flags;
->>>>>>        const int pgcount = hv_output_page_exists() ? 2 : 1;
->>>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
->>>>>>        void *mem;
->>>>>>        int ret = 0;
->>>>>>
->>>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>         * online and then taken offline
->>>>>>         */
->>>>>>        if (!*inputarg) {
->>>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
->>>>>> +        mem = kmalloc(alloc_size, flags);
->>>>>>            if (!mem)
->>>>>>                return -ENOMEM;
->>>>>>
->>>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>            }
->>>>>>
->>>>>>            if (!ms_hyperv.paravisor_present &&
->>>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
->>>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
->>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>>>> +             hv_isolation_type_cca())) {
->>>>>
->>>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
->>>>> of explicitly testing for each CoCo VM type? I ask partly because
->>>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
->>>>> function that does something almost exactly the same as
->>>>> hv_is_isolation_supported() and uses it here.
->>>>
->>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>>>> +             hv_isolation_type_cca())) {
->>>>
->>>> With my change, this will become:
->>>>
->>>>          (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
->>>
->>> Any reason you wouldn't change hv_isolation_hw_cvm() to
->>>
->>>    return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>      hv_isolation_type_cca()
->>>
->>> That would seem more logical to me.
->>>
+On 11/15/26 15:48, Michael Kelley wrote:
+> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Friday, November 13, 2026 6:53 PM
 >>
->> We could, I just don't know if on cca, the repeat hypercall has same
->> behavior. I was leaving that for the arm team. Anyways, I sent question
->> to the hyp team, if they say yes, i can update my patch to include that.
+>> There are few issues/bugs around repeat hypercall:
+>>   o If the hypercall fails, it could still have processed some entries.
+>>     Fix places where it assumes none of the entries were processed and will
+>>     try to undo entries already processed or print incorrect completions.
 >>
->> Thanks,
->> -Mukesh
+>>   o Hypercall returns back with timeouts only for HW confidential VMs. In
+>>     that case it should be retried instead of returning back. Returning back
+>>     results in error conditions and take down of VMs in most cases.
+>>
+>>   o For non confidential VMs, the hypercall could be streamlined as it will
+>>     never return back with timeouts.
+>>
+>>   o Rename HV_STATUS_TIME_OUT to HV_STATUS_TIMEOUT to match hypervisor
+>>     public header file. There is no reason for it to be different.
+>>
+>>   o Minor formatting fix for checkpatch. Error printing missing in couple
+>>     places when rep hypercall fails.
+>>
+>> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
 > 
+> [snip]
 > 
-> Confirming, arm has same behavior and needs the fix also. So, we can def
-> expand the check to include _cca.
+>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+>> index 396bcb3db0bc..87c784b9daa6 100644
+>> --- a/include/asm-generic/mshyperv.h
+>> +++ b/include/asm-generic/mshyperv.h
+>> @@ -28,6 +28,9 @@
+>>
+>>   #define VTPM_BASE_ADDRESS 0xfed40000
+>>
+>> +#define HV_REP_COUNT_MAX	\
+>> +	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
 > 
-> I just sent V1, renaming hv_isolation_hw_cvm() to hv_isolation_type_hw().
-> If your patch goes after mine, you just need to add to your 0004*:
+> Sashiko noted that this new #define is never used anywhere.
 > 
-> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-> index 4fdc26ade1d7..67a16b4d2235 100644
-> --- a/arch/arm64/hyperv/mshyperv.c
-> +++ b/arch/arm64/hyperv/mshyperv.c
-> @@ -134,3 +134,8 @@ bool hv_is_hyperv_initialized(void)
->         return hyperv_initialized;
->  }
->  EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
-> +
-> +bool hv_isolation_type_hw(void)
-> +{
-> +       return is_realm_world();
-> +}
+>> +
+>>   enum hv_partition_type {
+>>   	HV_PARTITION_TYPE_GUEST,
+>>   	HV_PARTITION_TYPE_ROOT,
+>> @@ -128,6 +131,11 @@ static inline bool hv_result_success(u64 status)
+>>   	return hv_result(status) == HV_STATUS_SUCCESS;
+>>   }
+>>
+>> +static inline bool hv_result_timeout(u64 status)
+>> +{
+>> +	return hv_result(status) == HV_STATUS_TIMEOUT;
+>> +}
+>> +
+>>   static inline unsigned int hv_repcomp(u64 status)
+>>   {
+>>   	/* Bits [43:32] of status have 'Reps completed' data. */
+>> @@ -135,45 +143,63 @@ static inline unsigned int hv_repcomp(u64 status)
+>>   			 HV_HYPERCALL_REP_COMP_OFFSET;
+>>   }
+>>
+>> -/*
+>> - * Rep hypercalls. Callers of this functions are supposed to ensure that
+>> - * rep_count, varhead_size, and rep_start comply with Hyper-V hypercall
+>> - * definition.
+>> - */
+>> -static inline u64 hv_do_rep_hypercall_ex(u16 code, u16 rep_count,
+>> -					 u16 varhead_size, u16 rep_start,
+>> -					 void *input, void *output)
+>> +static inline u64 hv_do_rep_hypercall_reg(u16 code, u16 rep_count,
+>> +					  u16 varhead_size, u16 rep_start,
+>> +					  void *input, void *output)
+>>   {
+>>   	u64 control = code;
+>> -	u64 status;
+>> -	u16 rep_comp;
+>>
+>>   	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
+>>   	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
+>>   	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
+>>
+>> -	do {
 > 
+> Dropped the looping behavior here may be much more significant
+> than just "streamlining" as described in the commit message. The looping
+> behavior was included when rep hypercalls were originally added in
+> commit 806c89273bab in kernel 4.14, long before any SNP/TDX/CCA
+> functionality was added. So it was present for "normal" VMs doing
+> hypercalls on x86/x64 the normal way. The looping ensured that
+> rep hypercalls could not return with no errors but with the completed
+> rep count less than the requested rep count.
 > 
-> OR, you could pick mine 0001-* and make it part of your series, and I
-> can drop it from mine and make it dependent on yours. But mine is small
-> enough that it has higher chances of going in first.....
+> However, in my mind it *is* debatable whether that scenario could
+> ever occur. The Hyper-V TLFS describes "Hypercall Continuation" [1]
+> as essentially transparent to the caller. If a rep hypercall stops
+> processing reps because of hitting the 50 microsecond time limit,
+> it should restart and continue with the next set of reps without
+> the caller having to loop. Commit 806c89273bab mentions
+> hypercall continuation, but does not describe why the explicit
+> looping was added or how that aligns with the TLFS statements.
+> Vitaly -- it was a long time ago, but do you have any recollection?
 > 
+> Have you gotten an explicit assurance from the Hyper-V team
+> that the transparent hypercall continuation really does work,
+> and the explicit looping has all along been unnecessary? This
 
-This patch set has already been applied to hyperv-next, so maybe you can
-rebase off that.
+Correct, hence the patch. Waiting on confirmation that it is
+same behavior all the way back to server 2016.
 
--- 
-Regards,
-Kameron
+Basically, the hypervisor will just adjust the RIP back to the
+vmcall upon internal timeouts, and reschedule the vcpu. But for
+hw confidential vms, ie, tdx/snp/cca, it cannot adjust the RIP,
+hence return back to the guest with TIMEOUT, so cvm has to do in
+a loop.
+
+Now, for paravisor support, I was just told by a paravisor team
+dev, that it will never return with TIMEOUTs. My view on that set
+aside, I guess for paravisor we'll just call the _reg function
+then.  Thanks for bringing attention to that...
+
+> assurance would be needed back to and including Windows
+> Server 2016, which is now the oldest Hyper-V version supported
+> by Linux. Also note that the rep hypercall code is architecture
+> independent, so the transparent hypercall continuation would
+> also need to work on arm64 when the hypercall is invoked via
+> the standard path of using the HVC instruction (the TLFS doesn't
+> cover arm64, so this is unclear).
+
+Both x86 and arm are same for this issue.
+
+> If you have such assurance, then I'm good with the removal of
+> the looping. But please make the removal a separate patch, with
+> sufficient discussion in the commit message to justify why it's OK
+> to do the removal (including that evidently the original commit
+> misinterpreted how continuation worked). And instead of looping,
+> perhaps do a sanity check that the completed rep count matches
+> the requested rep count.
+
+Not sure if it's worth the overhead of sanity check, looks like
+callers are checking completed and loop anyways... But I would
+be OK with BUG(), since it would be a bug for that to happen. FWIW,
+it's been running internally with couple months, and haven't seen
+any issues.
+
+
+> Without such assurance, I think the looping needs to stay. Callers
+> are not prepared for a rep hypercall to return with no errors, but
+> with the completed rep count less than the requested rep count.
+> 
+> [1] https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/hypercall-interface#hypercall-continuation
+> 
+>> +	return hv_do_hypercall(control, input, output);
+>> +}
+>> +
+>> +static inline u64 hv_do_rep_hypercall_cvm(u16 code, u16 rep_count,
+>> +					  u16 varhead_size, u16 rep_start,
+>> +					  void *input, void *output)
+>> +{
+>> +	u64 status, control = code;
+>> +	u16 rep_comp = 0;
+>> +
+>> +	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
+>> +	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
+>> +	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
+>> +
+>> +	for (;;) {
+>>   		status = hv_do_hypercall(control, input, output);
+>> -		if (!hv_result_success(status))
+>> +
+>> +		if (!hv_result_timeout(status))
+>>   			return status;
+>>
+>>   		rep_comp = hv_repcomp(status);
+>> -
+>>   		control &= ~HV_HYPERCALL_REP_START_MASK;
+>>   		control |= (u64)rep_comp << HV_HYPERCALL_REP_START_OFFSET;
+>>
+>>   		touch_nmi_watchdog();
+>> -	} while (rep_comp < rep_count);
+>> +	}
+>>
+>>   	return status;
+> 
+> And Sashiko noted that this "return status" is dead code. The only
+> way to exit this function is via the "return status" up in the loop.
+> 
+>>   }
+>>
+>> -/* For the typical case where rep_start is 0 */
+>> +/*
+>> + * Rep hypercalls for HW confidential VMs return back when timeouts occur,
+>> + * whereas for regular VMs they return only on success or failure. In case
+>> + * of successful completion, entire rep_count is done. But a hypercall could
+>> + * fail with partial completions, hence callers must always check that
+>> + * in case of failure. Lastly, a rep_count value of 0 is allowed for some
+>> + * hypercalls.
+>> + */
+>>   static inline u64 hv_do_rep_hypercall(u16 code, u16 rep_count, u16 varhead_size,
+>>   				      void *input, void *output)
+>>   {
+>> -	return hv_do_rep_hypercall_ex(code, rep_count, varhead_size, 0,
+>> -				      input, output);
+>> +	if (hv_isolation_type_hw())
+> 
+> I don't think this is the right test, so let me explain. You don't describe the
+> context for when HV_STATUS_TIMEOUT may be returned, and there's no
+> TLFS documentation of this status, but I'm assuming the context is hypercall
+> continuation. This isn't the typical "something isn't responding" timeout. I
+> suspect it means the hypervisor hit the 50 us limit, and returned to the guest
+> VM with some reps still to be done. In a normal VM when a hypercall is
+> initiated by the hypercall page on x86/x64 or the HVC instruction on arm64,
+> the transparent hypercall continuation mechanism makes a TIMEOUT status
+> unnecessary. But with SNP, TDX, and CCA, hypercall invocation may be
+> piggybacked on other transports, and transparent continuation isn't available.
+> So Hyper-V returns HV_STATUS_TIMEOUT with the expectation that the
+> invoking code will loop to do the remaining reps.
+> 
+> The key factor is whether the hypercall is piggybacked on other transports.
+> The tests in hv_isolation_type_hw() don't capture that. For example, if
+> a paravisor is present, hv_isolation_type_snp() will return "true" even
+> though hypercalls are invoked via the standard x86/x64 hypercall page.
+> The hypercalls trap to the paravisor. If the paravisor is functioning properly,
+> it should do transparent hypercall continuation just like the hypervisor would.
+> But this is something to be confirmed with the hypervisor and paravisor teams.
+> 
+> Piggybacking is done only when no paravisor is present, so the
+> hv_do_rep_hypercall_cvm() path should be taken only in that circumstance.
+> Your current code works, but it goes down the more expensive
+> hv_do_rep_hypercall_cvm() path when it doesn't need to. (I'm not completely
+> clear on how arm64 works with and without a paravisor, so my statement
+> applies only to SNP and TDX. Need to sort out the CCA case with Kameron.)
+> 
+> Given the non-trivial complexity in sorting all this out, I wonder if
+> distinguishing the _cvm and _reg cases is really worth it. The current
+> code for the _reg case is admittedly inefficient because it does work for
+> the looping case before likely deciding that no looping is needed. But
+> that could easily be fixed. When no looping is necessary, which is the
+> vast majority of cases, the looping code could end up being only a
+> couple of instructions slower than a separately coded non-looping
+> version (I did some builds and looked at the generated code). Since
+> there's overhead in deciding which to use, there may not be any
+> performance win from having both versions.
+
+Well, to me it's correctness issue also. If the ABI says that it will
+not return with TIMEOUTs for non-cvms, then adding loop just masks it
+instead of opening a bug report against the hypervisor.
+
+Hope that makes sense.
+
+On a side note, to solicit your thoughts, i am not sure i like the
+touch_nmi_watchdog()... it appears the the WD is triggered in seconds,
+and if a hypercall is that long, schedule() really should be done in
+between. IOW, remove the touch, instead any very long running hypercalls
+should call schedule(). Of course, that would be a different patch.
+
+Thanks,
+-Mukesh
+
+
+> Michael
+>   
+>> +		return hv_do_rep_hypercall_cvm(code, rep_count, varhead_size, 0,
+>> +					       input, output);
+>> +	else
+>> +		return hv_do_rep_hypercall_reg(code, rep_count, varhead_size, 0,
+>> +					       input, output);
+>>   }
+>>
+
