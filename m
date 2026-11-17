@@ -1,156 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794891305;
-	b=GAM9bBobceTInKZZkqyCZW9ztHk0aTSL/1ojjdOCa/U6rsBVGSbrOOJoZgaBdbVbzZxE
-	 TJdsspCTELT0cWCox3SmEDCKoMBV1rueRNoeFZFrngD5nJDfyGY+034sNnR3GoIVGSMJd
-	 1zErI3lZVnl6+c7VOQTCzT88Q8hnJUFvvfMkWNuU7n+6NP9lSVuVyL30vI08wJf9ye/SC
-	 EqLVdX5nJdbyYNQQvYmd23ozHCTWWVv8O9SaTVDweru9CjsIQZwRnGOcjOR4BvKzKPbQP
-	 hsppGdHf8jqnomVjAA++U7/BnG3Leiv/Hppp+eoHoKk02RQ47uY6a4hZsWzWc/umogg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794891305;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=roi9kW+OgaA/jFBdkdwZzDBFITlwY9IRvZBlw5m5dtg=;
-	b=qTpB5fLF+sXpqu8x8NKOzU51qmuWz3ZgGvSyBAt+mHnxFZ8YfP5+lg+lvI+zXQRayjud
-	 UPN0tzNJzlYOZMlGDV2ESkGd24MNT+PGiTdj+zARNWztQJkVhUYCVQFFVQ2kI97ZOI1xn
-	 NCXx1NB71rIfbxYRXwCbnFUZ4FCA+wGFNvFpeN/mg2rNatMJHW+mu4JjbZeSj69cA6ANt
-	 v2EFx9lWicHg4eKf53JOZGEdFSUttgEyOE+v9Al7gr9Xuc+xvT2liP7OjbsNlo0vexPRU
-	 Ya6G/o9P3SHPkno4qo8APqmQXvYDtXYZMSu9gU7YbuOWLJt0fq2ymVUP/A5acaoJCug==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=aIz3Oq4A;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010004.outbound.protection.outlook.com [52.103.13.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C701B606A323;
-	Tue, 17 Nov 2026 04:55:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C701B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794903140;
+	b=PrxIIDgeMD/+IRPmHbwudna5NaBb6FJokFo6EdBeUDidXXIEd6Fq+X8u/A1+e5v7C6hD
+	 ExSwzHeVsvjYTvUKyEVR9vXBhV1qLF4Yr0ATFDCIYR1928tVRp0unYEsbEpWOv5eGUkeb
+	 vFpdg/8TXSUWNHOJpIa2Ja4URH5Dc/S9TJwDFdQgP7Kb54Ix9mOIFFiWw7Wy1wql93U8Q
+	 u2q0q/G6ZZtor86fI3TFiqNG41VohygF8cb9RRIrEE2UV8LBlvD7hT8acJxFirE762VYV
+	 ek04uKlFH860SH/25yq4276izk07Tib0Kik9hzEEG78GtIlH91uP23ghMD/1wt03nqQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903140;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
+	b=hqShsea0ZmMd2hHJ3YLuipP1rzkzsVsmJMonqRofs20d3Udb8WkkvXS2tpnxRTbJWH+q
+	 cUpsZ74CnVwlW2usjkWRrm0rzJCAvraGdYM6n2PE/TIMsnPxWICz6sE7H55qVNdqbCwN7
+	 fPGjqYl1x8roOa91sjF3X+B62dYA7e5UrHbPSXr7bPLCfovFz0KXNVovTVTdGDO/f0MnO
+	 N/h9pfIdRnHaNynhdgGym8v2W30SpZV2agY2pgp2E7vN26pt5VWpOLTn6Oo5DMmv4s4Uo
+	 QLY3Aw4GHXOZMtUhCnr/xPex/QidaAaYXe6GxVbWphEdwdvSBc1plIqIAniaUps9/yw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D873A606A31C;
+	Tue, 17 Nov 2026 08:12:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D873A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=aIz3Oq4A
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y6nnEOPTA4LOah3t4NG8VgGvS5I51D+PpCOIJnWxF5/Vqh73DpBqWdt8djDVN6k5D5AwHN5AXDsV/DabKfMjJy0o7vCrsARZi8vPjttXE3N0QkWYcnpB5GbgljNhE9nVm7QcLNOx6DPmnx2t7vidIEBSkFsONrZx4dldeXT8+8cNESFguRJ4PwHa4LwlZnHyww26pBDs95HDwMBNtrQ5OZvzLypLjO79vmloJFWikL75aL/uqWrISwY8hZEJLZ/4g//Ykcj0+UTMxS+M/BeiHoyZfwn+FfA+ZbUeOCmldlaPFhH3AL1yCAKyAZ4ImSSnIC0ULYQCZpCPO3j0imzVRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=roi9kW+OgaA/jFBdkdwZzDBFITlwY9IRvZBlw5m5dtg=;
- b=D1dP5DnsRfVL/gmpF3z1jg6YpZ2u3In3Enhqj21Yf4cqfS8BB5fStzqfGWk4go143K/fJQHNsfpPynFCPS+8c+MngfRFGGNKMLqbNKiCv25fb4G+3B7Tlw3WAv/eb58W6NlsfYIyZCrGA2Gs2YRHId4vhvWlXJj9Xhkga7ZzBsOWA359t72gl4t82Ca2kiDXZMI58mh2E3DllewgqQaOxhD7cRswZXQJZ+IDgWJJNdEMVGM6YpB+73gbTd9V4V6aGXDZ8ICWfF+QUZKNtz9l9JcKuUQgJt2cWUrkVTrXXXDjxc/poYQKBB7iSMMCkvBKMFxIKzOLMr4uTxDKNebX2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=roi9kW+OgaA/jFBdkdwZzDBFITlwY9IRvZBlw5m5dtg=;
- b=aIz3Oq4AB/wVh01tLDl8W2luglNBFOw9F5/Cpr1iwdxsYQnV1TPz70K/LRb7BMrtO7ALZtlkXR6z070O3Gu2+Zm45CltN6bVSHA4us7m40waKxY/NHcX1w7w+irYIwch7eHHPDxrRMjgriDNT5+zT58UcX0VHkBlTfzXkd8M9twf+BtPNzrgo72YeiYWTmqs/NyIsw1i8CHj1d/2X1hvC40mdsguWw797M3a8lW/yGQjyXMjQRqTQJTNRRRAQEJC3gzLPTFhpRePUT7ZJUDch9kFFtsRehxi8sspb///X3wwHQ++EYytwPu8EoDyEKQnwbKa7F42z4YHHoLwbbLd3g==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by DM6PR02MB147411.namprd02.prod.outlook.com (2603:10b6:5:30e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 04:52:49 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 04:52:49 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Juergen Gross <jgross@suse.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
-CC: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>, Thomas Gleixner <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Sean
- Christopherson <seanjc@google.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, "xen-devel@lists.xenproject.org"
-	<xen-devel@lists.xenproject.org>
-Subject: RE: [PATCH v6 03/17] x86/msr: Minimize usage of native_*() msr access
- functions
-Thread-Topic: [PATCH v6 03/17] x86/msr: Minimize usage of native_*() msr
- access functions
-Thread-Index: AQJWRMBMhEWrzhqQoRQ/70yarwqelgIhAvrzti8HL6A=
-Date: Tue, 17 Nov 2026 04:52:49 +0000
-Message-ID:
- <MN2PR02MB686321E2F5042F532F9E76C0D47B2@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261116183905.1591611-1-jgross@suse.com>
- <20261116183905.1591611-4-jgross@suse.com>
-In-Reply-To: <20261116183905.1591611-4-jgross@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|DM6PR02MB147411:EE_
-x-ms-office365-filtering-correlation-id: 00fdd5c9-7527-4f0f-8a90-08df4466a137
-x-microsoft-antispam:
- BCL:0;ARA:14566002|41001999006|8062599012|8060799015|51005399006|19110799012|15080799012|37011999003|13091999003|55001999006|24021099003|31061999003|25010399006|40105399003|102099032|3412199025|440099028;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?Om6fj+F8TX2JGI8fSYl7Kq7VgMEOOZcN1NlCMZyR+BnYN4NNwvV7x1jARkJ9?=
- =?us-ascii?Q?n7MZ10qxo19uhCK+nhufz9xB5IWTBM8XO+sxS4LGVYVWPz2gWwmp22LrjmNE?=
- =?us-ascii?Q?JJXH9MYx8BQ9MNEMXbSkepoZQa+mvFFknHUPEZRNV8C4Edpl9467XMCijOe5?=
- =?us-ascii?Q?tE90Qj3/ChNiQJhWKpR8uWi7temH9l6SiHDC2LkijgwJGtxs4Tk/8z7xSJAl?=
- =?us-ascii?Q?Al1LpKNiTO/NQ+LM1idDyBI+JvoBsztrYLPRRzJMFPpWR9zL15QpPGxoXQpa?=
- =?us-ascii?Q?ndmVrrU5VBBMBwFlMRqTe2ij1QXIdv3iacikJwuCkHvwrZzbelkVqhNSr+Ze?=
- =?us-ascii?Q?Y1Q/hz6To2ieZ/0Qr5GOpWApVd/WP5p+/D6HjIt2fJD9XThY3XJ42P0LgYz9?=
- =?us-ascii?Q?hgtplooLq9VsaV0JDoUTbQQhYcAznovzSd9PkSyUGtCufmyAKfp535FIDXND?=
- =?us-ascii?Q?kMnQw3gS9OSwcrzfbkOyBkVGUeI7NMzs0qlQr3QBI1hEWO4XKRe58pmHCXX/?=
- =?us-ascii?Q?G8CfymPzSoNjmz8eh2PaaFUcKIfjXWmKrhegY5v/+0REzCqcVHP/Sk0PM4wT?=
- =?us-ascii?Q?3L3lToOcOphOmXl9bUWmuMD8Y77akmgWCHWSk4rThEkqzJMcn5DiYFSE82nH?=
- =?us-ascii?Q?k8JLNdgQB4N6FBDSq15PniT0teAazIS180398F8Q//aGpf9BWPMBOdTwFqKo?=
- =?us-ascii?Q?6jxvlLPog7PzOz9SsXNs5fIdcesRmDkRjllvtprbPD4hQU92UuRtYe6ans3B?=
- =?us-ascii?Q?jDkqTGNEV1/XObATWWtRQxq/9B+or92Cad0nPcx8mXMO55q1Em3IQdtQlivs?=
- =?us-ascii?Q?93SL3cHf5hWgG7NVnwwkbFgFX1+CmFT3mbaGO7K95TGPuO5xmEJfpQamKkBY?=
- =?us-ascii?Q?+p89zlCC0wb71jZclqyRTX4aGHkJ1O8nxO3a4Iu5dUtwociMXviKlp2lFyIs?=
- =?us-ascii?Q?OhNpgfuk6EUvvfNa/zwqz7ZNTKC3Syb70u4HwXMRB8tfJyX1QzTMpSKfLb8f?=
- =?us-ascii?Q?OzcRo13x+goFZMMa4p8eQoVJFvUMm3E/04di+eZCKkl9z21u3GDyZfdYXRO0?=
- =?us-ascii?Q?7SnpozZf?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?dp407flqj6mrej/E317Tj4pxJixLNg6JL2kc47wnAzlmXojd3rxBDvYThNNi?=
- =?us-ascii?Q?CpzQc605iMPTRLn/bPI6Q7CLGLVz+6fSee7VfYRx6psEK+Tgs2VNhpmzSTT2?=
- =?us-ascii?Q?5fSiXVuzzMx9UvGwMtjSh65uZybYz8GXrul6rpayf1bLoc1H1JTMBokt8FNQ?=
- =?us-ascii?Q?+AIfddi54tLlq5GnbFb+BCPvyrop1s/gk5Hwq+vdFa5cmORG0ivn+lcl3nrb?=
- =?us-ascii?Q?i5Qplx4hEu3olkbz5B0hwgO1xuwNNRQ1tl4k0zzAOJ4zF5AUn8zuoB1Lnunt?=
- =?us-ascii?Q?lRwmIlD/V3JVmxNwTJoTZ3qwWcFpOk0a8PWwHCjFQRDh5u/v3HGSj81bU5Es?=
- =?us-ascii?Q?1NOWpeBMqqzQd9ESyPWmsFgla0qayvF+piKNIg47NZyNbpADDP4TlT0Eke3m?=
- =?us-ascii?Q?uIO0Or3DdxRTceUvxUt6bhuguKralucub6m1ryxnTZccRfy/M5TZkbxhrl+k?=
- =?us-ascii?Q?2B+DJ/LWvX+9ytoD/+pAIKRU/zRgzLdkOxjZ/57e63g3yBkdW9vlOoUbqErB?=
- =?us-ascii?Q?Rf6pXkDvzDYjxolL5QBFmNfuQuVJksnW014tgRsQ7tFKnT3aGZpsDepym7ZZ?=
- =?us-ascii?Q?0hWUSOgb3Yl0k7DiPV4lf7SqFL96gSx8UEsSHe8Qd8pZQN/7ZD2ehCq4b4LX?=
- =?us-ascii?Q?RpaXm8qXVgBNLhTqe8AkxRDT0dk4GSQyDUALZqQud5BW21ahSI4C1LypaO7Z?=
- =?us-ascii?Q?QfLgHzHxn3Wo7ywfY2+gUB/EADkx+ujse+zB1WMoxWbX8UzA4jn3VIS+jxgG?=
- =?us-ascii?Q?BGuOtOpxm4jk138G0Oa/nyqr672xBqx8m3ApxhPgvxvyWDfPKAy76M1HfaO2?=
- =?us-ascii?Q?9TruBLTkDxYxRuQsObcnyP2avoI22v/mK9MrjkLYa4eVYHfDIBpRjGjzwEeC?=
- =?us-ascii?Q?CtONPgojimFQVq8EaLjrxQefFo5hhyx3/FaA2cRduCjSVQHmxZpMtRFrz5vy?=
- =?us-ascii?Q?jiDMGJi7isFJ4UlPAkrJHr3xB1j5Q8SdHRU5kF7jFRHSMDhUirqOaRsSPWWw?=
- =?us-ascii?Q?kMwNDz9HTlx4Sgi1TOb6Ra1npmEsGxQ0di5lDy88bXj/O2OV0u+b3jSOmGAm?=
- =?us-ascii?Q?xBvXFrlxETkrWr/Taz8PdKoXVSaaIbjA1lKvSBxoX+rs2wqoXQ7vXrAq3rx4?=
- =?us-ascii?Q?lJ+Zo3IZutXMFyClLj8QF6Hp/+6mFhZMmnlEeQvA+8tcXteFwJ8+GFzReFg3?=
- =?us-ascii?Q?IqM2sbsZRZ3MtqADGkSzI3gBPEDwysMWh/GWlex1iunJIITgy73oxEN9kq4f?=
- =?us-ascii?Q?vxK9lSPOLFeVDoDJtM50DSWRss5to2gnYyEWiNR3jGzLsSn5WxUviOGzHyMm?=
- =?us-ascii?Q?3cuTTsDXs9FW5IS7A2tPgTd7j4a4+Sb77qlFXNz2xYO8w8cufajMTnOmqy6k?=
- =?us-ascii?Q?2szETcw=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS
+Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 635C320B7169;
+	Tue, 17 Nov 2026 00:12:15 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 635C320B7169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794903138;
+	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y9tcVMbST1MOnDSd7vJyGUU7DbRbUFCN4sgjNlW6uaqZEv18t49SZWrlDyewbiNNw
+	 PRVS2k55hd8avGQAgUqHAtN96AQz1gLmcL12Exp2KqNxffGq0Br2hTX9xtSSBr5c/1
+	 9CHVmwDYla8pjesczn26HlKXdI/BFokxxojJtkRc=
+From: Naman Jain <namjain@linux.microsoft.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	namjain@linux.microsoft.com,
+	mhklinux@outlook.com,
+	muislam@microsoft.com,
+	anbelski@linux.microsoft.com,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mshv_vtl: Add a per-CPU transition statistics ioctl
+Date: Tue, 17 Nov 2026 08:12:11 +0000
+Message-ID: <20261117081211.2063781-1-namjain@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -160,185 +68,323 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00fdd5c9-7527-4f0f-8a90-08df4466a137
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2026 04:52:49.1506
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB147411
+Content-Transfer-Encoding: 8bit
 
-From: Juergen Gross <jgross@suse.com> Sent: Monday, November 16, 2026 10:39=
- AM
->=20
-> In order to prepare for some MSR access function reorg work, switch
-> most users of native_{read|write}_msr[_safe]() to the more generic
-> rdmsr*()/wrmsr*() variants.
->=20
-> For now this will have some intermediate performance impact with
-> paravirtualization configured when running on bare metal, but this
-> is a prereq change for the planned direct inlining of the rdmsr/wrmsr
-> instructions with this configuration.
->=20
-> The main reason for this switch is the planned move of the MSR trace
-> function invocation from the native_*() functions to the generic
-> rdmsr*()/wrmsr*() variants. Without this switch the users of the
-> native_*() functions would lose the related tracing entries.
->=20
-> Note that the Xen related MSR access functions will not be switched,
-> as these will be handled after the move of the trace hooks.
->=20
-> Signed-off-by: Juergen Gross <jgross@suse.com>
-> Acked-by: Sean Christopherson <seanjc@google.com>
-> Acked-by: Wei Liu <wei.liu@kernel.org>
-> Reviewed-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-> ---
->  arch/x86/hyperv/ivm.c          |  2 +-
->  arch/x86/kernel/cpu/mshyperv.c |  4 ++--
+The VTL driver does not expose per-CPU transition counts or timing.
+This information is important to track number of VTL transitions based
+on the use-case, debug issues where a VP gets stuck in VTL2 etc.
+Add MSHV_GET_VTL_STATS IOCTL so userspace can query them and print this
+information periodically or on error handling paths. Report entry and
+return counts, the latest timestamps, and total and maximum interval
+durations. Include the last observed state so userspace
+can calculate the age of an unfinished interval. These are elapsed times,
+not exclusive CPU execution times.
 
-For these two Hyper-V related files,
+While at it, remove the unused num_vtl0_transitions counter.
+Add documentation in a generic VTL interface file. Documentation for
+existing ioctls is outside the scope of this patch.
 
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+---
+ Documentation/virt/hyperv/index.rst    |  1 +
+ Documentation/virt/hyperv/mshv-vtl.rst | 98 ++++++++++++++++++++++++++
+ drivers/hv/mshv_vtl_main.c             | 72 ++++++++++++++++++-
+ include/uapi/linux/mshv.h              | 35 +++++++++
+ 4 files changed, 204 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/virt/hyperv/mshv-vtl.rst
 
->  arch/x86/kernel/kvmclock.c     |  2 +-
->  arch/x86/kvm/svm/svm.c         | 16 ++++++++--------
->  arch/x86/xen/pmu.c             |  4 ++--
->  5 files changed, 14 insertions(+), 14 deletions(-)
->=20
-> diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-> index 2ce4dfe53472..a74f121f2a02 100644
-> --- a/arch/x86/hyperv/ivm.c
-> +++ b/arch/x86/hyperv/ivm.c
-> @@ -328,7 +328,7 @@ int hv_snp_boot_ap(u32 apic_id, unsigned long start_i=
-p,
-> unsigned int cpu)
->  	savesegment(ds, vmsa->ds.selector);
->  	hv_populate_vmcb_seg(vmsa->ds, vmsa->gdtr.base);
->=20
-> -	vmsa->efer =3D native_read_msr(MSR_EFER);
-> +	vmsa->efer =3D rdmsrq(MSR_EFER);
->=20
->  	vmsa->cr4 =3D native_read_cr4();
->  	vmsa->cr3 =3D __native_read_cr3();
-> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyper=
-v.c
-> index 91bbffbf5412..eab5516bc243 100644
-> --- a/arch/x86/kernel/cpu/mshyperv.c
-> +++ b/arch/x86/kernel/cpu/mshyperv.c
-> @@ -114,7 +114,7 @@ u64 hv_para_get_synic_register(unsigned int reg)
->  {
->  	if (WARN_ON(!ms_hyperv.paravisor_present || !hv_is_synic_msr(reg)))
->  		return ~0ULL;
-> -	return native_read_msr(reg);
-> +	return rdmsrq(reg);
->  }
->=20
->  /*
-> @@ -124,7 +124,7 @@ void hv_para_set_synic_register(unsigned int reg, u64=
- val)
->  {
->  	if (WARN_ON(!ms_hyperv.paravisor_present || !hv_is_synic_msr(reg)))
->  		return;
-> -	native_write_msr(reg, val);
-> +	wrmsrq(reg, val);
->  }
->=20
->  u64 hv_get_msr(unsigned int reg)
-> diff --git a/arch/x86/kernel/kvmclock.c b/arch/x86/kernel/kvmclock.c
-> index cb3d0ca1fa22..6ddef8b5426a 100644
-> --- a/arch/x86/kernel/kvmclock.c
-> +++ b/arch/x86/kernel/kvmclock.c
-> @@ -219,7 +219,7 @@ static void kvm_setup_secondary_clock(void)
->  void kvmclock_disable(void)
->  {
->  	if (msr_kvm_system_time)
-> -		native_write_msr(msr_kvm_system_time, 0);
-> +		wrmsrq(msr_kvm_system_time, 0);
->  }
->=20
->  static void __init kvmclock_init_mem(void)
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index a432b878c683..64f609d1ee59 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -415,12 +415,12 @@ static void svm_init_erratum_383(void)
->  		return;
->=20
->  	/* Use _safe variants to not break nested virtualization */
-> -	if (native_read_msr_safe(MSR_AMD64_DC_CFG, &val))
-> +	if (rdmsrq_safe(MSR_AMD64_DC_CFG, &val))
->  		return;
->=20
->  	val |=3D (1ULL << 47);
->=20
-> -	native_write_msr_safe(MSR_AMD64_DC_CFG, val);
-> +	wrmsrq_safe(MSR_AMD64_DC_CFG, val);
->=20
->  	erratum_383_found =3D true;
->  }
-> @@ -473,8 +473,8 @@ static void svm_init_os_visible_workarounds(void)
->  		return;
->=20
->  	if (!this_cpu_has(X86_FEATURE_OSVW) ||
-> -	    native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &len) ||
-> -	    native_read_msr_safe(MSR_AMD64_OSVW_STATUS, &status))
-> +	    rdmsrq_safe(MSR_AMD64_OSVW_ID_LENGTH, &len) ||
-> +	    rdmsrq_safe(MSR_AMD64_OSVW_STATUS, &status))
->  		len =3D status =3D 0;
->=20
->  	if (status =3D=3D READ_ONCE(osvw_status) && len >=3D READ_ONCE(osvw_len=
-))
-> @@ -2156,7 +2156,7 @@ static bool is_erratum_383(void)
->  	if (!erratum_383_found)
->  		return false;
->=20
-> -	if (native_read_msr_safe(MSR_IA32_MC0_STATUS, &value))
-> +	if (rdmsrq_safe(MSR_IA32_MC0_STATUS, &value))
->  		return false;
->=20
->  	/* Bit 62 may or may not be set for this mce */
-> @@ -2167,11 +2167,11 @@ static bool is_erratum_383(void)
->=20
->  	/* Clear MCi_STATUS registers */
->  	for (i =3D 0; i < 6; ++i)
-> -		native_write_msr_safe(MSR_IA32_MCx_STATUS(i), 0);
-> +		wrmsrq_safe(MSR_IA32_MCx_STATUS(i), 0);
->=20
-> -	if (!native_read_msr_safe(MSR_IA32_MCG_STATUS, &value)) {
-> +	if (!rdmsrq_safe(MSR_IA32_MCG_STATUS, &value)) {
->  		value &=3D ~(1ULL << 2);
-> -		native_write_msr_safe(MSR_IA32_MCG_STATUS, value);
-> +		wrmsrq_safe(MSR_IA32_MCG_STATUS, value);
->  	}
->=20
->  	/* Flush tlb to evict multi-match entries */
-> diff --git a/arch/x86/xen/pmu.c b/arch/x86/xen/pmu.c
-> index 3f4dd3f50f56..25f434b6b903 100644
-> --- a/arch/x86/xen/pmu.c
-> +++ b/arch/x86/xen/pmu.c
-> @@ -324,7 +324,7 @@ static u64 xen_amd_read_pmc(int counter)
->  		u64 val;
->=20
->  		msr =3D amd_counters_base + (counter * amd_msr_step);
-> -		native_read_msr_safe(msr, &val);
-> +		rdmsrq_safe(msr, &val);
->  		return val;
->  	}
->=20
-> @@ -350,7 +350,7 @@ static u64 xen_intel_read_pmc(int counter)
->  		else
->  			msr =3D MSR_IA32_PERFCTR0 + counter;
->=20
-> -		native_read_msr_safe(msr, &val);
-> +		rdmsrq_safe(msr, &val);
->  		return val;
->  	}
->=20
-> --
-> 2.56.0
->=20
+diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
+index c84c40fd61c91..9fcff8c0f7db8 100644
+--- a/Documentation/virt/hyperv/index.rst
++++ b/Documentation/virt/hyperv/index.rst
+@@ -13,3 +13,4 @@ Hyper-V Enlightenments
+    vpci
+    hibernation
+    coco
++   mshv-vtl
+diff --git a/Documentation/virt/hyperv/mshv-vtl.rst b/Documentation/virt/hyperv/mshv-vtl.rst
+new file mode 100644
+index 0000000000000..c8038dbdf3ff5
+--- /dev/null
++++ b/Documentation/virt/hyperv/mshv-vtl.rst
+@@ -0,0 +1,98 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++MSHV VTL userspace interface
++============================
++
++The MSHV VTL driver allows a userspace VMM running in VTL2 to manage
++and run a lower VTL.
++
++The ioctls described below operate on a VTL file descriptor returned
++by ``MSHV_CREATE_VTL``.
++
++MSHV_GET_VTL_STATS
++------------------
++
++Return a snapshot of transition counts and timing for one Linux CPU.
++
++Set the ``cpu`` field in ``struct mshv_vtl_stats`` before calling the
++ioctl. All other fields are output. Possible CPUs are accepted even when
++offline. Statistics are shared across VTL file descriptors and accumulate
++for the lifetime of the loaded driver.
++
++.. kernel-doc:: include/uapi/linux/mshv.h
++   :identifiers: mshv_vtl_stats
++
++Accounting
++~~~~~~~~~~
++
++Each lower-VTL switch attempt increments ``entry_count``. Its return to
++VTL2 increments ``exit_count``. Every switch in an in-kernel re-entry loop
++is counted separately. Work or cancellation before a switch does not
++add a transition.
++
++All timestamps and durations use CLOCK_MONOTONIC nanoseconds.
++
++* Lower-VTL intervals run from an entry attempt to its return.
++* VTL2 intervals run from a return to the next entry attempt.
++* Totals and maxima include completed intervals only.
++* The initial VTL2 interval before the first entry is not measured.
++
++The statistics work without tracing. They measure elapsed time,
++including switch overhead and descheduling, not exclusive CPU
++execution time. Only switches made through this driver's x86-64 Hyper-V
++return path are measured. Intervals are not split by target VTL.
++
++There is no reset, histogram, or transition-history buffer. Accounting
++adds two clock reads and short per-CPU critical sections to each switch.
++
++Current interval
++~~~~~~~~~~~~~~~~
++
++The ``state`` field reports the last observed software state:
++
++* UNKNOWN: No switch has been recorded. Do not calculate an interval age.
++* VTL2: Use ``snapshot_ns - last_exit_ns``.
++* LOWER_VTL: Use ``snapshot_ns - last_entry_ns``.
++
++Counts, durations, and transition timestamps are zero before the first
++switch. The state does not prove that the CPU is currently executing in
++that VTL. An offline CPU retains its last recorded statistics.
++
++Errors
++~~~~~~
++
++* ``EINVAL``: The CPU number is outside the possible CPU set.
++* ``EAGAIN``: The statistics are busy. Retry later.
++* ``EFAULT``: The userspace buffer could not be accessed.
++
++Reading another CPU's statistics does not send an IPI to that CPU.
++The per-CPU lock is never held across lower-VTL execution.
++
++Example
++~~~~~~~
++
++Using an existing VTL file descriptor::
++
++    struct mshv_vtl_stats stats = { .cpu = 0 };
++
++    if (ioctl(vtl_fd, MSHV_GET_VTL_STATS, &stats) == -1) {
++        perror("MSHV_GET_VTL_STATS"); /* Retry later on EAGAIN. */
++        return -1;
++    }
++
++    printf("cpu=%u state=%u\n"
++           "entry_count=%llu exit_count=%llu\n"
++           "last_entry_ns=%llu last_exit_ns=%llu\n"
++           "lower_vtl_total_ns=%llu lower_vtl_max_ns=%llu\n"
++           "vtl2_total_ns=%llu vtl2_max_ns=%llu\n"
++           "snapshot_ns=%llu\n",
++           stats.cpu, stats.state,
++           (unsigned long long)stats.entry_count,
++           (unsigned long long)stats.exit_count,
++           (unsigned long long)stats.last_entry_ns,
++           (unsigned long long)stats.last_exit_ns,
++           (unsigned long long)stats.lower_vtl_total_ns,
++           (unsigned long long)stats.lower_vtl_max_ns,
++           (unsigned long long)stats.vtl2_total_ns,
++           (unsigned long long)stats.vtl2_max_ns,
++           (unsigned long long)stats.snapshot_ns);
+diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
+index 2d4fe24cecbff..1e21380b04355 100644
+--- a/drivers/hv/mshv_vtl_main.c
++++ b/drivers/hv/mshv_vtl_main.c
+@@ -19,6 +19,8 @@
+ #include <linux/poll.h>
+ #include <linux/rcupdate.h>
+ #include <linux/file.h>
++#include <linux/spinlock.h>
++#include <linux/timekeeping.h>
+ #include <linux/vmalloc.h>
+ #include <asm/debugreg.h>
+ #include <asm/mshyperv.h>
+@@ -102,7 +104,16 @@ static union hv_register_vsm_page_offsets mshv_vsm_page_offsets;
+ static union hv_register_vsm_capabilities mshv_vsm_capabilities;
+ 
+ static DEFINE_PER_CPU(struct mshv_vtl_poll_file, mshv_vtl_poll_file);
+-static DEFINE_PER_CPU(unsigned long long, num_vtl0_transitions);
++
++struct mshv_vtl_cpu_stats {
++	raw_spinlock_t lock;
++	struct mshv_vtl_stats stats;
++};
++
++static DEFINE_PER_CPU(struct mshv_vtl_cpu_stats, mshv_vtl_stats) = {
++	.lock = __RAW_SPIN_LOCK_UNLOCKED(mshv_vtl_stats.lock),
++};
++
+ static DEFINE_PER_CPU(struct mshv_vtl_per_cpu, mshv_vtl_per_cpu);
+ 
+ static const union hv_input_vtl input_vtl_zero;
+@@ -649,6 +660,36 @@ static int mshv_vtl_get_set_reg(struct hv_register_assoc *regs, bool set)
+ 	return 1;
+ }
+ 
++static void mshv_vtl_record_transition(bool entering)
++{
++	struct mshv_vtl_cpu_stats *cpu_stats = this_cpu_ptr(&mshv_vtl_stats);
++	struct mshv_vtl_stats *stats = &cpu_stats->stats;
++	u64 now, elapsed;
++
++	raw_spin_lock(&cpu_stats->lock);
++	now = ktime_get_ns();
++
++	if (entering) {
++		if (stats->state == MSHV_VTL_STATS_STATE_VTL2) {
++			elapsed = now - stats->last_exit_ns;
++			stats->vtl2_total_ns += elapsed;
++			stats->vtl2_max_ns = max(stats->vtl2_max_ns, elapsed);
++		}
++		stats->entry_count++;
++		stats->last_entry_ns = now;
++		stats->state = MSHV_VTL_STATS_STATE_LOWER_VTL;
++	} else {
++		elapsed = now - stats->last_entry_ns;
++		stats->lower_vtl_total_ns += elapsed;
++		stats->lower_vtl_max_ns = max(stats->lower_vtl_max_ns, elapsed);
++		stats->exit_count++;
++		stats->last_exit_ns = now;
++		stats->state = MSHV_VTL_STATS_STATE_VTL2;
++	}
++
++	raw_spin_unlock(&cpu_stats->lock);
++}
++
+ static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
+ {
+ 	struct hv_vp_assist_page *hvp;
+@@ -672,7 +713,9 @@ static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
+ 		       min_t(u32, offset, sizeof(hvp->vtl_ret_actions)));
+ 	}
+ 
++	mshv_vtl_record_transition(true);
+ 	mshv_vtl_return_call(vtl0);
++	mshv_vtl_record_transition(false);
+ }
+ 
+ static bool mshv_vtl_process_intercept(void)
+@@ -725,7 +768,6 @@ static int mshv_vtl_ioctl_return_to_lower_vtl(void)
+ 		local_irq_restore(irq_flags);
+ 
+ 		hvp = hv_vp_assist_page[smp_processor_id()];
+-		this_cpu_inc(num_vtl0_transitions);
+ 		switch (hvp->vtl_entry_reason) {
+ 		case MSHV_ENTRY_REASON_INTERRUPT:
+ 			if (!mshv_vsm_capabilities.intercept_page_available &&
+@@ -807,6 +849,29 @@ mshv_vtl_ioctl_set_regs(void __user *user_args)
+ 	return ret;
+ }
+ 
++static long mshv_vtl_ioctl_get_stats(struct mshv_vtl_stats __user *user_stats)
++{
++	struct mshv_vtl_cpu_stats *cpu_stats;
++	struct mshv_vtl_stats stats;
++	unsigned long flags;
++	u32 cpu;
++
++	if (get_user(cpu, &user_stats->cpu))
++		return -EFAULT;
++	if (cpu >= nr_cpu_ids || !cpu_possible(cpu))
++		return -EINVAL;
++
++	cpu_stats = per_cpu_ptr(&mshv_vtl_stats, cpu);
++	if (!raw_spin_trylock_irqsave(&cpu_stats->lock, flags))
++		return -EAGAIN;
++	stats = cpu_stats->stats;
++	stats.cpu = cpu;
++	stats.snapshot_ns = ktime_get_ns();
++	raw_spin_unlock_irqrestore(&cpu_stats->lock, flags);
++
++	return copy_to_user(user_stats, &stats, sizeof(stats)) ? -EFAULT : 0;
++}
++
+ static long
+ mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -826,6 +891,9 @@ mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_RETURN_TO_LOWER_VTL:
+ 		ret = mshv_vtl_ioctl_return_to_lower_vtl();
+ 		break;
++	case MSHV_GET_VTL_STATS:
++		ret = mshv_vtl_ioctl_get_stats((void __user *)arg);
++		break;
+ 	case MSHV_ADD_VTL0_MEMORY:
+ 		ret = mshv_vtl_ioctl_add_vtl0_mem(vtl, (void __user *)arg);
+ 		break;
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 32ff92b6342b2..a15d6eb3b95ab 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -365,6 +365,40 @@ struct mshv_vtl_set_poll_file {
+ 	__u32 fd;
+ };
+ 
++#define MSHV_VTL_STATS_STATE_UNKNOWN	0
++#define MSHV_VTL_STATS_STATE_VTL2		1
++#define MSHV_VTL_STATS_STATE_LOWER_VTL	2
++
++/**
++ * struct mshv_vtl_stats - arguments for MSHV_GET_VTL_STATS
++ * @cpu: Input Linux CPU number; all other fields are output.
++ * @state: Last observed MSHV_VTL_STATS_STATE_* software state.
++ * @entry_count: Number of lower-VTL switch attempts.
++ * @exit_count: Number of switch calls that returned to VTL2.
++ * @last_entry_ns: CLOCK_MONOTONIC timestamp of the last entry attempt.
++ * @last_exit_ns: CLOCK_MONOTONIC timestamp of the last return.
++ * @lower_vtl_total_ns: Total duration of completed entry-to-return intervals.
++ * @lower_vtl_max_ns: Maximum duration of a completed entry-to-return interval.
++ * @vtl2_total_ns: Total duration of completed return-to-next-entry intervals.
++ * @vtl2_max_ns: Maximum duration of a completed return-to-next-entry interval.
++ * @snapshot_ns: CLOCK_MONOTONIC timestamp of this snapshot.
++ *
++ * Durations are elapsed nanoseconds, not exclusive CPU execution time.
++ */
++struct mshv_vtl_stats {
++	__u32 cpu;
++	__u32 state;
++	__u64 entry_count;
++	__u64 exit_count;
++	__u64 last_entry_ns;
++	__u64 last_exit_ns;
++	__u64 lower_vtl_total_ns;
++	__u64 lower_vtl_max_ns;
++	__u64 vtl2_total_ns;
++	__u64 vtl2_max_ns;
++	__u64 snapshot_ns;
++};
++
+ struct mshv_vtl_hvcall_setup {
+ 	__u64 bitmap_array_size; /* stores number of bytes */
+ 	__u64 allow_bitmap_ptr;
+@@ -392,6 +426,7 @@ struct mshv_sint_mask {
+ #define MSHV_ADD_VTL0_MEMORY	_IOW(MSHV_IOCTL, 0x21, struct mshv_vtl_ram_disposition)
+ #define MSHV_SET_POLL_FILE		_IOW(MSHV_IOCTL, 0x25, struct mshv_vtl_set_poll_file)
+ #define MSHV_RETURN_TO_LOWER_VTL	_IO(MSHV_IOCTL, 0x27)
++#define MSHV_GET_VTL_STATS	_IOWR(MSHV_IOCTL, 0x41, struct mshv_vtl_stats)
+ #define MSHV_GET_VP_REGISTERS		_IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
+ #define MSHV_SET_VP_REGISTERS		_IOW(MSHV_IOCTL, 0x06, struct mshv_vp_registers)
+ 
+-- 
+2.43.0
 
