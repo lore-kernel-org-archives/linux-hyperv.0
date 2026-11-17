@@ -1,63 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794903140;
-	b=PrxIIDgeMD/+IRPmHbwudna5NaBb6FJokFo6EdBeUDidXXIEd6Fq+X8u/A1+e5v7C6hD
-	 ExSwzHeVsvjYTvUKyEVR9vXBhV1qLF4Yr0ATFDCIYR1928tVRp0unYEsbEpWOv5eGUkeb
-	 vFpdg/8TXSUWNHOJpIa2Ja4URH5Dc/S9TJwDFdQgP7Kb54Ix9mOIFFiWw7Wy1wql93U8Q
-	 u2q0q/G6ZZtor86fI3TFiqNG41VohygF8cb9RRIrEE2UV8LBlvD7hT8acJxFirE762VYV
-	 ek04uKlFH860SH/25yq4276izk07Tib0Kik9hzEEG78GtIlH91uP23ghMD/1wt03nqQ==
+	t=1794906918;
+	b=2SDn8A33eUb2HWA4peiD3c+ElwaBcaViB6V4Ob74NnmgKCYV8AbuEXloBq5vx1JwD3hP
+	 xSMwrr/09DcBcJjGZd5Q+8r6dI9lHHQWdKExbWaTP4XFMAxKxRYx9PKBLAnJsn4yzAjYT
+	 Y1e04awIbSaJnLDSW5QyZBa8G3UqEcBu0mQ73OlIC/jBj0xL5HDtg/S+skDNQ33ry8sbz
+	 aIsIoCdR+vUYiYCnbr6xK0h9RM20sBf9jleQqx3O2ZCO17f/FjUYKuexqxs02kNLoIkl6
+	 0S+Y4g3JPbKO63pcvj9IAK5vRpGxJNQKSCl35uxP2ggZKi/D3dOy/Q2N6suJLvHHxEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794903140;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794906918;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
 	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
-	b=hqShsea0ZmMd2hHJ3YLuipP1rzkzsVsmJMonqRofs20d3Udb8WkkvXS2tpnxRTbJWH+q
-	 cUpsZ74CnVwlW2usjkWRrm0rzJCAvraGdYM6n2PE/TIMsnPxWICz6sE7H55qVNdqbCwN7
-	 fPGjqYl1x8roOa91sjF3X+B62dYA7e5UrHbPSXr7bPLCfovFz0KXNVovTVTdGDO/f0MnO
-	 N/h9pfIdRnHaNynhdgGym8v2W30SpZV2agY2pgp2E7vN26pt5VWpOLTn6Oo5DMmv4s4Uo
-	 QLY3Aw4GHXOZMtUhCnr/xPex/QidaAaYXe6GxVbWphEdwdvSBc1plIqIAniaUps9/yw==
+	bh=mE/sVYfiR3G/zoT5bsis6mE+ps6fsx8Mq8v4rEbQFew=;
+	b=nn3LcTveRmT/dtvylbCqphMMQltn2iPut6HSFItVI16loYjSuaPRiOefUy/FDc8KXQ6g
+	 FnEqOV4+hk96UyxaLd9za87O/tbnd1dO9V21lowEdrPhgQJ1zpzyuEEkClzn0PW8m5vWt
+	 SEHCgkXWNa+ExiKAxf2hG0mqu/kvGNsnBM7xqwsUy1bJhkj/FX28YjQ1nrh9IdZ57iiqq
+	 8hU8H95UuWsilreu9qRnf9ew7NUpL3G2FdEusgKpNHgjU3POdzle3cHrPwKDYfdKmy/Lt
+	 Yv9VF6K/yOcQoGFM3vPzNT5eSgg2eJo4H2vczEWhQZQRjtnB9Q4hBH06ITl2oxeXclg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=KYHjSD4u;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D873A606A31C;
-	Tue, 17 Nov 2026 08:12:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D873A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 649ED606A31C;
+	Tue, 17 Nov 2026 09:15:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 649ED606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=Y9tcVMbS
-Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 635C320B7169;
-	Tue, 17 Nov 2026 00:12:15 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 635C320B7169
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=KYHjSD4u
+Received: from CPC-namja-026ON.localdomain (unknown [4.213.232.18])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A6DC820B7169;
+	Tue, 17 Nov 2026 01:15:11 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A6DC820B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794903138;
-	bh=3Q56oJu3Qvbb8a5JtiwHd6x9aRZnKCgnczofHs62bK8=;
+	s=default; t=1794906917;
+	bh=mE/sVYfiR3G/zoT5bsis6mE+ps6fsx8Mq8v4rEbQFew=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Y9tcVMbST1MOnDSd7vJyGUU7DbRbUFCN4sgjNlW6uaqZEv18t49SZWrlDyewbiNNw
-	 PRVS2k55hd8avGQAgUqHAtN96AQz1gLmcL12Exp2KqNxffGq0Br2hTX9xtSSBr5c/1
-	 9CHVmwDYla8pjesczn26HlKXdI/BFokxxojJtkRc=
+	b=KYHjSD4u2rUB/1c1nRKVrsS6r6WafgOVmPct5fEsgAa+YBegIV1rYNxaTuKGh90WH
+	 thf1xkAT5SB7oDyIt4T3apiul3NeDLW4G2F0Xg1Y1hvXjTJ72dxHl2OCHI3eRoYorv
+	 GdxXGUu+87kadhgcpMSYvN6Bzz3ipH8KXiCSrmZY=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: haiyangz@microsoft.com,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	namjain@linux.microsoft.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	luto@kernel.org,
+	peterz@infradead.org
+Cc: hpa@zytor.com,
+	riel@surriel.com,
 	mhklinux@outlook.com,
-	muislam@microsoft.com,
-	anbelski@linux.microsoft.com,
+	bigeasy@linutronix.de,
+	zhouchuyi@bytedance.com,
+	houwenlong.hwl@antgroup.com,
+	qq570070308@gmail.com,
+	bastien.curutchet@bootlin.com,
+	namjain@linux.microsoft.com,
+	dianders@chromium.org,
+	jgross@suse.com,
+	hawk@kernel.org,
 	linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] mshv_vtl: Add a per-CPU transition statistics ioctl
-Date: Tue, 17 Nov 2026 08:12:11 +0000
-Message-ID: <20261117081211.2063781-1-namjain@linux.microsoft.com>
+Subject: [PATCH v2 0/5] x86/hyperv: Account for lazy mm_cpumask maintenance
+Date: Tue, 17 Nov 2026 09:15:02 +0000
+Message-ID: <20261117091507.2088642-1-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -70,321 +81,81 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The VTL driver does not expose per-CPU transition counts or timing.
-This information is important to track number of VTL transitions based
-on the use-case, debug issues where a VP gets stuck in VTL2 etc.
-Add MSHV_GET_VTL_STATS IOCTL so userspace can query them and print this
-information periodically or on error handling paths. Report entry and
-return counts, the latest timestamps, and total and maximum interval
-durations. Include the last observed state so userspace
-can calculate the age of an unfinished interval. These are elapsed times,
-not exclusive CPU execution times.
+Lazy mm_cpumask maintenance leaves CPU bits set after switching to another
+address space, with stale memberships removed by native flush callbacks.
+Successful Hyper-V TLB flush hypercalls do not run those callbacks, so
+historical memberships can persist and cause unnecessary remote flushes.
+If the mask covers all present CPUs, the backend selects an all-processor
+flush before reaching its per-CPU lazy-TLB checks.
 
-While at it, remove the unused num_vtl0_transitions counter.
-Add documentation in a generic VTL interface file. Documentation for
-existing ioctls is outside the scope of this patch.
+This was found while investigating a regression between Linux 6.8 and 7.0
+in SuperBench's eight-GPU PyTorch LSTM training on Azure MI300X VMs.
+Recreating DataLoader workers each epoch caused host-to-GPU copy stalls
+and timeouts. The reported bisection identified commit 209954cbc7d0
+("x86/mm/tlb: Update mm_cpumask lazily"). This is distinct from lazy TLB
+mode: a CPU actively running another address space need not be lazy.
 
-Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
----
- Documentation/virt/hyperv/index.rst    |  1 +
- Documentation/virt/hyperv/mshv-vtl.rst | 98 ++++++++++++++++++++++++++
- drivers/hv/mshv_vtl_main.c             | 72 ++++++++++++++++++-
- include/uapi/linux/mshv.h              | 35 +++++++++
- 4 files changed, 204 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/virt/hyperv/mshv-vtl.rst
+Patches 1-3 prepare for target filtering in patch 4 while patch 5 adds
+immediate cleanup.
 
-diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
-index c84c40fd61c91..9fcff8c0f7db8 100644
---- a/Documentation/virt/hyperv/index.rst
-+++ b/Documentation/virt/hyperv/index.rst
-@@ -13,3 +13,4 @@ Hyper-V Enlightenments
-    vpci
-    hibernation
-    coco
-+   mshv-vtl
-diff --git a/Documentation/virt/hyperv/mshv-vtl.rst b/Documentation/virt/hyperv/mshv-vtl.rst
-new file mode 100644
-index 0000000000000..c8038dbdf3ff5
---- /dev/null
-+++ b/Documentation/virt/hyperv/mshv-vtl.rst
-@@ -0,0 +1,98 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+MSHV VTL userspace interface
-+============================
-+
-+The MSHV VTL driver allows a userspace VMM running in VTL2 to manage
-+and run a lower VTL.
-+
-+The ioctls described below operate on a VTL file descriptor returned
-+by ``MSHV_CREATE_VTL``.
-+
-+MSHV_GET_VTL_STATS
-+------------------
-+
-+Return a snapshot of transition counts and timing for one Linux CPU.
-+
-+Set the ``cpu`` field in ``struct mshv_vtl_stats`` before calling the
-+ioctl. All other fields are output. Possible CPUs are accepted even when
-+offline. Statistics are shared across VTL file descriptors and accumulate
-+for the lifetime of the loaded driver.
-+
-+.. kernel-doc:: include/uapi/linux/mshv.h
-+   :identifiers: mshv_vtl_stats
-+
-+Accounting
-+~~~~~~~~~~
-+
-+Each lower-VTL switch attempt increments ``entry_count``. Its return to
-+VTL2 increments ``exit_count``. Every switch in an in-kernel re-entry loop
-+is counted separately. Work or cancellation before a switch does not
-+add a transition.
-+
-+All timestamps and durations use CLOCK_MONOTONIC nanoseconds.
-+
-+* Lower-VTL intervals run from an entry attempt to its return.
-+* VTL2 intervals run from a return to the next entry attempt.
-+* Totals and maxima include completed intervals only.
-+* The initial VTL2 interval before the first entry is not measured.
-+
-+The statistics work without tracing. They measure elapsed time,
-+including switch overhead and descheduling, not exclusive CPU
-+execution time. Only switches made through this driver's x86-64 Hyper-V
-+return path are measured. Intervals are not split by target VTL.
-+
-+There is no reset, histogram, or transition-history buffer. Accounting
-+adds two clock reads and short per-CPU critical sections to each switch.
-+
-+Current interval
-+~~~~~~~~~~~~~~~~
-+
-+The ``state`` field reports the last observed software state:
-+
-+* UNKNOWN: No switch has been recorded. Do not calculate an interval age.
-+* VTL2: Use ``snapshot_ns - last_exit_ns``.
-+* LOWER_VTL: Use ``snapshot_ns - last_entry_ns``.
-+
-+Counts, durations, and transition timestamps are zero before the first
-+switch. The state does not prove that the CPU is currently executing in
-+that VTL. An offline CPU retains its last recorded statistics.
-+
-+Errors
-+~~~~~~
-+
-+* ``EINVAL``: The CPU number is outside the possible CPU set.
-+* ``EAGAIN``: The statistics are busy. Retry later.
-+* ``EFAULT``: The userspace buffer could not be accessed.
-+
-+Reading another CPU's statistics does not send an IPI to that CPU.
-+The per-CPU lock is never held across lower-VTL execution.
-+
-+Example
-+~~~~~~~
-+
-+Using an existing VTL file descriptor::
-+
-+    struct mshv_vtl_stats stats = { .cpu = 0 };
-+
-+    if (ioctl(vtl_fd, MSHV_GET_VTL_STATS, &stats) == -1) {
-+        perror("MSHV_GET_VTL_STATS"); /* Retry later on EAGAIN. */
-+        return -1;
-+    }
-+
-+    printf("cpu=%u state=%u\n"
-+           "entry_count=%llu exit_count=%llu\n"
-+           "last_entry_ns=%llu last_exit_ns=%llu\n"
-+           "lower_vtl_total_ns=%llu lower_vtl_max_ns=%llu\n"
-+           "vtl2_total_ns=%llu vtl2_max_ns=%llu\n"
-+           "snapshot_ns=%llu\n",
-+           stats.cpu, stats.state,
-+           (unsigned long long)stats.entry_count,
-+           (unsigned long long)stats.exit_count,
-+           (unsigned long long)stats.last_entry_ns,
-+           (unsigned long long)stats.last_exit_ns,
-+           (unsigned long long)stats.lower_vtl_total_ns,
-+           (unsigned long long)stats.lower_vtl_max_ns,
-+           (unsigned long long)stats.vtl2_total_ns,
-+           (unsigned long long)stats.vtl2_max_ns,
-+           (unsigned long long)stats.snapshot_ns);
-diff --git a/drivers/hv/mshv_vtl_main.c b/drivers/hv/mshv_vtl_main.c
-index 2d4fe24cecbff..1e21380b04355 100644
---- a/drivers/hv/mshv_vtl_main.c
-+++ b/drivers/hv/mshv_vtl_main.c
-@@ -19,6 +19,8 @@
- #include <linux/poll.h>
- #include <linux/rcupdate.h>
- #include <linux/file.h>
-+#include <linux/spinlock.h>
-+#include <linux/timekeeping.h>
- #include <linux/vmalloc.h>
- #include <asm/debugreg.h>
- #include <asm/mshyperv.h>
-@@ -102,7 +104,16 @@ static union hv_register_vsm_page_offsets mshv_vsm_page_offsets;
- static union hv_register_vsm_capabilities mshv_vsm_capabilities;
- 
- static DEFINE_PER_CPU(struct mshv_vtl_poll_file, mshv_vtl_poll_file);
--static DEFINE_PER_CPU(unsigned long long, num_vtl0_transitions);
-+
-+struct mshv_vtl_cpu_stats {
-+	raw_spinlock_t lock;
-+	struct mshv_vtl_stats stats;
-+};
-+
-+static DEFINE_PER_CPU(struct mshv_vtl_cpu_stats, mshv_vtl_stats) = {
-+	.lock = __RAW_SPIN_LOCK_UNLOCKED(mshv_vtl_stats.lock),
-+};
-+
- static DEFINE_PER_CPU(struct mshv_vtl_per_cpu, mshv_vtl_per_cpu);
- 
- static const union hv_input_vtl input_vtl_zero;
-@@ -649,6 +660,36 @@ static int mshv_vtl_get_set_reg(struct hv_register_assoc *regs, bool set)
- 	return 1;
- }
- 
-+static void mshv_vtl_record_transition(bool entering)
-+{
-+	struct mshv_vtl_cpu_stats *cpu_stats = this_cpu_ptr(&mshv_vtl_stats);
-+	struct mshv_vtl_stats *stats = &cpu_stats->stats;
-+	u64 now, elapsed;
-+
-+	raw_spin_lock(&cpu_stats->lock);
-+	now = ktime_get_ns();
-+
-+	if (entering) {
-+		if (stats->state == MSHV_VTL_STATS_STATE_VTL2) {
-+			elapsed = now - stats->last_exit_ns;
-+			stats->vtl2_total_ns += elapsed;
-+			stats->vtl2_max_ns = max(stats->vtl2_max_ns, elapsed);
-+		}
-+		stats->entry_count++;
-+		stats->last_entry_ns = now;
-+		stats->state = MSHV_VTL_STATS_STATE_LOWER_VTL;
-+	} else {
-+		elapsed = now - stats->last_entry_ns;
-+		stats->lower_vtl_total_ns += elapsed;
-+		stats->lower_vtl_max_ns = max(stats->lower_vtl_max_ns, elapsed);
-+		stats->exit_count++;
-+		stats->last_exit_ns = now;
-+		stats->state = MSHV_VTL_STATS_STATE_VTL2;
-+	}
-+
-+	raw_spin_unlock(&cpu_stats->lock);
-+}
-+
- static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
- {
- 	struct hv_vp_assist_page *hvp;
-@@ -672,7 +713,9 @@ static void mshv_vtl_return(struct mshv_vtl_cpu_context *vtl0)
- 		       min_t(u32, offset, sizeof(hvp->vtl_ret_actions)));
- 	}
- 
-+	mshv_vtl_record_transition(true);
- 	mshv_vtl_return_call(vtl0);
-+	mshv_vtl_record_transition(false);
- }
- 
- static bool mshv_vtl_process_intercept(void)
-@@ -725,7 +768,6 @@ static int mshv_vtl_ioctl_return_to_lower_vtl(void)
- 		local_irq_restore(irq_flags);
- 
- 		hvp = hv_vp_assist_page[smp_processor_id()];
--		this_cpu_inc(num_vtl0_transitions);
- 		switch (hvp->vtl_entry_reason) {
- 		case MSHV_ENTRY_REASON_INTERRUPT:
- 			if (!mshv_vsm_capabilities.intercept_page_available &&
-@@ -807,6 +849,29 @@ mshv_vtl_ioctl_set_regs(void __user *user_args)
- 	return ret;
- }
- 
-+static long mshv_vtl_ioctl_get_stats(struct mshv_vtl_stats __user *user_stats)
-+{
-+	struct mshv_vtl_cpu_stats *cpu_stats;
-+	struct mshv_vtl_stats stats;
-+	unsigned long flags;
-+	u32 cpu;
-+
-+	if (get_user(cpu, &user_stats->cpu))
-+		return -EFAULT;
-+	if (cpu >= nr_cpu_ids || !cpu_possible(cpu))
-+		return -EINVAL;
-+
-+	cpu_stats = per_cpu_ptr(&mshv_vtl_stats, cpu);
-+	if (!raw_spin_trylock_irqsave(&cpu_stats->lock, flags))
-+		return -EAGAIN;
-+	stats = cpu_stats->stats;
-+	stats.cpu = cpu;
-+	stats.snapshot_ns = ktime_get_ns();
-+	raw_spin_unlock_irqrestore(&cpu_stats->lock, flags);
-+
-+	return copy_to_user(user_stats, &stats, sizeof(stats)) ? -EFAULT : 0;
-+}
-+
- static long
- mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- {
-@@ -826,6 +891,9 @@ mshv_vtl_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 	case MSHV_RETURN_TO_LOWER_VTL:
- 		ret = mshv_vtl_ioctl_return_to_lower_vtl();
- 		break;
-+	case MSHV_GET_VTL_STATS:
-+		ret = mshv_vtl_ioctl_get_stats((void __user *)arg);
-+		break;
- 	case MSHV_ADD_VTL0_MEMORY:
- 		ret = mshv_vtl_ioctl_add_vtl0_mem(vtl, (void __user *)arg);
- 		break;
-diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 32ff92b6342b2..a15d6eb3b95ab 100644
---- a/include/uapi/linux/mshv.h
-+++ b/include/uapi/linux/mshv.h
-@@ -365,6 +365,40 @@ struct mshv_vtl_set_poll_file {
- 	__u32 fd;
- };
- 
-+#define MSHV_VTL_STATS_STATE_UNKNOWN	0
-+#define MSHV_VTL_STATS_STATE_VTL2		1
-+#define MSHV_VTL_STATS_STATE_LOWER_VTL	2
-+
-+/**
-+ * struct mshv_vtl_stats - arguments for MSHV_GET_VTL_STATS
-+ * @cpu: Input Linux CPU number; all other fields are output.
-+ * @state: Last observed MSHV_VTL_STATS_STATE_* software state.
-+ * @entry_count: Number of lower-VTL switch attempts.
-+ * @exit_count: Number of switch calls that returned to VTL2.
-+ * @last_entry_ns: CLOCK_MONOTONIC timestamp of the last entry attempt.
-+ * @last_exit_ns: CLOCK_MONOTONIC timestamp of the last return.
-+ * @lower_vtl_total_ns: Total duration of completed entry-to-return intervals.
-+ * @lower_vtl_max_ns: Maximum duration of a completed entry-to-return interval.
-+ * @vtl2_total_ns: Total duration of completed return-to-next-entry intervals.
-+ * @vtl2_max_ns: Maximum duration of a completed return-to-next-entry interval.
-+ * @snapshot_ns: CLOCK_MONOTONIC timestamp of this snapshot.
-+ *
-+ * Durations are elapsed nanoseconds, not exclusive CPU execution time.
-+ */
-+struct mshv_vtl_stats {
-+	__u32 cpu;
-+	__u32 state;
-+	__u64 entry_count;
-+	__u64 exit_count;
-+	__u64 last_entry_ns;
-+	__u64 last_exit_ns;
-+	__u64 lower_vtl_total_ns;
-+	__u64 lower_vtl_max_ns;
-+	__u64 vtl2_total_ns;
-+	__u64 vtl2_max_ns;
-+	__u64 snapshot_ns;
-+};
-+
- struct mshv_vtl_hvcall_setup {
- 	__u64 bitmap_array_size; /* stores number of bytes */
- 	__u64 allow_bitmap_ptr;
-@@ -392,6 +426,7 @@ struct mshv_sint_mask {
- #define MSHV_ADD_VTL0_MEMORY	_IOW(MSHV_IOCTL, 0x21, struct mshv_vtl_ram_disposition)
- #define MSHV_SET_POLL_FILE		_IOW(MSHV_IOCTL, 0x25, struct mshv_vtl_set_poll_file)
- #define MSHV_RETURN_TO_LOWER_VTL	_IO(MSHV_IOCTL, 0x27)
-+#define MSHV_GET_VTL_STATS	_IOWR(MSHV_IOCTL, 0x41, struct mshv_vtl_stats)
- #define MSHV_GET_VP_REGISTERS		_IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
- #define MSHV_SET_VP_REGISTERS		_IOW(MSHV_IOCTL, 0x06, struct mshv_vp_registers)
- 
+Patch 1 rejects VP-set conversion failures that return zero, allowing
+native fallback rather than issuing an empty-target extended hypercall.
+
+Patch 2 makes the native target predicate reusable, retaining its
+context-switch ordering and adding a clearly named callback wrapper.
+
+Patch 3 uses native callbacks for requested mask trimming and global ASID
+transitions. The latter need guest callbacks to switch CPUs still using
+local ASIDs; a Hyper-V invalidation does not do that.
+
+Patch 4 filters targets before selecting either hypercall format or the
+all-processors shortcut. Page-table-freeing flushes remain unfiltered.
+
+Patch 5 separately requests best-effort cleanup when no remote target
+remains after filtering. Lazy memberships may survive this cleanup.
+The cleanup policy remains open for discussion.
+
+The suggested mask-weight > mm_users heuristic was tested as a replacement
+for patch 5's approach on a 32-vCPU Hyper-V VM. With three remote readers,
+mm_users was 4 while lazy memberships kept mask weights at 26-32. The
+heuristic requested trimming for all 10,000 flushes, and each reader
+received 10,000 remote callbacks. The scoped approach used Hyper-V
+hypercalls instead. A doubled threshold or rate-limited policy has not
+been tested.
+
+Earlier testing of the monolithic patch reduced the 32-vCPU all-history
+reproducer from 17.235 us to 1.622 us per iteration (two mprotect() calls
+and a write). The reporter's application hit the 600-second timeout on the
+unpatched 96-vCPU VM and completed in 424 and 436 seconds with the patch.
+
+Changes since v1:
+https://lore.kernel.org/all/20261029064234.362385-1-namjain@linux.microsoft.com/
+* Split the change into five patches with separate explanations (Dave).
+* Add the workload and regression context (Michael).
+* Explain the ASID fallback separately from the reported regression (Dave).
+* Keep related predicate/wrapper names and comment the definition rather
+  than the header declaration (Dave).
+* Explain target filtering, page-table freeing, and the no-remote-target
+  cleanup condition. Document the const copy and lazy-membership limit
+  (Dave).
+* Test the mm_users heuristic and retain scoped cleanup as a separate
+  policy discussion (Dave).
+* Omit Fixes tags and stable requests (Dave).
+* Rebase onto next-20261116.
+
+Naman Jain (5):
+  x86/hyperv: Reject unrepresentable TLB flush VP sets
+  x86/tlb: Make the conditional flush predicate reusable
+  x86/hyperv: Use native callbacks for trimming and ASID transitions
+  x86/hyperv: Filter TLB targets before building hypercalls
+  x86/hyperv: Request mask cleanup when no remote target remains
+
+ arch/x86/hyperv/mmu.c           | 71 +++++++++++++++++++++++----------
+ arch/x86/include/asm/tlbflush.h |  1 +
+ arch/x86/mm/tlb.c               | 18 +++++++--
+ 3 files changed, 65 insertions(+), 25 deletions(-)
+
+
+base-commit: 749a4de370409464cf8501ec5b2451df45c84eb4
 -- 
 2.43.0
-
