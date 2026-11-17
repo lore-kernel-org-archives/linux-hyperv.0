@@ -1,69 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794948583;
-	b=bxilC4SfBRUOl4f3OuHpqI3k5R2DwWmte86biBG40wYdtlz6s9a0u1VoDAMGvv0yFZ6d
-	 7TOesngBmGk9hbU20jpHWd5I8PfzOTQUojZoO29//K8wFWqHV0+s0vTSsijLwuk3MWSVs
-	 r18umAHCpeeD4RxhwHlCUfa7i7qFJHAm+DwgriWgEWZAjddfUKoWbHDafuBBmXF1FngMJ
-	 bzqIh5yfy6e6eVqrSVZb0zSzlqmf9Zcov+nHR3VntjaqOVa6YKL6fVwrLjnUAoV7ghIlD
-	 dmff/4kdO350LFZWiGFRsy9RWdZq8TdSZyQK+S8bxd3g6Xj3tfYFpIuhZzAKRF7lA1A==
+	t=1794956979;
+	b=VvKaM6t5K6aIlf0u/PZnKIiMViCTGH/m83RWhZNgmBckmioohlu7u/UcEOljbAtIuXfE
+	 81NreGLrT5pvWGkYTHkPcjyPqzW+VGh2IK285SLuOa4Q/3jkxotwIWzJx8c4XEhZUZG6W
+	 ktWr2t9NLi/QWFY99HqTCyDMPi2h5vTXWTb2IRcNLosvV7KGDogWa2aB1ndd94xmgOxjW
+	 FOeBGdJ65czPSwfmZQLRL7kLmnubToq+IEfNMbePbINY67XNR2xo+xVx7e8he8ozsxHhx
+	 s7Oy2hTfIBqKZgRxgwXZtTs96EflGxZCRe3ECjjjLyO3tpituQ5r9lX95mpvA3Zi6zQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794948583;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=NUlEEEDBCi1bmyvHfQ+uHqyviSTkLqSCmjkjTwlp/4E=;
-	b=uFHlToUlZtN2MidU5X2ze28iMbFXovh8CeyO+4rjm0gxY93joRBCQB/bV1k2WZ6L4qCk
-	 o5L15iembnIwH4J79kkdlCUzvSQz9mtr8Mps8S+im1tMlnRtNcGhXwAczgoPeKB7lrV7z
-	 uAve8lfJQ9sj+qTum08GO15bixKcf65X7dSoBJ4wbyHLaGA7YLg2I3f/CSelt+IKFnovI
-	 fF76+L1cM5J5sW0rKuCtJC0dtd5BeVAMjZwXSDKpkK/TLgiwqLgcXrIzBmXDf1cSNmRTH
-	 MejuuBKB6rfhzQOi/L2w/uXMtqIdEmjEdensl5wJ8XZuQb04uKtCrdw4f067ajuRtDQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794956979;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=KmW5WBJWmVnFMziNJgQZ039kaABRRBYmSmOfckGsXpE=;
+	b=aZdWZ49TwoFthoNzsVvZBt4rOhGjqQnCLEebpTO+ZYoBvEGhTG5Uld89tVC1iBsfYi8o
+	 Dohn7rgSv+Bp+a8yl92DeqqTCahFWx1DvlrtY4I++wbjx6DZwF8R/KdSo01K7aZ79wd1S
+	 X0U0lHUVEtWMu3lbiEx7jTHoaebsmZ4zmjoFnKnHxax6Hnc1umvTPKSaPxPsIhqWA59nw
+	 3RZYyv3bpDEEtyN68jLhZHeSBHKGRXkiHM7R4kI0MZDAyR/qtyoQA4AraK3L2MUlGDcT3
+	 g5UplrXerCTKLxCx/f7mVDTQ5b12UuK/Ql9e38O7bp6ct6ca6yyetP2+Do6YpbscTZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CgBaa5QG;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=cslWmA0f;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E3DF606A332;
-	Tue, 17 Nov 2026 20:49:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E3DF606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93CDC606A31C;
+	Tue, 17 Nov 2026 23:09:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93CDC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=CgBaa5QG
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 6AF4420B7169; Tue, 17 Nov 2026 12:49:42 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6AF4420B7169
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=cslWmA0f
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8DE0420B7169;
+	Tue, 17 Nov 2026 15:09:36 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8DE0420B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794948582;
-	bh=NUlEEEDBCi1bmyvHfQ+uHqyviSTkLqSCmjkjTwlp/4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CgBaa5QGQtOh/TcWsiMX82jOM3XZr32kyyK4Ir6OTclO7GpkHXDk1W7m8F+isOUiy
-	 g79hBs7fQCC6x9TtpqQqFZbm6JuEaw1QUDPZ+fY8fs+ofAqDhYF9d3POLONrHyxBs7
-	 wCCqixEn2QxJ1gVR5lYxZHd89w6zD3jY5zuK3PQM=
-Date: Tue, 17 Nov 2026 15:49:42 -0500
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: Haiyang Zhang <haiyangz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Wei Hu <weh@microsoft.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Simon Horman <horms@kernel.org>, Long Li <longli@microsoft.com>,
-	Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
-	Aditya Garg <gargaditya@linux.microsoft.com>,
-	Dipayaan Roy <dipayanroy@linux.microsoft.com>,
-	Manish Awasthi <mawasthi@linux.microsoft.com>,
-	Breno Leitao <leitao@debian.org>, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, paulros@microsoft.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net] net: mana: Set 1 usec / 1 comp as default and
- minimum interrupt moderation
-Message-ID: <avy95r1UiCvvgRjD@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20261113204427.1922848-1-haiyangz@linux.microsoft.com>
+	s=default; t=1794956976;
+	bh=KmW5WBJWmVnFMziNJgQZ039kaABRRBYmSmOfckGsXpE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cslWmA0fpIL5uuhTxjjaXdDqtdWFQzTwEFOgzoMolq7A59xMALVF+Ca2JSX5KYmRm
+	 o7svpnQwbNjcExg32+g75tQeYBujD0MUhrEQl3bxLngq28EIeQwKaU75MC0mLNGTtS
+	 A7oGxRFD/A9UjGBEdFbRT8Uf4JqVeSoXnoOYM/Q4=
+Message-ID: <bb569c87-1a60-c498-98e4-db519e4d7d24@linux.microsoft.com>
+Date: Tue, 17 Nov 2026 15:09:36 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -73,297 +53,397 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113204427.1922848-1-haiyangz@linux.microsoft.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V1 2/2] Drivers: hv: Fix bugs and issues around repeat
+ hypercall
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "kameroncarr@linux.microsoft.com" <kameroncarr@linux.microsoft.com>
+References: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
+ <20261114025313.1257042-3-mrathor@linux.microsoft.com>
+ <MN2PR02MB6863E6C4F59864B7833681FCD47D2@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <fd130973-25d6-e706-6822-793f12ba2015@linux.microsoft.com>
+ <MN2PR02MB68639EE1AC00187FDA3D5A42D47B2@MN2PR02MB6863.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <MN2PR02MB68639EE1AC00187FDA3D5A42D47B2@MN2PR02MB6863.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 13, 2026 at 12:44:04PM -0800, Haiyang Zhang wrote:
-> From: Haiyang Zhang <haiyangz@microsoft.com>
+On 11/17/26 09:41, Michael Kelley wrote:
+> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Monday, November 16, 2026 6:29 PM
+>>
+>> On 11/15/26 15:48, Michael Kelley wrote:
+>>> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Friday, November 13, 2026 6:53 PM
+>>>>
+>>>> There are few issues/bugs around repeat hypercall:
+>>>>    o If the hypercall fails, it could still have processed some entries.
+>>>>      Fix places where it assumes none of the entries were processed and will
+>>>>      try to undo entries already processed or print incorrect completions.
+>>>>
+>>>>    o Hypercall returns back with timeouts only for HW confidential VMs. In
+>>>>      that case it should be retried instead of returning back. Returning back
+>>>>      results in error conditions and take down of VMs in most cases.
+>>>>
+>>>>    o For non confidential VMs, the hypercall could be streamlined as it will
+>>>>      never return back with timeouts.
+>>>>
+>>>>    o Rename HV_STATUS_TIME_OUT to HV_STATUS_TIMEOUT to match hypervisor
+>>>>      public header file. There is no reason for it to be different.
+>>>>
+>>>>    o Minor formatting fix for checkpatch. Error printing missing in couple
+>>>>      places when rep hypercall fails.
 > 
-> The existing code sets interrupt moderation defaults to 0 usec and 0
-> completions, which may cause CQ starvation of our NIC HW, and TX time
-> out error like:
-> mana 7870:00:00.0 ens1: NETDEV WATCHDOG: CPU: 14: transmit queue 4 timed out 63434 ms
+> In my view, the changes to the call sites of hv_do_rep_hypercall() should
+> be in a separate patch. These are just bugs in how the undo is handled
+> in case of an error, and the fixes presumably want to backported.
 > 
-> To fix, change the default and minimal rx/tx usecs and frames to 1.
-> When the HW supports interrupt moderation, reject ethtool rx/tx usecs
-> and frames below 1.
-> Also clamp the values written by mana_gd_ring_dim() to [1, max], so
-> no caller, including the DIM work, programs a zero value.
-> On the HW without interrupt moderation support, do not request CQ
-> moderation, the usecs and frames stay at 0, and cannot be modified by
-> ethtool.
-> The PF capability is queried again when the device resumes from a
-> reset or suspend, so re-initialize these settings before re-attaching
-> the vPorts.
+> Handling a TIMEOUT return should also be a separate patch. This is
+> also a bug and the fix should be backported. The TIMEOUT is
+> generated under a specific set of circumstances -- it's not a generic
+> error. The patch should describe how and why those circumstances arise
+> in the overall context of hypercall continuation. There's not any such
+> documentation elsewhere, so the info should be captured in the
+> patch commit message or code comments for future reference.
 > 
-> Advertise this change to the PF with the new driver capability flag
-> GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 433f482add31 ("net: mana: Add Interrupt Moderation support")
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+> Finally, if the looping behavior in a normal VM is to be removed,
+> that would be a third patch. Given that this changes long-standing
+> behavior, some explanation of "why" is needed in the commit
+> message. I don't think this change should be backported.
 
-Tested-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Reviewed-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+The looping behavior is tied to timeout, so I think it could be two
+instead of 3 splits...
 
-> ---
->  .../net/ethernet/microsoft/mana/gdma_main.c   |  5 ++
->  drivers/net/ethernet/microsoft/mana/mana_en.c | 76 +++++++++++++------
->  .../ethernet/microsoft/mana/mana_ethtool.c    | 26 +++++--
->  include/net/mana/gdma.h                       |  6 +-
->  include/net/mana/mana.h                       |  9 ++-
->  5 files changed, 88 insertions(+), 34 deletions(-)
+>>>>
+>>>> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
+>>>
+>>> [snip]
+>>>
+>>>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+>>>> index 396bcb3db0bc..87c784b9daa6 100644
+>>>> --- a/include/asm-generic/mshyperv.h
+>>>> +++ b/include/asm-generic/mshyperv.h
+>>>> @@ -28,6 +28,9 @@
+>>>>
+>>>>    #define VTPM_BASE_ADDRESS 0xfed40000
+>>>>
+>>>> +#define HV_REP_COUNT_MAX	\
+>>>> +	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
+>>>
+>>> Sashiko noted that this new #define is never used anywhere.
+>>>
+>>>> +
+>>>>    enum hv_partition_type {
+>>>>    	HV_PARTITION_TYPE_GUEST,
+>>>>    	HV_PARTITION_TYPE_ROOT,
+>>>> @@ -128,6 +131,11 @@ static inline bool hv_result_success(u64 status)
+>>>>    	return hv_result(status) == HV_STATUS_SUCCESS;
+>>>>    }
+>>>>
+>>>> +static inline bool hv_result_timeout(u64 status)
+>>>> +{
+>>>> +	return hv_result(status) == HV_STATUS_TIMEOUT;
+>>>> +}
+>>>> +
+>>>>    static inline unsigned int hv_repcomp(u64 status)
+>>>>    {
+>>>>    	/* Bits [43:32] of status have 'Reps completed' data. */
+>>>> @@ -135,45 +143,63 @@ static inline unsigned int hv_repcomp(u64 status)
+>>>>    			 HV_HYPERCALL_REP_COMP_OFFSET;
+>>>>    }
+>>>>
+>>>> -/*
+>>>> - * Rep hypercalls. Callers of this functions are supposed to ensure that
+>>>> - * rep_count, varhead_size, and rep_start comply with Hyper-V hypercall
+>>>> - * definition.
+>>>> - */
+>>>> -static inline u64 hv_do_rep_hypercall_ex(u16 code, u16 rep_count,
+>>>> -					 u16 varhead_size, u16 rep_start,
+>>>> -					 void *input, void *output)
+>>>> +static inline u64 hv_do_rep_hypercall_reg(u16 code, u16 rep_count,
+>>>> +					  u16 varhead_size, u16 rep_start,
+>>>> +					  void *input, void *output)
+>>>>    {
+>>>>    	u64 control = code;
+>>>> -	u64 status;
+>>>> -	u16 rep_comp;
+>>>>
+>>>>    	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
+>>>>    	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
+>>>>    	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
+>>>>
+>>>> -	do {
+>>>
+>>> Dropped the looping behavior here may be much more significant
+>>> than just "streamlining" as described in the commit message. The looping
+>>> behavior was included when rep hypercalls were originally added in
+>>> commit 806c89273bab in kernel 4.14, long before any SNP/TDX/CCA
+>>> functionality was added. So it was present for "normal" VMs doing
+>>> hypercalls on x86/x64 the normal way. The looping ensured that
+>>> rep hypercalls could not return with no errors but with the completed
+>>> rep count less than the requested rep count.
+>>>
+>>> However, in my mind it *is* debatable whether that scenario could
+>>> ever occur. The Hyper-V TLFS describes "Hypercall Continuation" [1]
+>>> as essentially transparent to the caller. If a rep hypercall stops
+>>> processing reps because of hitting the 50 microsecond time limit,
+>>> it should restart and continue with the next set of reps without
+>>> the caller having to loop. Commit 806c89273bab mentions
+>>> hypercall continuation, but does not describe why the explicit
+>>> looping was added or how that aligns with the TLFS statements.
+>>> Vitaly -- it was a long time ago, but do you have any recollection?
+>>>
+>>> Have you gotten an explicit assurance from the Hyper-V team
+>>> that the transparent hypercall continuation really does work,
+>>> and the explicit looping has all along been unnecessary? This
+>>
+>> Correct, hence the patch. Waiting on confirmation that it is
+>> same behavior all the way back to server 2016.
+
+Confirming, that it is same behavior all the way back to 2016.
+
+> Sounds good. FWIW, old TLFS version 2.0A, which is specifically
+> titled to cover Windows Server 2008 R2, has the paragraph
+> about hypercall continuation. So that functionality was evidently
+> present very early on. It is still curious that Vitaly found it
+> necessary to include the looping behavior in the Linux guest
+> code.
+  
+Maybe Vitaly was running into a genuine bug, not sure.
+
+>>
+>> Basically, the hypervisor will just adjust the RIP back to the
+>> vmcall upon internal timeouts, and reschedule the vcpu. But for
+>> hw confidential vms, ie, tdx/snp/cca, it cannot adjust the RIP,
+>> hence return back to the guest with TIMEOUT, so cvm has to do in
+>> a loop.
+>>
+>> Now, for paravisor support, I was just told by a paravisor team
+>> dev, that it will never return with TIMEOUTs. My view on that set
+>> aside, I guess for paravisor we'll just call the _reg function
+>> then.  Thanks for bringing attention to that...
 > 
-> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> index ab942d5bfe05..10be69e97ceb 100644
-> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-> @@ -646,6 +646,11 @@ void mana_gd_ring_dim(struct gdma_queue *cq, u32 mod_usec, bool mod_usec_vld,
->  	struct gdma_context *gc = cq->gdma_dev->gdma_context;
->  	u32 dim_val;
->  
-> +	mod_usec = clamp_t(u32, mod_usec, MANA_INTR_MODR_USEC_MIN,
-> +			   MANA_INTR_MODR_USEC_MAX);
-> +	mod_comps = clamp_t(u32, mod_comps, MANA_INTR_MODR_COMP_MIN,
-> +			    MANA_INTR_MODR_COMP_MAX);
-> +
->  	/* Convert the DIM values to doorbell parameters */
->  	dim_val = FIELD_PREP(MANA_INTR_MODR_USEC_MAX, mod_usec) |
->  		  FIELD_PREP(MANA_INTR_MODR_COMP_MASK, mod_comps);
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 7e9223143fc7..95bf153c3e1a 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> @@ -2515,9 +2515,6 @@ static void mana_rx_dim_work(struct work_struct *work)
->  	cur_moder = net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
->  	cq = container_of(dim, struct mana_cq, dim);
->  
-> -	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
-> -	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
-> -
->  	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
->  			 cur_moder.pkts, true);
->  
-> @@ -2533,9 +2530,6 @@ static void mana_tx_dim_work(struct work_struct *work)
->  	cur_moder = net_dim_get_tx_moderation(dim->mode, dim->profile_ix);
->  	cq = container_of(dim, struct mana_cq, dim);
->  
-> -	cur_moder.usec = min_t(u16, cur_moder.usec, MANA_INTR_MODR_USEC_MAX);
-> -	cur_moder.pkts = min_t(u16, cur_moder.pkts, MANA_INTR_MODR_COMP_MAX);
-> -
->  	mana_gd_ring_dim(cq->gdma_cq, cur_moder.usec, true,
->  			 cur_moder.pkts, true);
->  
-> @@ -2871,10 +2865,15 @@ static int mana_create_txq(struct mana_port_context *apc,
->  		cq_spec.modr_ctx_id = 0;
->  		cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
->  
-> -		/* DIM setting can be changed at runtime */
-> -		cq_spec.req_cq_moderation = true;
-> -		cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
-> -		cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
-> +		/* Request CQ moderation only if HW supports it.
-> +		 * DIM setting can be changed at runtime.
-> +		 */
-> +		if (gc->pf_cap_flags1 &
-> +		    GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
-> +			cq_spec.req_cq_moderation = true;
-> +			cq_spec.cq_moderation_usec = apc->intr_modr_tx_usec;
-> +			cq_spec.cq_moderation_comp = apc->intr_modr_tx_comp;
-> +		}
->  
->  		err = mana_create_wq_obj(apc, apc->port_handle, GDMA_SQ,
->  					 &wq_spec, &cq_spec,
-> @@ -3206,10 +3205,14 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
->  	cq_spec.modr_ctx_id = 0;
->  	cq_spec.attached_eq = cq->gdma_cq->cq.parent->id;
->  
-> -	/* DIM setting can be changed at runtime */
-> -	cq_spec.req_cq_moderation = true;
-> -	cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
-> -	cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
-> +	/* Request CQ moderation only if HW supports it.
-> +	 * DIM setting can be changed at runtime.
-> +	 */
-> +	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
-> +		cq_spec.req_cq_moderation = true;
-> +		cq_spec.cq_moderation_usec = apc->intr_modr_rx_usec;
-> +		cq_spec.cq_moderation_comp = apc->intr_modr_rx_comp;
-> +	}
->  
->  	err = mana_create_wq_obj(apc, apc->port_handle, GDMA_RQ,
->  				 &wq_spec, &cq_spec, &rxq->rxobj);
-> @@ -3894,6 +3897,40 @@ int mana_detach(struct net_device *ndev, bool from_close)
->  	return 0;
->  }
->  
-> +/* Match the interrupt moderation settings to the PF capability, which is
-> + * queried again when the device resumes from a reset or suspend. Must be
-> + * called before the queues are created.
-> + */
-> +static void mana_init_intr_modr(struct mana_port_context *apc)
-> +{
-> +	struct gdma_context *gc = apc->ac->gdma_dev->gdma_context;
-> +
-> +	if (!(gc->pf_cap_flags1 &
-> +	      GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
-> +		apc->intr_modr_rx_usec = 0;
-> +		apc->intr_modr_rx_comp = 0;
-> +		apc->intr_modr_tx_usec = 0;
-> +		apc->intr_modr_tx_comp = 0;
-> +		apc->rx_dim_enabled = false;
-> +		apc->tx_dim_enabled = false;
-> +		return;
-> +	}
-> +
-> +	/* Keep the current settings, unless they were never initialized
-> +	 * because the port was probed without the capability.
-> +	 */
-> +	if (apc->intr_modr_rx_usec && apc->intr_modr_rx_comp &&
-> +	    apc->intr_modr_tx_usec && apc->intr_modr_tx_comp)
-> +		return;
-> +
-> +	apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
-> +	apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
-> +	apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
-> +	apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
-> +	apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
-> +	apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
-> +}
-> +
->  static int mana_probe_port(struct mana_context *ac, int port_idx,
->  			   struct net_device **ndev_storage)
->  {
-> @@ -3924,15 +3961,7 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
->  	apc->cqe_coalescing_enable = 0;
->  	apc->cqe8_coalescing_enable = 0;
->  
-> -	/* Initialize interrupt moderation settings if supported by HW */
-> -	if (gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION) {
-> -		apc->intr_modr_rx_usec = MANA_INTR_MODR_USEC_DEF;
-> -		apc->intr_modr_rx_comp = MANA_INTR_MODR_COMP_DEF;
-> -		apc->intr_modr_tx_usec = MANA_INTR_MODR_USEC_DEF;
-> -		apc->intr_modr_tx_comp = MANA_INTR_MODR_COMP_DEF;
-> -		apc->rx_dim_enabled = MANA_ADAPTIVE_RX_DEF;
-> -		apc->tx_dim_enabled = MANA_ADAPTIVE_TX_DEF;
-> -	}
-> +	mana_init_intr_modr(apc);
->  
->  	mutex_init(&apc->vport_mutex);
->  	apc->vport_use_count = 0;
-> @@ -4256,6 +4285,7 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
->  			enable_work(&apc->queue_reset_work);
->  			netdev_lock(ac->ports[i]);
->  			apc->link_cfg_error = 1;
-> +			mana_init_intr_modr(apc);
->  			netdev_unlock(ac->ports[i]);
->  			err = mana_attach(ac->ports[i]);
->  			rtnl_unlock();
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> index 4068e08acb16..96aabf7a8f08 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-> @@ -505,9 +505,12 @@ static int mana_set_coalesce(struct net_device *ndev,
->  	bool dim_changed = false;
->  	struct gdma_context *gc;
->  	u32 max_cqe_frames;
-> +	bool modr_sup;
->  	int err;
->  
->  	gc = apc->ac->gdma_dev->gdma_context;
-> +	modr_sup = gc->pf_cap_flags1 &
-> +		   GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION;
->  	max_cqe_frames = gc->cqe8_coalescing_sup ? MANA_CQE_COAL_PKTS_8 :
->  						   MANA_RXCOMP_OOB_NUM_PPI;
->  
-> @@ -517,7 +520,7 @@ static int mana_set_coalesce(struct net_device *ndev,
->  	if ((ec->use_adaptive_rx_coalesce || ec->use_adaptive_tx_coalesce ||
->  	     ec->rx_coalesce_usecs || ec->tx_coalesce_usecs ||
->  	     ec->rx_max_coalesced_frames || ec->tx_max_coalesced_frames) &&
-> -	    !(gc->pf_cap_flags1 & GDMA_PF_CAP_FLAG_1_DYN_INTERRUPT_MODERATION)) {
-> +	    !modr_sup) {
->  		NL_SET_ERR_MSG(extack,
->  			       "Interrupt Moderation is not supported by HW");
->  		return -EOPNOTSUPP;
-> @@ -534,18 +537,27 @@ static int mana_set_coalesce(struct net_device *ndev,
->  		return -EINVAL;
->  	}
->  
-> -	if (ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
-> -	    ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX) {
-> +	/* Without the HW capability, only zero values pass the check above */
-> +	if (modr_sup &&
-> +	    (ec->rx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
-> +	     ec->tx_coalesce_usecs < MANA_INTR_MODR_USEC_MIN ||
-> +	     ec->rx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX ||
-> +	     ec->tx_coalesce_usecs > MANA_INTR_MODR_USEC_MAX)) {
->  		NL_SET_ERR_MSG_FMT(extack,
-> -				   "coalesce usecs must be <= %lu",
-> +				   "coalesce usecs must be between %d and %lu",
-> +				   MANA_INTR_MODR_USEC_MIN,
->  				   MANA_INTR_MODR_USEC_MAX);
->  		return -EINVAL;
->  	}
->  
-> -	if (ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
-> -	    ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX) {
-> +	if (modr_sup &&
-> +	    (ec->rx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
-> +	     ec->tx_max_coalesced_frames < MANA_INTR_MODR_COMP_MIN ||
-> +	     ec->rx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX ||
-> +	     ec->tx_max_coalesced_frames > MANA_INTR_MODR_COMP_MAX)) {
->  		NL_SET_ERR_MSG_FMT(extack,
-> -				   "coalesce frames must be <= %lu",
-> +				   "coalesce frames must be between %d and %lu",
-> +				   MANA_INTR_MODR_COMP_MIN,
->  				   MANA_INTR_MODR_COMP_MAX);
->  		return -EINVAL;
->  	}
-> diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
-> index 29d152e18596..6191ddddc27f 100644
-> --- a/include/net/mana/gdma.h
-> +++ b/include/net/mana/gdma.h
-> @@ -776,6 +776,9 @@ enum {
->  /* Driver supports handling throttled EQEs */
->  #define GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE BIT_ULL(32)
->  
-> +/* Enforce min 1 usec, 1 frames for Interrupt Moderation */
-> +#define GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE BIT_ULL(33)
-> +
->  /* Capabilities in the PCI-only group below rely on dynamic MSI-X allocation
->   * and on the servicing and reset paths reached through
->   * mana_schedule_serv_work(). Transports that provide neither leave
-> @@ -801,7 +804,8 @@ enum {
->  	 GDMA_DRV_CAP_FLAG_1_EQ_MSI_UNSHARE_MULTI_VPORT | \
->  	 GDMA_DRV_CAP_FLAG_1_DYN_INTERRUPT_MODERATION | \
->  	 GDMA_DRV_CAP_FLAG_1_NON_CONTIGUOUS_BUFFERS | \
-> -	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE)
-> +	 GDMA_DRV_CAP_FLAG_1_THROTTLED_EVENT_QUEUE | \
-> +	 GDMA_DRV_CAP_FLAG_1_SET_MIN_INTR_MOD_VALUE)
->  
->  #define GDMA_DRV_CAP_FLAGS2 0
->  
-> diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-> index 218d540bc994..84afc4199e87 100644
-> --- a/include/net/mana/mana.h
-> +++ b/include/net/mana/mana.h
-> @@ -74,9 +74,12 @@ enum mana_priv_flag_bits {
->  /* 8-pkt mode packs up to 2 packets per PPI entry */
->  #define MANA_CQE_COAL_PKTS_8 8
->  
-> -/* Default/max interrupt moderation settings */
-> -#define MANA_INTR_MODR_USEC_DEF 0
-> -#define MANA_INTR_MODR_COMP_DEF 0
-> +/* Default/min interrupt moderation settings */
-> +#define MANA_INTR_MODR_USEC_DEF 1
-> +#define MANA_INTR_MODR_COMP_DEF 1
-> +
-> +#define MANA_INTR_MODR_USEC_MIN 1
-> +#define MANA_INTR_MODR_COMP_MIN 1
->  
->  #define MANA_ADAPTIVE_RX_DEF true
->  #define MANA_ADAPTIVE_TX_DEF true
-> -- 
-> 2.53.0
+> Yes, that would be what I expected.
 > 
+>>
+>>> assurance would be needed back to and including Windows
+>>> Server 2016, which is now the oldest Hyper-V version supported
+>>> by Linux. Also note that the rep hypercall code is architecture
+>>> independent, so the transparent hypercall continuation would
+>>> also need to work on arm64 when the hypercall is invoked via
+>>> the standard path of using the HVC instruction (the TLFS doesn't
+>>> cover arm64, so this is unclear).
+>>
+>> Both x86 and arm are same for this issue.
+> 
+> OK, good.
+> 
+>>
+>>> If you have such assurance, then I'm good with the removal of
+>>> the looping. But please make the removal a separate patch, with
+>>> sufficient discussion in the commit message to justify why it's OK
+>>> to do the removal (including that evidently the original commit
+>>> misinterpreted how continuation worked). And instead of looping,
+>>> perhaps do a sanity check that the completed rep count matches
+>>> the requested rep count.
+>>
+>> Not sure if it's worth the overhead of sanity check, looks like
+>> callers are checking completed and loop anyways... But I would
+>> be OK with BUG(), since it would be a bug for that to happen. FWIW,
+>> it's been running internally with couple months, and haven't seen
+>> any issues.
+>>
+>>
+>>> Without such assurance, I think the looping needs to stay. Callers
+>>> are not prepared for a rep hypercall to return with no errors, but
+>>> with the completed rep count less than the requested rep count.
+>>>
+>>> [1] https://learn.microsoft.com/en-us/virtualization/hyper-v-on-
+>> windows/tlfs/hypercall-interface#hypercall-continuation
+>>>
+>>>> +	return hv_do_hypercall(control, input, output);
+>>>> +}
+>>>> +
+>>>> +static inline u64 hv_do_rep_hypercall_cvm(u16 code, u16 rep_count,
+>>>> +					  u16 varhead_size, u16 rep_start,
+>>>> +					  void *input, void *output)
+>>>> +{
+>>>> +	u64 status, control = code;
+>>>> +	u16 rep_comp = 0;
+>>>> +
+>>>> +	control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
+>>>> +	control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
+>>>> +	control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
+>>>> +
+>>>> +	for (;;) {
+>>>>    		status = hv_do_hypercall(control, input, output);
+>>>> -		if (!hv_result_success(status))
+>>>> +
+>>>> +		if (!hv_result_timeout(status))
+>>>>    			return status;
+>>>>
+>>>>    		rep_comp = hv_repcomp(status);
+>>>> -
+>>>>    		control &= ~HV_HYPERCALL_REP_START_MASK;
+>>>>    		control |= (u64)rep_comp << HV_HYPERCALL_REP_START_OFFSET;
+>>>>
+>>>>    		touch_nmi_watchdog();
+>>>> -	} while (rep_comp < rep_count);
+>>>> +	}
+>>>>
+>>>>    	return status;
+>>>
+>>> And Sashiko noted that this "return status" is dead code. The only
+>>> way to exit this function is via the "return status" up in the loop.
+>>>
+>>>>    }
+>>>>
+>>>> -/* For the typical case where rep_start is 0 */
+>>>> +/*
+>>>> + * Rep hypercalls for HW confidential VMs return back when timeouts occur,
+>>>> + * whereas for regular VMs they return only on success or failure. In case
+>>>> + * of successful completion, entire rep_count is done. But a hypercall could
+>>>> + * fail with partial completions, hence callers must always check that
+>>>> + * in case of failure. Lastly, a rep_count value of 0 is allowed for some
+>>>> + * hypercalls.
+>>>> + */
+>>>>    static inline u64 hv_do_rep_hypercall(u16 code, u16 rep_count, u16 varhead_size,
+>>>>    				      void *input, void *output)
+>>>>    {
+>>>> -	return hv_do_rep_hypercall_ex(code, rep_count, varhead_size, 0,
+>>>> -				      input, output);
+>>>> +	if (hv_isolation_type_hw())
+>>>
+>>> I don't think this is the right test, so let me explain. You don't describe the
+>>> context for when HV_STATUS_TIMEOUT may be returned, and there's no
+>>> TLFS documentation of this status, but I'm assuming the context is hypercall
+>>> continuation. This isn't the typical "something isn't responding" timeout. I
+>>> suspect it means the hypervisor hit the 50 us limit, and returned to the guest
+>>> VM with some reps still to be done. In a normal VM when a hypercall is
+>>> initiated by the hypercall page on x86/x64 or the HVC instruction on arm64,
+>>> the transparent hypercall continuation mechanism makes a TIMEOUT status
+>>> unnecessary. But with SNP, TDX, and CCA, hypercall invocation may be
+>>> piggybacked on other transports, and transparent continuation isn't available.
+>>> So Hyper-V returns HV_STATUS_TIMEOUT with the expectation that the
+>>> invoking code will loop to do the remaining reps.
+>>>
+>>> The key factor is whether the hypercall is piggybacked on other transports.
+>>> The tests in hv_isolation_type_hw() don't capture that. For example, if
+>>> a paravisor is present, hv_isolation_type_snp() will return "true" even
+>>> though hypercalls are invoked via the standard x86/x64 hypercall page.
+>>> The hypercalls trap to the paravisor. If the paravisor is functioning properly,
+>>> it should do transparent hypercall continuation just like the hypervisor would.
+>>> But this is something to be confirmed with the hypervisor and paravisor teams.
+>>>
+>>> Piggybacking is done only when no paravisor is present, so the
+>>> hv_do_rep_hypercall_cvm() path should be taken only in that circumstance.
+>>> Your current code works, but it goes down the more expensive
+>>> hv_do_rep_hypercall_cvm() path when it doesn't need to. (I'm not completely
+>>> clear on how arm64 works with and without a paravisor, so my statement
+>>> applies only to SNP and TDX. Need to sort out the CCA case with Kameron.)
+>>>
+>>> Given the non-trivial complexity in sorting all this out, I wonder if
+>>> distinguishing the _cvm and _reg cases is really worth it. The current
+>>> code for the _reg case is admittedly inefficient because it does work for
+>>> the looping case before likely deciding that no looping is needed. But
+>>> that could easily be fixed. When no looping is necessary, which is the
+>>> vast majority of cases, the looping code could end up being only a
+>>> couple of instructions slower than a separately coded non-looping
+>>> version (I did some builds and looked at the generated code). Since
+>>> there's overhead in deciding which to use, there may not be any
+>>> performance win from having both versions.
+>>
+>> Well, to me it's correctness issue also. If the ABI says that it will
+>> not return with TIMEOUTs for non-cvms, then adding loop just masks it
+>> instead of opening a bug report against the hypervisor.
+> 
+> I see your point, but would not call it a "correctness issue".  A "correctness
+> issue" is a case where the result is wrong, and there's no wrong result
+> here. I've definitely fixed edge-case issues that might never occur in
+> practice just in the interest of overall "correctness", but that's not this case.
+
+Well, imo, abi says it will not timeout. if it does, it is an
+"incorrect behavior". But anyways, not worth nit picking about :).
+
+
+> Your point opens a different can-of-worms. The threat model for Linux
+> guests on Hyper-V has historically been that the guest trusts the Hyper-V
+> host to do the right thing. A buggy or malicious host can arbitrarily read
+> or write guest memory, so there's really not much choice but for the
+> guest to trust the host (of course, in a CoCo VM the threat model is
+> different). As such, Linux code has never tried to fully validate what it
+> gets back from Hyper-V. Various ad hoc validations have been added
+> when it seemed helpful to do so, but it's not a priority or a directive.
+> Doing such a validation here is not objectionable, but I wouldn't add
+> a significant complexity to do so.
+
+Ok, I'm ok with adding a WARN() to catch incorrect behaviors...
+
+> FWIW, here's pseudo-code for an alternate approach that doesn't
+> require splitting into separate _reg and _cvm versions:
+> 
+> static inline u64 hv_do_rep_hypercall_ex(u16 code, u16 rep_count,
+>                                            u16 varhead_size, u16 rep_start,
+>                                            void *input, void *output)
+> {
+>          u64 status, control = code;
+>          u16 rep_comp = 0;
+> 
+>          control |= (u64)varhead_size << HV_HYPERCALL_VARHEAD_OFFSET;
+>          control |= (u64)rep_count << HV_HYPERCALL_REP_COMP_OFFSET;
+>          control |= (u64)rep_start << HV_HYPERCALL_REP_START_OFFSET;
+> 
+>          for (;;) {
+>                  status = hv_do_hypercall(control, input, output);
+> 
+>                  if (!hv_result_timeout(status))
+>                          /* If result is success, could validate
+>                             completed reps == rep_count - rep_start */
+>                          return status;
+> 
+>                  if (! <hypercall is over alt transport> ) {
+>                          /* Should not get TIMEOUT with normal calling seq */
+>                          WARN();
+>                          return HV_STATUS_INVALID_PARAMETER; /* or some such */
+>                  }
+> 
+>                  rep_comp = hv_repcomp(status);
+>                  control &= ~HV_HYPERCALL_REP_START_MASK;
+>                  control |= (u64)rep_comp << HV_HYPERCALL_REP_START_OFFSET;
+>          }
+> }
+> 
+> In almost all cases, the result is not TIMEOUT, so the code returns
+> immediately with no extra overhead except to check for TIMEOUT.
+> If it *is* TIMEOUT, then go to the trouble to figure out whether
+> TIMEOUT is valid. If the VM is using the normal hypercall invocation
+> mechanism, flag that as a hypervisor bug and don't loop.
+
+Well, the end result is almost the same, but I like different
+function (will not be _cvm anymore) because it tells the reader
+upfront of different behaviors of the repeat hypercalls. I'll
+experiment with both, and send the one that I like...
+
+Thanks,
+-Mukesh
+
+
+>>
+>> Hope that makes sense.
+>>
+>> On a side note, to solicit your thoughts, i am not sure i like the
+>> touch_nmi_watchdog()... it appears the the WD is triggered in seconds,
+>> and if a hypercall is that long, schedule() really should be done in
+>> between. IOW, remove the touch, instead any very long running hypercalls
+>> should call schedule(). Of course, that would be a different patch.
+> 
+> I agree. I would be fine with removing the touch_nmi_watchdog().
+> 
+> Michael
+
