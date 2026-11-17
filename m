@@ -1,57 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794907468;
-	b=X80uFVMcS6aUrpS1zg+yNyKqBGhuL4FGuAe4yqm8GagzNOwTcMy6nnint8AP5atTzVGN
-	 LgKV8XpP2Bzo5mUf3bNNvd+BeJMKclway8t3Sj2qmE+4NKXDOxtY+l3mZVrftTcKILXC8
-	 NgTnT4Sxr1Yt5mNVfqjC8r14dx1knMmIJneQ+7Wpb9+ytjxlxfNZHYzq/xe2dSagYfsXh
-	 oHaM1YbQrXrZClcDTyDecJpt7sUxq0ZrbzuZ4UoGRiassDEutUaCTZV1IhLECLuWqQ/Fz
-	 hVJBwRXW1f0p5ILPmN5l/IPOcdiuvVZNJNVE50MJRDwHnjIqKDwnVK4/tUK2lD5Y2ag==
+	t=1794920856;
+	b=z62CRQ4znUGezCtRTURPpEXm7hU8mcT1PYw7m+DqAy9yH4U+LqqbTXl07XxibVto1710
+	 f8On0EC8/8JwU3TnUMhNJFzrbW/x11cCWUvK2kax+hssTwJc207aEfmtGSUwvEIehxd31
+	 Kka0ZZs5aUxPGYiuLy2PPHPExuEdiaG16Z5ZQI51tSznOinX8Y9M0Pgc7TpKidDr6muX/
+	 w1R2oYR5TVXj6VGAp1gxhBHPwKeEq4G/eUfDGJr9ZNEHnQQqaoeoCuRsALwjt+POrnG3r
+	 tFD/TxAvps3Xt5/xLDzns77k19qHnR7T3EZnV7Ijc0yzAVd3c1lK55wgWKd7q3AzJkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794907468;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LBCfgNOqOzPbVlsXnFPjOSdgLRRe9hXE5Xv4sfC2PZ8=;
-	b=VoQcLGKRtw+igs9+yjqBHOI1SWHbk9JrGalqj04kGzIObLkG+pVKd3WXgKbn+V9jE8Wr
-	 JSRcDVP0wErIGHJxndFhBmPmGc3aZamioK7ybyC39ZrvsCJvIfuuB6DFBLglKDK0xBZQX
-	 NwvSxxrj5xuHWDA8fCV4cIJxmU7rzl/BiXKqk4fKbh4LL9X68Abzd2nRPyXdSsJgtIS3C
-	 dTGg8SWLU4TIa0VeAk/7ACTY/cE8RU+n34Pw5l89wKhQCMwvz+clFokZ/waF6hPl2MoSS
-	 ZlASGmyqWo/ZIVEdyasJch1tQyADYPhcd+xN7LadUtQK/52iQLAHHbxflYrY9KYuI8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794920856;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UmMOuYk7GOgGO2Uj4xQY5WbziGT48+mQLZEv3mhfCMM=;
+	b=tTHhQPrXCn9dAxFXlJF04wAnZ0kpNriw0SeyFRoOh7cMxuqK3O78JmvlK4BcBVN/NKFs
+	 qKbiPoM1EnjVHg49Vx2wlasSzwGYvzl1vMuAcBc2ETygfKMepMAzlviIR36/lxEC+A/ej
+	 fh7jBh8g+p+pqoOyMRnTqoquU4VWIZ9t16XMihF1GDI0ACvkvnNQgrQ/aOvQAahATNHfw
+	 Cy7eADvBQSfjJrVzSAF2X1qzKQtfNcA1ISY16E6StJjH0xHaI1nUq4r3v/Q2Y76PmfUgl
+	 aXwHpMA/l0obtPhOBhV9tJjJ53gvor5/LvbXQzsfQJvIRV3ZTw4a+Ee0TpxvX6akYVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJzKDlxq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FCF606A31C
-	for <linux-hyperv@vger.kernel.org>; Tue, 17 Nov 2026 09:24:27 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="czmzT0/D";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A6260A6F77
+	for <linux-hyperv@vger.kernel.org>; Tue, 17 Nov 2026 13:07:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3A6260A6F77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJzKDlxq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26431F000C4;
-	Tue, 17 Nov 2026 09:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794907467;
-	bh=LBCfgNOqOzPbVlsXnFPjOSdgLRRe9hXE5Xv4sfC2PZ8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=HJzKDlxqCXuDYyItusqs+/Wxj951zySdNZ7JYWi6wATMld9hrNBTXKckyX3s2LFqP
-	 22EDedoFHmHUm0ASXPGuaLVvYZH/mKprJojaxJqVDj1aDfhKz2xi/WL711M+LZh1OO
-	 1M2ulY0SiyNGEcZYQuYPyfcUNWh53fSeBR+w33j0ydpH9ZBPZ5QMIeAAM2i/mDK6d4
-	 MqheXg1Y03S5GQmHrvdzXks6QhX5vNw5d2VYsLnrknXhz4NQv0zsT/ZQiX/zR3PrVG
-	 +LsbCdkTzbvwE1zxGJTwMHGR4Onttmk0fiQepycBfpbVTScbHAscDtpF9mclE7W8LT
-	 rFslsKEw7C8nQ==
-Message-ID: <sashiko-outbox-218478@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/5] x86/hyperv: Filter TLB targets before building
- hypercalls
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Naman Jain" <namjain@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261117091507.2088642-5-namjain@linux.microsoft.com>
-References: <20261117091507.2088642-1-namjain@linux.microsoft.com>
- <20261117091507.2088642-5-namjain@linux.microsoft.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 09:24:26 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=czmzT0/D
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 05C9120B716A; Tue, 17 Nov 2026 05:07:35 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 05C9120B716A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794920855;
+	bh=UmMOuYk7GOgGO2Uj4xQY5WbziGT48+mQLZEv3mhfCMM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=czmzT0/DkQB0vju00M9RFTeQzxKqWXCbMxz2JaSeZaZ6I7fcF++uRG8Q9AoX4sGBT
+	 8XaBtqnVqxZKbejYXdtwoYbZqGvuFSYK1HU5mrObVumJMU65drppsawQo3e7njGxd9
+	 XfCRVBG1frThCDr7H23ZoPOw7MjwCt2t8bUQee1g=
+Date: Tue, 17 Nov 2026 08:07:34 -0500
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH v2 11/64] drm/hyperv: Switch to
+ drm_mode_config_create_initial_state
+Message-ID: <avxRlhKfNlW3nVWB@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+ <20261116-drm-no-more-config-reset-v2-11-0bb471f4d1e0@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,44 +63,52 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116-drm-no-more-config-reset-v2-11-0bb471f4d1e0@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] x86/hyperv: missing Fixes tag for commit 209954cbc7d0
---
+On Mon, Nov 16, 2026 at 11:30:27AM +0100, Maxime Ripard wrote:
+> drm_mode_config_reset() has a dual role: it creates the initial KMS
+> state at probe time, and resets hardware and software state during
+> suspend/resume cycles.
+> 
+> Since the two roles need different behaviors (notably for objects like
+> drm_private_obj that must persist across suspend/resume),
+> drm_mode_config_create_initial_state() was introduced to handle only
+> the initial state creation at probe time.
+> 
+> Switch to drm_mode_config_create_initial_state().
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-commit b708a994017fe50fc481b9fcff6a341c5d843b13
-Author: Naman Jain <namjain@linux.microsoft.com>
+Acked-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
 
-> x86/hyperv: Filter TLB targets before building hypercalls
->
-> SuperBench's eight-GPU PyTorch LSTM training on Azure MI300X VMs regressed
-> between Linux 6.8 and 7.0. Recreating DataLoader workers each epoch caused
-> host-to-GPU copy stalls and timeouts. The reported bisection identified
-> commit 209954cbc7d0 ("x86/mm/tlb: Update mm_cpumask lazily").
->
-> That change leaves a CPU's bit set after it switches to another mm.
-> Native flush callbacks remove these stale bits, but successful Hyper-V
-> hypercalls do not run those callbacks. A CPU actively running another
-> mm need not be in lazy TLB mode, so the existing lazy-TLB check does not
-> exclude it. If the mask includes all present CPUs, the backend selects
-> the all-processors shortcut before checking individual CPUs.
->
-> Use the native predicate to build a per-CPU target mask before selecting
-> the all-processors shortcut or either hypercall format. Keep the full
-> candidate mask when freeing page tables. Retain the empty basic-mask
-> check because filtering can leave no targets.
->
-> This patch does not change when trimming is requested.
->
-> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
-
-[Severity: Low]
-Since this fixes the regression introduced by 209954cbc7d0 ("x86/mm/tlb:
-Update mm_cpumask lazily"), should the commit message include a Fixes tag?
-
-  Fixes: 209954cbc7d0 ("x86/mm/tlb: Update mm_cpumask lazily")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117091507.2088=
-642-1-namjain@linux.microsoft.com?part=3D4
+> ---
+> Cc: Dexuan Cui <decui@microsoft.com>
+> Cc: Long Li <longli@microsoft.com>
+> Cc: Saurabh Sengar <ssengar@linux.microsoft.com>
+> Cc: linux-hyperv@vger.kernel.org
+> ---
+>  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> index 759952f4ff19..73938303e663 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> @@ -500,9 +500,7 @@ int hv_drm_mode_config_init(struct hv_drm_device *hv)
+>  
+>  	ret = drm_vblank_init(dev, 1);
+>  	if (ret)
+>  		return ret;
+>  
+> -	drm_mode_config_reset(dev);
+> -
+> -	return 0;
+> +	return drm_mode_config_create_initial_state(dev);
+>  }
+> 
+> -- 
+> 2.56.1
+> 
