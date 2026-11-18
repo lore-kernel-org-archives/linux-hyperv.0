@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794962396;
-	b=ykNHrtBepYnCxotF4lhYLwrnzN66tFXqiF9VVpgMz8xrgNNYAWuOtJ0As3vMdD3MUcja
-	 vqXwv91wUizEK+Bf+n6tzFYtqWtDnpReGJ4TZXYgxv5eUBDQKvlt4ml36s0pYK6t6K2uh
-	 8jEQaWXp8k6+MrhGVpyDXPVbjqriRJtWi/gAKcJ/g+N/pAq+wcTDxBTfgU9o4p/lWF0gf
-	 08+q3cpsmFsW/zHGSu5Rtazry2SdevJexYIbvx8A9dqdf1dlnsB4BCNrIA66SivLSNfG3
-	 HCUjGikI09S2yNGyDvBowOgggTEjkR7nQ/wvCPOPqHXYaN8UQA0/rXUO7edmBjKU1GA==
+	t=1794965377;
+	b=cuOKGwucOTdwDgeG+uIV4QuEuBzaUY0YDe1o6xBsLH71024uiHGS4AS5NJKouDnommQf
+	 TiOwsfHigqxVXLy+KVzMyvlyNwU/wQbWC0+52j1fP4RQp9BqX5FHO9qId3aHkTck9J59n
+	 XUgUaU/inMcnFhICIGp3ViOB603lchYze+SQP4P9HsvnAmPiMcgVhi6xrOoUz0oOkZhpq
+	 zPkC9eg6Ns90ouZcUuvu8BkXCKyrFaKgD31sl3OxFI5bxFevpZBJPGIkuSuCBNyTCpw7k
+	 b2s6lQ7Hxe6pkLFKrozligfGAMt/h4+GMcyAfpep8EeYZ5hSye84yEkXHqOyDufa0rQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794962396;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794965377;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=VWRzHZisTKFuvIW/bz2nwtPUBJRPppjOU+MvS3dSz9A=;
-	b=hpoi8LffV2k/aGzYj3qUSMMSDU1BO1rPhEhK/dxQtbNGlvTqv69MeDtCEPfZzW0jez3W
-	 4j0mQfV7krZn12lCLsnvoFy2K7t8AjCcJ0XrcukiUR/EZg+dk48X70SsSY8dRNwlymdNZ
-	 rZKwdvtjlxmRwO4pnf48jPZ507Ef+3H2RbD0bycWOurS2wUKwQgBiULVw1YNKdaX+/Fka
-	 XxQ/BHJwSP0WY/fsz2gR/TBr8erhpcNGviq9MI1La9UCLa2Zc76QD5iApcNYqewV6Zd2P
-	 OAMG0OFaOPuGOyw14zoE/2/hvxwhtbOX6WFUGNrTKtpjMqiLe+Ktx8zK5egOkX4sG2A==
+	 MIME-Version:User-Agent:Subject:Content-Language:From:To:Cc:
+	 References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Spam-Status:X-Spam-Checker-Version;
+	bh=En2HFkVRz7jUndIJWs1vjfMzW7QUrXLJFOywq7zEjgM=;
+	b=IQw2TnsrzLC8qWN+38jzfH18yXnorHAHTHwbInc/XEN8K8xxDskl2TcFUrL4CtFmkEh9
+	 luT1SV560VdR7IJrHUMuz0WLDm1g8LV9335RMpQw1XkdGadetlvjB1KuyRMMedAUBJQnE
+	 tM8+hpXlHdOL4lO7KL4IAK3UVwf5CsCRRAyjccG5cy7rhrk2zkREYuETvuv7cptD4dMf1
+	 8hhLYMsWW4+9dhUB7Ywv8+kD3gg0giwsqnl8U5FQ73LcFPRftNzEscN0YzVdxKDEmsekT
+	 IeKlyfJUYnu3swNS6Yqzwf8HGUzb3ZY+yjjd+SvO6ZO0lhFX6AwLFHXevX7mr9W+eAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=WGNDFW6h;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=jxgQrE+5;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BE6606A886;
-	Wed, 18 Nov 2026 00:39:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72BE6606A886
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C09A606A891;
+	Wed, 18 Nov 2026 01:29:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C09A606A891
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=WGNDFW6h
-Received: from [10.4.158.9] (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 604B220B7169;
-	Tue, 17 Nov 2026 16:39:48 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 604B220B7169
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=jxgQrE+5
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B292620B7169;
+	Tue, 17 Nov 2026 17:29:34 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B292620B7169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794962392;
-	bh=VWRzHZisTKFuvIW/bz2nwtPUBJRPppjOU+MvS3dSz9A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WGNDFW6hqQdiF0SHyfjp75RtfxwwRi6iicLcOM4zUPSA0lYp/8+si3Ys+pTOC74qj
-	 +cbulApSLigarrgBVCr/r36dvTyYwxab2NMllactcDE3olK0i4a5BkdLtb4YykpmDN
-	 1yC/Jxs+tWKWpu90I9ef6urUZB64c6Y8RpC3rlY0=
-Message-ID: <dc137a5c-66ee-429e-944a-58a802ebfb97@linux.microsoft.com>
-Date: Tue, 17 Nov 2026 16:39:48 -0800
+	s=default; t=1794965375;
+	bh=En2HFkVRz7jUndIJWs1vjfMzW7QUrXLJFOywq7zEjgM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=jxgQrE+5/+IOWBmij56qJv+Q2l5X0GuaotxyKD2Gfuk04WROOvvx4dIY6ORHw/sMG
+	 IcQB2mHFqf5nkMayKL0Rx+z5gAvYLhaWns+WHpxm4EShE4HNXIUfgNY/adszgUx3h6
+	 kVjufo8h4+/Ztb9gA9rLNYY44ETfakE+9+dKPEoA=
+Message-ID: <f1b8a32c-6fb5-cfed-df69-8499f2e94cc8@linux.microsoft.com>
+Date: Tue, 17 Nov 2026 17:29:34 -0800
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,310 +53,185 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 3/5] hv_netvsc: treat the VF's XDP program the
- way bonding treats a slave's
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- ernis@linux.microsoft.com,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-References: <20261109194843.1353592-1-kuba@kernel.org>
- <20261109194843.1353592-4-kuba@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
+ CCA Realms
 Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261109194843.1353592-4-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Mukesh R <mrathor@linux.microsoft.com>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>,
+ "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+ "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
+References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
+ <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
+ <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
+ <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
+ <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
+ <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
+ <5fddb57c-8805-4fbd-9e27-1c8654f29436@linux.microsoft.com>
+ <d7d4ba44-5c7f-9526-37dd-76744c277069@linux.microsoft.com>
+In-Reply-To: <d7d4ba44-5c7f-9526-37dd-76744c277069@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11/9/2026 11:48 AM, Jakub Kicinski wrote:
-> netvsc_register_vf() pushes netvsc's XDP state down to every VF it
-> takes over - its program, or NULL if it has none - once the VF has
-> joined, and ignores the result. A VF which refuses the program leaves
-> netvsc running XDP on its channels while traffic through the VF
-> bypasses it, with nothing in the logs to say so. The core won't install
-> a single-buffer program on a device with tcp-data-split enabled, nor
-> any program on one with a memory provider, and the VF's driver has
-> conditions of its own. A VF which can't run XDP at all isn't even
-> asked, and netvsc_bpf() reports success for it too. A VF which runs a
-> program of its own gets it replaced or removed behind the back of
-> whoever attached it, when it joins as well as when netvsc gets a
-> program later.
+On 11/17/26 11:57, Mukesh R wrote:
+> On 11/16/26 11:53, Kameron Carr wrote:
+>> On 11/13/2026 6:59 PM, Mukesh R wrote:
+>>> On 11/12/26 16:46, Mukesh R wrote:
+>>>> On 11/12/26 09:49, Kameron Carr wrote:
+>>>>> On 11/11/2026 6:43 PM, Mukesh R wrote:
+>>>>>> On 11/11/26 10:01, Michael Kelley wrote:
+>>>>>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
+>>>>>>>>
+>>>>>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
+>>>>>>>> to be marked as decrypted (shared) for confidential VM isolation types.
+>>>>>>>> This is already done for SNP and TDX isolation; extend the same handling
+>>>>>>>> to Arm CCA Realm guests so that the host hypervisor can access the
+>>>>>>>> shared hypercall buffers.
+>>>>>>>>
+>>>>>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
+>>>>>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
+>>>>>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
+>>>>>>>> Introduce a Hyper-V-specific helper following the established
+>>>>>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
+>>>>>>>>
+>>>>>>>> On architectures other than arm64 the weak default keeps the existing
+>>>>>>>> behaviour.
+>>>>>>>>
+>>>>>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>>>>>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
+>>>>>>>> ---
+>>>>>>>>     arch/arm64/hyperv/mshyperv.c   |  5 +++++
+>>>>>>>>     drivers/hv/hv_common.c         | 17 +++++++++++++----
+>>>>>>>>     include/asm-generic/mshyperv.h |  1 +
+>>>>>>>>     3 files changed, 19 insertions(+), 4 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>>>>>>>> index 46ab2da..da6c3aa0 100644
+>>>>>>>> --- a/arch/arm64/hyperv/mshyperv.c
+>>>>>>>> +++ b/arch/arm64/hyperv/mshyperv.c
+>>>>>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
+>>>>>>>>         return hyperv_initialized;
+>>>>>>>>     }
+>>>>>>>>     EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>>>>>>>> +
+>>>>>>>> +bool hv_isolation_type_cca(void)
+>>>>>>>> +{
+>>>>>>>> +    return is_realm_world();
+>>>>>>>> +}
+>>>>>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+>>>>>>>> index 31256cb..a60c92c 100644
+>>>>>>>> --- a/drivers/hv/hv_common.c
+>>>>>>>> +++ b/drivers/hv/hv_common.c
+>>>>>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>>>         u64 msr_vp_index;
+>>>>>>>>         gfp_t flags;
+>>>>>>>>         const int pgcount = hv_output_page_exists() ? 2 : 1;
+>>>>>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
+>>>>>>>>         void *mem;
+>>>>>>>>         int ret = 0;
+>>>>>>>>
+>>>>>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>>>          * online and then taken offline
+>>>>>>>>          */
+>>>>>>>>         if (!*inputarg) {
+>>>>>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
+>>>>>>>> +        mem = kmalloc(alloc_size, flags);
+>>>>>>>>             if (!mem)
+>>>>>>>>                 return -ENOMEM;
+>>>>>>>>
+>>>>>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
+>>>>>>>>             }
+>>>>>>>>
+>>>>>>>>             if (!ms_hyperv.paravisor_present &&
+>>>>>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
+>>>>>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
+>>>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>>>>> +             hv_isolation_type_cca())) {
+>>>>>>>
+>>>>>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
+>>>>>>> of explicitly testing for each CoCo VM type? I ask partly because
+>>>>>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
+>>>>>>> function that does something almost exactly the same as
+>>>>>>> hv_is_isolation_supported() and uses it here.
+>>>>>>
+>>>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>>>>> +             hv_isolation_type_cca())) {
+>>>>>>
+>>>>>> With my change, this will become:
+>>>>>>
+>>>>>>           (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
+>>>>>
+>>>>> Any reason you wouldn't change hv_isolation_hw_cvm() to
+>>>>>
+>>>>>     return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
+>>>>>       hv_isolation_type_cca()
+>>>>>
+>>>>> That would seem more logical to me.
+>>>>>
+>>>>
+>>>> We could, I just don't know if on cca, the repeat hypercall has same
+>>>> behavior. I was leaving that for the arm team. Anyways, I sent question
+>>>> to the hyp team, if they say yes, i can update my patch to include that.
+>>>>
+>>>> Thanks,
+>>>> -Mukesh
+>>>
+>>>
+>>> Confirming, arm has same behavior and needs the fix also. So, we can def
+>>> expand the check to include _cca.
+>>>
+>>> I just sent V1, renaming hv_isolation_hw_cvm() to hv_isolation_type_hw().
+>>> If your patch goes after mine, you just need to add to your 0004*:
+>>>
+>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+>>> index 4fdc26ade1d7..67a16b4d2235 100644
+>>> --- a/arch/arm64/hyperv/mshyperv.c
+>>> +++ b/arch/arm64/hyperv/mshyperv.c
+>>> @@ -134,3 +134,8 @@ bool hv_is_hyperv_initialized(void)
+>>>          return hyperv_initialized;
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+>>> +
+>>> +bool hv_isolation_type_hw(void)
+>>> +{
+>>> +       return is_realm_world();
+>>> +}
+>>>
+>>>
+>>> OR, you could pick mine 0001-* and make it part of your series, and I
+>>> can drop it from mine and make it dependent on yours. But mine is small
+>>> enough that it has higher chances of going in first.....
+>>>
+>>
+>> This patch set has already been applied to hyperv-next, so maybe you can
+>> rebase off that.
+>>
 > 
-> Nothing takes netvsc's program back when the VF stops being netvsc's
-> either. netvsc_unregister_vf() runs when the VF is unregistered, when
-> either device moves to another netns (netvsc drags the VF along when it
-> moves itself), when netvsc is unbound or hot-removed, and on rmmod
-> hv_netvsc, where unregistering the notifier replays NETDEV_UNREGISTER
-> before netvsc_remove() ever runs. In all but the first case the VF
-> stays, running netvsc's program with no upper left to own it. We will
-> soon track in the core if the program is installed from upper; a
-> leftover would then become the VF's own, and netvsc would refuse to
-> take the VF back until someone removed it. netvsc_unregister_vf() used
-> to propagate NULL to the VF, until commit 3ec523304976 ("hv_netvsc: fix
-> potential deadlock in netvsc_vf_setxdp()") dropped the call on the
-> grounds that the core cleans up through dev_xdp_uninstall(). That only
-> runs when the VF itself is unregistered, and doesn't know about
-> propagated programs at all, so even then the VF's driver keeps its
-> reference to netvsc's program; mana, for one, leaks it on every VF
-> removal while netvsc runs XDP.
+> Ok, I'll rebase my patches from hyperv-fixes to hyperv-next, and
+> resubmit.
 > 
-> Do what bonding does with its slaves instead. With no program on netvsc
-> there is nothing to push down, so leave the VF's program alone. With a
-> program on netvsc, don't take over a VF which runs one of its own, in
-> any mode, or which can't or won't run netvsc's, and say why in the log.
-> netvsc then keeps its traffic on the synthetic path, where the program
-> runs, and doesn't use the VF. Nothing retries taking the VF over until
-> it registers again, just as bonding doesn't retry an enslave it refused.
-> For a VF already in use fail attaching the program to netvsc instead, as
-> netvsc_bpf() already did when the VF refused it, but don't fail a
-> removal over the VF's own program, leave that program be. Install the
-> program before joining the VF, so that a refusal needs no unwinding and
-> nothing reaches netvsc through the VF without having been through the
-> program, and sync the VF's features ahead of it, as LRO may keep the VF
-> from taking XDP; a VF which refuses the program all the same is left
-> with netvsc's features. Take the program back when the VF leaves, under
-> the VF's lock, which none of the paths into netvsc_unregister_vf() hold,
-> once netvsc's rx handler is gone, and warn if the VF won't let go of it,
-> as bonding does, but leave a program of the VF's own be, as on removal.
-> Key that on the program on netvsc's channels, the way bonding keys its
-> release on bond->xdp_prog; a generic program on netvsc never reached the
-> VF. Let the VF go in netvsc_remove() before the channels are cleared.
+> Thanks,
+> -Mukesh
 > 
-> The two halves only work together. The NULL pushed at registration was
-> all that cleared a program an earlier netvsc instance left on the VF,
-> and taking the program back without the refusal would strip a VF of its
-> own program after it was joined despite refusing netvsc's.
-> 
-> A VF netvsc uses now always runs netvsc's program when netvsc has one.
-> Update netvsc's documentation, which still said that a program on the
-> VF may get overwritten, and describe the VFs netvsc doesn't use.
-> 
-> Reported by Sashiko during core rework. Unverified and untested.
-> 
-> Cc: stable+noautosel@kernel.org # LLM report + LLM fix, untested
-> Fixes: 351e1581395f ("hv_netvsc: Add XDP support")
-> Fixes: 3ec523304976 ("hv_netvsc: fix potential deadlock in netvsc_vf_setxdp()")
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> v2:
->  - refuse a VF which can't run XDP while netvsc has a program, and fail
->    attaching a program to netvsc while such a VF is in use (Sashiko)
->  - fail attaching a program to netvsc while the VF in use runs one of
->    its own, rather than leave that to the core series, but leave the
->    VF's program be on removal, and when the VF leaves (Sashiko)
->  - warn when the VF won't give netvsc's program back (Sashiko)
->  - move the documentation update here from the core series, and don't
->    claim that the refused VF's traffic stays on the synthetic path
->    (Vennela)
->  - commit msg: say that nothing retries a refused VF, and that it keeps
->    netvsc's features (Sashiko)
->  - Tested-by tags from v1 not carried over, the behavior changed
-> v1: https://lore.kernel.org/20261001014131.310771-4-kuba@kernel.org
-> ---
->  .../ethernet/microsoft/netvsc.rst             | 11 +++-
->  drivers/net/hyperv/netvsc_bpf.c               | 15 ++++-
->  drivers/net/hyperv/netvsc_drv.c               | 65 +++++++++++++++----
->  3 files changed, 76 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst b/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
-> index 0d464706a59a..7f1731a819f9 100644
-> --- a/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
-> @@ -109,8 +109,15 @@ XDP support
->  
->    Setting / unsetting XDP program on synthetic NIC (netvsc) propagates to
->    VF NIC automatically. Setting / unsetting XDP program on VF NIC directly
-> -  is not recommended, also not propagated to synthetic NIC, and may be
-> -  overwritten by setting of synthetic NIC.
-> +  is not recommended, and not propagated to synthetic NIC. If the
-> +  synthetic NIC has a program when a VF NIC shows up, a VF NIC which runs
-> +  a program of its own, or which can't or won't run the synthetic NIC's,
-> +  is not used until it is registered again. The synthetic NIC then keeps
-> +  its traffic on the synthetic data path; what the VF NIC receives if it
-> +  is brought up on its own is outside of the synthetic NIC's control.
-> +  For a VF NIC already in use which runs a program of its own, or can't
-> +  or won't run the synthetic NIC's, setting the program on the synthetic
-> +  NIC fails instead.
->  
->    XDP program cannot run with LRO (RSC) enabled, so you need to disable LRO
->    before running XDP::
-> diff --git a/drivers/net/hyperv/netvsc_bpf.c b/drivers/net/hyperv/netvsc_bpf.c
-> index ec8edfaebf0b..143fc0c12841 100644
-> --- a/drivers/net/hyperv/netvsc_bpf.c
-> +++ b/drivers/net/hyperv/netvsc_bpf.c
-> @@ -176,8 +176,9 @@ int netvsc_vf_setxdp(struct net_device *vf_netdev, struct bpf_prog *prog)
->  
->  	netdev_assert_locked_ops_compat(vf_netdev);
->  
-> +	/* as with bonding, a VF which can't run XDP can't carry ours */
->  	if (!vf_netdev->netdev_ops->ndo_bpf)
-> -		return 0;
-> +		return prog ? -EOPNOTSUPP : 0;
->  
->  	memset(&xdp, 0, sizeof(xdp));
->  
-> @@ -210,6 +211,18 @@ int netvsc_bpf(struct net_device *dev, struct netdev_bpf *bpf)
->  
->  	switch (bpf->command) {
->  	case XDP_SETUP_PROG:
-> +		/* The VF's own program is not ours: refuse to install over
-> +		 * it, as bonding does, and leave it be on removal.
-> +		 */
-> +		if (vf_netdev && dev_xdp_prog_count(vf_netdev)) {
-> +			if (bpf->prog) {
-> +				NL_SET_ERR_MSG_MOD(extack,
-> +						   "VF has an XDP program of its own");
-> +				return -EOPNOTSUPP;
-> +			}
-> +			vf_netdev = NULL;
-> +		}
-> +
->  		/* Hold on to the old program, to put it back on the channels
->  		 * if the VF refuses the change.
->  		 */
-> diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-> index 1d43c73fd73f..61109ff9927f 100644
-> --- a/drivers/net/hyperv/netvsc_drv.c
-> +++ b/drivers/net/hyperv/netvsc_drv.c
-> @@ -2331,6 +2331,13 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
->  	if (!netvsc_dev || rtnl_dereference(net_device_ctx->vf_netdev))
->  		return NOTIFY_DONE;
->  
-> +	prog = netvsc_xdp_get(netvsc_dev);
-> +	if (prog && dev_xdp_prog_count(vf_netdev)) {
-> +		netdev_warn(ndev, "not using VF %s, it has an XDP program attached\n",
-> +			    vf_netdev->name);
-> +		return NOTIFY_DONE;
-> +	}
-> +
->  	/* if synthetic interface is a different namespace,
->  	 * then move the VF to that namespace; join will be
->  	 * done again in that context.
-> @@ -2349,10 +2356,31 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
->  		return NOTIFY_DONE;
->  	}
->  
-> +	/* Install netvsc's program before joining, so that a VF which
-> +	 * refuses it never gets used. Syncing the features first turns
-> +	 * off LRO, which the VF may not run XDP with.
-> +	 */
-> +	if (prog) {
-> +		vf_netdev->wanted_features = ndev->features;
-> +		netdev_update_features(vf_netdev);
-> +
-> +		ret = netvsc_vf_setxdp(vf_netdev, prog);
-> +		if (ret) {
-> +			netdev_warn(ndev, "not using VF %s, it refused netvsc's XDP program: %d\n",
-> +				    vf_netdev->name, ret);
-> +			return NOTIFY_DONE;
-> +		}
-> +	}
-> +
->  	netdev_info(ndev, "VF registering: %s\n", vf_netdev->name);
->  
-> -	if (netvsc_vf_join(vf_netdev, ndev, context) != 0)
-> +	if (netvsc_vf_join(vf_netdev, ndev, context) != 0) {
-> +		ret = prog ? netvsc_vf_setxdp(vf_netdev, NULL) : 0;
-> +		if (ret)
-> +			netdev_warn(ndev, "failed to remove XDP program from VF %s: %d\n",
-> +				    vf_netdev->name, ret);
->  		return NOTIFY_DONE;
-> +	}
 
-If netvsc_vf_join() fails here, did we potentially just
-netdev_update_features() a VF we don't own? Can we restore the old
-features on failure? And / or reject VFs with a busy RX handler before
-making feature changes?
+On second thought, given these are overloaded functions, adding a new
+function makes it complicated. Since it's only two places, it's just
+not worth it. Punting on it for now...
 
->  
->  	dev_hold(vf_netdev);
->  	rcu_assign_pointer(net_device_ctx->vf_netdev, vf_netdev);
-> @@ -2363,9 +2391,6 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
->  	vf_netdev->wanted_features = ndev->features;
->  	netdev_update_features(vf_netdev);
->  
-> -	prog = netvsc_xdp_get(netvsc_dev);
-> -	netvsc_vf_setxdp(vf_netdev, prog);
-
-I think Sashiko has a point that this patch might introduce edge case
-issues when netvsc_detach() fails.
-
-I wonder if moving the netvsc_xdp_set() after netif_device_detach() in
-netvsc_detach() fixes some of the faiure paths (RNDIS close or ring
-drain fails)? I haven't yet fully thought through all the scenarios
-Sashiko brought up.
-
-I understand improving XDP accounting is the end goal, but I hope we can
-get there without introducing new bugs.
-
--- 
-Regards,
-Kameron
-
-> -
->  	return NOTIFY_OK;
->  }
->  
-> @@ -2441,6 +2466,8 @@ static int netvsc_unregister_vf(struct net_device *vf_netdev)
->  {
->  	struct net_device *ndev;
->  	struct net_device_context *net_device_ctx;
-> +	struct netvsc_device *nvdev;
-> +	int ret;
->  
->  	ndev = get_netvsc_byref(vf_netdev);
->  	if (!ndev)
-> @@ -2453,6 +2480,20 @@ static int netvsc_unregister_vf(struct net_device *vf_netdev)
->  
->  	reinit_completion(&net_device_ctx->vf_add);
->  	netdev_rx_handler_unregister(vf_netdev);
-> +
-> +	/* Take our program back now that frames from the VF no longer
-> +	 * reach netvsc, but leave a program of the VF's own be.
-> +	 */
-> +	nvdev = rtnl_dereference(net_device_ctx->nvdev);
-> +	if (nvdev && netvsc_xdp_get(nvdev) && !dev_xdp_prog_count(vf_netdev)) {
-> +		netdev_lock_ops(vf_netdev);
-> +		ret = netvsc_vf_setxdp(vf_netdev, NULL);
-> +		netdev_unlock_ops(vf_netdev);
-> +		if (ret)
-> +			netdev_warn(ndev, "failed to remove XDP program from VF %s: %d\n",
-> +				    vf_netdev->name, ret);
-> +	}
-> +
->  	netdev_upper_dev_unlink(vf_netdev, ndev);
->  	RCU_INIT_POINTER(net_device_ctx->vf_netdev, NULL);
->  	dev_put(vf_netdev);
-> @@ -2664,21 +2705,21 @@ static void netvsc_remove(struct hv_device *dev)
->  	cancel_delayed_work_sync(&ndev_ctx->vfns_work);
->  
->  	nvdev = rtnl_dereference(ndev_ctx->nvdev);
-> -	if (nvdev) {
-> +	if (nvdev)
->  		cancel_work_sync(&nvdev->subchan_work);
-> -		netvsc_xdp_set(net, NULL, NULL, nvdev);
-> -	}
-> +
-> +	vf_netdev = rtnl_dereference(ndev_ctx->vf_netdev);
-> +	if (vf_netdev)
-> +		netvsc_unregister_vf(vf_netdev);
->  
->  	/*
->  	 * Call to the vsc driver to let it know that the device is being
->  	 * removed. Also blocks mtu and channel changes.
->  	 */
-> -	vf_netdev = rtnl_dereference(ndev_ctx->vf_netdev);
-> -	if (vf_netdev)
-> -		netvsc_unregister_vf(vf_netdev);
-> -
-> -	if (nvdev)
-> +	if (nvdev) {
-> +		netvsc_xdp_set(net, NULL, NULL, nvdev);
->  		rndis_filter_device_remove(dev, nvdev);
-> +	}
->  
->  	unregister_netdevice(net);
->  	list_del(&ndev_ctx->list);
+Thanks,
+-Mukesh
 
