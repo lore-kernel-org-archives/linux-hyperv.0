@@ -1,49 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794965377;
-	b=cuOKGwucOTdwDgeG+uIV4QuEuBzaUY0YDe1o6xBsLH71024uiHGS4AS5NJKouDnommQf
-	 TiOwsfHigqxVXLy+KVzMyvlyNwU/wQbWC0+52j1fP4RQp9BqX5FHO9qId3aHkTck9J59n
-	 XUgUaU/inMcnFhICIGp3ViOB603lchYze+SQP4P9HsvnAmPiMcgVhi6xrOoUz0oOkZhpq
-	 zPkC9eg6Ns90ouZcUuvu8BkXCKyrFaKgD31sl3OxFI5bxFevpZBJPGIkuSuCBNyTCpw7k
-	 b2s6lQ7Hxe6pkLFKrozligfGAMt/h4+GMcyAfpep8EeYZ5hSye84yEkXHqOyDufa0rQ==
+	t=1794971569;
+	b=DEHWOmCacu/cL+avnd9HGEICcRRHue3WXR2iRfdR398bRt2aOvHrjvcDXVjk1ZZNKcrn
+	 j14URc2RagJyX8p4E1PRF0ujbggNZPCMUsQQ5PIeQ2W2itSAjxtbrZv5zc0aiTH5sIgC2
+	 AB0YNMKuO8sm4T/izyRqE1hHuyakXRGKKqky5+l3UeCRRAreulRQJ5XBmG6Xt4TC+HIdT
+	 qltzhnbhansyZPH+soe1YAT7daPvurhoaUF2c+0PnMGoh06+GrUsAOqWUevKTEuL7QH4E
+	 JpiazxUGtSNUCa2zmeVPWcGiPfEGDHXFihEISb1KrNP6royvNSqjP/AxLk/rXetK5aA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794965377;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:From:To:Cc:
-	 References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Spam-Status:X-Spam-Checker-Version;
-	bh=En2HFkVRz7jUndIJWs1vjfMzW7QUrXLJFOywq7zEjgM=;
-	b=IQw2TnsrzLC8qWN+38jzfH18yXnorHAHTHwbInc/XEN8K8xxDskl2TcFUrL4CtFmkEh9
-	 luT1SV560VdR7IJrHUMuz0WLDm1g8LV9335RMpQw1XkdGadetlvjB1KuyRMMedAUBJQnE
-	 tM8+hpXlHdOL4lO7KL4IAK3UVwf5CsCRRAyjccG5cy7rhrk2zkREYuETvuv7cptD4dMf1
-	 8hhLYMsWW4+9dhUB7Ywv8+kD3gg0giwsqnl8U5FQ73LcFPRftNzEscN0YzVdxKDEmsekT
-	 IeKlyfJUYnu3swNS6Yqzwf8HGUzb3ZY+yjjd+SvO6ZO0lhFX6AwLFHXevX7mr9W+eAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794971569;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=GeYupmXjjJ6HSmGG8//5No5YJeJeQrfXBvsDr1IXzRA=;
+	b=H3+vFZgADvO5ZyPRBBIlVEZRRh6YFDs8tJJNwew66p4XDNTpdwtnFvORTjhApsu647MC
+	 TbfieO6spmYz6BXmm+JZcZ9m4r4UskEJ2NxCYzbaNfAmsR7VByKD4tmvwdSb3/w825m1m
+	 z3tneN49AuEEfOSBxe88ag1uaENRHTCSuGjorkc/YZ7vtUgCi4EZk8qSyhVMZEmbrSbti
+	 K9rDimO5LOLO3rl8omBZcC79nqLfE7fd7rmarNPrpPOhMKiSkdauwaFPB5/odRvobON9Q
+	 kq9ynkkx13431eeuRLn6Lj9ru+zJ/hqXjeqpzV8UET5K11MSWjTIg4MQHtRKHWjugsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=jxgQrE+5;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C09A606A891;
-	Wed, 18 Nov 2026 01:29:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C09A606A891
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Y/XkJG12";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58763606A31C;
+	Wed, 18 Nov 2026 03:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=jxgQrE+5
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B292620B7169;
-	Tue, 17 Nov 2026 17:29:34 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B292620B7169
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794965375;
-	bh=En2HFkVRz7jUndIJWs1vjfMzW7QUrXLJFOywq7zEjgM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=jxgQrE+5/+IOWBmij56qJv+Q2l5X0GuaotxyKD2Gfuk04WROOvvx4dIY6ORHw/sMG
-	 IcQB2mHFqf5nkMayKL0Rx+z5gAvYLhaWns+WHpxm4EShE4HNXIUfgNY/adszgUx3h6
-	 kVjufo8h4+/Ztb9gA9rLNYY44ETfakE+9+dKPEoA=
-Message-ID: <f1b8a32c-6fb5-cfed-df69-8499f2e94cc8@linux.microsoft.com>
-Date: Tue, 17 Nov 2026 17:29:34 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y/XkJG12
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE081F000C4;
+	Wed, 18 Nov 2026 03:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794971568;
+	bh=GeYupmXjjJ6HSmGG8//5No5YJeJeQrfXBvsDr1IXzRA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Y/XkJG12oDfXu8vvKMMfQXorc+Ra/OTnPdYTzPN73gz1Ls3ExIyWPuEcn7WospCmv
+	 yJg8Hc1eUr6+AAx4iSPY3q0Wk7o98Qry7kCvFHeUnBkKQ5NVKWIDR6bQvWywuWJ6R7
+	 7DMnux2L7F2xrZm+WLeuh3FAkON68G8CrBqSaykM/Hlm1dAw5yNcD0v3cbfdnh1z+5
+	 UGfgcLGNlw3FeGWmT6dEu6vvze1YB78ZtNzB/NdtAiBzcOHjFkPcEOypUQZDftXnBy
+	 oOJ9o2vajWKwHZAuFOkTs1GFpe+d/hzWpTXVvGwfDXF17Qv6Jsfy+Q1+CABDHXNJSb
+	 u5SR+w5Bc+KDQ==
+Date: Tue, 17 Nov 2026 19:12:47 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kameron Carr <kameroncarr@linux.microsoft.com>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ ernis@linux.microsoft.com, "linux-hyperv@vger.kernel.org"
+ <linux-hyperv@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 3/5] hv_netvsc: treat the VF's XDP program
+ the way bonding treats a slave's
+Message-ID: <20261117191247.28c6ce0c@kernel.org>
+In-Reply-To: <dc137a5c-66ee-429e-944a-58a802ebfb97@linux.microsoft.com>
+References: <20261109194843.1353592-1-kuba@kernel.org>
+	<20261109194843.1353592-4-kuba@kernel.org>
+	<dc137a5c-66ee-429e-944a-58a802ebfb97@linux.microsoft.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,185 +64,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v6 4/6] Drivers: hv: Mark shared memory as decrypted for
- CCA Realms
-Content-Language: en-US
-From: Mukesh R <mrathor@linux.microsoft.com>
-To: Kameron Carr <kameroncarr@linux.microsoft.com>
-Cc: Michael Kelley <mhklinux@outlook.com>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
- "thuth@redhat.com" <thuth@redhat.com>, "will@kernel.org" <will@kernel.org>
-References: <20261031001412.4150488-1-kameroncarr@linux.microsoft.com>
- <20261031001412.4150488-5-kameroncarr@linux.microsoft.com>
- <MN2PR02MB6863AA6357C8E0D4881F5FEAD4712@MN2PR02MB6863.namprd02.prod.outlook.com>
- <c6b7f583-878d-1f1e-60cc-e602e277d075@linux.microsoft.com>
- <af057438-a684-4840-815c-581b866678c1@linux.microsoft.com>
- <f74db23c-ee1d-e0b1-c463-55dad00f9c61@linux.microsoft.com>
- <7ebf7187-bf42-fc11-e89b-b1aba96539d2@linux.microsoft.com>
- <5fddb57c-8805-4fbd-9e27-1c8654f29436@linux.microsoft.com>
- <d7d4ba44-5c7f-9526-37dd-76744c277069@linux.microsoft.com>
-In-Reply-To: <d7d4ba44-5c7f-9526-37dd-76744c277069@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11/17/26 11:57, Mukesh R wrote:
-> On 11/16/26 11:53, Kameron Carr wrote:
->> On 11/13/2026 6:59 PM, Mukesh R wrote:
->>> On 11/12/26 16:46, Mukesh R wrote:
->>>> On 11/12/26 09:49, Kameron Carr wrote:
->>>>> On 11/11/2026 6:43 PM, Mukesh R wrote:
->>>>>> On 11/11/26 10:01, Michael Kelley wrote:
->>>>>>> From: Kameron Carr <kameroncarr@linux.microsoft.com> Sent: Friday, October 30, 2026 5:14 PM
->>>>>>>>
->>>>>>>> In hv_common_cpu_init(), the per-CPU hypercall input/output pages need
->>>>>>>> to be marked as decrypted (shared) for confidential VM isolation types.
->>>>>>>> This is already done for SNP and TDX isolation; extend the same handling
->>>>>>>> to Arm CCA Realm guests so that the host hypervisor can access the
->>>>>>>> shared hypercall buffers.
->>>>>>>>
->>>>>>>> is_realm_world() is declared in include/linux/arm-rsi-cmds.h which only
->>>>>>>> builds on arm64 (it includes <asm/memory.h>), so using it directly in
->>>>>>>> the arch-neutral drivers/hv/hv_common.c would break the x86 build.
->>>>>>>> Introduce a Hyper-V-specific helper following the established
->>>>>>>> hv_isolation_type_snp() / hv_isolation_type_tdx() pattern.
->>>>>>>>
->>>>>>>> On architectures other than arm64 the weak default keeps the existing
->>>>>>>> behaviour.
->>>>>>>>
->>>>>>>> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
->>>>>>>> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
->>>>>>>> ---
->>>>>>>>     arch/arm64/hyperv/mshyperv.c   |  5 +++++
->>>>>>>>     drivers/hv/hv_common.c         | 17 +++++++++++++----
->>>>>>>>     include/asm-generic/mshyperv.h |  1 +
->>>>>>>>     3 files changed, 19 insertions(+), 4 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->>>>>>>> index 46ab2da..da6c3aa0 100644
->>>>>>>> --- a/arch/arm64/hyperv/mshyperv.c
->>>>>>>> +++ b/arch/arm64/hyperv/mshyperv.c
->>>>>>>> @@ -182,3 +182,8 @@ bool hv_is_hyperv_initialized(void)
->>>>>>>>         return hyperv_initialized;
->>>>>>>>     }
->>>>>>>>     EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
->>>>>>>> +
->>>>>>>> +bool hv_isolation_type_cca(void)
->>>>>>>> +{
->>>>>>>> +    return is_realm_world();
->>>>>>>> +}
->>>>>>>> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
->>>>>>>> index 31256cb..a60c92c 100644
->>>>>>>> --- a/drivers/hv/hv_common.c
->>>>>>>> +++ b/drivers/hv/hv_common.c
->>>>>>>> @@ -476,6 +476,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>>>         u64 msr_vp_index;
->>>>>>>>         gfp_t flags;
->>>>>>>>         const int pgcount = hv_output_page_exists() ? 2 : 1;
->>>>>>>> +    const size_t alloc_size = ALIGN((size_t)pgcount * HV_HYP_PAGE_SIZE, PAGE_SIZE);
->>>>>>>>         void *mem;
->>>>>>>>         int ret = 0;
->>>>>>>>
->>>>>>>> @@ -489,7 +490,7 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>>>          * online and then taken offline
->>>>>>>>          */
->>>>>>>>         if (!*inputarg) {
->>>>>>>> -        mem = kmalloc_array(pgcount, HV_HYP_PAGE_SIZE, flags);
->>>>>>>> +        mem = kmalloc(alloc_size, flags);
->>>>>>>>             if (!mem)
->>>>>>>>                 return -ENOMEM;
->>>>>>>>
->>>>>>>> @@ -499,14 +500,16 @@ int hv_common_cpu_init(unsigned int cpu)
->>>>>>>>             }
->>>>>>>>
->>>>>>>>             if (!ms_hyperv.paravisor_present &&
->>>>>>>> -            (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
->>>>>>>> -            ret = set_memory_decrypted((unsigned long)mem, pgcount);
->>>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>>>>>> +             hv_isolation_type_cca())) {
->>>>>>>
->>>>>>> Could this big "if" statement use "hv_is_isolation_supported()" instead
->>>>>>> of explicitly testing for each CoCo VM type? I ask partly because
->>>>>>> Mukesh Rathor has just submitted a patch [1] that introduces a new
->>>>>>> function that does something almost exactly the same as
->>>>>>> hv_is_isolation_supported() and uses it here.
->>>>>>
->>>>>>>> +            (hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>>>>>> +             hv_isolation_type_cca())) {
->>>>>>
->>>>>> With my change, this will become:
->>>>>>
->>>>>>           (hv_isolation_hw_cvm() || hv_isolation_type_cca())) {
->>>>>
->>>>> Any reason you wouldn't change hv_isolation_hw_cvm() to
->>>>>
->>>>>     return hv_isolation_type_snp() || hv_isolation_type_tdx() ||
->>>>>       hv_isolation_type_cca()
->>>>>
->>>>> That would seem more logical to me.
->>>>>
->>>>
->>>> We could, I just don't know if on cca, the repeat hypercall has same
->>>> behavior. I was leaving that for the arm team. Anyways, I sent question
->>>> to the hyp team, if they say yes, i can update my patch to include that.
->>>>
->>>> Thanks,
->>>> -Mukesh
->>>
->>>
->>> Confirming, arm has same behavior and needs the fix also. So, we can def
->>> expand the check to include _cca.
->>>
->>> I just sent V1, renaming hv_isolation_hw_cvm() to hv_isolation_type_hw().
->>> If your patch goes after mine, you just need to add to your 0004*:
->>>
->>> diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
->>> index 4fdc26ade1d7..67a16b4d2235 100644
->>> --- a/arch/arm64/hyperv/mshyperv.c
->>> +++ b/arch/arm64/hyperv/mshyperv.c
->>> @@ -134,3 +134,8 @@ bool hv_is_hyperv_initialized(void)
->>>          return hyperv_initialized;
->>>   }
->>>   EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
->>> +
->>> +bool hv_isolation_type_hw(void)
->>> +{
->>> +       return is_realm_world();
->>> +}
->>>
->>>
->>> OR, you could pick mine 0001-* and make it part of your series, and I
->>> can drop it from mine and make it dependent on yours. But mine is small
->>> enough that it has higher chances of going in first.....
->>>
->>
->> This patch set has already been applied to hyperv-next, so maybe you can
->> rebase off that.
->>
+On Tue, 17 Nov 2026 16:39:48 -0800 Kameron Carr wrote:
+> > -	if (netvsc_vf_join(vf_netdev, ndev, context) != 0)
+> > +	if (netvsc_vf_join(vf_netdev, ndev, context) != 0) {
+> > +		ret = prog ? netvsc_vf_setxdp(vf_netdev, NULL) : 0;
+> > +		if (ret)
+> > +			netdev_warn(ndev, "failed to remove XDP program from VF %s: %d\n",
+> > +				    vf_netdev->name, ret);
+> >  		return NOTIFY_DONE;
+> > +	}  
 > 
-> Ok, I'll rebase my patches from hyperv-fixes to hyperv-next, and
-> resubmit.
+> If netvsc_vf_join() fails here, did we potentially just
+> netdev_update_features() a VF we don't own? Can we restore the old
+> features on failure? And / or reject VFs with a busy RX handler before
+> making feature changes?
+
+To me the first question is why this driver thinks its appropriate
+to override wanted_features in the first place??  That's not how
+normal feature propagation works for uppers.
+
+Slightly more to your point - I don't see the driver restoring the
+original features when VF detaches. So why should we bother worrying
+about the failure case when normal detach doesn't clean up?
+
+> >  	dev_hold(vf_netdev);
+> >  	rcu_assign_pointer(net_device_ctx->vf_netdev, vf_netdev);
+> > @@ -2363,9 +2391,6 @@ static int netvsc_register_vf(struct net_device *vf_netdev, int context)
+> >  	vf_netdev->wanted_features = ndev->features;
+> >  	netdev_update_features(vf_netdev);
+> >  
+> > -	prog = netvsc_xdp_get(netvsc_dev);
+> > -	netvsc_vf_setxdp(vf_netdev, prog);  
 > 
-> Thanks,
-> -Mukesh
+> I think Sashiko has a point that this patch might introduce edge case
+> issues when netvsc_detach() fails.
 > 
+> I wonder if moving the netvsc_xdp_set() after netif_device_detach() in
+> netvsc_detach() fixes some of the faiure paths (RNDIS close or ring
+> drain fails)? I haven't yet fully thought through all the scenarios
+> Sashiko brought up.
+> 
+> I understand improving XDP accounting is the end goal, but I hope we can
+> get there without introducing new bugs.
 
-On second thought, given these are overloaded functions, adding a new
-function makes it complicated. Since it's only two places, it's just
-not worth it. Punting on it for now...
-
-Thanks,
--Mukesh
-
+"Improving" is not strong enough, the propagation bypassed all safety
+checks. See the next series in the sequence:
+https://lore.kernel.org/all/20261112235027.4072149-1-kuba@kernel.org/
+Pretty sure I left netvsc in a much better state that before the series,
+but there's plenty of bugs left to fix. I hope Microsoft will address
+them.
