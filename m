@@ -1,140 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010894;
-	b=KWbMdUxZStBczeeoNgIZb9SScHt4ybvJ/FYtaFQ19RPVG2XuuKKOe0HsPpvgoYaFhvgT
-	 E/rnp0dc6NfRB8aeUIgQtKnrjO5/MzghY40eobaZHhAY4pGilaTxRZbuuVHgxhBhue0VI
-	 H16K9UXrFY46KOOu1YTuZD6pAlET6UhKqQu4XEqMJHlvovqc9xHHTkuy15SMSGBmum8T6
-	 0vUFbi5ChCnwDrEHspR3yOKZWoNPISefxodaHiPLt8AZBf4ApBW7x+TpDP+NDuZTFrRnL
-	 CvNnr+c7ThoCzUMfcSRqJWpVkdEYfk5BUUIM4EjPmVeylgg/KDmmTvcacHSrYDTyC9Q==
+	t=1795017688;
+	b=UiGxQTEjpHJFh6exQHSQjtwq/69+EZgd0jorKkR8jv4pbm+RmqSBOE1GAlmpbw4nhhBJ
+	 4G/X8GbVUdtvign1WjweqgClMPIMHpv/hT2Ki6L9A/Bjc0XtNyny5ln3LZj3ACVu61bAt
+	 TCKiwhkjYuMSfiYKaD8DRFzg5njrLKRCiC7AYlk5KzJg3fdPaSe7VTHfYKTFjkmW+zw38
+	 5T8mBF7CYEWN4Gw6wIORUZ1M1Hx3EwUZVovwfVCZr6brI0u5NqZzODOCkWSgDZyzvibax
+	 E6Un9oV6HwUCb2XM9DzrCk1iMa9wWtG/b6QKeWsIpmP+vg2xAOyU/FD47lH7oRLqe5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010894;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type;
-	bh=kSUE/o5CqDYurph69R6wpud9Np7SIjoEFQ7s0L3TdZE=;
-	b=4EMIilZ8cQtQTU/9VXo4mmb8fbzLhKV+0okgLf0eKcOJXybmFA9VHsYRhNlbxqjq4+r9
-	 LWB2NKL62TBtc5gSUJVelUH9mxw3kwCj0gq+I1ejZItlHBAxodJUo+tzzaxLGQqnv6y2R
-	 OTOubtdXh1IT87QU24bIMWOfVggy+ObAODJZ4Ro71J4bTd0UZxjIckWs3GLj8vt/UhcF3
-	 kwfgkw+8Jx1wpv4BeCUD3WQGWsS1k4KUbOCsjoXtHiTnV02MgNTPmXWZ3/jAKSiKIPhOf
-	 YWcmltS3oip51jspxf3tqTjJnvMihuC6xyliU2UP8NmTvu6kwtuEfpbNzdj+kTsNeKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017688;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=cZRFw/Cjww35iujiqXHHNdAn+2wX+SxDrxLrRxf+LE0=;
+	b=Q26hCDwK4HJq/WL3eEPrz/T7h1XMPHQbcsFuhLztCdtbnv8BA0wYtI+QoQbUyz7P6D0B
+	 za7r7wf4v6cek7DB9OAj7TzKkKTe/SkSHlRcmZYNe7r9WnVmDbP+xVSUI/yuJERX+nLzd
+	 k2wKai5p/0jfufE/3zFSc1926dobOzCUfB+Ur2DXO9VSgmyzWioHjApU6dldp2dynkhzE
+	 d2D7dPtP/SweDtMzTIF8A6xiO6KRvDrOcqBGkSyP9dpaRH9ZcVdL7qUZPLaA8IgegQN+0
+	 uU4D/OrOEd5YqOYF3w7+1nsa9XtzI/empLViXVacO3UMJHiwmJ9bxYJHvwUHPlIQRbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=lO8vUGAB;
-	arc=none smtp.remote-ip=192.134.164.83
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MIHSjrJo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3878B606A31C;
-	Wed, 18 Nov 2026 14:08:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3878B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE467606A32C;
+	Wed, 18 Nov 2026 16:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=lO8vUGAB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=kSUE/o5CqDYurph69R6wpud9Np7SIjoEFQ7s0L3TdZE=;
-  b=lO8vUGABN3SRz8stmFI6GOw5EdtNndRF+CQvv0/fdjATmxkGTAFZQyyX
-   q3S3Iji9niTjJuaRWhbudJSEAZZKtnIYWDJnU5+hLPXuIFXtC4McFue5K
-   zJmH9mSahEE3uuCKvqXtwc7RUVjEQny86msZaIn/W22PRg53MToih5RN6
-   4=;
-X-CSE-ConnectionGUID: NpDResvMRHWEoFCgk5A11w==
-X-CSE-MsgGUID: tkj3zeBCTZKFS5tJsQM2+w==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,219,1787004000"; 
-   d="scan'208";a="306121450"
-Received: from 72-255-236-003.static.imsbiz.com (HELO hadrien) ([72.255.236.3])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 15:07:35 +0100
-Date: Wed, 18 Nov 2026 22:07:31 +0800 (+08)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Bence Csokas <bence.csokas@arm.com>
-cc: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-    Marcel Holtmann <marcel@holtmann.org>, 
-    Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-    Sumit Semwal <sumit.semwal@linaro.org>, 
-    =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
-    Philipp Stanner <phasta@kernel.org>, 
-    Sudeep Holla <sudeep.holla@kernel.org>, 
-    Cristian Marussi <cristian.marussi@arm.com>, 
-    Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-    Maxime Ripard <mripard@kernel.org>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-    Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-    Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-    Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
-    Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
-    Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-    Selvin Xavier <selvin.xavier@broadcom.com>, 
-    Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
-    Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-    Chengchang Tang <tangchengchang@huawei.com>, 
-    Junxian Huang <huangjunxian6@hisilicon.com>, 
-    Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-    Hans de Goede <hansg@kernel.org>, 
-    Mauro Carvalho Chehab <mchehab@kernel.org>, 
-    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-    Dexuan Cui <decui@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, 
-    Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
-    Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
-    Johannes Berg <johannes@sipsolutions.net>, 
-    Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-    Guenter Roeck <groeck@chromium.org>, Nilesh Javali <njavali@marvell.com>, 
-    GR-QLogic-Storage-Upstream@marvell.com, 
-    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
-    "Martin K. Petersen" <mkp@kernel.org>, 
-    Julia Lawall <Julia.Lawall@inria.fr>, 
-    Nicolas Palix <nicolas.palix@imag.fr>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, 
-    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-    Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-    Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-    Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-    Bharath SM <bharathsm@microsoft.com>, Carlos Maiolino <cem@kernel.org>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-    Davidlohr Bueso <dave@stgolabs.net>, 
-    =?ISO-8859-15?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>, 
-    Alexei Starovoitov <ast@kernel.org>, 
-    Daniel Borkmann <daniel@iogearbox.net>, 
-    Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-    Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-    Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-    Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-    Emil Tsalapatis <emil@etsalapatis.com>, 
-    Ihor Solodrai <ihor.solodrai@linux.dev>, Simon Horman <horms@kernel.org>, 
-    David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>, 
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-    Steffen Klassert <steffen.klassert@secunet.com>, 
-    Herbert Xu <herbert@gondor.apana.org.au>, 
-    =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>, 
-    =?ISO-8859-15?Q?G=FCnther_Noack?= <gnoack@google.com>, 
-    Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, "Geoffrey D. Bennett" <g@b4.vu>, 
-    Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-    linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-bluetooth@vger.kernel.org, linux-media@vger.kernel.org, 
-    dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-    arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-    linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-    netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-    chrome-platform@lists.linux.dev, linux-scsi@vger.kernel.org, 
-    cocci@inria.fr, linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
-    samba-technical@lists.samba.org, linux-xfs@vger.kernel.org, 
-    bpf@vger.kernel.org, ipsec@lists.linux.dev, 
-    linux-security-module@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] overflow: Add offsetofend() variant of
- struct_offset()
-In-Reply-To: <20261118-offsetof-v4-1-95b385c10b22@arm.com>
-Message-ID: <c6fbb025-8de-b716-5d32-877c3d3fa2a6@inria.fr>
-References: <20261118-offsetof-v4-0-95b385c10b22@arm.com> <20261118-offsetof-v4-1-95b385c10b22@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MIHSjrJo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5297B1F000C6;
+	Wed, 18 Nov 2026 16:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795017688;
+	bh=cZRFw/Cjww35iujiqXHHNdAn+2wX+SxDrxLrRxf+LE0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MIHSjrJoVsf63UVtW2KIRg0guTCkRD2dmYU0Q79uMV9LENF+BVohX6I2oioIMMKXC
+	 sC0DdqYhX5TpmHwtI0ImMFG63XYTDepJk6gUElOMd+xF8wMDOlxis6Zghw10fR0Hl1
+	 rX+qLGQLewCPAjrn+twvhAmG/rscSIcoePIiIGPo548wP9tvWOWwEJx+gHC4+qWI2r
+	 c6trBZg0eRJBTgxI591M0Cfc2jgK43l3muB5lHwzyl5fgnaNaabjKYL+rhbEgyx+1a
+	 ecAlkJ6gT/s14NDE+DG9Je2uCkozfj4VIvrW88pLI+YvEPhZrWijVWI6xEE7i8tOO5
+	 QKwOTscE4S/Lw==
+Message-ID: <sashiko-outbox-221402@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v11 3/4] net: mana: support concurrent HWC
+ requests
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Hu" <weh@linux.microsoft.com>
+Cc: linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
+In-Reply-To: <45db2acd8f03421191f5b3a9f4bd7ce9e9259b33.1794751992.git.weh@linux.microsoft.com>
+References: <cover.1794751992.git.weh@linux.microsoft.com>
+ <45db2acd8f03421191f5b3a9f4bd7ce9e9259b33.1794751992.git.weh@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2026 16:01:27 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -143,79 +60,262 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [High] net: mana: skipped mana_gd_put_gic() on EQ teardown breaks
+  remove_irqs()
+- [High] RDMA/mana_ib: returning errors in mana_ib_destroy_qp() breaks
+  teardown
+- [High] RDMA/mana_ib: mana_ib_destroy_cq() leaves dangling callback on
+  rejection
+- [Medium] net: mana: leaked GIC ref when mana_gd_create_mana_eq() is
+  rejected
+--
 
+commit 2f3af75d69a80c300f076a62ab2f24d6ea93aab2
+Author: Long Li <longli@microsoft.com>
 
-On Wed, 18 Nov 2026, Bence Csokas wrote:
+net: mana: support concurrent HWC requests
 
-> Many call sites of offsetofend() use it for the purpose of pointer
-> artihmetic. Thus, a common usage pattern is:
->
->   offsetofend(typeof(*ptr), member)
->
-> Capturing this in one macro helps keep lines short and terse, while
-> still making the purpose clear. It also helps discourage spelling out
-> the type name on every callsite, leading to more maintainable code.
->
-> A similar struct_offset() macro already exists, so add an offsetofend()
-> variant in the same spirit.
->
-> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
-> ---
->  include/linux/overflow.h                     | 12 ++++++++++++
->  scripts/coccinelle/api/struct_offsetof.cocci | 18 ++++++++++++++++++
->  2 files changed, 30 insertions(+)
->
-> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-> index d0f04436343e..c029d68daeca 100644
-> --- a/include/linux/overflow.h
-> +++ b/include/linux/overflow.h
-> @@ -464,6 +464,18 @@ static __always_inline size_t __must_check size_sub(size_t minuend, size_t subtr
->   */
->  #define struct_offset(p, member) (offsetof(typeof(*(p)), member))
->
-> +/**
-> + * struct_offsetofend() - Calculate the end of a member within a struct
-> + * @p: Pointer to the struct
-> + * @member: Name of the member to get the end offset of
-> + *
-> + * Calculates the offset of the end of a particular @member of the structure
-> + * pointed to by @p.
-> + *
-> + * Return: number of bytes to the end of @member.
-> + */
-> +#define struct_offsetofend(p, member) (offsetofend(typeof(*(p)), member))
+This commit adds reference-counted HWC caller slots, serializes SQ
+posting, quarantines timed-out HWC slots, and propagates local HWC
+request rejections across MANA Ethernet and RDMA teardown paths.
+
+Link: https://lore.kernel.org/r/20260908035201.402424-4-longli@microsoft.com
+Link: https://lore.kernel.org/r/20260914175044.2a26bb46@kernel.org
+Link: https://lore.kernel.org/r/179196575640.434549.9102950927041409151@ker=
+nel.org
+Link: https://lore.kernel.org/r/179250339266.3135.15035365058593192217@kern=
+el.org
+Link: https://lore.kernel.org/r/179455240021.2199510.18244084352437360589@k=
+ernel.org
+
+> diff --git a/drivers/infiniband/hw/mana/cq.c b/drivers/infiniband/hw/mana=
+/cq.c
+> index 843e2c64b32bc..95b7c250494b1 100644
+> --- a/drivers/infiniband/hw/mana/cq.c
+> +++ b/drivers/infiniband/hw/mana/cq.c
+> @@ -169,16 +170,14 @@ int mana_ib_destroy_cq(struct ib_cq *ibcq, struct i=
+b_udata *udata)
+> =20
+>  	mdev =3D container_of(ibdev, struct mana_ib_dev, ib_dev);
+> =20
+> -	mana_ib_remove_cq_cb(mdev, cq);
+> -
+> -	/* Ignore return code as there is not much we can do about it.
+> -	 * The error message is printed inside.
+> -	 */
+> -	mana_ib_gd_destroy_cq(mdev, cq);
+> +	err =3D mana_ib_gd_destroy_cq(mdev, cq);
+> +	if (mana_gd_is_request_rejected(err) ||
+> +	    READ_ONCE(cq->queue.retain_dma))
+> +		return err ? err : -ENOTCONN;
+> =20
+> -	mana_ib_destroy_queue(mdev, &cq->queue);
+> +	mana_ib_remove_cq_cb(mdev, cq);
+> =20
+> -	return 0;
+> +	return mana_ib_destroy_queue(mdev, &cq->queue);
+>  }
+
+[Severity: High]
+Does returning early here leave a dangling CQ callback in
+gc->cq_table[cq->queue.id]?
+
+For kernel CQs, ib_free_cq() and the error path of __ib_alloc_cq() free
+the ib_cq even when destroy_cq() returns an error; for user CQs,
+uverbs_destroy_ufile_hw() falls back to RDMA_REMOVE_DRIVER_FAILURE and
+frees cq->ibcq.uobject.  Because mana_ib_remove_cq_cb() and
+mana_gd_detach_cq() (called via mana_ib_destroy_queue() ->
+mana_gd_destroy_queue() for kernel CQs) are both skipped when
+mana_ib_gd_destroy_cq() is rejected or retain_dma is set, a subsequent
+completion EQE will invoke mana_ib_cq_handler() on the freed CQ or
+uobject.
+
+> diff --git a/drivers/infiniband/hw/mana/qp.c b/drivers/infiniband/hw/mana=
+/qp.c
+> index 15c5d6cefd628..5e4eed814d61b 100644
+> --- a/drivers/infiniband/hw/mana/qp.c
+> +++ b/drivers/infiniband/hw/mana/qp.c
+
+[ ... ]
+
+> @@ -1030,12 +1093,11 @@ static int mana_ib_destroy_rc_qp(struct mana_ib_q=
+p *qp, struct ib_udata *udata)
+>  	if (err)
+>  		return err;
+> =20
+> -	mana_table_remove_qp(mdev, qp);
+> +	err =3D mana_ib_gd_destroy_rnic_qp(mdev, qp);
+> +	if (mana_gd_is_request_rejected(err))
+> +		return err;
+> =20
+> -	/* Ignore return code as there is not much we can do about it.
+> -	 * The error message is printed inside.
+> -	 */
+> -	mana_ib_gd_destroy_rnic_qp(mdev, qp);
+> +	mana_table_remove_qp(mdev, qp);
+>  	for (i =3D 0; i < MANA_RC_QUEUE_TYPE_MAX; ++i)
+>  		mana_ib_destroy_queue(mdev, &qp->rc_qp.queues[i]);
+> =20
+> @@ -1052,11 +1114,11 @@ static int mana_ib_destroy_uc_qp(struct mana_ib_q=
+p *qp, struct ib_udata *udata)
+>  	if (err)
+>  		return err;
+> =20
+> +	err =3D mana_ib_gd_destroy_rnic_qp(mdev, qp);
+> +	if (mana_gd_is_request_rejected(err))
+> +		return err;
 > +
->  /**
->   * __DEFINE_FLEX() - helper macro for DEFINE_FLEX() family.
->   * Enables caller macro to pass arbitrary trailing expressions
-> diff --git a/scripts/coccinelle/api/struct_offsetof.cocci b/scripts/coccinelle/api/struct_offsetof.cocci
-> new file mode 100644
-> index 000000000000..5a30647d3787
-> --- /dev/null
-> +++ b/scripts/coccinelle/api/struct_offsetof.cocci
-> @@ -0,0 +1,18 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/// Use struct_offset() family of macros
-> +///
-> +// Confidence: High
-> +// Options: --no-includes --ignore ./tools/
+>  	mana_table_remove_qp(mdev, qp);
+> -	/* Ignore return code as there is not much we can do about it.
+> -	 * The error message is printed inside.
+> -	 */
+> -	mana_ib_gd_destroy_rnic_qp(mdev, qp);
+>  	for (i =3D 0; i < MANA_UC_QUEUE_TYPE_MAX; ++i)
+>  		mana_ib_destroy_queue(mdev, &qp->uc_qp.queues[i]);
+> =20
+> @@ -1073,16 +1135,16 @@ static int mana_ib_destroy_ud_qp(struct mana_ib_q=
+p *qp, struct ib_udata *udata)
+>  	if (err)
+>  		return err;
+> =20
+> +	err =3D mana_ib_gd_destroy_ud_qp(mdev, qp);
+> +	if (mana_gd_is_request_rejected(err))
+> +		return err;
 > +
-> +virtual patch
-> +
-> +@offsetof depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetof(typeof(*(ptr)), member)
-> ++ struct_offset(ptr, member)
-> +@offsetofend depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetofend(typeof(*(ptr)), member)
-> ++ struct_offsetofend(ptr, member)
+>  	mana_table_remove_qp(mdev, qp);
+>  	mana_remove_qp_from_cqs(qp, false);
+> =20
+>  	destroy_shadow_queue(&qp->shadow_rq);
+>  	destroy_shadow_queue(&qp->shadow_sq);
+> =20
+> -	/* Ignore return code as there is not much we can do about it.
+> -	 * The error message is printed inside.
+> -	 */
+> -	mana_ib_gd_destroy_ud_qp(mdev, qp);
+>  	for (i =3D 0; i < MANA_UD_QUEUE_TYPE_MAX; ++i)
+>  		mana_ib_destroy_queue(mdev, &qp->ud_qp.queues[i]);
 
-Coccinelle script
+[Severity: High]
+Can returning an error from mana_ib_destroy_{rc,uc,ud}_qp() before
+mana_table_remove_qp() and mana_remove_qp_from_cqs() cause a
+use-after-free during device removal or HWC reset recovery?
 
-Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+During mana_serv_reset() -> mana_gd_suspend() -> mana_rdma_remove() ->
+mana_ib_remove(), mana_drain_gsi_sqs() adds the kernel GSI QP to the MAD
+CQ's send_err_qp_list and schedules cq->work.  When ib_unregister_device()
+then closes the MAD port, mana_ib_destroy_ud_qp() returns -ENOTCONN, which
+causes ib_destroy_qp_user() to abort without dropping port_priv->cq->usecnt
+or removing the QP from send_err_qp_list and mdev->qp_table_wq.
+ib_free_cq() then hits WARN_ON_ONCE(atomic_read(&cq->usecnt)) and skips
+cancelling cq->work before ib_dealloc_device() frees mdev, leaving
+ib_cq_poll_work() and EQE handlers to dereference freed memory.
+
+In addition, create_qp()'s err_security unwind in
+drivers/infiniband/core/verbs.c ignores the return value of destroy_qp()
+and frees qp, and uverbs_destroy_ufile_hw() frees qp->uobject on
+RDMA_REMOVE_DRIVER_FAILURE, both leaving a freed QP in mdev->qp_table_wq.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/ne=
+t/ethernet/microsoft/mana/gdma_main.c
+> index fc460d83fb800..0160ad55a21ff 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+
+[ ... ]
+
+> @@ -1117,7 +1181,8 @@ static int mana_gd_create_eq(struct gdma_dev *gd,
+>  	return 0;
+>  out:
+>  	dev_err(dev, "Failed to create EQ: %d\n", err);
+> -	mana_gd_destroy_eq(gc, false, queue);
+> +	if (mana_gd_is_request_rejected(mana_gd_destroy_eq(gc, false, queue)))
+> +		err =3D -ENOTCONN;
+>  	queue->eq.msix_index =3D INVALID_PCI_MSIX_INDEX;
+>  	return err;
+>  }
+
+[ ... ]
+
+> @@ -1385,7 +1451,10 @@ int mana_gd_create_mana_eq(struct gdma_dev *gd,
+>  out:
+>  	dev_err(gc->dev, "Failed to create queue type %d of size: %u, err: %d\n=
+",
+>  		spec->type, spec->queue_size, err);
+> -	mana_gd_free_memory(gmi);
+> +	if (!mana_gd_is_request_rejected(err) ||
+> +	    (gmi->dma_region_handle =3D=3D GDMA_INVALID_DMA_REGION &&
+> +	     !queue->eq.disable_needed))
+> +		mana_gd_free_memory(gmi);
+>  free_q:
+>  	kfree(queue);
+>  	return err;
+
+[Severity: Medium]
+Does mana_gd_create_mana_eq() cause its callers (mana_create_eq() and
+mana_ib_create_eqs()) to leak the GIC reference and MSI-X bitmap entry when
+an HWC request is rejected before the hardware EQ exists, or when
+mana_gd_destroy_eq() succeeds after mana_gd_test_eq() is rejected?
+
+In both cases queue->eq.disable_needed is false and queue is freed, yet
+mana_gd_create_mana_eq() still returns a rejected error code (-ENOTCONN or
+-ENODEV), so the callers skip mana_gd_put_gic().  Also, if
+mana_gd_create_dma_region() succeeded and mana_gd_create_eq() then fails
+before mana_gd_create_hw_eq() consumes gmi->dma_region_handle, the unwind
+path never calls mana_gd_destroy_dma_region().
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/=
+ethernet/microsoft/mana/mana_en.c
+> index 744e6ceb7d2b9..1af0ed35c5988 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -1791,8 +1793,8 @@ void mana_destroy_eq(struct mana_port_context *apc)
+>  			continue;
+> =20
+>  		msi =3D eq->eq.msix_index;
+> -		mana_gd_destroy_queue(gc, eq);
+> -		mana_gd_put_gic(gc, !gc->msi_sharing, msi);
+> +		if (!mana_gd_is_request_rejected(mana_gd_destroy_queue(gc, eq)))
+> +			mana_gd_put_gic(gc, !gc->msi_sharing, msi);
+>  	}
+> =20
+>  	kfree(apc->eqs);
+
+[Severity: High]
+Does skipping mana_gd_put_gic() here and in mana_ib_destroy_eqs() break
+mana_gd_remove_irqs() and mana_cdx_remove_irqs() during device reset or
+removal?
+
+When HWC requests are rejected (for example after mana_serv_reset() calls
+mana_gd_cancel_hwc_timeout()), mana_gd_destroy_queue() returns -ENOTCONN
+after deregistering the EQ from gic->eq_list, and the callers free
+apc->eqs and mdev->eqs without dropping their gic->refcount references.
+When mana_gd_cleanup() then runs mana_gd_remove_irqs() or
+mana_cdx_remove_irqs(), it calls mana_gd_put_gic() only once per vector:
+
+drivers/net/ethernet/microsoft/mana/gdma_pci.c:mana_gd_remove_irqs() {
+	...
+	xa_for_each(&gc->irq_contexts, msi, gic)
+		mana_gd_put_gic(gc, false, msi);
+
+	WARN_ON(!xa_empty(&gc->irq_contexts));
+
+	pci_free_irq_vectors(pdev);
+}
+
+For any vector whose refcount was elevated by both setup_hwc_irqs and an
+EQ (such as MSI 0 used by fatal_err_eq, shared MSI vectors, or all vectors
+on CDX and non-dynamic MSI-X), refcount_dec_and_test(&gic->refcount) does
+not reach zero, so free_irq() and xa_erase() are skipped before
+WARN_ON(!xa_empty(&gc->irq_contexts)) and pci_free_irq_vectors() /
+msi_domain_free_irqs_all(), leaving the IRQ handlers registered when gc is
+freed or resumed.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1794751992.gi=
+t.weh@linux.microsoft.com?part=3D3
