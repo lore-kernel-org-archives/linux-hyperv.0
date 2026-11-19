@@ -1,159 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.116
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795124016;
-	b=TLJMudBxdTdkV5c4FbBop9jl8siWCkPc3fO9iNx5EM9s29WuTWQMw1TI9aH9KPhhMyY/
-	 PCZ6mNsYt71459/Rx+XdjXsDilBQ7NGv4KSHdOzvRHpYjbNeEGiG54upw6Ua33q/HgUkC
-	 9IQvqxzl16BhWyTDe6WctbWJ4a5axS3UMfDK3YuLRfFn18RdZhFvC/aI6VNyZrYA/yma0
-	 EfB+5F6oymxr+bQcHnKd0gEnKBFHpRW+sg4V6Zd+C7F/VOiiNXPI5HAsqwRaAau8jZVLv
-	 RMRrrHt9n3ppLR3CzWfCT2rdhxN4e8gxINQT8LQlxxzexsVium3YXBEVX1VBlutihjQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795124016;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 msip_labels:x-ms-traffictypediagnostic:x-ms-publictraffictype:
-	 client-request-id:request-id:x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
-	 x-microsoft-antispam:x-microsoft-antispam-message-info:
-	 x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=HIDQA+u4y2bkO9BO+GU6s2FDKh2s7jOydoRaiNT1sHo=;
-	b=sNcL9ryUefAtLl5qH3dm2XMn2f8tSsTnIqlQIXZo8/GLLU95J9KdmipPkJVd3co1QgEf
-	 svb22lT01ucciz6qPT+TKMVT3+AzWJLSoZmd6OrsSgr1QVxwbAoE8Yd+HHuqUpo+ECzqk
-	 1GsyVWPRJzlj75RH5A1CUmOYmY81024wFSJeo9rR7zmhdlP4RIiGzgSh8pNp1wt5VHez0
-	 T8GVXHXhV+c/bM7HQhtfi4194I5bg0oive2bShSprv9YMbMHiu3qK8X0i6uBOcqtMtBsN
-	 OHo9tCa/AHyypAoAzQT32K5YcOs9qhqrykbvEHEgKBy81/wsBv2SsOMW2FEC8t7cWag==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=microsoft.com;
-	spf=pass smtp.mailfrom=microsoft.com;
-	dkim=pass header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=QGWQxN9d;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.116
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11020116.outbound.protection.outlook.com [52.101.201.116])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795125116;
+	b=CUfQ2A0BGa2YR/JUogDorgZHOeBfZcpaOPhPLB7vmsLLaDyhuiWPD8agkny9YDnz7TlB
+	 8mrwr3LQpKBaQfr94H2/hlMywEh1Yd9LT9Myd5et/XbBQMBcuTl4P+l6Jala6qs9OiHtG
+	 peBmuvPvzb2/qheo9K8/RgKn/OJUl7jq/YAZ5fLD5TSUkjCRk89Fh8WURdcsnZIfwepL1
+	 9DRtUTj6iox6L8BtsMq82UVp2MIZiKC/NL5AKQX0HzbAgLT3/OyDaE7JxA3HcmoEgIjjs
+	 MzxMyoocG7/otF4Pb9TajVnPXguu/6q5Uw3Hzlf7FJZyMVENtEYJ+SN+GTxsvHbAwiw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795125116;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=Ri8CK3ItJsJssm9R2a+AMX7zfGjjWTKSLJi5tTs2ofs=;
+	b=1HfJWHFeV7d3lOFqG2H4NmMIQj1PaxpPXnbwZlfyGronodFSj7o9R54E2FH7x6bo+ND1
+	 +yL/YdRaLQWPCZae1N8eKzEHYFImE1+lv4DA+VDKniCMNJwjDM4dpTL6q6wfRffA7ma14
+	 XHcHVwvh6dV1nTxeJzIfwwLLxZG60OjX221fSFqz0i6AoeOdAODw3rWzFCH/GvWnhLpEe
+	 2wOQfEmFblv3NYhHsaiGb1H0qjzlgZkuIWZi/BqwxiWIxBgu6/kicTkOOtNaxN026ecQR
+	 linb0BUqkhjvPA/fLfALaol06CeH2gTNIPcKuDjm8qxipKW+AKPLRKSscNMh5gzbQVg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DHGBUcJM;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05752606A320;
-	Thu, 19 Nov 2026 21:33:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05752606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1C060A381E;
+	Thu, 19 Nov 2026 21:51:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA1C060A381E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=QGWQxN9d
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GGTZcTqXfmhGkwJw745GorRd5yWzDWXKLXoi8vg5fxKnzxJBaWIbL/F906VaknzIfHfnccpqByY5gwxzDxRSYLodOtr/QJUvqdFhO7nExX9BtQGWQEFkL2rjE7wf0DH8DShmiU8TWZkwWKYmHEVzFCauS3GBX0Nsk+gZ/aF77ApyqQygxwvpwoblMPOYq6wE/CWHDCPnUg4kCJKDORsN0pmCJXJ9qH1jQbzRqx9Vk14s0QZ4rrPVcb34PUXK9+ua12hZsif+GEcU7uEptP0wmm/bNmlEZiPkTGc4UWQz1cAABaNL8K3WoRs/xqou454lhormTP0XVQepqS4lYM/bJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HIDQA+u4y2bkO9BO+GU6s2FDKh2s7jOydoRaiNT1sHo=;
- b=JIiMLsfssfWwvxPGA6TT97HcfzjkYa9Dzp+lRFc3q+FUCh43ti25VtgQyxPxVmDJqub80KW0rZqSJIauB4doNzxxpVTwJekAPIpLNoKtoViWS+jHKKx3XPERTVgUBi48vWZOlwHkeEurUpYoPyDDwDeX9OZVrjYZb/F21kU25LcSPlG8j6dO8bB3HFGPOsjE4wQuUNb9baxW8OZ0xSSXRvajaq+fzQlgDAz07+YYIUF3pUk+1WrrramxgcJ9J35IrNWx/xxRxy0zP2YNgfNo+Kinq/QVDA2ZPHbHMI9bCmmoqGEynzkub9KBe3/4uBy5ZJLaGIpqqbY6YXllagZwNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HIDQA+u4y2bkO9BO+GU6s2FDKh2s7jOydoRaiNT1sHo=;
- b=QGWQxN9dukF57ULUN3goF+HPgi8dbivco2o0pHHKSPBdEsY5rLsv0yQFwLUEZbX+hkIkKlbcPzI3h7qEDujU9XvpOQqpD2QL6lRaZZ6+zzZ+WtZLhll7m9/01Y1H2AXsD7VPItLi1ygSvmtmTSMcr03syL+jphBWN7e9ajd1OFg=
-Received: from DS4PR21MB6867.namprd21.prod.outlook.com (2603:10b6:8:2e5::19)
- by DS2PR21MB4965.namprd21.prod.outlook.com with HTTP via P2P; Thu, 19 Nov
- 2026 21:33:31 +0000
-Received: from DS4PR21MB6867.namprd21.prod.outlook.com
- ([fe80::ca4d:7155:e45a:3250]) by DS4PR21MB6867.namprd21.prod.outlook.com
- ([fe80::ca4d:7155:e45a:3250%6]) with mapi id 15.21.0662.001; Thu, 19 Nov 2026
- 21:33:31 +0000
-From: Haiyang Zhang <haiyangz@microsoft.com>
-To: Sahil Chandna <sahilchandna@linux.microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>, Dexuan Cui <DECUI@microsoft.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@kernel.org" <edumazet@kernel.org>,
-	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	Konstantin Taranov <kotaranov@microsoft.com>, "horms@kernel.org"
-	<horms@kernel.org>, "ernis@linux.microsoft.com" <ernis@linux.microsoft.com>,
-	"gargaditya@linux.microsoft.com" <gargaditya@linux.microsoft.com>,
-	"mawasthi@linux.microsoft.com" <mawasthi@linux.microsoft.com>,
-	"kees+treewide@kernel.org" <kees+treewide@kernel.org>,
-	"schakrabarti@linux.microsoft.com" <schakrabarti@linux.microsoft.com>,
-	"leitao@debian.org" <leitao@debian.org>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>
-CC: "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH net v4] net: mana: Avoid waiting on dead HWC after device
- reset
-Thread-Topic: [PATCH net v4] net: mana: Avoid waiting on dead HWC after device
- reset
-Thread-Index: AQHddz1eoh77ImL/P0mrS5GGpvqOQ7c17FjA
-Date: Thu, 19 Nov 2026 21:33:31 +0000
-Message-ID:
- <DS4PR21MB68671DF4211103A5814ABAD9CA792@DS4PR21MB6867.namprd21.prod.outlook.com>
-References: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
-In-Reply-To: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=d0ca8241-e0f8-4bcf-a4af-aba0bd16b9f7;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-11-19T21:32:01Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-traffictypediagnostic: DS4PR21MB6867:EE_|DS2PR21MB4965:EE_
-x-ms-publictraffictype: Email
-client-request-id: 93d03520-cf73-482d-8a2f-1584c6682440
-request-id: 7d802804-28e8-4e46-b107-08df4684c202
-x-ms-office365-filtering-correlation-id: 7d802804-28e8-4e46-b107-08df4684c202
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|261022105027099003|261022075727099003|261021121427099003|261102123227099003|261026140227099003|261026121527099003|921020|261028144727099003|38070700021|11063799006|56012099006|10067099003|7146999003|22082099003|18002099003|7053199004|6133799003|3023799007;
-x-microsoft-antispam-message-info:
- w3shkWMqGdlcIJE8YyQkaxS6jwTNV/xSpaxwV9OzHUtgKF+WL4oSsyjfF50msAnr7FNYDtrSvBj/RZ9FJIoK5hnPhY1Ozdr4BVGtS23pNnQuOhJQh+t3b8Ko1DdTX5BhYHQyTufJW6kNMXqbImkkzxbCkC43C47xqnO661eutiRge5zzMOiy4UKYnB7I3JJIkVmD5jR518FRxvRS6zsaNbajlnGSf/M8u/XSc4gVdF8DMhPQlvce0YBB1OWkc2M1noM6sulm9ZD9gIPIsOV0gjovLWYdGjVF5FqGJ/w7djVzCguPa/sYF6VUP62Nl33VY75PwtyYmqjno75ltsOrT1+ESMewCQ6XNB1wcdrasQIUjlyzxye4xEHfDkQNuzlc+4lHGMC+n0lD+U1caajDiRgvlWEuPIC2fa7dNIZEOHbD1VwGHJf2tnqIvolNzb5tqtB9cndl6l56p5Svmi6Qv/lJk8nFTBIrl1z8D+2CQM0VrKvbNTLOuxxCGJXXnbx2tOSoZIbtIu1lWAL9qLEXKB7J1bb6MV55uFpfVICJfPbXaBhQL9QB8aF7NGSLpgMLD71NOJAA0XJaxdMrdUGXtFWUzS83iUII5CM7vzkJpNNRGOhgujJd1i/kUmoFo2Nj/DRFYWhHTZfn4/R+u9+fnKgfgUijdiCj+KefYaf8LXsY4qbk6huCkMTLY2V0niuLDXpd58jykEnzQxeP9J5a1xv76hHh00PkpqrKwTCYyRuwIObWxd3zNgVXHpBrwM3C
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(261022105027099003)(261022075727099003)(261021121427099003)(261102123227099003)(261026140227099003)(261026121527099003)(921020)(261028144727099003)(38070700021)(11063799006)(56012099006)(10067099003)(7146999003)(22082099003)(18002099003)(7053199004)(6133799003)(3023799007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?aavB/mWfITm6+uYN91VY6c2qkMY3tTWjXH5wcGE4319VnlmduNzub7+vXK2Q?=
- =?us-ascii?Q?6LFTIR48w9WoWCWt5QtYOEA/lfBaFEbHw7pdNAWXLMT72aL6BGVoxbQ4AZ2i?=
- =?us-ascii?Q?8/9yONfP2mNKVrxhJk2THxUPWD7enze2jltqDl+t1VHhzwnS9wzk0AjaC5xG?=
- =?us-ascii?Q?36LXOWmGht8oeP+nJ1ci8tCf1MVPr+vfWy0GLU29g7RatG+O5iReSaymeUP5?=
- =?us-ascii?Q?NPROiFYg6XipmwF9B/OKelAcpnte7Se7EWf4Y8AGk/yWZCb9In3mvQpklIxq?=
- =?us-ascii?Q?CPVpKw3tJzhYzLpoQCppYo7U/iLEQ9ulzRJScW6AUDaYcQXggT2r8pf6AgS+?=
- =?us-ascii?Q?gkrNAYHS9YKp5T6ObLB7XyDBA23zcEmOvEwxY02hIc3hb2k8283ek7sUTnuu?=
- =?us-ascii?Q?oyfBYxZ9+OAD+7L2hBZgP+kdB/OdbuXjTj3iRFUiEbF9/Lg/I2GtSunRrxu5?=
- =?us-ascii?Q?6Zv7EAQ03pghqt64bvBLI/OaUh9OGdSQQOewXiv0xaRoe1hln5QwgOw29H+D?=
- =?us-ascii?Q?yKlOLWYjlAvWokIAZG3jtX56IfeZ2K/KTjA9RAAPCV7TbQv3HL/F1drK/zvi?=
- =?us-ascii?Q?Sj4kosYyPvBT7XTgGxSvq4K7gcPpPsdZvGnP7DjD/FZmEYbtnaPJyxaqIVio?=
- =?us-ascii?Q?sqqKKGTztzP/AaErCd4qyrZWeAil7x1qTuSa028/Dk57WlRKjPylAm1JQeN1?=
- =?us-ascii?Q?vI7MZOdZtbwdZp1k7fhak43l5mo4ZiGP/DW8giEBroH3R8MaqqPyk5ll4vbE?=
- =?us-ascii?Q?IFgKe7XxFPEoTBGUZalSW6NEYMzFRKFpZ6DT6sdLwD9FkukQ/Iwsg6Lf/l6k?=
- =?us-ascii?Q?VOYYEjskZ5uoQ1Tpz9tDBzNIBMRexlojUOnI2mjp0BOhIyA2ZnU/4o12Vtnk?=
- =?us-ascii?Q?avlsln2DVl50bvVl95tPVGahOw6u8YjpXFijrQgPFXvXw/6wCaO78FHLhOAX?=
- =?us-ascii?Q?xV3rTOz9xk1fe13faBRW53EjZNNaztmN2qE4eVh8HYwSYDpgerju5sIElcVd?=
- =?us-ascii?Q?+mq9nT63jzBHu6253E77/z5aUZs6OBQg782WIOtolb0Y3RG9MDg6SRSUfZ8D?=
- =?us-ascii?Q?JMEZ3d6jiGhAkK1Egc36YH7mGEtStOGJ5+AMCs7zvUnoavLejTGi8CSiOAah?=
- =?us-ascii?Q?QMR2CBw5XqGUcaqaQWT4TR1JlR8ujI6wh0caUVC8i6xRndxdUvC0M+06DYrX?=
- =?us-ascii?Q?7jGVps14VXB6ZxM+oPzj6zZetPaaT1YkdyaC7KL+uVWZDk1Sz8+hiiYLh6Ig?=
- =?us-ascii?Q?VbB/14evG2uWRQgHxNAo7KlVom2D/R+XUtXZqC8yHT/h3fl8PEqKqpqSrZ66?=
- =?us-ascii?Q?greF1ktq5fjzWB/dxC/0s+VyXxxB8xCaL5QpZjfS0pX3gMJtAPz8ChLbHR4q?=
- =?us-ascii?Q?2nFd3d0oi+MeRlcEB4HDHohBNhnPxGSR/JxPfYMpVaxR0FglqKnGOq8a2hwq?=
- =?us-ascii?Q?ofBX4JLEYNKpDhp89eIa1aoQwpsU3y3CgAX98DO03zzagVNl8n4Iz6P1Iqw5?=
- =?us-ascii?Q?7nPOZtu6J2oRkTX1filqKJAcuYkYaRBXAyfEYdyY0rrAXfYDbn/I+Di+ziGm?=
- =?us-ascii?Q?zzTAwotSBWYi5j9CQKXk4iwwyxIc1BKk7QSoDoNcVFcF3dgG/0pTdcvT51QT?=
- =?us-ascii?Q?W6hCYZaXQcphsN/UWJRebmEd16WJ/wpIoP9G3rLbYUB/Nitm/iwf26eEyYyw?=
- =?us-ascii?Q?JLcuFqVoH/sin1/dcm1ArwwWalTBcDBblDGxizM0Ib3I71cWY6bzvWEyeOB3?=
- =?us-ascii?Q?6xfsNDQGhg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=DHGBUcJM
+Received: from pps.filterd (m0528005.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJJ1LkI2754408;
+	Thu, 19 Nov 2026 13:51:24 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=Ri8CK3ItJsJ
+	ssm9R2a+AMX7zfGjjWTKSLJi5tTs2ofs=; b=DHGBUcJMMYXzIekxH9QyMTq7eci
+	SVZVf1xD6/O7voHLqsj3TWCiHW0pTsTwkmp/Sp9PwtUka34/b6VZNoQ3XhAegWHp
+	XpONuZUN0BT5PbMkq0U9Jw5rxaNbEH6ZM45118sUHONBJw1PZ/EDqM1N8pENELLL
+	6rSXBjtU4zfkfEQuuysIkDiL3qzIAJ1VUpSH/voGd5OhHjcVxH6uqOIL4qV94Mts
+	8l4+IRAgaR0HPmmg+KnSAl3PoeGsapIjh+W+qZj8eqd7rRovRjydI6BAwRArFP5o
+	k1nsJTlzvDeQ2/EH+QAf3DQtrrgl4w5/oY/3h1+h7MQ3JGWzNvfsRrvodKA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4j228kvma1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 19 Nov 2026 13:51:23 -0800 (PST)
+Received: from localhost (2620:10d:c0a8:1b::8e35) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Thu, 19 Nov
+ 2026 21:51:22 +0000
+Date: Thu, 19 Nov 2026 13:51:21 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Sergio Lopez Pascual <slp@redhat.com>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        Alexei Starovoitov
+	<ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Bryan Tan
+	<bryan-bt.tan@broadcom.com>,
+        Vishnu Dasa <vishnu.dasa@broadcom.com>,
+        Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Stefan
+ Hajnoczi <stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason
+ Wang <jasowangio@gmail.com>,
+        Eugenio =?iso-8859-1?Q?P=E9rez?=
+	<eperezma@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Haiyang Zhang
+	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+        Dexuan Cui
+	<decui@microsoft.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH RFC v3 0/8] vsock: add datagram support to virtio and
+ vhost
+Message-ID: <av9vWRXli+JmYO8A@devvm29614.prn0.facebook.com>
+References: <20261113-vsock-dgram-support-v3-0-1523c8e9b27e@redhat.com>
+ <aveMxDqYQobWwXd/@devvm29614.prn0.facebook.com>
+ <CAAiTLFUQMyQXHAw1DbDKfJYus-Se+QA_SSHWQymQ9dK6-UmRTQ@mail.gmail.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -163,85 +106,202 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS4PR21MB6867.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d802804-28e8-4e46-b107-08df4684c202
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2026 21:33:31.4327
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9JRdhUOPxwM223nG8x4BGEa7RU20Q2ZGoEuIPCzz7O8VjE6gAX/h8zDE2IbPxjDXGnFebreKOyXsypYXQ+uTTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR21MB4965
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAAiTLFUQMyQXHAw1DbDKfJYus-Se+QA_SSHWQymQ9dK6-UmRTQ@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA4NyBTYWx0ZWRfXwzIa7BHDzrhI
+ V9NPLugZeX0Dem605ATYIgoQU8DX72WI9bBs9VHmBqBAZcwlUI4+xKCLGec3yqad6e9XNHuQUKf
+ wh8/Z1Mk/yEYchU1ELul3oyezvQPlMuTsK6aw11IrS/iZG2ky0YHPQ5x2fDjJxe01HuGKZlID1n
+ bHRiO20kWrSLZK4gz9ob3EKfJCQ+sOo9P4S7G27w3umfmXytFXum9tJ/HanNivge0nqvRbrcLuJ
+ gA5mT4Wg7ZPOq05ccIQNX2ksv3x0dRPyiOMSJ0rrulluGOEJigLTb8HpiGCpoUiziVUM9XNcjy3
+ 1eWA60wrpqu5Qfr1NHxKeA8KK0UhAQZs2ign8WT+c4ph6c6rH1+NFA6L/zLq1aLANdVep2Lm5XV
+ HjICGVvLKwUIxJ3LSS5blwdHhxNf41mYiTRHaqmzf4ysQYa+mVHLxeWUEJRY/H+HxjOmG7yAUPQ
+ pBlTEVLGOEG9QGMJvTA==
+X-Proofpoint-GUID: EKMxB3j1syV6aAXBL7ADcf_4KtTeg0Sh
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA4NyBTYWx0ZWRfXwKAReosY9zZa
+ bBwoIH2U7bvtKc0Z4koR1XE6E6nLpYuJxcDsR5HFruBknRfag+QQB5Dtcl9NFmzvJqBczeAlmXp
+ QcRk/8QcO5bLyBaKyd3NyJUPaB/1FsQ=
+X-Authority-Analysis: v=2.4 cv=cYxHPXDM c=1 sm=1 tr=0 ts=6aff6f5b cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=jCddH8ec0KUNCymVuxII:22 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=968KyxNXAAAA:8 a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8
+ a=KMMIYZg5AAAA:8 a=VabnemYjAAAA:8 a=lvHqt9aMAKSFOjNFyPAA:9 a=CjuIK1q_8ugA:10
+ a=dU3it2pj8zK4A0baVwjB:22 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-ORIG-GUID: EKMxB3j1syV6aAXBL7ADcf_4KtTeg0Sh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-19_05,2026-11-19_01,2025-10-01_01
 
+On Thu, Nov 19, 2026 at 08:06:44AM -0800, Sergio Lopez Pascual wrote:
+> Bobby Eshleman <bobbyeshleman@meta.com> writes:
+> 
+> > On Fri, Nov 13, 2026 at 06:15:40PM +0100, Sergio Lopez wrote:
+> >> This RFC adds SOCK_DGRAM support to virtio-vsock and vhost-vsock through
+> >> the existing AF_VSOCK API. It is intended for guest and host services
+> >> that exchange independent requests, responses, or events and need message
+> >> boundaries and sender addresses without a stream connection or application
+> >> framing.
+> >>
+> >> VIRTIO_VSOCK_F_DGRAM gates virtio traffic in both directions. Each virtio
+> >> send carries zero to 64 KiB of payload in one VIRTIO_VSOCK_TYPE_DGRAM
+> >> packet. On the RX virtqueue, the device may split a datagram across
+> >> page-sized guest buffers.
+> >> START and EOM delimit the message; the guest reassembles at most 64
+> >> fragments and 64 KiB before delivering it to a socket. Invalid or
+> >> incomplete messages are discarded. Datagram delivery is best effort:
+> >> there are no peer credits, acknowledgements, or retransmissions. Send
+> >> admission uses the socket send-memory limit, and SIOCOUTQ reports charged
+> >> send memory.
+> >>
+> >> Datagram sockets have a separate port space from stream and seqpacket
+> >> sockets. The latter two continue to share their port space. Datagram
+> >> routes are chosen per destination among guest-to-host, host-to-guest, and
+> >> loopback transports, with VMCI as a fallback. VMCI still owns its socket
+> >> handle when it is present; loopback works without a directional transport.
+> >> Hyper-V continues to reject datagram sockets.
+> >>
+> >> The Sashiko review of v2 also reported that a VMCI datagram bind in a
+> >> local-mode network namespace creates a receive handle in VMCI's global
+> >> port space, so a sender outside the namespace can deliver datagrams
+> >> across the namespace isolation boundary. The issue predates this series
+> >> and it's getting addressed in a separate patch:
+> >>
+> >> https://lore.kernel.org/all/20261113-vsock-vmci-netns-isolation-v1-1-ced02054ea61@redhat.com
+> >>
+> >> Within this series, local-mode namespaces bind datagrams only in the
+> >> core table and never create a VMCI handle.
+> >>
+> >> Bobby Eshleman and Amery Hung explored this feature in their v6 series
+> >> and v7 work-in-progress branch. This series is a fresh implementation
+> >> against the current vsock code. It follows the separate datagram port
+> >> space, per-destination routing, and VMCI fallback requirements discussed
+> >> there. For guest receive buffers, it uses bounded fragmentation and
+> >> reassembly rather than full-message buffers or the earlier drop/error
+> >> queue approach:
+> >>
+> >> https://lore.kernel.org/r/20240710212555.1617795-1-amery.hung@bytedance.com
+> >> https://github.com/ameryhung/linux/tree/vsock-dgram-v7
+> >>
+> >> A corresponding virtio specification update has been drafted separately.
+> >> The wire format and feature negotiation still need specification review
+> >> before this series can be considered for merging.
+> >>
+> >> The first patches expose the core port allocator and add datagram queue
+> >> reporting, then implement the common data path, guest and host feature
+> >> negotiation, routing, and RX fragmentation. The last patch extends
+> >> vsock_test with local and peer tests for message boundaries, routing,
+> >> connected peers, port sharing, queue accounting, and delayed reads.
+> >>
+> >> Testing used QEMU with the F_DGRAM property patch below, an x86-64
+> >> KASAN/lockdep kernel, paired guest tests, and a nested Linux vhost-vsock
+> >> backend. The tested paths include 64 KiB messages, delayed-read bursts,
+> >> feature-disabled ingress, stream and seqpacket controls, and header-only
+> >> guest RX buffers. A temporary userspace backend still fails stream test
+> >> 21 on both the series base and tip; that case passes with Linux vhost.
+> >> VMCI's host personality was exercised in a QEMU guest, including
+> >> coexistence with virtio and self-send without loopback. A VMware VMCI guest
+> >> device and Hyper-V hardware were not exercised.
+> >>
+> >> https://lists.gnu.org/archive/html/qemu-devel/2026-10/msg08074.html
+> >>
+> >> Code was written and reviewed both manually and assisted by Codex
+> >> (GPT-6.1-Sol) and Claude (Opus 4.6).
+> >>
+> >> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> >> ---
+> >> Changes in v3:
+> >> - Preserve Hyper-V stream routing and prefer virtio for guest CID_HOST
+> >>   datagrams (thanks to Sashiko AI bot).
+> >> - Bind explicit non-VMCI CIDs and local-mode sockets without a VMCI
+> >>   handle, resolve wildcard destinations, and retain VMCI self routes
+> >>   (thanks to Sashiko AI bot).
+> >> - Recheck bound addresses after receive takes the socket lock and set
+> >>   TO_HOST only for forwarded guest sources (thanks to Sashiko AI bot).
+> >> - Probe negotiated virtio datagrams and numeric local CIDs before running
+> >>   dependent tests; cover wildcard and VMCI coexistence (thanks to Sashiko
+> >>   AI bot).
+> >> - Link to v2: https://lore.kernel.org/r/20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com
+> >>
+> >> Changes in v2:
+> >> - Keep guest RX buffers page-sized; add START/EOM framing and bounded
+> >>   datagram reassembly (thanks to Alexei Starovoitov and Bobby Eshleman).
+> >> - Preserve stream and seqpacket data when an RX buffer has no payload
+> >>   room.
+> >> - Separate datagram and connection-oriented port spaces, and share
+> >>   receive metadata and queueing (thanks to Alexei Starovoitov).
+> >> - Check negotiated support and destination CID on ingress, and require
+> >>   an exact connected peer CID and port (thanks to Sashiko AI bot).
+> >> - Select a capable route for each destination, retain VMCI as fallback,
+> >>   and support loopback-only sockets (thanks to Alexei Starovoitov).
+> >> - Preserve the connected peer address across temporary parent fallback
+> >>   (thanks to Sashiko AI bot).
+> >> - Use socket write-memory accounting for datagram SIOCOUTQ instead of
+> >>   separate transport counters (thanks to Alexei Starovoitov).
+> >> - Extend selftests for fragmentation, delayed reads, port sharing,
+> >>   connected peers, and capability-based skips; fix the test build and
+> >>   README entries (thanks to Alexei Starovoitov, Bobby Eshleman,
+> >>   and Sashiko AI bot).
+> >> - Link to v1: https://lore.kernel.org/r/20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org
+> >>
+> >> ---
+> >> Sergio Lopez (8):
+> >>       vsock: expose the core port allocator to transports
+> >>       vsock: report datagram receive and send queue state
+> >>       vsock/virtio: implement the datagram data path
+> >>       vsock/virtio: negotiate datagram support on the guest
+> >>       vhost/vsock: negotiate datagram support with guests
+> >>       vsock: allow datagrams to use directional transports
+> >>       vsock: fragment datagrams across receive buffers
+> >>       vsock: add datagram tests to vsock_test
+> >>
+> >>  Documentation/admin-guide/sysctl/net.rst |    8 +-
+> >>  drivers/vhost/vsock.c                    |   51 +-
+> >>  include/linux/virtio_vsock.h             |    8 +-
+> >>  include/net/af_vsock.h                   |   31 +-
+> >>  include/uapi/linux/virtio_vsock.h        |   10 +
+> >>  net/vmw_vsock/af_vsock.c                 |  526 +++++++++++----
+> >>  net/vmw_vsock/hyperv_transport.c         |   11 +-
+> >>  net/vmw_vsock/virtio_transport.c         |  167 ++++-
+> >>  net/vmw_vsock/virtio_transport_common.c  |  172 ++++-
+> >>  net/vmw_vsock/vmci_transport.c           |  124 ++--
+> >>  net/vmw_vsock/vsock_bpf.c                |    3 +-
+> >>  net/vmw_vsock/vsock_loopback.c           |    2 +-
+> >>  tools/testing/vsock/Makefile             |    3 +-
+> >>  tools/testing/vsock/README               |   33 +-
+> >>  tools/testing/vsock/util.c               |   62 +-
+> >>  tools/testing/vsock/util.h               |   10 +
+> >>  tools/testing/vsock/vsock_test.c         |  175 ++++-
+> >>  tools/testing/vsock/vsock_test_dgram.c   | 1061 ++++++++++++++++++++++++++++++
+> >>  tools/testing/vsock/vsock_test_dgram.h   |   30 +
+> >>  19 files changed, 2195 insertions(+), 292 deletions(-)
+> >> ---
+> >> base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+> >> change-id: 20261027-vsock-dgram-support-683a4e0aebe7
+> >>
+> >> Best regards,
+> >> --
+> >> Sergio Lopez <slp@redhat.com>
+> >>
+> >
+> > Hey Sergio,
+> >
+> > Just a gentle heads up that net-next asks for 24hrs before reposting.
+> 
+> Whoops, sorry!
+> 
+> > I'll start working my way through the series, sorry if my reviews come
+> > back spread out across a few days, not sure I'll have enough time in a
+> > single sitting.
+> 
+> I was planning on sending a v4 fixing Sashiko's issues. Should I wait
+> for your review first?
+> 
+> Thanks!
+> Sergio.
+> 
 
+Feel free to send without my review, I'm lagging behind!
 
-> -----Original Message-----
-> From: Sahil Chandna <sahilchandna@linux.microsoft.com>
-> Sent: Wednesday, November 18, 2026 4:14 AM
-> To: Haiyang Zhang <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan
-> Cui <DECUI@microsoft.com>; andrew+netdev@lunn.ch; davem@davemloft.net;
-> edumazet@kernel.org; kuba@kernel.org; pabeni@redhat.com; Konstantin
-> Taranov <kotaranov@microsoft.com>; horms@kernel.org;
-> ernis@linux.microsoft.com; gargaditya@linux.microsoft.com;
-> mawasthi@linux.microsoft.com; kees+treewide@kernel.org;
-> schakrabarti@linux.microsoft.com; leitao@debian.org; linux-
-> hyperv@vger.kernel.org; netdev@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-rdma@vger.kernel.org
-> Cc: stable@vger.kernel.org
-> Subject: [PATCH net v4] net: mana: Avoid waiting on dead HWC after device
-> reset
->=20
-> After device reset is issued due to TX drain timeout in
-> mana_dealloc_queues(), hardware channel (HWC) state is non-functional.
-> However, the driver continues to issue HWC commands
-> (mana_disable_vport_rx,
-> mana_fence_rqs, mana_destroy_wq_obj) which will each wait for a
-> completion that never arrives.
->=20
-> The first such command (MANA_CONFIG_VPORT_RX) blocks for the full
-> hwc_timeout (60s as set by the firmware on the tested system), after
-> which the timeout is reduced to 1 ms for subsequent commands. This
-> causes the calling thread to hold the RTNL lock for over 180 seconds
-> (120s TX drain + 60s HWC timeout), triggering hung task warnings and
-> blocking all other networking operations on the system.
->=20
-> Fix this by:
-> 1. Replacing the sleep-based TX drain with a CQE polling approach:
->    disable NAPI per queue and poll its CQ synchronously, with up to 3
->    more polls 100 ms apart to collect late completions. Reset the
->    device only if sends remain unacknowledged after that, then free
->    uncompleted SKBs. The device is reset at most once per call, and
->    not at all if an earlier reset already marked the HWC dead. Once a
->    queue is found stuck or the HWC is dead, the remaining queues are
->    polled only once. This replaces the 120s drain timeout with at most
->    300 ms of sleep per queue. If queue is still stuck,
->    mana_gd_dev_reset() waits for device to return. The 300 ms budget
->    is not based on a hardware limit but in testing under load, the
->    completions still outstanding on a queue had all arrived by its
->    second poll.
-> 2. Setting the hwc_dead flag after a successful device reset. If the
->    reset fails, the device may not have been reset and may still access
->    memory, so teardown commands are still posted.
-> 3. Checking the hwc_dead flag in mana_hwc_send_request() before taking
->    an HWC message slot and again before posting the WQE, and returning
->    -ETIMEDOUT immediately without submitting commands to hardware that
->    cannot respond. A request that was already posted, or that passed
->    these checks just before hwc_dead was set (for example from the
->    gf_stats worker or mana_ib, which do not hold RTNL), still waits for
->    its own timeout, as before this patch.
-> 4. Skipping mana_fence_rqs() and the SHM channel teardown handshake
->    once hwc_dead is set.
->=20
-> Fixes: a7dfeda6fdec ("net: mana: Fix MANA VF unload when hardware is
-> unresponsive")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-> Signed-off-by: Dipayaan Roy <dipayanroy@linux.microsoft.com>
-> Signed-off-by: Sahil Chandna <sahilchandna@linux.microsoft.com>
-> ---
-
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
-
-
+Best,
+Bobby
