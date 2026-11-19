@@ -1,123 +1,157 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795084110;
-	b=UdgDiGgUi0VkIDm6SeyvCH01DFzlJMq7SKQhQpRx17uqyB4ClRp3kWje0wyiYApFUy9d
-	 syV1oY0E3+kchxxo4naiA1whQzSumaCdMzZavY7iHysdODdK9XC662m3CqNi7oVa1MSuk
-	 ZoVboKm1sehs8V0hOYbIHm2myUASz+mCGk8ZaPqnMX1gpyrCiu4wBt3QGdgxEEADiiaDN
-	 JJvIK07Lvr0q2vxr4NYnHskYf/CKaNHXkQ56DhCnnGoGwVMHTJD0RjJ7zM1C8sDIyuD18
-	 RkIiNCpxyjdiirD1IoyTDl52yscRdHAI6JQimtMLXUfZUmriDB5CXOXxz2rYJSA40/A==
+	t=1795095788;
+	b=l3pSqhDijIEDgJhwCG1z/MiHCm7YtX3HSEzTEvOGwsURRz1Ic0++QVUTn8Adp6ue1Hxt
+	 xOEQCdy90YjS+T6TxDpx4E4nK3CCLSmLDt1k5/xy1X8RY6MqhRAlGWH1jd7MBkOy8r5CB
+	 DC56VOR0Wmne4+cwdXSxwJAdxKYoS8qOVH930HD8CKmCL5GiPdJP30XELeuYnw9PGD9+R
+	 PWZBgrVCY4nFLAjOikN8wW7ePicfeEr5rXolVmM+uir0GFjzdD05KZZ6poZyOLGx3TQWp
+	 k06M+GrNakLXjVERFkr09mFPJiXZY9tGCTsODX1e0WVsKUKv+JesfGUSVO06+pMOffQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795084110;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 Message-ID:MIME-Version:Content-Type;
-	bh=67HNtrDIxYfPbX2hk4h6A2Wbx5OSvimWbMoWJ2Xl9qo=;
-	b=VJpeFe6YWEq/xpeOcuE9zPbCY8N/Q3Xt4gzV9zX9jNRgx4LlIN3tafJb8PqTVckTWAYn
-	 VZUhk6YYBS95CLzN1fOsD5DM6bcalDpDed+Q6Q7QIGiTcITZRQyo+x/yJ8GDm9WKhxgC4
-	 juUyvGetr9i63wv67By/Orl6vWvyjHkQRAkRTIn7VfUAVMHQV+zQGV8ucPCGWjqZf7Z14
-	 EaV41AmtRzFZWiMlLzEeIRQjlM1SONOcbUyx/VA723C+QPTa6DGaJ1bBc+JUaNQsWhyvq
-	 jxzD4tJ/MUpdE6AjDzKhRkzw3d9IgT6XIIqOopOoCDm3Ta0b5qrIp0lbxyGS8FqMjYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095788;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
+	b=h47X2qhB7967iQIcTXCPFXjjrMphxrf+dHgVXSCeldRNhrilKeT4pDhtrqMwuApgEWZk
+	 M+S6ebuPk+ICNiWSwfdi60DFl51iCJnywhvmmsaTa4wdDsYrD3iSaG/YfFYMfR0eLMXdr
+	 zPMOmGPnvujUvEV2oj3EFOiktpc8mxZKH0XLJyvKG6iGmXjK5xQiAkeqQta3Y3jagpW8s
+	 M0SLTugq7frbZQaOT6I6KEGZOxACiSVAGWhWJlON0RAfbIaIc+DIzcpTEBdfbmyH+R6kR
+	 EOAk4gimdNVv2V/9r8mwv9tazTEiaz0KwcPXRn2O9x7aEj4v3aoVyng9rblgSvaCx2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ROluZ1kh;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=FibcjWiN;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="n/jm8GB4";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6248606A32C
-	for <linux-hyperv@vger.kernel.org>; Thu, 19 Nov 2026 10:28:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6248606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D82C606A33E;
+	Thu, 19 Nov 2026 13:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ROluZ1kh;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=FibcjWiN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795084109;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=67HNtrDIxYfPbX2hk4h6A2Wbx5OSvimWbMoWJ2Xl9qo=;
-	b=ROluZ1khUy6Otmqt/e4vRs5SfN3q9zBbVV4ELrI7P8MNKJ86FMTdm9VhXQojY3Cnoix4Ip
-	BEN8Rm5Y3o5WfLzZ+HpTykepbpH1bB6QTZsX+sF38VLqevLLDNon/3Rpjp2LrVh/BDWBbk
-	qj7KtsuyAmdyQgua5rTyHyb6i9aRF2Y=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-600-vdxdPJLTNZy3VI0EveGs2g-1; Thu, 19 Nov 2026 05:28:27 -0500
-X-MC-Unique: vdxdPJLTNZy3VI0EveGs2g-1
-X-Mimecast-MFC-AGG-ID: vdxdPJLTNZy3VI0EveGs2g_1795084106
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4a7c864000eso928265f8f.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 19 Nov 2026 02:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795084106; x=1795688906; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=67HNtrDIxYfPbX2hk4h6A2Wbx5OSvimWbMoWJ2Xl9qo=;
-        b=FibcjWiN3HonGULrcDNFRW249x/7yokoU4798LEzwrfyG9WMlu10c2084uOuBVSk1t
-         jQycAy3VZh/bsk56mayYCn6w4Bor0B0wHU/1zXf1qWh8dqf92KvmaQ4+OGkizHODvxCs
-         MMayj8ouGDhrfiGiguwsNzysXiCB5jE8bEinYQIkKuS+yW0DITct9sFQpIT+cFA265S5
-         Rk+odz3AIiOe8oWCNgJgkT9rfgLV9NlK6LGX90J5xNQaKJeriwWFO9q9yK+qQ0o7/DMR
-         pTB4LjcQXeIqbJ0E0zJaLyqeS37FSfwaxNSbbSs2iUXgy3hM3LK6u8q689Ml8QkV0s+6
-         QVng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795084106; x=1795688906;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=67HNtrDIxYfPbX2hk4h6A2Wbx5OSvimWbMoWJ2Xl9qo=;
-        b=FTeCjsUYFhcCm1NkLNu0xZ30AJI2p0YbMMqg68rfT/nQc9cmog3TtRqOuBy3XAt95t
-         vI+aAiWzUzJoj2sFCP4AfCkGLQYu4A2idZmsM7GjFzjbEHjyEUGWgluO3vG4e0T26YIY
-         l9Pn6CbGE8gqcegK+Y/p5dyuNIf0Zkf8oRk9slIUDNn0OaZakCwIcxlvLAZQqvuxC8RN
-         R29APME0MVjEm7+KA9ohHHRACdA/TlauPgXfSshL4sWjzcZ9GvCknB4o4zahdw/A5MCn
-         UKP1gcAYec3tnrY1H1GCh18fq3J7HowDGbKn27V1QaB3Dl1USd3qUhca+XUz65jrNfds
-         nRuw==
-X-Forwarded-Encrypted: i=1; AL+hErHrg9NkQRbPHp008mrMBV7BFi1Yd9RQp1GGiVHXahaywB4KzBv4gGnFot3/F1XaPYOAQjULWKy8qThOEos=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+j2w2PjfHjiu9APjvXdKBBM/yg3Ggd6omA5IusYRY9dl+k58lw
-	DS0Ui0Jm0fBf+pwm/hjugmHF3Yf7Oy6a6J+4GXSM9c2gfDztcqoZme935udHK2mfcNBwZxGO1Wq
-	jpM9KDrou8rT9NteouSVRyYwj3hrRB9IwokdPlIFlneg7bS2ERqmzUc4PxpCdHsYA/Q==
-X-Gm-Gg: AZFdTZfu2tO9/z7p2Oihn8oE/87J7I98J0JFZGd/Xa9yxVSJ/VZ9df42j76MM1y7JB2
-	wABjcbM1UCCk0zLHuORj97gixJsEqGk97dPhIl+k+n9tMtCjE5u9bG4+ZTOjLS9NVVghRUq7Otf
-	SnHLHtHI7LnynIY9AbQObDlairqWHi2S7zXoHTzYudKAKHZ2EGkO2huCCzWSdkXRo9gHX1vspl9
-	HCqssUYTOr+k4IK/8i7l9WZHDfkYo+TyAVOGhevReZV25EgHlRB4uJrOgLxL/XT47S4EuE+EH6q
-	rLLBwSktvOvsfCMIb0/EgbEpyW4XIP9mvfXpLW9hc3sqpxLGkvE2M2Q+JN6uVp3OfDv0kNyJA9N
-	fJNBCTH2WbPVnG3rOlVlhU5gNnlPCTdqXCH7j8R1Qo5/e54YtdCYWGBu/oGcDzu8AIIST1g57I5
-	ypaQc6kEgaaLxTTVg=
-X-Received: by 2002:a05:6000:29c8:b0:49c:192f:cf20 with SMTP id ffacd0b85a97d-4a633a652femr8004625f8f.6.1795084105864;
-        Thu, 19 Nov 2026 02:28:25 -0800 (PST)
-X-Received: by 2002:a05:6000:29c8:b0:49c:192f:cf20 with SMTP id ffacd0b85a97d-4a633a652femr8004599f8f.6.1795084105479;
-        Thu, 19 Nov 2026 02:28:25 -0800 (PST)
-Received: from vkuznets-thinkpadx1carbongen12.rmtcz.csb (g3.ign.cz. [91.219.240.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65609391bsm9979145f8f.36.2026.11.19.02.28.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 02:28:25 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Michael Kelley <mhklinux@outlook.com>, Mukesh R
- <mrathor@linux.microsoft.com>, Michael Kelley <mhklinux@outlook.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
- <wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>,
- "kameroncarr@linux.microsoft.com" <kameroncarr@linux.microsoft.com>
-Subject: RE: [PATCH V1 2/2] Drivers: hv: Fix bugs and issues around repeat
- hypercall
-In-Reply-To: <MN2PR02MB6863A95F4A2E10D73BDBFE97D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261114025313.1257042-1-mrathor@linux.microsoft.com>
- <20261114025313.1257042-3-mrathor@linux.microsoft.com>
- <MN2PR02MB6863E6C4F59864B7833681FCD47D2@MN2PR02MB6863.namprd02.prod.outlook.com>
- <fd130973-25d6-e706-6822-793f12ba2015@linux.microsoft.com>
- <MN2PR02MB68639EE1AC00187FDA3D5A42D47B2@MN2PR02MB6863.namprd02.prod.outlook.com>
- <bb569c87-1a60-c498-98e4-db519e4d7d24@linux.microsoft.com>
- <kupwlqagrw7.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb>
- <MN2PR02MB6863A95F4A2E10D73BDBFE97D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
-Date: Thu, 19 Nov 2026 11:28:24 +0100
-Message-ID: <kupqzghglo7.fsf@vkuznets-thinkpadx1carbongen12.rmtcz.csb>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n/jm8GB4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C561F000C4;
+	Thu, 19 Nov 2026 13:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795095788;
+	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=n/jm8GB4oI1ZqtVH3mcxqQUwu9zuKiDu90pq6oKhkRGMpkul9cUzIWyL0OMn9lNiE
+	 yBKBsV8prLTEFyx0qEMoD8RpojqItT9dAXuguu1fIPVRXKdIrWHbwCsl9jO+ySa7g7
+	 k00W4Ui1/3OvE8DlqLfbOZX3jHIMUSZi3jgQBAE/Cw/9/Zykh9QHw5PS1qgR2i71IR
+	 zfO8LeXoviNETRPF0eKG6jI5XGyHA/nbymcYM0a9zYLwrYLw9o5tAXmABdR6mFolMb
+	 LOw2bTAgup7y5wAExPZUZs/Z37euTnmiFeLJ23GCI0jxPdlBzRNv8iqF2TPyMS/YJP
+	 fqCrH5mGo+kGQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Janne Grunau <j@jannau.net>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	asahi@lists.linux.dev,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	sashiko-bot@kernel.org,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Dave Airlie <airlied@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Alison Wang <alison.wang@nxp.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	imx@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-mips@vger.kernel.org,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Qianhai Wu <wuqianhai@loongson.cn>,
+	Xi Ruoyao <xry111@xry111.site>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	nouveau@lists.freedesktop.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	spice-devel@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	David Lechner <david@lechnology.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	linux-tegra@vger.kernel.org,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: Re: (subset) [PATCH v2 00/64] drm: Switch drivers to drm_mode_config_create_initial_state
+Date: Thu, 19 Nov 2026 14:43:02 +0100
+Message-ID: <179509577844.523497.5498880532220697042.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+References: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -127,56 +161,39 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Michael Kelley <mhklinux@outlook.com> writes:
+On Mon, 16 Nov 2026 11:30:16 +0100, Maxime Ripard wrote:
+> drm_mode_config_reset() has a dual role: it creates the initial KMS
+> state at probe time, and resets hardware and software state during
+> suspend/resume cycles. However, the two roles need different
+> behaviors, notably for objects like drm_private_obj that must persist
+> across suspend/resume and are excluded from drm_mode_config_reset()
+> by design.
+> 
+> [...]
 
-> From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Wednesday, November 18, 2026 6:02 AM
->> 
->> Mukesh R <mrathor@linux.microsoft.com> writes:
->> 
->> > On 11/17/26 09:41, Michael Kelley wrote:
->> 
->> ...
->> 
->> > Confirming, that it is same behavior all the way back to 2016.
->> >
->> >> Sounds good. FWIW, old TLFS version 2.0A, which is specifically
->> >> titled to cover Windows Server 2008 R2, has the paragraph
->> >> about hypercall continuation. So that functionality was evidently
->> >> present very early on. It is still curious that Vitaly found it
->> >> necessary to include the looping behavior in the Linux guest
->> >> code.
->> >
->> > Maybe Vitaly was running into a genuine bug, not sure.
->> >
->> 
->> I'm not sure either :-(
->> 
->> WS2012 was definitely around back then, not sure about 2008. It may also
->> make sense to add at least a debug print in case we find ourselves
->> running on something that old. AFAICS, even the TLFS version 2.0A
->> mentions PV TLB flush hypercalls. If looping is still required for these
->> old versions, we may introduce some very hard-to-find bugs if we drop
->> it.
->> 
->
-> Vitaly -- I'll point out that support for running Linux guests
-> on any Hyper-V older than WS2016/Win10 has been removed
-> from the upstream code tree as of 7.4. 
+Applied to misc/kernel.git (drm-misc-next)
 
-Missed that, thanks for pointing out!
+[03/64] drm/hdlcd: Fix drm_atomic_helper_shutdown() on the probe error path
+        commit: e388eae138aa9364caada0a372b5712642188c16
+[11/64] drm/hyperv: Switch to drm_mode_config_create_initial_state
+        commit: 50b11ceaaef03d4062971db173bbddc8ac0df28b
+[25/64] drm/rcar-du: Switch to drm_mode_config_create_initial_state
+        commit: d8b8de5c35983567a7ef78fcd9f75db46d6c26af
+[29/64] drm/st7586: Switch to drm_mode_config_create_initial_state
+        commit: 52eb5b7764084bddd68e77c1c3e62e70ad11828f
+[30/64] drm/st7735r: Switch to drm_mode_config_create_initial_state
+        commit: 28d10bb2421152b650329710183c1f6df1bd056e
+[31/64] drm/st7920: Switch to drm_mode_config_create_initial_state
+        commit: b17f5f1abd5c30875d203d7690c92129d2d814d6
+[35/64] drm/stm: Switch to drm_mode_config_create_initial_state
+        commit: d78ccdcc94eba858fd8386f0da6de4ec4cd44666
+[37/64] drm/tegra: Switch to drm_mode_config_create_initial_state
+        commit: 0c187722c35db771276ee7390454f7de70508833
+[50/64] drm/ili9225: Switch to drm_mode_config_create_initial_state
+        commit: 0fc18dd1409138d88089ecdda5544ea2f8785520
 
-> The removal is
-> impactful enough that 7.4 and later kernels won't boot in a
-> guest on these older Hyper-V versions. Hopefully whatever bug
-> you encountered is no longer present in WS2016 and later. But
-> even if the looping is removed, the code could still check and
-> warn on a hypercall completion with no error but not all reps
-> completed. Then at least we'd know there is a problem.
-
-Yes, WARN[_ON_ONCE]() should be sufficient.
-
--- 
-Vitaly
-
+Thanks!
+Maxime
