@@ -1,74 +1,153 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795198286;
-	b=kjb95ZTZ9vb/QD0Guf1GznRGZCDEAaJCwXI0b3h961ITgDk2z+SNLs1Ulw66I0ysGtFU
-	 /l5z14AvZWIhQ3YtMSupX0PV0R+FcVSdLUsE1QU06IVRdoFGvU4DGynl52m2W33O7SIoY
-	 RUDvtRGQd0aqVFmzxawQhv/lQTOBtVVH2ZBa9HjHVSX2/Em3pQfO3VUBPSzDnNnNcbkbo
-	 kv4VI61ToUT5BiCRSHDDDYmulvc88JRWEKMwXRMmphZu6dKplMZKd5sZlJ0WizzKcQCFm
-	 Id+lHflLP3UOgp9++vrnMfIqTWMT+RDB3hIp2pIzbPn/6WrRA1o7WrEmw3WEivh57XQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198286;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
-	b=isxln15wFxRK1R3WqWTaoSxPzhwEBMXfsWiTtwioBK23ARxmczTUvJJL11Wsdy+HEGMD
-	 ccUGrYeW3RTIiW5LsG0oQTbaeWI2O827C40E7O5K/yYniUOEjm9TYcwFR5Tv/LMnx/592
-	 2bV6ytma199MHfPKnoiR7J4MmxyLOMVgprYxhEI/n9H1fQXkXSN8wcc8ISRi9SAJdnDAG
-	 kMS5GN9cmjx+vLEvXOjcG0tKji1GLAaH3g/4Ppq7ucFAft5oV95uLv9i+abGONJGlEjt5
-	 J8p+ElGh4xvPQyrXo/WuuAoYtPa4XeU5yYgB8mTRIJcRlKqUyen9VtrPap/YKKRh7/Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PVGHrCoa;
-	arc=none smtp.remote-ip=209.85.214.200
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.94
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795205311;
+	b=esuzKKd3wUttE+ye4kt5VKr+KVv/GDbXDQSNow2q2LaGoZsyx7RdFQ8SSuxcD+LZDAny
+	 Sr6WNhWMjQCrYOUJQrSlLA21fgCk2JCEtHq+dcETpDy74/V2J9Gq2UmY4vdiMuMs/MHzP
+	 yuTOc5fjNnB8bj9f8dXPL/ph49gWmx4OEavdG34xZuj1Tkz9SfEuMl41hQy69+9c8Gf6l
+	 /M5fS19dzQeX9cbEndEJQihFZxvU64ZiU1wcaVlHAsJFjEWepY3Xs+QbYI4dfh3cqSoOQ
+	 OLvnnV1Kd77Mgk5q0TnhkUPhMMw4jb+LSxBrF37VfQ+Odoqw4D05ls+qL3TaDCyF6dw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795205311;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=c3L+Jv/9IG4SANB3cN+RAGebcUQA1e5kXkGdadSXBaM=;
+	b=LbuOScwO3zagXo0M81khLYNBGad2HAqprBa+tVTvdTU737i3LwIEKK0ma4Kf/VKo9I5d
+	 5CfkQhM1DhJFfNWXWezTsyjK0AD7eXKe5vl5Httr+rXvQ7b402wy9PsgfQBYmHIHSYVRx
+	 FtsmA62aAR+5Kedeh80aYKIIRxAVT99OTRZm7mlJucelEmdQL31trWzbdnF78lc40JIJt
+	 BYWzZ/mzSlx6MogXS8npI4psH8269ktBvurc7otpl6i/HJGNYHggEk1b1hnq3ztamvBW/
+	 JM3LqUKXYWq56QUmWuLc2hC66DIt1FGGhoEjKyEbf/vfGJireCHfxO8l+0A5maFzRWw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=uIprtqrd;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.94
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azolkn19010094.outbound.protection.outlook.com [52.103.10.94])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BA3606BDEE
-	for <linux-hyperv@vger.kernel.org>; Fri, 20 Nov 2026 18:11:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7BA3606BDEE
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028B9606A6C4;
+	Fri, 20 Nov 2026 20:08:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 028B9606A6C4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PVGHrCoa
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2f04053e460so9957045ad.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 20 Nov 2026 10:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795198285; x=1795803085; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
-        b=PVGHrCoaAP/5w1paicQ+hrt9379ckz/YstH15fDT/2OfPNc3NuS+VgVBK31Y4KWR1c
-         6PEILfGm8mXVSYnE+ShXHiGg2+cjwadNYr6CVRAtBkojKCy3wAzMBHiN/hgp9Fr8I0rw
-         pVTVrnraiWylu9/TACtXKP/yfxDi0m6zABmX4xVo2kPJHlkl/y54aRsSc9U/9fMEB2PJ
-         esMW2rw0ckWd4dJpkMIpx7R4IXIDSCQJYl5yEpK1fzu07+gEa1XoH+hwVcUZ/VsnRp4j
-         ChOPqNE4+HHfBFewHGbf5rwxwTNCY+3Zt+DtgYKz0OqIEnlWRHpodKCpTGesETGHl6Vc
-         6OIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795198285; x=1795803085;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JDzbhiCoFBsB1LUGSE+FNJ8fs+B+4L9p62TVlpx0yJ4=;
-        b=t442CYRMr96TE7ZtTAUsH3i7rgzy9zFZ76aylHG/AcPkINJ7vFkN4C9Jb6eqNddSgg
-         kBgtboVPzCMUKMtCOQhBJmHU5NTPPiIi+bIu4m0j1NCfqTcWy4YpBGI7yKjxew0MqBOK
-         rf2rzDAH1CCj6P4FllRTj1CrL5ozv8GQM52XyEtfx1dPIv/euPMxbdsFe5CEi381A9TT
-         PdnM8KGYZVwoSGmeCHKX2RM4wGsxAIXmY6FAESSLAwwHF1RIlH48Vk7FA+SzZc1zwv7l
-         KewUA8oJWtHRZVQYpocSY2oHclEnAlRLhaSU7eT7dyRvY7TvQ4CzhP6f9WjP/sqptMfe
-         PHcA==
-X-Forwarded-Encrypted: i=1; AL+hErFOtkrxgBoFdNZz1sxhsAcKebmLjt2iiId7pbK6kv0fzwsSkmKiehIOzogiKuPRhlK/zyCki3eQRq5TYKM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ybHml6boMquY1VCaPIcXGAWxHXyU/cTB7hQEbgyktGurH8Les
-	OlS1fe/2edalUsKzhKK+NsHCEBPYZxxOyrL+ArmuB6AP5LDqAhCE1GUEKCUw0hMA+OzqJ6i11Rv
-	G1rRlow==
-X-Received: from plup11.prod.google.com ([2002:a17:903:4b2b:b0:2ed:e056:7a80])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:cf08:b0:2f0:59dd:4d07
- with SMTP id d9443c01a7336-2f059dd50f7mr8708795ad.38.1795198285056; Fri, 20
- Nov 2026 10:11:25 -0800 (PST)
-Date: Fri, 20 Nov 2026 10:11:24 -0800
-In-Reply-To: <5F8F490B-BC93-41EA-B77E-9EC108C09DBE@infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=uIprtqrd
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w72UfFiCX5qSjaTvU5a1Sgbb5p1CSjDj7cmCg6dPSZtTO+FZcaQk4n2HP+dVXQtqig3hBfMrcxyAYY0RiNYeAR+4tU3VTpRxGN6ABrGxzp0hi7SwhKmV1AwEdpTVeAnfmysShedaj6qKPIKhxI2XkDNJU/wCRoYU3yunDiq48s+weW9LM1FVQgWlQXGTVifAXygB9E4xl7XgfW9sqNSdVucqRnLNKOZfXO1o12JHS5X2NtuEcrcne07R6xfXZVK3OD68BKf9TKMqRAM5B5jzyb2gC6sttKmzwgLWu4xMhwrnN/UaFw6Z9z6x9oIiX7WHzOcyORvaePOtQ0aqDctv1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c3L+Jv/9IG4SANB3cN+RAGebcUQA1e5kXkGdadSXBaM=;
+ b=MxuBE0QZke7mgiXrCu6d1xh/AHtvn7Y0k6MtZbb9C3FyHUfqq7BCnvSCLD7k/iaJIiGxOlrXLf/7X2q3snXZBCOD9A4aiVyzo1TzGYct/+JE3rk1D5cVX9HLKhhRlL1qW7w8Ehic4d2/Vw4I6UTPqa1wSQsLDYu0MB0YYkd05r72FGvSLWL3y/EV2E7nASoGTpcklUyRR9wPIBhvjbDQ3YZv+H02TuHP+gKBF3jVhs6kSlO4Dvs4wWYSMYz6CRZFLhUisJrC7gUuUZO1xwQzbwGt37m/618evqodj+qvE9Gs4hn4ENI9KnUY7A65SPssUErUvzCPbE7O8Xp+Ihv+UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c3L+Jv/9IG4SANB3cN+RAGebcUQA1e5kXkGdadSXBaM=;
+ b=uIprtqrd1rcnYujdX4unMi/kGBwx+CJokavIa/G2GxyGyqzbQUmDPkXL/Xa0Q7PyHjJazyjYev4ky92iOw+H3dJvsgzL3ZmmJvaNsgi2x943ExI8i/NYD2G9ACbP6ZDicYgqZF0K/i6hbrTqxyGKW44U+Fyr9PTI2knNG7OBe74qs+s2JT6+r3/EfDuMzX62tP7j6E4h38P8joblSy0woNB8Gnu1PQVasHVY8o3RidgJa3MVm9o6PsySf+l/MU5GWOXgACPi5nYKdF/9Ql5CxFEzRr4/i+GYMHu2oDH7pY44U8Q4ihNRBTNW+pUuEZNu+TidhUjdm0PIm0J5C6HO3A==
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
+ by CO1PR02MB8635.namprd02.prod.outlook.com (2603:10b6:303:15e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Fri, 20 Nov
+ 2026 20:08:29 +0000
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0639.010; Fri, 20 Nov 2026
+ 20:08:29 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Haiyang Zhang
+	<haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+	<decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: RE: [PATCH v2 05/10] uio: Allow untainted use of driver_override
+Thread-Topic: [PATCH v2 05/10] uio: Allow untainted use of driver_override
+Thread-Index: AQMfJRX+ztp9Zvox4aPtllK0egdUugIWEi9PtKM2iFA=
+Date: Fri, 20 Nov 2026 20:08:28 +0000
+Message-ID:
+ <MN2PR02MB6863416350047853E8C13756D4782@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+ <190f97fdc22c161c4721283a2beb20bb477f9e56.1795171088.git.u.kleine-koenig@baylibre.com>
+In-Reply-To:
+ <190f97fdc22c161c4721283a2beb20bb477f9e56.1795171088.git.u.kleine-koenig@baylibre.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CO1PR02MB8635:EE_
+x-ms-office365-filtering-correlation-id: d5796a99-1f8c-4823-4ec9-08df47420b2b
+x-ms-exchange-slblob-mailprops:
+ 02NmSoc12Dcj/mAxI/NGvzdUkjNASRo/jjyMcAHWl72QJU+4aM73nXBhiRKihK/yFBUsB4HUkEf8LXUkf9ZkFAUvK82MnoTDTQH4GDAciYAifFaygP+1dS8Omr8GkLf8q5T5CkoklX1PxE7JEc9abcIuEsqrhgqLTgEY8W3bXqFGuSerTDY5ZTkf/svwkL9R8k5nkvtU4uIiWLEejTxppV/J/PmcJtiPE0reAu4buhlhTcXQ0WJTpdUp36guNwuBFLZvRCMDOxeotmCWctC8/pJZXeJypOkfWgNu0VoNdvkK+bl9jhiQ+bvoJYkYW/vcIJM2150+BHbRCmEIy2zLS2A7pEK3Y+mpwOtX//XItjhwWLSIoljoC5K472nNlPKGXP6S71TxKa3I135AAj+8oQTqNmfOIyX5VHFBKUvIOBRDi3GlnxjG/a4M3Z9RVONhGWX0ox7dQu+8KiNQ96eB4WhdFTdQ6N+HxaAFVkkVlk7YcomvLWu8AyNY3wFTrCk93WKFYlvhbCIKC+eWC5FLKKtV85/KSYp7mFetvvoOU8CmG7bfpxE6zHa5XWNarB8i6SjVKqoa7grsTgLRMg4K5hnmpyLTP2y1vHCeK4wtKV7QaekpsWaSBwWAXT6qUAv1hcRUphx4gkYd76rZAUDFLD1Vo64LM+ewRNkcEVwdAy5nTYyfeKCOi9tD4EdRrGyQRLQdWC7sqHmWjZLaD9rR95vZ/7orce3jE6MnOT7Q4LFspJ6VjyBt3IcZVAhnCN9n
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|55001999006|19110799012|8060799015|8062599012|24021099003|25010399006|51005399006|13091999003|31061999003|15080799012|37011999003|40105399003|102099032|3412199025|440099028;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?t0bRVgAfE2upcEbQVL/ceJKnhyZXV6RFP+vozWwQkS344LosQxpYX+fh6g?=
+ =?iso-8859-1?Q?irIcVSV0gumOFnrFLFksA1cRTxU9jK5eAkP7dfhGp1Z3RLb2KYxAjTO/B6?=
+ =?iso-8859-1?Q?9ValOvQci2sKE7XHaa4dGBzVuvUW80ybM83FhhJP224HeuR8ajWbUcd/bh?=
+ =?iso-8859-1?Q?gpCB1cRwhI4h0EdA8aOtgfl63YQfBKLtFnWVCIR6CiUbDLB1KsSYZe9J3i?=
+ =?iso-8859-1?Q?rM6IzQK7ZrCjlZcLwrtcFdVEI10gzS1ggnFfO69rtxGH6JGLCFoMJ1Ya4d?=
+ =?iso-8859-1?Q?Wgt4ar3oOpEClA9HeOCsMus4A0pnAXbpXXdOTiOYQb4rw3PtbYrk4GHd53?=
+ =?iso-8859-1?Q?EWBfpajEVpDEsZKUcjOhT4EUyEHByxmaAydMNyTl6RSLixJTt4/NxgkbqU?=
+ =?iso-8859-1?Q?0yaDzk9D+pz/yU+2W2boe6g1r36yh/zBkSqXbjSoT15xHUf0xbjWjW3gP0?=
+ =?iso-8859-1?Q?CX49A/Vh2cU7yHzkcDD27qFjCvRcRAylg7np9hE9dCfCwyTrFmJvUFFlgf?=
+ =?iso-8859-1?Q?Yxr5mBowXoMI91BBdbFLRSL0dc/a0muP+HGqAbRA330ODhWr8cHeql8kGs?=
+ =?iso-8859-1?Q?LVrWUOYEDWAkGyFpJR5EqdF3z2x8CIZKdO47fUyT+UsxlOmMkn8IT4oVAb?=
+ =?iso-8859-1?Q?RScbB7E/WghZ64AApgFT8x51pX/IgDI7I49z9cOImXkt00pDnQH4rb3RWP?=
+ =?iso-8859-1?Q?j4jaVZjmTpWgVZTvqFFCnE08/v7sF3ALeMTNjPf6r5hgIvfkJs088GEb8r?=
+ =?iso-8859-1?Q?Kk7KAi5XRc8XDo4nTpecyopXlhys7bkPlsVULOtojHZnZCEIhvdE2hV7x/?=
+ =?iso-8859-1?Q?VEIkSPMohJOsQPgDiK1GXNnPoOJ9OXqUyTgHkhbEwry4CF+DnNL2Csxfi4?=
+ =?iso-8859-1?Q?9qrkolHooVRci0y5T5+DQPWXDbMs8ch5m+Xx24DOPUg446YRwAmZ12Qgn1?=
+ =?iso-8859-1?Q?ZHeLsj0mzs8NKGExajzrTWmadldYuriAJVhkFQRn83nUnCBDX4+GI3Rjb3?=
+ =?iso-8859-1?Q?JxqCeFiBUEajmq9XLE5r6L8YVVilSZ2y2DBEIMD5vP7J0t1tjyHr8DPe2/?=
+ =?iso-8859-1?Q?7WmBL9SNWQhxIjdlXlj9NWc=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?5UqVlBsFVrYBQmx96iCDSc0QWIm03z6/J/TwRuSDZUecuuVTchc0D/oeIg?=
+ =?iso-8859-1?Q?vzUz9JO3WkojwPIbPk4V26tIogiDZfGYabPzs8dEK1VNZfauF/9eNCS1Jm?=
+ =?iso-8859-1?Q?9Hd3+Fzwvaw4dJz2piW7dzg5RbBIgRpO/gMl7tyMHSFZydyWYNZm7uF2lW?=
+ =?iso-8859-1?Q?woLdiOd9HxCkTcO7s6tjMOwSh1u2GwBvxFUhnzvKu/8vQLl0txrm50fZVR?=
+ =?iso-8859-1?Q?FRh8SWWpAIwpt7B6n3iG5gNtLZEpkCGRHjyIVoRgrroXpjc/8LNVTOCXKY?=
+ =?iso-8859-1?Q?IwEK1pBKBsbkd1m2AC9kloIkItUrDJJ7tCXypVFqFB301PjWjvqDcqzsfs?=
+ =?iso-8859-1?Q?MdNowKu29pEV/90+Vd8EWRQ8NXV/SmHmKFtfm25J+TEAGtFFtAPvJ7/fk7?=
+ =?iso-8859-1?Q?4eEXPXSZnwq+0H45Q+bIGQGQNsSv5S62Gl1vJOLCeXvZrAEmCmHoAHvNNI?=
+ =?iso-8859-1?Q?MDWVJSInGD9lspGxxAwg1c5R0A0h1LUfCyiyrKXuPsViOk8jsACjzi7jfF?=
+ =?iso-8859-1?Q?3/vrG0B5dz93iA6zgP55eqvjHXZWAO51UmVVDxFaCVIV9QVT/gJ1LtvYPF?=
+ =?iso-8859-1?Q?throbVcBl749ON+9pHP/1xBwtRtYc+qPznh53BspWCrbnQAH4moLwm7D60?=
+ =?iso-8859-1?Q?xT5jFzYn0w0PiEZtxVpydierqDkLYuOIiQs+yAPUdgoLZSqgIBXnGPo9WJ?=
+ =?iso-8859-1?Q?QLsbEKWwTv7E+C71eMILGeGTBfyWER9LHR0PV5ISO5ZmS2MECMC0J2sczt?=
+ =?iso-8859-1?Q?C4NF/x6ND6lQddFy8lcs6+sLtLo50QRQ/7r7GIm15P9No9A7KUuhCqyzVl?=
+ =?iso-8859-1?Q?2be88EfyarUNKvQjKb469nKIynShoCtG+ZUh3kWH34nFBGoQSk2N7Ddon6?=
+ =?iso-8859-1?Q?2TZwRY8P+XDpTiuSc2z5Uljo7tVwGTBJJkroF8dZbaJ47Ey3F+5VGvUPo8?=
+ =?iso-8859-1?Q?RdFXUVc3D+zzl/KCfLoLvYrSTQKmay+qf7KhCrbWvDSM5HM1hTMRoyzNaR?=
+ =?iso-8859-1?Q?TAeTUA0QjYTGusv926tfbivIEksbYlOVfKAJrYGDFWifEaKZLbpU2ZWmmW?=
+ =?iso-8859-1?Q?XJCag5TONHIuoXeyIg7OKDX1pCnS5W0b4b16UFLijxXQalNZ5t36DGfVZR?=
+ =?iso-8859-1?Q?Nqp2qAc13etvBEKgY3nASy8K6K+wHMptOM2+LELdKqsTxbNuLVP1mztLBj?=
+ =?iso-8859-1?Q?13RNVMMu1RLOkW50yX4TMZSg2zYmmnICDFU1/0IpbcadhqcnqkSTtlmy4K?=
+ =?iso-8859-1?Q?qen6ox3k94BGqp/S4pE8YKq8iQ0ZTwV3ld2eVMJkHDt1L5fvzRwSVb4Mrt?=
+ =?iso-8859-1?Q?ZGLgsrjgOr8a2/lXBIIL7LZzsuNcK5mIKjrHyzO1ladmKbhPxOvo67w7sL?=
+ =?iso-8859-1?Q?TQASuyOt7s+reVKJ33Iv8wWUnBT8d6cqp6RxKMJXSbhYbjzBWFhHg=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -77,70 +156,91 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261113170535.79246-1-dwmw2@infradead.org> <avdEkNbqPWamMErl@google.com>
- <5F8F490B-BC93-41EA-B77E-9EC108C09DBE@infradead.org>
-Message-ID: <awCNTITOOiS1JEod@seanjc-mac.roam.internal>
-Subject: Re: [PATCH v2 0/4] KVM: x86: hyper-v: Forward unimplemented
- hypercalls to userspace
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>, 
-	Joerg Roedel <joro@8bytes.org>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Thara Gopinath <tgopinath@linux.microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Michael Kelley <mhklinux@outlook.com>, Nicolas Saenz Julienne <nsaenz@amazon.com>, 
-	Nikolas Wipper <nik.wipper@gmx.de>, Mushahid Hussain <hmushi@amazon.co.uk>, 
-	Sriram Nambakam <snambakam@linux.microsoft.com>, Zack Rusin <zack.rusin@broadcom.com>, 
-	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
-	Francesco Lavra <flavra@baylibre.com>, 
-	"Radim =?utf-8?B?S3LEjW3DocWZ?=" <rkrcmar@ventanamicro.com>, Liran Alon <liran.alon@oracle.com>, 
-	Arbel Moshe <arbel.moshe@oracle.com>, David Woodhouse <dwmw@amazon.co.uk>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5796a99-1f8c-4823-4ec9-08df47420b2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2026 20:08:29.0102
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR02MB8635
 
-On Fri, Nov 13, 2026, David Woodhouse wrote:
-> On 13 November 2026 10:10:40 GMT-07:00, Sean Christopherson <seanjc@google.com> wrote:
-> >On Fri, Nov 13, 2026, David Woodhouse wrote:
-> >> From: David Woodhouse <dwmw@amazon.co.uk>
-> >> 
-> >> KVM implements a fixed set of Hyper-V hypercalls and fails every other
-> >> code with HV_STATUS_INVALID_HYPERCALL_CODE. A VMM that wants to
-> >> implement more of the TLFS, such as the VSM hypercalls Windows uses for
-> >> Virtualization Based Security, never sees them.
-> >> 
-> >> This series adds KVM_CAP_HYPERV_FORWARD_HCALL. As with KVM_CAP_XEN_HVM
-> >> and KVM_CAP_EXIT_HYPERCALL, KVM_CHECK_EXTENSION returns a bitmask of
-> >> features and KVM_ENABLE_CAP takes the subset to enable, rejecting any
-> >> bit the kernel does not report. The first feature,
-> >> KVM_HYPERV_HCALL_FORWARD_UNKNOWN, sends the hypercalls KVM does not
-> >> implement, and extended hypercalls in fast form, out through the
-> >> existing KVM_EXIT_HYPERV_HCALL exit, whose format does not change at
-> >> all.
-> >
-> >I'm not a fan of fowarding unknown hypercalls.  It seems like it would be quite
-> >easy to end up with a mess where it's difficult for KVM to implement "native"
-> >support without breaking userspace.
-> >
-> >How much code (and ongoing churn) would it be to add an allowlist of hypercalls
-> >to forward to userspace?  And then obviously require userspace to configure its
-> >forwarding "intercepts".
-> 
-> I'm following the model we used for Xen support, where the default assumption
-> is that we do everything in userspace, then accelerate only what's absolutely
-> necessary in the kernel.
+From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com> Sent: Friday, Novem=
+ber 20, 2026 3:11 AM
+>=20
+> uio drivers support being matched to devices using the driver_override
+> mechanism. Add .support_driver_override =3D true to continue having
+> this mechanism work for them without tainting the kernel.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
 
-Oh, right.  I was worried about people getting clever and abusing the Hyper-V
-handling to implement bespoke, out-of-tree hypercalls, but that ship has sailed.
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Tested-by: Michael Kelley <mhklinux@outlook.com>   # uio_hv_generic.c chang=
+e only
 
-> Userspace can opt *in* to having the kernel support certain hypercalls, and
-> later patches waiting in the wings already add the in-kernel VTL switching
-> enabled via a bitmask when enabling the capability. 
+> ---
+>  drivers/uio/uio_dmem_genirq.c | 1 +
+>  drivers/uio/uio_hv_generic.c  | 1 +
+>  drivers/uio/uio_pci_generic.c | 1 +
+>  drivers/uio/uio_pdrv_genirq.c | 1 +
+>  4 files changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/uio/uio_dmem_genirq.c b/drivers/uio/uio_dmem_genirq.=
+c
+> index 263c1ebc2d57..71992431770e 100644
+> --- a/drivers/uio/uio_dmem_genirq.c
+> +++ b/drivers/uio/uio_dmem_genirq.c
+> @@ -309,6 +309,7 @@ static struct platform_driver uio_dmem_genirq =3D {
+>  	.driver =3D {
+>  		.name =3D DRIVER_NAME,
+>  		.of_match_table =3D of_match_ptr(uio_of_genirq_match),
+> +		.support_driver_override =3D true,
+>  	},
+>  };
+>=20
+> diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+> index dff92dcbb10d..255c2b5730f6 100644
+> --- a/drivers/uio/uio_hv_generic.c
+> +++ b/drivers/uio/uio_hv_generic.c
+> @@ -407,6 +407,7 @@ static struct hv_driver hv_uio_drv =3D {
+>  	.id_table =3D hv_uio_id_table,
+>  	.probe =3D hv_uio_probe,
+>  	.remove =3D hv_uio_remove,
+> +	.driver.support_driver_override =3D true,
+>  };
+>=20
+>  static int __init
+> diff --git a/drivers/uio/uio_pci_generic.c b/drivers/uio/uio_pci_generic.=
+c
+> index c0cab3adb7b0..9785df9fc5de 100644
+> --- a/drivers/uio/uio_pci_generic.c
+> +++ b/drivers/uio/uio_pci_generic.c
+> @@ -140,6 +140,7 @@ static struct pci_driver uio_pci_driver =3D {
+>  	.name =3D "uio_pci_generic",
+>  	.id_table =3D NULL, /* only dynamic id's */
+>  	.probe =3D probe,
+> +	.driver.support_driver_override =3D true,
+>  };
+>=20
+>  module_pci_driver(uio_pci_driver);
+> diff --git a/drivers/uio/uio_pdrv_genirq.c b/drivers/uio/uio_pdrv_genirq.=
+c
+> index 87e43821ab0c..022178248962 100644
+> --- a/drivers/uio/uio_pdrv_genirq.c
+> +++ b/drivers/uio/uio_pdrv_genirq.c
+> @@ -261,6 +261,7 @@ static struct platform_driver uio_pdrv_genirq =3D {
+>  	.driver =3D {
+>  		.name =3D DRIVER_NAME,
+>  		.of_match_table =3D of_match_ptr(uio_of_genirq_match),
+> +		.support_driver_override =3D true,
+>  	},
+>  };
+>=20
+> --
+> 2.56.0.rc1
+>=20
 
-Oh yeah, duh.  We need a capability either way.
