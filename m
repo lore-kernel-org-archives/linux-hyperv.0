@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.49
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.62
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795196479;
-	b=tI1LMETmvC2YCgbBPP/MI16oMietg7BiMQZO21AmQpqXh+NfzqruadQksnP1TViCBqDI
-	 M1FbKcqrKxIMaQ9QshsuMBq9xGzoX1blH4XyDAMDpfMJ2OxLFx0BecXLSSWqNPbR1cn7e
-	 pDby3WXHGWxVnRFPFjLnMi1cLzutoe3Xir7C1Ut0OZ/KLrTSszfJCW12n+ynyYeM3YPVr
-	 l7EWVA+RoYodRpm02OSVD1xq5qQXaez/9MtLmr133tELSlDOTGGynw4cQiAnVsew0cOi9
-	 rMviXpdy/Hut7zmscihh6mVGK/egBwO2gXRfDRwkxoJGLqjUODhKmBc3rNpYkLKbTIA==
+	t=1795196835;
+	b=qfHYr6jJ23BrN9kUrAqtyI3WfXDavg5PqOEeiUDmEQz21nfMeMEhPUNTHbmtd3WhBIqU
+	 ShJnX9KJ7qC5YCtriyZMXOhdOf4mUuzoQsTtEXTvzd1gYpWcqWeDQ8WPC1ZXiVKoNhJPj
+	 Xhg7Qxsa2goXWqtWFVjiSsAKm3nulFEKnLvmyp3LMgkG1kvc0wCZ3QaUGzGLah21N0+4I
+	 TFv0Z4wFxj2dqp6FQRMnTJ2xow/ONVohgX28sKqas39DXG6nQkUFhWOhy+l3KEDhyjMsa
+	 BBIhRX3iG/HS9bCwvPAc3pWn/wZRrjGTPgC80wLdY2s3QzHd0T3Xhj4Fx/EfbW7zTUQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795196479;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795196835;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
 	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
 	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
@@ -26,133 +26,133 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:
 	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=CPLYPz4QtAqACrGQpfGQdBwyvjYgrPWuuc3UmqQmibI=;
-	b=cMmLn6XsGJCoLumH+29DN7HH6QOgOQjSAxdGAkCTAFZrWbRfeZKDtlTf2SQmWUnUfo5q
-	 q2RBiAisEtkOr2uV3+PS3Vx8MJFiXwcha02k1/9M5rYbiAaypZMCRJcYFROH51EIwaer7
-	 wG8SEDxOj9e+utxEV3hRfdl5FoknlIOx0nB6Ah8VvLmGm5h7peVeedf12R4tr7Q4iHgO4
-	 +AUB5iPZqeWu2TAzB5m5qJz7voC5NVTR9ECeOxkt9I0CjUd2zASerNH+RpsEw6+cQvdDL
-	 NK+ZUwwIpXTstzAwzVvU/Sgv77N707ZQ3HhmenA1VwPNTHrPD+uevzryGPy7kFTk3Pw==
+	bh=yolGwi4mDotrhfnUDhpgRldch0r8bXlgRF4yQeMyddc=;
+	b=EXFvigyj9axfLanpdoiK5jfrcAKtJh8K7CwqWnS+eakgkF4UJAZuHydJclRok84wRlo7
+	 rVhChjLvWBg+Tdeh07HqTsxf7hrhLu1BmzAkz4CSTsq3+mACf61VhJ1o5LdO5RtgciuML
+	 FmXj93QeQdeTvHcD3hTWFmy4Mq9hlwzp2zIJrwtyVKWYkhOQs6zDj614flh6fH+/mXWiW
+	 hpClfkLzP1IcBn0ZtxjlU0dYYYZ+QbxGaxr3l98mWE7zfB0YS922GrRo84CF95ZtFUSKM
+	 l8yehmGCMWHpytwGZMTc4gtbjOj/GsAX9bSb6LKGazWQLaEqaJip5URgJDrJVLaAHnA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=outlook.com;
 	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=FRid2cMH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.49
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazolkn19012049.outbound.protection.outlook.com [52.103.2.49])
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=lCTgURkF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.62
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazolkn19011062.outbound.protection.outlook.com [52.103.14.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A9E60A6F43;
-	Fri, 20 Nov 2026 17:41:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48A9E60A6F43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71E760A261D;
+	Fri, 20 Nov 2026 17:47:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E71E760A261D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=FRid2cMH
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=lCTgURkF
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OdbLy4vvpqrJR5gSJ4Yh+8XTmeHs+HQLQxDmbn7ktTmsWNB4T9pAt2sd1fO4sWol4Fu9oOxqXDR8byy0MdCZBFLACRa0E6L9yqc5UEg3hgw/ZakysAIvOxJ1nLwcLKTAi8sMmFBEdxdG9JV58LRQXRIlnt36Ifyt6o2GO9s8640UW0QXQdfCQOVN1j+Pe3HlTGZ+oDfsGrhjmwDrebJvvJDWHhW9MnvUUV95XCCG5Cx865mJ7Zsd0ww4IUWpVO0M6dqjSDAIehivD/J+n+alxVNPgWoJueCSOLY0kH1ZGl9vvUgPyGf+y1tRV5508iWcernDMqkrHx18WzApVKQPhA==
+ b=gpVcMvwIIs86cE8D85ev5e0I+fqhGLdhewVoWPdR1IHU9Jquk25uT7mf4NdWON1RcESigwFFVBBGq8GrawkrnhtyMI/21gGMG6coHWEVGwQnDGwW2CLPrRqY33/LI4k8OsmfVbpDCdea6ChqYxEB7+s+j+PMpXk7YBJjUYih3pEuLX0idITykEp+rSSSNxGO5rdfN6FQT1xLphoThZUNqSJB12TlqJotaV8jmWSE7kff7QidR22rpZ/1KS6buNRLR2oJbvX+F77dxS63NGEceVetrQXj5MAktsCakIlMyvQz0yR6QG+7iT+hSEK2QHy9i8ZdOiVQIDQ5QywVK9wE1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CPLYPz4QtAqACrGQpfGQdBwyvjYgrPWuuc3UmqQmibI=;
- b=CZfFq9vzX6omZzbedPHSgNIGRUqiSAf0i8DJaR+gdh5TZPYsTgvnnVjz783x6FJIpaBe68jmt6T73TWxh7YkoZhVHLz2VlnpmNSOpG8LsWs6aRsBDpdD0Syyes0p3rJnbU7422PeNw+KibKInS+wGX8VS4q4BTWHpY8sH5EQVv71RLC3bZgE/vj3h1KwvU7GejoNitRIr5AgM3VT9JYHzrEEQSxRDO9wB95qgc+Aw5/a1xk0RUggDbPozIOw1iFLFHB+SyRADNA6UsGSNqV9+9Iu6bmSHGbPJyIZ1FojjdkDOXPy8Fx+WTJlKgiUUPyicf4xY1kaXeRvE4UcQpWD6A==
+ bh=yolGwi4mDotrhfnUDhpgRldch0r8bXlgRF4yQeMyddc=;
+ b=qkZdwVMfQTEmqxjrZqALatBIfcIJufsGio76foRCrG5Sls1yON+g1fqANdm4VA9To4ADNO4pcAl2aeRTjKkRrF1cw4Bn2SNrxiZG+gW6RUtZrp+dnpBTcsceP2+Bn5cHrtGdff3sfFQoR6cM0umud0seiFgLUjW5ym8awRErZwM1Uyu1xDcIP1JGbHL/7ICy5zcbdiNpkxq8sPcRD1DMqv3wutBnX7PVc+nqhBuwryxZK0pWyrpMtSwIe4iEvBdPITi7n/ZQPRcM+kCOG2yXRR1vp1U9GLTeqX04z1n5EuRepng8vSpDOcoQewFpdtpl1V5zzvhUo+PzrmUcUreSHQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CPLYPz4QtAqACrGQpfGQdBwyvjYgrPWuuc3UmqQmibI=;
- b=FRid2cMHutMIpZNdlAOQsBykTEFoMbXCDq7td6KRpDObqg4iq6MeaZ6ntNrIdj1XsOusffU//ICknKw20dlwpxgmQXILNLeMMUdi6N/gBlbC8dsC1VYDcPNruEf8pi+VJHOyB/lMuxq6ayFL4vV95w61SEXRg88bhtNQEqp6BOOICD5a4kU9inZs3ZxJ6KB6NekbqG6VAKQYhECgM/DK9EY3zeymolQAhjohc4n67gwClQNAzR1PMZVRDUmIIRIUZs15yhWjh6g3fL5Cx268kGVKsy6Do3/T1Pwtd268YZhUN3+07BqBP993TMkWZfEDSryqgMZ2Xzc410EuNqOsHQ==
+ bh=yolGwi4mDotrhfnUDhpgRldch0r8bXlgRF4yQeMyddc=;
+ b=lCTgURkF1Lq5ABfNOVjswezDfVScL7+ct/zxAyZ2fcIzjP9yuCxvYh9Mxb0Vo+nw1jTaD5FQ9FB1oW1PZP0BVSaxlXkqjsofToaUQnHGJ56v7v1At+LzA9vMmGLXzPBe1rk5aOBVnzFoMNzjpyHYq/Fvjn+QPngG3QkKkjfqxcjZf/C+6L5vAR/dXq+Ah0v8tRRt3a1w3yETFMH6mhhSEMqqJbY3TxlepWBMVSyiLHV0BQNJ3fZrqfKMCshSkBQt/F9EJdyDBmjIGD9Rh++zRMKtleyvK9cGnL/a3TtmCJS8a4X/HNUy5Ggxdx7mq2Sh3w7Xo7RpRy99SGz8p8hYhw==
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by MN7PR02MB310162.namprd02.prod.outlook.com (2603:10b6:208:635::8) with
+ by SJ0PR02MB8816.namprd02.prod.outlook.com (2603:10b6:a03:3de::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
- 2026 17:41:16 +0000
+ 2026 17:47:08 +0000
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0639.010; Fri, 20 Nov 2026
- 17:41:16 +0000
+ 17:47:08 +0000
 From: Michael Kelley <mhklinux@outlook.com>
-To: Dexuan Cui <decui@microsoft.com>, "haiyangz@microsoft.com"
-	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>, "kwilczynski@kernel.org"
-	<kwilczynski@kernel.org>, "mani@kernel.org" <mani@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com"
-	<bhelgaas@google.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"jakeo@microsoft.com" <jakeo@microsoft.com>, "saeedm@mellanox.com"
-	<saeedm@mellanox.com>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "abhamidipati@microsoft.com"
-	<abhamidipati@microsoft.com>
-CC: "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] PCI: hv: Don't use container_of() on non-vPCI buses in
- config block ops
-Thread-Topic: [PATCH] PCI: hv: Don't use container_of() on non-vPCI buses in
- config block ops
-Thread-Index: AQHn9rUsLTUIFzvGvhP1YJDkWhAeGLciMzHA
-Date: Fri, 20 Nov 2026 17:41:15 +0000
+To: =?iso-8859-2?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+CC: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, Bjorn Helgaas
+	<bhelgaas@google.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Rob
+ Herring <robh@kernel.org>, =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?=
+	<kw@linux.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu
+	<wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Lorenzo Pieralisi
+	<lpieralisi@kernel.org>, =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?=
+	<kwilczynski@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 12/13] PCI: hv: Convert to
+ pci_assign_unassigned_bus_resources()
+Thread-Topic: [PATCH 12/13] PCI: hv: Convert to
+ pci_assign_unassigned_bus_resources()
+Thread-Index: AQJkn8ke3hrUAJD/fxNI/dSM12acegIB3L3RthXNLzCAAsEkAIAAUYUQ
+Date: Fri, 20 Nov 2026 17:47:08 +0000
 Message-ID:
- <MN2PR02MB6863EA116937BB7CCA32E523D4782@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261119192937.570043-1-decui@microsoft.com>
-In-Reply-To: <20261119192937.570043-1-decui@microsoft.com>
+ <MN2PR02MB6863FA2A0210B584D0CC1C52D4782@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <20261116152403.2672-1-ilpo.jarvinen@linux.intel.com>
+ <20261116152403.2672-13-ilpo.jarvinen@linux.intel.com>
+ <MN2PR02MB68637F500EFB95B333A87429D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <a1520d14-ad7d-c9cf-5a7d-628d04ede311@linux.intel.com>
+In-Reply-To: <a1520d14-ad7d-c9cf-5a7d-628d04ede311@linux.intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|MN7PR02MB310162:EE_
-x-ms-office365-filtering-correlation-id: d41d6a30-16bd-4922-afca-08df472d7a4c
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|SJ0PR02MB8816:EE_
+x-ms-office365-filtering-correlation-id: 46fc35c9-fb1b-41ed-4cea-08df472e4c48
 x-ms-exchange-slblob-mailprops:
- YfhX3sd/0TWTq462A1ci1xfPBdi3ebdldNybaXxwDD81sj3iZm1s90+kDBRaaVXEoNm+DIr2Dz56/KeMWfZXHHkd3tD12ZehSy99EfgDZNw9kGufawClCoYYRmP+gcEnX/mQ6KznDEJIRDfW4+QvfPLGobvsCF0VqpcBLMqmpXnds7mgSnzpEY2vped5XZAMKMV8NloBV6rvMEqTmTOZ2EuX4uX5tRaz1YY9j6KFB3+dbG/Bdujx4fFKt8vK5Um4BN+A9QUeS+WsqDBu9iWC0WwS4hm+FSmNH+dwSHN7YN5wMsFWbu/MG6GP6YFxsv4nGYPXOQp/K07OixPB6efnDu1rSEz7y558VBsXeBHo0MNsixfOiCZbZRNFdRpZYUlKhnYWxBuU2smvAiwXDS4EQBsUg9fXE/bD+3L+HJ1fFXthJ5Ys6owYJsyUoZZIdsaq7oYfdvY+GLFeq93XAdQVOufcXkHNxhON11UXwfQe56NCURcdF0Rjj9vXYKuLS3RRr/bTInMDtRgkE4AK4hQpquyQ4HB64NMOMngUIB2xtrcNu/5gCf5EfeVL2aN8pQFfVPq2sgnHbjoWOT5GmRkLlbwb6ZNRPABBFONe+qXmS3OUfjai8yA4fDKq878MS73czx2vNKHwrnI4pim9Pw1NvXp4WKNdfqH+y2kyCJL6mT7ase4Us7Bzho2pnVsB5ZMlyJYOws/kbXKtJ2YzGLFmjae1QYLNX3l63zL2plxjxjGQNRHSXOeFBL7GTInF3ogCCTdTH44dYszqqLBnar+R28/786cunXHYiqUBoebbudA=
+ WaIXnCbdHrO+2YmbT5jW+WUSUt4IT5vRQNNq+z5Gcdho9RrbHq2I5TW24/VQNy86yXvz6W8rdOo4lgkxqMY/2W8+6WHJPmipwGakWRSKoajtUL6xNFALljyMCciRx9+VtPStrOy8bbaTOgARMaoA6gTU1BIG2saTdrfsTSYUIXtDDsNeHHwvxf6K2RFyOG6ZFZbmtij037zDZaRA16xXV1+Jf7mxuXfv00OSctCSfblPa4a+ty3XUQ1M7ZdF/x4KwSRsdJMYilRA2wv02TSwxIhV4Fhx7DMqCSBukdpPpgnTL5SCLCR6px45egqGlaS8i4P+mFFPXjeMhVYgi1YhqedH4scIonzcZzlbGJVxFA9AuH0nKg1HOuK9WkkG9QSpt1nWhXfv/F3H7TA9trgCZS7NgJiZIP3n3VGGB+Gdn/2dYAgRay9fnRCiPdzW4s46+SYlWCaRi3rKoUrzyxxDN8ScGwxWneoQq5jr4+dGpzN1Nktt08gXip8LPAxH5+iaRzNaun42LxyKVMxE93Aw5q5kTV8jdhjlm8s5RSQ2KSsk2QMcm1D4NeWYV4m3NCweJYU8BGs4qQ9o87v7lFxL8AD2Q6Wz56DNmeY8qlnkHqsEhkIyPKvU//7ENuqaTvYg50gsQuHWMPyJloJ4wUlbdz8X2wTpvFwlyI0ConCQYhEQA2YhjzDZ0VkGZ4qfDOQkBqOrIGHViyDIJAUFyoANZsztpC9T1dV+z9/1BKTgTiojX4NzRVlduYHx7i5lBJKjluNt3KzJJQo=
 x-microsoft-antispam:
- BCL:0;ARA:14566002|37011999003|31061999003|41001999006|8060799015|8062599012|19110799012|15080799012|4140399003|12121999013|51005399006|24021099003|55001999006|13091999003|25010399006|440099028|3412199025|102099032|40105399003;
+ BCL:0;ARA:14566002|8060799015|8062599012|31061999003|25010399006|51005399006|13091999003|55001999006|24021099003|37011999003|15080799012|19110799012|40105399003|19061999003|102099032|440099028|3412199025;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?68IBUh8o3iIbqpdFsnR3pglWwXHO89sKSVgZGDdtk4L4ZdVu0UFaORxcZwC0?=
- =?us-ascii?Q?glLwhKWH2XdtFh5W5ppdTkJFHF/SfF3oLxVLfEX6wkSmFYIi4HGAmI1uUFMJ?=
- =?us-ascii?Q?PG/aa+ouFlcg4PYMhqev47YSSGRGjLY+cZtnZcM/yF0V/uFw3E/Vp2DiB/Ky?=
- =?us-ascii?Q?EIxGajJjYoimAcdts6eCPPQOVHl03i0phXeMopsOUcl7B0LWUFJeHY7MUBBY?=
- =?us-ascii?Q?M/5hAWH3ybZoRdhGzWvf/eeuiL6Pn1EA4/fWe1/tq4og8RcL7+grpberw+6j?=
- =?us-ascii?Q?FEhLHH30nmAE5WOWyfvt+ablHyT2ayAQmep1Ve4rzsl7zD0hLQYI/9Vu4iBS?=
- =?us-ascii?Q?0X90jH2Jifg05xQND+FWNnC7IaIn23QhDAIdhKS1b8Z6L5vRXcIqFMu5sk0g?=
- =?us-ascii?Q?3kyvIopqqkYeKLkvNlVJeCF34KXQahBiJM2vCFmtR9ZCkPBKCuwOQzBU7vAg?=
- =?us-ascii?Q?grQRHMxwLH7vH6l5IOHS7SLeDBErd0GQZa8MZZ+CkhHBjiODiZpaYuk2drcu?=
- =?us-ascii?Q?qN1A9Q3O6zpXJPles3DefMKaTck0FvuRkajxx63yVxH4EN1UjtrCG6mAEdsH?=
- =?us-ascii?Q?T/ZXjiLH9EpbXxRsXz6R8mBIhx6sFVzrj1y8H3AiSNcm6+b140Vgga+acjHh?=
- =?us-ascii?Q?5aFI4fVXfeK7CgLnslwxV1gGKbwF7AhHOpGgeT8hvki2DBkaO5Y40OqEPDvi?=
- =?us-ascii?Q?3fOVgY3vnSZWFjnWaDZBMloNvYvZNX4KOOFENdSxShuWZq6FY1Ll5QimlOqx?=
- =?us-ascii?Q?/JE/vabqrSOq+AHyHKXScmYLUUygzP6Lih/N61BBFdlkf6egzt10H0EPjD8u?=
- =?us-ascii?Q?jxuo6syRoyrpgTCf5eETfz6tkhQHehsNSURdNKtmCv1TLPmCJ42hNIzQbX6F?=
- =?us-ascii?Q?Es6FaNCjp2heGCpQODv74sySWjKca4L5a38ujsww0TJ5D+nyBepl7//0h0o1?=
- =?us-ascii?Q?IfsPKpjAeWftHW23HqoV8/LA3mTKuWyV97jHvTlCCE0+WThoDeu6X4bQDY92?=
- =?us-ascii?Q?8s9b/6hq1Oukwdu2H66HoJDcRUYnN4pYy7jWnhUva637P45SBIIQXiZxY1ua?=
- =?us-ascii?Q?wF2FbGJrkH95CCFOMoH0055JaSnbDoPpOJQibTIZyjhDkpgIoSg=3D?=
+ =?iso-8859-2?Q?N9gLnPi9vm4hvF4LICSFHn/Jg389Ch8RADUGhRSpv2x+3HwvrSQFAx+GFH?=
+ =?iso-8859-2?Q?rQmgiwdSbmwurJ1YpGeA++See5CMQj09jzK1VTKrUIrLITiRkM4JKm/m28?=
+ =?iso-8859-2?Q?/qSC5ENDZCK5bCkdB+SRsavvvn1kJDo6008+isCu8IQgr5Ca0LILMlvz9s?=
+ =?iso-8859-2?Q?LvmSv8A5V94QYXFKF7fOPCieZU1I5MTSfaqVvW2gxqT8JJlaxTYNXoCw1m?=
+ =?iso-8859-2?Q?KZWCIdwgSYIXU+yZKdcLaE96llHV0qK9hHMuSXyOGL3p5yVDmIu37M8sEG?=
+ =?iso-8859-2?Q?nIHgbyWm/PSye3XPyc30Pp3mj9uxCvqbRU5eX22obAmbC9/g9gIHgZZC6S?=
+ =?iso-8859-2?Q?Yi4yAQEmH4S+yIEpRTpPrbdQZzxrPsytkNvqempeO18QpJrqpX0HpErxJy?=
+ =?iso-8859-2?Q?DZw71+Y0zavONDzTZmEIizglhOFkQd2f6byGSBWy6As/8tUVJmF3ThQyT+?=
+ =?iso-8859-2?Q?RdJPVZCMzhgW75WnVRsos12OqIgRMskiwcRxK7SBwHU1+NHVXE88crqceC?=
+ =?iso-8859-2?Q?EQnnxH33GOEx06vvt2fDOUrmc9ygj07Ox19uIFsfPzf6sYDLUqry3r0VsI?=
+ =?iso-8859-2?Q?tnhFYF9XLZkgcBi17iHsMBJv3Xr7SZ4I2P21mfSxUGe/A6lxaKAnLMjz99?=
+ =?iso-8859-2?Q?i/p8evv2tUa49qadpm7qBZaRZFPNrmNwhHZbNVTM1S/Wd5JvVP5YFBUAK7?=
+ =?iso-8859-2?Q?W6NUsxC3LdTqMz/2Mg7gKMENZBKl/5ZM8uK6j24AX0wHX1+1Yecf/hbyeo?=
+ =?iso-8859-2?Q?i5/MrD7jTYdU1kUTOQfWL6R6m4alZW3JwPx9ny7WevGRn1J6J/SqrT6z8Z?=
+ =?iso-8859-2?Q?8aQkW/gigKpUcBB3ajaiJccGN6SYHZp6xDMO8MvzQD3FcSAEGF3AmTiipb?=
+ =?iso-8859-2?Q?EHzUIhP2vCZwtlwnZ1eCXow4u5M1JRTfZYkulkfegokLNVhx4MROoIqOm9?=
+ =?iso-8859-2?Q?ngYd5JJXW/CDcfqixfBsnEYmiKh7oAxV2XMrLSLdFB/BjODqVilyB45HuR?=
+ =?iso-8859-2?Q?C8LLzcwOhlB7G+KhQcYWGSytv0PrM0Mq7PH9lP4BjZAc7IjQDLn+4gQfus?=
+ =?iso-8859-2?Q?mDBSrFCHY2Y235jF6RREv9h98KWHM6OtdSNxz2gk44oZ?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?MqYLOXZ9EkGXCve9LY/WOLEIcWBCj/IuIFBcdOvg7b+o4xDTLYkekVariOLi?=
- =?us-ascii?Q?xTIEr9f9wU8UNYn0Ohy6eFYGkQ+hOVaraMEQu1dNPweYh6UWNuQLHRAEJOYl?=
- =?us-ascii?Q?HV5/BNsjJpdR7DaKxHxQswyvoPbwZaHkL8O8w9rpJRYh4QMuQs8XE0Vl+/BZ?=
- =?us-ascii?Q?FD75f9Nx0OVjHl+JQmlsuRrB+/e61BYXqUdRd52zg27Qy/WbRN3VmC4HBmhK?=
- =?us-ascii?Q?TM2WaBp+dP0rTCU2iAZs3oPhlj8pcyMhO0XHA7oDG4EMFffF80uhL3cnmaWp?=
- =?us-ascii?Q?kcnfqd4SR6qIKD19QdLYxCoQfx2g25y24ZgR/xdJaKs8iRzg+YrPQo4YSz4y?=
- =?us-ascii?Q?0PxTxt3OPfXfX0BoRsML/O7YdYDCFigCrWDUI0KGFDfcd2ZcUrkuuNRwXqL/?=
- =?us-ascii?Q?AM6bNMOwiVVAnLo8yy+nh6i2xHC/ZizsUaCxwpPm+BLSq+KM+YDq3FO5ir5D?=
- =?us-ascii?Q?EJj1mH11dT7YhvIHY1IoBttOl+jR7PZbPAGuPdBSJ5Fk3m9nSB8hc4ZXtL3r?=
- =?us-ascii?Q?WJJwVSIK0sctYZQnMITGsbHrb2Lvn1f4HcWeazg1JvdIZe+JUG07ss/KQOkC?=
- =?us-ascii?Q?SQM9QxqIJxC1HD41HGgk/xbplxvnu9nY7J+5m6tztYlpne+io9xNoyvAVyLT?=
- =?us-ascii?Q?rC4nUXyYSwr8FM+VCiuHykskU1pYeFHumq4fTjJdkNdSz+X2B2ZM4pDsOuW/?=
- =?us-ascii?Q?HPOAi0uYBlpOnir9vi/9graQN+prKH4awyapXI5pPr23uRRoHRoccJqVTOdE?=
- =?us-ascii?Q?Kx9jhF4yjZWoDCpe7JP+OPI93sN3T0jMkznRgWcM+5AuGC4BZEuzmY0m9OFU?=
- =?us-ascii?Q?G8r/w4CcoIHbtozoo49LYaspf0k8JAU6nWHuUtmxRbXH7pJ3PtttZeaEn5XV?=
- =?us-ascii?Q?30FajE63G4ROJMtFbw7O9rLVs5fIarbDTYlpvMS2bCJlWqlUpOn+8P2LtnKJ?=
- =?us-ascii?Q?ubTsGmad4UovhM3FYEcH1PQNOjmMvGnf3ZjurrwoimtX5rVshCgVy533Ak3n?=
- =?us-ascii?Q?ZPoyPqdMToU/YBVOC7BslrcafSnUv0Q4qMW18XEiUXdTfD9urVQ1DOnL+7G5?=
- =?us-ascii?Q?9PdgOqIk1ueKSS4qeSRNrOXe9Fz44LMfzJL8AiHzjvV9Q/VeFKfoutnsMdNL?=
- =?us-ascii?Q?M86IBIhXgHZwM+uAkNT3C2W5aAH3SxTzyku5fb5ozv22FaEmaZ5Zx04/Wyba?=
- =?us-ascii?Q?s6V4j6utlhkkkXKq+i6HupTuYxlISRftDQ9Bfm+r8qIpGR0pna9eb0Tpg6bj?=
- =?us-ascii?Q?bM66TH/Bl1Qw+P1t6i/ZCUZ9aGpwWZ/P0ArQvLIRj0S5G07Ybvg4w8rhvemM?=
- =?us-ascii?Q?Mgv6ZOeuSxZse4fgof7dt3xtjNuMhGpntD8NY1Lun39wXcvPGiZgXVJbfIrE?=
- =?us-ascii?Q?eL3koJQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ =?iso-8859-2?Q?12imF695WxzsNiuHDmTO/2PuIqGDxsJww+OsGpPU62jlj1GiS2UjuiPyTh?=
+ =?iso-8859-2?Q?b9n43EaHmO2J8HYOiNgoVNomTFtvqNcLDydXX8c5qNZH7XXrw+w5CtS4jo?=
+ =?iso-8859-2?Q?1EC4IUqF+wxqa6cy0+YW8LLWtW7feBbbTX2gQv0QUnOuFeA8StGHLJCeQN?=
+ =?iso-8859-2?Q?C4nYYPj/zvXw4lwD98+Er94HMi9/RElkn4LqHNfPEvk8LXJulwXspmUACg?=
+ =?iso-8859-2?Q?lkGcKa4EFrXpeG17UgewFkQ6ZNHdSnpwx4e634C530WC2kt2QGvGEOL2rh?=
+ =?iso-8859-2?Q?IT5L6/K7wOGoiEVaSst8ID6ab0KFatyXX+cuEpLmaeOlUQLObYgwJHo7Mv?=
+ =?iso-8859-2?Q?w8/PF4hWZsv3yxbj98wXGwuUI1b99NZYnR9vlhjGhWOuKfcij4WpyFQ6jY?=
+ =?iso-8859-2?Q?UZck0eTlvzMLjrudW1mBaktKOJIXmkO0ghm1btMqWYnxJQ6PVGwng48ABR?=
+ =?iso-8859-2?Q?TY8LUvO4pvI4B8C/KadEorR/b34lMkdKTrAnzKHyz+M7XkA2M2P4ayD1cE?=
+ =?iso-8859-2?Q?3jGQAnEARDZLg8cNvMi5EZfX2UxMelO1hSZmnlBQj917812V3TK8NM4qoy?=
+ =?iso-8859-2?Q?QNkYzMMO8G6R4VeVieiEfLTSHuLJV2jHhBonmUFSyN2L9a5JVsl0+zPoz0?=
+ =?iso-8859-2?Q?2fwrFPRMknQ8CyRajSlNeFSizCJhsiTaPZbJC6sGh/kkbDlrueNRZag6Eq?=
+ =?iso-8859-2?Q?1Ki5x4yRjB7lfFdqlEmLRLkdtMtRBYLqIOiwffA3dUXP5YOHiqLivGWjnb?=
+ =?iso-8859-2?Q?vqcuAgmSc/XmT1IVv6Vxb2s9t1fey/ZWDdwR5Lnv7E+rrDFZh48ol605Ry?=
+ =?iso-8859-2?Q?KfqV381YJwq6z0eQmv4CZSlJpkOuLTxTE6r+ANbPn4AJ5skUCxmsK4e4uq?=
+ =?iso-8859-2?Q?pgCH6LC522Z2oU5QQDqquyoi9xAhxvLJrufXspzWtxEp1UzgtFX5Y4Xxoi?=
+ =?iso-8859-2?Q?OgxAVdIptCJXOyxpjCO2Q53DDdP6HvoSLZ/yAQiYLOvOpjGYuf2w/nUR8/?=
+ =?iso-8859-2?Q?r7N8LUJeosE0/46M5dY7AetNu7uG7fz1UZNIuA3LofeFmeFYPFZMYoDqks?=
+ =?iso-8859-2?Q?YzEaZsEUbztw9yjraixTKHqmPoeKcv/QJ0fs6ZTkS+0J2ocRSteYFKGYsb?=
+ =?iso-8859-2?Q?9pkI9S4eioqT+o3A37RXCT4J5yvyP3avok8k17xlYIcjvPdTPQJFd7qlGI?=
+ =?iso-8859-2?Q?dsZ38ev5siFLHK/IOvDpUcd0MELSaXxaRSVJ6bjT6Uw09z+g9UANP3l/za?=
+ =?iso-8859-2?Q?UTilptDpw1U7GxzkmZuRmqUdEubyQcLHuDRL2vuuzwnnkxzh1p0I0vDmiW?=
+ =?iso-8859-2?Q?rInCQF/0XP3EKoHJgQm1w3RnfCeq8cCHxtO6oD0RhjMEzeYIe2KZ92bLOZ?=
+ =?iso-8859-2?Q?8a9sVVlyB6C1jw0wshmG5Velhy5WuEFXetRktK0GM3Y8ObN8X99OY=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -167,211 +167,79 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: d41d6a30-16bd-4922-afca-08df472d7a4c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2026 17:41:16.0682
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46fc35c9-fb1b-41ed-4cea-08df472e4c48
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2026 17:47:08.3315
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN7PR02MB310162
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB8816
 
-From: Dexuan Cui <decui@microsoft.com> Sent: Thursday, November 19, 2026 11=
-:30 AM
+From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com> Sent: Friday, Novembe=
+r 20, 2026 4:55 AM
 >=20
-> From: Aditya Bhamidipati <abhamidipati@microsoft.com>
+> On Wed, 18 Nov 2026, Michael Kelley wrote:
 >=20
-> hv_read_config_block(), hv_write_config_block() and
-> hv_register_block_invalidate() are exported through hvpci_block_ops for
-> mlx5_core, which calls them for its PCI function whenever it runs in a
-> Hyper-V guest. They assume that pdev->bus->sysdata is embedded in a
-> struct hv_pcibus_device and use container_of() on it.
+> > From: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com> Sent: Monday, Nov=
+ember 16, 2026 7:24 AM
+> > >
+> > > The pci-hyperv driver scans the bus and assigns resources using
+> > > pci_bus_assign_resources(). That function makes bridge window sizing
+> > > disjoint from the assignment phase and is going to be removed.
+> > >
+> > > Convert pci_bus_assign_resources() to
+> > > pci_assign_unassigned_bus_resources(). If no other bridges are involv=
+ed,
+> > > the extra sizing should be no-op.
+> >
+> > I tested this series on an x86 VM in the Azure public cloud that has
+> > 5 NVMe devices and a Mellanox VF NIC. All 6 devices are PCI pass-thru
+> > devices in the VM that are initially set up using the pci-hyperv.c driv=
+er,
+> > so each device has its own root bus and bridge. No issues were seen in
+> > a basic smoke test.
+> >
+> > I added some debug code to pci_assign_unassigned_bus_resources(),
+> > and indeed the "for_each_pci_bridge()" loop found nothing as each
+> > device was setup. So __pci_bus_assign_resources() was called with an
+> > empty add_list, and as expected, the new execution path is equivalent
+> > to the old pci_bus_assign_resources() call.
+> >
+> > Question: Your cover letter says drivers that call pci_assign_resources=
+()
+> > directly are not covered by this series. pci-hyperv.c *does* call
+> > pci_assign_resources() directly in hv_pci_allocate_bridge_windows().
+> > Is that a problem? I don't understand all the details of the PCI resour=
+ce
+> > assignment well enough to judge for myself. :-(
 >=20
-> That only holds for buses created by pci-hyperv. A Hyper-V guest can also
-> have PCI devices behind other host bridges, for example the ACPI-enumerat=
-ed
-> ECAM root ports used for ePCIe (emulated PCIe) device assignment on Azure=
-.
-> For such a device, container_of() yields a bogus hv_pcibus_device, and
-> mlx5_core crashes on a ConnectX VF. On a 7.0-based kernel it crashes in
-> get_pcichild_wslot(), called from hv_register_block_invalidate() while
-> the VF probes. On a 7.3-based kernel the VHCA invalidate work sends a
-> packet on a bogus channel; UBSAN flags the spinlock, and a paging fault
-> follows:
+> There's a small name mixup here.
+
+Indeed!  My bad ....
+
 >=20
->   UBSAN: array-index-out-of-bounds in kernel/locking/qspinlock.h:68:9
->   index 2129 is out of range for type 'long unsigned int [512]'
->   Workqueue: mlx5_hv_vhca mlx5_hv_vhca_invalidate_work [mlx5_core]
->   Call trace:
->    queued_spin_lock_slowpath+0x644/0x6e0
->    _raw_spin_lock_irqsave+0x98/0xf0
->    hv_ringbuffer_write+0x98/0x340
->    vmbus_sendpacket+0x9c/0x100
->    hv_read_config_block+0xf4/0x1b0
->    hyperv_read_cfg_blk+0x28/0x80
->    mlx5_hv_read_config+0x6c/0x130 [mlx5_core]
->    mlx5_hv_vhca_control_agent_invalidate+0x8c/0x280 [mlx5_core]
->    mlx5_hv_vhca_invalidate_work+0x88/0x120 [mlx5_core]
->    process_one_work+0x1dc/0x5b8
->=20
-> Commit 0d5acba6331c ("Drivers: hv: vmbus: Export hv_vmbus_exists() and
-> use it in pci-hyperv") fixed the same crash for guests without VMBus, by
-> not installing the ops at all. These guests do have VMBus, and their NIC
-> and OS disk are on vPCI buses, so the ops are installed and a per-device
-> check is still needed.
->=20
-> Treat the bus as a vPCI bus only if its ops are hv_pcifront_ops, and
-> return -EOPNOTSUPP otherwise. mlx5_core ignores a failure to register the
-> Hyper-V VHCA invalidate callback, so the VF probes normally.
->=20
-> Tested on an Azure ARM64 VM with 8 ConnectX VFs behind ACPI ePCIe host
-> bridges, with a 7.0- and a 7.3-based kernel: all 8 VFs probe and their IB
-> ports go Active, and a test module confirms that all three ops
-> return -EOPNOTSUPP for a device that is not on a vPCI bus.
->=20
-> Fixes: e5d2f910cfec ("PCI: hv: Add a paravirtual backchannel in software"=
-)
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Aditya Bhamidipati <abhamidipati@microsoft.com>
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
-> ---
->=20
-> It's based on the PCI tree's for-linus branch, and can also apply cleanly
-> to v7.4-rc3, pci/next, hyperv-next and linux-next.
->=20
->  drivers/pci/controller/pci-hyperv.c | 36 +++++++++++++++++++++--------
->  1 file changed, 27 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
-/pci-hyperv.c
-> index 824cf27e85e67..029d66a171216 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -1451,6 +1451,21 @@ struct hv_read_config_compl {
->  	unsigned int bytes_returned;
->  };
->=20
-> +/*
-> + * The config block ops are exported through hvpci_block_ops and can be =
-called
-> + * for any PCI device, including devices behind a non-Hyper-V host bridg=
+> pci_assign_resources() is to graft a device's resource (or a window) into
+> resource tree, whereas that calls pci_add_resource() adding windows to th=
 e
-> + * (for example, ACPI-enumerated ePCIe roots). Only devices on a bus cre=
-ated by
-> + * this driver are backed by a struct hv_pcibus_device.
-> + */
-> +static struct hv_pcibus_device *hv_pci_dev_to_hbus(struct pci_dev *pdev)
-> +{
-> +	if (pdev->bus->ops !=3D &hv_pcifront_ops)
-> +		return NULL;
-> +
-> +	return container_of(pdev->bus->sysdata, struct hv_pcibus_device,
-> +			    sysdata);
-> +}
+> root bus and that seems to occur before there is anything underneath. At
+> this point, there's nothing to do for the resource fitting and assignment
+> algorithm (it iterates the devices underneath).
+>=20
+> ...So I don't see a race here related to pci_assign_resources().
+>=20
+> Most entrypoints of the fitting and assignment algorith input bus, and I
+> don't think anything in kernel would as to assign resources underneath
+> that root bus. Only pci_assign_unassigned_resources() looks for all root
+> buses, and that is only called from arch init code so I don't think vfio
+> setting up it host bridges matters with that call.
+>=20
+> There seems to be, in general (not just hyperv), some races that are
+> unrelated to resource setup in host bridge setup and scanning. I'll see
+> what I can do but it'll be in a separate series and those seems to fall
+> under can-shoot-oneself's-own-foot category.
+>=20
+> Thanks for taking a look.
 
-In addition to hv_read_config_block(), hv_write_config_block(), and
-hv_register_block_invalidate(), there are two other functions in
-pci-hyperv.c that do the same mapping of a struct pci_dev to a
-struct hv_pcibus_device:
-
-	hv_irq_retarget_interrupt()
-	hv_compose_msi_msg()
-
-Also, hv_pcifront_read_config() and hv_pcifront_write_config()
-do the same thing, but starting with a struct pci_bus instead of
-a struct pci_dev. Maybe hv_pci_dev_to_hbus() should become
-hv_pci_bus_to_hbus(), and callers can pass pdev->bus as the
-first argument if need be.
-
-Finally, there's hv_pci_reset_device(), which currently does the
-same sysdata container_of() trick, but based on the bridge. Even
-so, the struct pci_dev as also available, so hv_pci_reset_device()
-could use hv_pci_dev_to_hbus().
-
-This a long way of saying that there's a consistency argument
-for using hv_pci_dev_to_hbus() [or hv_pci_bus_to_hbus()]
-throughout pci-hyperv.c instead of just on the hvpci_block_ops
-functions.
-
-Separately, it seems a bit fragile for this mapping to depend
-on the sysdata memory being allocated as part of the struct
-hv_pcibus_device (vs. a dynamic allocation, for example). Of
-course, that's the current code, and it works. But I'm
-trying to think through whether there's a better way to do
-the mapping. Just my random musings and not something
-that needs to be covered in this patch ....
+Thank you!
 
 Michael
-
-> +
->  /**
->   * hv_pci_read_config_compl() - Invoked when a response packet
->   * for a read config block operation arrives.
-> @@ -1500,9 +1515,7 @@ static int hv_read_config_block(struct pci_dev *pde=
-v, void *buf,
->  				unsigned int len, unsigned int block_id,
->  				unsigned int *bytes_returned)
->  {
-> -	struct hv_pcibus_device *hbus =3D
-> -		container_of(pdev->bus->sysdata, struct hv_pcibus_device,
-> -			     sysdata);
-> +	struct hv_pcibus_device *hbus =3D hv_pci_dev_to_hbus(pdev);
->  	struct {
->  		struct pci_packet pkt;
->  		char buf[sizeof(struct pci_read_block)];
-> @@ -1511,6 +1524,9 @@ static int hv_read_config_block(struct pci_dev *pde=
-v, void *buf,
->  	struct pci_read_block *read_blk;
->  	int ret;
->=20
-> +	if (!hbus)
-> +		return -EOPNOTSUPP;
-> +
->  	if (len =3D=3D 0 || len > HV_CONFIG_BLOCK_SIZE_MAX)
->  		return -EINVAL;
->=20
-> @@ -1581,9 +1597,7 @@ static void hv_pci_write_config_compl(void *context=
-, struct pci_response *resp,
->  static int hv_write_config_block(struct pci_dev *pdev, void *buf,
->  				unsigned int len, unsigned int block_id)
->  {
-> -	struct hv_pcibus_device *hbus =3D
-> -		container_of(pdev->bus->sysdata, struct hv_pcibus_device,
-> -			     sysdata);
-> +	struct hv_pcibus_device *hbus =3D hv_pci_dev_to_hbus(pdev);
->  	struct {
->  		struct pci_packet pkt;
->  		char buf[sizeof(struct pci_write_block)];
-> @@ -1594,6 +1608,9 @@ static int hv_write_config_block(struct pci_dev *pd=
-ev, void *buf,
->  	u32 pkt_size;
->  	int ret;
->=20
-> +	if (!hbus)
-> +		return -EOPNOTSUPP;
-> +
->  	if (len =3D=3D 0 || len > HV_CONFIG_BLOCK_SIZE_MAX)
->  		return -EINVAL;
->=20
-> @@ -1652,11 +1669,12 @@ static int hv_register_block_invalidate(struct pc=
-i_dev *pdev, void *context,
->  					void (*block_invalidate)(void *context,
->  								 u64 block_mask))
->  {
-> -	struct hv_pcibus_device *hbus =3D
-> -		container_of(pdev->bus->sysdata, struct hv_pcibus_device,
-> -			     sysdata);
-> +	struct hv_pcibus_device *hbus =3D hv_pci_dev_to_hbus(pdev);
->  	struct hv_pci_dev *hpdev;
->=20
-> +	if (!hbus)
-> +		return -EOPNOTSUPP;
-> +
->  	hpdev =3D get_pcichild_wslot(hbus, devfn_to_wslot(pdev->devfn));
->  	if (!hpdev)
->  		return -ENODEV;
->=20
-> base-commit: e735de71a2d9403fa1e2d134d1e9aa0a24f4eaff
-> --
-> 2.55.0
->=20
-
