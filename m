@@ -1,101 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795173105;
-	b=GlZQfktRQX5vKiYj3SmYZEtlrhfIrwaCTloOCUn9J/yqmMfBqQHuEAAnjdOLrviBjVoi
-	 W1f/9eKvu9jHA4UyNIU2chYlIoWF81l5TDTYthHKONgu1Y+3Z/G4R9c/P7rgJ9wyj/Deo
-	 4s5Qt1giwRshkkiA1Z5trPVtJwWZi8ZQNNHzUF+nqlYXFThR+vmC9sm6SmTXL0pfg+Jhe
-	 DOpkxWRhmcnUDdWVgDSYbW0TWU1isEuQ1huUYdkwH2mzEqtRCn23xhx+7+IJDtOX0tQSh
-	 oG4kfLaRwW+vhwgPtabq1IcMK9QWR9zVj0H89FmkqLpus0X1pyiuos1co72X6yvOuWw==
+	t=1795179329;
+	b=f83Qyv5bMuP7ARP05jITE+EzkNetVIFsUTOkza2vX/98+j080reSdhjwnFtShQHJXZoC
+	 xR4zVHbrj8zR7x78zjM7qKaYAEFJqI/6m//TbjHvkB8astT0Gd+ECKOK2Fhkz9mHdns9D
+	 lQKMItOjnKZBY0KZzUXzFbUDkDsnctsezqsDnG+3PMpoUNejSBRWffu688hpig8KHs6Qg
+	 NhUY1nlTia6ahwP+Wpygl39IyXEj0n/jkEGVraC5fhW1FfN5EiNa5dnbxIhpe/wVWPYQB
+	 KigkuPd4BtWhzrikGvnMV0wuTx349gcT/iTgrvDM7FPIv49GcDdU9zT3tCUADFN3ySA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795173105;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=LvlKqVyRHhYvlUCPB8iGyJoia7M8Y3oMPiJsyGR4j1s=;
-	b=FZIluqwtAUSj7+eQNsCy6Ke1JPYcpqXOYgQXKLWSNfHceIKu24fz6jYPQTccExW138G+
-	 WIdya4fntqmboj0tXzyhx6cxWepw0ljMf5OS5qXGToRUVpPX91gJd0i0MVYXsd4G3Obks
-	 ECeObfz0XwfmxaO+84tMAo0b7zbdhgv2Lii8WsyXqQC5YVsU2r81PsrkWd4X1nXng7KqB
-	 FqFtR8yVRDYDEFL+csveE+q3HTOSbRheYW8bHaVCL+tkNqTh5OzrAcicb768hoF/ghBS3
-	 FtrcTjJi/nXE4bi0CQ9RpStlt/ZH/HA4pSokY1iZZwbGHnX4vSnYFoHFg9HpvOZYEng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795179329;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
+	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
+	bh=I8RObEtMvkht1sbLCyliak2Fn1H/lGUtdD84tJEgvVY=;
+	b=bA9HN+uA7jC1HK2GwsplPDKI/v5B+tLY4Gdn0ZZsYXpdaGKjP5F/xdYD6REpNXeDF877
+	 FATGA3tMwfAHlAb+mYRD883WE8hbo+uBBmtS+Lgt2RdVbDgHmg+oRGYmKRrljEDdWhWXo
+	 oplnjMsp3abxRw5DWkTSooz0Z2uFSWIPxBgt8Nv7rRaGtUTX2GOEgPL6GOJCEB3qZiKZJ
+	 J32+5xZXZXORlDu3pKGfMje0yJKqxJTcUP6fGML1VhHsvmAFDq+zY8j2BSpqLlUFPiXgf
+	 7T6rvt0VAub5sOIEAblkJo2wjiO2chrVC2PPU1HsniPown/RH193p+jw4Gtj8ZwavCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=aDWBOkEZ;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GE1UtLxN;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698EC60A3804
-	for <linux-hyperv@vger.kernel.org>; Fri, 20 Nov 2026 11:11:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 698EC60A3804
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA074606A325;
+	Fri, 20 Nov 2026 12:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA074606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=aDWBOkEZ
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4a32576da88so404168f8f.3
-        for <linux-hyperv@vger.kernel.org>; Fri, 20 Nov 2026 03:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795173101; x=1795777901; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LvlKqVyRHhYvlUCPB8iGyJoia7M8Y3oMPiJsyGR4j1s=;
-        b=aDWBOkEZ4qQRUHVhnFnZXjz6gFJEBlNyEyOoHl3cV5UW6Rq7wSX+1fES1TXbs+3IN+
-         IAKYtLt20bq7t70W79xhmgxqItOqQijVxo5iyutKZ8jQe1SJ0c8ax6LFcFKQD4/pFVW4
-         Scvf+gg55pm8RdsI6l503C/MgY7Jt/K0LEifX++rJZPpsAb41pguop94McXiGc1R57jR
-         FWm0KPgHb8+GbMuAMQaM6CEjHnVaWvkGjKpL0Zwmz+m1lkmBwIH1hVaHU8FL9W489041
-         MhdVrJqCpXT0gVwTihwed9HE5FTyyCmxQAMbMtU/vnweUAG4HMgIO82NKmvfP5w5TadQ
-         9Wmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795173101; x=1795777901;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LvlKqVyRHhYvlUCPB8iGyJoia7M8Y3oMPiJsyGR4j1s=;
-        b=oy75QvLpdujIv8KJT0mFUVcWO3+3fNZrn6PK8ExfOFwy8bcKXE1z4POQ2A+eH1l24n
-         gnd25psnO3wmP7xwrgfU/grcdkJniFytqio6HWvMynMfYM77wDaufPi6fSPBhlajY+0T
-         RQ48XRC0C15ncyVuOv8XE5KmDus+A9qv4vSmKtzKVXOfF9daDSwWvzgsQ2AYK51J8IkD
-         F0yYzYKq+wErHtih7MJLpxTA9mUEtefCCYZpscFp5EwX2yUpNccpqKSCTd19dBvfT6pB
-         pFK3KeR6ShOdGx9n+n1jHjeop4k6/6gUEPN0qhm4oLSj92+aRv/JR68CDljAhzYZP4EC
-         vGow==
-X-Forwarded-Encrypted: i=1; AL+hErGCOPB7DxjgWfgxuEtQQA6mavSOjEViurtJ1o0QCYBC9hOBINk8KfUEKLV0T4sRGXRJbM7d3LqT3OHq8pA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/XoqYVu77i132YDqMBED/efZkUA1b3qt9Te7P7mv6u9y84NgXj
-	qsCHO8FuiNp9LzKdWxXfbgOI+74qtqfFh1YSyR9t1g1+T2w2VnHZiRGd3nExLMv1HB8=
-X-Gm-Gg: AYBFou02ULqngVjkPGOgfuLnUw7N7jL8dkmasO7vyJOhpnblZVARxIXsmOPwKl6pzfM
-	17t+CCeXpgEf476dRv1WXIkz5K/2nEHZAtPXUGVJ+fR1J8yOBwunVrlOjYot2YJitd7Fppy3qu7
-	biEeE4OEU7S7qtnAv8XKbZaHUDrRj8J+PuE4r6AHr5bXDIsvVQRG1LMTZWdGItQq+GPusUUmmC1
-	1q6Y06UnfVUWy1bNDoUfk1B3aK1783SvB+/oDTyq396Y19X221xNeFl+lqEmiAgdFpv+016cK6R
-	Fc5AgsVok+3wv5jBcO3NKMzyuXKkfzleorl0ShV/rp9XEwbyA9zKCVtEokR0OVh6NSFeH7ZOtuS
-	YEg0h1Y2SFoLzwxUThlOgcP9JDqMRykVw/LPBXKPG30s96N8uAD3lRGYR1Uomjo9sKwtMk45mFA
-	gjIUYDVhEM+T57i6sQfi37cf0LHGPrwzwt+/3v0tcB/ItM7rgJIXRlwVenkfaVywYXDbnm8kPpk
-	ZfVouy6gUih20urLjHEe6wi9Ohrq/p9F6uIPmQJ9bEHgWRI9eTxHqVnJWEjc3j36+l51GJ5pSp5
-	fRv291orKTEzFyGc3/Yh5srG2/m9IYPjQZJmprVCYBG4d8K9+Mdt5K5rYAhnPo9BeYO+158M5LR
-	aE2k0rwwcH+Y/+dQ6
-X-Received: by 2002:a05:600c:3b98:b0:4bb:7033:c92f with SMTP id 5b1f17b1804b1-4bb88826810mr53126695e9.11.1795173100811;
-        Fri, 20 Nov 2026 03:11:40 -0800 (PST)
-Received: from localhost (p200300f65f19a904be03815e1634e776.dip0.t-ipconnect.de. [2003:f6:5f19:a904:be03:815e:1634:e776])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb88f148aasm25552865e9.0.2026.11.20.03.11.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 03:11:40 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH v2 05/10] uio: Allow untainted use of driver_override
-Date: Fri, 20 Nov 2026 12:11:06 +0100
-Message-ID:  <190f97fdc22c161c4721283a2beb20bb477f9e56.1795171088.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
-References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GE1UtLxN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795179329; x=1826715329;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=FAjrkmqEdpuogErud616lvLHOdrZZqc+RsavMU4L/pM=;
+  b=GE1UtLxNZSHGc5r+9YqH6L0hOAiyCX9I2GiUtLDJApJHPgbpQpaY9mKW
+   /UkOk2g3hiOGGwt1OTLz9nuLoiw5EJibEFWyLGYUX+iGJJ5PrlW9eJGvy
+   hbQ+ol/pf5ppuPXmSCCtC9MxrcS5iTdu/nQO/LvTRetyDKDM1FD+N+AP+
+   mz3O95AngCToUoRKA7PIKhz3ecoCGfVqVZmFDVfSDLjof3TuJlw+XvkL4
+   hCWCnWdqMcpkL0sBewVCitguioXnpMM51uBY61ZJBD1X0OdhcW/milVE3
+   8OWSTyCdftQy1TVZD6hi7PBD1SNr7BQQ2JONC5EBFD1Pp9hjM1sZJA3Cx
+   w==;
+X-CSE-ConnectionGUID: FLz9hZJJTk6/qcp6EYSMeg==
+X-CSE-MsgGUID: i3qbBPznSQqEovsbjP9Fhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3940543"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="3940543"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 04:55:28 -0800
+X-CSE-ConnectionGUID: MzCm/SCVTdqar30HlSLj+g==
+X-CSE-MsgGUID: Bk8lltboQPyJbqZH3OmAJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="12533922"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.16])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 04:55:23 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 20 Nov 2026 14:55:20 +0200 (EET)
+To: Michael Kelley <mhklinux@outlook.com>
+cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, 
+    Bjorn Helgaas <bhelgaas@google.com>, 
+    Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
+    Rob Herring <robh@kernel.org>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>, 
+    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+    Dexuan Cui <decui@microsoft.com>, 
+    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+    =?ISO-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kwilczynski@kernel.org>, 
+    Manivannan Sadhasivam <mani@kernel.org>, 
+    "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 12/13] PCI: hv: Convert to
+ pci_assign_unassigned_bus_resources()
+In-Reply-To: <MN2PR02MB68637F500EFB95B333A87429D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
+Message-ID: <a1520d14-ad7d-c9cf-5a7d-628d04ede311@linux.intel.com>
+References: <20261116152403.2672-1-ilpo.jarvinen@linux.intel.com> <20261116152403.2672-13-ilpo.jarvinen@linux.intel.com> <MN2PR02MB68637F500EFB95B333A87429D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -105,71 +89,113 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2138; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=iCUi/7tI/zgEkK4zQSmtLg1qQ9fsMtrvvDC7LGhhuns=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBrACrTI/ZTGZ5YUYLg+hewc2YLCRqh9DJjAObYH uU0wg5v0smJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCawAq0wAKCRCPgPtYfRL+ TikhB/91CrSUe0WLbAkxv/SKrwgCyHDlQP/ZyGjOoKNTEMIEV/ql4vVu9pMRDw6sHcxLfLYl9/H rIhWYQ2bf49lE1MoG/fCG8BD04CU82cvNj1qID0PlF/Y4W+6ls38K4tyflWGBfZZCxxirnW1QIx zDiWB3NW2veRL+r6Zka116LLr88v2PKOy+HsvWogO22SrxIOs5BSmfVn8KULg/MKVGAhYDycSw8 AS06RrlsL86KNGd9D7fKdhyZUZZO0KGGt0MVBMMh2ER7V0705/JMbK1cCtVwsDJy2s45E3HrNS2 69fihF7+EhGPXckf0p8NlRnPsHwNsOhRYJu6IMPJTGIT5tYw
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-1259283716-1795179320=:1182"
 
-uio drivers support being matched to devices using the driver_override
-mechanism. Add .support_driver_override = true to continue having
-this mechanism work for them without tainting the kernel.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/uio/uio_dmem_genirq.c | 1 +
- drivers/uio/uio_hv_generic.c  | 1 +
- drivers/uio/uio_pci_generic.c | 1 +
- drivers/uio/uio_pdrv_genirq.c | 1 +
- 4 files changed, 4 insertions(+)
+--8323328-1259283716-1795179320=:1182
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-diff --git a/drivers/uio/uio_dmem_genirq.c b/drivers/uio/uio_dmem_genirq.c
-index 263c1ebc2d57..71992431770e 100644
---- a/drivers/uio/uio_dmem_genirq.c
-+++ b/drivers/uio/uio_dmem_genirq.c
-@@ -309,6 +309,7 @@ static struct platform_driver uio_dmem_genirq = {
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = of_match_ptr(uio_of_genirq_match),
-+		.support_driver_override = true,
- 	},
- };
- 
-diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-index dff92dcbb10d..255c2b5730f6 100644
---- a/drivers/uio/uio_hv_generic.c
-+++ b/drivers/uio/uio_hv_generic.c
-@@ -407,6 +407,7 @@ static struct hv_driver hv_uio_drv = {
- 	.id_table = hv_uio_id_table,
- 	.probe = hv_uio_probe,
- 	.remove = hv_uio_remove,
-+	.driver.support_driver_override = true,
- };
- 
- static int __init
-diff --git a/drivers/uio/uio_pci_generic.c b/drivers/uio/uio_pci_generic.c
-index c0cab3adb7b0..9785df9fc5de 100644
---- a/drivers/uio/uio_pci_generic.c
-+++ b/drivers/uio/uio_pci_generic.c
-@@ -140,6 +140,7 @@ static struct pci_driver uio_pci_driver = {
- 	.name = "uio_pci_generic",
- 	.id_table = NULL, /* only dynamic id's */
- 	.probe = probe,
-+	.driver.support_driver_override = true,
- };
- 
- module_pci_driver(uio_pci_driver);
-diff --git a/drivers/uio/uio_pdrv_genirq.c b/drivers/uio/uio_pdrv_genirq.c
-index 87e43821ab0c..022178248962 100644
---- a/drivers/uio/uio_pdrv_genirq.c
-+++ b/drivers/uio/uio_pdrv_genirq.c
-@@ -261,6 +261,7 @@ static struct platform_driver uio_pdrv_genirq = {
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = of_match_ptr(uio_of_genirq_match),
-+		.support_driver_override = true,
- 	},
- };
- 
--- 
-2.56.0.rc1
+On Wed, 18 Nov 2026, Michael Kelley wrote:
 
+> From: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> Sent: Monday, No=
+vember 16, 2026 7:24 AM
+> >=20
+> > The pci-hyperv driver scans the bus and assigns resources using
+> > pci_bus_assign_resources(). That function makes bridge window sizing
+> > disjoint from the assignment phase and is going to be removed.
+> >=20
+> > Convert pci_bus_assign_resources() to
+> > pci_assign_unassigned_bus_resources(). If no other bridges are involved=
+,
+> > the extra sizing should be no-op.
+>=20
+> I tested this series on an x86 VM in the Azure public cloud that has
+> 5 NVMe devices and a Mellanox VF NIC. All 6 devices are PCI pass-thru
+> devices in the VM that are initially set up using the pci-hyperv.c driver=
+,
+> so each device has its own root bus and bridge. No issues were seen in
+> a basic smoke test.
+>=20
+> I added some debug code to pci_assign_unassigned_bus_resources(),
+> and indeed the "for_each_pci_bridge()" loop found nothing as each
+> device was setup. So __pci_bus_assign_resources() was called with an
+> empty add_list, and as expected, the new execution path is equivalent
+> to the old pci_bus_assign_resources() call.
+>=20
+> Question: Your cover letter says drivers that call pci_assign_resources()
+> directly are not covered by this series. pci-hyperv.c *does* call
+> pci_assign_resources() directly in hv_pci_allocate_bridge_windows().
+> Is that a problem? I don't understand all the details of the PCI resource
+> assignment well enough to judge for myself. :-(
+
+There's a small name mixup here.
+
+pci_assign_resources() is to graft a device's resource (or a window) into=
+=20
+resource tree, whereas that calls pci_add_resource() adding windows to the=
+=20
+root bus and that seems to occur before there is anything underneath. At=20
+this point, there's nothing to do for the resource fitting and assignment=
+=20
+algorithm (it iterates the devices underneath).
+
+=2E..So I don't see a race here related to pci_assign_resources().
+
+Most entrypoints of the fitting and assignment algorith input bus, and I=20
+don't think anything in kernel would as to assign resources underneath=20
+that root bus. Only pci_assign_unassigned_resources() looks for all root=20
+buses, and that is only called from arch init code so I don't think vfio=20
+setting up it host bridges matters with that call.
+
+There seems to be, in general (not just hyperv), some races that are=20
+unrelated to resource setup in host bridge setup and scanning. I'll see=20
+what I can do but it'll be in a separate series and those seems to fall=20
+under can-shoot-oneself's-own-foot category.
+
+Thanks for taking a look.
+
+--=20
+ i.
+
+> In any case,
+>=20
+> Tested-by: Michael Kelley <mhklinux@outlook.com>
+>=20
+> And at least to some degree,
+>=20
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+>=20
+> >=20
+> > Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> > ---
+> >  drivers/pci/controller/pci-hyperv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controll=
+er/pci-hyperv.c
+> > index 824cf27e85e6..8eff3e9b325f 100644
+> > --- a/drivers/pci/controller/pci-hyperv.c
+> > +++ b/drivers/pci/controller/pci-hyperv.c
+> > @@ -2549,7 +2549,7 @@ static int create_root_hv_pci_bus(struct hv_pcibu=
+s_device *hbus)
+> >=20
+> >  =09pci_lock_rescan_remove();
+> >  =09hv_pci_assign_numa_node(hbus);
+> > -=09pci_bus_assign_resources(bridge->bus);
+> > +=09pci_assign_unassigned_bus_resources(bridge->bus);
+> >  =09hv_pci_assign_slots(hbus);
+> >  =09pci_bus_add_devices(bridge->bus);
+> >  =09pci_unlock_rescan_remove();
+> > --
+> > 2.47.3
+> >=20
+>=20
+>=20
+
+--=20
+ i.
+
+--8323328-1259283716-1795179320=:1182--
