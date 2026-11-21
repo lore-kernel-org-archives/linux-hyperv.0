@@ -1,59 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=5.133.65.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795253164;
-	b=BQ7E9/ASeD1b1nM4s67xMCHWYKprIzTgC/dIk3Od6AoZBhb8W1E8PKZYK7WBHTJU1Xju
-	 3Eu7Te4quESH2GO0P9F9uMd5896v0yk1OT8jnKnFiUQL1PsoaMt6hfesJL7Eww1VfmZLv
-	 eOo+JBgbA/hi5+zfguleZ65buzCqvi2do6nIDUfirU7NgDRYYHblgJqU8b4vb2oDSZbYT
-	 PEVNi0hocTpxQ8PDmCNgRUkv6K0YYKIBKB5n6ZJ7pONQ8wTrGYG759vbY48atAgOftA4S
-	 HJtmELnvpWltotCie3wiqrXg61iPwbxFKg2fAId3o/IJSs+QD8opbJA4+ZhOTxvi+sA==
+	t=1795278569;
+	b=fnq9M7FSUheep6osGmfpys72KN86U+3Un1uZlLqKXC9X2v0uWVe/W2g5aNpZwfQp2G6/
+	 1bQoTKod2kOKIbugCjyjoEy49+lVc1WdfOVIyDbfMasm5GskqTLDhSF3qP+Pz9rDODy47
+	 d2iCtw811P2dhP+SOgLYv8wFIkuITF0AGl7uX50uystBxWaDhFkAD6OjgI0VX23c13R6O
+	 HWAe5EUkLRyUGT0K2G5hbPKJUzV+rbwNjvABjSX4i46kb30nidUgrEl0BremEZ4l7B9Gy
+	 FOn16mzDoqGkxBpsc/wPR1TmzPunu5/vnXkkBNVQ3bJSkdzayY9vP+iKLBJl+ISnrag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795253164;
-	h=DMARC-Filter:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:Accept-Language:Content-Language:
-	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-originating-ip:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795278569;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=1bT0q/aRVAH1jqWgPlGl1hakvgxsdFRMmxHIa/Gd7i4=;
-	b=gPMT4IckBTSc9jRO+/Zirc5ND+QADNyH2M7ibeuRj4SzelxYAhQ7qeFjWQXGtJShItyk
-	 R5wcMwlEdDybXO6A3BLFoYUF6knYunIItv/9s0Pj8ljk4+x+rAXHZefDJRg/31IPdMG6c
-	 lfMRk6Nc7w48qjWo51O/SMC92fIw967Kacx89sceSBGHOWmC8saU0K/bnFjEWndjvbMvW
-	 pkHkjCCVJzLA4MGtjQar8T7m+aWjZd4g0rfC7R/EmMP5HluXfh81/bNqwruG59KIrgzTV
-	 GbYLh1eKihjH4FHqz0PUikASKuDyM2vXO5CaZYMvsSy8rmeSt1T6HNrqAJznfnXSaCg==
+	bh=M5xA6QGIByoSTDsPMlSDUlJT+zz0u0K41KRAMq/PgG8=;
+	b=zKcAnb9p8PN7pl6OJ5Le/CUCU055wTEw6778nw/vcl/YvfgxTxjMpeiqfY4Q8dIoFP8v
+	 mRG/DSNgmjJgf4f4XUxn4xP2PdKxtY7aEKahC7ZJdGwiM0HnXwSQ0+1eZUj+lncCsJpwD
+	 CZ2HWtkmmRgb+JzLdAxn1yyo/haw8Lk5aqkybVQ9TBPIiB8+J8NWQfWnLP6mt5qnBJ1Mi
+	 46E4lZXziVlL9/sE/G3b5H3c+0D8dZoW298iqAUvfOLD78XXAr92BOqMS3SB9eAjOCgp6
+	 dF3Yz1vIB97lR+P3lDTdWql62t4wbOYn7BJMdmNKMsdjGg75mLXLL0jPqNhtb22AcZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sysadmins.club;
-	spf=pass smtp.mailfrom=sysadmins.club;
-	arc=none smtp.remote-ip=5.133.65.174
-Received: from mail.sysadmins.club (mail.sysadmins.club [5.133.65.174])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LSZhSZha;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8178B606A32A
-	for <linux-hyperv@vger.kernel.org>; Sat, 21 Nov 2026 09:26:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8178B606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sysadmins.club
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sysadmins.club
-Received: from srv-mbx-01.corp.admin.ck.ua (10.12.12.18) by
- srv-mbx-01.corp.admin.ck.ua (10.12.12.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.12; Sat, 21 Nov 2026 11:26:23 +0200
-Received: from srv-mbx-01.corp.admin.ck.ua ([fe80::4c8f:70ba:30f7:d6a2]) by
- srv-mbx-01.corp.admin.ck.ua ([fe80::4c8f:70ba:30f7:d6a2%5]) with mapi id
- 15.02.1258.012; Sat, 21 Nov 2026 11:26:22 +0200
-From: Artem Matviychuk <asm@sysadmins.club>
-To: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-CC: "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>
-Subject: [BUG] hv_balloon: hot-add request larger than 64 GiB is truncated
- (page_cnt:24), host and guest memory accounting diverge by 64 GiB
-Thread-Topic: [BUG] hv_balloon: hot-add request larger than 64 GiB is
- truncated (page_cnt:24), host and guest memory accounting diverge by 64 GiB
-Thread-Index: AQHdeZpfp9xvKZzBj0GMzHtgieYyKg==
-Date: Sat, 21 Nov 2026 09:26:22 +0000
-Message-ID: <5c4f93c2d38443348ef29b57547c10c0@sysadmins.club>
-Accept-Language: en-US, ru-RU, ru-UA
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9CA606A320;
+	Sat, 21 Nov 2026 16:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LSZhSZha
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C811F000C4;
+	Sat, 21 Nov 2026 16:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795278569;
+	bh=M5xA6QGIByoSTDsPMlSDUlJT+zz0u0K41KRAMq/PgG8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=LSZhSZhaRhXDhoI/Ly5RNxA9CyNgq61fv7dM6NzwgXdJD9MY/D7sJBIJblVE6WEZb
+	 tQ17X2uYNNnx1kD4frt5j8D53rH4PZGIZZ8pFJQ0rZHbcZ+NjsHQNKQn3qp0GiDWvY
+	 qahiR2S0MMEti+PI2AC33uspV7U92EdujCnUY9eYmYv/Y3dA4jACbbdGr5HGHn+a8A
+	 tsCJ5/3chDBtjow9x7DIaKZCW5jy/qzxb+0Jbyhfl9lLv4ovkmO4waOUWnZ8YVkVZM
+	 nU1FtxyPpd/TE6KUZXsIqlT+TplDmbl2ZtX2sXkLAyATXiuLkBd6oPXfEuEHlWkww6
+	 50EHQ8wKY88wg==
+Subject: Re: [PATCH net-next v11 1/4] net: mana: prepare HWC ownership for
+ safe reinitialization
+From: netdev-bot+sashiko@kernel.org
+To: weh@linux.microsoft.com
+Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
+ davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ andrew+netdev@lunn.ch, jgg@ziepe.ca, leon@kernel.org, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
+ horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ gargaditya@linux.microsoft.com, kees+treewide@kernel.org, kees@kernel.org,
+ mawasthi@linux.microsoft.com, weh@microsoft.com, edumazet@kernel.org,
+ shacharr@microsoft.com
+Date: Sat, 21 Nov 2026 16:29:27 +0000
+Message-ID: <179527856753.3135.1812581824985082274@kernel.org>
+In-Reply-To: <f94c7f71d4228c7c30838f9c901b429ec5b1428c.1794751992.git.weh@linux.microsoft.com>
+References: <f94c7f71d4228c7c30838f9c901b429ec5b1428c.1794751992.git.weh@linux.microsoft.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,103 +71,280 @@ List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Hello,=0A=
-=0A=
-On a Linux guest with Dynamic Memory, a single hot-add request larger=0A=
-than 64 GiB seems to be truncated to its low 24 bits of page count.=0A=
-The host then accounts for memory the guest never added, and later=0A=
-balloons the guest far below its configured minimum.=0A=
-=0A=
-Setup=0A=
-  Host:  Windows Server 2022, build 10.0.20348.5756=0A=
-  Guest: Debian 13, kernel 6.12.113+deb13-amd64, Generation 2 VM, 32 vCPUs=
-=0A=
-  VM memory: startup 32768 MB, minimum 32768 MB, maximum 131072 MB,=0A=
-             buffer 20%, Dynamic Memory enabled=0A=
-  hv_balloon: protocol version 2.0, hot_add=3DY, auto_online_blocks=3Donlin=
-e,=0A=
-              memory block size 128 MB=0A=
-=0A=
-What happens=0A=
-  The guest commits about 105 GiB (Committed_AS) shortly after boot.=0A=
-  About 50 seconds after boot the host grows the VM to its maximum.=0A=
-=0A=
-  Guest log:=0A=
-    Memory: 32514644K/33553344K available=0A=
-    hv_vmbus: hv_mmio=3D[mem 0xf8000000-0xfed3ffff],[mem 0xfe0000000-0xffff=
-fffff]=0A=
-    [   52.772118] hv_balloon: Max. dynamic memory size: 131072 MB=0A=
-  No "hot_add memory failed" or "Memory hot add failed" messages.=0A=
-=0A=
-  Host, same second (Hyper-V-Compute-Admin, event 10020):=0A=
-    The dynamic memory balancer could not add memory to the virtual=0A=
-    machine because its configured maximum has been reached=0A=
-=0A=
-  Host view afterwards:=0A=
-    Get-VM: MemoryAssigned 128 GiB=0A=
-    Hyper-V Dynamic Memory VM counters:=0A=
-      Memory Add Operations          2=0A=
-      Added Memory                   98526 MB=0A=
-      Guest Visible Physical Memory  131072 MB=0A=
-=0A=
-  Guest view afterwards:=0A=
-    MemTotal 63.3 GiB, lsmem: 64G online, 0 offline=0A=
-      0x0000000000000000-0x00000000f7ffffff   3.9G=0A=
-      0x0000000100000000-0x0000000fdfffffff  59.5G=0A=
-      0x0000001000000000-0x0000001027ffffff   640M=0A=
-    /sys/kernel/debug/hv-balloon:=0A=
-      pages_added            : 8388608    (32768 MB)=0A=
-      pages_onlined          : 8388608=0A=
-      max_dynamic_page_count : 33554432=0A=
-=0A=
-Arithmetic=0A=
-  Boot memory ends at 0x808000000. The high MMIO window starts at=0A=
-  0xfe0000000. If the host sends two hot-add requests,=0A=
-    1) 0x808000000-0xfdfffffff     =3D 32128 MB=0A=
-    2) from 0x1000000000 upwards   =3D 131072 - 32768 - 32128 =3D 66176 MB=
-=0A=
-  then request 2 is 16941056 pages, which does not fit into=0A=
-    union dm_mem_page_range { struct { __u64 start_page:40;=0A=
-                                       __u64 page_cnt:24; } finfo; ... }=0A=
-  16941056 mod 2^24 =3D 163840 pages =3D 640 MB, which is exactly the size=
-=0A=
-  of the range the guest added above the MMIO window, and=0A=
-  32128 + 640 =3D 32768 MB matches pages_added exactly.=0A=
-  I did not capture the requests on the wire; the two sizes above are=0A=
-  derived, not observed. The host counter shows 98526 MB added, which is=0A=
-  222 MB more than 131072 - 32768; I cannot explain that difference.=0A=
-=0A=
-Consequence=0A=
-  The host believes the guest has 64 GiB more than it has. When the=0A=
-  guest's committed memory dropped from about 107 GiB to 43 GiB, the host=
-=0A=
-  removed about 58 GiB by ballooning. The guest went from MemTotal=0A=
-  63.3 GiB to about 4-5 GiB within 10 minutes (minimum is 32768 MB) and=0A=
-  stayed there, logging=0A=
-    hv_balloon: Balloon request will be partially fulfilled. Balloon floor =
-reached.=0A=
-  every 5 minutes. The host reported pressure 73 and returned nothing:=0A=
-  assigned 68.4 GiB, demand 50.6 GiB by its accounting. At that point:=0A=
-    pages_ballooned 15634328 (59.6 GiB), MemTotal 3.9 GiB.=0A=
-  This happened twice, each time after a sharp drop of Committed_AS.=0A=
-=0A=
-Control=0A=
-  Another VM on the same host with the same kernel, startup 32768 MB and=0A=
-  maximum 49152 MB shows no discrepancy: assigned 48 GiB, 48G online.=0A=
-=0A=
-Questions=0A=
-  1. Is page_cnt:24 the actual wire format, so that the host must not=0A=
-     send a range above 2^24 - 1 pages, or does the host encode larger=0A=
-     ranges differently?=0A=
-  2. The guest reports resp.page_count for what it added. The host seems=0A=
-     to account the full request anyway. Is that expected?=0A=
-=0A=
-The page_cnt:24 field is the same in v6.12 and in current mainline.=0A=
-As a workaround I plan to lower the VM maximum so that no single=0A=
-hot-add range can exceed 64 GiB.=0A=
-=0A=
-I can provide full dmesg, the debugfs output and host counters, and I=0A=
-can test patches on this configuration.=0A=
-=0A=
-Thanks,=0A=
-Artem Matviichuk=0A=
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
+
+Critical: 0 · High: 0 (1) · Medium: 2 · Low: 0
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] The HWC DMA leak that the commit message describes as a one-
+  time 'final disposal' cost can repeat without limit, because the…
+- [Medium] mana_smc_setup_hwc_locked() sets *submitted
+  (hwc->setup_active) to true just before the aperture writel() loop,…
+
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch
+  documents and relies on it being absent.
+
+--
+
+net: mana: prepare HWC ownership for safe reinitialization
+
+This commit serializes the SMC ESTABLISH_HWC and DESTROY_HWC transactions.
+It tracks whether the PF may own the HWC queues through setup_active, and
+keeps the HWC queue memory when DESTROY_HWC is not acknowledged. It also
+snapshots the PF-reported CQ count and CQ ID, publishes cq_table with
+acquire/release ordering, and adds a final-disposal helper that frees only
+software state when a gdma_context is discarded.
+
+Link: https://lore.kernel.org/r/20260908035201.402424-2-longli@microsoft.com
+Link: https://lore.kernel.org/r/20260908035201.402424-5-longli@microsoft.com
+Link: https://lore.kernel.org/r/178910960115.219967.13830871915506436112@kernel.org
+Link: https://lore.kernel.org/r/179196575238.434549.10775387794024020898@kernel.org
+Link: https://lore.kernel.org/r/sashiko-outbox-170992@kernel.org
+Link: https://lore.kernel.org/r/179455239601.2199510.13335902064048081755@kernel.org
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> index d6ae89c2ccddc..fc460d83fb800 100644
+> --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
+> +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+
+[ ... ]
+
+> @@ -796,11 +804,16 @@ static void mana_gd_process_eqe(struct gdma_queue *eq)
+>  	switch (type) {
+>  	case GDMA_EQE_COMPLETION:
+>  		cq_id = eqe->details[0] & 0xFFFFFF;
+> -		if (WARN_ON_ONCE(cq_id >= gc->max_num_cqs))
+> +		/* HWC teardown unpublishes this table and waits for these
+> +		 * RCU readers before freeing it, then fences its own EQ.
+> +		 */
+> +		cq_table = smp_load_acquire(&gc->cq_table);
+> +		if (!cq_table || cq_id >= READ_ONCE(gc->max_num_cqs))
+>  			break;
+>  
+> -		cq = gc->cq_table[cq_id];
+> -		if (WARN_ON_ONCE(!cq || cq->type != GDMA_CQ || cq->id != cq_id))
+> +		cq = READ_ONCE(cq_table[cq_id]);
+> +		if (!cq || WARN_ON_ONCE(cq->type != GDMA_CQ ||
+> +					cq->id != cq_id))
+>  			break;
+>  
+>  		if (cq->cq.callback)
+
+[Severity: High]
+
+This isn't a bug introduced by this patch, but the new comment describes
+a rule for cq_table (unpublish the slot, wait for RCU readers, then free)
+that mana_ib does not follow. Can this IRQ path dereference a gdma_queue
+that mana_ib has already freed?
+
+drivers/infiniband/hw/mana/cq.c:mana_ib_remove_cq_cb() {
+    ...
+	kfree(gc->cq_table[cq->queue.id]);
+	gc->cq_table[cq->queue.id] = NULL;
+}
+
+The entry is freed while it is still published. The slot is then cleared
+with a plain store, and there is no grace period before or after.
+
+A possible interleaving:
+
+CPU0 (mana_gd_intr, under rcu_read_lock)
+mana_gd_process_eqe()
+    cq = READ_ONCE(cq_table[cq_id]);
+
+CPU1
+mana_ib_destroy_cq()
+    mana_ib_remove_cq_cb()
+        kfree(gc->cq_table[cq->queue.id]);
+
+CPU0
+    cq->type / cq->id checks
+    cq->cq.callback(cq->cq.context, cq);
+
+CPU0 then calls through a function pointer read from freed memory.
+mana_ib_cq_handler() also dereferences the mana_ib_cq, which the IB core
+frees after destroy_cq returns.
+
+mana_ib_destroy_cq() calls mana_ib_remove_cq_cb() before
+mana_ib_gd_destroy_cq(), so the device can still generate completions for
+that CQ. The error path in mana_ib_create_qp_rss() has the same ordering:
+it calls mana_ib_remove_cq_cb() before mana_ib_destroy_wq_obj().
+
+mana_ib_install_cq_cb() also publishes the new gdma_cq with a plain store.
+Nothing orders it against these READ_ONCE() readers:
+
+	gc->cq_table[cq->queue.id] = gdma_cq;
+
+Should mana_ib unpublish the slot, wait for a grace period, and only then
+free the object, as the HWC teardown path in this patch does?
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> index fb9f38f65911c..9e0964072af9a 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+
+[ ... ]
+
+> @@ -852,9 +960,44 @@ void mana_hwc_destroy_channel(struct gdma_context *gc)
+>  	kfree(hwc);
+>  	gc->hwc.driver_data = NULL;
+>  	gc->hwc.gdma_context = NULL;
+> +}
+>  
+> -	vfree(gc->cq_table);
+> -	gc->cq_table = NULL;
+> +static void mana_hwc_free_retained_wq(struct hwc_wq *wq)
+> +{
+> +	if (!wq)
+> +		return;
+> +
+> +	kfree(wq->msg_buf);
+> +	kfree(wq->gdma_wq);
+> +	kfree(wq);
+> +}
+> +
+> +/* Final disposal after IRQ and service-work teardown, not a retry path.
+> + * Free only software state: unacknowledged HWC DMA allocations stay live.
+> + */
+> +void mana_hwc_free_retained_channel(struct gdma_context *gc)
+> +{
+> +	struct hw_channel_context *hwc = gc->hwc.driver_data;
+> +
+> +	if (!hwc)
+> +		return;
+> +
+> +	gc->hwc.driver_data = NULL;
+> +	mana_hwc_clear_cq_table(gc);
+> +
+> +	if (hwc->cq) {
+> +		kfree(hwc->cq->gdma_eq);
+> +		kfree(hwc->cq->gdma_cq);
+> +		kfree(hwc->cq->comp_buf);
+> +		kfree(hwc->cq);
+> +	}
+> +
+> +	mana_hwc_free_retained_wq(hwc->txq);
+> +	mana_hwc_free_retained_wq(hwc->rxq);
+
+[Severity: Medium]
+
+Can this leak repeat without limit through the existing PCI recovery loop?
+
+When DESTROY_HWC is not acknowledged, mana_hwc_destroy_channel() leaves
+the hwc in gc->hwc.driver_data. On probe failure or remove,
+mana_gd_free_context() calls this function.
+
+This function kfree()s gdma_eq, gdma_cq, and each wq's gdma_wq and
+msg_buf. Those structures hold the only copies of the mem_info for the
+EQ/CQ/RQ/SQ rings and both message buffers. mana_gd_free_memory() is
+never called, so nothing can reach those coherent allocations afterwards.
+
+After freeing the context, the probe error path schedules recovery:
+
+mana_gd_probe() {
+    ...
+free_gc:
+	pci_set_drvdata(pdev, NULL);
+	mana_gd_free_context(gc);
+    ...
+	if (err == -ETIMEDOUT || err == -ENOTCONN || err == -EPROTO) {
+		...
+		schedule_delayed_work(&mana_dev_recovery_work.work,
+				      secs_to_jiffies(MANA_SERVICE_PERIOD));
+
+mana_serv_reset() then runs with gc == NULL and calls mana_serv_rescan(),
+which probes the device again.
+
+Consider a PF that keeps accepting ESTABLISH_HWC but never acknowledges
+DESTROY_HWC, for example when INIT_DONE never arrives and DESTROY then
+times out. Each cycle would leak another full HWC DMA footprint, and
+nothing limits the number of retries.
+
+The in-place reset path also behaves differently now. Before this patch,
+mana_serv_reset() -> suspend/resume re-established the HWC in place,
+because the teardown error was ignored. With a retained context,
+mana_hwc_create_channel() returns a fixed -ETIMEDOUT and the real teardown
+error is lost:
+
+	if (gd->driver_data) {
+		mana_hwc_destroy_channel(gc);
+		if (gd->driver_data)
+			return -ETIMEDOUT;
+	}
+
+mana_serv_reset() turns that error into a full remove/rescan:
+
+	ret = mana_gd_resume(pdev);
+	if (ret == -ETIMEDOUT || ret == -ENOTCONN || ret == -EPROTO) {
+		/* Perform PCI rescan on device if we failed on HWC */
+		dev_err(&pdev->dev, "MANA service: resume failed, rescanning\n");
+		mana_serv_rescan(pdev);
+
+The rescan then reaches the leaking path above.
+
+The commit message describes this as a one-time final disposal. Should
+recovery attempts be limited once HWC DMA has been retained? If not,
+could the changelog at least describe this interaction?
+
+[ ... ]
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/shm_channel.c b/drivers/net/ethernet/microsoft/mana/shm_channel.c
+> index d21b5db06e509..df9d05062dd57 100644
+> --- a/drivers/net/ethernet/microsoft/mana/shm_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/shm_channel.c
+
+[ ... ]
+
+> @@ -229,6 +243,7 @@ int mana_smc_setup_hwc(struct shm_channel *sc, bool reset_vf, u64 eq_addr,
+>  	/* Write 256-message buffer to shared memory (final 32-bit write
+>  	 * triggers HW to set possession bit to PF).
+>  	 */
+> +	*submitted = true;
+>  	dword = (u32 *)shm_buf;
+>  	for (i = 0; i < SMC_APERTURE_DWORDS; i++)
+>  		writel(*dword++, sc->base + i * SMC_BASIC_UNIT);
+
+[Severity: Medium]
+
+What happens to setup_active when the PF returns possession with a
+well-formed ESTABLISH_HWC response that carries a non-zero status?
+
+In that case mana_smc_read_response() returns -EPROTO:
+
+	if (hdr.status != 0) {
+		dev_err(sc->dev, "SMC operation failed: 0x%x\n", hdr.status);
+		return -EPROTO;
+	}
+
+smc_proto_hdr defines status as the operation result on a response
+(success = 0, failure = 1 or greater), so this is an explicit rejection.
+Even so, *submitted stays true, and hwc->setup_active still records that
+the PF owns the HWC queues.
+
+Only mana_smc_teardown_hwc_locked() clears the flag, and only after a
+DESTROY_HWC sent with reset_vf=false is acknowledged. As a result, the
+create failure path in mana_hwc_create_channel() sends DESTROY_HWC for a
+channel the PF reported it never established.
+
+If the PF rejects or ignores that DESTROY, the hwc is retained. Every
+later mana_hwc_create_channel() on that gc then returns -ETIMEDOUT, and
+mana_hwc_free_retained_channel() leaks all of the HWC coherent DMA memory.
+
+The baseline sent DESTROY only after init events had arrived
+(max_num_cqs > 0).
+
+Could an explicit non-zero status in the ESTABLISH_HWC response clear
+*submitted? Alternatively, could a DESTROY with reset_vf set be tried as a
+fallback before the context is retained?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1794751992.git.weh%40linux.microsoft.com
