@@ -1,147 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.28
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795321502;
-	b=N4H6BcwNu7e3lCOqnTokK0b3ES++SXb3ukkyGbIkY/qVna6hf9SFp7p+ewCux12nAEf5
-	 lhPG+1vZm/x0aDkAeH1D590qMpG+xdGba2FO2YButRiCDIx5Z78Fy0ZbRfrA5F6G1rvl7
-	 CJqNKJ1zf1qx4C+qbP32uU6Kxj9LeuQd7h93qrwu1jHL0U5Eoop2gPckk4M71RiFc2n0O
-	 oFsK+gTFdpupvOldcriDlP6CFmulLP0CdahF+Z21uJmFMwsqenYzUX4WCzSurPRahjn0Y
-	 6u7jEEqza1oPUuyiaCntqgUXcIMVeqPWh3drMsxM6J0GEbi8+ZhNvaBjrnkob1oPxwA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795321502;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Ot+1ML4xYQqq5sNemM0gQOyxLjw3qcFylCJhhhOt7zg=;
-	b=UQp6DD4FDnoXr7x5V87Clh+10QWCJOAK4bUXFkcU14FeH1HNLx39gEXs+Liz17xtGv3u
-	 qgywh7PgWCtBpTmVCKwDD0xIvADtHBXfzvy1GsjB1snEbQSY+2x2z9ib0Hp8gw0/z1Vgk
-	 in69td1ix917q5ll2Thc1PD9HU9Jx5Je5y/VHhYWt2a8Bs7wiKNxc08At0gXv11v23/qs
-	 BV06A9ySQcU8vDR5+feu5oI0RKRpmRftOjSQ5mLLoniY4VyYWmnMPiZ+1yLs1OyjX+NM4
-	 Q0XF640tWNVRWwfBn9/eRVhVa8zJ/OAy4YJjKrIjj+pl4+v3JUHSQ5ZomlEQ1H008Ew==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=cv3BwsZZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.28
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010028.outbound.protection.outlook.com [52.103.23.28])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795342854;
+	b=oHO7PvRee/CErq6ubqkXEKrV8OV8hGXsmhGDfJHCwnWPFjjsGDHiRfg3d38koOU0lB90
+	 p7KZQLjEwfJ/ZVtaxNERpLi4H1Jc2srQEQGDGEDxuQTti0NMq094DAzcYa7rNugvcrTX1
+	 KPZbfr7KQYdubG+Q+XuFt0Rt8Vn5TH8rAe39RdQPUIpHnFCs+aL9FhN4U0264CqIQD7fF
+	 hCPs9tdbgLXEyEQBt3osMWqs3Q2WSYAvCz3urMkCTbG0Nn5omRU0dZkhjaBMYxyYA3gRh
+	 3nK7zBFweIngaCyLGNo3VjdBOTAw7x8gTnENMjrOp7zvVsxbWVswgqzyRkb/yJdw2LQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795342854;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=XbK8dY1xzsejjPb1arOv0xhaSlwRdVDea8jWM8dUcuw=;
+	b=NkVul1LzrTiWsA2s/oe8gAbmWQmRr57nedKKtoclplem4vNCVDQtv5CV7aNHiUS6G7FV
+	 e83eXt6t8/VfcHbNt7f1meJtUB89HLpUuIBSmRRsyJw96cqTlTXUqFB5qM6tqd7KiG5p3
+	 gPpeYo+5Fk6hAkT1XLExNUmo8IPLwNGmyOxpFuTMxC1wfZCxC/+K8aoonTlWEYvj1U0rw
+	 oBFQu+eJyiFB3VUjxpxcKN2AWdM+tELl0rnsvy2b/iUbtl4J7GfPNoIXEPcdWe6N/U1po
+	 SIVkP5t4V++Upi5yQePQdrQdumpPcPQ1ev9oFXHHDfiTQ7f+WoeGsaAHplelmfmd80w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMmNtnZr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A98606A320;
-	Sun, 22 Nov 2026 04:25:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51A98606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19A606A32A;
+	Sun, 22 Nov 2026 10:20:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=cv3BwsZZ
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xqxO+lhPFF4z16db2rF+As+Gz39ZNEHFbAZqqNFXnFrpCvECGJTfQafHpLkJTcCH81BFG4dFrog768S36GlOSnGvTTvRWQLFqOchYQKvbxhh0NlRjg3Qwk/pH9wHTGOcoQOQqroD9/izTQUT0tUclyd4TCCm7MFnen1WvmIidqyewMTGJje0anK3x8MgZOZYbL2fS0Bwpn7ejHXnyMN707RMsZs9YOS70SJ7TpT2pj3/OZjAouxxEUceEKi7FBDdGzp9dFbnARTRFIPP7rEZDQ8hWI/P8QFUPI0tBRO0Sdgm16+1pHqG8yR1qN6YbA3UKMgw1YnYFFWyFlOSHt+h6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ot+1ML4xYQqq5sNemM0gQOyxLjw3qcFylCJhhhOt7zg=;
- b=xV4GniuxNXkmQp5QBUTVr1kIoH3gLNI0M03OUyfbur3OKuFOUun+8tRAyzWSyJd7PLd25dr41b9IV4j8slQ7tSvYd5wgnl4+q2vnJI3WMAVhe0qhP/cTUB9vHBd9prR8Aj69A6nq19APdi8FhJ0nqqC0TnJyedKo+yeKKIlnX69b3qLDtp5cvxTaMZPBkmkgHvZz4/2GpwQ43fGlmuk1yH8rwIiH2B9gZVrtTlFKsiMZ3uG2bcl1STcI94Cy6NW04KC0yve3QL6IN8tjEsTOGTWHAIQPySpFf3HMoTurmgbTrMILxT1LLMjYDa29kmnOGS5rBQXkDlam3kfXGBRYCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ot+1ML4xYQqq5sNemM0gQOyxLjw3qcFylCJhhhOt7zg=;
- b=cv3BwsZZN8IS5FTKGDdo1q/O8znIpXloIJ+k6If3y8XzaZWXsttosfdIaQsMQDxLcCgyz9fvXPxyTT5CUBmurFZ2SH66O/+jTh6MNC1KnUg4qQp4ICRJbgxZEDuwUh/CIESTsVPGqGGzdZNIDr8xrQcMRbxmJdjIkFuY7PV0c/+B+KLOZoe+n8nGr7UIbpgSsC5Lge5/7786OFSr73ChWVwGA5ZEr2/pdhMwQkX+LUqUs3S+LpD46SlcYbWfqp11FrAhk5CQHf+WAvh40Fzd8APvd8ldlEjJsSrJTkroqaJY0Q5DIs+C6qcqlrbzWkw3fPoRpiuRY4sJFbebNnX04w==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by SAWPR02MB12044.namprd02.prod.outlook.com (2603:10b6:806:560::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Sun, 22 Nov
- 2026 04:25:00 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0639.012; Sun, 22 Nov 2026
- 04:24:59 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Mukesh R <mrathor@linux.microsoft.com>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
-	<wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>
-Subject: RE: [PATCH] mshv: Do pre-commit before mapping a guest VM GPA
-Thread-Topic: [PATCH] mshv: Do pre-commit before mapping a guest VM GPA
-Thread-Index: AQHdbmKE7xxxhaKqskqySaLCsuTBUbc5lhfQ
-Date: Sun, 22 Nov 2026 04:24:59 +0000
-Message-ID:
- <MN2PR02MB6863E6A55A9C64B4C30CAA2CD4462@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261107024842.3929415-1-mrathor@linux.microsoft.com>
-In-Reply-To: <20261107024842.3929415-1-mrathor@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|SAWPR02MB12044:EE_
-x-ms-office365-filtering-correlation-id: 34f5095d-d1da-4901-76bd-08df48509222
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799012|37011999003|31061999003|25010399006|51005399006|41001999006|8062599012|12121999013|8060799015|19110799012|13091999003|55001999006|24021099003|102099032|3412199025|440099028|12091999003|40105399003;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?g0KX1KyKBBTUvt8cYFIIENjZtbzSuzAhoXUzdwX+Fg3Kz09YReL1AnTyh4d1?=
- =?us-ascii?Q?gFvEtiP6bxbv4prfMR1H9uMKG+8W6XrqLYQ3ncbuBSNQ0eBKRREVlLzQi8Eh?=
- =?us-ascii?Q?UvxPzv42p+qtZLodV4VBHGzsuTkO/UlSDnK1kmLEkgdpNtJQTiXtsQip8ksS?=
- =?us-ascii?Q?BnPoDgVfIEX3HJPc9s+RD07LfVChBPS4+8zgEbwOaKUjWxtJzWbIDUWg+4TS?=
- =?us-ascii?Q?LBzf3PC62Jdd4M8IEisxf2FZMYNnfxzhfGsDbF9t4PSf4cHkQbZTFWWqp8dU?=
- =?us-ascii?Q?eGd2i1DeUcN3AgfAobRnKaxNSan5B2FHNoanZfy11MrYQyHewsVEYHYPDRvx?=
- =?us-ascii?Q?cjtSGCVozX4Z7AzoNuvVmck8TWPih6cSzQUExf2QeAyXlDMlyqCRlxFb+/+W?=
- =?us-ascii?Q?l2vOkW8KNnII9GMpQnx87h/bhm+wc5UH2tYgBPJ1J77gBckgBA/K1wj3Clzq?=
- =?us-ascii?Q?ExzvcMsZ5AsYlQ5xEmGMrWfW3N2n8dH4809sToIMEyoQprA9WptK5ZDSS7I7?=
- =?us-ascii?Q?q1rdYz0TjeVCRsAu/CBJK4t/dLko2HhMOP4brak0InESrmDbAoORjy0lvzt/?=
- =?us-ascii?Q?IEUkgXAq6SbJxjmIqAv6eLL3dm/fKAh3lKPEP3UIfqKwaZmdjZlfYpCZIq5D?=
- =?us-ascii?Q?utXweeyvDawkBK1USQ0W7CNNM5+J/zE9arAR5nIK0mrQWbh1jn7pQk9q2SSs?=
- =?us-ascii?Q?6tzvF08Qj28ARIPSU6hRZ9mCu3D5KE4ca5MDYdFMLv2ke2v755vv01AAqtMY?=
- =?us-ascii?Q?MLpcRtY7C/3mnaK5sArtuFsF1dRjay8imH1SgsRtyhg5PHSMCT/KMyVH/7jG?=
- =?us-ascii?Q?0BBu6uVnrUA4qzZta2R/H8zDrPciN05qO9JJTYZA7dnaXn7K3EFs8eAtIDs2?=
- =?us-ascii?Q?oqwzHgqXFqMzBQ1o8rLB8N3NhV2rNOKGlknXwzAGAH3epZfiwSVgM7IvTnb7?=
- =?us-ascii?Q?lfOowxZoi2e51Fy9qkuqlYkBG8WPpFUuNKzF0URU0FhiGG4+3egboGglFTOO?=
- =?us-ascii?Q?xBpVEz8KACzrtWi37G0UTGMZ7YE0wNp39+psMB9FY8up6gBxDkrK06cU/yYN?=
- =?us-ascii?Q?+/6db2BysP2xcwg8s3FsIDiX8E6n2UETxGeUA6GNjRZrcNhslZZoHIsABrp+?=
- =?us-ascii?Q?XhsKP7X/V1Sr?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?cWRVfHK7xegwxvwTAEKwpIlOwbtaSgEDf7DEJYx4jglVhRYoU+m+PCeWGxf9?=
- =?us-ascii?Q?HeGcZ3SNkDl9BwSdSc6cVheftbsPaPoeRd+nUSbokwcvwj0BOtFisc2oUang?=
- =?us-ascii?Q?g0eZyBT22w3Hv3K4QziHLiTva8gzuUiZjAfc7NiLI839zeC3bADU+WZXFlad?=
- =?us-ascii?Q?EssmA6UzhA5GfaWScvVPzjEW7TVQJC07FkWifBZJlCzmlr8eMb0i0nV9hmlN?=
- =?us-ascii?Q?AjkRZroRmmPvkNitl9L5CzwlzROQeklGxMFE7QuLQ4GmEglUolU6RnAoim+q?=
- =?us-ascii?Q?RRgTKabFJDbYGa9qtDkKA6CQYvZx8Kt9xrLXiEzqTGT/AMGPKSKQSiiZkNwv?=
- =?us-ascii?Q?qA4VdFiOJ3wlpdb61NLoWjp1V3fe9CBcOf3G+M+3SPTKJnQ9TTS0i8Fpo6Zj?=
- =?us-ascii?Q?w55fAr8CXQ64lVAGOo5UR1kzI7SV8pwW0ToNiQBdM1gL55QcxSHSWjp/l8wF?=
- =?us-ascii?Q?sit9/LKmnih5oNTDrBidLZZx+d2pOOQAL6pgvUEkQnABitZrgFQommMxi6dN?=
- =?us-ascii?Q?nv9SL5ySFciKZLn8RWzb3ytfBYQwFX00F6RV4IjtMZnTAh0peu1WNsBKVgp4?=
- =?us-ascii?Q?EPioHIqYOkpmJstl2womqpRdFcMHPxk9RcFnuKd5XavmTFim7iw7eNIIljAM?=
- =?us-ascii?Q?NGAui6MJxiut2Wd30KjfrI+sDnyMZv1YdKWmjl1nlPu3v9vugHRtBXEVgJYD?=
- =?us-ascii?Q?pdEhxm2Kox19HOHjLzj29Gg9tUSOO3HQO762ErY/qrt2/hDloWf9KDT4AtTj?=
- =?us-ascii?Q?i4MZ7EntkqTQdwQDUr8/flWaD55lof5C6xt/9igPW0IH9377pb8hB26L2Vcz?=
- =?us-ascii?Q?jUk3ao7dQU8WbSNb3mGGCp2cuX8SWgcpnfX8v4UhwTy4IElEvBvdUYE17STC?=
- =?us-ascii?Q?72UxL74K1nh4c2POWMydr/bVTnYq95DqAvnUNgusi1TOopOtVT7l+fcpMfiQ?=
- =?us-ascii?Q?6LKR16zGgeWLpwMXsAQZ4PQmlB2hw34m64pM9FSkx1TPL2XaudE17vkl+Zxm?=
- =?us-ascii?Q?oYhFb+Z63z1OmVK4Puc+n4QIR958f12uiXrvfBUnzpINCFPJCMJhuORvEyao?=
- =?us-ascii?Q?bAvu+/zlop7ns/b6iFfLMxK3JlE1msMF3pxqDLdrZiWo31L9GbZ7Jq7xOUiY?=
- =?us-ascii?Q?UyFrjDKS9zMG/7qMblLhpiJM/QGiv/IQy3mTq6kFaCBSQD8Lmmq+Cnska2+o?=
- =?us-ascii?Q?x+tRdOTKw/DMKwSwnoYYkmSGD/pXaHN+/bwMf0LlQbmgkiktfs/a6Vq6n+5i?=
- =?us-ascii?Q?NObdC4jifPnLuHc8XluKpQNTrct5Gw+bpQVbKH0rp/7hotSO4UvkIoVU3NMD?=
- =?us-ascii?Q?wusCBlQA8j0eT0t1uohqw+3q+/QHSnx1Y4BiDOyn7MwvXQpLqbR79HWkWUbE?=
- =?us-ascii?Q?g64Jo2c=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMmNtnZr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878FA1F000C6;
+	Sun, 22 Nov 2026 10:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795342853;
+	bh=XbK8dY1xzsejjPb1arOv0xhaSlwRdVDea8jWM8dUcuw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=mMmNtnZrSH+8Fu0k2sBGHx8qLNCtqxiRysbBRUqoLOP8sLKPr06zw2itooghmi4HC
+	 P40foT0++CDz3OcI9OMtIqw2sa1SUkGI5PGVOmDhff/0bM2agSy0QG0SairNUhzvKl
+	 Q08FSk81UfGsOfwCVCYSBgOiWSwTHb6zCgTkjNCkT//UPEPoDciPGsgAlOTR8KYTnq
+	 AmEcN1ZHCWcK6mlK2z5v5l4xPbVmPfn8IXahxWaTb/+Fj8toobQpeYperK1thd6ViH
+	 hF8puGlWgj2OElfYcwEMDeQ/HxyM05KVV+QOb4wvoa68xGFFg9bErrQldoDBLKEIK0
+	 oAgELJ3Di7FSQ==
+Subject:
+ Re: [PATCH net v4] net: mana: Avoid waiting on dead HWC after device reset
+From: netdev-bot+sashiko@kernel.org
+To: sahilchandna@linux.microsoft.com
+Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, kotaranov@microsoft.com, horms@kernel.org,
+ ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
+ mawasthi@linux.microsoft.com, kees+treewide@kernel.org,
+ schakrabarti@linux.microsoft.com, leitao@debian.org,
+ linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ stable@vger.kernel.org
+Date: Sun, 22 Nov 2026 10:20:52 +0000
+Message-ID: <179534285205.3135.17134166045415765008@kernel.org>
+In-Reply-To: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
+References: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -151,172 +69,190 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34f5095d-d1da-4901-76bd-08df48509222
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2026 04:24:59.5874
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR02MB12044
 
-From: Mukesh R <mrathor@linux.microsoft.com> Sent: Friday, November 6, 2026=
- 6:49 PM
->=20
-> Pre commit reduces TLB flush overheads in the hypervisor. On systems
-> with large number of CPUs, there is signficant advantage to doing
-> this. Pre-commit allows the hypervisor to build all data structs needed
-> in anticipation of the map gpa hypercall, thus reducing or eliminating
-> deposit page returns from the map gpa hypercall, and as a result reducing
-> TLB flushes. In some performance benchmarks, it made the maps of large
-> ranges almost 30% faster.
->=20
-> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
-> ---
->  drivers/hv/mshv_root_hv_call.c | 52 ++++++++++++++++++++++++++++++++++
->  include/asm-generic/mshyperv.h |  3 ++
->  include/hyperv/hvgdk_mini.h    |  1 +
->  include/hyperv/hvhdk.h         |  7 +++++
->  4 files changed, 63 insertions(+)
->=20
-> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_cal=
-l.c
-> index bf0f90515dad..5c44ba8f72b0 100644
-> --- a/drivers/hv/mshv_root_hv_call.c
-> +++ b/drivers/hv/mshv_root_hv_call.c
-> @@ -181,6 +181,54 @@ int hv_call_delete_partition(u64 partition_id)
->  	return hv_result_to_errno(status);
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
+
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] In mana_dealloc_queues()
+  (drivers/net/ethernet/microsoft/mana/mana_en.c), the patch cuts the…
+- [Low] When mana_gd_dev_reset() fails in mana_dealloc_queues(), hwc_dead
+  is deliberately left clear, and v4 dropped the hwc_timeout reduction…
+
+--
+
+net: mana: Avoid waiting on dead HWC after device reset
+
+This commit replaces the 120 second sleep-based TX drain in
+mana_dealloc_queues() with synchronous CQ polling. Each queue gets about
+300 ms, and the device is reset if sends are still outstanding after that.
+After a successful reset a new hwc_dead flag is set, so that
+mana_hwc_send_request() fails fast with -ETIMEDOUT, and mana_fence_rqs() and
+the SHM teardown handshake are skipped.
+
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 7e9223143fc75..5e4379107b457 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+
+[ ... ]
+
+> @@ -3774,19 +3780,24 @@ int mana_attach(struct net_device *ndev)
+>  	return 0;
 >  }
->=20
-> +/*
-> + * Pre commit to reduce TLB flush overheads in the hypervisor. On system=
-s with
-> + * large CPUs, there is signficant advantage to doing this. Pre-commit a=
-llows
-> + * the hypervisor to build all data structs needed in anticipation of th=
-e map
-> + * gpa hypercall, thus reducing or eliminating deposit page returns from=
- the
-> + * map gpa hypercall, and as a result reducing TLB flushes.
-> + */
-> +static int hv_pre_commit_gpa(u64 pt_id, u64 gfn, u64 num_pages)
-> +{
-> +	ulong irq_flags;
-> +	struct hv_input_precommit_gpa_pages *input_page;
-> +	int rc =3D 0;
-> +	u64 status, done =3D 0;
+>  
+> +#define MANA_TX_DRAIN_RETRIES	3
 > +
-> +	while (done < num_pages) {
-> +		u16 rep_count =3D min(num_pages - done, HV_REP_COUNT_MAX);
+>  static int mana_dealloc_queues(struct net_device *ndev)
+>  {
+
+[ ... ]
+
+> @@ -3799,31 +3810,79 @@ static int mana_dealloc_queues(struct net_device *ndev)
+>  	 * to false, but it doesn't matter since mana_start_xmit() drops any
+>  	 * new packets due to apc->port_is_up being false.
+>  	 *
+> -	 * Drain all the in-flight TX packets.
+> -	 * A timeout of 120 seconds for all the queues is used.
+> -	 * This will break the while loop when h/w is not responding.
+> -	 * This value of 120 has been decided here considering max
+> -	 * number of queues.
+> +	 * Drain the in-flight TX completions for each queue. TX is already
+> +	 * stopped, so pending_sends can no longer grow. For each queue,
+> +	 * disable NAPI so it cannot run at the same time as this drain,
+> +	 * then poll its CQ for up to 300 ms. If sends are still missing,
+> +	 * the hardware is not responding: reset the device and mark the
+> +	 * HWC dead so that later HWC commands fail fast.
+>  	 */
+>  
+>  	if (apc->tx_qp) {
+>  		for (i = 0; i < apc->num_queues; i++) {
+
+[ ... ]
+
+> +				tx_cq->budget = 0;
+> +				for (retry = 0; retry <= MANA_TX_DRAIN_RETRIES;
+> +				     retry++) {
+> +					do {
+> +						tx_cq->work_done = 0;
+> +						mana_poll_tx_cq(tx_cq);
+> +					} while (tx_cq->work_done);
 > +
-> +		local_irq_save(irq_flags);
-> +		input_page =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
-> +		memset(input_page, 0, sizeof(*input_page));
+> +					if (!atomic_read(&txq->pending_sends) ||
+> +					    trigger_flr ||
+> +					    READ_ONCE(hwc->hwc_dead))
+> +						break;
+> +					if (retry < MANA_TX_DRAIN_RETRIES)
+> +						msleep(100);
+>  				}
+> -				break;
+> +			}
 > +
-> +		input_page->partition_id =3D pt_id;
-> +		input_page->target_gpa_base =3D gfn;
+> +			pending = atomic_read(&txq->pending_sends);
 > +
-> +		status =3D hv_do_rep_hypercall(HVCALL_PRECOMMIT_GPA_PAGES,
-> +					     rep_count, 0, input_page, NULL);
-> +		local_irq_restore(irq_flags);
-> +
-> +		done +=3D hv_repcomp(status);
-> +		gfn +=3D hv_repcomp(status);
-> +
-> +		if (hv_result_needs_memory(status)) {
-> +			rc =3D hv_deposit_memory(pt_id, status);
-> +			if (rc)
-> +				break;
-> +
-> +		} else if (!hv_result_success(status)) {
-> +			pr_err("%s: failed to pre commit for gfn %#llx done %llu/%llu, status=
-=3D%#llx (%s)\n",
-> +			       __func__, gfn, done, num_pages, status,
-> +			       hv_result_to_string(hv_result(status)));
-> +			rc =3D hv_result_to_errno(status);
-> +			break;
+> +			if (!trigger_flr && pending > 0) {
+> +				trigger_flr = true;
+> +				flr_txq_id = txq->gdma_txq_id;
+> +				flr_pending = pending;
+> +			}
 > +		}
-> +	}
-> +
-> +	return rc;
-> +}
-> +
->  /* Ask the hypervisor to map guest ram pages or the guest mmio space */
->  static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struc=
-t_count,
->  			       u32 flags, struct page **pages, u64 mmio_spa)
-> @@ -205,6 +253,10 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64=
- gfn, u64 page_struct_count,
->  		page_count >>=3D large_shift;
->  	}
->=20
-> +	ret =3D hv_pre_commit_gpa(partition_id, gfn, page_struct_count);
-> +	if (ret)
-> +		return ret;
-> +
 
-The pre-commit call uses the original GFN and page struct count, so
-evidently the pre-commit functionality in the hypervisor does not need
-to know if the follow-on MAP_GPA_PAGES hypercall will be specifying
-large pages. I don't know anything about the pre-commit functionality,
-but my guess would have been that it is allocating page table pages, and
-that the large page flag would let it know that only PMD level is needed.
-Do you know those details?  Just curious ....
+[Severity: Medium]
+Before, the driver waited up to 120 seconds for completions before deciding
+the device was unresponsive. Now it waits about 300 ms per queue. Is 300 ms
+a safe threshold for a function-wide reset?
 
->  	while (done < page_count) {
->  		ulong i, completed, remain =3D page_count - done;
->  		int rep_count =3D min(remain, HV_MAP_GPA_BATCH_SIZE);
-> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyper=
-v.h
-> index 4c9f3353074a..a3d497d99b0b 100644
-> --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -28,6 +28,9 @@
->=20
->  #define VTPM_BASE_ADDRESS 0xfed40000
->=20
-> +#define HV_REP_COUNT_MAX        \
-> +	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
+mana_dealloc_queues() runs during routine operations. These include
+mana_close(), mana_change_mtu(), mana_set_channels(), mana_set_ringparam(),
+mana_set_priv_flags(), mana_xdp_set() and the per-port queue reset work.
+
+Suppose a device works but is slow, and a TX completion is still outstanding
+after the fourth poll. Then trigger_flr is set and mana_gd_dev_reset() runs:
+
+drivers/net/ethernet/microsoft/mana/gdma_pci.c:mana_pci_dev_reset() {
+	return pcie_flr(to_pci_dev(gc->dev));
+}
+
+On CDX this is cdx_dev_reset() instead. Both reset the whole function. That
+hits every vPort on the gdma_context and any mana_ib user, not just the port
+being torn down. Also, pcie_flr() here does not save and restore config
+space.
+
+A successful reset sets hwc->hwc_dead. Nothing clears it until
+mana_hwc_destroy_channel() frees the hwc and a new one is allocated. Until
+then mana_hwc_send_request() fails at once:
+
+	if (READ_ONCE(hwc->hwc_dead))
+		return -ETIMEDOUT;
+
+Wouldn't the mana_attach() that follows mana_detach() then fail and leave
+the interface down?
+
+On PCI, recovery seems to happen only when mana_gf_stats_work_handler()
+sees -ETIMEDOUT and schedules a service reset.
+
+The CDX bus_ops have no schedule_serv_work callback, so
+mana_schedule_serv_work() returns -EOPNOTSUPP there. Would a CDX device stay
+down until the driver is rebound?
+
+The commit message says the budget "is not based on a hardware limit". It
+also says that in testing the late completions had all arrived "by its
+second poll", which comes after the first 100 ms sleep. That is about a 3x
+margin for a decision that resets the whole device, in a patch marked for
+stable.
+
 > +
->  enum hv_partition_type {
->  	HV_PARTITION_TYPE_GUEST,
->  	HV_PARTITION_TYPE_ROOT,
-> diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-> index 966945f0504f..16c41ee5079a 100644
-> --- a/include/hyperv/hvgdk_mini.h
-> +++ b/include/hyperv/hvgdk_mini.h
-> @@ -489,6 +489,7 @@ union hv_vp_assist_msr_contents {	 /*
-> HV_REGISTER_VP_ASSIST_PAGE */
->  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
->  #define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
->  #define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
-> +#define HVCALL_PRECOMMIT_GPA_PAGES			0x00be
->  #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
->  #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
->  #define HVCALL_DISPATCH_VP				0x00c2
-> diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
-> index 0c89c62c9706..3944e51d0a2d 100644
-> --- a/include/hyperv/hvhdk.h
-> +++ b/include/hyperv/hvhdk.h
-> @@ -953,4 +953,11 @@ struct hv_input_modify_sparse_spa_page_host_access {
->  #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_LARGE_PAGE      0x4
->  #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_HUGE_PAGE       0x8
->=20
-> +struct hv_input_precommit_gpa_pages {	/*
-> HV_INPUT_PRECOMMIT_GPA_PAGES */
-> +	u64 partition_id;
-> +	u32 flags;
-> +	u32 reserved;
-> +	u64 target_gpa_base;
-> +} __packed;
+> +		if (trigger_flr && !READ_ONCE(hwc->hwc_dead)) {
+> +			/* Completions never arrived: the device is
+> +			 * unresponsive. Issue device reset and
+> +			 * mark the HWC dead so subsequent HWC commands
+> +			 * fail fast instead of each waiting the full
+> +			 * hwc_timeout.
+> +			 */
+> +			err = mana_gd_dev_reset(gd->gdma_context);
+> +			if (err) {
+> +				netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
+> +					   err, flr_pending, flr_txq_id);
+> +			} else {
+> +				WRITE_ONCE(hwc->hwc_dead, true);
+>  			}
+>  		}
 
-Does Windows put this struct in hvhdk.h? Its close relative from
-a functional standpoint, struct hv_input_map_gpa_pages, is in
-hvhdk_mini.h, so that would seem to be a more natural place for
-this. But I never have understood the criteria for being in one vs.
-the other.
+[Severity: Low]
+Two comments here say that missing sends lead to a reset and to the HWC
+being marked dead so later commands fail fast. One is the block comment at
+the top of the drain, the other is the comment just above
+mana_gd_dev_reset(). But hwc_dead is only set when the reset succeeds. Do
+these comments match the error path?
 
-Michael
+If mana_gd_dev_reset() fails, hwc_dead stays false and hwc_timeout is not
+changed (v4 dropped the step that lowered it). The next call is
+mana_disable_vport_rx()->mana_hwc_send_request(). It passes both hwc_dead
+checks, posts MANA_CONFIG_VPORT_RX, and then waits:
+
+	timeout = READ_ONCE(hwc->hwc_timeout);
+	if (!wait_for_completion_timeout(&ctx->comp_event,
+					 (msecs_to_jiffies(timeout)))) {
+
+That wait uses the full firmware value, 60s on the tested system.
+mana_fence_rqs() also still runs on this path and sleeps 100 ms per RX queue
+on error. pcie_flr() can itself block in pci_dev_wait() before it fails.
+
+This is still shorter than the old 120s drain plus 60s wait. Item 2 of the
+commit message also says that posting teardown commands after a failed reset
+is intentional.
+
+Could the comments and the commit message say that RTNL can still be held
+for the full hwc_timeout on this path?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118091436.3985155-1-sahilchandna%40linux.microsoft.com
