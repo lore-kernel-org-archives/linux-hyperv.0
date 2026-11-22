@@ -1,65 +1,126 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795342854;
-	b=oHO7PvRee/CErq6ubqkXEKrV8OV8hGXsmhGDfJHCwnWPFjjsGDHiRfg3d38koOU0lB90
-	 p7KZQLjEwfJ/ZVtaxNERpLi4H1Jc2srQEQGDGEDxuQTti0NMq094DAzcYa7rNugvcrTX1
-	 KPZbfr7KQYdubG+Q+XuFt0Rt8Vn5TH8rAe39RdQPUIpHnFCs+aL9FhN4U0264CqIQD7fF
-	 hCPs9tdbgLXEyEQBt3osMWqs3Q2WSYAvCz3urMkCTbG0Nn5omRU0dZkhjaBMYxyYA3gRh
-	 3nK7zBFweIngaCyLGNo3VjdBOTAw7x8gTnENMjrOp7zvVsxbWVswgqzyRkb/yJdw2LQ==
+	t=1795347938;
+	b=m3crKOkMRZDaCSG4SYDo5VxQNoSb0Nq+zGjFyeVLT2/Lt+oEdVt55o7TiIU3xtyEFQdt
+	 QGAPKjBInMUf3i+CXCVFxFp65rwS2a6/Wu/U8dm8BgYbgu118uV7qpZ9HzDdEJ1g0NHcp
+	 47X/NKXwAsR0JLppJX4meAgWKof6gplYxc1GBwKwh80GYpFZYKiznzFjZIgDxfADr9Khb
+	 V4vd6fIbXUyPl1JeIsXr4t+RCI+EAw0bpwfo21yVdhw58DyODEIv8EDSGKMaBNr8SzUBo
+	 yI5IB/UDdobgiit0Ghn2h3aeRC46349OswrhHqRkWnG57EIpw/VZLuHor99c19w2Rtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795342854;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=XbK8dY1xzsejjPb1arOv0xhaSlwRdVDea8jWM8dUcuw=;
-	b=NkVul1LzrTiWsA2s/oe8gAbmWQmRr57nedKKtoclplem4vNCVDQtv5CV7aNHiUS6G7FV
-	 e83eXt6t8/VfcHbNt7f1meJtUB89HLpUuIBSmRRsyJw96cqTlTXUqFB5qM6tqd7KiG5p3
-	 gPpeYo+5Fk6hAkT1XLExNUmo8IPLwNGmyOxpFuTMxC1wfZCxC/+K8aoonTlWEYvj1U0rw
-	 oBFQu+eJyiFB3VUjxpxcKN2AWdM+tELl0rnsvy2b/iUbtl4J7GfPNoIXEPcdWe6N/U1po
-	 SIVkP5t4V++Upi5yQePQdrQdumpPcPQ1ev9oFXHHDfiTQ7f+WoeGsaAHplelmfmd80w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795347938;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=cLMcqM1+ID1GgGq+PerrzsvqYkDe3KsyjwqtE/Ytfio=;
+	b=KUnpO4+r9c5mZjgDZWSyQcnD9//TVtxyJvTg31aOdWKdo07+4BbgoUJhBS/5k0/Un+98
+	 vEwR2AdnZvz6PdeAYUucvK6SoChEkN9MMq7ooFz6PqECuxZZ/IQMbPMKr3Gz3sbrLW9/l
+	 o/2Tu+0GVYrl535iXuc3MXL9s+kplovnjA+VqYRZ4xK6EQ5OX4OD8LLkKt1yMO2Y6hNSt
+	 8Iii0S7e81ncxSm1uyaiA2Wu8fGzxd9hmxEDNN0VTUAyCVbCntVMCPLefPYi3+wrcm++t
+	 aB4DpaHVRiKpd5WK/zdJTL0OyWdAFVYdnD670my4JpDEbYSVaZxnHVAxbzcQR3XR1Ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMmNtnZr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JBZbk8ZB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19A606A32A;
-	Sun, 22 Nov 2026 10:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6462E606A33F;
+	Sun, 22 Nov 2026 11:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mMmNtnZr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878FA1F000C6;
-	Sun, 22 Nov 2026 10:20:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JBZbk8ZB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C711F000C0;
+	Sun, 22 Nov 2026 11:45:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795342853;
-	bh=XbK8dY1xzsejjPb1arOv0xhaSlwRdVDea8jWM8dUcuw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=mMmNtnZrSH+8Fu0k2sBGHx8qLNCtqxiRysbBRUqoLOP8sLKPr06zw2itooghmi4HC
-	 P40foT0++CDz3OcI9OMtIqw2sa1SUkGI5PGVOmDhff/0bM2agSy0QG0SairNUhzvKl
-	 Q08FSk81UfGsOfwCVCYSBgOiWSwTHb6zCgTkjNCkT//UPEPoDciPGsgAlOTR8KYTnq
-	 AmEcN1ZHCWcK6mlK2z5v5l4xPbVmPfn8IXahxWaTb/+Fj8toobQpeYperK1thd6ViH
-	 hF8puGlWgj2OElfYcwEMDeQ/HxyM05KVV+QOb4wvoa68xGFFg9bErrQldoDBLKEIK0
-	 oAgELJ3Di7FSQ==
-Subject:
- Re: [PATCH net v4] net: mana: Avoid waiting on dead HWC after device reset
-From: netdev-bot+sashiko@kernel.org
-To: sahilchandna@linux.microsoft.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, kotaranov@microsoft.com, horms@kernel.org,
- ernis@linux.microsoft.com, gargaditya@linux.microsoft.com,
- mawasthi@linux.microsoft.com, kees+treewide@kernel.org,
- schakrabarti@linux.microsoft.com, leitao@debian.org,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- stable@vger.kernel.org
-Date: Sun, 22 Nov 2026 10:20:52 +0000
-Message-ID: <179534285205.3135.17134166045415765008@kernel.org>
-In-Reply-To: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
-References: <20261118091436.3985155-1-sahilchandna@linux.microsoft.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795347938;
+	bh=cLMcqM1+ID1GgGq+PerrzsvqYkDe3KsyjwqtE/Ytfio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JBZbk8ZBopVc78PPFvWeVTIg2CMujdUlqemdavr/HCyWWlIQmFZkcrGxwSI3F8Lj7
+	 DNLer9OUFPLbOa4J4Swvhd/E17PbHJNYpl75QSvfOs502Qnq+SIVf6x8BaBZgxP/BT
+	 TLhC5kAcmMHclzMqgFcvdBPgsnO0el8R7pGYvxVYVMfFAdpjXa9S5pH5onsvDFitkW
+	 F7xoQFwGUBjexAU1BbMzjGktImA7HZrErJM176ZMcRKXKM7Cl6WdGzAwr72CinZqC4
+	 cUMiH2XukT43gci2XSUdvkVEDyb0hb22fl5gp/8fIaWZ7ym7dU5tWM0l+OzRL/g3Qu
+	 BJv0P33zLAReA==
+Date: Sun, 22 Nov 2026 12:45:16 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Juergen Gross <jgross@suse.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+	virtualization@lists.linux.dev, linux-ide@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	kvm@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-coco@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-mtd@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	David Airlie <airlied@redhat.com>, Helge Deller <deller@gmx.de>,
+	linux-geode@lists.infradead.org,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Pu Wen <puwen@hygon.cn>, Tony Luck <tony.luck@intel.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Ben Horgan <ben.horgan@arm.com>, Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Drew Fustini <fustini@kernel.org>,
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Kiryl Shutsemau <kas@kernel.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Len Brown <lenb@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	Xi Pardee <xi.pardee@linux.intel.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	xen-devel@lists.xenproject.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: treewide: Re: [PATCH v6 00/12] msr: Drop 32-bit MSR interfaces
+Message-ID: <awLVzKJWWfC3eJsH@gmail.com>
+References: <20261116150208.1572254-1-jgross@suse.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -69,190 +130,36 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116150208.1572254-1-jgross@suse.com>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+* Juergen Gross <jgross@suse.com> wrote:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+> For accessing the MSR registers on the local CPU, there are 2 types of
+> interfaces: the "modern" 64-bit ones (rdmsrq() etc.) and the 32-bit
+> ones (rdmsr() etc.) which are using the upper and lower 32-bit halves
+> of the 64-bit wide MSR register values.
 
-- [Medium] In mana_dealloc_queues()
-  (drivers/net/ethernet/microsoft/mana/mana_en.c), the patch cuts the…
-- [Low] When mana_gd_dev_reset() fails in mana_dealloc_queues(), hwc_dead
-  is deliberately left clear, and v4 dropped the hwc_timeout reduction…
+>  140 files changed, 572 insertions(+), 690 deletions(-)
 
---
+So I've applied this to a separate branch/tree under tip:core/msr,
+because I think this series is mature enough and after about a year
+worth of (very patient) iterations by you we've reached the limit of
+what will be picked up by maintainers.
 
-net: mana: Avoid waiting on dead HWC after device reset
+The commit with the widest impact is automatically generated
+via a semantic patch:
 
-This commit replaces the 120 second sleep-based TX drain in
-mana_dealloc_queues() with synchronous CQ polling. Each queue gets about
-300 ms, and the device is reset if sends are still outstanding after that.
-After a successful reset a new hwc_dead flag is set, so that
-mana_hwc_send_request() fails fast with -ETIMEDOUT, and mana_fence_rqs() and
-the SHM teardown handshake are skipped.
+  treewide: Convert rdmsrq() from a macro to an inline function
 
-> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-> index 7e9223143fc75..5e4379107b457 100644
-> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+  139 files changed, 493 insertions(+), 495 deletions(-)
 
-[ ... ]
+and I'm reasonably certain that whatever merge impact this may have
+on -next can be addressed quickly and in a simple fashion. Let's see
+how this goes.
 
-> @@ -3774,19 +3780,24 @@ int mana_attach(struct net_device *ndev)
->  	return 0;
->  }
->  
-> +#define MANA_TX_DRAIN_RETRIES	3
-> +
->  static int mana_dealloc_queues(struct net_device *ndev)
->  {
+Thanks,
 
-[ ... ]
-
-> @@ -3799,31 +3810,79 @@ static int mana_dealloc_queues(struct net_device *ndev)
->  	 * to false, but it doesn't matter since mana_start_xmit() drops any
->  	 * new packets due to apc->port_is_up being false.
->  	 *
-> -	 * Drain all the in-flight TX packets.
-> -	 * A timeout of 120 seconds for all the queues is used.
-> -	 * This will break the while loop when h/w is not responding.
-> -	 * This value of 120 has been decided here considering max
-> -	 * number of queues.
-> +	 * Drain the in-flight TX completions for each queue. TX is already
-> +	 * stopped, so pending_sends can no longer grow. For each queue,
-> +	 * disable NAPI so it cannot run at the same time as this drain,
-> +	 * then poll its CQ for up to 300 ms. If sends are still missing,
-> +	 * the hardware is not responding: reset the device and mark the
-> +	 * HWC dead so that later HWC commands fail fast.
->  	 */
->  
->  	if (apc->tx_qp) {
->  		for (i = 0; i < apc->num_queues; i++) {
-
-[ ... ]
-
-> +				tx_cq->budget = 0;
-> +				for (retry = 0; retry <= MANA_TX_DRAIN_RETRIES;
-> +				     retry++) {
-> +					do {
-> +						tx_cq->work_done = 0;
-> +						mana_poll_tx_cq(tx_cq);
-> +					} while (tx_cq->work_done);
-> +
-> +					if (!atomic_read(&txq->pending_sends) ||
-> +					    trigger_flr ||
-> +					    READ_ONCE(hwc->hwc_dead))
-> +						break;
-> +					if (retry < MANA_TX_DRAIN_RETRIES)
-> +						msleep(100);
->  				}
-> -				break;
-> +			}
-> +
-> +			pending = atomic_read(&txq->pending_sends);
-> +
-> +			if (!trigger_flr && pending > 0) {
-> +				trigger_flr = true;
-> +				flr_txq_id = txq->gdma_txq_id;
-> +				flr_pending = pending;
-> +			}
-> +		}
-
-[Severity: Medium]
-Before, the driver waited up to 120 seconds for completions before deciding
-the device was unresponsive. Now it waits about 300 ms per queue. Is 300 ms
-a safe threshold for a function-wide reset?
-
-mana_dealloc_queues() runs during routine operations. These include
-mana_close(), mana_change_mtu(), mana_set_channels(), mana_set_ringparam(),
-mana_set_priv_flags(), mana_xdp_set() and the per-port queue reset work.
-
-Suppose a device works but is slow, and a TX completion is still outstanding
-after the fourth poll. Then trigger_flr is set and mana_gd_dev_reset() runs:
-
-drivers/net/ethernet/microsoft/mana/gdma_pci.c:mana_pci_dev_reset() {
-	return pcie_flr(to_pci_dev(gc->dev));
-}
-
-On CDX this is cdx_dev_reset() instead. Both reset the whole function. That
-hits every vPort on the gdma_context and any mana_ib user, not just the port
-being torn down. Also, pcie_flr() here does not save and restore config
-space.
-
-A successful reset sets hwc->hwc_dead. Nothing clears it until
-mana_hwc_destroy_channel() frees the hwc and a new one is allocated. Until
-then mana_hwc_send_request() fails at once:
-
-	if (READ_ONCE(hwc->hwc_dead))
-		return -ETIMEDOUT;
-
-Wouldn't the mana_attach() that follows mana_detach() then fail and leave
-the interface down?
-
-On PCI, recovery seems to happen only when mana_gf_stats_work_handler()
-sees -ETIMEDOUT and schedules a service reset.
-
-The CDX bus_ops have no schedule_serv_work callback, so
-mana_schedule_serv_work() returns -EOPNOTSUPP there. Would a CDX device stay
-down until the driver is rebound?
-
-The commit message says the budget "is not based on a hardware limit". It
-also says that in testing the late completions had all arrived "by its
-second poll", which comes after the first 100 ms sleep. That is about a 3x
-margin for a decision that resets the whole device, in a patch marked for
-stable.
-
-> +
-> +		if (trigger_flr && !READ_ONCE(hwc->hwc_dead)) {
-> +			/* Completions never arrived: the device is
-> +			 * unresponsive. Issue device reset and
-> +			 * mark the HWC dead so subsequent HWC commands
-> +			 * fail fast instead of each waiting the full
-> +			 * hwc_timeout.
-> +			 */
-> +			err = mana_gd_dev_reset(gd->gdma_context);
-> +			if (err) {
-> +				netdev_err(ndev, "device reset failed %d with %d pkts pending in txq %u\n",
-> +					   err, flr_pending, flr_txq_id);
-> +			} else {
-> +				WRITE_ONCE(hwc->hwc_dead, true);
->  			}
->  		}
-
-[Severity: Low]
-Two comments here say that missing sends lead to a reset and to the HWC
-being marked dead so later commands fail fast. One is the block comment at
-the top of the drain, the other is the comment just above
-mana_gd_dev_reset(). But hwc_dead is only set when the reset succeeds. Do
-these comments match the error path?
-
-If mana_gd_dev_reset() fails, hwc_dead stays false and hwc_timeout is not
-changed (v4 dropped the step that lowered it). The next call is
-mana_disable_vport_rx()->mana_hwc_send_request(). It passes both hwc_dead
-checks, posts MANA_CONFIG_VPORT_RX, and then waits:
-
-	timeout = READ_ONCE(hwc->hwc_timeout);
-	if (!wait_for_completion_timeout(&ctx->comp_event,
-					 (msecs_to_jiffies(timeout)))) {
-
-That wait uses the full firmware value, 60s on the tested system.
-mana_fence_rqs() also still runs on this path and sleeps 100 ms per RX queue
-on error. pcie_flr() can itself block in pci_dev_wait() before it fails.
-
-This is still shorter than the old 120s drain plus 60s wait. Item 2 of the
-commit message also says that posting teardown commands after a failed reset
-is intentional.
-
-Could the comments and the commit message say that RTNL can still be held
-for the full hwc_timeout on this path?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261118091436.3985155-1-sahilchandna%40linux.microsoft.com
+	Ingo
