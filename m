@@ -1,80 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795447316;
-	b=VsLS9ab2kImdrRfFcIAqBPeuibbbiQ1MbrWDCKw/vicqGXT8yj9hNauOdDa8vaieGPQR
-	 mGGLDOqv1kJpAMKAQOXr40ioyY0r2vMed9ckzSBeri6hk0IKBHDtZMG7N+e0EnFGEfJ12
-	 2+gRPvDNCNS7H7mqenBBnaFvtRZHv1ZLQWP6PK64PTGAKhzemzRKgoxvWZYIoPWmmxTkU
-	 aVebmFrqUwmBT3cAL2cA5utxkJPniG4sapMuAHqRYxqa5x/eMMlAJRVM66HJDmMXvuxzJ
-	 jOP00Ru0SZ5k3Nvb9Bt6b9SfGv63UYsxR1TsLyfUpxK2slCIfDgL7jgkzSXpfg6s9xw==
+	t=1795449108;
+	b=tTieSIaZw+WrsP9oO0HHTdRvFjPguc9mnFlqv7dAi5FL02oZxbLedufcu39sfkfn+exx
+	 Dz5j4Mm8IUNA07iit/tgChtZdAVO7Mwqm93xDOOeP9SanJ4VF8gJC3fJzuZ1w+xamzFfr
+	 MgbtH4aQpQQoZlrEOK4U5ktGdQebCD2Xx2ay1eWzgTY+SpTVWxZZSPHhkq/fwOFZ0Mpsa
+	 hLO9b9ve8yDU3F7thwaIGTXY/2dNdZL1kbSUb5cp6CgAeHJpYmrRCMLZhBKoY+7TaaaYs
+	 goHAhabU8cJl8Ney1JYJdt3MLKcYAwzxCaHkIYNE4KMXQJV+krNxSJtuRVfE0uutJMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447316;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Status:X-Spam-Checker-Version;
-	bh=STKKGhMDLzI7yW9S72yonEXwLFCwhDpVjPRmQQOrHEs=;
-	b=Hsq546nTrEoYoKdSqm0dNw1b9i4fJ24d1u3pIsKS5osGwlxvtttbCBjoT/nf114/2l9k
-	 W0EhAgl7pD4bq/xNgDkwoDFFjtUxbEU+YK9O7Lq6v2Uk0akLOX9AveEWZgJ9+iZNANXBp
-	 OLKQqYVm0SF7cNlrrCXe597AmVhodIPfHPnG6VTG29+MrnEgqW1lFV3vxlvmc9eHYJppe
-	 AOBh+1zYoXeEdRCZGCuDdWeZJYrGfNT7ldgh1xrvv07Xvwt2Rb0JUTstkhoaJMITKKPnP
-	 RUz08tCCSvW+d0/GWYeXve9K2p76zVhLba/yX3N+tzRz7XNekNJgOVCwuax0MVg6K6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795449108;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=UwQ48wOTLkO0bDqXN9a1jl6i0o7vHJe4bfY0WMjHxA0=;
+	b=Bg2ePhDJsxksI4GAIoVlH14EPQBsJ55PdFW0M4mNhmo/OZpAp0W/rPpYwU7IwVv7Cn4F
+	 iiRk39qJuqc/my+I8ew89GWQjUoGudrJMQ3Ge18ahW3KwtmtX86L1YZlTd6vkeej0R8kg
+	 GmfPNgNYQ9QRJYMrnbYu1cLn4IGEMLijldZ3xYb30FOjwvDyfYdXyOn3L0MnH0/6kz6/I
+	 OQELYeBhE50TgIaDVkX258Vi/ohyJLPPQileovzIrbSWU/BcYyiGJPEMn1KLYagTmt8zk
+	 Ev9EgCzgiwtGHUT305TET3fB8Rrstvkz1IKzpyZRSauxdAnvJ5MAOgPBHaGdxSFsOvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=EVnfaTKD;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D46E1606A6BD;
-	Mon, 23 Nov 2026 15:21:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D46E1606A6BD
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ffEczR10;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCDB606A31A;
+	Mon, 23 Nov 2026 15:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=EVnfaTKD
-Received: from weh-cvm-dev-vm.y50bckvjo0hefgfnzfztsfttff.phxx.internal.cloudapp.net (unknown [20.169.55.37])
-	by linux.microsoft.com (Postfix) with ESMTPSA id AAA3A20B7168;
-	Mon, 23 Nov 2026 07:21:50 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AAA3A20B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1795447311;
-	bh=STKKGhMDLzI7yW9S72yonEXwLFCwhDpVjPRmQQOrHEs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EVnfaTKDGMuYZQyhfGpkSIL81h4ys9JfX86fu36lJR4jCvAku98oTcIj8Q4LQKEIk
-	 TxFH9eNN6ViklP+IAd82FgA+KiyklUnEy+UaRoiyGHCh/whGFYt51adLABKxxn6XXi
-	 FO4KtEwu6jgz33lT0E+kAEa7BpKmOdl/9nRUYQQY=
-From: Wei Hu <weh@linux.microsoft.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: longli@kernel.org,
-	kotaranov@microsoft.com,
-	kuba@kernel.org,
-	davem@davemloft.net,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	jgg@ziepe.ca,
-	leon@kernel.org,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	shradhagupta@linux.microsoft.com,
-	horms@kernel.org,
-	ernis@linux.microsoft.com,
-	stephen@networkplumber.org,
-	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ffEczR10
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E3B1F000D0;
+	Mon, 23 Nov 2026 15:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795449107;
+	bh=UwQ48wOTLkO0bDqXN9a1jl6i0o7vHJe4bfY0WMjHxA0=;
+	h=From:To:Cc:Subject:Date;
+	b=ffEczR10kkz6TwinqVlb2eqxN6YHZfPjHgTME+LIdeQFDnaJpfTfDbbKAxYyR8dkT
+	 C/KF29bpbofnjfmI+LyU5opbRTVKXHaYTqX3H9UJxU9XY/sL6OHFqYic1mAv5nZ7JD
+	 SSw02x/zrDSYJw7ootSjHsO4JJuZCWGv9ztWNARHSc5DHgJNO03wxWj69OxnbIl2+k
+	 2Pn5B1lFOaWmJi7OJgHHuB7f/a+1/NzWJyPKg67Kf4nNZhbYSHYCP9VydSTOFOf9pi
+	 dxGF0mA1uTGwyLyibjPY5K8qtP7wkDwFA2eEHvTn1TBcyXfEIlZvbJsmWUuFfT7IUX
+	 06xNE+qMx1lbw==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	bpf@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+	=?UTF-8?q?Beno=C3=AEt=20Sevens?= <bsevens@google.com>,
+	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+	"He, Bo" <bo.he@intel.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	"Zhang, Jun" <jun.zhang@intel.com>,
+	Andreas Gal <gal@cs.uni-magdeburg.de>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Bastien Nocera <hadess@hadess.net>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Charles Wang <charles.goodix@gmail.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Jiangshan Yi <yijiangshan@kylinos.cn>,
+	Jiri Kosina <jikos@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
 	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	gargaditya@linux.microsoft.com,
-	kees+treewide@kernel.org,
-	kees@kernel.org,
-	mawasthi@linux.microsoft.com,
-	weh@microsoft.com,
-	edumazet@kernel.org
-Subject: Re: [PATCH net-next v11 4/4] net: mana: add dynamic HWC queue depth with reinit path
-Date: Mon, 23 Nov 2026 15:21:46 +0000
-Message-ID: <20261122064231.hwc-v11-netdev-p4.weh@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <179527857414.3135.3409829551491930106@kernel.org>
-References: <100c6b7a71e86c8d7afd0c55f6b231f01db184d5.1794751992.git.weh@linux.microsoft.com> <179527857414.3135.3409829551491930106@kernel.org>
+	linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	Lopez Casado <nlopezcasad@logitech.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Vojtech Pavlik <vojtech@ucw.cz>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Michael Haboustak <mike-@cinci.rr.com>,
+	Pan Chuang <panchuang@vivo.com>,
+	Ping Cheng <ping.cheng@wacom.com>,
+	Rishi Gupta <gupt21@gmail.com>,
+	Roderick Colenbrander <roderick.colenbrander@sony.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Stefan Achatz <erazor_de@users.sourceforge.net>,
+	Tianchu Chen <flynnnchen@tencent.com>,
+	Vojtech Pavlik <vojtech@suse.cz>,
+	Wei Liu <wei.liu@kernel.org>,
+	Zhang Lixu <lixu.zhang@intel.com>
+Subject: [PATCH 00/10] HID: Assorted bug fixes across HID core and drivers
+Date: Mon, 23 Nov 2026 15:50:44 +0000
+Message-ID: <20261123155138.2907049-1-lee@kernel.org>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -84,37 +93,77 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 21, 2026, netdev-bot+sashiko wrote:
-> Could the doorbell validation go into its own patch with the Fixes: tag,
-> and the dynamic depth work be sent without one?
+These issues were reported by Sashiko.
 
-Yes. Doorbell validation is patch 1 in v12 and carries the Fixes: tag.
-The depth change is patch 5 and has no Fixes: tag.
+None of these changes have been tested on physical hardware.
 
-> Can the PF meaning of MAX_REQUEST and MAX_RESPONSE be confirmed here?
+Cc: "Barnabás Pőcze" <pobrn@protonmail.com>
+Cc: "Benoît Sevens" <bsevens@google.com>
+Cc: "Filipe Laíns" <lains@riseup.net>
+Cc: "He, Bo" <bo.he@intel.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: "Zhang, Jun" <jun.zhang@intel.com>
+Cc: Andreas Gal <gal@cs.uni-magdeburg.de>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Bastien Nocera <hadess@hadess.net>
+Cc: Benjamin Tissoires <bentiss@kernel.org>
+Cc: bpf@vger.kernel.org
+Cc: Charles Wang <charles.goodix@gmail.com>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Jason Gerecke <jason.gerecke@wacom.com>
+Cc: Jiangshan Yi <yijiangshan@kylinos.cn>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: linux-hyperv@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: Lopez Casado <nlopezcasad@logitech.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>
+Cc: Vojtech Pavlik <vojtech@ucw.cz>
+Cc: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Michael Haboustak <mike-@cinci.rr.com>
+Cc: Pan Chuang <panchuang@vivo.com>
+Cc: Ping Cheng <ping.cheng@wacom.com>
+Cc: Rishi Gupta <gupt21@gmail.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
+Cc: Tianchu Chen <flynnnchen@tencent.com>
+Cc: Vojtech Pavlik <vojtech@suse.cz>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Zhang Lixu <lixu.zhang@intel.com>
 
-Yes. MAX_RESPONSE limits what the VF sends; MAX_REQUEST limits what
-the VF receives. With MAX_REQUEST=2048 and MAX_RESPONSE=4096, the VF
-may send a 4096-byte request. I've kept that direction in v12.
+Lee Jones (10):
+  HID: core: Protect hid->inputs traversal in hid_check_keys_pressed()
+  HID: mcp2221: Synchronise rxbuf access against raw_event callback
+  HID: logitech-hidpp: Synchronise send_receive_buf against raw events
+  HID: sensor-hub: Serialise synchronous read teardown under data->lock
+  HID: roccat: pyra: Resolve USB device from parent in actual_profile
+  HID: hyperv: Validate VMBus packet and payload bounds on receive
+  HID: hid-goodix-spi: Validate package sizes in goodix_hid_irq()
+  HID: wacom: Stop HID hardware before releasing resources on mode
+    change
+  HID: debug: Hold driver_input_lock while dumping raw report descriptor
+  HID: playstation: Cancel DualSense output worker on create failure
 
-> Does the PF know that the rebuilt rings are larger than the bootstrap
-> rings?
+ drivers/hid/hid-core.c           | 16 ++++++---
+ drivers/hid/hid-debug.c          | 12 ++++---
+ drivers/hid/hid-goodix-spi.c     | 34 +++++++++++++------
+ drivers/hid/hid-hyperv.c         | 12 +++++++
+ drivers/hid/hid-logitech-hidpp.c | 58 +++++++++++++++++++++-----------
+ drivers/hid/hid-mcp2221.c        | 47 ++++++++++++++------------
+ drivers/hid/hid-playstation.c    |  1 +
+ drivers/hid/hid-roccat-pyra.c    |  9 +++--
+ drivers/hid/hid-sensor-hub.c     | 28 +++++++++++----
+ drivers/hid/wacom_sys.c          |  4 +--
+ 10 files changed, 149 insertions(+), 72 deletions(-)
 
-They aren't larger in v12. The PF uses the same 4 KiB descriptor rings
-after rebuild. The reported depth changes how many requests can be
-outstanding, not where the rings wrap. If the reported depth would
-require a larger ring, v12 keeps the bootstrap channel.
+-- 
+2.56.1.750.gf70dc682cf-goog
 
-> Can this overwrite a timeout that the PF set during the rebuild?
-
-Yes, restoring the saved timeout in v11 could overwrite a newer value.
-V12 doesn't shorten the timeout for the private EQ test, so there's no
-saved value to restore. If the candidate fails, v12 tears it down
-before rebuilding and testing a depth-one channel. If teardown isn't
-acknowledged, it keeps the HWC resources and returns the error without
-trying the same destroy again on the way out.
-
-Thanks,
-Wei
