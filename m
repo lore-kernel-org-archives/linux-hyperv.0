@@ -1,60 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795426403;
-	b=pnNr65fNshkJSXWUwx+Xi/exbrUL4TWYIL5+CJk3sEoO+EBVtNOT9CMdwgdDy+p0ivha
-	 dafJLUt1E1tzL8GaGqz1Q6hTJBud4KrwtFDYsDzlrrtVysdjw+Xe0r1ap6uPAyD0DlvPN
-	 BIef8rgYPNS66W1Nnlb0kDAr0pKZXDyEXKndAZS8R15WhjsXYgX7ViyVXljDW1TdWQMp3
-	 2AE1GYNYBeBt3uyHRDb2Igyt+Ye1xomwC4xA6mpWAId+7SvkQne7WzRweLrXMfdh8ukc+
-	 8S2bTD1LvCrbvUJD3G01e5lqNZZpW02L9qeR8p4B6+GoHcUL8aH25Bepcwl9qHcdK4g==
+	t=1795427863;
+	b=NR49sOrDAjvHDSDIJVOr6vQlPh4v1kCDhQ6xvXn8/4NGyT+jFasnXy0ps2mrpuItZVYi
+	 erS6iOCtB2KxwpG91RSHoPXvHAtqRLYqEUMVOj2+DoIiOZV6bf5x9e+q7jIxbaz8GyD27
+	 ugUVhZbTo/gIKf6KHiDBEHvx8VyPulQkclW0N0aZ/I5JYj4tSYI9pJrDa80UA6T9gIMV1
+	 1Sfj1wa+bHv/Q+pgFUyrKgby6YSO4M5LMhEPdVSpmyhRSOGut4wI+YMTYNHg7WxTrJA9j
+	 9CqfN7MXNona95U+Gnz0N+mNdHxai+yGvjkWyhP1vMWcwUs4HmqGtmViwb1BOomreMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795426403;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Spam-Status:X-Spam-Checker-Version;
-	bh=jKhKtTQjIJE6EfezE1d2i+cGBwefJa4Rpfrdc7KyzQg=;
-	b=FU9P/5hbMeZbPTIWsKPrs9bgWxL0nvISZnvsG99gDI3z2J0vfIn7nGa0l1FftOBVoZks
-	 hKtaOE9KpdB/G85WBjQVjnxs4YdgddlDsCDyFXvrKsGZMBMbhOwGCpMxEUxZGzctn0S7P
-	 dlVuxfO9ow9hXG7WdN8pVgMoUvRl4Z7MUEcQoKNVSZxME0LL03r2E6ZVWpGqewMBPr6af
-	 oVCHM8KqiGTGea41TN6UIn17fJfRD5Tjy+HkiH7sRJeQe5sW7n5Dn1vBh6wE5UtWVo5Pw
-	 qaCJMAREL1xUSvADeNOD/q8Z/KY6tpyK+21xx/4MfGQvLtJz7x0SGtPN4nPGz7/QwfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795427863;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=aj7jXoHhBMxF1whDYLxx2xV390qlwMkMeBDrrsc0htQ=;
+	b=vML2H2acEu1LskhY99OdbEzkmU9rMhZGxf51uj2ynnhC+pkK6pycFUi0rYLGnuX4IvmE
+	 qe6emqYz6OlTnzNVMwqhnW1lXBdabdoRdu8yXJxWso5ak9FlxLv0MaCNtPKfGdO/HL0AM
+	 IAjuUWnnAvi8ZEFe008bdtoTosT8yooBBpczseQzeXWTSdMaDfBzpTDppsamiqwqA9sJE
+	 Q3SyMQXid9Oylk4RZ4g2OYCS0xalD8QW06FgXCp75dfAZ9D7BvAsS3ehLuEZ+1eyh3d/3
+	 LiXQTwrDw4bp+S9rBRcEshv3oVu/YSPmtg1i4v0gxrSUI68lB7ygIjzhxUqQjO175Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.microsoft.com;
 	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=MBHCxdZZ;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=D2jle0rZ;
 	arc=none smtp.remote-ip=13.77.154.182
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BE76606A32E;
-	Mon, 23 Nov 2026 09:33:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BE76606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFB3606A31A;
+	Mon, 23 Nov 2026 09:57:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACFB3606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=MBHCxdZZ
-Received: from localhost (unknown [167.220.233.38])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7D05E20B7167;
-	Mon, 23 Nov 2026 01:33:12 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7D05E20B7167
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=D2jle0rZ
+Received: from [10.18.135.130] (unknown [167.220.238.66])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9D7ED20B7167;
+	Mon, 23 Nov 2026 01:57:32 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9D7ED20B7167
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1795426392;
-	bh=jKhKtTQjIJE6EfezE1d2i+cGBwefJa4Rpfrdc7KyzQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MBHCxdZZeHLGsZAYcZ5DvIphhCAlf1qfltfp4ConW7vvy4yWxm+cNC17BJmr7jZf0
-	 xBfznlulWTDhnmupSW8O/8COGnre75kK6seImc56vpMhqPifFHWg6baTnw4IDhrBb/
-	 SvGDfDUNQUcHbFt/c419OhfGpiL2hbtvtF8uiOkI=
-Date: Mon, 23 Nov 2026 17:33:13 +0800
-From: Yu Zhang <zhangyu1@linux.microsoft.com>
-To: Yuho Choi <oss.patchbox@gmail.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Wei Liu <wei.liu@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>, 
-	Easwar Hariharan <easwar.hariharan@linux.microsoft.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Michael Kelley <mhklinux@outlook.com>, Jason Gunthorpe <jgg@ziepe.ca>, iommu@lists.linux.dev, 
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 2/2] iommu/hyperv: Keep a new domain's page tables if
- it cannot be deleted
-Message-ID: <hfqiba643klm6y2onbgipn3hc3obyywhn25wl7daqdf4uu3tlq@52oylmrpaujg>
-References: <20261123060419.119078-4-oss.patchbox@gmail.com>
- <20261123060419.119078-6-oss.patchbox@gmail.com>
+	s=default; t=1795427858;
+	bh=aj7jXoHhBMxF1whDYLxx2xV390qlwMkMeBDrrsc0htQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D2jle0rZhDZaeedAeo7DLmNuTuvSUDheoIucOW7Dc6+CxGS37UySDTDj2XezzeNNG
+	 rWgfWq+76kfFLlev8bqo2EPVqO4BR/Wvs56HanNU+r2jgx0vhFCnIHybjTgqMwYue9
+	 qv/7IqC1u4aWrlb6qsuCkztvhOhRuTHY2Jh62n20=
+Message-ID: <d2857fff-9289-4b60-ac97-6194dea2d040@linux.microsoft.com>
+Date: Mon, 23 Nov 2026 15:27:33 +0530
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -64,69 +53,174 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123060419.119078-6-oss.patchbox@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] x86/hyperv: Filter TLB targets before building
+ hypercalls
+To: Naman Jain <namjain@linux.microsoft.com>, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, tglx@kernel.org, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, luto@kernel.org,
+ peterz@infradead.org
+Cc: hpa@zytor.com, riel@surriel.com, mhklinux@outlook.com,
+ bigeasy@linutronix.de, zhouchuyi@bytedance.com, houwenlong.hwl@antgroup.com,
+ qq570070308@gmail.com, bastien.curutchet@bootlin.com, dianders@chromium.org,
+ jgross@suse.com, hawk@kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261117091507.2088642-1-namjain@linux.microsoft.com>
+ <20261117091507.2088642-5-namjain@linux.microsoft.com>
+Content-Language: en-US
+From: Sahil Chandna <sahilchandna@linux.microsoft.com>
+In-Reply-To: <20261117091507.2088642-5-namjain@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 23, 2026 at 06:01:56AM +0000, Yuho Choi wrote:
-> When hv_iommu_domain_alloc_paging() fails to configure a new device
-> domain, hv_create_configure_device_domain() deletes the domain again,
-> and the caller then frees the page tables with pt_iommu_deinit(). The
-> page tables are freed even if the delete fails and the hypervisor
-> still has the domain.
+
+
+On 17/11/2026 14:45, Naman Jain wrote:
+> SuperBench's eight-GPU PyTorch LSTM training on Azure MI300X VMs regressed
+> between Linux 6.8 and 7.0. Recreating DataLoader workers each epoch caused
+> host-to-GPU copy stalls and timeouts. The reported bisection identified
+> commit 209954cbc7d0 ("x86/mm/tlb: Update mm_cpumask lazily").
 > 
-> The current Hyper-V implementation does not adopt the page table root
-> when HVCALL_CONFIGURE_DEVICE_DOMAIN fails, so the page tables are not
-> referenced in this case today. This change is defensive: it avoids
-> relying on that while the hypervisor still has the domain.
+> That change leaves a CPU's bit set after it switches to another mm.
+> Native flush callbacks remove these stale bits, but successful Hyper-V
+> hypercalls do not run those callbacks. A CPU actively running another
+> mm need not be in lazy TLB mode, so the existing lazy-TLB check does not
+> exclude it. If the mask includes all present CPUs, the backend selects
+> the all-processors shortcut before checking individual CPUs.
 > 
-> Create and configure the domain in hv_iommu_domain_alloc_paging()
-> itself, and leak the page tables and the domain when the delete fails,
-> as hv_iommu_paging_domain_free() does.
+> Use the native predicate to build a per-CPU target mask before selecting
+> the all-processors shortcut or either hypercall format. Keep the full
+> candidate mask when freeing page tables. Retain the empty basic-mask
+> check because filtering can leave no targets.
 > 
-> Reported-by: Jacob Pan <jacob.pan@linux.microsoft.com>
-> Closes: https://lore.kernel.org/all/20261105141427.00005946@linux.microsoft.com/
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
-> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+> This patch does not change when trimming is requested.
+> 
+> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 > ---
->  drivers/iommu/hyperv/hv-iommu-guest.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+>   arch/x86/hyperv/mmu.c | 40 ++++++++++++++++++++++++++--------------
+>   1 file changed, 26 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/iommu/hyperv/hv-iommu-guest.c b/drivers/iommu/hyperv/hv-iommu-guest.c
-> index aa1db9db1e97..0110a1529a23 100644
-> --- a/drivers/iommu/hyperv/hv-iommu-guest.c
-> +++ b/drivers/iommu/hyperv/hv-iommu-guest.c
-> @@ -540,10 +540,23 @@ static struct iommu_domain *hv_iommu_domain_alloc_paging(struct device *dev)
->  	settings.page_table_root = pt_info.gcr3_pt;
->  	settings.flags.first_stage_paging_mode = pt_info.levels == 5;
->  
-> -	ret = hv_create_configure_device_domain(hv_domain, &settings);
-> +	ret = hv_create_device_domain(hv_domain);
->  	if (ret)
->  		goto err_pt_deinit;
->  
-> +	ret = hv_configure_device_domain(hv_domain, &settings);
-> +	if (ret) {
-> +		/*
-> +		 * The current hypervisor does not adopt the page table root
-> +		 * when the configure call fails. Still, keep the page tables
-> +		 * while it has the domain, as hv_iommu_paging_domain_free()
-> +		 * does.
-> +		 */
-> +		if (hv_delete_device_domain(hv_domain))
-> +			return ERR_PTR(ret);
-> +		goto err_pt_deinit;
+> diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
+> index 375f23b157ab3..833eaea1d3fa8 100644
+> --- a/arch/x86/hyperv/mmu.c
+> +++ b/arch/x86/hyperv/mmu.c
+> @@ -1,6 +1,7 @@
+>   #define pr_fmt(fmt)  "Hyper-V: " fmt
+>   
+>   #include <linux/log2.h>
+> +#include <linux/percpu.h>
+>   #include <linux/slab.h>
+>   #include <linux/types.h>
+>   
+> @@ -16,6 +17,8 @@
+>   /* Each gva in gva_list encodes up to 4096 pages to flush */
+>   #define HV_TLB_FLUSH_UNIT (4096 * PAGE_SIZE)
+>   
+> +static DEFINE_PER_CPU(struct cpumask, hyperv_tlb_flush_mask);
+> +
+>   static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
+>   				      const struct flush_tlb_info *info);
+>   
+> @@ -51,19 +54,14 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
+>   	return gva_n - offset;
+>   }
+>   
+> -static bool cpu_is_lazy(int cpu)
+> -{
+> -	return per_cpu(cpu_tlbstate_shared.is_lazy, cpu);
+> -}
+> -
+>   static void hyperv_flush_tlb_multi(const struct cpumask *cpus,
+>   				   const struct flush_tlb_info *info)
+>   {
+>   	int cpu, vcpu, gva_n, max_gvas;
+>   	struct hv_tlb_flush *flush;
+> +	struct cpumask *flush_cpus;
+>   	u64 status;
+>   	unsigned long flags;
+> -	bool do_lazy = !info->freed_tables;
+>   
+>   	trace_hyperv_mmu_flush_tlb_multi(cpus, info);
+>   
+> @@ -87,6 +85,23 @@ static void hyperv_flush_tlb_multi(const struct cpumask *cpus,
+>   		goto do_native;
+>   	}
+>   
+> +	flush_cpus = this_cpu_ptr(&hyperv_tlb_flush_mask);
+> +	/*
+> +	 * mm_cpumask() may retain CPUs that have switched to another mm.
+> +	 * Use the native predicate for its context-switch ordering and lazy
+> +	 * TLB exclusion. Page-table freeing must include lazy CPUs, so keep
+> +	 * the full candidate mask in that case.
+> +	 */
+> +	if (info->freed_tables) {
+> +		cpumask_copy(flush_cpus, cpus);
+Hi Naman,
+
+In VM, for a process that has ran lets say on multiple CPUs (worst case
+- on all CPUS), and now running on a single cpu while other cpu run
+different processes. Until the next trim, if this process calls munmap()
+or any flush_tlb_range() which has freed_tables set to true, this would
+copy all stale CPUs in flush_cpus and patch 5 will skip native path, and
+can cause HV_FLUSH_ALL_PROCESSORS (for all cpu scenario) as in original
+issue ?
+
+Regards,
+Sahil
+> +	} else {
+> +		cpumask_clear(flush_cpus);
+> +		for_each_cpu(cpu, cpus) {
+> +			if (should_flush_tlb(cpu, info))
+> +				__cpumask_set_cpu(cpu, flush_cpus);
+> +		}
 > +	}
 > +
->  	return &hv_domain->domain;
->  
->  err_pt_deinit:
-> -- 
-> 2.56.1
-> 
+>   	if (info->mm) {
+>   		/*
+>   		 * AddressSpace argument must match the CR3 with PCID bits
+> @@ -101,7 +116,7 @@ static void hyperv_flush_tlb_multi(const struct cpumask *cpus,
+>   	}
+>   
+>   	flush->processor_mask = 0;
+> -	if (cpumask_equal(cpus, cpu_present_mask)) {
+> +	if (cpumask_equal(flush_cpus, cpu_present_mask)) {
+>   		flush->flags |= HV_FLUSH_ALL_PROCESSORS;
+>   	} else {
+>   		/*
+> @@ -115,14 +130,12 @@ static void hyperv_flush_tlb_multi(const struct cpumask *cpus,
+>   		 * must. We will also check all VP numbers when walking the
+>   		 * supplied CPU set to remain correct in all cases.
+>   		 */
+> -		cpu = cpumask_last(cpus);
+> +		cpu = cpumask_last(flush_cpus);
+>   
+>   		if (cpu < nr_cpumask_bits && hv_cpu_number_to_vp_number(cpu) >= 64)
+>   			goto do_ex_hypercall;
+>   
+> -		for_each_cpu(cpu, cpus) {
+> -			if (do_lazy && cpu_is_lazy(cpu))
+> -				continue;
+> +		for_each_cpu(cpu, flush_cpus) {
+>   			vcpu = hv_cpu_number_to_vp_number(cpu);
+>   			if (vcpu == VP_INVAL) {
+>   				local_irq_restore(flags);
+> @@ -166,7 +179,7 @@ static void hyperv_flush_tlb_multi(const struct cpumask *cpus,
+>   	goto check_status;
+>   
+>   do_ex_hypercall:
+> -	status = hyperv_flush_tlb_others_ex(cpus, info);
+> +	status = hyperv_flush_tlb_others_ex(flush_cpus, info);
+>   
+>   check_status:
+>   	local_irq_restore(flags);
+> @@ -205,8 +218,7 @@ static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
+>   	flush->hv_vp_set.valid_bank_mask = 0;
+>   
+>   	flush->hv_vp_set.format = HV_GENERIC_SET_SPARSE_4K;
+> -	nr_bank = cpumask_to_vpset_skip(&flush->hv_vp_set, cpus,
+> -			info->freed_tables ? NULL : cpu_is_lazy);
+> +	nr_bank = cpumask_to_vpset(&flush->hv_vp_set, cpus);
+>   	if (nr_bank <= 0)
+>   		return HV_STATUS_INVALID_PARAMETER;
+>   
 
-Reviewed-by: Yu Zhang <zhangyu1@linux.microsoft.com>
-
-B.R.
-Yu
