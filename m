@@ -1,89 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795449108;
-	b=tTieSIaZw+WrsP9oO0HHTdRvFjPguc9mnFlqv7dAi5FL02oZxbLedufcu39sfkfn+exx
-	 Dz5j4Mm8IUNA07iit/tgChtZdAVO7Mwqm93xDOOeP9SanJ4VF8gJC3fJzuZ1w+xamzFfr
-	 MgbtH4aQpQQoZlrEOK4U5ktGdQebCD2Xx2ay1eWzgTY+SpTVWxZZSPHhkq/fwOFZ0Mpsa
-	 hLO9b9ve8yDU3F7thwaIGTXY/2dNdZL1kbSUb5cp6CgAeHJpYmrRCMLZhBKoY+7TaaaYs
-	 goHAhabU8cJl8Ney1JYJdt3MLKcYAwzxCaHkIYNE4KMXQJV+krNxSJtuRVfE0uutJMQ==
+	t=1795449149;
+	b=RUvE+tiPHEs4aRmqFMYyrpPG7mBQnWXj19IpkrTrthAgUAa+2x66VM0T9GpvCApjH5dM
+	 swh9EabUmSkyw8arvqqZBYYIGD67/o0ixp9RCNSSjwx8fXYbqm2Eurx2diZN/6fU/NmRh
+	 eVJDSeZlJ3wTM9RpxinJmuTP/l1CvjzWHVlLLcnEOvb9Pepk9YNdgwQD+/dVIgjacXFau
+	 rJO6o+KXypXpaDQUQ9SQ6DoVU76kGLpCKtCCJKefdGz8wTP61mIsbJAxDa7OIbF6DScCl
+	 H/ScVxrxQrKczPbFOJr+Tbcy74Nz74ocTq69aBpNcqsSKcm6xaoxRE0fDJ5hNHwOvEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795449108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795449149;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=UwQ48wOTLkO0bDqXN9a1jl6i0o7vHJe4bfY0WMjHxA0=;
-	b=Bg2ePhDJsxksI4GAIoVlH14EPQBsJ55PdFW0M4mNhmo/OZpAp0W/rPpYwU7IwVv7Cn4F
-	 iiRk39qJuqc/my+I8ew89GWQjUoGudrJMQ3Ge18ahW3KwtmtX86L1YZlTd6vkeej0R8kg
-	 GmfPNgNYQ9QRJYMrnbYu1cLn4IGEMLijldZ3xYb30FOjwvDyfYdXyOn3L0MnH0/6kz6/I
-	 OQELYeBhE50TgIaDVkX258Vi/ohyJLPPQileovzIrbSWU/BcYyiGJPEMn1KLYagTmt8zk
-	 Ev9EgCzgiwtGHUT305TET3fB8Rrstvkz1IKzpyZRSauxdAnvJ5MAOgPBHaGdxSFsOvQ==
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=T1eKsQdeP1W/szEmEQnzcI4fvm00qDmXu7Ua9kiN2Po=;
+	b=npz+99YuaJzhudk+Ytap6F67NFF7NNsCF/rh83JF5hEr3VWVZoouUUI3yerA6eMvp1nK
+	 F4KQwAEb2kxYJhnvCyNfFMtoeuFC3DdtHDX/eKWvoUx+d6a0UUWnPsftBkRUCBqpjngY4
+	 6wSRiRNEf4H9z3i3U/FIwLeAl/uaucnlTw5VzTDCnS6Bdn1FiXQCmVVnUGHU3gZS3FYY1
+	 iy7NbPLh5Oaw+hW35yk9Y0m7BIhch2iTXOUO+ouvdzplbSHek3Mw2m/ThvWpZ8+k5Ba3K
+	 QzF9mppFZVdSbvBP3lgO4IsD8KsbEGAhUSJ+rLHKGfy+BP/nFuyLFr6WcAiyrtTSW9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ffEczR10;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c4VnL3nZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCDB606A31A;
-	Mon, 23 Nov 2026 15:51:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4E0606A33F;
+	Mon, 23 Nov 2026 15:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ffEczR10
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E3B1F000D0;
-	Mon, 23 Nov 2026 15:51:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c4VnL3nZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F08911F000D1;
+	Mon, 23 Nov 2026 15:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795449107;
-	bh=UwQ48wOTLkO0bDqXN9a1jl6i0o7vHJe4bfY0WMjHxA0=;
-	h=From:To:Cc:Subject:Date;
-	b=ffEczR10kkz6TwinqVlb2eqxN6YHZfPjHgTME+LIdeQFDnaJpfTfDbbKAxYyR8dkT
-	 C/KF29bpbofnjfmI+LyU5opbRTVKXHaYTqX3H9UJxU9XY/sL6OHFqYic1mAv5nZ7JD
-	 SSw02x/zrDSYJw7ootSjHsO4JJuZCWGv9ztWNARHSc5DHgJNO03wxWj69OxnbIl2+k
-	 2Pn5B1lFOaWmJi7OJgHHuB7f/a+1/NzWJyPKg67Kf4nNZhbYSHYCP9VydSTOFOf9pi
-	 dxGF0mA1uTGwyLyibjPY5K8qtP7wkDwFA2eEHvTn1TBcyXfEIlZvbJsmWUuFfT7IUX
-	 06xNE+qMx1lbw==
+	s=k20260515; t=1795449149;
+	bh=T1eKsQdeP1W/szEmEQnzcI4fvm00qDmXu7Ua9kiN2Po=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=c4VnL3nZwcgtGvdfTgYTFfjks6zqU3FAAeAPV8cpQJHC4DfIbEH98PbMItYdLuIB1
+	 I07mA4gpa4s70zl0WEaTwu/lciNC+GTv2MsEk5wJoX0iLabisUaCuZRM71VAq3JCA3
+	 HCMnhWyvA6z2Jqi8+WvMmlZp+arSpkWeQtB71eP9OEy6wZIVNwWpXooZX6hgJ/PZ9K
+	 gmziNb4p2oQGrNqeaafpKbfYtIsfCijQfgwed0uqX8WRW4mW2V0f01Gk1BaC7MFlIC
+	 Xn0HZqAB3OR33et7+wxW1PzjMcqV+bS2t5W6Qke60M/BqQC1X3iLDw68uQnFO6wneZ
+	 63A6Lccq5KLlA==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
-	bpf@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-	=?UTF-8?q?Beno=C3=AEt=20Sevens?= <bsevens@google.com>,
-	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
-	"He, Bo" <bo.he@intel.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	"Zhang, Jun" <jun.zhang@intel.com>,
-	Andreas Gal <gal@cs.uni-magdeburg.de>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Bastien Nocera <hadess@hadess.net>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Charles Wang <charles.goodix@gmail.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>,
-	Jiangshan Yi <yijiangshan@kylinos.cn>,
-	Jiri Kosina <jikos@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	linux-hyperv@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	Lopez Casado <nlopezcasad@logitech.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Vojtech Pavlik <vojtech@ucw.cz>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	Michael Haboustak <mike-@cinci.rr.com>,
-	Pan Chuang <panchuang@vivo.com>,
-	Ping Cheng <ping.cheng@wacom.com>,
-	Rishi Gupta <gupt21@gmail.com>,
-	Roderick Colenbrander <roderick.colenbrander@sony.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Stefan Achatz <erazor_de@users.sourceforge.net>,
-	Tianchu Chen <flynnnchen@tencent.com>,
-	Vojtech Pavlik <vojtech@suse.cz>,
 	Wei Liu <wei.liu@kernel.org>,
-	Zhang Lixu <lixu.zhang@intel.com>
-Subject: [PATCH 00/10] HID: Assorted bug fixes across HID core and drivers
-Date: Mon, 23 Nov 2026 15:50:44 +0000
-Message-ID: <20261123155138.2907049-1-lee@kernel.org>
+	Dexuan Cui <decui@microsoft.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH 06/10] HID: hyperv: Validate VMBus packet and payload bounds on receive
+Date: Mon, 23 Nov 2026 15:50:50 +0000
+Message-ID: <20261123155138.2907049-7-lee@kernel.org>
 X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
+In-Reply-To: <20261123155138.2907049-1-lee@kernel.org>
+References: <20261123155138.2907049-1-lee@kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -96,74 +71,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-These issues were reported by Sashiko.
+mousevsc_on_receive() dereferences pipe_msg and hid_msg_hdr without
+verifying hv_pkt_datalen(packet), passes the untrusted pipe_msg->size
+to mousevsc_on_receive_device_info() without checking that the VMBus
+packet actually contains pipe_msg->size bytes, and copies up to
+sizeof(input_dev->input_buf) (16 KiB) from input_report->buffer in
+SYNTH_HID_INPUT_REPORT without checking input_report->header.size
+against the received packet buffer.
 
-None of these changes have been tested on physical hardware.
+Validate that hv_pkt_datalen(packet) covers the pipe and SynthHID
+headers, that pipe_msg->size fits within the received VMBus packet, and
+that input_report->header.size fits within pipe_msg->size.
 
-Cc: "Barnabás Pőcze" <pobrn@protonmail.com>
-Cc: "Benoît Sevens" <bsevens@google.com>
-Cc: "Filipe Laíns" <lains@riseup.net>
-Cc: "He, Bo" <bo.he@intel.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: "Zhang, Jun" <jun.zhang@intel.com>
-Cc: Andreas Gal <gal@cs.uni-magdeburg.de>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Bastien Nocera <hadess@hadess.net>
-Cc: Benjamin Tissoires <bentiss@kernel.org>
-Cc: bpf@vger.kernel.org
-Cc: Charles Wang <charles.goodix@gmail.com>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Jason Gerecke <jason.gerecke@wacom.com>
-Cc: Jiangshan Yi <yijiangshan@kylinos.cn>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-hyperv@vger.kernel.org
-Cc: linux-i2c@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: Lopez Casado <nlopezcasad@logitech.com>
-Cc: Marcel Holtmann <marcel@holtmann.org>
-Cc: Vojtech Pavlik <vojtech@ucw.cz>
-Cc: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Michael Haboustak <mike-@cinci.rr.com>
-Cc: Pan Chuang <panchuang@vivo.com>
-Cc: Ping Cheng <ping.cheng@wacom.com>
-Cc: Rishi Gupta <gupt21@gmail.com>
-Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-Cc: Tianchu Chen <flynnnchen@tencent.com>
-Cc: Vojtech Pavlik <vojtech@suse.cz>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Zhang Lixu <lixu.zhang@intel.com>
+Fixes: b95f5bcb811e ("HID: Move the hid-hyperv driver out of staging")
+Fixes: 934b7778aa7b ("HID: hyperv: validate initial device info bounds")
+Closes: https://sashiko.dev/#/bug/linux-03d64dd2-820e-44e2-ba9e-b4a70f1e55ec
+Cc: stable@vger.kernel.org
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ drivers/hid/hid-hyperv.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Lee Jones (10):
-  HID: core: Protect hid->inputs traversal in hid_check_keys_pressed()
-  HID: mcp2221: Synchronise rxbuf access against raw_event callback
-  HID: logitech-hidpp: Synchronise send_receive_buf against raw events
-  HID: sensor-hub: Serialise synchronous read teardown under data->lock
-  HID: roccat: pyra: Resolve USB device from parent in actual_profile
-  HID: hyperv: Validate VMBus packet and payload bounds on receive
-  HID: hid-goodix-spi: Validate package sizes in goodix_hid_irq()
-  HID: wacom: Stop HID hardware before releasing resources on mode
-    change
-  HID: debug: Hold driver_input_lock while dumping raw report descriptor
-  HID: playstation: Cancel DualSense output worker on create failure
-
- drivers/hid/hid-core.c           | 16 ++++++---
- drivers/hid/hid-debug.c          | 12 ++++---
- drivers/hid/hid-goodix-spi.c     | 34 +++++++++++++------
- drivers/hid/hid-hyperv.c         | 12 +++++++
- drivers/hid/hid-logitech-hidpp.c | 58 +++++++++++++++++++++-----------
- drivers/hid/hid-mcp2221.c        | 47 ++++++++++++++------------
- drivers/hid/hid-playstation.c    |  1 +
- drivers/hid/hid-roccat-pyra.c    |  9 +++--
- drivers/hid/hid-sensor-hub.c     | 28 +++++++++++----
- drivers/hid/wacom_sys.c          |  4 +--
- 10 files changed, 149 insertions(+), 72 deletions(-)
-
+diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+index cfc061dbdd24..1de03e38f363 100644
+--- a/drivers/hid/hid-hyperv.c
++++ b/drivers/hid/hid-hyperv.c
+@@ -272,14 +272,22 @@ static void mousevsc_on_receive(struct hv_device *device,
+ 	struct synthhid_msg_hdr *hid_msg_hdr;
+ 	struct mousevsc_dev *input_dev = hv_get_drvdata(device);
+ 	struct synthhid_input_report *input_report;
++	u32 pkt_len = hv_pkt_datalen(packet);
+ 	size_t len;
+ 
++	if (pkt_len < sizeof(struct pipe_prt_msg) + sizeof(struct synthhid_msg_hdr))
++		return;
++
+ 	pipe_msg = (struct pipe_prt_msg *)((unsigned long)packet +
+ 						(packet->offset8 << 3));
+ 
+ 	if (pipe_msg->type != PIPE_MESSAGE_DATA)
+ 		return;
+ 
++	if (pipe_msg->size < sizeof(struct synthhid_msg_hdr) ||
++	    pipe_msg->size > pkt_len - sizeof(struct pipe_prt_msg))
++		return;
++
+ 	hid_msg_hdr = (struct synthhid_msg_hdr *)pipe_msg->data;
+ 
+ 	switch (hid_msg_hdr->type) {
+@@ -317,6 +325,10 @@ static void mousevsc_on_receive(struct hv_device *device,
+ 		if (!input_dev->init_complete)
+ 			break;
+ 
++		if (input_report->header.size >
++		    pipe_msg->size - sizeof(*input_report))
++			break;
++
+ 		len = min(input_report->header.size,
+ 			  (u32)sizeof(input_dev->input_buf));
+ 		memcpy(input_dev->input_buf, input_report->buffer, len);
 -- 
 2.56.1.750.gf70dc682cf-goog
 
