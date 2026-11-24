@@ -1,105 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795556458;
-	b=hHIigH6RWtL9oPVPqeSsh8J6PprE6CTDE1OcuXYM0AxVRMnyYWsA4rNGROJeOjzmWBqu
-	 jwmdWYrxicuL2qkAuKE+7ZF2y/WY40ZokPd0LS0xp7OIoPUHxPIxNet2ODCnBbMyTfqRz
-	 FFduqnyhpvKMayZq5vUSaM2M5RKigMVDJd7g9V2E327EhxolH+/JtkwJnkwHHa0yaBo9S
-	 ZgA3iNdE248xA4iMcY6SOjOZq9dTYD2Fj3U8QQ20E6MdISlg/R6Bh9jQNSwbXHgVMlrtY
-	 EoMpW/RXFVawNM0SnP9MMekBN8LIgeEDynWhStXWElwK1Assn9pXW/ZE4RoHSgH9KiQ==
+	t=1795560422;
+	b=D2D9Nldzd3jtx2tif/o+9teZooW3HXKIhtFxIjDWA7/h637Mq+1mPz25NRUlRBKWQFVF
+	 RmbsWJUUS2efd76JW7e+XpmleeL20pSdtGLQUdmm6BKQ/1ZqWAPcZ/itiYB1vB7sdtD2M
+	 EkhPIQcvTXcrQKdV4IuIyQ/JE8TenP/K1M0hFDD6m2HFo5DhcdbYl6zTrGhk6tP4r5tfo
+	 o3ZaZYaOOYJ+UiHtEgPT1KyFAU92AzDNQw12vKywjXNSz7kTzV4bGmeJlhW4o/Shmjy+y
+	 9wGz9fbiVTMqDuJt5OtV2+klGAVJCYZrwpY5r2bLUrWxWBvER9BsI9QQuWb1+wIwjaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795556458;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=w42z6p6tUvCwMwZ0RdL3hWrj/QD/3zaQrRloQWU7Khg=;
-	b=inUE+7iO0q8pXgLusWwLcUFoHtbCU+fyD2gUNhtgZGDmenS8+c1BZgaEflGigwVHQAjO
-	 DFhL+7Q2rwzjAXPSswuMe47GrcmzSAD+z7XQG8fb/qiWL3qmPaqTX4BAueqMSyfykAmgG
-	 VJgSsWQ0iVg8Sx53BJdHG/wjj2EGqXFv78dUCQX22TA/46n6Ka1WKmIt7Xa+h7vGlGg4e
-	 5HaujzK9vv6OEbYVCFgA2NvREVMrANsuJDJXwtYZSNT1ZWMJzZKieAu+GHDu3iKO55FIk
-	 bEcS8YPmJCE7iybvi5x6aRhxpxHH8ssjTXWqSz5gBp5dxuKSCTiPOHbK1r1/fA+UB3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795560422;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=QZbOIIEk7H0KKk4tYWFzvGM9t3bVkxuWdsBirZWAwWI=;
+	b=kNWVxuQ+JeZf5qwYI1VzlBzay7dXl4OACGLvkworRJqpYa6oYDtHTkXkzzjez+Cd1/a0
+	 byM7GL+eSHAzKAG6F0AeffB+jHU5D68TQzWoCZx8DTNlTgDNqAtYJaHplZAHIjxDK310V
+	 q4cPpA6rYQEerxD5q4g43XhH2JEThXqgcNPjMzuprafCIAUYHkK1RHdrZXBsqWNHZP1xM
+	 YWe8XBEnxTMApQ09LLlzOSxeRqFIRdOh2JEeJFuiYdmJHYlg+KYWiVuXo3bT6Q6o7NIy3
+	 e/59u+qcjVF5UYqWKTHpWphv3zUaePnPVSIdIx4U8qOXse5T5OByhVVfVFB6DIt+uyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yjhCQDxj;
-	arc=none smtp.remote-ip=209.85.217.54
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AKHAcfxO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FBD606A332
-	for <linux-hyperv@vger.kernel.org>; Tue, 24 Nov 2026 21:40:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94FBD606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6419606A329;
+	Tue, 24 Nov 2026 22:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yjhCQDxj
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-7777fa8f1ccso1884006137.3
-        for <linux-hyperv@vger.kernel.org>; Tue, 24 Nov 2026 13:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795556457; x=1796161257; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w42z6p6tUvCwMwZ0RdL3hWrj/QD/3zaQrRloQWU7Khg=;
-        b=yjhCQDxjYobdGBu8sg3D0o233SJfjxrR8hjxGeet+/gqhco/LIWFYS8K+YCDPfmRK+
-         OKDWwHCuqrJiLO7OxplHM2S7Lskshv4o/6p7vNeUvYsxEe9GXa8s+/OEuz+L+gGYpebJ
-         uEGAohwARfNlwShXkRwrP/99abHe7V0XVbj8cEQXG5yHhwkPNea6BZqXRaTVtvk0slny
-         eTr5WtB5t0KMXM9O8ugq+Qveem3q3tpNheF0QZGbv3+UJE0/P9CArEYuFm686gVj4hJ5
-         0n2MWj4Q8FtyJva5Xs7pVRPe/IiDDAK5X4CteY5IgT9zUJm83rHWMokZ0uIS54L5Mt1X
-         vDmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795556457; x=1796161257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=w42z6p6tUvCwMwZ0RdL3hWrj/QD/3zaQrRloQWU7Khg=;
-        b=R4PDU+em3Slqssgy8k0yye0tCrqJIslm0VrXzpgvuoKYZz7jq1M5Bp6ZNhBam0ohBI
-         A8qgbtYTE2QhSgETgOPYfh+iIO2s7h5csbOY0S4Ter++094iUgH8Nlfd7AxEslzLCrXq
-         /atLV6VlXgWFS4nwlVQlJOyoBXR1ZIMxi4FRekwBrN2Av+tDs0IUnffC3MU+Hcb/oau1
-         OPvnQNhcRla+lUndUnLNLrTHLqt62295FIRXFdSgqsN2YwMTB7WHs/ZC7vMoSujMmeRt
-         RAoUIx6T+fOCzEHIT+Bop/9GEGq6uFy+c/GD0askH4KhtyfZJphZHlnZPSItDQCMfRrV
-         /How==
-X-Forwarded-Encrypted: i=1; AL+hErG6Qui9W3b47ZCDR2bSoiqwObYHWgbVh2EeZ+W4MmqgNKmd4S8M8wv1M8YVA3rgQH89Q6jOXqQ9Vp/DvQA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9t2OTkirII9T/sI3bHf+yDJCAT1svc8aJcM3xjRmNbF/bxyBEP
-	6PM7iIpKKBaPlxbjoiEACEfav8hle1KM5ix4EDaILIF9nA3ep6N8bHbE
-X-Gm-Gg: AZFdTZdELwD1Xx+52pijhKloGEJm/Jp9YV78uwS5Hfzu7TXT6xCAzlv/1+INjqDZByx
-	xXMp+K46x7q5vUhdXB2B9Bv1z+5RXffWIZT5Gfry7ExQ+jNiloWxkN7kKheQXM+roRiiKAe1+5K
-	CW7uBKsYaPlQb1ZJlUbTgkXTLPV0u3Q2YNGvETtkP3LqtfIYhA2ywo/D90TcCQF/LqzS/RhkY9R
-	2bnaJmIsiotNvJUpTqnoxw6ZpInlWvbYFT/c3/CEeoGzs+RomwnA91if7w4GAvMm0QBqoS7PV5K
-	53nKTKCxC1kEkWdvcHO4wT0k7UzfuK8m3BWtVlk4e3zL7e+R09Q8IXYkZ8dLlxV23XT3qZcgryl
-	o7Y3wLCh7lyed2iEdKEIZqpKHX91Hf2U5G3epQ96TOeBFY2O9QuSiXBF3/Vx2gDjUwbft117Led
-	Sk22MDVJnrl5Enj81kwSFIiwjWGy6Zn9AMTqI4gzx6j5l0yWI3l8XoQZWTLeAXjCE1wvbIpGKCX
-	tzOUxoMyYIbHGyIzjcMSrefUKbhE5oSU4c/6tkdK6592T40PloyJ2/vg3PrKr5b037A6AsneGIY
-	dgnu3lBtThKt3k53SBBzrCsTLewJM2GwzNC6J03V+H11GUbig9r/
-X-Received: by 2002:a05:6102:644d:b0:7a8:2a34:432e with SMTP id ada2fe7eead31-7d739356a57mr7901936137.9.1795556457444;
-        Tue, 24 Nov 2026 13:40:57 -0800 (PST)
-Received: from emedev.tailf75c28.ts.net ([179.238.117.100])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99e6dec57ddsm15952879241.1.2026.11.24.13.40.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 13:40:57 -0800 (PST)
-From: Emerson Busson <emersonbusson@gmail.com>
-To: Wei Liu <wei.liu@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AKHAcfxO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B3BE1F000EC;
+	Tue, 24 Nov 2026 22:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795560421;
+	bh=QZbOIIEk7H0KKk4tYWFzvGM9t3bVkxuWdsBirZWAwWI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AKHAcfxO6i+/7bEGlMUHPQPM6+9hWjAF08IT6x3wKyjkSD7H3tPwAoyo0Tjt4/hc6
+	 i7R7HzI/MIAuInFMR7hl/ABnLq+PWGCRH9jJYusRJ6ZdgKUbHz1Bgwob9PEdyPynqt
+	 6cxVZSBgUP0gYOSbjJGN7UndprTHnxcirG1Ng7yzCSuNgcpf/wpJ9WZrCG/5FlwbTU
+	 Bqu6J8kaqLxIh329hVGcB29PxrsNmhlGMy8UaGsNXFLOD3LPa2qMHc0HYY9r0Hihrj
+	 T7USd9rhZr1+yGOuR/zNdZGbSN83FZasnqsuwsv2Dv6Iiv1G11KERPAv0r/md+BhYp
+	 NmINzTpB7s19A==
+Date: Tue, 24 Nov 2026 23:46:59 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Kelley <mhklinux@outlook.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Kameron Carr <kameroncarr@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] hv: vmbus: allocate requestor metadata with kvcalloc()
-Date: Tue, 24 Nov 2026 18:40:29 -0300
-Message-ID: <20261124214030.174246-4-emersonbusson@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261124214030.174246-1-emersonbusson@gmail.com>
-References: <20261124214030.174246-1-emersonbusson@gmail.com>
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 39/47] clocksource: hyper-v: Move
+ CPUHP_AP_HYPERV_TIMER_STARTING post stop_machine()
+Message-ID: <awYT40A-Xgw0U-lK@pavilion.home>
+References: <20261105163045.38862-1-frederic@kernel.org>
+ <20261105163045.38862-40-frederic@kernel.org>
+ <MN2PR02MB6863BD8055B08CA905B85980D4462@MN2PR02MB6863.namprd02.prod.outlook.com>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -109,70 +68,37 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <MN2PR02MB6863BD8055B08CA905B85980D4462@MN2PR02MB6863.namprd02.prod.outlook.com>
 
-Opening a VMBus channel allocates a request-ID array and bitmap sized
-from the ring buffer. For a 128-page NetVSC ring, kcalloc() and
-bitmap_zalloc() require multi-page physically contiguous allocations
-that can fail under buddy fragmentation even when order-0 pages remain
-available.
+Le Sun, Nov 22, 2026 at 09:26:45PM +0000, Michael Kelley a écrit :
+> From: Frederic Weisbecker <frederic@kernel.org> Sent: Thursday, November 5, 2026 8:31 AM
+> > 
+> > Between CPUHP_TEARDOWN_CPU and CPUHP_AP_OFFLINE, stop_machine executes
+> > all the teardown callbacks while stopping all CPUs in the system. This
+> > doesn't mix-up well with running RT or isolated tasks.
+> 
+> s/mix-up/mix/
+> 
+> "mix-up" usually denotes some kind of confusion or miscommunication,
+> and I don't think that's what you mean here.
+> 
+> The first sentence here talks about "stopping" all CPUs in the system.
+> It took me some investigation to realize that you meant "stopping"
+> in the sense that stop_machine() temporarily pauses all the CPUs,
+> and not permanently "stopping" the CPUs during a shutdown, as
+> x86 native_machine_shutdown() does when it calls stop_other_cpus(). 
+> Unfortunately, the word "stop" is overloaded and is used for both
+> cases. Maybe something like this would help clarify:
+> 
+> "... while temporarily stopping/pausing all CPUs in the system."
+> 
+> Michael
 
-Switch both guest-private structures to kvcalloc() and free them with
-kvfree(), keeping slab allocation for small channels while allowing
-vmalloc fallback under fragmentation. Guard against a zero requestor
-size and clear the pointers after freeing.
+Thank you, I'm making those changes to the whole set.
 
-Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
----
- drivers/hv/channel.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index c0bf154915..8547b10f3d 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -733,10 +733,13 @@ EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
-  */
- static u64 *request_arr_init(u32 size)
- {
--	int i;
-+	u32 i;
- 	u64 *req_arr;
- 
--	req_arr = kcalloc(size, sizeof(u64), GFP_KERNEL);
-+	if (!size)
-+		return NULL;
-+
-+	req_arr = kvcalloc(size, sizeof(*req_arr), GFP_KERNEL);
- 	if (!req_arr)
- 		return NULL;
- 
-@@ -763,9 +766,10 @@ static int vmbus_alloc_requestor(struct vmbus_requestor *rqstor, u32 size)
- 	if (!rqst_arr)
- 		return -ENOMEM;
- 
--	bitmap = bitmap_zalloc(size, GFP_KERNEL);
-+	bitmap = kvcalloc(size / BITS_PER_LONG + !!(size % BITS_PER_LONG),
-+			  sizeof(*bitmap), GFP_KERNEL);
- 	if (!bitmap) {
--		kfree(rqst_arr);
-+		kvfree(rqst_arr);
- 		return -ENOMEM;
- 	}
- 
-@@ -784,8 +788,10 @@ static int vmbus_alloc_requestor(struct vmbus_requestor *rqstor, u32 size)
-  */
- static void vmbus_free_requestor(struct vmbus_requestor *rqstor)
- {
--	kfree(rqstor->req_arr);
--	bitmap_free(rqstor->req_bitmap);
-+	kvfree(rqstor->req_arr);
-+	kvfree(rqstor->req_bitmap);
-+	rqstor->req_arr = NULL;
-+	rqstor->req_bitmap = NULL;
- }
- 
- static int __vmbus_open(struct vmbus_channel *newchannel,
 -- 
-2.43.0
-
+Frederic Weisbecker
+SUSE Labs
