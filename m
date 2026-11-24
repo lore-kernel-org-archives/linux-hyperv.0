@@ -1,49 +1,164 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795479288;
-	b=0eKQ6vLM2CaADTuP9UmZvb33J+itAUNINAmMYB87d4RsRGqFtDNY3g/LmV+9AL/y/OCC
-	 GxWJyXVZ0stcPQtXKtBwvwb13TFWLCZFhYfUnCWJUXvWZiiDeUy7YsxHcxy3qiiHs57Jq
-	 c6ZmSqUcYgd5KUOz6CAEyIRxCrcaqGZVTHKJTUuiDlQCkaznRRINyS52Mdhw2kUo4juwg
-	 5Y13eGxMNKvdBeuZqwwZAPRI+oU1L/9HH3Vsli+JBLrvPq9OdqRYdhNnytYixVAMUY2OF
-	 HH2ETbnnCEtMkbp8i0kKkzSqB91HbpKuBaJ6D27ulDO2lv/hXpAXmeVEBacr31JGDHg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795479288;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:Content-Language:To:Cc:References:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=3XFbWifyBU5khbl2Ryt+dhFDWzuS1Llo+vphOBcguoA=;
-	b=wqaVOuQjC6iTpSibtjp6tH2loHmkOeCus7vQZ/h02bT7zH9rbFeTts4hr8Smu6ho0yJ8
-	 P0PsuFKu2liD86VYa5YawTRi7CtrCQgUSPGAYY7kfGqGYZ1UD/6i3DqMpjVFkXNgBDfxu
-	 mqOZtLuA8KmJxpWEOZ+HaY1U4tFF+VdZsOPBEW8/yU4sCc1/6sL0w+XXiPXR49W7GJds0
-	 5z/W1x3zM3K97SCMLka9oCKdTR4atvspOQB4Op4gS2W7dyf3vtQCjZ9bks0YueV5VjNRD
-	 1qInwSPwmDGg81xWOdEdMkWF+/n/V5LUwlVW9ePvNtF1BjrKP0KUzyqlzobHeesDX2Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=iwtA74NQ;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 172ED606A322;
-	Tue, 24 Nov 2026 00:14:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 172ED606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.0
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795479378;
+	b=KBAXoAToE3WrxApnelgGFU9KdsaYyrEafzES+j2qPCmNgkapRxO7TL6RzKdsvLcHVhnj
+	 zKGADWe4j+7AvTBEoUDK2Mxbfwojnr/yGqXsetQi/3CdbJtPOuU3YeAThyUXKh+Jfw3Dd
+	 1OWT7itdKb/mh/M/Hrq/gclpu4cTamRi1k7nGje4FDQsDjK20L1xAR2y+tYiLxPgWWl/k
+	 V2vH2gpXccHc1/w3ORVunuzgESdbFTOenfxzNcneuof2fsutYbKguGjiEfa0P7AJ/+bX6
+	 GVmhfGNxsrjodREk7r7vM18+PceBAyfyPhZkFHLGdZfgEv572zgWkoUzelXGGS9tmjA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479378;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=XyWHdxxVdQeM4D7+Pa4KBCToryah7k6xe1AyxGV2ZCc=;
+	b=JttsVi8FDys8yUfKJDfNQG1iZncbZG3Fe4ENKcU5dpy2CScJImWVSSg96ZRscfZOcJDS
+	 tVzYl6P5ZDbDN9kO7Fb1DlmcbucR9XCIiWKgTQfrzi2OCD7LqGJHes6+N2S9fA9wKZhwc
+	 9ACT6Kk8d/knWKEvNa93+HR3MlegenlyVzlhEjt0nSpxYPVvTwpVjC8S3xIolQXw5F0Ov
+	 gnkJ6uHBfLDCTHG51RbhDEzvG6tZ5nNodPgqFuRQ182VmGScJeK5O8xT5atIKLr9jHPyl
+	 6cXNfk245tsW6N6aRjBqV3YQW+AJ/8u5VyLpeOONe3acats3rQkEsADJH417V4uZm2w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b="mV/bpM58";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.0
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazolkn19010000.outbound.protection.outlook.com [52.103.20.0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CA2606A31E;
+	Tue, 24 Nov 2026 00:16:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2CA2606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=iwtA74NQ
-Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 604BB20B7167;
-	Mon, 23 Nov 2026 16:14:43 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 604BB20B7167
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1795479283;
-	bh=3XFbWifyBU5khbl2Ryt+dhFDWzuS1Llo+vphOBcguoA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iwtA74NQDirqnCLIfhw/a62L6Yxz4IUMDQEDAJ8mP1opicW1YME1eaKBzrkWhoA75
-	 1atrI8MvvqOXbMSLZp33W4ii3EB2XL/zUcJb7ubz+KNIp2Z4wJc5rbpygwRHluRI/K
-	 gYeSOwOJ7DKzoc1JlMW/KSd14NJEgQUZ32JgxJB4=
-Message-ID: <f22d1af1-35b7-482b-7927-be7e9dc0b2c9@linux.microsoft.com>
-Date: Mon, 23 Nov 2026 16:14:46 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=mV/bpM58
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qov2kfOGL4ZK7fDtBA6tV4+kZM2lo9MvK7S1tkPz2LsLPF+ccUI3UfyE3SvTaIxRN6NcNo/lFGwX6bTsdKxKKJQD3HgHc5hMW7NuYwR95auk7MPg7Xg2QX/SWCoNwtY331SksDBXc47ldRkJEPuHsbPwx/iuDI5dc1SkPuTbE/3GrlBvfEtAdox2sk2dOVrAYhIJXEbILK80OP3wiLpvWk2MwBTKfYv1VKyChMyn06PINbtrDjBoWYrD1SVLyj0Axd8pCz3RZ1QGkcfRRakETIg8hpgG1RKauxo7aRRmSg/PZ5IrTI1fccQNGpd8k0zir6H/EKywNRaybfNrDxhKwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XyWHdxxVdQeM4D7+Pa4KBCToryah7k6xe1AyxGV2ZCc=;
+ b=QBjelbnfw61LFaLbETegZupD2dMomawdtP7zb9D9jACu4FlxnBdTaWXAwU2phsd0XaG1Fa0ZJ/lNb3vx6FxahsfHyzKV9d7JXoced1zyOYw8RYFEVk7IV1JjJ50h8gQiB1/EyWkTqA3hTHwGKDeUKrgFDR55t4I7iezMNl7ZzXXCP0Cq/WAOPYkpEPAIg5PEFC305+ztzx3e2W+uIqUin3CIJ4nv5NBHB2m6PgQWl13J2+AWdIKnSH2Bwuh2lDXh5encN2t+j5VGWLY6OWhq6jo0kJ8mWFZ2K2d0C/CoBNnaTfsIwYX3HKDZx3MdIqltsI6cVRo7/PsRiNEzqtx2nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XyWHdxxVdQeM4D7+Pa4KBCToryah7k6xe1AyxGV2ZCc=;
+ b=mV/bpM58lt05m/QteVF0bABnggZR3+evnw23C2iImYT5D9EJ/1WRopWun9wkuqUmaWx6mM6apno7x3MTbuDNLmle7HgYSd2vbqQmshQVD/jEdxAl93neSPhLVWoGVZLSwnM0fj6O/jYSeYJk/u3O/9CVlqi19GZUgdzG2UuV4fW7SgCQ8RprbS7zjrG1q3g0dFN3+fj8K1ZNbpRCQgcZQscMJG5Z5wqJGq4DMyYaz/v+YWQGyvf/vjXvkdyxrlGb8JE3ZQpLWr2HLx6OnrNioLD9UR1dUdCdjM4lFI1c5dPmfllD3DqwiAQnetm5qpFUzbcgrJCwzFKk0k1EvfF8ng==
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
+ by IA4PR02MB349042.namprd02.prod.outlook.com (2603:10b6:207:108::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
+ 2026 00:16:15 +0000
+Received: from MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
+ ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 00:16:15 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Naman Jain <namjain@linux.microsoft.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "tglx@kernel.org"
+	<tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>
+CC: "hpa@zytor.com" <hpa@zytor.com>, "riel@surriel.com" <riel@surriel.com>,
+	"bigeasy@linutronix.de" <bigeasy@linutronix.de>, "zhouchuyi@bytedance.com"
+	<zhouchuyi@bytedance.com>, "houwenlong.hwl@antgroup.com"
+	<houwenlong.hwl@antgroup.com>, "qq570070308@gmail.com"
+	<qq570070308@gmail.com>, "bastien.curutchet@bootlin.com"
+	<bastien.curutchet@bootlin.com>, "dianders@chromium.org"
+	<dianders@chromium.org>, "jgross@suse.com" <jgross@suse.com>,
+	"hawk@kernel.org" <hawk@kernel.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 2/5] x86/tlb: Make the conditional flush predicate
+ reusable
+Thread-Topic: [PATCH v2 2/5] x86/tlb: Make the conditional flush predicate
+ reusable
+Thread-Index: AQHddnQzkd+wmIinp0iD8tjoCXhsg7c8ZR+A
+Date: Tue, 24 Nov 2026 00:16:15 +0000
+Message-ID:
+ <MN2PR02MB6863198AC15E17474598EF23D4442@MN2PR02MB6863.namprd02.prod.outlook.com>
+References: <20261117091507.2088642-1-namjain@linux.microsoft.com>
+ <20261117091507.2088642-3-namjain@linux.microsoft.com>
+In-Reply-To: <20261117091507.2088642-3-namjain@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|IA4PR02MB349042:EE_
+x-ms-office365-filtering-correlation-id: 55cdee34-6993-41c6-5b60-08df49c0275a
+x-ms-exchange-slblob-mailprops:
+ znQPCv1HvwUXBahuwteIkQeW30lJPuxObkrM6g+zZ+Vfub++oX56v+PPbNec+L63/WSFecL5PbLlQ0QqjurNYaT2RvOC+I58hxUtyQ34Sc7TnChVkmYLgM1F4WIr0t0DCfgcuawP0WiYAb4A3EFFaDYcv96OMzHE7km5Fo/ec1DyvzYTJaAavrFCQ8bRg5NeZ0LJdEUrKgao9PE/FnjeIWi6AfKuq2amUGhfCFS2y5rpXkbexRoWELu/bz++8Fgd2pSK+4rS7u4umGYiUcJhuwGB6xjaWW9ojaifAvKxELWybkYeT+2q0jpJ87wORoSQhuqq2GRd8j7llRN9gwM/r7Hl5W34KIk5SIXtnC9kin826F/f6mJayEGYMjZI6KCocLfejoXcRQ45EvrA6yv2N01lhNnSUP2E/7DG+MWFM8J9bpBHCbc1N/UdrOV1ZREVF1t8JChYRCdwzu9vj0zWNjyXVI61qVIgK/FBspzUajxzmFhQzFan5t/Cd+1j8cnQBV0uyy6DbkBWodwq2vobJIcYO9SOU65rj7x//0s09ioDeVfTY0mD3OQntKAmWbi48uFW50lbVxwMOKDjY16IZJuXNggHYKyAksRYmH/U2tyRbTm47+mOxhcWRm2P2og3PF7qNYhD25mytHwqfEs7pQRSzjgEQs+EJB5APT6XYgAb+UyrZbiXE2aPom/qXwLtEiVMVqCTERJFXJG+0Hro0HLX77TtlZRALslLapJrSMksg7WJZWc44tNzD0F2hpQIVsNL2y7+0SU=
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|24021099003|55001999006|13091999003|25010399006|51005399006|15080799012|41001999006|8062599012|8060799015|19110799012|37011999003|31061999003|40105399003|102099032|3412199025|440099028;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?S+6u5q8IzI0qb3kSDhnJwSftn4wG/DwmcbcqTbhCxDDxrQP+/PMU4Y/3z3ZL?=
+ =?us-ascii?Q?FDQ+5j+CeIXkdLVpa4jPg9FqK0qiihmJ2IXsaXLo/Ky5Odg99ydloj/YtTnH?=
+ =?us-ascii?Q?53wdZoQnF7tTRot5/MH4P3hqRl9ZNZJqDersebeg+ejEJtZjibtzk7SZaxiu?=
+ =?us-ascii?Q?TubHeee8wCYeuk/U+D92CGNGKMSsRG89m5HuElGgZjwz4A49ykayy/pxL5y9?=
+ =?us-ascii?Q?K6aAhrvti7EfsnyTs3sXlLLe5seCtr0xx/gh4XlTgTIOZnlGi/idA/zfdZsL?=
+ =?us-ascii?Q?RLoVJszBv2croBzeo/OfeXPQO8xnoIbrrqb4pVBPaOXBerM2d4lgJ/W3K9fD?=
+ =?us-ascii?Q?bJozJlEJBn+r6fDvS6Mtte5iqEcphqaYAsAHbljI8f5qIi3Xh1McW9BgEWYa?=
+ =?us-ascii?Q?HEAXzFkgB2p22SMaoY7h83+cKmQ2zNt8tRlXPEhrjVb3zgldci6Z+JqvI7+J?=
+ =?us-ascii?Q?2QMshRLvIW2fINHobsuvsUhBW5jDfX3llV2w1KDWO/lXPjhsnYLxbe9ax57A?=
+ =?us-ascii?Q?UXsgQQgA5vO4jmSRBMquKZZ1kHu8S6/32wKl8sGED5dQ6R+wdw85MIKO34A8?=
+ =?us-ascii?Q?aBYjYby3YPvPNnEMAvYH2Becsb4RVKklPzCUgtOIUWRCBjBqnk80Q2fRuDtA?=
+ =?us-ascii?Q?2wabzH7SXZBOuoiAmkQSAAY6aeDObi2uB16CTjdXHM6OhAzoj25nA2cKrQEM?=
+ =?us-ascii?Q?SqQJW0EqjL2mjvykg2yCYHaacgV7LOtAHs+PQTJPcbAzRWbd0U1q2Xzglmki?=
+ =?us-ascii?Q?h/eypNTMRgoj5IYK0OlaJQtAzdoh3KVhf68Mo9Lw+701xOheBz7vSc0Js404?=
+ =?us-ascii?Q?1qVxk8gjvkes3b8O5BakBuIcol7JXvNF3Hl9Pj7vxbAbZzNLMB3yI1pNxezQ?=
+ =?us-ascii?Q?klEGjsMTLI/JatbwHhNNd9dpN2fvC5BdyyUz4B7bxFOqmkSYWxcf3foI90Pw?=
+ =?us-ascii?Q?LsaTrkbOVgMw7TElOx+qjmcz9T2mHE9BibfqkPmwRFVcIswzOF2Glm9XgKjs?=
+ =?us-ascii?Q?2tpFYKaithB4j1CxCAFb65GtORZc/Qs68EroZBWbTARClW191Y+Des7VmOHW?=
+ =?us-ascii?Q?GGmfwBn0?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?MBBFK1tzHHhg7Yv6gQy2hGf9rv7EdszKPVCKZUg6ud3W52+5jJBo/t0AEIOY?=
+ =?us-ascii?Q?yHWH8ll0AIRo4Gj8R2vdGqkd1qtGdklMFAJE7tAtIrHC75+t3mxmVRQIYZZV?=
+ =?us-ascii?Q?r92HMRTHMK8irzADiuUSyBOIZTtvQSpcMmr1jYh20n4NV4XbBbRShy1pJRxV?=
+ =?us-ascii?Q?pCj9xcH/QqkJsrjcZelmtr4J1woVI8NctTK4otyOcddc2BnHRLo5U3m/+lNe?=
+ =?us-ascii?Q?DU91Ss0D2/sg51rvKeLdL8lacSwfQ5lzrKEj8JUa3RwNxPfRk0G0XVdhHsej?=
+ =?us-ascii?Q?SF9YePemkHpHvnVXdkmV2vIYhGYuZG2MDr9G2IYvP0N7gDj3H9XR/sjc7tdd?=
+ =?us-ascii?Q?nAit5zU5Bn8D69GEeywmzuZoWNMJQW0CHrhTwN5DSF+kjfprD+4r/h/+Cghv?=
+ =?us-ascii?Q?t5H40PKOYD9V7s/hy/6qVcaxkrd5iYZQRCVnCoGZA1LtueytHk5nbC/JlAw9?=
+ =?us-ascii?Q?X1CHIHtx7Gpdep4sgraU2r/ElaOE8sgWDoL+W0bwXl8b6CSM+PaA6/HQ01hQ?=
+ =?us-ascii?Q?sW8FgD+Fzb582Udv6vqXWympL/ubl9fSoJ1CqFaHPwadyTGRRsoyL0Ki6lNi?=
+ =?us-ascii?Q?MSq1bZUq0z1uyJIJtW3V8jZMJYlw/v0idy4yXC9imhXEoCqgCQMTlPYGPNqi?=
+ =?us-ascii?Q?tualZPt9NkLbFtJiGHlnyXWqhR7eK7HElHnaZgfSfO8Lv4EgLegSUOvogSzR?=
+ =?us-ascii?Q?C+v2DU/0+zIFzEgbQT4zfFnmxd64kkb8g/lJRroMaZSljyTtQbcQ+yPQLIe6?=
+ =?us-ascii?Q?kVkkm5vGLsMVPpSDZWKhbbH5pruaJPvfsh4YxHAmMqjr3IEytMfB69Jk84+o?=
+ =?us-ascii?Q?OTZvkGBLxLh3eQsZVdfl8EJx8AeYahSGLSRv8Ds5iVXMky/0s+ZjBGaxPVfO?=
+ =?us-ascii?Q?93k/uw1/951lreMkW1XN0GV0wEnRg9DcUa01RtqA6UWsUrvdM+VsWXYCovIB?=
+ =?us-ascii?Q?zfBmBXlp1GhYP7tCNP+5Pc2ydSMVEO5q8EMcn2Db7/qe7SZ0ASb7MOsdYxvm?=
+ =?us-ascii?Q?2xDANySBZ9SGkLR6QFcxX7xv/lzPLC4y1wNxZohjUy79GF8yBGwjPO+rl3Rx?=
+ =?us-ascii?Q?MD0xi+v176UBtPDBHLiLvFmIV8KiNjsBVVUl0L+fb3V/auImN8d+uBvPNoiJ?=
+ =?us-ascii?Q?+6gREbcARHCDDVnGxHFjGYzpgdGy5NYFFUj4FZBde/4N686wA/B6j3V9kijV?=
+ =?us-ascii?Q?qQbIT1vqRHP/N/NFxWCDe2WNcTTsnvvHygiqAu+YVWtwVmqVA29OjpKLoHO8?=
+ =?us-ascii?Q?snSXyW+k+A0OcxRQR3rwOjfiDFnTfsG8X9qRsHXinsDD6MGkIURvkNxstZqP?=
+ =?us-ascii?Q?3wqvep85e+WZZAe4cNR4AjpPGmzKCC7zH1pCSdNZ2SXwjL6V3ReHZ0cRJ5w7?=
+ =?us-ascii?Q?ODPnh1E=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,186 +168,112 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] mshv: Do pre-commit before mapping a guest VM GPA
-Content-Language: en-US
-To: Michael Kelley <mhklinux@outlook.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>
-References: <20261107024842.3929415-1-mrathor@linux.microsoft.com>
- <MN2PR02MB6863E6A55A9C64B4C30CAA2CD4462@MN2PR02MB6863.namprd02.prod.outlook.com>
-From: Mukesh R <mrathor@linux.microsoft.com>
-In-Reply-To: <MN2PR02MB6863E6A55A9C64B4C30CAA2CD4462@MN2PR02MB6863.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55cdee34-6993-41c6-5b60-08df49c0275a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 00:16:15.2500
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR02MB349042
 
-On 11/21/26 20:24, Michael Kelley wrote:
-> From: Mukesh R <mrathor@linux.microsoft.com> Sent: Friday, November 6, 2026 6:49 PM
->>
->> Pre commit reduces TLB flush overheads in the hypervisor. On systems
->> with large number of CPUs, there is signficant advantage to doing
->> this. Pre-commit allows the hypervisor to build all data structs needed
->> in anticipation of the map gpa hypercall, thus reducing or eliminating
->> deposit page returns from the map gpa hypercall, and as a result reducing
->> TLB flushes. In some performance benchmarks, it made the maps of large
->> ranges almost 30% faster.
->>
->> Signed-off-by: Mukesh R <mrathor@linux.microsoft.com>
->> ---
->>   drivers/hv/mshv_root_hv_call.c | 52 ++++++++++++++++++++++++++++++++++
->>   include/asm-generic/mshyperv.h |  3 ++
->>   include/hyperv/hvgdk_mini.h    |  1 +
->>   include/hyperv/hvhdk.h         |  7 +++++
->>   4 files changed, 63 insertions(+)
->>
->> diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
->> index bf0f90515dad..5c44ba8f72b0 100644
->> --- a/drivers/hv/mshv_root_hv_call.c
->> +++ b/drivers/hv/mshv_root_hv_call.c
->> @@ -181,6 +181,54 @@ int hv_call_delete_partition(u64 partition_id)
->>   	return hv_result_to_errno(status);
->>   }
->>
->> +/*
->> + * Pre commit to reduce TLB flush overheads in the hypervisor. On systems with
->> + * large CPUs, there is signficant advantage to doing this. Pre-commit allows
->> + * the hypervisor to build all data structs needed in anticipation of the map
->> + * gpa hypercall, thus reducing or eliminating deposit page returns from the
->> + * map gpa hypercall, and as a result reducing TLB flushes.
->> + */
->> +static int hv_pre_commit_gpa(u64 pt_id, u64 gfn, u64 num_pages)
->> +{
->> +	ulong irq_flags;
->> +	struct hv_input_precommit_gpa_pages *input_page;
->> +	int rc = 0;
->> +	u64 status, done = 0;
->> +
->> +	while (done < num_pages) {
->> +		u16 rep_count = min(num_pages - done, HV_REP_COUNT_MAX);
->> +
->> +		local_irq_save(irq_flags);
->> +		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
->> +		memset(input_page, 0, sizeof(*input_page));
->> +
->> +		input_page->partition_id = pt_id;
->> +		input_page->target_gpa_base = gfn;
->> +
->> +		status = hv_do_rep_hypercall(HVCALL_PRECOMMIT_GPA_PAGES,
->> +					     rep_count, 0, input_page, NULL);
->> +		local_irq_restore(irq_flags);
->> +
->> +		done += hv_repcomp(status);
->> +		gfn += hv_repcomp(status);
->> +
->> +		if (hv_result_needs_memory(status)) {
->> +			rc = hv_deposit_memory(pt_id, status);
->> +			if (rc)
->> +				break;
->> +
->> +		} else if (!hv_result_success(status)) {
->> +			pr_err("%s: failed to pre commit for gfn %#llx done %llu/%llu, status=%#llx (%s)\n",
->> +			       __func__, gfn, done, num_pages, status,
->> +			       hv_result_to_string(hv_result(status)));
->> +			rc = hv_result_to_errno(status);
->> +			break;
->> +		}
->> +	}
->> +
->> +	return rc;
->> +}
->> +
->>   /* Ask the hypervisor to map guest ram pages or the guest mmio space */
->>   static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
->>   			       u32 flags, struct page **pages, u64 mmio_spa)
->> @@ -205,6 +253,10 @@ static int hv_do_map_gpa_hcall(u64 partition_id, u64 gfn, u64 page_struct_count,
->>   		page_count >>= large_shift;
->>   	}
->>
->> +	ret = hv_pre_commit_gpa(partition_id, gfn, page_struct_count);
->> +	if (ret)
->> +		return ret;
->> +
-> 
-> The pre-commit call uses the original GFN and page struct count, so
-> evidently the pre-commit functionality in the hypervisor does not need
-> to know if the follow-on MAP_GPA_PAGES hypercall will be specifying
-> large pages. I don't know anything about the pre-commit functionality,
-> but my guess would have been that it is allocating page table pages, and
-> that the large page flag would let it know that only PMD level is needed.
-> Do you know those details?  Just curious ....
+From: Naman Jain <namjain@linux.microsoft.com> Sent: Tuesday, November 17, =
+2026 1:15 AM
+>=20
 
-Yeah, the memory requirement is same whether the follow up map call
-uses large flag or not. The memory is not just the slat, but I guess
-other data structs. Also, for live migration, the granularity falls
-down to 4k level, so I am guessing they account ram for that upfront.
+In the patch Subject, avoid the "flush predicate" terminology (see my
+comment on Patch 4).
 
-In any case, I confirmed that pre-commit does not change based on
-whether the follow up map call uses large page flag or not.
+> Make should_flush_tlb() available to the Hyper-V backend and give it a
 
-Lastly, there is one issue here that was brought up. The pre-commit
-is done on every map, it only needs to be done once. Meaning, in this
-patch it will happen during NO_ACCESS map, then during actual page
-map... So I'll send updated patch.
+What is the Hyper-V "backend"?  Maybe more specific would be
+"PV tlb flush functions"?
 
-Thanks,
--Mukesh
+> const struct flush_tlb_info pointer instead of void *. Keep a
+> should_flush_tlb_wrapper() adapter for the SMP callback interface.
 
+Is there any particular reason for needing a specific type instead
+of keeping the void *? I'm just wondering what value that change
+adds other than the compiler being able to typecheck the call
+as made from the Hyper-V code.
 
->>   	while (done < page_count) {
->>   		ulong i, completed, remain = page_count - done;
->>   		int rep_count = min(remain, HV_MAP_GPA_BATCH_SIZE);
->> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
->> index 4c9f3353074a..a3d497d99b0b 100644
->> --- a/include/asm-generic/mshyperv.h
->> +++ b/include/asm-generic/mshyperv.h
->> @@ -28,6 +28,9 @@
->>
->>   #define VTPM_BASE_ADDRESS 0xfed40000
->>
->> +#define HV_REP_COUNT_MAX        \
->> +	(HV_HYPERCALL_REP_COMP_MASK >> HV_HYPERCALL_REP_COMP_OFFSET)
->> +
->>   enum hv_partition_type {
->>   	HV_PARTITION_TYPE_GUEST,
->>   	HV_PARTITION_TYPE_ROOT,
->> diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
->> index 966945f0504f..16c41ee5079a 100644
->> --- a/include/hyperv/hvgdk_mini.h
->> +++ b/include/hyperv/hvgdk_mini.h
->> @@ -489,6 +489,7 @@ union hv_vp_assist_msr_contents {	 /*
->> HV_REGISTER_VP_ASSIST_PAGE */
->>   #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST	0x00b0
->>   #define HVCALL_CREATE_DEVICE_DOMAIN			0x00b1
->>   #define HVCALL_ATTACH_DEVICE_DOMAIN			0x00b2
->> +#define HVCALL_PRECOMMIT_GPA_PAGES			0x00be
->>   #define HVCALL_SIGNAL_EVENT_DIRECT			0x00c0
->>   #define HVCALL_POST_MESSAGE_DIRECT			0x00c1
->>   #define HVCALL_DISPATCH_VP				0x00c2
->> diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
->> index 0c89c62c9706..3944e51d0a2d 100644
->> --- a/include/hyperv/hvhdk.h
->> +++ b/include/hyperv/hvhdk.h
->> @@ -953,4 +953,11 @@ struct hv_input_modify_sparse_spa_page_host_access {
->>   #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_LARGE_PAGE      0x4
->>   #define HV_MODIFY_SPA_PAGE_HOST_ACCESS_HUGE_PAGE       0x8
->>
->> +struct hv_input_precommit_gpa_pages {	/*
->> HV_INPUT_PRECOMMIT_GPA_PAGES */
->> +	u64 partition_id;
->> +	u32 flags;
->> +	u32 reserved;
->> +	u64 target_gpa_base;
->> +} __packed;
-> 
-> Does Windows put this struct in hvhdk.h? Its close relative from
-> a functional standpoint, struct hv_input_map_gpa_pages, is in
-> hvhdk_mini.h, so that would seem to be a more natural place for
-> this. But I never have understood the criteria for being in one vs.
-> the other.
-> 
-> Michael
+Michael
+
+>=20
+> No functional changes.
+>=20
+> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+> ---
+>  arch/x86/include/asm/tlbflush.h |  1 +
+>  arch/x86/mm/tlb.c               | 18 ++++++++++++++----
+>  2 files changed, 15 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbfl=
+ush.h
+> index 70098d448e999..1d1852ecaf084 100644
+> --- a/arch/x86/include/asm/tlbflush.h
+> +++ b/arch/x86/include/asm/tlbflush.h
+> @@ -263,6 +263,7 @@ void flush_tlb_one_user(unsigned long addr);
+>  void flush_tlb_one_kernel(unsigned long addr);
+>  void flush_tlb_multi(const struct cpumask *cpumask,
+>  		      const struct flush_tlb_info *info);
+> +bool should_flush_tlb(int cpu, const struct flush_tlb_info *info);
+>=20
+>  static inline bool is_dyn_asid(u16 asid)
+>  {
+> diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
+> index 53dcab39566f2..9b1aea2b3a1d5 100644
+> --- a/arch/x86/mm/tlb.c
+> +++ b/arch/x86/mm/tlb.c
+> @@ -1279,10 +1279,14 @@ static void flush_tlb_func(void *info)
+>  			nr_invalidate);
+>  }
+>=20
+> -static bool should_flush_tlb(int cpu, void *data)
+> +/*
+> + * Select ordinary flush targets using state ordered against context swi=
+tches.
+> + * Callers must bypass this filtering for page-table freeing and global =
+ASID
+> + * transitions, as native_flush_tlb_multi() does.
+> + */
+> +bool should_flush_tlb(int cpu, const struct flush_tlb_info *info)
+>  {
+>  	struct mm_struct *loaded_mm =3D per_cpu(cpu_tlbstate.loaded_mm, cpu);
+> -	struct flush_tlb_info *info =3D data;
+>=20
+>  	/*
+>  	 * Order the 'loaded_mm' and 'is_lazy' against their
+> @@ -1317,6 +1321,12 @@ static bool should_flush_tlb(int cpu, void *data)
+>  	return false;
+>  }
+>=20
+> +/* Adapt the typed predicate to the SMP conditional-call interface. */
+> +static bool should_flush_tlb_wrapper(int cpu, void *data)
+> +{
+> +	return should_flush_tlb(cpu, data);
+> +}
+> +
+>  static bool should_trim_cpumask(struct mm_struct *mm)
+>  {
+>  	if (time_after(jiffies, READ_ONCE(mm->context.next_trim_cpumask))) {
+> @@ -1357,8 +1367,8 @@ STATIC_NOPV void native_flush_tlb_multi(const struc=
+t
+> cpumask *cpumask,
+>  	if (info->freed_tables || mm_in_asid_transition(info->mm))
+>  		on_each_cpu_mask(cpumask, flush_tlb_func, (void *)info, true);
+>  	else
+> -		on_each_cpu_cond_mask(should_flush_tlb, flush_tlb_func,
+> -				(void *)info, 1, cpumask);
+> +		on_each_cpu_cond_mask(should_flush_tlb_wrapper, flush_tlb_func,
+> +				      (void *)info, 1, cpumask);
+>  }
+>=20
+>  void flush_tlb_multi(const struct cpumask *cpumask,
+> --
+> 2.43.0
+>=20
 
