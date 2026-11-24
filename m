@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.17
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.93
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795479396;
-	b=Vcu+0CgdVas3GWl5Fz/9Dg7jSP58/3mZEyZEcHq7KufrLeGwo3LjqDWBvhoeWjTpG/Dl
-	 GLAJSGLdFKG6RfvxQmFi8+aqzhcojXLP49A3kOFG40Eds22ker1HWndSc8Ex3sQWJf3vX
-	 Ko2jf9XB3Zb854UmiKNMCqFFTVvJzVvLK3Rr42KfppoDBAJnhuComABpgxO2qfcwNHrA5
-	 3G917gphmJ/0VXp/+iZLLMNI06RHIB2Fm/YWP186AYlqT+r03rkStqznG5kr+hbo3rwmr
-	 sh/weN543YCGSHsUOYUdm/Y9wRT/p3RZ7OfKPLjeZOIVJwC0pHgvlgE0U6weCATBPsg==
+	t=1795479460;
+	b=2/SMA6+5DEPsMHhlreFvoo17bpGisVNpSPqZ7lmg/28a4S9qJ16sIVe6+qe0z9eC7es+
+	 CDPTyJfFmq1dRqKD8uOFgIgQjgL9PC4U4jdKrskQcVw6dc09dDGTbR6dGVs7kJn99huMa
+	 HIAGGLVQ8Q1dCRRLubL2IO4VRM0n72v1s5L28aXRIzQ6YC3wyqxqwjAuzQqj0yWdGI6Tb
+	 u27vbStV0DmuwTXJBPDDfWqAM48/z5LJIQ78RFcFjHnGA40FWeuvopsSJ6WFmLJ9ROXvv
+	 aml1/0+UMB9gT0t34G+Cp2XRJuh4DybgYPmhUBECnSfj6dkL+S9FfGGyU8ru/R8tUzw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795479396;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795479460;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
 	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
 	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
@@ -26,51 +26,51 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-id:
 	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=NmlzWjICjdX0r+qlezbTOwaS4JEHp4CnT+VggAtvTq4=;
-	b=jhm6fhJ8fguJjZ2gnQKkSvbZO6mz+QDWi+giex7i29hpeLLgBZNQe9+aQk9QPvCcWhJL
-	 8jPKc4KCWT8WQvNdf8GyxOxLNkrwzsordO1jdFVshMJB8shqSJHxSEMs1AnB3CeZapqmY
-	 GityRSy+DW5m5Vi061ZCRjQBogjtM4DaYTvTzQNVPTVJzX4Gz7wmOmxfNhC4zQoxoDZZw
-	 DkBd2C/ShaSiadYuDTS8G/J9bAKzpT+G8RwErv4Q30OUqa8tXrRV49eYPTbCMEhi3fQGS
-	 tc4y7EyFGc1pUOeZErCrJnTSonhVhFYgqICh5WbvoKkandJdmAzJ6l1X9jbBrxQtRQA==
+	bh=7guf5/ZgYpvce0kK6xSDUAsPUjutv7rU4STTSaDROWg=;
+	b=AMlnUxviCNYnypnEFIhJTlLWYIx9wtJFrvMBK8lTPPqKUrLnQhp6Yl4PgBIJb2AUTDXD
+	 Uk5M+gjV/6KXbweWhIDtO6OeObhK2/3gHO5QrE1xEutKhxw9OJLvJhlK+GcKrhZg+ZB7A
+	 kMWhCpT1DW4fMx0PE6+abPysjIxiAodUEx4KsZ4ytSGRby1vzku1yeIVUa1Zjb0DcV6is
+	 M56VbljnAodVOzLJimRSJ+QqqDcJeJfzjMltuUUI8tTnCbd9n+TX/aFo0L3gXOaNttVGp
+	 /n5IN1j1+2Kat5Yemshze/9IeR5B11eOcvFst2OxCeWxqVavAakzOZ8kKsILLXkzPiA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=outlook.com;
 	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=vMtGokmV;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.17
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazolkn19010017.outbound.protection.outlook.com [52.103.20.17])
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=oIxO7M48;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.93
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azolkn19010093.outbound.protection.outlook.com [52.103.10.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0ED606A321;
-	Tue, 24 Nov 2026 00:16:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A0ED606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA37606A31E;
+	Tue, 24 Nov 2026 00:17:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDA37606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=vMtGokmV
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=oIxO7M48
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DT72CLURF5Jg+ip1Qlovd+3uE4BIjOgAPJn8gX273SFjj4JSUsPhbV5hWBaPya8aQOyen6NNfHLJH+Uwou4szIqS16DpS8qz1GngmZgmvGDjyZQ8v3SnsN2k/N0/+hoPLxE7FBz41e3RCdb/7xvfbc8WnktOT3NkLLNlbh7gaCfOwW/SaHRdT6hCrweb6rq3rsD5sEhd6be9astoXiCb7edeSD8LoGMUcZsXwer7BfeBqmYCQsHpqShQSQvEYGPKQuyzDuFdHwLJlKnwWnXCM4CS1SIHOEGXUb1qE/MByiJruh9WZC9q4LrW0q1zZLmSq5J5vp3mYnveLc4ix9UB1A==
+ b=HtHSiwAgNY/5lKW5qLRFwXtvNJ6lg36t+nOp/pTDT5Bw+D6EpagwWIBzkbmDeoT7bChgFfehC0bB+3eRnWnehwDwyqsJpEF41UkC5kR8iLg1RRGleUKAKpEhODUwF06PTCfVTENCG5kcNAZHIJBNcgB35SSa2b+6fIQfkI1xGs9zBMqVLGEf33PBxLaH4L3NI0Z+yJR/NJhU7NA6YBWaK1hEAqjLuSDeFTxxmjPZ1uk5kXpq+G7Gy6RyTZll+2SJ51hoyXuz5ZdQu4zY5cb/kOz0a9RkH4iUhNowT64T2M80xucKS3ak65hKhqmgFqSWObUse1psY+uQrs6WHoq8BQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NmlzWjICjdX0r+qlezbTOwaS4JEHp4CnT+VggAtvTq4=;
- b=s3lvhJlP9HXPyOQuV9wi5Wnz5nRhRy0GECtIaY2NfxzRH0uPZJWfQdXZGvD96J48Ai2dkhQsnkdAqFoTvzIHV7487p4lvWCMljeMM7WF3VnGUXfyla+FyAYcZHbxhY1B22ytPi/TQ293M4agf3C9GDoTyrpP5oeKgHtPLmC80FsA+C+X5at+7/iej67zXwO5ggiocCSflTlU2Gm6LBjBGrtcBQR0yE5Hc2fnbqTaxCkBA76y7mOrMREFXs6JL6x3BYQSHS+kvub83fdh3ypTBfA1xzwbcbas8Jhjde0rTYrfmVZjE6WAzZWTAnDlcSzv8zVBASaEE1hlGSLu1/1LoA==
+ bh=7guf5/ZgYpvce0kK6xSDUAsPUjutv7rU4STTSaDROWg=;
+ b=LmT+kniueZJ6Pc+tShmRoL1NXThyeLXlKkRXucGclIFdozQ/OJvL7bEE9w8ZWlelFQ0LFcqXUd6rqYEwwSGoaRdtb2CcnPfWTP0haDW8TOuIjMGjitQqy4MgvwzV+jM1RAe42pnhBdXrCdfCPNxS6NbaRo6ryqtPrliy8s3j7xYynmGrI5nAUy9qWnem+ariuY0WsSu5tANAsGASMODjPV8SWT/1UVa2Z/QMB/WXshByXAeRe6oRFxpaeu1z2ExPfxYGQt+kBX88cE2HPGQQcz+zgdUJz6bhsbcqJ8i5voJCIouN/f5HePaBB6GtAqNniv8Hcq/FkdCYOjcHZYjDsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NmlzWjICjdX0r+qlezbTOwaS4JEHp4CnT+VggAtvTq4=;
- b=vMtGokmVcHS7+55Xwwxl3wtqq8Pu+ReDRdtlRqxT2LXE3H0oGCtepYEnBomvBl8m4fV408mSQqGzyHNOXfjspuxRXVXrGIbr0saXnwAgC2K636uJIURzd4gVwR23aPDmlOlBXrIx+XMrfDPDDhBvFj56ibH65+CoYwz59IFtr7jRESgx1qniFYWak3XQSn0S5tzBXXxKfibIGU0byfcUQLGKPGYrSSxwfdp/VRcpgoMouq+23+wZ+eF9HzZ6zyFwDYFXRP6w4GUiQ9posDFDFf3Z4lkqXFmRiVz+aRxxdnz4H3aJgR2kypd9o691MvziKrktsoLxTeYBKmyC3RD7sw==
+ bh=7guf5/ZgYpvce0kK6xSDUAsPUjutv7rU4STTSaDROWg=;
+ b=oIxO7M4847LeeT8uXIEZF3oMJykLAj3CNgx8lT9QaETNpHU4viD7HfU+DZnIBDDYf3yUnwRLaSLtMKfYdg/8NEWg3tUSA7SV7YoDvgONKaPAS7T45NTZHf1pCnNyblUfmrYlQswXDtychgCmS6aztWQQ6Xbskt3WOBFtQhCKocZjoAOH1d3fMR2y7sXWHkfSvzdgNW2fBzi2ETMBUI0JoVNLYpHwuDWlDJ3FUQDxz9Fw6NHO50U+6MTCAxQKuabCZOSUrYyUb7INAQiimG+ySI9W/40BS7k7qZWL+rkTlYG97ib2/J+AkFs4eHw7XwLyTpre9otfmoq4FfAHv8jTAw==
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by IA4PR02MB349042.namprd02.prod.outlook.com (2603:10b6:207:108::14) with
+ by CH9PR02MB12077.namprd02.prod.outlook.com (2603:10b6:610:355::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 00:16:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Tue, 24 Nov
+ 2026 00:17:07 +0000
 Received: from MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
  ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 00:16:33 +0000
+ 00:17:07 +0000
 From: Michael Kelley <mhklinux@outlook.com>
 To: Naman Jain <namjain@linux.microsoft.com>, "haiyangz@microsoft.com"
 	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
@@ -89,75 +89,76 @@ CC: "hpa@zytor.com" <hpa@zytor.com>, "riel@surriel.com" <riel@surriel.com>,
 	"hawk@kernel.org" <hawk@kernel.org>, "linux-hyperv@vger.kernel.org"
 	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 3/5] x86/hyperv: Use native callbacks for trimming and
- ASID transitions
-Thread-Topic: [PATCH v2 3/5] x86/hyperv: Use native callbacks for trimming and
- ASID transitions
-Thread-Index: AQHddnQ3HT/Qa1jABkW3CW1Fxm9bUbc8ZTUQ
-Date: Tue, 24 Nov 2026 00:16:33 +0000
+Subject: RE: [PATCH v2 5/5] x86/hyperv: Request mask cleanup when no remote
+ target remains
+Thread-Topic: [PATCH v2 5/5] x86/hyperv: Request mask cleanup when no remote
+ target remains
+Thread-Index: AQHddnQ+yJ/grvkSsUycz+y1/FjUO7c8ZV2Q
+Date: Tue, 24 Nov 2026 00:17:07 +0000
 Message-ID:
- <MN2PR02MB6863881EE9A8C2A04604652DD4442@MN2PR02MB6863.namprd02.prod.outlook.com>
+ <MN2PR02MB68634640FB1BAE74B2A5DBDFD4442@MN2PR02MB6863.namprd02.prod.outlook.com>
 References: <20261117091507.2088642-1-namjain@linux.microsoft.com>
- <20261117091507.2088642-4-namjain@linux.microsoft.com>
-In-Reply-To: <20261117091507.2088642-4-namjain@linux.microsoft.com>
+ <20261117091507.2088642-6-namjain@linux.microsoft.com>
+In-Reply-To: <20261117091507.2088642-6-namjain@linux.microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|IA4PR02MB349042:EE_
-x-ms-office365-filtering-correlation-id: 8ebdfa67-6cdb-4a29-7cd3-08df49c0325d
+x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|CH9PR02MB12077:EE_
+x-ms-office365-filtering-correlation-id: 12d46c55-a3f1-42dc-5335-08df49c0464b
 x-ms-exchange-slblob-mailprops:
- znQPCv1HvwUXBahuwteIkQeW30lJPuxOpTtriCxvJqT5sF95cP1zAF+ZvOdJlQttRelLjrIUQRoHa8w89SYCLJONkP53NJZ617ukQGwd0nxc5DEiJVcw893TqjpG4DWmHCdYUHS9VwIbzecfnMZ+DKSgKmsK5vYEE2s7iAljQSzIHrWLIsyEDcbJgnr49w5PmtTGRjlGyZ/2yFObJjINYoiw6JK4DC9gflGFGDM8dgbRr2PWV7sDyDTLAU38llvfIAIguiIwUc5lHx+goOr7aaLHI16mo5E+8wA8WRGmwfuJZ26LVj+wft9/S7wsE18i/VbfSmpszmE66h1HNHVgJ9TOcEuqJ6xnsJ7cv1qW0DbArUlRgP0WM/bTPtr8JEGvavq4abaEpYykKP+Gm7sN5AJtWDyeEzL1SMEa4FyCrGtaaCw+Heo7nMtrxtHWaEZ2OCIzuUR8c7nkfGBDx2pn4eZIW6qmqSzEikOh32Mo7SwAjMYspHnc2dXgHynyi5Ay3Hzkr6y4ebiryqeqRXagrmWq/0Rm6OGgm09RtSaDqDE6hP+PHA73ipbPk2G0Ogritd8jZY3VAqXe5QT8mKUb6w0yWDal0hVa0TV+Hq6W+zj7YwGtkEiD0sZuTz20EVOmfJ6iGbfZ0z3MtxN2jiLR+tZDlXpo3fRoYatgvHELNRQFHbPRzYmGW/yrzxi4To31ivUHIotCogxDWvQVYJjww1JZrmWclRUyT9cY7K+RBeCuQjAM4RPnk2du9Mm9BrmefzL80ZFlsds=
+ znQPCv1HvwUXBahuwteIkQeW30lJPuxOXFa+/SABhfvNnZr2GNjfahMCj8f5bPeSrYo2HKZb59K/Zcb9FgctOCStxXzYtN1N2Gb4K10TsHc/kqd0zfvMDB2veiIghNprHz9lbnkR/8gUzbAGyEvswF4FXiGa/kOQ2ncgl7eFWbkfpoyrc+9z93v+sDf3/Fb6gWn7gdgZyfnUBT5APKAR4T0318yj+aFxar2vwr82AP9TJI0A2eAs2Lxy0QB7ndUm3tr3v7bou4zQk+3lSgRavasjvTDtwdoQPOizlvE3pXtiA1cX0GT0C0UtUVipZfHZMS7LZunhW5JdnRRA0GCHhBE9Wvttywo5s5fupzm+aliRNvdgFU93cj/pb6JFLz8LX3UjSbrCb+96iol+gp/tC9H+0Vin3VseIJwvStUQAQlLyCnFN5+G8Zyt19iUdf5OMLMo1IkTi3ui6tlFzLegX7JTH+Evj8CYXMrX/Te8mT0xO+iuBW54LngOgq2VF8u13AiDLSPZCNtb2WLbiIJfRnXRwWxY933/PIYyyDUx3jtgcuz2QAHeVe0kJ+I3chJlBG4HHdUDQihc44mCez29XIko6BCmwLXbyZgAiIOw2DTzyi/QperdEuiTwM2tNL1B6+MKUxhScOpRlzimI7GU6UxqRty77sC3eKb4QjZgCykHUGwMaOvBHTPOVTXqnl8saU7vZeECUCDn83BJFxO4HkkUPjS2lHT8s13oFWAe1y9Pu4H8D10lduP9+pFIiaaGy+vXpHpx+B0=
 x-microsoft-antispam:
- BCL:0;ARA:14566002|16051099003|24021099003|55001999006|12121999013|13091999003|25010399006|51005399006|15080799012|8062599012|8060799015|19110799012|37011999003|31061999003|12091999003|40105399003|102099032|3412199025|440099028;
+ BCL:0;ARA:14566002|16051099003|25010399006|13091999003|55001999006|24021099003|2604032031799003|704163111799003|31061999003|51005399006|37011999003|41001999006|15080799012|12121999013|19110799012|8060799015|8062599012|40105399003|102099032|440099028|3412199025;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?bcx7CTukNZirb9sWWUafBn3SBj15dtbwtj2wOyyV+iz8b4V3yIHXvLmKN12q?=
- =?us-ascii?Q?/N5AjSu55vKGTXbw0uAh6DNgsBCK2Hfl1tYDIHUmqOrQycjlOj3mSQLMRvzU?=
- =?us-ascii?Q?fy0rI1sv6UvOqlhrZ/Z1hRKUpdhKDg+/1jq+RioVTaeFpq01FKlXTIj72PL7?=
- =?us-ascii?Q?er1k6jJNWUWD7BbMDXECTCi4jH1ro0MY8v2YqjQT0eHvRqQgua40bwa2sm7X?=
- =?us-ascii?Q?1PLmYKIDBn1iHzTGfWk+k+gc6HtBr6fI75dktBJxZDQQ0QBud0Hvtk8u9fmg?=
- =?us-ascii?Q?eLcFdqLENKnjz+JtIbDmnx4A3CE3rg9zn8wO2vPzYZivESE6ryL+tYZ4Qy+s?=
- =?us-ascii?Q?W9unEQLBlPkGdo28pBt0RMh69zkdyYOGbRrdSQ/FDA8i9s/lgVXryXB6nTGR?=
- =?us-ascii?Q?pb3gpCZQdm5/CEvfTM1qcnyz6oP/v0DZvWohUEDSnm0KKDCUE0qlfuEJ7pDY?=
- =?us-ascii?Q?KCufdo0J0OoxQoalZUFI/svjL5t3imdkSpIapqXOutqA/Bw67ohOAReXNwGq?=
- =?us-ascii?Q?yUuygFeYY7SCMfVwiW5BO6wAs1KjAsxddvmQdJjYjIPRKnjIe49WPVQgFQCi?=
- =?us-ascii?Q?VXIzBXzFjixdNyKofRd02j8SB+ig2/KXC5FXuu1hn/Zcgv+EKrSczLjMex66?=
- =?us-ascii?Q?2wLL9N7Ejj6ozPuFCFkIt4AQXwniiiZghE6i23oQ/OqTej+qCCZtnPqRMPOW?=
- =?us-ascii?Q?KZzP2KBriaU993/H+7ppTyAWtKyxi5QSN3t6k51KW0bZj3eFyT4K0U5wFuui?=
- =?us-ascii?Q?9rEIKDPJKeMtRVS9TGrxCJJ4Ew85WVxRVpW0OTjucywHWVgwkKp0Ci7ATsju?=
- =?us-ascii?Q?UKxIDtXjUOEwAhlc61dbxMc3F/lxJVZoB0aZ2W891Dt9fWScv5Agp0uVZA6O?=
- =?us-ascii?Q?KUHGatUuayqOId+FtYiIZaKTqqK1zKCbV09lj1vzzj6U/qu1gGKCNDdyOw3K?=
- =?us-ascii?Q?vyOlgnNj1sWOhKedLdLhiI+2hNv0cOgcsoT0uWT8IcTA+c+HQJQg06oDlom+?=
- =?us-ascii?Q?ySadC8RmdbEzm60dFuxnnGxx6xFB7iZzq2PgfF2Cm8OqrYaksr8dAc8xEAb1?=
- =?us-ascii?Q?iFHFsna/FSn5F1wu3Y8pKBUe1klsvoH7jL6NmfpRRw4Zy2ZLyln3/vxCIRtN?=
- =?us-ascii?Q?al8LA/Wn/wP3?=
+ =?us-ascii?Q?DuXp3Vsiw0rou9AlhMZN8z7tw/8cpGUjwpHD9xnCAU9kC6Qbg/TNL2W29V1k?=
+ =?us-ascii?Q?D4f/2uZiR0zlkI8T1DNmPdByO7YiJvvPZPaRpp/Kwt6XGNtzw5RSve2yTiFe?=
+ =?us-ascii?Q?a+Mk3x83kAhxKz/WngfIU/WsOMOBTqlEYGsUCTePsmngc04k95sja1A8Sa31?=
+ =?us-ascii?Q?EK1y8mcaX+MBEu7F/fC7jkVGPpYgUPRQGclrRiFF5wuzKM349Lgg9f8+LBDP?=
+ =?us-ascii?Q?h2iuYbzaBiBxNiRbXXW43NEaq1fj4xVQaLb43h3xHbAq5q6y3lIOyKOIlUSe?=
+ =?us-ascii?Q?XZzqz+1yndJUl9oXWQ0Hrbcnlf4BCmK+lhLlHw9sssmDOMYwI7Wlv9xgw2++?=
+ =?us-ascii?Q?ouj7pDBcm27R/8AGYC1wAuxI07jprHL5vVQXbnR5QbHYO+ta2fhAG+JHtM7a?=
+ =?us-ascii?Q?CtQ0vhofcWYKnTU3NomleTJ7zv2RgjaSyVeUFIq/m7Ibf9NJdrsID0K4qz1s?=
+ =?us-ascii?Q?9T8vWVtJWF1nJ7773wpl0Uw5WMVUbPdqOKuDBXCMiOC2tptVG2JYPOo1j+Cu?=
+ =?us-ascii?Q?sXFzRFqKI4A5kZBp0/m3biMHMq2i8An7R6t6rLvpY3DMUzR/3LwK3ETHArLd?=
+ =?us-ascii?Q?s8UzoODPJMubhEUQm/T4M628XzB2iEVUc4XG5Hd8dUbYikmjw+S7gFo3pF45?=
+ =?us-ascii?Q?DkjAM3bnRQlg4MkwcQchu7R9nf7s4KoOfNAwdZyxKPxxhaSg1D+hKcn41C6/?=
+ =?us-ascii?Q?aQ+yGRJYeqlhO6uvrcYhBMuZ1zhAzW1aVWeDPtDk/1QlDXYU1xzaLLWG1WAD?=
+ =?us-ascii?Q?Jd/fbN5vOyWjIkNV+KD5qWNt12Q+udMz5qJAVHn/Kb3Px0rpq/Ve42UxveY9?=
+ =?us-ascii?Q?ZG0sDylGSTOetaLO0rBO5KnLe48r4FED3sHflrbmr1jsUeIs5ugO4QGKvZUh?=
+ =?us-ascii?Q?RJE41V82JSackRCHD+euDTaJyYy8KCr2KgqwCU8HyVomoY0lNLzeb9AYx9ii?=
+ =?us-ascii?Q?2NS7AroVq+he94mg2nPrAxXaGP2oF6H68KbI1tOPs4tYX3uWXonhRpxOBszO?=
+ =?us-ascii?Q?wgJiGGtaRzWao84uvMnuxAGEe0+MaIdMeh4U+amHs11xab3C2b/EwWc+VcVb?=
+ =?us-ascii?Q?HXlg2rRkUl3JEmBeNvFk0wIJv+A09HpDBL3Mtu9ohsD/diqTAn7KEAnzwosl?=
+ =?us-ascii?Q?H5DvY3VVzfLeqiwXB9bRUTUObrsrJ9niE5uJLsclxaAZ8KiEead0ISMvXOKF?=
+ =?us-ascii?Q?aOAZpO8sLGl1HWhdm94+5QpLR2ppgGjLWUHszQ=3D=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?O8ZnVNV3LMGw0TNtPc9ixbQla+Z1KmQbjL0opEW0QPjKr21P9J8pDfcsjl2B?=
- =?us-ascii?Q?6/XF/ohZtOELtW/WZUqeq07kxatbwsDDTOP32vFy5sawc7qp8zn5Vx87qYtZ?=
- =?us-ascii?Q?ktDW9gR+cnzhz7eIUC8FbygWd8o36n8IjW4vWE8bFbGD3TxFfpV5R1/4pUkl?=
- =?us-ascii?Q?Dg7mJt7DJ8NkTEnvHHpOTYThXO/SHDu0soKXze2Ikx3kY5aRs1lusWWX7wt0?=
- =?us-ascii?Q?eFOWEWrBfiRSeZ28uL/wgL1lD7QON1xYHQOq+jb+2MRs9iC3D//Ah47eC19Q?=
- =?us-ascii?Q?ci//93HpqpbG5R5OufOwG/0+otxOgqiq2XPE3qSGB5F00fYDdjggHeGztGD8?=
- =?us-ascii?Q?h+1ywaK7kYzaoUK0b4DeAeNTv5bcI+aisIYCMFqEbE0QHdBwjgN/nv3pfy9k?=
- =?us-ascii?Q?ynf66nDKKF+pBjbCuyA2AFw/cG/0laHQMxu0kz+ZJNu4Vp+Gh26slhyOXtwT?=
- =?us-ascii?Q?vgzRO9Gd6yspIn5moesbvHYAWN5HTZlthdtPyTCwiMo3SvDtYCDMic/DIFnr?=
- =?us-ascii?Q?TfE8xvGuayI2Y5NUVsxJeIXv3wKrMRNw/gp0/m79iwB+SReOMwWvD9fye055?=
- =?us-ascii?Q?LqpEV1n1hZCDfxQbascYAeNTucej9ORaP9RitK/XqNdmbEN5VmZBzHeuRN1B?=
- =?us-ascii?Q?Y1HBlJLNam498dWzPBHLq9l0TH2e8Q/JlWivUaho4L6T4auSjI3wyEc6Vv9t?=
- =?us-ascii?Q?AYiYqg7Q7/zFXZy9jR5Mpz6OWjlCXnY8e4If/EgKD1zwmG3ODQMLnPpAva/p?=
- =?us-ascii?Q?nKe/PRif+87OHYk2dUJYYP1QmpXhH7bZkSOelZYZwst05un7A4MWuKeuirDc?=
- =?us-ascii?Q?Zf8dawCbXcheTbN7ZnCXBfpKRwoKoNW8SH0OusHasOJIjxLImGy75j/lziaG?=
- =?us-ascii?Q?XLCJRqTrA9C3A25skntJGJNknZV0S40m9V2bkIJ+Mr/Zbf49sezA7L5h2qJh?=
- =?us-ascii?Q?2KqnPJBGnU339uRHPkQb78p0pfFzAm4dYRxBALZp/WJgAo4XRdwa/eFrlYwi?=
- =?us-ascii?Q?MXXlccAAToYpbmHP+l2mZU9+QjMFwuOue1IqS1NUIbG4sV6SpJsLogveSEYI?=
- =?us-ascii?Q?WQDOAjVuq0Ct9ALSIQbVfNm5gdZ/phprF5+bJ6kAbiLkAhkDkPoP2pVXqfHp?=
- =?us-ascii?Q?xHxSaN0UvNqfADRA0WuccFFUGCj0KswFmfCm7jfKH366gE7dLWDLtQQoGr32?=
- =?us-ascii?Q?TSQ3Pcl6Yi5gcXS7wyvLH+nvYU33/ECnyLzrmFz9JDADbDIJsqQFOS9q5+st?=
- =?us-ascii?Q?R4IqhMdJz0keY2kKlfKfcXg3M+vWTmyA8CkBZuAK8JH2S96HSYV3xagz3tSH?=
- =?us-ascii?Q?Jm573gIjy49+jY2b+Caj1p8eFOY8osy0XG2QmKwIlIr4Ucz1RFLx1YYXyU5q?=
- =?us-ascii?Q?8tA8TuU=3D?=
+ =?us-ascii?Q?0l7X7AplZ6D/XSvYIKaMS/v+hAj79Im0SE+4j/k2AZVExRGmiBijHwZWz6hy?=
+ =?us-ascii?Q?P7+ScJCHpQo17cOaCpFPJgsCuHR8PBZ4jbcV8vi2YYH3+gq/Vcw0+x/wL1LC?=
+ =?us-ascii?Q?dmH+2rBtGqE1d8mgM7lfrIGBmUuG0rVoL85lCEFuhmh7dYauwJ2upcCn8/iH?=
+ =?us-ascii?Q?a2Bt2WGAes21bonN2xQd5s0BQPQdS6F7DyErFPrkQi4yxgmF2/BtX6m4Q9H2?=
+ =?us-ascii?Q?Dy/89IwY9ZvHomLlEnLghU63t7fe1CQ9CwlHU/htwpnZwj8q04eIt2+A13vm?=
+ =?us-ascii?Q?0Ne2oPQ6DQ6CLbirLucD1FryDZqEsZP/VUpaAhh59E3FUaCkLzqQuxAby0Ll?=
+ =?us-ascii?Q?EA1qCrm5xX6NQmAO05JO8XWnSVYndsMPvMAph6FpTKgZObF9CCnF6tjuufeN?=
+ =?us-ascii?Q?KpbtveMq1Wcb6LA3SolIgptYYWY0weKkFNPPQWdO65sLWfAtk+mNpdq9ntc6?=
+ =?us-ascii?Q?YtJeAkankpTxZwm7XJPhVtUVOrbU2HqrnG0JwO+vTO7qsvdx0rXvTcAVlumZ?=
+ =?us-ascii?Q?fb1j/MjMIcTnNIWdEk+Sq9oLNLWOTaZWW+qJp/OqhAjlMsKqytmUyAKGMZNz?=
+ =?us-ascii?Q?podutrcPcIJjsEzcWNi5eoITRM3Fg14wq6Vh5mYImY/Z4+61YppUdoInsOO8?=
+ =?us-ascii?Q?tbRWkG7P0VzhieR+3zWOWpATTAp1eOhWDTykngEO6NmZZ6mFAgkFkauXFQfm?=
+ =?us-ascii?Q?52lreGxt2vN7iS3sZUfBwWPsmyNSs8taspw8hvYjk9gHgz1BpwN6vIq4V4wM?=
+ =?us-ascii?Q?2wCN/5Ln54JOVoOoDW9nQgD8qeZYmlAQNTDuGhDdLp1AUcNavSsmGjaPVfCl?=
+ =?us-ascii?Q?lfuOC7kxHLEdf19Ahg33exrYThqkRa8a5ef5EUwxrNSQJc5EtVAAg3JYK1ml?=
+ =?us-ascii?Q?/JM5fMXXLtGnFCqMiGk8wtbM+KtIRkcH4TVwufwfcQE5HUQZuhpN0a7TJRYv?=
+ =?us-ascii?Q?NHPhYnW65vkF49nHDIKTyvd5XKOAlY0ZmYAq8NPY6FMzg9iuNV0rB9kvEH3S?=
+ =?us-ascii?Q?XaHtk6QqfVI9OAxVOihcdej+SS5PPQ5Q8vN4X1z2USXcvru9GqiRd9Ik44Hi?=
+ =?us-ascii?Q?BNGa1nvLdhAuI4a9KvHyqLbOk/eivnEcfXq0vgJj530Yg3eoz4Z2uwiAyoWi?=
+ =?us-ascii?Q?2j/WEg2GL9cyl2qvUvIvo174bS8Xxv27KlFeiE4IBIE/uwr+AvsBpB2nB0N3?=
+ =?us-ascii?Q?cTgDFxUCSVWDrG/DH66+4mYmGTySyJsMn7p5OCcW79rhislqA9HIonP83IAZ?=
+ =?us-ascii?Q?88KAXe4XKUMedlnK4QawJv2zlkwwzj7OXkeRLt+ro/2FCK2cQ/cwIV0UP5ic?=
+ =?us-ascii?Q?rVcurFK5jE0sEDSry9HWm1lXfwM+djpVsp6EPzktdLX7z3VumriZGLIWc2dK?=
+ =?us-ascii?Q?guXvVuw=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -173,59 +174,95 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ebdfa67-6cdb-4a29-7cd3-08df49c0325d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 00:16:33.7212
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12d46c55-a3f1-42dc-5335-08df49c0464b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 00:17:07.1090
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR02MB349042
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH9PR02MB12077
 
 From: Naman Jain <namjain@linux.microsoft.com> Sent: Tuesday, November 17, =
 2026 1:15 AM
 >=20
-> Successful Hyper-V flush hypercalls do not run the guest callbacks that
+> Filtering avoids unnecessary hypercalls but leaves historical CPU-mask
+> entries in place. These entries can keep later flushes on the multi-CPU
+> path even when only local work is needed.
 
-How should I interpret the "Successful" qualifier on this statement? It see=
-ms
-a bit spurious since unsuccessful flush hypercalls don't run the callbacks
-either. But maybe there's something I'm not understanding ....
+This needs some rewording.  Something like:
 
-Michael
+Filtering avoids flushing on CPUs that don't need it, but the filtering
+doesn't remove any stale entries from the mm_cpumask. These stale
+entries can keep later flushes on the multi-CPU path even when only
+the local CPU needs to be flushed.
 
-> remove stale CPU-mask entries. Use the native flush path when the common
-> x86 code requests trimming.
 >=20
-> Global ASID transitions also need these callbacks.
-> finish_asid_transition() requests a flush so that CPUs still using local
-> ASIDs switch to the global ASID through flush_tlb_func(). Use the native
-> path for these requests too, without filtering the supplied CPU mask.
+> When no remote target remains after filtering, request native trimming
+> of the original candidate mask instead of waiting for the periodic trim.
+
+And maybe substitute mm_cpumask instead of "original candidate mask"
+(if that's actually correct).
+
+> Copy the const request so only this call requests cleanup.
+>=20
+> The native predicate still skips lazy CPUs, so cleanup may not leave a
+
+Again, be explicit instead of "native predicate".
+
+> local-only mask. The new early return also makes the empty basic
+> processor-mask check unnecessary.
 >=20
 > Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
 > ---
->  arch/x86/hyperv/mmu.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  arch/x86/hyperv/mmu.c | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
 >=20
 > diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
-> index 1ea57d642faa4..375f23b157ab3 100644
+> index 833eaea1d3fa8..545a25fcf6c34 100644
 > --- a/arch/x86/hyperv/mmu.c
 > +++ b/arch/x86/hyperv/mmu.c
-> @@ -70,6 +70,14 @@ static void hyperv_flush_tlb_multi(const struct cpumas=
-k *cpus,
->  	if (!hv_hypercall_pg)
->  		goto do_native;
+> @@ -102,6 +102,21 @@ static void hyperv_flush_tlb_multi(const struct cpum=
+ask *cpus,
+>  		}
+>  	}
 >=20
 > +	/*
-> +	 * Trimming needs callbacks on stale members. Global ASID transitions
-> +	 * need callbacks to switch CPUs still using local ASIDs. A Hyper-V
-> +	 * flush hypercall does neither.
+> +	 * No remote target remains after filtering. Request native cleanup
+> +	 * of stale, non-lazy memberships so later flushes can take the local
+> +	 * fast path when possible. Lazy memberships may remain.
+
+This comment reads like an assertion of the state of things at this point.
+But it's only true if the below "if" statement is true. Reword as "If no
+remote target remains after filtering, request native cleanup ..."
+
 > +	 */
-> +	if (info->trim_cpumask || mm_in_asid_transition(info->mm))
-> +		goto do_native;
+> +	if (cpumask_any_but(flush_cpus, smp_processor_id()) >=3D nr_cpu_ids) {
+> +		/* Keep the caller's const request unchanged. */
+> +		struct flush_tlb_info trim_info =3D *info;
 > +
->  	local_irq_save(flags);
+> +		trim_info.trim_cpumask =3D 1;
+> +		local_irq_restore(flags);
+> +		native_flush_tlb_multi(cpus, &trim_info);
+> +		return;
+> +	}
+> +
+>  	if (info->mm) {
+>  		/*
+>  		 * AddressSpace argument must match the CR3 with PCID bits
+> @@ -148,12 +163,6 @@ static void hyperv_flush_tlb_multi(const struct cpum=
+ask *cpus,
+>  			__set_bit(vcpu, (unsigned long *)
+>  				  &flush->processor_mask);
+>  		}
+> -
+> -		/* nothing to flush if 'processor_mask' ends up being empty */
+> -		if (!flush->processor_mask) {
+> -			local_irq_restore(flags);
+> -			return;
+> -		}
+>  	}
 >=20
->  	flush =3D *this_cpu_ptr(hyperv_pcpu_input_arg);
+>  	/*
 > --
 > 2.43.0
 >=20
