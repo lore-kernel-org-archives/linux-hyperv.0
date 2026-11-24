@@ -1,65 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795535072;
-	b=bg4VKmP/4TEfp3GB0bb44+cXDrSld3JrayfbeQM379dfE+cwX5xTsRqFeM7TvRy6e6C6
-	 JNRXTNUrx37N3c5inuIqTYr9mTNp50/mEzmb0VsMCV7mksaFXbgWS1+PnjQPSkUDZkFD/
-	 yvPsaCRNowNuhV9FrXmgQGxYafJ1ZUVg/5akYYz9/GEipY7acCzEWy6yzRiVOLUJFyCNy
-	 W8qfpP/wCux7yhbO/ze79zW/XNmP94Mq0Gn3NTIlxnF8YESCNviiW56Eh6nwD99MshTgc
-	 eTNO9qLCtbh8qfa2aa/PMS7NJxtBWrB2lWmr+3JXDvIpj4MqhSFijQ5PDdaFkRUhAlw==
+	t=1795546429;
+	b=HPo7jVy7j0UVch98o4y6qcfzt1HPgcb7kb1mORMPqqg9mKJTIcETKXaGKrhazXsV80Q9
+	 6J6rOFBAwZcmmyqNIalgTygCVmn2lZCR5K1F0BXwOJCU9ZNM50VJI3SQ/5PdEXrPeMfmM
+	 tkDsSDpfVnDPDA9yHDZEcOi5Eek89wFGPw+CqTh5ufr2NFOe8LY2PZL6rpacIxbTouccv
+	 XUQL6e/m5HFLjytN4RGfOl6BCzR+s/jLPOI03eZr4mlq/hFS8T1rsnvosS1ul78o8Ly2E
+	 xiduR65wG1B0uoTIYaR8eZg4YtvtCysOGFKqXbKs9xJq9/Vf+C1/cibcNs8sk3OCr4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795535072;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	b=l5veRuTsjCef0xKyYh69YyZqGM0kjOnoOgsyFhra9otqVBjOST3TbtwFlRRVQUrEqUYr
-	 zLnDoTtmhbhzmMsZGdDR1OVvmWGEQ4GKx6YXYd6rt68UoSQNYAKVcdqVTf6fXZ8y1+6+p
-	 FjfEb4goCEV3P2jbQmDLIv5rFFKfcBzL3ITY+vpkkVV9Dnzf2GkKB0Nr/sqGXcbuh7byR
-	 FGioG+bTsX8XmSdQWC19HqJFoFYwMYOaBPG8ekI3/yyblvOxiReZfrQ3k4WTf8+dJNMLx
-	 OC6rU09k//aJ2+hDXLlhc1knvewGXbNshR66acmg4Hw22FbvqKF00RiTRpRAFQ/Mb8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795546429;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=iJ0bZtF+M32WhmItWYj3FSa2ZiQSpvoOogcaFVHVH5I=;
+	b=R4WTRwtiraUtxDHnt3QiwqRYJia/CGL59rWPMER5SfyBpeOKhgc2zdvZwI2MGFJoCPQK
+	 RlhCPLhvRt8plztSNHHJYvmA0PGJyt7iJg9glSYjiiCvAYgf8TG9KJyMGHl2gnZBxYOfI
+	 +00p0s/3uOjyhw4g4DlUtHRmCcNSaFN/HxOF3yw6OAUMV+4qSuHguo0dAsed74gruIbHk
+	 b95Gjc/oof1k7oijzN/KFGVuKwrE/VKXKCfRKbV5dU7YiRBTcY4IFrauAv8rOsb8H4XKY
+	 p7JuIATyRQqnwcGa2Kbpa48EXqp1B9sZrDUCOJBxuxVc2bQuFQdkvOEuFPrTsFFHNPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HgVVaL33;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b="fGXI/q/Y";
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=huROl1+l;
+	arc=none smtp.remote-ip=103.168.172.156
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECD4606A321;
-	Tue, 24 Nov 2026 15:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7F0606A323
+	for <linux-hyperv@vger.kernel.org>; Tue, 24 Nov 2026 18:53:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE7F0606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HgVVaL33
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4C591F000C0;
-	Tue, 24 Nov 2026 15:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795535072;
-	bh=oj2zs7YpNjut+Fle9NDI2/nVbuq1xcuWOh/20pAlrQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HgVVaL3357PSobOf7PgmF85+LVhDXxGOV9OlYq7N0s6Sg2O8nusYgSLBxcMszVBBs
-	 Qi+fhARTMLsyB2rU5CwwTho6EG3elDBWWEC2bWT4PyAygfHTgaqjOo3FOdy5Z0joYR
-	 7Q/faxAZp0LOtUIt2D/HuKAZmHg3fZaWpxh0zXMxaBr0y9pafquLb+IJYWEzi9awcu
-	 MqcCSqDi3oOPcqK8COOSaZ3vjM2/JVRkPRoz+0b5oZCLzlVLrnIe1anb4vTjZrYOGM
-	 p9HIJtEvXYPUTg4qW8yZyjsG+8AhOJBbg7Abz6/Lycf9w1ckL0yE4fF3QwcqJ3G2N4
-	 omMBAFoU2HyNg==
-From: netdev-bot+sinfo@kernel.org
-To: Wei Hu <weh@linux.microsoft.com>
-Cc: longli@kernel.org, kotaranov@microsoft.com, kuba@kernel.org,
- davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- andrew+netdev@lunn.ch, jgg@ziepe.ca, leon@kernel.org, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, shradhagupta@linux.microsoft.com,
- horms@kernel.org, ernis@linux.microsoft.com, stephen@networkplumber.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- gargaditya@linux.microsoft.com, kees+treewide@kernel.org, kees@kernel.org,
- mawasthi@linux.microsoft.com, weh@microsoft.com, edumazet@kernel.org,
- shacharr@microsoft.com
-Subject: Re: [PATCH net-next v12 0/5] net: mana: concurrent HWC requests
-Date: Tue, 24 Nov 2026 15:44:30 +0000
-Message-ID: <179553507044.3294.2548266527967853234@kernel.org>
-In-Reply-To: <hwc-v12.91ec3eff9cb647d5bc5cc932b3c6f60c.0@linux.microsoft.com>
-References: <hwc-v12.91ec3eff9cb647d5bc5cc932b3c6f60c.0@linux.microsoft.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=fGXI/q/Y;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=huROl1+l
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CBEF71400273
+	for <linux-hyperv@vger.kernel.org>; Tue, 24 Nov 2026 13:53:47 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Tue, 24 Nov 2026 13:53:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795546424;
+	 x=1795632824; bh=iJ0bZtF+M32WhmItWYj3FSa2ZiQSpvoOogcaFVHVH5I=; b=
+	fGXI/q/YJJHPRt+gPRHUOreFU8JCB/tfsdHtsBhf3X18rgt21ZbX+26No5IKTAyj
+	AgCv1KdKfbX+I2Pn0iSzwyBZk/aTQmKDh3dYxkQQL/J3WM2z84vb6vO7x4DW8EGZ
+	sS/Wz7MJP+BtoLKLQr++7Yye1Hsyu2ULf9M/Y/cIxiPBp83DUaCzMY/wHmvrh3HQ
+	z0r0HeF0cnvWAkVDWpNLHekIzdnkWlD1MFqa+H5YTnUhFB6PA6aA1HC0BYrnek2G
+	nxpAYgIinmvsD/fk1yNzG29c7eKf94wnqayGmqr0U9/LtCL0vr89WbcpVgVwSl8H
+	4qYzW/d7q4DzqRxNHb/J/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795546424; x=
+	1795632824; bh=iJ0bZtF+M32WhmItWYj3FSa2ZiQSpvoOogcaFVHVH5I=; b=h
+	uROl1+lk1kz0AnE8Bzw9moeUjMay7vJ5VuuqfueaPUl4m/AI84UJOgAisOoaqFn/
+	yCBo+vSL4a5lisI4l5/Z7saj2VUfqomUlV+2KVyBVQmUCOe3jgRYI6qYr4Y8R8jl
+	LJRf+DSl7GQbE5lW+g+FmCFL/3myijCtekiyTHImxIeNkj8OLVv/bdsJJh85iU2r
+	kJL7uUdjE61XSRiNNPNUtgWPIDQt/CfqMCs9Y72c8jKv8clrGSuuWvjDW+ZxoYRm
+	lUNq6g0Cq11j4GRLpY9a5Fciy4M+OD5s4ikjAzA6YUPUcczieH5Iq3irJUrRl+0o
+	JIyX3BUC16aX/QKYzqm+Q==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795546424; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWh5cGVydkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:bmtkgQyyMFtliHaDeSWgij3c1zOwzwo0WzvCVIMHUYp+nlD
+	HgCgGySVUVOCLNOn0dC/xKFLO0+S1IdZDQ/XAGINjwgx6u4CqJ9mCrmW5n570W5g
+	CiUnBVT6G53HGj5rN3VtVzScWl1nPbwmPhcYMOSYrm9jD7NQB6qEYGs+uGC2owzF
+	Xb22vNYMYQq9+rTTMO3bGWzE8V/HYQZ1qvxflGaDtAKoAyzdkO1oZsK7rkg/me7Z
+	8nn0c3IOI4tDP/HjiAvyljUTu/2ROywda2ZR3ubAj7W8q17fFIK+2KHdYHdYFDVw
+	Yh0rSA+eJkFddEtl81aL6mHnCiMzirVwhJ5qXHg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:JE9Pf+dIuvBMDyw467eQ/Tr4tyY4SBvJ9vbnWlDmBbU=:iJ0bZtF+M32WhmItWYj3FSa2ZiQSpvoOogcaFVHVH5I=;
+X-ME-Sender: <xms:NN0Fa5lZfMH0GpBjo4FIFqOt82WeXvEcO71uXdjmCA-N2thUNBatiw>
+    <xme:NN0Fa_pvDD3LDB1hOkMvebnpeZhjQXIK0f9ynC0uvxvma-6WyPByvi9RrkBtXqg9y
+    e_gVWNjeonSUqLlGosp6V90-QYv-zweVwSgzUpAtHBmrbfHPTWWgCM>
+X-ME-Proxy-Cause: dmFkZTGa89Pla2pwx0UHvBE2KEVG1Wwjhw7C4B1uLpGYODU+3QVMsGx/6XmpkdoJQ4Wdng
+    HJTQ5P6n+mDkd8Vd2SQqD6fTHTLkP7Wuqcj4e4FsRmjjuwJVAvdIAMxwY7PgDDXvm7pBQb
+    V+0M7Ws/ERhpYm8SiiloduyrTQZspJvg6qB1K46OCCPXGc+eEW+Hddr+7C00h0r6ZEOFYl
+    AEnzqIf48e5UMJEtOynuealgFc8qv49e4alT0/cDtM0pgI+fA63AVgOKJjxR0/XZ5jCWkf
+    ckqnEAFz7mzjehKRip86Ki3aHb//QV7agR0ciNvsOQftXZwZGwrw1biaGXQM2h508lVilu
+    dX1Rs8y5CwzC5NJ/X0naYSrSH/L5OxpOwwf5dMWqDQZcTdKTK/2PBgPmihT/fQy1TuHY6j
+    6M64lDHfRNX+gNElC1DL1ODauxSmwduu+m13I/SkB7IYOCXjuB2jqg7U4sW3fILD4Xxxix
+    /zzH26H2NJT/sw+csOTXwQOv0Ri5PI/gUUSUcz2DmXFV+dyZ2fG3dvBz4DLITo/r44riPy
+    Wkq3g4kLNXDJfPLtgJRoV3tB0JzWzIZNdWxrQK2e5XaTmoTp8JRX1v76d2nM+qmgUUFhFc
+    nvxsvy7PpPJFKIOSP8JO3v1DBFfZIowhnT7qZYA23jX7CcPrraaLXwRUkr+A
+X-ME-Proxy: <xmx:Nt0Fa2g9uImOLqunkhPoWGl1ltxY8JqHe77aesgUgd62JLxGu-1Ofw>
+    <xmx:Nt0Fa8Pc_Sbu-G_3abCwqPB7HUsT9kKEIkC0CdR_sFWt4SE3pgeVEw>
+    <xmx:Nt0Faxe5nGuWdBNu6u7jyT24MgZMbK0VdAI8O7B5j3SfiCxKfSR2AQ>
+    <xmx:Nt0Fa-y3V9ESX_COIXxaEavSOJ21EMmGaPaOG4nz8Qt9gqswRMc_CQ>
+    <xmx:ON0Fa2FN0OUPrjWXja9RK6szCLu_hXTZd05XGyCHHDqNdf-Ig_ZmCfL3>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 4968232A0099; Tue, 24 Nov 2026 13:53:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -69,26 +115,74 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-ThreadId: Ai76fMdDSoMo
+Date: Tue, 24 Nov 2026 19:53:19 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Juergen Gross" <jgross@suse.com>,
+ "Stefano Stabellini" <sstabellini@kernel.org>,
+ "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Christophe Leroy" <chleroy@kernel.org>,
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ "Shrikanth Hegde" <sshegde@linux.ibm.com>,
+ "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>,
+ "Dexuan Cui" <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Jason Wang" <jasowangio@gmail.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ "Xuan Zhuo" <xuanzhuo@linux.alibaba.com>,
+ "Jarkko Sakkinen" <jarkko@kernel.org>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.com>,
+ "Paul Moore" <paul@paul-moore.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ =?UTF-8?Q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>,
+ "Joel Stanley" <joel@jms.id.au>,
+ "Andrew Jeffery" <andrew@codeconstruct.com.au>,
+ "Ryan Chen" <ryan_chen@aspeedtech.com>,
+ "'billy_tsai@aspeedtech.com'" <billy_tsai@aspeedtech.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>,
+ "Jens Wiklander" <jenswi@kernel.org>, "Sumit Garg" <sumit.garg@kernel.org>,
+ "Scott Branden" <scott.branden@broadcom.com>,
+ "Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Richard Cochran" <richardcochran@gmail.com>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>
+Cc: xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-sgx@vger.kernel.org, selinux@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ Netdev <netdev@vger.kernel.org>, linux-mm@kvack.org
+Message-Id: <3208cde3-c5cf-4888-88f7-c77d7b0e5940@app.fastmail.com>
+In-Reply-To: <20261124-late-2026-mmap_prepare-v2-8-0b0d99d655f9@kernel.org>
+References: <20261124-late-2026-mmap_prepare-v2-0-0b0d99d655f9@kernel.org>
+ <20261124-late-2026-mmap_prepare-v2-8-0b0d99d655f9@kernel.org>
+Subject: Re: [PATCH v2 08/13] soc: aspeed: convert LPC and P2A control mmap hooks to
+ mmap_prepare
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi!
+On Tue, Nov 24, 2026, at 15:02, Lorenzo Stoakes (ARM) wrote:
+> Move from the deprecated mmap hook to the new mmap_prepare hook for both
+> the LPC control and P2A control drivers.
+>
+> Both remap a range of their reserved memory region, so use the PFN remap
+> mmap action to do so, retaining the -EAGAIN error on failure via the action
+> error override.
+>
+> Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
-
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
-
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by LLM and not proven at runtime). If it was triggered
-   please include the symptoms, like the stack trace or kernel messages.
-
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account.
-
-*IMPORTANT*: If you do repost (for other reasons) - please include
-the relevant info in the cover letter or commit messages.
--- 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+Acked-by: Arnd Bergmann <arnd@arndb.de>
