@@ -1,49 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795651743;
-	b=JcMW2w8wBsJcSUPDhQJoPJ0IVfmTzB9KJ41IBw/gW64GfKY/5B/XiYFf0zzQfTFv9THc
-	 Rhamxh52R+CYQ0spS0ZFBmPx4h7t+zgKj9HkxPNas13A5lTLKHu+peDY04jEmQxGcPR/B
-	 Cno1dJLpOEhIPyOgYm00pFNu+bMAhhuEIC6Djj+Z7j46OL3EpF8BeMneA6gi/yWquLxhM
-	 i7BlJIKfhOYeYYjCEQserUhKbDW12E5IRA6ixqMK1hVgtQd/OJw2sGcP209C18rGj5eJa
-	 DkIQM+6j6F9Y/AGmbtF1Kq4B0GqIigwTXrUXyWsRNnJTYjgE3sJ4s+f4lCS+CdY2fTg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795651743;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=nEOc+qNUlOfDcZ6aaboX5wLfWqtI+ZIt8sqYS1hwrTQ=;
-	b=zrC8x0z5k1H2+PaNwutylLTJG1stNCzbRe1cWvMnoDBeqC24tQC0+U5WmIVWe+kxvae+
-	 Ae4d0XWGpJNMF8EF8Xz8hmHr2L01ifO2R2AP7dwtvxYE8NVkcVve2KfFoRbSR6KXk8H18
-	 B3L6U43xIcgvtM/tzh2erpZGaBpBmtvmU+qWuPT8CQSRepCXRoM5U/bbnik6eOousAdKN
-	 CGycxXj9CQtHkJ1Jenw33Z+iK1mEkcUHbN5gv1i2Qolp3bh7jLJEXWnNI+WAKi0Ema/HZ
-	 oTDU0DCBtdbtSD0F1ApOOmKBgqYNTbQ6daD0fTH2+cEhprfDSgeFLty5lf046eRxNVQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=HyWrKOKw;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A157606A31E;
-	Thu, 26 Nov 2026 00:09:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A157606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.74
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795658243;
+	b=B5OI/S9TGoqNEhVRmVNXDGMK6v0JQbA+XY1qyzdSWlFa4A1q2PF4cDu8IX2hklomTS7M
+	 X5soeIMeXHrs1qi3jdsnhXVfYWVzhj/G9h0vOQ44tfjmLeoDK9tzCOHBQe3amNMttgRLU
+	 Vgr476/uNLb8xaJu+V18q0lg9ww4z4zw2UZQFqZXymg0AN0+Qk8d4uyx9tM3w7J5iZKYC
+	 U5Za5/1AS8YNYh8wY7Q5YJeiJLf4Rfo6WVTP+rDwNGC3Ma//ILw6bhAFx89a1tDPJt72i
+	 UWvFZic7ubsTlOwNyGy5Cul4ffoJgx54Gv49ws7OG2ZB5yqz2maEqvMhFYlE9BqYkcg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658243;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=wQwwexXKfYFWLv1n/CIfr1L3KdteJx8RrqGgVwMsGMs=;
+	b=wxf38g1PKcsppfl1XyZIWb3Tt0DJl3ZdSiKVWqsZB/cDIe8y17bE1ai+hPAsvf5Vxu58
+	 YT5ZyhtaiCsIiVZdAShKhf688SF8AAZHs2Dam7diTD3w2zNCW4HZoiUn8o1y/eDWQWCkG
+	 BGY41CaUYkmPe9Vejih+23tuCj7rr9IIbcI4VzpLVbm5zMe0JbbBrD5uJyf6TLR9Ztno2
+	 EVt0Xhq/aocGVoFIJw293fXI7/k8PwXgvZjGvPVTYAU0wYro1Cx66N0LO6SQ4RlUEW58i
+	 ilOICWxIsj+hCWlmUS+/yajcIfZ7ohPKRgLnkfuMursTcJvI6fnaGR+wh2yBBR+3PAA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=garyguo.net;
+	spf=pass smtp.mailfrom=garyguo.net;
+	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=LDPMac3Y;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.74
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021074.outbound.protection.outlook.com [52.101.95.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA945606A323;
+	Thu, 26 Nov 2026 01:57:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA945606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=HyWrKOKw
-Received: from [192.168.4.47] (unknown [4.194.122.162])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3C6E820B7170;
-	Wed, 25 Nov 2026 16:08:49 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3C6E820B7170
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1795651736;
-	bh=nEOc+qNUlOfDcZ6aaboX5wLfWqtI+ZIt8sqYS1hwrTQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HyWrKOKwUNQvOe5Qt/+USvmWq5nTYxOrUvEJj4rWlDaUEjCRNngv4y4NgmjxxeKLt
-	 5QnnifAp4MXGo2UL6FU03uuSoAUpUDvmrGc1mjO1KcLU/a4U6mv7o45W39E2XQ+1Eb
-	 0SqNsDjfZql1CryTza7+htvu+RB9b5XmexlpqI2E=
-Message-ID: <baa54ecd-1a52-438e-9645-023852ffd266@linux.microsoft.com>
-Date: Wed, 25 Nov 2026 16:08:53 -0800
+	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=LDPMac3Y
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ugfqusank+TP8RlvX3IDp3uNNlNYMgA/pGtZlpT6ERo0HOeSiz7JowvWrPwd6pqreGz8kGZDPTiEN98Simxg/kFBG+xuxLG6rK5wtouDZSqroquswv8HD30WudB0OkXmq+aohbqbkNSG3ILeQCscdShWpOwsG0/DvMa56FImzZhCpV42vqbEG7FQEKVPxvQm/T/9uc3RhrCpjnDISZfTdfAUiLX3FWskMbho/8ZXXPfsdHfYj5xHypIUrCr5/YJnEU7CO7Q6Y85z9YwWQymkLjMX06tCDavMP8Fb2FKT3I5/27rgskDpemRPz1eUMMFmlpTit/uwmteF93jqxged1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wQwwexXKfYFWLv1n/CIfr1L3KdteJx8RrqGgVwMsGMs=;
+ b=MyvVld5HyWosyAlQ4eNIATC2OJNSNr4sqSl5izwZxj2nXlXXHeV8jyVSphViBzVv7tSSZ3QSDtN9M9hniRFjDpkfMG+D5OY/TK9H1UoWRxmUa7QFnw1pzd+SZfMFylUzUm9cHuFYIcnwRahLHvEM5O+e3mP8fVGOMstDZzQRoocgvHH2dOClYqzAltdtdWXLkvx0KiHKOP/zrCMvaqjJKTQ4Np+Vz++fF4Dx+goh5fwe6cNWPlozr+6GjNwHyByxCuoPBiJC/njpLZ1Ayx1zkD+PK8UI6lUhoyWoZ2v5/hlj0KGx9fD7538mkjN2q41yJKWvImgrxvKWnlixNucrmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wQwwexXKfYFWLv1n/CIfr1L3KdteJx8RrqGgVwMsGMs=;
+ b=LDPMac3Y6lLbY06bE/y9PXx8ip7DqHVV7X4+qs+V+Noy8Iy1yRt3Cx6jgWMi5bHlYQc7UoiTx45FasGzBeHv4dF9VA5Vj7OMLmoNnGt56TU9e/4rY0LRxRWHI4/w/nuK2ijlsm1xh0mebNcwIg5Tp9SunCFxmqM4rGw64A9CRwA=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
+ by CW1P265MB440877.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:302::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Thu, 26 Nov
+ 2026 01:57:18 +0000
+Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
+ 01:57:18 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 01:57:17 +0000
+Message-Id: <DN4RPY231N71.1XDIB9HKGBU0O@garyguo.net>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Bradley
+ Morgan" <bradley.morgan@linux.dev>, "Armin Wolf" <W_Armin@gmx.de>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, <linux-doc@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-trace-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Alex
+ Williamson" <alex@shazbot.org>, "Mostafa Saleh" <smostafa@google.com>,
+ <kvm@vger.kernel.org>, <qat-linux@intel.com>,
+ <virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
+ "Vineeth Vijayan" <vneethv@linux.ibm.com>, "Peter Oberparleiter"
+ <oberpar@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
+ Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ <linux-s390@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, <linux-clk@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-remoteproc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, "Takashi Iwai" <tiwai@suse.com>
+Subject: Re: [PATCH v2 00/10] driver core: Disable driver overriding by
+ default
+From: "Gary Guo" <gary@garyguo.net>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, "Nipun Gupta" <nipun.gupta@amd.com>, "Nikhil
+ Agarwal" <nikhil.agarwal@amd.com>, "Ioana Ciornei" <ioana.ciornei@nxp.com>,
+ "Longfang Liu" <liulongfang@huawei.com>, "Julian Ruess"
+ <julianr@linux.ibm.com>, "Ankit Agrawal" <ankita@nvidia.com>, "Brett
+ Creeley" <brett.creeley@amd.com>, "Giovanni Cabiddu"
+ <giovanni.cabiddu@intel.com>, =?utf-8?q?Micha=C5=82_Winiarski?=
+ <michal.winiarski@intel.com>, "Eric Auger" <eric.auger@redhat.com>, "Eric
+ Farman" <farman@linux.ibm.com>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
+ "Tony Krowiak" <akrowiak@linux.ibm.com>, "Jason Herne"
+ <jjherne@linux.ibm.com>, "Harald Freudenberger" <freude@linux.ibm.com>,
+ "Holger Dengler" <dengler@linux.ibm.com>, "Haiyang Zhang"
+ <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan Cui"
+ <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Mark Brown"
+ <broonie@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Brian Masney" <bmasney+clk@redhat.com>, "Jerome
+ Brunet" <jbrunet+clk@baylibre.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Mathieu Poirier" <mathieu.poirier@linaro.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>, "Sylwester Nawrocki"
+ <s.nawrocki@samsung.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav
+ Kysela" <perex@perex.cz>
+X-Mailer: aerc 0.22.0
+References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+X-ClientProxiedBy: LO4P123CA0280.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:195::15) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:400:1cb::9)
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -53,990 +135,138 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] hv: vmbus: encapsulate buffer and GPADL state in
- struct vmbus_buffer
-To: Emerson Busson <emersonbusson@gmail.com>, Wei Liu <wei.liu@kernel.org>,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261124214030.174246-1-emersonbusson@gmail.com>
- <20261124214030.174246-2-emersonbusson@gmail.com>
-Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261124214030.174246-2-emersonbusson@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|CW1P265MB440877:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b6b3e52-7308-474c-3d8d-08df4b609a1c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|23010399003|376014|7416014|366016|1800799024|921020|10067099003|56012099006|261028144727099003|261022105027099003|261022075727099003|261022115727099003|261022113327099003|261026130827099003|261026121527099003|261026135527099003|261021135927099003|261021123027099003|261026140227099003|261021121427099003|261021130227099003|261102123227099003|261021133027099003|261009223027099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	8V8vcfFOw3oTrfc5RNxlZ5r0UkjYbCTU8eeisaf9JPjmuGWUs6rUGsW54CbWqsDGswx0m88s9bF37FBMRApCiYCcEY4owfPaM5HyBlKOnm/tviHhAzOofE/ITqM53k6oZ355aKBKCIuljeBvojZq1IQk1oRcK/bfPgNKbPaB+IQabbSWHPfbZJBe/WLAyx27ynBmbxqzhADC1Azk6Gi2sUuvYxCkH5rBxBr9GusLXf49TeP/kY0fAxhnH6I3yDrNLwXMc2s6fIyOrykAJH2LxCux4bOWcHHB1TdY7P+++OD/U5ybfgf0dDmXoPYt1DHqoZQssSJtNO3iqNHBUdpHLW2KlahyudHxNwj/c09SmDj90wycSVMzB7kNwrKaro74J+IJ27AX8zdQezVwhebAJ//FJcCmisGzK8qwLezvNj2ZwY6xwCVEhljaIEMBe4YwnoMB3jqwOvn3/jDCzvkbLr/w/UlZwF0yu8ya0LmsvlD65/CJvkZo5yivCAOctyYBdQULFzCjr3BNtOWz27oV5d9Suto6DURERR1hQ+zaZ0ji/Vw9dO6thGjdfrAoWZy2fc79LUU8ge2TiqwLUrGFCPGuUSUzv2wdwRqdFSC0ldUddjm3P4GoaTj3iIAHngRZegpDFawCRB6870XfYrYR0fqfrT/yeTZmm0SGOP40A94=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(376014)(7416014)(366016)(1800799024)(921020)(10067099003)(56012099006)(261028144727099003)(261022105027099003)(261022075727099003)(261022115727099003)(261022113327099003)(261026130827099003)(261026121527099003)(261026135527099003)(261021135927099003)(261021123027099003)(261026140227099003)(261021121427099003)(261021130227099003)(261102123227099003)(261021133027099003)(261009223027099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TlE0dHFLNmVlMit5NSt0aCtqVHJrS2dTaGN5WDFsSXlIckIweDJiWlZURDFN?=
+ =?utf-8?B?cVZucDR5SG54YTR3NXNUdlZ2VUw0TDdRdVR0Tzc0Ulc1YmFvTWFMRHU0TW15?=
+ =?utf-8?B?em1xd3lRaCszUDZqZUVFc0hzdjdCN25SZ3ptbHhPMnEzK2w1ajArbjFCM2Ns?=
+ =?utf-8?B?RmFSOFNYc2Zna2kwZHlkVDZzQVcvbVoxcFZYYVYvODYzMDhMNC9rVDdydGcr?=
+ =?utf-8?B?cGZpaUQ1RUJMaS9TdjlRTFRRTE1YZTY1Mytwbm14cWJvK0Nydjc5NU1aSVpu?=
+ =?utf-8?B?dThobzhQdzNhYXdPWWprVlF2amlLUTBDNzgzdzIyaEN3RU1GR1ZzVUpMc05q?=
+ =?utf-8?B?UzhWUk5jSW9nMnIxNHp0Y1NGNXM3UU5Fd2xMNEttQU5jcnJQZ3VaOFFPTktW?=
+ =?utf-8?B?dGtoVXI0UlVQT3IxemFlU3hFbXVJd3VIOG53Mm5LN0NhWWFwY0J6bk5SNGxH?=
+ =?utf-8?B?SzlNOEdCQWVwZU9zNmJiUTJyeElDYUtCUXVYdWYxa2k3aWI2Q01wa0paWURv?=
+ =?utf-8?B?S1B4OEpkMjZwME9wZUlObU44UXVJM2pKbVFVa1UrQ2FYakozeDFGbXlJaGZH?=
+ =?utf-8?B?bWNMWGtoZGhkdkl0V3pGVmZwZlJibjBDNlkzeGt6dk56cW5OelMrMzluYzBZ?=
+ =?utf-8?B?TlREOW1rMU9tOEQ0WXVTT2YwdVlybnRVVnAraE8rbEFVRmtCdG5oL2NYbGh0?=
+ =?utf-8?B?ZzUzaGJScy9ZUmhhYW1kSGJndUttM29HaC9ZTjNKcmc4akxYbXc2T1dFT3Jh?=
+ =?utf-8?B?T2dzR1ZLRXBUajhOTlMxR3F0SE04eE1xWG1QYkN2TVdnZjU3TjZYcm9uZTZa?=
+ =?utf-8?B?Vk5kSVRJRHFNZGlUYld2RHJVaHgwcXJQblA0ZENVVjk4cVpxdHF0Tms2N1dS?=
+ =?utf-8?B?TGZiZXk1REtYWHdZQWlLV2Jrd01IalNaM1dCQzc4RUh4U3hqYVl3b0tIR2l1?=
+ =?utf-8?B?VW93QW5BVndNbzVRdFg4SERweXE2TDRFcFF2bDBqakplOWFTV1FCdmVLaGRw?=
+ =?utf-8?B?Tm5XNW9BNHZhdHF4T1FwV1BteERaWUNJTWdBZEhBVWFFaVNRNzR3LzFaUjNF?=
+ =?utf-8?B?ZW9PdWRJcW1wK1E1b0FrRTk0T3pXU29aZThyN0JranVWSnN5WmY1eFVZbk9k?=
+ =?utf-8?B?QlZNNGRFTlhReGdJaXBNUkVpQ29tejNZT292UkZOYXh3aHRGZlV6TVFkdHQ5?=
+ =?utf-8?B?UGtNNlNQTEtDNVNZaFJZcUdNcDlDczJacnRsMmVtMW1XcFAxQW8rcXBNWnN2?=
+ =?utf-8?B?dFcwdHdGOTJva0h0dnlkMlE3VU5QMXdtMmY5ays4Y1lucXlYdzNMNDdUTUNW?=
+ =?utf-8?B?N2lVSy83RjdTNGVyZmNqTnJ1STBKOFNLNkNCY2lOamRRdnBnSElySEU5VjVx?=
+ =?utf-8?B?VzRpSVlBTkIyWkF0U1NnQmxKajVhU3dyYi8vYmtsK0xVTHRUQkhuL3hmUjB6?=
+ =?utf-8?B?RUJVVEpuTHJ5Sk1rU3pVUVZNZncvYmhHczkxNC9yWUNrZHpVN2xLSmd0Lyt3?=
+ =?utf-8?B?VnpFTXdlb3I4RDJ5MHRPTHhWTmsydUhwVDhNVW1BSlQrR3FJN2d4YmpOLzNh?=
+ =?utf-8?B?Sm9tdFI3clQ4SSs4ZlNxeTJvTDhsbk1maFRmOWRxaVpDNUNVcjlLaU4vREt5?=
+ =?utf-8?B?SVptc1BVU0FwY21Jb29iUm83bUpDTUxwUDYxUExiSzRGOWV4UXc2cXQ5b1pm?=
+ =?utf-8?B?WnJiZTJHSzd3Sms0b3pkWnk2L1orNGlTcldpQ3g0SGtxa3VIam1leDlIeUtX?=
+ =?utf-8?B?REdWQ3EwTHAraE8xekRBdmRlZGZUY2V6VFJsZVpSNUpMRXNTbUZCMTdrcEhG?=
+ =?utf-8?B?OS8wSDNJa3Q0Si9hak5PSHlPUnFqSHFCcWFOTStybHIzYm9kRTRjbUM3Ukhl?=
+ =?utf-8?B?RnpPUUxNbDRLVmNpd0t1UktvbmowaDZCU0dZWG83YjFjbkZzQkU2cTFuSWps?=
+ =?utf-8?B?S1B6MTdGdGc3VE80anVxTjMxQ2g1Q090ZS9iTk5nVVlkQUFKQkZnVzVaUVd0?=
+ =?utf-8?B?ZTFXR1lVblRlME54SFNqU3lpdzNJekNoSXJLcWRqalVmSkxnZC9VL1MwSVN0?=
+ =?utf-8?B?bVh6MS9HOG1XendIS00xbmZoTmxoQVViTXlyVFBVZVVWVEJsZG54bzFydlc5?=
+ =?utf-8?B?YkMrL1pNUjh5Vlk0VmRXMnk0bjRPVFZIdE5oVGo4UkY5TE9IT3hWNVhCZURP?=
+ =?utf-8?B?U1c4M01QV0MvVkU1SEc5QlBURVlJYjllMDB1dWFGZTUwK1oyVEJMK2lnT1FB?=
+ =?utf-8?B?Y1ErVVgxdzBjdlZueXpmZnpKbEtMc2hEbnQ5OVMzNXE2a0NyQzFwLy96R1Ur?=
+ =?utf-8?B?MlpwUjRiVDA0VDFrTXpNSkE3Y0R0YjliRzAyR1pYdDAzSlB1aERWQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b6b3e52-7308-474c-3d8d-08df4b609a1c
+X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 01:57:18.5838
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U5UFEh+CYdQxw1WOmqNHFXtH2C08DBwEU0PoDb2ICDRigteYFynBMSa6mCshbH9bRHtvHuhtyHKtqrrkb13sag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB440877
 
-On 11/24/2026 1:40 PM, Emerson Busson wrote:
-> vmbus_alloc_buffer() currently returns the virtual address, chunk array,
-> and chunk count through separate parameters that callers track alongside
-> struct vmbus_gpadl. As ring buffers are about to adopt vmbus_alloc_buffer()
-> as well, repeating those fields in every caller adds boilerplate and splits
-> allocation lifetime from GPADL teardown and leak handling.
-> 
-> Introduce struct vmbus_buffer to hold the mapping, chunk metadata, GPADL
-> handle, and a leak flag in one structure. Update vmbus_alloc_buffer(),
-> vmbus_free_buffer(), vmbus_establish_gpadl(), and vmbus_teardown_gpadl()
-> to operate on struct vmbus_buffer, and convert both external-buffer users
-> (hv_netvsc and uio_hv_generic).
-> 
-> Because every external buffer is now allocated and decrypted by
-> vmbus_alloc_buffer(), drop HV_GPADL_BUFFER_DECRYPTED and
-> vmbus_establish_gpadl_caller_decrypted(). Keep the leak flag set if GPADL
-> establishment fails after posting, if GPADL teardown fails, or if hv_netvsc
-> fails to send its protocol-level buffer revoke message, so neither
-> vmbus_teardown_gpadl() nor vmbus_free_buffer() releases host-owned memory.
-> 
-> Signed-off-by: Emerson Busson <emersonbusson@gmail.com>
-> ---
->  drivers/hv/channel.c            | 317 ++++++++++++++++++--------------
->  drivers/net/hyperv/hyperv_net.h |  10 +-
->  drivers/net/hyperv/netvsc.c     |  64 ++++---
->  drivers/uio/uio_hv_generic.c    |  65 +++----
->  include/linux/hyperv.h          |  36 ++--
->  5 files changed, 253 insertions(+), 239 deletions(-)
-> 
-> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-> index a0883ddf32..9807ff35a1 100644
-> --- a/drivers/hv/channel.c
-> +++ b/drivers/hv/channel.c
-> @@ -42,7 +42,6 @@ static inline u32 hv_gpadl_size(enum hv_gpadl_type type, u32 size)
->  {
->  	switch (type) {
->  	case HV_GPADL_BUFFER:
-> -	case HV_GPADL_BUFFER_DECRYPTED:
->  		return size;
->  	case HV_GPADL_RING:
->  		/* The size of a ringbuffer must be page-aligned */
-> @@ -103,7 +102,6 @@ static inline u64 hv_gpadl_hvpfn(enum hv_gpadl_type type, void *kbuffer,
->  
->  	switch (type) {
->  	case HV_GPADL_BUFFER:
-> -	case HV_GPADL_BUFFER_DECRYPTED:
->  		break;
->  	case HV_GPADL_RING:
->  		if (i == 0)
-> @@ -443,7 +441,8 @@ static void vmbus_free_channel_msginfo(struct vmbus_channel_msginfo *msginfo)
->  static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  				   enum hv_gpadl_type type, void *kbuffer,
->  				   u32 size, u32 send_offset,
-> -				   struct vmbus_gpadl *gpadl)
-> +				   bool caller_decrypted, u32 *gpadl_handle,
-> +				   bool *decrypted, bool *leak)
->  {
->  	struct vmbus_channel_gpadl_header *gpadlmsg;
->  	struct vmbus_channel_gpadl_body *gpadl_body;
-> @@ -452,33 +451,39 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  	struct list_head *curr;
->  	u32 next_gpadl_handle;
->  	unsigned long flags;
-> +	bool posted = false;
-> +	bool need_decrypt;
->  	int ret = 0;
->  
-> +	if (leak)
-> +		*leak = false;
-> +
->  	next_gpadl_handle =
->  		(atomic_inc_return(&vmbus_connection.next_gpadl_handle) - 1);
->  
->  	ret = create_gpadl_header(type, kbuffer, size, send_offset, &msginfo);
->  	if (ret) {
-> -		gpadl->decrypted = false;
-> +		if (decrypted)
-> +			*decrypted = false;
->  		return ret;
->  	}
->  
-> -	gpadl->decrypted = !((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
-> -		(channel->co_ring_buffer && type == HV_GPADL_RING) ||
-> -		(type == HV_GPADL_BUFFER_DECRYPTED));
-> -	if (gpadl->decrypted) {
-> +	need_decrypt = !caller_decrypted &&
-> +		!((channel->co_external_memory && type == HV_GPADL_BUFFER) ||
-> +		  (channel->co_ring_buffer && type == HV_GPADL_RING));
-> +	if (decrypted)
-> +		*decrypted = need_decrypt;
-> +	if (need_decrypt) {
->  		/*
-> -		 * The "decrypted" flag being true assumes that set_memory_decrypted() succeeds.
-> -		 * But if it fails, the encryption state of the memory is unknown. In that case,
-> -		 * leave "decrypted" as true to ensure the memory is leaked instead of going back
-> -		 * on the free list.
-> +		 * If set_memory_decrypted() fails, the encryption state is
-> +		 * unknown; leave *decrypted true so the memory is leaked.
->  		 */
->  		ret = set_memory_decrypted((unsigned long)kbuffer,
-> -					PFN_UP(size));
-> +					   PFN_UP(size));
->  		if (ret) {
->  			dev_warn(&channel->device_obj->device,
-> -				"Failed to set host visibility for new GPADL %d.\n",
-> -				ret);
-> +				 "Failed to set host visibility for new GPADL %d.\n",
-> +				 ret);
->  			vmbus_free_channel_msginfo(msginfo);
->  			return ret;
->  		}
-> @@ -492,11 +497,9 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  	gpadlmsg->child_relid = channel->offermsg.child_relid;
->  	gpadlmsg->gpadl = next_gpadl_handle;
->  
-> -
->  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
->  	list_add_tail(&msginfo->msglistentry,
->  		      &vmbus_connection.chn_msg_list);
-> -
->  	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
->  
->  	if (channel->rescind) {
-> @@ -504,6 +507,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  		goto cleanup;
->  	}
->  
-> +	posted = true;
->  	ret = vmbus_post_msg(gpadlmsg, msginfo->msgsize -
->  			     sizeof(*msginfo), true);
+On Fri Nov 20, 2026 at 11:11 AM GMT, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>
+> here comes v2 which addresses the review feedback I got for (implicit)
+> v1. See https://lore.kernel.org/linux-kernel/20261116110853.3418077-2-u.k=
+leine-koenig@baylibre.com
+> for the discussion about that previous submission.
+> =20
+> The objective is to deny force binding a device to a driver that isn't
+> prepared for that. There are many drivers that run in a null pointer
+> exception when this happens and only very few drivers are supposed to be
+> used like that. So the first patch implements an explicit opt-in for
+> drivers and denies other matches; the remaining patches implement the
+> opt-in for drivers that rely on it. This makes it unnecessary to fix
+> individual drivers to explicitly refuse such bindings. See commit
+> 1e50a0349012 ("iio: adc: mcp3564: reject devices without match data")
+> for an example of such a driver-specific fix.
 
-Sashiko:
-  Should posted be set only after the header vmbus_post_msg() succeeds?
+For PCI, there is actually already a mechanism for it -- override_only. VFI=
+O
+devices already have that annotation. I think it's a better mechanism. In
+addition to providing a useful id_info, you can also say what IDs you want =
+the
+override match to become possible.
 
-After patch 2, the impact of unnecessarily leaking a ring could be worse
-than just a memory leak. If the UIO primary ring is marked as leaked,
-__vmbus_open() rejects /dev/uio opens until the driver is rebound.
+We can do something like this?
 
--- 
-Regards,
-Kameron
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 2398f03a77c1..2cf4659b36a4 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -218,8 +218,8 @@ static const struct pci_device_id *pci_match_device(str=
+uct pci_driver *drv,
+ 	if (found_id)
+ 		return found_id;
+=20
+-	/* driver_override will always match, send a dummy id */
+-	if (ret > 0)
++	/* For a forced driver override, send a dummy id */
++	if (ret > 0 && device_forced_driver_override(dev))
+ 		return &pci_device_id_any;
+ 	return NULL;
+ }
 
->  
-> @@ -529,11 +533,11 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  
->  		if (ret != 0)
->  			goto cleanup;
-> -
->  	}
->  	wait_for_completion(&msginfo->waitevent);
->  
->  	if (msginfo->response.gpadl_created.creation_status != 0) {
-> +		posted = false;
->  		pr_err("Failed to establish GPADL: err = 0x%x\n",
->  		       msginfo->response.gpadl_created.creation_status);
->  
-> @@ -542,15 +546,14 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  	}
->  
->  	if (channel->rescind) {
-> +		posted = false;
->  		ret = -ENODEV;
->  		goto cleanup;
->  	}
->  
->  	/* At this point, we received the gpadl created msg */
-> -	gpadl->gpadl_handle = gpadlmsg->gpadl;
-> -	gpadl->buffer = kbuffer;
-> -	gpadl->size = size;
-> -
-> +	*gpadl_handle = gpadlmsg->gpadl;
-> +	posted = false;
->  
->  cleanup:
->  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
-> @@ -559,121 +562,100 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
->  
->  	vmbus_free_channel_msginfo(msginfo);
->  
-> -	if (ret) {
-> -		/*
-> -		 * If set_memory_encrypted() fails, the decrypted flag is
-> -		 * left as true so the memory is leaked instead of being
-> -		 * put back on the free list.
-> -		 */
-> -		if (gpadl->decrypted) {
-> -			if (!set_memory_encrypted((unsigned long)kbuffer, PFN_UP(size)))
-> -				gpadl->decrypted = false;
-> -		}
-> +	if (ret && posted && leak)
-> +		*leak = true;
-> +
-> +	if (ret && !posted && need_decrypt) {
-> +		if (!set_memory_encrypted((unsigned long)kbuffer, PFN_UP(size)) &&
-> +		    decrypted)
-> +			*decrypted = false;
->  	}
->  
->  	return ret;
->  }
->  
-> -/*
-> - * vmbus_establish_gpadl - Establish a GPADL for the specified buffer
-> +/**
-> + * vmbus_establish_gpadl - Establish a GPADL for a buffer allocated with
-> + *                         vmbus_alloc_buffer().
-> + * @channel: VMBus channel to associate the GPADL with
-> + * @buffer: buffer descriptor populated by vmbus_alloc_buffer()
->   *
-> - * @channel: a channel
-> - * @kbuffer: from kmalloc or vmalloc
-> - * @size: page-size multiple
-> - * @gpadl: output gpadl
-> + * Return: 0 on success, negative errno on failure. If a GPADL message may
-> + * have reached the host, buffer->leak is set so vmbus_free_buffer() retains
-> + * the backing pages.
->   */
-> -int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
-> -			  u32 size, struct vmbus_gpadl *gpadl)
-> +int vmbus_establish_gpadl(struct vmbus_channel *channel,
-> +			  struct vmbus_buffer *buffer)
->  {
-> -	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER, kbuffer, size,
-> -				       0U, gpadl);
-> +	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER, buffer->addr,
-> +				       buffer->size, 0U, true,
-> +				       &buffer->gpadl_handle, NULL,
-> +				       &buffer->leak);
->  }
->  EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
->  
-> -/*
-> - * vmbus_establish_gpadl_caller_decrypted - Establish a GPADL for a buffer
-> - * that has already been decrypted by the caller.
-> - *
-> - * @channel: a channel
-> - * @kbuffer: from kmalloc or vmalloc; must already be decrypted by the caller
-> - * @size: page-size multiple
-> - * @gpadl: output gpadl
-> - *
-> - * The caller is responsible for re-encrypting the buffer before freeing it.
-> - */
-> -int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
-> -					   void *kbuffer, u32 size,
-> -					   struct vmbus_gpadl *gpadl)
-> -{
-> -	return __vmbus_establish_gpadl(channel, HV_GPADL_BUFFER_DECRYPTED,
-> -				       kbuffer, size, 0U, gpadl);
-> -}
-> -EXPORT_SYMBOL_GPL(vmbus_establish_gpadl_caller_decrypted);
-> -
->  /**
->   * vmbus_free_buffer - release a buffer allocated by vmbus_alloc_buffer().
-> + * @buffer: buffer descriptor to release
->   *
-> - * @addr: buffer address, or NULL if none was allocated (e.g. cleanup from a
-> - *        failed allocation)
-> - * @chunks: chunks array from vmbus_alloc_buffer(), or NULL
-> - * @chunk_cnt: number of entries in @chunks
-> - *
-> - * When @chunks is NULL the buffer is a plain vzalloc() allocation.
-> - *
-> - * Otherwise tear down the vmap, and for each chunk re-encrypt and free
-> - * the underlying pages. Any chunk that cannot be re-encrypted is leaked.
-> + * If the buffer still has an active GPADL or buffer->leak is set, the backing
-> + * pages are leaked rather than returned to the allocator. Any chunk that fails
-> + * set_memory_encrypted() is likewise leaked while the remaining chunks and
-> + * tracking arrays are freed.
->   */
-> -void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt)
-> +void vmbus_free_buffer(struct vmbus_buffer *buffer)
->  {
->  	u32 i;
->  
-> -	if (!chunks) {
-> -		vfree(addr);
-> +	kvfree(buffer->pages);
-> +	if (buffer->leak || buffer->gpadl_handle) {
-> +		kvfree(buffer->chunks);
-> +		memset(buffer, 0, sizeof(*buffer));
-> +		return;
-> +	}
-> +
-> +	if (!buffer->chunks) {
-> +		vfree(buffer->addr);
-> +		memset(buffer, 0, sizeof(*buffer));
->  		return;
->  	}
->  
-> -	vunmap(addr);
-> +	vunmap(buffer->addr);
->  
-> -	for (i = 0; i < chunk_cnt; i++) {
-> +	for (i = 0; i < buffer->chunk_cnt; i++) {
->  		unsigned long vaddr =
-> -			(unsigned long)page_address(chunks[i]);
-> -		unsigned int order = folio_order(page_folio(chunks[i]));
-> +			(unsigned long)page_address(buffer->chunks[i]);
-> +		unsigned int order = folio_order(page_folio(buffer->chunks[i]));
->  
->  		if (set_memory_encrypted(vaddr, 1U << order))
->  			continue;
-> -		__free_pages(chunks[i], order);
-> +		__free_pages(buffer->chunks[i], order);
->  	}
->  
-> -	kvfree(chunks);
-> +	kvfree(buffer->chunks);
-> +	memset(buffer, 0, sizeof(*buffer));
->  }
->  EXPORT_SYMBOL_GPL(vmbus_free_buffer);
->  
->  /**
-> - * vmbus_alloc_buffer - allocate a host-visible, virtually-contiguous buffer.
-> - *
-> - * @channel: the channel the buffer will be attached to
-> - * @size: requested buffer size in bytes (will be rounded up to PAGE_SIZE)
-> - * @chunks_out: on success, set to the array of underlying chunks, or NULL when
-> - *              the buffer was allocated with vzalloc()
-> - * @chunk_cnt_out: on success, set to the number of chunks
-> - *
-> - * Buffers not requiring decryption are allocated with vzalloc().
-> + * vmbus_alloc_buffer - allocate a virtually contiguous VMBus buffer.
-> + * @channel: channel the buffer will be attached to
-> + * @size: requested size in bytes (rounded up to PAGE_SIZE)
-> + * @confidential: keep the buffer private to the guest
-> + * @buffer: output descriptor populated on success
->   *
-> - * Buffers requiring decryption are allocated as a series of
-> - * physically-contiguous chunks, starting at MAX_PAGE_ORDER and falling back to
-> - * smaller orders on allocation failure. Each chunk is transitioned to
-> - * host-visible via set_memory_decrypted() on its direct-map address, then all
-> - * chunks are combined into a virtually-contiguous range via vmap().
-> + * Buffers not requiring decryption are allocated with vzalloc_node().
-> + * Host-visible buffers in isolated guests are allocated as physically
-> + * contiguous chunks starting at MAX_PAGE_ORDER and falling back down to
-> + * order 0, decrypted on their direct-map address, and combined with vmap().
->   *
-> - * Return: the buffer's virtual address, or NULL on failure.
-> + * Return: 0 on success, negative errno on failure.
->   */
-> -void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-> -			 u32 size,
-> -			 struct page ***chunks_out,
-> -			 u32 *chunk_cnt_out)
-> +int vmbus_alloc_buffer(struct vmbus_channel *channel, u32 size,
-> +		       bool confidential, struct vmbus_buffer *buffer)
->  {
-> -	unsigned long nr_pages = PFN_UP(size);
-> -	unsigned long remaining = nr_pages;
-> +	unsigned long nr_pages;
-> +	unsigned long remaining;
->  	unsigned long page_idx = 0;
->  	struct page **chunks = NULL;
->  	struct page **pages = NULL;
-> @@ -683,24 +665,36 @@ void *vmbus_alloc_buffer(struct vmbus_channel *channel,
->  	u32 i;
->  	int ret;
->  
-> -	*chunks_out = NULL;
-> -	*chunk_cnt_out = 0;
-> +	memset(buffer, 0, sizeof(*buffer));
->  
-> -	if (!nr_pages)
-> -		return NULL;
-> +	if (!size || size > U32_MAX - PAGE_SIZE + 1)
-> +		return -EINVAL;
-> +
-> +	nr_pages = PFN_UP(size);
-> +	remaining = nr_pages;
-> +
-> +	/* If the buffer does not need to be decrypted, just use vzalloc_node() */
-> +	if (!hv_is_isolation_supported() || confidential) {
-> +		addr = vzalloc_node(nr_pages << PAGE_SHIFT,
-> +				    cpu_to_node(channel->target_cpu));
-> +		if (!addr)
-> +			return -ENOMEM;
->  
-> -	/* If the buffer does not need to be decrypted, just use vzalloc() */
-> -	if (!hv_is_isolation_supported() || channel->co_external_memory)
-> -		return vzalloc(nr_pages << PAGE_SHIFT);
-> +		buffer->addr = addr;
-> +		buffer->size = nr_pages << PAGE_SHIFT;
-> +		return 0;
-> +	}
->  
->  	/* Worst case: every chunk is a single page. */
->  	chunks = kvmalloc_objs(*chunks, nr_pages, GFP_KERNEL | __GFP_ZERO);
->  	if (!chunks)
-> -		goto err;
-> +		return -ENOMEM;
->  
->  	pages = kvmalloc_objs(*pages, nr_pages);
-> -	if (!pages)
-> -		goto err;
-> +	if (!pages) {
-> +		kvfree(chunks);
-> +		return -ENOMEM;
-> +	}
->  
->  	while (remaining) {
->  		struct page *page;
-> @@ -731,7 +725,7 @@ void *vmbus_alloc_buffer(struct vmbus_channel *channel,
->  		if (ret) {
->  			/*
->  			 * set_memory_decrypted() failed; the page state is
-> -			 * unknown so it must be leaked rather than freed.
-> +			 * unknown so leak this chunk and free earlier ones.
->  			 */
->  			goto err;
->  		}
-> @@ -751,14 +745,18 @@ void *vmbus_alloc_buffer(struct vmbus_channel *channel,
->  	memset(addr, 0, nr_pages << PAGE_SHIFT);
->  
->  	kvfree(pages);
-> -	*chunks_out = chunks;
-> -	*chunk_cnt_out = chunk_cnt;
-> -	return addr;
-> +	buffer->addr = addr;
-> +	buffer->chunks = chunks;
-> +	buffer->size = nr_pages << PAGE_SHIFT;
-> +	buffer->chunk_cnt = chunk_cnt;
-> +	return 0;
->  
->  err:
->  	kvfree(pages);
-> -	vmbus_free_buffer(NULL, chunks, chunk_cnt);
-> -	return NULL;
-> +	buffer->chunks = chunks;
-> +	buffer->chunk_cnt = chunk_cnt;
-> +	vmbus_free_buffer(buffer);
-> +	return -ENOMEM;
->  }
->  EXPORT_SYMBOL_GPL(vmbus_alloc_buffer);
->  
-> @@ -826,6 +824,10 @@ static void vmbus_free_requestor(struct vmbus_requestor *rqstor)
->  	bitmap_free(rqstor->req_bitmap);
->  }
->  
-> +static int __vmbus_teardown_gpadl(struct vmbus_channel *channel,
-> +				  u32 *gpadl_handle, void *kbuffer,
-> +				  u32 size, bool *decrypted, bool *leak);
-> +
->  static int __vmbus_open(struct vmbus_channel *newchannel,
->  		       void *userdata, u32 userdatalen,
->  		       void (*onchannelcallback)(void *context), void *context)
-> @@ -866,9 +868,16 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
->  				      page_address(newchannel->ringbuffer_page),
->  				      (send_pages + recv_pages) << PAGE_SHIFT,
->  				      newchannel->ringbuffer_send_offset << PAGE_SHIFT,
-> -				      &newchannel->ringbuffer_gpadlhandle);
-> +				      false,
-> +				      &newchannel->ringbuffer_gpadlhandle.gpadl_handle,
-> +				      &newchannel->ringbuffer_gpadlhandle.decrypted,
-> +				      NULL);
->  	if (err)
->  		goto error_clean_ring;
-> +	newchannel->ringbuffer_gpadlhandle.buffer =
-> +		page_address(newchannel->ringbuffer_page);
-> +	newchannel->ringbuffer_gpadlhandle.size =
-> +		(send_pages + recv_pages) << PAGE_SHIFT;
->  
->  	err = hv_ringbuffer_init(&newchannel->outbound,
->  				 page, send_pages, 0, newchannel->co_ring_buffer);
-> @@ -956,7 +965,12 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
->  error_free_info:
->  	kfree(open_info);
->  error_free_gpadl:
-> -	vmbus_teardown_gpadl(newchannel, &newchannel->ringbuffer_gpadlhandle);
-> +	__vmbus_teardown_gpadl(newchannel,
-> +			       &newchannel->ringbuffer_gpadlhandle.gpadl_handle,
-> +			       newchannel->ringbuffer_gpadlhandle.buffer,
-> +			       newchannel->ringbuffer_gpadlhandle.size,
-> +			       &newchannel->ringbuffer_gpadlhandle.decrypted,
-> +			       NULL);
->  error_clean_ring:
->  	hv_ringbuffer_cleanup(&newchannel->outbound);
->  	hv_ringbuffer_cleanup(&newchannel->inbound);
-> @@ -999,20 +1013,22 @@ int vmbus_open(struct vmbus_channel *newchannel,
->  }
->  EXPORT_SYMBOL_GPL(vmbus_open);
->  
-> -/*
-> - * vmbus_teardown_gpadl -Teardown the specified GPADL handle
-> - */
-> -int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpadl)
-> +static int __vmbus_teardown_gpadl(struct vmbus_channel *channel,
-> +				  u32 *gpadl_handle, void *kbuffer,
-> +				  u32 size, bool *decrypted, bool *leak)
->  {
->  	struct vmbus_channel_gpadl_teardown *msg;
->  	struct vmbus_channel_msginfo *info;
->  	unsigned long flags;
-> -	int ret;
-> +	int ret = 0;
->  
->  	info = kzalloc(sizeof(*info) +
->  		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
-> -	if (!info)
-> +	if (!info) {
-> +		if (leak)
-> +			*leak = true;
->  		return -ENOMEM;
-> +	}
->  
->  	init_completion(&info->waitevent);
->  	info->waiting_channel = channel;
-> @@ -1021,7 +1037,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
->  
->  	msg->header.msgtype = CHANNELMSG_GPADL_TEARDOWN;
->  	msg->child_relid = channel->offermsg.child_relid;
-> -	msg->gpadl = gpadl->gpadl_handle;
-> +	msg->gpadl = *gpadl_handle;
->  
->  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
->  	list_add_tail(&info->msglistentry,
-> @@ -1041,13 +1057,10 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
->  
->  	wait_for_completion(&info->waitevent);
->  
-> -	gpadl->gpadl_handle = 0;
-> -
->  post_msg_err:
->  	/*
-> -	 * If the channel has been rescinded;
-> -	 * we will be awakened by the rescind
-> -	 * handler; set the error code to zero so we don't leak memory.
-> +	 * If the channel has been rescinded, the rescind handler wakes us;
-> +	 * clear the error code so the buffer is not leaked.
->  	 */
->  	if (channel->rescind)
->  		ret = 0;
-> @@ -1058,18 +1071,35 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
->  
->  	kfree(info);
->  
-> -	if (gpadl->decrypted)
-> -		ret = set_memory_encrypted((unsigned long)gpadl->buffer,
-> -					PFN_UP(gpadl->size));
-> -	else
-> -		ret = 0;
-> -	if (ret)
-> -		pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
-> -
-> -	gpadl->decrypted = ret;
-> +	if (!ret)
-> +		*gpadl_handle = 0;
-> +	else if (leak)
-> +		*leak = true;
-> +
-> +	if (!ret && decrypted && *decrypted) {
-> +		ret = set_memory_encrypted((unsigned long)kbuffer,
-> +					   PFN_UP(size));
-> +		if (ret)
-> +			pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n",
-> +				ret);
-> +		*decrypted = !!ret;
-> +	}
->  
->  	return ret;
->  }
-> +
-> +/*
-> + * vmbus_teardown_gpadl - Teardown the specified GPADL handle
-> + */
-> +int vmbus_teardown_gpadl(struct vmbus_channel *channel,
-> +			 struct vmbus_buffer *buffer)
-> +{
-> +	if (!buffer->gpadl_handle)
-> +		return 0;
-> +
-> +	return __vmbus_teardown_gpadl(channel, &buffer->gpadl_handle,
-> +				      NULL, 0, NULL, &buffer->leak);
-> +}
->  EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
->  
->  void vmbus_reset_channel_cb(struct vmbus_channel *channel)
-> @@ -1143,7 +1173,12 @@ static int vmbus_close_internal(struct vmbus_channel *channel)
->  
->  	/* Tear down the gpadl for the channel's ring buffer */
->  	else if (channel->ringbuffer_gpadlhandle.gpadl_handle) {
-> -		ret = vmbus_teardown_gpadl(channel, &channel->ringbuffer_gpadlhandle);
-> +		ret = __vmbus_teardown_gpadl(channel,
-> +					     &channel->ringbuffer_gpadlhandle.gpadl_handle,
-> +					     channel->ringbuffer_gpadlhandle.buffer,
-> +					     channel->ringbuffer_gpadlhandle.size,
-> +					     &channel->ringbuffer_gpadlhandle.decrypted,
-> +					     NULL);
->  		if (ret) {
->  			pr_err("Close failed: teardown gpadl return %d\n", ret);
->  			/*
-> diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-> index 4841367fda..a15cb24603 100644
-> --- a/drivers/net/hyperv/hyperv_net.h
-> +++ b/drivers/net/hyperv/hyperv_net.h
-> @@ -1158,21 +1158,15 @@ struct netvsc_device {
->  	bool tx_disable; /* if true, do not wake up queue again */
->  
->  	/* Receive buffer allocated by us but manages by NetVSP */
-> -	void *recv_buf;
-> +	struct vmbus_buffer recv_buffer;
->  	u32 recv_buf_size; /* allocated bytes */
-> -	struct page **recv_buf_chunks;
-> -	u32 recv_buf_chunk_cnt;
-> -	struct vmbus_gpadl recv_buf_gpadl_handle;
->  	u32 recv_section_cnt;
->  	u32 recv_section_size;
->  	u32 recv_completion_cnt;
->  
->  	/* Send buffer allocated by us */
-> -	void *send_buf;
-> +	struct vmbus_buffer send_buffer;
->  	u32 send_buf_size;
-> -	struct page **send_buf_chunks;
-> -	u32 send_buf_chunk_cnt;
-> -	struct vmbus_gpadl send_buf_gpadl_handle;
->  	u32 send_section_cnt;
->  	u32 send_section_size;
->  	unsigned long *send_section_map;
-> diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-> index fc6548b16c..f668829291 100644
-> --- a/drivers/net/hyperv/netvsc.c
-> +++ b/drivers/net/hyperv/netvsc.c
-> @@ -134,10 +134,8 @@ static void __free_netvsc_device(struct netvsc_device *nvdev)
->  
->  	kfree(nvdev->extension);
->  
-> -	vmbus_free_buffer(nvdev->recv_buf, nvdev->recv_buf_chunks,
-> -			  nvdev->recv_buf_chunk_cnt);
-> -	vmbus_free_buffer(nvdev->send_buf, nvdev->send_buf_chunks,
-> -			  nvdev->send_buf_chunk_cnt);
-> +	vmbus_free_buffer(&nvdev->recv_buffer);
-> +	vmbus_free_buffer(&nvdev->send_buffer);
->  	bitmap_free(nvdev->send_section_map);
->  
->  	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-> @@ -245,6 +243,7 @@ static void netvsc_revoke_recv_buf(struct hv_device *device,
->  		if (ret != 0) {
->  			netdev_err(ndev, "unable to send "
->  				"revoke receive buffer to netvsp\n");
-> +			net_device->recv_buffer.leak = true;
->  			return;
->  		}
->  		net_device->recv_section_cnt = 0;
-> @@ -296,6 +295,7 @@ static void netvsc_revoke_send_buf(struct hv_device *device,
->  		if (ret != 0) {
->  			netdev_err(ndev, "unable to send "
->  				   "revoke send buffer to netvsp\n");
-> +			net_device->send_buffer.leak = true;
->  			return;
->  		}
->  		net_device->send_section_cnt = 0;
-> @@ -308,9 +308,12 @@ static void netvsc_teardown_recv_gpadl(struct hv_device *device,
->  {
->  	int ret;
->  
-> -	if (net_device->recv_buf_gpadl_handle.gpadl_handle) {
-> +	if (net_device->recv_buffer.leak)
-> +		return;
-> +
-> +	if (net_device->recv_buffer.gpadl_handle) {
->  		ret = vmbus_teardown_gpadl(device->channel,
-> -					   &net_device->recv_buf_gpadl_handle);
-> +					   &net_device->recv_buffer);
->  
->  		/* If we failed here, we might as well return and have a leak
->  		 * rather than continue and a bugchk
-> @@ -329,9 +332,12 @@ static void netvsc_teardown_send_gpadl(struct hv_device *device,
->  {
->  	int ret;
->  
-> -	if (net_device->send_buf_gpadl_handle.gpadl_handle) {
-> +	if (net_device->send_buffer.leak)
-> +		return;
-> +
-> +	if (net_device->send_buffer.gpadl_handle) {
->  		ret = vmbus_teardown_gpadl(device->channel,
-> -					   &net_device->send_buf_gpadl_handle);
-> +					   &net_device->send_buffer);
->  
->  		/* If we failed here, we might as well return and have a leak
->  		 * rather than continue and a bugchk
-> @@ -377,15 +383,13 @@ static int netvsc_init_buf(struct hv_device *device,
->  		buf_size = min_t(unsigned int, buf_size,
->  				 NETVSC_RECEIVE_BUFFER_SIZE_LEGACY);
->  
-> -	net_device->recv_buf =
-> -		vmbus_alloc_buffer(device->channel, buf_size,
-> -				   &net_device->recv_buf_chunks,
-> -				   &net_device->recv_buf_chunk_cnt);
-> -	if (!net_device->recv_buf) {
-> +	ret = vmbus_alloc_buffer(device->channel, buf_size,
-> +				 device->channel->co_external_memory,
-> +				 &net_device->recv_buffer);
-> +	if (ret) {
->  		netdev_err(ndev,
->  			   "unable to allocate receive buffer of size %u\n",
->  			   buf_size);
-> -		ret = -ENOMEM;
->  		goto cleanup;
->  	}
->  
-> @@ -396,10 +400,8 @@ static int netvsc_init_buf(struct hv_device *device,
->  	 * channel.  Note: This call uses the vmbus connection rather
->  	 * than the channel to establish the gpadl handle.
->  	 */
-> -	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-> -						     net_device->recv_buf,
-> -						     buf_size,
-> -						     &net_device->recv_buf_gpadl_handle);
-> +	ret = vmbus_establish_gpadl(device->channel,
-> +				    &net_device->recv_buffer);
->  	if (ret != 0) {
->  		netdev_err(ndev,
->  			"unable to establish receive buffer's gpadl\n");
-> @@ -410,8 +412,8 @@ static int netvsc_init_buf(struct hv_device *device,
->  	init_packet = &net_device->channel_init_pkt;
->  	memset(init_packet, 0, sizeof(struct nvsp_message));
->  	init_packet->hdr.msg_type = NVSP_MSG1_TYPE_SEND_RECV_BUF;
-> -	init_packet->msg.v1_msg.send_recv_buf.
-> -		gpadl_handle = net_device->recv_buf_gpadl_handle.gpadl_handle;
-> +	init_packet->msg.v1_msg.send_recv_buf.gpadl_handle =
-> +		net_device->recv_buffer.gpadl_handle;
->  	init_packet->msg.v1_msg.
->  		send_recv_buf.id = NETVSC_RECEIVE_BUFFER_ID;
->  
-> @@ -487,14 +489,12 @@ static int netvsc_init_buf(struct hv_device *device,
->  	buf_size = device_info->send_sections * device_info->send_section_size;
->  	buf_size = round_up(buf_size, PAGE_SIZE);
->  
-> -	net_device->send_buf =
-> -		vmbus_alloc_buffer(device->channel, buf_size,
-> -				   &net_device->send_buf_chunks,
-> -				   &net_device->send_buf_chunk_cnt);
-> -	if (!net_device->send_buf) {
-> +	ret = vmbus_alloc_buffer(device->channel, buf_size,
-> +				 device->channel->co_external_memory,
-> +				 &net_device->send_buffer);
-> +	if (ret) {
->  		netdev_err(ndev, "unable to allocate send buffer of size %u\n",
->  			   buf_size);
-> -		ret = -ENOMEM;
->  		goto cleanup;
->  	}
->  	net_device->send_buf_size = buf_size;
-> @@ -503,10 +503,8 @@ static int netvsc_init_buf(struct hv_device *device,
->  	 * channel.  Note: This call uses the vmbus connection rather
->  	 * than the channel to establish the gpadl handle.
->  	 */
-> -	ret = vmbus_establish_gpadl_caller_decrypted(device->channel,
-> -						     net_device->send_buf,
-> -						     buf_size,
-> -						     &net_device->send_buf_gpadl_handle);
-> +	ret = vmbus_establish_gpadl(device->channel,
-> +				    &net_device->send_buffer);
->  	if (ret != 0) {
->  		netdev_err(ndev,
->  			   "unable to establish send buffer's gpadl\n");
-> @@ -518,7 +516,7 @@ static int netvsc_init_buf(struct hv_device *device,
->  	memset(init_packet, 0, sizeof(struct nvsp_message));
->  	init_packet->hdr.msg_type = NVSP_MSG1_TYPE_SEND_SEND_BUF;
->  	init_packet->msg.v1_msg.send_send_buf.gpadl_handle =
-> -		net_device->send_buf_gpadl_handle.gpadl_handle;
-> +		net_device->send_buffer.gpadl_handle;
->  	init_packet->msg.v1_msg.send_send_buf.id = NETVSC_SEND_BUFFER_ID;
->  
->  	trace_nvsp_send(ndev, init_packet);
-> @@ -965,7 +963,7 @@ static void netvsc_copy_to_send_buf(struct netvsc_device *net_device,
->  				    struct hv_page_buffer *pb,
->  				    bool xmit_more)
->  {
-> -	char *start = net_device->send_buf;
-> +	char *start = net_device->send_buffer.addr;
->  	char *dest = start + (section_index * net_device->send_section_size)
->  		     + pend_size;
->  	int i;
-> @@ -1472,7 +1470,7 @@ static int netvsc_receive(struct net_device *ndev,
->  	const struct nvsp_message *nvsp = hv_pkt_data(desc);
->  	u32 msglen = hv_pkt_datalen(desc);
->  	u16 q_idx = channel->offermsg.offer.sub_channel_index;
-> -	char *recv_buf = net_device->recv_buf;
-> +	char *recv_buf = net_device->recv_buffer.addr;
->  	u32 status = NVSP_STAT_SUCCESS;
->  	int i;
->  	int count = 0;
-> diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-> index 7b4cc456c4..9c6449c92a 100644
-> --- a/drivers/uio/uio_hv_generic.c
-> +++ b/drivers/uio/uio_hv_generic.c
-> @@ -27,7 +27,6 @@
->  #include <linux/if_ether.h>
->  #include <linux/skbuff.h>
->  #include <linux/hyperv.h>
-> -#include <linux/vmalloc.h>
->  #include <linux/slab.h>
->  
->  #include "../hv/hyperv_vmbus.h"
-> @@ -56,12 +55,10 @@ struct hv_uio_private_data {
->  	struct hv_device *device;
->  	atomic_t refcnt;
->  
-> -	void	*recv_buf;
-> -	struct vmbus_gpadl recv_gpadl;
-> +	struct vmbus_buffer recv_buffer;
->  	char	recv_name[32];	/* "recv_4294967295" */
->  
-> -	void	*send_buf;
-> -	struct vmbus_gpadl send_gpadl;
-> +	struct vmbus_buffer send_buffer;
->  	char	send_name[32];
->  };
->  
-> @@ -195,17 +192,13 @@ hv_uio_new_channel(struct vmbus_channel *new_sc)
->  static void
->  hv_uio_cleanup(struct hv_device *dev, struct hv_uio_private_data *pdata)
->  {
-> -	if (pdata->send_gpadl.gpadl_handle) {
-> -		vmbus_teardown_gpadl(dev->channel, &pdata->send_gpadl);
-> -		if (!pdata->send_gpadl.decrypted)
-> -			vfree(pdata->send_buf);
-> -	}
-> +	if (pdata->send_buffer.gpadl_handle)
-> +		vmbus_teardown_gpadl(dev->channel, &pdata->send_buffer);
-> +	vmbus_free_buffer(&pdata->send_buffer);
->  
-> -	if (pdata->recv_gpadl.gpadl_handle) {
-> -		vmbus_teardown_gpadl(dev->channel, &pdata->recv_gpadl);
-> -		if (!pdata->recv_gpadl.decrypted)
-> -			vfree(pdata->recv_buf);
-> -	}
-> +	if (pdata->recv_buffer.gpadl_handle)
-> +		vmbus_teardown_gpadl(dev->channel, &pdata->recv_buffer);
-> +	vmbus_free_buffer(&pdata->recv_buffer);
->  }
->  
->  /* VMBus primary channel is opened on first use */
-> @@ -303,46 +296,40 @@ hv_uio_probe(struct hv_device *dev,
->  	pdata->info.mem[MON_PAGE_MAP].memtype = UIO_MEM_LOGICAL;
->  
->  	if (channel->device_id == HV_NIC) {
-> -		pdata->recv_buf = vzalloc(RECV_BUFFER_SIZE);
-> -		if (!pdata->recv_buf) {
-> -			ret = -ENOMEM;
-> +		ret = vmbus_alloc_buffer(channel, RECV_BUFFER_SIZE,
-> +					 channel->co_external_memory,
-> +					 &pdata->recv_buffer);
-> +		if (ret)
->  			goto fail_free_ring;
-> -		}
->  
-> -		ret = vmbus_establish_gpadl(channel, pdata->recv_buf,
-> -					    RECV_BUFFER_SIZE, &pdata->recv_gpadl);
-> -		if (ret) {
-> -			if (!pdata->recv_gpadl.decrypted)
-> -				vfree(pdata->recv_buf);
-> +		ret = vmbus_establish_gpadl(channel, &pdata->recv_buffer);
-> +		if (ret)
->  			goto fail_close;
-> -		}
->  
->  		/* put Global Physical Address Label in name */
->  		snprintf(pdata->recv_name, sizeof(pdata->recv_name),
-> -			 "recv:%u", pdata->recv_gpadl.gpadl_handle);
-> +			 "recv:%u", pdata->recv_buffer.gpadl_handle);
->  		pdata->info.mem[RECV_BUF_MAP].name = pdata->recv_name;
-> -		pdata->info.mem[RECV_BUF_MAP].addr = (uintptr_t)pdata->recv_buf;
-> +		pdata->info.mem[RECV_BUF_MAP].addr =
-> +			(uintptr_t)pdata->recv_buffer.addr;
->  		pdata->info.mem[RECV_BUF_MAP].size = RECV_BUFFER_SIZE;
->  		pdata->info.mem[RECV_BUF_MAP].memtype = UIO_MEM_VIRTUAL;
->  
-> -		pdata->send_buf = vzalloc(SEND_BUFFER_SIZE);
-> -		if (!pdata->send_buf) {
-> -			ret = -ENOMEM;
-> +		ret = vmbus_alloc_buffer(channel, SEND_BUFFER_SIZE,
-> +					 channel->co_external_memory,
-> +					 &pdata->send_buffer);
-> +		if (ret)
->  			goto fail_close;
-> -		}
->  
-> -		ret = vmbus_establish_gpadl(channel, pdata->send_buf,
-> -					    SEND_BUFFER_SIZE, &pdata->send_gpadl);
-> -		if (ret) {
-> -			if (!pdata->send_gpadl.decrypted)
-> -				vfree(pdata->send_buf);
-> +		ret = vmbus_establish_gpadl(channel, &pdata->send_buffer);
-> +		if (ret)
->  			goto fail_close;
-> -		}
->  
->  		snprintf(pdata->send_name, sizeof(pdata->send_name),
-> -			 "send:%u", pdata->send_gpadl.gpadl_handle);
-> +			 "send:%u", pdata->send_buffer.gpadl_handle);
->  		pdata->info.mem[SEND_BUF_MAP].name = pdata->send_name;
-> -		pdata->info.mem[SEND_BUF_MAP].addr = (uintptr_t)pdata->send_buf;
-> +		pdata->info.mem[SEND_BUF_MAP].addr =
-> +			(uintptr_t)pdata->send_buffer.addr;
->  		pdata->info.mem[SEND_BUF_MAP].size = SEND_BUFFER_SIZE;
->  		pdata->info.mem[SEND_BUF_MAP].memtype = UIO_MEM_VIRTUAL;
->  	}
-> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index e85a1a043e..17ad83d19a 100644
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -70,8 +70,7 @@
->   */
->  enum hv_gpadl_type {
->  	HV_GPADL_BUFFER,
-> -	HV_GPADL_RING,
-> -	HV_GPADL_BUFFER_DECRYPTED
-> +	HV_GPADL_RING
->  };
->  
->  /* Single-page buffer */
-> @@ -816,6 +815,16 @@ struct vmbus_gpadl {
->  	bool decrypted;
->  };
->  
-> +struct vmbus_buffer {
-> +	void *addr;
-> +	struct page **chunks;
-> +	struct page **pages;
-> +	u32 size;
-> +	u32 chunk_cnt;
-> +	u32 gpadl_handle;
-> +	bool leak;
-> +};
-> +
->  struct vmbus_channel {
->  	struct list_head listentry;
->  
-> @@ -1232,25 +1241,16 @@ extern int vmbus_sendpacket_mpb_desc(struct vmbus_channel *channel,
->  				     u32 bufferlen,
->  				     u64 requestid);
->  
-> -extern int vmbus_establish_gpadl(struct vmbus_channel *channel,
-> -				      void *kbuffer,
-> -				      u32 size,
-> -				      struct vmbus_gpadl *gpadl);
-> -
-> -extern int vmbus_establish_gpadl_caller_decrypted(struct vmbus_channel *channel,
-> -						  void *kbuffer,
-> -						  u32 size,
-> -						  struct vmbus_gpadl *gpadl);
-> +int vmbus_establish_gpadl(struct vmbus_channel *channel,
-> +			  struct vmbus_buffer *buffer);
->  
-> -extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
-> -				     struct vmbus_gpadl *gpadl);
-> +int vmbus_teardown_gpadl(struct vmbus_channel *channel,
-> +			 struct vmbus_buffer *buffer);
->  
-> -extern void *vmbus_alloc_buffer(struct vmbus_channel *channel,
-> -				u32 size,
-> -				struct page ***chunks_out,
-> -				u32 *chunk_cnt_out);
-> +int vmbus_alloc_buffer(struct vmbus_channel *channel, u32 size,
-> +		       bool confidential, struct vmbus_buffer *buffer);
->  
-> -extern void vmbus_free_buffer(void *addr, struct page **chunks, u32 chunk_cnt);
-> +void vmbus_free_buffer(struct vmbus_buffer *buffer);
->  
->  void vmbus_reset_channel_cb(struct vmbus_channel *channel);
->  
+Where device_forced_driver_override your added logic about parameter and
+tainting/warning logic.
+
+I suppose the issue is that only CDX and PCI have this mechanism via ID tab=
+le.
+That said, other buses can gain a bus-specific allow_override field and you=
+ just
+do
+
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 720a72ecd174..7539b43961e6 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -563,7 +563,8 @@ static int spi_match_device(struct device *dev, const s=
+truct device_driver *drv)
+=20
+ 	/* Check override first, and if set, only use the named driver */
+ 	ret =3D device_match_driver_override(dev, drv);
+-	if (ret >=3D 0)
++	if (ret >=3D 0 && (sdrv->support_driver_override ||
++			 device_force_driver_override(dev, drv)))
+ 		return ret;
+=20
+Thoughts?
+
+Best,
+Gary
