@@ -1,57 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795794922;
-	b=2tCF5YX0bER+3bJU6vVEXhOwjt6AdiDWoPpPvpZ0xgS3H7C8OZ1zcqZhxFrILGnUMcTC
-	 uNOONai8Vo/ggcDUrS/ele5FafCvxlsNbZc/4bdK48TA8pwROHNdmfgIgGEENzXI815lF
-	 VsLwh0mVUCPCDhoJgy/4vOB0N2O6r9Erg+GQJQgjknze+qx9rWFNNYrMNLEjjMXSrgFZo
-	 /oy7jDsEsXZAus4PbRr/tV3UMJ//cKxKpqceZ14EnNqhenjbSTqwGBGejgkXpANOkN/7V
-	 eusyuY8b0epP1bw3Fh2CsKkHG3PQAw14okc7OExyvKCNq/gUaRSvk6cTj0CMJLpFing==
+	t=1795799240;
+	b=p8dEukI1Nia8WHDTVZedPAmJ2HIDJoNbuKjp8bCr2p8WSii5hU5jPioX0TuIbNdD9RuH
+	 N+XNzSQezHMeR2nc9P62HcCV5ZbJiqnSWd1kYQrH+JfAt2OkFD4n2GOVIljGaq5RU0Vbl
+	 aAbaaElBFmS3sdtJg1o8UqZAIUi4NCJmG0y+CdxK2kCTCifpQ/ZEJ4PmH8QiC9B7F2S0y
+	 hWvkUzpzOG+VSv638VNvJfEdv7kT/PRJphjV8Mt1v0wTsH/OFiFlNF/h6MyqgWvkYFHoe
+	 TVKabnyd/B0LhjS30yi95hUsErYEGLog+XLKHDCl7WmNvltpq+1q2WftyoRv51Fl/iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795794922;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BmuVwbogXnNMmlJ6yuUFGdUyRN1Ru/PD7hJsayd6C2M=;
-	b=yz7RjMjqvcLvPBaUlyBXte2sYu7WYYHYn8OYVW0YH4NvZ/D+9GuPcqqFKu2PAzVQ8HB/
-	 uUU81Gmjtn7pu2/NGoAHTFZhzaTC+pQA6bqkhFvJiHXwSW2g4DMYl9EFSAhSvSojNGkE4
-	 CWgHhmGE7rvyR83uGCD6gf5IO2gJns8kIGysV3+rlpbD0FcMMafNkiNcaKTihwIGQacNL
-	 or98W963up102kl8ELGr4QW0/yHJGdD/ajoSW3LXI2Q8otTErfLCX1Pxspl0qDp9yMTDo
-	 EgccoW+24Bv1LWACwHJGNV3+uUfpCLxVTl/Ufi4g5ng3JhL0M+pONzd+XjZDw+Y+fIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795799240;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=PdndVKJFo7cHXqOQ9mGDRu01U/lAdsSMeeFhNTaFFmY=;
+	b=s0NkcfWNMElWAHcWxFMT8ThA9+UblCaU730hecSk0REyGqYnO0Re0FWbTrFkXemO6BmA
+	 RDry1TGqMwadZg0Ih4cIBnofemSRl4ipY8Mt2N8wHh7KzPu/YkUiuYevLfZwPV1qt6LJt
+	 8szVLv8Eab2Dm+phswUGoHEgmRQRkqq/8T13VQa8DibUjNj59MfBIv15m6fbrY+fzqZZ/
+	 Dd48F6QCL4IrTE8zAjbGTo/XoZAVK9ruM0/tT9ifFVv+AWxmDFHJkSnjVVxsDEJMSbf4V
+	 fZC2KkR7GhAAr4Vo7VsJ/ba3rwhacmZWVQamyi78xonj7LBOUv8l8hQNsOtEDq1jtkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="VG3uZ0/J";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L4qceq45;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99440606A32A;
-	Fri, 27 Nov 2026 15:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6202606A31C;
+	Fri, 27 Nov 2026 17:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VG3uZ0/J
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF3D1F00893;
-	Fri, 27 Nov 2026 15:55:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L4qceq45
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F9A1F00893;
+	Fri, 27 Nov 2026 17:07:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795794921;
-	bh=BmuVwbogXnNMmlJ6yuUFGdUyRN1Ru/PD7hJsayd6C2M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VG3uZ0/Ji4FfD25Q78fqESDMs4/hFeYkgeM/is0mLh2gjIGdc7i37wSWUxNOfPZum
-	 UJVEUauwzLjv84QdvgezB4LoC3H0/MD7c6uBRa0Z1nAPnBnm6HaH5JuSD72kIxkGVq
-	 +XUlY2sscRWyeQ/jNRot3AeddxjtTQ1URfYZj1Gxz0FvYTXnCwIyWOd8PrEgqz8TCi
-	 gqQv9NKrU1Zjy3aH1x9mkZ3U1QNNEeKstY3+M2M38WJMBiJs4SltYSe892ASxraLXY
-	 iS5oj54+Odwv2jI3wsDtAEPdz+3pI8jN5J7HrIjWDCSmEIXyXULYbjRFWfgljnxQ+1
-	 VZSMXAnVYS9yQ==
-Message-ID: <sashiko-outbox-237797@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 02/15] KVM: Define what completing an exit does with
- its instruction
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "David Woodhouse" <dwmw2@infradead.org>, kvm@vger.kernel.org
-Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261127152730.99319-3-dwmw2@infradead.org>
-References: <20261127152730.99319-1-dwmw2@infradead.org>
- <20261127152730.99319-3-dwmw2@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 15:55:21 +0000
+	s=k20260515; t=1795799240;
+	bh=PdndVKJFo7cHXqOQ9mGDRu01U/lAdsSMeeFhNTaFFmY=;
+	h=From:To:Cc:Subject:Date;
+	b=L4qceq45GDx6JcEele2BvYYX9U0rdgQfBfplZblCu5YdWd1L6v0kFvirUtFImlxpu
+	 OCcTKFys0pwxgL1sn+G+7Bw5EpCL1V+Zv+Lymqf/BHy2i1VAzYUDkX/oUM7VNXnwq+
+	 SchJWtXKEPIV/m++1/M/DweKe6hStcnw/X6KXl+K76uIZ1LD6GYsZt7ZBYh+mOmfa+
+	 tyuzhIo8iavebwVcD4dZ1i6Jl9hJq4yh1TYExb/bF4G9lTn0UOyVrNIcQz0uEDowP/
+	 HsP7lypu9lZwTi2R1zBBJRnTTEdkUgx3UQgYv990WfcWBeuGf1lFRgGt5LJgvqzMKL
+	 vsOcdf50dtv0A==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	bpf@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+	=?UTF-8?q?Beno=C3=AEt=20Sevens?= <bsevens@google.com>,
+	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+	"He, Bo" <bo.he@intel.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	"Zhang, Jun" <jun.zhang@intel.com>,
+	Andreas Gal <gal@cs.uni-magdeburg.de>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Bastien Nocera <hadess@hadess.net>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Charles Wang <charles.goodix@gmail.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Jiangshan Yi <yijiangshan@kylinos.cn>,
+	Jiri Kosina <jikos@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	linux-hyperv@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	Lopez Casado <nlopezcasad@logitech.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	message to <vojtech@ucw.cz>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Michael Haboustak <mike-@cinci.rr.com>,
+	Pan Chuang <panchuang@vivo.com>,
+	Ping Cheng <ping.cheng@wacom.com>,
+	Rishi Gupta <gupt21@gmail.com>,
+	Roderick Colenbrander <roderick.colenbrander@sony.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Stefan Achatz <erazor_de@users.sourceforge.net>,
+	Tianchu Chen <flynnnchen@tencent.com>,
+	Vojtech Pavlik <vojtech@suse.cz>,
+	Wei Liu <wei.liu@kernel.org>,
+	Zhang Lixu <lixu.zhang@intel.com>
+Subject: [PATCH v2 00/10] HID: Fix race conditions, UAFs, and bounds bugs
+Date: Fri, 27 Nov 2026 17:06:18 +0000
+Message-ID: <20261127170712.3163443-1-lee@kernel.org>
+X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -60,91 +92,84 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] KVM: x86: stale emulate_regs_need_sync_to_vcpu in
-  kvm_insn_uncompleted()
---
+These issues were reported by Sashiko.
 
-commit a2d5858612fe849c4fd217f459db157f10703c3f
-Author: David Woodhouse <dwmw@amazon.co.uk>
+This v2 series addresses Srinivas Pandruvada's review feedback on
+hid-sensor-hub and collects Reviewed-by and Tested-by tags from v1.
 
-KVM: Define what completing an exit does with its instruction
+v1 => v2:
+ - Drop kfree() from sensor_hub_raw_event() and clear hsdev->pending.status before complete() under data->lock in patch 04, per Srinivas Pandruvada's review.
+ - Add Hamza Mahfooz's Reviewed-by tag on patch 06.
+ - Add Ping Cheng's Reviewed-by and Tested-by tags on patch 08.
 
-This commit defines KVM_INSN_COMPLETE, KVM_INSN_GP, KVM_INSN_UD, and
-KVM_INSN_RESUME to let userspace choose how KVM handles an uncompleted
-instruction after an exit, along with the x86 kvm_insn_uncompleted()
-helper.
+Cc: "Barnabás Pőcze" <pobrn@protonmail.com>
+Cc: "Benoît Sevens" <bsevens@google.com>
+Cc: "Filipe Laíns" <lains@riseup.net>
+Cc: "He, Bo" <bo.he@intel.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: "Zhang, Jun" <jun.zhang@intel.com>
+Cc: Andreas Gal <gal@cs.uni-magdeburg.de>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Bastien Nocera <hadess@hadess.net>
+Cc: Benjamin Tissoires <bentiss@kernel.org>
+Cc: bpf@vger.kernel.org
+Cc: Charles Wang <charles.goodix@gmail.com>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Jason Gerecke <jason.gerecke@wacom.com>
+Cc: Jiangshan Yi <yijiangshan@kylinos.cn>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: linux-hyperv@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: Lopez Casado <nlopezcasad@logitech.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>
+Cc: message to <vojtech@ucw.cz>
+Cc: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: Michael Haboustak <mike-@cinci.rr.com>
+Cc: Pan Chuang <panchuang@vivo.com>
+Cc: Ping Cheng <ping.cheng@wacom.com>
+Cc: Rishi Gupta <gupt21@gmail.com>
+Cc: Roderick Colenbrander <roderick.colenbrander@sony.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
+Cc: Tianchu Chen <flynnnchen@tencent.com>
+Cc: Vojtech Pavlik <vojtech@suse.cz>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Zhang Lixu <lixu.zhang@intel.com>
 
-> diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-> index 436e2fb1396c4..7e5ccbce9114f 100644
-> --- a/arch/x86/kvm/x86.h
-> +++ b/arch/x86/kvm/x86.h
-> @@ -526,6 +526,38 @@ static inline void kvm_inject_gp(struct kvm_vcpu *vc=
-pu, u32 error_code)
->  	kvm_queue_exception_e(vcpu, GP_VECTOR, error_code);
->  }
-> =20
-> +/*
-> + * Act on the KVM_INSN_* answer which userspace gave to an exit that lef=
-t an
-> + * instruction to complete.  Returns 0 if the caller is to complete the
-> + * instruction, 1 if there is nothing more to do for it, or -EINVAL.
-> + *
-> + * A guest whose state is protected does not execute the instruction aga=
-in,
-> + * and KVM cannot inject #UD into it: all that can be done there is to
-> + * complete the exit, with an outcome which is the caller's to choose fr=
-om
-> + * the answer, or to ignore it.
-> + */
-> +static inline int kvm_insn_uncompleted(struct kvm_vcpu *vcpu, u8 answer)
-> +{
-> +	if (vcpu->kvm->arch.has_protected_state ||
-> +	    vcpu->arch.guest_state_protected)
-> +		return 0;
-> +
-> +	switch (answer) {
-> +	case KVM_INSN_COMPLETE:
-> +		return 0;
-> +	case KVM_INSN_GP:
-> +		kvm_inject_gp(vcpu, 0);
-> +		return 1;
-> +	case KVM_INSN_UD:
-> +		kvm_queue_exception(vcpu, UD_VECTOR);
-> +		return 1;
-> +	case KVM_INSN_RESUME:
-> +		return 1;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
+Lee Jones (10):
+  HID: core: Protect hid->inputs traversal in hid_check_keys_pressed()
+  HID: mcp2221: Synchronise rxbuf access against raw_event callback
+  HID: logitech-hidpp: Synchronise send_receive_buf against raw events
+  HID: sensor-hub: Serialise synchronous read teardown under data->lock
+  HID: roccat: pyra: Resolve USB device from parent in actual_profile
+  HID: hyperv: Validate VMBus packet and payload bounds on receive
+  HID: hid-goodix-spi: Validate package sizes in goodix_hid_irq()
+  HID: wacom: Stop HID hardware before releasing resources on mode
+    change
+  HID: debug: Hold driver_input_lock while dumping raw report descriptor
+  HID: playstation: Cancel DualSense output worker on create failure
 
-[Severity: High]
-Does kvm_insn_uncompleted() leave vcpu->arch.emulate_regs_need_sync_to_vcpu
-set when returning 1 for an emulated instruction exit?
+ drivers/hid/hid-core.c           | 16 ++++++---
+ drivers/hid/hid-debug.c          | 12 ++++---
+ drivers/hid/hid-goodix-spi.c     | 34 +++++++++++++------
+ drivers/hid/hid-hyperv.c         | 12 +++++++
+ drivers/hid/hid-logitech-hidpp.c | 58 +++++++++++++++++++++-----------
+ drivers/hid/hid-mcp2221.c        | 47 ++++++++++++++------------
+ drivers/hid/hid-playstation.c    |  1 +
+ drivers/hid/hid-roccat-pyra.c    |  9 +++--
+ drivers/hid/hid-sensor-hub.c     | 29 ++++++++++++----
+ drivers/hid/wacom_sys.c          |  4 +--
+ 10 files changed, 150 insertions(+), 72 deletions(-)
 
-When x86_emulate_instruction() exits to userspace without writing back
-registers, it sets vcpu->arch.emulate_regs_need_sync_to_vcpu =3D true, while
-x86_decode_insn() has already marked register operands in ctxt->regs_dirty
-via decode_register() -> reg_rmw().  If userspace responds with KVM_INSN_GP,
-KVM_INSN_UD, or KVM_INSN_RESUME without calling KVM_GET_REGS or
-KVM_SET_REGS, completion skips x86_emulate_instruction() and resumes the
-guest with emulate_regs_need_sync_to_vcpu still true.  A later __get_regs()
-call then flushes the stale ctxt->_regs[] values over vcpu->arch.regs:
+-- 
+2.56.1.839.g22a8290db9-goog
 
-arch/x86/kvm/regs.c:__get_regs() {
-	if (vcpu->arch.emulate_regs_need_sync_to_vcpu) {
-		emulator_writeback_register_cache(vcpu->arch.emulate_ctxt);
-		vcpu->arch.emulate_regs_need_sync_to_vcpu =3D false;
-	}
-    ...
-}
-
-Clearing vcpu->arch.emulate_regs_need_sync_to_vcpu when skipping instruction
-completion avoids clobbering guest GPRs after the guest resumes.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127152730.9931=
-9-1-dwmw2@infradead.org?part=3D2
