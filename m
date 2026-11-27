@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795794435;
-	b=tHIsCR2c4nKguzBwx8psgQbY1m44nHdOROijmJwE+JJ/TVBCnCWVZ2G5eQfnDeE0VsZ7
-	 Z80cL48v+N5DAkvjgId5cuqWTfHq68r+z97gi/z9nMRrLzPDJ+iCaSdrW3kFC2jLRZTZU
-	 fZzYqBhV12HCnf2WjTnfQGVgBvfqHoINEKVd4xWIcOWLBf6lFHubGsk943yCbmMiMAqdU
-	 nJdhAzcx+8Jx3uja49GiAPZqVpN5Im320zLMr1cpSXJbdxgGcB5JrSqWeimta3BBURTSa
-	 PU+mJz9+BZu1R342AmlXj4+33/WnuLe2avuORsdvdO5xQcqH8w4NKgHZ/PjJDejU/KQ==
+	t=1795794524;
+	b=zBixDnwJXjrShPrKjAo8hEKkshUF5RpBiA2wygN1jXdYLDHBJtv+bmuRHMMWwpKvhanf
+	 Wx4QmnbSLDQdZCzy1KNndh3N7ksXj0O0q2bWASqs0nLoVBNm6pKp2NAmNXbY32IyYxQoC
+	 GPFaYEkUk0sq7m3KoSkOYlLD+/7oImpwB4Eyj8u2OmHoJZf+BMGPsUndVHA5WDL7k15AW
+	 bkNmmLckqXxcpZF4QzK8p87w2EMERPJhku9p7zjbXSD6Yyi85LRiyUXQODJ0y76fLeXha
+	 bZdkTp86qt+2ILxE5HcYPDB/C4wnM9fTy24HDjbpjr+Or5cwChGOZn6kKwVSlOIXR/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795794435;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795794524;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mFSsmB9kiNOQ0rDVYSaTBmIMBmJV5MVfeABrB+C99M0=;
-	b=BCOHEUWlgzSbZ/fPO0H+/JopbvbsQQfMzjvdK2jKgAO246VfOb1WWhtlD+36QkH6y8w5
-	 KZslTPc7h6fisQKc/FBoPSy6bOgRacbhu+crXkPIIl0k5e4AjEmtJzrmW0mlbmbawc16G
-	 oQZv6OGyAI1u5x3lN0TLjzPd2h660JNpdgiOEMEkBPPIAyX+FgSAkar2gQPzM0Io5f65n
-	 GYcVDQ+VInuRYHHcy8RwOfx6i8YmD3NHai1pJ+Lc1oeUrC44wIh8mZNaH598Y+WUkVnTn
-	 Ba3sB2CjsdZ2Z3f6FoMgysHQEHHIURgMUaKT4Gvkwgj/D9q2sl8/Bb5u77l28adGkMQ==
+	bh=l96ynvHLdVkKmQ+hThFK5F7Zb52Cz8ekuo9zG2+dkKY=;
+	b=lv3B0tKr08T5PYAq9lHsHX3N2vFBxadKNp7iY+OgSbBm75n1Ro/sYmJyVyayZIikJrbJ
+	 YiFF6/orzLXR7xBabDa6nAEGOqVVQulIgEkHttCqVouNXhjfp/c1howJbbr/Pr/7kEv+K
+	 JS+RPeHBNQqzxB0ec3/6MUmQeNAdUxH0a3HlHLjFgepQBKqZtajSoDS1w1GZO0ABwsXfk
+	 n1GJRSN2b4ve5jZmwknLaIZweYjtJCPEYyt3moYzimYgDDDsiMXdY4D44lgBFv/ZUDjLb
+	 zTS4Xna0KtdTt9rBYbsxC4+5oTUNUVqbo92ZQdFG87Ehrs0ok45qYAjZdRabit2yiXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TG+prKvx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OfEksMna;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F06606A31C;
-	Fri, 27 Nov 2026 15:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A90A606A31C;
+	Fri, 27 Nov 2026 15:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TG+prKvx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82451F0089B;
-	Fri, 27 Nov 2026 15:47:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OfEksMna
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 101721F000C1;
+	Fri, 27 Nov 2026 15:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795794435;
-	bh=mFSsmB9kiNOQ0rDVYSaTBmIMBmJV5MVfeABrB+C99M0=;
+	s=k20260515; t=1795794524;
+	bh=l96ynvHLdVkKmQ+hThFK5F7Zb52Cz8ekuo9zG2+dkKY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TG+prKvxV2OqMR1pwyFRJ5NZ5uC/j/WGo8VDndL/CvSX/+WK+GLSwamS9Srq8QP0X
-	 +Ct8xB93WTz8nTWh29uVyFJNiIv4cgQRknrrdKtX+xHPwQ9EmReF0PHHNb/6dAxZ0q
-	 O8Zu1gXivGQXjFuqI/Pp1six0OXpVyRhzzuRvZzxe6KY1HlPOBtZIeujF4NpoABpn1
-	 JcdoxIZjdFjn627VJfAkl1spV7PK/I4P1mv9mD/2O9bLrgA6GCIDO3LQZq0yTgmgOk
-	 XEgyzy2d5SWxFeieLk015S6K2ZnSGUG58ynh8tEU7MR44LXZyb2tNqpMOjSqPMhD8y
-	 Bhwf8ArlenQLQ==
-Message-ID: <sashiko-outbox-237780@kernel.org>
+	b=OfEksMnaL2c+EFzw9Hd7G5Dj2EtfjMGgUv055n6GuVaVDnV/R3aO4lVr38bJTlYGc
+	 rWzsG5uGV9ZLmmX3kM7/kEk5jfBf83ztGrWEQpyCjcUHhYBEJIxJWPi7lEjYYLocBU
+	 V9z1zY7BYsmoMBxGxdOUPQ5hl5U2HqoxkcomM7VfpkuUg3eso7ufBm9Sd0bwLIaSBI
+	 U9WYiI0w9eSnnTWrrx3wEciAwGnAhUCfYuaFLQvVPjMbJNpKzvpy3MJAi8K6WPcPOY
+	 55mHoNep+Umdv6xw4Z2mKTseVYX+FGXi0GUifpiSr+wy/yxZyG24wbwSutoipfAoqh
+	 5OHuOfwG6DylQ==
+Message-ID: <sashiko-outbox-237783@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 15/15] KVM: selftests: Test the register write filter
- with a nested guest
+Subject: Re: [PATCH v3 10/15] KVM: x86: Filter emulated CR0 and CR4 writes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "David Woodhouse" <dwmw2@infradead.org>, kvm@vger.kernel.org
 Cc: linux-hyperv@vger.kernel.org
-In-Reply-To: <20261127152730.99319-16-dwmw2@infradead.org>
+In-Reply-To: <20261127152730.99319-11-dwmw2@infradead.org>
 References: <20261127152730.99319-1-dwmw2@infradead.org>
- <20261127152730.99319-16-dwmw2@infradead.org>
+ <20261127152730.99319-11-dwmw2@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 15:47:14 +0000
+Date: Fri, 27 Nov 2026 15:48:43 +0000
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Post: <mailto:linux-hyperv@vger.kernel.org>
@@ -63,69 +62,87 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] KVM: selftests: intercepted CR4 write in l2_vmx_code() masks
-  clean-vmcs12 bug
+- [Medium] KVM: x86: 32-bit truncation of CR0/CR4 writes in
+  emulator_filter_cr_write()
 --
 
-commit 6862822e0c88af446e20e6806bc0fab3b0651065
+commit 08515d18b5f74a7d7b3ddcb78d650f9907df852f
 Author: David Woodhouse <dwmw@amazon.co.uk>
 
-KVM: selftests: Test the register write filter with a nested guest
+KVM: x86: Filter emulated CR0 and CR4 writes
 
-This commit adds an x86 KVM selftest to verify XCR0, CR0, and CR4 register
-write filter behavior across L1 and L2 on SVM and VMX.
+This commit adds register write filter checks to the x86 emulator's MOV to =
+CR,
+CLTS, and LMSW instruction handlers so filtered CR0 and CR4 writes exit to
+userspace with KVM_EXIT_X86_REG_WRITE.
 
-> diff --git a/tools/testing/selftests/kvm/x86/nested_reg_write_filter_test=
-.c b/tools/testing/selftests/kvm/x86/nested_reg_write_filter_test.c
-> new file mode 100644
-> index 0000000000000..4977b3d5f64bd
-> --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86/nested_reg_write_filter_test.c
-
-[ ... ]
-
-> +static void l2_vmx_code(void)
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index b559c7880e546..4e6f0cb80288c 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -5846,6 +5846,42 @@ static int emulator_filter_xcr_write(struct x86_em=
+ulate_ctxt *ctxt, u32 index,
+>  				       vcpu->arch.xcr0, xcr);
+>  }
+> =20
+> +/*
+> + * Divert an emulated CR0/CR4 write into a KVM_EXIT_X86_REG_WRITE exit w=
+hen
+> + * it hits a write filter.  Called by the instruction handlers (MOV to C=
+R,
+> + * CLTS, LMSW) before any architectural effect; state loads that reach
+> + * ->set_cr() on other instructions' behalf (RSM, task switches) are not
+> + * guest register writes and stay unfiltered.
+> + */
+> +static int emulator_filter_cr_write(struct x86_emulate_ctxt *ctxt, int c=
+r,
+> +				    ulong val)
 > +{
-> +	xsetbv(0, LEGACY);
-> +	vmcall();
+> +	struct kvm_vcpu *vcpu =3D emul_to_vcpu(ctxt);
+> +	u64 old_value, new_value;
+> +	u32 reg;
 > +
-> +	/* Out to L1 once more, which resumes L2 with vmcs12 as it is. */
-> +	vmcall();
+> +	switch (cr) {
+> +	case 0:
+> +		reg =3D KVM_X86_REG_FILTER_CR0;
+> +		old_value =3D kvm_read_cr0(vcpu);
+> +		break;
+> +	case 4:
+> +		reg =3D KVM_X86_REG_FILTER_CR4;
+> +		old_value =3D kvm_read_cr4(vcpu);
+> +		break;
+> +	default:
+> +		return X86EMUL_CONTINUE;
+> +	}
 > +
-> +	/* So L2 still owns this bit, and sets it without an exit. */
-> +	set_cr4(get_cr4() | FILTERED_CR4_BIT);
+> +	/* Match the merge emulator_set_cr() will do with the same value. */
+> +	new_value =3D mk_cr_64(old_value, val);
 > +
-> +	/* These two exit to KVM, which must not filter them. */
-> +	set_cr4(get_cr4() | INTERCEPTED_CR4_BIT);
-> +	set_cr0(get_cr0() ^ INTERCEPTED_CR0_BIT);
-> +	vmcall();
+> +	if (!kvm_reg_write_filtered(vcpu, reg, old_value, new_value))
+> +		return X86EMUL_CONTINUE;
+> +
+> +	return emulator_reg_write_exit(ctxt, reg, old_value, new_value);
 > +}
 
 [Severity: Medium]
-Does writing INTERCEPTED_CR4_BIT after FILTERED_CR4_BIT cause the
-STAGE_L2_CR4 check in test_vmx() to pass even if KVM fails to update
-vcpu->arch.cr4_guest_owned_bits on the second VMRESUME in resume_twice()?
+Does calling mk_cr_64() here truncate the upper 32 bits of val on 64-bit
+MOV to CR0/CR4?
 
-The first VMRESUME in resume_twice() has a dirty vmcs12, so
-prepare_vmcs02_rare() clears FILTERED_CR4_BIT in vmcs02's hardware
-CR4_GUEST_HOST_MASK.  The nested VM-exit to L1 then clears FILTERED_CR4_BIT
-from vcpu->arch.cr4_guest_owned_bits via vmx_refresh_reg_write_filter(),
-while vmcs02's hardware CR4_GUEST_HOST_MASK keeps FILTERED_CR4_BIT clear.
+arch/x86/kvm/x86.c:mk_cr_64() {
+	static u64 mk_cr_64(u64 curr_cr, u32 new_val)
+	{
+		return (curr_cr & ~((1ULL << 32) - 1)) | new_val;
+	}
+}
 
-Even if the second (clean-vmcs12) VMRESUME skips updating
-vcpu->arch.cr4_guest_owned_bits, setting FILTERED_CR4_BIT in L2 updates
-hardware GUEST_CR4 without an exit.  The subsequent get_cr4() |
-INTERCEPTED_CR4_BIT then reads FILTERED_CR4_BIT =3D 1 from hardware GUEST_C=
-R4
-and triggers a CR4 VM-exit to KVM, where handle_set_cr4() writes the full
-register value (including FILTERED_CR4_BIT) into vmcs02's CR4_READ_SHADOW.
-When L2 later exits on vmcall(), vmcs12_guest_cr4() pulls FILTERED_CR4_BIT
-from CR4_READ_SHADOW into vmcs12->guest_cr4 regardless of
-vcpu->arch.cr4_guest_owned_bits.
-
-Setting INTERCEPTED_CR4_BIT before FILTERED_CR4_BIT avoids populating
-CR4_READ_SHADOW with FILTERED_CR4_BIT.
+Because mk_cr_64() takes a u32 new_val, passing the 64-bit operand val
+discards bits 63:32 and replaces them with old_value[63:32] (which are zero
+for CR0 and CR4).  When a 64-bit guest executes an emulated MOV to CR0 or
+CR4 with any upper bits set, kvm_reg_write_filtered() cannot match filters
+on bits 63:32, and vcpu->run->reg_write.new_value strips fault-inducing
+reserved upper bits that userspace needs to see in order to reject the
+write with KVM_INSN_GP.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127152730.9931=
-9-1-dwmw2@infradead.org?part=3D15
+9-1-dwmw2@infradead.org?part=3D10
