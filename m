@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795793257;
-	b=F2t77pBGIvTWppgWnjeDLHxGOEj7FDDG8frB8NYEqT7cW9QkS+mBYZMyvD7Qn2BEfGQw
-	 GjfWJ54nawhFYL40NSvPOkoiuDTTHBrFaBot5aAhVAFhrYVwbmaSIzFEgxVQz75BQcP5H
-	 NTE7SgJnS7ElvvW2+cSAGwUy34Ggax1egh4UGU/dBJ/l3WEwmoCzmlvalp+oUt9MgieEe
-	 bQ5ycmd6lHueXPVis2g9X5ZY0p5DS+Sv6G2G4iwRMao45rPuD8/nZ2Z11Ts80ylVSqFdA
-	 6CRcyO8fTNTT4n6w0qkZ0btJ2swB1ZjdbQOqcstocvjv7TN7Z3z0y1M9HJkCO/KNHPQ==
+	b=aPAiPOTG43lFifuyyHYQ3DHOnZazxcgusCzgqXmQuY7Ku8gOWeWAG5hAleQ8ETG7DGi0
+	 MLA806lx3qA+H7M8XFwihIQrczzjmu4jlLdcaCg+1Tid6dbBVFma/odensB9iVUF9Sm9V
+	 hGu0yVEX0PXyDO647BJLjFGaj3gLEb4ZMZRa4s710RinnfOZhgbWBMS/apl5J0DsujCM1
+	 yQXNmwfCYHYMYCM55sEn8ZNeSw5exrRaEYi6iUxZsr/WU++YWc8+QNksE7PqsAf2ii/56
+	 pHpJEQAs472P8tZ6eh2ygfgj6r5N4F+3iMX6iDZihaeVOzN8zXQNrmyrSMosuEP5SWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795793257;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=HRdPsM8k7LxHkJKc9/GKJtL7QWO/APvPQxk6NOXwn1I=;
-	b=GWQBCMF6tmgG2sjMYlIJ9uByTmIOCGNzRfSRoJ+dt80fANoVpIwXjUV7NXfL9pe7tJVb
-	 GeOavTrs9D+KijNlnw58/zjjje3oTZ9H2v9M1CFZN6+YqHF/iX8Y4am1M4qhuN9qjgKID
-	 zIgLyDso1I5yqBgcC2qA7V9zGLkowOrrfiyWpxFSYs2VVsygrriLuLLSe8mXgrPnSMh7q
-	 +FQVEQlmDBwM8Sn3F+SNC0TLQc7jTlqHShocArcXSM0nmzJO2tejzVoBivdyRJWLifbcP
-	 EGI0KYd9KW7Zt0c/kqA2MjmmkfCihMwnwXFr+rHorQUaTeX23ioeLeEsAKSY2/twVQg==
+	bh=2Z9kBRIPqW9GlCn4jdy72fFAG++70JCnL18g2NIfbsQ=;
+	b=sRQicVwiMJYufykLi0vcVdfPGTyRP0DdBY9tpmxSTIuUEudF36G/kMkIDDnz2lpsgY7D
+	 YdmWaASwObhECfrtWwybhQEfE3m7Tx9TubKiNF6mENbjaWHaZjXULSg0f7mQwkHPgdKGy
+	 aeeZwaG3Ncj18gIRpQnsAe3AgLBtd4Xr1vuOyGZbIqbfbfwi7A9k7CTgDE2br0kUCBl96
+	 xoBGrRxjJf/6nIUm0RFcnOLqtm2F9Mcpz0HUHeNJTYFvB4SPr9GEVF6qW95VObRWFijMU
+	 gUpFSW142m8QEKQ7tRkEndJAinElGSO8TwbIJmrTLuN6OfeIIfO2iwUszrL5bXNhB5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=bN51kz8A;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=seNCF1Ch;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED5D606A31E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF3F606A329;
 	Fri, 27 Nov 2026 15:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ED5D606A31E
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EF3F606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=bN51kz8A
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=seNCF1Ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=HRdPsM8k7LxHkJKc9/GKJtL7QWO/APvPQxk6NOXwn1I=; b=bN51kz8AqdcMI7Ca2+YkK0QH6y
-	qMq5tVCh++osclO5Qk4B6nUiVdaT/rdxlV3K4kQR65Fcfcfr/d2ITmIiP2+kmZMjQ+fONgRI8kuuk
-	Gic4OR68mqen0VPo0Gn8+AlXROKWVxUnh9Zvb2kHsZFOsAVXiwbGiYF8WvNzMoV4DicXEhnubu1NN
-	eyTTUMhKbcIGNkH3opTl6QLzhGfuGHe+hQQKr6zX443jX14k4BkhMyaI5gSZEvTMj98YUGu0NwQie
-	Tg34NGLdy/lKRIQXj9WEIJsKXx4f1AiFOG6vh+exIbMJV3L/cEvJHyo3EEoqoWUgBNAMjAJFVEJ7b
-	hpuOxrpg==;
+	bh=2Z9kBRIPqW9GlCn4jdy72fFAG++70JCnL18g2NIfbsQ=; b=seNCF1ChjqbtwfLyzLuspnnUtd
+	FAdxqPI014SkaJ+dcffuGhICEI+mOiTIAKlP17jBHzVJDMTpc3J58l+WxbFl8Yi6omRZoz3ar0Gyd
+	KOMdPeG8uWAI5RYyYe8ZJqMje0fjn1zT39PaMavyl0wRmzpoqaHGqntIhFbICoWRLDwmYMsvGxqjW
+	o6tDfXO8PjMFAX+Pia+AMnisNMKurcRGrZUI3JbayfDuobycxhgrt3lGnb0Osh17OxzTeSJacFvEb
+	OUqTfVbbgb9UEy44oT7naNqHZjVRrTgXBUseXLS4ye6N+Skdt/SM0JOEPA15WeHvKD6H4RuDLRueQ
+	ww2sbYXQ==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWxrG-0000000Gy3X-46gt;
-	Fri, 27 Nov 2026 15:27:31 +0000
+	id 1xWxrG-0000000Gy2S-2x0h;
+	Fri, 27 Nov 2026 15:27:30 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xWxrG-00000000Pqm-3Fgj;
+	id 1xWxrG-00000000PqK-1v9P;
 	Fri, 27 Nov 2026 15:27:30 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Liran Alon <liran.alon@oracle.com>,
 	Arbel Moshe <arbel.moshe@oracle.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v3 12/15] KVM: SVM: Support CR0 and CR4 write filters
-Date: Fri, 27 Nov 2026 15:27:27 +0000
-Message-ID: <20261127152730.99319-13-dwmw2@infradead.org>
+Subject: [PATCH v3 05/15] KVM: x86: hyper-v: Add KVM_CAP_HYPERV_FORWARD_HCALL
+Date: Fri, 27 Nov 2026 15:27:20 +0000
+Message-ID: <20261127152730.99319-6-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261127152730.99319-1-dwmw2@infradead.org>
 References: <20261127152730.99319-1-dwmw2@infradead.org>
@@ -110,142 +110,206 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Keep INTERCEPT_CR0_WRITE set in vmcb01 while a CR0 filter is armed,
-and check the filter in cr_interception().  Without NextRIP the write
-goes to the emulator, which knows the instruction length.  L2 is not
-filtered.
+KVM fails every Hyper-V hypercall which it does not implement with
+HV_STATUS_INVALID_HYPERCALL_CODE, so a VMM which implements more of the
+TLFS never sees them.
+
+Add a VM capability whose value is a mask of hypercall handling
+features, as KVM_CAP_XEN_HVM and KVM_CAP_EXIT_HYPERCALL have;
+KVM_ENABLE_CAP takes the subset to enable.  The first feature,
+KVM_HYPERV_HCALL_FORWARD_UNKNOWN, sends those hypercalls, and extended
+hypercalls in fast form, out through the existing KVM_EXIT_HYPERV_HCALL.
+XMM state is reachable through the vCPU state ioctls.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kvm/svm/svm.c | 66 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 65 insertions(+), 1 deletion(-)
+ Documentation/virt/kvm/api.rst  | 50 +++++++++++++++++++++++++++++++++
+ arch/x86/include/asm/kvm_host.h |  2 ++
+ arch/x86/kvm/hyperv.c           |  7 ++++-
+ arch/x86/kvm/hyperv.h           |  8 ++++++
+ arch/x86/kvm/x86.c              | 16 +++++++++++
+ include/uapi/linux/kvm.h        |  4 +++
+ 6 files changed, 86 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 4ffb41234dc2..c91467a59e20 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -1135,6 +1135,22 @@ static void svm_recalc_intercepts(struct kvm_vcpu *vcpu)
- 	svm_recalc_msr_intercepts(vcpu);
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 6d4a11ce368c..782c010a08a0 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -7362,6 +7362,16 @@ Hyper-V SynIC state change. Notification is used to remap SynIC
+ event/message pages and to enable/disable SynIC messages/events processing
+ in userspace.
+ 
++	- KVM_EXIT_HYPERV_HCALL -- a hypercall for userspace to handle.
++
++'input' holds the hypercall control value and 'params' the two parameter
++registers.  Userspace sets 'result' to the hypercall result value before
++resuming the vCPU; KVM then writes it to the guest and advances past the
++hypercall instruction.  KVM leaves some hypercalls to userspace this
++way, HvCallPostMessage in some cases among them;
++KVM_CAP_HYPERV_FORWARD_HCALL (see section 7.49) adds the hypercalls KVM
++does not implement.
++
+ 	- KVM_EXIT_HYPERV_SYNDBG -- synchronously notify user-space about
+ 
+ Hyper-V Synthetic debugger state change. Notification is used to either update
+@@ -9263,6 +9273,46 @@ KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_SET_MSR_FILTER.
+ A guest whose register state is protected is the exception: see the
+ description of those exits.
+ 
++7.49 KVM_CAP_HYPERV_FORWARD_HCALL
++---------------------------------
++
++:Architectures: x86
++:Target: VM
++:Parameters: args[0] is a bitmask of KVM_HYPERV_HCALL_* features to enable
++:Returns: 0 on success, -EINVAL if args[0] contains an unsupported bit
++
++KVM_CHECK_EXTENSION for this capability returns a bitmask of the Hyper-V
++hypercall handling features that KVM implements.  KVM_ENABLE_CAP takes
++the subset that userspace wants active and replaces the previously
++enabled set; it can be called at any time.  A bit that
++KVM_CHECK_EXTENSION does not report is rejected with -EINVAL, so a VMM
++can enable exactly the features it was written for and learn which ones
++the kernel lacks.  The mask is reported in the int which
++KVM_CHECK_EXTENSION returns, so features only ever use bits 0 to 30.
++
++The defined bits are::
++
++  #define KVM_HYPERV_HCALL_FORWARD_UNKNOWN	(1ULL << 0)
++
++KVM_HYPERV_HCALL_FORWARD_UNKNOWN: a hypercall that KVM would otherwise
++fail with HV_STATUS_INVALID_HYPERCALL_CODE exits to userspace with
++KVM_EXIT_HYPERV_HCALL instead, and an extended hypercall in fast form
++exits the same way instead of failing with HV_STATUS_INVALID_PARAMETER.
++The VMM can then implement hypercalls that KVM does not.  The synthetic
++debugger hypercalls (HvCallResetDebugSession, HvCallPostDebugData,
++HvCallRetrieveDebugData) are an exception: while the synthetic debugger
++is not enabled they still fail in KVM, with HV_STATUS_INVALID_PARAMETER
++for the fast form of HvCallPostDebugData and HvCallRetrieveDebugData and
++with HV_STATUS_INVALID_HYPERCALL_CODE otherwise.
++
++For a fast hypercall, 'params' carries RDX and R8 from a 64-bit caller,
++or the EBX:ECX and EDI:ESI pairs from a 32-bit caller.  XMM input and
++output registers of a fast hypercall are read and written with the
++ordinary vCPU state ioctls (KVM_GET_XSAVE/KVM_SET_XSAVE or
++KVM_GET_FPU/KVM_SET_FPU) before the vCPU is resumed.  Hypercalls that
++KVM implements itself, and the CPUID-enforcement checks KVM applies
++before dispatching a hypercall, are unaffected.
++
+ 8. Other capabilities.
+ ======================
+ 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 0e8150116e20..dcb0ce584f02 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1072,6 +1072,8 @@ struct kvm_hv {
+ 	struct mutex hv_lock;
+ 	u64 hv_guest_os_id;
+ 	u64 hv_hypercall;
++	/* KVM_HYPERV_HCALL_* features enabled by KVM_CAP_HYPERV_FORWARD_HCALL */
++	u64 hcall_features;
+ 	u64 hv_tsc_page;
+ 	enum hv_tsc_page_status hv_tsc_page_status;
+ 
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 5d2e3617c952..e72539f9acc9 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -2692,12 +2692,17 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+ 		goto hypercall_userspace_exit;
+ 	}
+ 	case HV_EXT_CALL_QUERY_CAPABILITIES ... HV_EXT_CALL_MAX:
+-		if (unlikely(hc.fast)) {
++		if (unlikely(hc.fast) &&
++		    !kvm_hv_hcall_feature(vcpu->kvm,
++					  KVM_HYPERV_HCALL_FORWARD_UNKNOWN)) {
+ 			ret = HV_STATUS_INVALID_PARAMETER;
+ 			break;
+ 		}
+ 		goto hypercall_userspace_exit;
+ 	default:
++		if (kvm_hv_hcall_feature(vcpu->kvm,
++					 KVM_HYPERV_HCALL_FORWARD_UNKNOWN))
++			goto hypercall_userspace_exit;
+ 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
+ 		break;
+ 	}
+diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
+index 622a6553e9ac..20d40261c75b 100644
+--- a/arch/x86/kvm/hyperv.h
++++ b/arch/x86/kvm/hyperv.h
+@@ -205,6 +205,14 @@ static inline bool kvm_hv_hypercall_enabled(struct kvm_vcpu *vcpu)
+ 	return vcpu->arch.hyperv_enabled && to_kvm_hv(vcpu->kvm)->hv_guest_os_id;
  }
  
-+static void svm_update_reg_write_filter(struct kvm_vcpu *vcpu)
-+{
-+	struct vcpu_svm *svm = to_svm(vcpu);
++/* Features reported and accepted by KVM_CAP_HYPERV_FORWARD_HCALL. */
++#define KVM_HYPERV_HCALL_SUPPORTED	KVM_HYPERV_HCALL_FORWARD_UNKNOWN
 +
-+	/*
-+	 * CR4 writes are always intercepted.  CR0 writes are not when the
-+	 * guest and host views agree (hcr0 == cr0): force the intercept in
-+	 * vmcb01 while a CR0 filter is armed.  Disarming leaves the
-+	 * intercept in place - a forced intercept only costs exits, which
-+	 * cr_interception() handles as usual - and the next svm_set_cr0(),
-+	 * which respects the filter, restores its own state.
-+	 */
-+	if (vcpu->arch.reg_write_filter_armed & BIT(KVM_X86_REG_FILTER_CR0))
-+		svm_set_intercept(svm, INTERCEPT_CR0_WRITE);
++static inline bool kvm_hv_hcall_feature(struct kvm *kvm, u64 feature)
++{
++	return READ_ONCE(to_kvm_hv(kvm)->hcall_features) & feature;
 +}
 +
- static void init_vmcb(struct kvm_vcpu *vcpu, bool init_event)
- {
- 	struct vcpu_svm *svm = to_svm(vcpu);
-@@ -1867,7 +1883,13 @@ void svm_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0)
- 	if (hcr0 == cr0) {
- 		/* Selective CR0 write remains on.  */
- 		svm_clr_intercept(svm, INTERCEPT_CR0_READ);
--		svm_clr_intercept(svm, INTERCEPT_CR0_WRITE);
-+		/*
-+		 * The selective intercept misses writes that change only
-+		 * TS or MP, and CLTS: a CR0 write filter needs them all.
-+		 */
-+		if (!(vcpu->arch.reg_write_filter_armed &
-+		      BIT(KVM_X86_REG_FILTER_CR0)))
-+			svm_clr_intercept(svm, INTERCEPT_CR0_WRITE);
- 	} else {
- 		svm_set_intercept(svm, INTERCEPT_CR0_READ);
- 		svm_set_intercept(svm, INTERCEPT_CR0_WRITE);
-@@ -2647,6 +2669,21 @@ static bool check_selective_cr0_intercepted(struct kvm_vcpu *vcpu,
+ int kvm_hv_hypercall(struct kvm_vcpu *vcpu);
  
- #define CR_VALID (1ULL << 63)
+ void kvm_hv_irq_routing_update(struct kvm *kvm);
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 31c6759f38b9..da22e7d9cacd 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2306,6 +2306,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_EXIT_HYPERCALL:
+ 		r = KVM_EXIT_HYPERCALL_VALID_MASK;
+ 		break;
++#ifdef CONFIG_KVM_HYPERV
++	case KVM_CAP_HYPERV_FORWARD_HCALL:
++		/* KVM_CHECK_EXTENSION returns an int: only bits 0-30 report. */
++		BUILD_BUG_ON(KVM_HYPERV_HCALL_SUPPORTED > INT_MAX);
++		r = KVM_HYPERV_HCALL_SUPPORTED;
++		break;
++#endif
+ 	case KVM_CAP_SET_GUEST_DEBUG2:
+ 		return KVM_GUESTDBG_VALID_MASK;
+ #ifdef CONFIG_KVM_XEN
+@@ -4152,6 +4159,15 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 		kvm->arch.hypercall_exit_enabled = cap->args[0];
+ 		r = 0;
+ 		break;
++#ifdef CONFIG_KVM_HYPERV
++	case KVM_CAP_HYPERV_FORWARD_HCALL:
++		r = -EINVAL;
++		if (cap->args[0] & ~KVM_HYPERV_HCALL_SUPPORTED)
++			break;
++		WRITE_ONCE(to_kvm_hv(kvm)->hcall_features, cap->args[0]);
++		r = 0;
++		break;
++#endif
+ 	case KVM_CAP_EXIT_ON_EMULATION_FAILURE:
+ 		r = -EINVAL;
+ 		if (cap->args[0] & ~1)
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index a146c0487960..5803c84cf8f8 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -126,6 +126,9 @@ struct kvm_hyperv_exit {
+ 	} u;
+ };
  
-+/*
-+ * Send an intercepted write which a register write filter catches to
-+ * userspace instead of performing it.  The caller has checked that the
-+ * length of the instruction is known.
-+ */
-+static bool svm_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg,
-+				   unsigned long old, unsigned long val)
-+{
-+	if (!kvm_reg_write_filtered(vcpu, reg, old, val))
-+		return false;
++/* KVM_CAP_HYPERV_FORWARD_HCALL feature bits */
++#define KVM_HYPERV_HCALL_FORWARD_UNKNOWN	(1ULL << 0)
 +
-+	kvm_reg_write_user_space(vcpu, reg, old, val, svm_exit_insn_len(vcpu));
-+	return true;
-+}
-+
- static int cr_interception(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_svm *svm = to_svm(vcpu);
-@@ -2660,6 +2697,16 @@ static int cr_interception(struct kvm_vcpu *vcpu)
- 	if (unlikely((svm->vmcb->control.exit_info_1 & CR_VALID) == 0))
- 		return emulate_on_interception(vcpu);
+ struct kvm_xen_exit {
+ #define KVM_EXIT_XEN_HCALL          1
+ 	__u32 type;
+@@ -1010,6 +1013,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_ARM_PMU_V3_STRICT 251
+ #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
+ #define KVM_CAP_X86_MSR_EXIT_INSN 253
++#define KVM_CAP_HYPERV_FORWARD_HCALL 254
  
-+	/*
-+	 * A filtered write reports the length of its instruction, which only
-+	 * NextRIP provides here.  Without it, let the emulator raise the exit,
-+	 * as it does without Decode Assists.
-+	 */
-+	if ((vcpu->arch.reg_write_filter_armed &
-+	     (BIT(KVM_X86_REG_FILTER_CR0) | BIT(KVM_X86_REG_FILTER_CR4))) &&
-+	    !svm_exit_insn_len(vcpu))
-+		return emulate_on_interception(vcpu);
-+
- 	reg = svm->vmcb->control.exit_info_1 & SVM_EXITINFO_REG_MASK;
- 	if (svm->vmcb->control.exit_code == SVM_EXIT_CR0_SEL_WRITE)
- 		cr = SVM_EXIT_WRITE_CR0 - SVM_EXIT_READ_CR0;
-@@ -2673,6 +2720,14 @@ static int cr_interception(struct kvm_vcpu *vcpu)
- 		trace_kvm_cr_write(cr, val);
- 		switch (cr) {
- 		case 0:
-+			/*
-+			 * The filter never triggers in guest mode and the
-+			 * selective-CR0 reflection only applies there, so
-+			 * the order of the two checks does not matter.
-+			 */
-+			if (svm_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
-+						   kvm_read_cr0(vcpu), val))
-+				return 0;
- 			if (!check_selective_cr0_intercepted(vcpu, val))
- 				err = kvm_set_cr0(vcpu, val);
- 			else
-@@ -2683,6 +2738,9 @@ static int cr_interception(struct kvm_vcpu *vcpu)
- 			err = kvm_set_cr3(vcpu, val);
- 			break;
- 		case 4:
-+			if (svm_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR4,
-+						   kvm_read_cr4(vcpu), val))
-+				return 0;
- 			err = kvm_set_cr4(vcpu, val);
- 			break;
- 		case 8:
-@@ -5617,6 +5675,8 @@ struct kvm_x86_ops svm_x86_ops __initdata = {
- 
- 	.apic_init_signal_blocked = svm_apic_init_signal_blocked,
- 
-+	.update_reg_write_filter = svm_update_reg_write_filter,
-+
- 	.recalc_intercepts = svm_recalc_intercepts,
- 	.complete_emulated_msr = svm_complete_emulated_msr,
- 
-@@ -5722,6 +5782,10 @@ static __init void svm_set_cpu_caps(void)
- 	if (cpu_feature_enabled(X86_FEATURE_BUS_LOCK_THRESHOLD))
- 		kvm_caps.has_bus_lock_exit = true;
- 
-+	/* CR0/CR4 write interception can always be forced. */
-+	kvm_caps.supported_reg_write_filter |= BIT(KVM_X86_REG_FILTER_CR0) |
-+					       BIT(KVM_X86_REG_FILTER_CR4);
-+
- 	/* CPUID 0x80000008 */
- 	if (boot_cpu_has(X86_FEATURE_LS_CFG_SSBD) ||
- 	    boot_cpu_has(X86_FEATURE_AMD_SSBD))
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
 -- 
 2.50.1
 
