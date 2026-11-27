@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795793257;
-	b=MXTRRkZOBMBjcEKWIAHpmOajaqBVjTvqW6GNKKcjfrnbHJZ05mxQbeUVhPYn5XrpKML6
-	 I5Z4OCKBvXnAdHjKQwbuFqhIKh0xVPFwiWQ95pdWtx/IcXWUDT7hr8TGMDORf/oskG0De
-	 qgILPYr+bNsJSyigsWZqdo5HDimIHFi67JBKJ5xja9WMBa/qAKPsG59QJmw/9vI3NUrLH
-	 4N5o/LDe0QZnEOJG4Dbz2wOglWhbav30FXL2JYcVqIsPmgwYbCtQU7iTrBmEHg0yF0M8X
-	 vYfBfK/JZlZpX4W9MFNYzNE8K+QEpcRatyPC6bJznHtB03a4w/dBeflhsR12tTSQ0qQ==
+	b=CF6yekziqPiEZtbop2z8FDPmFZcfKsGe7S/xYslEDbq4pmBhJoxisFUKgbYxQaVlXajp
+	 Qmvxs0q4bhBUVjeUTBg6aFOlNnQZiAnuuLr9WlLpNUncXAadib66KEfCN91pf5vvhrjtl
+	 Zom5M4OjduVIJ2IkYceQOq7WvJS7kLpt9o18UVeXIxXnpWK9+rB6a2tRJVc1R5bmSRDmA
+	 pm/k3/cB41UtFRYTawG1gyfaPyxMDwq3uSiqS31bpBrzbbwzPrLDfb1uq17PeMhWCsTRr
+	 Zni4Rhp6JKzsk/RH9hiZ7S1UaP2N0QnFvX14FzKVngxlsy/lYHgUeMA3L/uNr5wM0iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795793257;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=TWmd9+GxWKlZ+gfuxLpEDFCj6tyXaab+RqmwaOj/H9I=;
-	b=zR0azfkvEd25fwZYLwjjrJbzbPdA9ConP5/ldm/0/gcO0lLq4gMpgqOHcY4GmpSC+wz2
-	 C1fn098s4aETsB2mbicc8OHaHb8qqFdVVcN9ljEYCkqeb/CkYwXPUqr0Gh71lhBI9OGFG
-	 JXDR342lNMyL/CwEpbfWvaSE4K7OUK/YhcjmbEY9tc3PXcqpv64dMhUYaykQn/MawsAYp
-	 kGM48PBTbK6lrvsE8hxOusAafPHnVZjbibYxZDJpOjdrCjFkMGlRsY0+G0mUHp64R+a/b
-	 BuJ7PGyLNC3HRZr3P50zKddtyaCW/L15ZaasG0vTfsiRdyTPGcIwCdJZL/zNo3Oy62w==
+	bh=Av973Nox7Fu8Eqm4T5WSaU/355N4hXed3Vjfzs/dbBs=;
+	b=lS8O2Q06HDDloQCVagVsf4fApIGVwwIq2WwcReDQjCYcZ4pdgrN89pFvYfVZ0Fo63Rfb
+	 LWJt/APaemYK20ZpJplhHQcFOz800K8G1g6azg34AcJ+pTN/k4cXa4sVecKzBMsXVfqPE
+	 CqkZUjYyFpUc3FBpibf20jKw6xkRdGvwjHbr8LyKINtNbIZspql3jjkfzRF/C6y9fg7GZ
+	 a87IGEFqVobKEkeAZe+RBtu1TlOx2HImAl+4Q/KQNPJh+KGAEUXhCBBThks7o0ZDLGjeQ
+	 wN0GvqYf961ffaHZ1PG36ufxdjknKOiDOLJwnPFbKTirTwMauv4jdpsgvWd1PwTY0EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BC5BzPv8;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=AJs1KRlj;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE4E606A326;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDE2606A321;
 	Fri, 27 Nov 2026 15:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EE4E606A326
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EDE2606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=BC5BzPv8
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=AJs1KRlj
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=TWmd9+GxWKlZ+gfuxLpEDFCj6tyXaab+RqmwaOj/H9I=; b=BC5BzPv86RpYvckCraBvRDkVGF
-	sCDFwNfkqL63P7HoXzrqKf6F70ojoHzaGqvUQBn2OcEncaAPng7nHG3zxkBCp+fjVM3O9Mo1rPl16
-	EuykgxPXZxmVnXJYW/jtqGAJtsiZLaoS+N1jov5tRNLysx7FRfemOjzqqW8SoqKudLOR8SUvOhWlm
-	fRDPTwrMrEhpqs75MeSgLAAivCjXg0oAl5smDvt2CSX8Qp4Y1S8y74yNwH2d3sEohKZxeziQbTfDI
-	CZzbGL2EOtBHtYV9VxZA5dAFgsdp8Q4tGyjFuHAeBbptEXVMiShD0SY/AQRLlHdj+h6xeGkNKBorl
-	QlwJiFpQ==;
+	bh=Av973Nox7Fu8Eqm4T5WSaU/355N4hXed3Vjfzs/dbBs=; b=AJs1KRljtopTI5mC+0i1sOOp+w
+	jLiXrp4yJnT0W9nzfrNV1z+VnD1XpGSl5CeZl8Q3kKZEa40r8HVrMXk2wENZhadn5ZeakTXM6N3Zt
+	mY/juT5pXDlygy4B1u/12KijdTP0+TGWffAKjMgHIzMCv9eVJSAbgZxTLJj45663ahgM/T4aVlSmS
+	xPfsgRi9KbczD/dQoq/FJ4B3LiDb/hkhWIU8hWtGyDZtoXg8Y7hVekwwnE1g/SUDe4yMBPSCKj9Vy
+	zYZh9RNKHOujWJLoTfmLbCm0gWZ5pQqyKocw+YeG4PZRXy8E5n+hoLzpEa0kYcvvNtMfYgqJvcSss
+	ki1Wl9vA==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWxrG-0000000Gy3R-3uqJ;
+	id 1xWxrG-0000000Gy3f-4BRU;
 	Fri, 27 Nov 2026 15:27:31 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xWxrG-00000000Pqi-2y2s;
+	id 1xWxrG-00000000Pqr-3NC3;
 	Fri, 27 Nov 2026 15:27:30 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Liran Alon <liran.alon@oracle.com>,
 	Arbel Moshe <arbel.moshe@oracle.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v3 11/15] KVM: VMX: Support CR0 and CR4 write filters
-Date: Fri, 27 Nov 2026 15:27:26 +0000
-Message-ID: <20261127152730.99319-12-dwmw2@infradead.org>
+Subject: [PATCH v3 13/15] KVM: x86: Add descriptor-table registers to the write filter
+Date: Fri, 27 Nov 2026 15:27:28 +0000
+Message-ID: <20261127152730.99319-14-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261127152730.99319-1-dwmw2@infradead.org>
 References: <20261127152730.99319-1-dwmw2@infradead.org>
@@ -110,454 +110,566 @@ X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Add the vendor hook which applies a changed filter.  VMX makes filtered
-bits host-owned in vmcs01 so that writes to them exit, and checks the
-filter in handle_cr().  CLTS can exit again, so it is only a KVM_BUG
-when no filter explains it.  When bits change owner, read them from the
-guest first and refresh the read shadows.
+Add GDTR, IDTR, LDTR and TR.  These have no per-bit semantics, so the
+mask must be all ones and every LGDT, LIDT, LLDT or LTR exits.
 
-L2 is not filtered.  With a CR4 filter armed, nested entry recomputes
-CR4 ownership for a clean vmcs12 too, which prepare_vmcs02_rare() skips.
+VMX uses descriptor-table exiting, which UMIP emulation must now
+share.  SVM uses the four load intercepts, which init_vmcb() has to
+re-arm after a shutdown.
+
+The exit gains old_limit and new_limit, for GDTR and IDTR.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- Documentation/virt/kvm/api.rst     |  28 ++++++--
- arch/x86/include/asm/kvm-x86-ops.h |   1 +
- arch/x86/include/asm/kvm_host.h    |   7 ++
- arch/x86/kvm/vmx/main.c            |  13 ++++
- arch/x86/kvm/vmx/nested.c          |  27 +++++--
- arch/x86/kvm/vmx/vmx.c             | 109 +++++++++++++++++++++++++++--
- arch/x86/kvm/vmx/vmx.h             |  14 +++-
- arch/x86/kvm/vmx/x86_ops.h         |   1 +
- arch/x86/kvm/x86.c                 |   3 +
- 9 files changed, 187 insertions(+), 16 deletions(-)
+ Documentation/virt/kvm/api.rst  | 40 +++++++++++++++++-----
+ arch/x86/include/asm/kvm_host.h |  2 +-
+ arch/x86/include/uapi/asm/kvm.h |  4 +++
+ arch/x86/kvm/emulate.c          | 28 +++++++++++++++
+ arch/x86/kvm/kvm_emulate.h      | 10 ++++++
+ arch/x86/kvm/regs.h             | 22 ++++++++++++
+ arch/x86/kvm/svm/nested.c       | 16 +++++++++
+ arch/x86/kvm/svm/svm.c          | 51 ++++++++++++++++++++++++++++
+ arch/x86/kvm/vmx/vmx.c          | 60 ++++++++++++++++++++++++++++-----
+ arch/x86/kvm/x86.c              | 51 ++++++++++++++++++++++++++++
+ include/uapi/linux/kvm.h        |  2 ++
+ 11 files changed, 268 insertions(+), 18 deletions(-)
 
 diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 561d90c3b2d8..a5192d1ca599 100644
+index a5192d1ca599..3ed1b07ad849 100644
 --- a/Documentation/virt/kvm/api.rst
 +++ b/Documentation/virt/kvm/api.rst
-@@ -6819,16 +6819,19 @@ and zero on the fd of a VM on which no filter can be armed (see below).
- The classes are:
- 
-   ========================== ============================================
-+  KVM_X86_REG_FILTER_CR0     CR0, written by MOV to CR0, CLTS and LMSW
-+  KVM_X86_REG_FILTER_CR4     CR4, written by MOV to CR4
+@@ -6822,8 +6822,21 @@ The classes are:
+   KVM_X86_REG_FILTER_CR0     CR0, written by MOV to CR0, CLTS and LMSW
+   KVM_X86_REG_FILTER_CR4     CR4, written by MOV to CR4
    KVM_X86_REG_FILTER_XCR0    XCR0, written by XSETBV
++  KVM_X86_REG_FILTER_GDTR    GDTR, written by LGDT
++  KVM_X86_REG_FILTER_IDTR    IDTR, written by LIDT
++  KVM_X86_REG_FILTER_LDTR    LDTR, written by LLDT
++  KVM_X86_REG_FILTER_TR      TR, written by LTR
    ========================== ============================================
  
++For the descriptor-table registers, ``mask`` must be all ones, or zero
++to disarm: any load of the register triggers the filter, regardless of
++the old contents (reloading the same LDT selector re-reads the
++descriptor).  The exit reports the base and limit the guest tried to
++load for GDTR/IDTR, and the selector (in ``new_value``, before any
++descriptor validation) for LDTR/TR.  Userspace which performs an LLDT or
++LTR itself has to read the descriptor from the guest's GDT, load the
++hidden state from it and, for LTR, mark the TSS busy.
++
  Only writes executed by the guest are filtered.  Writes from userspace
--(KVM_SET_SREGS, KVM_SET_XCRS and similar) and state loaded by RSM, INIT
--or SIPI do not trigger the filter.  Writes executed by a nested guest do
--not trigger the filter, whether or not L1 intercepts them: they change
--the nested guest's register.  XCR0 is the exception, because L1 and its
--nested guest share it: an XSETBV which L1 lets the nested guest execute
--is filtered like L1's own, and the exit is then taken with
-+(KVM_SET_SREGS, KVM_SET_XCRS and similar), CR0/CR4 loads performed as
-+part of VM entry and VM exit of a nested guest, and state loaded by RSM,
-+INIT or SIPI do not trigger the filter.  Writes executed by a nested
-+guest do not trigger the filter, whether or not L1 intercepts them: they
-+change the nested guest's register.  XCR0 is the exception, because L1
-+and its nested guest share it: an XSETBV which L1 lets the nested guest
-+execute is filtered like L1's own, and the exit is then taken with
- KVM_RUN_X86_GUEST_MODE set in kvm_run.flags.
+ (KVM_SET_SREGS, KVM_SET_XCRS and similar), CR0/CR4 loads performed as
+ part of VM entry and VM exit of a nested guest, and state loaded by RSM,
+@@ -6851,6 +6864,12 @@ guest, a nested VM-exit loads CR0 and CR4 from the host-state fields of
+ the VMCS, which the guest writes.  A VMM which arms a CR0 or CR4 filter
+ against the guest's kernel has to accept those, or not expose VMX.
  
- Writes executed in System Management Mode do not trigger the filter
-@@ -6840,6 +6843,19 @@ area, so a VMM which arms a filter against the guest's kernel has to
- keep that kernel out of SMRAM, with the SMM address space
- (KVM_CAP_MULTI_ADDRESS_SPACE) and firmware which locks it.
- 
-+Nor does a control register load which the guest brings about without
-+writing the register.  A hardware task switch sets CR0.TS; it can only
-+set that bit, and there is no task switch in 64-bit mode, so a filter on
-+CR0.PG keeps it away from a 64-bit guest.  With VMX exposed to the
-+guest, a nested VM-exit loads CR0 and CR4 from the host-state fields of
-+the VMCS, which the guest writes.  A VMM which arms a CR0 or CR4 filter
-+against the guest's kernel has to accept those, or not expose VMX.
++The same goes for the descriptor-table registers, of which only the
++LGDT, LIDT, LLDT and LTR instructions are filtered: a hardware task
++switch loads TR and LDTR; with VMX exposed to the guest, a nested
++VM-exit loads GDTR, IDTR and TR from the host-state fields of the VMCS
++and makes LDTR unusable; and with SVM exposed, VMLOAD loads TR and LDTR.
 +
-+Filtering a CR0 or CR4 bit that KVM otherwise lets the guest own (for
-+example CR0.TS) forces interception of writes to that register, with the
-+attendant cost on write-heavy bits; the per-bit mask exists so that only
-+the bits userspace actually cares about pay it.
-+
- The ioctl fails with -EINVAL if ``reg`` or any ``mask`` bit is not
- supported, or if ``flags`` or ``reserved`` are not zero.
+ Filtering a CR0 or CR4 bit that KVM otherwise lets the guest own (for
+ example CR0.TS) forces interception of writes to that register, with the
+ attendant cost on write-heavy bits; the per-bit mask exists so that only
+@@ -7872,18 +7891,23 @@ The supported 'ret' values and their respective SW_EXITINFO2 encodings:
+ 			__u32 reg;	/* KVM_X86_REG_FILTER_* */
+ 			__u64 old_value;
+ 			__u64 new_value;
++			__u32 old_limit;	/* GDTR/IDTR only */
++			__u32 new_limit;	/* GDTR/IDTR only */
+ 		} reg_write;
  
-diff --git a/arch/x86/include/asm/kvm-x86-ops.h b/arch/x86/include/asm/kvm-x86-ops.h
-index 4dde4e3e608a..1e98d1c98303 100644
---- a/arch/x86/include/asm/kvm-x86-ops.h
-+++ b/arch/x86/include/asm/kvm-x86-ops.h
-@@ -143,6 +143,7 @@ KVM_X86_OP(check_emulate_instruction)
- KVM_X86_OP(apic_init_signal_blocked)
- KVM_X86_OP_OPTIONAL(enable_l2_tlb_flush)
- KVM_X86_OP_OPTIONAL(migrate_timers)
-+KVM_X86_OP_OPTIONAL(update_reg_write_filter)
- KVM_X86_OP(recalc_intercepts)
- KVM_X86_OP(complete_emulated_msr)
- KVM_X86_OP(vcpu_deliver_sipi_vector)
+ Used on x86 systems.  The guest executed a write, to a register with a
+ write filter armed by KVM_X86_SET_REG_WRITE_FILTER, that changes at
+-least one of the filtered bits.  The write has not taken effect and the
+-instruction has not retired: RIP still points at it.  ``reg`` identifies
+-the register, ``old_value`` its current contents, ``new_value`` the
+-value the guest tried to write and ``insn_len`` the length in bytes of
+-the instruction, which is always valid and never zero.  The exit is
+-taken before KVM validates the write: ``new_value`` may be one for which
+-the instruction would have faulted.  ``pad`` is reserved and is zero.
+-Userspace writes nothing to the structure but ``ret``.
++least one of the filtered bits (any load, for the descriptor-table
++registers).  The write has not taken effect and the instruction has not
++retired: RIP still points at it.  ``reg`` identifies the register,
++``old_value`` its current contents, ``new_value`` the value the guest
++tried to write and ``insn_len`` the length in bytes of the instruction,
++which is always valid and never zero.  For GDTR and IDTR the values are
++the base addresses and the ``*_limit`` fields carry the limits; for LDTR
++and TR they are the selectors.  The exit is taken before KVM validates
++the write: ``new_value`` may be one for which the instruction would have
++faulted.  ``pad`` is reserved and is zero.  Userspace writes nothing to
++the structure but ``ret``.
+ 
+ The exit needs completion.  KVM does not perform the write, ever, and
+ sets ``ret`` to zero, KVM_INSN_COMPLETE.  Re-entering the vCPU with
 diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 437e89ca93e1..3e0365f5557a 100644
+index 3e0365f5557a..c17a7022a575 100644
 --- a/arch/x86/include/asm/kvm_host.h
 +++ b/arch/x86/include/asm/kvm_host.h
-@@ -1745,6 +1745,13 @@ struct kvm_x86_ops {
- 	int (*enable_l2_tlb_flush)(struct kvm_vcpu *vcpu);
+@@ -221,7 +221,7 @@ enum x86_intercept_stage;
+ #define KVM_NR_DB_REGS	4
  
- 	void (*migrate_timers)(struct kvm_vcpu *vcpu);
+ /* Register classes KVM_X86_SET_REG_WRITE_FILTER knows about */
+-#define KVM_X86_NR_REG_WRITE_FILTERS	(KVM_X86_REG_FILTER_XCR0 + 1)
++#define KVM_X86_NR_REG_WRITE_FILTERS	(KVM_X86_REG_FILTER_TR + 1)
+ 
+ #define PFERR_PRESENT_MASK	BIT(0)
+ #define PFERR_WRITE_MASK	BIT(1)
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+index 5a16a2ce4399..623d66ff5562 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -234,6 +234,10 @@ struct kvm_msr_filter {
+ #define KVM_X86_REG_FILTER_CR0		0
+ #define KVM_X86_REG_FILTER_CR4		1
+ #define KVM_X86_REG_FILTER_XCR0		2
++#define KVM_X86_REG_FILTER_GDTR		3
++#define KVM_X86_REG_FILTER_IDTR		4
++#define KVM_X86_REG_FILTER_LDTR		5
++#define KVM_X86_REG_FILTER_TR		6
+ 
+ /* for KVM_X86_SET_REG_WRITE_FILTER */
+ struct kvm_x86_reg_write_filter {
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index 9a4aebcccc95..b40e347c498f 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -3375,9 +3375,20 @@ static int em_sldt(struct x86_emulate_ctxt *ctxt)
+ static int em_lldt(struct x86_emulate_ctxt *ctxt)
+ {
+ 	u16 sel = ctxt->src.val;
++	int rc;
+ 
+ 	/* Disable writeback. */
+ 	ctxt->dst.type = OP_NONE;
 +
 +	/*
-+	 * A register write filter changed: bring the interception which the
-+	 * armed filters need in line with vcpu->arch.reg_write_filter.
++	 * The filter check must precede any architectural effect, and sits
++	 * here rather than in ->set_segment() so that a task switch, which
++	 * loads LDTR through set_segment as well, is not diverted.
 +	 */
-+	void (*update_reg_write_filter)(struct kvm_vcpu *vcpu);
++	rc = ctxt->ops->filter_dt_write(ctxt, KVM_X86_REG_FILTER_LDTR, sel, 0);
++	if (rc != X86EMUL_CONTINUE)
++		return rc;
 +
- 	void (*recalc_intercepts)(struct kvm_vcpu *vcpu);
- 	int (*complete_emulated_msr)(struct kvm_vcpu *vcpu, int err);
- 
-diff --git a/arch/x86/kvm/vmx/main.c b/arch/x86/kvm/vmx/main.c
-index d75170a6199e..f902b0afabc9 100644
---- a/arch/x86/kvm/vmx/main.c
-+++ b/arch/x86/kvm/vmx/main.c
-@@ -219,6 +219,18 @@ static int vt_complete_emulated_msr(struct kvm_vcpu *vcpu, int err)
- 	return vmx_complete_emulated_msr(vcpu, err);
+ 	return load_segment_descriptor(ctxt, sel, VCPU_SREG_LDTR);
  }
  
-+static void vt_update_reg_write_filter(struct kvm_vcpu *vcpu)
-+{
-+	/*
-+	 * KVM_X86_SET_REG_WRITE_FILTER refuses to arm a filter on a VM with
-+	 * protected state, so there is never anything to apply for TDX.
-+	 */
-+	if (is_td_vcpu(vcpu))
-+		return;
+@@ -3389,9 +3400,21 @@ static int em_str(struct x86_emulate_ctxt *ctxt)
+ static int em_ltr(struct x86_emulate_ctxt *ctxt)
+ {
+ 	u16 sel = ctxt->src.val;
++	int rc;
+ 
+ 	/* Disable writeback. */
+ 	ctxt->dst.type = OP_NONE;
 +
-+	vmx_update_reg_write_filter(vcpu);
++	/*
++	 * The filter check must precede load_segment_descriptor(): that
++	 * path marks the TSS descriptor busy in the GDT, and the exit must
++	 * leave nothing behind.  Userspace performs the load itself, or
++	 * leaves it uncompleted and the LTR runs again.
++	 */
++	rc = ctxt->ops->filter_dt_write(ctxt, KVM_X86_REG_FILTER_TR, sel, 0);
++	if (rc != X86EMUL_CONTINUE)
++		return rc;
++
+ 	return load_segment_descriptor(ctxt, sel, VCPU_SREG_TR);
+ }
+ 
+@@ -3489,6 +3512,11 @@ static int em_lgdt_lidt(struct x86_emulate_ctxt *ctxt, bool lgdt)
+ 	    emul_is_noncanonical_address(desc_ptr.address, ctxt,
+ 					 X86EMUL_F_DT_LOAD))
+ 		return emulate_gp(ctxt, 0);
++	rc = ctxt->ops->filter_dt_write(ctxt, lgdt ? KVM_X86_REG_FILTER_GDTR :
++						     KVM_X86_REG_FILTER_IDTR,
++					desc_ptr.address, desc_ptr.size);
++	if (rc != X86EMUL_CONTINUE)
++		return rc;
+ 	if (lgdt)
+ 		ctxt->ops->set_gdt(ctxt, &desc_ptr);
+ 	else
+diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+index 311ff6a01079..981ba90926b9 100644
+--- a/arch/x86/kvm/kvm_emulate.h
++++ b/arch/x86/kvm/kvm_emulate.h
+@@ -224,6 +224,16 @@ struct x86_emulate_ops {
+ 	 */
+ 	int (*filter_cr_write)(struct x86_emulate_ctxt *ctxt, int cr,
+ 			       ulong val);
++	/*
++	 * Likewise for a descriptor-table load: @reg is the
++	 * KVM_X86_REG_FILTER_* class, @value the base (GDTR/IDTR) or
++	 * selector (LDTR/TR), @limit the limit (GDTR/IDTR only).  Only the
++	 * LGDT/LIDT/LLDT/LTR instructions are checked; loads on other
++	 * instructions' behalf (task switches, RSM) are not register
++	 * writes by the guest and stay unfiltered.
++	 */
++	int (*filter_dt_write)(struct x86_emulate_ctxt *ctxt, u32 reg,
++			       u64 value, u32 limit);
+ 	int (*cpl)(struct x86_emulate_ctxt *ctxt);
+ 	ulong (*get_effective_dr7)(struct x86_emulate_ctxt *ctxt);
+ 	ulong (*get_dr)(struct x86_emulate_ctxt *ctxt, int dr);
+diff --git a/arch/x86/kvm/regs.h b/arch/x86/kvm/regs.h
+index 9fbd6c37bf68..c4509175810b 100644
+--- a/arch/x86/kvm/regs.h
++++ b/arch/x86/kvm/regs.h
+@@ -65,6 +65,11 @@ unsigned long kvm_get_cr8(struct kvm_vcpu *vcpu);
+ void kvm_lmsw(struct kvm_vcpu *vcpu, unsigned long msw);
+ int load_pdptrs(struct kvm_vcpu *vcpu, unsigned long cr3);
+ 
++#define KVM_REG_WRITE_FILTER_DT_MASK	(BIT(KVM_X86_REG_FILTER_GDTR) | \
++					 BIT(KVM_X86_REG_FILTER_IDTR) | \
++					 BIT(KVM_X86_REG_FILTER_LDTR) | \
++					 BIT(KVM_X86_REG_FILTER_TR))
++
+ int kvm_vcpu_ioctl_set_reg_write_filter(struct kvm_vcpu *vcpu,
+ 					struct kvm_x86_reg_write_filter *filter);
+ bool __kvm_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg, u64 changed_bits);
+@@ -86,6 +91,23 @@ static inline bool kvm_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg,
+ 	return __kvm_reg_write_filtered(vcpu, reg, old_value ^ new_value);
+ }
+ 
++/*
++ * The descriptor-table variant: any LGDT, LIDT, LLDT or LTR triggers an
++ * armed filter, regardless of the old contents.
++ */
++static inline bool kvm_dt_write_filtered(struct kvm_vcpu *vcpu, u32 reg)
++{
++	if (likely(!(vcpu->arch.reg_write_filter_armed & BIT(reg))))
++		return false;
++
++	return __kvm_reg_write_filtered(vcpu, reg, ~0ULL);
 +}
 +
- #ifdef CONFIG_KVM_SMM
- static int vt_smi_allowed(struct kvm_vcpu *vcpu, bool for_injection)
- {
-@@ -1137,6 +1149,7 @@ struct kvm_x86_ops vt_x86_ops __initdata = {
- 	.check_emulate_instruction = vt_op(check_emulate_instruction),
- 	.apic_init_signal_blocked = vt_op(apic_init_signal_blocked),
- 	.migrate_timers = vmx_migrate_timers,
-+	.update_reg_write_filter = vt_op(update_reg_write_filter),
- 
- 	.recalc_intercepts = vt_op(recalc_intercepts),
- 	.complete_emulated_msr = vt_op(complete_emulated_msr),
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 879183c1bfa5..cd1083b2c344 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -2805,9 +2805,24 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
- 	 * trap. Note that CR0.TS also needs updating - we do this later.
- 	 */
- 	vmx_update_exception_bitmap(vcpu);
--	vcpu->arch.cr0_guest_owned_bits &= ~vmcs12->cr0_guest_host_mask;
-+	/*
-+	 * Recompute from scratch rather than narrowing the current (vmcs01)
-+	 * value: a register write filter (KVM_X86_SET_REG_WRITE_FILTER)
-+	 * forces its bits host-owned there, but covers only L1's writes.
-+	 */
-+	vcpu->arch.cr0_guest_owned_bits = vmx_guest_owned_cr0_bits() &
-+					  ~vmcs12->cr0_guest_host_mask;
- 	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
- 
-+	/*
-+	 * Likewise for CR4, which prepare_vmcs02_rare() computes only when
-+	 * vmcs12 is dirty: the nested VM-exit left L1's set behind, which
-+	 * with a filter armed has fewer bits than vmcs02 lets L2 own, and
-+	 * KVM would then not read such a bit back from GUEST_CR4.
-+	 */
-+	if (vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR4])
-+		set_cr4_guest_host_mask(vmx);
++static inline bool kvm_reg_write_filter_dt_armed(struct kvm_vcpu *vcpu)
++{
++	return vcpu->arch.reg_write_filter_armed & KVM_REG_WRITE_FILTER_DT_MASK;
++}
 +
- 	if (vcpu->arch.nested_run_pending &&
- 	    (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_PAT)) {
- 		vmcs_write64(GUEST_IA32_PAT, vmcs12->guest_ia32_pat);
-@@ -4823,10 +4838,11 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
- 	 * Note that calling vmx_set_cr0 is important, even if cr0 hasn't
- 	 * actually changed, because vmx_set_cr0 refers to efer set above.
- 	 *
--	 * CR0_GUEST_HOST_MASK is already set in the original vmcs01
--	 * (KVM doesn't change it);
-+	 * CR0_GUEST_HOST_MASK is already correct in vmcs01:
-+	 * __nested_vmx_vmexit() refreshed it after switching back, in case
-+	 * a register write filter changed while vmcs02 was loaded.
- 	 */
--	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
-+	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
- 	vmx_set_cr0(vcpu, vmcs12->host_cr0);
+ static inline bool is_long_mode(struct kvm_vcpu *vcpu)
+ {
+ #ifdef CONFIG_X86_64
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index 07554089ec05..618728034472 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -172,6 +172,22 @@ void nested_vmcb02_recalc_intercepts(struct vcpu_svm *svm)
+ 	for (i = 0; i < MAX_INTERCEPT; i++)
+ 		vmcb02->control.intercepts[i] |= vmcb12_ctrl->intercepts[i];
  
- 	/* Same as above - no reason to call set_cr4_guest_host_mask().  */
-@@ -4992,7 +5008,7 @@ static void nested_vmx_restore_host_state(struct kvm_vcpu *vcpu)
- 	 */
- 	vmx_set_efer(vcpu, nested_vmx_get_vmcs01_guest_efer(vmx));
++	/*
++	 * KVM arms the descriptor-table load intercepts in vmcb01 for the
++	 * register write filters (KVM_X86_SET_REG_WRITE_FILTER), which
++	 * cover only L1.  Drop them from vmcb02 unless L1 wants the
++	 * intercept itself, matching the SECONDARY_EXEC_DESC strip in
++	 * VMX's prepare_vmcs02().
++	 */
++	if (!vmcb12_is_intercept(vmcb12_ctrl, INTERCEPT_LOAD_GDTR))
++		vmcb_clr_intercept(&vmcb02->control, INTERCEPT_LOAD_GDTR);
++	if (!vmcb12_is_intercept(vmcb12_ctrl, INTERCEPT_LOAD_IDTR))
++		vmcb_clr_intercept(&vmcb02->control, INTERCEPT_LOAD_IDTR);
++	if (!vmcb12_is_intercept(vmcb12_ctrl, INTERCEPT_LOAD_LDTR))
++		vmcb_clr_intercept(&vmcb02->control, INTERCEPT_LOAD_LDTR);
++	if (!vmcb12_is_intercept(vmcb12_ctrl, INTERCEPT_LOAD_TR))
++		vmcb_clr_intercept(&vmcb02->control, INTERCEPT_LOAD_TR);
++
+ 	/* If SMI is not intercepted, ignore guest SMI intercept as well  */
+ 	if (!intercept_smi)
+ 		vmcb_clr_intercept(&vmcb02->control, INTERCEPT_SMI);
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index c91467a59e20..47913ba03d3e 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -1135,6 +1135,30 @@ static void svm_recalc_intercepts(struct kvm_vcpu *vcpu)
+ 	svm_recalc_msr_intercepts(vcpu);
+ }
  
--	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
-+	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
- 	vmx_set_cr0(vcpu, vmcs_readl(CR0_READ_SHADOW));
- 
- 	vcpu->arch.cr4_guest_owned_bits = ~vmcs_readl(CR4_GUEST_HOST_MASK);
-@@ -5172,6 +5188,7 @@ void __nested_vmx_vmexit(struct kvm_vcpu *vcpu, u32 vm_exit_reason,
- 	 * Update any VMCS fields that might have changed while vmcs02 was the
- 	 * active VMCS.  The tracking is per-vCPU, not per-VMCS.
++/*
++ * The descriptor-table load intercepts are armed in vmcb01 as a block,
++ * matching VMX's all-or-nothing SECONDARY_EXEC_DESC; an exit the emulator
++ * does not divert applies the load normally.
++ * nested_vmcb02_recalc_intercepts() keeps them out of vmcb02 unless L1
++ * asked for them itself.
++ */
++static void svm_recalc_dt_load_intercepts(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_svm *svm = to_svm(vcpu);
++
++	if (kvm_reg_write_filter_dt_armed(vcpu)) {
++		svm_set_intercept(svm, INTERCEPT_LOAD_GDTR);
++		svm_set_intercept(svm, INTERCEPT_LOAD_IDTR);
++		svm_set_intercept(svm, INTERCEPT_LOAD_LDTR);
++		svm_set_intercept(svm, INTERCEPT_LOAD_TR);
++	} else {
++		svm_clr_intercept(svm, INTERCEPT_LOAD_GDTR);
++		svm_clr_intercept(svm, INTERCEPT_LOAD_IDTR);
++		svm_clr_intercept(svm, INTERCEPT_LOAD_LDTR);
++		svm_clr_intercept(svm, INTERCEPT_LOAD_TR);
++	}
++}
++
+ static void svm_update_reg_write_filter(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_svm *svm = to_svm(vcpu);
+@@ -1149,6 +1173,8 @@ static void svm_update_reg_write_filter(struct kvm_vcpu *vcpu)
  	 */
-+	vmx_refresh_reg_write_filter(vcpu);
- 	vmcs_write32(VM_EXIT_MSR_STORE_COUNT, vmx->msr_autostore.nr);
- 	vmcs_write32(VM_EXIT_MSR_LOAD_COUNT, vmx->msr_autoload.host.nr);
- 	vmcs_write32(VM_ENTRY_MSR_LOAD_COUNT, vmx->msr_autoload.guest.nr);
+ 	if (vcpu->arch.reg_write_filter_armed & BIT(KVM_X86_REG_FILTER_CR0))
+ 		svm_set_intercept(svm, INTERCEPT_CR0_WRITE);
++
++	svm_recalc_dt_load_intercepts(vcpu);
+ }
+ 
+ static void init_vmcb(struct kvm_vcpu *vcpu, bool init_event)
+@@ -1317,6 +1343,13 @@ static void init_vmcb(struct kvm_vcpu *vcpu, bool init_event)
+ 
+ 	svm_hv_init_vmcb(vmcb);
+ 
++	/*
++	 * A reset does not touch the register write filters, but a SHUTDOWN
++	 * clears the VMCB: re-arm the intercepts which the filters need.
++	 * The reset's svm_set_cr0() takes care of INTERCEPT_CR0_WRITE.
++	 */
++	svm_recalc_dt_load_intercepts(vcpu);
++
+ 	kvm_make_request(KVM_REQ_RECALC_INTERCEPTS, vcpu);
+ 
+ 	vmcb_mark_all_dirty(vmcb);
+@@ -2099,6 +2132,17 @@ static int npf_interception(struct kvm_vcpu *vcpu)
+ 	return rc;
+ }
+ 
++static int desc_interception(struct kvm_vcpu *vcpu)
++{
++	/*
++	 * Descriptor-table load exits are armed only while a write filter
++	 * covers one of the descriptor-table registers; the emulator
++	 * diverts a filtered load into a KVM_EXIT_X86_REG_WRITE exit and
++	 * applies an unfiltered one normally.
++	 */
++	return kvm_emulate_instruction(vcpu, 0);
++}
++
+ static int db_interception(struct kvm_vcpu *vcpu)
+ {
+ 	struct kvm_run *kvm_run = vcpu->run;
+@@ -3523,6 +3567,10 @@ static int (*const svm_exit_handlers[])(struct kvm_vcpu *vcpu) = {
+ 	[SVM_EXIT_WRITE_CR3]			= cr_interception,
+ 	[SVM_EXIT_WRITE_CR4]			= cr_interception,
+ 	[SVM_EXIT_WRITE_CR8]			= cr8_write_interception,
++	[SVM_EXIT_GDTR_WRITE]			= desc_interception,
++	[SVM_EXIT_IDTR_WRITE]			= desc_interception,
++	[SVM_EXIT_LDTR_WRITE]			= desc_interception,
++	[SVM_EXIT_TR_WRITE]			= desc_interception,
+ 	[SVM_EXIT_READ_DR0]			= dr_interception,
+ 	[SVM_EXIT_READ_DR1]			= dr_interception,
+ 	[SVM_EXIT_READ_DR2]			= dr_interception,
+@@ -5786,6 +5834,9 @@ static __init void svm_set_cpu_caps(void)
+ 	kvm_caps.supported_reg_write_filter |= BIT(KVM_X86_REG_FILTER_CR0) |
+ 					       BIT(KVM_X86_REG_FILTER_CR4);
+ 
++	/* As can the four descriptor-table load intercepts. */
++	kvm_caps.supported_reg_write_filter |= KVM_REG_WRITE_FILTER_DT_MASK;
++
+ 	/* CPUID 0x80000008 */
+ 	if (boot_cpu_has(X86_FEATURE_LS_CFG_SSBD) ||
+ 	    boot_cpu_has(X86_FEATURE_AMD_SSBD))
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index aeae8eedd19f..d785bcf52a3f 100644
+index d785bcf52a3f..9f322c672466 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -4563,12 +4563,69 @@ void set_cr4_guest_host_mask(struct vcpu_vmx *vmx)
- 		vcpu->arch.cr4_guest_owned_bits &= ~X86_CR4_TLBFLUSH_BITS;
- 		vcpu->arch.cr4_guest_owned_bits &= ~X86_CR4_PDPTR_BITS;
+@@ -3611,13 +3611,25 @@ void vmx_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
+ 		hw_cr4 |= KVM_PMODE_VM_CR4_ALWAYS_ON;
+ 
+ 	if (vmx_umip_emulated()) {
++		bool clear = false;
++
+ 		if (cr4 & X86_CR4_UMIP) {
+ 			secondary_exec_controls_setbit(vmx, SECONDARY_EXEC_DESC);
+ 			hw_cr4 &= ~X86_CR4_UMIP;
+-		} else if (!is_guest_mode(vcpu) ||
+-			!nested_cpu_has2(get_vmcs12(vcpu), SECONDARY_EXEC_DESC)) {
+-			secondary_exec_controls_clearbit(vmx, SECONDARY_EXEC_DESC);
++		} else if (is_guest_mode(vcpu)) {
++			clear = !nested_cpu_has2(get_vmcs12(vcpu),
++						 SECONDARY_EXEC_DESC);
++		} else {
++			/*
++			 * Clearing CR4.UMIP must not disarm the control
++			 * while a descriptor-table write filter relies
++			 * on it.
++			 */
++			clear = !kvm_reg_write_filter_dt_armed(vcpu);
+ 		}
++
++		if (clear)
++			secondary_exec_controls_clearbit(vmx, SECONDARY_EXEC_DESC);
  	}
--	if (is_guest_mode(&vmx->vcpu))
-+	if (is_guest_mode(&vmx->vcpu)) {
- 		vcpu->arch.cr4_guest_owned_bits &=
- 			~get_vmcs12(vcpu)->cr4_guest_host_mask;
-+	} else {
-+		/*
-+		 * A write filter (KVM_X86_SET_REG_WRITE_FILTER) forces
-+		 * interception of L1's writes to the filtered bits.  It
-+		 * covers only L1, so the vmcs02 mask is left alone.
-+		 */
-+		vcpu->arch.cr4_guest_owned_bits &=
-+			~vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR4];
-+	}
- 	vmcs_writel(CR4_GUEST_HOST_MASK, ~vcpu->arch.cr4_guest_owned_bits);
+ 
+ 	vcpu->arch.cr4 = cr4;
+@@ -4579,19 +4591,38 @@ void set_cr4_guest_host_mask(struct vcpu_vmx *vmx)
  }
  
-+/*
-+ * Refresh the interception that the register write filter needs: a
-+ * filtered CR0/CR4 bit must be host-owned in the vmcs01 guest/host masks
-+ * so that the guest's writes to it actually exit.  For vmcs01, which must
-+ * be loaded.
-+ *
-+ * This is all a nested VM-exit needs, for a filter which changed while
-+ * vmcs02 was loaded: it loads L1's CR0 and CR4 afresh.
+ /*
+- * Refresh the interception that the register write filter needs: a
+- * filtered CR0/CR4 bit must be host-owned in the vmcs01 guest/host masks
+- * so that the guest's writes to it actually exit.  For vmcs01, which must
+- * be loaded.
++ * SECONDARY_EXEC_DESC has two consumers: UMIP emulation (descriptor-table
++ * reads must #GP when CR4.UMIP is set and the CPU cannot do it) and the
++ * descriptor-table write filters.  Every arm or disarm of the control for
++ * one consumer must preserve the other's claim.
 + */
-+void vmx_refresh_reg_write_filter(struct kvm_vcpu *vcpu)
++static bool vmx_need_desc_exiting(struct kvm_vcpu *vcpu)
 +{
-+	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
-+	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
-+	set_cr4_guest_host_mask(to_vmx(vcpu));
++	return (vmx_umip_emulated() &&
++		kvm_is_cr4_bit_set(vcpu, X86_CR4_UMIP)) ||
++	       kvm_reg_write_filter_dt_armed(vcpu);
 +}
 +
 +/*
-+ * A filter changed.  While vmcs02 is loaded there is nothing to do yet:
-+ * __nested_vmx_vmexit() refreshes vmcs01 after switching back.
-+ */
-+void vmx_update_reg_write_filter(struct kvm_vcpu *vcpu)
-+{
-+	struct vcpu_vmx *vmx = to_vmx(vcpu);
-+	unsigned long cr0, cr4;
-+
-+	if (vmx->loaded_vmcs != &vmx->vmcs01)
-+		return;
-+
-+	/*
-+	 * The guest changes the bits it owns without an exit, and KVM reads
-+	 * them back from GUEST_CR0/GUEST_CR4 only on demand, and only those
-+	 * it knows the guest to own.  Read them all before any changes
-+	 * owner, or the cached value of such a bit stays stale for ever.
-+	 */
-+	cr0 = kvm_read_cr0(vcpu);
-+	cr4 = kvm_read_cr4(vcpu);
-+
-+	vmx_refresh_reg_write_filter(vcpu);
-+
-+	/*
-+	 * The guest reads a bit which the host owns from the read shadow,
-+	 * and CLTS and LMSW exit or not by it: it has to hold the current
-+	 * value of the bits which the host has just taken.
-+	 */
-+	vmcs_writel(CR0_READ_SHADOW, cr0);
-+	vmcs_writel(CR4_READ_SHADOW, cr4);
-+}
-+
- static u32 vmx_pin_based_exec_ctrl(struct vcpu_vmx *vmx)
++ * Refresh the interception that the register write filters need: a
++ * filtered CR0/CR4 bit must be host-owned in the vmcs01 guest/host masks,
++ * and a descriptor-table filter needs SECONDARY_EXEC_DESC, so that the
++ * guest's writes actually exit.  For vmcs01, which must be loaded.
+  *
+  * This is all a nested VM-exit needs, for a filter which changed while
+  * vmcs02 was loaded: it loads L1's CR0 and CR4 afresh.
+  */
+ void vmx_refresh_reg_write_filter(struct kvm_vcpu *vcpu)
  {
- 	u32 pin_based_exec_ctrl = vmcs_config.pin_based_exec_ctrl;
-@@ -4976,7 +5033,7 @@ static void init_vmcs(struct kvm_vcpu *vcpu)
- 	/* 22.2.1, 20.8.1 */
- 	vm_entry_controls_set(vmx, vmx_get_initial_vmentry_ctrl());
- 
--	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits();
-+	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
++	struct vcpu_vmx *vmx = to_vmx(vcpu);
++
+ 	vcpu->arch.cr0_guest_owned_bits = vmx_l1_guest_owned_cr0_bits(vcpu);
  	vmcs_writel(CR0_GUEST_HOST_MASK, ~vcpu->arch.cr0_guest_owned_bits);
+-	set_cr4_guest_host_mask(to_vmx(vcpu));
++	set_cr4_guest_host_mask(vmx);
++
++	if (vmcs_config.cpu_based_2nd_exec_ctrl & SECONDARY_EXEC_DESC)
++		secondary_exec_controls_changebit(vmx, SECONDARY_EXEC_DESC,
++						  vmx_need_desc_exiting(vcpu));
+ }
  
- 	set_cr4_guest_host_mask(vmx);
-@@ -5680,6 +5737,21 @@ static int handle_desc(struct kvm_vcpu *vcpu)
+ /*
+@@ -5733,7 +5764,13 @@ static int handle_desc(struct kvm_vcpu *vcpu)
+ 	 */
+ 	BUILD_BUG_ON(KVM_POSSIBLE_CR4_GUEST_BITS & X86_CR4_UMIP);
+ 
+-	WARN_ON_ONCE(!kvm_is_cr4_bit_set(vcpu, X86_CR4_UMIP));
++	/*
++	 * Descriptor-table exits are also armed by the write filters; only
++	 * an exit with neither UMIP emulation nor a filter armed indicates
++	 * a stale SECONDARY_EXEC_DESC control.
++	 */
++	WARN_ON_ONCE(!kvm_is_cr4_bit_set(vcpu, X86_CR4_UMIP) &&
++		     !kvm_reg_write_filter_dt_armed(vcpu));
  	return kvm_emulate_instruction(vcpu, 0);
  }
  
-+/*
-+ * Send an intercepted write which a register write filter catches to
-+ * userspace instead of performing it.
-+ */
-+static bool vmx_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg,
-+				   unsigned long old, unsigned long val)
-+{
-+	if (!kvm_reg_write_filtered(vcpu, reg, old, val))
-+		return false;
-+
-+	kvm_reg_write_user_space(vcpu, reg, old, val,
-+				 vmcs_read32(VM_EXIT_INSTRUCTION_LEN));
-+	return true;
-+}
-+
- static int handle_cr(struct kvm_vcpu *vcpu)
- {
- 	unsigned long exit_qualification, val;
-@@ -5697,6 +5769,9 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 		trace_kvm_cr_write(cr, val);
- 		switch (cr) {
- 		case 0:
-+			if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
-+						   kvm_read_cr0(vcpu), val))
-+				return 0;
- 			err = handle_set_cr0(vcpu, val);
- 			return kvm_complete_insn_gp(vcpu, err);
- 		case 3:
-@@ -5705,6 +5780,9 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 			err = kvm_set_cr3(vcpu, val);
- 			return kvm_complete_insn_gp(vcpu, err);
- 		case 4:
-+			if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR4,
-+						   kvm_read_cr4(vcpu), val))
-+				return 0;
- 			err = handle_set_cr4(vcpu, val);
- 			return kvm_complete_insn_gp(vcpu, err);
- 		case 8: {
-@@ -5727,8 +5805,23 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 		}
- 		break;
- 	case 2: /* clts */
--		KVM_BUG(1, vcpu->kvm, "Guest always owns CR0.TS");
--		return -EIO;
-+		val = kvm_read_cr0(vcpu);
-+		/* Trace the write whether or not it is filtered, as for MOV. */
-+		trace_kvm_cr_write(0, val & ~X86_CR0_TS);
-+		if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
-+					   val, val & ~X86_CR0_TS))
-+			return 0;
-+		/*
-+		 * The guest owns CR0.TS unless a write filter on it forced
-+		 * it host-owned, and the filter never reaches into vmcs02.
-+		 */
-+		if (KVM_BUG(is_guest_mode(vcpu) ||
-+			    !(vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR0] &
-+			      X86_CR0_TS), vcpu->kvm, "Unexpected CLTS exit"))
-+			return -EIO;
-+
-+		err = kvm_set_cr0(vcpu, val & ~X86_CR0_TS);
-+		return kvm_complete_insn_gp(vcpu, err);
- 	case 1: /*mov from cr*/
- 		switch (cr) {
- 		case 3:
-@@ -5748,6 +5841,10 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 	case 3: /* lmsw */
- 		val = (exit_qualification >> LMSW_SOURCE_DATA_SHIFT) & 0x0f;
- 		trace_kvm_cr_write(0, (kvm_read_cr0_bits(vcpu, ~0xful) | val));
-+		if (vmx_reg_write_filtered(vcpu, KVM_X86_REG_FILTER_CR0,
-+					   kvm_read_cr0(vcpu),
-+					   kvm_read_cr0_bits(vcpu, ~0x0eul) | val))
-+			return 0;
- 		kvm_lmsw(vcpu, val);
+@@ -8749,6 +8786,11 @@ __init int vmx_hardware_setup(void)
+ 	kvm_caps.supported_reg_write_filter |= BIT(KVM_X86_REG_FILTER_CR0) |
+ 					       BIT(KVM_X86_REG_FILTER_CR4);
  
- 		return kvm_skip_emulated_instruction(vcpu);
-@@ -8648,6 +8745,10 @@ __init int vmx_hardware_setup(void)
- 	kvm_caps.has_bus_lock_exit = cpu_has_vmx_bus_lock_detection();
- 	kvm_caps.has_notify_vmexit = cpu_has_notify_vmexit();
- 
-+	/* The guest/host masks can force any CR0/CR4 bit host-owned. */
-+	kvm_caps.supported_reg_write_filter |= BIT(KVM_X86_REG_FILTER_CR0) |
-+					       BIT(KVM_X86_REG_FILTER_CR4);
++	/* Descriptor-table filters need descriptor-table exiting. */
++	if (vmcs_config.cpu_based_2nd_exec_ctrl & SECONDARY_EXEC_DESC)
++		kvm_caps.supported_reg_write_filter |=
++			KVM_REG_WRITE_FILTER_DT_MASK;
 +
  	set_bit(0, vmx_vpid_bitmap); /* 0 is reserved for host */
  
  	if (enable_ept)
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 74cd50f29fa4..80b17d69f9c1 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -315,6 +315,7 @@ int vmx_set_efer(struct kvm_vcpu *vcpu, u64 efer);
- void vmx_set_cr0(struct kvm_vcpu *vcpu, unsigned long cr0);
- void vmx_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4);
- void set_cr4_guest_host_mask(struct vcpu_vmx *vmx);
-+void vmx_refresh_reg_write_filter(struct kvm_vcpu *vcpu);
- void ept_save_pdptrs(struct kvm_vcpu *vcpu);
- void vmx_get_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
- void __vmx_set_segment(struct kvm_vcpu *vcpu, struct kvm_segment *var, int seg);
-@@ -592,7 +593,7 @@ BUILD_CONTROLS_SHADOW(tertiary_exec, TERTIARY_VM_EXEC_CONTROL, 64)
- 				 BIT(VCPU_REG_EXIT_INFO_1) |	\
- 				 BIT(VCPU_REG_EXIT_INFO_2))
- 
--static inline unsigned long vmx_l1_guest_owned_cr0_bits(void)
-+static inline unsigned long vmx_guest_owned_cr0_bits(void)
- {
- 	unsigned long bits = KVM_POSSIBLE_CR0_GUEST_BITS;
- 
-@@ -610,6 +611,17 @@ static inline unsigned long vmx_l1_guest_owned_cr0_bits(void)
- 	return bits;
- }
- 
-+static inline unsigned long vmx_l1_guest_owned_cr0_bits(struct kvm_vcpu *vcpu)
-+{
-+	/*
-+	 * A write filter (KVM_X86_SET_REG_WRITE_FILTER) forces interception
-+	 * of L1's writes to the filtered bits.  It covers only L1:
-+	 * prepare_vmcs02() computes the nested masks without it.
-+	 */
-+	return vmx_guest_owned_cr0_bits() &
-+	       ~vcpu->arch.reg_write_filter[KVM_X86_REG_FILTER_CR0];
-+}
-+
- static __always_inline struct kvm_vmx *to_kvm_vmx(struct kvm *kvm)
- {
- 	return container_of(kvm, struct kvm_vmx, kvm);
-diff --git a/arch/x86/kvm/vmx/x86_ops.h b/arch/x86/kvm/vmx/x86_ops.h
-index cd72684d075d..0da766f1998f 100644
---- a/arch/x86/kvm/vmx/x86_ops.h
-+++ b/arch/x86/kvm/vmx/x86_ops.h
-@@ -45,6 +45,7 @@ int vmx_check_intercept(struct kvm_vcpu *vcpu,
- 			struct x86_exception *exception);
- bool vmx_apic_init_signal_blocked(struct kvm_vcpu *vcpu);
- void vmx_migrate_timers(struct kvm_vcpu *vcpu);
-+void vmx_update_reg_write_filter(struct kvm_vcpu *vcpu);
- void vmx_set_virtual_apic_mode(struct kvm_vcpu *vcpu);
- void vmx_hwapic_isr_update(struct kvm_vcpu *vcpu, int max_isr);
- int vmx_sync_pir_to_irr(struct kvm_vcpu *vcpu);
 diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 4e6f0cb80288..7fe4b559ed73 100644
+index 7fe4b559ed73..e32edbd9777e 100644
 --- a/arch/x86/kvm/x86.c
 +++ b/arch/x86/kvm/x86.c
-@@ -760,6 +760,7 @@ bool __kvm_reg_write_filtered(struct kvm_vcpu *vcpu, u32 reg, u64 changed_bits)
- 
- 	return changed_bits & vcpu->arch.reg_write_filter[reg];
+@@ -895,6 +895,20 @@ int kvm_vcpu_ioctl_set_reg_write_filter(struct kvm_vcpu *vcpu,
+ 	case KVM_X86_REG_FILTER_XCR0:
+ 		allowed = kvm_caps.supported_xcr0 | XFEATURE_MASK_FP;
+ 		break;
++	case KVM_X86_REG_FILTER_GDTR:
++	case KVM_X86_REG_FILTER_IDTR:
++	case KVM_X86_REG_FILTER_LDTR:
++	case KVM_X86_REG_FILTER_TR:
++		/*
++		 * A descriptor-table load triggers regardless of the old
++		 * contents (reloading the same LDT selector re-reads the
++		 * descriptor), so the only meaningful masks are all ones
++		 * and, to disarm, zero.
++		 */
++		if (filter->mask && filter->mask != ~0ULL)
++			return -EINVAL;
++		allowed = ~0ULL;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -5885,6 +5899,42 @@ static int emulator_filter_cr_write(struct x86_emulate_ctxt *ctxt, int cr,
+ 	return emulator_reg_write_exit(ctxt, reg, old_value, new_value);
  }
-+EXPORT_SYMBOL_FOR_KVM_INTERNAL(__kvm_reg_write_filtered);
  
- /*
-  * KVM_RUN after KVM_EXIT_X86_REG_WRITE: userspace has performed the write,
-@@ -812,6 +813,7 @@ void kvm_reg_write_user_space(struct kvm_vcpu *vcpu, u32 reg, u64 old_value,
- 	kvm_fill_reg_write_exit(vcpu, reg, old_value, new_value, insn_len);
- 	vcpu->arch.complete_userspace_io = complete_fast_reg_write;
- }
-+EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_reg_write_user_space);
- 
- int kvm_emulate_xsetbv(struct kvm_vcpu *vcpu, u8 insn_len)
++static int emulator_filter_dt_write(struct x86_emulate_ctxt *ctxt, u32 reg,
++				    u64 value, u32 limit)
++{
++	struct kvm_vcpu *vcpu = emul_to_vcpu(ctxt);
++	struct kvm_segment seg;
++	struct desc_ptr dt;
++	u32 old_limit = 0;
++	u64 old_value;
++
++	if (!kvm_dt_write_filtered(vcpu, reg))
++		return X86EMUL_CONTINUE;
++
++	switch (reg) {
++	case KVM_X86_REG_FILTER_GDTR:
++		kvm_x86_call(get_gdt)(vcpu, &dt);
++		old_value = dt.address;
++		old_limit = dt.size;
++		break;
++	case KVM_X86_REG_FILTER_IDTR:
++		kvm_x86_call(get_idt)(vcpu, &dt);
++		old_value = dt.address;
++		old_limit = dt.size;
++		break;
++	default:
++		kvm_get_segment(vcpu, &seg, reg == KVM_X86_REG_FILTER_LDTR ?
++					    VCPU_SREG_LDTR : VCPU_SREG_TR);
++		old_value = seg.selector;
++		break;
++	}
++
++	emulator_reg_write_exit(ctxt, reg, old_value, value);
++	vcpu->run->reg_write.old_limit = old_limit;
++	vcpu->run->reg_write.new_limit = limit;
++	return X86EMUL_IO_NEEDED;
++}
++
+ static int emulator_get_cpl(struct x86_emulate_ctxt *ctxt)
  {
-@@ -906,6 +908,7 @@ int kvm_vcpu_ioctl_set_reg_write_filter(struct kvm_vcpu *vcpu,
- 	else
- 		vcpu->arch.reg_write_filter_armed &= ~BIT(filter->reg);
- 
-+	kvm_x86_call(update_reg_write_filter)(vcpu);
- 	return 0;
- }
- 
+ 	return kvm_x86_call(get_cpl)(emul_to_vcpu(ctxt));
+@@ -6158,6 +6208,7 @@ static const struct x86_emulate_ops emulate_ops = {
+ 	.get_cr              = emulator_get_cr,
+ 	.set_cr              = emulator_set_cr,
+ 	.filter_cr_write     = emulator_filter_cr_write,
++	.filter_dt_write     = emulator_filter_dt_write,
+ 	.cpl                 = emulator_get_cpl,
+ 	.get_effective_dr7   = emulator_get_effective_dr7,
+ 	.get_dr              = emulator_get_dr,
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 165fa36c2479..566b98bb5823 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -521,6 +521,8 @@ struct kvm_run {
+ 			__u32 reg;	/* KVM_X86_REG_FILTER_* */
+ 			__u64 old_value;
+ 			__u64 new_value;
++			__u32 old_limit;	/* GDTR/IDTR only */
++			__u32 new_limit;	/* GDTR/IDTR only */
+ 		} reg_write;
+ 		/* Fix the size of the union. */
+ 		char padding[256];
 -- 
 2.50.1
 
