@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793256;
-	b=IL1/D0Smwxrj46SUVsQhyoIVl6Gj7rN10cOBT/ZC8h67SCIE7wz8EgrRmAxnikZEkAUE
-	 /vvstmFfh+wlmhgQBkKTHjx3Bq3CIN4Q5vPE0Mo87/45GyWyhyip8Y+BJL5ZC8t1a5ecn
-	 NMrh/1HWJVUBqvcb91kjc0jVPUHK/hONqPYQYBqiNho7c0VEkBjnViLMiC2ISTftmVSpu
-	 Nz3xSd9glPbkxeUW1T419gZjLDNHICrfwGdELXSC5uhelto5tpwtcM9YNsIUx0mxsyoiR
-	 p2wWa+wdAAHs6aVX9WhBSmATMMKGTvvtxtHvdcy+JH5HUCgeFj/BU8GFnnAOCyXVUmw==
+	t=1795793257;
+	b=EfCtTFhxKBaBg2qYaEpX5uWPtr6L7lf0jfvL4rXfcP2IshlctTctxaadzGZxP3Q8kpRO
+	 Gt4c6wsMizh7tP2FM180U/EYoQLXdM/YNTkbItYHeHM061XFd0vCeTck6B6TwtHKSZz8n
+	 I8NeYm2rJSXtUDW+lk47IzmLWkikdR6ndVpjPWBRyb5SRfHmQKt7iIL07bqkyjzn4vrcC
+	 u0OEH6TQSAt6QhvQCUn2r4fk1K/avHU++40PtpuMesrfR3S+pmSajMQd1HsLElulCau/9
+	 sDElM21Qe0ShOnEENP0/RcVK3rZWfITXiKDeCo0X0UoxKwvwyXKIezLMowpoJ546CWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793256;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793257;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=;
-	b=WrXRsvE3Gt4lOrwayRmhaWr7W/W8FP2UXCOyIVvjbAcTe1YQF+UmYHZT3iQ8v0A4yl5X
-	 HtctGAaiuHelpkAmJ6ehvpOQ99AEoM/yYXo/PKz/LC+2ANGjRSwdqb1jOUnDgieQInI1X
-	 7ABe8TEiWzNdz6ndpdi2FdgPxUTBeilqp8WhO8UTc2XOEKgQfvVOvAWAehpGQmCabme7H
-	 xQ5vgwn53d0Ef+2rfRaVj7k+oWUhJT85f70ZbZKP0z7nuLypreWx6slIWYNDyiHB9jcZ7
-	 vyGzClwMqVbn3Uzz1AZAIgtiSkvktLGS7SStu5bMVZUpJfkdo47MRHxO762ZjJ35dpA==
+	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=V8f0Q6TbV7LbEpEvqhhk+84xLRLCblFP1gkUjWxyXtk=;
+	b=PnKyFvAUMNdK0WzRLBTpnns9YHG+/CS+QLdHGT8eK7UK2SDhaS74B0jJptDnQgVLRaJU
+	 7qTY52Zlfp3bHZAZYcEytjDLq+lfMJJop5B0mhNIYHWZ7o0hKkubaCm4VXhv17l/1kPTp
+	 hiSLkE0s5NPb70faw8N3zb+xLyVLOF7IkJ8lCLM/Fg1XPD2J15N9m5AYXpYvDP013XauK
+	 Wzn9D/272lYA4M6oL/YbmL7lwQE6mY5T4xVUyua+C6eYpJ1D7MLsUu8OAvffZFysE0fSw
+	 kDcY3a6kHbdFqw45krs5katrk2oa79gbYtzvHEmlAHoEBRk6r430BV8ro3tUzeU0JVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=FORv+Qzm;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED97606A31F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF1F606A327;
 	Fri, 27 Nov 2026 15:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ED97606A31F
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EF1F606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=eS88KzN3
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=FORv+Qzm
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=b21IBx176tNT26CrcV+lAj1FVajl2noTGMquN5oHS2k=; b=eS88KzN37mbA/gyleS0bA4FRCT
-	tn34jW9YU7AMC3QOnsOvj2l1GuXRrFmzxbX725k2s4GyYzjpHH6p3vDpjKRPpLmipoOE1axEr8q+7
-	p8BBqHsCyM4JBpM+PgmhHZe73jwcQwER9gMH7Pflc0xnxq7PxCWwITl5GuTCB5lkJ9bQK4Cdb6oLK
-	DeS6uE1ZaE0svLQlXcUdfJil2X3j3tHu6yZ6K+6WzubWyNsGB85d9dVnhKPd36S/mX7pvJUEJMSTr
-	jBpmo4ItXiBLz2ck7CaiEQ40X+6gmSCvkV6d1gTlij46/0NdPA6xCuqILuKq9YgMdooUTE+cDL7o7
-	pVNMViww==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description;
+	bh=V8f0Q6TbV7LbEpEvqhhk+84xLRLCblFP1gkUjWxyXtk=; b=FORv+QzmIEWIulOlnG9e9oMjXE
+	fnXpPyUw5RSLbohTtYurzBUjlh0SEWQGtRNOzEGAoBC1KNSAFxEN2ErYN5/snP6CUCZ/axjtE3rKM
+	8z64JrvZ+MipsF+oX3B/1GfbdQuf6ovQOx4C8894GlbdMz7Ic/JsSyARQQUzaEYQTl63KaZZ79yDn
+	8ZrW3hg3K82BBBR3MaPw1pTXQIQf3HQEQFaHWjbAdH9yUNZ3GEB7O626QowLp8gV06CmSuh1Yefxg
+	yQA8jw/NrKzOHPg9JZeOKn4lQn3fbTdcI3lMgid8hlDIweiO+BR6CoHFlOHL5wn3RhI2od+/CTDHe
+	Ghl4WbTw==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWxrG-0000000Gy1V-2RVf;
+	id 1xWxrG-0000000Gy2t-3L6I;
 	Fri, 27 Nov 2026 15:27:30 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xWxrG-00000000PqA-1Flc;
+	id 1xWxrG-00000000PqW-2WJs;
 	Fri, 27 Nov 2026 15:27:30 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -89,9 +89,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Liran Alon <liran.alon@oracle.com>,
 	Arbel Moshe <arbel.moshe@oracle.com>,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v3 03/15] KVM: x86: Let userspace leave an MSR access alone
-Date: Fri, 27 Nov 2026 15:27:18 +0000
-Message-ID: <20261127152730.99319-4-dwmw2@infradead.org>
+Subject: [PATCH v3 08/15] KVM: selftests: Add Hyper-V hypercall forwarding test
+Date: Fri, 27 Nov 2026 15:27:23 +0000
+Message-ID: <20261127152730.99319-9-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261127152730.99319-1-dwmw2@infradead.org>
 References: <20261127152730.99319-1-dwmw2@infradead.org>
@@ -104,261 +104,440 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-hyperv+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-A VMM completing KVM_EXIT_X86_RDMSR or KVM_EXIT_X86_WRMSR can only have
-KVM retire the instruction or inject #GP.  It cannot raise another
-exception, or hand the access to something which retires it later.
-
-With KVM_CAP_X86_MSR_EXIT_INSN, 'error' takes KVM_INSN_*: zero and one
-mean what they did, KVM_INSN_UD injects #UD and KVM_INSN_RESUME makes
-KVM do nothing.  Other values fail KVM_RUN.
+Cover KVM_CAP_HYPERV_FORWARD_HCALL: the feature mask; an unknown
+hypercall forwarded in memory-based and fast form, and an extended one
+in fast form, with the full 64-bit result and the XMM output from
+userspace; and 'ret', which is ignored until enabled, raises #UD or #GP,
+lets a queued #NM be taken at the hypercall, re-executes it with nothing
+queued, and fails KVM_RUN when reserved, leaving RAX alone each time.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- Documentation/virt/kvm/api.rst  | 34 ++++++++++++++-
- arch/x86/include/asm/kvm_host.h |  2 +
- arch/x86/kvm/msrs.c             | 75 ++++++++++++++++++++++++++-------
- arch/x86/kvm/x86.c              |  8 ++++
- include/uapi/linux/kvm.h        |  3 +-
- 5 files changed, 105 insertions(+), 17 deletions(-)
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/x86/hyperv_forward_hcall.c  | 395 ++++++++++++++++++
+ 2 files changed, 396 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d15dddd79e5b..6d4a11ce368c 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -7441,7 +7441,7 @@ non-zero value, indicating that FEAT_LS64* is enabled.
- 
- 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
- 		struct {
--			__u8 error; /* user -> kernel */
-+			__u8 error; /* in: KVM_INSN_* */
- 			__u8 pad[7];
- 			__u32 reason; /* kernel -> user */
- 			__u32 index; /* kernel -> user */
-@@ -7477,6 +7477,17 @@ wants to write. Once finished processing the event, userspace must continue
- vCPU execution. If the MSR write was unsuccessful, userspace also sets the
- "error" field to "1".
- 
-+Any non-zero "error" injects the #GP, unless KVM_CAP_X86_MSR_EXIT_INSN
-+is enabled.  "error" then takes one of the KVM_INSN_* values (see
-+:ref:`the description of completion <kvm_insn_action>`), of which zero
-+and one are the success and the #GP described above.  KVM_INSN_UD
-+injects #UD instead, and KVM_INSN_RESUME tells KVM to do nothing for the
-+access: "data" is ignored, no register is written, nothing is injected
-+and RIP is left alone.  For a guest whose register state is protected
-+(SEV-ES, SEV-SNP and TDX, a debuggable TD included) KVM can neither
-+leave the access unanswered nor inject #UD, and every non-zero value
-+fails the access like KVM_INSN_GP, with or without the capability.
-+
- See KVM_X86_SET_MSR_FILTER for details on the interaction with MSR filtering.
- 
- ::
-@@ -9231,6 +9242,27 @@ enabled, cmma can't be enabled anymore and pfmfi and the storage key
- interpretation are disabled. If cmma has already been enabled or the
- hpage_2g module parameter is not set to 1, -EINVAL is returned.
- 
-+7.48 KVM_CAP_X86_MSR_EXIT_INSN
-+------------------------------
-+
-+:Architectures: x86
-+:Target: VM
-+:Parameters: args[0] is 1 to enable, 0 to disable
-+:Returns: 0 on success, -EINVAL if args[0] is any other value
-+
-+With this capability enabled, the "error" field of every
-+KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR exit takes a KVM_INSN_* value,
-+whichever of the KVM_MSR_EXIT_REASON_* reasons caused the exit.
-+KVM_INSN_UD, and KVM_INSN_RESUME, which leaves the access for userspace
-+to resolve, become available, and other values fail KVM_RUN with -EINVAL
-+instead of injecting #GP.  It is disabled by default because existing
-+VMMs may pass any non-zero value for a failed access.  The capability
-+has no effect on which accesses exit; that is still selected with
-+KVM_CAP_X86_USER_SPACE_MSR and KVM_X86_SET_MSR_FILTER.
-+
-+A guest whose register state is protected is the exception: see the
-+description of those exits.
-+
- 8. Other capabilities.
- ======================
- 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 1ee4b127004d..0e8150116e20 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1297,6 +1297,8 @@ struct kvm_arch {
- 	 * the opportunity to look at it.
- 	 */
- 	bool exit_on_emulation_error;
-+	/* msr.error takes KVM_INSN_*, see KVM_CAP_X86_MSR_EXIT_INSN */
-+	bool user_space_msr_insn;
- 
- 	/* Deflect RDMSR and WRMSR to user space when they trigger a #GP */
- 	u32 user_space_msr_mask;
-diff --git a/arch/x86/kvm/msrs.c b/arch/x86/kvm/msrs.c
-index e91650af44c2..6b1b93592c2e 100644
---- a/arch/x86/kvm/msrs.c
-+++ b/arch/x86/kvm/msrs.c
-@@ -952,12 +952,40 @@ fastpath_t handle_fastpath_wrmsr_imm(struct kvm_vcpu *vcpu, u32 msr, int reg)
- }
- EXPORT_SYMBOL_FOR_KVM_INTERNAL(handle_fastpath_wrmsr_imm);
- 
+diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
+index f0cb8cf748dd..2f67399ddd68 100644
+--- a/tools/testing/selftests/kvm/Makefile.kvm
++++ b/tools/testing/selftests/kvm/Makefile.kvm
+@@ -89,6 +89,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_cpuid
+ TEST_GEN_PROGS_x86 += x86/hyperv_evmcs
+ TEST_GEN_PROGS_x86 += x86/hyperv_extended_hypercalls
+ TEST_GEN_PROGS_x86 += x86/hyperv_features
++TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
+ TEST_GEN_PROGS_x86 += x86/hyperv_ipi
+ TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
+ TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
+diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+new file mode 100644
+index 000000000000..739cdc4c9cf4
+--- /dev/null
++++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+@@ -0,0 +1,395 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Act on what userspace answered in msr.error.  Returns 1 if nothing is left
-+ * to do for the access, or -EINVAL; otherwise 0, with @fail set for the
-+ * common completion, which retires the instruction or injects #GP by
-+ * whatever means the guest needs.
++ * Test KVM_CAP_HYPERV_FORWARD_HCALL: the feature mask KVM reports and
++ * accepts, Hyper-V hypercalls that KVM does not implement exiting to
++ * userspace in memory-based and fast form, with userspace supplying the
++ * result and the XMM output, an extended hypercall exiting in fast form,
++ * and userspace leaving a hypercall uncompleted through the exit's 'ret'
++ * field: with KVM_INSN_UD and KVM_INSN_GP, so that KVM raises the
++ * exception; with KVM_INSN_RESUME alone, so that the guest re-executes the
++ * hypercall; with KVM_INSN_RESUME and a #NM queued through
++ * KVM_SET_VCPU_EVENTS, so that the hypercall takes that instead; and with
++ * a reserved value, which KVM_RUN refuses.  A hypercall which is left
++ * uncompleted leaves RAX alone.
 + *
-+ * Without KVM_CAP_X86_MSR_EXIT_INSN any error is a #GP.  So it is for a
-+ * guest with protected state, which kvm_insn_uncompleted() only completes.
++ * Copyright © 2026 Amazon.com, Inc. or its affiliates.
 + */
-+static int kvm_msr_exit_answer(struct kvm_vcpu *vcpu, bool *fail)
++#include "test_util.h"
++#include "kvm_util.h"
++#include "processor.h"
++#include "hyperv.h"
++
++/* A hypercall code KVM does not implement (HvCallGetVpRegisters). */
++#define HVCALL_TEST_CODE	HVCALL_GET_VP_REGISTERS
++
++#define FAST_PARAM0		0x1122334455667788ULL
++#define FAST_PARAM1		0x99aabbccddeeff00ULL
++#define XMM_IN_MARKER		0x5157ca11c0ffee00ULL
++#define XMM_OUT_MARKER		0x0de1ba5eba5eba11ULL
++#define USERSPACE_STATUS	0x55AA
++/* Written with a hypercall which is left uncompleted: must never arrive. */
++#define POISON_STATUS		0xDEAD
++/* What __hyperv_hypercall() loads into EAX, where the result would go. */
++#define UNWRITTEN_STATUS	((u32)-EFAULT)
++#define FULL_RESULT		(BIT_ULL(63) | USERSPACE_STATUS)
++
++enum {
++	STAGE_DISABLED = 1,
++	STAGE_MEMORY,
++	STAGE_FAST,
++	STAGE_EXT_FAST,
++	STAGE_RESULT_FULL,
++	STAGE_RET_UD,
++	STAGE_RET_GP,
++	STAGE_RET_QUEUED,
++	STAGE_RET_RETRY,
++	STAGE_AFTER_RET,
++	STAGE_REDISABLED,
++};
++
++static void guest_code(gpa_t pgs_gpa)
 +{
-+	u8 error = READ_ONCE(vcpu->run->msr.error);
++	__sse128_u in, out;
++	u64 status;
++	u8 vector;
 +
-+	*fail = error;
++	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
++	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
 +
-+	if (!vcpu->kvm->arch.user_space_msr_insn ||
-+	    error == KVM_INSN_COMPLETE || error == KVM_INSN_GP)
-+		return 0;
++	/* Nothing enabled: KVM fails the call itself. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
 +
-+	return kvm_insn_uncompleted(vcpu, error);
++	/* As it does an extended hypercall in fast form. */
++	vector = __hyperv_hypercall(HV_EXT_CALL_QUERY_CAPABILITIES |
++				    HV_HYPERCALL_FAST_BIT,
++				    FAST_PARAM0, FAST_PARAM1, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_PARAMETER);
++	GUEST_SYNC(STAGE_DISABLED);
++
++	/*
++	 * Forwarding enabled: userspace supplies the status.  It also sets
++	 * 'ret', which KVM ignores until KVM_HYPERV_HCALL_RET is enabled.
++	 */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
++	GUEST_SYNC(STAGE_MEMORY);
++
++	/*
++	 * Fast form: the register parameters and XMM0 reach userspace, and
++	 * the XMM1 value userspace writes reaches the guest.
++	 */
++	in.as_u64[0] = XMM_IN_MARKER;
++	in.as_u64[1] = XMM_IN_MARKER + 1;
++	out.as_u64[0] = 0;
++	out.as_u64[1] = 0;
++	write_sse_reg(0, &in.vec);
++	write_sse_reg(1, &out.vec);
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
++				    FAST_PARAM0, FAST_PARAM1, &status);
++	read_sse_reg(1, &out.vec);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
++	GUEST_ASSERT_EQ(out.as_u64[0], XMM_OUT_MARKER);
++	GUEST_ASSERT_EQ(out.as_u64[1], XMM_OUT_MARKER + 1);
++	GUEST_SYNC(STAGE_FAST);
++
++	/* An extended hypercall in fast form reaches userspace too. */
++	vector = __hyperv_hypercall(HV_EXT_CALL_QUERY_CAPABILITIES |
++				    HV_HYPERCALL_FAST_BIT,
++				    FAST_PARAM0, FAST_PARAM1, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
++	GUEST_SYNC(STAGE_EXT_FAST);
++
++	/* The result reaches the guest as all 64 bits userspace wrote. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, FULL_RESULT);
++	GUEST_SYNC(STAGE_RESULT_FULL);
++
++	/* Userspace asks for #UD, then for #GP: KVM raises it at the call. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT_EQ(vector, UD_VECTOR);
++	GUEST_ASSERT_EQ((u32)status, UNWRITTEN_STATUS);
++	GUEST_SYNC(STAGE_RET_UD);
++
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT_EQ(vector, GP_VECTOR);
++	GUEST_ASSERT_EQ((u32)status, UNWRITTEN_STATUS);
++	GUEST_SYNC(STAGE_RET_GP);
++
++	/* Userspace leaves the call alone and queues #NM: taken there. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT_EQ(vector, NM_VECTOR);
++	GUEST_ASSERT_EQ((u32)status, UNWRITTEN_STATUS);
++	GUEST_SYNC(STAGE_RET_QUEUED);
++
++	/*
++	 * Userspace leaves the call alone without queueing anything, and
++	 * then has KVM_RUN refuse a reserved value: this one hypercall
++	 * re-executes and exits to userspace each time, until userspace
++	 * completes it.
++	 */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
++	GUEST_SYNC(STAGE_RET_RETRY);
++
++	/* An ordinary completion still works after those. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
++	GUEST_SYNC(STAGE_AFTER_RET);
++
++	/* Everything disabled again. */
++	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
++				    pgs_gpa + 2 * PAGE_SIZE, &status);
++	GUEST_ASSERT(!vector);
++	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
++	GUEST_SYNC(STAGE_REDISABLED);
++
++	GUEST_DONE();
 +}
 +
- static void complete_userspace_rdmsr(struct kvm_vcpu *vcpu)
- {
--	if (!vcpu->run->msr.error) {
--		kvm_eax_write(vcpu, vcpu->run->msr.data);
--		kvm_edx_write(vcpu, vcpu->run->msr.data >> 32);
--	}
-+	u64 data = READ_ONCE(vcpu->run->msr.data);
++static void check_hcall_exit(struct kvm_vcpu *vcpu, u64 expect_control,
++			     u64 expect_in, u64 expect_out)
++{
++	struct kvm_run *run = vcpu->run;
 +
-+	kvm_eax_write(vcpu, data);
-+	kvm_edx_write(vcpu, data >> 32);
++	TEST_ASSERT_EQ(run->exit_reason, KVM_EXIT_HYPERV);
++	TEST_ASSERT_EQ(run->hyperv.type, KVM_EXIT_HYPERV_HCALL);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.input, expect_control);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[0], expect_in);
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[1], expect_out);
++	/* KVM hands over every exit as one which completes. */
++	TEST_ASSERT_EQ(run->hyperv.u.hcall.ret, KVM_INSN_COMPLETE);
 +}
 +
-+static void complete_userspace_rdmsr_imm(struct kvm_vcpu *vcpu)
-+{
-+	kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
-+			   READ_ONCE(vcpu->run->msr.data));
- }
- 
- static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
-@@ -971,35 +999,52 @@ static int complete_emulated_insn_gp(struct kvm_vcpu *vcpu, int err)
- 				       EMULTYPE_COMPLETE_USER_EXIT);
- }
- 
 +/*
-+ * The one completion of an MSR exit: @emulated says whether the emulator or
-+ * an intercept raised it, and @result writes what a successful read returned.
++ * Leave the hypercall uncompleted with @ret, optionally queueing a #NM to
++ * be delivered at the (unadvanced) hypercall instruction.  The result
++ * which userspace wrote must never reach the guest.
 + */
-+static int complete_msr_access(struct kvm_vcpu *vcpu, bool emulated,
-+			       void (*result)(struct kvm_vcpu *vcpu))
++static void leave_hcall(struct kvm_vcpu *vcpu, u8 ret, bool queue_nm)
 +{
-+	bool fail;
++	struct kvm_vcpu_events events;
++
++	vcpu->run->hyperv.u.hcall.ret = ret;
++	vcpu->run->hyperv.u.hcall.result = POISON_STATUS;
++	if (!queue_nm)
++		return;
++
++	vcpu_events_get(vcpu, &events);
++	events.flags |= KVM_VCPUEVENT_VALID_PAYLOAD;
++	events.exception.pending = 1;
++	events.exception.injected = 0;
++	events.exception.nr = NM_VECTOR;
++	events.exception.has_error_code = 0;
++	events.exception_has_payload = 0;
++	vcpu_events_set(vcpu, &events);
++}
++
++static void handle_fast_hcall(struct kvm_vcpu *vcpu)
++{
++	struct kvm_fpu fpu;
++
++	check_hcall_exit(vcpu, HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
++			 FAST_PARAM0, FAST_PARAM1);
++
++	vcpu_fpu_get(vcpu, &fpu);
++	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][0], XMM_IN_MARKER);
++	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][8], XMM_IN_MARKER + 1);
++	*(u64 *)&fpu.xmm[1][0] = XMM_OUT_MARKER;
++	*(u64 *)&fpu.xmm[1][8] = XMM_OUT_MARKER + 1;
++	vcpu_fpu_set(vcpu, &fpu);
++
++	vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
++}
++
++static void test_feature_mask(struct kvm_vm *vm)
++{
++	u64 supported = kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL);
 +	int r;
 +
-+	r = kvm_msr_exit_answer(vcpu, &fail);
-+	if (r)
-+		return r;
++	TEST_ASSERT(supported & KVM_HYPERV_HCALL_FORWARD_UNKNOWN,
++		    "KVM_HYPERV_HCALL_FORWARD_UNKNOWN not reported");
++	TEST_ASSERT(supported & KVM_HYPERV_HCALL_RET,
++		    "KVM_HYPERV_HCALL_RET not reported");
++	r = __vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, BIT_ULL(63));
++	TEST_ASSERT(r && errno == EINVAL,
++		    "Enabling an undefined feature should fail with EINVAL");
 +
-+	if (!fail && result)
-+		result(vcpu);
-+
-+	if (emulated)
-+		return complete_emulated_insn_gp(vcpu, fail);
-+
-+	return kvm_x86_call(complete_emulated_msr)(vcpu, fail);
++	/* Enabling nothing is allowed. */
++	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
 +}
 +
- static int complete_emulated_msr_access(struct kvm_vcpu *vcpu)
- {
--	return complete_emulated_insn_gp(vcpu, vcpu->run->msr.error);
-+	return complete_msr_access(vcpu, true, NULL);
- }
- 
- static int complete_emulated_rdmsr(struct kvm_vcpu *vcpu)
- {
--	complete_userspace_rdmsr(vcpu);
--	return complete_emulated_msr_access(vcpu);
-+	return complete_msr_access(vcpu, true, complete_userspace_rdmsr);
- }
- 
- static int complete_fast_msr_access(struct kvm_vcpu *vcpu)
- {
--	return kvm_x86_call(complete_emulated_msr)(vcpu, vcpu->run->msr.error);
-+	return complete_msr_access(vcpu, false, NULL);
- }
- 
- static int complete_fast_rdmsr(struct kvm_vcpu *vcpu)
- {
--	complete_userspace_rdmsr(vcpu);
--	return complete_fast_msr_access(vcpu);
-+	return complete_msr_access(vcpu, false, complete_userspace_rdmsr);
- }
- 
- static int complete_fast_rdmsr_imm(struct kvm_vcpu *vcpu)
- {
--	if (!vcpu->run->msr.error)
--		kvm_register_write(vcpu, vcpu->arch.cui_rdmsr_imm_reg,
--				   vcpu->run->msr.data);
--
--	return complete_fast_msr_access(vcpu);
-+	return complete_msr_access(vcpu, false, complete_userspace_rdmsr_imm);
- }
- 
- static u64 kvm_msr_reason(int r)
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 26e7beaff8a0..31c6759f38b9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -2276,6 +2276,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_LAST_CPU:
- 	case KVM_CAP_X86_USER_SPACE_MSR:
-+	case KVM_CAP_X86_MSR_EXIT_INSN:
- 	case KVM_CAP_X86_MSR_FILTER:
- 	case KVM_CAP_ENFORCE_PV_FEATURE_CPUID:
- #ifdef CONFIG_X86_SGX_KVM
-@@ -4091,6 +4092,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		kvm->arch.user_space_msr_mask = cap->args[0];
- 		r = 0;
- 		break;
-+	case KVM_CAP_X86_MSR_EXIT_INSN:
-+		r = -EINVAL;
-+		if (cap->args[0] > 1)
++int main(int argc, char *argv[])
++{
++	struct kvm_vcpu *vcpu;
++	struct kvm_vm *vm;
++	gva_t hcall_page;
++	gpa_t hcall_gpa;
++	struct ucall uc;
++	int stage = STAGE_DISABLED;
++	int retries = 0;
++	struct kvm_regs regs;
++	u64 rip = 0, rax = 0;
++
++	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_FORWARD_HCALL));
++	TEST_REQUIRE(kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL) &
++		     KVM_HYPERV_HCALL_RET);
++	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXCEPTION_PAYLOAD));
++
++	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
++	vcpu_set_hv_cpuid(vcpu);
++	vm_enable_cap(vm, KVM_CAP_EXCEPTION_PAYLOAD, 1);
++
++	test_feature_mask(vm);
++
++	/* Hypercall page plus an input and an output page. */
++	hcall_page = vm_alloc_pages(vm, 3);
++	memset(addr_gva2hva(vm, hcall_page), 0x0, 3 * getpagesize());
++	hcall_gpa = addr_gva2gpa(vm, hcall_page);
++
++	vcpu_args_set(vcpu, 1, hcall_gpa);
++
++	for (;;) {
++		vcpu_run(vcpu);
++
++		if (vcpu->run->exit_reason == KVM_EXIT_HYPERV) {
++			switch (stage) {
++			case STAGE_MEMORY:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
++				/* Not enabled yet: this must change nothing. */
++				vcpu->run->hyperv.u.hcall.ret = KVM_INSN_RESUME;
++				break;
++			case STAGE_FAST:
++				handle_fast_hcall(vcpu);
++				break;
++			case STAGE_EXT_FAST:
++				check_hcall_exit(vcpu,
++						 HV_EXT_CALL_QUERY_CAPABILITIES |
++						 HV_HYPERCALL_FAST_BIT,
++						 FAST_PARAM0, FAST_PARAM1);
++				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
++				break;
++			case STAGE_RESULT_FULL:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				vcpu->run->hyperv.u.hcall.result = FULL_RESULT;
++				break;
++			case STAGE_RET_UD:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				leave_hcall(vcpu, KVM_INSN_UD, false);
++				break;
++			case STAGE_RET_GP:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				leave_hcall(vcpu, KVM_INSN_GP, false);
++				break;
++			case STAGE_RET_QUEUED:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				leave_hcall(vcpu, KVM_INSN_RESUME, true);
++				break;
++			case STAGE_RET_RETRY:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				vcpu_regs_get(vcpu, &regs);
++				switch (retries++) {
++				case 0:
++					/*
++					 * Nothing queued: the same hypercall
++					 * must exit again, from the same RIP
++					 * and with RAX as it was.
++					 */
++					rip = regs.rip;
++					rax = regs.rax;
++					leave_hcall(vcpu, KVM_INSN_RESUME, false);
++					break;
++				case 1:
++					/* Refused, and the same again. */
++					TEST_ASSERT_EQ(regs.rip, rip);
++					TEST_ASSERT_EQ(regs.rax, rax);
++					leave_hcall(vcpu, KVM_INSN_RESUME + 1, false);
++					TEST_ASSERT(__vcpu_run(vcpu) == -1 &&
++						    errno == EINVAL,
++						    "KVM_RUN accepted a reserved 'ret'");
++					break;
++				default:
++					TEST_ASSERT_EQ(regs.rip, rip);
++					TEST_ASSERT_EQ(regs.rax, rax);
++					vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
++					break;
++				}
++				break;
++			case STAGE_AFTER_RET:
++				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
++						 hcall_gpa + getpagesize(),
++						 hcall_gpa + 2 * getpagesize());
++				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
++				break;
++			default:
++				TEST_FAIL("Unexpected hypercall exit in stage %d", stage);
++			}
++			continue;
++		}
++
++		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
++
++		switch (get_ucall(vcpu, &uc)) {
++		case UCALL_SYNC:
++			TEST_ASSERT_EQ(uc.args[1], stage);
++			switch (stage) {
++			case STAGE_DISABLED:
++				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
++					      KVM_HYPERV_HCALL_FORWARD_UNKNOWN);
++				break;
++			case STAGE_MEMORY:
++				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
++					      KVM_HYPERV_HCALL_FORWARD_UNKNOWN |
++					      KVM_HYPERV_HCALL_RET);
++				break;
++			case STAGE_AFTER_RET:
++				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
++				break;
++			}
++			stage++;
 +			break;
-+		kvm->arch.user_space_msr_insn = cap->args[0];
-+		r = 0;
-+		break;
- 	case KVM_CAP_X86_BUS_LOCK_EXIT:
- 		r = -EINVAL;
- 		if (cap->args[0] & ~KVM_BUS_LOCK_DETECTION_VALID_MODE)
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 0a4c548cb329..a146c0487960 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -431,7 +431,7 @@ struct kvm_run {
- 		} arm_nisv;
- 		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
- 		struct {
--			__u8 error; /* user -> kernel */
-+			__u8 error; /* in: KVM_INSN_* */
- 			__u8 pad[7];
- #define KVM_MSR_EXIT_REASON_INVAL	(1 << 0)
- #define KVM_MSR_EXIT_REASON_UNKNOWN	(1 << 1)
-@@ -1009,6 +1009,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_PPC_COMPAT_CAPS 250
- #define KVM_CAP_ARM_PMU_V3_STRICT 251
- #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
-+#define KVM_CAP_X86_MSR_EXIT_INSN 253
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
++		case UCALL_ABORT:
++			REPORT_GUEST_ASSERT(uc);
++		case UCALL_DONE:
++			goto done;
++		default:
++			TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
++		}
++	}
++
++done:
++	TEST_ASSERT_EQ(stage, STAGE_REDISABLED + 1);
++	/* The call left alone came back twice: left, refused, completed. */
++	TEST_ASSERT_EQ(retries, 3);
++	kvm_vm_free(vm);
++	return 0;
++}
 -- 
 2.50.1
 
